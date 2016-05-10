@@ -1,19 +1,10 @@
-jest.unmock('../client');
-
 import ApiClient from '../client';
+import { assert } from 'chai';
 
-describe('ApiClient', () => {
+describe('ApiClient tests', () => {
   let apiClient;
 
   beforeEach(() => {
     apiClient = new ApiClient('testRealm');
-  });
-
-  it('should login a valid user', () => {
-    console.log(apiClient);
-  });
-
-  it('should generate an auth header when logged in', () => {
-
   });
 });
