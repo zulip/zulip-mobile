@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 
 const ZulipNavBar = (props) => (
   <Navigator
-    initialRoute={{ name: 'All Streams', index: 0 }}
+    initialRoute={{ name: 'Hello world!', index: 0 }}
     renderScene={(route) =>
       <View style={styles.container}>
         <View style={styles.navBar}>
@@ -65,5 +65,7 @@ const ZulipNavBar = (props) => (
     }
   />
 );
+
+ZulipNavBar.propTypes = { children: React.PropTypes.array.isRequired };
 
 export default ZulipNavBar;

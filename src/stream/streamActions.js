@@ -1,10 +1,8 @@
-import ApiClient from '../api/client.js';
-
 export const STREAM_FETCHING_MESSAGES = 'STREAM_FETCHING_MESSAGES';
 export const STREAM_NEW_MESSAGES = 'STREAM_NEW_MESSAGES';
 export const STREAM_FETCHING_FAILED = 'STREAM_FETCHING_FAILED';
 
-export const getLatestMessages = (lastMessageId) =>
+export const getLatestMessages = () =>
   (dispatch, getState) => {
     const apiClient = getState().account.apiClient;
 

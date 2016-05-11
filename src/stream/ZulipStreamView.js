@@ -14,10 +14,6 @@ const styles = StyleSheet.create({
 });
 
 export default class ZulipStreamView extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     this.props.getLatestMessages();
   }
@@ -47,3 +43,8 @@ export default class ZulipStreamView extends React.Component {
     );
   }
 }
+
+ZulipStreamView.propTypes = {
+  messages: React.PropTypes.array,
+  getLatestMessages: React.PropTypes.func,
+};

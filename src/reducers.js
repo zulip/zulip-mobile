@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import account from './account/loginReducers';
 import stream from './stream/streamReducers';
 

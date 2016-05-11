@@ -62,4 +62,10 @@ const ZulipStreamMessage = (props) => (
   </View>
 );
 
+ZulipStreamMessage.propTypes = {
+  from: React.PropTypes.string.isRequired,
+  time: React.PropTypes.number.isRequired,
+  message: React.PropTypes.string.isRequired,
+};
+
 export default ZulipStreamMessage;

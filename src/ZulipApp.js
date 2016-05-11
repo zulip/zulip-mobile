@@ -33,16 +33,25 @@ const ZulipApp = (props) => {
   );
 };
 
+ZulipApp.propTypes = {
+  loggedIn: React.PropTypes.bool.isRequired,
+  attemptLogin: React.PropTypes.func.isRequired,
+  pendingLogin: React.PropTypes.bool.isRequired,
+  getLatestMessages: React.PropTypes.func.isRequired,
+  messages: React.PropTypes.array.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   loggedIn: state.account.loggedIn,
   pendingLogin: state.account.pendingLogin,
   messages: state.stream.messages,
 });
 
-const mapDispatchToProps = (dispatch, ownProps) =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     attemptLogin,
     getLatestMessages,
   }, dispatch);
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(ZulipApp);
