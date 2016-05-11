@@ -44,4 +44,10 @@ const ZulipStreamMessageGroup = (props) => (
   </View>
 );
 
+ZulipStreamMessageGroup.propTypes = {
+  stream: React.PropTypes.object,
+  thread: React.PropTypes.string,
+  children: React.PropTypes.array.isRequired,
+};
+
 export default ZulipStreamMessageGroup;

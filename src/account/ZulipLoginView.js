@@ -63,13 +63,18 @@ const ZulipLoginButton = (props) => (
     </TouchableHighlight>
 );
 
+ZulipLoginButton.propTypes = {
+  spinning: React.PropTypes.bool.isRequired,
+  onPress: React.PropTypes.func.isRequired,
+};
+
 export default class ZulipLoginView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       realm: 'http://localhost:9991',
-      email: 'cordelia@zulip.com',
-      password: 'testing123',
+      email: 'test@test.com',
+      password: 'password',
     };
   }
 
@@ -124,3 +129,8 @@ export default class ZulipLoginView extends Component {
     );
   }
 }
+
+ZulipLoginView.propTypes = {
+  pendingLogin: React.PropTypes.bool.isRequired,
+  attemptLogin: React.PropTypes.func.isRequired,
+};
