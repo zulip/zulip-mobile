@@ -27,7 +27,7 @@ npm install
 `npm test` runs the unit test suite.
 
 ## Linting
-`npm run lint` checks the codebase against our linting rules. We're using the AirBnB ES6 and React style guides.
+`npm run lint` checks the codebase against our linting rules. We're using the AirBnB [ES6](https://github.com/airbnb/javascript) and [React](https://github.com/airbnb/javascript/tree/master/react) style guides.
 
 ## Why React Native?
 Pros:
