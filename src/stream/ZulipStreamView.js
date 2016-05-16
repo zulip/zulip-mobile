@@ -4,8 +4,8 @@ import React, {
   View,
 } from 'react-native';
 
-import ZulipStreamMessageGroup from './ZulipStreamMessageGroup';
-import ZulipStreamMessage from './ZulipStreamMessage';
+import ZulipMessageGroupView from '../message/ZulipMessageGroupView';
+import ZulipMessageView from '../message/ZulipMessageView';
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -30,19 +30,30 @@ export default class ZulipStreamView extends React.Component {
         automaticallyAdjustContentInset="false"
       >
         <View />
-        <ZulipStreamMessageGroup
-          stream={{ name: 'test', color: '#cef' }}
-          thread="Hello there"
-        >
-          {this.props.messages.map((item) => (
-            <ZulipStreamMessage
-              key={item.id}
-              from={item.sender_full_name}
-              message={item.content}
-              time={item.timestamp}
-            />
-          ))}
-        </ZulipStreamMessageGroup>
+        {this.props.messages.map((item) => {
+          if (item.type === 'stream') {
+            return (
+              <ZulipMessageGroupView
+                key={item.id}
+                stream={{
+                  name: item.display_recipient,
+                  color: '#cef',
+                }}
+                thread={item.subject}
+              >
+                <ZulipMessageView
+                  key={item.id}
+                  from={item.sender_full_name}
+                  message={item.content}
+                  timestamp={item.timestamp}
+                  avatar_url={item.avatar_url}
+                />
+              </ZulipMessageGroupView>
+            );
+          } else {
+            return <View key={item.id} />
+          }
+        })}
       </ScrollView>
     );
   }

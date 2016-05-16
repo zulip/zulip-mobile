@@ -2,7 +2,10 @@ import React, {
   StyleSheet,
   View,
   Text,
+  Image,
 } from 'react-native';
+
+import moment from 'moment';
 
 const DEFAULT_PADDING = 8;
 
@@ -27,13 +30,12 @@ const styles = StyleSheet.create({
   },
   messageTime: {
     color: '#999',
-    fontSize: 11,
+    fontSize: 12,
   },
   messageText: {
     textAlign: 'left',
   },
   messageThumbnail: {
-    backgroundColor: '#ccc',
     width: 34,
     height: 34,
     marginRight: DEFAULT_PADDING * 2,
@@ -41,18 +43,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const ZulipStreamMessage = (props) => (
+const ZulipMessageView = (props) => (
   <View style={styles.message}>
-    <View style={styles.messageThumbnail}>
-      <View />
-    </View>
+    <Image
+      style={styles.messageThumbnail}
+      source={{uri: props.avatar_url}}
+    />
     <View style={styles.messageContent}>
       <View style={styles.messageHeader}>
         <Text style={styles.messageUser}>
           {props.from}
         </Text>
         <Text style={styles.messageTime}>
-          {props.time}
+          {moment(props.timestamp*1000).format('LT')}
         </Text>
       </View>
       <Text style={styles.messageText}>
@@ -62,4 +65,4 @@ const ZulipStreamMessage = (props) => (
   </View>
 );
 
-export default ZulipStreamMessage;
+export default ZulipMessageView;
