@@ -4,6 +4,14 @@ import React, {
   View,
 } from 'react-native';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+// Actions
+import {
+  getLatestMessages,
+} from './streamActions';
+
 import ZulipMessageGroupView from '../message/ZulipMessageGroupView';
 import ZulipMessageView from '../message/ZulipMessageView';
 
@@ -13,11 +21,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ZulipStreamView extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+class ZulipStreamView extends React.Component {
   componentWillMount() {
     this.props.getLatestMessages();
   }
@@ -58,3 +62,15 @@ export default class ZulipStreamView extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  messages: state.stream.messages,
+  fetching: state.stream.fetching,
+});
+
+const mapDispatchToProps = (dispatch, ownProps) =>
+  bindActionCreators({
+    getLatestMessages,
+  }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ZulipStreamView);

@@ -34,7 +34,7 @@ This process needs improvement and has too many manual steps at the moment.
 
 First, you'll need to connect your dev machine and iOS device to the same network. If you're running Zulip inside of a VM, you may also need to configure your VM to use a public network. See more information on this [here](https://www.vagrantup.com/docs/networking/public_network.html).
 
-Next, you'll need to change all instances of `localhost:9991` in both the `/src` directory and the Xcode iOS project (location in `/ios`) to point to the IP and port of your Vagrant VM.
+Next, you'll need to change all instances of `localhost:9991` in both the `/src` directory and the Xcode iOS project (located in `/ios`) to point to the IP and port of your Vagrant VM.
 
 Finally, run the Xcode project inside of `/ios` with your iOS device as the target.
 

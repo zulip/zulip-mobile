@@ -8,6 +8,15 @@ import React, {
   ActivityIndicatorIOS,
 } from 'react-native';
 
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+// Actions
+import {
+  attemptLogin,
+} from './loginActions';
+
 const STATUS_BAR_HEIGHT = 20;
 const FIELD_HEIGHT = 44;
 const LABEL_WIDTH = 80;
@@ -124,3 +133,16 @@ export default class ZulipLoginView extends Component {
     );
   }
 }
+
+
+const mapStateToProps = (state) => ({
+  pendingLogin: state.account.pendingLogin,
+});
+
+const mapDispatchToProps = (dispatch, ownProps) =>
+  bindActionCreators({
+    attemptLogin,
+  }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ZulipLoginView);
+

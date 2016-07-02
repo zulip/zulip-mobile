@@ -4,45 +4,41 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // Actions
-import { attemptLogin } from './account/loginActions';
 import { getLatestMessages } from './stream/streamActions';
 
 // UI elements
 import ZulipLoginView from './account/ZulipLoginView';
+import ZulipDevLoginView from './account/ZulipDevLoginView';
+
 import ZulipNavBar from './nav/ZulipNavBar';
 import ZulipStreamView from './stream/ZulipStreamView';
 import ZulipComposeBar from './compose/ZulipComposeBar';
 
+import ZulipComposeView from './compose/ZulipComposeView';
+
 const ZulipApp = (props) => {
   if (!props.loggedIn) {
+    if (process.env.NODE_ENV !== 'production') {
+      return <ZulipDevLoginView />
+    }
     return (
-      <ZulipLoginView
-        attemptLogin={props.attemptLogin}
-        pendingLogin={props.pendingLogin}
-      />
+      <ZulipLoginView />
     );
   }
   return (
     <ZulipNavBar>
-      <ZulipStreamView
-        getLatestMessages={props.getLatestMessages}
-        messages={props.messages}
-      />
-      <ZulipComposeBar />
+      <ZulipStreamView />
+      <ZulipComposeView />
     </ZulipNavBar>
   );
 };
 
 const mapStateToProps = (state) => ({
   loggedIn: state.account.loggedIn,
-  pendingLogin: state.account.pendingLogin,
-  messages: state.stream.messages,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
-    attemptLogin,
-    getLatestMessages,
   }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ZulipApp);
