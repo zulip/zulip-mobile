@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 // Actions
 import {
   attemptLogin,
-} from './loginActions';
+} from './userActions';
 
 const STATUS_BAR_HEIGHT = 20;
 const FIELD_HEIGHT = 44;
@@ -72,11 +72,10 @@ const ZulipLoginButton = (props) => (
     </TouchableHighlight>
 );
 
-export default class ZulipLoginView extends Component {
+export default class ZulipPasswordAuthView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      realm: 'http://localhost:9991',
       email: 'cordelia@zulip.com',
       password: 'testing123',
     };
@@ -85,17 +84,6 @@ export default class ZulipLoginView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.field}>
-          <Text style={styles.fieldLabel}>Realm</Text>
-          <TextInput
-            ref="realmInput"
-            style={styles.fieldInput}
-            autoCapitalize={"none"}
-            placeholder="www.zulip.com"
-            value={this.state.realm}
-            onChangeText={realm => this.setState({ realm })}
-          />
-        </View>
         <View style={styles.field}>
           <Text style={styles.fieldLabel}>Email</Text>
           <TextInput
@@ -123,7 +111,7 @@ export default class ZulipLoginView extends Component {
             enabled={!this.props.pendingLogin}
             spinning={this.props.pendingLogin}
             onPress={() => this.props.attemptLogin(
-              this.state.realm,
+              this.props.account,
               this.state.email,
               this.state.password,
             )}
@@ -134,9 +122,8 @@ export default class ZulipLoginView extends Component {
   }
 }
 
-
 const mapStateToProps = (state) => ({
-  pendingLogin: state.account.pendingLogin,
+  account: state.user.accounts.get(state.user.activeAccountId),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>
@@ -144,5 +131,5 @@ const mapDispatchToProps = (dispatch, ownProps) =>
     attemptLogin,
   }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ZulipLoginView);
+export default connect(mapStateToProps, mapDispatchToProps)(ZulipPasswordAuthView);
 

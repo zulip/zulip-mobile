@@ -14,8 +14,8 @@ import { connect } from 'react-redux';
 // Actions
 import {
   attemptDevLogin,
-  getDevAccounts,
-} from './loginActions';
+  getDevEmails,
+} from './userActions';
 
 const STATUS_BAR_HEIGHT = 20;
 const FIELD_HEIGHT = 44;
@@ -76,39 +76,43 @@ const ZulipUserLoginButton = (props) => {
   );
 };
 
-class ZulipDevLoginView extends Component {
+class ZulipDevAuthView extends Component {
   componentWillMount() {
     // Fetch list of dev accounts when component is mounted
-    this.props.getDevAccounts(this.props.realm);
+    // 
+    // We use setTimeout with time=0 to force this to happen in the next
+    // iteration of the event loop. This ensures that the last action ends
+    // before the new action begins and makes the debug output clearer.
+    setTimeout(() => this.props.getDevEmails(this.props.account), 0);
   }
 
   render() {
-      console.log(this.props.realm);
-
-    // Render list of realm admins
-    var directAdmins = this.props.directAdmins.map((user) => {
-      return <ZulipUserLoginButton
-               key={user}
-               email={user}
-               admin={true}
-               attemptLogin={() => this.props.attemptDevLogin(
-                this.props.realm,
-                user,
-               )}
-             />
-    });
-    // Render list of realm users
-    var directUsers = this.props.directUsers.map((user) => {
-      return <ZulipUserLoginButton
-               key={user}
-               email={user}
-               admin={false}
-               attemptLogin={() => this.props.attemptDevLogin(
-                this.props.realm,
-                user,
-               )}
-              />
-    });
+    if (this.props.account.activeBackend) {
+      // Render list of realm admins
+      var directAdmins = this.props.account.directAdmins.map((user) => {
+        return <ZulipUserLoginButton
+                 key={user}
+                 email={user}
+                 admin={true}
+                 attemptLogin={() => this.props.attemptDevLogin(
+                  this.props.account,
+                  user,
+                 )}
+               />
+      });
+      // Render list of realm users
+      var directUsers = this.props.account.directUsers.map((user) => {
+        return <ZulipUserLoginButton
+                 key={user}
+                 email={user}
+                 admin={false}
+                 attemptLogin={() => this.props.attemptDevLogin(
+                  this.props.account,
+                  user,
+                 )}
+                />
+      });
+    }
     return (
       <View style={styles.container}>
         <Text style={styles.heading1}>
@@ -125,15 +129,13 @@ class ZulipDevLoginView extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  realm: state.account.realm,
-  directUsers: state.account.dev.directUsers,
-  directAdmins: state.account.dev.directAdmins,
+  account: state.user.accounts.get(state.user.activeAccountId),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
-    getDevAccounts,
+    getDevEmails,
     attemptDevLogin,
   }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ZulipDevLoginView);
+export default connect(mapStateToProps, mapDispatchToProps)(ZulipDevAuthView);

@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux';
-import account from './account/loginReducers';
+import user from './user/userReducers';
 import stream from './stream/streamReducers';
 
 export default combineReducers({
-  account,
+  user,
   stream,
 });

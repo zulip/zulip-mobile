@@ -54,11 +54,11 @@ const ZulipNavBar = (props) => (
     renderScene={(route) =>
       <View style={styles.container}>
         <View style={styles.navBar}>
-          <Text style={styles.leftButton}>&lt;</Text>
+          <Text style={styles.leftButton}>Streams</Text>
           <View style={styles.heading}>
             <Text style={styles.headingText}>{route.name}</Text>
           </View>
-          <Text style={styles.rightButton}>&gt;</Text>
+          <Text style={styles.rightButton}>Users</Text>
         </View>
         {props.children}
       </View>

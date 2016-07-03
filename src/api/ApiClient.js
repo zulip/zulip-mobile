@@ -5,17 +5,48 @@ const apiVersion = 'api/v1';
 export default class ApiClient {
   static getAuthHeader(email, apiKey) {
     const encodedStr = `${email}:${apiKey}`;
+    // TODO: btoa may not be available in JavascriptCore
     return `Basic ${btoa(encodedStr)}`;
   }
 
-  static devGetEmails(realm) {
-    return fetch(`${realm}/${apiVersion}/dev_get_emails`, {
+  static fetch(account, route, params) {
+    const extraParams = {};
+    if (account.loggedIn) {
+      extraParams.headers = {
+        Authorization: ApiClient.getAuthHeader(account.email, account.apiKey),
+      };
+    }
+    return fetch(`${account.realm}/${apiVersion}/${route}`, { ...params, ...extraParams })
+    .then((raw) => raw.json());
+  }
+
+  static getAuthBackends(account) {
+    return ApiClient.fetch(account, 'get_auth_backends', {
+      method: 'get',
+    })
+    .then((res) => {
+      // Return the available backends as a list
+      const backends = [];
+      if (res.result === 'success') {
+        if (res.password) backends.push('password');
+        if (res.google) backends.push('google');
+        if (res.dev) backends.push('dev');
+      }
+      return backends;
+    }).catch(() => {
+      // The Zulip server may not support get_auth_backends
+      return ['password', 'google'];
+    });
+  }
+
+  static devGetEmails(account) {
+    return ApiClient.fetch(account, 'dev_get_emails', {
       method: 'get',
     });
   }
 
-  static devFetchApiKey(realm, email) {
-    return fetch(`${realm}/${apiVersion}/dev_fetch_api_key`, {
+  static devFetchApiKey(account, email) {
+    return ApiClient.fetch(account, 'dev_fetch_api_key', {
       method: 'post',
       body: encodeAsURI({
         username: email,
@@ -23,8 +54,8 @@ export default class ApiClient {
     });
   }
 
-  static fetchApiKey(realm, email, password) {
-    return fetch(`${realm}/${apiVersion}/fetch_api_key`, {
+  static fetchApiKey(account, email, password) {
+    return ApiClient.fetch(account, 'fetch_api_key', {
       method: 'post',
       body: encodeAsURI({
         username: email,
@@ -33,17 +64,14 @@ export default class ApiClient {
     });
   }
 
-  static getMessages(realm, email, apiKey, anchor, numBefore, numAfter) {
+  static getMessages(account, anchor, numBefore, numAfter) {
     const params = encodeAsURI({
       anchor,
       num_before: numBefore,
       num_after: numAfter,
     });
-    return fetch(`${realm}/${apiVersion}/messages?${params}`, {
+    return ApiClient.fetch(account, `messages?${params}`, {
       method: 'get',
-      headers: {
-        Authorization: ApiClient.getAuthHeader(email, apiKey),
-      },
     });
   }
 }
