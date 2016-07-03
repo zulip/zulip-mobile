@@ -9,22 +9,27 @@ export default class ApiClient {
     return `Basic ${btoa(encodedStr)}`;
   }
 
-  static fetch(account, route, params) {
+  static async fetch(account, route, params) {
     const extraParams = {};
     if (account.loggedIn) {
       extraParams.headers = {
         Authorization: ApiClient.getAuthHeader(account.email, account.apiKey),
       };
     }
-    return fetch(`${account.realm}/${apiVersion}/${route}`, { ...params, ...extraParams })
-    .then((raw) => raw.json());
+
+    const res = await fetch(`${account.realm}/${apiVersion}/${route}`, {
+      ...params,
+      ...extraParams,
+    });
+    return res.json();
   }
 
-  static getAuthBackends(account) {
-    return ApiClient.fetch(account, 'get_auth_backends', {
-      method: 'get',
-    })
-    .then((res) => {
+  static async getAuthBackends(account) {
+    try {
+      const res = await ApiClient.fetch(account, 'get_auth_backends', {
+        method: 'get',
+      });
+
       // Return the available backends as a list
       const backends = [];
       if (res.result === 'success') {
@@ -33,10 +38,10 @@ export default class ApiClient {
         if (res.dev) backends.push('dev');
       }
       return backends;
-    }).catch(() => {
+    } catch (err) {
       // The Zulip server may not support get_auth_backends
       return ['password', 'google'];
-    });
+    }
   }
 
   static devGetEmails(account) {
