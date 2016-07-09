@@ -30,6 +30,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: STATUS_BAR_HEIGHT,
   },
+  error: {
+    justifyContent: 'flex-start',
+    textAlign: 'center',
+    fontSize: 24,
+    padding: 10,
+  },
   heading1: {
     textAlign: 'center',
     fontSize: 24,
@@ -107,8 +113,19 @@ class ZulipAccountsView extends Component {
         return <ZulipPasswordAuthView />;
       }
     }
+
+    var errors = this.props.errors.map((err) => {
+      return (
+        <Text key={err.timestamp} style={styles.error}>
+          {err.message}
+        </Text>
+      );
+    });
+
     return (
       <View style={styles.container}>
+        {errors}
+
         <Text style={styles.heading1}>
           Add an account
         </Text>
@@ -141,6 +158,7 @@ class ZulipAccountsView extends Component {
 const mapStateToProps = (state) => ({
   accounts: state.user.accounts,
   activeAccountId: state.user.activeAccountId,
+  errors: state.errors,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>
