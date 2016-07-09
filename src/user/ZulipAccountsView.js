@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // Actions
+import { markErrorsAsHandled } from '../error/errorActions';
 import {
   addAccount,
 } from './userActions';
@@ -141,7 +142,10 @@ class ZulipAccountsView extends Component {
 
         <View style={styles.field}>
           <ZulipAddAccountButton
-            onPress={() => this.props.addAccount(this.state.realm)}
+            onPress={() => {
+              this.props.markErrorsAsHandled(this.props.errors);
+              this.props.addAccount(this.state.realm);
+            }}
           />
         </View>
       </View>
@@ -152,12 +156,13 @@ class ZulipAccountsView extends Component {
 const mapStateToProps = (state) => ({
   accounts: state.user.accounts,
   activeAccountId: state.user.activeAccountId,
-  errors: state.errors,
+  errors: state.errors.filter(e => e.active),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
     addAccount,
+    markErrorsAsHandled,
   }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ZulipAccountsView);

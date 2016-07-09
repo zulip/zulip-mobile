@@ -92,7 +92,6 @@ const reducer = (state = initialState, action) => {
         pendingLogin: false,
         accounts: state.accounts.set(action.account.accountId, {
           ...action.account,
-          activeBackend: action.activeBackend,
           loggedIn: false,
         }),
       });

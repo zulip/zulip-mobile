@@ -13,7 +13,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // Actions
+import { markErrorsAsHandled } from '../error/errorActions';
 import {
+  LOGIN_FAILED,
   attemptLogin,
 } from './userActions';
 
@@ -27,6 +29,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     marginTop: STATUS_BAR_HEIGHT,
+  },
+  error: {
+    justifyContent: 'flex-start',
+    textAlign: 'center',
+    fontSize: 24,
+    padding: 10,
   },
   field: {
     flexDirection: 'row',
@@ -82,8 +90,15 @@ export default class ZulipPasswordAuthView extends Component {
   }
 
   render() {
+    const errors = this.props.errors.map((err) =>
+      <Text key={err.timestamp} style={styles.error}>
+        {err.message}
+      </Text>
+    );
+
     return (
       <View style={styles.container}>
+        {errors}
         <View style={styles.field}>
           <Text style={styles.fieldLabel}>Email</Text>
           <TextInput
@@ -110,11 +125,14 @@ export default class ZulipPasswordAuthView extends Component {
           <ZulipLoginButton
             enabled={!this.props.pendingLogin}
             spinning={this.props.pendingLogin}
-            onPress={() => this.props.attemptLogin(
-              this.props.account,
-              this.state.email,
-              this.state.password,
-            )}
+            onPress={() => {
+              this.props.markErrorsAsHandled(this.props.errors);
+              this.props.attemptLogin(
+                this.props.account,
+                this.state.email,
+                this.state.password,
+              );
+            }}
           />
         </View>
       </View>
@@ -124,11 +142,13 @@ export default class ZulipPasswordAuthView extends Component {
 
 const mapStateToProps = (state) => ({
   account: state.user.accounts.get(state.user.activeAccountId),
+  errors: state.errors.filter(e => e.active && e.type === LOGIN_FAILED),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
     attemptLogin,
+    markErrorsAsHandled,
   }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ZulipPasswordAuthView);

@@ -50,7 +50,7 @@ export const attemptLogin = (account, email, password) =>
         apiKey,
       });
     } catch (err) {
-      dispatch({ type: LOGIN_FAILED, account, err: err.message });
+      dispatch({ type: LOGIN_FAILED, account, error: err.message });
     }
   };
 
@@ -79,7 +79,7 @@ export const getDevEmails = (account) =>
     dispatch({ type: DEV_EMAILS_PENDING });
 
     try {
-      const [ directAdmins, directUsers ] = await ApiClient.devGetEmails(account);
+      const [directAdmins, directUsers] = await ApiClient.devGetEmails(account);
 
       dispatch({
         type: DEV_EMAILS_SUCCEEDED,

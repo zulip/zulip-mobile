@@ -10,7 +10,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // Actions
+import { markErrorsAsHandled } from '../error/errorActions';
 import {
+  LOGIN_FAILED,
   attemptDevLogin,
   getDevEmails,
 } from './userActions';
@@ -24,6 +26,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     marginTop: STATUS_BAR_HEIGHT,
+  },
+  error: {
+    justifyContent: 'flex-start',
+    textAlign: 'center',
+    fontSize: 24,
+    padding: 10,
   },
   heading1: {
     textAlign: 'center',
@@ -103,15 +111,26 @@ class ZulipDevAuthView extends Component {
           key={user}
           email={user}
           admin={false}
-          attemptLogin={() => this.props.attemptDevLogin(
-            this.props.account,
-            user,
-          )}
+          attemptLogin={() => {
+            this.props.markErrorsAsHandled(this.props.errors);
+            this.props.attemptDevLogin(
+              this.props.account,
+              user,
+            );
+          }}
         />
       );
     }
+
+    const errors = this.props.errors.map((err) =>
+      <Text key={err.timestamp} style={styles.error}>
+        {err.message}
+      </Text>
+    );
+
     return (
       <View style={styles.container}>
+        {errors}
         <Text style={styles.heading1}>
           Zulip Dev Login
         </Text>
@@ -127,12 +146,14 @@ class ZulipDevAuthView extends Component {
 
 const mapStateToProps = (state) => ({
   account: state.user.accounts.get(state.user.activeAccountId),
+  errors: state.errors.filter(e => e.active && e.type === LOGIN_FAILED),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
     getDevEmails,
     attemptDevLogin,
+    markErrorsAsHandled,
   }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ZulipDevAuthView);

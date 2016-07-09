@@ -11,13 +11,21 @@ const reducer = (state = initialState, action) => {
   const { type, error } = action;
 
   if (type === ERROR_HANDLED) {
-    return new Immutable.Stack();
+    // TODO: we probably want this stack to be bounded, so that
+    // a lot of accumulated errors don't slow down the app
+    return state.map((err) => {
+      return {
+        ...err,
+        active: action.errors.includes(err) ? false : err.active,
+      };
+    });
   } else if (error) {
     const timestamp = Date.now();
     return state.push({
       timestamp,
+      type: action.type,
       message: error,
-      handled: false,
+      active: true,
     });
   }
 
