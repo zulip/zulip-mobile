@@ -37,6 +37,9 @@ export default class ApiClient {
         if (res.google) backends.push('google');
         if (res.dev) backends.push('dev');
       }
+      if (!backends) {
+        throw new Error('No backends available.');
+      }
       return backends;
     } catch (err) {
       // The Zulip server may not support get_auth_backends so we
@@ -46,39 +49,55 @@ export default class ApiClient {
     }
   }
 
-  static devGetEmails(account) {
-    return ApiClient.fetch(account, 'dev_get_emails', {
+  static async devGetEmails(account) {
+    const res = await ApiClient.fetch(account, 'dev_get_emails', {
       method: 'get',
     });
+    if (res.result !== 'success') {
+      throw new Error(res.msg);
+    }
+    return [res.direct_admins, res.direct_users];
   }
 
-  static devFetchApiKey(account, email) {
-    return ApiClient.fetch(account, 'dev_fetch_api_key', {
+  static async devFetchApiKey(account, email) {
+    const res = await ApiClient.fetch(account, 'dev_fetch_api_key', {
       method: 'post',
       body: encodeAsURI({
         username: email,
       }),
     });
+    if (res.result !== 'success') {
+      throw new Error(res.msg);
+    }
+    return res.api_key;
   }
 
-  static fetchApiKey(account, email, password) {
-    return ApiClient.fetch(account, 'fetch_api_key', {
+  static async fetchApiKey(account, email, password) {
+    const res = await ApiClient.fetch(account, 'fetch_api_key', {
       method: 'post',
       body: encodeAsURI({
         username: email,
         password,
       }),
     });
+    if (res.result !== 'success') {
+      throw new Error(res.msg);
+    }
+    return res.api_key;
   }
 
-  static getMessages(account, anchor, numBefore, numAfter) {
+  static async getMessages(account, anchor, numBefore, numAfter) {
     const params = encodeAsURI({
       anchor,
       num_before: numBefore,
       num_after: numAfter,
     });
-    return ApiClient.fetch(account, `messages?${params}`, {
+    const res = await ApiClient.fetch(account, `messages?${params}`, {
       method: 'get',
     });
+    if (res.result !== 'success') {
+      throw new Error(res.msg);
+    }
+    return res.messages;
   }
 }

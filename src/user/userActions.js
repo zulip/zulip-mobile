@@ -24,15 +24,11 @@ export const addAccount = (realm) =>
         loggedIn: false,
       });
 
-      if (authBackends) {
-        dispatch({
-          type: ACCOUNT_ADD_SUCCEEDED,
-          realm,
-          authBackends,
-        });
-      } else {
-        dispatch({ type: ACCOUNT_ADD_FAILED, error: 'No backends available.' });
-      }
+      dispatch({
+        type: ACCOUNT_ADD_SUCCEEDED,
+        realm,
+        authBackends,
+      });
     } catch (err) {
       dispatch({ type: ACCOUNT_ADD_FAILED, error: err.message });
     }
@@ -44,20 +40,15 @@ export const attemptLogin = (account, email, password) =>
     dispatch({ type: LOGIN_PENDING });
 
     try {
-      const res = await ApiClient.fetchApiKey(account, email, password);
+      const apiKey = await ApiClient.fetchApiKey(account, email, password);
 
-      if (res.result === 'success') {
-        // Authentication succeeded and we have an api key
-        dispatch({
-          type: LOGIN_SUCCEEDED,
-          account,
-          activeBackend: 'password',
-          email,
-          apiKey: res.api_key,
-        });
-      } else {
-        dispatch({ type: LOGIN_FAILED, account, error: 'Login failed' });
-      }
+      dispatch({
+        type: LOGIN_SUCCEEDED,
+        account,
+        activeBackend: 'password',
+        email,
+        apiKey,
+      });
     } catch (err) {
       dispatch({ type: LOGIN_FAILED, account, err: err.message });
     }
@@ -69,20 +60,15 @@ export const attemptDevLogin = (account, email) =>
     dispatch({ type: LOGIN_PENDING });
 
     try {
-      const res = await ApiClient.devFetchApiKey(account, email);
+      const apiKey = await ApiClient.devFetchApiKey(account, email);
 
-      if (res.result === 'success') {
-        // Authentication succeeded and we have an api key
-        dispatch({
-          type: LOGIN_SUCCEEDED,
-          account,
-          activeBackend: 'dev',
-          email,
-          apiKey: res.api_key,
-        });
-      } else {
-        dispatch({ type: LOGIN_FAILED, account, error: 'Login failed.' });
-      }
+      dispatch({
+        type: LOGIN_SUCCEEDED,
+        account,
+        activeBackend: 'dev',
+        email,
+        apiKey,
+      });
     } catch (err) {
       dispatch({ type: LOGIN_FAILED, account, error: err.message });
     }
@@ -93,20 +79,15 @@ export const getDevEmails = (account) =>
     dispatch({ type: DEV_EMAILS_PENDING });
 
     try {
-      const res = await ApiClient.devGetEmails(account);
+      const [ directAdmins, directUsers ] = await ApiClient.devGetEmails(account);
 
-      if (res.result === 'success') {
-        // Authentication succeeded and we have an api key
-        dispatch({
-          type: DEV_EMAILS_SUCCEEDED,
-          account,
-          activeBackend: 'dev',
-          directUsers: res.direct_users,
-          directAdmins: res.direct_admins,
-        });
-      } else {
-        dispatch({ type: DEV_EMAILS_FAILED, error: 'Could not fetch dev accounts' });
-      }
+      dispatch({
+        type: DEV_EMAILS_SUCCEEDED,
+        account,
+        activeBackend: 'dev',
+        directUsers,
+        directAdmins,
+      });
     } catch (err) {
       dispatch({ type: DEV_EMAILS_FAILED, error: err.message });
     }
