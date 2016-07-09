@@ -56,9 +56,8 @@ class ZulipStreamView extends React.Component {
                 />
               </ZulipMessageGroupView>
             );
-          } else {
-            return <View key={item.id} />
           }
+          return (<View key={item.id} />);
         })}
       </ScrollView>
     );

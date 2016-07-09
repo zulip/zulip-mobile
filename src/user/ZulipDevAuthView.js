@@ -3,9 +3,7 @@ import React, {
   StyleSheet,
   View,
   Text,
-  TextInput,
   TouchableHighlight,
-  ActivityIndicatorIOS,
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
@@ -63,18 +61,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const ZulipUserLoginButton = (props) => {
-  return (
-    <View style={styles.field}>
-      <TouchableHighlight
-        style={[styles.userButton, props.admin? styles.admin : styles.user]}
-        onPress={props.attemptLogin}
-      >
-        <Text>{props.email}</Text>
-      </TouchableHighlight>
-    </View>
-  );
-};
+const ZulipUserLoginButton = (props) =>
+  <View style={styles.field}>
+    <TouchableHighlight
+      style={[styles.userButton, props.admin ? styles.admin : styles.user]}
+      onPress={props.attemptLogin}
+    >
+      <Text>{props.email}</Text>
+    </TouchableHighlight>
+  </View>;
 
 class ZulipDevAuthView extends Component {
   componentWillMount() {
@@ -87,31 +82,33 @@ class ZulipDevAuthView extends Component {
   }
 
   render() {
+    let directAdmins = [];
+    let directUsers = [];
     if (this.props.account.activeBackend) {
       // Render list of realm admins
-      var directAdmins = this.props.account.directAdmins.map((user) => {
-        return <ZulipUserLoginButton
-                 key={user}
-                 email={user}
-                 admin={true}
-                 attemptLogin={() => this.props.attemptDevLogin(
-                  this.props.account,
-                  user,
-                 )}
-               />
-      });
+      directAdmins = this.props.account.directAdmins.map((user) =>
+        <ZulipUserLoginButton
+          key={user}
+          email={user}
+          admin={true}
+          attemptLogin={() => this.props.attemptDevLogin(
+            this.props.account,
+            user,
+          )}
+        />
+      );
       // Render list of realm users
-      var directUsers = this.props.account.directUsers.map((user) => {
-        return <ZulipUserLoginButton
-                 key={user}
-                 email={user}
-                 admin={false}
-                 attemptLogin={() => this.props.attemptDevLogin(
-                  this.props.account,
-                  user,
-                 )}
-                />
-      });
+      directUsers = this.props.account.directUsers.map((user) =>
+        <ZulipUserLoginButton
+          key={user}
+          email={user}
+          admin={false}
+          attemptLogin={() => this.props.attemptDevLogin(
+            this.props.account,
+            user,
+          )}
+        />
+      );
     }
     return (
       <View style={styles.container}>

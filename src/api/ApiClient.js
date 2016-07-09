@@ -39,8 +39,9 @@ export default class ApiClient {
       }
       return backends;
     } catch (err) {
-      // The Zulip server may not support get_auth_backends
-      //return ['password', 'google'];
+      // The Zulip server may not support get_auth_backends so we
+      // may want to default to returning password and google auth:
+      // return ['password', 'google'];
       throw err;
     }
   }

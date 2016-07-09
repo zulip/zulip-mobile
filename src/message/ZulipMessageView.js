@@ -47,7 +47,7 @@ const ZulipMessageView = (props) => (
   <View style={styles.message}>
     <Image
       style={styles.messageThumbnail}
-      source={{uri: props.avatar_url}}
+      source={{ uri: props.avatar_url }}
     />
     <View style={styles.messageContent}>
       <View style={styles.messageHeader}>
@@ -55,7 +55,7 @@ const ZulipMessageView = (props) => (
           {props.from}
         </Text>
         <Text style={styles.messageTime}>
-          {moment(props.timestamp*1000).format('LT')}
+          {moment(props.timestamp * 1000).format('LT')}
         </Text>
       </View>
       <Text style={styles.messageText}>

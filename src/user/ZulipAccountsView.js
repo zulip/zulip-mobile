@@ -5,7 +5,6 @@ import React, {
   Text,
   TextInput,
   TouchableHighlight,
-  ActivityIndicatorIOS,
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
@@ -21,7 +20,6 @@ import ZulipDevAuthView from './ZulipDevAuthView';
 
 const STATUS_BAR_HEIGHT = 20;
 const FIELD_HEIGHT = 44;
-const LABEL_WIDTH = 80;
 
 const styles = StyleSheet.create({
   container: {
@@ -78,24 +76,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const ZulipAddAccountButton = (props) => {
-  return (
-    <View style={styles.field}>
-      <TouchableHighlight
-        style={[styles.userButton]}
-        onPress={props.onPress}
-      >
-        <Text>Next</Text>
-      </TouchableHighlight>
-    </View>
-  );
-};
+const ZulipAddAccountButton = (props) =>
+  <View style={styles.field}>
+    <TouchableHighlight
+      style={[styles.userButton]}
+      onPress={props.onPress}
+    >
+      <Text>Next</Text>
+    </TouchableHighlight>
+  </View>;
+
 
 class ZulipAccountsView extends Component {
   constructor(props) {
     super(props);
 
-    var defaultRealm = '';
+    let defaultRealm = '';
     if (process.env.NODE_ENV === 'development') {
       defaultRealm = 'http://localhost:9991';
     }
@@ -106,7 +102,7 @@ class ZulipAccountsView extends Component {
 
   render() {
     if (this.props.activeAccountId) {
-      var activeAccount = this.props.accounts.get(this.props.activeAccountId);
+      const activeAccount = this.props.accounts.get(this.props.activeAccountId);
       if (activeAccount.authBackends.includes('dev')) {
         return <ZulipDevAuthView />;
       } else {
@@ -114,13 +110,11 @@ class ZulipAccountsView extends Component {
       }
     }
 
-    var errors = this.props.errors.map((err) => {
-      return (
-        <Text key={err.timestamp} style={styles.error}>
-          {err.message}
-        </Text>
-      );
-    });
+    const errors = this.props.errors.map((err) =>
+      <Text key={err.timestamp} style={styles.error}>
+        {err.message}
+      </Text>
+    );
 
     return (
       <View style={styles.container}>

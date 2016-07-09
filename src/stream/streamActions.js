@@ -13,15 +13,15 @@ export const getLatestMessages = (account, lastMessageId) =>
       const res = await ApiClient.getMessages(account, 0, 0, 40);
 
       if (res.result === 'success') {
-        return dispatch({
+        dispatch({
           type: STREAM_NEW_MESSAGES,
           account,
           messages: res.messages,
         });
+      } else {
+        dispatch({ type: STREAM_FETCHING_FAILED, error: 'Unable to fetch messages' });
       }
     } catch (err) {
-      console.error(err);
+      dispatch({ type: STREAM_FETCHING_FAILED, error: err.message });
     }
-
-    return dispatch({ type: STREAM_FETCHING_FAILED });
   };

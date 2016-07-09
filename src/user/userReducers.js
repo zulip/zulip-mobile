@@ -35,9 +35,9 @@ const initialState = UserRecord();
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ACCOUNT_ADD_SUCCEEDED:
+    case ACCOUNT_ADD_SUCCEEDED: {
       // Use time-based UUID for account ID
-      var accountId = Date.now();
+      const accountId = Date.now();
 
       return state.merge({
         accounts: state.accounts.set(accountId, {
@@ -49,6 +49,7 @@ const reducer = (state = initialState, action) => {
         }),
         activeAccountId: accountId,
       });
+    }
     case ACCOUNT_ADD_FAILED:
       return state.merge({
         errors: action.errors,

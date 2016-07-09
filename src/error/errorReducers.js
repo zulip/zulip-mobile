@@ -1,5 +1,4 @@
 import {
-  ERROR_OCCURED,
   ERROR_HANDLED,
 } from './errorActions';
 
@@ -16,7 +15,7 @@ const reducer = (state = initialState, action) => {
   } else if (error) {
     const timestamp = Date.now();
     return state.push({
-      timestamp: timestamp,
+      timestamp,
       message: error,
       handled: false,
     });
