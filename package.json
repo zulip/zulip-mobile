@@ -15,6 +15,7 @@
     "react-native": "^0.22.2",
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
+    "redux-logger": "^2.6.1",
     "redux-thunk": "^2.0.1"
   },
   "devDependencies": {

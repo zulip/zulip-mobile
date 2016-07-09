@@ -3,28 +3,19 @@ import React, {
   Component,
 } from 'react-native';
 
-// React / Redux modules
-import {applyMiddleware, createStore} from 'redux';
-import {Provider} from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import createLogger from 'redux-logger';
 
 import rootReducer from './src/reducers';
 import ZulipApp from './src/ZulipApp';
 
-// Logs all actions and states after they are dispatched.
-const devLogger = store => next => action => {
-  console.group(action.type);
-  console.info('dispatching:', action);
-  let result = next(action);
-  console.log('next state:', store.getState());
-  console.groupEnd(action.type);
-  return result;
-}
-
 // Set up middleware
 const middleware = [thunk];
 if (process.env.NODE_ENV === 'development') {
-  middleware.push(devLogger);
+  // Log states and actions to the console in dev mode
+  middleware.push(createLogger());
 }
 
 const store = applyMiddleware(...middleware)(createStore)(rootReducer);

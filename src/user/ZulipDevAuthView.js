@@ -79,7 +79,7 @@ const ZulipUserLoginButton = (props) => {
 class ZulipDevAuthView extends Component {
   componentWillMount() {
     // Fetch list of dev accounts when component is mounted
-    // 
+    //
     // We use setTimeout with time=0 to force this to happen in the next
     // iteration of the event loop. This ensures that the last action ends
     // before the new action begins and makes the debug output clearer.
