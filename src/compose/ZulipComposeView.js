@@ -1,5 +1,5 @@
-import React, {
-  Component,
+import React from 'react';
+import {
   StyleSheet,
   View,
   Text,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ZulipComposeView extends Component {
+export default class ZulipComposeView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

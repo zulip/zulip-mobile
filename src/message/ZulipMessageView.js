@@ -1,4 +1,5 @@
-import React, {
+import React from 'react';
+import {
   StyleSheet,
   View,
   Text,
@@ -11,7 +12,6 @@ const DEFAULT_PADDING = 8;
 
 const styles = StyleSheet.create({
   message: {
-    flex: 1,
     flexDirection: 'row',
     backgroundColor: '#fff',
     padding: DEFAULT_PADDING,
@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   messageHeader: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

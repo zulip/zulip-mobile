@@ -9,12 +9,13 @@
     "test": "mocha --recursive src/**/__tests__/*-test.js --require react-native-mock/mock.js --compilers js:babel-core/register"
   },
   "dependencies": {
+    "base-64": "^0.1.0",
     "immutable": "^3.8.0",
     "moment": "^2.13.0",
-    "react": "^0.14.7",
-    "react-native": "^0.22.2",
-    "react-redux": "^4.4.1",
-    "redux": "^3.3.1",
+    "react": "^15.2.1",
+    "react-native": "^0.29.0",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.0.1"
   },

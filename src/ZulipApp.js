@@ -1,5 +1,4 @@
-import React from 'react-native';
-
+import React from 'react';
 import { connect } from 'react-redux';
 
 // UI elements

@@ -1,4 +1,5 @@
-import React, {
+import React from 'react';
+import {
   StyleSheet,
   ScrollView,
   View,
@@ -17,7 +18,6 @@ import ZulipMessageView from '../message/ZulipMessageView';
 
 const styles = StyleSheet.create({
   scrollView: {
-    flex: 1,
   },
 });
 

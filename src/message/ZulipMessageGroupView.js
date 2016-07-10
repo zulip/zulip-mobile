@@ -1,4 +1,5 @@
-import React, {
+import React from 'react';
+import {
   StyleSheet,
   View,
   Text,
@@ -8,7 +9,6 @@ const DEFAULT_PADDING = 8;
 
 const styles = StyleSheet.create({
   threadGroup: {
-    flex: 1,
     flexDirection: 'column',
     backgroundColor: '#eee',
     marginBottom: DEFAULT_PADDING,

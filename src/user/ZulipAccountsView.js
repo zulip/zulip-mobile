@@ -1,5 +1,5 @@
-import React, {
-  Component,
+import React from 'react';
+import {
   StyleSheet,
   View,
   Text,
@@ -88,7 +88,7 @@ const ZulipAddAccountButton = (props) =>
   </View>;
 
 
-class ZulipAccountsView extends Component {
+class ZulipAccountsView extends React.Component {
   constructor(props) {
     super(props);
 

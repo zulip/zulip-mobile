@@ -1,7 +1,5 @@
-import React, {
-  AppRegistry,
-  Component,
-} from 'react-native';
+import React, { Component } from 'react';
+import { AppRegistry } from 'react-native';
 
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';

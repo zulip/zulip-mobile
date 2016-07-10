@@ -1,5 +1,5 @@
-import React, {
-  Component,
+import React from 'react';
+import {
   StyleSheet,
   View,
   Text,
@@ -79,7 +79,7 @@ const ZulipUserLoginButton = (props) =>
     </TouchableHighlight>
   </View>;
 
-class ZulipDevAuthView extends Component {
+class ZulipDevAuthView extends React.Component {
   componentWillMount() {
     // Fetch list of dev accounts when component is mounted
     //

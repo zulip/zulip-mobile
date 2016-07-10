@@ -1,20 +1,22 @@
 import { encodeAsURI } from '../lib/util.js';
+import base64 from 'base-64';
 
 const apiVersion = 'api/v1';
 
 export default class ApiClient {
   static getAuthHeader(email, apiKey) {
     const encodedStr = `${email}:${apiKey}`;
-    // TODO: btoa may not be available in JavascriptCore
-    return `Basic ${btoa(encodedStr)}`;
+    return `Basic ${base64.encode(encodedStr)}`;
   }
 
   static async fetch(account, route, params) {
-    const extraParams = {};
+    const extraParams = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      },
+    };
     if (account.loggedIn) {
-      extraParams.headers = {
-        Authorization: ApiClient.getAuthHeader(account.email, account.apiKey),
-      };
+      extraParams.headers.Authorization = ApiClient.getAuthHeader(account.email, account.apiKey);
     }
 
     const raw = await fetch(`${account.realm}/${apiVersion}/${route}`, {

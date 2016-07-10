@@ -1,5 +1,5 @@
-import React, {
-  Component,
+import React from 'react';
+import {
   StyleSheet,
   View,
   Text,
@@ -80,7 +80,7 @@ const ZulipLoginButton = (props) => (
     </TouchableHighlight>
 );
 
-export default class ZulipPasswordAuthView extends Component {
+export default class ZulipPasswordAuthView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
