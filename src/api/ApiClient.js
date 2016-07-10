@@ -17,11 +17,16 @@ export default class ApiClient {
       };
     }
 
-    const res = await fetch(`${account.realm}/${apiVersion}/${route}`, {
+    const raw = await fetch(`${account.realm}/${apiVersion}/${route}`, {
       ...params,
       ...extraParams,
     });
-    return res.json();
+    try {
+      const res = await raw.json();
+      return res;
+    } catch (err) {
+      throw new Error(`HTTP response code ${raw.status}: ${raw.statusText}`);
+    }
   }
 
   static async getAuthBackends(account) {
