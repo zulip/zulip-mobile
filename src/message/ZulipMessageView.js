@@ -5,6 +5,7 @@ import {
   Text,
   Image,
 } from 'react-native';
+import ZulipMessageTextView from '../message/ZulipMessageTextView';
 
 import moment from 'moment';
 
@@ -57,9 +58,10 @@ const ZulipMessageView = (props) => (
           {moment(props.timestamp * 1000).format('LT')}
         </Text>
       </View>
-      <Text style={styles.messageText}>
-        {props.message}
-      </Text>
+      <ZulipMessageTextView
+        style={styles.message}
+        message={props.message}
+      />
     </View>
   </View>
 );
