@@ -32,28 +32,21 @@ export default class ApiClient {
   }
 
   static async getAuthBackends(account) {
-    try {
-      const res = await ApiClient.fetch(account, 'get_auth_backends', {
-        method: 'get',
-      });
+    const res = await ApiClient.fetch(account, 'get_auth_backends', {
+      method: 'get',
+    });
 
-      // Return the available backends as a list
-      const backends = [];
-      if (res.result === 'success') {
-        if (res.password) backends.push('password');
-        if (res.google) backends.push('google');
-        if (res.dev) backends.push('dev');
-      }
-      if (!backends) {
-        throw new Error('No backends available.');
-      }
-      return backends;
-    } catch (err) {
-      // The Zulip server may not support get_auth_backends so we
-      // may want to default to returning password and google auth:
-      // return ['password', 'google'];
-      throw err;
+    // Return the available backends as a list
+    const backends = [];
+    if (res.result === 'success') {
+      if (res.password) backends.push('password');
+      if (res.google) backends.push('google');
+      if (res.dev) backends.push('dev');
     }
+    if (!backends) {
+      throw new Error('No backends available.');
+    }
+    return backends;
   }
 
   static async devGetEmails(account) {
