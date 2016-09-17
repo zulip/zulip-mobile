@@ -80,7 +80,7 @@ const ZulipLoginButton = (props) => (
     </TouchableHighlight>
 );
 
-export default class ZulipPasswordAuthView extends React.Component {
+export class ZulipPasswordAuthView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -152,4 +152,3 @@ const mapDispatchToProps = (dispatch, ownProps) =>
   }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ZulipPasswordAuthView);
-
