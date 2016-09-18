@@ -11,6 +11,7 @@
   "extends": "airbnb",
   "rules": {
     "no-else-return": 0,
+    "react/prop-types": 0,
     "no-unused-vars": [1, {"vars": "local", "args": "none"}],
     "new-cap": [2, {
       "capIsNew": false

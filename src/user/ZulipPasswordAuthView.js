@@ -4,13 +4,13 @@ import {
   View,
   Text,
   TextInput,
-  TouchableHighlight,
-  ActivityIndicatorIOS,
 } from 'react-native';
 
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
+import ZulipButton from './ZulipButton';
 
 // Actions
 import { markErrorsAsHandled } from '../error/errorActions';
@@ -68,18 +68,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const ZulipLoginButton = (props) => (
-  props.spinning ?
-    <ActivityIndicatorIOS />
-    :
-    <TouchableHighlight
-      style={styles.fieldButton}
-      onPress={props.onPress}
-    >
-      <Text>Sign in</Text>
-    </TouchableHighlight>
-);
-
 export class ZulipPasswordAuthView extends React.Component {
   constructor(props) {
     super(props);
@@ -103,8 +91,10 @@ export class ZulipPasswordAuthView extends React.Component {
           <Text style={styles.fieldLabel}>Email</Text>
           <TextInput
             ref="emailInput"
+            autoCorrect={false}
+            autoFocus
             style={styles.fieldInput}
-            autoCapitalize={"none"}
+            autoCapitalize="none"
             placeholder="you@something.com"
             value={this.state.email}
             onChangeText={email => this.setState({ email })}
@@ -115,16 +105,16 @@ export class ZulipPasswordAuthView extends React.Component {
           <TextInput
             ref="passwordInput"
             style={styles.fieldInput}
-            autoCapitalize={"none"}
             placeholder="pa55w0rd"
+            secureTextEntry
             value={this.state.password}
             onChangeText={password => this.setState({ password })}
           />
         </View>
         <View style={styles.field}>
-          <ZulipLoginButton
-            enabled={!this.props.pendingLogin}
-            spinning={this.props.pendingLogin}
+          <ZulipButton
+            text="Sign in"
+            progress={this.props.pendingLogin}
             onPress={() => {
               this.props.markErrorsAsHandled(this.props.errors);
               this.props.attemptLogin(

@@ -4,7 +4,6 @@ import {
   View,
   Text,
   TextInput,
-  TouchableHighlight,
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
@@ -18,6 +17,7 @@ import {
 
 import ZulipPasswordAuthView from './ZulipPasswordAuthView';
 import ZulipDevAuthView from './ZulipDevAuthView';
+import ZulipButton from './ZulipButton';
 
 const STATUS_BAR_HEIGHT = 20;
 const FIELD_HEIGHT = 44;
@@ -51,15 +51,6 @@ const styles = StyleSheet.create({
   admin: {
     backgroundColor: '#f88',
   },
-  userButton: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 10,
-    height: FIELD_HEIGHT,
-    borderWidth: 1,
-    borderColor: '#999',
-    borderRadius: 5,
-  },
   fieldInput: {
     flex: 1,
     borderWidth: 1,
@@ -76,16 +67,6 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
 });
-
-const ZulipAddAccountButton = (props) =>
-  <View style={styles.field}>
-    <TouchableHighlight
-      style={[styles.userButton]}
-      onPress={props.onPress}
-    >
-      <Text>Next</Text>
-    </TouchableHighlight>
-  </View>;
 
 
 class ZulipAccountsView extends React.Component {
@@ -133,7 +114,9 @@ class ZulipAccountsView extends React.Component {
           <TextInput
             ref="realmInput"
             style={styles.fieldInput}
-            autoCapitalize={"none"}
+            autoFocus
+            autoCorrect={false}
+            autoCapitalize="none"
             placeholder="www.zulip.com"
             value={this.state.realm}
             onChangeText={realm => this.setState({ realm })}
@@ -141,7 +124,8 @@ class ZulipAccountsView extends React.Component {
         </View>
 
         <View style={styles.field}>
-          <ZulipAddAccountButton
+          <ZulipButton
+            text="Next"
             onPress={() => {
               this.props.markErrorsAsHandled(this.props.errors);
               this.props.addAccount(this.state.realm);
