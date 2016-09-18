@@ -1,9 +1,10 @@
 import React from 'react';
 import {
-  StyleSheet,
+  Image,
   View,
   Text,
   TextInput,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
@@ -17,69 +18,26 @@ import {
 
 import ZulipPasswordAuthView from './ZulipPasswordAuthView';
 import ZulipDevAuthView from './ZulipDevAuthView';
+import styles from './styles';
+import ZulipError from './ZulipError';
 import ZulipButton from './ZulipButton';
-
-const STATUS_BAR_HEIGHT = 20;
-const FIELD_HEIGHT = 44;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    marginTop: STATUS_BAR_HEIGHT,
-  },
-  error: {
-    justifyContent: 'flex-start',
-    textAlign: 'center',
-    fontSize: 24,
-    padding: 10,
-  },
-  heading1: {
-    textAlign: 'center',
-    fontSize: 24,
-    padding: 10,
-  },
-  heading2: {
-    textAlign: 'center',
-    fontSize: 18,
-    padding: 10,
-  },
-  user: {
-    backgroundColor: '#8ac',
-  },
-  admin: {
-    backgroundColor: '#f88',
-  },
-  fieldInput: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#999',
-    padding: 10,
-  },
-  field: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: FIELD_HEIGHT,
-    marginTop: 10,
-    marginLeft: 20,
-    marginRight: 20,
-  },
-});
-
 
 class ZulipAccountsView extends React.Component {
   constructor(props) {
     super(props);
 
-    let defaultRealm = '';
+    let defaultRealm = 'https://zulip.com';
     if (process.env.NODE_ENV === 'development') {
-      defaultRealm = 'http://localhost:9991';
+      defaultRealm = 'https://zulip.com';
     }
     this.state = {
       realm: defaultRealm,
     };
+  }
+
+  onRealmEnter = () => {
+    this.props.markErrorsAsHandled(this.props.errors);
+    this.props.addAccount(this.state.realm);
   }
 
   render() {
@@ -92,28 +50,25 @@ class ZulipAccountsView extends React.Component {
       }
     }
 
-    const errors = this.props.errors.map((err) =>
-      <Text key={err.timestamp} style={styles.error}>
-        {err.message}
-      </Text>
-    );
-
     return (
-      <View style={styles.container}>
-        {errors}
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <Image
+          style={styles.logo}
+          source={require('../../img/zulip-logo.png')} resizeMode="contain"
+        />
 
-        <Text style={styles.heading1}>
-          Add an account
-        </Text>
+        <View style={styles.field}>
+            <Text style={styles.heading1}>Welcome to Zulip</Text>
+        </View>
 
-        <Text style={styles.heading2}>
-          Realm:
-        </Text>
+        <View style={styles.smallField}>
+            <Text style={styles.label}>Server address</Text>
+        </View>
 
         <View style={styles.field}>
           <TextInput
             ref="realmInput"
-            style={styles.fieldInput}
+            style={styles.input}
             autoFocus
             autoCorrect={false}
             autoCapitalize="none"
@@ -126,13 +81,12 @@ class ZulipAccountsView extends React.Component {
         <View style={styles.field}>
           <ZulipButton
             text="Next"
-            onPress={() => {
-              this.props.markErrorsAsHandled(this.props.errors);
-              this.props.addAccount(this.state.realm);
-            }}
+            onPress={this.onRealmEnter}
           />
         </View>
-      </View>
+
+        <ZulipError errors={this.props.errors} />
+      </KeyboardAvoidingView>
     );
   }
 }
