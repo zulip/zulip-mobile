@@ -1,4 +1,5 @@
 import {
+  ACCOUNT_ADD_PENDING,
   ACCOUNT_ADD_SUCCEEDED,
   ACCOUNT_ADD_FAILED,
 
@@ -17,7 +18,7 @@ import Immutable from 'immutable';
 const UserRecord = Immutable.Record({
   accounts: new Immutable.OrderedMap(),
   activeAccountId: null,
-  pendingLogin: false,
+  pendingServerResponse: false,
   errors: [],
 });
 
@@ -47,11 +48,13 @@ const reducer = (state = initialState, action) => {
           activeBackend: null,
           loggedIn: false,
         }),
+        pendingServerResponse: false,
         activeAccountId: accountId,
       });
     }
     case ACCOUNT_ADD_FAILED:
       return state.merge({
+        pendingServerResponse: false,
         errors: action.errors,
       });
 
@@ -71,14 +74,17 @@ const reducer = (state = initialState, action) => {
       return state.merge({
         errors: action.errors,
       });
-
+    case ACCOUNT_ADD_PENDING:
+      return state.merge({
+        pendingServerResponse: true,
+      });
     case LOGIN_PENDING:
       return state.merge({
-        pendingLogin: true,
+        pendingServerResponse: true,
       });
     case LOGIN_SUCCEEDED:
       return state.merge({
-        pendingLogin: false,
+        pendingServerResponse: false,
         accounts: state.accounts.set(action.account.accountId, {
           ...action.account,
           activeBackend: action.activeBackend,
@@ -89,7 +95,7 @@ const reducer = (state = initialState, action) => {
       });
     case LOGIN_FAILED:
       return state.merge({
-        pendingLogin: false,
+        pendingServerResponse: false,
         accounts: state.accounts.set(action.account.accountId, {
           ...action.account,
           loggedIn: false,

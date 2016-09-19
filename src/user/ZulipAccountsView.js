@@ -26,9 +26,9 @@ class ZulipAccountsView extends React.Component {
   constructor(props) {
     super(props);
 
-    let defaultRealm = 'https://zulip.com';
+    let defaultRealm = '';
     if (process.env.NODE_ENV === 'development') {
-      defaultRealm = 'https://zulip.com';
+      defaultRealm = 'http://localhost:9991';
     }
     this.state = {
       realm: defaultRealm,
@@ -54,7 +54,7 @@ class ZulipAccountsView extends React.Component {
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <Image
           style={styles.logo}
-          source={require('../../img/zulip-logo.png')} resizeMode="contain"
+          source={require('../../static/img/zulip-logo.png')} resizeMode="contain"
         />
 
         <View style={styles.field}>
@@ -81,6 +81,7 @@ class ZulipAccountsView extends React.Component {
         <View style={styles.field}>
           <ZulipButton
             text="Next"
+            progress={this.props.pendingServerResponse}
             onPress={this.onRealmEnter}
           />
         </View>
@@ -94,6 +95,7 @@ class ZulipAccountsView extends React.Component {
 const mapStateToProps = (state) => ({
   accounts: state.user.accounts,
   activeAccountId: state.user.activeAccountId,
+  pendingServerResponse: state.user.pendingServerResponse,
   errors: state.errors.filter(e => e.active),
 });
 

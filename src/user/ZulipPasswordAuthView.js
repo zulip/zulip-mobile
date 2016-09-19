@@ -43,7 +43,7 @@ export class ZulipPasswordAuthView extends React.Component {
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <Image
           style={styles.logo}
-          source={require('../../img/zulip-logo.png')} resizeMode="contain"
+          source={require('../../static/img/zulip-logo.png')} resizeMode="contain"
         />
 
         <View style={styles.field}>
@@ -71,7 +71,7 @@ export class ZulipPasswordAuthView extends React.Component {
         <View style={styles.field}>
           <ZulipButton
             text="Sign in"
-            progress={this.props.pendingLogin}
+            progress={this.props.pendingServerResponse}
             onPress={this.onSignIn}
           />
         </View>
@@ -83,6 +83,7 @@ export class ZulipPasswordAuthView extends React.Component {
 
 const mapStateToProps = (state) => ({
   account: state.user.accounts.get(state.user.activeAccountId),
+  pendingServerResponse: state.user.pendingServerResponse,
   errors: state.errors.filter(e => e.active && e.type === LOGIN_FAILED),
 });
 
