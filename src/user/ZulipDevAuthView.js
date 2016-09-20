@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   TouchableHighlight,
@@ -9,6 +8,9 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import ZulipError from './ZulipError';
+import styles from './styles';
+
 // Actions
 import { markErrorsAsHandled } from '../error/errorActions';
 import {
@@ -16,58 +18,6 @@ import {
   attemptDevLogin,
   getDevEmails,
 } from './userActions';
-
-const STATUS_BAR_HEIGHT = 20;
-const FIELD_HEIGHT = 44;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    marginTop: STATUS_BAR_HEIGHT,
-  },
-  error: {
-    justifyContent: 'flex-start',
-    textAlign: 'center',
-    fontSize: 24,
-    padding: 10,
-  },
-  heading1: {
-    textAlign: 'center',
-    fontSize: 24,
-    padding: 10,
-  },
-  heading2: {
-    textAlign: 'center',
-    fontSize: 18,
-    padding: 10,
-  },
-  field: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: FIELD_HEIGHT,
-    marginTop: 10,
-    marginLeft: 20,
-    marginRight: 20,
-  },
-  user: {
-    backgroundColor: '#8ac',
-  },
-  admin: {
-    backgroundColor: '#f88',
-  },
-  userButton: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 10,
-    height: FIELD_HEIGHT,
-    borderWidth: 1,
-    borderColor: '#999',
-    borderRadius: 5,
-  },
-});
 
 const ZulipUserLoginButton = (props) =>
   <View style={styles.field}>
@@ -98,7 +48,7 @@ class ZulipDevAuthView extends React.Component {
         <ZulipUserLoginButton
           key={user}
           email={user}
-          admin={true}
+          admin
           attemptLogin={() => this.props.attemptDevLogin(
             this.props.account,
             user,
@@ -122,15 +72,9 @@ class ZulipDevAuthView extends React.Component {
       );
     }
 
-    const errors = this.props.errors.map((err) =>
-      <Text key={err.timestamp} style={styles.error}>
-        {err.message}
-      </Text>
-    );
-
     return (
       <View style={styles.container}>
-        {errors}
+        <ZulipError errors={this.props.errors} />
         <Text style={styles.heading1}>
           Zulip Dev Login
         </Text>
