@@ -5,6 +5,8 @@ import {
   View,
 } from 'react-native';
 
+import InfiniteScrollView from './InfiniteScrollView';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -31,7 +33,7 @@ class ZulipStreamView extends React.Component {
 
   render() {
     return (
-      <ScrollView
+      <InfiniteScrollView
         style={styles.scrollView}
         automaticallyAdjustContentInset="false"
       >
@@ -59,7 +61,7 @@ class ZulipStreamView extends React.Component {
           }
           return (<View key={item.id} />);
         })}
-      </ScrollView>
+      </InfiniteScrollView>
     );
   }
 }
