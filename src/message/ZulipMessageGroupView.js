@@ -8,15 +8,11 @@ import {
 const DEFAULT_PADDING = 8;
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    backgroundColor: '#eee',
-    marginBottom: DEFAULT_PADDING,
-    overflow: 'hidden',
-  },
   header: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    overflow: 'hidden',
+    backgroundColor: '#ddd',
   },
   stream: {
     backgroundColor: '#cec',
@@ -32,34 +28,32 @@ const styles = StyleSheet.create({
   },
 });
 
-export const ZulipMessagePrivateHeader = (props) => (
-  <View style={styles.container}>
-    <View style={styles.header}>
-      <Text style={[styles.threadGroupStreamText,
-                    { backgroundColor: props.stream.color }]}
-      >
-        {props.stream.name}
-      </Text>
-      <Text style={styles.topic}>
-        {props.thread}
-      </Text>
-    </View>
-    {props.children}
-  </View>
-);
+export class ZulipPrivateMessageHeader extends React.Component {
+  render() {
+    const others = this.props.recipients.sort().join(', ');
+    const title = others ? `You and ${others}` : 'Just You';
 
-export const ZulipMessageStreamHeader = (props) => (
-  <View style={styles.container}>
-    <View style={styles.header}>
-      <Text style={[styles.stream,
-                    { backgroundColor: props.color }]}
-      >
-        {props.stream}
-      </Text>
-      <Text style={styles.topic}>
-        {props.topic}
-      </Text>
-    </View>
-    {props.children}
-  </View>
-);
+    return (
+      <View style={styles.header}>
+        <Text style={[styles.stream, styles.private]}>
+          {title}
+        </Text>
+      </View>
+    );
+  }
+};
+
+export class ZulipStreamMessageHeader extends React.Component {
+  render() {
+    return (
+      <View style={styles.header}>
+        <Text style={[styles.stream, { backgroundColor: this.props.color }]}>
+          {this.props.stream}
+        </Text>
+        <Text style={styles.topic}>
+          {this.props.topic}
+        </Text>
+      </View>
+    );
+  }
+};

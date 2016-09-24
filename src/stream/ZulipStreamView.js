@@ -8,8 +8,8 @@ import {
 import InfiniteScrollView from './InfiniteScrollView';
 
 import {
-  ZulipMessageStreamHeader,
-  ZulipMessagePrivateHeader,
+  ZulipStreamMessageHeader,
+  ZulipPrivateMessageHeader,
 } from '../message/ZulipMessageGroupView';
 
 import ZulipMessageView from '../message/ZulipMessageView';
@@ -75,11 +75,20 @@ class ZulipStreamView extends React.Component {
     for (let item of this.props.messages) {
       if (item.type === 'stream') {
         items.push(
-          <ZulipMessageStreamHeader
+          <ZulipStreamMessageHeader
             key={`section_${item.id}`}
             stream={item.display_recipient}
             topic={item.subject}
             color="#ccc"
+          />
+        );
+      } else if (item.type === 'private') {
+        items.push(
+          <ZulipPrivateMessageHeader
+            key={`section_${item.id}`}
+            recipients={item.display_recipient.filter(r =>
+              r.email !== this.props.account.email
+            ).map(r => r.full_name)}
           />
         );
       }

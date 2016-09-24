@@ -9,13 +9,14 @@ import {
 } from 'react-native';
 import ZulipMessageTextView from '../message/ZulipMessageTextView';
 
-const DEFAULT_PADDING = 8;
+const DEFAULT_PADDING = 12;
 
 const styles = StyleSheet.create({
   message: {
     flexDirection: 'row',
     backgroundColor: '#fff',
     padding: DEFAULT_PADDING,
+    overflow: 'hidden',
   },
   messageContent: {
     flex: 1,
