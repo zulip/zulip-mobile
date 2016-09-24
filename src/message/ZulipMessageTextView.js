@@ -3,6 +3,7 @@ import {
   Image,
   Linking,
 } from 'react-native';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import HTMLView from 'react-native-htmlview';
 
@@ -32,6 +33,11 @@ const renderNode = (node, index, list) => {
 };
 
 class ZulipMessageTextView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+  }
+
   render() {
     return (
       <HTMLView

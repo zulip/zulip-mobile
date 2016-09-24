@@ -4,6 +4,7 @@ import {
   ScrollView,
   View,
 } from 'react-native';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import InfiniteScrollView from './InfiniteScrollView';
 
@@ -28,6 +29,11 @@ const styles = StyleSheet.create({
 });
 
 class ZulipStreamView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+  }
+
   componentDidMount() {
     // We use requestAnimationFrame to force this to happen in the next
     // iteration of the event loop. This ensures that the last action ends

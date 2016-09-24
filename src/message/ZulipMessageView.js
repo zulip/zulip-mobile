@@ -7,6 +7,8 @@ import {
   Text,
   Image,
 } from 'react-native';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+
 import ZulipMessageTextView from '../message/ZulipMessageTextView';
 
 const DEFAULT_PADDING = 12;
@@ -41,27 +43,36 @@ const styles = StyleSheet.create({
   },
 });
 
-const ZulipMessageView = (props) => (
-  <View style={styles.message}>
-    <Image
-      style={styles.messageThumbnail}
-      source={{ uri: props.avatarUrl }}
-    />
-    <View style={styles.messageContent}>
-      <View style={styles.messageHeader}>
-        <Text style={styles.messageUser}>
-          {props.from}
-        </Text>
-        <Text style={styles.messageTime}>
-          {moment(props.timestamp * 1000).format('LT')}
-        </Text>
+class ZulipMessageView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+  }
+
+  render() {
+    return (
+      <View style={styles.message}>
+        <Image
+          style={styles.messageThumbnail}
+          source={{ uri: this.props.avatarUrl }}
+        />
+        <View style={styles.messageContent}>
+          <View style={styles.messageHeader}>
+            <Text style={styles.messageUser}>
+              {this.props.from}
+            </Text>
+            <Text style={styles.messageTime}>
+              {moment(this.props.timestamp * 1000).format('LT')}
+            </Text>
+          </View>
+          <ZulipMessageTextView
+            style={styles.message}
+            message={this.props.message}
+          />
+        </View>
       </View>
-      <ZulipMessageTextView
-        style={styles.message}
-        message={props.message}
-      />
-    </View>
-  </View>
-);
+    );
+  }
+};
 
 export default ZulipMessageView;

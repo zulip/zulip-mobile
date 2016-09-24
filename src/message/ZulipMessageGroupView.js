@@ -4,6 +4,7 @@ import {
   View,
   Text,
 } from 'react-native';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 const DEFAULT_PADDING = 8;
 
@@ -29,6 +30,11 @@ const styles = StyleSheet.create({
 });
 
 export class ZulipPrivateMessageHeader extends React.Component {
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+  }
+
   render() {
     const others = this.props.recipients.sort().join(', ');
     const title = others ? `You and ${others}` : 'Just You';
@@ -44,6 +50,11 @@ export class ZulipPrivateMessageHeader extends React.Component {
 };
 
 export class ZulipStreamMessageHeader extends React.Component {
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+  }
+
   render() {
     return (
       <View style={styles.header}>
