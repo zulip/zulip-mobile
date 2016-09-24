@@ -6,6 +6,10 @@ import {
   STREAM_FETCHING_FAILED,
 } from './streamActions';
 
+import {
+  EVENT_NEW_MESSAGE,
+} from '../events/eventActions';
+
 // Initial state
 const initialState = {
   messages: new Immutable.List(),
@@ -54,6 +58,14 @@ const reducer = (state = initialState, action) => {
         caughtUp: action.caughtUp,
       };
     }
+
+    case EVENT_NEW_MESSAGE:
+      // TODO: fix this logic, it's really hacky
+      return {
+        ...state,
+        messages: state.messages.push(action.message),
+        pointer: [state.pointer[0], action.message.id],
+      };
     default:
       return state;
   }

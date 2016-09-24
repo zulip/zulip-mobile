@@ -164,9 +164,27 @@ export default class ApiClient {
         op,
       }),
     });
+    return res.messages;
+  }
+
+  static async registerForEvents(account) {
+    const res = await ApiClient.fetch(account, `register`, {
+      method: 'post',
+    });
+    return res;
+  }
+
+  static async pollForEvents(account, queueId, lastEventId) {
+    const params = encodeAsURI({
+      queue_id: queueId,
+      last_event_id: lastEventId,
+    });
+    const res = await ApiClient.fetch(account, `events?${params}`, {
+      method: 'get',
+    });
     if (res.result !== 'success') {
       throw new Error(res.msg);
     }
-    return res.messages;
+    return res;
   }
 }

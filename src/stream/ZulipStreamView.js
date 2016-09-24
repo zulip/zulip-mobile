@@ -23,6 +23,10 @@ import {
   getMessages,
 } from './streamActions';
 
+import {
+  getEvents,
+} from '../events/eventActions';
+
 const styles = StyleSheet.create({
   scrollView: {
   },
@@ -35,6 +39,8 @@ class ZulipStreamView extends React.Component {
   }
 
   componentDidMount() {
+    this.props.getEvents(this.props.account);
+
     // We use requestAnimationFrame to force this to happen in the next
     // iteration of the event loop. This ensures that the last action ends
     // before the new action begins and makes the debug output clearer.
@@ -141,6 +147,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
     getMessages,
+    getEvents,
   }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ZulipStreamView);
