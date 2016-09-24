@@ -7,8 +7,11 @@ import ZulipAccountsView from './user/ZulipAccountsView';
 import ZulipNavBar from './nav/ZulipNavBar';
 import ZulipStreamView from './stream/ZulipStreamView';
 import ZulipComposeBar from './compose/ZulipComposeBar';
+import ZulipDrawer from './userlist/ZulipDrawer';
 
 const ZulipApp = (props) => {
+
+  return <ZulipDrawer />;
   if (!props.loggedIn) {
     return (
       <ZulipAccountsView />
