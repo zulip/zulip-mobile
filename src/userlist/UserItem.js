@@ -17,15 +17,15 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-  }
+  },
 });
 
 export default class UserItem extends Component {
 
   props: {
     name: string,
-    status: sring,
-    onPress: (e: SyntheticEvent) => void,
+    status: string,
+    onPress: () => void,
   }
 
   render() {
@@ -38,6 +38,6 @@ export default class UserItem extends Component {
           <Text style={styles.text}>{name}</Text>
         </View>
       </TouchableHighlight>
-    )
+    );
   }
 }

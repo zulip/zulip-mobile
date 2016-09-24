@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   offline: {
     backgroundColor: 'grey',
-  }
+  },
 });
 
 

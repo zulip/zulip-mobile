@@ -8,7 +8,7 @@ import UsersDrawer from './UsersDrawer';
 const serverPresenceToStatus = (status: string, timestamp: number) =>
   timestamp - Date.now() < 1000 ? status : 'offline';
 
-export default class ZulipDrawer extends Component {
+export default class UserListContainer extends Component {
 
   props: {
     users: string[],
@@ -23,6 +23,6 @@ export default class ZulipDrawer extends Component {
 
     return (
       <UsersDrawer users={users} />
-    )
+    );
   }
 }

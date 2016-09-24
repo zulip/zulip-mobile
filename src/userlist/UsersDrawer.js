@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     marginTop: 20,
+    backgroundColor: 'white',
+    borderColor: 'grey',
   },
 });
 
@@ -26,6 +28,6 @@ export default class UsersDrawer extends Component {
         <UserFilter filter={filter} />
         <UserList users={users} />
       </View>
-    )
+    );
   }
 }
