@@ -114,11 +114,18 @@ export default class ApiClient {
     return res.api_key;
   }
 
-  static async getMessages(account: Account, anchor: number, numBefore: number, numAfter: number) {
+  static async getMessages(
+    account: Account,
+    anchor: number,
+    numBefore: number,
+    numAfter: number,
+    narrow: Object
+  ) {
     const params = encodeAsURI({
       anchor,
       num_before: numBefore,
       num_after: numAfter,
+      narrow: JSON.stringify(narrow),
     });
     const res = await ApiClient.fetch(account, `messages?${params}`, {
       method: 'get',

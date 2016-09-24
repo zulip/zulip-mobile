@@ -8,33 +8,39 @@ import {
 const DEFAULT_PADDING = 8;
 
 const styles = StyleSheet.create({
-  threadGroup: {
+  container: {
     flexDirection: 'column',
     backgroundColor: '#eee',
     marginBottom: DEFAULT_PADDING,
-    borderWidth: 1,
-    borderColor: '#eee',
+    overflow: 'hidden',
   },
-  threadGroupHeader: {
+  header: {
     flexDirection: 'row',
     alignItems: 'flex-start',
   },
-  threadGroupStreamText: {
+  stream: {
     backgroundColor: '#cec',
     padding: DEFAULT_PADDING,
   },
-  threadGroupThreadText: {
+  topic: {
     padding: DEFAULT_PADDING,
+  },
+  private: {
+    flex: 1,
+    backgroundColor: '#333',
+    color: '#fff',
   },
 });
 
-const ZulipMessageGroupView = (props) => (
-  <View style={styles.threadGroup}>
-    <View style={styles.threadGroupHeader}>
-      <Text style={[styles.threadGroupStreamText, { backgroundColor: props.stream.color }]}>
+export const ZulipMessagePrivateHeader = (props) => (
+  <View style={styles.container}>
+    <View style={styles.header}>
+      <Text style={[styles.threadGroupStreamText,
+                    { backgroundColor: props.stream.color }]}
+      >
         {props.stream.name}
       </Text>
-      <Text style={styles.threadGroupThreadText}>
+      <Text style={styles.topic}>
         {props.thread}
       </Text>
     </View>
@@ -42,4 +48,18 @@ const ZulipMessageGroupView = (props) => (
   </View>
 );
 
-export default ZulipMessageGroupView;
+export const ZulipMessageStreamHeader = (props) => (
+  <View style={styles.container}>
+    <View style={styles.header}>
+      <Text style={[styles.stream,
+                    { backgroundColor: props.color }]}
+      >
+        {props.stream}
+      </Text>
+      <Text style={styles.topic}>
+        {props.topic}
+      </Text>
+    </View>
+    {props.children}
+  </View>
+);

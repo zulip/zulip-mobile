@@ -7,16 +7,20 @@ import {
 
 import InfiniteScrollView from './InfiniteScrollView';
 
+import {
+  ZulipMessageStreamHeader,
+  ZulipMessagePrivateHeader,
+} from '../message/ZulipMessageGroupView';
+
+import ZulipMessageView from '../message/ZulipMessageView';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // Actions
 import {
-  getLatestMessages,
+  getMessages,
 } from './streamActions';
-
-import ZulipMessageGroupView from '../message/ZulipMessageGroupView';
-import ZulipMessageView from '../message/ZulipMessageView';
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -25,10 +29,75 @@ const styles = StyleSheet.create({
 
 class ZulipStreamView extends React.Component {
   componentDidMount() {
-    // We use setTimeout with time=0 to force this to happen in the next
+    // We use requestAnimationFrame to force this to happen in the next
     // iteration of the event loop. This ensures that the last action ends
     // before the new action begins and makes the debug output clearer.
-    setTimeout(() => this.props.getLatestMessages(this.props.account), 0);
+    requestAnimationFrame(() =>
+      this.props.getMessages(
+        this.props.account,
+        Number.MAX_SAFE_INTEGER,
+        10,
+        10,
+        this.props.narrow
+      )
+    );
+  }
+
+  fetchOlder() {
+    if (!this.props.fetching) {
+      this.props.getMessages(
+        this.props.account,
+        this.props.pointer[0],
+        10,
+        0,
+        this.props.narrow,
+      );
+    }
+  }
+
+  fetchNewer() {
+    if (!this.props.fetching && !this.props.caughtUp) {
+      this.props.getMessages(
+        this.props.account,
+        this.props.pointer[1],
+        0,
+        10,
+        this.props.narrow,
+      );
+    }
+  }
+
+  renderStream() {
+    let items = [];
+    let headerIndices = [];
+    let prevItem = undefined;
+    let totalIdx = 0;
+    for (let item of this.props.messages) {
+      if (item.type === 'stream') {
+        items.push(
+          <ZulipMessageStreamHeader
+            key={`section_${item.id}`}
+            stream={item.display_recipient}
+            topic={item.subject}
+            color="#ccc"
+          />
+        );
+      }
+      headerIndices.push(totalIdx);
+      totalIdx++;
+      items.push(
+        <ZulipMessageView
+          key={item.id}
+          from={item.sender_full_name}
+          message={item.content}
+          timestamp={item.timestamp}
+          avatarUrl={item.avatar_url}
+        />
+      );
+      totalIdx++;
+      prevItem = item;
+    }
+    return items;
   }
 
   render() {
@@ -36,31 +105,10 @@ class ZulipStreamView extends React.Component {
       <InfiniteScrollView
         style={styles.scrollView}
         automaticallyAdjustContentInset="false"
+        onStartReached={this.fetchOlder.bind(this)}
+        onEndReached={this.fetchNewer.bind(this)}
       >
-        <View />
-        {this.props.messages.map((item) => {
-          if (item.type === 'stream') {
-            return (
-              <ZulipMessageGroupView
-                key={item.id}
-                stream={{
-                  name: item.display_recipient,
-                  color: '#cef',
-                }}
-                thread={item.subject}
-              >
-                <ZulipMessageView
-                  key={item.id}
-                  from={item.sender_full_name}
-                  message={item.content}
-                  timestamp={item.timestamp}
-                  avatar_url={item.avatar_url}
-                />
-              </ZulipMessageGroupView>
-            );
-          }
-          return (<View key={item.id} />);
-        })}
+        {this.renderStream()}
       </InfiniteScrollView>
     );
   }
@@ -70,11 +118,14 @@ const mapStateToProps = (state) => ({
   account: state.user.accounts.get(state.user.activeAccountId),
   messages: state.stream.messages,
   fetching: state.stream.fetching,
+  narrow: state.stream.narrow,
+  pointer: state.stream.pointer,
+  caughtUp: state.stream.caughtUp,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
-    getLatestMessages,
+    getMessages,
   }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ZulipStreamView);

@@ -44,7 +44,7 @@ const ZulipMessageView = (props) => (
   <View style={styles.message}>
     <Image
       style={styles.messageThumbnail}
-      source={{ uri: props.avatar_url }}
+      source={{ uri: props.avatarUrl }}
     />
     <View style={styles.messageContent}>
       <View style={styles.messageHeader}>
