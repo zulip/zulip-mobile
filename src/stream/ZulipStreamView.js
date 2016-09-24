@@ -14,6 +14,7 @@ import {
 } from '../message/ZulipMessageGroupView';
 
 import ZulipMessageView from '../message/ZulipMessageView';
+import { sameRecipient } from '../lib/message.js';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -29,6 +30,7 @@ import {
 
 const styles = StyleSheet.create({
   scrollView: {
+    backgroundColor: '#fff',
   },
 });
 
@@ -79,33 +81,39 @@ class ZulipStreamView extends React.Component {
     }
   }
 
-  renderStream() {
-    let items = [];
+  getHeader(item) {
+    if (item.type === 'stream') {
+      const subscription = this.props.subscriptions.get(item.display_recipient);
+      return (
+        <ZulipStreamMessageHeader
+          key={`section_${item.id}`}
+          stream={item.display_recipient}
+          topic={item.subject}
+          color={subscription ? subscription.color : "#ccc"}
+        />
+      );
+    } else if (item.type === 'private') {
+      return (
+        <ZulipPrivateMessageHeader
+          key={`section_${item.id}`}
+          recipients={item.display_recipient.filter(r =>
+            r.email !== this.props.account.email
+          ).map(r => r.full_name)}
+        />
+      );
+    }
+  }
+
+  populateStream(items) {
     let headerIndices = [];
     let prevItem = undefined;
     let totalIdx = 0;
     for (let item of this.props.messages) {
-      if (item.type === 'stream') {
-        items.push(
-          <ZulipStreamMessageHeader
-            key={`section_${item.id}`}
-            stream={item.display_recipient}
-            topic={item.subject}
-            color="#ccc"
-          />
-        );
-      } else if (item.type === 'private') {
-        items.push(
-          <ZulipPrivateMessageHeader
-            key={`section_${item.id}`}
-            recipients={item.display_recipient.filter(r =>
-              r.email !== this.props.account.email
-            ).map(r => r.full_name)}
-          />
-        );
+      if (!sameRecipient(prevItem, item)) {
+        items.push(this.getHeader(item));
+        headerIndices.push(totalIdx);
+        totalIdx++;
       }
-      headerIndices.push(totalIdx);
-      totalIdx++;
       items.push(
         <ZulipMessageView
           key={item.id}
@@ -118,18 +126,22 @@ class ZulipStreamView extends React.Component {
       totalIdx++;
       prevItem = item;
     }
-    return items;
+    return headerIndices;
   }
 
   render() {
+    let stream = [];
+    const headerIndices = this.populateStream(stream);
     return (
       <InfiniteScrollView
         style={styles.scrollView}
         automaticallyAdjustContentInset="false"
+        autoScrollToBottom={this.props.caughtUp}
+        stickyHeaderIndices={headerIndices}
         onStartReached={this.fetchOlder.bind(this)}
         onEndReached={this.fetchNewer.bind(this)}
       >
-        {this.renderStream()}
+        {stream}
       </InfiniteScrollView>
     );
   }
@@ -140,6 +152,7 @@ const mapStateToProps = (state) => ({
   messages: state.stream.messages,
   fetching: state.stream.fetching,
   narrow: state.stream.narrow,
+  subscriptions: state.realm.subscriptions,
   pointer: state.stream.pointer,
   caughtUp: state.stream.caughtUp,
 });
