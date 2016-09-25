@@ -26,6 +26,7 @@ import ZulipStreamView from '../stream/ZulipStreamView';
 import ZulipNavBar from '../nav/ZulipNavBar';
 import ZulipStreamSidebar from '../nav/ZulipStreamSidebar';
 import ZulipComposeView from '../compose/ZulipComposeView';
+import UserListContainer from '../userlist/UserListContainer';
 
 class ZulipMainView extends React.Component {
   componentDidMount() {
@@ -85,16 +86,16 @@ class ZulipMainView extends React.Component {
   render() {
     return (
       <Drawer
-        open={this.props.streamlistOpened}
-        onOpenStart={this.props.openStreamSidebar}
-        onClose={this.props.closeStreamSidebar}
-        tapToClose={true}
         content={
           <ZulipStreamSidebar
             subscriptions={this.props.subscriptions}
             narrow={this.narrow.bind(this)}
           />
         }
+        open={this.props.streamlistOpened}
+        onOpenStart={this.props.openStreamSidebar}
+        onClose={this.props.closeStreamSidebar}
+        tapToClose={true}
         openDrawerOffset={100}
         negotiatePan={true}
         panOpenMask={0.5}
@@ -102,6 +103,16 @@ class ZulipMainView extends React.Component {
         tweenDuration={150}
         tweenHandler={Drawer.tweenPresets.parallax}
         side={"left"}
+      >
+      <Drawer
+        content={<UserListContainer />}
+        openDrawerOffset={100}
+        negotiatePan={true}
+        panOpenMask={0.5}
+        useInteractionManager={true}
+        tweenDuration={150}
+        tweenHandler={Drawer.tweenPresets.parallax}
+        side={"right"}
       >
         <StatusBar
           animated={true}
@@ -125,6 +136,7 @@ class ZulipMainView extends React.Component {
           />
           <ZulipComposeView />
         </ZulipNavBar>
+      </Drawer>
       </Drawer>
     );
   }
