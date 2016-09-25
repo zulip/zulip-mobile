@@ -25,7 +25,7 @@
     "react/prefer-stateless-function": 0,
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/__tests__/*.js"]}],
-    "react-native/no-unused-styles": 2,
+    # incorrectly defects correct code "react-native/no-unused-styles": 2,
     "react-native/split-platform-components": 2,
     "react-native/no-inline-styles": 2,
     # to enable after refactoring "react-native/no-color-literals": 2,

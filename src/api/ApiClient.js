@@ -143,7 +143,12 @@ export default class ApiClient {
     return res.presences;
   }
 
-  static async messagesFlags(account: Account, messages: number[], op: string, flag: string): number[] {
+  static async messagesFlags(
+    account: Account,
+    messages: number[],
+    op: string,
+    flag: string,
+  ): number[] {
     const res = await ApiClient.fetch(account, 'messages/flags', {
       method: 'post',
       body: encodeAsURI({

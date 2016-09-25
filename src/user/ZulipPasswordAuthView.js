@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  Image,
   TextInput,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -12,6 +11,7 @@ import { connect } from 'react-redux';
 import config from '../config';
 
 import styles from './styles';
+import ZulipLogo from './ZulipLogo';
 import ZulipError from './ZulipError';
 import ZulipButton from './ZulipButton';
 
@@ -43,10 +43,7 @@ export class PasswordAuthView extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <Image
-          style={styles.logo}
-          source={require('../../static/img/zulip-logo.png')} resizeMode="contain"
-        />
+        <ZulipLogo />
 
         <View style={styles.field}>
           <TextInput

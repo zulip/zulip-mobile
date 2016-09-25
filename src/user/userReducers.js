@@ -47,6 +47,8 @@ const reducer = (state = initialState, action) => {
           authBackends: new Immutable.List(action.authBackends),
           activeBackend: null,
           loggedIn: false,
+          directUsers: [],
+          directAdmins: [],
         }),
         pendingServerResponse: false,
         activeAccountId: accountId,
