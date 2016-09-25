@@ -9,8 +9,8 @@ export type Account = {
   apiKey: string,
   authBackends: string[],
   email: string,
-  directAdmins: string[],
-  directUsers: string[],
+  directAdmins?: string[],
+  directUsers?: string[],
   loggedIn: boolean,
   realm: string,
 };
