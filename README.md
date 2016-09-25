@@ -8,7 +8,7 @@ It will initially target iOS only (although most of the code will be cross-platf
 ## Why React Native?
 Pros:
 * Support iOS and Android with one codebase
-* Familar web programming model (React + Javascript + Flexbox)
+* Familiar web programming model (React + Javascript + Flexbox)
 
 Cons:
 * Potential performance issues

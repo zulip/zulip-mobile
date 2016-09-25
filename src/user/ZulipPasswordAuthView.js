@@ -9,6 +9,8 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import config from '../config';
+
 import styles from './styles';
 import ZulipError from './ZulipError';
 import ZulipButton from './ZulipButton';
@@ -24,8 +26,8 @@ export class ZulipPasswordAuthView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: config.defaultLoginEmail,
+      password: config.defaultLoginPassword,
     };
   }
 
