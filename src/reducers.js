@@ -4,6 +4,7 @@ import stream from './stream/streamReducers';
 import errors from './error/errorReducers';
 import realm from './realm/realmReducers';
 import events from './events/eventReducers';
+import nav from './nav/navReducers';
 
 export default combineReducers({
   user,
@@ -11,4 +12,5 @@ export default combineReducers({
   errors,
   realm,
   events,
+  nav,
 });

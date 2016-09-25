@@ -26,6 +26,7 @@ export const getEvents = (account) =>
     });
 
     // Event loop
+    // TODO: fix this
     while (true) {
       const res = await ApiClient.pollForEvents(
         account,

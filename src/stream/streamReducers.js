@@ -4,6 +4,7 @@ import {
   STREAM_FETCHING_MESSAGES,
   STREAM_FETCHED_MESSAGES,
   STREAM_FETCHING_FAILED,
+  STREAM_SET_MESSAGES,
 } from './streamActions';
 
 import {
@@ -55,6 +56,22 @@ const reducer = (state = initialState, action) => {
         pointer: [messages.first().id, messages.last().id],
         fetching: false,
         narrow: action.narrow,
+        caughtUp: action.caughtUp,
+      };
+    }
+
+    case STREAM_SET_MESSAGES:
+    {
+      const messages = new Immutable.List(action.messages);
+      let pointer = [0, 0];
+      if (action.messages.length) {
+        pointer = [messages.first().id, messages.last().id];
+      }
+      return {
+        ...state,
+        messages: messages,
+        pointer: pointer,
+        fetching: action.fetching,
         caughtUp: action.caughtUp,
       };
     }

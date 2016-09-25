@@ -25,20 +25,23 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   messageHeader: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 4,
   },
   messageUser: {
     fontWeight: 'bold',
+    fontSize: 15,
   },
   messageTime: {
     color: '#999',
-    fontSize: 12,
+    fontSize: 15,
   },
   messageThumbnail: {
-    width: 34,
-    height: 34,
-    marginRight: DEFAULT_PADDING * 2,
+    width: 36,
+    height: 36,
+    marginRight: DEFAULT_PADDING,
     borderRadius: 2,
   },
 });

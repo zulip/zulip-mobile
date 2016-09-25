@@ -16,69 +16,16 @@ import {
 import ZulipMessageView from '../message/ZulipMessageView';
 import { sameRecipient } from '../lib/message.js';
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
-// Actions
-import {
-  getMessages,
-} from './streamActions';
-
-import {
-  getEvents,
-} from '../events/eventActions';
-
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: '#fff',
   },
 });
 
-class ZulipStreamView extends React.Component {
+export default class ZulipStreamView extends React.Component {
   constructor(props) {
     super(props);
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.getEvents(this.props.account);
-
-    // We use requestAnimationFrame to force this to happen in the next
-    // iteration of the event loop. This ensures that the last action ends
-    // before the new action begins and makes the debug output clearer.
-    requestAnimationFrame(() =>
-      this.props.getMessages(
-        this.props.account,
-        Number.MAX_SAFE_INTEGER,
-        10,
-        10,
-        this.props.narrow
-      )
-    );
-  }
-
-  fetchOlder() {
-    if (!this.props.fetching) {
-      this.props.getMessages(
-        this.props.account,
-        this.props.pointer[0],
-        10,
-        0,
-        this.props.narrow,
-      );
-    }
-  }
-
-  fetchNewer() {
-    if (!this.props.fetching && !this.props.caughtUp) {
-      this.props.getMessages(
-        this.props.account,
-        this.props.pointer[1],
-        0,
-        10,
-        this.props.narrow,
-      );
-    }
   }
 
   getHeader(item) {
@@ -90,6 +37,8 @@ class ZulipStreamView extends React.Component {
           stream={item.display_recipient}
           topic={item.subject}
           color={subscription ? subscription.color : "#ccc"}
+          item={item}
+          narrow={this.props.narrow}
         />
       );
     } else if (item.type === 'private') {
@@ -97,8 +46,10 @@ class ZulipStreamView extends React.Component {
         <ZulipPrivateMessageHeader
           key={`section_${item.id}`}
           recipients={item.display_recipient.filter(r =>
-            r.email !== this.props.account.email
-          ).map(r => r.full_name)}
+            r.email !== this.props.email
+          )}
+          item={item}
+          narrow={this.props.narrow}
         />
       );
     }
@@ -138,29 +89,11 @@ class ZulipStreamView extends React.Component {
         automaticallyAdjustContentInset="false"
         autoScrollToBottom={this.props.caughtUp}
         stickyHeaderIndices={headerIndices}
-        onStartReached={this.fetchOlder.bind(this)}
-        onEndReached={this.fetchNewer.bind(this)}
+        onStartReached={this.props.fetchOlder}
+        onEndReached={this.props.fetchNewer}
       >
         {stream}
       </InfiniteScrollView>
     );
   }
 }
-
-const mapStateToProps = (state) => ({
-  account: state.user.accounts.get(state.user.activeAccountId),
-  messages: state.stream.messages,
-  fetching: state.stream.fetching,
-  narrow: state.stream.narrow,
-  subscriptions: state.realm.subscriptions,
-  pointer: state.stream.pointer,
-  caughtUp: state.stream.caughtUp,
-});
-
-const mapDispatchToProps = (dispatch, ownProps) =>
-  bindActionCreators({
-    getMessages,
-    getEvents,
-  }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(ZulipStreamView);

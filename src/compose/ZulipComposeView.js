@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     borderTopWidth: 1,
     borderTopColor: '#999',
+    backgroundColor: '#fff',
   },
   threadBox: {
     flex: 1,
@@ -95,7 +96,7 @@ export default class ZulipComposeView extends React.Component {
             style={styles.composeInput}
             multiline
             onChangeText={(text) => this.setState({ editing: text.length > 0 })}
-            placeholder="Tell me a secret.."
+            placeholder="Start typing.."
           />
           {this.state.editing ? this.renderSendButton() : <View />}
         </View>

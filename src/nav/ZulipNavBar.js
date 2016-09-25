@@ -32,35 +32,42 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headingText: {
-    fontSize: 14,
+    fontSize: 16,
   },
   leftButton: {
-    width: 40,
-    fontFamily: 'Apple SD Gothic Neo',
     textAlign: 'left',
+    fontSize: 16,
   },
   rightButton: {
-    width: 40,
     textAlign: 'right',
+    fontSize: 16,
   },
 });
 
-const ZulipNavBar = (props) => (
-  <Navigator
-    initialRoute={{ name: 'All Streams', index: 0 }}
-    renderScene={(route) =>
-      <View style={styles.container}>
-        <View style={styles.navBar}>
-          <Text style={styles.leftButton}>Streams</Text>
-          <View style={styles.heading}>
-            <Text style={styles.headingText}>{route.name}</Text>
+class ZulipNavBar extends React.Component {
+  render() {
+    return (
+      <Navigator
+        initialRoute={{ name: 'Home', index: 0 }}
+        renderScene={(route) =>
+          <View style={styles.container}>
+            <View style={styles.navBar}>
+              <Text style={styles.leftButton} onPress={this.props.onPressLeft}>
+                Streams
+              </Text>
+              <View style={styles.heading}>
+                <Text style={styles.headingText}>
+                  {route.name}
+                </Text>
+              </View>
+              <Text style={styles.rightButton}>Users</Text>
+            </View>
+            {this.props.children}
           </View>
-          <Text style={styles.rightButton}>Users</Text>
-        </View>
-        {props.children}
-      </View>
-    }
-  />
-);
+        }
+      />
+    );
+  }
+};
 
 export default ZulipNavBar;

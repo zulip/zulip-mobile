@@ -4,6 +4,18 @@ export const STREAM_FETCHING_MESSAGES = 'STREAM_FETCHING_MESSAGES';
 export const STREAM_FETCHED_MESSAGES = 'STREAM_FETCHED_MESSAGES';
 export const STREAM_FETCHING_FAILED = 'STREAM_FETCHING_FAILED';
 
+export const STREAM_SET_MESSAGES = 'STREAM_SET_MESSAGES';
+
+export const setMessages = (messages, fetching=true, caughtUp=true) =>
+  (dispatch) => {
+    dispatch({
+      type: STREAM_SET_MESSAGES,
+      messages: messages,
+      fetching,
+      caughtUp
+    });
+  };
+
 export const getMessages = (
   account,
   anchor,
