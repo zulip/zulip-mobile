@@ -1,3 +1,5 @@
+import Immutable from 'immutable';
+
 import {
   ACCOUNT_ADD_PENDING,
   ACCOUNT_ADD_SUCCEEDED,
@@ -11,8 +13,6 @@ import {
   DEV_EMAILS_SUCCEEDED,
   DEV_EMAILS_FAILED,
 } from './userActions';
-
-import Immutable from 'immutable';
 
 // Initial state
 const UserRecord = Immutable.Record({

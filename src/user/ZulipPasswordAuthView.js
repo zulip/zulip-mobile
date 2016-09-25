@@ -22,7 +22,7 @@ import {
   attemptLogin,
 } from './userActions';
 
-export class ZulipPasswordAuthView extends React.Component {
+export class PasswordAuthView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,7 +50,6 @@ export class ZulipPasswordAuthView extends React.Component {
 
         <View style={styles.field}>
           <TextInput
-            ref="emailInput"
             autoCorrect={false}
             autoFocus
             style={styles.input}
@@ -62,7 +61,6 @@ export class ZulipPasswordAuthView extends React.Component {
         </View>
         <View style={styles.field}>
           <TextInput
-            ref="passwordInput"
             style={styles.input}
             placeholder="Password"
             secureTextEntry
@@ -95,4 +93,4 @@ const mapDispatchToProps = (dispatch, ownProps) =>
     markErrorsAsHandled,
   }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ZulipPasswordAuthView);
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordAuthView);

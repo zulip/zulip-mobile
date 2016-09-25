@@ -6,7 +6,7 @@ export const markErrorsAsHandled = (errors) =>
     if (!errors.isEmpty()) {
       dispatch({
         type: ERROR_HANDLED,
-        errors: errors,
+        errors,
       });
     }
   };

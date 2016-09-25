@@ -1,10 +1,10 @@
+import Immutable from 'immutable';
+
 import {
   STREAM_FETCHING_MESSAGES,
   STREAM_NEW_MESSAGES,
   STREAM_FETCHING_FAILED,
 } from './streamActions';
-
-import Immutable from 'immutable';
 
 // Initial state
 const initialState = {

@@ -1,4 +1,6 @@
 import React from 'react';
+import moment from 'moment';
+
 import {
   StyleSheet,
   View,
@@ -6,8 +8,6 @@ import {
   Image,
 } from 'react-native';
 import ZulipMessageTextView from '../message/ZulipMessageTextView';
-
-import moment from 'moment';
 
 const DEFAULT_PADDING = 8;
 
@@ -31,9 +31,6 @@ const styles = StyleSheet.create({
   messageTime: {
     color: '#999',
     fontSize: 12,
-  },
-  messageText: {
-    textAlign: 'left',
   },
   messageThumbnail: {
     width: 34,
