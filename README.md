@@ -17,9 +17,16 @@ Cons:
 * Potential performance issues
 * Greater technical risk (new ecosystem, not as battle-tested as native code)
 
-## Development
+## Contributing
 
 Please see the [developer guide](https://github.com/zulip/zulip-mobile/tree/master/docs/developer-guide.md).
+
+* **Pull requests**. Before a pull request can be merged, you need to
+sign the [Dropbox Contributor License Agreement][cla].  Also,
+please skim our [commit message style guidelines][doc-commit-style].
+
+[cla]: https://opensource.dropbox.com/cla/
+[doc-commit-style]: http://zulip.readthedocs.io/en/latest/code-style.html#commit-messages
 
 ## License
 
