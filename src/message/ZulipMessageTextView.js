@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Text,
   Image,
   Linking,
 } from 'react-native';
@@ -15,18 +14,21 @@ const styles = {
   pre: {
     backgroundColor: '#eee',
     fontFamily: 'Menlo',
-  }
-}
+  },
+};
 
 const renderNode = (node, index, list) => {
   if (node.type === 'tag') {
     if (node.name === 'img') {
       const source = {
         uri: node.attribs.src,
-      }
-      return <Image key={index} source={source} style={styles.img} />
+      };
+      return (
+        <Image key={index} source={source} style={styles.img} />
+      );
     }
   }
+  return null;
 };
 
 class ZulipMessageTextView extends React.Component {
@@ -36,9 +38,9 @@ class ZulipMessageTextView extends React.Component {
         value={this.props.message}
         stylesheet={styles}
         renderNode={renderNode}
-        // NOTE: we need to add .bind(Linking) due to a bug
-        // in the react-native-htmlview library
-        onLinkPress={Linking.openURL.bind(Linking)}
+        // NOTE: is .bind(Linking) still needed because of react-native-htmlview
+        // it creates a new function on each component render
+        onLinkPress={Linking.openURL}
       />
     );
   }

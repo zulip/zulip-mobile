@@ -10,6 +10,8 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import config from '../config';
+
 // Actions
 import { markErrorsAsHandled } from '../error/errorActions';
 import {
@@ -26,12 +28,8 @@ class ZulipAccountsView extends React.Component {
   constructor(props) {
     super(props);
 
-    let defaultRealm = '';
-    if (process.env.NODE_ENV === 'development') {
-      defaultRealm = 'http://localhost:9991';
-    }
     this.state = {
-      realm: defaultRealm,
+      realm: process.env.NODE_ENV === 'development' ? config.devRealm : config.productionRealm,
     };
   }
 
@@ -58,16 +56,15 @@ class ZulipAccountsView extends React.Component {
         />
 
         <View style={styles.field}>
-            <Text style={styles.heading1}>Welcome to Zulip</Text>
+          <Text style={styles.heading1}>Welcome to Zulip</Text>
         </View>
 
         <View style={styles.smallField}>
-            <Text style={styles.label}>Server address</Text>
+          <Text style={styles.label}>Server address</Text>
         </View>
 
         <View style={styles.field}>
           <TextInput
-            ref="realmInput"
             style={styles.input}
             autoFocus
             autoCorrect={false}
