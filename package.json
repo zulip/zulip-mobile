@@ -25,6 +25,8 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
+    "redux-persist": "^4.0.0-alpha5",
+    "redux-thunk": "^2.0.1",
     "stream": "0.0.2"
   },
   "devDependencies": {
