@@ -1,25 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// UI elements
+import MainView from './main/MainView';
 import ZulipAccountsView from './user/ZulipAccountsView';
 
-import ZulipNavBar from './nav/ZulipNavBar';
-import ZulipStreamView from './stream/ZulipStreamView';
-import ZulipComposeBar from './compose/ZulipComposeBar';
-
 const ZulipApp = (props) => {
-  if (!props.loggedIn) {
-    return (
-      <ZulipAccountsView />
-    );
-  }
-  return (
-    <ZulipNavBar>
-      <ZulipStreamView />
-      <ZulipComposeBar />
-    </ZulipNavBar>
-  );
+  return props.loggedIn ? <MainView /> : <ZulipAccountsView />;
 };
 
 const mapStateToProps = (state) => ({
