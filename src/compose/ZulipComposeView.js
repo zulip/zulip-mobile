@@ -28,19 +28,19 @@ const styles = StyleSheet.create({
   threadInput: {
     flex: 1,
     padding: 8,
-    fontSize: 14,
+    fontSize: 16,
     backgroundColor: '#eee',
   },
   streamInput: {
     flex: 1,
     padding: 8,
-    fontSize: 14,
+    fontSize: 16,
     backgroundColor: '#ccc',
   },
   composeInput: {
     flex: 1,
     padding: 8,
-    fontSize: 14,
+    fontSize: 16,
   },
   sendButton: {
     flexDirection: 'row',

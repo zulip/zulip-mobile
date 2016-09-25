@@ -37,10 +37,12 @@ const styles = StyleSheet.create({
   leftButton: {
     textAlign: 'left',
     fontSize: 16,
+    width: 50,
   },
   rightButton: {
     textAlign: 'right',
     fontSize: 16,
+    width: 50,
   },
 });
 
