@@ -62,7 +62,6 @@ class ZulipAccountsView extends React.Component {
 
         <View style={styles.field}>
           <TextInput
-            ref="realmInput"
             style={styles.input}
             autoFocus
             autoCorrect={false}
