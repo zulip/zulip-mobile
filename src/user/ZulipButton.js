@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 5,
     width: 260,
+    marginBottom: 10,
   },
   primaryContainer: {
     backgroundColor: '#22693F',

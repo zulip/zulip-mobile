@@ -2,6 +2,7 @@ import React from 'react';
 import {
   View,
   Text,
+  ScrollView,
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
@@ -21,6 +22,7 @@ import {
 } from './userActions';
 
 class ZulipDevAuthView extends React.Component {
+
   componentWillMount() {
     // Fetch list of dev accounts when component is mounted
     //
@@ -48,26 +50,28 @@ class ZulipDevAuthView extends React.Component {
         <Text style={styles.heading1}>
           Zulip Dev Login
         </Text>
-        <Text style={styles.heading2}>
+        <Text style={styles.label}>
           Choose a user:
         </Text>
-        {activeBackend &&
-          directAdmins.map((user) =>
+        <ScrollView>
+          {activeBackend &&
+            directAdmins.map((user) =>
+              <ZulipButton
+                key={user}
+                text={user}
+                onPress={() => this.loginPressed(user)}
+              />
+            )
+          }
+          {directUsers.map((user) =>
             <ZulipButton
               key={user}
               text={user}
+              secondary
               onPress={() => this.loginPressed(user)}
             />
-          )
-        }
-        {directUsers.map((user) =>
-          <ZulipButton
-            key={user}
-            text={user}
-            secondary
-            onPress={() => this.loginPressed(user)}
-          />
-        )}
+          )}
+        </ScrollView>
       </View>
     );
   }
