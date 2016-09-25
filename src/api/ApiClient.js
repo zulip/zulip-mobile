@@ -1,5 +1,5 @@
-import { encodeAsURI } from '../lib/util.js';
 import base64 from 'base-64';
+import { encodeAsURI } from '../lib/util.js';
 
 const apiVersion = 'api/v1';
 

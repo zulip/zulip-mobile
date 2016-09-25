@@ -34,10 +34,6 @@ const styles = StyleSheet.create({
   headingText: {
     fontSize: 14,
   },
-  headingCarot: {
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
   leftButton: {
     width: 40,
     fontFamily: 'Apple SD Gothic Neo',

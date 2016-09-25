@@ -56,16 +56,15 @@ class ZulipAccountsView extends React.Component {
         />
 
         <View style={styles.field}>
-            <Text style={styles.heading1}>Welcome to Zulip</Text>
+          <Text style={styles.heading1}>Welcome to Zulip</Text>
         </View>
 
         <View style={styles.smallField}>
-            <Text style={styles.label}>Server address</Text>
+          <Text style={styles.label}>Server address</Text>
         </View>
 
         <View style={styles.field}>
           <TextInput
-            ref="realmInput"
             style={styles.input}
             autoFocus
             autoCorrect={false}
