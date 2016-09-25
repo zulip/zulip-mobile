@@ -2,13 +2,14 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableHighlight,
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import ZulipLogo from './ZulipLogo';
 import ZulipError from './ZulipError';
+import ZulipButton from './ZulipButton';
 import styles from './styles';
 
 // Actions
@@ -18,16 +19,6 @@ import {
   attemptDevLogin,
   getDevEmails,
 } from './userActions';
-
-const ZulipUserLoginButton = (props) =>
-  <View style={styles.field}>
-    <TouchableHighlight
-      style={[styles.userButton, props.admin ? styles.admin : styles.user]}
-      onPress={props.attemptLogin}
-    >
-      <Text>{props.email}</Text>
-    </TouchableHighlight>
-  </View>;
 
 class ZulipDevAuthView extends React.Component {
   componentWillMount() {
@@ -39,41 +30,20 @@ class ZulipDevAuthView extends React.Component {
     setTimeout(() => this.props.getDevEmails(this.props.account), 0);
   }
 
+  loginPressed = (user) => {
+    this.props.markErrorsAsHandled(this.props.errors);
+    this.props.attemptDevLogin(
+      this.props.account,
+      user,
+    );
+  };
+
   render() {
-    let directAdmins = [];
-    let directUsers = [];
-    if (this.props.account.activeBackend) {
-      // Render list of realm admins
-      directAdmins = this.props.account.directAdmins.map((user) =>
-        <ZulipUserLoginButton
-          key={user}
-          email={user}
-          admin
-          attemptLogin={() => this.props.attemptDevLogin(
-            this.props.account,
-            user,
-          )}
-        />
-      );
-      // Render list of realm users
-      directUsers = this.props.account.directUsers.map((user) =>
-        <ZulipUserLoginButton
-          key={user}
-          email={user}
-          admin={false}
-          attemptLogin={() => {
-            this.props.markErrorsAsHandled(this.props.errors);
-            this.props.attemptDevLogin(
-              this.props.account,
-              user,
-            );
-          }}
-        />
-      );
-    }
+    const { directAdmins, directUsers, activeBackend } = this.props.account;
 
     return (
       <View style={styles.container}>
+        <ZulipLogo />
         <ZulipError errors={this.props.errors} />
         <Text style={styles.heading1}>
           Zulip Dev Login
@@ -81,8 +51,23 @@ class ZulipDevAuthView extends React.Component {
         <Text style={styles.heading2}>
           Choose a user:
         </Text>
-        {directAdmins}
-        {directUsers}
+        {activeBackend &&
+          directAdmins.map((user) =>
+            <ZulipButton
+              key={user}
+              text={user}
+              onPress={() => this.loginPressed(user)}
+            />
+          )
+        }
+        {directUsers.map((user) =>
+          <ZulipButton
+            key={user}
+            text={user}
+            secondary
+            onPress={() => this.loginPressed(user)}
+          />
+        )}
       </View>
     );
   }
