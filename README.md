@@ -1,6 +1,9 @@
 # Zulip Mobile
 **NOTE: VERY EARLY PROOF OF CONCEPT (NOT USABLE)**
 
+[![Build Status](https://travis-ci.org/zulip/zulip-mobile.svg?branch=master)](https://travis-ci.org/zulip/zulip-mobile)
+
+
 Zulip Mobile is a new, experimental mobile client written in Javascript with React Native. The current goal is to assess whether React Native makes sense as a long-term direction for the mobile apps.
 
 It will initially target iOS only (although most of the code will be cross-platform).
