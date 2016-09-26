@@ -4,13 +4,11 @@ import {
   View,
   Text,
 } from 'react-native';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {
-  privateNarrow,
   streamNarrow,
   topicNarrow,
-} from '../lib/narrow.js';
+} from '../lib/narrow';
 
 const DEFAULT_PADDING = 8;
 
@@ -37,38 +35,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export class ZulipPrivateMessageHeader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-  }
-
-  render() {
-    const others = this.props.recipients.map(r => r.full_name).sort().join(', ');
-    const title = others ? `You and ${others}` : 'Just You';
-
-    return (
-      <View style={styles.header}>
-        <Text
-          style={[styles.stream, styles.private]}
-          onPress={() => this.props.narrow(
-            privateNarrow(this.props.recipients.map(r => r.email)),
-            this.props.item.id,
-            [this.props.item]
-          )}
-        >
-          {title}
-        </Text>
-      </View>
-    );
-  }
-};
-
-export class ZulipStreamMessageHeader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-  }
+export default class ZulipStreamMessageHeader extends React.PureComponent {
 
   render() {
     return (
@@ -96,4 +63,4 @@ export class ZulipStreamMessageHeader extends React.Component {
       </View>
     );
   }
-};
+}

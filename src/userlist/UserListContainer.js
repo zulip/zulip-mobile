@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
 import UsersDrawer from './UsersDrawer';
 
 const serverPresenceToStatus = (status: string, timestamp: number) =>
-  timestamp - Date.now() < 1000 ? status : 'offline';
+  (timestamp - Date.now() < 1000 ? status : 'offline');
 
 export default class UserListContainer extends Component {
 
@@ -18,7 +14,7 @@ export default class UserListContainer extends Component {
     const users = [
       { status: 'active', name: 'Boris' },
       { status: 'idle', name: 'Tim' },
-      { status: 'offline', name: 'Bob' },
+      { status: 'offline', name: 'Neraj' },
     ];
 
     return (

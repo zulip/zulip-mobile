@@ -20,7 +20,7 @@ const initialState = {
   narrow: {},
 };
 
-function mergeMessages(state, action, appendNewMessages=false) {
+function mergeMessages(state, action, appendNewMessages = false) {
   if (appendNewMessages) {
     return state.messages.filter((v) =>
       v.id !== action.anchor
@@ -43,8 +43,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         fetching: false,
       };
-    case STREAM_FETCHED_MESSAGES:
-    {
+    case STREAM_FETCHED_MESSAGES: {
       /**
        * We've received messages and need to combine them with our
        * existing messages
@@ -52,7 +51,7 @@ const reducer = (state = initialState, action) => {
       const messages = mergeMessages(state, action, action.shouldAppend);
       return {
         ...state,
-        messages: messages,
+        messages,
         pointer: [messages.first().id, messages.last().id],
         fetching: false,
         narrow: action.narrow,
@@ -60,8 +59,7 @@ const reducer = (state = initialState, action) => {
       };
     }
 
-    case STREAM_SET_MESSAGES:
-    {
+    case STREAM_SET_MESSAGES: {
       const messages = new Immutable.List(action.messages);
       let pointer = [0, 0];
       if (action.messages.length) {
@@ -69,8 +67,8 @@ const reducer = (state = initialState, action) => {
       }
       return {
         ...state,
-        messages: messages,
-        pointer: pointer,
+        messages,
+        pointer,
         fetching: action.fetching,
         caughtUp: action.caughtUp,
       };

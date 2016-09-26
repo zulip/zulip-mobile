@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import UserList from './UserList';
 
 const styles = StyleSheet.create({
   common: {
@@ -36,6 +35,6 @@ export default class UserStatusIndicator extends Component {
 
     return (
       <View style={[styles.common, styles[status]]} />
-    )
+    );
   }
 }

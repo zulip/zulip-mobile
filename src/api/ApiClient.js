@@ -1,5 +1,5 @@
 import base64 from 'base-64';
-import { encodeAsURI } from '../lib/util.js';
+import { encodeAsURI } from '../lib/util';
 
 const apiVersion = 'api/v1';
 
@@ -168,7 +168,7 @@ export default class ApiClient {
   }
 
   static async registerForEvents(account) {
-    const res = await ApiClient.fetch(account, `register`, {
+    const res = await ApiClient.fetch(account, 'register', {
       method: 'post',
     });
     return res;

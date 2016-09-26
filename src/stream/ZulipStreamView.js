@@ -1,20 +1,15 @@
 import React from 'react';
 import {
   StyleSheet,
-  ScrollView,
-  View,
 } from 'react-native';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import InfiniteScrollView from './InfiniteScrollView';
 
-import {
-  ZulipStreamMessageHeader,
-  ZulipPrivateMessageHeader,
-} from '../message/ZulipMessageGroupView';
+import ZulipStreamMessageHeader from '../message/ZulipStreamMessageHeader';
+import ZulipPrivateMessageHeader from '../message/ZulipPrivateMessageHeader';
 
 import ZulipMessageView from '../message/ZulipMessageView';
-import { sameRecipient } from '../lib/message.js';
+import { sameRecipient } from '../lib/message';
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -22,11 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ZulipStreamView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-  }
+export default class ZulipStreamView extends React.PureComponent {
 
   getHeader(item) {
     if (item.type === 'stream') {
@@ -36,7 +27,7 @@ export default class ZulipStreamView extends React.Component {
           key={`section_${item.id}`}
           stream={item.display_recipient}
           topic={item.subject}
-          color={subscription ? subscription.color : "#ccc"}
+          color={subscription ? subscription.color : '#ccc'}
           item={item}
           narrow={this.props.narrow}
         />
@@ -53,13 +44,14 @@ export default class ZulipStreamView extends React.Component {
         />
       );
     }
+    return undefined;
   }
 
   populateStream(items) {
-    let headerIndices = [];
-    let prevItem = undefined;
+    const headerIndices = [];
+    let prevItem;
     let totalIdx = 0;
-    for (let item of this.props.messages) {
+    for (const item of this.props.messages) {
       if (!sameRecipient(prevItem, item)) {
         items.push(this.getHeader(item));
         headerIndices.push(totalIdx);
@@ -81,7 +73,7 @@ export default class ZulipStreamView extends React.Component {
   }
 
   render() {
-    let stream = [];
+    const stream = [];
     const headerIndices = this.populateStream(stream);
     return (
       <InfiniteScrollView

@@ -5,7 +5,7 @@ import {
 // Initial state
 const initialState = {
   queueId: null,
-}
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -15,7 +15,7 @@ const reducer = (state = initialState, action) => {
         queueId: action.queueId,
       };
     default:
-     return state;
+      return state;
   }
 };
 

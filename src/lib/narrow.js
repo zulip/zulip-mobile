@@ -43,5 +43,5 @@ export const topicNarrow = (stream, topic) => [
     negated: false,
     operator: 'topic',
     operand: topic,
-  }
+  },
 ];
