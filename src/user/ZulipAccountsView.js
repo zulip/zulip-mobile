@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Image,
   View,
   Text,
   TextInput,
@@ -21,6 +20,7 @@ import {
 import ZulipPasswordAuthView from './ZulipPasswordAuthView';
 import ZulipDevAuthView from './ZulipDevAuthView';
 import styles from './styles';
+import ZulipLogo from './ZulipLogo';
 import ZulipError from './ZulipError';
 import ZulipButton from './ZulipButton';
 
@@ -50,10 +50,7 @@ class ZulipAccountsView extends React.Component {
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <Image
-          style={styles.logo}
-          source={require('../../static/img/zulip-logo.png')} resizeMode="contain"
-        />
+        <ZulipLogo />
 
         <View style={styles.field}>
           <Text style={styles.heading1}>Welcome to Zulip</Text>

@@ -11,11 +11,6 @@ export default StyleSheet.create({
     marginTop: STATUS_BAR_HEIGHT,
     padding: 20,
   },
-  logo: {
-    width: 100,
-    height: 100,
-    alignSelf: 'center',
-  },
   heading1: {
     fontSize: 24,
   },

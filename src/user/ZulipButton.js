@@ -8,23 +8,36 @@ import {
 } from 'react-native';
 
 const styles = StyleSheet.create({
-  buttonFrame: {
+  container: {
     flex: 1,
     alignItems: 'center',
     height: 44,
-    backgroundColor: '#22693F',
     justifyContent: 'center',
     borderRadius: 5,
     width: 260,
+    marginBottom: 10,
   },
-  buttonTouchTarget: {
+  primaryContainer: {
+    backgroundColor: '#22693F',
+  },
+  secondaryContainer: {
+    borderColor: '#22693F',
+    borderWidth: 2,
+  },
+  touchTarget: {
     flex: 1,
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonText: {
+  text: {
     color: '#FFFFFF',
+  },
+  primarytext: {
+    color: 'white',
+  },
+  secondaryText: {
+    color: '#22693F',
   },
 });
 
@@ -32,18 +45,29 @@ export default class ZulipButton extends React.Component {
 
   props: {
     progress: boolean,
+    text: string,
+    secondary: boolean,
+    onPress: () => void,
   }
 
   render() {
-    const { text, progress, onPress } = this.props;
+    const { text, secondary, progress, onPress } = this.props;
+    const containerStyle = [
+      styles.container,
+      secondary ? styles.secondaryContainer : styles.primaryContainer,
+    ];
+    const textStyle = [
+      styles.text,
+      secondary ? styles.secondaryText : styles.primaryText,
+    ];
 
     return progress ?
-      <View style={[styles.buttonFrame, this.props.style]}>
+      <View style={containerStyle}>
         <ActivityIndicator />
       </View> :
-      <View style={[styles.buttonFrame, this.props.style]}>
-        <TouchableHighlight style={styles.buttonTouchTarget} onPress={onPress}>
-          <Text style={styles.buttonText}>
+      <View style={containerStyle}>
+        <TouchableHighlight style={styles.touchTarget} onPress={onPress}>
+          <Text style={textStyle}>
             {text}
           </Text>
         </TouchableHighlight>

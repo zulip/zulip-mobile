@@ -6,22 +6,27 @@
     "start": "react-native start",
     "ios": "react-native run-ios",
     "test:lint": "eslint src/",
-    "test:flow": "flow",
+    "test:flow": "node_modules/.bin/flow check",
     "test:unit": "mocha --recursive src/**/__tests__/*-test.js --require react-native-mock/mock.js --compilers js:babel-core/register",
     "test": "npm run test:lint && npm run test:flow && npm run test:unit"
   },
   "dependencies": {
     "base-64": "^0.1.0",
+    "buffer": "^4.9.1",
+    "entities": "^1.1.1",
+    "events": "^1.1.1",
+    "htmlparser2": "^3.9.1",
     "immutable": "^3.8.1",
     "moment": "^2.15.1",
     "react": "~15.3.2",
     "react-native": "^0.34.0",
-    "react-native-htmlview": "^0.5.0",
+    "react-native-drawer": "^2.3.0",
     "react-redux": "^4.4.5",
     "redux": "^3.6.0",
     "redux-logger": "^2.6.1",
     "redux-persist": "^4.0.0-alpha5",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "stream": "0.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.14.0",
@@ -35,6 +40,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
     "eslint-plugin-react-native": "^2.0.0",
+    "flow-bin": "^0.32.0",
     "mocha": "^3.0.2",
     "react-native-cli": "^1.0.0",
     "react-native-mock": "^0.2.6"
