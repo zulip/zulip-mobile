@@ -6,7 +6,7 @@
     "start": "react-native start",
     "ios": "react-native run-ios",
     "test:lint": "eslint src/",
-    "test:flow": "flow check",
+    "test:flow": "node_modules/.bin/flow check",
     "test:unit": "mocha --recursive src/**/__tests__/*-test.js --require react-native-mock/mock.js --compilers js:babel-core/register",
     "test": "npm run test:lint && npm run test:flow && npm run test:unit"
   },
@@ -39,6 +39,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
     "eslint-plugin-react-native": "^2.0.0",
+    "flow-bin": "^0.32.0",
     "mocha": "^3.0.2",
     "react-native-cli": "^1.0.0",
     "react-native-mock": "^0.2.6"
