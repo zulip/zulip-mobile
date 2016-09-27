@@ -8,8 +8,8 @@ const ZulipApp = (props) =>
   (props.loggedIn ? <ZulipMainView /> : <ZulipAccountsView />);
 
 const mapStateToProps = (state) => ({
-  loggedIn: state.user.accounts.some((account) => account.loggedIn) &&
-            state.user.activeAccountId !== null,
+  isLoggedIn: state.auth.isLoggedIn,
+// accounts.some((account) => account.loggedIn) && state.user.activeAccountId !== null
 });
 
 export default connect(mapStateToProps)(ZulipApp);

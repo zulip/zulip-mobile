@@ -33,10 +33,8 @@ const reducer = (state = initialState, action) => {
       return state.merge({
         accounts: state.accounts.set(accountId, {
           accountId,
-          realm: action.realm,
           authBackends: new Immutable.List(action.authBackends),
           activeBackend: null,
-          loggedIn: false,
           directUsers: [],
           directAdmins: [],
         }),

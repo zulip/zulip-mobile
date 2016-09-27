@@ -1,10 +1,4 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  KeyboardAvoidingView,
-} from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -19,10 +13,8 @@ import {
 
 import ZulipPasswordAuthView from './ZulipPasswordAuthView';
 import ZulipDevAuthView from './ZulipDevAuthView';
-import styles from '../common/styles';
-import ZulipLogo from '../common/ZulipLogo';
-import ZulipError from '../common/ZulipError';
-import ZulipButton from '../common/ZulipButton';
+
+import ZulipRealmView from './ZulipRealmView';
 
 class ZulipAccountsView extends React.Component {
   constructor(props) {
@@ -39,8 +31,10 @@ class ZulipAccountsView extends React.Component {
   }
 
   render() {
-    if (this.props.activeAccountId) {
-      const activeAccount = this.props.accounts.get(this.props.activeAccountId);
+    const { accounts, activeAccountId } = this.props;
+
+    if (activeAccountId) {
+      const activeAccount = accounts[activeAccountId];
       if (activeAccount.authBackends.includes('dev')) {
         return <ZulipDevAuthView />;
       } else {
@@ -48,41 +42,7 @@ class ZulipAccountsView extends React.Component {
       }
     }
 
-    return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <ZulipLogo />
-
-        <View style={styles.field}>
-          <Text style={styles.heading1}>Welcome to Zulip</Text>
-        </View>
-
-        <View style={styles.smallField}>
-          <Text style={styles.label}>Server address</Text>
-        </View>
-
-        <View style={styles.field}>
-          <TextInput
-            style={styles.input}
-            autoFocus
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholder="www.zulip.com"
-            value={this.state.realm}
-            onChangeText={realm => this.setState({ realm })}
-          />
-        </View>
-
-        <View style={styles.field}>
-          <ZulipButton
-            text="Next"
-            progress={this.props.pendingServerResponse}
-            onPress={this.onRealmEnter}
-          />
-        </View>
-
-        <ZulipError errors={this.props.errors} />
-      </KeyboardAvoidingView>
-    );
+    return <ZulipRealmView />;
   }
 }
 
