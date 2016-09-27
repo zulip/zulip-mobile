@@ -10,10 +10,10 @@ import { connect } from 'react-redux';
 
 import config from '../config';
 
-import styles from './styles';
-import ZulipLogo from './ZulipLogo';
-import ZulipError from './ZulipError';
-import ZulipButton from './ZulipButton';
+import styles from '../common/styles';
+import ZulipLogo from '../common/ZulipLogo';
+import ZulipError from '../common/ZulipError';
+import ZulipButton from '../common/ZulipButton';
 
 // Actions
 import { markErrorsAsHandled } from '../error/errorActions';
