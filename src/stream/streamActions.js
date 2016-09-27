@@ -1,4 +1,4 @@
-import ApiClient from '../api/ApiClient';
+import { Auth, getMessages } from '../api/ApiClient';
 
 export const STREAM_FETCHING_MESSAGES = 'STREAM_FETCHING_MESSAGES';
 export const STREAM_FETCHED_MESSAGES = 'STREAM_FETCHED_MESSAGES';
@@ -17,7 +17,7 @@ export const setMessages = (messages, fetching = true, caughtUp = true) =>
   };
 
 export const getMessages = (
-  account,
+  auth,
   anchor,
   numBefore,
   numAfter,
@@ -28,17 +28,17 @@ export const getMessages = (
     dispatch({ type: STREAM_FETCHING_MESSAGES });
 
     try {
-      const messages = await ApiClient.getMessages(
-        account,
-        anchor,
-        numBefore,
-        numAfter,
-        narrow
+      const messages = await getMessages(
+        auth,
+        anchor: number,
+        numBefore: number,
+        numAfter: number,
+        narrow,
       );
 
       dispatch({
         type: STREAM_FETCHED_MESSAGES,
-        account,
+        auth,
         messages,
         anchor,
         narrow,

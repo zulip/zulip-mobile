@@ -34,7 +34,7 @@ export class PasswordAuthView extends React.Component {
   onSignIn = () => {
     this.props.markErrorsAsHandled(this.props.errors);
     this.props.attemptLogin(
-      this.props.account,
+      this.props.auth,
       this.state.email,
       this.state.password,
     );
@@ -79,7 +79,7 @@ export class PasswordAuthView extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  account: state.user.accounts.get(state.user.activeAccountId),
+  auth: state.auth,
   pendingServerResponse: state.user.pendingServerResponse,
   errors: state.errors.filter(e => e.active && e.type === LOGIN_FAILED),
 });

@@ -22,16 +22,6 @@ const UserRecord = Immutable.Record({
   errors: [],
 });
 
-const AccountRecord = Immutable.Record({
-  accountId: null,
-  realm: null,
-  email: null,
-  apiKey: null,
-  authBackends: [],
-  activeBackend: null,
-  loggedIn: false,
-});
-
 const initialState = UserRecord();
 
 const reducer = (state = initialState, action) => {
