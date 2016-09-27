@@ -6,7 +6,7 @@
     "start": "react-native start",
     "ios": "react-native run-ios",
     "test:lint": "eslint src/",
-    "test:flow": "flow",
+    "test:flow": "flow check",
     "test:unit": "mocha --recursive src/**/__tests__/*-test.js --require react-native-mock/mock.js --compilers js:babel-core/register",
     "test": "npm run test:lint && npm run test:flow && npm run test:unit"
   },
@@ -34,7 +34,7 @@
     "chai": "^3.5.0",
     "enzyme": "^2.4.1",
     "eslint": "^3.6.0",
-    "eslint-config-airbnb": "^11.2.0",
+    "eslint-config-airbnb": "^12.0.0",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",

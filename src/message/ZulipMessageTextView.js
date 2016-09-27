@@ -6,7 +6,6 @@ import {
   Linking,
   TouchableHighlight,
 } from 'react-native';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import entities from 'entities';
 import htmlparser from 'htmlparser2';
@@ -52,23 +51,20 @@ const tagStyles = {
   pre: styles.code,
   a: styles.link,
   img: styles.img,
-  pre: styles.code,
   blockquote: styles.quote,
 };
 
 const NEWLINE = '\n';
 const BULLET = '\u2022 ';
 
-const parseEmoji = (node, index) => {
+const parseEmoji = (node, index) => undefined;
   // TODO: support emoji
-  return;
-};
 
 const parseImg = (node, index, onPress) => {
   if (node.attribs.class === 'emoji') return parseEmoji(node, index);
   const source = {
     uri: node.attribs.src,
-  }
+  };
   const img = (
     <Image
       key={index}
@@ -88,10 +84,11 @@ const parseImg = (node, index, onPress) => {
   return img;
 };
 
-const parseLink = (node) => {
+const parseLink = (node): string => {
   if (node.name === 'a' && node.attribs && node.attribs.href) {
     return node.attribs.href;
   }
+  return '';
 };
 
 const parseDom = (dom, baseStyle, onPress) => {
@@ -104,17 +101,17 @@ const parseDom = (dom, baseStyle, onPress) => {
 
     switch (node.type) {
       case 'text':
-        if (!node.data.trim()) return;
+        if (!node.data.trim()) return null;
         return (
           <Text key={index} style={baseStyle} onPress={onPress}>
             {entities.decodeHTML(node.data)}
           </Text>
         );
-      case 'tag':
+      case 'tag': {
         const link = parseLink(node);
 
         // Styling
-        let style = [].concat(baseStyle);
+        const style = [].concat(baseStyle);
         if (node.name in tagStyles) style.push(tagStyles[node.name]);
 
         return (
@@ -129,27 +126,27 @@ const parseDom = (dom, baseStyle, onPress) => {
              (node.name === 'p' && index < list.length - 1) ? [NEWLINE] : null}
           </Text>
         );
+      }
       default:
-        return;
+        return null;
     }
   });
 };
 
-const parseHtml = (html) => 
+const parseHtml = (html) =>
   new Promise((resolve, reject) => {
     const handler = new htmlparser.DomHandler((err, dom) => {
       if (err) reject(err);
       resolve(parseDom(dom, [styles.base]));
     });
-    var parser = new htmlparser.Parser(handler);
+    const parser = new htmlparser.Parser(handler);
     parser.write(html);
     parser.done();
   });
 
-class ZulipMessageTextView extends React.Component {
+class ZulipMessageTextView extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.initialize();
     this.state = {

@@ -1,12 +1,24 @@
-import ApiClient from '../api/ApiClient.js';
-
-export const EVENT_NEW_MESSAGE = 'EVENT_NEW_MESSAGE';
+import ApiClient from '../api/ApiClient';
 
 import {
   REALM_SET_STREAMS,
-} from '../realm/realmActions.js';
+} from '../realm/realmActions';
 
+export const EVENT_NEW_MESSAGE = 'EVENT_NEW_MESSAGE';
 export const EVENTS_REGISTERED = 'EVENTS_REGISTERED';
+
+const processEvent = (dispatch, event) => {
+  switch (event.type) {
+    case 'message':
+      dispatch({
+        type: EVENT_NEW_MESSAGE,
+        message: event.message,
+      });
+      break;
+    default:
+      console.warn('Unrecognized event: ', event.type);
+  }
+};
 
 export const getEvents = (account) =>
   async (dispatch) => {
@@ -22,7 +34,7 @@ export const getEvents = (account) =>
 
     dispatch({
       type: EVENTS_REGISTERED,
-      queueId: queueId,
+      queueId,
     });
 
     // Event loop
@@ -35,20 +47,9 @@ export const getEvents = (account) =>
       );
 
       // Process events
-      for (let event of res.events) {
+      for (const event of res.events) {
         lastEventId = Math.max(lastEventId, event.id);
         processEvent(dispatch, event);
       }
     }
   };
-
-function processEvent(dispatch, event) {
-  switch (event.type) {
-    case "message":
-      dispatch({
-        type: EVENT_NEW_MESSAGE,
-        message: event.message,
-      });
-      break;
-  }
-}

@@ -7,7 +7,7 @@ import {
 // Initial state
 const initialState = {
   subscriptions: new Immutable.Map(),
-}
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -17,7 +17,7 @@ const reducer = (state = initialState, action) => {
         subscriptions: new Immutable.Map(
           action.subscriptions.map((v) => [v.name, v])
         ),
-      }
+      };
     default:
       return state;
   }

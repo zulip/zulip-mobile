@@ -1,10 +1,7 @@
+/* eslint-disable */
 import React from 'react';
-import {
-  ScrollView
-} from 'react-native';
 import AnchoredScrollView from '../native/AnchoredScrollView';
 
-const DEFAULT_PAGE_SIZE = 1;
 const DEFAULT_START_REACHED_THRESHOLD = 500;
 const DEFAULT_END_REACHED_THRESHOLD = 500;
 const DEFAULT_SCROLL_CALLBACK_THROTTLE = 50;
@@ -63,20 +60,20 @@ class InfiniteScrollView extends React.Component {
 
   render() {
     return (
-        <AnchoredScrollView
-          style={this.props.style}
-          automaticallyAdjustContentInset={false}
-          scrollsToTop={true}
-          onContentSizeChange={this._onContentSizeChanged.bind(this)}
-          onLayout={this._onScrollViewLayout.bind(this)}
-          onScroll={this._onScroll.bind(this)}
-          scrollEventThrottle={DEFAULT_SCROLL_CALLBACK_THROTTLE}
-          stickyHeaderIndices={this.props.stickyHeaderIndices}
-          anchorMode={true}
-          autoScrollToBottom={this.props.autoScrollToBottom}
-        >
-          {this.props.children}
-        </AnchoredScrollView>
+      <AnchoredScrollView
+        style={this.props.style}
+        automaticallyAdjustContentInset={false}
+        scrollsToTop
+        onContentSizeChange={this._onContentSizeChanged.bind(this)}
+        onLayout={this._onScrollViewLayout.bind(this)}
+        onScroll={this._onScroll.bind(this)}
+        scrollEventThrottle={DEFAULT_SCROLL_CALLBACK_THROTTLE}
+        stickyHeaderIndices={this.props.stickyHeaderIndices}
+        anchorMode
+        autoScrollToBottom={this.props.autoScrollToBottom}
+      >
+        {this.props.children}
+      </AnchoredScrollView>
     );
   }
 }

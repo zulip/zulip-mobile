@@ -1,13 +1,17 @@
-export const normalizeRecipients = (recipients) => {
-  const ret = recipients
-  .map((s) => s.email.trim())
-  .filter((s) => s.length > 0)
-  .sort()
-  .join(',');
-  return ret;
+type Recipient = {
+  display_recipient: string,
+  subject: string,
+  email: string,
 };
 
-export const sameRecipient = (msg1, msg2) => {
+export const normalizeRecipients = (recipients: Recipient[]) =>
+  recipients
+    .map((s) => s.email.trim())
+    .filter((s) => s.length > 0)
+    .sort()
+    .join(',');
+
+export const sameRecipient = (msg1, msg2): boolean => {
   if (msg1 === undefined || msg2 === undefined) {
     return false;
   }
@@ -23,8 +27,8 @@ export const sameRecipient = (msg1, msg2) => {
     case 'stream':
       return (msg1.display_recipient.toLowerCase() === msg2.display_recipient.toLowerCase() &&
               msg1.subject.toLowerCase() === msg2.subject.toLowerCase());
+    default:
+      // Invariant
+      return false;
   }
-
-  //Invariant
-  return false;
 };

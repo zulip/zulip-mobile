@@ -70,6 +70,6 @@ class ZulipNavBar extends React.Component {
       />
     );
   }
-};
+}
 
 export default ZulipNavBar;

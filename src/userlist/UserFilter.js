@@ -16,10 +16,9 @@ export default class UserDrawer extends Component {
 
   props: {
     filter: string,
-  }
+  };
 
-  onChange(e: SyntheticEvent) {
-    console.log(e);
+  onChange() {
   }
 
   render() {
@@ -38,6 +37,6 @@ export default class UserDrawer extends Component {
         value={filter}
         onChangeText={this.onChange}
       />
-    )
+    );
   }
 }

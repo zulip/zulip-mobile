@@ -13,7 +13,7 @@ import {
   streamNarrow,
   mentionedNarrow,
   starredNarrow,
-} from '../lib/narrow.js';
+} from '../lib/narrow';
 
 const NAV_BAR_HEIGHT = 44;
 const STATUS_BAR_HEIGHT = 20;
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
     color: '#fff',
-  }
+  },
 });
 
 export default class ZulipStreamSidebar extends React.Component {
@@ -72,15 +72,15 @@ export default class ZulipStreamSidebar extends React.Component {
   render() {
     const subscriptions = this.props.subscriptions.toList().sort((a, b) =>
       a.name.localeCompare(b.name)
-    ).map((sub) => {
-      return this.renderRow(
+    ).map((sub) =>
+      this.renderRow(
         styles.streamName,
         sub.stream_id,
         () => this.props.narrow(streamNarrow(sub.name)),
         sub.name,
         sub.color,
-      );
-    });
+      )
+    );
     return (
       <View style={styles.container}>
         <Text
@@ -121,4 +121,4 @@ export default class ZulipStreamSidebar extends React.Component {
       </View>
     );
   }
-};
+}

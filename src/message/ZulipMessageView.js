@@ -7,7 +7,6 @@ import {
   Text,
   Image,
 } from 'react-native';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import ZulipMessageTextView from '../message/ZulipMessageTextView';
 
@@ -46,11 +45,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class ZulipMessageView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-  }
+class ZulipMessageView extends React.PureComponent {
 
   render() {
     return (
@@ -76,6 +71,6 @@ class ZulipMessageView extends React.Component {
       </View>
     );
   }
-};
+}
 
 export default ZulipMessageView;

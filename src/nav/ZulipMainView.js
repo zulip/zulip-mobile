@@ -46,7 +46,7 @@ class ZulipMainView extends React.Component {
     );
   }
 
-  fetchOlder() {
+  fetchOlder = () => {
     if (!this.props.fetching) {
       this.props.getMessages(
         this.props.account,
@@ -58,7 +58,7 @@ class ZulipMainView extends React.Component {
     }
   }
 
-  fetchNewer() {
+  fetchNewer = () => {
     if (!this.props.fetching && !this.props.caughtUp) {
       this.props.getMessages(
         this.props.account,
@@ -70,7 +70,7 @@ class ZulipMainView extends React.Component {
     }
   }
 
-  narrow(narrowOperator, pointer=Number.MAX_SAFE_INTEGER, messages=[]) {
+  narrow = (narrowOperator, pointer = Number.MAX_SAFE_INTEGER, messages = []) => {
     this.props.setMessages(messages);
     requestAnimationFrame(() =>
       this.props.getMessages(
@@ -78,7 +78,7 @@ class ZulipMainView extends React.Component {
         pointer,
         10,
         10,
-        narrowOperator? narrowOperator : {},
+        narrowOperator || {},
       )
     );
   }
@@ -89,58 +89,58 @@ class ZulipMainView extends React.Component {
         content={
           <ZulipStreamSidebar
             subscriptions={this.props.subscriptions}
-            narrow={this.narrow.bind(this)}
+            narrow={this.narrow}
           />
         }
         open={this.props.streamlistOpened}
         onOpenStart={this.props.openStreamSidebar}
         onClose={this.props.closeStreamSidebar}
-        tapToClose={true}
+        tapToClose
         openDrawerOffset={100}
-        negotiatePan={true}
+        negotiatePan
         panOpenMask={0.5}
-        useInteractionManager={true}
+        useInteractionManager
         tweenDuration={150}
         tweenHandler={Drawer.tweenPresets.parallax}
-        side={"left"}
+        side="left"
       >
-      <Drawer
-        content={<UserListContainer />}
-        openDrawerOffset={100}
-        negotiatePan={true}
-        panOpenMask={0.5}
-        useInteractionManager={true}
-        tweenDuration={150}
-        tweenHandler={Drawer.tweenPresets.parallax}
-        side={"right"}
-      >
-        <StatusBar
-          animated={true}
-          showHideTransition={"slide"}
-          hidden={this.props.streamlistOpened}
-        />
-        <ZulipNavBar
-          onPressLeft={
-            this.props.streamlistOpened ?
-            this.props.closeStreamSidebar : this.props.openStreamSidebar
-          }
+        <Drawer
+          content={<UserListContainer />}
+          openDrawerOffset={100}
+          negotiatePan
+          panOpenMask={0.5}
+          useInteractionManager
+          tweenDuration={150}
+          tweenHandler={Drawer.tweenPresets.parallax}
+          side="right"
         >
-          <ZulipStreamView
-            messages={this.props.messages}
-            subscriptions={this.props.subscriptions}
-            email={this.props.account.email}
-            caughtUp={this.props.caughtUp}
-            fetchOlder={this.fetchOlder.bind(this)}
-            fetchNewer={this.fetchNewer.bind(this)}
-            narrow={this.narrow.bind(this)}
+          <StatusBar
+            animated
+            showHideTransition="slide"
+            hidden={this.props.streamlistOpened}
           />
-          <ZulipComposeView />
-        </ZulipNavBar>
-      </Drawer>
+          <ZulipNavBar
+            onPressLeft={
+              this.props.streamlistOpened ?
+              this.props.closeStreamSidebar : this.props.openStreamSidebar
+            }
+          >
+            <ZulipStreamView
+              messages={this.props.messages}
+              subscriptions={this.props.subscriptions}
+              email={this.props.account.email}
+              caughtUp={this.props.caughtUp}
+              fetchOlder={this.fetchOlder}
+              fetchNewer={this.fetchNewer}
+              narrow={this.narrow}
+            />
+            <ZulipComposeView />
+          </ZulipNavBar>
+        </Drawer>
       </Drawer>
     );
   }
-};
+}
 
 const mapStateToProps = (state) => ({
   account: state.user.accounts.get(state.user.activeAccountId),
