@@ -26,7 +26,7 @@ class ZulipStreamView extends React.Component {
     // We use setTimeout with time=0 to force this to happen in the next
     // iteration of the event loop. This ensures that the last action ends
     // before the new action begins and makes the debug output clearer.
-    setTimeout(() => this.props.getLatestMessages(this.props.account), 0);
+    setTimeout(() => this.props.getLatestMessages(this.props.auth), 0);
   }
 
   render() {
@@ -65,7 +65,7 @@ class ZulipStreamView extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  account: state.user.accounts.get(state.user.activeAccountId),
+  auth: state.auth,
   messages: state.stream.messages,
   fetching: state.stream.fetching,
 });

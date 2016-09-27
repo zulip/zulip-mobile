@@ -1,4 +1,4 @@
-import ApiClient from '../api/ApiClient.js';
+import { getAuthBackends, fetchApiKey, devFetchApiKey, devGetEmails } from '../api/ApiClient';
 
 export const ACCOUNT_ADD_PENDING = 'ACCOUNT_ADD_PENDING';
 export const ACCOUNT_ADD_SUCCEEDED = 'ACCOUNT_ADD_SUCCEEDED';
@@ -19,7 +19,7 @@ export const addAccount = (realm) =>
     dispatch({ type: ACCOUNT_ADD_PENDING });
 
     try {
-      const authBackends = await ApiClient.getAuthBackends({
+      const authBackends = await getAuthBackends({
         realm,
         loggedIn: false,
       });
@@ -34,23 +34,23 @@ export const addAccount = (realm) =>
     }
   };
 
-export const attemptLogin = (account, email, password) =>
+export const attemptLogin = (auth, email, password) =>
   async (dispatch) => {
     // Tell the UI to display a spinner
     dispatch({ type: LOGIN_PENDING });
 
     try {
-      const apiKey = await ApiClient.fetchApiKey(account, email, password);
+      const apiKey = await fetchApiKey(auth, email, password);
 
       dispatch({
         type: LOGIN_SUCCEEDED,
-        account,
+        auth,
         activeBackend: 'password',
         email,
         apiKey,
       });
     } catch (err) {
-      dispatch({ type: LOGIN_FAILED, account, error: err.message });
+      dispatch({ type: LOGIN_FAILED, auth, error: err.message });
     }
   };
 
@@ -60,7 +60,7 @@ export const attemptDevLogin = (account, email) =>
     dispatch({ type: LOGIN_PENDING });
 
     try {
-      const apiKey = await ApiClient.devFetchApiKey(account, email);
+      const apiKey = await devFetchApiKey(account, email);
 
       dispatch({
         type: LOGIN_SUCCEEDED,
@@ -79,7 +79,7 @@ export const getDevEmails = (account) =>
     dispatch({ type: DEV_EMAILS_PENDING });
 
     try {
-      const [directAdmins, directUsers] = await ApiClient.devGetEmails(account);
+      const [directAdmins, directUsers] = await devGetEmails(account);
 
       dispatch({
         type: DEV_EMAILS_SUCCEEDED,
