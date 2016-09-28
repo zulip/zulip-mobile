@@ -17,17 +17,19 @@ import {
   addAccount,
 } from './userActions';
 
-import styles from './styles';
-import ZulipLogo from './ZulipLogo';
-import ZulipError from './ZulipError';
-import ZulipButton from './ZulipButton';
+import styles from '../common/styles';
+import ZulipLogo from '../common/ZulipLogo';
+import ZulipError from '../common/ZulipError';
+import ZulipButton from '../common/ZulipButton';
 
 class ZulipAccountsView extends React.Component {
   constructor(props) {
     super(props);
 
+    console.log(props.auth.toJS());
+    const realmFromConfig = process.env.NODE_ENV === 'development' ? config.devRealm : config.productionRealm;
     this.state = {
-      realm: process.env.NODE_ENV === 'development' ? config.devRealm : config.productionRealm,
+      realm: props.auth.get('realm') || realmFromConfig,
     };
   }
 
@@ -78,6 +80,7 @@ class ZulipAccountsView extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   pendingServerResponse: state.user.pendingServerResponse,
   errors: state.errors.filter(e => e.active),
 });

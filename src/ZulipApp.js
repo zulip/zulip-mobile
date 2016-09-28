@@ -9,7 +9,6 @@ const ZulipApp = (props) =>
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.auth.isLoggedIn,
-// accounts.some((account) => account.loggedIn) && state.user.activeAccountId !== null
 });
 
 export default connect(mapStateToProps)(ZulipApp);
