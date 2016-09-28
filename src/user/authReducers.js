@@ -14,6 +14,7 @@ const initialState = fromJS({
 });
 
 const reducer = (state = initialState, action) => {
+  console.log('state is: ', state);
   switch (action.type) {
     case ACCOUNT_ADD_SUCCEEDED: {
       return state.merge({
