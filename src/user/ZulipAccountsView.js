@@ -10,17 +10,17 @@ class ZulipAccountsView extends React.Component {
 
   render() {
     const { accounts, activeAccountId } = this.props;
-    console.log('PROPS: ', this.props);
-    if (activeAccountId) {
-      const activeAccount = accounts[activeAccountId];
-      if (activeAccount.authBackends.includes('dev')) {
-        return <ZulipDevAuthView />;
-      } else {
-        return <ZulipPasswordAuthView />;
-      }
+
+    if (!activeAccountId) {
+      return <ZulipRealmView />;
     }
 
-    return <ZulipRealmView />;
+    const activeAccount = accounts.get(activeAccountId);
+    if (activeAccount.authBackends.includes('dev')) {
+      return <ZulipDevAuthView />;
+    } else {
+      return <ZulipPasswordAuthView />;
+    }
   }
 }
 

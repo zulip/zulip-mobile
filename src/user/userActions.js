@@ -45,9 +45,6 @@ export const attemptLogin = (auth, email, password) =>
       dispatch({
         type: LOGIN_SUCCEEDED,
         auth,
-        activeBackend: 'password',
-        email,
-        apiKey,
       });
     } catch (err) {
       dispatch({ type: LOGIN_FAILED, auth, error: err.message });

@@ -23,8 +23,10 @@
     "react-native-drawer": "^2.3.0",
     "react-redux": "^4.4.5",
     "redux": "^3.6.0",
+    "redux-action-buffer": "^1.0.1",
     "redux-logger": "^2.6.1",
     "redux-persist": "^4.0.0-alpha5",
+    "redux-persist-transform-immutable": "^3.2.0",
     "redux-thunk": "^2.1.0",
     "stream": "0.0.2"
   },

@@ -53,7 +53,7 @@ const reducer = (state = initialState, action) => {
       return state;
     case DEV_EMAILS_SUCCEEDED:
       return state.merge({
-        accounts: state.accounts.set(action.account.accountId, {
+        accounts: state.accounts.set(action.account.get('accountId'), {
           ...action.account,
           activeBackend: 'dev',
           directUsers: action.directUsers,
@@ -75,21 +75,10 @@ const reducer = (state = initialState, action) => {
     case LOGIN_SUCCEEDED:
       return state.merge({
         pendingServerResponse: false,
-        accounts: state.accounts.set(action.account.accountId, {
-          ...action.account,
-          activeBackend: action.activeBackend,
-          email: action.email,
-          apiKey: action.apiKey,
-          loggedIn: true,
-        }),
       });
     case LOGIN_FAILED:
       return state.merge({
         pendingServerResponse: false,
-        accounts: state.accounts.set(action.account.accountId, {
-          ...action.account,
-          loggedIn: false,
-        }),
       });
     default:
       return state;
