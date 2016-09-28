@@ -8,10 +8,10 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import ZulipLogo from './ZulipLogo';
-import ZulipError from './ZulipError';
-import ZulipButton from './ZulipButton';
-import styles from './styles';
+import styles from '../common/styles';
+import ZulipLogo from '../common/ZulipLogo';
+import ZulipError from '../common/ZulipError';
+import ZulipButton from '../common/ZulipButton';
 
 // Actions
 import { markErrorsAsHandled } from '../error/errorActions';
