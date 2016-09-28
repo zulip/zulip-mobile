@@ -7,12 +7,12 @@
     "ios": "react-native run-ios",
     "test:lint": "eslint src/",
     "test:flow": "node_modules/.bin/flow check",
-    "test:unit": "mocha --recursive src/**/__tests__/*-test.js --require react-native-mock/mock.js --compilers js:babel-core/register",
+    "test:unit": "jest",
     "test": "npm run test:lint && npm run test:flow && npm run test:unit"
   },
   "dependencies": {
     "base-64": "^0.1.0",
-    "buffer": "^4.9.1",
+    "buffer": "^5.0.0",
     "entities": "^1.1.1",
     "events": "^1.1.1",
     "htmlparser2": "^3.9.1",
@@ -29,19 +29,24 @@
   },
   "devDependencies": {
     "babel-core": "^6.14.0",
-    "babel-eslint": "^6.1.2",
+    "babel-eslint": "^7.0.0",
     "babel-preset-react-native": "^1.9.0",
-    "chai": "^3.5.0",
     "enzyme": "^2.4.1",
-    "eslint": "^3.6.0",
+    "eslint": "^3.6.1",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
     "eslint-plugin-react-native": "^2.0.0",
     "flow-bin": "^0.32.0",
-    "mocha": "^3.0.2",
+    "jest": "^15.1.1",
+    "jest-cli": "^15.1.1",
+    "jest-react-native": "^15.0.0",
     "react-native-cli": "^1.0.0",
-    "react-native-mock": "^0.2.6"
+    "react-native-mock": "^0.2.6",
+    "react-test-renderer": "^15.3.2"
+  },
+  "jest": {
+    "preset": "jest-react-native"
   }
 }
