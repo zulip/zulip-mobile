@@ -8,18 +8,20 @@ import { Iterable } from 'immutable';
 
 import rootReducer from './reducers';
 
+// AsyncStorage.clear(); // use to reset storage during development
+
 // Set up middleware
 const middleware = [thunk];
 if (process.env.NODE_ENV === 'development') {
   // Log states and actions to the console in dev mode
   middleware.push(createLogger({
-    stateTransformer: (state) => {
-      const newState = {};
-      for (const i of Object.keys(state)) {
-        newState[i] = Iterable.isIterable(state[i]) ? state[i].toJS() : state[i];
-      }
-      return newState;
-    },
+    // stateTransformer: (state) => {
+    //   const newState = {};
+    //   for (const i of Object.keys(state)) {
+    //     newState[i] = Iterable.isIterable(state[i]) ? state[i].toJS() : state[i];
+    //   }
+    //   return newState;
+    // },
   }));
 }
 
@@ -29,7 +31,7 @@ const store = compose(
 )(createStore)(rootReducer);
 
 persistStore(store, {
-  config: { whitelist: 'auth' },
+  whitelist: ['auth'],
   storage: AsyncStorage,
 });
 

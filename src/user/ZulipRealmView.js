@@ -78,8 +78,6 @@ class ZulipAccountsView extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  accounts: state.user.accounts,
-  activeAccountId: state.user.activeAccountId,
   pendingServerResponse: state.user.pendingServerResponse,
   errors: state.errors.filter(e => e.active),
 });
