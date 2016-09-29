@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import app from './user/appReducers';
 import auth from './user/authReducers';
 import user from './user/userReducers';
 import stream from './stream/streamReducers';
@@ -8,6 +9,7 @@ import events from './events/eventReducers';
 import nav from './nav/navReducers';
 
 export default combineReducers({
+  app,
   auth,
   user,
   stream,

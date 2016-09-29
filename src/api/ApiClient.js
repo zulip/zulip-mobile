@@ -1,14 +1,5 @@
-import base64 from 'base-64';
 import { encodeAsURI } from '../lib/util';
-
-const apiVersion = 'api/v1';
-
-export type Auth = {
-  isLoggedIn: boolean,
-  realm: string,
-  apiKey: string,
-  email: string,
-};
+import { apiFetch, Auth } from './apiFetch';
 
 export type Account = {
   accountId: number,
@@ -31,34 +22,6 @@ export type ClientPresence = {
 
 export type Presences = {
   [key: string]: ClientPresence,
-};
-
-const getAuthHeader = (email, apiKey) => {
-  const encodedStr = `${email}:${apiKey}`;
-  return `Basic ${base64.encode(encodedStr)}`;
-};
-
-const apiFetch = async (auth: Auth, route: string, params: Object) => {
-  const extraParams = {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-      'User-Agent': 'ZulipReactNative',
-    },
-  };
-  if (auth.isLoggedIn) {
-    extraParams.headers.Authorization = getAuthHeader(auth.email, auth.apiKey);
-  }
-
-  const raw = await fetch(`${auth.realm}/${apiVersion}/${route}`, {
-    ...params,
-    ...extraParams,
-  });
-  try {
-    const res = await raw.json();
-    return res;
-  } catch (err) {
-    throw new Error(`HTTP response code ${raw.status}: ${raw.statusText}`);
-  }
 };
 
 export const getAuthBackends = async (auth: Auth) => {
@@ -172,4 +135,25 @@ export const messagesFlags = async (
     throw new Error(res.msg);
   }
   return res.messages;
+};
+
+export const registerForEvents = async (auth: Auth) => {
+  console.log(auth);
+  return await apiFetch(auth, 'register', {
+    method: 'post',
+  });
+};
+
+export const pollForEvents = async (auth: Auth, queueId: number, lastEventId: number) => {
+  const params = encodeAsURI({
+    queue_id: queueId,
+    last_event_id: lastEventId,
+  });
+  const res = await apiFetch(auth, `events?${params}`, {
+    method: 'get',
+  });
+  if (res.result !== 'success') {
+    throw new Error(res.msg);
+  }
+  return res;
 };

@@ -1,78 +1,91 @@
 import React from 'react';
 import {
   StyleSheet,
-  ScrollView,
-  View,
 } from 'react-native';
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import InfiniteScrollView from './InfiniteScrollView';
 
-// Actions
-import {
-  getLatestMessages,
-} from './streamActions';
+import ZulipStreamMessageHeader from '../message/ZulipStreamMessageHeader';
+import ZulipPrivateMessageHeader from '../message/ZulipPrivateMessageHeader';
 
-import ZulipMessageGroupView from '../message/ZulipMessageGroupView';
 import ZulipMessageView from '../message/ZulipMessageView';
+import { sameRecipient } from '../lib/message';
 
 const styles = StyleSheet.create({
   scrollView: {
+    backgroundColor: '#fff',
   },
 });
 
-class ZulipStreamView extends React.Component {
-  componentDidMount() {
-    // We use setTimeout with time=0 to force this to happen in the next
-    // iteration of the event loop. This ensures that the last action ends
-    // before the new action begins and makes the debug output clearer.
-    setTimeout(() => this.props.getLatestMessages(this.props.auth), 0);
+export default class ZulipStreamView extends React.PureComponent {
+
+  getHeader(item) {
+    if (item.type === 'stream') {
+      const subscription = this.props.subscriptions.get(item.display_recipient);
+      return (
+        <ZulipStreamMessageHeader
+          key={`section_${item.id}`}
+          stream={item.display_recipient}
+          topic={item.subject}
+          color={subscription ? subscription.color : '#ccc'}
+          item={item}
+          narrow={this.props.narrow}
+        />
+      );
+    } else if (item.type === 'private') {
+      return (
+        <ZulipPrivateMessageHeader
+          key={`section_${item.id}`}
+          recipients={item.display_recipient.filter(r =>
+            r.email !== this.props.email
+          )}
+          item={item}
+          narrow={this.props.narrow}
+        />
+      );
+    }
+    return undefined;
+  }
+
+  populateStream(items) {
+    const headerIndices = [];
+    let prevItem;
+    let totalIdx = 0;
+    for (const item of this.props.messages) {
+      if (!sameRecipient(prevItem, item)) {
+        items.push(this.getHeader(item));
+        headerIndices.push(totalIdx);
+        totalIdx++;
+      }
+      items.push(
+        <ZulipMessageView
+          key={item.id}
+          from={item.sender_full_name}
+          message={item.content}
+          timestamp={item.timestamp}
+          avatarUrl={item.avatar_url}
+        />
+      );
+      totalIdx++;
+      prevItem = item;
+    }
+    return headerIndices;
   }
 
   render() {
+    const stream = [];
+    const headerIndices = this.populateStream(stream);
     return (
-      <ScrollView
+      <InfiniteScrollView
         style={styles.scrollView}
         automaticallyAdjustContentInset="false"
+        autoScrollToBottom={this.props.caughtUp}
+        stickyHeaderIndices={headerIndices}
+        onStartReached={this.props.fetchOlder}
+        onEndReached={this.props.fetchNewer}
       >
-        <View />
-        {this.props.messages.map((item) => {
-          if (item.type === 'stream') {
-            return (
-              <ZulipMessageGroupView
-                key={item.id}
-                stream={{
-                  name: item.display_recipient,
-                  color: '#cef',
-                }}
-                thread={item.subject}
-              >
-                <ZulipMessageView
-                  key={item.id}
-                  from={item.sender_full_name}
-                  message={item.content}
-                  timestamp={item.timestamp}
-                  avatar_url={item.avatar_url}
-                />
-              </ZulipMessageGroupView>
-            );
-          }
-          return (<View key={item.id} />);
-        })}
-      </ScrollView>
+        {stream}
+      </InfiniteScrollView>
     );
   }
 }
-
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  messages: state.stream.messages,
-  fetching: state.stream.fetching,
-});
-
-const mapDispatchToProps = (dispatch, ownProps) =>
-  bindActionCreators({
-    getLatestMessages,
-  }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(ZulipStreamView);

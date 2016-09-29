@@ -30,14 +30,14 @@ import UserListContainer from '../userlist/UserListContainer';
 
 class ZulipMainView extends React.Component {
   componentDidMount() {
-    this.props.getEvents(this.props.account);
+    this.props.getEvents(this.props.auth);
 
     // We use requestAnimationFrame to force this to happen in the next
     // iteration of the event loop. This ensures that the last action ends
     // before the new action begins and makes the debug output clearer.
     requestAnimationFrame(() =>
       this.props.getMessages(
-        this.props.account,
+        this.props.auth,
         Number.MAX_SAFE_INTEGER,
         10,
         10,
@@ -49,7 +49,7 @@ class ZulipMainView extends React.Component {
   fetchOlder = () => {
     if (!this.props.fetching) {
       this.props.getMessages(
-        this.props.account,
+        this.props.auth,
         this.props.pointer[0],
         10,
         0,
@@ -61,7 +61,7 @@ class ZulipMainView extends React.Component {
   fetchNewer = () => {
     if (!this.props.fetching && !this.props.caughtUp) {
       this.props.getMessages(
-        this.props.account,
+        this.props.auth,
         this.props.pointer[1],
         0,
         10,
@@ -74,7 +74,7 @@ class ZulipMainView extends React.Component {
     this.props.setMessages(messages);
     requestAnimationFrame(() =>
       this.props.getMessages(
-        this.props.account,
+        this.props.auth,
         pointer,
         10,
         10,
@@ -128,7 +128,7 @@ class ZulipMainView extends React.Component {
             <ZulipStreamView
               messages={this.props.messages}
               subscriptions={this.props.subscriptions}
-              email={this.props.account.email}
+              email={this.props.auth.email}
               caughtUp={this.props.caughtUp}
               fetchOlder={this.fetchOlder}
               fetchNewer={this.fetchNewer}
@@ -143,7 +143,7 @@ class ZulipMainView extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  account: state.user.accounts.get(state.user.activeAccountId),
+  auth: state.auth,
   subscriptions: state.realm.subscriptions,
   messages: state.stream.messages,
   fetching: state.stream.fetching,

@@ -1,27 +1,22 @@
 import { fromJS } from 'immutable';
+import { REHYDRATE } from 'redux-persist/constants';
 
-import {
-  ACCOUNT_ADD_SUCCEEDED,
-  LOGIN_SUCCEEDED,
-} from './userActions';
+import { LOGIN_SUCCEEDED } from './userActions';
 
 const initialState = fromJS({
-  email: '',
-  apiKey: '',
-  realm: '',
+  isHydrated: false,
+  isLoggedIn: false,
 });
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ACCOUNT_ADD_SUCCEEDED: {
-      return state.merge({
-        realm: action.realm,
-      });
-    }
     case LOGIN_SUCCEEDED:
       return state.merge({
-        email: action.email,
-        apiKey: action.apiKey,
+        isLoggedIn: true,
+      });
+    case REHYDRATE:
+      return state.merge({
+        isHydrated: true,
       });
     default:
       return state;

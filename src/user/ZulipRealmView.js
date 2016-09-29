@@ -26,7 +26,6 @@ class ZulipAccountsView extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(props.auth.toJS());
     const realmFromConfig = process.env.NODE_ENV === 'development' ? config.devRealm : config.productionRealm;
     this.state = {
       realm: props.auth.get('realm') || realmFromConfig,
