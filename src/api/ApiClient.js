@@ -139,12 +139,10 @@ export const messagesFlags = async (
   return res.messages;
 };
 
-export const registerForEvents = async (auth: Auth) => {
-  console.log(auth);
-  return await apiFetch(auth, 'register', {
+export const registerForEvents = async (auth: Auth) =>
+  await apiFetch(auth, 'register', {
     method: 'post',
   });
-};
 
 export const pollForEvents = async (auth: Auth, queueId: number, lastEventId: number) => {
   const params = encodeAsURI({
