@@ -1,4 +1,4 @@
-import ApiClient from '../api/ApiClient';
+import { pollForEvents, registerForEvents } from '../api/ApiClient';
 
 import {
   REALM_SET_STREAMS,
@@ -20,9 +20,9 @@ const processEvent = (dispatch, event) => {
   }
 };
 
-export const getEvents = (account) =>
+export const getEvents = (auth) =>
   async (dispatch) => {
-    const data = await ApiClient.registerForEvents(account);
+    const data = await registerForEvents(auth);
 
     const queueId = data.queue_id;
     let lastEventId = data.last_event_id;
@@ -40,8 +40,8 @@ export const getEvents = (account) =>
     // Event loop
     // TODO: fix this
     while (true) {
-      const res = await ApiClient.pollForEvents(
-        account,
+      const res = await pollForEvents(
+        auth,
         queueId,
         lastEventId,
       );

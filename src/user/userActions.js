@@ -21,7 +21,6 @@ export const addAccount = (realm) =>
     try {
       const authBackends = await getAuthBackends({
         realm,
-        loggedIn: false,
       });
 
       dispatch({
