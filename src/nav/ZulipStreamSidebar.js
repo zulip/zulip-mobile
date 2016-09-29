@@ -4,7 +4,6 @@ import {
   ScrollView,
   View,
   Text,
-  TouchableWithoutFeedback,
 } from 'react-native';
 
 import {
@@ -14,6 +13,8 @@ import {
   mentionedNarrow,
   starredNarrow,
 } from '../lib/narrow';
+
+import SidebarRow from './SidebarRow';
 
 const NAV_BAR_HEIGHT = 44;
 const STATUS_BAR_HEIGHT = 20;
@@ -56,31 +57,11 @@ const styles = StyleSheet.create({
 });
 
 export default class ZulipStreamSidebar extends React.Component {
-  renderRow(customStyles, key, onPress, name, color = '#444') {
-    return (
-      <TouchableWithoutFeedback onPress={onPress} key={key}>
-        <View style={styles.row}>
-          <View style={[styles.colorBar, { backgroundColor: color }]} />
-          <Text style={customStyles}>
-            {name}
-          </Text>
-        </View>
-      </TouchableWithoutFeedback>
-    );
-  }
 
   render() {
-    const subscriptions = this.props.subscriptions.toList().sort((a, b) =>
-      a.name.localeCompare(b.name)
-    ).map((sub) =>
-      this.renderRow(
-        styles.streamName,
-        sub.stream_id,
-        () => this.props.narrow(streamNarrow(sub.name)),
-        sub.name,
-        sub.color,
-      )
-    );
+    const sortedSubscriptions = this.props.subscriptions.toList()
+      .sort((a, b) => a.get('name').localeCompare(b.get('name')));
+
     return (
       <View style={styles.container}>
         <Text
@@ -91,31 +72,35 @@ export default class ZulipStreamSidebar extends React.Component {
           scrollsToTop={false}
         >
           <View style={styles.streams}>
-            {this.renderRow(
-              [styles.streamName, styles.mainMenu],
-              -1,
-              () => this.props.narrow(homeNarrow),
-              'Home',
+            <SidebarRow
+              name="Home"
+              customStyles={[styles.streamName, styles.mainMenu]}
+              onPress={() => this.props.narrow(homeNarrow)}
+            />
+            <SidebarRow
+              name="Private Messages"
+              customStyles={[styles.streamName, styles.mainMenu]}
+              onPress={() => this.props.narrow(privateNarrow())}
+            />
+            <SidebarRow
+              name="Starred"
+              customStyles={[styles.streamName, styles.mainMenu]}
+              onPress={() => this.props.narrow(starredNarrow)}
+            />
+            <SidebarRow
+              name="@-Mentions"
+              customStyles={[styles.streamName, styles.mainMenu]}
+              onPress={() => this.props.narrow(mentionedNarrow)}
+            />
+            {sortedSubscriptions.map(x =>
+              <SidebarRow
+                key={x.get('stream_id')}
+                name={x.get('name')}
+                color={x.get('color')}
+                customStyles={styles.streamName}
+                onPress={() => this.props.narrow(streamNarrow(x.get('name')))}
+              />
             )}
-            {this.renderRow(
-              [styles.streamName, styles.mainMenu],
-              -2,
-              () => this.props.narrow(privateNarrow()),
-              'Private Messages',
-            )}
-            {this.renderRow(
-              [styles.streamName, styles.mainMenu],
-              -3,
-              () => this.props.narrow(starredNarrow),
-              'Starred',
-            )}
-            {this.renderRow(
-              [styles.streamName, styles.mainMenu],
-              -4,
-              () => this.props.narrow(mentionedNarrow),
-              '@-Mentions',
-            )}
-            {subscriptions}
           </View>
         </ScrollView>
       </View>
