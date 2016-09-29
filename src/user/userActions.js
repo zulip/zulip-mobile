@@ -15,13 +15,10 @@ export const DEV_EMAILS_FAILED = 'DEV_EMAILS_FAILED';
 
 export const addAccount = (realm) =>
   async (dispatch) => {
-    // Tell the UI to display a spinner
     dispatch({ type: ACCOUNT_ADD_PENDING });
 
     try {
-      const authBackends = await getAuthBackends({
-        realm,
-      });
+      const authBackends = await getAuthBackends({ realm });
 
       dispatch({
         type: ACCOUNT_ADD_SUCCEEDED,
@@ -43,43 +40,43 @@ export const attemptLogin = (auth, email, password) =>
 
       dispatch({
         type: LOGIN_SUCCEEDED,
-        auth,
+        apiKey,
+        email,
       });
     } catch (err) {
       dispatch({ type: LOGIN_FAILED, auth, error: err.message });
     }
   };
 
-export const attemptDevLogin = (account, email) =>
+export const attemptDevLogin = (auth, email) =>
   async (dispatch) => {
     // Tell the UI to display a spinner
     dispatch({ type: LOGIN_PENDING });
 
     try {
-      const apiKey = await devFetchApiKey(account, email);
+      const apiKey = await devFetchApiKey(auth, email);
 
       dispatch({
         type: LOGIN_SUCCEEDED,
-        account,
         activeBackend: 'dev',
         email,
         apiKey,
       });
     } catch (err) {
-      dispatch({ type: LOGIN_FAILED, account, error: err.message });
+      dispatch({ type: LOGIN_FAILED, auth, error: err.message });
     }
   };
 
-export const getDevEmails = (account) =>
+export const getDevEmails = (auth) =>
   async (dispatch) => {
     dispatch({ type: DEV_EMAILS_PENDING });
 
     try {
-      const [directAdmins, directUsers] = await devGetEmails(account);
+      const [directAdmins, directUsers] = await devGetEmails(auth);
 
       dispatch({
         type: DEV_EMAILS_SUCCEEDED,
-        account,
+        auth,
         activeBackend: 'dev',
         directUsers,
         directAdmins,

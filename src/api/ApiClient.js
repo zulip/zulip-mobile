@@ -1,9 +1,11 @@
 import { encodeAsURI } from '../lib/util';
 import { apiFetch, Auth } from './apiFetch';
 
+export type Backend = 'dev' | 'google' | 'password';
+
 export type Account = {
   accountId: number,
-  activeBackend: 'dev' | 'google' | 'password',
+  activeBackend: Backend,
   authBackends: string[],
   directAdmins?: string[],
   directUsers?: string[],

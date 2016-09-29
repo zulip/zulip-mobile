@@ -144,7 +144,7 @@ class ZulipMainView extends React.Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  subscriptions: state.realm.subscriptions,
+  subscriptions: state.subscriptions,
   messages: state.stream.messages,
   fetching: state.stream.fetching,
   narrow: state.stream.narrow,

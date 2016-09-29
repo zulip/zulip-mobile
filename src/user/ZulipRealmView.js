@@ -28,7 +28,7 @@ class ZulipAccountsView extends React.Component {
 
     const realmFromConfig = process.env.NODE_ENV === 'development' ? config.devRealm : config.productionRealm;
     this.state = {
-      realm: props.auth.get('realm') || realmFromConfig,
+      realm: props.realm || realmFromConfig,
     };
   }
 
@@ -79,8 +79,8 @@ class ZulipAccountsView extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
-  pendingServerResponse: state.user.pendingServerResponse,
+  realm: state.auth.get('realm'),
+  pendingServerResponse: state.app.get('pendingServerResponse'),
   errors: state.errors.filter(e => e.active),
 });
 

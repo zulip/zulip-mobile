@@ -29,6 +29,7 @@ class ZulipDevAuthView extends React.Component {
     // We use setTimeout with time=0 to force this to happen in the next
     // iteration of the event loop. This ensures that the last action ends
     // before the new action begins and makes the debug output clearer.
+    console.log('componentWillMount');
     setTimeout(() => this.props.getDevEmails(this.props.auth), 0);
   }
 
@@ -45,8 +46,6 @@ class ZulipDevAuthView extends React.Component {
 
     return (
       <View style={styles.container}>
-        <ZulipLogo />
-        <ZulipError errors={this.props.errors} />
         <Text style={styles.heading1}>
           Zulip Dev Login
         </Text>
@@ -72,6 +71,7 @@ class ZulipDevAuthView extends React.Component {
             />
           )}
         </ScrollView>
+        <ZulipError errors={this.props.errors} />
       </View>
     );
   }
