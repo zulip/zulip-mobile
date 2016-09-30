@@ -5,6 +5,7 @@ import {
   LOGIN_PENDING,
   LOGIN_SUCCEEDED,
   LOGIN_FAILED,
+  LOGOUT,
   ACCOUNT_ADD_PENDING,
   ACCOUNT_ADD_SUCCEEDED,
   ACCOUNT_ADD_FAILED,
@@ -38,6 +39,10 @@ export default (state = initialState, action) => {
       return state.merge({
         isHydrated: true,
         isLoggedIn: !!action.payload.auth.get('apiKey'),
+      });
+    case LOGOUT:
+      return state.merge({
+        isLoggedIn: false,
       });
     default:
       return state;

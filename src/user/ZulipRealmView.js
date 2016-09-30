@@ -79,9 +79,6 @@ class ZulipRealmView extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  realm: state.auth.get('realm'),
-  pendingServerResponse: state.app.get('pendingServerResponse'),
-  errors: state.errors.filter(e => e.active),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>

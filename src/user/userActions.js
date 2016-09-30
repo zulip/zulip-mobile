@@ -8,6 +8,7 @@ export const LOGIN_PENDING = 'LOGIN_PENDING';
 export const LOGIN_SUCCEEDED = 'LOGIN_SUCCEEDED';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
 export const LOGIN_TIMED_OUT = 'LOGIN_TIMED_OUT';
+export const LOGOUT = 'LOGOUT';
 
 export const DEV_EMAILS_PENDING = 'DEV_EMAILS_PENDING';
 export const DEV_EMAILS_SUCCEEDED = 'DEV_EMAILS_SUCCEEDED';
@@ -85,3 +86,7 @@ export const getDevEmails = (auth) =>
       dispatch({ type: DEV_EMAILS_FAILED, error: err.message });
     }
   };
+
+export const logout = () =>
+  async (dispatch) =>
+    dispatch({ type: LOGOUT });

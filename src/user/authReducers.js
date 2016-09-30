@@ -3,6 +3,7 @@ import { fromJS } from 'immutable';
 import {
   ACCOUNT_ADD_SUCCEEDED,
   LOGIN_SUCCEEDED,
+  LOGOUT,
 } from './userActions';
 
 const initialState = fromJS({
@@ -20,8 +21,14 @@ const reducer = (state = initialState, action) => {
     }
     case LOGIN_SUCCEEDED:
       return state.merge({
-        email: action.email,
         apiKey: action.apiKey,
+        email: action.email,
+      });
+    case LOGOUT:
+      return state.merge({
+        apiKey: '',
+        email: '',
+        realm: '',
       });
     default:
       return state;

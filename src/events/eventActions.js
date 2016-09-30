@@ -15,6 +15,15 @@ const processEvent = (dispatch, event) => {
         message: event.message,
       });
       break;
+    case 'heartbeat':
+      // TODO
+      break;
+    case 'presence':
+      // TODO
+      break;
+    case 'update_message_flags':
+      // TODO
+      break;
     default:
       console.warn('Unrecognized event: ', event.type);
   }
