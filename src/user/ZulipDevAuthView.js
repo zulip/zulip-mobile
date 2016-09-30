@@ -9,7 +9,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import styles from '../common/styles';
-import ZulipLogo from '../common/ZulipLogo';
 import ZulipError from '../common/ZulipError';
 import ZulipButton from '../common/ZulipButton';
 
