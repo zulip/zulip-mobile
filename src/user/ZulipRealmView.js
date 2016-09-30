@@ -22,7 +22,7 @@ import ZulipLogo from '../common/ZulipLogo';
 import ZulipError from '../common/ZulipError';
 import ZulipButton from '../common/ZulipButton';
 
-class ZulipAccountsView extends React.Component {
+class ZulipRealmView extends React.Component {
   constructor(props) {
     super(props);
 
@@ -90,4 +90,4 @@ const mapDispatchToProps = (dispatch, ownProps) =>
     markErrorsAsHandled,
   }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ZulipAccountsView);
+export default connect(mapStateToProps, mapDispatchToProps)(ZulipRealmView);

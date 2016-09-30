@@ -54,7 +54,7 @@ class ZulipAccountsView extends React.Component {
         {realm && !authBackends.size && <ActivityIndicator />}
         {authBackends.includes('dev') && <ZulipDevAuthView />}
         {authBackends.includes('password') && <ZulipPasswordAuthView />}
-        {/* {authBackends.includes('google') && <ZulipButton text="Login with Goolge" />} */}
+        {/* {authBackends.includes('google') && <ZulipButton text="Login with Google" />} */}
       </View>
     );
   }
