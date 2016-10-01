@@ -18,7 +18,6 @@ import {
 } from './userActions';
 
 import styles from '../common/styles';
-import ZulipLogo from '../common/ZulipLogo';
 import ZulipError from '../common/ZulipError';
 import ZulipButton from '../common/ZulipButton';
 
@@ -41,9 +40,7 @@ class ZulipRealmView extends React.Component {
     const { pendingServerResponse, errors } = this.props;
 
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <ZulipLogo />
-
+      <KeyboardAvoidingView behavior="padding">
         <View style={styles.field}>
           <Text style={styles.heading1}>Welcome to Zulip</Text>
         </View>
@@ -79,6 +76,8 @@ class ZulipRealmView extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  pendingServerResponse: state.app.get('pendingServerResponse'),
+  errors: state.errors.filter(e => e.active),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>

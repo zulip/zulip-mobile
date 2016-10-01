@@ -8,8 +8,8 @@ import {
 
 import UsersDrawer from './UsersDrawer';
 
-const serverPresenceToStatus = (status: string, timestamp: number) =>
-  (timestamp - Date.now() < 1000 ? status : 'offline');
+// const serverPresenceToStatus = (status: string, timestamp: number) =>
+//   (timestamp - Date.now() < 1000 ? status : 'offline');
 
 class UserListContainer extends Component {
 
@@ -21,7 +21,9 @@ class UserListContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  users: state.userlist.users,
+  filter: state.userlist.get('filter'),
+  users: state.userlist.get('users'),
+  presence: state.userlist.get('presence'),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>

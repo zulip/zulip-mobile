@@ -9,8 +9,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import {
-  getMessages,
-  setMessages,
+  sendFocusPing,
+} from '../userlist/userListActions';
+
+import {
+  sendGetMessages,
+  sendSetMessages,
 } from '../stream/streamActions';
 
 import {
@@ -29,21 +33,30 @@ import ZulipComposeView from '../compose/ZulipComposeView';
 import UserListContainer from '../userlist/UserListContainer';
 
 class ZulipMainView extends React.Component {
+
+  // props: {
+  //   auth: Auth,
+  //   subscriptions: state.subscriptions,
+  //   messages: state.stream.messages,
+  //   fetching: state.stream.fetching,
+  //   narrow: state.stream.narrow,
+  //   pointer: state.stream.pointer,
+  //   caughtUp: state.stream.caughtUp,
+  //   streamlistOpened: state.nav.opened,
+  // }
+
   componentDidMount() {
-    this.props.getEvents(this.props.auth);
+    const { auth, narrow } = this.props;
+
+    this.props.getEvents(auth);
 
     // We use requestAnimationFrame to force this to happen in the next
     // iteration of the event loop. This ensures that the last action ends
     // before the new action begins and makes the debug output clearer.
-    requestAnimationFrame(() =>
-      this.props.getMessages(
-        this.props.auth,
-        Number.MAX_SAFE_INTEGER,
-        10,
-        10,
-        this.props.narrow
-      )
-    );
+    requestAnimationFrame(() => {
+      this.props.sendFocusPing(auth, true, false);
+      this.props.sendGetMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
+    });
   }
 
   fetchOlder = () => {
@@ -71,9 +84,9 @@ class ZulipMainView extends React.Component {
   }
 
   narrow = (narrowOperator, pointer = Number.MAX_SAFE_INTEGER, messages = []) => {
-    this.props.setMessages(messages);
+    this.props.sendSetMessages(messages);
     requestAnimationFrame(() =>
-      this.props.getMessages(
+      this.props.sendGetMessages(
         this.props.auth,
         pointer,
         10,
@@ -155,8 +168,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
-    getMessages,
-    setMessages,
+    sendFocusPing,
+    sendGetMessages,
+    sendSetMessages,
     getEvents,
     openStreamSidebar,
     closeStreamSidebar,

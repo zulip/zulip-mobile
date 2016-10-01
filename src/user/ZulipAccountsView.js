@@ -46,15 +46,17 @@ class ZulipAccountsView extends React.Component {
 
   render() {
     const { authBackends, realm } = this.props;
+    const isRealmSet = !!realm;
 
     return (
       <View style={styles.container}>
         <ZulipLogo />
-        {!realm && <ZulipRealmView />}
-        {realm && !authBackends.size && <ActivityIndicator />}
-        {authBackends.includes('dev') && <ZulipDevAuthView />}
-        {authBackends.includes('password') && <ZulipPasswordAuthView />}
-        {/* {authBackends.includes('google') && <ZulipButton text="Login with Google" />} */}
+        {!isRealmSet && <ZulipRealmView />}
+        {isRealmSet && !authBackends.size && <ActivityIndicator />}
+        {isRealmSet && authBackends.includes('dev') && <ZulipDevAuthView />}
+        {isRealmSet && authBackends.includes('password') && <ZulipPasswordAuthView />}
+        {/* {isRealmSet && authBackends.includes('google')
+          && <ZulipButton text="Login with Google" />} */}
       </View>
     );
   }
