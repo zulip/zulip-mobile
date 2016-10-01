@@ -16,13 +16,14 @@ export default class UserList extends Component {
 
   props: {
     users: string[],
+    presence: Object,
   }
 
   render() {
-    const { users } = this.props;
+    const { users, presence } = this.props;
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    const dataSource = ds.cloneWithRows(users);
-
+    const dataSource = ds.cloneWithRows(users.toJS());
+    console.log('PRESENCE_UPDATE', presence.toJS());
     return (
       <ListView
         style={styles.container}

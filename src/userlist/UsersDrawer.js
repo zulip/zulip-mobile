@@ -21,6 +21,7 @@ export default class UsersDrawer extends Component {
   props: {
     filter: string,
     users: string[],
+    presence: Object,
   }
 
   logout = () => {
@@ -28,13 +29,13 @@ export default class UsersDrawer extends Component {
   }
 
   render() {
-    const { filter, users } = this.props;
+    const { filter, users, presence } = this.props;
 
     return (
       <View style={styles.container}>
         <ZulipButton secondary text="Logout" onPress={this.logout} />
         <UserFilter filter={filter} />
-        <UserList users={users} />
+        <UserList users={users} presence={presence} />
       </View>
     );
   }

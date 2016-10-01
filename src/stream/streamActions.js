@@ -1,4 +1,4 @@
-import { Auth } from '../api/ApiClient';
+import { Auth, getMessages } from '../api/ApiClient';
 
 export const STREAM_FETCHING_MESSAGES = 'STREAM_FETCHING_MESSAGES';
 export const STREAM_FETCHED_MESSAGES = 'STREAM_FETCHED_MESSAGES';
@@ -6,7 +6,7 @@ export const STREAM_FETCHING_FAILED = 'STREAM_FETCHING_FAILED';
 
 export const STREAM_SET_MESSAGES = 'STREAM_SET_MESSAGES';
 
-export const setMessages = (
+export const sendSetMessages = (
   messages: any[],
   fetching: boolean = true,
   caughtUp: boolean = true,
@@ -20,7 +20,7 @@ export const setMessages = (
     });
   };
 
-export const getMessages = (
+export const sendGetMessages = (
   auth: Auth,
   anchor: number,
   numBefore: number,
