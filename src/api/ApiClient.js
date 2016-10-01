@@ -119,6 +119,18 @@ export const focusPing = async (
   return res.presences;
 };
 
+export const getUsers = async (
+  auth: Auth,
+): any => {
+  const res = await apiFetch(auth, 'users', {
+    method: 'get',
+  });
+  if (res.result !== 'success') {
+    throw new Error(res.msg);
+  }
+  return res.members;
+};
+
 export const messagesFlags = async (
   auth: Auth,
   messages: number[],

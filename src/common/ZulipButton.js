@@ -9,7 +9,6 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     height: 44,
     justifyContent: 'center',
@@ -41,9 +40,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ZulipButton extends React.Component {
+export default class ZulipButton extends React.PureComponent {
 
   props: {
+    customStyles: Object,
     progress: boolean,
     text: string,
     secondary: boolean,
@@ -51,8 +51,9 @@ export default class ZulipButton extends React.Component {
   }
 
   render() {
-    const { text, secondary, progress, onPress } = this.props;
+    const { customStyles, text, secondary, progress, onPress } = this.props;
     const containerStyle = [
+      customStyles,
       styles.container,
       secondary ? styles.secondaryContainer : styles.primaryContainer,
     ];

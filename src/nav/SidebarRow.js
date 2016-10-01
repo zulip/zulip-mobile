@@ -3,7 +3,7 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableWithoutFeedback,
+  TouchableHighlight,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -16,12 +16,12 @@ const styles = StyleSheet.create({
 });
 
 export default ({ customStyles, onPress, name, color = '#444' }) => (
-  <TouchableWithoutFeedback onPress={onPress}>
+  <TouchableHighlight onPress={onPress}>
     <View style={styles.row}>
       <View style={[styles.colorBar, { backgroundColor: color }]} />
       <Text style={customStyles}>
         {name}
       </Text>
     </View>
-  </TouchableWithoutFeedback>
+  </TouchableHighlight>
 );
