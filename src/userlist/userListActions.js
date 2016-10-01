@@ -1,6 +1,7 @@
-import { Auth, focusPing } from '../api/ApiClient';
+import { Auth, focusPing, getUsers } from '../api/ApiClient';
 
 export const PRESENCE_RESPONSE = 'PRESENCE_RESPONSE';
+export const GET_USES_RESPONSE = 'GET_USES_RESPONSE';
 export const USER_FILTER_CHANGE = 'USER_FILTER_CHANGE';
 
 export const sendFocusPing = (auth: Auth, hasFocus: boolean, newUserInput: boolean) =>
@@ -9,5 +10,14 @@ export const sendFocusPing = (auth: Auth, hasFocus: boolean, newUserInput: boole
     dispatch({
       type: PRESENCE_RESPONSE,
       presence: response,
+    });
+  };
+
+export const sendGetUsers = (auth: Auth) =>
+  async (dispatch) => {
+    const response = await getUsers(auth);
+    dispatch({
+      type: GET_USES_RESPONSE,
+      users: response,
     });
   };

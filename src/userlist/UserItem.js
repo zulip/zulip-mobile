@@ -5,6 +5,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import Avatar from '../common/Avatar';
 import UserStatusIndicator from './UserStatusIndicator';
 
 const styles = StyleSheet.create({
@@ -17,25 +18,29 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
+    marginLeft: 10,
+    marginRight: 10,
   },
 });
 
 export default class UserItem extends Component {
 
   props: {
-    name: string,
+    fullName: string,
+    avatarUrl: string,
     status: string,
     onPress: () => void,
   }
 
   render() {
-    const { name, status, onPress } = this.props;
+    const { fullName, avatarUrl, status, onPress } = this.props;
 
     return (
-      <TouchableHighlight style={styles.touchTarget} onPress={onPress}>
+      <TouchableHighlight onPress={onPress}>
         <View style={styles.container}>
+          <Avatar size={32} avatarUrl={avatarUrl} />
+          <Text style={styles.text}>{fullName}</Text>
           <UserStatusIndicator status={status} />
-          <Text style={styles.text}>{name}</Text>
         </View>
       </TouchableHighlight>
     );

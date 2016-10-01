@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 
 import {
   sendFocusPing,
+  sendGetUsers,
 } from '../userlist/userListActions';
 
 import {
@@ -54,6 +55,7 @@ class ZulipMainView extends React.Component {
     // iteration of the event loop. This ensures that the last action ends
     // before the new action begins and makes the debug output clearer.
     requestAnimationFrame(() => {
+      this.props.sendGetUsers(auth, true, false);
       this.props.sendFocusPing(auth, true, false);
       this.props.sendGetMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
     });
@@ -61,7 +63,7 @@ class ZulipMainView extends React.Component {
 
   fetchOlder = () => {
     if (!this.props.fetching) {
-      this.props.getMessages(
+      this.props.sendGetMessages(
         this.props.auth,
         this.props.pointer[0],
         10,
@@ -73,7 +75,7 @@ class ZulipMainView extends React.Component {
 
   fetchNewer = () => {
     if (!this.props.fetching && !this.props.caughtUp) {
-      this.props.getMessages(
+      this.props.sendGetMessages(
         this.props.auth,
         this.props.pointer[1],
         0,
@@ -169,6 +171,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
     sendFocusPing,
+    sendGetUsers,
     sendGetMessages,
     sendSetMessages,
     getEvents,

@@ -14,6 +14,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderColor: 'grey',
   },
+  logoutButton: {
+    marginTop: 10,
+  },
 });
 
 export default class UsersDrawer extends Component {
@@ -33,9 +36,14 @@ export default class UsersDrawer extends Component {
 
     return (
       <View style={styles.container}>
-        <ZulipButton secondary text="Logout" onPress={this.logout} />
         <UserFilter filter={filter} />
         <UserList users={users} presence={presence} />
+        <ZulipButton
+          customStyles={styles.logoutButton}
+          secondary
+          text="Logout"
+          onPress={this.logout}
+        />
       </View>
     );
   }
