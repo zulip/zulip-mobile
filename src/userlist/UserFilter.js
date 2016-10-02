@@ -15,14 +15,11 @@ const styles = StyleSheet.create({
 export default class UserDrawer extends Component {
 
   props: {
-    filter: string,
+    onChange: (text: string) => void,
   };
 
-  onChange() {
-  }
-
   render() {
-    const { filter } = this.props;
+    const { onChange } = this.props;
 
     return (
       <TextInput
@@ -34,8 +31,7 @@ export default class UserDrawer extends Component {
         autoCapitalize="none"
         placeholder="Search people"
         returnKeyType="search"
-        value={filter}
-        onChangeText={this.onChange}
+        onChangeText={onChange}
       />
     );
   }

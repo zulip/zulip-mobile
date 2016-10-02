@@ -1,4 +1,4 @@
-import { getAuthBackends, fetchApiKey, devFetchApiKey, devGetEmails } from '../api/ApiClient';
+import { getAuthBackends, fetchApiKey, devFetchApiKey, devGetEmails } from '../api/apiClient';
 
 export const ACCOUNT_ADD_PENDING = 'ACCOUNT_ADD_PENDING';
 export const ACCOUNT_ADD_SUCCEEDED = 'ACCOUNT_ADD_SUCCEEDED';

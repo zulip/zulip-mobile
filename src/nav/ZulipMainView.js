@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AppState,
   StatusBar,
 } from 'react-native';
 
@@ -9,9 +10,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import {
-  sendFocusPing,
   sendGetUsers,
 } from '../userlist/userListActions';
+
+import {
+  appActivity,
+} from '../user/appActions';
 
 import {
   sendGetMessages,
@@ -46,7 +50,18 @@ class ZulipMainView extends React.Component {
   //   streamlistOpened: state.nav.opened,
   // }
 
+  state: {
+    currentAppState: boolean,
+  }
+
+  handleAppStateChange = (currentAppState) => {
+    if (currentAppState === 'active') {
+      this.props.appActivity();
+    }
+  }
+
   componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange);
     const { auth, narrow } = this.props;
 
     this.props.getEvents(auth);
@@ -56,9 +71,13 @@ class ZulipMainView extends React.Component {
     // before the new action begins and makes the debug output clearer.
     requestAnimationFrame(() => {
       this.props.sendGetUsers(auth, true, false);
-      this.props.sendFocusPing(auth, true, false);
+      this.props.appActivity(auth);
       this.props.sendGetMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
     });
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
   fetchOlder = () => {
@@ -170,7 +189,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
-    sendFocusPing,
+    appActivity,
     sendGetUsers,
     sendGetMessages,
     sendSetMessages,

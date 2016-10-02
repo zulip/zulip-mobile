@@ -19,25 +19,44 @@ const styles = StyleSheet.create({
   },
 });
 
+type Props = {
+  users: string[],
+  presence: Object,
+};
+
 export default class UsersDrawer extends Component {
 
-  props: {
+  props: Props;
+
+  state: {
     filter: string,
-    users: string[],
-    presence: Object,
+  };
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      filter: '',
+    };
   }
 
   logout = () => {
     this.props.logout();
   }
 
+  handleFilterChange = (newFilter: string) => {
+    this.setState({
+      filter: newFilter,
+    });
+  }
+
   render() {
-    const { filter, users, presence } = this.props;
+    const { users, presence } = this.props;
+    const { filter } = this.state;
 
     return (
       <View style={styles.container}>
-        <UserFilter filter={filter} />
-        <UserList users={users} presence={presence} />
+        <UserFilter onChange={this.handleFilterChange} />
+        <UserList users={users} presence={presence} filter={filter} />
         <ZulipButton
           customStyles={styles.logoutButton}
           secondary

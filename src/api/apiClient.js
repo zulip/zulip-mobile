@@ -11,10 +11,12 @@ export type Account = {
   directUsers?: string[],
 };
 
+export type UserStatus = 'active' | 'inactive' | 'offline';
+
 export type Presence = {
   client: string,
   pushable: boolean,
-  status: 'active' | 'inactive',
+  status: UserStatus,
   timestamp: number,
 };
 
@@ -86,11 +88,13 @@ export const getMessages = async (
   anchor: number,
   numBefore: number,
   numAfter: number,
+  narrow: Object,
 ) => {
   const params = encodeAsURI({
     anchor,
     num_before: numBefore,
     num_after: numAfter,
+    narrow: JSON.stringify(narrow),
   });
   const res = await apiFetch(auth, `messages?${params}`, {
     method: 'get',
