@@ -11,7 +11,12 @@ import {
   ACCOUNT_ADD_FAILED,
 } from './userActions';
 
+import {
+  APP_ACTIVITY,
+} from './appActions';
+
 const initialState = fromJS({
+  lastActivityTime: new Date(),
   isHydrated: false,
   isLoggedIn: false,
   pendingServerResponse: false,
@@ -43,6 +48,10 @@ export default (state = initialState, action) => {
     case LOGOUT:
       return state.merge({
         isLoggedIn: false,
+      });
+    case APP_ACTIVITY:
+      return state.merge({
+        lastActivityTime: new Date(),
       });
     default:
       return state;

@@ -1,4 +1,4 @@
-import { pollForEvents, registerForEvents } from '../api/ApiClient';
+import { pollForEvents, registerForEvents } from '../api/apiClient';
 
 import {
   REALM_SET_STREAMS,

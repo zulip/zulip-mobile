@@ -1,9 +1,10 @@
 import { fromJS } from 'immutable';
+import { UserStatus } from '../api/apiClient';
 import {
   EVENT_PRESENCE,
 } from '../events/eventActions';
 import {
-  GET_USES_RESPONSE,
+  GET_USER_RESPONSE,
   PRESENCE_RESPONSE,
   USER_FILTER_CHANGE,
 } from './userListActions';
@@ -11,7 +12,7 @@ import {
 type Presence = {
   client: string,
   pushable: boolean,
-  status: 'active' | 'inactive' | 'offline',
+  status: UserStatus,
   timestamp: number,
 }
 
@@ -33,16 +34,23 @@ type User = {
 const initialState = fromJS({
   filter: '',
   users: [],
-  presence: {},
 });
+
+const activityFromPresence = (presence: PresenceMap): UserStatus =>
+  'active';
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case PRESENCE_RESPONSE:
-      return state.merge({
-        presence: fromJS(action.presence),
+    case PRESENCE_RESPONSE: {
+      let newState = state;
+      Object.keys(action.presence).forEach(x => {
+        const status = activityFromPresence(action.presence[x]);
+        const user = state.find(u => u.email === x);
+        newState = state.setIn([user, { status }]);
       });
-    case GET_USES_RESPONSE:
+      return newState;
+    }
+    case GET_USER_RESPONSE:
       return state.merge({
         users: fromJS(action.users.map(x => ({
           email: x.email,

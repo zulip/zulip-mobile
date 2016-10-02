@@ -10,7 +10,7 @@ import {
   addAccount,
 } from './userActions';
 
-// import { Backend } from '../api/ApiClient';
+// import { Backend } from '../api/apiClient';
 import styles from '../common/styles';
 import ZulipLogo from '../common/ZulipLogo';
 // import ZulipButton from '../common/ZulipButton';

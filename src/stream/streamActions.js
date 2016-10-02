@@ -1,4 +1,4 @@
-import { Auth, getMessages } from '../api/ApiClient';
+import { Auth, getMessages } from '../api/apiClient';
 
 export const STREAM_FETCHING_MESSAGES = 'STREAM_FETCHING_MESSAGES';
 export const STREAM_FETCHED_MESSAGES = 'STREAM_FETCHED_MESSAGES';
