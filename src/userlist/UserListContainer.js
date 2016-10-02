@@ -6,7 +6,7 @@ import {
   logout,
 } from '../user/userActions';
 
-import UsersDrawer from './UsersDrawer';
+import UsersCard from './UsersCard';
 
 // const serverPresenceToStatus = (status: string, timestamp: number) =>
 //   (timestamp - Date.now() < 1000 ? status : 'offline');
@@ -15,7 +15,7 @@ class UserListContainer extends Component {
 
   render() {
     return (
-      <UsersDrawer {...this.props} />
+      <UsersCard {...this.props} />
     );
   }
 }

@@ -20,16 +20,16 @@ type PresenceMap = {
   [key: string]: Presence,
 }
 
-type User = {
-  avatarUrl: string,
-  botOwner: ?string,
-  email: string,
-  fullName: string,
-  isActive: boolean,
-  isAdmin: boolean,
-  isBot: boolean,
-  presence: PresenceMap,
-}
+// type User = {
+//   avatarUrl: string,
+//   botOwner: ?string,
+//   email: string,
+//   fullName: string,
+//   isActive: boolean,
+//   isAdmin: boolean,
+//   isBot: boolean,
+//   presence: PresenceMap,
+// }
 
 const initialState = fromJS({
   filter: '',
@@ -62,7 +62,7 @@ const reducer = (state = initialState, action) => {
         }))),
       });
     case EVENT_PRESENCE:
-      // TODO console.log('!!!!!!!!', action.presence);
+      // TODO
       return state;
     case USER_FILTER_CHANGE:
       return state.merge({

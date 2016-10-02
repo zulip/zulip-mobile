@@ -10,6 +10,10 @@ export default class Avatar extends React.PureComponent {
     size: number,
   }
 
+  static defaultProps = {
+    size: 32,
+  };
+
   render() {
     const { avatarUrl, size } = this.props;
     const style = {

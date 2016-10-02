@@ -12,18 +12,20 @@ import rootReducer from './reducers';
 
 // AsyncStorage.clear(); // use to reset storage during development
 
+const immutableToPlainTransformer = (state) => {
+  const newState = {};
+  for (const i of Object.keys(state)) {
+    newState[i] = Iterable.isIterable(state[i]) ? state[i].toJS() : state[i];
+  }
+  return newState;
+};
+
 // Set up middleware
 const middleware = [thunk, createActionBuffer(REHYDRATE)];
 if (process.env.NODE_ENV === 'development') {
   // Log states and actions to the console in dev mode
   middleware.push(createLogger({
-    stateTransformer: (state) => {
-      const newState = {};
-      for (const i of Object.keys(state)) {
-        newState[i] = Iterable.isIterable(state[i]) ? state[i].toJS() : state[i];
-      }
-      return newState;
-    },
+    stateTransformer: immutableToPlainTransformer,
   }));
 }
 

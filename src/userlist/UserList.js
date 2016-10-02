@@ -27,10 +27,11 @@ export default class UserList extends Component {
   props: {
     filter: string,
     users: any[],
+    onNarrow: (email: string) => void,
   }
 
   render() {
-    const { users, filter } = this.props;
+    const { users, filter, onNarrow } = this.props;
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     const shownUsers = sortUsers(filterUsers(users, filter));
     const dataSource = ds.cloneWithRows(shownUsers.toJS());
@@ -47,6 +48,7 @@ export default class UserList extends Component {
             avatarUrl={x.avatarUrl}
             email={x.email}
             status={x.status}
+            onPress={onNarrow}
           />
         )}
       />
