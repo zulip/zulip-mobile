@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-
+import { privateNarrow } from '../lib/narrow';
 import ZulipButton from '../common/ZulipButton';
 import UserFilter from './UserFilter';
 import UserList from './UserList';
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   users: string[],
+  narrow: () => void,
   presence: Object,
 };
 
@@ -31,6 +32,11 @@ export default class UsersCard extends Component {
   state: {
     filter: string,
   };
+
+  static contextTypes = {
+    drawer: () => null,
+  };
+
 
   constructor(props: Props) {
     super(props);
@@ -50,7 +56,10 @@ export default class UsersCard extends Component {
   }
 
   handleUserNarrow = (email: string) => {
-    // TODO send narrow event
+    this.props.narrow(
+      privateNarrow([email]),
+    );
+    this.context.drawer.close();
   }
 
   render() {
