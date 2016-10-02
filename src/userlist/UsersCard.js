@@ -24,7 +24,7 @@ type Props = {
   presence: Object,
 };
 
-export default class UsersDrawer extends Component {
+export default class UsersCard extends Component {
 
   props: Props;
 
@@ -49,6 +49,10 @@ export default class UsersDrawer extends Component {
     });
   }
 
+  handleUserNarrow = (email: string) => {
+    // TODO send narrow event
+  }
+
   render() {
     const { users, presence } = this.props;
     const { filter } = this.state;
@@ -56,7 +60,12 @@ export default class UsersDrawer extends Component {
     return (
       <View style={styles.container}>
         <UserFilter onChange={this.handleFilterChange} />
-        <UserList users={users} presence={presence} filter={filter} />
+        <UserList
+          users={users}
+          presence={presence}
+          filter={filter}
+          onNarrow={this.handleUserNarrow}
+        />
         <ZulipButton
           customStyles={styles.logoutButton}
           secondary

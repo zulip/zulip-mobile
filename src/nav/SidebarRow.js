@@ -11,7 +11,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    overflow: 'hidden',
+  },
+  colorBar: {
+    width: 24,
+    height: 24,
+    margin: 8,
+    borderRadius: 2,
   },
 });
 

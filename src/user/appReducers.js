@@ -43,7 +43,7 @@ export default (state = initialState, action) => {
     case REHYDRATE:
       return state.merge({
         isHydrated: true,
-        isLoggedIn: !!action.payload.auth.get('apiKey'),
+        isLoggedIn: !!(action.payload.auth && action.payload.auth.get('apiKey')),
       });
     case LOGOUT:
       return state.merge({

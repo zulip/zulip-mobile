@@ -21,13 +21,13 @@ export default class ZulipStreamView extends React.PureComponent {
 
   getHeader(item) {
     if (item.type === 'stream') {
-      const subscription = this.props.subscriptions.get(item.display_recipient);
+      const subscription = this.props.subscriptions.find(x => x.get('name') === item.display_recipient);
       return (
         <ZulipStreamMessageHeader
           key={`section_${item.id}`}
           stream={item.display_recipient}
           topic={item.subject}
-          color={subscription ? subscription.color : '#ccc'}
+          color={subscription ? subscription.get('color') : '#ccc'}
           item={item}
           narrow={this.props.narrow}
         />

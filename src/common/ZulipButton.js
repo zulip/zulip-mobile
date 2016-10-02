@@ -11,9 +11,9 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     height: 44,
+    flex: 1,
     justifyContent: 'center',
     borderRadius: 5,
-    width: 260,
     marginBottom: 10,
   },
   primaryContainer: {
@@ -67,7 +67,11 @@ export default class ZulipButton extends React.PureComponent {
         <ActivityIndicator />
       </View> :
       <View style={containerStyle}>
-        <TouchableHighlight style={styles.touchTarget} onPress={onPress}>
+        <TouchableHighlight
+          style={styles.touchTarget}
+          underlayColor="rgba(34, 105, 63, 0.5)"
+          onPress={onPress}
+        >
           <Text style={textStyle}>
             {text}
           </Text>

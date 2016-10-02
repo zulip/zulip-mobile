@@ -45,10 +45,14 @@ const processEvent = (dispatch, event) => {
         message: event.message,
       });
       break;
+    case 'realm_user':
+      // TODO
+      break;
+    case 'subscription':
+      // TODO
+      break;
     case 'heartbeat':
-      // dispatch({
-      //   type: EVENT_HEARTBEAT,
-      // });
+      // TODO
       break;
     case 'presence':
       dispatch({

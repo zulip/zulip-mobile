@@ -29,25 +29,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     marginTop: 20,
-    marginLeft: 10,
   },
   account: {
     height: NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT,
     backgroundColor: '#222',
   },
-  row: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    overflow: 'hidden',
-  },
   mainMenu: {
     fontWeight: 'bold',
-  },
-  colorBar: {
-    width: 30,
-    height: 30,
-    margin: 5,
   },
   streamName: {
     padding: 10,
