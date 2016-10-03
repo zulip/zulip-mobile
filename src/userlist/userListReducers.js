@@ -6,7 +6,6 @@ import {
 import {
   GET_USER_RESPONSE,
   PRESENCE_RESPONSE,
-  USER_FILTER_CHANGE,
 } from './userListActions';
 
 type Presence = {
@@ -31,10 +30,7 @@ type PresenceMap = {
 //   presence: PresenceMap,
 // }
 
-const initialState = fromJS({
-  filter: '',
-  users: [],
-});
+const initialState = fromJS([]);
 
 const activityFromPresence = (presence: PresenceMap): UserStatus =>
   'active';
@@ -46,28 +42,24 @@ const reducer = (state = initialState, action) => {
       Object.keys(action.presence).forEach(x => {
         const status = activityFromPresence(action.presence[x]);
         const user = state.find(u => u.email === x);
-        newState = state.setIn([user, { status }]);
+        newState = state.set({ status });
       });
       return newState;
     }
-    case GET_USER_RESPONSE:
-      return state.merge({
-        users: fromJS(action.users.map(x => ({
-          email: x.email,
-          fullName: x.full_name,
-          avatarUrl: x.avatar_url,
-          isActive: x.is_active,
-          isAdmin: x.is_admin,
-          isBot: x.is_bot,
-        }))),
-      });
+    case GET_USER_RESPONSE: {
+      const users = action.users.map(x => ({
+        email: x.email,
+        fullName: x.full_name,
+        avatarUrl: x.avatar_url,
+        isActive: x.is_active,
+        isAdmin: x.is_admin,
+        isBot: x.is_bot,
+      }));
+      return state.merge(fromJS(users));
+    }
     case EVENT_PRESENCE:
       // TODO
       return state;
-    case USER_FILTER_CHANGE:
-      return state.merge({
-        filter: action.filter,
-      });
     default:
       return state;
   }

@@ -21,8 +21,7 @@ class UserListContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  users: state.userlist.get('users'),
-  presence: state.userlist.get('presence'),
+  users: state.userlist,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>
