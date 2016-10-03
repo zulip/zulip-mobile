@@ -37,7 +37,6 @@ export default class UsersCard extends Component {
     drawer: () => null,
   };
 
-
   constructor(props: Props) {
     super(props);
     this.state = {

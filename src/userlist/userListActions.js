@@ -2,7 +2,6 @@ import { Auth, focusPing, getUsers } from '../api/apiClient';
 
 export const PRESENCE_RESPONSE = 'PRESENCE_RESPONSE';
 export const GET_USER_RESPONSE = 'GET_USER_RESPONSE';
-export const USER_FILTER_CHANGE = 'USER_FILTER_CHANGE';
 
 export const sendFocusPing = (auth: Auth, hasFocus: boolean, newUserInput: boolean) =>
   async (dispatch) => {
