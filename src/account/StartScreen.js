@@ -12,13 +12,12 @@ import {
 
 // import { Backend } from '../api/apiClient';
 import styles from '../common/styles';
-import ZulipLogo from '../common/ZulipLogo';
-// import ZulipButton from '../common/ZulipButton';
-import ZulipPasswordAuthView from './ZulipPasswordAuthView';
-import ZulipDevAuthView from './ZulipDevAuthView';
-import ZulipRealmView from './ZulipRealmView';
+import Logo from '../common/Logo';
+import PasswordAuthScreen from './PasswordAuthScreen';
+import DevAuthScreen from './DevAuthScreen';
+import RealmScreen from './RealmScreen';
 
-class ZulipAccountsView extends React.Component {
+class StartScreen extends React.Component {
 
   props: {
     realm: string,
@@ -49,13 +48,13 @@ class ZulipAccountsView extends React.Component {
 
     return (
       <View style={styles.container}>
-        <ZulipLogo />
-        {!isRealmSet && <ZulipRealmView />}
+        <Logo />
+        {!isRealmSet && <RealmScreen />}
         {isRealmSet && !authBackends.size && <ActivityIndicator />}
-        {isRealmSet && authBackends.includes('dev') && <ZulipDevAuthView />}
-        {isRealmSet && authBackends.includes('password') && <ZulipPasswordAuthView />}
+        {isRealmSet && authBackends.includes('dev') && <DevAuthScreen />}
+        {isRealmSet && authBackends.includes('password') && <PasswordAuthScreen />}
         {/* {isRealmSet && authBackends.includes('google')
-          && <ZulipButton text="Login with Google" />} */}
+          && <Button text="Login with Google" />} */}
       </View>
     );
   }
@@ -75,4 +74,4 @@ const mapStateToProps = (state) => ({
   authBackends: state.user.get('authBackends'),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ZulipAccountsView);
+export default connect(mapStateToProps, mapDispatchToProps)(StartScreen);

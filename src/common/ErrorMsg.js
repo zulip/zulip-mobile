@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import styles from './styles';
 
-export default class ZulipError extends React.PureComponent {
+export default class ErrorMsg extends React.PureComponent {
 
   render() {
     const { errors } = this.props;

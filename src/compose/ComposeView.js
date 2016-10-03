@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ZulipComposeView extends React.Component {
+export default class ComposeView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

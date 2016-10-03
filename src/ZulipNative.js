@@ -3,7 +3,7 @@ import { ActivityIndicator } from 'react-native';
 import { Provider } from 'react-redux';
 
 import store, { restore } from './store';
-import ZulipApp from './ZulipApp';
+import App from './App';
 
 export default class ZulipNative extends Component {
   constructor() {
@@ -24,7 +24,7 @@ export default class ZulipNative extends Component {
 
     return (
       <Provider store={store}>
-        <ZulipApp />
+        <App />
       </Provider>
     );
   }

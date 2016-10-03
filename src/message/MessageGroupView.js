@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ZulipMessageGroupView = (props) => (
+export default (props) => (
   <View style={styles.threadGroup}>
     <View style={styles.threadGroupHeader}>
       <Text style={[styles.threadGroupStreamText, { backgroundColor: props.stream.color }]}>
@@ -41,5 +41,3 @@ const ZulipMessageGroupView = (props) => (
     {props.children}
   </View>
 );
-
-export default ZulipMessageGroupView;

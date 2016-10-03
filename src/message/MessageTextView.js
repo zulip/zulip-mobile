@@ -144,7 +144,7 @@ const parseHtml = (html) =>
     parser.done();
   });
 
-class ZulipMessageTextView extends React.PureComponent {
+export default class MessageTextView extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -167,5 +167,3 @@ class ZulipMessageTextView extends React.PureComponent {
     );
   }
 }
-
-export default ZulipMessageTextView;

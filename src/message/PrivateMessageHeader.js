@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ZulipPrivateMessageHeader extends React.PureComponent {
+export default class PrivateMessageHeader extends React.PureComponent {
 
   render() {
     const others = this.props.recipients.map(r => r.full_name).sort().join(', ');

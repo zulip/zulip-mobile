@@ -9,8 +9,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import styles from '../common/styles';
-import ZulipError from '../common/ZulipError';
-import ZulipButton from '../common/ZulipButton';
+import ErrorMsg from '../common/ErrorMsg';
+import Button from '../common/Button';
 
 // Actions
 import { markErrorsAsHandled } from '../error/errorActions';
@@ -20,7 +20,7 @@ import {
   getDevEmails,
 } from './userActions';
 
-class ZulipDevAuthView extends React.Component {
+class DevAuthScreen extends React.Component {
 
   componentWillMount() {
     // Fetch list of dev accounts when component is mounted
@@ -53,7 +53,7 @@ class ZulipDevAuthView extends React.Component {
         <ScrollView>
           {activeBackend &&
             directAdmins.map((user) =>
-              <ZulipButton
+              <Button
                 key={user}
                 text={user}
                 onPress={() => this.loginPressed(user)}
@@ -61,7 +61,7 @@ class ZulipDevAuthView extends React.Component {
             )
           }
           {directUsers.map((user) =>
-            <ZulipButton
+            <Button
               key={user}
               text={user}
               secondary
@@ -69,7 +69,7 @@ class ZulipDevAuthView extends React.Component {
             />
           )}
         </ScrollView>
-        <ZulipError errors={this.props.errors} />
+        <ErrorMsg errors={this.props.errors} />
       </View>
     );
   }
@@ -88,4 +88,4 @@ const mapDispatchToProps = (dispatch, ownProps) =>
     markErrorsAsHandled,
   }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ZulipDevAuthView);
+export default connect(mapStateToProps, mapDispatchToProps)(DevAuthScreen);

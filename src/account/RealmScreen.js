@@ -18,8 +18,8 @@ import {
 } from './userActions';
 
 import styles from '../common/styles';
-import ZulipError from '../common/ZulipError';
-import ZulipButton from '../common/ZulipButton';
+import ErrorMsg from '../common/ErrorMsg';
+import Button from '../common/Button';
 
 class ZulipRealmView extends React.Component {
   constructor(props) {
@@ -62,14 +62,14 @@ class ZulipRealmView extends React.Component {
         </View>
 
         <View style={styles.field}>
-          <ZulipButton
+          <Button
             text="Next"
             progress={pendingServerResponse}
             onPress={this.onRealmEnter}
           />
         </View>
 
-        <ZulipError errors={errors} />
+        <ErrorMsg errors={errors} />
       </KeyboardAvoidingView>
     );
   }

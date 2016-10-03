@@ -15,7 +15,7 @@ import {
 
 import {
   appActivity,
-} from '../user/appActions';
+} from '../account/appActions';
 
 import {
   sendGetMessages,
@@ -31,13 +31,13 @@ import {
   closeStreamSidebar,
 } from '../nav/navActions';
 
-import ZulipStreamView from '../stream/ZulipStreamView';
-import ZulipNavBar from '../nav/ZulipNavBar';
-import ZulipStreamSidebar from '../nav/ZulipStreamSidebar';
-import ZulipComposeView from '../compose/ZulipComposeView';
+import StreamView from '../stream/StreamView';
+import NavBar from '../nav/NavBar';
+import StreamSidebar from '../nav/StreamSidebar';
+import ComposeView from '../compose/ComposeView';
 import UserListContainer from '../userlist/UserListContainer';
 
-class ZulipMainView extends React.Component {
+class MainScreen extends React.Component {
 
   // props: {
   //   auth: Auth,
@@ -121,7 +121,7 @@ class ZulipMainView extends React.Component {
     return (
       <Drawer
         content={
-          <ZulipStreamSidebar
+          <StreamSidebar
             subscriptions={this.props.subscriptions}
             narrow={this.narrow}
           />
@@ -153,13 +153,13 @@ class ZulipMainView extends React.Component {
             showHideTransition="slide"
             hidden={this.props.streamlistOpened}
           />
-          <ZulipNavBar
+          <NavBar
             onPressLeft={
               this.props.streamlistOpened ?
               this.props.closeStreamSidebar : this.props.openStreamSidebar
             }
           >
-            <ZulipStreamView
+            <StreamView
               messages={this.props.messages}
               subscriptions={this.props.subscriptions}
               email={this.props.auth.email}
@@ -168,8 +168,8 @@ class ZulipMainView extends React.Component {
               fetchNewer={this.fetchNewer}
               narrow={this.narrow}
             />
-            <ZulipComposeView />
-          </ZulipNavBar>
+            <ComposeView />
+          </NavBar>
         </Drawer>
       </Drawer>
     );
@@ -198,4 +198,4 @@ const mapDispatchToProps = (dispatch, ownProps) =>
     closeStreamSidebar,
   }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ZulipMainView);
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);

@@ -9,7 +9,7 @@ import {
 
 import Avatar from '../common/Avatar';
 
-import ZulipMessageTextView from '../message/ZulipMessageTextView';
+import MessageTextView from '../message/MessageTextView';
 
 const styles = StyleSheet.create({
   message: {
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class ZulipMessageView extends React.PureComponent {
+export default class MessageView extends React.PureComponent {
 
   render() {
     return (
@@ -54,7 +54,7 @@ class ZulipMessageView extends React.PureComponent {
               {moment(this.props.timestamp * 1000).format('LT')}
             </Text>
           </View>
-          <ZulipMessageTextView
+          <MessageTextView
             style={styles.message}
             message={this.props.message}
           />
@@ -63,5 +63,3 @@ class ZulipMessageView extends React.PureComponent {
     );
   }
 }
-
-export default ZulipMessageView;
