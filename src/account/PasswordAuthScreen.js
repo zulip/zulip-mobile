@@ -11,8 +11,8 @@ import { connect } from 'react-redux';
 import config from '../config';
 
 import styles from '../common/styles';
-import ZulipError from '../common/ZulipError';
-import ZulipButton from '../common/ZulipButton';
+import ErrorMsg from '../common/ErrorMsg';
+import Button from '../common/Button';
 
 // Actions
 import { markErrorsAsHandled } from '../error/errorActions';
@@ -21,7 +21,7 @@ import {
   attemptLogin,
 } from './userActions';
 
-export class PasswordAuthView extends React.Component {
+class PasswordAuthScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,13 +65,13 @@ export class PasswordAuthView extends React.Component {
           />
         </View>
         <View style={styles.field}>
-          <ZulipButton
+          <Button
             text="Sign in"
             progress={pendingServerResponse}
             onPress={this.onSignIn}
           />
         </View>
-        <ZulipError errors={errors} />
+        <ErrorMsg errors={errors} />
       </KeyboardAvoidingView>
     );
   }
@@ -91,4 +91,4 @@ const mapDispatchToProps = (dispatch, ownProps) =>
     markErrorsAsHandled,
   }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(PasswordAuthView);
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordAuthScreen);

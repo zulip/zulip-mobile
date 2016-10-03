@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ZulipStreamMessageHeader extends React.PureComponent {
+export default class StreamMessageHeader extends React.PureComponent {
 
   render() {
     return (

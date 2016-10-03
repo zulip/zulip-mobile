@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class ZulipNavBar extends React.Component {
+export default class NavBar extends React.Component {
   render() {
     return (
       <Navigator
@@ -71,5 +71,3 @@ class ZulipNavBar extends React.Component {
     );
   }
 }
-
-export default ZulipNavBar;

@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
   logout,
-} from '../user/userActions';
+} from '../account/userActions';
 
 import UsersCard from './UsersCard';
 

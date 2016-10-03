@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ZulipStreamSidebar extends React.Component {
+export default class StreamSidebar extends React.Component {
 
   render() {
     const sortedSubscriptions = this.props.subscriptions.toList()

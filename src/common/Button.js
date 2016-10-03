@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ZulipButton extends React.PureComponent {
+export default class Button extends React.PureComponent {
 
   props: {
     customStyles: Object,

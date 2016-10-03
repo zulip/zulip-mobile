@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 
-import ZulipButton from '../common/ZulipButton';
+import Button from '../common/Button';
 import UserFilter from './UserFilter';
 import UserList from './UserList';
 
@@ -66,7 +66,7 @@ export default class UsersCard extends Component {
           filter={filter}
           onNarrow={this.handleUserNarrow}
         />
-        <ZulipButton
+        <Button
           customStyles={styles.logoutButton}
           secondary
           text="Logout"
