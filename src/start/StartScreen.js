@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   View,
+  Text,
   ActivityIndicator,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
@@ -8,21 +9,23 @@ import { connect } from 'react-redux';
 
 import {
   addAccount,
-} from './accountActions';
+} from '../account/accountActions';
 
-// import { Backend } from '../api/apiClient';
+import StartNavigation from './StartNavigation';
 import styles, { BRAND_COLOR } from '../common/styles';
 import Logo from '../common/Logo';
+import AccountPickScreen from '../accountlist/AccountPickScreen';
 import PasswordAuthScreen from './PasswordAuthScreen';
 import DevAuthScreen from './DevAuthScreen';
-import AccountPickScreen from './AccountPickScreen';
+
+type Props = {
+  realm: string,
+  authBackends: string[],
+};
 
 class StartScreen extends React.Component {
 
-  props: {
-    realm: string,
-    authBackends: string[],
-  };
+  props: Props;
 
   componentWillMount() {
     const { auth, realm, email, password, authBackends } = this.props;
@@ -42,6 +45,11 @@ class StartScreen extends React.Component {
     }
   }
 
+  handleBackAction = () =>
+    this.handleAction({ type: 'pop' });
+
+  renderScene = (key) => <Text>Hello</Text>;
+
   render() {
     const { authBackends, realm } = this.props;
     const isRealmSet = !!realm;
@@ -49,6 +57,8 @@ class StartScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Logo />
+        <StartNavigation />
+
         {!isRealmSet && <AccountPickScreen />}
         {isRealmSet && !authBackends.size && <ActivityIndicator color={BRAND_COLOR} />}
         {isRealmSet && authBackends.includes('dev') && <DevAuthScreen />}
@@ -66,12 +76,7 @@ const mapDispatchToProps = (dispatch, ownProps) =>
   }, dispatch);
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
-  realm: state.auth.get('realm'),
-  email: state.auth.get('email'),
-  password: state.auth.get('password'),
-  activeBackend: state.user.get('activeBackend'),
-  authBackends: state.user.get('authBackends'),
+  accounts: [],
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StartScreen);

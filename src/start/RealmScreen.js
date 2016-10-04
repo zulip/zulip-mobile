@@ -54,7 +54,7 @@ class RealmScreen extends React.Component {
 
         <View style={styles.field}>
           <Button
-            text="Next"
+            text="Sign in"
             progress={pendingServerResponse}
             onPress={this.onRealmEnter}
           />

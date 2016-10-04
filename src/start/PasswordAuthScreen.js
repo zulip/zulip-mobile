@@ -19,7 +19,7 @@ import { markErrorsAsHandled } from '../error/errorActions';
 import {
   LOGIN_FAILED,
   attemptLogin,
-} from './accountActions';
+} from '../account/accountActions';
 
 class PasswordAuthScreen extends React.Component {
   constructor(props) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import StartScreen from './account/StartScreen';
+import StartScreen from './start/StartScreen';
 import MainScreen from './nav/MainScreen';
 
 const App = (props) =>

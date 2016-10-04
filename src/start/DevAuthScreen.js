@@ -18,7 +18,7 @@ import {
   LOGIN_FAILED,
   attemptDevLogin,
   getDevEmails,
-} from './accountActions';
+} from '../account/accountActions';
 
 class DevAuthScreen extends React.Component {
 

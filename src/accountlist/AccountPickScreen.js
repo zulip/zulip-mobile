@@ -6,31 +6,16 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import config from '../config';
-
 import { markErrorsAsHandled } from '../error/errorActions';
 import {
   addAccount,
-} from './accountActions';
+} from '../account/accountActions';
 
 import styles from '../common/styles';
 import Button from '../common/Button';
 import AccountList from './AccountList';
 
 class AccountPickScreen extends React.Component {
-  constructor(props) {
-    super(props);
-
-    const realmFromConfig = process.env.NODE_ENV === 'development' ? config.devRealm : config.productionRealm;
-    this.state = {
-      realm: props.realm || realmFromConfig,
-    };
-  }
-
-  onRealmEnter = () => {
-    this.props.markErrorsAsHandled(this.props.errors);
-    this.props.addAccount(this.state.realm);
-  }
 
   render() {
     // const { pendingServerResponse, errors } = this.props;
