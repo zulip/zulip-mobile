@@ -4,9 +4,9 @@
 
 **zulip-mobile** only supports development on OS X at the moment since it currently only targets iOS devices. In the future we hope to support development of an Android version on all major operating systems.
 
-* Mac OS X (El Capitan recommended)
-* Xcode (7+ recommended)
-* Node (for `npm`)
+* macOS (Sierra recommended)
+* Xcode (8+ recommended)
+* Node 6+ (for `npm`)
 * Google Chrome (for React Native debugger)
 
 
@@ -25,7 +25,7 @@ You'll probably also want to install and provision a [Zulip dev VM](https://zuli
 
 
 ## Running on iOS simulator
-`npm start` will launch a new terminal with the React Native packager and open up the app in the iOS simulator.
+`react-native run-ios` will launch a new terminal with the React Native packager and open up the app in the iOS simulator.
 
 It will also launch a browser tab in Chrome with the React Native debugger. `console.log` statements in React Native will end up in the JS console on this tab.
 
@@ -40,7 +40,7 @@ Finally, run the Xcode project inside of `/ios` with your iOS device as the targ
 
 
 ## Contributing
-**zulip-mobile** is in a very early experimental phase. We welcome contributions to help improve the foundation and to add features.
+**zulip-mobile** is in active development and a stable version will be available soon. We welcome contributions to help improve the foundation and to add features.
 
 To contribute, browse open issues [here](https://github.com/zulip/zulip-mobile/issues) and submit a pull request. Please follow the [commit discipline](https://zulip.readthedocs.io/en/latest/code-style.html#version-control) of the Zulip server project.
 
@@ -49,9 +49,11 @@ To contribute, browse open issues [here](https://github.com/zulip/zulip-mobile/i
 
 ### High-level design
 
-**zulip-mobile** uses the Redux framework for state management and information flow. Please read the [Redux docs](http://redux.js.org/index.html) for more information on the Redux architecture and terminology (such as actions, reducers and stores).
+**zulip-mobile** uses the Redux for state management and data flow. Please read the [Redux docs](http://redux.js.org) for more information on the Redux architecture and terminology (such as actions, reducers and stores).
 
 At a high-level, all state in the app is immutable and stored in one place. Modifying state requires new copies of each data structure or structural sharing via [Immutable.js](https://facebook.github.io/immutable-js/).
+
+We use selectors to extract (or select) data from Redux Stores. [Learn more about the concept of selectors](http://redux.js.org/docs/recipes/ComputingDerivedData.html) We might use [Reselect](https://github.com/reactjs/reselect) for memoized selectors, when/if need for more performance arises.
 
 ### Code structure
 
@@ -78,12 +80,15 @@ In general most of the work will be inside of the `/src` directory. The only rea
 The source directory is broken up into subdirectories corresponding to components of the app:
 * `account` - login, logout, and user account
 * `api` - clients for the Zulip server API
+* `common` - common components for multiple reuse (buttons, inputs, etc.)
 * `compose` - composing messages
 * `lib` - miscellaneous shared libraries
 * `message` - messages and groups of related messages
 * `nav` - navigation
 * `stream` - stream of messages
 * `streamlist` - stream selection
+* `userlist` - user display, search and selection
+
 
 `ZulipApp.js` contains the top-level React component for the app and `reducers.js` contains the top-level reducer.
 
@@ -92,16 +97,17 @@ The source directory is broken up into subdirectories corresponding to component
 ### Unit tests
 `npm test` runs the unit test suite.
 
-Our tests are written using the [Mocha](https://mochajs.org/) framework with the [Chai](http://chaijs.com/) assertion library.
+Our tests are written using [Jest](https://facebook.github.io/jest/).
 
 To write a test, place a Javascript file with the `-test.js` suffix in the `__tests__` directory inside of any subfolder of `/src`. The test will be automatically picked up by the test runner.
 
 
 ### Functional tests
-Functional tests have not been set up at the moment. We plan to use [Appium](http://appium.io/).
+Functional tests have not been set up. We plan to use [Appium](http://appium.io/).
 
 
 ## Linting
 `npm run lint` checks the codebase against our linting rules. We're using the AirBnB [ES6](https://github.com/airbnb/javascript) and [React](https://github.com/airbnb/javascript/tree/master/react) style guides.
 
-Note: the master branch does not pass all lint rules at the moment.
+## Type checking with Flow
+Use use [Flow](https://flowtype.org/) to find and prevent type related issues.
