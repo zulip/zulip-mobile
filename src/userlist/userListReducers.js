@@ -35,7 +35,7 @@ const initialState = fromJS([]);
 const activityFromPresence = (presence: PresenceMap): UserStatus =>
   'active';
 
-const reducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case PRESENCE_RESPONSE: {
       let newState = state;
@@ -64,5 +64,3 @@ const reducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export default reducer;

@@ -16,5 +16,5 @@ it('on unrecognized action, returns input state unchanged', () => {
 it('on GET_USER_RESPONSE stores user data', () => {
   const users = [{ full_name: 'user1' }, { full_name: 'user2' }];
   const newState = userListReducers(fromJS([]), { type: GET_USER_RESPONSE, users });
-  expect(newState).toEqual(users);
+  expect(newState.size).toEqual(2);
 });
