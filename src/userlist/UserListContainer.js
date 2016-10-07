@@ -1,24 +1,33 @@
 import React, { Component } from 'react';
-import UsersDrawer from './UsersDrawer';
 
-const serverPresenceToStatus = (status: string, timestamp: number) =>
-  (timestamp - Date.now() < 1000 ? status : 'offline');
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import {
+  logout,
+} from '../account/userActions';
 
-export default class UserListContainer extends Component {
+import UsersCard from './UsersCard';
 
-  props: {
-    users: string[],
-  };
+// const serverPresenceToStatus = (status: string, timestamp: number) =>
+//   (timestamp - Date.now() < 1000 ? status : 'offline');
+
+class UserListContainer extends Component {
 
   render() {
-    const users = [
-      { status: 'active', name: 'Boris' },
-      { status: 'idle', name: 'Tim' },
-      { status: 'offline', name: 'Neraj' },
-    ];
-
     return (
-      <UsersDrawer users={users} />
+      <UsersCard {...this.props} />
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  users: state.userlist.get('users'),
+  presence: state.userlist.get('presence'),
+});
+
+const mapDispatchToProps = (dispatch, ownProps) =>
+  bindActionCreators({
+    logout,
+  }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserListContainer);

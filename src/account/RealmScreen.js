@@ -17,19 +17,17 @@ import {
   addAccount,
 } from './userActions';
 
-import ZulipPasswordAuthView from './ZulipPasswordAuthView';
-import ZulipDevAuthView from './ZulipDevAuthView';
 import styles from '../common/styles';
-import ZulipLogo from '../common/ZulipLogo';
-import ZulipError from '../common/ZulipError';
-import ZulipButton from '../common/ZulipButton';
+import ErrorMsg from '../common/ErrorMsg';
+import Button from '../common/Button';
 
-class ZulipAccountsView extends React.Component {
+class ZulipRealmView extends React.Component {
   constructor(props) {
     super(props);
 
+    const realmFromConfig = process.env.NODE_ENV === 'development' ? config.devRealm : config.productionRealm;
     this.state = {
-      realm: process.env.NODE_ENV === 'development' ? config.devRealm : config.productionRealm,
+      realm: props.realm || realmFromConfig,
     };
   }
 
@@ -39,19 +37,10 @@ class ZulipAccountsView extends React.Component {
   }
 
   render() {
-    if (this.props.activeAccountId) {
-      const activeAccount = this.props.accounts.get(this.props.activeAccountId);
-      if (activeAccount.authBackends.includes('dev')) {
-        return <ZulipDevAuthView />;
-      } else {
-        return <ZulipPasswordAuthView />;
-      }
-    }
+    const { pendingServerResponse, errors } = this.props;
 
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <ZulipLogo />
-
+      <KeyboardAvoidingView behavior="padding">
         <View style={styles.field}>
           <Text style={styles.heading1}>Welcome to Zulip</Text>
         </View>
@@ -73,23 +62,21 @@ class ZulipAccountsView extends React.Component {
         </View>
 
         <View style={styles.field}>
-          <ZulipButton
+          <Button
             text="Next"
-            progress={this.props.pendingServerResponse}
+            progress={pendingServerResponse}
             onPress={this.onRealmEnter}
           />
         </View>
 
-        <ZulipError errors={this.props.errors} />
+        <ErrorMsg errors={errors} />
       </KeyboardAvoidingView>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  accounts: state.user.accounts,
-  activeAccountId: state.user.activeAccountId,
-  pendingServerResponse: state.user.pendingServerResponse,
+  pendingServerResponse: state.app.get('pendingServerResponse'),
   errors: state.errors.filter(e => e.active),
 });
 
@@ -99,4 +86,4 @@ const mapDispatchToProps = (dispatch, ownProps) =>
     markErrorsAsHandled,
   }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ZulipAccountsView);
+export default connect(mapStateToProps, mapDispatchToProps)(ZulipRealmView);

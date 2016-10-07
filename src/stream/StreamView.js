@@ -5,10 +5,10 @@ import {
 
 import InfiniteScrollView from './InfiniteScrollView';
 
-import ZulipStreamMessageHeader from '../message/ZulipStreamMessageHeader';
-import ZulipPrivateMessageHeader from '../message/ZulipPrivateMessageHeader';
+import StreamMessageHeader from '../message/StreamMessageHeader';
+import PrivateMessageHeader from '../message/PrivateMessageHeader';
 
-import ZulipMessageView from '../message/ZulipMessageView';
+import MessageView from '../message/MessageView';
 import { sameRecipient } from '../lib/message';
 
 const styles = StyleSheet.create({
@@ -17,24 +17,24 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ZulipStreamView extends React.PureComponent {
+export default class StreamView extends React.PureComponent {
 
   getHeader(item) {
     if (item.type === 'stream') {
-      const subscription = this.props.subscriptions.get(item.display_recipient);
+      const subscription = this.props.subscriptions.find(x => x.get('name') === item.display_recipient);
       return (
-        <ZulipStreamMessageHeader
+        <StreamMessageHeader
           key={`section_${item.id}`}
           stream={item.display_recipient}
           topic={item.subject}
-          color={subscription ? subscription.color : '#ccc'}
+          color={subscription ? subscription.get('color') : '#ccc'}
           item={item}
           narrow={this.props.narrow}
         />
       );
     } else if (item.type === 'private') {
       return (
-        <ZulipPrivateMessageHeader
+        <PrivateMessageHeader
           key={`section_${item.id}`}
           recipients={item.display_recipient.filter(r =>
             r.email !== this.props.email
@@ -58,7 +58,7 @@ export default class ZulipStreamView extends React.PureComponent {
         totalIdx++;
       }
       items.push(
-        <ZulipMessageView
+        <MessageView
           key={item.id}
           from={item.sender_full_name}
           message={item.content}

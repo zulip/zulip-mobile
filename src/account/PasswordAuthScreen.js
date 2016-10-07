@@ -11,9 +11,8 @@ import { connect } from 'react-redux';
 import config from '../config';
 
 import styles from '../common/styles';
-import ZulipLogo from '../common/ZulipLogo';
-import ZulipError from '../common/ZulipError';
-import ZulipButton from '../common/ZulipButton';
+import ErrorMsg from '../common/ErrorMsg';
+import Button from '../common/Button';
 
 // Actions
 import { markErrorsAsHandled } from '../error/errorActions';
@@ -22,29 +21,29 @@ import {
   attemptLogin,
 } from './userActions';
 
-export class PasswordAuthView extends React.Component {
+class PasswordAuthScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: config.defaultLoginEmail,
-      password: config.defaultLoginPassword,
+      email: props.email || config.defaultLoginEmail,
+      password: props.password || config.defaultLoginPassword,
     };
   }
 
   onSignIn = () => {
     this.props.markErrorsAsHandled(this.props.errors);
     this.props.attemptLogin(
-      this.props.account,
+      this.props.auth,
       this.state.email,
       this.state.password,
     );
   };
 
   render() {
-    return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <ZulipLogo />
+    const { errors, pendingServerResponse } = this.props;
 
+    return (
+      <KeyboardAvoidingView behavior="padding">
         <View style={styles.field}>
           <TextInput
             autoCorrect={false}
@@ -66,21 +65,23 @@ export class PasswordAuthView extends React.Component {
           />
         </View>
         <View style={styles.field}>
-          <ZulipButton
+          <Button
             text="Sign in"
-            progress={this.props.pendingServerResponse}
+            progress={pendingServerResponse}
             onPress={this.onSignIn}
           />
         </View>
-        <ZulipError errors={this.props.errors} />
+        <ErrorMsg errors={errors} />
       </KeyboardAvoidingView>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  account: state.user.accounts.get(state.user.activeAccountId),
-  pendingServerResponse: state.user.pendingServerResponse,
+  auth: state.auth,
+  email: state.auth.get('email'),
+  password: state.auth.get('password'),
+  pendingServerResponse: state.app.get('pendingServerResponse'),
   errors: state.errors.filter(e => e.active && e.type === LOGIN_FAILED),
 });
 
@@ -90,4 +91,4 @@ const mapDispatchToProps = (dispatch, ownProps) =>
     markErrorsAsHandled,
   }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(PasswordAuthView);
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordAuthScreen);
