@@ -30,21 +30,38 @@ type PresenceMap = {
 //   presence: PresenceMap,
 // }
 
-const initialState = fromJS([]);
+const priorityToState = {
+  0: 'offline',
+  1: 'idle',
+  2: 'active',
+};
 
-const activityFromPresence = (presence: PresenceMap): UserStatus =>
-  'active';
+const stateToPriority = {
+  offline: 0,
+  idle: 1,
+  active: 2,
+};
+
+export const activityFromPresence = (presence: Presence): UserStatus =>
+  priorityToState[Math.max(...Object.values(presence).map(x => stateToPriority[x.status]))];
+
+export const timestampFromPresence = (presence: Presence): UserStatus =>
+  Math.max(...Object.values(presence).map(x => x.timestamp));
+
+const initialState = fromJS([]);
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case PRESENCE_RESPONSE: {
-      let newState = state;
-      Object.keys(action.presence).forEach(x => {
-        const status = activityFromPresence(action.presence[x]);
-        const user = state.find(u => u.email === x);
-        newState = state.set({ status });
-      });
-      return newState;
+      return Object.keys(action.presence).reduce((currentState, email) => {
+        const userIndex = state.findIndex(u => u.get('email') === email);
+        if (userIndex === -1) return currentState;
+
+        const p = action.presence[email];
+        const status = activityFromPresence(p);
+        const timestamp = timestampFromPresence(p);
+        return currentState.setIn([userIndex, 'status'], status).setIn([userIndex, 'timestamp'], timestamp);
+      }, state);
     }
     case GET_USER_RESPONSE: {
       const users = action.users.map(x => ({
