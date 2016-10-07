@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { UserStatus } from '../api/apiClient';
 
 const styles = StyleSheet.create({
   common: {
@@ -16,10 +17,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
   },
   idle: {
-    backgroundColor: 'orange',
+    backgroundColor: 'rgba(255, 165, 0, 0.5)',
+    borderColor: 'rgba(255, 165, 0, 1)',
+    borderWidth: 2,
   },
   offline: {
-    backgroundColor: 'grey',
+    backgroundColor: 'transparent',
+    borderColor: 'grey',
+    borderWidth: 2,
   },
 });
 
@@ -27,8 +32,12 @@ const styles = StyleSheet.create({
 export default class UserStatusIndicator extends Component {
 
   props: {
-    status: 'active' | 'idle',
+    status: UserStatus,
   }
+
+  static defaultProps = {
+    status: 'offline',
+  };
 
   render() {
     const { status } = this.props;

@@ -5,23 +5,23 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
 } from 'react-native';
 
-import ZulipMessageTextView from '../message/ZulipMessageTextView';
+import Avatar from '../common/Avatar';
 
-const DEFAULT_PADDING = 12;
+import ZulipMessageTextView from '../message/ZulipMessageTextView';
 
 const styles = StyleSheet.create({
   message: {
     flexDirection: 'row',
     backgroundColor: '#fff',
-    padding: DEFAULT_PADDING,
+    padding: 8,
     overflow: 'hidden',
   },
   messageContent: {
     flex: 1,
     flexDirection: 'column',
+    marginLeft: 8,
   },
   messageHeader: {
     flex: 1,
@@ -37,12 +37,6 @@ const styles = StyleSheet.create({
     color: '#999',
     fontSize: 15,
   },
-  messageThumbnail: {
-    width: 36,
-    height: 36,
-    marginRight: DEFAULT_PADDING,
-    borderRadius: 2,
-  },
 });
 
 class ZulipMessageView extends React.PureComponent {
@@ -50,10 +44,7 @@ class ZulipMessageView extends React.PureComponent {
   render() {
     return (
       <View style={styles.message}>
-        <Image
-          style={styles.messageThumbnail}
-          source={{ uri: this.props.avatarUrl }}
-        />
+        <Avatar avatarUrl={this.props.avatarUrl} />
         <View style={styles.messageContent}>
           <View style={styles.messageHeader}>
             <Text style={styles.messageUser}>

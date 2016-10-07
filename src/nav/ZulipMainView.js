@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AppState,
   StatusBar,
 } from 'react-native';
 
@@ -9,8 +10,16 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import {
-  getMessages,
-  setMessages,
+  sendGetUsers,
+} from '../userlist/userListActions';
+
+import {
+  appActivity,
+} from '../user/appActions';
+
+import {
+  sendGetMessages,
+  sendSetMessages,
 } from '../stream/streamActions';
 
 import {
@@ -29,27 +38,52 @@ import ZulipComposeView from '../compose/ZulipComposeView';
 import UserListContainer from '../userlist/UserListContainer';
 
 class ZulipMainView extends React.Component {
+
+  // props: {
+  //   auth: Auth,
+  //   subscriptions: state.subscriptions,
+  //   messages: state.stream.messages,
+  //   fetching: state.stream.fetching,
+  //   narrow: state.stream.narrow,
+  //   pointer: state.stream.pointer,
+  //   caughtUp: state.stream.caughtUp,
+  //   streamlistOpened: state.nav.opened,
+  // }
+
+  state: {
+    currentAppState: boolean,
+  }
+
+  handleAppStateChange = (currentAppState) => {
+    if (currentAppState === 'active') {
+      this.props.appActivity();
+    }
+  }
+
   componentDidMount() {
-    this.props.getEvents(this.props.account);
+    AppState.addEventListener('change', this.handleAppStateChange);
+    const { auth, narrow } = this.props;
+
+    this.props.getEvents(auth);
 
     // We use requestAnimationFrame to force this to happen in the next
     // iteration of the event loop. This ensures that the last action ends
     // before the new action begins and makes the debug output clearer.
-    requestAnimationFrame(() =>
-      this.props.getMessages(
-        this.props.account,
-        Number.MAX_SAFE_INTEGER,
-        10,
-        10,
-        this.props.narrow
-      )
-    );
+    requestAnimationFrame(() => {
+      this.props.sendGetUsers(auth, true, false);
+      this.props.appActivity(auth);
+      this.props.sendGetMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
+    });
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
   fetchOlder = () => {
     if (!this.props.fetching) {
-      this.props.getMessages(
-        this.props.account,
+      this.props.sendGetMessages(
+        this.props.auth,
         this.props.pointer[0],
         10,
         0,
@@ -60,8 +94,8 @@ class ZulipMainView extends React.Component {
 
   fetchNewer = () => {
     if (!this.props.fetching && !this.props.caughtUp) {
-      this.props.getMessages(
-        this.props.account,
+      this.props.sendGetMessages(
+        this.props.auth,
         this.props.pointer[1],
         0,
         10,
@@ -70,11 +104,11 @@ class ZulipMainView extends React.Component {
     }
   }
 
-  narrow = (narrowOperator, pointer = Number.MAX_SAFE_INTEGER, messages = []) => {
-    this.props.setMessages(messages);
+  narrow = (narrowOperator, pointer: number = Number.MAX_SAFE_INTEGER, messages = []) => {
+    this.props.sendSetMessages(messages);
     requestAnimationFrame(() =>
-      this.props.getMessages(
-        this.props.account,
+      this.props.sendGetMessages(
+        this.props.auth,
         pointer,
         10,
         10,
@@ -105,8 +139,9 @@ class ZulipMainView extends React.Component {
         side="left"
       >
         <Drawer
-          content={<UserListContainer />}
+          content={<UserListContainer narrow={this.narrow} />}
           openDrawerOffset={100}
+          tapToClose
           negotiatePan
           panOpenMask={0.5}
           useInteractionManager
@@ -128,7 +163,7 @@ class ZulipMainView extends React.Component {
             <ZulipStreamView
               messages={this.props.messages}
               subscriptions={this.props.subscriptions}
-              email={this.props.account.email}
+              email={this.props.auth.email}
               caughtUp={this.props.caughtUp}
               fetchOlder={this.fetchOlder}
               fetchNewer={this.fetchNewer}
@@ -143,8 +178,8 @@ class ZulipMainView extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  account: state.user.accounts.get(state.user.activeAccountId),
-  subscriptions: state.realm.subscriptions,
+  auth: state.auth,
+  subscriptions: state.subscriptions,
   messages: state.stream.messages,
   fetching: state.stream.fetching,
   narrow: state.stream.narrow,
@@ -155,8 +190,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
-    getMessages,
-    setMessages,
+    appActivity,
+    sendGetUsers,
+    sendGetMessages,
+    sendSetMessages,
     getEvents,
     openStreamSidebar,
     closeStreamSidebar,

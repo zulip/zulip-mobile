@@ -4,6 +4,6 @@ node_js:
 notifications:
   email: false
 before_install:
-  npm install
+  - npm install
 install:
   npm run test

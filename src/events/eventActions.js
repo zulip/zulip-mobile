@@ -1,4 +1,4 @@
-import ApiClient from '../api/ApiClient';
+import { pollForEvents, registerForEvents } from '../api/apiClient';
 
 import {
   REALM_SET_STREAMS,
@@ -6,6 +6,36 @@ import {
 
 export const EVENT_NEW_MESSAGE = 'EVENT_NEW_MESSAGE';
 export const EVENTS_REGISTERED = 'EVENTS_REGISTERED';
+export const EVENT_HEARTBEAT = 'EVENTS_HEARTBEAT';
+export const EVENT_PRESENCE = 'EVENTS_PRESENCE';
+export const EVENT_UPDATE_MESSAGE_FLAGS = 'EVENT_UPDATE_MESSAGE_FLAGS';
+
+export type HeartbeatEvent = {
+  type: 'heartbeat',
+  id: number,
+};
+
+export type MessageEvent = {
+  type: 'message',
+  id: number,
+};
+
+export type PresenceEvent = {
+  type: 'message',
+  id: number,
+  email: string,
+  presence: any,
+  server_timestamp: number,
+};
+
+export type UpdateMessageFlagsEvent = {
+  type: 'update_message_flags',
+  id: number,
+  all: boolean,
+  flag: 'read' | '???',
+  messages: number[],
+  operation: 'add' | '???',
+};
 
 const processEvent = (dispatch, event) => {
   switch (event.type) {
@@ -15,14 +45,38 @@ const processEvent = (dispatch, event) => {
         message: event.message,
       });
       break;
+    case 'realm_user':
+      // TODO
+      break;
+    case 'subscription':
+      // TODO
+      break;
+    case 'update_message':
+      // TODO
+      break;
+    case 'heartbeat':
+      // ignore, no need to handle
+      break;
+    case 'presence':
+      dispatch({
+        type: EVENT_PRESENCE,
+        presence: event.presence,
+      });
+      break;
+    case 'update_message_flags':
+      dispatch({
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        presence: event.presence,
+      });
+      break;
     default:
-      console.warn('Unrecognized event: ', event.type);
+      console.warn('Unrecognized event: ', event.type);  // eslint-disable-line no-console
   }
 };
 
-export const getEvents = (account) =>
+export const getEvents = (auth) =>
   async (dispatch) => {
-    const data = await ApiClient.registerForEvents(account);
+    const data = await registerForEvents(auth);
 
     const queueId = data.queue_id;
     let lastEventId = data.last_event_id;
@@ -40,8 +94,8 @@ export const getEvents = (account) =>
     // Event loop
     // TODO: fix this
     while (true) {
-      const res = await ApiClient.pollForEvents(
-        account,
+      const res = await pollForEvents(
+        auth,
         queueId,
         lastEventId,
       );

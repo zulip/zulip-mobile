@@ -9,7 +9,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import styles from '../common/styles';
-import ZulipLogo from '../common/ZulipLogo';
 import ZulipError from '../common/ZulipError';
 import ZulipButton from '../common/ZulipButton';
 
@@ -29,7 +28,7 @@ class ZulipDevAuthView extends React.Component {
     // We use setTimeout with time=0 to force this to happen in the next
     // iteration of the event loop. This ensures that the last action ends
     // before the new action begins and makes the debug output clearer.
-    setTimeout(() => this.props.getDevEmails(this.props.account), 0);
+    setTimeout(() => this.props.getDevEmails(this.props.auth), 0);
   }
 
   loginPressed = (user) => {
@@ -45,8 +44,6 @@ class ZulipDevAuthView extends React.Component {
 
     return (
       <View style={styles.container}>
-        <ZulipLogo />
-        <ZulipError errors={this.props.errors} />
         <Text style={styles.heading1}>
           Zulip Dev Login
         </Text>
@@ -72,12 +69,14 @@ class ZulipDevAuthView extends React.Component {
             />
           )}
         </ScrollView>
+        <ZulipError errors={this.props.errors} />
       </View>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   account: state.user.accounts.get(state.user.activeAccountId),
   errors: state.errors.filter(e => e.active && e.type === LOGIN_FAILED),
 });
