@@ -2,14 +2,14 @@ exports[`test renders correctly 1`] = `
 <View
   style={
     Array [
+      undefined,
       Object {
         "alignItems": "center",
         "borderRadius": 5,
         "flex": 1,
         "height": 44,
         "justifyContent": "center",
-        "marginBottom": 10,
-        "width": 260
+        "marginBottom": 10
       },
       Object {
         "backgroundColor": "#22693F"
