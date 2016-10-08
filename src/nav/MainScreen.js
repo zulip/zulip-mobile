@@ -155,7 +155,7 @@ class MainScreen extends React.Component {
             hidden={this.props.streamlistOpened}
           />
           <NavBar
-            onPressLeft={
+            openStreamSidebar={
               this.props.streamlistOpened ?
               this.props.closeStreamSidebar : this.props.openStreamSidebar
             }

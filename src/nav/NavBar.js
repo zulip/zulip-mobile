@@ -6,6 +6,8 @@ import {
   Text,
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+
 const NAV_BAR_HEIGHT = 44;
 const STATUS_BAR_HEIGHT = 20;
 
@@ -21,8 +23,6 @@ const styles = StyleSheet.create({
     paddingTop: STATUS_BAR_HEIGHT,
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingLeft: 10,
-    paddingRight: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#999',
   },
@@ -34,35 +34,32 @@ const styles = StyleSheet.create({
   headingText: {
     fontSize: 16,
   },
-  leftButton: {
-    textAlign: 'left',
-    fontSize: 16,
-    width: 50,
-  },
-  rightButton: {
-    textAlign: 'right',
-    fontSize: 16,
-    width: 50,
+  button: {
+    textAlign: 'center',
+    fontSize: 26,
+    width: 46,
   },
 });
 
 export default class NavBar extends React.Component {
   render() {
+    const { openStreamList } = this.props;
+
     return (
       <Navigator
         initialRoute={{ name: 'Home', index: 0 }}
         renderScene={(route) =>
           <View style={styles.container}>
             <View style={styles.navBar}>
-              <Text style={styles.leftButton} onPress={this.props.onPressLeft}>
-                Streams
-              </Text>
+              <Icon style={styles.button} name="ios-menu" onPress={openStreamList}/>
+              <Text style={styles.button} />
               <View style={styles.heading}>
                 <Text style={styles.headingText}>
                   {route.name}
                 </Text>
               </View>
-              <Text style={styles.rightButton}>Users</Text>
+              <Icon style={styles.button} name="ios-search" />
+              <Icon style={styles.button} name="md-people" />
             </View>
             {this.props.children}
           </View>

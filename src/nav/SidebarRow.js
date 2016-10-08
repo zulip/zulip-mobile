@@ -10,20 +10,17 @@ const styles = StyleSheet.create({
   row: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  colorBar: {
-    width: 24,
-    height: 24,
-    margin: 8,
-    borderRadius: 2,
+    alignItems: 'center',
+    height: 40,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 });
 
-export default ({ customStyles, onPress, name, color = '#444' }) => (
+export default ({ customStyles, onPress, name, icon }) => (
   <TouchableHighlight onPress={onPress}>
     <View style={styles.row}>
-      <View style={[styles.colorBar, { backgroundColor: color }]} />
+      {icon}
       <Text style={customStyles}>
         {name}
       </Text>

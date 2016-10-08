@@ -6,6 +6,8 @@ import {
   Text,
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+
 import {
   homeNarrow,
   privateNarrow,
@@ -28,7 +30,6 @@ const styles = StyleSheet.create({
   streams: {
     flex: 1,
     flexDirection: 'column',
-    marginTop: 20,
   },
   account: {
     height: NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT,
@@ -36,6 +37,19 @@ const styles = StyleSheet.create({
   },
   mainMenu: {
     fontWeight: 'bold',
+  },
+  colorBar: {
+    width: 30,
+    height: 30,
+    margin: 5,
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    margin: 5,
+    fontSize: 30,
+    color: '#fff',
+    textAlign: 'center',
   },
   streamName: {
     padding: 10,
@@ -64,29 +78,33 @@ export default class StreamSidebar extends React.Component {
               name="Home"
               customStyles={[styles.streamName, styles.mainMenu]}
               onPress={() => this.props.narrow(homeNarrow)}
+              icon={<Icon style={styles.icon} name="md-home" />}
             />
             <SidebarRow
               name="Private Messages"
               customStyles={[styles.streamName, styles.mainMenu]}
               onPress={() => this.props.narrow(privateNarrow())}
+              icon={<Icon style={styles.icon} name="md-chatboxes" />}
             />
             <SidebarRow
               name="Starred"
               customStyles={[styles.streamName, styles.mainMenu]}
               onPress={() => this.props.narrow(starredNarrow)}
+              icon={<Icon style={styles.icon} name="md-star" />}
             />
             <SidebarRow
-              name="@-Mentions"
+              name="@-mentions"
               customStyles={[styles.streamName, styles.mainMenu]}
               onPress={() => this.props.narrow(mentionedNarrow)}
+              icon={<Icon style={styles.icon} name="md-at" />}
             />
             {sortedSubscriptions.map(x =>
               <SidebarRow
                 key={x.get('stream_id')}
                 name={x.get('name')}
-                color={x.get('color')}
                 customStyles={styles.streamName}
                 onPress={() => this.props.narrow(streamNarrow(x.get('name')))}
+                icon={<View style={[styles.colorBar, { backgroundColor: x.get('color') }]} />}
               />
             )}
           </View>
