@@ -52,7 +52,7 @@ const processEvent = (dispatch, event) => {
       // TODO
       break;
     case 'heartbeat':
-      // TODO
+      // ignore, no need to handle
       break;
     case 'presence':
       dispatch({

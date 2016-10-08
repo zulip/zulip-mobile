@@ -15,12 +15,21 @@ const styles = StyleSheet.create({
 const filterUsers = (users: any[], filter: string): any[] =>
   users.filter(x =>
     filter === '' ||
-    x.get('fullName').includes(filter) ||
-    x.get('email').includes(filter)
+    x.get('fullName').toLowerCase().includes(filter.toLowerCase()) ||
+    x.get('email').toLowerCase().includes(filter.toLowerCase())
   );
 
+const statusOrder = {
+  active: 1,
+  idle: 2,
+  offline: 3,
+};
+
 const sortUsers = (users: any[]): any[] =>
-  users.sort((x1, x2) => x1.get('fullName').localeCompare(x2.get('fullName')));
+  users.sort((x1, x2) =>
+    statusOrder[x1.get('status')] - statusOrder[x2.get('status')] ||
+    x1.get('fullName').localeCompare(x2.get('fullName'))
+  );
 
 export default class UserList extends Component {
 
