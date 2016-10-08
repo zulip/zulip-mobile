@@ -104,7 +104,7 @@ class MainScreen extends React.Component {
     }
   }
 
-  narrow = (narrowOperator, pointer = Number.MAX_SAFE_INTEGER, messages = []) => {
+  narrow = (narrowOperator, pointer: number = Number.MAX_SAFE_INTEGER, messages = []) => {
     this.props.sendSetMessages(messages);
     requestAnimationFrame(() =>
       this.props.sendGetMessages(
@@ -139,8 +139,9 @@ class MainScreen extends React.Component {
         side="left"
       >
         <Drawer
-          content={<UserListContainer />}
+          content={<UserListContainer narrow={this.narrow} />}
           openDrawerOffset={100}
+          tapToClose
           negotiatePan
           panOpenMask={0.5}
           useInteractionManager
