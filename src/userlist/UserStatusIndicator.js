@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
   },
   idle: {
-    backgroundColor: 'rgba(255, 165, 0, 0.5)',
+    backgroundColor: 'rgba(255, 165, 0, 0.25)',
     borderColor: 'rgba(255, 165, 0, 1)',
     borderWidth: 2,
   },
@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderColor: 'grey',
     borderWidth: 2,
+  },
+  unknown: {
+
   },
 });
 
@@ -36,7 +39,7 @@ export default class UserStatusIndicator extends Component {
   }
 
   static defaultProps = {
-    status: 'offline',
+    status: 'unknown',
   };
 
   render() {

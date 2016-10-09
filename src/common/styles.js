@@ -8,6 +8,7 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'stretch',
     marginTop: STATUS_BAR_HEIGHT,
     padding: 20,
   },
@@ -19,7 +20,6 @@ export default StyleSheet.create({
   },
   field: {
     flexDirection: 'row',
-    justifyContent: 'center',
     height: FIELD_HEIGHT,
     marginTop: 10,
   },

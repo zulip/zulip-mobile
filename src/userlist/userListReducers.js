@@ -15,10 +15,6 @@ type Presence = {
   timestamp: number,
 }
 
-type PresenceMap = {
-  [key: string]: Presence,
-}
-
 // type User = {
 //   avatarUrl: string,
 //   botOwner: ?string,
@@ -48,6 +44,9 @@ export const activityFromPresence = (presence: Presence): UserStatus =>
 export const timestampFromPresence = (presence: Presence): UserStatus =>
   Math.max(...Object.values(presence).map(x => x.timestamp));
 
+export const activityFromTimestamp = (activity: string, timestamp: number) =>
+  ((new Date() / 1000) - timestamp > 60 ? 'offline' : activity);
+
 const initialState = fromJS([]);
 
 export default (state = initialState, action) => {
@@ -58,8 +57,8 @@ export default (state = initialState, action) => {
         if (userIndex === -1) return currentState;
 
         const p = action.presence[email];
-        const status = activityFromPresence(p);
         const timestamp = timestampFromPresence(p);
+        const status = activityFromTimestamp(activityFromPresence(p), timestamp);
         return currentState.setIn([userIndex, 'status'], status).setIn([userIndex, 'timestamp'], timestamp);
       }, state);
     }

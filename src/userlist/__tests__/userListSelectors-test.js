@@ -8,9 +8,16 @@ it('empty input to filterUserList results in empty list', () => {
 });
 
 it('filterUserList returns same list if no filter', () => {
-  const users = fromJS([{ fullName: 'user1' }, { fullName: 'user2' }]);
+  const users = fromJS([{ email: 'user1@email.com' }, { email: 'user2@email.com' }]);
   const filteredUsers = filterUserList(users);
   expect(filteredUsers).toEqual(users);
+});
+
+it('filterUserList filters out user\'s own entry', () => {
+  const users = fromJS([{ email: 'some@email.com' }, { email: 'my@email.com' }]);
+  const shouldMatch = fromJS([{ email: 'some@email.com' }]);
+  const filteredUsers = filterUserList(users, '', 'my@email.com');
+  expect(filteredUsers).toEqual(shouldMatch);
 });
 
 it('filterUserList searches in name, email and is case insensitive', () => {
