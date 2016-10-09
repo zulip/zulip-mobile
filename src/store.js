@@ -10,15 +10,13 @@ import immutableTransform from 'redux-persist-transform-immutable';
 
 import rootReducer from './reducers';
 
-// AsyncStorage.clear(); // use to reset storage during development
+AsyncStorage.clear(); // use to reset storage during development
 
-const immutableToPlainTransformer = (state) => {
-  const newState = {};
-  for (const i of Object.keys(state)) {
-    newState[i] = Iterable.isIterable(state[i]) ? state[i].toJS() : state[i];
-  }
-  return newState;
-};
+const immutableToPlainTransformer = (state) =>
+  Object.keys(state).reduce((newState, key) => ({
+    ...newState,
+    [key]: Iterable.isIterable(state[key]) ? state[key].toJS() : state[key],
+  }), {});
 
 // Set up middleware
 const middleware = [thunk, createActionBuffer(REHYDRATE)];

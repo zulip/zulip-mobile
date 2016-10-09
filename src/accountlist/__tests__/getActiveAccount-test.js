@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { getActiveAccount } from '../accountlistReducers';
+import { getActiveAccount } from '../accountlistSelectors';
 
 it('when no accounts exist, an empty account is returned', () => {
   const accountlist = fromJS([]);

@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Text,
   NavigationExperimental,
 } from 'react-native';
 
@@ -8,6 +7,7 @@ import {
 import styles from '../common/styles';
 
 import AccountPickScreen from '../accountlist/AccountPickScreen';
+import RealmScreen from './RealmScreen';
 import PasswordAuthScreen from './PasswordAuthScreen';
 import DevAuthScreen from './DevAuthScreen';
 
@@ -30,20 +30,24 @@ const createReducer = (initialState) =>
     }
   };
 
-// On Start, AccountList not empty => login into last logged in account
-// On Logout if AccountList not empty => show list of accounts to login + button 'Add new account'
-// If Login in stored account fails => Set realm to the one in it, but redirect to Email + Password page
-// On Start, if AccountList is empty => go directly to RealmScreen
+// On Start, AccountList not empty =>
+//   login into last logged in account
+// On Logout if AccountList not empty =>
+//   show list of accounts to login + button 'Add new account'
+// If Login in stored account fails =>
+//   Set realm to the one in it, but redirect to Email + Password page
+// On Start, if AccountList is empty =>
+//   go directly to RealmScreen
 
 const NavReducer = createReducer({
   index: 0,
   key: 'App',
-  routes: [{ key: 'Home' }],
+  routes: [{ key: 'accountlist' }],
 });
 
 type Props = {
-  realm: string,
-  authBackends: string[],
+//  realm: string,
+//  authBackends: string[],
 };
 
 export default class StartNavigation extends React.Component {
@@ -55,6 +59,27 @@ export default class StartNavigation extends React.Component {
     this.state = {
       navState: NavReducer(undefined, {}),
     };
+  }
+
+  handleBackAction = () => {
+    if (this.props.navigation.index === 0) {
+      return false;
+    }
+    this.props.popRoute();
+    return true;
+  }
+
+  handleNavigate = (action) => {
+    switch (action && action.type) {
+      case 'push':
+        this.props.pushRoute(action.route);
+        return true;
+      case 'back':
+      case 'pop':
+        return this.handleBackAction();
+      default:
+        return false;
+    }
   }
 
   handleAction = (action) => {
@@ -72,10 +97,20 @@ export default class StartNavigation extends React.Component {
   handleBackAction = () =>
     this.handleAction({ type: 'pop' });
 
-  handleBackAction = () =>
-    this.handleAction({ type: 'pop' });
-
-  renderScene = (key) => <PasswordAuthScreen />;
+  renderScene = (props) => {
+    switch (props.scene.route.key) {
+      case 'accountlist':
+        return <AccountPickScreen onNext={() => this.handleAction({ type: 'push', route: { key: 'realm', title: 'Realm' } })} />;
+      case 'realm':
+        return <RealmScreen onNext={this.handleAction} />;
+      case 'password':
+        return <PasswordAuthScreen onNext={this.handleAction} />;
+      case 'dev':
+        return <DevAuthScreen onNext={this.handleAction} />;
+      default:
+        return null;
+    }
+  }
 
   render() {
     const { navState } = this.state;

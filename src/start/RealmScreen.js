@@ -13,7 +13,7 @@ import config from '../config';
 import { markErrorsAsHandled } from '../error/errorActions';
 import {
   addAccount,
-} from './accountActions';
+} from '../account/accountActions';
 
 import styles from '../common/styles';
 import ErrorMsg from '../common/ErrorMsg';
