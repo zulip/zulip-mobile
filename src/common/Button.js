@@ -9,7 +9,8 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: 'stretch',
+    flex: 1,
     height: 44,
     alignSelf: 'stretch',
     justifyContent: 'center',

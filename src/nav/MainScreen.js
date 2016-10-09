@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import {
-  sendGetUsers,
+  sendInitialGetUsers,
 } from '../userlist/userListActions';
 
 import {
@@ -70,7 +70,7 @@ class MainScreen extends React.Component {
     // iteration of the event loop. This ensures that the last action ends
     // before the new action begins and makes the debug output clearer.
     requestAnimationFrame(() => {
-      this.props.sendGetUsers(auth, true, false);
+      this.props.sendInitialGetUsers(auth);
       this.props.appActivity(auth);
       this.props.sendGetMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
     });
@@ -191,7 +191,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
     appActivity,
-    sendGetUsers,
+    sendInitialGetUsers,
     sendGetMessages,
     sendSetMessages,
     getEvents,

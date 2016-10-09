@@ -74,11 +74,12 @@ it('timestampFromPresence, when single client just return timestamp', () => {
 });
 
 it('PRESENCE_RESPONSE merges a single user in presence response', () => {
+  const fiveSecsAgo = (Math.floor(new Date() - 5) / 1000);
   const presence = {
     'some@email.com': {
       website: {
         status: 'active',
-        timestamp: 1474527507,
+        timestamp: fiveSecsAgo,
       },
     },
   };
@@ -91,7 +92,7 @@ it('PRESENCE_RESPONSE merges a single user in presence response', () => {
     full_name: 'Some Guy',
     email: 'some@email.com',
     status: 'active',
-    timestamp: 1474527507,
+    timestamp: fiveSecsAgo,
   }]);
 
   const newState = userListReducers(prevState, { type: PRESENCE_RESPONSE, presence });
@@ -100,17 +101,18 @@ it('PRESENCE_RESPONSE merges a single user in presence response', () => {
 });
 
 it('PRESENCE_RESPONSE merges users, skips non existing', () => {
+  const fiveSecsAgo = (Math.floor(new Date() - 5) / 1000);
   const presence = {
     'some@email.com': {
       website: {
         status: 'active',
-        timestamp: 1474527507,
+        timestamp: fiveSecsAgo,
       },
     },
     'nonexisting@email.com': {
       website: {
         status: 'active',
-        timestamp: 1474527507,
+        timestamp: fiveSecsAgo,
       },
     },
   };
@@ -123,7 +125,7 @@ it('PRESENCE_RESPONSE merges users, skips non existing', () => {
     full_name: 'Some Guy',
     email: 'some@email.com',
     status: 'active',
-    timestamp: 1474527507,
+    timestamp: fiveSecsAgo,
   }]);
 
   const newState = userListReducers(prevState, { type: PRESENCE_RESPONSE, presence });
@@ -132,6 +134,7 @@ it('PRESENCE_RESPONSE merges users, skips non existing', () => {
 });
 
 it('PRESENCE_RESPONSE merges multiple users in presence response', () => {
+  const fiveSecsAgo = (Math.floor(new Date() - 5) / 1000);
   const presence = {
     'some@email.com': {
       website: {
@@ -144,7 +147,7 @@ it('PRESENCE_RESPONSE merges multiple users in presence response', () => {
     'borisyankov@gmail.com': {
       website: {
         status: 'active',
-        timestamp: 1475792187,
+        timestamp: fiveSecsAgo,
         client: 'website',
         pushable: false,
       },
@@ -192,17 +195,17 @@ it('PRESENCE_RESPONSE merges multiple users in presence response', () => {
   const expectedState = fromJS([{
     full_name: 'Some Guy',
     email: 'some@email.com',
-    status: 'active',
+    status: 'offline',
     timestamp: 1474527507,
   }, {
     full_name: 'Boris Yankov',
     email: 'borisyankov@gmail.com',
     status: 'active',
-    timestamp: 1475792205,
+    timestamp: fiveSecsAgo,
   }, {
     full_name: 'Tim Abbott',
     email: 'tabbott@zulipchat.com',
-    status: 'active',
+    status: 'offline',
     timestamp: 1475792203,
   }]);
 

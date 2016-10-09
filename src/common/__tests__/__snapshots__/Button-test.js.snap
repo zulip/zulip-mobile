@@ -4,9 +4,10 @@ exports[`test renders correctly 1`] = `
     Array [
       undefined,
       Object {
-        "alignItems": "center",
+        "alignItems": "stretch",
         "alignSelf": "stretch",
         "borderRadius": 5,
+        "flex": 1,
         "height": 44,
         "justifyContent": "center",
         "marginBottom": 10,

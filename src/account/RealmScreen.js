@@ -21,7 +21,7 @@ import styles from '../common/styles';
 import ErrorMsg from '../common/ErrorMsg';
 import Button from '../common/Button';
 
-class ZulipRealmView extends React.Component {
+class RealmScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -86,4 +86,4 @@ const mapDispatchToProps = (dispatch, ownProps) =>
     markErrorsAsHandled,
   }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ZulipRealmView);
+export default connect(mapStateToProps, mapDispatchToProps)(RealmScreen);

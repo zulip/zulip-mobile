@@ -20,3 +20,9 @@ export const sendGetUsers = (auth: Auth) =>
       users: response,
     });
   };
+
+export const sendInitialGetUsers = (auth: Auth) =>
+  async (dispatch) => {
+    await dispatch(sendGetUsers(auth));
+    await dispatch(sendFocusPing(auth, true, false));
+  };

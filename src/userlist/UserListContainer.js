@@ -8,9 +8,6 @@ import {
 
 import UsersCard from './UsersCard';
 
-// const serverPresenceToStatus = (status: string, timestamp: number) =>
-//   (timestamp - Date.now() < 1000 ? status : 'offline');
-
 class UserListContainer extends Component {
 
   render() {
@@ -21,6 +18,7 @@ class UserListContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  ownEmail: state.auth.get('email'),
   users: state.userlist,
 });
 

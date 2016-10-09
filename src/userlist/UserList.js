@@ -16,15 +16,16 @@ const styles = StyleSheet.create({
 export default class UserList extends Component {
 
   props: {
+    ownEmail: string,
     filter: string,
     users: any[],
     onNarrow: (email: string) => void,
   }
 
   render() {
-    const { users, filter, onNarrow } = this.props;
+    const { ownEmail, filter, users, onNarrow } = this.props;
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    const shownUsers = sortUserList(filterUserList(users, filter));
+    const shownUsers = sortUserList(filterUserList(users, filter, ownEmail));
     const dataSource = ds.cloneWithRows(shownUsers.toJS());
 
     return (

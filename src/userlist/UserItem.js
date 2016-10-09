@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     height: 44,
     flexDirection: 'row',
     alignItems: 'center',
+    padding: 8,
   },
   touchTarget: {
   },

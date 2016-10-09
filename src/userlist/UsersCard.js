@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  users: string[],
+  ownEmail: string,
+  users: any[],
   narrow: () => void,
   presence: Object,
 };
@@ -62,24 +63,27 @@ export default class UsersCard extends Component {
   }
 
   render() {
-    const { users, presence } = this.props;
+    const { ownEmail, users, presence } = this.props;
     const { filter } = this.state;
 
     return (
       <View style={styles.container}>
         <UserFilter onChange={this.handleFilterChange} />
         <UserList
+          ownEmail={ownEmail}
           users={users}
           presence={presence}
           filter={filter}
           onNarrow={this.handleUserNarrow}
         />
-        <Button
-          customStyles={styles.logoutButton}
-          secondary
-          text="Logout"
-          onPress={this.logout}
-        />
+        <View>
+          <Button
+            customStyles={styles.logoutButton}
+            secondary
+            text="Logout"
+            onPress={this.logout}
+          />
+        </View>
       </View>
     );
   }
