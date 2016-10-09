@@ -35,7 +35,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const getActiveAuth = (state) =>
-  state.find(x => x.get('active')) || initialState;
-
 export default reducer;

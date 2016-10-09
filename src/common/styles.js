@@ -9,6 +9,7 @@ export const COMPOSE_VIEW_HEIGHT = 44;
 export default StyleSheet.create({
   navigation: {
     backgroundColor: 'transparent',
+    shadowColor: 'transparent',
   },
   container: {
     flex: 1,

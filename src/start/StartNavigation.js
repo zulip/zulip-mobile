@@ -7,6 +7,10 @@ import {
 // import { Backend } from '../api/apiClient';
 import styles from '../common/styles';
 
+import AccountPickScreen from '../accountlist/AccountPickScreen';
+import PasswordAuthScreen from './PasswordAuthScreen';
+import DevAuthScreen from './DevAuthScreen';
+
 const {
   CardStack: NavigationCardStack,
   StateUtils: NavigationStateUtils,
@@ -54,8 +58,9 @@ export default class StartNavigation extends React.Component {
   }
 
   handleAction = (action) => {
-    const newState = NavReducer(this.state.navState, action);
-    if (newState === this.state.navState) {
+    const { navState } = this.state;
+    const newState = NavReducer(navState, action);
+    if (newState === navState) {
       return false;
     }
     this.setState({
@@ -70,7 +75,7 @@ export default class StartNavigation extends React.Component {
   handleBackAction = () =>
     this.handleAction({ type: 'pop' });
 
-  renderScene = (key) => <Text>Hello</Text>;
+  renderScene = (key) => <PasswordAuthScreen />;
 
   render() {
     const { navState } = this.state;

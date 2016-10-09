@@ -59,10 +59,11 @@ class StartScreen extends React.Component {
         <Logo />
         <StartNavigation />
 
-        {!isRealmSet && <AccountPickScreen />}
+        {/* {!isRealmSet && <AccountPickScreen />}
         {isRealmSet && !authBackends.size && <ActivityIndicator color={BRAND_COLOR} />}
         {isRealmSet && authBackends.includes('dev') && <DevAuthScreen />}
-        {isRealmSet && authBackends.includes('password') && <PasswordAuthScreen />}
+        {isRealmSet && authBackends.includes('password') && <PasswordAuthScreen />} */}
+
         {/* {isRealmSet && authBackends.includes('google')
           && <Button text="Login with Google" />} */}
       </View>
