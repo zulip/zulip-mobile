@@ -76,7 +76,7 @@ it('timestampFromPresence, when single client just return timestamp', () => {
 it('PRESENCE_RESPONSE merges a single user in presence response', () => {
   const fiveSecsAgo = (Math.floor(new Date() - 5) / 1000);
   const presence = {
-    'some@email.com': {
+    'email@example.com': {
       website: {
         status: 'active',
         timestamp: fiveSecsAgo,
@@ -85,12 +85,12 @@ it('PRESENCE_RESPONSE merges a single user in presence response', () => {
   };
   const prevState = fromJS([{
     full_name: 'Some Guy',
-    email: 'some@email.com',
+    email: 'email@example.com',
     status: 'offline',
   }]);
   const expectedState = fromJS([{
     full_name: 'Some Guy',
-    email: 'some@email.com',
+    email: 'email@example.com',
     status: 'active',
     timestamp: fiveSecsAgo,
   }]);
@@ -103,13 +103,13 @@ it('PRESENCE_RESPONSE merges a single user in presence response', () => {
 it('PRESENCE_RESPONSE merges users, skips non existing', () => {
   const fiveSecsAgo = (Math.floor(new Date() - 5) / 1000);
   const presence = {
-    'some@email.com': {
+    'email@example.com': {
       website: {
         status: 'active',
         timestamp: fiveSecsAgo,
       },
     },
-    'nonexisting@email.com': {
+    'nonexisting@example.com': {
       website: {
         status: 'active',
         timestamp: fiveSecsAgo,
@@ -118,12 +118,12 @@ it('PRESENCE_RESPONSE merges users, skips non existing', () => {
   };
   const prevState = fromJS([{
     full_name: 'Some Guy',
-    email: 'some@email.com',
+    email: 'email@example.com',
     status: 'offline',
   }]);
   const expectedState = fromJS([{
     full_name: 'Some Guy',
-    email: 'some@email.com',
+    email: 'email@example.com',
     status: 'active',
     timestamp: fiveSecsAgo,
   }]);
@@ -136,7 +136,7 @@ it('PRESENCE_RESPONSE merges users, skips non existing', () => {
 it('PRESENCE_RESPONSE merges multiple users in presence response', () => {
   const fiveSecsAgo = (Math.floor(new Date() - 5) / 1000);
   const presence = {
-    'some@email.com': {
+    'email@example.com': {
       website: {
         status: 'active',
         timestamp: 1474527507,
@@ -144,7 +144,7 @@ it('PRESENCE_RESPONSE merges multiple users in presence response', () => {
         pushable: false,
       },
     },
-    'borisyankov@gmail.com': {
+    'johndoe@example.com': {
       website: {
         status: 'active',
         timestamp: fiveSecsAgo,
@@ -164,7 +164,7 @@ it('PRESENCE_RESPONSE merges multiple users in presence response', () => {
         pushable: false,
       },
     },
-    'tabbott@zulipchat.com': {
+    'janedoe@example.com': {
       website: {
         status: 'active',
         timestamp: 1475792203,
@@ -181,30 +181,30 @@ it('PRESENCE_RESPONSE merges multiple users in presence response', () => {
   };
   const prevState = fromJS([{
     full_name: 'Some Guy',
-    email: 'some@email.com',
+    email: 'email@example.com',
     status: 'offline',
   }, {
-    full_name: 'Boris Yankov',
-    email: 'borisyankov@gmail.com',
+    full_name: 'John Doe',
+    email: 'johndoe@example.com',
     status: 'offline',
   }, {
-    full_name: 'Tim Abbott',
-    email: 'tabbott@zulipchat.com',
+    full_name: 'Jane Doe',
+    email: 'janedoe@example.com',
     status: 'offline',
   }]);
   const expectedState = fromJS([{
     full_name: 'Some Guy',
-    email: 'some@email.com',
+    email: 'email@example.com',
     status: 'offline',
     timestamp: 1474527507,
   }, {
-    full_name: 'Boris Yankov',
-    email: 'borisyankov@gmail.com',
+    full_name: 'John Doe',
+    email: 'johndoe@example.com',
     status: 'active',
     timestamp: fiveSecsAgo,
   }, {
-    full_name: 'Tim Abbott',
-    email: 'tabbott@zulipchat.com',
+    full_name: 'Jane Doe',
+    email: 'janedoe@example.com',
     status: 'offline',
     timestamp: 1475792203,
   }]);

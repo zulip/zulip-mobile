@@ -56,20 +56,20 @@ export default (state = initialState, action) => {
         const userIndex = state.findIndex(u => u.get('email') === email);
         if (userIndex === -1) return currentState;
 
-        const p = action.presence[email];
-        const timestamp = timestampFromPresence(p);
-        const status = activityFromTimestamp(activityFromPresence(p), timestamp);
+        const presenceEntry = action.presence[email];
+        const timestamp = timestampFromPresence(presenceEntry);
+        const status = activityFromTimestamp(activityFromPresence(presenceEntry), timestamp);
         return currentState.setIn([userIndex, 'status'], status).setIn([userIndex, 'timestamp'], timestamp);
       }, state);
     }
     case GET_USER_RESPONSE: {
-      const users = action.users.map(x => ({
-        email: x.email,
-        fullName: x.full_name,
-        avatarUrl: x.avatar_url,
-        isActive: x.is_active,
-        isAdmin: x.is_admin,
-        isBot: x.is_bot,
+      const users = action.users.map(user => ({
+        email: user.email,
+        fullName: user.full_name,
+        avatarUrl: user.avatar_url,
+        isActive: user.is_active,
+        isAdmin: user.is_admin,
+        isBot: user.is_bot,
       }));
       return state.merge(fromJS(users));
     }

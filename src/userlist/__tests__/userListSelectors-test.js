@@ -8,31 +8,31 @@ it('empty input to filterUserList results in empty list', () => {
 });
 
 it('filterUserList returns same list if no filter', () => {
-  const users = fromJS([{ email: 'user1@email.com' }, { email: 'user2@email.com' }]);
+  const users = fromJS([{ email: 'user1@example.com' }, { email: 'user2@example.com' }]);
   const filteredUsers = filterUserList(users);
   expect(filteredUsers).toEqual(users);
 });
 
 it('filterUserList filters out user\'s own entry', () => {
-  const users = fromJS([{ email: 'some@email.com' }, { email: 'my@email.com' }]);
-  const shouldMatch = fromJS([{ email: 'some@email.com' }]);
-  const filteredUsers = filterUserList(users, '', 'my@email.com');
+  const users = fromJS([{ email: 'email@example.com' }, { email: 'my@example.com' }]);
+  const shouldMatch = fromJS([{ email: 'email@example.com' }]);
+  const filteredUsers = filterUserList(users, '', 'my@example.com');
   expect(filteredUsers).toEqual(shouldMatch);
 });
 
 it('filterUserList searches in name, email and is case insensitive', () => {
   const allUsers = fromJS([
-    { fullName: 'match', email: 'any@email.com' },
-    { fullName: 'partial match', email: 'any@email.com' },
-    { fullName: 'Case Insensitive MaTcH', email: 'any@email.com' },
-    { fullName: 'Any Name', email: 'match@email.com' },
-    { fullName: 'some name', email: 'another@email.com' },
+    { fullName: 'match', email: 'any@example.com' },
+    { fullName: 'partial match', email: 'any@example.com' },
+    { fullName: 'Case Insensitive MaTcH', email: 'any@example.com' },
+    { fullName: 'Any Name', email: 'match@example.com' },
+    { fullName: 'some name', email: 'another@example.com' },
   ]);
   const shouldMatch = fromJS([
-    { fullName: 'match', email: 'any@email.com' },
-    { fullName: 'partial match', email: 'any@email.com' },
-    { fullName: 'Case Insensitive MaTcH', email: 'any@email.com' },
-    { fullName: 'Any Name', email: 'match@email.com' },
+    { fullName: 'match', email: 'any@example.com' },
+    { fullName: 'partial match', email: 'any@example.com' },
+    { fullName: 'Case Insensitive MaTcH', email: 'any@example.com' },
+    { fullName: 'Any Name', email: 'match@example.com' },
   ]);
   const filteredUsers = filterUserList(allUsers, 'match');
   expect(filteredUsers).toEqual(shouldMatch);
