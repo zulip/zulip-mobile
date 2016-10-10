@@ -12,9 +12,9 @@ export const sortUserList = (users: any[]): any[] =>
   );
 
 export const filterUserList = (users: any[], filter: string = '', ownEmail: string): any[] =>
-  users.filter(x =>
-    x.get('email') !== ownEmail &&
+  users.filter(user =>
+    user.get('email') !== ownEmail &&
     (filter === '' ||
-    x.get('fullName').toLowerCase().includes(filter.toLowerCase()) ||
-    x.get('email').toLowerCase().includes(filter.toLowerCase()))
+    user.get('fullName').toLowerCase().includes(filter.toLowerCase()) ||
+    user.get('email').toLowerCase().includes(filter.toLowerCase()))
   );
