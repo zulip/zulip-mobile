@@ -30,14 +30,13 @@ You'll probably also want to install and provision a [Zulip dev VM](https://zuli
 It will also launch a browser tab in Chrome with the React Native debugger. `console.log` statements in React Native will end up in the JS console on this tab.
 
 ## Running on an iOS device
-### Without a dev VM
 1. [Set up the dev environment](#setting-up-a-dev-environment)
 2. Connect your iOS device
 3. Within the repo, `$ open ios/ZulipNative.xcodeproj/` to open Xcode
 4. Select your device as the `build target` (from [this guide](https://facebook.github.io/react-native/docs/running-on-device-ios.html))
 5. Hit the `build and run` button
 
-### With a dev VM
+### Signing in to a local dev VM
 This process needs improvement and has too many manual steps at the moment.
 
 First, you'll need to connect your dev machine and iOS device to the same network. If you're running Zulip inside of a VM, you may also need to configure your VM to use a public network. See more information on this [here](https://www.vagrantup.com/docs/networking/public_network.html).
