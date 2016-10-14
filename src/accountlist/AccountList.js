@@ -14,7 +14,7 @@ export default class AccountList extends React.PureComponent {
     return (
       <View>
         {accounts.map((x, i) =>
-          <AccountButton key={i} {...x} />
+          <AccountButton key={i} {...x.toJS()} />
         )}
       </View>
     );

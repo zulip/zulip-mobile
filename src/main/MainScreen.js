@@ -32,7 +32,7 @@ import {
 } from '../nav/navActions';
 
 import StreamView from '../stream/StreamView';
-import NavBar from '../nav/NavBar';
+import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
 import ComposeView from '../compose/ComposeView';
 import UserListContainer from '../userlist/UserListContainer';
@@ -154,8 +154,8 @@ class MainScreen extends React.Component {
             showHideTransition="slide"
             hidden={this.props.streamlistOpened}
           />
-          <NavBar
-            openStreamSidebar={
+          <MainNavBar
+            onPressLeft={
               this.props.streamlistOpened ?
               this.props.closeStreamSidebar : this.props.openStreamSidebar
             }
@@ -170,7 +170,7 @@ class MainScreen extends React.Component {
               narrow={this.narrow}
             />
             <ComposeView />
-          </NavBar>
+          </MainNavBar>
         </Drawer>
       </Drawer>
     );

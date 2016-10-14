@@ -2,7 +2,6 @@ import React from 'react';
 import {
   View,
   TextInput,
-  KeyboardAvoidingView,
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
@@ -16,6 +15,7 @@ import {
 } from '../account/accountActions';
 
 import styles from '../common/styles';
+import Screen from '../common/Screen';
 import ErrorMsg from '../common/ErrorMsg';
 import Button from '../common/Button';
 
@@ -38,19 +38,16 @@ class RealmScreen extends React.Component {
     const { pendingServerResponse, errors } = this.props;
 
     return (
-      <KeyboardAvoidingView behavior="padding">
-
-        <View style={styles.field}>
-          <TextInput
-            style={styles.input}
-            autoFocus
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholder="Server address"
-            value={this.state.realm}
-            onChangeText={realm => this.setState({ realm })}
-          />
-        </View>
+      <Screen keybardAvoiding>
+        <TextInput
+          style={styles.input}
+          autoFocus
+          autoCorrect={false}
+          autoCapitalize="none"
+          placeholder="Server address"
+          value={this.state.realm}
+          onChangeText={realm => this.setState({ realm })}
+        />
 
         <View style={styles.field}>
           <Button
@@ -61,7 +58,7 @@ class RealmScreen extends React.Component {
         </View>
 
         <ErrorMsg errors={errors} />
-      </KeyboardAvoidingView>
+      </Screen>
     );
   }
 }

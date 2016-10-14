@@ -1,5 +1,5 @@
 export const getActiveAccount = (state) =>
-  state.accountlist.get(0) || {};
+  state.accountlist.get(0);
 
 export const getAuth = (state) => {
   const account = getActiveAccount(state);

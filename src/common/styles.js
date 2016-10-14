@@ -7,17 +7,22 @@ export const FIELD_HEIGHT = 44;
 export const COMPOSE_VIEW_HEIGHT = 44;
 
 export default StyleSheet.create({
-  navigation: {
-    backgroundColor: 'transparent',
+  screen: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'stretch',
+  },
+  navigationCard: {
+    backgroundColor: 'white',
     shadowColor: 'transparent',
   },
   container: {
     flex: 1,
+    padding: 20,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
     marginTop: STATUS_BAR_HEIGHT,
-    padding: 20,
   },
   centerer: {
     flex: 1,
@@ -48,5 +53,19 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: BORDER_COLOR,
     padding: 10,
+  },
+  navBar: {
+    flexDirection: 'row',
+    backgroundColor: BRAND_COLOR,
+    paddingTop: STATUS_BAR_HEIGHT,
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+  },
+  navButton: {
+    color: 'white',
+    textAlign: 'center',
+    padding: 8,
+    flex: 1,
+    fontSize: 16,
   },
 });

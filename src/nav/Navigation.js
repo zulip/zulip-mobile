@@ -4,7 +4,6 @@ import {
   NavigationExperimental,
 } from 'react-native';
 
-// import { Backend } from '../api/apiClient';
 import styles from '../common/styles';
 
 import LoadingScreen from '../start/LoadingScreen';
@@ -15,8 +14,6 @@ import DevAuthScreen from '../start/DevAuthScreen';
 
 const {
   CardStack: NavigationCardStack,
-  // Reducer: NavigationTabsReducer,
-  // StateUtils: NavigationStateUtils,
 } = NavigationExperimental;
 
 // On Start, AccountList not empty =>
@@ -29,7 +26,6 @@ const {
 //   go directly to RealmScreen
 
 type Props = {
-//  realm: string,
 };
 
 export default class Navigation extends React.Component {
@@ -65,25 +61,12 @@ export default class Navigation extends React.Component {
     return true;
   }
 
-  handleNavigate = (action) => {
-    switch (action && action.type) {
-      case 'push':
-        this.props.pushRoute(action.route);
-        return true;
-      case 'back':
-      case 'pop':
-        return this.handleBackAction();
-      default:
-        return false;
-    }
-  }
-
   renderScene = (props) => {
     switch (props.scene.route.key) {
       case 'accountlist':
         return <AccountPickScreen onNext={() => this.handleNavigate({ type: 'push', route: { key: 'realm', title: 'Realm' } })} />;
       case 'realm':
-        return <RealmScreen onNext={this.handleNavigate} />;
+        return <RealmScreen onNext={() => this.handleNavigate({ type: 'push', route: { key: 'password', title: 'Password' } })} />;
       case 'password':
         return <PasswordAuthScreen onNext={this.handleNavigate} />;
       case 'dev':
@@ -98,8 +81,9 @@ export default class Navigation extends React.Component {
 
     return (
       <NavigationCardStack
-        cardStyle={styles.navigation}
-        onNavigate={this.handleAction}
+        style={styles.screen}
+        cardStyle={styles.navigationCard}
+        onNavigate={this.handleNavigate}
         onNavigateBack={this.handleBackAction}
         navigationState={navigation}
         renderScene={this.renderScene}

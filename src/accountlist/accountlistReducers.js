@@ -4,7 +4,13 @@ import {
   LOGIN_SUCCEEDED,
 } from '../account/accountActions';
 
-const initialState = fromJS([]);
+const initialState = fromJS([{
+  realm: 'http://zulip.tabbott.net',
+  email: 'borisyankov@gmail.com',
+}, {
+  realm: 'http://hellorealm.com',
+  email: 'bob@tester.com',
+}]);
 
 export default (state = initialState, action) => {
   switch (action.type) {
