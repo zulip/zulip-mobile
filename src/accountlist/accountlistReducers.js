@@ -2,6 +2,8 @@ import { fromJS } from 'immutable';
 
 import {
   LOGIN_SUCCEEDED,
+  LOGOUT,
+  ACCOUNT_REMOVE,
 } from '../account/accountActions';
 
 const initialState = fromJS([{
@@ -15,19 +17,32 @@ const initialState = fromJS([{
 export default (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_SUCCEEDED: {
-      const account = state.find(x =>
-        x.get('realm') === action.realm && x.get('email') === action.email);
-      if (account) {
-        // move to top
-      } else {
-        state.push({
-          realm: action.realm,
-          apiKey: action.apiKey,
-          email: action.email,
-        });
+      const accountIndex = state.findIndex(x =>
+        x.get('realm') === action.realm && x.get('email') === action.email
+      );
+
+      if (accountIndex !== -1) {
+        return state
+          .unshift({
+            realm: action.realm,
+            apiKey: action.apiKey,
+            email: action.email,
+          })
+          .delete(accountIndex + 1);
       }
-      return state;
+
+      return state.unshift({
+        realm: action.realm,
+        apiKey: action.apiKey,
+        email: action.email,
+      });
     }
+    case LOGOUT:
+      return state
+        .setIn([0, 'apiKey'], '');
+    case ACCOUNT_REMOVE:
+      return state
+        .delete(action.index);
     default:
       return state;
   }

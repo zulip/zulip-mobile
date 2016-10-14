@@ -9,18 +9,17 @@ import {
 import { BRAND_COLOR, HIGHLIGHT_COLOR } from './styles';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  frame: {
     height: 44,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
     marginBottom: 10,
   },
-  primaryContainer: {
+  primaryFrame: {
     backgroundColor: BRAND_COLOR,
   },
-  secondaryContainer: {
+  secondaryFrame: {
     borderColor: BRAND_COLOR,
     borderWidth: 2,
   },
@@ -41,14 +40,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const ButtonInProgress = ({ containerStyle }) => (
-  <View style={containerStyle}>
+const ButtonInProgress = ({ frameStyle }) => (
+  <View style={frameStyle}>
     <ActivityIndicator color="white" />
   </View>
 );
 
-const ButtonNormal = ({ containerStyle, touchTargetStyle, textStyle, text, onPress }) => (
-  <View style={containerStyle}>
+const ButtonNormal = ({ frameStyle, touchTargetStyle, textStyle, text, onPress }) => (
+  <View style={frameStyle}>
     <TouchableHighlight
       style={touchTargetStyle}
       underlayColor={HIGHLIGHT_COLOR}
@@ -74,10 +73,10 @@ export default class Button extends React.PureComponent {
 
   render() {
     const { customStyles, text, secondary, progress, onPress } = this.props;
-    const containerStyle = [
+    const frameStyle = [
       customStyles,
-      styles.container,
-      secondary ? styles.secondaryContainer : styles.primaryContainer,
+      styles.frame,
+      secondary ? styles.secondaryFrame : styles.primaryFrame,
     ];
     const textStyle = [
       styles.text,
@@ -85,12 +84,12 @@ export default class Button extends React.PureComponent {
     ];
 
     if (progress) {
-      return <ButtonInProgress containerStyle={containerStyle} />;
+      return <ButtonInProgress frameStyle={frameStyle} />;
     }
 
     return (
       <ButtonNormal
-        containerStyle={containerStyle}
+        frameStyle={frameStyle}
         touchTargetStyle={styles.touchTarget}
         text={text}
         onPress={onPress}

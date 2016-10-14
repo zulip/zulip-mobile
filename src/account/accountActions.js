@@ -3,6 +3,7 @@ import { getAuthBackends, fetchApiKey, devFetchApiKey, devGetEmails } from '../a
 export const ACCOUNT_ADD_PENDING = 'ACCOUNT_ADD_PENDING';
 export const ACCOUNT_ADD_SUCCEEDED = 'ACCOUNT_ADD_SUCCEEDED';
 export const ACCOUNT_ADD_FAILED = 'ACCOUNT_ADD_FAILED';
+export const ACCOUNT_REMOVE = 'ACCOUNT_REMOVE';
 
 export const LOGIN_PENDING = 'LOGIN_PENDING';
 export const LOGIN_SUCCEEDED = 'LOGIN_SUCCEEDED';

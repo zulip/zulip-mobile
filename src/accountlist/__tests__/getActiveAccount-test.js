@@ -1,10 +1,10 @@
 import { fromJS } from 'immutable';
 import { getActiveAccount } from '../accountlistSelectors';
 
-it('when no accounts exist, an empty account is returned', () => {
+it('when no accounts exist, returns undefined', () => {
   const accountlist = fromJS([]);
   const result = getActiveAccount({ accountlist });
-  expect(result).toEqual({});
+  expect(result).toBeUndefined();
 });
 
 it('returns first in the list', () => {
