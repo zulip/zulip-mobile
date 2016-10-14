@@ -11,7 +11,6 @@ import {
   addAccount,
 } from '../account/accountActions';
 
-import StartNavigation from './StartNavigation';
 import styles, { BRAND_COLOR } from '../common/styles';
 import Logo from '../common/Logo';
 import AccountPickScreen from '../accountlist/AccountPickScreen';
@@ -57,7 +56,6 @@ class StartScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Logo />
-        <StartNavigation />
 
         {/* {!isRealmSet && <AccountPickScreen />}
         {isRealmSet && !authBackends.size && <ActivityIndicator color={BRAND_COLOR} />}

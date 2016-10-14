@@ -19,6 +19,11 @@ export default StyleSheet.create({
     marginTop: STATUS_BAR_HEIGHT,
     padding: 20,
   },
+  centerer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   heading1: {
     fontSize: 24,
   },
