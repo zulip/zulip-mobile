@@ -7,11 +7,12 @@ import { getActiveAccount } from '../accountlist/accountlistSelectors';
 class NavigationContainer extends React.PureComponent {
 
   componentDidMount() {
-    const { isLoggedIn, activeAccount, pushRoute } = this.props;
+    const { isLoggedIn, accounts, activeAccount, pushRoute } = this.props;
 
     if (isLoggedIn) {
       // try to login then go to main
-    } else if (!activeAccount) {
+      pushRoute({ key: 'main', title: 'Main' });
+    } else if (accounts.size > 0) {
       pushRoute({ key: 'accountlist', title: 'Account' });
     } else {
       pushRoute({ key: 'realm', title: 'Realm' });

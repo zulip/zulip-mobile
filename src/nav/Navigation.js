@@ -61,16 +61,26 @@ export default class Navigation extends React.Component {
     return true;
   }
 
+  navigateTo = (key: string) =>
+    this.handleNavigate({ type: 'push', route: { key, title: key } });
+
   renderScene = (props) => {
     switch (props.scene.route.key) {
       case 'accountlist':
-        return <AccountPickScreen onNext={() => this.handleNavigate({ type: 'push', route: { key: 'realm', title: 'Realm' } })} />;
+        return (
+          <AccountPickScreen onNext={() => this.navigateTo('realm')} />
+        );
       case 'realm':
-        return <RealmScreen onNext={() => this.handleNavigate({ type: 'push', route: { key: 'password', title: 'Password' } })} />;
+        return (
+          <RealmScreen
+            onBack={this.handleBackAction}
+            onNext={() => this.navigateTo('password')}
+          />
+        );
       case 'password':
-        return <PasswordAuthScreen onNext={this.handleNavigate} />;
+        return <PasswordAuthScreen onNext={() => this.navigateTo('main')} />;
       case 'dev':
-        return <DevAuthScreen onNext={this.handleNavigate} />;
+        return <DevAuthScreen onNext={() => this.navigateTo('main')} />;
       default:
         return <LoadingScreen />;
     }

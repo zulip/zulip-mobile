@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  View,
   TextInput,
 } from 'react-native';
 
@@ -35,10 +34,10 @@ class RealmScreen extends React.Component {
   }
 
   render() {
-    const { pendingServerResponse, errors } = this.props;
+    const { pendingServerResponse, onBack, errors } = this.props;
 
     return (
-      <Screen keybardAvoiding>
+      <Screen keybardAvoiding onBack={onBack}>
         <TextInput
           style={styles.input}
           autoFocus
@@ -49,13 +48,11 @@ class RealmScreen extends React.Component {
           onChangeText={realm => this.setState({ realm })}
         />
 
-        <View style={styles.field}>
-          <Button
-            text="Sign in"
-            progress={pendingServerResponse}
-            onPress={this.onRealmEnter}
-          />
-        </View>
+        <Button
+          text="Sign in"
+          progress={pendingServerResponse}
+          onPress={this.onRealmEnter}
+        />
 
         <ErrorMsg errors={errors} />
       </Screen>

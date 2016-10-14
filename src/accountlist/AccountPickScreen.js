@@ -6,6 +6,7 @@ import {
   addAccount,
 } from '../account/accountActions';
 
+import Logo from '../common/Logo';
 import Screen from '../common/Screen';
 import Button from '../common/Button';
 import AccountList from './AccountList';
@@ -14,15 +15,17 @@ class AccountPickScreen extends React.Component {
 
   props: {
     accounts: any[],
+    onBack: () => void,
     onNext: () => void,
   }
 
   render() {
-    const { accounts, onNext } = this.props;
+    const { accounts, onBack, onNext } = this.props;
 
     return (
-      <Screen>
-        <AccountList accounts={accounts} />
+      <Screen onBack={onBack}>
+        <Logo />
+        <AccountList accounts={accounts} onAccountSelect={onNext} />
         <Button
           text="Add new account"
           onPress={onNext}

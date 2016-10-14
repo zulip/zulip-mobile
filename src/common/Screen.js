@@ -4,38 +4,41 @@ import {
   View,
   KeyboardAvoidingView,
 } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from '../common/styles';
 import ModalNavBar from '../nav/ModalNavBar';
 
-export default class Screen extends React.Component {
+class Screen extends React.Component {
 
   props: {
     keyboardAvoiding: boolean,
+    onBack: () => void,
   }
 
   render() {
-    const { keyboardAvoiding, children } = this.props;
-    // behavior="padding"
+    const { keyboardAvoiding, onBack, children } = this.props;
     const WrapperView = keyboardAvoiding ? KeyboardAvoidingView : View;
 
     return (
-      <WrapperView style={styles.screen}>
-        <ModalNavBar />
-        {children}
-      </WrapperView>
+      <View style={styles.screen}>
+        <ModalNavBar onBack={onBack} />
+        <WrapperView style={styles.container} behavior="padding">
+          {children}
+        </WrapperView>
+      </View>
     );
   }
 }
 
 
 const mapStateToProps = (state) => ({
-  routes: state.accountlist,
+  nav: state.nav,
 });
 
-const mapDispatchToProps = (dispatch, ownProps) =>
-  bindActionCreators({
-    addAccount,
-  }, dispatch);
+// const mapDispatchToProps = (dispatch, ownProps) =>
+//   bindActionCreators({
+//     addAccount,
+//   }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountPickScreen);
+export default connect(mapStateToProps)(Screen);

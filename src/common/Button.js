@@ -6,14 +6,13 @@ import {
   TouchableHighlight,
   ActivityIndicator,
 } from 'react-native';
-import { BRAND_COLOR } from './styles';
+import { BRAND_COLOR, HIGHLIGHT_COLOR } from './styles';
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'stretch',
     flex: 1,
     height: 44,
-    alignSelf: 'stretch',
+    alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
     marginBottom: 10,
@@ -52,7 +51,7 @@ const ButtonNormal = ({ containerStyle, touchTargetStyle, textStyle, text, onPre
   <View style={containerStyle}>
     <TouchableHighlight
       style={touchTargetStyle}
-      underlayColor="rgba(34, 105, 63, 0.5)"
+      underlayColor={HIGHLIGHT_COLOR}
       onPress={onPress}
     >
       <Text style={textStyle}>

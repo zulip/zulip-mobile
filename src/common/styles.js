@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export const BRAND_COLOR = '#24cac2';
+export const HIGHLIGHT_COLOR = 'rgba(86, 164, 174, 0.5)';
 export const BORDER_COLOR = '#eee';
 export const STATUS_BAR_HEIGHT = 20;
 export const FIELD_HEIGHT = 44;
@@ -49,8 +50,8 @@ export default StyleSheet.create({
     color: 'red',
   },
   input: {
-    flex: 1,
     borderWidth: 1,
+    height: FIELD_HEIGHT,
     borderColor: BORDER_COLOR,
     padding: 10,
   },
