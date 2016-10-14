@@ -51,7 +51,7 @@ export default class NavBar extends React.Component {
         renderScene={(route) =>
           <View style={styles.container}>
             <View style={styles.navBar}>
-              <Icon style={styles.button} name="ios-menu" onPress={openStreamList}/>
+              <Icon style={styles.button} name="ios-menu" onPress={openStreamList} />
               <Text style={styles.button} />
               <View style={styles.heading}>
                 <Text style={styles.headingText}>
