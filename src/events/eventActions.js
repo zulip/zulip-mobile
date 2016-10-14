@@ -92,8 +92,7 @@ export const getEvents = (auth) =>
     });
 
     // Event loop
-    // TODO: fix this
-    while (true) {
+    while (true) { // eslint-disable-line no-constant-condition
       const res = await pollForEvents(
         auth,
         queueId,

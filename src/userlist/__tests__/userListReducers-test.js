@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 import { GET_USER_RESPONSE, PRESENCE_RESPONSE } from '../userListActions';
 import userListReducers, { activityFromPresence, timestampFromPresence } from '../userListReducers';
 
-it('when unrecognized action, no previous state, returns initial state, does not throw', () => {
+it('handles unknown action and no previous state by returning initial state, does not throw', () => {
   const newState = userListReducers(undefined, {});
   expect(newState).toBeDefined();
 });
