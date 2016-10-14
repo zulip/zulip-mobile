@@ -1,9 +1,11 @@
-const statusOrder = (status) =>
-  (!status ? 4 : ({
-    active: 1,
-    idle: 2,
-    offline: 3,
-  })[status]);
+const statusOrder = (status) => {
+  switch (status) {
+    case 'active': return 1;
+    case 'idle': return 2;
+    case 'offline': return 3;
+    default: return 4;
+  }
+};
 
 export const sortUserList = (users: any[]): any[] =>
   users.sort((x1, x2) =>

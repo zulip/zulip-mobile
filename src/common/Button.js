@@ -41,6 +41,27 @@ const styles = StyleSheet.create({
   },
 });
 
+const ButtonInProgress = ({ containerStyle }) => (
+  <View style={containerStyle}>
+    <ActivityIndicator />
+  </View>
+);
+
+const ButtonNormal = ({ containerStyle, touchTargetStyle, textStyle, text, onPress }) => (
+  <View style={containerStyle}>
+    <TouchableHighlight
+      style={touchTargetStyle}
+      underlayColor="rgba(34, 105, 63, 0.5)"
+      onPress={onPress}
+    >
+      <Text style={textStyle}>
+        {text}
+      </Text>
+    </TouchableHighlight>
+  </View>
+);
+
+
 export default class Button extends React.PureComponent {
 
   props: {
@@ -63,20 +84,18 @@ export default class Button extends React.PureComponent {
       secondary ? styles.secondaryText : styles.primaryText,
     ];
 
-    return progress ?
-      <View style={containerStyle}>
-        <ActivityIndicator />
-      </View> :
-      <View style={containerStyle}>
-        <TouchableHighlight
-          style={styles.touchTarget}
-          underlayColor="rgba(34, 105, 63, 0.5)"
-          onPress={onPress}
-        >
-          <Text style={textStyle}>
-            {text}
-          </Text>
-        </TouchableHighlight>
-      </View>;
+    if (progress) {
+      return <ButtonInProgress containerStyle={containerStyle} />;
+    }
+
+    return (
+      <ButtonNormal
+        containerStyle={containerStyle}
+        touchTargetStyle={styles.touchTarget}
+        text={text}
+        onPress={onPress}
+        textStyle={textStyle}
+      />
+    );
   }
 }
