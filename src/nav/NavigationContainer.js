@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getNextLoginRoute } from './routing';
 import Navigation from './Navigation';
 import { push, pop } from './navActions';
 import { getActiveAccount } from '../accountlist/accountlistSelectors';
@@ -12,10 +13,9 @@ class NavigationContainer extends React.PureComponent {
     if (isLoggedIn) {
       // try to login then go to main
       pushRoute({ key: 'main', title: 'Main' });
-    } else if (accounts.size > 0) {
-      pushRoute({ key: 'accountlist', title: 'Account' });
     } else {
-      pushRoute({ key: 'realm', title: 'Realm' });
+      const nextRoute = getNextLoginRoute(accounts, activeAccount);
+      pushRoute(nextRoute);
     }
   }
 

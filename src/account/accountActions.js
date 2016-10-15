@@ -32,6 +32,11 @@ export const addAccount = (realm) =>
     }
   };
 
+export const removeAccount = (index: number) => ({
+  type: ACCOUNT_REMOVE,
+  index,
+});
+
 export const attemptLogin = (auth, email, password) =>
   async (dispatch) => {
     // Tell the UI to display a spinner

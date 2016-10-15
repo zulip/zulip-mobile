@@ -7,15 +7,22 @@ export default class AccountList extends React.PureComponent {
   props: {
     accounts: any[],
     onAccountSelect: () => void,
+    onAccountRemove: () => void,
   };
 
   render() {
-    const { accounts, onAccountSelect } = this.props;
+    const { accounts, onAccountSelect, onAccountRemove } = this.props;
 
     return (
       <View>
         {accounts.map((x, i) =>
-          <AccountButton key={i} {...x.toJS()} onPress={onAccountSelect} />
+          <AccountButton
+            key={i}
+            index={i}
+            {...x.toJS()}
+            onSelect={onAccountSelect}
+            onRemove={onAccountRemove}
+          />
         )}
       </View>
     );

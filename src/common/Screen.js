@@ -2,6 +2,7 @@ import React from 'react';
 import {
   // BackAndroid,
   View,
+  StatusBar,
   KeyboardAvoidingView,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -22,6 +23,7 @@ class Screen extends React.Component {
 
     return (
       <View style={styles.screen}>
+        <StatusBar backgroundColor="blue" barStyle="light-content" />
         <ModalNavBar onBack={onBack} />
         <WrapperView style={styles.container} behavior="padding">
           {children}

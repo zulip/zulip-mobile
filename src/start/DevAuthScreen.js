@@ -44,9 +44,6 @@ class DevAuthScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.heading1}>
-          Zulip Dev Login
-        </Text>
         <Text style={styles.label}>
           Choose a user:
         </Text>

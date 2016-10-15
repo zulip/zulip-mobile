@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import {
   addAccount,
+  removeAccount,
 } from '../account/accountActions';
 
 import Logo from '../common/Logo';
@@ -19,13 +20,22 @@ class AccountPickScreen extends React.Component {
     onNext: () => void,
   }
 
+  handleAccountSelect = (index: number) => {};
+
+  handleAccountRemove = (index: number) =>
+    this.props.removeAccount(index);
+
   render() {
     const { accounts, onBack, onNext } = this.props;
 
     return (
       <Screen onBack={onBack}>
         <Logo />
-        <AccountList accounts={accounts} onAccountSelect={onNext} />
+        <AccountList
+          accounts={accounts}
+          onAccountSelect={this.handleAccountSelect}
+          onAccountRemove={this.handleAccountRemove}
+        />
         <Button
           text="Add new account"
           onPress={onNext}
@@ -44,6 +54,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
     addAccount,
+    removeAccount,
   }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountPickScreen);

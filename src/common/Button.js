@@ -74,9 +74,9 @@ export default class Button extends React.PureComponent {
   render() {
     const { customStyles, text, secondary, progress, onPress } = this.props;
     const frameStyle = [
-      customStyles,
       styles.frame,
       secondary ? styles.secondaryFrame : styles.primaryFrame,
+      customStyles,
     ];
     const textStyle = [
       styles.text,
