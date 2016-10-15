@@ -9,7 +9,12 @@ import StreamMessageHeader from '../message/StreamMessageHeader';
 import PrivateMessageHeader from '../message/PrivateMessageHeader';
 
 import MessageView from '../message/MessageView';
-import { sameRecipient } from '../lib/message';
+import {
+  sameRecipient,
+  rewriteLink,
+} from '../lib/message';
+
+import { getAuthHeader } from '../api/apiFetch';
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -37,7 +42,7 @@ export default class StreamView extends React.PureComponent {
         <PrivateMessageHeader
           key={`section_${item.id}`}
           recipients={item.display_recipient.filter(r =>
-            r.email !== this.props.email
+            r.email !== this.props.auth.get('email')
           )}
           item={item}
           narrow={this.props.narrow}
@@ -49,6 +54,13 @@ export default class StreamView extends React.PureComponent {
 
   populateStream(items) {
     const headerIndices = [];
+    const context = {
+      rewriteLink: (uri) => rewriteLink(
+        uri,
+        this.props.auth.get('realm'),
+        getAuthHeader(this.props.auth.get('email'), this.props.auth.get('apiKey')),
+      ),
+    };
     let prevItem;
     let totalIdx = 0;
     for (const item of this.props.messages) {
@@ -64,6 +76,7 @@ export default class StreamView extends React.PureComponent {
           message={item.content}
           timestamp={item.timestamp}
           avatarUrl={item.avatar_url}
+          context={context}
         />
       );
       totalIdx++;

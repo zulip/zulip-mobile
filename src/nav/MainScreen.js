@@ -163,7 +163,7 @@ class MainScreen extends React.Component {
             <StreamView
               messages={this.props.messages}
               subscriptions={this.props.subscriptions}
-              email={this.props.auth.get('email')}
+              auth={this.props.auth}
               caughtUp={this.props.caughtUp}
               fetchOlder={this.fetchOlder}
               fetchNewer={this.fetchNewer}

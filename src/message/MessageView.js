@@ -7,9 +7,9 @@ import {
   Text,
 } from 'react-native';
 
-import Avatar from '../common/Avatar';
+import { renderHtml } from './renderHtml';
 
-import MessageTextView from '../message/MessageTextView';
+import Avatar from '../common/Avatar';
 
 const styles = StyleSheet.create({
   message: {
@@ -40,24 +40,35 @@ const styles = StyleSheet.create({
 });
 
 export default class MessageView extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.renderMessage();
+    this.state = {
+      message: null,
+    };
+  }
+
+  async renderMessage() {
+    const message = await renderHtml(this.props.message, this.props.context);
+    this.setState({ message });
+  }
 
   render() {
+    const { context, avatarUrl, timestamp, from } = this.props;
+
     return (
       <View style={styles.message}>
-        <Avatar avatarUrl={this.props.avatarUrl} />
+        <Avatar avatarUrl={context.rewriteLink(avatarUrl).uri} />
         <View style={styles.messageContent}>
           <View style={styles.messageHeader}>
             <Text style={styles.messageUser}>
-              {this.props.from}
+              {from}
             </Text>
             <Text style={styles.messageTime}>
-              {moment(this.props.timestamp * 1000).format('LT')}
+              {moment(timestamp * 1000).format('LT')}
             </Text>
           </View>
-          <MessageTextView
-            style={styles.message}
-            message={this.props.message}
-          />
+          {this.state.message}
         </View>
       </View>
     );
