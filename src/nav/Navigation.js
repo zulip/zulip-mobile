@@ -11,6 +11,7 @@ import AccountPickScreen from '../accountlist/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
 import PasswordAuthScreen from '../start/PasswordAuthScreen';
 import DevAuthScreen from '../start/DevAuthScreen';
+import MainScreen from '../main/MainScreen';
 
 const {
   CardStack: NavigationCardStack,
@@ -85,6 +86,8 @@ export default class Navigation extends React.Component {
             onNext={() => this.navigateTo('main')}
           />
         );
+      case 'main':
+        return <MainScreen />;
       default:
         return <LoadingScreen />;
     }

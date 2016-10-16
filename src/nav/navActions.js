@@ -5,12 +5,12 @@ export const CHANGE_TAB = 'CHANGE_TAB';
 export const OPEN_STREAM_SIDEBAR = 'OPEN_STREAM_SIDEBAR';
 export const CLOSE_STREAM_SIDEBAR = 'CLOSE_STREAM_SIDEBAR';
 
-export const push = (route) => ({
+export const pushRoute = (route) => ({
   type: PUSH_ROUTE,
   route,
 });
 
-export const pop = () => ({
+export const popRoute = () => ({
   type: POP_ROUTE,
 });
 

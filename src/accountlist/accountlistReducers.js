@@ -6,9 +6,11 @@ import {
   ACCOUNT_REMOVE,
 } from '../account/accountActions';
 
+// const initialState = fromJS([]);
 const initialState = fromJS([{
   realm: 'http://zulip.tabbott.net',
   email: 'borisyankov@gmail.com',
+  apiKey: '2tG3ZSmT5CQCBVa7AJeuIJG6q9GgNDz7',
 }, {
   realm: 'http://hellorealm.com',
   email: 'bob@tester.com',

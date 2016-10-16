@@ -2,20 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getNextLoginRoute } from './routing';
 import Navigation from './Navigation';
-import { push, pop } from './navActions';
+import { pushRoute, popRoute } from './navActions';
 import { getActiveAccount } from '../accountlist/accountlistSelectors';
 
 class NavigationContainer extends React.PureComponent {
 
   componentDidMount() {
-    const { isLoggedIn, accounts, activeAccount, pushRoute } = this.props;
+    const { accounts, activeAccount } = this.props;
+    const isLoggedIn = activeAccount && activeAccount.get('apiKey');
 
     if (isLoggedIn) {
       // try to login then go to main
-      pushRoute({ key: 'main', title: 'Main' });
+      this.props.pushRoute({ key: 'main', title: 'Main' });
     } else {
       const nextRoute = getNextLoginRoute(accounts, activeAccount);
-      pushRoute(nextRoute);
+      this.props.pushRoute(nextRoute);
     }
   }
 
@@ -35,7 +36,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps, {
-    pushRoute: (route) => push(route),
-    popRoute: () => pop(),
+    pushRoute,
+    popRoute,
   }
 )(NavigationContainer);
