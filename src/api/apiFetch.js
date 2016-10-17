@@ -8,7 +8,7 @@ export type Auth = {
 
 const apiVersion = 'api/v1';
 
-const getAuthHeader = (email, apiKey) => {
+export const getAuthHeader = (email, apiKey) => {
   const encodedStr = `${email}:${apiKey}`;
   return `Basic ${base64.encode(encodedStr)}`;
 };

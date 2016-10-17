@@ -1,6 +1,7 @@
+// @flow
+
 import React from 'react';
 import {
-  View,
   Text,
   Image,
   Linking,
@@ -11,10 +12,9 @@ import entities from 'entities';
 import htmlparser from 'htmlparser2';
 
 const styles = {
-  container: {},
   base: {
     fontSize: 16,
-    lineHeight: 24,
+    lineHeight: 22,
   },
   bold: {
     fontWeight: 'bold',
@@ -28,7 +28,7 @@ const styles = {
     padding: 4,
   },
   link: {
-    fontWeight: 'bold',
+    fontWeight: '600',
     color: '#09f',
   },
   emoji: {
@@ -41,6 +41,10 @@ const styles = {
   },
   quote: {
   },
+  userMention: {
+    fontWeight: 'normal',
+    backgroundColor: '#eee',
+  },
 };
 
 const tagStyles = {
@@ -52,26 +56,21 @@ const tagStyles = {
   a: styles.link,
   img: styles.img,
   blockquote: styles.quote,
+  code: styles.code,
 };
 
 const NEWLINE = '\n';
 const BULLET = '\u2022 ';
+const INLINETAGS = new Set(['li', 'span', 'strong', 'b', 'i', 'a', 'br', 'p']);
 
-const parseEmoji = (node, index) => undefined;
-  // TODO: support emoji
-
-const parseImg = (node, index, onPress) => {
-  if (node.attribs.class === 'emoji') return parseEmoji(node, index);
-  const source = {
-    uri: node.attribs.src,
-  };
+const parseImg = (node, index, context, onPress) => {
+  const source = context.rewriteLink(node.attribs.src);
   const img = (
     <Image
       key={index}
       source={source}
-      style={styles.img}
-      onPress={onPress}
-      resizeMode={'cover'}
+      resizeMode={node.attribs.class === 'emoji' ? 'cover' : 'contain'}
+      style={node.attribs.class === 'emoji' ? styles.emoji : styles.img}
     />
   );
   if (onPress) {
@@ -91,37 +90,47 @@ const parseLink = (node): string => {
   return '';
 };
 
-const parseDom = (dom, baseStyle, onPress) => {
+const parseDom = (dom, context, baseStyle, onPress) => {
   if (!dom) return null;
 
   return dom.map((node, index, list) => {
     if (node.name === 'img') {
-      return parseImg(node, index, onPress);
+      return parseImg(node, index, context, onPress);
     }
 
     switch (node.type) {
       case 'text':
-        if (!node.data.trim()) return null;
+        if (!node.data) return [];
         return (
           <Text key={index} style={baseStyle} onPress={onPress}>
             {entities.decodeHTML(node.data)}
           </Text>
         );
       case 'tag': {
-        const link = parseLink(node);
+        const link = context.rewriteLink(parseLink(node)).uri;
 
         // Styling
         const style = [].concat(baseStyle);
         if (node.name in tagStyles) style.push(tagStyles[node.name]);
+        if (node.attribs.class === 'user-mention') {
+          style.push(styles.userMention);
+        }
+
+        const children = parseDom(
+          node.children,
+          context,
+          style,
+          link ? () => Linking.openURL(link) : null,
+        );
+
+        if (!INLINETAGS.has(node.name)) {
+          return children;
+        }
 
         return (
           <Text key={index} style={baseStyle}>
             {node.name === 'li' ? [BULLET] : null}
-            {parseDom(
-              node.children,
-              style,
-              link ? () => Linking.openURL(link) : null,
-            )}
+            {children}
             {node.name === 'li' || node.name === 'br' ||
              (node.name === 'p' && index < list.length - 1) ? [NEWLINE] : null}
           </Text>
@@ -133,37 +142,21 @@ const parseDom = (dom, baseStyle, onPress) => {
   });
 };
 
-const parseHtml = (html) =>
+export type Context = {
+  rewriteLink: (uri: string) => Object,
+};
+
+const defaultContext = {
+  rewriteLink: (uri) => ({ uri }),
+};
+
+export const renderHtml = (html: string, context: Context = defaultContext) =>
   new Promise((resolve, reject) => {
     const handler = new htmlparser.DomHandler((err, dom) => {
       if (err) reject(err);
-      resolve(parseDom(dom, [styles.base]));
+      resolve(parseDom(dom, context, [styles.base]));
     });
     const parser = new htmlparser.Parser(handler);
-    parser.write(html);
+    parser.write(html.replace(/\n|\r/g, ''));
     parser.done();
   });
-
-export default class MessageTextView extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.initialize();
-    this.state = {
-      rendered: null,
-    };
-  }
-
-  async initialize() {
-    const rendered = await parseHtml(this.props.message);
-    this.setState({ rendered });
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        {this.state.rendered}
-      </View>
-    );
-  }
-}
