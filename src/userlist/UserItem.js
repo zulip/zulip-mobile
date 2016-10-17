@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  TouchableHighlight,
   View,
 } from 'react-native';
-import Avatar from '../common/Avatar';
+import { Avatar, Touchable } from '../common';
 import UserStatusIndicator from './UserStatusIndicator';
 
 const styles = StyleSheet.create({
@@ -41,13 +40,13 @@ export default class UserItem extends Component {
     const { fullName, avatarUrl, status } = this.props;
 
     return (
-      <TouchableHighlight underlayColor="rgba(34, 105, 63, 0.5)" onPress={this.handlePress}>
+      <Touchable onPress={this.handlePress}>
         <View style={styles.container}>
           <Avatar size={32} avatarUrl={avatarUrl} />
           <Text style={styles.text}>{fullName}</Text>
           <UserStatusIndicator status={status} />
         </View>
-      </TouchableHighlight>
+      </Touchable>
     );
   }
 }

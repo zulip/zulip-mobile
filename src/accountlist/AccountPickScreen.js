@@ -2,25 +2,30 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import {
-  addAccount,
-  removeAccount,
-} from '../account/accountActions';
-
-import Logo from '../common/Logo';
-import Screen from '../common/Screen';
-import Button from '../common/Button';
+import { addAccount, removeAccount, attemptLogin } from '../account/accountActions';
+import { Button, Logo, Screen } from '../common';
 import AccountList from './AccountList';
 
 class AccountPickScreen extends React.Component {
 
   props: {
     accounts: any[],
+    navigateTo: () => void,
     onBack: () => void,
-    onNext: () => void,
   }
 
-  handleAccountSelect = (index: number) => {};
+  handleAccountSelect = (index: number) => {
+    const { accounts, navigateTo } = this.props;
+    const account = accounts.get(index);
+    const { apiKey, email, password } = account.toJS();
+    if (apiKey) {
+      navigateTo('main');
+    } else if (password) {
+      attemptLogin(undefined, email, password);
+    } else {
+      navigateTo('password');
+    }
+  };
 
   handleAccountRemove = (index: number) =>
     this.props.removeAccount(index);
@@ -29,7 +34,7 @@ class AccountPickScreen extends React.Component {
     const { accounts, onBack, onNext } = this.props;
 
     return (
-      <Screen onBack={onBack}>
+      <Screen title="Pick Account" onBack={onBack}>
         <Logo />
         <AccountList
           accounts={accounts}
@@ -55,6 +60,7 @@ const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
     addAccount,
     removeAccount,
+    attemptLogin,
   }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountPickScreen);

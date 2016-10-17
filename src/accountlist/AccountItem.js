@@ -1,16 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { BRAND_COLOR } from '../common/styles';
-import Button from '../common/Button';
+import { Button, Touchable } from '../common';
 
 const styles = StyleSheet.create({
+  wrapper: {
+    marginBottom: 8,
+  },
   accountItem: {
     flexDirection: 'row',
     alignItems: 'stretch',
     backgroundColor: 'rgba(36, 202, 194, 0.1)',
     borderRadius: 5,
     padding: 8,
-    marginBottom: 8,
     height: 52,
   },
   details: {
@@ -28,7 +30,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class AccountButton extends React.PureComponent {
+export default class AccountItem extends React.PureComponent {
 
   props: {
     index: number,
@@ -48,18 +50,20 @@ export default class AccountButton extends React.PureComponent {
     const { email, realm } = this.props;
 
     return (
-      <View style={styles.accountItem} onPress={this.handleSelect}>
-        <View style={styles.details}>
-          <Text style={styles.text}>{email}</Text>
-          <Text style={styles.text}>{realm}</Text>
+      <Touchable style={styles.wrapper} onPress={this.handleSelect}>
+        <View style={styles.accountItem}>
+          <View style={styles.details}>
+            <Text style={styles.text}>{email}</Text>
+            <Text style={styles.text}>{realm}</Text>
+          </View>
+          <Button
+            secondary
+            text="X"
+            customStyles={styles.removeButton}
+            onPress={this.handleRemove}
+          />
         </View>
-        <Button
-          secondary
-          text="X"
-          customStyles={styles.removeButton}
-          onPress={this.handleRemove}
-        />
-      </View>
+      </Touchable>
     );
   }
 }

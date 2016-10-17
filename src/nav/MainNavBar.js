@@ -23,15 +23,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#999',
   },
-  navButton: {
-    color: 'white',
-    textAlign: 'center',
-    padding: 8,
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  headingText: {
+  title: {
     fontSize: 16,
   },
   button: {
@@ -54,7 +46,7 @@ export default class MainNavBar extends React.Component {
               <Icon style={styles.button} name="ios-menu" onPress={openStreamList} />
               <Text style={styles.button} />
               <View style={styles.heading}>
-                <Text style={styles.headingText}>
+                <Text style={styles.title}>
                   {route.name}
                 </Text>
               </View>

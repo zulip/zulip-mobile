@@ -4,7 +4,7 @@ import {
   NavigationExperimental,
 } from 'react-native';
 
-import styles from '../common/styles';
+import { styles } from '../common';
 
 import LoadingScreen from '../start/LoadingScreen';
 import AccountPickScreen from '../accountlist/AccountPickScreen';
@@ -15,15 +15,6 @@ import DevAuthScreen from '../start/DevAuthScreen';
 const {
   CardStack: NavigationCardStack,
 } = NavigationExperimental;
-
-// On Start, AccountList not empty =>
-//   login into last logged in account
-// On Logout if AccountList not empty =>
-//   show list of accounts to login + button 'Add new account'
-// If Login in stored account fails =>
-//   Set realm to the one in it, but redirect to Email + Password page
-// On Start, if AccountList is empty =>
-//   go directly to RealmScreen
 
 type Props = {
 };
@@ -68,7 +59,10 @@ export default class Navigation extends React.Component {
     switch (props.scene.route.key) {
       case 'accountlist':
         return (
-          <AccountPickScreen onNext={() => this.navigateTo('realm')} />
+          <AccountPickScreen
+            navigateTo={this.navigateTo}
+            onNext={() => this.navigateTo('realm')}
+          />
         );
       case 'realm':
         return (
@@ -78,9 +72,19 @@ export default class Navigation extends React.Component {
           />
         );
       case 'password':
-        return <PasswordAuthScreen onNext={() => this.navigateTo('main')} />;
+        return (
+          <PasswordAuthScreen
+            onBack={this.handleBackAction}
+            onNext={() => this.navigateTo('main')}
+          />
+        );
       case 'dev':
-        return <DevAuthScreen onNext={() => this.navigateTo('main')} />;
+        return (
+          <DevAuthScreen
+            onBack={this.handleBackAction}
+            onNext={() => this.navigateTo('main')}
+          />
+        );
       default:
         return <LoadingScreen />;
     }

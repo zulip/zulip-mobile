@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import AccountButton from './AccountButton';
+import AccountItem from './AccountItem';
 
 export default class AccountList extends React.PureComponent {
 
@@ -16,7 +16,7 @@ export default class AccountList extends React.PureComponent {
     return (
       <View>
         {accounts.map((x, i) =>
-          <AccountButton
+          <AccountItem
             key={i}
             index={i}
             {...x.toJS()}

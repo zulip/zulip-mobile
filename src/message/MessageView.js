@@ -9,7 +9,7 @@ import {
 
 import { renderHtml } from './renderHtml';
 import { BORDER_COLOR } from '../common/styles';
-import Avatar from '../common/Avatar';
+import { Avatar } from '../common';
 
 const styles = StyleSheet.create({
   message: {

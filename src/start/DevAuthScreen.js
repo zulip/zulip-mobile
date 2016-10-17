@@ -1,16 +1,12 @@
 import React from 'react';
 import {
-  View,
-  Text,
   ScrollView,
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import styles from '../common/styles';
-import ErrorMsg from '../common/ErrorMsg';
-import Button from '../common/Button';
+import { Screen, ErrorMsg, Button } from '../common';
 
 // Actions
 import { markErrorsAsHandled } from '../error/errorActions';
@@ -43,10 +39,7 @@ class DevAuthScreen extends React.Component {
     const { directAdmins, directUsers, activeBackend } = this.props.account;
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.label}>
-          Choose a user:
-        </Text>
+      <Screen title="Dev Account Login">
         <ScrollView>
           {activeBackend &&
             directAdmins.map((user) =>
@@ -67,7 +60,7 @@ class DevAuthScreen extends React.Component {
           )}
         </ScrollView>
         <ErrorMsg errors={this.props.errors} />
-      </View>
+      </Screen>
     );
   }
 }

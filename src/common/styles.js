@@ -65,8 +65,17 @@ export default StyleSheet.create({
   navButton: {
     color: 'white',
     textAlign: 'center',
-    padding: 8,
+    fontSize: 26,
+    width: 32,
+    lineHeight: 32,
+    height: 32,
+  },
+  navTitle: {
     flex: 1,
+    color: 'white',
+    textAlign: 'center',
     fontSize: 16,
+    lineHeight: 32,
+    height: 32,
   },
 });

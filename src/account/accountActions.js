@@ -37,6 +37,12 @@ export const removeAccount = (index: number) => ({
   index,
 });
 
+export const recallLogin = () => {
+  // if no email, go to realm
+  // if no api go to password
+  // api call attemptLogin
+};
+
 export const attemptLogin = (auth, email, password) =>
   async (dispatch) => {
     // Tell the UI to display a spinner

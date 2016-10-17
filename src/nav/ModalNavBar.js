@@ -2,10 +2,9 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableHighlight,
 } from 'react-native';
-
-import styles, { HIGHLIGHT_COLOR } from '../common/styles';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { styles, Touchable } from '../common';
 
 class ModalBar extends React.Component {
   render() {
@@ -14,11 +13,11 @@ class ModalBar extends React.Component {
     return (
       <View style={styles.navBar}>
         {onBack &&
-          <TouchableHighlight underlayColor={HIGHLIGHT_COLOR} onPress={onBack}>
-            <Text style={styles.navButton}>Back</Text>
-          </TouchableHighlight>
+          <Touchable onPress={onBack}>
+            <Icon style={styles.navButton} name="ios-arrow-back" />
+          </Touchable>
         }
-        <Text style={styles.navButton}>
+        <Text style={styles.navTitle}>
           {title}
         </Text>
       </View>

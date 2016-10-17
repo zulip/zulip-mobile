@@ -1,8 +1,6 @@
 import React from 'react';
 import {
-  View,
   TextInput,
-  KeyboardAvoidingView,
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
@@ -10,9 +8,7 @@ import { connect } from 'react-redux';
 
 import config from '../config';
 
-import styles from '../common/styles';
-import ErrorMsg from '../common/ErrorMsg';
-import Button from '../common/Button';
+import { styles, Screen, ErrorMsg, Button } from '../common';
 
 // Actions
 import { markErrorsAsHandled } from '../error/errorActions';
@@ -40,40 +36,34 @@ class PasswordAuthScreen extends React.Component {
   };
 
   render() {
-    const { errors, pendingServerResponse } = this.props;
+    const { errors, pendingServerResponse, onBack } = this.props;
     const { email, password } = this.state;
 
     return (
-      <KeyboardAvoidingView behavior="padding">
-        <View style={styles.field}>
-          <TextInput
-            autoCorrect={false}
-            autoFocus
-            style={styles.input}
-            autoCapitalize="none"
-            placeholder="Email"
-            value={email}
-            onChangeText={newEmail => this.setState({ email: newEmail })}
-          />
-        </View>
-        <View style={styles.field}>
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            secureTextEntry
-            value={password}
-            onChangeText={newPassword => this.setState({ password: newPassword })}
-          />
-        </View>
-        <View style={styles.field}>
-          <Button
-            text="Sign in"
-            progress={pendingServerResponse}
-            onPress={this.onSignIn}
-          />
-        </View>
+      <Screen title="Login" keyboardAvoiding onBack={onBack}>
+        <TextInput
+          autoCorrect={false}
+          autoFocus
+          style={styles.input}
+          autoCapitalize="none"
+          placeholder="Email"
+          value={email}
+          onChangeText={newEmail => this.setState({ email: newEmail })}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry
+          value={password}
+          onChangeText={newPassword => this.setState({ password: newPassword })}
+        />
+        <Button
+          text="Sign in"
+          progress={pendingServerResponse}
+          onPress={this.onSignIn}
+        />
         <ErrorMsg errors={errors} />
-      </KeyboardAvoidingView>
+      </Screen>
     );
   }
 }

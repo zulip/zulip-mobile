@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import Button from '../common/Button';
+import { Button } from '../common';
 import { privateNarrow } from '../lib/narrow';
 import UserFilter from './UserFilter';
 import UserList from './UserList';

@@ -3,8 +3,9 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableHighlight,
 } from 'react-native';
+
+import { Touchable } from '../common';
 
 const styles = StyleSheet.create({
   row: {
@@ -18,12 +19,12 @@ const styles = StyleSheet.create({
 });
 
 export default ({ customStyles, onPress, name, icon }) => (
-  <TouchableHighlight onPress={onPress}>
+  <Touchable onPress={onPress}>
     <View style={styles.row}>
       {icon}
       <Text style={customStyles}>
         {name}
       </Text>
     </View>
-  </TouchableHighlight>
+  </Touchable>
 );

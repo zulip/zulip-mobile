@@ -13,10 +13,7 @@ import {
   addAccount,
 } from '../account/accountActions';
 
-import styles from '../common/styles';
-import Screen from '../common/Screen';
-import ErrorMsg from '../common/ErrorMsg';
-import Button from '../common/Button';
+import { styles, Screen, ErrorMsg, Button } from '../common';
 
 class RealmScreen extends React.Component {
   constructor(props) {
@@ -37,7 +34,7 @@ class RealmScreen extends React.Component {
     const { pendingServerResponse, onBack, errors } = this.props;
 
     return (
-      <Screen keybardAvoiding onBack={onBack}>
+      <Screen title="Server" keybardAvoiding onBack={onBack}>
         <TextInput
           style={styles.input}
           autoFocus

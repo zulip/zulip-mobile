@@ -3,10 +3,10 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
   ActivityIndicator,
 } from 'react-native';
-import { BRAND_COLOR, HIGHLIGHT_COLOR } from './styles';
+import { BRAND_COLOR } from './styles';
+import Touchable from './Touchable';
 
 const styles = StyleSheet.create({
   frame: {
@@ -48,15 +48,14 @@ const ButtonInProgress = ({ frameStyle }) => (
 
 const ButtonNormal = ({ frameStyle, touchTargetStyle, textStyle, text, onPress }) => (
   <View style={frameStyle}>
-    <TouchableHighlight
+    <Touchable
       style={touchTargetStyle}
-      underlayColor={HIGHLIGHT_COLOR}
       onPress={onPress}
     >
       <Text style={textStyle}>
         {text}
       </Text>
-    </TouchableHighlight>
+    </Touchable>
   </View>
 );
 

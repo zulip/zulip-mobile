@@ -5,11 +5,12 @@ import {
   Text,
   Image,
   Linking,
-  TouchableHighlight,
 } from 'react-native';
 
 import entities from 'entities';
 import htmlparser from 'htmlparser2';
+
+import { Touchable } from '../common';
 
 const styles = {
   base: {
@@ -75,9 +76,9 @@ const parseImg = (node, index, context, onPress) => {
   );
   if (onPress) {
     return (
-      <TouchableHighlight key={index} onPress={onPress} style={styles.img}>
+      <Touchable key={index} onPress={onPress} style={styles.img}>
         {img}
-      </TouchableHighlight>
+      </Touchable>
     );
   }
   return img;
