@@ -1,0 +1,12 @@
+exports[`test renders correctly 1`] = `
+<Image
+  resizeMode="contain"
+  source={1}
+  style={
+    Object {
+      "alignSelf": "center",
+      "height": 100,
+      "width": 100
+    }
+  } />
+`;

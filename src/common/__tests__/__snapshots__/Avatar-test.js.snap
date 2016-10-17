@@ -1,0 +1,16 @@
+exports[`test renders correctly 1`] = `
+<Image
+  resizeMode="contain"
+  source={
+    Object {
+      "uri": undefined
+    }
+  }
+  style={
+    Object {
+      "borderRadius": 16,
+      "height": 32,
+      "width": 32
+    }
+  } />
+`;
