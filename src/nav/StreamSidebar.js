@@ -18,8 +18,7 @@ import {
 
 import SidebarRow from './SidebarRow';
 
-const NAV_BAR_HEIGHT = 44;
-const STATUS_BAR_HEIGHT = 20;
+import { NAVBAR_HEIGHT, STATUSBAR_HEIGHT, BRAND_COLOR } from '../common/styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -32,8 +31,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   account: {
-    height: NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT,
-    backgroundColor: '#222',
+    height: NAVBAR_HEIGHT + STATUSBAR_HEIGHT,
+    backgroundColor: BRAND_COLOR,
   },
   mainMenu: {
     fontWeight: 'bold',

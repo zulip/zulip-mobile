@@ -2,7 +2,6 @@ exports[`test renders correctly 1`] = `
 <View
   style={
     Array [
-      undefined,
       Object {
         "alignItems": "center",
         "borderRadius": 5,
@@ -13,6 +12,7 @@ exports[`test renders correctly 1`] = `
       Object {
         "backgroundColor": "#24cac2",
       },
+      undefined,
     ]
   }>
   <View

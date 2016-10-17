@@ -18,16 +18,15 @@ class Screen extends React.Component {
   props: {
     keyboardAvoiding: boolean,
     title: string,
-    onBack: () => void,
   }
 
   render() {
-    const { keyboardAvoiding, title, popRoute, nav, children } = this.props;
+    const { keyboardAvoiding, title, nav, children } = this.props;
     const WrapperView = keyboardAvoiding ? KeyboardAvoidingView : View;
 
     return (
       <View style={styles.screen}>
-        <StatusBar backgroundColor="blue" barStyle="light-content" />
+        <StatusBar barStyle="light-content" />
         <ModalNavBar title={title} popRoute={popRoute} nav={nav} />
         <WrapperView style={styles.container} behavior="padding">
           {children}

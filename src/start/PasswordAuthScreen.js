@@ -2,15 +2,12 @@ import React from 'react';
 import {
   TextInput,
 } from 'react-native';
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import config from '../config';
-
 import { styles, Screen, ErrorMsg, Button } from '../common';
-
-// Actions
+import { getAuth } from '../accountlist/accountlistSelectors';
 import { markErrorsAsHandled } from '../error/errorActions';
 import {
   LOGIN_FAILED,
@@ -69,9 +66,9 @@ class PasswordAuthScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
-  email: state.auth.get('email'),
-  password: state.auth.get('password'),
+  auth: getAuth(state),
+  email: getAuth(state).get('email'),
+  password: getAuth(state).get('password'),
   pendingServerResponse: state.app.get('pendingServerResponse'),
   errors: state.errors.filter(e => e.active && e.type === LOGIN_FAILED),
 });

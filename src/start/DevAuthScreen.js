@@ -2,13 +2,11 @@ import React from 'react';
 import {
   ScrollView,
 } from 'react-native';
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { Screen, ErrorMsg, Button } from '../common';
-
-// Actions
+import { getAuth } from '../accountlist/accountlistSelectors';
 import { markErrorsAsHandled } from '../error/errorActions';
 import {
   LOGIN_FAILED,
@@ -66,7 +64,7 @@ class DevAuthScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  auth: getAuth(state),
   account: state.user.accounts.get(state.user.activeAccountId),
   errors: state.errors.filter(e => e.active && e.type === LOGIN_FAILED),
 });

@@ -9,27 +9,13 @@ import Drawer from 'react-native-drawer';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import {
-  sendInitialGetUsers,
-} from '../userlist/userListActions';
+import { getAuth } from '../accountlist/accountlistSelectors';
 
-import {
-  appActivity,
-} from '../account/appActions';
-
-import {
-  sendGetMessages,
-  sendSetMessages,
-} from '../stream/streamActions';
-
-import {
-  getEvents,
-} from '../events/eventActions';
-
-import {
-  openStreamSidebar,
-  closeStreamSidebar,
-} from '../nav/navActions';
+import { sendInitialGetUsers } from '../userlist/userListActions';
+import { appActivity } from '../account/appActions';
+import { sendGetMessages, sendSetMessages } from '../stream/streamActions';
+import { getEvents } from '../events/eventActions';
+import { openStreamSidebar, closeStreamSidebar } from '../nav/navActions';
 
 import StreamView from '../stream/StreamView';
 import MainNavBar from '../nav/MainNavBar';
@@ -118,15 +104,17 @@ class MainScreen extends React.Component {
   }
 
   render() {
+    const { auth, messages, subscriptions, streamlistOpened, caughtUp } = this.props;
+
     return (
       <Drawer
         content={
           <StreamSidebar
-            subscriptions={this.props.subscriptions}
+            subscriptions={subscriptions}
             narrow={this.narrow}
           />
         }
-        open={this.props.streamlistOpened}
+        open={streamlistOpened}
         onOpenStart={this.props.openStreamSidebar}
         onClose={this.props.closeStreamSidebar}
         tapToClose
@@ -151,20 +139,21 @@ class MainScreen extends React.Component {
         >
           <StatusBar
             animated
+            barStyle="light-content"
             showHideTransition="slide"
-            hidden={this.props.streamlistOpened}
+            hidden={streamlistOpened}
           />
           <MainNavBar
             onPressLeft={
-              this.props.streamlistOpened ?
+              streamlistOpened ?
               this.props.closeStreamSidebar : this.props.openStreamSidebar
             }
           >
             <StreamView
-              messages={this.props.messages}
-              subscriptions={this.props.subscriptions}
-              auth={this.props.auth}
-              caughtUp={this.props.caughtUp}
+              messages={messages}
+              subscriptions={subscriptions}
+              auth={auth}
+              caughtUp={caughtUp}
               fetchOlder={this.fetchOlder}
               fetchNewer={this.fetchNewer}
               narrow={this.narrow}
@@ -178,7 +167,7 @@ class MainScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  auth: getAuth(state),
   subscriptions: state.subscriptions,
   messages: state.stream.messages,
   fetching: state.stream.fetching,

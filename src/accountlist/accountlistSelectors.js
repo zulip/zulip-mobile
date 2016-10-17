@@ -4,8 +4,8 @@ export const getActiveAccount = (state) =>
 export const getAuth = (state) => {
   const account = getActiveAccount(state);
   return {
-    email: account.email,
-    apiKey: account.apiKey,
-    realm: account.realm,
+    email: account.get('email'),
+    apiKey: account.get('apiKey'),
+    realm: account.get('realm'),
   };
 };

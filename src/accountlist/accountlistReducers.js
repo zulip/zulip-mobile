@@ -8,7 +8,7 @@ import {
 
 // const initialState = fromJS([]);
 const initialState = fromJS([{
-  realm: 'http://zulip.tabbott.net',
+  realm: 'https://zulip.tabbott.net',
   email: 'borisyankov@gmail.com',
   apiKey: '2tG3ZSmT5CQCBVa7AJeuIJG6q9GgNDz7',
 }, {

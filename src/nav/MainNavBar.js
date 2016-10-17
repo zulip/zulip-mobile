@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import { BRAND_COLOR, STATUS_BAR_HEIGHT } from '../common/styles';
+import { BRAND_COLOR, STATUSBAR_HEIGHT } from '../common/styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,16 +17,17 @@ const styles = StyleSheet.create({
   navBar: {
     flexDirection: 'row',
     backgroundColor: BRAND_COLOR,
-    paddingTop: STATUS_BAR_HEIGHT,
+    paddingTop: STATUSBAR_HEIGHT,
     alignItems: 'stretch',
     justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: '#999',
   },
   title: {
+    color: 'white',
     fontSize: 16,
+    lineHeight: 26,
   },
   button: {
+    color: 'white',
     textAlign: 'center',
     fontSize: 26,
     width: 46,
@@ -45,11 +46,9 @@ export default class MainNavBar extends React.Component {
             <View style={styles.navBar}>
               <Icon style={styles.button} name="ios-menu" onPress={openStreamList} />
               <Text style={styles.button} />
-              <View style={styles.heading}>
-                <Text style={styles.title}>
-                  {route.name}
-                </Text>
-              </View>
+              <Text style={styles.title}>
+                {route.name}
+              </Text>
               <Icon style={styles.button} name="ios-search" />
               <Icon style={styles.button} name="md-people" />
             </View>

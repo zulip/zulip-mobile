@@ -3,8 +3,9 @@ import { StyleSheet } from 'react-native';
 export const BRAND_COLOR = '#24cac2';
 export const HIGHLIGHT_COLOR = 'rgba(86, 164, 174, 0.5)';
 export const BORDER_COLOR = '#eee';
-export const STATUS_BAR_HEIGHT = 20;
+export const STATUSBAR_HEIGHT = 20;
 export const FIELD_HEIGHT = 44;
+export const NAVBAR_HEIGHT = 28;
 export const COMPOSE_VIEW_HEIGHT = 44;
 
 export default StyleSheet.create({
@@ -23,7 +24,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
-    marginTop: STATUS_BAR_HEIGHT,
+    marginTop: STATUSBAR_HEIGHT,
   },
   centerer: {
     flex: 1,
@@ -58,7 +59,7 @@ export default StyleSheet.create({
   navBar: {
     flexDirection: 'row',
     backgroundColor: BRAND_COLOR,
-    paddingTop: STATUS_BAR_HEIGHT,
+    paddingTop: STATUSBAR_HEIGHT,
     alignItems: 'stretch',
     justifyContent: 'space-between',
   },
