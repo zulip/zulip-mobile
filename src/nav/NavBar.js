@@ -7,9 +7,7 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-
-const NAV_BAR_HEIGHT = 44;
-const STATUS_BAR_HEIGHT = 20;
+import { BRAND_COLOR, STATUS_BAR_HEIGHT } from '../common/styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,15 +16,17 @@ const styles = StyleSheet.create({
   },
   navBar: {
     flexDirection: 'row',
-    height: NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT,
-    backgroundColor: '#fff',
+    backgroundColor: BRAND_COLOR,
     paddingTop: STATUS_BAR_HEIGHT,
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderBottomColor: '#999',
   },
-  heading: {
+  navButton: {
+    color: 'white',
+    textAlign: 'center',
+    padding: 8,
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',

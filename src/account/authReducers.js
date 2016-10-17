@@ -4,7 +4,7 @@ import {
   ACCOUNT_ADD_SUCCEEDED,
   LOGIN_SUCCEEDED,
   LOGOUT,
-} from './userActions';
+} from './accountActions';
 
 const initialState = fromJS({
   email: '',

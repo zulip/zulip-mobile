@@ -1,7 +1,10 @@
 import { StyleSheet } from 'react-native';
 
-const STATUS_BAR_HEIGHT = 20;
-const FIELD_HEIGHT = 44;
+export const BRAND_COLOR = '#24cac2';
+export const BORDER_COLOR = '#eee';
+export const STATUS_BAR_HEIGHT = 20;
+export const FIELD_HEIGHT = 44;
+export const COMPOSE_VIEW_HEIGHT = 44;
 
 export default StyleSheet.create({
   container: {
@@ -34,7 +37,7 @@ export default StyleSheet.create({
   input: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#999',
+    borderColor: BORDER_COLOR,
     padding: 10,
   },
 });

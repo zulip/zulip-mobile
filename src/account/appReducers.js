@@ -9,7 +9,7 @@ import {
   ACCOUNT_ADD_PENDING,
   ACCOUNT_ADD_SUCCEEDED,
   ACCOUNT_ADD_FAILED,
-} from './userActions';
+} from './accountActions';
 
 import {
   APP_ACTIVITY,

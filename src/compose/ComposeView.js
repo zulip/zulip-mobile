@@ -6,13 +6,13 @@ import {
   TextInput,
 } from 'react-native';
 
-const COMPOSE_VIEW_HEIGHT = 44;
+import { BORDER_COLOR, COMPOSE_VIEW_HEIGHT } from '../common/styles';
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     borderTopWidth: 1,
-    borderTopColor: '#999',
+    borderTopColor: BORDER_COLOR,
     backgroundColor: '#fff',
   },
   threadBox: {

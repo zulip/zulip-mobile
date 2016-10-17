@@ -6,6 +6,7 @@ import {
   TouchableHighlight,
   ActivityIndicator,
 } from 'react-native';
+import { BRAND_COLOR } from './styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,10 +19,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   primaryContainer: {
-    backgroundColor: '#22693F',
+    backgroundColor: BRAND_COLOR,
   },
   secondaryContainer: {
-    borderColor: '#22693F',
+    borderColor: BRAND_COLOR,
     borderWidth: 2,
   },
   touchTarget: {
@@ -37,13 +38,13 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   secondaryText: {
-    color: '#22693F',
+    color: BRAND_COLOR,
   },
 });
 
 const ButtonInProgress = ({ containerStyle }) => (
   <View style={containerStyle}>
-    <ActivityIndicator />
+    <ActivityIndicator color="white" />
   </View>
 );
 

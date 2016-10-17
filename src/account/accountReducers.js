@@ -5,7 +5,7 @@ import {
   ACCOUNT_ADD_FAILED,
   DEV_EMAILS_SUCCEEDED,
   DEV_EMAILS_FAILED,
-} from './userActions';
+} from './accountActions';
 
 
 const initialState = fromJS({

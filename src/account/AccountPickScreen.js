@@ -1,8 +1,6 @@
 import React from 'react';
 import {
   View,
-  TextInput,
-  KeyboardAvoidingView,
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
@@ -16,10 +14,10 @@ import {
 } from './accountActions';
 
 import styles from '../common/styles';
-import ErrorMsg from '../common/ErrorMsg';
 import Button from '../common/Button';
+import AccountList from './AccountList';
 
-class RealmScreen extends React.Component {
+class AccountPickScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -35,33 +33,17 @@ class RealmScreen extends React.Component {
   }
 
   render() {
-    const { pendingServerResponse, errors } = this.props;
+    // const { pendingServerResponse, errors } = this.props;
+    const accounts = [];
 
     return (
-      <KeyboardAvoidingView behavior="padding">
-
-        <View style={styles.field}>
-          <TextInput
-            style={styles.input}
-            autoFocus
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholder="Server address"
-            value={this.state.realm}
-            onChangeText={realm => this.setState({ realm })}
-          />
-        </View>
-
-        <View style={styles.field}>
-          <Button
-            text="Next"
-            progress={pendingServerResponse}
-            onPress={this.onRealmEnter}
-          />
-        </View>
-
-        <ErrorMsg errors={errors} />
-      </KeyboardAvoidingView>
+      <View>
+        <AccountList accounts={accounts} />
+        <Button
+          text="Add new account"
+          onPress={this.onRealmEnter}
+        />
+      </View>
     );
   }
 }
@@ -77,4 +59,4 @@ const mapDispatchToProps = (dispatch, ownProps) =>
     markErrorsAsHandled,
   }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(RealmScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(AccountPickScreen);

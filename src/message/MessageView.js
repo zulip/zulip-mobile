@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { renderHtml } from './renderHtml';
-
+import { BORDER_COLOR } from '../common/styles';
 import Avatar from '../common/Avatar';
 
 const styles = StyleSheet.create({
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   messageTime: {
-    color: '#999',
+    color: BORDER_COLOR,
     fontSize: 15,
   },
 });

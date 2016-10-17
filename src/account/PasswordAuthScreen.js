@@ -19,7 +19,7 @@ import { markErrorsAsHandled } from '../error/errorActions';
 import {
   LOGIN_FAILED,
   attemptLogin,
-} from './userActions';
+} from './accountActions';
 
 class PasswordAuthScreen extends React.Component {
   constructor(props) {
@@ -41,6 +41,7 @@ class PasswordAuthScreen extends React.Component {
 
   render() {
     const { errors, pendingServerResponse } = this.props;
+    const { email, password } = this.state;
 
     return (
       <KeyboardAvoidingView behavior="padding">
@@ -51,8 +52,8 @@ class PasswordAuthScreen extends React.Component {
             style={styles.input}
             autoCapitalize="none"
             placeholder="Email"
-            value={this.state.email}
-            onChangeText={email => this.setState({ email })}
+            value={email}
+            onChangeText={newEmail => this.setState({ email: newEmail })}
           />
         </View>
         <View style={styles.field}>
@@ -60,8 +61,8 @@ class PasswordAuthScreen extends React.Component {
             style={styles.input}
             placeholder="Password"
             secureTextEntry
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
+            value={password}
+            onChangeText={newPassword => this.setState({ password: newPassword })}
           />
         </View>
         <View style={styles.field}>

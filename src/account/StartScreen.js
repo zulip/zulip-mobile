@@ -8,15 +8,14 @@ import { connect } from 'react-redux';
 
 import {
   addAccount,
-} from './userActions';
+} from './accountActions';
 
 // import { Backend } from '../api/apiClient';
-import styles from '../common/styles';
-
+import styles, { BRAND_COLOR } from '../common/styles';
 import Logo from '../common/Logo';
 import PasswordAuthScreen from './PasswordAuthScreen';
 import DevAuthScreen from './DevAuthScreen';
-import RealmScreen from './RealmScreen';
+import AccountPickScreen from './AccountPickScreen';
 
 class StartScreen extends React.Component {
 
@@ -50,8 +49,8 @@ class StartScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Logo />
-        {!isRealmSet && <RealmScreen />}
-        {isRealmSet && !authBackends.size && <ActivityIndicator />}
+        {!isRealmSet && <AccountPickScreen />}
+        {isRealmSet && !authBackends.size && <ActivityIndicator color={BRAND_COLOR} />}
         {isRealmSet && authBackends.includes('dev') && <DevAuthScreen />}
         {isRealmSet && authBackends.includes('password') && <PasswordAuthScreen />}
         {/* {isRealmSet && authBackends.includes('google')

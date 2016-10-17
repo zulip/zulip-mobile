@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import app from './account/appReducers';
 import auth from './account/authReducers';
-import user from './account/userReducers';
+import user from './account/accountReducers';
 import userlist from './userlist/userListReducers';
 import stream from './stream/streamReducers';
 import errors from './error/errorReducers';
