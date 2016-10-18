@@ -43,9 +43,15 @@ export const recallLogin = () => {
   // api call attemptLogin
 };
 
+export const loginSucceeded = (realm, email, apiKey) => ({
+  type: LOGIN_SUCCEEDED,
+  realm,
+  email,
+  apiKey,
+});
+
 export const attemptLogin = (auth, email, password) =>
   async (dispatch) => {
-    // Tell the UI to display a spinner
     dispatch({ type: LOGIN_PENDING });
 
     try {
@@ -63,7 +69,6 @@ export const attemptLogin = (auth, email, password) =>
 
 export const attemptDevLogin = (auth, email) =>
   async (dispatch) => {
-    // Tell the UI to display a spinner
     dispatch({ type: LOGIN_PENDING });
 
     try {

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import accountlist from './accountlist/accountlistReducers';
 import app from './account/appReducers';
-import auth from './account/authReducers';
+// import auth from './account/authReducers';
 import errors from './error/errorReducers';
 import events from './events/eventReducers';
 import nav from './nav/navReducers';
@@ -13,7 +13,7 @@ import userlist from './userlist/userListReducers';
 export default combineReducers({
   accountlist,
   app,
-  auth,
+//  auth,
   errors,
   events,
   nav,

@@ -12,8 +12,8 @@ export default class ErrorMsg extends React.PureComponent {
 
     return (
       <View style={styles.field}>
-        {errors.map((err) =>
-          <Text key={err.timestamp} style={styles.error}>
+        {errors.map((err, i) =>
+          <Text key={i} style={styles.error}>
             {err.message}
           </Text>
         )}

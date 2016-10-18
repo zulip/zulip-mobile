@@ -1,14 +1,15 @@
-export const getNextLoginRoute = (accounts, activeAccount) => {
+// if no previous accounts => go to server pick screen
+//
+
+export const getNextLoginRoute = (accounts: any[], activeAccount): string => {
   if (!activeAccount) {
-    return { key: 'realm', title: 'Realm' };
-  } else if (accounts.size > 0) {
-    return { key: 'accountlist', title: 'Account' };
+    return accounts.size > 0 ? 'accountlist' : 'realm';
   // } else if (!activeAccount.realm) {
   } else if (!activeAccount.email) {
-    return { key: 'password', title: 'Password' };
+    return 'password';
   } else if (!activeAccount.todo) {
-    return { key: 'dev', title: 'Dev' };
+    return 'dev';
   } else {
-    return { key: 'unknown', title: 'Unknown' };
+    return 'unknown';
   }
 };

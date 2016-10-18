@@ -4,37 +4,52 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { fetchApiKey } from '../api/apiClient';
 
 import config from '../config';
 import { styles, Screen, ErrorMsg, Button } from '../common';
 import { getAuth } from '../accountlist/accountlistSelectors';
-import { markErrorsAsHandled } from '../error/errorActions';
-import {
-  LOGIN_FAILED,
-  attemptLogin,
-} from '../account/accountActions';
+import { loginSucceeded } from '../account/accountActions';
+
+type Props = {};
 
 class PasswordAuthScreen extends React.Component {
-  constructor(props) {
+
+  props: Props;
+  state: {
+    progress: boolean,
+    email: string,
+    password: string,
+    error: string,
+  }
+
+  constructor(props: Props) {
     super(props);
     this.state = {
+      progress: false,
       email: props.email || config.defaultLoginEmail,
       password: props.password || config.defaultLoginPassword,
     };
   }
 
-  onSignIn = () => {
-    this.props.markErrorsAsHandled(this.props.errors);
-    this.props.attemptLogin(
-      this.props.auth,
-      this.state.email,
-      this.state.password,
-    );
+  attemptLogin = async () => {
+    const { auth } = this.props;
+    const { email, password } = this.state;
+
+    this.setState({ progress: true, error: '' });
+
+    try {
+      const apiKey = await fetchApiKey(auth, email, password);
+      this.props.loginSucceeded(auth.realm, email, apiKey);
+      this.setState({ progress: false });
+    } catch (err) {
+      this.setState({ progress: false, error: err.message });
+    }
   };
 
   render() {
-    const { errors, pendingServerResponse, onBack } = this.props;
-    const { email, password } = this.state;
+    const { onBack } = this.props;
+    const { email, password, progress, error } = this.state;
 
     return (
       <Screen title="Login" keyboardAvoiding onBack={onBack}>
@@ -56,10 +71,10 @@ class PasswordAuthScreen extends React.Component {
         />
         <Button
           text="Sign in"
-          progress={pendingServerResponse}
-          onPress={this.onSignIn}
+          progress={progress}
+          onPress={this.attemptLogin}
         />
-        <ErrorMsg errors={errors} />
+        <ErrorMsg errors={[{ message: error }]} />
       </Screen>
     );
   }
@@ -69,14 +84,11 @@ const mapStateToProps = (state) => ({
   auth: getAuth(state),
   email: getAuth(state).get('email'),
   password: getAuth(state).get('password'),
-  pendingServerResponse: state.app.get('pendingServerResponse'),
-  errors: state.errors.filter(e => e.active && e.type === LOGIN_FAILED),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
-    attemptLogin,
-    markErrorsAsHandled,
+    loginSucceeded,
   }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordAuthScreen);

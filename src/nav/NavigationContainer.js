@@ -8,15 +8,12 @@ import { getActiveAccount } from '../accountlist/accountlistSelectors';
 class NavigationContainer extends React.PureComponent {
 
   componentDidMount() {
-    const { accounts, activeAccount } = this.props;
-    const isLoggedIn = activeAccount && activeAccount.get('apiKey');
-
-    if (isLoggedIn) {
-      // try to login then go to main
+    const { accounts, activeAccount, isLoggedIn } = this.props;
+    if (isLoggedIn || (activeAccount && activeAccount.get('apiKey'))) {
       this.props.pushRoute({ key: 'main', title: 'Main' });
     } else {
       const nextRoute = getNextLoginRoute(accounts, activeAccount);
-      this.props.pushRoute(nextRoute);
+      this.props.pushRoute({ key: nextRoute, title: nextRoute });
     }
   }
 

@@ -6,15 +6,15 @@ import {
   ACCOUNT_REMOVE,
 } from '../account/accountActions';
 
-// const initialState = fromJS([]);
-const initialState = fromJS([{
-  realm: 'https://zulip.tabbott.net',
-  email: 'borisyankov@gmail.com',
-  apiKey: '2tG3ZSmT5CQCBVa7AJeuIJG6q9GgNDz7',
-}, {
-  realm: 'http://hellorealm.com',
-  email: 'bob@tester.com',
-}]);
+const initialState = fromJS([]);
+// const initialState = fromJS([{
+//   realm: 'https://zulip.tabbott.net',
+//   email: 'borisyankov@gmail.com',
+//   // apiKey: '2tG3ZSmT5CQCBVa7AJeuIJG6q9GgNDz7',
+// }, {
+//   realm: 'http://hellorealm.com',
+//   email: 'bob@tester.com',
+// }]);
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -23,21 +23,19 @@ export default (state = initialState, action) => {
         x.get('realm') === action.realm && x.get('email') === action.email
       );
 
-      if (accountIndex !== -1) {
-        return state
-          .unshift({
-            realm: action.realm,
-            apiKey: action.apiKey,
-            email: action.email,
-          })
-          .delete(accountIndex + 1);
-      }
-
-      return state.unshift({
+      const newAccount = fromJS({
         realm: action.realm,
         apiKey: action.apiKey,
         email: action.email,
       });
+
+      if (accountIndex !== -1) {
+        return state
+          .unshift(newAccount)
+          .delete(accountIndex + 1);
+      }
+
+      return state.unshift(newAccount);
     }
     case LOGOUT:
       return state

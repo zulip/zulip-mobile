@@ -10,7 +10,7 @@ import immutableTransform from 'redux-persist-transform-immutable';
 
 import rootReducer from './reducers';
 
-AsyncStorage.clear(); // use to reset storage during development
+// AsyncStorage.clear(); // use to reset storage during development
 
 const immutableToPlainTransformer = (state) =>
   Object.keys(state).reduce((newState, key) => ({
