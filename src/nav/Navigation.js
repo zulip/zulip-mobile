@@ -68,6 +68,7 @@ export default class Navigation extends React.Component {
       case 'realm':
         return (
           <RealmScreen
+            navigateTo={this.navigateTo}
             onBack={this.handleBackAction}
             onNext={() => this.navigateTo('password')}
           />

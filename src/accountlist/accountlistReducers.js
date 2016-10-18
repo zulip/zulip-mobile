@@ -1,24 +1,32 @@
 import { fromJS } from 'immutable';
 
 import {
-  LOGIN_SUCCEEDED,
+  REALM_ADD,
+  LOGIN_SUCCESS,
   LOGOUT,
   ACCOUNT_REMOVE,
 } from '../account/accountActions';
 
 const initialState = fromJS([]);
-// const initialState = fromJS([{
-//   realm: 'https://zulip.tabbott.net',
-//   email: 'borisyankov@gmail.com',
-//   // apiKey: '2tG3ZSmT5CQCBVa7AJeuIJG6q9GgNDz7',
-// }, {
-//   realm: 'http://hellorealm.com',
-//   email: 'bob@tester.com',
-// }]);
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_SUCCEEDED: {
+    case REALM_ADD: {
+      const accountIndex = state.findIndex(x =>
+        x.get('realm') === action.realm
+      );
+
+      if (accountIndex !== -1) {
+        return state
+          .unshift(state.get(accountIndex))
+          .delete(accountIndex + 1);
+      }
+
+      return state.unshift(fromJS({
+        realm: action.realm,
+      }));
+    }
+    case LOGIN_SUCCESS: {
       const accountIndex = state.findIndex(x =>
         x.get('realm') === action.realm && x.get('email') === action.email
       );

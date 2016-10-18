@@ -1,12 +1,11 @@
-import { getAuthBackends, fetchApiKey, devFetchApiKey, devGetEmails } from '../api/apiClient';
+import { fetchApiKey, devFetchApiKey, devGetEmails } from '../api/apiClient';
 
-export const ACCOUNT_ADD_PENDING = 'ACCOUNT_ADD_PENDING';
+export const REALM_ADD = 'REALM_ADD';
 export const ACCOUNT_ADD_SUCCEEDED = 'ACCOUNT_ADD_SUCCEEDED';
-export const ACCOUNT_ADD_FAILED = 'ACCOUNT_ADD_FAILED';
 export const ACCOUNT_REMOVE = 'ACCOUNT_REMOVE';
 
 export const LOGIN_PENDING = 'LOGIN_PENDING';
-export const LOGIN_SUCCEEDED = 'LOGIN_SUCCEEDED';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
 export const LOGIN_TIMED_OUT = 'LOGIN_TIMED_OUT';
 export const LOGOUT = 'LOGOUT';
@@ -15,36 +14,18 @@ export const DEV_EMAILS_PENDING = 'DEV_EMAILS_PENDING';
 export const DEV_EMAILS_SUCCEEDED = 'DEV_EMAILS_SUCCEEDED';
 export const DEV_EMAILS_FAILED = 'DEV_EMAILS_FAILED';
 
-export const addAccount = (realm) =>
-  async (dispatch) => {
-    dispatch({ type: ACCOUNT_ADD_PENDING });
-
-    try {
-      const authBackends = await getAuthBackends({ realm });
-
-      dispatch({
-        type: ACCOUNT_ADD_SUCCEEDED,
-        realm,
-        authBackends,
-      });
-    } catch (err) {
-      dispatch({ type: ACCOUNT_ADD_FAILED, error: err.message });
-    }
-  };
+export const realmAdd = (realm: string) => ({
+  type: REALM_ADD,
+  realm,
+});
 
 export const removeAccount = (index: number) => ({
   type: ACCOUNT_REMOVE,
   index,
 });
 
-export const recallLogin = () => {
-  // if no email, go to realm
-  // if no api go to password
-  // api call attemptLogin
-};
-
-export const loginSucceeded = (realm, email, apiKey) => ({
-  type: LOGIN_SUCCEEDED,
+export const loginSuccess = (realm, email, apiKey) => ({
+  type: LOGIN_SUCCESS,
   realm,
   email,
   apiKey,
@@ -58,7 +39,7 @@ export const attemptLogin = (auth, email, password) =>
       const apiKey = await fetchApiKey(auth, email, password);
 
       dispatch({
-        type: LOGIN_SUCCEEDED,
+        type: LOGIN_SUCCESS,
         apiKey,
         email,
       });
@@ -75,7 +56,7 @@ export const attemptDevLogin = (auth, email) =>
       const apiKey = await devFetchApiKey(auth, email);
 
       dispatch({
-        type: LOGIN_SUCCEEDED,
+        type: LOGIN_SUCCESS,
         activeBackend: 'dev',
         email,
         apiKey,

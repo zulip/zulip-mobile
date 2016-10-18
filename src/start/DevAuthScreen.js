@@ -35,6 +35,7 @@ class DevAuthScreen extends React.Component {
 
   render() {
     const { directAdmins, directUsers, activeBackend } = this.props.account;
+    const error = 'TODO';
 
     return (
       <Screen title="Dev Account Login">
@@ -57,7 +58,7 @@ class DevAuthScreen extends React.Component {
             />
           )}
         </ScrollView>
-        <ErrorMsg errors={this.props.errors} />
+        <ErrorMsg error={error} />
       </Screen>
     );
   }

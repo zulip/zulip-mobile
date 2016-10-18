@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { LOGIN_SUCCEEDED, LOGOUT, ACCOUNT_REMOVE } from '../../account/accountActions';
+import { LOGIN_SUCCESS, LOGOUT, ACCOUNT_REMOVE } from '../../account/accountActions';
 import accountlistReducers from '../accountlistReducers';
 
 it('on login, if account does not exist, add as first item', () => {
@@ -9,7 +9,7 @@ it('on login, if account does not exist, add as first item', () => {
     realm: 'http://realm1.com',
   }]);
   const newState = accountlistReducers(prevState, {
-    type: LOGIN_SUCCEEDED,
+    type: LOGIN_SUCCESS,
     apiKey: '456',
     email: 'two@example.com',
     realm: 'http://realm2.com',
@@ -37,7 +37,7 @@ it('on login, if account does exist, replace old one, add as first item', () => 
     email: 'two@example.com',
   }]);
   const newState = accountlistReducers(prevState, {
-    type: LOGIN_SUCCEEDED,
+    type: LOGIN_SUCCESS,
     apiKey: '789',
     realm: 'http://realm2.com',
     email: 'two@example.com',

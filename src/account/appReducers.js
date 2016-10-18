@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 import { REHYDRATE } from 'redux-persist/constants';
 
 import {
-  LOGIN_SUCCEEDED,
+  LOGIN_SUCCESS,
   LOGOUT,
 } from './accountActions';
 
@@ -18,7 +18,7 @@ const initialState = fromJS({
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_SUCCEEDED:
+    case LOGIN_SUCCESS:
       return state.merge({
         isLoggedIn: true,
       });

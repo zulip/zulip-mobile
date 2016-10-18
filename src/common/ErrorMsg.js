@@ -7,16 +7,16 @@ import styles from './styles';
 
 export default class ErrorMsg extends React.PureComponent {
 
+  props: {
+    error: string,
+  }
+
   render() {
-    const { errors } = this.props;
+    const { error } = this.props;
 
     return (
       <View style={styles.field}>
-        {errors.map((err, i) =>
-          <Text key={i} style={styles.error}>
-            {err.message}
-          </Text>
-        )}
+        <Text style={styles.error}>{error}</Text>
       </View>
     );
   }
