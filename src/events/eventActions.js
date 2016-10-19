@@ -54,6 +54,9 @@ const processEvent = (dispatch, event) => {
     case 'update_message':
       // TODO
       break;
+    case 'pointer':
+      // TODO
+      break;
     case 'heartbeat':
       // ignore, no need to handle
       break;

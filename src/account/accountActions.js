@@ -85,6 +85,6 @@ export const getDevEmails = (auth) =>
     }
   };
 
-export const logout = () =>
-  async (dispatch) =>
-    dispatch({ type: LOGOUT });
+export const logout = () => ({
+  type: LOGOUT,
+});

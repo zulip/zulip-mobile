@@ -7,6 +7,8 @@ import {
   CLOSE_STREAM_SIDEBAR,
 } from '../nav/navActions';
 
+import { LOGIN_SUCCESS, LOGOUT } from '../account/accountActions';
+
 import {
   STREAM_SET_MESSAGES,
 } from '../stream/streamActions';
@@ -48,6 +50,10 @@ export default (state = initialState, action) => {
     case POP_ROUTE:
       if (state.index === 0 || state.routes.length === 1) return state;
       return NavigationStateUtils.pop(state);
+    case LOGIN_SUCCESS:
+      return NavigationStateUtils.push(state, { key: 'main' });
+    case LOGOUT:
+      return NavigationStateUtils.reset(state, [{ key: 'realm' }, { key: 'password' }]);
     default:
       return state;
   }
