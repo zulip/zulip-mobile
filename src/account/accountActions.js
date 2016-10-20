@@ -31,7 +31,7 @@ export const loginSuccess = (realm, email, apiKey) => ({
   apiKey,
 });
 
-export const attemptLogin = (auth, email, password) =>
+export const tryPasswordLogin = (auth, email, password) =>
   async (dispatch) => {
     dispatch({ type: LOGIN_PENDING });
 
@@ -48,7 +48,7 @@ export const attemptLogin = (auth, email, password) =>
     }
   };
 
-export const attemptDevLogin = (auth, email) =>
+export const tryDevLogin = (auth, email) =>
   async (dispatch) => {
     dispatch({ type: LOGIN_PENDING });
 

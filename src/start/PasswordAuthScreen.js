@@ -32,7 +32,7 @@ class PasswordAuthScreen extends React.Component {
     };
   }
 
-  attemptLogin = async () => {
+  tryPasswordLogin = async () => {
     const { auth } = this.props;
     const { email, password } = this.state;
 
@@ -72,7 +72,7 @@ class PasswordAuthScreen extends React.Component {
         <Button
           text="Sign in"
           progress={progress}
-          onPress={this.attemptLogin}
+          onPress={this.tryPasswordLogin}
         />
         <ErrorMsg error={error} />
       </Screen>
