@@ -1,6 +1,7 @@
 import { NavigationExperimental } from 'react-native';
 
 import {
+  INIT_ROUTES,
   PUSH_ROUTE,
   POP_ROUTE,
   OPEN_STREAM_SIDEBAR,
@@ -44,6 +45,11 @@ export default (state = initialState, action) => {
         ...state,
         opened: false,
       };
+    case INIT_ROUTES:
+      return NavigationStateUtils.reset(
+        state,
+        action.routes.map(route => ({ key: route }))
+      );
     case PUSH_ROUTE:
       if (state.routes[state.index].key === (action.route && action.route.key)) return state;
       return NavigationStateUtils.push(state, action.route);

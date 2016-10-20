@@ -1,20 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getNextLoginRoute } from './routing';
+import { getInitialRoutes } from './routing';
 import Navigation from './Navigation';
-import { pushRoute, popRoute } from './navActions';
+import { pushRoute, popRoute, initRoutes } from './navActions';
 import { getActiveAccount } from '../accountlist/accountlistSelectors';
 
 class NavigationContainer extends React.PureComponent {
 
   componentDidMount() {
-    const { accounts, activeAccount, isLoggedIn } = this.props;
-    if (isLoggedIn || (activeAccount && activeAccount.get('apiKey'))) {
-      this.props.pushRoute({ key: 'main', title: 'Main' });
-    } else {
-      const nextRoute = getNextLoginRoute(accounts, activeAccount);
-      this.props.pushRoute({ key: nextRoute, title: nextRoute });
-    }
+    const { accounts, activeAccount } = this.props;
+    this.props.initRoutes(getInitialRoutes(accounts, activeAccount));
   }
 
   render() {
@@ -33,6 +28,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps, {
+    initRoutes,
     pushRoute,
     popRoute,
   }

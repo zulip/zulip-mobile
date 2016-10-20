@@ -27,7 +27,7 @@ class Screen extends React.Component {
     return (
       <View style={styles.screen}>
         <StatusBar barStyle="light-content" />
-        <ModalNavBar title={title} popRoute={popRoute} nav={nav} />
+        <ModalNavBar title={title} popRoute={this.props.popRoute} nav={nav} />
         <WrapperView style={styles.container} behavior="padding">
           {children}
         </WrapperView>
