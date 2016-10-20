@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  TextInput,
-} from 'react-native';
+import { TextInput } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 

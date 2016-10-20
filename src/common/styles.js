@@ -5,7 +5,7 @@ export const HIGHLIGHT_COLOR = 'rgba(86, 164, 174, 0.5)';
 export const BORDER_COLOR = '#eee';
 export const STATUSBAR_HEIGHT = 20;
 export const FIELD_HEIGHT = 44;
-export const NAVBAR_HEIGHT = 28;
+export const NAVBAR_HEIGHT = 44;
 export const COMPOSE_VIEW_HEIGHT = 44;
 
 export default StyleSheet.create({

@@ -7,7 +7,7 @@ import { styles, Screen, ErrorMsg, Button } from '../common';
 import { getAuthBackends } from '../api/apiClient';
 import config from '../config';
 import { realmAdd } from '../account/accountActions';
-import AuthBackendPicker from './AuthBackendPicker';
+import AuthTypeScreen from './AuthTypeScreen';
 
 type Props = {
   realm: ?string,
@@ -37,15 +37,17 @@ class RealmScreen extends React.Component {
     try {
       const authBackends = await getAuthBackends({ realm });
       this.props.realmAdd(realm);
-      this.setState({ progress: false, authBackends });
+      if (authBackends.length === 1) {
+        this.props.navigateTo(authBackends[0]);
+      } else {
+        this.setState({ progress: false, authBackends });
+      }
     } catch (err) {
-      console.log('ERROR', err.message);
       this.setState({ progress: false, error: err.message });
     }
   };
 
   render() {
-    const { navigateTo } = this.props;
     const { authBackends, progress, error } = this.state;
 
     return (
@@ -66,14 +68,13 @@ class RealmScreen extends React.Component {
         />
         <ErrorMsg error={error} />
         {authBackends.length > 0 &&
-          <AuthBackendPicker navigateTo={navigateTo} authBackends={authBackends} />}
+          <AuthTypeScreen authBackends={authBackends} />}
       </Screen>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({

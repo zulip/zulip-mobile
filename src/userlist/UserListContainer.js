@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-
 import { connect } from 'react-redux';
-import { logout } from '../account/accountActions';
+
 import { getAuth } from '../accountlist/accountlistSelectors';
 
 import UsersCard from './UsersCard';
@@ -21,9 +19,4 @@ const mapStateToProps = (state) => ({
   users: state.userlist,
 });
 
-const mapDispatchToProps = (dispatch, ownProps) =>
-  bindActionCreators({
-    logout,
-  }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserListContainer);
+export default connect(mapStateToProps)(UserListContainer);

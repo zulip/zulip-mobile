@@ -1,8 +1,10 @@
 import { fetchApiKey, devFetchApiKey, devGetEmails } from '../api/apiClient';
 
 export const REALM_ADD = 'REALM_ADD';
+export const SET_AUTH_TYPE = 'SET_AUTH_TYPE';
 export const ACCOUNT_ADD_SUCCEEDED = 'ACCOUNT_ADD_SUCCEEDED';
 export const ACCOUNT_REMOVE = 'ACCOUNT_REMOVE';
+export const ACCOUNT_SELECT = 'ACCOUNT_SELECT';
 
 export const LOGIN_PENDING = 'LOGIN_PENDING';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -19,8 +21,18 @@ export const realmAdd = (realm: string) => ({
   realm,
 });
 
+export const setAuthType = (authType: string) => ({
+  type: SET_AUTH_TYPE,
+  authType,
+});
+
 export const removeAccount = (index: number) => ({
   type: ACCOUNT_REMOVE,
+  index,
+});
+
+export const selectAccount = (index: number) => ({
+  type: ACCOUNT_SELECT,
   index,
 });
 

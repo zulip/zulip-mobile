@@ -2,6 +2,7 @@ import { fromJS } from 'immutable';
 
 import {
   REALM_ADD,
+  SET_AUTH_TYPE,
   LOGIN_SUCCESS,
   LOGOUT,
   ACCOUNT_REMOVE,
@@ -26,6 +27,8 @@ export default (state = initialState, action) => {
         realm: action.realm,
       }));
     }
+    case SET_AUTH_TYPE:
+      return state.setIn([0, 'authType'], action.authType);
     case LOGIN_SUCCESS: {
       const accountIndex = state.findIndex(x =>
         x.get('realm') === action.realm && x.get('email') === action.email

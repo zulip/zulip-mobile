@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import { BRAND_COLOR, STATUSBAR_HEIGHT } from '../common/styles';
+import { BRAND_COLOR, NAVBAR_HEIGHT, STATUSBAR_HEIGHT } from '../common/styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,13 +24,14 @@ const styles = StyleSheet.create({
   title: {
     color: 'white',
     fontSize: 16,
-    lineHeight: 26,
+    lineHeight: NAVBAR_HEIGHT,
   },
   button: {
     color: 'white',
     textAlign: 'center',
     fontSize: 26,
-    width: 46,
+    padding: (NAVBAR_HEIGHT - 28) / 2,
+    width: NAVBAR_HEIGHT,
   },
 });
 

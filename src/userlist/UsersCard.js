@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
+import { getInitialRoutes } from '../nav/routingSelectors';
 import { STATUSBAR_HEIGHT, BRAND_COLOR } from '../common/styles';
-import { Button } from '../common';
 import { privateNarrow } from '../lib/narrow';
+import LogoutButton from './LogoutButton';
 import UserFilter from './UserFilter';
 import UserList from './UserList';
 
@@ -14,9 +15,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderColor: 'grey',
   },
-  logoutButton: {
-    marginTop: 10,
-  },
   statusbar: {
     height: STATUSBAR_HEIGHT,
     backgroundColor: BRAND_COLOR,
@@ -24,6 +22,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  accounts: any[],
   ownEmail: string,
   users: any[],
   narrow: () => void,
@@ -50,7 +49,8 @@ export default class UsersCard extends Component {
   }
 
   logout = () => {
-    this.props.logout();
+    this.props.logout(this.props.accounts);
+    this.props.initRoutes(getInitialRoutes(this.props.accounts));
   }
 
   handleFilterChange = (newFilter: string) => {
@@ -81,14 +81,7 @@ export default class UsersCard extends Component {
           filter={filter}
           onNarrow={this.handleUserNarrow}
         />
-        <View>
-          <Button
-            customStyles={styles.logoutButton}
-            secondary
-            text="Logout"
-            onPress={this.logout}
-          />
-        </View>
+        <LogoutButton />
       </View>
     );
   }

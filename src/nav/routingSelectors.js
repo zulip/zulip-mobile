@@ -1,4 +1,6 @@
-export const getInitialRoutes = (accounts: any[], activeAccount): string => {
+export const getInitialRoutes = (accounts: any[]): string => {
+  const activeAccount = accounts.get(0);
+
   if (activeAccount && activeAccount.get('apiKey')) {
     return ['main'];
   }

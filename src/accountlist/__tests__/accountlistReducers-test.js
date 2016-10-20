@@ -2,6 +2,24 @@ import { fromJS } from 'immutable';
 import { LOGIN_SUCCESS, LOGOUT, ACCOUNT_REMOVE } from '../../account/accountActions';
 import accountlistReducers from '../accountlistReducers';
 
+it('on login, update initial account with auth information', () => {
+  const prevState = fromJS([{
+    realm: 'http://realm1.com',
+  }]);
+  const newState = accountlistReducers(prevState, {
+    type: LOGIN_SUCCESS,
+    apiKey: '123',
+    email: 'johndoe@example.com',
+    realm: 'http://realm.com',
+  });
+  const expectedState = fromJS([{
+    apiKey: '123',
+    email: 'johndoe@example.com',
+    realm: 'http://realm.com',
+  }]);
+  expect(newState.toJS()).toEqual(expectedState.toJS());
+});
+
 it('on login, if account does not exist, add as first item', () => {
   const prevState = fromJS([{
     apiKey: '123',
