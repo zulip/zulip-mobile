@@ -4,7 +4,7 @@ import accountlistReducers from '../accountlistReducers';
 
 it('on login, update initial account with auth information', () => {
   const prevState = fromJS([{
-    realm: 'http://realm1.com',
+    realm: 'http://realm.com',
   }]);
   const newState = accountlistReducers(prevState, {
     type: LOGIN_SUCCESS,
@@ -44,7 +44,7 @@ it('on login, if account does not exist, add as first item', () => {
   expect(newState.toJS()).toEqual(expectedState.toJS());
 });
 
-it('on login, if account does exist, replace old one, add as first item', () => {
+it('on login, if account does exist, merge new data, move to top', () => {
   const prevState = fromJS([{
     apiKey: '123',
     realm: 'http://realm1.com',

@@ -31,22 +31,24 @@ export default (state = initialState, action) => {
       return state.setIn([0, 'authType'], action.authType);
     case LOGIN_SUCCESS: {
       const accountIndex = state.findIndex(x =>
-        x.get('realm') === action.realm && x.get('email') === action.email
+        x.get('realm') === action.realm &&
+        (!x.get('email') || x.get('email') === action.email)
       );
 
-      const newAccount = fromJS({
-        realm: action.realm,
-        apiKey: action.apiKey,
-        email: action.email,
-      });
+      const { type, ...newAccount } = action; // eslint-disable-line no-unused-vars
 
-      if (accountIndex !== -1) {
-        return state
-          .unshift(newAccount)
-          .delete(accountIndex + 1);
+      if (accountIndex === -1) {
+        return state.unshift(newAccount);
       }
 
-      return state.unshift(newAccount);
+      if (accountIndex === 0) {
+        return state.mergeIn([0], newAccount);
+      }
+
+      const mergedAccount = state.get(accountIndex).merge(fromJS(newAccount));
+      return state
+        .unshift(mergedAccount)
+        .delete(accountIndex + 1);
     }
     case LOGOUT:
       return state

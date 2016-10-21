@@ -8,7 +8,7 @@ import {
   CLOSE_STREAM_SIDEBAR,
 } from '../nav/navActions';
 
-import { SET_AUTH_TYPE, LOGIN_SUCCESS, LOGOUT } from '../account/accountActions';
+import { SET_AUTH_TYPE, LOGIN_SUCCESS } from '../account/accountActions';
 
 import {
   STREAM_SET_MESSAGES,

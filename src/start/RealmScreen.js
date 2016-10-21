@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { styles, Screen, ErrorMsg, Button } from '../common';
 import { getAuthBackends } from '../api/apiClient';
 import config from '../config';
-import { realmAdd } from '../account/accountActions';
+import { realmAdd, setAuthType } from '../account/accountActions';
 import AuthTypeScreen from './AuthTypeScreen';
 
 type Props = {
@@ -38,6 +38,7 @@ class RealmScreen extends React.Component {
       const authBackends = await getAuthBackends({ realm });
       this.props.realmAdd(realm);
       if (authBackends.length === 1) {
+        this.props.setAuthType(authBackends[0]);
         this.props.navigateTo(authBackends[0]);
       } else {
         this.setState({ progress: false, authBackends });
@@ -79,6 +80,7 @@ const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({
     realmAdd,
+    setAuthType,
   }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(RealmScreen);
