@@ -13,8 +13,8 @@ const initialState = fromJS([]);
 export default (state = initialState, action) => {
   switch (action.type) {
     case REALM_ADD: {
-      const accountIndex = state.findIndex(x =>
-        x.get('realm') === action.realm
+      const accountIndex = state.findIndex(account =>
+        account.get('realm') === action.realm
       );
 
       if (accountIndex !== -1) {
@@ -30,9 +30,9 @@ export default (state = initialState, action) => {
     case SET_AUTH_TYPE:
       return state.setIn([0, 'authType'], action.authType);
     case LOGIN_SUCCESS: {
-      const accountIndex = state.findIndex(x =>
-        x.get('realm') === action.realm &&
-        (!x.get('email') || x.get('email') === action.email)
+      const accountIndex = state.findIndex(account =>
+        account.get('realm') === action.realm &&
+        (!account.get('email') || account.get('email') === action.email)
       );
 
       const { type, ...newAccount } = action; // eslint-disable-line no-unused-vars

@@ -25,17 +25,6 @@ import UserListContainer from '../userlist/UserListContainer';
 
 class MainScreen extends React.Component {
 
-  // props: {
-  //   auth: Auth,
-  //   subscriptions: state.subscriptions,
-  //   messages: state.stream.messages,
-  //   fetching: state.stream.fetching,
-  //   narrow: state.stream.narrow,
-  //   pointer: state.stream.pointer,
-  //   caughtUp: state.stream.caughtUp,
-  //   streamlistOpened: state.nav.opened,
-  // }
-
   state: {
     currentAppState: boolean,
   }

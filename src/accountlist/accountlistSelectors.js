@@ -8,7 +8,6 @@ export const getAuth = (state) => {
   return fromJS({
     apiKey: account.get('apiKey'),
     email: account.get('email'),
-    // authType: account.get('authType'),
     realm: account.get('realm'),
   });
 };

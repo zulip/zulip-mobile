@@ -1,5 +1,3 @@
-import { fetchApiKey, devFetchApiKey, devGetEmails } from '../api/apiClient';
-
 export const REALM_ADD = 'REALM_ADD';
 export const SET_AUTH_TYPE = 'SET_AUTH_TYPE';
 export const ACCOUNT_ADD_SUCCEEDED = 'ACCOUNT_ADD_SUCCEEDED';
@@ -42,60 +40,6 @@ export const loginSuccess = (realm, email, apiKey) => ({
   email,
   apiKey,
 });
-
-export const tryPasswordLogin = (auth, email, password) =>
-  async (dispatch) => {
-    dispatch({ type: LOGIN_PENDING });
-
-    try {
-      const apiKey = await fetchApiKey(auth, email, password);
-
-      dispatch({
-        type: LOGIN_SUCCESS,
-        apiKey,
-        email,
-      });
-    } catch (err) {
-      dispatch({ type: LOGIN_FAILED, auth, error: err.message });
-    }
-  };
-
-export const tryDevLogin = (auth, email) =>
-  async (dispatch) => {
-    dispatch({ type: LOGIN_PENDING });
-
-    try {
-      const apiKey = await devFetchApiKey(auth, email);
-
-      dispatch({
-        type: LOGIN_SUCCESS,
-        activeBackend: 'dev',
-        email,
-        apiKey,
-      });
-    } catch (err) {
-      dispatch({ type: LOGIN_FAILED, auth, error: err.message });
-    }
-  };
-
-export const getDevEmails = (auth) =>
-  async (dispatch) => {
-    dispatch({ type: DEV_EMAILS_PENDING });
-
-    try {
-      const [directAdmins, directUsers] = await devGetEmails(auth);
-
-      dispatch({
-        type: DEV_EMAILS_SUCCEEDED,
-        auth,
-        activeBackend: 'dev',
-        directUsers,
-        directAdmins,
-      });
-    } catch (err) {
-      dispatch({ type: DEV_EMAILS_FAILED, error: err.message });
-    }
-  };
 
 export const logout = () => ({
   type: LOGOUT,

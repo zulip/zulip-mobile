@@ -95,7 +95,7 @@ it('on logout, remove apiKey from active account, keep other information intact'
   expect(newState.toJS()).toEqual(expectedState.toJS());
 });
 
-it('on ACCOUNT_REMOVE, remove item from list', () => {
+it('on account removal, delete item from list', () => {
   const prevState = fromJS([{
     apiKey: '123',
     realm: 'http://realm1.com',

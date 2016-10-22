@@ -15,11 +15,11 @@ export default class AccountList extends React.PureComponent {
 
     return (
       <View>
-        {accounts.map((x, i) =>
+        {accounts.map((account, i) =>
           <AccountItem
             key={i}
             index={i}
-            {...x.toJS()}
+            {...account.toJS()}
             onSelect={onAccountSelect}
             onRemove={onAccountRemove}
           />

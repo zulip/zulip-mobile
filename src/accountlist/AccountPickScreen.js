@@ -17,14 +17,12 @@ class AccountPickScreen extends React.Component {
   handleAccountSelect = (index: number) => {
     const { accounts, navigateTo } = this.props;
     const account = accounts.get(index);
-    const { apiKey, email, password } = account.toJS();
+    const { apiKey, authType } = account.toJS();
     selectAccount(index);
     if (apiKey) {
       navigateTo('main');
-    } else if (password) {
-      tryPasswordLogin(undefined, email, password); // use authType
     } else {
-      navigateTo('password');
+      navigateTo(authType);
     }
   };
 
@@ -53,8 +51,6 @@ class AccountPickScreen extends React.Component {
 
 const mapStateToProps = (state) => ({
   accounts: state.accountlist,
-  pendingServerResponse: state.app.get('pendingServerResponse'),
-  errors: state.errors.filter(e => e.active),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>

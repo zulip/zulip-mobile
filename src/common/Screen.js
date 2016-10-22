@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  // BackAndroid,
   View,
   StatusBar,
   KeyboardAvoidingView,
@@ -9,7 +8,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { popRoute } from '../nav/navActions';
-
 import { styles } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
 
