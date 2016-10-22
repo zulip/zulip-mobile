@@ -3,6 +3,7 @@ import { TextInput } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import { getAuth } from '../accountlist/accountlistSelectors';
 import { styles, Screen, ErrorMsg, Button } from '../common';
 import { getAuthBackends } from '../api/apiClient';
 import config from '../config';
@@ -21,7 +22,9 @@ class RealmScreen extends React.Component {
   constructor(props: Props) {
     super(props);
 
-    const realmFromConfig = process.env.NODE_ENV === 'development' ? config.devRealm : config.productionRealm;
+    const realmFromConfig = process.env.NODE_ENV === 'development'
+      ? config.devRealm
+      : config.productionRealm;
     this.state = {
       progress: false,
       realm: props.realm || realmFromConfig,
@@ -49,7 +52,7 @@ class RealmScreen extends React.Component {
   };
 
   render() {
-    const { authBackends, progress, error } = this.state;
+    const { authBackends, progress, realm, error } = this.state;
 
     return (
       <Screen title="Add Server" keybardAvoiding>
@@ -59,8 +62,8 @@ class RealmScreen extends React.Component {
           autoCorrect={false}
           autoCapitalize="none"
           placeholder="Server address"
-          value={this.state.realm}
-          onChangeText={realm => this.setState({ realm })}
+          defaultValue={realm}
+          onChangeText={value => this.setState({ realm: value })}
         />
         <Button
           text="Sign in"
@@ -75,7 +78,9 @@ class RealmScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  realm: getAuth(state).get('realm'),
+});
 
 const mapDispatchToProps = (dispatch, ownProps) =>
   bindActionCreators({

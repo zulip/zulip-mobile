@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   messageTime: {
-    color: BORDER_COLOR,
+    color: '#999',
     fontSize: 15,
   },
 });

@@ -26,7 +26,7 @@ export default StyleSheet.create({
     alignItems: 'stretch',
     marginTop: STATUSBAR_HEIGHT,
   },
-  centerer: {
+  center: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

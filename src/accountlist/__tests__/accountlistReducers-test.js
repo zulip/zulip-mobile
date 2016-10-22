@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 import { LOGIN_SUCCESS, LOGOUT, ACCOUNT_REMOVE } from '../../account/accountActions';
 import accountlistReducers from '../accountlistReducers';
 
-it('on login, update initial account with auth information', () => {
+test('on login, update initial account with auth information', () => {
   const prevState = fromJS([{
     realm: 'http://realm.com',
   }]);
@@ -20,7 +20,7 @@ it('on login, update initial account with auth information', () => {
   expect(newState.toJS()).toEqual(expectedState.toJS());
 });
 
-it('on login, if account does not exist, add as first item', () => {
+test('on login, if account does not exist, add as first item', () => {
   const prevState = fromJS([{
     apiKey: '123',
     email: 'one@example.com',
@@ -44,7 +44,7 @@ it('on login, if account does not exist, add as first item', () => {
   expect(newState.toJS()).toEqual(expectedState.toJS());
 });
 
-it('on login, if account does exist, merge new data, move to top', () => {
+test('on login, if account does exist, merge new data, move to top', () => {
   const prevState = fromJS([{
     apiKey: '123',
     realm: 'http://realm1.com',
@@ -72,7 +72,7 @@ it('on login, if account does exist, merge new data, move to top', () => {
   expect(newState.toJS()).toEqual(expectedState.toJS());
 });
 
-it('on logout, remove apiKey from active account, keep other information intact', () => {
+test('on logout, remove apiKey from active account, keep other information intact', () => {
   const prevState = fromJS([{
     apiKey: '123',
     realm: 'http://realm1.com',
@@ -95,7 +95,7 @@ it('on logout, remove apiKey from active account, keep other information intact'
   expect(newState.toJS()).toEqual(expectedState.toJS());
 });
 
-it('on account removal, delete item from list', () => {
+test('on account removal, delete item from list', () => {
   const prevState = fromJS([{
     apiKey: '123',
     realm: 'http://realm1.com',

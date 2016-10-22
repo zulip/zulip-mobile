@@ -2,24 +2,24 @@ import { fromJS } from 'immutable';
 import { GET_USER_RESPONSE, PRESENCE_RESPONSE } from '../userListActions';
 import userListReducers, { activityFromPresence, timestampFromPresence } from '../userListReducers';
 
-it('handles unknown action and no previous state by returning initial state, does not throw', () => {
+test('handles unknown action and no previous state by returning initial state, does not throw', () => {
   const newState = userListReducers(undefined, {});
   expect(newState).toBeDefined();
 });
 
-it('on unrecognized action, returns input state unchanged', () => {
+test('on unrecognized action, returns input state unchanged', () => {
   const prevState = { hello: 'world' };
   const newState = userListReducers(prevState, {});
   expect(newState).toEqual(prevState);
 });
 
-it('on GET_USER_RESPONSE stores user data', () => {
+test('on GET_USER_RESPONSE stores user data', () => {
   const users = [{ full_name: 'user1' }, { full_name: 'user2' }];
   const newState = userListReducers(fromJS([]), { type: GET_USER_RESPONSE, users });
   expect(newState.size).toEqual(2);
 });
 
-it('activityFromPresence, when single presence, just returns status', () => {
+test('activityFromPresence, when single presence, just returns status', () => {
   const activity = activityFromPresence({
     website: {
       status: 'active',
@@ -28,7 +28,7 @@ it('activityFromPresence, when single presence, just returns status', () => {
   expect(activity).toEqual('active');
 });
 
-it('activityFromPresence, when multiple, the most "active" beats "offline"', () => {
+test('activityFromPresence, when multiple, the most "active" beats "offline"', () => {
   const activity = activityFromPresence({
     website: {
       status: 'offline',
@@ -40,7 +40,7 @@ it('activityFromPresence, when multiple, the most "active" beats "offline"', () 
   expect(activity).toEqual('active');
 });
 
-it('activityFromPresence, when multiple, the most "idle" beats "offline"', () => {
+test('activityFromPresence, when multiple, the most "idle" beats "offline"', () => {
   const activity = activityFromPresence({
     website: {
       status: 'idle',
@@ -52,7 +52,7 @@ it('activityFromPresence, when multiple, the most "idle" beats "offline"', () =>
   expect(activity).toEqual('idle');
 });
 
-it('timestampFromPresence, when single client just return timestamp', () => {
+test('timestampFromPresence, when single client just return timestamp', () => {
   const activity = timestampFromPresence({
     website: {
       timestamp: 1475109413,
@@ -61,7 +61,7 @@ it('timestampFromPresence, when single client just return timestamp', () => {
   expect(activity).toEqual(1475109413);
 });
 
-it('timestampFromPresence, when single client just return timestamp', () => {
+test('timestampFromPresence, when single client just return timestamp', () => {
   const activity = timestampFromPresence({
     website: {
       timestamp: 100,
@@ -73,7 +73,7 @@ it('timestampFromPresence, when single client just return timestamp', () => {
   expect(activity).toEqual(200);
 });
 
-it('PRESENCE_RESPONSE merges a single user in presence response', () => {
+test('PRESENCE_RESPONSE merges a single user in presence response', () => {
   const fiveSecsAgo = (Math.floor(new Date() - 5) / 1000);
   const presence = {
     'email@example.com': {
@@ -100,7 +100,7 @@ it('PRESENCE_RESPONSE merges a single user in presence response', () => {
   expect(newState).toEqual(expectedState);
 });
 
-it('PRESENCE_RESPONSE merges users, skips non existing', () => {
+test('PRESENCE_RESPONSE merges users, skips non existing', () => {
   const fiveSecsAgo = (Math.floor(new Date() - 5) / 1000);
   const presence = {
     'email@example.com': {
@@ -133,7 +133,7 @@ it('PRESENCE_RESPONSE merges users, skips non existing', () => {
   expect(newState).toEqual(expectedState);
 });
 
-it('PRESENCE_RESPONSE merges multiple users in presence response', () => {
+test('PRESENCE_RESPONSE merges multiple users in presence response', () => {
   const fiveSecsAgo = (Math.floor(new Date() - 5) / 1000);
   const presence = {
     'email@example.com': {

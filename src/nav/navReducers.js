@@ -50,9 +50,13 @@ export default (state = initialState, action) => {
         state,
         action.routes.map(route => ({ key: route }))
       );
-    case PUSH_ROUTE:
-      if (state.routes[state.index].key === (action.route && action.route.key)) return state;
-      return NavigationStateUtils.push(state, action.route);
+    case PUSH_ROUTE: {
+      const newRouteKey = (action.route && action.route.key);
+      if (state.routes[state.index].key !== newRouteKey) {
+        return NavigationStateUtils.push(state, action.route);
+      }
+      return state;
+    }
     case POP_ROUTE:
       if (state.index === 0 || state.routes.length === 1) return state;
       return NavigationStateUtils.pop(state);
