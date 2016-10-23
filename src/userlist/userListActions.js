@@ -1,9 +1,9 @@
-import { Auth, focusPing, getUsers } from '../api/apiClient';
+import { focusPing, getUsers } from '../api';
 
 export const PRESENCE_RESPONSE = 'PRESENCE_RESPONSE';
 export const GET_USER_RESPONSE = 'GET_USER_RESPONSE';
 
-export const sendFocusPing = (auth: Auth, hasFocus: boolean, newUserInput: boolean) =>
+export const sendFocusPing = (auth, hasFocus: boolean, newUserInput: boolean) =>
   async (dispatch) => {
     const response = await focusPing(auth, hasFocus, newUserInput);
     dispatch({
@@ -12,7 +12,7 @@ export const sendFocusPing = (auth: Auth, hasFocus: boolean, newUserInput: boole
     });
   };
 
-export const sendGetUsers = (auth: Auth) =>
+export const sendGetUsers = (auth) =>
   async (dispatch) => {
     const response = await getUsers(auth);
     dispatch({
@@ -21,7 +21,7 @@ export const sendGetUsers = (auth: Auth) =>
     });
   };
 
-export const sendInitialGetUsers = (auth: Auth) =>
+export const sendInitialGetUsers = (auth) =>
   async (dispatch) => {
     await dispatch(sendGetUsers(auth));
     await dispatch(sendFocusPing(auth, true, false));
