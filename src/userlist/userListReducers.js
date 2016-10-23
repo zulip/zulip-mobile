@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { UserStatus } from '../api/apiClient';
+import { UserStatus } from '../api';
 import {
   EVENT_PRESENCE,
 } from '../events/eventActions';
