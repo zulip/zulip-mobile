@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { Screen, ErrorMsg, Button } from '../common';
-import { devGetEmails, devFetchApiKey } from '../api/apiClient';
+import { devGetEmails, devFetchApiKey } from '../api';
 import { getAuth } from '../accountlist/accountlistSelectors';
 import { loginSuccess } from '../account/accountActions';
 

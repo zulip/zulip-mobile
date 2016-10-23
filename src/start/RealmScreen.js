@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { getAuth } from '../accountlist/accountlistSelectors';
 import { styles, Screen, ErrorMsg, Button } from '../common';
-import { getAuthBackends } from '../api/apiClient';
+import { getAuthBackends } from '../api';
 import config from '../config';
 import { realmAdd, setAuthType } from '../account/accountActions';
 import AuthTypeScreen from './AuthTypeScreen';
