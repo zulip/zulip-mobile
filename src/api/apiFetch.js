@@ -9,32 +9,52 @@ export type Auth = {
 
 const apiVersion = 'api/v1';
 
-export const getAuthHeader = (email, apiKey) => {
-  const encodedStr = `${email}:${apiKey}`;
-  return `Basic ${base64.encode(encodedStr)}`;
-};
+export const getAuthHeader = (email, apiKey) =>
+  `Basic ${base64.encode(`${email}:${apiKey}`)}`;
 
-export const apiFetch = async (authObj: Auth, route: string, params: Object) => {
+// fetch("http://httpstat.us/500")
+
+
+export const apiFetch = async (
+  authObj: Auth,
+  route: string,
+  params: Object,
+  doNotTimeout: boolean = false,
+) => {
   const auth = authObj.toJS ? authObj.toJS() : authObj;
+  const url = `${auth.realm}/${apiVersion}/${route}`;
   const extraParams = {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
       'User-Agent': 'ZulipReactNative',
+      'Authorization': getAuthHeader(auth.email, auth.apiKey),
     },
+  };
+
+  const allParams = {
+    ...params,
+    ...extraParams,
   };
   if (auth.apiKey) {
     extraParams.headers.Authorization = getAuthHeader(auth.email, auth.apiKey);
   }
 
-  const raw = await fetch(`${auth.realm}/${apiVersion}/${route}`, {
-    ...params,
-    ...extraParams,
-  });
+  let timeout;
   try {
-    const res = await raw.json();
-    return res;
-  } catch (err) {
-    throw new Error(`HTTP response code ${raw.status}: ${raw.statusText}`);
+    if (!doNotTimeout) {
+      timeout = setTimeout(() => { throw Error(`Request timed out @ ${route}`); }, 5000);
+    }
+    console.log('setTimeout', timeout);
+    const response = await fetch(url, allParams);
+
+    // console.log('ERROR', err); redux => action for error
+    if (!response.ok) throw Error(response.statusText);
+    // Error(`HTTP response code ${response.status}: ${response.statusText}`);
+
+    return await response.json();
+  } finally {
+    console.log('clearTimeout', timeout);
+    clearTimeout(timeout);
   }
 };
 
@@ -43,10 +63,11 @@ export const apiGet = async (
   route: string,
   params: Object = {},
   resFunc = res => res,
+  doNotTimeout: boolean = false,
 ) => {
   const res = await apiFetch(authObj, `${route}?${encodeAsURI(params)}`, {
     method: 'get',
-  });
+  }, doNotTimeout);
   if (res.result !== 'success') {
     throw new Error(res.msg);
   }
@@ -58,11 +79,12 @@ export const apiPost = async (
   route: string,
   params: Object = {},
   resFunc = res => res,
+  doNotTimeout: boolean = false,
 ) => {
   const res = await apiFetch(authObj, route, {
     method: 'post',
     body: encodeAsURI(params),
-  });
+  }, doNotTimeout);
   if (res.result !== 'success') {
     throw new Error(res.msg);
   }
