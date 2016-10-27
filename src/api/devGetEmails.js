@@ -1,6 +1,6 @@
 import { apiGet, Auth } from './apiFetch';
 
-export default async (auth: Auth) =>
+export default (auth: Auth) =>
   apiGet(
     auth,
     'dev_get_emails',

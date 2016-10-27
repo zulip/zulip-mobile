@@ -1,4 +1,4 @@
 import { apiPost, Auth } from './apiFetch';
 
-export default async (auth: Auth) =>
-  await apiPost(auth, 'register');
+export default (auth: Auth) =>
+  apiPost(auth, 'register');

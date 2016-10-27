@@ -1,6 +1,6 @@
 import { apiGet, Auth } from './apiFetch';
 
-export default async (auth: Auth, queueId: number, lastEventId: number) =>
+export default (auth: Auth, queueId: number, lastEventId: number) =>
   apiGet(
     auth,
    'events',
