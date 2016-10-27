@@ -36,7 +36,7 @@ class DevAuthScreen extends React.Component {
   componentWillMount = async () => {
     const { auth } = this.props;
 
-    this.setState({ progress: true, error: '' });
+    this.setState({ progress: true, error: undefined });
 
     try {
       const [directAdmins, directUsers] = await devGetEmails(auth);
@@ -50,7 +50,7 @@ class DevAuthScreen extends React.Component {
   tryDevLogin = async (email: string) => {
     const { auth } = this.props;
 
-    this.setState({ progress: true, error: '' });
+    this.setState({ progress: true, error: undefined });
 
     try {
       const apiKey = await devFetchApiKey(auth, email);

@@ -34,7 +34,7 @@ class PasswordAuthScreen extends React.Component {
     const { auth } = this.props;
     const { email, password } = this.state;
 
-    this.setState({ progress: true, error: '' });
+    this.setState({ progress: true, error: undefined });
 
     try {
       const apiKey = await fetchApiKey(auth, email, password);
