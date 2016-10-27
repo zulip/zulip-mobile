@@ -1,6 +1,6 @@
 import { apiGet, Auth } from './apiFetch';
 
-export default async (auth: Auth): any =>
+export default (auth: Auth): any =>
   apiGet(
     auth,
     'users',

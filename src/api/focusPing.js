@@ -17,7 +17,7 @@ export type Presences = {
   [key: string]: ClientPresence,
 };
 
-export default async (
+export default (
   auth: Auth,
   hasFocus: boolean,
   newUserInput: boolean,
