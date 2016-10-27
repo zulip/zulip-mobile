@@ -1,6 +1,6 @@
 import { apiPost, Auth } from './apiFetch';
 
-export default async (
+export default (
   auth: Auth,
   messages: number[],
   op: string,
