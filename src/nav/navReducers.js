@@ -6,13 +6,10 @@ import {
   POP_ROUTE,
   OPEN_STREAM_SIDEBAR,
   CLOSE_STREAM_SIDEBAR,
-} from '../nav/navActions';
-
-import { SET_AUTH_TYPE, LOGIN_SUCCESS } from '../account/accountActions';
-
-import {
+  SET_AUTH_TYPE,
+  LOGIN_SUCCESS,
   STREAM_SET_MESSAGES,
-} from '../stream/streamActions';
+} from '../constants';
 
 const {
   StateUtils: NavigationStateUtils,

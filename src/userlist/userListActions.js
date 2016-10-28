@@ -1,7 +1,8 @@
 import { focusPing, getUsers } from '../api';
-
-export const PRESENCE_RESPONSE = 'PRESENCE_RESPONSE';
-export const GET_USER_RESPONSE = 'GET_USER_RESPONSE';
+import {
+  PRESENCE_RESPONSE,
+  GET_USER_RESPONSE,
+} from '../constants';
 
 export const sendFocusPing = (auth, hasFocus: boolean, newUserInput: boolean) =>
   async (dispatch) => {

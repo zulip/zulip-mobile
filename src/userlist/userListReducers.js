@@ -2,11 +2,9 @@ import { fromJS } from 'immutable';
 import { UserStatus } from '../api';
 import {
   EVENT_PRESENCE,
-} from '../events/eventActions';
-import {
   GET_USER_RESPONSE,
   PRESENCE_RESPONSE,
-} from './userListActions';
+} from '../constants';
 
 type Presence = {
   client: string,

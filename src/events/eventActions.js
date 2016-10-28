@@ -2,13 +2,11 @@ import { pollForEvents, registerForEvents } from '../api';
 
 import {
   REALM_SET_STREAMS,
-} from '../realm/realmActions';
-
-export const EVENT_NEW_MESSAGE = 'EVENT_NEW_MESSAGE';
-export const EVENTS_REGISTERED = 'EVENTS_REGISTERED';
-export const EVENT_HEARTBEAT = 'EVENTS_HEARTBEAT';
-export const EVENT_PRESENCE = 'EVENTS_PRESENCE';
-export const EVENT_UPDATE_MESSAGE_FLAGS = 'EVENT_UPDATE_MESSAGE_FLAGS';
+  EVENT_NEW_MESSAGE,
+  EVENTS_REGISTERED,
+  EVENT_PRESENCE,
+  EVENT_UPDATE_MESSAGE_FLAGS,
+} from '../constants';
 
 export type HeartbeatEvent = {
   type: 'heartbeat',

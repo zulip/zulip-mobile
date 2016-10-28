@@ -5,8 +5,8 @@ import {
   View,
   Text,
 } from 'react-native';
-
 import Icon from 'react-native-vector-icons/Ionicons';
+
 import { BRAND_COLOR, NAVBAR_HEIGHT, STATUSBAR_HEIGHT } from '../common/styles';
 
 const styles = StyleSheet.create({

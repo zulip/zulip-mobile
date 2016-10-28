@@ -5,11 +5,8 @@ import {
   STREAM_FETCHED_MESSAGES,
   STREAM_FETCHING_FAILED,
   STREAM_SET_MESSAGES,
-} from './streamActions';
-
-import {
   EVENT_NEW_MESSAGE,
-} from '../events/eventActions';
+} from '../constants';
 
 // Initial state
 const initialState = {

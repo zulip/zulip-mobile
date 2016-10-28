@@ -1,5 +1,8 @@
 import { fromJS } from 'immutable';
-import { GET_USER_RESPONSE, PRESENCE_RESPONSE } from '../userListActions';
+import {
+  GET_USER_RESPONSE,
+  PRESENCE_RESPONSE,
+} from '../../constants';
 import userListReducers, { activityFromPresence, timestampFromPresence } from '../userListReducers';
 
 test('handles unknown action and no previous state by returning initial state, does not throw', () => {

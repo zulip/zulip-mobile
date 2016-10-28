@@ -1,6 +1,5 @@
 import base64 from 'base-64';
 import { encodeAsURI } from '../lib/util';
-// import { APP_ONLINE, APP_OFFLINE } from
 
 export type Auth = {
   realm: string,
