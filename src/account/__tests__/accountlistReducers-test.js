@@ -1,5 +1,9 @@
 import { fromJS } from 'immutable';
-import { LOGIN_SUCCESS, LOGOUT, ACCOUNT_REMOVE } from '../../account/accountActions';
+import {
+  LOGIN_SUCCESS,
+  LOGOUT,
+  ACCOUNT_REMOVE,
+} from '../../constants';
 import accountReducers from '../accountReducers';
 
 test('on login, update initial account with auth information', () => {

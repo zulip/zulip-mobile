@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+
 import { BRAND_COLOR } from '../common/styles';
 import { Button, Touchable } from '../common';
 

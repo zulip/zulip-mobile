@@ -1,6 +1,6 @@
 import {
   EVENTS_REGISTERED,
-} from './eventActions';
+} from '../constants';
 
 // Initial state
 const initialState = {

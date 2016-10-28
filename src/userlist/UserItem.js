@@ -4,6 +4,7 @@ import {
   Text,
   View,
 } from 'react-native';
+
 import { Avatar, Touchable } from '../common';
 import UserStatusIndicator from './UserStatusIndicator';
 

@@ -1,12 +1,11 @@
-export const REALM_ADD = 'REALM_ADD';
-export const SET_AUTH_TYPE = 'SET_AUTH_TYPE';
-export const ACCOUNT_ADD_SUCCEEDED = 'ACCOUNT_ADD_SUCCEEDED';
-export const ACCOUNT_REMOVE = 'ACCOUNT_REMOVE';
-export const ACCOUNT_SELECT = 'ACCOUNT_SELECT';
-
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-export const LOGOUT = 'LOGOUT';
+import {
+  REALM_ADD,
+  SET_AUTH_TYPE,
+  ACCOUNT_REMOVE,
+  ACCOUNT_SELECT,
+  LOGIN_SUCCESS,
+  LOGOUT,
+} from '../constants';
 
 export const realmAdd = (realm: string) => ({
   type: REALM_ADD,

@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 
 import { styles } from '../common';
-
 import LoadingScreen from '../start/LoadingScreen';
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';

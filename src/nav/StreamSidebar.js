@@ -5,7 +5,6 @@ import {
   View,
   Text,
 } from 'react-native';
-
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {
@@ -15,9 +14,7 @@ import {
   mentionedNarrow,
   starredNarrow,
 } from '../lib/narrow';
-
 import SidebarRow from './SidebarRow';
-
 import { NAVBAR_HEIGHT, STATUSBAR_HEIGHT, BRAND_COLOR } from '../common/styles';
 
 const styles = StyleSheet.create({

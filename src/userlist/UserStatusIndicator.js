@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+
 import { UserStatus } from '../api';
 
 const styles = StyleSheet.create({

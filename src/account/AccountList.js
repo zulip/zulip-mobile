@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+
 import AccountItem from './AccountItem';
 
 export default class AccountList extends React.PureComponent {

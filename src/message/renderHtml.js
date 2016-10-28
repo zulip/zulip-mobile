@@ -1,12 +1,9 @@
-// @flow
-
 import React from 'react';
 import {
   Text,
   Image,
   Linking,
 } from 'react-native';
-
 import entities from 'entities';
 import htmlparser from 'htmlparser2';
 

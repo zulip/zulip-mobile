@@ -4,16 +4,13 @@ import {
 } from 'react-native';
 
 import InfiniteScrollView from './InfiniteScrollView';
-
 import StreamMessageHeader from '../message/StreamMessageHeader';
 import PrivateMessageHeader from '../message/PrivateMessageHeader';
-
 import MessageView from '../message/MessageView';
 import {
   sameRecipient,
   rewriteLink,
 } from '../lib/message';
-
 import { getAuthHeader } from '../api/apiFetch';
 
 const styles = StyleSheet.create({

@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 
 import {
   REALM_SET_STREAMS,
-} from './realmActions';
+} from '../constants';
 
 // Initial state
 const initialState = fromJS({});

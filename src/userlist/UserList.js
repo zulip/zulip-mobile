@@ -3,6 +3,7 @@ import {
   StyleSheet,
   ListView,
 } from 'react-native';
+
 import UserItem from './UserItem';
 import { sortUserList, filterUserList } from './userListSelectors';
 

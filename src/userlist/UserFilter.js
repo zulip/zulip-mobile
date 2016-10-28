@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 export default class UserDrawer extends Component {
 
   props: {
