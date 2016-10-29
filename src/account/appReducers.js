@@ -2,14 +2,9 @@ import { fromJS } from 'immutable';
 import { REHYDRATE } from 'redux-persist/constants';
 
 import {
-  LOGIN_PENDING,
-  LOGIN_SUCCEEDED,
-  LOGIN_FAILED,
+  LOGIN_SUCCESS,
   LOGOUT,
-  ACCOUNT_ADD_PENDING,
-  ACCOUNT_ADD_SUCCEEDED,
-  ACCOUNT_ADD_FAILED,
-} from './userActions';
+} from './accountActions';
 
 import {
   APP_ACTIVITY,
@@ -19,26 +14,13 @@ const initialState = fromJS({
   lastActivityTime: new Date(),
   isHydrated: false,
   isLoggedIn: false,
-  pendingServerResponse: false,
 });
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_SUCCEEDED:
+    case LOGIN_SUCCESS:
       return state.merge({
         isLoggedIn: true,
-        pendingServerResponse: false,
-      });
-    case LOGIN_PENDING:
-    case ACCOUNT_ADD_PENDING:
-      return state.merge({
-        pendingServerResponse: true,
-      });
-    case LOGIN_FAILED:
-    case ACCOUNT_ADD_FAILED:
-    case ACCOUNT_ADD_SUCCEEDED:
-      return state.merge({
-        pendingServerResponse: false,
       });
     case REHYDRATE:
       return state.merge({

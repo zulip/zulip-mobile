@@ -7,9 +7,7 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-
-const NAV_BAR_HEIGHT = 44;
-const STATUS_BAR_HEIGHT = 20;
+import { BRAND_COLOR, NAVBAR_HEIGHT, STATUSBAR_HEIGHT } from '../common/styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,30 +16,26 @@ const styles = StyleSheet.create({
   },
   navBar: {
     flexDirection: 'row',
-    height: NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT,
-    backgroundColor: '#fff',
-    paddingTop: STATUS_BAR_HEIGHT,
-    alignItems: 'center',
+    backgroundColor: BRAND_COLOR,
+    paddingTop: STATUSBAR_HEIGHT,
+    alignItems: 'stretch',
     justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: '#999',
   },
-  heading: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  headingText: {
+  title: {
+    color: 'white',
     fontSize: 16,
+    lineHeight: NAVBAR_HEIGHT,
   },
   button: {
+    color: 'white',
     textAlign: 'center',
     fontSize: 26,
-    width: 46,
+    padding: (NAVBAR_HEIGHT - 28) / 2,
+    width: NAVBAR_HEIGHT,
   },
 });
 
-export default class NavBar extends React.Component {
+export default class MainNavBar extends React.Component {
   render() {
     const { openStreamList } = this.props;
 
@@ -53,11 +47,9 @@ export default class NavBar extends React.Component {
             <View style={styles.navBar}>
               <Icon style={styles.button} name="ios-menu" onPress={openStreamList} />
               <Text style={styles.button} />
-              <View style={styles.heading}>
-                <Text style={styles.headingText}>
-                  {route.name}
-                </Text>
-              </View>
+              <Text style={styles.title}>
+                {route.name}
+              </Text>
               <Icon style={styles.button} name="ios-search" />
               <Icon style={styles.button} name="md-people" />
             </View>

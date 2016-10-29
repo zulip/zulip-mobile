@@ -10,8 +10,8 @@ exports[`test Paragraph of text 1`] = `
       Array [
         Object {
           "fontSize": 16,
-          "lineHeight": 22
-        }
+          "lineHeight": 22,
+        },
       ]
     }>
     <Text
@@ -23,8 +23,8 @@ exports[`test Paragraph of text 1`] = `
         Array [
           Object {
             "fontSize": 16,
-            "lineHeight": 22
-          }
+            "lineHeight": 22,
+          },
         ]
       }>
       Hey!
@@ -40,8 +40,8 @@ exports[`test Paragraph of text 1`] = `
       Array [
         Object {
           "fontSize": 16,
-          "lineHeight": 22
-        }
+          "lineHeight": 22,
+        },
       ]
     }>
     <Text
@@ -53,8 +53,8 @@ exports[`test Paragraph of text 1`] = `
         Array [
           Object {
             "fontSize": 16,
-            "lineHeight": 22
-          }
+            "lineHeight": 22,
+          },
         ]
       }>
       This is a multi-paragraph message
@@ -74,8 +74,8 @@ exports[`test Short text 1`] = `
       Array [
         Object {
           "fontSize": 16,
-          "lineHeight": 22
-        }
+          "lineHeight": 22,
+        },
       ]
     }>
     Hi there!
@@ -93,25 +93,25 @@ exports[`test Simple link 1`] = `
       Array [
         Object {
           "fontSize": 16,
-          "lineHeight": 22
-        }
+          "lineHeight": 22,
+        },
       ]
     }>
     <Text
       accessible={true}
       allowFontScaling={true}
       ellipsizeMode="tail"
-      onPress={[Function anonymous]}
+      onPress={[Function]}
       style={
         Array [
           Object {
             "fontSize": 16,
-            "lineHeight": 22
+            "lineHeight": 22,
           },
           Object {
             "color": "#09f",
-            "fontWeight": "600"
-          }
+            "fontWeight": "600",
+          },
         ]
       }>
       Test link

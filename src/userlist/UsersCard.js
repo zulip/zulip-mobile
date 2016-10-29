@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import Button from '../common/Button';
+import { getInitialRoutes } from '../nav/routingSelectors';
+import { STATUSBAR_HEIGHT, BRAND_COLOR } from '../common/styles';
 import { privateNarrow } from '../lib/narrow';
+import LogoutButton from './LogoutButton';
 import UserFilter from './UserFilter';
 import UserList from './UserList';
 
@@ -10,16 +12,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    marginTop: 20,
     backgroundColor: 'white',
     borderColor: 'grey',
   },
-  logoutButton: {
-    marginTop: 10,
+  statusbar: {
+    height: STATUSBAR_HEIGHT,
+    backgroundColor: BRAND_COLOR,
   },
 });
 
 type Props = {
+  accounts: any[],
   ownEmail: string,
   users: any[],
   narrow: () => void,
@@ -46,7 +49,8 @@ export default class UsersCard extends Component {
   }
 
   logout = () => {
-    this.props.logout();
+    this.props.logout(this.props.accounts);
+    this.props.initRoutes(getInitialRoutes(this.props.accounts));
   }
 
   handleFilterChange = (newFilter: string) => {
@@ -68,6 +72,7 @@ export default class UsersCard extends Component {
 
     return (
       <View style={styles.container}>
+        <View style={styles.statusbar} />
         <UserFilter onChange={this.handleFilterChange} />
         <UserList
           ownEmail={ownEmail}
@@ -76,14 +81,7 @@ export default class UsersCard extends Component {
           filter={filter}
           onNarrow={this.handleUserNarrow}
         />
-        <View>
-          <Button
-            customStyles={styles.logoutButton}
-            secondary
-            text="Logout"
-            onPress={this.logout}
-          />
-        </View>
+        <LogoutButton />
       </View>
     );
   }

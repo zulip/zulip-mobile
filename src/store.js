@@ -12,13 +12,11 @@ import rootReducer from './reducers';
 
 // AsyncStorage.clear(); // use to reset storage during development
 
-const immutableToPlainTransformer = (state) => {
-  const newState = {};
-  for (const i of Object.keys(state)) {
-    newState[i] = Iterable.isIterable(state[i]) ? state[i].toJS() : state[i];
-  }
-  return newState;
-};
+const immutableToPlainTransformer = (state) =>
+  Object.keys(state).reduce((newState, key) => ({
+    ...newState,
+    [key]: Iterable.isIterable(state[key]) ? state[key].toJS() : state[key],
+  }), {});
 
 // Set up middleware
 const middleware = [thunk, createActionBuffer(REHYDRATE)];
@@ -37,7 +35,7 @@ const store = compose(
 export const restore = (onFinished) =>
   persistStore(store, {
     transforms: [immutableTransform()],
-    whitelist: ['auth'],
+    whitelist: ['accountlist'],
     storage: AsyncStorage,
   }, onFinished);
 

@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import StartScreen from './account/StartScreen';
-import MainScreen from './nav/MainScreen';
+import NavigationContainer from './nav/NavigationContainer';
 
 const App = (props) =>
-  (props.isLoggedIn ? <MainScreen /> : <StartScreen />);
+  <NavigationContainer />;
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.app.get('isLoggedIn'),
