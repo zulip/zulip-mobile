@@ -20,7 +20,7 @@ import { openStreamSidebar, closeStreamSidebar } from '../nav/navActions';
 import StreamView from '../stream/StreamView';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
-import ComposeView from '../compose/ComposeView';
+import ComposeBox from '../compose/ComposeBox';
 import UserListContainer from '../userlist/UserListContainer';
 
 class MainScreen extends React.Component {
@@ -147,7 +147,7 @@ class MainScreen extends React.Component {
               fetchNewer={this.fetchNewer}
               narrow={this.narrow}
             />
-            <ComposeView />
+            <ComposeBox />
           </MainNavBar>
         </Drawer>
       </Drawer>
