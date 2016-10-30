@@ -8,34 +8,37 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { BRAND_COLOR } from '../common/styles';
 
 const styles = StyleSheet.create({
-  container: {
-    width: 44,
-    height: 44,
-    padding: 2,
-    borderRadius: 22,
+  wrapper: {
+    padding: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     backgroundColor: BRAND_COLOR,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  icon: {
-    width: 24,
-    height: 24,
-    color: 'white',
-  },
 });
 
-export default class SendButton extends React.PureComponent {
+export default class SendButton extends React.Component {
 
   props: {
+    disabled: boolean,
     onPress: () => void,
   };
 
   render() {
-    const { onPress } = this.props;
+    const { disabled, onPress } = this.props;
+    const opacity = { opacity: disabled ? 0.25 : 1 };
 
     return (
-      <View style={styles.container} onPress={onPress}>
-        <Icon size={24} color="white" name="send" />
+      <View style={styles.wrapper}>
+        <View style={[styles.button, opacity]} onPress={disabled ? undefined : onPress}>
+          <Icon size={16} color="white" name="send" />
+        </View>
       </View>
     );
   }
