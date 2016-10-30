@@ -17,9 +17,7 @@ export const apiFetch = async (
   authObj: Auth,
   route: string,
   params: Object = {},
-  resFunc = res => res,
   noTimeout: boolean = false,
-  dispatch: () => {},
 ) => {
   const auth = authObj.toJS ? authObj.toJS() : authObj;
   const url = `${auth.realm}/${apiVersion}/${route}`;
@@ -31,7 +29,18 @@ export const apiFetch = async (
     },
     ...params,
   };
+  return await fetch(url, allParams);
+};
 
+
+export const apiCall = async (
+  authObj: Auth,
+  route: string,
+  params: Object = {},
+  resFunc = res => res,
+  noTimeout: boolean = false,
+  dispatch: () => {},
+) => {
   let timeout;
   try {
     if (!noTimeout) {
@@ -40,9 +49,13 @@ export const apiFetch = async (
         // send APP_OFFLINE
       }, 5000);
     }
-    console.log('BEFORE FETCH');
-    const response = await fetch(url, allParams);
-    console.log('AFTER FETCH');
+    const response = await apiFetch(authObj, route, params, noTimeout);
+
+    if (response.status === 401) {
+      // TODO: httpUnauthorized()
+      return () => {};
+    }
+
     if (!response.ok) {
       console.log('ERROR', response);
       throw Error(response.statusText);
@@ -63,12 +76,12 @@ export const apiFetch = async (
 };
 
 export const apiGet = async (authObj, route, params = {}, resFunc, noTimeout) =>
-  await apiFetch(authObj, `${route}?${encodeAsURI(params)}`, {
+  await apiCall(authObj, `${route}?${encodeAsURI(params)}`, {
     method: 'get',
   }, resFunc, noTimeout);
 
 export const apiPost = async (authObj, route, params = {}, resFunc, noTimeout) =>
-  await apiFetch(authObj, route, {
+  await apiCall(authObj, route, {
     method: 'post',
     body: encodeAsURI(params),
   }, resFunc, noTimeout);

@@ -39,7 +39,7 @@ class LogoutButton extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  accounts: state.accountlist,
+  accounts: state.account,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>
