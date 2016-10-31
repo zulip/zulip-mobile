@@ -103,6 +103,9 @@ class MainScreen extends React.Component {
             narrow={this.narrow}
           />
         }
+        ref={
+          (streamDrawer) => { this.streamDrawer = streamDrawer; }
+        }
         open={streamlistOpened}
         onOpenStart={this.props.openStreamSidebar}
         onClose={this.props.closeStreamSidebar}
@@ -133,9 +136,8 @@ class MainScreen extends React.Component {
             hidden={streamlistOpened}
           />
           <MainNavBar
-            onPressLeft={
-              streamlistOpened ?
-              this.props.closeStreamSidebar : this.props.openStreamSidebar
+            openStreamList={
+              () => this.streamDrawer.open()
             }
           >
             <StreamView
