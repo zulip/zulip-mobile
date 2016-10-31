@@ -42,7 +42,7 @@ export default class UserItem extends Component {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={styles.container}>
-          <Avatar size={32} avatarUrl={avatarUrl} />
+          <Avatar size={32} avatarUrl={avatarUrl} name={fullName} />
           <Text style={styles.text}>{fullName}</Text>
           <UserStatusIndicator status={status} />
         </View>

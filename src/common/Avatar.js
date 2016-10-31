@@ -1,44 +1,26 @@
 import React from 'react';
-import {
-  Image,
-} from 'react-native';
-import { connect } from 'react-redux';
 
-import { getAuth } from '../accountlist/accountlistSelectors';
+import ImageAvatar from './ImageAvatar';
+import TextAvatar from './TextAvatar';
 
-class Avatar extends React.PureComponent {
+export default class Avatar extends React.PureComponent {
 
   props: {
-    realm: string,
     avatarUrl: string,
+    name: string,
     size: number,
   }
 
   static defaultProps = {
+    name: '',
     size: 32,
   };
 
   render() {
-    const { avatarUrl, realm, size } = this.props;
-    const style = {
-      height: size,
-      width: size,
-      borderRadius: size / 2,
-    };
-    const sourceUri = /^http/.test(avatarUrl) ? avatarUrl : realm + avatarUrl;
+    const { avatarUrl, name, size } = this.props;
 
-    return (
-      <Image
-        style={style}
-        source={{ uri: sourceUri }}
-        resizeMode="contain"
-      />
-    );
+    return avatarUrl
+      ? <ImageAvatar avatarUrl={avatarUrl} size={size} />
+      : <TextAvatar name={name} size={size} />;
   }
 }
-
-const mapStateToProps = (state) => ({
-  realm: getAuth(state).get('realm'),
-});
-
-export default connect(mapStateToProps)(Avatar);

@@ -58,7 +58,7 @@ export default class MessageView extends React.PureComponent {
 
     return (
       <View style={styles.message}>
-        <Avatar avatarUrl={context.rewriteLink(avatarUrl).uri} />
+        <Avatar avatarUrl={context.rewriteLink(avatarUrl).uri} name={from} />
         <View style={styles.messageContent}>
           <View style={styles.messageHeader}>
             <Text style={styles.messageUser}>
