@@ -9,10 +9,10 @@ import Drawer from 'react-native-drawer';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { getAuth } from '../accountlist/accountlistSelectors';
+import { getAuth } from '../account/accountSelectors';
 
 import { sendInitialGetUsers } from '../userlist/userListActions';
-import { appActivity } from '../account/appActions';
+import { appActivity } from '../app/appActions';
 import { sendGetMessages, sendSetMessages } from '../stream/streamActions';
 import { getEvents } from '../events/eventActions';
 import { openStreamSidebar, closeStreamSidebar } from '../nav/navActions';

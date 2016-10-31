@@ -29,7 +29,7 @@ type Props = {
   presence: Object,
 };
 
-export default class UsersCard extends Component {
+export default class UserListCard extends Component {
 
   props: Props;
 

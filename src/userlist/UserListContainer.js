@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getAuth } from '../accountlist/accountlistSelectors';
+import { getAuth } from '../account/accountSelectors';
 
-import UsersCard from './UsersCard';
+import UserListCard from './UserListCard';
 
 class UserListContainer extends Component {
 
   render() {
     return (
-      <UsersCard {...this.props} />
+      <UserListCard {...this.props} />
     );
   }
 }
