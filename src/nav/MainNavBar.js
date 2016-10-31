@@ -46,11 +46,9 @@ export default class MainNavBar extends React.Component {
           <View style={styles.container}>
             <View style={styles.navBar}>
               <Icon style={styles.button} name="ios-menu" onPress={openStreamList} />
-              <Text style={styles.button} />
               <Text style={styles.title}>
                 {route.name}
               </Text>
-              <Icon style={styles.button} name="ios-search" />
               <Icon style={styles.button} name="md-people" />
             </View>
             {this.props.children}
