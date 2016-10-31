@@ -117,6 +117,9 @@ class MainScreen extends React.Component {
       >
         <Drawer
           content={<UserListContainer narrow={this.narrow} />}
+          ref={
+            (peopleDrawer) => { this.peopleDrawer = peopleDrawer; }
+          }
           openDrawerOffset={100}
           tapToClose
           negotiatePan
@@ -136,6 +139,9 @@ class MainScreen extends React.Component {
             onPressLeft={
               streamlistOpened ?
               this.props.closeStreamSidebar : this.props.openStreamSidebar
+            }
+            onPressPeople={
+              () => this.peopleDrawer.open()
             }
           >
             <StreamView

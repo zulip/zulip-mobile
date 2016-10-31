@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 
 export default class MainNavBar extends React.Component {
   render() {
-    const { openStreamList } = this.props;
+    const { openStreamList, onPressPeople } = this.props;
 
     return (
       <Navigator
@@ -49,7 +49,7 @@ export default class MainNavBar extends React.Component {
               <Text style={styles.title}>
                 {route.name}
               </Text>
-              <Icon style={styles.button} name="md-people" />
+              <Icon style={styles.button} name="md-people" onPress={onPressPeople} />
             </View>
             {this.props.children}
           </View>
