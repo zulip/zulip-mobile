@@ -7,7 +7,7 @@ import {
 import { styles } from '../common';
 
 import LoadingScreen from '../start/LoadingScreen';
-import AccountPickScreen from '../accountlist/AccountPickScreen';
+import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
 import PasswordAuthScreen from '../start/PasswordAuthScreen';
 import DevAuthScreen from '../start/DevAuthScreen';
@@ -58,7 +58,7 @@ export default class Navigation extends React.Component {
 
   renderScene = (props) => {
     switch (props.scene.route.key) {
-      case 'accountlist':
+      case 'account':
         return (
           <AccountPickScreen
             navigateTo={this.navigateTo}

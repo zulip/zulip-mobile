@@ -1,9 +1,9 @@
 import { fromJS } from 'immutable';
-import { getAuth } from '../accountlistSelectors';
+import { getAuth } from '../accountSelectors';
 
 test('getAuth returns an empty object when no accounts', () => {
   const state = {
-    accountlist: fromJS([]),
+    account: fromJS([]),
   };
   const auth = getAuth(state);
   expect(auth.toJS()).toEqual({
@@ -15,7 +15,7 @@ test('getAuth returns an empty object when no accounts', () => {
 
 test('getAuth returns only relevant fields', () => {
   const state = {
-    accountlist: fromJS([{
+    account: fromJS([{
       realm: 'https://realm1.com',
       otherField: 'someValue',
     }]),
@@ -30,7 +30,7 @@ test('getAuth returns only relevant fields', () => {
 
 test('getAuth returns the auth information from the first account', () => {
   const state = {
-    accountlist: fromJS([{
+    account: fromJS([{
       realm: 'https://realm1.com',
     }, {
       realm: 'https://realm2.com',

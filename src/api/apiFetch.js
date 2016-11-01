@@ -1,4 +1,6 @@
 import base64 from 'base-64';
+import { encodeAsURI } from '../lib/util';
+// import { APP_ONLINE, APP_OFFLINE } from
 
 export type Auth = {
   realm: string,
@@ -8,31 +10,78 @@ export type Auth = {
 
 const apiVersion = 'api/v1';
 
-export const getAuthHeader = (email, apiKey) => {
-  const encodedStr = `${email}:${apiKey}`;
-  return `Basic ${base64.encode(encodedStr)}`;
-};
+export const getAuthHeader = (email: string, apiKey: string): ?string =>
+  (apiKey ? `Basic ${base64.encode(`${email}:Q${apiKey}`)}` : undefined);
 
-export const apiFetch = async (authObj: Auth, route: string, params: Object) => {
+export const apiFetch = async (
+  authObj: Auth,
+  route: string,
+  params: Object = {},
+  noTimeout: boolean = false,
+) => {
   const auth = authObj.toJS ? authObj.toJS() : authObj;
-  const extraParams = {
+  const url = `${auth.realm}/${apiVersion}/${route}`;
+  const allParams = {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
       'User-Agent': 'ZulipReactNative',
+      'Authorization': getAuthHeader(auth.email, auth.apiKey),
     },
-  };
-  if (auth.apiKey) {
-    extraParams.headers.Authorization = getAuthHeader(auth.email, auth.apiKey);
-  }
-
-  const raw = await fetch(`${auth.realm}/${apiVersion}/${route}`, {
     ...params,
-    ...extraParams,
-  });
+  };
+  return await fetch(url, allParams);
+};
+
+
+export const apiCall = async (
+  authObj: Auth,
+  route: string,
+  params: Object = {},
+  resFunc = res => res,
+  noTimeout: boolean = false,
+  dispatch: () => {},
+) => {
+  let timeout;
   try {
-    const res = await raw.json();
-    return res;
-  } catch (err) {
-    throw new Error(`HTTP response code ${raw.status}: ${raw.statusText}`);
+    if (!noTimeout) {
+      timeout = setTimeout(() => {
+        throw Error(`Request timed out @ ${route}`);
+        // send APP_OFFLINE
+      }, 5000);
+    }
+    const response = await apiFetch(authObj, route, params, noTimeout);
+
+    if (response.status === 401) {
+      // TODO: httpUnauthorized()
+      return () => {};
+    }
+
+    if (!response.ok) {
+      console.log('ERROR', response);
+      throw Error(response.statusText);
+    }
+
+    // send APP_ONLINE
+
+    const json = await response.json();
+
+    if (json.result !== 'success') {
+      throw new Error(json.msg);
+    }
+
+    return resFunc(json);
+  } finally {
+    clearTimeout(timeout);
   }
 };
+
+export const apiGet = async (authObj, route, params = {}, resFunc, noTimeout) =>
+  await apiCall(authObj, `${route}?${encodeAsURI(params)}`, {
+    method: 'get',
+  }, resFunc, noTimeout);
+
+export const apiPost = async (authObj, route, params = {}, resFunc, noTimeout) =>
+  await apiCall(authObj, route, {
+    method: 'post',
+    body: encodeAsURI(params),
+  }, resFunc, noTimeout);

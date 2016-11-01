@@ -3,9 +3,9 @@ import { TextInput } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { getAuth } from '../accountlist/accountlistSelectors';
+import { getAuth } from '../account/accountSelectors';
 import { styles, Screen, ErrorMsg, Button } from '../common';
-import { getAuthBackends } from '../api/apiClient';
+import { getAuthBackends } from '../api';
 import config from '../config';
 import { realmAdd, setAuthType } from '../account/accountActions';
 import AuthTypeScreen from './AuthTypeScreen';

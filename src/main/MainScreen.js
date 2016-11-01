@@ -9,16 +9,17 @@ import Drawer from 'react-native-drawer';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { getAuth } from '../accountlist/accountlistSelectors';
+import { getAuth } from '../account/accountSelectors';
 
 import { sendInitialGetUsers } from '../userlist/userListActions';
-import { appActivity } from '../account/appActions';
+import { appActivity } from '../app/appActions';
 import { sendGetMessages, sendSetMessages } from '../stream/streamActions';
 import { getEvents } from '../events/eventActions';
 import { openStreamSidebar, closeStreamSidebar } from '../nav/navActions';
 
 import StreamView from '../stream/StreamView';
 import MainNavBar from '../nav/MainNavBar';
+import OfflineNotice from './OfflineNotice';
 import StreamSidebar from '../nav/StreamSidebar';
 import ComposeView from '../compose/ComposeView';
 import UserListContainer from '../userlist/UserListContainer';
@@ -93,7 +94,7 @@ class MainScreen extends React.Component {
   }
 
   render() {
-    const { auth, messages, subscriptions, streamlistOpened, caughtUp } = this.props;
+    const { auth, messages, subscriptions, streamlistOpened, caughtUp, isOnline } = this.props;
 
     return (
       <Drawer
@@ -138,6 +139,7 @@ class MainScreen extends React.Component {
               this.props.closeStreamSidebar : this.props.openStreamSidebar
             }
           >
+            {!isOnline && <OfflineNotice />}
             <StreamView
               messages={messages}
               subscriptions={subscriptions}
@@ -157,6 +159,7 @@ class MainScreen extends React.Component {
 
 const mapStateToProps = (state) => ({
   auth: getAuth(state),
+  isOnline: state.app.get('isOnline'),
   subscriptions: state.subscriptions,
   messages: state.stream.messages,
   fetching: state.stream.fetching,
