@@ -6,6 +6,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { BRAND_COLOR } from '../common/styles';
+import { Touchable } from '../common';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -35,11 +36,11 @@ export default class SendButton extends React.Component {
     const opacity = { opacity: disabled ? 0.25 : 1 };
 
     return (
-      <View style={styles.wrapper}>
-        <View style={[styles.button, opacity]} onPress={disabled ? undefined : onPress}>
+      <Touchable style={styles.wrapper} onPress={disabled ? undefined : onPress}>
+        <View style={[styles.button, opacity]}>
           <Icon size={16} color="white" name="send" />
         </View>
-      </View>
+      </Touchable>
     );
   }
 }
