@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  onSubmit: () => undefined,
+  onSend: (content: string) => undefined,
 };
 
 export default class ComposeBox extends React.Component {
@@ -50,8 +50,10 @@ export default class ComposeBox extends React.Component {
     };
   }
 
-  handleSend = () =>
-    this.props.onSubmit(this.props.text);
+  handleSend = () => {
+    this.props.onSend(this.state.text);
+    this.setState({ text: '' });
+  }
 
   handleContentSizeChange = (event) =>
     this.setState({ contentHeight: event.nativeEvent.contentSize.height });
@@ -69,10 +71,14 @@ export default class ComposeBox extends React.Component {
         <ScrollView style={[styles.messageBox, { height }]}>
           <TextInput
             style={[styles.composeInput]}
+            blurOnSubmit
+            defaultValue={text}
             multiline
+            returnKeyType="send"
             height={contentHeight}
             onContentSizeChange={this.handleContentSizeChange}
             onChangeText={this.handleChangeText}
+            onSubmitEditing={this.handleSend}
             placeholder="Type a message here"
           />
         </ScrollView>

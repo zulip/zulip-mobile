@@ -70,6 +70,10 @@ class MainScreen extends React.Component {
     );
   }
 
+  sendMessage = (text) => {
+    console.log(text, this.props);
+  }
+
   render() {
     const { auth, messages, subscriptions, streamlistOpened, caughtUp, isOnline,
       openStreamSidebar, closeStreamSidebar } = this.props;
@@ -127,7 +131,7 @@ class MainScreen extends React.Component {
               fetchNewer={this.fetchNewer}
               narrow={this.narrow}
             />
-            <ComposeBox />
+            <ComposeBox onSend={this.sendMessage} />
           </MainNavBar>
         </Drawer>
       </Drawer>
