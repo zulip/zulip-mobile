@@ -4,7 +4,6 @@ import { View, StyleSheet } from 'react-native';
 import { getInitialRoutes } from '../nav/routingSelectors';
 import { STATUSBAR_HEIGHT, BRAND_COLOR } from '../common/styles';
 import { privateNarrow } from '../lib/narrow';
-import LogoutButton from './LogoutButton';
 import UserFilter from './UserFilter';
 import UserList from './UserList';
 
@@ -72,7 +71,6 @@ export default class UsersCard extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.statusbar} />
         <UserFilter onChange={this.handleFilterChange} />
         <UserList
           ownEmail={ownEmail}
@@ -81,7 +79,6 @@ export default class UsersCard extends Component {
           filter={filter}
           onNarrow={this.handleUserNarrow}
         />
-        <LogoutButton />
       </View>
     );
   }
