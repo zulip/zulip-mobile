@@ -2,16 +2,15 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  StatusBar,
+  Text,
 } from 'react-native';
 
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 
 import { BRAND_COLOR, NAVBAR_HEIGHT, STATUSBAR_HEIGHT } from '../common/styles';
 import StreamListContainer from '../streamlist/StreamListContainer';
 import UserListContainer from '../userlist/UserListContainer';
-import AccountContainer from './AccountContainer';
-
 
 const styles = StyleSheet.create({
   container: {
@@ -47,14 +46,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MainScreen extends React.Component {
+export default class MainNavTabs extends React.Component {
 
   state = {
     index: 0,
     routes: [
-      { key: 'streams', title: 'Streams' },
-      { key: 'people', title: 'People' },
-      { key: 'account', title: 'Account' },
+      { key: '1', title: 'Streams' },
+      { key: '2', title: 'People' },
     ],
   };
 
@@ -67,12 +65,10 @@ export default class MainScreen extends React.Component {
 
   renderScene = ({ route }) => {
     switch (route.key) {
-      case 'streams':
+      case '1':
         return <StreamListContainer narrow={this.narrow} />;
-      case 'people':
+      case '2':
         return <UserListContainer narrow={this.narrow} />;
-      case 'account':
-        return <AccountContainer narrow={this.narrow} />;
       default:
         return null;
     }
@@ -81,7 +77,11 @@ export default class MainScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" backgroundColor={BRAND_COLOR} />
+        {/* <ScrollableTabView>
+          <Text tabLabel="Tab #1">My</Text>
+          <Text tabLabel="Tab #2">favorite</Text>
+          <Text tabLabel="Tab #3">project</Text>
+        </ScrollableTabView> */}
         <TabViewAnimated
           style={styles.container}
           navigationState={this.state}
