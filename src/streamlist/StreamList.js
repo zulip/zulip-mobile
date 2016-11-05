@@ -25,6 +25,7 @@ export default class StreamSidebar extends React.Component {
       <ListView
         enableEmptySections
         style={styles.container}
+        pageSize={12}
         dataSource={dataSource}
         renderRow={(x =>
           <StreamItem

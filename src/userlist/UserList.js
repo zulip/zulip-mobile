@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   ListView,
+  Text,
 } from 'react-native';
 
 import UserItem from './UserItem';
@@ -25,15 +26,21 @@ export default class UserList extends Component {
 
   render() {
     const { ownEmail, filter, users, onNarrow } = this.props;
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    const shownUsers = sortUserList(filterUserList(users, filter, ownEmail));
-    const dataSource = ds.cloneWithRows(shownUsers.toJS());
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2,
+      sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+    });
+    const shownUsers = sortUserList(filterUserList(users, filter, ownEmail)).toJS();
+    const sectionIdentities = shownUsers.map(x => x.fullName[0]);
+    console.log('BOOM', shownUsers, sectionIdentities);
+    const dataSource = ds.cloneWithRowsAndSections(shownUsers, sectionIdentities);
 
     return (
       <ListView
         enableEmptySections
         style={styles.container}
         dataSource={dataSource}
+        pageSize={12}
         renderRow={(x =>
           <UserItem
             key={x.email}
@@ -44,6 +51,7 @@ export default class UserList extends Component {
             onPress={onNarrow}
           />
         )}
+        renderHeader={x => <Text>{x}</Text>}
       />
     );
   }
