@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { popRoute } from '../nav/navActions';
-import { styles } from '../common';
+import styles, { BRAND_COLOR } from '../common/styles';
 import ModalNavBar from '../nav/ModalNavBar';
 
 class Screen extends React.Component {
@@ -24,7 +24,7 @@ class Screen extends React.Component {
 
     return (
       <View style={styles.screen}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle="light-content" backgroundColor={BRAND_COLOR} />
         <ModalNavBar title={title} popRoute={this.props.popRoute} nav={nav} />
         <WrapperView style={styles.container} behavior="padding">
           {children}

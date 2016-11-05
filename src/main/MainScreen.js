@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
   },
   tabBar: {
-    height: 44,
-    marginTop: STATUSBAR_HEIGHT,
+    height: 44 + STATUSBAR_HEIGHT,
+    paddingTop: STATUSBAR_HEIGHT,
     backgroundColor: BRAND_COLOR,
   },
   title: {
