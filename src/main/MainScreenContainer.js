@@ -52,7 +52,6 @@ class MainScreenContainer extends React.Component {
   }
 }
 
-
 const mapStateToProps = (state) => ({
   auth: getAuth(state),
   subscriptions: state.subscriptions,
