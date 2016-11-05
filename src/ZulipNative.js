@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { ActivityIndicator } from 'react-native';
 import { Provider } from 'react-redux';
 
 import store, { restore } from './store';
+import LoadingScreen from './start/LoadingScreen';
 import App from './App';
 
 export default class ZulipNative extends Component {
@@ -19,7 +19,7 @@ export default class ZulipNative extends Component {
 
   render() {
     if (!this.state.rehydrated) {
-      return <ActivityIndicator />;
+      return <LoadingScreen />;
     }
 
     return (
