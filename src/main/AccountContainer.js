@@ -16,7 +16,7 @@ export default class AccountContainer extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.container} tabLabel="Account">
         <AccountDetails fullName="Full Name" email="email@example.com" />
         <LogoutButton />
       </View>

@@ -7,6 +7,16 @@ const statusOrder = (status) => {
   }
 };
 
+export const groupUsersByInitials = (users: any[]): any[] =>
+  users.reduce((acc, x) => {
+    if (acc[x.fullName[0]]) {
+      acc[x.fullName[0]].push(x);
+    } else {
+      acc[x.fullName[0]] = []; // eslint-disable-line
+    }
+    return acc;
+  }, {});
+
 export const sortUserList = (users: any[]): any[] =>
   users.sort((x1, x2) =>
     statusOrder(x1.get('status')) - statusOrder(x2.get('status')) ||
