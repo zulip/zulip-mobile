@@ -63,7 +63,7 @@ export default class UserListCard extends Component {
     const { filter } = this.state;
 
     return (
-      <View style={styles.container}>
+      <View tabLabel="People" style={styles.container}>
         <UserFilter onChange={this.handleFilterChange} />
         <UserList
           ownEmail={ownEmail}

@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import UserItem from './UserItem';
-import { sortUserList, filterUserList } from './userListSelectors';
+import { sortUserList, filterUserList, groupUsersByInitials } from './userListSelectors';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,9 +31,8 @@ export default class UserList extends Component {
       sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
     });
     const shownUsers = sortUserList(filterUserList(users, filter, ownEmail)).toJS();
-    const sectionIdentities = shownUsers.map(x => x.fullName[0]);
-    console.log('BOOM', shownUsers, sectionIdentities);
-    const dataSource = ds.cloneWithRowsAndSections(shownUsers, sectionIdentities);
+    const groupedUsers = groupUsersByInitials(shownUsers);
+    const dataSource = ds.cloneWithRowsAndSections(groupedUsers);
 
     return (
       <ListView
@@ -51,7 +50,7 @@ export default class UserList extends Component {
             onPress={onNarrow}
           />
         )}
-        renderHeader={x => <Text>{x}</Text>}
+        renderSectionHeader={(xx, x) => <Text>{x}</Text>}
       />
     );
   }
