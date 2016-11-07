@@ -1,7 +1,7 @@
 import { pollForEvents, registerForEvents } from '../api';
 
 import {
-  REALM_SET_STREAMS,
+  REALM_INIT,
   EVENT_NEW_MESSAGE,
   EVENTS_REGISTERED,
   EVENT_PRESENCE,
@@ -82,8 +82,8 @@ export const getEvents = (auth) =>
     let lastEventId = data.last_event_id;
 
     dispatch({
-      type: REALM_SET_STREAMS,
-      subscriptions: data.subscriptions,
+      type: REALM_INIT,
+      data,
     });
 
     dispatch({
