@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 
 import {
-  REALM_SET_STREAMS,
+  REALM_INIT,
 } from '../constants';
 
 // Initial state
@@ -9,8 +9,8 @@ const initialState = fromJS({});
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case REALM_SET_STREAMS:
-      return fromJS(action.subscriptions);
+    case REALM_INIT:
+      return fromJS(action.data.subscriptions);
     default:
       return state;
   }
