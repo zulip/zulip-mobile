@@ -33,22 +33,11 @@ class RealmScreen extends React.Component {
   }
 
   tryRealm = async () => {
-    const protocol = /:\/\//;
     let { realm } = this.state;
-    if (protocol.test(realm)) {
-      const tokens = realm.split(protocol);
-      switch (tokens[0]) {
-        case ('http'):
-          break;
-        case ('https'):
-          break;
-        default:
-          this.setState({ progress: false, error: 'Unsupported protocol' });
-          return;
-      }
-    } else {
+    if (realm.search(/\b(http|https):\/\//) === -1) {
       realm = `https://${realm}`;
     }
+
     this.setState({ progress: true, error: undefined });
 
     try {
