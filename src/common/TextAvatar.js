@@ -26,6 +26,7 @@ export default ({ name, size }) => {
   };
   const textStyle = {
     color: 'white',
+    fontSize: size / 3,
   };
 
   return (
