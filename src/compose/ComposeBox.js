@@ -8,17 +8,21 @@ import {
 
 import SendButton from './SendButton';
 import { BORDER_COLOR } from '../common/styles';
-import ThreadBox from './ThreadBox';
+import ComposeOptions from './ComposeOptions';
 
 const MIN_HEIGHT = 38;
 const MAX_HEIGHT = 200;
 
 const styles = StyleSheet.create({
-  container: {
+  outerWrapper: {
     flexDirection: 'row',
     borderTopWidth: 1,
     borderTopColor: BORDER_COLOR,
     backgroundColor: '#fff',
+  },
+  composeWrapper: {
+    flex: 1,
+    flexDirection: 'column',
   },
   messageBox: {
     flex: 1,
@@ -66,22 +70,24 @@ export default class ComposeBox extends React.Component {
     const height = Math.min(Math.max(MIN_HEIGHT, contentHeight), MAX_HEIGHT);
 
     return (
-      <View style={styles.container}>
-        {this.state.editing && <ThreadBox />}
-        <ScrollView style={[styles.messageBox, { height }]}>
-          <TextInput
-            style={[styles.composeInput]}
-            blurOnSubmit
-            defaultValue={text}
-            multiline
-            returnKeyType="send"
-            height={contentHeight}
-            onContentSizeChange={this.handleContentSizeChange}
-            onChangeText={this.handleChangeText}
-            onSubmitEditing={this.handleSend}
-            placeholder="Type a message here"
-          />
-        </ScrollView>
+      <View style={styles.outerWrapper}>
+        <View style={styles.composeWrapper}>
+          <ScrollView style={[styles.messageBox, { height }]}>
+            <TextInput
+              style={[styles.composeInput]}
+              blurOnSubmit
+              defaultValue={text}
+              multiline
+              returnKeyType="send"
+              height={contentHeight}
+              onContentSizeChange={this.handleContentSizeChange}
+              onChangeText={this.handleChangeText}
+              onSubmitEditing={this.handleSend}
+              placeholder="Type a message here"
+            />
+          </ScrollView>
+          <ComposeOptions />
+        </View>
         <SendButton disabled={text.length === 0} onPress={this.handleSend} />
       </View>
     );
