@@ -5,13 +5,14 @@ import {
   Animated,
 } from 'react-native';
 
-import { STATUSBAR_HEIGHT } from '../common/styles';
+import { BRAND_COLOR, STATUSBAR_HEIGHT } from '../common/styles';
 import Tab from './Tab';
 
 const styles = StyleSheet.create({
   tabs: {
     paddingTop: STATUSBAR_HEIGHT,
     height: 44 + STATUSBAR_HEIGHT,
+    backgroundColor: BRAND_COLOR,
     flexDirection: 'row',
     shadowColor: 'black',
     shadowOpacity: 1,
@@ -40,10 +41,10 @@ export default class MainTabBar extends React.Component {
 
     return (
       <View style={styles.tabs}>
-        <Tab activity index={0} icon="md-home" onPress={goToPage} />
+        <Tab activity={99} index={0} icon="md-home" onPress={goToPage} />
         <Tab index={1} icon="md-at" onPress={goToPage} />
         <Tab index={2} icon="md-chatboxes" onPress={goToPage} />
-        <Tab index={3} icon="md-person" onPress={goToPage} />
+        <Tab index={3} icon="md-contact" onPress={goToPage} />
         <Animated.View style={[tabUnderlineStyle, { left }, underlineStyle]} />
       </View>
     );
