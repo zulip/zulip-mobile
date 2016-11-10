@@ -4,6 +4,7 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Emoji from '../emoji/Emoji';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,12 +18,6 @@ const styles = StyleSheet.create({
 
 export default class ComposeOptions extends React.Component {
 
-
-  handleSend = () => {
-    this.props.onSend(this.state.text);
-    this.setState({ text: '' });
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -30,6 +25,7 @@ export default class ComposeOptions extends React.Component {
         <Icon style={styles.icon} size={22} name="md-camera" />
         <Icon style={styles.icon} size={22} name="md-videocam" />
         <Icon style={styles.icon} size={22} name="md-happy" />
+        <Emoji size={22} name="squared_sos" />
       </View>
     );
   }
