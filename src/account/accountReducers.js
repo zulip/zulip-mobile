@@ -6,7 +6,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   ACCOUNT_REMOVE,
-} from '../account/accountActions';
+} from '../constants';
 
 const initialState = fromJS([]);
 

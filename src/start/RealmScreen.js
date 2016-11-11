@@ -32,13 +32,13 @@ class RealmScreen extends React.Component {
   }
 
   tryRealm = async () => {
-    const { realm, realmAdd } = this.state;
+    const { realm } = this.state;
 
     this.setState({ progress: true, error: undefined });
 
     try {
       const authBackends = await getAuthBackends({ realm });
-      realmAdd(realm);
+      this.props.realmAdd(realm);
       if (authBackends.length === 1) {
         this.props.setAuthType(authBackends[0]);
         this.props.navigateTo(authBackends[0]);

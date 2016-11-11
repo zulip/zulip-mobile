@@ -10,7 +10,7 @@ export type Auth = {
 const apiVersion = 'api/v1';
 
 export const getAuthHeader = (email: string, apiKey: string): ?string =>
-  (apiKey ? `Basic ${base64.encode(`${email}:Q${apiKey}`)}` : undefined);
+  (apiKey ? `Basic ${base64.encode(`${email}:${apiKey}`)}` : undefined);
 
 export const apiFetch = async (
   authObj: Auth,
@@ -49,14 +49,12 @@ export const apiCall = async (
       }, 5000);
     }
     const response = await apiFetch(authObj, route, params, noTimeout);
-
     if (response.status === 401) {
       // TODO: httpUnauthorized()
-      return () => {};
+      throw Error('Unauthorized');
     }
 
     if (!response.ok) {
-      console.log('ERROR', response);
       throw Error(response.statusText);
     }
 

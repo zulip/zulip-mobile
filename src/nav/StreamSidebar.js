@@ -57,14 +57,15 @@ const styles = StyleSheet.create({
 export default class StreamSidebar extends React.Component {
 
   render() {
-    const sortedSubscriptions = this.props.subscriptions.toList()
+    const { subscriptions, narrow, logout } = this.props;
+    const sortedSubscriptions = subscriptions.toList()
       .sort((a, b) => a.get('name').localeCompare(b.get('name')));
 
     return (
       <View style={styles.container}>
         <Text
           style={styles.account}
-          onPress={this.props.logout}
+          onPress={logout}
         />
         <ScrollView
           style={styles.streams}
@@ -73,25 +74,25 @@ export default class StreamSidebar extends React.Component {
           <SidebarRow
             name="Home"
             customStyles={[styles.streamName, styles.mainMenu]}
-            onPress={() => this.props.narrow(homeNarrow)}
+            onPress={() => narrow(homeNarrow)}
             icon={<Icon style={styles.icon} name="md-home" />}
           />
           <SidebarRow
             name="Private Messages"
             customStyles={[styles.streamName, styles.mainMenu]}
-            onPress={() => this.props.narrow(privateNarrow())}
+            onPress={() => narrow(privateNarrow())}
             icon={<Icon style={styles.icon} name="md-chatboxes" />}
           />
           <SidebarRow
             name="Starred"
             customStyles={[styles.streamName, styles.mainMenu]}
-            onPress={() => this.props.narrow(starredNarrow)}
+            onPress={() => narrow(starredNarrow)}
             icon={<Icon style={styles.icon} name="md-star" />}
           />
           <SidebarRow
             name="@-mentions"
             customStyles={[styles.streamName, styles.mainMenu]}
-            onPress={() => this.props.narrow(mentionedNarrow)}
+            onPress={() => narrow(mentionedNarrow)}
             icon={<Icon style={styles.icon} name="md-at" />}
           />
           {sortedSubscriptions.map(x =>
@@ -99,7 +100,7 @@ export default class StreamSidebar extends React.Component {
               key={x.get('stream_id')}
               name={x.get('name')}
               customStyles={styles.streamName}
-              onPress={() => this.props.narrow(streamNarrow(x.get('name')))}
+              onPress={() => narrow(streamNarrow(x.get('name')))}
               icon={<View style={[styles.colorBar, { backgroundColor: x.get('color') }]} />}
             />
           )}
