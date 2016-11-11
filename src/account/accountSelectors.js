@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 
 export const getActiveAccount = (state) =>
-  state.accountlist.get(0);
+  state.account.get(0);
 
 export const getAuth = (state) => {
   const account = getActiveAccount(state);

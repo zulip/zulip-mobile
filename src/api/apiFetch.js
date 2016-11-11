@@ -12,9 +12,6 @@ const apiVersion = 'api/v1';
 export const getAuthHeader = (email, apiKey) =>
   `Basic ${base64.encode(`${email}:${apiKey}`)}`;
 
-// fetch("http://httpstat.us/500")
-
-
 export const apiFetch = async (
   authObj: Auth,
   route: string,
@@ -44,7 +41,6 @@ export const apiFetch = async (
     if (!doNotTimeout) {
       timeout = setTimeout(() => { throw Error(`Request timed out @ ${route}`); }, 5000);
     }
-    console.log('setTimeout', timeout);
     const response = await fetch(url, allParams);
 
     // console.log('ERROR', err); redux => action for error
@@ -53,7 +49,6 @@ export const apiFetch = async (
 
     return await response.json();
   } finally {
-    console.log('clearTimeout', timeout);
     clearTimeout(timeout);
   }
 };

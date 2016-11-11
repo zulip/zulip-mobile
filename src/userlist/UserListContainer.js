@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { pushRoute } from '../nav/navActions';
-import { getAuth } from '../accountlist/accountlistSelectors';
+import { getAuth } from '../account/accountSelectors';
 
 import UserListCard from './UserListCard';
 

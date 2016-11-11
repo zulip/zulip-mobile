@@ -55,7 +55,7 @@ class AccountPickScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  accounts: state.accountlist,
+  accounts: state.account,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) =>
