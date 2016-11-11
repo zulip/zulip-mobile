@@ -9,6 +9,7 @@ import {
 import SendButton from './SendButton';
 import { BORDER_COLOR } from '../common/styles';
 import ComposeOptions from './ComposeOptions';
+import CameraRollView from './CameraRollView';
 
 const MIN_HEIGHT = 38;
 const MAX_HEIGHT = 200;
@@ -87,6 +88,7 @@ export default class ComposeBox extends React.Component {
             />
           </ScrollView>
           <ComposeOptions />
+          <CameraRollView />
         </View>
         <SendButton disabled={text.length === 0} onPress={this.handleSend} />
       </View>
