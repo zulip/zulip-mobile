@@ -13,24 +13,21 @@ type Props = {
   auth: any,
 }
 
+type State = {
+  progress: boolean,
+  directAdmins: string[],
+  directUsers: string[],
+}
+
 class DevAuthScreen extends React.Component {
 
   props: Props;
 
-  state: {
-    progress: boolean,
-    directAdmins: string[],
-    directUsers: string[],
-  }
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      progress: false,
-      directAdmins: [],
-      directUsers: [],
-    };
-  }
+  state: State = {
+    progress: false,
+    directAdmins: [],
+    directUsers: [],
+  };
 
   componentWillMount = async () => {
     const { auth } = this.props;

@@ -39,12 +39,14 @@ const styles = StyleSheet.create({
 });
 
 export default class MessageView extends React.PureComponent {
+
+  state = {
+    message: null,
+  };
+
   constructor(props) {
     super(props);
     this.renderMessage();
-    this.state = {
-      message: null,
-    };
   }
 
   async renderMessage() {
