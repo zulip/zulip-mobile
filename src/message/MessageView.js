@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 
 import { renderHtml } from './renderHtml';
-import { BORDER_COLOR } from '../common/styles';
 import { Avatar } from '../common';
 
 const styles = StyleSheet.create({
@@ -27,7 +26,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 4,
+    height: 22,
   },
   messageUser: {
     fontWeight: 'bold',
