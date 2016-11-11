@@ -7,7 +7,7 @@ export const getInitialRoutes = (accounts: any[]): string => {
 
   const routeList = [];
 
-  if (accounts.size > 1) routeList.push('accountlist');
+  if (accounts.size > 1) routeList.push('account');
 
   routeList.push('realm');
 

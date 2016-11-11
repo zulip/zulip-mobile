@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import { Screen, ErrorMsg, Button } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
-import { getAuth } from '../accountlist/accountlistSelectors';
+import { getAuth } from '../account/accountSelectors';
 import { loginSuccess } from '../account/accountActions';
 
 type Props = {

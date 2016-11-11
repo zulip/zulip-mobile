@@ -35,7 +35,7 @@ const store = compose(
 export const restore = (onFinished) =>
   persistStore(store, {
     transforms: [immutableTransform()],
-    whitelist: ['accountlist'],
+    whitelist: ['account'],
     storage: AsyncStorage,
   }, onFinished);
 

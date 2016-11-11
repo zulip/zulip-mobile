@@ -3,10 +3,13 @@ import { REHYDRATE } from 'redux-persist/constants';
 
 import {
   LOGIN_SUCCESS,
+  LOGIN_FAILURE,
   LOGOUT,
-} from './accountActions';
+} from '../account/accountActions';
 
 import {
+  APP_ONLINE,
+  APP_OFFLINE,
   APP_ACTIVITY,
 } from './appActions';
 
@@ -14,11 +17,16 @@ const initialState = fromJS({
   lastActivityTime: new Date(),
   isHydrated: false,
   isLoggedIn: false,
+  isOnline: true,
 });
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
+      return state.merge({
+        isLoggedIn: true,
+      });
+    case LOGIN_FAILURE:
       return state.merge({
         isLoggedIn: true,
       });
@@ -34,6 +42,14 @@ export default (state = initialState, action) => {
     case APP_ACTIVITY:
       return state.merge({
         lastActivityTime: new Date(),
+      });
+    case APP_ONLINE:
+      return state.merge({
+        isOnline: true,
+      });
+    case APP_OFFLINE:
+      return state.merge({
+        isOnline: false,
       });
     default:
       return state;
