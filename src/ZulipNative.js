@@ -6,10 +6,10 @@ import store, { restore } from './store';
 import App from './App';
 
 export default class ZulipNative extends Component {
-  constructor() {
-    super();
-    this.state = { rehydrated: false };
-  }
+
+  state = {
+    rehydrated: false,
+  };
 
   componentWillMount() {
     restore(() => {

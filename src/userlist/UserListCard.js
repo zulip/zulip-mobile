@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { Button } from '../common';
+import { getInitialRoutes } from '../nav/routingSelectors';
 import { STATUSBAR_HEIGHT, BRAND_COLOR } from '../common/styles';
 import { privateNarrow } from '../lib/narrow';
 import LogoutButton from './LogoutButton';
@@ -32,19 +33,17 @@ export default class UserListCard extends Component {
 
   props: Props;
 
-  state: {
-    filter: string,
+  state = {
+    filter: '',
   };
 
   static contextTypes = {
     drawer: () => null,
   };
 
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      filter: '',
-    };
+  logout = () => {
+    this.props.logout(this.props.accounts);
+    this.props.initRoutes(getInitialRoutes(this.props.accounts));
   }
 
   handleFilterChange = (newFilter: string) => {

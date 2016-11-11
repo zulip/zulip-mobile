@@ -57,12 +57,10 @@ const styles = StyleSheet.create({
 });
 
 export default class ComposeView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      editing: false,
-    };
-  }
+
+  state = {
+    editing: false,
+  };
 
   renderSendButton() {
     return (

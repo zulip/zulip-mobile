@@ -13,6 +13,7 @@ type Props = {};
 class PasswordAuthScreen extends React.Component {
 
   props: Props;
+
   state: {
     progress: boolean,
     email: string,
