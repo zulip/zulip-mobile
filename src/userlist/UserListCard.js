@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { getInitialRoutes } from '../nav/routingSelectors';
+import { Button } from '../common';
 import { STATUSBAR_HEIGHT, BRAND_COLOR } from '../common/styles';
 import { privateNarrow } from '../lib/narrow';
 import LogoutButton from './LogoutButton';
@@ -22,14 +22,13 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  accounts: any[],
   ownEmail: string,
   users: any[],
   narrow: () => void,
   presence: Object,
 };
 
-export default class UsersCard extends Component {
+export default class UserListCard extends Component {
 
   props: Props;
 
@@ -48,11 +47,6 @@ export default class UsersCard extends Component {
     };
   }
 
-  logout = () => {
-    this.props.logout(this.props.accounts);
-    this.props.initRoutes(getInitialRoutes(this.props.accounts));
-  }
-
   handleFilterChange = (newFilter: string) => {
     this.setState({
       filter: newFilter,
@@ -65,6 +59,9 @@ export default class UsersCard extends Component {
     );
     this.context.drawer.close();
   }
+
+  switchAccount = () =>
+    this.props.pushRoute({ key: 'accountlist' });
 
   render() {
     const { ownEmail, users, presence } = this.props;
@@ -81,7 +78,15 @@ export default class UsersCard extends Component {
           filter={filter}
           onNarrow={this.handleUserNarrow}
         />
-        <LogoutButton />
+        <View>
+          <Button
+            customStyles={styles.logoutButton}
+            secondary
+            text="Switch"
+            onPress={this.switchAccount}
+          />
+          <LogoutButton />
+        </View>
       </View>
     );
   }

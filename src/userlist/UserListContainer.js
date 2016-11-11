@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { pushRoute } from '../nav/navActions';
 import { getAuth } from '../accountlist/accountlistSelectors';
 
-import UsersCard from './UsersCard';
+import UserListCard from './UserListCard';
 
 class UserListContainer extends Component {
 
   render() {
     return (
-      <UsersCard {...this.props} />
+      <UserListCard {...this.props} />
     );
   }
 }
@@ -19,4 +20,6 @@ const mapStateToProps = (state) => ({
   users: state.userlist,
 });
 
-export default connect(mapStateToProps)(UserListContainer);
+export default connect(mapStateToProps, {
+  pushRoute,
+})(UserListContainer);
