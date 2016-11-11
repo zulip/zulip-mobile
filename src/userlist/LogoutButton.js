@@ -38,7 +38,7 @@ class LogoutButton extends Component {
 
 export default connect(
   (state) => ({
-    accounts: state.accountlist,
+    accounts: state.account,
   }),
   boundActions,
 )(LogoutButton);

@@ -3,8 +3,6 @@ import { focusPing } from '../api';
 import {
   APP_ONLINE,
   APP_OFFLINE,
-  INIT_ROUTES,
-  HTTP_UNAUTHORIZED,
 } from '../constants';
 
 export const appActivity = (auth) =>
