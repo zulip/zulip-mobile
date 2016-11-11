@@ -5,13 +5,10 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT,
-} from '../account/accountActions';
-
-import {
   APP_ONLINE,
   APP_OFFLINE,
   APP_ACTIVITY,
-} from './appActions';
+} from '../constants';
 
 const initialState = fromJS({
   lastActivityTime: new Date(),

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { logout } from '../account/accountActions';
-import { initRoutes } from '../nav/navActions';
+import boundActions from '../boundActions';
 import { getInitialRoutes } from '../nav/routingSelectors';
 import { Button } from '../common';
 
@@ -38,14 +36,9 @@ class LogoutButton extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  accounts: state.accountlist,
-});
-
-const mapDispatchToProps = (dispatch, ownProps) =>
-  bindActionCreators({
-    logout,
-    initRoutes,
-  }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(LogoutButton);
+export default connect(
+  (state) => ({
+    accounts: state.accountlist,
+  }),
+  boundActions,
+)(LogoutButton);

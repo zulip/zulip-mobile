@@ -2,13 +2,12 @@ import React from 'react';
 import {
   ScrollView,
 } from 'react-native';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import boundActions from '../boundActions';
 import { Screen, ErrorMsg, Button } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
 import { getAuth } from '../account/accountSelectors';
-import { loginSuccess } from '../account/accountActions';
 
 type Props = {
   auth: any,
@@ -89,13 +88,9 @@ class DevAuthScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  auth: getAuth(state),
-});
-
-const mapDispatchToProps = (dispatch, ownProps) =>
-  bindActionCreators({
-    loginSuccess,
-  }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(DevAuthScreen);
+export default connect(
+  (state) => ({
+    auth: getAuth(state),
+  }),
+  boundActions,
+)(DevAuthScreen);

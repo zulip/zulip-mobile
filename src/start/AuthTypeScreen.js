@@ -1,10 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import boundActions from '../boundActions';
 import { Button } from '../common';
-import { setAuthType } from '../account/accountActions';
 
 class AuthTypeScreen extends React.Component {
 
@@ -32,11 +31,4 @@ class AuthTypeScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = (dispatch, ownProps) =>
-  bindActionCreators({
-    setAuthType,
-  }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(AuthTypeScreen);
+export default connect((state) => ({}), boundActions)(AuthTypeScreen);
