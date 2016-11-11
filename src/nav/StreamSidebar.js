@@ -70,43 +70,42 @@ export default class StreamSidebar extends React.Component {
           onPress={this.props.logout}
         />
         <ScrollView
+          style={styles.streams}
           scrollsToTop={false}
         >
-          <View style={styles.streams}>
+          <SidebarRow
+            name="Home"
+            customStyles={[styles.streamName, styles.mainMenu]}
+            onPress={() => this.props.narrow(homeNarrow)}
+            icon={<Icon style={styles.icon} name="md-home" />}
+          />
+          <SidebarRow
+            name="Private Messages"
+            customStyles={[styles.streamName, styles.mainMenu]}
+            onPress={() => this.props.narrow(privateNarrow())}
+            icon={<Icon style={styles.icon} name="md-chatboxes" />}
+          />
+          <SidebarRow
+            name="Starred"
+            customStyles={[styles.streamName, styles.mainMenu]}
+            onPress={() => this.props.narrow(starredNarrow)}
+            icon={<Icon style={styles.icon} name="md-star" />}
+          />
+          <SidebarRow
+            name="@-mentions"
+            customStyles={[styles.streamName, styles.mainMenu]}
+            onPress={() => this.props.narrow(mentionedNarrow)}
+            icon={<Icon style={styles.icon} name="md-at" />}
+          />
+          {sortedSubscriptions.map(x =>
             <SidebarRow
-              name="Home"
-              customStyles={[styles.streamName, styles.mainMenu]}
-              onPress={() => this.props.narrow(homeNarrow)}
-              icon={<Icon style={styles.icon} name="md-home" />}
+              key={x.get('stream_id')}
+              name={x.get('name')}
+              customStyles={styles.streamName}
+              onPress={() => this.props.narrow(streamNarrow(x.get('name')))}
+              icon={<View style={[styles.colorBar, { backgroundColor: x.get('color') }]} />}
             />
-            <SidebarRow
-              name="Private Messages"
-              customStyles={[styles.streamName, styles.mainMenu]}
-              onPress={() => this.props.narrow(privateNarrow())}
-              icon={<Icon style={styles.icon} name="md-chatboxes" />}
-            />
-            <SidebarRow
-              name="Starred"
-              customStyles={[styles.streamName, styles.mainMenu]}
-              onPress={() => this.props.narrow(starredNarrow)}
-              icon={<Icon style={styles.icon} name="md-star" />}
-            />
-            <SidebarRow
-              name="@-mentions"
-              customStyles={[styles.streamName, styles.mainMenu]}
-              onPress={() => this.props.narrow(mentionedNarrow)}
-              icon={<Icon style={styles.icon} name="md-at" />}
-            />
-            {sortedSubscriptions.map(x =>
-              <SidebarRow
-                key={x.get('stream_id')}
-                name={x.get('name')}
-                customStyles={styles.streamName}
-                onPress={() => this.props.narrow(streamNarrow(x.get('name')))}
-                icon={<View style={[styles.colorBar, { backgroundColor: x.get('color') }]} />}
-              />
-            )}
-          </View>
+          )}
         </ScrollView>
       </View>
     );
