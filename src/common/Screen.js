@@ -4,10 +4,9 @@ import {
   StatusBar,
   KeyboardAvoidingView,
 } from 'react-native';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { popRoute } from '../nav/navActions';
+import boundActions from '../boundActions';
 import { styles } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
 
@@ -19,13 +18,13 @@ class Screen extends React.Component {
   }
 
   render() {
-    const { keyboardAvoiding, title, nav, children } = this.props;
+    const { keyboardAvoiding, title, nav, children, popRoute } = this.props;
     const WrapperView = keyboardAvoiding ? KeyboardAvoidingView : View;
 
     return (
       <View style={styles.screen}>
         <StatusBar barStyle="light-content" />
-        <ModalNavBar title={title} popRoute={this.props.popRoute} nav={nav} />
+        <ModalNavBar title={title} popRoute={popRoute} nav={nav} />
         <WrapperView style={styles.container} behavior="padding">
           {children}
         </WrapperView>
@@ -34,13 +33,9 @@ class Screen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  nav: state.nav,
-});
-
-const mapDispatchToProps = (dispatch, ownProps) =>
-  bindActionCreators({
-    popRoute,
-  }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Screen);
+export default connect(
+  (state) => ({
+    nav: state.nav,
+  }),
+  boundActions,
+)(Screen);

@@ -1,13 +1,12 @@
 import React from 'react';
 import { TextInput } from 'react-native';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import boundActions from '../boundActions';
 import { fetchApiKey } from '../api';
 import config from '../config';
 import { styles, Screen, ErrorMsg, Button } from '../common';
 import { getAuth } from '../account/accountSelectors';
-import { loginSuccess } from '../account/accountActions';
 
 type Props = {};
 
@@ -31,14 +30,14 @@ class PasswordAuthScreen extends React.Component {
   }
 
   tryPasswordLogin = async () => {
-    const { auth } = this.props;
+    const { auth, loginSuccess } = this.props;
     const { email, password } = this.state;
 
     this.setState({ progress: true, error: undefined });
 
     try {
       const apiKey = await fetchApiKey(auth, email, password);
-      this.props.loginSuccess(auth.get('realm'), email, apiKey);
+      loginSuccess(auth.get('realm'), email, apiKey);
       this.setState({ progress: false });
     } catch (err) {
       this.setState({ progress: false, error: err.message });
@@ -78,15 +77,11 @@ class PasswordAuthScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  auth: getAuth(state),
-  email: getAuth(state).get('email'),
-  password: getAuth(state).get('password'),
-});
-
-const mapDispatchToProps = (dispatch, ownProps) =>
-  bindActionCreators({
-    loginSuccess,
-  }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(PasswordAuthScreen);
+export default connect(
+  (state) => ({
+    auth: getAuth(state),
+    email: getAuth(state).get('email'),
+    password: getAuth(state).get('password'),
+  }),
+  boundActions,
+)(PasswordAuthScreen);

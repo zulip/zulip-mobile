@@ -1,7 +1,6 @@
 import { focusPing } from '../api';
 
 import {
-  APP_ACTIVITY,
   APP_ONLINE,
   APP_OFFLINE,
   INIT_ROUTES,

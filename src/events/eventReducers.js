@@ -2,7 +2,6 @@ import {
   EVENTS_REGISTERED,
 } from '../constants';
 
-// Initial state
 const initialState = {
   queueId: null,
 };

@@ -1,13 +1,7 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import {
-  selectAccount,
-  removeAccount,
-  tryPasswordLogin,
-} from '../account/accountActions';
-import { initRoutes } from '../nav/navActions';
+import boundActions from '../boundActions';
 import { Button, Logo, Screen } from '../common';
 import AccountList from './AccountList';
 
@@ -20,7 +14,7 @@ class AccountPickScreen extends React.Component {
   }
 
   handleAccountSelect = (index: number) => {
-    const { accounts, navigateTo } = this.props;
+    const { accounts, selectAccount, navigateTo } = this.props;
     const account = accounts.get(index);
     const { apiKey, authType } = account.toJS();
     selectAccount(index);
@@ -54,16 +48,9 @@ class AccountPickScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  accounts: state.account,
-});
-
-const mapDispatchToProps = (dispatch, ownProps) =>
-  bindActionCreators({
-    initRoutes,
-    selectAccount,
-    removeAccount,
-    tryPasswordLogin,
-  }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(AccountPickScreen);
+export default connect(
+  (state) => ({
+    accounts: state.account,
+  }),
+  boundActions,
+)(AccountPickScreen);

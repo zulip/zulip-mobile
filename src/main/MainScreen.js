@@ -4,16 +4,10 @@ import {
   StatusBar,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
-import { sendInitialGetUsers } from '../userlist/userListActions';
-import { appActivity } from '../app/appActions';
-import { sendGetMessages, sendSetMessages } from '../stream/streamActions';
-import { getEvents } from '../events/eventActions';
-import { openStreamSidebar, closeStreamSidebar } from '../nav/navActions';
-
 import StreamView from '../stream/StreamView';
 import MainNavBar from '../nav/MainNavBar';
 import OfflineNotice from './OfflineNotice';
@@ -35,17 +29,18 @@ class MainScreen extends React.Component {
 
   componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
-    const { auth, narrow } = this.props;
+    const { auth, narrow, getEvents,
+      sendInitialGetUsers, appActivity, sendGetMessages } = this.props;
 
-    this.props.getEvents(auth);
+    getEvents(auth);
 
     // We use requestAnimationFrame to force this to happen in the next
     // iteration of the event loop. This ensures that the last action ends
     // before the new action begins and makes the debug output clearer.
     requestAnimationFrame(() => {
-      this.props.sendInitialGetUsers(auth);
-      this.props.appActivity(auth);
-      this.props.sendGetMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
+      sendInitialGetUsers(auth);
+      appActivity(auth);
+      sendGetMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
     });
   }
 
@@ -54,44 +49,30 @@ class MainScreen extends React.Component {
   }
 
   fetchOlder = () => {
-    if (!this.props.fetching) {
-      this.props.sendGetMessages(
-        this.props.auth,
-        this.props.pointer[0],
-        10,
-        0,
-        this.props.narrow,
-      );
+    const { auth, fetching, narrow, pointer, sendGetMessages } = this.props;
+    if (!fetching) {
+      sendGetMessages(auth, pointer[0], 10, 0, narrow);
     }
   }
 
   fetchNewer = () => {
-    if (!this.props.fetching && !this.props.caughtUp) {
-      this.props.sendGetMessages(
-        this.props.auth,
-        this.props.pointer[1],
-        0,
-        10,
-        this.props.narrow,
-      );
+    const { auth, fetching, pointer, narrow, caughtUp, sendGetMessages } = this.props;
+    if (!fetching && !caughtUp) {
+      sendGetMessages(auth, pointer[1], 0, 10, narrow);
     }
   }
 
   narrow = (narrowOperator, pointer: number = Number.MAX_SAFE_INTEGER, messages = []) => {
-    this.props.sendSetMessages(messages);
+    const { auth, sendSetMessages, sendGetMessages } = this.props;
+    sendSetMessages(messages);
     requestAnimationFrame(() =>
-      this.props.sendGetMessages(
-        this.props.auth,
-        pointer,
-        10,
-        10,
-        narrowOperator || {},
-      )
+      sendGetMessages(auth, pointer, 10, 10, narrowOperator || {})
     );
   }
 
   render() {
-    const { auth, messages, subscriptions, streamlistOpened, caughtUp, isOnline } = this.props;
+    const { auth, messages, subscriptions, streamlistOpened, caughtUp, isOnline,
+      openStreamSidebar, closeStreamSidebar } = this.props;
 
     return (
       <Drawer
@@ -102,8 +83,8 @@ class MainScreen extends React.Component {
           />
         }
         open={streamlistOpened}
-        onOpenStart={this.props.openStreamSidebar}
-        onClose={this.props.closeStreamSidebar}
+        onOpenStart={openStreamSidebar}
+        onClose={closeStreamSidebar}
         tapToClose
         openDrawerOffset={100}
         negotiatePan
@@ -133,7 +114,7 @@ class MainScreen extends React.Component {
           <MainNavBar
             onPressLeft={
               streamlistOpened ?
-              this.props.closeStreamSidebar : this.props.openStreamSidebar
+              closeStreamSidebar : openStreamSidebar
             }
           >
             {!isOnline && <OfflineNotice />}
@@ -154,27 +135,17 @@ class MainScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  auth: getAuth(state),
-  isOnline: state.app.get('isOnline'),
-  subscriptions: state.subscriptions,
-  messages: state.stream.messages,
-  fetching: state.stream.fetching,
-  narrow: state.stream.narrow,
-  pointer: state.stream.pointer,
-  caughtUp: state.stream.caughtUp,
-  streamlistOpened: state.nav.opened,
-});
-
-const mapDispatchToProps = (dispatch, ownProps) =>
-  bindActionCreators({
-    appActivity,
-    sendInitialGetUsers,
-    sendGetMessages,
-    sendSetMessages,
-    getEvents,
-    openStreamSidebar,
-    closeStreamSidebar,
-  }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
+export default connect(
+  (state) => ({
+    auth: getAuth(state),
+    isOnline: state.app.get('isOnline'),
+    subscriptions: state.subscriptions,
+    messages: state.stream.messages,
+    fetching: state.stream.fetching,
+    narrow: state.stream.narrow,
+    pointer: state.stream.pointer,
+    caughtUp: state.stream.caughtUp,
+    streamlistOpened: state.nav.opened,
+  }),
+  boundActions,
+)(MainScreen);

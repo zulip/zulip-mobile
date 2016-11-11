@@ -1,13 +1,12 @@
 import React from 'react';
 import { TextInput } from 'react-native';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import { styles, Screen, ErrorMsg, Button } from '../common';
 import { getAuthBackends } from '../api';
 import config from '../config';
-import { realmAdd, setAuthType } from '../account/accountActions';
 import AuthTypeScreen from './AuthTypeScreen';
 
 type Props = {
@@ -33,13 +32,13 @@ class RealmScreen extends React.Component {
   }
 
   tryRealm = async () => {
-    const { realm } = this.state;
+    const { realm, realmAdd } = this.state;
 
     this.setState({ progress: true, error: undefined });
 
     try {
       const authBackends = await getAuthBackends({ realm });
-      this.props.realmAdd(realm);
+      realmAdd(realm);
       if (authBackends.length === 1) {
         this.props.setAuthType(authBackends[0]);
         this.props.navigateTo(authBackends[0]);
@@ -78,14 +77,9 @@ class RealmScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  realm: getAuth(state).get('realm'),
-});
-
-const mapDispatchToProps = (dispatch, ownProps) =>
-  bindActionCreators({
-    realmAdd,
-    setAuthType,
-  }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(RealmScreen);
+export default connect(
+  (state) => ({
+    realm: getAuth(state).get('realm'),
+  }),
+  boundActions,
+)(RealmScreen);
