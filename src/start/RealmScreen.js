@@ -32,7 +32,10 @@ class RealmScreen extends React.Component {
   }
 
   tryRealm = async () => {
-    const { realm } = this.state;
+    let { realm } = this.state;
+    if (realm.search(/\b(http|https):\/\//) === -1) {
+      realm = `https://${realm}`;
+    }
 
     this.setState({ progress: true, error: undefined });
 
@@ -54,7 +57,7 @@ class RealmScreen extends React.Component {
     const { authBackends, progress, realm, error } = this.state;
 
     return (
-      <Screen title="Add Server" keybardAvoiding>
+      <Screen title="Add Server" keyboardAvoiding>
         <TextInput
           style={styles.input}
           autoFocus
