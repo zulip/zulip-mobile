@@ -3,28 +3,33 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+
 import Emoji from '../emoji/Emoji';
+import ComposeIcon from './ComposeIcon';
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
   },
-  icon: {
-    padding: 4,
-    color: '#999',
-  },
 });
 
 export default class ComposeOptions extends React.Component {
 
+  props: {
+    selected: number,
+    onChange: (index: number) => {},
+  }
+
   render() {
+    const { selected, onChange } = this.props;
+
     return (
       <View style={styles.container}>
-        <Icon style={styles.icon} size={22} name="md-image" />
-        <Icon style={styles.icon} size={22} name="md-camera" />
-        <Icon style={styles.icon} size={22} name="md-videocam" />
-        <Icon style={styles.icon} size={22} name="md-happy" />
+        <ComposeIcon name="md-text" isActive={selected === 0} onChange={() => onChange(0)} />
+        <ComposeIcon name="md-image" isActive={selected === 1} onChange={() => onChange(1)} />
+        <ComposeIcon name="md-camera" isActive={selected === 2} onChange={() => onChange(2)} />
+        <ComposeIcon name="md-videocam" isActive={selected === 3} onChange={() => onChange(3)} />
+        <ComposeIcon name="md-happy" isActive={selected === 4} onChange={() => onChange(4)} />
         <Emoji size={22} name="squared_sos" />
       </View>
     );
