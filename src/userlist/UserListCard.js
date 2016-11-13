@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { Button } from '../common';
 import { getInitialRoutes } from '../nav/routingSelectors';
 import { STATUSBAR_HEIGHT, BRAND_COLOR } from '../common/styles';
 import { privateNarrow } from '../lib/narrow';
