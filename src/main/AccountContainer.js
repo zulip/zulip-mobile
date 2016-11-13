@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import AccountDetails from './AccountDetails';
-import LogoutButton from '../userlist/LogoutButton';
+import SwitchAccountButton from './SwitchAccountButton';
+import LogoutButton from './LogoutButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,6 +19,7 @@ export default class AccountContainer extends Component {
     return (
       <View style={styles.container} tabLabel="Account">
         <AccountDetails fullName="Full Name" email="email@example.com" />
+        <SwitchAccountButton />
         <LogoutButton />
       </View>
     );
