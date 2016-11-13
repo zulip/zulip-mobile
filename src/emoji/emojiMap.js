@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export default {
   "squared_sos": "1f198",
   "factory": "1f3ed",

@@ -1,52 +1,25 @@
 import React from 'react';
 import {
-  ActivityIndicator,
   CameraRoll,
   Image,
   ListView,
-  Platform,
-  StyleSheet,
-  View,
   groupByEveryN,
-  logError,
 } from 'react-native';
 
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    flex: 1,
-  },
-  url: {
-    fontSize: 9,
-    marginBottom: 14,
-  },
-  image: {
-    margin: 4,
-    width: 150,
-    height: 150,
-  },
-  info: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-  },
-});
+import CameraPhotoList from './CameraPhotoList';
 
-type GroupType = 'Album' | 'All' | 'Event' | 'Faces' | 'Library' | 'PhotoStream' | 'SavedPhotos';
-type AssetType ='Photos' | 'Videos' | 'All';
+type AssetType = 'Photos' | 'Videos' | 'All';
 
 export default class CameraRollView extends React.Component {
 
   props: {
-    groupTypes: GroupType,
     batchSize: number,
     // renderImage: () => {},
     imagesPerRow: number,
     assetType: AssetType,
   }
 
-  defaultProps: {
+  static defaultProps = {
     groupTypes: 'SavedPhotos',
     batchSize: 5,
     imagesPerRow: 1,
@@ -57,7 +30,7 @@ export default class CameraRollView extends React.Component {
     super(props);
     this.state = {
       assets: [],
-      // groupTypes: GroupType,
+      groupTypes: 'All',
       lastCursor: '',
       // assetType: AssetType,
       noMore: false,
@@ -74,43 +47,23 @@ export default class CameraRollView extends React.Component {
   }
 
   componentDidMount = () => {
-    this.fetch();
+    this.fetchPhotos();
   }
 
   componentWillReceiveProps = (nextProps: {groupTypes?: string}) => {
     if (this.props.groupTypes !== nextProps.groupTypes) {
-      this.fetch(true);
+      this.setState(this.getInitialState(), this.fetchPhotos);
     }
   }
 
-  fetch = (clear?: boolean) => {
-    if (clear) {
-      this.setState(this.getInitialState(), this.fetch);
-      return;
-    }
-
-    const fetchParams: Object = {
+  fetchPhotos = async () => {
+    const data = await CameraRoll.getPhotos({
       first: this.props.batchSize,
-      groupTypes: this.props.groupTypes,
+      groupTypes: 'All', // not supported in android, do not include? Platform.OS === 'android'
       assetType: this.props.assetType,
-    };
-
-    if (Platform.OS === 'android') {
-      // not supported in android
-      delete fetchParams.groupTypes;
-    }
-    if (this.state.lastCursor) {
-      fetchParams.after = this.state.lastCursor;
-    }
-
-    CameraRoll.getPhotos(fetchParams)
-      .then((data) => this.appendAssets(data), (e) => logError(e));
-  }
-
-  fetch = (clear?: boolean) => {
-    if (!this.state.loadingMore) {
-      this.setState({ loadingMore: true }, () => { this.fetch(clear); });
-    }
+      after: this.state.lastCursor,
+    });
+    this.appendAssets(data);
   }
 
   handleRowHasChanged = (r1: Array<Image>, r2: Array<Image>): boolean => {
@@ -125,34 +78,6 @@ export default class CameraRollView extends React.Component {
     }
 
     return false;
-  }
-
-  renderFooterSpinner = () => {
-    if (!this.state.noMore) {
-      return <ActivityIndicator />;
-    }
-    return null;
-  }
-
-  // rowData is an array of images
-  renderRow = (rowData: Array<Image>, sectionID: string, rowID: string) => {
-    const images = rowData.map((image) => {
-      if (image === null) {
-        return null;
-      }
-      return (
-        <Image
-          source={image.node.image}
-          style={styles.image}
-        />
-      );
-    });
-
-    return (
-      <View style={styles.row}>
-        {images}
-      </View>
-    );
   }
 
   appendAssets = (data: Object) => {
@@ -176,19 +101,15 @@ export default class CameraRollView extends React.Component {
 
   onEndReached = () => {
     if (!this.state.noMore) {
-      this.fetch();
+      this.fetchPhotos();
     }
   }
 
   render() {
+    const { dataSource } = this.state;
+
     return (
-      <ListView
-        renderRow={this.renderRow}
-        renderFooter={this.renderFooterSpinner}
-        onEndReached={this.onEndReached}
-        style={styles.container}
-        dataSource={this.state.dataSource}
-      />
+      <CameraPhotoList dataSource={dataSource} onEndReached={this.onEndReached} />
     );
   }
 }

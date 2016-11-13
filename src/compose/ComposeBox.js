@@ -51,7 +51,7 @@ export default class ComposeBox extends React.Component {
     return (
       <View style={styles.wrapper}>
         <ActiveComposeComponent />
-        <ComposeOptions onChange={this.handleOptionSelected} />
+        <ComposeOptions selected={optionSelected} onChange={this.handleOptionSelected} />
       </View>
     );
   }

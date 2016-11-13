@@ -71,7 +71,7 @@ class MainScreen extends React.Component {
   }
 
   sendMessage = (text) => {
-    console.log(text, this.props);
+    console.log(text, this.props); // eslint-disable-line
   }
 
   render() {
