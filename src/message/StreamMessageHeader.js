@@ -10,22 +10,19 @@ import {
   topicNarrow,
 } from '../lib/narrow';
 
-const DEFAULT_PADDING = 8;
-
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    overflow: 'hidden',
     backgroundColor: '#ddd',
   },
   stream: {
     backgroundColor: '#cec',
-    padding: DEFAULT_PADDING,
+    padding: 4,
     fontSize: 16,
   },
   topic: {
-    padding: DEFAULT_PADDING,
+    flex: 1,
+    padding: 4,
     fontSize: 16,
   },
   private: {
@@ -37,28 +34,41 @@ const styles = StyleSheet.create({
 
 export default class StreamMessageHeader extends React.PureComponent {
 
+  performStreamNarrow = () => {
+    const { narrow, item, stream } = this.props;
+    narrow(
+      streamNarrow(stream),
+      item.id,
+      [item]
+    );
+  }
+
+  performTopicNarrow = () => {
+    const { narrow, item, stream, topic } = this.props;
+    narrow(
+      topicNarrow(stream, topic),
+      item.id,
+      [item]
+    );
+  }
+
   render() {
+    const { stream, topic, color } = this.props;
+
     return (
       <View style={styles.header}>
         <Text
-          style={[styles.stream, { backgroundColor: this.props.color }]}
-          onPress={() => this.props.narrow(
-            streamNarrow(this.props.stream),
-            this.props.item.id,
-            [this.props.item]
-          )}
+          style={[styles.stream, { backgroundColor: color }]}
+          onPress={this.performStreamNarrow}
         >
-          {this.props.stream}
+          {stream}
         </Text>
         <Text
           style={styles.topic}
-          onPress={() => this.props.narrow(
-            topicNarrow(this.props.stream, this.props.topic),
-            this.props.item.id,
-            [this.props.item]
-          )}
+          numberOfLines={1}
+          onPress={this.performTopicNarrow}
         >
-          {this.props.topic}
+          {topic}
         </Text>
       </View>
     );

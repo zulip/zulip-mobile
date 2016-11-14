@@ -130,7 +130,7 @@ const parseDom = (dom, context, baseStyle, onPress) => {
             {node.name === 'li' ? [BULLET] : null}
             {children}
             {node.name === 'li' || node.name === 'br' ||
-             (node.name === 'p' && index < list.length - 1) ? [NEWLINE] : null}
+              (node.name === 'p' && index < list.length - 1) ? [NEWLINE] : null}
           </Text>
         );
       }

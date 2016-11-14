@@ -52,6 +52,9 @@ const processEvent = (dispatch, event) => {
     case 'update_message':
       // TODO
       break;
+    case 'stream':
+      // TODO
+      break;
     case 'pointer':
       // TODO
       break;

@@ -17,22 +17,21 @@ const styles = StyleSheet.create({
     padding: 8,
     overflow: 'hidden',
   },
-  messageContent: {
+  content: {
     flex: 1,
     flexDirection: 'column',
     marginLeft: 8,
   },
-  messageHeader: {
+  header: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 22,
   },
-  messageUser: {
+  userName: {
     fontWeight: 'bold',
     fontSize: 15,
   },
-  messageTime: {
+  time: {
     color: '#999',
     fontSize: 15,
   },
@@ -60,12 +59,12 @@ export default class MessageView extends React.PureComponent {
     return (
       <View style={styles.message}>
         <Avatar avatarUrl={context.rewriteLink(avatarUrl).uri} name={from} />
-        <View style={styles.messageContent}>
-          <View style={styles.messageHeader}>
-            <Text style={styles.messageUser}>
+        <View style={styles.content}>
+          <View style={styles.header}>
+            <Text style={styles.userName}>
               {from}
             </Text>
-            <Text style={styles.messageTime}>
+            <Text style={styles.time}>
               {moment(timestamp * 1000).format('LT')}
             </Text>
           </View>
