@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import SendButton from './SendButton';
+import EmojiAutocomplete from '../autocomplete/EmojiAutocomplete';
 
 const MIN_HEIGHT = 38;
 const MAX_HEIGHT = 200;
@@ -41,6 +42,7 @@ export default class ComposeText extends React.Component {
     this.state = {
       editing: false,
       text: '',
+      auocomplete: false,
       contentHeight: MIN_HEIGHT,
     };
   }
@@ -62,6 +64,7 @@ export default class ComposeText extends React.Component {
 
     return (
       <View style={styles.wrapper}>
+        <EmojiAutocomplete filter="go" />
         <ScrollView style={[styles.messageBox, { height }]}>
           <TextInput
             style={[styles.composeInput]}
