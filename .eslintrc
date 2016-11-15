@@ -14,6 +14,7 @@
   "extends": "airbnb",
   "rules": {
     "quote-props": 0,
+    "no-bitwise": 0,
     "no-plusplus": 0,
     "comma-dangle": 0,
     "arrow-parens": 0,
