@@ -1,32 +1,44 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
+
+import { getAuth } from '../account/accountSelectors';
 import { Popup } from '../common';
-import UserList from '../userlist/UserList';
+import UserItem from '../userlist/UserItem';
+import { sortUserList, filterUsersStartingWith } from '../userlist/userListSelectors';
 
-type Props = {
-  ownEmail: string,
-  users: any[],
-  presence: Object,
-};
 
-export default class PeopleAutocomplete extends Component {
+class PeopleAutocomplete extends Component {
 
-  handleSelect = (index: number) => {
-  }
+  props: {
+    filter: string;
+    onAutocomplete: (name: string) => {},
+  };
 
   render() {
-    const { ownEmail, users, presence, filter } = this.props;
+    const { filter, ownEmail, users, onAutocomplete } = this.props;
+    const people = sortUserList(filterUsersStartingWith(users, filter, ownEmail)).toJS();
+
+    if (people.length === 0) return null;
 
     return (
       <Popup>
-        <UserList
-          ownEmail={ownEmail}
-          users={users}
-          presence={presence}
-          filter={filter}
-          onNarrow={this.handleUserNarrow}
-        />
+        {people.map(x =>
+          <UserItem
+            key={x.email}
+            fullName={x.fullName}
+            avatarUrl={x.avatarUrl}
+            onPress={() => onAutocomplete(x.fullName)}
+          />
+        )}
       </Popup>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  ownEmail: getAuth(state).get('email'),
+  users: state.userlist,
+});
+
+export default connect(mapStateToProps)(PeopleAutocomplete);

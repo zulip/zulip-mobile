@@ -1,34 +1,39 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { Popup } from '../common';
-import Emoji from '../emoji/Emoji';
+import StreamItem from '../streamlist/StreamItem';
 
-type Props = {
-  ownEmail: string,
-  users: any[],
-  presence: Object,
-};
+class StreamAutocomplete extends Component {
 
-export default class StreamAutocomplete extends Component {
-
-  props: Props;
-
-  handleSelect = (index: number) => {
-  }
+  props: {
+    filter: string;
+    onAutocomplete: (name: string) => {},
+  };
 
   render() {
-    const streams = [];
+    const { filter, subscriptions, onAutocomplete } = this.props;
+    const streams = subscriptions.toJS().filter(x => x.name.startsWith(filter));
+
     return (
       <Popup>
         {streams.map(x =>
-          <Touchable key={x} onPress={this.handleSelect}>
-            <View style={styles.emojiRow}>
-              <Emoji name={x} size={15} />
-              <Text>{x}</Text>
-            </View>
-          </Touchable>
+          <StreamItem
+            key={x.stream_id}
+            name={x.name}
+            description={x.description}
+            isPrivate={x.invite_only}
+            color={x.color}
+            onPress={() => onAutocomplete(x.name)}
+          />
         )}
       </Popup>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  subscriptions: state.subscriptions,
+});
+
+export default connect(mapStateToProps)(StreamAutocomplete);

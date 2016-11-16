@@ -46,6 +46,8 @@ export default class UserStatusIndicator extends Component {
   render() {
     const { status } = this.props;
 
+    if (!status) return null;
+
     return (
       <View style={[styles.common, styles[status]]} />
     );
