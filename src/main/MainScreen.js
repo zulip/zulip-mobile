@@ -1,52 +1,20 @@
 import React from 'react';
 import {
-  AppState,
   StatusBar,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { connect } from 'react-redux';
 
+import { OfflineNotice } from '../common';
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import StreamView from '../stream/StreamView';
 import MainNavBar from '../nav/MainNavBar';
-import OfflineNotice from './OfflineNotice';
 import StreamSidebar from '../nav/StreamSidebar';
 import ComposeBox from '../compose/ComposeBox';
 import UserListContainer from '../userlist/UserListContainer';
 
 class MainScreen extends React.Component {
-
-  state: {
-    currentAppState: boolean,
-  }
-
-  handleAppStateChange = (currentAppState) => {
-    if (currentAppState === 'active') {
-      this.props.appActivity();
-    }
-  }
-
-  componentDidMount() {
-    AppState.addEventListener('change', this.handleAppStateChange);
-    const { auth, narrow, getEvents,
-      sendInitialGetUsers, appActivity, sendGetMessages } = this.props;
-
-    getEvents(auth);
-
-    // We use requestAnimationFrame to force this to happen in the next
-    // iteration of the event loop. This ensures that the last action ends
-    // before the new action begins and makes the debug output clearer.
-    requestAnimationFrame(() => {
-      sendInitialGetUsers(auth);
-      appActivity(auth);
-      sendGetMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
-    });
-  }
-
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this.handleAppStateChange);
-  }
 
   fetchOlder = () => {
     const { auth, fetching, narrow, pointer, sendGetMessages } = this.props;

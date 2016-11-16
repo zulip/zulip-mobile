@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { Button } from '../common';
 import { getInitialRoutes } from '../nav/routingSelectors';
 import { STATUSBAR_HEIGHT, BRAND_COLOR } from '../common/styles';
 import { privateNarrow } from '../lib/narrow';
-import LogoutButton from './LogoutButton';
 import UserFilter from './UserFilter';
 import UserList from './UserList';
 
@@ -59,16 +57,12 @@ export default class UserListCard extends Component {
     this.context.drawer.close();
   }
 
-  switchAccount = () =>
-    this.props.pushRoute({ key: 'accountlist' });
-
   render() {
     const { ownEmail, users, presence } = this.props;
     const { filter } = this.state;
 
     return (
-      <View style={styles.container}>
-        <View style={styles.statusbar} />
+      <View tabLabel="People" style={styles.container}>
         <UserFilter onChange={this.handleFilterChange} />
         <UserList
           ownEmail={ownEmail}
@@ -77,15 +71,6 @@ export default class UserListCard extends Component {
           filter={filter}
           onNarrow={this.handleUserNarrow}
         />
-        <View>
-          <Button
-            customStyles={styles.logoutButton}
-            secondary
-            text="Switch"
-            onPress={this.switchAccount}
-          />
-          <LogoutButton />
-        </View>
       </View>
     );
   }
