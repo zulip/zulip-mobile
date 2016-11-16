@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import StreamList from './StreamList';
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ComposeView from '../compose/ComposeView';
+import ComposeBox from '../compose/ComposeBox';
 
 export default class StreamScreen extends React.PureComponent {
 
@@ -16,7 +16,7 @@ export default class StreamScreen extends React.PureComponent {
           fetchNewer={this.fetchNewer}
           narrow={this.narrow}
         /> */}
-        <ComposeView />
+        <ComposeBox />
       </Screen>
     );
   }

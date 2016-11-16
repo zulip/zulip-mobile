@@ -23,6 +23,12 @@ export const sortUserList = (users: any[]): any[] =>
     x1.get('fullName').toLowerCase().localeCompare(x2.get('fullName').toLowerCase())
   );
 
+export const filterUsersStartingWith = (users: any[], filter: string = '', ownEmail: string): any[] =>
+  users.filter(user =>
+    user.get('email') !== ownEmail &&
+    user.get('fullName').toLowerCase().startsWith(filter.toLowerCase())
+  );
+
 export const filterUserList = (users: any[], filter: string = '', ownEmail: string): any[] =>
   users.filter(user =>
     user.get('email') !== ownEmail &&
