@@ -7,7 +7,10 @@ import {
 } from 'react-native';
 
 import SendButton from './SendButton';
+import getAutocompletedText from '../autocomplete/getAutocompletedText';
 import EmojiAutocomplete from '../autocomplete/EmojiAutocomplete';
+import StreamAutocomplete from '../autocomplete/StreamAutocomplete';
+import PeopleAutocomplete from '../autocomplete/PeopleAutocomplete';
 
 const MIN_HEIGHT = 38;
 const MAX_HEIGHT = 200;
@@ -55,16 +58,28 @@ export default class ComposeText extends React.Component {
   handleContentSizeChange = (event) =>
     this.setState({ contentHeight: event.nativeEvent.contentSize.height });
 
-  handleChangeText = (text) =>
+  handleChangeText = (text: string) =>
     this.setState({ text });
+
+  handleAutocomplete = (autocomplete: string) =>
+    this.setState(prevState => ({
+      text: getAutocompletedText(prevState.text, autocomplete),
+    }));
 
   render() {
     const { contentHeight, text } = this.state;
     const height = Math.min(Math.max(MIN_HEIGHT, contentHeight), MAX_HEIGHT);
+    const lastword = text.match(/\b(\w+)$/);
+    const lastWordPrefix = lastword && lastword.index && text[lastword.index - 1];
 
     return (
       <View style={styles.wrapper}>
-        <EmojiAutocomplete filter="go" />
+        {lastWordPrefix === ':' &&
+          <EmojiAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
+        {lastWordPrefix === '#' &&
+          <StreamAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
+        {lastWordPrefix === '@' &&
+          <PeopleAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
         <ScrollView style={[styles.messageBox, { height }]}>
           <TextInput
             style={[styles.composeInput]}

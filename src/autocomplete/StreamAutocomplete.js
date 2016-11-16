@@ -17,9 +17,17 @@ export default class StreamAutocomplete extends Component {
   }
 
   render() {
+    const streams = [];
     return (
       <Popup>
-        <Emoji />
+        {streams.map(x =>
+          <Touchable key={x} onPress={this.handleSelect}>
+            <View style={styles.emojiRow}>
+              <Emoji name={x} size={15} />
+              <Text>{x}</Text>
+            </View>
+          </Touchable>
+        )}
       </Popup>
     );
   }
