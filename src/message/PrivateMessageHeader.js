@@ -7,8 +7,6 @@ import {
 
 import { privateNarrow } from '../lib/narrow';
 
-const DEFAULT_PADDING = 8;
-
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
@@ -16,17 +14,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: '#ddd',
   },
-  stream: {
-    backgroundColor: '#cec',
-    padding: DEFAULT_PADDING,
-    fontSize: 16,
-  },
-  topic: {
-    padding: DEFAULT_PADDING,
-    fontSize: 16,
-  },
   private: {
     flex: 1,
+    padding: 4,
+    fontSize: 16,
     backgroundColor: '#333',
     color: '#fff',
   },
@@ -34,19 +25,25 @@ const styles = StyleSheet.create({
 
 export default class PrivateMessageHeader extends React.PureComponent {
 
+  performNarrow = () => {
+    const { recipients, narrow, item } = this.props;
+    narrow(
+      privateNarrow(recipients.map(r => r.email)),
+      item.id,
+      [item]
+    );
+  }
+
   render() {
-    const others = this.props.recipients.map(r => r.full_name).sort().join(', ');
+    const { recipients } = this.props;
+    const others = recipients.map(r => r.full_name).sort().join(', ');
     const title = others ? `You and ${others}` : 'Just You';
 
     return (
       <View style={styles.header}>
         <Text
-          style={[styles.stream, styles.private]}
-          onPress={() => this.props.narrow(
-            privateNarrow(this.props.recipients.map(r => r.email)),
-            this.props.item.id,
-            [this.props.item]
-          )}
+          style={styles.private}
+          onPress={this.performNarrow}
         >
           {title}
         </Text>

@@ -5,13 +5,11 @@ import {
   Text,
 } from 'react-native';
 
-const DEFAULT_PADDING = 8;
-
 const styles = StyleSheet.create({
   threadGroup: {
     flexDirection: 'column',
     backgroundColor: '#eee',
-    marginBottom: DEFAULT_PADDING,
+    marginBottom: 4,
     borderWidth: 1,
     borderColor: '#eee',
   },
@@ -21,23 +19,30 @@ const styles = StyleSheet.create({
   },
   threadGroupStreamText: {
     backgroundColor: '#cec',
-    padding: DEFAULT_PADDING,
+    padding: 4,
   },
   threadGroupThreadText: {
-    padding: DEFAULT_PADDING,
+    padding: 4,
   },
 });
 
-export default (props) => (
-  <View style={styles.threadGroup}>
-    <View style={styles.threadGroupHeader}>
-      <Text style={[styles.threadGroupStreamText, { backgroundColor: props.stream.color }]}>
-        {props.stream.name}
-      </Text>
-      <Text style={styles.threadGroupThreadText}>
-        {props.thread}
-      </Text>
-    </View>
-    {props.children}
-  </View>
-);
+export default class MessageGroupView extends React.PureComponent {
+
+  render() {
+    const { stream, thread, children } = this.props;
+
+    return (
+      <View style={styles.threadGroup}>
+        <View style={styles.threadGroupHeader}>
+          <Text style={[styles.threadGroupStreamText, { backgroundColor: stream.color }]}>
+            {stream.name}
+          </Text>
+          <Text style={styles.threadGroupThreadText}>
+            {thread}
+          </Text>
+        </View>
+        {children}
+      </View>
+    );
+  }
+}
