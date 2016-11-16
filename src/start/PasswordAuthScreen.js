@@ -57,7 +57,7 @@ class PasswordAuthScreen extends React.Component {
           style={styles.input}
           autoCapitalize="none"
           placeholder="Email"
-          value={email}
+          defaultValue={email}
           onChangeText={newEmail => this.setState({ email: newEmail })}
         />
         <TextInput
