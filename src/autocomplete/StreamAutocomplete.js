@@ -13,7 +13,9 @@ class StreamAutocomplete extends Component {
 
   render() {
     const { filter, subscriptions, onAutocomplete } = this.props;
-    const streams = subscriptions.toJS().filter(x => x.name.startsWith(filter));
+    const streams = subscriptions.toJS()
+      .filter(x => x.name.toLowerCase().startsWith(filter.toLowerCase()))
+      .slice(1, 5);
 
     return (
       <Popup>
@@ -21,7 +23,6 @@ class StreamAutocomplete extends Component {
           <StreamItem
             key={x.stream_id}
             name={x.name}
-            description={x.description}
             isPrivate={x.invite_only}
             color={x.color}
             onPress={() => onAutocomplete(x.name)}

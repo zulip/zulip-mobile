@@ -17,7 +17,9 @@ class PeopleAutocomplete extends Component {
 
   render() {
     const { filter, ownEmail, users, onAutocomplete } = this.props;
-    const people = sortUserList(filterUsersStartingWith(users, filter, ownEmail)).toJS();
+    const people = sortUserList(filterUsersStartingWith(users, filter, ownEmail))
+      .slice(1, 5)
+      .toJS();
 
     if (people.length === 0) return null;
 

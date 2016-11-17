@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   iconWrapper: {
     width: 22,
     height: 22,
-    margin: 10,
+    margin: 4,
     borderRadius: 2,
     justifyContent: 'center',
     alignItems: 'center',
@@ -56,7 +56,8 @@ export default class StreamItem extends React.PureComponent {
           </View>
           <View>
             <Text>{name}</Text>
-            <Text style={styles.description}>{description}</Text>
+            {description && description.length > 0 &&
+              <Text style={styles.description}>{description}</Text>}
           </View>
         </View>
       </Touchable>
