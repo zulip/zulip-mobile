@@ -13,6 +13,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  groupHeader: {
+    fontWeight: 'bold',
+    paddingLeft: 8,
+    fontSize: 18,
+  }
 });
 
 export default class UserList extends Component {
@@ -50,7 +55,9 @@ export default class UserList extends Component {
             onPress={onNarrow}
           />
         )}
-        renderSectionHeader={(xx, x) => <Text>{x}</Text>}
+        renderSectionHeader={(xx, x) =>
+          <Text style={styles.groupHeader}>{x}</Text>
+        }
       />
     );
   }

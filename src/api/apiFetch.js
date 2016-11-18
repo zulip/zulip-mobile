@@ -48,6 +48,7 @@ export const apiCall = async (
         // send APP_OFFLINE
       }, 5000);
     }
+
     const response = await apiFetch(authObj, route, params, noTimeout);
     if (response.status === 401) {
       // TODO: httpUnauthorized()

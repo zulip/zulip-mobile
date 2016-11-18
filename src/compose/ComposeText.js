@@ -56,10 +56,11 @@ class ComposeText extends React.Component {
 
   handleSend = () => {
     const { auth, narrow } = this.props;
+
     if (narrow.operator === 'pm-with') {
-      sendMessage(auth, 'private', this.state.text, narrow.operand, '');
+      sendMessage(auth, 'private', narrow.operand, '', this.state.text);
     } else {
-      sendMessage(auth, 'stream', this.state.text, narrow.operand, '');
+      sendMessage(auth, 'stream', narrow.operand, 'ZulipNative', this.state.text);
     }
     this.setState({ text: '' });
   }
