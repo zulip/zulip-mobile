@@ -15,6 +15,7 @@ export default async (
       num_before: numBefore,
       num_after: numAfter,
       narrow: JSON.stringify(narrow),
+      apply_markdown: true,
     },
     res => res.messages,
   );
