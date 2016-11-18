@@ -8,7 +8,6 @@ import {
   EVENT_NEW_MESSAGE,
 } from '../constants';
 
-// Initial state
 const initialState = {
   messages: new Immutable.List(),
   fetching: false,

@@ -4,7 +4,6 @@ import {
   REALM_INIT,
 } from '../constants';
 
-// Initial state
 const initialState = fromJS({});
 
 const reducer = (state = initialState, action) => {
