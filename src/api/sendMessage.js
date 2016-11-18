@@ -3,18 +3,18 @@ import { apiPost } from './apiFetch';
 export default async (
   auth,
   type: 'private' | 'stream',
-  content: string,
   to: string | string[],
   subject: string,
+  content: string,
 ) =>
   apiPost(
     auth,
     'messages',
     {
       type,
-      content,
       to,
       subject,
+      content,
     },
     res => res.messages,
   );
