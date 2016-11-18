@@ -5,7 +5,10 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
+import { connect } from 'react-redux';
 
+import { getAuth } from '../account/accountSelectors';
+import sendMessage from '../api/sendMessage';
 import SendButton from './SendButton';
 import getAutocompletedText from '../autocomplete/getAutocompletedText';
 import EmojiAutocomplete from '../autocomplete/EmojiAutocomplete';
@@ -33,10 +36,11 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  onSend: (content: string) => undefined,
+  auth: Object,
+  narrow: Object,
 };
 
-export default class ComposeText extends React.Component {
+class ComposeText extends React.Component {
 
   props: Props;
 
@@ -51,7 +55,12 @@ export default class ComposeText extends React.Component {
   }
 
   handleSend = () => {
-    this.props.onSend(this.state.text);
+    const { auth, narrow } = this.props;
+    if (narrow.operator === 'pm-with') {
+      sendMessage(auth, 'private', this.state.text, narrow.operand, '');
+    } else {
+      sendMessage(auth, 'stream', this.state.text, narrow.operand, '');
+    }
     this.setState({ text: '' });
   }
 
@@ -99,3 +108,10 @@ export default class ComposeText extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  auth: getAuth(state),
+  narrow: state.stream.narrow[0],
+});
+
+export default connect(mapStateToProps)(ComposeText);
