@@ -23,7 +23,11 @@ const styles = {
   code: {
     fontFamily: 'Menlo',
     fontSize: 14,
-    padding: 4,
+    padding: 8,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 2,
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
   link: {
     fontWeight: '600',
@@ -38,6 +42,10 @@ const styles = {
     height: 150,
   },
   quote: {
+    paddingLeft: 5,
+    marginLeft: 10,
+    borderLeftWidth: 5,
+    borderLeftColor: '#ddd',
   },
   userMention: {
     fontWeight: 'normal',
@@ -57,7 +65,6 @@ const tagStyles = {
   code: styles.code,
 };
 
-const NEWLINE = '\n';
 const BULLET = '\u2022 ';
 const INLINETAGS = new Set(['li', 'span', 'strong', 'b', 'i', 'a', 'br', 'p']);
 
@@ -129,8 +136,8 @@ const parseDom = (dom, context, baseStyle, onPress) => {
           <Text key={index} style={baseStyle}>
             {node.name === 'li' ? [BULLET] : null}
             {children}
-            {node.name === 'li' || node.name === 'br' ||
-              (node.name === 'p' && index < list.length - 1) ? [NEWLINE] : null}
+            {/* {node.name === 'li' || node.name === 'br' ||
+              (node.name === 'p' && index < list.length - 1) ? ['\n'] : null} */}
           </Text>
         );
       }
