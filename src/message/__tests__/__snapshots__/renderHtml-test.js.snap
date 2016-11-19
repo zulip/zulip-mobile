@@ -29,8 +29,6 @@ exports[`test Paragraph of text 1`] = `
       }>
       Hey!
     </Text>
-    
-    
   </Text>
   <Text
     accessible={true}
