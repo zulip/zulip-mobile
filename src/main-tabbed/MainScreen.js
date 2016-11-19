@@ -14,7 +14,7 @@ export default class MainScreen extends React.Component {
         renderTabBar={() => <MainTabBar />}
       >
         <HomeTab />
-        <StreamListContainer />
+        <StreamListContainer narrow={this.props.narrow} />
         <UserListContainer />
         <AccountContainer />
       </ScrollableTabView>

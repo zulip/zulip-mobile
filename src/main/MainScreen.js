@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { OfflineNotice } from '../common';
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
-import StreamView from '../stream/StreamView';
+import MessageList from '../stream/MessageList';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
 import ComposeBox from '../compose/ComposeBox';
@@ -38,10 +38,6 @@ class MainScreen extends React.Component {
     );
   }
 
-  sendMessage = (text) => {
-    console.log(text, this.props); // eslint-disable-line
-  }
-
   render() {
     const { auth, messages, subscriptions, streamlistOpened, caughtUp, isOnline,
       openStreamSidebar, closeStreamSidebar } = this.props;
@@ -61,7 +57,7 @@ class MainScreen extends React.Component {
         onOpenStart={openStreamSidebar}
         onClose={closeStreamSidebar}
         tapToClose
-        openDrawerOffset={100}
+        openDrawerOffset={40}
         negotiatePan
         panOpenMask={0.5}
         useInteractionManager
@@ -71,10 +67,8 @@ class MainScreen extends React.Component {
       >
         <Drawer
           content={<UserListContainer narrow={this.narrow} />}
-          ref={
-            (peopleDrawer) => { this.peopleDrawer = peopleDrawer; }
-          }
-          openDrawerOffset={100}
+          ref={(peopleDrawer) => { this.peopleDrawer = peopleDrawer; }}
+          openDrawerOffset={40}
           tapToClose
           negotiatePan
           panOpenMask={0.5}
@@ -94,7 +88,7 @@ class MainScreen extends React.Component {
             openStreamList={() => this.streamDrawer.open()}
           >
             {!isOnline && <OfflineNotice />}
-            <StreamView
+            <MessageList
               messages={messages}
               subscriptions={subscriptions}
               auth={auth}

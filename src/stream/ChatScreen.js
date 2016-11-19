@@ -7,7 +7,7 @@ export default class StreamScreen extends React.PureComponent {
   render() {
     return (
       <Screen>
-        {/* <StreamView
+        {/* <MessageList
           messages={messages}
           subscriptions={subscriptions}
           auth={auth}

@@ -4,23 +4,24 @@ import {
   View,
   Text,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import { privateNarrow } from '../utils/narrow';
+import { privateNarrow } from '../../utils/narrow';
 
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    overflow: 'hidden',
-    backgroundColor: '#ddd',
+    backgroundColor: '#333',
   },
   private: {
     flex: 1,
     padding: 4,
     fontSize: 16,
-    backgroundColor: '#333',
-    color: '#fff',
+    color: 'white',
   },
+  icon: {
+    padding: 6,
+  }
 });
 
 export default class PrivateMessageHeader extends React.PureComponent {
@@ -37,15 +38,16 @@ export default class PrivateMessageHeader extends React.PureComponent {
   render() {
     const { recipients } = this.props;
     const others = recipients.map(r => r.full_name).sort().join(', ');
-    const title = others ? `You and ${others}` : 'Just You';
+    // const title = others ? `You and ${others}` : 'Just You';
 
     return (
       <View style={styles.header}>
+        <Icon name="md-text" color="white" size={16} style={styles.icon} />
         <Text
           style={styles.private}
           onPress={this.performNarrow}
         >
-          {title}
+          {others}
         </Text>
       </View>
     );

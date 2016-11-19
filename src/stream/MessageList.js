@@ -4,8 +4,8 @@ import {
 } from 'react-native';
 
 import InfiniteScrollView from './InfiniteScrollView';
-import StreamMessageHeader from '../message/StreamMessageHeader';
-import PrivateMessageHeader from '../message/PrivateMessageHeader';
+import StreamMessageHeader from '../message/headers/StreamMessageHeader';
+import PrivateMessageHeader from '../message/headers/PrivateMessageHeader';
 import MessageView from '../message/MessageView';
 import {
   sameRecipient,
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class StreamView extends React.PureComponent {
+export default class MessageList extends React.PureComponent {
 
   getHeader(item) {
     if (item.type === 'stream') {
@@ -27,6 +27,7 @@ export default class StreamView extends React.PureComponent {
       return (
         <StreamMessageHeader
           key={`section_${item.id}`}
+          isPrivate={item.invite_only}
           stream={item.display_recipient}
           topic={item.subject}
           color={subscription ? subscription.get('color') : '#ccc'}

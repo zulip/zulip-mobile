@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
     borderRadius: 100,
-    margin: 14,
   },
   active: {
     borderColor: 'pink',

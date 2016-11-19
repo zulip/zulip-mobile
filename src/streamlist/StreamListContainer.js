@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import StreamList from './StreamList';
+import { streamNarrow } from '../utils/narrow';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,10 +12,14 @@ const styles = StyleSheet.create({
 });
 
 class StreamListContainer extends React.Component {
+
+  handleNarrow = (streamName: string) =>
+    this.props.narrow(streamNarrow(streamName));
+
   render() {
     return (
       <View tabLabel="Streams" style={styles.container}>
-        <StreamList {...this.props} />
+        <StreamList {...this.props} onNarrow={this.handleNarrow} />
       </View>
     );
   }

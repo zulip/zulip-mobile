@@ -41,11 +41,14 @@ export default class StreamItem extends React.PureComponent {
     onPress: () => {},
   }
 
+  handlePress = () =>
+    this.props.onPress(this.props.name);
+
   render() {
-    const { name, description, color, isPrivate, onPress } = this.props;
+    const { name, description, color, isPrivate } = this.props;
 
     return (
-      <Touchable onPress={onPress}>
+      <Touchable onPress={this.handlePress}>
         <View style={styles.row}>
           <View style={[styles.iconWrapper, { backgroundColor: color }]}>
             <Icon
@@ -57,7 +60,13 @@ export default class StreamItem extends React.PureComponent {
           <View>
             <Text>{name}</Text>
             {description && description.length > 0 &&
-              <Text style={styles.description}>{description}</Text>}
+              <Text
+                numberOfLines={1}
+                style={styles.description}
+              >
+                {description}
+              </Text>
+            }
           </View>
         </View>
       </Touchable>
