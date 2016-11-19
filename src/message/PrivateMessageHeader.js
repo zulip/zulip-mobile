@@ -5,7 +5,7 @@ import {
   Text,
 } from 'react-native';
 
-import { privateNarrow } from '../lib/narrow';
+import { privateNarrow } from '../utils/narrow';
 
 const styles = StyleSheet.create({
   header: {

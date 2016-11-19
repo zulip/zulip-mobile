@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import { getInitialRoutes } from '../nav/routingSelectors';
 import { STATUSBAR_HEIGHT, BRAND_COLOR } from '../common/styles';
-import { privateNarrow } from '../lib/narrow';
+import { privateNarrow } from '../utils/narrow';
 import UserFilter from './UserFilter';
 import UserList from './UserList';
 
