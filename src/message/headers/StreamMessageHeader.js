@@ -4,12 +4,10 @@ import {
   View,
   Text,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import {
-  streamNarrow,
-  topicNarrow,
-} from '../utils/narrow';
-import { foregroundColorFromBackground } from '../utils/color';
+import { streamNarrow, topicNarrow } from '../../utils/narrow';
+import { foregroundColorFromBackground } from '../../utils/color';
 
 const styles = StyleSheet.create({
   header: {
@@ -25,11 +23,9 @@ const styles = StyleSheet.create({
     padding: 4,
     fontSize: 16,
   },
-  private: {
-    flex: 1,
-    backgroundColor: '#333',
-    color: 'white',
-  },
+  icon: {
+    padding: 6,
+  }
 });
 
 export default class StreamMessageHeader extends React.PureComponent {
@@ -53,14 +49,22 @@ export default class StreamMessageHeader extends React.PureComponent {
   }
 
   render() {
-    const { stream, topic, color } = this.props;
+    const { stream, isPrivate, topic, color } = this.props;
+    const textColor = foregroundColorFromBackground(color);
     const colors = {
-      color: foregroundColorFromBackground(color),
+      color: textColor,
       backgroundColor: color,
     };
+    const iconType = isPrivate ? 'md-lock' : 'md-chatbubbles';
 
     return (
       <View style={styles.header}>
+        <Icon
+          name={iconType}
+          color={textColor}
+          size={16}
+          style={[styles.icon, colors]}
+        />
         <Text
           style={[styles.stream, colors]}
           onPress={this.performStreamNarrow}

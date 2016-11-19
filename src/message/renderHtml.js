@@ -66,7 +66,7 @@ const tagStyles = {
 };
 
 const BULLET = '\u2022 ';
-const INLINETAGS = new Set(['li', 'span', 'strong', 'b', 'i', 'a', 'br', 'p']);
+const INLINETAGS = new Set(['li', 'span', 'strong', 'b', 'i', 'a', 'p']);
 
 const parseImg = (node, index, context, onPress) => {
   const source = context.rewriteLink(node.attribs.src);

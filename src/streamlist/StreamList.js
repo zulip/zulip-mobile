@@ -14,8 +14,14 @@ const styles = StyleSheet.create({
 
 export default class StreamSidebar extends React.Component {
 
+  props: {
+    subscriptions: Object,
+    onNarrow: (streamName: string) => {},
+  }
+
   render() {
-    const sortedSubscriptions = this.props.subscriptions.toList().toJS()
+    const { subscriptions, onNarrow } = this.props;
+    const sortedSubscriptions = subscriptions.toList().toJS()
       .sort((a, b) => a.name.localeCompare(b.name));
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     const dataSource = ds.cloneWithRows(sortedSubscriptions);
@@ -33,7 +39,7 @@ export default class StreamSidebar extends React.Component {
             description={x.description}
             isPrivate={x.invite_only}
             color={x.color}
-            // onPress={onNarrow}
+            onPress={onNarrow}
           />
         )}
       />
