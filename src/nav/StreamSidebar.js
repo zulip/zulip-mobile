@@ -13,7 +13,7 @@ import {
   streamNarrow,
   mentionedNarrow,
   starredNarrow,
-} from '../lib/narrow';
+} from '../utils/narrow';
 import SidebarRow from './SidebarRow';
 import { NAVBAR_HEIGHT, STATUSBAR_HEIGHT, BRAND_COLOR } from '../common/styles';
 

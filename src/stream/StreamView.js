@@ -10,7 +10,7 @@ import MessageView from '../message/MessageView';
 import {
   sameRecipient,
   rewriteLink,
-} from '../lib/message';
+} from '../utils/message';
 import { getAuthHeader } from '../api/apiFetch';
 
 const styles = StyleSheet.create({

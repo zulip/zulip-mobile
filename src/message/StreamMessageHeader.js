@@ -8,7 +8,8 @@ import {
 import {
   streamNarrow,
   topicNarrow,
-} from '../lib/narrow';
+} from '../utils/narrow';
+import { foregroundColorFromBackground } from '../utils/color';
 
 const styles = StyleSheet.create({
   header: {
@@ -16,7 +17,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
   },
   stream: {
-    backgroundColor: '#cec',
     padding: 4,
     fontSize: 16,
   },
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   private: {
     flex: 1,
     backgroundColor: '#333',
-    color: '#fff',
+    color: 'white',
   },
 });
 
@@ -54,11 +54,15 @@ export default class StreamMessageHeader extends React.PureComponent {
 
   render() {
     const { stream, topic, color } = this.props;
+    const colors = {
+      color: foregroundColorFromBackground(color),
+      backgroundColor: color,
+    };
 
     return (
       <View style={styles.header}>
         <Text
-          style={[styles.stream, { backgroundColor: color }]}
+          style={[styles.stream, colors]}
           onPress={this.performStreamNarrow}
         >
           {stream}
