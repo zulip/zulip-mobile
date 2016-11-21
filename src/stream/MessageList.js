@@ -3,7 +3,7 @@ import React from 'react';
 import InfiniteScrollView from './InfiniteScrollView';
 import StreamMessageHeader from '../message/headers/StreamMessageHeader';
 import PrivateMessageHeader from '../message/headers/PrivateMessageHeader';
-import MessageView from '../message/MessageView';
+import MessageContainer from '../message/MessageContainer';
 import {
   sameRecipient,
   rewriteLink,
@@ -60,7 +60,7 @@ export default class MessageList extends React.PureComponent {
         totalIdx++;
       }
       items.push(
-        <MessageView
+        <MessageContainer
           key={item.id}
           from={item.sender_full_name}
           message={item.content}
