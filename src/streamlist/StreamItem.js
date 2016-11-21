@@ -19,8 +19,6 @@ const styles = StyleSheet.create({
     opacity: 0.75,
   },
   iconWrapper: {
-    width: 22,
-    height: 22,
     margin: 4,
     borderRadius: 2,
     justifyContent: 'center',
@@ -29,6 +27,9 @@ const styles = StyleSheet.create({
   icon: {
     color: 'white',
   },
+  text: {
+    paddingLeft: 4,
+  }
 });
 
 export default class StreamItem extends React.PureComponent {
@@ -36,6 +37,7 @@ export default class StreamItem extends React.PureComponent {
   props: {
     name: string,
     description: string,
+    iconSize: number,
     isPrivate: boolean,
     color: string,
     onPress: () => {},
@@ -45,21 +47,27 @@ export default class StreamItem extends React.PureComponent {
     this.props.onPress(this.props.name);
 
   render() {
-    const { name, description, color, isPrivate } = this.props;
+    const { name, description, color, isPrivate, iconSize } = this.props;
+    const iconWrapperCustomStyle = {
+      width: iconSize + 8,
+      height: iconSize + 8,
+      backgroundColor: color,
+    };
 
     return (
       <Touchable onPress={this.handlePress}>
         <View style={styles.row}>
-          <View style={[styles.iconWrapper, { backgroundColor: color }]}>
+          <View style={[styles.iconWrapper, iconWrapperCustomStyle]}>
             <Icon
               style={styles.icon}
-              size={16}
+              size={iconSize}
+              color={color}
               name={isPrivate ? 'md-lock' : 'md-chatbubbles'}
             />
           </View>
-          <View>
+          <View style={styles.text}>
             <Text>{name}</Text>
-            {description && description.length > 0 &&
+            {!!description &&
               <Text
                 numberOfLines={1}
                 style={styles.description}

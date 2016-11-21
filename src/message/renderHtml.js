@@ -50,6 +50,8 @@ const styles = {
   userMention: {
     fontWeight: 'normal',
     backgroundColor: '#eee',
+    borderColor: '#aaa',
+    padding: 2,
   },
 };
 
