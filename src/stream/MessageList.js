@@ -1,7 +1,4 @@
 import React from 'react';
-import {
-  StyleSheet,
-} from 'react-native';
 
 import InfiniteScrollView from './InfiniteScrollView';
 import StreamMessageHeader from '../message/headers/StreamMessageHeader';
@@ -12,12 +9,6 @@ import {
   rewriteLink,
 } from '../utils/message';
 import { getAuthHeader } from '../api/apiFetch';
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: '#fff',
-  },
-});
 
 export default class MessageList extends React.PureComponent {
 
@@ -47,7 +38,8 @@ export default class MessageList extends React.PureComponent {
         />
       );
     }
-    return undefined;
+
+    return null;
   }
 
   populateStream(items) {
@@ -84,16 +76,16 @@ export default class MessageList extends React.PureComponent {
   }
 
   render() {
+    const { caughtUp, fetchOlder, fetchNewer } = this.props;
     const stream = [];
     const headerIndices = this.populateStream(stream);
     return (
       <InfiniteScrollView
-        style={styles.scrollView}
         automaticallyAdjustContentInset="false"
-        autoScrollToBottom={this.props.caughtUp}
+        autoScrollToBottom={caughtUp}
         stickyHeaderIndices={headerIndices}
-        onStartReached={this.props.fetchOlder}
-        onEndReached={this.props.fetchNewer}
+        onStartReached={fetchOlder}
+        onEndReached={fetchNewer}
       >
         {stream}
       </InfiniteScrollView>

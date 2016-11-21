@@ -24,6 +24,7 @@ class StreamAutocomplete extends Component {
             key={x.stream_id}
             name={x.name}
             isPrivate={x.invite_only}
+            iconSize={12}
             color={x.color}
             onPress={() => onAutocomplete(x.name)}
           />
