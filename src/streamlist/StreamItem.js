@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
   },
   description: {
     opacity: 0.75,
+    fontSize: 12,
   },
   iconWrapper: {
     margin: 4,

@@ -1,18 +1,20 @@
 import React from 'react';
 import {
   StyleSheet,
-  View,
   Text,
+  View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { streamNarrow, topicNarrow } from '../../utils/narrow';
+import { Touchable } from '../../common';
+import TopicMessageHeader from './TopicMessageHeader';
+import { streamNarrow } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
-    backgroundColor: '#ddd',
+    backgroundColor: '#eee',
   },
   stream: {
     padding: 4,
@@ -25,6 +27,15 @@ const styles = StyleSheet.create({
   },
   icon: {
     padding: 6,
+  },
+  triangle: {
+    borderTopWidth: 15,
+    borderRightWidth: 0,
+    borderBottomWidth: 15,
+    borderLeftWidth: 15,
+    borderTopColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: 'transparent',
   }
 });
 
@@ -39,17 +50,8 @@ export default class StreamMessageHeader extends React.PureComponent {
     );
   }
 
-  performTopicNarrow = () => {
-    const { narrow, item, stream, topic } = this.props;
-    narrow(
-      topicNarrow(stream, topic),
-      item.id,
-      [item]
-    );
-  }
-
   render() {
-    const { stream, isPrivate, topic, color } = this.props;
+    const { stream, isPrivate, topic, color, item, narrow } = this.props;
     const textColor = foregroundColorFromBackground(color);
     const colors = {
       color: textColor,
@@ -59,25 +61,23 @@ export default class StreamMessageHeader extends React.PureComponent {
 
     return (
       <View style={styles.header}>
-        <Icon
-          name={iconType}
-          color={textColor}
-          size={16}
-          style={[styles.icon, colors]}
-        />
-        <Text
-          style={[styles.stream, colors]}
-          onPress={this.performStreamNarrow}
-        >
-          {stream}
-        </Text>
-        <Text
-          style={styles.topic}
-          numberOfLines={1}
-          onPress={this.performTopicNarrow}
-        >
-          {topic}
-        </Text>
+        <Touchable onPress={this.performStreamNarrow}>
+          <View style={styles.header}>
+            <Icon
+              name={iconType}
+              color={textColor}
+              size={16}
+              style={[styles.icon, colors]}
+            />
+            <Text
+              style={[styles.stream, colors]}
+            >
+              {stream}
+            </Text>
+          </View>
+        </Touchable>
+        <View style={[styles.triangle, { borderLeftColor: color }]} />
+        <TopicMessageHeader item={item} topic={topic} narrow={narrow} />
       </View>
     );
   }

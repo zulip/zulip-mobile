@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import { Touchable } from '../../common';
 import { privateNarrow } from '../../utils/narrow';
 
 const styles = StyleSheet.create({
@@ -38,18 +39,16 @@ export default class PrivateMessageHeader extends React.PureComponent {
   render() {
     const { recipients } = this.props;
     const others = recipients.map(r => r.full_name).sort().join(', ');
-    // const title = others ? `You and ${others}` : 'Just You';
 
     return (
-      <View style={styles.header}>
-        <Icon name="md-text" color="white" size={16} style={styles.icon} />
-        <Text
-          style={styles.private}
-          onPress={this.performNarrow}
-        >
-          {others}
-        </Text>
-      </View>
+      <Touchable onPress={this.performNarrow}>
+        <View style={styles.header}>
+          <Icon name="md-text" color="white" size={16} style={styles.icon} />
+          <Text style={styles.private}>
+            {others}
+          </Text>
+        </View>
+      </Touchable>
     );
   }
 }
