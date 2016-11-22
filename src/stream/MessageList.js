@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 
 import InfiniteScrollView from './InfiniteScrollView';
 import MessageHeader from '../message/headers/MessageHeader';
@@ -8,6 +9,12 @@ import {
   rewriteLink,
 } from '../utils/message';
 import { getAuthHeader } from '../api/apiFetch';
+
+const styles = StyleSheet.create({
+  list: {
+    backgroundColor: 'white',
+  },
+});
 
 export default class MessageList extends React.PureComponent {
 
@@ -58,6 +65,7 @@ export default class MessageList extends React.PureComponent {
     const headerIndices = this.populateStream(stream);
     return (
       <InfiniteScrollView
+        style={styles.list}
         automaticallyAdjustContentInset="false"
         autoScrollToBottom={caughtUp}
         stickyHeaderIndices={headerIndices}
