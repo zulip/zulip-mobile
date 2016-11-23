@@ -3,7 +3,6 @@ import Immutable from 'immutable';
 import {
   STREAM_FETCHING_MESSAGES,
   STREAM_FETCHED_MESSAGES,
-  STREAM_FETCHING_FAILED,
   STREAM_SET_MESSAGES,
   EVENT_NEW_MESSAGE,
 } from '../constants';
@@ -27,23 +26,14 @@ function mergeMessages(state, action, appendNewMessages = false) {
   ).unshift(...action.messages);
 }
 
-const reducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case STREAM_FETCHING_MESSAGES:
       return {
         ...state,
         fetching: true,
       };
-    case STREAM_FETCHING_FAILED:
-      return {
-        ...state,
-        fetching: false,
-      };
     case STREAM_FETCHED_MESSAGES: {
-      /**
-       * We've received messages and need to combine them with our
-       * existing messages
-       */
       const messages = mergeMessages(state, action, action.shouldAppend);
       return {
         ...state,
@@ -81,5 +71,3 @@ const reducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export default reducer;
