@@ -2,15 +2,10 @@ import React from 'react';
 import {
   AppState,
 } from 'react-native';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
-import { sendInitialGetUsers } from '../userlist/userListActions';
-import { appActivity } from '../app/appActions';
-import { sendGetMessages, sendSetMessages } from '../stream/streamActions';
-import { getEvents } from '../events/eventActions';
-import { openStreamSidebar, closeStreamSidebar } from '../nav/navActions';
 import MainScreen from './MainScreen';
 
 class MainScreenContainer extends React.Component {
@@ -47,31 +42,21 @@ class MainScreenContainer extends React.Component {
 
   render() {
     return (
-      <MainScreen />
+      <MainScreen {...this.props} />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
   auth: getAuth(state),
+  isOnline: state.app.get('isOnline'),
   subscriptions: state.subscriptions,
-  messages: state.stream.messages,
-  fetching: state.stream.fetching,
-  narrow: state.stream.narrow,
-  pointer: state.stream.pointer,
-  caughtUp: state.stream.caughtUp,
+  messages: state.messages.messages,
+  fetching: state.messages.fetching,
+  narrow: state.messages.narrow,
+  pointer: state.messages.pointer,
+  caughtUp: state.messages.caughtUp,
   streamlistOpened: state.nav.opened,
 });
 
-const mapDispatchToProps = (dispatch, ownProps) =>
-  bindActionCreators({
-    appActivity,
-    sendInitialGetUsers,
-    sendGetMessages,
-    sendSetMessages,
-    getEvents,
-    openStreamSidebar,
-    closeStreamSidebar,
-  }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainScreenContainer);
+export default connect(mapStateToProps, boundActions)(MainScreenContainer);

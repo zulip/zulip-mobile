@@ -3,18 +3,15 @@ import {
   StatusBar,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
-import { connect } from 'react-redux';
 
 import { OfflineNotice } from '../common';
-import boundActions from '../boundActions';
-import { getAuth } from '../account/accountSelectors';
-import MessageList from '../stream/MessageList';
+import MessageList from '../message-list/MessageList';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
 import ComposeBox from '../compose/ComposeBox';
 import UserListContainer from '../userlist/UserListContainer';
 
-class MainScreen extends React.Component {
+export default class MainScreen extends React.Component {
 
   fetchOlder = () => {
     const { auth, fetching, narrow, pointer, sendGetMessages } = this.props;
@@ -105,19 +102,3 @@ class MainScreen extends React.Component {
     );
   }
 }
-
-export default connect(
-  (state) => ({
-    auth: getAuth(state),
-    isOnline: state.app.get('isOnline'),
-    subscriptions: state.subscriptions,
-    messages: state.stream.messages,
-    twentyFourHourTime: state.realm.twentyFourHourTime,
-    fetching: state.stream.fetching,
-    narrow: state.stream.narrow,
-    pointer: state.stream.pointer,
-    caughtUp: state.stream.caughtUp,
-    streamlistOpened: state.nav.opened,
-  }),
-  boundActions,
-)(MainScreen);
