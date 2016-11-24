@@ -1,7 +1,7 @@
 import {
-  STREAM_FETCHING_MESSAGES,
-  STREAM_FETCHED_MESSAGES,
-  STREAM_SET_MESSAGES,
+  CHAT_FETCHING_MESSAGES,
+  CHAT_FETCHED_MESSAGES,
+  CHAT_SET_MESSAGES,
 } from '../constants';
 
 const initialState = {
@@ -12,12 +12,12 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case STREAM_FETCHING_MESSAGES:
+    case CHAT_FETCHING_MESSAGES:
       return {
         ...state,
         fetching: true,
       };
-    case STREAM_FETCHED_MESSAGES: {
+    case CHAT_FETCHED_MESSAGES: {
       return {
         ...state,
         fetching: false,
@@ -26,7 +26,7 @@ export default (state = initialState, action) => {
       };
     }
 
-    case STREAM_SET_MESSAGES: {
+    case CHAT_SET_MESSAGES: {
       return {
         ...state,
         fetching: action.fetching,

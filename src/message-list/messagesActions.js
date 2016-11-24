@@ -1,8 +1,8 @@
 import { getMessages } from '../api';
 import {
-  STREAM_FETCHING_MESSAGES,
-  STREAM_FETCHED_MESSAGES,
-  STREAM_SET_MESSAGES,
+  CHAT_FETCHING_MESSAGES,
+  CHAT_FETCHED_MESSAGES,
+  CHAT_SET_MESSAGES,
 } from '../constants';
 
 export const sendSetMessages = (
@@ -12,7 +12,7 @@ export const sendSetMessages = (
 ) =>
   (dispatch) => {
     dispatch({
-      type: STREAM_SET_MESSAGES,
+      type: CHAT_SET_MESSAGES,
       messages,
       fetching,
       caughtUp,
@@ -27,7 +27,7 @@ export const sendGetMessages = (
   narrow
 ) =>
   async (dispatch) => {
-    dispatch({ type: STREAM_FETCHING_MESSAGES });
+    dispatch({ type: CHAT_FETCHING_MESSAGES });
 
     const messages = await getMessages(
       auth,
@@ -38,7 +38,7 @@ export const sendGetMessages = (
     );
 
     dispatch({
-      type: STREAM_FETCHED_MESSAGES,
+      type: CHAT_FETCHED_MESSAGES,
       auth,
       messages,
       anchor,

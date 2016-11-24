@@ -1,6 +1,4 @@
-export const getPointer = (state) => {
-  const messages = state.messages.toJS();
-  return (messages.length === 0 ?
+export const getPointer = (state) =>
+  (state.messages.length === 0 ?
     [0, 0] :
-    [messages[0].id, messages[messages.length - 1].id]);
-};
+    [state.messages[0].id, state.messages[state.messages.length - 1].id]);
