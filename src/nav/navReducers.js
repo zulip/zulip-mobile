@@ -8,7 +8,7 @@ import {
   CLOSE_STREAM_SIDEBAR,
   SET_AUTH_TYPE,
   LOGIN_SUCCESS,
-  STREAM_SET_MESSAGES,
+  CHAT_SET_MESSAGES,
 } from '../constants';
 
 const {
@@ -37,7 +37,7 @@ export default (state = initialState, action) => {
         ...state,
         opened: false,
       };
-    case STREAM_SET_MESSAGES:
+    case CHAT_SET_MESSAGES:
       return {
         ...state,
         opened: false,

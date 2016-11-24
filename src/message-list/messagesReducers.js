@@ -1,28 +1,26 @@
-import Immutable from 'immutable';
-
 import {
-  STREAM_FETCHED_MESSAGES,
-  STREAM_SET_MESSAGES,
+  CHAT_FETCHED_MESSAGES,
+  CHAT_SET_MESSAGES,
   EVENT_NEW_MESSAGE,
 } from '../constants';
 
-const initialState = new Immutable.List();
+const initialState = [];
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case STREAM_FETCHED_MESSAGES:
-      if (action.shouldAppend) {
-        return state.filter((v) =>
-          v.id !== action.anchor
-        ).concat(action.messages);
-      }
-      return state.filter((v) =>
-        v.id !== action.anchor
-      ).unshift(...action.messages);
-    case STREAM_SET_MESSAGES:
-      return new Immutable.List(action.messages);
+    case CHAT_SET_MESSAGES:
+      return [].concat(action.messages);
     case EVENT_NEW_MESSAGE:
-      return state.messages.push(action.message);
+      return state.concat([action.message]);
+    case CHAT_FETCHED_MESSAGES: {
+      const keepMessages = state.filter(x =>
+        x.id !== action.anchor
+      );
+      if (action.shouldAppend) {
+        return keepMessages.concat(action.messages);
+      }
+      return action.messages.concat(keepMessages);
+    }
     default:
       return state;
   }

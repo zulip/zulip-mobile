@@ -8,7 +8,6 @@ import {
 import {
   homeNarrow,
   privateNarrow,
-  streamNarrow,
   mentionedNarrow,
   starredNarrow,
 } from '../utils/narrow';
