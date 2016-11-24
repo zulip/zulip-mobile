@@ -1,72 +1,28 @@
 import Immutable from 'immutable';
 
 import {
-  STREAM_FETCHING_MESSAGES,
   STREAM_FETCHED_MESSAGES,
   STREAM_SET_MESSAGES,
   EVENT_NEW_MESSAGE,
 } from '../constants';
 
-const initialState = {
-  messages: new Immutable.List(),
-  fetching: false,
-  pointer: [0, 0],
-  caughtUp: false,
-  narrow: {},
-};
-
-function mergeMessages(state, action, appendNewMessages = false) {
-  if (appendNewMessages) {
-    return state.messages.filter((v) =>
-      v.id !== action.anchor
-    ).concat(action.messages);
-  }
-  return state.messages.filter((v) =>
-    v.id !== action.anchor
-  ).unshift(...action.messages);
-}
+const initialState = new Immutable.List();
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case STREAM_FETCHING_MESSAGES:
-      return {
-        ...state,
-        fetching: true,
-      };
-    case STREAM_FETCHED_MESSAGES: {
-      const messages = mergeMessages(state, action, action.shouldAppend);
-      return {
-        ...state,
-        messages,
-        pointer: [messages.first().id, messages.last().id],
-        fetching: false,
-        narrow: action.narrow,
-        caughtUp: action.caughtUp,
-      };
-    }
-
-    case STREAM_SET_MESSAGES: {
-      const messages = new Immutable.List(action.messages);
-      let pointer = [0, 0];
-      if (action.messages.length) {
-        pointer = [messages.first().id, messages.last().id];
+    case STREAM_FETCHED_MESSAGES:
+      if (action.shouldAppend) {
+        return state.filter((v) =>
+          v.id !== action.anchor
+        ).concat(action.messages);
       }
-      return {
-        ...state,
-        messages,
-        pointer,
-        fetching: action.fetching,
-        caughtUp: action.caughtUp,
-      };
-    }
-
+      return state.filter((v) =>
+        v.id !== action.anchor
+      ).unshift(...action.messages);
+    case STREAM_SET_MESSAGES:
+      return new Immutable.List(action.messages);
     case EVENT_NEW_MESSAGE:
-      // TODO: fix this logic, it's really hacky
-      return {
-        ...state,
-        messages: state.messages.push(action.message),
-        pointer: [state.pointer[0], action.message.id],
-      };
+      return state.messages.push(action.message);
     default:
       return state;
   }
