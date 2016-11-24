@@ -6,13 +6,13 @@ import messages from './message-list/messagesReducers';
 import nav from './nav/navReducers';
 import realm from './realm/realmReducers';
 import subscriptions from './subscriptions/subscriptionsReducers';
-// import chat from './chat/chatReducers';
+import chat from './chat/chatReducers';
 import userlist from './userlist/userListReducers';
 
 export default combineReducers({
   account,
   app,
-//  chat,
+  chat,
   events,
   messages,
   nav,

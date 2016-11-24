@@ -5,6 +5,7 @@ import {
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
+import { getPointer } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
 import MainScreen from './MainScreen';
 
@@ -51,11 +52,11 @@ const mapStateToProps = (state) => ({
   auth: getAuth(state),
   isOnline: state.app.get('isOnline'),
   subscriptions: state.subscriptions,
-  messages: state.messages.messages,
-  fetching: state.messages.fetching,
-  narrow: state.messages.narrow,
-  pointer: state.messages.pointer,
-  caughtUp: state.messages.caughtUp,
+  messages: state.messages,
+  fetching: state.chat.fetching,
+  narrow: state.chat.narrow,
+  pointer: getPointer(state),
+  caughtUp: state.chat.caughtUp,
   streamlistOpened: state.nav.opened,
 });
 
