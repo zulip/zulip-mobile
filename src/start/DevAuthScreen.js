@@ -50,7 +50,7 @@ class DevAuthScreen extends React.Component {
 
     try {
       const apiKey = await devFetchApiKey(auth, email);
-      this.props.loginSuccess(auth.get('realm'), email, apiKey);
+      this.props.loginSuccess(auth.realm, email, apiKey);
       this.setState({ progress: false });
     } catch (err) {
       this.setState({ progress: false, error: err.message });

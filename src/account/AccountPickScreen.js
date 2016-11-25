@@ -15,8 +15,7 @@ class AccountPickScreen extends React.Component {
 
   handleAccountSelect = (index: number) => {
     const { accounts, selectAccount, navigateTo } = this.props;
-    const account = accounts.get(index);
-    const { apiKey, authType } = account.toJS();
+    const { apiKey, authType } = accounts[index];
     selectAccount(index);
     if (apiKey) {
       this.props.initRoutes(['main']);

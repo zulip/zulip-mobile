@@ -20,8 +20,9 @@ class LogoutButton extends Component {
 
   logout = () => {
     this.props.logout(this.props.accounts);
-    const accoutsLoggedOut = this.props.accounts.setIn([0, 'apiKey'], '');
-    this.props.initRoutes(getInitialRoutes(accoutsLoggedOut));
+    const accoutsLoggedOut = this.props.accounts.slice();
+    accoutsLoggedOut[0].apiKey = '';
+    this.props.initRoutes(getInitialRoutes(this.props.accounts));
   }
 
   render() {

@@ -1,22 +1,22 @@
 export const getInitialRoutes = (accounts: any[]): string => {
-  const activeAccount = accounts.get(0);
+  const activeAccount = accounts[0];
 
-  if (activeAccount && activeAccount.get('apiKey')) {
+  if (activeAccount && activeAccount.apiKey) {
     return ['main'];
   }
 
   const routeList = [];
 
-  if (accounts.size > 1) routeList.push('account');
+  if (accounts.length > 1) routeList.push('account');
 
   routeList.push('realm');
 
   if (activeAccount) {
-    if (activeAccount.get('email')) {
+    if (activeAccount.email) {
       routeList.push('password');
-    } else if (activeAccount.get('todo')) {
+    } else if (activeAccount.todo) {
       routeList.push('dev');
-    } else if (activeAccount.get('todo2')) {
+    } else if (activeAccount.todo2) {
       routeList.push('google');
     }
   }

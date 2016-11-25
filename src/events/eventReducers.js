@@ -6,7 +6,7 @@ const initialState = {
   queueId: null,
 };
 
-const reducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case EVENTS_REGISTERED:
       return {
@@ -17,5 +17,3 @@ const reducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export default reducer;

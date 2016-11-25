@@ -20,7 +20,7 @@ class NavigationContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  isLoggedIn: state.app.get('isLoggedIn'),
+  isLoggedIn: state.app.isLoggedIn,
   accounts: state.account,
   navigation: state.nav,
 });

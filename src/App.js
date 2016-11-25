@@ -7,7 +7,7 @@ const App = (props) =>
   <NavigationContainer />;
 
 const mapStateToProps = (state) => ({
-  isLoggedIn: state.app.get('isLoggedIn'),
+  isLoggedIn: state.app.isLoggedIn,
 });
 
 export default connect(mapStateToProps)(App);

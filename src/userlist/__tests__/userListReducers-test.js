@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import {
   GET_USER_RESPONSE,
   PRESENCE_RESPONSE,
@@ -18,8 +17,8 @@ test('on unrecognized action, returns input state unchanged', () => {
 
 test('on GET_USER_RESPONSE stores user data', () => {
   const users = [{ full_name: 'user1' }, { full_name: 'user2' }];
-  const newState = userListReducers(fromJS([]), { type: GET_USER_RESPONSE, users });
-  expect(newState.size).toEqual(2);
+  const newState = userListReducers([], { type: GET_USER_RESPONSE, users });
+  expect(newState.length).toEqual(2);
 });
 
 test('activityFromPresence, when single presence, just returns status', () => {
@@ -86,17 +85,17 @@ test('PRESENCE_RESPONSE merges a single user in presence response', () => {
       },
     },
   };
-  const prevState = fromJS([{
+  const prevState = [{
     full_name: 'Some Guy',
     email: 'email@example.com',
     status: 'offline',
-  }]);
-  const expectedState = fromJS([{
+  }];
+  const expectedState = [{
     full_name: 'Some Guy',
     email: 'email@example.com',
     status: 'active',
     timestamp: fiveSecsAgo,
-  }]);
+  }];
 
   const newState = userListReducers(prevState, { type: PRESENCE_RESPONSE, presence });
 
@@ -119,17 +118,17 @@ test('PRESENCE_RESPONSE merges users, skips non existing', () => {
       },
     },
   };
-  const prevState = fromJS([{
+  const prevState = [{
     full_name: 'Some Guy',
     email: 'email@example.com',
     status: 'offline',
-  }]);
-  const expectedState = fromJS([{
+  }];
+  const expectedState = [{
     full_name: 'Some Guy',
     email: 'email@example.com',
     status: 'active',
     timestamp: fiveSecsAgo,
-  }]);
+  }];
 
   const newState = userListReducers(prevState, { type: PRESENCE_RESPONSE, presence });
 
@@ -182,7 +181,7 @@ test('PRESENCE_RESPONSE merges multiple users in presence response', () => {
       },
     },
   };
-  const prevState = fromJS([{
+  const prevState = [{
     full_name: 'Some Guy',
     email: 'email@example.com',
     status: 'offline',
@@ -194,8 +193,8 @@ test('PRESENCE_RESPONSE merges multiple users in presence response', () => {
     full_name: 'Jane Doe',
     email: 'janedoe@example.com',
     status: 'offline',
-  }]);
-  const expectedState = fromJS([{
+  }];
+  const expectedState = [{
     full_name: 'Some Guy',
     email: 'email@example.com',
     status: 'offline',
@@ -210,7 +209,7 @@ test('PRESENCE_RESPONSE merges multiple users in presence response', () => {
     email: 'janedoe@example.com',
     status: 'offline',
     timestamp: 1475792203,
-  }]);
+  }];
 
   const newState = userListReducers(prevState, { type: PRESENCE_RESPONSE, presence });
 

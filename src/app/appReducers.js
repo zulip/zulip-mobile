@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import { REHYDRATE } from 'redux-persist/constants';
 
 import {
@@ -10,44 +9,51 @@ import {
   APP_ACTIVITY,
 } from '../constants';
 
-const initialState = fromJS({
+const initialState = {
   lastActivityTime: new Date(),
   isHydrated: false,
   isLoggedIn: false,
   isOnline: true,
-});
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
-      return state.merge({
+      return {
+        ...state,
         isLoggedIn: true,
-      });
+      };
     case LOGIN_FAILURE:
-      return state.merge({
+      return {
+        ...state,
         isLoggedIn: true,
-      });
+      };
     case REHYDRATE:
-      return state.merge({
+      return {
+        ...state,
         isHydrated: true,
-        isLoggedIn: !!(action.payload.auth && action.payload.auth.get('apiKey')),
-      });
+        isLoggedIn: !!(action.payload.auth && action.payload.auth.apiKey),
+      };
     case LOGOUT:
-      return state.merge({
+      return {
+        ...state,
         isLoggedIn: false,
-      });
+      };
     case APP_ACTIVITY:
-      return state.merge({
+      return {
+        ...state,
         lastActivityTime: new Date(),
-      });
+      };
     case APP_ONLINE:
-      return state.merge({
+      return {
+        ...state,
         isOnline: true,
-      });
+      };
     case APP_OFFLINE:
-      return state.merge({
+      return {
+        ...state,
         isOnline: false,
-      });
+      };
     default:
       return state;
   }

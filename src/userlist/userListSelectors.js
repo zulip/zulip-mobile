@@ -19,20 +19,20 @@ export const groupUsersByInitials = (users: any[]): any[] =>
 
 export const sortUserList = (users: any[]): any[] =>
   users.sort((x1, x2) =>
-    statusOrder(x1.get('status')) - statusOrder(x2.get('status')) ||
-    x1.get('fullName').toLowerCase().localeCompare(x2.get('fullName').toLowerCase())
+    statusOrder(x1.status) - statusOrder(x2.status) ||
+    x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase())
   );
 
 export const filterUsersStartingWith = (users: any[], filter: string = '', ownEmail: string): any[] =>
   users.filter(user =>
-    user.get('email') !== ownEmail &&
-    user.get('fullName').toLowerCase().startsWith(filter.toLowerCase())
+    user.email !== ownEmail &&
+    user.fullName.toLowerCase().startsWith(filter.toLowerCase())
   );
 
 export const filterUserList = (users: any[], filter: string = '', ownEmail: string): any[] =>
   users.filter(user =>
-    user.get('email') !== ownEmail &&
+    user.email !== ownEmail &&
     (filter === '' ||
-    user.get('fullName').toLowerCase().includes(filter.toLowerCase()) ||
-    user.get('email').toLowerCase().includes(filter.toLowerCase()))
+    user.fullName.toLowerCase().includes(filter.toLowerCase()) ||
+    user.email.toLowerCase().includes(filter.toLowerCase()))
   );

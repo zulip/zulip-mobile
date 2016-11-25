@@ -58,7 +58,7 @@ To contribute, browse open issues [here](https://github.com/zulip/zulip-mobile/i
 
 **zulip-mobile** uses the Redux for state management and data flow. Please read the [Redux docs](http://redux.js.org) for more information on the Redux architecture and terminology (such as actions, reducers and stores).
 
-At a high-level, all state in the app is immutable and stored in one place. Modifying state requires new copies of each data structure or structural sharing via [Immutable.js](https://facebook.github.io/immutable-js/).
+At a high-level, global app state should be immutable and is stored in centralized place. Modifying state requires new copies of each data structure.
 
 We use selectors to extract (or select) data from Redux Stores. [Learn more about the concept of selectors](http://redux.js.org/docs/recipes/ComputingDerivedData.html) We might use [Reselect](https://github.com/reactjs/reselect) for memoized selectors, when/if need for more performance arises.
 

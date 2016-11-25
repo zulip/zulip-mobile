@@ -23,8 +23,8 @@ export default class MessageList extends React.PureComponent {
     const context = {
       rewriteLink: (uri) => rewriteLink(
         uri,
-        this.props.auth.get('realm'),
-        getAuthHeader(this.props.auth.get('email'), this.props.auth.get('apiKey')),
+        this.props.auth.realm,
+        getAuthHeader(this.props.auth.email, this.props.auth.apiKey),
       ),
     };
     let prevItem;
