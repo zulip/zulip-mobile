@@ -18,8 +18,7 @@ class PeopleAutocomplete extends Component {
   render() {
     const { filter, ownEmail, users, onAutocomplete } = this.props;
     const people = sortUserList(filterUsersStartingWith(users, filter, ownEmail))
-      .slice(1, 5)
-      .toJS();
+      .slice(1, 5);
 
     if (people.length === 0) return null;
 
@@ -39,7 +38,7 @@ class PeopleAutocomplete extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ownEmail: getAuth(state).get('email'),
+  ownEmail: getAuth(state).email,
   users: state.userlist,
 });
 

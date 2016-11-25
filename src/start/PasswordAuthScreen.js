@@ -38,7 +38,7 @@ class PasswordAuthScreen extends React.Component {
 
     try {
       const apiKey = await fetchApiKey(auth, email, password);
-      loginSuccess(auth.get('realm'), email, apiKey);
+      loginSuccess(auth.realm, email, apiKey);
       this.setState({ progress: false });
     } catch (err) {
       this.setState({ progress: false, error: err.message });
@@ -81,8 +81,8 @@ class PasswordAuthScreen extends React.Component {
 export default connect(
   (state) => ({
     auth: getAuth(state),
-    email: getAuth(state).get('email'),
-    password: getAuth(state).get('password'),
+    email: getAuth(state).email,
+    password: getAuth(state).password,
   }),
   boundActions,
 )(PasswordAuthScreen);

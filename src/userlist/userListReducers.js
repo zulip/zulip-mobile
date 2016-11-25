@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import { UserStatus } from '../api';
 import {
   EVENT_PRESENCE,
@@ -45,23 +44,27 @@ export const timestampFromPresence = (presence: Presence): UserStatus =>
 export const activityFromTimestamp = (activity: string, timestamp: number) =>
   ((new Date() / 1000) - timestamp > 60 ? 'offline' : activity);
 
-const initialState = fromJS([]);
+const initialState = [];
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case PRESENCE_RESPONSE: {
       return Object.keys(action.presence).reduce((currentState, email) => {
-        const userIndex = state.findIndex(u => u.get('email') === email);
+        const userIndex = state.findIndex(u => u.email === email);
         if (userIndex === -1) return currentState;
 
         const presenceEntry = action.presence[email];
         const timestamp = timestampFromPresence(presenceEntry);
         const status = activityFromTimestamp(activityFromPresence(presenceEntry), timestamp);
-        return currentState.setIn([userIndex, 'status'], status).setIn([userIndex, 'timestamp'], timestamp);
-      }, state);
+
+        currentState[userIndex].status = status;
+        currentState[userIndex].timestamp = timestamp;
+
+        return currentState;
+      }, state.slice());
     }
     case GET_USER_RESPONSE: {
-      const users = action.users.map(user => ({
+      return action.users.map(user => ({
         email: user.email,
         fullName: user.full_name,
         avatarUrl: user.avatar_url,
@@ -69,7 +72,6 @@ export default (state = initialState, action) => {
         isAdmin: user.is_admin,
         isBot: user.is_bot,
       }));
-      return state.merge(fromJS(users));
     }
     case EVENT_PRESENCE:
       // TODO

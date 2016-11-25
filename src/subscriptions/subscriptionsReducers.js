@@ -1,18 +1,14 @@
-import { fromJS } from 'immutable';
-
 import {
   REALM_INIT,
 } from '../constants';
 
-const initialState = fromJS({});
+const initialState = {};
 
-const reducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case REALM_INIT:
-      return fromJS(action.data.subscriptions);
+      return action.data.subscriptions;
     default:
       return state;
   }
 };
-
-export default reducer;

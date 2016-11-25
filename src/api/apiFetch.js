@@ -13,12 +13,11 @@ export const getAuthHeader = (email: string, apiKey: string): ?string =>
   (apiKey ? `Basic ${base64.encode(`${email}:${apiKey}`)}` : undefined);
 
 export const apiFetch = async (
-  authObj: Auth,
+  auth: Auth,
   route: string,
   params: Object = {},
   noTimeout: boolean = false,
 ) => {
-  const auth = authObj.toJS ? authObj.toJS() : authObj;
   const url = `${auth.realm}/${apiVersion}/${route}`;
   const allParams = {
     headers: {

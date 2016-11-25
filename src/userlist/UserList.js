@@ -35,7 +35,7 @@ export default class UserList extends Component {
       rowHasChanged: (r1, r2) => r1 !== r2,
       sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
     });
-    const shownUsers = sortUserList(filterUserList(users, filter, ownEmail)).toJS();
+    const shownUsers = sortUserList(filterUserList(users, filter, ownEmail));
     const groupedUsers = groupUsersByInitials(shownUsers);
     const dataSource = ds.cloneWithRowsAndSections(groupedUsers);
 

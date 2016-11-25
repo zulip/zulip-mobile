@@ -50,7 +50,7 @@ class MainScreenContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   auth: getAuth(state),
-  isOnline: state.app.get('isOnline'),
+  isOnline: state.app.isOnline,
   subscriptions: state.subscriptions,
   messages: state.messages,
   fetching: state.chat.fetching,

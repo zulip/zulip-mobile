@@ -82,7 +82,7 @@ class RealmScreen extends React.Component {
 
 export default connect(
   (state) => ({
-    realm: getAuth(state).get('realm'),
+    realm: getAuth(state).realm,
   }),
   boundActions,
 )(RealmScreen);
