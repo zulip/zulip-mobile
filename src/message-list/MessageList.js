@@ -32,7 +32,10 @@ export default class MessageList extends React.PureComponent {
     let prevItem;
     let totalIdx = 0;
     for (const item of messages) {
-      if (!sameRecipient(prevItem, item)) {
+      const diffRecipient = !sameRecipient(prevItem, item);
+      const shouldGroupWithPrev = !diffRecipient &&
+        prevItem && prevItem.sender_full_name === item.sender_full_name;
+      if (diffRecipient) {
         items.push(
           <MessageHeader
             key={`header${item.id}`}
@@ -48,6 +51,7 @@ export default class MessageList extends React.PureComponent {
       items.push(
         <MessageContainer
           key={item.id}
+          isBrief={shouldGroupWithPrev}
           from={item.sender_full_name}
           message={item.content}
           timestamp={item.timestamp}

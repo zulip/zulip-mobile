@@ -7,8 +7,10 @@ import {
 
 const styles = StyleSheet.create({
   message: {
-    padding: 8,
-    paddingLeft: 80,
+    paddingTop: 0,
+    paddingRight: 8,
+    paddingBottom: 8,
+    paddingLeft: 48,
     overflow: 'hidden',
   },
 });
