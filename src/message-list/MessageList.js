@@ -19,25 +19,27 @@ const styles = StyleSheet.create({
 export default class MessageList extends React.PureComponent {
 
   populateStream(items) {
+    const { auth, messages, subscriptions, narrow } = this.props;
+
     const headerIndices = [];
     const context = {
       rewriteLink: (uri) => rewriteLink(
         uri,
-        this.props.auth.realm,
-        getAuthHeader(this.props.auth.email, this.props.auth.apiKey),
+        auth.realm,
+        getAuthHeader(auth.email, auth.apiKey),
       ),
     };
     let prevItem;
     let totalIdx = 0;
-    for (const item of this.props.messages) {
+    for (const item of messages) {
       if (!sameRecipient(prevItem, item)) {
         items.push(
           <MessageHeader
             key={`header${item.id}`}
             item={item}
-            auth={this.props.auth}
-            subscriptions={this.props.subscriptions}
-            narrow={this.props.narrow}
+            auth={auth}
+            subscriptions={subscriptions}
+            narrow={narrow}
           />
         );
         headerIndices.push(totalIdx);
