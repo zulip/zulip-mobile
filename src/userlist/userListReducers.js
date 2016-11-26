@@ -57,8 +57,8 @@ export default (state = initialState, action) => {
         const timestamp = timestampFromPresence(presenceEntry);
         const status = activityFromTimestamp(activityFromPresence(presenceEntry), timestamp);
 
-        currentState[userIndex].status = status;
-        currentState[userIndex].timestamp = timestamp;
+        currentState[userIndex].status = status; // eslint-disable-line
+        currentState[userIndex].timestamp = timestamp; // eslint-disable-line
 
         return currentState;
       }, state.slice());
