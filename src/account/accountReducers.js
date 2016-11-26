@@ -16,14 +16,19 @@ export default (state = initialState, action) => {
       );
 
       if (accountIndex !== -1) {
-        return state
-          .unshift(state[accountIndex])
-          .delete(accountIndex + 1);
+        return [
+          state[accountIndex],
+          ...state.slice(0, accountIndex),
+          ...state.slice(accountIndex + 1),
+        ];
       }
 
-      return state.unshift({
-        realm: action.realm,
-      });
+      return [
+        {
+          realm: action.realm,
+        },
+        ...state,
+      ];
     }
     case SET_AUTH_TYPE: {
       const newState = state.slice();

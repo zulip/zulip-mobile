@@ -15,13 +15,13 @@ const styles = StyleSheet.create({
 export default class StreamSidebar extends React.Component {
 
   props: {
-    subscriptions: Object,
+    subscriptions: [],
     onNarrow: (streamName: string) => {},
   }
 
   render() {
     const { subscriptions, onNarrow } = this.props;
-    const sortedSubscriptions = subscriptions.toList().toJS()
+    const sortedSubscriptions = Object.values(subscriptions)
       .sort((a, b) => a.name.localeCompare(b.name));
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     const dataSource = ds.cloneWithRows(sortedSubscriptions);
