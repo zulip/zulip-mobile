@@ -4,10 +4,9 @@ import { StyleSheet } from 'react-native';
 import InfiniteScrollView from './InfiniteScrollView';
 import MessageHeader from '../message/headers/MessageHeader';
 import MessageContainer from '../message/MessageContainer';
-import {
-  sameRecipient,
-  rewriteLink,
-} from '../utils/message';
+import TimeRow from '../message/TimeRow';
+import { sameRecipient, rewriteLink } from '../utils/message';
+import { isSameDay } from '../utils/date';
 import { getAuthHeader } from '../api/apiFetch';
 
 const styles = StyleSheet.create({
@@ -33,8 +32,20 @@ export default class MessageList extends React.PureComponent {
     let totalIdx = 0;
     for (const item of messages) {
       const diffRecipient = !sameRecipient(prevItem, item);
-      const shouldGroupWithPrev = !diffRecipient &&
+      const diffDays = prevItem && !isSameDay(prevItem.timestamp, item.timestamp);
+      const shouldGroupWithPrev = !diffRecipient && !diffDays &&
         prevItem && prevItem.sender_full_name === item.sender_full_name;
+
+      if (diffDays) {
+        items.push(
+          <TimeRow
+            key={`time${item.timestamp}`}
+            time={item.timestamp}
+          />
+        );
+        totalIdx++;
+      }
+
       if (diffRecipient) {
         items.push(
           <MessageHeader
@@ -48,6 +59,7 @@ export default class MessageList extends React.PureComponent {
         headerIndices.push(totalIdx);
         totalIdx++;
       }
+
       items.push(
         <MessageContainer
           key={item.id}

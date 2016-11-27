@@ -1,4 +1,3 @@
-import 'react-native';
 import { normalizeRecipients, sameRecipient, rewriteLink } from '../message';
 
 describe('normalizeRecipients', () => {

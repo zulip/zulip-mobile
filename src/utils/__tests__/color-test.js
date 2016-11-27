@@ -1,4 +1,3 @@
-import 'react-native';
 import { foregroundColorFromBackground } from '../color';
 
 describe('foregroundColorFromBackground', () => {

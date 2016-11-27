@@ -1,4 +1,3 @@
-import 'react-native';
 import { colorHashFromName, initialsFromName } from '../TextAvatar';
 
 describe('colorHashFromName', () => {
