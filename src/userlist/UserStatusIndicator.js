@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   offline: {
     backgroundColor: 'transparent',
-    borderColor: 'grey',
+    borderColor: 'gray',
     borderWidth: 2,
   },
   unknown: {

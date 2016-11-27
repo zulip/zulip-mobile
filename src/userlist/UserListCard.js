@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    borderColor: 'grey',
+    borderColor: 'gray',
   },
   statusbar: {
     height: STATUSBAR_HEIGHT,

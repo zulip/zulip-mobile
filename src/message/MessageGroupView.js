@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   threadGroupStreamText: {
-    backgroundColor: '#cec',
+    backgroundColor: '#ccc',
     padding: 4,
   },
   threadGroupThreadText: {

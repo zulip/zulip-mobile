@@ -9,7 +9,7 @@ export const appActivity = (auth) =>
   async (dispatch) =>
     await focusPing(auth, true, false);
 
-export const appOniline = () => ({
+export const appOnline = () => ({
   type: APP_ONLINE,
 });
 

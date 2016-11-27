@@ -8,13 +8,13 @@ const statusOrder = (status) => {
 };
 
 export const groupUsersByInitials = (users: any[]): any[] =>
-  users.reduce((acc, x) => {
-    if (acc[x.fullName[0]]) {
-      acc[x.fullName[0]].push(x);
+  users.reduce((accounts, x) => {
+    if (accounts[x.fullName[0]]) {
+      accounts[x.fullName[0]].push(x);
     } else {
-      acc[x.fullName[0]] = []; // eslint-disable-line
+      accounts[x.fullName[0]] = []; // eslint-disable-line
     }
-    return acc;
+    return accounts;
   }, {});
 
 export const sortUserList = (users: any[]): any[] =>

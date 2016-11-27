@@ -104,7 +104,7 @@ export default class MessageFormattingHelp extends React.PureComponent {
           </View>
           <View style={styles.tr}>
             <Text>
-              You can also make tables with this Markdown-ish table syntax.
+              You can also make tables with this Markdown-like table syntax.
             </Text>
           </View>
         </View>

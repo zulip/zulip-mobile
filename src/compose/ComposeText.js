@@ -49,7 +49,7 @@ class ComposeText extends React.Component {
     this.state = {
       editing: false,
       text: '',
-      auocomplete: false,
+      autocomplete: false,
       contentHeight: MIN_HEIGHT,
     };
   }

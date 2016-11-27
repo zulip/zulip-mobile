@@ -1,7 +1,8 @@
 {
   "parser": "babel-eslint",
   "plugins": [
-    "react-native"
+    "react-native",
+    "spellcheck"
   ],
   "env": {
     "browser": true,
@@ -38,5 +39,29 @@
     "react-native/split-platform-components": 2,
     "react-native/no-inline-styles": 2,
     # to enable after refactoring "react-native/no-color-literals": 2,
+    "spellcheck/spell-checker": [1, {
+      "comments": true,
+      "strings": true,
+      "identifiers": true,
+      "lang": "en_US",
+      "skipWords": [
+        "redux", "Zulip", "uri", "timestamp", "api", "nav", "init", "auth", "prev", "utils",
+        "http", "https", "msg", "msg1", "msg2", "gif", "img", "abc", "def", "jkl", "xyz",
+        "params", "backends", "dev", "www", "johndoe", "janedoe", "func", "num", "popup",
+        "autocomplete", "rgba", "rehydrate", "rehydrated",  "async", "whitelist",
+        "subheader", "concat", "streamlist", "scrollable", "eslint", "lastword", "renderer",
+        "html", "dom", "tbody", "thead", "th", "td", "href", "pre", "blockquote", "li", "br",
+        "emojis", "chatboxes", "userlist", "middleware", "trunc", "pushable", "ios", "md",
+        "autocompleted", "substring", "png", "ds", "videocam", "unmount", "github", "facebook",
+        "idx", "aaa", "bbb", "ccc", "ddd", "eee", "fff", "abcd", "aaaaaa", "ffffff", "24cac2",
+        "src", "attribs", "charset", "utf", "urlencoded", "htmlparser", "htmlparser2",
+        "chatbubbles", "nonexisting", "primarytext", "autocomple", "stringify", "backend",
+        "Menlo", "ok", "py", "todo", "Mc",
+      ],
+      "skipIfMatch": [
+        "http://[^s]*",
+        "^[-\\w]+\/[-\\w\\.]+$" //For MIME Types
+      ]
+    }]
   }
 }

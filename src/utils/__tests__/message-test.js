@@ -23,7 +23,7 @@ describe('sameRecipient', () => {
     expect(sameRecipient(undefined, undefined)).toBe(false);
   });
 
-  test('recipient types are compared first, if they differm recipients differ', () => {
+  test('recipient types are compared first, if they differ then recipients differ', () => {
     expect(sameRecipient({ type: 'private' }, { type: 'stream' })).toBe(false);
   });
 

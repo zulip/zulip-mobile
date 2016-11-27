@@ -9,7 +9,7 @@ import accountReducers from '../accountReducers';
 
 describe('accountReducers', () => {
   describe('REALM_ADD', () => {
-    test('if no account with this realm exists, insert new account infront', () => {
+    test('if no account with this realm exists, insert new account in front', () => {
       const prevState = [
         { realm: '1' },
         { realm: '2' },
