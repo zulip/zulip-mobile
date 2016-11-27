@@ -29,16 +29,17 @@ const styles = StyleSheet.create({
 export default class TimeRow extends React.PureComponent {
 
   props: {
-    time: number,
+    timestamp: number,
   };
 
   render() {
-    const { time } = this.props;
+    const { timestamp } = this.props;
+    const displayDate = humanDate(new Date(timestamp * 1000));
 
     return (
       <View style={styles.row}>
         <View style={styles.line} />
-        <Text style={styles.time}>{humanDate(time)}</Text>
+        <Text style={styles.time}>{displayDate}</Text>
         <View style={styles.line} />
       </View>
     );

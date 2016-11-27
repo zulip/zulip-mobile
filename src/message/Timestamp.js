@@ -1,10 +1,10 @@
 import React from 'react';
-import moment from 'moment';
-
 import {
   StyleSheet,
   Text,
 } from 'react-native';
+
+import { shortTime } from '../utils/date';
 
 const styles = StyleSheet.create({
   time: {
@@ -20,16 +20,11 @@ export default class Timestamp extends React.PureComponent {
     twentyFourHourTime: bool,
   }
 
-  renderTimestamp(twentyFourHourTime, timestamp) {
-    const timeFormat = twentyFourHourTime ? 'H:MM' : 'h:MM A';
-    return moment(timestamp * 1000).format(timeFormat);
-  }
-
   render() {
     const { timestamp, twentyFourHourTime } = this.props;
     return (
       <Text style={styles.time}>
-        {this.renderTimestamp(twentyFourHourTime, timestamp)}
+        {shortTime(timestamp * 1000, twentyFourHourTime)}
       </Text>
     );
   }

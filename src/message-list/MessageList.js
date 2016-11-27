@@ -32,7 +32,8 @@ export default class MessageList extends React.PureComponent {
     let totalIdx = 0;
     for (const item of messages) {
       const diffRecipient = !sameRecipient(prevItem, item);
-      const diffDays = prevItem && !isSameDay(prevItem.timestamp, item.timestamp);
+      const diffDays = prevItem &&
+        !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
       const shouldGroupWithPrev = !diffRecipient && !diffDays &&
         prevItem && prevItem.sender_full_name === item.sender_full_name;
 
@@ -40,7 +41,7 @@ export default class MessageList extends React.PureComponent {
         items.push(
           <TimeRow
             key={`time${item.timestamp}`}
-            time={item.timestamp}
+            timestamp={item.timestamp}
           />
         );
         totalIdx++;
