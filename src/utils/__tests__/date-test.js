@@ -9,7 +9,7 @@ import {
 } from '../date';
 
 describe('shortTime', () => {
-  test('returns only hour and mintues', () => {
+  test('returns only hour and minutes', () => {
     const date = new Date(2000, 0, 1, 20, 10);
     expect(shortTime(date)).toBe('8:10 PM');
   });
