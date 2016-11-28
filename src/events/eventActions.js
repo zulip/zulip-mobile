@@ -3,6 +3,7 @@ import { pollForEvents, registerForEvents } from '../api';
 import {
   REALM_INIT,
   EVENT_NEW_MESSAGE,
+  EVENT_UPDATE_MESSAGE,
   EVENTS_REGISTERED,
   EVENT_PRESENCE,
   EVENT_UPDATE_MESSAGE_FLAGS,
@@ -43,9 +44,16 @@ const processEvent = (dispatch, event) => {
         message: event.message,
       });
       break;
+    case 'update_message':
+      dispatch({
+        type: EVENT_UPDATE_MESSAGE,
+        messageId: event.message_id,
+        newContent: event.rendered_content,
+        editTimestamp: event.edit_timestamp,
+      });
+      break;
     case 'realm_user':
     case 'subscription':
-    case 'update_message':
     case 'stream':
     case 'pointer':
       // TODO
