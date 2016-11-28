@@ -138,8 +138,6 @@ const parseDom = (dom, context, baseStyle, onPress) => {
           <Text key={index} style={baseStyle}>
             {node.name === 'li' ? [BULLET] : null}
             {children}
-            {/* {node.name === 'li' || node.name === 'br' ||
-              (node.name === 'p' && index < list.length - 1) ? ['\n'] : null} */}
           </Text>
         );
       }

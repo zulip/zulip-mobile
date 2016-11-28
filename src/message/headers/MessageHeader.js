@@ -16,7 +16,8 @@ export default class MessageHeader extends React.PureComponent {
     const { item, subscriptions, auth, narrow } = this.props;
 
     if (item.type === 'stream') {
-      const subscription = subscriptions.find(x => x.name === item.display_recipient);
+      const subscription = Object.values(subscriptions)
+        .find(x => x.name === item.display_recipient);
       return (
         <StreamMessageHeader
           key={`section_${item.id}`}
