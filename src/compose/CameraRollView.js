@@ -109,7 +109,11 @@ export default class CameraRollView extends React.Component {
     const { dataSource } = this.state;
 
     return (
-      <CameraPhotoList dataSource={dataSource} onEndReached={this.onEndReached} />
+      <CameraPhotoList
+        noMoreData={this.state.noMore}
+        dataSource={dataSource}
+        onEndReached={this.onEndReached}
+      />
     );
   }
 }

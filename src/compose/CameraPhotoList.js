@@ -10,7 +10,7 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     height: 150,
   },
   row: {
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
 export default class CameraPhotoList extends React.Component {
 
   props: {
+    noMoreData: boolean,
     dataSource: any,
     onEndReached: () => {},
   }
@@ -67,7 +68,7 @@ export default class CameraPhotoList extends React.Component {
   }
 
   renderFooterSpinner = () =>
-    (this.state.noMore ? null : <ActivityIndicator />);
+    (this.props.noMoreData ? null : <ActivityIndicator />);
 
   renderRow = (rowData: Array<Image>, sectionID: string, rowID: string) => (
     <View style={styles.row}>
