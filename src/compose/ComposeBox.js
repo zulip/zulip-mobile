@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import { BORDER_COLOR } from '../common/styles';
-import ComposeOptions from './ComposeOptions';
+// import ComposeOptions from './ComposeOptions';
 import ComposeText from './ComposeText';
 import CameraRollView from './CameraRollView';
 
@@ -51,7 +51,7 @@ export default class ComposeBox extends React.Component {
     return (
       <View style={styles.wrapper}>
         <ActiveComposeComponent />
-        <ComposeOptions selected={optionSelected} onChange={this.handleOptionSelected} />
+        {/* <ComposeOptions selected={optionSelected} onChange={this.handleOptionSelected} /> */}
       </View>
     );
   }

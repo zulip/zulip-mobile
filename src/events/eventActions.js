@@ -44,19 +44,12 @@ const processEvent = (dispatch, event) => {
       });
       break;
     case 'realm_user':
-      // TODO
-      break;
     case 'subscription':
-      // TODO
-      break;
     case 'update_message':
-      // TODO
-      break;
     case 'stream':
-      // TODO
-      break;
     case 'pointer':
       // TODO
+      console.log(event); // eslint-disable-line
       break;
     case 'heartbeat':
       // ignore, no need to handle

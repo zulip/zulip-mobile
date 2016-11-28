@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     padding: 6,
+    paddingLeft: 10,
   }
 });
 

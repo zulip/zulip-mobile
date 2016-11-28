@@ -9,7 +9,7 @@ import { BRAND_COLOR } from '../common/styles';
 
 const styles = StyleSheet.create({
   icon: {
-    padding: 4,
+    padding: 10,
     color: '#999',
   },
   iconActive: {
@@ -32,7 +32,7 @@ export default class ComposeIcon extends React.Component {
       <Touchable onPress={() => onChange(0)}>
         <Icon
           style={[styles.icon, isActive && styles.iconActive]}
-          size={22}
+          size={24}
           name={name}
         />
       </Touchable>

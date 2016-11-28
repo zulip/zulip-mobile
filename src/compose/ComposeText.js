@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   composeInput: {
     flex: 1,
     padding: 4,
+    paddingLeft: 8,
     fontSize: 16,
   },
   sendButton: {
