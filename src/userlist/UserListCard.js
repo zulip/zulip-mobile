@@ -6,6 +6,8 @@ import { STATUSBAR_HEIGHT, BRAND_COLOR } from '../common/styles';
 import { privateNarrow } from '../utils/narrow';
 import UserFilter from './UserFilter';
 import UserList from './UserList';
+import SwitchAccountButton from '../account-info/SwitchAccountButton';
+import LogoutButton from '../account-info/LogoutButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,6 +20,11 @@ const styles = StyleSheet.create({
     height: STATUSBAR_HEIGHT,
     backgroundColor: BRAND_COLOR,
   },
+  accountButtons: {
+    paddingLeft: 8,
+    paddingRight: 8,
+    flexDirection: 'row',
+  }
 });
 
 type Props = {
@@ -71,6 +78,10 @@ export default class UserListCard extends Component {
           filter={filter}
           onNarrow={this.handleUserNarrow}
         />
+        <View style={styles.accountButtons}>
+          <SwitchAccountButton />
+          <LogoutButton />
+        </View>
       </View>
     );
   }

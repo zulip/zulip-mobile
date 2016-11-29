@@ -7,6 +7,7 @@ import { Button } from '../common';
 
 const styles = StyleSheet.create({
   button: {
+    flex: 1,
     marginTop: 10,
   },
 });
