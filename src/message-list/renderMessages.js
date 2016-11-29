@@ -17,7 +17,7 @@ export default ({ auth, subscriptions, messages, narrow }) => {
   };
 
   return messages.reduce((list, item, index) => {
-    const prevItem = list[index - 1];
+    const prevItem = messages[index - 1];
 
     const diffDays = prevItem &&
       !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
