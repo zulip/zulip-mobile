@@ -1,15 +1,25 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   StatusBar,
+  StyleSheet,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 
 import { OfflineNotice } from '../common';
+import { BRAND_COLOR } from '../common/styles';
 import MessageList from '../message-list/MessageList';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
 import ComposeBox from '../compose/ComposeBox';
 import UserListContainer from '../userlist/UserListContainer';
+
+
+const styles = StyleSheet.create({
+  fetching: {
+    padding: 4,
+  },
+});
 
 export default class MainScreen extends React.Component {
 
@@ -33,8 +43,8 @@ export default class MainScreen extends React.Component {
   }
 
   render() {
-    const { auth, messages, subscriptions, streamlistOpened, caughtUp, isOnline, twentyFourHourTime,
-      openStreamSidebar, closeStreamSidebar } = this.props;
+    const { auth, messages, fetching, subscriptions, streamlistOpened, caughtUp, isOnline,
+      openStreamSidebar, closeStreamSidebar, twentyFourHourTime, } = this.props;
 
     return (
       <Drawer
@@ -82,6 +92,12 @@ export default class MainScreen extends React.Component {
             openStreamList={() => this.streamDrawer.open()}
           >
             {!isOnline && <OfflineNotice />}
+            {fetching &&
+              <ActivityIndicator
+                size="small"
+                color={BRAND_COLOR}
+                style={styles.fetching}
+              />}
             <MessageList
               messages={messages}
               twentyFourHourTime={twentyFourHourTime}
