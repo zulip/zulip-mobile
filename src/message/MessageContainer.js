@@ -21,7 +21,7 @@ export default class MessageContainer extends React.PureComponent {
   }
 
   render() {
-    const { context, avatarUrl, timestamp, from, isBrief } = this.props;
+    const { context, avatarUrl, timestamp, twentyFourHourTime, from, isBrief } = this.props;
     const { message } = this.state;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
 
@@ -31,6 +31,7 @@ export default class MessageContainer extends React.PureComponent {
         avatarUrl={context.rewriteLink(avatarUrl).uri}
         from={from}
         timestamp={timestamp}
+        twentyFourHourTime={twentyFourHourTime}
       />
     );
   }

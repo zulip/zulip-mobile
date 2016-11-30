@@ -25,17 +25,18 @@ export default class Subheader extends React.PureComponent {
   props: {
     from: string,
     timestamp: number,
+    twentyFourHourTime: bool
   };
 
   render() {
-    const { timestamp, from } = this.props;
+    const { timestamp, twentyFourHourTime, from } = this.props;
 
     return (
       <View style={styles.subheader}>
         <Text style={styles.username}>
           {from}
         </Text>
-        <Timestamp time={timestamp} />
+        <Timestamp timestamp={timestamp} twentyFourHourTime={twentyFourHourTime} />
       </View>
     );
   }

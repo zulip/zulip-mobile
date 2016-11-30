@@ -37,16 +37,17 @@ export default class MessageFull extends React.PureComponent {
     avatarUrl: string,
     from: string,
     timestamp: number,
+    twentyFourHourTime: bool,
   };
 
   render() {
-    const { message, avatarUrl, timestamp, from } = this.props;
+    const { message, avatarUrl, timestamp, twentyFourHourTime, from } = this.props;
 
     return (
       <View style={styles.message}>
         <Avatar avatarUrl={avatarUrl} name={from} />
         <View style={styles.content}>
-          <Subheader from={from} timestamp={timestamp} />
+          <Subheader from={from} timestamp={timestamp} twentyFourHourTime={twentyFourHourTime} />
           {message}
         </View>
       </View>
