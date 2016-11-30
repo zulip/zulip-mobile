@@ -78,7 +78,12 @@ export default class StreamMessageHeader extends React.PureComponent {
           </View>
         </Touchable>
         <View style={[styles.triangle, { borderLeftColor: color }]} />
-        <TopicMessageHeader item={item} topic={topic} narrow={narrow} />
+        <TopicMessageHeader
+          item={item}
+          stream={stream}
+          topic={topic}
+          narrow={narrow}
+        />
       </View>
     );
   }
