@@ -29,13 +29,12 @@ export default (state = initialState, action) => {
       ];
     }
     case CHAT_FETCHED_MESSAGES: {
-      const keepMessages = state.filter(x =>
-        x.id !== action.anchor
-      );
-      if (action.shouldAppend) {
-        return keepMessages.concat(action.messages);
-      }
-      return action.messages.concat(keepMessages);
+      const newMessages = action.messages
+        .filter(x => !state.find(msg => msg.id === x.id));
+
+      return state
+        .concat(newMessages)
+        .sort((a, b) => a.timestamp - b.timestamp);
     }
     default:
       return state;
