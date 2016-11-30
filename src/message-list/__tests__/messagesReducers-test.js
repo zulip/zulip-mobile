@@ -49,12 +49,12 @@ describe('messagesReducers', () => {
   });
 
   describe('CHAT_FETCHED_MESSAGES', () => {
-    test('when shouldAppend is true, adds messages to the end of existing ones', () => {
-      const initialState = [{ id: 1 }, { id: 2 }];
+    test('when new messages with already existing messages come, they are merged and not duplicated', () => {
+      const initialState = [{ id: 1 }, { id: 2 }, { id: 3 }];
       const action = {
         type: CHAT_FETCHED_MESSAGES,
-        shouldAppend: true,
-        messages: [{ id: 3 }, { id: 4 }],
+        shouldAppend: false,
+        messages: [{ id: 2 }, { id: 3 }, { id: 4 }],
       };
       const newState = messagesReducers(initialState, action);
       expect(newState).toEqual([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }]);
@@ -62,14 +62,28 @@ describe('messagesReducers', () => {
     });
 
     test('when shouldAppend is false, adds messages in front of existing ones', () => {
-      const initialState = [{ id: 1 }, { id: 2 }];
+      const initialState = [
+        { id: 1, timestamp: 3 },
+        { id: 2, timestamp: 4 },
+      ];
       const action = {
         type: CHAT_FETCHED_MESSAGES,
         shouldAppend: false,
-        messages: [{ id: 3 }, { id: 4 }],
+        messages: [
+          { id: 3, timestamp: 2 },
+          { id: 4, timestamp: 1 },
+        ],
       };
+      const expectedMessages = [
+        { id: 4, timestamp: 1 },
+        { id: 3, timestamp: 2 },
+        { id: 1, timestamp: 3 },
+        { id: 2, timestamp: 4 },
+      ];
+
       const newState = messagesReducers(initialState, action);
-      expect(newState).toEqual([{ id: 3 }, { id: 4 }, { id: 1 }, { id: 2 }]);
+
+      expect(newState).toEqual(expectedMessages);
       expect(newState).not.toBe(initialState);
     });
   });

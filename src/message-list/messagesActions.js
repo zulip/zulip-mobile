@@ -28,7 +28,6 @@ export const sendGetMessages = (
       messages,
       anchor,
       narrow,
-      shouldAppend: numAfter > numBefore,
       caughtUp: (numAfter >= numBefore &&
         messages.length < numAfter + numBefore + (numBefore ? 1 : 0)),
     });
