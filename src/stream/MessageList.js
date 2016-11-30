@@ -49,6 +49,7 @@ export default class MessageList extends React.PureComponent {
           from={item.sender_full_name}
           message={item.content}
           timestamp={item.timestamp}
+          twentyFourHourTime={this.props.twentyFourHourTime}
           avatarUrl={item.avatar_url}
           context={context}
         />

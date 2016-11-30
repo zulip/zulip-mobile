@@ -39,7 +39,7 @@ class MainScreen extends React.Component {
   }
 
   render() {
-    const { auth, messages, subscriptions, streamlistOpened, caughtUp, isOnline,
+    const { auth, messages, subscriptions, streamlistOpened, caughtUp, isOnline, twentyFourHourTime,
       openStreamSidebar, closeStreamSidebar } = this.props;
 
     return (
@@ -90,6 +90,7 @@ class MainScreen extends React.Component {
             {!isOnline && <OfflineNotice />}
             <MessageList
               messages={messages}
+              twentyFourHourTime={twentyFourHourTime}
               subscriptions={subscriptions}
               auth={auth}
               caughtUp={caughtUp}
@@ -111,6 +112,7 @@ export default connect(
     isOnline: state.app.get('isOnline'),
     subscriptions: state.subscriptions,
     messages: state.stream.messages,
+    twentyFourHourTime: state.realm.twentyFourHourTime,
     fetching: state.stream.fetching,
     narrow: state.stream.narrow,
     pointer: state.stream.pointer,

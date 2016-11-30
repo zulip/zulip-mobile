@@ -16,15 +16,20 @@ const styles = StyleSheet.create({
 export default class Timestamp extends React.PureComponent {
 
   props: {
-    time: number,
+    timestamp: number,
+    twentyFourHourTime: bool,
+  }
+
+  renderTimestamp(twentyFourHourTime, timestamp) {
+    const timeFormat = twentyFourHourTime ? 'H:MM' : 'h:MM A';
+    return moment(timestamp * 1000).format(timeFormat);
   }
 
   render() {
-    const { time } = this.props;
-
+    const { timestamp, twentyFourHourTime } = this.props;
     return (
       <Text style={styles.time}>
-        {moment(time * 1000).format('LT')}
+        {this.renderTimestamp(twentyFourHourTime, timestamp)}
       </Text>
     );
   }
