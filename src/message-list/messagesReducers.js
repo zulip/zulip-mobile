@@ -1,6 +1,5 @@
 import {
   CHAT_FETCHED_MESSAGES,
-  CHAT_SET_MESSAGES,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE,
 } from '../constants';
@@ -9,8 +8,6 @@ const initialState = [];
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case CHAT_SET_MESSAGES:
-      return [].concat(action.messages);
     case EVENT_NEW_MESSAGE:
       return [
         ...state,
