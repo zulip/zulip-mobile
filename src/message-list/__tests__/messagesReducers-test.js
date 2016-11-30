@@ -1,7 +1,6 @@
 import messagesReducers from '../messagesReducers';
 import {
   CHAT_FETCHED_MESSAGES,
-  CHAT_SET_MESSAGES,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE,
 } from '../../constants';
@@ -10,17 +9,6 @@ describe('messagesReducers', () => {
   test('handles unknown action and no previous state by returning initial state', () => {
     const newState = messagesReducers(undefined, {});
     expect(newState).toBeDefined();
-  });
-
-  describe('CHAT_SET_MESSAGES', () => {
-    test('replaces state with a copy of given messages', () => {
-      const initialState = [];
-      const messages = [{ id: 1 }, { id: 2 }];
-      const action = { type: CHAT_SET_MESSAGES, messages };
-      const newState = messagesReducers(initialState, action);
-      expect(newState).toEqual(messages);
-      expect(newState).not.toBe(initialState);
-    });
   });
 
   describe('EVENT_NEW_MESSAGE', () => {

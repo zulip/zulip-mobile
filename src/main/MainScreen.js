@@ -28,11 +28,8 @@ export default class MainScreen extends React.Component {
   }
 
   narrow = (narrowOperator, pointer: number = Number.MAX_SAFE_INTEGER, messages = []) => {
-    const { auth, sendSetMessages, sendGetMessages } = this.props;
-    sendSetMessages(messages);
-    requestAnimationFrame(() =>
-      sendGetMessages(auth, pointer, 10, 10, narrowOperator || {})
-    );
+    const { auth, sendGetMessages } = this.props;
+    sendGetMessages(auth, pointer, 10, 10, narrowOperator || {});
   }
 
   render() {
