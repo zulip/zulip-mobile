@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export const shortTime = (date: Date, twentyFourHourTime): string =>
-  moment(date).format(twentyFourHourTime ? 'H:MM' : 'h:MM A');
+  moment(date).format(twentyFourHourTime ? 'H:mm' : 'h:mm A');
 
 export const shortDate = (date: Date): string =>
   moment(date).format('MMM D');
