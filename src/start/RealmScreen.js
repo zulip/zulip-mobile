@@ -11,7 +11,6 @@ import AuthTypeScreen from './AuthTypeScreen';
 
 type Props = {
   realm: ?string,
-  navigateTo: (route: string) => void,
 }
 
 class RealmScreen extends React.Component {
@@ -44,7 +43,7 @@ class RealmScreen extends React.Component {
       this.props.realmAdd(realm);
       if (authBackends.length === 1) {
         this.props.setAuthType(authBackends[0]);
-        this.props.navigateTo(authBackends[0]);
+        this.props.pushRoute(authBackends[0]);
       } else {
         this.setState({ progress: false, authBackends });
       }

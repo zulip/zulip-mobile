@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 class SwitchAccountButton extends Component {
 
   switchAccount = () =>
-    this.props.pushRoute({ key: 'account' });
+    this.props.pushRoute('account');
 
   render() {
     return (

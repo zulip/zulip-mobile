@@ -46,11 +46,10 @@ class PasswordAuthScreen extends React.Component {
   };
 
   render() {
-    const { onBack } = this.props;
     const { email, password, progress, error } = this.state;
 
     return (
-      <Screen title="Login" keyboardAvoiding onBack={onBack}>
+      <Screen title="Login" keyboardAvoiding>
         <TextInput
           autoCorrect={false}
           autoFocus

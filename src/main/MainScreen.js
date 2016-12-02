@@ -1,25 +1,16 @@
 import React from 'react';
 import {
-  ActivityIndicator,
   StatusBar,
-  StyleSheet,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 
 import { OfflineNotice } from '../common';
-import { BRAND_COLOR } from '../common/styles';
 import MessageList from '../message-list/MessageList';
+import LoadingRow from '../message/LoadingRow';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
 import ComposeBox from '../compose/ComposeBox';
 import UserListContainer from '../userlist/UserListContainer';
-
-
-const styles = StyleSheet.create({
-  fetching: {
-    padding: 4,
-  },
-});
 
 export default class MainScreen extends React.Component {
 
@@ -44,7 +35,7 @@ export default class MainScreen extends React.Component {
 
   render() {
     const { auth, messages, fetching, subscriptions, streamlistOpened, caughtUp, isOnline,
-      openStreamSidebar, closeStreamSidebar, twentyFourHourTime, } = this.props;
+      twentyFourHourTime } = this.props;
 
     return (
       <Drawer
@@ -54,12 +45,8 @@ export default class MainScreen extends React.Component {
             narrow={this.narrow}
           />
         }
-        ref={
-          (streamDrawer) => { this.streamDrawer = streamDrawer; }
-        }
+        ref={(streamDrawer) => { this.streamDrawer = streamDrawer; }}
         open={streamlistOpened}
-        onOpenStart={openStreamSidebar}
-        onClose={closeStreamSidebar}
         tapToClose
         openDrawerOffset={40}
         negotiatePan
@@ -92,12 +79,7 @@ export default class MainScreen extends React.Component {
             openStreamList={() => this.streamDrawer.open()}
           >
             {!isOnline && <OfflineNotice />}
-            {fetching &&
-              <ActivityIndicator
-                size="small"
-                color={BRAND_COLOR}
-                style={styles.fetching}
-              />}
+            {fetching && <LoadingRow />}
             <MessageList
               messages={messages}
               twentyFourHourTime={twentyFourHourTime}
