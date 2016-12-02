@@ -3,11 +3,13 @@ import {
   View,
   Text,
 } from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import boundActions from '../boundActions';
 import { styles, Touchable } from '../common';
 
-export default class ModalNavBar extends React.Component {
+class ModalNavBar extends React.Component {
 
   props: {
     nav: any,
@@ -32,3 +34,10 @@ export default class ModalNavBar extends React.Component {
     );
   }
 }
+
+export default connect(
+  (state) => ({
+    nav: state.nav,
+  }),
+  boundActions,
+)(ModalNavBar);

@@ -4,13 +4,11 @@ import {
   StatusBar,
   KeyboardAvoidingView,
 } from 'react-native';
-import { connect } from 'react-redux';
 
-import boundActions from '../boundActions';
 import { styles } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
 
-class Screen extends React.Component {
+export default class Screen extends React.Component {
 
   props: {
     keyboardAvoiding: boolean,
@@ -32,10 +30,3 @@ class Screen extends React.Component {
     );
   }
 }
-
-export default connect(
-  (state) => ({
-    nav: state.nav,
-  }),
-  boundActions,
-)(Screen);

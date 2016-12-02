@@ -12,16 +12,9 @@ import PasswordAuthScreen from '../start/PasswordAuthScreen';
 import DevAuthScreen from '../start/DevAuthScreen';
 import MainScreenContainer from '../main/MainScreenContainer';
 
-const {
-  CardStack: NavigationCardStack,
-} = NavigationExperimental;
-
-type Props = {
-};
+const { CardStack: NavigationCardStack } = NavigationExperimental;
 
 export default class Navigation extends React.Component {
-
-  props: Props;
 
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.handleBackAction);
@@ -58,34 +51,13 @@ export default class Navigation extends React.Component {
   renderScene = (props) => {
     switch (props.scene.route.key) {
       case 'account':
-        return (
-          <AccountPickScreen
-            navigateTo={this.navigateTo}
-            onNext={() => this.navigateTo('realm')}
-          />
-        );
+        return <AccountPickScreen />;
       case 'realm':
-        return (
-          <RealmScreen
-            navigateTo={this.navigateTo}
-            onBack={this.handleBackAction}
-            onNext={() => this.navigateTo('password')}
-          />
-        );
+        return <RealmScreen />;
       case 'password':
-        return (
-          <PasswordAuthScreen
-            onBack={this.handleBackAction}
-            onNext={() => this.navigateTo('main')}
-          />
-        );
+        return <PasswordAuthScreen />;
       case 'dev':
-        return (
-          <DevAuthScreen
-            onBack={this.handleBackAction}
-            onNext={() => this.navigateTo('main')}
-          />
-        );
+        return <DevAuthScreen />;
       case 'main':
         return <MainScreenContainer />;
       default:

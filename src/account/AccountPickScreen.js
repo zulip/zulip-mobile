@@ -9,18 +9,19 @@ class AccountPickScreen extends React.Component {
 
   props: {
     accounts: any[],
-    navigateTo: () => void,
-    onBack: () => void,
   }
 
+  handleAddNewAccount = () =>
+    this.props.pushRoute('realm');
+
   handleAccountSelect = (index: number) => {
-    const { accounts, selectAccount, navigateTo } = this.props;
+    const { accounts, selectAccount, pushRoute, initRoutes } = this.props;
     const { apiKey, authType } = accounts[index];
     selectAccount(index);
     if (apiKey) {
-      this.props.initRoutes(['main']);
+      initRoutes(['main']);
     } else {
-      navigateTo(authType);
+      pushRoute(authType);
     }
   };
 
@@ -28,10 +29,10 @@ class AccountPickScreen extends React.Component {
     this.props.removeAccount(index);
 
   render() {
-    const { accounts, onBack, onNext } = this.props;
+    const { accounts } = this.props;
 
     return (
-      <Screen title="Pick Account" onBack={onBack}>
+      <Screen title="Pick Account">
         <Logo />
         <AccountList
           accounts={accounts}
@@ -40,7 +41,7 @@ class AccountPickScreen extends React.Component {
         />
         <Button
           text="Add new account"
-          onPress={onNext}
+          onPress={this.handleAddNewAccount}
         />
       </Screen>
     );
