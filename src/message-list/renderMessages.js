@@ -43,6 +43,7 @@ export default ({ auth, subscriptions, messages, narrow }) =>
     list.push(
       <MessageContainer
         key={item.id}
+        auth={auth}
         isBrief={shouldGroupWithPrev}
         from={item.sender_full_name}
         message={item.content}

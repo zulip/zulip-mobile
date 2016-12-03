@@ -10,7 +10,7 @@ beforeAll(() => {
 });
 
 const check = (html) => async () => {
-  const rendered = await renderHtml(html);
+  const rendered = await renderHtml(html, { realm: '' });
   const tree = renderer.create(
     <View>{rendered}</View>
   ).toJSON();

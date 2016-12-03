@@ -7,7 +7,7 @@ import {
 import entities from 'entities';
 import htmlparser from 'htmlparser2';
 
-import { getFullUrl } from '../utils/url';
+import { getResourceWithAuth } from '../utils/url';
 import { Touchable } from '../common';
 
 const styles = {
@@ -71,8 +71,8 @@ const tagStyles = {
 const BULLET = '\u2022 ';
 const INLINETAGS = new Set(['li', 'span', 'strong', 'b', 'i', 'a', 'p']);
 
-const parseImg = (node, index, context, onPress) => {
-  const source = getFullUrl(node.attribs.src); // TODO
+const parseImg = (node, index, auth, onPress) => {
+  const source = getResourceWithAuth(node.attribs.src, auth); // TODO
   const img = (
     <Image
       key={index}
@@ -98,12 +98,12 @@ const parseLink = (node): string => {
   return '';
 };
 
-const parseDom = (dom, context, baseStyle, onPress) => {
+const parseDom = (dom, auth, baseStyle, onPress) => {
   if (!dom) return null;
 
   return dom.map((node, index, list) => {
     if (node.name === 'img') {
-      return parseImg(node, index, context, onPress);
+      return parseImg(node, index, auth, onPress);
     }
 
     switch (node.type) {
@@ -115,7 +115,7 @@ const parseDom = (dom, context, baseStyle, onPress) => {
           </Text>
         );
       case 'tag': {
-        const link = getFullUrl(parseLink(node)); // TODO
+        const link = getResourceWithAuth(parseLink(node), auth); // TODO
 
         // Styling
         const style = [].concat(baseStyle);
@@ -126,7 +126,7 @@ const parseDom = (dom, context, baseStyle, onPress) => {
 
         const children = parseDom(
           node.children,
-          context,
+          auth,
           style,
           link ? () => Linking.openURL(link) : null,
         );
@@ -148,11 +148,11 @@ const parseDom = (dom, context, baseStyle, onPress) => {
   });
 };
 
-export const renderHtml = (html: string) =>
+export const renderHtml = (html: string, auth) =>
   new Promise((resolve, reject) => {
     const handler = new htmlparser.DomHandler((err, dom) => {
       if (err) reject(err);
-      resolve(parseDom(dom, context, [styles.base]));
+      resolve(parseDom(dom, auth, [styles.base]));
     });
     const parser = new htmlparser.Parser(handler);
     parser.write(html.replace(/\n|\r/g, ''));

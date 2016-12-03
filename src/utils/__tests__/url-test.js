@@ -15,23 +15,23 @@ describe('getFullUrl', () => {
 describe('getResourceWithAuth', () => {
   test('when uri contains domain, do not change, add auth headers', () => {
     const expectedResult = {
-      uri: 'https://example.com/img.gif',
+      uri: 'https://hi.com/img.gif',
       headers: {
         Authorization: 'Basic dG9kb0B0b2RvOnRvZG9fa2V5', // eslint-disable-line
       },
     };
-    const context = getResourceWithAuth('https://example.com/img.gif', '', '');
-    expect(context).toEqual(expectedResult);
+    const resource = getResourceWithAuth('https://hi.com/img.gif', { realm: '', apiKey: '' });
+    expect(resource).toEqual(expectedResult);
   });
 
   test('when uri does not contain domain, append realm, add auth headers', () => {
     const expectedResult = {
-      uri: 'https://example.com/img.gif',
+      uri: 'https://hi.com/img.gif',
       headers: {
         Authorization: 'Basic dG9kb0B0b2RvOnRvZG9fa2V5', // eslint-disable-line
       },
     };
-    const context = getResourceWithAuth('/img.gif', 'https://example.com', 'someAuthHead');
-    expect(context).toEqual(expectedResult);
+    const resource = getResourceWithAuth('/img.gif', { realm: 'https://hi.com', apiKey: '' });
+    expect(resource).toEqual(expectedResult);
   });
 });
