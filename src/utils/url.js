@@ -11,9 +11,9 @@ export const encodeAsURI = (params): string =>
 export const getFullUrl = (url: string, realm: string): string =>
   (url.startsWith('/') ? `${realm}${url}` : url);
 
-export const getResourceWithAuth = (uri, realm, authHeader) => ({
-  uri: getFullUrl(uri, realm),
+export const getResourceWithAuth = (uri, auth) => ({
+  uri: getFullUrl(uri, auth.realm),
   headers: {
-    Authorization: getAuthHeader('todo@todo', 'todo_key'),
+    Authorization: getAuthHeader(auth.email, auth.apiKey),
   },
 });

@@ -16,8 +16,10 @@ export default class MessageContainer extends React.PureComponent {
   }
 
   async renderMessage() {
-    const message = await renderHtml(this.props.message);
-    this.setState({ message });
+    const { message, auth } = this.props;
+    this.setState({
+      message: await renderHtml(message, auth),
+    });
   }
 
   render() {

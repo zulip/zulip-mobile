@@ -26,15 +26,9 @@ class MainScreenContainer extends React.Component {
     const { auth, narrow } = this.props;
 
     this.props.getEvents(auth);
-
-    // We use requestAnimationFrame to force this to happen in the next
-    // iteration of the event loop. This ensures that the last action ends
-    // before the new action begins and makes the debug output clearer.
-    requestAnimationFrame(() => {
-      this.props.sendInitialGetUsers(auth);
-      this.props.appActivity(auth);
-      this.props.sendGetMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
-    });
+    this.props.sendInitialGetUsers(auth);
+    this.props.appActivity(auth);
+    this.props.sendGetMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
   }
 
   componentWillUnmount() {
