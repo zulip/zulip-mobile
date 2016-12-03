@@ -16,19 +16,19 @@ export default class MessageContainer extends React.PureComponent {
   }
 
   async renderMessage() {
-    const message = await renderHtml(this.props.message, this.props.context);
+    const message = await renderHtml(this.props.message);
     this.setState({ message });
   }
 
   render() {
-    const { context, avatarUrl, timestamp, twentyFourHourTime, from, isBrief } = this.props;
+    const { avatarUrl, timestamp, twentyFourHourTime, from, isBrief } = this.props;
     const { message } = this.state;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
 
     return (
       <MessageComponent
         message={message}
-        avatarUrl={context.rewriteLink(avatarUrl).uri}
+        avatarUrl={avatarUrl}
         from={from}
         timestamp={timestamp}
         twentyFourHourTime={twentyFourHourTime}

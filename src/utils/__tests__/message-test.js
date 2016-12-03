@@ -1,4 +1,4 @@
-import { normalizeRecipients, sameRecipient, rewriteLink } from '../message';
+import { normalizeRecipients, sameRecipient } from '../message';
 
 describe('normalizeRecipients', () => {
   test('joins emails from recipients, sorted, trimmed, not including missing ones', () => {
@@ -61,24 +61,5 @@ describe('sameRecipient', () => {
       subject: 'def',
     };
     expect(sameRecipient(msg1, msg2)).toBe(true);
-  });
-});
-
-describe('rewriteLink', () => {
-  test('when uri contains domain, do not change', () => {
-    const expectedResult = { uri: 'https://example.com/img.gif' };
-    const context = rewriteLink('https://example.com/img.gif', '', '');
-    expect(context).toEqual(expectedResult);
-  });
-
-  test('when uri does not contain domain, append realm', () => {
-    const expectedResult = {
-      uri: 'https://example.com/img.gif',
-      headers: {
-        Authorization: 'someAuthHead',
-      },
-    };
-    const context = rewriteLink('/img.gif', 'https://example.com', 'someAuthHead');
-    expect(context).toEqual(expectedResult);
   });
 });

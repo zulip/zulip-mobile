@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   ownEmail: string,
+  realm: string,
   users: any[],
   narrow: () => void,
   presence: Object,
@@ -65,7 +66,7 @@ export default class UserListCard extends Component {
   }
 
   render() {
-    const { ownEmail, users, presence } = this.props;
+    const { ownEmail, realm, users, presence } = this.props;
     const { filter } = this.state;
 
     return (
@@ -76,6 +77,7 @@ export default class UserListCard extends Component {
           users={users}
           presence={presence}
           filter={filter}
+          realm={realm}
           onNarrow={this.handleUserNarrow}
         />
         <View style={styles.accountButtons}>

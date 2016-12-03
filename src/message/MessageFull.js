@@ -47,7 +47,11 @@ export default class MessageFull extends React.PureComponent {
       <View style={styles.message}>
         <Avatar avatarUrl={avatarUrl} name={from} />
         <View style={styles.content}>
-          <Subheader from={from} timestamp={timestamp} twentyFourHourTime={twentyFourHourTime} />
+          <Subheader
+            from={from}
+            timestamp={timestamp}
+            twentyFourHourTime={twentyFourHourTime}
+          />
           {message}
         </View>
       </View>

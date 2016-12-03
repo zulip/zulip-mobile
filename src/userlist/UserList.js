@@ -5,6 +5,7 @@ import {
   Text,
 } from 'react-native';
 
+import { getFullUrl } from '../utils/url';
 import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByInitials } from './userListSelectors';
 
@@ -30,7 +31,7 @@ export default class UserList extends Component {
   }
 
   render() {
-    const { ownEmail, filter, users, onNarrow } = this.props;
+    const { ownEmail, realm, filter, users, onNarrow } = this.props;
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
       sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
@@ -49,7 +50,7 @@ export default class UserList extends Component {
           <UserItem
             key={x.email}
             fullName={x.fullName}
-            avatarUrl={x.avatarUrl}
+            avatarUrl={getFullUrl(x.avatarUrl, realm)}
             email={x.email}
             status={x.status}
             onPress={onNarrow}

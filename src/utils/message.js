@@ -32,15 +32,3 @@ export const sameRecipient = (msg1, msg2): boolean => {
       return false;
   }
 };
-
-export const rewriteLink = (uri, realm, authHeader) => {
-  if (uri.startsWith('/')) {
-    return {
-      uri: `${realm}${uri}`,
-      headers: {
-        Authorization: authHeader,
-      },
-    };
-  }
-  return { uri };
-};
