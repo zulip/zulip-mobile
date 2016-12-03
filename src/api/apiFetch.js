@@ -1,5 +1,4 @@
-import base64 from 'base-64';
-import { encodeAsURI } from '../utils/url';
+import { getAuthHeader, encodeAsURI } from '../utils/url';
 
 export type Auth = {
   realm: string,
@@ -8,9 +7,6 @@ export type Auth = {
 };
 
 const apiVersion = 'api/v1';
-
-export const getAuthHeader = (email: string, apiKey: string): ?string =>
-  (apiKey ? `Basic ${base64.encode(`${email}:${apiKey}`)}` : undefined);
 
 export const apiFetch = async (
   auth: Auth,

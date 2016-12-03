@@ -16,6 +16,7 @@ class UserListContainer extends Component {
 
 const mapStateToProps = (state) => ({
   ownEmail: getAuth(state).email,
+  realm: getAuth(state).realm,
   users: state.userlist,
 });
 

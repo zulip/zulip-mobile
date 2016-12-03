@@ -1,6 +1,11 @@
 import renderMessages from '../renderMessages';
 
 describe('renderMessages', () => {
+  const auth = {
+    realm: '',
+  };
+  const subscriptions = [];
+
   test('empty messages results in no rendered messages', () => {
     const messageList = renderMessages({ messages: [] });
     expect(messageList).toEqual([]);
@@ -9,15 +14,15 @@ describe('renderMessages', () => {
   test('renders time, header and message for a single input', () => {
     const messages = [{
       timestamp: 123,
+      avatar_url: '',
     }];
-    const subscriptions = [];
     const expectedComponentTypes = [
       'TimeRow',
       'MessageHeader',
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions });
+    const messageList = renderMessages({ messages, subscriptions, auth });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);
@@ -30,20 +35,22 @@ describe('renderMessages', () => {
       sender_full_name: 'John Doe',
       display_recipient: 'general',
       subject: '',
+      avatar_url: '',
     }, {
       timestamp: 124,
       type: 'stream',
       sender_full_name: 'John Doe',
       display_recipient: 'general',
       subject: '',
+      avatar_url: '',
     }, {
       timestamp: 125,
       type: 'stream',
       sender_full_name: 'John Doe',
       display_recipient: 'general',
       subject: '',
+      avatar_url: '',
     }];
-    const subscriptions = [];
     const expectedComponentTypes = [
       'TimeRow',
       'MessageHeader',
@@ -52,7 +59,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions });
+    const messageList = renderMessages({ messages, subscriptions, auth });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);
@@ -68,20 +75,22 @@ describe('renderMessages', () => {
       sender_full_name: 'John',
       display_recipient: 'general',
       subject: '',
+      avatar_url: '',
     }, {
       timestamp: 124,
       type: 'stream',
       sender_full_name: 'Mark',
       display_recipient: 'general',
       subject: '',
+      avatar_url: '',
     }, {
       timestamp: 125,
       type: 'stream',
       sender_full_name: 'Peter',
       display_recipient: 'general',
       subject: '',
+      avatar_url: '',
     }];
-    const subscriptions = [];
     const expectedComponentTypes = [
       'TimeRow',
       'MessageHeader',
@@ -90,7 +99,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions });
+    const messageList = renderMessages({ messages, subscriptions, auth });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);
@@ -104,14 +113,15 @@ describe('renderMessages', () => {
       timestamp: 123,
       type: 'private',
       sender_full_name: 'John',
+      avatar_url: '',
       display_recipient: [{ email: 'john@example.com' }, { email: 'mark@example.com' }],
     }, {
       timestamp: 123,
       type: 'private',
       sender_full_name: 'Mark',
+      avatar_url: '',
       display_recipient: [{ email: 'john@example.com' }, { email: 'mark@example.com' }],
     }];
-    const subscriptions = [];
     const expectedComponentTypes = [
       'TimeRow',
       'MessageHeader',
@@ -119,7 +129,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions });
+    const messageList = renderMessages({ messages, subscriptions, auth });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);

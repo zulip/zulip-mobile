@@ -7,6 +7,7 @@ import {
 import entities from 'entities';
 import htmlparser from 'htmlparser2';
 
+import { getFullUrl } from '../utils/url';
 import { Touchable } from '../common';
 
 const styles = {
@@ -71,7 +72,7 @@ const BULLET = '\u2022 ';
 const INLINETAGS = new Set(['li', 'span', 'strong', 'b', 'i', 'a', 'p']);
 
 const parseImg = (node, index, context, onPress) => {
-  const source = context.rewriteLink(node.attribs.src);
+  const source = getFullUrl(node.attribs.src); // TODO
   const img = (
     <Image
       key={index}
@@ -114,7 +115,7 @@ const parseDom = (dom, context, baseStyle, onPress) => {
           </Text>
         );
       case 'tag': {
-        const link = context.rewriteLink(parseLink(node)).uri;
+        const link = getFullUrl(parseLink(node)); // TODO
 
         // Styling
         const style = [].concat(baseStyle);
@@ -147,15 +148,7 @@ const parseDom = (dom, context, baseStyle, onPress) => {
   });
 };
 
-export type Context = {
-  rewriteLink: (uri: string) => Object,
-};
-
-const defaultContext = {
-  rewriteLink: (uri) => ({ uri }),
-};
-
-export const renderHtml = (html: string, context: Context = defaultContext) =>
+export const renderHtml = (html: string) =>
   new Promise((resolve, reject) => {
     const handler = new htmlparser.DomHandler((err, dom) => {
       if (err) reject(err);
