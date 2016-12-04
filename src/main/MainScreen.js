@@ -15,22 +15,22 @@ import UserListContainer from '../userlist/UserListContainer';
 export default class MainScreen extends React.Component {
 
   fetchOlder = () => {
-    const { auth, fetching, narrow, pointer, sendGetMessages } = this.props;
+    const { auth, fetching, narrow, pointer, fetchMessages } = this.props;
     if (!fetching) {
-      sendGetMessages(auth, pointer[0], 10, 0, narrow);
+      fetchMessages(auth, pointer[0], 10, 0, narrow);
     }
   }
 
   fetchNewer = () => {
-    const { auth, fetching, pointer, narrow, caughtUp, sendGetMessages } = this.props;
+    const { auth, fetching, pointer, narrow, caughtUp, fetchMessages } = this.props;
     if (!fetching && !caughtUp) {
-      sendGetMessages(auth, pointer[1], 0, 10, narrow);
+      fetchMessages(auth, pointer[1], 0, 10, narrow);
     }
   }
 
   narrow = (narrowOperator, pointer: number = Number.MAX_SAFE_INTEGER, messages = []) => {
-    const { auth, sendGetMessages } = this.props;
-    sendGetMessages(auth, pointer, 10, 10, narrowOperator || {});
+    const { auth, fetchMessages } = this.props;
+    fetchMessages(auth, pointer, 10, 10, narrowOperator || {});
   }
 
   render() {

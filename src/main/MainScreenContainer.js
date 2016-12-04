@@ -1,10 +1,8 @@
 import React from 'react';
-import {
-  AppState,
-} from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
+import { focusPing } from '../api';
 import { getPointer } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
 import MainScreen from './MainScreen';
@@ -15,27 +13,15 @@ class MainScreenContainer extends React.Component {
     currentAppState: boolean,
   }
 
-  handleAppStateChange = (currentAppState) => {
-    if (currentAppState === 'active') {
-      this.props.appActivity();
-    }
-  }
-
   componentDidMount() {
-    AppState.addEventListener('change', this.handleAppStateChange);
-
     const {
-      auth, narrow, getEvents, sendInitialGetUsers, appActivity, sendGetMessages,
+      auth, narrow, fetchEvents, fetchUsersAndStatus, fetchMessages,
     } = this.props;
 
-    getEvents(auth);
-    sendInitialGetUsers(auth);
-    appActivity(auth);
-    sendGetMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
-  }
-
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this.handleAppStateChange);
+    fetchUsersAndStatus(auth);
+    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
+    fetchEvents(auth);
+    focusPing(auth, true, false);
   }
 
   render() {

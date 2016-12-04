@@ -53,6 +53,7 @@ const processEvent = (dispatch, event) => {
       });
       break;
     case 'realm_user':
+    case 'ream_bot':
     case 'subscription':
     case 'stream':
     case 'pointer':
@@ -79,7 +80,7 @@ const processEvent = (dispatch, event) => {
   }
 };
 
-export const getEvents = (auth) =>
+export const fetchEvents = (auth) =>
   async (dispatch) => {
     const data = await registerForEvents(auth);
     const queueId = data.queue_id;
