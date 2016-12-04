@@ -2,7 +2,6 @@ import {
   REALM_ADD,
   SET_AUTH_TYPE,
   ACCOUNT_REMOVE,
-  ACCOUNT_SELECT,
   LOGIN_SUCCESS,
   LOGOUT,
 } from '../constants';
@@ -19,11 +18,6 @@ export const setAuthType = (authType: string) => ({
 
 export const removeAccount = (index: number) => ({
   type: ACCOUNT_REMOVE,
-  index,
-});
-
-export const selectAccount = (index: number) => ({
-  type: ACCOUNT_SELECT,
   index,
 });
 

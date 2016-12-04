@@ -15,23 +15,29 @@ describe('getFullUrl', () => {
 describe('getResourceWithAuth', () => {
   test('when uri contains domain, do not change, add auth headers', () => {
     const expectedResult = {
-      uri: 'https://hi.com/img.gif',
+      uri: 'https://example.com/img.gif',
       headers: {
-        Authorization: 'Basic dG9kb0B0b2RvOnRvZG9fa2V5', // eslint-disable-line
+        Authorization: 'Basic am9obmRvZUBleGFtcGxlLmNvbTpzb21lQXBpS2V5', // eslint-disable-line
       },
     };
-    const resource = getResourceWithAuth('https://hi.com/img.gif', { realm: '', apiKey: '' });
+    const resource = getResourceWithAuth(
+      'https://example.com/img.gif',
+      { realm: '', apiKey: 'someApiKey', email: 'johndoe@example.com' },
+    );
     expect(resource).toEqual(expectedResult);
   });
 
   test('when uri does not contain domain, append realm, add auth headers', () => {
     const expectedResult = {
-      uri: 'https://hi.com/img.gif',
+      uri: 'https://example.com/img.gif',
       headers: {
-        Authorization: 'Basic dG9kb0B0b2RvOnRvZG9fa2V5', // eslint-disable-line
+        Authorization: 'Basic dW5kZWZpbmVkOnNvbWVBcGlLZXk=', // eslint-disable-line
       },
     };
-    const resource = getResourceWithAuth('/img.gif', { realm: 'https://hi.com', apiKey: '' });
+    const resource = getResourceWithAuth(
+      '/img.gif',
+      { realm: 'https://example.com', apiKey: 'someApiKey' },
+    );
     expect(resource).toEqual(expectedResult);
   });
 });

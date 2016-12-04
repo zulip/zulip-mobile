@@ -23,12 +23,15 @@ class MainScreenContainer extends React.Component {
 
   componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
-    const { auth, narrow } = this.props;
 
-    this.props.getEvents(auth);
-    this.props.sendInitialGetUsers(auth);
-    this.props.appActivity(auth);
-    this.props.sendGetMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
+    const {
+      auth, narrow, getEvents, sendInitialGetUsers, appActivity, sendGetMessages,
+    } = this.props;
+
+    getEvents(auth);
+    sendInitialGetUsers(auth);
+    appActivity(auth);
+    sendGetMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
   }
 
   componentWillUnmount() {

@@ -15,13 +15,12 @@ class AccountPickScreen extends React.Component {
     this.props.pushRoute('realm');
 
   handleAccountSelect = (index: number) => {
-    const { accounts, selectAccount, pushRoute, initRoutes } = this.props;
-    const { apiKey, authType } = accounts[index];
-    selectAccount(index);
+    const { accounts, pushRoute, initRoutes } = this.props;
+    const { apiKey } = accounts[index];
     if (apiKey) {
       initRoutes(['main']);
     } else {
-      pushRoute(authType);
+      pushRoute('realm');
     }
   };
 
