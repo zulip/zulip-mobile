@@ -18,7 +18,7 @@ exports[`test Paragraph of text 1`] = `
       accessible={true}
       allowFontScaling={true}
       ellipsizeMode="tail"
-      onPress={[Function]}
+      onPress={null}
       style={
         Array [
           Object {
@@ -46,7 +46,7 @@ exports[`test Paragraph of text 1`] = `
       accessible={true}
       allowFontScaling={true}
       ellipsizeMode="tail"
-      onPress={[Function]}
+      onPress={null}
       style={
         Array [
           Object {

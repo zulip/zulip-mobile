@@ -72,7 +72,7 @@ const BULLET = '\u2022 ';
 const INLINETAGS = new Set(['li', 'span', 'strong', 'b', 'i', 'a', 'p']);
 
 const parseImg = (node, index, auth, onPress) => {
-  const source = getResourceWithAuth(node.attribs.src, auth); // TODO
+  const source = getResourceWithAuth(node.attribs.src, auth);
   const img = (
     <Image
       key={index}
@@ -115,7 +115,7 @@ const parseDom = (dom, auth, baseStyle, onPress) => {
           </Text>
         );
       case 'tag': {
-        const link = getResourceWithAuth(parseLink(node), auth); // TODO
+        const link = parseLink(node);
 
         // Styling
         const style = [].concat(baseStyle);
