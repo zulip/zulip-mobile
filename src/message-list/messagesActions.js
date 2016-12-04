@@ -1,10 +1,11 @@
+import { Auth } from '../api/apiFetch';
 import { getMessages } from '../api';
 import {
   CHAT_FETCHING_MESSAGES,
   CHAT_FETCHED_MESSAGES,
 } from '../constants';
 
-export const sendGetMessages = (
+export const fetchMessages = (
   auth,
   anchor: number,
   numBefore: number,
@@ -15,7 +16,7 @@ export const sendGetMessages = (
     dispatch({ type: CHAT_FETCHING_MESSAGES });
 
     const messages = await getMessages(
-      auth,
+      auth: Auth,
       anchor: number,
       numBefore: number,
       numAfter: number,

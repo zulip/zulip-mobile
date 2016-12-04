@@ -13,7 +13,7 @@ export const sendFocusPing = (auth, hasFocus: boolean, newUserInput: boolean) =>
     });
   };
 
-export const sendGetUsers = (auth) =>
+export const fetchUsers = (auth) =>
   async (dispatch) => {
     const response = await getUsers(auth);
     dispatch({
@@ -22,8 +22,8 @@ export const sendGetUsers = (auth) =>
     });
   };
 
-export const sendInitialGetUsers = (auth) =>
+export const fetchUsersAndStatus = (auth) =>
   async (dispatch) => {
-    await dispatch(sendGetUsers(auth));
+    await dispatch(fetchUsers(auth));
     await dispatch(sendFocusPing(auth, true, false));
   };

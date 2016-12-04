@@ -17,6 +17,7 @@
     "events": "^1.1.1",
     "htmlparser2": "^3.9.2",
     "immutable": "^3.8.1",
+    "lodash.throttle": "^4.1.1",
     "moment": "^2.16.0",
     "react": "^15.4.1",
     "react-addons-shallow-compare": "^15.3.2",
