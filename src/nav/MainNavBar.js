@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: BRAND_COLOR,
     paddingTop: STATUSBAR_HEIGHT,
-    alignItems: 'stretch',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   title: {
