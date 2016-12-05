@@ -5,7 +5,7 @@ import store, { restore } from './store';
 import LoadingScreen from './start/LoadingScreen';
 import App from './App';
 
-export default class ZulipNative extends Component {
+export default class ZulipMobile extends Component {
 
   state = {
     rehydrated: false,

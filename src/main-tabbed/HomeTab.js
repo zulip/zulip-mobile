@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import { BRAND_COLOR } from '../common/styles';
 import SidebarRow from '../nav/SidebarRow';
@@ -25,22 +24,22 @@ export default class HomeTab extends React.Component {
         <SidebarRow
           name="All Messages"
           customStyles={[styles.streamName, styles.mainMenu]}
-          icon={<Icon style={styles.icon} name="md-home" />}
+          icon="md-home"
         />
         <SidebarRow
           name="Private Messages"
           customStyles={[styles.streamName, styles.mainMenu]}
-          icon={<Icon style={styles.icon} name="md-chatboxes" />}
+          icon="md-chatboxes"
         />
         <SidebarRow
           name="Starred"
           customStyles={[styles.streamName, styles.mainMenu]}
-          icon={<Icon style={styles.icon} name="md-star" />}
+          icon="md-star"
         />
         <SidebarRow
           name="Mentions"
           customStyles={[styles.streamName, styles.mainMenu]}
-          icon={<Icon style={styles.icon} name="md-at" />}
+          icon="md-at"
         />
       </View>
     );

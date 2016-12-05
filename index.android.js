@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import ZulipNative from './src/ZulipNative';
+import ZulipMobile from './src/ZulipMobile';
 
-AppRegistry.registerComponent('ZulipNative', () => ZulipNative);
+AppRegistry.registerComponent('ZulipMobile', () => ZulipMobile);

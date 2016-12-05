@@ -11,9 +11,9 @@ import { Touchable } from '../common';
 const styles = StyleSheet.create({
   row: {
     flex: 1,
+    flexBasis: 40,
     flexDirection: 'row',
     alignItems: 'center',
-    height: 40,
   },
   icon: {
     width: 20,

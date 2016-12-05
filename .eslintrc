@@ -33,6 +33,7 @@
     "react/sort-comp": 0,
     "react/jsx-filename-extension": 0,
     "react/prefer-stateless-function": 0,
+    "react/no-unused-prop-types": 0,
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/__tests__/*.js"]}],
     # incorrectly defects correct code "react-native/no-unused-styles": 2,

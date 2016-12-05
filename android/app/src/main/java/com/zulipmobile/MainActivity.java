@@ -1,4 +1,4 @@
-package com.zulipnative;
+package com.zulipmobile;
 
 import com.facebook.react.ReactActivity;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -11,6 +11,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "ZulipNative";
+        return "ZulipMobile";
     }
 }

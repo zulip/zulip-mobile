@@ -32,7 +32,7 @@ It will also launch a browser tab in Chrome with the React Native debugger. `con
 ## Running on an iOS device
 1. [Set up the dev environment](#setting-up-a-dev-environment)
 2. Connect your iOS device
-3. Within the repo, `$ open ios/ZulipNative.xcodeproj/` to open Xcode
+3. Within the repo, `$ open ios/ZulipMobile.xcodeproj/` to open Xcode
 4. Select your device as the `build target` (from [this guide](https://facebook.github.io/react-native/docs/running-on-device-ios.html))
 5. Hit the `build and run` button
 

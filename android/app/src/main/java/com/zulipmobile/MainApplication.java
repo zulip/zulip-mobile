@@ -1,4 +1,4 @@
-package com.zulipnative;
+package com.zulipmobile;
 
 import android.app.Application;
 import android.util.Log;
