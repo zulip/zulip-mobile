@@ -97,6 +97,7 @@ class ComposeText extends React.Component {
             blurOnSubmit
             defaultValue={text}
             multiline
+            underlineColorAndroid="transparent"
             returnKeyType="send"
             height={contentHeight}
             onContentSizeChange={this.handleContentSizeChange}

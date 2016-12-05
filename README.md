@@ -14,6 +14,16 @@ We target iOS initially, with Android version following shortly.
 * Familiar web programming model (React + Javascript + Flexbox)
 * Cross-platform, 90% code-reuse between iOS and Android platforms
 
+## Running
+
+Run iOS:
+
+`npm run ios-min` - runs in an iOS simulator in the minimal supported device (currently iPhone 5)
+`npm run ios-max` - runs in an iOS simulator in the newest/most premium supported device (currently iPhone 7 Plus)
+`npm run ios-device` - runs on a physical iOS device, you need to edit the device name in package.json
+
+`react-native run-android` - runs in an Android emulator, emulator has to be run manually before this command
+
 ## Contributing
 
 Please see the [developer guide](https://github.com/zulip/zulip-mobile/tree/master/docs/developer-guide.md).
