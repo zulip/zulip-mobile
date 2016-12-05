@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    height: 50,
+    flexBasis: 50,
   },
   description: {
     opacity: 0.75,

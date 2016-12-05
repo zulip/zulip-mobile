@@ -61,7 +61,7 @@ class ComposeText extends React.Component {
     if (narrow.operator === 'pm-with') {
       sendMessage(auth, 'private', narrow.operand, '', this.state.text);
     } else {
-      sendMessage(auth, 'stream', narrow.operand, 'ZulipNative', this.state.text);
+      sendMessage(auth, 'stream', narrow.operand, 'ZulipMobile', this.state.text);
     }
     this.setState({ text: '' });
   }

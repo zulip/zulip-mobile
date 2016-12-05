@@ -4,14 +4,11 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
+import { Auth } from '../api/apiFetch';
 import boundActions from '../boundActions';
 import { Screen, ErrorMsg, Button } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
 import { getAuth } from '../account/accountSelectors';
-
-type Props = {
-  auth: any,
-}
 
 type State = {
   progress: boolean,
@@ -21,7 +18,9 @@ type State = {
 
 class DevAuthScreen extends React.Component {
 
-  props: Props;
+  props: {
+    auth: Auth,
+  };
 
   state: State = {
     progress: false,

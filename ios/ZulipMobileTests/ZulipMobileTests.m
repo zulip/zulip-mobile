@@ -16,11 +16,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React Native!"
 
-@interface ZulipNativeTests : XCTestCase
+@interface ZulipMobileTests : XCTestCase
 
 @end
 
-@implementation ZulipNativeTests
+@implementation ZulipMobileTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {

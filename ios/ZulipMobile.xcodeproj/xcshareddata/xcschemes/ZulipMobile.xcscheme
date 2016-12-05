@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "ZulipNative.app"
-               BlueprintName = "ZulipNative"
-               ReferencedContainer = "container:ZulipNative.xcodeproj">
+               BuildableName = "ZulipMobile.app"
+               BlueprintName = "ZulipMobile"
+               ReferencedContainer = "container:ZulipMobile.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "ZulipNativeTests.xctest"
-               BlueprintName = "ZulipNativeTests"
-               ReferencedContainer = "container:ZulipNative.xcodeproj">
+               BuildableName = "ZulipMobileTests.xctest"
+               BlueprintName = "ZulipMobileTests"
+               ReferencedContainer = "container:ZulipMobile.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,9 +46,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "ZulipNativeTests.xctest"
-               BlueprintName = "ZulipNativeTests"
-               ReferencedContainer = "container:ZulipNative.xcodeproj">
+               BuildableName = "ZulipMobileTests.xctest"
+               BlueprintName = "ZulipMobileTests"
+               ReferencedContainer = "container:ZulipMobile.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ZulipNative.app"
-            BlueprintName = "ZulipNative"
-            ReferencedContainer = "container:ZulipNative.xcodeproj">
+            BuildableName = "ZulipMobile.app"
+            BlueprintName = "ZulipMobile"
+            ReferencedContainer = "container:ZulipMobile.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ZulipNative.app"
-            BlueprintName = "ZulipNative"
-            ReferencedContainer = "container:ZulipNative.xcodeproj">
+            BuildableName = "ZulipMobile.app"
+            BlueprintName = "ZulipMobile"
+            ReferencedContainer = "container:ZulipMobile.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -99,9 +99,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ZulipNative.app"
-            BlueprintName = "ZulipNative"
-            ReferencedContainer = "container:ZulipNative.xcodeproj">
+            BuildableName = "ZulipMobile.app"
+            BlueprintName = "ZulipMobile"
+            ReferencedContainer = "container:ZulipMobile.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
