@@ -3,11 +3,11 @@ import {
   StyleSheet,
   Navigator,
   View,
-  Text,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { BRAND_COLOR, NAVBAR_HEIGHT, STATUSBAR_HEIGHT } from '../common/styles';
+import Title from '../title/Title';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,11 +20,6 @@ const styles = StyleSheet.create({
     paddingTop: STATUSBAR_HEIGHT,
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  title: {
-    color: 'white',
-    fontSize: 16,
-    lineHeight: NAVBAR_HEIGHT,
   },
   button: {
     color: 'white',
@@ -46,9 +41,7 @@ export default class MainNavBar extends React.Component {
           <View style={styles.container}>
             <View style={styles.navBar}>
               <Icon style={styles.button} name="ios-menu" onPress={openStreamList} />
-              <Text style={styles.title}>
-                {route.name}
-              </Text>
+              <Title />
               <Icon style={styles.button} name="md-people" onPress={onPressPeople} />
             </View>
             {this.props.children}

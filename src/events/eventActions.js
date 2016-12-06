@@ -53,7 +53,7 @@ const processEvent = (dispatch, event) => {
       });
       break;
     case 'realm_user':
-    case 'ream_bot':
+    case 'realm_bot':
     case 'subscription':
     case 'stream':
     case 'pointer':
