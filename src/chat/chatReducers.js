@@ -6,7 +6,7 @@ import {
 const initialState = {
   fetching: false,
   caughtUp: false,
-  narrow: {},
+  narrow: [],
 };
 
 export default (state = initialState, action) => {

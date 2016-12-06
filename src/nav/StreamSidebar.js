@@ -7,9 +7,7 @@ import {
 
 import {
   homeNarrow,
-  privateNarrow,
-  mentionedNarrow,
-  starredNarrow,
+  specialNarrow,
 } from '../utils/narrow';
 import SidebarRow from './SidebarRow';
 import StreamListContainer from '../streamlist/StreamListContainer';
@@ -39,22 +37,22 @@ export default class StreamSidebar extends React.Component {
           <SidebarRow
             name="Home"
             icon="md-home"
-            onPress={() => narrow(homeNarrow)}
+            onPress={() => narrow(homeNarrow())}
           />
           <SidebarRow
             name="Private Messages"
             icon="md-chatboxes"
-            onPress={() => narrow(privateNarrow())}
+            onPress={() => narrow(specialNarrow('private'))}
           />
           <SidebarRow
             name="Starred"
             icon="md-star"
-            onPress={() => narrow(starredNarrow)}
+            onPress={() => narrow(specialNarrow('starred'))}
           />
           <SidebarRow
             name="Mentions"
             icon="md-at"
-            onPress={() => narrow(mentionedNarrow)}
+            onPress={() => narrow(specialNarrow('mentioned'))}
           />
           <StreamListContainer narrow={narrow} />
         </ScrollView>
