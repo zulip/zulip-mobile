@@ -9,11 +9,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
-  title: {
+  streamTitle: {
     color: 'white',
+    paddingLeft: 8,
     fontSize: 16,
-    // lineHeight: NAVBAR_HEIGHT,
   },
 });
 
@@ -25,6 +26,7 @@ export default class TitleStream extends React.PureComponent {
   }
 
   render() {
+    const { narrow } = this.props;
     const { stream, isPrivate } = this.props;
     const iconType = isPrivate ? 'md-lock' : 'md-chatbubbles';
 
@@ -32,14 +34,13 @@ export default class TitleStream extends React.PureComponent {
       <View style={styles.wrapper}>
         <Icon
           name={iconType}
-          // color={textColor}
+          color="white"
           size={16}
-          style={styles.icon}
         />
         <Text
-          style={styles.stream}
+          style={styles.streamTitle}
         >
-          {stream}
+          {narrow[0].operand}
         </Text>
       </View>
     );

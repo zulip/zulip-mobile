@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { isTopicNarrow } from '../../utils/narrow';
+import TopicMessageHeader from './TopicMessageHeader';
 import StreamMessageHeader from './StreamMessageHeader';
 import PrivateMessageHeader from './PrivateMessageHeader';
 
@@ -14,6 +16,15 @@ export default class MessageHeader extends React.PureComponent {
 
   render() {
     const { item, subscriptions, auth, narrow } = this.props;
+
+    if (isTopicNarrow(isTopicNarrow)) {
+      return (
+        <TopicMessageHeader
+          key={`section_${item.id}`}
+          topic={item.subject}
+        />
+      );
+    }
 
     if (item.type === 'stream') {
       const subscription = Object.values(subscriptions)
