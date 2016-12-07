@@ -10,17 +10,19 @@ import { Avatar } from '../common';
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     color: 'white',
     fontSize: 16,
+    paddingLeft: 4,
   },
 });
 
 export default class TitlePrivate extends React.PureComponent {
   render() {
-    // const { fullName } = this.props;
-    const fullName = 'Boris Yankov';
+    const { narrow } = this.props;
+    const fullName = narrow[0].operand;
 
     return (
       <View style={styles.wrapper}>

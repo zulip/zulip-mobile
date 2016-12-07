@@ -22,8 +22,9 @@ const styles = StyleSheet.create({
 export default class TopicMessageHeader extends React.PureComponent {
 
   performTopicNarrow = () => {
-    const { narrow, item, stream, topic } = this.props;
-    narrow(
+    const { doNarrow, item, stream, topic } = this.props;
+
+    doNarrow(
       topicNarrow(stream, topic),
       item.id,
       [item]

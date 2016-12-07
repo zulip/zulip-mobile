@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
 export default class StreamMessageHeader extends React.PureComponent {
 
   performStreamNarrow = () => {
-    const { narrow, item, stream } = this.props;
-    narrow(
+    const { doNarrow, item, stream } = this.props;
+    doNarrow(
       streamNarrow(stream),
       item.id,
       [item]
@@ -52,7 +52,7 @@ export default class StreamMessageHeader extends React.PureComponent {
   }
 
   render() {
-    const { stream, isPrivate, topic, color, item, narrow } = this.props;
+    const { stream, isPrivate, topic, color, item, narrow, doNarrow } = this.props;
     const textColor = foregroundColorFromBackground(color);
     const colors = {
       color: textColor,
@@ -83,6 +83,7 @@ export default class StreamMessageHeader extends React.PureComponent {
           stream={stream}
           topic={topic}
           narrow={narrow}
+          doNarrow={doNarrow}
         />
       </View>
     );

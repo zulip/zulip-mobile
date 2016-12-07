@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isTopicNarrow } from '../../utils/narrow';
+import { isStreamNarrow, isTopicNarrow, isPrivateNarrow, isGroupNarrow } from '../../utils/narrow';
 import TopicMessageHeader from './TopicMessageHeader';
 import StreamMessageHeader from './StreamMessageHeader';
 import PrivateMessageHeader from './PrivateMessageHeader';
@@ -15,13 +15,14 @@ export default class MessageHeader extends React.PureComponent {
   }
 
   render() {
-    const { item, subscriptions, auth, narrow } = this.props;
+    const { item, subscriptions, auth, narrow, doNarrow } = this.props;
 
-    if (isTopicNarrow(isTopicNarrow)) {
+    if (isStreamNarrow(narrow)) {
       return (
         <TopicMessageHeader
           key={`section_${item.id}`}
           topic={item.subject}
+          doNarrow={doNarrow}
         />
       );
     }
@@ -38,11 +39,13 @@ export default class MessageHeader extends React.PureComponent {
           color={subscription ? subscription.color : '#ccc'}
           item={item}
           narrow={narrow}
+          doNarrow={doNarrow}
         />
       );
     }
 
-    if (item.type === 'private') {
+    if (item.type === 'private' &&
+      !isPrivateNarrow(narrow) && !isGroupNarrow(narrow) && !isTopicNarrow(narrow)) {
       const recipients = item.display_recipient.filter(r => r.email !== auth.email);
       return (
         <PrivateMessageHeader
@@ -50,6 +53,7 @@ export default class MessageHeader extends React.PureComponent {
           recipients={recipients}
           item={item}
           narrow={narrow}
+          doNarrow={doNarrow}
         />
       );
     }

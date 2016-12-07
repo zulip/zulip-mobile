@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 class StreamListContainer extends React.Component {
 
   handleNarrow = (streamName: string) =>
-    this.props.narrow(streamNarrow(streamName));
+    this.props.doNarrow(streamNarrow(streamName));
 
   render() {
     return (

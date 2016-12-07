@@ -59,9 +59,7 @@ export default class UserListCard extends Component {
   }
 
   handleUserNarrow = (email: string) => {
-    this.props.narrow(
-      privateNarrow([email]),
-    );
+    this.props.doNarrow(privateNarrow(email));
     this.context.drawer.close();
   }
 

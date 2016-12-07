@@ -1,13 +1,18 @@
 import React from 'react';
 
 import { getFullUrl } from '../utils/url';
+import {
+  isTopicNarrow,
+  isPrivateNarrow,
+  isGroupNarrow,
+} from '../utils/narrow';
 import MessageHeader from '../message/headers/MessageHeader';
 import MessageContainer from '../message/MessageContainer';
 import TimeRow from '../message/TimeRow';
 import { sameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
-export default ({ auth, subscriptions, messages, narrow }) =>
+export default ({ auth, subscriptions, messages, narrow, doNarrow }) =>
   messages.reduce((list, item, index) => {
     const prevItem = messages[index - 1];
 
@@ -23,9 +28,11 @@ export default ({ auth, subscriptions, messages, narrow }) =>
       );
     }
 
+    const showHeader = !isPrivateNarrow(narrow) &&
+      !isGroupNarrow(narrow) && !isTopicNarrow(narrow);
     const diffRecipient = !sameRecipient(prevItem, item);
 
-    if (diffRecipient) {
+    if (showHeader && diffRecipient) {
       list.push(
         <MessageHeader
           key={`header${item.id}`}
@@ -33,6 +40,7 @@ export default ({ auth, subscriptions, messages, narrow }) =>
           auth={auth}
           subscriptions={subscriptions}
           narrow={narrow}
+          doNarrow={doNarrow}
         />
       );
     }
