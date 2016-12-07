@@ -22,7 +22,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions, auth });
+    const messageList = renderMessages({ messages, subscriptions, auth, narrow: [] });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);
@@ -59,7 +59,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions, auth });
+    const messageList = renderMessages({ messages, subscriptions, auth, narrow: [] });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);
@@ -99,7 +99,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions, auth });
+    const messageList = renderMessages({ messages, subscriptions, auth, narrow: [] });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);
@@ -129,7 +129,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions, auth });
+    const messageList = renderMessages({ messages, subscriptions, auth, narrow: [] });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);

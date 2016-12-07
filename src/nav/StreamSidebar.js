@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 export default class StreamSidebar extends React.Component {
 
   render() {
-    const { narrow } = this.props;
+    const { doNarrow } = this.props;
 
     return (
       <View style={styles.container}>
@@ -37,24 +37,24 @@ export default class StreamSidebar extends React.Component {
           <SidebarRow
             name="Home"
             icon="md-home"
-            onPress={() => narrow(homeNarrow())}
+            onPress={() => doNarrow(homeNarrow())}
           />
           <SidebarRow
             name="Private Messages"
             icon="md-chatboxes"
-            onPress={() => narrow(specialNarrow('private'))}
+            onPress={() => doNarrow(specialNarrow('private'))}
           />
           <SidebarRow
             name="Starred"
             icon="md-star"
-            onPress={() => narrow(specialNarrow('starred'))}
+            onPress={() => doNarrow(specialNarrow('starred'))}
           />
           <SidebarRow
             name="Mentions"
             icon="md-at"
-            onPress={() => narrow(specialNarrow('mentioned'))}
+            onPress={() => doNarrow(specialNarrow('mentioned'))}
           />
-          <StreamListContainer narrow={narrow} />
+          <StreamListContainer doNarrow={doNarrow} />
         </ScrollView>
       </View>
     );

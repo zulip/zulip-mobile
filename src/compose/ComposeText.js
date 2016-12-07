@@ -7,6 +7,14 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
+import {
+  isHomeNarrow,
+  isSpecialNarrow,
+  isStreamNarrow,
+  isTopicNarrow,
+  isPrivateNarrow,
+  isGroupNarrow,
+} from '../utils/narrow';
 import { getAuth } from '../account/accountSelectors';
 import sendMessage from '../api/sendMessage';
 import SendButton from './SendButton';
@@ -58,11 +66,14 @@ class ComposeText extends React.Component {
   handleSend = () => {
     const { auth, narrow } = this.props;
 
-    if (narrow.operator === 'pm-with') {
+    if (isPrivateNarrow(narrow) || isGroupNarrow(narrow)) {
       sendMessage(auth, 'private', narrow.operand, '', this.state.text);
-    } else {
+    }
+
+    if (isStreamNarrow(narrow) || isTopicNarrow(narrow)) {
       sendMessage(auth, 'stream', narrow.operand, 'ZulipMobile', this.state.text);
     }
+
     this.setState({ text: '' });
   }
 
@@ -79,9 +90,11 @@ class ComposeText extends React.Component {
 
   render() {
     const { contentHeight, text } = this.state;
+    const { narrow } = this.props;
     const height = Math.min(Math.max(MIN_HEIGHT, contentHeight), MAX_HEIGHT);
     const lastword = text.match(/\b(\w+)$/);
     const lastWordPrefix = lastword && lastword.index && text[lastword.index - 1];
+    const canSendToCurrentNarrow = isHomeNarrow(narrow) && isSpecialNarrow(narrow);
 
     return (
       <View style={styles.wrapper}>
@@ -106,7 +119,10 @@ class ComposeText extends React.Component {
             placeholder="Type a message here"
           />
         </ScrollView>
-        <SendButton disabled={text.length === 0} onPress={this.handleSend} />
+        <SendButton
+          disabled={text.length === 0 || canSendToCurrentNarrow}
+          onPress={this.handleSend}
+        />
       </View>
     );
   }
@@ -114,7 +130,7 @@ class ComposeText extends React.Component {
 
 const mapStateToProps = (state) => ({
   auth: getAuth(state),
-  narrow: state.chat.narrow[0],
+  narrow: state.chat.narrow,
 });
 
 export default connect(mapStateToProps)(ComposeText);

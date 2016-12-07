@@ -28,21 +28,21 @@ export default class MainScreen extends React.Component {
     }
   }
 
-  narrow = (narrowOperator, pointer: number = Number.MAX_SAFE_INTEGER, messages = []) => {
+  doNarrow = (narrowOperator, pointer: number = Number.MAX_SAFE_INTEGER, messages = []) => {
     const { auth, fetchMessages } = this.props;
     fetchMessages(auth, pointer, 10, 10, narrowOperator || {});
   }
 
   render() {
-    const { auth, messages, fetching, subscriptions, streamlistOpened, caughtUp, isOnline,
-      twentyFourHourTime } = this.props;
+    const { auth, messages, narrow, fetching, subscriptions, streamlistOpened,
+      caughtUp, isOnline, twentyFourHourTime } = this.props;
 
     return (
       <Drawer
         content={
           <StreamSidebar
             subscriptions={subscriptions}
-            narrow={this.narrow}
+            doNarrow={this.doNarrow}
           />
         }
         ref={(streamDrawer) => { this.streamDrawer = streamDrawer; }}
@@ -57,7 +57,7 @@ export default class MainScreen extends React.Component {
         side="left"
       >
         <Drawer
-          content={<UserListContainer narrow={this.narrow} />}
+          content={<UserListContainer doNarrow={this.doNarrow} />}
           ref={(peopleDrawer) => { this.peopleDrawer = peopleDrawer; }}
           openDrawerOffset={40}
           tapToClose
@@ -82,13 +82,14 @@ export default class MainScreen extends React.Component {
             {fetching && <LoadingRow />}
             <MessageList
               messages={messages}
+              narrow={narrow}
               twentyFourHourTime={twentyFourHourTime}
               subscriptions={subscriptions}
               auth={auth}
               caughtUp={caughtUp}
               fetchOlder={this.fetchOlder}
               fetchNewer={this.fetchNewer}
-              narrow={this.narrow}
+              doNarrow={this.doNarrow}
             />
             <ComposeBox onSend={this.sendMessage} />
           </MainNavBar>
