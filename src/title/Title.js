@@ -31,12 +31,12 @@ const titles = [
 
 class Title extends React.PureComponent {
   render() {
-    const { narrow, users } = this.props;
+    const { narrow } = this.props;
     const titleType = titles.find(x => x.isFunc(narrow));
 
     if (!titleType) return null;
 
-    return <titleType.component narrow={narrow} users={users} />;
+    return <titleType.component {...this.props} />;
   }
 }
 
@@ -44,5 +44,6 @@ export default connect(
   (state) => ({
     narrow: state.chat.narrow,
     users: state.userlist,
+    subscriptions: state.subscriptions,
   })
 )(Title);

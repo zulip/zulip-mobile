@@ -22,8 +22,10 @@ export default class MainScreen extends React.Component {
       <Drawer
         content={
           <StreamSidebar
-            subscriptions={subscriptions}
-            doNarrow={doNarrow}
+            onNarrow={newNarrow => {
+              doNarrow(newNarrow);
+              this.streamDrawer.close();
+            }}
           />
         }
         ref={(streamDrawer) => { this.streamDrawer = streamDrawer; }}
@@ -38,7 +40,14 @@ export default class MainScreen extends React.Component {
         side="left"
       >
         <Drawer
-          content={<UserListContainer doNarrow={doNarrow} />}
+          content={
+            <UserListContainer
+              onNarrow={newNarrow => {
+                doNarrow(newNarrow);
+                this.peopleDrawer.close();
+              }}
+            />
+          }
           ref={(peopleDrawer) => { this.peopleDrawer = peopleDrawer; }}
           openDrawerOffset={40}
           tapToClose

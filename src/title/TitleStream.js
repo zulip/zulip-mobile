@@ -11,24 +11,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  streamTitle: {
+  title: {
     color: 'white',
-    paddingLeft: 8,
     fontSize: 16,
+    marginLeft: 4,
   },
 });
 
 export default class TitleStream extends React.PureComponent {
 
   props: {
-    stream: string,
-    isPrivate: boolean,
+    subscriptions: [],
+    narrow: () => {},
   }
 
   render() {
-    const { narrow } = this.props;
-    const { stream, isPrivate } = this.props;
-    const iconType = isPrivate ? 'md-lock' : 'md-chatbubbles';
+    const { narrow, subscriptions } = this.props;
+    const stream = subscriptions.find(x => x.name === narrow[0].operand);
+    const iconType = stream.invite_only ? 'md-lock' : 'md-chatbubbles';
 
     return (
       <View style={styles.wrapper}>
@@ -37,10 +37,8 @@ export default class TitleStream extends React.PureComponent {
           color="white"
           size={16}
         />
-        <Text
-          style={styles.streamTitle}
-        >
-          {narrow[0].operand}
+        <Text style={styles.title}>
+          {stream.name}
         </Text>
       </View>
     );

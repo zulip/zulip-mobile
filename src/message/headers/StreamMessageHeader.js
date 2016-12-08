@@ -42,17 +42,20 @@ const styles = StyleSheet.create({
 
 export default class StreamMessageHeader extends React.PureComponent {
 
+  props: {
+    itemId: number,
+    stream: string,
+    color: string,
+    isPrivate: boolean,
+  }
+
   performStreamNarrow = () => {
-    const { doNarrow, item, stream } = this.props;
-    doNarrow(
-      streamNarrow(stream),
-      item.id,
-      [item]
-    );
+    const { doNarrow, itemId, stream } = this.props;
+    doNarrow(streamNarrow(stream), itemId);
   }
 
   render() {
-    const { stream, isPrivate, topic, color, item, narrow, doNarrow } = this.props;
+    const { stream, isPrivate, topic, color, itemId, doNarrow } = this.props;
     const textColor = foregroundColorFromBackground(color);
     const colors = {
       color: textColor,
@@ -79,10 +82,9 @@ export default class StreamMessageHeader extends React.PureComponent {
         </Touchable>
         <View style={[styles.triangle, { borderLeftColor: color }]} />
         <TopicMessageHeader
-          item={item}
+          itemId={itemId}
           stream={stream}
           topic={topic}
-          narrow={narrow}
           doNarrow={doNarrow}
         />
       </View>

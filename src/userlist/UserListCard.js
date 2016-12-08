@@ -41,6 +41,7 @@ export default class UserListCard extends Component {
 
   state = {
     filter: '',
+    onNarrow: () => {},
   };
 
   static contextTypes = {
@@ -58,10 +59,8 @@ export default class UserListCard extends Component {
     });
   }
 
-  handleUserNarrow = (email: string) => {
-    this.props.doNarrow(privateNarrow(email));
-    this.context.drawer.close();
-  }
+  handleUserNarrow = (email: string) =>
+    this.props.onNarrow(privateNarrow(email));
 
   render() {
     const { ownEmail, realm, users, presence } = this.props;
