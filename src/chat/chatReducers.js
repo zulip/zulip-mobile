@@ -1,6 +1,6 @@
 import {
-  CHAT_FETCHING_MESSAGES,
-  CHAT_FETCHED_MESSAGES,
+  MESSAGE_FETCH_START,
+  MESSAGE_FETCH_SUCCESS,
 } from '../constants';
 
 const initialState = {
@@ -11,12 +11,13 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case CHAT_FETCHING_MESSAGES:
+    case MESSAGE_FETCH_START:
       return {
         ...state,
         fetching: true,
+        narrow: action.narrow,
       };
-    case CHAT_FETCHED_MESSAGES:
+    case MESSAGE_FETCH_SUCCESS:
       return {
         ...state,
         fetching: false,

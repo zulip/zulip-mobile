@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
   topic: {
     flex: 1,
     padding: 4,
+    paddingLeft: 8,
     fontSize: 16,
     backgroundColor: '#eee',
   },

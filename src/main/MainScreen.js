@@ -14,35 +14,16 @@ import UserListContainer from '../userlist/UserListContainer';
 
 export default class MainScreen extends React.Component {
 
-  fetchOlder = () => {
-    const { auth, fetching, narrow, pointer, fetchMessages } = this.props;
-    if (!fetching) {
-      fetchMessages(auth, pointer[0], 10, 0, narrow);
-    }
-  }
-
-  fetchNewer = () => {
-    const { auth, fetching, pointer, narrow, caughtUp, fetchMessages } = this.props;
-    if (!fetching && !caughtUp) {
-      fetchMessages(auth, pointer[1], 0, 10, narrow);
-    }
-  }
-
-  doNarrow = (narrowOperator, pointer: number = Number.MAX_SAFE_INTEGER, messages = []) => {
-    const { auth, fetchMessages } = this.props;
-    fetchMessages(auth, pointer, 10, 10, narrowOperator || {});
-  }
-
   render() {
     const { auth, messages, narrow, fetching, subscriptions, streamlistOpened,
-      caughtUp, isOnline, twentyFourHourTime } = this.props;
+      caughtUp, isOnline, twentyFourHourTime, doNarrow, fetchOlder, fetchNewer } = this.props;
 
     return (
       <Drawer
         content={
           <StreamSidebar
             subscriptions={subscriptions}
-            doNarrow={this.doNarrow}
+            doNarrow={doNarrow}
           />
         }
         ref={(streamDrawer) => { this.streamDrawer = streamDrawer; }}
@@ -57,7 +38,7 @@ export default class MainScreen extends React.Component {
         side="left"
       >
         <Drawer
-          content={<UserListContainer doNarrow={this.doNarrow} />}
+          content={<UserListContainer doNarrow={doNarrow} />}
           ref={(peopleDrawer) => { this.peopleDrawer = peopleDrawer; }}
           openDrawerOffset={40}
           tapToClose
@@ -87,9 +68,9 @@ export default class MainScreen extends React.Component {
               subscriptions={subscriptions}
               auth={auth}
               caughtUp={caughtUp}
-              fetchOlder={this.fetchOlder}
-              fetchNewer={this.fetchNewer}
-              doNarrow={this.doNarrow}
+              fetchOlder={fetchOlder}
+              fetchNewer={fetchNewer}
+              doNarrow={doNarrow}
             />
             <ComposeBox onSend={this.sendMessage} />
           </MainNavBar>

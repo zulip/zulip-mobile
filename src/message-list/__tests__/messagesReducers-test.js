@@ -1,6 +1,6 @@
 import messagesReducers from '../messagesReducers';
 import {
-  CHAT_FETCHED_MESSAGES,
+  MESSAGE_FETCH_SUCCESS,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE,
 } from '../../constants';
@@ -48,11 +48,11 @@ describe('messagesReducers', () => {
     });
   });
 
-  describe('CHAT_FETCHED_MESSAGES', () => {
+  describe('MESSAGE_FETCH_SUCCESS', () => {
     test('when new messages with already existing messages come, they are merged and not duplicated', () => {
       const initialState = [{ id: 1 }, { id: 2 }, { id: 3 }];
       const action = {
-        type: CHAT_FETCHED_MESSAGES,
+        type: MESSAGE_FETCH_SUCCESS,
         shouldAppend: false,
         messages: [{ id: 2 }, { id: 3 }, { id: 4 }],
       };
@@ -67,7 +67,7 @@ describe('messagesReducers', () => {
         { id: 2, timestamp: 4 },
       ];
       const action = {
-        type: CHAT_FETCHED_MESSAGES,
+        type: MESSAGE_FETCH_SUCCESS,
         shouldAppend: false,
         messages: [
           { id: 3, timestamp: 2 },
