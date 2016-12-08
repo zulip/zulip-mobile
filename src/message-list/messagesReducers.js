@@ -1,5 +1,6 @@
 import {
-  CHAT_FETCHED_MESSAGES,
+  MESSAGE_FETCH_START,
+  MESSAGE_FETCH_SUCCESS,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE,
 } from '../constants';
@@ -28,7 +29,9 @@ export default (state = initialState, action) => {
         ...state.slice(prevMessageIndex + 1),
       ];
     }
-    case CHAT_FETCHED_MESSAGES: {
+    case MESSAGE_FETCH_START:
+      return action.isNewNarrow ? [] : state;
+    case MESSAGE_FETCH_SUCCESS: {
       const newMessages = action.messages
         .filter(x => !state.find(msg => msg.id === x.id));
 

@@ -57,7 +57,7 @@
         "idx", "aaa", "bbb", "ccc", "ddd", "eee", "fff", "abcd", "aaaaaa", "ffffff", "24cac2",
         "src", "attribs", "charset", "utf", "urlencoded", "htmlparser", "htmlparser2",
         "chatbubbles", "nonexisting", "primarytext", "autocomple", "stringify", "backend",
-        "Menlo", "ok", "py", "todo", "Mc", "lodash", "selectable",
+        "Menlo", "ok", "py", "todo", "Mc", "lodash", "selectable", "isequal",
       ],
       "skipIfMatch": [
         "http://[^s]*",

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import isEqual from 'lodash.isequal';
 
 import boundActions from '../boundActions';
 import { focusPing } from '../api';
@@ -24,9 +25,33 @@ class MainScreenContainer extends React.Component {
     focusPing(auth, true, false);
   }
 
+  fetchOlder = () => {
+    const { auth, fetching, narrow, pointer, fetchMessages } = this.props;
+    if (!fetching) {
+      fetchMessages(auth, pointer[0], 10, 0, narrow, false);
+    }
+  }
+
+  fetchNewer = () => {
+    const { auth, fetching, pointer, narrow, caughtUp, fetchMessages } = this.props;
+    if (!fetching && !caughtUp) {
+      fetchMessages(auth, pointer[1], 0, 10, narrow, false);
+    }
+  }
+
+  doNarrow = (newNarrow = [], pointer: number = Number.MAX_SAFE_INTEGER, messages = []) => {
+    const { auth, fetchMessages, narrow } = this.props;
+    fetchMessages(auth, pointer, 10, 10, newNarrow, !isEqual(narrow, newNarrow));
+  }
+
   render() {
     return (
-      <MainScreen {...this.props} />
+      <MainScreen
+        fetchOlder={this.fetchOlder}
+        fetchNewer={this.fetchNewer}
+        doNarrow={this.doNarrow}
+        {...this.props}
+      />
     );
   }
 }

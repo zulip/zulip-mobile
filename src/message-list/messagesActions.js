@@ -1,8 +1,8 @@
 import { Auth } from '../api/apiFetch';
 import { getMessages } from '../api';
 import {
-  CHAT_FETCHING_MESSAGES,
-  CHAT_FETCHED_MESSAGES,
+  MESSAGE_FETCH_START,
+  MESSAGE_FETCH_SUCCESS,
 } from '../constants';
 
 export const fetchMessages = (
@@ -10,10 +10,11 @@ export const fetchMessages = (
   anchor: number,
   numBefore: number,
   numAfter: number,
-  narrow
+  narrow,
+  isNewNarrow,
 ) =>
   async (dispatch) => {
-    dispatch({ type: CHAT_FETCHING_MESSAGES });
+    dispatch({ type: MESSAGE_FETCH_START, narrow, isNewNarrow });
 
     const messages = await getMessages(
       auth: Auth,
@@ -24,7 +25,7 @@ export const fetchMessages = (
     );
 
     dispatch({
-      type: CHAT_FETCHED_MESSAGES,
+      type: MESSAGE_FETCH_SUCCESS,
       auth,
       messages,
       anchor,

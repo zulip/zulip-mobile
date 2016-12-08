@@ -18,15 +18,19 @@ const styles = StyleSheet.create({
 
 export default class TitleGroup extends React.PureComponent {
   render() {
-    // fullName, image
-    const { narrow } = this.props;
-    const recipients = narrow[0].split(',');
+    const { narrow, users } = this.props;
+    const recipientEmails = narrow[0].split(',');
+    const recipients = recipientEmails.map(r => users.find(x => x.email === r));
 
     return (
       <View style={styles.wrapper}>
         {recipients.map(x =>
           <View style={styles.avatar}>
-            <Avatar name={x} size={24} />
+            <Avatar
+              size={24}
+              name={x.fullName}
+              avatarUrl={x.avatarUrl}
+            />
           </View>
         )}
       </View>
