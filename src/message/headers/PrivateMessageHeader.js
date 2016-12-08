@@ -28,13 +28,15 @@ const styles = StyleSheet.create({
 
 export default class PrivateMessageHeader extends React.PureComponent {
 
+  props: {
+    itemId: number,
+    recipients: string,
+    doNarrow: () => {},
+  }
+
   performNarrow = () => {
-    const { recipients, doNarrow, item } = this.props;
-    doNarrow(
-      privateNarrow(recipients.map(r => r.email)),
-      item.id,
-      [item]
-    );
+    const { recipients, doNarrow, itemId } = this.props;
+    doNarrow(privateNarrow(recipients.map(r => r.email)), itemId);
   }
 
   render() {

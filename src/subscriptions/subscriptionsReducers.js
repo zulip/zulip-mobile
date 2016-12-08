@@ -2,7 +2,7 @@ import {
   REALM_INIT,
 } from '../constants';
 
-const initialState = {};
+const initialState = [];
 
 export default (state = initialState, action) => {
   switch (action.type) {

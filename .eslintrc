@@ -13,6 +13,13 @@
   "globals": {
   },
   "extends": "airbnb",
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ios.js", ".android.js"]
+      }
+    }
+  },
   "rules": {
     "quote-props": 0,
     "no-bitwise": 0,

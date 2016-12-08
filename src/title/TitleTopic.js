@@ -2,7 +2,6 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
-  View,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -10,7 +9,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     flex: 1,
-    // lineHeight: NAVBAR_HEIGHT,
   },
 });
 

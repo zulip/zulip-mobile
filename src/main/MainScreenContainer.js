@@ -39,7 +39,7 @@ class MainScreenContainer extends React.Component {
     }
   }
 
-  doNarrow = (newNarrow = [], pointer: number = Number.MAX_SAFE_INTEGER, messages = []) => {
+  doNarrow = (newNarrow = [], pointer: number = Number.MAX_SAFE_INTEGER) => {
     const { auth, fetchMessages, narrow } = this.props;
     fetchMessages(auth, pointer, 10, 10, newNarrow, !isEqual(narrow, newNarrow));
   }

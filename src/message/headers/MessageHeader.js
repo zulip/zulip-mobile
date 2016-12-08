@@ -21,6 +21,8 @@ export default class MessageHeader extends React.PureComponent {
       return (
         <TopicMessageHeader
           key={`section_${item.id}`}
+          itemId={item.id}
+          stream={item.display_recipient}
           topic={item.subject}
           doNarrow={doNarrow}
         />
@@ -28,17 +30,17 @@ export default class MessageHeader extends React.PureComponent {
     }
 
     if (item.type === 'stream') {
-      const subscription = Object.values(subscriptions)
+      const stream = subscriptions
         .find(x => x.name === item.display_recipient);
+
       return (
         <StreamMessageHeader
           key={`section_${item.id}`}
-          isPrivate={item.invite_only}
+          isPrivate={stream && stream.invite_only}
           stream={item.display_recipient}
           topic={item.subject}
-          color={subscription ? subscription.color : '#ccc'}
-          item={item}
-          narrow={narrow}
+          color={stream ? stream.color : '#ccc'}
+          itemId={item.id}
           doNarrow={doNarrow}
         />
       );
@@ -51,8 +53,7 @@ export default class MessageHeader extends React.PureComponent {
         <PrivateMessageHeader
           key={`section_${item.id}`}
           recipients={recipients}
-          item={item}
-          narrow={narrow}
+          itemId={item.id}
           doNarrow={doNarrow}
         />
       );
