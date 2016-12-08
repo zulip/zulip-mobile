@@ -7,6 +7,7 @@ import Drawer from 'react-native-drawer';
 import { OfflineNotice } from '../common';
 import MessageList from '../message-list/MessageList';
 import LoadingRow from '../message/LoadingRow';
+import NoMessages from '../message/NoMessages';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
 import ComposeBox from '../compose/ComposeBox';
@@ -70,6 +71,7 @@ export default class MainScreen extends React.Component {
           >
             {!isOnline && <OfflineNotice />}
             {fetching && <LoadingRow />}
+            {messages.length === 0 && !fetching && <NoMessages narrow={narrow} />}
             <MessageList
               messages={messages}
               narrow={narrow}
