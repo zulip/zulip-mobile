@@ -7,7 +7,7 @@ import {
 import entities from 'entities';
 import htmlparser from 'htmlparser2';
 
-import { getResourceWithAuth } from '../utils/url';
+import { getResource } from '../utils/url';
 import { Touchable } from '../common';
 
 const styles = {
@@ -72,7 +72,7 @@ const BULLET = '\u2022 ';
 const INLINETAGS = new Set(['li', 'span', 'strong', 'b', 'i', 'a', 'p']);
 
 const parseImg = (node, index, auth, onPress) => {
-  const source = getResourceWithAuth(node.attribs.src, auth);
+  const source = getResource(node.attribs.src, auth);
   const img = (
     <Image
       key={index}
