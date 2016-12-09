@@ -7,7 +7,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Touchable } from '../../common';
-import { privateNarrow } from '../../utils/narrow';
+import { privateNarrow, groupNarrow } from '../../utils/narrow';
 
 const styles = StyleSheet.create({
   header: {
@@ -36,7 +36,10 @@ export default class PrivateMessageHeader extends React.PureComponent {
 
   performNarrow = () => {
     const { recipients, doNarrow, itemId } = this.props;
-    doNarrow(privateNarrow(recipients.map(r => r.email)), itemId);
+    const narrow = recipients.length === 1 ?
+      privateNarrow(recipients[0].email) :
+      groupNarrow(recipients.map(r => r.email));
+    doNarrow(narrow, itemId);
   }
 
   render() {
