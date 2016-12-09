@@ -28,7 +28,7 @@ export const apiFetch = async (
 
 
 export const apiCall = async (
-  authObj: Auth,
+  auth: Auth,
   route: string,
   params: Object = {},
   resFunc = res => res,
@@ -44,13 +44,14 @@ export const apiCall = async (
       }, 5000);
     }
 
-    const response = await apiFetch(authObj, route, params, noTimeout);
+    const response = await apiFetch(auth, route, params, noTimeout);
     if (response.status === 401) {
       // TODO: httpUnauthorized()
       throw Error('Unauthorized');
     }
 
     if (!response.ok) {
+      console.error(response); // eslint-disable-line
       throw Error(response.statusText);
     }
 
@@ -59,6 +60,7 @@ export const apiCall = async (
     const json = await response.json();
 
     if (json.result !== 'success') {
+      console.error(json.msg); // eslint-disable-line
       throw new Error(json.msg);
     }
 
@@ -68,13 +70,13 @@ export const apiCall = async (
   }
 };
 
-export const apiGet = async (authObj, route, params = {}, resFunc, noTimeout) =>
-  await apiCall(authObj, `${route}?${encodeAsURI(params)}`, {
+export const apiGet = async (auth, route, params = {}, resFunc, noTimeout) =>
+  await apiCall(auth, `${route}?${encodeAsURI(params)}`, {
     method: 'get',
   }, resFunc, noTimeout);
 
-export const apiPost = async (authObj, route, params = {}, resFunc, noTimeout) =>
-  await apiCall(authObj, route, {
+export const apiPost = async (auth, route, params = {}, resFunc, noTimeout) =>
+  await apiCall(auth, route, {
     method: 'post',
     body: encodeAsURI(params),
   }, resFunc, noTimeout);

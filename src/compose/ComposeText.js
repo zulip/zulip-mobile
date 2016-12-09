@@ -65,13 +65,18 @@ class ComposeText extends React.Component {
 
   handleSend = () => {
     const { auth, narrow } = this.props;
+    const { text } = this.state;
 
     if (isPrivateNarrow(narrow) || isGroupNarrow(narrow)) {
-      sendMessage(auth, 'private', narrow.operand, '', this.state.text);
+      sendMessage(auth, 'private', narrow[0].operand, '', text);
     }
 
-    if (isStreamNarrow(narrow) || isTopicNarrow(narrow)) {
-      sendMessage(auth, 'stream', narrow.operand, 'ZulipMobile', this.state.text);
+    if (isStreamNarrow(narrow)) {
+      sendMessage(auth, 'stream', narrow[0].operand, '(no topic)', text);
+    }
+
+    if (isTopicNarrow(narrow)) {
+      sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, text);
     }
 
     this.setState({ text: '' });
