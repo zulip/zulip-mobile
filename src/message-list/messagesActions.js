@@ -1,4 +1,4 @@
-import { Auth } from '../api/apiFetch';
+import { Auth } from '../types';
 import { getMessages } from '../api';
 import {
   MESSAGE_FETCH_START,

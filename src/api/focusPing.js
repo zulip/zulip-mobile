@@ -1,21 +1,5 @@
+import { Presences } from '../types';
 import { apiPost, Auth } from './apiFetch';
-
-export type UserStatus = 'active' | 'inactive' | 'offline';
-
-export type Presence = {
-  client: string,
-  pushable: boolean,
-  status: UserStatus,
-  timestamp: number,
-};
-
-export type ClientPresence = {
-  [key: string]: Presence,
-};
-
-export type Presences = {
-  [key: string]: ClientPresence,
-};
 
 export default (
   auth: Auth,

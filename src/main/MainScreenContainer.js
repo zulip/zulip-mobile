@@ -20,7 +20,7 @@ class MainScreenContainer extends React.Component {
     } = this.props;
 
     fetchUsersAndStatus(auth);
-    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, narrow);
+    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 100, 0, narrow);
     fetchEvents(auth);
     focusPing(auth, true, false);
   }
@@ -28,20 +28,20 @@ class MainScreenContainer extends React.Component {
   fetchOlder = () => {
     const { auth, fetching, narrow, pointer, fetchMessages } = this.props;
     if (!fetching) {
-      fetchMessages(auth, pointer[0], 10, 0, narrow, false);
+      fetchMessages(auth, pointer[0], 25, 0, narrow, false);
     }
   }
 
   fetchNewer = () => {
     const { auth, fetching, pointer, narrow, caughtUp, fetchMessages } = this.props;
     if (!fetching && !caughtUp) {
-      fetchMessages(auth, pointer[1], 0, 10, narrow, false);
+      fetchMessages(auth, pointer[1], 0, 25, narrow, false);
     }
   }
 
   doNarrow = (newNarrow = [], pointer: number = Number.MAX_SAFE_INTEGER) => {
     const { auth, fetchMessages, narrow } = this.props;
-    fetchMessages(auth, pointer, 10, 10, newNarrow, !isEqual(narrow, newNarrow));
+    fetchMessages(auth, pointer, 25, 0, newNarrow, !isEqual(narrow, newNarrow));
   }
 
   render() {
