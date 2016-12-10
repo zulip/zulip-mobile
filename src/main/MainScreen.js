@@ -4,20 +4,15 @@ import {
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 
-import { OfflineNotice } from '../common';
-import MessageList from '../message-list/MessageList';
-import LoadingRow from '../message/LoadingRow';
-import NoMessages from '../message/NoMessages';
+import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
-import ComposeBox from '../compose/ComposeBox';
 import UserListContainer from '../userlist/UserListContainer';
 
 export default class MainScreen extends React.Component {
 
   render() {
-    const { auth, messages, narrow, fetching, subscriptions, streamlistOpened,
-      caughtUp, isOnline, twentyFourHourTime, doNarrow, fetchOlder, fetchNewer } = this.props;
+    const { streamlistOpened, doNarrow } = this.props;
 
     return (
       <Drawer
@@ -69,21 +64,7 @@ export default class MainScreen extends React.Component {
             onPressPeople={() => this.peopleDrawer.open()}
             openStreamList={() => this.streamDrawer.open()}
           >
-            {!isOnline && <OfflineNotice />}
-            {fetching && <LoadingRow />}
-            {messages.length === 0 && !fetching && <NoMessages narrow={narrow} />}
-            <MessageList
-              messages={messages}
-              narrow={narrow}
-              twentyFourHourTime={twentyFourHourTime}
-              subscriptions={subscriptions}
-              auth={auth}
-              caughtUp={caughtUp}
-              fetchOlder={fetchOlder}
-              fetchNewer={fetchNewer}
-              doNarrow={doNarrow}
-            />
-            <ComposeBox onSend={this.sendMessage} />
+            <Chat {...this.props} />
           </MainNavBar>
         </Drawer>
       </Drawer>

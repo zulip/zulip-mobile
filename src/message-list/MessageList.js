@@ -6,6 +6,7 @@ import renderMessages from './renderMessages';
 
 const styles = StyleSheet.create({
   list: {
+    flex: 1,
     backgroundColor: 'white',
   },
 });

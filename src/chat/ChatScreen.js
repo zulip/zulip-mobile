@@ -1,22 +1,13 @@
 import React from 'react';
 
-import ComposeBox from '../compose/ComposeBox';
+import Chat from './Chat';
 
 export default class StreamScreen extends React.PureComponent {
 
   render() {
     return (
       <Screen>
-        {/* <MessageList
-          messages={messages}
-          subscriptions={subscriptions}
-          auth={auth}
-          caughtUp={caughtUp}
-          fetchOlder={this.fetchOlder}
-          fetchNewer={this.fetchNewer}
-          narrow={this.narrow}
-        /> */}
-        <ComposeBox />
+        <Chat {...this.props} />
       </Screen>
     );
   }
