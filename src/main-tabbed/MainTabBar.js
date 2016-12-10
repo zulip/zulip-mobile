@@ -5,7 +5,9 @@ import {
   Animated,
 } from 'react-native';
 
-import { BRAND_COLOR, STATUSBAR_HEIGHT } from '../common/styles';
+import { BRAND_COLOR } from '../common/styles';
+import { STATUSBAR_HEIGHT } from '../common/platform';
+
 import Tab from './Tab';
 
 const styles = StyleSheet.create({
