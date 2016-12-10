@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexBasis: 20,
     flexDirection: 'row',
+    alignItems: 'stretch',
     justifyContent: 'space-between',
   },
   username: {
