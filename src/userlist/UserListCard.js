@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { getInitialRoutes } from '../nav/routingSelectors';
-import { STATUSBAR_HEIGHT, BRAND_COLOR } from '../common/styles';
+import { STATUSBAR_HEIGHT } from '../common/platform';
+import { BRAND_COLOR } from '../common/styles';
 import { privateNarrow } from '../utils/narrow';
 import UserFilter from './UserFilter';
 import UserList from './UserList';
