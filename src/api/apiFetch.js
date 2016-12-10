@@ -1,10 +1,5 @@
+import { Auth } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
-
-export type Auth = {
-  realm: string,
-  apiKey: string,
-  email: string,
-};
 
 const apiVersion = 'api/v1';
 

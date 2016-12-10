@@ -9,33 +9,6 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../constants';
 
-export type HeartbeatEvent = {
-  type: 'heartbeat',
-  id: number,
-};
-
-export type MessageEvent = {
-  type: 'message',
-  id: number,
-};
-
-export type PresenceEvent = {
-  type: 'message',
-  id: number,
-  email: string,
-  presence: any,
-  server_timestamp: number,
-};
-
-export type UpdateMessageFlagsEvent = {
-  type: 'update_message_flags',
-  id: number,
-  all: boolean,
-  flag: 'read' | '???',
-  messages: number[],
-  operation: 'add' | '???',
-};
-
 const processEvent = (dispatch, event) => {
   switch (event.type) {
     case 'message':

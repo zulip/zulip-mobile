@@ -3,8 +3,8 @@ import {
 } from 'react-native';
 import throttle from 'lodash.throttle';
 
+import { Auth } from '../types';
 import { focusPing } from '../api';
-import { Auth } from '../api/apiFetch';
 
 // Send once per minute.
 // Send when restored from suspended state

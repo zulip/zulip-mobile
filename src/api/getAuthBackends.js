@@ -1,7 +1,5 @@
 import { apiGet, Auth } from './apiFetch';
 
-export type Backend = 'dev' | 'google' | 'password';
-
 export default (auth: Auth) =>
   apiGet(
     auth,

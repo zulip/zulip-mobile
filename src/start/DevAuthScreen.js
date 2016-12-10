@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Auth } from '../api/apiFetch';
+import { Auth } from '../types';
 import boundActions from '../boundActions';
 import { Screen, ErrorMsg, Button } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
