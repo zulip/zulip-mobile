@@ -9,7 +9,7 @@ import {
 import MessageHeader from '../message/headers/MessageHeader';
 import MessageContainer from '../message/MessageContainer';
 import TimeRow from '../message/TimeRow';
-import { sameRecipient } from '../utils/message';
+import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
 export default ({ auth, subscriptions, messages, narrow, doNarrow }) =>
@@ -30,7 +30,7 @@ export default ({ auth, subscriptions, messages, narrow, doNarrow }) =>
 
     const showHeader = !isPrivateNarrow(narrow) &&
       !isGroupNarrow(narrow) && !isTopicNarrow(narrow);
-    const diffRecipient = !sameRecipient(prevItem, item);
+    const diffRecipient = !isSameRecipient(prevItem, item);
 
     if (showHeader && diffRecipient) {
       list.push(

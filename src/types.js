@@ -70,3 +70,18 @@ export type UpdateMessageFlagsEvent = {
   messages: number[],
   operation: 'add' | '???',
 };
+
+export type NarrowOperator = 'is' | 'in' | 'near' | 'id' | 'stream' | 'topic' | 'sender' | 'pm-with';
+
+export type NarrowElement = {
+  operand: string,
+  operator: NarrowOperator,
+};
+
+export type Narrow = NarrowElement[];
+
+export type Recipient = {
+  display_recipient: string,
+  subject: string,
+  email: string,
+};

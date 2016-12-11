@@ -1,8 +1,4 @@
-type Recipient = {
-  display_recipient: string,
-  subject: string,
-  email: string,
-};
+import { Recipient } from '../types';
 
 export const normalizeRecipients = (recipients: Recipient[]) =>
   recipients
@@ -11,7 +7,7 @@ export const normalizeRecipients = (recipients: Recipient[]) =>
     .sort()
     .join(',');
 
-export const sameRecipient = (msg1, msg2): boolean => {
+export const isSameRecipient = (msg1, msg2): boolean => {
   if (msg1 === undefined || msg2 === undefined) {
     return false;
   }

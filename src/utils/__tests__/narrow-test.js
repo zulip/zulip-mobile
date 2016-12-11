@@ -6,6 +6,7 @@ import {
   streamNarrow, isStreamNarrow,
   topicNarrow, isTopicNarrow,
   searchNarrow, isSearchNarrow,
+  isMessageInNarrow,
 } from '../narrow';
 
 describe('homeNarrow', () => {
@@ -123,5 +124,62 @@ describe('searchNarrow', () => {
     expect(isSearchNarrow([])).toBe(false);
     expect(isSearchNarrow([{}, {}])).toBe(false);
     expect(isSearchNarrow([{ operator: 'search' }])).toBe(true);
+  });
+});
+
+describe('isMessageInNarrow', () => {
+  test('any message is in "Home"', () => {
+    const message = {};
+    const narrow = homeNarrow();
+    expect(isMessageInNarrow(message, narrow)).toBe(true);
+  });
+
+  test('TODO: private', () => {
+    const message = {
+      type: 'private',
+      display_recipient: [
+        { email: 'me@example.com' },
+        { email: 'john@example.com' },
+      ],
+    };
+    const narrow = privateNarrow('john@example.com');
+    narrow[0].operand += ',me@example.com';
+
+    expect(isMessageInNarrow(message, narrow, 'me@example.com')).toBe(true);
+  });
+
+  test('TODO: group', () => {
+    const message = {
+      type: 'private',
+      display_recipient: [
+        { email: 'me@example.com' },
+        { email: 'john@example.com' },
+        { email: 'mark@example.com' },
+      ],
+    };
+    const narrow = groupNarrow(['me@example.com', 'john@example.com', 'mark@example.com']);
+
+    expect(isMessageInNarrow(message, narrow)).toBe(true);
+  });
+
+  test('TODO: stream', () => {
+    const message = {
+      type: 'stream',
+      display_recipient: 'some stream',
+    };
+    const narrow = streamNarrow('some stream');
+
+    expect(isMessageInNarrow(message, narrow)).toBe(true);
+  });
+
+  test('TODO: topic', () => {
+    const message = {
+      type: 'stream',
+      subject: 'some topic',
+      display_recipient: 'some stream',
+    };
+    const narrow = topicNarrow('some stream', 'some topic');
+
+    expect(isMessageInNarrow(message, narrow)).toBe(true);
   });
 });

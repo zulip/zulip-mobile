@@ -5,6 +5,7 @@ describe('renderMessages', () => {
     realm: '',
   };
   const subscriptions = [];
+  const narrow = [];
 
   test('empty messages results in no rendered messages', () => {
     const messageList = renderMessages({ messages: [] });
@@ -22,7 +23,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions, auth, narrow: [] });
+    const messageList = renderMessages({ messages, subscriptions, auth, narrow });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);
@@ -59,7 +60,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions, auth, narrow: [] });
+    const messageList = renderMessages({ messages, subscriptions, auth, narrow });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);
@@ -99,7 +100,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions, auth, narrow: [] });
+    const messageList = renderMessages({ messages, subscriptions, auth, narrow });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);
@@ -129,7 +130,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions, auth, narrow: [] });
+    const messageList = renderMessages({ messages, subscriptions, auth, narrow });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);

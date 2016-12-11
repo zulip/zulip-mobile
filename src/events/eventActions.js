@@ -1,4 +1,6 @@
+import { Auth, Narrow } from '../types';
 import { pollForEvents, registerForEvents } from '../api';
+import { isMessageInNarrow } from '../utils/narrow';
 
 import {
   REALM_INIT,
@@ -9,21 +11,25 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../constants';
 
-const processEvent = (dispatch, event) => {
+const processEvent = (dispatch, event, narrow: Narrow) => {
   switch (event.type) {
     case 'message':
-      dispatch({
-        type: EVENT_NEW_MESSAGE,
-        message: event.message,
-      });
+      if (isMessageInNarrow(event.message, narrow)) {
+        dispatch({
+          type: EVENT_NEW_MESSAGE,
+          message: event.message,
+        });
+      }
       break;
     case 'update_message':
-      dispatch({
-        type: EVENT_UPDATE_MESSAGE,
-        messageId: event.message_id,
-        newContent: event.rendered_content,
-        editTimestamp: event.edit_timestamp,
-      });
+      if (isMessageInNarrow(event.message, narrow)) {
+        dispatch({
+          type: EVENT_UPDATE_MESSAGE,
+          messageId: event.message_id,
+          newContent: event.rendered_content,
+          editTimestamp: event.edit_timestamp,
+        });
+      }
       break;
     case 'realm_user':
     case 'realm_bot':
@@ -43,18 +49,20 @@ const processEvent = (dispatch, event) => {
       });
       break;
     case 'update_message_flags':
-      dispatch({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
-        presence: event.presence,
-      });
+      if (isMessageInNarrow(event.message, narrow)) {
+        dispatch({
+          type: EVENT_UPDATE_MESSAGE_FLAGS,
+          presence: event.presence,
+        });
+      }
       break;
     default:
       console.warn('Unrecognized event: ', event.type);  // eslint-disable-line no-console
   }
 };
 
-export const fetchEvents = (auth) =>
-  async (dispatch) => {
+export const fetchEvents = (auth: Auth) =>
+  async (dispatch, getState) => {
     const data = await registerForEvents(auth);
     const queueId = data.queue_id;
     let lastEventId = data.last_event_id;
@@ -71,16 +79,11 @@ export const fetchEvents = (auth) =>
 
     // Event loop
     while (true) { // eslint-disable-line no-constant-condition
-      const res = await pollForEvents(
-        auth,
-        queueId,
-        lastEventId,
-      );
+      const response = await pollForEvents(auth, queueId, lastEventId);
 
-      // Process events
-      for (const event of res.events) {
+      for (const event of response.events) {
         lastEventId = Math.max(lastEventId, event.id);
-        processEvent(dispatch, event);
+        processEvent(dispatch, event, getState().chat.narrow);
       }
     }
   };
