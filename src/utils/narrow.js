@@ -1,47 +1,50 @@
-export const homeNarrow = () => [];
+import { Narrow, Message } from '../types';
+import { normalizeRecipients } from './message';
 
-export const isHomeNarrow = (narrow: []) =>
+export const homeNarrow = (): Narrow => [];
+
+export const isHomeNarrow = (narrow: Narrow): boolean =>
   narrow.length === 0;
 
-export const privateNarrow = (email: string) => [{
+export const privateNarrow = (email: string): Narrow => [{
   operator: 'pm-with',
   operand: email,
 }];
 
-export const isPrivateNarrow = (narrow: []) =>
+export const isPrivateNarrow = (narrow: Narrow): boolean =>
   narrow.length === 1 &&
   narrow[0].operator === 'pm-with' &&
   narrow[0].operand.indexOf(',') === -1;
 
-export const groupNarrow = (emails: string[]) => [{
+export const groupNarrow = (emails: string[]): Narrow => [{
   operator: 'pm-with',
   operand: emails.join(),
 }];
 
-export const isGroupNarrow = (narrow: []) =>
+export const isGroupNarrow = (narrow: Narrow): boolean =>
   narrow.length === 1 &&
   narrow[0].operator === 'pm-with' &&
   narrow[0].operand.indexOf(',') >= 0;
 
-export const specialNarrow = (operand: string) => [{
+export const specialNarrow = (operand: string): Narrow => [{
   operator: 'is',
   operand,
 }];
 
-export const isSpecialNarrow = (narrow: []) =>
+export const isSpecialNarrow = (narrow: Narrow): boolean =>
   narrow.length === 1 &&
   narrow[0].operator === 'is';
 
-export const streamNarrow = (stream) => [{
+export const streamNarrow = (stream): Narrow => [{
   operator: 'stream',
   operand: stream,
 }];
 
-export const isStreamNarrow = (narrow: []) =>
+export const isStreamNarrow = (narrow: Narrow): boolean =>
   narrow.length === 1 &&
   narrow[0].operator === 'stream';
 
-export const topicNarrow = (stream: string, topic: string) => [
+export const topicNarrow = (stream: string, topic: string): Narrow => [
   {
     operator: 'stream',
     operand: stream,
@@ -52,15 +55,31 @@ export const topicNarrow = (stream: string, topic: string) => [
   },
 ];
 
-export const isTopicNarrow = (narrow: []) =>
+export const isTopicNarrow = (narrow: Narrow): boolean =>
   narrow.length === 2 &&
   narrow[1].operator === 'topic';
 
-export const searchNarrow = (query: string) => [{
+export const searchNarrow = (query: string): Narrow => [{
   operator: 'search',
   operand: query,
 }];
 
-export const isSearchNarrow = (narrow: []) =>
+export const isSearchNarrow = (narrow: Narrow): boolean =>
   narrow.length === 1 &&
   narrow[0].operator === 'search';
+
+export const isMessageInNarrow = (message: Message, narrow: Narrow) => {
+  if (isHomeNarrow(narrow)) return true;
+
+  if (isStreamNarrow(narrow) &&
+    message.display_recipient === narrow[0].operand) return true;
+
+  if (isTopicNarrow(narrow) &&
+    message.display_recipient === narrow[0].operand &&
+    message.subject === narrow[1].operand) return true;
+
+  if (isPrivateNarrow(narrow) || isGroupNarrow(narrow) &&
+    normalizeRecipients(message.display_recipient) === narrow[0].operand) return true;
+
+  return false;
+};

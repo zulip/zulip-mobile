@@ -1,4 +1,4 @@
-import { normalizeRecipients, sameRecipient } from '../message';
+import { normalizeRecipients, isSameRecipient } from '../message';
 
 describe('normalizeRecipients', () => {
   test('joins emails from recipients, sorted, trimmed, not including missing ones', () => {
@@ -16,19 +16,19 @@ describe('normalizeRecipients', () => {
   });
 });
 
-describe('sameRecipient', () => {
+describe('isSameRecipient', () => {
   test('passing undefined as any of parameters means recipients are not the same', () => {
-    expect(sameRecipient(undefined, {})).toBe(false);
-    expect(sameRecipient({}, undefined)).toBe(false);
-    expect(sameRecipient(undefined, undefined)).toBe(false);
+    expect(isSameRecipient(undefined, {})).toBe(false);
+    expect(isSameRecipient({}, undefined)).toBe(false);
+    expect(isSameRecipient(undefined, undefined)).toBe(false);
   });
 
   test('recipient types are compared first, if they differ then recipients differ', () => {
-    expect(sameRecipient({ type: 'private' }, { type: 'stream' })).toBe(false);
+    expect(isSameRecipient({ type: 'private' }, { type: 'stream' })).toBe(false);
   });
 
   test('recipient of unknown types are never the same', () => {
-    expect(sameRecipient({ type: 'someUnknown' }, { type: 'someUnknown' })).toBe(false);
+    expect(isSameRecipient({ type: 'someUnknown' }, { type: 'someUnknown' })).toBe(false);
   });
 
   test('recipients are same for private type if display_recipient match in any order', () => {
@@ -46,7 +46,7 @@ describe('sameRecipient', () => {
         { email: 'abc@example.com' },
       ],
     };
-    expect(sameRecipient(msg1, msg2)).toBe(true);
+    expect(isSameRecipient(msg1, msg2)).toBe(true);
   });
 
   test('recipients are same for stream type if display_recipient and subject match', () => {
@@ -60,6 +60,6 @@ describe('sameRecipient', () => {
       display_recipient: 'abc',
       subject: 'def',
     };
-    expect(sameRecipient(msg1, msg2)).toBe(true);
+    expect(isSameRecipient(msg1, msg2)).toBe(true);
   });
 });
