@@ -39,14 +39,14 @@ describe('privateNarrow', () => {
 });
 
 describe('groupNarrow', () => {
-  test('TODO', () => {
+  test('returns a narrow with specified recipients', () => {
     expect(groupNarrow(['bob@example.com', 'john@example.com'])).toEqual([{
       operator: 'pm-with',
       operand: 'bob@example.com,john@example.com'
     }]);
   });
 
-  test('TODO', () => {
+  test('a group narrow is only private chat with more than one recipients', () => {
     expect(isGroupNarrow([])).toBe(false);
     expect(isGroupNarrow([{}, {}])).toBe(false);
     expect(isGroupNarrow([{
@@ -61,14 +61,14 @@ describe('groupNarrow', () => {
 });
 
 describe('specialNarrow', () => {
-  test('TODO', () => {
+  test('produces a narrow with "is" operator', () => {
     expect(specialNarrow('starred')).toEqual([{
       operator: 'is',
       operand: 'starred',
     }]);
   });
 
-  test('TODO', () => {
+  test('only narrowing with the "is" operator is special narrow', () => {
     expect(isSpecialNarrow([])).toBe(false);
     expect(isSearchNarrow([{}, {}])).toBe(false);
     expect(isSpecialNarrow([{ operator: 'stream', operand: 'some stream' }])).toBe(false);
@@ -77,14 +77,14 @@ describe('specialNarrow', () => {
 });
 
 describe('streamNarrow', () => {
-  test('TODO', () => {
+  test('narrows to messages from a specific stream', () => {
     expect(streamNarrow('some stream')).toEqual([{
       operator: 'stream',
       operand: 'some stream',
     }]);
   });
 
-  test('TODO', () => {
+  test('only narrow with operator of "stream" is a stream narrow', () => {
     expect(isStreamNarrow([])).toBe(false);
     expect(isSearchNarrow([{}, {}])).toBe(false);
     expect(isStreamNarrow([{ operator: 'stream', operand: 'some stream' }])).toBe(true);
@@ -92,14 +92,14 @@ describe('streamNarrow', () => {
 });
 
 describe('topicNarrow', () => {
-  test('TODO', () => {
+  test('narrows to a specific topic within a specified stream', () => {
     expect(topicNarrow('some stream', 'some topic')).toEqual([
       { operator: 'stream', operand: 'some stream' },
       { operator: 'topic', operand: 'some topic' },
     ]);
   });
 
-  test('TODO', () => {
+  test('only narrow with two items, one for stream, one for topic is a topic narrow', () => {
     expect(isTopicNarrow([])).toBe(false);
     expect(isTopicNarrow([{}])).toBe(false);
     expect(isTopicNarrow([{
@@ -113,14 +113,14 @@ describe('topicNarrow', () => {
 });
 
 describe('searchNarrow', () => {
-  test('TODO', () => {
+  test('produces a narrow for a search query', () => {
     expect(searchNarrow('some query')).toEqual([{
       operator: 'search',
       operand: 'some query',
     }]);
   });
 
-  test('TODO', () => {
+  test('narrow with "search" operand is a search narrow', () => {
     expect(isSearchNarrow([])).toBe(false);
     expect(isSearchNarrow([{}, {}])).toBe(false);
     expect(isSearchNarrow([{ operator: 'search' }])).toBe(true);
@@ -134,7 +134,7 @@ describe('isMessageInNarrow', () => {
     expect(isMessageInNarrow(message, narrow)).toBe(true);
   });
 
-  test('TODO: private', () => {
+  test('message with type "private" is in private narrow if recipient matches', () => {
     const message = {
       type: 'private',
       display_recipient: [
@@ -143,12 +143,11 @@ describe('isMessageInNarrow', () => {
       ],
     };
     const narrow = privateNarrow('john@example.com');
-    narrow[0].operand += ',me@example.com';
 
     expect(isMessageInNarrow(message, narrow, 'me@example.com')).toBe(true);
   });
 
-  test('TODO: group', () => {
+  test('message with type "private" is in group narrow if all recipients match ', () => {
     const message = {
       type: 'private',
       display_recipient: [
@@ -157,12 +156,26 @@ describe('isMessageInNarrow', () => {
         { email: 'mark@example.com' },
       ],
     };
-    const narrow = groupNarrow(['me@example.com', 'john@example.com', 'mark@example.com']);
+    const selfEmail = 'me@example.com';
+    const narrow = groupNarrow(['john@example.com', 'mark@example.com']);
+
+    expect(isMessageInNarrow(message, narrow, selfEmail)).toBe(true);
+  });
+
+  test('message with type "private" is always in "private messages" narrow', () => {
+    const message = {
+      type: 'private',
+      display_recipient: [
+        { email: 'me@example.com' },
+        { email: 'john@example.com' },
+      ],
+    };
+    const narrow = specialNarrow('private', 'some topic');
 
     expect(isMessageInNarrow(message, narrow)).toBe(true);
   });
 
-  test('TODO: stream', () => {
+  test('message with type "stream" is in narrow if recipient and current stream match', () => {
     const message = {
       type: 'stream',
       display_recipient: 'some stream',
@@ -172,7 +185,7 @@ describe('isMessageInNarrow', () => {
     expect(isMessageInNarrow(message, narrow)).toBe(true);
   });
 
-  test('TODO: topic', () => {
+  test('message with type stream is in topic narrow if current stream and topic match with its own', () => {
     const message = {
       type: 'stream',
       subject: 'some topic',

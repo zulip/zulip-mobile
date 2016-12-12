@@ -1,4 +1,4 @@
-import { Auth, Narrow } from '../types';
+import { Auth } from '../types';
 import { pollForEvents, registerForEvents } from '../api';
 import { isMessageInNarrow } from '../utils/narrow';
 
@@ -11,10 +11,16 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../constants';
 
-const processEvent = (dispatch, event, narrow: Narrow) => {
+const processEvent = (dispatch, event, getState) => {
+  const isInNarrow = isMessageInNarrow(
+    event.message,
+    getState().chat.narrow,
+    getState().accounts[0].email,
+  );
+
   switch (event.type) {
     case 'message':
-      if (isMessageInNarrow(event.message, narrow)) {
+      if (isInNarrow) {
         dispatch({
           type: EVENT_NEW_MESSAGE,
           message: event.message,
@@ -22,7 +28,7 @@ const processEvent = (dispatch, event, narrow: Narrow) => {
       }
       break;
     case 'update_message':
-      if (isMessageInNarrow(event.message, narrow)) {
+      if (isInNarrow) {
         dispatch({
           type: EVENT_UPDATE_MESSAGE,
           messageId: event.message_id,
@@ -49,7 +55,7 @@ const processEvent = (dispatch, event, narrow: Narrow) => {
       });
       break;
     case 'update_message_flags':
-      if (isMessageInNarrow(event.message, narrow)) {
+      if (isInNarrow) {
         dispatch({
           type: EVENT_UPDATE_MESSAGE_FLAGS,
           presence: event.presence,
@@ -83,7 +89,7 @@ export const fetchEvents = (auth: Auth) =>
 
       for (const event of response.events) {
         lastEventId = Math.max(lastEventId, event.id);
-        processEvent(dispatch, event, getState().chat.narrow);
+        processEvent(dispatch, event, getState);
       }
     }
   };

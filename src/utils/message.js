@@ -3,7 +3,7 @@ import { Recipient } from '../types';
 export const normalizeRecipients = (recipients: Recipient[]) =>
   recipients
     .map((s) => s.email.trim())
-    .filter((s) => s.length > 0)
+    .filter(x => x.length > 0)
     .sort()
     .join(',');
 
