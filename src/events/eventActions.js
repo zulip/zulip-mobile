@@ -15,7 +15,7 @@ const processEvent = (dispatch, event, getState) => {
   const isInNarrow = isMessageInNarrow(
     event.message,
     getState().chat.narrow,
-    getState().accounts[0].email,
+    getState().account[0].email,
   );
 
   switch (event.type) {
