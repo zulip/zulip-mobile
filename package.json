@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
+    "ios": "react-native run-ios",
     "ios-min": "react-native run-ios --simulator 'iPhone 5'",
     "ios-max": "react-native run-ios --simulator 'iPhone 7 Plus'",
-    "ios-device": "react-native run-ios --device 'Max's iPhone'",
+    "ios-device": "react-native run-ios --device",
     "android-min": "react-native run-android",
     "android-max": "react-native run-android",
     "android-release": "react-native run-android --configuration 'Release'",
