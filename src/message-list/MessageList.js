@@ -6,9 +6,12 @@ import renderMessages from './renderMessages';
 
 const styles = StyleSheet.create({
   list: {
-    flex: 1,
     backgroundColor: 'white',
   },
+  container: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+  }
 });
 
 export default class MessageList extends React.PureComponent {
@@ -24,6 +27,7 @@ export default class MessageList extends React.PureComponent {
     return (
       <InfiniteScrollView
         style={styles.list}
+        contentContainerStyle={styles.container}
         automaticallyAdjustContentInset="false"
         autoScrollToBottom={caughtUp}
         stickyHeaderIndices={headerIndices}
