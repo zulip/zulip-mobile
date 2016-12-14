@@ -56,12 +56,14 @@ class InfiniteScrollView extends React.Component {
         distFromEnd > this.props.onEndReachedThreshold) {
       this._sentEndForContentHeight = null;
     }
+    this.props.onScroll(e.nativeEvent);
   }
 
   render() {
     return (
       <AnchoredScrollView
         style={this.props.style}
+        contentContainerStyle={this.props.contentContainerStyle}
         automaticallyAdjustContentInset={false}
         scrollsToTop
         onContentSizeChange={this._onContentSizeChanged.bind(this)}
@@ -70,6 +72,8 @@ class InfiniteScrollView extends React.Component {
         scrollEventThrottle={DEFAULT_SCROLL_CALLBACK_THROTTLE}
         stickyHeaderIndices={this.props.stickyHeaderIndices}
         anchorMode
+        bounces={false}
+        scrollEventThrottle={1000}
         autoScrollToBottom={this.props.autoScrollToBottom}
       >
         {this.props.children}
