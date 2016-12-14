@@ -33,6 +33,7 @@ export default class MessageList extends React.PureComponent {
         stickyHeaderIndices={headerIndices}
         onStartReached={fetchOlder}
         onEndReached={fetchNewer}
+        onScroll={e => {}}
       >
         {messageList}
       </InfiniteScrollView>

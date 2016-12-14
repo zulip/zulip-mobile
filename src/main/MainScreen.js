@@ -4,6 +4,8 @@ import {
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 
+import DeviceInfo from 'react-native-device-info';
+
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
@@ -13,7 +15,10 @@ export default class MainScreen extends React.Component {
 
   render() {
     const { streamlistOpened, doNarrow } = this.props;
-
+    console.log('getModel', DeviceInfo.getModel());
+    console.log('getSystemVersion', DeviceInfo.getSystemVersion());
+    console.log('getVersion', DeviceInfo.getVersion());
+    console.log('getUserAgent', DeviceInfo.getUserAgent());
     return (
       <Drawer
         content={

@@ -12,6 +12,9 @@ import {
 } from '../constants';
 
 const processEvent = (dispatch, event, getState) => {
+  if (!getState().account) {
+    console.log('WTF WTF WTF', getState());
+  }
   const isInNarrow = isMessageInNarrow(
     event.message,
     getState().chat.narrow,
