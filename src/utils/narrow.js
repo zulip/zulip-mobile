@@ -69,20 +69,35 @@ export const isSearchNarrow = (narrow: Narrow): boolean =>
   narrow[0].operator === 'search';
 
 export const isMessageInNarrow = (message: Message, narrow: Narrow, selfEmail: string) => {
-  if (isHomeNarrow(narrow)) return true;
+  if (isHomeNarrow(narrow)) {
+    return true;
+  }
 
   if (isStreamNarrow(narrow) &&
-    message.display_recipient === narrow[0].operand) return true;
+    message.display_recipient === narrow[0].operand
+  ) {
+    return true;
+  }
 
   if (isTopicNarrow(narrow) &&
     message.display_recipient === narrow[0].operand &&
-    message.subject === narrow[1].operand) return true;
+    message.subject === narrow[1].operand
+  ) {
+    return true;
+  }
 
   if (isPrivateNarrow(narrow) || isGroupNarrow(narrow) &&
     normalizeRecipients(message.display_recipient) ===
-    [...narrow[0].operand.split(','), selfEmail].sort().join(',')) return true;
+    [...narrow[0].operand.split(','), selfEmail].sort().join(',')
+  ) {
+    return true;
+  }
 
-  if (isSpecialNarrow(narrow) && narrow[0].operand === message.type) return true;
+  if (isSpecialNarrow(narrow) &&
+    narrow[0].operand === message.type
+  ) {
+    return true;
+  }
 
   return false;
 };
