@@ -3,7 +3,9 @@ import {
   Image,
 } from 'react-native';
 
-export default({ avatarUrl, size }) => {
+import { Touchable } from './';
+
+export default({ avatarUrl, size, onPress }) => {
   const style = {
     height: size,
     width: size,
@@ -11,10 +13,12 @@ export default({ avatarUrl, size }) => {
   };
 
   return (
-    <Image
-      style={style}
-      source={{ uri: avatarUrl }}
-      resizeMode="contain"
-    />
+    <Touchable onPress={onPress}>
+      <Image
+        style={style}
+        source={{ uri: avatarUrl }}
+        resizeMode="contain"
+      />
+    </Touchable>
   );
 };
