@@ -1,11 +1,10 @@
 import React from 'react';
-import { TextInput } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import { fetchApiKey } from '../api';
 import config from '../config';
-import { styles, Screen, ErrorMsg, Button } from '../common';
+import { Screen, ErrorMsg, Button, Input } from '../common';
 import { getAuth } from '../account/accountSelectors';
 
 type Props = {};
@@ -50,17 +49,15 @@ class PasswordAuthScreen extends React.Component {
 
     return (
       <Screen title="Login" keyboardAvoiding>
-        <TextInput
+        <Input
           autoCorrect={false}
           autoFocus
-          style={styles.input}
           autoCapitalize="none"
           placeholder="Email"
           defaultValue={email}
           onChangeText={newEmail => this.setState({ email: newEmail })}
         />
-        <TextInput
-          style={styles.input}
+        <Input
           placeholder="Password"
           secureTextEntry
           value={password}
