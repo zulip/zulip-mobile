@@ -9,6 +9,7 @@ export default class Avatar extends React.PureComponent {
     avatarUrl: string,
     name: string,
     size: number,
+    onPress: () => {},
   }
 
   static defaultProps = {
@@ -17,10 +18,10 @@ export default class Avatar extends React.PureComponent {
   };
 
   render() {
-    const { avatarUrl, name, size } = this.props;
+    const { avatarUrl, name, size, onPress } = this.props;
 
     return avatarUrl
-      ? <ImageAvatar avatarUrl={avatarUrl} size={size} />
-      : <TextAvatar name={name} size={size} />;
+      ? <ImageAvatar avatarUrl={avatarUrl} size={size} onPress={onPress} />
+      : <TextAvatar name={name} size={size} onPress={onPress} />;
   }
 }

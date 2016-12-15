@@ -4,6 +4,8 @@ import {
   View,
 } from 'react-native';
 
+import { Touchable } from './';
+
 export const colorHashFromName = (name: string) => {
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = hash * 31 + name.charCodeAt(1);
@@ -15,7 +17,7 @@ export const colorHashFromName = (name: string) => {
 export const initialsFromName = (name: string) =>
   name.match(/\S+\s*/g).map(x => x[0].toUpperCase()).join('');
 
-export default ({ name, size }) => {
+export default ({ name, size, onPress }) => {
   const frameStyle = {
     justifyContent: 'center',
     alignItems: 'center',
@@ -30,8 +32,10 @@ export default ({ name, size }) => {
   };
 
   return (
-    <View style={frameStyle}>
-      <Text style={textStyle}>{initialsFromName(name)}</Text>
-    </View>
+    <Touchable onPress={onPress}>
+      <View style={frameStyle}>
+        <Text style={textStyle}>{initialsFromName(name)}</Text>
+      </View>
+    </Touchable>
   );
 };

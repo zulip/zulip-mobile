@@ -31,12 +31,15 @@ export default class MessageFull extends React.PureComponent {
     twentyFourHourTime: bool,
   };
 
+  handleAvatarPress = () =>
+    true;
+
   render() {
     const { message, avatarUrl, timestamp, twentyFourHourTime, from } = this.props;
 
     return (
       <View style={styles.message}>
-        <Avatar avatarUrl={avatarUrl} name={from} />
+        <Avatar avatarUrl={avatarUrl} name={from} onPress={this.handleAvatarPress} />
         <View style={styles.content}>
           <Subheader
             from={from}
