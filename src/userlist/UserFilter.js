@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  TextInput,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
+
+import { Input } from '../common';
 
 const styles = StyleSheet.create({
-  input: {
-    height: 44,
+  filter: {
     padding: 12,
   },
 });
@@ -21,12 +19,12 @@ export default class UserDrawer extends Component {
     const { onChange } = this.props;
 
     return (
-      <TextInput
+      <Input
+        customStyle={styles.filter}
         autoCorrect={false}
         enablesReturnKeyAutomatically
         selectTextOnFocus
         clearButtonMode="always"
-        style={styles.input}
         autoCapitalize="none"
         placeholder="Search people"
         returnKeyType="search"

@@ -1,10 +1,9 @@
 import React from 'react';
-import { TextInput } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
-import { styles, Screen, ErrorMsg, Button } from '../common';
+import { Screen, ErrorMsg, Button, Input } from '../common';
 import { getAuthBackends } from '../api';
 import config from '../config';
 import AuthTypeScreen from './AuthTypeScreen';
@@ -57,8 +56,7 @@ class RealmScreen extends React.Component {
 
     return (
       <Screen title="Add Server" keyboardAvoiding>
-        <TextInput
-          style={styles.input}
+        <Input
           autoFocus
           autoCorrect={false}
           autoCapitalize="none"

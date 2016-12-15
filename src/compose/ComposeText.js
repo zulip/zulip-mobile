@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  TextInput,
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -15,6 +14,7 @@ import {
   isPrivateNarrow,
   isGroupNarrow,
 } from '../utils/narrow';
+import { Input } from '../common';
 import { getAuth } from '../account/accountSelectors';
 import sendMessage from '../api/sendMessage';
 import SendButton from './SendButton';
@@ -106,8 +106,8 @@ class ComposeText extends React.Component {
         {lastWordPrefix === '@' &&
           <PeopleAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
         <ScrollView style={[styles.messageBox, { height }]}>
-          <TextInput
-            style={[styles.composeInput]}
+          <Input
+            customStyle={[styles.composeInput]}
             blurOnSubmit
             defaultValue={text}
             multiline
