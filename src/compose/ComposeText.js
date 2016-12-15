@@ -69,13 +69,9 @@ class ComposeText extends React.Component {
 
     if (isPrivateNarrow(narrow) || isGroupNarrow(narrow)) {
       sendMessage(auth, 'private', narrow[0].operand, '', text);
-    }
-
-    if (isStreamNarrow(narrow)) {
+    } else if (isStreamNarrow(narrow)) {
       sendMessage(auth, 'stream', narrow[0].operand, '(no topic)', text);
-    }
-
-    if (isTopicNarrow(narrow)) {
+    } else if (isTopicNarrow(narrow)) {
       sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, text);
     }
 
