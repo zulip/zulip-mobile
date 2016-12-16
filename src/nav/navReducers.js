@@ -30,7 +30,7 @@ export default (state = initialState, action) => {
       );
     case PUSH_ROUTE: {
       if (state.routes[state.index].key === action.route) return state;
-      return NavigationStateUtils.push(state, { key: action.route });
+      return NavigationStateUtils.push(state, { key: action.route, data: action.data });
     }
     case POP_ROUTE:
       if (state.index === 0 || state.routes.length === 1) return state;

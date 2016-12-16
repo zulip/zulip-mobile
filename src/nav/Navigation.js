@@ -11,7 +11,7 @@ import RealmScreen from '../start/RealmScreen';
 import PasswordAuthScreen from '../start/PasswordAuthScreen';
 import DevAuthScreen from '../start/DevAuthScreen';
 import MainScreenContainer from '../main/MainScreenContainer';
-import AccountDetailsContainer from '../account-info/AccountContainer';
+import AccountDetailsScreen from '../account-info/AccountDetailsScreen';
 
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
@@ -62,7 +62,7 @@ export default class Navigation extends React.Component {
       case 'main':
         return <MainScreenContainer />;
       case 'account-details':
-        return <AccountDetailsContainer />;
+        return <AccountDetailsScreen />;
       default:
         return <LoadingScreen />;
     }

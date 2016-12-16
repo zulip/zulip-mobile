@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
 export default class AccountDetails extends Component {
 
   render() {
-    const { fullName, email } = this.props;
+    const { avatarUrl, fullName, email } = this.props;
 
     return (
       <View>
         <View style={styles.avatarWrapper}>
-          <Avatar name={fullName} size={64} />
+          <Avatar avatarUrl={avatarUrl} name={fullName} size={100} />
         </View>
         <Text style={styles.info}>{fullName}</Text>
         <Text style={styles.info}>{email}</Text>
