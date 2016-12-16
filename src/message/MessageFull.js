@@ -1,10 +1,8 @@
 import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
 
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
-
+import boundActions from '../boundActions';
 import { Avatar } from '../common';
 import Subheader from './Subheader';
 
@@ -21,28 +19,33 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageFull extends React.PureComponent {
+class MessageFull extends React.PureComponent {
 
   props: {
     message: string,
     avatarUrl: string,
-    from: string,
+    fromName: string,
+    fromEmail: string,
     timestamp: number,
     twentyFourHourTime: bool,
   };
 
   handleAvatarPress = () =>
-    true;
+    this.props.pushRoute('account-details', this.props.fromEmail);
 
   render() {
-    const { message, avatarUrl, timestamp, twentyFourHourTime, from } = this.props;
+    const { message, avatarUrl, timestamp, twentyFourHourTime, fromName } = this.props;
 
     return (
       <View style={styles.message}>
-        <Avatar avatarUrl={avatarUrl} name={from} onPress={this.handleAvatarPress} />
+        <Avatar
+          avatarUrl={avatarUrl}
+          name={fromName}
+          onPress={this.handleAvatarPress}
+        />
         <View style={styles.content}>
           <Subheader
-            from={from}
+            from={fromName}
             timestamp={timestamp}
             twentyFourHourTime={twentyFourHourTime}
           />
@@ -52,3 +55,10 @@ export default class MessageFull extends React.PureComponent {
     );
   }
 }
+
+export default connect(
+  (state) => ({
+    accounts: state.account,
+  }),
+  boundActions,
+)(MessageFull);

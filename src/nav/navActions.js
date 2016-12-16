@@ -9,9 +9,10 @@ export const initRoutes = (routes: string[]) => ({
   routes,
 });
 
-export const pushRoute = (route: Object) => ({
+export const pushRoute = (route: Object, data: Object) => ({
   type: PUSH_ROUTE,
   route,
+  data,
 });
 
 export const popRoute = () => ({

@@ -23,3 +23,6 @@ export const getInitialRoutes = (accounts: any[]): string => {
 
   return routeList;
 };
+
+export const getCurrentRoute = (state) =>
+  state.nav.routes[state.nav.index];

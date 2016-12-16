@@ -23,11 +23,10 @@ const styles = StyleSheet.create({
   },
   offline: {
     backgroundColor: 'transparent',
-    borderColor: 'gray',
+    borderColor: 'lightgray',
     borderWidth: 2,
   },
   unknown: {
-
   },
 });
 
