@@ -57,8 +57,6 @@ class MessageFull extends React.PureComponent {
 }
 
 export default connect(
-  (state) => ({
-    accounts: state.account,
-  }),
+  null,
   boundActions,
 )(MessageFull);

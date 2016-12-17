@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import boundActions from '../boundActions';
+import { getAuth } from '../account/accountSelectors';
 import { Screen } from '../common';
 import { getFullUrl } from '../utils/url';
 import AccountDetails from './AccountDetails';
@@ -15,16 +17,20 @@ class AccountDetailsScreen extends Component {
   }
 
   render() {
-    const { auth, email, users } = this.props;
-    const { fullName, avatarUrl } = users.find(x => x.email === email) || { fullName: 'A', avatarUrl: '' };
+    const { auth, email, users, fetchMessages, popRoute } = this.props;
+    const { fullName, avatarUrl, status } = users.find(x => x.email === email) || { fullName: 'A', avatarUrl: '', status: 'unknown' };
     const fullAvatarUrl = getFullUrl(avatarUrl, auth.realm);
 
     return (
       <Screen title="Account Details">
         <AccountDetails
+          auth={auth}
           fullName={fullName}
-          email={auth.email}
+          email={email}
           avatarUrl={fullAvatarUrl}
+          status={status}
+          fetchMessages={fetchMessages}
+          popRoute={popRoute}
         />
       </Screen>
     );
@@ -33,8 +39,9 @@ class AccountDetailsScreen extends Component {
 
 export default connect(
   (state) => ({
-    auth: state.account[0],
+    auth: getAuth(state),
     users: state.userlist,
     email: getCurrentRoute(state).data,
   }),
+  boundActions,
 )(AccountDetailsScreen);
