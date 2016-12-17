@@ -19,15 +19,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginLeft: 8,
   },
-  header: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  userName: {
-    fontWeight: 'bold',
-    fontSize: 15,
-  },
 });
 
 export default class MessageFull extends React.PureComponent {

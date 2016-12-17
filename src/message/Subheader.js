@@ -11,12 +11,12 @@ import Timestamp from './Timestamp';
 const styles = StyleSheet.create({
   subheader: {
     flex: 1,
-    flexBasis: 20,
+    flexBasis: 25,
     flexDirection: 'row',
-    alignItems: 'stretch',
     justifyContent: 'space-between',
   },
   username: {
+    flex: 1,
     fontWeight: 'bold',
     fontSize: 15,
   },
