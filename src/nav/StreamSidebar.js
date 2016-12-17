@@ -5,15 +5,14 @@ import {
   View,
 } from 'react-native';
 
-import {
-  homeNarrow,
-  specialNarrow,
-} from '../utils/narrow';
+import { STATUSBAR_HEIGHT } from '../common/platform';
+import { homeNarrow, specialNarrow } from '../utils/narrow';
 import SidebarRow from './SidebarRow';
 import StreamListContainer from '../streamlist/StreamListContainer';
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: STATUSBAR_HEIGHT,
     flex: 1,
     flexDirection: 'column',
   },

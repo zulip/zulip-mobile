@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
 
 import { Input } from '../common';
-
-const styles = StyleSheet.create({
-  filter: {
-    padding: 12,
-  },
-});
 
 export default class UserDrawer extends Component {
 
@@ -20,7 +13,6 @@ export default class UserDrawer extends Component {
 
     return (
       <Input
-        customStyle={styles.filter}
         autoCorrect={false}
         enablesReturnKeyAutomatically
         selectTextOnFocus
