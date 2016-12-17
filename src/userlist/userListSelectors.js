@@ -9,11 +9,11 @@ const statusOrder = (status) => {
 
 export const groupUsersByInitials = (users: any[]): any[] =>
   users.reduce((accounts, x) => {
-    if (accounts[x.fullName[0]]) {
-      accounts[x.fullName[0]].push(x);
-    } else {
-      accounts[x.fullName[0]] = []; // eslint-disable-line
+    const firstLetter = x.fullName[0].toUpperCase();
+    if (!accounts[firstLetter]) {
+      accounts[firstLetter] = []; // eslint-disable-line
     }
+    accounts[firstLetter].push(x);
     return accounts;
   }, {});
 
