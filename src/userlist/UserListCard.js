@@ -5,7 +5,7 @@ import { getInitialRoutes } from '../nav/routingSelectors';
 import { STATUSBAR_HEIGHT } from '../common/platform';
 import { BRAND_COLOR } from '../common/styles';
 import { privateNarrow } from '../utils/narrow';
-import UserFilter from './UserFilter';
+import { SearchInput } from '../common';
 import UserList from './UserList';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
 import LogoutButton from '../account-info/LogoutButton';
@@ -70,7 +70,7 @@ export default class UserListCard extends Component {
 
     return (
       <View tabLabel="People" style={styles.container}>
-        <UserFilter onChange={this.handleFilterChange} />
+        <SearchInput onChange={this.handleFilterChange} />
         <UserList
           ownEmail={ownEmail}
           users={users}

@@ -7,6 +7,7 @@ export { default as Logo } from './Logo';
 export { default as OfflineNotice } from './OfflineNotice';
 export { default as Popup } from './Popup';
 export { default as Screen } from './Screen';
+export { default as SearchInput } from './SearchInput';
 export { default as styles } from './styles';
 export { default as TextAvatar } from './TextAvatar';
 export { default as Touchable } from './Touchable';
