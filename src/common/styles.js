@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { STATUSBAR_HEIGHT, FIELD_HEIGHT } from './platform';
+import { STATUSBAR_HEIGHT, FIELD_HEIGHT, NAVBAR_HEIGHT } from './platform';
 
 export const BRAND_COLOR = '#24cac2';
 export const HIGHLIGHT_COLOR = 'rgba(86, 164, 174, 0.5)';
@@ -58,16 +58,15 @@ export default StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: BRAND_COLOR,
     paddingTop: STATUSBAR_HEIGHT,
-    alignItems: 'stretch',
+    height: NAVBAR_HEIGHT,
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   navButton: {
     color: 'white',
     textAlign: 'center',
     fontSize: 26,
-    width: 32,
-    lineHeight: 32,
-    height: 32,
+    width: NAVBAR_HEIGHT,
   },
   navTitle: {
     flex: 1,

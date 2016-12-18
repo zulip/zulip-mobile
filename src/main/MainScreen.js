@@ -27,7 +27,7 @@ export default class MainScreen extends React.Component {
         ref={(streamDrawer) => { this.streamDrawer = streamDrawer; }}
         open={streamlistOpened}
         tapToClose
-        openDrawerOffset={40}
+        openDrawerOffset={56}
         negotiatePan
         panOpenMask={0.5}
         useInteractionManager
@@ -45,7 +45,7 @@ export default class MainScreen extends React.Component {
             />
           }
           ref={(peopleDrawer) => { this.peopleDrawer = peopleDrawer; }}
-          openDrawerOffset={40}
+          openDrawerOffset={56}
           tapToClose
           negotiatePan
           panOpenMask={0.5}
