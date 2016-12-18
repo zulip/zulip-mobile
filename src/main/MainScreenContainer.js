@@ -5,6 +5,7 @@ import isEqual from 'lodash.isequal';
 import boundActions from '../boundActions';
 import { focusPing } from '../api';
 import { getPointer } from '../chat/chatSelectors';
+import { getMessages } from '../message-list/messagesSelectors';
 import { getAuth } from '../account/accountSelectors';
 import MainScreen from './MainScreen';
 
@@ -60,7 +61,7 @@ const mapStateToProps = (state) => ({
   auth: getAuth(state),
   isOnline: state.app.isOnline,
   subscriptions: state.subscriptions,
-  messages: state.messages,
+  messages: getMessages(state),
   fetching: state.chat.fetching,
   narrow: state.chat.narrow,
   pointer: getPointer(state),
