@@ -6,29 +6,14 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { BRAND_COLOR } from '../common/styles';
-import { NAVBAR_HEIGHT, STATUSBAR_HEIGHT } from '../common/platform';
+import styles from '../common/styles';
 
 import Title from '../title/Title';
 
-const styles = StyleSheet.create({
-  container: {
+const moreStyles = StyleSheet.create({
+  wrapper: {
     flex: 1,
     flexDirection: 'column',
-  },
-  navBar: {
-    flexDirection: 'row',
-    backgroundColor: BRAND_COLOR,
-    paddingTop: STATUSBAR_HEIGHT,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  button: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 26,
-    padding: (NAVBAR_HEIGHT - 28) / 2,
-    width: NAVBAR_HEIGHT,
   },
 });
 
@@ -40,11 +25,11 @@ export default class MainNavBar extends React.Component {
       <Navigator
         initialRoute={{ name: 'Home', index: 0 }}
         renderScene={(route) =>
-          <View style={styles.container}>
+          <View style={moreStyles.wrapper}>
             <View style={styles.navBar}>
-              <Icon style={styles.button} name="ios-menu" onPress={openStreamList} />
+              <Icon style={styles.navButton} name="ios-menu" onPress={openStreamList} />
               <Title />
-              <Icon style={styles.button} name="md-people" onPress={onPressPeople} />
+              <Icon style={styles.navButton} name="md-people" onPress={onPressPeople} />
             </View>
             {this.props.children}
           </View>
