@@ -14,7 +14,7 @@
     "test:lint": "eslint src/",
     "test:flow": "node_modules/.bin/flow check",
     "test:unit": "jest",
-    "test": "npm run test:lint && npm run test:unit"
+    "test": "npm run test:lint && npm run test:unit && npm run test:flow"
   },
   "dependencies": {
     "base-64": "^0.1.0",
@@ -37,16 +37,16 @@
     "redux": "^3.6.0",
     "redux-action-buffer": "^1.0.1",
     "redux-logger": "^2.7.4",
-    "redux-persist": "^4.0.0-beta1",
+    "redux-persist": "^4.0.0",
     "redux-persist-transform-immutable": "^4.1.0",
     "redux-thunk": "^2.1.0",
     "stream": "^0.0.2"
   },
   "devDependencies": {
-    "babel-core": "^6.20.0",
+    "babel-core": "^6.21.0",
     "babel-eslint": "^7.1.1",
-    "babel-jest": "^17.0.2",
-    "babel-preset-react-native": "^1.9.0",
+    "babel-jest": "^18.0.0",
+    "babel-preset-react-native": "^1.9.1",
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-import": "^2.2.0",
@@ -54,11 +54,11 @@
     "eslint-plugin-react": "^6.8.0",
     "eslint-plugin-react-native": "^2.2.1",
     "eslint-plugin-spellcheck": "0.0.8",
-    "flow-bin": "^0.37.0",
-    "jest": "^17.0.3",
-    "jest-cli": "^17.0.3",
-    "jest-react-native": "^17.1.0",
-    "react-native-cli": "^2.0.0",
+    "flow-bin": "~0.35.0",
+    "jest": "^18.0.0",
+    "jest-cli": "^18.0.0",
+    "jest-react-native": "^18.0.0",
+    "react-native-cli": "^2.0.1",
     "react-test-renderer": "^15.4.1"
   },
   "jest": {
