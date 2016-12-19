@@ -1,11 +1,11 @@
-import messagesReducers from '../messagesReducers';
+import messagesReducers from '../chatReducers';
 import {
   MESSAGE_FETCH_SUCCESS,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE,
 } from '../../constants';
 
-describe('messagesReducers', () => {
+describe('chatReducers', () => {
   test('handles unknown action and no previous state by returning initial state', () => {
     const newState = messagesReducers(undefined, {});
     expect(newState).toBeDefined();
