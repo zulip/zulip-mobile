@@ -1,4 +1,5 @@
-import { getMessages } from '../message-list/messagesSelectors';
+export const getMessages = (state) =>
+  state.chat.messages[JSON.stringify(state.chat.narrow)] || [];
 
 export const getPointer = (state) => {
   const messages = getMessages(state);
@@ -9,3 +10,6 @@ export const getPointer = (state) => {
 
   return [messages[0].id, messages[messages.length - 1].id];
 };
+
+export const getSearchResults = (state) =>
+  state.chat.messages.search;
