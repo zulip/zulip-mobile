@@ -4,8 +4,7 @@ import isEqual from 'lodash.isequal';
 
 import boundActions from '../boundActions';
 import { focusPing } from '../api';
-import { getPointer } from '../chat/chatSelectors';
-import { getMessages } from '../message-list/messagesSelectors';
+import { getMessages, getPointer } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
 import MainScreen from './MainScreen';
 
