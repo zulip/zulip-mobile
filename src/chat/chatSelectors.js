@@ -10,6 +10,3 @@ export const getPointer = (state) => {
 
   return [messages[0].id, messages[messages.length - 1].id];
 };
-
-export const getSearchResults = (state) =>
-  state.chat.messages.search;

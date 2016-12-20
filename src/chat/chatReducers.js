@@ -15,22 +15,10 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case MESSAGE_FETCH_START:
-      if (!action.isNewNarrow) {
-        return {
-          ...state,
-          fetching: true,
-          narrow: action.narrow
-        };
-      }
-
       return {
+        ...state,
         fetching: true,
-        caughtUp: false,
-        narrow: action.narrow,
-        messages: {
-          ...state.messages,
-          [JSON.stringify(action.narrow)]: []
-        },
+        narrow: action.narrow
       };
     case MESSAGE_FETCH_SUCCESS: {
       const key = JSON.stringify(state.narrow);
@@ -50,26 +38,45 @@ export default (state = initialState, action) => {
         }
       };
     }
-    case EVENT_NEW_MESSAGE:
-      return [
-        ...state,
-        action.message
-      ];
+    case EVENT_NEW_MESSAGE: {
+      const key = JSON.stringify(action.narrow);
+
+      return {
+        fetching: state.fetching,
+        narrow: state.narrow,
+        caughtUp: state.caughtUp,
+        messages: {
+          ...state.messages,
+          [key]: [
+            ...state.messages[key],
+            action.message,
+          ],
+        },
+      };
+    }
     case EVENT_UPDATE_MESSAGE: {
-      const messages = state.messages[JSON.stringify(state.narrow)] || [];
+      const key = JSON.stringify(state.narrow);
+      const messages = state.messages[key] || [];
       const prevMessageIndex = messages.findIndex(x => x.id === action.messageId);
 
       if (prevMessageIndex === -1) return state;
 
-      return [
-        ...state.slice(0, prevMessageIndex),
-        {
-          ...state[prevMessageIndex],
-          content: action.newContent,
-          edit_timestamp: action.editTimestamp,
-        },
-        ...state.slice(prevMessageIndex + 1),
-      ];
+      return {
+        fetching: state.fetching,
+        narrow: state.narrow,
+        caughtUp: state.caughtUp,
+        messages: {
+          [key]: [
+            ...messages.slice(0, prevMessageIndex),
+            {
+              ...messages[prevMessageIndex],
+              content: action.newContent,
+              edit_timestamp: action.editTimestamp,
+            },
+            ...messages.slice(prevMessageIndex + 1),
+          ],
+        }
+      };
     }
     default:
       return state;
