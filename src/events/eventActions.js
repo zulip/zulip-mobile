@@ -12,15 +12,16 @@ import {
 } from '../constants';
 
 const processEvent = (dispatch, event, getState) => {
-  const isInNarrow = isMessageInNarrow(
-    event.message,
-    getState().chat.narrow,
-    getState().account[0].email,
-  );
+  const isInNarrow = () =>
+    isMessageInNarrow(
+      event.message,
+      getState().chat.narrow,
+      getState().account[0].email,
+    );
 
   switch (event.type) {
     case 'message':
-      if (isInNarrow) {
+      if (isInNarrow()) {
         dispatch({
           type: EVENT_NEW_MESSAGE,
           message: event.message,
@@ -28,7 +29,7 @@ const processEvent = (dispatch, event, getState) => {
       }
       break;
     case 'update_message':
-      if (isInNarrow) {
+      if (isInNarrow()) {
         dispatch({
           type: EVENT_UPDATE_MESSAGE,
           messageId: event.message_id,
@@ -55,7 +56,7 @@ const processEvent = (dispatch, event, getState) => {
       });
       break;
     case 'update_message_flags':
-      if (isInNarrow) {
+      if (isInNarrow()) {
         dispatch({
           type: EVENT_UPDATE_MESSAGE_FLAGS,
           presence: event.presence,
