@@ -2,19 +2,17 @@ import React from 'react';
 import {
   StyleSheet,
   View,
+  TextInput,
   ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 
 import {
-  isHomeNarrow,
-  isSpecialNarrow,
   isStreamNarrow,
   isTopicNarrow,
   isPrivateNarrow,
   isGroupNarrow,
 } from '../utils/narrow';
-import { Input } from '../common';
 import { getAuth } from '../account/accountSelectors';
 import sendMessage from '../api/sendMessage';
 import SendButton from './SendButton';
@@ -95,7 +93,8 @@ class ComposeText extends React.Component {
     const height = Math.min(Math.max(MIN_HEIGHT, contentHeight), MAX_HEIGHT);
     const lastword = text.match(/\b(\w+)$/);
     const lastWordPrefix = lastword && lastword.index && text[lastword.index - 1];
-    const canSendToCurrentNarrow = isHomeNarrow(narrow) && isSpecialNarrow(narrow);
+    const canSendToCurrentNarrow = isPrivateNarrow(narrow) ||
+      isGroupNarrow(narrow) || isStreamNarrow(narrow) || isTopicNarrow(narrow);
 
     return (
       <View style={styles.wrapper}>
@@ -105,9 +104,9 @@ class ComposeText extends React.Component {
           <StreamAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
         {lastWordPrefix === '@' &&
           <PeopleAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
-        <ScrollView style={[styles.messageBox, { height }]}>
-          <Input
-            customStyle={[styles.composeInput]}
+        <ScrollView style={{ height }} contentContainerStyle={styles.messageBox}>
+          <TextInput
+            style={styles.composeInput}
             blurOnSubmit
             defaultValue={text}
             multiline
@@ -121,7 +120,7 @@ class ComposeText extends React.Component {
           />
         </ScrollView>
         <SendButton
-          disabled={text.length === 0 || canSendToCurrentNarrow}
+          disabled={text.length === 0 || !canSendToCurrentNarrow}
           onPress={this.handleSend}
         />
       </View>
