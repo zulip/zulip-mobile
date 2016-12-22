@@ -20,7 +20,8 @@ class MainScreenContainer extends React.Component {
     } = this.props;
 
     fetchUsersAndStatus(auth);
-    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 100, 0, narrow);
+    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 5, 0, narrow);
+    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 100, 5, narrow);
     fetchEvents(auth);
     focusPing(auth, true, false);
   }
