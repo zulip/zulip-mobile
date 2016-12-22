@@ -6,7 +6,6 @@ import { FIELD_HEIGHT } from './styles';
 const styles = StyleSheet.create({
   input: {
     height: FIELD_HEIGHT,
-    padding: 10,
   },
 });
 
