@@ -4,6 +4,7 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE,
 } from '../constants';
+import { isMessageInNarrow } from '../utils/narrow';
 
 const initialState = {
   fetching: false,
@@ -41,23 +42,32 @@ export default (state = initialState, action) => {
     }
 
     case EVENT_NEW_MESSAGE: {
-      const key = JSON.stringify(action.narrow);
-
       return {
         fetching: state.fetching,
         narrow: state.narrow,
         caughtUp: state.caughtUp,
-        messages: {
-          ...state.messages,
-          '[]': [
-            ...state.messages['[]'],
+        messages: Object.keys(state.messages).reduce((msg, key) => {
+          msg[key] = isMessageInNarrow(action.message, JSON.parse(key)) ?
+          [
+            ...state.messages[key],
             action.message,
-          ],
-          [key]: [
-            ...state.messages[key] || [],
-            action.message,
-          ],
-        },
+          ] :
+          state.messages[key];
+
+          return msg;
+        }, {}),
+         //
+        //  {
+        //   ...state.messages,
+        //   '[]': [
+        //     ...state.messages['[]'],
+        //     action.message,
+        //   ],
+        //   [key]: [
+        //     ...state.messages[key] || [],
+        //     action.message,
+        //   ],
+        // },
       };
     }
 
