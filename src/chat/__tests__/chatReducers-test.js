@@ -32,6 +32,30 @@ describe('chatReducers', () => {
     });
   });
 
+  test('appends message to multiple cached narrows', () => {
+    const initialState = {
+      messages: {
+        '[]': [{ id: 1 }, { id: 2 }],
+      }
+    };
+    const action = {
+      type: EVENT_NEW_MESSAGE,
+      message: { id: 3 },
+      narrow: [{ operator: 'stream', operand: 'test' }],
+    };
+    const expectedState = {
+      messages: {
+        '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
+        '[{"operator":"stream","operand":"test"}]': [{ id: 3 }],
+      },
+    };
+
+    const newState = messagesReducers(initialState, action);
+
+    expect(newState).toEqual(expectedState);
+    expect(newState).not.toBe(initialState);
+  });
+
   describe('EVENT_UPDATE_MESSAGE', () => {
     test('message is not shown, do not change state', () => {
       const initialState = {
@@ -54,7 +78,7 @@ describe('chatReducers', () => {
             { id: 2 },
             { id: 3, content: 'Old content' },
           ],
-        }
+        },
       };
       const action = {
         type: EVENT_UPDATE_MESSAGE,

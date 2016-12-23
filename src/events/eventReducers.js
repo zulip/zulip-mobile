@@ -1,5 +1,5 @@
 import {
-  EVENTS_REGISTERED,
+  EVENT_REGISTERED,
 } from '../constants';
 
 const initialState = {
@@ -8,7 +8,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case EVENTS_REGISTERED:
+    case EVENT_REGISTERED:
       return {
         ...state,
         queueId: action.queueId,
