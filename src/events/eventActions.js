@@ -6,7 +6,7 @@ import {
   REALM_INIT,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE,
-  EVENTS_REGISTERED,
+  EVENT_REGISTERED,
   EVENT_PRESENCE,
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../constants';
@@ -80,7 +80,7 @@ export const fetchEvents = (auth: Auth) =>
     });
 
     dispatch({
-      type: EVENTS_REGISTERED,
+      type: EVENT_REGISTERED,
       queueId,
     });
 

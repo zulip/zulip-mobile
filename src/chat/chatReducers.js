@@ -20,6 +20,7 @@ export default (state = initialState, action) => {
         fetching: true,
         narrow: action.narrow
       };
+
     case MESSAGE_FETCH_SUCCESS: {
       const key = JSON.stringify(state.narrow);
       const messages = state.messages[key] || [];
@@ -38,6 +39,7 @@ export default (state = initialState, action) => {
         }
       };
     }
+
     case EVENT_NEW_MESSAGE: {
       const key = JSON.stringify(action.narrow);
 
@@ -47,13 +49,18 @@ export default (state = initialState, action) => {
         caughtUp: state.caughtUp,
         messages: {
           ...state.messages,
+          '[]': [
+            ...state.messages['[]'],
+            action.message,
+          ],
           [key]: [
-            ...state.messages[key],
+            ...state.messages[key] || [],
             action.message,
           ],
         },
       };
     }
+
     case EVENT_UPDATE_MESSAGE: {
       const key = JSON.stringify(state.narrow);
       const messages = state.messages[key] || [];
@@ -78,6 +85,7 @@ export default (state = initialState, action) => {
         }
       };
     }
+
     default:
       return state;
   }
