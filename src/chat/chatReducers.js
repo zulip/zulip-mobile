@@ -23,7 +23,7 @@ export default (state = initialState, action) => {
       };
 
     case MESSAGE_FETCH_SUCCESS: {
-      const key = JSON.stringify(state.narrow);
+      const key = JSON.stringify(action.narrow);
       const messages = state.messages[key] || [];
       const newMessages = action.messages
         .filter(x => !messages.find(msg => msg.id === x.id))
@@ -47,7 +47,7 @@ export default (state = initialState, action) => {
         narrow: state.narrow,
         caughtUp: state.caughtUp,
         messages: Object.keys(state.messages).reduce((msg, key) => {
-          msg[key] = isMessageInNarrow(action.message, JSON.parse(key)) ?
+          msg[key] = isMessageInNarrow(action.message, JSON.parse(key)) ? // eslint-disable-line
           [
             ...state.messages[key],
             action.message,
@@ -56,34 +56,19 @@ export default (state = initialState, action) => {
 
           return msg;
         }, {}),
-         //
-        //  {
-        //   ...state.messages,
-        //   '[]': [
-        //     ...state.messages['[]'],
-        //     action.message,
-        //   ],
-        //   [key]: [
-        //     ...state.messages[key] || [],
-        //     action.message,
-        //   ],
-        // },
       };
     }
 
     case EVENT_UPDATE_MESSAGE: {
-      const key = JSON.stringify(state.narrow);
-      const messages = state.messages[key] || [];
-      const prevMessageIndex = messages.findIndex(x => x.id === action.messageId);
-
-      if (prevMessageIndex === -1) return state;
-
       return {
         fetching: state.fetching,
         narrow: state.narrow,
         caughtUp: state.caughtUp,
-        messages: {
-          [key]: [
+        messages: Object.keys(state.messages).reduce((msg, key) => {
+          const messages = state.messages[key];
+          const prevMessageIndex = messages.findIndex(x => x.id === action.messageId);
+          msg[key] = prevMessageIndex !== -1 ? // eslint-disable-line
+          [
             ...messages.slice(0, prevMessageIndex),
             {
               ...messages[prevMessageIndex],
@@ -91,8 +76,11 @@ export default (state = initialState, action) => {
               edit_timestamp: action.editTimestamp,
             },
             ...messages.slice(prevMessageIndex + 1),
-          ],
-        }
+          ] :
+          state.messages[key];
+
+          return msg;
+        }, {}),
       };
     }
 
