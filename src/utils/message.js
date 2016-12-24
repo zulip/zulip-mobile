@@ -1,11 +1,13 @@
 import { Recipient } from '../types';
 
 export const normalizeRecipients = (recipients: Recipient[]) =>
-  recipients
-    .map((s) => s.email.trim())
-    .filter(x => x.length > 0)
-    .sort()
-    .join(',');
+  (!Array.isArray(recipients) ?
+    recipients :
+    recipients
+      .map((s) => s.email.trim())
+      .filter(x => x.length > 0)
+      .sort()
+      .join(','));
 
 export const isSameRecipient = (msg1, msg2): boolean => {
   if (msg1 === undefined || msg2 === undefined) {
