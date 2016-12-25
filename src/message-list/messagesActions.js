@@ -1,4 +1,3 @@
-import { Auth } from '../types';
 import { getMessages } from '../api';
 import {
   MESSAGE_FETCH_START,
@@ -15,13 +14,7 @@ export const fetchMessages = (
   async (dispatch) => {
     dispatch({ type: MESSAGE_FETCH_START, narrow });
 
-    const messages = await getMessages(
-      auth: Auth,
-      anchor: number,
-      numBefore: number,
-      numAfter: number,
-      narrow,
-    );
+    const messages = await getMessages(auth, anchor, numBefore, numAfter, narrow);
 
     dispatch({
       type: MESSAGE_FETCH_SUCCESS,
