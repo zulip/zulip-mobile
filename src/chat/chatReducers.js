@@ -7,7 +7,7 @@ import {
 import { isMessageInNarrow } from '../utils/narrow';
 
 const initialState = {
-  fetching: false,
+  fetching: 0,
   caughtUp: false,
   narrow: [],
   messages: {},
@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
     case MESSAGE_FETCH_START:
       return {
         ...state,
-        fetching: true,
+        fetching: state.fetching + 1,
         narrow: action.narrow
       };
 
@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
         .sort((a, b) => a.timestamp - b.timestamp);
 
       return {
-        fetching: false,
+        fetching: state.fetching - 1,
         narrow: action.narrow,
         caughtUp: action.caughtUp,
         messages: {

@@ -13,7 +13,7 @@ import TimeRow from '../message/TimeRow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
-export default ({ auth, subscriptions, messages, fetching, narrow, doNarrow }) =>
+export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow }) =>
   messages.reduce((list, item, index) => {
     const prevItem = messages[index - 1];
 
@@ -63,4 +63,4 @@ export default ({ auth, subscriptions, messages, fetching, narrow, doNarrow }) =
     );
 
     return list;
-  }, fetching ? [<MessageLoading key="ml1" />, <MessageLoading key="ml2" />, <MessageLoading key="ml3" />] : []);
+  }, isFetching ? [<MessageLoading key="ml1" />, <MessageLoading key="ml2" />, <MessageLoading key="ml3" />] : []);
