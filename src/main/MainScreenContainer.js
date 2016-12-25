@@ -1,48 +1,43 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import isEqual from 'lodash.isequal';
 
 import boundActions from '../boundActions';
 import { focusPing } from '../api';
-import { getMessages, getPointer } from '../chat/chatSelectors';
+import { getMessagesInActiveNarrow, getPointer } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
 import MainScreen from './MainScreen';
 
 class MainScreenContainer extends React.Component {
-
-  state: {
-    currentAppState: boolean,
-  }
 
   componentDidMount() {
     const {
       auth, narrow, fetchEvents, fetchUsersAndStatus, fetchMessages,
     } = this.props;
 
+    fetchEvents(auth);
     fetchUsersAndStatus(auth);
     fetchMessages(auth, Number.MAX_SAFE_INTEGER, 5, 0, narrow);
     fetchMessages(auth, Number.MAX_SAFE_INTEGER, 100, 5, narrow);
-    fetchEvents(auth);
     focusPing(auth, true, false);
   }
 
   fetchOlder = () => {
     const { auth, fetching, narrow, pointer, fetchMessages } = this.props;
     if (!fetching) {
-      fetchMessages(auth, pointer[0], 25, 0, narrow, false);
+      fetchMessages(auth, pointer[0], 25, 0, narrow);
     }
   }
 
   fetchNewer = () => {
     const { auth, fetching, pointer, narrow, caughtUp, fetchMessages } = this.props;
     if (!fetching && !caughtUp) {
-      fetchMessages(auth, pointer[1], 0, 25, narrow, false);
+      fetchMessages(auth, pointer[1], 0, 25, narrow);
     }
   }
 
   doNarrow = (newNarrow = [], pointer: number = Number.MAX_SAFE_INTEGER) => {
-    const { auth, fetchMessages, narrow } = this.props;
-    fetchMessages(auth, pointer, 25, 0, newNarrow, !isEqual(narrow, newNarrow));
+    const { auth, fetchMessages } = this.props;
+    fetchMessages(auth, pointer, 25, 0, newNarrow);
   }
 
   render() {
@@ -61,7 +56,7 @@ const mapStateToProps = (state) => ({
   auth: getAuth(state),
   isOnline: state.app.isOnline,
   subscriptions: state.subscriptions,
-  messages: getMessages(state),
+  messages: getMessagesInActiveNarrow(state),
   fetching: state.chat.fetching,
   narrow: state.chat.narrow,
   pointer: getPointer(state),

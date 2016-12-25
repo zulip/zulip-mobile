@@ -11,10 +11,9 @@ export const fetchMessages = (
   numBefore: number,
   numAfter: number,
   narrow,
-  isNewNarrow,
 ) =>
   async (dispatch) => {
-    dispatch({ type: MESSAGE_FETCH_START, narrow, isNewNarrow });
+    dispatch({ type: MESSAGE_FETCH_START, narrow });
 
     const messages = await getMessages(
       auth: Auth,
