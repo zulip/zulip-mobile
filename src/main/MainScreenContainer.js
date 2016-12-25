@@ -22,15 +22,15 @@ class MainScreenContainer extends React.Component {
   }
 
   fetchOlder = () => {
-    const { auth, fetching, narrow, pointer, fetchMessages } = this.props;
-    if (!fetching) {
+    const { auth, isFetching, narrow, pointer, fetchMessages } = this.props;
+    if (!isFetching) {
       fetchMessages(auth, pointer[0], 25, 0, narrow);
     }
   }
 
   fetchNewer = () => {
-    const { auth, fetching, pointer, narrow, caughtUp, fetchMessages } = this.props;
-    if (!fetching && !caughtUp) {
+    const { auth, isFetching, pointer, narrow, caughtUp, fetchMessages } = this.props;
+    if (!isFetching && !caughtUp) {
       fetchMessages(auth, pointer[1], 0, 25, narrow);
     }
   }
@@ -57,7 +57,7 @@ const mapStateToProps = (state) => ({
   isOnline: state.app.isOnline,
   subscriptions: state.subscriptions,
   messages: getMessagesInActiveNarrow(state),
-  fetching: state.chat.fetching,
+  isFetching: state.chat.fetching > 0,
   narrow: state.chat.narrow,
   pointer: getPointer(state),
   caughtUp: state.chat.caughtUp,
