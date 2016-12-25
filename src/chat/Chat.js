@@ -5,7 +5,6 @@ import {
 
 import { styles, OfflineNotice } from '../common';
 import MessageList from '../message-list/MessageList';
-import LoadingRow from '../message/LoadingRow';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 
@@ -18,11 +17,11 @@ export default class MainScreen extends React.Component {
     return (
       <KeyboardAvoidingView style={styles.screen} behavior="padding">
         {!isOnline && <OfflineNotice />}
-        {fetching && <LoadingRow />}
         {messages.length === 0 && !fetching && <NoMessages narrow={narrow} />}
         <MessageList
           messages={messages}
           narrow={narrow}
+          fetching={fetching}
           twentyFourHourTime={twentyFourHourTime}
           subscriptions={subscriptions}
           auth={auth}
