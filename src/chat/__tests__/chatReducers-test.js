@@ -284,5 +284,40 @@ describe('chatReducers', () => {
       expect(newState.messages).toEqual(expectedState.messages);
       expect(newState).not.toBe(initialState);
     });
+
+    test('tracks startReached per narrow', () => {
+      const initialState = {
+        messages: {
+          [homeNarrowStr]: [
+            { id: 1 },
+          ],
+        },
+        startReached: [],
+      };
+      const action = {
+        type: MESSAGE_FETCH_SUCCESS,
+        narrow: [],
+        messages: [
+          { id: 2 },
+        ],
+        startReached: true,
+      };
+      const expectedState = {
+        messages: {
+          [homeNarrowStr]: [
+            { id: 1 },
+            { id: 2 },
+          ],
+        },
+        startReached: [
+          '[]',
+        ]
+      };
+
+      const newState = messagesReducers(initialState, action);
+
+      expect(newState.startReached).toEqual(expectedState.startReached);
+      expect(newState).not.toBe(initialState);
+    });
   });
 });
