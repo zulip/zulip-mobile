@@ -11,6 +11,7 @@ const initialState = {
   caughtUp: false,
   narrow: [],
   messages: {},
+  startReached: [],
 };
 
 export default (state = initialState, action) => {
@@ -30,22 +31,24 @@ export default (state = initialState, action) => {
         .concat(messages)
         .sort((a, b) => a.timestamp - b.timestamp);
 
+      const newstartReached = action.startReached && !state.startReached.includes(key);
+
       return {
+        ...state,
         fetching: state.fetching - 1,
-        narrow: action.narrow,
-        caughtUp: action.caughtUp,
         messages: {
           ...state.messages,
           [key]: newMessages,
-        }
+        },
+        startReached: newstartReached ?
+          state.startReached.concat(key) :
+          state.startReached,
       };
     }
 
     case EVENT_NEW_MESSAGE: {
       return {
-        fetching: state.fetching,
-        narrow: state.narrow,
-        caughtUp: state.caughtUp,
+        ...state,
         messages: Object.keys(state.messages).reduce((msg, key) => {
           msg[key] = isMessageInNarrow(action.message, JSON.parse(key)) ? // eslint-disable-line
           [
@@ -61,9 +64,7 @@ export default (state = initialState, action) => {
 
     case EVENT_UPDATE_MESSAGE: {
       return {
-        fetching: state.fetching,
-        narrow: state.narrow,
-        caughtUp: state.caughtUp,
+        ...state,
         messages: Object.keys(state.messages).reduce((msg, key) => {
           const messages = state.messages[key];
           const prevMessageIndex = messages.findIndex(x => x.id === action.messageId);
