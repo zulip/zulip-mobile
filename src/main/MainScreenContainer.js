@@ -17,13 +17,13 @@ class MainScreenContainer extends React.Component {
     fetchEvents(auth);
     fetchUsersAndStatus(auth);
     fetchMessages(auth, Number.MAX_SAFE_INTEGER, 5, 0, narrow);
-    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 100, 5, narrow);
+    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 50, 0, narrow);
     focusPing(auth, true, false);
   }
 
   fetchOlder = () => {
-    const { auth, isFetching, narrow, pointer, fetchMessages } = this.props;
-    if (!isFetching) {
+    const { auth, isFetching, startReached, narrow, pointer, fetchMessages } = this.props;
+    if (!isFetching && !startReached.includes(JSON.stringify(narrow))) {
       fetchMessages(auth, pointer[0], 25, 0, narrow);
     }
   }
@@ -59,6 +59,7 @@ const mapStateToProps = (state) => ({
   messages: getMessagesInActiveNarrow(state),
   isFetching: state.chat.fetching > 0,
   narrow: state.chat.narrow,
+  startReached: state.chat.startReached,
   pointer: getPointer(state),
   caughtUp: state.chat.caughtUp,
   streamlistOpened: state.nav.opened,
