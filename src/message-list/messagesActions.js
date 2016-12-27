@@ -1,8 +1,14 @@
 import { getMessages } from '../api';
 import {
+  SWITCH_NARROW,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_SUCCESS,
 } from '../constants';
+
+export const switchNarrow = (narrow) => ({
+  type: SWITCH_NARROW,
+  narrow,
+});
 
 export const fetchMessages = (
   auth,
