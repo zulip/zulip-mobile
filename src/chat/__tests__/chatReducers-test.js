@@ -8,6 +8,7 @@ import {
   specialNarrow,
 } from '../../utils/narrow';
 import {
+  SWITCH_NARROW,
   MESSAGE_FETCH_SUCCESS,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE,
@@ -24,6 +25,26 @@ describe('chatReducers', () => {
   test('handles unknown action and no previous state by returning initial state', () => {
     const newState = messagesReducers(undefined, {});
     expect(newState).toBeDefined();
+  });
+
+  describe('SWITCH_NARROW', () => {
+    test('changes current narrow', () => {
+      const initialState = {
+        narrow: [],
+      };
+      const action = {
+        type: SWITCH_NARROW,
+        narrow: streamNarrow('some stream'),
+      };
+      const expectedState = {
+        narrow: streamNarrow('some stream'),
+      };
+
+      const newState = messagesReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+      expect(newState).not.toBe(initialState);
+    });
   });
 
   describe('EVENT_NEW_MESSAGE', () => {

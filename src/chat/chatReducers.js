@@ -1,4 +1,5 @@
 import {
+  SWITCH_NARROW,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_SUCCESS,
   EVENT_NEW_MESSAGE,
@@ -15,6 +16,12 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SWITCH_NARROW:
+      return {
+        ...state,
+        narrow: action.narrow
+      };
+
     case MESSAGE_FETCH_START:
       return {
         ...state,
@@ -30,7 +37,7 @@ export default (state = initialState, action) => {
         .concat(messages)
         .sort((a, b) => a.timestamp - b.timestamp);
 
-      const newstartReached = action.startReached && !state.startReached.includes(key);
+      const newStartReached = action.startReached && !state.startReached.includes(key);
 
       return {
         ...state,
@@ -39,7 +46,7 @@ export default (state = initialState, action) => {
           ...state.messages,
           [key]: newMessages,
         },
-        startReached: newstartReached ?
+        startReached: newStartReached ?
           state.startReached.concat(key) :
           state.startReached,
       };

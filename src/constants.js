@@ -16,6 +16,7 @@ export const PUSH_ROUTE = 'PUSH_ROUTE';
 export const POP_ROUTE = 'POP_ROUTE';
 
 export const REALM_INIT = 'REALM_INIT';
+export const SWITCH_NARROW = 'SWITCH_NARROW';
 
 export const EVENT_NEW_MESSAGE = 'EVENT_NEW_MESSAGE';
 export const EVENT_SUBSCRIPTION_ADD = 'EVENT_SUBSCRIPTION_ADD';

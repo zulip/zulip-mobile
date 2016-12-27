@@ -17,20 +17,25 @@ class MainScreenContainer extends React.Component {
     fetchEvents(auth);
     fetchUsersAndStatus(auth);
     fetchMessages(auth, Number.MAX_SAFE_INTEGER, 5, 0, narrow);
-    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 50, 0, narrow);
+    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 20, 0, narrow);
     focusPing(auth, true, false);
   }
 
   fetchOlder = () => {
     const { auth, isFetching, startReached, narrow, pointer, fetchMessages } = this.props;
     if (!isFetching && !startReached.includes(JSON.stringify(narrow))) {
-      fetchMessages(auth, pointer[0], 25, 0, narrow);
+      fetchMessages(auth, pointer[0], 20, 0, narrow);
     }
   }
 
   doNarrow = (newNarrow = [], pointer: number = Number.MAX_SAFE_INTEGER) => {
-    const { auth, fetchMessages } = this.props;
-    fetchMessages(auth, pointer, 25, 0, newNarrow);
+    const { auth, allMessages, fetchMessages, switchNarrow } = this.props;
+
+    if (allMessages[JSON.stringify(newNarrow)]) {
+      switchNarrow(newNarrow);
+    } else {
+      fetchMessages(auth, pointer, 20, 0, newNarrow);
+    }
   }
 
   render() {
@@ -49,6 +54,7 @@ const mapStateToProps = (state) => ({
   isOnline: state.app.isOnline,
   subscriptions: state.subscriptions,
   messages: getMessagesInActiveNarrow(state),
+  allMessages: state.chat.messages,
   isFetching: state.chat.fetching > 0,
   narrow: state.chat.narrow,
   startReached: state.chat.startReached,
