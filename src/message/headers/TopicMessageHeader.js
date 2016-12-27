@@ -26,9 +26,9 @@ export default class TopicMessageHeader extends React.PureComponent {
   }
 
   performTopicNarrow = () => {
-    const { doNarrow, itemId, stream, topic } = this.props;
+    const { doNarrow, stream, topic } = this.props;
 
-    doNarrow(topicNarrow(stream, topic), itemId);
+    doNarrow(topicNarrow(stream, topic));
   }
 
   render() {

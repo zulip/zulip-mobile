@@ -35,11 +35,11 @@ export default class PrivateMessageHeader extends React.PureComponent {
   }
 
   performNarrow = () => {
-    const { recipients, doNarrow, itemId } = this.props;
+    const { recipients, doNarrow } = this.props;
     const narrow = recipients.length === 1 ?
       privateNarrow(recipients[0].email) :
       groupNarrow(recipients.map(r => r.email));
-    doNarrow(narrow, itemId);
+    doNarrow(narrow);
   }
 
   render() {

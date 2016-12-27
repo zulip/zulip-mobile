@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
 export default class MessageList extends React.PureComponent {
   render() {
-    const { caughtUp, fetchOlder } = this.props;
+    const { fetchOlder } = this.props;
 
     const messageList = renderMessages(this.props);
     const headerIndices = messageList
@@ -29,7 +29,7 @@ export default class MessageList extends React.PureComponent {
         style={styles.list}
         contentContainerStyle={styles.container}
         automaticallyAdjustContentInset="false"
-        autoScrollToBottom={caughtUp}
+        autoScrollToBottom
         stickyHeaderIndices={headerIndices}
         onStartReached={fetchOlder}
         onScroll={e => {}}
