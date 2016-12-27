@@ -56,7 +56,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         messages: Object.keys(state.messages).reduce((msg, key) => {
-          msg[key] = isMessageInNarrow(action.message, JSON.parse(key)) ? // eslint-disable-line
+          const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.selfEmail);
+          msg[key] = isInNarrow ? // eslint-disable-line
           [
             ...state.messages[key],
             action.message,
