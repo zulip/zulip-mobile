@@ -1,5 +1,6 @@
 import { Auth } from '../types';
 import { pollForEvents, registerForEvents } from '../api';
+import { getActiveAccount } from '../account/accountSelectors';
 
 import {
   REALM_INIT,
@@ -18,6 +19,7 @@ const processEvent = (dispatch, event, getState) => {
       dispatch({
         type: EVENT_NEW_MESSAGE,
         message: event.message,
+        selfEmail: getActiveAccount(getState()).email,
       });
       break;
     case 'update_message':

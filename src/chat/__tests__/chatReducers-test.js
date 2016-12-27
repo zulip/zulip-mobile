@@ -154,12 +154,13 @@ describe('chatReducers', () => {
       sender_email: 'someone@example.com',
       display_recipient: [
         { email: 'me@example.com' },
-        { email: 'someone@example.com' },
+        { email: 'mark@example.com' },
       ],
     };
     const action = {
       type: EVENT_NEW_MESSAGE,
       message,
+      selfEmail: 'me@example.com',
     };
     const expectedState = {
       messages: {
@@ -168,7 +169,7 @@ describe('chatReducers', () => {
         [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
         [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
         [privateNarrowStr]: [{ id: 2 }, { id: 4 }, message],
-        [groupNarrowStr]: [{ id: 2 }, { id: 4 }, message],
+        [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
       },
     };
 
