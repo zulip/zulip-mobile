@@ -22,8 +22,6 @@ export const fetchMessages = (
       messages,
       anchor,
       narrow,
-      caughtUp: (numAfter >= numBefore &&
-        messages.length < numAfter + numBefore + (numBefore ? 1 : 0)),
       startReached: numAfter === 0 && numBefore > messages.length,
     });
   };

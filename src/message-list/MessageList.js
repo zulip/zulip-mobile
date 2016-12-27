@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
 export default class MessageList extends React.PureComponent {
   render() {
-    const { caughtUp, fetchOlder, fetchNewer } = this.props;
+    const { caughtUp, fetchOlder } = this.props;
 
     const messageList = renderMessages(this.props);
     const headerIndices = messageList
@@ -32,7 +32,6 @@ export default class MessageList extends React.PureComponent {
         autoScrollToBottom={caughtUp}
         stickyHeaderIndices={headerIndices}
         onStartReached={fetchOlder}
-        onEndReached={fetchNewer}
         onScroll={e => {}}
       >
         {messageList}

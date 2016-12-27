@@ -28,13 +28,6 @@ class MainScreenContainer extends React.Component {
     }
   }
 
-  fetchNewer = () => {
-    const { auth, isFetching, pointer, narrow, caughtUp, fetchMessages } = this.props;
-    if (!isFetching && !caughtUp) {
-      fetchMessages(auth, pointer[1], 0, 25, narrow);
-    }
-  }
-
   doNarrow = (newNarrow = [], pointer: number = Number.MAX_SAFE_INTEGER) => {
     const { auth, fetchMessages } = this.props;
     fetchMessages(auth, pointer, 25, 0, newNarrow);
@@ -44,7 +37,6 @@ class MainScreenContainer extends React.Component {
     return (
       <MainScreen
         fetchOlder={this.fetchOlder}
-        fetchNewer={this.fetchNewer}
         doNarrow={this.doNarrow}
         {...this.props}
       />
@@ -61,7 +53,6 @@ const mapStateToProps = (state) => ({
   narrow: state.chat.narrow,
   startReached: state.chat.startReached,
   pointer: getPointer(state),
-  caughtUp: state.chat.caughtUp,
   streamlistOpened: state.nav.opened,
 });
 

@@ -8,7 +8,6 @@ import { isMessageInNarrow } from '../utils/narrow';
 
 const initialState = {
   fetching: 0,
-  caughtUp: false,
   narrow: [],
   messages: {},
   startReached: [],
