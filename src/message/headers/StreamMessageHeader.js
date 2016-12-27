@@ -50,8 +50,8 @@ export default class StreamMessageHeader extends React.PureComponent {
   }
 
   performStreamNarrow = () => {
-    const { doNarrow, itemId, stream } = this.props;
-    doNarrow(streamNarrow(stream), itemId);
+    const { doNarrow, stream } = this.props;
+    doNarrow(streamNarrow(stream));
   }
 
   render() {
