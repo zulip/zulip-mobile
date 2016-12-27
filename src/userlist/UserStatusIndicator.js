@@ -8,23 +8,22 @@ import { UserStatus } from '../api';
 
 const styles = StyleSheet.create({
   common: {
-    width: 16,
-    height: 16,
+    width: 12,
+    height: 12,
     borderRadius: 100,
   },
   active: {
-    borderColor: 'pink',
-    backgroundColor: 'green',
+    backgroundColor: '#44c21d',
   },
   idle: {
     backgroundColor: 'rgba(255, 165, 0, 0.25)',
     borderColor: 'rgba(255, 165, 0, 1)',
-    borderWidth: 2,
+    borderWidth: 1,
   },
   offline: {
     backgroundColor: 'transparent',
     borderColor: 'lightgray',
-    borderWidth: 2,
+    borderWidth: 1,
   },
   unknown: {
   },
