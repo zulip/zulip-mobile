@@ -24,11 +24,22 @@ export default class StreamSidebar extends React.Component {
   handleAllStreams = () =>
     this.props.pushRoute('subscriptions');
 
+  handleSearch = (narrow) => {
+    const { pushRoute } = this.props;
+    pushRoute('search');
+  };
+
   render() {
     const { onNarrow } = this.props;
 
     return (
       <View style={styles.container} scrollsToTop={false}>
+        <ZulipButton
+          secondary
+          customStyles={styles.button}
+          text="Search Messages"
+          onPress={this.handleSearch}
+        />
         <SidebarRow
           name="Home"
           icon="md-home"

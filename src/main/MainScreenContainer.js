@@ -41,7 +41,7 @@ class MainScreenContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+export default connect((state) => ({
   auth: getAuth(state),
   isOnline: state.app.isOnline,
   orientation: state.app.orientation,
@@ -53,6 +53,4 @@ const mapStateToProps = (state) => ({
   narrow: state.chat.narrow,
   mute: state.mute,
   anchor: getAnchor(state),
-});
-
-export default connect(mapStateToProps, boundActions)(MainScreenContainer);
+}), boundActions)(MainScreenContainer);
