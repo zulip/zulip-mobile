@@ -1,4 +1,5 @@
 import {
+  ACCOUNT_SWITCH,
   SWITCH_NARROW,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_SUCCESS,
@@ -7,21 +8,23 @@ import {
 } from '../constants';
 import { isMessageInNarrow } from '../utils/narrow';
 
-const initialState = {
+
+const getInitialState = () => ({
   fetching: 0,
   narrow: [],
   messages: {},
   startReached: [],
-};
+});
 
-export default (state = initialState, action) => {
+export default (state = getInitialState(), action) => {
   switch (action.type) {
+    case ACCOUNT_SWITCH:
+      return getInitialState();
     case SWITCH_NARROW:
       return {
         ...state,
         narrow: action.narrow
       };
-
     case MESSAGE_FETCH_START:
       return {
         ...state,

@@ -1,4 +1,5 @@
 import {
+  ACCOUNT_SWITCH,
   REALM_INIT,
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
@@ -8,6 +9,8 @@ const initialState = [];
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case ACCOUNT_SWITCH:
+      return [];
     case REALM_INIT:
       return action.data.subscriptions;
     case EVENT_SUBSCRIPTION_ADD:

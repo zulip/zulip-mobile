@@ -1,10 +1,16 @@
 import {
+  ACCOUNT_SWITCH,
   REALM_ADD,
   SET_AUTH_TYPE,
   ACCOUNT_REMOVE,
   LOGIN_SUCCESS,
   LOGOUT,
 } from '../constants';
+
+export const switchAccount = (index: number) => ({
+  type: ACCOUNT_SWITCH,
+  index,
+});
 
 export const realmAdd = (realm: string) => ({
   type: REALM_ADD,

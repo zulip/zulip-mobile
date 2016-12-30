@@ -2,6 +2,7 @@ import {
   REALM_ADD,
   SET_AUTH_TYPE,
   LOGIN_SUCCESS,
+  ACCOUNT_SWITCH,
   LOGOUT,
   ACCOUNT_REMOVE,
 } from '../constants';
@@ -34,6 +35,17 @@ export default (state = initialState, action) => {
       const newState = state.slice();
       newState[0].authType = action.authType;
       return newState;
+    }
+    case ACCOUNT_SWITCH: {
+      if (action.index === 0) {
+        return state;
+      }
+
+      return [
+        state[action.index],
+        ...state.slice(0, action.index),
+        ...state.slice(action.index + 1),
+      ];
     }
     case LOGIN_SUCCESS: {
       const accountIndex = state.findIndex(account =>
