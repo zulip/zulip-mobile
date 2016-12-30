@@ -2,6 +2,7 @@ import { NavigationExperimental } from 'react-native';
 
 import {
   INIT_ROUTES,
+  ACCOUNT_SWITCH,
   PUSH_ROUTE,
   POP_ROUTE,
   SET_AUTH_TYPE,
@@ -27,6 +28,11 @@ export default (state = initialState, action) => {
       return NavigationStateUtils.reset(
         state,
         action.routes.map(route => ({ key: route }))
+      );
+    case ACCOUNT_SWITCH:
+      return NavigationStateUtils.reset(
+        state,
+        [{ key: 'main' }]
       );
     case PUSH_ROUTE: {
       if (state.routes[state.index].key === action.route) return state;

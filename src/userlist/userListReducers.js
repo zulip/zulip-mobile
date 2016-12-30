@@ -1,5 +1,6 @@
 import { UserStatus } from '../api';
 import {
+  ACCOUNT_SWITCH,
   EVENT_PRESENCE,
   GET_USER_RESPONSE,
   PRESENCE_RESPONSE,
@@ -48,6 +49,8 @@ const initialState = [];
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case ACCOUNT_SWITCH:
+      return [];
     case PRESENCE_RESPONSE: {
       return Object.keys(action.presence).reduce((currentState, email) => {
         const userIndex = state.findIndex(u => u.email === email);

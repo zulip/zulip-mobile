@@ -2,12 +2,22 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import Drawer from 'react-native-drawer';
 
+import { focusPing } from '../api';
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
 import UserListContainer from '../userlist/UserListContainer';
 
 export default class MainScreen extends React.Component {
+
+  componentDidMount() {
+    const { auth, fetchEvents, fetchUsersAndStatus, fetchMessages } = this.props;
+
+    fetchEvents(auth);
+    fetchUsersAndStatus(auth);
+    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 20, 0, []);
+    focusPing(auth, true, false);
+  }
 
   render() {
     const { streamlistOpened, doNarrow } = this.props;

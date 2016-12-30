@@ -1,6 +1,7 @@
 import {
   REALM_ADD,
   SET_AUTH_TYPE,
+  ACCOUNT_SWITCH,
   LOGIN_SUCCESS,
   LOGOUT,
   ACCOUNT_REMOVE,
@@ -65,6 +66,43 @@ describe('accountReducers', () => {
 
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(prevState);
+    });
+  });
+
+  describe('ACCOUNT_SWITCH', () => {
+    test('switching to first account does not change state', () => {
+      const prevState = [{
+        realm: 'http://realm.com',
+      }];
+      const action = {
+        type: ACCOUNT_SWITCH,
+        index: 0,
+      };
+
+      const newState = accountReducers(prevState, action);
+
+      expect(newState).toBe(prevState);
+    });
+
+    test('switching to an account moves the account to be first in the list', () => {
+      const prevState = [
+        { realm: 'http://realm1.com' },
+        { realm: 'http://realm2.com' },
+        { realm: 'http://realm3.com' },
+      ];
+      const action = {
+        type: ACCOUNT_SWITCH,
+        index: 1,
+      };
+      const expectedState = [
+        { realm: 'http://realm2.com' },
+        { realm: 'http://realm1.com' },
+        { realm: 'http://realm3.com' },
+      ];
+
+      const newState = accountReducers(prevState, action);
+
+      expect(newState).toEqual(expectedState);
     });
   });
 
