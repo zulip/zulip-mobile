@@ -3592,6 +3592,10 @@ react-native-drawer@^2.3.0:
   dependencies:
     tween-functions "^1.0.1"
 
+react-native-google-signin:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/react-native-google-signin/-/react-native-google-signin-0.8.1.tgz#7b3c6898aadb2ceb964ebe725a2e85be223ef636"
+
 react-native-scrollable-tab-view@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/react-native-scrollable-tab-view/-/react-native-scrollable-tab-view-0.7.0.tgz#c8fe713530766f8fe9364155a5445a5964a99f77"

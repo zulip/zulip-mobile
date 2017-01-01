@@ -1,6 +1,7 @@
 package com.zulipmobile;
 
 import com.facebook.react.ReactActivity;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 
 public class MainActivity extends ReactActivity {
