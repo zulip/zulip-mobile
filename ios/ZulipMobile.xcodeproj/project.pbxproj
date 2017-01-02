@@ -36,6 +36,11 @@
 		5EEF7B0EC8E04E98BA6BE6DE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D20AC26D1058481488A42581 /* libz.tbd */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		9958691A3D1D436DA0727A14 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F56CBB1B9A6449F895C858C6 /* Entypo.ttf */; };
+		A10812EE1E1B1C9000879C25 /* GoogleAppUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10812E91E1B1C9000879C25 /* GoogleAppUtilities.framework */; };
+		A10812EF1E1B1C9000879C25 /* GoogleSignIn.bundle in Frameworks */ = {isa = PBXBuildFile; fileRef = A10812EA1E1B1C9000879C25 /* GoogleSignIn.bundle */; };
+		A10812F01E1B1C9000879C25 /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10812EB1E1B1C9000879C25 /* GoogleSignIn.framework */; };
+		A10812F11E1B1C9000879C25 /* GoogleSignInDependencies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10812EC1E1B1C9000879C25 /* GoogleSignInDependencies.framework */; };
+		A10812F21E1B1C9000879C25 /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10812ED1E1B1C9000879C25 /* GoogleSymbolUtilities.framework */; };
 		A155C0061DD8E7A800A8B695 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A155BFEC1DD8E54100A8B695 /* libRCTCameraRoll.a */; };
 		A796B84899BA45079DE5F163 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10DE0E14BF514ECEBB4F4EF2 /* SafariServices.framework */; };
 		B298BA52B90A433A8F08353F /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCB2F9AF59994D349B6BEC88 /* libRNGoogleSignin.a */; };
@@ -129,6 +134,13 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
+		A13017F81E282AB100EFC05C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5E2455AB1B254B14AEC9B2AD /* RNGoogleSignin.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9FD355121D3E4A2900D06170;
+			remoteInfo = RNGoogleSignin;
+		};
 		A155BFCB1DD8E46C00A8B695 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */;
@@ -185,13 +197,6 @@
 			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
 			remoteInfo = RCTCameraRoll;
 		};
-		A15A4F4A1E19BD7600A87F67 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5E2455AB1B254B14AEC9B2AD /* RNGoogleSignin.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9FD355121D3E4A2900D06170;
-			remoteInfo = RNGoogleSignin;
-		};
 		A15A4F501E19BD7600A87F67 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ACCD980949044096B1BAD249 /* RNDeviceInfo.xcodeproj */;
@@ -236,6 +241,16 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		9DB2E7AE39A448A98E7A4E4A /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		9E53FD60A6D0409A8E58DCB5 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		A10812CA1E1B17D300879C25 /* GoogleAppUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAppUtilities.framework; path = ../../../../Downloads/google_signin_sdk_4_0_1/GoogleAppUtilities.framework; sourceTree = "<group>"; };
+		A10812CB1E1B17D300879C25 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleSignIn.bundle; path = ../../../../Downloads/google_signin_sdk_4_0_1/GoogleSignIn.bundle; sourceTree = "<group>"; };
+		A10812CC1E1B17D300879C25 /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSignIn.framework; path = ../../../../Downloads/google_signin_sdk_4_0_1/GoogleSignIn.framework; sourceTree = "<group>"; };
+		A10812CD1E1B17D300879C25 /* GoogleSignInDependencies.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSignInDependencies.framework; path = ../../../../Downloads/google_signin_sdk_4_0_1/GoogleSignInDependencies.framework; sourceTree = "<group>"; };
+		A10812CE1E1B17D300879C25 /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSymbolUtilities.framework; path = ../../../../Downloads/google_signin_sdk_4_0_1/GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
+		A10812E91E1B1C9000879C25 /* GoogleAppUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAppUtilities.framework; path = GoogleSdk/GoogleAppUtilities.framework; sourceTree = "<group>"; };
+		A10812EA1E1B1C9000879C25 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleSignIn.bundle; path = GoogleSdk/GoogleSignIn.bundle; sourceTree = "<group>"; };
+		A10812EB1E1B1C9000879C25 /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSignIn.framework; path = GoogleSdk/GoogleSignIn.framework; sourceTree = "<group>"; };
+		A10812EC1E1B1C9000879C25 /* GoogleSignInDependencies.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSignInDependencies.framework; path = GoogleSdk/GoogleSignInDependencies.framework; sourceTree = "<group>"; };
+		A10812ED1E1B1C9000879C25 /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSymbolUtilities.framework; path = GoogleSdk/GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
 		A155BFE71DD8E54100A8B695 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		A752523B8D8E49E792F653E1 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		A7F287C57D8A4354A8B6A3E7 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
@@ -263,6 +278,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10812EE1E1B1C9000879C25 /* GoogleAppUtilities.framework in Frameworks */,
+				A10812EF1E1B1C9000879C25 /* GoogleSignIn.bundle in Frameworks */,
+				A10812F01E1B1C9000879C25 /* GoogleSignIn.framework in Frameworks */,
+				A10812F11E1B1C9000879C25 /* GoogleSignInDependencies.framework in Frameworks */,
+				A10812F21E1B1C9000879C25 /* GoogleSymbolUtilities.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -460,26 +480,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		A13017DC1E28287800EFC05C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A13017F91E282AB100EFC05C /* libRNGoogleSignin.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		A155BFE81DD8E54100A8B695 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				A155BFEC1DD8E54100A8B695 /* libRCTCameraRoll.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		A1F9F7411E1BE26300A70FA5 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A1F9F7571E1BE26300A70FA5 /* libRNDeviceInfo.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		F9E946BE712842C5A02C7F51 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				A15A4F4B1E19BD7600A87F67 /* libRNGoogleSignin.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -495,6 +507,16 @@
 		B84E3A4740314293A02698DE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A10812E91E1B1C9000879C25 /* GoogleAppUtilities.framework */,
+				A10812EA1E1B1C9000879C25 /* GoogleSignIn.bundle */,
+				A10812EB1E1B1C9000879C25 /* GoogleSignIn.framework */,
+				A10812EC1E1B1C9000879C25 /* GoogleSignInDependencies.framework */,
+				A10812ED1E1B1C9000879C25 /* GoogleSymbolUtilities.framework */,
+				A10812CA1E1B17D300879C25 /* GoogleAppUtilities.framework */,
+				A10812CB1E1B17D300879C25 /* GoogleSignIn.bundle */,
+				A10812CC1E1B17D300879C25 /* GoogleSignIn.framework */,
+				A10812CD1E1B17D300879C25 /* GoogleSignInDependencies.framework */,
+				A10812CE1E1B17D300879C25 /* GoogleSymbolUtilities.framework */,
 				D20AC26D1058481488A42581 /* libz.tbd */,
 				10DE0E14BF514ECEBB4F4EF2 /* SafariServices.framework */,
 				E0362B75E9FE481382CE6486 /* SystemConfiguration.framework */,
@@ -564,7 +586,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 610;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -634,7 +656,7 @@
 					ProjectRef = ACCD980949044096B1BAD249 /* RNDeviceInfo.xcodeproj */;
 				},
 				{
-					ProductGroup = A15A4F351E19BD7600A87F67 /* Products */;
+					ProductGroup = A13017DC1E28287800EFC05C /* Products */;
 					ProjectRef = 5E2455AB1B254B14AEC9B2AD /* RNGoogleSignin.xcodeproj */;
 				},
 				{
@@ -728,6 +750,13 @@
 			remoteRef = A1198F061DD517CE007C3837 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		A13017F91E282AB100EFC05C /* libRNGoogleSignin.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNGoogleSignin.a;
+			remoteRef = A13017F81E282AB100EFC05C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		A155BFCC1DD8E46C00A8B695 /* libRCTImage-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -782,13 +811,6 @@
 			fileType = archive.ar;
 			path = libRCTCameraRoll.a;
 			remoteRef = A155BFEB1DD8E54100A8B695 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A15A4F4B1E19BD7600A87F67 /* libRNGoogleSignin.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNGoogleSignin.a;
-			remoteRef = A15A4F4A1E19BD7600A87F67 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A15A4F511E19BD7600A87F67 /* libRNDeviceInfo.a */ = {
@@ -934,6 +956,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEAD_CODE_STRIPPING = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/GoogleSdk",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -957,6 +983,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/GoogleSdk",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -989,15 +1019,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1018,7 +1052,7 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1038,8 +1072,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1047,6 +1083,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1061,7 +1098,7 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

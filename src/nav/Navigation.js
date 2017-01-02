@@ -8,6 +8,7 @@ import RealmScreen from '../start/RealmScreen';
 import AuthTypeScreen from '../start/AuthTypeScreen';
 import PasswordAuthScreen from '../start/PasswordAuthScreen';
 import DevAuthScreen from '../start/DevAuthScreen';
+import GoogleAuthScreen from '../start/GoogleAuthScreen';
 import MainScreenContainer from '../main/MainScreenContainer';
 import AccountDetailsScreen from '../account-info/AccountDetailsScreen';
 import SearchScreen from '../search/SearchScreen';
@@ -61,6 +62,8 @@ export default class Navigation extends React.Component {
         return <PasswordAuthScreen />;
       case 'dev':
         return <DevAuthScreen />;
+      case 'google':
+        return <GoogleAuthScreen />;
       case 'main':
         return <MainScreenContainer />;
       case 'account-details':
