@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_id": "zulip-dev-1280",
+    "project_number": "659545034376",
+    "name": "Zulip-dev"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659545034376:android:cca646dc1688a132",
+        "client_id": "android:com.zulip.android.dev",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.zulip.android.dev",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "659545034376-5jflfug7e8u87rimjkaab187tulgi69c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zulip.android.dev",
+            "certificate_hash": "ADD020F1B9111D8B4D422853E2381216EB7EA32E"
+          }
+        },
+        {
+          "client_id": "659545034376-78hg5hmrvqr50nn53t0nme97ndhqjmvs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
