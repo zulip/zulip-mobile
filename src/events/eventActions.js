@@ -7,6 +7,7 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
+  EVENT_REACTION,
   EVENT_UPDATE_MESSAGE,
   EVENT_REGISTERED,
   EVENT_PRESENCE,
@@ -50,6 +51,13 @@ const processEvent = (dispatch, event, getState) => {
     case 'pointer':
       // TODO
       console.log(event); // eslint-disable-line
+      break;
+    case 'reaction':
+      dispatch({
+        type: EVENT_REACTION,
+        presence: event.presence,
+      });
+    break;      console.log(event); // eslint-disable-line
       break;
     case 'heartbeat':
       // ignore, no need to handle

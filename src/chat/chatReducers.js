@@ -4,6 +4,7 @@ import {
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_SUCCESS,
   EVENT_NEW_MESSAGE,
+  EVENT_REACTION,
   EVENT_UPDATE_MESSAGE,
 } from '../constants';
 import { isMessageInNarrow } from '../utils/narrow';
@@ -68,6 +69,23 @@ export default (state = getInitialState(), action) => {
           action.caughtUp[0] || state.caughtUp[0],
           action.caughtUp[1] || state.caughtUp[1],
         ],
+      };
+    }
+
+    case EVENT_REACTION: {
+      return {
+        ...state,
+        messages: Object.keys(state.messages).reduce((msg, key) => {
+          const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.selfEmail);
+          msg[key] = isInNarrow ? // eslint-disable-line
+          [
+            ...state.messages[key],
+            action.message,
+          ] :
+          state.messages[key];
+
+          return msg;
+        }, {}),
       };
     }
 
