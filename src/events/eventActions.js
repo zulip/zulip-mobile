@@ -5,6 +5,8 @@ import { isMessageInNarrow } from '../utils/narrow';
 import {
   REALM_INIT,
   EVENT_NEW_MESSAGE,
+  EVENT_SUBSCRIPTION_ADD,
+  EVENT_SUBSCRIPTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
   EVENTS_REGISTERED,
   EVENT_PRESENCE,
@@ -38,9 +40,22 @@ const processEvent = (dispatch, event, getState) => {
         });
       }
       break;
+    case 'subscription': {
+      if (event.op === 'add') {
+        dispatch({
+          type: EVENT_SUBSCRIPTION_ADD,
+          event,
+        });
+      } else if (event.op === 'remove') {
+        dispatch({
+          type: EVENT_SUBSCRIPTION_REMOVE,
+          event,
+        });
+      }
+      break;
+    }
     case 'realm_user':
     case 'realm_bot':
-    case 'subscription':
     case 'stream':
     case 'pointer':
       // TODO
