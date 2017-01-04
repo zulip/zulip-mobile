@@ -10,10 +10,9 @@ import { Touchable } from '../common';
 
 const styles = StyleSheet.create({
   row: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    flexBasis: 50,
+    flexGrow: 50,
   },
   description: {
     opacity: 0.75,
