@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { STATUSBAR_HEIGHT, FIELD_HEIGHT, NAVBAR_HEIGHT } from './platform';
+import { STATUSBAR_HEIGHT, CONTROL_SIZE, NAVBAR_HEIGHT } from './platform';
 
 export const BRAND_COLOR = '#24cac2';
 export const HIGHLIGHT_COLOR = 'rgba(86, 164, 174, 0.5)';
@@ -37,12 +37,12 @@ export default StyleSheet.create({
   },
   field: {
     flexDirection: 'row',
-    height: FIELD_HEIGHT,
+    height: CONTROL_SIZE,
     marginTop: 10,
   },
   smallField: {
     flexDirection: 'row',
-    height: FIELD_HEIGHT / 2,
+    height: CONTROL_SIZE / 2,
     marginRight: 10,
   },
   error: {
@@ -50,7 +50,7 @@ export default StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    height: FIELD_HEIGHT,
+    height: CONTROL_SIZE,
     borderColor: BORDER_COLOR,
     padding: 10,
   },
@@ -66,14 +66,15 @@ export default StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontSize: 26,
-    width: NAVBAR_HEIGHT,
+    width: CONTROL_SIZE,
   },
   navTitle: {
     flex: 1,
     color: 'white',
     textAlign: 'center',
     fontSize: 16,
-    lineHeight: 32,
-    height: 32,
+    lineHeight: CONTROL_SIZE,
+    height: CONTROL_SIZE,
+    marginRight: CONTROL_SIZE,
   },
 });
