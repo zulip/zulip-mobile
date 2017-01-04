@@ -72,7 +72,6 @@ class InfiniteScrollView extends React.Component {
         scrollEventThrottle={DEFAULT_SCROLL_CALLBACK_THROTTLE}
         stickyHeaderIndices={this.props.stickyHeaderIndices}
         anchorMode
-        bounces={false}
         autoScrollToBottom={this.props.autoScrollToBottom}
       >
         {this.props.children}
