@@ -89,12 +89,9 @@ class ComposeText extends React.Component {
 
   render() {
     const { contentHeight, text } = this.state;
-    const { narrow } = this.props;
     const height = Math.min(Math.max(MIN_HEIGHT, contentHeight), MAX_HEIGHT);
     const lastword = text.match(/\b(\w+)$/);
     const lastWordPrefix = lastword && lastword.index && text[lastword.index - 1];
-    const canSendToCurrentNarrow = isPrivateNarrow(narrow) ||
-      isGroupNarrow(narrow) || isStreamNarrow(narrow) || isTopicNarrow(narrow);
 
     return (
       <View style={styles.wrapper}>
@@ -120,7 +117,7 @@ class ComposeText extends React.Component {
           />
         </ScrollView>
         <SendButton
-          disabled={text.length === 0 || !canSendToCurrentNarrow}
+          disabled={text.length === 0}
           onPress={this.handleSend}
         />
       </View>
@@ -130,7 +127,6 @@ class ComposeText extends React.Component {
 
 const mapStateToProps = (state) => ({
   auth: getAuth(state),
-  narrow: state.chat.narrow,
 });
 
 export default connect(mapStateToProps)(ComposeText);

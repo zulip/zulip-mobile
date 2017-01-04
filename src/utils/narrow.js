@@ -101,3 +101,9 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, selfEmail: s
 
   return false;
 };
+
+export const canSendToNarrow = (narrow) =>
+  isPrivateNarrow(narrow) ||
+  isGroupNarrow(narrow) ||
+  isStreamNarrow(narrow) ||
+  isTopicNarrow(narrow);
