@@ -37,7 +37,7 @@ export default class StreamSidebar extends React.Component {
             key={x.stream_id}
             name={x.name}
             description={x.description}
-            iconSize={20}
+            iconSize={16}
             isPrivate={x.invite_only}
             color={x.color}
             onPress={onNarrow}

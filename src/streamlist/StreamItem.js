@@ -4,7 +4,7 @@ import {
   View,
   Text,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Touchable } from '../common';
 
@@ -50,8 +50,8 @@ export default class StreamItem extends React.PureComponent {
   render() {
     const { name, description, color, isPrivate, iconSize } = this.props;
     const iconWrapperCustomStyle = {
-      width: iconSize + 8,
-      height: iconSize + 8,
+      width: iconSize * 1.75,
+      height: iconSize * 1.75,
       backgroundColor: color,
     };
 
@@ -63,7 +63,7 @@ export default class StreamItem extends React.PureComponent {
               style={styles.icon}
               size={iconSize}
               color={color}
-              name={isPrivate ? 'md-lock' : 'md-chatbubbles'}
+              name={isPrivate ? 'lock' : 'hashtag'}
             />
           </View>
           <View style={styles.text}>

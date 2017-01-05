@@ -4,7 +4,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Touchable } from '../../common';
 import TopicMessageHeader from './TopicMessageHeader';
@@ -61,7 +61,7 @@ export default class StreamMessageHeader extends React.PureComponent {
       color: textColor,
       backgroundColor: color,
     };
-    const iconType = isPrivate ? 'md-lock' : 'md-chatbubbles';
+    const iconType = isPrivate ? 'lock' : 'hashtag';
 
     return (
       <View style={styles.header}>
