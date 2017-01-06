@@ -63,6 +63,7 @@ export default ({ auth, subscriptions, messages, narrow, doNarrow }) => {
         fromEmail={item.sender_email}
         message={item.content}
         timestamp={item.timestamp}
+        reactions={item.reactions}
         avatarUrl={getFullUrl(item.avatar_url, auth.realm)}
       />
     );
