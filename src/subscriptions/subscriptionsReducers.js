@@ -11,9 +11,16 @@ export default (state = initialState, action) => {
     case REALM_INIT:
       return action.data.subscriptions;
     case EVENT_SUBSCRIPTION_ADD:
-      return state;
-    case EVENT_SUBSCRIPTION_REMOVE:
-      return state;
+      return state.concat(
+        action.subscriptions.filter(x =>
+          !state.find(y => x.stream_id === y.stream_id)
+        )
+      );
+    case EVENT_SUBSCRIPTION_REMOVE: {
+      return state.filter(x =>
+        !action.subscriptions.find(y => x.stream_id === y.stream_id)
+      );
+    }
     default:
       return state;
   }

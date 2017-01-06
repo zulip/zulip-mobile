@@ -44,12 +44,12 @@ const processEvent = (dispatch, event, getState) => {
       if (event.op === 'add') {
         dispatch({
           type: EVENT_SUBSCRIPTION_ADD,
-          event,
+          subscriptions: event.subscriptions,
         });
       } else if (event.op === 'remove') {
         dispatch({
           type: EVENT_SUBSCRIPTION_REMOVE,
-          event,
+          subscriptions: event.subscriptions,
         });
       }
       break;
