@@ -16,14 +16,13 @@ import TitlePrivate from './TitlePrivate';
 import TitleGroup from './TitleGroup';
 import TitleSpecial from './TitleSpecial';
 import TitleStream from './TitleStream';
-import TitleTopic from './TitleTopic';
 import TitleSearch from './TitleSearch';
 
 const titles = [
   { isFunc: isHomeNarrow, component: TitleHome },
   { isFunc: isSpecialNarrow, component: TitleSpecial },
   { isFunc: isStreamNarrow, component: TitleStream },
-  { isFunc: isTopicNarrow, component: TitleTopic },
+  { isFunc: isTopicNarrow, component: TitleStream },
   { isFunc: isPrivateNarrow, component: TitlePrivate },
   { isFunc: isGroupNarrow, component: TitleGroup },
   { isFunc: isSearchNarrow, component: TitleSearch },
