@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Emoji from '../emoji/Emoji';
 
 const styles = StyleSheet.create({
-  reaction: {
+  frameCommon: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 4,
@@ -12,16 +12,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginRight: 4,
   },
-  voted: {
+  frameVoted: {
     borderColor: '#3aa3e3', // eslint-disable-line
     backgroundColor: '#f0f7fb', // eslint-disable-line
   },
-  notVoted: {
+  frameNotVoted: {
     borderColor: '#dedede', // eslint-disable-line
   },
-  count: {
+  countCommon: {
     marginLeft: 4,
-  }
+  },
+  countVoted: {
+    color: '#3aa3e3', // eslint-disable-line
+  },
+  countNotVoted: {
+    color: 'gray',
+  },
 });
 
 export default class Reaction extends React.PureComponent {
@@ -33,12 +39,13 @@ export default class Reaction extends React.PureComponent {
 
   render() {
     const { name, voted, voteCount } = this.props;
-    const colorStyle = voted ? styles.voted : styles.notVoted;
+    const frameStyle = voted ? styles.frameVoted : styles.frameNotVoted;
+    const countStyle = voted ? styles.countVoted : styles.countNotVoted;
 
     return (
-      <View style={[styles.reaction, colorStyle]}>
+      <View style={[styles.frameCommon, frameStyle]}>
         <Emoji name={name} />
-        <Text style={styles.count}>
+        <Text style={[styles.countCommon, countStyle]}>
           {voteCount}
         </Text>
       </View>
