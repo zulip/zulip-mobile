@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import Reaction from './Reaction';
+import aggregateReactions from './aggregateReactions';
 
 const styles = StyleSheet.create({
   reactions: {
@@ -13,23 +14,26 @@ export default class ReactionList extends React.PureComponent {
 
   props: {
     reactions: string,
+    selfEmail: string,
   };
 
   render() {
-    const { reactions } = this.props;
+    const { reactions, selfEmail } = this.props;
 
     if (reactions.length === 0) {
       return null;
     }
 
+    const aggregated = aggregateReactions(reactions, selfEmail);
+
     return (
       <View style={styles.reactions}>
-        {reactions.map((x, i) =>
+        {aggregated.map((x, i) =>
           <Reaction
             key={i}
-            name={x.emoji_name}
-            votedFor={false}
-            voteCount={1}
+            name={x.name}
+            voted={x.selfReacted}
+            voteCount={x.count}
           />
         )}
       </View>
