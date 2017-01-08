@@ -4,7 +4,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -28,7 +28,7 @@ export default class TitleStream extends React.PureComponent {
   render() {
     const { narrow, subscriptions } = this.props;
     const stream = subscriptions.find(x => x.name === narrow[0].operand);
-    const iconType = stream.invite_only ? 'md-lock' : 'md-chatbubbles';
+    const iconType = stream.invite_only ? 'lock' : 'hashtag';
 
     return (
       <View style={styles.wrapper}>
