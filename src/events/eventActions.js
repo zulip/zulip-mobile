@@ -7,7 +7,8 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
-  EVENT_REACTION,
+  EVENT_REACTION_ADD,
+  EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
   EVENT_REGISTERED,
   EVENT_PRESENCE,
@@ -54,10 +55,11 @@ const processEvent = (dispatch, event, getState) => {
       break;
     case 'reaction':
       dispatch({
-        type: EVENT_REACTION,
-        presence: event.presence,
+        type: event.op === 'add' ? EVENT_REACTION_ADD : EVENT_REACTION_REMOVE,
+        emoji: event.emoji_name,
+        messageId: event.message_id,
+        user: event.user,
       });
-    break;      console.log(event); // eslint-disable-line
       break;
     case 'heartbeat':
       // ignore, no need to handle
