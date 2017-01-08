@@ -1,7 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
 
+import { Touchable } from '../common';
 import Emoji from '../emoji/Emoji';
+import { getAuth } from '../account/accountSelectors';
+import { emojiReactionAdd, emojiReactionRemove } from '../api';
 
 const styles = StyleSheet.create({
   frameCommon: {
@@ -30,11 +34,21 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Reaction extends React.PureComponent {
+class Reaction extends React.PureComponent {
 
   props: {
     name: string,
     voted: boolean,
+  };
+
+  handlePress = () => {
+    const { auth, messageId, name, voted } = this.props;
+
+    if (voted) {
+      emojiReactionRemove(auth, messageId, name);
+    } else {
+      emojiReactionAdd(auth, messageId, name);
+    }
   };
 
   render() {
@@ -43,12 +57,20 @@ export default class Reaction extends React.PureComponent {
     const countStyle = voted ? styles.countVoted : styles.countNotVoted;
 
     return (
-      <View style={[styles.frameCommon, frameStyle]}>
-        <Emoji name={name} />
-        <Text style={[styles.countCommon, countStyle]}>
-          {voteCount}
-        </Text>
-      </View>
+      <Touchable onPress={this.handlePress}>
+        <View style={[styles.frameCommon, frameStyle]}>
+          <Emoji name={name} />
+          <Text style={[styles.countCommon, countStyle]}>
+            {voteCount}
+          </Text>
+        </View>
+      </Touchable>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  auth: getAuth(state),
+});
+
+export default connect(mapStateToProps)(Reaction);

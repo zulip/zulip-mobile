@@ -21,12 +21,16 @@ export default class MessageBrief extends React.PureComponent {
   };
 
   render() {
-    const { message, reactions, selfEmail } = this.props;
+    const { messageId, message, reactions, selfEmail } = this.props;
 
     return (
       <View style={styles.message}>
         {message}
-        <ReactionList reactions={reactions} selfEmail={selfEmail} />
+        <ReactionList
+          messageId={messageId}
+          reactions={reactions}
+          selfEmail={selfEmail}
+        />
       </View>
     );
   }

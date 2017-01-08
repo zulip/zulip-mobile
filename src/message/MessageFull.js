@@ -37,7 +37,8 @@ class MessageFull extends React.PureComponent {
 
   render() {
     const {
-      message, avatarUrl, timestamp, twentyFourHourTime, fromName, reactions, selfEmail,
+      messageId, message, avatarUrl, timestamp,
+      twentyFourHourTime, fromName, reactions, selfEmail,
     } = this.props;
 
     return (
@@ -55,6 +56,7 @@ class MessageFull extends React.PureComponent {
           />
           {message}
           <ReactionList
+            messageId={messageId}
             reactions={reactions}
             selfEmail={selfEmail}
           />
