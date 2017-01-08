@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 
 import { styles, OfflineNotice } from '../common';
+import { canSendToNarrow } from '../utils/narrow';
 import MessageList from '../message-list/MessageList';
 import LoadingRow from '../message/LoadingRow';
 import NoMessages from '../message/NoMessages';
@@ -31,7 +32,7 @@ export default class MainScreen extends React.Component {
           fetchNewer={fetchNewer}
           doNarrow={doNarrow}
         />
-        <ComposeBox onSend={this.sendMessage} />
+        {canSendToNarrow(narrow) && <ComposeBox onSend={this.sendMessage} />}
       </KeyboardAvoidingView>
     );
   }
