@@ -4,11 +4,12 @@ import {
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_SUCCESS,
   EVENT_NEW_MESSAGE,
-  EVENT_REACTION,
+  EVENT_REACTION_ADD,
+  EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
 } from '../constants';
 import { isMessageInNarrow } from '../utils/narrow';
-
+import chatUpdater from './chatUpdater';
 
 const getInitialState = () => ({
   /*
@@ -72,22 +73,23 @@ export default (state = getInitialState(), action) => {
       };
     }
 
-    case EVENT_REACTION: {
-      return {
-        ...state,
-        messages: Object.keys(state.messages).reduce((msg, key) => {
-          const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.selfEmail);
-          msg[key] = isInNarrow ? // eslint-disable-line
-          [
-            ...state.messages[key],
-            action.message,
-          ] :
-          state.messages[key];
+    case EVENT_REACTION_ADD:
+      return chatUpdater(state, action.messageId, oldMessage => ({
+        ...oldMessage,
+        reactions: oldMessage.reactions.concat({
+          emoji_name: action.emoji,
+          user: action.user,
+        }),
+      }));
 
-          return msg;
-        }, {}),
-      };
-    }
+    case EVENT_REACTION_REMOVE:
+      return chatUpdater(state, action.messageId, oldMessage => ({
+        ...oldMessage,
+        reactions: oldMessage.reactions.filter(x =>
+          !(x.emoji_name === action.emoji &&
+          x.user.email === action.user.email)
+        ),
+      }));
 
     case EVENT_NEW_MESSAGE: {
       return {
@@ -106,29 +108,12 @@ export default (state = getInitialState(), action) => {
       };
     }
 
-    case EVENT_UPDATE_MESSAGE: {
-      return {
-        ...state,
-        messages: Object.keys(state.messages).reduce((msg, key) => {
-          const messages = state.messages[key];
-          const prevMessageIndex = messages.findIndex(x => x.id === action.messageId);
-          msg[key] = prevMessageIndex !== -1 ? // eslint-disable-line
-          [
-            ...messages.slice(0, prevMessageIndex),
-            {
-              ...messages[prevMessageIndex],
-              content: action.newContent,
-              edit_timestamp: action.editTimestamp,
-            },
-            ...messages.slice(prevMessageIndex + 1),
-          ] :
-          state.messages[key];
-
-          return msg;
-        }, {}),
-      };
-    }
-
+    case EVENT_UPDATE_MESSAGE:
+      return chatUpdater(state, action.messageId, oldMessage => ({
+        ...oldMessage,
+        content: action.newContent,
+        edit_timestamp: action.editTimestamp,
+      }));
     default:
       return state;
   }
