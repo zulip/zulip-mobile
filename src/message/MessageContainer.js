@@ -6,9 +6,8 @@ import MessageBrief from './MessageBrief';
 
 export default class MessageContainer extends React.PureComponent {
   render() {
-    const {
-      auth, avatarUrl, timestamp, twentyFourHourTime, fromName, fromEmail, isBrief, reactions,
-    } = this.props;
+    const { auth, avatarUrl, timestamp, twentyFourHourTime,
+      fromName, fromEmail, isBrief, reactions } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
 
     return (

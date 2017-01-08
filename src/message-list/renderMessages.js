@@ -58,6 +58,7 @@ export default ({ auth, subscriptions, messages, narrow, doNarrow }) => {
         id={item.id}
         key={item.id}
         auth={auth}
+        messageId={item.id}
         isBrief={shouldGroupWithPrev}
         fromName={item.sender_full_name}
         fromEmail={item.sender_email}

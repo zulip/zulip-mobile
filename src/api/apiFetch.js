@@ -77,3 +77,15 @@ export const apiPost = async (auth, route, params = {}, resFunc, noTimeout) =>
     method: 'post',
     body: encodeAsURI(params),
   }, resFunc, noTimeout);
+
+export const apiPut = async (auth, route, params = {}, resFunc, noTimeout) =>
+  apiCall(auth, route, {
+    method: 'put',
+    body: encodeAsURI(params),
+  }, resFunc, noTimeout);
+
+export const apiDelete = async (auth, route, params = {}, resFunc, noTimeout) =>
+  apiCall(auth, route, {
+    method: 'delete',
+    body: encodeAsURI(params),
+  }, resFunc, noTimeout);

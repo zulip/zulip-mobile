@@ -304,7 +304,7 @@ describe('chatReducers', () => {
         }
       };
 
-      const actualState = messagesReducers(initialState, action);
+      const actualState = chatReducers(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -333,7 +333,7 @@ describe('chatReducers', () => {
         }
       };
 
-      const actualState = messagesReducers(initialState, action);
+      const actualState = chatReducers(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -373,7 +373,7 @@ describe('chatReducers', () => {
         }
       };
 
-      const actualState = messagesReducers(initialState, action);
+      const actualState = chatReducers(initialState, action);
 
       expect(actualState).toEqual(expectedState);
     });
