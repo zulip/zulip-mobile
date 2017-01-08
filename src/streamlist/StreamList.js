@@ -1,16 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  ListView,
-} from 'react-native';
+import { ListView } from 'react-native';
 
 import StreamItem from './StreamItem';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default class StreamSidebar extends React.Component {
 
@@ -29,8 +20,6 @@ export default class StreamSidebar extends React.Component {
     return (
       <ListView
         enableEmptySections
-        style={styles.container}
-        pageSize={12}
         dataSource={dataSource}
         renderRow={(x =>
           <StreamItem
