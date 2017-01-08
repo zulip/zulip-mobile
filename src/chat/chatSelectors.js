@@ -1,4 +1,15 @@
-export const getPointer = (state) =>
-  (state.messages.length === 0 ?
-    [0, 0] :
-    [state.messages[0].id, state.messages[state.messages.length - 1].id]);
+export const getAllMessages = (state) =>
+  state.chat.messages;
+
+export const getMessagesInActiveNarrow = (state) =>
+  state.chat.messages[JSON.stringify(state.chat.narrow)] || [];
+
+export const getPointer = (state) => {
+  const messages = getMessagesInActiveNarrow(state);
+
+  if (messages.length === 0) {
+    return [0, 0];
+  }
+
+  return [messages[0].id, messages[messages.length - 1].id];
+};

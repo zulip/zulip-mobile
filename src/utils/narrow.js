@@ -86,7 +86,7 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, selfEmail: s
     return true;
   }
 
-  if (isPrivateNarrow(narrow) || isGroupNarrow(narrow) &&
+  if ((isPrivateNarrow(narrow) || isGroupNarrow(narrow)) &&
     normalizeRecipients(message.display_recipient) ===
     [...narrow[0].operand.split(','), selfEmail].sort().join(',')
   ) {

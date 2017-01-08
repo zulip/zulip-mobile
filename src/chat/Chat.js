@@ -6,24 +6,23 @@ import {
 import { styles, OfflineNotice } from '../common';
 import { canSendToNarrow } from '../utils/narrow';
 import MessageList from '../message-list/MessageList';
-import LoadingRow from '../message/LoadingRow';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 
 export default class MainScreen extends React.Component {
 
   render() {
-    const { auth, messages, narrow, fetching, subscriptions,
+    const { auth, messages, narrow, isFetching, subscriptions,
       caughtUp, isOnline, twentyFourHourTime, doNarrow, fetchOlder, fetchNewer } = this.props;
 
     return (
       <KeyboardAvoidingView style={styles.screen} behavior="padding">
         {!isOnline && <OfflineNotice />}
-        {fetching && <LoadingRow />}
-        {messages.length === 0 && !fetching && <NoMessages narrow={narrow} />}
+        {messages.length === 0 && !isFetching && <NoMessages narrow={narrow} />}
         <MessageList
           messages={messages}
           narrow={narrow}
+          isFetching={isFetching}
           twentyFourHourTime={twentyFourHourTime}
           subscriptions={subscriptions}
           auth={auth}

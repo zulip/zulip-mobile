@@ -8,11 +8,12 @@ import {
 } from '../utils/narrow';
 import MessageHeader from '../message/headers/MessageHeader';
 import MessageContainer from '../message/MessageContainer';
+import MessageLoading from '../message/MessageLoading';
 import TimeRow from '../message/TimeRow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
-export default ({ auth, subscriptions, messages, narrow, doNarrow }) =>
+export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow }) =>
   messages.reduce((list, item, index) => {
     const prevItem = messages[index - 1];
 
@@ -62,4 +63,4 @@ export default ({ auth, subscriptions, messages, narrow, doNarrow }) =>
     );
 
     return list;
-  }, []);
+  }, isFetching ? [<MessageLoading key="ml1" />, <MessageLoading key="ml2" />, <MessageLoading key="ml3" />] : []);

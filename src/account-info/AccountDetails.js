@@ -32,7 +32,7 @@ export default class AccountDetails extends Component {
 
   handleChatPress = () => {
     const { auth, email, fetchMessages, popRoute } = this.props;
-    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 25, 0, privateNarrow(email), true);
+    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 25, 0, privateNarrow(email));
     popRoute();
   };
 
