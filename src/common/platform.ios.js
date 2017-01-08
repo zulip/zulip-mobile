@@ -1,3 +1,3 @@
 export const STATUSBAR_HEIGHT = 20;
-export const FIELD_HEIGHT = 44;
-export const NAVBAR_HEIGHT = 56;
+export const CONTROL_SIZE = 44;
+export const NAVBAR_HEIGHT = CONTROL_SIZE + STATUSBAR_HEIGHT;

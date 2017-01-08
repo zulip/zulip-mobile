@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 
+import { CONTROL_SIZE } from '../common/platform';
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
@@ -27,7 +28,7 @@ export default class MainScreen extends React.Component {
         ref={(streamDrawer) => { this.streamDrawer = streamDrawer; }}
         open={streamlistOpened}
         tapToClose
-        openDrawerOffset={56}
+        openDrawerOffset={CONTROL_SIZE}
         negotiatePan
         panOpenMask={0.5}
         useInteractionManager
@@ -45,7 +46,7 @@ export default class MainScreen extends React.Component {
             />
           }
           ref={(peopleDrawer) => { this.peopleDrawer = peopleDrawer; }}
-          openDrawerOffset={56}
+          openDrawerOffset={CONTROL_SIZE}
           tapToClose
           negotiatePan
           panOpenMask={0.5}

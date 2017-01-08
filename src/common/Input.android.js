@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 
-import { FIELD_HEIGHT } from './styles';
+import { CONTROL_SIZE } from './styles';
 
 const styles = StyleSheet.create({
   input: {
-    height: FIELD_HEIGHT,
+    height: CONTROL_SIZE,
   },
 });
 
