@@ -1,11 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { BRAND_COLOR } from '../common/styles';
 import { Touchable } from '../common';
 
 const styles = StyleSheet.create({
@@ -13,13 +10,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flexGrow: 50,
+    padding: 8,
+  },
+  selectedRow: {
+    backgroundColor: BRAND_COLOR,
   },
   description: {
     opacity: 0.75,
     fontSize: 12,
   },
   iconWrapper: {
-    margin: 4,
     borderRadius: 2,
     justifyContent: 'center',
     alignItems: 'center',
@@ -28,7 +28,10 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   text: {
-    paddingLeft: 4,
+    paddingLeft: 8,
+  },
+  selectedText: {
+    color: 'white',
   }
 });
 
@@ -39,6 +42,7 @@ export default class StreamItem extends React.PureComponent {
     description: string,
     iconSize: number,
     isPrivate: boolean,
+    isSelected: boolean,
     color: string,
     onPress: () => {},
   }
@@ -47,7 +51,7 @@ export default class StreamItem extends React.PureComponent {
     this.props.onPress(this.props.name);
 
   render() {
-    const { name, description, color, isPrivate, iconSize } = this.props;
+    const { name, description, color, isPrivate, iconSize, isSelected } = this.props;
     const iconWrapperCustomStyle = {
       width: iconSize * 1.75,
       height: iconSize * 1.75,
@@ -56,7 +60,7 @@ export default class StreamItem extends React.PureComponent {
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={styles.row}>
+        <View style={[styles.row, isSelected && styles.selectedRow]}>
           <View style={[styles.iconWrapper, iconWrapperCustomStyle]}>
             <Icon
               style={styles.icon}
@@ -66,7 +70,7 @@ export default class StreamItem extends React.PureComponent {
             />
           </View>
           <View style={styles.text}>
-            <Text>{name}</Text>
+            <Text style={isSelected && styles.selectedText}>{name}</Text>
             {!!description &&
               <Text
                 numberOfLines={1}

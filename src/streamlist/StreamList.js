@@ -7,11 +7,12 @@ export default class StreamSidebar extends React.Component {
 
   props: {
     subscriptions: [],
+    selected: string,
     onNarrow: (streamName: string) => {},
   }
 
   render() {
-    const { subscriptions, onNarrow } = this.props;
+    const { subscriptions, selected, onNarrow } = this.props;
     const sortedSubscriptions = Object.values(subscriptions)
       .sort((a, b) => a.name.localeCompare(b.name));
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -25,10 +26,10 @@ export default class StreamSidebar extends React.Component {
           <StreamItem
             key={x.stream_id}
             name={x.name}
-            description={x.description}
             iconSize={16}
             isPrivate={x.invite_only}
             color={x.color}
+            isSelected={x.name === selected}
             onPress={onNarrow}
           />
         )}
