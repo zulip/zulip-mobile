@@ -8,9 +8,6 @@ import { Touchable } from '../../common';
 import { topicNarrow } from '../../utils/narrow';
 
 const styles = StyleSheet.create({
-  header: {
-    flex: 1,
-  },
   topic: {
     flex: 1,
     padding: 4,
@@ -38,7 +35,7 @@ export default class TopicMessageHeader extends React.PureComponent {
     const { topic } = this.props;
 
     return (
-      <Touchable style={styles.header} onPress={this.performTopicNarrow}>
+      <Touchable onPress={this.performTopicNarrow}>
         <Text style={styles.topic} numberOfLines={1}>
           {topic}
         </Text>
