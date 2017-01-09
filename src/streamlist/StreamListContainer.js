@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import StreamList from './StreamList';
-import { streamNarrow } from '../utils/narrow';
+import { isStreamNarrow, streamNarrow } from '../utils/narrow';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,15 +17,23 @@ class StreamListContainer extends React.Component {
     this.props.onNarrow(streamNarrow(streamName));
 
   render() {
+    const { narrow, subscriptions } = this.props;
+    const selected = isStreamNarrow(narrow) && narrow[0].operand;
+
     return (
       <ScrollView tabLabel="Streams" style={styles.container}>
-        <StreamList {...this.props} onNarrow={this.handleNarrow} />
+        <StreamList
+          subscriptions={subscriptions}
+          selected={selected}
+          onNarrow={this.handleNarrow}
+        />
       </ScrollView>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
+  narrow: state.chat.narrow,
   subscriptions: state.subscriptions,
 });
 

@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-  StatusBar,
-} from 'react-native';
+import { StatusBar } from 'react-native';
 import Drawer from 'react-native-drawer';
 
-import { CONTROL_SIZE } from '../common/platform';
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
@@ -28,12 +25,17 @@ export default class MainScreen extends React.Component {
         ref={(streamDrawer) => { this.streamDrawer = streamDrawer; }}
         open={streamlistOpened}
         tapToClose
-        openDrawerOffset={CONTROL_SIZE}
+        openDrawerOffset={88}
         negotiatePan
         panOpenMask={0.5}
         useInteractionManager
         tweenDuration={150}
-        tweenHandler={Drawer.tweenPresets.parallax}
+        tweenHandler={(ratio) => ({
+          mainOverlay: {
+            opacity: ratio / 2,
+            backgroundColor: 'black',
+          }
+        })}
         side="left"
       >
         <Drawer
@@ -46,13 +48,18 @@ export default class MainScreen extends React.Component {
             />
           }
           ref={(peopleDrawer) => { this.peopleDrawer = peopleDrawer; }}
-          openDrawerOffset={CONTROL_SIZE}
+          openDrawerOffset={88}
           tapToClose
           negotiatePan
           panOpenMask={0.5}
           useInteractionManager
           tweenDuration={150}
-          tweenHandler={Drawer.tweenPresets.parallax}
+          tweenHandler={(ratio) => ({
+            mainOverlay: {
+              opacity: ratio / 2,
+              backgroundColor: 'black',
+            }
+          })}
           side="right"
         >
           <StatusBar
