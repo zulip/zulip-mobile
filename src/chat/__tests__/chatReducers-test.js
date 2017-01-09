@@ -1,4 +1,4 @@
-import messagesReducers from '../chatReducers';
+import chatReducers from '../chatReducers';
 import {
   homeNarrow,
   privateNarrow,
@@ -23,7 +23,7 @@ describe('chatReducers', () => {
   const allPrivateMessagesNarrowStr = JSON.stringify(specialNarrow('private'));
 
   test('handles unknown action and no previous state by returning initial state', () => {
-    const newState = messagesReducers(undefined, {});
+    const newState = chatReducers(undefined, {});
     expect(newState).toBeDefined();
   });
 
@@ -40,7 +40,7 @@ describe('chatReducers', () => {
         narrow: streamNarrow('some stream'),
       };
 
-      const newState = messagesReducers(initialState, action);
+      const newState = chatReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(initialState);
@@ -64,7 +64,7 @@ describe('chatReducers', () => {
         }
       };
 
-      const newState = messagesReducers(initialState, action);
+      const newState = chatReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(initialState);
@@ -103,7 +103,7 @@ describe('chatReducers', () => {
       },
     };
 
-    const newState = messagesReducers(initialState, action);
+    const newState = chatReducers(initialState, action);
 
     expect(newState.messages).toEqual(expectedState.messages);
     expect(newState).not.toBe(initialState);
@@ -131,7 +131,7 @@ describe('chatReducers', () => {
       },
     };
 
-    const newState = messagesReducers(initialState, action);
+    const newState = chatReducers(initialState, action);
 
     expect(newState.messages).toEqual(expectedState.messages);
     expect(newState).not.toBe(initialState);
@@ -173,7 +173,7 @@ describe('chatReducers', () => {
       },
     };
 
-    const newState = messagesReducers(initialState, action);
+    const newState = chatReducers(initialState, action);
 
     expect(newState.messages).toEqual(expectedState.messages);
     expect(newState).not.toBe(initialState);
@@ -192,7 +192,7 @@ describe('chatReducers', () => {
         messageId: 3,
       };
 
-      const newState = messagesReducers(initialState, action);
+      const newState = chatReducers(initialState, action);
 
       expect(newState.messages).toEqual(initialState.messages);
     });
@@ -229,7 +229,7 @@ describe('chatReducers', () => {
         }
       };
 
-      const newState = messagesReducers(initialState, action);
+      const newState = chatReducers(initialState, action);
 
       expect(newState).not.toBe(initialState);
       expect(newState.messages).toEqual(expectedState.messages);
@@ -267,7 +267,7 @@ describe('chatReducers', () => {
         },
       };
 
-      const newState = messagesReducers(initialState, action);
+      const newState = chatReducers(initialState, action);
 
       expect(newState.messages).toEqual(expectedState.messages);
       expect(newState).not.toBe(initialState);
@@ -301,7 +301,7 @@ describe('chatReducers', () => {
         }
       };
 
-      const newState = messagesReducers(initialState, action);
+      const newState = chatReducers(initialState, action);
 
       expect(newState.messages).toEqual(expectedState.messages);
       expect(newState).not.toBe(initialState);
@@ -336,7 +336,7 @@ describe('chatReducers', () => {
         ]
       };
 
-      const newState = messagesReducers(initialState, action);
+      const newState = chatReducers(initialState, action);
 
       expect(newState.startReached).toEqual(expectedState.startReached);
       expect(newState).not.toBe(initialState);
