@@ -127,6 +127,7 @@ class ComposeText extends React.Component {
 
 const mapStateToProps = (state) => ({
   auth: getAuth(state),
+  narrow: state.chat.narrow,
 });
 
 export default connect(mapStateToProps)(ComposeText);
