@@ -35,7 +35,7 @@ export default class Subheader extends React.PureComponent {
 
     return (
       <View style={styles.subheader}>
-        <Text style={styles.username}>
+        <Text style={styles.username} numberOfLines={1}>
           {from}
         </Text>
         <Timestamp timestamp={timestamp} twentyFourHourTime={twentyFourHourTime} />

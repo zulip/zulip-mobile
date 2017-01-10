@@ -9,8 +9,7 @@ import { topicNarrow } from '../../utils/narrow';
 
 const styles = StyleSheet.create({
   topic: {
-    flex: 1,
-    padding: 4,
+    padding: 6,
     paddingLeft: 8,
     fontSize: 16,
     backgroundColor: '#eee',

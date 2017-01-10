@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flexGrow: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-around',
   }
 });
 

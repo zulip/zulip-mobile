@@ -63,4 +63,11 @@ export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow })
     );
 
     return list;
-  }, isFetching ? [<MessageLoading key="ml1" />, <MessageLoading key="ml2" />, <MessageLoading key="ml3" />] : []);
+  }, isFetching ? [
+    <MessageLoading key="ml1" />,
+    <MessageLoading key="ml2" />,
+    <MessageLoading key="ml3" />,
+    <MessageLoading key="ml4" />,
+    <MessageLoading key="ml5" />,
+    <MessageLoading key="ml6" />,
+  ] : []);
