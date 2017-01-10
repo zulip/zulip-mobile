@@ -48,7 +48,7 @@ class PasswordAuthScreen extends React.Component {
     const { email, password, progress, error } = this.state;
 
     return (
-      <Screen title="Login" keyboardAvoiding>
+      <Screen title="Email Login" keyboardAvoiding>
         <Input
           autoCorrect={false}
           autoFocus

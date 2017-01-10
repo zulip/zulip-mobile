@@ -35,7 +35,11 @@ class RealmScreen extends React.Component {
       realm = `https://${realm}`;
     }
 
-    this.setState({ progress: true, error: undefined });
+    this.setState({
+      realm,
+      progress: true,
+      error: undefined,
+    });
 
     try {
       const authBackends = await getAuthBackends({ realm });
@@ -44,10 +48,16 @@ class RealmScreen extends React.Component {
         this.props.setAuthType(authBackends[0]);
         this.props.pushRoute(authBackends[0]);
       } else {
-        this.setState({ progress: false, authBackends });
+        this.setState({
+          progress: false,
+          authBackends,
+        });
       }
     } catch (err) {
-      this.setState({ progress: false, error: err.message });
+      this.setState({
+        progress: false,
+        error: err.message,
+      });
     }
   };
 

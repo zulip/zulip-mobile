@@ -75,6 +75,5 @@ export default StyleSheet.create({
     fontSize: 16,
     lineHeight: CONTROL_SIZE,
     height: CONTROL_SIZE,
-    marginRight: CONTROL_SIZE,
   },
 });
