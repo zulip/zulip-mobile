@@ -44,7 +44,12 @@ export default (state = initialState, action) => {
     case SET_AUTH_TYPE:
       return NavigationStateUtils.push(state, { key: action.authType });
     case LOGIN_SUCCESS:
-      return NavigationStateUtils.reset(state, [{ key: 'main' }]);
+      return {
+        index: 0,
+        routes: [{
+          key: 'main',
+        }],
+      };
     default:
       return state;
   }
