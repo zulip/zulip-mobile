@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
   },
   stream: {
-    padding: 4,
+    padding: 6,
     fontSize: 16,
   },
   topic: {
