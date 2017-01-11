@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
+import styles from '../common/styles';
 import { getAuth } from '../account/accountSelectors';
 import { Screen, ErrorMsg, Button, Input } from '../common';
 import { getAuthBackends } from '../api';
@@ -67,6 +68,7 @@ class RealmScreen extends React.Component {
     return (
       <Screen title="Add Server" keyboardAvoiding>
         <Input
+          customStyle={styles.fieldMargin}
           autoFocus
           autoCorrect={false}
           autoCapitalize="none"

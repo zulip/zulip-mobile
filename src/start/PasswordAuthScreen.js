@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
+import styles from '../common/styles';
 import { fetchApiKey } from '../api';
 import config from '../config';
 import { Screen, ErrorMsg, Button, Input } from '../common';
@@ -40,7 +41,19 @@ class PasswordAuthScreen extends React.Component {
       loginSuccess(auth.realm, email, apiKey);
       this.setState({ progress: false });
     } catch (err) {
-      this.setState({ progress: false, error: err.message });
+      this.setState({ progress: false, error: 'Can not login with these credentials' });
+    }
+  };
+
+  validateForm = () => {
+    const { email, password } = this.state;
+
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      this.setState({ error: 'Enter a valid email' });
+    } else if (!password) {
+      this.setState({ error: 'Enter your password' });
+    } else {
+      this.tryPasswordLogin();
     }
   };
 
@@ -50,6 +63,7 @@ class PasswordAuthScreen extends React.Component {
     return (
       <Screen title="Email Login" keyboardAvoiding>
         <Input
+          customStyle={styles.fieldMargin}
           autoCorrect={false}
           autoFocus
           autoCapitalize="none"
@@ -58,6 +72,7 @@ class PasswordAuthScreen extends React.Component {
           onChangeText={newEmail => this.setState({ email: newEmail })}
         />
         <Input
+          customStyle={styles.fieldMargin}
           placeholder="Password"
           secureTextEntry
           value={password}
@@ -66,7 +81,7 @@ class PasswordAuthScreen extends React.Component {
         <Button
           text="Sign in"
           progress={progress}
-          onPress={this.tryPasswordLogin}
+          onPress={this.validateForm}
         />
         <ErrorMsg error={error} />
       </Screen>
