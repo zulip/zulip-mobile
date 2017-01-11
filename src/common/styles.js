@@ -40,13 +40,13 @@ export default StyleSheet.create({
     height: CONTROL_SIZE,
     marginTop: 10,
   },
+  fieldMargin: {
+    marginBottom: 10,
+  },
   smallField: {
     flexDirection: 'row',
     height: CONTROL_SIZE / 2,
     marginRight: 10,
-  },
-  error: {
-    color: 'red',
   },
   input: {
     borderWidth: 1,

@@ -47,7 +47,7 @@ export const apiCall = async (
     }
 
     if (!response.ok) {
-      console.error(response); // eslint-disable-line
+      console.log(response); // eslint-disable-line
       throw Error(response.statusText);
     }
 

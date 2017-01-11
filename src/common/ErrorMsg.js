@@ -1,9 +1,17 @@
 import React from 'react';
-import {
-  Text,
-  View,
-} from 'react-native';
-import styles from './styles';
+import { StyleSheet, Text, View } from 'react-native';
+import { CONTROL_SIZE } from './styles';
+
+const styles = StyleSheet.create({
+  field: {
+    flexDirection: 'row',
+    height: CONTROL_SIZE,
+    marginTop: 10,
+  },
+  error: {
+    color: 'red',
+  },
+});
 
 export default class ErrorMsg extends React.PureComponent {
 
