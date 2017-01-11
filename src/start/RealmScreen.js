@@ -7,7 +7,6 @@ import { getAuth } from '../account/accountSelectors';
 import { Screen, ErrorMsg, Button, Input } from '../common';
 import { getAuthBackends } from '../api';
 import config from '../config';
-import AuthTypeScreen from './AuthTypeScreen';
 
 type Props = {
   realm: ?string,
@@ -26,7 +25,6 @@ class RealmScreen extends React.Component {
     this.state = {
       progress: false,
       realm: props.realm || realmFromConfig,
-      authBackends: [],
     };
   }
 
@@ -42,17 +40,16 @@ class RealmScreen extends React.Component {
       error: undefined,
     });
 
+    const { pushRoute, setAuthType, realmAdd } = this.props;
+
     try {
       const authBackends = await getAuthBackends({ realm });
-      this.props.realmAdd(realm);
+      realmAdd(realm);
       if (authBackends.length === 1) {
-        this.props.setAuthType(authBackends[0]);
-        this.props.pushRoute(authBackends[0]);
+        setAuthType(authBackends[0]);
+        pushRoute(authBackends[0]);
       } else {
-        this.setState({
-          progress: false,
-          authBackends,
-        });
+        pushRoute('auth-type', authBackends);
       }
     } catch (err) {
       this.setState({
@@ -63,7 +60,7 @@ class RealmScreen extends React.Component {
   };
 
   render() {
-    const { authBackends, progress, realm, error } = this.state;
+    const { progress, realm, error } = this.state;
 
     return (
       <Screen title="Add Server" keyboardAvoiding>
@@ -82,8 +79,6 @@ class RealmScreen extends React.Component {
           onPress={this.tryRealm}
         />
         <ErrorMsg error={error} />
-        {authBackends.length > 0 &&
-          <AuthTypeScreen authBackends={authBackends} />}
       </Screen>
     );
   }
