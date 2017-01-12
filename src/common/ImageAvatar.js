@@ -5,11 +5,11 @@ import {
 
 import { Touchable } from './';
 
-export default({ avatarUrl, size, onPress }) => {
+export default({ avatarUrl, size, isCircular, onPress }) => {
   const style = {
     height: size,
     width: size,
-    borderRadius: size / 2,
+    borderRadius: isCircular ? size / 2 : size / 8,
   };
 
   return (

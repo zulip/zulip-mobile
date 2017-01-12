@@ -11,7 +11,7 @@ import Timestamp from './Timestamp';
 const styles = StyleSheet.create({
   subheader: {
     flex: 1,
-    flexBasis: 25,
+    flexBasis: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

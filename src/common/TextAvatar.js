@@ -17,13 +17,13 @@ export const colorHashFromName = (name: string) => {
 export const initialsFromName = (name: string) =>
   name.match(/\S+\s*/g).map(x => x[0].toUpperCase()).join('');
 
-export default ({ name, size, onPress }) => {
+export default ({ name, size, isCircular, onPress }) => {
   const frameStyle = {
     justifyContent: 'center',
     alignItems: 'center',
     height: size,
     width: size,
-    borderRadius: size / 2,
+    borderRadius: isCircular ? size / 2 : size / 8,
     backgroundColor: colorHashFromName(name),
   };
   const textStyle = {
