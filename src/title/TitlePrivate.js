@@ -1,11 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { Avatar } from '../common';
+import { getFullUrl } from '../utils/url';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -21,15 +18,16 @@ const styles = StyleSheet.create({
 
 export default class TitlePrivate extends React.PureComponent {
   render() {
-    const { narrow, users } = this.props;
+    const { narrow, realm, users } = this.props;
     const user = users.find(x => x.email === narrow[0].operand);
+    const fullAvatarUrl = getFullUrl(user.avatarUrl, realm);
 
     return (
       <View style={styles.wrapper}>
         <Avatar
           size={24}
           name={user.fullName}
-          avatarUrl={user.avatarUrl}
+          avatarUrl={fullAvatarUrl}
         />
         <Text style={styles.title}>
           {user.fullName}
