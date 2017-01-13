@@ -1,4 +1,5 @@
-import { getPointer } from '../chatSelectors';
+import { getPointer, getRecentConversations } from '../chatSelectors';
+import { specialNarrow } from '../../utils/narrow';
 
 describe('getPointer', () => {
   test('return max pointer when there are no messages', () => {
@@ -44,5 +45,51 @@ describe('getPointer', () => {
       },
     };
     expect(getPointer(state)).toEqual({ older: 1, newer: 3 });
+  });
+});
+
+describe('getRecentPrivateChats', () => {
+  const privatesNarrowStr = JSON.stringify(specialNarrow('private'));
+
+  test('when no messages, return zeroed pointer', () => {
+    const state = {
+      account: [{ email: 'me@example.com' }],
+      chat: {
+        narrow: [],
+        messages: {
+          [privatesNarrowStr]: [],
+        },
+      },
+    };
+
+    const actual = getRecentConversations(state);
+
+    expect(actual).toEqual([]);
+  });
+
+  test('TODO', () => {
+    const state = {
+      account: [{ email: 'me@example.com' }],
+      chat: {
+        messages: {
+          [privatesNarrowStr]: [
+            { display_recipient: [{ email: 'me@example.com' }, { email: 'john@example.com' }] },
+            { display_recipient: [{ email: 'mark@example.com' }] },
+            { display_recipient: [{ email: 'john@example.com' }] },
+            { display_recipient: [{ email: 'john@example.com' }, { email: 'mark@example.com' }] },
+          ],
+        },
+      }
+    };
+
+    const expectedPrivate = [
+      'john@example.com',
+      'mark@example.com',
+      'john@example.com,mark@example.com',
+    ];
+
+    const actual = getRecentConversations(state);
+
+    expect(actual).toEqual(expectedPrivate);
   });
 });

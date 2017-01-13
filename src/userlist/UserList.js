@@ -46,13 +46,13 @@ export default class UserList extends Component {
         style={styles.container}
         dataSource={dataSource}
         pageSize={12}
-        renderRow={(x =>
+        renderRow={(user =>
           <UserItem
-            key={x.email}
-            fullName={x.fullName}
-            avatarUrl={getFullUrl(x.avatarUrl, realm)}
-            email={x.email}
-            status={x.status}
+            key={user.email}
+            fullName={user.fullName}
+            avatarUrl={getFullUrl(user.avatarUrl, realm)}
+            email={user.email}
+            status={user.status}
             onPress={onNarrow}
           />
         )}
