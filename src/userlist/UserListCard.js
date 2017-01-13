@@ -6,6 +6,7 @@ import { STATUSBAR_HEIGHT } from '../common/platform';
 import { BRAND_COLOR } from '../common/styles';
 import { privateNarrow } from '../utils/narrow';
 import { SearchInput } from '../common';
+import ConversationList from './ConversationList';
 import UserList from './UserList';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
 import LogoutButton from '../account-info/LogoutButton';
@@ -65,12 +66,18 @@ export default class UserListCard extends Component {
     this.props.onNarrow(privateNarrow(email));
 
   render() {
-    const { ownEmail, realm, users, presence } = this.props;
+    const { conversations, ownEmail, realm, users, presence } = this.props;
     const { filter } = this.state;
 
     return (
       <View tabLabel="People" style={styles.container}>
         <SearchInput onChange={this.handleFilterChange} />
+        <ConversationList
+          conversations={conversations}
+          realm={realm}
+          users={users}
+          onNarrow={this.handleUserNarrow}
+        />
         <UserList
           ownEmail={ownEmail}
           users={users}
