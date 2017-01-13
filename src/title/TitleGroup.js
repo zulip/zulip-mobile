@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 
 import { Avatar } from '../common';
+import { getFullUrl } from '../utils/url';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -18,18 +19,18 @@ const styles = StyleSheet.create({
 
 export default class TitleGroup extends React.PureComponent {
   render() {
-    const { narrow, users } = this.props;
+    const { realm, narrow, users } = this.props;
     const recipientEmails = narrow[0].operand.split(',');
     const recipients = recipientEmails.map(r => users.find(x => x.email === r));
 
     return (
       <View style={styles.wrapper}>
-        {recipients.map(x =>
-          <View key={x.email} style={styles.avatar}>
+        {recipients.map(user =>
+          <View key={user.email} style={styles.avatar}>
             <Avatar
               size={32}
-              name={x.fullName}
-              avatarUrl={x.avatarUrl}
+              name={user.fullName}
+              avatarUrl={getFullUrl(user.avatarUrl, realm)}
             />
           </View>
         )}

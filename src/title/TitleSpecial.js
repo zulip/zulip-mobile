@@ -32,7 +32,7 @@ export default class TitleSpecial extends React.PureComponent {
 
     return (
       <View style={styles.wrapper}>
-        <Icon name={icon} size={16} color="white" />
+        <Icon name={icon} size={20} color="white" />
         <Text style={styles.title}>
           {name}
         </Text>
