@@ -6,6 +6,7 @@ import {
 
 import { getFullUrl } from '../utils/url';
 import UserItem from './UserItem';
+import UserGroup from './UserGroup';
 
 const styles = StyleSheet.create({
   container: {
@@ -41,18 +42,35 @@ export default class ConversationList extends Component {
         dataSource={dataSource}
         pageSize={12}
         renderRow={(email => {
-          const user = users.find(x => x.email === email);
-          if (!user) return null;
-          return (
-            <UserItem
-              key={user.email}
-              fullName={user.fullName}
-              avatarUrl={getFullUrl(user.avatarUrl, realm)}
-              email={user.email}
-              status={user.status}
-              onPress={onNarrow}
-            />
-          );
+          if (email.indexOf(',') === -1) {
+            const user = users.find(x => x.email === email);
+
+            if (!user) return null;
+
+            return (
+              <UserItem
+                key={email}
+                fullName={user.fullName}
+                avatarUrl={getFullUrl(user.avatarUrl, realm)}
+                email={email}
+                status={user.status}
+                onPress={onNarrow}
+              />
+            );
+          } else {
+            const emails = email.split(',');
+            const allNames = emails.map(e =>
+              users.find(x => x.email === e).fullName
+            ).join(', ');
+
+            return (
+              <UserGroup
+                key={email}
+                allNames={allNames}
+                onPress={onNarrow}
+              />
+            );
+          }
         })}
       />
     );
