@@ -73,7 +73,7 @@ class ComposeText extends React.Component {
       sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, text);
     }
 
-    this.setState({ text: '' });
+    this.textInput.clear();
   }
 
   handleContentSizeChange = (event) =>
@@ -105,7 +105,7 @@ class ComposeText extends React.Component {
           <TextInput
             style={styles.composeInput}
             blurOnSubmit
-            defaultValue={text}
+            ref={component => { this.textInput = component; }}
             multiline
             underlineColorAndroid="transparent"
             returnKeyType="send"
