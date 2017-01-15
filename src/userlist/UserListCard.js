@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import { getInitialRoutes } from '../nav/routingSelectors';
 import { STATUSBAR_HEIGHT } from '../common/platform';
 import { BRAND_COLOR } from '../common/styles';
-import { privateNarrow } from '../utils/narrow';
+import { privateNarrow, groupNarrow } from '../utils/narrow';
 import { SearchInput } from '../common';
 import ConversationList from './ConversationList';
 import UserList from './UserList';
@@ -63,7 +63,11 @@ export default class UserListCard extends Component {
   }
 
   handleUserNarrow = (email: string) =>
-    this.props.onNarrow(privateNarrow(email));
+    this.props.onNarrow(
+      email.indexOf(',') === -1 ?
+        privateNarrow(email) :
+        groupNarrow(email.split(','))
+    );
 
   render() {
     const { conversations, ownEmail, realm, users, presence } = this.props;

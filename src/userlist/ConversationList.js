@@ -66,6 +66,7 @@ export default class ConversationList extends Component {
             return (
               <UserGroup
                 key={email}
+                email={email}
                 allNames={allNames}
                 onPress={onNarrow}
               />
