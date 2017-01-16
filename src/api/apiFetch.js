@@ -19,7 +19,7 @@ export const apiFetch = async (
     },
     ...params,
   };
-  return await fetch(url, allParams);
+  return fetch(url, allParams);
 };
 
 
@@ -67,12 +67,12 @@ export const apiCall = async (
 };
 
 export const apiGet = async (auth, route, params = {}, resFunc, noTimeout) =>
-  await apiCall(auth, `${route}?${encodeAsURI(params)}`, {
+  apiCall(auth, `${route}?${encodeAsURI(params)}`, {
     method: 'get',
   }, resFunc, noTimeout);
 
 export const apiPost = async (auth, route, params = {}, resFunc, noTimeout) =>
-  await apiCall(auth, route, {
+  apiCall(auth, route, {
     method: 'post',
     body: encodeAsURI(params),
   }, resFunc, noTimeout);
