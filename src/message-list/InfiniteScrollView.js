@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { ScrollView }from 'react-native';
+import { ScrollView } from 'react-native';
 
 const DEFAULT_START_REACHED_THRESHOLD = 500;
 const DEFAULT_END_REACHED_THRESHOLD = 500;
@@ -9,6 +9,17 @@ const DEFAULT_SCROLL_CALLBACK_THROTTLE = 50;
 class InfiniteScrollView extends React.Component {
   componentDidMount() {
     this._scrollOffset = 0;
+
+    // We need to make sure we're using the right version of RCTScrollView
+    // Otherwise, scroll behavior will be subtly broken
+    if (__DEV__) {
+      if (!ScrollView.propTypes.hasOwnProperty('anchorMode')) {
+        console.error(
+          'RCTScrollView does not have custom extensions to support' +
+          ' anchored behavior. Are you using the zulip/react-native fork?'
+        );
+      }
+    }
   }
 
   _onContentSizeChanged(contentWidth, contentHeight) {
