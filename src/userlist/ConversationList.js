@@ -60,7 +60,7 @@ export default class ConversationList extends Component {
           } else {
             const emails = email.split(',');
             const allNames = emails.map(e =>
-              users.find(x => x.email === e).fullName
+              (users.find(x => x.email === e) || {}).fullName
             ).join(', ');
 
             return (

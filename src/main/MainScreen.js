@@ -2,6 +2,7 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import Drawer from 'react-native-drawer';
 
+import { homeNarrow, specialNarrow } from '../utils/narrow';
 import { focusPing } from '../api';
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
@@ -11,11 +12,13 @@ import UserListContainer from '../userlist/UserListContainer';
 export default class MainScreen extends React.Component {
 
   componentDidMount() {
-    const { auth, fetchEvents, fetchUsersAndStatus, fetchMessages } = this.props;
+    const { auth, fetchEvents, fetchUsersAndStatus,
+      backgroundFetchMessages, fetchMessages } = this.props;
 
     fetchEvents(auth);
     fetchUsersAndStatus(auth);
-    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, []);
+    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 20, 0, homeNarrow(), [true, true]);
+    backgroundFetchMessages(auth, Number.MAX_SAFE_INTEGER, 100, 0, specialNarrow('private'));
     focusPing(auth, true, false);
   }
 
