@@ -18,15 +18,11 @@ export default class MessageList extends React.PureComponent {
   render() {
     const { fetchOlder } = this.props;
 
-    const messageList = renderMessages(this.props);
-    const headerIndices = messageList
-      .map((x, idx) => ({ type: x.type.name, index: idx }))
-      .filter(x => x.type === 'MessageHeader')
-      .map(x => x.index);
-    const anchorIndices = messageList
-      .map((x, idx) => ({ type: x.type.name, index: idx }))
-      .filter(x => x.type === 'MessageContainer')
-      .map(x => x.index);
+    const {
+      messageList,
+      headerIndices,
+      anchorIndices
+    } = renderMessages(this.props);
 
     return (
       <InfiniteScrollView

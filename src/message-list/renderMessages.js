@@ -13,20 +13,34 @@ import TimeRow from '../message/TimeRow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
-export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow }) =>
-  messages.reduce((list, item, index) => {
-    const prevItem = messages[index - 1];
+export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow }) => {
+  const list = [];
+  const headerIndices = [];
+  const anchorIndices = [];
+  let prevItem;
+  let index = 0;
 
+  if (isFetching) {
+    for (let i = 0; i < 6; i++) {
+      list.push(
+        <MessageLoading key={`ml${i}`} />
+      );
+      index++;
+    }
+  }
+
+  for (const item of messages) {
     const diffDays = prevItem &&
       !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
 
-    if (index === 0 || diffDays) {
+    if (!prevItem || diffDays) {
       list.push(
         <TimeRow
           key={`time${item.timestamp}`}
           timestamp={item.timestamp}
         />
       );
+      index++;
     }
 
     const showHeader = !isPrivateNarrow(narrow) &&
@@ -34,6 +48,7 @@ export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow })
     const diffRecipient = !isSameRecipient(prevItem, item);
 
     if (showHeader && diffRecipient) {
+      headerIndices.push(index);
       list.push(
         <MessageHeader
           key={`header${item.id}`}
@@ -44,11 +59,13 @@ export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow })
           doNarrow={doNarrow}
         />
       );
+      index++;
     }
 
     const shouldGroupWithPrev = !diffRecipient && !diffDays &&
       prevItem && prevItem.sender_full_name === item.sender_full_name;
 
+    anchorIndices.push(index);
     list.push(
       <MessageContainer
         key={item.id}
@@ -61,13 +78,14 @@ export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow })
         avatarUrl={getFullUrl(item.avatar_url, auth.realm)}
       />
     );
+    index++;
 
-    return list;
-  }, isFetching ? [
-    <MessageLoading key="ml1" />,
-    <MessageLoading key="ml2" />,
-    <MessageLoading key="ml3" />,
-    <MessageLoading key="ml4" />,
-    <MessageLoading key="ml5" />,
-    <MessageLoading key="ml6" />,
-  ] : []);
+    prevItem = item;
+  }
+
+  return {
+    messageList: list,
+    headerIndices,
+    anchorIndices,
+  };
+};

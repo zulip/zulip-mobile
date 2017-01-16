@@ -8,12 +8,12 @@ describe('renderMessages', () => {
   const narrow = [];
 
   test('empty messages results in no rendered messages', () => {
-    const messageList = renderMessages({ messages: [] });
+    const { messageList } = renderMessages({ messages: [] });
     expect(messageList).toEqual([]);
   });
 
   test('if fetching in progress, one or more loading messages are shown', () => {
-    const messageList = renderMessages({ messages: [], isFetching: true });
+    const { messageList } = renderMessages({ messages: [], isFetching: true });
     expect(messageList[0].type.name).toEqual('MessageLoading');
   });
 
@@ -28,7 +28,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions, auth, narrow });
+    const { messageList } = renderMessages({ messages, subscriptions, auth, narrow });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);
@@ -65,7 +65,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions, auth, narrow });
+    const { messageList } = renderMessages({ messages, subscriptions, auth, narrow });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);
@@ -105,7 +105,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions, auth, narrow });
+    const { messageList } = renderMessages({ messages, subscriptions, auth, narrow });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);
@@ -135,7 +135,7 @@ describe('renderMessages', () => {
       'MessageContainer',
     ];
 
-    const messageList = renderMessages({ messages, subscriptions, auth, narrow });
+    const { messageList } = renderMessages({ messages, subscriptions, auth, narrow });
     const messageTypes = messageList.map(x => x.type.name);
 
     expect(messageTypes).toEqual(expectedComponentTypes);
