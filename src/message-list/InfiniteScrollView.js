@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import AnchoredScrollView from '../native/AnchoredScrollView';
+import { ScrollView }from 'react-native';
 
 const DEFAULT_START_REACHED_THRESHOLD = 500;
 const DEFAULT_END_REACHED_THRESHOLD = 500;
@@ -61,7 +61,7 @@ class InfiniteScrollView extends React.Component {
 
   render() {
     return (
-      <AnchoredScrollView
+      <ScrollView
         style={this.props.style}
         contentContainerStyle={this.props.contentContainerStyle}
         automaticallyAdjustContentInset={false}
@@ -71,11 +71,12 @@ class InfiniteScrollView extends React.Component {
         onScroll={this._onScroll.bind(this)}
         scrollEventThrottle={DEFAULT_SCROLL_CALLBACK_THROTTLE}
         stickyHeaderIndices={this.props.stickyHeaderIndices}
+        anchorIndices={this.props.anchorIndices}
         anchorMode
         autoScrollToBottom={this.props.autoScrollToBottom}
       >
         {this.props.children}
-      </AnchoredScrollView>
+      </ScrollView>
     );
   }
 }
