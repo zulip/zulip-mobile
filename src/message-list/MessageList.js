@@ -20,8 +20,8 @@ export default class MessageList extends React.PureComponent {
 
     const messageList = renderMessages(this.props);
     const headerIndices = messageList
-      .map((x, idx) => ({ type: x.type.name, index: idx }))
-      .filter(x => x.type === 'MessageHeader')
+      .map((x, idx) => ({ key: x.key, index: idx }))
+      .filter(x => x.key.startsWith('header'))
       .map(x => x.index);
 
     return (
