@@ -11,19 +11,17 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 100,
+    borderColor: 'white',
+    borderWidth: 2,
   },
   active: {
     backgroundColor: '#44c21d',
   },
   idle: {
-    backgroundColor: 'rgba(255, 165, 0, 0.25)',
-    borderColor: 'rgba(255, 165, 0, 1)',
-    borderWidth: 1,
+    backgroundColor: 'rgba(255, 165, 0, 1)',
   },
   offline: {
-    backgroundColor: 'transparent',
-    borderColor: 'lightgray',
-    borderWidth: 1,
+    backgroundColor: 'lightgray',
   },
   unknown: {
   },
@@ -34,6 +32,7 @@ export default class UserStatusIndicator extends Component {
 
   props: {
     status: UserStatus,
+    customStyles: Object,
   }
 
   static defaultProps = {
@@ -41,12 +40,12 @@ export default class UserStatusIndicator extends Component {
   };
 
   render() {
-    const { status } = this.props;
+    const { status, customStyles } = this.props;
 
     if (!status) return null;
 
     return (
-      <View style={[styles.common, styles[status]]} />
+      <View style={[styles.common, styles[status], customStyles]} />
     );
   }
 }

@@ -18,10 +18,20 @@ export default class Avatar extends React.PureComponent {
   };
 
   render() {
-    const { avatarUrl, name, size, onPress } = this.props;
+    const { avatarUrl, name, size, status, onPress } = this.props;
 
-    return avatarUrl
-      ? <ImageAvatar avatarUrl={avatarUrl} size={size} onPress={onPress} />
-      : <TextAvatar name={name} size={size} onPress={onPress} />;
+    return avatarUrl ?
+      <ImageAvatar
+        avatarUrl={avatarUrl}
+        size={size}
+        status={status}
+        onPress={onPress}
+      /> :
+      <TextAvatar
+        name={name}
+        size={size}
+        status={status}
+        onPress={onPress}
+      />;
   }
 }
