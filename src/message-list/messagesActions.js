@@ -12,7 +12,7 @@ export const switchNarrow = (narrow) => ({
   caughtUp: { older: false, newer: false },
 });
 
-export const fetchMessages = (
+export const backgroundFetchMessages = (
   auth,
   anchor: number,
   numBefore: number,
@@ -56,4 +56,16 @@ export const fetchMessages = (
         ...numAfter ? { newer: messages.length - anchorIdx - 1 < numAfter } : {},
       },
     });
+  };
+
+export const fetchMessages = (
+  auth,
+  anchor: number,
+  numBefore: number,
+  numAfter: number,
+  narrow,
+) =>
+  async (dispatch) => {
+    dispatch({ type: MESSAGE_FETCH_START, narrow });
+    await backgroundFetchMessages(auth, anchor, numBefore, numAfter, narrow)(dispatch);
   };
