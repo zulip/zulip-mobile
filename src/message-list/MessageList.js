@@ -23,6 +23,10 @@ export default class MessageList extends React.PureComponent {
       .map((x, idx) => ({ type: x.type.name, index: idx }))
       .filter(x => x.type === 'MessageHeader')
       .map(x => x.index);
+    const anchorIndices = messageList
+      .map((x, idx) => ({ type: x.type.name, index: idx }))
+      .filter(x => x.type === 'MessageContainer')
+      .map(x => x.index);
 
     return (
       <InfiniteScrollView
@@ -31,6 +35,7 @@ export default class MessageList extends React.PureComponent {
         automaticallyAdjustContentInset="false"
         autoScrollToBottom
         stickyHeaderIndices={headerIndices}
+        anchorIndices={anchorIndices}
         onStartReached={fetchOlder}
         onScroll={e => {}}
       >
