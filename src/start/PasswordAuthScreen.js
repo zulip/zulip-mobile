@@ -66,6 +66,7 @@ class PasswordAuthScreen extends React.Component {
           customStyle={styles.fieldMargin}
           autoCorrect={false}
           autoFocus
+          keyboardType="email-address"
           autoCapitalize="none"
           placeholder="Email"
           defaultValue={email}
