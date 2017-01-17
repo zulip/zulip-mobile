@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import { getAuth } from '../account/accountSelectors';
 import { Popup } from '../common';
-import UserItem from '../userlist/UserItem';
-import { sortUserList, filterUsersStartingWith } from '../userlist/userListSelectors';
+import UserItem from '../users/UserItem';
+import { sortUserList, filterUsersStartingWith } from '../users/userListSelectors';
 
 
 class PeopleAutocomplete extends Component {

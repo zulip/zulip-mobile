@@ -2,11 +2,30 @@ import React from 'react';
 import {
   View,
   StatusBar,
+  StyleSheet,
   KeyboardAvoidingView,
 } from 'react-native';
 
-import { styles } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'stretch',
+  },
+  navigationCard: {
+    backgroundColor: 'white',
+    shadowColor: 'transparent',
+  },
+  container: {
+    flex: 1,
+    padding: 10,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+  },
+});
 
 export default class Screen extends React.Component {
 

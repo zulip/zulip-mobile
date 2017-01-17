@@ -12,3 +12,4 @@ export { default as SearchInput } from './SearchInput';
 export { default as styles } from './styles';
 export { default as TextAvatar } from './TextAvatar';
 export { default as Touchable } from './Touchable';
+export { default as UserStatusIndicator } from './UserStatusIndicator';

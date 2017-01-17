@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { Avatar, Button } from '../common';
+import { Avatar, Button, UserStatusIndicator } from '../common';
 import { privateNarrow } from '../utils/narrow';
-import UserStatusIndicator from '../userlist/UserStatusIndicator';
 
 const styles = StyleSheet.create({
   avatarWrapper: {
