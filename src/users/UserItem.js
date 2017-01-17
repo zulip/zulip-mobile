@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { Avatar, Touchable } from '../common';
 

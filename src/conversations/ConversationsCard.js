@@ -3,11 +3,9 @@ import { View, StyleSheet } from 'react-native';
 
 import { getInitialRoutes } from '../nav/routingSelectors';
 import { STATUSBAR_HEIGHT } from '../common/platform';
-import { BRAND_COLOR } from '../common/styles';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
-import { SearchInput } from '../common';
+import { Button } from '../common';
 import ConversationList from './ConversationList';
-import UserList from './UserList';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
 import LogoutButton from '../account-info/LogoutButton';
 
@@ -18,10 +16,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderColor: 'gray',
     marginTop: STATUSBAR_HEIGHT,
-  },
-  statusbar: {
-    height: STATUSBAR_HEIGHT,
-    backgroundColor: BRAND_COLOR,
   },
   accountButtons: {
     paddingLeft: 8,
@@ -38,7 +32,7 @@ type Props = {
   presence: Object,
 };
 
-export default class UserListCard extends Component {
+export default class ConversationListCard extends Component {
 
   props: Props;
 
@@ -56,12 +50,6 @@ export default class UserListCard extends Component {
     this.props.initRoutes(getInitialRoutes(this.props.accounts));
   }
 
-  handleFilterChange = (newFilter: string) => {
-    this.setState({
-      filter: newFilter,
-    });
-  }
-
   handleUserNarrow = (email: string) =>
     this.props.onNarrow(
       email.indexOf(',') === -1 ?
@@ -69,25 +57,25 @@ export default class UserListCard extends Component {
         groupNarrow(email.split(','))
     );
 
+  handleSearchPress = () => {
+    const { pushRoute, onNarrow } = this.props;
+    onNarrow();
+    pushRoute('users');
+  }
+
   render() {
-    const { conversations, ownEmail, realm, users, presence } = this.props;
-    const { filter } = this.state;
+    const { conversations, realm, users } = this.props;
 
     return (
       <View tabLabel="People" style={styles.container}>
-        <SearchInput onChange={this.handleFilterChange} />
+        <Button
+          text="Search"
+          onPress={this.handleSearchPress}
+        />
         <ConversationList
           conversations={conversations}
           realm={realm}
           users={users}
-          onNarrow={this.handleUserNarrow}
-        />
-        <UserList
-          ownEmail={ownEmail}
-          users={users}
-          presence={presence}
-          filter={filter}
-          realm={realm}
           onNarrow={this.handleUserNarrow}
         />
         <View style={styles.accountButtons}>

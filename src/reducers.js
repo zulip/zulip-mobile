@@ -6,7 +6,7 @@ import nav from './nav/navReducers';
 import realm from './realm/realmReducers';
 import subscriptions from './subscriptions/subscriptionsReducers';
 import chat from './chat/chatReducers';
-import userlist from './userlist/userListReducers';
+import userlist from './users/userListReducers';
 
 export default combineReducers({
   account,

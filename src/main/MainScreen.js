@@ -7,7 +7,7 @@ import { focusPing } from '../api';
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
-import UserListContainer from '../userlist/UserListContainer';
+import ConversationsContainer from '../conversations/ConversationsContainer';
 
 export default class MainScreen extends React.Component {
 
@@ -53,9 +53,9 @@ export default class MainScreen extends React.Component {
       >
         <Drawer
           content={
-            <UserListContainer
+            <ConversationsContainer
               onNarrow={newNarrow => {
-                doNarrow(newNarrow);
+                if (newNarrow) doNarrow(newNarrow);
                 this.peopleDrawer.close();
               }}
             />

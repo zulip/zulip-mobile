@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  ListView,
-  Text,
-} from 'react-native';
+import { StyleSheet, ListView, Text } from 'react-native';
 
 import { getFullUrl } from '../utils/url';
 import UserItem from './UserItem';

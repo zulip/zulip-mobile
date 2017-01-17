@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import { getFullUrl } from '../utils/url';
-import UserItem from './UserItem';
+import UserItem from '../users/UserItem';
 import UserGroup from './UserGroup';
 
 const styles = StyleSheet.create({
