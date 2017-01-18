@@ -5,7 +5,7 @@ import {
 
 import { styles, OfflineNotice } from '../common';
 import { canSendToNarrow } from '../utils/narrow';
-import MessageList from '../message-list/MessageList';
+import MessageList from '../message-list/MessageListWeb';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 
