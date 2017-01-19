@@ -54,8 +54,20 @@ pre {
   text-align: center;
   padding: 0.25em;
   color: #999;
-  border-top: 1px solid ${BORDER_COLOR};
-  border-bottom: 1px solid ${BORDER_COLOR};
+  display: flex;
+  align-items: center;
+}
+.timerow-left,
+.timerow-right {
+  flex: 1;
+  height: 1px;
+  margin: 0.5em;
+}
+.timerow-left {
+  background: -webkit-linear-gradient(left, transparent 10%, #999 100%);
+}
+.timerow-right {
+  background: -webkit-linear-gradient(left, #999 0%, transparent 90%);
 }
 .timestamp {
   color: silver;
@@ -90,6 +102,10 @@ pre {
   padding: 0 .2em;
   box-shadow: 0 0 0 1px #ccc;
 }
+.avatar,
+.header {
+  cursor: pointer;
+}
 .topic-header,
 .private-header,
 .stream-header {
@@ -110,7 +126,10 @@ pre {
   padding: 0.25em;
 }
 .title-text {
+  flex: 1;
   padding-left: 0.5em;
+  word-wrap: nowrap;
+  overflow: hidden;
 }
 .arrow-right {
   width: 0;
@@ -176,8 +195,14 @@ ul {
 .codehilite .gi { color: #00a000; }
 .codehilite .gd { color: #a00000; }
 .codehilite .k { color: #008000; font-weight: bold; }
+.codehilite .kd { color: #008000; font-weight: bold; }
 .codehilite .nf { color: #00f; }
 .codehilite .s2 { color: #ba2121; }
+.codehilite .cp { color: #bc7a00; }
+.codehilite .kt { color: #b00040; }
+.codehilite .nc { color: #00f; font-weight: bold; }
+.codehilite .nb { color: #008000; }
+.codehilite .s1 { color: #ba2121; }
 .twitter-tweet {
 
 }
