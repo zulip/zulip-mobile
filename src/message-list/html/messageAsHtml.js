@@ -9,10 +9,12 @@ const briefMessageAsHtml = ({ message }) => `
   </div>
 `;
 
-const fullMessageAsHtml = ({ message, fromName, timestamp, avatarUrl, twentyFourHourTime }) => `
+const fullMessageAsHtml = ({
+  message, fromName, fromEmail, timestamp, avatarUrl, twentyFourHourTime,
+}) => `
   <div class="message">
     <div class="avatar">
-      <img src="${avatarUrl}">
+      <img src="${avatarUrl}" class="avatar-img" data-email="${fromEmail}">
     </div>
     <div class="content">
       <div class="subheader">
