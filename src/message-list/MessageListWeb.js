@@ -16,8 +16,20 @@ export default class MessageListWeb extends React.PureComponent {
   handleMessage = (event) => {
     const data = JSON.parse(event.nativeEvent.data);
     console.log('MESSAGE INC', data);
-    if (data.type === 'scroll' && data.y === 0) {
-      this.props.fetchOlder();
+
+    switch (data.type) {
+      case 'scroll':
+        if (data.y === 0) {
+          this.props.fetchOlder();
+        }
+        break;
+      case 'avatar':
+        this.props.pushRoute('account-details', data.fromEmail);
+        break;
+      case 'narrow':
+        this.props.doNarrow(JSON.parse(data.narrow.replace(/'/g, '"')));
+        break;
+      default:
     }
   };
 
@@ -32,8 +44,8 @@ export default class MessageListWeb extends React.PureComponent {
     });
     const html = messagesHtml
       .join('')
-      .replace('src="/', `src="${auth.realm}/`);
-
+      .replace(/src="\//g, `src="${auth.realm}/`);
+    // console.log(css + html);
     return (
       <WebView
         source={{ html: css + html }}

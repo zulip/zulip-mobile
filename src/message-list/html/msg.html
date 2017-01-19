@@ -184,7 +184,7 @@ ul {
 }
 </style>
 
-  <div class="message">
+<div class="message">
     <div class="loading-avatar"></div>
     <div class="loading-content">
       <div class="loading-subheader">
@@ -195,20 +195,6 @@ ul {
       <div class="block"></div>
     </div>
   </div>
-
-
-  <div class="message">
-    <div class="loading-avatar"></div>
-    <div class="loading-content">
-      <div class="loading-subheader">
-        <div class="block name"></div>
-        <div class="block timestamp"></div>
-      </div>
-      <div class="block"></div>
-      <div class="block"></div>
-    </div>
-  </div>
-
 
   <div class="message">
     <div class="loading-avatar"></div>
@@ -222,6 +208,17 @@ ul {
     </div>
   </div>
 
+  <div class="message">
+    <div class="loading-avatar"></div>
+    <div class="loading-content">
+      <div class="loading-subheader">
+        <div class="block name"></div>
+        <div class="block timestamp"></div>
+      </div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </div>
 
   <div class="message">
     <div class="loading-avatar"></div>
@@ -235,6 +232,17 @@ ul {
     </div>
   </div>
 
+  <div class="message">
+    <div class="loading-avatar"></div>
+    <div class="loading-content">
+      <div class="loading-subheader">
+        <div class="block name"></div>
+        <div class="block timestamp"></div>
+      </div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </div>
 
   <div class="message">
     <div class="loading-avatar"></div>
@@ -248,15 +256,362 @@ ul {
     </div>
   </div>
 
+MessageListWeb.js:18 MESSAGE INC Object {o: "new stuff"}
+MessageListWeb.js:47
+  <div class="timerow">
+    <div class="timerow-left"></div>
+    Today
+    <div class="timerow-right"></div>
+  </div>
+
+      <div class="stream-header">
+        <div class="stream-text header" style="background: #ccc"
+          data-narrow="[{'operator':'stream','operand':'general'}]">
+          general
+        </div>
+        <div class="arrow-right" style="border-left-color: #ccc"></div>
+        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'general'},{'operator':'topic','operand':'notification bot'}]">
+          notification bot
+        </div>
+      </div>
 
   <div class="message">
-    <div class="loading-avatar"></div>
-    <div class="loading-content">
-      <div class="loading-subheader">
-        <div class="block name"></div>
-        <div class="block timestamp"></div>
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/8d11b13e88ff8324da17be1dced2ebf770638054.png?x=x" class="avatar-img" data-email="tabbott@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Tim Abbott
+        </div>
+        <div class="timestamp">
+          12:35 AM
+        </div>
       </div>
-      <div class="block"></div>
-      <div class="block"></div>
+      <p>Since that's how we'd do it if it were important</p>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="avatar"><img></div>
+    <div class="content">
+      <p>A cheap cacheable DB query on a relatively rare codepath isn't important</p>
+    </div>
+  </div>
+
+      <div class="stream-header">
+        <div class="stream-text header" style="background: #ccc"
+          data-narrow="[{'operator':'stream','operand':'announce'}]">
+          announce
+        </div>
+        <div class="arrow-right" style="border-left-color: #ccc"></div>
+        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'announce'},{'operator':'topic','operand':'this server'}]">
+          this server
+        </div>
+      </div>
+
+  <div class="message">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/8d11b13e88ff8324da17be1dced2ebf770638054.png?x=x" class="avatar-img" data-email="tabbott@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Tim Abbott
+        </div>
+        <div class="timestamp">
+          12:38 AM
+        </div>
+      </div>
+      <p>Attempting an upgrade from master + <span class="user-mention" data-user-email="hkmp7tommy@gmail.com">@Tommy Ip</span>'s new minification PR</p>
+    </div>
+  </div>
+
+      <div class="stream-header">
+        <div class="stream-text header" style="background: #ccc"
+          data-narrow="[{'operator':'stream','operand':'general'}]">
+          general
+        </div>
+        <div class="arrow-right" style="border-left-color: #ccc"></div>
+        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'general'},{'operator':'topic','operand':'notification bot'}]">
+          notification bot
+        </div>
+      </div>
+
+  <div class="message">
+    <div class="avatar">
+      <img src="https://secure.gravatar.com/avatar/b60683e6dacd4556ae15430a7c9b6f13?d=identicon" class="avatar-img" data-email="showell30@yahoo.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Steve Howell
+        </div>
+        <div class="timestamp">
+          12:40 AM
+        </div>
+      </div>
+      <p>I may be overreacting, but this change is starting to make me feel a bit queasy.  It seems like the root problem here is that we need to have notification bots just be in the same realm of the user.   Here is another route to take this:</p>
+<ul>
+<li>disable stream links for realms that don't have their own notification bot</li>
+<li>start building out the ability for realms to have their own notification bot</li>
+</ul>
+<p>How hard is the latter?</p>
+    </div>
+  </div>
+
+      <div class="stream-header">
+        <div class="stream-text header" style="background: #ccc"
+          data-narrow="[{'operator':'stream','operand':'announce'}]">
+          announce
+        </div>
+        <div class="arrow-right" style="border-left-color: #ccc"></div>
+        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'announce'},{'operator':'topic','operand':'this server'}]">
+          this server
+        </div>
+      </div>
+
+  <div class="message">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/8d11b13e88ff8324da17be1dced2ebf770638054.png?x=x" class="avatar-img" data-email="tabbott@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Tim Abbott
+        </div>
+        <div class="timestamp">
+          12:42 AM
+        </div>
+      </div>
+      <p>Seems to work!</p>
+    </div>
+  </div>
+
+      <div class="stream-header">
+        <div class="stream-text header" style="background: #ccc"
+          data-narrow="[{'operator':'stream','operand':'general'}]">
+          general
+        </div>
+        <div class="arrow-right" style="border-left-color: #ccc"></div>
+        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'general'},{'operator':'topic','operand':'notification bot'}]">
+          notification bot
+        </div>
+      </div>
+
+  <div class="message">
+    <div class="avatar">
+      <img src="https://secure.gravatar.com/avatar/03d6176149e9fe81c83590dd4e7a5225?d=identicon" class="avatar-img" data-email="sampdingo@hotmail.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Sampriti Panda
+        </div>
+        <div class="timestamp">
+          12:43 AM
+        </div>
+      </div>
+      <p>I guess one problem with the second is email address has to be unique.</p>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="avatar"><img></div>
+    <div class="content">
+      <p>so you can't have multiple users with same email address</p>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/8d11b13e88ff8324da17be1dced2ebf770638054.png?x=x" class="avatar-img" data-email="tabbott@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Tim Abbott
+        </div>
+        <div class="timestamp">
+          12:43 AM
+        </div>
+      </div>
+      <p>Email mirror bot has the same problem</p>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="avatar"><img></div>
+    <div class="content">
+      <p>And a few others</p>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="avatar">
+      <img src="https://secure.gravatar.com/avatar/03d6176149e9fe81c83590dd4e7a5225?d=identicon" class="avatar-img" data-email="sampdingo@hotmail.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Sampriti Panda
+        </div>
+        <div class="timestamp">
+          12:43 AM
+        </div>
+      </div>
+      <p>although the email could very well be <code>notification-bot-&lt;realm_name&gt;</code></p>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="avatar"><img></div>
+    <div class="content">
+      <p>I think the problem is mainly with Notification Bot, Welcome Bot and Email Mirror Bot?</p>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="avatar"><img></div>
+    <div class="content">
+      <p>The Error Bot doesn't matter too much, I'm using the sender stream there.</p>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="avatar"><img></div>
+    <div class="content">
+      <p>Those were the only bots which use the internal_* methods.</p>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/8d11b13e88ff8324da17be1dced2ebf770638054.png?x=x" class="avatar-img" data-email="tabbott@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Tim Abbott
+        </div>
+        <div class="timestamp">
+          12:44 AM
+        </div>
+      </div>
+      <p>I think we should probably fix the proximal issue now, but I think I agree that this process is really showcasing the potential benefits of decreasing reliance on cross-realm bots for the internal bots.  </p>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="avatar">
+      <img src="https://secure.gravatar.com/avatar/03d6176149e9fe81c83590dd4e7a5225?d=identicon" class="avatar-img" data-email="sampdingo@hotmail.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Sampriti Panda
+        </div>
+        <div class="timestamp">
+          12:45 AM
+        </div>
+      </div>
+      <p>I think this is the last issue.</p>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/8d11b13e88ff8324da17be1dced2ebf770638054.png?x=x" class="avatar-img" data-email="tabbott@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Tim Abbott
+        </div>
+        <div class="timestamp">
+          12:45 AM
+        </div>
+      </div>
+      <p>Yeah I do too</p>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="avatar">
+      <img src="https://secure.gravatar.com/avatar/03d6176149e9fe81c83590dd4e7a5225?d=identicon" class="avatar-img" data-email="sampdingo@hotmail.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Sampriti Panda
+        </div>
+        <div class="timestamp">
+          12:45 AM
+        </div>
+      </div>
+      <p>The EmbedLinks worker that is.</p>
+    </div>
+  </div>
+
+      <div class="stream-header">
+        <div class="stream-text header" style="background: #ccc"
+          data-narrow="[{'operator':'stream','operand':'test here'}]">
+          test here
+        </div>
+        <div class="arrow-right" style="border-left-color: #ccc"></div>
+        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'test here'},{'operator':'topic','operand':':heart:'}]">
+          :heart:
+        </div>
+      </div>
+
+  <div class="message">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/ad92a0948643e6816ec2fef80288d6fd1d662928.png?x=x" class="avatar-img" data-email="cynthialin1004@gmail.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Cynthia Lin
+        </div>
+        <div class="timestamp">
+          12:56 AM
+        </div>
+      </div>
+      <p><img alt=":heart:" class="emoji" src="https://chat.zulip.org/static/generated/emoji/images/emoji/heart.png" title=":heart:"></p>
+    </div>
+  </div>
+
+      <div class="stream-header">
+        <div class="stream-text header" style="background: #ccc"
+          data-narrow="[{'operator':'stream','operand':'general'}]">
+          general
+        </div>
+        <div class="arrow-right" style="border-left-color: #ccc"></div>
+        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'general'},{'operator':'topic','operand':'notification bot'}]">
+          notification bot
+        </div>
+      </div>
+
+  <div class="message">
+    <div class="avatar">
+      <img src="https://secure.gravatar.com/avatar/03d6176149e9fe81c83590dd4e7a5225?d=identicon" class="avatar-img" data-email="sampdingo@hotmail.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Sampriti Panda
+        </div>
+        <div class="timestamp">
+          12:59 AM
+        </div>
+      </div>
+      <p>Can you point me to some piece of code where I can understand how caching is implemented?</p>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="avatar"><img></div>
+    <div class="content">
+      <p><span class="user-mention" data-user-email="tabbott@zulipchat.com">@Tim Abbott</span> ^</p>
     </div>
   </div>
