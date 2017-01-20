@@ -18,6 +18,7 @@ class ConversationsContainer extends Component {
 export default connect(
   (state) => ({
     realm: getAuth(state).realm,
+    narrow: state.chat.narrow,
     users: state.userlist,
     conversations: getRecentConversations(state),
   }),

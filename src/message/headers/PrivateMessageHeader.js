@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     backgroundColor: '#333',
+    alignItems: 'center',
   },
   private: {
     flex: 1,
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     padding: 10,
-    paddingLeft: 16,
+    paddingLeft: 10,
   }
 });
 

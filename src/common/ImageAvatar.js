@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 
 import { Touchable } from './';
-import UserStatusIndicator from '../userlist/UserStatusIndicator';
+import UserStatusIndicator from '../common/UserStatusIndicator';
 
 const styles = StyleSheet.create({
   wrapper: {

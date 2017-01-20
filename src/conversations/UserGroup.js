@@ -6,13 +6,17 @@ import {
 } from 'react-native';
 
 import { Avatar, Touchable } from '../common';
+import { BRAND_COLOR } from '../common/styles';
 
 const styles = StyleSheet.create({
-  container: {
+  row: {
     height: 44,
     flexDirection: 'row',
     alignItems: 'center',
     padding: 8,
+  },
+  selectedRow: {
+    backgroundColor: BRAND_COLOR,
   },
   touchTarget: {
   },
@@ -21,6 +25,9 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+  selectedText: {
+    color: 'white',
+  }
 });
 
 export default class UserGroup extends Component {
@@ -30,6 +37,7 @@ export default class UserGroup extends Component {
     fullName: string,
     avatarUrl: string,
     status: string,
+    isSelected: boolean,
     onPress: () => void,
   }
 
@@ -37,13 +45,15 @@ export default class UserGroup extends Component {
     this.props.onPress(this.props.email);
 
   render() {
-    const { allNames } = this.props;
+    const { allNames, isSelected } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={styles.container}>
+        <View style={[styles.row, isSelected && styles.selectedRow]}>
           <Avatar size={32} name={allNames} />
-          <Text style={styles.text}>{allNames}</Text>
+          <Text style={[styles.text, isSelected && styles.selectedText]}>
+            {allNames}
+          </Text>
         </View>
       </Touchable>
     );

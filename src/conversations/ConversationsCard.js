@@ -32,7 +32,7 @@ type Props = {
   presence: Object,
 };
 
-export default class ConversationListCard extends Component {
+export default class ConversationsCard extends Component {
 
   props: Props;
 
@@ -64,7 +64,7 @@ export default class ConversationListCard extends Component {
   }
 
   render() {
-    const { conversations, realm, users } = this.props;
+    const { conversations, realm, users, narrow } = this.props;
 
     return (
       <View tabLabel="People" style={styles.container}>
@@ -76,6 +76,7 @@ export default class ConversationListCard extends Component {
           conversations={conversations}
           realm={realm}
           users={users}
+          narrow={narrow}
           onNarrow={this.handleUserNarrow}
         />
         <View style={styles.accountButtons}>
