@@ -9,9 +9,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Touchable } from '../common';
 
 const styles = StyleSheet.create({
-  row: {
+  container: {
     flex: 1,
     flexBasis: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  row: {
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -26,7 +30,7 @@ const styles = StyleSheet.create({
 });
 
 export default ({ customStyles, onPress, name, icon }) => (
-  <Touchable onPress={onPress}>
+  <Touchable onPress={onPress} style={styles.container}>
     <View style={styles.row}>
       <Icon style={styles.icon} name={icon} />
       <Text>{name}</Text>
