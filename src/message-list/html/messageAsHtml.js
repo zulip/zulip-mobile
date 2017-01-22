@@ -1,7 +1,7 @@
 import { shortTime } from '../../utils/date';
 
-const briefMessageAsHtml = ({ message }) => `
-  <div class="message">
+const briefMessageAsHtml = ({ id, message }) => `
+  <div class="message" id="${id}">
     <div class="avatar"><img></div>
     <div class="content">
       ${message}
@@ -10,9 +10,9 @@ const briefMessageAsHtml = ({ message }) => `
 `;
 
 const fullMessageAsHtml = ({
-  message, fromName, fromEmail, timestamp, avatarUrl, twentyFourHourTime,
+  id, message, fromName, fromEmail, timestamp, avatarUrl, twentyFourHourTime,
 }) => `
-  <div class="message">
+  <div class="message" id="${id}">
     <div class="avatar">
       <img src="${avatarUrl}" class="avatar-img" data-email="${fromEmail}">
     </div>

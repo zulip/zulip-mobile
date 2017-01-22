@@ -15,7 +15,7 @@ export default class MessageListWeb extends React.PureComponent {
 
   handleMessage = (event) => {
     const data = JSON.parse(event.nativeEvent.data);
-    console.log('MESSAGE INC', data);
+    // console.log('MESSAGE INC', data);
 
     switch (data.type) {
       case 'scroll':
@@ -51,6 +51,7 @@ export default class MessageListWeb extends React.PureComponent {
         source={{ html: css + html }}
         injectedJavaScript={js}
         style={styles.webview}
+        decelerationRate={0.99}
         onMessage={this.handleMessage}
       />
     );

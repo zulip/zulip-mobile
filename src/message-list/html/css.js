@@ -52,7 +52,7 @@ pre {
 }
 .timerow {
   text-align: center;
-  padding: 0.25em;
+  margin: 0.5em;
   color: #999;
   display: flex;
   align-items: center;
@@ -123,25 +123,27 @@ pre {
 }
 .stream-text,
 .title-text {
-  padding: 0.25em;
+  padding: 0.5em;
+  line-height: 1;
 }
 .title-text {
   flex: 1;
   padding-left: 0.5em;
-  word-wrap: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .arrow-right {
   width: 0;
   height: 0;
-  border-top: 14px solid transparent;
-  border-bottom: 14px solid transparent;
-  border-left: 14px solid green;
+  border-top: 1em solid transparent;
+  border-bottom: 1em solid transparent;
+  border-left: 1em solid green;
 }
 .private-header {
   background: #444;
   color: white;
-  padding: 0.25em;
+  padding: 0.5em;
 }
 .loading-avatar {
   width: 32px;
@@ -204,13 +206,18 @@ ul {
 .codehilite .nb { color: #008000; }
 .codehilite .s1 { color: #ba2121; }
 .twitter-tweet {
-
 }
 .twitter-avatar {
   float: left;
   width: 32px;
   height: 32px;
   margin-right: .75em;
+}
+.fixed-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  margin: 0;
 }
 </style>
 `;
