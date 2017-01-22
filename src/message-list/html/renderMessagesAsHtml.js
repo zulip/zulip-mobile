@@ -46,6 +46,7 @@ export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow })
 
     list.push(
       messageAsHtml({
+        id: item.id,
         isBrief: shouldGroupWithPrev,
         fromName: item.sender_full_name,
         fromEmail: item.sender_email,

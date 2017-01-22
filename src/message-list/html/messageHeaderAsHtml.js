@@ -11,7 +11,7 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
     const streamNarrowStr = objToStr(streamNarrow(item.display_recipient));
 
     return `
-      <div class="topic-header header" data-narrow="${streamNarrowStr}">
+      <div id="${item.id}" class="topic-header header" data-narrow="${streamNarrowStr}">
         ${item.subject}
       </div>
     `;
@@ -27,13 +27,13 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
     const topicNarrowStr = objToStr(topicNarrow(item.display_recipient, item.subject));
 
     return `
-      <div class="stream-header">
-        <div class="stream-text header" style="background: ${color}"
+      <div id="${item.id}" class="stream-header header">
+        <div class="stream-text" style="background: ${color}"
           data-narrow="${streamNarrowStr}">
           ${item.display_recipient}
         </div>
         <div class="arrow-right" style="border-left-color: ${color}"></div>
-        <div class="title-text header" data-narrow="${topicNarrowStr}">
+        <div class="title-text" data-narrow="${topicNarrowStr}">
           ${item.subject}
         </div>
       </div>
@@ -49,7 +49,7 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
     const privateNarrowStr = objToStr(narrowObj);
 
     return `
-      <div class="private-header header" data-narrow="${privateNarrowStr}">
+      <div id="${item.id}" class="private-header header" data-narrow="${privateNarrowStr}">
         ${recipients.map(r => r.full_name).sort().join(', ')}
       </div>
     `;
