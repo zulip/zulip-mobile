@@ -9,6 +9,7 @@ export default `
 }
 body {
   font-family: sans-serif;
+  line-height: 1.4;
   margin: 0;
 }
 body {
@@ -34,8 +35,7 @@ code {
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 }
 p {
-  margin-top: 0;
-  margin-bottom: 0.5em;
+  margin: 0;
 }
 pre {
   padding: 0.5em;
@@ -52,7 +52,8 @@ pre {
 }
 .timerow {
   text-align: center;
-  margin: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
   color: #999;
   display: flex;
   align-items: center;
