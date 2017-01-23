@@ -21,7 +21,6 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
     const stream = subscriptions
       .find(x => x.name === item.display_recipient);
 
-    const isPrivate = stream && stream.invite_only;
     const color = stream ? stream.color : '#ccc';
     const streamNarrowStr = objToStr(streamNarrow(item.display_recipient));
     const topicNarrowStr = objToStr(topicNarrow(item.display_recipient, item.subject));

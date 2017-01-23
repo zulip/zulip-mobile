@@ -1,11 +1,24 @@
 /* eslint-disable */
 
 export default `
-window.postMessage(JSON.stringify({o: 'new stuff'}));
+document.addEventListener('message', function(e) {
+  const msg = JSON.parse(e.data);
+  switch (msgObj.type) {
+    case 'bottom':
+      window.scrollTo(0, document.body.scrollHeight);
+      break;
+    case 'messages':
+      let first = document.body.children[0];
+      let before = document.createElement('div');
+      before.innerHTML = msgObj.html;
+      document.body.insertBefore(before, first);
+      break;
+  }
+});
 
 let prevHeader;
 
-var updatePinnedHeader = () => {
+const updatePinnedHeader = () => {
   let crNode = document.elementFromPoint(200, 40);
   while (crNode && crNode.className !== 'message') {
     crNode = crNode.parentNode;
@@ -28,15 +41,11 @@ var updatePinnedHeader = () => {
 }
 
 window.addEventListener('scroll', () => {
- updatePinnedHeader();
-
   window.postMessage(JSON.stringify({
     type: 'scroll',
     y: window.scrollY,
-    pageHeight: document.getElementsByTagName('body')[0].clientHeight,
-    elementAtTop: crNode.innerHTML,
-    header: header.innerHTML
   }));
+  updatePinnedHeader();
 });
 
 document.getElementsByTagName('body')[0].addEventListener('click', (e) => {
