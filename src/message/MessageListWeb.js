@@ -15,7 +15,6 @@ export default class MessageListWeb extends React.PureComponent {
 
   handleMessage = (event) => {
     const data = JSON.parse(event.nativeEvent.data);
-    // console.log('MESSAGE INC', data);
 
     switch (data.type) {
       case 'scroll':
@@ -33,15 +32,31 @@ export default class MessageListWeb extends React.PureComponent {
     }
   };
 
+  componentDidMount = () => {
+
+  }
+/*
+  shouldComponentUpdate = (nextProps) => {
+    // if (this.props.messages.length < nextProps.messages.length) {
+    console.log('NEW MSGS');
+    // this.webview.postMessage(JSON.stringify({
+    //   type: 'message',
+    //   html: '<div>Hello World</div>'
+    // }));
+    console.log(nextProps.messages.length - this.props.messages.length);
+    console.log(nextProps.messages.slice(nextProps.messages.length - this.props.messages.length));
+    // }
+
+    if (this.once) {
+      return false;
+    }
+    this.once = true;
+    return true;
+  };
+*/
   render() {
-    const { auth, messages, subscriptions, isFetching, narrow } = this.props;
-    const messagesHtml = renderMessagesAsHtml({
-      auth,
-      subscriptions,
-      messages,
-      isFetching,
-      narrow,
-    });
+    const { auth } = this.props;
+    const messagesHtml = renderMessagesAsHtml(this.props);
     const html = messagesHtml
       .join('')
       .replace(/src="\//g, `src="${auth.realm}/`);
@@ -51,7 +66,8 @@ export default class MessageListWeb extends React.PureComponent {
         source={{ html: css + html }}
         injectedJavaScript={js}
         style={styles.webview}
-        decelerationRate={0.99}
+        decelerationRate={0.999}
+        ref={webview => { this.webview = webview; }}
         onMessage={this.handleMessage}
       />
     );
