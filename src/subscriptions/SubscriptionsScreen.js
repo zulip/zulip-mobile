@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 
 import { Auth } from '../types';
 import boundActions from '../boundActions';
-import StreamList from '../streamlist/StreamList';
 import { Screen } from '../common';
+import { subscriptionAdd, subscriptionRemove } from '../api';
+import StreamList from '../streamlist/StreamList';
 import { getAuth } from '../account/accountSelectors';
 
 
@@ -12,6 +13,16 @@ class SubscriptionsScreen extends React.Component {
 
   props: {
     auth: Auth,
+    streams: [],
+    subscriptions: [],
+  };
+
+  handleSwitchChange = (switchValue) => {
+    if (switchValue) {
+      subscriptionAdd([{ name: 'android' }]);
+    } else {
+      subscriptionRemove(['android']);
+    }
   };
 
   render() {
@@ -27,6 +38,7 @@ class SubscriptionsScreen extends React.Component {
           streams={subsAndStreams}
           showSwitch
           showDescriptions
+          onSwitch={this.handleSwitchChange}
         />
       </Screen>
     );

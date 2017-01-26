@@ -11,10 +11,11 @@ export default class StreamSidebar extends React.Component {
     showDescriptions: boolean,
     showSwitch: boolean,
     onNarrow: (streamName: string) => {},
+    onSwitch: (streamName: string) => {},
   }
 
   render() {
-    const { streams, selected, showDescriptions, showSwitch, onNarrow } = this.props;
+    const { streams, selected, showDescriptions, showSwitch, onNarrow, onSwitch } = this.props;
     const sortedStreams = Object.values(streams)
       .sort((a, b) => a.name.localeCompare(b.name));
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -36,6 +37,7 @@ export default class StreamSidebar extends React.Component {
             showSwitch={showSwitch}
             isSwitchedOn={x.subscribed}
             onPress={onNarrow}
+            onSwitch={onSwitch}
           />
         )}
       />

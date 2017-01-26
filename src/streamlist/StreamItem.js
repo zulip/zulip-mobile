@@ -53,6 +53,9 @@ export default class StreamItem extends React.PureComponent {
   handlePress = () =>
     this.props.onPress(this.props.name);
 
+  handleSwitch = () =>
+    this.props.onSwitch(this.props.name);
+
   render() {
     const { name, description, color, isPrivate,
       iconSize, isSelected, showSwitch, isSwitchedOn } = this.props;
@@ -89,6 +92,7 @@ export default class StreamItem extends React.PureComponent {
               value={isSwitchedOn}
               onTintColor={BRAND_COLOR}
               tintColor={BRAND_COLOR}
+              onValueChange={this.handleSwitch}
             />}
         </View>
       </Touchable>
