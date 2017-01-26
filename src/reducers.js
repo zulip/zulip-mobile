@@ -4,6 +4,7 @@ import app from './app/appReducers';
 import events from './events/eventReducers';
 import nav from './nav/navReducers';
 import realm from './realm/realmReducers';
+import streams from './streamlist/streamsReducers';
 import subscriptions from './subscriptions/subscriptionsReducers';
 import chat from './chat/chatReducers';
 import userlist from './users/userListReducers';
@@ -15,6 +16,7 @@ export default combineReducers({
   events,
   nav,
   realm,
+  streams,
   subscriptions,
   userlist,
 });

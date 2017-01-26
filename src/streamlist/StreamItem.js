@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, Switch, View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { BRAND_COLOR } from '../common/styles';
@@ -28,11 +28,13 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   text: {
+    flex: 1,
     paddingLeft: 8,
+    paddingRight: 8,
   },
   selectedText: {
     color: 'white',
-  }
+  },
 });
 
 export default class StreamItem extends React.PureComponent {
@@ -43,6 +45,7 @@ export default class StreamItem extends React.PureComponent {
     iconSize: number,
     isPrivate: boolean,
     isSelected: boolean,
+    showSwitch: boolean,
     color: string,
     onPress: () => {},
   }
@@ -51,11 +54,12 @@ export default class StreamItem extends React.PureComponent {
     this.props.onPress(this.props.name);
 
   render() {
-    const { name, description, color, isPrivate, iconSize, isSelected } = this.props;
+    const { name, description, color, isPrivate,
+      iconSize, isSelected, showSwitch, isSwitchedOn } = this.props;
     const iconWrapperCustomStyle = {
       width: iconSize * 1.75,
       height: iconSize * 1.75,
-      backgroundColor: color,
+      backgroundColor: color || BRAND_COLOR,
     };
 
     return (
@@ -80,6 +84,12 @@ export default class StreamItem extends React.PureComponent {
               </Text>
             }
           </View>
+          {showSwitch &&
+            <Switch
+              value={isSwitchedOn}
+              onTintColor={BRAND_COLOR}
+              tintColor={BRAND_COLOR}
+            />}
         </View>
       </Touchable>
     );

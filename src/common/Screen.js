@@ -42,7 +42,7 @@ export default class Screen extends React.Component {
       <View style={styles.screen}>
         <StatusBar barStyle="light-content" />
         <ModalNavBar title={title} popRoute={popRoute} nav={nav} />
-        <WrapperView style={styles.container} behavior="padding">
+        <WrapperView style={styles.screenWrapper} behavior="padding">
           {children}
         </WrapperView>
       </View>

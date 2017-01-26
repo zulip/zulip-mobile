@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class StreamListContainer extends React.Component {
+class SubscriptionsContainer extends React.Component {
 
   handleNarrow = (streamName: string) =>
     this.props.onNarrow(streamNarrow(streamName));
@@ -23,7 +23,7 @@ class StreamListContainer extends React.Component {
     return (
       <ScrollView tabLabel="Streams" style={styles.container}>
         <StreamList
-          subscriptions={subscriptions}
+          streams={subscriptions}
           selected={selected}
           onNarrow={this.handleNarrow}
         />
@@ -37,4 +37,4 @@ const mapStateToProps = (state) => ({
   subscriptions: state.subscriptions,
 });
 
-export default connect(mapStateToProps)(StreamListContainer);
+export default connect(mapStateToProps)(SubscriptionsContainer);

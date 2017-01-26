@@ -12,13 +12,20 @@ export default StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'stretch',
   },
+  screenWrapper: {
+    flex: 1,
+    padding: 8,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+  },
   navigationCard: {
     backgroundColor: 'white',
     shadowColor: 'transparent',
   },
   container: {
     flex: 1,
-    padding: 20,
+    padding: 16,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',

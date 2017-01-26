@@ -25,6 +25,7 @@ export default class MainScreen extends React.Component {
               doNarrow(newNarrow);
               this.streamDrawer.close();
             }}
+            pushRoute={this.props.pushRoute}
           />
         }
         ref={(streamDrawer) => { this.streamDrawer = streamDrawer; }}
