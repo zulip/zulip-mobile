@@ -35,7 +35,7 @@ export const apiCall = async (
   try {
     if (!noTimeout) {
       timeout = setTimeout(() => {
-        // TODO (nw): the throw below does not get caught and crashes the app
+        // TODO: the throw below does not get caught and crashes the app
         // throw Error(`Request timed out @ ${route}`);
         // send APP_OFFLINE
       }, 5000);

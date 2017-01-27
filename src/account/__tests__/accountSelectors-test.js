@@ -12,21 +12,6 @@ test('getAuth returns an empty object when no accounts', () => {
   });
 });
 
-test('getAuth returns only relevant fields', () => {
-  const state = {
-    account: [{
-      realm: 'https://realm1.com',
-      otherField: 'someValue',
-    }],
-  };
-  const auth = getAuth(state);
-  expect(auth).toEqual({
-    realm: 'https://realm1.com',
-    email: undefined,
-    apiKey: undefined,
-  });
-});
-
 test('getAuth returns the auth information from the first account', () => {
   const state = {
     account: [

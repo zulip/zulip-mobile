@@ -6,22 +6,16 @@ import {
   isPrivateNarrow,
   isGroupNarrow,
 } from '../utils/narrow';
+
 import MessageHeader from '../message/headers/MessageHeader';
 import MessageContainer from '../message/MessageContainer';
-import MessageLoading from '../message/MessageLoading';
 import TimeRow from '../message/TimeRow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
-export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow }) => {
+export default ({ auth, subscriptions, messages, narrow, doNarrow }) => {
   const list = [];
   let prevItem;
-
-  if (isFetching) {
-    for (let i = 0; i < 6; i++) {
-      list.push(<MessageLoading key={`ml${i}`} />);
-    }
-  }
 
   for (const item of messages) {
     const diffDays = prevItem &&
@@ -75,6 +69,5 @@ export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow })
 
     prevItem = item;
   }
-
   return list;
 };

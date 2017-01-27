@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
+import { Loading } from '../common';
+import MessageLoading from '../message/MessageLoading';
+
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
 
@@ -8,7 +11,7 @@ const styles = StyleSheet.create({
   list: {
     backgroundColor: 'white',
   },
-  container: {
+  centerContainer: {
     flexGrow: 1,
     justifyContent: 'space-around',
   },
@@ -32,8 +35,25 @@ export default class MessageList extends React.PureComponent {
   }
 
   render() {
-    const { fetchOlder, fetchNewer } = this.props;
-    const messageList = renderMessages(this.props);
+    const { messages, caughtUp, fetching, fetchOlder, fetchNewer } = this.props;
+    let messageList = [];
+    let containerStyle = {};
+
+    if (messages.length === 0) {
+      if (!caughtUp[0] || !caughtUp[1]) {
+        // Show placeholder messages if we're loading the screen
+        messageList = [...Array(6).keys()].map((i) =>
+          <MessageLoading key={`ml${i}`} />
+        );
+      }
+      containerStyle = styles.centerContainer;
+    } else {
+      messageList = [
+        <Loading key={'top_loading'} active={fetching[0]} />,
+        ...renderMessages(this.props),
+        <Loading key={'bottom_loading'} active={fetching[1]} />,
+      ];
+    }
 
     // `headerIndices` tell the scroll view which components are headers
     // and are eligible to be docked at the top of the view.
@@ -70,14 +90,14 @@ export default class MessageList extends React.PureComponent {
     return (
       <InfiniteScrollView
         style={styles.list}
-        contentContainerStyle={styles.container}
+        contentContainerStyle={containerStyle}
         automaticallyAdjustContentInset="false"
-        autoScrollToBottom
         stickyHeaderIndices={headerIndices}
         anchorIndices={anchorIndices}
         anchorMap={anchorMap}
         onStartReached={fetchOlder}
         onEndReached={fetchNewer}
+        autoScrollToBottom={caughtUp[1]}
         onScroll={e => {}}
       >
         {messageList}

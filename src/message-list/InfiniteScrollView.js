@@ -25,6 +25,7 @@ class InfiniteScrollView extends React.Component {
   _onContentSizeChanged(contentWidth, contentHeight) {
     const oldContentHeight = this._contentHeight;
     this._contentHeight = contentHeight;
+    this._maybeCallOnStartOrEndReached();
   }
 
   _onScrollViewLayout(e) {
@@ -51,8 +52,7 @@ class InfiniteScrollView extends React.Component {
     }
   }
 
-  _onScroll(e) {
-    this._scrollOffset = e.nativeEvent.contentOffset['y'];
+  _maybeCallOnStartOrEndReached() {
     const distFromStart = this._scrollOffset;
     const distFromEnd = this._contentHeight - this._scrollViewHeight - this._scrollOffset;
 
@@ -67,6 +67,11 @@ class InfiniteScrollView extends React.Component {
         distFromEnd > this.props.onEndReachedThreshold) {
       this._sentEndForContentHeight = null;
     }
+  }
+
+  _onScroll(e) {
+    this._scrollOffset = e.nativeEvent.contentOffset['y'];
+    this._maybeCallOnStartOrEndReached();
     this.props.onScroll(e.nativeEvent);
   }
 

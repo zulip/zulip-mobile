@@ -12,21 +12,23 @@ import ComposeBox from '../compose/ComposeBox';
 export default class MainScreen extends React.Component {
 
   render() {
-    const { auth, messages, narrow, isFetching, subscriptions,
-      isOnline, twentyFourHourTime, doNarrow, fetchOlder } = this.props;
+    const { auth, messages, narrow, fetching, caughtUp, subscriptions,
+      isOnline, twentyFourHourTime, doNarrow, fetchOlder, fetchNewer } = this.props;
 
     return (
       <KeyboardAvoidingView style={styles.screen} behavior="padding">
         {!isOnline && <OfflineNotice />}
-        {messages.length === 0 && !isFetching && <NoMessages narrow={narrow} />}
+        {messages.length === 0 && caughtUp[0] && caughtUp[1] && <NoMessages narrow={narrow} />}
         <MessageList
           messages={messages}
           narrow={narrow}
-          isFetching={isFetching}
+          fetching={fetching}
+          caughtUp={caughtUp}
           twentyFourHourTime={twentyFourHourTime}
           subscriptions={subscriptions}
           auth={auth}
           fetchOlder={fetchOlder}
+          fetchNewer={fetchNewer}
           doNarrow={doNarrow}
         />
         {canSendToNarrow(narrow) && <ComposeBox onSend={this.sendMessage} />}
