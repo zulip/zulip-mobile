@@ -13,16 +13,24 @@ import TimeRow from '../message/TimeRow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
-export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow }) =>
-  messages.reduce((list, item, index) => {
-    const prevItem = messages[index - 1];
+export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow }) => {
+  const list = [];
+  let prevItem;
 
+  if (isFetching) {
+    for (let i = 0; i < 6; i++) {
+      list.push(<MessageLoading key={`ml${i}`} />);
+    }
+  }
+
+  for (const item of messages) {
     const diffDays = prevItem &&
       !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
 
-    if (index === 0 || diffDays) {
+    if (!prevItem || diffDays) {
       list.push(
         <TimeRow
+          type="time_row"
           key={`time${item.timestamp}`}
           timestamp={item.timestamp}
         />
@@ -36,6 +44,7 @@ export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow })
     if (showHeader && diffRecipient) {
       list.push(
         <MessageHeader
+          type="header"
           key={`header${item.id}`}
           item={item}
           auth={auth}
@@ -51,6 +60,8 @@ export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow })
 
     list.push(
       <MessageContainer
+        type="message"
+        id={item.id}
         key={item.id}
         auth={auth}
         isBrief={shouldGroupWithPrev}
@@ -62,12 +73,8 @@ export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow })
       />
     );
 
-    return list;
-  }, isFetching ? [
-    <MessageLoading key="ml1" />,
-    <MessageLoading key="ml2" />,
-    <MessageLoading key="ml3" />,
-    <MessageLoading key="ml4" />,
-    <MessageLoading key="ml5" />,
-    <MessageLoading key="ml6" />,
-  ] : []);
+    prevItem = item;
+  }
+
+  return list;
+};

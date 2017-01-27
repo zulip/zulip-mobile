@@ -67,7 +67,8 @@ const processEvent = (dispatch, event, getState) => {
       });
       break;
     default:
-      console.warn('Unrecognized event: ', event.type);  // eslint-disable-line no-console
+      // eslint-disable-next-line no-console
+      console.warn('Unrecognized event: ', event.type);
   }
 };
 
@@ -89,6 +90,7 @@ export const fetchEvents = (auth: Auth) =>
 
     // Event loop
     while (true) { // eslint-disable-line no-constant-condition
+      // eslint-disable-next-line no-await-in-loop
       const response = await pollForEvents(auth, queueId, lastEventId);
 
       for (const event of response.events) {
