@@ -19,13 +19,13 @@ const styles = StyleSheet.create({
   },
   private: {
     flex: 1,
-    padding: 4,
+    padding: 8,
     fontSize: 16,
     color: 'white',
   },
   icon: {
-    padding: 6,
-    paddingLeft: 10,
+    padding: 10,
+    paddingLeft: 16,
   }
 });
 
