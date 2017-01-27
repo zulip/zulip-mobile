@@ -12,11 +12,6 @@ describe('renderMessages', () => {
     expect(messageList).toEqual([]);
   });
 
-  test('if fetching in progress, one or more loading messages are shown', () => {
-    const messageList = renderMessages({ messages: [], isFetching: true });
-    expect(messageList[0].type.name).toEqual('MessageLoading');
-  });
-
   test('renders time, header and message for a single input', () => {
     const messages = [{
       timestamp: 123,

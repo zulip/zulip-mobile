@@ -12,9 +12,7 @@ export const getAuth = (state) => {
     };
   }
 
-  return {
-    apiKey: account.apiKey,
-    email: account.email,
-    realm: account.realm,
-  };
+  // Returning a copy here (instead of the original object)
+  // causes all components in the app to re-render
+  return account;
 };
