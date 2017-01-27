@@ -15,17 +15,11 @@ import { isSameDay } from '../utils/date';
 
 export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow }) => {
   const list = [];
-  const headerIndices = [];
-  const anchorIndices = [];
   let prevItem;
-  let index = 0;
 
   if (isFetching) {
     for (let i = 0; i < 6; i++) {
-      list.push(
-        <MessageLoading key={`ml${i}`} />
-      );
-      index++;
+      list.push(<MessageLoading key={`ml${i}`} />);
     }
   }
 
@@ -36,11 +30,11 @@ export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow })
     if (!prevItem || diffDays) {
       list.push(
         <TimeRow
+          type="time_row"
           key={`time${item.timestamp}`}
           timestamp={item.timestamp}
         />
       );
-      index++;
     }
 
     const showHeader = !isPrivateNarrow(narrow) &&
@@ -48,9 +42,9 @@ export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow })
     const diffRecipient = !isSameRecipient(prevItem, item);
 
     if (showHeader && diffRecipient) {
-      headerIndices.push(index);
       list.push(
         <MessageHeader
+          type="header"
           key={`header${item.id}`}
           item={item}
           auth={auth}
@@ -59,15 +53,15 @@ export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow })
           doNarrow={doNarrow}
         />
       );
-      index++;
     }
 
     const shouldGroupWithPrev = !diffRecipient && !diffDays &&
       prevItem && prevItem.sender_full_name === item.sender_full_name;
 
-    anchorIndices.push(index);
     list.push(
       <MessageContainer
+        type="message"
+        id={item.id}
         key={item.id}
         auth={auth}
         isBrief={shouldGroupWithPrev}
@@ -78,14 +72,9 @@ export default ({ auth, subscriptions, messages, isFetching, narrow, doNarrow })
         avatarUrl={getFullUrl(item.avatar_url, auth.realm)}
       />
     );
-    index++;
 
     prevItem = item;
   }
 
-  return {
-    messageList: list,
-    headerIndices,
-    anchorIndices,
-  };
+  return list;
 };
