@@ -1,6 +1,7 @@
 package com.zulipmobile;
 
 import com.facebook.react.ReactActivity;
+import com.smixx.fabric.FabricPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 
 public class MainActivity extends ReactActivity {
