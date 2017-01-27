@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
+import { getAuth } from '../account/accountSelectors';
 import { Button, Logo, Screen } from '../common';
 import AccountList from './AccountList';
 
@@ -19,6 +20,14 @@ class AccountPickScreen extends React.Component {
     const { apiKey } = accounts[index];
     if (apiKey) {
       switchAccount(index); // Reset stream, message, user list
+
+      setTimeout(() => {
+        const { auth, fetchEvents, fetchUsersAndStatus, fetchMessages } = this.props;
+
+        fetchEvents(auth);
+        fetchUsersAndStatus(auth);
+        fetchMessages(auth, Number.MAX_SAFE_INTEGER, 20, 0, []);
+      }, 50);
     } else {
       pushRoute('realm');
     }
@@ -49,6 +58,7 @@ class AccountPickScreen extends React.Component {
 
 export default connect(
   (state) => ({
+    auth: getAuth(state),
     accounts: state.account,
   }),
   boundActions,

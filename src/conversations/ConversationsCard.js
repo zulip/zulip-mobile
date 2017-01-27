@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { getInitialRoutes } from '../nav/routingSelectors';
 import { STATUSBAR_HEIGHT } from '../common/platform';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import { Button } from '../common';
@@ -44,13 +43,10 @@ export default class ConversationsCard extends Component {
     onNarrow: () => {},
   };
 
-  static contextTypes = {
-    drawer: () => null,
-  };
-
-  logout = () => {
-    this.props.logout(this.props.accounts);
-    this.props.initRoutes(getInitialRoutes(this.props.accounts));
+  handleFilterChange = (newFilter: string) => {
+    this.setState({
+      filter: newFilter,
+    });
   }
 
   handleUserNarrow = (email: string) =>
