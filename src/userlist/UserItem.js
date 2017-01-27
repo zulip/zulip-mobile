@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 
 import { Avatar, Touchable } from '../common';
-import UserStatusIndicator from './UserStatusIndicator';
 
 const styles = StyleSheet.create({
   container: {
@@ -43,9 +42,13 @@ export default class UserItem extends Component {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={styles.container}>
-          <Avatar size={32} avatarUrl={avatarUrl} name={fullName} />
+          <Avatar
+            size={32}
+            avatarUrl={avatarUrl}
+            name={fullName}
+            status={status}
+          />
           <Text style={styles.text}>{fullName}</Text>
-          <UserStatusIndicator status={status} />
         </View>
       </Touchable>
     );
