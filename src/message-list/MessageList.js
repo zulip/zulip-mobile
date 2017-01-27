@@ -55,7 +55,7 @@ export default class MessageList extends React.PureComponent {
     messageList.forEach((elem, idx) => {
       if (elem.props.type === 'header') {
         headerIndices.push(idx);
-      } else if (elem.prop.type === 'message') {
+      } else if (elem.props.type === 'message') {
         const messageId = elem.props.id;
         mapIdToIdx[messageId] = idx;
         anchorIndices.push(idx);

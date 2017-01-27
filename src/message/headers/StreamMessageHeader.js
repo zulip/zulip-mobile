@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     backgroundColor: '#eee',
+    overflow: 'hidden',
   },
   stream: {
     padding: 6,
