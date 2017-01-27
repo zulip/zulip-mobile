@@ -1,4 +1,6 @@
 import {
+  LOGOUT,
+  LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   REALM_INIT,
   EVENT_SUBSCRIPTION_ADD,
@@ -9,6 +11,8 @@ const initialState = [];
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case LOGOUT:
+    case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return [];
     case REALM_INIT:
