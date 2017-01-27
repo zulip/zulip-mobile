@@ -148,13 +148,13 @@ const parseDom = (dom, auth, baseStyle, onPress) => {
   });
 };
 
-export const renderHtml = (html: string, auth) =>
-  new Promise((resolve, reject) => {
-    const handler = new htmlparser.DomHandler((err, dom) => {
-      if (err) reject(err);
-      resolve(parseDom(dom, auth, [styles.base]));
-    });
-    const parser = new htmlparser.Parser(handler);
-    parser.write(html.replace(/\n|\r/g, ''));
-    parser.done();
+export const renderHtml = (html: string, auth) => {
+  let result = null;
+  const handler = new htmlparser.DomHandler((err, dom) => {
+    if (!err) result = parseDom(dom, auth, [styles.base]);
   });
+  const parser = new htmlparser.Parser(handler);
+  parser.write(html.replace(/\n|\r/g, ''));
+  parser.done();
+  return result;
+};
