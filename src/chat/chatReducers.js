@@ -10,14 +10,8 @@ import { isMessageInNarrow } from '../utils/narrow';
 
 
 const getInitialState = () => ({
-  /*
-  `fetching` and `caughtUp` are tuples representing (top, bottom) respectively.
-
-  `fetching` is true if we're in the process of fetching data in that direction.
-  `caughtUp` is true if we know that we're at the last message in that direction.
-  */
-  fetching: [false, false],
-  caughtUp: [false, false],
+  fetching: { older: false, newer: false },
+  caughtUp: { older: false, newer: false },
   narrow: [],
   messages: {},
 });
@@ -32,18 +26,15 @@ export default (state = getInitialState(), action) => {
         ...state,
         narrow: action.narrow,
         fetching: action.fetching,
-        caughtUp: [false, false],
+        caughtUp: action.caughtUp,
       };
 
     case MESSAGE_FETCH_START:
       return {
         ...state,
         narrow: action.narrow,
-        fetching: [
-          action.fetching[0] || state.fetching[0],
-          action.fetching[1] || state.fetching[1],
-        ],
-        caughtUp: action.caughtUp ? action.caughtUp : state.caughtUp,
+        fetching: { ...state.fetching, ...action.fetching },
+        caughtUp: { ...state.caughtUp, ...action.caughtUp },
       };
 
     case MESSAGE_FETCH_SUCCESS: {
@@ -56,18 +47,12 @@ export default (state = getInitialState(), action) => {
 
       return {
         ...state,
-        fetching: [
-          action.fetching[0] && state.fetching[0],
-          action.fetching[1] && state.fetching[1],
-        ],
         messages: {
           ...state.messages,
           [key]: newMessages,
         },
-        caughtUp: [
-          action.caughtUp[0] || state.caughtUp[0],
-          action.caughtUp[1] || state.caughtUp[1],
-        ],
+        fetching: { ...state.fetching, ...action.fetching },
+        caughtUp: { ...state.caughtUp, ...action.caughtUp },
       };
     }
 

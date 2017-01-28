@@ -31,18 +31,13 @@ describe('chatReducers', () => {
     test('changes current narrow', () => {
       const initialState = {
         narrow: [],
-        caughtUp: [false, false],
-        fetching: [false, false],
       };
       const action = {
         type: SWITCH_NARROW,
         narrow: streamNarrow('some stream'),
-        fetching: [true, true],
       };
       const expectedState = {
         narrow: streamNarrow('some stream'),
-        caughtUp: [false, false],
-        fetching: [true, true],
       };
 
       const newState = chatReducers(initialState, action);
@@ -58,8 +53,6 @@ describe('chatReducers', () => {
         messages: {
           [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
         },
-        fetching: [false, false],
-        caughtUp: [false, false],
       };
       const action = {
         type: EVENT_NEW_MESSAGE,
@@ -69,8 +62,6 @@ describe('chatReducers', () => {
         messages: {
           [homeNarrowStr]: [{ id: 1 }, { id: 2 }, { id: 3 }],
         },
-        fetching: [false, false],
-        caughtUp: [false, false],
       };
 
       const newState = chatReducers(initialState, action);
@@ -246,7 +237,7 @@ describe('chatReducers', () => {
   });
 
   describe('MESSAGE_FETCH_SUCCESS', () => {
-    test('when new messages with already existing messages come, they are merged and not duplicated', () => {
+    test('no duplicate messages', () => {
       const initialState = {
         messages: {
           [homeNarrowStr]: [
@@ -255,8 +246,6 @@ describe('chatReducers', () => {
             { id: 3 },
           ],
         },
-        fetching: [false, false],
-        caughtUp: [false, false],
       };
       const action = {
         type: MESSAGE_FETCH_SUCCESS,
@@ -266,8 +255,6 @@ describe('chatReducers', () => {
           { id: 3 },
           { id: 4 },
         ],
-        fetching: [false, false],
-        caughtUp: [false, false],
       };
       const expectedState = {
         messages: {
@@ -278,8 +265,6 @@ describe('chatReducers', () => {
             { id: 3 },
           ],
         },
-        fetching: [false, false],
-        caughtUp: [false, false],
       };
 
       const newState = chatReducers(initialState, action);
@@ -296,8 +281,6 @@ describe('chatReducers', () => {
             { id: 2, timestamp: 4 },
           ],
         },
-        fetching: [false, false],
-        caughtUp: [false, false],
       };
       const action = {
         type: MESSAGE_FETCH_SUCCESS,
@@ -306,8 +289,6 @@ describe('chatReducers', () => {
           { id: 3, timestamp: 2 },
           { id: 4, timestamp: 1 },
         ],
-        fetching: [false, false],
-        caughtUp: [false, false],
       };
       const expectedState = {
         messages: {
@@ -318,8 +299,6 @@ describe('chatReducers', () => {
             { id: 2, timestamp: 4 },
           ],
         },
-        fetching: [false, false],
-        caughtUp: [false, false],
       };
 
       const newState = chatReducers(initialState, action);

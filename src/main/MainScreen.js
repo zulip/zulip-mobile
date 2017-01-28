@@ -15,7 +15,7 @@ export default class MainScreen extends React.Component {
 
     fetchEvents(auth);
     fetchUsersAndStatus(auth);
-    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 20, 0, [], [true, true]);
+    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 10, 10, []);
     focusPing(auth, true, false);
   }
 

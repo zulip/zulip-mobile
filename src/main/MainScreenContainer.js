@@ -10,26 +10,21 @@ class MainScreenContainer extends React.Component {
 
   fetchOlder = () => {
     const { auth, fetching, caughtUp, pointer, narrow, fetchMessages } = this.props;
-    if (!fetching[0] && !caughtUp[0]) {
-      fetchMessages(auth, pointer[0], 20, 0, narrow, [true, false]);
+    if (!fetching.older && !caughtUp.older) {
+      fetchMessages(auth, pointer.older, 20, 0, narrow);
     }
   }
 
   fetchNewer = () => {
     const { auth, fetching, caughtUp, pointer, narrow, fetchMessages } = this.props;
-    if (!fetching[1] && !caughtUp[1]) {
-      fetchMessages(auth, pointer[1], 0, 20, narrow, [false, true]);
+    if (!fetching.newer && !caughtUp.newer) {
+      fetchMessages(auth, pointer.newer, 0, 20, narrow);
     }
   }
 
   doNarrow = (newNarrow = [], pointer: number = Number.MAX_SAFE_INTEGER) => {
-    const { auth, allMessages, fetchMessages, switchNarrow } = this.props;
-
-    if (allMessages[JSON.stringify(newNarrow)]) {
-      switchNarrow(newNarrow);
-    } else {
-      fetchMessages(auth, pointer, 10, 10, newNarrow, [true, true], [false, false]);
-    }
+    const { switchNarrow } = this.props;
+    switchNarrow(newNarrow);
   }
 
   render() {
