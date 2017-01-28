@@ -17,11 +17,13 @@ class SubscriptionsScreen extends React.Component {
     subscriptions: [],
   };
 
-  handleSwitchChange = (switchValue) => {
+  handleSwitchChange = (streamName, switchValue) => {
+    const { auth } = this.props;
+
     if (switchValue) {
-      subscriptionAdd([{ name: 'android' }]);
+      subscriptionAdd(auth, [{ name: streamName }]);
     } else {
-      subscriptionRemove(['android']);
+      subscriptionRemove(auth, [streamName]);
     }
   };
 
@@ -38,6 +40,7 @@ class SubscriptionsScreen extends React.Component {
           streams={subsAndStreams}
           showSwitch
           showDescriptions
+          onNarrow={() => {}}
           onSwitch={this.handleSwitchChange}
         />
       </Screen>

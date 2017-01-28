@@ -2,11 +2,11 @@ import { apiPost, Auth } from './apiFetch';
 
 export default (
   auth: Auth,
-  subscriptions: string[],
+  subscriptions: [],
 ) =>
   apiPost(
     auth,
     'users/me/subscriptions',
-    { subscriptions },
+    { subscriptions: JSON.stringify(subscriptions) },
     res => res,
   );

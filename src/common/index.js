@@ -1,5 +1,4 @@
 export { default as Avatar } from './Avatar';
-export { default as Button } from './Button';
 export { default as ErrorMsg } from './ErrorMsg';
 export { default as ImageAvatar } from './ImageAvatar';
 export { default as Input } from './Input';
@@ -13,3 +12,5 @@ export { default as styles } from './styles';
 export { default as TextAvatar } from './TextAvatar';
 export { default as Touchable } from './Touchable';
 export { default as UserStatusIndicator } from './UserStatusIndicator';
+export { default as ZButton } from './ZButton';
+export { default as ZSwitch } from './ZSwitch';

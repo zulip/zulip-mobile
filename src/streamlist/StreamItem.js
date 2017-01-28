@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Switch, View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { BRAND_COLOR } from '../common/styles';
-import { Touchable } from '../common';
+import { Touchable, ZSwitch } from '../common';
 
 const styles = StyleSheet.create({
   row: {
@@ -53,8 +53,10 @@ export default class StreamItem extends React.PureComponent {
   handlePress = () =>
     this.props.onPress(this.props.name);
 
-  handleSwitch = () =>
-    this.props.onSwitch(this.props.name);
+  handleSwitch = (newValue) => {
+    const { name, onSwitch } = this.props;
+    onSwitch(name, newValue);
+  }
 
   render() {
     const { name, description, color, isPrivate,
@@ -88,10 +90,8 @@ export default class StreamItem extends React.PureComponent {
             }
           </View>
           {showSwitch &&
-            <Switch
-              value={isSwitchedOn}
-              onTintColor={BRAND_COLOR}
-              tintColor={BRAND_COLOR}
+            <ZSwitch
+              defaultValue={isSwitchedOn}
               onValueChange={this.handleSwitch}
             />}
         </View>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Button } from '../common';
+import { ZButton } from '../common';
 import { STATUSBAR_HEIGHT } from '../common/platform';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import SidebarRow from './SidebarRow';
@@ -52,7 +52,7 @@ export default class StreamSidebar extends React.Component {
           onPress={() => onNarrow(specialNarrow('mentioned'))}
         />
         <SubscriptionsContainer onNarrow={onNarrow} />
-        <Button
+        <ZButton
           customStyles={styles.button}
           secondary
           text="All Streams"

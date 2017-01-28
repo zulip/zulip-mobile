@@ -3,7 +3,7 @@ import { ListView } from 'react-native';
 
 import StreamItem from './StreamItem';
 
-export default class StreamSidebar extends React.Component {
+export default class StreamList extends React.Component {
 
   props: {
     streams: [],

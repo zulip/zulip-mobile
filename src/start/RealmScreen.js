@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import boundActions from '../boundActions';
 import styles from '../common/styles';
 import { getAuth } from '../account/accountSelectors';
-import { Screen, ErrorMsg, Button, Input } from '../common';
+import { Screen, ErrorMsg, ZButton, Input } from '../common';
 import { getAuthBackends } from '../api';
 import config from '../config';
 
@@ -73,7 +73,7 @@ class RealmScreen extends React.Component {
           defaultValue={realm}
           onChangeText={value => this.setState({ realm: value })}
         />
-        <Button
+        <ZButton
           text="Sign in"
           progress={progress}
           onPress={this.tryRealm}

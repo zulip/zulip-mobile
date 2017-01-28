@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import { Button, Screen } from '../common';
+import { ZButton, Screen } from '../common';
 import { getCurrentRoute } from '../nav/routingSelectors';
 
 class AuthTypeScreen extends React.Component {
@@ -24,19 +24,19 @@ class AuthTypeScreen extends React.Component {
       <Screen title="Pick Auth Type">
         <View>
           {authBackends.includes('dev') &&
-            <Button
+            <ZButton
               text="Dev Login"
               onPress={() => this.handleTypeSelect('dev')}
             />
           }
           {authBackends.includes('password') &&
-            <Button
+            <ZButton
               text="Login with Email"
               onPress={() => this.handleTypeSelect('password')}
             />
           }
           {authBackends.includes('google') &&
-            <Button
+            <ZButton
               text="Login with Google"
               onPress={() => this.handleTypeSelect('google')}
             />

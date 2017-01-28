@@ -5,7 +5,7 @@ import boundActions from '../boundActions';
 import styles from '../common/styles';
 import { fetchApiKey } from '../api';
 import config from '../config';
-import { Screen, ErrorMsg, Button, Input } from '../common';
+import { Screen, ErrorMsg, ZButton, Input } from '../common';
 import { getAuth } from '../account/accountSelectors';
 
 type Props = {};
@@ -79,7 +79,7 @@ class PasswordAuthScreen extends React.Component {
           value={password}
           onChangeText={newPassword => this.setState({ password: newPassword })}
         />
-        <Button
+        <ZButton
           text="Sign in"
           progress={progress}
           onPress={this.validateForm}

@@ -7,6 +7,6 @@ export default (
   apiDelete(
     auth,
     'users/me/subscriptions',
-    { subscriptions },
+    { subscriptions: JSON.stringify(subscriptions) },
     res => res,
   );

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import { Auth } from '../types';
 import boundActions from '../boundActions';
-import { Screen, ErrorMsg, Button } from '../common';
+import { Screen, ErrorMsg, ZButton } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
 import { getAuth } from '../account/accountSelectors';
 
@@ -63,14 +63,14 @@ class DevAuthScreen extends React.Component {
       <Screen title="Dev Account Login">
         <ScrollView>
           {directAdmins.map((email) =>
-            <Button
+            <ZButton
               key={email}
               text={email}
               onPress={() => this.tryDevLogin(email)}
             />
           )}
           {directUsers.map((email) =>
-            <Button
+            <ZButton
               key={email}
               text={email}
               secondary

@@ -14,8 +14,6 @@ import AccountDetailsScreen from '../account-info/AccountDetailsScreen';
 import SearchScreen from '../search/SearchScreen';
 import UsersScreen from '../users/UsersScreen';
 import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
-import CreateStreamScreen from '../subscriptions/CreateStreamScreen';
-import StreamSettingsScreen from '../subscriptions/StreamSettingsScreen';
 
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
@@ -75,10 +73,6 @@ export default class Navigation extends React.Component {
         return <UsersScreen />;
       case 'subscriptions':
         return <SubscriptionsScreen />;
-      case 'stream-settings':
-        return <StreamSettingsScreen />;
-      case 'create-stream':
-        return <CreateStreamScreen />;
       default:
         return <LoadingScreen />;
     }
