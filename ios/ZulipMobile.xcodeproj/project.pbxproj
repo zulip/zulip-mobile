@@ -940,7 +940,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PROJECT_DIR}/Crashlytics/Fabric.framework/run\" 6094380dd00a86a66893866d50ec2f462c09ad72 407835c8a23b259b7c7fc909a51ca1f13fb1a53a707553ab40be5a5217ffedef";
+			shellScript = "\"${PROJECT_DIR}/Crashlytics/Fabric.framework/run\" FABRIC_API_KEY_HERE FABRIC_SECRET_HERE";
 		};
 /* End PBXShellScriptBuildPhase section */
 
