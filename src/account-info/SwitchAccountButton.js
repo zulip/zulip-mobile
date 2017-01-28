@@ -14,10 +14,6 @@ const styles = StyleSheet.create({
 
 class SwitchAccountButton extends Component {
 
-  static contextTypes = {
-    drawer: () => null,
-  };
-
   switchAccount = () => {
     this.context.drawer.close();
     this.props.pushRoute('account');
