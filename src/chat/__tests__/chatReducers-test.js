@@ -80,6 +80,36 @@ describe('chatReducers', () => {
     });
   });
 
+  test('Message sent to self is stored correctly', () => {
+    const narrowWithSelfStr = JSON.stringify(privateNarrow('me@example.com'));
+    const initialState = {
+      messages: {
+        [homeNarrowStr]: [],
+        [narrowWithSelfStr]: [],
+      }
+    };
+    const message = {
+      id: 1,
+      display_recipient: [{ email: 'me@example.com' }]
+    };
+    const action = {
+      type: EVENT_NEW_MESSAGE,
+      selfEmail: 'me@example.com',
+      message,
+    };
+    const expectedState = {
+      messages: {
+        [homeNarrowStr]: [message],
+        [narrowWithSelfStr]: [message],
+      }
+    };
+
+    const newState = chatReducers(initialState, action);
+
+    expect(newState).toEqual(expectedState);
+    expect(newState).not.toBe(initialState);
+  });
+
   test('appends stream message to all cached narrows that match', () => {
     const initialState = {
       messages: {

@@ -48,7 +48,9 @@ export default class MessageHeader extends React.PureComponent {
 
     if (item.type === 'private' &&
       !isPrivateNarrow(narrow) && !isGroupNarrow(narrow) && !isTopicNarrow(narrow)) {
-      const recipients = item.display_recipient.filter(r => r.email !== auth.email);
+      const recipients = item.display_recipient.length > 1 ?
+        item.display_recipient.filter(r => r.email !== auth.email) :
+        item.display_recipient;
       return (
         <PrivateMessageHeader
           key={`section_${item.id}`}

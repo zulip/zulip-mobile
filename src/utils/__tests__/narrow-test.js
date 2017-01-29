@@ -147,6 +147,18 @@ describe('isMessageInNarrow', () => {
     expect(isMessageInNarrow(message, narrow, 'me@example.com')).toBe(true);
   });
 
+  test('message to self is in "private" narrow with self', () => {
+    const message = {
+      type: 'private',
+      display_recipient: [
+        { email: 'me@example.com' },
+      ],
+    };
+    const narrow = privateNarrow('me@example.com');
+
+    expect(isMessageInNarrow(message, narrow, 'me@example.com')).toBe(true);
+  });
+
   test('message with type "private" is in group narrow if all recipients match ', () => {
     const message = {
       type: 'private',
