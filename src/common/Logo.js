@@ -6,8 +6,8 @@ import {
 
 const styles = StyleSheet.create({
   logo: {
-    width: 80,
-    height: 80,
+    width: 40,
+    height: 40,
     margin: 20,
     alignSelf: 'center',
   },
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 export default () => (
   <Image
     style={styles.logo}
-    source={require('../../static/img/zulip-logo.png')} resizeMode="contain"
+    source={require('../../static/img/logo.png')}
+    resizeMode="contain"
   />
 );
