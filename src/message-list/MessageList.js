@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Loading } from '../common';
+import { LoadingIndicator } from '../common';
 import MessageLoading from '../message/MessageLoading';
 
 import InfiniteScrollView from './InfiniteScrollView';
@@ -49,10 +49,12 @@ export default class MessageList extends React.PureComponent {
       containerStyle = styles.centerContainer;
     } else {
       messageList = [
-        <Loading key={'top_loading'} active={fetching[0]} />,
+        <LoadingIndicator key={'top_loading'} active={fetching[0]} />,
         ...renderMessages(this.props),
-        <Loading key={'bottom_loading'} active={fetching[1]} />,
       ];
+      if (fetching[1]) {
+        messageList.push(<LoadingIndicator key={'bottom_loading'} active />);
+      }
     }
 
     // `headerIndices` tell the scroll view which components are headers
