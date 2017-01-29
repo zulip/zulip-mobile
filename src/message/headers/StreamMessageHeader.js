@@ -13,28 +13,24 @@ import { foregroundColorFromBackground } from '../../utils/color';
 
 const styles = StyleSheet.create({
   header: {
+    flex: 1,
     flexDirection: 'row',
     backgroundColor: '#eee',
     overflow: 'hidden',
   },
   stream: {
-    padding: 6,
-    fontSize: 16,
-  },
-  topic: {
-    flex: 1,
-    padding: 4,
+    padding: 8,
     fontSize: 16,
   },
   icon: {
-    padding: 6,
+    padding: 8,
     paddingLeft: 10,
   },
   triangle: {
-    borderTopWidth: 15,
+    borderTopWidth: 18,
     borderRightWidth: 0,
-    borderBottomWidth: 15,
-    borderLeftWidth: 15,
+    borderBottomWidth: 18,
+    borderLeftWidth: 18,
     borderTopColor: 'transparent',
     borderRightColor: 'transparent',
     borderBottomColor: 'transparent',
