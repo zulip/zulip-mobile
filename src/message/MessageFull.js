@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
 class MessageFull extends React.PureComponent {
 
   props: {
-    message: string,
     avatarUrl: string,
     fromName: string,
     fromEmail: string,
@@ -36,10 +35,8 @@ class MessageFull extends React.PureComponent {
     this.props.pushRoute('account-details', this.props.fromEmail);
 
   render() {
-    const {
-      messageId, message, avatarUrl, timestamp,
-      twentyFourHourTime, fromName, reactions, selfEmail,
-    } = this.props;
+    const { messageId, children, avatarUrl, timestamp, twentyFourHourTime,
+      fromName, reactions, selfEmail } = this.props;
 
     return (
       <View style={styles.message}>
@@ -54,7 +51,7 @@ class MessageFull extends React.PureComponent {
             timestamp={timestamp}
             twentyFourHourTime={twentyFourHourTime}
           />
-          {message}
+          {children}
           <ReactionList
             messageId={messageId}
             reactions={reactions}
