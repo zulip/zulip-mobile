@@ -11,10 +11,10 @@ const styles = StyleSheet.create({
 
 export default class HtmlText extends React.PureComponent {
   render() {
-    const { data } = this.props;
+    const { data, style } = this.props;
 
     return (
-      <Text style={styles.text}>
+      <Text style={[styles.text, style]}>
         {entities.decodeHTML(data)}
       </Text>
     );
