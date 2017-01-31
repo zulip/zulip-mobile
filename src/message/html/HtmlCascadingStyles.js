@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   p: {
-    color: 'green',
   },
   a: {
     color: '#08c',

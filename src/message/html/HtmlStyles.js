@@ -48,6 +48,12 @@ export default StyleSheet.create({
     paddingLeft: 4,
     paddingRight: 4,
   },
+  b: {
+    // fontWeight: 'bold',
+  },
+  strong: {
+    // fontWeight: 'bold',
+  },
   table: {
     flexDirection: 'column',
     alignItems: 'stretch',

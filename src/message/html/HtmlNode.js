@@ -1,7 +1,7 @@
 import React from 'react';
 
-import HtmlText from './HtmlText';
-import HtmlTag from './HtmlTag';
+import HtmlNodeText from './HtmlNodeText';
+import HtmlNodeTag from './HtmlNodeTag';
 
 export default class HtmlNode extends React.PureComponent {
 
@@ -9,9 +9,9 @@ export default class HtmlNode extends React.PureComponent {
     const { type, data, cascadingStyle } = this.props;
 
     if (type === 'text') {
-      return <HtmlText data={data} style={cascadingStyle} />;
+      return <HtmlNodeText data={data} style={cascadingStyle} />;
     }
 
-    return <HtmlTag {...this.props} />;
+    return <HtmlNodeTag {...this.props} />;
   }
 }
