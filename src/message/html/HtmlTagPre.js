@@ -1,28 +1,10 @@
 import React from 'react';
-import { Text, StyleSheet, View } from 'react-native';
-import entities from 'entities';
+import { View } from 'react-native';
 
-const styles = StyleSheet.create({
-  pre: {
-    flexDirection: 'column',
-    backgroundColor: 'yellow',
-  },
-  text: {
-    fontFamily: 'Monaco',
-  }
-});
+import HtmlTagSpan from './HtmlTagSpan';
 
-export default ({ childrenNodes, cascadingStyle }) => {
-  const lines = childrenNodes
-    .filter(x => x.type === 'text')
-    // .split('\n')
-    .map(x => entities.decodeHTML(x.data));
-
-  return (
-    <View style={styles.pre}>
-      {lines.map((line, idx) =>
-        <Text key={idx} style={styles.text} >{line}</Text>
-      )}
-    </View>
-  );
-};
+export default ({ style, data, childrenNodes, cascadingStyle }) => (
+  <View style={style}>
+    <HtmlTagSpan childrenNodes={childrenNodes} cascadingStyle={cascadingStyle} />
+  </View>
+);

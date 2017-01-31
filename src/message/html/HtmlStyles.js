@@ -1,25 +1,21 @@
 import { StyleSheet } from 'react-native';
 
-const inlineContents = {
-  flexDirection: 'row',
-  // flexWrap: 'wrap',
-  alignItems: 'flex-start',
-};
-
 export default StyleSheet.create({
-  inline: {
-  },
-  block: {
-
-  },
   ul: {
     flexDirection: 'column',
   },
   ol: {
     flexDirection: 'column',
   },
-  div: inlineContents,
-  p: inlineContents,
+  div: {},
+  p: {
+    marginTop: 4,
+    marginBottom: 4,
+  },
+  li: {
+    flexDirection: 'row',
+    marginBottom: 4,
+  },
   span: {
   },
   a: {
@@ -45,31 +41,20 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderRadius: 3,
     borderColor: '#e5e5e5',
-    paddingLeft: 4,
-    paddingRight: 4,
-  },
-  b: {
-    // fontWeight: 'bold',
-  },
-  strong: {
-    // fontWeight: 'bold',
+    padding: 8,
+    overflow: 'scroll',
   },
   table: {
     flexDirection: 'column',
-    alignItems: 'stretch',
-    borderColor: 'green',
+    borderColor: '#ddd',
     borderWidth: 1,
-    backgroundColor: 'yellow',
   },
   thead: {
     flexDirection: 'column',
-    borderColor: 'red',
-    borderWidth: 1,
+    backgroundColor: '#eee',
   },
   tbody: {
     flexDirection: 'column',
-    borderColor: 'blue',
-    borderWidth: 1,
   },
   tr: {
     flexDirection: 'row',
@@ -93,9 +78,5 @@ export default StyleSheet.create({
     borderLeftWidth: 5,
     marginLeft: 5,
     paddingLeft: 5,
-  },
-  k: {
-    color: '#008000',
-    fontWeight: 'bold',
   },
 });

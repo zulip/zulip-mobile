@@ -2,7 +2,15 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  blockquote: {
+    marginTop: 0,
+    marginBottom: 0
+  },
   p: {
+    fontSize: 16,
+  },
+  li: {
+    fontSize: 16,
   },
   a: {
     color: '#08c',
@@ -27,8 +35,12 @@ export default StyleSheet.create({
   del: {
     textDecorationLine: 'line-through',
   },
+  code: {
+    fontFamily: 'Menlo',
+  },
   pre: {
-    fontSize: 30,
+    fontFamily: 'Menlo',
+    fontSize: 13,
   },
   k: {
     color: '#008000',
@@ -40,4 +52,18 @@ export default StyleSheet.create({
   s2: {
     color: '#ba2121',
   },
+  k: {
+    color: '#008000',
+    fontWeight: 'bold',
+  },
+  kt: {
+    color: '#b00040',
+  },
+  o: {
+    color: '#666',
+  },
+  se: {
+    color: '#b62',
+    fontWeight: 'bold',
+  }
 });

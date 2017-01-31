@@ -1,16 +1,9 @@
 import React from 'react';
 import entities from 'entities';
-import { Text, StyleSheet } from 'react-native';
+import { Text } from 'react-native';
 
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 16,
-    lineHeight: 22,
-  }
-});
-
-export default ({ data, style }) => (
-  <Text style={[styles.text, style]}>
-    {entities.decodeHTML(data)}
+export default ({ data, style, cascadingStyle }) => (
+  <Text style={[style, cascadingStyle]}>
+    {entities.decodeHTML(data).replace(/\n$/, '')}
   </Text>
 );
