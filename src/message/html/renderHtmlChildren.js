@@ -2,12 +2,8 @@ import React from 'react';
 
 import HtmlNode from './HtmlNode';
 
-export default ({ auth, cascadingStyle, childrenNodes }) => {
-  if (!childrenNodes) {
-    return null;
-  }
-
-  return childrenNodes.map((node, index) =>
+export default ({ auth, cascadingStyle, childrenNodes }) =>
+  childrenNodes && childrenNodes.map((node, index) =>
     <HtmlNode
       key={index}
       auth={auth}
@@ -19,4 +15,3 @@ export default ({ auth, cascadingStyle, childrenNodes }) => {
       childrenNodes={node.children}
     />
   );
-};

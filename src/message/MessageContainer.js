@@ -2,7 +2,6 @@ import React from 'react';
 import htmlparser from 'htmlparser2';
 
 import renderHtmlChildren from './html/renderHtmlChildren';
-import HtmlChildren from './html/HtmlChildren';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 
