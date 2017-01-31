@@ -5,6 +5,7 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { foregroundColorFromBackground } from '../utils/color';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -12,7 +13,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: 'white',
     fontSize: 16,
     marginLeft: 4,
   },
@@ -26,18 +26,18 @@ export default class TitleStream extends React.PureComponent {
   }
 
   render() {
-    const { narrow, subscriptions } = this.props;
+    const { narrow, subscriptions, color } = this.props;
     const stream = subscriptions.find(x => x.name === narrow[0].operand);
     const iconType = stream.invite_only ? 'lock' : 'hashtag';
-
+    const textColor = foregroundColorFromBackground(color);
     return (
       <View style={styles.wrapper}>
         <Icon
           name={iconType}
-          color="white"
+          color={textColor}
           size={16}
         />
-        <Text style={styles.title}>
+        <Text style={[styles.title, { color: textColor }]}>
           {stream.name}
         </Text>
         {narrow.length > 1 &&

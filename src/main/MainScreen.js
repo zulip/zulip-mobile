@@ -7,6 +7,7 @@ import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
 import ConversationsContainer from '../conversations/ConversationsContainer';
 import requestInitialServerData from './requestInitialServerData';
+import { BRAND_COLOR } from '../common/styles';
 
 export default class MainScreen extends React.Component {
 
@@ -15,7 +16,11 @@ export default class MainScreen extends React.Component {
   }
 
   render() {
-    const { streamlistOpened, doNarrow } = this.props;
+    const { streamlistOpened, doNarrow, narrow, subscriptions } = this.props;
+    let color = BRAND_COLOR;
+    if (narrow.length !== 0 && narrow[0].operator === 'stream') {
+      color = (subscriptions.find((sub) => narrow[0].operand === sub.name)).color;
+    }
 
     return (
       <Drawer
@@ -77,6 +82,7 @@ export default class MainScreen extends React.Component {
           <MainNavBar
             onPressPeople={() => this.peopleDrawer.open()}
             openStreamList={() => this.streamDrawer.open()}
+            backgroundColor={color}
           >
             <Chat {...this.props} />
           </MainNavBar>
