@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
@@ -5,7 +6,7 @@ export default StyleSheet.create({
     color: 'green',
   },
   a: {
-    color: 'blue',
+    color: '#08c',
     textDecorationLine: 'underline',
     textDecorationStyle: 'solid',
   },
@@ -15,8 +16,29 @@ export default StyleSheet.create({
   strong: {
     fontWeight: 'bold',
   },
+  th: {
+    fontWeight: 'bold',
+  },
+  i: {
+    fontStyle: 'italic',
+  },
+  em: {
+    fontStyle: 'italic',
+  },
+  del: {
+    textDecorationLine: 'line-through',
+  },
+  pre: {
+    fontSize: 30,
+  },
   k: {
     color: '#008000',
     fontWeight: 'bold',
+  },
+  nf: {
+    color: '#00f',
+  },
+  s2: {
+    color: '#ba2121',
   },
 });

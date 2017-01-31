@@ -5,26 +5,26 @@ import cascadingStyles from './HtmlCascadingStyles';
 import HtmlTagGeneric from './HtmlTagGeneric';
 import HtmlTagImg from './HtmlTagImg';
 import HtmlTagA from './HtmlTagA';
-import HtmlTagTable from './HtmlTagTable';
+import HtmlTagPre from './HtmlTagPre';
 
 const inlineTags = new Set([
   'img', 'span', 'a', 'strong', 'em', 'b', 'i'
 ]);
 
 const blockTags = new Set([
-  'p', 'code', 'pre', 'ul', 'ol', 'li', 'br', 'blockquote'
+  'p', 'code', 'pre', 'ul', 'ol', 'li', 'br', 'blockquote', 'table',
 ]);
 
 const specialTags = {
   'a': HtmlTagA,
   'img': HtmlTagImg,
-  // 'table': HtmlTagTable,
+  'pre': HtmlTagPre,
 };
 
 export default class HtmlNode extends React.PureComponent {
 
   render() {
-    const { auth, attribs, name, childrenNodes } = this.props;
+    const { auth, attribs, name, cascadingStyle, childrenNodes } = this.props;
     const isInline = inlineTags.has(name);
     const isBlock = blockTags.has(name);
     const style = [
@@ -33,7 +33,8 @@ export default class HtmlNode extends React.PureComponent {
       styles[name],
       styles[attribs.class]
     ];
-    const cascadingStyle = [
+    const newCascadingStyle = [
+      cascadingStyle,
       cascadingStyles[name],
       cascadingStyles[attribs.class]
     ];
@@ -48,7 +49,7 @@ export default class HtmlNode extends React.PureComponent {
         target={attribs.target}
         src={attribs.src}
         style={style}
-        cascadingStyle={cascadingStyle}
+        cascadingStyle={newCascadingStyle}
         childrenNodes={childrenNodes}
       />
     );

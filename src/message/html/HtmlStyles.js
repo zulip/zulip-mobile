@@ -1,10 +1,13 @@
 import { StyleSheet } from 'react-native';
 
+const inlineContents = {
+  flexDirection: 'row',
+  // flexWrap: 'wrap',
+  alignItems: 'flex-start',
+};
+
 export default StyleSheet.create({
   inline: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
   },
   block: {
 
@@ -15,10 +18,8 @@ export default StyleSheet.create({
   ol: {
     flexDirection: 'column',
   },
-  div: {
-  },
-  p: {
-  },
+  div: inlineContents,
+  p: inlineContents,
   span: {
   },
   a: {
@@ -48,8 +49,44 @@ export default StyleSheet.create({
     paddingRight: 4,
   },
   table: {
+    flexDirection: 'column',
+    alignItems: 'stretch',
     borderColor: 'green',
     borderWidth: 1,
+    backgroundColor: 'yellow',
+  },
+  thead: {
+    flexDirection: 'column',
+    borderColor: 'red',
+    borderWidth: 1,
+  },
+  tbody: {
+    flexDirection: 'column',
+    borderColor: 'blue',
+    borderWidth: 1,
+  },
+  tr: {
+    flexDirection: 'row',
+  },
+  th: {
+    flex: 1,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  td: {
+    flex: 1,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  blockquote: {
+    borderLeftColor: '#ddd',
+    borderLeftWidth: 5,
+    marginLeft: 5,
+    paddingLeft: 5,
   },
   k: {
     color: '#008000',
