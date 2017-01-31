@@ -16,7 +16,6 @@ import HtmlTagDiv from './HtmlTagDiv';
 const specialTags = {
   'span': HtmlTagSpan,
   'p': HtmlTagSpan,
-  'div': HtmlTagSpan,
   'code': HtmlTagSpan,
   'a': HtmlTagA,
   'li': HtmlTagLi,
@@ -26,6 +25,7 @@ const specialTags = {
   'b': HtmlTagStrong,
   'em': HtmlTagItalic,
   'i': HtmlTagItalic,
+  'div': HtmlTagDiv,
   'blockquote': HtmlTagDiv,
   'ul': HtmlTagDiv,
   'ol': HtmlTagDiv,
@@ -57,6 +57,7 @@ export default ({ auth, attribs, name, cascadingStyle, childrenNodes }) => {
       className={attribs.class}
       target={attribs.target}
       src={attribs.src}
+      href={attribs.href}
       style={style}
       cascadingStyle={newCascadingStyle}
       childrenNodes={childrenNodes}

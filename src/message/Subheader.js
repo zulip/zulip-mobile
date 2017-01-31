@@ -12,13 +12,14 @@ const styles = StyleSheet.create({
   subheader: {
     flex: 1,
     flexBasis: 20,
+    marginBottom: 4,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   username: {
     flex: 1,
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: 16,
   },
 });
 
