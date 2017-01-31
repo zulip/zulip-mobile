@@ -1,6 +1,7 @@
 import React from 'react';
 import htmlparser from 'htmlparser2';
 
+import renderHtmlChildren from './html/renderHtmlChildren';
 import HtmlChildren from './html/HtmlChildren';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
@@ -10,7 +11,7 @@ const htmlToDomTree = html => {
   const parser = new htmlparser.Parser(new htmlparser.DomHandler((err, dom) => {
     if (!err) domTree = dom;
   }));
-  parser.write(html.replace(/\n|\r/g, ''));
+  parser.write(html);
   parser.done();
   return domTree;
 };
@@ -32,7 +33,7 @@ export default class MessageContainer extends React.PureComponent {
         reactions={reactions}
         selfEmail={auth.email}
       >
-        <HtmlChildren childrenNodes={dom} auth={auth} />
+        {renderHtmlChildren({ childrenNodes: dom, auth })}
       </MessageComponent>
     );
   }

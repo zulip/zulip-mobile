@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     paddingLeft: 48,
     overflow: 'hidden',
+    flex: 1,
   },
 });
 

@@ -14,7 +14,7 @@ export default class HtmlChildren extends React.PureComponent {
     }
 
     return (
-      <View style={styles.inline}>
+      <View>
         {childrenNodes.map((node, index) =>
           <HtmlNode
             key={index}

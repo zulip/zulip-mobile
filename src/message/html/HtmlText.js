@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 export default class HtmlText extends React.PureComponent {
   render() {
     const { data, style } = this.props;
-
+    console.log('DATA WIN', data);
     return (
       <Text style={[styles.text, style]}>
         {entities.decodeHTML(data)}
