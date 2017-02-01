@@ -86,11 +86,12 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, selfEmail: s
     return true;
   }
 
-  if ((isPrivateNarrow(narrow) || isGroupNarrow(narrow)) &&
-    normalizeRecipients(message.display_recipient) ===
-    [...narrow[0].operand.split(','), selfEmail].sort().join(',')
-  ) {
-    return true;
+
+  if (isPrivateNarrow(narrow) || isGroupNarrow(narrow)) {
+    const normalizedRecipients = normalizeRecipients(message.display_recipient);
+    const normalizedNarrow = [...narrow[0].operand.split(','), selfEmail].sort().join(',');
+
+    return normalizedRecipients === selfEmail || normalizedRecipients === normalizedNarrow;
   }
 
   if (isSpecialNarrow(narrow) &&

@@ -7,6 +7,8 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
+  EVENT_REACTION_ADD,
+  EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
   EVENT_REGISTERED,
   EVENT_PRESENCE,
@@ -50,6 +52,14 @@ const processEvent = (dispatch, event, getState) => {
     case 'pointer':
       // TODO
       console.log(event); // eslint-disable-line
+      break;
+    case 'reaction':
+      dispatch({
+        type: event.op === 'add' ? EVENT_REACTION_ADD : EVENT_REACTION_REMOVE,
+        emoji: event.emoji_name,
+        messageId: event.message_id,
+        user: event.user,
+      });
       break;
     case 'heartbeat':
       // ignore, no need to handle

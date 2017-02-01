@@ -12,6 +12,8 @@ import {
   MESSAGE_FETCH_SUCCESS,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE,
+  EVENT_REACTION_ADD,
+  EVENT_REACTION_REMOVE,
 } from '../../constants';
 
 describe('chatReducers', () => {
@@ -69,6 +71,36 @@ describe('chatReducers', () => {
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(initialState);
     });
+  });
+
+  test('Message sent to self is stored correctly', () => {
+    const narrowWithSelfStr = JSON.stringify(privateNarrow('me@example.com'));
+    const initialState = {
+      messages: {
+        [homeNarrowStr]: [],
+        [narrowWithSelfStr]: [],
+      }
+    };
+    const message = {
+      id: 1,
+      display_recipient: [{ email: 'me@example.com' }]
+    };
+    const action = {
+      type: EVENT_NEW_MESSAGE,
+      selfEmail: 'me@example.com',
+      message,
+    };
+    const expectedState = {
+      messages: {
+        [homeNarrowStr]: [message],
+        [narrowWithSelfStr]: [message],
+      }
+    };
+
+    const newState = chatReducers(initialState, action);
+
+    expect(newState).toEqual(expectedState);
+    expect(newState).not.toBe(initialState);
   });
 
   test('appends stream message to all cached narrows that match', () => {
@@ -233,6 +265,108 @@ describe('chatReducers', () => {
 
       expect(newState).not.toBe(initialState);
       expect(newState.messages).toEqual(expectedState.messages);
+    });
+  });
+
+  describe('EVENT_REACTION_ADD', () => {
+    test('on event received, add reaction to message with given id', () => {
+      const initialState = {
+        messages: {
+          [homeNarrowStr]: [
+            { id: 1, reactions: [] },
+            { id: 2, reactions: [] },
+          ],
+          [privateNarrowStr]: [{ id: 1, reactions: [] }],
+        }
+      };
+      const action = {
+        type: EVENT_REACTION_ADD,
+        messageId: 2,
+        emoji: 'hello',
+        user: {},
+      };
+      const expectedState = {
+        messages: {
+          [homeNarrowStr]: [
+            { id: 1, reactions: [] },
+            { id: 2, reactions: [{ emoji_name: 'hello', user: {} }] }
+          ],
+          [privateNarrowStr]: [{ id: 1, reactions: [] }],
+        }
+      };
+
+      const actualState = chatReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+  });
+
+  describe('EVENT_REACTION_REMOVE', () => {
+    test('if message does not contain reaction, no change is made', () => {
+      const initialState = {
+        messages: {
+          [homeNarrowStr]: [
+            { id: 1, reactions: [] },
+          ],
+        }
+      };
+      const action = {
+        type: EVENT_REACTION_REMOVE,
+        messageId: 1,
+        emoji: 'hello',
+        user: {},
+      };
+      const expectedState = {
+        messages: {
+          [homeNarrowStr]: [
+            { id: 1, reactions: [] },
+          ],
+        }
+      };
+
+      const actualState = chatReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('reaction is removed only from specified message, only for given user', () => {
+      const initialState = {
+        messages: {
+          [homeNarrowStr]: [
+            {
+              id: 1,
+              reactions: [
+                { emoji_name: 'hello', user: { email: 'bob@example.com' } },
+                { emoji_name: 'hello', user: { email: 'mark@example.com' } },
+                { emoji_name: 'goodbye', user: { email: 'bob@example.com' } },
+              ],
+            },
+          ],
+        }
+      };
+      const action = {
+        type: EVENT_REACTION_REMOVE,
+        messageId: 1,
+        emoji: 'hello',
+        user: { email: 'bob@example.com' },
+      };
+      const expectedState = {
+        messages: {
+          [homeNarrowStr]: [
+            {
+              id: 1,
+              reactions: [
+                { emoji_name: 'hello', user: { email: 'mark@example.com' } },
+                { emoji_name: 'goodbye', user: { email: 'bob@example.com' } },
+              ],
+            },
+          ],
+        }
+      };
+
+      const actualState = chatReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
     });
   });
 

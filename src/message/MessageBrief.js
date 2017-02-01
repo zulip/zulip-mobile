@@ -1,9 +1,7 @@
 import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
+import ReactionList from '../reactions/ReactionList';
 
 const styles = StyleSheet.create({
   message: {
@@ -19,14 +17,20 @@ export default class MessageBrief extends React.PureComponent {
 
   props: {
     message: string,
+    reactions: [],
   };
 
   render() {
-    const { message } = this.props;
+    const { messageId, message, reactions, selfEmail } = this.props;
 
     return (
       <View style={styles.message}>
         {message}
+        <ReactionList
+          messageId={messageId}
+          reactions={reactions}
+          selfEmail={selfEmail}
+        />
       </View>
     );
   }

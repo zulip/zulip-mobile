@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import boundActions from '../boundActions';
 import { Avatar } from '../common';
 import Subheader from './Subheader';
+import ReactionList from '../reactions/ReactionList';
 
 const styles = StyleSheet.create({
   message: {
@@ -27,6 +28,7 @@ class MessageFull extends React.PureComponent {
     fromName: string,
     fromEmail: string,
     timestamp: number,
+    reactions: [],
     twentyFourHourTime: bool,
   };
 
@@ -34,7 +36,10 @@ class MessageFull extends React.PureComponent {
     this.props.pushRoute('account-details', this.props.fromEmail);
 
   render() {
-    const { message, avatarUrl, timestamp, twentyFourHourTime, fromName } = this.props;
+    const {
+      messageId, message, avatarUrl, timestamp,
+      twentyFourHourTime, fromName, reactions, selfEmail,
+    } = this.props;
 
     return (
       <View style={styles.message}>
@@ -50,6 +55,11 @@ class MessageFull extends React.PureComponent {
             twentyFourHourTime={twentyFourHourTime}
           />
           {message}
+          <ReactionList
+            messageId={messageId}
+            reactions={reactions}
+            selfEmail={selfEmail}
+          />
         </View>
       </View>
     );
