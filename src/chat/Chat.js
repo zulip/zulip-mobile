@@ -18,7 +18,8 @@ export default class MainScreen extends React.Component {
     return (
       <KeyboardAvoidingView style={styles.screen} behavior="padding">
         {!isOnline && <OfflineNotice />}
-        {messages.length === 0 && caughtUp[0] && caughtUp[1] && <NoMessages narrow={narrow} />}
+        {messages.length === 0 && caughtUp.older && caughtUp.newer &&
+          <NoMessages narrow={narrow} />}
         <MessageList
           messages={messages}
           narrow={narrow}

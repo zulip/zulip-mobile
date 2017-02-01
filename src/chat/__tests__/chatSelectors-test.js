@@ -1,7 +1,7 @@
 import { getPointer } from '../chatSelectors';
 
 describe('getPointer', () => {
-  test('when no messages, return zeroed pointer', () => {
+  test('return max pointer when there are no messages', () => {
     const state = {
       chat: {
         narrow: [],
@@ -10,7 +10,10 @@ describe('getPointer', () => {
         },
       },
     };
-    expect(getPointer(state)).toEqual([0, 0]);
+    expect(getPointer(state)).toEqual({
+      older: Number.MAX_SAFE_INTEGER,
+      newer: Number.MAX_SAFE_INTEGER,
+    });
   });
 
   test('when single message, pointer ids are the same', () => {
@@ -24,7 +27,7 @@ describe('getPointer', () => {
         },
       }
     };
-    expect(getPointer(state)).toEqual([123, 123]);
+    expect(getPointer(state)).toEqual({ older: 123, newer: 123 });
   });
 
   test('when 2 or more messages, pointer contains first and last message ids', () => {
@@ -40,6 +43,6 @@ describe('getPointer', () => {
         },
       },
     };
-    expect(getPointer(state)).toEqual([1, 3]);
+    expect(getPointer(state)).toEqual({ older: 1, newer: 3 });
   });
 });

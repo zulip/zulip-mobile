@@ -40,7 +40,7 @@ export default class MessageList extends React.PureComponent {
     let containerStyle = {};
 
     if (messages.length === 0) {
-      if (!caughtUp[0] || !caughtUp[1]) {
+      if (!caughtUp.older || !caughtUp.newer) {
         // Show placeholder messages if we're loading the screen
         messageList = [...Array(6).keys()].map((i) =>
           <MessageLoading key={`ml${i}`} />
@@ -49,10 +49,10 @@ export default class MessageList extends React.PureComponent {
       containerStyle = styles.centerContainer;
     } else {
       messageList = [
-        <LoadingIndicator key={'top_loading'} active={fetching[0]} />,
+        <LoadingIndicator key={'top_loading'} active={fetching.older} />,
         ...renderMessages(this.props),
       ];
-      if (fetching[1]) {
+      if (fetching.newer) {
         messageList.push(<LoadingIndicator key={'bottom_loading'} active />);
       }
     }
@@ -99,7 +99,7 @@ export default class MessageList extends React.PureComponent {
         anchorMap={anchorMap}
         onStartReached={fetchOlder}
         onEndReached={fetchNewer}
-        autoScrollToBottom={caughtUp[1]}
+        autoScrollToBottom={caughtUp.newer}
         onScroll={e => {}}
       >
         {messageList}

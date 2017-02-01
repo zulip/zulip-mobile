@@ -8,8 +8,14 @@ export const getPointer = (state) => {
   const messages = getMessagesInActiveNarrow(state);
 
   if (messages.length === 0) {
-    return [0, 0];
+    return {
+      older: Number.MAX_SAFE_INTEGER,
+      newer: Number.MAX_SAFE_INTEGER,
+    };
   }
 
-  return [messages[0].id, messages[messages.length - 1].id];
+  return {
+    older: messages[0].id,
+    newer: messages[messages.length - 1].id,
+  };
 };
