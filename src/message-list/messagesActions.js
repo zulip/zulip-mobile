@@ -20,19 +20,6 @@ export const backgroundFetchMessages = (
   narrow,
 ) =>
   async (dispatch) => {
-    if (numBefore < 0 || numAfter < 0) {
-      throw Error('numBefore and numAfter must >= 0');
-    }
-
-    dispatch({
-      type: MESSAGE_FETCH_START,
-      narrow,
-      fetching: {
-        ...numBefore ? { older: true } : {},
-        ...numAfter ? { newer: true } : {},
-      },
-    });
-
     const messages = await getMessages(auth, anchor, numBefore, numAfter, narrow);
 
     // Find the anchor in the results (or set it past the end of the list)
@@ -66,6 +53,17 @@ export const fetchMessages = (
   narrow,
 ) =>
   async (dispatch) => {
-    dispatch({ type: MESSAGE_FETCH_START, narrow });
+    if (numBefore < 0 || numAfter < 0) {
+      throw Error('numBefore and numAfter must >= 0');
+    }
+
+    dispatch({
+      type: MESSAGE_FETCH_START,
+      narrow,
+      fetching: {
+        ...numBefore ? { older: true } : {},
+        ...numAfter ? { newer: true } : {},
+      },
+    });
     await backgroundFetchMessages(auth, anchor, numBefore, numAfter, narrow)(dispatch);
   };

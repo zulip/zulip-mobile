@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     paddingRight: 8,
     flexDirection: 'row',
+  },
+  button: {
+    margin: 8,
   }
 });
 
@@ -69,7 +72,9 @@ export default class ConversationsCard extends Component {
     return (
       <View tabLabel="People" style={styles.container}>
         <Button
-          text="Search"
+          secondary
+          customStyles={styles.button}
+          text="Search People"
           onPress={this.handleSearchPress}
         />
         <ConversationList
