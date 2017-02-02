@@ -18,6 +18,8 @@ const styles = StyleSheet.create({
   },
   primaryFrame: {
     backgroundColor: BRAND_COLOR,
+    borderColor: 'white',
+    borderWidth: 2,
   },
   secondaryFrame: {
     borderColor: BRAND_COLOR,
