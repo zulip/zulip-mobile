@@ -1,10 +1,17 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import { Button, Logo, Screen } from '../common';
 import AccountList from './AccountList';
+
+const styles = StyleSheet.create({
+  button: {
+    marginTop: 8,
+  },
+});
 
 class AccountPickScreen extends React.Component {
 
@@ -21,13 +28,13 @@ class AccountPickScreen extends React.Component {
     if (apiKey) {
       switchAccount(index); // Reset stream, message, user list
 
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         const { auth, fetchEvents, fetchUsersAndStatus, fetchMessages } = this.props;
 
         fetchEvents(auth);
         fetchUsersAndStatus(auth);
         fetchMessages(auth, Number.MAX_SAFE_INTEGER, 20, 0, []);
-      }, 50);
+      });
     } else {
       pushRoute('realm');
     }
@@ -49,6 +56,7 @@ class AccountPickScreen extends React.Component {
         />
         <Button
           text="Add new account"
+          customStyles={styles.button}
           onPress={this.handleAddNewAccount}
         />
       </Screen>

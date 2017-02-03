@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
     height: 52,
   },
   selectedAccountItem: {
-    backgroundColor: BRAND_COLOR,
-    borderRadius: 2,
+    borderColor: BRAND_COLOR,
+    borderWidth: 1,
   },
   details: {
     flex: 1,
@@ -28,9 +28,6 @@ const styles = StyleSheet.create({
   text: {
     color: BRAND_COLOR,
     fontWeight: 'bold',
-  },
-  selectedText: {
-    color: 'white',
   },
   removeButton: {
     width: 36,
@@ -56,16 +53,16 @@ export default class AccountItem extends React.PureComponent {
 
   render() {
     const { email, realm, index } = this.props;
+    const isSelected = index === 0;
 
     return (
       <Touchable style={styles.wrapper} onPress={this.handleSelect}>
-        <View style={[styles.accountItem, index === 0 && styles.selectedAccountItem]}>
+        <View style={[styles.accountItem, isSelected && styles.selectedAccountItem]}>
           <View style={styles.details}>
-            <Text style={[styles.text, index === 0 && styles.selectedText]}>{email}</Text>
-            <Text style={[styles.text, index === 0 && styles.selectedText]}>{realm}</Text>
+            <Text style={[styles.text, styles.selectedText]}>{email}</Text>
+            <Text style={[styles.text, styles.selectedText]}>{realm}</Text>
           </View>
           <Button
-            secondary={index !== 0}
             text="X"
             customStyles={styles.removeButton}
             onPress={this.handleRemove}
