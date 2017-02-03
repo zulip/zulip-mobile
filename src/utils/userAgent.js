@@ -5,4 +5,4 @@ const { getVersion, getSystemName, getSystemVersion } = DeviceInfo;
 
 export default !NativeModules.RNDeviceInfo ?
   '' :
-  `ZulipInvalid/${getVersion()} (${getSystemName()} ${getSystemVersion()})`;
+  `ZulipMobile/${getVersion()} (${getSystemName()} ${getSystemVersion()})`;

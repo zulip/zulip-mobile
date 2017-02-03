@@ -2,6 +2,7 @@ import React from 'react';
 import { BackAndroid, NavigationExperimental } from 'react-native';
 
 import { styles } from '../common';
+import CompatibilityScreen from '../start/CompatibilityScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
@@ -76,7 +77,11 @@ export default class Navigation extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, compatibilityCheckFail } = this.props;
+
+    if (compatibilityCheckFail) {
+      return <CompatibilityScreen />;
+    }
 
     return (
       <NavigationCardStack
