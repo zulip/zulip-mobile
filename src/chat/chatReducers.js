@@ -1,4 +1,5 @@
 import {
+  LOGOUT,
   ACCOUNT_SWITCH,
   SWITCH_NARROW,
   MESSAGE_FETCH_START,
@@ -20,6 +21,7 @@ const getInitialState = () => ({
 
 export default (state = getInitialState(), action) => {
   switch (action.type) {
+    case LOGOUT:
     case ACCOUNT_SWITCH:
       return getInitialState();
 
