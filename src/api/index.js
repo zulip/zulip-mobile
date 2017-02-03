@@ -1,3 +1,4 @@
+export { default as checkCompatibility } from './checkCompatibility';
 export { default as devFetchApiKey } from './devFetchApiKey';
 export { default as devGetEmails } from './devGetEmails';
 export { default as emojiReactionAdd } from './emojiReactionAdd';
