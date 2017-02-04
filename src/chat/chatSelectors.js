@@ -25,16 +25,13 @@ export const getPointer = (state) => {
 
 export const getRecentConversations = (state) => {
   const selfEmail = state.account[0].email;
-  const privateNarrowStr = JSON.stringify(specialNarrow('private'));
-  const messages = state.chat.messages[privateNarrowStr] || [];
-  const recipients = messages.map(msg =>
-    normalizeRecipients(
-      msg.display_recipient.length === 1 ?
-        msg.display_recipient :
-        msg.display_recipient.filter(r => r.email !== selfEmail
-    )
-  ));
-  const uniqueRecipients = Array.from(new Set(recipients));
+  const messages = state.chat.messages[JSON.stringify(specialNarrow('private'))] || [];
+  const recipientSet = messages.reduce((accumulator, x) => {
+    const recipientsSansMe = x.display_recipient.filter(r => r.email !== selfEmail);
+    const normalized = normalizeRecipients(recipientsSansMe);
+    accumulator.add(normalized);
+    return accumulator;
+  }, new Set());
 
-  return uniqueRecipients;
+  return Array.from(recipientSet);
 };
