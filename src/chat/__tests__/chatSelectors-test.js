@@ -48,10 +48,10 @@ describe('getPointer', () => {
   });
 });
 
-describe('getRecentConversations', () => {
+describe('getRecentPrivateChats', () => {
   const privatesNarrowStr = JSON.stringify(specialNarrow('private'));
 
-  test('when no messages, return no conversations', () => {
+  test('when no messages, return zeroed pointer', () => {
     const state = {
       account: [{ email: 'me@example.com' }],
       chat: {
@@ -67,7 +67,7 @@ describe('getRecentConversations', () => {
     expect(actual).toEqual([]);
   });
 
-  test('returns unique list of recipients, includes conversations with self', () => {
+  test('TODO', () => {
     const state = {
       account: [{ email: 'me@example.com' }],
       chat: {
@@ -76,7 +76,6 @@ describe('getRecentConversations', () => {
             { display_recipient: [{ email: 'me@example.com' }, { email: 'john@example.com' }] },
             { display_recipient: [{ email: 'mark@example.com' }] },
             { display_recipient: [{ email: 'john@example.com' }] },
-            { display_recipient: [{ email: 'me@example.com' }] },
             { display_recipient: [{ email: 'john@example.com' }, { email: 'mark@example.com' }] },
           ],
         },
@@ -86,7 +85,6 @@ describe('getRecentConversations', () => {
     const expectedPrivate = [
       'john@example.com',
       'mark@example.com',
-      'me@example.com',
       'john@example.com,mark@example.com',
     ];
 
