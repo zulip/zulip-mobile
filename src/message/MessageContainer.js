@@ -17,13 +17,14 @@ const htmlToDomTree = html => {
 
 export default class MessageContainer extends React.PureComponent {
   render() {
-    const { auth, avatarUrl, timestamp, twentyFourHourTime,
+    const { auth, avatarUrl, timestamp, twentyFourHourTime, messageId,
       fromName, message, fromEmail, isBrief, reactions } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
     const dom = htmlToDomTree(message);
 
     return (
       <MessageComponent
+        messageId={messageId}
         avatarUrl={avatarUrl}
         fromName={fromName}
         fromEmail={fromEmail}
