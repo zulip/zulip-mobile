@@ -2,23 +2,26 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
+import { BRAND_COLOR } from '../common/styles';
 import { Touchable } from '../common';
 import Emoji from '../emoji/Emoji';
 import { getAuth } from '../account/accountSelectors';
 import { emojiReactionAdd, emojiReactionRemove } from '../api';
 
 const styles = StyleSheet.create({
+  touchable: {
+    marginRight: 4,
+  },
   frameCommon: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 4,
     borderRadius: 4,
     borderWidth: 1,
-    marginRight: 4,
   },
   frameVoted: {
-    borderColor: '#3aa3e3', // eslint-disable-line
-    backgroundColor: '#f0f7fb', // eslint-disable-line
+    borderColor: BRAND_COLOR,
+    backgroundColor: 'rgba(36, 202, 194, 0.05)',
   },
   frameNotVoted: {
     borderColor: '#dedede', // eslint-disable-line
@@ -27,7 +30,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   countVoted: {
-    color: '#3aa3e3', // eslint-disable-line
+    color: BRAND_COLOR,
   },
   countNotVoted: {
     color: 'gray',
@@ -57,7 +60,7 @@ class Reaction extends React.PureComponent {
     const countStyle = voted ? styles.countVoted : styles.countNotVoted;
 
     return (
-      <Touchable onPress={this.handlePress}>
+      <Touchable onPress={this.handlePress} style={styles.touchable}>
         <View style={[styles.frameCommon, frameStyle]}>
           <Emoji name={name} />
           <Text style={[styles.countCommon, countStyle]}>
