@@ -6,6 +6,7 @@ import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import { Button, Logo, Screen } from '../common';
 import AccountList from './AccountList';
+import requestInitialServerData from '../main/requestInitialServerData';
 
 const styles = StyleSheet.create({
   button: {
@@ -28,13 +29,7 @@ class AccountPickScreen extends React.Component {
     if (apiKey) {
       switchAccount(index); // Reset stream, message, user list
 
-      requestAnimationFrame(() => {
-        const { auth, fetchEvents, fetchUsersAndStatus, fetchMessages } = this.props;
-
-        fetchEvents(auth);
-        fetchUsersAndStatus(auth);
-        fetchMessages(auth, Number.MAX_SAFE_INTEGER, 20, 0, []);
-      });
+      requestAnimationFrame(() => requestInitialServerData(this.props));
     } else {
       pushRoute('realm');
     }
