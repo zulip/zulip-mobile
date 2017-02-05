@@ -1,6 +1,7 @@
 import { UserStatus } from '../api';
 import {
   LOGOUT,
+  LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   EVENT_PRESENCE,
   GET_USER_RESPONSE,
@@ -40,6 +41,7 @@ const initialState = [];
 export default (state = initialState, action) => {
   switch (action.type) {
     case LOGOUT:
+    case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return [];
     case PRESENCE_RESPONSE: {
