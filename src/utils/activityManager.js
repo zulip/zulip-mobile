@@ -1,6 +1,4 @@
-import {
-  AppState,
-} from 'react-native';
+import { AppState } from 'react-native';
 import throttle from 'lodash.throttle';
 
 import { Auth } from '../types';

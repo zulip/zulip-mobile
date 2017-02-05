@@ -5,7 +5,6 @@ import {
   LOGIN_FAILURE,
   LOGOUT,
   APP_ONLINE,
-  APP_OFFLINE,
   APP_ACTIVITY,
 } from '../constants';
 
@@ -47,12 +46,7 @@ export default (state = initialState, action) => {
     case APP_ONLINE:
       return {
         ...state,
-        isOnline: true,
-      };
-    case APP_OFFLINE:
-      return {
-        ...state,
-        isOnline: false,
+        isOnline: action.isOnline,
       };
     default:
       return state;
