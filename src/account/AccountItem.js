@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { BRAND_COLOR } from '../common/styles';
 import { Button, Touchable } from '../common';
@@ -33,6 +34,9 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
   },
+  icon: {
+    padding: 6,
+  }
 });
 
 export default class AccountItem extends React.PureComponent {
@@ -41,6 +45,7 @@ export default class AccountItem extends React.PureComponent {
     index: number,
     email: string,
     realm: string,
+    canRemove: boolean,
     onSelect: () => void,
     onRemove: () => void,
   };
@@ -52,7 +57,7 @@ export default class AccountItem extends React.PureComponent {
     this.props.onRemove(this.props.index);
 
   render() {
-    const { email, realm, index } = this.props;
+    const { email, realm, index, canRemove } = this.props;
     const isSelected = index === 0;
 
     return (
@@ -62,11 +67,19 @@ export default class AccountItem extends React.PureComponent {
             <Text style={[styles.text, styles.selectedText]}>{email}</Text>
             <Text style={[styles.text, styles.selectedText]}>{realm}</Text>
           </View>
-          <Button
-            text="X"
-            customStyles={styles.removeButton}
-            onPress={this.handleRemove}
-          />
+          {canRemove ?
+            <Button
+              text="X"
+              customStyles={styles.removeButton}
+              onPress={this.handleRemove}
+            /> :
+            <Icon
+              style={styles.icon}
+              size={24}
+              color={BRAND_COLOR}
+              name="done"
+            />
+          }
         </View>
       </Touchable>
     );
