@@ -11,9 +11,12 @@ import Emoji from '../emoji/Emoji';
 const styles = StyleSheet.create({
   emojiRow: {
     flexDirection: 'row',
-    padding: 2,
+    padding: 6,
     alignItems: 'center',
   },
+  text: {
+    paddingLeft: 6,
+  }
 });
 
 export default class EmojiRow extends React.Component {
@@ -29,7 +32,7 @@ export default class EmojiRow extends React.Component {
       <Touchable onPress={onPress}>
         <View style={styles.emojiRow}>
           <Emoji name={name} size={15} />
-          <Text>{name}</Text>
+          <Text style={styles.text}>{name}</Text>
         </View>
       </Touchable>
     );

@@ -82,10 +82,11 @@ class ComposeText extends React.Component {
   handleChangeText = (text: string) =>
     this.setState({ text });
 
-  handleAutocomplete = (autocomplete: string) =>
-    this.setState(prevState => ({
-      text: getAutocompletedText(prevState.text, autocomplete),
-    }));
+  handleAutocomplete = (autocomplete: string) => {
+    const text = getAutocompletedText(this.state.text, autocomplete);
+    this.textInput.setNativeProps({ text });
+    this.setState({ text });
+  }
 
   render() {
     const { contentHeight, text } = this.state;
