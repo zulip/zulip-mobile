@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
   subheader: {
     flex: 1,
     flexBasis: 20,
-    marginBottom: 4,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -20,6 +19,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: 'bold',
     fontSize: 16,
+    lineHeight: 16,
   },
 });
 
@@ -39,7 +39,10 @@ export default class Subheader extends React.PureComponent {
         <Text style={styles.username} numberOfLines={1}>
           {from}
         </Text>
-        <Timestamp timestamp={timestamp} twentyFourHourTime={twentyFourHourTime} />
+        <Timestamp
+          timestamp={timestamp}
+          twentyFourHourTime={twentyFourHourTime}
+        />
       </View>
     );
   }
