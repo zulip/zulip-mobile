@@ -1,4 +1,5 @@
 import React from 'react';
+import { NetInfo } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -12,14 +13,29 @@ class NavigationContainer extends React.PureComponent {
     compatibilityCheckFail: false,
   };
 
+  handleConnectivityChange = (isConnected) =>
+    this.props.appOnline(isConnected);
+
   componentDidMount() {
     const { accounts } = this.props;
     this.props.initRoutes(getInitialRoutes(accounts));
+
+    NetInfo.isConnected.addEventListener(
+      'change',
+      this.handleConnectivityChange
+    );
 
     // check with server if current mobile app is compatible with latest backend
     // compatibility fails only if server responds with 400 (but not with 200 or 404)
     checkCompatibility().then(res =>
       this.setState({ compatibilityCheckFail: res.status === 400 })
+    );
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'change',
+      this.handleConnectivityChange,
     );
   }
 
