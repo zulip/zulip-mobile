@@ -16,9 +16,15 @@ class AccountDetailsScreen extends Component {
     avatarUrl: string,
   }
 
+  componentWillMount() {
+    // props.email gets reset during navigation slide out (on back)
+    // so we cache the value to prevent an exception
+    this.email = this.props.email;
+  }
+
   render() {
-    const { auth, email, users, fetchMessages, popRoute } = this.props;
-    const { fullName, avatarUrl, status } = users.find(x => x.email === email) || { fullName: 'A', avatarUrl: '', status: 'unknown' };
+    const { auth, users, fetchMessages, popRoute } = this.props;
+    const { fullName, avatarUrl, status } = users.find(x => x.email === this.email) || { fullName: 'A', avatarUrl: '', status: 'unknown' };
     const fullAvatarUrl = getFullUrl(avatarUrl, auth.realm);
 
     return (
@@ -26,7 +32,7 @@ class AccountDetailsScreen extends Component {
         <AccountDetails
           auth={auth}
           fullName={fullName}
-          email={email}
+          email={this.email}
           avatarUrl={fullAvatarUrl}
           status={status}
           fetchMessages={fetchMessages}
