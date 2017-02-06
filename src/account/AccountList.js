@@ -20,6 +20,7 @@ export default class AccountList extends React.PureComponent {
           <AccountItem
             key={i}
             index={i}
+            canRemove={i !== 0}
             {...account}
             onSelect={onAccountSelect}
             onRemove={onAccountRemove}

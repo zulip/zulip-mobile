@@ -1,5 +1,7 @@
 import { UserStatus } from '../api';
 import {
+  LOGOUT,
+  LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   EVENT_PRESENCE,
   GET_USER_RESPONSE,
@@ -12,17 +14,6 @@ type Presence = {
   status: UserStatus,
   timestamp: number,
 }
-
-// type User = {
-//   avatarUrl: string,
-//   botOwner: ?string,
-//   email: string,
-//   fullName: string,
-//   isActive: boolean,
-//   isAdmin: boolean,
-//   isBot: boolean,
-//   presence: PresenceMap,
-// }
 
 const priorityToState = {
   0: 'offline',
@@ -49,6 +40,8 @@ const initialState = [];
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case LOGOUT:
+    case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return [];
     case PRESENCE_RESPONSE: {
