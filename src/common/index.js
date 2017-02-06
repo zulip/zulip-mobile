@@ -12,5 +12,5 @@ export { default as styles } from './styles';
 export { default as TextAvatar } from './TextAvatar';
 export { default as Touchable } from './Touchable';
 export { default as UserStatusIndicator } from './UserStatusIndicator';
-export { default as ZButton } from './ZButton';
-export { default as ZSwitch } from './ZSwitch';
+export { default as ZulipButton } from './ZulipButton';
+export { default as ZulipSwitch } from './ZulipSwitch';

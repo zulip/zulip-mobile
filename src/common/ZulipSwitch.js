@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch } from 'react-native';
 import { BRAND_COLOR } from './styles';
 
-export default class ZSwitch extends React.PureComponent {
+export default class ZulipSwitch extends React.PureComponent {
 
   props: {
     value: boolean,

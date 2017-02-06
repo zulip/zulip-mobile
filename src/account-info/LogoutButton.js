@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import { getInitialRoutes } from '../nav/routingSelectors';
-import { ZButton } from '../common';
+import { ZulipButton } from '../common';
 
 const styles = StyleSheet.create({
   logoutButton: {
@@ -28,7 +28,7 @@ class LogoutButton extends Component {
 
   render() {
     return (
-      <ZButton
+      <ZulipButton
         customStyles={styles.logoutButton}
         secondary
         text="Logout"

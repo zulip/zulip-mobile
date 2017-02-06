@@ -18,9 +18,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     shadowColor: 'transparent',
   },
-  container: {
+  screenWrapper: {
     flex: 1,
-    padding: 10,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',

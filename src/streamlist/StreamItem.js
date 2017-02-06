@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { BRAND_COLOR } from '../common/styles';
-import { Touchable, ZSwitch } from '../common';
+import { Touchable, ZulipSwitch } from '../common';
 
 const styles = StyleSheet.create({
   row: {
@@ -90,7 +90,7 @@ export default class StreamItem extends React.PureComponent {
             }
           </View>
           {showSwitch &&
-            <ZSwitch
+            <ZulipSwitch
               defaultValue={isSwitchedOn}
               onValueChange={this.handleSwitch}
             />}

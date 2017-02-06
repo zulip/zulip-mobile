@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import { ZButton } from '../common';
+import { ZulipButton } from '../common';
 
 const styles = StyleSheet.create({
   button: {
@@ -25,7 +25,7 @@ class SwitchAccountButton extends Component {
 
   render() {
     return (
-      <ZButton
+      <ZulipButton
         customStyles={styles.button}
         secondary
         text="Switch"

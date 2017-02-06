@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { BRAND_COLOR } from '../common/styles';
-import { ZButton, Touchable } from '../common';
+import { ZulipButton, Touchable } from '../common';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -68,7 +68,7 @@ export default class AccountItem extends React.PureComponent {
             <Text style={[styles.text, styles.selectedText]}>{realm}</Text>
           </View>
           {canRemove ?
-            <ZButton
+            <ZulipButton
               text="X"
               customStyles={styles.removeButton}
               onPress={this.handleRemove}

@@ -17,7 +17,7 @@ class SubscriptionsScreen extends React.Component {
     subscriptions: [],
   };
 
-  handleSwitchChange = (streamName, switchValue) => {
+  handleSwitchChange = (streamName: string, switchValue: boolean) => {
     const { auth } = this.props;
 
     if (switchValue) {
