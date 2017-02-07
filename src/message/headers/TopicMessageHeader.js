@@ -10,10 +10,12 @@ import { topicNarrow } from '../../utils/narrow';
 const styles = StyleSheet.create({
   touch: {
     flex: 1,
+    justifyContent: 'center',
   },
   topic: {
     padding: 8,
     fontSize: 16,
+    lineHeight: 16,
     backgroundColor: '#eee',
   },
 });
