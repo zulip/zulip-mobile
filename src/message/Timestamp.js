@@ -9,7 +9,8 @@ import { shortTime } from '../utils/date';
 const styles = StyleSheet.create({
   time: {
     color: '#999',
-    fontSize: 15,
+    fontSize: 14,
+    lineHeight: 14,
   },
 });
 
