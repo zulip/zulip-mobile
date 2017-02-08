@@ -14,6 +14,7 @@ import { foregroundColorFromBackground } from '../../utils/color';
 const styles = StyleSheet.create({
   header: {
     flex: 1,
+    alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#eee',
     overflow: 'hidden',
@@ -21,10 +22,12 @@ const styles = StyleSheet.create({
   stream: {
     padding: 8,
     fontSize: 16,
+    lineHeight: 16,
   },
   icon: {
-    padding: 8,
-    paddingLeft: 10,
+    paddingLeft: 12,
+    paddingRight: 12,
+    width: 30,
   },
   triangle: {
     borderTopWidth: 18,
@@ -54,25 +57,19 @@ export default class StreamMessageHeader extends React.PureComponent {
   render() {
     const { stream, isPrivate, topic, color, itemId, doNarrow } = this.props;
     const textColor = foregroundColorFromBackground(color);
-    const colors = {
-      color: textColor,
-      backgroundColor: color,
-    };
     const iconType = isPrivate ? 'lock' : 'hashtag';
 
     return (
       <View style={styles.header}>
         <Touchable onPress={this.performStreamNarrow}>
-          <View style={styles.header}>
+          <View style={[styles.header, { backgroundColor: color }]}>
             <Icon
               name={iconType}
               color={textColor}
               size={16}
-              style={[styles.icon, colors]}
+              style={styles.icon}
             />
-            <Text
-              style={[styles.stream, colors]}
-            >
+            <Text style={[styles.stream, { color: textColor }]}>
               {stream}
             </Text>
           </View>
