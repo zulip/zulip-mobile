@@ -11,4 +11,7 @@ export { default as getUsers } from './getUsers';
 export { default as messagesFlags } from './messagesFlags';
 export { default as pollForEvents } from './pollForEvents';
 export { default as registerForEvents } from './registerForEvents';
+export { default as subscriptionAdd } from './subscriptionAdd';
+export { default as subscriptionRemove } from './subscriptionRemove';
 export { default as sendMessage } from './sendMessage';
+export { default as uploadFile } from './uploadFile';

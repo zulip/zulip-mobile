@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { Avatar, Button, UserStatusIndicator } from '../common';
+import { Avatar, ZulipButton, UserStatusIndicator } from '../common';
 import { privateNarrow } from '../utils/narrow';
 
 const styles = StyleSheet.create({
@@ -53,7 +53,7 @@ export default class AccountDetails extends Component {
           <Text style={styles.info}>{fullName}</Text>
           <Text style={styles.info}>{email}</Text>
         </View>
-        <Button
+        <ZulipButton
           customStyles={styles.logoutButton}
           secondary
           text="Chat"

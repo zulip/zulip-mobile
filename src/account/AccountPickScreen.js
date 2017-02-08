@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
-import { Button, Logo, Screen } from '../common';
+import { ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
 import requestInitialServerData from '../main/requestInitialServerData';
 
@@ -49,7 +49,7 @@ class AccountPickScreen extends React.Component {
           onAccountSelect={this.handleAccountSelect}
           onAccountRemove={this.handleAccountRemove}
         />
-        <Button
+        <ZulipButton
           text="Add new account"
           customStyles={styles.button}
           onPress={this.handleAddNewAccount}

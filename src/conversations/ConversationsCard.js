@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import { STATUSBAR_HEIGHT } from '../common/platform';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
-import { Button } from '../common';
+import { ZulipButton } from '../common';
 import ConversationList from './ConversationList';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
 import LogoutButton from '../account-info/LogoutButton';
@@ -67,7 +67,7 @@ export default class ConversationsCard extends Component {
 
     return (
       <View tabLabel="People" style={styles.container}>
-        <Button
+        <ZulipButton
           secondary
           customStyles={styles.button}
           text="Search People"

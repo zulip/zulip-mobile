@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { BRAND_COLOR } from '../common/styles';
-import { Touchable } from '../common';
+import { Touchable, ZulipSwitch } from '../common';
 
 const styles = StyleSheet.create({
   row: {
@@ -28,11 +28,13 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   text: {
+    flex: 1,
     paddingLeft: 8,
+    paddingRight: 8,
   },
   selectedText: {
     color: 'white',
-  }
+  },
 });
 
 export default class StreamItem extends React.PureComponent {
@@ -43,6 +45,7 @@ export default class StreamItem extends React.PureComponent {
     iconSize: number,
     isPrivate: boolean,
     isSelected: boolean,
+    showSwitch: boolean,
     color: string,
     onPress: () => {},
   }
@@ -50,12 +53,18 @@ export default class StreamItem extends React.PureComponent {
   handlePress = () =>
     this.props.onPress(this.props.name);
 
+  handleSwitch = (newValue) => {
+    const { name, onSwitch } = this.props;
+    onSwitch(name, newValue);
+  }
+
   render() {
-    const { name, description, color, isPrivate, iconSize, isSelected } = this.props;
+    const { name, description, color, isPrivate,
+      iconSize, isSelected, showSwitch, isSwitchedOn } = this.props;
     const iconWrapperCustomStyle = {
       width: iconSize * 1.75,
       height: iconSize * 1.75,
-      backgroundColor: color,
+      backgroundColor: color || BRAND_COLOR,
     };
 
     return (
@@ -80,6 +89,11 @@ export default class StreamItem extends React.PureComponent {
               </Text>
             }
           </View>
+          {showSwitch &&
+            <ZulipSwitch
+              defaultValue={isSwitchedOn}
+              onValueChange={this.handleSwitch}
+            />}
         </View>
       </Touchable>
     );

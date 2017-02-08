@@ -1,13 +1,11 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
+import { ZulipButton } from '../common';
 import { STATUSBAR_HEIGHT } from '../common/platform';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import SidebarRow from './SidebarRow';
-import StreamListContainer from '../streamlist/StreamListContainer';
+import SubscriptionsContainer from '../streamlist/SubscriptionsContainer';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,9 +16,15 @@ const styles = StyleSheet.create({
   streams: {
     flexDirection: 'column',
   },
+  button: {
+    margin: 8,
+  }
 });
 
 export default class StreamSidebar extends React.Component {
+
+  handleAllStreams = () =>
+    this.props.pushRoute('subscriptions');
 
   render() {
     const { onNarrow } = this.props;
@@ -47,7 +51,13 @@ export default class StreamSidebar extends React.Component {
           icon="md-at"
           onPress={() => onNarrow(specialNarrow('mentioned'))}
         />
-        <StreamListContainer onNarrow={onNarrow} />
+        <SubscriptionsContainer onNarrow={onNarrow} />
+        <ZulipButton
+          customStyles={styles.button}
+          secondary
+          text="All Streams"
+          onPress={this.handleAllStreams}
+        />
       </View>
     );
   }

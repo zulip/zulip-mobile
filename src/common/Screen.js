@@ -18,9 +18,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     shadowColor: 'transparent',
   },
-  container: {
+  screenWrapper: {
     flex: 1,
-    padding: 10,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
@@ -42,7 +41,7 @@ export default class Screen extends React.Component {
       <View style={styles.screen}>
         <StatusBar barStyle="light-content" />
         <ModalNavBar title={title} popRoute={popRoute} nav={nav} />
-        <WrapperView style={styles.container} behavior="padding">
+        <WrapperView style={styles.screenWrapper} behavior="padding">
           {children}
         </WrapperView>
       </View>

@@ -62,7 +62,7 @@ const ButtonNormal = ({ frameStyle, touchTargetStyle, textStyle, text, onPress }
 );
 
 
-export default class Button extends React.PureComponent {
+export default class ZulipButton extends React.PureComponent {
 
   props: {
     customStyles: Object,
