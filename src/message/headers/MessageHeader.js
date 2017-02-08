@@ -37,6 +37,7 @@ export default class MessageHeader extends React.PureComponent {
         <StreamMessageHeader
           key={`section_${item.id}`}
           isPrivate={stream && stream.invite_only}
+          isMuted={stream && !stream.in_home_view}
           stream={item.display_recipient}
           topic={item.subject}
           color={stream ? stream.color : '#ccc'}

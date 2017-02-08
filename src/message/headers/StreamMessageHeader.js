@@ -1,15 +1,11 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { Touchable } from '../../common';
 import TopicMessageHeader from './TopicMessageHeader';
 import { streamNarrow } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
+import StreamIcon from '../../streamlist/StreamIcon';
 
 const styles = StyleSheet.create({
   header: {
@@ -25,9 +21,7 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
   icon: {
-    paddingLeft: 12,
-    paddingRight: 12,
-    width: 30,
+    paddingLeft: 8,
   },
   triangle: {
     borderTopWidth: 18,
@@ -55,7 +49,7 @@ export default class StreamMessageHeader extends React.PureComponent {
   }
 
   render() {
-    const { stream, isPrivate, topic, color, itemId, doNarrow } = this.props;
+    const { stream, isPrivate, isMuted, topic, color, itemId, doNarrow } = this.props;
     const textColor = foregroundColorFromBackground(color);
     const iconType = isPrivate ? 'lock' : 'hashtag';
 
@@ -63,9 +57,11 @@ export default class StreamMessageHeader extends React.PureComponent {
       <View style={styles.header}>
         <Touchable onPress={this.performStreamNarrow}>
           <View style={[styles.header, { backgroundColor: color }]}>
-            <Icon
+            <StreamIcon
               name={iconType}
               color={textColor}
+              isPrivate={isPrivate}
+              isMuted={isMuted}
               size={16}
               style={styles.icon}
             />

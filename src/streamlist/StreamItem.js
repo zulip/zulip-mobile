@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { BRAND_COLOR } from '../common/styles';
 import { Touchable, ZulipSwitch } from '../common';
+import StreamIcon from './StreamIcon';
 
 const styles = StyleSheet.create({
   row: {
@@ -24,9 +24,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  icon: {
-    color: 'white',
-  },
   text: {
     flex: 1,
     paddingLeft: 8,
@@ -34,6 +31,9 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: 'white',
+  },
+  mutedText: {
+    color: 'gray',
   },
 });
 
@@ -44,6 +44,7 @@ export default class StreamItem extends React.PureComponent {
     description: string,
     iconSize: number,
     isPrivate: boolean,
+    isMuted: boolean,
     isSelected: boolean,
     showSwitch: boolean,
     color: string,
@@ -59,7 +60,7 @@ export default class StreamItem extends React.PureComponent {
   }
 
   render() {
-    const { name, description, color, isPrivate,
+    const { name, description, color, isPrivate, isMuted,
       iconSize, isSelected, showSwitch, isSwitchedOn } = this.props;
     const iconWrapperCustomStyle = {
       width: iconSize * 1.75,
@@ -71,15 +72,22 @@ export default class StreamItem extends React.PureComponent {
       <Touchable onPress={this.handlePress}>
         <View style={[styles.row, isSelected && styles.selectedRow]}>
           <View style={[styles.iconWrapper, iconWrapperCustomStyle]}>
-            <Icon
-              style={styles.icon}
+            <StreamIcon
               size={iconSize}
-              color={color}
-              name={isPrivate ? 'lock' : 'hashtag'}
+              color="white"
+              isMuted={isMuted}
+              isPrivate={isPrivate}
             />
           </View>
           <View style={styles.text}>
-            <Text style={isSelected && styles.selectedText}>{name}</Text>
+            <Text
+              style={[
+                isSelected && styles.selectedText,
+                isMuted && styles.mutedText
+              ]}
+            >
+              {name}
+            </Text>
             {!!description &&
               <Text
                 numberOfLines={1}
