@@ -7,6 +7,9 @@ export const HIGHLIGHT_COLOR = 'rgba(86, 164, 174, 0.5)';
 export const BORDER_COLOR = '#eee';
 
 export default StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
   screen: {
     flex: 1,
     flexDirection: 'column',
@@ -29,7 +32,10 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
-    marginTop: STATUSBAR_HEIGHT,
+  },
+  statusbar: {
+    backgroundColor: BRAND_COLOR,
+    height: STATUSBAR_HEIGHT,
   },
   center: {
     flex: 1,
@@ -64,7 +70,6 @@ export default StyleSheet.create({
   navBar: {
     flexDirection: 'row',
     backgroundColor: BRAND_COLOR,
-    paddingTop: STATUSBAR_HEIGHT,
     height: NAVBAR_HEIGHT,
     alignItems: 'center',
     justifyContent: 'space-between',

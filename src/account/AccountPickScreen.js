@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -12,6 +12,9 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 8,
   },
+  padding: {
+    padding: 8,
+  }
 });
 
 class AccountPickScreen extends React.Component {
@@ -44,16 +47,18 @@ class AccountPickScreen extends React.Component {
     return (
       <Screen title="Pick Account">
         <Logo />
-        <AccountList
-          accounts={accounts}
-          onAccountSelect={this.handleAccountSelect}
-          onAccountRemove={this.handleAccountRemove}
-        />
-        <ZulipButton
-          text="Add new account"
-          customStyles={styles.button}
-          onPress={this.handleAddNewAccount}
-        />
+        <View style={styles.padding}>
+          <AccountList
+            accounts={accounts}
+            onAccountSelect={this.handleAccountSelect}
+            onAccountRemove={this.handleAccountRemove}
+          />
+          <ZulipButton
+            text="Add new account"
+            customStyles={styles.button}
+            onPress={this.handleAddNewAccount}
+          />
+        </View>
       </Screen>
     );
   }
