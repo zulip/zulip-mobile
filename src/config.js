@@ -1,7 +1,7 @@
 export default {
-  devRealm: 'http://localhost:9991',
-  productionRealm: 'https://chat.zulip.org',
+  devRealm: 'http://localhost:9991', // the default realm suggested during development
+  productionRealm: '', // the default realm suggested in production
   compatibilityUrl: 'https://zulipchat.com/compatibility',
-  defaultLoginEmail: '',
-  defaultLoginPassword: '',
+  defaultLoginEmail: '', // useful during development, empty for production
+  defaultLoginPassword: '', // useful during development, empty for production
 };
