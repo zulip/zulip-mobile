@@ -6,14 +6,12 @@ import {
 } from 'react-native';
 
 import { BRAND_COLOR } from '../common/styles';
-import { STATUSBAR_HEIGHT } from '../common/platform';
 
 import Tab from './Tab';
 
 const styles = StyleSheet.create({
   tabs: {
-    paddingTop: STATUSBAR_HEIGHT,
-    height: 44 + STATUSBAR_HEIGHT,
+    height: 44,
     backgroundColor: BRAND_COLOR,
     flexDirection: 'row',
     shadowColor: 'black',

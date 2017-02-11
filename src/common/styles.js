@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { STATUSBAR_HEIGHT, CONTROL_SIZE, NAVBAR_HEIGHT } from './platform';
+import { CONTROL_SIZE, NAVBAR_HEIGHT } from './platform';
 
 export const BRAND_COLOR = 'rgba(86, 193, 129, 1)';
 export const HIGHLIGHT_COLOR = 'rgba(86, 164, 174, 0.5)';
@@ -32,10 +32,6 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
-  },
-  statusbar: {
-    backgroundColor: BRAND_COLOR,
-    height: STATUSBAR_HEIGHT,
   },
   center: {
     flex: 1,
