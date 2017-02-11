@@ -5,6 +5,7 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { foregroundColorFromBackground } from '../utils/color';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -12,7 +13,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: 'white',
     fontSize: 16,
     marginLeft: 4,
   },
@@ -27,13 +27,14 @@ const specials = {
 
 export default class TitleSpecial extends React.PureComponent {
   render() {
-    const { narrow } = this.props;
+    const { narrow, backgroundColor } = this.props;
     const { name, icon } = specials[narrow[0].operand];
+    const textColor = foregroundColorFromBackground(backgroundColor);
 
     return (
       <View style={styles.wrapper}>
-        <Icon name={icon} size={20} color="white" />
-        <Text style={styles.title}>
+        <Icon name={icon} size={20} color={textColor} />
+        <Text style={[styles.title, { color: textColor }]}>
           {name}
         </Text>
       </View>

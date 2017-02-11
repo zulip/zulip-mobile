@@ -10,6 +10,8 @@ import styles from '../common/styles';
 
 import Title from '../title/Title';
 
+import { foregroundColorFromBackground } from '../utils/color';
+
 const moreStyles = StyleSheet.create({
   wrapper: {
     flex: 1,
@@ -19,17 +21,17 @@ const moreStyles = StyleSheet.create({
 
 export default class MainNavBar extends React.Component {
   render() {
-    const { openStreamList, onPressPeople } = this.props;
-
+    const { openStreamList, onPressPeople, backgroundColor } = this.props;
+    const textColor = foregroundColorFromBackground(backgroundColor);
     return (
       <Navigator
         initialRoute={{ name: 'Home', index: 0 }}
         renderScene={(route) =>
           <View style={moreStyles.wrapper}>
-            <View style={styles.navBar}>
-              <Icon style={styles.navButton} name="ios-menu" onPress={openStreamList} />
-              <Title />
-              <Icon style={styles.navButton} name="md-people" onPress={onPressPeople} />
+            <View style={[styles.navBar, { backgroundColor }]}>
+              <Icon style={[styles.navButton, { color: textColor }]} name="ios-menu" onPress={openStreamList} />
+              <Title backgroundColor={backgroundColor} />
+              <Icon style={[styles.navButton, { color: textColor }]} name="md-people" onPress={onPressPeople} />
             </View>
             {this.props.children}
           </View>

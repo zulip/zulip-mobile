@@ -75,7 +75,6 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
   },
   navButton: {
-    color: 'white',
     textAlign: 'center',
     fontSize: 26,
     width: CONTROL_SIZE,
