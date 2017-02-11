@@ -39,11 +39,11 @@ export default class Screen extends React.Component {
   }
 
   render() {
-    const { keyboardAvoiding, padded, title, nav, children, popRoute } = this.props;
+    const { keyboardAvoiding, padded, title, nav, children, popRoute, onLayout } = this.props;
     const WrapperView = keyboardAvoiding ? KeyboardAvoidingView : View;
 
     return (
-      <View style={styles.screen}>
+      <View style={styles.screen} onLayout={onLayout}>
         <ZulipStatusBar />
         <ModalNavBar title={title} popRoute={popRoute} nav={nav} />
         <WrapperView style={[styles.screenWrapper, padded && styles.padding]} behavior="padding">

@@ -1,8 +1,8 @@
 import React from 'react';
+import { Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import styles from '../common/styles';
 import { fetchApiKey } from '../api';
 import config from '../config';
 import { Screen, ErrorMsg, ZulipButton, Input } from '../common';
@@ -59,11 +59,15 @@ class PasswordAuthScreen extends React.Component {
 
   render() {
     const { email, password, progress, error } = this.state;
+    const { height } = Dimensions.get('window');
+    const componentStyle = height < 375 ?
+      { flexBasis: 36, marginBottom: 2 } :
+      { marginBottom: 8 };
 
     return (
       <Screen title="Email Login" keyboardAvoiding padded>
         <Input
-          customStyle={styles.marginBottom}
+          customStyle={componentStyle}
           autoCorrect={false}
           autoFocus
           keyboardType="email-address"
@@ -73,7 +77,7 @@ class PasswordAuthScreen extends React.Component {
           onChangeText={newEmail => this.setState({ email: newEmail })}
         />
         <Input
-          customStyle={styles.marginBottom}
+          customStyle={componentStyle}
           placeholder="Password"
           secureTextEntry
           value={password}
@@ -81,6 +85,7 @@ class PasswordAuthScreen extends React.Component {
         />
         <ZulipButton
           text="Sign in"
+          customStyles={componentStyle}
           progress={progress}
           onPress={this.validateForm}
         />
