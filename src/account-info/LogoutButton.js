@@ -9,7 +9,7 @@ import { ZulipButton } from '../common';
 const styles = StyleSheet.create({
   logoutButton: {
     flex: 1,
-    marginTop: 10,
+    margin: 8,
   },
 });
 

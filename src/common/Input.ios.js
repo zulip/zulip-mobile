@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     height: CONTROL_SIZE,
     flexBasis: CONTROL_SIZE,
     borderColor: BORDER_COLOR,
-    padding: 10,
+    padding: 8,
   },
 });
 

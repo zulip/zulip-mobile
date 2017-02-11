@@ -14,12 +14,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
-    marginBottom: 10,
   },
   primaryFrame: {
     backgroundColor: BRAND_COLOR,
-    borderColor: 'white',
-    borderWidth: 2,
   },
   secondaryFrame: {
     borderColor: BRAND_COLOR,

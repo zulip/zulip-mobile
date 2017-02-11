@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 8,
+    marginRight: 8,
   },
   selectedText: {
     color: 'white',

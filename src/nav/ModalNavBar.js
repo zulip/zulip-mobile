@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import boundActions from '../boundActions';
 import { CONTROL_SIZE } from '../common/platform';
-import { styles, Touchable } from '../common';
+import { styles } from '../common';
+import NavButton from './NavButton';
 
 class ModalNavBar extends React.Component {
 
@@ -22,9 +22,7 @@ class ModalNavBar extends React.Component {
     return (
       <View style={styles.navBar}>
         {nav.index > 0 &&
-          <Touchable onPress={popRoute}>
-            <Icon style={styles.navButton} name="ios-arrow-back" />
-          </Touchable>
+          <NavButton name="ios-arrow-back" onPress={popRoute} />
         }
         <Text style={textStyle}>
           {title}

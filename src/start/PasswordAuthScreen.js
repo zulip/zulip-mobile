@@ -61,9 +61,9 @@ class PasswordAuthScreen extends React.Component {
     const { email, password, progress, error } = this.state;
 
     return (
-      <Screen title="Email Login" keyboardAvoiding>
+      <Screen title="Email Login" keyboardAvoiding padded>
         <Input
-          customStyle={styles.fieldMargin}
+          customStyle={styles.marginBottom}
           autoCorrect={false}
           autoFocus
           keyboardType="email-address"
@@ -73,7 +73,7 @@ class PasswordAuthScreen extends React.Component {
           onChangeText={newEmail => this.setState({ email: newEmail })}
         />
         <Input
-          customStyle={styles.fieldMargin}
+          customStyle={styles.marginBottom}
           placeholder="Password"
           secureTextEntry
           value={password}
