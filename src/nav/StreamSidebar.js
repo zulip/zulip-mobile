@@ -2,14 +2,12 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { ZulipButton } from '../common';
-import { STATUSBAR_HEIGHT } from '../common/platform';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import SidebarRow from './SidebarRow';
 import SubscriptionsContainer from '../streamlist/SubscriptionsContainer';
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: STATUSBAR_HEIGHT,
     flex: 1,
     flexDirection: 'column',
   },
