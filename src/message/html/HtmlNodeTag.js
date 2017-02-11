@@ -37,15 +37,18 @@ const specialTags = {
   'td': HtmlTagDiv,
 };
 
+const stylesFromClassNames = (classNames = '', styleObj) =>
+  classNames.split(' ').map(className => styleObj[className]);
+
 export default ({ auth, attribs, name, cascadingStyle, childrenNodes }) => {
   const style = [
     styles[name],
-    styles[attribs.class]
+    ...stylesFromClassNames(attribs.class, styles),
   ];
   const newCascadingStyle = [
     cascadingStyle,
     cascadingStyles[name],
-    cascadingStyles[attribs.class]
+    ...stylesFromClassNames(attribs.class, cascadingStyles),
   ];
 
   const HtmlComponent = specialTags[name] || HtmlTagSpan;
@@ -54,7 +57,6 @@ export default ({ auth, attribs, name, cascadingStyle, childrenNodes }) => {
     <HtmlComponent
       auth={auth}
       name={name}
-      className={attribs.class}
       target={attribs.target}
       src={attribs.src}
       href={attribs.href}

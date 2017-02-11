@@ -8,16 +8,12 @@ const styles = StyleSheet.create({
     width: 296,
     height: 150,
   },
-  emoji: {
-    width: 24,
-    height: 24,
-  },
 });
 
-export default ({ src, className, auth }) => (
+export default ({ src, style, auth }) => (
   <Image
     source={getResource(src, auth)}
-    resizeMode={className === 'emoji' ? 'cover' : 'contain'}
-    style={className === 'emoji' ? styles.emoji : styles.img}
+    resizeMode="contain"
+    style={[styles.img, style]}
   />
 );

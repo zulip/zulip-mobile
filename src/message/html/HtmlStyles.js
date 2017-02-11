@@ -28,6 +28,9 @@ export default StyleSheet.create({
     paddingLeft: 4,
     paddingRight: 4,
   },
+  'user-mention-me': {
+    backgroundColor: '#c9fcc1', // eslint-disable-line
+  },
   code: {
     backgroundColor: '#f5f5f5',
     borderWidth: 1,
@@ -78,5 +81,9 @@ export default StyleSheet.create({
     borderLeftWidth: 5,
     marginLeft: 5,
     paddingLeft: 5,
+  },
+  emoji: {
+    width: 24,
+    height: 24,
   },
 });
