@@ -1,15 +1,9 @@
 import React from 'react';
-import {
-  StatusBar,
-  StyleSheet,
-  Navigator,
-  View,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Navigator, StatusBar, StyleSheet, View } from 'react-native';
 
-import styles from '../common/styles';
-
+import { styles } from '../common';
 import Title from '../title/Title';
+import NavButton from './NavButton';
 
 import { foregroundColorFromBackground } from '../utils/color';
 
@@ -33,17 +27,9 @@ export default class MainNavBar extends React.Component {
               barStyle={textColor === 'white' ? 'light-content' : 'dark-content'}
             />
             <View style={[styles.navBar, { backgroundColor }]}>
-              <Icon
-                style={[styles.navButton, { color: textColor }]}
-                name="ios-menu"
-                onPress={onPressStreams}
-              />
+              <NavButton name="ios-menu" color={textColor} onPress={onPressStreams} />
               <Title backgroundColor={backgroundColor} />
-              <Icon
-                style={[styles.navButton, { color: textColor }]}
-                name="md-people"
-                onPress={onPressPeople}
-              />
+              <NavButton name="md-people" color={textColor} onPress={onPressPeople} />
             </View>
             {this.props.children}
           </View>

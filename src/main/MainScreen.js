@@ -14,7 +14,9 @@ const SideDrawer = (props) =>
     open={props.open}
     side={props.side}
     tapToClose
-    openDrawerOffset={88}
+    openDrawerOffset={
+      props.orientation === 'LANDSCAPE' ? 0.5 : 0.2
+    }
     negotiatePan
     panOpenMask={0.5}
     useInteractionManager
@@ -42,7 +44,9 @@ export default class MainScreen extends React.Component {
   }
 
   render() {
-    const { doNarrow, narrow, subscriptions } = this.props;
+    const { doNarrow, narrow, orientation, subscriptions } = this.props;
+    const { leftDrawerOpen, rightDrawerOpen } = this.state;
+
     let color = BRAND_COLOR;
     if (narrow.length !== 0 && narrow[0].operator === 'stream') {
       color = (subscriptions.find((sub) => narrow[0].operand === sub.name)).color;
@@ -51,7 +55,8 @@ export default class MainScreen extends React.Component {
     return (
       <SideDrawer
         side="left"
-        open={this.state.leftDrawerOpen}
+        open={leftDrawerOpen}
+        orientation={orientation}
         onOpenStart={() => this.setState({ leftDrawerOpen: true })}
         onClose={() => this.setState({ leftDrawerOpen: false })}
         content={
@@ -66,7 +71,8 @@ export default class MainScreen extends React.Component {
       >
         <SideDrawer
           side="right"
-          open={this.state.rightDrawerOpen}
+          open={rightDrawerOpen}
+          orientation={orientation}
           onOpenStart={() => this.setState({ rightDrawerOpen: true })}
           onClose={() => this.setState({ rightDrawerOpen: false })}
           content={
@@ -81,7 +87,7 @@ export default class MainScreen extends React.Component {
           <StatusBar
             animated
             showHideTransition="slide"
-            hidden={this.state.leftDrawerOpen || this.state.rightDrawerOpen}
+            hidden={orientation === 'LANDSCAPE' || leftDrawerOpen || rightDrawerOpen}
           />
           <MainNavBar
             onPressPeople={() => this.setState({ rightDrawerOpen: true })}

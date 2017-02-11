@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -43,20 +43,21 @@ class AccountPickScreen extends React.Component {
 
     return (
       <Screen title="Pick Account">
-        <StatusBar hidden={false} />
-        <Logo />
-        <View style={styles.padding}>
-          <AccountList
-            accounts={accounts}
-            onAccountSelect={this.handleAccountSelect}
-            onAccountRemove={this.handleAccountRemove}
-          />
-          <ZulipButton
-            text="Add new account"
-            customStyles={styles.button}
-            onPress={this.handleAddNewAccount}
-          />
-        </View>
+        <ScrollView centerContent>
+          <Logo />
+          <View style={styles.padding}>
+            <AccountList
+              accounts={accounts}
+              onAccountSelect={this.handleAccountSelect}
+              onAccountRemove={this.handleAccountRemove}
+            />
+            <ZulipButton
+              text="Add new account"
+              customStyles={styles.button}
+              onPress={this.handleAddNewAccount}
+            />
+          </View>
+        </ScrollView>
       </Screen>
     );
   }

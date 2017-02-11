@@ -13,13 +13,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   details: {
-    padding: 10,
+    padding: 8,
   },
   status: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10,
+    margin: 8,
   },
   statusText: {
     marginLeft: 4,

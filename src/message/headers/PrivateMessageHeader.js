@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   icon: {
-    paddingLeft: 10,
-  }
+    padding: 8,
+  },
 });
 
 export default class PrivateMessageHeader extends React.PureComponent {

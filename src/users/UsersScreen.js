@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -13,7 +12,6 @@ class UsersScreen extends Component {
   render() {
     return (
       <Screen title="Find User">
-        <StatusBar hidden={false} />
         <UserListCard {...this.props} />
       </Screen>
     );

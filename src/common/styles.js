@@ -56,7 +56,7 @@ export default StyleSheet.create({
     backgroundColor: '#ddd',
     color: '#333',
   },
-  fieldMargin: {
+  marginBottom: {
     marginBottom: 10,
   },
   smallField: {
@@ -77,12 +77,6 @@ export default StyleSheet.create({
     height: NAVBAR_HEIGHT,
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  navButton: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 26,
-    width: CONTROL_SIZE,
   },
   navTitle: {
     flex: 1,

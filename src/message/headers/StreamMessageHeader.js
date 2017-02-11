@@ -9,7 +9,6 @@ import StreamIcon from '../../streamlist/StreamIcon';
 
 const styles = StyleSheet.create({
   header: {
-    flex: 1,
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#eee',
@@ -24,10 +23,10 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
   },
   triangle: {
-    borderTopWidth: 18,
+    borderTopWidth: 16,
     borderRightWidth: 0,
-    borderBottomWidth: 18,
-    borderLeftWidth: 18,
+    borderBottomWidth: 16,
+    borderLeftWidth: 16,
     borderTopColor: 'transparent',
     borderRightColor: 'transparent',
     borderBottomColor: 'transparent',

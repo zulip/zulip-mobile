@@ -15,8 +15,6 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
   },
   accountButtons: {
-    paddingLeft: 8,
-    paddingRight: 8,
     flexDirection: 'row',
   },
   button: {

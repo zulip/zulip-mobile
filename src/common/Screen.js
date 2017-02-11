@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   View,
   StatusBar,
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Screen extends React.Component {
+class Screen extends React.Component {
 
   props: {
     keyboardAvoiding: boolean,
@@ -39,7 +40,10 @@ export default class Screen extends React.Component {
 
     return (
       <View style={styles.screen}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar
+          barStyle="light-content"
+          hidden={this.props.orientation === 'LANDSCAPE'}
+        />
         <ModalNavBar title={title} popRoute={popRoute} nav={nav} />
         <WrapperView style={styles.screenWrapper} behavior="padding">
           {children}
@@ -48,3 +52,7 @@ export default class Screen extends React.Component {
     );
   }
 }
+
+export default connect((state) => ({
+  orientation: state.app.orientation,
+}))(Screen);

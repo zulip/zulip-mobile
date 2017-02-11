@@ -8,6 +8,7 @@ import {
   APP_ACTIVITY,
   ACCOUNT_SWITCH,
   INITIAL_DATA_FETCH,
+  APP_ORIENTATION,
 } from '../constants';
 
 import { getAuth } from '../account/accountSelectors';
@@ -59,6 +60,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         needsInitialFetch: false,
+      };
+    case APP_ORIENTATION:
+      return {
+        ...state,
+        orientation: action.orientation,
       };
     default:
       return state;

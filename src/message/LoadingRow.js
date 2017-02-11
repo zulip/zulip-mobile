@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: BRAND_COLOR,
-    paddingLeft: 10,
+    paddingLeft: 8,
   }
 });
 

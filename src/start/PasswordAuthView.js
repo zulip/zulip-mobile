@@ -67,7 +67,7 @@ class PasswordAuthView extends React.Component {
     return (
       <View>
         <Input
-          customStyle={styles.fieldMargin}
+          customStyle={styles.field}
           autoCorrect={false}
           keyboardType="email-address"
           autoCapitalize="none"
@@ -77,7 +77,7 @@ class PasswordAuthView extends React.Component {
           blurOnSubmit={false}
         />
         <Input
-          customStyle={styles.fieldMargin}
+          customStyle={styles.field}
           placeholder="Password"
           secureTextEntry
           value={password}
