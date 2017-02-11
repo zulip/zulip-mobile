@@ -1,8 +1,9 @@
 import React from 'react';
-import { NetInfo } from 'react-native';
+import { NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
+import { styles } from '../common';
 import { checkCompatibility } from '../api';
 import { getInitialRoutes } from './routingSelectors';
 import Navigation from './Navigation';
@@ -12,6 +13,12 @@ class NavigationContainer extends React.PureComponent {
   state = {
     compatibilityCheckFail: false,
   };
+
+  handleLayout = (event) => {
+    const { width, height } = event.nativeEvent.layout;
+    const orientation = (width > height) ? 'LANDSCAPE' : 'PORTRAIT';
+    this.props.appOrientation(orientation);
+  }
 
   handleConnectivityChange = (isConnected) =>
     this.props.appOnline(isConnected);
@@ -41,10 +48,12 @@ class NavigationContainer extends React.PureComponent {
 
   render() {
     return (
-      <Navigation
-        {...this.props}
-        compatibilityCheckFail={this.state.compatibilityCheckFail}
-      />
+      <View style={styles.flex} onLayout={this.handleLayout}>
+        <Navigation
+          {...this.props}
+          compatibilityCheckFail={this.state.compatibilityCheckFail}
+        />
+      </View>
     );
   }
 }
