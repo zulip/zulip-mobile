@@ -1,13 +1,13 @@
 import {
-  REALM_INIT,
+  INIT_STREAMS,
 } from '../constants';
 
 const initialState = [];
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case REALM_INIT:
-      return action.data.streams;
+    case INIT_STREAMS:
+      return action.streams;
     default:
       return state;
   }

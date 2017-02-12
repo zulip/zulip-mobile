@@ -2,7 +2,7 @@ import {
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
-  REALM_INIT,
+  INIT_SUBSCRIPTIONS,
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
 } from '../constants';
@@ -15,8 +15,8 @@ export default (state = initialState, action) => {
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return [];
-    case REALM_INIT:
-      return action.data.subscriptions;
+    case INIT_SUBSCRIPTIONS:
+      return action.subscriptions;
     case EVENT_SUBSCRIPTION_ADD:
       return state.concat(
         action.subscriptions.filter(x =>

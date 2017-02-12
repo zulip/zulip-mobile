@@ -6,5 +6,13 @@ export default (auth: Auth) =>
     'register',
     {
       apply_markdown: true,
-    }
+      event_types: JSON.stringify([
+        'message',
+        'update_message',
+        'subscription',
+        'reaction',
+        'presence',
+        'update_message_flags',
+      ]),
+    },
   );
