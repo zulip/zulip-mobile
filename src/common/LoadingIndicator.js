@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     height: 32,
     marginBottom: -28,
     alignSelf: 'center',
-    borderColor: BRAND_COLOR,
+    borderColor: 'black',
     borderTopWidth: 1,
     borderLeftWidth: 1,
     borderRadius: 100,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 1,
     borderWidth: 1,
-    borderColor: BRAND_COLOR,
+    borderColor: 'black',
   },
 });
 
@@ -59,7 +59,7 @@ export default class LoadingIndicator extends React.Component {
   }
 
   render() {
-    const { active } = this.props;
+    const { active, caughtUp } = this.props;
     const rotation = this.rotation.interpolate({
       inputRange: [0, 1],
       outputRange: ['0deg', '360deg'],
@@ -68,16 +68,16 @@ export default class LoadingIndicator extends React.Component {
 
     return (
       <View style={styles.row}>
-        {!active && <View style={styles.line} />}
+        {caughtUp && <View style={styles.line} />}
         <View style={styles.loading}>
           {active && <Animated.View style={[styles.semiCircle, animation]} />}
           <Image
             style={[styles.logo]}
-            source={require('../../static/img/logo.png')}
+            source={require('../../static/img/message-loading.png')}
             resizeMode="contain"
           />
         </View>
-        {!active && <View style={styles.line} />}
+        {caughtUp && <View style={styles.line} />}
       </View>
     );
   }

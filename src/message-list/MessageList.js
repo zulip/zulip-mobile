@@ -49,11 +49,19 @@ export default class MessageList extends React.PureComponent {
       containerStyle = styles.centerContainer;
     } else {
       messageList = [
-        <LoadingIndicator key={'top_loading'} active={fetching.older} />,
+        <LoadingIndicator
+          key={'top_loading'}
+          active={fetching.older}
+          caughtUp={caughtUp.older}
+        />,
         ...renderMessages(this.props),
       ];
       if (fetching.newer) {
-        messageList.push(<LoadingIndicator key={'bottom_loading'} active />);
+        messageList.push(
+          <LoadingIndicator
+            key={'bottom_loading'}
+            active
+          />);
       }
     }
 
