@@ -6,10 +6,13 @@ const styles = StyleSheet.create({
   field: {
     flexDirection: 'row',
     height: CONTROL_SIZE,
-    marginTop: 10,
+    marginTop: 5,
+    marginBottom: 5,
+    justifyContent: 'center',
   },
   error: {
     color: 'red',
+    fontSize: 16,
   },
 });
 

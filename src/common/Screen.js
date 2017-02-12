@@ -8,7 +8,6 @@ import {
 import { ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
 
-
 const styles = StyleSheet.create({
   screen: {
     flex: 1,

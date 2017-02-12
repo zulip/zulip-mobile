@@ -1,4 +1,5 @@
 import React from 'react';
+import { ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -30,6 +31,8 @@ class RealmScreen extends React.Component {
 
   tryRealm = async () => {
     let { realm } = this.state;
+
+    // Automatically prepend 'https://' if the user doesn't enter a protocol
     if (realm.search(/\b(http|https):\/\//) === -1) {
       realm = `https://${realm}`;
     }
@@ -40,22 +43,16 @@ class RealmScreen extends React.Component {
       error: undefined,
     });
 
-    const { pushRoute, setAuthType, realmAdd } = this.props;
+    const { pushRoute, realmAdd } = this.props;
 
     try {
       const authBackends = await getAuthBackends({ realm });
       realmAdd(realm);
-      if (authBackends.length === 1) {
-        setAuthType(authBackends[0]);
-        pushRoute(authBackends[0]);
-      } else {
-        pushRoute('auth-type', authBackends);
-      }
+      pushRoute('auth', authBackends);
     } catch (err) {
-      this.setState({
-        progress: false,
-        error: err.message,
-      });
+      this.setState({ error: err.message });
+    } finally {
+      this.setState({ progress: false });
     }
   };
 
@@ -63,22 +60,36 @@ class RealmScreen extends React.Component {
     const { progress, realm, error } = this.state;
 
     return (
-      <Screen title="Add Server" keyboardAvoiding>
-        <Input
-          customStyle={styles.fieldMargin}
-          autoFocus
-          autoCorrect={false}
-          autoCapitalize="none"
-          placeholder="Server address"
-          defaultValue={realm}
-          onChangeText={value => this.setState({ realm: value })}
-        />
-        <ZulipButton
-          text="Sign in"
-          progress={progress}
-          onPress={this.tryRealm}
-        />
-        <ErrorMsg error={error} />
+      <Screen title="Welcome" keyboardAvoiding>
+        <ScrollView
+          centerContent
+          keyboardShouldPersistTaps="always"
+        >
+          <View style={styles.container}>
+            <Text style={[styles.field, styles.heading1]}>
+              Welcome to Zulip!
+            </Text>
+            <Text style={[styles.field, styles.label]}>
+              Please enter your server URL
+            </Text>
+            <Input
+              customStyle={styles.field}
+              autoFocus
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholder="Server URL"
+              defaultValue={realm}
+              onChangeText={value => this.setState({ realm: value })}
+              blurOnSubmit={false}
+            />
+            <ZulipButton
+              text="Enter"
+              progress={progress}
+              onPress={this.tryRealm}
+            />
+            {error && <ErrorMsg error={error} />}
+          </View>
+        </ScrollView>
       </Screen>
     );
   }

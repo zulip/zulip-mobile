@@ -1,12 +1,15 @@
 import React from 'react';
 import {
   ScrollView,
+  Text,
+  View,
 } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Auth } from '../types';
 import boundActions from '../boundActions';
-import { Screen, ErrorMsg, ZulipButton } from '../common';
+import styles from '../common/styles';
+import { ErrorMsg, Screen, ZulipButton } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
 import { getAuth } from '../account/accountSelectors';
 
@@ -38,7 +41,9 @@ class DevAuthScreen extends React.Component {
 
       this.setState({ directAdmins, directUsers, progress: false });
     } catch (err) {
-      this.setState({ progress: false, error: err.message });
+      this.setState({ error: err.message });
+    } finally {
+      this.setState({ progress: false });
     }
   }
 
@@ -60,25 +65,33 @@ class DevAuthScreen extends React.Component {
     const { directAdmins, directUsers, error } = this.state;
 
     return (
-      <Screen title="Dev Account Login">
+      <Screen title="Pick a dev account">
         <ScrollView>
-          {directAdmins.map((email) =>
-            <ZulipButton
-              key={email}
-              text={email}
-              onPress={() => this.tryDevLogin(email)}
-            />
-          )}
-          {directUsers.map((email) =>
-            <ZulipButton
-              key={email}
-              text={email}
-              secondary
-              onPress={() => this.tryDevLogin(email)}
-            />
-          )}
+          <View style={styles.container}>
+            {error && <ErrorMsg error={error} />}
+            <Text style={[styles.field, styles.heading2]}>
+              Administrators
+            </Text>
+            {directAdmins.map((email) =>
+              <ZulipButton
+                key={email}
+                text={email}
+                onPress={() => this.tryDevLogin(email)}
+              />
+            )}
+            <Text style={[styles.field, styles.heading2]}>
+              Normal users
+            </Text>
+            {directUsers.map((email) =>
+              <ZulipButton
+                key={email}
+                text={email}
+                secondary
+                onPress={() => this.tryDevLogin(email)}
+              />
+            )}
+          </View>
         </ScrollView>
-        <ErrorMsg error={error} />
       </Screen>
     );
   }

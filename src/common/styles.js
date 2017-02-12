@@ -45,13 +45,22 @@ export default StyleSheet.create({
   heading1: {
     fontSize: 24,
   },
+  heading2: {
+    fontSize: 20,
+  },
   label: {
     fontSize: 15,
   },
   field: {
     flexDirection: 'row',
     height: CONTROL_SIZE,
-    marginTop: 10,
+    marginTop: 5,
+    marginBottom: 5,
+    lineHeight: CONTROL_SIZE,
+  },
+  disabled: {
+    backgroundColor: '#ddd',
+    color: '#333',
   },
   fieldMargin: {
     marginBottom: 10,
