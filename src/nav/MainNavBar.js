@@ -22,7 +22,7 @@ const moreStyles = StyleSheet.create({
 
 export default class MainNavBar extends React.Component {
   render() {
-    const { openStreamList, onPressPeople, backgroundColor } = this.props;
+    const { onPressStreams, onPressPeople, backgroundColor } = this.props;
     const textColor = foregroundColorFromBackground(backgroundColor);
     return (
       <Navigator
@@ -36,7 +36,7 @@ export default class MainNavBar extends React.Component {
               <Icon
                 style={[styles.navButton, { color: textColor }]}
                 name="ios-menu"
-                onPress={openStreamList}
+                onPress={onPressStreams}
               />
               <Title backgroundColor={backgroundColor} />
               <Icon

@@ -49,7 +49,6 @@ const mapStateToProps = (state) => ({
   caughtUp: state.chat.caughtUp,
   narrow: state.chat.narrow,
   pointer: getPointer(state),
-  streamlistOpened: state.nav.opened,
 });
 
 export default connect(mapStateToProps, boundActions)(MainScreenContainer);

@@ -38,7 +38,6 @@ export default class ConversationsCard extends Component {
 
   state = {
     filter: '',
-    onNarrow: () => {},
   };
 
   handleFilterChange = (newFilter: string) => {
@@ -55,9 +54,7 @@ export default class ConversationsCard extends Component {
     );
 
   handleSearchPress = () => {
-    const { pushRoute, onNarrow } = this.props;
-    onNarrow();
-    pushRoute('users');
+    this.props.pushRoute('users');
   }
 
   render() {

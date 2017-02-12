@@ -9,33 +9,38 @@ import ConversationsContainer from '../conversations/ConversationsContainer';
 import requestInitialServerData from './requestInitialServerData';
 import { BRAND_COLOR } from '../common/styles';
 
-const SideDrawer = (props) => {
-  return (
-    <Drawer
-      content={props.content}
-      ref={props.drawerRef}
-      side={props.side}
-      tapToClose
-      openDrawerOffset={88}
-      negotiatePan
-      panOpenMask={0.5}
-      useInteractionManager
-      tweenDuration={150}
-      tweenHandler={(ratio) => ({
-        mainOverlay: {
-          opacity: ratio / 2,
-          backgroundColor: 'black',
-        }
-      })}
-      onOpenStart={() => StatusBar.setHidden(true, 'slide')}
-      onClose={() => StatusBar.setHidden(false, 'slide')}
-    >
-      {props.children}
-    </Drawer>
-  );
-};
+const SideDrawer = (props) =>
+  <Drawer
+    content={props.content}
+    open={props.open}
+    side={props.side}
+    tapToClose
+    openDrawerOffset={88}
+    negotiatePan
+    panOpenMask={0.5}
+    useInteractionManager
+    tweenDuration={150}
+    tweenHandler={(ratio) => ({
+      mainOverlay: {
+        opacity: ratio / 2,
+        backgroundColor: 'black',
+      }
+    })}
+    onOpenStart={props.onOpenStart}
+    onClose={props.onClose}
+  >
+    {props.children}
+  </Drawer>;
 
 export default class MainScreen extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      leftDrawerOpen: false,
+      rightDrawerOpen: false,
+    };
+  }
 
   componentDidMount() {
     requestInitialServerData(this.props);
@@ -51,12 +56,14 @@ export default class MainScreen extends React.Component {
     return (
       <SideDrawer
         side="left"
-        drawerRef={(streamDrawer) => { this.streamDrawer = streamDrawer; }}
+        open={this.state.leftDrawerOpen}
+        onOpenStart={() => this.setState({ leftDrawerOpen: true })}
+        onClose={() => this.setState({ leftDrawerOpen: false })}
         content={
           <StreamSidebar
             onNarrow={newNarrow => {
               doNarrow(newNarrow);
-              this.streamDrawer.close();
+              this.setState({ leftDrawerOpen: false });
             }}
             pushRoute={this.props.pushRoute}
           />
@@ -64,19 +71,26 @@ export default class MainScreen extends React.Component {
       >
         <SideDrawer
           side="right"
-          drawerRef={(peopleDrawer) => { this.peopleDrawer = peopleDrawer; }}
+          open={this.state.rightDrawerOpen}
+          onOpenStart={() => this.setState({ rightDrawerOpen: true })}
+          onClose={() => this.setState({ rightDrawerOpen: false })}
           content={
             <ConversationsContainer
               onNarrow={newNarrow => {
                 if (newNarrow) doNarrow(newNarrow);
-                this.peopleDrawer.close();
+                this.setState({ rightDrawerOpen: false });
               }}
             />
           }
         >
+          <StatusBar
+            animated
+            showHideTransition="slide"
+            hidden={this.state.leftDrawerOpen || this.state.rightDrawerOpen}
+          />
           <MainNavBar
-            onPressPeople={() => this.peopleDrawer.open()}
-            openStreamList={() => this.streamDrawer.open()}
+            onPressPeople={() => this.setState({ leftDrawerOpen: true })}
+            onPressStreams={() => this.setState({ rightDrawerOpen: true })}
             backgroundColor={color}
           >
             <Chat {...this.props} />

@@ -1,4 +1,5 @@
 import React from 'react';
+import { StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Auth } from '../types';
@@ -36,6 +37,7 @@ class SubscriptionsScreen extends React.Component {
 
     return (
       <Screen title="Subscriptions">
+        <StatusBar hidden={false} />
         <StreamList
           streams={subsAndStreams}
           showSwitch
