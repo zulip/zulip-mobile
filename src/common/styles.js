@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { STATUSBAR_HEIGHT, CONTROL_SIZE, NAVBAR_HEIGHT } from './platform';
 
-export const BRAND_COLOR = '#24cac2';
+export const BRAND_COLOR = 'rgba(86, 193, 129, 1)';
 export const HIGHLIGHT_COLOR = 'rgba(86, 164, 174, 0.5)';
 export const BORDER_COLOR = '#eee';
 
