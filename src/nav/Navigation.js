@@ -6,8 +6,7 @@ import CompatibilityScreen from '../start/CompatibilityScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
-import AuthTypeScreen from '../start/AuthTypeScreen';
-import PasswordAuthScreen from '../start/PasswordAuthScreen';
+import AuthScreen from '../start/AuthScreen';
 import DevAuthScreen from '../start/DevAuthScreen';
 import MainScreenContainer from '../main/MainScreenContainer';
 import AccountDetailsScreen from '../account-info/AccountDetailsScreen';
@@ -57,10 +56,8 @@ export default class Navigation extends React.Component {
         return <AccountPickScreen />;
       case 'realm':
         return <RealmScreen />;
-      case 'auth-type':
-        return <AuthTypeScreen />;
-      case 'password':
-        return <PasswordAuthScreen />;
+      case 'auth':
+        return <AuthScreen />;
       case 'dev':
         return <DevAuthScreen />;
       case 'main':

@@ -150,7 +150,7 @@ describe('navReducers', () => {
   });
 
   describe('LOGIN_SUCCESS', () => {
-    test('replaces the existing route stack with a new one pointing to "main"', () => {
+    test('replaces the existing route stack with "main" and "loading"', () => {
       const prevState = {
         index: 2,
         routes: [
@@ -163,8 +163,11 @@ describe('navReducers', () => {
         type: LOGIN_SUCCESS,
       };
       const expectedState = {
-        index: 0,
-        routes: [{ key: 'main' }],
+        index: 1,
+        routes: [
+          { key: 'main' },
+          { key: 'loading' },
+        ],
       };
 
       const newState = navReducers(prevState, action);

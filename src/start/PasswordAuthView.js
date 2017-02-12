@@ -1,16 +1,17 @@
 import React from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import styles from '../common/styles';
 import { fetchApiKey } from '../api';
 import config from '../config';
-import { Screen, ErrorMsg, ZulipButton, Input } from '../common';
+import { ErrorMsg, ZulipButton, Input } from '../common';
 import { getAuth } from '../account/accountSelectors';
 
 type Props = {};
 
-class PasswordAuthScreen extends React.Component {
+class PasswordAuthView extends React.Component {
 
   props: Props;
 
@@ -38,10 +39,13 @@ class PasswordAuthScreen extends React.Component {
 
     try {
       const apiKey = await fetchApiKey(auth, email, password);
-      loginSuccess(auth.realm, email, apiKey);
       this.setState({ progress: false });
+      loginSuccess(auth.realm, email, apiKey);
     } catch (err) {
-      this.setState({ progress: false, error: 'Can not login with these credentials' });
+      this.setState({
+        progress: false,
+        error: 'The email or password you entered is incorrect',
+      });
     }
   };
 
@@ -49,9 +53,9 @@ class PasswordAuthScreen extends React.Component {
     const { email, password } = this.state;
 
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      this.setState({ error: 'Enter a valid email' });
+      this.setState({ error: 'Please enter a valid email address' });
     } else if (!password) {
-      this.setState({ error: 'Enter your password' });
+      this.setState({ error: 'Please enter your password' });
     } else {
       this.tryPasswordLogin();
     }
@@ -61,16 +65,16 @@ class PasswordAuthScreen extends React.Component {
     const { email, password, progress, error } = this.state;
 
     return (
-      <Screen title="Email Login" keyboardAvoiding>
+      <View>
         <Input
           customStyle={styles.fieldMargin}
           autoCorrect={false}
-          autoFocus
           keyboardType="email-address"
           autoCapitalize="none"
           placeholder="Email"
           defaultValue={email}
           onChangeText={newEmail => this.setState({ email: newEmail })}
+          blurOnSubmit={false}
         />
         <Input
           customStyle={styles.fieldMargin}
@@ -78,14 +82,15 @@ class PasswordAuthScreen extends React.Component {
           secureTextEntry
           value={password}
           onChangeText={newPassword => this.setState({ password: newPassword })}
+          blurOnSubmit={false}
         />
         <ZulipButton
-          text="Sign in"
+          text="Sign in with password"
           progress={progress}
           onPress={this.validateForm}
         />
         <ErrorMsg error={error} />
-      </Screen>
+      </View>
     );
   }
 }
@@ -97,4 +102,4 @@ export default connect(
     password: getAuth(state).password,
   }),
   boundActions,
-)(PasswordAuthScreen);
+)(PasswordAuthView);

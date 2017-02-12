@@ -14,16 +14,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
-    marginBottom: 10,
+    marginTop: 5,
+    marginBottom: 5,
   },
   primaryFrame: {
     backgroundColor: BRAND_COLOR,
-    borderColor: 'white',
-    borderWidth: 2,
   },
   secondaryFrame: {
+    borderWidth: 1,
     borderColor: BRAND_COLOR,
-    borderWidth: 2,
   },
   touchTarget: {
     flex: 1,
@@ -33,8 +32,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#FFFFFF',
+    fontSize: 16,
   },
-  primarytext: {
+  primaryText: {
     color: 'white',
   },
   secondaryText: {
