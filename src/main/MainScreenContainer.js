@@ -1,9 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
 import { connect } from 'react-redux';
 
-import { ZulipStatusBar } from '../common';
-import styles from '../common/styles';
 import boundActions from '../boundActions';
 import { getMessagesInActiveNarrow, getPointer } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
@@ -32,15 +29,12 @@ class MainScreenContainer extends React.Component {
 
   render() {
     return (
-      <View style={styles.flex}>
-        <ZulipStatusBar />
-        <MainScreen
-          fetchOlder={this.fetchOlder}
-          fetchNewer={this.fetchNewer}
-          doNarrow={this.doNarrow}
-          {...this.props}
-        />
-      </View>
+      <MainScreen
+        fetchOlder={this.fetchOlder}
+        fetchNewer={this.fetchNewer}
+        doNarrow={this.doNarrow}
+        {...this.props}
+      />
     );
   }
 }

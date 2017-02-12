@@ -1,13 +1,12 @@
 import React from 'react';
 import {
   View,
+  StatusBar,
   StyleSheet,
   KeyboardAvoidingView,
 } from 'react-native';
 
-import { ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
-
 
 const styles = StyleSheet.create({
   screen: {
@@ -40,7 +39,7 @@ export default class Screen extends React.Component {
 
     return (
       <View style={styles.screen}>
-        <ZulipStatusBar />
+        <StatusBar barStyle="light-content" />
         <ModalNavBar title={title} popRoute={popRoute} nav={nav} />
         <WrapperView style={styles.screenWrapper} behavior="padding">
           {children}
