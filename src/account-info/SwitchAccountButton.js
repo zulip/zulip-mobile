@@ -8,7 +8,7 @@ import { ZulipButton } from '../common';
 const styles = StyleSheet.create({
   button: {
     flex: 1,
-    marginTop: 10,
+    margin: 8,
   },
 });
 

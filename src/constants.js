@@ -1,5 +1,6 @@
 export const APP_ACTIVITY = 'APP_ACTIVITY';
 export const APP_ONLINE = 'APP_ONLINE';
+export const APP_ORIENTATION = 'APP_ORIENTATION';
 
 export const REALM_ADD = 'REALM_ADD';
 export const SET_AUTH_TYPE = 'SET_AUTH_TYPE';

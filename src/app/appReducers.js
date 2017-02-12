@@ -6,6 +6,7 @@ import {
   LOGOUT,
   APP_ONLINE,
   APP_ACTIVITY,
+  APP_ORIENTATION,
 } from '../constants';
 
 const initialState = {
@@ -47,6 +48,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isOnline: action.isOnline,
+      };
+    case APP_ORIENTATION:
+      return {
+        ...state,
+        orientation: action.orientation,
       };
     default:
       return state;

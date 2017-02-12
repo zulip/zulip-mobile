@@ -9,7 +9,7 @@ import { BRAND_COLOR } from '../common/styles';
 
 const styles = StyleSheet.create({
   icon: {
-    padding: 10,
+    padding: 8,
     color: '#999',
   },
   iconActive: {

@@ -14,8 +14,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   accountButtons: {
-    paddingLeft: 8,
-    paddingRight: 8,
     flexDirection: 'row',
   },
   button: {

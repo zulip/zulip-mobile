@@ -1,5 +1,4 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
 import Drawer from 'react-native-drawer';
 
 import Chat from '../chat/Chat';
@@ -73,12 +72,6 @@ export default class MainScreen extends React.Component {
           })}
           side="right"
         >
-          <StatusBar
-            animated
-            barStyle="light-content"
-            showHideTransition="slide"
-            hidden={streamlistOpened}
-          />
           <MainNavBar
             onPressPeople={() => this.peopleDrawer.open()}
             openStreamList={() => this.streamDrawer.open()}

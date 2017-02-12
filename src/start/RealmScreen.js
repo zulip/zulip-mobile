@@ -63,9 +63,9 @@ class RealmScreen extends React.Component {
     const { progress, realm, error } = this.state;
 
     return (
-      <Screen title="Add Server" keyboardAvoiding>
+      <Screen title="Add Server" keyboardAvoiding padded>
         <Input
-          customStyle={styles.fieldMargin}
+          customStyle={styles.marginBottom}
           autoFocus
           autoCorrect={false}
           autoCapitalize="none"

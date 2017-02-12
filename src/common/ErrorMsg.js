@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   field: {
     flexDirection: 'row',
     height: CONTROL_SIZE,
-    marginTop: 10,
+    marginTop: 8,
   },
   error: {
     color: 'red',
