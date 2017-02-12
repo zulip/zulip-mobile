@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  StatusBar,
   StyleSheet,
   Navigator,
   View,
@@ -28,10 +29,21 @@ export default class MainNavBar extends React.Component {
         initialRoute={{ name: 'Home', index: 0 }}
         renderScene={(route) =>
           <View style={moreStyles.wrapper}>
+            <StatusBar
+              barStyle={textColor === 'white' ? 'light-content' : 'dark-content'}
+            />
             <View style={[styles.navBar, { backgroundColor }]}>
-              <Icon style={[styles.navButton, { color: textColor }]} name="ios-menu" onPress={openStreamList} />
+              <Icon
+                style={[styles.navButton, { color: textColor }]}
+                name="ios-menu"
+                onPress={openStreamList}
+              />
               <Title backgroundColor={backgroundColor} />
-              <Icon style={[styles.navButton, { color: textColor }]} name="md-people" onPress={onPressPeople} />
+              <Icon
+                style={[styles.navButton, { color: textColor }]}
+                name="md-people"
+                onPress={onPressPeople}
+              />
             </View>
             {this.props.children}
           </View>

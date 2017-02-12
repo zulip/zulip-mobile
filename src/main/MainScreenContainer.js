@@ -24,7 +24,7 @@ class MainScreenContainer extends React.Component {
 
   doNarrow = (newNarrow = [], pointer: number = Number.MAX_SAFE_INTEGER) => {
     const { switchNarrow } = this.props;
-    switchNarrow(newNarrow);
+    requestAnimationFrame(() => switchNarrow(newNarrow));
   }
 
   render() {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { STATUSBAR_HEIGHT } from '../common/platform';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import { ZulipButton } from '../common';
 import ConversationList from './ConversationList';
@@ -14,7 +13,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'white',
     borderColor: 'gray',
-    marginTop: STATUSBAR_HEIGHT,
   },
   accountButtons: {
     paddingLeft: 8,
