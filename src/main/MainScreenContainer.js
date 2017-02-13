@@ -54,6 +54,7 @@ const mapStateToProps = (state) => ({
   fetching: state.chat.fetching,
   caughtUp: state.chat.caughtUp,
   narrow: state.chat.narrow,
+  mute: state.mute,
   pointer: getPointer(state),
   streamlistOpened: state.nav.opened,
 });

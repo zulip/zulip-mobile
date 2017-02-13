@@ -30,3 +30,18 @@ export const isSameRecipient = (msg1, msg2): boolean => {
       return false;
   }
 };
+
+export const shouldBeMuted = (msg, narrow, subscriptions, mutes = []): boolean => {
+  if (typeof msg.display_recipient !== 'string') {
+    return false; // private/group messages are not muted
+  }
+
+  if (narrow.length === 0) {
+    const sub = subscriptions.find(x => x.name === msg.display_recipient);
+    if (sub && !sub.in_home_view) {
+      return true;
+    }
+  }
+
+  return mutes.some(x => x[0] === msg.display_recipient && x[1] === msg.subject);
+};

@@ -31,6 +31,7 @@ export default class StreamList extends React.Component {
             name={x.name}
             iconSize={16}
             isPrivate={x.invite_only}
+            isMuted={!x.in_home_view}
             description={showDescriptions && x.description}
             color={x.color}
             isSelected={x.name === selected}

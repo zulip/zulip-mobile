@@ -13,7 +13,7 @@ export default class EmojiAutocomplete extends Component {
 
   render() {
     const { filter, onAutocomplete } = this.props;
-    const emojis = getFilteredEmojiList(filter).slice(1, 5);
+    const emojis = getFilteredEmojiList(filter).slice(0, 5);
 
     if (emojis.length === 0) return null;
 

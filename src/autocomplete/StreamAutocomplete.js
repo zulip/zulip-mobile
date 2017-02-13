@@ -15,7 +15,7 @@ class StreamAutocomplete extends Component {
     const { filter, subscriptions, onAutocomplete } = this.props;
     const streams = subscriptions
       .filter(x => x.name.toLowerCase().startsWith(filter.toLowerCase()))
-      .slice(1, 5);
+      .slice(0, 5);
 
     return (
       <Popup>
@@ -23,6 +23,7 @@ class StreamAutocomplete extends Component {
           <StreamItem
             key={x.stream_id}
             name={x.name}
+            isMuted={!x.in_home_view}
             isPrivate={x.invite_only}
             iconSize={12}
             color={x.color}
