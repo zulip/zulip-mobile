@@ -22,8 +22,8 @@ export default class ReactionList extends React.PureComponent {
     const { messageId, reactions, selfEmail } = this.props;
 
     if (!reactions || reactions.length === 0) {
-      		return null;
-    	}
+      return null;
+    }
 
     const aggregated = aggregateReactions(reactions, selfEmail);
 
