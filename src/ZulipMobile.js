@@ -3,7 +3,10 @@ import { Provider } from 'react-redux';
 
 import store, { restore } from './store';
 import LoadingScreen from './start/LoadingScreen';
-import App from './App';
+import NavigationContainer from './nav/NavigationContainer';
+
+import { getAuth } from './account/accountSelectors';
+import requestInitialServerData from './main/requestInitialServerData';
 
 export default class ZulipMobile extends Component {
 
@@ -13,6 +16,13 @@ export default class ZulipMobile extends Component {
 
   componentWillMount() {
     restore(() => {
+      store.subscribe(() => {
+        // Fetch initial server data (and register for the event queue)
+        const state = store.getState();
+        if (state.app.needsInitialFetch) {
+          store.dispatch(requestInitialServerData(getAuth(state)));
+        }
+      });
       this.setState({ rehydrated: true });
     });
   }
@@ -24,7 +34,7 @@ export default class ZulipMobile extends Component {
 
     return (
       <Provider store={store}>
-        <App />
+        <NavigationContainer />
       </Provider>
     );
   }

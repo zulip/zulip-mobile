@@ -11,7 +11,6 @@ export default (auth: Auth) =>
         'update_message',
         'subscription',
         'reaction',
-        'presence',
         'update_message_flags',
       ]),
     },

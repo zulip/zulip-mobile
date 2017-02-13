@@ -51,7 +51,6 @@ class NavigationContainer extends React.PureComponent {
 
 export default connect(
   (state) => ({
-    isLoggedIn: state.app.isLoggedIn,
     accounts: state.account,
     navigation: state.nav,
   }),

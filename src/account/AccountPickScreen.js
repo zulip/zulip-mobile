@@ -6,7 +6,6 @@ import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import { ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
-import requestInitialServerData from '../main/requestInitialServerData';
 
 const styles = StyleSheet.create({
   button: {
@@ -31,8 +30,6 @@ class AccountPickScreen extends React.Component {
     const { apiKey } = accounts[index];
     if (apiKey) {
       switchAccount(index); // Reset stream, message, user list
-
-      requestAnimationFrame(() => requestInitialServerData(this.props));
     } else {
       pushRoute('realm');
     }
