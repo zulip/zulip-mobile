@@ -1,3 +1,4 @@
+import { StatusBar } from 'react-native';
 import { Auth } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
@@ -19,6 +20,7 @@ export const apiFetch = async (
     },
     ...params,
   };
+  StatusBar.setNetworkActivityIndicatorVisible(true);
   return fetch(url, allParams);
 };
 
@@ -63,6 +65,7 @@ export const apiCall = async (
     return resFunc(json);
   } finally {
     clearTimeout(timeout);
+    StatusBar.setNetworkActivityIndicatorVisible(false);
   }
 };
 
