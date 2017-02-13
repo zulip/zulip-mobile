@@ -22,7 +22,6 @@ export const apiFetch = async (
   return fetch(url, allParams);
 };
 
-
 export const apiCall = async (
   auth: Auth,
   route: string,

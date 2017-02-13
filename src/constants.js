@@ -18,6 +18,7 @@ export const POP_ROUTE = 'POP_ROUTE';
 export const REALM_INIT = 'REALM_INIT';
 export const SWITCH_NARROW = 'SWITCH_NARROW';
 
+export const INITIAL_DATA_FETCH = 'INITIAL_DATA_FETCH';
 export const INIT_STREAMS = 'INIT_STREAMS';
 export const INIT_SUBSCRIPTIONS = 'INIT_SUBSCRIPTIONS';
 

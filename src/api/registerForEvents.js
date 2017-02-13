@@ -12,6 +12,7 @@ export default (auth: Auth) =>
         'subscription',
         'reaction',
         'presence',
+        'muted_topics',
         'update_message_flags',
       ]),
     },

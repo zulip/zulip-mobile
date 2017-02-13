@@ -6,7 +6,6 @@ import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
 import ConversationsContainer from '../conversations/ConversationsContainer';
-import requestInitialServerData from './requestInitialServerData';
 import { BRAND_COLOR } from '../common/styles';
 
 const SideDrawer = (props) =>
@@ -40,10 +39,6 @@ export default class MainScreen extends React.Component {
       leftDrawerOpen: false,
       rightDrawerOpen: false,
     };
-  }
-
-  componentDidMount() {
-    requestInitialServerData(this.props);
   }
 
   render() {

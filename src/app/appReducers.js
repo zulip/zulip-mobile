@@ -6,37 +6,44 @@ import {
   LOGOUT,
   APP_ONLINE,
   APP_ACTIVITY,
+  ACCOUNT_SWITCH,
+  INITIAL_DATA_FETCH,
 } from '../constants';
+
+import { getAuth } from '../account/accountSelectors';
 
 const initialState = {
   lastActivityTime: new Date(),
   isHydrated: false,
-  isLoggedIn: false,
   isOnline: true,
+  needsInitialFetch: false,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case ACCOUNT_SWITCH:
+      return {
+        ...state,
+        needsInitialFetch: true,
+      };
     case LOGIN_SUCCESS:
       return {
         ...state,
-        isLoggedIn: true,
+        needsInitialFetch: !!action.apiKey,
       };
     case LOGIN_FAILURE:
       return {
         ...state,
-        isLoggedIn: true,
       };
     case REHYDRATE:
       return {
         ...state,
+        needsInitialFetch: !!getAuth(action.payload).apiKey,
         isHydrated: true,
-        isLoggedIn: !!(action.payload.auth && action.payload.auth.apiKey),
       };
     case LOGOUT:
       return {
         ...state,
-        isLoggedIn: false,
       };
     case APP_ACTIVITY:
       return {
@@ -47,6 +54,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isOnline: action.isOnline,
+      };
+    case INITIAL_DATA_FETCH:
+      return {
+        ...state,
+        needsInitialFetch: false,
       };
     default:
       return state;

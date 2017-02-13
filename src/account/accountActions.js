@@ -5,7 +5,6 @@ import {
   ACCOUNT_REMOVE,
   LOGIN_SUCCESS,
   LOGOUT,
-  POP_ROUTE,
 } from '../constants';
 
 export const switchAccount = (index: number) => ({
@@ -29,17 +28,12 @@ export const removeAccount = (index: number) => ({
   index,
 });
 
-export const loginSuccess = (realm, email, apiKey) =>
-  async (dispatch) => {
-    dispatch({
-      type: LOGIN_SUCCESS,
-      realm,
-      email,
-      apiKey,
-    });
-
-    requestAnimationFrame(() => dispatch({ type: POP_ROUTE }));
-  };
+export const loginSuccess = (realm, email, apiKey) => ({
+  type: LOGIN_SUCCESS,
+  realm,
+  email,
+  apiKey,
+});
 
 export const logout = () => ({
   type: LOGOUT,
