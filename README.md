@@ -4,7 +4,8 @@
 [![Build Status](https://travis-ci.org/zulip/zulip-mobile.svg?branch=master)](https://travis-ci.org/zulip/zulip-mobile)
 
 
-Zulip Mobile is a new, cross-platform mobile Zulip client written in Javascript with React Native.
+Zulip Mobile is a new, cross-platform mobile Zulip client written in
+JavaScript with React Native.
 
 We target iOS initially, with Android version following shortly.
 
@@ -18,15 +19,24 @@ We target iOS initially, with Android version following shortly.
 
 Run iOS:
 
-`npm run ios-min` - runs in an iOS simulator in the minimal supported device (currently iPhone 5)
-`npm run ios-max` - runs in an iOS simulator in the newest/most premium supported device (currently iPhone 7 Plus)
-`npm run ios-device` - runs on a physical iOS device, you need to edit the device name in package.json
+* `npm run ios-min` - runs in an iOS simulator in the minimal supported device
+(currently iPhone 5)
 
-`react-native run-android` - runs in an Android emulator, emulator has to be run manually before this command
+* `npm run ios-max` - runs in an iOS simulator in the newest/most premium
+supported device (currently iPhone 7 Plus)
+
+* `npm run ios-device` - runs on a physical iOS device, you need to edit the
+device name in package.json
+
+Run Android:
+
+* `react-native run-android` - runs in an Android emulator, emulator has to be
+run manually before this command
 
 ## Contributing
 
-Please see the [developer guide](https://github.com/zulip/zulip-mobile/tree/master/docs/developer-guide.md).
+Please see the
+[developer guide](https://github.com/zulip/zulip-mobile/tree/master/docs/developer-guide.md).
 
 * **Pull requests**. Before a pull request can be merged, you need to
 sign the [Dropbox Contributor License Agreement][cla].  Also,
