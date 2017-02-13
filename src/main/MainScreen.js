@@ -89,8 +89,8 @@ export default class MainScreen extends React.Component {
             hidden={this.state.leftDrawerOpen || this.state.rightDrawerOpen}
           />
           <MainNavBar
-            onPressPeople={() => this.setState({ leftDrawerOpen: true })}
-            onPressStreams={() => this.setState({ rightDrawerOpen: true })}
+            onPressPeople={() => this.setState({ rightDrawerOpen: true })}
+            onPressStreams={() => this.setState({ leftDrawerOpen: true })}
             backgroundColor={color}
           >
             <Chat {...this.props} />
