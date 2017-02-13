@@ -1,9 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
 import { connect } from 'react-redux';
 
-import { ZulipStatusBar } from '../common';
-import styles from '../common/styles';
 import boundActions from '../boundActions';
 import { getMessagesInActiveNarrow, getPointer } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
@@ -27,20 +24,17 @@ class MainScreenContainer extends React.Component {
 
   doNarrow = (newNarrow = [], pointer: number = Number.MAX_SAFE_INTEGER) => {
     const { switchNarrow } = this.props;
-    switchNarrow(newNarrow);
+    requestAnimationFrame(() => switchNarrow(newNarrow));
   }
 
   render() {
     return (
-      <View style={styles.flex}>
-        <ZulipStatusBar />
-        <MainScreen
-          fetchOlder={this.fetchOlder}
-          fetchNewer={this.fetchNewer}
-          doNarrow={this.doNarrow}
-          {...this.props}
-        />
-      </View>
+      <MainScreen
+        fetchOlder={this.fetchOlder}
+        fetchNewer={this.fetchNewer}
+        doNarrow={this.doNarrow}
+        {...this.props}
+      />
     );
   }
 }
@@ -56,7 +50,6 @@ const mapStateToProps = (state) => ({
   narrow: state.chat.narrow,
   mute: state.mute,
   pointer: getPointer(state),
-  streamlistOpened: state.nav.opened,
 });
 
 export default connect(mapStateToProps, boundActions)(MainScreenContainer);

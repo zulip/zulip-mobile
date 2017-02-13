@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    borderColor: 'gray',
   },
   accountButtons: {
     paddingLeft: 8,
@@ -37,7 +38,6 @@ export default class ConversationsCard extends Component {
 
   state = {
     filter: '',
-    onNarrow: () => {},
   };
 
   handleFilterChange = (newFilter: string) => {
@@ -54,9 +54,7 @@ export default class ConversationsCard extends Component {
     );
 
   handleSearchPress = () => {
-    const { pushRoute, onNarrow } = this.props;
-    onNarrow();
-    pushRoute('users');
+    this.props.pushRoute('users');
   }
 
   render() {

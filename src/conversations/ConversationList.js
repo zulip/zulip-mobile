@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { ListView, StyleSheet, Text } from 'react-native';
 
 import ConversationUser from './ConversationUser';
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class ConversationList extends Component {
+export default class ConversationList extends React.PureComponent {
 
   props: {
     conversations: string[],

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 8,
-  }
+  },
 });
 
 export default class StreamSidebar extends React.Component {

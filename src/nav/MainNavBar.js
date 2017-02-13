@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  StatusBar,
   StyleSheet,
   Navigator,
   View,
@@ -21,17 +22,28 @@ const moreStyles = StyleSheet.create({
 
 export default class MainNavBar extends React.Component {
   render() {
-    const { openStreamList, onPressPeople, backgroundColor } = this.props;
+    const { onPressStreams, onPressPeople, backgroundColor } = this.props;
     const textColor = foregroundColorFromBackground(backgroundColor);
     return (
       <Navigator
         initialRoute={{ name: 'Home', index: 0 }}
         renderScene={(route) =>
           <View style={moreStyles.wrapper}>
+            <StatusBar
+              barStyle={textColor === 'white' ? 'light-content' : 'dark-content'}
+            />
             <View style={[styles.navBar, { backgroundColor }]}>
-              <Icon style={[styles.navButton, { color: textColor }]} name="ios-menu" onPress={openStreamList} />
+              <Icon
+                style={[styles.navButton, { color: textColor }]}
+                name="ios-menu"
+                onPress={onPressStreams}
+              />
               <Title backgroundColor={backgroundColor} />
-              <Icon style={[styles.navButton, { color: textColor }]} name="md-people" onPress={onPressPeople} />
+              <Icon
+                style={[styles.navButton, { color: textColor }]}
+                name="md-people"
+                onPress={onPressPeople}
+              />
             </View>
             {this.props.children}
           </View>
