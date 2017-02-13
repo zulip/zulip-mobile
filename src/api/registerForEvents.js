@@ -11,6 +11,7 @@ export default (auth: Auth) =>
         'update_message',
         'subscription',
         'reaction',
+        'presence',
         'muted_topics',
         'update_message_flags',
       ]),
