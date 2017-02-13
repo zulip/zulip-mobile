@@ -85,6 +85,7 @@ const processEvent = (dispatch, event, getState) => {
 export const fetchEvents = (auth: Auth) =>
   async (dispatch, getState) => {
     const data = await registerForEvents(auth);
+
     const queueId = data.queue_id;
     let lastEventId = data.last_event_id;
 

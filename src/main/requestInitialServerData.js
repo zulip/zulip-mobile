@@ -1,5 +1,6 @@
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import { INITIAL_DATA_FETCH } from '../constants';
+import { focusPing } from '../api';
 import {
   fetchSubscriptions,
   fetchMessages,
@@ -10,7 +11,7 @@ import {
 } from '../actions';
 
 export default (auth) =>
-  async (dispatch) => {
+  (dispatch) => {
     dispatch({ type: INITIAL_DATA_FETCH });
     [
       fetchSubscriptions(auth),
@@ -20,4 +21,5 @@ export default (auth) =>
       fetchUsersAndStatus(auth),
       backgroundFetchMessages(auth, Number.MAX_SAFE_INTEGER, 100, 0, specialNarrow('private')),
     ].map(dispatch);
+    focusPing(auth, true, false);
   };

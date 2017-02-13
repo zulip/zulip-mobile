@@ -79,8 +79,8 @@ export default (state = initialState, action) => {
       ];
     }
     case LOGOUT: {
-      // Remove the active account
-      return state.slice(1);
+      // Empty out the active account's api key
+      return [{...state[0], apiKey: ''}, ...state.slice(1)];
     }
     case ACCOUNT_REMOVE: {
       const newState = state.slice();
