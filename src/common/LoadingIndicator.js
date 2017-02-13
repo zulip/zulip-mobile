@@ -1,6 +1,5 @@
 import React from 'react';
 import { Animated, Easing, Image, StyleSheet, View } from 'react-native';
-import { BRAND_COLOR } from '../common/styles';
 
 const styles = StyleSheet.create({
   row: {
