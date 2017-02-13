@@ -2,7 +2,9 @@
 
 ### System requirements
 
-**zulip-mobile** only supports development on OS X at the moment since it currently only targets iOS devices. In the future we hope to support development of an Android version on all major operating systems.
+**zulip-mobile** only supports development on OS X at the moment since it
+currently only targets iOS devices. In the future we hope to support
+development of an Android version on all major operating systems.
 
 * macOS (Sierra recommended)
 * Xcode (8+ recommended)
@@ -12,55 +14,89 @@
 
 ## Setting up a dev environment
 
-Setting up a dev environment should be as simple as running the commands below in your terminal:
+Setting up a dev environment should be as simple as running the commands
+below in your terminal:
 ```
 git clone https://github.com/zulip/zulip-mobile.git
 cd zulip-mobile
 npm install
 ```
 
-Unlike the [Zulip](https://github.com/zulip/zulip) server project, we use the host machine directly for development instead of provisioning a VM.
+Unlike the [Zulip](https://github.com/zulip/zulip) server project, we use
+the host machine directly for development instead of provisioning a VM.
 
-You'll probably also want to install and provision a [Zulip dev VM](https://zulip.readthedocs.io/en/latest/dev-overview.html) to use for testing.
+You'll probably also want to install and provision a [Zulip dev VM](https://zulip.readthedocs.io/en/latest/dev-overview.html) to use for
+testing.
 
 
 ## Running on iOS simulator
-`react-native run-ios` will launch a new terminal with the React Native packager and open up the app in the iOS simulator.
+`react-native run-ios` will launch a new terminal with the React Native
+packager and open up the app in the iOS simulator.
 
-It will also launch a browser tab in Chrome with the React Native debugger. `console.log` statements in React Native will end up in the JS console on this tab.
+It will also launch a browser tab in Chrome with the React Native debugger.
+`console.log` statements in React Native will end up in the JS console on
+this tab.
 
 ## Running on an iOS device
 1. [Set up the dev environment](#setting-up-a-dev-environment)
 2. Connect your iOS device
 3. Within the repo, `$ open ios/ZulipMobile.xcodeproj/` to open Xcode
-4. Select your device as the `build target` (from [this guide](https://facebook.github.io/react-native/docs/running-on-device-ios.html))
-5. Hit the `build and run` button
+4. Change BundleIdentifier for both ZulipMobile and ZulipMobileTests to a
+unique string, e.g. `<username>ZulipMobile`
+5. Select your device as the `build target` (from [this guide](https://facebook.github.io/react-native/docs/running-on-device-ios.html))
+6. Hit the `build and run` button (make sure your device is unlocked)
+7. If it's the first time you're running the app, you need to trust the
+developer and the app in `Settings > General > Device Management > Developer
+App` - make sure you are connected to WiFi, as it often doesn't work with
+mobile networks
+
+If it's your first time installing an app on an iOS device, you need to
+obtain Apple Developer credentials that will allow you to sign the app.
+Register at https://developer.apple.com. Then use your Apple ID in Xcode
+and choose it as your `Signing > Team` for both ZulipMobile and ZulipMobileTests.
 
 ### Signing in to a local dev VM
 This process needs improvement and has too many manual steps at the moment.
 
-First, you'll need to connect your dev machine and iOS device to the same network. If you're running Zulip inside of a VM, you may also need to configure your VM to use a public network. See more information on this [here](https://www.vagrantup.com/docs/networking/public_network.html).
+First, you'll need to connect your dev machine and iOS device to the same
+network. If you're running Zulip inside of a VM, you may also need to
+configure your VM to use a public network. See more information on this [here](https://www.vagrantup.com/docs/networking/public_network.html).
 
-Next, you'll need to change all instances of `localhost:9991` in both the `/src` directory and the Xcode iOS project (located in `/ios`) to point to the IP and port of your Vagrant VM.
+Next, you'll need to change all instances of `localhost:9991` in both the
+`/src` directory and the Xcode iOS project (located in `/ios`) to point to
+the IP and port of your Vagrant VM.
 
-Finally, run the Xcode project inside of `/ios` with your iOS device as the target.
+Finally, run the Xcode project inside of `/ios` with your iOS device as the
+target.
 
 
 ## Contributing
-**zulip-mobile** is in active development and a stable version will be available soon. We welcome contributions to help improve the foundation and to add features.
+**zulip-mobile** is in active development and a stable version will be
+available soon. We welcome contributions to help improve the foundation and
+to add features.
 
-To contribute, browse open issues [here](https://github.com/zulip/zulip-mobile/issues) and submit a pull request. Please follow the [commit discipline](https://zulip.readthedocs.io/en/latest/code-style.html#version-control) of the Zulip server project.
+To contribute, browse open issues
+[here](https://github.com/zulip/zulip-mobile/issues) and submit a pull
+request. Please follow the
+[commit discipline](https://zulip.readthedocs.io/en/latest/code-style.html#version-control)
+of the Zulip server project.
 
 
 ## Architecture
 
 ### High-level design
 
-**zulip-mobile** uses the Redux for state management and data flow. Please read the [Redux docs](http://redux.js.org) for more information on the Redux architecture and terminology (such as actions, reducers and stores).
+**zulip-mobile** uses the Redux for state management and data flow. Please
+read the [Redux docs](http://redux.js.org) for more information on the Redux
+architecture and terminology (such as actions, reducers and stores).
 
-At a high-level, global app state should be immutable and is stored in centralized place. Modifying state requires new copies of each data structure.
+At a high-level, global app state should be immutable and is stored in
+centralized place. Modifying state requires new copies of each data structure.
 
-We use selectors to extract (or select) data from Redux Stores. [Learn more about the concept of selectors](http://redux.js.org/docs/recipes/ComputingDerivedData.html) We might use [Reselect](https://github.com/reactjs/reselect) for memoized selectors, when/if need for more performance arises.
+We use selectors to extract (or select) data from Redux Stores. [Learn more
+about the concept of selectors](http://redux.js.org/docs/recipes/ComputingDerivedData.html)
+We might use [Reselect](https://github.com/reactjs/reselect) for memoized
+selectors, when/if need for more performance arises.
 
 ### Code structure
 
@@ -72,19 +108,24 @@ We use selectors to extract (or select) data from Redux Stores. [Learn more abou
 * `/docs` - developer documentation
 * `/src` - Javascript source code
 
-In general most of the work will be inside of the `/src` directory. The only reason to touch the `/ios` or `/android` directories would be to add native modules (which we aren't using at the moment).
+In general most of the work will be inside of the `/src` directory. The only
+reason to touch the `/ios` or `/android` directories would be to add native
+modules (which we aren't using at the moment).
 
 #### Top-level files
 * `package.json` - specifies `npm` dependencies and scripts for the project
-* `.babelrc` - config file for [Babel](https://babeljs.io/) transpiler (ES6 -> ES5)
+* `.babelrc` - config file for [Babel](https://babeljs.io/) transpiler (ES6
+  -> ES5)
 * `.eslintrc` - config file for linting rules (we're using Airbnb rules)
-* `.flowconfig` - config file for [Flow](https://flowtype.org/) static type checker (unused)
+* `.flowconfig` - config file for [Flow](https://flowtype.org/) static type
+checker (unused)
 * `index.ios.js` - entry point for iOS app
 * `index.android.js` - entry point for Android app (unused for now)
 
 #### `/src` directory
 
-The source directory is broken up into subdirectories corresponding to components of the app:
+The source directory is broken up into subdirectories corresponding to
+components of the app:
 * `account` - login, logout, and user account
 * `api` - clients for the Zulip server API
 * `common` - common components for multiple reuse (buttons, inputs, etc.)
@@ -97,7 +138,8 @@ The source directory is broken up into subdirectories corresponding to component
 * `userlist` - user display, search and selection
 
 
-`ZulipApp.js` contains the top-level React component for the app and `reducers.js` contains the top-level reducer.
+`ZulipApp.js` contains the top-level React component for the app and
+`reducers.js` contains the top-level reducer.
 
 ## Testing
 
@@ -106,7 +148,9 @@ The source directory is broken up into subdirectories corresponding to component
 
 Our tests are written using [Jest](https://facebook.github.io/jest/).
 
-To write a test, place a Javascript file with the `-test.js` suffix in the `__tests__` directory inside of any subfolder of `/src`. The test will be automatically picked up by the test runner.
+To write a test, place a Javascript file with the `-test.js` suffix in the
+`__tests__` directory inside of any subfolder of `/src`. The test will be
+automatically picked up by the test runner.
 
 
 ### Functional tests
@@ -114,7 +158,9 @@ Functional tests have not been set up. We plan to use [Appium](http://appium.io/
 
 
 ## Linting
-`npm run lint` checks the codebase against our linting rules. We're using the AirBnB [ES6](https://github.com/airbnb/javascript) and [React](https://github.com/airbnb/javascript/tree/master/react) style guides.
+`npm run lint` checks the codebase against our linting rules. We're using
+the AirBnB [ES6](https://github.com/airbnb/javascript) and
+[React](https://github.com/airbnb/javascript/tree/master/react) style guides.
 
 ## Type checking with Flow
 Use use [Flow](https://flowtype.org/) to find and prevent type related issues.
