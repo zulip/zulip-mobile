@@ -163,7 +163,7 @@ describe('navReducers', () => {
         type: LOGIN_SUCCESS,
       };
       const expectedState = {
-        index: 1,
+        index: 0,
         routes: [{ key: 'main' }],
       };
 
