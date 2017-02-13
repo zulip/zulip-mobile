@@ -15,14 +15,18 @@ const styles = StyleSheet.create({
 });
 
 export default({ avatarUrl, size, status, isCircular, onPress }) => {
-  const imageStyle = {
+  const touchableStyle = {
     height: size,
     width: size,
-    borderRadius: isCircular ? size / 2 : size / 8,
+  };
+
+  const imageStyle = {
+    ...touchableStyle,
+    borderRadius: isCircular ? size / 2 : size / 8
   };
 
   return (
-    <Touchable onPress={onPress}>
+    <Touchable onPress={onPress} style={touchableStyle}>
       <Image
         style={imageStyle}
         source={{ uri: avatarUrl }}
