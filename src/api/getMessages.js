@@ -6,6 +6,7 @@ export default async (
   numBefore: number,
   numAfter: number,
   narrow: Object,
+  useFirstUnread: false,
 ) =>
   apiGet(
     auth,
@@ -16,6 +17,7 @@ export default async (
       num_after: numAfter,
       narrow: JSON.stringify(narrow),
       apply_markdown: true,
+      use_first_unread_anchor: useFirstUnread,
     },
     res => res.messages,
   );

@@ -27,14 +27,6 @@ export default (state = getInitialState(), action) => {
     case ACCOUNT_SWITCH:
       return getInitialState();
 
-    case SWITCH_NARROW:
-      return {
-        ...state,
-        narrow: action.narrow,
-        fetching: action.fetching,
-        caughtUp: action.caughtUp,
-      };
-
     case MESSAGE_FETCH_START:
       return {
         ...state,
@@ -43,6 +35,7 @@ export default (state = getInitialState(), action) => {
         caughtUp: { ...state.caughtUp, ...action.caughtUp },
       };
 
+    case SWITCH_NARROW:
     case MESSAGE_FETCH_SUCCESS: {
       const key = JSON.stringify(action.narrow);
       const messages = state.messages[key] || [];
@@ -53,6 +46,7 @@ export default (state = getInitialState(), action) => {
 
       return {
         ...state,
+        narrow: action.type === SWITCH_NARROW ? action.narrow : state.narrow,
         messages: {
           ...state.messages,
           [key]: newMessages,

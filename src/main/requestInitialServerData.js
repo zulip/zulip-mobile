@@ -15,7 +15,7 @@ export default (auth) =>
     dispatch({ type: INITIAL_DATA_FETCH });
     [
       fetchSubscriptions(auth),
-      fetchMessages(auth, Number.MAX_SAFE_INTEGER, 20, 0, homeNarrow()),
+      fetchMessages(auth, 0, 20, 1, homeNarrow(), true),
       fetchStreams(auth),
       fetchEvents(auth),
       fetchUsersAndStatus(auth),

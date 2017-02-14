@@ -5,11 +5,12 @@ import {
   MESSAGE_FETCH_SUCCESS,
 } from '../constants';
 
-export const switchNarrow = (narrow) => ({
+export const switchNarrow = (narrow, messages) => ({
   type: SWITCH_NARROW,
   narrow,
   fetching: { older: false, newer: false },
   caughtUp: { older: false, newer: false },
+  messages,
 });
 
 export const backgroundFetchMessages = (
@@ -18,15 +19,27 @@ export const backgroundFetchMessages = (
   numBefore: number,
   numAfter: number,
   narrow,
+  useFirstUnread = false,
 ) =>
   async (dispatch) => {
-    const messages = await getMessages(auth, anchor, numBefore, numAfter, narrow);
+    const messages = await getMessages(auth, anchor, numBefore, numAfter, narrow, useFirstUnread);
 
-    // Find the anchor in the results (or set it past the end of the list)
-    // We can use the position of the anchor to determine if we're caught up
-    // in both directions.
-    let anchorIdx = messages.findIndex((msg) => msg.id === anchor);
-    if (anchorIdx < 0) anchorIdx = messages.length;
+    let caughtUp = { older: false, newer: false };
+    if (!useFirstUnread) {
+      // Find the anchor in the results (or set it past the end of the list)
+      // We can use the position of the anchor to determine if we're caught up
+      // in both directions.
+      let anchorIdx = messages.findIndex((msg) => msg.id === anchor);
+      if (anchorIdx < 0) anchorIdx = messages.length;
+
+      // If we're requesting messages before the anchor as well, then the server
+      // returns one less than we expect (so as not to duplicate the anchor)
+      const adjustment = numBefore > 0 ? -1 : 0;
+      caughtUp = {
+        ...numBefore ? { older: anchorIdx + 1 < numBefore } : {},
+        ...numAfter ? { newer: messages.length - anchorIdx + adjustment < numAfter } : {},
+      };
+    }
 
     dispatch({
       type: MESSAGE_FETCH_SUCCESS,
@@ -38,10 +51,7 @@ export const backgroundFetchMessages = (
         ...numBefore ? { older: false } : {},
         ...numAfter ? { newer: false } : {},
       },
-      caughtUp: {
-        ...numBefore ? { older: anchorIdx + 1 < numBefore } : {},
-        ...numAfter ? { newer: messages.length - anchorIdx - 1 < numAfter } : {},
-      },
+      caughtUp,
     });
   };
 
@@ -51,6 +61,7 @@ export const fetchMessages = (
   numBefore: number,
   numAfter: number,
   narrow,
+  useFirstUnread = false,
 ) =>
   async (dispatch) => {
     if (numBefore < 0 || numAfter < 0) {
@@ -65,5 +76,5 @@ export const fetchMessages = (
         ...numAfter ? { newer: true } : {},
       },
     });
-    await backgroundFetchMessages(auth, anchor, numBefore, numAfter, narrow)(dispatch);
+    dispatch(backgroundFetchMessages(auth, anchor, numBefore, numAfter, narrow, useFirstUnread));
   };

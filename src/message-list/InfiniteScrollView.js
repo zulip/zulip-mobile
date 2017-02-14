@@ -22,6 +22,11 @@ class InfiniteScrollView extends React.Component {
     }
   }
 
+  componentWillUpdate() {
+    this._sentStartForContentHeight = null;
+    this._sentEndForContentHeight = null;
+  }
+
   _onContentSizeChanged(contentWidth, contentHeight) {
     const oldContentHeight = this._contentHeight;
     this._contentHeight = contentHeight;
