@@ -35,10 +35,26 @@ export default (state = getInitialState(), action) => {
         caughtUp: { ...state.caughtUp, ...action.caughtUp },
       };
 
-    case SWITCH_NARROW:
+    case SWITCH_NARROW: {
+      const key = JSON.stringify(action.narrow);
+      return {
+        ...state,
+        narrow: action.narrow,
+        messages: {
+          ...state.messages,
+          [key]: action.messages,
+        },
+        fetching: { older: false, newer: false },
+        caughtUp: { older: false, newer: false },
+      };
+    }
+
     case MESSAGE_FETCH_SUCCESS: {
       const key = JSON.stringify(action.narrow);
       const messages = state.messages[key] || [];
+
+      // TODO: this is O(n^2) in the number of messages
+      // Since these are both sorted we can do this in O(n) time
       const newMessages = action.messages
         .filter(x => !messages.find(msg => msg.id === x.id))
         .concat(messages)
@@ -46,7 +62,6 @@ export default (state = getInitialState(), action) => {
 
       return {
         ...state,
-        narrow: action.type === SWITCH_NARROW ? action.narrow : state.narrow,
         messages: {
           ...state.messages,
           [key]: newMessages,

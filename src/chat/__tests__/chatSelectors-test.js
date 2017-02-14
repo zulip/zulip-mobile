@@ -31,7 +31,7 @@ describe('getAnchor', () => {
     expect(getAnchor(state)).toEqual({ older: 123, newer: 123 });
   });
 
-  test('when 2 or more messages, anchorf contains first and last message ids', () => {
+  test('when 2 or more messages, anchor contains first and last message ids', () => {
     const state = {
       chat: {
         narrow: [],

@@ -8,8 +8,6 @@ import {
 export const switchNarrow = (narrow, messages) => ({
   type: SWITCH_NARROW,
   narrow,
-  fetching: { older: false, newer: false },
-  caughtUp: { older: false, newer: false },
   messages,
 });
 
