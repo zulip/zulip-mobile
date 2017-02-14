@@ -21,11 +21,18 @@ export default class MessageList extends React.PureComponent {
   constructor() {
     super();
     this.mapIdToIdx = {};
+    this.state = {
+      autoScrollToBottom: false,
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     const currentNarrow = JSON.stringify(this.props.narrow);
     const nextNarrow = JSON.stringify(nextProps.narrow);
+
+    this.setState({
+      autoScrollToBottom: this.props.caughtUp.newer && nextProps.caughtUp.newer,
+    });
 
     // Invalidate the existing message anchors if the narrow changes
     // (because we'll have a brand new set of messages)
@@ -107,7 +114,7 @@ export default class MessageList extends React.PureComponent {
         anchorMap={anchorMap}
         onStartReached={fetchOlder}
         onEndReached={fetchNewer}
-        autoScrollToBottom={caughtUp.newer}
+        autoScrollToBottom={this.state.autoScrollToBottom}
         onScroll={e => {}}
       >
         {messageList}

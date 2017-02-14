@@ -7,7 +7,7 @@ export const getAllMessages = (state) =>
 export const getMessagesInActiveNarrow = (state) =>
   state.chat.messages[JSON.stringify(state.chat.narrow)] || [];
 
-export const getPointer = (state) => {
+export const getAnchor = (state) => {
   const messages = getMessagesInActiveNarrow(state);
 
   if (messages.length === 0) {

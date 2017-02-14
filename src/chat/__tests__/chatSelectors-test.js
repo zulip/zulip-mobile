@@ -1,8 +1,8 @@
-import { getPointer, getRecentConversations } from '../chatSelectors';
+import { getAnchor, getRecentConversations } from '../chatSelectors';
 import { specialNarrow } from '../../utils/narrow';
 
-describe('getPointer', () => {
-  test('return max pointer when there are no messages', () => {
+describe('getAnchor', () => {
+  test('return max anchor when there are no messages', () => {
     const state = {
       chat: {
         narrow: [],
@@ -11,13 +11,13 @@ describe('getPointer', () => {
         },
       },
     };
-    expect(getPointer(state)).toEqual({
+    expect(getAnchor(state)).toEqual({
       older: Number.MAX_SAFE_INTEGER,
       newer: Number.MAX_SAFE_INTEGER,
     });
   });
 
-  test('when single message, pointer ids are the same', () => {
+  test('when single message, anchor ids are the same', () => {
     const state = {
       chat: {
         narrow: [],
@@ -28,10 +28,10 @@ describe('getPointer', () => {
         },
       }
     };
-    expect(getPointer(state)).toEqual({ older: 123, newer: 123 });
+    expect(getAnchor(state)).toEqual({ older: 123, newer: 123 });
   });
 
-  test('when 2 or more messages, pointer contains first and last message ids', () => {
+  test('when 2 or more messages, anchor contains first and last message ids', () => {
     const state = {
       chat: {
         narrow: [],
@@ -44,7 +44,7 @@ describe('getPointer', () => {
         },
       },
     };
-    expect(getPointer(state)).toEqual({ older: 1, newer: 3 });
+    expect(getAnchor(state)).toEqual({ older: 1, newer: 3 });
   });
 });
 
