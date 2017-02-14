@@ -21,6 +21,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+ios/ZulipMobile/Release.xcconfig
 
 # Android/IJ
 #
@@ -38,7 +39,6 @@ npm-debug.log
 buck-out/
 \.buckd/
 android/app/libs
-<<<<<<< ours
 android/keystores/debug.keystore
 
 coverage/
@@ -55,4 +55,3 @@ coverage/
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
->>>>>>> theirs

@@ -1,0 +1,13 @@
+//
+//  Release.xcconfig
+//  ZulipMobile
+//
+//  This is an example Release.xcconfig
+//
+//  To set up your own:
+//  1. Copy this to `Release.xcconfig`
+//  2. Add your key to DEVELOPMENT_TEAM
+//
+
+CODE_SIGN_IDENTITY = iPhone Developer
+DEVELOPMENT_TEAM =
