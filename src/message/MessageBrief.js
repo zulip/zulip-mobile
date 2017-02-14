@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { Touchable } from '../common';
 import ReactionList from '../reactions/ReactionList';
 
 const styles = StyleSheet.create({
@@ -17,19 +18,24 @@ const styles = StyleSheet.create({
 export default class MessageBrief extends React.PureComponent {
 
   props: {
-    message: string,
+    message: {},
+    selfEmail: string,
     reactions: [],
   };
 
   render() {
-    const { messageId, children, reactions, selfEmail } = this.props;
+    const { message, children, selfEmail, onPress } = this.props;
 
     return (
       <View style={styles.message}>
-        {children}
+        <Touchable onPress={onPress}>
+          <View>
+            {children}
+          </View>
+        </Touchable>
         <ReactionList
-          messageId={messageId}
-          reactions={reactions}
+          messageId={message.id}
+          reactions={message.reactions}
           selfEmail={selfEmail}
         />
       </View>

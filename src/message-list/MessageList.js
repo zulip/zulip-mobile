@@ -93,7 +93,7 @@ export default class MessageList extends React.PureComponent {
       if (elem.props.type === 'header') {
         headerIndices.push(idx);
       } else if (elem.props.type === 'message') {
-        const messageId = elem.props.id;
+        const messageId = elem.props.message.id;
         mapIdToIdx[messageId] = idx;
         anchorIndices.push(idx);
 
