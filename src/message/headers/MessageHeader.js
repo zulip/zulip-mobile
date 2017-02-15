@@ -1,9 +1,17 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 
 import { isStreamNarrow, isTopicNarrow, isPrivateNarrow, isGroupNarrow } from '../../utils/narrow';
 import TopicMessageHeader from './TopicMessageHeader';
 import StreamMessageHeader from './StreamMessageHeader';
 import PrivateMessageHeader from './PrivateMessageHeader';
+
+const styles = StyleSheet.create({
+  margin: {
+    marginTop: 4,
+    marginBottom: 4,
+  },
+});
 
 export default class MessageHeader extends React.PureComponent {
 
@@ -25,6 +33,7 @@ export default class MessageHeader extends React.PureComponent {
           stream={item.display_recipient}
           topic={item.subject}
           doNarrow={doNarrow}
+          customStyle={styles.margin}
         />
       );
     }
@@ -43,6 +52,7 @@ export default class MessageHeader extends React.PureComponent {
           color={stream ? stream.color : '#ccc'}
           itemId={item.id}
           doNarrow={doNarrow}
+          customStyle={styles.margin}
         />
       );
     }
@@ -58,6 +68,7 @@ export default class MessageHeader extends React.PureComponent {
           recipients={recipients}
           itemId={item.id}
           doNarrow={doNarrow}
+          customStyle={styles.margin}
         />
       );
     }

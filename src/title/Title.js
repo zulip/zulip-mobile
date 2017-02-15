@@ -31,12 +31,12 @@ const titles = [
 
 class Title extends React.PureComponent {
   render() {
-    const { narrow, backgroundColor } = this.props;
+    const { narrow } = this.props;
     const titleType = titles.find(x => x.isFunc(narrow));
 
     if (!titleType) return null;
 
-    return <titleType.component {...this.props} color={backgroundColor} />;
+    return <titleType.component {...this.props} />;
   }
 }
 

@@ -11,8 +11,9 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#eee',
+    backgroundColor: '#ddd',
     overflow: 'hidden',
+    height: 32,
   },
   stream: {
     padding: 8,
@@ -48,12 +49,12 @@ export default class StreamMessageHeader extends React.PureComponent {
   }
 
   render() {
-    const { stream, isPrivate, isMuted, topic, color, itemId, doNarrow } = this.props;
+    const { stream, isPrivate, isMuted, topic, color, itemId, doNarrow, customStyle } = this.props;
     const textColor = foregroundColorFromBackground(color);
     const iconType = isPrivate ? 'lock' : 'hashtag';
 
     return (
-      <View style={styles.header}>
+      <View style={[styles.header, customStyle]}>
         <Touchable onPress={this.performStreamNarrow}>
           <View style={[styles.header, { backgroundColor: color }]}>
             <StreamIcon

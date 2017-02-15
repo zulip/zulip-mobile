@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   icon: {
-    padding: 8,
+    paddingLeft: 8,
   },
 });
 
@@ -46,11 +46,11 @@ export default class PrivateMessageHeader extends React.PureComponent {
   }
 
   render() {
-    const { recipients } = this.props;
+    const { recipients, customStyle } = this.props;
     const others = recipients.map(r => r.full_name).sort().join(', ');
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, customStyle]}>
         <Touchable onPress={this.performNarrow}>
           <View style={styles.header}>
             <Icon name="md-text" color="white" size={16} style={styles.icon} />

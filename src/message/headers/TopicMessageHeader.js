@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
+  View,
 } from 'react-native';
 
 import { Touchable } from '../../common';
@@ -9,14 +10,13 @@ import { topicNarrow } from '../../utils/narrow';
 
 const styles = StyleSheet.create({
   touch: {
-    flex: 1,
     justifyContent: 'center',
   },
   topic: {
     padding: 8,
     fontSize: 16,
     lineHeight: 16,
-    backgroundColor: '#eee',
+    backgroundColor: '#ddd',
   },
 });
 
@@ -35,14 +35,16 @@ export default class TopicMessageHeader extends React.PureComponent {
   }
 
   render() {
-    const { topic } = this.props;
+    const { topic, customStyle } = this.props;
 
     return (
-      <Touchable style={styles.touch} onPress={this.performTopicNarrow}>
-        <Text style={styles.topic} numberOfLines={1} ellipsizeMode="tail">
-          {topic}
-        </Text>
-      </Touchable>
+      <View style={customStyle}>
+        <Touchable style={styles.touch} onPress={this.performTopicNarrow}>
+          <Text style={styles.topic} numberOfLines={1} ellipsizeMode="tail">
+            {topic}
+          </Text>
+        </Touchable>
+      </View>
     );
   }
 }

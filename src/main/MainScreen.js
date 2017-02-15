@@ -47,7 +47,7 @@ export default class MainScreen extends React.Component {
     const { doNarrow, narrow, orientation, subscriptions } = this.props;
     const { leftDrawerOpen, rightDrawerOpen } = this.state;
 
-    let color = BRAND_COLOR;
+    let color;
     if (narrow.length !== 0 && narrow[0].operator === 'stream') {
       color = (subscriptions.find((sub) => narrow[0].operand === sub.name)).color;
     }

@@ -27,9 +27,8 @@ const specials = {
 
 export default class TitleSpecial extends React.PureComponent {
   render() {
-    const { narrow, backgroundColor } = this.props;
+    const { narrow, textColor, backgroundColor } = this.props;
     const { name, icon } = specials[narrow[0].operand];
-    const textColor = foregroundColorFromBackground(backgroundColor);
 
     return (
       <View style={styles.wrapper}>
