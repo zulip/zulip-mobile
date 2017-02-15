@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { privateNarrow } from '../utils/narrow';
-import { SearchInput } from '../common';
 import UserList from './UserList';
 
 const styles = StyleSheet.create({
@@ -17,6 +16,7 @@ type Props = {
   users: any[],
   narrow: () => void,
   presence: Object,
+  filter: string,
 };
 
 export default class UserListCard extends Component {
@@ -24,15 +24,8 @@ export default class UserListCard extends Component {
   props: Props;
 
   state = {
-    filter: '',
     onNarrow: () => {},
   };
-
-  handleFilterChange = (newFilter: string) => {
-    this.setState({
-      filter: newFilter,
-    });
-  }
 
   handleUserNarrow = (email: string) => {
     const { auth, popRoute, fetchMessages } = this.props;
@@ -41,12 +34,10 @@ export default class UserListCard extends Component {
   }
 
   render() {
-    const { ownEmail, realm, users, presence } = this.props;
-    const { filter } = this.state;
+    const { ownEmail, realm, users, presence, filter } = this.props;
 
     return (
       <View style={styles.container}>
-        <SearchInput onChange={this.handleFilterChange} />
         <UserList
           ownEmail={ownEmail}
           users={users}

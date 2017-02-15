@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
 import { Input } from '../common';
+import { BRAND_COLOR } from './styles';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -11,12 +10,21 @@ const styles = StyleSheet.create({
   },
   icon: {
     margin: 4,
+    flex: 1
   },
   input: {
     flex: 1,
-    marginLeft: -32,
-    paddingLeft: 32,
+    paddingLeft: 20,
+    borderWidth: 0,
+    marginTop: -3,
+    marginBottom: -3,
+    color: BRAND_COLOR
   },
+  inputWrapper: {
+    flex: 1,
+    marginBottom: 4,
+    marginRight: 5
+  }
 });
 
 export default class SearchInput extends Component {
@@ -30,23 +38,20 @@ export default class SearchInput extends Component {
 
     return (
       <View style={styles.wrapper}>
-        <Icon
-          style={styles.icon}
-          size={24}
-          color="lightgray"
-          name="search"
-        />
-        <Input
-          customStyle={styles.input}
-          autoCorrect={false}
-          enablesReturnKeyAutomatically
-          selectTextOnFocus
-          clearButtonMode="always"
-          autoCapitalize="none"
-          placeholder="Search"
-          returnKeyType="search"
-          onChangeText={onChange}
-        />
+        <View style={styles.inputWrapper}>
+          <Input
+            customStyle={styles.input}
+            autoCorrect={false}
+            enablesReturnKeyAutomatically
+            selectTextOnFocus
+            clearButtonMode="always"
+            autoCapitalize="none"
+            placeholder="Search"
+            returnKeyType="search"
+            onChangeText={onChange}
+            autoFocus
+          />
+        </View>
       </View>
     );
   }
