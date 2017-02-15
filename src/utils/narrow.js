@@ -108,3 +108,15 @@ export const canSendToNarrow = (narrow) =>
   isGroupNarrow(narrow) ||
   isStreamNarrow(narrow) ||
   isTopicNarrow(narrow);
+
+export const narrowFromMessage = (message) => {
+  if (Array.isArray(message.display_recipient)) {
+    return groupNarrow(message.display_recipient.map(x => x.email));
+  }
+
+  if (message.subject && message.subject.length) {
+    return topicNarrow(message.display_recipient, message.subject);
+  }
+
+  return streamNarrow(message.display_recipient);
+};

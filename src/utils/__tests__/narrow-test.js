@@ -7,6 +7,7 @@ import {
   topicNarrow, isTopicNarrow,
   searchNarrow, isSearchNarrow,
   isMessageInNarrow,
+  narrowFromMessage,
 } from '../narrow';
 
 describe('homeNarrow', () => {
@@ -206,5 +207,55 @@ describe('isMessageInNarrow', () => {
     const narrow = topicNarrow('some stream', 'some topic');
 
     expect(isMessageInNarrow(message, narrow)).toBe(true);
+  });
+});
+
+describe('narrowFromMessage', () => {
+  test('message with single recipient, returns a private narrow', () => {
+    const message = {
+      display_recipient: [{ email: 'bob@example.com' }],
+    };
+    const expectedNarrow = privateNarrow('bob@example.com');
+
+    const actualNarrow = narrowFromMessage(message);
+
+    expect(actualNarrow).toEqual(expectedNarrow);
+  });
+
+  test('for message with multiple recipients, return a group narrow', () => {
+    const message = {
+      display_recipient: [
+        { email: 'bob@example.com' },
+        { email: 'john@example.com' },
+      ],
+    };
+    const expectedNarrow = groupNarrow(['bob@example.com', 'john@example.com']);
+
+    const actualNarrow = narrowFromMessage(message);
+
+    expect(actualNarrow).toEqual(expectedNarrow);
+  });
+
+  test('if recipient of a message is string, returns a stream narrow', () => {
+    const message = {
+      display_recipient: 'stream',
+    };
+    const expectedNarrow = streamNarrow('stream');
+
+    const actualNarrow = narrowFromMessage(message);
+
+    expect(actualNarrow).toEqual(expectedNarrow);
+  });
+
+  test('if recipient is a string and there is a subject returns a topic narrow', () => {
+    const message = {
+      display_recipient: 'stream',
+      subject: 'subject'
+    };
+    const expectedNarrow = topicNarrow('stream', 'subject');
+
+    const actualNarrow = narrowFromMessage(message);
+
+    expect(actualNarrow).toEqual(expectedNarrow);
   });
 });

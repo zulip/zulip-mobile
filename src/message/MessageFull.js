@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import { Avatar } from '../common';
+import { Avatar, Touchable } from '../common';
 import Subheader from './Subheader';
 import ReactionList from '../reactions/ReactionList';
 
@@ -24,37 +24,39 @@ class MessageFull extends React.PureComponent {
 
   props: {
     avatarUrl: string,
-    fromName: string,
-    fromEmail: string,
+    selfEmail: string,
     timestamp: number,
     reactions: [],
     twentyFourHourTime: bool,
   };
 
   handleAvatarPress = () =>
-    this.props.pushRoute('account-details', this.props.fromEmail);
+    this.props.pushRoute('account-details', this.props.message.sender_email);
 
   render() {
-    const { messageId, children, avatarUrl, timestamp, twentyFourHourTime,
-      fromName, reactions, selfEmail } = this.props;
+    const { message, children, avatarUrl, twentyFourHourTime, selfEmail, onPress } = this.props;
 
     return (
       <View style={styles.message}>
         <Avatar
           avatarUrl={avatarUrl}
-          name={fromName}
+          name={message.sender_full_name}
           onPress={this.handleAvatarPress}
         />
         <View style={styles.content}>
           <Subheader
-            from={fromName}
-            timestamp={timestamp}
+            from={message.sender_full_name}
+            timestamp={message.timestamp}
             twentyFourHourTime={twentyFourHourTime}
           />
-          {children}
+          <Touchable onPress={onPress}>
+            <View>
+              {children}
+            </View>
+          </Touchable>
           <ReactionList
-            messageId={messageId}
-            reactions={reactions}
+            messageId={message.id}
+            reactions={message.reactions}
             selfEmail={selfEmail}
           />
         </View>
