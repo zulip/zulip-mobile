@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import styles from '../common/styles';
-import { Input, Screen, ZulipButton, GoogleButton } from '../common';
+import { Input, Screen, ZulipButton } from '../common';
 import { getAuth } from '../account/accountSelectors';
 import { getCurrentRoute } from '../nav/routingSelectors';
 

@@ -55,7 +55,7 @@ export default ({ auth, attribs, name, cascadingStyle, childrenNodes }) => {
 
   // User mentions should not have any breaking spaces
   if (attribs.class && attribs.class === 'user-mention') {
-    for (node of childrenNodes) {
+    for (const node of childrenNodes) {
       // Replace every breaking space with a Unicode non-breaking space (\u00a0)
       node.data = node.data.replace(/ /g, '\u00a0');
     }
