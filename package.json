@@ -54,7 +54,7 @@
     "eslint-plugin-jsx-a11y": "^3.0.2",
     "eslint-plugin-react": "^6.8.0",
     "eslint-plugin-react-native": "^2.2.1",
-    "eslint-plugin-spellcheck": "0.0.8",
+    "eslint-plugin-spellcheck": "~0.0.6",
     "flow-bin": "^0.37.0",
     "jest": "^18.0.0",
     "jest-cli": "^18.0.0",

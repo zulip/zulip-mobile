@@ -51,7 +51,7 @@ export default class MessageFormattingHelp extends React.PureComponent {
           </View>
           <View style={styles.tr}>
             <Text style={styles.td}>
-              {'* Archimedes\n* Bohr\n* Curie'}
+              TODO
             </Text>
             <Text style={styles.td}>
               TODO
