@@ -5,7 +5,6 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { foregroundColorFromBackground } from '../utils/color';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -30,11 +29,11 @@ export default class TitleStream extends React.PureComponent {
     const iconType = stream.invite_only ? 'lock' : 'hashtag';
 
     const fontSize = narrow.length > 1 ? 14 : 16;
-    let titleStyles = [styles.margin];
+
+    const titleStyles = [styles.margin];
     titleStyles.push({ fontSize });
     titleStyles.push({ color: textColor });
 
-    console.log(narrow);
     return (
       <View style={styles.wrapper}>
         <Icon

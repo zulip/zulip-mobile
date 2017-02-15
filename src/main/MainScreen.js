@@ -6,7 +6,6 @@ import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
 import ConversationsContainer from '../conversations/ConversationsContainer';
-import { BRAND_COLOR } from '../common/styles';
 
 const SideDrawer = (props) =>
   <Drawer

@@ -4,14 +4,10 @@ import TitleSpecial from './TitleSpecial';
 export default class TitleHome extends React.PureComponent {
 
   render() {
-    const { textColor, backgroundColor } = this.props;
+    const { color } = this.props;
 
     return (
-      <TitleSpecial
-        narrow={[{ operand: 'home' }]}
-        textColor={textColor}
-        backgroundColor={backgroundColor}
-      />
+      <TitleSpecial narrow={[{ operand: 'home' }]} color={color} />
     );
   }
 }

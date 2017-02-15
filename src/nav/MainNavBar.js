@@ -20,8 +20,12 @@ export default class MainNavBar extends React.Component {
     const { onPressStreams, onPressPeople } = this.props;
     let { backgroundColor } = this.props;
 
-    const textColor = backgroundColor ? foregroundColorFromBackground(backgroundColor) : BRAND_COLOR;
-    backgroundColor = backgroundColor ? backgroundColor : '#ffffff';
+    let textColor = BRAND_COLOR;
+    if (backgroundColor) {
+      textColor = foregroundColorFromBackground(backgroundColor);
+    } else {
+      backgroundColor = '#ffffff';
+    }
 
     return (
       <Navigator
@@ -33,7 +37,7 @@ export default class MainNavBar extends React.Component {
             />
             <View style={[styles.navBar, { backgroundColor }]}>
               <NavButton name="ios-menu" color={textColor} onPress={onPressStreams} />
-              <Title textColor={textColor} backgroundColor={backgroundColor} />
+              <Title color={textColor} />
               <NavButton name="md-people" color={textColor} onPress={onPressPeople} />
             </View>
             {this.props.children}

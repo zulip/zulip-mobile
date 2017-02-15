@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { Avatar } from '../common';
 import { getFullUrl } from '../utils/url';
-import { foregroundColorFromBackground } from '../utils/color';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -18,7 +17,7 @@ const styles = StyleSheet.create({
 
 export default class TitlePrivate extends React.PureComponent {
   render() {
-    const { narrow, realm, users, textColor } = this.props;
+    const { narrow, realm, users, color } = this.props;
     const user = users.find(x => x.email === narrow[0].operand);
     const fullAvatarUrl = getFullUrl(user.avatarUrl, realm);
 
@@ -29,7 +28,7 @@ export default class TitlePrivate extends React.PureComponent {
           name={user.fullName}
           avatarUrl={fullAvatarUrl}
         />
-        <Text style={[styles.title, { color: textColor }]}>
+        <Text style={[styles.title, { color }]}>
           {user.fullName}
         </Text>
       </View>

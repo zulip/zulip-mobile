@@ -8,8 +8,6 @@ import { styles } from '../common';
 import { BRAND_COLOR } from '../common/styles';
 import NavButton from './NavButton';
 
-import { foregroundColorFromBackground } from '../utils/color';
-
 class ModalNavBar extends React.Component {
 
   props: {

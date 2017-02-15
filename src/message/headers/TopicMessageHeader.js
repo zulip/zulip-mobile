@@ -9,6 +9,9 @@ import { Touchable } from '../../common';
 import { topicNarrow } from '../../utils/narrow';
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
   touch: {
     justifyContent: 'center',
   },
@@ -38,7 +41,7 @@ export default class TopicMessageHeader extends React.PureComponent {
     const { topic, customStyle } = this.props;
 
     return (
-      <View style={customStyle}>
+      <View style={[styles.wrapper, customStyle]}>
         <Touchable style={styles.touch} onPress={this.performTopicNarrow}>
           <Text style={styles.topic} numberOfLines={1} ellipsizeMode="tail">
             {topic}
