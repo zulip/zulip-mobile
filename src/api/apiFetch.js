@@ -1,4 +1,5 @@
 import { StatusBar } from 'react-native';
+import { Platform } from 'react-native';
 import { Auth } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
@@ -12,11 +13,13 @@ const timeout = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 let activityCounter = 0;
 const activityPush = () => {
   activityCounter++;
-  StatusBar.setNetworkActivityIndicatorVisible(true);
+  if (Platform.OS === 'ios') {
+    StatusBar.setNetworkActivityIndicatorVisible(true);
+  }
 };
 const activityPop = () => {
   activityCounter--;
-  if (activityCounter === 0) {
+  if (activityCounter === 0 && Platform.OS === 'ios') {
     StatusBar.setNetworkActivityIndicatorVisible(false);
   }
 };
