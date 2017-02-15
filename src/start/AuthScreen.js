@@ -39,9 +39,6 @@ class AuthScreen extends React.Component {
               value={this.props.realm}
               editable={false}
             />
-            <Text style={[styles.field, styles.label]}>
-              Your server allows these authentication options:
-            </Text>
             {authBackends.includes('dev') &&
               <ZulipButton
                 text="Sign in with dev account"
@@ -49,11 +46,7 @@ class AuthScreen extends React.Component {
               />
             }
             {authBackends.includes('password') && <PasswordAuthView />}
-            {authBackends.includes('google') &&
-              <GoogleButton
-                onPress={() => this.handleTypeSelect('google')}
-              />
-            }
+
           </View>
         </ScrollView>
       </Screen>
