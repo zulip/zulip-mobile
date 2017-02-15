@@ -5,6 +5,22 @@ import userAgent from '../utils/userAgent';
 
 const apiVersion = 'api/v1';
 
+const TIMEOUT_MS = 3000;
+const timeout = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Network activity indicators should be visible if *any* network activity is occurring
+let activityCounter = 0;
+const activityPush = () => {
+  activityCounter++;
+  StatusBar.setNetworkActivityIndicatorVisible(true);
+};
+const activityPop = () => {
+  activityCounter--;
+  if (activityCounter === 0) {
+    StatusBar.setNetworkActivityIndicatorVisible(false);
+  }
+};
+
 export const apiFetch = async (
   auth: Auth,
   route: string,
@@ -29,22 +45,19 @@ export const apiCall = async (
   resFunc = res => res,
   options: Object = {},
 ) => {
-  let timeout;
   try {
-    if (!options.noTimeout) {
-      timeout = setTimeout(() => {
-        // TODO: the throw below does not get caught and crashes the app
-        // throw Error(`Request timed out @ ${route}`);
-        // send APP_ONLINE, isOnline: false
-      }, 5000);
-    }
-
     // Show network activity indicator if this fetch isn't silent
-    if (!options.silent) {
-      StatusBar.setNetworkActivityIndicatorVisible(true);
-    }
+    if (!options.silent) activityPush();
 
-    const response = await apiFetch(auth, route, params);
+    // Either the API call or timeout will resolve first and the other will reject
+    const promises = [apiFetch(auth, route, params)];
+    if (!options.noTimeout) {
+      promises.push(timeout(TIMEOUT_MS).then(() => {
+        throw Error(`Request timed out @ ${route}`);
+      }));
+    }
+    const response = await Promise.race(promises);
+
     if (response.status === 401) {
       // TODO: httpUnauthorized()
       throw Error('Unauthorized');
@@ -66,10 +79,7 @@ export const apiCall = async (
 
     return resFunc(json);
   } finally {
-    clearTimeout(timeout);
-    if (!options.silent) {
-      StatusBar.setNetworkActivityIndicatorVisible(false);
-    }
+    if (!options.silent) activityPop();
   }
 };
 
