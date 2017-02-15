@@ -1,102 +1,71 @@
-import React, { Component } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
 import { connect } from 'react-redux';
-import throttle from 'lodash.throttle';
+import {
+  View,
+  StatusBar,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from 'react-native';
 
-import boundActions from '../boundActions';
-import { getAuth } from '../account/accountSelectors';
-import { Screen, SearchInput } from '../common';
-import { BRAND_COLOR } from '../common/styles';
-import { searchNarrow } from '../utils/narrow';
-import MessageList from '../message-list/MessageList';
-import { getMessages } from '../api';
+import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 20,
-    padding: 8,
-    textAlign: 'center',
-  },
-  results: {
+  screen: {
     flex: 1,
+    flexDirection: 'column',
+    alignItems: 'stretch',
   },
-  activity: {
-    padding: 8,
-  }
+  navigationCard: {
+    backgroundColor: 'white',
+    shadowColor: 'transparent',
+  },
+  screenWrapper: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+  },
 });
 
-class SearchScreen extends Component {
+class SearchScreen extends React.Component {
 
   props: {
-    fullName: string,
-    email: string,
-    avatarUrl: string,
-  }
-
-  state = {
-    messages: [],
-    isFetching: false,
+    keyboardAvoiding: boolean,
+    title: string,
+    isSearchBarApplied: boolean,
+    isOnDemandSearchBarApplied: boolean,
+    searchBarOnChange: () => {}
   };
 
-  handleQueryChange = async (query) => {
-    const { auth } = this.props;
-    this.query = query;
-
-    throttle(async () => {
-      this.setState({ isFetching: true });
-      const messages = await getMessages(auth, Number.MAX_SAFE_INTEGER,
-        20, 0, searchNarrow(query), false);
-      this.setState({
-        messages,
-        isFetching: false,
-      });
-    }, 500).call(this);
-  }
+  state: {
+    filter: string,
+  };
 
   render() {
-    const { isFetching, messages } = this.state;
-    const { auth, subscriptions, twentyFourHourTime } = this.props;
-    const noResults = !!this.query && !isFetching && !messages.length;
+    const { keyboardAvoiding, title, isOnDemandSearchBarApplied } = this.props;
+    const { searchBarOnChange, nav, children } = this.props;
+    const WrapperView = keyboardAvoiding ? KeyboardAvoidingView : View;
 
     return (
-      <Screen title="Search" keyboardAvoiding>
-        <SearchInput onChange={this.handleQueryChange} />
-        <View style={styles.results}>
-          {isFetching &&
-            <ActivityIndicator
-              style={styles.activity}
-              color={BRAND_COLOR}
-              size="large"
-            />
-          }
-          {noResults &&
-            <Text style={styles.text}>
-              No results
-            </Text>
-          }
-          <MessageList
-            messages={messages}
-            caughtUp={{ older: true, newer: true }}
-            fetching={{ older: false, newer: isFetching }}
-            hideFetchingOlder
-            narrow={[]}
-            twentyFourHourTime={twentyFourHourTime}
-            subscriptions={subscriptions}
-            auth={auth}
-            fetchOlder={() => {}}
-            doNarrow={() => {}}
-          />
-        </View>
-      </Screen>
+      <View style={styles.screen}>
+        <StatusBar
+          barStyle="dark-content"
+          hidden={this.props.orientation === 'LANDSCAPE'}
+        />
+        <ModalSearchNavBar
+          title={title}
+          nav={nav}
+          isOnDemandSearchBarApplied={isOnDemandSearchBarApplied}
+          searchBarOnChange={searchBarOnChange}
+        />
+        <WrapperView style={styles.screenWrapper} behavior="padding">
+          {children}
+        </WrapperView>
+      </View>
     );
   }
 }
 
 export default connect((state) => ({
-  auth: getAuth(state),
-  isOnline: state.app.isOnline,
-  subscriptions: state.subscriptions,
-  narrow: state.chat.narrow,
-  startReached: state.chat.startReached,
-  streamlistOpened: state.nav.opened,
-}), boundActions)(SearchScreen);
+  orientation: state.app.orientation,
+}))(SearchScreen);

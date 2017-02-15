@@ -10,7 +10,7 @@ import AuthScreen from '../start/AuthScreen';
 import DevAuthScreen from '../start/DevAuthScreen';
 import MainScreenContainer from '../main/MainScreenContainer';
 import AccountDetailsScreen from '../account-info/AccountDetailsScreen';
-import SearchScreen from '../search/SearchScreen';
+import SearchMessagesScreen from '../search/SearchMessagesScreen';
 import UsersScreen from '../users/UsersScreen';
 import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
@@ -66,7 +66,7 @@ export default class Navigation extends React.Component {
       case 'account-details':
         return <AccountDetailsScreen />;
       case 'search':
-        return <SearchScreen />;
+        return <SearchMessagesScreen />;
       case 'users':
         return <UsersScreen />;
       case 'subscriptions':

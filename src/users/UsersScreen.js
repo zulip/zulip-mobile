@@ -2,18 +2,32 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import { Screen } from '../common';
+import SearchScreen from '../search/SearchScreen';
 import { getAuth } from '../account/accountSelectors';
 import { getRecentConversations } from '../chat/chatSelectors';
 import UserListCard from './UserListCard';
 
 class UsersScreen extends Component {
 
+  state: {
+    filter: string,
+  };
+
+  constructor() {
+    super();
+    this.state = {
+      filter: '',
+    };
+  }
+
+  handleFilterChange = (filter: string) => this.setState({ filter });
+
   render() {
+    const { filter } = this.state;
     return (
-      <Screen title="Find user">
-        <UserListCard {...this.props} />
-      </Screen>
+      <SearchScreen searchBarOnChange={this.handleFilterChange}>
+        <UserListCard {...this.props} filter={filter} />
+      </SearchScreen>
     );
   }
 }
