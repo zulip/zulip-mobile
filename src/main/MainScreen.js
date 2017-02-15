@@ -43,7 +43,7 @@ export default class MainScreen extends React.Component {
   }
 
   render() {
-    const { doNarrow, narrow, orientation, subscriptions } = this.props;
+    const { doNarrow, narrow, orientation, subscriptions, pushRoute } = this.props;
     const { leftDrawerOpen, rightDrawerOpen } = this.state;
 
     let color;
@@ -60,11 +60,11 @@ export default class MainScreen extends React.Component {
         onClose={() => this.setState({ leftDrawerOpen: false })}
         content={
           <StreamSidebar
+            pushRoute={pushRoute}
             onNarrow={newNarrow => {
               doNarrow(newNarrow);
               this.setState({ leftDrawerOpen: false });
             }}
-            pushRoute={this.props.pushRoute}
           />
         }
       >

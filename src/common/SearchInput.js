@@ -43,7 +43,7 @@ export default class SearchInput extends Component {
           selectTextOnFocus
           clearButtonMode="always"
           autoCapitalize="none"
-          placeholder="Search people"
+          placeholder="Search"
           returnKeyType="search"
           onChangeText={onChange}
         />

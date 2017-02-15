@@ -42,7 +42,8 @@ export default class MessageList extends React.PureComponent {
   }
 
   render() {
-    const { messages, subscriptions, caughtUp, fetching, fetchOlder, fetchNewer } = this.props;
+    const { messages, subscriptions, caughtUp, fetching,
+      fetchOlder, fetchNewer, hideFetchingOlder } = this.props;
     let messageList = [];
     let containerStyle = {};
 
@@ -55,14 +56,17 @@ export default class MessageList extends React.PureComponent {
       }
       containerStyle = styles.centerContainer;
     } else {
-      messageList = [
-        <LoadingIndicator
-          key={'top_loading'}
-          active={fetching.older}
-          caughtUp={caughtUp.older}
-        />,
-        ...renderMessages(this.props),
-      ];
+      if (!hideFetchingOlder) {
+        messageList.push(
+          <LoadingIndicator
+            key={'top_loading'}
+            active={fetching.older}
+            caughtUp={caughtUp.older}
+          />);
+      }
+
+      messageList.push(...renderMessages(this.props));
+
       if (fetching.newer) {
         messageList.push(
           <LoadingIndicator

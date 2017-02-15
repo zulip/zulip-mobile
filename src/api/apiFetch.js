@@ -1,5 +1,4 @@
-import { StatusBar } from 'react-native';
-import { Platform } from 'react-native';
+import { StatusBar, Platform } from 'react-native';
 import { Auth } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
