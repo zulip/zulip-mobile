@@ -24,21 +24,18 @@ export default class TitleStream extends React.PureComponent {
   }
 
   render() {
-    const { narrow, subscriptions, textColor } = this.props;
+    const { narrow, subscriptions, color } = this.props;
     const stream = subscriptions.find(x => x.name === narrow[0].operand);
     const iconType = stream.invite_only ? 'lock' : 'hashtag';
 
     const fontSize = narrow.length > 1 ? 14 : 16;
-
-    const titleStyles = [styles.margin];
-    titleStyles.push({ fontSize });
-    titleStyles.push({ color: textColor });
+    const titleStyles = [styles.margin, { fontSize }, { color }];
 
     return (
       <View style={styles.wrapper}>
         <Icon
           name={iconType}
-          color={textColor}
+          color={color}
           size={fontSize}
         />
         <Text style={titleStyles}>
