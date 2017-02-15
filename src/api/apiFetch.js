@@ -9,7 +9,6 @@ export const apiFetch = async (
   auth: Auth,
   route: string,
   params: Object = {},
-  noTimeout: boolean = false,
 ) => {
   const url = `${auth.realm}/${apiVersion}/${route}`;
   const allParams = {
@@ -20,7 +19,6 @@ export const apiFetch = async (
     },
     ...params,
   };
-  StatusBar.setNetworkActivityIndicatorVisible(true);
   return fetch(url, allParams);
 };
 
@@ -29,12 +27,11 @@ export const apiCall = async (
   route: string,
   params: Object = {},
   resFunc = res => res,
-  noTimeout: boolean = false,
-  dispatch: () => {},
+  options: Object = {},
 ) => {
   let timeout;
   try {
-    if (!noTimeout) {
+    if (!options.noTimeout) {
       timeout = setTimeout(() => {
         // TODO: the throw below does not get caught and crashes the app
         // throw Error(`Request timed out @ ${route}`);
@@ -42,7 +39,12 @@ export const apiCall = async (
       }, 5000);
     }
 
-    const response = await apiFetch(auth, route, params, noTimeout);
+    // Show network activity indicator if this fetch isn't silent
+    if (!options.silent) {
+      StatusBar.setNetworkActivityIndicatorVisible(true);
+    }
+
+    const response = await apiFetch(auth, route, params);
     if (response.status === 401) {
       // TODO: httpUnauthorized()
       throw Error('Unauthorized');
@@ -65,29 +67,31 @@ export const apiCall = async (
     return resFunc(json);
   } finally {
     clearTimeout(timeout);
-    StatusBar.setNetworkActivityIndicatorVisible(false);
+    if (!options.silent) {
+      StatusBar.setNetworkActivityIndicatorVisible(false);
+    }
   }
 };
 
-export const apiGet = async (auth, route, params = {}, resFunc, noTimeout) =>
+export const apiGet = async (auth, route, params = {}, resFunc, options) =>
   apiCall(auth, `${route}?${encodeAsURI(params)}`, {
     method: 'get',
-  }, resFunc, noTimeout);
+  }, resFunc, options);
 
-export const apiPost = async (auth, route, params = {}, resFunc, noTimeout) =>
+export const apiPost = async (auth, route, params = {}, resFunc, options) =>
   apiCall(auth, route, {
     method: 'post',
     body: encodeAsURI(params),
-  }, resFunc, noTimeout);
+  }, resFunc, options);
 
-export const apiPut = async (auth, route, params = {}, resFunc, noTimeout) =>
+export const apiPut = async (auth, route, params = {}, resFunc, options) =>
   apiCall(auth, route, {
     method: 'put',
     body: encodeAsURI(params),
-  }, resFunc, noTimeout);
+  }, resFunc, options);
 
-export const apiDelete = async (auth, route, params = {}, resFunc, noTimeout) =>
+export const apiDelete = async (auth, route, params = {}, resFunc, options) =>
   apiCall(auth, route, {
     method: 'delete',
     body: encodeAsURI(params),
-  }, resFunc, noTimeout);
+  }, resFunc, options);
