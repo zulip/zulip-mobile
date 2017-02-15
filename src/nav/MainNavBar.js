@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigator, StatusBar, StyleSheet, View } from 'react-native';
 
 import { styles } from '../common';
+import { BRAND_COLOR } from '../common/styles';
 import Title from '../title/Title';
 import NavButton from './NavButton';
 
@@ -16,8 +17,16 @@ const moreStyles = StyleSheet.create({
 
 export default class MainNavBar extends React.Component {
   render() {
-    const { onPressStreams, onPressPeople, backgroundColor } = this.props;
-    const textColor = foregroundColorFromBackground(backgroundColor);
+    const { onPressStreams, onPressPeople } = this.props;
+    let { backgroundColor } = this.props;
+
+    let textColor = BRAND_COLOR;
+    if (backgroundColor) {
+      textColor = foregroundColorFromBackground(backgroundColor);
+    } else {
+      backgroundColor = '#ffffff';
+    }
+
     return (
       <Navigator
         initialRoute={{ name: 'Home', index: 0 }}
@@ -28,7 +37,7 @@ export default class MainNavBar extends React.Component {
             />
             <View style={[styles.navBar, { backgroundColor }]}>
               <NavButton name="ios-menu" color={textColor} onPress={onPressStreams} />
-              <Title backgroundColor={backgroundColor} />
+              <Title color={textColor} />
               <NavButton name="md-people" color={textColor} onPress={onPressPeople} />
             </View>
             {this.props.children}

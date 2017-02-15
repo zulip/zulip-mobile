@@ -2,9 +2,9 @@ import { StyleSheet } from 'react-native';
 
 import { STATUSBAR_HEIGHT, CONTROL_SIZE, NAVBAR_HEIGHT } from './platform';
 
-export const BRAND_COLOR = 'rgba(86, 193, 129, 1)';
+export const BRAND_COLOR = 'rgba(66, 163, 109, 1)';
 export const HIGHLIGHT_COLOR = 'rgba(86, 164, 174, 0.5)';
-export const BORDER_COLOR = '#eee';
+export const BORDER_COLOR = '#ddd';
 
 export default StyleSheet.create({
   screen: {
@@ -72,18 +72,18 @@ export default StyleSheet.create({
   },
   navBar: {
     flexDirection: 'row',
-    backgroundColor: BRAND_COLOR,
+    backgroundColor: '#ffffff',
     paddingTop: STATUSBAR_HEIGHT,
     height: NAVBAR_HEIGHT,
     alignItems: 'center',
     justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderColor: BORDER_COLOR,
   },
   navTitle: {
     flex: 1,
-    color: 'white',
+    color: BRAND_COLOR,
     textAlign: 'center',
     fontSize: 16,
-    lineHeight: CONTROL_SIZE,
-    height: CONTROL_SIZE,
   },
 });

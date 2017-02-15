@@ -7,10 +7,7 @@ export default class TitleHome extends React.PureComponent {
     const { color } = this.props;
 
     return (
-      <TitleSpecial
-        narrow={[{ operand: 'home' }]}
-        backgroundColor={color}
-      />
+      <TitleSpecial narrow={[{ operand: 'home' }]} color={color} />
     );
   }
 }

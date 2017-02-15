@@ -41,7 +41,7 @@ class Screen extends React.Component {
     return (
       <View style={styles.screen}>
         <StatusBar
-          barStyle="light-content"
+          barStyle="dark-content"
           hidden={this.props.orientation === 'LANDSCAPE'}
         />
         <ModalNavBar title={title} popRoute={popRoute} nav={nav} />
