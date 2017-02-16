@@ -48,7 +48,7 @@ export const apiCall = async (
   options: Object = {},
 ) => {
   try {
-    // Show network activity indicator if this fetch isn't silent
+    // Show network activity indicator if this fetch is not silent
     if (!options.silent) activityPush();
 
     // Either the API call or timeout will resolve first and the other will reject

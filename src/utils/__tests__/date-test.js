@@ -14,7 +14,7 @@ describe('shortTime', () => {
     expect(shortTime(date)).toBe('8:10 PM');
   });
 
-  test('returns as 24hrs time format, when true passed as 2nd parameter', () => {
+  test('returns as 24hrs time format, when true passed as second parameter', () => {
     const date = new Date(2000, 0, 1, 20, 10);
     expect(shortTime(date, true)).toBe('20:10');
   });
