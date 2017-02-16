@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { Auth } from '../types';
 import boundActions from '../boundActions';
-import { Screen } from '../common';
+import SearchScreen from '../search/SearchScreen';
 import { subscriptionAdd, subscriptionRemove } from '../api';
 import StreamList from '../streamlist/StreamList';
 import { getAuth } from '../account/accountSelectors';
@@ -17,6 +17,19 @@ class SubscriptionsScreen extends React.Component {
     subscriptions: [],
   };
 
+  state: {
+    filter: string,
+  };
+
+  constructor() {
+    super();
+    this.state = {
+      filter: '',
+    };
+  }
+
+  handleFilterChange = (filter: string) => this.setState({ filter });
+
   handleSwitchChange = (streamName: string, switchValue: boolean) => {
     const { auth } = this.props;
 
@@ -29,13 +42,18 @@ class SubscriptionsScreen extends React.Component {
 
   render() {
     const { streams, subscriptions } = this.props;
-    const subsAndStreams = streams.map(x => ({
+    const filteredStreams = streams.filter(x => x.name.includes(this.state.filter));
+    const subsAndStreams = filteredStreams.map(x => ({
       ...x,
       subscribed: subscriptions.some(s => s.stream_id === x.stream_id),
     }));
 
     return (
-      <Screen title="Subscriptions">
+      <SearchScreen
+        title="Subscriptions"
+        searchBarOnChange={this.handleFilterChange}
+        isOnDemandSearchBarApplied
+      >
         <StreamList
           streams={subsAndStreams}
           showSwitch
@@ -43,7 +61,7 @@ class SubscriptionsScreen extends React.Component {
           onNarrow={() => {}}
           onSwitch={this.handleSwitchChange}
         />
-      </Screen>
+      </SearchScreen>
     );
   }
 }
