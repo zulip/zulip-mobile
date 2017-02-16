@@ -21,40 +21,41 @@ export default StyleSheet.create({
   a: {
   },
   'user-mention': {
-    borderColor: '#ccc',
+    borderColor: 'rgba(0, 0, 0, 0.2)',
     borderWidth: 1,
-    backgroundColor: '#eee',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
     borderRadius: 3,
     paddingLeft: 4,
     paddingRight: 4,
   },
   'user-mention-me': {
-    backgroundColor: '#c9fcc1', // eslint-disable-line
+    backgroundColor: 'rgba(0, 255, 0, 0.1)',
   },
   code: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    borderColor: 'rgba(0, 0, 0, 0.1)',
     borderWidth: 1,
     borderRadius: 3,
-    borderColor: '#e5e5e5',
     paddingLeft: 4,
     paddingRight: 4,
   },
   pre: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    borderColor: 'rgba(0, 0, 0, 0.1)',
     borderWidth: 1,
     borderRadius: 3,
-    borderColor: '#e5e5e5',
     padding: 8,
     overflow: 'scroll',
   },
   table: {
     flexDirection: 'column',
-    borderColor: '#ddd',
+    borderColor: 'rgba(0, 0, 0, 0.1)',
     borderWidth: 1,
   },
   thead: {
     flexDirection: 'column',
-    backgroundColor: '#eee',
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+
   },
   tbody: {
     flexDirection: 'column',
@@ -64,23 +65,22 @@ export default StyleSheet.create({
   },
   th: {
     flex: 1,
-    borderColor: '#ddd',
+    borderColor: 'rgba(0, 0, 0, 0.1)',
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   td: {
     flex: 1,
-    borderColor: '#ddd',
+    borderColor: 'rgba(0, 0, 0, 0.1)',
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   blockquote: {
-    borderLeftColor: '#ddd',
-    borderLeftWidth: 5,
-    marginLeft: 5,
-    paddingLeft: 5,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    borderLeftWidth: 4,
+    paddingLeft: 4,
   },
   emoji: {
     width: 24,
