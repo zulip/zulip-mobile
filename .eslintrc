@@ -66,7 +66,8 @@
         "src", "attribs", "charset", "utf", "urlencoded", "htmlparser", "htmlparser2", "ul", "ol",
         "chatbubbles", "nonexisting", "primarytext", "autocomple", "stringify", "backend",
         "Menlo", "ok", "py", "todo", "Mc", "lodash", "selectable", "isequal", "lightgray", "tc",
-        "zulipchat", "prepend", "pierre", "allen", "jan", "donald", "jane", "unicode", "joe"
+        "zulipchat", "prepend", "pierre", "allen", "jan", "donald", "jane", "unicode", "joe",
+        "dan", "abramov", "lang"
       ],
       "skipIfMatch": [
         "http://[^s]*",
