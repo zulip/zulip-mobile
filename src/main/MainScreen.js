@@ -17,7 +17,7 @@ const SideDrawer = (props) =>
       props.orientation === 'LANDSCAPE' ? 0.5 : 0.2
     }
     negotiatePan
-    panOpenMask={0.5}
+    panOpenMask={0.05}
     useInteractionManager
     tweenDuration={150}
     tweenHandler={(ratio) => ({
