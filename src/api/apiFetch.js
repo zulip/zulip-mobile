@@ -1,25 +1,10 @@
-import { StatusBar, Platform } from 'react-native';
 import { Auth } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import timeout from '../utils/timeout';
+import { networkActivityStart, networkActivityStop } from './networkActivity';
 
 const apiVersion = 'api/v1';
-
-// Network activity indicators should be visible if *any* network activity is occurring
-let activityCounter = 0;
-const activityPush = () => {
-  activityCounter++;
-  if (Platform.OS === 'ios') {
-    StatusBar.setNetworkActivityIndicatorVisible(true);
-  }
-};
-const activityPop = () => {
-  activityCounter--;
-  if (activityCounter === 0 && Platform.OS === 'ios') {
-    StatusBar.setNetworkActivityIndicatorVisible(false);
-  }
-};
 
 export const apiFetch = async (
   auth: Auth,
@@ -48,7 +33,7 @@ export const apiCall = async (
 ) => {
   try {
     // Show network activity indicator if this fetch is not silent
-    if (!isSilent) activityPush();
+    networkActivityStart(isSilent);
     const response = await timeout(
       await apiFetch(auth, route, params),
       () => { throw new Error(`Request timed out @ ${route}`); },
@@ -69,7 +54,7 @@ export const apiCall = async (
 
     return resFunc(json);
   } finally {
-    if (!isSilent) activityPop();
+    networkActivityStop(isSilent);
   }
 };
 
