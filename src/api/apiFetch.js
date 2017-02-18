@@ -6,8 +6,6 @@ import timeout from '../utils/timeout';
 
 const apiVersion = 'api/v1';
 
-const TIMEOUT_MS = 10000;
-
 // Network activity indicators should be visible if *any* network activity is occurring
 let activityCounter = 0;
 const activityPush = () => {
@@ -45,21 +43,17 @@ export const apiCall = async (
   route: string,
   params: Object = {},
   resFunc = res => res,
-  options: Object = {},
+  isSilent: boolean = false,
+  shouldTimeout: boolean = true,
 ) => {
   try {
     // Show network activity indicator if this fetch is not silent
-    if (!options.silent) activityPush();
-
-    // Either the API call or timeout will resolve first and the other will reject
-    const promises = [apiFetch(auth, route, params)];
-    if (!options.noTimeout) {
-      promises.push(timeout(TIMEOUT_MS).then(() => {
-        throw Error(`Request timed out @ ${route}`);
-      }));
-    }
-    const response = await Promise.race(promises);
-
+    if (!isSilent) activityPush();
+    const response = await timeout(
+      await apiFetch(auth, route, params),
+      () => { throw new Error(`Request timed out @ ${route}`); },
+      shouldTimeout,
+    );
     if (response.status === 401) {
       // TODO: httpUnauthorized()
       throw Error('Unauthorized');
@@ -75,7 +69,7 @@ export const apiCall = async (
 
     return resFunc(json);
   } finally {
-    if (!options.silent) activityPop();
+    if (!isSilent) activityPop();
   }
 };
 
