@@ -53,8 +53,6 @@ export default (state = getInitialState(), action) => {
       const key = JSON.stringify(action.narrow);
       const messages = state.messages[key] || [];
 
-      // TODO: this is O(n^2) in the number of messages
-      // Since these are both sorted we can do this in O(n) time
       const newMessages = action.messages
         .filter(x => !messages.find(msg => msg.id === x.id))
         .concat(messages)

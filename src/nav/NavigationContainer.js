@@ -35,6 +35,17 @@ class NavigationContainer extends React.PureComponent {
     // Release memory here
   }
 
+  componentWillMount() {
+    const { needsInitialFetch, auth,
+      fetchEssentialInitialData, fetchRestOfInitialData } = this.props;
+
+    if (needsInitialFetch) {
+      // dispatch({ type: INITIAL_DATA_FETCH });
+      fetchEssentialInitialData(auth);
+      fetchRestOfInitialData(auth);
+    }
+  }
+
   componentDidMount() {
     const { accounts } = this.props;
     this.props.initRoutes(getInitialRoutes(accounts));
@@ -71,6 +82,7 @@ class NavigationContainer extends React.PureComponent {
 export default connect(
   (state) => ({
     auth: getAuth(state),
+    needsInitialFetch: state.app.needsInitialFetch,
     accounts: state.account,
     navigation: state.nav,
   }),

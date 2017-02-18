@@ -3,11 +3,11 @@ import {
   INIT_SUBSCRIPTIONS,
 } from '../constants';
 
+export const initSubscriptions = (subscriptions) => ({
+  type: INIT_SUBSCRIPTIONS,
+  subscriptions,
+});
+
 export const fetchSubscriptions = (auth) =>
-  async (dispatch) => {
-    const response = await getSubscriptions(auth);
-    dispatch({
-      type: INIT_SUBSCRIPTIONS,
-      subscriptions: response,
-    });
-  };
+  async (dispatch) =>
+    dispatch(initSubscriptions(await getSubscriptions(auth)));

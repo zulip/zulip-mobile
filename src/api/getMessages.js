@@ -6,7 +6,7 @@ export default async (
   numBefore: number,
   numAfter: number,
   narrow: Object,
-  useFirstUnread: false,
+  useFirstUnread: boolean = false,
 ) =>
   apiGet(
     auth,

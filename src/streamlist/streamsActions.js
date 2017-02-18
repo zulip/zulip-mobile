@@ -3,11 +3,11 @@ import {
   INIT_STREAMS,
 } from '../constants';
 
+export const initStreams = (streams) => ({
+  type: INIT_STREAMS,
+  streams,
+});
+
 export const fetchStreams = (auth) =>
-  async (dispatch) => {
-    const response = await getStreams(auth);
-    dispatch({
-      type: INIT_STREAMS,
-      streams: response,
-    });
-  };
+  async (dispatch) =>
+    dispatch(initStreams(await getStreams(auth)));

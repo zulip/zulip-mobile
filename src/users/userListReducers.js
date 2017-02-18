@@ -4,7 +4,7 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   EVENT_PRESENCE,
-  GET_USER_RESPONSE,
+  INIT_USERS,
   PRESENCE_RESPONSE,
 } from '../constants';
 
@@ -59,7 +59,7 @@ export default (state = initialState, action) => {
         return currentState;
       }, state.slice());
     }
-    case GET_USER_RESPONSE: {
+    case INIT_USERS: {
       return action.users.map(user => ({
         email: user.email,
         fullName: user.full_name,
