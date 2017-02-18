@@ -9,8 +9,6 @@ export default (auth: Auth, queueId: number, lastEventId: number) =>
       last_event_id: lastEventId,
     },
     res => res,
-    {
-      silent: true,
-      noTimeout: true,
-    },
+    true,
+    false,
   );
