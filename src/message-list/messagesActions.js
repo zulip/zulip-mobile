@@ -11,6 +11,15 @@ export const switchNarrow = (narrow, messages) => ({
   messages,
 });
 
+export const messageFetchSuccess = (messages, anchor, narrow, fetching, caughtUp) => ({
+  type: MESSAGE_FETCH_SUCCESS,
+  messages,
+  anchor,
+  narrow,
+  fetching,
+  caughtUp,
+});
+
 export const backgroundFetchMessages = (
   auth,
   anchor: number,
@@ -39,18 +48,16 @@ export const backgroundFetchMessages = (
       };
     }
 
-    dispatch({
-      type: MESSAGE_FETCH_SUCCESS,
-      auth,
+    dispatch(messageFetchSuccess(
       messages,
       anchor,
       narrow,
-      fetching: {
+      {
         ...numBefore ? { older: false } : {},
         ...numAfter ? { newer: false } : {},
       },
       caughtUp,
-    });
+    ));
   };
 
 export const fetchMessages = (

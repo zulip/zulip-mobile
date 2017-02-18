@@ -1,5 +1,5 @@
 import {
-  GET_USER_RESPONSE,
+  INIT_USERS,
   PRESENCE_RESPONSE,
 } from '../../constants';
 import userListReducers, { activityFromPresence, timestampFromPresence } from '../userListReducers';
@@ -16,9 +16,9 @@ describe('userListReducers', () => {
     expect(newState).toEqual(prevState);
   });
 
-  test('on GET_USER_RESPONSE stores user data', () => {
+  test('on INIT_USERS stores user data', () => {
     const users = [{ full_name: 'user1' }, { full_name: 'user2' }];
-    const newState = userListReducers([], { type: GET_USER_RESPONSE, users });
+    const newState = userListReducers([], { type: INIT_USERS, users });
     expect(newState.length).toEqual(2);
   });
 
