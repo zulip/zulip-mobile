@@ -112,7 +112,7 @@ const startEventLoop = (auth, queueId, eventId) =>
         break;
       }
 
-      if (!response.result !== 'success') {
+      if (response.result !== 'success') {
         if (response.msg.indexOf('too old') !== -1 ||
             response.msg.indexOf('Bad event queue id') !== -1) {
           // Force a refresh (index 0 is the currently active account)
