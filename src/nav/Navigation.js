@@ -56,7 +56,7 @@ export default class Navigation extends React.Component {
       case 'account':
         return <AccountPickScreen />;
       case 'realm':
-        return <RealmScreen />;
+        return <RealmScreen {...props.scene.route.data} />;
       case 'auth':
         return <AuthScreen />;
       case 'dev':

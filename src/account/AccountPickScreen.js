@@ -27,11 +27,11 @@ class AccountPickScreen extends React.Component {
 
   handleAccountSelect = (index: number) => {
     const { accounts, pushRoute, switchAccount } = this.props;
-    const { apiKey } = accounts[index];
+    const { realm, apiKey } = accounts[index];
     if (apiKey) {
       switchAccount(index); // Reset stream, message, user list
     } else {
-      pushRoute('realm');
+      pushRoute('realm', { realm });
     }
   };
 
