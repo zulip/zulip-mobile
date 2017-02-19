@@ -1,5 +1,5 @@
 import React from 'react';
-import { NetInfo, View } from 'react-native';
+import { AppState, NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -23,14 +23,21 @@ class NavigationContainer extends React.PureComponent {
   handleConnectivityChange = (isConnected) =>
     this.props.appOnline(isConnected);
 
+  handleAppStateChange = (state) => {
+    this.props.appState(state === 'active');
+  }
+
+  handleMemoryWarning = () => {
+    // Release memory here
+  }
+
   componentDidMount() {
     const { accounts } = this.props;
     this.props.initRoutes(getInitialRoutes(accounts));
 
-    NetInfo.isConnected.addEventListener(
-      'change',
-      this.handleConnectivityChange
-    );
+    NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange);
+    AppState.addEventListener('change', this.handleAppStateChange);
+    AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
 
     // check with server if current mobile app is compatible with latest backend
     // compatibility fails only if server responds with 400 (but not with 200 or 404)
@@ -40,10 +47,9 @@ class NavigationContainer extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener(
-      'change',
-      this.handleConnectivityChange,
-    );
+    NetInfo.isConnected.removeEventListener('change', this.handleConnectivityChange);
+    AppState.addEventListener('change', this.handleAppStateChange);
+    AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
   }
 
   render() {

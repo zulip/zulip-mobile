@@ -9,6 +9,7 @@ import {
   ACCOUNT_SWITCH,
   INITIAL_DATA_FETCH,
   APP_ORIENTATION,
+  APP_STATE,
 } from '../constants';
 
 import { getAuth } from '../account/accountSelectors';
@@ -17,6 +18,7 @@ const initialState = {
   lastActivityTime: new Date(),
   isHydrated: false,
   isOnline: true,
+  isActive: true,
   needsInitialFetch: false,
 };
 
@@ -55,6 +57,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isOnline: action.isOnline,
+      };
+    case APP_STATE:
+      return {
+        ...state,
+        isActive: action.isActive,
       };
     case INITIAL_DATA_FETCH:
       return {

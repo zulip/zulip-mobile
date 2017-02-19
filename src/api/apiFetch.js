@@ -2,11 +2,11 @@ import { StatusBar, Platform } from 'react-native';
 import { Auth } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
+import timeout from '../utils/timeout';
 
 const apiVersion = 'api/v1';
 
-const TIMEOUT_MS = 3000;
-const timeout = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const TIMEOUT_MS = 5000;
 
 // Network activity indicators should be visible if *any* network activity is occurring
 let activityCounter = 0;
