@@ -3,8 +3,6 @@ import {
   shortDate,
   longDate,
   daysInDate,
-  isSameDay,
-  isSameYear,
   humanDate,
 } from '../date';
 
@@ -47,40 +45,6 @@ describe('daysInDate', () => {
     const diff = daysInDate(date2) - daysInDate(date1);
 
     expect(diff).toBe(1);
-  });
-});
-
-describe('isSameDay', () => {
-  test('same dates are on the same day', () => {
-    const date1 = new Date(2000, 0, 1);
-    const date2 = new Date(2000, 0, 1);
-    expect(isSameDay(date1, date2)).toBe(true);
-  });
-
-  test('dates with different days are not on the same day', () => {
-    const date1 = new Date(2000, 1, 5);
-    const date2 = new Date(2000, 0, 1);
-    expect(isSameDay(date1, date2)).toBe(false);
-  });
-});
-
-describe('isSameYear', () => {
-  test('same dates are on the same year', () => {
-    const date1 = new Date(2000, 0, 1);
-    const date2 = new Date(2000, 0, 1);
-    expect(isSameYear(date1, date2)).toBe(true);
-  });
-
-  test('different dates in same year return "true"', () => {
-    const date1 = new Date(2000, 0, 1);
-    const date2 = new Date(2000, 10, 10);
-    expect(isSameYear(date1, date2)).toBe(true);
-  });
-
-  test('different years return "false"', () => {
-    const date1 = new Date(1995, 1, 1);
-    const date2 = new Date(2000, 0, 1);
-    expect(isSameYear(date1, date2)).toBe(false);
   });
 });
 
