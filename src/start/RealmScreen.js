@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import styles from '../common/styles';
-import { getAuth } from '../account/accountSelectors';
 import { Screen, ErrorMsg, ZulipButton, Input } from '../common';
 import { getAuthBackends } from '../api';
 import config from '../config';
@@ -95,9 +94,4 @@ class RealmScreen extends React.Component {
   }
 }
 
-export default connect(
-  (state) => ({
-    realm: getAuth(state).realm,
-  }),
-  boundActions,
-)(RealmScreen);
+export default connect(null, boundActions)(RealmScreen);
