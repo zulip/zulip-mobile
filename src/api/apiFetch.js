@@ -65,19 +65,13 @@ export const apiCall = async (
       throw Error('Unauthorized');
     }
 
-    if (!response.ok) {
-      console.log(response); // eslint-disable-line
-      throw Error(response.statusText);
+    const json = await response.json();
+
+    if (!response.ok || json.result !== 'success') {
+      throw new Error(json.msg);
     }
 
     // send APP_ONLINE
-
-    const json = await response.json();
-
-    if (json.result !== 'success') {
-      console.error(json.msg); // eslint-disable-line
-      throw new Error(json.msg);
-    }
 
     return resFunc(json);
   } finally {
