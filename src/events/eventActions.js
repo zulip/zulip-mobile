@@ -101,12 +101,18 @@ export const fetchEvents = (auth: Auth) =>
 
     // Event loop
     while (true) { // eslint-disable-line no-constant-condition
-      // eslint-disable-next-line no-await-in-loop
-      const response = await pollForEvents(auth, queueId, lastEventId);
-
-      for (const event of response.events) {
-        lastEventId = Math.max(lastEventId, event.id);
-        processEvent(dispatch, event, getState);
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const response = await pollForEvents(auth, queueId, lastEventId);
+        for (const event of response.events) {
+          lastEventId = Math.max(lastEventId, event.id);
+          processEvent(dispatch, event, getState);
+        }
+      } catch (e) {
+        // eslint-disable-next-line no-await-in-loop
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        console.log('Event polling error', e); // eslint-disable-line 
+        // do nothing
       }
     }
   };
