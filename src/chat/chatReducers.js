@@ -14,7 +14,7 @@ import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
 
 const getInitialState = () => ({
-  fetching: { older: false, newer: false },
+  fetching: { older: true, newer: true },
   caughtUp: { older: false, newer: false },
   narrow: homeNarrow(),
   messages: {},

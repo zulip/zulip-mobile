@@ -40,9 +40,9 @@ class NavigationContainer extends React.PureComponent {
       fetchEssentialInitialData, fetchRestOfInitialData } = this.props;
 
     if (needsInitialFetch) {
-      // dispatch({ type: INITIAL_DATA_FETCH });
       fetchEssentialInitialData(auth);
       fetchRestOfInitialData(auth);
+      // pollForData
     }
   }
 
