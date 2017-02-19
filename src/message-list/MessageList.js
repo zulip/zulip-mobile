@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { LoadingIndicator } from '../common';
 import MessageLoading from '../message/MessageLoading';
@@ -20,25 +20,37 @@ const styles = StyleSheet.create({
 export default class MessageList extends React.PureComponent {
   constructor() {
     super();
-    this.mapIdToIdx = {};
     this.state = {
       autoScrollToBottom: false,
     };
+
+    // We need to make sure we're using the right version of react native
+    // Otherwise, scroll behavior will be subtly broken
+    /* eslint-disable */
+    if (__DEV__) {
+      if (!View.propTypes.hasOwnProperty('assocID')) {
+        console.error(
+          'RCTView does not have custom extensions to support' +
+          ' anchored scrolling. Are you using the zulip/react-native fork?'
+        );
+      }
+    }
+    /* eslint-enable */
   }
 
   componentWillReceiveProps(nextProps) {
-    const currentNarrow = JSON.stringify(this.props.narrow);
-    const nextNarrow = JSON.stringify(nextProps.narrow);
-
     this.setState({
       autoScrollToBottom: this.props.caughtUp.newer && nextProps.caughtUp.newer,
     });
+  }
 
-    // Invalidate the existing message anchors if the narrow changes
-    // (because we'll have a brand new set of messages)
-    if (currentNarrow !== nextNarrow) {
-      this.mapIdToIdx = {};
-    }
+  onScroll = (e) => {
+    const { messages, markAsRead } = this.props;
+    const visibleIds = e.visibleIds;
+
+    markAsRead(visibleIds.map((messageId) =>
+      messages.find((msg) => msg.id.toString() === messageId)
+    ).filter((msg) => msg && msg.flags && msg.flags.indexOf('read') === -1));
   }
 
   render() {
@@ -79,34 +91,11 @@ export default class MessageList extends React.PureComponent {
     // `headerIndices` tell the scroll view which components are headers
     // and are eligible to be docked at the top of the view.
     const headerIndices = [];
-
-    // `anchorIndices` tell the scroll view which components are messages
-    // and are eligible to be used as anchors to maintain scroll position
-    // if data changes or new data is added.
-    //
-    // `anchorMap` provides a map from old anchor indices to new anchor indices.
-    // The scroll view needs to know how to find old anchors when state changes.
-    //
-    // `mapIdToIdx` is an internal map of messageId to index in the component
-    // list and is used by `MessageList` to generate `anchorMap`.
-    const anchorIndices = [];
-    const anchorMap = {};
-    const mapIdToIdx = {};
-
     messageList.forEach((elem, idx) => {
       if (elem.props.type === 'header') {
         headerIndices.push(idx);
-      } else if (elem.props.type === 'message') {
-        const messageId = elem.props.message.id;
-        mapIdToIdx[messageId] = idx;
-        anchorIndices.push(idx);
-
-        const oldIdx = this.mapIdToIdx[messageId];
-        if (oldIdx) anchorMap[oldIdx] = idx;
       }
     });
-
-    this.mapIdToIdx = mapIdToIdx;
 
     return (
       <InfiniteScrollView
@@ -114,12 +103,10 @@ export default class MessageList extends React.PureComponent {
         contentContainerStyle={containerStyle}
         automaticallyAdjustContentInset="false"
         stickyHeaderIndices={headerIndices}
-        anchorIndices={anchorIndices}
-        anchorMap={anchorMap}
         onStartReached={fetchOlder}
         onEndReached={fetchNewer}
         autoScrollToBottom={this.state.autoScrollToBottom}
-        onScroll={e => {}}
+        onScroll={this.onScroll}
       >
         {messageList}
       </InfiniteScrollView>

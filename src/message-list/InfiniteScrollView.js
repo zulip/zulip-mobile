@@ -16,7 +16,7 @@ class InfiniteScrollView extends React.Component {
       if (!ScrollView.propTypes.hasOwnProperty('anchorMode')) {
         console.error(
           'RCTScrollView does not have custom extensions to support' +
-          ' anchored behavior. Are you using the zulip/react-native fork?'
+          ' anchored scrolling. Are you using the zulip/react-native fork?'
         );
       }
     }
@@ -93,8 +93,6 @@ class InfiniteScrollView extends React.Component {
         scrollEventThrottle={DEFAULT_SCROLL_CALLBACK_THROTTLE}
         stickyHeaderIndices={this.props.stickyHeaderIndices}
         anchorMode
-        anchorIndices={this.props.anchorIndices}
-        anchorMap={this.props.anchorMap}
         autoScrollToBottom={this.props.autoScrollToBottom}
       >
         {this.props.children}

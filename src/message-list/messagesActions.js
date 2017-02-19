@@ -1,4 +1,4 @@
-import { getMessages } from '../api';
+import { getMessages, messagesFlags } from '../api';
 import {
   SWITCH_NARROW,
   MESSAGE_FETCH_START,
@@ -75,4 +75,9 @@ export const fetchMessages = (
       },
     });
     dispatch(backgroundFetchMessages(auth, anchor, numBefore, numAfter, narrow, useFirstUnread));
+  };
+
+export const updateMessageFlags = (auth, messageIds, op, flag) =>
+  async (dispatch) => {
+    await messagesFlags(auth, messageIds, op, flag);
   };

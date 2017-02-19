@@ -9,6 +9,6 @@ export default (
   apiPost(
     auth,
     'messages/flags',
-    { messages, flag, op },
-    res => res.messages,
+    { messages: JSON.stringify(messages), flag, op },
+    res => res,
   );
