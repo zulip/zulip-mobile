@@ -1,4 +1,4 @@
-import timeout from '../timeout';
+import { timeout, tryUntilSuccessful } from '../async';
 
 describe('timeout', () => {
   test('when no parameters passed, there is no timeout', async () => {
@@ -18,5 +18,28 @@ describe('timeout', () => {
     const timeoutCallback = jest.fn();
     await timeout(longDurationFunc, timeoutCallback);
     expect(timeoutCallback).not.toHaveBeenCalled();
+  });
+});
+
+describe('tryUntilSuccessful', () => {
+  test('TODO1', async () => {
+    const result = await tryUntilSuccessful('hello');
+
+    expect(result).toEqual('hello');
+  });
+
+  test('TODO2', async () => {
+    let callCount = 0;
+    const thrower = async () => {
+      callCount++;
+      console.log('callCount', callCount);
+      if (callCount === 1) throw new Error('Test');
+      console.log('returning hello', callCount);
+      return 'hello';
+    };
+
+    const result = await tryUntilSuccessful(thrower());
+
+    expect(result).toEqual('hello');
   });
 });

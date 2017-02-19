@@ -46,12 +46,12 @@ export default class MessageList extends React.PureComponent {
   }
 
   render() {
-    const { messages, subscriptions, caughtUp, fetching,
+    const { messages, caughtUp, fetching,
       fetchOlder, fetchNewer, hideFetchingOlder } = this.props;
     let messageList = [];
     let containerStyle = {};
 
-    if (messages.length === 0 || subscriptions.length === 0) {
+    if (messages.length === 0) {
       if (!caughtUp.older || !caughtUp.newer) {
         // Show placeholder messages if we're loading the screen
         messageList = [...Array(6).keys()].map((i) =>

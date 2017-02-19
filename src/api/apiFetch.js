@@ -1,7 +1,7 @@
 import { Auth } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
-import timeout from '../utils/timeout';
+import { timeout } from '../utils/async';
 import { networkActivityStart, networkActivityStop } from './networkActivity';
 
 const apiVersion = 'api/v1';
@@ -54,6 +54,7 @@ export const apiCall = async (
 
     return resFunc(json);
   } finally {
+    console.log('finally_route', route);
     networkActivityStop(isSilent);
   }
 };

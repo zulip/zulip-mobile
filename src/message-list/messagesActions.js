@@ -11,10 +11,9 @@ export const switchNarrow = (narrow, messages) => ({
   messages,
 });
 
-export const messageFetchSuccess = (messages, anchor, narrow, fetching, caughtUp) => ({
+export const messageFetchSuccess = (messages, narrow, fetching, caughtUp) => ({
   type: MESSAGE_FETCH_SUCCESS,
   messages,
-  anchor,
   narrow,
   fetching,
   caughtUp,
