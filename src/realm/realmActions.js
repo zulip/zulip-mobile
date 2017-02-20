@@ -14,8 +14,8 @@ export const fetchInitialRealmData = () => ({
 export const fetchEssentialInitialData = (auth) =>
   async (dispatch) => {
     const [subscriptions, messages] = await Promise.all([
-      await tryUntilSuccessful(getSubscriptions(auth)),
-      await tryUntilSuccessful(getMessages(auth, 0, 20, 1, homeNarrow(), true)),
+      await tryUntilSuccessful(() => getSubscriptions(auth)),
+      await tryUntilSuccessful(() => getMessages(auth, 0, 20, 1, homeNarrow(), true)),
     ]);
 
     dispatch(messageFetchSuccess(messages, homeNarrow(), { older: false, newer: false }));
@@ -25,9 +25,11 @@ export const fetchEssentialInitialData = (auth) =>
 export const fetchRestOfInitialData = (auth) =>
   async (dispatch) => {
     const [streams, users, messages] = await Promise.all([
-      await tryUntilSuccessful(getStreams(auth)),
-      await tryUntilSuccessful(getUsers(auth)),
-      await tryUntilSuccessful(getMessages(auth, Number.MAX_SAFE_INTEGER, 100, 0, specialNarrow('private'))),
+      await tryUntilSuccessful(() => getStreams(auth)),
+      await tryUntilSuccessful(() => getUsers(auth)),
+      await tryUntilSuccessful(() =>
+        getMessages(auth, Number.MAX_SAFE_INTEGER, 100, 0, specialNarrow('private'))
+      ),
     ]);
 
     dispatch(messageFetchSuccess(messages, specialNarrow('private')));

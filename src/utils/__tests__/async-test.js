@@ -22,24 +22,47 @@ describe('timeout', () => {
 });
 
 describe('tryUntilSuccessful', () => {
-  test('TODO1', async () => {
-    const result = await tryUntilSuccessful('hello');
+  test('resolves any value when there is no exception', async () => {
+    const result = await tryUntilSuccessful(() => 'hello');
 
     expect(result).toEqual('hello');
   });
 
-  test('TODO2', async () => {
+  test('resolves any promise, if there is no exception', async () => {
+    const result = await tryUntilSuccessful(() =>
+      new Promise(resolve => setTimeout(() => resolve('hello'), 100))
+    );
+
+    expect(result).toEqual('hello');
+  });
+
+  test('retries a call, if there is an exception', async () => {
+    // fail on first call, succeed second time
     let callCount = 0;
-    const thrower = async () => {
+    const thrower = () => {
       callCount++;
-      console.log('callCount', callCount);
-      if (callCount === 1) throw new Error('Test');
-      console.log('returning hello', callCount);
+      if (callCount === 1) throw new Error('First run exception');
       return 'hello';
     };
 
-    const result = await tryUntilSuccessful(thrower());
+    const result = await tryUntilSuccessful(() => thrower());
 
     expect(result).toEqual('hello');
+  });
+
+  test('does not retry a call if maxRetries = 0', async () => {
+    let callCount = 0;
+    const thrower = () => {
+      callCount++;
+      if (callCount === 1) throw new Error('First run exception');
+      return 'hello';
+    };
+
+    expect.assertions(1);
+    try {
+      await tryUntilSuccessful(() => thrower(), 0);
+    } catch (e) {
+      expect(e).toBeTruthy();
+    }
   });
 });

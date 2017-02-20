@@ -54,7 +54,6 @@ export const apiCall = async (
 
     return resFunc(json);
   } finally {
-    console.log('finally_route', route);
     networkActivityStop(isSilent);
   }
 };
