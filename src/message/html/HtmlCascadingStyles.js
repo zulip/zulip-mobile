@@ -37,6 +37,7 @@ export default StyleSheet.create({
   },
   code: {
     fontFamily: 'Menlo',
+    fontSize: 13,
   },
   pre: {
     fontFamily: 'Menlo',
@@ -65,5 +66,5 @@ export default StyleSheet.create({
   se: {
     color: '#b62',
     fontWeight: 'bold',
-  }
+  },
 });

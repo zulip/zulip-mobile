@@ -10,6 +10,7 @@ import HtmlTagPre from './HtmlTagPre';
 import HtmlTagStrong from './HtmlTagStrong';
 import HtmlTagItalic from './HtmlTagItalic';
 import HtmlTagDiv from './HtmlTagDiv';
+import HtmlTagBr from './HtmlTagBr';
 
 // br', 'blockquote',
 
@@ -35,6 +36,7 @@ const specialTags = {
   'tr': HtmlTagDiv,
   'th': HtmlTagDiv,
   'td': HtmlTagDiv,
+  'br': HtmlTagBr,
 };
 
 const stylesFromClassNames = (classNames = '', styleObj) =>
