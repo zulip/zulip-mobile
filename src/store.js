@@ -14,7 +14,18 @@ import rootReducer from './reducers';
 const middleware = [thunk, createActionBuffer(REHYDRATE)];
 if (process.env.NODE_ENV === 'development') {
   // Log states and actions to the console in dev mode
-  middleware.push(createLogger());
+  // But only when remote debugging! It really slows down the iOS JSC
+  let runningInChrome = false;
+  try {
+    // btoa is not available in JSC so we can use it to figure out if we're
+    // running in Chrome remote debugging or not
+    runningInChrome = !!btoa;
+  } catch (err) {
+    // pass
+  }
+  if (runningInChrome) {
+    middleware.push(createLogger());
+  }
 }
 
 const store = compose(
