@@ -37,7 +37,7 @@ export default class StreamSidebar extends React.Component {
         <ZulipButton
           secondary
           customStyles={styles.button}
-          text="Search Messages"
+          text="Search messages"
           onPress={this.handleSearch}
         />
         <SidebarRow
@@ -46,7 +46,7 @@ export default class StreamSidebar extends React.Component {
           onPress={() => onNarrow(homeNarrow())}
         />
         <SidebarRow
-          name="Private Messages"
+          name="Private messages"
           icon="md-chatboxes"
           onPress={() => onNarrow(specialNarrow('private'))}
         />
@@ -64,7 +64,7 @@ export default class StreamSidebar extends React.Component {
         <ZulipButton
           customStyles={styles.button}
           secondary
-          text="All Streams"
+          text="All streams"
           onPress={this.handleAllStreams}
         />
       </View>

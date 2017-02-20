@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 
 const specials = {
   home: { name: 'Home', icon: 'md-home' },
-  private: { name: 'Private Messages', icon: 'md-chatboxes' },
+  private: { name: 'Private messages', icon: 'md-chatboxes' },
   starred: { name: 'Starred', icon: 'md-star' },
   mentioned: { name: 'Mentions', icon: 'md-at' },
 };

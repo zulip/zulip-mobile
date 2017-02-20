@@ -28,7 +28,7 @@ class AccountDetailsScreen extends Component {
     const fullAvatarUrl = getFullUrl(avatarUrl, auth.realm);
 
     return (
-      <Screen title="Account Details">
+      <Screen title="Account details">
         <AccountDetails
           auth={auth}
           fullName={fullName}

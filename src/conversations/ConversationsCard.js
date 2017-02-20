@@ -63,7 +63,7 @@ export default class ConversationsCard extends Component {
         <ZulipButton
           secondary
           customStyles={styles.button}
-          text="Search People"
+          text="Search people"
           onPress={this.handleSearchPress}
         />
         <ConversationList

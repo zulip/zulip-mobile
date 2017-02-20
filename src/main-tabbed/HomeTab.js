@@ -24,12 +24,12 @@ class HomeTab extends React.Component {
     return (
       <View tabLabel="Home">
         <SidebarRow
-          name="All Messages"
+          name="All messages"
           icon="md-home"
           onPress={() => this.handleNarrow(homeNarrow())}
         />
         <SidebarRow
-          name="Private Messages"
+          name="Private messages"
           icon="md-chatboxes"
           onPress={() => this.handleNarrow(specialNarrow('private'))}
         />
