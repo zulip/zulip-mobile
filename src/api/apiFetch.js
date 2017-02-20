@@ -2,11 +2,11 @@ import { StatusBar, Platform } from 'react-native';
 import { Auth } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
+import timeout from '../utils/timeout';
 
 const apiVersion = 'api/v1';
 
-const TIMEOUT_MS = 3000;
-const timeout = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const TIMEOUT_MS = 5000;
 
 // Network activity indicators should be visible if *any* network activity is occurring
 let activityCounter = 0;
@@ -65,19 +65,13 @@ export const apiCall = async (
       throw Error('Unauthorized');
     }
 
-    if (!response.ok) {
-      console.log(response); // eslint-disable-line
-      throw Error(response.statusText);
+    const json = await response.json();
+
+    if (!response.ok || json.result !== 'success') {
+      throw new Error(json.msg);
     }
 
     // send APP_ONLINE
-
-    const json = await response.json();
-
-    if (json.result !== 'success') {
-      console.error(json.msg); // eslint-disable-line
-      throw new Error(json.msg);
-    }
 
     return resFunc(json);
   } finally {
