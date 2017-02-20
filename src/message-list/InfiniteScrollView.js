@@ -2,8 +2,8 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
 
-const DEFAULT_START_REACHED_THRESHOLD = 500;
-const DEFAULT_END_REACHED_THRESHOLD = 500;
+const DEFAULT_START_REACHED_THRESHOLD = 2500;
+const DEFAULT_END_REACHED_THRESHOLD = 2500;
 const DEFAULT_SCROLL_CALLBACK_THROTTLE = 50;
 
 class InfiniteScrollView extends React.Component {
