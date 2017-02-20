@@ -1,7 +1,7 @@
 import { Auth } from '../types';
 import { pollForEvents, registerForEvents } from '../api';
 import { switchAccount } from '../account/accountActions';
-import timeout from '../utils/timeout';
+import { timeout } from '../utils/async';
 
 import {
   BATCH_ACTIONS,
