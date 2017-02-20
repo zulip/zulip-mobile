@@ -29,12 +29,30 @@ class MainScreenContainer extends React.Component {
     ));
   }
 
+  markAsRead = (messages) => {
+    const { auth, updateMessageFlags } = this.props;
+
+    if (messages.length > 0) {
+      for (const message of messages) {
+        // NOTE: Mutating state like this is a BAD IDEA!
+        // We're only doing it here because:
+        // 1) The message flags don't affect rendering
+        // 2) We don't want to update flags multiple times for the same message
+        //    and updating state this frequently would be inefficient
+        if (!message.flags) message.flags = [];
+        message.flags.push('read');
+      }
+      updateMessageFlags(auth, messages.map((msg) => msg.id), 'add', 'read');
+    }
+  }
+
   render() {
     return (
       <MainScreen
         fetchOlder={this.fetchOlder}
         fetchNewer={this.fetchNewer}
         doNarrow={this.doNarrow}
+        markAsRead={this.markAsRead}
         {...this.props}
       />
     );

@@ -37,7 +37,7 @@ class MessageFull extends React.PureComponent {
     const { message, children, avatarUrl, twentyFourHourTime, selfEmail, onPress } = this.props;
 
     return (
-      <View style={styles.message}>
+      <View style={styles.message} assocID={message.id.toString()}>
         <Avatar
           avatarUrl={avatarUrl}
           name={message.sender_full_name}
