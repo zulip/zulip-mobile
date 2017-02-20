@@ -11,7 +11,7 @@ class UsersScreen extends Component {
 
   render() {
     return (
-      <Screen title="Find User">
+      <Screen title="Find user">
         <UserListCard {...this.props} />
       </Screen>
     );

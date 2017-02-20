@@ -42,7 +42,7 @@ class AccountPickScreen extends React.Component {
     const { accounts } = this.props;
 
     return (
-      <Screen title="Pick Account">
+      <Screen title="Pick account">
         <ScrollView centerContent>
           <Logo />
           <View style={styles.padding}>
