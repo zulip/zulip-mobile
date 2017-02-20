@@ -12,7 +12,7 @@
     "android-max": "react-native run-android",
     "android-release": "react-native run-android --configuration 'Release'",
     "test:lint": "eslint src/",
-    "test:flow": "node_modules/.bin/flow check",
+    "test:flow": "flow",
     "test:unit": "jest",
     "test": "npm run test:lint && npm run test:unit && npm run test:flow"
   },
@@ -59,7 +59,7 @@
     "jest-cli": "^18.0.0",
     "jest-react-native": "^18.0.0",
     "react-native-cli": "^2.0.1",
-    "react-test-renderer": "^15.4.1"
+    "react-test-renderer": "^16.0.0-alpha.2"
   },
   "jest": {
     "preset": "jest-react-native"
