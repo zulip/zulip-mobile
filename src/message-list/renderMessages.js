@@ -1,4 +1,5 @@
 import React from 'react';
+import TaggedView from '../native/TaggedView';
 
 import { getFullUrl } from '../utils/url';
 import {
@@ -57,15 +58,17 @@ export default ({ auth, subscriptions, messages, narrow, mute, doNarrow }) => {
       prevItem && prevItem.sender_full_name === item.sender_full_name;
 
     list.push(
-      <MessageContainer
-        type="message"
-        key={item.id}
-        auth={auth}
-        message={item}
-        isBrief={shouldGroupWithPrev}
-        doNarrow={doNarrow}
-        avatarUrl={getFullUrl(item.avatar_url, auth.realm)}
-      />
+      <TaggedView key={item.id} tagID={item.id.toString()}>
+        <MessageContainer
+          type="message"
+          key={item.id}
+          auth={auth}
+          message={item}
+          isBrief={shouldGroupWithPrev}
+          doNarrow={doNarrow}
+          avatarUrl={getFullUrl(item.avatar_url, auth.realm)}
+        />
+      </TaggedView>
     );
 
     prevItem = item;

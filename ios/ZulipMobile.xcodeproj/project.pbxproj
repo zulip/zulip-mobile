@@ -34,6 +34,11 @@
 		A155C0061DD8E7A800A8B695 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A155BFEC1DD8E54100A8B695 /* libRCTCameraRoll.a */; };
 		C2FB87564E22416A9EDEABD3 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEF58326BC25479294083E9C /* EvilIcons.ttf */; };
 		C478B42A63D649EFA2CFD12D /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E53FD60A6D0409A8E58DCB5 /* SimpleLineIcons.ttf */; };
+		CF15A6B21E5C0C8A003EA77F /* UIView+Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15A6B11E5C0C8A003EA77F /* UIView+Tag.m */; };
+		CF15A6B61E5C56E5003EA77F /* OptimizedGifDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15A6B51E5C56E5003EA77F /* OptimizedGifDecoder.m */; };
+		CF1953241E5BE67D00B14FF0 /* AnchorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1953231E5BE67D00B14FF0 /* AnchorScrollView.m */; };
+		CF1953261E5BF2E000B14FF0 /* AnchorScrollViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1953251E5BF2E000B14FF0 /* AnchorScrollViewManager.m */; };
+		CF19532E1E5C062B00B14FF0 /* TaggedViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF19532D1E5C062B00B14FF0 /* TaggedViewManager.m */; };
 		D6D40984ED07473499B3F0C9 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5664A74FA8048439CBAB734 /* libRNDeviceInfo.a */; };
 /* End PBXBuildFile section */
 
@@ -263,6 +268,16 @@
 		ACCD980949044096B1BAD249 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		AEF58326BC25479294083E9C /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		C9B0BDEA40534DFA9BDC4C75 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		CF15A6B11E5C0C8A003EA77F /* UIView+Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Tag.m"; path = "ZulipMobile/UIView+Tag.m"; sourceTree = "<group>"; };
+		CF15A6B31E5C21CB003EA77F /* AnchorScrollViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnchorScrollViewManager.h; path = ZulipMobile/AnchorScrollViewManager.h; sourceTree = "<group>"; };
+		CF15A6B51E5C56E5003EA77F /* OptimizedGifDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptimizedGifDecoder.m; path = ZulipMobile/OptimizedGifDecoder.m; sourceTree = "<group>"; };
+		CF15A6B71E5C56F8003EA77F /* OptimizedGifDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OptimizedGifDecoder.h; path = ZulipMobile/OptimizedGifDecoder.h; sourceTree = "<group>"; };
+		CF1953221E5BE66800B14FF0 /* AnchorScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AnchorScrollView.h; path = ZulipMobile/AnchorScrollView.h; sourceTree = "<group>"; };
+		CF1953231E5BE67D00B14FF0 /* AnchorScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnchorScrollView.m; path = ZulipMobile/AnchorScrollView.m; sourceTree = "<group>"; };
+		CF1953251E5BF2E000B14FF0 /* AnchorScrollViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnchorScrollViewManager.m; path = ZulipMobile/AnchorScrollViewManager.m; sourceTree = "<group>"; };
+		CF1953291E5C05BF00B14FF0 /* UIView+Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Tag.h"; path = "ZulipMobile/UIView+Tag.h"; sourceTree = "<group>"; };
+		CF19532C1E5C062B00B14FF0 /* TaggedViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaggedViewManager.h; path = ZulipMobile/TaggedViewManager.h; sourceTree = "<group>"; };
+		CF19532D1E5C062B00B14FF0 /* TaggedViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaggedViewManager.m; path = ZulipMobile/TaggedViewManager.m; sourceTree = "<group>"; };
 		D5664A74FA8048439CBAB734 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		F56CBB1B9A6449F895C858C6 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -386,6 +401,16 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				CF1953221E5BE66800B14FF0 /* AnchorScrollView.h */,
+				CF1953231E5BE67D00B14FF0 /* AnchorScrollView.m */,
+				CF15A6B31E5C21CB003EA77F /* AnchorScrollViewManager.h */,
+				CF1953251E5BF2E000B14FF0 /* AnchorScrollViewManager.m */,
+				CF1953291E5C05BF00B14FF0 /* UIView+Tag.h */,
+				CF15A6B11E5C0C8A003EA77F /* UIView+Tag.m */,
+				CF19532C1E5C062B00B14FF0 /* TaggedViewManager.h */,
+				CF19532D1E5C062B00B14FF0 /* TaggedViewManager.m */,
+				CF15A6B51E5C56E5003EA77F /* OptimizedGifDecoder.m */,
+				CF15A6B71E5C56F8003EA77F /* OptimizedGifDecoder.h */,
 			);
 			name = ZulipMobile;
 			sourceTree = "<group>";
@@ -878,8 +903,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF1953261E5BF2E000B14FF0 /* AnchorScrollViewManager.m in Sources */,
+				CF19532E1E5C062B00B14FF0 /* TaggedViewManager.m in Sources */,
+				CF1953241E5BE67D00B14FF0 /* AnchorScrollView.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				CF15A6B61E5C56E5003EA77F /* OptimizedGifDecoder.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				CF15A6B21E5C0C8A003EA77F /* UIView+Tag.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
