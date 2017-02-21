@@ -59,7 +59,7 @@ class SearchScreen extends Component {
     const noResults = !!this.query && !isFetching && !messages.length;
 
     return (
-      <Screen title="Search" keyboardAvoiding>
+      <Screen title="Search messages" keyboardAvoiding>
         <SearchInput onChange={this.handleQueryChange} />
         <View style={styles.results}>
           {isFetching &&
