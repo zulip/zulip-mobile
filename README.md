@@ -13,13 +13,13 @@ We target iOS initially, with Android version following shortly.
 
 * Support iOS and Android with one codebase
 * Familiar web programming model (React + Javascript + Flexbox)
-* Cross-platform, 90% code-reuse between iOS and Android platforms
+* Cross-platform, 90% code reuse between iOS and Android platforms
 
 ## Running
 
 Run iOS:
 
-* `npm run ios-min` - runs in an iOS simulator in the minimal supported device
+* `npm run ios-min` - runs in an iOS simulator in the minimally supported device
 (currently iPhone 5)
 
 * `npm run ios-max` - runs in an iOS simulator in the newest/most premium
@@ -33,13 +33,31 @@ Run Android:
 * `react-native run-android` - runs in an Android emulator, emulator has to be
 run manually before this command
 
+## Fixing issues
+
+If you are having issues running the code on your machine, either for the first time or after updating an outdated code with the latest, please try these:
+
+Clean `node_modules` folder and Yarn's cache:
+
+```
+rm -rf node_modules
+yarn cache clean
+yarn install
+```
+
+Reset iOS simulator
+
+```
+iOS Menu > Simulator > Reset Content and Settings…
+```
+
 ## Contributing
 
 Please see the
 [developer guide](https://github.com/zulip/zulip-mobile/tree/master/docs/developer-guide.md).
 
 * **Pull requests**. Before a pull request can be merged, you need to
-sign the [Dropbox Contributor License Agreement][cla].  Also,
+sign the [Dropbox Contributor License Agreement][cla]. Also,
 please skim our [commit message style guidelines][doc-commit-style].
 
 [cla]: https://opensource.dropbox.com/cla/
