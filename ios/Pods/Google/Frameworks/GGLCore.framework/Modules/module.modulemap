@@ -1,0 +1,14 @@
+framework module GGLCore {
+
+  export *
+
+  umbrella header "GGLCore.h"
+
+  header "GGLConfiguration.h"
+  header "GGLContext.h"
+  header "GGLErrorCode.h"
+  header "GMRConfiguration.h"
+
+  link framework "SystemConfiguration"
+  link framework "UIKit"
+}

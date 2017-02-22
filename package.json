@@ -30,6 +30,7 @@
     "react-native": "zulip/react-native#v1-0.42",
     "react-native-device-info": "^0.9.7",
     "react-native-drawer": "^2.3.0",
+    "react-native-google-sign-in": "0.0.14",
     "react-native-scrollable-tab-view": "^0.7.0",
     "react-native-vector-icons": "^4.0.0",
     "react-redux": "^5.0.1",

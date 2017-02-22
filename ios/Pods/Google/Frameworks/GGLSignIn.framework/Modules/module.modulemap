@@ -1,0 +1,8 @@
+framework module GGLSignIn {
+
+  export *
+
+  umbrella header "GGLSignIn.h"
+
+  header "GGLContext+SignIn.h"
+}

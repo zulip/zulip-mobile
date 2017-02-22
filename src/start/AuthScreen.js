@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import styles from '../common/styles';
-import { Input, Screen, ZulipButton } from '../common';
+import { Input, Screen, GoogleButton, ZulipButton } from '../common';
 import { getAuth } from '../account/accountSelectors';
 import { getCurrentRoute } from '../nav/routingSelectors';
-
 import PasswordAuthView from './PasswordAuthView';
 
 class AuthScreen extends React.Component {
@@ -46,7 +45,7 @@ class AuthScreen extends React.Component {
               />
             }
             {authBackends.includes('password') && <PasswordAuthView />}
-
+            {authBackends.includes('google') && <GoogleButton />}
           </View>
         </ScrollView>
       </Screen>
