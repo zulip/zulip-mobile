@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
+import { registerAppActivity } from '../utils/activity';
 import { getMessagesInActiveNarrow, getAnchor } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
 import MainScreen from './MainScreen';
@@ -23,7 +24,8 @@ class MainScreenContainer extends React.Component {
   }
 
   doNarrow = (newNarrow = [], anchor: number = Number.MAX_SAFE_INTEGER) => {
-    const { switchNarrow, messages } = this.props;
+    const { auth, switchNarrow, messages } = this.props;
+    registerAppActivity(auth);
     requestIdleCallback(() =>
       switchNarrow(newNarrow, messages.filter(msg => msg.id === anchor)
     ));

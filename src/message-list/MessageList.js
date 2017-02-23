@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { registerAppActivity } from '../utils/activity';
 import { LoadingIndicator } from '../common';
 import MessageLoading from '../message/MessageLoading';
-
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
 
@@ -45,7 +45,7 @@ export default class MessageList extends React.PureComponent {
   }
 
   onScroll = (e) => {
-    const { messages, markAsRead } = this.props;
+    const { auth, messages, markAsRead } = this.props;
 
     if (!markAsRead) {
       return;
@@ -54,6 +54,7 @@ export default class MessageList extends React.PureComponent {
     markAsRead(e.visibleIds.map((messageId) =>
       messages.find((msg) => msg.id.toString() === messageId)
     ).filter((msg) => msg && msg.flags && msg.flags.indexOf('read') === -1));
+    registerAppActivity(auth);
   }
 
   render() {

@@ -7,12 +7,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import {
-  isStreamNarrow,
-  isTopicNarrow,
-  isPrivateNarrow,
-  isGroupNarrow,
-} from '../utils/narrow';
+import { isStreamNarrow, isTopicNarrow, isPrivateNarrow, isGroupNarrow } from '../utils/narrow';
+import { registerUserInputActivity } from '../utils/activity';
 import { getAuth } from '../account/accountSelectors';
 import sendMessage from '../api/sendMessage';
 import SendButton from './SendButton';
@@ -79,8 +75,11 @@ class ComposeText extends React.Component {
   handleContentSizeChange = (event) =>
     this.setState({ contentHeight: event.nativeEvent.contentSize.height });
 
-  handleChangeText = (text: string) =>
+  handleChangeText = (text: string) => {
+    const { auth } = this.props;
+    registerUserInputActivity(auth);
     this.setState({ text });
+  }
 
   handleAutocomplete = (autocomplete: string) => {
     const text = getAutocompletedText(this.state.text, autocomplete);
