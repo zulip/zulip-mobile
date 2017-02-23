@@ -35,7 +35,7 @@ class SubscriptionsScreen extends React.Component {
     }));
 
     return (
-      <Screen title="Subscriptions">
+      <Screen title="All streams">
         <StreamList
           streams={subsAndStreams}
           showSwitch

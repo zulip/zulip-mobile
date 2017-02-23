@@ -63,8 +63,8 @@ export default class StreamItem extends React.PureComponent {
     const { name, description, color, isPrivate, isMuted,
       iconSize, isSelected, showSwitch, isSwitchedOn } = this.props;
     const iconWrapperCustomStyle = {
-      width: iconSize * 1.75,
-      height: iconSize * 1.75,
+      width: iconSize * 1.5,
+      height: iconSize * 1.5,
       backgroundColor: color || BRAND_COLOR,
     };
 
