@@ -46,9 +46,12 @@ export default class MessageList extends React.PureComponent {
 
   onScroll = (e) => {
     const { messages, markAsRead } = this.props;
-    const visibleIds = e.visibleIds;
 
-    markAsRead(visibleIds.map((messageId) =>
+    if (!markAsRead) {
+      return;
+    }
+
+    markAsRead(e.visibleIds.map((messageId) =>
       messages.find((msg) => msg.id.toString() === messageId)
     ).filter((msg) => msg && msg.flags && msg.flags.indexOf('read') === -1));
   }
