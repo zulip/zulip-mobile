@@ -3,6 +3,7 @@ import { AppState, NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
+import { registerAppActivity } from '../utils/activity';
 import { styles } from '../common';
 import { checkCompatibility } from '../api';
 import { getInitialRoutes } from './routingSelectors';
@@ -24,7 +25,9 @@ class NavigationContainer extends React.PureComponent {
     this.props.appOnline(isConnected);
 
   handleAppStateChange = (state) => {
-    this.props.appState(state === 'active');
+    const { auth, appState } = this.props;
+    registerAppActivity(auth, state === 'active');
+    appState(state === 'active');
   }
 
   handleMemoryWarning = () => {
