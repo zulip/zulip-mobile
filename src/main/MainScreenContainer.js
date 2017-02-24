@@ -12,14 +12,14 @@ class MainScreenContainer extends React.Component {
   fetchOlder = () => {
     const { auth, fetching, caughtUp, anchor, narrow, fetchMessages } = this.props;
     if (!fetching.older && !caughtUp.older && anchor) {
-      fetchMessages(auth, anchor.older, 20, 0, narrow);
+      fetchMessages(auth, anchor.older, 50, 0, narrow);
     }
   }
 
   fetchNewer = () => {
     const { auth, fetching, caughtUp, anchor, narrow, fetchMessages } = this.props;
     if (!fetching.newer && !caughtUp.newer && anchor) {
-      fetchMessages(auth, anchor.newer, 0, 20, narrow);
+      fetchMessages(auth, anchor.newer, 0, 50, narrow);
     }
   }
 

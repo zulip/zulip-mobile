@@ -29,7 +29,7 @@ export default class UserListCard extends Component {
 
   handleUserNarrow = (email: string) => {
     const { auth, popRoute, fetchMessages } = this.props;
-    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 20, 0, privateNarrow(email));
+    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 50, 0, privateNarrow(email));
     popRoute();
   }
 
