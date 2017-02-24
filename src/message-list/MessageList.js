@@ -88,7 +88,8 @@ export default class MessageList extends React.PureComponent {
           <LoadingIndicator
             key={'bottom_loading'}
             active
-          />);
+          />
+        );
       }
     }
 
