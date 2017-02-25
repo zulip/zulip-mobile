@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
   details: {
     padding: 8,
   },
+  padding: {
+    padding: 8,
+  },
   status: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -39,7 +42,7 @@ export default class AccountDetails extends Component {
     const { avatarUrl, fullName, email, status } = this.props;
 
     return (
-      <View>
+      <View style={styles.padding}>
         <View style={styles.avatarWrapper}>
           <Avatar avatarUrl={avatarUrl} name={fullName} size={100} />
         </View>
