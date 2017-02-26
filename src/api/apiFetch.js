@@ -6,7 +6,7 @@ import timeout from '../utils/timeout';
 
 const apiVersion = 'api/v1';
 
-const TIMEOUT_MS = 5000;
+const TIMEOUT_MS = 10000;
 
 // Network activity indicators should be visible if *any* network activity is occurring
 let activityCounter = 0;
