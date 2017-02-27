@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import config from '../config';
 import boundActions from '../boundActions';
 import { registerAppActivity } from '../utils/activity';
 import { getMessagesInActiveNarrow, getAnchor } from '../chat/chatSelectors';
@@ -12,14 +13,14 @@ class MainScreenContainer extends React.Component {
   fetchOlder = () => {
     const { auth, fetching, caughtUp, anchor, narrow, fetchMessages } = this.props;
     if (!fetching.older && !caughtUp.older && anchor) {
-      fetchMessages(auth, anchor.older, 50, 0, narrow);
+      fetchMessages(auth, anchor.older, config.messagesPerRequest, 0, narrow);
     }
   }
 
   fetchNewer = () => {
     const { auth, fetching, caughtUp, anchor, narrow, fetchMessages } = this.props;
     if (!fetching.newer && !caughtUp.newer && anchor) {
-      fetchMessages(auth, anchor.newer, 0, 50, narrow);
+      fetchMessages(auth, anchor.newer, 0, config.messagesPerRequest, narrow);
     }
   }
 
