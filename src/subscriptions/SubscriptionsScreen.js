@@ -52,7 +52,7 @@ class SubscriptionsScreen extends React.Component {
       <SearchScreen
         title="Subscriptions"
         searchBarOnChange={this.handleFilterChange}
-        isOnDemandSearchBarApplied
+        searchBar
       >
         <StreamList
           streams={subsAndStreams}

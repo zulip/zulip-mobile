@@ -33,7 +33,7 @@ class SearchScreen extends React.Component {
     keyboardAvoiding: boolean,
     title: string,
     isSearchBarApplied: boolean,
-    isOnDemandSearchBarApplied: boolean,
+    searchBar: boolean,
     searchBarOnChange: () => {}
   };
 
@@ -42,7 +42,7 @@ class SearchScreen extends React.Component {
   };
 
   render() {
-    const { keyboardAvoiding, title, isOnDemandSearchBarApplied } = this.props;
+    const { keyboardAvoiding, title, searchBar } = this.props;
     const { searchBarOnChange, nav, children } = this.props;
     const WrapperView = keyboardAvoiding ? KeyboardAvoidingView : View;
 
@@ -55,7 +55,7 @@ class SearchScreen extends React.Component {
         <ModalSearchNavBar
           title={title}
           nav={nav}
-          isOnDemandSearchBarApplied={isOnDemandSearchBarApplied}
+          searchBar={searchBar}
           searchBarOnChange={searchBarOnChange}
         />
         <WrapperView style={styles.screenWrapper} behavior="padding">
