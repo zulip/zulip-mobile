@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
   accountItem: {
     flexDirection: 'row',
-    alignItems: 'stretch',
+    alignItems: 'center',
     backgroundColor: 'rgba(36, 202, 194, 0.1)',
     borderRadius: 5,
     padding: 8,
