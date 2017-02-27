@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
+import config from '../config';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
 
@@ -29,7 +30,8 @@ export default class UserListCard extends Component {
 
   handleUserNarrow = (email: string) => {
     const { auth, popRoute, fetchMessages } = this.props;
-    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 50, 0, privateNarrow(email));
+    fetchMessages(auth, Number.MAX_SAFE_INTEGER,
+      config.messagesPerRequest, 0, privateNarrow(email));
     popRoute();
   }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import config from '../config';
 import { Avatar, ZulipButton, UserStatusIndicator } from '../common';
 import { privateNarrow } from '../utils/narrow';
 
@@ -34,7 +35,8 @@ export default class AccountDetails extends Component {
 
   handleChatPress = () => {
     const { auth, email, fetchMessages, popRoute } = this.props;
-    fetchMessages(auth, Number.MAX_SAFE_INTEGER, 25, 0, privateNarrow(email));
+    fetchMessages(auth, Number.MAX_SAFE_INTEGER,
+      config.messagesPerRequest, 0, privateNarrow(email));
     popRoute();
   };
 
