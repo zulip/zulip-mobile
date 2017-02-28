@@ -40,26 +40,28 @@ export default class StreamSidebar extends React.Component {
           text="Search messages"
           onPress={this.handleSearch}
         />
-        <SidebarRow
-          name="Home"
-          icon="md-home"
-          onPress={() => onNarrow(homeNarrow())}
-        />
-        <SidebarRow
-          name="Private messages"
-          icon="md-chatboxes"
-          onPress={() => onNarrow(specialNarrow('private'))}
-        />
-        <SidebarRow
-          name="Starred"
-          icon="md-star"
-          onPress={() => onNarrow(specialNarrow('starred'))}
-        />
-        <SidebarRow
-          name="Mentions"
-          icon="md-at"
-          onPress={() => onNarrow(specialNarrow('mentioned'))}
-        />
+        <View>
+          <SidebarRow
+            name="Home"
+            icon="md-home"
+            onPress={() => onNarrow(homeNarrow())}
+          />
+          <SidebarRow
+            name="Private messages"
+            icon="md-chatboxes"
+            onPress={() => onNarrow(specialNarrow('private'))}
+          />
+          <SidebarRow
+            name="Starred"
+            icon="md-star"
+            onPress={() => onNarrow(specialNarrow('starred'))}
+          />
+          <SidebarRow
+            name="Mentions"
+            icon="md-at"
+            onPress={() => onNarrow(specialNarrow('mentioned'))}
+          />
+        </View>
         <SubscriptionsContainer onNarrow={onNarrow} />
         <ZulipButton
           customStyles={styles.button}
