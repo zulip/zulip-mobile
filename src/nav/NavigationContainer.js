@@ -35,14 +35,14 @@ class NavigationContainer extends React.PureComponent {
     // Release memory here
   }
 
-  componentWillMount() {
+  getDataIfNeeded() {
     const { needsInitialFetch, auth,
-      fetchEssentialInitialData, fetchRestOfInitialData } = this.props;
+      fetchEvents, fetchEssentialInitialData, fetchRestOfInitialData } = this.props;
 
     if (needsInitialFetch) {
       fetchEssentialInitialData(auth);
       fetchRestOfInitialData(auth);
-      // pollForData
+      fetchEvents(auth);
     }
   }
 
@@ -59,12 +59,19 @@ class NavigationContainer extends React.PureComponent {
     checkCompatibility().then(res =>
       this.setState({ compatibilityCheckFail: res.status === 400 })
     );
+
+    this.getDataIfNeeded();
   }
 
   componentWillUnmount() {
     NetInfo.isConnected.removeEventListener('change', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
+  }
+
+  shouldComponentUpdate() {
+    this.getDataIfNeeded();
+    return true;
   }
 
   render() {
