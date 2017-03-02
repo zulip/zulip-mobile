@@ -5,7 +5,7 @@ export default {
   defaultLoginEmail: '', // useful during development, empty for production
   defaultLoginPassword: '', // useful during development, empty for production
   messagesPerRequest: 50, // number of messages to request at once
-  scrollCallbackThrottle: 50,
+  scrollCallbackThrottle: 500,
   startMessageListThreshold: 1500,
   endMessageListThreshold: 1500,
 };
