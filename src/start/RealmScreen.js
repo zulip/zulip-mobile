@@ -82,7 +82,7 @@ class RealmScreen extends React.Component {
               blurOnSubmit={false}
             />
             <ZulipButton
-              text="Enter"
+              text="Connect"
               progress={progress}
               onPress={this.tryRealm}
             />

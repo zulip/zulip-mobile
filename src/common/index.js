@@ -1,6 +1,5 @@
 export { default as Avatar } from './Avatar';
 export { default as ErrorMsg } from './ErrorMsg';
-export { default as GoogleButton } from './GoogleButton';
 export { default as ImageAvatar } from './ImageAvatar';
 export { default as Input } from './Input';
 export { default as LoadingIndicator } from './LoadingIndicator';
