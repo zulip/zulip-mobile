@@ -1,17 +1,14 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Touchable } from '../common';
+import { CONTROL_SIZE } from '../common/platform';
 
 const styles = StyleSheet.create({
   row: {
     flex: 1,
-    flexBasis: 40,
+    flexBasis: CONTROL_SIZE,
     flexDirection: 'row',
     alignItems: 'center',
   },

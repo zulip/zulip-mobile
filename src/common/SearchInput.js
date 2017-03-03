@@ -36,6 +36,7 @@ export default class SearchInput extends Component {
           autoCorrect={false}
           enablesReturnKeyAutomatically
           selectTextOnFocus
+          underlineColorAndroid="transparent"
           clearButtonMode="always"
           autoCapitalize="none"
           placeholder="Search"
