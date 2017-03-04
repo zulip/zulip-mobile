@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { StyleSheet, Text, View } from 'react-native';
+
+import StreamIcon from '../streamlist/StreamIcon';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -26,15 +23,15 @@ export default class TitleStream extends React.PureComponent {
   render() {
     const { narrow, subscriptions, color } = this.props;
     const stream = subscriptions.find(x => x.name === narrow[0].operand);
-    const iconType = stream.invite_only ? 'lock' : 'hashtag';
 
     const fontSize = narrow.length > 1 ? 14 : 16;
     const titleStyles = [styles.margin, { fontSize }, { color }];
 
     return (
       <View style={styles.wrapper}>
-        <Icon
-          name={iconType}
+        <StreamIcon
+          isMuted={!stream.in_home_view}
+          isPrivate={stream.invite_only}
           color={color}
           size={fontSize}
         />

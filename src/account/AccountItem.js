@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { BRAND_COLOR } from '../common/styles';
 import { ZulipButton, Touchable } from '../common';
+import { IconDone } from '../common/Icons';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -73,11 +73,10 @@ export default class AccountItem extends React.PureComponent {
               customStyles={styles.removeButton}
               onPress={this.handleRemove}
             /> :
-            <Icon
+            <IconDone
               style={styles.icon}
               size={24}
               color={BRAND_COLOR}
-              name="done"
             />
           }
         </View>

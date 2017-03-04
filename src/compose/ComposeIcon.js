@@ -2,10 +2,10 @@ import React from 'react';
 import {
   StyleSheet,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Touchable } from '../common';
 import { BRAND_COLOR } from '../common/styles';
+import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({
   icon: {

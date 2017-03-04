@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import { CONTROL_SIZE } from '../common/platform';
 import { Touchable } from '../common';
+import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({
   frame: {
