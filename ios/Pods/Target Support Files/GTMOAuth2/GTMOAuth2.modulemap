@@ -1,0 +1,6 @@
+framework module GTMOAuth2 {
+  umbrella header "GTMOAuth2-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -33,10 +33,11 @@ export const apiFetch = async (
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
       'User-Agent': userAgent,
-      'Authorization': getAuthHeader(auth.email, auth.apiKey),
+      // 'Authorization': getAuthHeader(auth.email, auth.apiKey),
     },
     ...params,
   };
+  console.log('apiFetch', url, allParams);
   return fetch(url, allParams);
 };
 

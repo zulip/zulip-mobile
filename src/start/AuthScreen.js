@@ -7,8 +7,8 @@ import styles from '../common/styles';
 import { Input, Screen, ZulipButton } from '../common';
 import { getAuth } from '../account/accountSelectors';
 import { getCurrentRoute } from '../nav/routingSelectors';
-
 import PasswordAuthView from './PasswordAuthView';
+import GoogleSignInButton from './GoogleSignInButton';
 
 class AuthScreen extends React.Component {
 
@@ -46,7 +46,7 @@ class AuthScreen extends React.Component {
               />
             }
             {authBackends.includes('password') && <PasswordAuthView />}
-
+            {authBackends.includes('google') && <GoogleSignInButton />}
           </View>
         </ScrollView>
       </Screen>

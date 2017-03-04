@@ -1,0 +1,15 @@
+module Google {
+  export *
+  module Analytics {
+    header "ModuleHeaders/Analytics-Module.h"
+    export *
+  }
+  module Core {
+    header "ModuleHeaders/Core-Module.h"
+    export *
+  }
+  module SignIn {
+    header "ModuleHeaders/SignIn-Module.h"
+    export *
+  }
+}

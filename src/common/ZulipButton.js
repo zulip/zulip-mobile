@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-} from 'react-native';
+import { Image, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { BRAND_COLOR } from './styles';
 import Touchable from './Touchable';
 
@@ -14,8 +9,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
-    marginTop: 5,
-    marginBottom: 5,
   },
   primaryFrame: {
     backgroundColor: BRAND_COLOR,
@@ -33,6 +26,11 @@ const styles = StyleSheet.create({
   text: {
     color: '#FFFFFF',
     fontSize: 16,
+    lineHeight: 52,
+  },
+  image: {
+    width: 44,
+    height: 44,
   },
   primaryText: {
     color: 'white',
@@ -42,19 +40,25 @@ const styles = StyleSheet.create({
   },
 });
 
-const ButtonInProgress = ({ frameStyle }) => (
+const ButtonInProgress = ({ frameStyle, secondary }) => (
   <View style={frameStyle}>
-    <ActivityIndicator color="white" />
+    <ActivityIndicator color={secondary ? BRAND_COLOR : 'white'} />
   </View>
 );
 
-const ButtonNormal = ({ frameStyle, touchTargetStyle, textStyle, text, onPress }) => (
+const ButtonNormal = ({ frameStyle, touchTargetStyle, textStyle, text, image, onPress }) => (
   <View style={frameStyle}>
     <Touchable
       style={touchTargetStyle}
       onPress={onPress}
     >
       <Text style={textStyle}>
+        {image &&
+          <Image
+            style={styles.image}
+            resizeMode="contain"
+            source={image}
+          />}
         {text}
       </Text>
     </Touchable>
@@ -73,7 +77,8 @@ export default class ZulipButton extends React.PureComponent {
   }
 
   render() {
-    const { customStyles, text, secondary, progress, onPress } = this.props;
+    const { customStyles, text, secondary, progress, image, onPress } = this.props;
+
     const frameStyle = [
       styles.frame,
       secondary ? styles.secondaryFrame : styles.primaryFrame,
@@ -85,7 +90,12 @@ export default class ZulipButton extends React.PureComponent {
     ];
 
     if (progress) {
-      return <ButtonInProgress frameStyle={frameStyle} />;
+      return (
+        <ButtonInProgress
+          frameStyle={frameStyle}
+          secondary={secondary}
+        />
+      );
     }
 
     return (
@@ -93,6 +103,7 @@ export default class ZulipButton extends React.PureComponent {
         frameStyle={frameStyle}
         touchTargetStyle={styles.touchTarget}
         text={text}
+        image={image}
         onPress={onPress}
         textStyle={textStyle}
       />
