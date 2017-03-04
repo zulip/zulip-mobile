@@ -9,6 +9,6 @@ export default class AboutScreen extends React.PureComponent {
       <Screen title="About">
         <About {...this.props} />
       </Screen>
-    )
+    );
   }
 }

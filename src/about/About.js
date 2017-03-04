@@ -13,6 +13,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'center'
   },
+  subLink: {
+    fontSize: 12,
+    color: '#2E86CA',
+    textAlign: 'center'
+  },
   screen: {
     flex: 1,
     padding: 10
@@ -20,7 +25,7 @@ const styles = StyleSheet.create({
   infoSection: {
     margin: 10
   },
- icon: {
+  icon: {
     width: 14,
     height: 14,
     color: 'black',
@@ -33,21 +38,21 @@ const projectURL = 'https://github.com/zulip';
 
 export default class MainScreen extends React.PureComponent {
   render() {
-    return(
+    return (
       <View style={styles.screen}>
-        <Logo/>
+        <Logo />
         <View style={styles.infoSection}>
           <Text style={styles.mainText}> Zulip Mobile App </Text>
           <Text style={styles.subText}> version 0.3 </Text>
           <Text style={styles.subText} > Copyright Zulip 2017 </Text>
         </View>
-        
+
         <View style={styles.infoSection}>
           <Text style={styles.subText}>
             Zulip is a powerful open source chat application.
           </Text>
 
-          <Text style={styles.subText} onPress={() => Linking.openURL(projectURL)}>
+          <Text style={styles.subLink} onPress={() => Linking.openURL(projectURL)}>
             github.com/Zulip
           </Text>
         </View>
