@@ -14,6 +14,7 @@ import SearchMessagesScreen from '../search/SearchMessagesScreen';
 import UsersScreen from '../users/UsersScreen';
 import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
+import AboutStart from '../about/AboutStart';
 
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
@@ -73,6 +74,8 @@ export default class Navigation extends React.Component {
         return <SubscriptionsScreen />;
       case 'chat':
         return <ChatScreen />;
+      case 'about':
+        return <AboutStart />;
       default:
         return <LoadingScreen />;
     }
