@@ -15,10 +15,9 @@ import {
   EVENT_UPDATE_MESSAGE,
   EVENT_PRESENCE,
   EVENT_UPDATE_MESSAGE_FLAGS,
-  EVENT_UNKNOWN,
 } from '../constants';
 
-const processEvent = (auth, event) => {
+const eventToAction = (auth, event) => {
   switch (event.type) {
     case 'message':
       return {
@@ -78,7 +77,7 @@ const processEvent = (auth, event) => {
       // eslint-disable-next-line no-console
       console.warn('Unrecognized event: ', event.type);
   }
-  return { type: EVENT_UNKNOWN };
+  return null;
 };
 
 const startEventLoop = (auth, queueId, eventId) =>
@@ -125,7 +124,11 @@ const startEventLoop = (auth, queueId, eventId) =>
       const actions = [];
       for (const event of response.events) {
         lastEventId = Math.max(lastEventId, event.id);
-        actions.push({ ...processEvent(auth, event), eventId: event.id });
+        const action = eventToAction(auth, event);
+
+        if (action) {
+          actions.push({ ...action, eventId: event.id });
+        }
       }
 
       if (actions.length > 1) {
