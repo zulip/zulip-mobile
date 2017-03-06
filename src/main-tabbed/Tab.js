@@ -5,9 +5,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import { HIGHLIGHT_COLOR } from '../common/styles';
+import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({
   tab: {

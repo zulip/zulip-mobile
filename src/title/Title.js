@@ -8,7 +8,6 @@ import {
   isSpecialNarrow,
   isStreamNarrow,
   isTopicNarrow,
-  isSearchNarrow,
 } from '../utils/narrow';
 import { getAuth } from '../account/accountSelectors';
 
@@ -17,7 +16,6 @@ import TitlePrivate from './TitlePrivate';
 import TitleGroup from './TitleGroup';
 import TitleSpecial from './TitleSpecial';
 import TitleStream from './TitleStream';
-import TitleSearch from './TitleSearch';
 
 const titles = [
   { isFunc: isHomeNarrow, component: TitleHome },
@@ -26,7 +24,6 @@ const titles = [
   { isFunc: isTopicNarrow, component: TitleStream },
   { isFunc: isPrivateNarrow, component: TitlePrivate },
   { isFunc: isGroupNarrow, component: TitleGroup },
-  { isFunc: isSearchNarrow, component: TitleSearch },
 ];
 
 class Title extends React.PureComponent {

@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { StyleSheet, View, Text } from 'react-native';
 
 import { Touchable } from '../../common';
 import { privateNarrow, groupNarrow } from '../../utils/narrow';
+import { IconPrivateChat } from '../../common/Icons';
 
 const styles = StyleSheet.create({
   container: {
@@ -53,7 +49,7 @@ export default class PrivateMessageHeader extends React.PureComponent {
       <View style={[styles.container, customStyle]}>
         <Touchable onPress={this.performNarrow}>
           <View style={styles.header}>
-            <Icon name="md-text" color="white" size={16} style={styles.icon} />
+            <IconPrivateChat color="white" size={16} style={styles.icon} />
             <Text style={styles.private}>
               {others}
             </Text>

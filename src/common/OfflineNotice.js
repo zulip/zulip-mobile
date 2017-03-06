@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import { IconWarning } from '../common/Icons';
 
 const styles = StyleSheet.create({
   block: {
@@ -20,11 +21,10 @@ export default class OfflineNotice extends React.Component {
   render() {
     return (
       <View style={styles.block}>
-        <Icon
+        <IconWarning
           style={styles.icon}
           size={20}
           color="black"
-          name="warning"
         />
         <Text style={styles.text}>
           You are currently offline

@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Touchable } from '../common';
 import { CONTROL_SIZE } from '../common/platform';
+import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({
   row: {

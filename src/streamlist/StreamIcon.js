@@ -1,19 +1,15 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Icon2 from 'react-native-vector-icons/MaterialIcons';
 
-export default ({ color, style, isPrivate, isMuted, size }) =>
-  (isMuted ?
-    <Icon2
-      name="volume-off"
-      size={size}
-      color={color}
-      style={style}
-    /> :
-    <Icon
-      name={isPrivate ? 'lock' : 'hashtag'}
+import { IconMute, IconStream, IconPrivate } from '../common/Icons';
+
+export default ({ color, style, isPrivate, isMuted, size }) => {
+  const StreamIcon = (isMuted ? IconMute : (isPrivate ? IconPrivate : IconStream));
+
+  return (
+    <StreamIcon
       size={size}
       color={color}
       style={style}
     />
   );
+};

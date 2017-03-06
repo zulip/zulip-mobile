@@ -1,12 +1,9 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../common/styles';
 import { Touchable } from '../common';
+import { IconSend } from '../common/Icons';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -38,7 +35,7 @@ export default class SendButton extends React.Component {
     return (
       <Touchable style={styles.wrapper} onPress={disabled ? undefined : onPress}>
         <View style={[styles.button, opacity]}>
-          <Icon size={16} color="white" name="send" />
+          <IconSend size={16} color="white" />
         </View>
       </Touchable>
     );
