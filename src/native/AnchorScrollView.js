@@ -1,5 +1,6 @@
-import React from 'react';
 import { ScrollView, requireNativeComponent } from 'react-native';
+
+const NativeAnchorScrollView = requireNativeComponent('AnchorScrollView', null);
 
 export default class AnchorScrollView extends ScrollView {
   render() {
@@ -7,5 +8,3 @@ export default class AnchorScrollView extends ScrollView {
     return { ...scrollView, type: NativeAnchorScrollView };
   }
 }
-
-const NativeAnchorScrollView = requireNativeComponent('AnchorScrollView', null);

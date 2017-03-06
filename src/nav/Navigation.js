@@ -1,5 +1,6 @@
+/* eslint-disable react-native/split-platform-components */
 import React from 'react';
-import { BackAndroid, NavigationExperimental } from 'react-native';
+import { BackAndroid, NavigationExperimental, Platform } from 'react-native';
 
 import { styles } from '../common';
 import CompatibilityScreen from '../start/CompatibilityScreen';
@@ -20,11 +21,15 @@ const { CardStack: NavigationCardStack } = NavigationExperimental;
 export default class Navigation extends React.Component {
 
   componentDidMount() {
-    BackAndroid.addEventListener('hardwareBackPress', this.handleBackAction);
+    if (Platform.OS === 'android') {
+      BackAndroid.addEventListener('hardwareBackPress', this.handleBackAction);
+    }
   }
 
   componentWillUnmount() {
-    BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAction);
+    if (Platform.OS === 'android') {
+      BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAction);
+    }
   }
 
   handleNavigate = (action) => {
