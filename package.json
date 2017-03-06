@@ -26,8 +26,8 @@
     "immutable": "^3.8.1",
     "lodash.isequal": "^4.4.0",
     "lodash.throttle": "^4.1.1",
-    "react": "16.0.0-alpha.2",
-    "react-native": "zulip/react-native#v1-0.42",
+    "react": "^15.4.1",
+    "react-native": "^0.41.0",
     "react-native-device-info": "^0.9.7",
     "react-native-drawer": "^2.3.0",
     "react-native-scrollable-tab-view": "^0.7.0",
@@ -59,7 +59,7 @@
     "jest-cli": "^18.0.0",
     "jest-react-native": "^18.0.0",
     "react-native-cli": "^2.0.1",
-    "react-test-renderer": "^16.0.0-alpha.2"
+    "react-test-renderer": "^15.4.1"
   },
   "jest": {
     "preset": "jest-react-native"

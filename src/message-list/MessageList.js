@@ -23,19 +23,6 @@ export default class MessageList extends React.PureComponent {
     this.state = {
       autoScrollToBottom: false,
     };
-
-    // We need to make sure we're using the right version of react native
-    // Otherwise, scroll behavior will be subtly broken
-    /* eslint-disable */
-    if (__DEV__) {
-      if (!View.propTypes.hasOwnProperty('assocID')) {
-        console.error(
-          'RCTView does not have custom extensions to support' +
-          ' anchored scrolling. Are you using the zulip/react-native fork?'
-        );
-      }
-    }
-    /* eslint-enable */
   }
 
   componentWillReceiveProps(nextProps) {
