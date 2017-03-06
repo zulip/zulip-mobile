@@ -11,6 +11,7 @@ import { topicNarrow } from '../../utils/narrow';
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    overflow: 'hidden',
   },
   touch: {
     justifyContent: 'center',
