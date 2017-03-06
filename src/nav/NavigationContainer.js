@@ -35,17 +35,6 @@ class NavigationContainer extends React.PureComponent {
     // Release memory here
   }
 
-  getDataIfNeeded() {
-    const { needsInitialFetch, auth,
-      fetchEvents, fetchEssentialInitialData, fetchRestOfInitialData } = this.props;
-
-    if (needsInitialFetch) {
-      fetchEssentialInitialData(auth);
-      fetchRestOfInitialData(auth);
-      fetchEvents(auth);
-    }
-  }
-
   componentDidMount() {
     const { accounts } = this.props;
     this.props.initRoutes(getInitialRoutes(accounts));
@@ -59,8 +48,6 @@ class NavigationContainer extends React.PureComponent {
     checkCompatibility().then(res =>
       this.setState({ compatibilityCheckFail: res.status === 400 })
     );
-
-    this.getDataIfNeeded();
   }
 
   componentWillUnmount() {
@@ -69,9 +56,15 @@ class NavigationContainer extends React.PureComponent {
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
   }
 
-  shouldComponentUpdate() {
-    this.getDataIfNeeded();
-    return true;
+  componentWillReceiveProps() {
+    const { needsInitialFetch, auth,
+      fetchEvents, fetchEssentialInitialData, fetchRestOfInitialData } = this.props;
+
+    if (needsInitialFetch) {
+      fetchEssentialInitialData(auth);
+      fetchRestOfInitialData(auth);
+      fetchEvents(auth);
+    }
   }
 
   render() {
