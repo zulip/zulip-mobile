@@ -15,7 +15,7 @@ export const fetchEssentialInitialData = (auth) =>
   async (dispatch) => {
     const [subscriptions, messages] = await Promise.all([
       await tryUntilSuccessful(() => getSubscriptions(auth)),
-      await tryUntilSuccessful(() => getMessages(auth, 0, 20, 1, homeNarrow(), true)),
+      await tryUntilSuccessful(() => getMessages(auth, 0, 10, 10, homeNarrow(), true)),
     ]);
 
     dispatch(messageFetchSuccess(messages, homeNarrow(), { older: false, newer: false }));

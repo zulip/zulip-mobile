@@ -11,6 +11,12 @@ export const switchNarrow = (narrow, messages) => ({
   messages,
 });
 
+export const messageFetchStart = (narrow, fetching) => ({
+  type: MESSAGE_FETCH_START,
+  narrow,
+  fetching,
+});
+
 export const messageFetchSuccess = (messages, narrow, fetching, caughtUp) => ({
   type: MESSAGE_FETCH_SUCCESS,
   messages,
@@ -49,7 +55,6 @@ export const backgroundFetchMessages = (
 
     dispatch(messageFetchSuccess(
       messages,
-      anchor,
       narrow,
       {
         ...numBefore ? { older: false } : {},
@@ -72,14 +77,13 @@ export const fetchMessages = (
       throw Error('numBefore and numAfter must >= 0');
     }
 
-    dispatch({
-      type: MESSAGE_FETCH_START,
+    dispatch(messageFetchStart(
       narrow,
-      fetching: {
+      {
         ...numBefore ? { older: true } : {},
         ...numAfter ? { newer: true } : {},
       },
-    });
+    ));
     dispatch(backgroundFetchMessages(auth, anchor, numBefore, numAfter, narrow, useFirstUnread));
   };
 
