@@ -9,6 +9,22 @@ import { getAuth } from '../account/accountSelectors';
 import MainScreen from './MainScreen';
 
 class MainScreenContainer extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    const { auth, fetchMessages } = this.props;
+
+    // Trigger a fetch when the current narrow is switched and there are no messages
+    if (JSON.stringify(this.props.narrow) !== JSON.stringify(nextProps.narrow) &&
+        nextProps.messages.length === 0) {
+      fetchMessages(
+        auth,
+        0,
+        config.messagesPerRequest / 2,
+        config.messagesPerRequest / 2,
+        nextProps.narrow,
+        true
+      );
+    }
+  }
 
   fetchOlder = () => {
     const { auth, fetching, caughtUp, anchor, narrow, fetchMessages } = this.props;

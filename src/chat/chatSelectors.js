@@ -11,10 +11,7 @@ export const getAnchor = (state) => {
   const messages = getMessagesInActiveNarrow(state);
 
   if (messages.length === 0) {
-    return {
-      older: Number.MAX_SAFE_INTEGER,
-      newer: Number.MAX_SAFE_INTEGER,
-    };
+    return undefined;
   }
 
   return {

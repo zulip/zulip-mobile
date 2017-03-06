@@ -10,13 +10,13 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
 } from '../constants';
-import { isMessageInNarrow } from '../utils/narrow';
+import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
 
 const getInitialState = () => ({
   fetching: { older: false, newer: false },
   caughtUp: { older: false, newer: false },
-  narrow: [],
+  narrow: homeNarrow(),
   messages: {},
 });
 
