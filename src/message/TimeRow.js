@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     padding: 8,
     flexDirection: 'row',
     alignItems: 'center',
+    overflow: 'hidden',
   },
   line: {
     flex: 1,
