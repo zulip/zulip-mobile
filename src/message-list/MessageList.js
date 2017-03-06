@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import TaggedView from '../native/TaggedView';
 
 import { registerAppActivity } from '../utils/activity';
 import { LoadingIndicator } from '../common';
@@ -83,11 +84,19 @@ export default class MessageList extends React.PureComponent {
     // `headerIndices` tell the scroll view which components are headers
     // and are eligible to be docked at the top of the view.
     const headerIndices = [];
-    messageList.forEach((elem, idx) => {
+    for (let i = 0; i < messageList.length; i++) {
+      const elem = messageList[i];
       if (elem.props.type === 'header') {
-        headerIndices.push(idx);
+        headerIndices.push(i);
       }
-    });
+      if (elem.props.type === 'message') {
+        messageList[i] = (
+          <TaggedView key={elem.props.message.id} tagID={elem.props.message.id.toString()}>
+            {elem}
+          </TaggedView>
+        );
+      }
+    }
 
     return (
       <InfiniteScrollView
