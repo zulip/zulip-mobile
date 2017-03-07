@@ -63,6 +63,11 @@ please skim our [commit message style guidelines][doc-commit-style].
 [cla]: https://opensource.dropbox.com/cla/
 [doc-commit-style]: http://zulip.readthedocs.io/en/latest/code-style.html#commit-messages
 
+* **Issues**. Before working on an issue make sure to claim it by commenting 
+the following in the comment section:"**@zulipbot** claim". **@zulipbot** will 
+assign you to the issue and label the issue as **in progress**. For more 
+details, check out [**@zulipbot**](https://github.com/zulip/zulipbot).
+
 ## License
 
 Copyright (c) 2016 Dropbox, Inc.
