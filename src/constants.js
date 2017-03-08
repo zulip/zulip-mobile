@@ -43,3 +43,7 @@ export const MESSAGE_FETCH_SUCCESS = 'MESSAGE_FETCH_SUCCESS';
 
 export const PRESENCE_RESPONSE = 'PRESENCE_RESPONSE';
 export const GET_USER_RESPONSE = 'GET_USER_RESPONSE';
+
+// Only when the user has scrolled more than the threshold,
+// and new messages(s) arrive show the new message indicator.
+export const NEW_MSG_INFO_SCROLL_THRESHOLD = 150;
