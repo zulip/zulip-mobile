@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'space-around',
   },
+  container: {
+    flex: 1
+  },
 });
 
 export default class MessageList extends React.PureComponent {
@@ -30,8 +33,8 @@ export default class MessageList extends React.PureComponent {
     };
 
     // Variables concerned with calculating scroll position
-    this.initialContentHeight;
-    this.initialScrollOffset;
+    this.initialContentHeight = 0;
+    this.initialScrollOffset = 0;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,7 +65,7 @@ export default class MessageList extends React.PureComponent {
     this.scrollOffset = this.initialScrollOffset - e.contentOffset.y;
 
      // When view has been scrolled to bottom hide new message indicator
-    if(this.scrollOffset <= 0) {
+    if (this.scrollOffset <= 0) {
       this.setState({
         shouldShowNewMessageIndicator: false
       });
@@ -84,15 +87,18 @@ export default class MessageList extends React.PureComponent {
     return this.scrollOffset > NEW_MSG_INFO_SCROLL_THRESHOLD;
   }
 
-  // Checks if new messages have been received 
+  // Checks if new messages have been received
   didReceiveNewMessages(props) {
     return props.messages.length > this.props.messages.length;
   }
 
   // Returns InfoLabel Component defined in '../common/InfoLabel.js'
   renderNewMessagesIndicator() {
-    if (this.state.shouldShowNewMessageIndicator && isHomeNarrow(this.props.narrow)) {
-      return <InfoLabel text="New Unread Messages" />
+    const { narrow } = this.props;
+    if (this.state.shouldShowNewMessageIndicator && isHomeNarrow(narrow)) {
+      return <InfoLabel text="New Unread Messages" />;
+    } else {
+      return null;
     }
   }
 
@@ -150,7 +156,7 @@ export default class MessageList extends React.PureComponent {
     }
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         {this.renderNewMessagesIndicator()}
         <InfiniteScrollView
           style={styles.list}
