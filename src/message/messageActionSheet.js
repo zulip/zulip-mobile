@@ -1,6 +1,11 @@
 import { Clipboard } from 'react-native';
 import { narrowFromMessage } from '../utils/narrow';
 import { getSingleMessage } from '../api';
+import { isTopicMuted } from '../utils/message';
+import muteTopicApi from '../api/muteTopic';
+import unMuteTopicApi from '../api/unMuteTopic';
+import unMuteStreamApi from '../api/unMuteStream';
+import muteStreamApi from '../api/muteStream';
 
 const narrowToConversation = ({ message, doNarrow }) => {
   doNarrow(narrowFromMessage(message), message.id);
@@ -16,21 +21,21 @@ const copyToClipboard = async ({ message, auth }) => {
 };
 
 const unmuteTopic = ({ auth, message }) => {
-  unmuteTopic(auth, message.display_recipient, message.subject);
+  unmuteTopicApi(auth, message.display_recipient, message.subject);
 };
 
 const muteTopic = ({ auth, message }) => {
-  muteTopic(auth, message.display_recipient, message.subject);
+  muteTopicApi(auth, message.display_recipient, message.subject);
 };
 
 const unmuteStream = ({ auth, message, subscriptions }) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
-  unmuteStream(auth, sub.stream_id);
+  unmuteStreamApi(auth, sub.stream_id);
 };
 
 const muteStream = ({ auth, message, subscriptions }) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
-  muteStream(auth, sub.stream_id);
+  muteStreamApi(auth, sub.stream_id);
 };
 
 const skip = () => false;
