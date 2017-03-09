@@ -2,7 +2,7 @@ import { getAnchor, getRecentConversations } from '../chatSelectors';
 import { specialNarrow } from '../../utils/narrow';
 
 describe('getAnchor', () => {
-  test('return max anchor when there are no messages', () => {
+  test('return undefined when there are no messages', () => {
     const state = {
       chat: {
         narrow: [],
@@ -11,10 +11,7 @@ describe('getAnchor', () => {
         },
       },
     };
-    expect(getAnchor(state)).toEqual({
-      older: Number.MAX_SAFE_INTEGER,
-      newer: Number.MAX_SAFE_INTEGER,
-    });
+    expect(getAnchor(state)).toEqual(undefined);
   });
 
   test('when single message, anchor ids are the same', () => {

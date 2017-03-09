@@ -3,6 +3,7 @@ import { AppState, NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
+import { getAuth } from '../account/accountSelectors';
 import { registerAppActivity } from '../utils/activity';
 import { styles } from '../common';
 import { checkCompatibility } from '../api';
@@ -69,6 +70,7 @@ class NavigationContainer extends React.PureComponent {
 
 export default connect(
   (state) => ({
+    auth: getAuth(state),
     accounts: state.account,
     navigation: state.nav,
   }),
