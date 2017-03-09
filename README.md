@@ -35,17 +35,13 @@ run manually before this command
 
 ## Fixing issues
 
-If you are having issues running the code on your machine, either for the first time or after updating an outdated code with the latest, please try these:
-
-Clean `node_modules` folder and Yarn's cache:
+If you are having issues running the code on your machine, either for the first time or after updating an outdated code with the latest, please run:
 
 ```
-rm -rf node_modules
-yarn cache clean
-yarn install
+npm run reinstall
 ```
 
-Reset iOS simulator
+Optionally, reset iOS simulator:
 
 ```
 iOS Menu > Simulator > Reset Content and Settings…
