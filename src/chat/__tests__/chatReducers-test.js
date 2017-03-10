@@ -14,7 +14,7 @@ import {
   EVENT_UPDATE_MESSAGE,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
-  ACCOUNT_SWITCH,
+  EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../../constants';
 
 describe('chatReducers', () => {
@@ -452,23 +452,32 @@ describe('chatReducers', () => {
     });
   });
 
-  describe('ACCOUNT_SWITCH', () => {
-    test('no messages are retained, narrow is reset to "home"', () => {
+  describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
+    test('TODO', () => {
       const initialState = {
         messages: {
-          'some_narrow': [],
-          'another_narrow': [],
-        },
-        narrow: [{ operator: 'is', operand: 'something' }],
+          [homeNarrowStr]: [
+            { id: 1 },
+          ],
+        }
       };
       const action = {
-        type: ACCOUNT_SWITCH,
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        messages: [1],
+        flag: 'read',
+        operation: 'add'
+      };
+      const expectedState = {
+        messages: {
+          [homeNarrowStr]: [
+            { id: 1, flags: ['read'] },
+          ],
+        }
       };
 
       const actualState = chatReducers(initialState, action);
 
-      expect(actualState.messages).toEqual({});
-      expect(actualState.narrow).toEqual([]);
+      expect(actualState).toEqual(expectedState);
     });
   });
 });

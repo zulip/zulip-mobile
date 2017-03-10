@@ -9,6 +9,7 @@ import {
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
+  EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../constants';
 import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
@@ -110,6 +111,15 @@ export default (state = initialState, action) => {
         content: action.newContent,
         edit_timestamp: action.editTimestamp,
       }));
+
+    case EVENT_UPDATE_MESSAGE_FLAGS: {
+      const messages = action.messages.map(x => state.messages.find(msg => msg.id === x));
+
+      return chatUpdater(state, messages[0], oldMessage => ({
+        ...oldMessage,
+        flag: action.flag,
+      }));
+    }
     default:
       return state;
   }

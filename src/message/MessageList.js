@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import TaggedView from '../native/TaggedView';
 
+import { unreadMessageFilter } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { LoadingIndicator } from '../common';
 import InfiniteScrollView from './InfiniteScrollView';
@@ -14,17 +15,11 @@ const styles = StyleSheet.create({
 });
 
 export default class MessageList extends React.PureComponent {
-  constructor() {
-    super();
-    this.state = {
-      autoScrollToBottom: false,
-    };
-  }
+
+  autoScrollToBottom = false;
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      autoScrollToBottom: this.props.caughtUp.newer && nextProps.caughtUp.newer,
-    });
+    this.autoScrollToBottom = this.props.caughtUp.newer && nextProps.caughtUp.newer;
   }
 
   onScroll = e => {
@@ -34,11 +29,11 @@ export default class MessageList extends React.PureComponent {
       return;
     }
 
-    markAsRead(
-      e.visibleIds
-        .map(messageId => messages.find(msg => msg.id.toString() === messageId))
-        .filter(msg => msg && msg.flags && msg.flags.indexOf('read') === -1),
+    const visibleMessages = e.visibleIds.map((messageId) =>
+      messages.find(msg => msg.id === +messageId)
     );
+    const unreadMessages = visibleMessages.filter(unreadMessageFilter);
+    markAsRead(unreadMessages);
     registerAppActivity(auth);
   };
 
@@ -74,7 +69,7 @@ export default class MessageList extends React.PureComponent {
         stickyHeaderIndices={headerIndices}
         onStartReached={fetchOlder}
         onEndReached={fetchNewer}
-        autoScrollToBottom={this.state.autoScrollToBottom}
+        autoScrollToBottom={this.autoScrollToBottom}
         onScroll={this.onScroll}
       >
         {hideFetchingOlder &&
