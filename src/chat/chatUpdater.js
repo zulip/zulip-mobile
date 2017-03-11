@@ -4,7 +4,7 @@ export default (state, messageId, updater) => ({
     const messages = state.messages[key];
     const prevMessageIndex = messages.findIndex(x => x.id === messageId);
 
-    msg[key] = prevMessageIndex !== -1 ? // eslint-disable-line
+    msg[key] = prevMessageIndex !== -1 ?
     [
       ...messages.slice(0, prevMessageIndex),
       updater(messages[prevMessageIndex]),

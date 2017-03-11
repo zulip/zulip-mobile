@@ -14,7 +14,6 @@ import {
   EVENT_UPDATE_MESSAGE,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
-  EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../../constants';
 
 describe('chatReducers', () => {
@@ -449,35 +448,6 @@ describe('chatReducers', () => {
 
       expect(newState.messages).toEqual(expectedState.messages);
       expect(newState).not.toBe(initialState);
-    });
-  });
-
-  describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
-    test('TODO', () => {
-      const initialState = {
-        messages: {
-          [homeNarrowStr]: [
-            { id: 1 },
-          ],
-        }
-      };
-      const action = {
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1],
-        flag: 'read',
-        operation: 'add'
-      };
-      const expectedState = {
-        messages: {
-          [homeNarrowStr]: [
-            { id: 1, flags: ['read'] },
-          ],
-        }
-      };
-
-      const actualState = chatReducers(initialState, action);
-
-      expect(actualState).toEqual(expectedState);
     });
   });
 });

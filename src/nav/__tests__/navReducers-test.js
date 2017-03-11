@@ -103,9 +103,7 @@ describe('navReducers', () => {
 
       expect(newState).toEqual(expectedState);
     });
-  });
 
-  describe('POP_ROUTE', () => {
     test('trying to pop route when list is empty, does nothing', () => {
       const prevState = {
         index: 0,
