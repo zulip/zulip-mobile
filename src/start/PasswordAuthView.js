@@ -1,6 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import OnePassword from 'react-native-onepassword';
 
 import boundActions from '../boundActions';
 import styles from '../common/styles';
@@ -8,8 +9,17 @@ import { fetchApiKey } from '../api';
 import config from '../config';
 import { ErrorMsg, ZulipButton, Input } from '../common';
 import { getAuth } from '../account/accountSelectors';
+import OnePasswordButton from './OnePasswordButton';
 
-type Props = {};
+type Props = {
+  realm: string,
+};
+
+const secondaryStyles = StyleSheet.create({
+  passwordField: {
+    justifyContent: 'flex-end',
+  }
+});
 
 class PasswordAuthView extends React.Component {
 
@@ -20,6 +30,7 @@ class PasswordAuthView extends React.Component {
     email: string,
     password: string,
     error: string,
+    onePasswordSupported: boolean,
   }
 
   constructor(props: Props) {
@@ -28,8 +39,29 @@ class PasswordAuthView extends React.Component {
       progress: false,
       email: props.email || config.defaultLoginEmail,
       password: props.password || config.defaultLoginPassword,
+      onePasswordSupported: false,
     };
   }
+
+  componentWillMount() {
+    OnePassword.isSupported()
+      .then(
+        () => {
+          console.log('OnePassword app is installed and ready!');
+          this.setState({ onePasswordSupported: true });
+        },
+        () => {
+          console.log('OnePassword not available.');
+          this.setState({ onePasswordSupported: false });
+        }
+      );
+  }
+  findOnePasswordLogin = () => {
+    OnePassword.findLogin(this.props.realm)
+      .then((credentials) => {
+        this.setState({ email: credentials.username, password: credentials.password });
+      });
+  };
 
   tryPasswordLogin = async () => {
     const { auth, loginSuccess } = this.props;
@@ -77,13 +109,19 @@ class PasswordAuthView extends React.Component {
           blurOnSubmit={false}
         />
         <Input
-          customStyle={styles.field}
+          customStyle={[styles.field, secondaryStyles.passwordField]}
           placeholder="Password"
           secureTextEntry
           value={password}
           onChangeText={newPassword => this.setState({ password: newPassword })}
           blurOnSubmit={false}
-        />
+        >
+          <OnePasswordButton
+            hidden={!this.state.onePasswordSupported}
+            handlePress={this.findOnePasswordLogin}
+          />
+        </Input>
+
         <ZulipButton
           text="Sign in with password"
           progress={progress}

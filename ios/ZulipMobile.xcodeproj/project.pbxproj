@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -43,6 +42,8 @@
 		CF19532E1E5C062B00B14FF0 /* TaggedViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF19532D1E5C062B00B14FF0 /* TaggedViewManager.m */; };
 		CF6CFE2D1E7DC55100F687C7 /* Build-Phases in Resources */ = {isa = PBXBuildFile; fileRef = CF6CFE2C1E7DC55100F687C7 /* Build-Phases */; };
 		D6D40984ED07473499B3F0C9 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5664A74FA8048439CBAB734 /* libRNDeviceInfo.a */; };
+		42E3F299AE6C48108A91BB9E /* libOnePassword.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB10F69B3EE84D67ADFD9DEE /* libOnePassword.a */; };
+		9183F4967AC04E9EA8EB6265 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5730DAD9594A48C99897B93F /* MaterialCommunityIcons.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -290,6 +291,9 @@
 		D5664A74FA8048439CBAB734 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		F56CBB1B9A6449F895C858C6 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		FD9027BAF72ED45247660C16 /* Pods-ZulipMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZulipMobileTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZulipMobileTests/Pods-ZulipMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
+		0BF60BBC184B46DA91CE8ACF /* OnePassword.xcodeproj */ = {isa = PBXFileReference; name = "OnePassword.xcodeproj"; path = "../node_modules/react-native-onepassword/OnePassword.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		DB10F69B3EE84D67ADFD9DEE /* libOnePassword.a */ = {isa = PBXFileReference; name = "libOnePassword.a"; path = "libOnePassword.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		5730DAD9594A48C99897B93F /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; name = "MaterialCommunityIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -320,6 +324,7 @@
 				05C34EA2C79448BB9767887A /* libRNVectorIcons.a in Frameworks */,
 				D6D40984ED07473499B3F0C9 /* libRNDeviceInfo.a in Frameworks */,
 				8C5171FB39F2D2B302EB23A3 /* libPods-ZulipMobile.a in Frameworks */,
+				42E3F299AE6C48108A91BB9E /* libOnePassword.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,6 +492,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				6DA76D9085EA458BB979ED8D /* RNVectorIcons.xcodeproj */,
 				ACCD980949044096B1BAD249 /* RNDeviceInfo.xcodeproj */,
+				0BF60BBC184B46DA91CE8ACF /* OnePassword.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -561,6 +567,7 @@
 				A7F287C57D8A4354A8B6A3E7 /* Octicons.ttf */,
 				2E41C86FA25744F998C2BB02 /* Zocial.ttf */,
 				9E53FD60A6D0409A8E58DCB5 /* SimpleLineIcons.ttf */,
+				5730DAD9594A48C99897B93F /* MaterialCommunityIcons.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -911,6 +918,7 @@
 				CF6CFE2D1E7DC55100F687C7 /* Build-Phases in Resources */,
 				3556F3DAC2424EBE9ABF0A31 /* Zocial.ttf in Resources */,
 				C478B42A63D649EFA2CFD12D /* SimpleLineIcons.ttf in Resources */,
+				9183F4967AC04E9EA8EB6265 /* MaterialCommunityIcons.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1098,12 +1106,14 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = ZulipMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1129,12 +1139,14 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = ZulipMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1161,6 +1173,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = ZulipMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1187,6 +1200,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-onepassword",
 				);
 				INFOPLIST_FILE = ZulipMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
