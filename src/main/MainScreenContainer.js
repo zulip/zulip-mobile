@@ -103,6 +103,7 @@ export default connect((state) => ({
   orientation: state.app.orientation,
   subscriptions: state.subscriptions,
   messages: getMessagesInActiveNarrow(state),
+  flags: state.flags,
   allMessages: state.chat.messages,
   fetching: state.chat.fetching,
   caughtUp: state.chat.caughtUp,
