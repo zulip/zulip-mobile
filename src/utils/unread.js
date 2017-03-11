@@ -1,7 +1,6 @@
 import { Message } from '../types';
 
-export const unreadMessageFilter = (message: Message): boolean =>
-  !message || !message.flags || !message.flags.includes('read');
-
-export const getUnreadMessageCount = (messages: Message[]): number =>
-  messages.filter(unreadMessageFilter).length;
+export const getUnreadMessages = (messages: Message[], flags: Object): Message[] =>
+  messages.filter(msg =>
+    !flags[msg.id] || !flags[msg.id].includes('read')
+  );

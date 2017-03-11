@@ -1,22 +1,47 @@
-import { getUnreadMessageCount } from '../unread';
+import { getUnreadMessages } from '../unread';
 
-describe('getUnreadMessageCount', () => {
+describe('getUnreadMessages', () => {
   test('empty message list has no unread messages', () => {
-    expect(getUnreadMessageCount([])).toBe(0);
+    const messages = [];
+    const flags = {};
+    const expectedUnread = [];
+
+    const actualUnread = getUnreadMessages(messages, flags);
+
+    expect(actualUnread).toEqual(expectedUnread);
   });
 
-  test('messages with no flags property or one with no "read" value are not read', () => {
-    expect(getUnreadMessageCount([
-      {},
-      { flags: [] },
-    ])).toBe(2);
+  test('messages with no flags or empty flag array are not read', () => {
+    const messages = [
+      { id: 1 },
+      { id: 2 },
+      { id: 3 },
+    ];
+    const flags = {
+      2: [],
+      3: ['read'],
+    };
+    const expectedUnread = [
+      { id: 1 },
+      { id: 2 },
+    ];
+
+    const actualUnread = getUnreadMessages(messages, flags);
+
+    expect(actualUnread).toEqual(expectedUnread);
   });
 
-  test('messages with "read" in their flags array are read', () => {
-    expect(getUnreadMessageCount([
-      { flags: ['read'] },
-      {},
-      { flags: ['read'] },
-    ])).toBe(1);
+  test('messages are not read if not in flags object, regardless of message property', () => {
+    const messages = [
+      { id: 1, flags: ['read'] },
+    ];
+    const flags = {};
+    const expectedUnread = [
+      { id: 1, flags: ['read'] },
+    ];
+
+    const actualUnread = getUnreadMessages(messages, flags);
+
+    expect(actualUnread).toEqual(expectedUnread);
   });
 });
