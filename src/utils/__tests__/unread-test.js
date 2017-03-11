@@ -1,12 +1,12 @@
-import { getUnreadMessages } from '../unread';
+import { filterUnreadMessages } from '../unread';
 
-describe('getUnreadMessages', () => {
+describe('filterUnreadMessages', () => {
   test('empty message list has no unread messages', () => {
     const messages = [];
     const flags = {};
     const expectedUnread = [];
 
-    const actualUnread = getUnreadMessages(messages, flags);
+    const actualUnread = filterUnreadMessages(messages, flags);
 
     expect(actualUnread).toEqual(expectedUnread);
   });
@@ -26,7 +26,7 @@ describe('getUnreadMessages', () => {
       { id: 2 },
     ];
 
-    const actualUnread = getUnreadMessages(messages, flags);
+    const actualUnread = filterUnreadMessages(messages, flags);
 
     expect(actualUnread).toEqual(expectedUnread);
   });
@@ -40,7 +40,7 @@ describe('getUnreadMessages', () => {
       { id: 1, flags: ['read'] },
     ];
 
-    const actualUnread = getUnreadMessages(messages, flags);
+    const actualUnread = filterUnreadMessages(messages, flags);
 
     expect(actualUnread).toEqual(expectedUnread);
   });

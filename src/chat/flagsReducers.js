@@ -2,9 +2,29 @@ import {
   MESSAGE_FETCH_SUCCESS,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
+  MARK_MESSAGES_READ,
 } from '../constants';
 
 const initialState = {};
+
+const addFlagForMessages = (state, messages, flag) =>
+  messages.reduce((newState, msgId) => {
+    if (!newState[msgId]) {
+      newState[msgId] = [];
+    }
+    if (!newState[msgId].includes(flag)) {
+      newState[msgId] = [...newState[msgId], flag];
+    }
+    return newState;
+  }, { ...state });
+
+const removeFlagForMessages = (state, messages, flag) =>
+  messages.reduce((newState, msgId) => {
+    if (newState[msgId]) {
+      newState[msgId] = newState[msgId].filter(x => x !== flag);
+    }
+    return newState;
+  }, { ...state });
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -21,21 +41,17 @@ export default (state = initialState, action) => {
       };
 
     case EVENT_UPDATE_MESSAGE_FLAGS:
-      return action.messages.reduce((newState, msgId) => {
-        if (action.operation === 'add') {
-          if (!newState[msgId]) {
-            newState[msgId] = [];
-          }
-          if (!newState[msgId].includes(action.flag)) {
-            newState[msgId] = [...newState[msgId], action.flag];
-          }
-        } else if (action.operation === 'remove') {
-          if (newState[msgId]) {
-            newState[msgId] = newState[msgId].filter(x => x !== action.flag);
-          }
-        }
-        return newState;
-      }, { ...state });
+      if (action.operation === 'add') {
+        return addFlagForMessages(state, action.messages, action.flag);
+      } else if (action.operation === 'remove') {
+        return removeFlagForMessages(state, action.messages, action.flag);
+      } else {
+        return state;
+      }
+
+    case MARK_MESSAGES_READ:
+      return addFlagForMessages(state, action.messageIds, 'read');
+
     default:
       return state;
   }

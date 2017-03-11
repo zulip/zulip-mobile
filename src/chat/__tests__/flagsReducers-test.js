@@ -3,6 +3,7 @@ import {
   MESSAGE_FETCH_SUCCESS,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
+  MARK_MESSAGES_READ,
 } from '../../constants';
 
 describe('flagsReducers', () => {
@@ -73,7 +74,7 @@ describe('flagsReducers', () => {
   });
 
   describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
-    test('TODO1', () => {
+    test('when operation is "add", adds flag to an empty state', () => {
       const initialState = {};
       const action = {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
@@ -90,7 +91,7 @@ describe('flagsReducers', () => {
       expect(actualState).toEqual(expectedState);
     });
 
-    test('TODO2', () => {
+    test('if flag already exists, do not duplicate', () => {
       const initialState = {
         1: ['starred'],
       };
@@ -108,107 +109,129 @@ describe('flagsReducers', () => {
 
       expect(actualState).toEqual(expectedState);
     });
+
+    test('if other flags exist, adds new one to the list', () => {
+      const initialState = {
+        1: ['starred'],
+      };
+      const action = {
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        messages: [1],
+        flag: 'read',
+        operation: 'add'
+      };
+      const expectedState = {
+        1: ['starred', 'read'],
+      };
+
+      const actualState = flagsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('adds flags for multiple messages', () => {
+      const initialState = {
+        1: ['read'],
+        2: ['starred']
+      };
+      const action = {
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        messages: [1, 2, 3],
+        flag: 'starred',
+        operation: 'add'
+      };
+      const expectedState = {
+        1: ['read', 'starred'],
+        2: ['starred'],
+        3: ['starred'],
+      };
+
+      const actualState = flagsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('when operation is "remove" removes a flag from message', () => {
+      const initialState = {
+        1: ['read'],
+      };
+      const action = {
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        messages: [1],
+        flag: 'read',
+        operation: 'remove'
+      };
+      const expectedState = {
+        1: [],
+      };
+
+      const actualState = flagsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('if flag does not exist, do nothing', () => {
+      const initialState = {
+        1: [],
+      };
+      const action = {
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        messages: [1],
+        flag: 'read',
+        operation: 'remove'
+      };
+      const expectedState = {
+        1: [],
+      };
+
+      const actualState = flagsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('removes flags from multiple messages', () => {
+      const initialState = {
+        1: ['read'],
+        2: ['starred'],
+        3: ['starred', 'read'],
+      };
+      const action = {
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        messages: [1, 2, 3, 4],
+        flag: 'starred',
+        operation: 'remove'
+      };
+      const expectedState = {
+        1: ['read'],
+        2: [],
+        3: ['read'],
+      };
+
+      const actualState = flagsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
   });
 
-  test('TODO3', () => {
-    const initialState = {
-      1: ['starred'],
-    };
-    const action = {
-      type: EVENT_UPDATE_MESSAGE_FLAGS,
-      messages: [1],
-      flag: 'read',
-      operation: 'add'
-    };
-    const expectedState = {
-      1: ['starred', 'read'],
-    };
+  describe('MARK_MESSAGES_READ', () => {
+    test('adds flag "read" to provided message ids', () => {
+      const initialState = {
+        1: ['read'],
+        2: ['starred']
+      };
+      const action = {
+        type: MARK_MESSAGES_READ,
+        messageIds: [1, 2, 3],
+      };
+      const expectedState = {
+        1: ['read'],
+        2: ['starred', 'read'],
+        3: ['read'],
+      };
 
-    const actualState = flagsReducers(initialState, action);
+      const actualState = flagsReducers(initialState, action);
 
-    expect(actualState).toEqual(expectedState);
-  });
-
-  test('TODO4', () => {
-    const initialState = {
-      1: ['read'],
-      2: ['starred']
-    };
-    const action = {
-      type: EVENT_UPDATE_MESSAGE_FLAGS,
-      messages: [1, 2, 3],
-      flag: 'starred',
-      operation: 'add'
-    };
-    const expectedState = {
-      1: ['read', 'starred'],
-      2: ['starred'],
-      3: ['starred'],
-    };
-
-    const actualState = flagsReducers(initialState, action);
-
-    expect(actualState).toEqual(expectedState);
-  });
-
-  test('TODO5', () => {
-    const initialState = {
-      1: ['read'],
-    };
-    const action = {
-      type: EVENT_UPDATE_MESSAGE_FLAGS,
-      messages: [1],
-      flag: 'read',
-      operation: 'remove'
-    };
-    const expectedState = {
-      1: [],
-    };
-
-    const actualState = flagsReducers(initialState, action);
-
-    expect(actualState).toEqual(expectedState);
-  });
-
-  test('TODO6', () => {
-    const initialState = {
-      1: [],
-    };
-    const action = {
-      type: EVENT_UPDATE_MESSAGE_FLAGS,
-      messages: [1],
-      flag: 'read',
-      operation: 'remove'
-    };
-    const expectedState = {
-      1: [],
-    };
-
-    const actualState = flagsReducers(initialState, action);
-
-    expect(actualState).toEqual(expectedState);
-  });
-
-  test('TODO7', () => {
-    const initialState = {
-      1: ['read'],
-      2: ['starred'],
-      3: ['starred', 'read'],
-    };
-    const action = {
-      type: EVENT_UPDATE_MESSAGE_FLAGS,
-      messages: [1, 2, 3, 4],
-      flag: 'starred',
-      operation: 'remove'
-    };
-    const expectedState = {
-      1: ['read'],
-      2: [],
-      3: ['read'],
-    };
-
-    const actualState = flagsReducers(initialState, action);
-
-    expect(actualState).toEqual(expectedState);
+      expect(actualState).toEqual(expectedState);
+    });
   });
 });

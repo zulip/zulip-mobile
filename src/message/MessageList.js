@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import TaggedView from '../native/TaggedView';
 
-import { getUnreadMessages } from '../utils/unread';
+import { filterUnreadMessageIds } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { LoadingIndicator } from '../common';
 import InfiniteScrollView from './InfiniteScrollView';
@@ -23,17 +23,13 @@ export default class MessageList extends React.PureComponent {
   }
 
   onScroll = (e) => {
-    const { auth, messages, flags, markAsRead } = this.props;
+    const { auth, flags, markAsRead } = this.props;
+    const visibleMessageIds = e.visibleIds.map(x => +x);
+    const unreadMessageIds = filterUnreadMessageIds(visibleMessageIds, flags);
 
-    if (!markAsRead || !e.visibleIds) {
-      return;
+    if (!markAsRead && unreadMessageIds.length > 0) {
+      markAsRead(unreadMessageIds);
     }
-
-    const visibleMessages = e.visibleIds.map((messageId) =>
-      messages.find(msg => msg.id === +messageId)
-    );
-    const unreadMessages = getUnreadMessages(visibleMessages, flags);
-    markAsRead(unreadMessages);
     registerAppActivity(auth);
   };
 

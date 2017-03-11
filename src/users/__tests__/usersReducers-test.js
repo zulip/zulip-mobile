@@ -74,7 +74,7 @@ describe('usersReducers', () => {
       expect(activity).toEqual(1475109413);
     });
 
-    test('when single client just return timestamp', () => {
+    test('when multiple clients return more recent timestamp', () => {
       const activity = timestampFromPresence({
         website: {
           timestamp: 100,
