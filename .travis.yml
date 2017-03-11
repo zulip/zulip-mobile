@@ -3,6 +3,11 @@ node_js:
   - 6.0
 notifications:
   email: false
+  webhooks:
+    urls:
+      - https://zulip.org/zulipbot/travis
+    on_success: always
+    on_failure: always
 before_install:
   - npm install
 install:
