@@ -48,49 +48,13 @@ class MainScreenContainer extends React.Component {
     ));
   }
 
-  markAsRead = (() => {
-    // We want a list of all newly read messages to the server at a fairly
-    // low frequency, so we store invocations of this function and send off
-    // the list at most every `READ_UPDATE_FREQ` milliseconds.
-    // TODO: this might be a lot nicer as a decorator
-    const READ_UPDATE_FREQ = 2000;
-    let lastSentTime = 0;
-    let storedMessages = [];
-
-    return (messages) => {
-      const { auth, updateMessageFlags } = this.props;
-
-      storedMessages.push(...messages);
-
-      if (messages.length > 0) {
-        for (const message of messages) {
-          // NOTE: Mutating state like this is a BAD IDEA!
-          // We're only doing it here because:
-          // 1) The message flags don't affect rendering
-          // 2) We don't want to update flags multiple times for the same message
-          //    and updating state this frequently would be inefficient
-          if (!message.flags) message.flags = [];
-          message.flags.push('read');
-        }
-      }
-
-      // Update the server with read messages
-      if (Date.now() > lastSentTime + READ_UPDATE_FREQ &&
-          storedMessages.length > 0) {
-        updateMessageFlags(auth, storedMessages.map((msg) => msg.id), 'add', 'read');
-        storedMessages = [];
-        lastSentTime = Date.now();
-      }
-    };
-  })()
-
   render() {
     return (
       <MainScreen
         fetchOlder={this.fetchOlder}
         fetchNewer={this.fetchNewer}
         doNarrow={this.doNarrow}
-        markAsRead={this.markAsRead}
+        markAsRead={this.handleMarkAsRead}
         {...this.props}
       />
     );

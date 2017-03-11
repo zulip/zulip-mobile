@@ -3,6 +3,7 @@ import {
   SWITCH_NARROW,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_SUCCESS,
+  MARK_MESSAGES_READ,
 } from '../constants';
 
 export const switchNarrow = (narrow, messages) => ({
@@ -91,3 +92,8 @@ export const updateMessageFlags = (auth, messageIds, op, flag) =>
   async (dispatch) => {
     await messagesFlags(auth, messageIds, op, flag);
   };
+
+export const markMessagesRead = (messageIds) => ({
+  type: MARK_MESSAGES_READ,
+  messageIds,
+});
