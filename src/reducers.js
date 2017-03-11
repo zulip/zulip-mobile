@@ -3,6 +3,7 @@ import { BATCH_ACTIONS } from './constants';
 import accounts from './account/accountReducers';
 import app from './app/appReducers';
 import events from './events/eventReducers';
+import flags from './chat/flagsReducers';
 import mute from './mute/muteReducers';
 import nav from './nav/navReducers';
 import realm from './realm/realmReducers';
@@ -27,6 +28,7 @@ export default enableBatching(combineReducers({
   app,
   chat,
   events,
+  flags,
   mute,
   nav,
   realm,

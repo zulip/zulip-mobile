@@ -9,7 +9,6 @@ import {
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
-  EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../constants';
 import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
@@ -93,7 +92,7 @@ export default (state = initialState, action) => {
         ...state,
         messages: Object.keys(state.messages).reduce((msg, key) => {
           const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.selfEmail);
-          msg[key] = isInNarrow ? // eslint-disable-line
+          msg[key] = isInNarrow ?
           [
             ...state.messages[key],
             action.message,
@@ -112,14 +111,6 @@ export default (state = initialState, action) => {
         edit_timestamp: action.editTimestamp,
       }));
 
-    case EVENT_UPDATE_MESSAGE_FLAGS: {
-      const messages = action.messages.map(x => state.messages.find(msg => msg.id === x));
-
-      return chatUpdater(state, messages[0], oldMessage => ({
-        ...oldMessage,
-        flag: action.flag,
-      }));
-    }
     default:
       return state;
   }

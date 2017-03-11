@@ -55,7 +55,7 @@ describe('aggregateReactions', () => {
     expect(actualResult).toEqual(expectedResult);
   });
 
-  test('every duplicate reaction is aggregated to a single one with appropriate count', () => {
+  test('every duplicate reaction is aggregated, ignoring self', () => {
     const reactions = [
       { emoji_name: '1', user: { email: 'another@example.com' } },
       { emoji_name: '2', user: { email: 'me@example.com' } },

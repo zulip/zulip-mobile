@@ -52,6 +52,7 @@
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jest": "^19.0.1",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "~6.8.0",
     "eslint-plugin-react-native": "^2.2.1",

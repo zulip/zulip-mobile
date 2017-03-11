@@ -46,7 +46,6 @@ class RealmScreen extends React.Component {
 
     try {
       const authBackends = await getAuthBackends({ realm });
-      console.log('AUTH BACKENDS', authBackends);
       realmAdd(realm);
       pushRoute('auth', authBackends);
     } catch (err) {

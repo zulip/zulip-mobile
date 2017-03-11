@@ -2,6 +2,7 @@
   "parser": "babel-eslint",
   "plugins": [
     "react-native",
+    "jest",
     "spellcheck"
   ],
   "env": {
@@ -26,6 +27,7 @@
     "no-plusplus": 0,
     "comma-dangle": 0,
     "arrow-parens": 0,
+    "no-param-reassign": 0,
     "global-require": 0,
     "no-else-return": 0,
     "no-mixed-operators": 0,
@@ -48,6 +50,9 @@
     "react-native/split-platform-components": 2,
     "react-native/no-inline-styles": 2,
     # to enable after refactoring "react-native/no-color-literals": 2,
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
     "spellcheck/spell-checker": [1, {
       "comments": true,
       "strings": true,
