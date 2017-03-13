@@ -9,7 +9,7 @@ import realm from './realm/realmReducers';
 import streams from './streamlist/streamsReducers';
 import subscriptions from './subscriptions/subscriptionsReducers';
 import chat from './chat/chatReducers';
-import userlist from './users/userListReducers';
+import users from './users/usersReducers';
 
 // Thanks to https://twitter.com/dan_abramov/status/656074974533459968?lang=en
 const enableBatching = (reducer) =>
@@ -32,5 +32,5 @@ export default enableBatching(combineReducers({
   realm,
   streams,
   subscriptions,
-  userlist,
+  users,
 }));

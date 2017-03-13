@@ -2,23 +2,23 @@ import {
   INIT_USERS,
   PRESENCE_RESPONSE,
 } from '../../constants';
-import userListReducers, { activityFromPresence, timestampFromPresence } from '../userListReducers';
+import usersReducers, { activityFromPresence, timestampFromPresence } from '../usersReducers';
 
-describe('userListReducers', () => {
+describe('usersReducers', () => {
   test('handles unknown action and no previous state by returning initial state, does not throw', () => {
-    const newState = userListReducers(undefined, {});
+    const newState = usersReducers(undefined, {});
     expect(newState).toBeDefined();
   });
 
   test('on unrecognized action, returns input state unchanged', () => {
     const prevState = { hello: 'world' };
-    const newState = userListReducers(prevState, {});
+    const newState = usersReducers(prevState, {});
     expect(newState).toEqual(prevState);
   });
 
   test('on INIT_USERS stores user data', () => {
     const users = [{ full_name: 'user1' }, { full_name: 'user2' }];
-    const newState = userListReducers([], { type: INIT_USERS, users });
+    const newState = usersReducers([], { type: INIT_USERS, users });
     expect(newState.length).toEqual(2);
   });
 
@@ -98,7 +98,7 @@ describe('userListReducers', () => {
       timestamp: fiveSecsAgo,
     }];
 
-    const newState = userListReducers(prevState, { type: PRESENCE_RESPONSE, presence });
+    const newState = usersReducers(prevState, { type: PRESENCE_RESPONSE, presence });
 
     expect(newState).toEqual(expectedState);
   });
@@ -131,7 +131,7 @@ describe('userListReducers', () => {
       timestamp: fiveSecsAgo,
     }];
 
-    const newState = userListReducers(prevState, { type: PRESENCE_RESPONSE, presence });
+    const newState = usersReducers(prevState, { type: PRESENCE_RESPONSE, presence });
 
     expect(newState).toEqual(expectedState);
   });
@@ -212,7 +212,7 @@ describe('userListReducers', () => {
       timestamp: 1475792203,
     }];
 
-    const newState = userListReducers(prevState, { type: PRESENCE_RESPONSE, presence });
+    const newState = usersReducers(prevState, { type: PRESENCE_RESPONSE, presence });
 
     expect(newState).toEqual(expectedState);
   });

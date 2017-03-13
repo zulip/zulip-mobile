@@ -58,6 +58,7 @@ export default (state = initialState, action) => {
     }
     case INIT_USERS: {
       return action.users.map(user => ({
+        id: user.user_id,
         email: user.email,
         fullName: user.full_name,
         avatarUrl: user.avatar_url,

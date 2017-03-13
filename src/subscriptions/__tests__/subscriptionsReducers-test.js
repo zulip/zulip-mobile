@@ -1,6 +1,7 @@
 import {
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
+  EVENT_SUBSCRIPTION_PEER_ADD,
 } from '../../constants';
 import subscriptionsReducers from '../subscriptionsReducers';
 
@@ -148,6 +149,46 @@ describe('subscriptionsReducers', () => {
         ],
       };
       const expectedState = [];
+
+      const newState = subscriptionsReducers(prevState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('EVENT_SUBSCRIPTION_PEER_ADD', () => {
+    test('TODO', () => {
+      const prevState = [
+        { stream_id: 1, subscribers: [] },
+      ];
+      const action = {
+        type: EVENT_SUBSCRIPTION_PEER_ADD,
+        subscriptions: [1],
+        user_id: 1964,
+      };
+      const expectedState = [
+        { stream_id: 1, subscribers: ['john@example.com'] },
+      ];
+
+      const newState = subscriptionsReducers(prevState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+
+    test('TODO', () => {
+      const prevState = [
+        { stream_id: 1, subscribers: [] },
+        { stream_id: 2, subscribers: [] },
+      ];
+      const action = {
+        type: EVENT_SUBSCRIPTION_PEER_ADD,
+        subscriptions: [1, 2, 3],
+        user_id: 1964,
+      };
+      const expectedState = [
+        { stream_id: 1, subscribers: ['john@example.com'] },
+        { stream_id: 2, subscribers: ['john@example.com'] },
+      ];
 
       const newState = subscriptionsReducers(prevState, action);
 
