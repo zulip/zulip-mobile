@@ -5,21 +5,45 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_STREAM_ADD,
   EVENT_STREAM_REMOVE,
+  EVENT_STREAM_UPDATE,
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
+  EVENT_SUBSCRIPTION_UPDATE,
+  EVENT_SUBSCRIPTION_PEER_ADD,
   EVENT_UPDATE_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   EVENT_USER_ADD,
   EVENT_USER_REMOVE,
+  EVENT_USER_UPDATE,
 } from '../constants';
 
-export const operationToEvent = (operation: string, events: string[]): string => {
-  const operations = ['add', 'remove', 'update'];
-  const operationIdx = operations.indexOf(operation);
-  return events[operationIdx];
+const opToActionSubscription = {
+  'add': EVENT_SUBSCRIPTION_ADD,
+  'remove': EVENT_SUBSCRIPTION_REMOVE,
+  'update': EVENT_SUBSCRIPTION_UPDATE,
+  'peer_add': EVENT_SUBSCRIPTION_PEER_ADD,
+};
+
+const opToActionStream = {
+  'add': EVENT_STREAM_ADD,
+  'remove': EVENT_STREAM_REMOVE,
+  'update': EVENT_STREAM_UPDATE,
+};
+
+const opToActionUser = {
+  'add': EVENT_USER_ADD,
+  'remove': EVENT_USER_REMOVE,
+  'update': EVENT_USER_UPDATE,
+};
+
+const opToActionReaction = {
+  'add': EVENT_REACTION_ADD,
+  'remove': EVENT_REACTION_REMOVE,
 };
 
 export default (auth, event) => {
+  console.log('HANDLE EVENT', event);
+
   switch (event.type) {
     case 'message':
       return {
@@ -38,14 +62,14 @@ export default (auth, event) => {
 
     case 'subscription':
       return {
-        type: operationToEvent(event.op, [EVENT_SUBSCRIPTION_ADD, EVENT_SUBSCRIPTION_REMOVE]),
-        subscriptions: event.subscriptions,
+        type: opToActionSubscription[event.op],
+        ...event,
       };
 
     case 'realm_user':
       return {
-        type: operationToEvent(event.op, [EVENT_USER_ADD, EVENT_USER_REMOVE]),
-        users: event.users,
+        type: opToActionUser[event.op],
+        ...event,
       };
 
     case 'realm_bot':
@@ -53,8 +77,8 @@ export default (auth, event) => {
 
     case 'stream':
       return {
-        type: operationToEvent(event.op, [EVENT_STREAM_ADD, EVENT_STREAM_REMOVE]),
-        streams: event.streams,
+        type: opToActionStream[event.op],
+        ...event,
       };
     case 'pointer':
       // TODO
@@ -63,7 +87,7 @@ export default (auth, event) => {
 
     case 'reaction':
       return {
-        type: operationToEvent(event.op, [EVENT_REACTION_ADD, EVENT_REACTION_REMOVE]),
+        type: opToActionReaction[event.op],
         emoji: event.emoji_name,
         messageId: event.message_id,
         user: event.user,

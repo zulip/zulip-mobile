@@ -1,19 +1,16 @@
 import { UserStatus } from '../api';
+import { Presence } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   EVENT_PRESENCE,
   INIT_USERS,
+  EVENT_USER_ADD,
+  EVENT_USER_REMOVE,
+  EVENT_USER_UPDATE,
   PRESENCE_RESPONSE,
 } from '../constants';
-
-type Presence = {
-  client: string,
-  pushable: boolean,
-  status: UserStatus,
-  timestamp: number,
-}
 
 const priorityToState = {
   0: 'offline',
@@ -69,9 +66,14 @@ export default (state = initialState, action) => {
         isBot: user.is_bot,
       }));
     }
+    case EVENT_USER_ADD:
+      return state; // TODO
+    case EVENT_USER_REMOVE:
+      return state; // TODO
+    case EVENT_USER_UPDATE:
+      return state; // TODO
     case EVENT_PRESENCE:
-      // TODO
-      return state;
+      return state; // TODO
     default:
       return state;
   }
