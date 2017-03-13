@@ -1,12 +1,15 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import TaggedView from '../native/TaggedView';
 
 import { registerAppActivity } from '../utils/activity';
 import { LoadingIndicator } from '../common';
+import { isHomeNarrow } from '../utils/narrow';
 import MessageLoading from '../message/MessageLoading';
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
+import InfoLabel from '../common/InfoLabel';
+import { NEW_MSG_INFO_SCROLL_THRESHOLD } from '../constants';
 
 const styles = StyleSheet.create({
   list: {
@@ -16,17 +19,36 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'space-around',
   },
+  container: {
+    flex: 1
+  },
 });
 
 export default class MessageList extends React.PureComponent {
   constructor() {
     super();
     this.state = {
+      shouldShowNewMessageIndicator: false,
       autoScrollToBottom: false,
     };
+
+    // Variables concerned with calculating scroll position
+    this.initialContentHeight = 0;
+    this.initialScrollOffset = 0;
   }
 
   componentWillReceiveProps(nextProps) {
+    // New messages have been received and user has scrolled above the threshold value
+    if (this.hasScrolledBeyondInfoThreshold() && this.didReceiveNewMessages(nextProps)) {
+      this.setState({
+        shouldShowNewMessageIndicator: true
+      });
+    } else {
+      this.setState({
+        shouldShowNewMessageIndicator: false
+      });
+    }
+
     this.setState({
       autoScrollToBottom: this.props.caughtUp.newer && nextProps.caughtUp.newer,
     });
@@ -34,6 +56,20 @@ export default class MessageList extends React.PureComponent {
 
   onScroll = (e) => {
     const { auth, messages, markAsRead } = this.props;
+
+    if (!this.initialScrollOffset || this.scrollOffset < 0) {
+      this.initialScrollOffset = e.contentOffset.y;
+      this.initialContentHeight = e.contentSize.height;
+    }
+
+    this.scrollOffset = this.initialScrollOffset - e.contentOffset.y;
+
+     // When view has been scrolled to bottom hide new message indicator
+    if (this.scrollOffset <= 0) {
+      this.setState({
+        shouldShowNewMessageIndicator: false
+      });
+    }
 
     if (!markAsRead) {
       return;
@@ -43,6 +79,27 @@ export default class MessageList extends React.PureComponent {
       messages.find((msg) => msg.id.toString() === messageId)
     ).filter((msg) => msg && msg.flags && msg.flags.indexOf('read') === -1));
     registerAppActivity(auth);
+  }
+
+  // Checks if the current scroll position is beyond threshold scroll position
+  // for showing new messages indicator
+  hasScrolledBeyondInfoThreshold() {
+    return this.scrollOffset > NEW_MSG_INFO_SCROLL_THRESHOLD;
+  }
+
+  // Checks if new messages have been received
+  didReceiveNewMessages(props) {
+    return props.messages.length > this.props.messages.length;
+  }
+
+  // Returns InfoLabel Component defined in '../common/InfoLabel.js'
+  renderNewMessagesIndicator() {
+    const { narrow } = this.props;
+    if (this.state.shouldShowNewMessageIndicator && isHomeNarrow(narrow)) {
+      return <InfoLabel text="New Unread Messages" />;
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -99,18 +156,21 @@ export default class MessageList extends React.PureComponent {
     }
 
     return (
-      <InfiniteScrollView
-        style={styles.list}
-        contentContainerStyle={containerStyle}
-        automaticallyAdjustContentInset="false"
-        stickyHeaderIndices={headerIndices}
-        onStartReached={fetchOlder}
-        onEndReached={fetchNewer}
-        autoScrollToBottom={this.state.autoScrollToBottom}
-        onScroll={this.onScroll}
-      >
-        {messageList}
-      </InfiniteScrollView>
+      <View style={styles.container}>
+        {this.renderNewMessagesIndicator()}
+        <InfiniteScrollView
+          style={styles.list}
+          contentContainerStyle={containerStyle}
+          automaticallyAdjustContentInset="false"
+          stickyHeaderIndices={headerIndices}
+          onStartReached={fetchOlder}
+          onEndReached={fetchNewer}
+          autoScrollToBottom={this.state.autoScrollToBottom}
+          onScroll={this.onScroll}
+        >
+          {messageList}
+        </InfiniteScrollView>
+      </View>
     );
   }
 }
