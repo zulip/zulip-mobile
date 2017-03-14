@@ -13,6 +13,7 @@ export default (auth: Auth) =>
         'reaction',
         'presence',
         'muted_topics',
+        'realm_user',
         'update_message_flags',
       ]),
     },

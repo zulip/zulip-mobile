@@ -24,6 +24,16 @@ const stateToPriority = {
   active: 2,
 };
 
+const mapApiToStateUser = (user) => ({
+  id: user.user_id,
+  email: user.email,
+  fullName: user.full_name,
+  avatarUrl: user.avatar_url,
+  isActive: user.is_active,
+  isAdmin: user.is_admin,
+  isBot: user.is_bot,
+});
+
 export const activityFromPresence = (presence: Presence): UserStatus =>
   priorityToState[Math.max(...Object.values(presence).map(x => stateToPriority[x.status]))];
 
@@ -57,18 +67,13 @@ export default (state = initialState, action) => {
       }, state.slice());
     }
     case INIT_USERS: {
-      return action.users.map(user => ({
-        id: user.user_id,
-        email: user.email,
-        fullName: user.full_name,
-        avatarUrl: user.avatar_url,
-        isActive: user.is_active,
-        isAdmin: user.is_admin,
-        isBot: user.is_bot,
-      }));
+      return action.users.map(mapApiToStateUser);
     }
     case EVENT_USER_ADD:
-      return state; // TODO
+      return [
+        ...state,
+        mapApiToStateUser(action.person),
+      ];
     case EVENT_USER_REMOVE:
       return state; // TODO
     case EVENT_USER_UPDATE:

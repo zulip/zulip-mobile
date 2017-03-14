@@ -62,14 +62,14 @@ export default (auth, event) => {
 
     case 'subscription':
       return {
-        type: opToActionSubscription[event.op],
         ...event,
+        type: opToActionSubscription[event.op],
       };
 
     case 'realm_user':
       return {
-        type: opToActionUser[event.op],
         ...event,
+        type: opToActionUser[event.op],
       };
 
     case 'realm_bot':
@@ -77,8 +77,8 @@ export default (auth, event) => {
 
     case 'stream':
       return {
-        type: opToActionStream[event.op],
         ...event,
+        type: opToActionStream[event.op],
       };
     case 'pointer':
       // TODO
