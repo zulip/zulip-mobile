@@ -14,7 +14,7 @@ const SideDrawer = (props) =>
     side={props.side}
     tapToClose
     openDrawerOffset={
-      props.orientation === 'LANDSCAPE' ? 0.5 : 0.2
+      props.orientation === 'LANDSCAPE' ? 0.4 : 0.2
     }
     negotiatePan
     panOpenMask={0.1}
