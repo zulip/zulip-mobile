@@ -30,6 +30,10 @@ device name in package.json
 
 Run Android:
 
+* Install the Android SDK including API 23 (Android 6.0), Build Tools, API Platform, Google APIs, Google Play Services, Android Support Library, the Local Maven Repository for Support and the Google Repository.
+
+All of these can be installed, together with their dependencies, using the Android SDK manager.
+
 * `react-native run-android` - runs in an Android emulator, emulator has to be
 run manually before this command
 
