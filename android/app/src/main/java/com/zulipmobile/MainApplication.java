@@ -24,6 +24,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     Fabric.with(this, new Crashlytics());
+    SoLoader.init(this, /* native exopackage */ false);
   }
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -45,11 +46,5 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public ReactNativeHost getReactNativeHost() {
     return mReactNativeHost;
-  }
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
   }
 }
