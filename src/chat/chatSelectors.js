@@ -21,7 +21,7 @@ export const getAnchor = (state) => {
 };
 
 export const getRecentConversations = (state) => {
-  const selfEmail = state.account[0].email;
+  const selfEmail = state.accounts[0].email;
   const privateNarrowStr = JSON.stringify(specialNarrow('private'));
   const messages = state.chat.messages[privateNarrowStr] || [];
   const recipients = messages.map(msg =>

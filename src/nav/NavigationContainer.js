@@ -57,13 +57,13 @@ class NavigationContainer extends React.PureComponent {
   }
 
   componentWillReceiveProps() {
-    const { needsInitialFetch, auth,
+    const { needsInitialFetch, auth, state,
       fetchEvents, fetchEssentialInitialData, fetchRestOfInitialData } = this.props;
 
     if (needsInitialFetch) {
       fetchEssentialInitialData(auth);
       fetchRestOfInitialData(auth);
-      fetchEvents(auth);
+      fetchEvents(auth, state);
     }
   }
 
@@ -83,7 +83,7 @@ export default connect(
   (state) => ({
     auth: getAuth(state),
     needsInitialFetch: state.app.needsInitialFetch,
-    accounts: state.account,
+    accounts: state.accounts,
     navigation: state.nav,
   }),
   boundActions,

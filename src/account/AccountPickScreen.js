@@ -66,7 +66,7 @@ class AccountPickScreen extends React.Component {
 export default connect(
   (state) => ({
     auth: getAuth(state),
-    accounts: state.account,
+    accounts: state.accounts,
   }),
   boundActions,
 )(AccountPickScreen);

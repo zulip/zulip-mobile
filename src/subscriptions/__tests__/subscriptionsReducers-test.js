@@ -157,17 +157,19 @@ describe('subscriptionsReducers', () => {
   });
 
   describe('EVENT_SUBSCRIPTION_PEER_ADD', () => {
-    test('TODO', () => {
+    test('adds user as subscriber of specified streams', () => {
       const prevState = [
         { stream_id: 1, subscribers: [] },
+        { stream_id: 2, subscribers: [] },
       ];
       const action = {
         type: EVENT_SUBSCRIPTION_PEER_ADD,
         subscriptions: [1],
-        user_id: 1964,
+        user: { id: 1, email: 'john@example.com' },
       };
       const expectedState = [
         { stream_id: 1, subscribers: ['john@example.com'] },
+        { stream_id: 2, subscribers: [] },
       ];
 
       const newState = subscriptionsReducers(prevState, action);
@@ -175,7 +177,7 @@ describe('subscriptionsReducers', () => {
       expect(newState).toEqual(expectedState);
     });
 
-    test('TODO', () => {
+    test('adds user as subscriber to multiple streams', () => {
       const prevState = [
         { stream_id: 1, subscribers: [] },
         { stream_id: 2, subscribers: [] },
@@ -183,7 +185,7 @@ describe('subscriptionsReducers', () => {
       const action = {
         type: EVENT_SUBSCRIPTION_PEER_ADD,
         subscriptions: [1, 2, 3],
-        user_id: 1964,
+        user: { id: 1, email: 'john@example.com' },
       };
       const expectedState = [
         { stream_id: 1, subscribers: ['john@example.com'] },

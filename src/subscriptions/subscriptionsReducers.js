@@ -37,7 +37,20 @@ export default (state = initialState, action) => {
       return state; // TODO
 
     case EVENT_SUBSCRIPTION_PEER_ADD:
-      return state; // TODO
+      return state.map(subscription => {
+        const sub = action.subscriptions.indexOf(subscription.stream_id);
+        if (sub === -1 || subscription.subscribers.includes(action.user.email)) {
+          return subscription;
+        }
+
+        return {
+          ...subscription,
+          subscribers: [
+            ...subscription.subscribers,
+            action.user.email,
+          ],
+        };
+      });
 
     default:
       return state;

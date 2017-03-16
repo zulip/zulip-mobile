@@ -1,5 +1,5 @@
 export const getActiveAccount = (state) =>
-  (state.account ? state.account[0] : undefined);
+  (state.accounts ? state.accounts[0] : undefined);
 
 export const getAuth = (state) => {
   const account = getActiveAccount(state);

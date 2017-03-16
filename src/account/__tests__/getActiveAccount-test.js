@@ -1,16 +1,16 @@
 import { getActiveAccount } from '../accountSelectors';
 
 test('when no accounts exist, returns undefined', () => {
-  const account = [];
-  const result = getActiveAccount({ account });
+  const accounts = [];
+  const result = getActiveAccount({ accounts });
   expect(result).toBeUndefined();
 });
 
 test('returns first in the list', () => {
-  const account = [
+  const accounts = [
     { name: 'account1' },
     { name: 'account2' },
   ];
-  const result = getActiveAccount({ account });
+  const result = getActiveAccount({ accounts });
   expect(result).toEqual({ name: 'account1' });
 });

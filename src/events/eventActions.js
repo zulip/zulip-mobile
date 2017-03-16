@@ -10,7 +10,7 @@ import {
   EVENT_REGISTERED,
 } from '../constants';
 
-const startEventLoop = (auth, queueId, eventId) =>
+const startEventPolling = (auth, queueId, eventId) =>
   async (dispatch, getState) => {
     let lastEventId = eventId;
     let numFailures = 0;
@@ -54,7 +54,7 @@ const startEventLoop = (auth, queueId, eventId) =>
       const actions = [];
       for (const event of response.events) {
         lastEventId = Math.max(lastEventId, event.id);
-        const action = eventToAction(auth, event);
+        const action = eventToAction(getState(), event);
 
         if (action) {
           actions.push({ ...action, eventId: event.id });
@@ -71,7 +71,7 @@ const startEventLoop = (auth, queueId, eventId) =>
     }
   };
 
-export const fetchEvents = (auth: Auth) =>
+export const fetchEvents = (auth: Auth, state) =>
   async (dispatch, getState) => {
     const data = await registerForEvents(auth);
 
@@ -90,5 +90,5 @@ export const fetchEvents = (auth: Auth) =>
     });
 
     // Start the event loop
-    dispatch(startEventLoop(auth, queueId, lastEventId));
+    dispatch(startEventPolling(auth, queueId, lastEventId));
   };

@@ -7,6 +7,9 @@ const statusOrder = (status) => {
   }
 };
 
+export const getUserById = (users: any[], userId: number) =>
+  users.find(x => x.id === userId);
+
 export const groupUsersByInitials = (users: any[]): any[] =>
   users.reduce((accounts, x) => {
     const firstLetter = x.fullName[0].toUpperCase();

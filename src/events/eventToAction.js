@@ -17,6 +17,8 @@ import {
   EVENT_USER_UPDATE,
 } from '../constants';
 
+import { getUserById } from '../users/usersSelectors';
+
 const opToActionSubscription = {
   'add': EVENT_SUBSCRIPTION_ADD,
   'remove': EVENT_SUBSCRIPTION_REMOVE,
@@ -41,15 +43,13 @@ const opToActionReaction = {
   'remove': EVENT_REACTION_REMOVE,
 };
 
-export default (auth, event) => {
-  console.log('HANDLE EVENT', event);
-
+export default (state, event) => {
   switch (event.type) {
     case 'message':
       return {
         type: EVENT_NEW_MESSAGE,
         message: event.message,
-        selfEmail: auth.email,
+        selfEmail: state.accounts[0].email,
       };
 
     case 'update_message':
@@ -64,6 +64,7 @@ export default (auth, event) => {
       return {
         ...event,
         type: opToActionSubscription[event.op],
+        user: getUserById(state.users, event.user_id),
       };
 
     case 'realm_user':

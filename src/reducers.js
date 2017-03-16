@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { BATCH_ACTIONS } from './constants';
-import account from './account/accountReducers';
+import accounts from './account/accountReducers';
 import app from './app/appReducers';
 import events from './events/eventReducers';
 import mute from './mute/muteReducers';
@@ -23,7 +23,7 @@ const enableBatching = (reducer) =>
   };
 
 export default enableBatching(combineReducers({
-  account,
+  accounts,
   app,
   chat,
   events,
