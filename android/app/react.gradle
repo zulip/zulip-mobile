@@ -80,8 +80,8 @@ gradle.projectsEvaluated {
                 }
 
                 enabled config."bundleIn${targetName}" ||
-                    config."bundleIn${buildTypeName.capitalize()}" ?:
-                            targetName.toLowerCase().contains("release")
+                        config."bundleIn${buildTypeName.capitalize()}" ?:
+                        targetName.toLowerCase().contains("release")
             }
 
             // Hook bundle${productFlavor}${buildType}JsAndAssets into the android build process
