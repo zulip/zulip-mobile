@@ -20,12 +20,6 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    //Fabric.with(this, new Crashlytics());
-  }
-
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
@@ -51,5 +45,6 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    //Fabric.with(this, new Crashlytics());
   }
 }
