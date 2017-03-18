@@ -1,79 +1,29 @@
 # Zulip Mobile
-**Under active development. First usable version coming soon**
 
 [![Build Status](https://travis-ci.org/zulip/zulip-mobile.svg?branch=master)](https://travis-ci.org/zulip/zulip-mobile)
 
+Zulip Mobile is the official mobile Zulip client supporting both iOS and Android, written in JavaScript with React Native. It supersedes our two native apps [zulip-ios](https://github.com/zulip/zulip-ios-legacy) and [zulip-android](https://github.com/zulip/zulip-android).
 
-Zulip Mobile is a new, cross-platform mobile Zulip client written in
-JavaScript with React Native.
+All contributors to our previous projects, as well as newcomers, are welcome to contribute. If you are current Android contributor, read more about our
+ [plans for Zulip on Android](https://github.com/zulip/zulip-android/blob/master/android-strategy.md).
 
-We target iOS initially, with Android version following shortly.
-
-**Note**: We've decided that our React Native app is far enough along that it
-makes sense to focus our efforts on making it better on
-Android as well rather than maintaining the [Java Android app](https://github.com/zulip/zulip-android)
-in parallel. Hence, this will soon be our default app for Android and iOS
-platforms alike. Checkout our [detailed plan](https://github.com/zulip/zulip-android/blob/master/android-strategy.md)
-for further details on the motivation and logistics.
-
-## Why React Native?
-
-* Support iOS and Android with one codebase
-* Familiar web programming model (React + Javascript + Flexbox)
-* Cross-platform, 90% code reuse between iOS and Android platforms
-
-## Running
-
-Run iOS:
-
-* `npm run ios-min` - runs in an iOS simulator in the minimally supported device
-(currently iPhone 5)
-
-* `npm run ios-max` - runs in an iOS simulator in the newest/most premium
-supported device (currently iPhone 7 Plus)
-
-* `npm run ios-device` - runs on a physical iOS device, you need to edit the
-device name in package.json
-
-Run Android:
-
-* Install the Android SDK including API 23 (Android 6.0), Build Tools, API Platform, Google APIs, Google Play Services, Android Support Library, the Local Maven Repository for Support and the Google Repository.
-
-All of these can be installed, together with their dependencies, using the Android SDK manager.
-
-* `react-native run-android` - runs in an Android emulator, emulator has to be
-run manually before this command
-
-## Fixing issues
-
-If you are having issues running the code on your machine, either for the first time or after updating an outdated code with the latest, please run:
-
-```
-npm run reinstall
-```
-
-Optionally, reset iOS simulator:
-
-```
-iOS Menu > Simulator > Reset Content and Settings…
-```
+* [Getting Started](docs/getting-started.md)
+* [Developer Guide](docs/developer-guide.md)
+* [Architecture](docs/architecture.md)
+* [Testing](docs/testing.md)
+* [Recommended Reading](docs/recommended-reading.md)
+* [Release Guide](docs/release-guide.md)
+* [Contributing](#contributing)
+* [License](#license)
 
 ## Contributing
 
-Please see the
-[developer guide](https://github.com/zulip/zulip-mobile/tree/master/docs/developer-guide.md).
+For more information about contributing PRs and issues, see our [Contribution Guidelines](CONTRIBUTING.md).
 
-* **Pull requests**. Before a pull request can be merged, you need to
-sign the [Dropbox Contributor License Agreement][cla]. Also,
-please skim our [commit message style guidelines][doc-commit-style].
+Issues tagged **[help wanted](https://github.com/zulip/zulip-mobile/labels/help%20wanted)** are a great starting point for PRs.
 
-[cla]: https://opensource.dropbox.com/cla/
-[doc-commit-style]: http://zulip.readthedocs.io/en/latest/code-style.html#commit-messages
+We encourage the community to ask and answer questions in [our Zulip stream](https://chat.zulip.org/#narrow/stream/react.20native.20app)
 
-* **Issues**. Before working on an issue make sure to claim it by commenting
-the following in the comment section:"**@zulipbot** claim". **@zulipbot** will
-assign you to the issue and label the issue as **in progress**. For more
-details, check out [**@zulipbot**](https://github.com/zulip/zulipbot).
 
 ## License
 
