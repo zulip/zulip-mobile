@@ -8,12 +8,13 @@ export default (auth: Auth) =>
       apply_markdown: true,
       event_types: JSON.stringify([
         'message',
-        'update_message',
-        'subscription',
-        'reaction',
-        'presence',
         'muted_topics',
+        'presence',
+        'reaction',
         'realm_user',
+        'subscription',
+        'typing',
+        'update_message',
         'update_message_flags',
       ]),
       fetch_event_types: JSON.stringify([

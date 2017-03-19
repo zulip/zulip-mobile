@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { BATCH_ACTIONS } from './actionConstants';
 import accounts from './account/accountReducers';
 import app from './app/appReducers';
+import chat from './chat/chatReducers';
 import events from './events/eventReducers';
 import flags from './chat/flagsReducers';
 import mute from './mute/muteReducers';
@@ -10,7 +11,7 @@ import realm from './realm/realmReducers';
 import settings from './settings/settingsReducers';
 import streams from './streamlist/streamsReducers';
 import subscriptions from './subscriptions/subscriptionsReducers';
-import chat from './chat/chatReducers';
+import typing from './typing/typingReducers';
 import users from './users/usersReducers';
 
 // Thanks to https://twitter.com/dan_abramov/status/656074974533459968?lang=en
@@ -36,5 +37,6 @@ export default enableBatching(combineReducers({
   settings,
   streams,
   subscriptions,
+  typing,
   users,
 }));

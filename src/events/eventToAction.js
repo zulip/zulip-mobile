@@ -11,6 +11,8 @@ import {
   EVENT_SUBSCRIPTION_UPDATE,
   EVENT_SUBSCRIPTION_PEER_ADD,
   EVENT_SUBSCRIPTION_PEER_REMOVE,
+  EVENT_TYPING_START,
+  EVENT_TYPING_STOP,
   EVENT_UPDATE_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   EVENT_USER_ADD,
@@ -43,6 +45,11 @@ const opToActionUser = {
 const opToActionReaction = {
   'add': EVENT_REACTION_ADD,
   'remove': EVENT_REACTION_REMOVE,
+};
+
+const opToActionTyping = {
+  'start': EVENT_TYPING_START,
+  'stop': EVENT_TYPING_STOP,
 };
 
 export default (state, event) => {
@@ -110,6 +117,12 @@ export default (state, event) => {
       return {
         ...event,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+      };
+
+    case 'typing':
+      return {
+        ...event,
+        type: opToActionTyping[event.op],
       };
 
     default:
