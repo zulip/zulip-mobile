@@ -2,6 +2,7 @@ import {
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
   EVENT_SUBSCRIPTION_PEER_ADD,
+  EVENT_SUBSCRIPTION_PEER_REMOVE,
 } from '../../constants';
 import subscriptionsReducers from '../subscriptionsReducers';
 
@@ -157,7 +158,7 @@ describe('subscriptionsReducers', () => {
   });
 
   describe('EVENT_SUBSCRIPTION_PEER_ADD', () => {
-    test('adds user as subscriber of specified streams', () => {
+    test('adds user as subscriber of specified stream', () => {
       const prevState = [
         { stream_id: 1, subscribers: [] },
         { stream_id: 2, subscribers: [] },
@@ -190,6 +191,48 @@ describe('subscriptionsReducers', () => {
       const expectedState = [
         { stream_id: 1, subscribers: ['john@example.com'] },
         { stream_id: 2, subscribers: ['john@example.com'] },
+      ];
+
+      const newState = subscriptionsReducers(prevState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('EVENT_SUBSCRIPTION_PEER_REMOVE', () => {
+    test('removes user as subscriber of specified stream', () => {
+      const prevState = [
+        { stream_id: 1, subscribers: ['john@example.com'] },
+        { stream_id: 2, subscribers: [] },
+      ];
+      const action = {
+        type: EVENT_SUBSCRIPTION_PEER_REMOVE,
+        subscriptions: [1],
+        user: { id: 1, email: 'john@example.com' },
+      };
+      const expectedState = [
+        { stream_id: 1, subscribers: [] },
+        { stream_id: 2, subscribers: [] },
+      ];
+
+      const newState = subscriptionsReducers(prevState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+
+    test('removes user as subscriber from multiple streams', () => {
+      const prevState = [
+        { stream_id: 1, subscribers: ['john@example.com'] },
+        { stream_id: 2, subscribers: ['john@example.com'] },
+      ];
+      const action = {
+        type: EVENT_SUBSCRIPTION_PEER_REMOVE,
+        subscriptions: [1, 2, 3],
+        user: { id: 1, email: 'john@example.com' },
+      };
+      const expectedState = [
+        { stream_id: 1, subscribers: [] },
+        { stream_id: 2, subscribers: [] },
       ];
 
       const newState = subscriptionsReducers(prevState, action);

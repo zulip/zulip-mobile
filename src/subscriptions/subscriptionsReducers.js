@@ -7,6 +7,7 @@ import {
   EVENT_SUBSCRIPTION_REMOVE,
   EVENT_SUBSCRIPTION_UPDATE,
   EVENT_SUBSCRIPTION_PEER_ADD,
+  EVENT_SUBSCRIPTION_PEER_REMOVE,
 } from '../constants';
 
 const initialState = [];
@@ -51,6 +52,12 @@ export default (state = initialState, action) => {
           ],
         };
       });
+
+    case EVENT_SUBSCRIPTION_PEER_REMOVE:
+      return state.map(subscription => ({
+        ...subscription,
+        subscribers: subscription.subscribers.filter(sub => sub !== action.user.email),
+      }));
 
     default:
       return state;
