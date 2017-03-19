@@ -25,11 +25,13 @@
   [[RCTBundleURLProvider sharedSettings] setDefaults];
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
 
+  // Set up Crashlytics
   [Fabric with:@[[Crashlytics class]]];
 
-  RCTSetLogThreshold(RCTLogLevelInfo);
+  RCTSetLogThreshold(RCTLogLevelError);
   RCTSetLogFunction(CrashlyticsReactLogFunction);
 
+  // Set up React Native root view
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"ZulipMobile"
                                                initialProperties:nil
