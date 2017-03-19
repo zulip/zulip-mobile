@@ -10,6 +10,7 @@ export default (auth: Auth) =>
       if (res.result === 'success') {
         if (res.password) backends.push('password');
         if (res.google) backends.push('google');
+        if (res.github) backends.push('github');
         if (res.dev) backends.push('dev');
       }
       if (!backends) {
