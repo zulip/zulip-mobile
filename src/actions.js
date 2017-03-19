@@ -9,6 +9,7 @@ export * from './realm/realmActions';
 export * from './settings/settingsActions';
 export * from './streamlist/streamsActions';
 export * from './subscriptions/subscriptionsActions';
+export * from './typing/typingActions';
 export * from './users/usersActions';
 
 export const batchActions = (...actions) => ({

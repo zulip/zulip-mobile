@@ -13,7 +13,7 @@ describe('chatUpdater', () => {
     expect(actualState).toEqual(initialState);
   });
 
-  test('TODO!!!!', () => {
+  test('if id exists the message is updated', () => {
     const initialState = {
       messages: {
         '[]': [
