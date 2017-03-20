@@ -27,6 +27,7 @@ export default (state = initialState, action) => {
     case ACCOUNT_SWITCH:
       return {
         ...state,
+        lastActivityTime: new Date(),
         needsInitialFetch: true,
       };
     case LOGIN_SUCCESS:

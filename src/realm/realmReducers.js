@@ -1,5 +1,6 @@
 import {
   REALM_INIT,
+  ACCOUNT_SWITCH,
 } from '../constants';
 
 // Initial state
@@ -14,6 +15,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         twentyFourHourTime: action.data.twenty_four_hour_time,
       };
+
+    case ACCOUNT_SWITCH:
+      return initialState;
+
     default:
       return state;
   }
