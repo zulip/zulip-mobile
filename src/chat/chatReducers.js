@@ -13,19 +13,19 @@ import {
 import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
 
-const getInitialState = () => ({
+const initialState = {
   fetching: { older: false, newer: false },
   caughtUp: { older: false, newer: false },
   narrow: homeNarrow(),
   messages: {},
-});
+};
 
-export default (state = getInitialState(), action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
-      return getInitialState();
+      return initialState;
 
     case MESSAGE_FETCH_START:
       return {

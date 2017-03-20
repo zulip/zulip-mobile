@@ -3,13 +3,14 @@ import {
   PRESENCE_RESPONSE,
   EVENT_USER_ADD,
   EVENT_PRESENCE,
+  ACCOUNT_SWITCH,
 } from '../../constants';
 import usersReducers, { activityFromPresence, timestampFromPresence } from '../usersReducers';
 
 const fiveSecsAgo = Math.floor(new Date() - 5) / 1000;
 
 describe('usersReducers', () => {
-  test('handles unknown action and no previous state by returning initial state, does not throw', () => {
+  test('handles unknown action and no state by returning initial state', () => {
     const newState = usersReducers(undefined, {});
     expect(newState).toBeDefined();
   });
@@ -96,17 +97,21 @@ describe('usersReducers', () => {
           },
         },
       };
-      const prevState = [{
-        full_name: 'Some Guy',
-        email: 'email@example.com',
-        status: 'offline',
-      }];
-      const expectedState = [{
-        full_name: 'Some Guy',
-        email: 'email@example.com',
-        status: 'active',
-        timestamp: fiveSecsAgo,
-      }];
+      const prevState = [
+        {
+          full_name: 'Some Guy',
+          email: 'email@example.com',
+          status: 'offline',
+        },
+      ];
+      const expectedState = [
+        {
+          full_name: 'Some Guy',
+          email: 'email@example.com',
+          status: 'active',
+          timestamp: fiveSecsAgo,
+        },
+      ];
 
       const newState = usersReducers(prevState, { type: PRESENCE_RESPONSE, presence });
 
@@ -128,17 +133,21 @@ describe('usersReducers', () => {
           },
         },
       };
-      const prevState = [{
-        full_name: 'Some Guy',
-        email: 'email@example.com',
-        status: 'offline',
-      }];
-      const expectedState = [{
-        full_name: 'Some Guy',
-        email: 'email@example.com',
-        status: 'active',
-        timestamp: fiveSecsAgo,
-      }];
+      const prevState = [
+        {
+          full_name: 'Some Guy',
+          email: 'email@example.com',
+          status: 'offline',
+        },
+      ];
+      const expectedState = [
+        {
+          full_name: 'Some Guy',
+          email: 'email@example.com',
+          status: 'active',
+          timestamp: fiveSecsAgo,
+        },
+      ];
 
       const newState = usersReducers(prevState, { type: PRESENCE_RESPONSE, presence });
 
@@ -190,35 +199,43 @@ describe('usersReducers', () => {
           },
         },
       };
-      const prevState = [{
-        full_name: 'Some Guy',
-        email: 'email@example.com',
-        status: 'offline',
-      }, {
-        full_name: 'John Doe',
-        email: 'johndoe@example.com',
-        status: 'offline',
-      }, {
-        full_name: 'Jane Doe',
-        email: 'janedoe@example.com',
-        status: 'offline',
-      }];
-      const expectedState = [{
-        full_name: 'Some Guy',
-        email: 'email@example.com',
-        status: 'offline',
-        timestamp: 1474527507,
-      }, {
-        full_name: 'John Doe',
-        email: 'johndoe@example.com',
-        status: 'active',
-        timestamp: fiveSecsAgo,
-      }, {
-        full_name: 'Jane Doe',
-        email: 'janedoe@example.com',
-        status: 'offline',
-        timestamp: 1475792203,
-      }];
+      const prevState = [
+        {
+          full_name: 'Some Guy',
+          email: 'email@example.com',
+          status: 'offline',
+        },
+        {
+          full_name: 'John Doe',
+          email: 'johndoe@example.com',
+          status: 'offline',
+        },
+        {
+          full_name: 'Jane Doe',
+          email: 'janedoe@example.com',
+          status: 'offline',
+        },
+      ];
+      const expectedState = [
+        {
+          full_name: 'Some Guy',
+          email: 'email@example.com',
+          status: 'offline',
+          timestamp: 1474527507,
+        },
+        {
+          full_name: 'John Doe',
+          email: 'johndoe@example.com',
+          status: 'active',
+          timestamp: fiveSecsAgo,
+        },
+        {
+          full_name: 'Jane Doe',
+          email: 'janedoe@example.com',
+          status: 'offline',
+          timestamp: 1475792203,
+        },
+      ];
 
       const newState = usersReducers(prevState, { type: PRESENCE_RESPONSE, presence });
 
@@ -235,14 +252,14 @@ describe('usersReducers', () => {
           user_id: 1,
           email: 'john@example.com',
           full_name: 'John Doe',
-        }
+        },
       };
       const expectedState = [
         {
           id: 1,
           email: 'john@example.com',
           fullName: 'John Doe',
-        }
+        },
       ];
 
       const actualState = usersReducers(initialState, action);
@@ -253,11 +270,13 @@ describe('usersReducers', () => {
 
   describe('EVENT_PRESENCE', () => {
     test('merges a single user presence', () => {
-      const prevState = [{
-        full_name: 'Some Guy',
-        email: 'email@example.com',
-        status: 'offline',
-      }];
+      const prevState = [
+        {
+          full_name: 'Some Guy',
+          email: 'email@example.com',
+          status: 'offline',
+        },
+      ];
       const action = {
         type: EVENT_PRESENCE,
         email: 'email@example.com',
@@ -268,16 +287,38 @@ describe('usersReducers', () => {
           },
         },
       };
-      const expectedState = [{
-        full_name: 'Some Guy',
-        email: 'email@example.com',
-        status: 'active',
-        timestamp: fiveSecsAgo,
-      }];
+      const expectedState = [
+        {
+          full_name: 'Some Guy',
+          email: 'email@example.com',
+          status: 'active',
+          timestamp: fiveSecsAgo,
+        },
+      ];
 
       const newState = usersReducers(prevState, action);
 
       expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('ACCOUNT_SWITCH', () => {
+    test('resets state to initial state', () => {
+      const initialState = [
+        {
+          full_name: 'Some Guy',
+          email: 'email@example.com',
+          status: 'offline',
+        },
+      ];
+      const action = {
+        type: ACCOUNT_SWITCH,
+      };
+      const expectedState = [];
+
+      const actualState = usersReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
     });
   });
 });

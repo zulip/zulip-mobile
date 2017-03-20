@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
-      return [];
+      return initialState;
 
     case INIT_SUBSCRIPTIONS:
       return action.subscriptions;
