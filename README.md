@@ -9,6 +9,13 @@ JavaScript with React Native.
 
 We target iOS initially, with Android version following shortly.
 
+**Note**: We've decided that our React Native app is far enough along that it
+makes sense to focus our efforts on making it better on
+Android as well rather than maintaining the [Java Android app](https://github.com/zulip/zulip-android)
+in parallel. Hence, this will soon be our default app for Android and iOS
+platforms alike. Checkout our [detailed plan](https://github.com/zulip/zulip-android/blob/master/android-strategy.md)
+for further details on the motivation and logistics.
+
 ## Why React Native?
 
 * Support iOS and Android with one codebase
@@ -63,9 +70,9 @@ please skim our [commit message style guidelines][doc-commit-style].
 [cla]: https://opensource.dropbox.com/cla/
 [doc-commit-style]: http://zulip.readthedocs.io/en/latest/code-style.html#commit-messages
 
-* **Issues**. Before working on an issue make sure to claim it by commenting 
-the following in the comment section:"**@zulipbot** claim". **@zulipbot** will 
-assign you to the issue and label the issue as **in progress**. For more 
+* **Issues**. Before working on an issue make sure to claim it by commenting
+the following in the comment section:"**@zulipbot** claim". **@zulipbot** will
+assign you to the issue and label the issue as **in progress**. For more
 details, check out [**@zulipbot**](https://github.com/zulip/zulipbot).
 
 ## License
