@@ -71,7 +71,7 @@ const startEventPolling = (auth, queueId, eventId) =>
     }
   };
 
-export const fetchEvents = (auth: Auth, state) =>
+export const fetchEvents = (auth: Auth) =>
   async (dispatch, getState) => {
     const data = await registerForEvents(auth);
 

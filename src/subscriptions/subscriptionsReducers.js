@@ -39,8 +39,9 @@ export default (state = initialState, action) => {
 
     case EVENT_SUBSCRIPTION_PEER_ADD:
       return state.map(subscription => {
-        const sub = action.subscriptions.indexOf(subscription.stream_id);
-        if (sub === -1 || subscription.subscribers.includes(action.user.email)) {
+        const shouldNotAddToStream = action.subscriptions.indexOf(subscription.stream_id) === -1;
+        const userAlreadySubscribed = subscription.subscribers.includes(action.user.email);
+        if (shouldNotAddToStream || userAlreadySubscribed) {
           return subscription;
         }
 

@@ -57,13 +57,13 @@ class NavigationContainer extends React.PureComponent {
   }
 
   componentWillReceiveProps() {
-    const { needsInitialFetch, auth, state,
+    const { needsInitialFetch, auth,
       fetchEvents, fetchEssentialInitialData, fetchRestOfInitialData } = this.props;
 
     if (needsInitialFetch) {
       fetchEssentialInitialData(auth);
       fetchRestOfInitialData(auth);
-      fetchEvents(auth, state);
+      fetchEvents(auth);
     }
   }
 
