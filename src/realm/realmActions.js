@@ -5,10 +5,10 @@ import { messageFetchSuccess } from '../message-list/messagesActions';
 import { initSubscriptions } from '../subscriptions/subscriptionsActions';
 import { initStreams } from '../streamlist/streamsActions';
 import { initUsers } from '../users/userListActions';
-import { FETCH_INITIAL_REALM_DATA } from '../constants';
+import { INITIAL_FETCH_COMPLETE } from '../constants';
 
-export const fetchInitialRealmData = () => ({
-  type: FETCH_INITIAL_REALM_DATA,
+export const initialFetchComplete = () => ({
+  type: INITIAL_FETCH_COMPLETE,
 });
 
 export const fetchEssentialInitialData = (auth) =>
@@ -20,6 +20,7 @@ export const fetchEssentialInitialData = (auth) =>
 
     dispatch(messageFetchSuccess(messages, homeNarrow(), { older: false, newer: false }));
     dispatch(initSubscriptions(subscriptions));
+    dispatch(initialFetchComplete());
   };
 
 export const fetchRestOfInitialData = (auth) =>
