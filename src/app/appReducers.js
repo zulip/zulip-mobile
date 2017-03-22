@@ -7,7 +7,7 @@ import {
   APP_ONLINE,
   APP_ACTIVITY,
   ACCOUNT_SWITCH,
-  FETCH_INITIAL_REALM_DATA,
+  INITIAL_FETCH_COMPLETE,
   APP_ORIENTATION,
   APP_STATE,
 } from '../constants';
@@ -63,7 +63,7 @@ export default (state = initialState, action) => {
         ...state,
         isActive: action.isActive,
       };
-    case FETCH_INITIAL_REALM_DATA:
+    case INITIAL_FETCH_COMPLETE:
       return {
         ...state,
         needsInitialFetch: false,
