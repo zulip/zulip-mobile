@@ -102,14 +102,14 @@ export default (state, event) => {
 
     case 'presence':
       return {
+        ...event,
         type: EVENT_PRESENCE,
-        presence: event.presence,
       };
 
     case 'update_message_flags':
       return {
+        ...event,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        presence: event.presence,
       };
 
     default:

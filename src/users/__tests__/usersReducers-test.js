@@ -2,8 +2,11 @@ import {
   INIT_USERS,
   PRESENCE_RESPONSE,
   EVENT_USER_ADD,
+  EVENT_PRESENCE,
 } from '../../constants';
 import usersReducers, { activityFromPresence, timestampFromPresence } from '../usersReducers';
+
+const fiveSecsAgo = Math.floor(new Date() - 5) / 1000;
 
 describe('usersReducers', () => {
   test('handles unknown action and no previous state by returning initial state, does not throw', () => {
@@ -85,7 +88,6 @@ describe('usersReducers', () => {
 
   describe('PRESENCE_RESPONSE', () => {
     test('merges a single user in presence response', () => {
-      const fiveSecsAgo = (Math.floor(new Date() - 5) / 1000);
       const presence = {
         'email@example.com': {
           website: {
@@ -112,7 +114,6 @@ describe('usersReducers', () => {
     });
 
     test('merges users, skips non existing', () => {
-      const fiveSecsAgo = (Math.floor(new Date() - 5) / 1000);
       const presence = {
         'email@example.com': {
           website: {
@@ -145,7 +146,6 @@ describe('usersReducers', () => {
     });
 
     test('merges multiple users in presence response', () => {
-      const fiveSecsAgo = (Math.floor(new Date() - 5) / 1000);
       const presence = {
         'email@example.com': {
           website: {
@@ -248,6 +248,36 @@ describe('usersReducers', () => {
       const actualState = usersReducers(initialState, action);
 
       expect(actualState).toEqual(expectedState);
+    });
+  });
+
+  describe('EVENT_PRESENCE', () => {
+    test('merges a single user presence', () => {
+      const prevState = [{
+        full_name: 'Some Guy',
+        email: 'email@example.com',
+        status: 'offline',
+      }];
+      const action = {
+        type: EVENT_PRESENCE,
+        email: 'email@example.com',
+        presence: {
+          website: {
+            status: 'active',
+            timestamp: fiveSecsAgo,
+          },
+        },
+      };
+      const expectedState = [{
+        full_name: 'Some Guy',
+        email: 'email@example.com',
+        status: 'active',
+        timestamp: fiveSecsAgo,
+      }];
+
+      const newState = usersReducers(prevState, action);
+
+      expect(newState).toEqual(expectedState);
     });
   });
 });

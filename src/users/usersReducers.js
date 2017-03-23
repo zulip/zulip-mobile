@@ -43,6 +43,16 @@ export const timestampFromPresence = (presence: Presence): UserStatus =>
 export const activityFromTimestamp = (activity: string, timestamp: number) =>
   ((new Date() / 1000) - timestamp > 60 ? 'offline' : activity);
 
+const updateUserWithPresence = (user, presence) => {
+  const timestamp = timestampFromPresence(presence);
+
+  return {
+    ...user,
+    status: activityFromTimestamp(activityFromPresence(presence), timestamp),
+    timestamp,
+  };
+};
+
 const initialState = [];
 
 export default (state = initialState, action) => {
@@ -51,21 +61,16 @@ export default (state = initialState, action) => {
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return [];
-    case PRESENCE_RESPONSE: {
+    case PRESENCE_RESPONSE:
       return Object.keys(action.presence).reduce((currentState, email) => {
         const userIndex = state.findIndex(u => u.email === email);
         if (userIndex === -1) return currentState;
 
-        const presenceEntry = action.presence[email];
-        const timestamp = timestampFromPresence(presenceEntry);
-        const status = activityFromTimestamp(activityFromPresence(presenceEntry), timestamp);
-
-        currentState[userIndex].status = status; // eslint-disable-line
-        currentState[userIndex].timestamp = timestamp; // eslint-disable-line
+        currentState[userIndex] = // eslint-disable-line
+          updateUserWithPresence(currentState[userIndex], action.presence[email]);
 
         return currentState;
-      }, state.slice());
-    }
+      }, [...state]);
     case INIT_USERS: {
       return action.users.map(mapApiToStateUser);
     }
@@ -78,8 +83,16 @@ export default (state = initialState, action) => {
       return state; // TODO
     case EVENT_USER_UPDATE:
       return state; // TODO
-    case EVENT_PRESENCE:
-      return state; // TODO
+    case EVENT_PRESENCE: {
+      const userIndex = state.findIndex(u => u.email === action.email);
+      if (userIndex === -1) return state;
+
+      const updatedUser = updateUserWithPresence(state[userIndex], action.presence);
+      const newState = [...state];
+      newState[userIndex] = updatedUser;
+
+      return newState;
+    }
     default:
       return state;
   }
