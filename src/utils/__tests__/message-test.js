@@ -1,4 +1,9 @@
-import { normalizeRecipients, isSameRecipient, shouldBeMuted } from '../message';
+import {
+  normalizeRecipients,
+  normalizeRecipientsSansMe,
+  isSameRecipient,
+  shouldBeMuted,
+} from '../message';
 
 describe('normalizeRecipients', () => {
   test('joins emails from recipients, sorted, trimmed, not including missing ones', () => {
@@ -20,6 +25,32 @@ describe('normalizeRecipients', () => {
     const expectedResult = 'abc@example.com';
 
     const normalized = normalizeRecipients(recipients);
+
+    expect(normalized).toEqual(expectedResult);
+  });
+});
+
+describe('normalizeRecipientsSansMe', () => {
+  test('if only self email provided return unmodified', () => {
+    const recipients = [{ email: 'me@example.com' }];
+    const selfEmail = 'me@example.com';
+    const expectedResult = 'me@example.com';
+
+    const normalized = normalizeRecipientsSansMe(recipients, selfEmail);
+
+    expect(normalized).toEqual(expectedResult);
+  });
+
+  test('when more than one emails normalize but filter out self email', () => {
+    const recipients = [
+      { email: 'abc@example.com' },
+      { email: 'me@example.com' },
+      { email: '  def@example.com  ' },
+    ];
+    const selfEmail = 'me@example.com';
+    const expectedResult = 'abc@example.com,def@example.com';
+
+    const normalized = normalizeRecipientsSansMe(recipients, selfEmail);
 
     expect(normalized).toEqual(expectedResult);
   });
