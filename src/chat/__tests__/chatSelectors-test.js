@@ -91,4 +91,51 @@ describe('getRecentConversations', () => {
 
     expect(actual).toEqual(expectedPrivate);
   });
+
+  test.only('returns recipients sorted by last activity', () => {
+    const state = {
+      accounts: [{ email: 'me@example.com' }],
+      chat: {
+        messages: {
+          [privatesNarrowStr]: [
+            {
+              display_recipient: [{ email: 'me@example.com' }, { email: 'john@example.com' }],
+              timestamp: 2,
+            },
+            {
+              display_recipient: [{ email: 'mark@example.com' }],
+              timestamp: 1,
+            },
+            {
+              display_recipient: [{ email: 'john@example.com' }],
+              timestamp: 4,
+            },
+            {
+              display_recipient: [{ email: 'mark@example.com' }],
+              timestamp: 3,
+            },
+            {
+              display_recipient: [{ email: 'john@example.com' }, { email: 'mark@example.com' }],
+              timestamp: 5,
+            },
+            {
+              display_recipient: [{ email: 'me@example.com' }],
+              timestamp: 6,
+            },
+          ],
+        },
+      }
+    };
+
+    const expectedPrivate = [
+      'me@example.com',
+      'john@example.com,mark@example.com',
+      'john@example.com',
+      'mark@example.com',
+    ];
+
+    const actual = getRecentConversations(state);
+
+    expect(actual).toEqual(expectedPrivate);
+  });
 });
