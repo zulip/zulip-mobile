@@ -36,9 +36,9 @@ this tab.
 ## Running on an iOS device
 1. [Set up the dev environment](#setting-up-a-dev-environment)
 2. Connect your iOS device
-3. Within the repo, `$ open ios/ZulipMobile.xcodeproj/` to open Xcode
+3. Within the repo, `$ open ios/ZulipMobile.xcworkspace/` to open Xcode
 4. Change BundleIdentifier for both ZulipMobile and ZulipMobileTests to a
-unique string, e.g. `<username>ZulipMobile`
+unique string, e.g. `<username>ZulipMobile` in the 'General Tab' of your project.
 5. Select your device as the `build target` (from [this guide](https://facebook.github.io/react-native/docs/running-on-device-ios.html))
 6. Hit the `build and run` button (make sure your device is unlocked)
 7. If it's the first time you're running the app, you need to trust the
