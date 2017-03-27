@@ -35,7 +35,7 @@ export default class MessageList extends React.PureComponent {
   onScroll = (e) => {
     const { auth, messages, markAsRead } = this.props;
 
-    if (!markAsRead) {
+    if (!markAsRead || !e.visibleIds) {
       return;
     }
 
@@ -91,7 +91,10 @@ export default class MessageList extends React.PureComponent {
       }
       if (elem.props.type === 'message') {
         messageList[i] = (
-          <TaggedView key={elem.props.message.id} tagID={elem.props.message.id.toString()}>
+          <TaggedView
+            key={elem.props.message.id}
+            tagID={elem.props.message.id.toString()}
+            collapsable={false}>
             {elem}
           </TaggedView>
         );
