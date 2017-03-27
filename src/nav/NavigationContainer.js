@@ -56,9 +56,9 @@ class NavigationContainer extends React.PureComponent {
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     const { needsInitialFetch, auth,
-      fetchEvents, fetchEssentialInitialData, fetchRestOfInitialData } = this.props;
+      fetchEvents, fetchEssentialInitialData, fetchRestOfInitialData } = nextProps;
 
     if (needsInitialFetch) {
       fetchEssentialInitialData(auth);
