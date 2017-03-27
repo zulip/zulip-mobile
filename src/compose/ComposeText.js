@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TextInput, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
-import { isStreamNarrow, isTopicNarrow, isPrivateNarrow, isGroupNarrow } from '../utils/narrow';
+import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { registerUserInputActivity } from '../utils/activity';
 import { getAuth } from '../account/accountSelectors';
 import sendMessage from '../api/sendMessage';
@@ -53,7 +53,7 @@ class ComposeText extends React.Component {
     const { auth, narrow } = this.props;
     const { text } = this.state;
 
-    if (isPrivateNarrow(narrow) || isGroupNarrow(narrow)) {
+    if (isPrivateOrGroupNarrow(narrow)) {
       sendMessage(auth, 'private', narrow[0].operand, '', text);
     } else if (isStreamNarrow(narrow)) {
       sendMessage(auth, 'stream', narrow[0].operand, '(no topic)', text);

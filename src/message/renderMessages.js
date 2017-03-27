@@ -1,11 +1,6 @@
 import React from 'react';
 
-import {
-  isTopicNarrow,
-  isPrivateNarrow,
-  isGroupNarrow,
-} from '../utils/narrow';
-
+import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import MessageHeader from '../message/headers/MessageHeader';
 import MessageContainer from '../message/MessageContainer';
 import TimeRow from '../message/TimeRow';
@@ -30,8 +25,7 @@ export default ({ auth, subscriptions, users, messages, narrow, mute, doNarrow, 
       );
     }
 
-    const showHeader = !isPrivateNarrow(narrow) &&
-      !isGroupNarrow(narrow) && !isTopicNarrow(narrow);
+    const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);
     const diffRecipient = !isSameRecipient(prevItem, item);
 
     if (showHeader && diffRecipient) {

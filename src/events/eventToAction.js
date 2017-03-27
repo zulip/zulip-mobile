@@ -122,6 +122,7 @@ export default (state, event) => {
     case 'typing':
       return {
         ...event,
+        selfEmail: state.accounts[0].email,
         type: opToActionTyping[event.op],
       };
 

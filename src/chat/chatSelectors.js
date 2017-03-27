@@ -1,6 +1,7 @@
-import { specialNarrow } from '../utils/narrow';
-import { normalizeRecipientsSansMe, shouldBeMuted } from '../utils/message';
+import { specialNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
+import { normalizeRecipients, normalizeRecipientsSansMe, shouldBeMuted } from '../utils/message';
 import { countUnread } from '../utils/unread';
+import { getUserById } from '../users/usersSelectors';
 
 export const getAllMessages = (state) =>
   state.chat.messages;
@@ -67,3 +68,20 @@ export const getPrivateMessages = (state) =>
 
 export const getUnreadPrivateMessagesCount = (state): number =>
   countUnread(getPrivateMessages(state).map(msg => msg.id), state.flags.read);
+
+export const getCurrentTypingUser = state => {
+  if (!isPrivateOrGroupNarrow(state.chat.narrow)) {
+    return undefined;
+  }
+
+  const recipients = state.chat.narrow[0].operand.split(',').map(email => ({ email }));
+  const selfEmail = state.accounts[0].email;
+  const normalizedRecipients = normalizeRecipients(recipients, selfEmail);
+  const currentTyping = state.typing[normalizedRecipients];
+
+  if (!currentTyping) {
+    return undefined;
+  }
+
+  return getUserById(state.users, currentTyping.user_id);
+};

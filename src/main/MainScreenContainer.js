@@ -4,7 +4,11 @@ import isEqual from 'lodash.isequal';
 
 import config from '../config';
 import boundActions from '../boundActions';
-import { getShownMessagesInActiveNarrow, getAnchor } from '../chat/chatSelectors';
+import {
+  getShownMessagesInActiveNarrow,
+  getAnchor,
+  getCurrentTypingUser,
+} from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
 import MainScreen from './MainScreen';
 
@@ -55,6 +59,7 @@ export default connect(state => ({
   caughtUp: state.chat.caughtUp,
   narrow: state.chat.narrow,
   mute: state.mute,
+  typingUser: getCurrentTypingUser(state),
   anchor: getAnchor(state),
   users: state.users,
   readIds: state.flags.read

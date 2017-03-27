@@ -4,6 +4,7 @@ import ActionSheet from 'react-native-actionsheet'; // eslint-disable-line
 
 import TaggedView from '../native/TaggedView';
 import { LoadingIndicator } from '../common';
+import MessageTyping from '../message/MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
 import { actionSheetButtons, executeActionSheetAction } from './messageActionSheet';
@@ -42,6 +43,7 @@ export default class MessageList extends React.PureComponent {
       fetchNewer,
       singleFetchProgress,
       onScroll,
+      typingUser,
     } = this.props;
 
     const messageList = renderMessages({ onLongPress: this.handleLongPress, ...this.props });
@@ -80,6 +82,7 @@ export default class MessageList extends React.PureComponent {
         <LoadingIndicator active={fetching.older} caughtUp={caughtUp.older} />
         {messageList}
         {!singleFetchProgress && fetching.newer && <LoadingIndicator active />}
+        {typingUser && <MessageTyping {...typingUser} />}
         <ActionSheet
           ref={(ac) => { this.actionSheet = ac; }}
           options={actionSheetButtons}

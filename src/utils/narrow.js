@@ -26,6 +26,10 @@ export const isGroupNarrow = (narrow: Narrow): boolean =>
   narrow[0].operator === 'pm-with' &&
   narrow[0].operand.indexOf(',') >= 0;
 
+export const isPrivateOrGroupNarrow = (narrow: Narrow): boolean =>
+  narrow.length === 1 &&
+  narrow[0].operator === 'pm-with';
+
 export const specialNarrow = (operand: string): Narrow => [{
   operator: 'is',
   operand,
@@ -87,7 +91,7 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, selfEmail: s
   }
 
 
-  if (isPrivateNarrow(narrow) || isGroupNarrow(narrow)) {
+  if (isPrivateOrGroupNarrow(narrow)) {
     const normalizedRecipients = normalizeRecipients(message.display_recipient);
     const normalizedNarrow = [...narrow[0].operand.split(','), selfEmail].sort().join(',');
 
