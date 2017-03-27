@@ -1,11 +1,19 @@
 import {
-  homeNarrow, isHomeNarrow,
-  privateNarrow, isPrivateNarrow,
-  groupNarrow, isGroupNarrow,
-  specialNarrow, isSpecialNarrow,
-  streamNarrow, isStreamNarrow,
-  topicNarrow, isTopicNarrow,
-  searchNarrow, isSearchNarrow,
+  homeNarrow,
+  isHomeNarrow,
+  privateNarrow,
+  isPrivateNarrow,
+  groupNarrow,
+  isGroupNarrow,
+  specialNarrow,
+  isSpecialNarrow,
+  streamNarrow,
+  isStreamNarrow,
+  topicNarrow,
+  isTopicNarrow,
+  searchNarrow,
+  isSearchNarrow,
+  isPrivateOrGroupNarrow,
   isMessageInNarrow,
   narrowFromMessage,
 } from '../narrow';
@@ -23,50 +31,91 @@ describe('homeNarrow', () => {
 
 describe('privateNarrow', () => {
   test('produces an one item list, pm-with operator and single email', () => {
-    expect(privateNarrow('bob@example.com')).toEqual([{
-      operator: 'pm-with',
-      operand: 'bob@example.com'
-    }]);
+    expect(privateNarrow('bob@example.com')).toEqual([
+      {
+        operator: 'pm-with',
+        operand: 'bob@example.com',
+      },
+    ]);
   });
 
   test('if operator is "pm-with" and only one email, then it is a private narrow', () => {
     expect(isPrivateNarrow([])).toBe(false);
     expect(isPrivateNarrow([{}, {}])).toBe(false);
-    expect(isPrivateNarrow([{
-      operator: 'pm-with',
-      operand: 'bob@example.com',
-    }])).toBe(true);
+    expect(
+      isPrivateNarrow([
+        {
+          operator: 'pm-with',
+          operand: 'bob@example.com',
+        },
+      ]),
+    ).toBe(true);
   });
 });
 
 describe('groupNarrow', () => {
   test('returns a narrow with specified recipients', () => {
-    expect(groupNarrow(['bob@example.com', 'john@example.com'])).toEqual([{
-      operator: 'pm-with',
-      operand: 'bob@example.com,john@example.com'
-    }]);
+    expect(groupNarrow(['bob@example.com', 'john@example.com'])).toEqual([
+      {
+        operator: 'pm-with',
+        operand: 'bob@example.com,john@example.com',
+      },
+    ]);
   });
 
   test('a group narrow is only private chat with more than one recipients', () => {
     expect(isGroupNarrow([])).toBe(false);
     expect(isGroupNarrow([{}, {}])).toBe(false);
-    expect(isGroupNarrow([{
-      operator: 'pm-with',
-      operand: 'bob@example.com',
-    }])).toBe(false);
-    expect(isGroupNarrow([{
-      operator: 'pm-with',
-      operand: 'bob@example.com,john@example.com',
-    }])).toBe(true);
+    expect(
+      isGroupNarrow([
+        {
+          operator: 'pm-with',
+          operand: 'bob@example.com',
+        },
+      ]),
+    ).toBe(false);
+    expect(
+      isGroupNarrow([
+        {
+          operator: 'pm-with',
+          operand: 'bob@example.com,john@example.com',
+        },
+      ]),
+    ).toBe(true);
+  });
+});
+
+describe('isPrivateOrGroupNarrow', () => {
+  test('a private or group narrow is any "pm-with" narrow', () => {
+    expect(isPrivateOrGroupNarrow([])).toBe(false);
+    expect(isPrivateOrGroupNarrow([{}, {}])).toBe(false);
+    expect(
+      isPrivateOrGroupNarrow([
+        {
+          operator: 'pm-with',
+          operand: 'bob@example.com',
+        },
+      ]),
+    ).toBe(true);
+    expect(
+      isPrivateOrGroupNarrow([
+        {
+          operator: 'pm-with',
+          operand: 'bob@example.com,john@example.com',
+        },
+      ]),
+    ).toBe(true);
   });
 });
 
 describe('specialNarrow', () => {
   test('produces a narrow with "is" operator', () => {
-    expect(specialNarrow('starred')).toEqual([{
-      operator: 'is',
-      operand: 'starred',
-    }]);
+    expect(specialNarrow('starred')).toEqual([
+      {
+        operator: 'is',
+        operand: 'starred',
+      },
+    ]);
   });
 
   test('only narrowing with the "is" operator is special narrow', () => {
@@ -79,10 +128,12 @@ describe('specialNarrow', () => {
 
 describe('streamNarrow', () => {
   test('narrows to messages from a specific stream', () => {
-    expect(streamNarrow('some stream')).toEqual([{
-      operator: 'stream',
-      operand: 'some stream',
-    }]);
+    expect(streamNarrow('some stream')).toEqual([
+      {
+        operator: 'stream',
+        operand: 'some stream',
+      },
+    ]);
   });
 
   test('only narrow with operator of "stream" is a stream narrow', () => {
@@ -103,22 +154,29 @@ describe('topicNarrow', () => {
   test('only narrow with two items, one for stream, one for topic is a topic narrow', () => {
     expect(isTopicNarrow([])).toBe(false);
     expect(isTopicNarrow([{}])).toBe(false);
-    expect(isTopicNarrow([{
-      operator: 'stream',
-      operand: 'some stream',
-    }, {
-      operator: 'topic',
-      operand: 'some topic',
-    }])).toBe(true);
+    expect(
+      isTopicNarrow([
+        {
+          operator: 'stream',
+          operand: 'some stream',
+        },
+        {
+          operator: 'topic',
+          operand: 'some topic',
+        },
+      ]),
+    ).toBe(true);
   });
 });
 
 describe('searchNarrow', () => {
   test('produces a narrow for a search query', () => {
-    expect(searchNarrow('some query')).toEqual([{
-      operator: 'search',
-      operand: 'some query',
-    }]);
+    expect(searchNarrow('some query')).toEqual([
+      {
+        operator: 'search',
+        operand: 'some query',
+      },
+    ]);
   });
 
   test('narrow with "search" operand is a search narrow', () => {
@@ -138,10 +196,7 @@ describe('isMessageInNarrow', () => {
   test('message with type "private" is in private narrow if recipient matches', () => {
     const message = {
       type: 'private',
-      display_recipient: [
-        { email: 'me@example.com' },
-        { email: 'john@example.com' },
-      ],
+      display_recipient: [{ email: 'me@example.com' }, { email: 'john@example.com' }],
     };
     const narrow = privateNarrow('john@example.com');
 
@@ -151,9 +206,7 @@ describe('isMessageInNarrow', () => {
   test('message to self is in "private" narrow with self', () => {
     const message = {
       type: 'private',
-      display_recipient: [
-        { email: 'me@example.com' },
-      ],
+      display_recipient: [{ email: 'me@example.com' }],
     };
     const narrow = privateNarrow('me@example.com');
 
@@ -178,10 +231,7 @@ describe('isMessageInNarrow', () => {
   test('message with type "private" is always in "private messages" narrow', () => {
     const message = {
       type: 'private',
-      display_recipient: [
-        { email: 'me@example.com' },
-        { email: 'john@example.com' },
-      ],
+      display_recipient: [{ email: 'me@example.com' }, { email: 'john@example.com' }],
     };
     const narrow = specialNarrow('private', 'some topic');
 
@@ -198,16 +248,19 @@ describe('isMessageInNarrow', () => {
     expect(isMessageInNarrow(message, narrow)).toBe(true);
   });
 
-  test('message with type stream is in topic narrow if current stream and topic match with its own', () => {
-    const message = {
-      type: 'stream',
-      subject: 'some topic',
-      display_recipient: 'some stream',
-    };
-    const narrow = topicNarrow('some stream', 'some topic');
+  test(
+    'message with type stream is in topic narrow if current stream and topic match with its own',
+    () => {
+      const message = {
+        type: 'stream',
+        subject: 'some topic',
+        display_recipient: 'some stream',
+      };
+      const narrow = topicNarrow('some stream', 'some topic');
 
-    expect(isMessageInNarrow(message, narrow)).toBe(true);
-  });
+      expect(isMessageInNarrow(message, narrow)).toBe(true);
+    },
+  );
 });
 
 describe('narrowFromMessage', () => {
@@ -224,10 +277,7 @@ describe('narrowFromMessage', () => {
 
   test('for message with multiple recipients, return a group narrow', () => {
     const message = {
-      display_recipient: [
-        { email: 'bob@example.com' },
-        { email: 'john@example.com' },
-      ],
+      display_recipient: [{ email: 'bob@example.com' }, { email: 'john@example.com' }],
     };
     const expectedNarrow = groupNarrow(['bob@example.com', 'john@example.com']);
 
@@ -250,7 +300,7 @@ describe('narrowFromMessage', () => {
   test('if recipient is a string and there is a subject returns a topic narrow', () => {
     const message = {
       display_recipient: 'stream',
-      subject: 'subject'
+      subject: 'subject',
     };
     const expectedNarrow = topicNarrow('stream', 'subject');
 

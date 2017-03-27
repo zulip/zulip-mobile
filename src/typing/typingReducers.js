@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
       const normalizedRecipients = normalizeRecipientsSansMe(action.recipients, action.selfEmail);
       return {
         ...state,
-        [normalizedRecipients]: action.sender.email,
+        [normalizedRecipients]: action.sender,
       };
     }
 

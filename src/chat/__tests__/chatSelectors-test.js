@@ -1,5 +1,10 @@
-import { getAnchor, getRecentConversations, getUnreadPrivateMessagesCount } from '../chatSelectors';
-import { specialNarrow } from '../../utils/narrow';
+import {
+  getAnchor,
+  getRecentConversations,
+  getUnreadPrivateMessagesCount,
+  getCurrentTypingUser,
+} from '../chatSelectors';
+import { specialNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
 
 describe('getAnchor', () => {
   test('return undefined when there are no messages', () => {
@@ -26,7 +31,7 @@ describe('getAnchor', () => {
     expect(getAnchor(state)).toEqual({ older: 123, newer: 123 });
   });
 
-  test('when 2 or more messages, anchor contains first and last message ids', () => {
+  test('when two or more messages, anchor contains first and last message ids', () => {
     const state = {
       chat: {
         narrow: [],
@@ -151,52 +156,77 @@ describe('getRecentConversations', () => {
 
     expect(actual).toEqual(expectedPrivate);
   });
+});
 
-  test('returns recipients sorted by last activity', () => {
+describe('getCurrentTypingUser', () => {
+  test('return undefined when current narrow is not private or group', () => {
+    const state = {
+      chat: {
+        narrow: [],
+      },
+    };
+    const typingUser = getCurrentTypingUser(state);
+
+    expect(typingUser).toEqual(undefined);
+  });
+
+  test('when in private narrow and the same user is typing return details', () => {
+    const expectedUser = {
+      email: 'john@example.com',
+      avatarUrl: 'http://example.com/avatar.png',
+      fullName: 'John Doe',
+    };
     const state = {
       accounts: [{ email: 'me@example.com' }],
       chat: {
-        messages: {
-          [privatesNarrowStr]: [
-            {
-              display_recipient: [{ email: 'me@example.com' }, { email: 'john@example.com' }],
-              timestamp: 2,
-            },
-            {
-              display_recipient: [{ email: 'mark@example.com' }],
-              timestamp: 1,
-            },
-            {
-              display_recipient: [{ email: 'john@example.com' }],
-              timestamp: 4,
-            },
-            {
-              display_recipient: [{ email: 'mark@example.com' }],
-              timestamp: 3,
-            },
-            {
-              display_recipient: [{ email: 'john@example.com' }, { email: 'mark@example.com' }],
-              timestamp: 5,
-            },
-            {
-              display_recipient: [{ email: 'me@example.com' }],
-              timestamp: 6,
-            },
-          ],
-        },
-      }
+        narrow: privateNarrow('john@example.com'),
+      },
+      typing: {
+        'john@example.com': 'john@example.com',
+      },
+      users: [expectedUser],
     };
 
-    const expectedPrivate = [
-      'me@example.com',
-      'john@example.com,mark@example.com',
-      'john@example.com',
-      'mark@example.com',
-    ];
+    const typingUser = getCurrentTypingUser(state);
 
-    const actual = getRecentConversations(state);
+    expect(typingUser).toEqual(expectedUser);
+  });
 
-    expect(actual).toEqual(expectedPrivate);
+  test('when in private narrow but different user is typing return undefined', () => {
+    const state = {
+      accounts: [{ email: 'me@example.com' }],
+      chat: {
+        narrow: privateNarrow('mark@example.com'),
+      },
+      typing: {
+        'john@example.com': 'john@example.com',
+      }
+    };
+    const typingUser = getCurrentTypingUser(state);
+
+    expect(typingUser).toEqual(undefined);
+  });
+
+  test('when in group narrow and someone is typing in that narrow return details', () => {
+    const expectedUser = {
+      email: 'john@example.com',
+      avatarUrl: 'http://example.com/avatar.png',
+      fullName: 'John Doe',
+    };
+    const state = {
+      accounts: [{ email: 'me@example.com' }],
+      chat: {
+        narrow: groupNarrow(['mark@example.com', 'john@example.com']),
+      },
+      typing: {
+        'john@example.com,mark@example.com': 'john@example.com',
+      },
+      users: [expectedUser],
+    };
+
+    const typingUser = getCurrentTypingUser(state);
+
+    expect(typingUser).toEqual(expectedUser);
   });
 });
 

@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+
+import { Avatar } from '../common';
 
 const styles = StyleSheet.create({
   message: {
@@ -38,18 +40,27 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageLoading extends React.PureComponent {
+export default class MessageTyping extends React.PureComponent {
+  props: {
+    avatarUrl: string,
+    fromName: string,
+    fromEmail: string,
+  };
+
+  handleAvatarPress = () => this.props.pushRoute('account-details', this.props.email);
+
   render() {
+    const { avatarUrl, fullName } = this.props;
+
     return (
       <View style={styles.message}>
-        <View style={styles.avatar} />
+        <Avatar
+          avatarUrl={avatarUrl}
+          name={fullName}
+          onPress={this.handleAvatarPress}
+        />
         <View style={styles.content}>
-          <View style={styles.subheader}>
-            <View style={[styles.block, styles.name]} />
-            <View style={[styles.block, styles.timestamp]} />
-          </View>
-          <View style={styles.block} />
-          <View style={styles.block} />
+          <Text>... is typing</Text>
         </View>
       </View>
     );

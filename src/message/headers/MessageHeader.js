@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { isStreamNarrow, isTopicNarrow, isPrivateNarrow, isGroupNarrow } from '../../utils/narrow';
+import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../../utils/narrow';
 import TopicMessageHeader from './TopicMessageHeader';
 import StreamMessageHeader from './StreamMessageHeader';
 import PrivateMessageHeader from './PrivateMessageHeader';
@@ -58,7 +58,7 @@ export default class MessageHeader extends React.PureComponent {
     }
 
     if (item.type === 'private' &&
-      !isPrivateNarrow(narrow) && !isGroupNarrow(narrow) && !isTopicNarrow(narrow)) {
+      !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow)) {
       const recipients = item.display_recipient.length > 1 ?
         item.display_recipient.filter(r => r.email !== auth.email) :
         item.display_recipient;
