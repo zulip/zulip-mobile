@@ -37,7 +37,7 @@ export default connect(
     auth: getAuth(state),
     ownEmail: getAuth(state).email,
     realm: getAuth(state).realm,
-    users: state.userlist,
+    users: state.users,
     conversations: getRecentConversations(state),
   }),
   boundActions

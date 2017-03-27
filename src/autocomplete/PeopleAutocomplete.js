@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getAuth } from '../account/accountSelectors';
 import { Popup } from '../common';
 import UserItem from '../users/UserItem';
-import { sortUserList, filterUsersStartingWith } from '../users/userListSelectors';
+import { sortUserList, filterUsersStartingWith } from '../users/usersSelectors';
 
 
 class PeopleAutocomplete extends Component {
@@ -39,7 +39,7 @@ class PeopleAutocomplete extends Component {
 
 const mapStateToProps = (state) => ({
   ownEmail: getAuth(state).email,
-  users: state.userlist,
+  users: state.users,
 });
 
 export default connect(mapStateToProps)(PeopleAutocomplete);

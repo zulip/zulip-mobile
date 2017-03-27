@@ -2,7 +2,7 @@ import { getAuth } from '../accountSelectors';
 
 test('getAuth returns an empty object when no accounts', () => {
   const state = {
-    account: [],
+    accounts: [],
   };
   const auth = getAuth(state);
   expect(auth).toEqual({
@@ -14,7 +14,7 @@ test('getAuth returns an empty object when no accounts', () => {
 
 test('getAuth returns the auth information from the first account', () => {
   const state = {
-    account: [
+    accounts: [
       { realm: 'https://realm1.com' },
       { realm: 'https://realm2.com' },
     ],

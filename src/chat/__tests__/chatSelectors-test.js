@@ -50,7 +50,7 @@ describe('getRecentConversations', () => {
 
   test('when no messages, return no conversations', () => {
     const state = {
-      account: [{ email: 'me@example.com' }],
+      accounts: [{ email: 'me@example.com' }],
       chat: {
         narrow: [],
         messages: {
@@ -66,7 +66,7 @@ describe('getRecentConversations', () => {
 
   test('returns unique list of recipients, includes conversations with self', () => {
     const state = {
-      account: [{ email: 'me@example.com' }],
+      accounts: [{ email: 'me@example.com' }],
       chat: {
         messages: {
           [privatesNarrowStr]: [

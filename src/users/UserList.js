@@ -3,7 +3,7 @@ import { StyleSheet, ListView, Text } from 'react-native';
 
 import { getFullUrl } from '../utils/url';
 import UserItem from './UserItem';
-import { sortUserList, filterUserList, groupUsersByInitials } from './userListSelectors';
+import { sortUserList, filterUserList, groupUsersByInitials } from './usersSelectors';
 
 const styles = StyleSheet.create({
   container: {

@@ -83,7 +83,7 @@ export default connect(
   (state) => ({
     auth: getAuth(state),
     needsInitialFetch: state.app.needsInitialFetch,
-    accounts: state.account,
+    accounts: state.accounts,
     navigation: state.nav,
   }),
   boundActions,

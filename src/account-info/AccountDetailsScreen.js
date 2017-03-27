@@ -46,7 +46,7 @@ class AccountDetailsScreen extends Component {
 export default connect(
   (state) => ({
     auth: getAuth(state),
-    users: state.userlist,
+    users: state.users,
     email: getCurrentRoute(state).data,
   }),
   boundActions,

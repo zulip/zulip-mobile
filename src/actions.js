@@ -8,7 +8,7 @@ export * from './message-list/messagesActions';
 export * from './realm/realmActions';
 export * from './streamlist/streamsActions';
 export * from './subscriptions/subscriptionsActions';
-export * from './users/userListActions';
+export * from './users/usersActions';
 
 export const batchActions = (...actions) => ({
   type: BATCH_ACTIONS,

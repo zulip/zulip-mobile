@@ -3,7 +3,7 @@ import {
   filterUserList,
   filterUsersStartingWith,
   groupUsersByInitials,
-} from '../userListSelectors';
+} from '../usersSelectors';
 
 describe('filterUserList', () => {
   test('empty input results in empty list', () => {
