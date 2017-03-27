@@ -31,7 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new FabricPackage(),
           new MainReactPackage(),
-          new RNDeviceInfo()
+          new RNDeviceInfo(),
+          new ZulipNativePackage()
       );
     }
   };
