@@ -14,6 +14,7 @@ class AuthScreen extends React.Component {
 
   props: {
     authBackends: string[],
+    realm: string
   };
 
   handleTypeSelect = (authType: string) => {
@@ -22,7 +23,7 @@ class AuthScreen extends React.Component {
   }
 
   render() {
-    const { authBackends } = this.props;
+    const { authBackends, realm } = this.props;
 
     return (
       <Screen title="Sign in" keyboardAvoiding>
@@ -36,7 +37,7 @@ class AuthScreen extends React.Component {
             </Text>
             <Input
               customStyle={[styles.field, styles.disabled]}
-              value={this.props.realm}
+              value={realm}
               editable={false}
             />
             {authBackends.includes('dev') &&
@@ -45,7 +46,7 @@ class AuthScreen extends React.Component {
                 onPress={() => this.handleTypeSelect('dev')}
               />
             }
-            {authBackends.includes('password') && <PasswordAuthView />}
+            {authBackends.includes('password') && <PasswordAuthView realm={realm} />}
 
           </View>
         </ScrollView>
