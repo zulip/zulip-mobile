@@ -15,6 +15,7 @@ import SearchMessagesScreen from '../search/SearchMessagesScreen';
 import UsersScreen from '../users/UsersScreen';
 import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
+import TutorialScreen from '../start/TutorialScreen';
 
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
@@ -58,6 +59,8 @@ export default class Navigation extends React.Component {
 
   renderScene = (props) => {
     switch (props.scene.route.key) {
+      case 'tutorial':
+        return <TutorialScreen {...props.scene.route.data} />;
       case 'account':
         return <AccountPickScreen />;
       case 'realm':

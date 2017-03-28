@@ -6,7 +6,7 @@ export const getInitialRoutes = (accounts: any[]): string => {
   }
 
   if (accounts.length > 1) return ['account'];
-  return ['realm'];
+  return ['tutorial'];
 };
 
 export const getCurrentRoute = (state) =>
