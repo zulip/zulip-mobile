@@ -50,7 +50,6 @@ export default StyleSheet.create({
     height: CONTROL_SIZE,
     marginTop: 5,
     marginBottom: 5,
-    lineHeight: CONTROL_SIZE,
   },
   disabled: {
     backgroundColor: '#ddd',
