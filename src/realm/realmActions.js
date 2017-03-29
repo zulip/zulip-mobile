@@ -1,7 +1,7 @@
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { getSubscriptions, getMessages, getStreams, getUsers } from '../api';
-import { messageFetchSuccess } from '../message-list/messagesActions';
+import { messageFetchSuccess } from '../message/messagesActions';
 import { initSubscriptions } from '../subscriptions/subscriptionsActions';
 import { initStreams } from '../streamlist/streamsActions';
 import { initUsers } from '../users/usersActions';

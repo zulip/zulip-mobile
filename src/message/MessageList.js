@@ -4,17 +4,12 @@ import TaggedView from '../native/TaggedView';
 
 import { registerAppActivity } from '../utils/activity';
 import { LoadingIndicator } from '../common';
-import MessageLoading from '../message/MessageLoading';
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
 
 const styles = StyleSheet.create({
   list: {
     backgroundColor: 'white',
-  },
-  centerContainer: {
-    flexGrow: 1,
-    justifyContent: 'space-around',
   },
 });
 
@@ -32,54 +27,24 @@ export default class MessageList extends React.PureComponent {
     });
   }
 
-  onScroll = (e) => {
+  onScroll = e => {
     const { auth, messages, markAsRead } = this.props;
 
     if (!markAsRead || !e.visibleIds) {
       return;
     }
 
-    markAsRead(e.visibleIds.map((messageId) =>
-      messages.find((msg) => msg.id.toString() === messageId)
-    ).filter((msg) => msg && msg.flags && msg.flags.indexOf('read') === -1));
+    markAsRead(
+      e.visibleIds
+        .map(messageId => messages.find(msg => msg.id.toString() === messageId))
+        .filter(msg => msg && msg.flags && msg.flags.indexOf('read') === -1),
+    );
     registerAppActivity(auth);
-  }
+  };
 
   render() {
-    const { messages, caughtUp, fetching,
-      fetchOlder, fetchNewer, hideFetchingOlder } = this.props;
-    let messageList = [];
-    let containerStyle = {};
-
-    if (messages.length === 0) {
-      if (!caughtUp.older || !caughtUp.newer) {
-        // Show placeholder messages if we're loading the screen
-        messageList = [...Array(6).keys()].map((i) =>
-          <MessageLoading key={`ml${i}`} />
-        );
-      }
-      containerStyle = styles.centerContainer;
-    } else {
-      if (!hideFetchingOlder) {
-        messageList.push(
-          <LoadingIndicator
-            key={'top_loading'}
-            active={fetching.older}
-            caughtUp={caughtUp.older}
-          />);
-      }
-
-      messageList.push(...renderMessages(this.props));
-
-      if (fetching.newer) {
-        messageList.push(
-          <LoadingIndicator
-            key={'bottom_loading'}
-            active
-          />
-        );
-      }
-    }
+    const { caughtUp, fetching, fetchOlder, fetchNewer, hideFetchingOlder } = this.props;
+    const messageList = renderMessages(this.props);
 
     // `headerIndices` tell the scroll view which components are headers
     // and are eligible to be docked at the top of the view.
@@ -94,7 +59,8 @@ export default class MessageList extends React.PureComponent {
           <TaggedView
             key={elem.props.message.id}
             tagID={elem.props.message.id.toString()}
-            collapsable={false}>
+            collapsable={false}
+          >
             {elem}
           </TaggedView>
         );
@@ -104,7 +70,6 @@ export default class MessageList extends React.PureComponent {
     return (
       <InfiniteScrollView
         style={styles.list}
-        contentContainerStyle={containerStyle}
         automaticallyAdjustContentInset="false"
         stickyHeaderIndices={headerIndices}
         onStartReached={fetchOlder}
@@ -112,7 +77,10 @@ export default class MessageList extends React.PureComponent {
         autoScrollToBottom={this.state.autoScrollToBottom}
         onScroll={this.onScroll}
       >
+        {hideFetchingOlder &&
+          <LoadingIndicator active={fetching.older} caughtUp={caughtUp.older} />}
         {messageList}
+        {fetching.newer && <LoadingIndicator active />}
       </InfiniteScrollView>
     );
   }
