@@ -20,7 +20,6 @@ import TutorialScreen from '../start/TutorialScreen';
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
 export default class Navigation extends React.Component {
-
   componentDidMount() {
     if (Platform.OS === 'android') {
       BackAndroid.addEventListener('hardwareBackPress', this.handleBackAction);
