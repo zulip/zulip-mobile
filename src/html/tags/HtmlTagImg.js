@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
 import { getResource } from '../../utils/url';
+import { Touchable } from '../../common';
+import boundActions from '../../boundActions';
 
 const styles = StyleSheet.create({
   img: {
@@ -10,10 +13,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ({ src, style, auth }) => (
-  <Image
-    source={getResource(src, auth)}
-    resizeMode="contain"
-    style={[styles.img, style]}
-  />
-);
+class HtmlTagImg extends Component {
+  render() {
+    const { style, src, auth, pushRoute } = this.props;
+    const fullUrl = getResource(src, auth);
+    return (
+      <Touchable onPress={() => pushRoute('light-box', { fullUrl, auth })}>
+        <Image source={fullUrl} resizeMode="contain" style={[styles.img, style]} />
+      </Touchable>
+    );
+  }
+}
+
+export default connect(null, boundActions)(HtmlTagImg);

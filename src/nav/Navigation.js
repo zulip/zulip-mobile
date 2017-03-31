@@ -15,7 +15,11 @@ import SearchMessagesScreen from '../search/SearchMessagesScreen';
 import UsersScreen from '../users/UsersScreen';
 import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
+<<<<<<< HEAD
 import SettingsScreen from '../settings/SettingsScreen';
+=======
+import LightBox from '../light-box/LightBox';
+>>>>>>> Add in-app light-box for viewing images.
 
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
@@ -81,6 +85,8 @@ export default class Navigation extends React.Component {
         return <ChatScreen />;
       case 'settings':
         return <SettingsScreen />;
+      case 'light-box':
+        return <LightBox {...props.scene.route.data} />;
       default:
         return <LoadingScreen />;
     }
