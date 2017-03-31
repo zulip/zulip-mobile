@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -50,6 +50,8 @@ class PasswordAuthView extends React.Component {
   };
 
   validateForm = () => {
+    Keyboard.dismiss();
+
     const { email, password } = this.state;
 
     if (!email || !/\S+@\S+\.\S+/.test(email)) {

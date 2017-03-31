@@ -1,5 +1,6 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, Keyboard } from 'react-native';
+
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -30,6 +31,8 @@ class RealmScreen extends React.Component {
   }
 
   tryRealm = async () => {
+    Keyboard.dismiss();
+
     let { realm } = this.state;
 
     // Automatically prepend 'https://' if the user does not enter a protocol
