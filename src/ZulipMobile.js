@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
+
 import store, { restore } from './store';
 import LoadingScreen from './start/LoadingScreen';
 import NavigationContainer from './nav/NavigationContainer';

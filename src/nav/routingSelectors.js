@@ -1,5 +1,3 @@
-import { AsyncStorage } from 'react-native';
-
 export const getInitialRoutes = (accounts: any[]): string => {
   const activeAccount = accounts[0];
 

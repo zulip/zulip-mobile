@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import boundActions from '../boundActions';
-import { Text, View, Image, StyleSheet } from 'react-native';
-
+import { View } from 'react-native';
 import AppIntro from 'react-native-app-intro';
+import boundActions from '../boundActions';
 
 class TutorialScreen extends React.Component {
 
@@ -21,7 +20,7 @@ class TutorialScreen extends React.Component {
   onSlideChangeHandle = (index, total) => {
     console.log(index, total);
   }
-  
+
   render() {
     const pageArray = [{
       title: 'Zulip',
@@ -31,10 +30,10 @@ class TutorialScreen extends React.Component {
       level: 10,
       img: require('../../assets/zulip_logo.png'),
       imgStyle: {
-        height: 500*0.4,
-        width: 500*0.4,
+        height: 500 * 0.4,
+        width: 500 * 0.4,
       },
-    },  {
+    }, {
       title: 'Streams',
       description: 'Chatrooms that you can join, leave or even make. Messages in Zulip go to a stream and have a topic.',
       backgroundColor: '#76b600',
@@ -42,8 +41,8 @@ class TutorialScreen extends React.Component {
       level: 10,
       img: require('../../assets/streams.png'),
       imgStyle: {
-        height: 469*0.375,
-        width: 844*0.375,
+        height: 469 * 0.375,
+        width: 844 * 0.375,
       },
     }, {
       title: 'Topics',
@@ -53,8 +52,8 @@ class TutorialScreen extends React.Component {
       level: 10,
       img: require('../../assets/topics.png'),
       imgStyle: {
-        height: 518*0.375,
-        width: 844*0.375,
+        height: 518 * 0.375,
+        width: 844 * 0.375,
       },
     }, {
       title: 'And everything else...',
@@ -64,21 +63,21 @@ class TutorialScreen extends React.Component {
       level: 10,
       img: require('../../assets/everything_else.png'),
       imgStyle: {
-        height: 649*0.375,
-        width: 844*0.375,
+        height: 649 * 0.375,
+        width: 844 * 0.375,
       },
     }];
-      return(
-        <View>
-          <AppIntro
-            onNextBtnClick={this.nextBtnHandle}
-            onDoneBtnClick={this.doneBtnHandle}
-            onSkipBtnClick={this.onSkipBtnHandle}
-            onSlideChange={this.onSlideChangeHandle}
-            pageArray={pageArray}
-            />
-        </View>
-      )
+    return (
+      <View>
+        <AppIntro
+          onNextBtnClick={this.nextBtnHandle}
+          onDoneBtnClick={this.doneBtnHandle}
+          onSkipBtnClick={this.onSkipBtnHandle}
+          onSlideChange={this.onSlideChangeHandle}
+          pageArray={pageArray}
+        />
+      </View>
+    );
   }
 }
 
