@@ -51,6 +51,22 @@ obtain Apple Developer credentials that will allow you to sign the app.
 Register at https://developer.apple.com. Then use your Apple ID in Xcode
 and choose it as your `Signing > Team` for both ZulipMobile and ZulipMobileTests.
 
+### Tips when running on your iOS device
+When you change the BundleIdentifier and Team (required in order to run on a device),
+it **will** modify your `.pbxproj` file, which you do **not** want unless you intend
+to. For instance, if you linking a new dependency, your `.pbxproj` will be modified to
+reflect the new changes.
+
+If you are simply testing it on the iOS device, simply do not stage the said file to
+be committed. On the other hand, if you are also adding a dependency, it is recommended
+that you first `git commit` the dependency link modification itself, and then start 
+developing. This way, when you stage your intended changes, you can do a `git reset
+path/to/.pbxproj` to discard any changes relating to the modification of the BundleIdentifier
+and Team, and then continue to commit the rest of the files. When you prepare to push your
+changes, you can just squash the initial commit with your later commits to retain a clean
+commit history. This way, you won't have to deal with any merge conflicts or manual
+deletion of the lines in your `.pbxproj` when you submit your code for a review.
+
 ## Signing in to a local dev VM
 
 This process needs improvement and has too many manual steps at the moment.
