@@ -142,6 +142,7 @@ repositories {
 
 
 dependencies {
+    compile project(':realm')
     compile project(':react-native-fabric')
     compile project(':react-native-device-info')
     compile project(':react-native-vector-icons')
