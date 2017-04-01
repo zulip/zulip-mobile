@@ -85,6 +85,7 @@ class PasswordAuthView extends React.Component {
           value={password}
           onChangeText={newPassword => this.setState({ password: newPassword })}
           blurOnSubmit={false}
+          onSubmitEditing={this.validateForm}
         />
         <ZulipButton
           text="Sign in with password"

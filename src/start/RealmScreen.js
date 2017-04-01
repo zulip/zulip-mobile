@@ -81,6 +81,7 @@ class RealmScreen extends React.Component {
               defaultValue={realm}
               onChangeText={value => this.setState({ realm: value })}
               blurOnSubmit={false}
+              onSubmitEditing={this.tryRealm}
             />
             <ZulipButton
               text="Enter"
