@@ -1,40 +1,25 @@
 import React from 'react';
-import {
-  KeyboardAvoidingView,
-} from 'react-native';
+import { KeyboardAvoidingView } from 'react-native';
 
 import { styles, OfflineNotice } from '../common';
 import { canSendToNarrow } from '../utils/narrow';
-import MessageList from '../message-list/MessageList';
+import MessageList from '../message/MessageList';
+import MessageListLoading from '../message/MessageListLoading';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 
-export default class MainScreen extends React.Component {
-
+export default class Chat extends React.Component {
   render() {
-    const { auth, messages, narrow, fetching, caughtUp, subscriptions,
-      isOnline, twentyFourHourTime, doNarrow, fetchOlder, fetchNewer,
-      markAsRead, mute } = this.props;
+    const { messages, narrow, caughtUp, fetching, isOnline } = this.props;
+    const noMessages = messages.length === 0 && caughtUp.older && caughtUp.newer;
+    const noMessagesButLoading = messages.length === 0 && (fetching.older || fetching.newer);
 
     return (
       <KeyboardAvoidingView style={styles.screen} behavior="padding">
         {!isOnline && <OfflineNotice />}
-        {messages.length === 0 && caughtUp.older && caughtUp.newer &&
-          <NoMessages narrow={narrow} />}
-        <MessageList
-          messages={messages}
-          narrow={narrow}
-          fetching={fetching}
-          caughtUp={caughtUp}
-          twentyFourHourTime={twentyFourHourTime}
-          subscriptions={subscriptions}
-          auth={auth}
-          fetchOlder={fetchOlder}
-          fetchNewer={fetchNewer}
-          doNarrow={doNarrow}
-          markAsRead={markAsRead}
-          mute={mute}
-        />
+        {noMessages && <NoMessages narrow={narrow} />}
+        {noMessagesButLoading && <MessageListLoading />}
+        {!noMessages && !noMessagesButLoading && <MessageList {...this.props} />}
         {canSendToNarrow(narrow) && <ComposeBox onSend={this.sendMessage} />}
       </KeyboardAvoidingView>
     );

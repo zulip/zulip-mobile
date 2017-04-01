@@ -8,7 +8,7 @@ import { getAuth } from '../account/accountSelectors';
 import SearchScreen from './SearchScreen';
 import { BRAND_COLOR } from '../common/styles';
 import { searchNarrow } from '../utils/narrow';
-import MessageList from '../message-list/MessageList';
+import MessageList from '../message/MessageList';
 import { getMessages } from '../api';
 
 const styles = StyleSheet.create({

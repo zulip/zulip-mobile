@@ -60,7 +60,11 @@ export default (state = initialState, action) => {
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
-      return [];
+      return initialState;
+
+    case INIT_USERS:
+      return action.users.map(mapApiToStateUser);
+
     case PRESENCE_RESPONSE:
       return Object.keys(action.presence).reduce((currentState, email) => {
         const userIndex = state.findIndex(u => u.email === email);
@@ -71,18 +75,19 @@ export default (state = initialState, action) => {
 
         return currentState;
       }, [...state]);
-    case INIT_USERS: {
-      return action.users.map(mapApiToStateUser);
-    }
+
     case EVENT_USER_ADD:
       return [
         ...state,
         mapApiToStateUser(action.person),
       ];
+
     case EVENT_USER_REMOVE:
       return state; // TODO
+
     case EVENT_USER_UPDATE:
       return state; // TODO
+
     case EVENT_PRESENCE: {
       const userIndex = state.findIndex(u => u.email === action.email);
       if (userIndex === -1) return state;
@@ -93,6 +98,7 @@ export default (state = initialState, action) => {
 
       return newState;
     }
+
     default:
       return state;
   }

@@ -109,7 +109,7 @@ describe('shouldBeMuted', () => {
     expect(isMuted).toBe(true);
   });
 
-  test.only('message in a stream is muted if the topic is muted and topic matches', () => {
+  test('message in a stream is muted if the topic is muted and topic matches', () => {
     const message = {
       display_recipient: 'stream',
       subject: 'topic',

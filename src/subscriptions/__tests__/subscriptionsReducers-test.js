@@ -3,6 +3,7 @@ import {
   EVENT_SUBSCRIPTION_REMOVE,
   EVENT_SUBSCRIPTION_PEER_ADD,
   EVENT_SUBSCRIPTION_PEER_REMOVE,
+  ACCOUNT_SWITCH,
 } from '../../constants';
 import subscriptionsReducers from '../subscriptionsReducers';
 
@@ -238,6 +239,20 @@ describe('subscriptionsReducers', () => {
       const newState = subscriptionsReducers(prevState, action);
 
       expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('ACCOUNT_SWITCH', () => {
+    test('resets state to initial state', () => {
+      const initialState = ['some_stream'];
+      const action = {
+        type: ACCOUNT_SWITCH,
+      };
+      const expectedState = [];
+
+      const actualState = subscriptionsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
     });
   });
 });
