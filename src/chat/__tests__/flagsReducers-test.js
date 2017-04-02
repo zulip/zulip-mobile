@@ -4,6 +4,7 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   MARK_MESSAGES_READ,
+  ACCOUNT_SWITCH,
 } from '../../constants';
 
 describe('flagsReducers', () => {
@@ -262,6 +263,25 @@ describe('flagsReducers', () => {
       };
 
       const actualState = flagsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+  });
+
+  describe('ACCOUNT_SWITCH', () => {
+    test('resets to initial state', () => {
+      const prevState = {
+        read: { 1: true },
+        starred: { 1: true },
+      };
+      const action = {
+        type: ACCOUNT_SWITCH,
+      };
+      const expectedState = {
+        read: {},
+      };
+
+      const actualState = flagsReducers(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
