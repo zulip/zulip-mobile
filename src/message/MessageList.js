@@ -35,6 +35,7 @@ export default class MessageList extends React.PureComponent {
       markMessagesRead(unreadMessageIds);
       queueMarkAsRead(auth, unreadMessageIds);
     }
+
     registerAppActivity(auth);
   };
 

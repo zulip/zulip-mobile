@@ -50,6 +50,19 @@ describe('flagsReducers', () => {
   });
 
   describe('EVENT_NEW_MESSAGE', () => {
+    test('when no flags key is passed, do not fail, do nothing', () => {
+      const initialState = {};
+      const action = {
+        type: EVENT_NEW_MESSAGE,
+        message: { id: 2 },
+      };
+      const expectedState = {};
+
+      const actualState = flagsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
     test('adds to store flags from new message', () => {
       const initialState = {};
       const action = {

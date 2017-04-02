@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { normalizeRecipients } from '../utils/message';
 import { isGroupNarrow } from '../utils/narrow';
-import { Avatar, Touchable } from '../common';
+import { Avatar, Touchable, UnreadCount } from '../common';
 import { BRAND_COLOR } from '../common/styles';
 
 const styles = StyleSheet.create({
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ({ email, users, narrow, onNarrow }) => {
+export default ({ email, users, narrow, unreadCount, onNarrow }) => {
   const emails = email.split(',');
   const allNames = emails.map(e =>
     (users.find(x => x.email === e) || {}).fullName
@@ -43,6 +43,7 @@ export default ({ email, users, narrow, onNarrow }) => {
         >
           {allNames}
         </Text>
+        <UnreadCount count={unreadCount} />
       </View>
     </Touchable>
   );
