@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { Avatar, Touchable } from '../common';
+import { Avatar, Touchable, UnreadCount } from '../common';
 import { BRAND_COLOR } from '../common/styles';
 
 const styles = StyleSheet.create({
@@ -34,6 +34,7 @@ export default class UserItem extends Component {
     avatarUrl: string,
     status: string,
     isSelected: boolean,
+    unreadCount: number,
     onPress: () => void,
   }
 
@@ -41,7 +42,7 @@ export default class UserItem extends Component {
     this.props.onPress(this.props.email);
 
   render() {
-    const { fullName, avatarUrl, status, isSelected } = this.props;
+    const { fullName, avatarUrl, status, isSelected, unreadCount } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
@@ -55,6 +56,7 @@ export default class UserItem extends Component {
           <Text style={[styles.text, isSelected && styles.selectedText]}>
             {fullName}
           </Text>
+          <UnreadCount count={unreadCount} />
         </View>
       </Touchable>
     );

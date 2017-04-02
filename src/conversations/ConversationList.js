@@ -50,10 +50,18 @@ export default class ConversationList extends React.PureComponent {
         style={styles.container}
         dataSource={dataSource}
         pageSize={12}
-        renderRow={(email => (
-          email.indexOf(',') === -1 ? // if single recipient
-            <ConversationUser email={email} {...this.props} /> :
-            <ConversationGroup email={email} {...this.props} />
+        renderRow={(conversation => (
+          conversation.recipients.indexOf(',') === -1 ? // if single recipient
+            <ConversationUser
+              email={conversation.recipients}
+              unreadCount={conversation.unread}
+              {...this.props}
+            /> :
+            <ConversationGroup
+              email={conversation.recipients}
+              unreadCount={conversation.unread}
+              {...this.props}
+            />
         ))}
       />
     );

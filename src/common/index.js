@@ -12,6 +12,7 @@ export { default as SearchInput } from './SearchInput';
 export { default as styles } from './styles';
 export { default as TextAvatar } from './TextAvatar';
 export { default as Touchable } from './Touchable';
+export { default as UnreadCount } from './UnreadCount';
 export { default as UserStatusIndicator } from './UserStatusIndicator';
 export { default as ZulipButton } from './ZulipButton';
 export { default as ZulipSwitch } from './ZulipSwitch';

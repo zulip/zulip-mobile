@@ -19,11 +19,9 @@ describe('getAnchor', () => {
       chat: {
         narrow: [],
         messages: {
-          '[]': [
-            { id: 123 },
-          ],
+          '[]': [{ id: 123 }],
         },
-      }
+      },
     };
     expect(getAnchor(state)).toEqual({ older: 123, newer: 123 });
   });
@@ -33,11 +31,7 @@ describe('getAnchor', () => {
       chat: {
         narrow: [],
         messages: {
-          '[]': [
-            { id: 1 },
-            { id: 2 },
-            { id: 3 },
-          ],
+          '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
         },
       },
     };
@@ -51,6 +45,7 @@ describe('getRecentConversations', () => {
   test('when no messages, return no conversations', () => {
     const state = {
       accounts: [{ email: 'me@example.com' }],
+      flags: { read: {} },
       chat: {
         narrow: [],
         messages: {
@@ -67,6 +62,7 @@ describe('getRecentConversations', () => {
   test('returns unique list of recipients, includes conversations with self', () => {
     const state = {
       accounts: [{ email: 'me@example.com' }],
+      flags: { read: {} },
       chat: {
         messages: {
           [privatesNarrowStr]: [
@@ -77,14 +73,14 @@ describe('getRecentConversations', () => {
             { display_recipient: [{ email: 'john@example.com' }, { email: 'mark@example.com' }] },
           ],
         },
-      }
+      },
     };
 
     const expectedPrivate = [
-      'john@example.com',
-      'mark@example.com',
-      'me@example.com',
-      'john@example.com,mark@example.com',
+      { recipients: 'john@example.com', timestamp: 0, unread: 2 },
+      { recipients: 'mark@example.com', timestamp: 0, unread: 1 },
+      { recipients: 'me@example.com', timestamp: 0, unread: 1 },
+      { recipients: 'john@example.com,mark@example.com', timestamp: 0, unread: 1 },
     ];
 
     const actual = getRecentConversations(state);
@@ -95,6 +91,7 @@ describe('getRecentConversations', () => {
   test('returns recipients sorted by last activity', () => {
     const state = {
       accounts: [{ email: 'me@example.com' }],
+      flags: { read: {} },
       chat: {
         messages: {
           [privatesNarrowStr]: [
@@ -124,14 +121,30 @@ describe('getRecentConversations', () => {
             },
           ],
         },
-      }
+      },
     };
 
     const expectedPrivate = [
-      'me@example.com',
-      'john@example.com,mark@example.com',
-      'john@example.com',
-      'mark@example.com',
+      {
+        recipients: 'me@example.com',
+        timestamp: 6,
+        unread: 1,
+      },
+      {
+        recipients: 'john@example.com,mark@example.com',
+        timestamp: 5,
+        unread: 1,
+      },
+      {
+        recipients: 'john@example.com',
+        timestamp: 4,
+        unread: 2,
+      },
+      {
+        recipients: 'mark@example.com',
+        timestamp: 3,
+        unread: 2,
+      },
     ];
 
     const actual = getRecentConversations(state);
