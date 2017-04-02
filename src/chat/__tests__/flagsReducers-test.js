@@ -12,16 +12,12 @@ describe('flagsReducers', () => {
       const initialState = {};
       const action = {
         type: MESSAGE_FETCH_SUCCESS,
-        messages: [
-          { id: 1 },
-          { id: 2, flags: [] },
-          { id: 3, flags: ['read'] },
-        ],
+        messages: [{ id: 1 }, { id: 2, flags: [] }, { id: 3, flags: ['read'] }],
       };
       const expectedState = {
-        1: [],
-        2: [],
-        3: ['read'],
+        read: {
+          3: true,
+        },
       };
 
       const actualState = flagsReducers(initialState, action);
@@ -32,20 +28,19 @@ describe('flagsReducers', () => {
 
   test('flags are added or replace existing flags', () => {
     const initialState = {
-      1: [],
-      3: ['read'],
+      read: {
+        3: true,
+      },
     };
     const action = {
       type: MESSAGE_FETCH_SUCCESS,
-      messages: [
-        { id: 1, flags: ['read'] },
-        { id: 2, flags: [] },
-      ],
+      messages: [{ id: 1, flags: ['read'] }, { id: 2, flags: [] }],
     };
     const expectedState = {
-      1: ['read'],
-      2: [],
-      3: ['read'],
+      read: {
+        1: true,
+        3: true,
+      },
     };
 
     const actualState = flagsReducers(initialState, action);
@@ -55,16 +50,15 @@ describe('flagsReducers', () => {
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('adds to store flags from new message', () => {
-      const initialState = {
-        1: [],
-      };
+      const initialState = {};
       const action = {
         type: EVENT_NEW_MESSAGE,
-        message: { id: 2, flags: [] },
+        message: { id: 2, flags: ['read'] },
       };
       const expectedState = {
-        1: [],
-        2: [],
+        read: {
+          2: true,
+        },
       };
 
       const actualState = flagsReducers(initialState, action);
@@ -80,10 +74,12 @@ describe('flagsReducers', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1],
         flag: 'starred',
-        operation: 'add'
+        operation: 'add',
       };
       const expectedState = {
-        1: ['starred'],
+        starred: {
+          1: true,
+        },
       };
 
       const actualState = flagsReducers(initialState, action);
@@ -93,16 +89,20 @@ describe('flagsReducers', () => {
 
     test('if flag already exists, do not duplicate', () => {
       const initialState = {
-        1: ['starred'],
+        starred: {
+          1: true,
+        },
       };
       const action = {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1],
         flag: 'starred',
-        operation: 'add'
+        operation: 'add',
       };
       const expectedState = {
-        1: ['starred'],
+        starred: {
+          1: true,
+        },
       };
 
       const actualState = flagsReducers(initialState, action);
@@ -112,16 +112,23 @@ describe('flagsReducers', () => {
 
     test('if other flags exist, adds new one to the list', () => {
       const initialState = {
-        1: ['starred'],
+        starred: {
+          1: true,
+        },
       };
       const action = {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1],
         flag: 'read',
-        operation: 'add'
+        operation: 'add',
       };
       const expectedState = {
-        1: ['starred', 'read'],
+        starred: {
+          1: true,
+        },
+        read: {
+          1: true,
+        },
       };
 
       const actualState = flagsReducers(initialState, action);
@@ -131,19 +138,28 @@ describe('flagsReducers', () => {
 
     test('adds flags for multiple messages', () => {
       const initialState = {
-        1: ['read'],
-        2: ['starred']
+        read: {
+          1: true,
+        },
+        starred: {
+          2: true,
+        },
       };
       const action = {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1, 2, 3],
         flag: 'starred',
-        operation: 'add'
+        operation: 'add',
       };
       const expectedState = {
-        1: ['read', 'starred'],
-        2: ['starred'],
-        3: ['starred'],
+        read: {
+          1: true,
+        },
+        starred: {
+          1: true,
+          2: true,
+          3: true,
+        },
       };
 
       const actualState = flagsReducers(initialState, action);
@@ -153,16 +169,18 @@ describe('flagsReducers', () => {
 
     test('when operation is "remove" removes a flag from message', () => {
       const initialState = {
-        1: ['read'],
+        read: {
+          1: true,
+        },
       };
       const action = {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1],
         flag: 'read',
-        operation: 'remove'
+        operation: 'remove',
       };
       const expectedState = {
-        1: [],
+        read: {},
       };
 
       const actualState = flagsReducers(initialState, action);
@@ -171,17 +189,15 @@ describe('flagsReducers', () => {
     });
 
     test('if flag does not exist, do nothing', () => {
-      const initialState = {
-        1: [],
-      };
+      const initialState = {};
       const action = {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1],
         flag: 'read',
-        operation: 'remove'
+        operation: 'remove',
       };
       const expectedState = {
-        1: [],
+        read: {},
       };
 
       const actualState = flagsReducers(initialState, action);
@@ -191,20 +207,27 @@ describe('flagsReducers', () => {
 
     test('removes flags from multiple messages', () => {
       const initialState = {
-        1: ['read'],
-        2: ['starred'],
-        3: ['starred', 'read'],
+        read: {
+          1: true,
+          3: true,
+        },
+        starred: {
+          1: true,
+          3: true,
+        },
       };
       const action = {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1, 2, 3, 4],
         flag: 'starred',
-        operation: 'remove'
+        operation: 'remove',
       };
       const expectedState = {
-        1: ['read'],
-        2: [],
-        3: ['read'],
+        read: {
+          1: true,
+          3: true,
+        },
+        starred: {},
       };
 
       const actualState = flagsReducers(initialState, action);
@@ -216,17 +239,26 @@ describe('flagsReducers', () => {
   describe('MARK_MESSAGES_READ', () => {
     test('adds flag "read" to provided message ids', () => {
       const initialState = {
-        1: ['read'],
-        2: ['starred']
+        read: {
+          1: true,
+        },
+        starred: {
+          1: true,
+        },
       };
       const action = {
         type: MARK_MESSAGES_READ,
         messageIds: [1, 2, 3],
       };
       const expectedState = {
-        1: ['read'],
-        2: ['starred', 'read'],
-        3: ['read'],
+        read: {
+          1: true,
+          2: true,
+          3: true,
+        },
+        starred: {
+          1: true,
+        },
       };
 
       const actualState = flagsReducers(initialState, action);
