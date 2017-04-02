@@ -77,7 +77,7 @@ class SearchMessagesScreen extends Component {
             messages={messages}
             caughtUp={{ older: true, newer: true }}
             fetching={{ older: false, newer: isFetching }}
-            hideFetchingOlder
+            singleFetchProgress
             narrow={[]}
             twentyFourHourTime={twentyFourHourTime}
             subscriptions={subscriptions}

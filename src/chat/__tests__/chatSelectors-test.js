@@ -92,7 +92,7 @@ describe('getRecentConversations', () => {
     expect(actual).toEqual(expectedPrivate);
   });
 
-  test.only('returns recipients sorted by last activity', () => {
+  test('returns recipients sorted by last activity', () => {
     const state = {
       accounts: [{ email: 'me@example.com' }],
       chat: {

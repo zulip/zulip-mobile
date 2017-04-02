@@ -3,9 +3,12 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   MARK_MESSAGES_READ,
+  ACCOUNT_SWITCH,
 } from '../constants';
 
-const initialState = {};
+const initialState = {
+  read: {},
+};
 
 const addFlagsForMessages = (state, messages, flags) => {
   if (!messages || messages.length === 0 || flags.length === 0) {
@@ -40,6 +43,9 @@ const removeFlagForMessages = (state, messages, flag) => {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case ACCOUNT_SWITCH:
+      return initialState;
+
     case MESSAGE_FETCH_SUCCESS:
       return action.messages.reduce(
         (newState, msg) => {

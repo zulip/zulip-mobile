@@ -5,6 +5,7 @@ import TaggedView from '../native/TaggedView';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { LoadingIndicator } from '../common';
+import { queueMarkAsRead } from '../api';
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
 
@@ -15,26 +16,26 @@ const styles = StyleSheet.create({
 });
 
 export default class MessageList extends React.PureComponent {
-
   autoScrollToBottom = false;
 
   componentWillReceiveProps(nextProps) {
     this.autoScrollToBottom = this.props.caughtUp.newer && nextProps.caughtUp.newer;
   }
 
-  onScroll = (e) => {
-    const { auth, flags, markAsRead } = this.props;
+  onScroll = e => {
+    const { auth, flags, markMessagesRead } = this.props;
     const visibleMessageIds = e.visibleIds.map(x => +x);
     const unreadMessageIds = filterUnreadMessageIds(visibleMessageIds, flags);
 
-    if (!markAsRead && unreadMessageIds.length > 0) {
-      markAsRead(unreadMessageIds);
+    if (markMessagesRead && unreadMessageIds.length > 0) {
+      markMessagesRead(unreadMessageIds);
+      queueMarkAsRead(auth, unreadMessageIds);
     }
     registerAppActivity(auth);
   };
 
   render() {
-    const { caughtUp, fetching, fetchOlder, fetchNewer, hideFetchingOlder } = this.props;
+    const { caughtUp, fetching, fetchOlder, fetchNewer, singleFetchProgress } = this.props;
     const messageList = renderMessages(this.props);
 
     // `headerIndices` tell the scroll view which components are headers
@@ -43,7 +44,7 @@ export default class MessageList extends React.PureComponent {
     for (let i = 0; i < messageList.length; i++) {
       const elem = messageList[i];
       if (elem.props.type === 'header') {
-        headerIndices.push(i);
+        headerIndices.push(i + 1);
       }
       if (elem.props.type === 'message') {
         messageList[i] = (
@@ -68,10 +69,9 @@ export default class MessageList extends React.PureComponent {
         autoScrollToBottom={this.autoScrollToBottom}
         onScroll={this.onScroll}
       >
-        {hideFetchingOlder &&
-          <LoadingIndicator active={fetching.older} caughtUp={caughtUp.older} />}
+        <LoadingIndicator active={fetching.older} caughtUp={caughtUp.older} />
         {messageList}
-        {fetching.newer && <LoadingIndicator active />}
+        {!singleFetchProgress && fetching.newer && <LoadingIndicator active />}
       </InfiniteScrollView>
     );
   }
