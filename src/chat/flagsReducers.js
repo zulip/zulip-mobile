@@ -7,42 +7,64 @@ import {
 
 const initialState = {};
 
-const addFlagForMessages = (state, messages, flag) =>
-  messages.reduce((newState, msgId) => {
-    if (!newState[msgId]) {
-      newState[msgId] = [];
-    }
-    if (!newState[msgId].includes(flag)) {
-      newState[msgId] = [...newState[msgId], flag];
-    }
-    return newState;
-  }, { ...state });
+const addFlagsForMessages = (state, messages, flags) => {
+  if (!messages || messages.length === 0 || flags.length === 0) {
+    return state;
+  }
 
-const removeFlagForMessages = (state, messages, flag) =>
-  messages.reduce((newState, msgId) => {
-    if (newState[msgId]) {
-      newState[msgId] = newState[msgId].filter(x => x !== flag);
+  const newState = { ...state };
+
+  flags.forEach(flag => {
+    if (!newState[flag]) {
+      newState[flag] = {};
     }
-    return newState;
-  }, { ...state });
+
+    messages.forEach(message => {
+      newState[flag][message] = true;
+    });
+  });
+
+  return newState;
+};
+
+const removeFlagForMessages = (state, messages, flag) => {
+  const newStateForFlag = { ...(state[flag] || {}) };
+  messages.forEach(message => {
+    delete newStateForFlag[message];
+  });
+  return {
+    ...state,
+    [flag]: newStateForFlag,
+  };
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case MESSAGE_FETCH_SUCCESS:
-      return action.messages.reduce((newState, msg) => {
-        newState[msg.id] = msg.flags || [];
-        return newState;
-      }, { ...state });
+      return action.messages.reduce(
+        (newState, msg) => {
+          if (msg.flags) {
+            msg.flags.forEach(flag => {
+              if (newState[flag]) {
+                newState[flag][msg.id] = true;
+              } else {
+                newState[flag] = {
+                  [msg.id]: true,
+                };
+              }
+            });
+          }
+          return newState;
+        },
+        { ...state },
+      );
 
     case EVENT_NEW_MESSAGE:
-      return {
-        ...state,
-        [action.message.id]: action.message.flags,
-      };
+      return addFlagsForMessages(state, [action.message.id], action.message.flags);
 
     case EVENT_UPDATE_MESSAGE_FLAGS:
       if (action.operation === 'add') {
-        return addFlagForMessages(state, action.messages, action.flag);
+        return addFlagsForMessages(state, action.messages, [action.flag]);
       } else if (action.operation === 'remove') {
         return removeFlagForMessages(state, action.messages, action.flag);
       } else {
@@ -50,7 +72,7 @@ export default (state = initialState, action) => {
       }
 
     case MARK_MESSAGES_READ:
-      return addFlagForMessages(state, action.messageIds, 'read');
+      return addFlagsForMessages(state, action.messageIds, ['read']);
 
     default:
       return state;
