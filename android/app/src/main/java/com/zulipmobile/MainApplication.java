@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import io.realm.react.RealmReactPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -31,8 +32,13 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new FabricPackage(),
           new MainReactPackage(),
+<<<<<<< HEAD
+            new RealmReactPackage(),
+          new RNDeviceInfo()
+=======
           new RNDeviceInfo(),
           new ZulipNativePackage()
+>>>>>>> 425efd91b3a596538bc428642f31c46ae4e7df20
       );
     }
   };
