@@ -1,6 +1,8 @@
 # Zulip Mobile
 
 [![Build Status](https://travis-ci.org/zulip/zulip-mobile.svg?branch=master)](https://travis-ci.org/zulip/zulip-mobile)
+[![Coverage Status](https://coveralls.io/repos/github/zulip/zulip-mobile/badge.svg?branch=master)](https://coveralls.io/github/zulip/zulip-mobile?branch=master)
+[![Zulip chat](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://chat.zulip.org/#narrow/stream/react.20native.20app)
 
 Zulip Mobile is the official mobile Zulip client supporting both iOS and Android, written in JavaScript with React Native. It supersedes our two native apps [zulip-ios](https://github.com/zulip/zulip-ios-legacy) and [zulip-android](https://github.com/zulip/zulip-android).
 
