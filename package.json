@@ -15,7 +15,8 @@
     "test:lint": "eslint src/",
     "test:flow": "flow",
     "test:unit": "jest",
-    "test": "npm run test:lint && npm run test:unit && npm run test:flow"
+    "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "test": "npm run test:lint && npm run test:coveralls && npm run test:flow"
   },
   "dependencies": {
     "base-64": "^0.1.0",
@@ -37,7 +38,7 @@
     "react-redux": "^5.0.1",
     "redux": "^3.6.0",
     "redux-action-buffer": "^1.0.1",
-    "redux-logger": "^2.7.4",
+    "redux-logger": "^3.0.1",
     "redux-persist": "^4.0.0",
     "redux-persist-transform-immutable": "^4.1.0",
     "redux-thunk": "^2.1.0",
@@ -49,12 +50,13 @@
     "babel-eslint": "^7.1.1",
     "babel-jest": "^19.0.0",
     "babel-preset-react-native": "^1.9.1",
+    "coveralls": "^2.13.0",
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jest": "^19.0.1",
     "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "~6.8.0",
+    "eslint-plugin-react": "~6.10.3",
     "eslint-plugin-react-native": "^2.2.1",
     "eslint-plugin-spellcheck": "~0.0.6",
     "flow-bin": "~0.38.0",

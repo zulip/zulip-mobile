@@ -11,7 +11,7 @@ const initialState = {
 };
 
 const addFlagsForMessages = (state, messages, flags) => {
-  if (!messages || messages.length === 0 || flags.length === 0) {
+  if (!messages || messages.length === 0 || !flags || flags.length === 0) {
     return state;
   }
 
