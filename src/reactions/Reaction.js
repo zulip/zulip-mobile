@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Animated, Easing } from 'react-native';
+import { StyleSheet, Text, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 
 import { BRAND_COLOR } from '../common/styles';
@@ -76,18 +76,29 @@ class Reaction extends React.PureComponent {
   componentWillReceiveProps = (nextProps) => {
     const { voteCount } = this.props;
 
-    if( nextProps.voteCount > voteCount ) {
-      this.animation(Animated.timing, 'voteChangeAnimation', forwardAnimationConfig).start();
-    } else {
-      this.animation(Animated.timing, 'voteChangeAnimation', backAnimationConfig).start();
+    if (nextProps.voteCount > voteCount) {
+      this.incrementCounter();
+    } else if (nextProps.voteCount < voteCount) {
+      this.decrementCounter();
     }
   }
 
   animation = (fn, stateVar, config, reverse) => {
-    if (reverse)
+    if (reverse) {
       [config.fromValue, config.toValue] = [config.toValue, config.fromValue];
+    }
+
     this.state[stateVar].setValue(config.fromValue);
+
     return fn(this.state[stateVar], config);
+  }
+
+  incrementCounter = () => {
+    this.animation(Animated.timing, 'voteChangeAnimation', forwardAnimationConfig).start();
+  }
+
+  decrementCounter = () => {
+    this.animation(Animated.timing, 'voteChangeAnimation', backAnimationConfig).start();
   }
 
   handlePress = () => {
@@ -123,9 +134,9 @@ class Reaction extends React.PureComponent {
           <Emoji name={name} />
 
           <Animated.View style={this.dynamicRollerStyles()}>
-            <Text style={[styles.rollerText, countStyle]}>{ voteCount -  1 }</Text>
-            <Text style={[styles.rollerText, countStyle]}>{ voteCount }</Text>
-            <Text style={[styles.rollerText, countStyle]}>{ voteCount + 1 }</Text>
+            <Text style={[styles.rollerText, countStyle]}>{voteCount - 1}</Text>
+            <Text style={[styles.rollerText, countStyle]}>{voteCount}</Text>
+            <Text style={[styles.rollerText, countStyle]}>{voteCount + 1}</Text>
           </Animated.View>
 
           <Text style={styles.placeHolderCount}>
