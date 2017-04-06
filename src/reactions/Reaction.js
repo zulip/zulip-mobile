@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   countNotVoted: {
     color: 'gray',
   },
-  rollerContainer: {
+  roller: {
     position: 'absolute',
     top: -20,
     right: 4,
@@ -65,8 +65,6 @@ const backAnimationConfig = {
 class Reaction extends React.PureComponent {
 
   state = {
-    voteCount: this.props.voteCount,
-    shrinkAnimation: new Animated.Value(1),
     voteChangeAnimation: new Animated.Value(0)
   };
 
@@ -74,6 +72,16 @@ class Reaction extends React.PureComponent {
     name: string,
     voted: boolean,
   };
+
+  componentWillReceiveProps = (nextProps) => {
+    const { voteCount } = this.props;
+
+    if( nextProps.voteCount > voteCount ) {
+      this.animation(Animated.timing, 'voteChangeAnimation', forwardAnimationConfig).start();
+    } else {
+      this.animation(Animated.timing, 'voteChangeAnimation', backAnimationConfig).start();
+    }
+  }
 
   animation = (fn, stateVar, config, reverse) => {
     if (reverse)
@@ -85,26 +93,15 @@ class Reaction extends React.PureComponent {
   handlePress = () => {
     const { auth, messageId, name, voted } = this.props;
 
-    this.animation(Animated.spring, "shrinkAnimation", {
-      fromValue: 0.95,
-      toValue: 1,
-      duration: 400,
-      friction: 5
-    }).start();
-
     if (voted) {
-      this.setState({ voteCount : this.state.voteCount - 1 });
       emojiReactionRemove(auth, messageId, name);
-      this.animation(Animated.timing, 'voteChangeAnimation', backAnimationConfig).start();
     } else {
-      this.setState({ voteCount : this.state.voteCount + 1 });
       emojiReactionAdd(auth, messageId, name);
-      this.animation(Animated.timing, 'voteChangeAnimation', forwardAnimationConfig).start();
     }
   };
 
   dynamicRollerStyles = () => ({
-    ...StyleSheet.flatten(styles.rollerContainer),
+    ...StyleSheet.flatten(styles.roller),
     transform: [
       {
         translateY: this.state.voteChangeAnimation.interpolate({
@@ -116,11 +113,9 @@ class Reaction extends React.PureComponent {
   })
 
   render() {
-    const { name, voted } = this.props;
+    const { name, voted, voteCount } = this.props;
     const frameStyle = voted ? styles.frameVoted : styles.frameNotVoted;
     const countStyle = voted ? styles.countVoted : styles.countNotVoted;
-
-    const { voteCount } = this.state;
 
     return (
       <Touchable onPress={this.handlePress} style={styles.touchable}>
