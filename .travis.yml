@@ -12,3 +12,5 @@ before_install:
   - npm install
 install:
   npm run test
+env:
+  - COVERALLS_REPO_TOKEN=4eYQDtWoBJlDz2QkxoQ2UcnmJFcOB7zkv
