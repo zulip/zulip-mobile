@@ -72,7 +72,7 @@
         "chatbubbles", "nonexisting", "primarytext", "autocomple", "stringify", "backend",
         "Menlo", "ok", "py", "todo", "Mc", "lodash", "selectable", "isequal", "lightgray", "tc",
         "zulipchat", "prepend", "pierre", "allen", "jan", "donald", "jane", "unicode", "joe",
-        "dan", "abramov", "lang", "Crashlytics", "bool", "ionicons", "truthy"
+        "dan", "abramov", "lang", "Crashlytics", "bool", "ionicons", "truthy", "bezier", "debounce", "decrement"
       ],
       "skipIfMatch": [
         "http://[^s]*",
