@@ -1,6 +1,7 @@
 [ignore]
 ; We fork some components by platform
 .*/*[.]android.js
+.*/ios/Pods/*
 
 ; Ignore "BUCK" generated dirs
 <PROJECT_ROOT>/\.buckd/
@@ -13,6 +14,7 @@
 ; "node_modules/react-native" but in the source repo it is in the root
 .*/Libraries/react-native/React.js
 .*/Libraries/react-native/ReactNative.js
+.*/node_modules/react-static-container/.*
 
 [include]
 
