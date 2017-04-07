@@ -95,7 +95,7 @@ class Reaction extends React.PureComponent {
 
     if (voteCount > count) {
       this.incrementCounter();
-    } else if ( voteCount < count ) {
+    } else if (voteCount < count) {
       this.decrementCounter();
     }
 
@@ -162,10 +162,10 @@ class Reaction extends React.PureComponent {
   });
 
   render() {
-    const { name, voted, voteCount } = this.props;
+    const { name } = this.props;
     const { inc, count } = this.state;
 
-    const frameStyle = inc ? styles.frameNotVoted : styles.frameVoted
+    const frameStyle = inc ? styles.frameNotVoted : styles.frameVoted;
     const countStyle = inc ? styles.countNotVoted : styles.countVoted;
 
     return (
@@ -174,9 +174,9 @@ class Reaction extends React.PureComponent {
           <Emoji name={name} />
 
           <Animated.View style={this.dynamicSpinnerStyles()}>
-            <Text style={[styles.spinnerText, countStyle]}>{count- 1}</Text>
+            <Text style={[styles.spinnerText, countStyle]}>{count - 1}</Text>
             <Text style={[styles.spinnerText, countStyle]}>{count}</Text>
-            <Text style={[styles.spinnerText, countStyle]}>{count+ 1}</Text>
+            <Text style={[styles.spinnerText, countStyle]}>{count + 1}</Text>
           </Animated.View>
 
           <Text style={styles.placeholderCount}>
