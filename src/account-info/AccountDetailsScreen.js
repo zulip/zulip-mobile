@@ -23,8 +23,8 @@ class AccountDetailsScreen extends Component {
   }
 
   render() {
-    const { auth, users, fetchMessages, popRoute } = this.props;
-    const { fullName, avatarUrl, status } = users.find(x => x.email === this.email) || { fullName: 'A', avatarUrl: '', status: 'unknown' };
+    const { auth, users, fetchMessages, doNarrow, popRoute } = this.props;
+    const { fullName, avatarUrl, status } = users.find(x => x.email === this.email);
     const fullAvatarUrl = getFullUrl(avatarUrl, auth.realm);
 
     return (
@@ -36,6 +36,7 @@ class AccountDetailsScreen extends Component {
           avatarUrl={fullAvatarUrl}
           status={status}
           fetchMessages={fetchMessages}
+          doNarrow={doNarrow}
           popRoute={popRoute}
         />
       </Screen>

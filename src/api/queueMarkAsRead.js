@@ -1,4 +1,4 @@
-import type { Auth } from '../types';
+import { Auth } from '../types';
 import messagesFlags from './messagesFlags';
 
 let unsentMessageIds = [];
