@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  Image,
-  View,
-  ActivityIndicator,
-} from 'react-native';
+import {StyleSheet, Text, Image, View, ActivityIndicator} from 'react-native';
 import Touchable from './Touchable';
 
 const styles = StyleSheet.create({
@@ -43,12 +37,9 @@ const ButtonInProgress = () => (
   </View>
 );
 
-const ButtonNormal = ({ text, onPress }) => (
+const ButtonNormal = ({text, onPress}) => (
   <View style={styles.frame}>
-    <Touchable
-      style={styles.touchTarget}
-      onPress={onPress}
-    >
+    <Touchable style={styles.touchTarget} onPress={onPress}>
       <View style={styles.touchTarget}>
         <Image
           style={styles.logo}
@@ -65,25 +56,19 @@ const ButtonNormal = ({ text, onPress }) => (
 );
 
 export default class GoogleButton extends React.PureComponent {
-
   props: {
     progress: boolean,
     text: string,
     onPress: () => void,
-  }
+  };
 
   render() {
-    const { progress, onPress } = this.props;
+    const {progress, onPress} = this.props;
 
     if (progress) {
       return <ButtonInProgress />;
     }
 
-    return (
-      <ButtonNormal
-        text="Sign in with Google"
-        onPress={onPress}
-      />
-    );
+    return <ButtonNormal text="Sign in with Google" onPress={onPress} />;
   }
 }

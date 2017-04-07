@@ -20,7 +20,7 @@ describe('navReducers', () => {
       };
       const expectedState = {
         index: 0,
-        routes: [{ key: 'main' }],
+        routes: [{key: 'main'}],
       };
 
       const newState = navReducers(prevState, action);
@@ -40,10 +40,7 @@ describe('navReducers', () => {
       };
       const expectedState = {
         index: 1,
-        routes: [
-          { key: 'first' },
-          { key: 'second' },
-        ],
+        routes: [{key: 'first'}, {key: 'second'}],
       };
 
       const newState = navReducers(prevState, action);
@@ -56,9 +53,7 @@ describe('navReducers', () => {
     test('adds new route at the end of list, changes current route to point to it', () => {
       const prevState = {
         index: 0,
-        routes: [
-          { key: 'one' }
-        ],
+        routes: [{key: 'one'}],
       };
       const action = {
         type: PUSH_ROUTE,
@@ -66,10 +61,7 @@ describe('navReducers', () => {
       };
       const expectedState = {
         index: 1,
-        routes: [
-          { key: 'one' },
-          { key: 'another' },
-        ],
+        routes: [{key: 'one'}, {key: 'another'}],
       };
 
       const newState = navReducers(prevState, action);
@@ -82,21 +74,14 @@ describe('navReducers', () => {
     test('removes last route in list, previous route becomes active', () => {
       const prevState = {
         index: 2,
-        routes: [
-          { key: 'one' },
-          { key: 'two' },
-          { key: 'three' },
-        ],
+        routes: [{key: 'one'}, {key: 'two'}, {key: 'three'}],
       };
       const action = {
         type: POP_ROUTE,
       };
       const expectedState = {
         index: 1,
-        routes: [
-          { key: 'one' },
-          { key: 'two' },
-        ],
+        routes: [{key: 'one'}, {key: 'two'}],
       };
 
       const newState = navReducers(prevState, action);
@@ -125,10 +110,7 @@ describe('navReducers', () => {
     test('navigates to a route with the name of the auth type', () => {
       const prevState = {
         index: 1,
-        routes: [
-          { key: 'one' },
-          { key: 'two' },
-        ],
+        routes: [{key: 'one'}, {key: 'two'}],
       };
       const action = {
         type: SET_AUTH_TYPE,
@@ -136,11 +118,7 @@ describe('navReducers', () => {
       };
       const expectedState = {
         index: 2,
-        routes: [
-          { key: 'one' },
-          { key: 'two' },
-          { key: 'password' },
-        ],
+        routes: [{key: 'one'}, {key: 'two'}, {key: 'password'}],
       };
 
       const newState = navReducers(prevState, action);
@@ -153,18 +131,14 @@ describe('navReducers', () => {
     test('replaces the existing route stack with "main" on sign in', () => {
       const prevState = {
         index: 2,
-        routes: [
-          { key: 'one' },
-          { key: 'two' },
-          { key: 'password' },
-        ],
+        routes: [{key: 'one'}, {key: 'two'}, {key: 'password'}],
       };
       const action = {
         type: LOGIN_SUCCESS,
       };
       const expectedState = {
         index: 0,
-        routes: [{ key: 'main' }],
+        routes: [{key: 'main'}],
       };
 
       const newState = navReducers(prevState, action);

@@ -1,4 +1,4 @@
-import { colorHashFromName, initialsFromName } from '../TextAvatar';
+import {colorHashFromName, initialsFromName} from '../TextAvatar';
 
 describe('colorHashFromName', () => {
   test('returns a 6 digit hex number to use as a color ', () => {
@@ -31,6 +31,6 @@ describe('initialsFromName', () => {
 
   test('double names produce one initial', () => {
     expect(initialsFromName('Jean-Pierre')).toEqual('J');
-    expect(initialsFromName('Mc\'Donald')).toEqual('M');
+    expect(initialsFromName("Mc'Donald")).toEqual('M');
   });
 });

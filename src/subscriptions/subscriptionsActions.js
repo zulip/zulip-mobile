@@ -1,10 +1,8 @@
-import { getSubscriptions } from '../api';
-import {
-  INIT_SUBSCRIPTIONS,
-} from '../constants';
+import {getSubscriptions} from '../api';
+import {INIT_SUBSCRIPTIONS} from '../constants';
 
-export const fetchSubscriptions = (auth) =>
-  async (dispatch) => {
+export const fetchSubscriptions = auth =>
+  async dispatch => {
     const response = await getSubscriptions(auth);
     dispatch({
       type: INIT_SUBSCRIPTIONS,

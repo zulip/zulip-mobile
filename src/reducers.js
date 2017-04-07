@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
-import { BATCH_ACTIONS } from './constants';
+import {combineReducers} from 'redux';
+import {BATCH_ACTIONS} from './constants';
 import account from './account/accountReducers';
 import app from './app/appReducers';
 import events from './events/eventReducers';
@@ -12,7 +12,7 @@ import chat from './chat/chatReducers';
 import userlist from './users/userListReducers';
 
 // Thanks to https://twitter.com/dan_abramov/status/656074974533459968?lang=en
-const enableBatching = (reducer) =>
+const enableBatching = reducer =>
   (state, action) => {
     switch (action.type) {
       case BATCH_ACTIONS:
@@ -22,15 +22,17 @@ const enableBatching = (reducer) =>
     }
   };
 
-export default enableBatching(combineReducers({
-  account,
-  app,
-  chat,
-  events,
-  mute,
-  nav,
-  realm,
-  streams,
-  subscriptions,
-  userlist,
-}));
+export default enableBatching(
+  combineReducers({
+    account,
+    app,
+    chat,
+    events,
+    mute,
+    nav,
+    realm,
+    streams,
+    subscriptions,
+    userlist,
+  })
+);

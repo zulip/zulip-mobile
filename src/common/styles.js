@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
-import { STATUSBAR_HEIGHT, CONTROL_SIZE, NAVBAR_HEIGHT } from './platform';
+import {STATUSBAR_HEIGHT, CONTROL_SIZE, NAVBAR_HEIGHT} from './platform';
 
 export const BRAND_COLOR = 'rgba(66, 163, 109, 1)';
 export const HIGHLIGHT_COLOR = 'rgba(86, 164, 174, 0.5)';

@@ -1,8 +1,4 @@
-import {
-  APP_ONLINE,
-  APP_ORIENTATION,
-  APP_STATE,
-} from '../constants';
+import {APP_ONLINE, APP_ORIENTATION, APP_STATE} from '../constants';
 
 export const appOnline = (isOnline: boolean) => ({
   type: APP_ONLINE,

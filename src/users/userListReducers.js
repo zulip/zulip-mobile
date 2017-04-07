@@ -1,4 +1,4 @@
-import { UserStatus } from '../api';
+import {UserStatus} from '../api';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -13,7 +13,7 @@ type Presence = {
   pushable: boolean,
   status: UserStatus,
   timestamp: number,
-}
+};
 
 const priorityToState = {
   0: 'offline',
@@ -28,13 +28,15 @@ const stateToPriority = {
 };
 
 export const activityFromPresence = (presence: Presence): UserStatus =>
-  priorityToState[Math.max(...Object.values(presence).map(x => stateToPriority[x.status]))];
+  priorityToState[
+    Math.max(...Object.values(presence).map(x => stateToPriority[x.status]))
+  ];
 
 export const timestampFromPresence = (presence: Presence): UserStatus =>
   Math.max(...Object.values(presence).map(x => x.timestamp));
 
 export const activityFromTimestamp = (activity: string, timestamp: number) =>
-  ((new Date() / 1000) - timestamp > 60 ? 'offline' : activity);
+  new Date() / 1000 - timestamp > 60 ? 'offline' : activity;
 
 const initialState = [];
 
@@ -45,19 +47,25 @@ export default (state = initialState, action) => {
     case ACCOUNT_SWITCH:
       return [];
     case PRESENCE_RESPONSE: {
-      return Object.keys(action.presence).reduce((currentState, email) => {
-        const userIndex = state.findIndex(u => u.email === email);
-        if (userIndex === -1) return currentState;
+      return Object.keys(action.presence).reduce(
+        (currentState, email) => {
+          const userIndex = state.findIndex(u => u.email === email);
+          if (userIndex === -1) return currentState;
 
-        const presenceEntry = action.presence[email];
-        const timestamp = timestampFromPresence(presenceEntry);
-        const status = activityFromTimestamp(activityFromPresence(presenceEntry), timestamp);
+          const presenceEntry = action.presence[email];
+          const timestamp = timestampFromPresence(presenceEntry);
+          const status = activityFromTimestamp(
+            activityFromPresence(presenceEntry),
+            timestamp
+          );
 
-        currentState[userIndex].status = status; // eslint-disable-line
-        currentState[userIndex].timestamp = timestamp; // eslint-disable-line
+          currentState[userIndex].status = status; // eslint-disable-line
+          currentState[userIndex].timestamp = timestamp; // eslint-disable-line
 
-        return currentState;
-      }, state.slice());
+          return currentState;
+        },
+        state.slice()
+      );
     }
     case GET_USER_RESPONSE: {
       return action.users.map(user => ({

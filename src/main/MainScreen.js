@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import {StatusBar} from 'react-native';
 import Drawer from 'react-native-drawer';
 
 import Chat from '../chat/Chat';
@@ -7,33 +7,31 @@ import MainNavBar from '../nav/MainNavBar';
 import StreamSidebar from '../nav/StreamSidebar';
 import ConversationsContainer from '../conversations/ConversationsContainer';
 
-const SideDrawer = (props) =>
+const SideDrawer = props => (
   <Drawer
     content={props.content}
     open={props.open}
     side={props.side}
     tapToClose
-    openDrawerOffset={
-      props.orientation === 'LANDSCAPE' ? 0.5 : 0.2
-    }
+    openDrawerOffset={props.orientation === 'LANDSCAPE' ? 0.5 : 0.2}
     negotiatePan
     panOpenMask={0.1}
     useInteractionManager
     tweenDuration={150}
-    tweenHandler={(ratio) => ({
+    tweenHandler={ratio => ({
       mainOverlay: {
         opacity: ratio / 2,
         backgroundColor: 'black',
-      }
+      },
     })}
     onOpenStart={props.onOpenStart}
     onClose={props.onClose}
   >
     {props.children}
-  </Drawer>;
+  </Drawer>
+);
 
 export default class MainScreen extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -43,12 +41,18 @@ export default class MainScreen extends React.Component {
   }
 
   render() {
-    const { doNarrow, narrow, orientation, subscriptions, pushRoute } = this.props;
-    const { leftDrawerOpen, rightDrawerOpen } = this.state;
+    const {
+      doNarrow,
+      narrow,
+      orientation,
+      subscriptions,
+      pushRoute,
+    } = this.props;
+    const {leftDrawerOpen, rightDrawerOpen} = this.state;
 
     let color;
     if (narrow.length !== 0 && narrow[0].operator === 'stream') {
-      color = (subscriptions.find((sub) => narrow[0].operand === sub.name)).color;
+      color = subscriptions.find(sub => narrow[0].operand === sub.name).color;
     }
 
     return (
@@ -56,14 +60,14 @@ export default class MainScreen extends React.Component {
         side="left"
         open={leftDrawerOpen}
         orientation={orientation}
-        onOpenStart={() => this.setState({ leftDrawerOpen: true })}
-        onClose={() => this.setState({ leftDrawerOpen: false })}
+        onOpenStart={() => this.setState({leftDrawerOpen: true})}
+        onClose={() => this.setState({leftDrawerOpen: false})}
         content={
           <StreamSidebar
             pushRoute={pushRoute}
             onNarrow={newNarrow => {
               doNarrow(newNarrow);
-              this.setState({ leftDrawerOpen: false });
+              this.setState({leftDrawerOpen: false});
             }}
           />
         }
@@ -72,13 +76,13 @@ export default class MainScreen extends React.Component {
           side="right"
           open={rightDrawerOpen}
           orientation={orientation}
-          onOpenStart={() => this.setState({ rightDrawerOpen: true })}
-          onClose={() => this.setState({ rightDrawerOpen: false })}
+          onOpenStart={() => this.setState({rightDrawerOpen: true})}
+          onClose={() => this.setState({rightDrawerOpen: false})}
           content={
             <ConversationsContainer
               onNarrow={newNarrow => {
                 if (newNarrow) doNarrow(newNarrow);
-                this.setState({ rightDrawerOpen: false });
+                this.setState({rightDrawerOpen: false});
               }}
             />
           }
@@ -86,11 +90,13 @@ export default class MainScreen extends React.Component {
           <StatusBar
             animated
             showHideTransition="slide"
-            hidden={orientation === 'LANDSCAPE' || leftDrawerOpen || rightDrawerOpen}
+            hidden={
+              orientation === 'LANDSCAPE' || leftDrawerOpen || rightDrawerOpen
+            }
           />
           <MainNavBar
-            onPressPeople={() => this.setState({ rightDrawerOpen: true })}
-            onPressStreams={() => this.setState({ leftDrawerOpen: true })}
+            onPressPeople={() => this.setState({rightDrawerOpen: true})}
+            onPressStreams={() => this.setState({leftDrawerOpen: true})}
             backgroundColor={color}
           >
             <Chat {...this.props} />

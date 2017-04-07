@@ -32,26 +32,27 @@ const styles = StyleSheet.create({
 });
 
 export default class CameraPhotoList extends React.Component {
-
   props: {
     noMoreData: boolean,
     dataSource: any,
     onEndReached: () => {},
-  }
+  };
 
   defaultProps: {
     groupTypes: 'SavedPhotos',
     batchSize: 5,
     imagesPerRow: 1,
     assetType: 'Photos',
-  }
+  };
 
   rendererChanged = () => {
-    const ds = new ListView.DataSource({ rowHasChanged: this.handleRowHasChanged });
+    const ds = new ListView.DataSource({
+      rowHasChanged: this.handleRowHasChanged,
+    });
     this.state.dataSource = ds.cloneWithRows(
       groupByEveryN(this.state.assets, this.props.imagesPerRow)
     );
-  }
+  };
 
   handleRowHasChanged = (r1: Array<Image>, r2: Array<Image>): boolean => {
     if (r1.length !== r2.length) {
@@ -65,24 +66,22 @@ export default class CameraPhotoList extends React.Component {
     }
 
     return false;
-  }
+  };
 
   renderFooterSpinner = () =>
-    (this.props.noMoreData ? null : <ActivityIndicator />);
+    this.props.noMoreData ? null : <ActivityIndicator />;
 
   renderRow = (rowData: Array<Image>, sectionID: string, rowID: string) => (
     <View style={styles.row}>
-      {rowData.map((image) => image &&
-        <Image
-          source={image.node.image}
-          style={styles.image}
-        />
+      {rowData.map(
+        image =>
+          image && <Image source={image.node.image} style={styles.image} />
       )}
     </View>
   );
 
   render() {
-    const { dataSource, onEndReached } = this.props;
+    const {dataSource, onEndReached} = this.props;
 
     return (
       <ListView

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, Easing, Image, StyleSheet, View } from 'react-native';
+import {Animated, Easing, Image, StyleSheet, View} from 'react-native';
 
 const styles = StyleSheet.create({
   row: {
@@ -47,23 +47,20 @@ export default class LoadingIndicator extends React.Component {
 
   rotate() {
     this.rotation.setValue(0);
-    Animated.timing(
-      this.rotation,
-      {
-        toValue: 1,
-        duration: 2000,
-        easing: Easing.linear,
-      }
-    ).start(() => this.rotate());
+    Animated.timing(this.rotation, {
+      toValue: 1,
+      duration: 2000,
+      easing: Easing.linear,
+    }).start(() => this.rotate());
   }
 
   render() {
-    const { active, caughtUp } = this.props;
+    const {active, caughtUp} = this.props;
     const rotation = this.rotation.interpolate({
       inputRange: [0, 1],
       outputRange: ['0deg', '360deg'],
     });
-    const animation = { transform: [{ rotate: rotation }] };
+    const animation = {transform: [{rotate: rotation}]};
 
     return (
       <View style={styles.row}>

@@ -15,38 +15,35 @@ import HtmlTagBr from './HtmlTagBr';
 // br', 'blockquote',
 
 const specialTags = {
-  'span': HtmlTagSpan,
-  'p': HtmlTagSpan,
-  'code': HtmlTagSpan,
-  'a': HtmlTagA,
-  'li': HtmlTagLi,
-  'img': HtmlTagImg,
-  'pre': HtmlTagPre,
-  'strong': HtmlTagStrong,
-  'b': HtmlTagStrong,
-  'em': HtmlTagItalic,
-  'i': HtmlTagItalic,
-  'div': HtmlTagDiv,
-  'blockquote': HtmlTagDiv,
-  'ul': HtmlTagDiv,
-  'ol': HtmlTagDiv,
-  'table': HtmlTagDiv,
-  'thead': HtmlTagDiv,
-  'tbody': HtmlTagDiv,
-  'tr': HtmlTagDiv,
-  'th': HtmlTagDiv,
-  'td': HtmlTagDiv,
-  'br': HtmlTagBr,
+  span: HtmlTagSpan,
+  p: HtmlTagSpan,
+  code: HtmlTagSpan,
+  a: HtmlTagA,
+  li: HtmlTagLi,
+  img: HtmlTagImg,
+  pre: HtmlTagPre,
+  strong: HtmlTagStrong,
+  b: HtmlTagStrong,
+  em: HtmlTagItalic,
+  i: HtmlTagItalic,
+  div: HtmlTagDiv,
+  blockquote: HtmlTagDiv,
+  ul: HtmlTagDiv,
+  ol: HtmlTagDiv,
+  table: HtmlTagDiv,
+  thead: HtmlTagDiv,
+  tbody: HtmlTagDiv,
+  tr: HtmlTagDiv,
+  th: HtmlTagDiv,
+  td: HtmlTagDiv,
+  br: HtmlTagBr,
 };
 
 const stylesFromClassNames = (classNames = '', styleObj) =>
   classNames.split(' ').map(className => styleObj[className]);
 
-export default ({ auth, attribs, name, cascadingStyle, childrenNodes }) => {
-  const style = [
-    styles[name],
-    ...stylesFromClassNames(attribs.class, styles),
-  ];
+export default ({auth, attribs, name, cascadingStyle, childrenNodes}) => {
+  const style = [styles[name], ...stylesFromClassNames(attribs.class, styles)];
   const newCascadingStyle = [
     cascadingStyle,
     cascadingStyles[name],

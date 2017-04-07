@@ -12,8 +12,8 @@ const initialState = [];
 export default (state = initialState, action) => {
   switch (action.type) {
     case REALM_ADD: {
-      const accountIndex = state.findIndex(account =>
-        account.realm === action.realm
+      const accountIndex = state.findIndex(
+        account => account.realm === action.realm
       );
 
       if (accountIndex !== -1) {
@@ -48,18 +48,16 @@ export default (state = initialState, action) => {
       ];
     }
     case LOGIN_SUCCESS: {
-      const accountIndex = state.findIndex(account =>
-        account.realm === action.realm &&
-        (!account.email || account.email === action.email)
+      const accountIndex = state.findIndex(
+        account =>
+          account.realm === action.realm &&
+          (!account.email || account.email === action.email)
       );
 
-      const { type, ...newAccount } = action; // eslint-disable-line no-unused-vars
+      const {type, ...newAccount} = action; // eslint-disable-line no-unused-vars
 
       if (accountIndex === -1) {
-        return [
-          newAccount,
-          ...state,
-        ];
+        return [newAccount, ...state];
       }
 
       if (accountIndex === 0) {
@@ -80,7 +78,7 @@ export default (state = initialState, action) => {
     }
     case LOGOUT: {
       // Empty out the active account's api key
-      return [{ ...state[0], apiKey: '' }, ...state.slice(1)];
+      return [{...state[0], apiKey: ''}, ...state.slice(1)];
     }
     case ACCOUNT_REMOVE: {
       const newState = state.slice();

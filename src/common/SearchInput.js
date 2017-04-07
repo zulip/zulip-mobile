@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Input } from '../common';
-import { BRAND_COLOR } from './styles';
+import React, {Component} from 'react';
+import {View, StyleSheet} from 'react-native';
+import {Input} from '../common';
+import {BRAND_COLOR} from './styles';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -11,23 +11,22 @@ const styles = StyleSheet.create({
   },
   icon: {
     margin: 4,
-    flex: 1
+    flex: 1,
   },
   input: {
     flex: 1,
     borderWidth: 0,
-    color: BRAND_COLOR
+    color: BRAND_COLOR,
   },
 });
 
 export default class SearchInput extends Component {
-
   props: {
     onChange: (text: string) => void,
   };
 
   render() {
-    const { onChange } = this.props;
+    const {onChange} = this.props;
 
     return (
       <View style={styles.wrapper}>

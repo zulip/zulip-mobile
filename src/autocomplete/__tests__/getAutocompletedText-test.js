@@ -14,6 +14,8 @@ describe('getAutocompletedText', () => {
   });
 
   test('can autocomplete more complicated text', () => {
-    expect(getAutocompletedText('@**word** @w', 'word word')).toEqual('@**word** @**word word** ');
+    expect(getAutocompletedText('@**word** @w', 'word word')).toEqual(
+      '@**word** @**word word** '
+    );
   });
 });

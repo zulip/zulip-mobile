@@ -1,6 +1,4 @@
-import {
-  REALM_INIT,
-} from '../constants';
+import {REALM_INIT} from '../constants';
 
 // Initial state
 const initialState = {

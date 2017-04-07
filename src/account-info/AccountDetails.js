@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
 import config from '../config';
-import { Avatar, ZulipButton, UserStatusIndicator } from '../common';
-import { privateNarrow } from '../utils/narrow';
+import {Avatar, ZulipButton, UserStatusIndicator} from '../common';
+import {privateNarrow} from '../utils/narrow';
 
 const styles = StyleSheet.create({
   avatarWrapper: {
@@ -28,20 +28,24 @@ const styles = StyleSheet.create({
   statusText: {
     marginLeft: 4,
     fontSize: 18,
-  }
+  },
 });
 
 export default class AccountDetails extends Component {
-
   handleChatPress = () => {
-    const { auth, email, fetchMessages, popRoute } = this.props;
-    fetchMessages(auth, Number.MAX_SAFE_INTEGER,
-      config.messagesPerRequest, 0, privateNarrow(email));
+    const {auth, email, fetchMessages, popRoute} = this.props;
+    fetchMessages(
+      auth,
+      Number.MAX_SAFE_INTEGER,
+      config.messagesPerRequest,
+      0,
+      privateNarrow(email)
+    );
     popRoute();
   };
 
   render() {
-    const { avatarUrl, fullName, email, status } = this.props;
+    const {avatarUrl, fullName, email, status} = this.props;
 
     return (
       <View style={styles.padding}>

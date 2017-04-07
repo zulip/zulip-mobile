@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { Touchable } from '../common';
-import { CONTROL_SIZE } from '../common/platform';
+import {Touchable} from '../common';
+import {CONTROL_SIZE} from '../common/platform';
 
 const styles = StyleSheet.create({
   row: {
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ({ customStyles, onPress, name, icon }) => (
+export default ({customStyles, onPress, name, icon}) => (
   <Touchable onPress={onPress}>
     <View style={styles.row}>
       <Icon style={styles.icon} name={icon} />

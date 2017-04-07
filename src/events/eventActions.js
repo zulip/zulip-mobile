@@ -1,6 +1,6 @@
-import { Auth } from '../types';
-import { pollForEvents, registerForEvents } from '../api';
-import { switchAccount } from '../account/accountActions';
+import {Auth} from '../types';
+import {pollForEvents, registerForEvents} from '../api';
+import {switchAccount} from '../account/accountActions';
 import timeout from '../utils/timeout';
 
 import {
@@ -78,7 +78,7 @@ const processEvent = (auth, event) => {
       // eslint-disable-next-line no-console
       console.warn('Unrecognized event: ', event.type);
   }
-  return { type: EVENT_UNKNOWN };
+  return {type: EVENT_UNKNOWN};
 };
 
 const startEventLoop = (auth, queueId, eventId) =>
@@ -101,8 +101,10 @@ const startEventLoop = (auth, queueId, eventId) =>
 
         // Force a refresh of the app if the event queue is too old
         // or has been garbage collected
-        if (e.message.indexOf('too old') !== -1 ||
-            e.message.indexOf('Bad event queue id') !== -1) {
+        if (
+          e.message.indexOf('too old') !== -1 ||
+          e.message.indexOf('Bad event queue id') !== -1
+        ) {
           // Force a refresh (index 0 is the currently active account)
           dispatch(switchAccount(0));
           break;
@@ -125,13 +127,13 @@ const startEventLoop = (auth, queueId, eventId) =>
       const actions = [];
       for (const event of response.events) {
         lastEventId = Math.max(lastEventId, event.id);
-        actions.push({ ...processEvent(auth, event), eventId: event.id });
+        actions.push({...processEvent(auth, event), eventId: event.id});
       }
 
       if (actions.length > 1) {
         // Batch actions together to speed up rendering
         // (especially when resuming from a suspended state)
-        dispatch({ type: BATCH_ACTIONS, actions });
+        dispatch({type: BATCH_ACTIONS, actions});
       } else if (actions.length > 0) {
         dispatch(actions[0]);
       }

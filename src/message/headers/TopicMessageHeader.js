@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
-import { Touchable } from '../../common';
-import { topicNarrow } from '../../utils/narrow';
+import {Touchable} from '../../common';
+import {topicNarrow} from '../../utils/narrow';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -24,21 +20,20 @@ const styles = StyleSheet.create({
 });
 
 export default class TopicMessageHeader extends React.PureComponent {
-
   props: {
     itemId: number,
     stream: string,
     topic: string,
-  }
+  };
 
   performTopicNarrow = () => {
-    const { itemId, doNarrow, stream, topic } = this.props;
+    const {itemId, doNarrow, stream, topic} = this.props;
 
     doNarrow(topicNarrow(stream, topic), itemId);
-  }
+  };
 
   render() {
-    const { topic, customStyle } = this.props;
+    const {topic, customStyle} = this.props;
 
     return (
       <View style={[styles.wrapper, customStyle]}>

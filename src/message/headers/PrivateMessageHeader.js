@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { Touchable } from '../../common';
-import { privateNarrow, groupNarrow } from '../../utils/narrow';
+import {Touchable} from '../../common';
+import {privateNarrow, groupNarrow} from '../../utils/narrow';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,23 +26,22 @@ const styles = StyleSheet.create({
 });
 
 export default class PrivateMessageHeader extends React.PureComponent {
-
   props: {
     itemId: number,
     recipients: string,
     doNarrow: () => {},
-  }
+  };
 
   performNarrow = () => {
-    const { itemId, recipients, doNarrow } = this.props;
-    const narrow = recipients.length === 1 ?
-      privateNarrow(recipients[0].email) :
-      groupNarrow(recipients.map(r => r.email));
+    const {itemId, recipients, doNarrow} = this.props;
+    const narrow = recipients.length === 1
+      ? privateNarrow(recipients[0].email)
+      : groupNarrow(recipients.map(r => r.email));
     doNarrow(narrow, itemId);
-  }
+  };
 
   render() {
-    const { recipients, customStyle } = this.props;
+    const {recipients, customStyle} = this.props;
     const others = recipients.map(r => r.full_name).sort().join(', ');
 
     return (

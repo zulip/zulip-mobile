@@ -1,11 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import {
-  View,
-  StatusBar,
-  StyleSheet,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {connect} from 'react-redux';
+import {View, StatusBar, StyleSheet, KeyboardAvoidingView} from 'react-native';
 
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
@@ -28,13 +23,12 @@ const styles = StyleSheet.create({
 });
 
 class SearchScreen extends React.Component {
-
   props: {
     keyboardAvoiding: boolean,
     title: string,
     isSearchBarApplied: boolean,
     searchBar: boolean,
-    searchBarOnChange: () => {}
+    searchBarOnChange: () => {},
   };
 
   state: {
@@ -42,8 +36,8 @@ class SearchScreen extends React.Component {
   };
 
   render() {
-    const { keyboardAvoiding, title, searchBar } = this.props;
-    const { searchBarOnChange, nav, children } = this.props;
+    const {keyboardAvoiding, title, searchBar} = this.props;
+    const {searchBarOnChange, nav, children} = this.props;
     const WrapperView = keyboardAvoiding ? KeyboardAvoidingView : View;
 
     return (
@@ -66,6 +60,6 @@ class SearchScreen extends React.Component {
   }
 }
 
-export default connect((state) => ({
+export default connect(state => ({
   orientation: state.app.orientation,
 }))(SearchScreen);

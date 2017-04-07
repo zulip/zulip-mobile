@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
+import {StyleSheet, View} from 'react-native';
+import {connect} from 'react-redux';
 
 import boundActions from '../boundActions';
-import { Avatar, Touchable } from '../common';
+import {Avatar, Touchable} from '../common';
 import Subheader from './Subheader';
 import ReactionList from '../reactions/ReactionList';
 
@@ -21,20 +21,26 @@ const styles = StyleSheet.create({
 });
 
 class MessageFull extends React.PureComponent {
-
   props: {
     avatarUrl: string,
     selfEmail: string,
     timestamp: number,
     reactions: [],
-    twentyFourHourTime: bool,
+    twentyFourHourTime: boolean,
   };
 
   handleAvatarPress = () =>
     this.props.pushRoute('account-details', this.props.message.sender_email);
 
   render() {
-    const { message, children, avatarUrl, twentyFourHourTime, selfEmail, onPress } = this.props;
+    const {
+      message,
+      children,
+      avatarUrl,
+      twentyFourHourTime,
+      selfEmail,
+      onPress,
+    } = this.props;
 
     return (
       <View style={styles.message} assocID={message.id.toString()}>
@@ -65,7 +71,4 @@ class MessageFull extends React.PureComponent {
   }
 }
 
-export default connect(
-  null,
-  boundActions,
-)(MessageFull);
+export default connect(null, boundActions)(MessageFull);

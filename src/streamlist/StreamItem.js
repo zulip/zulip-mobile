@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 
-import { BRAND_COLOR } from '../common/styles';
-import { Touchable, ZulipSwitch } from '../common';
+import {BRAND_COLOR} from '../common/styles';
+import {Touchable, ZulipSwitch} from '../common';
 import StreamIcon from './StreamIcon';
 
 const styles = StyleSheet.create({
@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
 });
 
 export default class StreamItem extends React.PureComponent {
-
   props: {
     name: string,
     description: string,
@@ -49,19 +48,27 @@ export default class StreamItem extends React.PureComponent {
     showSwitch: boolean,
     color: string,
     onPress: () => {},
-  }
+  };
 
-  handlePress = () =>
-    this.props.onPress(this.props.name);
+  handlePress = () => this.props.onPress(this.props.name);
 
-  handleSwitch = (newValue) => {
-    const { name, onSwitch } = this.props;
+  handleSwitch = newValue => {
+    const {name, onSwitch} = this.props;
     onSwitch(name, newValue);
-  }
+  };
 
   render() {
-    const { name, description, color, isPrivate, isMuted,
-      iconSize, isSelected, showSwitch, isSwitchedOn } = this.props;
+    const {
+      name,
+      description,
+      color,
+      isPrivate,
+      isMuted,
+      iconSize,
+      isSelected,
+      showSwitch,
+      isSwitchedOn,
+    } = this.props;
     const iconWrapperCustomStyle = {
       width: iconSize * 1.5,
       height: iconSize * 1.5,
@@ -83,19 +90,15 @@ export default class StreamItem extends React.PureComponent {
             <Text
               style={[
                 isSelected && styles.selectedText,
-                isMuted && styles.mutedText
+                isMuted && styles.mutedText,
               ]}
             >
               {name}
             </Text>
             {!!description &&
-              <Text
-                numberOfLines={1}
-                style={styles.description}
-              >
+              <Text numberOfLines={1} style={styles.description}>
                 {description}
-              </Text>
-            }
+              </Text>}
           </View>
           {showSwitch &&
             <ZulipSwitch

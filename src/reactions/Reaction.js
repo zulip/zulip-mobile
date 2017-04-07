@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import {StyleSheet, Text, View} from 'react-native';
+import {connect} from 'react-redux';
 
-import { BRAND_COLOR } from '../common/styles';
-import { Touchable } from '../common';
+import {BRAND_COLOR} from '../common/styles';
+import {Touchable} from '../common';
 import Emoji from '../emoji/Emoji';
-import { getAuth } from '../account/accountSelectors';
-import { emojiReactionAdd, emojiReactionRemove } from '../api';
+import {getAuth} from '../account/accountSelectors';
+import {emojiReactionAdd, emojiReactionRemove} from '../api';
 
 const styles = StyleSheet.create({
   touchable: {
@@ -38,14 +38,13 @@ const styles = StyleSheet.create({
 });
 
 class Reaction extends React.PureComponent {
-
   props: {
     name: string,
     voted: boolean,
   };
 
   handlePress = () => {
-    const { auth, messageId, name, voted } = this.props;
+    const {auth, messageId, name, voted} = this.props;
 
     if (voted) {
       emojiReactionRemove(auth, messageId, name);
@@ -55,7 +54,7 @@ class Reaction extends React.PureComponent {
   };
 
   render() {
-    const { name, voted, voteCount } = this.props;
+    const {name, voted, voteCount} = this.props;
     const frameStyle = voted ? styles.frameVoted : styles.frameNotVoted;
     const countStyle = voted ? styles.countVoted : styles.countNotVoted;
 
@@ -72,7 +71,7 @@ class Reaction extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   auth: getAuth(state),
 });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListView, StyleSheet, Text } from 'react-native';
+import {ListView, StyleSheet, Text} from 'react-native';
 
 import ConversationUser from './ConversationUser';
 import ConversationGroup from './ConversationGroup';
@@ -18,22 +18,21 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     fontSize: 20,
-  }
+  },
 });
 
 export default class ConversationList extends React.PureComponent {
-
   props: {
     conversations: string[],
     realm: string,
     users: any[],
     onNarrow: (email: string) => void,
-  }
+  };
 
   render() {
-    const { conversations } = this.props;
+    const {conversations} = this.props;
 
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(conversations);
 
     if (!conversations.length) {
@@ -50,11 +49,10 @@ export default class ConversationList extends React.PureComponent {
         style={styles.container}
         dataSource={dataSource}
         pageSize={12}
-        renderRow={(email => (
-          email.indexOf(',') === -1 ? // if single recipient
-            <ConversationUser email={email} {...this.props} /> :
-            <ConversationGroup email={email} {...this.props} />
-        ))}
+        renderRow={email =>
+          email.indexOf(',') === -1 // if single recipient
+            ? <ConversationUser email={email} {...this.props} />
+            : <ConversationGroup email={email} {...this.props} />}
       />
     );
   }

@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { BRAND_COLOR } from '../common/styles';
-import { ZulipButton, Touchable } from '../common';
+import {BRAND_COLOR} from '../common/styles';
+import {ZulipButton, Touchable} from '../common';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -36,11 +36,10 @@ const styles = StyleSheet.create({
   },
   icon: {
     padding: 6,
-  }
+  },
 });
 
 export default class AccountItem extends React.PureComponent {
-
   props: {
     index: number,
     email: string,
@@ -50,36 +49,35 @@ export default class AccountItem extends React.PureComponent {
     onRemove: () => void,
   };
 
-  handleSelect = () =>
-    this.props.onSelect(this.props.index);
+  handleSelect = () => this.props.onSelect(this.props.index);
 
-  handleRemove = () =>
-    this.props.onRemove(this.props.index);
+  handleRemove = () => this.props.onRemove(this.props.index);
 
   render() {
-    const { email, realm, index, canRemove } = this.props;
+    const {email, realm, index, canRemove} = this.props;
     const isSelected = index === 0;
 
     return (
       <Touchable style={styles.wrapper} onPress={this.handleSelect}>
-        <View style={[styles.accountItem, isSelected && styles.selectedAccountItem]}>
+        <View
+          style={[styles.accountItem, isSelected && styles.selectedAccountItem]}
+        >
           <View style={styles.details}>
             <Text style={[styles.text, styles.selectedText]}>{email}</Text>
             <Text style={[styles.text, styles.selectedText]}>{realm}</Text>
           </View>
-          {canRemove ?
-            <ZulipButton
-              text="X"
-              customStyles={styles.removeButton}
-              onPress={this.handleRemove}
-            /> :
-            <Icon
-              style={styles.icon}
-              size={24}
-              color={BRAND_COLOR}
-              name="done"
-            />
-          }
+          {canRemove
+            ? <ZulipButton
+                text="X"
+                customStyles={styles.removeButton}
+                onPress={this.handleRemove}
+              />
+            : <Icon
+                style={styles.icon}
+                size={24}
+                color={BRAND_COLOR}
+                name="done"
+              />}
         </View>
       </Touchable>
     );

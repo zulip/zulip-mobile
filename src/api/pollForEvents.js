@@ -1,4 +1,4 @@
-import { apiGet, Auth } from './apiFetch';
+import {apiGet, Auth} from './apiFetch';
 
 export default (auth: Auth, queueId: number, lastEventId: number) =>
   apiGet(
@@ -12,5 +12,5 @@ export default (auth: Auth, queueId: number, lastEventId: number) =>
     {
       silent: true,
       noTimeout: true,
-    },
+    }
   );

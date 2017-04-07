@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
-import { Provider } from 'react-redux';
+import React, {Component} from 'react';
+import {Provider} from 'react-redux';
 
-import store, { restore } from './store';
+import store, {restore} from './store';
 import LoadingScreen from './start/LoadingScreen';
 import NavigationContainer from './nav/NavigationContainer';
 
-import { getAuth } from './account/accountSelectors';
+import {getAuth} from './account/accountSelectors';
 import requestInitialServerData from './main/requestInitialServerData';
 
 export default class ZulipMobile extends Component {
-
   state = {
     rehydrated: false,
   };
@@ -24,7 +23,7 @@ export default class ZulipMobile extends Component {
           store.dispatch(requestInitialServerData(getAuth(state)));
         }
       });
-      this.setState({ rehydrated: true });
+      this.setState({rehydrated: true});
     });
   }
 

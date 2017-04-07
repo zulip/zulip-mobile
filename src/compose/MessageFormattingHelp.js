@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 
 const styles = StyleSheet.create({
-  table: {
-  },
-  thead: {
-
-  },
+  table: {},
+  thead: {},
   tr: {
     flexDirection: 'row',
   },
@@ -30,7 +23,6 @@ const styles = StyleSheet.create({
 });
 
 export default class MessageFormattingHelp extends React.PureComponent {
-
   render() {
     return (
       <View style={styles.table}>
@@ -97,9 +89,11 @@ export default class MessageFormattingHelp extends React.PureComponent {
             <Text style={styles.td}>Quoted</Text>
           </View>
           <View style={styles.tr}>
-            <Text style={styles.td}>``` quote
+            <Text style={styles.td}>
+              ``` quote
               Quoted block
-            ```</Text>
+              ```
+            </Text>
             <Text style={styles.td}>Quoted block</Text>
           </View>
           <View style={styles.tr}>

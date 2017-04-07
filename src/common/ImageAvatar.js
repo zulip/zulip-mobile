@@ -1,7 +1,7 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 
-import { Touchable } from './';
+import {Touchable} from './';
 import UserStatusIndicator from '../common/UserStatusIndicator';
 
 const styles = StyleSheet.create({
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default({ avatarUrl, size, status, isCircular, onPress }) => {
+export default ({avatarUrl, size, status, isCircular, onPress}) => {
   const touchableStyle = {
     height: size,
     width: size,
@@ -22,22 +22,14 @@ export default({ avatarUrl, size, status, isCircular, onPress }) => {
 
   const imageStyle = {
     ...touchableStyle,
-    borderRadius: isCircular ? size / 2 : size / 8
+    borderRadius: isCircular ? size / 2 : size / 8,
   };
 
   return (
     <Touchable onPress={onPress} style={touchableStyle}>
-      <Image
-        style={imageStyle}
-        source={{ uri: avatarUrl }}
-        resizeMode="contain"
-      >
+      <Image style={imageStyle} source={{uri: avatarUrl}} resizeMode="contain">
         {status &&
-          <UserStatusIndicator
-            status={status}
-            customStyles={styles.status}
-          />
-        }
+          <UserStatusIndicator status={status} customStyles={styles.status} />}
       </Image>
     </Touchable>
   );

@@ -1,4 +1,4 @@
-import { foregroundColorFromBackground } from '../color';
+import {foregroundColorFromBackground} from '../color';
 
 describe('foregroundColorFromBackground', () => {
   test('returns "black" for light backgrounds', () => {

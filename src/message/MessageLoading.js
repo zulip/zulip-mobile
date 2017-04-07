@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 const styles = StyleSheet.create({
   message: {
@@ -39,14 +39,13 @@ const styles = StyleSheet.create({
 });
 
 export default class MessageLoading extends React.PureComponent {
-
   props: {
     message: string,
     avatarUrl: string,
     fromName: string,
     fromEmail: string,
     timestamp: number,
-    twentyFourHourTime: bool,
+    twentyFourHourTime: boolean,
   };
 
   handleAvatarPress = () =>

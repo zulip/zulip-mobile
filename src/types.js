@@ -71,7 +71,15 @@ export type UpdateMessageFlagsEvent = {
   operation: 'add' | '???',
 };
 
-export type NarrowOperator = 'is' | 'in' | 'near' | 'id' | 'stream' | 'topic' | 'sender' | 'pm-with';
+export type NarrowOperator =
+  | 'is'
+  | 'in'
+  | 'near'
+  | 'id'
+  | 'stream'
+  | 'topic'
+  | 'sender'
+  | 'pm-with';
 
 export type NarrowElement = {
   operand: string,

@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Animated,
-} from 'react-native';
+import {StyleSheet, View, Animated} from 'react-native';
 
-import { BRAND_COLOR } from '../common/styles';
+import {BRAND_COLOR} from '../common/styles';
 
 import Tab from './Tab';
 
@@ -21,13 +17,12 @@ const styles = StyleSheet.create({
 });
 
 export default class MainTabBar extends React.Component {
-
   props: {
-    goToPage: () => {};
-  }
+    goToPage: () => {},
+  };
 
   render() {
-    const { goToPage, containerWidth, underlineStyle, scrollValue } = this.props;
+    const {goToPage, containerWidth, underlineStyle, scrollValue} = this.props;
     const tabUnderlineStyle = {
       position: 'absolute',
       width: containerWidth / 4,
@@ -36,7 +31,8 @@ export default class MainTabBar extends React.Component {
       bottom: 0,
     };
     const left = scrollValue.interpolate({
-      inputRange: [0, 1], outputRange: [0, containerWidth / 4],
+      inputRange: [0, 1],
+      outputRange: [0, containerWidth / 4],
     });
 
     return (
@@ -45,7 +41,7 @@ export default class MainTabBar extends React.Component {
         <Tab index={1} icon="md-at" onPress={goToPage} />
         <Tab index={2} icon="md-chatboxes" onPress={goToPage} />
         <Tab index={3} icon="md-person" onPress={goToPage} />
-        <Animated.View style={[tabUnderlineStyle, { left }, underlineStyle]} />
+        <Animated.View style={[tabUnderlineStyle, {left}, underlineStyle]} />
       </View>
     );
   }

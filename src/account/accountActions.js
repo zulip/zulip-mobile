@@ -22,7 +22,6 @@ export const setAuthType = (authType: string) => ({
   authType,
 });
 
-
 export const removeAccount = (index: number) => ({
   type: ACCOUNT_REMOVE,
   index,

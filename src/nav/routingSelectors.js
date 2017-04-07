@@ -9,5 +9,4 @@ export const getInitialRoutes = (accounts: any[]): string => {
   return ['realm'];
 };
 
-export const getCurrentRoute = (state) =>
-  state.nav.routes[state.nav.index];
+export const getCurrentRoute = state => state.nav.routes[state.nav.index];

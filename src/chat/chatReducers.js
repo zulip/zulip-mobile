@@ -10,12 +10,12 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
 } from '../constants';
-import { isMessageInNarrow } from '../utils/narrow';
+import {isMessageInNarrow} from '../utils/narrow';
 import chatUpdater from './chatUpdater';
 
 const getInitialState = () => ({
-  fetching: { older: false, newer: false },
-  caughtUp: { older: false, newer: false },
+  fetching: {older: false, newer: false},
+  caughtUp: {older: false, newer: false},
   narrow: [],
   messages: {},
 });
@@ -31,8 +31,8 @@ export default (state = getInitialState(), action) => {
       return {
         ...state,
         narrow: action.narrow,
-        fetching: { ...state.fetching, ...action.fetching },
-        caughtUp: { ...state.caughtUp, ...action.caughtUp },
+        fetching: {...state.fetching, ...action.fetching},
+        caughtUp: {...state.caughtUp, ...action.caughtUp},
       };
 
     case SWITCH_NARROW: {
@@ -44,8 +44,8 @@ export default (state = getInitialState(), action) => {
           ...state.messages,
           [key]: action.messages,
         },
-        fetching: { older: false, newer: false },
-        caughtUp: { older: false, newer: false },
+        fetching: {older: false, newer: false},
+        caughtUp: {older: false, newer: false},
       };
     }
 
@@ -66,8 +66,8 @@ export default (state = getInitialState(), action) => {
           ...state.messages,
           [key]: newMessages,
         },
-        fetching: { ...state.fetching, ...action.fetching },
-        caughtUp: { ...state.caughtUp, ...action.caughtUp },
+        fetching: {...state.fetching, ...action.fetching},
+        caughtUp: {...state.caughtUp, ...action.caughtUp},
       };
     }
 
@@ -83,26 +83,31 @@ export default (state = getInitialState(), action) => {
     case EVENT_REACTION_REMOVE:
       return chatUpdater(state, action.messageId, oldMessage => ({
         ...oldMessage,
-        reactions: oldMessage.reactions.filter(x =>
-          !(x.emoji_name === action.emoji &&
-          x.user.email === action.user.email)
+        reactions: oldMessage.reactions.filter(
+          x =>
+            !(x.emoji_name === action.emoji &&
+              x.user.email === action.user.email)
         ),
       }));
 
     case EVENT_NEW_MESSAGE: {
       return {
         ...state,
-        messages: Object.keys(state.messages).reduce((msg, key) => {
-          const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.selfEmail);
-          msg[key] = isInNarrow ? // eslint-disable-line
-          [
-            ...state.messages[key],
-            action.message,
-          ] :
-          state.messages[key];
+        messages: Object.keys(state.messages).reduce(
+          (msg, key) => {
+            const isInNarrow = isMessageInNarrow(
+              action.message,
+              JSON.parse(key),
+              action.selfEmail
+            );
+            msg[key] = isInNarrow // eslint-disable-line
+              ? [...state.messages[key], action.message]
+              : state.messages[key];
 
-          return msg;
-        }, {}),
+            return msg;
+          },
+          {}
+        ),
       };
     }
 

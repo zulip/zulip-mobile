@@ -1,4 +1,4 @@
-import { REHYDRATE } from 'redux-persist/constants';
+import {REHYDRATE} from 'redux-persist/constants';
 
 import {
   LOGIN_SUCCESS,
@@ -12,7 +12,7 @@ import {
   APP_STATE,
 } from '../constants';
 
-import { getAuth } from '../account/accountSelectors';
+import {getAuth} from '../account/accountSelectors';
 
 const initialState = {
   lastActivityTime: new Date(),

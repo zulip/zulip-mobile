@@ -1,13 +1,12 @@
 import React from 'react';
-import { Switch } from 'react-native';
-import { BRAND_COLOR } from './styles';
+import {Switch} from 'react-native';
+import {BRAND_COLOR} from './styles';
 
 export default class ZulipSwitch extends React.PureComponent {
-
   props: {
     value: boolean,
     onValueChange: () => void,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -17,8 +16,8 @@ export default class ZulipSwitch extends React.PureComponent {
     };
   }
 
-  handleValueChange = (newValue) => {
-    const { onValueChange } = this.props;
+  handleValueChange = newValue => {
+    const {onValueChange} = this.props;
 
     if (onValueChange) {
       onValueChange(newValue);
@@ -27,12 +26,14 @@ export default class ZulipSwitch extends React.PureComponent {
     this.setState({
       valueControlled: newValue,
     });
-  }
+  };
 
   render() {
-    const { value } = this.props;
-    const { valueControlled } = this.state;
-    const switchValue = typeof valueControlled !== 'undefined' ? valueControlled : value;
+    const {value} = this.props;
+    const {valueControlled} = this.state;
+    const switchValue = typeof valueControlled !== 'undefined'
+      ? valueControlled
+      : value;
 
     return (
       <Switch

@@ -6,7 +6,7 @@ import subscriptionsReducers from '../subscriptionsReducers';
 
 describe('subscriptionsReducers', () => {
   test('on unrecognized action, returns input state unchanged', () => {
-    const prevState = { hello: 'world' };
+    const prevState = {hello: 'world'};
     const newState = subscriptionsReducers(prevState, {});
     expect(newState).toEqual(prevState);
   });
@@ -24,7 +24,7 @@ describe('subscriptionsReducers', () => {
           {
             name: 'some other stream',
             stream_id: 2,
-          }
+          },
         ],
       };
       const expectedState = [
@@ -35,7 +35,7 @@ describe('subscriptionsReducers', () => {
         {
           name: 'some other stream',
           stream_id: 2,
-        }
+        },
       ];
 
       const newState = subscriptionsReducers(prevState, action);
@@ -48,8 +48,8 @@ describe('subscriptionsReducers', () => {
         {
           color: 'red',
           stream_id: 1,
-          name: 'some stream'
-        }
+          name: 'some stream',
+        },
       ];
       const action = {
         type: EVENT_SUBSCRIPTION_ADD,
@@ -61,7 +61,7 @@ describe('subscriptionsReducers', () => {
           {
             name: 'some other stream',
             stream_id: 2,
-          }
+          },
         ],
       };
       const expectedState = [
@@ -73,7 +73,7 @@ describe('subscriptionsReducers', () => {
         {
           name: 'some other stream',
           stream_id: 2,
-        }
+        },
       ];
 
       const newState = subscriptionsReducers(prevState, action);
@@ -88,17 +88,17 @@ describe('subscriptionsReducers', () => {
         {
           color: 'red',
           stream_id: 1,
-          name: 'some stream'
+          name: 'some stream',
         },
         {
           color: 'green',
           stream_id: 2,
-          name: 'other stream'
+          name: 'other stream',
         },
         {
           color: 'blue',
           stream_id: 3,
-          name: 'third stream'
+          name: 'third stream',
         },
       ];
       const action = {
@@ -118,7 +118,7 @@ describe('subscriptionsReducers', () => {
         {
           color: 'blue',
           stream_id: 3,
-          name: 'third stream'
+          name: 'third stream',
         },
       ];
 
@@ -144,7 +144,7 @@ describe('subscriptionsReducers', () => {
           {
             name: 'some other stream',
             stream_id: 2,
-          }
+          },
         ],
       };
       const expectedState = [];

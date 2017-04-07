@@ -14,7 +14,8 @@
     "test:lint": "eslint src/",
     "test:flow": "flow",
     "test:unit": "jest",
-    "test": "npm run test:lint && npm run test:unit && npm run test:flow"
+    "test": "npm run test:lint && npm run test:unit && npm run test:flow",
+    "prettier": "prettier --write --no-bracket-spacing --single-quote --trailing-comma es5 --print-width 80 \"src/**/*.js\""
   },
   "dependencies": {
     "base-64": "^0.1.0",
@@ -58,6 +59,7 @@
     "jest": "^18.0.0",
     "jest-cli": "^18.0.0",
     "jest-react-native": "^18.0.0",
+    "prettier": "^0.22.0",
     "react-native-cli": "^2.0.1",
     "react-test-renderer": "^16.0.0-alpha.2"
   },

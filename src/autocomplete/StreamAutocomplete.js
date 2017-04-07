@@ -1,25 +1,24 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
-import { Popup } from '../common';
+import {Popup} from '../common';
 import StreamItem from '../streamlist/StreamItem';
 
 class StreamAutocomplete extends Component {
-
   props: {
-    filter: string;
+    filter: string,
     onAutocomplete: (name: string) => {},
   };
 
   render() {
-    const { filter, subscriptions, onAutocomplete } = this.props;
+    const {filter, subscriptions, onAutocomplete} = this.props;
     const streams = subscriptions
       .filter(x => x.name.toLowerCase().startsWith(filter.toLowerCase()))
       .slice(0, 5);
 
     return (
       <Popup>
-        {streams.map(x =>
+        {streams.map(x => (
           <StreamItem
             key={x.stream_id}
             name={x.name}
@@ -29,13 +28,13 @@ class StreamAutocomplete extends Component {
             color={x.color}
             onPress={() => onAutocomplete(x.name)}
           />
-        )}
+        ))}
       </Popup>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   subscriptions: state.subscriptions,
 });
 

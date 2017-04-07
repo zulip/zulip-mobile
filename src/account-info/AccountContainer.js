@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
 
 import AccountDetails from './AccountDetails';
 import SwitchAccountButton from './SwitchAccountButton';
@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
 });
 
 export default class AccountContainer extends Component {
-
   render() {
     return (
       <View style={styles.container} tabLabel="Account">

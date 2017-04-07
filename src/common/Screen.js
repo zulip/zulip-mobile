@@ -1,11 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import {
-  View,
-  StatusBar,
-  StyleSheet,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {connect} from 'react-redux';
+import {View, StatusBar, StyleSheet, KeyboardAvoidingView} from 'react-native';
 
 import ModalNavBar from '../nav/ModalNavBar';
 
@@ -28,14 +23,13 @@ const styles = StyleSheet.create({
 });
 
 class Screen extends React.Component {
-
   props: {
     keyboardAvoiding: boolean,
     title: string,
-  }
+  };
 
   render() {
-    const { keyboardAvoiding, title, nav, children, popRoute } = this.props;
+    const {keyboardAvoiding, title, nav, children, popRoute} = this.props;
     const WrapperView = keyboardAvoiding ? KeyboardAvoidingView : View;
 
     return (
@@ -53,6 +47,6 @@ class Screen extends React.Component {
   }
 }
 
-export default connect((state) => ({
+export default connect(state => ({
   orientation: state.app.orientation,
 }))(Screen);

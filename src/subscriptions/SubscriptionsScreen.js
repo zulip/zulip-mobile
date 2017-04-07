@@ -1,16 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-import { Auth } from '../types';
+import {Auth} from '../types';
 import boundActions from '../boundActions';
 import SearchScreen from '../search/SearchScreen';
-import { subscriptionAdd, subscriptionRemove } from '../api';
+import {subscriptionAdd, subscriptionRemove} from '../api';
 import StreamList from '../streamlist/StreamList';
-import { getAuth } from '../account/accountSelectors';
-
+import {getAuth} from '../account/accountSelectors';
 
 class SubscriptionsScreen extends React.Component {
-
   props: {
     auth: Auth,
     streams: [],
@@ -28,21 +26,22 @@ class SubscriptionsScreen extends React.Component {
     };
   }
 
-  handleFilterChange = (filter: string) => this.setState({ filter });
+  handleFilterChange = (filter: string) => this.setState({filter});
 
   handleSwitchChange = (streamName: string, switchValue: boolean) => {
-    const { auth } = this.props;
+    const {auth} = this.props;
 
     if (switchValue) {
-      subscriptionAdd(auth, [{ name: streamName }]);
+      subscriptionAdd(auth, [{name: streamName}]);
     } else {
       subscriptionRemove(auth, [streamName]);
     }
   };
 
   render() {
-    const { streams, subscriptions } = this.props;
-    const filteredStreams = streams.filter(x => x.name.includes(this.state.filter));
+    const {streams, subscriptions} = this.props;
+    const filteredStreams = streams.filter(x =>
+      x.name.includes(this.state.filter));
     const subsAndStreams = filteredStreams.map(x => ({
       ...x,
       subscribed: subscriptions.some(s => s.stream_id === x.stream_id),
@@ -67,10 +66,10 @@ class SubscriptionsScreen extends React.Component {
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     auth: getAuth(state),
     streams: state.streams,
     subscriptions: state.subscriptions,
   }),
-  boundActions,
+  boundActions
 )(SubscriptionsScreen);

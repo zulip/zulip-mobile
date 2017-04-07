@@ -1,10 +1,9 @@
 import React from 'react';
-import { ListView } from 'react-native';
+import {ListView} from 'react-native';
 
 import StreamItem from './StreamItem';
 
 export default class StreamList extends React.Component {
-
   props: {
     streams: [],
     selected: string,
@@ -12,19 +11,26 @@ export default class StreamList extends React.Component {
     showSwitch: boolean,
     onNarrow: (streamName: string) => {},
     onSwitch: (streamName: string) => {},
-  }
+  };
 
   render() {
-    const { streams, selected, showDescriptions, showSwitch, onNarrow, onSwitch } = this.props;
-    const sortedStreams = Object.values(streams)
-      .sort((a, b) => a.name.localeCompare(b.name));
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    const {
+      streams,
+      selected,
+      showDescriptions,
+      showSwitch,
+      onNarrow,
+      onSwitch,
+    } = this.props;
+    const sortedStreams = Object.values(streams).sort((a, b) =>
+      a.name.localeCompare(b.name));
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(sortedStreams);
     return (
       <ListView
         enableEmptySections
         dataSource={dataSource}
-        renderRow={(x =>
+        renderRow={x => (
           <StreamItem
             key={x.stream_id}
             name={x.name}

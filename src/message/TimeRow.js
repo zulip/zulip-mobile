@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
-import { BORDER_COLOR } from '../common/styles';
-import { humanDate } from '../utils/date';
+import {BORDER_COLOR} from '../common/styles';
+import {humanDate} from '../utils/date';
 
 const styles = StyleSheet.create({
   row: {
@@ -27,13 +23,12 @@ const styles = StyleSheet.create({
 });
 
 export default class TimeRow extends React.PureComponent {
-
   props: {
     timestamp: number,
   };
 
   render() {
-    const { timestamp } = this.props;
+    const {timestamp} = this.props;
     const displayDate = humanDate(new Date(timestamp * 1000));
 
     return (

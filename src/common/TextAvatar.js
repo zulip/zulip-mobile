@@ -1,12 +1,13 @@
 import React from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import {Text, StyleSheet, View} from 'react-native';
 
-import { Touchable } from './';
+import {Touchable} from './';
 import UserStatusIndicator from '../common/UserStatusIndicator';
 
 export const colorHashFromName = (name: string) => {
   let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = hash * 31 + name.charCodeAt(1);
+  for (let i = 0; i < name.length; i++)
+    hash = hash * 31 + name.charCodeAt(1);
   let colorHash = hash % 0xffffff;
   if (colorHash < 0x100000) colorHash += 0x100000;
   return `#${colorHash.toString(16)}`;
@@ -27,10 +28,10 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'white',
-  }
+  },
 });
 
-export default ({ name, size, status, isCircular, onPress }) => {
+export default ({name, size, status, isCircular, onPress}) => {
   const frameSize = {
     height: size,
     width: size,
@@ -48,11 +49,7 @@ export default ({ name, size, status, isCircular, onPress }) => {
           {initialsFromName(name)}
         </Text>
         {status &&
-          <UserStatusIndicator
-            status={status}
-            customStyles={styles.status}
-          />
-        }
+          <UserStatusIndicator status={status} customStyles={styles.status} />}
       </View>
     </Touchable>
   );

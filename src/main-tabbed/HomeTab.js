@@ -1,22 +1,21 @@
 import React from 'react';
-import { View } from 'react-native';
-import { connect } from 'react-redux';
+import {View} from 'react-native';
+import {connect} from 'react-redux';
 
 import boundActions from '../boundActions';
-import { Button } from '../common';
+import {Button} from '../common';
 import SidebarRow from '../nav/SidebarRow';
-import { homeNarrow, specialNarrow } from '../utils/narrow';
+import {homeNarrow, specialNarrow} from '../utils/narrow';
 
 class HomeTab extends React.Component {
-
-  handleNarrow = (narrow) => {
-    const { doNarrow, pushRoute } = this.props;
+  handleNarrow = narrow => {
+    const {doNarrow, pushRoute} = this.props;
     doNarrow(narrow);
     pushRoute('chat');
   };
 
-  handleSearch = (narrow) => {
-    const { pushRoute } = this.props;
+  handleSearch = narrow => {
+    const {pushRoute} = this.props;
     pushRoute('search');
   };
 
@@ -43,17 +42,10 @@ class HomeTab extends React.Component {
           icon="md-at"
           onPress={() => this.handleNarrow(specialNarrow('mentioned'))}
         />
-        <Button
-          secondary
-          text="Search"
-          onPress={this.handleSearch}
-        />
+        <Button secondary text="Search" onPress={this.handleSearch} />
       </View>
     );
   }
 }
 
-export default connect(
-  null,
-  boundActions,
-)(HomeTab);
+export default connect(null, boundActions)(HomeTab);

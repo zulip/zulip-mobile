@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
-import { normalizeRecipients } from '../utils/message';
-import { isGroupNarrow } from '../utils/narrow';
-import { Avatar, Touchable } from '../common';
-import { BRAND_COLOR } from '../common/styles';
+import {normalizeRecipients} from '../utils/message';
+import {isGroupNarrow} from '../utils/narrow';
+import {Avatar, Touchable} from '../common';
+import {BRAND_COLOR} from '../common/styles';
 
 const styles = StyleSheet.create({
   row: {
@@ -23,15 +23,16 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: 'white',
-  }
+  },
 });
 
-export default ({ email, users, narrow, onNarrow }) => {
+export default ({email, users, narrow, onNarrow}) => {
   const emails = email.split(',');
-  const allNames = emails.map(e =>
-    (users.find(x => x.email === e) || {}).fullName
-  ).join(', ');
-  const isSelected = isGroupNarrow(narrow) && email === normalizeRecipients(narrow[0].operand);
+  const allNames = emails
+    .map(e => (users.find(x => x.email === e) || {}).fullName)
+    .join(', ');
+  const isSelected = isGroupNarrow(narrow) &&
+    email === normalizeRecipients(narrow[0].operand);
 
   return (
     <Touchable onPress={() => onNarrow(email)}>

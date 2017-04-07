@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   ul: {
@@ -16,10 +16,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 4,
   },
-  span: {
-  },
-  a: {
-  },
+  span: {},
+  a: {},
   'user-mention': {
     borderColor: 'rgba(0, 0, 0, 0.2)',
     borderWidth: 1,
@@ -55,7 +53,6 @@ export default StyleSheet.create({
   thead: {
     flexDirection: 'column',
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
-
   },
   tbody: {
     flexDirection: 'column',

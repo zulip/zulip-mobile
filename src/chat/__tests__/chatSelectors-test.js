@@ -1,5 +1,5 @@
-import { getAnchor, getRecentConversations } from '../chatSelectors';
-import { specialNarrow } from '../../utils/narrow';
+import {getAnchor, getRecentConversations} from '../chatSelectors';
+import {specialNarrow} from '../../utils/narrow';
 
 describe('getAnchor', () => {
   test('return max anchor when there are no messages', () => {
@@ -22,13 +22,11 @@ describe('getAnchor', () => {
       chat: {
         narrow: [],
         messages: {
-          '[]': [
-            { id: 123 },
-          ],
+          '[]': [{id: 123}],
         },
-      }
+      },
     };
-    expect(getAnchor(state)).toEqual({ older: 123, newer: 123 });
+    expect(getAnchor(state)).toEqual({older: 123, newer: 123});
   });
 
   test('when 2 or more messages, anchor contains first and last message ids', () => {
@@ -36,15 +34,11 @@ describe('getAnchor', () => {
       chat: {
         narrow: [],
         messages: {
-          '[]': [
-            { id: 1 },
-            { id: 2 },
-            { id: 3 },
-          ],
+          '[]': [{id: 1}, {id: 2}, {id: 3}],
         },
       },
     };
-    expect(getAnchor(state)).toEqual({ older: 1, newer: 3 });
+    expect(getAnchor(state)).toEqual({older: 1, newer: 3});
   });
 });
 
@@ -53,7 +47,7 @@ describe('getRecentConversations', () => {
 
   test('when no messages, return no conversations', () => {
     const state = {
-      account: [{ email: 'me@example.com' }],
+      account: [{email: 'me@example.com'}],
       chat: {
         narrow: [],
         messages: {
@@ -69,18 +63,28 @@ describe('getRecentConversations', () => {
 
   test('returns unique list of recipients, includes conversations with self', () => {
     const state = {
-      account: [{ email: 'me@example.com' }],
+      account: [{email: 'me@example.com'}],
       chat: {
         messages: {
           [privatesNarrowStr]: [
-            { display_recipient: [{ email: 'me@example.com' }, { email: 'john@example.com' }] },
-            { display_recipient: [{ email: 'mark@example.com' }] },
-            { display_recipient: [{ email: 'john@example.com' }] },
-            { display_recipient: [{ email: 'me@example.com' }] },
-            { display_recipient: [{ email: 'john@example.com' }, { email: 'mark@example.com' }] },
+            {
+              display_recipient: [
+                {email: 'me@example.com'},
+                {email: 'john@example.com'},
+              ],
+            },
+            {display_recipient: [{email: 'mark@example.com'}]},
+            {display_recipient: [{email: 'john@example.com'}]},
+            {display_recipient: [{email: 'me@example.com'}]},
+            {
+              display_recipient: [
+                {email: 'john@example.com'},
+                {email: 'mark@example.com'},
+              ],
+            },
           ],
         },
-      }
+      },
     };
 
     const expectedPrivate = [

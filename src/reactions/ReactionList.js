@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import Reaction from './Reaction';
 import aggregateReactions from './aggregateReactions';
@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
 });
 
 export default class ReactionList extends React.PureComponent {
-
   props: {
     messageId: number,
     reactions: string,
@@ -19,7 +18,7 @@ export default class ReactionList extends React.PureComponent {
   };
 
   render() {
-    const { messageId, reactions, selfEmail } = this.props;
+    const {messageId, reactions, selfEmail} = this.props;
 
     if (!reactions || reactions.length === 0) {
       return null;
@@ -29,7 +28,7 @@ export default class ReactionList extends React.PureComponent {
 
     return (
       <View style={styles.reactions}>
-        {aggregated.map((x, i) =>
+        {aggregated.map((x, i) => (
           <Reaction
             key={i}
             messageId={messageId}
@@ -37,7 +36,7 @@ export default class ReactionList extends React.PureComponent {
             voted={x.selfReacted}
             voteCount={x.count}
           />
-        )}
+        ))}
       </View>
     );
   }

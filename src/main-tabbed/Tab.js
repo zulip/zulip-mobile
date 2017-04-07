@@ -1,13 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  TouchableHighlight,
-  Text,
-  View,
-} from 'react-native';
+import {StyleSheet, TouchableHighlight, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { HIGHLIGHT_COLOR } from '../common/styles';
+import {HIGHLIGHT_COLOR} from '../common/styles';
 
 const styles = StyleSheet.create({
   tab: {
@@ -37,17 +32,15 @@ const styles = StyleSheet.create({
 });
 
 export default class Tab extends React.Component {
-
   props: {
     activity: number,
-    index: number;
-  }
+    index: number,
+  };
 
-  handlePress = () =>
-    this.props.onPress(this.props.index);
+  handlePress = () => this.props.onPress(this.props.index);
 
   render() {
-    const { activity, icon } = this.props;
+    const {activity, icon} = this.props;
 
     return (
       <TouchableHighlight
@@ -56,18 +49,13 @@ export default class Tab extends React.Component {
         onPress={this.handlePress}
       >
         <View>
-          <Icon
-            name={icon}
-            size={22}
-            color="white"
-          />
+          <Icon name={icon} size={22} color="white" />
           {activity > 0 &&
             <View style={styles.activityCircle}>
               <Text style={styles.activityValue}>
                 {activity}
               </Text>
-            </View>
-          }
+            </View>}
         </View>
       </TouchableHighlight>
     );

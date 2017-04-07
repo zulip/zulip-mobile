@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
-import { StyleSheet, ListView, Text } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, ListView, Text} from 'react-native';
 
-import { getFullUrl } from '../utils/url';
+import {getFullUrl} from '../utils/url';
 import UserItem from './UserItem';
-import { sortUserList, filterUserList, groupUsersByInitials } from './userListSelectors';
+import {
+  sortUserList,
+  filterUserList,
+  groupUsersByInitials,
+} from './userListSelectors';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,20 +18,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingLeft: 8,
     fontSize: 18,
-  }
+  },
 });
 
 export default class UserList extends Component {
-
   props: {
     ownEmail: string,
     filter: string,
     users: any[],
     onNarrow: (email: string) => void,
-  }
+  };
 
   render() {
-    const { ownEmail, realm, filter, users, onNarrow } = this.props;
+    const {ownEmail, realm, filter, users, onNarrow} = this.props;
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
       sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
@@ -42,7 +45,7 @@ export default class UserList extends Component {
         style={styles.container}
         dataSource={dataSource}
         pageSize={12}
-        renderRow={(user =>
+        renderRow={user => (
           <UserItem
             key={user.email}
             fullName={user.fullName}
@@ -52,9 +55,9 @@ export default class UserList extends Component {
             onPress={onNarrow}
           />
         )}
-        renderSectionHeader={(xx, x) =>
+        renderSectionHeader={(xx, x) => (
           <Text style={styles.groupHeader}>{x}</Text>
-        }
+        )}
       />
     );
   }

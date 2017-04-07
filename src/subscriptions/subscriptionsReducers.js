@@ -19,13 +19,13 @@ export default (state = initialState, action) => {
       return action.subscriptions;
     case EVENT_SUBSCRIPTION_ADD:
       return state.concat(
-        action.subscriptions.filter(x =>
-          !state.find(y => x.stream_id === y.stream_id)
+        action.subscriptions.filter(
+          x => !state.find(y => x.stream_id === y.stream_id)
         )
       );
     case EVENT_SUBSCRIPTION_REMOVE: {
-      return state.filter(x =>
-        !action.subscriptions.find(y => x.stream_id === y.stream_id)
+      return state.filter(
+        x => !action.subscriptions.find(y => x.stream_id === y.stream_id)
       );
     }
     default:

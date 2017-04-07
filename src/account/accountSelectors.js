@@ -1,7 +1,7 @@
-export const getActiveAccount = (state) =>
-  (state.account ? state.account[0] : undefined);
+export const getActiveAccount = state =>
+  state.account ? state.account[0] : undefined;
 
-export const getAuth = (state) => {
+export const getAuth = state => {
   const account = getActiveAccount(state);
 
   if (!account) {

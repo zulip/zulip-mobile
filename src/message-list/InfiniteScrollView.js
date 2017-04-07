@@ -1,11 +1,10 @@
 /* eslint-disable */
 import React from 'react';
-import { ScrollView } from 'react-native';
+import {ScrollView} from 'react-native';
 
 import config from '../config';
 
 export default class InfiniteScrollView extends React.Component {
-
   static defaultProps = {
     onStartReachedThreshold: config.startMessageListThreshold,
     onEndReachedThreshold: config.endMessageListThreshold,
@@ -20,7 +19,7 @@ export default class InfiniteScrollView extends React.Component {
       if (!ScrollView.propTypes.hasOwnProperty('anchorMode')) {
         console.error(
           'RCTScrollView does not have custom extensions to support' +
-          ' anchored scrolling. Are you using the zulip/react-native fork?'
+            ' anchored scrolling. Are you using the zulip/react-native fork?'
         );
       }
     }
@@ -34,27 +33,31 @@ export default class InfiniteScrollView extends React.Component {
   _onContentSizeChanged = (contentWidth, contentHeight) => {
     this._contentHeight = contentHeight;
     this._maybeCallOnStartOrEndReached();
-  }
+  };
 
-  _onScrollViewLayout = (e) => {
+  _onScrollViewLayout = e => {
     this._scrollViewHeight = e.nativeEvent.layout.height;
-  }
+  };
 
   _maybeCallOnStartReached(distFromStart) {
-    if (this.props.onStartReached &&
-        this._contentHeight &&
-        distFromStart <= this.props.onStartReachedThreshold &&
-        this._sentStartForContentHeight !== this._contentHeight) {
+    if (
+      this.props.onStartReached &&
+      this._contentHeight &&
+      distFromStart <= this.props.onStartReachedThreshold &&
+      this._sentStartForContentHeight !== this._contentHeight
+    ) {
       this._sentStartForContentHeight = this._contentHeight;
       this.props.onStartReached();
     }
   }
 
   _maybeCallOnEndReached(distFromEnd) {
-    if (this.props.onEndReached &&
-        this._contentHeight &&
-        distFromEnd <= this.props.onEndReachedThreshold &&
-        this._sentEndForContentHeight !== this._contentHeight) {
+    if (
+      this.props.onEndReached &&
+      this._contentHeight &&
+      distFromEnd <= this.props.onEndReachedThreshold &&
+      this._sentEndForContentHeight !== this._contentHeight
+    ) {
       this._sentEndForContentHeight = this._contentHeight;
       this.props.onEndReached();
     }
@@ -62,26 +65,31 @@ export default class InfiniteScrollView extends React.Component {
 
   _maybeCallOnStartOrEndReached() {
     const distFromStart = this._scrollOffset;
-    const distFromEnd = this._contentHeight - this._scrollViewHeight - this._scrollOffset;
+    const distFromEnd = this._contentHeight -
+      this._scrollViewHeight -
+      this._scrollOffset;
 
     this._maybeCallOnStartReached(distFromStart);
-    if (this.props.onStartReached &&
-        distFromStart > this.props.onStartReachedThreshold) {
+    if (
+      this.props.onStartReached &&
+      distFromStart > this.props.onStartReachedThreshold
+    ) {
       this._sentStartForContentHeight = null;
     }
 
     this._maybeCallOnEndReached(distFromEnd);
-    if (this.props.onEndReached &&
-        distFromEnd > this.props.onEndReachedThreshold) {
+    if (
+      this.props.onEndReached && distFromEnd > this.props.onEndReachedThreshold
+    ) {
       this._sentEndForContentHeight = null;
     }
   }
 
-  _onScroll = (e) => {
+  _onScroll = e => {
     this._scrollOffset = e.nativeEvent.contentOffset.y;
     this._maybeCallOnStartOrEndReached();
     this.props.onScroll(e.nativeEvent);
-  }
+  };
 
   render() {
     return (

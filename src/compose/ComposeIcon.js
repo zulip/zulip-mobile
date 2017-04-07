@@ -1,11 +1,9 @@
 import React from 'react';
-import {
-  StyleSheet,
-} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { Touchable } from '../common';
-import { BRAND_COLOR } from '../common/styles';
+import {Touchable} from '../common';
+import {BRAND_COLOR} from '../common/styles';
 
 const styles = StyleSheet.create({
   icon: {
@@ -14,19 +12,18 @@ const styles = StyleSheet.create({
   },
   iconActive: {
     color: BRAND_COLOR,
-  }
+  },
 });
 
 export default class ComposeIcon extends React.Component {
-
   props: {
     isActive: boolean,
     name: string,
     onChange: (index: number) => {},
-  }
+  };
 
   render() {
-    const { isActive, name, onChange } = this.props;
+    const {isActive, name, onChange} = this.props;
 
     return (
       <Touchable onPress={() => onChange(0)}>

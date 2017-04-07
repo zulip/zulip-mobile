@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
-import { registerAppActivity } from '../utils/activity';
-import { LoadingIndicator } from '../common';
+import {registerAppActivity} from '../utils/activity';
+import {LoadingIndicator} from '../common';
 import MessageLoading from '../message/MessageLoading';
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
@@ -31,7 +31,7 @@ export default class MessageList extends React.PureComponent {
       if (!View.propTypes.hasOwnProperty('assocID')) {
         console.error(
           'RCTView does not have custom extensions to support' +
-          ' anchored scrolling. Are you using the zulip/react-native fork?'
+            ' anchored scrolling. Are you using the zulip/react-native fork?'
         );
       }
     }
@@ -44,31 +44,40 @@ export default class MessageList extends React.PureComponent {
     });
   }
 
-  onScroll = (e) => {
-    const { auth, messages, markAsRead } = this.props;
+  onScroll = e => {
+    const {auth, messages, markAsRead} = this.props;
 
     if (!markAsRead) {
       return;
     }
 
-    markAsRead(e.visibleIds.map((messageId) =>
-      messages.find((msg) => msg.id.toString() === messageId)
-    ).filter((msg) => msg && msg.flags && msg.flags.indexOf('read') === -1));
+    markAsRead(
+      e.visibleIds
+        .map(messageId => messages.find(msg => msg.id.toString() === messageId))
+        .filter(msg => msg && msg.flags && msg.flags.indexOf('read') === -1)
+    );
     registerAppActivity(auth);
-  }
+  };
 
   render() {
-    const { messages, subscriptions, caughtUp, fetching,
-      fetchOlder, fetchNewer, hideFetchingOlder } = this.props;
+    const {
+      messages,
+      subscriptions,
+      caughtUp,
+      fetching,
+      fetchOlder,
+      fetchNewer,
+      hideFetchingOlder,
+    } = this.props;
     let messageList = [];
     let containerStyle = {};
 
     if (messages.length === 0 || subscriptions.length === 0) {
       if (!caughtUp.older || !caughtUp.newer) {
         // Show placeholder messages if we're loading the screen
-        messageList = [...Array(6).keys()].map((i) =>
+        messageList = [...Array(6).keys()].map(i => (
           <MessageLoading key={`ml${i}`} />
-        );
+        ));
       }
       containerStyle = styles.centerContainer;
     } else {
@@ -78,18 +87,14 @@ export default class MessageList extends React.PureComponent {
             key={'top_loading'}
             active={fetching.older}
             caughtUp={caughtUp.older}
-          />);
+          />
+        );
       }
 
       messageList.push(...renderMessages(this.props));
 
       if (fetching.newer) {
-        messageList.push(
-          <LoadingIndicator
-            key={'bottom_loading'}
-            active
-          />
-        );
+        messageList.push(<LoadingIndicator key={'bottom_loading'} active />);
       }
     }
 

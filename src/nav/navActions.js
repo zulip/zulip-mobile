@@ -1,8 +1,4 @@
-import {
-  INIT_ROUTES,
-  PUSH_ROUTE,
-  POP_ROUTE,
-} from '../constants';
+import {INIT_ROUTES, PUSH_ROUTE, POP_ROUTE} from '../constants';
 
 export const initRoutes = (routes: string[]) => ({
   type: INIT_ROUTES,

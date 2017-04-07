@@ -1,13 +1,13 @@
-import { Recipient } from '../types';
+import {Recipient} from '../types';
 
 export const normalizeRecipients = (recipients: Recipient[]) =>
-  (!Array.isArray(recipients) ?
-    recipients :
-    recipients
-      .map((s) => s.email.trim())
-      .filter(x => x.length > 0)
-      .sort()
-      .join(','));
+  !Array.isArray(recipients)
+    ? recipients
+    : recipients
+        .map(s => s.email.trim())
+        .filter(x => x.length > 0)
+        .sort()
+        .join(',');
 
 export const isSameRecipient = (msg1, msg2): boolean => {
   if (msg1 === undefined || msg2 === undefined) {
@@ -20,18 +20,24 @@ export const isSameRecipient = (msg1, msg2): boolean => {
 
   switch (msg1.type) {
     case 'private':
-      return (normalizeRecipients(msg1.display_recipient).toLowerCase() ===
-              normalizeRecipients(msg2.display_recipient).toLowerCase());
+      return normalizeRecipients(msg1.display_recipient).toLowerCase() ===
+        normalizeRecipients(msg2.display_recipient).toLowerCase();
     case 'stream':
-      return (msg1.display_recipient.toLowerCase() === msg2.display_recipient.toLowerCase() &&
-              msg1.subject.toLowerCase() === msg2.subject.toLowerCase());
+      return msg1.display_recipient.toLowerCase() ===
+        msg2.display_recipient.toLowerCase() &&
+        msg1.subject.toLowerCase() === msg2.subject.toLowerCase();
     default:
       // Invariant
       return false;
   }
 };
 
-export const shouldBeMuted = (msg, narrow, subscriptions, mutes = []): boolean => {
+export const shouldBeMuted = (
+  msg,
+  narrow,
+  subscriptions,
+  mutes = []
+): boolean => {
   if (typeof msg.display_recipient !== 'string') {
     return false; // private/group messages are not muted
   }
@@ -43,5 +49,7 @@ export const shouldBeMuted = (msg, narrow, subscriptions, mutes = []): boolean =
     }
   }
 
-  return mutes.some(x => x[0] === msg.display_recipient && x[1] === msg.subject);
+  return mutes.some(
+    x => x[0] === msg.display_recipient && x[1] === msg.subject
+  );
 };

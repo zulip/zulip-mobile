@@ -1,10 +1,7 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
 
-import { UserStatus } from '../api';
+import {UserStatus} from '../api';
 
 const styles = StyleSheet.create({
   common: {
@@ -23,29 +20,24 @@ const styles = StyleSheet.create({
   offline: {
     backgroundColor: 'lightgray',
   },
-  unknown: {
-  },
+  unknown: {},
 });
 
-
 export default class UserStatusIndicator extends Component {
-
   props: {
     status: UserStatus,
     customStyles: Object,
-  }
+  };
 
   static defaultProps = {
     status: 'unknown',
   };
 
   render() {
-    const { status, customStyles } = this.props;
+    const {status, customStyles} = this.props;
 
     if (!status) return null;
 
-    return (
-      <View style={[styles.common, styles[status], customStyles]} />
-    );
+    return <View style={[styles.common, styles[status], customStyles]} />;
   }
 }

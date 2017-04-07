@@ -1,16 +1,16 @@
 import base64 from 'base-64';
-import { Auth } from '../api/apiFetch';
+import {Auth} from '../api/apiFetch';
 
 export const getAuthHeader = (email: string, apiKey: string): ?string =>
-  (apiKey ? `Basic ${base64.encode(`${email}:${apiKey}`)}` : undefined);
+  apiKey ? `Basic ${base64.encode(`${email}:${apiKey}`)}` : undefined;
 
 export const encodeAsURI = (params): string =>
-  Object.keys(params).map((key) => (
-    `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
-  )).join('&');
+  Object.keys(params)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+    .join('&');
 
 export const getFullUrl = (url: string, realm: string): string =>
-  (url.startsWith('/') ? `${realm}${url}` : url);
+  url.startsWith('/') ? `${realm}${url}` : url;
 
 export const isUrlOnRealm = (url: string, realm: string): boolean =>
   url.startsWith('/') || url.startsWith(realm);
@@ -27,6 +27,6 @@ const getResourceNoAuth = (uri: string) => ({
 });
 
 export const getResource = (uri: string, auth: Auth) =>
-  (isUrlOnRealm(uri, auth.realm) ?
-    getResourceWithAuth(uri, auth) :
-    getResourceNoAuth(uri));
+  isUrlOnRealm(uri, auth.realm)
+    ? getResourceWithAuth(uri, auth)
+    : getResourceNoAuth(uri);

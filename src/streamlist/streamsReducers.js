@@ -1,6 +1,4 @@
-import {
-  INIT_STREAMS,
-} from '../constants';
+import {INIT_STREAMS} from '../constants';
 
 const initialState = [];
 

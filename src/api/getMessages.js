@@ -1,4 +1,4 @@
-import { apiGet } from './apiFetch';
+import {apiGet} from './apiFetch';
 
 export default async (
   auth,
@@ -6,7 +6,7 @@ export default async (
   numBefore: number,
   numAfter: number,
   narrow: Object,
-  useFirstUnread: false,
+  useFirstUnread: false
 ) =>
   apiGet(
     auth,
@@ -19,5 +19,5 @@ export default async (
       apply_markdown: true,
       use_first_unread_anchor: useFirstUnread,
     },
-    res => res.messages,
+    res => res.messages
   );

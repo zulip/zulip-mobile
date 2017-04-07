@@ -1,19 +1,18 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import {ScrollView, Text, View} from 'react-native';
+import {connect} from 'react-redux';
 
 import boundActions from '../boundActions';
 import styles from '../common/styles';
-import { Screen, ErrorMsg, ZulipButton, Input } from '../common';
-import { getAuthBackends } from '../api';
+import {Screen, ErrorMsg, ZulipButton, Input} from '../common';
+import {getAuthBackends} from '../api';
 import config from '../config';
 
 type Props = {
   realm: ?string,
-}
+};
 
 class RealmScreen extends React.Component {
-
   props: Props;
 
   constructor(props: Props) {
@@ -29,7 +28,7 @@ class RealmScreen extends React.Component {
   }
 
   tryRealm = async () => {
-    let { realm } = this.state;
+    let {realm} = this.state;
 
     // Automatically prepend 'https://' if the user does not enter a protocol
     if (realm.search(/\b(http|https):\/\//) === -1) {
@@ -42,28 +41,25 @@ class RealmScreen extends React.Component {
       error: undefined,
     });
 
-    const { pushRoute, realmAdd } = this.props;
+    const {pushRoute, realmAdd} = this.props;
 
     try {
-      const authBackends = await getAuthBackends({ realm });
+      const authBackends = await getAuthBackends({realm});
       realmAdd(realm);
       pushRoute('auth', authBackends);
     } catch (err) {
-      this.setState({ error: err.message });
+      this.setState({error: err.message});
     } finally {
-      this.setState({ progress: false });
+      this.setState({progress: false});
     }
   };
 
   render() {
-    const { progress, realm, error } = this.state;
+    const {progress, realm, error} = this.state;
 
     return (
       <Screen title="Welcome" keyboardAvoiding>
-        <ScrollView
-          centerContent
-          keyboardShouldPersistTaps="always"
-        >
+        <ScrollView centerContent keyboardShouldPersistTaps="always">
           <View style={styles.container}>
             <Text style={[styles.field, styles.heading1]}>
               Welcome to Zulip!
@@ -78,7 +74,7 @@ class RealmScreen extends React.Component {
               autoCapitalize="none"
               placeholder="Server URL"
               defaultValue={realm}
-              onChangeText={value => this.setState({ realm: value })}
+              onChangeText={value => this.setState({realm: value})}
               blurOnSubmit={false}
             />
             <ZulipButton

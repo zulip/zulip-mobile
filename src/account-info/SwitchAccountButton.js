@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
 
 import boundActions from '../boundActions';
-import { ZulipButton } from '../common';
+import {ZulipButton} from '../common';
 
 const styles = StyleSheet.create({
   button: {
@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
 });
 
 class SwitchAccountButton extends Component {
-
   static contextTypes = {
     drawer: () => null,
   };
@@ -21,7 +20,7 @@ class SwitchAccountButton extends Component {
   switchAccount = () => {
     this.context.drawer.close();
     this.props.pushRoute('account');
-  }
+  };
 
   render() {
     return (
@@ -35,7 +34,4 @@ class SwitchAccountButton extends Component {
   }
 }
 
-export default connect(
-  () => ({}),
-  boundActions,
-)(SwitchAccountButton);
+export default connect(() => ({}), boundActions)(SwitchAccountButton);

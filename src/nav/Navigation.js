@@ -1,7 +1,7 @@
 import React from 'react';
-import { BackAndroid, NavigationExperimental } from 'react-native';
+import {BackAndroid, NavigationExperimental} from 'react-native';
 
-import { styles } from '../common';
+import {styles} from '../common';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import AccountPickScreen from '../account/AccountPickScreen';
@@ -15,10 +15,9 @@ import UsersScreen from '../users/UsersScreen';
 import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
 
-const { CardStack: NavigationCardStack } = NavigationExperimental;
+const {CardStack: NavigationCardStack} = NavigationExperimental;
 
 export default class Navigation extends React.Component {
-
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.handleBackAction);
   }
@@ -27,7 +26,7 @@ export default class Navigation extends React.Component {
     BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAction);
   }
 
-  handleNavigate = (action) => {
+  handleNavigate = action => {
     switch (action && action.type) {
       case 'push':
         this.props.pushRoute(action.route);
@@ -38,7 +37,7 @@ export default class Navigation extends React.Component {
       default:
         return false;
     }
-  }
+  };
 
   handleBackAction = () => {
     if (this.props.navigation.index === 0) {
@@ -46,12 +45,12 @@ export default class Navigation extends React.Component {
     }
     this.props.popRoute();
     return true;
-  }
+  };
 
   navigateTo = (key: string) =>
-    this.handleNavigate({ type: 'push', route: { key, title: key } });
+    this.handleNavigate({type: 'push', route: {key, title: key}});
 
-  renderScene = (props) => {
+  renderScene = props => {
     switch (props.scene.route.key) {
       case 'account':
         return <AccountPickScreen />;
@@ -76,10 +75,10 @@ export default class Navigation extends React.Component {
       default:
         return <LoadingScreen />;
     }
-  }
+  };
 
   render() {
-    const { navigation, compatibilityCheckFail } = this.props;
+    const {navigation, compatibilityCheckFail} = this.props;
 
     if (compatibilityCheckFail) {
       return <CompatibilityScreen />;

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
-import { Avatar, Touchable } from '../common';
-import { BRAND_COLOR } from '../common/styles';
+import {Avatar, Touchable} from '../common';
+import {BRAND_COLOR} from '../common/styles';
 
 const styles = StyleSheet.create({
   row: {
@@ -14,8 +14,7 @@ const styles = StyleSheet.create({
   selectedRow: {
     backgroundColor: BRAND_COLOR,
   },
-  touchTarget: {
-  },
+  touchTarget: {},
   text: {
     flex: 1,
     marginLeft: 8,
@@ -23,11 +22,10 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: 'white',
-  }
+  },
 });
 
 export default class UserItem extends Component {
-
   props: {
     email: string,
     fullName: string,
@@ -35,13 +33,12 @@ export default class UserItem extends Component {
     status: string,
     isSelected: boolean,
     onPress: () => void,
-  }
+  };
 
-  handlePress = () =>
-    this.props.onPress(this.props.email);
+  handlePress = () => this.props.onPress(this.props.email);
 
   render() {
-    const { fullName, avatarUrl, status, isSelected } = this.props;
+    const {fullName, avatarUrl, status, isSelected} = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>

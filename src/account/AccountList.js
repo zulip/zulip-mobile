@@ -1,10 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 
 import AccountItem from './AccountItem';
 
 export default class AccountList extends React.PureComponent {
-
   props: {
     accounts: any[],
     onAccountSelect: () => void,
@@ -12,11 +11,11 @@ export default class AccountList extends React.PureComponent {
   };
 
   render() {
-    const { accounts, onAccountSelect, onAccountRemove } = this.props;
+    const {accounts, onAccountSelect, onAccountRemove} = this.props;
 
     return (
       <View>
-        {accounts.map((account, i) =>
+        {accounts.map((account, i) => (
           <AccountItem
             key={i}
             index={i}
@@ -25,7 +24,7 @@ export default class AccountList extends React.PureComponent {
             onSelect={onAccountSelect}
             onRemove={onAccountRemove}
           />
-        )}
+        ))}
       </View>
     );
   }

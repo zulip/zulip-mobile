@@ -1,8 +1,4 @@
-import {
-  ACCOUNT_SWITCH,
-  EVENT_REGISTERED,
-  LOGOUT,
-} from '../constants';
+import {ACCOUNT_SWITCH, EVENT_REGISTERED, LOGOUT} from '../constants';
 
 const initialState = {
   queueId: null,

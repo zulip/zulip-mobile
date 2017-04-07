@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  ActivityIndicator,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, ActivityIndicator, View} from 'react-native';
 
-import { BRAND_COLOR } from '../common/styles';
+import {BRAND_COLOR} from '../common/styles';
 
 const styles = StyleSheet.create({
   row: {
@@ -18,11 +13,10 @@ const styles = StyleSheet.create({
   text: {
     color: BRAND_COLOR,
     paddingLeft: 8,
-  }
+  },
 });
 
 export default class TimeRow extends React.PureComponent {
-
   render() {
     return (
       <View style={styles.row}>

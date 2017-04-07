@@ -11,9 +11,7 @@ describe('aggregateReactions', () => {
   });
 
   test('a single reaction, results in a single aggregate', () => {
-    const reactions = [
-      { emoji_name: 'emoji' }
-    ];
+    const reactions = [{emoji_name: 'emoji'}];
     const expectedResult = [
       {
         name: 'emoji',
@@ -28,12 +26,12 @@ describe('aggregateReactions', () => {
 
   test('every duplicate reaction is aggregated to a single one with appropriate count', () => {
     const reactions = [
-      { emoji_name: '1' },
-      { emoji_name: '2' },
-      { emoji_name: '1' },
-      { emoji_name: '1' },
-      { emoji_name: '3' },
-      { emoji_name: '2' },
+      {emoji_name: '1'},
+      {emoji_name: '2'},
+      {emoji_name: '1'},
+      {emoji_name: '1'},
+      {emoji_name: '3'},
+      {emoji_name: '2'},
     ];
     const expectedResult = [
       {
@@ -57,10 +55,10 @@ describe('aggregateReactions', () => {
 
   test('every duplicate reaction is aggregated to a single one with appropriate count', () => {
     const reactions = [
-      { emoji_name: '1', user: { email: 'another@example.com' } },
-      { emoji_name: '2', user: { email: 'me@example.com' } },
-      { emoji_name: '2', user: { email: 'another@example.com' } },
-      { emoji_name: '3', user: { email: 'third@example.com' } },
+      {emoji_name: '1', user: {email: 'another@example.com'}},
+      {emoji_name: '2', user: {email: 'me@example.com'}},
+      {emoji_name: '2', user: {email: 'another@example.com'}},
+      {emoji_name: '3', user: {email: 'third@example.com'}},
     ];
     const expectedResult = [
       {

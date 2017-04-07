@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
-import { BORDER_COLOR } from '../common/styles';
+import {BORDER_COLOR} from '../common/styles';
 // import ComposeOptions from './ComposeOptions';
 import ComposeText from './ComposeText';
 import CameraRollView from './CameraRollView';
@@ -22,16 +19,9 @@ type Props = {
   onSend: (content: string) => undefined,
 };
 
-const composeComponents = [
-  ComposeText,
-  CameraRollView,
-  View,
-  View,
-  View,
-];
+const composeComponents = [ComposeText, CameraRollView, View, View, View];
 
 export default class ComposeBox extends React.Component {
-
   props: Props;
 
   constructor(props: Props) {
@@ -42,10 +32,10 @@ export default class ComposeBox extends React.Component {
   }
 
   handleOptionSelected = (optionSelected: number) =>
-    this.setState({ optionSelected });
+    this.setState({optionSelected});
 
   render() {
-    const { optionSelected } = this.state;
+    const {optionSelected} = this.state;
     const ActiveComposeComponent = composeComponents[optionSelected];
 
     return (

@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
-import { ZulipButton } from '../common';
-import { homeNarrow, specialNarrow } from '../utils/narrow';
+import {ZulipButton} from '../common';
+import {homeNarrow, specialNarrow} from '../utils/narrow';
 import SidebarRow from './SidebarRow';
 import SubscriptionsContainer from '../streamlist/SubscriptionsContainer';
 
@@ -20,17 +20,15 @@ const styles = StyleSheet.create({
 });
 
 export default class StreamSidebar extends React.Component {
+  handleAllStreams = () => this.props.pushRoute('subscriptions');
 
-  handleAllStreams = () =>
-    this.props.pushRoute('subscriptions');
-
-  handleSearch = (narrow) => {
-    const { pushRoute } = this.props;
+  handleSearch = narrow => {
+    const {pushRoute} = this.props;
     pushRoute('search');
   };
 
   render() {
-    const { onNarrow } = this.props;
+    const {onNarrow} = this.props;
 
     return (
       <View style={styles.container} scrollsToTop={false}>

@@ -1,12 +1,12 @@
-import { normalizeRecipients, isSameRecipient, shouldBeMuted } from '../message';
+import {normalizeRecipients, isSameRecipient, shouldBeMuted} from '../message';
 
 describe('normalizeRecipients', () => {
   test('joins emails from recipients, sorted, trimmed, not including missing ones', () => {
     const recipients = [
-      { email: '' },
-      { email: 'abc@example.com' },
-      { email: 'xyz@example.com' },
-      { email: '  def@example.com  ' },
+      {email: ''},
+      {email: 'abc@example.com'},
+      {email: 'xyz@example.com'},
+      {email: '  def@example.com  '},
     ];
     const expectedResult = 'abc@example.com,def@example.com,xyz@example.com';
 
@@ -33,26 +33,28 @@ describe('isSameRecipient', () => {
   });
 
   test('recipient types are compared first, if they differ then recipients differ', () => {
-    expect(isSameRecipient({ type: 'private' }, { type: 'stream' })).toBe(false);
+    expect(isSameRecipient({type: 'private'}, {type: 'stream'})).toBe(false);
   });
 
   test('recipient of unknown types are never the same', () => {
-    expect(isSameRecipient({ type: 'someUnknown' }, { type: 'someUnknown' })).toBe(false);
+    expect(isSameRecipient({type: 'someUnknown'}, {type: 'someUnknown'})).toBe(
+      false
+    );
   });
 
   test('recipients are same for private type if display_recipient match in any order', () => {
     const msg1 = {
       type: 'private',
       display_recipient: [
-        { email: 'abc@example.com' },
-        { email: 'xyz@example.com' },
+        {email: 'abc@example.com'},
+        {email: 'xyz@example.com'},
       ],
     };
     const msg2 = {
       type: 'private',
       display_recipient: [
-        { email: 'xyz@example.com' },
-        { email: 'abc@example.com' },
+        {email: 'xyz@example.com'},
+        {email: 'abc@example.com'},
       ],
     };
     expect(isSameRecipient(msg1, msg2)).toBe(true);
@@ -100,29 +102,34 @@ describe('shouldBeMuted', () => {
     const message = {
       display_recipient: 'stream',
     };
-    const subscriptions = [{
-      name: 'stream',
-      in_home_view: false,
-    }];
+    const subscriptions = [
+      {
+        name: 'stream',
+        in_home_view: false,
+      },
+    ];
     const isMuted = shouldBeMuted(message, homeNarrow, subscriptions);
 
     expect(isMuted).toBe(true);
   });
 
-  test.only('message in a stream is muted if the topic is muted and topic matches', () => {
-    const message = {
-      display_recipient: 'stream',
-      subject: 'topic',
-    };
-    const subscriptions = [{
-      name: 'stream',
-      in_home_view: true,
-    }];
-    const mutes = [
-      ['stream', 'topic'],
-    ];
-    const isMuted = shouldBeMuted(message, homeNarrow, subscriptions, mutes);
+  test.only(
+    'message in a stream is muted if the topic is muted and topic matches',
+    () => {
+      const message = {
+        display_recipient: 'stream',
+        subject: 'topic',
+      };
+      const subscriptions = [
+        {
+          name: 'stream',
+          in_home_view: true,
+        },
+      ];
+      const mutes = [['stream', 'topic']];
+      const isMuted = shouldBeMuted(message, homeNarrow, subscriptions, mutes);
 
-    expect(isMuted).toBe(true);
-  });
+      expect(isMuted).toBe(true);
+    }
+  );
 });

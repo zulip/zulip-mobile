@@ -1,10 +1,6 @@
 import React from 'react';
 
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 
 import Timestamp from './Timestamp';
 
@@ -24,15 +20,14 @@ const styles = StyleSheet.create({
 });
 
 export default class Subheader extends React.PureComponent {
-
   props: {
     from: string,
     timestamp: number,
-    twentyFourHourTime: bool
+    twentyFourHourTime: boolean,
   };
 
   render() {
-    const { timestamp, twentyFourHourTime, from } = this.props;
+    const {timestamp, twentyFourHourTime, from} = this.props;
 
     return (
       <View style={styles.subheader}>

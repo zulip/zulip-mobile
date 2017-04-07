@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, {Component} from 'react';
+import {View, StyleSheet} from 'react-native';
 
-import { privateNarrow, groupNarrow } from '../utils/narrow';
-import { ZulipButton } from '../common';
+import {privateNarrow, groupNarrow} from '../utils/narrow';
+import {ZulipButton} from '../common';
 import ConversationList from './ConversationList';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
 import LogoutButton from '../account-info/LogoutButton';
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 8,
-  }
+  },
 });
 
 type Props = {
@@ -31,7 +31,6 @@ type Props = {
 };
 
 export default class ConversationsCard extends Component {
-
   props: Props;
 
   state = {
@@ -42,21 +41,21 @@ export default class ConversationsCard extends Component {
     this.setState({
       filter: newFilter,
     });
-  }
+  };
 
   handleUserNarrow = (email: string) =>
     this.props.onNarrow(
-      email.indexOf(',') === -1 ?
-        privateNarrow(email) :
-        groupNarrow(email.split(','))
+      email.indexOf(',') === -1
+        ? privateNarrow(email)
+        : groupNarrow(email.split(','))
     );
 
   handleSearchPress = () => {
     this.props.pushRoute('users');
-  }
+  };
 
   render() {
-    const { conversations, realm, users, narrow } = this.props;
+    const {conversations, realm, users, narrow} = this.props;
 
     return (
       <View tabLabel="People" style={styles.container}>

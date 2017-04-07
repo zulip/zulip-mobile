@@ -1,7 +1,12 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
-import { isStreamNarrow, isTopicNarrow, isPrivateNarrow, isGroupNarrow } from '../../utils/narrow';
+import {
+  isStreamNarrow,
+  isTopicNarrow,
+  isPrivateNarrow,
+  isGroupNarrow,
+} from '../../utils/narrow';
 import TopicMessageHeader from './TopicMessageHeader';
 import StreamMessageHeader from './StreamMessageHeader';
 import PrivateMessageHeader from './PrivateMessageHeader';
@@ -14,16 +19,15 @@ const styles = StyleSheet.create({
 });
 
 export default class MessageHeader extends React.PureComponent {
-
   props: {
     auth: Object,
     item: Object,
     subscriptions: any[],
     narrow: () => {},
-  }
+  };
 
   render() {
-    const { item, subscriptions, auth, narrow, doNarrow } = this.props;
+    const {item, subscriptions, auth, narrow, doNarrow} = this.props;
 
     if (isStreamNarrow(narrow)) {
       return (
@@ -39,8 +43,7 @@ export default class MessageHeader extends React.PureComponent {
     }
 
     if (item.type === 'stream') {
-      const stream = subscriptions
-        .find(x => x.name === item.display_recipient);
+      const stream = subscriptions.find(x => x.name === item.display_recipient);
 
       return (
         <StreamMessageHeader
@@ -57,11 +60,15 @@ export default class MessageHeader extends React.PureComponent {
       );
     }
 
-    if (item.type === 'private' &&
-      !isPrivateNarrow(narrow) && !isGroupNarrow(narrow) && !isTopicNarrow(narrow)) {
-      const recipients = item.display_recipient.length > 1 ?
-        item.display_recipient.filter(r => r.email !== auth.email) :
-        item.display_recipient;
+    if (
+      item.type === 'private' &&
+      !isPrivateNarrow(narrow) &&
+      !isGroupNarrow(narrow) &&
+      !isTopicNarrow(narrow)
+    ) {
+      const recipients = item.display_recipient.length > 1
+        ? item.display_recipient.filter(r => r.email !== auth.email)
+        : item.display_recipient;
       return (
         <PrivateMessageHeader
           key={`section_${item.id}`}

@@ -1,11 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
-import { Avatar } from '../common';
-import { getFullUrl } from '../utils/url';
+import {Avatar} from '../common';
+import {getFullUrl} from '../utils/url';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -19,13 +16,13 @@ const styles = StyleSheet.create({
 
 export default class TitleGroup extends React.PureComponent {
   render() {
-    const { realm, narrow, users } = this.props;
+    const {realm, narrow, users} = this.props;
     const recipientEmails = narrow[0].operand.split(',');
     const recipients = recipientEmails.map(r => users.find(x => x.email === r));
 
     return (
       <View style={styles.wrapper}>
-        {recipients.map(user =>
+        {recipients.map(user => (
           <View key={user.email} style={styles.avatar}>
             <Avatar
               size={32}
@@ -33,7 +30,7 @@ export default class TitleGroup extends React.PureComponent {
               avatarUrl={getFullUrl(user.avatarUrl, realm)}
             />
           </View>
-        )}
+        ))}
       </View>
     );
   }

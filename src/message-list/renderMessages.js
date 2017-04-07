@@ -1,19 +1,15 @@
 import React from 'react';
 
-import { getFullUrl } from '../utils/url';
-import {
-  isTopicNarrow,
-  isPrivateNarrow,
-  isGroupNarrow,
-} from '../utils/narrow';
+import {getFullUrl} from '../utils/url';
+import {isTopicNarrow, isPrivateNarrow, isGroupNarrow} from '../utils/narrow';
 
 import MessageHeader from '../message/headers/MessageHeader';
 import MessageContainer from '../message/MessageContainer';
 import TimeRow from '../message/TimeRow';
-import { isSameRecipient, shouldBeMuted } from '../utils/message';
-import { isSameDay } from '../utils/date';
+import {isSameRecipient, shouldBeMuted} from '../utils/message';
+import {isSameDay} from '../utils/date';
 
-export default ({ auth, subscriptions, messages, narrow, mute, doNarrow }) => {
+export default ({auth, subscriptions, messages, narrow, mute, doNarrow}) => {
   const list = [];
   let prevItem;
 
@@ -23,7 +19,10 @@ export default ({ auth, subscriptions, messages, narrow, mute, doNarrow }) => {
     }
 
     const diffDays = prevItem &&
-      !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
+      !isSameDay(
+        new Date(prevItem.timestamp * 1000),
+        new Date(item.timestamp * 1000)
+      );
 
     if (!prevItem || diffDays) {
       list.push(
@@ -36,7 +35,8 @@ export default ({ auth, subscriptions, messages, narrow, mute, doNarrow }) => {
     }
 
     const showHeader = !isPrivateNarrow(narrow) &&
-      !isGroupNarrow(narrow) && !isTopicNarrow(narrow);
+      !isGroupNarrow(narrow) &&
+      !isTopicNarrow(narrow);
     const diffRecipient = !isSameRecipient(prevItem, item);
 
     if (showHeader && diffRecipient) {
@@ -53,8 +53,10 @@ export default ({ auth, subscriptions, messages, narrow, mute, doNarrow }) => {
       );
     }
 
-    const shouldGroupWithPrev = !diffRecipient && !diffDays &&
-      prevItem && prevItem.sender_full_name === item.sender_full_name;
+    const shouldGroupWithPrev = !diffRecipient &&
+      !diffDays &&
+      prevItem &&
+      prevItem.sender_full_name === item.sender_full_name;
 
     list.push(
       <MessageContainer

@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-} from 'react-native';
-import { BRAND_COLOR } from './styles';
+import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+import {BRAND_COLOR} from './styles';
 import Touchable from './Touchable';
 
 const styles = StyleSheet.create({
@@ -42,18 +37,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const ButtonInProgress = ({ frameStyle }) => (
+const ButtonInProgress = ({frameStyle}) => (
   <View style={frameStyle}>
     <ActivityIndicator color="white" />
   </View>
 );
 
-const ButtonNormal = ({ frameStyle, touchTargetStyle, textStyle, text, onPress }) => (
+const ButtonNormal = (
+  {frameStyle, touchTargetStyle, textStyle, text, onPress}
+) => (
   <View style={frameStyle}>
-    <Touchable
-      style={touchTargetStyle}
-      onPress={onPress}
-    >
+    <Touchable style={touchTargetStyle} onPress={onPress}>
       <Text style={textStyle}>
         {text}
       </Text>
@@ -61,19 +55,17 @@ const ButtonNormal = ({ frameStyle, touchTargetStyle, textStyle, text, onPress }
   </View>
 );
 
-
 export default class ZulipButton extends React.PureComponent {
-
   props: {
     customStyles: Object,
     progress: boolean,
     text: string,
     secondary: boolean,
     onPress: () => void,
-  }
+  };
 
   render() {
-    const { customStyles, text, secondary, progress, onPress } = this.props;
+    const {customStyles, text, secondary, progress, onPress} = this.props;
     const frameStyle = [
       styles.frame,
       secondary ? styles.secondaryFrame : styles.primaryFrame,

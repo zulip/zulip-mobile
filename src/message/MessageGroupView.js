@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 
 const styles = StyleSheet.create({
   threadGroup: {
@@ -27,14 +23,18 @@ const styles = StyleSheet.create({
 });
 
 export default class MessageGroupView extends React.PureComponent {
-
   render() {
-    const { stream, thread, children } = this.props;
+    const {stream, thread, children} = this.props;
 
     return (
       <View style={styles.threadGroup}>
         <View style={styles.threadGroupHeader}>
-          <Text style={[styles.threadGroupStreamText, { backgroundColor: stream.color }]}>
+          <Text
+            style={[
+              styles.threadGroupStreamText,
+              {backgroundColor: stream.color},
+            ]}
+          >
             {stream.name}
           </Text>
           <Text style={styles.threadGroupThreadText}>
