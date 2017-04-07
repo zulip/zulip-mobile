@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   frameNotVoted: {
     borderColor: '#dedede', // eslint-disable-line
   },
-  placeHolderCount: {
+  placeholderCount: {
     marginLeft: 4,
     color: 'transparent'
   },
@@ -38,28 +38,27 @@ const styles = StyleSheet.create({
   countNotVoted: {
     color: 'gray',
   },
-  roller: {
+  spinner: {
     position: 'absolute',
     top: -20,
     right: 4,
   },
-  rollerText: {
+  spinnerText: {
     paddingTop: 3,
     paddingBottom: 3
   }
 });
 
-const forwardAnimationConfig = {
-  fromValue: 0,
+const incrementAnimationConfig = {
   toValue: 1,
   duration: 400,
   easing: Easing.bezier(0.17, 0.67, 0.11, 0.99)
 };
 
-const backAnimationConfig = {
-  ...forwardAnimationConfig,
-  fromValue: 1,
-  toValue: 2
+const decrementAnimationConfig = {
+  toValue: 2,
+  duration: 400,
+  easing: Easing.bezier(0.17, 0.67, 0.11, 0.99)
 };
 
 class Reaction extends React.PureComponent {
@@ -83,36 +82,28 @@ class Reaction extends React.PureComponent {
     }
   }
 
-  animation = (fn, stateVar, config, reverse) => {
-    if (reverse) {
-      [config.fromValue, config.toValue] = [config.toValue, config.fromValue];
-    }
-
-    this.state[stateVar].setValue(config.fromValue);
-
-    return fn(this.state[stateVar], config);
-  }
-
   incrementCounter = () => {
-    this.animation(Animated.timing, 'voteChangeAnimation', forwardAnimationConfig).start();
+    this.state.voteChangeAnimation.setValue(0);
+    Animated.timing(this.state.voteChangeAnimation, incrementAnimationConfig).start();
   }
 
   decrementCounter = () => {
-    this.animation(Animated.timing, 'voteChangeAnimation', backAnimationConfig).start();
+    this.state.voteChangeAnimation.setValue(1);
+    Animated.timing(this.state.voteChangeAnimation, decrementAnimationConfig).start();
   }
 
   handlePress = () => {
     const { auth, messageId, name, voted } = this.props;
 
-    if (voted) {
+    if (voted) { // Already voted for this emoji then decrement vote count
       emojiReactionRemove(auth, messageId, name);
-    } else {
+    } else { // If hasn't already voted increment the vote count
       emojiReactionAdd(auth, messageId, name);
     }
   };
 
-  dynamicRollerStyles = () => ({
-    ...StyleSheet.flatten(styles.roller),
+  dynamicSpinnerStyles = () => ({
+    ...StyleSheet.flatten(styles.spinner),
     transform: [
       {
         translateY: this.state.voteChangeAnimation.interpolate({
@@ -133,13 +124,13 @@ class Reaction extends React.PureComponent {
         <Animated.View style={[styles.frameCommon, frameStyle]}>
           <Emoji name={name} />
 
-          <Animated.View style={this.dynamicRollerStyles()}>
-            <Text style={[styles.rollerText, countStyle]}>{voteCount - 1}</Text>
-            <Text style={[styles.rollerText, countStyle]}>{voteCount}</Text>
-            <Text style={[styles.rollerText, countStyle]}>{voteCount + 1}</Text>
+          <Animated.View style={this.dynamicSpinnerStyles()}>
+            <Text style={[styles.spinnerText, countStyle]}>{voteCount - 1}</Text>
+            <Text style={[styles.spinnerText, countStyle]}>{voteCount}</Text>
+            <Text style={[styles.spinnerText, countStyle]}>{voteCount + 1}</Text>
           </Animated.View>
 
-          <Text style={styles.placeHolderCount}>
+          <Text style={styles.placeholderCount}>
             {voteCount}
           </Text>
         </Animated.View>
