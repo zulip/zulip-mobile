@@ -61,46 +61,93 @@ const decrementAnimationConfig = {
   easing: Easing.bezier(0.17, 0.67, 0.11, 0.99)
 };
 
-class Reaction extends React.PureComponent {
-
-  state = {
-    voteChangeAnimation: new Animated.Value(0)
+const debounce = (fn, duration) => {
+  let timeout;
+  return () => {
+    clearTimeout(timeout);
+    timeout = setTimeout(fn, duration);
   };
+};
+
+class Reaction extends React.PureComponent {
 
   props: {
     name: string,
     voted: boolean,
   };
 
-  componentWillReceiveProps = (nextProps) => {
-    const { voteCount } = this.props;
+  constructor(props) {
+    super(props);
+    this.state = {
+      // Local value of vote count
+      count: props.voteCount,
+      // Should counter increment on tap?
+      inc: !props.voted,
+      voteChangeAnimation: new Animated.Value(0)
+    };
+  }
 
-    if (nextProps.voteCount > voteCount) {
+  componentWillReceiveProps = (nextProps) => {
+    // Check if current UI data is in sync with server
+    // If not so, update the UI
+    const { voteCount, voted } = nextProps;
+    const { count } = this.state;
+
+    if (voteCount > count) {
       this.incrementCounter();
-    } else if (nextProps.voteCount < voteCount) {
+    } else if ( voteCount < count ) {
       this.decrementCounter();
     }
+
+    this.setState({
+      inc: !voted
+    });
   }
 
   incrementCounter = () => {
+    this.setState({
+      count: this.state.count + 1,
+    });
+
     this.state.voteChangeAnimation.setValue(0);
     Animated.timing(this.state.voteChangeAnimation, incrementAnimationConfig).start();
-  }
+  };
 
   decrementCounter = () => {
+    this.setState({
+      count: this.state.count - 1,
+    });
+
     this.state.voteChangeAnimation.setValue(1);
     Animated.timing(this.state.voteChangeAnimation, decrementAnimationConfig).start();
-  }
+  };
+
+  toggleCounter = () => {
+    if (this.state.inc) {
+      this.incrementCounter();
+    } else {
+      this.decrementCounter();
+    }
+
+    this.setState({
+      inc: !this.state.inc
+    });
+  };
 
   handlePress = () => {
+    this.toggleCounter();
+    this.processVote();
+  };
+
+  processVote = debounce(() => {
     const { auth, messageId, name, voted } = this.props;
 
-    if (voted) { // Already voted for this emoji then decrement vote count
+    if (voted) {
       emojiReactionRemove(auth, messageId, name);
-    } else { // If hasn't already voted increment the vote count
+    } else {
       emojiReactionAdd(auth, messageId, name);
     }
-  };
+  }, 500);
 
   dynamicSpinnerStyles = () => ({
     ...StyleSheet.flatten(styles.spinner),
@@ -112,12 +159,14 @@ class Reaction extends React.PureComponent {
         })
       }
     ]
-  })
+  });
 
   render() {
     const { name, voted, voteCount } = this.props;
-    const frameStyle = voted ? styles.frameVoted : styles.frameNotVoted;
-    const countStyle = voted ? styles.countVoted : styles.countNotVoted;
+    const { inc, count } = this.state;
+
+    const frameStyle = inc ? styles.frameNotVoted : styles.frameVoted
+    const countStyle = inc ? styles.countNotVoted : styles.countVoted;
 
     return (
       <Touchable onPress={this.handlePress} style={styles.touchable}>
@@ -125,13 +174,13 @@ class Reaction extends React.PureComponent {
           <Emoji name={name} />
 
           <Animated.View style={this.dynamicSpinnerStyles()}>
-            <Text style={[styles.spinnerText, countStyle]}>{voteCount - 1}</Text>
-            <Text style={[styles.spinnerText, countStyle]}>{voteCount}</Text>
-            <Text style={[styles.spinnerText, countStyle]}>{voteCount + 1}</Text>
+            <Text style={[styles.spinnerText, countStyle]}>{count- 1}</Text>
+            <Text style={[styles.spinnerText, countStyle]}>{count}</Text>
+            <Text style={[styles.spinnerText, countStyle]}>{count+ 1}</Text>
           </Animated.View>
 
           <Text style={styles.placeholderCount}>
-            {voteCount}
+            {count}
           </Text>
         </Animated.View>
       </Touchable>
