@@ -36,14 +36,9 @@ export default (state = initialState, action) => {
       };
 
     case SWITCH_NARROW: {
-      const key = JSON.stringify(action.narrow);
       return {
         ...state,
         narrow: action.narrow,
-        messages: {
-          ...state.messages,
-          [key]: action.messages,
-        },
         fetching: { older: false, newer: false },
         caughtUp: { older: false, newer: false },
       };

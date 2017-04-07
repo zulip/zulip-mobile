@@ -30,23 +30,16 @@ describe('chatReducers', () => {
   });
 
   describe('SWITCH_NARROW', () => {
-    test('changes current narrow and replaces messages', () => {
+    test('changes active narrow', () => {
       const initialState = {
-        messages: {
-          [streamNarrowStr]: [{ id: 1 }, { id: 3 }],
-        },
         narrow: [],
       };
       const action = {
         type: SWITCH_NARROW,
         narrow: streamNarrow('some stream'),
-        messages: [{ id: 2 }],
       };
       const expectedState = {
         narrow: streamNarrow('some stream'),
-        messages: {
-          [streamNarrowStr]: [{ id: 2 }],
-        },
         caughtUp: { older: false, newer: false },
         fetching: { older: false, newer: false },
       };

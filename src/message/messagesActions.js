@@ -1,4 +1,8 @@
-import { getMessages, messagesFlags } from '../api';
+import { Auth, Narrow } from '../types';
+import { getMessages } from '../api';
+import { registerAppActivity } from '../utils/activity';
+import { getAuth } from '../account/accountSelectors';
+import config from '../config';
 import {
   SWITCH_NARROW,
   MESSAGE_FETCH_START,
@@ -6,11 +10,16 @@ import {
   MARK_MESSAGES_READ,
 } from '../constants';
 
-export const switchNarrow = (narrow, messages) => ({
+export const switchNarrow = (narrow) => ({
   type: SWITCH_NARROW,
   narrow,
-  messages,
 });
+
+export const doNarrow = (newNarrow, anchor: number = Number.MAX_SAFE_INTEGER) =>
+  (dispatch, getState) => {
+    registerAppActivity(getAuth(getState()));
+    requestIdleCallback(() => dispatch(switchNarrow(newNarrow)));
+  };
 
 export const messageFetchStart = (narrow, fetching) => ({
   type: MESSAGE_FETCH_START,
@@ -36,21 +45,20 @@ export const backgroundFetchMessages = (
 ) =>
   async (dispatch) => {
     const messages = await getMessages(auth, anchor, numBefore, numAfter, narrow, useFirstUnread);
-
     let caughtUp = { older: false, newer: false };
     if (!useFirstUnread) {
       // Find the anchor in the results (or set it past the end of the list)
       // We can use the position of the anchor to determine if we're caught up
       // in both directions.
-      let anchorIdx = messages.findIndex((msg) => msg.id === anchor);
+      let anchorIdx = messages.findIndex(msg => msg.id === anchor);
       if (anchorIdx < 0) anchorIdx = messages.length;
 
       // If we're requesting messages before the anchor as well, then the server
       // returns one less than we expect (so as not to duplicate the anchor)
       const adjustment = numBefore > 0 ? -1 : 0;
       caughtUp = {
-        ...numBefore ? { older: anchorIdx + 1 < numBefore } : {},
-        ...numAfter ? { newer: messages.length - anchorIdx + adjustment < numAfter } : {},
+        ...(numBefore ? { older: anchorIdx + 1 < numBefore } : {}),
+        ...(numAfter ? { newer: messages.length - anchorIdx + adjustment < numAfter } : {}),
       };
     }
 
@@ -58,8 +66,8 @@ export const backgroundFetchMessages = (
       messages,
       narrow,
       {
-        ...numBefore ? { older: false } : {},
-        ...numAfter ? { newer: false } : {},
+        ...(numBefore ? { older: false } : {}),
+        ...(numAfter ? { newer: false } : {}),
       },
       caughtUp,
     ));
@@ -73,27 +81,31 @@ export const fetchMessages = (
   narrow,
   useFirstUnread = false,
 ) =>
-  async (dispatch) => {
+  async dispatch => {
     if (numBefore < 0 || numAfter < 0) {
       throw Error('numBefore and numAfter must >= 0');
     }
 
-    dispatch(messageFetchStart(
-      narrow,
-      {
-        ...numBefore ? { older: true } : {},
-        ...numAfter ? { newer: true } : {},
-      },
-    ));
+    dispatch(
+      messageFetchStart(narrow, {
+        ...(numBefore ? { older: true } : {}),
+        ...(numAfter ? { newer: true } : {}),
+      }),
+    );
     dispatch(backgroundFetchMessages(auth, anchor, numBefore, numAfter, narrow, useFirstUnread));
   };
 
-export const updateMessageFlags = (auth, messageIds, op, flag) =>
-  async (dispatch) => {
-    await messagesFlags(auth, messageIds, op, flag);
-  };
+export const fetchMessagesAtFirstUnread = (auth: Auth, narrow: Narrow) =>
+  fetchMessages(
+    auth,
+    0,
+    config.messagesPerRequest / 2,
+    config.messagesPerRequest / 2,
+    narrow,
+    true,
+  );
 
-export const markMessagesRead = (messageIds) => ({
+export const markMessagesRead = messageIds => ({
   type: MARK_MESSAGES_READ,
   messageIds,
 });

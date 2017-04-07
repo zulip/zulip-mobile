@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     backgroundColor: BRAND_COLOR,
   },
   secondaryFrame: {
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: BRAND_COLOR,
   },
   touchTarget: {
