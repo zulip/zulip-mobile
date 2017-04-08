@@ -1,6 +1,9 @@
 import React from 'react';
-import { ScrollView, View, Keyboard } from 'react-native';
-
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -13,6 +16,13 @@ import { fixRealmUrl } from '../utils/url';
 type Props = {
   realm: ?string,
 }
+
+const moreStyles = StyleSheet.create({
+  container: {
+    paddingBottom: 25,
+  },
+});
+
 
 class RealmScreen extends React.Component {
 
@@ -31,8 +41,6 @@ class RealmScreen extends React.Component {
   }
 
   tryRealm = async () => {
-    Keyboard.dismiss();
-
     let { realm } = this.state;
 
     // Automatically prepend 'https://' if the user does not enter a protocol
@@ -54,6 +62,7 @@ class RealmScreen extends React.Component {
       const authBackends = await getAuthBackends({ realm });
       realmAdd(realm);
       pushRoute('auth', { authBackends });
+      Keyboard.dismiss();
     } catch (err) {
       this.setState({ error: 'Can not connect to server' });
     } finally {
@@ -67,10 +76,12 @@ class RealmScreen extends React.Component {
     return (
       <Screen title="Welcome" keyboardAvoiding>
         <ScrollView
+          ref={(scrollView) => { this.scrollView = scrollView; }}
           centerContent
           keyboardShouldPersistTaps="always"
+          onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}
         >
-          <View style={styles.container}>
+          <View style={[styles.container, moreStyles.container]}>
             <Label text="Your server URL" />
             <Input
               style={styles.field}

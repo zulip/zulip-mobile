@@ -117,8 +117,10 @@ class AuthScreen extends React.PureComponent {
     return (
       <Screen title="Sign in" keyboardAvoiding>
         <ScrollView
+          ref={(scrollView) => { this.scrollView = scrollView; }}
           centerContent
           keyboardShouldPersistTaps="always"
+          onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}
         >
           <View style={styles.container}>
             <RawLabel
