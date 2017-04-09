@@ -23,6 +23,10 @@ export default class MessageList extends React.PureComponent {
   }
 
   onScroll = e => {
+    if (!e.visibleIds) {
+      return; // temporary fix for Android
+    }
+
     const { auth, flags, markMessagesRead } = this.props;
     const visibleMessageIds = e.visibleIds.map(x => +x);
     const unreadMessageIds = filterUnreadMessageIds(visibleMessageIds, flags);
