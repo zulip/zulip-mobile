@@ -1,4 +1,4 @@
-import { getAnchor, getRecentConversations } from '../chatSelectors';
+import { getAnchor, getRecentConversations, getUnreadPrivateMessagesCount } from '../chatSelectors';
 import { specialNarrow } from '../../utils/narrow';
 
 describe('getAnchor', () => {
@@ -150,5 +150,44 @@ describe('getRecentConversations', () => {
     const actual = getRecentConversations(state);
 
     expect(actual).toEqual(expectedPrivate);
+  });
+});
+
+describe('getUnreadPrivateMessagesCount', () => {
+  test('when no private messages, unread count is 0', () => {
+    const state = {
+      flags: {},
+      chat: {
+        messages: {
+          '[]': [],
+        },
+      },
+    };
+
+    const actualCount = getUnreadPrivateMessagesCount(state);
+
+    expect(actualCount).toEqual(0);
+  });
+
+  test('count all messages in "private messages" narrow, skip read', () => {
+    const privateNarrowStr = JSON.stringify(specialNarrow('private'));
+
+    const state = {
+      chat: {
+        messages: {
+          '[]': [{ id: 1 }, { id: 2 }],
+          [privateNarrowStr]: [{ id: 2 }, { id: 3 }, { id: 4 }],
+        },
+      },
+      flags: {
+        read: {
+          3: true,
+        },
+      },
+    };
+
+    const actualCount = getUnreadPrivateMessagesCount(state);
+
+    expect(actualCount).toEqual(2);
   });
 });
