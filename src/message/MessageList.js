@@ -41,9 +41,10 @@ export default class MessageList extends React.PureComponent {
       fetching,
       fetchOlder,
       fetchNewer,
+      pushRoute,
       singleFetchProgress,
       onScroll,
-      typingUser,
+      typingUsers,
     } = this.props;
 
     const messageList = renderMessages({ onLongPress: this.handleLongPress, ...this.props });
@@ -82,7 +83,7 @@ export default class MessageList extends React.PureComponent {
         <LoadingIndicator active={fetching.older} caughtUp={caughtUp.older} />
         {messageList}
         {!singleFetchProgress && fetching.newer && <LoadingIndicator active />}
-        {typingUser && <MessageTyping {...typingUser} />}
+        {typingUsers && <MessageTyping users={typingUsers} pushRoute={pushRoute} />}
         <ActionSheet
           ref={(ac) => { this.actionSheet = ac; }}
           options={actionSheetButtons}

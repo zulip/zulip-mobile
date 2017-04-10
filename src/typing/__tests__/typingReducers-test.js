@@ -1,4 +1,4 @@
-import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../../constants';
+import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../../actionConstants';
 import typingReducers from '../typingReducers';
 
 describe('typingReducers', () => {
@@ -16,7 +16,7 @@ describe('typingReducers', () => {
         selfEmail: 'me@example.com',
       };
       const expectedState = {
-        'john@example.com': { user_id: 1, email: 'john@example.com' },
+        'john@example.com': [1],
       };
 
       const newState = typingReducers(initialState, action);
@@ -26,7 +26,7 @@ describe('typingReducers', () => {
 
     test('if user is already typing, no change', () => {
       const initialState = {
-        'john@example.com': 'john@example.com',
+        'john@example.com': [1],
       };
       const action = {
         type: EVENT_TYPING_START,
@@ -39,7 +39,7 @@ describe('typingReducers', () => {
         selfEmail: 'me@example.com',
       };
       const expectedState = {
-        'john@example.com': { user_id: 1, email: 'john@example.com' },
+        'john@example.com': [1],
       };
 
       const newState = typingReducers(initialState, action);
@@ -49,7 +49,7 @@ describe('typingReducers', () => {
 
     test('if other people are typing in other narrows, add, do not affect them', () => {
       const initialState = {
-        'john@example.com': { user_id: 1, email: 'john@example.com' },
+        'john@example.com': [1],
       };
       const action = {
         type: EVENT_TYPING_START,
@@ -63,8 +63,8 @@ describe('typingReducers', () => {
         selfEmail: 'me@example.com',
       };
       const expectedState = {
-        'john@example.com': { user_id: 1, email: 'john@example.com' },
-        'john@example.com,mark@example.com': { user_id: 2, email: 'mark@example.com' },
+        'john@example.com': [1],
+        'john@example.com,mark@example.com': [2],
       };
 
       const newState = typingReducers(initialState, action);
@@ -72,9 +72,9 @@ describe('typingReducers', () => {
       expect(newState).toEqual(expectedState);
     });
 
-    test('if another user is typing already, replace him with new one', () => {
+    test('if another user is typing already, append new one', () => {
       const initialState = {
-        'john@example.com,mark@example.com': 'john@example.com',
+        'john@example.com,mark@example.com': [1],
       };
       const action = {
         type: EVENT_TYPING_START,
@@ -88,7 +88,7 @@ describe('typingReducers', () => {
         selfEmail: 'me@example.com',
       };
       const expectedState = {
-        'john@example.com,mark@example.com': { user_id: 2, email: 'mark@example.com' },
+        'john@example.com,mark@example.com': [1, 2],
       };
 
       const newState = typingReducers(initialState, action);
@@ -98,10 +98,10 @@ describe('typingReducers', () => {
   });
 
   describe('EVENT_TYPING_STOP', () => {
-    test('if key with recipient exists it is removed', () => {
+    test('if after removing, key is an empty list, key is removed', () => {
       const initialState = {
-        'john@example.com': 'john@example.com',
-        'mark@example.com': 'mark@example.com',
+        'john@example.com': [1],
+        'mark@example.com': [2],
       };
       const action = {
         type: EVENT_TYPING_STOP,
@@ -114,7 +114,30 @@ describe('typingReducers', () => {
         selfEmail: 'me@example.com',
       };
       const expectedState = {
-        'mark@example.com': 'mark@example.com',
+        'mark@example.com': [2],
+      };
+
+      const newState = typingReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+
+    test('if two people are typing, just one is removed', () => {
+      const initialState = {
+        'john@example.com': [1, 2],
+      };
+      const action = {
+        type: EVENT_TYPING_STOP,
+        op: 'stop',
+        sender: { email: 'john@example.com', user_id: 1 },
+        recipients: [
+          { email: 'john@example.com', user_id: 1 },
+          { email: 'me@example.com', user_id: 2 },
+        ],
+        selfEmail: 'me@example.com',
+      };
+      const expectedState = {
+        'john@example.com': [2],
       };
 
       const newState = typingReducers(initialState, action);

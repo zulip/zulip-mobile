@@ -8,35 +8,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 8,
     overflow: 'hidden',
+    alignItems: 'center',
   },
-  content: {
+  text: {
     flex: 1,
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    marginLeft: 8,
   },
   avatar: {
-    backgroundColor: '#ddd',
-    borderRadius: 32 / 8,
-    width: 32,
-    height: 32,
-  },
-  subheader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  name: {
-    width: 120,
-    backgroundColor: '#ddd',
-  },
-  timestamp: {
-    width: 60,
-  },
-  block: {
-    backgroundColor: '#eee',
-    borderRadius: 10,
-    height: 8,
-    marginBottom: 10,
+    marginRight: 8,
   },
 });
 
@@ -47,21 +25,24 @@ export default class MessageTyping extends React.PureComponent {
     fromEmail: string,
   };
 
-  handleAvatarPress = () => this.props.pushRoute('account-details', this.props.email);
+  handleAvatarPress = email => this.props.pushRoute('account-details', email);
 
   render() {
-    const { avatarUrl, fullName } = this.props;
+    const { users } = this.props;
+    const text = `... ${users.length > 1 ? 'are' : 'is'} typing`;
 
     return (
       <View style={styles.message}>
-        <Avatar
-          avatarUrl={avatarUrl}
-          name={fullName}
-          onPress={this.handleAvatarPress}
-        />
-        <View style={styles.content}>
-          <Text>... is typing</Text>
-        </View>
+        {users.map(user => (
+          <View key={user.email} style={styles.avatar}>
+            <Avatar
+              avatarUrl={user.avatarUrl}
+              name={user.fullName}
+              onPress={() => this.handleAvatarPress(user.email)}
+            />
+          </View>
+        ))}
+        <Text style={styles.text}>{text}</Text>
       </View>
     );
   }
