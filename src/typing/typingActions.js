@@ -1,4 +1,4 @@
-import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../constants';
+import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../actionConstants';
 
 export const startTyping = () => ({
   type: EVENT_TYPING_START,

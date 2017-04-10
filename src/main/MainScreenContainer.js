@@ -7,7 +7,7 @@ import boundActions from '../boundActions';
 import {
   getShownMessagesInActiveNarrow,
   getAnchor,
-  getCurrentTypingUser,
+  getCurrentTypingUsers,
 } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
 import MainScreen from './MainScreen';
@@ -59,7 +59,7 @@ export default connect(state => ({
   caughtUp: state.chat.caughtUp,
   narrow: state.chat.narrow,
   mute: state.mute,
-  typingUser: getCurrentTypingUser(state),
+  typingUsers: getCurrentTypingUsers(state),
   anchor: getAnchor(state),
   users: state.users,
   readIds: state.flags.read

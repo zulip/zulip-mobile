@@ -69,7 +69,7 @@ export const getPrivateMessages = (state) =>
 export const getUnreadPrivateMessagesCount = (state): number =>
   countUnread(getPrivateMessages(state).map(msg => msg.id), state.flags.read);
 
-export const getCurrentTypingUser = state => {
+export const getCurrentTypingUsers = state => {
   if (!isPrivateOrGroupNarrow(state.chat.narrow)) {
     return undefined;
   }
@@ -83,5 +83,5 @@ export const getCurrentTypingUser = state => {
     return undefined;
   }
 
-  return getUserById(state.users, currentTyping.user_id);
+  return currentTyping.map(userId => getUserById(state.users, userId));
 };
