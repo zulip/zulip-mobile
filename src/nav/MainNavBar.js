@@ -7,7 +7,7 @@ import { BRAND_COLOR } from '../common/styles';
 import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import Title from '../title/Title';
 import NavButton from './NavButton';
-
+import { getUnreadPrivateMessagesCount } from '../chat/chatSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 
 const moreStyles = StyleSheet.create({
@@ -19,7 +19,8 @@ const moreStyles = StyleSheet.create({
 
 class MainNavBar extends React.Component {
   render() {
-    const { noStatusBar, narrow, subscriptions, onPressStreams, onPressPeople } = this.props;
+    const { narrow, noStatusBar, subscriptions, unreadPrivateMessagesCount,
+      onPressStreams, onPressPeople } = this.props;
 
     const backgroundColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
       (subscriptions.find((sub) => narrow[0].operand === sub.name)).color :
@@ -38,7 +39,12 @@ class MainNavBar extends React.Component {
         <View style={[styles.navBar, { backgroundColor }]}>
           <NavButton name="ios-menu" color={textColor} onPress={onPressStreams} />
           <Title color={textColor} />
-          <NavButton name="md-people" color={textColor} onPress={onPressPeople} />
+          <NavButton
+            name="md-people"
+            color={textColor}
+            showCircle={unreadPrivateMessagesCount > 0}
+            onPress={onPressPeople}
+          />
         </View>
         {this.props.children}
       </View>
@@ -50,5 +56,6 @@ export default connect(
   (state) => ({
     narrow: state.chat.narrow,
     subscriptions: state.subscriptions,
+    unreadPrivateMessagesCount: getUnreadPrivateMessagesCount(state),
   })
 )(MainNavBar);

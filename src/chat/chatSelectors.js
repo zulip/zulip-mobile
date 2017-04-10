@@ -1,5 +1,6 @@
 import { specialNarrow } from '../utils/narrow';
 import { normalizeRecipientsSansMe, shouldBeMuted } from '../utils/message';
+import { countUnread } from '../utils/unread';
 
 export const getAllMessages = (state) =>
   state.chat.messages;
@@ -60,3 +61,9 @@ export const getRecentConversations = (state) => {
   return Array.from(groupedRecipients.values())
     .sort((a, b) => +b.timestamp - +a.timestamp);
 };
+
+export const getPrivateMessages = (state) =>
+  state.chat.messages[JSON.stringify(specialNarrow('private'))] || [];
+
+export const getUnreadPrivateMessagesCount = (state): number =>
+  countUnread(getPrivateMessages(state).map(msg => msg.id), state.flags.read);

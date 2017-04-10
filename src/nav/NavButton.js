@@ -17,12 +17,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 26,
   },
+  circle: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    right: 6,
+    top: 6,
+    position: 'absolute',
+  }
 });
 
-export default ({ name, color, onPress }) => (
+export default ({ name, color, showCircle, onPress }) => (
   <Touchable onPress={onPress}>
     <View style={styles.frame}>
       <Icon style={styles.icon} color={color || BRAND_COLOR} name={name} />
+      {showCircle && <View style={[styles.circle, { backgroundColor: color }]} />}
     </View>
   </Touchable>
 );
