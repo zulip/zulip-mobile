@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { styles } from '../common';
+import { styles, ZulipStatusBar } from '../common';
 import { BRAND_COLOR } from '../common/styles';
 import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import Title from '../title/Title';
@@ -19,7 +19,7 @@ const moreStyles = StyleSheet.create({
 
 class MainNavBar extends React.Component {
   render() {
-    const { narrow, subscriptions, onPressStreams, onPressPeople } = this.props;
+    const { noStatusBar, narrow, subscriptions, onPressStreams, onPressPeople } = this.props;
 
     const backgroundColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
       (subscriptions.find((sub) => narrow[0].operand === sub.name)).color :
@@ -31,8 +31,9 @@ class MainNavBar extends React.Component {
 
     return (
       <View style={moreStyles.wrapper}>
-        <StatusBar
-          barStyle={textColor === 'white' ? 'light-content' : 'dark-content'}
+        <ZulipStatusBar
+          hidden={noStatusBar}
+          backgroundColor={backgroundColor}
         />
         <View style={[styles.navBar, { backgroundColor }]}>
           <NavButton name="ios-menu" color={textColor} onPress={onPressStreams} />

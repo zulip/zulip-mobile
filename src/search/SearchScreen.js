@@ -1,12 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  View,
-  StatusBar,
-  StyleSheet,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
+import { ZulipStatusBar } from '../common';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
 const styles = StyleSheet.create({
@@ -44,10 +40,7 @@ class SearchScreen extends React.Component {
 
     return (
       <View style={styles.screen}>
-        <StatusBar
-          barStyle="dark-content"
-          hidden={this.props.orientation === 'LANDSCAPE'}
-        />
+        <ZulipStatusBar />
         <ModalSearchNavBar
           title={title}
           nav={nav}

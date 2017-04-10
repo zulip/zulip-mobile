@@ -1,5 +1,4 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
 
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
@@ -53,12 +52,8 @@ export default class MainScreen extends React.Component {
             />
           }
         >
-          <StatusBar
-            animated
-            showHideTransition="slide"
-            hidden={orientation === 'LANDSCAPE' || leftDrawerOpen || rightDrawerOpen}
-          />
           <MainNavBar
+            noStatusBar={leftDrawerOpen || rightDrawerOpen}
             onPressPeople={() => this.setState({ rightDrawerOpen: true })}
             onPressStreams={() => this.setState({ leftDrawerOpen: true })}
           >
