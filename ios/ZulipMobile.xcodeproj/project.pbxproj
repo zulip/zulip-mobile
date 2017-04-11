@@ -29,11 +29,13 @@
 		48D1FC73615948D79D3BD31E /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7F287C57D8A4354A8B6A3E7 /* Octicons.ttf */; };
 		49692FC0562C40F3946EC6D4 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A752523B8D8E49E792F653E1 /* Foundation.ttf */; };
 		4B12DC82ECA043809695F227 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB2E7AE39A448A98E7A4E4A /* Ionicons.ttf */; };
+		78FA95D8058C4372AB199525 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DE2C81628724C8AA4862247 /* libRNSound.a */; };
 		7EF6ECCB15665C70ECB07FBB /* libPods-ZulipMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 993EA240E1DB1E77F5A5EACB /* libPods-ZulipMobileTests.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8C5171FB39F2D2B302EB23A3 /* libPods-ZulipMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EAC1BCF2754D6305BCA02CF /* libPods-ZulipMobile.a */; };
 		9958691A3D1D436DA0727A14 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F56CBB1B9A6449F895C858C6 /* Entypo.ttf */; };
 		A14EA8771EACE522009D9E83 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A14EA85B1EACE4CF009D9E83 /* libRCTAnimation.a */; };
+		A148FEFC1E9D8CB900479280 /* zulip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A148FEFB1E9D8CB900479280 /* zulip.mp3 */; };
 		A155C0061DD8E7A800A8B695 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A155BFEC1DD8E54100A8B695 /* libRCTCameraRoll.a */; };
 		C2FB87564E22416A9EDEABD3 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEF58326BC25479294083E9C /* EvilIcons.ttf */; };
 		C478B42A63D649EFA2CFD12D /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E53FD60A6D0409A8E58DCB5 /* SimpleLineIcons.ttf */; };
@@ -144,6 +146,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
+		};
+		A148FEF81E9D8C9600479280 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF03F5DAC0924A13BDD49574 /* RNSound.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19825A1E1BD4A89800EE0337;
+			remoteInfo = RNSound;
 		};
 		A155BFCB1DD8E46C00A8B695 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -277,6 +286,7 @@
 		3074EDA2D113487A925E187C /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		51E1EDA028654E17A35C5BCA /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		6DA76D9085EA458BB979ED8D /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
+		6DE2C81628724C8AA4862247 /* libRNSound.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSound.a; sourceTree = "<group>"; };
 		6EAC1BCF2754D6305BCA02CF /* libPods-ZulipMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZulipMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -285,11 +295,13 @@
 		9DB2E7AE39A448A98E7A4E4A /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		9E53FD60A6D0409A8E58DCB5 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		A14EA8541EACE4CE009D9E83 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		A148FEFB1E9D8CB900479280 /* zulip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = zulip.mp3; sourceTree = "<group>"; };
 		A155BFE71DD8E54100A8B695 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		A752523B8D8E49E792F653E1 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		A7F287C57D8A4354A8B6A3E7 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		ACCD980949044096B1BAD249 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		AEF58326BC25479294083E9C /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		AF03F5DAC0924A13BDD49574 /* RNSound.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSound.xcodeproj; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; };
 		C9B0BDEA40534DFA9BDC4C75 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		CA3376A965524CF8E47D2150 /* Pods-ZulipMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZulipMobileTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZulipMobileTests/Pods-ZulipMobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		CF15A6B11E5C0C8A003EA77F /* UIView+Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Tag.m"; path = "ZulipMobile/UIView+Tag.m"; sourceTree = "<group>"; };
@@ -337,6 +349,7 @@
 				05C34EA2C79448BB9767887A /* libRNVectorIcons.a in Frameworks */,
 				D6D40984ED07473499B3F0C9 /* libRNDeviceInfo.a in Frameworks */,
 				8C5171FB39F2D2B302EB23A3 /* libPods-ZulipMobile.a in Frameworks */,
+				78FA95D8058C4372AB199525 /* libRNSound.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,6 +518,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				6DA76D9085EA458BB979ED8D /* RNVectorIcons.xcodeproj */,
 				ACCD980949044096B1BAD249 /* RNDeviceInfo.xcodeproj */,
+				AF03F5DAC0924A13BDD49574 /* RNSound.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -521,6 +535,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				A148FEFB1E9D8CB900479280 /* zulip.mp3 */,
 				CF6CFE2C1E7DC55100F687C7 /* Build-Phases */,
 				13B07FAE1A68108700A75B9A /* ZulipMobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -556,6 +571,14 @@
 			children = (
 				A14EA85B1EACE4CF009D9E83 /* libRCTAnimation.a */,
 				A14EA85D1EACE4CF009D9E83 /* libRCTAnimation-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A148FEDC1E9D8C9600479280 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A148FEF91E9D8C9600479280 /* libRNSound.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -721,6 +744,10 @@
 					ProjectRef = ACCD980949044096B1BAD249 /* RNDeviceInfo.xcodeproj */;
 				},
 				{
+					ProductGroup = A148FEDC1E9D8C9600479280 /* Products */;
+					ProjectRef = AF03F5DAC0924A13BDD49574 /* RNSound.xcodeproj */;
+				},
+				{
 					ProductGroup = A1198EF91DD517CE007C3837 /* Products */;
 					ProjectRef = 6DA76D9085EA458BB979ED8D /* RNVectorIcons.xcodeproj */;
 				},
@@ -823,6 +850,13 @@
 			fileType = archive.ar;
 			path = "libRCTAnimation-tvOS.a";
 			remoteRef = A14EA85C1EACE4CF009D9E83 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A148FEF91E9D8C9600479280 /* libRNSound.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSound.a;
+			remoteRef = A148FEF81E9D8C9600479280 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A155BFCC1DD8E46C00A8B695 /* libRCTImage-tvOS.a */ = {
@@ -953,6 +987,7 @@
 				4B12DC82ECA043809695F227 /* Ionicons.ttf in Resources */,
 				17449DB932594E96A837970F /* MaterialIcons.ttf in Resources */,
 				48D1FC73615948D79D3BD31E /* Octicons.ttf in Resources */,
+				A148FEFC1E9D8CB900479280 /* zulip.mp3 in Resources */,
 				CF6CFE2D1E7DC55100F687C7 /* Build-Phases in Resources */,
 				3556F3DAC2424EBE9ABF0A31 /* Zocial.ttf in Resources */,
 				C478B42A63D649EFA2CFD12D /* SimpleLineIcons.ttf in Resources */,
@@ -1143,12 +1178,14 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 				);
 				INFOPLIST_FILE = ZulipMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1174,12 +1211,14 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 				);
 				INFOPLIST_FILE = ZulipMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1206,6 +1245,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 				);
 				INFOPLIST_FILE = ZulipMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1232,6 +1272,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 				);
 				INFOPLIST_FILE = ZulipMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
