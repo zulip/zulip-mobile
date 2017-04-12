@@ -3,6 +3,7 @@ import { pollForEvents, registerForEvents } from '../api';
 import { switchAccount } from '../account/accountActions';
 import { timeout } from '../utils/async';
 import eventToAction from './eventToAction';
+import eventMiddleware from './eventMiddleware';
 
 import {
   BATCH_ACTIONS,
@@ -54,6 +55,7 @@ const startEventPolling = (auth, queueId, eventId) =>
       const actions = [];
       for (const event of response.events) {
         lastEventId = Math.max(lastEventId, event.id);
+        eventMiddleware(getState(), event);
         const action = eventToAction(getState(), event);
 
         if (action) {
