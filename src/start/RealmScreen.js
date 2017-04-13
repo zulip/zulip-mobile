@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View, Image, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -68,6 +68,11 @@ class RealmScreen extends React.Component {
             <Text style={[styles.field, styles.heading1]}>
               Welcome to Zulip!
             </Text>
+            <Image
+              style={[styles.image]}
+              source={require('../../static/img/ballon.png')}
+            >
+            </Image>
             <Text style={[styles.field, styles.label]}>
               Please enter your server URL
             </Text>
