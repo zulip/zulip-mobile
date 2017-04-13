@@ -49,7 +49,7 @@ export default ({
       );
     }
 
-    const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);
+    const showHeader = !isPrivateOrGroupNarrow(narrow) || isTopicNarrow(narrow);
     const diffRecipient = !isSameRecipient(prevItem, item);
 
     if (showHeader && diffRecipient) {

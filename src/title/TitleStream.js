@@ -44,11 +44,6 @@ export default class TitleStream extends React.PureComponent {
         <Text style={titleStyles}>
           {stream.name}
         </Text>
-        {narrow.length > 1 &&
-          <Text style={titleStyles}>
-            {'\u203a'} {narrow[1].operand}
-          </Text>
-        }
       </View>
     );
   }
