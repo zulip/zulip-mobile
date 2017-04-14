@@ -69,7 +69,14 @@ class ComposeText extends React.Component {
       sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, text);
     }
 
+    this.clearInput();
+  }
+
+  clearInput = () => {
     this.textInput.clear();
+    this.setState({
+      text: ''
+    });
   }
 
   handleContentSizeChange = (event) =>
