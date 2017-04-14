@@ -5,7 +5,7 @@ import {
   Animated,
 } from 'react-native';
 
-import { BRAND_COLOR } from '../common/styles';
+import { BRAND_COLOR } from '../styles';
 
 import Tab from './Tab';
 

@@ -54,7 +54,7 @@ class AccountPickScreen extends React.Component {
             />
             <ZulipButton
               text="Add new account"
-              customStyles={styles.button}
+              style={styles.button}
               onPress={this.handleAddNewAccount}
             />
           </View>

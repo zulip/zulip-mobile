@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 
-import { styles, ZulipStatusBar } from '../common';
-import { BRAND_COLOR } from '../common/styles';
+import { ZulipStatusBar } from '../common';
+import styles, { BRAND_COLOR } from '../styles';
 import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import Title from '../title/Title';
 import NavButton from './NavButton';
@@ -24,7 +24,7 @@ class MainNavBar extends React.Component {
 
     const backgroundColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
       (subscriptions.find((sub) => narrow[0].operand === sub.name)).color :
-      'white';
+      styles.navBar.backgroundColor;
 
     const textColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
       foregroundColorFromBackground(backgroundColor) :

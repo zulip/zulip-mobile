@@ -1,23 +1,10 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
+import { View } from 'react-native';
 
-import { BORDER_COLOR } from '../common/styles';
+import styles from '../styles';
 // import ComposeOptions from './ComposeOptions';
 import ComposeText from './ComposeText';
 import CameraRollView from './CameraRollView';
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flexDirection: 'column',
-    borderTopWidth: 1,
-    borderTopColor: BORDER_COLOR,
-    backgroundColor: '#fff',
-    zIndex: 2
-  },
-});
 
 type Props = {
   onSend: (content: string) => undefined,
@@ -50,7 +37,7 @@ export default class ComposeBox extends React.Component {
     const ActiveComposeComponent = composeComponents[optionSelected];
 
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.composeBox}>
         <ActiveComposeComponent />
         {/* <ComposeOptions selected={optionSelected} onChange={this.handleOptionSelected} /> */}
       </View>

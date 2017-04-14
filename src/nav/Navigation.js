@@ -2,7 +2,7 @@
 import React from 'react';
 import { BackAndroid, NavigationExperimental, Platform } from 'react-native';
 
-import { styles } from '../common';
+import styles from '../styles';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import AccountPickScreen from '../account/AccountPickScreen';

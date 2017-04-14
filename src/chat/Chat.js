@@ -1,7 +1,8 @@
 import React from 'react';
 import { KeyboardAvoidingView } from 'react-native';
 
-import { styles, OfflineNotice } from '../common';
+import styles from '../styles';
+import { OfflineNotice } from '../common';
 import { canSendToNarrow, isPrivateNarrow, isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import { filterUnreadMessageIds, countUnread } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';

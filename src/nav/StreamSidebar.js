@@ -59,7 +59,7 @@ export default class StreamSidebar extends React.Component {
         </View>
         <SubscriptionsContainer onNarrow={onNarrow} />
         <ZulipButton
-          customStyles={styles.button}
+          style={styles.button}
           secondary
           text="All streams"
           onPress={this.handleAllStreams}

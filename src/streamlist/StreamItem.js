@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { BRAND_COLOR } from '../common/styles';
-import { Touchable, ZulipSwitch } from '../common';
+import { BRAND_COLOR } from '../styles';
+import { Label, Touchable, ZulipSwitch } from '../common';
 import StreamIcon from './StreamIcon';
 
 const styles = StyleSheet.create({
@@ -80,21 +80,21 @@ export default class StreamItem extends React.PureComponent {
             />
           </View>
           <View style={styles.text}>
-            <Text
+            <Label
               style={[
                 isSelected && styles.selectedText,
                 isMuted && styles.mutedText
               ]}
             >
               {name}
-            </Text>
+            </Label>
             {!!description &&
-              <Text
+              <Label
                 numberOfLines={1}
                 style={styles.description}
               >
                 {description}
-              </Text>
+              </Label>
             }
           </View>
           {showSwitch &&

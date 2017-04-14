@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
 
-import styles, { BRAND_COLOR } from '../common/styles';
+import styles, { BRAND_COLOR } from '../styles';
 
 export default class LoadingScreen extends React.PureComponent {
   render() {

@@ -1,34 +1,14 @@
 import React from 'react';
+import { View, Text } from 'react-native';
 
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
-
+import styles from '../styles';
 import Timestamp from './Timestamp';
 
-const styles = StyleSheet.create({
-  subheader: {
-    flex: 1,
-    flexBasis: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  username: {
-    flex: 1,
-    fontWeight: 'bold',
-    fontSize: 16,
-    lineHeight: 16,
-  },
-});
-
 export default class Subheader extends React.PureComponent {
-
   props: {
     from: string,
     timestamp: number,
-    twentyFourHourTime: bool
+    twentyFourHourTime: boolean,
   };
 
   render() {
@@ -36,13 +16,13 @@ export default class Subheader extends React.PureComponent {
 
     return (
       <View style={styles.subheader}>
-        <Text style={styles.username} numberOfLines={1}>
+        <Text
+          style={[styles.username, styles.color]}
+          numberOfLines={1}
+        >
           {from}
         </Text>
-        <Timestamp
-          timestamp={timestamp}
-          twentyFourHourTime={twentyFourHourTime}
-        />
+        <Timestamp timestamp={timestamp} twentyFourHourTime={twentyFourHourTime} />
       </View>
     );
   }

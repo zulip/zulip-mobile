@@ -1,9 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
+import { Label } from '../common';
 
 import {
   isHomeNarrow,
@@ -25,7 +23,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingLeft: 10,
     padding: 8,
-    backgroundColor: 'white',
   }
 });
 
@@ -40,7 +37,6 @@ const messages = [
 ];
 
 export default class NoMessages extends React.PureComponent {
-
   render() {
     const { narrow } = this.props;
     const message = messages.find(x => x.isFunc(narrow));
@@ -48,8 +44,8 @@ export default class NoMessages extends React.PureComponent {
 
     return (
       <View style={container}>
-        <Text style={text}>{message.text}</Text>
-        <Text>Why not start the conversation?</Text>
+        <Label style={text}>{message.text}</Label>
+        <Label>Why not start the conversation?</Label>
       </View>
     );
   }

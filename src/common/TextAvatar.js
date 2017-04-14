@@ -49,8 +49,8 @@ export default ({ name, size, status, isCircular, onPress }) => {
         </Text>
         {status &&
           <UserStatusIndicator
+            style={styles.status}
             status={status}
-            customStyles={styles.status}
           />
         }
       </View>

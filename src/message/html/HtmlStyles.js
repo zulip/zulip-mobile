@@ -78,7 +78,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   blockquote: {
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+    borderColor: 'rgba(127, 127, 127, 0.25)',
     borderLeftWidth: 4,
     paddingLeft: 4,
   },

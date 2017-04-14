@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import { registerAppActivity } from '../utils/activity';
-import { styles } from '../common';
+import styles from '../styles';
 import { checkCompatibility } from '../api';
 import { getInitialRoutes } from './routingSelectors';
 import Navigation from './Navigation';

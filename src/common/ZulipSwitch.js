@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch } from 'react-native';
-import { BRAND_COLOR } from './styles';
+import { BRAND_COLOR } from '../styles';
 
 export default class ZulipSwitch extends React.PureComponent {
 

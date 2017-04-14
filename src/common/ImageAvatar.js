@@ -31,8 +31,8 @@ export default({ avatarUrl, size, status, isCircular, onPress }) => {
       >
         {status &&
           <UserStatusIndicator
+            style={styles.status}
             status={status}
-            customStyles={styles.status}
           />
         }
       </Image>

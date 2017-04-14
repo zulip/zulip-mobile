@@ -1,14 +1,11 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
+import styles from '../../styles';
 import { Touchable } from '../../common';
 import { topicNarrow } from '../../utils/narrow';
 
-const styles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   wrapper: {
     flex: 1,
     overflow: 'hidden',
@@ -20,7 +17,7 @@ const styles = StyleSheet.create({
     padding: 8,
     fontSize: 16,
     lineHeight: 16,
-    backgroundColor: '#ddd',
+    backgroundColor: 'rgba(127, 127, 127, 0.25)',
   },
 });
 
@@ -39,12 +36,16 @@ export default class TopicMessageHeader extends React.PureComponent {
   }
 
   render() {
-    const { topic, customStyle } = this.props;
+    const { topic, style } = this.props;
 
     return (
-      <View style={[styles.wrapper, customStyle]}>
-        <Touchable style={styles.touch} onPress={this.performTopicNarrow}>
-          <Text style={styles.topic} numberOfLines={1} ellipsizeMode="tail">
+      <View style={[componentStyles.wrapper, styles.background, style]}>
+        <Touchable style={componentStyles.touch} onPress={this.performTopicNarrow}>
+          <Text
+            style={[componentStyles.topic, styles.color]}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
             {topic}
           </Text>
         </Touchable>

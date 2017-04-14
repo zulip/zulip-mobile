@@ -1,10 +1,10 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import styles from '../common/styles';
-import { Screen, ErrorMsg, ZulipButton, Input } from '../common';
+import styles from '../styles';
+import { Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
 import { getAuthBackends } from '../api';
 import config from '../config';
 import { fixRealmUrl } from '../utils/url';
@@ -68,14 +68,11 @@ class RealmScreen extends React.Component {
           keyboardShouldPersistTaps="always"
         >
           <View style={styles.container}>
-            <Text style={[styles.field, styles.heading1]}>
-              Welcome to Zulip!
-            </Text>
-            <Text style={[styles.field, styles.label]}>
+            <Label style={styles.field}>
               Please enter your server URL
-            </Text>
+            </Label>
             <Input
-              customStyle={styles.field}
+              style={styles.field}
               autoFocus
               autoCorrect={false}
               autoCapitalize="none"

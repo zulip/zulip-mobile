@@ -11,8 +11,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'white',
-    borderColor: 'gray',
   },
   accountButtons: {
     flexDirection: 'row',
@@ -62,7 +60,7 @@ export default class ConversationsCard extends Component {
       <View tabLabel="People" style={styles.container}>
         <ZulipButton
           secondary
-          customStyles={styles.button}
+          style={styles.button}
           text="Search people"
           onPress={this.handleSearchPress}
         />

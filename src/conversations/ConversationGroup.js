@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { normalizeRecipients } from '../utils/message';
 import { isGroupNarrow } from '../utils/narrow';
-import { Avatar, Touchable, UnreadCount } from '../common';
-import { BRAND_COLOR } from '../common/styles';
+import { Avatar, Label, Touchable, UnreadCount } from '../common';
+import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
   row: {
@@ -37,12 +37,13 @@ export default ({ email, users, narrow, unreadCount, onNarrow, realm }) => {
     <Touchable onPress={() => onNarrow(email)}>
       <View style={[styles.row, isSelected && styles.selectedRow]}>
         <Avatar size={32} name={allNames} realm={realm} />
-        <Text
+        <Label
           style={[styles.text, isSelected && styles.selectedText]}
           numberOfLines={2}
+          ellipsizeMode="tail"
         >
           {allNames}
-        </Text>
+        </Label>
         <UnreadCount count={unreadCount} />
       </View>
     </Touchable>

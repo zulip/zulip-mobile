@@ -1,0 +1,135 @@
+import { Platform } from 'react-native';
+import { BORDER_COLOR, BRAND_COLOR, STATUSBAR_HEIGHT, CONTROL_SIZE, NAVBAR_HEIGHT } from './';
+
+export default ({ color, backgroundColor, borderColor }) => ({
+  color: {
+    color,
+  },
+  backgroundColor: {
+    backgroundColor,
+  },
+  input: {
+    color,
+    height: CONTROL_SIZE,
+    ...Platform.select({
+      ios: {
+        borderWidth: 1,
+        flexBasis: CONTROL_SIZE,
+        borderColor: BORDER_COLOR,
+        borderRadius: 2,
+        padding: 8,
+      },
+    }),
+  },
+  composeText: {
+    color,
+    borderColor: 'transparent',
+    flex: 1,
+    padding: 4,
+    paddingLeft: 8,
+    fontSize: 16,
+  },
+  background: {
+    backgroundColor,
+  },
+  label: {
+    color,
+    fontSize: 15,
+  },
+  bullet: {
+    color,
+    paddingLeft: 4,
+    paddingRight: 8,
+  },
+  icon: {
+    color,
+    width: 24,
+    height: 24,
+    margin: 8,
+    fontSize: 24,
+    textAlign: 'center',
+  },
+  item: {
+    flex: 1,
+    flexBasis: CONTROL_SIZE,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  screen: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'stretch',
+  },
+  screenWrapper: {
+    flex: 1,
+    padding: 8,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+  },
+  navigationCard: {
+    backgroundColor,
+    shadowColor: 'transparent',
+  },
+  container: {
+    flex: 1,
+    padding: 16,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heading2: {
+    fontSize: 20,
+  },
+  field: {
+    flexDirection: 'row',
+    height: CONTROL_SIZE,
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  disabled: {
+    backgroundColor: '#ddd',
+    color: '#333',
+  },
+  marginBottom: {
+    marginBottom: 10,
+  },
+  navBar: {
+    backgroundColor,
+    borderColor,
+    flexDirection: 'row',
+    paddingTop: STATUSBAR_HEIGHT,
+    height: NAVBAR_HEIGHT,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+  },
+  navTitle: {
+    flex: 1,
+    color: BRAND_COLOR,
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  composeBox: {
+    backgroundColor,
+    borderTopWidth: 1,
+    borderTopColor: borderColor,
+  },
+  subheader: {
+    flex: 1,
+    flexBasis: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  username: {
+    flex: 1,
+    fontWeight: 'bold',
+    fontSize: 16,
+    lineHeight: 16,
+  },
+});

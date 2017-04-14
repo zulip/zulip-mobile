@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { BRAND_COLOR } from '../common/styles';
-import { CONTROL_SIZE } from '../common/platform';
+import { BRAND_COLOR, CONTROL_SIZE } from '../styles';
 import { Touchable } from '../common';
 import Icon from '../common/Icons';
 

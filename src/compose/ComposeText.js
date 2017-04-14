@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
+import styles from '../styles';
+import { Input } from '../common';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { registerUserInputActivity } from '../utils/activity';
 import { getAuth } from '../account/accountSelectors';
@@ -15,18 +17,12 @@ import PeopleAutocomplete from '../autocomplete/PeopleAutocomplete';
 const MIN_HEIGHT = 38;
 const MAX_HEIGHT = 200;
 
-const styles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
   },
   messageBox: {
     flex: 1,
-  },
-  composeInput: {
-    flex: 1,
-    padding: 4,
-    paddingLeft: 8,
-    fontSize: 16,
   },
 });
 
@@ -93,16 +89,16 @@ class ComposeText extends React.Component {
     const lastWordPrefix = lastword && lastword.index && text[lastword.index - 1];
 
     return (
-      <View style={styles.wrapper}>
+      <View style={componentStyles.wrapper}>
         {lastWordPrefix === ':' &&
           <EmojiAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
         {lastWordPrefix === '#' &&
           <StreamAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
         {lastWordPrefix === '@' &&
           <PeopleAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
-        <ScrollView style={{ height }} contentContainerStyle={styles.messageBox}>
-          <TextInput
-            style={styles.composeInput}
+        <ScrollView style={{ height }} contentContainerStyle={componentStyles.messageBox}>
+          <Input
+            style={styles.composeText}
             ref={component => { this.textInput = component; }}
             multiline
             underlineColorAndroid="transparent"

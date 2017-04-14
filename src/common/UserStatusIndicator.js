@@ -30,7 +30,7 @@ export default class UserStatusIndicator extends Component {
 
   props: {
     status: UserStatus,
-    customStyles: Object,
+    style: Object,
   }
 
   static defaultProps = {
@@ -38,12 +38,12 @@ export default class UserStatusIndicator extends Component {
   };
 
   render() {
-    const { status, customStyles } = this.props;
+    const { status, style } = this.props;
 
     if (!status) return null;
 
     return (
-      <View style={[styles.common, styles[status], customStyles]} />
+      <View style={[styles.common, styles[status], style]} />
     );
   }
 }

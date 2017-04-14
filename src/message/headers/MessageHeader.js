@@ -33,7 +33,7 @@ export default class MessageHeader extends React.PureComponent {
           stream={item.display_recipient}
           topic={item.subject}
           doNarrow={doNarrow}
-          customStyle={styles.margin}
+          style={styles.margin}
         />
       );
     }
@@ -52,7 +52,7 @@ export default class MessageHeader extends React.PureComponent {
           color={stream ? stream.color : '#ccc'}
           itemId={item.id}
           doNarrow={doNarrow}
-          customStyle={styles.margin}
+          style={styles.margin}
         />
       );
     }
@@ -68,7 +68,7 @@ export default class MessageHeader extends React.PureComponent {
           recipients={recipients}
           itemId={item.id}
           doNarrow={doNarrow}
-          customStyle={styles.margin}
+          style={styles.margin}
         />
       );
     }

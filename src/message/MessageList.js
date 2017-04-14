@@ -2,18 +2,15 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import ActionSheet from 'react-native-actionsheet'; // eslint-disable-line
 
+import styles from '../styles';
 import TaggedView from '../native/TaggedView';
+import { filterUnreadMessageIds } from '../utils/unread';
+import { registerAppActivity } from '../utils/activity';
 import { LoadingIndicator } from '../common';
 import MessageTyping from '../message/MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
 import { actionSheetButtons, executeActionSheetAction } from './messageActionSheet';
-
-const styles = StyleSheet.create({
-  list: {
-    backgroundColor: 'white',
-  },
-});
 
 export default class MessageList extends React.PureComponent {
   autoScrollToBottom = false;
@@ -72,7 +69,7 @@ export default class MessageList extends React.PureComponent {
 
     return (
       <InfiniteScrollView
-        style={styles.list}
+        style={styles.messageList}
         automaticallyAdjustContentInset="false"
         stickyHeaderIndices={headerIndices}
         onStartReached={fetchOlder}

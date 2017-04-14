@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { BRAND_COLOR } from '../common/styles';
+import { BRAND_COLOR } from '../styles';
 import { Touchable } from '../common';
 import { IconSend } from '../common/Icons';
 

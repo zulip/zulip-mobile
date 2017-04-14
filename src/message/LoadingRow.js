@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 
-import { BRAND_COLOR } from '../common/styles';
+import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
   row: {

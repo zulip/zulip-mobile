@@ -3,8 +3,7 @@ import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import { CONTROL_SIZE } from '../common/platform';
-import { styles } from '../common';
+import styles, { CONTROL_SIZE } from '../styles';
 import NavButton from './NavButton';
 
 class ModalNavBar extends React.Component {

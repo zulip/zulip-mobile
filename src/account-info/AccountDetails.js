@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { Avatar, ZulipButton, UserStatusIndicator } from '../common';
+import { Avatar, Label, ZulipButton, UserStatusIndicator } from '../common';
 import { privateNarrow } from '../utils/narrow';
 
 const styles = StyleSheet.create({
@@ -49,15 +49,15 @@ export default class AccountDetails extends Component {
         <View style={styles.details}>
           <View style={styles.status}>
             <UserStatusIndicator status={status} />
-            <Text style={styles.statusText}>
+            <Label style={styles.statusText}>
               {status && status[0].toUpperCase() + status.slice(1)}
-            </Text>
+            </Label>
           </View>
           <Text style={styles.info}>{fullName}</Text>
           <Text style={styles.info}>{email}</Text>
         </View>
         <ZulipButton
-          customStyles={styles.logoutButton}
+          style={styles.logoutButton}
           secondary
           text="Chat"
           onPress={this.handleChatPress}
