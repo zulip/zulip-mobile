@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableNativeFeedback, Platform, View } from 'react-native';
-import { HIGHLIGHT_COLOR } from './styles';
+import { HIGHLIGHT_COLOR } from '../styles';
 
 const background = Platform.Version >= 21 ?
   TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR) :

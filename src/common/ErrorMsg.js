@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { CONTROL_SIZE } from './styles';
+import { CONTROL_SIZE } from '../styles';
 
 const styles = StyleSheet.create({
   field: {

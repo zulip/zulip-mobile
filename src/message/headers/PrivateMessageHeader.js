@@ -42,11 +42,11 @@ export default class PrivateMessageHeader extends React.PureComponent {
   }
 
   render() {
-    const { recipients, customStyle } = this.props;
+    const { recipients, style } = this.props;
     const others = recipients.map(r => r.full_name).sort().join(', ');
 
     return (
-      <View style={[styles.container, customStyle]}>
+      <View style={[styles.container, style]}>
         <Touchable onPress={this.performNarrow}>
           <View style={styles.header}>
             <IconPrivateChat color="white" size={16} style={styles.icon} />

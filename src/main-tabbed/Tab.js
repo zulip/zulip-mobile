@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 
-import { HIGHLIGHT_COLOR } from '../common/styles';
+import { HIGHLIGHT_COLOR } from '../styles';
 import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({

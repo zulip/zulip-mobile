@@ -14,24 +14,13 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   avatar: {
-    backgroundColor: '#ddd',
+    backgroundColor: 'rgba(127, 127, 127, 0.25)',
     borderRadius: 32 / 8,
     width: 32,
     height: 32,
   },
-  subheader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  name: {
-    width: 120,
-    backgroundColor: '#ddd',
-  },
-  timestamp: {
-    width: 60,
-  },
   block: {
-    backgroundColor: '#eee',
+    backgroundColor: 'rgba(127, 127, 127, 0.25)',
     borderRadius: 10,
     height: 8,
     marginBottom: 10,
@@ -44,10 +33,7 @@ export default class MessageLoading extends React.PureComponent {
       <View style={styles.message}>
         <View style={styles.avatar} />
         <View style={styles.content}>
-          <View style={styles.subheader}>
-            <View style={[styles.block, styles.name]} />
-            <View style={[styles.block, styles.timestamp]} />
-          </View>
+          <View style={styles.block} />
           <View style={styles.block} />
           <View style={styles.block} />
         </View>

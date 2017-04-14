@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { BRAND_COLOR } from '../common/styles';
+import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
   frame: {

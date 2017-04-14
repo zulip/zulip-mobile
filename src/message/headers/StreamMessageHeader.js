@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import globalStyles from '../../styles';
 import { Touchable } from '../../common';
 import TopicMessageHeader from './TopicMessageHeader';
 import { streamNarrow } from '../../utils/narrow';
@@ -11,7 +12,6 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#ddd',
     overflow: 'hidden',
     height: 32,
   },
@@ -28,9 +28,9 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
     borderBottomWidth: 16,
     borderLeftWidth: 16,
-    borderTopColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderBottomColor: 'transparent',
+    borderTopColor: 'rgba(127, 127, 127, 0.25)',
+    borderRightColor: 'rgba(127, 127, 127, 0.25)',
+    borderBottomColor: 'rgba(127, 127, 127, 0.25)',
   }
 });
 
@@ -49,12 +49,12 @@ export default class StreamMessageHeader extends React.PureComponent {
   }
 
   render() {
-    const { stream, isPrivate, isMuted, topic, color, itemId, doNarrow, customStyle } = this.props;
+    const { stream, isPrivate, isMuted, topic, color, itemId, doNarrow, style } = this.props;
     const textColor = foregroundColorFromBackground(color);
     const iconType = isPrivate ? 'lock' : 'hashtag';
 
     return (
-      <View style={[styles.header, customStyle]}>
+      <View style={[styles.header, style, globalStyles.background]}>
         <Touchable onPress={this.performStreamNarrow}>
           <View style={[styles.header, { backgroundColor: color }]}>
             <StreamIcon

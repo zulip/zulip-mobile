@@ -1,10 +1,10 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import styles from '../common/styles';
-import { Input, Screen, ZulipButton } from '../common';
+import styles from '../styles';
+import { Label, Screen, ZulipButton } from '../common';
 import { getAuth } from '../account/accountSelectors';
 import { getCurrentRoute } from '../nav/routingSelectors';
 
@@ -31,11 +31,8 @@ class AuthScreen extends React.Component {
           keyboardShouldPersistTaps="always"
         >
           <View style={styles.container}>
-            <Text style={[styles.field, styles.heading1]}>
-              Welcome to Zulip!
-            </Text>
-            <Input
-              customStyle={[styles.field, styles.disabled]}
+            <Label
+              style={[styles.field]}
               value={this.props.realm}
               editable={false}
             />

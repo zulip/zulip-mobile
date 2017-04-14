@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Input } from '../common';
-import { BRAND_COLOR } from './styles';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -12,7 +11,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     borderWidth: 0,
-    color: BRAND_COLOR
+    // color: BRAND_COLOR,
   },
 });
 
@@ -28,7 +27,7 @@ export default class SearchInput extends Component {
     return (
       <View style={styles.wrapper}>
         <Input
-          customStyle={styles.input}
+          style={styles.input}
           autoCorrect={false}
           enablesReturnKeyAutomatically
           selectTextOnFocus

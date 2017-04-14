@@ -5,7 +5,7 @@ import {
   View,
 } from 'react-native';
 
-import { BORDER_COLOR } from '../common/styles';
+import { HALF_COLOR } from '../styles';
 import { humanDate } from '../utils/date';
 
 const styles = StyleSheet.create({
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 1,
     borderWidth: 1,
-    borderColor: BORDER_COLOR,
+    borderColor: HALF_COLOR,
   },
   time: {
     padding: 4,

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 
-import { BRAND_COLOR } from '../common/styles';
+import { BRAND_COLOR, HALF_COLOR } from '../styles';
 import { Touchable } from '../common';
 import Emoji from '../emoji/Emoji';
 import { getAuth } from '../account/accountSelectors';
@@ -24,10 +24,10 @@ const styles = StyleSheet.create({
   },
   frameVoted: {
     borderColor: BRAND_COLOR,
-    backgroundColor: 'rgba(36, 202, 194, 0.05)',
+    backgroundColor: 'rgba(36, 202, 194, 0.1)',
   },
   frameNotVoted: {
-    borderColor: '#dedede', // eslint-disable-line
+    borderColor: HALF_COLOR,
   },
   placeholderCount: {
     marginLeft: 4,
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     color: BRAND_COLOR,
   },
   countNotVoted: {
-    color: 'gray',
+    color: HALF_COLOR,
   },
   spinner: {
     position: 'absolute',

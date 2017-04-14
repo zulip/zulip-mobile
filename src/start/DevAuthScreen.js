@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { Auth } from '../types';
 import boundActions from '../boundActions';
-import styles from '../common/styles';
+import styles from '../styles';
 import { ErrorMsg, Screen, ZulipButton } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
 import { getAuth } from '../account/accountSelectors';

@@ -26,7 +26,7 @@ class SwitchAccountButton extends Component {
   render() {
     return (
       <ZulipButton
-        customStyles={styles.button}
+        style={styles.button}
         secondary
         text="Switch"
         onPress={this.switchAccount}

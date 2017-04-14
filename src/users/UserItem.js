@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { Avatar, Touchable, UnreadCount } from '../common';
-import { BRAND_COLOR } from '../common/styles';
+import { Avatar, Label, Touchable, UnreadCount } from '../common';
+import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
   row: {
@@ -52,9 +52,9 @@ export default class UserItem extends Component {
             status={status}
             realm={realm}
           />
-          <Text style={[styles.text, isSelected && styles.selectedText]}>
+          <Label style={[styles.text, isSelected && styles.selectedText]}>
             {fullName}
-          </Text>
+          </Label>
           <UnreadCount count={unreadCount} />
         </View>
       </Touchable>

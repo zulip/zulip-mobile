@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 
 import { Touchable } from '../common';
-import { BRAND_COLOR } from '../common/styles';
+import { BRAND_COLOR } from '../styles';
 import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Logo } from '../common';
-import { BRAND_COLOR } from '../common/styles';
+import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
   screen: {

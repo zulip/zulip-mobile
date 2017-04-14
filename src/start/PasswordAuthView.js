@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import styles from '../common/styles';
+import styles from '../styles';
 import { fetchApiKey } from '../api';
 import config from '../config';
 import { ErrorMsg, ZulipButton, Input } from '../common';
@@ -67,7 +67,7 @@ class PasswordAuthView extends React.Component {
     return (
       <View>
         <Input
-          customStyle={styles.field}
+          style={styles.field}
           autoCorrect={false}
           keyboardType="email-address"
           autoCapitalize="none"
@@ -77,7 +77,7 @@ class PasswordAuthView extends React.Component {
           blurOnSubmit={false}
         />
         <Input
-          customStyle={styles.field}
+          style={styles.field}
           placeholder="Password"
           secureTextEntry
           value={password}

@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import throttle from 'lodash.throttle';
 
 import boundActions from '../boundActions';
+import { Label } from '../common';
 import { getAuth } from '../account/accountSelectors';
 import SearchScreen from './SearchScreen';
-import { BRAND_COLOR } from '../common/styles';
+import { BRAND_COLOR } from '../styles';
 import { searchNarrow } from '../utils/narrow';
 import MessageList from '../message/MessageList';
 import { getMessages } from '../api';
 
 const styles = StyleSheet.create({
-  text: {
+  empty: {
     fontSize: 20,
     padding: 8,
     textAlign: 'center',
@@ -69,9 +70,9 @@ class SearchMessagesScreen extends Component {
             />
           }
           {noResults &&
-            <Text style={styles.text}>
+            <Label style={styles.empty}>
               No results
-            </Text>
+            </Label>
           }
           <MessageList
             messages={messages}

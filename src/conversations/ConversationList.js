@@ -1,6 +1,7 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
+import { Label } from '../common';
 import ConversationUser from './ConversationUser';
 import ConversationGroup from './ConversationGroup';
 
@@ -35,9 +36,9 @@ export default class ConversationList extends React.PureComponent {
 
     if (!conversations.length) {
       return (
-        <Text style={styles.emptySlate}>
+        <Label style={styles.emptySlate}>
           No Recent Conversations
-        </Text>
+        </Label>
       );
     }
 

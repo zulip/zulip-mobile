@@ -29,7 +29,7 @@ class LogoutButton extends Component {
   render() {
     return (
       <ZulipButton
-        customStyles={styles.logoutButton}
+        style={styles.logoutButton}
         secondary
         text="Logout"
         onPress={this.logout}
