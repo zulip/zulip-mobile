@@ -54,6 +54,12 @@ export default StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
   },
+  register: {
+  	paddingTop: 10,
+  	fontSize: 15,
+    textAlign: 'center',
+    color: BRAND_COLOR,
+  },
   field: {
     flexDirection: 'row',
     height: CONTROL_SIZE,

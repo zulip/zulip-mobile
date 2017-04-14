@@ -30,6 +30,7 @@
     "lodash.throttle": "^4.1.1",
     "react": "^15.4.1",
     "react-native": "^0.42.0",
+    "react-native-chrome-custom-tabs": "0.0.2",
     "react-native-device-info": "^0.10.1",
     "react-native-drawer": "^2.3.0",
     "react-native-fabric": "^0.4.1",
