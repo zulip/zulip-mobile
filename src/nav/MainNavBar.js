@@ -4,7 +4,7 @@ import { StatusBar, StyleSheet, View } from 'react-native';
 
 import { styles } from '../common';
 import { BRAND_COLOR } from '../common/styles';
-import { isStreamNarrow } from '../utils/narrow';
+import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import Title from '../title/Title';
 import NavButton from './NavButton';
 
@@ -21,11 +21,11 @@ class MainNavBar extends React.Component {
   render() {
     const { narrow, subscriptions, onPressStreams, onPressPeople } = this.props;
 
-    const backgroundColor = isStreamNarrow(narrow) ?
+    const backgroundColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
       (subscriptions.find((sub) => narrow[0].operand === sub.name)).color :
       'white';
 
-    const textColor = isStreamNarrow(narrow) ?
+    const textColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
       foregroundColorFromBackground(backgroundColor) :
       BRAND_COLOR;
 
