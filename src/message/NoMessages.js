@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
+  View,
 } from 'react-native';
 
 import {
@@ -15,12 +16,16 @@ import {
 } from '../utils/narrow';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   text: {
     fontSize: 20,
     paddingLeft: 10,
     padding: 8,
     backgroundColor: 'white',
-    textAlign: 'center',
   }
 });
 
@@ -39,9 +44,13 @@ export default class NoMessages extends React.PureComponent {
   render() {
     const { narrow } = this.props;
     const message = messages.find(x => x.isFunc(narrow));
+    const { container, text } = styles;
 
     return (
-      <Text style={styles.text}>{message.text}</Text>
+      <View style={container}>
+        <Text style={text}>{message.text}</Text>
+        <Text>Why not start the conversation?</Text>
+      </View>
     );
   }
 }
