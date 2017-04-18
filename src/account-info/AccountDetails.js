@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
 export default class AccountDetails extends Component {
 
   handleChatPress = () => {
-    const { email, doNarrow, popRoute } = this.props;
+    const { email, doNarrow, navigateBack } = this.props;
     doNarrow(privateNarrow(email));
-    popRoute();
+    navigateBack();
   };
 
   render() {

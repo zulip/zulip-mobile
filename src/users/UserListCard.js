@@ -28,9 +28,9 @@ export default class UserListCard extends Component {
   };
 
   handleUserNarrow = (email: string) => {
-    const { popRoute, doNarrow } = this.props;
+    const { navigateBack, doNarrow } = this.props;
     doNarrow(privateNarrow(email));
-    popRoute();
+    navigateBack();
   }
 
   render() {

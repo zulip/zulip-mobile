@@ -158,8 +158,8 @@ append-transform@^0.4.0:
     default-require-extensions "^1.0.0"
 
 "appium-adb@^ 2.11.1", appium-adb@^2.20.0, appium-adb@^2.3.0, appium-adb@^2.5.1:
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/appium-adb/-/appium-adb-2.23.0.tgz#9dba9da42fdef08380ee9a0772d5cbe7e6d55ec1"
+  version "2.23.1"
+  resolved "https://registry.yarnpkg.com/appium-adb/-/appium-adb-2.23.1.tgz#b706f2bfbd7de350ac0bb7e6a0782dbceb0fcb94"
   dependencies:
     appium-support "^2.4.0"
     asyncbox "^2.3.1"
@@ -211,8 +211,8 @@ appium-android-ime@^2.0.0:
   resolved "https://registry.yarnpkg.com/appium-android-ime/-/appium-android-ime-2.0.0.tgz#e4127fd4553e01819900769a8446b499e6328289"
 
 appium-base-driver@2.x, appium-base-driver@^2.0.0, appium-base-driver@^2.0.1, appium-base-driver@^2.0.18, appium-base-driver@^2.0.9, appium-base-driver@^2.4.1:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/appium-base-driver/-/appium-base-driver-2.8.1.tgz#a12d7540b5835af92153e895572aea18a9640f9c"
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/appium-base-driver/-/appium-base-driver-2.9.0.tgz#64521fd0a0ccb6b26074877749ab032f7c3c2ee7"
   dependencies:
     appium-support "^2.8.0"
     asyncbox "^2.3.1"
@@ -234,8 +234,8 @@ appium-base-driver@2.x, appium-base-driver@^2.0.0, appium-base-driver@^2.0.1, ap
     validate.js "^0.9.0"
 
 appium-chromedriver@^2.9.0:
-  version "2.11.2"
-  resolved "https://registry.yarnpkg.com/appium-chromedriver/-/appium-chromedriver-2.11.2.tgz#5f4daf928e08a76c04508713824eb21ba9cceaab"
+  version "2.11.3"
+  resolved "https://registry.yarnpkg.com/appium-chromedriver/-/appium-chromedriver-2.11.3.tgz#947338599d9d5721eb6669d8d75c93f64ea124ae"
   dependencies:
     appium-base-driver "^2.0.0"
     appium-support "^2.8.0"
@@ -268,8 +268,8 @@ appium-fake-driver@0.x:
     yargs "^3.9.0"
 
 appium-ios-driver@1.x, appium-ios-driver@^1.24.0:
-  version "1.24.2"
-  resolved "https://registry.yarnpkg.com/appium-ios-driver/-/appium-ios-driver-1.24.2.tgz#4d9dba7e2929af2cfe003a0f54a3b4751f7a16fa"
+  version "1.24.3"
+  resolved "https://registry.yarnpkg.com/appium-ios-driver/-/appium-ios-driver-1.24.3.tgz#a46f6fe89a509faa4a0347812c022fcaec645ad3"
   dependencies:
     appium-base-driver "^2.0.9"
     appium-ios-simulator "^1.10.3"
@@ -817,7 +817,7 @@ babel-core@^6.0.0, babel-core@^6.21.0, babel-core@^6.24.1, babel-core@^6.7.2:
     slash "^1.0.0"
     source-map "^0.5.0"
 
-babel-eslint@^7.1.1:
+babel-eslint@^7.2.3:
   version "7.2.3"
   resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-7.2.3.tgz#b2fe2d80126470f5c19442dc757253a897710827"
   dependencies:
@@ -975,12 +975,12 @@ babel-plugin-inline-environment-variables@^1.0.1:
   resolved "https://registry.yarnpkg.com/babel-plugin-inline-environment-variables/-/babel-plugin-inline-environment-variables-1.0.1.tgz#1f58ce91207ad6a826a8bf645fafe68ff5fe3ffe"
 
 babel-plugin-istanbul@^4.0.0:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/babel-plugin-istanbul/-/babel-plugin-istanbul-4.1.3.tgz#6ee6280410dcf59c7747518c3dfd98680958f102"
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/babel-plugin-istanbul/-/babel-plugin-istanbul-4.1.4.tgz#18dde84bf3ce329fddf3f4103fae921456d8e587"
   dependencies:
     find-up "^2.1.0"
-    istanbul-lib-instrument "^1.7.1"
-    test-exclude "^4.1.0"
+    istanbul-lib-instrument "^1.7.2"
+    test-exclude "^4.1.1"
 
 babel-plugin-jest-hoist@^20.0.3:
   version "20.0.3"
@@ -1501,6 +1501,10 @@ basic-auth-connect@1.0.0:
 basic-auth@~1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/basic-auth/-/basic-auth-1.0.4.tgz#030935b01de7c9b94a824b29f3fccb750d3a5290"
+
+basic-auth@~1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/basic-auth/-/basic-auth-1.1.0.tgz#45221ee429f7ee1e5035be3f51533f1cdfd29884"
 
 batch@0.5.3:
   version "0.5.3"
@@ -3537,8 +3541,8 @@ is-date-object@^1.0.1:
   resolved "https://registry.yarnpkg.com/is-date-object/-/is-date-object-1.0.1.tgz#9aa20eb6aeebbff77fbd33e74ca01b33581d3a16"
 
 is-dotfile@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/is-dotfile/-/is-dotfile-1.0.2.tgz#2c132383f39199f8edc268ca01b9b007d205cc4d"
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/is-dotfile/-/is-dotfile-1.0.3.tgz#a6a2f32ffd2dfb04f5ca25ecd0f6b83cf798a1e1"
 
 is-equal-shallow@^0.1.3:
   version "0.1.3"
@@ -3702,65 +3706,65 @@ isstream@0.1.x, isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
 istanbul-api@^1.1.1:
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/istanbul-api/-/istanbul-api-1.1.8.tgz#a844e55c6f9aeee292e7f42942196f60b23dc93e"
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/istanbul-api/-/istanbul-api-1.1.9.tgz#2827920d380d4286d857d57a2968a841db8a7ec8"
   dependencies:
     async "^2.1.4"
     fileset "^2.0.2"
-    istanbul-lib-coverage "^1.1.0"
-    istanbul-lib-hook "^1.0.6"
-    istanbul-lib-instrument "^1.7.1"
-    istanbul-lib-report "^1.1.0"
-    istanbul-lib-source-maps "^1.2.0"
-    istanbul-reports "^1.1.0"
+    istanbul-lib-coverage "^1.1.1"
+    istanbul-lib-hook "^1.0.7"
+    istanbul-lib-instrument "^1.7.2"
+    istanbul-lib-report "^1.1.1"
+    istanbul-lib-source-maps "^1.2.1"
+    istanbul-reports "^1.1.1"
     js-yaml "^3.7.0"
     mkdirp "^0.5.1"
     once "^1.4.0"
 
-istanbul-lib-coverage@^1.0.1, istanbul-lib-coverage@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/istanbul-lib-coverage/-/istanbul-lib-coverage-1.1.0.tgz#caca19decaef3525b5d6331d701f3f3b7ad48528"
+istanbul-lib-coverage@^1.0.1, istanbul-lib-coverage@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/istanbul-lib-coverage/-/istanbul-lib-coverage-1.1.1.tgz#73bfb998885299415c93d38a3e9adf784a77a9da"
 
-istanbul-lib-hook@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/istanbul-lib-hook/-/istanbul-lib-hook-1.0.6.tgz#c0866d1e81cf2d5319249510131fc16dee49231f"
+istanbul-lib-hook@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/istanbul-lib-hook/-/istanbul-lib-hook-1.0.7.tgz#dd6607f03076578fe7d6f2a630cf143b49bacddc"
   dependencies:
     append-transform "^0.4.0"
 
-istanbul-lib-instrument@^1.4.2, istanbul-lib-instrument@^1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/istanbul-lib-instrument/-/istanbul-lib-instrument-1.7.1.tgz#169e31bc62c778851a99439dd99c3cc12184d360"
+istanbul-lib-instrument@^1.4.2, istanbul-lib-instrument@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/istanbul-lib-instrument/-/istanbul-lib-instrument-1.7.2.tgz#6014b03d3470fb77638d5802508c255c06312e56"
   dependencies:
     babel-generator "^6.18.0"
     babel-template "^6.16.0"
     babel-traverse "^6.18.0"
     babel-types "^6.18.0"
     babylon "^6.13.0"
-    istanbul-lib-coverage "^1.1.0"
+    istanbul-lib-coverage "^1.1.1"
     semver "^5.3.0"
 
-istanbul-lib-report@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/istanbul-lib-report/-/istanbul-lib-report-1.1.0.tgz#444c4ecca9afa93cf584f56b10f195bf768c0770"
+istanbul-lib-report@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/istanbul-lib-report/-/istanbul-lib-report-1.1.1.tgz#f0e55f56655ffa34222080b7a0cd4760e1405fc9"
   dependencies:
-    istanbul-lib-coverage "^1.1.0"
+    istanbul-lib-coverage "^1.1.1"
     mkdirp "^0.5.1"
     path-parse "^1.0.5"
     supports-color "^3.1.2"
 
-istanbul-lib-source-maps@^1.1.0, istanbul-lib-source-maps@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/istanbul-lib-source-maps/-/istanbul-lib-source-maps-1.2.0.tgz#8c7706d497e26feeb6af3e0c28fd5b0669598d0e"
+istanbul-lib-source-maps@^1.1.0, istanbul-lib-source-maps@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/istanbul-lib-source-maps/-/istanbul-lib-source-maps-1.2.1.tgz#a6fe1acba8ce08eebc638e572e294d267008aa0c"
   dependencies:
     debug "^2.6.3"
-    istanbul-lib-coverage "^1.1.0"
+    istanbul-lib-coverage "^1.1.1"
     mkdirp "^0.5.1"
     rimraf "^2.6.1"
     source-map "^0.5.3"
 
-istanbul-reports@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/istanbul-reports/-/istanbul-reports-1.1.0.tgz#1ef3b795889219cfb5fad16365f6ce108d5f8c66"
+istanbul-reports@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/istanbul-reports/-/istanbul-reports-1.1.1.tgz#042be5c89e175bc3f86523caab29c014e77fee4e"
   dependencies:
     handlebars "^4.0.3"
 
@@ -4037,14 +4041,14 @@ js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
 
-js-yaml@3.6.1, js-yaml@^3.5.1:
+js-yaml@3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.6.1.tgz#6e5fe67d8b205ce4d22fad05b7781e8dadcc4b30"
   dependencies:
     argparse "^1.0.7"
     esprima "^2.6.0"
 
-js-yaml@^3.7.0:
+js-yaml@^3.5.1, js-yaml@^3.7.0:
   version "3.8.4"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.8.4.tgz#520b4564f86573ba96662af85a8cafa7b4b5a6f6"
   dependencies:
@@ -4454,13 +4458,13 @@ mime-db@~1.23.0:
   version "1.23.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.23.0.tgz#a31b4070adaea27d732ea333740a64d0ec9a6659"
 
-mime-types@2.1.11:
+mime-types@2.1.11, mime-types@~2.1.7:
   version "2.1.11"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.11.tgz#c259c471bda808a85d6cd193b430a5fae4473b3c"
   dependencies:
     mime-db "~1.23.0"
 
-mime-types@^2.1.12, mime-types@~2.1.11, mime-types@~2.1.15, mime-types@~2.1.6, mime-types@~2.1.7, mime-types@~2.1.9:
+mime-types@^2.1.12, mime-types@~2.1.11, mime-types@~2.1.15, mime-types@~2.1.6, mime-types@~2.1.9:
   version "2.1.15"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.15.tgz#a4ebf5064094569237b8cf70046776d09fc92aed"
   dependencies:
@@ -4516,7 +4520,17 @@ moment@2.x.x:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
-morgan@^1.6.1, morgan@~1.6.1:
+morgan@^1.6.1:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.8.2.tgz#784ac7734e4a453a9c6e6e8680a9329275c8b687"
+  dependencies:
+    basic-auth "~1.1.0"
+    debug "2.6.8"
+    depd "~1.1.0"
+    on-finished "~2.3.0"
+    on-headers "~1.0.1"
+
+morgan@~1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.6.1.tgz#5fd818398c6819cba28a7cd6664f292fe1c0bbf2"
   dependencies:
@@ -4620,8 +4634,8 @@ node-notifier@^5.0.2:
     which "^1.2.12"
 
 node-pre-gyp@^0.6.29:
-  version "0.6.34"
-  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.34.tgz#94ad1c798a11d7fc67381b50d47f8cc18d9799f7"
+  version "0.6.36"
+  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.36.tgz#db604112cb74e0d477554e9b505b17abddfab786"
   dependencies:
     mkdirp "^0.5.1"
     nopt "^4.0.1"
@@ -5191,6 +5205,10 @@ react-intl@^2.2.3:
     intl-relativeformat "^1.3.0"
     invariant "^2.1.1"
 
+react-native-actionsheet@^2.0.5:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-actionsheet/-/react-native-actionsheet-2.1.0.tgz#e1b58bd951f4fcc1c5ebbb769fff5c693f12e23a"
+
 react-native-cli@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-native-cli/-/react-native-cli-2.0.1.tgz#f2cd3c7aa1b83828cdfba630e2dfd817df766d54"
@@ -5220,12 +5238,6 @@ react-native-drawer-layout@1.3.1:
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
 
-react-native-drawer@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-drawer/-/react-native-drawer-2.3.0.tgz#a0369ec80ff0b61c9f152dbdea91fe76c843113a"
-  dependencies:
-    tween-functions "^1.0.1"
-
 react-native-fabric@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/react-native-fabric/-/react-native-fabric-0.4.1.tgz#5fcb604daf17d0dff70603ff3eeba9e3f3160ddd"
@@ -5233,13 +5245,6 @@ react-native-fabric@^0.4.1:
 react-native-safari-view@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-native-safari-view/-/react-native-safari-view-2.0.0.tgz#3aeb40693b0765df16b9beaf8654b60c7ff1d7ed"
-
-react-native-scrollable-tab-view@^0.7.0:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/react-native-scrollable-tab-view/-/react-native-scrollable-tab-view-0.7.4.tgz#623a047cbfab35a27b8689095af524e9aac74b62"
-  dependencies:
-    react-static-container "^1.0.1"
-    react-timer-mixin "^0.13.3"
 
 react-native-sound@^0.10.1:
   version "0.10.1"
@@ -5252,14 +5257,14 @@ react-native-tab-view@^0.0.65:
     prop-types "^15.5.8"
 
 react-native-vector-icons@^4.0.0:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.1.1.tgz#9ac75bde77d9243346668c51dca7756775428087"
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.2.0.tgz#0594b68debdd758dce4c565bf02e2d64d7004d82"
   dependencies:
     lodash "^4.0.0"
     prop-types "^15.5.8"
     yargs "^6.3.0"
 
-react-native@^0.43.3:
+react-native@^0.43.4:
   version "0.43.4"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.43.4.tgz#92fb6937ab415b2e5612835a93a61845de98eb4d"
   dependencies:
@@ -5344,7 +5349,7 @@ react-native@^0.43.3:
     xpipe "^1.0.5"
     yargs "^6.4.0"
 
-react-navigation@^1.0.0-beta.7:
+react-navigation@^1.0.0-beta.9:
   version "1.0.0-beta.11"
   resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.0.0-beta.11.tgz#4271edb23cdbcc6eb88602f7fde0a77f0ef7a160"
   dependencies:
@@ -5375,10 +5380,6 @@ react-redux@^5.0.1:
     loose-envify "^1.1.0"
     prop-types "^15.5.10"
 
-react-static-container@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-static-container/-/react-static-container-1.0.1.tgz#694c0dd68a896b879519afb548399cc1989c9ab0"
-
 react-test-renderer@16.0.0-alpha.6:
   version "16.0.0-alpha.6"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.0.0-alpha.6.tgz#c032def0dc8319cee39caa4e4373a60019cb3786"
@@ -5386,7 +5387,7 @@ react-test-renderer@16.0.0-alpha.6:
     fbjs "^0.8.9"
     object-assign "^4.1.0"
 
-react-timer-mixin@^0.13.2, react-timer-mixin@^0.13.3:
+react-timer-mixin@^0.13.2:
   version "0.13.3"
   resolved "https://registry.yarnpkg.com/react-timer-mixin/-/react-timer-mixin-0.13.3.tgz#0da8b9f807ec07dc3e854d082c737c65605b3d22"
 
@@ -5503,8 +5504,8 @@ rechoir@^0.6.2:
     resolve "^1.1.6"
 
 redux-action-buffer@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/redux-action-buffer/-/redux-action-buffer-1.0.1.tgz#4563f47e7c921c83cd0e8fefc713d3bba59e47b4"
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/redux-action-buffer/-/redux-action-buffer-1.1.0.tgz#9c692ab6532b042d0d43a9f01a48ada120fc941a"
 
 redux-logger@^3.0.1:
   version "3.0.6"
@@ -5666,7 +5667,7 @@ request-promise@^4.1.1:
     stealthy-require "^1.1.0"
     tough-cookie ">=2.3.0"
 
-request@2.79.0, request@^2.79.0:
+request@2.79.0:
   version "2.79.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.79.0.tgz#4dfe5bf6be8b8cdc37fcf93e04b65577722710de"
   dependencies:
@@ -5691,7 +5692,7 @@ request@2.79.0, request@^2.79.0:
     tunnel-agent "~0.4.1"
     uuid "^3.0.0"
 
-request@^2.34, request@^2.57.0, request@^2.64.0, request@^2.65.0, request@^2.81.0:
+request@^2.34, request@^2.57.0, request@^2.64.0, request@^2.65.0, request@^2.79.0, request@^2.81.0:
   version "2.81.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.81.0.tgz#c6928946a0e06c5f8d6f8a9333469ffda46298a0"
   dependencies:
@@ -5813,7 +5814,7 @@ safari-launcher@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/safari-launcher/-/safari-launcher-2.0.5.tgz#a4effa9ea512d1d541e47b8039d8527015f2aded"
 
-safe-buffer@^5.0.1, safe-buffer@~5.0.1:
+safe-buffer@5.0.1, safe-buffer@^5.0.1, safe-buffer@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.0.1.tgz#d263ca54696cd8a306b5ca6551e92de57918fbe7"
 
@@ -5907,7 +5908,17 @@ send@0.15.3:
     range-parser "~1.2.0"
     statuses "~1.3.1"
 
-serve-favicon@^2.3.0, serve-favicon@~2.3.0:
+serve-favicon@^2.3.0:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/serve-favicon/-/serve-favicon-2.4.3.tgz#5986b17b0502642b641c21f818b1acce32025d23"
+  dependencies:
+    etag "~1.8.0"
+    fresh "0.5.0"
+    ms "2.0.0"
+    parseurl "~1.3.1"
+    safe-buffer "5.0.1"
+
+serve-favicon@~2.3.0:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/serve-favicon/-/serve-favicon-2.3.2.tgz#dd419e268de012ab72b319d337f2105013f9381f"
   dependencies:
@@ -6325,9 +6336,9 @@ temp@0.8.3, temp@^0.8.3:
     os-tmpdir "^1.0.0"
     rimraf "~2.2.6"
 
-test-exclude@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/test-exclude/-/test-exclude-4.1.0.tgz#04ca70b7390dd38c98d4a003a173806ca7991c91"
+test-exclude@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/test-exclude/-/test-exclude-4.1.1.tgz#4d84964b0966b0087ecc334a2ce002d3d9341e26"
   dependencies:
     arrify "^1.0.1"
     micromatch "^2.3.11"
@@ -6437,10 +6448,6 @@ tunnel-agent@^0.6.0:
 tunnel-agent@~0.4.1:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/tunnel-agent/-/tunnel-agent-0.4.3.tgz#6373db76909fe570e08d73583365ed828a74eeeb"
-
-tween-functions@^1.0.1:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/tween-functions/-/tween-functions-1.2.0.tgz#1ae3a50e7c60bb3def774eac707acbca73bbc3ff"
 
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
@@ -6884,7 +6891,7 @@ yargs-parser@^5.0.0:
   dependencies:
     camelcase "^3.0.0"
 
-yargs@^3.10.0, yargs@^3.29.0, yargs@^3.32.0:
+yargs@^3.10.0, yargs@^3.29.0, yargs@^3.32.0, yargs@^3.9.0:
   version "3.32.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-3.32.0.tgz#03088e9ebf9e756b69751611d2a5ef591482c995"
   dependencies:
@@ -6895,15 +6902,6 @@ yargs@^3.10.0, yargs@^3.29.0, yargs@^3.32.0:
     string-width "^1.0.1"
     window-size "^0.1.4"
     y18n "^3.2.0"
-
-yargs@^3.9.0, yargs@~3.10.0:
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-3.10.0.tgz#f7ee7bd857dd7c1d2d38c0e74efbd681d1431fd1"
-  dependencies:
-    camelcase "^1.0.2"
-    cliui "^2.1.0"
-    decamelize "^1.0.0"
-    window-size "0.1.0"
 
 yargs@^6.3.0, yargs@^6.4.0, yargs@^6.6.0:
   version "6.6.0"
@@ -6940,6 +6938,15 @@ yargs@^7.0.2:
     which-module "^1.0.0"
     y18n "^3.2.1"
     yargs-parser "^5.0.0"
+
+yargs@~3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-3.10.0.tgz#f7ee7bd857dd7c1d2d38c0e74efbd681d1431fd1"
+  dependencies:
+    camelcase "^1.0.2"
+    cliui "^2.1.0"
+    decamelize "^1.0.0"
+    window-size "0.1.0"
 
 yargs@~3.27.0:
   version "3.27.0"

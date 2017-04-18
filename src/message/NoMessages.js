@@ -40,11 +40,10 @@ export default class NoMessages extends React.PureComponent {
   render() {
     const { narrow } = this.props;
     const message = messages.find(x => x.isFunc(narrow));
-    const { container, text } = styles;
 
     return (
-      <View style={container}>
-        <Label style={text} text={message.text} />
+      <View style={styles.container}>
+        <Label style={styles.text} text={message.text} />
         <Label text="Why not start the conversation?" />
       </View>
     );

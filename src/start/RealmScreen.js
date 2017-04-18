@@ -56,12 +56,12 @@ class RealmScreen extends React.Component {
       error: undefined,
     });
 
-    const { pushRoute, realmAdd } = this.props;
+    const { navigateToAuth, realmAdd } = this.props;
 
     try {
       const authBackends = await getAuthBackends({ realm });
       realmAdd(realm);
-      pushRoute('auth', { authBackends });
+      navigateToAuth(authBackends);
       Keyboard.dismiss();
     } catch (err) {
       this.setState({ error: 'Can not connect to server' });

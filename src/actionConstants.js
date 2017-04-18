@@ -16,8 +16,6 @@ export const HTTP_UNAUTHORIZED = 'HTTP_UNAUTHORIZED';
 export const LOGOUT = 'LOGOUT';
 
 export const INIT_ROUTES = 'INIT_ROUTES';
-export const PUSH_ROUTE = 'PUSH_ROUTE';
-export const POP_ROUTE = 'POP_ROUTE';
 
 export const REALM_INIT = 'REALM_INIT';
 export const SWITCH_NARROW = 'SWITCH_NARROW';

@@ -8,6 +8,10 @@ import ConversationsContainer from '../conversations/ConversationsContainer';
 
 export default class MainScreen extends React.Component {
 
+  static navigationOptions = {
+    title: 'Welcome',
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +21,14 @@ export default class MainScreen extends React.Component {
   }
 
   render() {
-    const { doNarrow, orientation, pushRoute } = this.props;
+    const {
+      orientation,
+      doNarrow,
+      navigateToAllStreams,
+      navigateToUsers,
+      navigateToSearch,
+    } = this.props;
+
     const { leftDrawerOpen, rightDrawerOpen } = this.state;
 
     return (
@@ -29,7 +40,8 @@ export default class MainScreen extends React.Component {
         onClose={() => this.setState({ leftDrawerOpen: false })}
         content={
           <StreamSidebar
-            pushRoute={pushRoute}
+            navigateToAllStreams={navigateToAllStreams}
+            navigateToSearch={navigateToSearch}
             onNarrow={newNarrow => {
               doNarrow(newNarrow);
               this.setState({ leftDrawerOpen: false });
@@ -45,6 +57,7 @@ export default class MainScreen extends React.Component {
           onClose={() => this.setState({ rightDrawerOpen: false })}
           content={
             <ConversationsContainer
+              navigateToUsers={navigateToUsers}
               onNarrow={newNarrow => {
                 doNarrow(newNarrow);
                 this.setState({ rightDrawerOpen: false });

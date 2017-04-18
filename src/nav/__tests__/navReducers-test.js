@@ -1,7 +1,5 @@
 import {
   INIT_ROUTES,
-  PUSH_ROUTE,
-  POP_ROUTE,
   SET_AUTH_TYPE,
   LOGIN_SUCCESS,
 } from '../../actionConstants';
@@ -49,73 +47,6 @@ describe('navReducers', () => {
       const newState = navReducers(prevState, action);
 
       expect(newState).toEqual(expectedState);
-    });
-  });
-
-  describe('PUSH_ROUTE', () => {
-    test('adds new route at the end of list, changes current route to point to it', () => {
-      const prevState = {
-        index: 0,
-        routes: [
-          { key: 'one' }
-        ],
-      };
-      const action = {
-        type: PUSH_ROUTE,
-        route: 'another',
-      };
-      const expectedState = {
-        index: 1,
-        routes: [
-          { key: 'one' },
-          { key: 'another' },
-        ],
-      };
-
-      const newState = navReducers(prevState, action);
-
-      expect(newState).toEqual(expectedState);
-    });
-  });
-
-  describe('POP_ROUTE', () => {
-    test('removes last route in list, previous route becomes active', () => {
-      const prevState = {
-        index: 2,
-        routes: [
-          { key: 'one' },
-          { key: 'two' },
-          { key: 'three' },
-        ],
-      };
-      const action = {
-        type: POP_ROUTE,
-      };
-      const expectedState = {
-        index: 1,
-        routes: [
-          { key: 'one' },
-          { key: 'two' },
-        ],
-      };
-
-      const newState = navReducers(prevState, action);
-
-      expect(newState).toEqual(expectedState);
-    });
-
-    test('trying to pop route when list is empty, does nothing', () => {
-      const prevState = {
-        index: 0,
-        routes: [],
-      };
-      const action = {
-        type: POP_ROUTE,
-      };
-
-      const newState = navReducers(prevState, action);
-
-      expect(newState).toBe(prevState);
     });
   });
 
