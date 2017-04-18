@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import type { PopRouteAction, StyleObj } from '../types';
+import type { Actions, StyleObj } from '../types';
 import ModalNavBar from '../nav/ModalNavBar';
 import { SlideAnimationView, Avatar } from '../common';
 import { shortTime, humanDate } from '../utils/date';
@@ -37,7 +37,7 @@ const customStyles = StyleSheet.create({
 });
 
 type Props = {
-  popRoute: PopRouteAction,
+  actions: Actions,
   senderName: string,
   timestamp: number,
   from: number,
@@ -45,10 +45,10 @@ type Props = {
   style: StyleObj,
   avatarUrl: string,
   realm: string,
-  styles: () => null,
+  styles: StyleObj,
 };
 
-export default ({ popRoute, senderName, timestamp, styles, ...restProps }: Props) => {
+export default ({ actions, senderName, timestamp, styles, ...restProps }: Props) => {
   const displayDate = humanDate(new Date(timestamp * 1000));
   const time = shortTime(new Date(timestamp * 1000));
   const subheader = `${displayDate} at ${time}`;
@@ -57,11 +57,10 @@ export default ({ popRoute, senderName, timestamp, styles, ...restProps }: Props
     <SlideAnimationView property={'translateY'} {...restProps}>
       <ModalNavBar
         itemsColor="white"
-        rightItem={{ name: 'ios-close-outline', onPress: popRoute, style: { fontSize: 36 } }}
+        rightItem={{ name: 'ios-close-outline', onPress: actions.navigateBack, style: { fontSize: 36 } }}
         style={customStyles.navBar}
         childrenStyle={customStyles.children}
         isRightItemNav
-        popRoute
       >
         <Avatar {...restProps} />
         <View style={customStyles.text}>

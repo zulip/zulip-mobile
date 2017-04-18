@@ -3,7 +3,7 @@ import React, { Children } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { LocalizableText, PopRouteAction, StyleObj } from '../types';
+import type { Actions, LocalizableText, StyleObj } from '../types';
 import boundActions from '../boundActions';
 import { CONTROL_SIZE } from '../styles';
 import { Label } from '../common';
@@ -24,6 +24,7 @@ class ModalNavBar extends React.Component {
   };
 
   props: {
+    actions: Actions,
     nav: any,
     title?: LocalizableText,
     titleColor?: ?string,
@@ -31,7 +32,6 @@ class ModalNavBar extends React.Component {
     rightItem?: Object,
     style: StyleObj,
     children?: Children,
-    popRoute: PopRouteAction,
     isRightItemNav?: boolean,
     childrenStyle?: StyleObj,
   };
@@ -39,11 +39,11 @@ class ModalNavBar extends React.Component {
   render() {
     const { styles } = this.context;
     const {
+      actions,
       nav,
       title,
       titleColor,
       itemsColor,
-      popRoute,
       rightItem,
       style,
       isRightItemNav,
@@ -62,7 +62,7 @@ class ModalNavBar extends React.Component {
     return (
       <View style={[styles.navBar, style]}>
         {nav.index > 0 && !isRightItemNav &&
-          <NavButton name="ios-arrow-back" color={itemsColor} onPress={popRoute} />
+          <NavButton name="ios-arrow-back" color={itemsColor} onPress={actions.navigateBack} />
         }
         <View style={[customStyles.centerItem, childrenStyle]}>
           {content}

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import type { Actions, Auth } from '../types';
 import boundActions from '../boundActions';
-import { getInitialRoutes } from '../nav/routingSelectors';
 import { ZulipButton } from '../common';
 import unregisterPush from '../api/unregisterPush';
 import { getAuth } from '../account/accountSelectors';
@@ -40,7 +39,7 @@ class LogoutButton extends Component {
     actions.logout(accounts);
     const accountsLoggedOut = accounts.slice();
     accountsLoggedOut[0].apiKey = '';
-    actions.initRoutes(getInitialRoutes(accounts));
+    actions.resetNavigation();
   }
 
   render() {

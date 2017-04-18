@@ -59,7 +59,7 @@ class AuthScreen extends React.PureComponent {
     } else {
       // Password auth flow
       actions.setAuthType(authType);
-      actions.pushRoute(authType);
+      actions.navigateToAuth(authType);
     }
   }
 

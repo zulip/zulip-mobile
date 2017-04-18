@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 });
 
 type EmptyMessage = {
-  isFunc: (Narrow) => boolean,
+  isFunc: Narrow => boolean,
   text: string,
 };
 
@@ -46,12 +46,11 @@ const messages: EmptyMessage[] = [
 export default class NoMessages extends React.PureComponent {
   render() {
     const { narrow } = this.props;
-    const message = messages.find(x => x.isFunc(narrow)) || { text: '' };
-    const { container, text } = styles;
+    const message = messages.find(x => x.isFunc(narrow)) || {};
 
     return (
-      <View style={container}>
-        <Label style={text} text={message.text} />
+      <View style={styles.container}>
+        <Label style={styles.text} text={message.text} />
         <Label text="Why not start the conversation?" />
       </View>
     );

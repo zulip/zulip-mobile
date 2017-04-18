@@ -26,7 +26,7 @@ export default class HtmlTagImg extends React.PureComponent {
   handlePress = (resource: Object) => {
     const { src, auth, message, actions } = this.props;
     if (!isEmojiUrl(src, auth.realm)) {
-      actions.pushRoute('light-box', { src: resource, message, auth });
+      actions.navigateToLightbox(resource, message);
     }
   };
 
@@ -34,6 +34,7 @@ export default class HtmlTagImg extends React.PureComponent {
     const { src, style, auth } = this.props;
     const resource = getResource(src, auth);
     const ContainerComponent = isEmojiUrl ? TouchableWithoutFeedback : Touchable;
+
     return (
       <ContainerComponent onPress={() => this.handlePress(resource)}>
         <Image source={resource} resizeMode="contain" style={[styles.img, style]} />

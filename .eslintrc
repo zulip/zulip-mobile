@@ -15,10 +15,7 @@
   },
   "globals": {
   },
-  "extends": [
-    "airbnb",
-    "prettier",
-  ],
+  "extends": "airbnb",
   "settings": {
     "import/resolver": {
       "node": {

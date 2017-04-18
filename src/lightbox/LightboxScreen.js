@@ -21,7 +21,9 @@ export default class LightboxScreen extends React.Component {
       <View style={styles.screen}>
         <ZulipStatusBar hidden backgroundColor="black" />
         <ActionSheetProvider>
-          <LightboxContainer {...this.props} />
+          <LightboxContainer
+            {...this.props.navigation.state.params}
+          />
         </ActionSheetProvider>
       </View>
     );

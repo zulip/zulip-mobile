@@ -26,7 +26,8 @@ export default class MessageTyping extends React.PureComponent {
     users: Object[],
   };
 
-  handleAvatarPress = (email: string) => this.props.actions.pushRoute('account-details', email);
+  handleAvatarPress = (email: string) =>
+    this.props.actions.navigateToAccountDetails(email);
 
   render() {
     const { users } = this.props;

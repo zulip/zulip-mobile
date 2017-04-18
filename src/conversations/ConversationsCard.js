@@ -54,12 +54,8 @@ export default class ConversationsCard extends Component {
         groupNarrow(email.split(','))
     );
 
-  handleSearchPress = () => {
-    this.props.actions.pushRoute('users');
-  }
-
   render() {
-    const { conversations, realm, users, narrow } = this.props;
+    const { actions, conversations, realm, users, narrow } = this.props;
 
     return (
       <View tabLabel="People" style={styles.container}>
@@ -67,7 +63,7 @@ export default class ConversationsCard extends Component {
           secondary
           style={styles.button}
           text="Search people"
-          onPress={this.handleSearchPress}
+          onPress={actions.navigateToUsersScreen}
         />
         <ConversationList
           conversations={conversations}

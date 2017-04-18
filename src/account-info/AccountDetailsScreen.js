@@ -10,30 +10,24 @@ import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
 import { getCurrentRoute } from '../nav/routingSelectors';
 
-
 class AccountDetailsScreen extends Component {
-
   props: {
     auth: Auth,
-    email: string,
+    navigation: Object,
     users: Object[],
     orientation: string,
     actions: Actions,
   };
-  user: Object;
-
-  componentWillMount() {
-    // props.email gets reset during navigation slide out (on back)
-    // so we cache value to prevent an exception
-    this.user = this.props.users.find(x => x.email === this.props.email) || NULL_USER;
-  }
 
   render() {
-    const { auth, actions, orientation } = this.props;
+    const { auth, actions, navigation, orientation, users } = this.props;
+    const { email } = navigation.state.params;
+
+    const user = users.find(x => x.email === email) || NULL_USER;
     const title = {
       text: '{_}',
       values: {
-        _: this.user.fullName,
+        _: user.fullName,
       },
     };
 
@@ -42,12 +36,10 @@ class AccountDetailsScreen extends Component {
         <AccountDetails
           auth={auth}
           actions={actions}
-          fullName={this.user.fullName}
-          email={this.user.email}
-          avatarUrl={this.user.avatarUrl}
-          status={this.user.status}
-          doNarrow={actions.doNarrow}
-          popRoute={actions.popRoute}
+          fullName={user.fullName}
+          email={user.email}
+          avatarUrl={user.avatarUrl}
+          status={user.status}
           orientation={orientation}
         />
       </Screen>
@@ -56,11 +48,11 @@ class AccountDetailsScreen extends Component {
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     auth: getAuth(state),
     users: state.users,
     email: getCurrentRoute(state).data,
-    orientation: state.app.orientation
+    orientation: state.app.orientation,
   }),
   boundActions,
 )(AccountDetailsScreen);

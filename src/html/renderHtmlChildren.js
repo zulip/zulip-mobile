@@ -12,7 +12,6 @@ type Props = {
   cascadingStyle?: StyleObj,
   cascadingTextStyle?: StyleObj,
   onPress?: (html: string) => void,
-  actions?: Actions,
   indexedStyles?: any[],
 };
 
@@ -23,7 +22,6 @@ export default ({
   childrenNodes,
   cascadingTextStyle,
   onPress,
-  pushRoute,
   message,
   indexedStyles
 }: Props) =>

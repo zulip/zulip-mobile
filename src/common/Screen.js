@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
-import type { Actions, LocalizableText, NavigationState } from '../types';
+import type { LocalizableText, NavigationState } from '../types';
 import boundActions from '../boundActions';
 import { ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
@@ -25,7 +25,6 @@ const componentStyles = StyleSheet.create({
 class Screen extends React.Component {
 
   props: {
-    actions: Actions,
     keyboardAvoiding: boolean,
     title: LocalizableText,
     nav: NavigationState,
@@ -37,7 +36,7 @@ class Screen extends React.Component {
   };
 
   render() {
-    const { actions, keyboardAvoiding, title, nav, children } = this.props;
+    const { keyboardAvoiding, title, children } = this.props;
     const WrapperView = keyboardAvoiding && Platform.OS === 'ios' ? KeyboardAvoidingView : View;
     const { styles } = this.context;
     const backgroundColor = StyleSheet.flatten(styles.background).backgroundColor;
@@ -47,7 +46,7 @@ class Screen extends React.Component {
         <ZulipStatusBar
           backgroundColor={backgroundColor}
         />
-        <ModalNavBar title={title} popRoute={actions.popRoute} nav={nav} />
+        <ModalNavBar title={title} />
         <WrapperView style={componentStyles.screenWrapper} behavior="padding">
           {children}
         </WrapperView>
