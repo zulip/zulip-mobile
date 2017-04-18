@@ -29,13 +29,14 @@
     "immutable": "^3.8.1",
     "lodash.isequal": "^4.4.0",
     "lodash.throttle": "^4.1.1",
-    "react": "~15.4.1",
-    "react-native": "^0.42.0",
+    "react": "16.0.0-alpha.6",
+    "react-native": "^0.43.3",
     "react-native-device-info": "^0.10.1",
     "react-native-drawer": "^2.3.0",
     "react-native-fabric": "^0.4.1",
     "react-native-scrollable-tab-view": "^0.7.0",
     "react-native-vector-icons": "^4.0.0",
+    "react-navigation": "^1.0.0-beta.7",
     "react-redux": "^5.0.1",
     "redux": "^3.6.0",
     "redux-action-buffer": "^1.0.1",
@@ -60,12 +61,12 @@
     "eslint-plugin-react": "~6.10.3",
     "eslint-plugin-react-native": "^2.2.1",
     "eslint-plugin-spellcheck": "~0.0.6",
-    "flow-bin": "~0.38.0",
+    "flow-bin": "~0.40.0",
     "jest": "^19.0.2",
     "jest-cli": "^19.0.2",
     "jest-react-native": "^18.0.0",
     "react-native-cli": "^2.0.1",
-    "react-test-renderer": "~15.4.1"
+    "react-test-renderer": "16.0.0-alpha.6"
   },
   "jest": {
     "preset": "jest-react-native"
