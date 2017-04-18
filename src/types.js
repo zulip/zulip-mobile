@@ -10,7 +10,7 @@ export type Account = Auth;
 
 export type Message = {
   avatar_url: string,
-  client: 'website' | '???',
+  client: 'website' | 'ZulipMobile',
   content: string,
   content_type: 'text/html' | 'text/markdown',
   display_recipient: string,
@@ -92,7 +92,15 @@ export type UpdateMessageFlagsEvent = {
   operation: 'add' | '???',
 };
 
-export type NarrowOperator = 'is' | 'in' | 'near' | 'id' | 'stream' | 'topic' | 'sender' | 'pm-with';
+export type NarrowOperator =
+  | 'is'
+  | 'in'
+  | 'near'
+  | 'id'
+  | 'stream'
+  | 'topic'
+  | 'sender'
+  | 'pm-with';
 
 export type NarrowElement = {
   operand: string,
@@ -115,9 +123,6 @@ export type ApiResponse = {
 export type Action = Object;
 
 export type Actions = {
-  initRoutes: (routes: string[]) => Action,
-  pushRoute: (route: Object, data: Object) => Action,
-  popRoute: () => Action,
   appOnline: (isOnline: boolean) => Action,
   appState: (isActive: boolean) => Action,
   appOrientation: (orientation: string) => Action,
@@ -141,6 +146,17 @@ export type Actions = {
   fetchStreams: () => Action,
   cancelEditMessage: () => void,
   startEditMessage: (messageId: number) => void,
+  resetNavigation: () => Action,
+  navigateBack: () => Action,
+  navigateToAllStreams: () => Action,
+  navigateToUsersScreen: () => Action,
+  navigateToSearch: () => Action,
+  navigateToSettings: () => Action,
+  navigateToAuth: (authType: string) => Action,
+  navigateToAccountPicker: () => Action,
+  navigateToAccountDetails: (email: string) => Action,
+  navigateToAddNewAccount: (realm: string) => Action,
+  navigateToLightbox: (realm: string) => Action,
 };
 
 export type AccountState = Account[];
@@ -162,7 +178,7 @@ export type Fetching = {
 
 export type ChatState = {
   fetching: Fetching,
-  caughtUp: { older: boolean, newer: boolean, },
+  caughtUp: { older: boolean, newer: boolean },
   narrow: Narrow,
   messages: Object,
 };
@@ -227,7 +243,7 @@ export type GlobalState = {
   users: UsersState,
 };
 
-export type MatchResult = Array<string> & { index: number, input: string, };
+export type MatchResult = Array<string> & { index: number, input: string };
 
 export type Dispatch = (action: Action) => void;
 
@@ -240,7 +256,7 @@ export type ReactionType = {
   selfReacted: boolean,
 };
 
-export type LocalizableText = string | { text: string, values: Object, };
+export type LocalizableText = string | { text: string, values: Object };
 
 export type DomElement = {
   name: string,

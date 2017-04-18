@@ -95,7 +95,6 @@ export default ({ auth, actions, attribs, name, cascadingStyle,
       indexedStyles={newIndexedStyles}
       childrenNodes={childrenNodes}
       onPress={onPress}
-      pushRoute={actions.pushRoute}
       message={message}
     />
   );

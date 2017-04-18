@@ -65,7 +65,7 @@ class ModalSearchNavBar extends React.Component {
     return (
       <View style={styles.navBar}>
         {nav.index > 0 &&
-          <NavButton name="ios-arrow-back" onPress={actions.popRoute} />
+          <NavButton name="ios-arrow-back" onPress={actions.navigateBack} />
         }
         {showSearchInput ?
           <SearchInput onChange={searchBarOnChange} /> :

@@ -14,12 +14,13 @@ const styles = StyleSheet.create({
 export default class MessageListWeb extends React.PureComponent {
 
   handleMessage = (event) => {
+    const { fetchOlder, navigateToAccountDetails } = this.props;
     const data = JSON.parse(event.nativeEvent.data);
 
     switch (data.type) {
       case 'scroll':
         if (data.y === 0) {
-          this.props.fetchOlder();
+          fetchOlder();
         }
         break;
       case 'avatar':
@@ -27,6 +28,7 @@ export default class MessageListWeb extends React.PureComponent {
         break;
       case 'narrow':
         this.props.actions.doNarrow(JSON.parse(data.narrow.replace(/'/g, '"')));
+        navigateToAccountDetails(data.fromEmail);
         break;
       default:
     }

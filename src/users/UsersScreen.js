@@ -8,7 +8,7 @@ export default class UsersScreen extends PureComponent {
 
   state: {
     filter: string,
-  };;
+  };
 
   state = {
     filter: '',

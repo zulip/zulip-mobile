@@ -15,7 +15,7 @@ const store = compose(
 
 export const restore = (onFinished: () => void) =>
   persistStore(store, {
-    blacklist: ['app', 'presence'],
+    blacklist: ['app', 'presence', 'nav'],
     storage: AsyncStorage,
   }, onFinished);
 

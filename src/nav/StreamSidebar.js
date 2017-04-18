@@ -1,8 +1,10 @@
 /* @flow */
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
 
-import type { Actions, Narrow } from '../types';
+import type { Actions } from '../types';
+import boundActions from '../boundActions';
 import { STATUSBAR_HEIGHT } from '../styles';
 import { ZulipButton } from '../common';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
@@ -24,67 +26,35 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class StreamSidebar extends React.Component {
-
+class StreamSidebar extends Component {
   props: {
     actions: Actions,
     onNarrow: () => void,
   };
 
-  handleAllStreams = () => {
-    const { actions } = this.props;
-    actions.pushRoute('subscriptions');
-  };
-
-  handleSearch = (narrow: Narrow) => {
-    const { actions } = this.props;
-    actions.pushRoute('search');
-  };
-
-  handleSettings = (narrow: Narrow) => {
-    const { actions } = this.props;
-    actions.pushRoute('settings');
-  };
-
   render() {
-    const { onNarrow } = this.props;
+    const { actions, onNarrow } = this.props;
 
     return (
       <View style={styles.container} scrollsToTop={false}>
         <View style={styles.iconList}>
-          <NavButton
-            name="md-home"
-            onPress={() => onNarrow(homeNarrow())}
-          />
-          <NavButton
-            name="md-mail"
-            onPress={() => onNarrow(specialNarrow('private'))}
-          />
-          <NavButton
-            name="md-star"
-            onPress={() => onNarrow(specialNarrow('starred'))}
-          />
-          <NavButton
-            name="md-at"
-            onPress={() => onNarrow(specialNarrow('mentioned'))}
-          />
-          <NavButton
-            name="md-search"
-            onPress={this.handleSearch}
-          />
-          <NavButton
-            name="md-settings"
-            onPress={this.handleSettings}
-          />
+          <NavButton name="md-home" onPress={() => onNarrow(homeNarrow())} />
+          <NavButton name="md-mail" onPress={() => onNarrow(specialNarrow('private'))} />
+          <NavButton name="md-star" onPress={() => onNarrow(specialNarrow('starred'))} />
+          <NavButton name="md-at" onPress={() => onNarrow(specialNarrow('mentioned'))} />
+          <NavButton name="md-search" onPress={actions.navigateToSearch} />
+          <NavButton name="md-settings" onPress={actions.navigateToSettings} />
         </View>
         <SubscriptionsContainer onNarrow={onNarrow} />
         <ZulipButton
           style={styles.button}
           secondary
           text="All streams"
-          onPress={this.handleAllStreams}
+          onPress={actions.navigateToAllStreams}
         />
       </View>
     );
   }
 }
+
+export default connect(null, boundActions)(StreamSidebar);

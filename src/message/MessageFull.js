@@ -39,14 +39,16 @@ class MessageFull extends React.PureComponent {
     ownEmail: string,
     twentyFourHourTime: boolean,
     realm: string,
-    onLongPress: () => void,
     starred: boolean,
     children?: any[],
     message: Object,
+    onLongPress: () => void,
   };
 
-  handleAvatarPress = () =>
-    this.props.actions.pushRoute('account-details', this.props.message.sender_email);
+  handleAvatarPress = () => {
+    const { message, actions } = this.props;
+    actions.navigateToAccountDetails(message.sender_email);
+  }
 
   render() {
     const {
@@ -57,7 +59,8 @@ class MessageFull extends React.PureComponent {
       ownEmail,
       starred,
       onLongPress,
-      realm } = this.props;
+      realm,
+    } = this.props;
 
     return (
       <View style={styles.message}>

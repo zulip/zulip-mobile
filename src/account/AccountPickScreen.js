@@ -19,15 +19,13 @@ const styles = StyleSheet.create({
 });
 
 class AccountPickScreen extends React.Component {
-
   props: {
     auth: Auth,
     accounts: any[],
     actions: Actions,
   };
 
-  handleAddNewAccount = () =>
-    this.props.actions.pushRoute('realm');
+  handleAddNewAccount = () => this.props.actions.navigateToRealm();
 
   handleAccountSelect = (index: number) => {
     const { accounts, actions } = this.props;
@@ -35,15 +33,14 @@ class AccountPickScreen extends React.Component {
     if (apiKey) {
       actions.switchAccount(index); // Reset stream, message, user list
     } else {
-      actions.pushRoute('realm', { realm });
+      actions.navigateToAddNewAccount(realm);
     }
   };
 
-  handleAccountRemove = (index: number) =>
-    this.props.actions.removeAccount(index);
+  handleAccountRemove = (index: number) => this.props.actions.removeAccount(index);
 
   render() {
-    const { accounts, auth } = this.props;
+    const { accounts, auth, navigateToAddNewAccount } = this.props;
 
     return (
       <Screen title="Pick account">
@@ -59,7 +56,7 @@ class AccountPickScreen extends React.Component {
             <ZulipButton
               text="Add new account"
               style={styles.button}
-              onPress={this.handleAddNewAccount}
+              onPress={navigateToAddNewAccount}
             />
           </View>
         </ScrollView>
@@ -69,7 +66,7 @@ class AccountPickScreen extends React.Component {
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     auth: getAuth(state),
     accounts: state.accounts,
   }),

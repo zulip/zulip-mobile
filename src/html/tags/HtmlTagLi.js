@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { StyleObj } from '../../types';
+import type { Actions, StyleObj } from '../../types';
 import styles from '../HtmlStyles';
 import HtmlNodeText from '../HtmlNodeText';
 import renderHtmlChildren from '../renderHtmlChildren';
@@ -22,6 +22,7 @@ export default class HtmlTagLi extends PureComponent {
 
   props: {
     style: StyleObj,
+    actions: Actions,
   };
 
   render() {

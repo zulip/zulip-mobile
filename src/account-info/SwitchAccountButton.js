@@ -32,7 +32,7 @@ class SwitchAccountButton extends Component {
   switchAccount = () => {
     this.shutdownPUSH();
     this.context.drawer.close();
-    this.props.actions.pushRoute('account');
+    this.props.actions.navigateToAccountPicker();
   }
 
   render() {

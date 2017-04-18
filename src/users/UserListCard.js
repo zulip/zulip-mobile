@@ -8,25 +8,19 @@ import type { Actions, User } from '../types';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
 
-type Props = {
-  actions: Actions,
-  ownEmail: string,
-  realm: string,
-  users: User[],
-  filter: string,
-};
-
 class UserListCard extends Component {
-  props: Props;
-
-  state = {
-    onNarrow: () => {},
+  props: {
+    actions: Actions,
+    ownEmail: string,
+    realm: string,
+    users: User[],
+    filter: string,
   };
 
   handleUserNarrow = (email: string) => {
     const { actions } = this.props;
     actions.doNarrow(privateNarrow(email));
-    actions.popRoute();
+    actions.navigateBack();
   };
 
   render() {
