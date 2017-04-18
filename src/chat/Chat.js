@@ -10,8 +10,8 @@ import ComposeBox from '../compose/ComposeBox';
 
 export default class Chat extends React.Component {
   render() {
-    const { messages, narrow, caughtUp, fetching, isOnline } = this.props;
-    const noMessages = messages.length === 0 && caughtUp.older && caughtUp.newer;
+    const { messages, narrow, fetching, isOnline } = this.props;
+    const noMessages = messages.length === 0 && !(fetching.older || fetching.newer);
     const noMessagesButLoading = messages.length === 0 && (fetching.older || fetching.newer);
 
     return (
