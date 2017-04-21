@@ -4,6 +4,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 export const IconDone = (props) => <MaterialIcon name="done" {...props} />;
+export const IconCancel = (props) => <MaterialIcon name="cancel" {...props} />;
 export const IconWarning = (props) => <MaterialIcon name="warning" {...props} />;
 export const IconSend = (props) => <MaterialIcon name="send" {...props} />;
 export const IconMute = (props) => <MaterialIcon name="volume-off" {...props} />;

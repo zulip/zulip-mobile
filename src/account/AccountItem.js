@@ -2,8 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { BRAND_COLOR } from '../common/styles';
-import { ZulipButton, Touchable } from '../common';
-import { IconDone } from '../common/Icons';
+import { Touchable } from '../common';
+import { IconDone, IconCancel } from '../common/Icons';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -29,10 +29,6 @@ const styles = StyleSheet.create({
   text: {
     color: BRAND_COLOR,
     fontWeight: 'bold',
-  },
-  removeButton: {
-    width: 36,
-    height: 36,
   },
   icon: {
     padding: 6,
@@ -68,9 +64,10 @@ export default class AccountItem extends React.PureComponent {
             <Text style={[styles.text, styles.selectedText]}>{realm}</Text>
           </View>
           {canRemove ?
-            <ZulipButton
-              text="X"
-              customStyles={styles.removeButton}
+            <IconCancel
+              style={styles.icon}
+              size={32}
+              color="crimson"
               onPress={this.handleRemove}
             /> :
             <IconDone
