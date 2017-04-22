@@ -18,7 +18,7 @@ const specials = {
   home: { name: 'Home', icon: 'md-home' },
   private: { name: 'Private messages', icon: 'md-chatboxes' },
   starred: { name: 'Starred', icon: 'md-star' },
-  mentioned: { name: 'Mentions', icon: 'md-at' },
+  mentioned: { name: 'Mentions', icon: 'md-at' }
 };
 
 export default class TitleSpecial extends React.PureComponent {
