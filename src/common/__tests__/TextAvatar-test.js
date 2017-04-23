@@ -14,6 +14,11 @@ describe('colorHashFromName', () => {
 });
 
 describe('initialsFromName', () => {
+  test('empty string returns empty strings of initials', () => {
+    const initials = initialsFromName('');
+    expect(initials).toEqual('');
+  });
+
   test('a single name has a single letter initial', () => {
     const initials = initialsFromName('John');
     expect(initials).toEqual('J');

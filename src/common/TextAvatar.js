@@ -13,7 +13,7 @@ export const colorHashFromName = (name: string) => {
 };
 
 export const initialsFromName = (name: string) =>
-  name.match(/\S+\s*/g).map(x => x[0].toUpperCase()).join('');
+  (name.match(/\S+\s*/g) || []).map(x => x[0].toUpperCase()).join('');
 
 const styles = StyleSheet.create({
   status: {
