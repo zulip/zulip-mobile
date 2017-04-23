@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ListView, Text } from 'react-native';
+import { StyleSheet, SectionList, Text } from 'react-native';
 
 import { getFullUrl } from '../utils/url';
 import UserItem from './UserItem';
@@ -28,32 +28,30 @@ export default class UserList extends Component {
 
   render() {
     const { ownEmail, realm, filter, users, onNarrow } = this.props;
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-      sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-    });
     const shownUsers = sortUserList(filterUserList(users, filter, ownEmail));
     const groupedUsers = groupUsersByInitials(shownUsers);
-    const dataSource = ds.cloneWithRowsAndSections(groupedUsers);
+    const sections = Object.entries(groupedUsers).map(x => ({ key: x[0], data: x[1] }));
 
     return (
-      <ListView
-        enableEmptySections
+      <SectionList
         style={styles.container}
-        dataSource={dataSource}
+        enableEmptySections
         pageSize={12}
-        renderRow={(user =>
+        sections={sections}
+        keyExtractor={item => item.email}
+        renderItem={({ item }) =>
           <UserItem
-            key={user.email}
-            fullName={user.fullName}
-            avatarUrl={getFullUrl(user.avatarUrl, realm)}
-            email={user.email}
-            status={user.status}
+            fullName={item.fullName}
+            avatarUrl={getFullUrl(item.avatarUrl, realm)}
+            email={item.email}
+            status={item.status}
             onPress={onNarrow}
           />
-        )}
-        renderSectionHeader={(xx, x) =>
-          <Text style={styles.groupHeader}>{x}</Text>
+        }
+        renderSectionHeader={({ section }) =>
+          <Text style={styles.groupHeader}>
+            {section.key}
+          </Text>
         }
       />
     );
