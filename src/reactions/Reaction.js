@@ -55,13 +55,15 @@ const styles = StyleSheet.create({
 const incrementAnimationConfig = {
   toValue: 1,
   duration: 400,
-  easing: Easing.bezier(0.17, 0.67, 0.11, 0.99)
+  easing: Easing.bezier(0.17, 0.67, 0.11, 0.99),
+  useNativeDriver: true,
 };
 
 const decrementAnimationConfig = {
   toValue: 2,
   duration: 400,
-  easing: Easing.bezier(0.17, 0.67, 0.11, 0.99)
+  easing: Easing.bezier(0.17, 0.67, 0.11, 0.99),
+  useNativeDriver: true,
 };
 
 class Reaction extends React.PureComponent {
