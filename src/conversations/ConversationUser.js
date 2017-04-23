@@ -10,7 +10,6 @@ export default ({ email, unreadCount, users, realm, narrow, onNarrow }) => {
 
   return (
     <UserItem
-      key={email}
       fullName={user.fullName}
       avatarUrl={user.avatarUrl}
       email={email}

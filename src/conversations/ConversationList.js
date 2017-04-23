@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListView, StyleSheet, Text } from 'react-native';
+import { FlatList, StyleSheet, Text } from 'react-native';
 
 import ConversationUser from './ConversationUser';
 import ConversationGroup from './ConversationGroup';
@@ -33,9 +33,6 @@ export default class ConversationList extends React.PureComponent {
   render() {
     const { conversations } = this.props;
 
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    const dataSource = ds.cloneWithRows(conversations);
-
     if (!conversations.length) {
       return (
         <Text style={styles.emptySlate}>
@@ -45,24 +42,24 @@ export default class ConversationList extends React.PureComponent {
     }
 
     return (
-      <ListView
-        enableEmptySections
+      <FlatList
         style={styles.container}
-        dataSource={dataSource}
-        pageSize={12}
-        renderRow={(conversation => (
-          conversation.recipients.indexOf(',') === -1 ? // if single recipient
+        initialNumToRender={20}
+        data={conversations}
+        keyExtractor={item => item.recipients}
+        renderItem={({ item }) => (
+          item.recipients.indexOf(',') === -1 ? // if single recipient
             <ConversationUser
-              email={conversation.recipients}
-              unreadCount={conversation.unread}
+              email={item.recipients}
+              unreadCount={item.unread}
               {...this.props}
             /> :
             <ConversationGroup
-              email={conversation.recipients}
-              unreadCount={conversation.unread}
+              email={item.recipients}
+              unreadCount={item.unread}
               {...this.props}
             />
-        ))}
+        )}
       />
     );
   }
