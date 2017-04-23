@@ -3,8 +3,8 @@ import { View } from 'react-native';
 
 import HtmlTagSpan from './HtmlTagSpan';
 
-export default ({ style, data, childrenNodes, cascadingStyle }) => (
+export default ({ style, ...restProps }) => (
   <View style={style}>
-    <HtmlTagSpan childrenNodes={childrenNodes} cascadingStyle={cascadingStyle} />
+    <HtmlTagSpan {...restProps} />
   </View>
 );

@@ -56,4 +56,5 @@ export default connect(state => ({
   narrow: state.chat.narrow,
   mute: state.mute,
   anchor: getAnchor(state),
+  users: state.users,
 }), boundActions)(MainScreenContainer);
