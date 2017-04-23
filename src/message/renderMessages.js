@@ -13,7 +13,7 @@ import TimeRow from '../message/TimeRow';
 import { isSameRecipient, shouldBeMuted } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
-export default ({ auth, subscriptions, messages, narrow, mute, doNarrow }) => {
+export default ({ auth, subscriptions, users, messages, narrow, mute, doNarrow }) => {
   const list = [];
   let prevItem;
 
@@ -65,6 +65,7 @@ export default ({ auth, subscriptions, messages, narrow, mute, doNarrow }) => {
         isBrief={shouldGroupWithPrev}
         doNarrow={doNarrow}
         avatarUrl={getFullUrl(item.avatar_url, auth.realm)}
+        users={users}
       />
     );
 

@@ -42,7 +42,7 @@ const specialTags = {
 const stylesFromClassNames = (classNames = '', styleObj) =>
   classNames.split(' ').map(className => styleObj[className]);
 
-export default ({ auth, attribs, name, cascadingStyle, childrenNodes }) => {
+export default ({ auth, attribs, name, cascadingStyle, childrenNodes, onPress }) => {
   const style = [
     styles[name],
     ...stylesFromClassNames(attribs.class, styles),
@@ -73,6 +73,7 @@ export default ({ auth, attribs, name, cascadingStyle, childrenNodes }) => {
       style={style}
       cascadingStyle={newCascadingStyle}
       childrenNodes={childrenNodes}
+      onPress={onPress}
     />
   );
 };

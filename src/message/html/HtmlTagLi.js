@@ -12,9 +12,11 @@ const styles = StyleSheet.create({
 
 const BULLET = '\u2022';
 
-export default ({ auth, childrenNodes, style, cascadingStyle }) => (
+export default ({ style, ...restProps }) => (
   <View style={style}>
     <Text style={styles.bullet}>{BULLET}</Text>
-    <Text>{renderHtmlChildren({ childrenNodes, auth, cascadingStyle })}</Text>
+    <Text>
+      {renderHtmlChildren({ ...restProps })}
+    </Text>
   </View>
 );

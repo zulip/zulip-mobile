@@ -3,8 +3,8 @@ import { View } from 'react-native';
 
 import renderHtmlChildren from './renderHtmlChildren';
 
-export default ({ auth, style, cascadingStyle, childrenNodes }) => (
+export default ({ style, ...restProps }) => (
   <View style={style}>
-    {renderHtmlChildren({ childrenNodes, auth, cascadingStyle })}
+    {renderHtmlChildren({ ...restProps })}
   </View>
 );
