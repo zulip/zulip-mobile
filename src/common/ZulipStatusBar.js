@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform, StatusBar } from 'react-native';
 
-import { foregroundColorFromBackground } from '../utils/color';
+import { foregroundColorFromBackground, getStatusBarColor } from '../utils/color';
 
 export default (props) => {
   const backgroundColor = props.backgroundColor || 'black';
@@ -12,7 +12,7 @@ export default (props) => {
       animated
       showHideTransition="slide"
       hidden={props.hidden && Platform.OS !== 'android'}
-      backgroundColor={backgroundColor}
+      backgroundColor={getStatusBarColor(backgroundColor)}
       barStyle={textColor === 'white' ? 'light-content' : 'dark-content'}
     />
   );
