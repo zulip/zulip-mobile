@@ -24,11 +24,11 @@ export default class MessageBrief extends React.PureComponent {
   };
 
   render() {
-    const { message, children, selfEmail, onPress } = this.props;
+    const { message, children, selfEmail, onLongPress } = this.props;
 
     return (
       <View style={styles.message}>
-        <Touchable onPress={onPress}>
+        <Touchable onLongPress={onLongPress}>
           <View>
             {children}
           </View>

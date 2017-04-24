@@ -34,7 +34,7 @@ class MessageFull extends React.PureComponent {
     this.props.pushRoute('account-details', this.props.message.sender_email);
 
   render() {
-    const { message, children, avatarUrl, twentyFourHourTime, selfEmail, onPress } = this.props;
+    const { message, children, avatarUrl, twentyFourHourTime, selfEmail, onLongPress } = this.props;
 
     return (
       <View style={styles.message}>
@@ -49,7 +49,7 @@ class MessageFull extends React.PureComponent {
             timestamp={message.timestamp}
             twentyFourHourTime={twentyFourHourTime}
           />
-          <Touchable onPress={onPress}>
+          <Touchable onLongPress={onLongPress}>
             <View>
               {children}
             </View>
