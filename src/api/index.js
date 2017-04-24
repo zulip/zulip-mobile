@@ -18,3 +18,4 @@ export { default as subscriptionAdd } from './subscriptionAdd';
 export { default as subscriptionRemove } from './subscriptionRemove';
 export { default as sendMessage } from './sendMessage';
 export { default as uploadFile } from './uploadFile';
+export { default as getSingleMessage } from './getSingleMessage';

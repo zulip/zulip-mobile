@@ -5,6 +5,7 @@ import TaggedView from '../native/TaggedView';
 import { LoadingIndicator } from '../common';
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
+import MessageActionSheet from './MessageActionSheet';
 
 const styles = StyleSheet.create({
   list: {
@@ -19,20 +20,38 @@ export default class MessageList extends React.PureComponent {
     onScroll: () => {},
   };
 
+  constructor() {
+    super();
+    this.state = {
+      longPressedMessage: null,
+    };
+  }
+
   componentWillReceiveProps(nextProps) {
     this.autoScrollToBottom = this.props.caughtUp.newer && nextProps.caughtUp.newer;
   }
 
+  openMessageActionSheet = (longPressedMessage) => {
+    this.setState({ longPressedMessage });
+  };
+
+  closeMessageActionSheet = () => {
+    this.setState({ longPressedMessage: null });
+  };
+
   render() {
     const {
+      auth,
+      doNarrow,
       caughtUp,
       fetching,
       fetchOlder,
       fetchNewer,
       singleFetchProgress,
-      onScroll,
+      onScroll
     } = this.props;
-    const messageList = renderMessages(this.props);
+
+    const messageList = renderMessages({ onLongPress: this.openMessageActionSheet, ...this.props });
 
     // `headerIndices` tell the scroll view which components are headers
     // and are eligible to be docked at the top of the view.
@@ -68,6 +87,14 @@ export default class MessageList extends React.PureComponent {
         <LoadingIndicator active={fetching.older} caughtUp={caughtUp.older} />
         {messageList}
         {!singleFetchProgress && fetching.newer && <LoadingIndicator active />}
+
+        <MessageActionSheet
+          doNarrow={doNarrow}
+          auth={auth}
+          message={this.state.longPressedMessage}
+          show={this.state.longPressedMessage !== null}
+          close={this.closeMessageActionSheet}
+        />
       </InfiniteScrollView>
     );
   }

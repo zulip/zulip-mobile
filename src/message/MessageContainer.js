@@ -3,7 +3,6 @@ import { Linking } from 'react-native';
 import htmlparser from 'htmlparser2';
 
 import renderHtmlChildren from './html/renderHtmlChildren';
-import { narrowFromMessage } from '../utils/narrow';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
@@ -21,11 +20,6 @@ const htmlToDomTree = html => {
 };
 
 export default class MessageContainer extends React.PureComponent {
-  handlePress = () => {
-    const { message, doNarrow } = this.props;
-    doNarrow(narrowFromMessage(message), message.id);
-  };
-
   inAppLinkPress = href => {
     const { users, auth, doNarrow } = this.props;
     const anchor = getMessageIdFromLink(href, auth.realm);
@@ -40,6 +34,11 @@ export default class MessageContainer extends React.PureComponent {
       href,
     );
 
+  onLongPress = () => {
+    const { message, onLongPress } = this.props;
+    onLongPress(message);
+  }
+
   render() {
     const { message, auth, avatarUrl, twentyFourHourTime, isBrief, doNarrow } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
@@ -52,7 +51,7 @@ export default class MessageContainer extends React.PureComponent {
         twentyFourHourTime={twentyFourHourTime}
         selfEmail={auth.email}
         doNarrow={doNarrow}
-        onPress={this.handlePress}
+        onLongPress={this.onLongPress}
       >
         {renderHtmlChildren({ childrenNodes: dom, auth, onPress: this.handleLinkPress })}
       </MessageComponent>
