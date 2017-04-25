@@ -9,10 +9,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
   },
-  icon: {
-    padding: 4,
-    color: '#999',
-  },
 });
 
 export default class EmojiPicker extends React.Component {

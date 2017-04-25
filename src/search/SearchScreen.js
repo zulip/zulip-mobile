@@ -15,10 +15,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'stretch',
   },
-  navigationCard: {
-    backgroundColor: 'white',
-    shadowColor: 'transparent',
-  },
   screenWrapper: {
     flex: 1,
     flexDirection: 'column',

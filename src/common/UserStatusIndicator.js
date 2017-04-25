@@ -14,16 +14,14 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 2,
   },
-  active: {
+  active: { // eslint-disable-line
     backgroundColor: '#44c21d',
   },
-  idle: {
+  idle: { // eslint-disable-line
     backgroundColor: 'rgba(255, 165, 0, 1)',
   },
-  offline: {
+  offline: { // eslint-disable-line
     backgroundColor: 'lightgray',
-  },
-  unknown: {
   },
 });
 

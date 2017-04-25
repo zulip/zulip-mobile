@@ -5,9 +5,6 @@ import { Touchable } from './';
 import UserStatusIndicator from '../common/UserStatusIndicator';
 
 const styles = StyleSheet.create({
-  wrapper: {
-    position: 'relative',
-  },
   status: {
     marginLeft: 21,
     marginTop: 21,
