@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableNativeFeedback, Platform, TouchableOpacity } from 'react-native';
+import { TouchableNativeFeedback, Platform, TouchableHighlight } from 'react-native';
 import { HIGHLIGHT_COLOR } from './styles';
 
 const background = Platform.Version >= 21 ?
@@ -7,10 +7,12 @@ const background = Platform.Version >= 21 ?
   TouchableNativeFeedback.SelectableBackground();
 
 export default (props) => (
-  <TouchableOpacity
+  <TouchableNativeFeedback>
+  <TouchableHighlight
     background={background}
     {...props}
   >
     {props.children}
-  </TouchableOpacity>
+  </TouchableHighlight>
+  </TouchableNativeFeedback>
 );
