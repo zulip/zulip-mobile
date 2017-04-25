@@ -20,6 +20,7 @@ const MAX_HEIGHT = 200;
 const componentStyles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   messageBox: {
     flex: 1,
@@ -63,11 +64,12 @@ class ComposeText extends React.Component {
   clearInput = () => {
     this.textInput.clear();
     this.setState({
-      text: ''
+      text: '',
+      contentHeight: MIN_HEIGHT,
     });
   }
 
-  handleContentSizeChange = (event) =>
+  handleOnChange = (event) =>
     this.setState({ contentHeight: event.nativeEvent.contentSize.height });
 
   handleChangeText = (text: string) => {
@@ -104,7 +106,7 @@ class ComposeText extends React.Component {
               multiline
               underlineColorAndroid="transparent"
               height={contentHeight}
-              onContentSizeChange={this.handleContentSizeChange}
+              onChange={this.handleOnChange}
               onChangeText={this.handleChangeText}
               placeholder="Type a message here"
             />
