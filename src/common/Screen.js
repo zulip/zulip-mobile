@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  View, StyleSheet, KeyboardAvoidingView } from 'react-native';
+  View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
 import { PopRouteAction, NavigationState } from '../types';
 import { ZulipStatusBar } from '../common';
@@ -34,7 +34,7 @@ class Screen extends React.Component {
 
   render() {
     const { keyboardAvoiding, title, nav, children, popRoute } = this.props;
-    const WrapperView = keyboardAvoiding ? KeyboardAvoidingView : View;
+    const WrapperView = keyboardAvoiding && Platform.OS === 'ios' ? KeyboardAvoidingView : View;
 
     return (
       <View style={styles.screen}>

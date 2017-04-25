@@ -1,5 +1,5 @@
 import React from 'react';
-import { KeyboardAvoidingView } from 'react-native';
+import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import styles from '../styles';
@@ -39,6 +39,7 @@ export default class Chat extends React.Component {
     const noMessagesButLoading = messages.length === 0 && (fetching.older || fetching.newer);
     const showMessageList = !noMessages && !noMessagesButLoading;
     const unreadCount = countUnread(messages.map(msg => msg.id), readIds);
+    const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
 
     const isNarrowWithComposeBox = isStreamNarrow(narrow) ||
       isTopicNarrow(narrow) ||
@@ -46,7 +47,7 @@ export default class Chat extends React.Component {
 
     return (
       <ActionSheetProvider>
-        <KeyboardAvoidingView style={styles.screen} behavior="padding">
+        <WrapperView style={styles.screen} behavior="padding">
           {(unreadCount > 0) && <UnreadNotice
             position="bottom"
             count={unreadCount}
@@ -58,7 +59,7 @@ export default class Chat extends React.Component {
           {showMessageList &&
             <MessageList onScroll={this.handleMessageListScroll} {...this.props} />}
           {canSendToNarrow(narrow) && <ComposeBox />}
-        </KeyboardAvoidingView>
+        </WrapperView>
       </ActionSheetProvider>
     );
   }
