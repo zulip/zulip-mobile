@@ -17,17 +17,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
   },
-  url: {
-    fontSize: 9,
-    marginBottom: 14,
-  },
   image: {
     margin: 4,
     width: 150,
     height: 150,
-  },
-  info: {
-    flex: 1,
   },
 });
 

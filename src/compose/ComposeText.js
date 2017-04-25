@@ -33,9 +33,6 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     fontSize: 16,
   },
-  sendButton: {
-    width: 80,
-  },
 });
 
 type Props = {

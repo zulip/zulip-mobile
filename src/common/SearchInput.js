@@ -9,10 +9,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  icon: {
-    margin: 4,
-    flex: 1
-  },
   input: {
     flex: 1,
     borderWidth: 0,

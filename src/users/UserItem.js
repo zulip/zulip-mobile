@@ -14,8 +14,6 @@ const styles = StyleSheet.create({
   selectedRow: {
     backgroundColor: BRAND_COLOR,
   },
-  touchTarget: {
-  },
   text: {
     flex: 1,
     marginLeft: 8,
