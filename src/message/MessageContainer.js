@@ -1,23 +1,11 @@
 import React from 'react';
 import { Linking } from 'react-native';
-import htmlparser from 'htmlparser2';
 
-import renderHtmlChildren from './html/renderHtmlChildren';
+import htmlToDomTree from '../html/htmlToDomTree';
+import renderHtmlChildren from '../html/renderHtmlChildren';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
-
-const htmlToDomTree = html => {
-  let domTree = null;
-  const parser = new htmlparser.Parser(
-    new htmlparser.DomHandler((err, dom) => {
-      if (!err) domTree = dom;
-    }),
-  );
-  parser.write(html);
-  parser.done();
-  return domTree;
-};
 
 export default class MessageContainer extends React.PureComponent {
   inAppLinkPress = href => {
@@ -46,7 +34,7 @@ export default class MessageContainer extends React.PureComponent {
   render() {
     const { message, auth, avatarUrl, twentyFourHourTime, isBrief, doNarrow } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
-    const dom = htmlToDomTree(message.content);
+    const childrenNodes = htmlToDomTree(message.content);
 
     return (
       <MessageComponent
@@ -59,7 +47,7 @@ export default class MessageContainer extends React.PureComponent {
         starred={this.isStarred(message)}
         realm={auth.realm}
       >
-        {renderHtmlChildren({ childrenNodes: dom, auth, onPress: this.handleLinkPress })}
+        {renderHtmlChildren({ childrenNodes, auth, onPress: this.handleLinkPress })}
       </MessageComponent>
     );
   }

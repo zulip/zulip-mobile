@@ -3,14 +3,16 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   ul: {
     flexDirection: 'column',
+    paddingTop: 4,
+    paddingBottom: 4,
   },
   ol: {
     flexDirection: 'column',
   },
-  div: {},
+  div: {
+    flexWrap: 'wrap',
+  },
   p: {
-    marginTop: 4,
-    marginBottom: 4,
   },
   li: {
     flexDirection: 'row',

@@ -1,16 +1,16 @@
 import React from 'react';
 
 import styles from './HtmlStyles';
-import cascadingStyles from './HtmlCascadingStyles';
-import HtmlTagSpan from './HtmlTagSpan';
-import HtmlTagA from './HtmlTagA';
-import HtmlTagLi from './HtmlTagLi';
-import HtmlTagImg from './HtmlTagImg';
-import HtmlTagPre from './HtmlTagPre';
-import HtmlTagStrong from './HtmlTagStrong';
-import HtmlTagItalic from './HtmlTagItalic';
-import HtmlTagDiv from './HtmlTagDiv';
-import HtmlTagBr from './HtmlTagBr';
+import cascadingStyles from './cascadingStylesView';
+import HtmlTagSpan from './tags/HtmlTagSpan';
+import HtmlTagA from './tags/HtmlTagA';
+import HtmlTagLi from './tags/HtmlTagLi';
+import HtmlTagImg from './tags/HtmlTagImg';
+import HtmlTagPre from './tags/HtmlTagPre';
+import HtmlTagStrong from './tags/HtmlTagStrong';
+import HtmlTagItalic from './tags/HtmlTagItalic';
+import HtmlTagDiv from './tags/HtmlTagDiv';
+import HtmlTagBr from './tags/HtmlTagBr';
 
 // br', 'blockquote',
 
@@ -54,14 +54,6 @@ export default ({ auth, attribs, name, cascadingStyle, childrenNodes, onPress })
   ];
 
   const HtmlComponent = specialTags[name] || HtmlTagSpan;
-
-  // User mentions should not have any breaking spaces
-  if (attribs.class && attribs.class === 'user-mention') {
-    for (const node of childrenNodes) {
-      // Replace every breaking space with a Unicode non-breaking space (\u00a0)
-      node.data = node.data.replace(/ /g, '\u00a0');
-    }
-  }
 
   return (
     <HtmlComponent
