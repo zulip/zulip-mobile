@@ -3,6 +3,7 @@ import React from 'react';
 import { BackAndroid, NavigationExperimental, Platform } from 'react-native';
 
 import { styles } from '../common';
+import ParticipantsScreen from '../chat/ParticipantsScreen';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import AccountPickScreen from '../account/AccountPickScreen';
@@ -78,6 +79,8 @@ export default class Navigation extends React.Component {
         return <SubscriptionsScreen />;
       case 'chat':
         return <ChatScreen />;
+      case 'group-list':
+        return <ParticipantsScreen recipients={props.scene.route.data} />;
       default:
         return <LoadingScreen />;
     }

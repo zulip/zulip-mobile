@@ -85,4 +85,14 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
   },
+  userItemText: {
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  userItemRow: {
+    height: 64,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+  },
 });

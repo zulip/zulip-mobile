@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View, Text } from 'react-native';
+import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 
 import { styles } from '../common';
 import { BRAND_COLOR } from '../common/styles';
@@ -18,8 +19,16 @@ const moreStyles = StyleSheet.create({
 });
 
 class MainNavBar extends React.Component {
+
+  openOverFlowMenu = (recipients) => {
+    this.setState({
+      recipientsList: recipients,
+    });
+    this.overFlowMenu.openMenu(this.mainMenu.getName());
+  }
+
   render() {
-    const { narrow, subscriptions, onPressStreams, onPressPeople } = this.props;
+    const { narrow, subscriptions, onPressStreams, onPressPeople, pushRoute } = this.props;
 
     const backgroundColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
       (subscriptions.find((sub) => narrow[0].operand === sub.name)).color :
@@ -31,15 +40,36 @@ class MainNavBar extends React.Component {
 
     return (
       <View style={moreStyles.wrapper}>
-        <StatusBar
-          barStyle={textColor === 'white' ? 'light-content' : 'dark-content'}
-        />
-        <View style={[styles.navBar, { backgroundColor }]}>
-          <NavButton name="ios-menu" color={textColor} onPress={onPressStreams} />
-          <Title color={textColor} />
-          <NavButton name="md-people" color={textColor} onPress={onPressPeople} />
-        </View>
-        {this.props.children}
+        <MenuContext
+          style={styles.screen}
+          ref={(overFlowMenu) => { this.overFlowMenu = overFlowMenu; }}
+        >
+          <StatusBar
+            barStyle={textColor === 'white' ? 'light-content' : 'dark-content'}
+          />
+          <Menu
+            ref={(mainMenu) => { this.mainMenu = mainMenu; }}
+            onSelect={(value) => (value === 1) && pushRoute('group-list', this.state.recipientsList)}
+          >
+
+            <View style={[styles.navBar, { backgroundColor }]}>
+              <NavButton name="ios-menu" color={textColor} onPress={onPressStreams} />
+              <Title
+                color={textColor}
+                openOverFlowMenu={this.openOverFlowMenu}
+              />
+              <NavButton name="md-people" color={textColor} onPress={onPressPeople} />
+            </View>
+            <MenuTrigger />
+            <MenuOptions>
+              <MenuOption value={1}>
+                <Text>Participants</Text>
+              </MenuOption>
+            </MenuOptions>
+          </Menu>
+
+          {this.props.children}
+        </MenuContext>
       </View>
     );
   }
