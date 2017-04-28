@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-} from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { FormattedMessage } from 'react-intl';
+
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
 
@@ -50,27 +47,25 @@ const ButtonInProgress = ({ frameStyle }) => (
 
 const ButtonNormal = ({ frameStyle, touchTargetStyle, textStyle, text, onPress }) => (
   <View style={frameStyle}>
-    <Touchable
-      style={touchTargetStyle}
-      onPress={onPress}
-    >
+    <Touchable style={touchTargetStyle} onPress={onPress}>
       <Text style={textStyle}>
-        {text}
+        <FormattedMessage
+          id={text}
+          defaultMessage={text}
+        />
       </Text>
     </Touchable>
   </View>
 );
 
-
 export default class ZulipButton extends React.PureComponent {
-
   props: {
     style: Object,
     progress: boolean,
     text: string,
     secondary: boolean,
     onPress: () => void,
-  }
+  };
 
   render() {
     const { style, text, secondary, progress, onPress } = this.props;
@@ -79,10 +74,7 @@ export default class ZulipButton extends React.PureComponent {
       secondary ? styles.secondaryFrame : styles.primaryFrame,
       style,
     ];
-    const textStyle = [
-      styles.text,
-      secondary ? styles.secondaryText : styles.primaryText,
-    ];
+    const textStyle = [styles.text, secondary ? styles.secondaryText : styles.primaryText];
 
     if (progress) {
       return <ButtonInProgress frameStyle={frameStyle} />;

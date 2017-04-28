@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, SectionList } from 'react-native';
 
-import { Label } from '../common';
+import { RawLabel } from '../common';
 import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByInitials } from './usersSelectors';
 
@@ -49,9 +49,9 @@ export default class UserList extends Component {
             realm={realm}
           />
         )}
-        renderSectionHeader={(xx, x) => (
-          <Label style={styles.groupHeader}>{x}</Label>
-        )}
+        renderSectionHeader={(xx, x) =>
+          <RawLabel style={styles.groupHeader} text={x} />
+        }
       />
     );
   }

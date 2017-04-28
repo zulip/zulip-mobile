@@ -8,6 +8,7 @@ export { default as LoadingIndicator } from './LoadingIndicator';
 export { default as Logo } from './Logo';
 export { default as OfflineNotice } from './OfflineNotice';
 export { default as Popup } from './Popup';
+export { default as RawLabel } from './RawLabel';
 export { default as Screen } from './Screen';
 export { default as SearchInput } from './SearchInput';
 export { default as TextAvatar } from './TextAvatar';

@@ -1,6 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
 import { CONTROL_SIZE } from '../styles';
+import { Label } from '../common';
 
 const styles = StyleSheet.create({
   field: {
@@ -27,7 +29,7 @@ export default class ErrorMsg extends React.PureComponent {
 
     return (
       <View style={styles.field}>
-        <Text style={styles.error}>{error}</Text>
+        <Label style={styles.error} text={error} />
       </View>
     );
   }

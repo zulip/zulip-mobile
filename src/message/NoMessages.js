@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingLeft: 10,
     padding: 8,
-  }
+  },
 });
 
 const messages = [
@@ -44,8 +44,8 @@ export default class NoMessages extends React.PureComponent {
 
     return (
       <View style={container}>
-        <Label style={text}>{message.text}</Label>
-        <Label>Why not start the conversation?</Label>
+        <Label style={text} text={message.text} />
+        <Label text="Why not start the conversation?" />
       </View>
     );
   }

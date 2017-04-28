@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
+import { Label } from '../common';
 import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({
@@ -29,9 +30,7 @@ export default class TitleSpecial extends React.PureComponent {
     return (
       <View style={styles.wrapper}>
         <Icon name={icon} size={20} color={color} />
-        <Text style={[styles.title, { color }]}>
-          {name}
-        </Text>
+        <Label style={[styles.title, { color }]} text={name} />
       </View>
     );
   }

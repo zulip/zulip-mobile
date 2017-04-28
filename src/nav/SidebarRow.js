@@ -9,7 +9,7 @@ export default ({ style, onPress, name, icon }) => (
   <Touchable onPress={onPress}>
     <View style={styles.item}>
       <Icon style={styles.icon} name={icon} />
-      <Label>{name}</Label>
+      <Label text={name} />
     </View>
   </Touchable>
 );

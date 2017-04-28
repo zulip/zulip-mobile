@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
-import { Label, Touchable, ZulipSwitch } from '../common';
+import { RawLabel, Touchable, ZulipSwitch } from '../common';
 import StreamIcon from './StreamIcon';
 
 const styles = StyleSheet.create({
@@ -80,21 +80,19 @@ export default class StreamItem extends React.PureComponent {
             />
           </View>
           <View style={styles.text}>
-            <Label
+            <RawLabel
               style={[
                 isSelected && styles.selectedText,
                 isMuted && styles.mutedText
               ]}
-            >
-              {name}
-            </Label>
+              text={name}
+            />
             {!!description &&
-              <Label
+              <RawLabel
                 numberOfLines={1}
                 style={styles.description}
-              >
-                {description}
-              </Label>
+                text={description}
+              />
             }
           </View>
           {showSwitch &&
