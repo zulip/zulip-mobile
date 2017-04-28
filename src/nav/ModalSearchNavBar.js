@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import styles, { CONTROL_SIZE } from '../styles';
-import { SearchInput } from '../common';
+import { Label, SearchInput } from '../common';
 import NavButton from './NavButton';
 
 class ModalSearchNavBar extends React.Component {
@@ -47,7 +47,7 @@ class ModalSearchNavBar extends React.Component {
         }
         {showSearchInput ?
           <SearchInput onChange={searchBarOnChange} /> :
-          <Text style={textStyle}>{title}</Text>
+          <Label style={textStyle} text={title} />
         }
         {searchBar &&
           <NavButton

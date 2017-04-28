@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TextInput } from 'react-native';
+import { FormattedMessage } from 'react-intl';
 
 import styles, { HALF_COLOR } from '../styles';
 
@@ -10,14 +11,19 @@ export default class Input extends Component {
   };
 
   render() {
-    const { style, ...restProps } = this.props;
+    const { style, placeholder, ...restProps } = this.props;
 
     return (
-      <TextInput
-        style={[styles.input, style]}
-        placeholderTextColor={HALF_COLOR}
-        {...restProps}
-      />
+      <FormattedMessage id={placeholder} defaultMessage={placeholder}>
+        {text => (
+          <TextInput
+            style={[styles.input, style]}
+            placeholder={text}
+            placeholderTextColor={HALF_COLOR}
+            {...restProps}
+          />
+        )}
+      </FormattedMessage>
     );
   }
 }

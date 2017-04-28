@@ -70,9 +70,7 @@ class SearchMessagesScreen extends Component {
             />
           }
           {noResults &&
-            <Label style={styles.empty}>
-              No results
-            </Label>
+            <Label style={styles.empty} text="No results" />
           }
           <MessageList
             messages={messages}

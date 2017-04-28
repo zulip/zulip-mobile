@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import styles, { CONTROL_SIZE } from '../styles';
+import { Label } from '../common';
 import NavButton from './NavButton';
 
 class ModalNavBar extends React.Component {
@@ -23,9 +24,7 @@ class ModalNavBar extends React.Component {
         {nav.index > 0 &&
           <NavButton name="ios-arrow-back" onPress={popRoute} />
         }
-        <Text style={textStyle}>
-          {title}
-        </Text>
+        <Label style={textStyle} text={title} />
       </View>
     );
   }

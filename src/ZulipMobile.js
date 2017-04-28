@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import { Text } from 'react-native';
 import { Provider } from 'react-redux';
+import { IntlProvider } from 'react-intl';
 
 import store, { restore } from './store';
+import messages from './i18n/messages';
 import LoadingScreen from './start/LoadingScreen';
 import NavigationContainer from './nav/NavigationContainer';
+
+require('./i18n/locale');
 
 export default class ZulipMobile extends Component {
 
@@ -22,9 +27,18 @@ export default class ZulipMobile extends Component {
       return <LoadingScreen />;
     }
 
+    const { locale } = store.getState().settings;
+
     return (
       <Provider store={store}>
-        <NavigationContainer />
+        <IntlProvider
+          key={locale}
+          locale={locale}
+          textComponent={Text}
+          messages={messages[locale]}
+        >
+          <NavigationContainer />
+        </IntlProvider>
       </Provider>
     );
   }

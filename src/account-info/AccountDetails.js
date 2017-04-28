@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { Avatar, Label, ZulipButton, UserStatusIndicator } from '../common';
+import { Avatar, ZulipButton } from '../common';
 import { privateNarrow } from '../utils/narrow';
 
 const styles = StyleSheet.create({
@@ -18,16 +18,6 @@ const styles = StyleSheet.create({
   padding: {
     padding: 8,
   },
-  status: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 8,
-  },
-  statusText: {
-    marginLeft: 4,
-    fontSize: 18,
-  }
 });
 
 export default class AccountDetails extends Component {
@@ -44,15 +34,15 @@ export default class AccountDetails extends Component {
     return (
       <View style={styles.padding}>
         <View style={styles.avatarWrapper}>
-          <Avatar avatarUrl={avatarUrl} name={fullName} size={100} realm={auth.realm} />
+          <Avatar
+            avatarUrl={avatarUrl}
+            name={fullName}
+            size={100}
+            status={status}
+            realm={auth.realm}
+          />
         </View>
         <View style={styles.details}>
-          <View style={styles.status}>
-            <UserStatusIndicator status={status} />
-            <Label style={styles.statusText}>
-              {status && status[0].toUpperCase() + status.slice(1)}
-            </Label>
-          </View>
           <Text style={styles.info}>{fullName}</Text>
           <Text style={styles.info}>{email}</Text>
         </View>

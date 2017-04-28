@@ -1,11 +1,8 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import ActionSheet from 'react-native-actionsheet'; // eslint-disable-line
 
 import styles from '../styles';
 import TaggedView from '../native/TaggedView';
-import { filterUnreadMessageIds } from '../utils/unread';
-import { registerAppActivity } from '../utils/activity';
 import { LoadingIndicator } from '../common';
 import MessageTyping from '../message/MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';

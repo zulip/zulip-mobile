@@ -52,7 +52,7 @@ class RealmScreen extends React.Component {
       realmAdd(realm);
       pushRoute('auth', authBackends);
     } catch (err) {
-      this.setState({ error: err.message });
+      this.setState({ error: 'Can not connect to server' });
     } finally {
       this.setState({ progress: false });
     }
@@ -68,9 +68,7 @@ class RealmScreen extends React.Component {
           keyboardShouldPersistTaps="always"
         >
           <View style={styles.container}>
-            <Label style={styles.field}>
-              Please enter your server URL
-            </Label>
+            <Label text="Your server URL" />
             <Input
               style={styles.field}
               autoFocus

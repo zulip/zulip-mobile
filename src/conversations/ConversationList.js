@@ -36,9 +36,10 @@ export default class ConversationList extends React.PureComponent {
 
     if (!conversations.length) {
       return (
-        <Label style={styles.emptySlate}>
-          No Recent Conversations
-        </Label>
+        <Label
+          style={styles.emptySlate}
+          text="No recent conversations"
+        />
       );
     }
 

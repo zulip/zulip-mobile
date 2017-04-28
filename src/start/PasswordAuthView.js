@@ -44,7 +44,7 @@ class PasswordAuthView extends React.Component {
     } catch (err) {
       this.setState({
         progress: false,
-        error: 'The email or password you entered is incorrect',
+        error: 'Wrong email or password. Try again.',
       });
     }
   };
@@ -53,9 +53,9 @@ class PasswordAuthView extends React.Component {
     const { email, password } = this.state;
 
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      this.setState({ error: 'Please enter a valid email address' });
+      this.setState({ error: 'Enter a valid email address' });
     } else if (!password) {
-      this.setState({ error: 'Please enter your password' });
+      this.setState({ error: 'Enter a password' });
     } else {
       this.tryPasswordLogin();
     }
