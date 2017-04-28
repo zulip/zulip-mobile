@@ -1,5 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
+import { 
+  View , 
+  Text , 
+  Linking, 
+  TouchableOpacity
+} from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -89,6 +94,18 @@ class PasswordAuthView extends React.Component {
           progress={progress}
           onPress={this.validateForm}
         />
+        <TouchableOpacity>
+        <Text style={[styles.field, styles.register]}
+              onPress={() => Linking.openURL('https://chat.zulip.org/register/')}> 
+              Register
+        </Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+        <Text style={[styles.field, styles.register]}
+              onPress={() => Linking.openURL('https://chat.zulip.org/accounts/password/reset/')}> 
+              Forgot Password?
+        </Text>
+        </TouchableOpacity>
         <ErrorMsg error={error} />
       </View>
     );

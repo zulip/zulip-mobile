@@ -36,14 +36,29 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  image: {
+  	padding: 16,
+  	flex: 1,
+ 	alignSelf: 'center',
+    justifyContent: 'center',
+    resizeMode: 'contain', 
+  },
   heading1: {
     fontSize: 24,
+    textAlign: 'center',
   },
   heading2: {
     fontSize: 20,
   },
   label: {
-    fontSize: 15,
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  register: {
+  	paddingTop: 10,
+  	fontSize: 15,
+    textAlign: 'center',
+    color: BRAND_COLOR,
   },
   field: {
     flexDirection: 'row',
