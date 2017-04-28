@@ -57,4 +57,5 @@ export default connect(state => ({
   mute: state.mute,
   anchor: getAnchor(state),
   users: state.users,
+  readIds: state.flags.read
 }), boundActions)(MainScreenContainer);
