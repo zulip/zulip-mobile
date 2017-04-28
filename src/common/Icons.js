@@ -11,5 +11,6 @@ export const IconMute = (props) => <MaterialIcon name="volume-off" {...props} />
 export const IconStream = (props) => <FontAwesomeIcon name="hashtag" {...props} />;
 export const IconPrivate = (props) => <FontAwesomeIcon name="lock" {...props} />;
 export const IconPrivateChat = (props) => <IoniconsIcon name="md-text" {...props} />;
+export const IconDownArrow = (props) => <IoniconsIcon name="md-arrow-down" {...props} />;
 
 export default IoniconsIcon;
