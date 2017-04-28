@@ -15,4 +15,5 @@ export { default as Touchable } from './Touchable';
 export { default as UnreadCount } from './UnreadCount';
 export { default as UserStatusIndicator } from './UserStatusIndicator';
 export { default as ZulipButton } from './ZulipButton';
+export { default as ZulipStatusBar } from './ZulipStatusBar';
 export { default as ZulipSwitch } from './ZulipSwitch';

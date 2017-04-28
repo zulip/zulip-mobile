@@ -3,8 +3,8 @@ import { foregroundColorFromBackground } from '../color';
 describe('foregroundColorFromBackground', () => {
   test('returns "black" for light backgrounds', () => {
     expect(foregroundColorFromBackground('#ffffff')).toEqual('black');
-    expect(foregroundColorFromBackground('#aaaaaa')).toEqual('black');
-    expect(foregroundColorFromBackground('#8090a0')).toEqual('black');
+    expect(foregroundColorFromBackground('lightgray')).toEqual('black');
+    expect(foregroundColorFromBackground('#b0b0b0')).toEqual('black');
   });
 
   test('returns "white" for dark backgrounds', () => {

@@ -1,12 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  View,
-  StatusBar,
-  StyleSheet,
-  KeyboardAvoidingView,
-} from 'react-native';
+  View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
+import { ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
 
 const styles = StyleSheet.create({
@@ -36,10 +33,7 @@ class Screen extends React.Component {
 
     return (
       <View style={styles.screen}>
-        <StatusBar
-          barStyle="dark-content"
-          hidden={this.props.orientation === 'LANDSCAPE'}
-        />
+        <ZulipStatusBar />
         <ModalNavBar title={title} popRoute={popRoute} nav={nav} />
         <WrapperView style={styles.screenWrapper} behavior="padding">
           {children}

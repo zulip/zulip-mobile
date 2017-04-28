@@ -1,2 +1,7 @@
+import Color from 'color';
+
 export const foregroundColorFromBackground = (color: string) =>
-  (parseInt(color[1], 16) + parseInt(color[3], 16) + parseInt(color[5], 16) > 23 ? 'black' : 'white');
+  (Color(color).luminosity() > 0.4 ? 'black' : 'white');
+
+export const getStatusBarColor = (color: string) =>
+  (Color(color).darken(0.4));
