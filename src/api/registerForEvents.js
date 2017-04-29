@@ -16,5 +16,8 @@ export default (auth: Auth) =>
         'realm_user',
         'update_message_flags',
       ]),
+      fetch_event_types: JSON.stringify([
+        'muted_topics',
+      ]),
     },
   );
