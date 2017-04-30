@@ -6,6 +6,7 @@ export * from './events/eventActions';
 export * from './nav/navActions';
 export * from './message/messagesActions';
 export * from './realm/realmActions';
+export * from './settings/settingsActions';
 export * from './streamlist/streamsActions';
 export * from './subscriptions/subscriptionsActions';
 export * from './users/usersActions';
