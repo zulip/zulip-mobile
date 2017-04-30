@@ -10,7 +10,7 @@ import {
 import MessageHeader from '../message/headers/MessageHeader';
 import MessageContainer from '../message/MessageContainer';
 import TimeRow from '../message/TimeRow';
-import { isSameRecipient, shouldBeMuted } from '../utils/message';
+import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
 export default ({ auth, subscriptions, users, messages, narrow, mute, doNarrow }) => {
@@ -18,10 +18,6 @@ export default ({ auth, subscriptions, users, messages, narrow, mute, doNarrow }
   let prevItem;
 
   for (const item of messages) {
-    if (shouldBeMuted(item, narrow, subscriptions, mute)) {
-      continue; // eslint-disable-line
-    }
-
     const diffDays = prevItem &&
       !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
 

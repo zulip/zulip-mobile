@@ -4,7 +4,7 @@ import isEqual from 'lodash.isequal';
 
 import config from '../config';
 import boundActions from '../boundActions';
-import { getMessagesInActiveNarrow, getAnchor } from '../chat/chatSelectors';
+import { getShownMessagesInActiveNarrow, getAnchor } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
 import MainScreen from './MainScreen';
 
@@ -48,7 +48,7 @@ export default connect(state => ({
   isOnline: state.app.isOnline,
   orientation: state.app.orientation,
   subscriptions: state.subscriptions,
-  messages: getMessagesInActiveNarrow(state),
+  messages: getShownMessagesInActiveNarrow(state),
   flags: state.flags,
   allMessages: state.chat.messages,
   fetching: state.chat.fetching,

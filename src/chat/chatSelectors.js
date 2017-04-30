@@ -1,11 +1,16 @@
 import { specialNarrow } from '../utils/narrow';
-import { normalizeRecipientsSansMe } from '../utils/message';
+import { normalizeRecipientsSansMe, shouldBeMuted } from '../utils/message';
 
 export const getAllMessages = (state) =>
   state.chat.messages;
 
 export const getMessagesInActiveNarrow = (state) =>
   state.chat.messages[JSON.stringify(state.chat.narrow)] || [];
+
+export const getShownMessagesInActiveNarrow = (state) =>
+  getMessagesInActiveNarrow(state).filter(item =>
+    !shouldBeMuted(item, state.chat.narrow, state.subscriptions, state.mute)
+  );
 
 export const getAnchor = (state) => {
   const messages = getMessagesInActiveNarrow(state);
