@@ -7,6 +7,7 @@ import flags from './chat/flagsReducers';
 import mute from './mute/muteReducers';
 import nav from './nav/navReducers';
 import realm from './realm/realmReducers';
+import settings from './settings/settingsReducers';
 import streams from './streamlist/streamsReducers';
 import subscriptions from './subscriptions/subscriptionsReducers';
 import chat from './chat/chatReducers';
@@ -32,6 +33,7 @@ export default enableBatching(combineReducers({
   mute,
   nav,
   realm,
+  settings,
   streams,
   subscriptions,
   users,
