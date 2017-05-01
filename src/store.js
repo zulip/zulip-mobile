@@ -14,7 +14,7 @@ const store = compose(
 
 export const restore = (onFinished) =>
   persistStore(store, {
-    whitelist: ['accounts', 'settings'],
+    blacklist: ['app'],
     storage: AsyncStorage,
   }, onFinished);
 
