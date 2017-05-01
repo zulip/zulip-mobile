@@ -29,7 +29,7 @@
     "lodash.isequal": "^4.4.0",
     "lodash.throttle": "^4.1.1",
     "react": "16.0.0-alpha.6",
-    "react-native": "^0.43.3",
+    "react-native": "^0.44.0",
     "react-native-device-info": "^0.10.1",
     "react-native-drawer": "^2.3.0",
     "react-native-fabric": "^0.4.1",
