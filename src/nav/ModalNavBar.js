@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import boundActions from '../boundActions';
 import { CONTROL_SIZE } from '../common/platform';
 import { styles } from '../common';
-import { BRAND_COLOR } from '../common/styles';
 import NavButton from './NavButton';
 
 class ModalNavBar extends React.Component {
@@ -23,7 +22,7 @@ class ModalNavBar extends React.Component {
     return (
       <View style={styles.navBar}>
         {nav.index > 0 &&
-          <NavButton name="ios-arrow-back" color={BRAND_COLOR} onPress={popRoute} />
+          <NavButton name="ios-arrow-back" onPress={popRoute} />
         }
         <Text style={textStyle}>
           {title}
