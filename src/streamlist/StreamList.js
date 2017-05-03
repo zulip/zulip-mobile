@@ -23,6 +23,7 @@ export default class StreamList extends React.Component {
       <FlatList
         enableEmptySections
         data={sortedStreams}
+        initialNumToRender={50}
         keyExtractor={item => item.stream_id}
         renderItem={({ item }) =>
           <StreamItem

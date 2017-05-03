@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { FlatList, SectionList, StyleSheet } from 'react-native';
 
+import MessageContainer from '../message/MessageContainer';
 import TaggedView from '../native/TaggedView';
 import { LoadingIndicator } from '../common';
-import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
+import { getFullUrl } from '../utils/url';
 
 const styles = StyleSheet.create({
   list: {
@@ -25,8 +26,12 @@ export default class MessageList extends React.PureComponent {
 
   render() {
     const {
+      auth,
       caughtUp,
       fetching,
+      messages,
+      users,
+      doNarrow,
       fetchOlder,
       fetchNewer,
       singleFetchProgress,
@@ -56,19 +61,41 @@ export default class MessageList extends React.PureComponent {
     }
 
     return (
-      <InfiniteScrollView
+      <FlatList
         style={styles.list}
-        automaticallyAdjustContentInset="false"
-        stickyHeaderIndices={headerIndices}
-        onStartReached={fetchOlder}
-        onEndReached={fetchNewer}
-        autoScrollToBottom={this.autoScrollToBottom}
-        onScroll={onScroll}
-      >
-        <LoadingIndicator active={fetching.older} caughtUp={caughtUp.older} />
-        {messageList}
-        {!singleFetchProgress && fetching.newer && <LoadingIndicator active />}
-      </InfiniteScrollView>
+        enableEmptySections
+        sections={[]}
+        data={messages}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) =>
+          <MessageContainer
+            auth={auth}
+            message={item}
+            isBrief={false}
+            doNarrow={doNarrow}
+            avatarUrl={getFullUrl(item.avatar_url, auth.realm)}
+            users={users}
+          />
+        }
+        renderSectionHeader={({ section }) =>
+          <Text style={styles.groupHeader}>
+            {section.key}
+          </Text>
+        }
+      />
+      // <InfiniteScrollView
+      //   style={styles.list}
+      //   automaticallyAdjustContentInset="false"
+      //   stickyHeaderIndices={headerIndices}
+      //   onStartReached={fetchOlder}
+      //   onEndReached={fetchNewer}
+      //   autoScrollToBottom={this.autoScrollToBottom}
+      //   onScroll={onScroll}
+      // >
+      //   <LoadingIndicator active={fetching.older} caughtUp={caughtUp.older} />
+      //   {messageList}
+      //   {!singleFetchProgress && fetching.newer && <LoadingIndicator active />}
+      // </InfiniteScrollView>
     );
   }
 }

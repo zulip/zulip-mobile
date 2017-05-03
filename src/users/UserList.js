@@ -36,7 +36,6 @@ export default class UserList extends Component {
       <SectionList
         style={styles.container}
         enableEmptySections
-        pageSize={12}
         sections={sections}
         keyExtractor={item => item.email}
         renderItem={({ item }) =>

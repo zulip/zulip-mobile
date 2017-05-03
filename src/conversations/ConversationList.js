@@ -45,7 +45,6 @@ export default class ConversationList extends React.PureComponent {
       <FlatList
         enableEmptySections
         style={styles.container}
-        pageSize={12}
         data={conversations}
         keyExtractor={item => item.recipients}
         renderItem={({ item }) => (
