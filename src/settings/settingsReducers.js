@@ -2,7 +2,7 @@ import { SETTINGS_CHANGE } from '../actionConstants';
 
 const initialState = {
   locale: 'en',
-  theme: 'light',
+  theme: 'default',
 };
 
 export default (state = initialState, action) => {

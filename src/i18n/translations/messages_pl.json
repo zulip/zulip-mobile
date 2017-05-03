@@ -36,5 +36,16 @@
   "Can not connect to server": "Can not connect to server",
   "Wrong email or password. Try again.": "Wrong email or password. Try again.",
   "Enter a valid email address": "Enter a valid email address",
-  "Enter a password": "Enter a password"
+  "Enter a password": "Enter a password",
+  "Narrow to conversation": "Narrow to conversation",
+  "Reply": "Odpowiedz",
+  "Copy to clipboard": "Copy to clipboard",
+  "Mute topic": "Mute topic",
+  "Unmute topic": "Unmute topic",
+  "Mute stream": "Mute stream",
+  "Unmute stream": "Unmute stream",
+  "No Internet connection": "No Internet connection",
+  "Settings": "Ustawienia",
+  "Night mode": "Night mode",
+  "Language": "Language"
 }

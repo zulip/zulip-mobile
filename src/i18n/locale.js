@@ -8,6 +8,7 @@ import de from 'react-intl/locale-data/de';
 import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
 import fr from 'react-intl/locale-data/fr';
+import hi from 'react-intl/locale-data/hi';
 import hu from 'react-intl/locale-data/hu';
 import it from 'react-intl/locale-data/it';
 import ja from 'react-intl/locale-data/ja';
@@ -29,6 +30,7 @@ import zh from 'react-intl/locale-data/zh';
   en,
   es,
   fr,
+  hi,
   hu,
   it,
   ja,
