@@ -12,7 +12,7 @@ export default class AccountList extends React.PureComponent {
   };
 
   render() {
-    const { accounts, onAccountSelect, onAccountRemove } = this.props;
+    const { accounts, onAccountSelect, onAccountRemove, auth } = this.props;
 
     return (
       <View>
@@ -20,7 +20,7 @@ export default class AccountList extends React.PureComponent {
           <AccountItem
             key={i}
             index={i}
-            canRemove={i !== 0}
+            showDoneIcon={i === 0 && auth.apiKey !== '' && auth.apiKey === account.apiKey}
             {...account}
             onSelect={onAccountSelect}
             onRemove={onAccountRemove}

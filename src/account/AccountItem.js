@@ -53,17 +53,16 @@ export default class AccountItem extends React.PureComponent {
     this.props.onRemove(this.props.index);
 
   render() {
-    const { email, realm, index, canRemove } = this.props;
-    const isSelected = index === 0;
+    const { email, realm, showDoneIcon } = this.props;
 
     return (
       <Touchable style={styles.wrapper} onPress={this.handleSelect}>
-        <View style={[styles.accountItem, isSelected && styles.selectedAccountItem]}>
+        <View style={[styles.accountItem, showDoneIcon && styles.selectedAccountItem]}>
           <View style={styles.details}>
             <Text style={[styles.text, styles.selectedText]}>{email}</Text>
             <Text style={[styles.text, styles.selectedText]}>{realm}</Text>
           </View>
-          {canRemove ?
+          {!showDoneIcon ?
             <IconCancel
               style={styles.icon}
               size={32}
