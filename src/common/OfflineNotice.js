@@ -1,6 +1,8 @@
 /* @flow */
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+
+import { Label } from '../common';
 
 const styles = StyleSheet.create({
   block: {
@@ -20,9 +22,10 @@ export default class OfflineNotice extends React.Component {
   render() {
     return (
       <View style={styles.block}>
-        <Text style={styles.text}>
-          No internet connection
-        </Text>
+        <Label
+          style={styles.text}
+          text="No Internet connection"
+        />
       </View>
     );
   }

@@ -36,5 +36,16 @@
   "Can not connect to server": "Невъзможно свързване със сървъра",
   "Wrong email or password. Try again.": "Грешен email или парола. Опитайте отново.",
   "Enter a valid email address": "Въведете валиден email",
-  "Enter a password": "Въведете парола"
+  "Enter a password": "Въведете парола",
+  "Narrow to conversation": "Ограничи до разговор",
+  "Reply": "Отговори",
+  "Copy to clipboard": "Копирай в клипборд",
+  "Mute topic": "Заглуши тема",
+  "Unmute topic": "Не заглушавай тема",
+  "Mute stream": "Ограничи канал",
+  "Unmute stream": "Не заглушавай канал",
+  "No Internet connection": "Няма връзка с Интернет",
+  "Settings": "Настройки",
+  "Night mode": "Нощен режим",
+  "Language": "Език"
 }

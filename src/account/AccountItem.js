@@ -1,10 +1,10 @@
 /* @flow */
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { Auth } from '../types';
 import { BRAND_COLOR } from '../styles';
-import { Touchable } from '../common';
+import { RawLabel, Touchable } from '../common';
 import { IconDone, IconCancel } from '../common/Icons';
 
 const styles = StyleSheet.create({
@@ -63,8 +63,14 @@ export default class AccountItem extends React.PureComponent {
       <Touchable style={styles.wrapper} onPress={this.handleSelect}>
         <View style={[styles.accountItem, showDoneIcon && styles.selectedAccountItem]}>
           <View style={styles.details}>
-            <Text style={[styles.text, styles.selectedText]}>{email}</Text>
-            <Text style={[styles.text, styles.selectedText]}>{realm}</Text>
+            <RawLabel
+              style={[styles.text, styles.selectedText]}
+              text={email}
+            />
+            <RawLabel
+              style={[styles.text, styles.selectedText]}
+              text={realm}
+            />
           </View>
           {!showDoneIcon ?
             <IconCancel
