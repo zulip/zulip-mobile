@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListView } from 'react-native';
+import { FlatList } from 'react-native';
 
 import StreamItem from './StreamItem';
 
@@ -18,28 +18,28 @@ export default class StreamList extends React.Component {
     const { streams, selected, showDescriptions, showSwitch, onNarrow, onSwitch } = this.props;
     const sortedStreams = Object.values(streams)
       .sort((a, b) => a.name.localeCompare(b.name));
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    const dataSource = ds.cloneWithRows(sortedStreams);
+
     return (
-      <ListView
+      <FlatList
         enableEmptySections
-        dataSource={dataSource}
-        renderRow={(x =>
+        data={sortedStreams}
+        initialNumToRender={50}
+        keyExtractor={item => item.stream_id}
+        renderItem={({ item }) =>
           <StreamItem
-            key={x.stream_id}
-            name={x.name}
+            name={item.name}
             iconSize={16}
-            isPrivate={x.invite_only}
-            description={showDescriptions && x.description}
-            color={x.color}
-            isSelected={x.name === selected}
-            isMuted={x.in_home_view === false} // if 'undefined' is not muted
+            isPrivate={item.invite_only}
+            description={showDescriptions && item.description}
+            color={item.color}
+            isSelected={item.name === selected}
+            isMuted={item.in_home_view === false} // if 'undefined' is not muted
             showSwitch={showSwitch}
-            isSwitchedOn={x.subscribed}
+            isSwitchedOn={item.subscribed}
             onPress={onNarrow}
             onSwitch={onSwitch}
           />
-        )}
+        }
       />
     );
   }
