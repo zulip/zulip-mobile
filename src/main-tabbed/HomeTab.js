@@ -10,7 +10,7 @@ import { homeNarrow, specialNarrow } from '../utils/narrow';
 class HomeTab extends React.Component {
 
   static navigationOptions = {
-    title: 'Home Tab',
+    title: 'Home',
   };
 
   handleNarrow = (narrow) => {
