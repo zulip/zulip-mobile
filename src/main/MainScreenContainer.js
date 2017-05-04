@@ -7,7 +7,7 @@ import DeviceInfo from 'react-native-device-info';
 import type { Actions, Auth, Message, Narrow } from '../types';
 import boundActions from '../boundActions';
 import { getAuth, getShownMessagesInActiveNarrow } from '../selectors';
-import MainScreen from './MainScreen';
+import MainScreenWithDrawers from './MainScreenWithDrawers';
 import { initializeNotifications } from '../utils/notifications';
 
 class MainScreenContainer extends PureComponent {
@@ -16,7 +16,6 @@ class MainScreenContainer extends PureComponent {
     narrow: Narrow,
     actions: Actions,
     messages: Message[],
-    orientation: string,
   };
 
   componentWillMount() {
@@ -34,8 +33,7 @@ class MainScreenContainer extends PureComponent {
   }
 
   render() {
-    const { actions, messages, orientation } = this.props;
-    return <MainScreen actions={actions} messages={messages} orientation={orientation} />;
+    return <MainScreenWithDrawers />;
   }
 }
 
@@ -44,7 +42,6 @@ export default connect(
     auth: getAuth(state),
     narrow: state.chat.narrow,
     messages: getShownMessagesInActiveNarrow(state),
-    orientation: state.app.orientation,
   }),
   boundActions,
 )(MainScreenContainer);

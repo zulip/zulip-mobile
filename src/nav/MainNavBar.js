@@ -3,6 +3,8 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 
+import type { Actions, Narrow } from '../types';
+import boundActions from '../boundActions';
 import { ZulipStatusBar } from '../common';
 import { BRAND_COLOR } from '../styles';
 import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
@@ -12,31 +14,28 @@ import { getUnreadPrivateMessagesCount } from '../selectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
-const componentStyles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-});
-
 class MainNavBar extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };
 
+  props: {
+    actions: Actions,
+    narrow: Narrow,
+  };
+
   render() {
     const { styles } = this.context;
     const {
+      actions,
       narrow,
       subscriptions,
       unreadPrivateMessagesCount,
       onPressStreams,
       onPressPeople,
-      pushRoute,
-      cancelEditMessage,
       editMessage,
     } = this.props;
-    const leftPress = editMessage ? cancelEditMessage : onPressStreams;
+    const leftPress = editMessage ? actions.cancelEditMessage : onPressStreams;
     const backgroundColor =
       isStreamNarrow(narrow) || isTopicNarrow(narrow)
         ? (subscriptions.find(sub => narrow[0].operand === sub.name) || NULL_SUBSCRIPTION).color
@@ -48,32 +47,32 @@ class MainNavBar extends PureComponent {
         : BRAND_COLOR;
 
     return (
-      <View style={componentStyles.wrapper}>
+      <View style={[styles.navBar, { backgroundColor }]}>
         <ZulipStatusBar backgroundColor={backgroundColor} />
-        <View style={[styles.navBar, { backgroundColor }]}>
+        <NavButton
+          name={editMessage ? 'md-arrow-back' : 'ios-menu'}
+          color={textColor}
+          onPress={leftPress}
+        />
+        <Title color={textColor} />
+        {!editMessage &&
           <NavButton
-            name={editMessage ? 'md-arrow-back' : 'ios-menu'}
+            name="md-people"
             color={textColor}
-            onPress={leftPress}
-          />
-          <Title color={textColor} pushRoute={pushRoute} />
-          {!editMessage &&
-            <NavButton
-              name="md-people"
-              color={textColor}
-              showCircle={unreadPrivateMessagesCount > 0}
-              onPress={onPressPeople}
-            />}
-        </View>
-        {this.props.children}
+            showCircle={unreadPrivateMessagesCount > 0}
+            onPress={onPressPeople}
+          />}
       </View>
     );
   }
 }
 
-export default connect(state => ({
-  narrow: state.chat.narrow,
-  subscriptions: state.subscriptions,
-  unreadPrivateMessagesCount: getUnreadPrivateMessagesCount(state),
-  editMessage: state.app.editMessage,
-}))(MainNavBar);
+export default connect(
+  state => ({
+    narrow: state.chat.narrow,
+    subscriptions: state.subscriptions,
+    unreadPrivateMessagesCount: getUnreadPrivateMessagesCount(state),
+    editMessage: state.app.editMessage,
+  }),
+  boundActions,
+)(MainNavBar);
