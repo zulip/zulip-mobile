@@ -20,7 +20,7 @@ export default StackNavigator({
   chat: { screen: ChatScreen },
   dev: { screen: DevAuthScreen },
   loading: { screen: LoadingScreen },
-  main: { screen: MainScreenContainer, title: 'Welcome' },
+  main: { screen: MainScreenContainer },
   realm: { screen: RealmScreen }, // TODO: {...props.scene.route.data} />
   search: { screen: SearchMessagesScreen },
   subscriptions: { screen: SubscriptionsScreen },

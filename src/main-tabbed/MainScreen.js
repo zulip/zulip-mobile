@@ -1,17 +1,28 @@
 import React, { Component } from 'react';
-import { TabNavigator } from 'react-navigation';
+import { TabNavigator, TabBarTop } from 'react-navigation';
 
-import MainTabBar from './MainTabBar';
+import { BRAND_COLOR } from '../common/styles';
 import HomeTab from './HomeTab';
 import ConversationsContainer from '../conversations/ConversationsContainer';
 import SubscriptionsContainer from '../streamlist/SubscriptionsContainer';
 import AccountContainer from '../account-info/AccountContainer';
 
 const MainScreenTabNavigator = TabNavigator({
-  Home: { screen: HomeTab, title: 'title' },
+  Home: { screen: HomeTab },
   Conversations: { screen: ConversationsContainer },
   Subscriptions: { screen: SubscriptionsContainer },
   Account: { screen: AccountContainer },
+}, {
+  tabBarComponent: TabBarTop,
+  tabBarPosition: 'top',
+  animationEnabled: true,
+  tabBarOptions: {
+    showIcon: true,
+    showLabel: false,
+    style: {
+      backgroundColor: BRAND_COLOR,
+    },
+  }
 });
 
 export default class MainScreen extends Component {

@@ -34,7 +34,7 @@ class AppContainer extends React.PureComponent {
   };
 
   componentDidMount() {
-    const { accounts } = this.props;
+    // const { accounts } = this.props;
     // TODO: this.props.initRoutes(getInitialRoutes(accounts));
 
     NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange);

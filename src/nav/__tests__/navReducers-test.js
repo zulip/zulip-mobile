@@ -93,7 +93,7 @@ describe('navReducers', () => {
       };
       const expectedState = {
         index: 0,
-        routes: [{ key: 'main' }],
+        routes: [{ key: 'main', routeName: 'main' }],
       };
 
       const newState = navReducers(prevState, action);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { ZulipStatusBar } from '../common';
 import styles, { BRAND_COLOR } from '../styles';
@@ -10,14 +10,8 @@ import NavButton from './NavButton';
 import { getUnreadPrivateMessagesCount } from '../chat/chatSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 
-const moreStyles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-});
-
 class MainNavBar extends React.Component {
+
   render() {
     const { narrow, subscriptions, unreadPrivateMessagesCount,
       onPressStreams, onPressPeople } = this.props;
@@ -31,21 +25,18 @@ class MainNavBar extends React.Component {
       BRAND_COLOR;
 
     return (
-      <View style={moreStyles.wrapper}>
+      <View style={[styles.navBar, { backgroundColor }]}>
         <ZulipStatusBar
           backgroundColor={backgroundColor}
         />
-        <View style={[styles.navBar, { backgroundColor }]}>
-          <NavButton name="ios-menu" color={textColor} onPress={onPressStreams} />
-          <Title color={textColor} />
-          <NavButton
-            name="md-people"
-            color={textColor}
-            showCircle={unreadPrivateMessagesCount > 0}
-            onPress={onPressPeople}
-          />
-        </View>
-        {this.props.children}
+        <NavButton name="ios-menu" color={textColor} onPress={onPressStreams} />
+        <Title color={textColor} />
+        <NavButton
+          name="md-people"
+          color={textColor}
+          showCircle={unreadPrivateMessagesCount > 0}
+          onPress={onPressPeople}
+        />
       </View>
     );
   }
