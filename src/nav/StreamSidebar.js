@@ -38,10 +38,10 @@ class StreamSidebar extends PureComponent {
     return (
       <View style={styles.container} scrollsToTop={false}>
         <View style={styles.iconList}>
-          <NavButton name="md-home" onPress={() => onNarrow(homeNarrow())} />
-          <NavButton name="md-mail" onPress={() => onNarrow(specialNarrow('private'))} />
-          <NavButton name="md-star" onPress={() => onNarrow(specialNarrow('starred'))} />
-          <NavButton name="md-at" onPress={() => onNarrow(specialNarrow('mentioned'))} />
+          <NavButton name="md-home" onPress={() => actions.doNarrow(homeNarrow())} />
+          <NavButton name="md-mail" onPress={() => actions.doNarrow(specialNarrow('private'))} />
+          <NavButton name="md-star" onPress={() => actions.doNarrow(specialNarrow('starred'))} />
+          <NavButton name="md-at" onPress={() => actions.doNarrow(specialNarrow('mentioned'))} />
           <NavButton name="md-search" onPress={actions.navigateToSearch} />
           <NavButton name="md-settings" onPress={actions.navigateToSettings} />
         </View>
