@@ -35,6 +35,7 @@
     "react-native-device-info": "^0.10.1",
     "react-native-drawer": "^2.3.0",
     "react-native-fabric": "^0.4.1",
+    "react-native-onepassword": "^1.0.4",
     "react-native-scrollable-tab-view": "^0.7.0",
     "react-native-vector-icons": "^4.0.0",
     "react-navigation": "^1.0.0-beta.7",

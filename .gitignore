@@ -33,6 +33,7 @@ local.properties
 #
 node_modules/
 npm-debug.log
+.tmp/
 
 # BUCK
 buck-out/
