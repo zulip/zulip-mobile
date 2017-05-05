@@ -8,5 +8,5 @@ export default async (
     auth,
     `messages/${messageId}`,
     {},
-    res => res,
+    res => res.raw_content,
   );

@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import { Avatar, Touchable } from '../common';
+import { Avatar } from '../common';
 import Subheader from './Subheader';
 import ReactionList from '../reactions/ReactionList';
 
@@ -49,11 +49,11 @@ class MessageFull extends React.PureComponent {
             timestamp={message.timestamp}
             twentyFourHourTime={twentyFourHourTime}
           />
-          <Touchable onLongPress={onLongPress}>
+          <TouchableWithoutFeedback onLongPress={onLongPress}>
             <View>
               {children}
             </View>
-          </Touchable>
+          </TouchableWithoutFeedback>
           <ReactionList
             messageId={message.id}
             reactions={message.reactions}
