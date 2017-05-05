@@ -26,6 +26,11 @@ export default class StreamSidebar extends React.Component {
     pushRoute('search');
   };
 
+  handleAbout = () => {
+    const { pushRoute } = this.props;
+    pushRoute('about');
+  };
+
   render() {
     const { onNarrow } = this.props;
 
@@ -57,6 +62,11 @@ export default class StreamSidebar extends React.Component {
             name="Mentions"
             icon="md-at"
             onPress={() => onNarrow(specialNarrow('mentioned'))}
+          />
+          <SidebarRow
+            name="About"
+            icon="md-information-circle"
+            onPress={this.handleAbout}
           />
         </View>
         <SubscriptionsContainer onNarrow={onNarrow} />
