@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 
-import { Touchable } from '../common';
 import ReactionList from '../reactions/ReactionList';
 
 const styles = StyleSheet.create({
@@ -28,11 +27,11 @@ export default class MessageBrief extends React.PureComponent {
 
     return (
       <View style={styles.message}>
-        <Touchable onLongPress={onLongPress}>
+        <TouchableWithoutFeedback onLongPress={onLongPress}>
           <View>
             {children}
           </View>
-        </Touchable>
+        </TouchableWithoutFeedback>
         <ReactionList
           messageId={message.id}
           reactions={message.reactions}
