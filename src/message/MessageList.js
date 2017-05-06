@@ -7,7 +7,7 @@ import { LoadingIndicator } from '../common';
 import MessageTyping from '../message/MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
-import { actionSheetButtons, executeActionSheetAction } from './messageActionSheet';
+import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 
 export default class MessageList extends React.PureComponent {
   autoScrollToBottom = false;
@@ -22,11 +22,18 @@ export default class MessageList extends React.PureComponent {
 
   handleLongPress = (message) => {
     this.messageLongPressed = message;
+    const { auth, narrow } = this.props;
+    this.setState({ actionSheetButtons: constructActionButtons(message, auth, narrow) });
     this.actionSheet.show();
   }
 
   handleActionSheetPress = buttonIndex => {
-    executeActionSheetAction({ buttonIndex, message: this.messageLongPressed, ...this.props });
+    executeActionSheetAction({
+      title: this.state.actionSheetButtons[buttonIndex],
+      message: this.messageLongPressed,
+      ...this.props
+    });
+    this.messageLongPressed = undefined;
   };
 
   render() {
@@ -80,9 +87,9 @@ export default class MessageList extends React.PureComponent {
         {typingUsers && <MessageTyping users={typingUsers} pushRoute={pushRoute} />}
         <ActionSheet
           ref={(ac) => { this.actionSheet = ac; }}
-          options={actionSheetButtons}
+          options={this.state.actionSheetButtons}
           onPress={this.handleActionSheetPress}
-          cancelButtonIndex={actionSheetButtons.length - 1}
+          cancelButtonIndex={this.state.actionSheetButtons.length - 1}
         />
       </InfiniteScrollView>
     );

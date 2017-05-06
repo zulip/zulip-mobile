@@ -1,5 +1,4 @@
 import { Clipboard } from 'react-native';
-
 import { narrowFromMessage } from '../utils/narrow';
 import { getSingleMessage } from '../api';
 
@@ -16,18 +15,16 @@ const copyToClipboard = async ({ message, auth }) => {
   Clipboard.setString(rawMessage);
 };
 
-export const actionSheetButtons = [
-  'Narrow to conversation',
-  'Reply',
-  'Copy to clipboard',
-  'Cancel'
+const actionSheetButtons = [
+  { title: 'Narrow to conversation', onPress: narrowToConversation },
+  { title: 'Reply', onPress: reply },
+  { title: 'Copy to clipboard', onPress: copyToClipboard },
+  { title: 'Cancel', onPress: () => {} }
 ];
 
-export const executeActionSheetAction = ({ buttonIndex, ...props }) => {
-  [
-    narrowToConversation,
-    reply,
-    copyToClipboard,
-    () => {},
-  ][buttonIndex](props);
+export const constructActionButtons = (message, auth, narrow) =>
+  actionSheetButtons.filter(x => !x.onlyIf || x.onlyIf(message, auth, narrow)).map(x => x.title);
+
+export const executeActionSheetAction = ({ title, ...props }) => {
+  actionSheetButtons.find(x => x.title === title).onPress(props);
 };
