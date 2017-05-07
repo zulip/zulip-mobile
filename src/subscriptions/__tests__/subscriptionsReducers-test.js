@@ -4,7 +4,7 @@ import {
   EVENT_SUBSCRIPTION_PEER_ADD,
   EVENT_SUBSCRIPTION_PEER_REMOVE,
   ACCOUNT_SWITCH,
-} from '../../constants';
+} from '../../actionConstants';
 import subscriptionsReducers from '../subscriptionsReducers';
 
 describe('subscriptionsReducers', () => {

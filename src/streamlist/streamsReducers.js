@@ -4,7 +4,7 @@ import {
   EVENT_STREAM_REMOVE,
   EVENT_STREAM_UPDATE,
   ACCOUNT_SWITCH,
-} from '../constants';
+} from '../actionConstants';
 
 const initialState = [];
 

@@ -4,7 +4,7 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
   MARK_MESSAGES_READ,
   ACCOUNT_SWITCH,
-} from '../constants';
+} from '../actionConstants';
 
 const initialState = {
   read: {},

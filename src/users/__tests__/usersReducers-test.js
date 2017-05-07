@@ -4,7 +4,7 @@ import {
   EVENT_USER_ADD,
   EVENT_PRESENCE,
   ACCOUNT_SWITCH,
-} from '../../constants';
+} from '../../actionConstants';
 import usersReducers, { activityFromPresence, timestampFromPresence } from '../usersReducers';
 
 const fiveSecsAgo = Math.floor(new Date() - 5) / 1000;

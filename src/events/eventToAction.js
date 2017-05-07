@@ -16,7 +16,7 @@ import {
   EVENT_USER_ADD,
   EVENT_USER_REMOVE,
   EVENT_USER_UPDATE,
-} from '../constants';
+} from '../actionConstants';
 
 import { getUserById } from '../users/usersSelectors';
 

@@ -10,7 +10,7 @@ import {
   EVENT_USER_REMOVE,
   EVENT_USER_UPDATE,
   PRESENCE_RESPONSE,
-} from '../constants';
+} from '../actionConstants';
 
 const priorityToState = {
   0: 'offline',

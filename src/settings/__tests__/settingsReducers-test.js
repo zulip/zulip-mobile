@@ -1,4 +1,4 @@
-import { SETTINGS_CHANGE } from '../../constants';
+import { SETTINGS_CHANGE } from '../../actionConstants';
 import settingsReducers from '../settingsReducers';
 
 describe('settingsReducers', () => {

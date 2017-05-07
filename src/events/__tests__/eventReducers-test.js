@@ -1,7 +1,7 @@
 import eventReducers from '../eventReducers';
 import {
   ACCOUNT_SWITCH,
-} from '../../constants';
+} from '../../actionConstants';
 
 describe('eventReducers', () => {
   describe('ACCOUNT_SWITCH', () => {

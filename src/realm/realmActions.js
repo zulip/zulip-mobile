@@ -5,7 +5,7 @@ import { messageFetchSuccess } from '../message/messagesActions';
 import { initSubscriptions } from '../subscriptions/subscriptionsActions';
 import { initStreams } from '../streamlist/streamsActions';
 import { initUsers } from '../users/usersActions';
-import { INITIAL_FETCH_COMPLETE } from '../constants';
+import { INITIAL_FETCH_COMPLETE } from '../actionConstants';
 
 export const initialFetchComplete = () => ({
   type: INITIAL_FETCH_COMPLETE,

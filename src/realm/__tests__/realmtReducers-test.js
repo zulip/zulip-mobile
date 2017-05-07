@@ -1,7 +1,7 @@
 import realmReducers from '../realmReducers';
 import {
   ACCOUNT_SWITCH,
-} from '../../constants';
+} from '../../actionConstants';
 
 describe('realmReducers', () => {
   describe('ACCOUNT_SWITCH', () => {

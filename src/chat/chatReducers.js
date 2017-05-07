@@ -9,7 +9,7 @@ import {
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
-} from '../constants';
+} from '../actionConstants';
 import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
 

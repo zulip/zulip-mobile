@@ -9,7 +9,7 @@ import {
   BATCH_ACTIONS,
   REALM_INIT,
   EVENT_REGISTERED,
-} from '../constants';
+} from '../actionConstants';
 
 const startEventPolling = (auth, queueId, eventId) =>
   async (dispatch, getState) => {

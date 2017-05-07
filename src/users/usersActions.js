@@ -2,7 +2,7 @@ import { focusPing, getUsers } from '../api';
 import {
   INIT_USERS,
   PRESENCE_RESPONSE,
-} from '../constants';
+} from '../actionConstants';
 
 export const sendFocusPing = (auth, hasFocus: boolean, newUserInput: boolean) =>
   async (dispatch) => {

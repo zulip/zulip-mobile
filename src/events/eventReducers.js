@@ -2,7 +2,7 @@ import {
   ACCOUNT_SWITCH,
   EVENT_REGISTERED,
   LOGOUT,
-} from '../constants';
+} from '../actionConstants';
 
 const initialState = {
   queueId: null,

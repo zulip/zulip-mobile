@@ -1,7 +1,7 @@
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
-} from '../constants';
+} from '../actionConstants';
 
 const initialState = [];
 

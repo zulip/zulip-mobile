@@ -1,7 +1,7 @@
 import muteReducers from '../muteReducers';
 import {
   ACCOUNT_SWITCH,
-} from '../../constants';
+} from '../../actionConstants';
 
 describe('muteReducers', () => {
   describe('ACCOUNT_SWITCH', () => {
