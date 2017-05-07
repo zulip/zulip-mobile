@@ -5,7 +5,7 @@ import {
   ACCOUNT_SWITCH,
   LOGOUT,
   ACCOUNT_REMOVE,
-} from '../constants';
+} from '../actionConstants';
 
 const initialState = [];
 

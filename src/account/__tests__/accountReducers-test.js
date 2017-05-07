@@ -5,7 +5,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   ACCOUNT_REMOVE,
-} from '../../constants';
+} from '../../actionConstants';
 import accountReducers from '../accountReducers';
 
 describe('accountReducers', () => {

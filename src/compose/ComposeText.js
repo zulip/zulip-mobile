@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  ScrollView,
-} from 'react-native';
+import { StyleSheet, View, TextInput, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
-import { playMessageSound } from '../utils/sound';
 import { isStreamNarrow, isTopicNarrow, isPrivateNarrow, isGroupNarrow } from '../utils/narrow';
 import { registerUserInputActivity } from '../utils/activity';
 import { getAuth } from '../account/accountSelectors';

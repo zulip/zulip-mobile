@@ -1,7 +1,7 @@
 import streamsReducers from '../streamsReducers';
 import {
   ACCOUNT_SWITCH,
-} from '../../constants';
+} from '../../actionConstants';
 
 describe('streamsReducers', () => {
   describe('ACCOUNT_SWITCH', () => {

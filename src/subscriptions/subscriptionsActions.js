@@ -1,7 +1,7 @@
 import { getSubscriptions } from '../api';
 import {
   INIT_SUBSCRIPTIONS,
-} from '../constants';
+} from '../actionConstants';
 
 export const initSubscriptions = (subscriptions) => ({
   type: INIT_SUBSCRIPTIONS,

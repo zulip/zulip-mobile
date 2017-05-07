@@ -7,7 +7,7 @@ import {
   POP_ROUTE,
   SET_AUTH_TYPE,
   LOGIN_SUCCESS,
-} from '../constants';
+} from '../actionConstants';
 
 const {
   StateUtils: NavigationStateUtils,

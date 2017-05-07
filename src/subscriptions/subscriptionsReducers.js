@@ -8,7 +8,7 @@ import {
   EVENT_SUBSCRIPTION_UPDATE,
   EVENT_SUBSCRIPTION_PEER_ADD,
   EVENT_SUBSCRIPTION_PEER_REMOVE,
-} from '../constants';
+} from '../actionConstants';
 
 const initialState = [];
 

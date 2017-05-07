@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { BATCH_ACTIONS } from './constants';
+import { BATCH_ACTIONS } from './actionConstants';
 import accounts from './account/accountReducers';
 import app from './app/appReducers';
 import events from './events/eventReducers';

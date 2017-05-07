@@ -14,7 +14,7 @@ import {
   EVENT_UPDATE_MESSAGE,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
-} from '../../constants';
+} from '../../actionConstants';
 
 describe('chatReducers', () => {
   const homeNarrowStr = JSON.stringify(homeNarrow());

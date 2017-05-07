@@ -8,7 +8,7 @@ import {
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_SUCCESS,
   MARK_MESSAGES_READ,
-} from '../constants';
+} from '../actionConstants';
 
 export const switchNarrow = (narrow) => ({
   type: SWITCH_NARROW,

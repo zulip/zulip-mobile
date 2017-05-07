@@ -1,4 +1,4 @@
-import { BATCH_ACTIONS } from './constants';
+import { BATCH_ACTIONS } from './actionConstants';
 
 export * from './app/appActions';
 export * from './account/accountActions';

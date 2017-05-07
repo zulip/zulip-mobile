@@ -1,6 +1,6 @@
 import {
   ACCOUNT_SWITCH,
-} from '../../constants';
+} from '../../actionConstants';
 import appReducers from '../appReducers';
 
 describe('appReducers', () => {

@@ -1,7 +1,7 @@
 import { getStreams } from '../api';
 import {
   INIT_STREAMS,
-} from '../constants';
+} from '../actionConstants';
 
 export const initStreams = (streams) => ({
   type: INIT_STREAMS,

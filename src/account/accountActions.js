@@ -5,7 +5,7 @@ import {
   ACCOUNT_REMOVE,
   LOGIN_SUCCESS,
   LOGOUT,
-} from '../constants';
+} from '../actionConstants';
 
 export const switchAccount = (index: number) => ({
   type: ACCOUNT_SWITCH,

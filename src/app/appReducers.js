@@ -10,7 +10,7 @@ import {
   INITIAL_FETCH_COMPLETE,
   APP_ORIENTATION,
   APP_STATE,
-} from '../constants';
+} from '../actionConstants';
 
 import { getAuth } from '../account/accountSelectors';
 

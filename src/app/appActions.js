@@ -2,7 +2,7 @@ import {
   APP_ONLINE,
   APP_ORIENTATION,
   APP_STATE,
-} from '../constants';
+} from '../actionConstants';
 
 export const appOnline = (isOnline: boolean) => ({
   type: APP_ONLINE,

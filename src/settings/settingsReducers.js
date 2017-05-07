@@ -1,4 +1,4 @@
-import { SETTINGS_CHANGE } from '../constants';
+import { SETTINGS_CHANGE } from '../actionConstants';
 
 const initialState = {
   locale: 'en',

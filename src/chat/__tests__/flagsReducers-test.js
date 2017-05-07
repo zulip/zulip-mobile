@@ -5,7 +5,7 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
   MARK_MESSAGES_READ,
   ACCOUNT_SWITCH,
-} from '../../constants';
+} from '../../actionConstants';
 
 describe('flagsReducers', () => {
   describe('MESSAGE_FETCH_SUCCESS', () => {

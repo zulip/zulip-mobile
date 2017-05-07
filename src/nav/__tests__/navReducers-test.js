@@ -4,7 +4,7 @@ import {
   POP_ROUTE,
   SET_AUTH_TYPE,
   LOGIN_SUCCESS,
-} from '../../constants';
+} from '../../actionConstants';
 import navReducers from '../navReducers';
 
 describe('navReducers', () => {
