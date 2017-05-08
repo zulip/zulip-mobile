@@ -39,6 +39,10 @@ export default class MessageContainer extends React.PureComponent {
     onLongPress(message);
   }
 
+  isStarred(message) {
+    return message.flags && !!~(message.flags.indexOf('starred'));
+  }
+
   render() {
     const { message, auth, avatarUrl, twentyFourHourTime, isBrief, doNarrow } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
@@ -52,6 +56,7 @@ export default class MessageContainer extends React.PureComponent {
         selfEmail={auth.email}
         doNarrow={doNarrow}
         onLongPress={this.onLongPress}
+        starred={this.isStarred(message)}
       >
         {renderHtmlChildren({ childrenNodes: dom, auth, onPress: this.handleLinkPress })}
       </MessageComponent>
