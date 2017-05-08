@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 
 import { Avatar } from '../common';
-import { getFullUrl } from '../utils/url';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -30,7 +29,8 @@ export default class TitleGroup extends React.PureComponent {
             <Avatar
               size={32}
               name={user.fullName}
-              avatarUrl={getFullUrl(user.avatarUrl, realm)}
+              avatarUrl={user.avatarUrl}
+              realm={realm}
             />
           </View>
         )}

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, ListView, Text } from 'react-native';
 
-import { getFullUrl } from '../utils/url';
 import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByInitials } from './usersSelectors';
 
@@ -46,10 +45,11 @@ export default class UserList extends Component {
           <UserItem
             key={user.email}
             fullName={user.fullName}
-            avatarUrl={getFullUrl(user.avatarUrl, realm)}
+            avatarUrl={user.avatarUrl}
             email={user.email}
             status={user.status}
             onPress={onNarrow}
+            realm={realm}
           />
         )}
         renderSectionHeader={(xx, x) =>

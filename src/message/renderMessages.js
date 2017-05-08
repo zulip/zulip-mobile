@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { getFullUrl } from '../utils/url';
 import {
   isTopicNarrow,
   isPrivateNarrow,
@@ -60,7 +59,7 @@ export default ({ auth, subscriptions, users, messages, narrow, mute, doNarrow, 
         message={item}
         isBrief={shouldGroupWithPrev}
         doNarrow={doNarrow}
-        avatarUrl={getFullUrl(item.avatar_url, auth.realm)}
+        avatarUrl={item.avatar_url}
         users={users}
         onLongPress={onLongPress}
       />

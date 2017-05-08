@@ -2,6 +2,7 @@ import React from 'react';
 
 import ImageAvatar from './ImageAvatar';
 import TextAvatar from './TextAvatar';
+import { getFullUrl } from '../utils/url';
 
 export default class Avatar extends React.PureComponent {
 
@@ -18,11 +19,11 @@ export default class Avatar extends React.PureComponent {
   };
 
   render() {
-    const { avatarUrl, name, size, status, onPress } = this.props;
+    const { avatarUrl, name, size, status, onPress, realm } = this.props;
 
     return avatarUrl ?
       <ImageAvatar
-        avatarUrl={avatarUrl}
+        avatarUrl={getFullUrl(avatarUrl, realm)}
         size={size}
         status={status}
         onPress={onPress}

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import { Screen } from '../common';
-import { getFullUrl } from '../utils/url';
 import AccountDetails from './AccountDetails';
 import { getCurrentRoute } from '../nav/routingSelectors';
 
@@ -25,7 +24,6 @@ class AccountDetailsScreen extends Component {
   render() {
     const { auth, users, fetchMessages, doNarrow, popRoute } = this.props;
     const { fullName, avatarUrl, status } = users.find(x => x.email === this.email);
-    const fullAvatarUrl = getFullUrl(avatarUrl, auth.realm);
 
     return (
       <Screen title="Account details">
@@ -33,7 +31,7 @@ class AccountDetailsScreen extends Component {
           auth={auth}
           fullName={fullName}
           email={this.email}
-          avatarUrl={fullAvatarUrl}
+          avatarUrl={avatarUrl}
           status={status}
           fetchMessages={fetchMessages}
           doNarrow={doNarrow}

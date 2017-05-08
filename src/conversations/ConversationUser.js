@@ -1,7 +1,6 @@
 import React from 'react';
 
 import UserItem from '../users/UserItem';
-import { getFullUrl } from '../utils/url';
 import { isPrivateNarrow } from '../utils/narrow';
 
 export default ({ email, unreadCount, users, realm, narrow, onNarrow }) => {
@@ -13,12 +12,13 @@ export default ({ email, unreadCount, users, realm, narrow, onNarrow }) => {
     <UserItem
       key={email}
       fullName={user.fullName}
-      avatarUrl={getFullUrl(user.avatarUrl, realm)}
+      avatarUrl={user.avatarUrl}
       email={email}
       unreadCount={unreadCount}
       status={user.status}
       isSelected={isPrivateNarrow(narrow) && narrow[0].operand === email}
       onPress={onNarrow}
+      realm={realm}
     />
   );
 };

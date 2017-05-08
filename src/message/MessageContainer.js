@@ -57,6 +57,7 @@ export default class MessageContainer extends React.PureComponent {
         doNarrow={doNarrow}
         onLongPress={this.onLongPress}
         starred={this.isStarred(message)}
+        realm={auth.realm}
       >
         {renderHtmlChildren({ childrenNodes: dom, auth, onPress: this.handleLinkPress })}
       </MessageComponent>
