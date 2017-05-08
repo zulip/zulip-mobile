@@ -1,5 +1,5 @@
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
-import { getActiveAccount } from '../account/accountSelectors';
+import { getActiveAccount, getSelfEmail } from '../account/accountSelectors';
 import { playMessageSound } from '../utils/sound';
 
 export default (state, event) => {
@@ -12,7 +12,8 @@ export default (state, event) => {
 
       const isUserInSameNarrow = !isHomeNarrow(state.chat.narrow) &&
         isMessageInNarrow(event.message, state.chat.narrow, getActiveAccount(state).email);
-      if (!isUserInSameNarrow) {
+      const isSenderSelf = getSelfEmail(state) === event.message.sender_email;
+      if (!isUserInSameNarrow && !isSenderSelf) {
         playMessageSound();
       }
 
