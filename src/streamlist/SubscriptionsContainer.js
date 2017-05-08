@@ -18,13 +18,18 @@ class SubscriptionsContainer extends React.Component {
     this.props.onNarrow(streamNarrow(streamName));
 
   render() {
-    const { narrow, subscriptions } = this.props;
+    const { narrow, subscriptions, streams } = this.props;
+    const subscribedStreams = streams.filter(x =>
+      subscriptions.some(s => s.stream_id === x.stream_id));
+    const streamsList = subscribedStreams.map(x => ({
+      ...x,
+      color: subscriptions.find(s => s.stream_id === x.stream_id).color,
+    }));
     const selected = isStreamNarrow(narrow) && narrow[0].operand;
-
     return (
       <View tabLabel="Streams" style={styles.container}>
         <StreamList
-          streams={subscriptions}
+          streams={streamsList}
           selected={selected}
           onNarrow={this.handleNarrow}
         />
@@ -36,6 +41,7 @@ class SubscriptionsContainer extends React.Component {
 const mapStateToProps = (state) => ({
   narrow: state.chat.narrow,
   subscriptions: state.subscriptions,
+  streams: state.streams,
 });
 
 export default connect(mapStateToProps)(SubscriptionsContainer);

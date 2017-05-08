@@ -83,8 +83,8 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.zulipmobile"
@@ -153,6 +153,7 @@ repositories {
 
 
 dependencies {
+    compile project(':react-native-snackbar')
     compile project(':react-native-sound')
     compile project(':react-native-fabric')
     compile project(':react-native-device-info')

@@ -123,7 +123,7 @@ export const fetchMessagesAtFirstUnread = (auth: Auth, narrow: Narrow) =>
     config.messagesPerRequest / 2,
     config.messagesPerRequest / 2,
     narrow,
-    true,
+    false,
   );
 
 export const markMessagesRead = messageIds => ({

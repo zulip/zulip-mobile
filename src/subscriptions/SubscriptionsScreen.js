@@ -47,7 +47,6 @@ class SubscriptionsScreen extends React.Component {
       ...x,
       subscribed: subscriptions.some(s => s.stream_id === x.stream_id),
     }));
-
     return (
       <SearchScreen
         title="Subscriptions"

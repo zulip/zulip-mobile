@@ -25,4 +25,4 @@ export default (auth: Auth) =>
         'muted_topics',
       ]),
     },
-  );
+);

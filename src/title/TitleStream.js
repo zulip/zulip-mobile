@@ -21,22 +21,21 @@ export default class TitleStream extends React.PureComponent {
   }
 
   render() {
-    const { narrow, subscriptions, color } = this.props;
+    const { narrow, streams, subscriptions, color } = this.props;
     const stream = subscriptions.find(x => x.name === narrow[0].operand);
 
     const fontSize = narrow.length > 1 ? 14 : 16;
     const titleStyles = [styles.margin, { fontSize }, { color }];
-
     return (
       <View style={styles.wrapper}>
         <StreamIcon
-          isMuted={!stream.in_home_view}
-          isPrivate={stream.invite_only}
+          isMuted={stream && !stream.in_home_view}
+          isPrivate={(streams.find(x => x.name === narrow[0].operand)).invite_only}
           color={color}
           size={fontSize}
         />
         <Text style={titleStyles}>
-          {stream.name}
+          {narrow[0].operand}
         </Text>
         {narrow.length > 1 &&
           <Text style={titleStyles}>

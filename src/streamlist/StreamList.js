@@ -45,6 +45,7 @@ export default class StreamList extends React.Component {
             isSwitchedOn={item.subscribed}
             onPress={onNarrow}
             onSwitch={onSwitch}
+            isDisabled={!item.subscribed && item.invite_only}
           />
         )}
       />

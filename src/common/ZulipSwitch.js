@@ -35,7 +35,7 @@ export default class ZulipSwitch extends React.PureComponent {
   }
 
   render() {
-    const { value } = this.props;
+    const { value, disabled } = this.props;
     const { valueControlled } = this.state;
     const switchValue = typeof valueControlled !== 'undefined' ? valueControlled : value;
 
@@ -45,6 +45,7 @@ export default class ZulipSwitch extends React.PureComponent {
         onTintColor={BRAND_COLOR}
         tintColor={BRAND_COLOR}
         onValueChange={this.handleValueChange}
+        disabled={disabled}
       />
     );
   }
