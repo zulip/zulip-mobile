@@ -6,6 +6,7 @@ import boundActions from '../boundActions';
 import { Avatar } from '../common';
 import Subheader from './Subheader';
 import ReactionList from '../reactions/ReactionList';
+import IconStarMessage from './IconStarMessage';
 
 const styles = StyleSheet.create({
   message: {
@@ -18,6 +19,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginLeft: 8,
   },
+  messageContentWrapper: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between'
+  },
+  messageTextBodyWrapper: {
+    flex: 0.9
+  }
 });
 
 class MessageFull extends React.PureComponent {
@@ -34,7 +43,14 @@ class MessageFull extends React.PureComponent {
     this.props.pushRoute('account-details', this.props.message.sender_email);
 
   render() {
-    const { message, children, avatarUrl, twentyFourHourTime, selfEmail, onLongPress } = this.props;
+    const {
+      message,
+      children,
+      avatarUrl,
+      twentyFourHourTime,
+      selfEmail,
+      starred,
+      onLongPress } = this.props;
 
     return (
       <View style={styles.message}>
@@ -49,11 +65,16 @@ class MessageFull extends React.PureComponent {
             timestamp={message.timestamp}
             twentyFourHourTime={twentyFourHourTime}
           />
-          <TouchableWithoutFeedback onLongPress={onLongPress}>
-            <View>
-              {children}
+          <View style={styles.messageContentWrapper}>
+            <View style={styles.messageTextBodyWrapper}>
+              <TouchableWithoutFeedback onLongPress={onLongPress}>
+                <View>
+                  {children}
+                </View>
+              </TouchableWithoutFeedback>
             </View>
-          </TouchableWithoutFeedback>
+            {starred && <IconStarMessage />}
+          </View>
           <ReactionList
             messageId={message.id}
             reactions={message.reactions}
