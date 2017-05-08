@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ({ email, users, narrow, unreadCount, onNarrow }) => {
+export default ({ email, users, narrow, unreadCount, onNarrow, realm }) => {
   const emails = email.split(',');
   const allNames = emails.map(e =>
     (users.find(x => x.email === e) || {}).fullName
@@ -36,7 +36,7 @@ export default ({ email, users, narrow, unreadCount, onNarrow }) => {
   return (
     <Touchable onPress={() => onNarrow(email)}>
       <View style={[styles.row, isSelected && styles.selectedRow]}>
-        <Avatar size={32} name={allNames} />
+        <Avatar size={32} name={allNames} realm={realm} />
         <Text
           style={[styles.text, isSelected && styles.selectedText]}
           numberOfLines={2}

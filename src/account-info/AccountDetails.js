@@ -39,12 +39,12 @@ export default class AccountDetails extends Component {
   };
 
   render() {
-    const { avatarUrl, fullName, email, status } = this.props;
+    const { avatarUrl, fullName, email, status, auth } = this.props;
 
     return (
       <View style={styles.padding}>
         <View style={styles.avatarWrapper}>
-          <Avatar avatarUrl={avatarUrl} name={fullName} size={100} />
+          <Avatar avatarUrl={avatarUrl} name={fullName} size={100} realm={auth.realm} />
         </View>
         <View style={styles.details}>
           <View style={styles.status}>

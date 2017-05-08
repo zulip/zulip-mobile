@@ -40,7 +40,7 @@ export default class UserItem extends Component {
     this.props.onPress(this.props.email);
 
   render() {
-    const { fullName, avatarUrl, status, isSelected, unreadCount } = this.props;
+    const { fullName, avatarUrl, status, isSelected, unreadCount, realm } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
@@ -50,6 +50,7 @@ export default class UserItem extends Component {
             avatarUrl={avatarUrl}
             name={fullName}
             status={status}
+            realm={realm}
           />
           <Text style={[styles.text, isSelected && styles.selectedText]}>
             {fullName}

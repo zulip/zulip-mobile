@@ -50,7 +50,8 @@ class MessageFull extends React.PureComponent {
       twentyFourHourTime,
       selfEmail,
       starred,
-      onLongPress } = this.props;
+      onLongPress,
+      realm } = this.props;
 
     return (
       <View style={styles.message}>
@@ -58,6 +59,7 @@ class MessageFull extends React.PureComponent {
           avatarUrl={avatarUrl}
           name={message.sender_full_name}
           onPress={this.handleAvatarPress}
+          realm={realm}
         />
         <View style={styles.content}>
           <Subheader
