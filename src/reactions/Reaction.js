@@ -11,7 +11,8 @@ import { emojiReactionAdd, emojiReactionRemove } from '../api';
 const styles = StyleSheet.create({
   touchable: {
     marginRight: 4,
-    borderRadius: 4
+    marginTop: 4,
+    borderRadius: 4,
   },
   frameCommon: {
     flexDirection: 'row',
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     padding: 4,
     borderRadius: 4,
     borderWidth: 1,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   frameVoted: {
     borderColor: BRAND_COLOR,

@@ -7,6 +7,7 @@ import aggregateReactions from './aggregateReactions';
 const styles = StyleSheet.create({
   reactions: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 });
 
