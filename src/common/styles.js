@@ -31,6 +31,12 @@ export default StyleSheet.create({
     alignItems: 'stretch',
     marginTop: STATUSBAR_HEIGHT,
   },
+  common: {
+    paddingTop: 10,
+    fontSize: 15,
+    textAlign: 'center',
+    color: BRAND_COLOR,
+  },
   center: {
     flex: 1,
     justifyContent: 'center',
