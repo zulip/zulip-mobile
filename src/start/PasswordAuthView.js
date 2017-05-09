@@ -95,6 +95,11 @@ class PasswordAuthView extends React.Component {
             <Text style={[styles.field, styles.common]} onPress={() => Linking.openURL('https://chat.zulip.org/accounts/password/reset/')}>Forgot Password? </Text>
           </View>
         </TouchableOpacity>
+        <TouchableOpacity activeOpacity={1.5}>
+          <View>
+            <Text style={[styles.field, styles.common]} onPress={() => Linking.openURL('https://chat.zulip.org/register/')}>Register </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
