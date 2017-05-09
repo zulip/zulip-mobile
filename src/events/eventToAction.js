@@ -18,6 +18,7 @@ import {
   EVENT_USER_ADD,
   EVENT_USER_REMOVE,
   EVENT_USER_UPDATE,
+  EVENT_MUTED_TOPICS
 } from '../actionConstants';
 
 import { getUserById } from '../users/usersSelectors';
@@ -125,7 +126,11 @@ export default (state, event) => {
         selfEmail: state.accounts[0].email,
         type: opToActionTyping[event.op],
       };
-
+    case 'muted_topics':
+      return {
+        type: EVENT_MUTED_TOPICS,
+        ...event
+      };
     default:
   }
 
