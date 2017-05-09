@@ -3,6 +3,7 @@ import {
   EVENT_SUBSCRIPTION_REMOVE,
   EVENT_SUBSCRIPTION_PEER_ADD,
   EVENT_SUBSCRIPTION_PEER_REMOVE,
+  EVENT_SUBSCRIPTION_UPDATE,
   ACCOUNT_SWITCH,
 } from '../../actionConstants';
 import subscriptionsReducers from '../subscriptionsReducers';
@@ -239,6 +240,56 @@ describe('subscriptionsReducers', () => {
       const newState = subscriptionsReducers(prevState, action);
 
       expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('EVENT_SUBSCRIPTION_UPDATE', () => {
+    test('Change the in_home_view property', () => {
+      const initialState = [{
+        'stream_id': 123,
+        'name': 'competition',
+        'in_home_view': false
+      },
+      {
+        'stream_id': 67,
+        'name': 'design',
+        'in_home_view': false
+      },
+      {
+        'stream_id': 53,
+        name: 'mobile',
+        'in_home_view': true
+      }];
+      const action = {
+        stream_id: 123,
+        type: EVENT_SUBSCRIPTION_UPDATE,
+        eventId: 2,
+        id: 2,
+        name: 'competition',
+        op: 'update',
+        property: 'in_home_view',
+        value: true,
+      };
+      const expectedState = [
+        {
+          'stream_id': 123,
+          'name': 'competition',
+          'in_home_view': true
+        },
+        {
+          'stream_id': 67,
+          'name': 'design',
+          'in_home_view': false
+        },
+        {
+          'stream_id': 53,
+          name: 'mobile',
+          'in_home_view': true
+        }];
+
+      const actualState = subscriptionsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
     });
   });
 
