@@ -24,7 +24,7 @@ export default class TitleGroup extends React.PureComponent {
 
     return (
       <View style={styles.wrapper}>
-        {recipients.map(user =>
+        {recipients.map(user => (
           <View key={user.email} style={styles.avatar}>
             <Avatar
               size={32}
@@ -33,7 +33,7 @@ export default class TitleGroup extends React.PureComponent {
               realm={realm}
             />
           </View>
-        )}
+        ))}
       </View>
     );
   }

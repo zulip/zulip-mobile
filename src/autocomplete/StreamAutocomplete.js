@@ -19,7 +19,7 @@ class StreamAutocomplete extends Component {
 
     return (
       <Popup>
-        {streams.map(x =>
+        {streams.map(x => (
           <StreamItem
             key={x.stream_id}
             name={x.name}
@@ -29,7 +29,7 @@ class StreamAutocomplete extends Component {
             color={x.color}
             onPress={() => onAutocomplete(x.name)}
           />
-        )}
+        ))}
       </Popup>
     );
   }

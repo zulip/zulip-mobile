@@ -24,7 +24,7 @@ export default class StreamList extends React.Component {
       <ListView
         enableEmptySections
         dataSource={dataSource}
-        renderRow={(x =>
+        renderRow={(x => (
           <StreamItem
             key={x.stream_id}
             name={x.name}
@@ -39,7 +39,7 @@ export default class StreamList extends React.Component {
             onPress={onNarrow}
             onSwitch={onSwitch}
           />
-        )}
+        ))}
       />
     );
   }
