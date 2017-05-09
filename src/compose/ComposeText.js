@@ -11,6 +11,7 @@ import getAutocompletedText from '../autocomplete/getAutocompletedText';
 import EmojiAutocomplete from '../autocomplete/EmojiAutocomplete';
 import StreamAutocomplete from '../autocomplete/StreamAutocomplete';
 import PeopleAutocomplete from '../autocomplete/PeopleAutocomplete';
+import { replaceEmoticonToEmoji, replaceEmojiWithTextCode } from '../emoji/Emoji';
 
 const MIN_HEIGHT = 38;
 const MAX_HEIGHT = 200;
@@ -38,7 +39,6 @@ type Props = {
 class ComposeText extends React.Component {
 
   props: Props;
-
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -48,17 +48,16 @@ class ComposeText extends React.Component {
       contentHeight: MIN_HEIGHT,
     };
   }
-
   handleSend = () => {
     const { auth, narrow } = this.props;
     const { text } = this.state;
-
+    const message = replaceEmojiWithTextCode(text);
     if (isPrivateNarrow(narrow) || isGroupNarrow(narrow)) {
-      sendMessage(auth, 'private', narrow[0].operand, '', text);
+      sendMessage(auth, 'private', narrow[0].operand, '', message);
     } else if (isStreamNarrow(narrow)) {
-      sendMessage(auth, 'stream', narrow[0].operand, '(no topic)', text);
+      sendMessage(auth, 'stream', narrow[0].operand, '(no topic)', message);
     } else if (isTopicNarrow(narrow)) {
-      sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, text);
+      sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, message);
     }
 
     this.clearInput();
@@ -77,6 +76,8 @@ class ComposeText extends React.Component {
   handleChangeText = (text: string) => {
     const { auth } = this.props;
     registerUserInputActivity(auth);
+    text = replaceEmoticonToEmoji(text);
+    this.textInput.setNativeProps({ text });
     this.setState({ text });
   }
 
