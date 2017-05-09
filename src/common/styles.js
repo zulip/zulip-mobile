@@ -44,12 +44,14 @@ export default StyleSheet.create({
   },
   heading1: {
     fontSize: 24,
+    textAlign: 'center',
   },
   heading2: {
     fontSize: 20,
   },
   label: {
-    fontSize: 15,
+    fontSize: 18,
+    textAlign: 'center',
   },
   field: {
     flexDirection: 'row',
