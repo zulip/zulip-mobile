@@ -30,7 +30,7 @@ export default class ReactionList extends React.PureComponent {
 
     return (
       <View style={styles.reactions}>
-        {aggregated.map((x, i) =>
+        {aggregated.map((x, i) => (
           <Reaction
             key={i}
             messageId={messageId}
@@ -38,7 +38,7 @@ export default class ReactionList extends React.PureComponent {
             voted={x.selfReacted}
             voteCount={x.count}
           />
-        )}
+        ))}
       </View>
     );
   }

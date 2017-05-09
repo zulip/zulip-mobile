@@ -16,7 +16,7 @@ export default class AccountList extends React.PureComponent {
 
     return (
       <View>
-        {accounts.map((account, i) =>
+        {accounts.map((account, i) => (
           <AccountItem
             key={i}
             index={i}
@@ -25,7 +25,7 @@ export default class AccountList extends React.PureComponent {
             onSelect={onAccountSelect}
             onRemove={onAccountRemove}
           />
-        )}
+        ))}
       </View>
     );
   }

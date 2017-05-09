@@ -1,9 +1,6 @@
 import React from 'react';
-import {
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+
 import { connect } from 'react-redux';
 
 import { Auth } from '../types';
@@ -72,24 +69,24 @@ class DevAuthScreen extends React.Component {
             <Text style={[styles.field, styles.heading2]}>
               Administrators
             </Text>
-            {directAdmins.map((email) =>
+            {directAdmins.map((email) => (
               <ZulipButton
                 key={email}
                 text={email}
                 onPress={() => this.tryDevLogin(email)}
               />
-            )}
+            ))}
             <Text style={[styles.field, styles.heading2]}>
               Normal users
             </Text>
-            {directUsers.map((email) =>
+            {directUsers.map((email) => (
               <ZulipButton
                 key={email}
                 text={email}
                 secondary
                 onPress={() => this.tryDevLogin(email)}
               />
-            )}
+            ))}
           </View>
         </ScrollView>
       </Screen>

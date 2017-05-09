@@ -24,14 +24,14 @@ class PeopleAutocomplete extends Component {
 
     return (
       <Popup>
-        {people.map(x =>
+        {people.map(x => (
           <UserItem
             key={x.email}
             fullName={x.fullName}
             avatarUrl={x.avatarUrl}
             onPress={() => onAutocomplete(x.fullName)}
           />
-        )}
+        ))}
       </Popup>
     );
   }

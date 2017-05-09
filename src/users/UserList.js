@@ -41,7 +41,7 @@ export default class UserList extends Component {
         style={styles.container}
         dataSource={dataSource}
         pageSize={12}
-        renderRow={(user =>
+        renderRow={(user => (
           <UserItem
             key={user.email}
             fullName={user.fullName}
@@ -51,7 +51,7 @@ export default class UserList extends Component {
             onPress={onNarrow}
             realm={realm}
           />
-        )}
+        ))}
         renderSectionHeader={(xx, x) =>
           <Text style={styles.groupHeader}>{x}</Text>
         }

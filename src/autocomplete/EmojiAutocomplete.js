@@ -19,13 +19,13 @@ export default class EmojiAutocomplete extends Component {
 
     return (
       <Popup>
-        {emojis.map(x =>
+        {emojis.map(x => (
           <EmojiRow
             key={x}
             name={x}
             onPress={() => onAutocomplete(x)}
           />
-        )}
+        ))}
       </Popup>
     );
   }

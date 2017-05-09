@@ -1,7 +1,7 @@
 import React from 'react';
 import Drawer from 'react-native-drawer';
 
-export default (props) =>
+export default (props) => (
   <Drawer
     content={props.content}
     open={props.open}
@@ -24,4 +24,5 @@ export default (props) =>
     onClose={props.onClose}
   >
     {props.children}
-  </Drawer>;
+  </Drawer>
+);
