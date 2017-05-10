@@ -45,7 +45,7 @@ export default class Chat extends React.Component {
         {noMessages && <NoMessages narrow={narrow} />}
         {noMessagesButLoading && <MessageListLoading />}
         {showMessageList && <MessageList onScroll={this.handleMessageListScroll} {...this.props} />}
-        {canSendToNarrow(narrow) && <ComposeBox onSend={this.sendMessage} />}
+        {canSendToNarrow(narrow) && <ComposeBox />}
       </KeyboardAvoidingView>
     );
   }
