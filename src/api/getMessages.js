@@ -1,11 +1,13 @@
+import { Auth, Narrow } from '../types';
+
 import { apiGet } from './apiFetch';
 
 export default async (
-  auth,
+  auth: Auth,
   anchor: number,
   numBefore: number,
   numAfter: number,
-  narrow: Object,
+  narrow: Narrow,
   useFirstUnread: boolean = false,
 ) =>
   apiGet(
