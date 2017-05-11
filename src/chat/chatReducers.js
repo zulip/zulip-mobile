@@ -46,12 +46,14 @@ export default (state = initialState, action) => {
 
     case MESSAGE_FETCH_SUCCESS: {
       const key = JSON.stringify(action.narrow);
-      const messages = state.messages[key] || [];
+      const prevMessages = state.messages[key] || [];
 
-      const newMessages = action.messages
-        .filter(x => !messages.find(msg => msg.id === x.id))
-        .concat(messages)
-        .sort((a, b) => a.timestamp - b.timestamp);
+      const newMessages = action.replacePrevious
+        ? action.messages
+        : action.messages
+            .filter(x => !prevMessages.find(msg => msg.id === x.id))
+            .concat(prevMessages)
+            .sort((a, b) => a.timestamp - b.timestamp);
 
       return {
         ...state,

@@ -27,24 +27,35 @@ export const messageFetchStart = (narrow, fetching) => ({
   fetching,
 });
 
-export const messageFetchSuccess = (messages, narrow, fetching, caughtUp) => ({
+export const messageFetchSuccess = (messages, narrow, fetching, caughtUp, replacePrevious) => ({
   type: MESSAGE_FETCH_SUCCESS,
   messages,
   narrow,
   fetching,
   caughtUp,
+  replacePrevious,
 });
 
 export const backgroundFetchMessages = (
-  auth,
+  auth: Auth,
   anchor: number,
   numBefore: number,
   numAfter: number,
-  narrow,
-  useFirstUnread = false,
+  narrow: Narrow,
+  useFirstUnread: boolean = false,
+  replacePrevious: boolean = false,
 ) =>
   async (dispatch) => {
-    const messages = await getMessages(auth, anchor, numBefore, numAfter, narrow, useFirstUnread);
+    const messages = await getMessages(
+      auth,
+      anchor,
+      numBefore,
+      numAfter,
+      narrow,
+      useFirstUnread,
+      replacePrevious,
+    );
+
     let caughtUp = { older: false, newer: false };
     if (!useFirstUnread) {
       // Find the anchor in the results (or set it past the end of the list)
@@ -70,16 +81,18 @@ export const backgroundFetchMessages = (
         ...(numAfter ? { newer: false } : {}),
       },
       caughtUp,
+      replacePrevious,
     ));
   };
 
 export const fetchMessages = (
-  auth,
+  auth: Auth,
   anchor: number,
   numBefore: number,
   numAfter: number,
-  narrow,
-  useFirstUnread = false,
+  narrow: Narrow,
+  useFirstUnread: boolean = false,
+  replacePrevious: boolean = false,
 ) =>
   async dispatch => {
     if (numBefore < 0 || numAfter < 0) {
@@ -92,7 +105,15 @@ export const fetchMessages = (
         ...(numAfter ? { newer: true } : {}),
       }),
     );
-    dispatch(backgroundFetchMessages(auth, anchor, numBefore, numAfter, narrow, useFirstUnread));
+    dispatch(backgroundFetchMessages(
+      auth,
+      anchor,
+      numBefore,
+      numAfter,
+      narrow,
+      useFirstUnread,
+      replacePrevious,
+    ));
   };
 
 export const fetchMessagesAtFirstUnread = (auth: Auth, narrow: Narrow) =>

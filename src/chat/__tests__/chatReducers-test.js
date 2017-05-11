@@ -409,6 +409,38 @@ describe('chatReducers', () => {
       expect(newState).not.toBe(initialState);
     });
 
+    test('if replacePrevious is true messages are not merged but replaced', () => {
+      const initialState = {
+        messages: {
+          [homeNarrowStr]: [
+            { id: 1 },
+            { id: 2 },
+            { id: 3 },
+          ],
+        },
+      };
+      const action = {
+        type: MESSAGE_FETCH_SUCCESS,
+        narrow: [],
+        messages: [
+          { id: 5 },
+        ],
+        replacePrevious: true,
+      };
+      const expectedState = {
+        messages: {
+          [homeNarrowStr]: [
+            { id: 5 },
+          ],
+        },
+      };
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState.messages).toEqual(expectedState.messages);
+      expect(newState).not.toBe(initialState);
+    });
+
     test('added messages are sorted by timestamp', () => {
       const initialState = {
         messages: {
