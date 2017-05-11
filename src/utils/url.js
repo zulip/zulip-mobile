@@ -75,3 +75,14 @@ const getResourceNoAuth = (uri: string) => ({
 
 export const getResource = (uri: string, auth: Auth) =>
   (isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri));
+
+export const fixRealmUrl = (url: string) => {
+  // Automatically prepend 'https://' if the user does not enter a protocol
+  if (url.search(/\b(http|https):\/\//) === -1) {
+    url = `https://${url}`;
+  }
+
+  url = url.replace(/\/$/, '');
+
+  return url;
+};

@@ -7,6 +7,7 @@ import styles from '../common/styles';
 import { Screen, ErrorMsg, ZulipButton, Input } from '../common';
 import { getAuthBackends } from '../api';
 import config from '../config';
+import { fixRealmUrl } from '../utils/url';
 
 type Props = {
   realm: ?string,
@@ -36,8 +37,10 @@ class RealmScreen extends React.Component {
       realm = `https://${realm}`;
     }
 
+    realm = realm.replace(/\/$/, '');
+
     this.setState({
-      realm,
+      realm: fixRealmUrl(realm),
       progress: true,
       error: undefined,
     });
