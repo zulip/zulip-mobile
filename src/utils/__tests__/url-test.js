@@ -9,6 +9,7 @@ import {
   isSpecialLink,
   getNarrowFromLink,
   getMessageIdFromLink,
+  fixRealmUrl,
 } from '../url';
 
 describe('getFullUrl', () => {
@@ -292,5 +293,19 @@ describe('getMessageIdFromLink', () => {
         'https://example.com',
       ),
     ).toBe(1);
+  });
+});
+
+describe('fixRealmUrl', () => {
+  test('when a realm url is missing a protocol, prepend https', () => {
+    expect(fixRealmUrl('example.com')).toEqual('https://example.com');
+  });
+
+  test('when a realm url has a trailing "/" remove it', () => {
+    expect(fixRealmUrl('https://example.com/')).toEqual('https://example.com');
+  });
+
+  test('when input url is correct, do not change it', () => {
+    expect(fixRealmUrl('https://example.com')).toEqual('https://example.com');
   });
 });
