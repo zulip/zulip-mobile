@@ -82,3 +82,9 @@ export const apiDelete = async (auth, route, params = {}, resFunc, options) =>
     method: 'delete',
     body: encodeAsURI(params),
   }, resFunc, options);
+
+export const apiPatch = async (auth, route, params = {}, resFunc, options) =>
+  apiCall(auth, route, {
+    method: 'patch',
+    body: encodeAsURI(params),
+  }, resFunc, options);
