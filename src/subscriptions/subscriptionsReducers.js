@@ -35,7 +35,9 @@ export default (state = initialState, action) => {
       );
 
     case EVENT_SUBSCRIPTION_UPDATE:
-      return state; // TODO
+      return state.map(sub =>
+        (sub.stream_id === action.stream_id ? { ...sub,
+          [action.property]: action.value } : sub));
 
     case EVENT_SUBSCRIPTION_PEER_ADD:
       return state.map(subscription => {
