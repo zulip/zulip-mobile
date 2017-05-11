@@ -12,6 +12,7 @@ export default (auth: Auth) =>
         'presence',
         'reaction',
         'realm_user',
+        'stream',
         'subscription',
         'typing',
         'update_message',
