@@ -2,7 +2,7 @@ import React from 'react';
 import { KeyboardAvoidingView } from 'react-native';
 
 import { styles, OfflineNotice } from '../common';
-import { canSendToNarrow } from '../utils/narrow';
+import { canSendToNarrow, isPrivateNarrow, isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import { filterUnreadMessageIds, countUnread } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { queueMarkAsRead } from '../api';
@@ -38,9 +38,17 @@ export default class Chat extends React.Component {
     const showMessageList = !noMessages && !noMessagesButLoading;
     const unreadCount = countUnread(messages.map(msg => msg.id), readIds);
 
+    const isNarrowWithComposeBox = isStreamNarrow(narrow) ||
+      isTopicNarrow(narrow) ||
+      isPrivateNarrow(narrow);
+
     return (
       <KeyboardAvoidingView style={styles.screen} behavior="padding">
-        {(unreadCount > 0) && <UnreadNotice position="bottom" />}
+        {(unreadCount > 0) && <UnreadNotice
+          position="bottom"
+          count={unreadCount}
+          shouldOffsetForInput={isNarrowWithComposeBox}
+        />}
         {!isOnline && <OfflineNotice />}
         {noMessages && <NoMessages narrow={narrow} />}
         {noMessagesButLoading && <MessageListLoading />}

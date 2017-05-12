@@ -37,12 +37,14 @@ const POSITIONS = {
 const showAnimationConfig = {
   toValue: 1,
   duration: 400,
+  useNativeDriver: true,
   easing: Easing.bezier(0.17, 0.67, 0.11, 0.99)
 };
 
 const hideAnimationConfig = {
   toValue: 0,
   duration: 400,
+  useNativeDriver: true,
   easing: Easing.bezier(0.17, 0.67, 0.11, 0.99)
 };
 
@@ -51,7 +53,7 @@ export default class UnreadNotice extends React.Component {
     super(props);
 
     this.state = {
-      translateAnimation: new Animated.Value(0)
+      translateAnimation: new Animated.Value(0),
     };
   }
 
@@ -70,8 +72,12 @@ export default class UnreadNotice extends React.Component {
   };
 
   dynamicContainerStyles = () => {
-    const { position } = this.props;
+    const { position, shouldOffsetForInput } = this.props;
     const translationMultiplier = position === POSITIONS.top ? -1 : 1;
+
+    // In narrows where ComposeBox is present translate beyond ComposeBox to avoid blocking it
+    const translateTo = shouldOffsetForInput && position === POSITIONS.bottom ? -40 : 0;
+    const translateFrom = shouldOffsetForInput && position === POSITIONS.bottom ? 0 : 50;
 
     return {
       ...StyleSheet.flatten(styles.unreadContainer),
@@ -81,7 +87,7 @@ export default class UnreadNotice extends React.Component {
         {
           translateY: this.state.translateAnimation.interpolate({
             inputRange: [0, 1],
-            outputRange: [translationMultiplier * 50, 0]
+            outputRange: [translationMultiplier * translateFrom, translateTo]
           })
         }
       ]
@@ -89,11 +95,15 @@ export default class UnreadNotice extends React.Component {
   };
 
   render() {
+    const { count } = this.props;
+
     return (
       <Animated.View style={this.dynamicContainerStyles()}>
         <IconDownArrow style={[styles.icon, styles.downArrowIcon]} />
         <Text style={styles.unreadText}>
-          New unread messages
+          {count === 0 ?
+            'No' : count < 100 ?
+              count : '99+'} unread {count === 1 ? 'message' : 'messages'}
         </Text>
       </Animated.View>
     );
