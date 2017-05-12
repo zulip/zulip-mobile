@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: BORDER_COLOR,
     backgroundColor: '#fff',
+    zIndex: 2
   },
 });
 
