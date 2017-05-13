@@ -13,6 +13,7 @@ import getAutocompletedText from '../autocomplete/getAutocompletedText';
 import EmojiAutocomplete from '../autocomplete/EmojiAutocomplete';
 import StreamAutocomplete from '../autocomplete/StreamAutocomplete';
 import PeopleAutocomplete from '../autocomplete/PeopleAutocomplete';
+import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 
 const MIN_HEIGHT = 38;
 const MAX_HEIGHT = 200;
@@ -100,6 +101,7 @@ export default class ComposeText extends React.Component {
   }
 
   render() {
+    const { narrow, auth, users } = this.props;
     const { contentHeight, text } = this.state;
     const height = Math.min(Math.max(MIN_HEIGHT, contentHeight), MAX_HEIGHT);
     const lastword: MatchResult = text.match(/\b(\w+)$/);
@@ -122,7 +124,7 @@ export default class ComposeText extends React.Component {
               height={contentHeight}
               onChange={this.handleOnChange}
               onChangeText={this.handleChangeText}
-              placeholder="Type a message here"
+              placeholder={getComposeInputPlaceholder(narrow, auth.email, users)}
             />
           </ScrollView>
           <SendButton
