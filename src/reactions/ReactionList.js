@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
   reactions: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    alignItems: 'flex-start'
   },
 });
 
