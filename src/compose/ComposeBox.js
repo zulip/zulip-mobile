@@ -71,6 +71,7 @@ class ComposeBox extends React.Component {
           auth={auth}
           narrow={narrow}
           operator={operator}
+          users={users}
         />
       </View>
     );
