@@ -103,15 +103,12 @@ class ComposeText extends React.Component {
         <ScrollView style={{ height }} contentContainerStyle={styles.messageBox}>
           <TextInput
             style={styles.composeInput}
-            blurOnSubmit
             ref={component => { this.textInput = component; }}
             multiline
             underlineColorAndroid="transparent"
-            returnKeyType="send"
             height={contentHeight}
             onContentSizeChange={this.handleContentSizeChange}
             onChangeText={this.handleChangeText}
-            onSubmitEditing={this.handleSend}
             placeholder="Type a message here"
           />
         </ScrollView>
