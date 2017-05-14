@@ -3,8 +3,8 @@ import { narrowFromMessage } from '../utils/narrow';
 import { getSingleMessage } from '../api';
 import { isTopicMuted } from '../utils/message';
 import muteTopicApi from '../api/muteTopic';
-import unMuteTopicApi from '../api/unMuteTopic';
-import unMuteStreamApi from '../api/unMuteStream';
+import unmuteTopicApi from '../api/unmuteTopic';
+import unmuteStreamApi from '../api/unmuteStream';
 import muteStreamApi from '../api/muteStream';
 
 const narrowToConversation = ({ message, doNarrow }) => {

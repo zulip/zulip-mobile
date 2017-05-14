@@ -1,5 +1,6 @@
 import React from 'react';
 import { KeyboardAvoidingView } from 'react-native';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import styles from '../styles';
 import { OfflineNotice } from '../common';
@@ -44,18 +45,21 @@ export default class Chat extends React.Component {
       isPrivateNarrow(narrow);
 
     return (
-      <KeyboardAvoidingView style={styles.screen} behavior="padding">
-        {(unreadCount > 0) && <UnreadNotice
-          position="bottom"
-          count={unreadCount}
-          shouldOffsetForInput={isNarrowWithComposeBox}
-        />}
-        {!isOnline && <OfflineNotice />}
-        {noMessages && <NoMessages narrow={narrow} />}
-        {noMessagesButLoading && <MessageListLoading />}
-        {showMessageList && <MessageList onScroll={this.handleMessageListScroll} {...this.props} />}
-        {canSendToNarrow(narrow) && <ComposeBox />}
-      </KeyboardAvoidingView>
+      <ActionSheetProvider>
+        <KeyboardAvoidingView style={styles.screen} behavior="padding">
+          {(unreadCount > 0) && <UnreadNotice
+            position="bottom"
+            count={unreadCount}
+            shouldOffsetForInput={isNarrowWithComposeBox}
+          />}
+          {!isOnline && <OfflineNotice />}
+          {noMessages && <NoMessages narrow={narrow} />}
+          {noMessagesButLoading && <MessageListLoading />}
+          {showMessageList &&
+            <MessageList onScroll={this.handleMessageListScroll} {...this.props} />}
+          {canSendToNarrow(narrow) && <ComposeBox />}
+        </KeyboardAvoidingView>
+      </ActionSheetProvider>
     );
   }
 }
