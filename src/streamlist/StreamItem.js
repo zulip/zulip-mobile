@@ -4,6 +4,8 @@ import { StyleSheet, View, Text } from 'react-native';
 import { BRAND_COLOR } from '../common/styles';
 import { Touchable, ZulipSwitch } from '../common';
 import StreamIcon from './StreamIcon';
+import StreamTopics from './StreamTopics';
+
 
 const styles = StyleSheet.create({
   row: {
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
   },
   mutedText: {
     color: 'gray',
-  },
+  }
 });
 
 export default class StreamItem extends React.PureComponent {
@@ -68,42 +70,50 @@ export default class StreamItem extends React.PureComponent {
       backgroundColor: color || BRAND_COLOR,
     };
 
+    let streamTopics;
+    if(isSelected) {
+      streamTopics = <StreamTopics/>
+    }
+
     return (
-      <Touchable onPress={this.handlePress}>
-        <View style={[styles.row, isSelected && styles.selectedRow]}>
-          <View style={[styles.iconWrapper, iconWrapperCustomStyle]}>
-            <StreamIcon
-              size={iconSize}
-              color="white"
-              isMuted={isMuted}
-              isPrivate={isPrivate}
-            />
-          </View>
-          <View style={styles.text}>
-            <Text
-              style={[
-                isSelected && styles.selectedText,
-                isMuted && styles.mutedText
-              ]}
-            >
-              {name}
-            </Text>
-            {!!description &&
+      <View style={[isSelected && styles.selectedRow]}>
+        <Touchable onPress={this.handlePress}>
+          <View style={[styles.row]}>
+            <View style={[styles.iconWrapper, iconWrapperCustomStyle]}>
+              <StreamIcon
+                size={iconSize}
+                color="white"
+                isMuted={isMuted}
+                isPrivate={isPrivate}
+              />
+            </View>
+            <View style={styles.text}>
               <Text
-                numberOfLines={1}
-                style={styles.description}
+                style={[
+                  isSelected && styles.selectedText,
+                  isMuted && styles.mutedText
+                ]}
               >
-                {description}
+                {name}
               </Text>
-            }
+              {!!description &&
+                <Text
+                  numberOfLines={1}
+                  style={styles.description}
+                >
+                  {description}
+                </Text>
+              }
+            </View>
+            {showSwitch &&
+              <ZulipSwitch
+                defaultValue={isSwitchedOn}
+                onValueChange={this.handleSwitch}
+              />}
           </View>
-          {showSwitch &&
-            <ZulipSwitch
-              defaultValue={isSwitchedOn}
-              onValueChange={this.handleSwitch}
-            />}
-        </View>
-      </Touchable>
+        </Touchable>
+        {streamTopics}
+      </View>
     );
   }
 }
