@@ -31,6 +31,12 @@ export default StyleSheet.create({
     alignItems: 'stretch',
     marginTop: STATUSBAR_HEIGHT,
   },
+  common: {
+    paddingTop: 10,
+    fontSize: 15,
+    textAlign: 'center',
+    color: BRAND_COLOR,
+  },
   center: {
     flex: 1,
     justifyContent: 'center',
@@ -38,12 +44,14 @@ export default StyleSheet.create({
   },
   heading1: {
     fontSize: 24,
+    textAlign: 'center',
   },
   heading2: {
     fontSize: 20,
   },
   label: {
-    fontSize: 15,
+    fontSize: 18,
+    textAlign: 'center',
   },
   field: {
     flexDirection: 'row',

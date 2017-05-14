@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Linking, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -90,6 +90,16 @@ class PasswordAuthView extends React.Component {
           onPress={this.validateForm}
         />
         <ErrorMsg error={error} />
+        <TouchableOpacity activeOpacity={1.5}>
+          <View>
+            <Text style={[styles.field, styles.common]} onPress={() => Linking.openURL('https://chat.zulip.org/accounts/password/reset/')}>Forgot Password? </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={1.5}>
+          <View>
+            <Text style={[styles.field, styles.common]} onPress={() => Linking.openURL('https://chat.zulip.org/register/')}>Register </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
