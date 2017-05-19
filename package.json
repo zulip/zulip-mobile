@@ -28,6 +28,7 @@
     "events": "^1.1.1",
     "htmlparser2": "^3.9.2",
     "immutable": "^3.8.1",
+    "intl": "^1.2.5",
     "lodash.isequal": "^4.4.0",
     "lodash.throttle": "^4.1.1",
     "react": "16.0.0-alpha.6",
@@ -72,6 +73,7 @@
     "react-native-cli": "^2.0.1",
     "react-test-renderer": "16.0.0-alpha.6"
   },
+  "postinstall": "rm -f node_modules/intl/.babelrc",
   "jest": {
     "preset": "react-native",
     "setupTestFrameworkScriptFile": "./jestSetup.js"
