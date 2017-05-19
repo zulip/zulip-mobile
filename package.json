@@ -8,6 +8,7 @@
     "ios": "react-native run-ios",
     "ios-min": "react-native run-ios --simulator 'iPhone 5'",
     "ios-max": "react-native run-ios --simulator 'iPhone 7 Plus'",
+    "ipad": "react-native run-ios --simulator 'iPad Air'",
     "ios-device": "react-native run-ios --device",
     "android-min": "react-native run-android",
     "android-max": "react-native run-android",
