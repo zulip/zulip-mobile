@@ -1,3 +1,4 @@
+/* @flow */
 import config from '../config';
 import userAgent from '../utils/userAgent';
 

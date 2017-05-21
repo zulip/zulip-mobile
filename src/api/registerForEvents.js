@@ -1,9 +1,12 @@
-import { apiPost, Auth } from './apiFetch';
+/* @flow */
+import { Auth } from '../types';
+import { apiPost } from './apiFetch';
 
 export default (auth: Auth) =>
   apiPost(
     auth,
     'register',
+    res => res,
     {
       apply_markdown: true,
       event_types: JSON.stringify([

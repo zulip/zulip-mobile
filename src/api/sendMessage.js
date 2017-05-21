@@ -1,7 +1,9 @@
+/* @flow */
+import { Auth } from '../types';
 import { apiPost } from './apiFetch';
 
 export default async (
-  auth,
+  auth: Auth,
   type: 'private' | 'stream',
   to: string | string[],
   subject: string,
@@ -10,11 +12,11 @@ export default async (
   apiPost(
     auth,
     'messages',
+    res => res.messages,
     {
       type,
       to,
       subject,
       content,
     },
-    res => res.messages,
   );

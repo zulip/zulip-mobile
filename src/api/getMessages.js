@@ -1,3 +1,4 @@
+/* @flow */
 import { Auth, Narrow } from '../types';
 
 import { apiGet } from './apiFetch';
@@ -13,6 +14,7 @@ export default async (
   apiGet(
     auth,
     'messages',
+    res => res.messages,
     {
       anchor,
       num_before: numBefore,
@@ -21,5 +23,4 @@ export default async (
       apply_markdown: true,
       use_first_unread_anchor: useFirstUnread,
     },
-    res => res.messages,
   );

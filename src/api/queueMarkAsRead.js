@@ -1,3 +1,4 @@
+/* @flow */
 import { Auth } from '../types';
 import messagesFlags from './messagesFlags';
 

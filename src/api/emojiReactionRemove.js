@@ -1,5 +1,6 @@
-import { Presences } from '../types';
-import { apiDelete, Auth } from './apiFetch';
+/* @flow */
+import { Presences, Auth } from '../types';
+import { apiDelete } from './apiFetch';
 
 export default (
   auth: Auth,

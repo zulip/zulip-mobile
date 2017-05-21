@@ -1,10 +1,11 @@
-import { apiGet, Auth } from './apiFetch';
+/* @flow */
+import { Auth } from '../types';
+import { apiGet } from './apiFetch';
 
 export default (auth: Auth) =>
   apiGet(
     auth,
     'get_auth_backends',
-    {},
     res => {
       const backends = [];
       if (res.result === 'success') {

@@ -1,4 +1,6 @@
-import { apiDelete, Auth } from './apiFetch';
+/* @flow */
+import { Auth } from '../types';
+import { apiDelete } from './apiFetch';
 
 export default (
   auth: Auth,
@@ -7,6 +9,6 @@ export default (
   apiDelete(
     auth,
     'users/me/subscriptions',
-    { subscriptions: JSON.stringify(subscriptions) },
     res => res,
+    { subscriptions: JSON.stringify(subscriptions) },
   );

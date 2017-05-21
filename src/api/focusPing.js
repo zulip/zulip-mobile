@@ -1,5 +1,6 @@
-import { Presences } from '../types';
-import { apiPost, Auth } from './apiFetch';
+/* @flow */
+import { Presences, Auth } from '../types';
+import { apiPost } from './apiFetch';
 
 export default (
   auth: Auth,
@@ -9,6 +10,6 @@ export default (
   apiPost(
     auth,
     'users/me/presence',
-    { status: hasFocus ? 'active' : 'idle', new_user_input: newUserInput },
     res => res.presences,
+    { status: hasFocus ? 'active' : 'idle', new_user_input: newUserInput },
   );

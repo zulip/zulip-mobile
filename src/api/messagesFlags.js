@@ -1,14 +1,16 @@
-import { apiPost, Auth } from './apiFetch';
+/* @flow */
+import { Auth } from '../types';
+import { apiPost } from './apiFetch';
 
 export default (
   auth: Auth,
   messages: number[],
   op: string,
   flag: string,
-): number[] =>
+): any =>
   apiPost(
     auth,
     'messages/flags',
-    { messages: JSON.stringify(messages), flag, op },
     res => res,
+    { messages: JSON.stringify(messages), flag, op },
   );
