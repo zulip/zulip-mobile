@@ -85,3 +85,10 @@ export type Recipient = {
   subject: string,
   email: string,
 };
+
+export type ApiResponse = {
+  result: string,
+  msg: string
+}
+
+export type ResponseExtractionFunc = (ApiResponse) => any;

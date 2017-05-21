@@ -1,4 +1,5 @@
-import { Auth } from '../types';
+/* @flow */
+import { Auth, ResponseExtractionFunc } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { timeout } from '../utils/async';
@@ -27,7 +28,7 @@ export const apiCall = async (
   auth: Auth,
   route: string,
   params: Object = {},
-  resFunc = res => res,
+  resFunc: ResponseExtractionFunc = res => res,
   isSilent: boolean = false,
   shouldTimeout: boolean = true,
 ) => {
@@ -60,31 +61,56 @@ export const apiCall = async (
   }
 };
 
-export const apiGet = async (auth, route, params = {}, resFunc, options) =>
+export const apiGet = async (
+  auth: Auth,
+  route: string,
+  resFunc: ResponseExtractionFunc,
+  params: Object = {},
+) =>
   apiCall(auth, `${route}?${encodeAsURI(params)}`, {
     method: 'get',
-  }, resFunc, options);
+  }, resFunc);
 
-export const apiPost = async (auth, route, params = {}, resFunc, options) =>
+export const apiPost = async (
+  auth: Auth,
+  route: string,
+  resFunc: ResponseExtractionFunc,
+  params: Object = {},
+) =>
   apiCall(auth, route, {
     method: 'post',
     body: encodeAsURI(params),
-  }, resFunc, options);
+  }, resFunc);
 
-export const apiPut = async (auth, route, params = {}, resFunc, options) =>
+export const apiPut = async (
+  auth: Auth,
+  route: string,
+  resFunc: ResponseExtractionFunc,
+  params: Object = {},
+) =>
   apiCall(auth, route, {
     method: 'put',
     body: encodeAsURI(params),
-  }, resFunc, options);
+  }, resFunc);
 
-export const apiDelete = async (auth, route, params = {}, resFunc, options) =>
+export const apiDelete = async (
+  auth: Auth,
+  route: string,
+  resFunc: ResponseExtractionFunc,
+  params: Object = {},
+) =>
   apiCall(auth, route, {
     method: 'delete',
     body: encodeAsURI(params),
-  }, resFunc, options);
+  }, resFunc);
 
-export const apiPatch = async (auth, route, params = {}, resFunc, options) =>
+export const apiPatch = async (
+  auth: Auth,
+  route: string,
+  resFunc: ResponseExtractionFunc,
+  params: Object = {},
+) =>
   apiCall(auth, route, {
     method: 'patch',
     body: encodeAsURI(params),
-  }, resFunc, options);
+  }, resFunc);

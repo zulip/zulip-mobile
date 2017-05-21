@@ -2,7 +2,6 @@
 ; We fork some components by platform
 .*/*[.]android.js
 .*/ios/Pods/*
-.*/node_modules/react-navigation/.*
 .*/__tests__/*
 
 

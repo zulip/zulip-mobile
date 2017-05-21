@@ -1,14 +1,15 @@
-import { apiPost, Auth } from './apiFetch';
+/* @flow */
+import { Auth } from '../types';
+import { apiPost } from './apiFetch';
 
 export default (
   auth: Auth,
   messages: number[],
   op: string,
   flag: string,
-): number[] =>
+): mixed =>
   apiPost(
     auth,
     'upload_file',
-    {},
     res => res.uri,
   );

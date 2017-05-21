@@ -1,4 +1,6 @@
-import { apiPost, Auth } from './apiFetch';
+/* @flow */
+import { Auth } from '../types';
+import { apiPost } from './apiFetch';
 
 export default (
   auth: Auth,
@@ -7,6 +9,6 @@ export default (
   apiPost(
     auth,
     'users/me/subscriptions',
-    { subscriptions: JSON.stringify(subscriptions) },
     res => res,
+    { subscriptions: JSON.stringify(subscriptions) },
   );

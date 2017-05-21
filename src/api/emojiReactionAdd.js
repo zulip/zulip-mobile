@@ -1,5 +1,6 @@
-import { Presences } from '../types';
-import { apiPut, Auth } from './apiFetch';
+/* @flow */
+import { Presences, Auth } from '../types';
+import { apiPut } from './apiFetch';
 
 export default (
   auth: Auth,

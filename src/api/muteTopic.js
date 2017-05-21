@@ -1,13 +1,15 @@
-import { apiPatch, Auth } from '../api/apiFetch';
+/* @flow */
+import { Auth } from '../types';
+import { apiPatch } from '../api/apiFetch';
 
 export default async (auth: Auth, stream: string, topic: string) =>
   apiPatch(
     auth,
     'users/me/subscriptions/muted_topics',
+    res => res,
     {
       stream,
       topic,
       op: 'add'
     },
-    res => res
   );
