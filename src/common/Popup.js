@@ -5,8 +5,6 @@ import { BORDER_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    bottom: 40,
     backgroundColor: 'white',
     borderColor: BORDER_COLOR,
     borderWidth: 1,
