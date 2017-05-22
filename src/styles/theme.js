@@ -119,6 +119,7 @@ export default ({ color, backgroundColor, borderColor }) => ({
     backgroundColor,
     borderTopWidth: 1,
     borderTopColor: borderColor,
+    zIndex: 2,
   },
   subheader: {
     flex: 1,
