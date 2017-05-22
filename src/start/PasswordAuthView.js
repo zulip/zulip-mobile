@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -10,6 +10,12 @@ import { ErrorMsg, ZulipButton, Input } from '../common';
 import { getAuth } from '../account/accountSelectors';
 
 type Props = {};
+
+const moreStyles = StyleSheet.create({
+  container: {
+    paddingBottom: 10,
+  },
+});
 
 class PasswordAuthView extends React.Component {
 
@@ -65,7 +71,7 @@ class PasswordAuthView extends React.Component {
     const { email, password, progress, error } = this.state;
 
     return (
-      <View>
+      <View style={moreStyles.container}>
         <Input
           style={styles.field}
           autoCorrect={false}
@@ -83,6 +89,7 @@ class PasswordAuthView extends React.Component {
           value={password}
           onChangeText={newPassword => this.setState({ password: newPassword })}
           blurOnSubmit={false}
+          onSubmitEditing={this.validateForm}
         />
         <ZulipButton
           text="Sign in with password"
