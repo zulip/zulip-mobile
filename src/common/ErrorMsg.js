@@ -27,6 +27,8 @@ export default class ErrorMsg extends React.PureComponent {
   render() {
     const { error } = this.props;
 
+    if (!error) return null;
+
     return (
       <View style={styles.field}>
         <Label style={styles.error} text={error} />

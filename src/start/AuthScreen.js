@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import styles from '../styles';
-import { Label, Screen, ZulipButton } from '../common';
+import { RawLabel, Screen, ZulipButton } from '../common';
 import { getAuth } from '../account/accountSelectors';
 import { getCurrentRoute } from '../nav/routingSelectors';
 
@@ -31,9 +31,9 @@ class AuthScreen extends React.Component {
           keyboardShouldPersistTaps="always"
         >
           <View style={styles.container}>
-            <Label
+            <RawLabel
               style={[styles.field]}
-              value={this.props.realm}
+              text={this.props.realm}
               editable={false}
             />
             {authBackends.includes('dev') &&
