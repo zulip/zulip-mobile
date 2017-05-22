@@ -1,3 +1,4 @@
+/* @flow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -13,6 +14,8 @@ class PeopleAutocomplete extends Component {
   props: {
     filter: string;
     onAutocomplete: (name: string) => {},
+    ownEmail: string,
+    users: Object[],
   };
 
   render() {

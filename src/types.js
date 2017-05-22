@@ -115,3 +115,5 @@ export type Action = {
   orientation: string,
   payload: StateType
 }
+
+export type MatchResult = Array<string> & {index: number, input: string};

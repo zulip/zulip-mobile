@@ -1,8 +1,12 @@
-export default (text: string, autocompleteText: string) => {
-  const lastword = text.match(/\b(\w+)$/);
-  const prefix = text[lastword.index - 1] === ':' ? '' : '**';
-  const suffix = text[lastword.index - 1] === ':' ? ':' : '**';
-  const newText = `${text.substring(0, lastword.index)}${prefix}${autocompleteText}${suffix} `;
+/* @flow */
+import { MatchResult } from '../types';
 
-  return newText;
+export default (text: string, autocompleteText: string) => {
+  const lastword: MatchResult = text.match(/\b(\w+)$/);
+  if (lastword) {
+    const prefix = text[lastword.index - 1] === ':' ? '' : '**';
+    const suffix = text[lastword.index - 1] === ':' ? ':' : '**';
+    return `${text.substring(0, lastword.index)}${prefix}${autocompleteText}${suffix} `;
+  }
+  return lastword;
 };
