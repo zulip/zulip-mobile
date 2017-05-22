@@ -1,6 +1,8 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { Auth } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { Touchable } from '../common';
 import { IconDone, IconCancel } from '../common/Icons';
@@ -38,12 +40,14 @@ const styles = StyleSheet.create({
 export default class AccountItem extends React.PureComponent {
 
   props: {
+    auth: Auth,
     index: number,
     email: string,
     realm: string,
     canRemove: boolean,
     onSelect: () => void,
     onRemove: () => void,
+    showDoneIcon: boolean,
   };
 
   handleSelect = () =>

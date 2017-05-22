@@ -1,3 +1,4 @@
+/* @flow */
 import { getAuth } from '../accountSelectors';
 
 test('getAuth returns an empty object when no accounts', () => {

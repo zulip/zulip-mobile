@@ -1,3 +1,4 @@
+/* @flow */
 import {
   REALM_ADD,
   SET_AUTH_TYPE,
@@ -7,9 +8,11 @@ import {
   ACCOUNT_REMOVE,
 } from '../actionConstants';
 
+import { AccountState } from '../types';
+
 const initialState = [];
 
-export default (state = initialState, action) => {
+export default (state: AccountState = initialState, action: Object) => {
   switch (action.type) {
     case REALM_ADD: {
       const accountIndex = state.findIndex(account =>

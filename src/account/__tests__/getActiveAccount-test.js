@@ -1,3 +1,4 @@
+/* @flow */
 import { getActiveAccount } from '../accountSelectors';
 
 test('when no accounts exist, returns undefined', () => {
