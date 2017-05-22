@@ -1,3 +1,4 @@
+/* @flow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -9,6 +10,7 @@ class StreamAutocomplete extends Component {
   props: {
     filter: string;
     onAutocomplete: (name: string) => {},
+    subscriptions: Object[],
   };
 
   render() {
