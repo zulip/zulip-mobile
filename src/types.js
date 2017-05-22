@@ -106,3 +106,12 @@ export type AccountState = [];
 export type StateType = {
   accounts: AccountState,
 }
+
+export type Action = {
+  type: string,
+  apiKey: string,
+  isOnline: boolean,
+  isActive: boolean,
+  orientation: string,
+  payload: StateType
+}
