@@ -89,29 +89,31 @@ class ComposeText extends React.Component {
     const lastWordPrefix = lastword && lastword.index && text[lastword.index - 1];
 
     return (
-      <View style={componentStyles.wrapper}>
+      <View>
         {lastWordPrefix === ':' &&
           <EmojiAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
         {lastWordPrefix === '#' &&
           <StreamAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
         {lastWordPrefix === '@' &&
           <PeopleAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
-        <ScrollView style={{ height }} contentContainerStyle={componentStyles.messageBox}>
-          <Input
-            style={styles.composeText}
-            ref={component => { this.textInput = component; }}
-            multiline
-            underlineColorAndroid="transparent"
-            height={contentHeight}
-            onContentSizeChange={this.handleContentSizeChange}
-            onChangeText={this.handleChangeText}
-            placeholder="Type a message here"
+        <View style={componentStyles.wrapper}>
+          <ScrollView style={{ height }} contentContainerStyle={componentStyles.messageBox}>
+            <Input
+              style={styles.composeText}
+              ref={component => { this.textInput = component; }}
+              multiline
+              underlineColorAndroid="transparent"
+              height={contentHeight}
+              onContentSizeChange={this.handleContentSizeChange}
+              onChangeText={this.handleChangeText}
+              placeholder="Type a message here"
+            />
+          </ScrollView>
+          <SendButton
+            disabled={text.length === 0}
+            onPress={this.handleSend}
           />
-        </ScrollView>
-        <SendButton
-          disabled={text.length === 0}
-          onPress={this.handleSend}
-        />
+        </View>
       </View>
     );
   }
