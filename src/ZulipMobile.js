@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import { Provider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 
-import './i18n/intl';
+import '../vendor/intl/intl';
 import store, { restore } from './store';
 import messages from './i18n/messages';
 import LoadingScreen from './start/LoadingScreen';
