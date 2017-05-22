@@ -1,7 +1,9 @@
+/* @flow */
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
+import { Auth, PushRouteAction } from '../types';
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import { ZulipButton, Logo, Screen } from '../common';
@@ -19,8 +21,12 @@ const styles = StyleSheet.create({
 class AccountPickScreen extends React.Component {
 
   props: {
+    auth: Auth,
     accounts: any[],
-  }
+    pushRoute: PushRouteAction,
+    removeAccount: (number) => void,
+    switchAccount: (number) => void
+  };
 
   handleAddNewAccount = () =>
     this.props.pushRoute('realm');

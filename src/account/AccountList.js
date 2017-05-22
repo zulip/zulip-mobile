@@ -1,14 +1,17 @@
+/* @flow */
 import React from 'react';
 import { View } from 'react-native';
 
+import { Auth } from '../types';
 import AccountItem from './AccountItem';
 
 export default class AccountList extends React.PureComponent {
 
   props: {
+    auth: Auth,
     accounts: any[],
-    onAccountSelect: () => void,
-    onAccountRemove: () => void,
+    onAccountSelect: (number) => void,
+    onAccountRemove: (number) => void,
   };
 
   render() {

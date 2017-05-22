@@ -1,3 +1,4 @@
+/* @flow */
 import {
   REALM_ADD,
   SET_AUTH_TYPE,

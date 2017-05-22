@@ -1,3 +1,4 @@
+/* @flow */
 import {
   ACCOUNT_SWITCH,
   REALM_ADD,
@@ -28,7 +29,7 @@ export const removeAccount = (index: number) => ({
   index,
 });
 
-export const loginSuccess = (realm, email, apiKey) => ({
+export const loginSuccess = (realm: string, email: string, apiKey: string) => ({
   type: LOGIN_SUCCESS,
   realm,
   email,

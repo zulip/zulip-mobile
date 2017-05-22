@@ -92,3 +92,11 @@ export type ApiResponse = {
 }
 
 export type ResponseExtractionFunc = (ApiResponse) => any;
+
+export type PushRouteAction = (string) => void;
+
+export type AccountState = [];
+
+export type StateType = {
+  accounts: AccountState,
+}
