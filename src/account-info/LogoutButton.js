@@ -1,7 +1,9 @@
+/* @flow */
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
+import { InitRouteAction } from '../types';
 import boundActions from '../boundActions';
 import { getInitialRoutes } from '../nav/routingSelectors';
 import { ZulipButton } from '../common';
@@ -17,6 +19,8 @@ class LogoutButton extends Component {
 
   props: {
     accounts: any[],
+    initRoutes: InitRouteAction,
+    logout: (accounts: any[]) => void
   };
 
   logout = () => {
