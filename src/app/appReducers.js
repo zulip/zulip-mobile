@@ -1,5 +1,7 @@
+/* @flow */
 import { REHYDRATE } from 'redux-persist/constants';
 
+import { StateType, Action } from '../types';
 import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -22,7 +24,7 @@ const initialState = {
   needsInitialFetch: false,
 };
 
-export default (state = initialState, action) => {
+export default (state: StateType = initialState, action:Action) => {
   switch (action.type) {
     case ACCOUNT_SWITCH:
       return {

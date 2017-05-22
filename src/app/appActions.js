@@ -1,3 +1,4 @@
+/* @flow */
 import {
   APP_ONLINE,
   APP_ORIENTATION,
