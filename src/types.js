@@ -103,8 +103,18 @@ export type InitRouteAction = (string) => void;
 
 export type AccountState = [];
 
+export type NavigationState = {
+  index: number,
+  key: string,
+  routes: Array<{
+    key: string,
+    title: string,
+  }>
+};
+
 export type StateType = {
   accounts: AccountState,
+  nav: NavigationState
 }
 
 export type Action = {

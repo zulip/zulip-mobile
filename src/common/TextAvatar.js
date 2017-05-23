@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 
@@ -30,7 +31,16 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ({ name, size, status, isCircular, onPress }) => {
+type FuncArguments = {
+  name: string,
+  size: number,
+  status: string,
+  isCircular?: boolean,
+  onPress?: () => void
+};
+
+
+export default ({ name, size, status, isCircular, onPress }: FuncArguments) => {
   const frameSize = {
     height: size,
     width: size,

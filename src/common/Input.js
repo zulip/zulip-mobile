@@ -1,3 +1,4 @@
+/* @flow */
 import React, { Component } from 'react';
 import { TextInput } from 'react-native';
 import { FormattedMessage } from 'react-intl';
@@ -7,7 +8,14 @@ import styles, { HALF_COLOR } from '../styles';
 export default class Input extends Component {
   props: {
     style: Object,
-    restProps: any[],
+    restProps?: any[],
+    placeholder: string,
+    textInputRef?: TextInput
+  };
+
+  static defaultProps = {
+    restProps: [],
+    textInputRef: null,
   };
 
   render() {

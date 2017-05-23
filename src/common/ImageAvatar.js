@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 
@@ -11,7 +12,22 @@ const styles = StyleSheet.create({
   },
 });
 
-export default({ avatarUrl, size, status, isCircular, onPress }) => {
+type FuncArguments = {
+  avatarUrl: string,
+  size: number,
+  status: string,
+  isCircular?: boolean,
+  onPress?: () => void
+}
+
+
+export default({
+   avatarUrl,
+   size,
+   status,
+   isCircular = false,
+   onPress = () => {}
+}: FuncArguments) => {
   const touchableStyle = {
     height: size,
     width: size,

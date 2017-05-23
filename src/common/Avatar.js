@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 
 import ImageAvatar from './ImageAvatar';
@@ -10,12 +11,15 @@ export default class Avatar extends React.PureComponent {
     avatarUrl: string,
     name: string,
     size: number,
-    onPress: () => {},
-  }
+    status: string,
+    realm: string,
+    onPress?: () => void,
+  };
 
   static defaultProps = {
     name: '',
     size: 32,
+    onPress: () => {}
   };
 
   render() {

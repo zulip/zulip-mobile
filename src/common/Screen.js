@@ -1,8 +1,10 @@
+/* @flow */
 import React from 'react';
 import { connect } from 'react-redux';
 import {
   View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
+import { PopRouteAction, NavigationState } from '../types';
 import { ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
 
@@ -25,6 +27,9 @@ class Screen extends React.Component {
   props: {
     keyboardAvoiding: boolean,
     title: string,
+    nav: NavigationState,
+    children: [],
+    popRoute: PopRouteAction,
   }
 
   render() {

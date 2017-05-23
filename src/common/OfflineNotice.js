@@ -1,7 +1,6 @@
+/* @flow */
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-
-import { IconOffline } from '../common/Icons';
 
 const styles = StyleSheet.create({
   block: {

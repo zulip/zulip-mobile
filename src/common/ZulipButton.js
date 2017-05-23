@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { FormattedMessage } from 'react-intl';
@@ -65,6 +66,11 @@ export default class ZulipButton extends React.PureComponent {
     text: string,
     secondary: boolean,
     onPress: () => void,
+  };
+
+  static defaultProps: {
+    progress: false,
+    secondary: false
   };
 
   render() {
