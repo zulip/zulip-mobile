@@ -1,6 +1,6 @@
 /* @flow */
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import { BORDER_COLOR } from '../styles';
 
@@ -16,9 +16,12 @@ const styles = StyleSheet.create({
 export default class Popup extends Component {
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        maxHeight={300}
+      >
         {this.props.children}
-      </View>
+      </ScrollView>
     );
   }
 }

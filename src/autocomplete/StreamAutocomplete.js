@@ -16,8 +16,7 @@ class StreamAutocomplete extends Component {
   render() {
     const { filter, subscriptions, onAutocomplete } = this.props;
     const streams = subscriptions
-      .filter(x => x.name.toLowerCase().startsWith(filter.toLowerCase()))
-      .slice(0, 5);
+      .filter(x => x.name.toLowerCase().startsWith(filter.toLowerCase()));
 
     if (streams.length === 0) return null;
 
