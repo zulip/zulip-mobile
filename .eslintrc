@@ -44,6 +44,7 @@
     "react/prefer-stateless-function": 0,
     "react/no-array-index-key": 0,
     "react/no-unused-prop-types": 0,
+    "react/require-default-props": 0,
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/__tests__/*.js"]}],
     "react-native/no-unused-styles": 2,

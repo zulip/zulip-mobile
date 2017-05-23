@@ -1,10 +1,10 @@
+/* @flow */
 import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
 } from 'react-native';
 
-import { UserStatus } from '../api';
 
 const styles = StyleSheet.create({
   common: {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 export default class UserStatusIndicator extends Component {
 
   props: {
-    status: UserStatus,
+    status: string,
     style: Object,
   }
 

@@ -1,9 +1,10 @@
+/* @flow */
 import React from 'react';
 import { Platform, StatusBar } from 'react-native';
 
 import { foregroundColorFromBackground } from '../utils/color';
 
-export default (props) => {
+export default (props: Object) => {
   const backgroundColor = props.backgroundColor || 'white';
   const textColor = foregroundColorFromBackground(backgroundColor);
   const barStyle = textColor === 'white' ? 'light-content' : 'dark-content';

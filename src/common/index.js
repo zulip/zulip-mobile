@@ -1,3 +1,4 @@
+/* @flow */
 export { default as Avatar } from './Avatar';
 export { default as ErrorMsg } from './ErrorMsg';
 export { default as GoogleButton } from './GoogleButton';

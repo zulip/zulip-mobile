@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { Animated, Easing, Image, StyleSheet, View } from 'react-native';
 
@@ -36,6 +37,13 @@ const styles = StyleSheet.create({
 });
 
 export default class LoadingIndicator extends React.Component {
+  props: {
+    active: boolean,
+    caughtUp: boolean,
+  };
+
+  rotation: Animated;
+
   constructor() {
     super();
     this.rotation = new Animated.Value(0);
