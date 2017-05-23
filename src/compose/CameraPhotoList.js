@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import {
   ActivityIndicator,
@@ -30,21 +31,27 @@ export default class CameraPhotoList extends React.Component {
     noMoreData: boolean,
     dataSource: any,
     onEndReached: () => {},
-  }
+    imagesPerRow: number,
+  };
 
   defaultProps: {
     groupTypes: 'SavedPhotos',
     batchSize: 5,
     imagesPerRow: 1,
     assetType: 'Photos',
-  }
+  };
+
+  state: {
+    dataSource: [] | null,
+    assets: [],
+  };
 
   rendererChanged = () => {
     const ds = new ListView.DataSource({ rowHasChanged: this.handleRowHasChanged });
     this.state.dataSource = ds.cloneWithRows(
       groupByEveryN(this.state.assets, this.props.imagesPerRow)
     );
-  }
+  };
 
   handleRowHasChanged = (r1: Array<Image>, r2: Array<Image>): boolean => {
     if (r1.length !== r2.length) {

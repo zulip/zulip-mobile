@@ -1,8 +1,10 @@
+/* @flow */
 import React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from '../styles';
+import { MatchResult } from '../types';
 import { Input } from '../common';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { registerUserInputActivity } from '../utils/activity';
@@ -34,6 +36,14 @@ type Props = {
 class ComposeText extends React.Component {
 
   props: Props;
+  textInput: TextInput;
+
+  state: {
+    editing: boolean,
+    text: string,
+    autocomplete: boolean,
+    contentHeight: number,
+  }
 
   constructor(props: Props) {
     super(props);
@@ -85,16 +95,16 @@ class ComposeText extends React.Component {
   render() {
     const { contentHeight, text } = this.state;
     const height = Math.min(Math.max(MIN_HEIGHT, contentHeight), MAX_HEIGHT);
-    const lastword = text.match(/\b(\w+)$/);
+    const lastword: MatchResult = text.match(/\b(\w+)$/);
     const lastWordPrefix = lastword && lastword.index && text[lastword.index - 1];
 
     return (
       <View>
-        {lastWordPrefix === ':' &&
+        {lastWordPrefix === ':' && lastword &&
           <EmojiAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
-        {lastWordPrefix === '#' &&
+        {lastWordPrefix === '#' && lastword &&
           <StreamAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
-        {lastWordPrefix === '@' &&
+        {lastWordPrefix === '@' && lastword &&
           <PeopleAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
         <View style={componentStyles.wrapper}>
           <ScrollView style={{ height }} contentContainerStyle={componentStyles.messageBox}>

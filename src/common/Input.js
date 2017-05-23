@@ -10,12 +10,12 @@ export default class Input extends Component {
     style: Object,
     restProps?: any[],
     placeholder: string,
-    textInputRef?: TextInput
+    textInputRef?: (component: TextInput) => void
   };
 
   static defaultProps = {
     restProps: [],
-    textInputRef: null,
+    textInputRef: () => {},
   };
 
   render() {
