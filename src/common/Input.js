@@ -11,7 +11,7 @@ export default class Input extends Component {
   };
 
   render() {
-    const { style, placeholder, ...restProps } = this.props;
+    const { style, placeholder, textInputRef, ...restProps } = this.props;
 
     return (
       <FormattedMessage id={placeholder} defaultMessage={placeholder}>
@@ -20,6 +20,7 @@ export default class Input extends Component {
             style={[styles.input, style]}
             placeholder={text}
             placeholderTextColor={HALF_COLOR}
+            ref={component => { if (textInputRef) textInputRef(component); }}
             {...restProps}
           />
         )}

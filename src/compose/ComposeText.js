@@ -100,7 +100,7 @@ class ComposeText extends React.Component {
           <ScrollView style={{ height }} contentContainerStyle={componentStyles.messageBox}>
             <Input
               style={styles.composeText}
-              ref={component => { this.textInput = component; }}
+              textInputRef={component => { this.textInput = component; }}
               multiline
               underlineColorAndroid="transparent"
               height={contentHeight}
