@@ -22,8 +22,10 @@ export default class MessageList extends React.PureComponent {
 
   handleLongPress = (message) => {
     this.messageLongPressed = message;
-    const { auth, narrow } = this.props;
-    this.setState({ actionSheetButtons: constructActionButtons(message, auth, narrow) });
+    const { auth, narrow, subscriptions, mute } = this.props;
+    this.setState({
+      actionSheetButtons: constructActionButtons({ message, auth, narrow, subscriptions, mute })
+    });
     this.actionSheet.show();
   }
 
