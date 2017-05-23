@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -5577,7 +5579,7 @@ function ResolvePlural(pluralRules, n) {
     // 5. Let type be pluralRules.[[Type]].
     var type = internal['[[type]]'];
 
-    // 8. Return ? PluralRuleSelection(locale, type, n, operands). 
+    // 8. Return ? PluralRuleSelection(locale, type, n, operands).
     return PluralRuleSelection(locale, type, n);
 }
 
