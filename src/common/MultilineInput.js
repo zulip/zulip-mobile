@@ -56,7 +56,7 @@ export default class MultilineInput extends React.Component {
           underlineColorAndroid="transparent"
           height={height}
           onChange={this.handleOnChange}
-          onChangeText={onChange}
+          onTextChange={onChange}
           placeholder={placeholder}
         />
       </ScrollView>

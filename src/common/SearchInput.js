@@ -1,6 +1,6 @@
 /* @flow */
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TextInput } from 'react-native';
 import { Input } from '../common';
 
 const styles = StyleSheet.create({
@@ -16,11 +16,14 @@ const styles = StyleSheet.create({
   },
 });
 
+type Props = {
+  onChange: (text: string) => void,
+};
+
 export default class SearchInput extends Component {
 
-  props: {
-    onChange: (text: string) => void,
-  };
+  props: Props;
+  textInput: TextInput;
 
   render() {
     const { onChange } = this.props;
@@ -28,17 +31,18 @@ export default class SearchInput extends Component {
     return (
       <View style={styles.wrapper}>
         <Input
+          textInputRef={component => { this.textInput = component; }}
           style={styles.input}
           autoCorrect={false}
           enablesReturnKeyAutomatically
           selectTextOnFocus
           underlineColorAndroid="transparent"
-          clearButtonMode="always"
           autoCapitalize="none"
           placeholder="Search"
           returnKeyType="search"
-          onChangeText={onChange}
+          onTextChange={onChange}
           autoFocus
+          clearButton
         />
       </View>
     );

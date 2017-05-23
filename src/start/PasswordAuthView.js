@@ -92,14 +92,14 @@ class PasswordAuthView extends React.Component {
           keyboardType="email-address"
           placeholder="Email"
           defaultValue={email}
-          onChangeText={newEmail => this.setState({ email: newEmail })}
+          onTextChange={newEmail => this.setState({ email: newEmail })}
         />
         <Input
           style={styles.field}
           placeholder="Password"
           secureTextEntry
           value={password}
-          onChangeText={newPassword => this.setState({ password: newPassword })}
+          onTextChange={newPassword => this.setState({ password: newPassword })}
           blurOnSubmit={false}
           onSubmitEditing={this.validateForm}
         />

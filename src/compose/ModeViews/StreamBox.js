@@ -36,9 +36,7 @@ export default class StreamBox extends Component {
           ref={component => { this.operandInput = component; }}
           style={styles.topicInput}
           placeholder={'Topic'}
-          onChange={(event) => setTopic(
-            event.nativeEvent.text
-          )}
+          onTextChange={(text) => setTopic(text)}
           value={operator}
         />
       </View>

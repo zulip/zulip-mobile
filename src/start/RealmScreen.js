@@ -106,7 +106,7 @@ class RealmScreen extends React.Component {
               autoCapitalize="none"
               placeholder="Server URL"
               defaultValue={realm}
-              onChangeText={value => this.setState({ realm: value })}
+              onTextChange={value => this.setState({ realm: value })}
               blurOnSubmit={false}
               onSubmitEditing={this.tryRealm}
             />
