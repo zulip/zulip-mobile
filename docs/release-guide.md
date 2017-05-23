@@ -2,7 +2,7 @@
 
 ## For Android
 
-* Uncomment Crashlytics refrences (The following are known references as at https://github.com/zulip/zulip-mobile/commit/a06862f86e752e106cde42229ea12842a3acba21). 
+* Uncomment Crashlytics refrences (The following are known references as at https://github.com/zulip/zulip-mobile/commit/a06862f86e752e106cde42229ea12842a3acba21).
 
 - In `/android/app/build.gradle`  [apply plugin: 'io.fabric'](https://github.com/zulip/zulip-mobile/blob/master/android/app/build.gradle#L138)
 
@@ -11,3 +11,19 @@
 * Add API key in `/android/app/src/main/AndroidManifest.xml` [android:value="[YOUR API KEY]"](https://github.com/zulip/zulip-mobile/blob/master/android/app/src/main/AndroidManifest.xml#L32)
 
 * Generate Signed APK.
+
+Put the release key file in `./android/app/my-release-key.keystore`
+
+Make sure you have the file `~/.gradle/gradle.properties`:
+```
+MYAPP_RELEASE_STORE_FILE=my-release-key.keystore
+MYAPP_RELEASE_KEY_ALIAS=zulip-mobile
+MYAPP_RELEASE_STORE_PASSWORD=*****
+MYAPP_RELEASE_KEY_PASSWORD=*****
+```
+
+To build and generate a signed APK run:
+
+```
+cd android && ./gradlew assembleRelease
+```
