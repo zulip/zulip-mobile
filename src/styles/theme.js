@@ -18,6 +18,10 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
   backgroundColor: {
     backgroundColor,
   },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   input: {
     color,
     height: CONTROL_SIZE,
@@ -92,6 +96,7 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     fontSize: 20,
   },
   field: {
+    flex: 1,
     flexDirection: 'row',
     height: CONTROL_SIZE,
     marginTop: 5,

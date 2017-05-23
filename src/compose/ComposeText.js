@@ -107,7 +107,7 @@ export default class ComposeText extends React.Component {
             underlineColorAndroid="transparent"
             height={contentHeight}
             onChange={this.handleOnChange}
-            onChangeText={this.handleChangeText}
+            onTextChange={this.handleChangeText}
             placeholder={placeholder}
           />
         </ScrollView>
