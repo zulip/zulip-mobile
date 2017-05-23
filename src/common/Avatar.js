@@ -8,10 +8,10 @@ import { getFullUrl } from '../utils/url';
 export default class Avatar extends React.PureComponent {
 
   props: {
-    avatarUrl: string,
+    avatarUrl?: string,
     name: string,
     size: number,
-    status: string,
+    status?: string,
     realm: string,
     onPress?: () => void,
   };

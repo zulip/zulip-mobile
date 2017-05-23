@@ -1,6 +1,8 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { Narrow } from '../types';
 import { normalizeRecipients } from '../utils/message';
 import { isGroupNarrow } from '../utils/narrow';
 import { Avatar, RawLabel, Touchable, UnreadCount } from '../common';
@@ -26,12 +28,23 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ({ email, users, narrow, unreadCount, onNarrow, realm }) => {
+type PropTypes = {
+  email: string,
+  users: Object[],
+  unreadCount: number,
+  onNarrow: (arg: string) => void,
+  realm: string,
+  narrow?: Narrow,
+}
+
+export default ({ email, users, narrow, unreadCount, onNarrow, realm }: PropTypes) => {
   const emails = email.split(',');
   const allNames = emails.map(e =>
     (users.find(x => x.email === e) || {}).fullName
   ).join(', ');
-  const isSelected = isGroupNarrow(narrow) && email === normalizeRecipients(narrow[0].operand);
+  const isSelected = narrow &&
+    isGroupNarrow(narrow) &&
+    email === normalizeRecipients(narrow[0].operand);
 
   return (
     <Touchable onPress={() => onNarrow(email)}>

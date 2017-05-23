@@ -6,7 +6,7 @@ import styles from '../styles';
 
 type FuncArguments = {
   text: string,
-  style: string
+  style: any[]
 }
 
 export default ({ text, style, ...restProps }: FuncArguments) => (

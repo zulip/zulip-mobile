@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 type FuncArguments = {
   name: string,
   size: number,
-  status: string,
+  status?: string,
   isCircular?: boolean,
   onPress?: () => void
 };

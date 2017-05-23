@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 type FuncArguments = {
   avatarUrl: string,
   size: number,
-  status: string,
+  status?: string,
   isCircular?: boolean,
   onPress?: () => void
 }
