@@ -37,6 +37,13 @@ export const isSameRecipient = (msg1, msg2): boolean => {
   }
 };
 
+export const isTopicMuted = (message, mute = []): boolean => {
+  if (typeof message.display_recipient !== 'string') {
+    return false; // private/group messages are not muted
+  }
+  return mute.some(x => x[0] === message.display_recipient && x[1] === message.subject);
+};
+
 export const shouldBeMuted = (msg, narrow, subscriptions, mutes = []): boolean => {
   if (typeof msg.display_recipient !== 'string') {
     return false; // private/group messages are not muted

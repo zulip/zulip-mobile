@@ -1,5 +1,5 @@
 import React from 'react';
-import ActionSheet from 'react-native-actionsheet'; // eslint-disable-line
+import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import styles from '../styles';
 import TaggedView from '../native/TaggedView';
@@ -7,9 +7,9 @@ import { LoadingIndicator } from '../common';
 import MessageTyping from '../message/MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
-import { actionSheetButtons, executeActionSheetAction } from './messageActionSheet';
+import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 
-export default class MessageList extends React.PureComponent {
+class MessageList extends React.PureComponent {
   autoScrollToBottom = false;
 
   static defaultProps = {
@@ -21,13 +21,22 @@ export default class MessageList extends React.PureComponent {
   }
 
   handleLongPress = (message) => {
-    this.messageLongPressed = message;
-    this.actionSheet.show();
-  }
+    const { auth, narrow, subscriptions, mute } = this.props;
+    const options = constructActionButtons({ message, auth, narrow, subscriptions, mute });
+    const cancelButtonIndex = options.length - 1;
 
-  handleActionSheetPress = buttonIndex => {
-    executeActionSheetAction({ buttonIndex, message: this.messageLongPressed, ...this.props });
-  };
+    this.props.showActionSheetWithOptions({
+      options,
+      cancelButtonIndex,
+    },
+      (buttonIndex) => {
+        executeActionSheetAction({
+          title: options[buttonIndex],
+          message,
+          ...this.props
+        });
+      });
+  }
 
   render() {
     const {
@@ -78,13 +87,9 @@ export default class MessageList extends React.PureComponent {
         {messageList}
         {!singleFetchProgress && fetching.newer && <LoadingIndicator active />}
         {typingUsers && <MessageTyping users={typingUsers} pushRoute={pushRoute} />}
-        <ActionSheet
-          ref={(ac) => { this.actionSheet = ac; }}
-          options={actionSheetButtons}
-          onPress={this.handleActionSheetPress}
-          cancelButtonIndex={actionSheetButtons.length - 1}
-        />
       </InfiniteScrollView>
     );
   }
 }
+
+export default connectActionSheet(MessageList);

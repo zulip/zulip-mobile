@@ -73,7 +73,8 @@
         "Menlo", "ok", "py", "todo", "Mc", "lodash", "selectable", "isequal", "lightgray", "tc",
         "zulipchat", "prepend", "pierre", "allen", "jan", "donald", "jane", "unicode", "joe",
         "dan", "abramov", "lang", "Crashlytics", "bool", "ionicons", "truthy", "bezier", "decrement", "js",
-        "jsonp", "otp", "Otp", "ascii", "Ascii", "substr", "Util",
+        "jsonp", "otp", "Otp", "ascii", "Ascii", "substr", "Util", "actionsheet", "unmute",
+        "otp", "Otp", "ascii", "Ascii", "substr", "Util", "actionsheet", "jsonp", "actionsheet", "ionicons"
       ],
       "skipIfMatch": [
         "http://[^s]*",
