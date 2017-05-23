@@ -17,6 +17,8 @@ class StreamAutocomplete extends Component {
       .filter(x => x.name.toLowerCase().startsWith(filter.toLowerCase()))
       .slice(0, 5);
 
+    if (streams.length === 0) return null;
+
     return (
       <Popup>
         {streams.map(x => (
