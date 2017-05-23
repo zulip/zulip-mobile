@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { View } from 'react-native';
 
@@ -7,7 +8,7 @@ import ComposeText from './ComposeText';
 import CameraRollView from './CameraRollView';
 
 type Props = {
-  onSend: (content: string) => undefined,
+  onSend: (content: string) => void,
 };
 
 const composeComponents = [
@@ -21,6 +22,10 @@ const composeComponents = [
 export default class ComposeBox extends React.Component {
 
   props: Props;
+
+  state: {
+    optionSelected: number
+  };
 
   constructor(props: Props) {
     super(props);

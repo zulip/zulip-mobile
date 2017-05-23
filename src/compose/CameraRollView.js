@@ -15,18 +15,29 @@ export default class CameraRollView extends React.Component {
   props: {
     batchSize: number,
     // renderImage: () => {},
-    imagesPerRow: number,
+    imagesPerRow?: number,
     assetType: AssetType,
-  }
+    groupTypes?: string,
+  };
 
   static defaultProps = {
     groupTypes: 'SavedPhotos',
     batchSize: 5,
     imagesPerRow: 1,
     assetType: 'Photos',
-  }
+  };
 
-  constructor(props) {
+  state: {
+    assets: [],
+    groupTypes: string,
+    lastCursor: string,
+    noMore: boolean,
+    loadingMore: boolean,
+    dataSource: [],
+
+  };
+
+  constructor(props: Object) {
     super(props);
     this.state = {
       assets: [],

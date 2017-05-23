@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+    marginTop: 10,
   },
   accountButtons: {
     flexDirection: 'row',

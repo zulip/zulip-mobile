@@ -9,7 +9,7 @@ export default class EmojiAutocomplete extends Component {
 
   props: {
     filter: string;
-    onAutocomplete: (name: string) => {},
+    onAutocomplete: (name: string) => void,
   };
 
   render() {
