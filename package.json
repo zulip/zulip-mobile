@@ -17,7 +17,8 @@
     "test:flow": "flow",
     "test:unit": "jest",
     "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "test": "npm run test:lint && npm run test:coveralls && npm run test:flow"
+    "test": "npm run test:lint && npm run test:coveralls && npm run test:flow",
+    "ui-test": "appium; react-native run-ios --configuration=Release; jest __tests__/ui-tests.js"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^0.3.1",
@@ -54,6 +55,7 @@
     "url-parse": "^1.1.8"
   },
   "devDependencies": {
+    "appium": "1.6.4",
     "babel-core": "^6.21.0",
     "babel-eslint": "^7.1.1",
     "babel-jest": "^20.0.0",
@@ -72,7 +74,7 @@
     "jest-cli": "^20.0.0",
     "jest-react-native": "^18.0.0",
     "react-native-cli": "^2.0.1",
-    "react-test-renderer": "16.0.0-alpha.6"
+    "wd": "^1.2.0"
   },
   "jest": {
     "preset": "react-native",
