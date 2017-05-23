@@ -93,13 +93,17 @@ export type ApiResponse = {
 
 export type ResponseExtractionFunc = (ApiResponse) => any;
 
-export type PushRouteAction = (string) => void;
+export type PropsAction = (string) => void;
 
-export type DoNarrowAction = (string) => void;
+export type PushRouteAction = PropsAction;
 
-export type PopRouteAction = (string) => void;
+export type DoNarrowAction = PropsAction;
 
-export type InitRouteAction = (string) => void;
+export type OnNarrowAction = PropsAction;
+
+export type PopRouteAction = PropsAction;
+
+export type InitRouteAction = PropsAction;
 
 export type AccountState = [];
 

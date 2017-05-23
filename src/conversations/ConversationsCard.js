@@ -1,6 +1,8 @@
+/* @flow */
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
+import { OnNarrowAction, PushRouteAction, } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import { ZulipButton } from '../common';
 import ConversationList from './ConversationList';
@@ -27,6 +29,9 @@ type Props = {
   users: any[],
   narrow: () => void,
   presence: Object,
+  onNarrow: OnNarrowAction,
+  pushRoute: PushRouteAction,
+  conversations: string[],
 };
 
 export default class ConversationsCard extends Component {
