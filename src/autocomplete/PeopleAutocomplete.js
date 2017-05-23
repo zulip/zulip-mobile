@@ -2,12 +2,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-
 import { getAuth } from '../account/accountSelectors';
 import { Popup } from '../common';
 import UserItem from '../users/UserItem';
 import { sortUserList, filterUsersStartingWith } from '../users/usersSelectors';
-
 
 class PeopleAutocomplete extends Component {
 
@@ -20,8 +18,7 @@ class PeopleAutocomplete extends Component {
 
   render() {
     const { filter, ownEmail, users, onAutocomplete } = this.props;
-    const people = sortUserList(filterUsersStartingWith(users, filter, ownEmail))
-      .slice(1, 5);
+    const people = sortUserList(filterUsersStartingWith(users, filter, ownEmail));
 
     if (people.length === 0) return null;
 
