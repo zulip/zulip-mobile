@@ -20,7 +20,7 @@ export default class TitleGroup extends React.PureComponent {
   render() {
     const { realm, narrow, users } = this.props;
     const recipientEmails = narrow[0].operand.split(',');
-    const recipients = recipientEmails.map(r => users.find(x => x.email === r));
+    const recipients = recipientEmails.map(r => users.find(x => x.email === r) || {});
 
     return (
       <View style={styles.wrapper}>

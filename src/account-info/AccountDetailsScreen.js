@@ -23,7 +23,7 @@ class AccountDetailsScreen extends Component {
 
   render() {
     const { auth, users, fetchMessages, doNarrow, popRoute } = this.props;
-    const { fullName, avatarUrl, status } = users.find(x => x.email === this.email);
+    const { fullName, avatarUrl, status } = users.find(x => x.email === this.email) || {};
 
     return (
       <Screen title="Account details">
