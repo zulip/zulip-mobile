@@ -27,8 +27,8 @@ export default class UserList extends Component {
   }
 
   render() {
-    const { ownEmail, realm, filter, users, onNarrow } = this.props;
-    const shownUsers = sortUserList(filterUserList(users, filter, ownEmail));
+    const { realm, filter, users, onNarrow } = this.props;
+    const shownUsers = sortUserList(filterUserList(users, filter));
     const groupedUsers = groupUsersByInitials(shownUsers);
     const sections = Object.entries(groupedUsers).map(x => ({ key: x[0], data: x[1] }));
 
