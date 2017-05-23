@@ -2,6 +2,9 @@ import { Platform } from 'react-native';
 import { BORDER_COLOR, BRAND_COLOR, STATUSBAR_HEIGHT, CONTROL_SIZE, NAVBAR_HEIGHT } from './';
 
 export default ({ color, backgroundColor, borderColor }) => ({
+  text: {
+    fontSize: 16,
+  },
   color: {
     color,
   },
@@ -124,6 +127,7 @@ export default ({ color, backgroundColor, borderColor }) => ({
   subheader: {
     flex: 1,
     flexBasis: 20,
+    paddingBottom: 4,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

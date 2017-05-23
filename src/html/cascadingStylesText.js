@@ -2,16 +2,6 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  blockquote: {
-    marginTop: 0,
-    marginBottom: 0
-  },
-  p: {
-    fontSize: 16,
-  },
-  li: {
-    fontSize: 16,
-  },
   a: {
     color: '#08c',
     textDecorationLine: 'underline',

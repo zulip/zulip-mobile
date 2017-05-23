@@ -5,8 +5,8 @@ import { getResource } from '../../utils/url';
 
 const styles = StyleSheet.create({
   img: {
-    width: 296,
-    height: 150,
+    width: 260,
+    height: 100,
   },
 });
 

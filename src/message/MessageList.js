@@ -50,7 +50,10 @@ class MessageList extends React.PureComponent {
       typingUsers,
     } = this.props;
 
-    const messageList = renderMessages({ onLongPress: this.handleLongPress, ...this.props });
+    const messageList = renderMessages({
+      onLongPress: this.handleLongPress,
+      ...this.props,
+    });
 
     // `headerIndices` tell the scroll view which components are headers
     // and are eligible to be docked at the top of the view.
