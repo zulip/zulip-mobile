@@ -124,3 +124,8 @@ export const narrowFromMessage = (message) => {
 
   return streamNarrow(message.display_recipient);
 };
+
+export const isNarrowWithComposeBox = (narrow) =>
+  isStreamNarrow(narrow) ||
+  isTopicNarrow(narrow) ||
+  isPrivateNarrow(narrow);

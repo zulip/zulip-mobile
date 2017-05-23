@@ -3,7 +3,7 @@ import { KeyboardAvoidingView } from 'react-native';
 
 import styles from '../styles';
 import { OfflineNotice } from '../common';
-import { canSendToNarrow, isPrivateNarrow, isStreamNarrow, isTopicNarrow } from '../utils/narrow';
+import { canSendToNarrow, isNarrowWithComposeBox } from '../utils/narrow';
 import { filterUnreadMessageIds, countUnread } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { queueMarkAsRead } from '../api';
@@ -15,6 +15,14 @@ import UnreadNotice from './UnreadNotice';
 
 
 export default class Chat extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      scrollOffset: 0
+    };
+  }
+
   handleMessageListScroll = e => {
     if (!e.visibleIds) {
       return; // temporary fix for Android
@@ -29,6 +37,11 @@ export default class Chat extends React.Component {
       queueMarkAsRead(auth, unreadMessageIds);
     }
 
+    this.setState({
+      // Calculating the amount user has scrolled up from the bottom
+      scrollOffset: e.contentSize.height - e.contentOffset.y - e.layoutMeasurement.height
+    });
+
     registerAppActivity(auth);
   };
 
@@ -39,16 +52,12 @@ export default class Chat extends React.Component {
     const showMessageList = !noMessages && !noMessagesButLoading;
     const unreadCount = countUnread(messages.map(msg => msg.id), readIds);
 
-    const isNarrowWithComposeBox = isStreamNarrow(narrow) ||
-      isTopicNarrow(narrow) ||
-      isPrivateNarrow(narrow);
-
     return (
       <KeyboardAvoidingView style={styles.screen} behavior="padding">
-        {(unreadCount > 0) && <UnreadNotice
-          position="bottom"
+        {<UnreadNotice
           count={unreadCount}
-          shouldOffsetForInput={isNarrowWithComposeBox}
+          shouldOffsetForInput={isNarrowWithComposeBox(narrow)}
+          scrollOffset={this.state.scrollOffset}
         />}
         {!isOnline && <OfflineNotice />}
         {noMessages && <NoMessages narrow={narrow} />}

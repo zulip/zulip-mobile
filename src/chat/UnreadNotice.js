@@ -29,10 +29,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const POSITIONS = {
-  top: 'top',
-  bottom: 'bottom'
-};
+// Duration after which notice should hide
+const AUTO_HIDE_DELAY = 1000;
 
 const showAnimationConfig = {
   toValue: 1,
@@ -54,40 +52,63 @@ export default class UnreadNotice extends React.Component {
 
     this.state = {
       translateAnimation: new Animated.Value(0),
+      visible: false
     };
+
+    this.hideTimeout = null;
   }
 
-  componentDidMount() {
-    this.show();
+  shouldComponentUpdate(nextProps) {
+    // Render only when user has scrolled up and unread count updates
+    return nextProps.scrollOffset > 0 && this.props.count !== nextProps.count;
+  }
+
+  componentWillUpdate(nextProps) {
+    const { visible } = this.state;
+    const willBecomeVisible = nextProps.count > 0;
+
+    if (!visible && willBecomeVisible) this.show();
   }
 
   hide = () => {
     this.state.translateAnimation.setValue(1);
-    Animated.timing(this.state.translateAnimation, hideAnimationConfig).start();
+    Animated.timing(this.state.translateAnimation, hideAnimationConfig)
+      .start(() => {
+        this.setState({
+          visible: false
+        });
+      });
   };
 
   show = () => {
     this.state.translateAnimation.setValue(0);
-    Animated.timing(this.state.translateAnimation, showAnimationConfig).start();
+    Animated.timing(this.state.translateAnimation, showAnimationConfig)
+      .start(() => {
+        this.setState({
+          visible: true
+        });
+      });
+
+    // Auto-hide notice HIDE_DELAY milliseconds after it's shown
+    clearTimeout(this.hideTimeout);
+    this.hideTimeout = setTimeout(this.hide, AUTO_HIDE_DELAY);
   };
 
   dynamicContainerStyles = () => {
-    const { position, shouldOffsetForInput } = this.props;
-    const translationMultiplier = position === POSITIONS.top ? -1 : 1;
+    const { shouldOffsetForInput } = this.props;
 
     // In narrows where ComposeBox is present translate beyond ComposeBox to avoid blocking it
-    const translateTo = shouldOffsetForInput && position === POSITIONS.bottom ? -40 : 0;
-    const translateFrom = shouldOffsetForInput && position === POSITIONS.bottom ? 0 : 50;
+    const translateTo = shouldOffsetForInput ? -40 : 0;
+    const translateFrom = shouldOffsetForInput ? 0 : 50;
 
     return {
       ...StyleSheet.flatten(styles.unreadContainer),
-      bottom: position === POSITIONS.bottom ? 0 : null,
-      top: position === POSITIONS.top ? 0 : null,
+      bottom: 0,
       transform: [
         {
           translateY: this.state.translateAnimation.interpolate({
             inputRange: [0, 1],
-            outputRange: [translationMultiplier * translateFrom, translateTo]
+            outputRange: [translateFrom, translateTo]
           })
         }
       ]
