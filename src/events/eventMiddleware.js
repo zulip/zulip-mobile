@@ -1,8 +1,10 @@
+/* @flow */
+import { StateType } from '../types';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
 import { getActiveAccount, getSelfEmail } from '../account/accountSelectors';
 import { playMessageSound } from '../utils/sound';
 
-export default (state, event) => {
+export default (state: StateType, event: Object) => {
   switch (event.type) {
     case 'message': {
       const isPrivateMessage = Array.isArray(event.message.display_recipient);
@@ -10,8 +12,9 @@ export default (state, event) => {
         break;
       }
 
+      const activeAccount = getActiveAccount(state);
       const isUserInSameNarrow = !isHomeNarrow(state.chat.narrow) &&
-        isMessageInNarrow(event.message, state.chat.narrow, getActiveAccount(state).email);
+        activeAccount && isMessageInNarrow(event.message, state.chat.narrow, activeAccount.email);
       const isSenderSelf = getSelfEmail(state) === event.message.sender_email;
       if (!isUserInSameNarrow && !isSenderSelf) {
         playMessageSound();

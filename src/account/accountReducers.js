@@ -8,11 +8,11 @@ import {
   ACCOUNT_REMOVE,
 } from '../actionConstants';
 
-import { AccountState } from '../types';
+import { AccountState, Action } from '../types';
 
 const initialState = [];
 
-export default (state: AccountState = initialState, action: Object) => {
+export default (state: AccountState = initialState, action: Action) => {
   switch (action.type) {
     case REALM_ADD: {
       const accountIndex = state.findIndex(account =>

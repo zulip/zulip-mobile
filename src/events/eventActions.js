@@ -1,4 +1,5 @@
-import { Auth } from '../types';
+/* @flow */
+import { Auth, Dispatch, GetState } from '../types';
 import { pollForEvents, registerForEvents } from '../api';
 import { switchAccount } from '../account/accountActions';
 import { timeout } from '../utils/async';
@@ -11,8 +12,8 @@ import {
   EVENT_REGISTERED,
 } from '../actionConstants';
 
-const startEventPolling = (auth, queueId, eventId) =>
-  async (dispatch, getState) => {
+const startEventPolling = (auth: Auth, queueId: number, eventId: number) =>
+  async (dispatch: Dispatch, getState: GetState) => {
     let lastEventId = eventId;
     let numFailures = 0;
 
@@ -74,7 +75,7 @@ const startEventPolling = (auth, queueId, eventId) =>
   };
 
 export const fetchEvents = (auth: Auth) =>
-  async (dispatch, getState) => {
+  async (dispatch: Dispatch, getState: GetState) => {
     const data = await registerForEvents(auth);
 
     const queueId = data.queue_id;
