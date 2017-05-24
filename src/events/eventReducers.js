@@ -1,3 +1,5 @@
+/* @flow */
+import { StateType, Action } from '../types';
 import {
   ACCOUNT_SWITCH,
   EVENT_REGISTERED,
@@ -8,7 +10,7 @@ const initialState = {
   queueId: null,
 };
 
-export default (state = initialState, action) => {
+export default (state: StateType = initialState, action: Action) => {
   switch (action.type) {
     case ACCOUNT_SWITCH:
     case LOGOUT:

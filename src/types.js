@@ -131,3 +131,7 @@ export type Action = {
 }
 
 export type MatchResult = Array<string> & {index: number, input: string};
+
+export type Dispatch = (action: Action) => void;
+
+export type GetState = () => StateType
