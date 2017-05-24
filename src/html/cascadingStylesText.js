@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable */
 import { StyleSheet } from 'react-native';
 
