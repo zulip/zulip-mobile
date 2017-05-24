@@ -1,3 +1,4 @@
+/* @flow */
 import emojiMap from './emojiMap';
 
 export default (query: string) =>
