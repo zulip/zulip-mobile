@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import {
   StyleSheet,
@@ -23,7 +24,7 @@ export default class EmojiRow extends React.Component {
 
   props: {
     name: string,
-    onPress: () => {},
+    onPress: () => void,
   }
 
   render() {
