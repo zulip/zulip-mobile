@@ -1,6 +1,7 @@
+/* @flow */
 import htmlparser from 'htmlparser2';
 
-export default (html) => {
+export default (html: string) => {
   let domTree = null;
   const parser = new htmlparser.Parser(
     new htmlparser.DomHandler((err, dom) => {

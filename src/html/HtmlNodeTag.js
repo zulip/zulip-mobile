@@ -1,5 +1,7 @@
+/* @flow */
 import React from 'react';
 
+import { Auth } from '../types';
 import styles from './HtmlStyles';
 import cascadingStyles from './cascadingStylesView';
 import HtmlTagSpan from './tags/HtmlTagSpan';
@@ -42,7 +44,16 @@ const specialTags = {
 const stylesFromClassNames = (classNames = '', styleObj) =>
   classNames.split(' ').map(className => styleObj[className]);
 
-export default ({ auth, attribs, name, cascadingStyle, childrenNodes, onPress }) => {
+type FuncArguments = {
+  auth: Auth,
+  attribs: Object,
+  name: string,
+  cascadingStyle: Object,
+  childrenNodes: Object[],
+  onPress: () => void,
+}
+
+export default ({ auth, attribs, name, cascadingStyle, childrenNodes, onPress }: FuncArguments) => {
   const style = [
     styles[name],
     ...stylesFromClassNames(attribs.class, styles),

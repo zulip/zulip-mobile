@@ -1,8 +1,17 @@
+/* @flow */
 import React from 'react';
 
+import { Auth } from '../types';
 import HtmlNode from './HtmlNode';
 
-export default ({ auth, cascadingStyle, childrenNodes, onPress }) =>
+type FuncArguments = {
+  auth: Auth,
+  childrenNodes: Object[],
+  cascadingStyle: Object,
+  onPress: () => void,
+}
+
+export default ({ auth, cascadingStyle, childrenNodes, onPress }: FuncArguments) =>
   childrenNodes &&
   childrenNodes
     .filter(x => x.data !== '\n')
