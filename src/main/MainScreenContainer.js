@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { connect } from 'react-redux';
 import isEqual from 'lodash.isequal';
@@ -46,7 +47,6 @@ class MainScreenContainer extends React.Component {
       <MainScreen
         fetchOlder={this.fetchOlder}
         fetchNewer={this.fetchNewer}
-        markAsRead={this.handleMarkAsRead}
         {...this.props}
       />
     );
