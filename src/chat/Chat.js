@@ -47,21 +47,21 @@ export default class Chat extends React.Component {
     const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
 
     return (
-      <ActionSheetProvider>
-        <WrapperView style={styles.screen} behavior="padding">
-          {<UnreadNotice
-            unreadCount={unreadCount}
-            scrollOffset={this.scrollOffset}
-            shouldOffsetForInput={canSendToNarrow(narrow)}
-          />}
-          {!isOnline && <OfflineNotice />}
-          {noMessages && <NoMessages narrow={narrow} />}
-          {noMessagesButLoading && <MessageListLoading />}
-          {showMessageList &&
-            <MessageList onScroll={this.handleMessageListScroll} {...this.props} />}
-          {canSendToNarrow(narrow) && <ComposeBox />}
-        </WrapperView>
-      </ActionSheetProvider>
+      <WrapperView style={styles.screen} behavior="padding">
+        {<UnreadNotice
+          unreadCount={unreadCount}
+          scrollOffset={this.scrollOffset}
+          shouldOffsetForInput={canSendToNarrow(narrow)}
+        />}
+        {!isOnline && <OfflineNotice />}
+        {noMessages && <NoMessages narrow={narrow} />}
+        {noMessagesButLoading && <MessageListLoading />}
+        {showMessageList &&
+        <ActionSheetProvider>
+          <MessageList onScroll={this.handleMessageListScroll} {...this.props} />
+        </ActionSheetProvider>}
+        {canSendToNarrow(narrow) && <ComposeBox />}
+      </WrapperView>
     );
   }
-}
+  }
