@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
+import { STATUSBAR_HEIGHT } from '../styles';
 import { OnNarrowAction, PushRouteAction, } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import { ZulipButton } from '../common';
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    marginTop: 10,
+    paddingTop: STATUSBAR_HEIGHT,
   },
   accountButtons: {
     flexDirection: 'row',

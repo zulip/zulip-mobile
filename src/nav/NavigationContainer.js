@@ -68,6 +68,7 @@ class NavigationContainer extends React.PureComponent {
   }
 
   render() {
+    console.log('rerendering the thing', this.props.locale);
     return (
       <View style={styles.screen} onLayout={this.handleLayout}>
         <Navigation
@@ -82,6 +83,7 @@ class NavigationContainer extends React.PureComponent {
 export default connect(
   (state) => ({
     auth: getAuth(state),
+    locale: state.settings.locale,
     needsInitialFetch: state.app.needsInitialFetch,
     accounts: state.accounts,
     navigation: state.nav,

@@ -53,7 +53,6 @@ export default class MainScreen extends React.Component {
           }
         >
           <MainNavBar
-            noStatusBar={leftDrawerOpen || rightDrawerOpen}
             onPressPeople={() => this.setState({ rightDrawerOpen: true })}
             onPressStreams={() => this.setState({ leftDrawerOpen: true })}
           >

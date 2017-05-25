@@ -37,15 +37,15 @@
   "Wrong email or password. Try again.": "Falsche Email/Passwort-Kombination. Versuche es erneut.",
   "Enter a valid email address": "Bitte gib eine gültige Email an.",
   "Enter a password": "Passwort eingeben",
-  "Narrow to conversation": "Narrow to conversation",
+  "Narrow to conversation": "Auf diese Konversation begrenzen",
   "Reply": "Antworten",
   "Copy to clipboard": "In die Ablage kopieren",
-  "Mute topic": "Mute topic",
-  "Unmute topic": "Unmute topic",
+  "Mute topic": "Thema stummschalten",
+  "Unmute topic": "Stummschaltung aufheben",
   "Mute stream": "Stream stummschalten",
-  "Unmute stream": "Unmute stream",
-  "No Internet connection": "No Internet connection",
+  "Unmute stream": "Stummschaltung aufheben",
+  "No Internet connection": "Keine Internetverbindung",
   "Settings": "Einstellungen",
-  "Night mode": "Night mode",
-  "Language": "Language"
+  "Night mode": "Nachtmodus",
+  "Language": "Sprache"
 }

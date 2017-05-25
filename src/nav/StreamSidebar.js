@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { STATUSBAR_HEIGHT } from '../styles';
 import { ZulipButton } from '../common';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import NavButton from './NavButton';
@@ -9,6 +10,7 @@ import SubscriptionsContainer from '../streamlist/SubscriptionsContainer';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: STATUSBAR_HEIGHT,
     flexDirection: 'column',
   },
   iconList: {
