@@ -10,15 +10,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 44,
     padding: 8,
-    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  flag: {
+    paddingRight: 8,
   },
   language: {
     flex: 1,
-    height: 44,
   }
 });
 
-export default class LanguagePicker extends React.Component {
+export default class LanguagePickerItem extends React.Component {
 
   props: {
     selected: boolean,
@@ -31,7 +33,7 @@ export default class LanguagePicker extends React.Component {
     return (
       <Touchable onPress={() => onValueChange(locale)}>
         <View style={styles.row}>
-          <RawLabel text={flag} />
+          <RawLabel style={styles.flag} text={flag} />
           <RawLabel style={styles.language} text={name} />
           {selected &&
             <IconDone

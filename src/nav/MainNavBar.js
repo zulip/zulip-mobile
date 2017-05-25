@@ -19,7 +19,7 @@ const moreStyles = StyleSheet.create({
 
 class MainNavBar extends React.Component {
   render() {
-    const { narrow, noStatusBar, subscriptions, unreadPrivateMessagesCount,
+    const { narrow, subscriptions, unreadPrivateMessagesCount,
       onPressStreams, onPressPeople } = this.props;
 
     const backgroundColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
@@ -33,7 +33,6 @@ class MainNavBar extends React.Component {
     return (
       <View style={moreStyles.wrapper}>
         <ZulipStatusBar
-          hidden={noStatusBar}
           backgroundColor={backgroundColor}
         />
         <View style={[styles.navBar, { backgroundColor }]}>
