@@ -4049,7 +4049,7 @@ function BestFitFormatMatcher(options, formats) {
 
                         {
                             // diverging from spec
-                            // When the bestFit argument is true, subtract additional penalty where data types are not the same
+                            // When the bestFit argument is true, subtract additional penalty where data types.js are not the same
                             if (formatPropIndex <= 1 && optionsPropIndex >= 2 || formatPropIndex >= 2 && optionsPropIndex <= 1) {
                                 // 5. If delta = 2, decrease score by longMorePenalty.
                                 if (delta > 0) score -= longMorePenalty;else if (delta < 0) score -= longLessPenalty;
