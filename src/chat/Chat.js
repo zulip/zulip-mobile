@@ -4,7 +4,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import styles from '../styles';
 import { OfflineNotice } from '../common';
-import { canSendToNarrow, isPrivateNarrow, isStreamNarrow, isTopicNarrow } from '../utils/narrow';
+import { canSendToNarrow } from '../utils/narrow';
 import { filterUnreadMessageIds, countUnread } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { queueMarkAsRead } from '../api';
@@ -16,6 +16,8 @@ import UnreadNotice from './UnreadNotice';
 
 
 export default class Chat extends React.Component {
+  scrollOffset = 0;
+
   handleMessageListScroll = e => {
     if (!e.visibleIds) {
       return; // temporary fix for Android
@@ -30,6 +32,9 @@ export default class Chat extends React.Component {
       queueMarkAsRead(auth, unreadMessageIds);
     }
 
+    // Calculates the amount user has scrolled up from the very bottom
+    this.scrollOffset = e.contentSize.height - e.contentOffset.y - e.layoutMeasurement.height;
+
     registerAppActivity(auth);
   };
 
@@ -41,17 +46,13 @@ export default class Chat extends React.Component {
     const unreadCount = countUnread(messages.map(msg => msg.id), readIds);
     const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
 
-    const isNarrowWithComposeBox = isStreamNarrow(narrow) ||
-      isTopicNarrow(narrow) ||
-      isPrivateNarrow(narrow);
-
     return (
       <ActionSheetProvider>
         <WrapperView style={styles.screen} behavior="padding">
-          {(unreadCount > 0) && <UnreadNotice
-            position="bottom"
-            count={unreadCount}
-            shouldOffsetForInput={isNarrowWithComposeBox}
+          {<UnreadNotice
+            unreadCount={unreadCount}
+            scrollOffset={this.scrollOffset}
+            shouldOffsetForInput={canSendToNarrow(narrow)}
           />}
           {!isOnline && <OfflineNotice />}
           {noMessages && <NoMessages narrow={narrow} />}
