@@ -1,7 +1,6 @@
 import React from 'react';
 import { Linking, Platform, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
-import DeviceInfo from 'react-native-device-info';
 
 import SafariView from 'react-native-safari-view';
 import parseURL from 'url-parse';
@@ -22,16 +21,20 @@ class AuthScreen extends React.PureComponent {
 
   componentDidMount = () => {
     // Add listeners for OAuth flow
-    Linking.addEventListener('url', this.endOAuthFlow);
-    this.safariViewDismissEvent = SafariView.addEventListener('onDismiss', () => {
-      this.otp = undefined;
-    });
+    if (Platform.OS === 'ios') {
+      Linking.addEventListener('url', this.endOAuthFlow);
+      this.safariViewDismissEvent = SafariView.addEventListener('onDismiss', () => {
+        this.otp = undefined;
+      });
+    }
   }
 
   componentWillUnmount = () => {
     // Remove listeners for OAuth flow
-    Linking.removeEventListener('url', this.endOAuthFlow);
-    SafariView.removeEventListener('onDismiss', this.safariViewDismissEvent);
+    if (Platform.OS === 'ios') {
+      Linking.removeEventListener('url', this.endOAuthFlow);
+      SafariView.removeEventListener('onDismiss', this.safariViewDismissEvent);
+    }
   }
 
   handleTypeSelect = (authType: string) => {
@@ -109,7 +112,7 @@ class AuthScreen extends React.PureComponent {
 
   shouldShowOAuth = () =>
     // OAuth flow only supports iOS 9+ right now
-    Platform.OS === 'ios' && DeviceInfo.getSystemVersion() >= 9.0;
+    Platform.OS === 'ios' && Platform.Version >= 9.0;
 
   render() {
     const { authBackends } = this.props;
