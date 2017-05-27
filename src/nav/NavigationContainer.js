@@ -68,7 +68,6 @@ class NavigationContainer extends React.PureComponent {
   }
 
   render() {
-    console.log('rerendering the thing', this.props.locale);
     return (
       <View style={styles.screen} onLayout={this.handleLayout}>
         <Navigation
