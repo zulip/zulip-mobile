@@ -15,11 +15,8 @@ import SearchMessagesScreen from '../search/SearchMessagesScreen';
 import UsersScreen from '../users/UsersScreen';
 import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
-<<<<<<< HEAD
 import SettingsScreen from '../settings/SettingsScreen';
-=======
 import LightBox from '../light-box/LightBox';
->>>>>>> Add in-app light-box for viewing images.
 
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
