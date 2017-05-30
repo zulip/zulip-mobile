@@ -1,15 +1,12 @@
 /* @flow */
 import React from 'react';
 import { StyleSheet, View, ScrollView, TextInput } from 'react-native';
-import { connect } from 'react-redux';
 
 import styles from '../styles';
 import { MatchResult } from '../types';
 import { Input } from '../common';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { registerUserInputActivity } from '../utils/activity';
-import { getAuth } from '../account/accountSelectors';
-import { getLastTopicInActiveNarrow } from '../chat/chatSelectors';
 import sendMessage from '../api/sendMessage';
 import SendButton from './SendButton';
 import getAutocompletedText from '../autocomplete/getAutocompletedText';
@@ -23,7 +20,7 @@ const MAX_HEIGHT = 200;
 const componentStyles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   messageBox: {
     flex: 1,
@@ -33,9 +30,10 @@ const componentStyles = StyleSheet.create({
 type Props = {
   auth: Object,
   narrow: Object,
+  operator: string | null
 };
 
-class ComposeText extends React.Component {
+export default class ComposeText extends React.Component {
 
   props: Props;
   textInput: TextInput;
@@ -58,16 +56,22 @@ class ComposeText extends React.Component {
   }
 
   handleSend = () => {
-    const { auth, narrow } = this.props;
+    const { auth, narrow, operator } = this.props;
     const { text } = this.state;
 
     if (isPrivateOrGroupNarrow(narrow)) {
       sendMessage(auth, 'private', narrow[0].operand, '', text);
-    } else if (isStreamNarrow(narrow)) {
-      sendMessage(auth, 'stream', narrow[0].operand, '(no topic)', text);
-    } else if (isTopicNarrow(narrow)) {
-      sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, text);
+    } else if (isTopicNarrow(narrow) || isStreamNarrow(narrow)) {
+      if (operator !== null) {
+        sendMessage(auth, 'stream', narrow[0].operand,
+        (operator === '') ? '(no topic)' : operator, text);
+      } else if (isTopicNarrow(narrow)) {
+        sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, text);
+      } else if (isStreamNarrow(narrow)) {
+        sendMessage(auth, 'stream', narrow[0].operand, '(no topic)', text);
+      }
     }
+
 
     this.clearInput();
   }
@@ -80,7 +84,7 @@ class ComposeText extends React.Component {
     });
   }
 
-  handleOnChange = (event) =>
+  handleOnChange = (event: Object) =>
     this.setState({ contentHeight: event.nativeEvent.contentSize.height });
 
   handleChangeText = (text: string) => {
@@ -100,7 +104,6 @@ class ComposeText extends React.Component {
     const height = Math.min(Math.max(MIN_HEIGHT, contentHeight), MAX_HEIGHT);
     const lastword: MatchResult = text.match(/\b(\w+)$/);
     const lastWordPrefix = lastword && lastword.index && text[lastword.index - 1];
-
     return (
       <View>
         {lastWordPrefix === ':' && lastword &&
@@ -131,11 +134,3 @@ class ComposeText extends React.Component {
     );
   }
 }
-
-const mapStateToProps = (state) => ({
-  auth: getAuth(state),
-  narrow: state.chat.narrow,
-  lastTopic: getLastTopicInActiveNarrow(state),
-});
-
-export default connect(mapStateToProps)(ComposeText);
