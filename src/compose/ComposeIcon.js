@@ -30,7 +30,7 @@ export default class ComposeIcon extends React.Component {
     const { isActive, name, onChange } = this.props;
 
     return (
-      <Touchable onPress={() => onChange(0)}>
+      <Touchable onPress={() => { onChange(0); }}>
         <Icon
           style={[styles.icon, isActive && styles.iconActive]}
           size={24}
