@@ -7,15 +7,19 @@ const background = Platform.Version >= 21 ?
   TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR) :
   TouchableNativeFeedback.SelectableBackground();
 
-type FuncArguments = {
-  onPress: () => {},
-  style: string,
-  children: []
-}
+type Props = {
+  onPress?: () => void,
+  style?: Object,
+  children?: [],
+};
 
-export default ({ onPress, style, children }: FuncArguments) => (
-  <TouchableNativeFeedback background={background} onPress={onPress}>
-    <View style={style}>
+export default ({ onPress, style, children }: Props) => (
+  <TouchableNativeFeedback
+    style={style}
+    background={background}
+    onPress={onPress}
+  >
+    <View>
       {children}
     </View>
   </TouchableNativeFeedback>

@@ -1,13 +1,22 @@
 /* @flow */
 import React from 'react';
-import { TouchableHighlight } from 'react-native';
+import { TouchableHighlight, View } from 'react-native';
 import { HIGHLIGHT_COLOR } from '../styles';
 
-export default (props: Object) => (
+type Props = {
+  onPress?: () => void,
+  style?: Object,
+  children?: [],
+};
+
+export default ({ onPress, style, children }: Props) => (
   <TouchableHighlight
     underlayColor={HIGHLIGHT_COLOR}
-    {...props}
+    style={style}
+    onPress={onPress}
   >
-    {props.children}
+    <View>
+      {children}
+    </View>
   </TouchableHighlight>
 );

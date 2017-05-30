@@ -44,7 +44,7 @@ const specialTags = {
 const stylesFromClassNames = (classNames = '', styleObj) =>
   classNames.split(' ').map(className => styleObj[className]);
 
-type FuncArguments = {
+type Props = {
   auth: Auth,
   attribs: Object,
   name: string,
@@ -53,7 +53,7 @@ type FuncArguments = {
   onPress: () => void,
 }
 
-export default ({ auth, attribs, name, cascadingStyle, childrenNodes, onPress }: FuncArguments) => {
+export default ({ auth, attribs, name, cascadingStyle, childrenNodes, onPress }: Props) => {
   const style = [
     styles[name],
     ...stylesFromClassNames(attribs.class, styles),

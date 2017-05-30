@@ -19,7 +19,7 @@ const options = {
   inValidServer: 'http://invalid:9991'
 };
 
-describe('Integration testings', () => {
+describe('Basic', () => {
   beforeAll(async () => await driver.init(caps));
   afterAll(async () => await driver.quit());
 
@@ -28,13 +28,13 @@ describe('Integration testings', () => {
     await driver.launchApp();
   });
 
-  it('Test to connect to server', async () => {
+  it('Connect to server', async () => {
     await driver.elementByClassName('XCUIElementTypeTextField').sendKeys(options.validServer);
     await driver.elementByAccessibilityId('Enter').click();
     expect(await driver.hasElementByAccessibilityId('Sign in')).toBe(true);
   });
 
-  it('Test to sign in using dev server', async () => {
+  it('Sign in using dev server', async () => {
     await driver.elementByClassName('XCUIElementTypeTextField').sendKeys(options.validServer);
     await driver.elementByAccessibilityId('Enter').click();
     await driver.elementByAccessibilityId('Sign in with dev account').click();

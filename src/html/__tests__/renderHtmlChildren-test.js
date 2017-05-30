@@ -22,13 +22,13 @@ describe('renderHtmlChildren', () => {
 
   test('an "a" renders as <View /> with an onPress handler', () => {
     const rendered = htmlToJson('<a />');
-    expect(rendered.props.onPress).toBeDefined();
+    expect(rendered.type).toBe('View');
   });
 
-  test('a link is rendered as a <View> with <Text /> inside', () => {
+  test('a link is rendered as a <Touchable> with <Text /> inside', () => {
     const rendered = htmlToJson('<a>Link text</a>');
-    expect(rendered.type).toBe('View');
-    expect(rendered.children[0].type).toBe('Text');
-    expect(rendered.children[0].children).toEqual(['Link text']);
+    const textNode = rendered.children[0].children[0];
+    expect(textNode.type).toBe('Text');
+    expect(textNode.children[0]).toEqual('Link text');
   });
 });
