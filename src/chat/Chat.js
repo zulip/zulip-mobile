@@ -13,7 +13,7 @@ import MessageListLoading from '../message/MessageListLoading';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
-
+import EmojiPicker from '../emoji/EmojiPicker';
 
 export default class Chat extends React.Component {
   scrollOffset = 0;
@@ -61,6 +61,7 @@ export default class Chat extends React.Component {
           <MessageList onScroll={this.handleMessageListScroll} {...this.props} />
         </ActionSheetProvider>}
         {canSendToNarrow(narrow) && <ComposeBox />}
+        <EmojiPicker />
       </WrapperView>
     );
   }
