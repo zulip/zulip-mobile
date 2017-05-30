@@ -137,4 +137,11 @@ export default ({ color, backgroundColor, borderColor }) => ({
     fontSize: 16,
     lineHeight: 16,
   },
+  composeInput: {
+    padding: 5,
+    fontSize: 14,
+    borderWidth: 0.5,
+    height: CONTROL_SIZE * 3 / 4,
+    borderColor: BORDER_COLOR,
+  },
 });
