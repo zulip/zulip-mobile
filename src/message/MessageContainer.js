@@ -25,10 +25,10 @@ export default class MessageContainer extends React.PureComponent {
   onLongPress = () => {
     const { message, onLongPress } = this.props;
     onLongPress(message);
-  }
+  };
 
   isStarred(message) {
-    return message.flags && !!~(message.flags.indexOf('starred'));
+    return message.flags && !!~message.flags.indexOf('starred');
   }
 
   render() {
@@ -47,7 +47,7 @@ export default class MessageContainer extends React.PureComponent {
         starred={this.isStarred(message)}
         realm={auth.realm}
       >
-        {renderHtmlChildren({ childrenNodes, auth, onPress: this.handleLinkPress })}
+        {renderHtmlChildren({ childrenNodes, auth, onPress: this.handleLinkPress, message })}
       </MessageComponent>
     );
   }

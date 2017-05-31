@@ -1,11 +1,12 @@
 /* @flow */
-import Share from 'react-native-share';
+import { Share } from 'react-native';
+
+import { BRAND_COLOR } from '../styles';
 
 export default (url: string) => {
   const shareOptions = {
-    url,
-    subject: 'Shared using Zulip',
+    message: url,
+    title: 'Shared using Zulip',
   };
-  Share.open(shareOptions)
-    .catch(err => {});
+  Share.share(shareOptions, { tintColor: BRAND_COLOR });
 };

@@ -4,8 +4,8 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
-import cl.json.RNSharePackage;
 import com.reactnative.photoview.PhotoViewPackage;
+import cl.json.RNSharePackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -35,8 +35,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new FabricPackage(),
           new MainReactPackage(),
-            new RNSharePackage(),
             new PhotoViewPackage(),
+            new RNSharePackage(),
             new RNFetchBlobPackage(),
           new RNSoundPackage(),
           new RNDeviceInfo(),

@@ -153,8 +153,8 @@ repositories {
 
 
 dependencies {
-    compile project(':react-native-share')
     compile project(':react-native-photo-view')
+    compile project(':react-native-share')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-sound')
     compile project(':react-native-fabric')

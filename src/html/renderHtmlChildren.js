@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import { Auth } from '../types';
+import { Auth, Message } from '../types';
 import HtmlNode from './HtmlNode';
 
 type FuncArguments = {
@@ -9,9 +9,10 @@ type FuncArguments = {
   childrenNodes: Object[],
   cascadingStyle: Object,
   onPress: () => void,
-}
+  message: Message
+};
 
-export default ({ auth, cascadingStyle, childrenNodes, onPress }: FuncArguments) =>
+export default ({ auth, cascadingStyle, childrenNodes, onPress, message }: FuncArguments) =>
   childrenNodes &&
   childrenNodes
     .filter(x => x.data !== '\n')
@@ -26,5 +27,6 @@ export default ({ auth, cascadingStyle, childrenNodes, onPress }: FuncArguments)
         attribs={node.attribs}
         childrenNodes={node.children}
         onPress={onPress}
+        message={message}
       />
     ));

@@ -15,10 +15,10 @@ const styles = StyleSheet.create({
 
 class HtmlTagImg extends Component {
   render() {
-    const { style, src, auth, pushRoute } = this.props;
+    const { style, src, auth, pushRoute, message } = this.props;
     const fullUrl = getResource(src, auth);
     return (
-      <Touchable onPress={() => pushRoute('light-box', { fullUrl, auth })}>
+      <Touchable onPress={() => pushRoute('light-box', { fullUrl, auth, message })}>
         <Image source={fullUrl} resizeMode="contain" style={[styles.img, style]} />
       </Touchable>
     );
