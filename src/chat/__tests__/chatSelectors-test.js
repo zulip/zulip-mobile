@@ -3,14 +3,15 @@ import {
   getRecentConversations,
   getUnreadPrivateMessagesCount,
   getCurrentTypingUsers,
+  getLastTopicInActiveNarrow,
 } from '../chatSelectors';
-import { specialNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
+import { homeNarrow, specialNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
 
 describe('getAnchor', () => {
   test('return undefined when there are no messages', () => {
     const state = {
       chat: {
-        narrow: [],
+        narrow: homeNarrow(),
         messages: {
           '[]': [],
         },
@@ -22,7 +23,7 @@ describe('getAnchor', () => {
   test('when single message, anchor ids are the same', () => {
     const state = {
       chat: {
-        narrow: [],
+        narrow: homeNarrow(),
         messages: {
           '[]': [{ id: 123 }],
         },
@@ -34,7 +35,7 @@ describe('getAnchor', () => {
   test('when two or more messages, anchor contains first and last message ids', () => {
     const state = {
       chat: {
-        narrow: [],
+        narrow: homeNarrow(),
         messages: {
           '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
         },
@@ -52,7 +53,7 @@ describe('getRecentConversations', () => {
       accounts: [{ email: 'me@example.com' }],
       flags: { read: {} },
       chat: {
-        narrow: [],
+        narrow: homeNarrow(),
         messages: {
           [privatesNarrowStr]: [],
         },
@@ -162,7 +163,7 @@ describe('getCurrentTypingUsers', () => {
   test('return undefined when current narrow is not private or group', () => {
     const state = {
       chat: {
-        narrow: [],
+        narrow: homeNarrow(),
       },
     };
     const typingUsers = getCurrentTypingUsers(state);
@@ -298,5 +299,77 @@ describe('getUnreadPrivateMessagesCount', () => {
     const actualCount = getUnreadPrivateMessagesCount(state);
 
     expect(actualCount).toEqual(2);
+  });
+});
+
+describe('getLastTopicInActiveNarrow', () => {
+  test('when no messages yet, return empty string', () => {
+    const state = {
+      chat: {
+        narrow: homeNarrow(),
+        messages: {},
+      },
+    };
+
+    const actualLastTopic = getLastTopicInActiveNarrow(state);
+
+    expect(actualLastTopic).toEqual('');
+  });
+
+  test('when last message has a `subject` property, return it', () => {
+    const narrow = homeNarrow();
+    const state = {
+      chat: {
+        narrow,
+        messages: {
+          [JSON.stringify(narrow)]: [
+            { id: 0, subject: 'First subject' },
+            { id: 1, subject: 'Last subject' },
+          ]
+        },
+      },
+    };
+
+    const actualLastTopic = getLastTopicInActiveNarrow(state);
+
+    expect(actualLastTopic).toEqual('Last subject');
+  });
+
+  test('when there are messages, but none with a `subject` property, return empty', () => {
+    const narrow = privateNarrow('john@example.com');
+    const state = {
+      chat: {
+        narrow,
+        messages: {
+          [JSON.stringify(narrow)]: [
+            { id: 0 },
+          ]
+        },
+      },
+    };
+
+    const actualLastTopic = getLastTopicInActiveNarrow(state);
+
+    expect(actualLastTopic).toEqual('');
+  });
+
+  test('when last message has no `subject` property, return last one that has', () => {
+    const narrow = privateNarrow('john@example.com');
+    const state = {
+      chat: {
+        narrow,
+        messages: {
+          [JSON.stringify(narrow)]: [
+            { id: 0 },
+            { id: 1, subject: 'Some subject' },
+            { id: 2 },
+          ]
+        },
+      },
+    };
+
+    const actualLastTopic = getLastTopicInActiveNarrow(state);
+
+    expect(actualLastTopic).toEqual('Some subject');
   });
 });

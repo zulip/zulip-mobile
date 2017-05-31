@@ -9,6 +9,7 @@ import { Input } from '../common';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { registerUserInputActivity } from '../utils/activity';
 import { getAuth } from '../account/accountSelectors';
+import { getLastTopicInActiveNarrow } from '../chat/chatSelectors';
 import sendMessage from '../api/sendMessage';
 import SendButton from './SendButton';
 import getAutocompletedText from '../autocomplete/getAutocompletedText';
@@ -134,6 +135,7 @@ class ComposeText extends React.Component {
 const mapStateToProps = (state) => ({
   auth: getAuth(state),
   narrow: state.chat.narrow,
+  lastTopic: getLastTopicInActiveNarrow(state),
 });
 
 export default connect(mapStateToProps)(ComposeText);
