@@ -1,6 +1,6 @@
 /* @flow */
 import React, { Component } from 'react';
-import { ListView } from 'react-native';
+import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Popup } from '../common';
@@ -21,22 +21,21 @@ class StreamAutocomplete extends Component {
 
     if (streams.length === 0) return null;
 
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    const dataSource = ds.cloneWithRows(streams);
-
     return (
       <Popup>
-        <ListView
-          dataSource={dataSource}
-          renderRow={x => (
+        <FlatList
+          initialNumToRender={streams.length}
+          data={streams}
+          keyExtractor={item => item.stream_id}
+          renderItem={({ item }) => (
             <StreamItem
-              key={x.stream_id}
-              name={x.name}
-              isMuted={!x.in_home_view}
-              isPrivate={x.invite_only}
+              key={item.stream_id}
+              name={item.name}
+              isMuted={!item.in_home_view}
+              isPrivate={item.invite_only}
               iconSize={12}
-              color={x.color}
-              onPress={() => onAutocomplete(x.name)}
+              color={item.color}
+              onPress={() => onAutocomplete(item.name)}
             />
           )}
         />

@@ -1,6 +1,6 @@
 /* @flow */
 import React, { Component } from 'react';
-import { ListView } from 'react-native';
+import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import { getAuth } from '../account/accountSelectors';
@@ -23,19 +23,18 @@ class PeopleAutocomplete extends Component {
 
     if (people.length === 0) return null;
 
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    const dataSource = ds.cloneWithRows(people);
-
     return (
       <Popup>
-        <ListView
-          dataSource={dataSource}
-          renderRow={x => (
+        <FlatList
+          initialNumToRender={10}
+          data={people}
+          keyExtractor={item => item.email}
+          renderItem={({ item }) => (
             <UserItem
-              key={x.email}
-              fullName={x.fullName}
-              avatarUrl={x.avatarUrl}
-              onPress={() => onAutocomplete(x.fullName)}
+              key={item.email}
+              fullName={item.fullName}
+              avatarUrl={item.avatarUrl}
+              onPress={() => onAutocomplete(item.fullName)}
             />
           )}
         />
