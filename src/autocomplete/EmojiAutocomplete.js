@@ -1,6 +1,6 @@
 /* @flow */
 import React, { Component } from 'react';
-import { ListView } from 'react-native';
+import { FlatList } from 'react-native';
 
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
@@ -19,18 +19,17 @@ export default class EmojiAutocomplete extends Component {
 
     if (emojis.length === 0) return null;
 
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    const dataSource = ds.cloneWithRows(emojis);
-
     return (
       <Popup>
-        <ListView
-          dataSource={dataSource}
-          renderRow={x => (
+        <FlatList
+          initialNumToRender={12}
+          data={emojis}
+          keyExtractor={item => item}
+          renderItem={({ item }) => (
             <EmojiRow
-              key={x}
-              name={x}
-              onPress={() => onAutocomplete(x)}
+              key={item}
+              name={item}
+              onPress={() => onAutocomplete(item)}
             />
           )}
         />
