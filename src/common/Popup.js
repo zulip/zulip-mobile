@@ -18,7 +18,7 @@ export default class Popup extends Component {
     return (
       <View
         style={styles.container}
-        maxHeight={300}
+        maxHeight={250}
       >
         {this.props.children}
       </View>
