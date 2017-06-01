@@ -13,6 +13,7 @@ import HtmlTagStrong from './tags/HtmlTagStrong';
 import HtmlTagItalic from './tags/HtmlTagItalic';
 import HtmlTagDiv from './tags/HtmlTagDiv';
 import HtmlTagBr from './tags/HtmlTagBr';
+import { getEmojiUrl } from '../utils/url';
 
 // br', 'blockquote',
 
@@ -64,7 +65,12 @@ export default ({ auth, attribs, name, cascadingStyle, childrenNodes, onPress }:
     ...stylesFromClassNames(attribs.class, cascadingStyles),
   ];
 
-  const HtmlComponent = specialTags[name] || HtmlTagSpan;
+  let HtmlComponent = specialTags[name] || HtmlTagSpan;
+
+  if (attribs.class && attribs.class.startsWith('emoji emoji-')) {
+    HtmlComponent = HtmlTagImg;
+    attribs.src = getEmojiUrl(attribs.class.split('-').pop());
+  }
 
   return (
     <HtmlComponent

@@ -7,6 +7,7 @@ import {
   isTopicLink,
   isGroupLink,
   isSpecialLink,
+  getEmojiUrl,
   getNarrowFromLink,
   getMessageIdFromLink,
   fixRealmUrl,
@@ -153,6 +154,13 @@ describe('isSpecialLink', () => {
     expect(isSpecialLink('https://example.com/#narrow/is/mentioned', 'https://example.com')).toBe(
       true,
     );
+  });
+});
+
+describe('getEmojiUrl', () => {
+  test('when unicode is passed, output relative link on server', () => {
+    const url = getEmojiUrl('1f680');
+    expect(url).toBe('/static/generated/emoji/images/emoji/unicode/1f680.png');
   });
 });
 
