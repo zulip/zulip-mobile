@@ -1,7 +1,12 @@
 /* @flow */
 import { Clipboard } from 'react-native';
 import { DoNarrowAction, Auth } from '../types';
-import { narrowFromMessage } from '../utils/narrow';
+import {
+  narrowFromMessage,
+  isHomeNarrow,
+  isStreamNarrow,
+  isSpecialNarrow
+} from '../utils/narrow';
 import { getSingleMessage } from '../api';
 import { isTopicMuted } from '../utils/message';
 import muteTopicApi from '../api/muteTopic';
@@ -122,11 +127,16 @@ export const constructActionButtons = ({
     !x.onlyIf || x.onlyIf({ message, auth, narrow })).map(x => x.title);
 
   // These are dependent conditions, hence better if we manage here rather than using onlyIf
+  if (isHomeNarrow(narrow) || isStreamNarrow(narrow) || isSpecialNarrow(narrow)) {
+    buttons.push('Narrow to conversation');
+  }
+
   if (message.id in flags.starred) {
     buttons.push('Unstar Message');
   } else {
     buttons.push('Star Message');
   }
+
   if (message.type === 'stream') {
     if (isTopicMuted(message, mute)) {
       buttons.push('Unmute topic');
