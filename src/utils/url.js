@@ -35,6 +35,9 @@ export const isStreamLink = (url: string, realm: string): boolean =>
 export const isSpecialLink = (url: string, realm: string): boolean =>
   isUrlInAppLink(url, realm) && url.includes('is');
 
+export const getEmojiUrl = (unicode: string): string =>
+  `/static/generated/emoji/images/emoji/unicode/${unicode}.png`;
+
 export const getNarrowFromLink = (url: string, realm: string, users: []): [] => {
   const paths = url.split(realm).pop().split('/');
   if (isGroupLink(url, realm)) {
