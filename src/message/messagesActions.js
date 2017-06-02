@@ -1,4 +1,5 @@
-import { Auth, Narrow } from '../types';
+/* @flow */
+import { Auth, Narrow, Dispatch, GetState } from '../types';
 import { getMessages } from '../api';
 import { registerAppActivity } from '../utils/activity';
 import { getAuth } from '../account/accountSelectors';
@@ -10,24 +11,30 @@ import {
   MARK_MESSAGES_READ,
 } from '../actionConstants';
 
-export const switchNarrow = (narrow) => ({
+export const switchNarrow = (narrow: Narrow) => ({
   type: SWITCH_NARROW,
   narrow,
 });
 
-export const doNarrow = (newNarrow, anchor: number = Number.MAX_SAFE_INTEGER) =>
-  (dispatch, getState) => {
+export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INTEGER) =>
+  (dispatch: Dispatch, getState: GetState) => {
     registerAppActivity(getAuth(getState()));
     requestIdleCallback(() => dispatch(switchNarrow(newNarrow)));
   };
 
-export const messageFetchStart = (narrow, fetching) => ({
+export const messageFetchStart = (narrow: Narrow, fetching: Object) => ({
   type: MESSAGE_FETCH_START,
   narrow,
   fetching,
 });
 
-export const messageFetchSuccess = (messages, narrow, fetching, caughtUp, replacePrevious) => ({
+export const messageFetchSuccess = (
+  messages: any[],
+  narrow: Narrow,
+  fetching: Object,
+  caughtUp: Object,
+  replacePrevious: boolean
+) => ({
   type: MESSAGE_FETCH_SUCCESS,
   messages,
   narrow,
@@ -45,7 +52,7 @@ export const backgroundFetchMessages = (
   useFirstUnread: boolean = false,
   replacePrevious: boolean = false,
 ) =>
-  async (dispatch) => {
+  async (dispatch: Dispatch) => {
     const messages = await getMessages(
       auth,
       anchor,
@@ -94,7 +101,7 @@ export const fetchMessages = (
   useFirstUnread: boolean = false,
   replacePrevious: boolean = false,
 ) =>
-  async dispatch => {
+  async (dispatch: Dispatch) => {
     if (numBefore < 0 || numAfter < 0) {
       throw Error('numBefore and numAfter must >= 0');
     }
@@ -126,7 +133,7 @@ export const fetchMessagesAtFirstUnread = (auth: Auth, narrow: Narrow) =>
     true,
   );
 
-export const markMessagesRead = messageIds => ({
+export const markMessagesRead = (messageIds: number[]) => ({
   type: MARK_MESSAGES_READ,
   messageIds,
 });

@@ -1,4 +1,6 @@
+/* @flow */
 import { Clipboard } from 'react-native';
+import { DoNarrowAction, Auth } from '../types';
 import { narrowFromMessage } from '../utils/narrow';
 import { getSingleMessage } from '../api';
 import { isTopicMuted } from '../utils/message';
@@ -8,44 +10,95 @@ import unmuteStreamApi from '../api/unmuteStream';
 import muteStreamApi from '../api/muteStream';
 import toggleMessageStarredApi from '../api/toggleMessageStarred';
 
-const reply = ({ message, doNarrow }) => {
+
+type MessageAndDoNarrowType = {
+  message: Object,
+  doNarrow: DoNarrowAction
+}
+
+type AuthAndMessageType = {
+  auth: Auth,
+  message: Object
+}
+
+type AuthMessageAndSubscriptionsType = {
+  auth: Auth,
+  message: Object,
+  subscriptions: any[]
+}
+
+type ButtonProps = {
+  auth?: Auth,
+  message: Object,
+  subscriptions: any[],
+  doNarrow?: DoNarrowAction,
+}
+
+type ExecuteActionSheetActionType = {
+  title: string,
+  auth?: Auth,
+  message: Object,
+  subscriptions: any[],
+  doNarrow?: DoNarrowAction,
+};
+
+type ConstructActionButtonsType = {
+  message: Object,
+  auth: Auth,
+  narrow: [],
+  subscriptions: any[],
+  mute: any[],
+  flags: Object,
+}
+
+const reply = ({ message, doNarrow }: MessageAndDoNarrowType) => {
   doNarrow(narrowFromMessage(message), message.id);
 };
 
-const copyToClipboard = async ({ message, auth }) => {
+const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
   const rawMessage = await getSingleMessage(auth, message.id);
   Clipboard.setString(rawMessage);
 };
 
-const unmuteTopic = ({ auth, message }) => {
+const unmuteTopic = ({ auth, message }: AuthAndMessageType) => {
   unmuteTopicApi(auth, message.display_recipient, message.subject);
 };
 
-const muteTopic = ({ auth, message }) => {
+const muteTopic = ({ auth, message }: AuthAndMessageType) => {
   muteTopicApi(auth, message.display_recipient, message.subject);
 };
 
-const unmuteStream = ({ auth, message, subscriptions }) => {
+const unmuteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscriptionsType) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
-  unmuteStreamApi(auth, sub.stream_id);
+  if (sub) {
+    unmuteStreamApi(auth, sub.stream_id);
+  }
 };
 
-const muteStream = ({ auth, message, subscriptions }) => {
+const muteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscriptionsType) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
-  muteStreamApi(auth, sub.stream_id);
+  if (sub) {
+    muteStreamApi(auth, sub.stream_id);
+  }
 };
 
-const starMessage = ({ auth, message }) => {
+const starMessage = ({ auth, message }: AuthAndMessageType) => {
   toggleMessageStarredApi(auth, [message.id], true);
 };
 
-const unstarMessage = ({ auth, message }) => {
+const unstarMessage = ({ auth, message }: AuthAndMessageType) => {
   toggleMessageStarredApi(auth, [message.id], false);
 };
 
 const skip = () => false;
 
-const actionSheetButtons = [
+type ButtonType = {
+  title: string,
+  onPress: (props: ButtonProps) => void | boolean | Promise<any>,
+  onlyIf?: () => boolean,
+}
+
+const actionSheetButtons: ButtonType[] = [
   { title: 'Reply', onPress: reply },
   { title: 'Copy to clipboard', onPress: copyToClipboard },
   // If skip then covered in constructActionButtons
@@ -58,7 +111,14 @@ const actionSheetButtons = [
   { title: 'Cancel', onPress: skip, onlyIf: skip },
 ];
 
-export const constructActionButtons = ({ message, auth, narrow, subscriptions, mute, flags }) => {
+export const constructActionButtons = ({
+   message,
+   auth,
+   narrow,
+   subscriptions,
+   mute,
+   flags
+}: ConstructActionButtonsType) => {
   const buttons = actionSheetButtons.filter(x =>
     !x.onlyIf || x.onlyIf({ message, auth, narrow })).map(x => x.title);
 
@@ -85,6 +145,9 @@ export const constructActionButtons = ({ message, auth, narrow, subscriptions, m
   return buttons;
 };
 
-export const executeActionSheetAction = ({ title, ...props }) => {
-  actionSheetButtons.find(x => x.title === title).onPress(props);
+export const executeActionSheetAction = ({ title, ...props }: ExecuteActionSheetActionType) => {
+  const button = actionSheetButtons.find(x => x.title === title);
+  if (button) {
+    button.onPress(props);
+  }
 };

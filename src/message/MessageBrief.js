@@ -1,4 +1,6 @@
+/* @flow */
 import React from 'react';
+import type { Children } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 
 import ReactionList from '../reactions/ReactionList';
@@ -23,9 +25,17 @@ const styles = StyleSheet.create({
 export default class MessageBrief extends React.PureComponent {
 
   props: {
-    message: {},
+    message: Object,
     selfEmail: string,
-    reactions: [],
+    starred: boolean,
+    onLongPress: () => void,
+    children?: Children,
+    twentyFourHourTime?: boolean
+  };
+
+  defaultProps: {
+    children: [],
+    twentyFourHourTime: false
   };
 
   render() {

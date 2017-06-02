@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 export default class LoadingIndicator extends React.Component {
   props: {
     active: boolean,
-    caughtUp: boolean,
+    caughtUp?: boolean,
   };
 
   rotation: Animated;

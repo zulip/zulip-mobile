@@ -1,5 +1,7 @@
+/* @flow */
 import React from 'react';
 
+import { Auth, DoNarrowAction } from '../types';
 import htmlToDomTree from '../html/htmlToDomTree';
 import renderHtmlChildren from '../html/renderHtmlChildren';
 import MessageFull from './MessageFull';
@@ -7,17 +9,35 @@ import MessageBrief from './MessageBrief';
 import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
 import openLink from '../utils/openLink';
 
+type Href = string;
+
 export default class MessageContainer extends React.PureComponent {
-  inAppLinkPress = href => {
+  props: {
+    message: Object,
+    onLongPress: (message: Object) => void,
+    users: Object[],
+    auth: Auth,
+    flags: Object,
+    doNarrow: DoNarrowAction,
+    avatarUrl: string,
+    twentyFourHourTime?: boolean,
+    isBrief: boolean,
+  };
+
+  defaultProps: {
+    twentyFourHourTime: false
+  };
+
+  inAppLinkPress = (href: Href) => {
     const { users, auth, doNarrow } = this.props;
     const anchor = getMessageIdFromLink(href, auth.realm);
     const narrow = getNarrowFromLink(href, auth.realm, users);
     doNarrow(narrow, anchor);
   };
 
-  regularLinkPress = href => openLink(getFullUrl(href, this.props.auth.realm));
+  regularLinkPress = (href: Href) => openLink(getFullUrl(href, this.props.auth.realm));
 
-  handleLinkPress = href =>
+  handleLinkPress = (href: Href) =>
     (isUrlInAppLink(href, this.props.auth.realm) ? this.inAppLinkPress : this.regularLinkPress)(
       href,
     );
@@ -25,9 +45,9 @@ export default class MessageContainer extends React.PureComponent {
   onLongPress = () => {
     const { message, onLongPress } = this.props;
     onLongPress(message);
-  }
+  };
 
-  isStarred(message) {
+  isStarred(message: Object) {
     const { flags } = this.props;
     return message.id in flags.starred;
   }
