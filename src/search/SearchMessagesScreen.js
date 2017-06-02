@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import throttle from 'lodash.throttle';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import boundActions from '../boundActions';
 import { Label } from '../common';
@@ -54,6 +55,12 @@ class SearchMessagesScreen extends Component {
     }, 500).call(this);
   }
 
+  doNarrow = (newNarrow) => {
+    const { doNarrow, popRoute } = this.props;
+    doNarrow(newNarrow);
+    popRoute();
+  }
+
   render() {
     const { isFetching, messages } = this.state;
     const { auth, subscriptions, twentyFourHourTime } = this.props;
@@ -72,18 +79,20 @@ class SearchMessagesScreen extends Component {
           {noResults &&
             <Label style={styles.empty} text="No results" />
           }
-          <MessageList
-            messages={messages}
-            caughtUp={{ older: true, newer: true }}
-            fetching={{ older: false, newer: isFetching }}
-            singleFetchProgress
-            narrow={[]}
-            twentyFourHourTime={twentyFourHourTime}
-            subscriptions={subscriptions}
-            auth={auth}
-            fetchOlder={() => {}}
-            doNarrow={() => {}}
-          />
+          <ActionSheetProvider>
+            <MessageList
+              messages={messages}
+              caughtUp={{ older: true, newer: true }}
+              fetching={{ older: false, newer: isFetching }}
+              singleFetchProgress
+              narrow={[]}
+              twentyFourHourTime={twentyFourHourTime}
+              subscriptions={subscriptions}
+              auth={auth}
+              fetchOlder={() => {}}
+              doNarrow={this.doNarrow}
+            />
+          </ActionSheetProvider>
         </View>
       </SearchScreen>
     );
