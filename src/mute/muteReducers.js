@@ -1,3 +1,5 @@
+/* @flow */
+import { StateType, Action } from '../types';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -6,7 +8,7 @@ import {
 
 const initialState = [];
 
-export default (state = initialState, action) => {
+export default (state: StateType = initialState, action: Action) => {
   switch (action.type) {
     case REALM_INIT:
       return action.data.muted_topics;
