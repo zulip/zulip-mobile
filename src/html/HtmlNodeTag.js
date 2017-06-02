@@ -5,6 +5,7 @@ import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes
 import { Auth } from '../types';
 import styles from './HtmlStyles';
 import cascadingStyles from './cascadingStylesView';
+import cascadingStylesText from './cascadingStylesText';
 import HtmlTagSpan from './tags/HtmlTagSpan';
 import HtmlTagA from './tags/HtmlTagA';
 import HtmlTagLi from './tags/HtmlTagLi';
@@ -51,11 +52,13 @@ type Props = {
   attribs: Object,
   name: string,
   cascadingStyle: StyleObj,
+  cascadingTextStyle: StyleObj,
   childrenNodes: Object[],
   onPress: () => void,
 }
 
-export default ({ auth, attribs, name, cascadingStyle, childrenNodes, onPress }: Props) => {
+export default ({ auth, attribs, name, cascadingStyle,
+  cascadingTextStyle, childrenNodes, onPress }: Props) => {
   const style = [
     styles[name],
     ...stylesFromClassNames(attribs.class, styles),
@@ -64,6 +67,11 @@ export default ({ auth, attribs, name, cascadingStyle, childrenNodes, onPress }:
     cascadingStyle,
     cascadingStyles[name],
     ...stylesFromClassNames(attribs.class, cascadingStyles),
+  ];
+  const newCascadingStylesText = [
+    cascadingTextStyle,
+    cascadingStylesText[name],
+    ...stylesFromClassNames(attribs.class, cascadingStylesText),
   ];
 
   let HtmlComponent = specialTags[name] || HtmlTagSpan;
@@ -82,6 +90,7 @@ export default ({ auth, attribs, name, cascadingStyle, childrenNodes, onPress }:
       href={attribs.href}
       style={style}
       cascadingStyle={newCascadingStyle}
+      cascadingTextStyle={newCascadingStylesText}
       childrenNodes={childrenNodes}
       onPress={onPress}
     />

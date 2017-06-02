@@ -9,10 +9,12 @@ type Props = {
   auth: Auth,
   childrenNodes: Object[],
   cascadingStyle: StyleObj,
+  cascadingTextStyle: StyleObj,
   onPress: () => void,
 }
 
-export default ({ auth, cascadingStyle, childrenNodes, onPress }: Props) =>
+export default ({ auth, cascadingStyle, childrenNodes,
+  cascadingTextStyle, onPress }: Props) =>
   childrenNodes &&
   childrenNodes
     .filter(x => x.data !== '\n')
@@ -21,6 +23,7 @@ export default ({ auth, cascadingStyle, childrenNodes, onPress }: Props) =>
         key={index}
         auth={auth}
         cascadingStyle={cascadingStyle}
+        cascadingTextStyle={cascadingTextStyle}
         data={node.data}
         name={node.name}
         type={node.type}
