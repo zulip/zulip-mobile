@@ -1,3 +1,4 @@
+/* @flow */
 import {
   INIT_ROUTES,
   PUSH_ROUTE,

@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';

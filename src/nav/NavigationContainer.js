@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { AppState, NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
