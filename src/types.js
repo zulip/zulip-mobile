@@ -145,3 +145,10 @@ export type MatchResult = Array<string> & {index: number, input: string};
 export type Dispatch = (action: Action) => void;
 
 export type GetState = () => StateType
+
+export type ReactionType = {
+  emoji_name: string,
+  name: string,
+  count: number,
+  selfReacted: boolean
+}

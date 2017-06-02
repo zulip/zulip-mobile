@@ -1,4 +1,7 @@
-export default (reactions, selfEmail) =>
+/* @flow */
+import { ReactionType } from '../types';
+
+export default (reactions: ReactionType[], selfEmail: string) =>
   Array.from(
     reactions.reduce((reactionMap, x) => {
       if (!reactionMap.has(x.emoji_name)) {
@@ -8,10 +11,12 @@ export default (reactions, selfEmail) =>
         });
       } else {
         const prevReaction = reactionMap.get(x.emoji_name);
-        reactionMap.set(x.emoji_name, {
-          ...prevReaction,
-          count: prevReaction.count + 1,
-        });
+        if (prevReaction) {
+          reactionMap.set(x.emoji_name, {
+            ...prevReaction,
+            count: prevReaction.count + 1,
+          });
+        }
       }
 
       if (x.user && x.user.email === selfEmail) {
