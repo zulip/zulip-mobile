@@ -1,3 +1,5 @@
+/* @flow */
+import { StateType, Action } from '../types';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -11,7 +13,7 @@ const initialState = {
   gcmToken: '',
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state: StateType = initialState, action: Action) => {
   switch (action.type) {
     case REALM_INIT:
       return {

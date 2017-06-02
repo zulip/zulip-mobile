@@ -31,9 +31,9 @@ export const messageFetchStart = (narrow: Narrow, fetching: Object) => ({
 export const messageFetchSuccess = (
   messages: any[],
   narrow: Narrow,
-  fetching: Object,
-  caughtUp: Object,
-  replacePrevious: boolean
+  fetching?: Object,
+  caughtUp?: Object,
+  replacePrevious?: boolean
 ) => ({
   type: MESSAGE_FETCH_SUCCESS,
   messages,

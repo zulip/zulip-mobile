@@ -1,3 +1,5 @@
+/* @flow */
+import { Auth, Dispatch } from '../types';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { getSubscriptions, getMessages, getStreams, getUsers } from '../api';
@@ -16,8 +18,8 @@ export const initialFetchComplete = () => ({
   type: INITIAL_FETCH_COMPLETE,
 });
 
-export const fetchEssentialInitialData = (auth) =>
-  async (dispatch) => {
+export const fetchEssentialInitialData = (auth: Auth) =>
+  async (dispatch: Dispatch) => {
     const [subscriptions, messages] = await Promise.all([
       await tryUntilSuccessful(() => getSubscriptions(auth)),
       await tryUntilSuccessful(() => getMessages(auth, 0, 10, 10, homeNarrow(), true)),
@@ -34,8 +36,8 @@ export const fetchEssentialInitialData = (auth) =>
     dispatch(initialFetchComplete());
   };
 
-export const fetchRestOfInitialData = (auth, gcmToken) =>
-  async (dispatch) => {
+export const fetchRestOfInitialData = (auth: Auth, gcmToken: string) =>
+  async (dispatch: Dispatch) => {
     const [streams, users, messages] = await Promise.all([
       await tryUntilSuccessful(() => getStreams(auth)),
       await tryUntilSuccessful(() => getUsers(auth)),
@@ -56,7 +58,7 @@ export const deleteTokenGCM = () => ({
   type: DELETE_TOKEN_GCM
 });
 
-export const saveTokenGCM = (gcmToken) => ({
+export const saveTokenGCM = (gcmToken: string) => ({
   type: SAVE_TOKEN_GCM,
   gcmToken
 });
