@@ -4,7 +4,13 @@ import theme from './theme';
 // import themeDark from './themeDark';
 import themeLight from './themeLight';
 
-export { CONTROL_SIZE, STATUSBAR_HEIGHT, NAVBAR_HEIGHT } from './platform';
+export {
+  CONTROL_SIZE,
+  STATUSBAR_HEIGHT,
+  NAVBAR_HEIGHT,
+  REACTION_HEIGHT,
+  REACTION_SPINNER_OFFSET
+} from './platform';
 
 export const BRAND_COLOR = 'rgba(82, 194, 175, 1)';
 export const BORDER_COLOR = BRAND_COLOR;

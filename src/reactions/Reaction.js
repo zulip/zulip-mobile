@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 
-import { BRAND_COLOR, HALF_COLOR } from '../styles';
+import { BRAND_COLOR, HALF_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from '../styles';
 import { Touchable } from '../common';
 import Emoji from '../emoji/Emoji';
 import { getAuth } from '../account/accountSelectors';
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 1,
     overflow: 'hidden',
+    height: REACTION_HEIGHT
   },
   frameVoted: {
     borderColor: BRAND_COLOR,
@@ -44,12 +45,14 @@ const styles = StyleSheet.create({
   },
   spinner: {
     position: 'absolute',
-    top: -20,
+    top: -REACTION_SPINNER_OFFSET,
     right: 4
   },
-  spinnerText: {
-    paddingTop: 3,
-    paddingBottom: 3
+  spinnerTextContainer: {
+    flex: 1,
+    height: REACTION_SPINNER_OFFSET,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
@@ -112,7 +115,7 @@ class Reaction extends React.PureComponent {
       {
         translateY: this.state.voteChangeAnimation.interpolate({
           inputRange: [0, 0.5, 1, 1.5, 2],
-          outputRange: [0, 20, 0, -20, 0]
+          outputRange: [0, REACTION_SPINNER_OFFSET, 0, -REACTION_SPINNER_OFFSET, 0]
         })
       }
     ]
@@ -129,9 +132,15 @@ class Reaction extends React.PureComponent {
           <Emoji name={name} />
 
           <Animated.View style={this.dynamicSpinnerStyles()}>
-            <Text style={[styles.spinnerText, countStyle]}>{voteCount - 1}</Text>
-            <Text style={[styles.spinnerText, countStyle]}>{voteCount}</Text>
-            <Text style={[styles.spinnerText, countStyle]}>{voteCount + 1}</Text>
+            <View style={styles.spinnerTextContainer}>
+              <Text style={countStyle}>{voteCount - 1}</Text>
+            </View>
+            <View style={styles.spinnerTextContainer}>
+              <Text style={countStyle}>{voteCount}</Text>
+            </View>
+            <View style={styles.spinnerTextContainer}>
+              <Text style={countStyle}>{voteCount + 1}</Text>
+            </View>
           </Animated.View>
 
           <Text style={styles.placeholderCount}>
