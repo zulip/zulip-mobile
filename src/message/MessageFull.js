@@ -7,6 +7,7 @@ import { Avatar } from '../common';
 import Subheader from './Subheader';
 import ReactionList from '../reactions/ReactionList';
 import IconStarMessage from './IconStarMessage';
+import EditedTag from './EditedTag';
 
 const styles = StyleSheet.create({
   message: {
@@ -81,6 +82,9 @@ class MessageFull extends React.PureComponent {
             messageId={message.id}
             reactions={message.reactions}
             selfEmail={selfEmail}
+          />
+          <EditedTag
+            timestamp={message.edit_timestamp}
           />
         </View>
       </View>

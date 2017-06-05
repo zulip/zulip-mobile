@@ -3,6 +3,7 @@ import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 
 import ReactionList from '../reactions/ReactionList';
 import IconStarMessage from './IconStarMessage';
+import EditedTag from './EditedTag';
 
 const styles = StyleSheet.create({
   message: {
@@ -50,6 +51,9 @@ export default class MessageBrief extends React.PureComponent {
           messageId={message.id}
           reactions={message.reactions}
           selfEmail={selfEmail}
+        />
+        <EditedTag
+          timestamp={message.edit_timestamp}
         />
       </View>
     );
