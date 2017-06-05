@@ -18,6 +18,7 @@ import toggleMessageStarredApi from '../api/toggleMessageStarred';
 type MessageAndDoNarrowType = {
   message: Object,
   doNarrow: DoNarrowAction,
+  auth: Auth,
 };
 
 type AuthAndMessageType = {
@@ -55,8 +56,12 @@ type ConstructActionButtonsType = {
   flags: Object,
 };
 
-const reply = ({ message, doNarrow }: MessageAndDoNarrowType) => {
-  doNarrow(narrowFromMessage(message), message.id);
+const narrowToConversation = ({ message, doNarrow, auth }: MessageAndDoNarrowType) => {
+  doNarrow(narrowFromMessage(message, auth), message.id);
+};
+
+const reply = ({ message, doNarrow, auth }: MessageAndDoNarrowType) => {
+  doNarrow(narrowFromMessage(message, auth), message.id);
 };
 
 const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
@@ -106,6 +111,7 @@ const actionSheetButtons: ButtonType[] = [
   { title: 'Reply', onPress: reply },
   { title: 'Copy to clipboard', onPress: copyToClipboard },
   // If skip then covered in constructActionButtons
+  { title: 'Narrow to conversation', onPress: narrowToConversation, onlyIf: skip },
   { title: 'Star Message', onPress: starMessage, onlyIf: skip },
   { title: 'Unstar Message', onPress: unstarMessage, onlyIf: skip },
   { title: 'Unmute topic', onPress: unmuteTopic, onlyIf: skip },
