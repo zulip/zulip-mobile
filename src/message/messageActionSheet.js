@@ -14,6 +14,7 @@ import unmuteTopicApi from '../api/unmuteTopic';
 import unmuteStreamApi from '../api/unmuteStream';
 import muteStreamApi from '../api/muteStream';
 import toggleMessageStarredApi from '../api/toggleMessageStarred';
+import { showToast } from '../common/showToast';
 
 type MessageAndDoNarrowType = {
   message: Object,
@@ -67,6 +68,7 @@ const reply = ({ message, doNarrow, auth }: MessageAndDoNarrowType) => {
 const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
   const rawMessage = await getSingleMessage(auth, message.id);
   Clipboard.setString(rawMessage);
+  showToast('Message copied!');
 };
 
 const unmuteTopic = ({ auth, message }: AuthAndMessageType) => {
