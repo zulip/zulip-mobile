@@ -3,21 +3,25 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import { Button } from '../common';
+import { ZulipButton } from '../common';
 import SidebarRow from '../nav/SidebarRow';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 
 class HomeTab extends React.Component {
 
+  static navigationOptions = {
+    title: 'Home',
+  };
+
   handleNarrow = (narrow) => {
-    const { doNarrow, pushRoute } = this.props;
+    const { doNarrow, navigation } = this.props;
     doNarrow(narrow);
-    pushRoute('chat');
+    navigation.navigate('chat');
   };
 
   handleSearch = (narrow) => {
-    const { pushRoute } = this.props;
-    pushRoute('search');
+    const { navigation } = this.props;
+    navigation.navigate('search');
   };
 
   render() {
@@ -43,7 +47,7 @@ class HomeTab extends React.Component {
           icon="md-at"
           onPress={() => this.handleNarrow(specialNarrow('mentioned'))}
         />
-        <Button
+        <ZulipButton
           secondary
           text="Search"
           onPress={this.handleSearch}

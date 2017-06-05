@@ -39,8 +39,10 @@ class MessageFull extends React.PureComponent {
     twentyFourHourTime: bool,
   };
 
-  handleAvatarPress = () =>
-    this.props.pushRoute('account-details', this.props.message.sender_email);
+  handleAvatarPress = () => {
+    const { message, navigateToAccountDetails } = this.props;
+    navigateToAccountDetails(message.sender_email);
+  }
 
   render() {
     const {

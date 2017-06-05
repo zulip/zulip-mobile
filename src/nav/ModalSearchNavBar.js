@@ -32,8 +32,7 @@ class ModalSearchNavBar extends React.Component {
 
   render() {
     const { isSearchActive } = this.state;
-    const { nav, title, popRoute, searchBarOnChange } = this.props;
-    const { searchBar } = this.props;
+    const { nav, title, navigateBack, searchBar, searchBarOnChange } = this.props;
     const showSearchInput = isSearchActive || !searchBar;
     const textStyle = [
       styles.navTitle,
@@ -43,7 +42,10 @@ class ModalSearchNavBar extends React.Component {
     return (
       <View style={styles.navBar}>
         {nav.index > 0 &&
-          <NavButton name="ios-arrow-back" onPress={popRoute} />
+          <NavButton
+            name="ios-arrow-back"
+            onPress={navigateBack}
+          />
         }
         {showSearchInput ?
           <SearchInput onChange={searchBarOnChange} /> :

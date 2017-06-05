@@ -35,19 +35,20 @@ class AccountDetailsScreen extends Component {
   }
 
   render() {
-    const { auth, fetchMessages, doNarrow, popRoute } = this.props;
+    const { auth, fetchMessages, doNarrow, navigateBack } = this.props;
+    const { email, fullName, avatarUrl, status } = this.user;
 
     return (
       <Screen title="Account details">
         <AccountDetails
           auth={auth}
-          fullName={this.user.fullName}
-          email={this.user.email}
-          avatarUrl={this.user.avatarUrl}
-          status={this.user.status}
+          fullName={fullName}
+          email={email}
+          avatarUrl={avatarUrl}
+          status={status}
           fetchMessages={fetchMessages}
           doNarrow={doNarrow}
-          popRoute={popRoute}
+          navigateBack={navigateBack}
         />
       </Screen>
     );

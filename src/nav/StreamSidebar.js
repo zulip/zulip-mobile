@@ -24,21 +24,8 @@ const styles = StyleSheet.create({
 
 export default class StreamSidebar extends React.Component {
 
-  handleAllStreams = () =>
-    this.props.pushRoute('settings');
-
-  handleSearch = (narrow) => {
-    const { pushRoute } = this.props;
-    pushRoute('search');
-  };
-
-  handleSettings = (narrow) => {
-    const { pushRoute } = this.props;
-    pushRoute('settings');
-  };
-
   render() {
-    const { onNarrow } = this.props;
+    const { navigateToSearch, navigateToAllStreams, navigateToSettings, onNarrow } = this.props;
 
     return (
       <View style={styles.container} scrollsToTop={false}>
@@ -61,11 +48,11 @@ export default class StreamSidebar extends React.Component {
           />
           <NavButton
             name="md-search"
-            onPress={this.handleSearch}
+            onPress={navigateToSearch}
           />
           <NavButton
             name="md-settings"
-            onPress={this.handleSettings}
+            onPress={navigateToSettings}
           />
         </View>
         <SubscriptionsContainer onNarrow={onNarrow} />
@@ -73,7 +60,7 @@ export default class StreamSidebar extends React.Component {
           style={styles.button}
           secondary
           text="All streams"
-          onPress={this.handleAllStreams}
+          onPress={navigateToAllStreams}
         />
       </View>
     );

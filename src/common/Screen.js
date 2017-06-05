@@ -33,13 +33,13 @@ class Screen extends React.Component {
   }
 
   render() {
-    const { keyboardAvoiding, title, nav, children, popRoute } = this.props;
+    const { keyboardAvoiding, title, nav, children, navigateBack } = this.props;
     const WrapperView = keyboardAvoiding && Platform.OS === 'ios' ? KeyboardAvoidingView : View;
 
     return (
       <View style={styles.screen}>
         <ZulipStatusBar />
-        <ModalNavBar title={title} popRoute={popRoute} nav={nav} />
+        <ModalNavBar title={title} navigateBack={navigateBack} nav={nav} />
         <WrapperView style={styles.screenWrapper} behavior="padding">
           {children}
         </WrapperView>

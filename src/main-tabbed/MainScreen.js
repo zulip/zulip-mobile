@@ -1,19 +1,38 @@
-import React from 'react';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import React, { Component } from 'react';
+import { TabNavigator, TabBarTop } from 'react-navigation';
 
-import MainTabBar from './MainTabBar';
+import { BRAND_COLOR } from '../common/styles';
 import HomeTab from './HomeTab';
 import ConversationsContainer from '../conversations/ConversationsContainer';
 import SubscriptionsContainer from '../streamlist/SubscriptionsContainer';
 import AccountContainer from '../account-info/AccountContainer';
 
-export default () => (
-  <ScrollableTabView
-    renderTabBar={() => <MainTabBar />}
-  >
-    <HomeTab />
-    <ConversationsContainer />
-    <SubscriptionsContainer />
-    <AccountContainer />
-  </ScrollableTabView>
-);
+const MainScreenTabNavigator = TabNavigator({
+  Home: { screen: HomeTab },
+  Conversations: { screen: ConversationsContainer },
+  Subscriptions: { screen: SubscriptionsContainer },
+  Account: { screen: AccountContainer },
+}, {
+  tabBarComponent: TabBarTop,
+  tabBarPosition: 'top',
+  animationEnabled: true,
+  tabBarOptions: {
+    showIcon: true,
+    showLabel: false,
+    style: {
+      backgroundColor: BRAND_COLOR,
+    },
+  }
+});
+
+export default class MainScreen extends Component {
+  static navigationOptions = {
+    title: 'Home',
+  };
+
+  render() {
+    return (
+      <MainScreenTabNavigator />
+    );
+  }
+}

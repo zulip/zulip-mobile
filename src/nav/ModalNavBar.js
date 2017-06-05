@@ -12,17 +12,19 @@ class ModalNavBar extends React.Component {
   props: {
     nav: any,
     title: string,
-    popRoute: () => void,
   }
 
   render() {
-    const { nav, title, popRoute } = this.props;
+    const { nav, title, navigateBack } = this.props;
     const textStyle = [styles.navTitle, nav.index > 0 && { marginRight: CONTROL_SIZE }];
 
     return (
       <View style={styles.navBar}>
         {nav.index > 0 &&
-          <NavButton name="ios-arrow-back" onPress={popRoute} />
+          <NavButton
+            name="ios-arrow-back"
+            onPress={navigateBack}
+          />
         }
         <Label style={textStyle} text={title} />
       </View>
