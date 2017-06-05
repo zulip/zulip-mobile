@@ -10,7 +10,6 @@ import unmuteStreamApi from '../api/unmuteStream';
 import muteStreamApi from '../api/muteStream';
 import toggleMessageStarredApi from '../api/toggleMessageStarred';
 
-
 type MessageAndDoNarrowType = {
   message: Object,
   doNarrow: DoNarrowAction,
