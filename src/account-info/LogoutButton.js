@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import { InitRouteAction } from '../types';
 import boundActions from '../boundActions';
-import { getInitialRoutes } from '../nav/routingSelectors';
 import { ZulipButton } from '../common';
 
 const styles = StyleSheet.create({
@@ -25,9 +24,9 @@ class LogoutButton extends Component {
 
   logout = () => {
     this.props.logout(this.props.accounts);
-    const accountsLoggedOut = this.props.accounts.slice();
-    accountsLoggedOut[0].apiKey = '';
-    this.props.initRoutes(getInitialRoutes(this.props.accounts));
+    // const accountsLoggedOut = this.props.accounts.slice();
+    // accountsLoggedOut[0].apiKey = '';
+    // TODO: this.props.initRoutes(getInitialRoutes(this.props.accounts));
   }
 
   render() {

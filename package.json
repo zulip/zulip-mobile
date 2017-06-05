@@ -34,15 +34,14 @@
     "lodash.throttle": "^4.1.1",
     "react": "16.0.0-alpha.6",
     "react-intl": "^2.2.3",
-    "react-native": "^0.43.3",
-    "react-native-device-info": "^0.10.1",
-    "react-native-drawer": "^2.3.0",
-    "react-native-fabric": "^0.4.1",
     "react-native-safari-view": "^2.0.0",
-    "react-native-scrollable-tab-view": "^0.7.0",
+    "react-native": "^0.43.4",
+    "react-native-actionsheet": "^2.0.5",
+    "react-native-device-info": "^0.10.1",
+    "react-native-fabric": "^0.4.1",
     "react-native-sound": "^0.10.1",
     "react-native-vector-icons": "^4.0.0",
-    "react-navigation": "^1.0.0-beta.7",
+    "react-navigation": "^1.0.0-beta.9",
     "react-redux": "^5.0.1",
     "react-test-renderer": "16.0.0-alpha.6",
     "redux": "^3.6.0",
@@ -58,7 +57,7 @@
   "devDependencies": {
     "appium": "^1.6.5",
     "babel-core": "^6.21.0",
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.0",
     "babel-preset-react-native": "^1.9.1",
     "coveralls": "^2.13.0",
@@ -79,6 +78,9 @@
   },
   "jest": {
     "preset": "react-native",
-    "setupTestFrameworkScriptFile": "./jestSetup.js"
+    "setupTestFrameworkScriptFile": "./jestSetup.js",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-navigation)"
+    ]
   }
 }

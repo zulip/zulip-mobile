@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -7,31 +7,49 @@ import styles, { CONTROL_SIZE } from '../styles';
 import { Label } from '../common';
 import NavButton from './NavButton';
 
-class ModalNavBar extends React.Component {
+const customStyles = StyleSheet.create({
+  centerItem: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    flex: 1,
+    justifyContent: 'center',
+  },
+});
 
+class ModalNavBar extends React.Component {
   props: {
     nav: any,
     title: string,
-    popRoute: () => void,
-  }
+    navigateBack: () => void,
+  };
 
   render() {
-    const { nav, title, popRoute } = this.props;
-    const textStyle = [styles.navTitle, nav.index > 0 && { marginRight: CONTROL_SIZE }];
+    const { nav, title, titleColor, itemsColor, navigateBack, rightItem, style } = this.props;
+    const textStyle = [
+      styles.navTitle,
+      nav.index > 0 && { marginRight: CONTROL_SIZE },
+      rightItem && { marginLeft: CONTROL_SIZE },
+      titleColor && { color: titleColor },
+    ];
+    const content = React.Children.count(this.props.children) === 0
+      ? <Label style={textStyle} text={title} />
+      : this.props.children;
 
     return (
-      <View style={styles.navBar}>
-        {nav.index > 0 &&
-          <NavButton name="ios-arrow-back" onPress={popRoute} />
-        }
-        <Label style={textStyle} text={title} />
+      <View style={[styles.navBar, style]}>
+        {nav.index > 0 && <NavButton name="ios-arrow-back" color={itemsColor} onPress={navigateBack} />}
+        <View style={customStyles.centerItem}>
+          {content}
+        </View>
+        {rightItem &&
+          <NavButton name={rightItem.name} color={itemsColor} onPress={rightItem.onPress} />}
       </View>
     );
   }
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     nav: state.nav,
   }),
   boundActions,

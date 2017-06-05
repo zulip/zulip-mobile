@@ -5,6 +5,9 @@
 .*/__tests__/*
 
 
+.*/__tests__/*
+
+
 ; Ignore "BUCK" generated dirs
 <PROJECT_ROOT>/\.buckd/
 

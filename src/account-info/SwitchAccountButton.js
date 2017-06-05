@@ -20,8 +20,10 @@ class SwitchAccountButton extends Component {
   };
 
   switchAccount = () => {
+    const { navigateToAccountPicker } = this.props.navigation;
+
     this.context.drawer.close();
-    this.props.pushRoute('account');
+    navigateToAccountPicker();
   }
 
   render() {

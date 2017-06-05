@@ -28,16 +28,13 @@ class AccountPickScreen extends React.Component {
     switchAccount: (number) => void
   };
 
-  handleAddNewAccount = () =>
-    this.props.pushRoute('realm');
-
   handleAccountSelect = (index: number) => {
-    const { accounts, pushRoute, switchAccount } = this.props;
+    const { accounts, navigateToAddNewAccount, switchAccount } = this.props;
     const { realm, apiKey } = accounts[index];
     if (apiKey) {
       switchAccount(index); // Reset stream, message, user list
     } else {
-      pushRoute('realm', { realm });
+      navigateToAddNewAccount(realm);
     }
   };
 
@@ -45,7 +42,7 @@ class AccountPickScreen extends React.Component {
     this.props.removeAccount(index);
 
   render() {
-    const { accounts, auth } = this.props;
+    const { accounts, auth, navigateToAddNewAccount } = this.props;
 
     return (
       <Screen title="Pick account">
@@ -61,7 +58,7 @@ class AccountPickScreen extends React.Component {
             <ZulipButton
               text="Add new account"
               style={styles.button}
-              onPress={this.handleAddNewAccount}
+              onPress={navigateToAddNewAccount}
             />
           </View>
         </ScrollView>

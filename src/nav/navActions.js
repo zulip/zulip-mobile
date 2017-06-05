@@ -1,20 +1,28 @@
-import {
-  INIT_ROUTES,
-  PUSH_ROUTE,
-  POP_ROUTE,
-} from '../actionConstants';
+import { NavigationActions } from 'react-navigation';
 
-export const initRoutes = (routes: string[]) => ({
-  type: INIT_ROUTES,
-  routes,
-});
+export const navigateBack = () =>
+  NavigationActions.back();
 
-export const pushRoute = (route: Object, data: Object) => ({
-  type: PUSH_ROUTE,
-  route,
-  data,
-});
+export const navigateToAllStreams = () =>
+  NavigationActions.navigate({ routeName: 'subscriptions' });
 
-export const popRoute = () => ({
-  type: POP_ROUTE,
-});
+export const navigateToUsersScreen = () =>
+  NavigationActions.navigate({ routeName: 'users' });
+
+export const navigateToSearch = () =>
+  NavigationActions.navigate({ routeName: 'search' });
+
+export const navigateToSettings = () =>
+  NavigationActions.navigate({ routeName: 'settings' });
+
+export const navigateToAuth = (authType: string) =>
+  NavigationActions.navigate({ routeName: authType });
+
+export const navigateToAccountPicker = () =>
+  NavigationActions.navigate({ routeName: 'account' });
+
+export const navigateToAccountDetails = (email: string) =>
+  NavigationActions.navigate({ routeName: 'account-details', params: { email } });
+
+export const navigateToAddNewAccount = (realm: string) =>
+  NavigationActions.navigate({ routeName: 'realm', params: { realm } });
