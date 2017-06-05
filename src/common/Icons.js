@@ -16,7 +16,7 @@ export const IconSend = (props: Object) => <MaterialIcon name="send" {...props} 
 export const IconMute = (props: Object) => <MaterialIcon name="volume-off" {...props} />;
 export const IconStream = (props: Object) => <FontAwesomeIcon name="hashtag" {...props} />;
 export const IconPrivate = (props: Object) => <FontAwesomeIcon name="lock" {...props} />;
-export const IconPrivateChat = (props: Object) => <IoniconsIcon name="md-text" {...props} />;
+export const IconPrivateChat = (props: Object) => <IoniconsIcon name="md-mail" {...props} />;
 export const IconDownArrow = (props: Object) => <IoniconsIcon name="md-arrow-down" {...props} />;
 
 export default IoniconsIcon;
