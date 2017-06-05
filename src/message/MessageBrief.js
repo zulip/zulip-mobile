@@ -2,8 +2,7 @@ import React from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 
 import ReactionList from '../reactions/ReactionList';
-import IconStarMessage from './IconStarMessage';
-import EditedTag from './EditedTag';
+import MessageTags from './MessageTags';
 
 const styles = StyleSheet.create({
   message: {
@@ -19,9 +18,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-between'
   },
-  messageTextBodyWrapper: {
-    flex: 0.9
-  }
 });
 
 export default class MessageBrief extends React.PureComponent {
@@ -38,22 +34,20 @@ export default class MessageBrief extends React.PureComponent {
     return (
       <View style={styles.message}>
         <View style={styles.messageContentWrapper}>
-          <View style={styles.messageTextBodyWrapper}>
-            <TouchableWithoutFeedback onLongPress={onLongPress}>
-              <View>
-                {children}
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-          {starred && <IconStarMessage />}
+          <TouchableWithoutFeedback onLongPress={onLongPress}>
+            <View>
+              {children}
+            </View>
+          </TouchableWithoutFeedback>
         </View>
         <ReactionList
           messageId={message.id}
           reactions={message.reactions}
           selfEmail={selfEmail}
         />
-        <EditedTag
+        <MessageTags
           timestamp={message.edit_timestamp}
+          starred={starred}
         />
       </View>
     );

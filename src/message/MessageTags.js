@@ -7,25 +7,30 @@ import { Label } from '../common';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end'
   },
   text: {
     fontSize: 10,
     paddingRight: 8,
-    color: '#999',
+    color: '#999'
   },
 });
 
-export default class EditedTag extends React.PureComponent {
+export default class MessageTags extends React.PureComponent {
   render() {
-    const { timestamp } = this.props;
+    const { timestamp, starred } = this.props;
     const { container, text } = styles;
 
-    if (timestamp === undefined) return null;
-
-    const tag = `Edited, ${distanceInWordsToNow(timestamp * 1000)}`;
-
+    if (timestamp === undefined && !starred) return null;
+    let tag = '';
+    if (timestamp !== undefined) {
+      tag = `edited ${distanceInWordsToNow(timestamp * 1000)},`;
+    }
+    if (starred) {
+      tag = `${tag} starred`;
+    }
     return (
       <View style={container}>
         <Label style={text} text={tag} />
