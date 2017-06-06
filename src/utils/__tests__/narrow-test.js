@@ -273,7 +273,7 @@ describe('narrowFromMessage', () => {
     };
     const expectedNarrow = privateNarrow('bob@example.com');
 
-    const actualNarrow = narrowFromMessage(message, auth);
+    const actualNarrow = narrowFromMessage(message, auth.email);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
@@ -287,7 +287,7 @@ describe('narrowFromMessage', () => {
     };
     const expectedNarrow = groupNarrow(['bob@example.com', 'john@example.com']);
 
-    const actualNarrow = narrowFromMessage(message, auth);
+    const actualNarrow = narrowFromMessage(message, auth.email);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });

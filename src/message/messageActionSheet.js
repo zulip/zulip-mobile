@@ -58,11 +58,11 @@ type ConstructActionButtonsType = {
 };
 
 const narrowToConversation = ({ message, doNarrow, auth }: MessageAndDoNarrowType) => {
-  doNarrow(narrowFromMessage(message, auth), message.id);
+  doNarrow(narrowFromMessage(message, auth.email), message.id);
 };
 
 const reply = ({ message, doNarrow, auth }: MessageAndDoNarrowType) => {
-  doNarrow(narrowFromMessage(message, auth), message.id);
+  doNarrow(narrowFromMessage(message, auth.email), message.id);
 };
 
 const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
