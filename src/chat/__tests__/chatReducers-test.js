@@ -246,9 +246,9 @@ describe('chatReducers', () => {
       };
       const action = {
         type: EVENT_UPDATE_MESSAGE,
-        messageId: 3,
-        newContent: 'New content',
-        editTimestamp: 123,
+        message_id: 3,
+        rendered_content: 'New content',
+        edit_timestamp: 123,
       };
       const expectedState = {
         messages: {
@@ -259,6 +259,40 @@ describe('chatReducers', () => {
           ],
           [privateNarrowStr]: [
             { id: 3, content: 'New content', edit_timestamp: 123 },
+          ]
+        }
+      };
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).not.toBe(initialState);
+      expect(newState.messages).toEqual(expectedState.messages);
+    });
+
+    test('when event contains a new subject but no new content only subject is updated', () => {
+      const initialState = {
+        messages: {
+          [homeNarrowStr]: [
+            { id: 1, content: 'Old content' },
+          ],
+          [privateNarrowStr]: [
+            { id: 1, content: 'Old content' },
+          ]
+        },
+      };
+      const action = {
+        type: EVENT_UPDATE_MESSAGE,
+        message_id: 1,
+        subject: 'New topic',
+        edit_timestamp: 123,
+      };
+      const expectedState = {
+        messages: {
+          [homeNarrowStr]: [
+            { id: 1, content: 'Old content', subject: 'New topic', edit_timestamp: 123 },
+          ],
+          [privateNarrowStr]: [
+            { id: 1, content: 'Old content', subject: 'New topic', edit_timestamp: 123 },
           ]
         }
       };
