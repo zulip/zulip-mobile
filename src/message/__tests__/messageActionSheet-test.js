@@ -17,48 +17,65 @@ describe('constructActionButtons', () => {
   let message = {};
   let subscriptions = [];
   let mute = [];
-  let narrow = [];
+  const narrow = [];
 
-  test('show narrow option in stream narrow', () => {
-    narrow = streamNarrow('all');
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute });
+  test('do not show narrow option in bottom most narrow', () => {
+    const group = groupNarrow(['abc@zulip.com, xyz@zulip.com']);
+    const topic = topicNarrow('Denmark', 'Copenhagen');
+    const pmNarrow = privateNarrow('abc@zulip.com');
+    const special = specialNarrow('private');
+    const home = homeNarrow();
+    const stream = streamNarrow('all');
 
-    expect(buttons).toContain('Narrow to conversation');
-  });
+    const groupButtons = constructActionButtons({
+      message,
+      auth,
+      narrow: group,
+      subscriptions,
+      mute
+    });
+    const topicButtons = constructActionButtons({
+      message,
+      auth,
+      narrow: topic,
+      subscriptions,
+      mute
+    });
+    const privateButtons = constructActionButtons({
+      message,
+      auth,
+      narrow: pmNarrow,
+      subscriptions,
+      mute
+    });
+    const specialButtons = constructActionButtons({
+      message,
+      auth,
+      narrow: special,
+      subscriptions,
+      mute
+    });
+    const homeButtons = constructActionButtons({
+      message,
+      auth,
+      narrow: home,
+      subscriptions,
+      mute
+    });
+    const streamButtons = constructActionButtons({
+      message,
+      auth,
+      narrow: stream,
+      subscriptions,
+      mute
+    });
 
-  test('show narrow option in home narrow', () => {
-    narrow = homeNarrow();
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute });
-
-    expect(buttons).toContain('Narrow to conversation');
-  });
-
-  test('show narrow option in special narrow', () => {
-    narrow = specialNarrow('private');
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute });
-
-    expect(buttons).toContain('Narrow to conversation');
-  });
-
-  test('do not show narrow option in private narrow', () => {
-    narrow = privateNarrow('abc@zulip.com');
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute });
-
-    expect(buttons).not.toContain('Narrow to conversation');
-  });
-
-  test('do not show narrow option in topic narrow', () => {
-    narrow = topicNarrow('Denmark', 'Copenhagen');
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute });
-
-    expect(buttons).not.toContain('Narrow to conversation');
-  });
-
-  test('do not show narrow option in group narrow', () => {
-    narrow = groupNarrow(['abc@zulip.com, xyz@zulip.com']);
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute });
-
-    expect(buttons).not.toContain('Narrow to conversation');
+    expect(groupButtons).not.toContain('Narrow to conversation');
+    expect(topicButtons).not.toContain('Narrow to conversation');
+    expect(privateButtons).not.toContain('Narrow to conversation');
+    expect(specialButtons).toContain('Narrow to conversation');
+    expect(homeButtons).toContain('Narrow to conversation');
+    expect(streamButtons).toContain('Narrow to conversation');
   });
 
   test('show Unmute topic option if topic is muted', () => {
