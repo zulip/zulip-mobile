@@ -1,16 +1,14 @@
 /* @flow */
 import React from 'react';
 import entities from 'entities';
-import { Text } from 'react-native';
+import { RawLabel } from '../common';
 
 type FuncArguments = {
   data: string,
-  style: Object,
-  cascadingStyle: Object,
 }
 
-export default ({ data, style, cascadingStyle }: FuncArguments) => (
-  <Text style={[style, cascadingStyle]}>
-    {entities.decodeHTML(data).replace(/\n$/, '')}
-  </Text>
+export default ({ data }: FuncArguments) => (
+  <RawLabel
+    text={entities.decodeHTML(data).replace(/\n$/, '')}
+  />
 );
