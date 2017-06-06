@@ -14,7 +14,7 @@ import unmuteTopicApi from '../api/unmuteTopic';
 import unmuteStreamApi from '../api/unmuteStream';
 import muteStreamApi from '../api/muteStream';
 import toggleMessageStarredApi from '../api/toggleMessageStarred';
-import { showToast } from '../common/showToast';
+import showToast from '../utils/showToast';
 
 type MessageAndDoNarrowType = {
   message: Object,
