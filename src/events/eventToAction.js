@@ -66,10 +66,8 @@ export default (state: StateType, event: Object) => {
 
     case 'update_message':
       return {
+        ...event,
         type: EVENT_UPDATE_MESSAGE,
-        messageId: event.message_id,
-        newContent: event.rendered_content,
-        editTimestamp: event.edit_timestamp,
       };
 
     case 'subscription':

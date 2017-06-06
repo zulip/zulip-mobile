@@ -102,10 +102,11 @@ export default (state = initialState, action) => {
     }
 
     case EVENT_UPDATE_MESSAGE:
-      return chatUpdater(state, action.messageId, oldMessage => ({
+      return chatUpdater(state, action.message_id, oldMessage => ({
         ...oldMessage,
-        content: action.newContent,
-        edit_timestamp: action.editTimestamp,
+        content: action.rendered_content || oldMessage.content,
+        subject: action.subject || oldMessage.subject,
+        edit_timestamp: action.edit_timestamp,
       }));
 
     default:
