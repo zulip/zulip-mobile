@@ -5,8 +5,12 @@ import { FormattedMessage } from 'react-intl';
 
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
+import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({
+  buttonContent: {
+    flexDirection: 'row'
+  },
   frame: {
     height: 44,
     alignItems: 'center',
@@ -27,6 +31,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 5
   },
   text: {
     color: '#FFFFFF',
@@ -38,6 +43,15 @@ const styles = StyleSheet.create({
   secondaryText: {
     color: BRAND_COLOR,
   },
+  icon: {
+    marginRight: 8
+  },
+  primaryIcon: {
+    color: 'white'
+  },
+  secondaryIcon: {
+    color: BRAND_COLOR
+  }
 });
 
 const ButtonInProgress = ({ frameStyle }) => (
@@ -46,18 +60,28 @@ const ButtonInProgress = ({ frameStyle }) => (
   </View>
 );
 
-const ButtonNormal = ({ frameStyle, touchTargetStyle, textStyle, text, onPress }) => (
-  <View style={frameStyle}>
-    <Touchable style={touchTargetStyle} onPress={onPress}>
-      <Text style={textStyle}>
-        <FormattedMessage
-          id={text}
-          defaultMessage={text}
-        />
-      </Text>
-    </Touchable>
-  </View>
-);
+const ButtonNormal = ({
+  frameStyle,
+  touchTargetStyle,
+  textStyle,
+  text,
+  onPress,
+  icon,
+  iconStyle }) => (
+    <View style={frameStyle}>
+      <Touchable style={touchTargetStyle} onPress={onPress}>
+        <View style={styles.buttonContent}>
+          {icon && <Icon name={icon} style={iconStyle} size={20} />}
+          <Text style={textStyle}>
+            <FormattedMessage
+              id={text}
+              defaultMessage={text}
+            />
+          </Text>
+        </View>
+      </Touchable>
+    </View>
+  );
 
 export default class ZulipButton extends React.PureComponent {
   props: {
@@ -74,13 +98,14 @@ export default class ZulipButton extends React.PureComponent {
   };
 
   render() {
-    const { style, text, secondary, progress, onPress } = this.props;
+    const { style, text, secondary, progress, onPress, icon } = this.props;
     const frameStyle = [
       styles.frame,
       secondary ? styles.secondaryFrame : styles.primaryFrame,
       style,
     ];
     const textStyle = [styles.text, secondary ? styles.secondaryText : styles.primaryText];
+    const iconStyle = [styles.icon, secondary ? styles.secondaryIcon : styles.primaryIcon];
 
     if (progress) {
       return <ButtonInProgress frameStyle={frameStyle} />;
@@ -93,6 +118,8 @@ export default class ZulipButton extends React.PureComponent {
         text={text}
         onPress={onPress}
         textStyle={textStyle}
+        icon={icon}
+        iconStyle={iconStyle}
       />
     );
   }
