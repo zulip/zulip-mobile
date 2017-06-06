@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import { Auth } from '../types';
+import { Auth, Message } from '../types';
 import styles from './HtmlStyles';
 import cascadingStyles from './cascadingStylesView';
 import HtmlTagSpan from './tags/HtmlTagSpan';
@@ -18,28 +18,28 @@ import { getEmojiUrl } from '../utils/url';
 // br', 'blockquote',
 
 const specialTags = {
-  'span': HtmlTagSpan,
-  'p': HtmlTagSpan,
-  'code': HtmlTagSpan,
-  'a': HtmlTagA,
-  'li': HtmlTagLi,
-  'img': HtmlTagImg,
-  'pre': HtmlTagPre,
-  'strong': HtmlTagStrong,
-  'b': HtmlTagStrong,
-  'em': HtmlTagItalic,
-  'i': HtmlTagItalic,
-  'div': HtmlTagDiv,
-  'blockquote': HtmlTagDiv,
-  'ul': HtmlTagDiv,
-  'ol': HtmlTagDiv,
-  'table': HtmlTagDiv,
-  'thead': HtmlTagDiv,
-  'tbody': HtmlTagDiv,
-  'tr': HtmlTagDiv,
-  'th': HtmlTagDiv,
-  'td': HtmlTagDiv,
-  'br': HtmlTagBr,
+  span: HtmlTagSpan,
+  p: HtmlTagSpan,
+  code: HtmlTagSpan,
+  a: HtmlTagA,
+  li: HtmlTagLi,
+  img: HtmlTagImg,
+  pre: HtmlTagPre,
+  strong: HtmlTagStrong,
+  b: HtmlTagStrong,
+  em: HtmlTagItalic,
+  i: HtmlTagItalic,
+  div: HtmlTagDiv,
+  blockquote: HtmlTagDiv,
+  ul: HtmlTagDiv,
+  ol: HtmlTagDiv,
+  table: HtmlTagDiv,
+  thead: HtmlTagDiv,
+  tbody: HtmlTagDiv,
+  tr: HtmlTagDiv,
+  th: HtmlTagDiv,
+  td: HtmlTagDiv,
+  br: HtmlTagBr,
 };
 
 const stylesFromClassNames = (classNames = '', styleObj) =>
@@ -52,13 +52,19 @@ type Props = {
   cascadingStyle: Object,
   childrenNodes: Object[],
   onPress: () => void,
-}
+  message: Message,
+};
 
-export default ({ auth, attribs, name, cascadingStyle, childrenNodes, onPress }: Props) => {
-  const style = [
-    styles[name],
-    ...stylesFromClassNames(attribs.class, styles),
-  ];
+export default ({
+  auth,
+  attribs,
+  name,
+  cascadingStyle,
+  childrenNodes,
+  onPress,
+  message,
+}: Props) => {
+  const style = [styles[name], ...stylesFromClassNames(attribs.class, styles)];
   const newCascadingStyle = [
     cascadingStyle,
     cascadingStyles[name],
@@ -83,6 +89,7 @@ export default ({ auth, attribs, name, cascadingStyle, childrenNodes, onPress }:
       cascadingStyle={newCascadingStyle}
       childrenNodes={childrenNodes}
       onPress={onPress}
+      message={message}
     />
   );
 };

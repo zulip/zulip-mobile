@@ -18,5 +18,7 @@ export const IconStream = (props: Object) => <FontAwesomeIcon name="hashtag" {..
 export const IconPrivate = (props: Object) => <FontAwesomeIcon name="lock" {...props} />;
 export const IconPrivateChat = (props: Object) => <IoniconsIcon name="md-mail" {...props} />;
 export const IconDownArrow = (props: Object) => <IoniconsIcon name="md-arrow-down" {...props} />;
+export const IconShare = (props: Object) => <IoniconsIcon name="md-share-alt" {...props} />;
+export const IconDownload = (props: Object) => <IoniconsIcon name="md-download" {...props} />;
 
 export default IoniconsIcon;

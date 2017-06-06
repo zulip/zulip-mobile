@@ -38,6 +38,8 @@
     "react-native-device-info": "^0.10.1",
     "react-native-drawer": "^2.3.0",
     "react-native-fabric": "^0.4.1",
+    "react-native-fetch-blob": "^0.10.5",
+    "react-native-photo-view": "^1.2.0",
     "react-native-safari-view": "^2.0.0",
     "react-native-scrollable-tab-view": "^0.7.0",
     "react-native-sound": "^0.10.1",
