@@ -28,7 +28,9 @@ public class ZulipNativePackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(
             ReactApplicationContext reactContext) {
-        return Collections.emptyList();
+        List<NativeModule> modules = new ArrayList<>();
+        modules.add(new CustomTabsAndroid(reactContext));
+        return modules;
     }
 
 }
