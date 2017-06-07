@@ -1,5 +1,5 @@
 /* @flow */
-import { Clipboard } from 'react-native';
+import { Clipboard, Share } from 'react-native';
 import { DoNarrowAction, Auth } from '../types';
 import { narrowFromMessage } from '../utils/narrow';
 import { getSingleMessage } from '../api';
@@ -89,6 +89,12 @@ const unstarMessage = ({ auth, message }: AuthAndMessageType) => {
   toggleMessageStarredApi(auth, [message.id], false);
 };
 
+const shareMessage = ({ message }) => {
+  Share.share({
+    message: message.content.replace(/<(?:.|\n)*?>/gm, '')
+  });
+};
+
 const skip = () => false;
 
 type ButtonType = {
@@ -100,6 +106,7 @@ type ButtonType = {
 const actionSheetButtons: ButtonType[] = [
   { title: 'Reply', onPress: reply },
   { title: 'Copy to clipboard', onPress: copyToClipboard },
+  { title: 'Share', onPress: shareMessage },
   // If skip then covered in constructActionButtons
   { title: 'Star Message', onPress: starMessage, onlyIf: skip },
   { title: 'Unstar Message', onPress: unstarMessage, onlyIf: skip },
