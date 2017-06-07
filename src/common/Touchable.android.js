@@ -1,6 +1,8 @@
 /* @flow */
 import React from 'react';
 import { TouchableNativeFeedback, Platform, View } from 'react-native';
+import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+
 import { HIGHLIGHT_COLOR } from '../styles';
 
 const background = Platform.Version >= 21 ?
@@ -9,7 +11,7 @@ const background = Platform.Version >= 21 ?
 
 type Props = {
   onPress?: () => void,
-  style?: Object,
+  style?: StyleObj,
   children?: [],
 };
 

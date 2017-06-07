@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   }
 });
 
-type FuncArguments = {
+type Props = {
   name: string,
   size: number,
   status?: string,
@@ -40,7 +40,7 @@ type FuncArguments = {
 };
 
 
-export default ({ name, size, status, isCircular, onPress }: FuncArguments) => {
+export default ({ name, size, status, isCircular, onPress }: Props) => {
   const frameSize = {
     height: size,
     width: size,

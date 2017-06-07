@@ -1,5 +1,6 @@
 /* @flow */
 import React from 'react';
+import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 import { Auth } from '../types';
 import styles from './HtmlStyles';
@@ -49,7 +50,7 @@ type Props = {
   auth: Auth,
   attribs: Object,
   name: string,
-  cascadingStyle: Object,
+  cascadingStyle: StyleObj,
   childrenNodes: Object[],
   onPress: () => void,
 }

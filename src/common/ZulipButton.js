@@ -2,6 +2,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { FormattedMessage } from 'react-intl';
+import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
@@ -85,9 +86,10 @@ const ButtonNormal = ({
 
 export default class ZulipButton extends React.PureComponent {
   props: {
-    style: Object,
+    style: StyleObj,
     progress: boolean,
     text: string,
+    icon?: string,
     secondary: boolean,
     onPress: () => void,
   };

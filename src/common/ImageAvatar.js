@@ -12,13 +12,13 @@ const styles = StyleSheet.create({
   },
 });
 
-type FuncArguments = {
+type Props = {
   avatarUrl: string,
   size: number,
   status?: string,
   isCircular?: boolean,
   onPress?: () => void
-}
+};
 
 
 export default({
@@ -27,7 +27,7 @@ export default({
    status,
    isCircular = false,
    onPress = () => {}
-}: FuncArguments) => {
+}: Props) => {
   const touchableStyle = {
     height: size,
     width: size,
