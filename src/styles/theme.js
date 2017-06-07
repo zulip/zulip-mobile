@@ -1,7 +1,14 @@
+/* @flow */
 import { Platform } from 'react-native';
 import { BORDER_COLOR, BRAND_COLOR, STATUSBAR_HEIGHT, CONTROL_SIZE, NAVBAR_HEIGHT } from './';
 
-export default ({ color, backgroundColor, borderColor }) => ({
+type Props = {
+  color: string,
+  backgroundColor: string,
+  borderColor: string
+}
+
+export default ({ color, backgroundColor, borderColor }: Props) => ({
   text: {
     fontSize: 16,
   },
