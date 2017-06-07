@@ -1,17 +1,18 @@
 /* @flow */
 import React from 'react';
+import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 import { Auth } from '../types';
 import HtmlNode from './HtmlNode';
 
-type FuncArguments = {
+type Props = {
   auth: Auth,
   childrenNodes: Object[],
-  cascadingStyle: Object,
+  cascadingStyle: StyleObj,
   onPress: () => void,
 }
 
-export default ({ auth, cascadingStyle, childrenNodes, onPress }: FuncArguments) =>
+export default ({ auth, cascadingStyle, childrenNodes, onPress }: Props) =>
   childrenNodes &&
   childrenNodes
     .filter(x => x.data !== '\n')

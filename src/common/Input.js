@@ -2,12 +2,13 @@
 import React, { Component } from 'react';
 import { TextInput } from 'react-native';
 import { FormattedMessage } from 'react-intl';
+import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 import styles, { HALF_COLOR } from '../styles';
 
 export default class Input extends Component {
   props: {
-    style: Object,
+    style: StyleObj,
     restProps?: any[],
     placeholder: string,
     textInputRef?: (component: TextInput) => void
