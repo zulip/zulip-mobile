@@ -10,7 +10,7 @@ class StreamAutocomplete extends Component {
 
   props: {
     filter: string;
-    onAutocomplete: (name: string) => {},
+    onAutocomplete: (name: string) => void,
     subscriptions: Object[],
   };
 

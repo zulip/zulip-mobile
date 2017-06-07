@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
@@ -13,18 +14,23 @@ const styles = StyleSheet.create({
 export default class StreamList extends React.Component {
 
   props: {
-    streams: [],
+    streams: {name: string}[],
     selected: string,
     showDescriptions: boolean,
     showSwitch: boolean,
-    onNarrow: (streamName: string) => {},
-    onSwitch: (streamName: string) => {},
-  }
+    onNarrow: (streamName: string) => void,
+    onSwitch: (streamName: string, newValue: ?boolean) => void,
+  };
+
+  static defaultProps: {
+    showSwitch: false,
+    showDescriptions: false,
+    onSwitch: (streamName: string, newValue: ?boolean) => void,
+  };
 
   render() {
     const { streams, selected, showDescriptions, showSwitch, onNarrow, onSwitch } = this.props;
-    const sortedStreams = Object.values(streams)
-      .sort((a, b) => a.name.localeCompare(b.name));
+    const sortedStreams = streams.sort((a, b) => a.name.localeCompare(b.name));
 
     return (
       <FlatList
@@ -37,7 +43,7 @@ export default class StreamList extends React.Component {
             name={item.name}
             iconSize={16}
             isPrivate={item.invite_only}
-            description={showDescriptions && item.description}
+            description={(showDescriptions) ? item.description : ''}
             color={item.color}
             isSelected={item.name === selected}
             isMuted={item.in_home_view === false} // if 'undefined' is not muted

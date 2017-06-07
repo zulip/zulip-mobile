@@ -41,7 +41,7 @@ class PasswordAuthView extends React.Component {
       progress: false,
       email: props.email || config.defaultLoginEmail,
       password: props.password || config.defaultLoginPassword,
-      error: '',
+      error: ''
     };
   }
 
