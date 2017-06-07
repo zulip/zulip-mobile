@@ -3,19 +3,19 @@ import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import { Label, Screen } from '../common';
+import { Label, Screen, ZulipSwitch } from '../common';
 import LanguagePicker from './LanguagePicker';
 
 const styles = StyleSheet.create({
   optionWrapper: {
     flex: 1,
   },
-/*  optionRow: {
+  optionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 8,
-  }, */
+  },
   optionTitle: {
     padding: 8,
     fontWeight: 'bold',
@@ -28,11 +28,8 @@ const styles = StyleSheet.create({
 class SettingsScreen extends React.Component {
 
   props: {
-    keyboardAvoiding: boolean,
-    title: string,
-    isSearchBarApplied: boolean,
-    searchBar: boolean,
-    searchBarOnChange: () => void,
+    theme: string,
+    locale: string,
   };
 
   state: {
@@ -43,21 +40,23 @@ class SettingsScreen extends React.Component {
     this.props.settingsChange('locale', value);
   };
 
-  handleThemeChange = () => {};
+  handleThemeChange = (value) => {
+    this.props.settingsChange('theme', value ? 'night' : 'default');
+  };
 
   render() {
-    const { locale } = this.props;
+    const { theme, locale } = this.props;
 
     return (
       <Screen title="Settings">
         <View style={styles.optionWrapper}>
-          {/* <View style={styles.optionRow}>
+          <View style={styles.optionRow}>
             <Label text="Night mode" />
             <ZulipSwitch
-              defaultValue={theme === 'default'}
+              defaultValue={theme === 'night'}
               onValueChange={this.handleThemeChange}
             />
-          </View>*/ }
+          </View>
           <View style={styles.optionList}>
             <Label style={styles.optionTitle} text="Language" />
             <LanguagePicker

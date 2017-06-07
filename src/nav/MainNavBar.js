@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 
 import { ZulipStatusBar } from '../common';
-import styles, { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR } from '../styles';
 import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import Title from '../title/Title';
 import NavButton from './NavButton';
@@ -19,10 +19,15 @@ const moreStyles = StyleSheet.create({
 });
 
 class MainNavBar extends React.Component {
+
+  static contextTypes = {
+    styles: () => null,
+  };
+
   render() {
+    const { styles } = this.context;
     const { narrow, subscriptions, unreadPrivateMessagesCount,
       onPressStreams, onPressPeople } = this.props;
-
     const backgroundColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
       (subscriptions.find((sub) => narrow[0].operand === sub.name)).color :
       styles.navBar.backgroundColor;

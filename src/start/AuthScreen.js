@@ -8,7 +8,6 @@ import parseURL from 'url-parse';
 
 import { PushRouteAction, SetAuthType } from '../types';
 import boundActions from '../boundActions';
-import styles from '../styles';
 import { RawLabel, Screen, ZulipButton } from '../common';
 import { generateOtp, extractApiKey } from '../utils/encoding';
 import { getAuth } from '../account/accountSelectors';
@@ -16,6 +15,10 @@ import { getAuth } from '../account/accountSelectors';
 import PasswordAuthView from './PasswordAuthView';
 
 class AuthScreen extends React.PureComponent {
+
+  static contextTypes = {
+    styles: () => null,
+  };
 
   props: {
     authBackends: string[],
@@ -124,6 +127,7 @@ class AuthScreen extends React.PureComponent {
     Platform.OS === 'ios' && Platform.Version >= 9.0;
 
   render() {
+    const { styles } = this.context;
     const { authBackends } = this.props;
 
     return (

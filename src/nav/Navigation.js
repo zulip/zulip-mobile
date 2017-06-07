@@ -3,8 +3,6 @@
 import React from 'react';
 import { BackAndroid, NavigationExperimental, Platform } from 'react-native';
 
-import { Action } from '../types';
-import styles from '../styles';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import AccountPickScreen from '../account/AccountPickScreen';
@@ -32,6 +30,10 @@ type RenderSceneProps = {
 
 export default class Navigation extends React.Component {
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   componentDidMount() {
     if (Platform.OS === 'android') {
       BackAndroid.addEventListener('hardwareBackPress', this.handleBackAction);
@@ -44,7 +46,7 @@ export default class Navigation extends React.Component {
     }
   }
 
-  handleNavigate = (action: Action) => {
+  handleNavigate = (action: Object) => {
     switch (action && action.type) {
       case 'push':
         this.props.pushRoute(action.route);
@@ -98,6 +100,7 @@ export default class Navigation extends React.Component {
   }
 
   render() {
+    const { styles } = this.context;
     const { navigation, compatibilityCheckFail } = this.props;
 
     if (compatibilityCheckFail) {

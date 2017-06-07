@@ -5,6 +5,7 @@ import { IntlProvider } from 'react-intl';
 
 import '../vendor/intl/intl';
 import messages from './i18n/messages';
+import StylesProvider from './StylesProvider';
 import NavigationContainer from './nav/NavigationContainer';
 
 require('./i18n/locale');
@@ -17,7 +18,7 @@ class Providers extends Component {
   }
 
   render() {
-    const { locale } = this.props;
+    const { locale, theme } = this.props;
 
     return (
       <IntlProvider
@@ -26,7 +27,12 @@ class Providers extends Component {
         textComponent={Text}
         messages={messages[locale]}
       >
-        <NavigationContainer />
+        <StylesProvider
+          key={theme}
+          theme={theme}
+        >
+          <NavigationContainer />
+        </StylesProvider>
       </IntlProvider>
     );
   }

@@ -46,11 +46,6 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     color,
     fontSize: 15,
   },
-  bullet: {
-    color,
-    paddingLeft: 4,
-    paddingRight: 8,
-  },
   icon: {
     color,
     width: 24,

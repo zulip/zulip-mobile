@@ -6,12 +6,15 @@ import { connect } from 'react-redux';
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import { registerAppActivity } from '../utils/activity';
-import styles from '../styles';
 import { checkCompatibility } from '../api';
 import { getInitialRoutes } from './routingSelectors';
 import Navigation from './Navigation';
 
 class NavigationContainer extends React.PureComponent {
+
+  static contextTypes = {
+    styles: () => null,
+  };
 
   state = {
     compatibilityCheckFail: false,
@@ -39,7 +42,6 @@ class NavigationContainer extends React.PureComponent {
   componentDidMount() {
     const { accounts } = this.props;
     this.props.initRoutes(getInitialRoutes(accounts));
-
     NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
@@ -68,7 +70,7 @@ class NavigationContainer extends React.PureComponent {
 
   render() {
     return (
-      <View style={styles.screen} onLayout={this.handleLayout}>
+      <View style={this.context.styles.screen} onLayout={this.handleLayout}>
         <Navigation
           {...this.props}
           compatibilityCheckFail={this.state.compatibilityCheckFail}

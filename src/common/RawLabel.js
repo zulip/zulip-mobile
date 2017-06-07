@@ -1,17 +1,27 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-import styles from '../styles';
+export default class RawLabel extends PureComponent {
 
-type Props = {
-  text: string,
-  style?: StyleObj,
-};
+  static contextTypes = {
+    styles: () => null,
+  };
 
-export default ({ text, style, ...restProps }: Props) => (
-  <Text style={[styles.label, style]} {...restProps}>
-    {text}
-  </Text>
-);
+  props: {
+    text: string,
+    style?: StyleObj,
+  };
+
+  render() {
+    const styles = this.context.styles || {};
+    const { text, style, ...restProps } = this.props;
+
+    return (
+      <Text style={[styles.label, style]} {...restProps}>
+        {text}
+      </Text>
+    );
+  }
+}

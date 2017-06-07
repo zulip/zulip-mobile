@@ -1,8 +1,7 @@
 /* @flow */
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
 import { PopRouteAction, NavigationState } from '../types';
 import { ZulipStatusBar } from '../common';

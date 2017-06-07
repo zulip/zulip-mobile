@@ -4,9 +4,14 @@ import { TextInput } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-import styles, { HALF_COLOR } from '../styles';
+import { HALF_COLOR } from '../styles';
 
 export default class Input extends Component {
+
+  static contextTypes = {
+    styles: () => null,
+  };
+
   props: {
     style: StyleObj,
     restProps?: any[],
@@ -20,6 +25,7 @@ export default class Input extends Component {
   };
 
   render() {
+    const { styles } = this.context;
     const { style, placeholder, textInputRef, ...restProps } = this.props;
 
     return (

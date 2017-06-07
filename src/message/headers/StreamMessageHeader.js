@@ -1,14 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import globalStyles from '../../styles';
 import { Touchable } from '../../common';
 import TopicMessageHeader from './TopicMessageHeader';
 import { streamNarrow } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 import StreamIcon from '../../streamlist/StreamIcon';
 
-const styles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   header: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -43,34 +42,39 @@ export default class StreamMessageHeader extends React.PureComponent {
     isPrivate: boolean,
   }
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   performStreamNarrow = () => {
     const { itemId, doNarrow, stream } = this.props;
     doNarrow(streamNarrow(stream), itemId);
   }
 
   render() {
+    const { styles } = this.context;
     const { stream, isPrivate, isMuted, topic, color, itemId, doNarrow, style } = this.props;
     const textColor = foregroundColorFromBackground(color);
     const iconType = isPrivate ? 'lock' : 'hashtag';
 
     return (
-      <View style={[styles.header, style, globalStyles.background]}>
+      <View style={[componentStyles.header, style, styles.background]}>
         <Touchable onPress={this.performStreamNarrow}>
-          <View style={[styles.header, { backgroundColor: color }]}>
+          <View style={[componentStyles.header, { backgroundColor: color }]}>
             <StreamIcon
               name={iconType}
               color={textColor}
               isPrivate={isPrivate}
               isMuted={isMuted}
               size={16}
-              style={styles.icon}
+              style={componentStyles.icon}
             />
-            <Text style={[styles.stream, { color: textColor }]}>
+            <Text style={[componentStyles.stream, { color: textColor }]}>
               {stream}
             </Text>
           </View>
         </Touchable>
-        <View style={[styles.triangle, { borderLeftColor: color }]} />
+        <View style={[componentStyles.triangle, { borderLeftColor: color }]} />
         <TopicMessageHeader
           itemId={itemId}
           stream={stream}

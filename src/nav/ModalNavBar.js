@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 import boundActions from '../boundActions';
-import styles, { CONTROL_SIZE } from '../styles';
+import { CONTROL_SIZE } from '../styles';
 import { Label } from '../common';
 import NavButton from './NavButton';
 
@@ -19,6 +19,11 @@ const customStyles = StyleSheet.create({
 });
 
 class ModalNavBar extends React.Component {
+
+  static contextTypes = {
+    styles: () => null,
+  };
+
   props: {
     nav: any,
     title: string,
@@ -31,6 +36,7 @@ class ModalNavBar extends React.Component {
   };
 
   render() {
+    const { styles } = this.context;
     const { nav, title, titleColor, itemsColor, popRoute, rightItem, style } = this.props;
     const textStyle = [
       styles.navTitle,
