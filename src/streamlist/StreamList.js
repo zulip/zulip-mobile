@@ -15,17 +15,18 @@ export default class StreamList extends React.Component {
 
   props: {
     streams: {name: string}[],
-    selected: string,
+    selected?: boolean,
     showDescriptions: boolean,
     showSwitch: boolean,
     onNarrow: (streamName: string) => void,
-    onSwitch: (streamName: string, newValue: ?boolean) => void,
+    onSwitch: (streamName: string, newValue: boolean) => void,
   };
 
   static defaultProps: {
     showSwitch: false,
     showDescriptions: false,
-    onSwitch: (streamName: string, newValue: ?boolean) => void,
+    onSwitch: (streamName: string, newValue: boolean) => void,
+    selected: false
   };
 
   render() {

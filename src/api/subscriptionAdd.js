@@ -4,7 +4,7 @@ import { apiPost } from './apiFetch';
 
 export default (
   auth: Auth,
-  subscriptions: [],
+  subscriptions: Object[],
 ) =>
   apiPost(
     auth,

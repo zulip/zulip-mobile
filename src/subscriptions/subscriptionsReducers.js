@@ -1,3 +1,5 @@
+/* @flow */
+import { StateType, Action } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -12,7 +14,7 @@ import {
 
 const initialState = [];
 
-export default (state = initialState, action) => {
+export default (state: StateType = initialState, action: Action) => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:
