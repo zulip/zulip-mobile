@@ -1,11 +1,11 @@
 import React from 'react';
-import { Linking } from 'react-native';
 
 import htmlToDomTree from '../html/htmlToDomTree';
 import renderHtmlChildren from '../html/renderHtmlChildren';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
+import openLink from '../utils/openLink';
 
 export default class MessageContainer extends React.PureComponent {
   inAppLinkPress = href => {
@@ -15,7 +15,7 @@ export default class MessageContainer extends React.PureComponent {
     doNarrow(narrow, anchor);
   };
 
-  regularLinkPress = href => Linking.openURL(getFullUrl(href, this.props.auth.realm));
+  regularLinkPress = href => openLink(getFullUrl(href, this.props.auth.realm));
 
   handleLinkPress = href =>
     (isUrlInAppLink(href, this.props.auth.realm) ? this.inAppLinkPress : this.regularLinkPress)(
