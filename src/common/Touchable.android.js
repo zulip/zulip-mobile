@@ -10,7 +10,7 @@ const background = Platform.Version >= 21 ?
   TouchableNativeFeedback.SelectableBackground();
 
 type Props = {
-  onPress?: () => void,
+  onPress?: () => void | Promise<any>,
   style?: StyleObj,
   children?: [],
 };

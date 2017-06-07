@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
@@ -14,35 +15,40 @@ type State = {
   progress: boolean,
   directAdmins: string[],
   directUsers: string[],
+  error: string
 }
 
 class DevAuthScreen extends React.Component {
 
   props: {
     auth: Auth,
+    loginSuccess: (realm: string, eamil: string, apiKey: string) => void
   };
 
   state: State = {
     progress: false,
     directAdmins: [],
     directUsers: [],
+    error: '',
   };
 
-  componentWillMount = async () => {
-    const { auth } = this.props;
+  componentWillMount = () => {
+    (async () => {
+      const { auth } = this.props;
 
-    this.setState({ progress: true, error: undefined });
+      this.setState({ progress: true, error: undefined });
 
-    try {
-      const [directAdmins, directUsers] = await devGetEmails(auth);
+      try {
+        const [directAdmins, directUsers] = await devGetEmails(auth);
 
-      this.setState({ directAdmins, directUsers, progress: false });
-    } catch (err) {
-      this.setState({ error: err.message });
-    } finally {
-      this.setState({ progress: false });
-    }
-  }
+        this.setState({ directAdmins, directUsers, progress: false });
+      } catch (err) {
+        this.setState({ error: err.message });
+      } finally {
+        this.setState({ progress: false });
+      }
+    })();
+  };
 
   tryDevLogin = async (email: string) => {
     const { auth } = this.props;

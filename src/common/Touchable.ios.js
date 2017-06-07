@@ -6,7 +6,7 @@ import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes
 import { HIGHLIGHT_COLOR } from '../styles';
 
 type Props = {
-  onPress?: () => void,
+  onPress?: () => void | Promise<any>,
   style?: StyleObj,
   children?: [],
 };

@@ -115,6 +115,8 @@ export type PopRouteAction = PropsAction;
 
 export type InitRouteAction = PropsAction;
 
+export type SetAuthType = PropsAction;
+
 export type AccountState = [];
 
 export type NavigationState = {
