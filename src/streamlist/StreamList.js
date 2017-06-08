@@ -15,7 +15,8 @@ export default class StreamList extends React.Component {
   }
 
   render() {
-    const { streams, selected, showDescriptions, showSwitch, onNarrow, onSwitch } = this.props;
+    const { streams, selected, showDescriptions,
+      showSwitch, onNarrow, onSwitch, shareScreen } = this.props;
     const sortedStreams = Object.values(streams)
       .sort((a, b) => a.name.localeCompare(b.name));
 
@@ -37,6 +38,7 @@ export default class StreamList extends React.Component {
             isSwitchedOn={item.subscribed}
             onPress={onNarrow}
             onSwitch={onSwitch}
+            shareScreen={shareScreen}
           />
         )}
       />

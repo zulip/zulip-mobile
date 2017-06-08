@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
-import { RawLabel, Touchable, ZulipSwitch } from '../common';
+import { RawLabel, Touchable, ZulipSwitch, ZulipButton, Input } from '../common';
 import StreamIcon from './StreamIcon';
 
 const styles = StyleSheet.create({
@@ -35,6 +35,18 @@ const styles = StyleSheet.create({
   mutedText: {
     color: 'gray',
   },
+  topicContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  field: {
+    flex: 3,
+  },
+  SendButton: {
+    flex: 2,
+    height: 20,
+  }
 });
 
 export default class StreamItem extends React.PureComponent {
@@ -61,7 +73,7 @@ export default class StreamItem extends React.PureComponent {
 
   render() {
     const { name, description, color, isPrivate, isMuted,
-      iconSize, isSelected, showSwitch, isSwitchedOn } = this.props;
+      iconSize, isSelected, showSwitch, isSwitchedOn, shareScreen } = this.props;
     const iconWrapperCustomStyle = {
       width: iconSize * 1.5,
       height: iconSize * 1.5,
@@ -101,6 +113,20 @@ export default class StreamItem extends React.PureComponent {
               onValueChange={this.handleSwitch}
             />}
         </View>
+        {shareScreen && name === 'Django' &&
+          <View style={styles.topicContainer}>
+            <Input
+              style={styles.field}
+              placeholder="Topic"
+              blurOnSubmit={false}
+            />
+            <ZulipButton
+              style={styles.sendButton}
+              text="Send"
+              onPress={this.handlePress}
+            />
+          </View>
+        }
       </Touchable>
     );
   }
