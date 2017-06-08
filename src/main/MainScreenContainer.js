@@ -37,12 +37,10 @@ class MainScreenContainer extends React.Component {
   }
 }
 
-export default connect(
-  state => ({
-    auth: getAuth(state),
-    narrow: state.chat.narrow,
-    messages: getShownMessagesInActiveNarrow(state),
-    orientation: state.app.orientation,
-  }),
-  boundActions,
-)(MainScreenContainer);
+export default connect(state => ({
+  auth: getAuth(state),
+  narrow: state.chat.narrow,
+  messages: getShownMessagesInActiveNarrow(state),
+  orientation: state.app.orientation,
+  editMessage: state.app.editMessage,  
+}), boundActions)(MainScreenContainer);

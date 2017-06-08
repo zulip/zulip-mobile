@@ -78,6 +78,10 @@ const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
   showToast('Message copied!');
 };
 
+const editMessage = async ({ message, auth, startEditMessage }) => {
+  startEditMessage(auth, message.id);
+};
+
 const unmuteTopic = ({ auth, message }: AuthAndMessageType) => {
   unmuteTopicApi(auth, message.display_recipient, message.subject);
 };
@@ -99,6 +103,9 @@ const muteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscription
     muteStreamApi(auth, sub.stream_id);
   }
 };
+
+const isSentBySelfAndNarrowed = ({ message, auth, narrow }) =>
+  auth.email === message.sender_email && !isHomeNarrow(narrow);
 
 const starMessage = ({ auth, message }: AuthAndMessageType) => {
   toggleMessageStarredApi(auth, [message.id], true);
@@ -126,6 +133,7 @@ const actionSheetButtons: ButtonType[] = [
   { title: 'Reply', onPress: reply },
   { title: 'Copy to clipboard', onPress: copyToClipboard },
   { title: 'Share', onPress: shareMessage },
+  { title: 'Edit Message', onPress: editMessage, onlyIf: isSentBySelfAndNarrowed },
   // If skip then covered in constructActionButtons
   { title: 'Narrow to conversation', onPress: narrowToConversation, onlyIf: skip },
   { title: 'Star Message', onPress: starMessage, onlyIf: skip },

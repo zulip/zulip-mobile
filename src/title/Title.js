@@ -17,6 +17,7 @@ import TitlePrivate from './TitlePrivate';
 import TitleGroup from './TitleGroup';
 import TitleSpecial from './TitleSpecial';
 import TitleStream from './TitleStream';
+import TitlePlain from './TitlePlain';
 
 const titles = [
   { isFunc: isHomeNarrow, component: TitleHome },
@@ -29,9 +30,16 @@ const titles = [
 
 class Title extends React.PureComponent {
   render() {
-    const { narrow } = this.props;
+    const { narrow, editMessage, color } = this.props;
     const titleType = titles.find(x => x.isFunc(narrow));
-
+    if (editMessage != null) {
+      return (
+        <TitlePlain
+          text={'Edit Message'}
+          color={color}
+        />
+      );
+    }
     if (!titleType) return null;
 
     return <titleType.component {...this.props} />;
@@ -45,5 +53,6 @@ export default connect(
     users: state.users,
     subscriptions: state.subscriptions,
     streams: state.streams,
+    editMessage: state.app.editMessage,
   })
 )(Title);

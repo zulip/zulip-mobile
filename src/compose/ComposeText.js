@@ -2,13 +2,15 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, TextInput } from 'react-native';
 
-import type { Auth, Narrow, User } from '../types';
+import type { Auth, Narrow, User, EditMessage } from '../types';
 import { Input } from '../common';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { registerUserInputActivity } from '../utils/activity';
 import sendMessage from '../api/sendMessage';
-import SendButton from './SendButton';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
+import patchMessage from '../api/updateMessage';
+import SubmitButton from './SubmitButton';
+import { showErrorAlert } from '../common/errorAlert';
 
 const MIN_HEIGHT = 38;
 const MAX_HEIGHT = 200;
@@ -30,6 +32,11 @@ type Props = {
   users: User[],
   text: string,
   handleChangeText: (input: string) => void,
+  auth: Object,
+  narrow: Object,
+  operator: string | null,
+  editMessage: EditMessage,
+  cancelEditMessage: () => void,
 };
 
 export default class ComposeText extends React.Component {
@@ -40,6 +47,7 @@ export default class ComposeText extends React.Component {
 
   props: Props;
   textInput: TextInput;
+  handleEdit: () => void;
 
   state: {
     editing: boolean,
@@ -54,6 +62,19 @@ export default class ComposeText extends React.Component {
       autocomplete: false,
       contentHeight: MIN_HEIGHT,
     };
+  }
+
+
+  handleEdit = () => {
+    const { auth, editMessage, cancelEditMessage } = this.props;
+    if (editMessage.content !== this.props.text) {
+      try {
+        patchMessage(auth, this.props.text, editMessage.id);
+      } catch (err) {
+        showErrorAlert(err.message, 'Failed to edit message');
+      }
+    }
+    cancelEditMessage();
   }
 
   handleSend = () => {
@@ -94,10 +115,11 @@ export default class ComposeText extends React.Component {
   }
 
   render() {
-    const { narrow, auth, users, text } = this.props;
+    const { narrow, auth, users, text, editMessage } = this.props;
     const { contentHeight } = this.state;
     const height = Math.min(Math.max(MIN_HEIGHT, contentHeight), MAX_HEIGHT);
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
+    const submit = editMessage == null ? this.handleSend : this.handleEdit;
 
     return (
       <View style={componentStyles.wrapper}>
@@ -114,9 +136,10 @@ export default class ComposeText extends React.Component {
             placeholder={placeholder}
           />
         </ScrollView>
-        <SendButton
+        <SubmitButton
           disabled={text.length === 0}
-          onPress={this.handleSend}
+          onPress={submit}
+          editMessage={editMessage}
         />
       </View>
     );

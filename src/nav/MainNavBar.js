@@ -27,7 +27,8 @@ class MainNavBar extends React.Component {
   render() {
     const { styles } = this.context;
     const { narrow, subscriptions, unreadPrivateMessagesCount,
-      onPressStreams, onPressPeople } = this.props;
+      onPressStreams, onPressPeople, cancelEditMessage, editMessage } = this.props;
+    const leftPress = (editMessage) ? cancelEditMessage : onPressStreams;
     const backgroundColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
       (subscriptions.find((sub) => narrow[0].operand === sub.name) || { color: 'gray' }).color :
       StyleSheet.flatten(styles.navBar).backgroundColor;
@@ -42,14 +43,20 @@ class MainNavBar extends React.Component {
           backgroundColor={backgroundColor}
         />
         <View style={[styles.navBar, { backgroundColor }]}>
-          <NavButton name="ios-menu" color={textColor} onPress={onPressStreams} />
-          <Title color={textColor} />
           <NavButton
-            name="md-people"
+            name={(editMessage) ? 'md-arrow-back' : 'ios-menu'}
             color={textColor}
-            showCircle={unreadPrivateMessagesCount > 0}
-            onPress={onPressPeople}
+            onPress={leftPress}
           />
+          <Title color={textColor} />
+          {!editMessage &&
+            <NavButton
+              name="md-people"
+              color={textColor}
+              showCircle={unreadPrivateMessagesCount > 0}
+              onPress={onPressPeople}
+            />
+        }
         </View>
         {this.props.children}
       </View>
@@ -62,5 +69,6 @@ export default connect(
     narrow: state.chat.narrow,
     subscriptions: state.subscriptions,
     unreadPrivateMessagesCount: getUnreadPrivateMessagesCount(state),
+    editMessage: state.app.editMessage
   })
 )(MainNavBar);

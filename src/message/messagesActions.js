@@ -155,3 +155,4 @@ export const fetchNewer = () =>
       dispatch(fetchMessages(auth, anchor.newer, 0, config.messagesPerRequest, narrow));
     }
   };
+  
