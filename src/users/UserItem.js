@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Avatar, RawLabel, Touchable, UnreadCount } from '../common';
+import { Avatar, RawLabel, Touchable, UnreadCount, ZulipButton } from '../common';
 import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
@@ -40,7 +40,7 @@ export default class UserItem extends Component {
     this.props.onPress(this.props.email);
 
   render() {
-    const { fullName, avatarUrl, status, isSelected, unreadCount, realm } = this.props;
+    const { fullName, avatarUrl, status, isSelected, unreadCount, realm, shareScreen } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
@@ -56,7 +56,12 @@ export default class UserItem extends Component {
             style={[styles.text, isSelected && styles.selectedText]}
             text={fullName}
           />
-          <UnreadCount count={unreadCount} />
+          {shareScreen ?
+            <ZulipButton
+              text="Send"
+              onPress={this.handlePress}
+            /> :
+            <UnreadCount count={unreadCount} />}
         </View>
       </Touchable>
     );

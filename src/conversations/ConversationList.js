@@ -33,7 +33,7 @@ export default class ConversationList extends React.PureComponent {
   }
 
   render() {
-    const { conversations } = this.props;
+    const { conversations, shareScreen } = this.props;
 
     if (!conversations.length) {
       return (
@@ -55,11 +55,13 @@ export default class ConversationList extends React.PureComponent {
             <ConversationUser
               email={item.recipients}
               unreadCount={item.unread}
+              shareScreen={shareScreen}
               {...this.props}
             /> :
             <ConversationGroup
               email={item.recipients}
               unreadCount={item.unread}
+              shareScreen={shareScreen}
               {...this.props}
             />
         )}

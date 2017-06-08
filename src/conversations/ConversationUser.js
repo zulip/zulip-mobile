@@ -12,10 +12,11 @@ type PropTypes = {
   onNarrow: (arg: string) => void,
   realm: string,
   narrow?: Narrow,
+  shareScreen: bool,
 }
 
 
-export default ({ email, unreadCount, users, realm, narrow, onNarrow }: PropTypes) => {
+export default ({ email, unreadCount, users, realm, narrow, onNarrow, shareScreen }: PropTypes) => {
   const user = users.find(x => x.email === email);
 
   if (!user) return null;
@@ -30,6 +31,7 @@ export default ({ email, unreadCount, users, realm, narrow, onNarrow }: PropType
       isSelected={narrow && isPrivateNarrow(narrow) && narrow[0].operand === email}
       onPress={onNarrow}
       realm={realm}
+      shareScreen={shareScreen}
     />
   );
 };

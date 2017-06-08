@@ -27,7 +27,7 @@ export default class ZulipMobile extends Component {
 
     return (
       <Provider store={store}>
-        <Providers />
+        <Providers {...this.props} />
       </Provider>
     );
   }

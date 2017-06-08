@@ -20,7 +20,7 @@ class Providers extends Component {
         textComponent={Text}
         messages={messages[locale]}
       >
-        <NavigationContainer />
+        <NavigationContainer {...this.props} />
       </IntlProvider>
     );
   }

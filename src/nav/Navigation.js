@@ -16,6 +16,7 @@ import UsersScreen from '../users/UsersScreen';
 import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
 import SettingsScreen from '../settings/SettingsScreen';
+import ShareScreen from '../share/ShareScreen';
 
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
@@ -30,6 +31,13 @@ export default class Navigation extends React.Component {
   componentWillUnmount() {
     if (Platform.OS === 'android') {
       BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAction);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { data } = nextProps;
+    if (data && data !== '') {
+      this.props.pushRoute('share', { data });
     }
   }
 
@@ -81,6 +89,8 @@ export default class Navigation extends React.Component {
         return <ChatScreen />;
       case 'settings':
         return <SettingsScreen />;
+      case 'share':
+        return <ShareScreen {...props.scene.route.data} />;
       default:
         return <LoadingScreen />;
     }
