@@ -99,7 +99,7 @@ class AuthScreen extends React.PureComponent {
         return;
       }
 
-      // If we've made it this far we have a valid API key
+      // If we have made it this far we have a valid API key
       const apiKey = extractApiKey(query.otp_encrypted_api_key, this.otp);
 
       // Reset stored one time pad
