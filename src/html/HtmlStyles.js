@@ -23,6 +23,10 @@ export default StyleSheet.create({
   },
   a: {
   },
+  b: {
+  },
+  i: {
+  },
   'user-mention': {
     borderColor: 'rgba(0, 0, 0, 0.2)',
     borderWidth: 1,
