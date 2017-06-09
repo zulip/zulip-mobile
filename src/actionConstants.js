@@ -59,3 +59,4 @@ export const SETTINGS_CHANGE = 'SETTINGS_CHANGE';
 
 export const PUT_DATA = 'PUT_DATA';
 export const REMOVE_DATA = 'REMOVE_DATA';
+export const EXPAND_STREAM = 'EXPAND_STREAM';

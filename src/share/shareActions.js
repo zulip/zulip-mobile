@@ -2,6 +2,7 @@
 import {
   PUT_DATA,
   REMOVE_DATA,
+  EXPAND_STREAM,
 } from '../actionConstants';
 
 export const putData = (data: string) => ({
@@ -11,4 +12,9 @@ export const putData = (data: string) => ({
 
 export const removeData = () => ({
   type: REMOVE_DATA,
+});
+
+export const expandStream = (streamName: string) => ({
+  type: EXPAND_STREAM,
+  streamName,
 });

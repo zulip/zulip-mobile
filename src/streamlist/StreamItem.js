@@ -63,6 +63,17 @@ export default class StreamItem extends React.PureComponent {
     onPress: () => {},
   }
 
+  state: {
+    topic: string,
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      topic: '',
+    };
+  }
+
   handlePress = () =>
     this.props.onPress(this.props.name);
 
@@ -71,9 +82,15 @@ export default class StreamItem extends React.PureComponent {
     onSwitch(name, newValue);
   }
 
+  sendMessage = () => {
+    const { onSend, name } = this.props;
+    onSend(name, this.state.topic);
+  }
+
   render() {
     const { name, description, color, isPrivate, isMuted,
-      iconSize, isSelected, showSwitch, isSwitchedOn, shareScreen } = this.props;
+      iconSize, isSelected, showSwitch, isSwitchedOn, shareScreen,
+      expandedStreamName } = this.props;
     const iconWrapperCustomStyle = {
       width: iconSize * 1.5,
       height: iconSize * 1.5,
@@ -113,17 +130,19 @@ export default class StreamItem extends React.PureComponent {
               onValueChange={this.handleSwitch}
             />}
         </View>
-        {shareScreen && name === 'Django' &&
+        {shareScreen && name === expandedStreamName &&
           <View style={styles.topicContainer}>
             <Input
+              value={this.state.topic}
               style={styles.field}
               placeholder="Topic"
               blurOnSubmit={false}
+              onChangeText={text => this.setState({ topic: text })}
             />
             <ZulipButton
               style={styles.sendButton}
               text="Send"
-              onPress={this.handlePress}
+              onPress={this.sendMessage}
             />
           </View>
         }

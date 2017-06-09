@@ -32,7 +32,7 @@ export default class Navigation extends React.Component {
       if (value !== '') {
         const { pushRoute, putData } = this.props;
         putData(value);
-        pushRoute('share', { type, value });
+        pushRoute('share', { type });
       }
     } catch (e) {
       console.log('error'); // eslint-disable-line

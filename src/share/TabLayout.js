@@ -1,5 +1,4 @@
 /* @flow */
-import React from 'react';
 import { TabNavigator } from 'react-navigation';
 
 import { Streams, PrivateMessages } from './tabs';
@@ -8,10 +7,10 @@ import { BRAND_COLOR } from '../styles';
 const TabLayout = TabNavigator(
   {
     Streams: {
-      screen: props => <Streams {...props} />
+      screen: Streams
     },
     PrivateMessages: {
-      screen: props => <PrivateMessages {...props} />
+      screen: PrivateMessages
     }
   },
   {

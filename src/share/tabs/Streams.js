@@ -11,17 +11,21 @@ class Streams extends React.Component {
     tabBarLabel: 'Streams'
   };
 
-  handleSelect = newNarrow => {
-    const { auth, value } = this.props;
-    //sendMessage(auth, 'stream', newNarrow, '(no topic)', value);
+  sendMessage = (newNarrow, topic) => {
+    const { auth, data, popRoute, removeData } = this.props;
+    sendMessage(auth, 'stream', newNarrow, topic, data);
+    removeData();
+    popRoute();
   };
 
   render() {
-    const { subscriptions } = this.props;
+    const { subscriptions, expandStream, expandedStreamName } = this.props;
     return (
       <StreamList
         streams={subscriptions}
-        onNarrow={this.handleSelect}
+        onNarrow={expandStream}
+        onSend={this.sendMessage}
+        expandedStreamName={expandedStreamName}
         shareScreen
       />
     );
@@ -31,7 +35,9 @@ class Streams extends React.Component {
 export default connect(
   state => ({
     subscriptions: state.subscriptions,
-    auth: getAuth(state)
+    auth: getAuth(state),
+    expandedStreamName: state.share.expandedStreamName,
+    data: state.share.shareData,
   }),
   boundActions
 )(Streams);

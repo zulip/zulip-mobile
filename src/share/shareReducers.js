@@ -3,10 +3,12 @@ import { StateType, Action } from '../types';
 import {
   PUT_DATA,
   REMOVE_DATA,
+  EXPAND_STREAM,
 } from '../actionConstants';
 
 const initialState = {
-  shareData: 'initialState',
+  shareData: '',
+  expandedStreamName: '',
 };
 
 export default (state: StateType = initialState, action:Action) => {
@@ -20,6 +22,11 @@ export default (state: StateType = initialState, action:Action) => {
       return {
         ...state,
         shareData: '',
+      };
+    case EXPAND_STREAM:
+      return {
+        ...state,
+        expandedStreamName: action.streamName,
       };
     default:
       return state;
