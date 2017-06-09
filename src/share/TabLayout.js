@@ -1,4 +1,5 @@
 /* @flow */
+import React from 'react';
 import { TabNavigator } from 'react-navigation';
 
 import { Streams, PrivateMessages } from './tabs';
@@ -7,10 +8,10 @@ import { BRAND_COLOR } from '../styles';
 const TabLayout = TabNavigator(
   {
     Streams: {
-      screen: Streams
+      screen: props => <Streams {...props} />
     },
     PrivateMessages: {
-      screen: PrivateMessages
+      screen: props => <PrivateMessages {...props} />
     }
   },
   {
@@ -33,7 +34,8 @@ const TabLayout = TabNavigator(
     tabBarPosition: 'top',
     lazy: true,
     scrollEnabled: true,
-    activeTintColor: '#000'
+    activeTintColor: '#000',
+    screenProps: { ...this.props },
   }
 );
 

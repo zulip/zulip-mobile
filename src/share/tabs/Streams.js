@@ -12,8 +12,8 @@ class Streams extends React.Component {
   };
 
   handleSelect = newNarrow => {
-    const { auth, data } = this.props;
-    sendMessage(auth, 'stream', newNarrow, '(no topic)', data);
+    const { auth, value } = this.props;
+    //sendMessage(auth, 'stream', newNarrow, '(no topic)', value);
   };
 
   render() {

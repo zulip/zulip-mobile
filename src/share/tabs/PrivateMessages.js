@@ -13,8 +13,10 @@ class PrivateMessages extends React.Component {
   };
 
   handleSelect = newNarrow => {
-    const { auth, data } = this.props;
+    const { auth, data, popRoute, removeData } = this.props;
     sendMessage(auth, 'private', newNarrow, '', data);
+    removeData();
+    popRoute();
   };
 
   render() {
@@ -40,7 +42,8 @@ export default connect(
     narrow: state.chat.narrow,
     users: state.users,
     conversations: getRecentConversations(state),
-    auth: getAuth(state)
+    auth: getAuth(state),
+    data: state.share.shareData,
   }),
   boundActions
 )(PrivateMessages);

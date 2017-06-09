@@ -3,6 +3,7 @@ package com.zulipmobile;
 import android.app.Application;
 import android.util.Log;
 
+import com.alinz.parkerdan.shareextension.SharePackage;
 import com.facebook.react.ReactApplication;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -12,6 +13,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.smixx.fabric.FabricPackage;
 import com.crashlytics.android.Crashlytics;
+
 import io.fabric.sdk.android.Fabric;
 
 import java.util.Arrays;
@@ -21,33 +23,34 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+        @Override
+        public boolean getUseDeveloperSupport() {
+            return BuildConfig.DEBUG;
+        }
+
+        @Override
+        protected List<ReactPackage> getPackages() {
+            return Arrays.<ReactPackage>asList(
+                    new FabricPackage(),
+                    new MainReactPackage(),
+                    new RNSoundPackage(),
+                    new RNDeviceInfo(),
+                    new ZulipNativePackage(),
+                    new SharePackage()
+            );
+        }
+    };
+
     @Override
-    public boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
+    public ReactNativeHost getReactNativeHost() {
+        return mReactNativeHost;
     }
 
     @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new FabricPackage(),
-          new MainReactPackage(),
-          new RNSoundPackage(),
-          new RNDeviceInfo(),
-          new ZulipNativePackage()
-      );
+    public void onCreate() {
+        super.onCreate();
+        SoLoader.init(this, /* native exopackage */ false);
+        //Fabric.with(this, new Crashlytics());
     }
-  };
-
-  @Override
-  public ReactNativeHost getReactNativeHost() {
-    return mReactNativeHost;
-  }
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
-    //Fabric.with(this, new Crashlytics());
-  }
 }

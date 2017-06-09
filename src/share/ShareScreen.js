@@ -7,7 +7,7 @@ export default class PrivateMessages extends React.Component {
   render() {
     return (
       <Screen title="Share with">
-        <TabLayout />
+        <TabLayout {...this.props} />
       </Screen>
     );
   }

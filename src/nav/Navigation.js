@@ -1,6 +1,7 @@
 /* eslint-disable react-native/split-platform-components */
 import React from 'react';
 import { BackAndroid, NavigationExperimental, Platform } from 'react-native';
+import ShareExtension from 'react-native-share-extension';
 
 import styles from '../styles';
 import CompatibilityScreen from '../start/CompatibilityScreen';
@@ -22,9 +23,19 @@ const { CardStack: NavigationCardStack } = NavigationExperimental;
 
 export default class Navigation extends React.Component {
 
-  componentDidMount() {
+  async componentDidMount() {
     if (Platform.OS === 'android') {
       BackAndroid.addEventListener('hardwareBackPress', this.handleBackAction);
+    }
+    try {
+      const { type, value } = await ShareExtension.data();
+      if (value !== '') {
+        const { pushRoute, putData } = this.props;
+        putData(value);
+        pushRoute('share', { type, value });
+      }
+    } catch (e) {
+      console.log('error'); // eslint-disable-line
     }
   }
 
@@ -34,14 +45,7 @@ export default class Navigation extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { data } = nextProps;
-    if (data && data !== '') {
-      this.props.pushRoute('share', { data });
-    }
-  }
-
-  handleNavigate = (action) => {
+  handleNavigate = action => {
     switch (action && action.type) {
       case 'push':
         this.props.pushRoute(action.route);
@@ -52,7 +56,7 @@ export default class Navigation extends React.Component {
       default:
         return false;
     }
-  }
+  };
 
   handleBackAction = () => {
     if (this.props.navigation.index === 0) {
@@ -60,12 +64,11 @@ export default class Navigation extends React.Component {
     }
     this.props.popRoute();
     return true;
-  }
+  };
 
-  navigateTo = (key: string) =>
-    this.handleNavigate({ type: 'push', route: { key, title: key } });
+  navigateTo = (key: string) => this.handleNavigate({ type: 'push', route: { key, title: key } });
 
-  renderScene = (props) => {
+  renderScene = props => {
     switch (props.scene.route.key) {
       case 'account':
         return <AccountPickScreen />;
@@ -94,7 +97,7 @@ export default class Navigation extends React.Component {
       default:
         return <LoadingScreen />;
     }
-  }
+  };
 
   render() {
     const { navigation, compatibilityCheckFail } = this.props;
