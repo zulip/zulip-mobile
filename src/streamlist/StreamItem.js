@@ -39,13 +39,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    paddingLeft: 8,
+    paddingRight: 8,
   },
   field: {
     flex: 3,
   },
-  SendButton: {
-    flex: 2,
-    height: 20,
+  sendButton: {
+    height: 26,
+    width: 50,
   }
 });
 
@@ -99,7 +101,7 @@ export default class StreamItem extends React.PureComponent {
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={[styles.row, isSelected && styles.selectedRow]}>
+        <View style={[styles.row, !shareScreen && isSelected && styles.selectedRow]}>
           <View style={[styles.iconWrapper, iconWrapperCustomStyle]}>
             <StreamIcon
               size={iconSize}
@@ -111,7 +113,7 @@ export default class StreamItem extends React.PureComponent {
           <View style={styles.text}>
             <RawLabel
               style={[
-                isSelected && styles.selectedText,
+                !shareScreen && isSelected && styles.selectedText,
                 isMuted && styles.mutedText
               ]}
               text={name}

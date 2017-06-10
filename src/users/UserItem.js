@@ -21,6 +21,10 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: 'white',
+  },
+  sendButton: {
+    height: 26,
+    width: 50,
   }
 });
 
@@ -44,7 +48,7 @@ export default class UserItem extends Component {
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={[styles.row, isSelected && styles.selectedRow]}>
+        <View style={[styles.row, !shareScreen && isSelected && styles.selectedRow]}>
           <Avatar
             size={32}
             avatarUrl={avatarUrl}
@@ -53,11 +57,12 @@ export default class UserItem extends Component {
             realm={realm}
           />
           <RawLabel
-            style={[styles.text, isSelected && styles.selectedText]}
+            style={[styles.text, !shareScreen && isSelected && styles.selectedText]}
             text={fullName}
           />
           {shareScreen ?
             <ZulipButton
+              style={styles.sendButton}
               text="Send"
               onPress={this.handlePress}
             /> :

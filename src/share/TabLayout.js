@@ -2,7 +2,7 @@
 import { TabNavigator } from 'react-navigation';
 
 import { Streams, PrivateMessages } from './tabs';
-import { BRAND_COLOR } from '../styles';
+import styles from '../styles';
 
 const TabLayout = TabNavigator(
   {
@@ -15,26 +15,16 @@ const TabLayout = TabNavigator(
   },
   {
     tabBarOptions: {
-      activeBackgroundColor: '#eaedf2',
-      inactiveBackgroundColor: '#fff',
-      labelStyle: {
-        fontSize: 18,
-        color: '#000',
-        margin: 0
-      },
-      style: {
-        backgroundColor: '#fff'
-      },
-      indicatorStyle: {
-        backgroundColor: BRAND_COLOR
-      }
+      labelStyle: [styles.tabBarLabelStyle, styles.color],
+      style: [styles.tabBarStyle, styles.backgroundColor],
+      indicatorStyle: styles.tabBarIndicatorStyle,
     },
     swipeEnabled: true,
     tabBarPosition: 'top',
     lazy: true,
     scrollEnabled: true,
     activeTintColor: '#000',
-    screenProps: { ...this.props },
+    screenProps: { ...this.props }
   }
 );
 
