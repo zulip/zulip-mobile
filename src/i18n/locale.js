@@ -20,6 +20,7 @@ import pt from 'react-intl/locale-data/pt';
 import ru from 'react-intl/locale-data/ru';
 import sr from 'react-intl/locale-data/sr';
 import sv from 'react-intl/locale-data/sv';
+import ta from 'react-intl/locale-data/ta';
 import zh from 'react-intl/locale-data/zh';
 
 [
@@ -42,5 +43,6 @@ import zh from 'react-intl/locale-data/zh';
   ru,
   sr,
   sv,
+  ta,
   zh,
 ].forEach(locale => addLocaleData(locale));
