@@ -60,7 +60,11 @@ export default class ComposeText extends React.Component {
     const { text } = this.state;
 
     if (isPrivateOrGroupNarrow(narrow)) {
-      sendMessage(auth, 'private', narrow[0].operand, '', text);
+      if (typeof operator === 'object' && operator !== null) {
+        sendMessage(auth, 'private', operator.email.join(','), '', text);
+      } else {
+        sendMessage(auth, 'private', narrow[0].operand, '', text);
+      }
     } else if (isTopicNarrow(narrow) || isStreamNarrow(narrow)) {
       if (operator !== null) {
         sendMessage(auth, 'stream', narrow[0].operand,
@@ -93,7 +97,8 @@ export default class ComposeText extends React.Component {
     this.setState({ text });
   }
 
-  handleAutocomplete = (autocomplete: string) => {
+  handleAutocomplete = (autocomplete: string | Object) => {
+    if (typeof autocomplete === 'object') autocomplete = autocomplete.fullName;
     const text = getAutocompletedText(this.state.text, autocomplete);
     this.textInput.setNativeProps({ text });
     this.setState({ text });

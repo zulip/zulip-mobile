@@ -21,9 +21,9 @@ const styles = StyleSheet.create({
 export default class ComposeIcon extends React.Component {
 
   props: {
-    isActive: boolean,
+    isActive?: boolean,
     name: string,
-    onChange: (index: number) => {},
+    onChange: (index: number) => {} | void,
   }
 
   render() {

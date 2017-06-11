@@ -15,9 +15,10 @@ const styles = StyleSheet.create({
 
 export default class Popup extends Component {
   render() {
+    const border = (this.props.noBorder) ? { borderWidth: 0 } : undefined;
     return (
       <View
-        style={styles.container}
+        style={[styles.container, border]}
         maxHeight={250}
       >
         {this.props.children}

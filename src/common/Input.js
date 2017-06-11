@@ -11,7 +11,8 @@ export default class Input extends Component {
     style: StyleObj,
     restProps?: any[],
     placeholder: string,
-    textInputRef?: (component: TextInput) => void
+    textInputRef?: (component: TextInput) => void,
+    noBorder?: boolean
   };
 
   static defaultProps = {
@@ -20,13 +21,13 @@ export default class Input extends Component {
   };
 
   render() {
-    const { style, placeholder, textInputRef, ...restProps } = this.props;
-
+    const { style, placeholder, textInputRef, noBorder, ...restProps } = this.props;
+    const removeBorder = (noBorder) ? { borderWidth: 0 } : undefined;
     return (
       <FormattedMessage id={placeholder} defaultMessage={placeholder}>
         {text => (
           <TextInput
-            style={[styles.input, style]}
+            style={[styles.input, style, removeBorder]}
             placeholder={text}
             placeholderTextColor={HALF_COLOR}
             ref={component => { if (textInputRef) textInputRef(component); }}

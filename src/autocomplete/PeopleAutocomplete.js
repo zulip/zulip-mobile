@@ -15,16 +15,16 @@ class PeopleAutocomplete extends Component {
     onAutocomplete: (name: string) => {},
     ownEmail: string,
     users: Object[],
+    noBorder: boolean
   };
 
   render() {
-    const { filter, ownEmail, users, onAutocomplete } = this.props;
+    const { filter, ownEmail, users, onAutocomplete, noBorder } = this.props;
     const people = sortUserList(filterUsersStartingWith(users, filter, ownEmail));
-
-    if (people.length === 0) return null;
+    if (people.length === 0 || filter === '') return null;
 
     return (
-      <Popup>
+      <Popup noBorder>
         <FlatList
           initialNumToRender={10}
           data={people}
@@ -34,7 +34,7 @@ class PeopleAutocomplete extends Component {
               key={item.email}
               fullName={item.fullName}
               avatarUrl={item.avatarUrl}
-              onPress={() => onAutocomplete(item.fullName)}
+              onPress={() => onAutocomplete(item)}
             />
           )}
         />
