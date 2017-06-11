@@ -17,4 +17,5 @@ export default [
   { locale: 'ru', name: 'Russian', flag: '🇷🇺' },
   { locale: 'sr', name: 'Serbian', flag: '🇪🇷' },
   { locale: 'es', name: 'Spanish', flag: '🇪🇸' },
+  { locale: 'ta', name: 'Tamil', flag: '🇱🇰' },
 ];
