@@ -24,8 +24,10 @@ const styles = StyleSheet.create({
 
 export default class StreamSidebar extends React.Component {
 
-  handleAllStreams = () =>
-    this.props.pushRoute('settings');
+  handleAllStreams = () => {
+    const { pushRoute } = this.props;
+    pushRoute('subscriptions');
+  };
 
   handleSearch = (narrow) => {
     const { pushRoute } = this.props;
