@@ -6,10 +6,16 @@ import PeopleAutocomplete from '../../autocomplete/PeopleAutocomplete';
 import { Input } from '../../common';
 import { getUsersByEmails } from '../../users/usersSelectors';
 import { Narrow } from '../../types';
+import ComposeIcon from '../ComposeIcon';
+import { CONTROL_SIZE } from '../../styles';
 
 const styles = StyleSheet.create({
   topicInput: {
-    flex: 1,
+    flex: 0.8, flexDirection: 'row'
+  },
+  icon: {
+    alignItems: 'flex-end'
+
   }
 });
 
@@ -41,6 +47,11 @@ export default class PrivateBox extends Component {
     setOperator({ name: [autocomplete.fullName], email: [autocomplete.email] });
   }
 
+  clearInput = () => {
+    this.props.setOperator('');
+    this.operandInput.focus();
+  }
+
   extractNameFromObject = (operator: string | Object) => {
     if (operator !== null && typeof operator === 'object') {
       return operator.name.join(',');
@@ -62,7 +73,7 @@ export default class PrivateBox extends Component {
             noBorder
           />}
         <Input
-          ref={component => { this.operandInput = component; }}
+          textInputRef={component => { this.operandInput = component; }}
           placeholder={'Enter Name'}
           onChange={(event) => setOperator(
             event.nativeEvent.text
@@ -70,6 +81,12 @@ export default class PrivateBox extends Component {
           value={name}
           style={styles.topicInput}
           noBorder
+        />
+        <ComposeIcon
+          name={'ios-close'}
+          onChange={this.clearInput}
+          style={styles.icon}
+          size={CONTROL_SIZE * 3 / 4}
         />
       </View>
     );

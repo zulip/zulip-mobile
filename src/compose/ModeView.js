@@ -67,7 +67,12 @@ export default class ModeView extends React.Component {
     const Box = (isTopicNarrow(narrow) || isStreamNarrow(narrow)) ? StreamBox : PrivateBox;
     return (
       <View style={inlineStyles.wrapper}>
-        <ComposeIcon name={name} onChange={this.handleModeChanged} style={inlineStyles.icon} />
+        <ComposeIcon
+          name={name}
+          onChange={this.handleModeChanged}
+          style={inlineStyles.icon}
+          size={CONTROL_SIZE * 3 / 4}
+        />
         <View style={inlineStyles.divider} />
         {showOptions ?
           <ComposeOptions selected={optionSelected} onChange={handleOptionSelected} />
