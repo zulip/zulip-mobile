@@ -25,7 +25,7 @@
     "base-64": "^0.1.0",
     "buffer": "^5.0.2",
     "color": "^1.0.3",
-    "date-fns": "^1.27.2",
+    "date-fns": "^1.28.5",
     "entities": "^1.1.1",
     "events": "^1.1.1",
     "htmlparser2": "^3.9.2",
