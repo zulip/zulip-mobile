@@ -35,6 +35,9 @@ export const isStreamLink = (url: string, realm: string): boolean =>
 export const isSpecialLink = (url: string, realm: string): boolean =>
   isUrlInAppLink(url, realm) && url.includes('is');
 
+export const isEmojiUrl = (url: string, realm: string): boolean =>
+  isUrlOnRealm(url, realm) && url.includes('/static/generated/emoji/images/emoji/unicode/');
+
 export const getEmojiUrl = (unicode: string): string =>
   `/static/generated/emoji/images/emoji/unicode/${unicode}.png`;
 

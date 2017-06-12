@@ -16,6 +16,7 @@ import UsersScreen from '../users/UsersScreen';
 import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
 import SettingsScreen from '../settings/SettingsScreen';
+import LightboxScreen from '../light-box/LightboxScreen';
 
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
@@ -57,7 +58,7 @@ export default class Navigation extends React.Component {
       default:
         return false;
     }
-  }
+  };
 
   handleBackAction = () => {
     if (this.props.navigation.index === 0) {
@@ -65,10 +66,9 @@ export default class Navigation extends React.Component {
     }
     this.props.popRoute();
     return true;
-  }
+  };
 
-  navigateTo = (key: string) =>
-    this.handleNavigate({ type: 'push', route: { key, title: key } });
+  navigateTo = (key: string) => this.handleNavigate({ type: 'push', route: { key, title: key } });
 
   renderScene = (props: RenderSceneProps) => {
     switch (props.scene.route.key) {
@@ -94,10 +94,12 @@ export default class Navigation extends React.Component {
         return <ChatScreen />;
       case 'settings':
         return <SettingsScreen />;
+      case 'light-box':
+        return <LightboxScreen {...props.scene.route.data} />;
       default:
         return <LoadingScreen />;
     }
-  }
+  };
 
   render() {
     const { styles } = this.context;

@@ -32,12 +32,13 @@ type Props = {
   color?: ?string,
   showCircle?: boolean,
   onPress: () => void,
+  style: Object,
 };
 
-export default ({ name, color, showCircle, onPress }: Props) => (
+export default ({ name, color, showCircle, onPress, style }: Props) => (
   <Touchable onPress={onPress}>
     <View style={styles.frame}>
-      <Icon style={styles.icon} color={color || BRAND_COLOR} name={name} />
+      <Icon style={[styles.icon, style]} color={color || BRAND_COLOR} name={name} />
       {showCircle && <View style={[styles.circle, { backgroundColor: color }]} />}
     </View>
   </Touchable>

@@ -53,7 +53,15 @@ export default class MessageContainer extends React.PureComponent {
   }
 
   render() {
-    const { message, auth, avatarUrl, twentyFourHourTime, isBrief, doNarrow } = this.props;
+    const {
+      message,
+      auth,
+      avatarUrl,
+      twentyFourHourTime,
+      isBrief,
+      doNarrow,
+      pushRoute,
+    } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
     const childrenNodes = htmlToDomTree(message.match_content || message.content);
 
@@ -68,7 +76,13 @@ export default class MessageContainer extends React.PureComponent {
         starred={this.isStarred(message)}
         realm={auth.realm}
       >
-        {renderHtmlChildren({ childrenNodes, auth, onPress: this.handleLinkPress })}
+        {renderHtmlChildren({
+          childrenNodes,
+          auth,
+          onPress: this.handleLinkPress,
+          pushRoute,
+          message,
+        })}
       </MessageComponent>
     );
   }

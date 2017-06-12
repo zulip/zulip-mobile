@@ -7,6 +7,7 @@ import {
   isTopicLink,
   isGroupLink,
   isSpecialLink,
+  isEmojiUrl,
   getEmojiUrl,
   getNarrowFromLink,
   getMessageIdFromLink,
@@ -154,6 +155,20 @@ describe('isSpecialLink', () => {
     expect(isSpecialLink('https://example.com/#narrow/is/mentioned', 'https://example.com')).toBe(
       true,
     );
+  });
+});
+
+describe('isEmojiUrl', () => {
+  test('when url is on realm, but not an emoji url', () => {
+    const result = isEmojiUrl('/user_uploads/abc.png', 'https://example.com');
+    expect(result).toBe(false);
+  });
+  test('when url is on realm and emoji', () => {
+    const result = isEmojiUrl(
+      '/static/generated/emoji/images/emoji/unicode/1f680.png',
+      'https://example.com',
+    );
+    expect(result).toBe(true);
   });
 });
 

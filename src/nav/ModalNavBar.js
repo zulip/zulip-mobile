@@ -37,12 +37,22 @@ class ModalNavBar extends React.Component {
 
   render() {
     const { styles } = this.context;
-    const { nav, title, titleColor, itemsColor, popRoute, rightItem, style } = this.props;
+    const {
+      nav,
+      title,
+      titleColor,
+      itemsColor,
+      popRoute,
+      rightItem,
+      style,
+      isRightItemNav,
+      childrenStyle,
+    } = this.props;
     const textStyle = [
       styles.navTitle,
-      nav.index > 0 && { marginRight: CONTROL_SIZE },
-      rightItem ? { marginLeft: CONTROL_SIZE } : {},
-      titleColor ? { color: titleColor } : {},
+      nav.index > 0 && !isRightItemNav && { marginRight: CONTROL_SIZE },
+      rightItem && { marginLeft: CONTROL_SIZE },
+      titleColor && { color: titleColor },
     ];
     const content = React.Children.count(this.props.children) === 0
       ? <Label style={textStyle} text={title} />
@@ -50,12 +60,17 @@ class ModalNavBar extends React.Component {
 
     return (
       <View style={[styles.navBar, style]}>
-        {nav.index > 0 && <NavButton name="ios-arrow-back" color={itemsColor} onPress={popRoute} />}
-        <View style={customStyles.centerItem}>
+        {nav.index > 0 &&
+          !isRightItemNav &&
+          <NavButton name="ios-arrow-back" color={itemsColor} onPress={popRoute} />}
+        <View style={[customStyles.centerItem, childrenStyle]}>
           {content}
         </View>
         {rightItem &&
-          <NavButton name={rightItem.name} color={itemsColor} onPress={rightItem.onPress} />}
+          <NavButton
+            color={itemsColor}
+            {...rightItem}
+          />}
       </View>
     );
   }

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
-
-import { getResource } from '../../utils/url';
+import { Image, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { getResource, isEmojiUrl } from '../../utils/url';
 
 const styles = StyleSheet.create({
   img: {
@@ -10,10 +9,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ({ src, style, auth }) => (
-  <Image
-    source={getResource(src, auth)}
-    resizeMode="contain"
-    style={[styles.img, style]}
-  />
-);
+export default ({ src, style, auth, message, pushRoute }) => {
+  const resource = getResource(src, auth);
+  return (
+    <TouchableWithoutFeedback
+      onPress={
+        !isEmojiUrl(src, auth.realm)
+          ? () => pushRoute('light-box', { src: resource, message, auth })
+          : () => false
+      }
+    >
+      <Image source={resource} resizeMode="contain" style={[styles.img, style]} />
+    </TouchableWithoutFeedback>
+  );
+};
