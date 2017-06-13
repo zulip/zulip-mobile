@@ -4,11 +4,13 @@ import {
   PUT_DATA,
   REMOVE_DATA,
   EXPAND_STREAM,
+  SET_SHARE_STATE,
 } from '../actionConstants';
 
 const initialState = {
   shareData: '',
   expandedStreamName: '',
+  openShareScreen: false,
 };
 
 export default (state: StateType = initialState, action:Action) => {
@@ -27,6 +29,11 @@ export default (state: StateType = initialState, action:Action) => {
       return {
         ...state,
         expandedStreamName: action.streamName,
+      };
+    case SET_SHARE_STATE:
+      return {
+        ...state,
+        openShareScreen: action.shareState,
       };
     default:
       return state;

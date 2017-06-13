@@ -1,7 +1,6 @@
 /* eslint-disable react-native/split-platform-components */
 import React from 'react';
 import { BackAndroid, NavigationExperimental, Platform } from 'react-native';
-import ShareExtension from 'react-native-share-extension';
 
 import styles from '../styles';
 import CompatibilityScreen from '../start/CompatibilityScreen';
@@ -23,19 +22,9 @@ const { CardStack: NavigationCardStack } = NavigationExperimental;
 
 export default class Navigation extends React.Component {
 
-  async componentDidMount() {
+  componentDidMount() {
     if (Platform.OS === 'android') {
       BackAndroid.addEventListener('hardwareBackPress', this.handleBackAction);
-    }
-    try {
-      const { type, value } = await ShareExtension.data();
-      if (value !== '') {
-        const { pushRoute, putData } = this.props;
-        putData(value);
-        pushRoute('share', { type });
-      }
-    } catch (e) {
-      console.log('error'); // eslint-disable-line
     }
   }
 
@@ -62,6 +51,7 @@ export default class Navigation extends React.Component {
     if (this.props.navigation.index === 0) {
       return false;
     }
+    this.props.removeData();
     this.props.popRoute();
     return true;
   };
@@ -98,6 +88,13 @@ export default class Navigation extends React.Component {
         return <LoadingScreen />;
     }
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.navigation.routes[0].key === 'main' && nextProps.openShareScreen) {
+      nextProps.pushRoute('share');
+      this.props.setShareState(false);
+    }
+  }
 
   render() {
     const { navigation, compatibilityCheckFail } = this.props;

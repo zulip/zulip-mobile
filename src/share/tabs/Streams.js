@@ -5,6 +5,7 @@ import boundActions from '../../boundActions';
 import { getAuth } from '../../account/accountSelectors';
 import sendMessage from '../../api/sendMessage';
 import StreamList from '../../streamlist/StreamList';
+import { getInitialRoutes } from '../../nav/routingSelectors';
 
 class Streams extends React.Component {
   static navigationOptions = {
@@ -12,10 +13,10 @@ class Streams extends React.Component {
   };
 
   sendMessage = (newNarrow, topic) => {
-    const { auth, data, popRoute, removeData } = this.props;
+    const { auth, data, removeData, initRoutes, accounts } = this.props;
     sendMessage(auth, 'stream', newNarrow, topic, data);
     removeData();
-    popRoute();
+    initRoutes(getInitialRoutes(accounts));
   };
 
   render() {
@@ -38,6 +39,7 @@ export default connect(
     auth: getAuth(state),
     expandedStreamName: state.share.expandedStreamName,
     data: state.share.shareData,
+    accounts: state.accounts,
   }),
   boundActions
 )(Streams);

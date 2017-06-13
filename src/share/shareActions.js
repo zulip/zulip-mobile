@@ -3,6 +3,7 @@ import {
   PUT_DATA,
   REMOVE_DATA,
   EXPAND_STREAM,
+  SET_SHARE_STATE,
 } from '../actionConstants';
 
 export const putData = (data: string) => ({
@@ -17,4 +18,9 @@ export const removeData = () => ({
 export const expandStream = (streamName: string) => ({
   type: EXPAND_STREAM,
   streamName,
+});
+
+export const setShareState = (shareState: boolean) => ({
+  type: SET_SHARE_STATE,
+  shareState,
 });
