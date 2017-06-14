@@ -1,3 +1,5 @@
+import deepFreeze from 'deep-freeze';
+
 import {
   getAnchor,
   getRecentConversations,
@@ -17,7 +19,11 @@ describe('getAnchor', () => {
         },
       },
     };
-    expect(getAnchor(state)).toEqual(undefined);
+    deepFreeze(state);
+
+    const anchor = getAnchor(state);
+
+    expect(anchor).toEqual(undefined);
   });
 
   test('when single message, anchor ids are the same', () => {
@@ -29,7 +35,11 @@ describe('getAnchor', () => {
         },
       },
     };
-    expect(getAnchor(state)).toEqual({ older: 123, newer: 123 });
+    deepFreeze(state);
+
+    const anchor = getAnchor(state);
+
+    expect(anchor).toEqual({ older: 123, newer: 123 });
   });
 
   test('when two or more messages, anchor contains first and last message ids', () => {
@@ -41,7 +51,11 @@ describe('getAnchor', () => {
         },
       },
     };
-    expect(getAnchor(state)).toEqual({ older: 1, newer: 3 });
+    deepFreeze(state);
+
+    const anchor = getAnchor(state);
+
+    expect(anchor).toEqual({ older: 1, newer: 3 });
   });
 });
 
@@ -59,6 +73,7 @@ describe('getRecentConversations', () => {
         },
       },
     };
+    deepFreeze(state);
 
     const actual = getRecentConversations(state);
 
@@ -81,7 +96,7 @@ describe('getRecentConversations', () => {
         },
       },
     };
-
+    deepFreeze(state);
     const expectedPrivate = [
       { recipients: 'john@example.com', timestamp: 0, unread: 2 },
       { recipients: 'mark@example.com', timestamp: 0, unread: 1 },
@@ -129,7 +144,7 @@ describe('getRecentConversations', () => {
         },
       },
     };
-
+    deepFreeze(state);
     const expectedPrivate = [
       {
         recipients: 'me@example.com',
@@ -166,6 +181,8 @@ describe('getCurrentTypingUsers', () => {
         narrow: homeNarrow(),
       },
     };
+    deepFreeze(state);
+
     const typingUsers = getCurrentTypingUsers(state);
 
     expect(typingUsers).toEqual(undefined);
@@ -188,6 +205,7 @@ describe('getCurrentTypingUsers', () => {
       },
       users: [expectedUser],
     };
+    deepFreeze(state);
 
     const typingUsers = getCurrentTypingUsers(state);
 
@@ -207,7 +225,6 @@ describe('getCurrentTypingUsers', () => {
       avatarUrl: 'http://example.com/avatar2.png',
       fullName: 'Mark Dark',
     };
-
     const state = {
       accounts: [{ email: 'me@example.com' }],
       chat: {
@@ -218,6 +235,7 @@ describe('getCurrentTypingUsers', () => {
       },
       users: [user1, user2],
     };
+    deepFreeze(state);
 
     const typingUsers = getCurrentTypingUsers(state);
 
@@ -234,6 +252,8 @@ describe('getCurrentTypingUsers', () => {
         'john@example.com': [1],
       },
     };
+    deepFreeze(state);
+
     const typingUsers = getCurrentTypingUsers(state);
 
     expect(typingUsers).toEqual(undefined);
@@ -256,6 +276,7 @@ describe('getCurrentTypingUsers', () => {
       },
       users: [expectedUser],
     };
+    deepFreeze(state);
 
     const typingUsers = getCurrentTypingUsers(state);
 
@@ -273,6 +294,7 @@ describe('getUnreadPrivateMessagesCount', () => {
         },
       },
     };
+    deepFreeze(state);
 
     const actualCount = getUnreadPrivateMessagesCount(state);
 
@@ -281,7 +303,6 @@ describe('getUnreadPrivateMessagesCount', () => {
 
   test('count all messages in "private messages" narrow, skip read', () => {
     const privateNarrowStr = JSON.stringify(specialNarrow('private'));
-
     const state = {
       chat: {
         messages: {
@@ -295,6 +316,7 @@ describe('getUnreadPrivateMessagesCount', () => {
         },
       },
     };
+    deepFreeze(state);
 
     const actualCount = getUnreadPrivateMessagesCount(state);
 
@@ -310,6 +332,7 @@ describe('getLastTopicInActiveNarrow', () => {
         messages: {},
       },
     };
+    deepFreeze(state);
 
     const actualLastTopic = getLastTopicInActiveNarrow(state);
 
@@ -329,6 +352,7 @@ describe('getLastTopicInActiveNarrow', () => {
         },
       },
     };
+    deepFreeze(state);
 
     const actualLastTopic = getLastTopicInActiveNarrow(state);
 
@@ -347,6 +371,7 @@ describe('getLastTopicInActiveNarrow', () => {
         },
       },
     };
+    deepFreeze(state);
 
     const actualLastTopic = getLastTopicInActiveNarrow(state);
 
@@ -367,6 +392,7 @@ describe('getLastTopicInActiveNarrow', () => {
         },
       },
     };
+    deepFreeze(state);
 
     const actualLastTopic = getLastTopicInActiveNarrow(state);
 
