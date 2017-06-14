@@ -1,7 +1,14 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 import StreamItem from './StreamItem';
+
+const styles = StyleSheet.create({
+  list: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+});
 
 export default class StreamList extends React.Component {
 
@@ -21,6 +28,7 @@ export default class StreamList extends React.Component {
 
     return (
       <FlatList
+        style={styles.list}
         initialNumToRender={sortedStreams.length}
         data={sortedStreams}
         keyExtractor={item => item.stream_id}

@@ -6,7 +6,7 @@ import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByInitials } from './usersSelectors';
 
 const styles = StyleSheet.create({
-  container: {
+  list: {
     flex: 1,
     flexDirection: 'column',
   },
@@ -34,7 +34,7 @@ export default class UserList extends Component {
 
     return (
       <SectionList
-        style={styles.container}
+        style={styles.list}
         initialNumToRender={20}
         sections={sections}
         keyExtractor={item => item.email}

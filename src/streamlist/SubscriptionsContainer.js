@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import StreamList from './StreamList';
@@ -8,6 +8,7 @@ import { isStreamNarrow, streamNarrow } from '../utils/narrow';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
   },
 });
 
@@ -21,13 +22,13 @@ class SubscriptionsContainer extends React.Component {
     const selected = isStreamNarrow(narrow) && narrow[0].operand;
 
     return (
-      <ScrollView tabLabel="Streams" style={styles.container}>
+      <View tabLabel="Streams" style={styles.container}>
         <StreamList
           streams={subscriptions}
           selected={selected}
           onNarrow={this.handleNarrow}
         />
-      </ScrollView>
+      </View>
     );
   }
 }
