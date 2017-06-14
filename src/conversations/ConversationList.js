@@ -7,7 +7,7 @@ import ConversationUser from './ConversationUser';
 import ConversationGroup from './ConversationGroup';
 
 const styles = StyleSheet.create({
-  container: {
+  list: {
     flex: 1,
     flexDirection: 'column',
   },
@@ -46,7 +46,7 @@ export default class ConversationList extends React.PureComponent {
 
     return (
       <FlatList
-        style={styles.container}
+        style={styles.list}
         initialNumToRender={20}
         data={conversations}
         keyExtractor={item => item.recipients}
