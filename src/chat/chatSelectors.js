@@ -88,6 +88,6 @@ export const getCurrentTypingUsers = state => {
 
 export const getLastTopicInActiveNarrow = state => {
   const messagesInActiveNarrow = getMessagesInActiveNarrow(state);
-  const lastMessageWithSubject = messagesInActiveNarrow.reverse().find(msg => msg.subject);
+  const lastMessageWithSubject = messagesInActiveNarrow.slice().reverse().find(msg => msg.subject);
   return (lastMessageWithSubject && lastMessageWithSubject.subject) || '';
 };
