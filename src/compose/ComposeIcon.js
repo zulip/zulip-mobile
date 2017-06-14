@@ -21,19 +21,20 @@ const styles = StyleSheet.create({
 export default class ComposeIcon extends React.Component {
 
   props: {
-    isActive: boolean,
+    isActive?: boolean,
     name: string,
-    onChange: (index: number) => {},
+    onChange: (index: number) => {} | void,
+    size?: number,
   }
 
   render() {
-    const { isActive, name, onChange } = this.props;
+    const { isActive, name, onChange, size } = this.props;
 
     return (
       <Touchable onPress={() => { onChange(0); }}>
         <Icon
           style={[styles.icon, isActive && styles.iconActive]}
-          size={24}
+          size={(size) || 24}
           name={name}
         />
       </Touchable>

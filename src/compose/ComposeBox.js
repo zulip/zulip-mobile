@@ -43,7 +43,7 @@ class ComposeBox extends React.Component {
     };
   }
 
-  setTopic = (operator: string | null) => this.setState({ operator });
+  setOperator = (operator: string | null) => this.setState({ operator });
 
   handleOptionSelected = (optionSelected: number) =>
     this.setState({ optionSelected });
@@ -59,7 +59,7 @@ class ComposeBox extends React.Component {
           <ModeView
             optionSelected={optionSelected}
             handleOptionSelected={this.handleOptionSelected}
-            setTopic={this.setTopic}
+            setOperator={this.setOperator}
             operator={operator}
             users={users}
             narrow={narrow}
