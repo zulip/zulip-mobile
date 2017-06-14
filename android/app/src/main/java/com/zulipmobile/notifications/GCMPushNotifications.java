@@ -61,7 +61,7 @@ public class GCMPushNotifications extends PushNotification {
                 builder.setSubText("Mention on " + displayTopic);
             }
         }
-        if (avatarURL != null) {
+        if (avatarURL != null && avatarURL.startsWith("http")) {
             Bitmap avatar = fetchAvatar(NotificationHelper.sizedURL(mContext,
                     avatarURL, 64, baseURL));
             if (avatar != null) {
