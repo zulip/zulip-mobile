@@ -30,7 +30,8 @@ const componentStyles = StyleSheet.create({
 type Props = {
   auth: Object,
   narrow: Object,
-  operator: string | null
+  operator: string | null,
+  setReplyMode: (replyMode: boolean) => void,
 };
 
 export default class ComposeText extends React.Component {
@@ -53,6 +54,13 @@ export default class ComposeText extends React.Component {
       autocomplete: false,
       contentHeight: MIN_HEIGHT,
     };
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.replyMode) {
+      this.textInput.focus();
+      this.props.setReplyMode(false);
+    }
   }
 
   handleSend = () => {

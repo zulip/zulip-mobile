@@ -11,7 +11,8 @@ const narrowToConversation = ({ message, doNarrow }) => {
   doNarrow(narrowFromMessage(message), message.id);
 };
 
-const reply = ({ message, doNarrow }) => {
+const reply = ({ message, doNarrow, setReplyMode }) => {
+  setReplyMode(true);
   doNarrow(narrowFromMessage(message), message.id);
 };
 

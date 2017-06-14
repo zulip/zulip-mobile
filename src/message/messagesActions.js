@@ -8,11 +8,17 @@ import {
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_SUCCESS,
   MARK_MESSAGES_READ,
+  SET_REPLY_MODE,
 } from '../actionConstants';
 
 export const switchNarrow = (narrow) => ({
   type: SWITCH_NARROW,
   narrow,
+});
+
+export const setReplyMode = (replyMode: boolean) => ({
+  type: SET_REPLY_MODE,
+  replyMode,
 });
 
 export const doNarrow = (newNarrow, anchor: number = Number.MAX_SAFE_INTEGER) =>
