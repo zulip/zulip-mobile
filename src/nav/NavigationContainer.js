@@ -42,7 +42,6 @@ class NavigationContainer extends React.PureComponent {
     NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
-
     // check with server if current mobile app is compatible with latest backend
     // compatibility fails only if server responds with 400 (but not with 200 or 404)
     checkCompatibility().then(res =>
@@ -58,11 +57,10 @@ class NavigationContainer extends React.PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const { needsInitialFetch, auth,
-      fetchEvents, fetchEssentialInitialData, fetchRestOfInitialData } = nextProps;
-
+      fetchEvents, fetchEssentialInitialData, fetchRestOfInitialData, gcmToken } = nextProps;
     if (needsInitialFetch) {
       fetchEssentialInitialData(auth);
-      fetchRestOfInitialData(auth);
+      fetchRestOfInitialData(auth, gcmToken);
       fetchEvents(auth);
     }
   }
@@ -86,6 +84,7 @@ export default connect(
     needsInitialFetch: state.app.needsInitialFetch,
     accounts: state.accounts,
     navigation: state.nav,
+    gcmToken: state.realm.gcmToken,
   }),
   boundActions,
 )(NavigationContainer);

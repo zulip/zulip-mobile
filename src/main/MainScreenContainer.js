@@ -11,8 +11,14 @@ import {
 } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
 import MainScreen from './MainScreen';
+import configureNotification from '../utils/notifications';
 
 class MainScreenContainer extends React.Component {
+  componentWillMount() {
+    const { auth, saveTokenGCM, doNarrow } = this.props;
+    configureNotification(auth, saveTokenGCM, doNarrow);
+  }
+
   componentWillReceiveProps(nextProps) {
     const { auth, fetchMessagesAtFirstUnread, narrow } = this.props;
 

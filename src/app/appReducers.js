@@ -12,6 +12,8 @@ import {
   INITIAL_FETCH_COMPLETE,
   APP_ORIENTATION,
   APP_STATE,
+  SAVE_TOKEN_GCM,
+  DELETE_TOKEN_GCM,
 } from '../actionConstants';
 
 import { getAuth } from '../account/accountSelectors';
@@ -22,6 +24,7 @@ const initialState = {
   isOnline: true,
   isActive: true,
   needsInitialFetch: false,
+  gcmToken: ''
 };
 
 export default (state: StateType = initialState, action:Action) => {

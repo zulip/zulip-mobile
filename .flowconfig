@@ -18,6 +18,7 @@
 .*/Libraries/react-native/ReactNative.js
 .*/node_modules/react-static-container/.*
 .*/node_modules/eslint-plugin-jsx-a11y/.*
+.*/node_modules/react-native-notifications/.*
 
 [include]
 

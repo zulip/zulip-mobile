@@ -1,3 +1,4 @@
+/* @flow */
 import { AppRegistry } from 'react-native';
 import ZulipMobile from './src/ZulipMobile';
 
