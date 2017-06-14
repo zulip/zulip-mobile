@@ -21,8 +21,15 @@ class MessageList extends React.PureComponent {
   }
 
   handleLongPress = (message) => {
-    const { auth, narrow, subscriptions, mute } = this.props;
-    const options = constructActionButtons({ message, auth, narrow, subscriptions, mute });
+    const { auth, narrow, subscriptions, mute, setReplyMode } = this.props;
+    const options = constructActionButtons({
+      message,
+      auth,
+      narrow,
+      subscriptions,
+      mute,
+      setReplyMode
+    });
     const cancelButtonIndex = options.length - 1;
 
     this.props.showActionSheetWithOptions({

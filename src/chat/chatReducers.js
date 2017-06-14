@@ -9,6 +9,7 @@ import {
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
+  SET_REPLY_MODE
 } from '../actionConstants';
 import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
@@ -18,6 +19,7 @@ const initialState = {
   caughtUp: { older: false, newer: false },
   narrow: homeNarrow(),
   messages: {},
+  replyMode: false,
 };
 
 export default (state = initialState, action) => {
@@ -108,6 +110,12 @@ export default (state = initialState, action) => {
         subject: action.subject || oldMessage.subject,
         edit_timestamp: action.edit_timestamp,
       }));
+
+    case SET_REPLY_MODE:
+      return {
+        ...state,
+        replyMode: action.replyMode
+      };
 
     default:
       return state;

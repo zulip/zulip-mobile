@@ -39,7 +39,7 @@ export default class Chat extends React.Component {
   };
 
   render() {
-    const { messages, narrow, fetching, isOnline, readIds } = this.props;
+    const { messages, narrow, fetching, isOnline, readIds, setReplyMode } = this.props;
     const noMessages = messages.length === 0 && !(fetching.older || fetching.newer);
     const noMessagesButLoading = messages.length === 0 && (fetching.older || fetching.newer);
     const showMessageList = !noMessages && !noMessagesButLoading;
@@ -60,7 +60,10 @@ export default class Chat extends React.Component {
         <ActionSheetProvider>
           <MessageList onScroll={this.handleMessageListScroll} {...this.props} />
         </ActionSheetProvider>}
-        {canSendToNarrow(narrow) && <ComposeBox />}
+        {canSendToNarrow(narrow) &&
+          <ComposeBox
+            setReplyMode={setReplyMode}
+          />}
       </WrapperView>
     );
   }

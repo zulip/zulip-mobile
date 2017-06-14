@@ -16,7 +16,9 @@ type Props = {
   auth: Auth,
   narrow: Narrow,
   lastTopic: string,
-  users: Object[]
+  users: Object[],
+  replyMode: boolean,
+  setReplyMode: (replyMode: boolean) => void,
 };
 
 const composeComponents = [
@@ -50,7 +52,7 @@ class ComposeBox extends React.Component {
 
   render() {
     const { optionSelected, operator } = this.state;
-    const { auth, narrow, users, lastTopic } = this.props;
+    const { auth, narrow, users, lastTopic, replyMode, setReplyMode } = this.props;
     const ActiveComposeComponent = composeComponents[optionSelected];
 
     return (
@@ -71,6 +73,8 @@ class ComposeBox extends React.Component {
           auth={auth}
           narrow={narrow}
           operator={operator}
+          replyMode={replyMode}
+          setReplyMode={setReplyMode}
         />
       </View>
     );
@@ -82,6 +86,7 @@ const mapStateToProps = (state) => ({
   narrow: state.chat.narrow,
   users: state.users,
   lastTopic: getLastTopicInActiveNarrow(state),
+  replyMode: state.chat.replyMode,
 });
 
 export default connect(mapStateToProps)(ComposeBox);
