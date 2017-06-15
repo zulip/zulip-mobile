@@ -74,13 +74,14 @@ class PasswordAuthView extends React.Component {
       <View style={moreStyles.container}>
         <Input
           style={styles.field}
-          autoCorrect={false}
-          keyboardType="email-address"
+          autoFocus
           autoCapitalize="none"
+          autoCorrect={false}
+          blurOnSubmit={false}
+          keyboardType="email-address"
           placeholder="Email"
           defaultValue={email}
           onChangeText={newEmail => this.setState({ email: newEmail })}
-          blurOnSubmit={false}
         />
         <Input
           style={styles.field}
