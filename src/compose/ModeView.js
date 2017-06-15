@@ -12,7 +12,7 @@ const inlineStyles = StyleSheet.create({
   },
   divider: {
     width: 2,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#ECF0F1',
     margin: 4
   },
 });

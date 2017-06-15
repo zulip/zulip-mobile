@@ -27,6 +27,16 @@ export type Message = {
 
 export type UserStatus = 'active' | 'inactive' | 'offline';
 
+export type User = {
+  avatarUrl: string,
+  email: string,
+  fullName: string,
+  id: number,
+  isActive: boolean,
+  isAdmin: boolean,
+  isBot: boolean,
+}
+
 export type Presence = {
   client: string,
   pushable: boolean,
