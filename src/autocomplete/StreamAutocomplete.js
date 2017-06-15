@@ -24,6 +24,7 @@ class StreamAutocomplete extends Component {
     return (
       <Popup>
         <FlatList
+          keyboardShouldPersistTaps="always"
           initialNumToRender={streams.length}
           data={streams}
           keyExtractor={item => item.stream_id}
