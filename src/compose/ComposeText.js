@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, View, ScrollView, TextInput } from 'react-native';
 
 import styles from '../styles';
-import { MatchResult } from '../types';
+import { MatchResult, Auth, Narrow, User } from '../types';
 import { Input } from '../common';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { registerUserInputActivity } from '../utils/activity';
@@ -29,9 +29,10 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Object,
-  narrow: Object,
-  operator: string | null
+  auth: Auth,
+  narrow: Narrow,
+  operator: string | null,
+  users: User[],
 };
 
 export default class ComposeText extends React.Component {
