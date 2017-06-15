@@ -7,9 +7,10 @@ import { getAuth } from '../account/accountSelectors';
 import styles from '../styles';
 import ComposeText from './ComposeText';
 import CameraRollView from './CameraRollView';
-import ModeView from './ModeView';
 import { getLastTopicInActiveNarrow } from '../chat/chatSelectors';
 import { Auth, Narrow } from '../types';
+import StreamBox from './ModeViews/StreamBox';
+import { isTopicNarrow, isStreamNarrow } from '../utils/narrow';
 
 type Props = {
   onSend: (content: string) => void,
@@ -55,8 +56,9 @@ class ComposeBox extends React.Component {
 
     return (
       <View style={styles.composeBox}>
-        <View style={styles.wrapper}>
-          <ModeView
+        {(isTopicNarrow(narrow) || isStreamNarrow(narrow)) &&
+        <View style={styles.topicWrapper}>
+          <StreamBox
             optionSelected={optionSelected}
             handleOptionSelected={this.handleOptionSelected}
             setTopic={this.setTopic}
@@ -66,6 +68,7 @@ class ComposeBox extends React.Component {
             lastTopic={lastTopic}
           />
         </View>
+      }
         <View style={styles.divider} />
         <ActiveComposeComponent
           auth={auth}

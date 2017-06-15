@@ -144,4 +144,7 @@ export default ({ color, backgroundColor, borderColor }) => ({
     height: CONTROL_SIZE * 3 / 4,
     borderColor: BORDER_COLOR,
   },
+  topicWrapper: {
+    height: 44, paddingLeft: 4, paddingRight: 4,
+  }
 });
