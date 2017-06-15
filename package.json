@@ -34,6 +34,7 @@
     "immutable": "^3.8.1",
     "lodash.isequal": "^4.4.0",
     "lodash.throttle": "^4.1.1",
+    "navigation-experimental-fork": "^1.0.5",
     "react": "16.0.0-alpha.6",
     "react-intl": "^2.2.3",
     "react-native": "^0.43.3",
@@ -83,6 +84,9 @@
   },
   "jest": {
     "preset": "react-native",
-    "setupTestFrameworkScriptFile": "./jestSetup.js"
+    "setupTestFrameworkScriptFile": "./jestSetup.js",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-native|navigation-experimental-fork|react-native-vector-icons)/)"
+    ]
   }
 }

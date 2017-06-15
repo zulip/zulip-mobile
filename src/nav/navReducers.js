@@ -1,5 +1,5 @@
 /* @flow */
-import { NavigationExperimental } from 'react-native';
+import NavigationExperimental from 'navigation-experimental-fork';
 
 import { NavigationState, Action } from '../types';
 import {

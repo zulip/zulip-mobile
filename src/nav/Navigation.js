@@ -1,7 +1,8 @@
 /* @flow */
 /* eslint-disable react-native/split-platform-components */
 import React from 'react';
-import { BackAndroid, NavigationExperimental, Platform } from 'react-native';
+import { BackAndroid, Platform } from 'react-native';
+import NavigationExperimental from 'navigation-experimental-fork';
 
 import CompatibilityScreen from '../start/CompatibilityScreen';
 import LoadingScreen from '../start/LoadingScreen';
