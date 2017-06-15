@@ -18,6 +18,8 @@ import java.net.URL;
 
 public class GCMPushNotifications extends PushNotification {
 
+    private static final int NOTIFICATION_ID = 1;
+
     public GCMPushNotifications(Context context, Bundle bundle, AppLifecycleFacade appLifecycleFacade, AppLaunchHelper appLaunchHelper, JsIOHelper jsIoHelper) {
         super(context, bundle, appLifecycleFacade, appLaunchHelper, jsIoHelper);
     }
@@ -81,5 +83,10 @@ public class GCMPushNotifications extends PushNotification {
             Log.e("ERROR", e.toString());
         }
         return null;
+    }
+
+    @Override
+    protected int createNotificationId(Notification notification) {
+        return NOTIFICATION_ID;
     }
 }
