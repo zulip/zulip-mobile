@@ -1,5 +1,5 @@
 import React from 'react';
-import { Linking, Platform, ScrollView, View } from 'react-native';
+import { Linking, Platform, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import SafariView from 'react-native-safari-view';
@@ -7,7 +7,7 @@ import parseURL from 'url-parse';
 
 import boundActions from '../boundActions';
 import styles from '../styles';
-import { RawLabel, Screen, ZulipButton, GoogleButton } from '../common';
+import { RawLabel, Screen, ZulipButton } from '../common';
 import { generateOtp, extractApiKey } from '../utils/encoding';
 import { getAuth } from '../account/accountSelectors';
 
@@ -119,32 +119,27 @@ class AuthScreen extends React.PureComponent {
 
     return (
       <Screen title="Sign in" keyboardAvoiding>
-        <ScrollView
-          ref={(scrollView) => { this.scrollView = scrollView; }}
-          centerContent
-          keyboardShouldPersistTaps="always"
-          onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}
-        >
-          <View style={styles.container}>
-            <RawLabel
-              style={[styles.field]}
-              text={this.props.realm}
-              editable={false}
+        <View style={styles.container}>
+          <RawLabel
+            text={this.props.realm}
+            editable={false}
+          />
+          {authBackends.includes('dev') &&
+            <ZulipButton
+              text="Sign in with dev account"
+              onPress={() => this.handleTypeSelect('dev')}
             />
-            {authBackends.includes('dev') &&
-              <ZulipButton
-                text="Sign in with dev account"
-                onPress={() => this.handleTypeSelect('dev')}
-              />
-            }
-            {authBackends.includes('password') && <PasswordAuthView />}
-            {authBackends.includes('google') && this.shouldShowOAuth() &&
-              <GoogleButton
-                onPress={() => this.handleTypeSelect('google')}
-              />
-            }
-          </View>
-        </ScrollView>
+          }
+          {authBackends.includes('password') && <PasswordAuthView />}
+          {authBackends.includes('google') && this.shouldShowOAuth() &&
+            <ZulipButton
+              secondary
+              text="Sign in with Google"
+              icon="logo-google"
+              onPress={() => this.handleTypeSelect('google')}
+            />
+          }
+        </View>
       </Screen>
     );
   }
