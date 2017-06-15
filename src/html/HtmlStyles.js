@@ -38,6 +38,9 @@ export default StyleSheet.create({
   'user-mention-me': {
     backgroundColor: 'rgba(0, 255, 0, 0.1)',
   },
+  'highlight': {
+    backgroundColor: 'rgba(255, 255, 0, 0.5)',
+  },
   code: {
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
     borderColor: 'rgba(0, 0, 0, 0.1)',

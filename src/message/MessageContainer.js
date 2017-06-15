@@ -34,7 +34,7 @@ export default class MessageContainer extends React.PureComponent {
   render() {
     const { message, auth, avatarUrl, twentyFourHourTime, isBrief, doNarrow } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
-    const childrenNodes = htmlToDomTree(message.content);
+    const childrenNodes = htmlToDomTree(message.match_content || message.content);
 
     return (
       <MessageComponent
