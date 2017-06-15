@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import { Narrow } from '../types';
 import { normalizeRecipients } from '../utils/message';
 import { isGroupNarrow } from '../utils/narrow';
-import { Avatar, RawLabel, Touchable, UnreadCount } from '../common';
+import { Avatar, RawLabel, Touchable, UnreadCount, ZulipButton } from '../common';
 import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
@@ -35,9 +35,10 @@ type PropTypes = {
   onNarrow: (arg: string) => void,
   realm: string,
   narrow?: Narrow,
+  shareScreen: bool,
 }
 
-export default ({ email, users, narrow, unreadCount, onNarrow, realm }: PropTypes) => {
+export default ({ email, users, narrow, unreadCount, onNarrow, realm, shareScreen }: PropTypes) => {
   const emails = email.split(',');
   const allNames = emails.map(e =>
     (users.find(x => x.email === e) || {}).fullName
@@ -56,7 +57,12 @@ export default ({ email, users, narrow, unreadCount, onNarrow, realm }: PropType
           ellipsizeMode="tail"
           text={allNames}
         />
-        <UnreadCount count={unreadCount} />
+        {shareScreen ?
+          <ZulipButton
+            text="Send"
+            onPress={this.handlePress}
+          /> :
+          <UnreadCount count={unreadCount} />}
       </View>
     </Touchable>
   );

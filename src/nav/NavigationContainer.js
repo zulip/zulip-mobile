@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppState, NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
+import ShareExtension from 'react-native-share-extension';
 
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
@@ -35,9 +36,21 @@ class NavigationContainer extends React.PureComponent {
     // Release memory here
   }
 
-  componentDidMount() {
-    const { accounts } = this.props;
-    this.props.initRoutes(getInitialRoutes(accounts));
+  async componentDidMount() {
+    const { accounts, initRoutes, setShareState } = this.props;
+    const initialRoutes = getInitialRoutes(accounts);
+    initRoutes(initialRoutes);
+    try {
+      const { type, value } = await ShareExtension.data();
+      if (value !== '') {
+        const { pushRoute, putData } = this.props;
+        putData(value);
+        setShareState(true);
+        if (initialRoutes[0] === 'main') pushRoute('share', { type });
+      }
+    } catch (e) {
+      console.log('error'); // eslint-disable-line
+    }
 
     NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
@@ -86,6 +99,7 @@ export default connect(
     needsInitialFetch: state.app.needsInitialFetch,
     accounts: state.accounts,
     navigation: state.nav,
+    openShareScreen: state.share.openShareScreen,
   }),
   boundActions,
 )(NavigationContainer);

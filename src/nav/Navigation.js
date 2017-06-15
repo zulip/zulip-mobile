@@ -16,6 +16,7 @@ import UsersScreen from '../users/UsersScreen';
 import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
 import SettingsScreen from '../settings/SettingsScreen';
+import ShareScreen from '../share/ShareScreen';
 
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
@@ -33,7 +34,7 @@ export default class Navigation extends React.Component {
     }
   }
 
-  handleNavigate = (action) => {
+  handleNavigate = action => {
     switch (action && action.type) {
       case 'push':
         this.props.pushRoute(action.route);
@@ -44,20 +45,20 @@ export default class Navigation extends React.Component {
       default:
         return false;
     }
-  }
+  };
 
   handleBackAction = () => {
     if (this.props.navigation.index === 0) {
       return false;
     }
+    this.props.removeData();
     this.props.popRoute();
     return true;
-  }
+  };
 
-  navigateTo = (key: string) =>
-    this.handleNavigate({ type: 'push', route: { key, title: key } });
+  navigateTo = (key: string) => this.handleNavigate({ type: 'push', route: { key, title: key } });
 
-  renderScene = (props) => {
+  renderScene = props => {
     switch (props.scene.route.key) {
       case 'account':
         return <AccountPickScreen />;
@@ -81,8 +82,17 @@ export default class Navigation extends React.Component {
         return <ChatScreen />;
       case 'settings':
         return <SettingsScreen />;
+      case 'share':
+        return <ShareScreen {...props.scene.route.data} />;
       default:
         return <LoadingScreen />;
+    }
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.navigation.routes[0].key === 'main' && nextProps.openShareScreen) {
+      nextProps.pushRoute('share');
+      this.props.setShareState(false);
     }
   }
 

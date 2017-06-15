@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
-import { RawLabel, Touchable, ZulipSwitch } from '../common';
+import { RawLabel, Touchable, ZulipSwitch, ZulipButton, Input } from '../common';
 import StreamIcon from './StreamIcon';
 
 const styles = StyleSheet.create({
@@ -35,6 +35,20 @@ const styles = StyleSheet.create({
   mutedText: {
     color: 'gray',
   },
+  topicContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingLeft: 8,
+    paddingRight: 8,
+  },
+  field: {
+    flex: 3,
+  },
+  sendButton: {
+    height: 26,
+    width: 50,
+  }
 });
 
 export default class StreamItem extends React.PureComponent {
@@ -51,6 +65,17 @@ export default class StreamItem extends React.PureComponent {
     onPress: () => {},
   }
 
+  state: {
+    topic: string,
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      topic: '',
+    };
+  }
+
   handlePress = () =>
     this.props.onPress(this.props.name);
 
@@ -59,9 +84,15 @@ export default class StreamItem extends React.PureComponent {
     onSwitch(name, newValue);
   }
 
+  sendMessage = () => {
+    const { onSend, name } = this.props;
+    onSend(name, this.state.topic);
+  }
+
   render() {
     const { name, description, color, isPrivate, isMuted,
-      iconSize, isSelected, showSwitch, isSwitchedOn } = this.props;
+      iconSize, isSelected, showSwitch, isSwitchedOn, shareScreen,
+      expandedStreamName } = this.props;
     const iconWrapperCustomStyle = {
       width: iconSize * 1.5,
       height: iconSize * 1.5,
@@ -70,7 +101,7 @@ export default class StreamItem extends React.PureComponent {
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={[styles.row, isSelected && styles.selectedRow]}>
+        <View style={[styles.row, !shareScreen && isSelected && styles.selectedRow]}>
           <View style={[styles.iconWrapper, iconWrapperCustomStyle]}>
             <StreamIcon
               size={iconSize}
@@ -82,7 +113,7 @@ export default class StreamItem extends React.PureComponent {
           <View style={styles.text}>
             <RawLabel
               style={[
-                isSelected && styles.selectedText,
+                !shareScreen && isSelected && styles.selectedText,
                 isMuted && styles.mutedText
               ]}
               text={name}
@@ -101,6 +132,22 @@ export default class StreamItem extends React.PureComponent {
               onValueChange={this.handleSwitch}
             />}
         </View>
+        {shareScreen && name === expandedStreamName &&
+          <View style={styles.topicContainer}>
+            <Input
+              value={this.state.topic}
+              style={styles.field}
+              placeholder="Topic"
+              blurOnSubmit={false}
+              onChangeText={text => this.setState({ topic: text })}
+            />
+            <ZulipButton
+              style={styles.sendButton}
+              text="Send"
+              onPress={this.sendMessage}
+            />
+          </View>
+        }
       </Touchable>
     );
   }

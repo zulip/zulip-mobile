@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Avatar, RawLabel, Touchable, UnreadCount } from '../common';
+import { Avatar, RawLabel, Touchable, UnreadCount, ZulipButton } from '../common';
 import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
@@ -21,6 +21,10 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: 'white',
+  },
+  sendButton: {
+    height: 26,
+    width: 50,
   }
 });
 
@@ -40,11 +44,11 @@ export default class UserItem extends Component {
     this.props.onPress(this.props.email);
 
   render() {
-    const { fullName, avatarUrl, status, isSelected, unreadCount, realm } = this.props;
+    const { fullName, avatarUrl, status, isSelected, unreadCount, realm, shareScreen } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={[styles.row, isSelected && styles.selectedRow]}>
+        <View style={[styles.row, !shareScreen && isSelected && styles.selectedRow]}>
           <Avatar
             size={32}
             avatarUrl={avatarUrl}
@@ -53,10 +57,16 @@ export default class UserItem extends Component {
             realm={realm}
           />
           <RawLabel
-            style={[styles.text, isSelected && styles.selectedText]}
+            style={[styles.text, !shareScreen && isSelected && styles.selectedText]}
             text={fullName}
           />
-          <UnreadCount count={unreadCount} />
+          {shareScreen ?
+            <ZulipButton
+              style={styles.sendButton}
+              text="Send"
+              onPress={this.handlePress}
+            /> :
+            <UnreadCount count={unreadCount} />}
         </View>
       </Touchable>
     );

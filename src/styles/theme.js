@@ -144,4 +144,13 @@ export default ({ color, backgroundColor, borderColor }) => ({
     height: CONTROL_SIZE * 3 / 4,
     borderColor: BORDER_COLOR,
   },
+  tabBarLabelStyle: {
+    fontSize: 10,
+    margin: 0,
+  },
+  tabBarIndicatorStyle: {
+    backgroundColor: BRAND_COLOR,
+  },
+  tabBarStyle: {
+  }
 });
