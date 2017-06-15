@@ -50,11 +50,7 @@ public class GCMPushNotifications extends PushNotification {
         builder.setAutoCancel(true);
         builder.setContentText(content);
 
-        if (type.equals("private")) {
-            if (android.os.Build.VERSION.SDK_INT >= 16) {
-                builder.setSubText("New private message");
-            }
-        } else if (type.equals("stream")) {
+        if (type.equals("stream")) {
             if (android.os.Build.VERSION.SDK_INT >= 16) {
                 String displayTopic = stream + " > "
                         + topic;
