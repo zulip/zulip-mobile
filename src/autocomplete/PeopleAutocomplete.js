@@ -26,6 +26,7 @@ class PeopleAutocomplete extends Component {
     return (
       <Popup>
         <FlatList
+          keyboardShouldPersistTaps="always"
           initialNumToRender={10}
           data={people}
           keyExtractor={item => item.email}

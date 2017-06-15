@@ -22,6 +22,7 @@ export default class EmojiAutocomplete extends Component {
     return (
       <Popup>
         <FlatList
+          keyboardShouldPersistTaps="always"
           initialNumToRender={12}
           data={emojis}
           keyExtractor={item => item}
