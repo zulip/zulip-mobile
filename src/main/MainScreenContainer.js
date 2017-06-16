@@ -11,12 +11,12 @@ import {
 } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
 import MainScreen from './MainScreen';
-import configureNotification from '../utils/notifications';
+import { initializeNotifications } from '../utils/notifications';
 
 class MainScreenContainer extends React.Component {
   componentWillMount() {
     const { auth, saveTokenGCM, switchNarrow } = this.props;
-    configureNotification(auth, saveTokenGCM, switchNarrow);
+    initializeNotifications(auth, saveTokenGCM, switchNarrow);
   }
 
   componentWillReceiveProps(nextProps) {
