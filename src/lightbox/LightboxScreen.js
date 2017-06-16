@@ -19,7 +19,7 @@ export default class LightboxScreen extends React.Component {
   render() {
     return (
       <View style={styles.screen}>
-        <ZulipStatusBar hidden />
+        <ZulipStatusBar hidden backgroundColor="black" />
         <ActionSheetProvider>
           <LightboxContainer {...this.props} />
         </ActionSheetProvider>

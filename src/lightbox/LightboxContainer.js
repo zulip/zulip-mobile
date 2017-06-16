@@ -9,7 +9,7 @@ import Header from './LightboxHeader';
 import Footer from './LightboxFooter';
 import boundActions from '../boundActions';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
-import { NAVBAR_HEIGHT } from '../styles';
+import { NAVBAR_HEIGHT, LIGHTBOX_FOOTER_OFFSET } from '../styles';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -19,9 +19,10 @@ const styles = StyleSheet.create({
   img: {
     width: WINDOW_WIDTH,
     height: 300,
+    flex: 1,
   },
   header: {
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
     position: 'absolute',
     width: WINDOW_WIDTH,
     height: NAVBAR_HEIGHT,
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   footer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
     position: 'absolute',
     width: WINDOW_WIDTH,
     height: FOOTER_HEIGHT,
@@ -114,7 +115,7 @@ export default connectActionSheet(
         onPress: this.handleOptionsPress,
         style: styles.footer,
         from: WINDOW_HEIGHT,
-        to: WINDOW_HEIGHT - FOOTER_HEIGHT,
+        to: WINDOW_HEIGHT - FOOTER_HEIGHT - LIGHTBOX_FOOTER_OFFSET,
       });
 
       getImageProps = () => ({
@@ -122,7 +123,6 @@ export default connectActionSheet(
         minimumZoomScale: 1,
         maximumZoomScale: 3,
         style: styles.img,
-        androidScaleType: 'centerCrop',
         resizeMode: 'contain',
         onTap: this.handleImagePress,
       });

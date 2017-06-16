@@ -16,7 +16,7 @@ import UsersScreen from '../users/UsersScreen';
 import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
 import SettingsScreen from '../settings/SettingsScreen';
-import LightboxScreen from '../light-box/LightboxScreen';
+import LightboxScreen from '../lightbox/LightboxScreen';
 
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
