@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import { Label, Screen, ZulipSwitch } from '../common';
+import { Label, Screen } from '../common';
 import LanguagePicker from './LanguagePicker';
 
 const styles = StyleSheet.create({
@@ -46,7 +46,7 @@ class SettingsScreen extends React.Component {
   handleThemeChange = () => {};
 
   render() {
-    const { locale, theme } = this.props;
+    const { locale } = this.props;
 
     return (
       <Screen title="Settings">
