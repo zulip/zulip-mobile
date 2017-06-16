@@ -22,25 +22,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    position: 'absolute',
     width: WINDOW_WIDTH,
     height: NAVBAR_HEIGHT,
-    zIndex: 1,
     paddingLeft: 15,
     paddingRight: 5,
   },
   footer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    position: 'absolute',
     width: WINDOW_WIDTH,
     height: FOOTER_HEIGHT,
-    zIndex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingLeft: 15,
     paddingRight: 5,
+  },
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    position: 'absolute',
+    zIndex: 1,
   },
   container: {
     flex: 1,
@@ -52,6 +51,10 @@ const styles = StyleSheet.create({
 export default connectActionSheet(
   connect(null, boundActions)(
     class LightboxContainer extends React.Component {
+      static contextTypes = {
+        styles: () => null,
+      };
+
       state = {
         movement: 'out',
       };
@@ -99,7 +102,8 @@ export default connectActionSheet(
           auth: { realm },
         } = this.props;
         return {
-          style: styles.header,
+          styles: this.context.styles,
+          style: [styles.overlay, styles.header],
           from: -NAVBAR_HEIGHT,
           to: 0,
           popRoute,
@@ -113,7 +117,7 @@ export default connectActionSheet(
       getFooterProps = () => ({
         displayMessage: this.getFooterMessage(),
         onPress: this.handleOptionsPress,
-        style: styles.footer,
+        style: [styles.overlay, styles.footer],
         from: WINDOW_HEIGHT,
         to: WINDOW_HEIGHT - FOOTER_HEIGHT - LIGHTBOX_FOOTER_OFFSET,
       });

@@ -29,10 +29,12 @@ class ModalNavBar extends React.Component {
     title: string,
     titleColor?: ?string,
     itemsColor?: ?string,
-    rightItem: Object,
+    rightItem?: Object,
     style: StyleObj,
     children: Children,
     popRoute: () => void,
+    isRightItemNav?: boolean,
+    childrenStyle?: StyleObj,
   };
 
   render() {

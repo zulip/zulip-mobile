@@ -1,8 +1,8 @@
 /* @flow */
 import React from 'react';
-import type { StyleObj, Message } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-import { Auth } from '../types';
+import { Auth, Message, PushRouteAction } from '../types';
 import styles from './HtmlStyles';
 import cascadingStyles from './cascadingStylesView';
 import cascadingStylesText from './cascadingStylesText';
@@ -52,7 +52,8 @@ type Props = {
   childrenNodes: Object[],
   onPress: () => void,
   message: Message,
-}
+  pushRoute: PushRouteAction,
+};
 
 export default ({ auth, attribs, name, cascadingStyle,
   cascadingTextStyle, childrenNodes, onPress, pushRoute, message }: Props) => {

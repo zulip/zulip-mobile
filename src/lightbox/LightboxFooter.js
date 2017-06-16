@@ -16,7 +16,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ({ displayMessage, onPress, ...restProps }) => (
+type Props = {
+  displayMessage: string,
+  onPress: () => void,
+  from: number,
+  to: number,
+  movement: string,
+  style: Object,
+};
+
+export default ({ displayMessage, onPress, ...restProps }: Props) => (
   <SlideAnimationView property={'translateY'} {...restProps}>
     <Text style={styles.text}>{displayMessage}</Text>
     <NavButton name="ios-more" color="white" style={styles.icon} onPress={onPress} />

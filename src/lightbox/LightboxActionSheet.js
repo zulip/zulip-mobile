@@ -4,20 +4,26 @@ import { Auth } from '../types';
 import download from '../api/downloadFile';
 import share from './share';
 
-type downloadProps = {
+type DownloadImageType = {
   url: string,
   auth: Auth,
 };
 
-type shareProps = {
+type ShareLinkType = {
   url: string,
 };
 
-const downloadImage = ({ url, auth }: downloadProps) => {
+type ExecuteActionSheetActionType = {
+  title: string,
+  url: string,
+  auth: Auth,
+};
+
+const downloadImage = ({ url, auth }: DownloadImageType) => {
   download(url, auth);
 };
 
-const shareLink = ({ url }: shareProps) => {
+const shareLink = ({ url }: ShareLinkType) => {
   share(url);
 };
 
@@ -29,6 +35,9 @@ const actionSheetButtons = [
 
 export const constructActionSheetButtons = () => actionSheetButtons.map(button => button.title);
 
-export const executeActionSheetAction = ({ title, ...props }) => {
-  actionSheetButtons.find(button => button.title === title).onPress(props);
+export const executeActionSheetAction = ({ title, ...props }: ExecuteActionSheetActionType) => {
+  const button = actionSheetButtons.find(x => x.title === title);
+  if (button) {
+    button.onPress(props);
+  }
 };

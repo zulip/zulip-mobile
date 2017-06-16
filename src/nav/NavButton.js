@@ -32,7 +32,7 @@ type Props = {
   color?: ?string,
   showCircle?: boolean,
   onPress: () => void,
-  style: Object,
+  style?: Object,
 };
 
 export default ({ name, color, showCircle, onPress, style }: Props) => (

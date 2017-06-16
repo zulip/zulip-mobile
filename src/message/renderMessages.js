@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import { Auth, DoNarrowAction, Narrow } from '../types';
+import { Auth, DoNarrowAction, Narrow, PushRouteAction } from '../types';
 import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import MessageHeader from '../message/headers/MessageHeader';
 import MessageContainer from '../message/MessageContainer';
@@ -19,6 +19,7 @@ type Props = {
   narrow: Narrow,
   doNarrow: DoNarrowAction,
   onLongPress: () => void,
+  pushRoute: PushRouteAction,
 };
 
 export default ({
