@@ -2,11 +2,10 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 
-import { Touchable } from '../common';
+import { RawLabel, Touchable } from '../common';
 import Emoji from '../emoji/Emoji';
 
 const styles = StyleSheet.create({
@@ -33,7 +32,10 @@ export default class EmojiRow extends React.Component {
       <Touchable onPress={onPress}>
         <View style={styles.emojiRow}>
           <Emoji name={name} size={15} />
-          <Text style={styles.text}>{name}</Text>
+          <RawLabel
+            style={styles.text}
+            text={name}
+          />
         </View>
       </Touchable>
     );

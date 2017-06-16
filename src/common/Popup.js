@@ -1,23 +1,17 @@
 /* @flow */
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 
-import { BORDER_COLOR } from '../styles';
+export default class Popup extends React.Component {
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    borderColor: BORDER_COLOR,
-    borderWidth: 1,
-    borderRadius: 2,
-  },
-});
+  static contextTypes = {
+    styles: () => null,
+  };
 
-export default class Popup extends Component {
   render() {
     return (
       <View
-        style={styles.container}
+        style={this.context.styles.backgroundColor}
         maxHeight={250}
       >
         {this.props.children}
