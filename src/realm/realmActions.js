@@ -1,8 +1,7 @@
-import { NotificationsAndroid } from 'react-native-notifications';
-
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { getSubscriptions, getMessages, getStreams, getUsers } from '../api';
+import { refreshNotificationToken } from '../utils/notifications';
 import { messageFetchSuccess } from '../message/messagesActions';
 import { initSubscriptions } from '../subscriptions/subscriptionsActions';
 import { initStreams } from '../streamlist/streamsActions';
@@ -48,7 +47,7 @@ export const fetchRestOfInitialData = (auth, gcmToken) =>
     dispatch(initStreams(streams));
     dispatch(initUsers(users));
     if (auth.apiKey !== '' && gcmToken === '') {
-      NotificationsAndroid.refreshToken();
+      refreshNotificationToken();
     }
   };
 
