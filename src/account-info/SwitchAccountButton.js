@@ -21,12 +21,16 @@ class SwitchAccountButton extends Component {
     drawer: () => null,
   };
 
-  switchAccount = async () => {
+  shutdownGCM = async () => {
     const { auth, deleteTokenGCM, gcmToken } = this.props;
-    if (this.props.gcmToken !== '') {
+    if (gcmToken !== '') {
       await unregisterGCM(auth, gcmToken);
       deleteTokenGCM();
     }
+  }
+
+  switchAccount = () => {
+    this.shutdownGCM();
     this.context.drawer.close();
     this.props.pushRoute('account');
   }

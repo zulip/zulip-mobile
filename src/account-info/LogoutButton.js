@@ -28,12 +28,17 @@ class LogoutButton extends Component {
     gcmToken: string
   };
 
-  logout = async () => {
-    const { accounts, auth, deleteTokenGCM, gcmToken } = this.props;
+  shutdownGCM = async () => {
+    const { auth, deleteTokenGCM, gcmToken } = this.props;
     if (gcmToken !== '') {
       await unregisterGCM(auth, gcmToken);
       deleteTokenGCM();
     }
+  }
+
+  logout = () => {
+    const { accounts } = this.props;
+    this.shutdownGCM();
     this.props.logout(accounts);
     const accountsLoggedOut = accounts.slice();
     accountsLoggedOut[0].apiKey = '';
