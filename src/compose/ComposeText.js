@@ -21,7 +21,7 @@ const MAX_HEIGHT = 200;
 const componentStyles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'flex-end'
   },
   messageBox: {
     flex: 1,
