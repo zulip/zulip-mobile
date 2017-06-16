@@ -10,12 +10,12 @@ const styles = StyleSheet.create({
   optionWrapper: {
     flex: 1,
   },
-  optionRow: {
+/*  optionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 8,
-  },
+  }, */
   optionTitle: {
     padding: 8,
     fontWeight: 'bold',
@@ -51,13 +51,13 @@ class SettingsScreen extends React.Component {
     return (
       <Screen title="Settings">
         <View style={styles.optionWrapper}>
-          <View style={styles.optionRow}>
+          {/* <View style={styles.optionRow}>
             <Label text="Night mode" />
             <ZulipSwitch
               defaultValue={theme === 'default'}
               onValueChange={this.handleThemeChange}
             />
-          </View>
+          </View>*/ }
           <View style={styles.optionList}>
             <Label style={styles.optionTitle} text="Language" />
             <LanguagePicker
