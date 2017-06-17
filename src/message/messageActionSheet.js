@@ -7,10 +7,6 @@ import unmuteTopicApi from '../api/unmuteTopic';
 import unmuteStreamApi from '../api/unmuteStream';
 import muteStreamApi from '../api/muteStream';
 
-const narrowToConversation = ({ message, doNarrow }) => {
-  doNarrow(narrowFromMessage(message), message.id);
-};
-
 const reply = ({ message, doNarrow }) => {
   doNarrow(narrowFromMessage(message), message.id);
 };
@@ -41,7 +37,6 @@ const muteStream = ({ auth, message, subscriptions }) => {
 const skip = () => false;
 
 const actionSheetButtons = [
-  { title: 'Narrow to conversation', onPress: narrowToConversation },
   { title: 'Reply', onPress: reply },
   { title: 'Copy to clipboard', onPress: copyToClipboard },
   // If skip then covered in constructActionButtons
