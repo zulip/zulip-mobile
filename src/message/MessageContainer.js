@@ -28,7 +28,8 @@ export default class MessageContainer extends React.PureComponent {
   }
 
   isStarred(message) {
-    return message.flags && !!~(message.flags.indexOf('starred'));
+    const { flags } = this.props;
+    return message.id in flags.starred;
   }
 
   render() {

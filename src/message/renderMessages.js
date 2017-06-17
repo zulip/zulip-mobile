@@ -7,7 +7,17 @@ import TimeRow from '../message/TimeRow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
-export default ({ auth, subscriptions, users, messages, narrow, mute, doNarrow, onLongPress }) => {
+export default ({
+  auth,
+  subscriptions,
+  users,
+  messages,
+  narrow,
+  mute,
+  doNarrow,
+  onLongPress,
+  flags
+}) => {
   const list = [];
   let prevItem;
 
@@ -56,6 +66,7 @@ export default ({ auth, subscriptions, users, messages, narrow, mute, doNarrow, 
         avatarUrl={item.avatar_url}
         users={users}
         onLongPress={onLongPress}
+        flags={flags}
       />
     );
 
