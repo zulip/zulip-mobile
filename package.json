@@ -41,6 +41,7 @@
     "react-native-notifications": "^1.1.10",
     "react-native-safari-view": "^2.0.0",
     "react-native-scrollable-tab-view": "^0.7.0",
+    "react-native-snackbar": "^0.3.6",
     "react-native-sound": "^0.10.1",
     "react-native-vector-icons": "^4.0.0",
     "react-navigation": "^1.0.0-beta.7",

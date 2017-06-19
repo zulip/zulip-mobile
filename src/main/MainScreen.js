@@ -55,6 +55,9 @@ export default class MainScreen extends React.Component {
           <MainNavBar
             onPressPeople={() => this.setState({ rightDrawerOpen: true })}
             onPressStreams={() => this.setState({ leftDrawerOpen: true })}
+            onNarrow={newNarrow => {
+              doNarrow(newNarrow);
+            }}
           >
             <Chat {...this.props} />
           </MainNavBar>

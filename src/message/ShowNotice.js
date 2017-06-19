@@ -12,6 +12,7 @@ import {
   isTopicNarrow,
   isSearchNarrow,
 } from '../utils/narrow';
+import ZulipButton from '../common/ZulipButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,10 +21,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontSize: 20,
+    fontSize: 18,
     paddingLeft: 10,
     padding: 8,
+    textAlign: 'center',
   },
+  button: {
+    paddingLeft: 8,
+    paddingRight: 8,
+  }
 });
 
 const messages = [
@@ -38,14 +44,24 @@ const messages = [
 
 export default class NoMessages extends React.PureComponent {
   render() {
-    const { narrow } = this.props;
+    const { narrow, notSubscribed, subscribeStream, showSubscribeButton } = this.props;
     const message = messages.find(x => x.isFunc(narrow));
-    const { container, text } = styles;
-
+    let displayNotice = message.text;
+    if (notSubscribed) {
+      displayNotice = `You aren't subscribed to this stream and ${message.text}`;
+    }
+    const { container, text, button } = styles;
     return (
       <View style={container}>
-        <Label style={text} text={message.text} />
+        <Label style={text} text={displayNotice} />
         <Label text="Why not start the conversation?" />
+        {notSubscribed && showSubscribeButton &&
+          <ZulipButton
+            customStyles={button}
+            secondary
+            text="Subscribe"
+            onPress={subscribeStream}
+          />}
       </View>
     );
   }

@@ -5252,6 +5252,10 @@ react-native-scrollable-tab-view@^0.7.0:
     react-static-container "^1.0.1"
     react-timer-mixin "^0.13.3"
 
+react-native-snackbar@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/react-native-snackbar/-/react-native-snackbar-0.3.6.tgz#43bb24a209c15f049c2daf8cdc9e22c336f4c3e9"
+
 react-native-sound@^0.10.1:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.1.tgz#c6afa5114cea6e39f479a2c67d6d843894ed745c"

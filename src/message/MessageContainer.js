@@ -6,12 +6,22 @@ import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
 import openLink from '../utils/openLink';
+import { isStreamNarrow } from '../utils/narrow';
+import { showSnackBar } from '../common/showSnackBar';
 
 export default class MessageContainer extends React.PureComponent {
+  onPress = () => {
+    this.props.pushRoute('subscriptions');
+  }
+
   inAppLinkPress = href => {
-    const { users, auth, doNarrow } = this.props;
+    const { users, auth, doNarrow, streams } = this.props;
     const anchor = getMessageIdFromLink(href, auth.realm);
     const narrow = getNarrowFromLink(href, auth.realm, users);
+    if (isStreamNarrow(narrow) && !streams.find((sub) => narrow[0].operand === sub.name)) {
+      showSnackBar(`The stream ${narrow[0].operand} does not exist.`, 'Manage streams', this.onPress);
+      return;
+    }
     doNarrow(narrow, anchor);
   };
 

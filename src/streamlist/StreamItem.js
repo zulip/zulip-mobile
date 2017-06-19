@@ -61,7 +61,7 @@ export default class StreamItem extends React.PureComponent {
 
   render() {
     const { name, description, color, isPrivate, isMuted,
-      iconSize, isSelected, showSwitch, isSwitchedOn } = this.props;
+      iconSize, isSelected, showSwitch, isSwitchedOn, isDisabled } = this.props;
     const iconWrapperCustomStyle = {
       width: iconSize * 1.5,
       height: iconSize * 1.5,
@@ -99,6 +99,7 @@ export default class StreamItem extends React.PureComponent {
             <ZulipSwitch
               defaultValue={isSwitchedOn}
               onValueChange={this.handleSwitch}
+              disabled={isDisabled}
             />}
         </View>
       </Touchable>
