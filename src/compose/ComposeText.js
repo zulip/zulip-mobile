@@ -31,7 +31,7 @@ const componentStyles = StyleSheet.create({
 type Props = {
   auth: Auth,
   narrow: Narrow,
-  operator: string | null,
+  operator: string,
   users: User[],
 };
 
@@ -47,15 +47,12 @@ export default class ComposeText extends React.Component {
     contentHeight: number,
   }
 
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      editing: false,
-      text: '',
-      autocomplete: false,
-      contentHeight: MIN_HEIGHT,
-    };
-  }
+  state = {
+    editing: false,
+    text: '',
+    autocomplete: false,
+    contentHeight: MIN_HEIGHT,
+  };
 
   handleSend = () => {
     const { auth, narrow, operator } = this.props;

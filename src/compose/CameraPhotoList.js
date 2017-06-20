@@ -42,7 +42,7 @@ export default class CameraPhotoList extends React.Component {
   };
 
   state: {
-    dataSource: [] | null,
+    dataSource: ?[],
     assets: [],
   };
 

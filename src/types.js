@@ -125,6 +125,41 @@ export type SetAuthType = PropsAction;
 
 export type AccountState = [];
 
+export type AppState = {
+  lastActivityTime: Date,
+  isHydrated: boolean,
+  isOnline: boolean,
+  isActive: boolean,
+  needsInitialFetch: boolean,
+  gcmToken: string,
+  eventQueueId: number,
+};
+
+export type ChatState = {
+  fetching: { older: boolean, newer: boolean, },
+  caughtUp: { older: boolean, newer: boolean, },
+  narrow: Narrow,
+  messages: MapOfMessages,
+};
+
+export type FlagsState = {
+  read: Object,
+  starred: Object,
+  collapsed: Object,
+  mentioned: Object,
+  wildcard_mentioned: Object,
+  summarize_in_home: Object,
+  summarize_in_stream: Object,
+  force_expand: Object,
+  force_collapse: Object,
+  has_alert_word: Object,
+  historical: Object,
+  is_me_message: Object,
+};
+
+export type MuteTuple = string[];
+export type MuteState = MuteTuple[];
+
 export type NavigationState = {
   index: number,
   key: string,
@@ -134,9 +169,37 @@ export type NavigationState = {
   }>,
 };
 
-export type StateType = {
+export type RealmState = {
+  twentyFourHourTime: boolean,
+  gcmToken: string,
+};
+
+export type SettingsState = {
+  locale: string,
+  theme: string,
+};
+
+export type StreamsState = [];
+
+export type SubscriptionsState = [];
+
+export type TypingState = Object;
+
+export type UsersState = [];
+
+export type GlobalState = {
   accounts: AccountState,
+  app: AppState,
+  chat: ChatState,
+  flags: FlagsState,
+  mute: MuteState,
   nav: NavigationState,
+  realm: RealmState,
+  settings: SettingsState,
+  streams: StreamsState,
+  subscriptions: SubscriptionsState,
+  typing: TypingState,
+  users: UsersState,
 };
 
 export type Action = {
@@ -145,14 +208,14 @@ export type Action = {
   isOnline: boolean,
   isActive: boolean,
   orientation: string,
-  payload: StateType,
+  payload: GlobalState,
 };
 
 export type MatchResult = Array<string> & { index: number, input: string, };
 
 export type Dispatch = (action: Action) => void;
 
-export type GetState = () => StateType;
+export type GetState = () => GlobalState;
 
 export type ReactionType = {
   emoji_name: string,

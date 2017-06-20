@@ -39,7 +39,7 @@ export const isSpecialNarrow = (narrow: Narrow): boolean =>
   narrow.length === 1 &&
   narrow[0].operator === 'is';
 
-export const streamNarrow = (stream): Narrow => [{
+export const streamNarrow = (stream: string): Narrow => [{
   operator: 'stream',
   operand: stream,
 }];
@@ -107,7 +107,7 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, selfEmail: s
   return false;
 };
 
-export const canSendToNarrow = (narrow) =>
+export const canSendToNarrow = (narrow: Narrow) =>
   isPrivateNarrow(narrow) ||
   isGroupNarrow(narrow) ||
   isStreamNarrow(narrow) ||

@@ -1,3 +1,5 @@
+/* @flow */
+import { FlagsState, Action } from '../types';
 import {
   MESSAGE_FETCH_SUCCESS,
   EVENT_NEW_MESSAGE,
@@ -21,7 +23,7 @@ const initialState = {
   is_me_message: {},
 };
 
-const addFlagsForMessages = (state, messages, flags) => {
+const addFlagsForMessages = (state: FlagsState, messages, flags: string[]): FlagsState => {
   if (!messages || messages.length === 0 || !flags || flags.length === 0) {
     return state;
   }
@@ -41,7 +43,7 @@ const addFlagsForMessages = (state, messages, flags) => {
   return newState;
 };
 
-const removeFlagForMessages = (state, messages, flag) => {
+const removeFlagForMessages = (state: FlagsState, messages, flag: string[]): FlagsState => {
   const newStateForFlag = { ...(state[flag] || {}) };
   messages.forEach(message => {
     delete newStateForFlag[message];
@@ -52,7 +54,7 @@ const removeFlagForMessages = (state, messages, flag) => {
   };
 };
 
-export default (state = initialState, action) => {
+export default (state: FlagsState = initialState, action: Action): FlagsState => {
   switch (action.type) {
     case ACCOUNT_SWITCH:
       return initialState;

@@ -1,10 +1,10 @@
 /* @flow */
-import { StateType } from '../types';
+import { GlobalState } from '../types';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
 import { getActiveAccount, getSelfEmail } from '../account/accountSelectors';
 import { playMessageSound } from '../utils/sound';
 
-export default (state: StateType, event: Object) => {
+export default (state: GlobalState, event: Object) => {
   switch (event.type) {
     case 'message': {
       const isPrivateMessage = Array.isArray(event.message.display_recipient);

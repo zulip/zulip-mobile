@@ -9,25 +9,23 @@ import { subscriptionAdd, subscriptionRemove } from '../api';
 import StreamList from '../streamlist/StreamList';
 import { getAuth } from '../account/accountSelectors';
 
+type Props = {
+  auth: Auth,
+  streams: [],
+  subscriptions: [],
+};
 
 class SubscriptionsScreen extends React.Component {
 
-  props: {
-    auth: Auth,
-    streams: [],
-    subscriptions: [],
-  };
+  props: Props;
 
   state: {
     filter: string,
   };
 
-  constructor() {
-    super();
-    this.state = {
-      filter: '',
-    };
-  }
+  state = {
+    filter: '',
+  };
 
   handleFilterChange = (filter: string) => this.setState({ filter });
 

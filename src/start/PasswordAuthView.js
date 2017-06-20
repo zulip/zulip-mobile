@@ -15,7 +15,6 @@ type Props = {
   auth: Auth,
   loginSuccess: (realm: string, email: string, apiKey: string) => void,
   email: string,
-  password: string,
 };
 
 const moreStyles = StyleSheet.create({
@@ -40,7 +39,7 @@ class PasswordAuthView extends React.Component {
     this.state = {
       progress: false,
       email: props.email || config.defaultLoginEmail,
-      password: props.password || config.defaultLoginPassword,
+      password: config.defaultLoginPassword,
       error: ''
     };
   }
@@ -115,7 +114,6 @@ export default connect(
   (state) => ({
     auth: getAuth(state),
     email: getAuth(state).email,
-    password: getAuth(state).password,
   }),
   boundActions,
 )(PasswordAuthView);

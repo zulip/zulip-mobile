@@ -1,7 +1,6 @@
 /* @flow */
 import { REHYDRATE } from 'redux-persist/constants';
-
-import { StateType, Action } from '../types';
+import { AppState, Action } from '../types';
 import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -9,6 +8,7 @@ import {
   APP_ONLINE,
   APP_ACTIVITY,
   ACCOUNT_SWITCH,
+  EVENT_REGISTERED,
   INITIAL_FETCH_COMPLETE,
   APP_ORIENTATION,
   APP_STATE,
@@ -16,16 +16,17 @@ import {
 
 import { getAuth } from '../account/accountSelectors';
 
-const initialState = {
+const initialState: AppState = {
   lastActivityTime: new Date(),
   isHydrated: false,
   isOnline: true,
   isActive: true,
   needsInitialFetch: false,
-  gcmToken: ''
+  gcmToken: '',
+  eventQueueId: null,
 };
 
-export default (state: StateType = initialState, action: Action) => {
+export default (state: AppState = initialState, action: Action) => {
   switch (action.type) {
     case ACCOUNT_SWITCH:
       return {
@@ -51,6 +52,11 @@ export default (state: StateType = initialState, action: Action) => {
     case LOGOUT:
       return {
         ...state,
+      };
+    case EVENT_REGISTERED:
+      return {
+        ...state,
+        eventQueueId: action.queueId,
       };
     case APP_ACTIVITY:
       return {

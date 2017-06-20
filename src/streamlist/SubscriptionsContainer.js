@@ -3,6 +3,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
+import { Narrow, GlobalState, SubscriptionsState } from '../types';
 import StreamList from './StreamList';
 import { isStreamNarrow, streamNarrow } from '../utils/narrow';
 
@@ -14,6 +15,12 @@ const styles = StyleSheet.create({
 });
 
 class SubscriptionsContainer extends React.Component {
+
+  props: {
+    narrow: Narrow,
+    subscriptions: SubscriptionsState,
+    onNarrow: (email: string) => void,
+  }
 
   handleNarrow = (streamName: string) =>
     this.props.onNarrow(streamNarrow(streamName));
@@ -34,9 +41,7 @@ class SubscriptionsContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+export default connect((state: GlobalState) => ({
   narrow: state.chat.narrow,
   subscriptions: state.subscriptions,
-});
-
-export default connect(mapStateToProps)(SubscriptionsContainer);
+}))(SubscriptionsContainer);

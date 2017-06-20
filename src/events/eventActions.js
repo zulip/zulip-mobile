@@ -26,7 +26,7 @@ const startEventPolling = (auth: Auth, queueId: number, eventId: number) =>
         response = await pollForEvents(auth, queueId, lastEventId);
       } catch (e) {
         // Stop polling - user likely switched accounts or logged out
-        if (queueId !== getState().events.queueId) {
+        if (queueId !== getState().app.eventQueueId) {
           break;
         }
 
@@ -47,7 +47,7 @@ const startEventPolling = (auth: Auth, queueId: number, eventId: number) =>
         continue; // eslint-disable-line no-continue
       }
       // Stop polling - user likely switched accounts or logged out
-      if (queueId !== getState().events.queueId) {
+      if (queueId !== getState().app.eventQueueId) {
         break;
       }
 
@@ -68,7 +68,7 @@ const startEventPolling = (auth: Auth, queueId: number, eventId: number) =>
         // Batch actions together to speed up rendering
         // (especially when resuming from a suspended state)
         dispatch({ type: BATCH_ACTIONS, actions });
-      } else if (actions.length > 0) {
+      } else if (actions.length === 1) {
         dispatch(actions[0]);
       }
     }

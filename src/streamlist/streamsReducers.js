@@ -1,5 +1,5 @@
 /* @flow */
-import { Action, StateType } from '../types';
+import { Action, StreamsState } from '../types';
 import {
   INIT_STREAMS,
   EVENT_STREAM_ADD,
@@ -8,9 +8,9 @@ import {
   ACCOUNT_SWITCH,
 } from '../actionConstants';
 
-const initialState = [];
+const initialState: StreamsState = [];
 
-export default (state: StateType = initialState, action: Action) => {
+export default (state: StreamsState = initialState, action: Action): StreamsState => {
   switch (action.type) {
     case INIT_STREAMS:
       return action.streams;

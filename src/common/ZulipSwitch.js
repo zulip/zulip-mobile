@@ -7,6 +7,7 @@ export default class ZulipSwitch extends React.PureComponent {
 
   props: {
     value?: boolean,
+    defaultValue: boolean,
     onValueChange: (arg: boolean) => void,
   };
 
@@ -14,13 +15,9 @@ export default class ZulipSwitch extends React.PureComponent {
     valueControlled: boolean,
   };
 
-  constructor(props: Object) {
-    super(props);
-
-    this.state = {
-      valueControlled: props.defaultValue,
-    };
-  }
+  state = {
+    valueControlled: this.props.defaultValue,
+  };
 
   handleValueChange = (newValue: boolean) => {
     const { onValueChange } = this.props;

@@ -1,3 +1,5 @@
+/* @flow */
+import { ChatState, Action } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -13,14 +15,14 @@ import {
 import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
 
-const initialState = {
+const initialState: ChatState = {
   fetching: { older: true, newer: true },
   caughtUp: { older: false, newer: false },
   narrow: homeNarrow(),
   messages: {},
 };
 
-export default (state = initialState, action) => {
+export default (state: ChatState = initialState, action: Action) => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

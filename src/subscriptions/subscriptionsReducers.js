@@ -1,5 +1,5 @@
 /* @flow */
-import { StateType, Action } from '../types';
+import { SubscriptionsState, Action } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -12,9 +12,9 @@ import {
   EVENT_SUBSCRIPTION_PEER_REMOVE,
 } from '../actionConstants';
 
-const initialState = [];
+const initialState: SubscriptionsState = [];
 
-export default (state: StateType = initialState, action: Action) => {
+export default (state: SubscriptionsState = initialState, action: Action): SubscriptionsState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

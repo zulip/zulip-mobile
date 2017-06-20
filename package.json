@@ -15,6 +15,7 @@
     "android-release": "react-native run-android --configuration 'Release'",
     "test:lint": "eslint src/",
     "test:flow": "flow",
+    "test:flow-coverage": "flow-coverage-report -i 'src/**/*.js' -x '**/__tests__/**' -t html",
     "test:unit": "jest",
     "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "test": "npm run test:lint && npm run test:coveralls && npm run test:flow",
