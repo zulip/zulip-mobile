@@ -1,6 +1,6 @@
 /* @flow */
 import React from 'react';
-import { View } from 'react-native';
+import { View, Dimensions } from 'react-native';
 
 export default class Popup extends React.Component {
 
@@ -9,10 +9,11 @@ export default class Popup extends React.Component {
   };
 
   render() {
+    const { height } = Dimensions.get('window');
     return (
       <View
         style={this.context.styles.backgroundColor}
-        maxHeight={250}
+        maxHeight={height / 4}
       >
         {this.props.children}
       </View>
