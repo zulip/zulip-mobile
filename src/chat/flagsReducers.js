@@ -8,6 +8,17 @@ import {
 
 const initialState = {
   read: {},
+  starred: {},
+  collapsed: {},
+  mentioned: {},
+  wildcard_mentioned: {},
+  summarize_in_home: {},
+  summarize_in_stream: {},
+  force_expand: {},
+  force_collapse: {},
+  has_alert_word: {},
+  historical: {},
+  is_me_message: {},
 };
 
 const addFlagsForMessages = (state, messages, flags) => {

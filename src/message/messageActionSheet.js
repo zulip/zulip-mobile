@@ -6,6 +6,7 @@ import muteTopicApi from '../api/muteTopic';
 import unmuteTopicApi from '../api/unmuteTopic';
 import unmuteStreamApi from '../api/unmuteStream';
 import muteStreamApi from '../api/muteStream';
+import toggleMessageStarredApi from '../api/toggleMessageStarred';
 
 const reply = ({ message, doNarrow }) => {
   doNarrow(narrowFromMessage(message), message.id);
@@ -34,12 +35,22 @@ const muteStream = ({ auth, message, subscriptions }) => {
   muteStreamApi(auth, sub.stream_id);
 };
 
+const starMessage = ({ auth, message }) => {
+  toggleMessageStarredApi(auth, [message.id], true);
+};
+
+const unstarMessage = ({ auth, message }) => {
+  toggleMessageStarredApi(auth, [message.id], false);
+};
+
 const skip = () => false;
 
 const actionSheetButtons = [
   { title: 'Reply', onPress: reply },
   { title: 'Copy to clipboard', onPress: copyToClipboard },
   // If skip then covered in constructActionButtons
+  { title: 'Star Message', onPress: starMessage, onlyIf: skip },
+  { title: 'Unstar Message', onPress: unstarMessage, onlyIf: skip },
   { title: 'Unmute topic', onPress: unmuteTopic, onlyIf: skip },
   { title: 'Mute topic', onPress: muteTopic, onlyIf: skip },
   { title: 'Mute stream', onPress: muteStream, onlyIf: skip },
@@ -47,11 +58,16 @@ const actionSheetButtons = [
   { title: 'Cancel', onPress: skip, onlyIf: skip },
 ];
 
-export const constructActionButtons = ({ message, auth, narrow, subscriptions, mute }) => {
+export const constructActionButtons = ({ message, auth, narrow, subscriptions, mute, flags }) => {
   const buttons = actionSheetButtons.filter(x =>
     !x.onlyIf || x.onlyIf({ message, auth, narrow })).map(x => x.title);
 
   // These are dependent conditions, hence better if we manage here rather than using onlyIf
+  if (message.id in flags.starred) {
+    buttons.push('Unstar Message');
+  } else {
+    buttons.push('Star Message');
+  }
   if (message.type === 'stream') {
     if (isTopicMuted(message, mute)) {
       buttons.push('Unmute topic');
