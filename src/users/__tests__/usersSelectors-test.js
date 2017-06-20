@@ -67,13 +67,26 @@ describe('filterUsersStartingWith', () => {
       { fullName: 'match this', email: 'any@example.com' },
       { fullName: 'MaTcH Case Insensitive', email: 'any@example.com' },
       { fullName: 'some name', email: 'another@example.com' },
+      { fullName: 'Example', email: 'match@example.com' },
     ];
     const shouldMatch = [
       { fullName: 'match', email: 'any@example.com' },
       { fullName: 'match this', email: 'any@example.com' },
       { fullName: 'MaTcH Case Insensitive', email: 'any@example.com' },
+      { fullName: 'Example', email: 'match@example.com' },
     ];
     const filteredUsers = filterUsersStartingWith(allUsers, 'match');
+    expect(filteredUsers).toEqual(shouldMatch);
+  });
+
+  test('search by initials in name', () => {
+    const allUsers = [
+      { fullName: 'Apple Boy Cot', email: 'any@example.com' },
+    ];
+    const shouldMatch = [
+      { fullName: 'Apple Boy Cot', email: 'any@example.com' },
+    ];
+    const filteredUsers = filterUsersStartingWith(allUsers, 'abc');
     expect(filteredUsers).toEqual(shouldMatch);
   });
 });
