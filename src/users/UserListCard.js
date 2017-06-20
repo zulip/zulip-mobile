@@ -1,6 +1,8 @@
+/* @flow */
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
+import { DoNarrowAction, PopRouteAction } from '../types';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
 
@@ -17,6 +19,8 @@ type Props = {
   narrow: () => void,
   presence: Object,
   filter: string,
+  doNarrow: DoNarrowAction,
+  popRoute: PopRouteAction
 };
 
 export default class UserListCard extends Component {
@@ -31,7 +35,7 @@ export default class UserListCard extends Component {
     const { popRoute, doNarrow } = this.props;
     doNarrow(privateNarrow(email));
     popRoute();
-  }
+  };
 
   render() {
     const { ownEmail, realm, users, presence, filter } = this.props;

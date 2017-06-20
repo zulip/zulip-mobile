@@ -1,3 +1,4 @@
+/* @flow */
 import React, { Component } from 'react';
 import { StyleSheet, SectionList } from 'react-native';
 
@@ -24,7 +25,8 @@ export default class UserList extends Component {
     filter: string,
     users: any[],
     onNarrow: (email: string) => void,
-  }
+    realm: string
+  };
 
   render() {
     const { realm, filter, users, onNarrow } = this.props;

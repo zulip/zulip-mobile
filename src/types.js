@@ -25,6 +25,12 @@ export type Message = {
   type: 'stream' | 'private',
 };
 
+export type UserType = {
+  email: string,
+  fullName: string,
+  avatarUrl: string,
+}
+
 export type UserStatus = 'active' | 'inactive' | 'offline';
 
 export type User = {

@@ -1,5 +1,5 @@
-import { UserStatus } from '../api';
-import { Presence } from '../types';
+/* @flow */
+import { StateType, Action, ClientPresence, Presence, UserStatus } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -12,11 +12,11 @@ import {
   PRESENCE_RESPONSE,
 } from '../actionConstants';
 
-const priorityToState = {
-  0: 'offline',
-  1: 'idle',
-  2: 'active',
-};
+const priorityToState = [
+  'offline',
+  'idle',
+  'active',
+];
 
 const stateToPriority = {
   offline: 0,
@@ -34,16 +34,18 @@ const mapApiToStateUser = (user) => ({
   isBot: user.is_bot,
 });
 
-export const activityFromPresence = (presence: Presence): UserStatus =>
-  priorityToState[Math.max(...Object.values(presence).map(x => stateToPriority[x.status]))];
+export const activityFromPresence = (presence: ClientPresence): UserStatus =>
+  priorityToState[
+    Math.max(...Object.values(presence).map((x: Presence) => stateToPriority[x.status]))
+  ];
 
-export const timestampFromPresence = (presence: Presence): UserStatus =>
-  Math.max(...Object.values(presence).map(x => x.timestamp));
+export const timestampFromPresence = (presence: ClientPresence): UserStatus =>
+  Math.max(...Object.values(presence).map((x: Presence) => x.timestamp));
 
 export const activityFromTimestamp = (activity: string, timestamp: number) =>
   ((new Date() / 1000) - timestamp > 60 ? 'offline' : activity);
 
-const updateUserWithPresence = (user, presence) => {
+const updateUserWithPresence = (user: Object, presence: Presence) => {
   const timestamp = timestampFromPresence(presence);
 
   return {
@@ -55,7 +57,7 @@ const updateUserWithPresence = (user, presence) => {
 
 const initialState = [];
 
-export default (state = initialState, action) => {
+export default (state: StateType = initialState, action: Action) => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:
