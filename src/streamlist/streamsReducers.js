@@ -1,3 +1,5 @@
+/* @flow */
+import { Action, StateType } from '../types';
 import {
   INIT_STREAMS,
   EVENT_STREAM_ADD,
@@ -8,7 +10,7 @@ import {
 
 const initialState = [];
 
-export default (state = initialState, action) => {
+export default (state: StateType = initialState, action: Action) => {
   switch (action.type) {
     case INIT_STREAMS:
       return action.streams;

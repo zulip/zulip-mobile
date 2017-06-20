@@ -1,3 +1,4 @@
+/* @flow */
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -27,17 +28,23 @@ const styles = StyleSheet.create({
 export default class UserItem extends Component {
 
   props: {
-    email: string,
+    email?: string,
     fullName: string,
     avatarUrl: string,
-    status: string,
-    isSelected: boolean,
-    unreadCount: number,
-    onPress: () => void,
-  }
+    status?: string,
+    isSelected?: boolean,
+    unreadCount?: number,
+    onPress: (email: string) => void,
+    realm?: string,
+  };
 
-  handlePress = () =>
-    this.props.onPress(this.props.email);
+
+  handlePress = () => {
+    const { email } = this.props;
+    if (email) {
+      this.props.onPress(email);
+    }
+  };
 
   render() {
     const { fullName, avatarUrl, status, isSelected, unreadCount, realm } = this.props;

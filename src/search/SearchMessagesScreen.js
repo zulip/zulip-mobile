@@ -1,9 +1,11 @@
+/* @flow */
 import React, { Component } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import throttle from 'lodash.throttle';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
+import { Auth, DoNarrowAction, PopRouteAction } from '../types';
 import boundActions from '../boundActions';
 import { Label } from '../common';
 import { getAuth } from '../account/accountSelectors';
@@ -29,18 +31,25 @@ const styles = StyleSheet.create({
 
 class SearchMessagesScreen extends Component {
 
+  query: string;
+
   props: {
     fullName: string,
     email: string,
     avatarUrl: string,
-  }
+    twentyFourHourTime: boolean,
+    subscriptions: any[],
+    auth: Auth,
+    doNarrow: DoNarrowAction,
+    popRoute: PopRouteAction
+  };
 
   state = {
     messages: [],
     isFetching: false,
   };
 
-  handleQueryChange = async (query) => {
+  handleQueryChange = async (query: string) => {
     const { auth } = this.props;
     this.query = query;
 
@@ -53,13 +62,13 @@ class SearchMessagesScreen extends Component {
         isFetching: false,
       });
     }, 500).call(this);
-  }
+  };
 
   doNarrow = (newNarrow) => {
     const { doNarrow, popRoute } = this.props;
     doNarrow(newNarrow);
     popRoute();
-  }
+  };
 
   render() {
     const { isFetching, messages } = this.state;

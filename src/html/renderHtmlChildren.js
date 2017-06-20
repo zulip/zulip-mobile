@@ -7,10 +7,10 @@ import HtmlNode from './HtmlNode';
 
 type Props = {
   auth: Auth,
-  childrenNodes: Object[],
-  cascadingStyle: StyleObj,
-  cascadingTextStyle: StyleObj,
-  onPress: () => void,
+  childrenNodes: ?any[],
+  cascadingStyle?: StyleObj,
+  cascadingTextStyle?: StyleObj,
+  onPress: (html: string) => void,
 }
 
 export default ({ auth, cascadingStyle, childrenNodes,

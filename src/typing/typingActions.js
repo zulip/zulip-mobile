@@ -1,3 +1,4 @@
+/* @flow */
 import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../actionConstants';
 
 export const startTyping = () => ({

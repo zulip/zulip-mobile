@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import {
   ScrollView,
@@ -6,6 +7,7 @@ import {
   Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
+import { PushRouteAction } from '../types';
 import boundActions from '../boundActions';
 import styles from '../styles';
 import { Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
@@ -14,7 +16,15 @@ import config from '../config';
 import { fixRealmUrl } from '../utils/url';
 
 type Props = {
-  realm: ?string,
+  realm: string,
+  realmAdd: (string) => void,
+  pushRoute: PushRouteAction,
+}
+
+type State = {
+  realm: string,
+  error: ?string,
+  progress: boolean,
 }
 
 const moreStyles = StyleSheet.create({
@@ -27,6 +37,8 @@ const moreStyles = StyleSheet.create({
 class RealmScreen extends React.Component {
 
   props: Props;
+  state: State;
+  scrollView: ScrollView;
 
   constructor(props: Props) {
     super(props);
@@ -37,6 +49,7 @@ class RealmScreen extends React.Component {
     this.state = {
       progress: false,
       realm: props.realm || realmFromConfig,
+      error: undefined,
     };
   }
 

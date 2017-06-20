@@ -1,6 +1,8 @@
-import React from 'react';
+/* @flow */
+import React, { Children } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 import boundActions from '../boundActions';
 import styles, { CONTROL_SIZE } from '../styles';
@@ -20,6 +22,11 @@ class ModalNavBar extends React.Component {
   props: {
     nav: any,
     title: string,
+    titleColor?: ?string,
+    itemsColor?: ?string,
+    rightItem: Object,
+    style: StyleObj,
+    children: Children,
     popRoute: () => void,
   };
 
@@ -28,8 +35,8 @@ class ModalNavBar extends React.Component {
     const textStyle = [
       styles.navTitle,
       nav.index > 0 && { marginRight: CONTROL_SIZE },
-      rightItem && { marginLeft: CONTROL_SIZE },
-      titleColor && { color: titleColor },
+      rightItem ? { marginLeft: CONTROL_SIZE } : {},
+      titleColor ? { color: titleColor } : {},
     ];
     const content = React.Children.count(this.props.children) === 0
       ? <Label style={textStyle} text={title} />

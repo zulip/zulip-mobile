@@ -1,7 +1,9 @@
+/* @flow */
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
+import { Auth } from '../types';
 import boundActions from '../boundActions';
 import styles from '../styles';
 import { fetchApiKey } from '../api';
@@ -9,7 +11,12 @@ import config from '../config';
 import { ErrorMsg, ZulipButton, Input } from '../common';
 import { getAuth } from '../account/accountSelectors';
 
-type Props = {};
+type Props = {
+  auth: Auth,
+  loginSuccess: (realm: string, email: string, apiKey: string) => void,
+  email: string,
+  password: string,
+};
 
 const moreStyles = StyleSheet.create({
   container: {
@@ -22,11 +29,11 @@ class PasswordAuthView extends React.Component {
   props: Props;
 
   state: {
-    progress: boolean,
     email: string,
     password: string,
     error: string,
-  }
+    progress: boolean,
+  };
 
   constructor(props: Props) {
     super(props);
@@ -34,6 +41,7 @@ class PasswordAuthView extends React.Component {
       progress: false,
       email: props.email || config.defaultLoginEmail,
       password: props.password || config.defaultLoginPassword,
+      error: ''
     };
   }
 

@@ -8,7 +8,7 @@ import styles from '../styles';
 
 type Props = {
   text: string,
-  style: StyleObj,
+  style?: StyleObj,
 };
 
 export default ({ text, style, ...restProps }: Props) => (

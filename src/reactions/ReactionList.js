@@ -1,6 +1,8 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { ReactionType } from '../types';
 import Reaction from './Reaction';
 import aggregateReactions from './aggregateReactions';
 
@@ -16,7 +18,7 @@ export default class ReactionList extends React.PureComponent {
 
   props: {
     messageId: number,
-    reactions: string,
+    reactions: Reaction[],
     selfEmail: string,
   };
 
@@ -31,7 +33,7 @@ export default class ReactionList extends React.PureComponent {
 
     return (
       <View style={styles.reactions}>
-        {aggregated.map((x, i) => (
+        {aggregated.map((x: ReactionType, i: number) => (
           <Reaction
             key={i}
             messageId={messageId}

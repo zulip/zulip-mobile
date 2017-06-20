@@ -1,11 +1,25 @@
+/* @flow */
 import React from 'react';
 
+import { Auth, DoNarrowAction, Narrow } from '../types';
 import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import MessageHeader from '../message/headers/MessageHeader';
 import MessageContainer from '../message/MessageContainer';
 import TimeRow from '../message/TimeRow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
+
+type Props = {
+  auth: Auth,
+  subscriptions: any[],
+  users: Object[],
+  messages: any[],
+  mute: boolean,
+  flags: Object,
+  narrow: Narrow,
+  doNarrow: DoNarrowAction,
+  onLongPress: () => void,
+}
 
 export default ({
   auth,
@@ -17,8 +31,8 @@ export default ({
   doNarrow,
   onLongPress,
   flags
-}) => {
-  const list = [];
+}: Props) => {
+  const list: Object[] = [];
   let prevItem;
 
   for (const item of messages) {

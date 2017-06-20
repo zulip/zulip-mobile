@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 
 export default class UnreadCount extends Component {
   props: {
-    count: number,
+    count?: number,
   };
 
   render() {

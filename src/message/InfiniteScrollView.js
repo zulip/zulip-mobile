@@ -1,30 +1,54 @@
+/* @flow */
 /* eslint-disable */
 import React from 'react';
+import type { Children } from 'react';
 import AnchorScrollView from '../native/AnchorScrollView';
 
 import config from '../config';
 
 export default class InfiniteScrollView extends React.Component {
 
+  props: {
+    onStartReached?: ?() => void,
+    onEndReached?: ?() => void,
+    onStartReachedThreshold: number,
+    onEndReachedThreshold: number,
+    onScroll: (e: Event) => void,
+    contentContainerStyle?: Object,
+    style: Object,
+    stickyHeaderIndices: [],
+    autoScrollToBottom: boolean,
+    children?: Children,
+  };
+
   static defaultProps = {
+    onStartReached: null,
+    onEndReached: null,
     onStartReachedThreshold: config.startMessageListThreshold,
     onEndReachedThreshold: config.endMessageListThreshold,
   };
+
+  _scrollOffset: number;
+  _contentHeight: number;
+  _scrollViewHeight: number;
+  _sentStartForContentHeight: ?number;
+  _sentEndForContentHeight: ?number;
+
 
   componentDidMount() {
     this._scrollOffset = 0;
   }
 
-  _onContentSizeChanged = (contentWidth, contentHeight) => {
+  _onContentSizeChanged = (contentWidth: number, contentHeight: number) => {
     this._contentHeight = contentHeight;
     this._maybeCallOnStartOrEndReached();
   }
 
-  _onScrollViewLayout = (e) => {
+  _onScrollViewLayout = (e: Object) => {
     this._scrollViewHeight = e.nativeEvent.layout.height;
   }
 
-  _maybeCallOnStartReached(distFromStart) {
+  _maybeCallOnStartReached(distFromStart: number) {
     if (this.props.onStartReached &&
         this._contentHeight &&
         distFromStart <= this.props.onStartReachedThreshold &&

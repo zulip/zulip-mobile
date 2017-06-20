@@ -1,14 +1,30 @@
+/* @flow */
 import React from 'react';
 
+import { DoNarrowAction, PushRouteAction } from '../types';
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 import SideDrawer from './SideDrawer';
 import StreamSidebar from '../nav/StreamSidebar';
 import ConversationsContainer from '../conversations/ConversationsContainer';
 
+type Props = {
+  doNarrow: DoNarrowAction,
+  orientation: string,
+  pushRoute: PushRouteAction
+};
+
+
 export default class MainScreen extends React.Component {
 
-  constructor(props) {
+  props: Props;
+
+  state: {
+    leftDrawerOpen: boolean,
+    rightDrawerOpen: boolean,
+  };
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       leftDrawerOpen: false,

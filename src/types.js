@@ -25,6 +25,12 @@ export type Message = {
   type: 'stream' | 'private',
 };
 
+export type UserType = {
+  email: string,
+  fullName: string,
+  avatarUrl: string,
+}
+
 export type UserStatus = 'active' | 'inactive' | 'offline';
 
 export type User = {
@@ -115,6 +121,8 @@ export type PopRouteAction = PropsAction;
 
 export type InitRouteAction = PropsAction;
 
+export type SetAuthType = PropsAction;
+
 export type AccountState = [];
 
 export type NavigationState = {
@@ -145,3 +153,10 @@ export type MatchResult = Array<string> & {index: number, input: string};
 export type Dispatch = (action: Action) => void;
 
 export type GetState = () => StateType
+
+export type ReactionType = {
+  emoji_name: string,
+  name: string,
+  count: number,
+  selfReacted: boolean
+}

@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -41,23 +42,27 @@ export default class StreamItem extends React.PureComponent {
 
   props: {
     name: string,
-    description: string,
+    description?: string,
     iconSize: number,
     isPrivate: boolean,
     isMuted: boolean,
-    isSelected: boolean,
-    showSwitch: boolean,
+    isSelected?: boolean,
+    showSwitch?: boolean,
     color: string,
-    onPress: () => {},
-  }
+    onPress: (name: string) => void,
+    isSwitchedOn?: boolean,
+    onSwitch?: (name: string, newValue: boolean) => void;
+  };
 
   handlePress = () =>
     this.props.onPress(this.props.name);
 
-  handleSwitch = (newValue) => {
+  handleSwitch = (newValue: boolean) => {
     const { name, onSwitch } = this.props;
-    onSwitch(name, newValue);
-  }
+    if (onSwitch) {
+      onSwitch(name, newValue);
+    }
+  };
 
   render() {
     const { name, description, color, isPrivate, isMuted,

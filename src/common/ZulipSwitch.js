@@ -6,9 +6,9 @@ import { BRAND_COLOR } from '../styles';
 export default class ZulipSwitch extends React.PureComponent {
 
   props: {
-    value: boolean,
+    value?: boolean,
     onValueChange: (arg: boolean) => void,
-  }
+  };
 
   state: {
     valueControlled: boolean
@@ -32,7 +32,7 @@ export default class ZulipSwitch extends React.PureComponent {
     this.setState({
       valueControlled: newValue,
     });
-  }
+  };
 
   render() {
     const { value } = this.props;

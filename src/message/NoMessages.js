@@ -1,6 +1,8 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { Narrow } from '../types';
 import { Label } from '../common';
 
 import {
@@ -26,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const messages = [
+const messages: { isFunc: (Narrow) => boolean, text: string }[] = [
   { isFunc: isHomeNarrow, text: 'No messages on server' },
   { isFunc: isSpecialNarrow, text: 'No messages' },
   { isFunc: isStreamNarrow, text: 'No messages in stream' },
@@ -39,7 +41,7 @@ const messages = [
 export default class NoMessages extends React.PureComponent {
   render() {
     const { narrow } = this.props;
-    const message = messages.find(x => x.isFunc(narrow));
+    const message = messages.find(x => x.isFunc(narrow)) || { text: '' };
     const { container, text } = styles;
 
     return (

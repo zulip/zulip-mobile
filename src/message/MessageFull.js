@@ -1,7 +1,9 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { connect } from 'react-redux';
 
+import { PushRouteAction } from '../types';
 import boundActions from '../boundActions';
 import { Avatar } from '../common';
 import Subheader from './Subheader';
@@ -33,7 +35,13 @@ class MessageFull extends React.PureComponent {
     selfEmail: string,
     timestamp: number,
     reactions: [],
-    twentyFourHourTime: bool,
+    twentyFourHourTime: boolean,
+    realm: string,
+    onLongPress: () => void,
+    starred: boolean,
+    children?: any[],
+    message: Object,
+    pushRoute: PushRouteAction,
   };
 
   handleAvatarPress = () =>

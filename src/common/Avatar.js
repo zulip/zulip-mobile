@@ -12,13 +12,14 @@ export default class Avatar extends React.PureComponent {
     name: string,
     size: number,
     status?: string,
-    realm: string,
+    realm?: string,
     onPress?: () => void,
   };
 
   static defaultProps = {
     name: '',
     size: 32,
+    realm: '',
     onPress: () => {}
   };
 

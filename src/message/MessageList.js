@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 

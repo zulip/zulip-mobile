@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { Linking, Platform, View } from 'react-native';
 import { connect } from 'react-redux';
@@ -5,6 +6,7 @@ import { connect } from 'react-redux';
 import SafariView from 'react-native-safari-view';
 import parseURL from 'url-parse';
 
+import { PushRouteAction, SetAuthType } from '../types';
 import boundActions from '../boundActions';
 import styles from '../styles';
 import { RawLabel, Screen, ZulipButton } from '../common';
@@ -17,7 +19,14 @@ class AuthScreen extends React.PureComponent {
 
   props: {
     authBackends: string[],
+    realm: string,
+    loginSuccess: (realm: string, email: string, apiKey: string) => void,
+    pushRoute: PushRouteAction,
+    setAuthType: SetAuthType
   };
+
+  otp: ?string;
+  safariViewDismissEvent: Event;
 
   componentDidMount = () => {
     // Add listeners for OAuth flow

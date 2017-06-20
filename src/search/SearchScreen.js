@@ -1,7 +1,9 @@
+/* @flow */
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
+import { NavigationState } from '../types';
 import { ZulipStatusBar } from '../common';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
@@ -26,7 +28,9 @@ class SearchScreen extends React.Component {
     title: string,
     isSearchBarApplied: boolean,
     searchBar: boolean,
-    searchBarOnChange: () => {}
+    searchBarOnChange: () => {},
+    nav: NavigationState,
+    children: any[]
   };
 
   state: {

@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -26,7 +27,14 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ({ name, color, showCircle, onPress }) => (
+type Props = {
+  name: string,
+  color?: ?string,
+  showCircle?: boolean,
+  onPress: () => void
+}
+
+export default ({ name, color, showCircle, onPress }: Props) => (
   <Touchable onPress={onPress}>
     <View style={styles.frame}>
       <Icon style={styles.icon} color={color || BRAND_COLOR} name={name} />

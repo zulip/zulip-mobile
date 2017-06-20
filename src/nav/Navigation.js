@@ -1,7 +1,9 @@
+/* @flow */
 /* eslint-disable react-native/split-platform-components */
 import React from 'react';
 import { BackAndroid, NavigationExperimental, Platform } from 'react-native';
 
+import { Action } from '../types';
 import styles from '../styles';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 import LoadingScreen from '../start/LoadingScreen';
@@ -19,6 +21,15 @@ import SettingsScreen from '../settings/SettingsScreen';
 
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
+type RenderSceneProps = {
+  scene: {
+    route: {
+      key: string,
+      data: Object
+    }
+  }
+}
+
 export default class Navigation extends React.Component {
 
   componentDidMount() {
@@ -33,7 +44,7 @@ export default class Navigation extends React.Component {
     }
   }
 
-  handleNavigate = (action) => {
+  handleNavigate = (action: Action) => {
     switch (action && action.type) {
       case 'push':
         this.props.pushRoute(action.route);
@@ -57,7 +68,7 @@ export default class Navigation extends React.Component {
   navigateTo = (key: string) =>
     this.handleNavigate({ type: 'push', route: { key, title: key } });
 
-  renderScene = (props) => {
+  renderScene = (props: RenderSceneProps) => {
     switch (props.scene.route.key) {
       case 'account':
         return <AccountPickScreen />;
