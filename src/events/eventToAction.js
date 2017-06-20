@@ -20,7 +20,8 @@ import {
   EVENT_USER_ADD,
   EVENT_USER_REMOVE,
   EVENT_USER_UPDATE,
-  EVENT_MUTED_TOPICS
+  EVENT_MUTED_TOPICS,
+  EVENT_REALM_EMOJI_UPDATE
 } from '../actionConstants';
 
 import { getUserById } from '../users/usersSelectors';
@@ -130,6 +131,11 @@ export default (state: GlobalState, event: Object) => {
       return {
         type: EVENT_MUTED_TOPICS,
         ...event
+      };
+    case 'realm_emoji':
+      return {
+        ...event,
+        type: EVENT_REALM_EMOJI_UPDATE,
       };
     default:
   }
