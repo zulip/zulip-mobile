@@ -11,7 +11,7 @@ type Props = {
   cascadingStyle?: StyleObj,
   cascadingTextStyle?: StyleObj,
   onPress: (html: string) => void,
-}
+};
 
 export default ({ auth, cascadingStyle, childrenNodes,
   cascadingTextStyle, onPress }: Props) =>

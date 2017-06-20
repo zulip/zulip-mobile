@@ -51,7 +51,7 @@ export default class StreamItem extends React.PureComponent {
     color: string,
     onPress: (name: string) => void,
     isSwitchedOn?: boolean,
-    onSwitch?: (name: string, newValue: boolean) => void;
+    onSwitch?: (name: string, newValue: boolean) => void,
   };
 
   handlePress = () =>

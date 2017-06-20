@@ -19,7 +19,7 @@ export default class TitleStream extends React.PureComponent {
   props: {
     subscriptions: [],
     narrow: () => {},
-    color: string
+    color: string,
   };
 
   render() {

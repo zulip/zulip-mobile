@@ -9,7 +9,7 @@ import StreamItem from '../streamlist/StreamItem';
 class StreamAutocomplete extends Component {
 
   props: {
-    filter: string;
+    filter: string,
     onAutocomplete: (name: string) => void,
     subscriptions: Object[],
   };

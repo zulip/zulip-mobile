@@ -19,7 +19,7 @@ type Props = {
   narrow: Narrow,
   doNarrow: DoNarrowAction,
   onLongPress: () => void,
-}
+};
 
 export default ({
   auth,

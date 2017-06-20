@@ -22,7 +22,7 @@ class AuthScreen extends React.PureComponent {
     realm: string,
     loginSuccess: (realm: string, email: string, apiKey: string) => void,
     pushRoute: PushRouteAction,
-    setAuthType: SetAuthType
+    setAuthType: SetAuthType,
   };
 
   otp: ?string;

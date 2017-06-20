@@ -15,14 +15,14 @@ type State = {
   progress: boolean,
   directAdmins: string[],
   directUsers: string[],
-  error: string
-}
+  error: string,
+};
 
 class DevAuthScreen extends React.Component {
 
   props: {
     auth: Auth,
-    loginSuccess: (realm: string, eamil: string, apiKey: string) => void
+    loginSuccess: (realm: string, eamil: string, apiKey: string) => void,
   };
 
   state: State = {

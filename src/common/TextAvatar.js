@@ -36,7 +36,7 @@ type Props = {
   size: number,
   status?: string,
   isCircular?: boolean,
-  onPress?: () => void
+  onPress?: () => void,
 };
 
 

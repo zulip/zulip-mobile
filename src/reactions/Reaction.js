@@ -83,7 +83,7 @@ class Reaction extends React.PureComponent {
     voted: boolean,
     voteCount: number,
     messageId: number,
-    auth: Auth
+    auth: Auth,
   };
 
   componentWillReceiveProps = (nextProps) => {

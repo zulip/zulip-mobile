@@ -24,7 +24,7 @@ export default class LanguagePickerItem extends React.Component {
 
   props: {
     selected: boolean,
-    onValueChange: () => {}
+    onValueChange: () => void,
   };
 
   render() {

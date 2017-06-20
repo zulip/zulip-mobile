@@ -19,7 +19,7 @@ export default class Timestamp extends React.PureComponent {
 
   props: {
     timestamp: number,
-    twentyFourHourTime: bool,
+    twentyFourHourTime: boolean,
   }
 
   render() {

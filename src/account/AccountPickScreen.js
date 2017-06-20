@@ -25,7 +25,7 @@ class AccountPickScreen extends React.Component {
     accounts: any[],
     pushRoute: PushRouteAction,
     removeAccount: (number) => void,
-    switchAccount: (number) => void
+    switchAccount: (number) => void,
   };
 
   handleAddNewAccount = () =>

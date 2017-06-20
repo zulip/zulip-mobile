@@ -25,10 +25,10 @@ type RenderSceneProps = {
   scene: {
     route: {
       key: string,
-      data: Object
-    }
-  }
-}
+      data: Object,
+    },
+  },
+};
 
 export default class Navigation extends React.Component {
 

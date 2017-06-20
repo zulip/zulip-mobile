@@ -25,7 +25,7 @@ class LogoutButton extends Component {
     logout: (accounts: any[]) => void,
     deleteTokenGCM: () => void,
     auth: Auth,
-    gcmToken: string
+    gcmToken: string,
   };
 
   shutdownGCM = async () => {

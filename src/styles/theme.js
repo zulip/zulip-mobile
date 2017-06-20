@@ -5,8 +5,8 @@ import { BORDER_COLOR, BRAND_COLOR, STATUSBAR_HEIGHT, CONTROL_SIZE, NAVBAR_HEIGH
 type Props = {
   color: string,
   backgroundColor: string,
-  borderColor: string
-}
+  borderColor: string,
+};
 
 export default ({ color, backgroundColor, borderColor }: Props) => ({
   text: {

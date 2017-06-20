@@ -28,16 +28,16 @@ const styles = StyleSheet.create({
   }
 });
 
-type PropTypes = {
+type Props = {
   email: string,
   users: Object[],
   unreadCount: number,
   onNarrow: (arg: string) => void,
   realm: string,
   narrow?: Narrow,
-}
+};
 
-export default ({ email, users, narrow, unreadCount, onNarrow, realm }: PropTypes) => {
+export default ({ email, users, narrow, unreadCount, onNarrow, realm }: Props) => {
   const emails = email.split(',');
   const allNames = emails.map(e =>
     (users.find(x => x.email === e) || {}).fullName

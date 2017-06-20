@@ -55,7 +55,7 @@ type Props = {
   cascadingTextStyle: StyleObj,
   childrenNodes: Object[],
   onPress: () => void,
-}
+};
 
 export default ({ auth, attribs, name, cascadingStyle,
   cascadingTextStyle, childrenNodes, onPress }: Props) => {

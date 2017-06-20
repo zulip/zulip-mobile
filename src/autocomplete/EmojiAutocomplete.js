@@ -9,7 +9,7 @@ import getFilteredEmojiList from '../emoji/getFilteredEmojiList';
 export default class EmojiAutocomplete extends Component {
 
   props: {
-    filter: string;
+    filter: string,
     onAutocomplete: (name: string) => void,
   };
 

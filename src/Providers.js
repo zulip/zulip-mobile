@@ -10,6 +10,12 @@ import NavigationContainer from './nav/NavigationContainer';
 require('./i18n/locale');
 
 class Providers extends Component {
+
+  props: {
+    locale: string,
+    theme: string,
+  }
+
   render() {
     const { locale } = this.props;
 

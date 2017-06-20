@@ -31,8 +31,8 @@ type Props = {
   name: string,
   color?: ?string,
   showCircle?: boolean,
-  onPress: () => void
-}
+  onPress: () => void,
+};
 
 export default ({ name, color, showCircle, onPress }: Props) => (
   <Touchable onPress={onPress}>

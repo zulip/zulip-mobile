@@ -25,7 +25,7 @@ export default class MessageContainer extends React.PureComponent {
   };
 
   defaultProps: {
-    twentyFourHourTime: false
+    twentyFourHourTime: false,
   };
 
   inAppLinkPress = (href: Href) => {

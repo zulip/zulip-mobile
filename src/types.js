@@ -29,7 +29,7 @@ export type UserType = {
   email: string,
   fullName: string,
   avatarUrl: string,
-}
+};
 
 export type UserStatus = 'active' | 'inactive' | 'offline';
 
@@ -41,7 +41,7 @@ export type User = {
   isActive: boolean,
   isAdmin: boolean,
   isBot: boolean,
-}
+};
 
 export type Presence = {
   client: string,
@@ -104,8 +104,8 @@ export type Recipient = {
 
 export type ApiResponse = {
   result: string,
-  msg: string
-}
+  msg: string,
+};
 
 export type ResponseExtractionFunc = (ApiResponse) => any;
 
@@ -131,13 +131,13 @@ export type NavigationState = {
   routes: Array<{
     key: string,
     title: string,
-  }>
+  }>,
 };
 
 export type StateType = {
   accounts: AccountState,
-  nav: NavigationState
-}
+  nav: NavigationState,
+};
 
 export type Action = {
   type: string,
@@ -145,18 +145,18 @@ export type Action = {
   isOnline: boolean,
   isActive: boolean,
   orientation: string,
-  payload: StateType
-}
+  payload: StateType,
+};
 
-export type MatchResult = Array<string> & {index: number, input: string};
+export type MatchResult = Array<string> & { index: number, input: string, };
 
 export type Dispatch = (action: Action) => void;
 
-export type GetState = () => StateType
+export type GetState = () => StateType;
 
 export type ReactionType = {
   emoji_name: string,
   name: string,
   count: number,
-  selfReacted: boolean
-}
+  selfReacted: boolean,
+};

@@ -11,7 +11,7 @@ import ConversationsContainer from '../conversations/ConversationsContainer';
 type Props = {
   doNarrow: DoNarrowAction,
   orientation: string,
-  pushRoute: PushRouteAction
+  pushRoute: PushRouteAction,
 };
 
 

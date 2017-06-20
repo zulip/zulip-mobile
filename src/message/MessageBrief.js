@@ -30,12 +30,12 @@ export default class MessageBrief extends React.PureComponent {
     starred: boolean,
     onLongPress: () => void,
     children?: Children,
-    twentyFourHourTime?: boolean
+    twentyFourHourTime?: boolean,
   };
 
   defaultProps: {
     children: [],
-    twentyFourHourTime: false
+    twentyFourHourTime: false,
   };
 
   render() {

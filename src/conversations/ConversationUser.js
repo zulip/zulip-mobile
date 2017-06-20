@@ -5,17 +5,17 @@ import { Narrow } from '../types';
 import UserItem from '../users/UserItem';
 import { isPrivateNarrow } from '../utils/narrow';
 
-type PropTypes = {
+type Props = {
   email: string,
   users: Object[],
   unreadCount: number,
   onNarrow: (arg: string) => void,
   realm: string,
   narrow?: Narrow,
-}
+};
 
 
-export default ({ email, unreadCount, users, realm, narrow, onNarrow }: PropTypes) => {
+export default ({ email, unreadCount, users, realm, narrow, onNarrow }: Props) => {
   const user = users.find(x => x.email === email);
 
   if (!user) return null;

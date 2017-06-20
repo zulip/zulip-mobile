@@ -41,7 +41,7 @@ class SearchMessagesScreen extends Component {
     subscriptions: any[],
     auth: Auth,
     doNarrow: DoNarrowAction,
-    popRoute: PopRouteAction
+    popRoute: PopRouteAction,
   };
 
   state = {
