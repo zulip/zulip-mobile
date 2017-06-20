@@ -30,7 +30,8 @@ export const filterUsersStartingWith = (users: any[], filter: string = '', ownEm
   users.filter(user =>
     user.email !== ownEmail &&
     (user.fullName.toLowerCase().startsWith(filter.toLowerCase())
-    || user.fullName.replace(/\s/g, '').replace(/[a-z]/g, '').toLowerCase().startsWith(filter.toLowerCase()))
+    || user.fullName.replace(/(\s|[a-z])/g, '').toLowerCase().startsWith(filter.toLowerCase())
+    || user.email.toLowerCase().includes(filter.toLowerCase()))
   );
 
 export const filterUserList = (users: any[], filter: string = '', ownEmail: string): any[] =>
