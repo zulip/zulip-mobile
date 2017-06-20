@@ -107,6 +107,7 @@ export default class ComposeText extends React.Component {
     const height = Math.min(Math.max(MIN_HEIGHT, contentHeight), MAX_HEIGHT);
     const lastword: MatchResult = text.match(/\b(\w+)$/);
     const lastWordPrefix = lastword && lastword.index && text[lastword.index - 1];
+
     return (
       <View>
         {lastWordPrefix === ':' && lastword &&

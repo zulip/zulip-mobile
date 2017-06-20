@@ -25,7 +25,7 @@ const initialState = {
   gcmToken: ''
 };
 
-export default (state: StateType = initialState, action:Action) => {
+export default (state: StateType = initialState, action: Action) => {
   switch (action.type) {
     case ACCOUNT_SWITCH:
       return {

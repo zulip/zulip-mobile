@@ -8,8 +8,8 @@ type Props = {
   isPrivate: boolean,
   isMuted: boolean,
   size: number,
-  style?: Object
-}
+  style?: Object,
+};
 
 export default ({ color, style, isPrivate, isMuted, size }: Props) => {
   const StreamIcon = (isMuted ? IconMute : (isPrivate ? IconPrivate : IconStream));

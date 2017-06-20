@@ -13,26 +13,26 @@ import toggleMessageStarredApi from '../api/toggleMessageStarred';
 
 type MessageAndDoNarrowType = {
   message: Object,
-  doNarrow: DoNarrowAction
-}
+  doNarrow: DoNarrowAction,
+};
 
 type AuthAndMessageType = {
   auth: Auth,
-  message: Object
-}
+  message: Object,
+};
 
 type AuthMessageAndSubscriptionsType = {
   auth: Auth,
   message: Object,
-  subscriptions: any[]
-}
+  subscriptions: any[],
+};
 
 type ButtonProps = {
   auth?: Auth,
   message: Object,
   subscriptions: any[],
   doNarrow?: DoNarrowAction,
-}
+};
 
 type ExecuteActionSheetActionType = {
   title: string,
@@ -49,7 +49,7 @@ type ConstructActionButtonsType = {
   subscriptions: any[],
   mute: any[],
   flags: Object,
-}
+};
 
 const reply = ({ message, doNarrow }: MessageAndDoNarrowType) => {
   doNarrow(narrowFromMessage(message), message.id);
@@ -96,7 +96,7 @@ type ButtonType = {
   title: string,
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
   onlyIf?: () => boolean,
-}
+};
 
 const actionSheetButtons: ButtonType[] = [
   { title: 'Reply', onPress: reply },

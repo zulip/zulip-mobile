@@ -11,7 +11,7 @@ type Props = {
   onPress: () => void,
   name: string,
   icon: string,
-}
+};
 
 export default ({ style, onPress, name, icon }: Props) => (
   <Touchable onPress={onPress}>

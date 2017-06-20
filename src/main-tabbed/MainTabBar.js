@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 export default class MainTabBar extends React.Component {
 
   props: {
-    goToPage: () => {};
+    goToPage: () => void,
   }
 
   render() {

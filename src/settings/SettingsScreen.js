@@ -32,7 +32,7 @@ class SettingsScreen extends React.Component {
     title: string,
     isSearchBarApplied: boolean,
     searchBar: boolean,
-    searchBarOnChange: () => {}
+    searchBarOnChange: () => void,
   };
 
   state: {

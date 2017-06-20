@@ -20,7 +20,7 @@ type Props = {
   presence: Object,
   filter: string,
   doNarrow: DoNarrowAction,
-  popRoute: PopRouteAction
+  popRoute: PopRouteAction,
 };
 
 export default class UserListCard extends Component {

@@ -40,7 +40,7 @@ export default class Tab extends React.Component {
 
   props: {
     activity: number,
-    index: number;
+    index: number,
   }
 
   handlePress = () =>

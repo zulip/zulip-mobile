@@ -24,7 +24,7 @@ class AccountDetailsScreen extends Component {
     users: Object[],
     fetchMessages: () => void,
     doNarrow: (string) => void,
-    popRoute: (string) => void
+    popRoute: (string) => void,
   };
   user: Object;
 

@@ -53,3 +53,6 @@ coverage/
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
+
+flow-coverage/
+yarn-error.log

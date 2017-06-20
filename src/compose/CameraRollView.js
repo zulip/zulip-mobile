@@ -10,15 +10,17 @@ import CameraPhotoList from './CameraPhotoList';
 
 type AssetType = 'Photos' | 'Videos' | 'All';
 
+type Props = {
+  batchSize: number,
+  // renderImage: () => {},
+  imagesPerRow?: number,
+  assetType: AssetType,
+  groupTypes?: string,
+};
+
 export default class CameraRollView extends React.Component {
 
-  props: {
-    batchSize: number,
-    // renderImage: () => {},
-    imagesPerRow?: number,
-    assetType: AssetType,
-    groupTypes?: string,
-  };
+  props: Props;
 
   static defaultProps = {
     groupTypes: 'SavedPhotos',
@@ -61,7 +63,7 @@ export default class CameraRollView extends React.Component {
     this.fetchPhotos();
   }
 
-  componentWillReceiveProps = (nextProps: {groupTypes?: string}) => {
+  componentWillReceiveProps = (nextProps: Props) => {
     if (this.props.groupTypes !== nextProps.groupTypes) {
       this.setState(this.getInitialState(), this.fetchPhotos);
     }

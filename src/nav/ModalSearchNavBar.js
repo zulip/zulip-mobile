@@ -16,11 +16,11 @@ class ModalSearchNavBar extends React.Component {
     title: string,
     searchBar: boolean,
     searchBarOnChange: () => void,
-    popRoute: PopRouteAction
+    popRoute: PopRouteAction,
   };
 
   state: {
-    isSearchActive: boolean
+    isSearchActive: boolean,
   };
 
   constructor(props) {

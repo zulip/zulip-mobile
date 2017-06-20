@@ -19,13 +19,13 @@ type Props = {
   realm: string,
   realmAdd: (string) => void,
   pushRoute: PushRouteAction,
-}
+};
 
 type State = {
   realm: string,
   error: ?string,
   progress: boolean,
-}
+};
 
 const moreStyles = StyleSheet.create({
   container: {

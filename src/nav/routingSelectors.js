@@ -1,7 +1,7 @@
 /* @flow */
 import { StateType } from '../types';
 
-export const getInitialRoutes = (accounts: any[]): [string] => {
+export const getInitialRoutes = (accounts: any[]): string[] => {
   const activeAccount = accounts[0];
 
   if (activeAccount && activeAccount.apiKey) {

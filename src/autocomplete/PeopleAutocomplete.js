@@ -12,7 +12,7 @@ import { sortUserList, filterUsersStartingWith } from '../users/usersSelectors';
 class PeopleAutocomplete extends Component {
 
   props: {
-    filter: string;
+    filter: string,
     onAutocomplete: (name: string) => void,
     ownEmail: string,
     users: UserType[],

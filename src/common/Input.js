@@ -11,7 +11,7 @@ export default class Input extends Component {
     style: StyleObj,
     restProps?: any[],
     placeholder: string,
-    textInputRef?: (component: TextInput) => void
+    textInputRef?: (component: TextInput) => void,
   };
 
   static defaultProps = {

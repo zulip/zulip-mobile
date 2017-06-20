@@ -17,7 +17,7 @@ type Props = {
   auth: Auth,
   narrow: Narrow,
   lastTopic: string,
-  users: Object[]
+  users: Object[],
 };
 
 const composeComponents = [

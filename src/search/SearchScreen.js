@@ -30,7 +30,7 @@ class SearchScreen extends React.Component {
     searchBar: boolean,
     searchBarOnChange: () => {},
     nav: NavigationState,
-    children: any[]
+    children: any[],
   };
 
   state: {

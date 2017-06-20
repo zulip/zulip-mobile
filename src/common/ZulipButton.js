@@ -10,7 +10,7 @@ import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({
   buttonContent: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   frame: {
     height: 44,
@@ -45,13 +45,13 @@ const styles = StyleSheet.create({
     color: BRAND_COLOR,
   },
   icon: {
-    marginRight: 8
+    marginRight: 8,
   },
   primaryIcon: {
-    color: 'white'
+    color: 'white',
   },
   secondaryIcon: {
-    color: BRAND_COLOR
+    color: BRAND_COLOR,
   }
 });
 
@@ -95,7 +95,7 @@ export default class ZulipButton extends React.PureComponent {
   };
 
   static defaultProps: {
-    secondary: false
+    secondary: false,
   };
 
   render() {

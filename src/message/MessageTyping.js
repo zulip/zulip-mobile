@@ -26,7 +26,7 @@ export default class MessageTyping extends React.PureComponent {
     fromName?: string,
     fromEmail?: string,
     users: Object[],
-    pushRoute: PushRouteAction
+    pushRoute: PushRouteAction,
   };
 
   handleAvatarPress = (email: string) => this.props.pushRoute('account-details', email);

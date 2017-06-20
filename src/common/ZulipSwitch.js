@@ -11,7 +11,7 @@ export default class ZulipSwitch extends React.PureComponent {
   };
 
   state: {
-    valueControlled: boolean
+    valueControlled: boolean,
   };
 
   constructor(props: Object) {

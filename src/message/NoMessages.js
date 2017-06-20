@@ -28,7 +28,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const messages: { isFunc: (Narrow) => boolean, text: string }[] = [
+type EmptyMessage = {
+  isFunc: (Narrow) => boolean,
+  text: string,
+};
+
+const messages: EmptyMessage[] = [
   { isFunc: isHomeNarrow, text: 'No messages on server' },
   { isFunc: isSpecialNarrow, text: 'No messages' },
   { isFunc: isStreamNarrow, text: 'No messages in stream' },

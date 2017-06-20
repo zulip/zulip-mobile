@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 export default class StreamList extends React.Component {
 
   props: {
-    streams: {name: string}[],
+    streams: Object[],
     selected?: boolean,
     showDescriptions: boolean,
     showSwitch: boolean,
@@ -26,7 +26,7 @@ export default class StreamList extends React.Component {
     showSwitch: false,
     showDescriptions: false,
     onSwitch: (streamName: string, newValue: boolean) => void,
-    selected: false
+    selected: false,
   };
 
   render() {

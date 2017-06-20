@@ -25,7 +25,7 @@ export default class UserList extends Component {
     filter: string,
     users: any[],
     onNarrow: (email: string) => void,
-    realm: string
+    realm: string,
   };
 
   render() {

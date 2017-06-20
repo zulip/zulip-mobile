@@ -12,10 +12,9 @@ export const getAuth = (state: StateType) => {
 
   if (!account) {
     return {
-      apiKey: null,
-      email: null,
-      realm: null,
-      password: null
+      apiKey: undefined,
+      email: undefined,
+      realm: undefined,
     };
   }
 

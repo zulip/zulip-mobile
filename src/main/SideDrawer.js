@@ -10,7 +10,7 @@ type Props = {
   onClose: () => void,
   children?: any[],
   orientation: string,
-}
+};
 
 export default (props: Props) => (
   <Drawer
