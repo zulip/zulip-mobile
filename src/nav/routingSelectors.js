@@ -1,5 +1,5 @@
 /* @flow */
-import { StateType } from '../types';
+import { GlobalState } from '../types';
 
 export const getInitialRoutes = (accounts: any[]): string[] => {
   const activeAccount = accounts[0];
@@ -12,5 +12,5 @@ export const getInitialRoutes = (accounts: any[]): string[] => {
   return ['realm'];
 };
 
-export const getCurrentRoute = (state: StateType) =>
+export const getCurrentRoute = (state: GlobalState) =>
   state.nav.routes[state.nav.index];

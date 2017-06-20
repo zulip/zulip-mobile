@@ -1,14 +1,14 @@
 /* @flow */
-import { StateType, Action } from '../types';
+import { MuteState, Action } from '../types';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
   EVENT_MUTED_TOPICS
 } from '../actionConstants';
 
-const initialState = [];
+const initialState: MuteState = [];
 
-export default (state: StateType = initialState, action: Action) => {
+export default (state: MuteState = initialState, action: Action): MuteState => {
   switch (action.type) {
     case REALM_INIT:
       return action.data.muted_topics;

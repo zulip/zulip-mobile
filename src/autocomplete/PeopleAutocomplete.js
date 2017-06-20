@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
-import { UserType } from '../types';
+import { UserType, GlobalState } from '../types';
 import { getAuth } from '../account/accountSelectors';
 import { Popup } from '../common';
 import UserItem from '../users/UserItem';
@@ -45,9 +45,7 @@ class PeopleAutocomplete extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+export default connect((state: GlobalState) => ({
   ownEmail: getAuth(state).email,
   users: state.users,
-});
-
-export default connect(mapStateToProps)(PeopleAutocomplete);
+}))(PeopleAutocomplete);

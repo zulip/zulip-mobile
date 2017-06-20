@@ -1,5 +1,5 @@
 /* @flow */
-import { StateType, Action, ClientPresence, Presence, UserStatus } from '../types';
+import { UsersState, Action, ClientPresence, Presence, UserStatus } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -55,9 +55,9 @@ const updateUserWithPresence = (user: Object, presence: Presence) => {
   };
 };
 
-const initialState = [];
+const initialState: UsersState = [];
 
-export default (state: StateType = initialState, action: Action) => {
+export default (state: UsersState = initialState, action: Action): UsersState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

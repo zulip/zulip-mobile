@@ -24,13 +24,10 @@ export default class MainScreen extends React.Component {
     rightDrawerOpen: boolean,
   };
 
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      leftDrawerOpen: false,
-      rightDrawerOpen: false,
-    };
-  }
+  state = {
+    leftDrawerOpen: false,
+    rightDrawerOpen: false,
+  };
 
   render() {
     const { doNarrow, orientation, pushRoute } = this.props;

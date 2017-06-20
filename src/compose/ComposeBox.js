@@ -3,12 +3,12 @@ import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 
+import { Auth, Narrow, GlobalState } from '../types';
 import { getAuth } from '../account/accountSelectors';
 import styles from '../styles';
 import ComposeText from './ComposeText';
 import CameraRollView from './CameraRollView';
 import { getLastTopicInActiveNarrow } from '../chat/chatSelectors';
-import { Auth, Narrow } from '../types';
 import StreamBox from './ModeViews/StreamBox';
 import { isTopicNarrow, isStreamNarrow } from '../utils/narrow';
 
@@ -33,18 +33,15 @@ class ComposeBox extends React.Component {
 
   state: {
     optionSelected: number,
-    operator: string | null,
+    operator: string,
   };
 
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      optionSelected: 0,
-      operator: null
-    };
-  }
+  state = {
+    optionSelected: 0,
+    operator: '',
+  };
 
-  setTopic = (operator: string | null) => this.setState({ operator });
+  setTopic = (operator: string) => this.setState({ operator });
 
   handleOptionSelected = (optionSelected: number) =>
     this.setState({ optionSelected });
@@ -81,11 +78,10 @@ class ComposeBox extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+
+export default connect((state: GlobalState) => ({
   auth: getAuth(state),
   narrow: state.chat.narrow,
   users: state.users,
   lastTopic: getLastTopicInActiveNarrow(state),
-});
-
-export default connect(mapStateToProps)(ComposeBox);
+}))(ComposeBox);

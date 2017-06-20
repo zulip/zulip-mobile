@@ -23,12 +23,9 @@ class ModalSearchNavBar extends React.Component {
     isSearchActive: boolean,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSearchActive: false,
-    };
-  }
+  state = {
+    isSearchActive: false,
+  };
 
   changeSearchActiveState = () => {
     this.setState(prevState => ({

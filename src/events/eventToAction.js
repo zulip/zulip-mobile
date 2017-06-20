@@ -1,5 +1,5 @@
 /* @flow */
-import { StateType } from '../types';
+import { GlobalState } from '../types';
 import {
   EVENT_NEW_MESSAGE,
   EVENT_PRESENCE,
@@ -55,7 +55,7 @@ const opToActionTyping = {
   'stop': EVENT_TYPING_STOP,
 };
 
-export default (state: StateType, event: Object) => {
+export default (state: GlobalState, event: Object) => {
   switch (event.type) {
     case 'message':
       return {

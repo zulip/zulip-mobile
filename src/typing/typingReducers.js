@@ -1,11 +1,11 @@
 /* @flow */
-import { Action, StateType } from '../types';
+import { Action, TypingState } from '../types';
 import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../actionConstants';
 import { normalizeRecipientsSansMe } from '../utils/message';
 
-const initialState = {};
+const initialState: TypingState = {};
 
-export default (state: StateType = initialState, action: Action) => {
+export default (state: TypingState = initialState, action: Action): TypingState => {
   switch (action.type) {
     case EVENT_TYPING_START: {
       const normalizedRecipients = normalizeRecipientsSansMe(action.recipients, action.selfEmail);

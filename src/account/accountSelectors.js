@@ -1,13 +1,13 @@
 /* @flow */
-import { StateType } from '../types';
+import { AccountState } from '../types';
 
-export const getActiveAccount = (state: StateType) =>
+export const getActiveAccount = (state: AccountState) =>
   (state.accounts ? state.accounts[0] : undefined);
 
-export const getSelfEmail = (state: StateType) =>
+export const getSelfEmail = (state: AccountState) =>
   state.accounts[0].email;
 
-export const getAuth = (state: StateType) => {
+export const getAuth = (state: AccountState) => {
   const account = getActiveAccount(state);
 
   if (!account) {

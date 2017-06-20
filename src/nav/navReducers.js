@@ -1,7 +1,7 @@
 /* @flow */
 import { NavigationExperimental } from 'react-native';
 
-import { StateType, Action } from '../types';
+import { NavigationState, Action } from '../types';
 import {
   INIT_ROUTES,
   ACCOUNT_SWITCH,
@@ -15,7 +15,7 @@ const {
   StateUtils: NavigationStateUtils,
 } = NavigationExperimental;
 
-const initialState = {
+const initialState: NavigationState = {
   index: 0,
   key: 'root',
   routes: [{
@@ -24,7 +24,7 @@ const initialState = {
   }],
 };
 
-export default (state: StateType = initialState, action: Action) => {
+export default (state: NavigationState = initialState, action: Action): NavigationState => {
   switch (action.type) {
     case INIT_ROUTES:
       return NavigationStateUtils.reset(
