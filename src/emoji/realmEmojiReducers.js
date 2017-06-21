@@ -12,7 +12,7 @@ const initialState = {
   realm_emoji: {},
 };
 
-export default (state: StateType = initialState, action:Action) => {
+export default (state: StateType = initialState, action: Action) => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

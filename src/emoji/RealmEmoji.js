@@ -1,7 +1,9 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { getAuth } from '../account/accountSelectors';
+import { Auth } from '../types';
 
 const styles = StyleSheet.create({
   image: {
@@ -10,7 +12,15 @@ const styles = StyleSheet.create({
   },
 });
 
+type Props = {
+  auth: Auth,
+  realmEmoji: {},
+  name: string,
+};
+
 class RealmEmoji extends React.PureComponent {
+
+  props: Props;
 
   render() {
     const { name, realmEmoji, auth } = this.props;

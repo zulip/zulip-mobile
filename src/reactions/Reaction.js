@@ -86,6 +86,7 @@ class Reaction extends React.PureComponent {
     voteCount: number,
     messageId: number,
     auth: Auth,
+    realmEmoji: {},
   };
 
   componentWillReceiveProps = (nextProps) => {
