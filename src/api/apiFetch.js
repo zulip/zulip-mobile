@@ -38,7 +38,7 @@ export const apiCall = async (
     const response = await timeout(
       await apiFetch(auth, route, params),
       () => { throw new Error(`Request timed out @ ${route}`); },
-      shouldTimeout,
+      // shouldTimeout, # WTF ITS BOOL ;-( WE NEED NUMBER
     );
     if (response.status === 401) {
       // TODO: httpUnauthorized()

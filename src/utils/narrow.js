@@ -1,3 +1,4 @@
+/* @flow */
 import { Narrow, Message } from '../types';
 import { normalizeRecipients } from './message';
 
@@ -113,7 +114,7 @@ export const canSendToNarrow = (narrow: Narrow) =>
   isStreamNarrow(narrow) ||
   isTopicNarrow(narrow);
 
-export const narrowFromMessage = (message, email) => {
+export const narrowFromMessage = (message: Message, email: string) => {
   if (Array.isArray(message.display_recipient)) {
     const recipient = message.display_recipient.filter(x => x.email !== email);
     return groupNarrow(recipient.map(x => x.email));

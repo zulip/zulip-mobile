@@ -1,3 +1,4 @@
+/* @flow */
 import Color from 'color';
 
 export const foregroundColorFromBackground = (color: string) =>

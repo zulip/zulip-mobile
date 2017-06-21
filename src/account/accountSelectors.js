@@ -15,6 +15,7 @@ export const getAuth = (state: AccountState) => {
       apiKey: undefined,
       email: undefined,
       realm: undefined,
+      password: undefined
     };
   }
 

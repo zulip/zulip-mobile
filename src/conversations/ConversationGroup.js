@@ -2,6 +2,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { NOT_FOUND_USER } from '../constants';
 import { Narrow } from '../types';
 import { normalizeRecipients } from '../utils/message';
 import { isGroupNarrow } from '../utils/narrow';
@@ -40,7 +41,7 @@ type Props = {
 export default ({ email, users, narrow, unreadCount, onNarrow, realm }: Props) => {
   const emails = email.split(',');
   const allNames = emails.map(e =>
-    (users.find(x => x.email === e) || {}).fullName
+    (users.find(x => x.email === e) || NOT_FOUND_USER).fullName
   ).join(', ');
   const isSelected = narrow &&
     isGroupNarrow(narrow) &&

@@ -1,7 +1,8 @@
+/* @flow */
 import base64 from 'base-64';
 import { NativeModules } from 'react-native';
 
-export const xorHexStrings = (hex1, hex2) => {
+export const xorHexStrings = (hex1: string, hex2: string) => {
   if (hex1.length !== hex2.length) {
     throw new Error('Both inputs must have the same length.');
   }
@@ -11,7 +12,7 @@ export const xorHexStrings = (hex1, hex2) => {
     ).join('').toUpperCase();
 };
 
-export const hexToAscii = (hex) => {
+export const hexToAscii = (hex: string) => {
   let ascii = '';
   for (let i = 0; i < hex.length; i += 2) {
     ascii += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
@@ -19,15 +20,15 @@ export const hexToAscii = (hex) => {
   return ascii;
 };
 
-export const asciiToHex = (ascii) =>
+export const asciiToHex = (ascii: string) =>
   ascii.split('').map((char) =>
     (`0${char.charCodeAt(0).toString(16)}`).slice(-2)
   ).join('').toUpperCase();
 
-export const base64ToHex = (bytes) =>
+export const base64ToHex = (bytes: string) =>
   asciiToHex(base64.decode(bytes));
 
-export const hexToBase64 = (hex) =>
+export const hexToBase64 = (hex: string) =>
   base64.encode(hexToAscii(hex));
 
 // Returns a one time pad (OTP) as a hex string
@@ -39,5 +40,5 @@ export const generateOtp = async () => {
 
 // Extract an API key encoded as a hex string XOR'ed with a one time pad (OTP)
 // (this is used during the OAuth flow)
-export const extractApiKey = (encoded, otp) =>
+export const extractApiKey = (encoded: string, otp: string) =>
   hexToAscii(xorHexStrings(encoded, otp));

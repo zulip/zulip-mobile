@@ -1,3 +1,4 @@
+/* @flow */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 
 import { Auth } from '../types';
@@ -9,7 +10,7 @@ const USER_INPUT_ACTIVITY_UPDATE_FREQUENCY = 5;
 let lastAppActivity = new Date();
 let lastInputActivity = new Date();
 
-export const registerAppActivity = (auth: Auth, hasFocus = true) => {
+export const registerAppActivity = (auth: Auth, hasFocus: boolean = true) => {
   if (differenceInSeconds(new Date(), lastAppActivity) > APP_ACTIVITY_UPDATE_FREQUENCY) {
     focusPing(auth, hasFocus, false);
     lastAppActivity = new Date();
