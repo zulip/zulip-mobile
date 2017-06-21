@@ -137,7 +137,7 @@ class Reaction extends React.PureComponent {
       <Touchable onPress={this.handlePress} style={styles.touchable}>
         <View style={[styles.frameCommon, frameStyle]}>
           {emojiMap[name] ? <Emoji name={name} /> :
-          (realmEmoji[name] && <RealmEmoji name={name} />)}
+          (realmEmoji[name] ? <RealmEmoji name={name} /> : <Emoji name={'copyright'} />)}
 
           <Animated.View style={this.dynamicSpinnerStyles()}>
             <View style={styles.spinnerTextContainer}>
