@@ -11,10 +11,12 @@ import Icon from '../common/Icons';
 const styles = StyleSheet.create({
   buttonContent: {
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 44
   },
   frame: {
     height: 44,
-    alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
     marginTop: 5,
@@ -72,7 +74,7 @@ const ButtonNormal = ({
     <View style={frameStyle}>
       <Touchable style={touchTargetStyle} onPress={onPress}>
         <View style={styles.buttonContent}>
-          {icon && <Icon name={icon} style={iconStyle} size={20} />}
+          {icon && <Icon name={icon} style={iconStyle} size={25} />}
           <Text style={textStyle}>
             <FormattedMessage
               id={text}
