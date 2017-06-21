@@ -11,6 +11,7 @@ export { default as getAuthBackends } from './getAuthBackends';
 export { default as getMessages } from './getMessages';
 export { default as getServerSettings } from './getServerSettings';
 export { default as getStreams } from './getStreams';
+export { default as getRealmEmojis } from './getRealmEmojis';
 export { default as getSubscriptions } from './getSubscriptions';
 export { default as getUsers } from './getUsers';
 export { default as messagesFlags } from './messagesFlags';
