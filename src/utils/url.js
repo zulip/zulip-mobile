@@ -1,12 +1,13 @@
+/* @flow */
 import base64 from 'base-64';
-import { Auth } from '../api/apiFetch';
+import { Auth } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { getUserById } from '../users/usersSelectors';
 
 export const getAuthHeader = (email: string, apiKey: string): ?string =>
   (apiKey ? `Basic ${base64.encode(`${email}:${apiKey}`)}` : undefined);
 
-export const encodeAsURI = (params): string =>
+export const encodeAsURI = (params: Object): string =>
   Object.keys(params)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     .join('&');
@@ -41,7 +42,7 @@ export const isEmojiUrl = (url: string, realm: string): boolean =>
 export const getEmojiUrl = (unicode: string): string =>
   `/static/generated/emoji/images/emoji/unicode/${unicode}.png`;
 
-export const getNarrowFromLink = (url: string, realm: string, users: []): [] => {
+export const getNarrowFromLink = (url: string, realm: string, users: any[]): [] => {
   const paths = url.split(realm).pop().split('/');
   if (isGroupLink(url, realm)) {
     const recipients = paths[paths.length - 1].split('-')[0].split(',');

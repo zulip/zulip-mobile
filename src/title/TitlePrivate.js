@@ -2,6 +2,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { NOT_FOUND_USER } from '../constants';
 import { Avatar } from '../common';
 
 const styles = StyleSheet.create({
@@ -18,7 +19,9 @@ const styles = StyleSheet.create({
 export default class TitlePrivate extends React.PureComponent {
   render() {
     const { narrow, realm, users, color } = this.props;
-    const { fullName, avatarUrl } = users.find(x => x.email === narrow[0].operand) || {};
+    const { fullName, avatarUrl } = users.find(
+      x => x.email === narrow[0].operand
+    ) || NOT_FOUND_USER;
 
     return (
       <View style={styles.wrapper}>

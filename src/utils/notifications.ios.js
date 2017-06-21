@@ -1,3 +1,4 @@
+/* @flow */
 import NotificationsIOS from 'react-native-notifications';
 import registerPush from '../api/registerPush';
 

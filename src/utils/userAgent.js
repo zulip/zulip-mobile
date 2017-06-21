@@ -1,3 +1,4 @@
+/* @flow */
 import { NativeModules } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 

@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { NOT_FOUND_USER } from '../constants';
 import { Auth } from '../types';
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
@@ -9,11 +10,6 @@ import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
 import { getCurrentRoute } from '../nav/routingSelectors';
 
-const NOT_FOUND_USER = {
-  fullName: 'User not found',
-  status: '',
-  avatarUrl: ''
-};
 
 class AccountDetailsScreen extends Component {
 

@@ -26,7 +26,7 @@ export default class Timestamp extends React.PureComponent {
     const { timestamp, twentyFourHourTime } = this.props;
     return (
       <Text style={styles.time}>
-        {shortTime(timestamp * 1000, twentyFourHourTime)}
+        {shortTime(new Date(timestamp * 1000), twentyFourHourTime)}
       </Text>
     );
   }

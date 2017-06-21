@@ -1,3 +1,4 @@
+/* @flow */
 import format from 'date-fns/format';
 import isToday from 'date-fns/is_today';
 import isYesterday from 'date-fns/is_yesterday';
@@ -5,7 +6,7 @@ import isSameYear from 'date-fns/is_same_year';
 
 export { default as isSameDay } from 'date-fns/is_same_day';
 
-export const shortTime = (date: Date, twentyFourHourTime): string =>
+export const shortTime = (date: Date, twentyFourHourTime: boolean): string =>
   format(date, twentyFourHourTime ? 'H:mm' : 'h:mm A');
 
 export const shortDate = (date: Date): string =>

@@ -1,3 +1,4 @@
+/* @flow */
 import { Message } from '../types';
 
 export const filterUnreadMessageIds = (messageIds: number[], flags: Object): Message[] =>

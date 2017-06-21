@@ -5,6 +5,7 @@ import {
   View,
 } from 'react-native';
 
+import { NOT_FOUND_USER } from '../constants';
 import { Avatar } from '../common';
 
 const styles = StyleSheet.create({
@@ -21,7 +22,9 @@ export default class TitleGroup extends React.PureComponent {
   render() {
     const { realm, narrow, users } = this.props;
     const recipientEmails = narrow[0].operand.split(',');
-    const recipients = recipientEmails.map(r => users.find(x => x.email === r) || {});
+    const recipients = recipientEmails.map(
+      r => users.find(x => x.email === r) || NOT_FOUND_USER
+    );
 
     return (
       <View style={styles.wrapper}>
