@@ -36,6 +36,8 @@ class PeopleAutocomplete extends Component {
               key={item.email}
               fullName={item.fullName}
               avatarUrl={item.avatarUrl}
+              email={item.email}
+              showEmail
               onPress={() => onAutocomplete(item.fullName)}
             />
           )}

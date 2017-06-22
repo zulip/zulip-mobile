@@ -32,7 +32,9 @@ export const sortUserList = (users: any[]): UserType[] =>
 export const filterUsersStartingWith = (users: any[], filter: string = '', ownEmail: string): any[] =>
   users.filter(user =>
     user.email !== ownEmail &&
-    user.fullName.toLowerCase().startsWith(filter.toLowerCase())
+    (user.fullName.toLowerCase().startsWith(filter.toLowerCase())
+    || user.fullName.replace(/(\s|[a-z])/g, '').toLowerCase().startsWith(filter.toLowerCase())
+    || user.email.toLowerCase().includes(filter.toLowerCase()))
   );
 
 export const filterUserList = (users: any[], filter: string = '', ownEmail: ?string): any[] =>

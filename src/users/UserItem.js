@@ -16,13 +16,18 @@ const styles = StyleSheet.create({
     backgroundColor: BRAND_COLOR,
   },
   text: {
-    flex: 1,
+    flex: 3,
     marginLeft: 8,
     marginRight: 8,
   },
   selectedText: {
     color: 'white',
-  }
+  },
+  textEmail: {
+    flex: 2,
+    fontSize: 10,
+    color: '#999',
+  },
 });
 
 export default class UserItem extends Component {
@@ -47,7 +52,16 @@ export default class UserItem extends Component {
   };
 
   render() {
-    const { fullName, avatarUrl, status, isSelected, unreadCount, realm } = this.props;
+    const {
+      fullName,
+      avatarUrl,
+      status,
+      isSelected,
+      unreadCount,
+      realm,
+      showEmail,
+      email
+    } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
@@ -59,10 +73,17 @@ export default class UserItem extends Component {
             status={status}
             realm={realm}
           />
-          <RawLabel
-            style={[styles.text, isSelected && styles.selectedText]}
-            text={fullName}
-          />
+          <View style={styles.textWrapper} >
+            <RawLabel
+              style={[styles.text, isSelected && styles.selectedText]}
+              text={fullName}
+            />
+            {showEmail &&
+            <RawLabel
+              style={[styles.text, styles.textEmail, isSelected && styles.selectedText]}
+              text={email}
+            />}
+          </View>
           <UnreadCount count={unreadCount} />
         </View>
       </Touchable>
