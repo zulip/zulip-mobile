@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 
 import { Auth } from '../types';
 import boundActions from '../boundActions';
-import styles from '../styles';
 import { ErrorMsg, Screen, ZulipButton } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
 import { getAuth } from '../account/accountSelectors';
@@ -19,6 +18,10 @@ type State = {
 };
 
 class DevAuthScreen extends React.Component {
+
+  static contextTypes = {
+    styles: () => null,
+  };
 
   props: {
     auth: Auth,
@@ -65,6 +68,7 @@ class DevAuthScreen extends React.Component {
   };
 
   render() {
+    const { styles } = this.context;
     const { directAdmins, directUsers, error } = this.state;
 
     return (

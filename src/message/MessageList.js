@@ -2,7 +2,6 @@
 import React from 'react';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import styles from '../styles';
 import TaggedView from '../native/TaggedView';
 import { LoadingIndicator } from '../common';
 import MessageTyping from '../message/MessageTyping';
@@ -11,6 +10,11 @@ import renderMessages from './renderMessages';
 import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 
 class MessageList extends React.PureComponent {
+
+  static contextTypes = {
+    styles: () => null,
+  };
+
   autoScrollToBottom = false;
 
   static defaultProps = {
@@ -40,6 +44,7 @@ class MessageList extends React.PureComponent {
   }
 
   render() {
+    const { styles } = this.context;
     const {
       caughtUp,
       fetching,

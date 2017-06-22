@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 
 import { PushRouteAction } from '../types';
 import boundActions from '../boundActions';
-import styles from '../styles';
 import { Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
 import { getAuthBackends } from '../api';
 import config from '../config';
@@ -33,8 +32,11 @@ const moreStyles = StyleSheet.create({
   },
 });
 
-
 class RealmScreen extends React.Component {
+
+  static contextTypes = {
+    styles: () => null,
+  };
 
   props: Props;
   state: State;
@@ -84,6 +86,7 @@ class RealmScreen extends React.Component {
   };
 
   render() {
+    const { styles } = this.context;
     const { progress, realm, error } = this.state;
 
     return (

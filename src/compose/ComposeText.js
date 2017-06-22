@@ -2,7 +2,6 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, TextInput } from 'react-native';
 
-import styles from '../styles';
 import { MatchResult, Auth, Narrow, User } from '../types';
 import { Input } from '../common';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
@@ -36,6 +35,10 @@ type Props = {
 };
 
 export default class ComposeText extends React.Component {
+
+  static contextTypes = {
+    styles: () => null,
+  };
 
   props: Props;
   textInput: TextInput;
@@ -116,7 +119,7 @@ export default class ComposeText extends React.Component {
         <View style={componentStyles.wrapper}>
           <ScrollView style={{ height }} contentContainerStyle={componentStyles.messageBox}>
             <Input
-              style={styles.composeText}
+              style={this.context.styles.composeText}
               textInputRef={component => { this.textInput = component; }}
               multiline
               underlineColorAndroid="transparent"

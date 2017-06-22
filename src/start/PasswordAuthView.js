@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import { Auth } from '../types';
 import boundActions from '../boundActions';
-import styles from '../styles';
 import { fetchApiKey } from '../api';
 import config from '../config';
 import { ErrorMsg, ZulipButton, Input } from '../common';
@@ -24,6 +23,10 @@ const moreStyles = StyleSheet.create({
 });
 
 class PasswordAuthView extends React.Component {
+
+  static contextTypes = {
+    styles: () => null,
+  };
 
   props: Props;
 
@@ -75,6 +78,7 @@ class PasswordAuthView extends React.Component {
   };
 
   render() {
+    const { styles } = this.context;
     const { email, password, progress, error } = this.state;
 
     return (

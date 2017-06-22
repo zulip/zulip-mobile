@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import styles from '../../styles';
+import styles from '../HtmlStyles';
+import HtmlNodeText from '../HtmlNodeText';
 import renderHtmlChildren from '../renderHtmlChildren';
 
 const BULLET = '\u2022';
@@ -14,7 +15,7 @@ const customStyles = StyleSheet.create({
 
 export default ({ style, ...restProps }) => (
   <View style={style}>
-    <Text style={styles.bullet}>{BULLET}</Text>
+    <HtmlNodeText style={styles.bullet} data={BULLET} />
     <View style={customStyles.liText}>
       {renderHtmlChildren({ ...restProps })}
     </View>

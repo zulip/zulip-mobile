@@ -1,8 +1,16 @@
 /* @flow */
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
-import styles, { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR } from '../styles';
+
+const styles = StyleSheet.create({
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default class LoadingScreen extends React.PureComponent {
   render() {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import styles from '../../styles';
 import { Touchable } from '../../common';
 import { topicNarrow } from '../../utils/narrow';
 
@@ -23,6 +22,10 @@ const componentStyles = StyleSheet.create({
 
 export default class TopicMessageHeader extends React.PureComponent {
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   props: {
     itemId: number,
     stream: string,
@@ -36,6 +39,7 @@ export default class TopicMessageHeader extends React.PureComponent {
   }
 
   render() {
+    const { styles } = this.context;
     const { topic, style } = this.props;
 
     return (

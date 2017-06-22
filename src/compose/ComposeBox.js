@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import { Auth, Narrow, GlobalState } from '../types';
 import { getAuth } from '../account/accountSelectors';
-import styles from '../styles';
 import ComposeText from './ComposeText';
 import CameraRollView from './CameraRollView';
 import { getLastTopicInActiveNarrow } from '../chat/chatSelectors';
@@ -29,6 +28,11 @@ const composeComponents = [
 ];
 
 class ComposeBox extends React.Component {
+
+  static contextTypes = {
+    styles: () => null,
+  };
+
   props: Props;
 
   state: {
@@ -47,12 +51,13 @@ class ComposeBox extends React.Component {
     this.setState({ optionSelected });
 
   render() {
+    const { styles } = this.context;
     const { optionSelected, operator } = this.state;
     const { auth, narrow, users, lastTopic } = this.props;
     const ActiveComposeComponent = composeComponents[optionSelected];
 
     return (
-      <View style={styles.composeBox}>
+      <View style={this.context.styles.composeBox}>
         {(isTopicNarrow(narrow) || isStreamNarrow(narrow)) &&
         <View style={styles.topicWrapper}>
           <StreamBox

@@ -2,7 +2,6 @@ import React from 'react';
 import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import styles from '../styles';
 import { OfflineNotice } from '../common';
 import { canSendToNarrow } from '../utils/narrow';
 import { filterUnreadMessageIds, countUnread } from '../utils/unread';
@@ -16,6 +15,11 @@ import UnreadNotice from './UnreadNotice';
 
 
 export default class Chat extends React.Component {
+
+  static contextTypes = {
+    styles: () => null,
+  };
+
   scrollOffset = 0;
 
   handleMessageListScroll = e => {
@@ -39,6 +43,7 @@ export default class Chat extends React.Component {
   };
 
   render() {
+    const { styles } = this.context;
     const { messages, narrow, fetching, isOnline, readIds } = this.props;
     const noMessages = messages.length === 0 && !(fetching.older || fetching.newer);
     const noMessagesButLoading = messages.length === 0 && (fetching.older || fetching.newer);

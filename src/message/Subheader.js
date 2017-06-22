@@ -2,10 +2,14 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import styles from '../styles';
 import Timestamp from './Timestamp';
 
 export default class Subheader extends React.PureComponent {
+
+  static contextTypes = {
+    styles: () => null,
+  };
+
   props: {
     from: string,
     timestamp: number,
@@ -13,6 +17,7 @@ export default class Subheader extends React.PureComponent {
   };
 
   render() {
+    const { styles } = this.context;
     const { timestamp, twentyFourHourTime, from } = this.props;
 
     return (

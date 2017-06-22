@@ -5,11 +5,15 @@ import { connect } from 'react-redux';
 
 import { PopRouteAction } from '../types';
 import boundActions from '../boundActions';
-import styles, { CONTROL_SIZE } from '../styles';
+import { CONTROL_SIZE } from '../styles';
 import { Label, SearchInput } from '../common';
 import NavButton from './NavButton';
 
 class ModalSearchNavBar extends React.Component {
+
+  static contextTypes = {
+    styles: () => null,
+  };
 
   props: {
     nav: any,
@@ -34,9 +38,9 @@ class ModalSearchNavBar extends React.Component {
   };
 
   render() {
+    const { styles } = this.context;
     const { isSearchActive } = this.state;
-    const { nav, title, popRoute, searchBarOnChange } = this.props;
-    const { searchBar } = this.props;
+    const { nav, title, searchBar, popRoute, searchBarOnChange } = this.props;
     const showSearchInput = isSearchActive || !searchBar;
     const textStyle = [
       styles.navTitle,
