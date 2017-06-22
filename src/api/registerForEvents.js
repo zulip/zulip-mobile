@@ -14,6 +14,7 @@ export default (auth: Auth) =>
         'muted_topics',
         'presence',
         'reaction',
+        'realm_emoji',
         'realm_user',
         'stream',
         'subscription',

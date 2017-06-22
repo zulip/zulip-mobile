@@ -2,7 +2,11 @@
 import { RealmState, Action } from '../types';
 import {
   REALM_INIT,
+  EVENT_REALM_EMOJI_UPDATE,
+  LOGOUT,
+  LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
+  INIT_REALM_EMOJI,
   SAVE_TOKEN_GCM,
   DELETE_TOKEN_GCM,
 } from '../actionConstants';
@@ -11,6 +15,7 @@ import {
 const initialState = {
   twentyFourHourTime: false,
   gcmToken: '',
+  emoji: {},
 };
 
 const reducer = (state: RealmState = initialState, action: Action): RealmState => {
@@ -35,6 +40,22 @@ const reducer = (state: RealmState = initialState, action: Action): RealmState =
         gcmToken: ''
       };
     }
+    case LOGOUT:
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        emoji: {},
+      };
+    case INIT_REALM_EMOJI:
+      return {
+        ...state,
+        emoji: action.emojis,
+      };
+    case EVENT_REALM_EMOJI_UPDATE:
+      return {
+        ...state,
+        emoji: action.realm_emoji,
+      };
     default:
       return state;
   }

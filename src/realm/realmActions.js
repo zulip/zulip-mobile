@@ -2,10 +2,11 @@
 import { Auth, Dispatch } from '../types';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
-import { getSubscriptions, getMessages, getStreams, getUsers } from '../api';
+import { getSubscriptions, getMessages, getStreams, getUsers, getRealmEmojis } from '../api';
 import { refreshNotificationToken } from '../utils/notifications';
 import { messageFetchSuccess } from '../message/messagesActions';
 import { initSubscriptions } from '../subscriptions/subscriptionsActions';
+import { initRealmEmojis } from '../emoji/realmEmojiActions';
 import { initStreams } from '../streamlist/streamsActions';
 import { initUsers } from '../users/usersActions';
 import {
@@ -38,16 +39,18 @@ export const fetchEssentialInitialData = (auth: Auth) =>
 
 export const fetchRestOfInitialData = (auth: Auth, gcmToken: string) =>
   async (dispatch: Dispatch) => {
-    const [streams, users, messages] = await Promise.all([
+    const [streams, users, messages, realmEmoji] = await Promise.all([
       await tryUntilSuccessful(() => getStreams(auth)),
       await tryUntilSuccessful(() => getUsers(auth)),
       await tryUntilSuccessful(() =>
         getMessages(auth, Number.MAX_SAFE_INTEGER, 100, 0, specialNarrow('private'))
       ),
+      await tryUntilSuccessful(() => getRealmEmojis(auth)),
     ]);
     dispatch(messageFetchSuccess(messages, specialNarrow('private')));
     dispatch(initStreams(streams));
     dispatch(initUsers(users));
+    dispatch(initRealmEmojis(realmEmoji));
     if (auth.apiKey !== '' && gcmToken === '') {
       refreshNotificationToken();
     }

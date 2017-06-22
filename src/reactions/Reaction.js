@@ -7,6 +7,8 @@ import { Auth, GlobalState } from '../types';
 import { BRAND_COLOR, HALF_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from '../styles';
 import { Touchable } from '../common';
 import Emoji from '../emoji/Emoji';
+import RealmEmoji from '../emoji/RealmEmoji';
+import emojiMap from '../emoji/emojiMap';
 import { getAuth } from '../account/accountSelectors';
 import { emojiReactionAdd, emojiReactionRemove } from '../api';
 
@@ -84,6 +86,7 @@ class Reaction extends React.PureComponent {
     voteCount: number,
     messageId: number,
     auth: Auth,
+    realmEmoji: {},
   };
 
   componentWillReceiveProps = (nextProps) => {
@@ -127,14 +130,15 @@ class Reaction extends React.PureComponent {
   });
 
   render() {
-    const { name, voted, voteCount } = this.props;
+    const { name, voted, voteCount, realmEmoji } = this.props;
     const frameStyle = voted ? styles.frameVoted : styles.frameNotVoted;
     const countStyle = voted ? styles.countVoted : styles.countNotVoted;
 
     return (
       <Touchable onPress={this.handlePress} style={styles.touchable}>
         <View style={[styles.frameCommon, frameStyle]}>
-          <Emoji name={name} />
+          {emojiMap[name] ? <Emoji name={name} /> :
+          (realmEmoji[name] ? <RealmEmoji name={name} /> : <Emoji name={'copyright'} />)}
 
           <Animated.View style={this.dynamicSpinnerStyles()}>
             <View style={styles.spinnerTextContainer}>
@@ -159,4 +163,5 @@ class Reaction extends React.PureComponent {
 
 export default connect((state: GlobalState) => ({
   auth: getAuth(state),
+  realmEmoji: state.realm.emoji,
 }))(Reaction);
