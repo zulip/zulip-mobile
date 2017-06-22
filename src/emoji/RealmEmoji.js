@@ -34,9 +34,9 @@ class RealmEmoji extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
-  auth: getAuth(state),
-  realmEmoji: state.realmEmoji.realm_emoji,
-});
-
-export default connect(mapStateToProps)(RealmEmoji);
+export default connect(
+  (state) => ({
+    auth: getAuth(state),
+    realmEmoji: state.realm.emoji,
+  }),
+)(RealmEmoji);

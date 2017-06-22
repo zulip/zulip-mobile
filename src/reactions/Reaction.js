@@ -163,5 +163,5 @@ class Reaction extends React.PureComponent {
 
 export default connect((state: GlobalState) => ({
   auth: getAuth(state),
-  realmEmoji: state.realmEmoji.realm_emoji,
+  realmEmoji: state.realm.emoji,
 }))(Reaction);
