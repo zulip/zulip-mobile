@@ -38,6 +38,7 @@ export default class UserItem extends Component {
     avatarUrl: string,
     status?: string,
     isSelected?: boolean,
+    showEmail?: boolean,
     unreadCount?: number,
     onPress: (email: string) => void,
     realm?: string,
