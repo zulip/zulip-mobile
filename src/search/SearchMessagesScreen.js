@@ -42,6 +42,7 @@ class SearchMessagesScreen extends Component {
     auth: Auth,
     doNarrow: DoNarrowAction,
     popRoute: PopRouteAction,
+    flags: Object,
   };
 
   state = {
@@ -72,7 +73,7 @@ class SearchMessagesScreen extends Component {
 
   render() {
     const { isFetching, messages } = this.state;
-    const { auth, subscriptions, twentyFourHourTime } = this.props;
+    const { auth, subscriptions, twentyFourHourTime, flags } = this.props;
     const noResults = !!this.query && !isFetching && !messages.length;
 
     return (
@@ -100,6 +101,7 @@ class SearchMessagesScreen extends Component {
               auth={auth}
               fetchOlder={() => {}}
               doNarrow={this.doNarrow}
+              flags={flags}
             />
           </ActionSheetProvider>
         </View>
@@ -115,4 +117,5 @@ export default connect((state) => ({
   narrow: state.chat.narrow,
   startReached: state.chat.startReached,
   streamlistOpened: state.nav.opened,
+  flags: state.flags,
 }), boundActions)(SearchMessagesScreen);
