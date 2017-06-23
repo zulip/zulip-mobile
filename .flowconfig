@@ -4,7 +4,6 @@
 .*/ios/Pods/*
 .*/__tests__/*
 
-
 ; Ignore "BUCK" generated dirs
 <PROJECT_ROOT>/\.buckd/
 
@@ -19,6 +18,8 @@
 .*/node_modules/react-static-container/.*
 .*/node_modules/eslint-plugin-jsx-a11y/.*
 .*/node_modules/react-native-notifications/.*
+.*/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/.*
+.*/node_modules/react-native/Libraries/NavigationExperimental/.*
 
 [include]
 
