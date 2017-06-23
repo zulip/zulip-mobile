@@ -5,6 +5,7 @@ import {
   EVENT_STREAM_ADD,
   EVENT_STREAM_REMOVE,
   EVENT_STREAM_UPDATE,
+  EVENT_STREAM_OCCUPY,
   ACCOUNT_SWITCH,
 } from '../actionConstants';
 
@@ -16,13 +17,24 @@ export default (state: StreamsState = initialState, action: Action): StreamsStat
       return action.streams;
 
     case EVENT_STREAM_ADD:
-      return state; // TODO
+      return state.concat(
+        action.streams.filter(x =>
+          !state.find(y => x.stream_id === y.stream_id)
+        )
+      );
 
     case EVENT_STREAM_REMOVE:
-      return state; // TODO
+      return state.filter(x =>
+        !action.streams.find(y => x.stream_id === y.stream_id)
+      );
 
     case EVENT_STREAM_UPDATE:
-      return state; // TODO
+      return state.map(stream =>
+        (stream.stream_id === action.stream_id ? { ...stream,
+          [action.property]: action.value } : stream));
+
+    case EVENT_STREAM_OCCUPY:
+      return state;
 
     case ACCOUNT_SWITCH:
       return initialState;

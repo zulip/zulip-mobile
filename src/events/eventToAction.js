@@ -8,6 +8,7 @@ import {
   EVENT_STREAM_ADD,
   EVENT_STREAM_REMOVE,
   EVENT_STREAM_UPDATE,
+  EVENT_STREAM_OCCUPY,
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
   EVENT_SUBSCRIPTION_UPDATE,
@@ -35,9 +36,10 @@ const opToActionSubscription = {
 };
 
 const opToActionStream = {
-  'add': EVENT_STREAM_ADD,
-  'remove': EVENT_STREAM_REMOVE,
+  'create': EVENT_STREAM_ADD,
+  'delete': EVENT_STREAM_REMOVE,
   'update': EVENT_STREAM_UPDATE,
+  'occupy': EVENT_STREAM_OCCUPY,
 };
 
 const opToActionUser = {
