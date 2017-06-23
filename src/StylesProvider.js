@@ -7,6 +7,7 @@ import themeLight from './styles/themeLight';
 
 const themeNameToObject = {
   'default': themeLight,
+  'light': themeLight,
   'night': themeDark,
 };
 
