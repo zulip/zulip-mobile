@@ -2,8 +2,8 @@
 import { Action, StreamsState } from '../types';
 import {
   INIT_STREAMS,
-  EVENT_STREAM_CREATE,
-  EVENT_STREAM_DELETE,
+  EVENT_STREAM_ADD,
+  EVENT_STREAM_REMOVE,
   EVENT_STREAM_UPDATE,
   EVENT_STREAM_OCCUPY,
   ACCOUNT_SWITCH,
@@ -16,14 +16,14 @@ export default (state: StreamsState = initialState, action: Action): StreamsStat
     case INIT_STREAMS:
       return action.streams;
 
-    case EVENT_STREAM_CREATE:
+    case EVENT_STREAM_ADD:
       return state.concat(
         action.streams.filter(x =>
           !state.find(y => x.stream_id === y.stream_id)
         )
       );
 
-    case EVENT_STREAM_DELETE:
+    case EVENT_STREAM_REMOVE:
       return state.filter(x =>
         !action.streams.find(y => x.stream_id === y.stream_id)
       );

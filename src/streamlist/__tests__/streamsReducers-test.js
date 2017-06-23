@@ -1,8 +1,8 @@
 import streamsReducers from '../streamsReducers';
 import {
   ACCOUNT_SWITCH,
-  EVENT_STREAM_CREATE,
-  EVENT_STREAM_DELETE,
+  EVENT_STREAM_ADD,
+  EVENT_STREAM_REMOVE,
   EVENT_STREAM_UPDATE,
 } from '../../actionConstants';
 
@@ -21,11 +21,11 @@ describe('streamsReducers', () => {
     });
   });
 
-  describe('EVENT_STREAM_CREATE', () => {
+  describe('EVENT_STREAM_ADD', () => {
     test('add new stream', () => {
       const prevState = [];
       const action = {
-        type: EVENT_STREAM_CREATE,
+        type: EVENT_STREAM_ADD,
         streams: [
           {
             name: 'some stream',
@@ -62,7 +62,7 @@ describe('streamsReducers', () => {
         }
       ];
       const action = {
-        type: EVENT_STREAM_CREATE,
+        type: EVENT_STREAM_ADD,
         streams: [
           {
             description: 'description',
@@ -93,7 +93,7 @@ describe('streamsReducers', () => {
     });
   });
 
-  describe('EVENT_STREAM_DELETE', () => {
+  describe('EVENT_STREAM_REMOVE', () => {
     test('removes stream from state', () => {
       const prevState = [
         {
@@ -113,7 +113,7 @@ describe('streamsReducers', () => {
         },
       ];
       const action = {
-        type: EVENT_STREAM_DELETE,
+        type: EVENT_STREAM_REMOVE,
         streams: [
           {
             name: 'some stream',
@@ -146,7 +146,7 @@ describe('streamsReducers', () => {
         },
       ];
       const action = {
-        type: EVENT_STREAM_DELETE,
+        type: EVENT_STREAM_REMOVE,
         streams: [
           {
             name: 'some stream',
