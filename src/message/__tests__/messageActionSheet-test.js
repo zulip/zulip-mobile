@@ -18,6 +18,12 @@ describe('constructActionButtons', () => {
   let subscriptions = [];
   let mute = [];
   const narrow = [];
+  const flags = {
+    starred: {
+      1: true,
+      2: true,
+    }
+  };
 
   test('do not show narrow option in bottom most narrow', () => {
     const group = groupNarrow(['abc@zulip.com, xyz@zulip.com']);
@@ -32,42 +38,48 @@ describe('constructActionButtons', () => {
       auth,
       narrow: group,
       subscriptions,
-      mute
+      mute,
+      flags
     });
     const topicButtons = constructActionButtons({
       message,
       auth,
       narrow: topic,
       subscriptions,
-      mute
+      mute,
+      flags
     });
     const privateButtons = constructActionButtons({
       message,
       auth,
       narrow: pmNarrow,
       subscriptions,
-      mute
+      mute,
+      flags
     });
     const specialButtons = constructActionButtons({
       message,
       auth,
       narrow: special,
       subscriptions,
-      mute
+      mute,
+      flags
     });
     const homeButtons = constructActionButtons({
       message,
       auth,
       narrow: home,
       subscriptions,
-      mute
+      mute,
+      flags
     });
     const streamButtons = constructActionButtons({
       message,
       auth,
       narrow: stream,
       subscriptions,
-      mute
+      mute,
+      flags
     });
 
     expect(groupButtons).not.toContain('Narrow to conversation');
@@ -88,7 +100,7 @@ describe('constructActionButtons', () => {
       'electron issues', 'issue #556'
     ]];
 
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute });
+    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
 
     expect(buttons).toContain('Unmute topic');
   });
@@ -100,7 +112,7 @@ describe('constructActionButtons', () => {
       subject: 'PR #558'
     };
 
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute });
+    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
 
     expect(buttons).toContain('Mute topic');
   });
@@ -115,7 +127,7 @@ describe('constructActionButtons', () => {
       in_home_view: false,
     }];
 
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute });
+    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
 
     expect(buttons).toContain('Unmute stream');
   });
@@ -125,8 +137,28 @@ describe('constructActionButtons', () => {
       type: 'stream',
     };
 
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute });
+    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
 
     expect(buttons).toContain('Mute stream');
+  });
+
+  test('show star message option if message is not starred', () => {
+    message = {
+      id: 3,
+    };
+
+    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
+
+    expect(buttons).toContain('Star Message');
+  });
+
+  test('show unstar message option if message is starred', () => {
+    message = {
+      id: 1,
+    };
+
+    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
+
+    expect(buttons).toContain('Unstar Message');
   });
 });

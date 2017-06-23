@@ -5279,6 +5279,10 @@ react-native-scrollable-tab-view@^0.7.0:
     react-static-container "^1.0.1"
     react-timer-mixin "^0.13.3"
 
+react-native-simple-toast@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-0.0.6.tgz#f1ddb2c07c192cf2b75b860d283028a0769b2f72"
+
 react-native-sound@^0.10.1:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.1.tgz#c6afa5114cea6e39f479a2c67d6d843894ed745c"
