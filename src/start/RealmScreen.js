@@ -56,7 +56,7 @@ class RealmScreen extends React.Component {
   }
 
   tryRealm = async () => {
-    let { realm } = this.state;
+    const { realm } = this.state;
 
     this.setState({
       realm: fixRealmUrl(realm),
