@@ -2,16 +2,12 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, TextInput } from 'react-native';
 
-import { MatchResult, Auth, Narrow, User } from '../types';
+import { Auth, Narrow, User } from '../types';
 import { Input } from '../common';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { registerUserInputActivity } from '../utils/activity';
 import sendMessage from '../api/sendMessage';
 import SendButton from './SendButton';
-import getAutocompletedText from '../autocomplete/getAutocompletedText';
-import EmojiAutocomplete from '../autocomplete/EmojiAutocomplete';
-import StreamAutocomplete from '../autocomplete/StreamAutocomplete';
-import PeopleAutocomplete from '../autocomplete/PeopleAutocomplete';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 
 const MIN_HEIGHT = 38;
@@ -32,6 +28,8 @@ type Props = {
   narrow: Narrow,
   operator: string,
   users: User[],
+  text: string,
+  handleChangeText: (input: string) => void,
 };
 
 export default class ComposeText extends React.Component {
@@ -45,21 +43,18 @@ export default class ComposeText extends React.Component {
 
   state: {
     editing: boolean,
-    text: string,
     autocomplete: boolean,
     contentHeight: number,
   }
 
   state = {
     editing: false,
-    text: '',
     autocomplete: false,
     contentHeight: MIN_HEIGHT,
   };
 
   handleSend = () => {
-    const { auth, narrow, operator } = this.props;
-    const { text } = this.state;
+    const { auth, narrow, operator, text } = this.props;
 
     if (isPrivateOrGroupNarrow(narrow)) {
       sendMessage(auth, 'private', narrow[0].operand, '', text);
@@ -81,59 +76,44 @@ export default class ComposeText extends React.Component {
   clearInput = () => {
     this.textInput.clear();
     this.setState({
-      text: '',
       contentHeight: MIN_HEIGHT,
     });
+    this.props.handleChangeText('');
   }
 
   handleOnChange = (event: Object) =>
     this.setState({ contentHeight: event.nativeEvent.contentSize.height });
 
   handleChangeText = (text: string) => {
-    const { auth } = this.props;
+    const { auth, handleChangeText } = this.props;
     registerUserInputActivity(auth);
-    this.setState({ text });
-  }
-
-  handleAutocomplete = (autocomplete: string) => {
-    const text = getAutocompletedText(this.state.text, autocomplete);
-    this.textInput.setNativeProps({ text });
-    this.setState({ text });
+    handleChangeText(text);
   }
 
   render() {
-    const { narrow, auth, users } = this.props;
-    const { contentHeight, text } = this.state;
+    const { narrow, auth, users, text } = this.props;
+    const { contentHeight } = this.state;
     const height = Math.min(Math.max(MIN_HEIGHT, contentHeight), MAX_HEIGHT);
-    const lastword: MatchResult = text.match(/\b(\w+)$/);
-    const lastWordPrefix = lastword && lastword.index && text[lastword.index - 1];
 
     return (
-      <View>
-        {lastWordPrefix === ':' && lastword &&
-          <EmojiAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
-        {lastWordPrefix === '#' && lastword &&
-          <StreamAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
-        {lastWordPrefix === '@' && lastword &&
-          <PeopleAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
-        <View style={componentStyles.wrapper}>
-          <ScrollView style={{ height }} contentContainerStyle={componentStyles.messageBox}>
-            <Input
-              style={this.context.styles.composeText}
-              textInputRef={component => { this.textInput = component; }}
-              multiline
-              underlineColorAndroid="transparent"
-              height={contentHeight}
-              onChange={this.handleOnChange}
-              onChangeText={this.handleChangeText}
-              placeholder={getComposeInputPlaceholder(narrow, auth.email, users)}
-            />
-          </ScrollView>
-          <SendButton
-            disabled={text.length === 0}
-            onPress={this.handleSend}
+      <View style={componentStyles.wrapper}>
+        <ScrollView style={{ height }} contentContainerStyle={componentStyles.messageBox}>
+          <Input
+            value={text}
+            style={this.context.styles.composeText}
+            textInputRef={component => { this.textInput = component; }}
+            multiline
+            underlineColorAndroid="transparent"
+            height={contentHeight}
+            onChange={this.handleOnChange}
+            onChangeText={this.handleChangeText}
+            placeholder={getComposeInputPlaceholder(narrow, auth.email, users)}
           />
-        </View>
+        </ScrollView>
+        <SendButton
+          disabled={text.length === 0}
+          onPress={this.handleSend}
+        />
       </View>
     );
   }

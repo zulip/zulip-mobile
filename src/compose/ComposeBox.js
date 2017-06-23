@@ -10,6 +10,7 @@ import CameraRollView from './CameraRollView';
 import { getLastTopicInActiveNarrow } from '../chat/chatSelectors';
 import StreamBox from './ModeViews/StreamBox';
 import { isTopicNarrow, isStreamNarrow } from '../utils/narrow';
+import AutoCompleteView from '../autocomplete/AutoCompleteView';
 
 type Props = {
   onSend: (content: string) => void,
@@ -38,11 +39,13 @@ class ComposeBox extends React.Component {
   state: {
     optionSelected: number,
     operator: string,
+    text: string,
   };
 
   state = {
     optionSelected: 0,
     operator: '',
+    text: '',
   };
 
   setTopic = (operator: string) => this.setState({ operator });
@@ -52,12 +55,16 @@ class ComposeBox extends React.Component {
 
   render() {
     const { styles } = this.context;
-    const { optionSelected, operator } = this.state;
+    const { optionSelected, operator, text } = this.state;
     const { auth, narrow, users, lastTopic } = this.props;
     const ActiveComposeComponent = composeComponents[optionSelected];
 
     return (
       <View style={this.context.styles.composeBox}>
+        <AutoCompleteView
+          text={text}
+          onAutocomplete={(input) => this.setState({ text: input })}
+        />
         {(isTopicNarrow(narrow) || isStreamNarrow(narrow)) &&
         <View style={styles.topicWrapper}>
           <StreamBox
@@ -77,6 +84,8 @@ class ComposeBox extends React.Component {
           narrow={narrow}
           operator={operator}
           users={users}
+          text={text}
+          handleChangeText={(input) => this.setState({ text: input })}
         />
       </View>
     );
