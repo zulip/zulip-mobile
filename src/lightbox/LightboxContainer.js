@@ -9,7 +9,7 @@ import Header from './LightboxHeader';
 import Footer from './LightboxFooter';
 import boundActions from '../boundActions';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
-import { NAVBAR_HEIGHT, LIGHTBOX_FOOTER_OFFSET } from '../styles';
+import { NAVBAR_HEIGHT, LIGHTBOX_FOOTER_OFFSET, LIGHTBOX_OVERLAY_COLOR } from '../styles';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: LIGHTBOX_OVERLAY_COLOR,
     position: 'absolute',
     zIndex: 1,
   },
@@ -48,98 +48,96 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connectActionSheet(
-  connect(null, boundActions)(
-    class LightboxContainer extends React.Component {
-      static contextTypes = {
-        styles: () => null,
-      };
+class LightboxContainer extends React.PureComponent {
+  static contextTypes = {
+    styles: () => null,
+  };
 
-      state = {
-        movement: 'out',
-      };
+  state = {
+    movement: 'out',
+  };
 
-      handleImagePress = () => {
-        this.setState({
-          movement: this.state.movement === 'out' ? 'in' : 'out',
+  handleImagePress = () => {
+    this.setState(({ movement }, props) => ({
+      movement: movement === 'out' ? 'in' : 'out',
+    }));
+  };
+
+  handleOptionsPress = () => {
+    const options = constructActionSheetButtons();
+    const cancelButtonIndex = options.length - 1;
+    const { showActionSheetWithOptions, src: { uri: url }, auth } = this.props;
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+      },
+      buttonIndex => {
+        executeActionSheetAction({
+          title: options[buttonIndex],
+          url,
+          auth,
         });
-      };
+      },
+    );
+  };
 
-      handleOptionsPress = () => {
-        const options = constructActionSheetButtons();
-        const cancelButtonIndex = options.length - 1;
-        const { showActionSheetWithOptions, src: { uri: url }, auth } = this.props;
-        showActionSheetWithOptions(
-          {
-            options,
-            cancelButtonIndex,
-          },
-          buttonIndex => {
-            executeActionSheetAction({
-              title: options[buttonIndex],
-              url,
-              auth,
-            });
-          },
-        );
-      };
+  getFooterMessage = () => {
+    const { type, display_recipient: stream } = this.props.message;
+    return type === 'stream' ? `Shared in #${stream}` : 'Shared with you';
+  };
 
-      getFooterMessage = () => {
-        const { type, display_recipient: stream } = this.props.message;
-        return type === 'stream' ? `Shared in #${stream}` : 'Shared with you';
-      };
+  getAnimationProps = () => ({
+    easing: Easing.bezier(0.075, 0.82, 0.165, 1),
+    duration: 300,
+    movement: this.state.movement,
+  });
 
-      getAnimationProps = () => ({
-        easing: Easing.bezier(0.075, 0.82, 0.165, 1),
-        duration: 300,
-        movement: this.state.movement,
-      });
+  getHeaderProps = () => {
+    const {
+      popRoute,
+      message: { timestamp, sender_full_name: senderName, avatar_url: avatarUrl },
+      auth: { realm },
+    } = this.props;
+    return {
+      styles: this.context.styles,
+      style: [styles.overlay, styles.header],
+      from: -NAVBAR_HEIGHT,
+      to: 0,
+      popRoute,
+      timestamp,
+      avatarUrl,
+      senderName,
+      realm,
+    };
+  };
 
-      getHeaderProps = () => {
-        const {
-          popRoute,
-          message: { timestamp, sender_full_name: senderName, avatar_url: avatarUrl },
-          auth: { realm },
-        } = this.props;
-        return {
-          styles: this.context.styles,
-          style: [styles.overlay, styles.header],
-          from: -NAVBAR_HEIGHT,
-          to: 0,
-          popRoute,
-          timestamp,
-          avatarUrl,
-          senderName,
-          realm,
-        };
-      };
+  getFooterProps = () => ({
+    displayMessage: this.getFooterMessage(),
+    onPress: this.handleOptionsPress,
+    style: [styles.overlay, styles.footer],
+    from: WINDOW_HEIGHT,
+    to: WINDOW_HEIGHT - FOOTER_HEIGHT - LIGHTBOX_FOOTER_OFFSET,
+  });
 
-      getFooterProps = () => ({
-        displayMessage: this.getFooterMessage(),
-        onPress: this.handleOptionsPress,
-        style: [styles.overlay, styles.footer],
-        from: WINDOW_HEIGHT,
-        to: WINDOW_HEIGHT - FOOTER_HEIGHT - LIGHTBOX_FOOTER_OFFSET,
-      });
+  getImageProps = () => ({
+    source: this.props.src,
+    minimumZoomScale: 1,
+    maximumZoomScale: 3,
+    style: styles.img,
+    resizeMode: 'contain',
+    onTap: this.handleImagePress,
+  });
 
-      getImageProps = () => ({
-        source: this.props.src,
-        minimumZoomScale: 1,
-        maximumZoomScale: 3,
-        style: styles.img,
-        resizeMode: 'contain',
-        onTap: this.handleImagePress,
-      });
+  render() {
+    return (
+      <View style={styles.container}>
+        <Header {...this.getAnimationProps()} {...this.getHeaderProps()} />
+        <PhotoView {...this.getImageProps()} />
+        <Footer {...this.getAnimationProps()} {...this.getFooterProps()} />
+      </View>
+    );
+  }
+}
 
-      render() {
-        return (
-          <View style={styles.container}>
-            <Header {...this.getAnimationProps()} {...this.getHeaderProps()} />
-            <PhotoView {...this.getImageProps()} />
-            <Footer {...this.getAnimationProps()} {...this.getFooterProps()} />
-          </View>
-        );
-      }
-    },
-  ),
-);
+export default connectActionSheet(connect(null, boundActions)(LightboxContainer));

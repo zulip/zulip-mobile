@@ -2,12 +2,12 @@
 import React, { Children } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 import boundActions from '../boundActions';
 import { CONTROL_SIZE } from '../styles';
 import { Label } from '../common';
 import NavButton from './NavButton';
+import { PopRouteAction, StyleObj } from '../types';
 
 const customStyles = StyleSheet.create({
   centerItem: {
@@ -19,20 +19,19 @@ const customStyles = StyleSheet.create({
 });
 
 class ModalNavBar extends React.Component {
-
   static contextTypes = {
     styles: () => null,
   };
 
   props: {
     nav: any,
-    title: string,
+    title?: string,
     titleColor?: ?string,
     itemsColor?: ?string,
     rightItem?: Object,
     style: StyleObj,
-    children: Children,
-    popRoute: () => void,
+    children?: Children,
+    popRoute: PopRouteAction,
     isRightItemNav?: boolean,
     childrenStyle?: StyleObj,
   };
@@ -53,8 +52,8 @@ class ModalNavBar extends React.Component {
     const textStyle = [
       styles.navTitle,
       nav.index > 0 && !isRightItemNav && { marginRight: CONTROL_SIZE },
-      rightItem && { marginLeft: CONTROL_SIZE },
-      titleColor && { color: titleColor },
+      rightItem ? { marginLeft: CONTROL_SIZE } : {},
+      titleColor ? { color: titleColor } : {},
     ];
     const content = React.Children.count(this.props.children) === 0
       ? <Label style={textStyle} text={title} />
@@ -68,11 +67,7 @@ class ModalNavBar extends React.Component {
         <View style={[customStyles.centerItem, childrenStyle]}>
           {content}
         </View>
-        {rightItem &&
-          <NavButton
-            color={itemsColor}
-            {...rightItem}
-          />}
+        {rightItem && <NavButton color={itemsColor} {...rightItem} />}
       </View>
     );
   }

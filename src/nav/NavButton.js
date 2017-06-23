@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import { BRAND_COLOR, CONTROL_SIZE } from '../styles';
 import { Touchable } from '../common';
 import Icon from '../common/Icons';
+import { StyleObj } from '../types';
 
 const styles = StyleSheet.create({
   frame: {
@@ -32,7 +33,7 @@ type Props = {
   color?: ?string,
   showCircle?: boolean,
   onPress: () => void,
-  style?: Object,
+  style?: StyleObj,
 };
 
 export default ({ name, color, showCircle, onPress, style }: Props) => (

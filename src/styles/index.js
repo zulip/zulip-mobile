@@ -7,6 +7,7 @@ export {
   REACTION_HEIGHT,
   REACTION_SPINNER_OFFSET,
   LIGHTBOX_FOOTER_OFFSET,
+  LIGHTBOX_OVERLAY_COLOR,
 } from './platform';
 
 export const BRAND_COLOR = 'rgba(82, 194, 175, 1)';

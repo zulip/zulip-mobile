@@ -21,7 +21,7 @@ type ExecuteActionSheetActionType = {
 };
 
 const downloadImage = ({ url, auth }: DownloadImageType) => {
-  download(url, auth).then(() => Toast.show('Download complete.'));
+  download(url, auth).then(() => Toast('Download complete.'));
 };
 
 const shareLink = ({ url }: ShareLinkType) => {

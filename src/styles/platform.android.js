@@ -5,3 +5,4 @@ export const NAVBAR_HEIGHT = CONTROL_SIZE;
 export const REACTION_HEIGHT = 30;
 export const REACTION_SPINNER_OFFSET = REACTION_HEIGHT - 2;
 export const LIGHTBOX_FOOTER_OFFSET = 25;
+export const LIGHTBOX_OVERLAY_COLOR = 'black';

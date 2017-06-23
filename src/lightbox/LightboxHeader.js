@@ -35,7 +35,7 @@ const customStyles = StyleSheet.create({
   },
 });
 
-type props = {
+type Props = {
   popRoute: PopRouteAction,
   senderName: string,
   timestamp: number,
@@ -48,7 +48,7 @@ type props = {
   styles: () => null,
 };
 
-export default ({ popRoute, senderName, timestamp, styles, ...restProps }) => {
+export default ({ popRoute, senderName, timestamp, styles, ...restProps }: Props) => {
   const displayDate = humanDate(new Date(timestamp * 1000));
   const time = shortTime(timestamp * 1000);
   const subheader = `${displayDate} at ${time}`;
@@ -61,6 +61,7 @@ export default ({ popRoute, senderName, timestamp, styles, ...restProps }) => {
         style={customStyles.navBar}
         childrenStyle={customStyles.children}
         isRightItemNav
+        popRoute
       >
         <Avatar {...restProps} />
         <View style={customStyles.text}>
