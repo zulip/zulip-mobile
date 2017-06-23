@@ -3,6 +3,7 @@ import { Auth } from '../types';
 
 import download from '../api/downloadFile';
 import share from './share';
+import Toast from '../utils/showToast';
 
 type DownloadImageType = {
   url: string,
@@ -20,7 +21,7 @@ type ExecuteActionSheetActionType = {
 };
 
 const downloadImage = ({ url, auth }: DownloadImageType) => {
-  download(url, auth);
+  download(url, auth).then(() => Toast.show('Download complete.'));
 };
 
 const shareLink = ({ url }: ShareLinkType) => {
