@@ -35,10 +35,10 @@ class AccountDetailsScreen extends Component {
   }
 
   render() {
-    const { auth, fetchMessages, doNarrow, popRoute } = this.props;
+    const { auth, fetchMessages, doNarrow, popRoute, orientation } = this.props;
 
     return (
-      <Screen title="Account details">
+      <Screen title={this.user.fullName}>
         <AccountDetails
           auth={auth}
           fullName={this.user.fullName}
@@ -48,6 +48,7 @@ class AccountDetailsScreen extends Component {
           fetchMessages={fetchMessages}
           doNarrow={doNarrow}
           popRoute={popRoute}
+          orientation={orientation}
         />
       </Screen>
     );
@@ -59,6 +60,7 @@ export default connect(
     auth: getAuth(state),
     users: state.users,
     email: getCurrentRoute(state).data,
+    orientation: state.app.orientation
   }),
   boundActions,
 )(AccountDetailsScreen);
