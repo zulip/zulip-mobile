@@ -10,7 +10,7 @@ const handlePendingNotifications = async (switchNarrow) => {
   const notification = await PendingNotifications.getInitialNotification();
   if (notification) {
     const data = notification.getData();
-    console.log('Opened app by notification', data); //eslint-disable-line
+    // console.log('Opened app by notification', data); //eslint-disable-line
     if (data.recipient_type === 'stream') {
       switchNarrow(streamNarrow(data.stream, data.topic));
     } else if (data.recipient_type === 'private') {
@@ -24,7 +24,7 @@ const handleRegistrationUpdates = (auth: Auth, saveTokenGCM) => {
     try {
       await registerGCM(auth, deviceToken);
     } catch (e) {
-      console.log('error ', e); //eslint-disable-line
+      // console.log('error ', e); //eslint-disable-line
     }
     saveTokenGCM(deviceToken);
   });
