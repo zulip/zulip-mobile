@@ -96,7 +96,7 @@ export default (state: GlobalState, event: Object) => {
       };
     case 'pointer':
       // TODO
-      console.log(event); // eslint-disable-line
+      // console.log(event); // eslint-disable-line
       break;
 
     case 'reaction':
