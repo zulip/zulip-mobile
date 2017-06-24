@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -53,6 +52,7 @@
 		DBC5C3186FE64F94BD3CDC19 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2070A88714C43ED8AF708C3 /* MaterialCommunityIcons.ttf */; };
 		F6397C64C31B4108B66C0839 /* libSMXCrashlytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EBE1731503514D0FBFEE11BF /* libSMXCrashlytics.a */; };
 		FF359794CBFF4ABF92423426 /* libRCTToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CFB39BBD9094475BB03A3E4 /* libRCTToast.a */; };
+		49AFC2B12B294B7C8EEE4AC9 /* libRNSnackbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2254335EEF8D44E4BB9A678F /* libRNSnackbar.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -364,6 +364,8 @@
 		F56CBB1B9A6449F895C858C6 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		FC7EC6A752C243FB9F1B8442 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		FD9027BAF72ED45247660C16 /* Pods-ZulipMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZulipMobileTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZulipMobileTests/Pods-ZulipMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
+		29182166562F40C496F8E851 /* RNSnackbar.xcodeproj */ = {isa = PBXFileReference; name = "RNSnackbar.xcodeproj"; path = "../node_modules/react-native-snackbar/ios/RNSnackbar.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		2254335EEF8D44E4BB9A678F /* libRNSnackbar.a */ = {isa = PBXFileReference; name = "libRNSnackbar.a"; path = "libRNSnackbar.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -401,6 +403,7 @@
 				A83E9861943143E6A10A689E /* libSafariViewManager.a in Frameworks */,
 				FF359794CBFF4ABF92423426 /* libRCTToast.a in Frameworks */,
 				ADE3B79538D54689B14FEB10 /* libRNFetchBlob.a in Frameworks */,
+				49AFC2B12B294B7C8EEE4AC9 /* libRNSnackbar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,6 +579,7 @@
 				96B2280917D24AE692AD70FE /* SafariViewManager.xcodeproj */,
 				6922647B10C64653A76BF3E5 /* RCTToast.xcodeproj */,
 				FC7EC6A752C243FB9F1B8442 /* RNFetchBlob.xcodeproj */,
+				29182166562F40C496F8E851 /* RNSnackbar.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1319,6 +1323,7 @@
 					"$(SRCROOT)/../node_modules/react-native-safari-view",
 					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 				INFOPLIST_FILE = ZulipMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
@@ -1360,6 +1365,7 @@
 					"$(SRCROOT)/../node_modules/react-native-safari-view",
 					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 				INFOPLIST_FILE = ZulipMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
@@ -1402,6 +1408,7 @@
 					"$(SRCROOT)/../node_modules/react-native-safari-view",
 					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 				INFOPLIST_FILE = ZulipMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1435,6 +1442,7 @@
 					"$(SRCROOT)/../node_modules/react-native-safari-view",
 					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 				INFOPLIST_FILE = ZulipMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

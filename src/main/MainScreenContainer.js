@@ -58,6 +58,7 @@ export default connect(state => ({
   isOnline: state.app.isOnline,
   orientation: state.app.orientation,
   subscriptions: state.subscriptions,
+  streams: state.streams,
   messages: getShownMessagesInActiveNarrow(state),
   flags: state.flags,
   allMessages: state.chat.messages,
