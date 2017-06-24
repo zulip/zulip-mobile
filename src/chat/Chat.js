@@ -22,6 +22,7 @@ import MessageListLoading from '../message/MessageListLoading';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
+import NotSubscribed from '../message/NotSubscribed';
 
 
 class Chat extends React.Component {
@@ -60,6 +61,16 @@ class Chat extends React.Component {
     registerAppActivity(auth);
   };
 
+  isSubscribed = () => {
+    const { narrow, subscriptions } = this.props;
+    return subscriptions.find((sub) => narrow[0].operand === sub.name) !== undefined;
+  }
+
+  showSubscribeButton = () => {
+    const { narrow, streams } = this.props;
+    return !streams.find((sub) => narrow[0].operand === sub.name).invite_only || false;
+  }
+
   render() {
     const { styles } = this.context;
     const { messages, narrow, fetching, isOnline, readIds, needsInitialFetch } = this.props;
@@ -83,7 +94,11 @@ class Chat extends React.Component {
         <ActionSheetProvider>
           <MessageList onScroll={this.handleMessageListScroll} {...this.props} />
         </ActionSheetProvider>}
-        {canSendToNarrow(narrow) && <ComposeBox />}
+        {canSendToNarrow(narrow) ? (this.isSubscribed() ? <ComposeBox /> :
+        <NotSubscribed
+          narrow={narrow}
+          showSubscribeButton={this.showSubscribeButton}
+        />) : null}
       </WrapperView>
     );
   }
