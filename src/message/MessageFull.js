@@ -21,10 +21,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginLeft: 8,
   },
-  messageContentWrapper: {
+  contentWrapper: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+  },
+  inner: {
+    flex: 1,
   },
 });
 
@@ -72,9 +75,9 @@ class MessageFull extends React.PureComponent {
             timestamp={message.timestamp}
             twentyFourHourTime={twentyFourHourTime}
           />
-          <View style={styles.messageContentWrapper}>
+          <View style={styles.contentWrapper}>
             <TouchableWithoutFeedback onLongPress={onLongPress}>
-              <View>
+              <View style={styles.inner}>
                 {children}
               </View>
             </TouchableWithoutFeedback>

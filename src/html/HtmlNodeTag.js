@@ -14,10 +14,7 @@ import HtmlTagPre from './tags/HtmlTagPre';
 import HtmlTagStrong from './tags/HtmlTagStrong';
 import HtmlTagItalic from './tags/HtmlTagItalic';
 import HtmlTagDiv from './tags/HtmlTagDiv';
-import HtmlTagBr from './tags/HtmlTagBr';
 import { getEmojiUrl } from '../utils/url';
-
-// br', 'blockquote',
 
 const specialTags = {
   'span': HtmlTagSpan,
@@ -41,7 +38,6 @@ const specialTags = {
   'tr': HtmlTagDiv,
   'th': HtmlTagDiv,
   'td': HtmlTagDiv,
-  'br': HtmlTagBr,
 };
 
 const stylesFromClassNames = (classNames = '', styleObj) =>
