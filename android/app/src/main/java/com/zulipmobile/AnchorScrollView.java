@@ -11,6 +11,7 @@ package com.zulipmobile;
 
 import javax.annotation.Nullable;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 
 import android.graphics.Canvas;
@@ -35,6 +36,7 @@ import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.views.scroll.FpsListener;
 import com.facebook.react.views.scroll.OnScrollDispatchHelper;
 import com.facebook.react.views.scroll.ReactScrollViewHelper;
+import com.facebook.react.views.view.ReactViewGroup;
 
 public class AnchorScrollView extends ScrollView implements ReactClippingViewGroup, ViewGroup.OnHierarchyChangeListener, View.OnLayoutChangeListener {
 
@@ -153,16 +155,46 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
     protected void findAnchorView() {
         // Set up anchor view
         mAnchorTag = null;
-        for (int i=0; i<mContentView.getChildCount(); i++) {
-            View child = mContentView.getChildAt(i);
-            if (!(child.getTag() instanceof String)) {
-                continue;
+        Field privateField = null;
+        View[] children = null;
+        try {
+            privateField = mContentView.getClass().getDeclaredField("mAllChildren");
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        if (privateField != null) {
+            privateField.setAccessible(true);
+            try {
+                children = (View[]) privateField.get(mContentView); // Now you can access the variable.
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
-            String tag = (String) child.getTag();
-            if (child.getBottom() >= getScrollY()) {
-                mLastAnchorY = child.getTop();
-                mAnchorTag = tag;
-                break;
+        }
+        if (children != null) {
+            for (int i = 0; i < children.length; i++) {
+                View child = children[i];
+                if ((child == null) || !(child.getTag() instanceof String)) {
+                    continue;
+                }
+                String tag = (String) child.getTag();
+                if (child.getBottom() >= getScrollY()) {
+                    mLastAnchorY = child.getTop();
+                    mAnchorTag = tag;
+                    break;
+                }
+            }
+        } else {
+            for (int i = 0; i < mContentView.getChildCount(); i++) {
+                View child = mContentView.getChildAt(i);
+                if (!(child.getTag() instanceof String)) {
+                    continue;
+                }
+                String tag = (String) child.getTag();
+                if (child.getBottom() >= getScrollY()) {
+                    mLastAnchorY = child.getTop();
+                    mAnchorTag = tag;
+                    break;
+                }
             }
         }
     }
@@ -404,10 +436,37 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         // Zulip changes
         if (mAnchorTag != null) {
             View mAnchorView = null;
-            for (int i = 0; i < mContentView.getChildCount(); i++) {
-                View child = mContentView.getChildAt(i);
-                if (mAnchorTag.equals(child.getTag())) {
-                    mAnchorView = child;
+
+            Field privateField = null;
+            View[] children = null;
+            try {
+                privateField = mContentView.getClass().getDeclaredField("mAllChildren");
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+            if (privateField != null) {
+                privateField.setAccessible(true);
+                try {
+                    children = (View[]) privateField.get(mContentView); // Now you can access the variable.
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (children != null) {
+                for (int i = 0; i < children.length; i++) {
+                    View child = children[i];
+                    if (child != null && mAnchorTag.equals(child.getTag())) {
+                        mAnchorView = child;
+                        break;
+                    }
+                }
+            } else {
+                for (int i = 0; i < mContentView.getChildCount(); i++) {
+                    View child = mContentView.getChildAt(i);
+                    if (mAnchorTag.equals(child.getTag())) {
+                        mAnchorView = child;
+                        break;
+                    }
                 }
             }
             if (mAnchorView != null) {
