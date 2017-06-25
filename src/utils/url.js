@@ -88,7 +88,5 @@ export const fixRealmUrl = (url: string) => {
     url = `https://${url}`;
   }
 
-  url = url.replace(/\/$/, '');
-
   return url;
 };

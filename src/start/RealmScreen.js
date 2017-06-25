@@ -56,14 +56,7 @@ class RealmScreen extends React.Component {
   }
 
   tryRealm = async () => {
-    let { realm } = this.state;
-
-    // Automatically prepend 'https://' if the user does not enter a protocol
-    if (realm.search(/\b(http|https):\/\//) === -1) {
-      realm = `https://${realm}`;
-    }
-
-    realm = realm.replace(/\/$/, '');
+    const { realm } = this.state;
 
     this.setState({
       realm: fixRealmUrl(realm),
