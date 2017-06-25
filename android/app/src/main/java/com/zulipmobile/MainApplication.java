@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.facebook.react.ReactApplication;
 import com.wix.reactnativenotifications.RNNotificationsPackage;
+import com.remobile.toast.RCTToastPackage;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.zmxv.RNSound.RNSoundPackage;
@@ -44,6 +45,7 @@ public class MainApplication extends Application implements ReactApplication, IN
             return Arrays.<ReactPackage>asList(
                     new FabricPackage(),
                     new MainReactPackage(),
+                    new RCTToastPackage(),
                     new RNFetchBlobPackage(),
                     new RNSoundPackage(),
                     new RNDeviceInfo(),
