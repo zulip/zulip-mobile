@@ -153,6 +153,7 @@ repositories {
 
 
 dependencies {
+    compile project(':@remobile/react-native-toast')
     compile project(':react-native-photo-view')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-sound')
