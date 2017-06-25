@@ -148,6 +148,7 @@ buildscript {
 }
 //apply plugin: 'io.fabric'
 repositories {
+    mavenCentral()
   maven { url 'https://maven.fabric.io/public' }
 }
 
@@ -162,6 +163,7 @@ dependencies {
     compile project(':react-native-vector-icons')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
+    compile "me.leolin:ShortcutBadger:1.1.16@aar"
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;

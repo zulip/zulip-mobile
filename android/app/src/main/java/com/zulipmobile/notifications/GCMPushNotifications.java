@@ -23,6 +23,8 @@ import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 
+import me.leolin.shortcutbadger.ShortcutBadger;
+
 import static com.zulipmobile.notifications.NotificationHelper.buildNotificationContent;
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
 import static com.zulipmobile.notifications.NotificationHelper.extractNames;
@@ -58,6 +60,11 @@ public class GCMPushNotifications extends PushNotification {
     public void onOpened() {
         super.onOpened();
         clearConversations(conversations);
+        try {
+            ShortcutBadger.removeCount(mContext);
+        } catch (Exception e) {
+            Log.e("BADGE ERROR", e.toString());
+        }
     }
 
 
@@ -74,6 +81,7 @@ public class GCMPushNotifications extends PushNotification {
         String stream = getProps().getStream();
         String topic = getProps().getTopic();
         String baseURL = getProps().getBaseURL();
+        int totalMessagesCount = extractTotalMessagesCount(conversations);
 
         builder.setSmallIcon(R.drawable.zulip_notification);
         builder.setAutoCancel(true);
@@ -97,10 +105,17 @@ public class GCMPushNotifications extends PushNotification {
                 }
             }
         } else {
-            builder.setContentTitle(String.format(Locale.ENGLISH, "%d messages in %d conversations", extractTotalMessagesCount(conversations), conversations.size()));
+            builder.setContentTitle(String.format(Locale.ENGLISH, "%d messages in %d conversations", totalMessagesCount, conversations.size()));
             builder.setStyle(new Notification.BigTextStyle().bigText(buildNotificationContent(conversations)));
             builder.setContentText("Messages from " + TextUtils.join(",", extractNames(conversations)));
         }
+
+        try {
+            ShortcutBadger.applyCount(mContext, totalMessagesCount);
+        } catch (Exception e) {
+            Log.e("BADGE ERROR", e.toString());
+        }
+
         if (time != null) {
             long timStamp = Long.parseLong(getProps().getTime()) * 1000;
             builder.setWhen(timStamp);
