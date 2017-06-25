@@ -9,11 +9,11 @@ import { EditMessage } from '../types';
 
 const styles = StyleSheet.create({
   wrapper: {
-    padding: 4,
     justifyContent: 'center',
     alignItems: 'center',
   },
   button: {
+    margin: 4,
     width: 32,
     height: 32,
     borderRadius: 16,
@@ -27,7 +27,7 @@ export default class SubmitButton extends PureComponent {
   props: {
     disabled: boolean,
     onPress: () => void,
-    editMessage: EditMessage,
+    editMessage?: EditMessage,
   };
 
   render() {
