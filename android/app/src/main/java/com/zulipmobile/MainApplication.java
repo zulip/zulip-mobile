@@ -45,6 +45,7 @@ public class MainApplication extends Application implements ReactApplication, IN
             return Arrays.<ReactPackage>asList(
                     new FabricPackage(),
                     new MainReactPackage(),
+                    new PhotoViewPackage(),
                     new RCTToastPackage(),
                     new RNFetchBlobPackage(),
                     new RNSoundPackage(),
