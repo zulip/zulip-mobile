@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.wix.reactnativenotifications.RNNotificationsPackage;
+import com.reactnative.photoview.PhotoViewPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.facebook.react.ReactInstanceManager;

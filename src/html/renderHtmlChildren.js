@@ -2,7 +2,7 @@
 import React from 'react';
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-import { Auth } from '../types';
+import { Auth, Message, PushRouteAction } from '../types';
 import HtmlNode from './HtmlNode';
 
 type Props = {
@@ -11,10 +11,19 @@ type Props = {
   cascadingStyle?: StyleObj,
   cascadingTextStyle?: StyleObj,
   onPress: (html: string) => void,
+  message: Message,
+  pushRoute: PushRouteAction,
 };
 
-export default ({ auth, cascadingStyle, childrenNodes,
-  cascadingTextStyle, onPress }: Props) =>
+export default ({
+  auth,
+  cascadingStyle,
+  childrenNodes,
+  cascadingTextStyle,
+  onPress,
+  pushRoute,
+  message,
+}: Props) =>
   childrenNodes &&
   childrenNodes
     .filter(x => x.data !== '\n')
@@ -30,5 +39,7 @@ export default ({ auth, cascadingStyle, childrenNodes,
         attribs={node.attribs}
         childrenNodes={node.children}
         onPress={onPress}
+        pushRoute={pushRoute}
+        message={message}
       />
     ));

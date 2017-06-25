@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import { Auth, DoNarrowAction } from '../types';
+import { Auth, DoNarrowAction, PushRouteAction } from '../types';
 import htmlToDomTree from '../html/htmlToDomTree';
 import renderHtmlChildren from '../html/renderHtmlChildren';
 import MessageFull from './MessageFull';
@@ -22,6 +22,7 @@ export default class MessageContainer extends React.PureComponent {
     avatarUrl: string,
     twentyFourHourTime?: boolean,
     isBrief: boolean,
+    pushRoute: PushRouteAction,
   };
 
   defaultProps: {
@@ -53,7 +54,15 @@ export default class MessageContainer extends React.PureComponent {
   }
 
   render() {
-    const { message, auth, avatarUrl, twentyFourHourTime, isBrief, doNarrow } = this.props;
+    const {
+      message,
+      auth,
+      avatarUrl,
+      twentyFourHourTime,
+      isBrief,
+      doNarrow,
+      pushRoute,
+    } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
     const childrenNodes = htmlToDomTree(message.match_content || message.content);
 
@@ -68,7 +77,13 @@ export default class MessageContainer extends React.PureComponent {
         starred={this.isStarred(message)}
         realm={auth.realm}
       >
-        {renderHtmlChildren({ childrenNodes, auth, onPress: this.handleLinkPress })}
+        {renderHtmlChildren({
+          childrenNodes,
+          auth,
+          onPress: this.handleLinkPress,
+          pushRoute,
+          message,
+        })}
       </MessageComponent>
     );
   }

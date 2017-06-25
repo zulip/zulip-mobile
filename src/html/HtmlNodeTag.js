@@ -2,7 +2,7 @@
 import React from 'react';
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-import { Auth } from '../types';
+import { Auth, Message, PushRouteAction } from '../types';
 import styles from './HtmlStyles';
 import cascadingStyles from './cascadingStylesView';
 import cascadingStylesText from './cascadingStylesText';
@@ -51,10 +51,12 @@ type Props = {
   cascadingTextStyle: StyleObj,
   childrenNodes: Object[],
   onPress: () => void,
+  message: Message,
+  pushRoute: PushRouteAction,
 };
 
 export default ({ auth, attribs, name, cascadingStyle,
-  cascadingTextStyle, childrenNodes, onPress }: Props) => {
+  cascadingTextStyle, childrenNodes, onPress, pushRoute, message }: Props) => {
   const style = [
     styles[name],
     ...stylesFromClassNames(attribs.class, styles),
@@ -89,6 +91,8 @@ export default ({ auth, attribs, name, cascadingStyle,
       cascadingTextStyle={newCascadingStylesText}
       childrenNodes={childrenNodes}
       onPress={onPress}
+      pushRoute={pushRoute}
+      message={message}
     />
   );
 };

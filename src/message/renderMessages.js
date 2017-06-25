@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import { Auth, DoNarrowAction, Narrow } from '../types';
+import { Auth, DoNarrowAction, Narrow, PushRouteAction } from '../types';
 import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import MessageHeader from '../message/headers/MessageHeader';
 import MessageContainer from '../message/MessageContainer';
@@ -19,6 +19,7 @@ type Props = {
   narrow: Narrow,
   doNarrow: DoNarrowAction,
   onLongPress: () => void,
+  pushRoute: PushRouteAction,
 };
 
 export default ({
@@ -30,22 +31,19 @@ export default ({
   mute,
   doNarrow,
   onLongPress,
-  flags
+  flags,
+  pushRoute,
 }: Props) => {
   const list: Object[] = [];
   let prevItem;
 
   for (const item of messages) {
-    const diffDays = prevItem &&
-      !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
+    const diffDays =
+      prevItem && !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
 
     if (!prevItem || diffDays) {
       list.push(
-        <TimeRow
-          type="time_row"
-          key={`time${item.timestamp}`}
-          timestamp={item.timestamp}
-        />
+        <TimeRow type="time_row" key={`time${item.timestamp}`} timestamp={item.timestamp} />,
       );
     }
 
@@ -62,12 +60,15 @@ export default ({
           subscriptions={subscriptions}
           narrow={narrow}
           doNarrow={doNarrow}
-        />
+        />,
       );
     }
 
-    const shouldGroupWithPrev = !diffRecipient && !diffDays &&
-      prevItem && prevItem.sender_full_name === item.sender_full_name;
+    const shouldGroupWithPrev =
+      !diffRecipient &&
+      !diffDays &&
+      prevItem &&
+      prevItem.sender_full_name === item.sender_full_name;
 
     list.push(
       <MessageContainer
@@ -81,7 +82,8 @@ export default ({
         users={users}
         onLongPress={onLongPress}
         flags={flags}
-      />
+        pushRoute={pushRoute}
+      />,
     );
 
     prevItem = item;
