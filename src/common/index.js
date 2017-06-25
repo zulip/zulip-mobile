@@ -6,6 +6,7 @@ export { default as Input } from './Input';
 export { default as Label } from './Label';
 export { default as LoadingIndicator } from './LoadingIndicator';
 export { default as Logo } from './Logo';
+export { default as MultilineInput } from './MultilineInput';
 export { default as OfflineNotice } from './OfflineNotice';
 export { default as Popup } from './Popup';
 export { default as RawLabel } from './RawLabel';
