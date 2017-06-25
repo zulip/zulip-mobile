@@ -11,6 +11,8 @@ import config from './config';
 
 require('./i18n/locale');
 
+// console.disableYellowBox = true; // eslint-disable-line
+
 if (config.enableSentry && !DeviceInfo.isEmulator()) {
   Sentry.config(config.sentryKey).install();
 }

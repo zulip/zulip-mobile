@@ -25,7 +25,7 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   },
   input: {
     color,
-    height: CONTROL_SIZE,
+    height: 30,
     ...Platform.select({
       ios: {
         borderWidth: 1,
@@ -36,13 +36,12 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
       },
     }),
   },
-  composeText: {
+  composeTextInput: {
     color,
     borderColor: 'transparent',
     flex: 1,
-    padding: 4,
-    paddingLeft: 8,
-    fontSize: 16,
+    padding: 6,
+    fontSize: 15,
   },
   background: {
     backgroundColor,
@@ -134,10 +133,10 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     fontSize: 16,
   },
   composeBox: {
-    backgroundColor,
-    borderTopWidth: 1,
-    borderTopColor: borderColor,
-    zIndex: 2,
+    flexDirection: 'row',
+    backgroundColor: 'rgba(127, 127, 127, 0.1)',
+    // borderTopColor: borderColor,
+    // zIndex: 2,
   },
   subheader: {
     flex: 1,
@@ -151,18 +150,6 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     fontWeight: 'bold',
     fontSize: 16,
     lineHeight: 16,
-  },
-  composeInput: {
-    padding: 5,
-    fontSize: 14,
-    borderWidth: 0.5,
-    height: CONTROL_SIZE * (3 / 4),
-    borderColor: BORDER_COLOR,
-  },
-  topicWrapper: {
-    height: 44,
-    paddingLeft: 4,
-    paddingRight: 4,
   },
   cardView: {
     backgroundColor: cardColor,

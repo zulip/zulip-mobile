@@ -1,17 +1,15 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 
 import type { LocalizableText, StyleObj } from '../types';
 import { Input } from '../common';
 
-const MIN_HEIGHT = 34;
-const MAX_HEIGHT = 200;
-
 const componentStyles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    flexDirection: 'column',
+  input: {
+    // borderWidth: 0,
+    // backgroundColor: 'yellow',
+    height: 100,
   },
 });
 
@@ -20,6 +18,8 @@ export default class MultilineInput extends PureComponent {
     style?: StyleObj,
     placeholder: LocalizableText,
     onChange?: (text: string) => void,
+    onHeightChange?: (height: number) => void,
+    textInputRef?: (component: TextInput) => void,
   };
 
   static defaultProps = {
@@ -28,38 +28,29 @@ export default class MultilineInput extends PureComponent {
 
   textInput: TextInput;
 
-  state: {
-    contentHeight: number,
-  };
-
-  state = {
-    contentHeight: MIN_HEIGHT,
-  };
-
   handleOnContentSizeChange = (event: Object) => {
-    this.setState({ contentHeight: event.nativeEvent.contentSize.height });
+    const { onHeightChange } = this.props;
+    const contentHeight = event.nativeEvent.contentSize.height;
+    if (onHeightChange) {
+      onHeightChange(contentHeight);
+    }
   };
 
   render() {
-    const { placeholder, style, onChange } = this.props;
-    const { contentHeight } = this.state;
-    const height = Math.min(Math.max(MIN_HEIGHT, contentHeight), MAX_HEIGHT);
+    const { placeholder, textInputRef, style, onChange } = this.props;
 
     return (
-      <ScrollView style={{ height }} contentContainerStyle={componentStyles.wrapper}>
-        <Input
-          style={style}
-          textInputRef={component => {
-            this.textInput = component;
-          }}
-          multiline
-          underlineColorAndroid="transparent"
-          height={height}
-          onContentSizeChange={this.handleOnContentSizeChange}
-          onTextChange={onChange}
-          placeholder={placeholder}
-        />
-      </ScrollView>
+      <Input
+        style={[style, componentStyles.input]}
+        multiline
+        overScrollMode="never"
+        bounces={false}
+        underlineColorAndroid="transparent"
+        onChangeText={onChange}
+        onContentSizeChange={this.handleOnContentSizeChange}
+        placeholder={placeholder}
+        textInputRef={textInputRef}
+      />
     );
   }
 }

@@ -93,7 +93,7 @@ class RealmScreen extends PureComponent {
               autoCapitalize="none"
               placeholder="Server URL"
               defaultValue={realm}
-              onTextChange={value => this.setState({ realm: value })}
+              onChangeText={value => this.setState({ realm: value })}
               blurOnSubmit={false}
               keyboardType="url"
               onSubmitEditing={this.tryRealm}

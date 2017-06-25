@@ -96,14 +96,14 @@ class PasswordAuthView extends PureComponent {
           keyboardType="email-address"
           placeholder="Email"
           defaultValue={email}
-          onTextChange={newEmail => this.setState({ email: newEmail })}
+          onChangeText={newEmail => this.setState({ email: newEmail })}
         />
         <Input
           style={styles.field}
           placeholder="Password"
           secureTextEntry
           value={password}
-          onTextChange={newPassword => this.setState({ password: newPassword })}
+          onChangeText={newPassword => this.setState({ password: newPassword })}
           blurOnSubmit={false}
           onSubmitEditing={this.validateForm}
         />

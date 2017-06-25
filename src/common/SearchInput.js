@@ -41,7 +41,7 @@ export default class SearchInput extends PureComponent {
           autoCapitalize="none"
           placeholder="Search"
           returnKeyType="search"
-          onTextChange={onChange}
+          onChangeText={onChange}
           autoFocus
           clearButton
         />

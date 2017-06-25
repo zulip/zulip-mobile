@@ -26,7 +26,7 @@ import MessageList from '../message/MessageList';
 import MessageListLoading from '../message/MessageListLoading';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
-import UnreadNotice from './UnreadNotice';
+// import UnreadNotice from './UnreadNotice';
 import NotSubscribed from '../message/NotSubscribed';
 
 class Chat extends PureComponent {
@@ -44,7 +44,7 @@ class Chat extends PureComponent {
     isSubscribed: boolean,
     flags: Object,
     messages: Message[],
-    unreadCount: number,
+    // unreadCount: number,
   };
 
   handleMessageListScroll = (e: Object) => {
@@ -64,7 +64,7 @@ class Chat extends PureComponent {
 
   render() {
     const { styles } = this.context;
-    const { isFetching, messages, narrow, unreadCount, isOnline, isSubscribed } = this.props;
+    const { isFetching, messages, narrow, isOnline, isSubscribed } = this.props;
     const noMessages = messages.length === 0;
     const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
     const CheckSub = isSubscribed ? <ComposeBox /> : <NotSubscribed />;
@@ -78,11 +78,11 @@ class Chat extends PureComponent {
           <ActionSheetProvider>
             <MessageList onScroll={this.handleMessageListScroll} {...this.props} />
           </ActionSheetProvider>}
-        <UnreadNotice
+        {/* <UnreadNotice
           unreadCount={unreadCount}
           scrollOffset={this.scrollOffset}
           shouldOffsetForInput={canSendToNarrow(narrow)}
-        />
+        /> */}
         {canSendToNarrow(narrow) ? CheckSub : null}
       </WrapperView>
     );
