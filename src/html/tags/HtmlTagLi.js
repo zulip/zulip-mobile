@@ -8,15 +8,18 @@ import renderHtmlChildren from '../renderHtmlChildren';
 const BULLET = '\u2022';
 
 const customStyles = StyleSheet.create({
-  liText: {
+  text: {
+    flexWrap: 'wrap',
     flex: 1,
+    width: '100%',
+    flexDirection: 'row',
   }
 });
 
 export default ({ style, ...restProps }) => (
-  <View style={style}>
+  <View style={[styles.li, style]}>
     <HtmlNodeText style={styles.bullet} data={BULLET} />
-    <View style={customStyles.liText}>
+    <View style={customStyles.text}>
       {renderHtmlChildren({ ...restProps })}
     </View>
   </View>

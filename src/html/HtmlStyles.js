@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   ul: {
+    width: '100%',
     flexDirection: 'column',
     paddingTop: 4,
     paddingBottom: 4,
@@ -10,14 +11,17 @@ export default StyleSheet.create({
   ol: {
     flexDirection: 'column',
   },
+  li: {
+    flexDirection: 'row',
+    marginBottom: 4,
+  },
   div: {
     flexWrap: 'wrap',
   },
   p: {
   },
-  li: {
-    flexDirection: 'row',
-    marginBottom: 4,
+  br: {
+    width: '100%',
   },
   span: {
   },
