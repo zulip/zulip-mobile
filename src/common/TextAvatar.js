@@ -35,16 +35,24 @@ type Props = {
   name: string,
   size: number,
   status?: string,
-  isCircular?: boolean,
+  shape: string,
   onPress?: () => void,
 };
 
 
-export default ({ name, size, status, isCircular, onPress }: Props) => {
+export default ({
+  name,
+  size,
+  status,
+  shape,
+  onPress
+}: Props) => {
   const frameSize = {
     height: size,
     width: size,
-    borderRadius: isCircular ? size / 2 : size / 8,
+    borderRadius: (shape === 'rounded') ? size / 8
+      : (shape === 'circle') ? size / 2
+        : (shape === 'square') ? 0 : 0,
     backgroundColor: colorHashFromName(name),
   };
   const textSize = {
