@@ -1,5 +1,5 @@
 /* @flow */
-import { MuteState, Action } from '../types';
+import type { MuteState, Action } from '../types';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,

@@ -1,5 +1,5 @@
 /* @flow */
-import { Auth, Narrow, Dispatch, GetState } from '../types';
+import type { Auth, Narrow, Dispatch, GetState } from '../types';
 import { getMessages } from '../api';
 import { registerAppActivity } from '../utils/activity';
 import { getAuth } from '../account/accountSelectors';

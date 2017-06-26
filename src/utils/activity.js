@@ -1,7 +1,7 @@
 /* @flow */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 
-import { Auth } from '../types';
+import type { Auth } from '../types';
 import { focusPing } from '../api';
 
 const APP_ACTIVITY_UPDATE_FREQUENCY = 60;

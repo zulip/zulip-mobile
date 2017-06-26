@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { NOT_FOUND_USER } from '../constants';
-import { Narrow } from '../types';
+import type { Narrow } from '../types';
 import { normalizeRecipients } from '../utils/message';
 import { isGroupNarrow } from '../utils/narrow';
 import { Avatar, RawLabel, Touchable, UnreadCount } from '../common';

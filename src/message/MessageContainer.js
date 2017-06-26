@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import { Auth, DoNarrowAction, PushRouteAction } from '../types';
+import type { Auth, DoNarrowAction, PushRouteAction } from '../types';
 import htmlToDomTree from '../html/htmlToDomTree';
 import renderHtmlChildren from '../html/renderHtmlChildren';
 import MessageFull from './MessageFull';

@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Narrow } from '../types';
+import type { Narrow } from '../types';
 import { Label } from '../common';
 
 import {

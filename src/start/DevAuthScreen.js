@@ -4,7 +4,7 @@ import { ScrollView, Text, View } from 'react-native';
 
 import { connect } from 'react-redux';
 
-import { Auth } from '../types';
+import type { Auth } from '../types';
 import boundActions from '../boundActions';
 import { ErrorMsg, Screen, ZulipButton } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';

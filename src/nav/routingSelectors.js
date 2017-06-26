@@ -1,5 +1,5 @@
 /* @flow */
-import { GlobalState } from '../types';
+import type { GlobalState } from '../types';
 
 export const getInitialRoutes = (accounts: any[]): string[] => {
   const activeAccount = accounts[0];

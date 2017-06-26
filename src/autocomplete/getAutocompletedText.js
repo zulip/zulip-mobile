@@ -1,5 +1,5 @@
 /* @flow */
-import { MatchResult } from '../types';
+import type { MatchResult } from '../types';
 
 export default (text: string, autocompleteText: string) => {
   const lastword: MatchResult = text.match(/\b(\w+)$/);

@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { ReactionType } from '../types';
+import type { ReactionType } from '../types';
 import Reaction from './Reaction';
 import aggregateReactions from './aggregateReactions';
 

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import SafariView from 'react-native-safari-view';
 import parseURL from 'url-parse';
 
-import { PushRouteAction, SetAuthType } from '../types';
+import type { PushRouteAction, SetAuthType } from '../types';
 import boundActions from '../boundActions';
 import { RawLabel, Screen, ZulipButton } from '../common';
 import { generateOtp, extractApiKey } from '../utils/encoding';

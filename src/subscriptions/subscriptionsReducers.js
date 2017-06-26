@@ -1,5 +1,5 @@
 /* @flow */
-import { SubscriptionsState, Action } from '../types';
+import type { SubscriptionsState, Action } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,

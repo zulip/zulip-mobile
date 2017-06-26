@@ -50,7 +50,7 @@ type Props = {
 
 export default ({ popRoute, senderName, timestamp, styles, ...restProps }: Props) => {
   const displayDate = humanDate(new Date(timestamp * 1000));
-  const time = shortTime(timestamp * 1000);
+  const time = shortTime(new Date(timestamp * 1000));
   const subheader = `${displayDate} at ${time}`;
 
   return (

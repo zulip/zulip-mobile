@@ -1,5 +1,5 @@
 /* @flow */
-import { ReactionType } from '../types';
+import type { ReactionType } from '../types';
 
 export default (reactions: ReactionType[], selfEmail: string) =>
   Array.from(

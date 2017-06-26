@@ -1,6 +1,6 @@
 /* @flow */
 import base64 from 'base-64';
-import { Auth } from '../types';
+import type { Auth } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { getUserById } from '../users/usersSelectors';
 
@@ -80,7 +80,7 @@ const getResourceNoAuth = (uri: string) => ({
   uri,
 });
 
-export const getResource = (uri: string, auth: Auth) =>
+export const getResource = (uri: string, auth: Auth): Object =>
   (isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri));
 
 export const fixRealmUrl = (url: string) => {

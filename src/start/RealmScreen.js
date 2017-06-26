@@ -7,7 +7,7 @@ import {
   Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
-import { PushRouteAction } from '../types';
+import type { PushRouteAction } from '../types';
 import boundActions from '../boundActions';
 import { Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
 import { getAuthBackends } from '../api';

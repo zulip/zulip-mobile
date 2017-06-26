@@ -1,5 +1,5 @@
 /* @flow */
-import { Action, TypingState } from '../types';
+import type { Action, TypingState } from '../types';
 import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../actionConstants';
 import { normalizeRecipientsSansMe } from '../utils/message';
 

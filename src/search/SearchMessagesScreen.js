@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import throttle from 'lodash.throttle';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import { Auth, DoNarrowAction, PopRouteAction } from '../types';
+import type { Auth, DoNarrowAction, PopRouteAction } from '../types';
 import boundActions from '../boundActions';
 import { Label } from '../common';
 import { getAuth } from '../account/accountSelectors';

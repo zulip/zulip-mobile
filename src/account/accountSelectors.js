@@ -1,5 +1,5 @@
 /* @flow */
-import { AccountState } from '../types';
+import type { AccountState } from '../types';
 
 export const getActiveAccount = (state: AccountState) =>
   (state.accounts ? state.accounts[0] : undefined);

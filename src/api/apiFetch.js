@@ -1,5 +1,5 @@
 /* @flow */
-import { Auth, ResponseExtractionFunc } from '../types';
+import type { Auth, ResponseExtractionFunc } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { timeout } from '../utils/async';

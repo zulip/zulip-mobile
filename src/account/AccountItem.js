@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Auth } from '../types';
+import type { Auth } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable } from '../common';
 import { IconDone, IconCancel } from '../common/Icons';

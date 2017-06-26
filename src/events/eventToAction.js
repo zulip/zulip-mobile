@@ -1,5 +1,5 @@
 /* @flow */
-import { GlobalState } from '../types';
+import type { GlobalState } from '../types';
 import {
   EVENT_NEW_MESSAGE,
   EVENT_PRESENCE,

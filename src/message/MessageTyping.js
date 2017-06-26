@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { PushRouteAction } from '../types';
+import type { PushRouteAction } from '../types';
 import { Avatar } from '../common';
 
 const styles = StyleSheet.create({

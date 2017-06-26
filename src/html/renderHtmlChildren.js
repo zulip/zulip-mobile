@@ -2,7 +2,7 @@
 import React from 'react';
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-import { Auth, Message, PushRouteAction } from '../types';
+import type { Auth, Message, PushRouteAction } from '../types';
 import HtmlNode from './HtmlNode';
 
 type Props = {

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { DoNarrowAction, PopRouteAction } from '../types';
+import type { DoNarrowAction, PopRouteAction } from '../types';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
 

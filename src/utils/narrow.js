@@ -1,5 +1,5 @@
 /* @flow */
-import { Narrow, Message } from '../types';
+import type { Narrow, Message } from '../types';
 import { normalizeRecipients } from './message';
 
 export const homeNarrow = (): Narrow => [];

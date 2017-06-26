@@ -2,7 +2,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import { Auth } from '../types';
+import type { Auth } from '../types';
 import AccountItem from './AccountItem';
 
 export default class AccountList extends React.PureComponent {
