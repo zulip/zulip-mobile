@@ -68,5 +68,6 @@ export default connect(state => ({
   typingUsers: getCurrentTypingUsers(state),
   anchor: getAnchor(state),
   users: state.users,
-  readIds: state.flags.read
+  readIds: state.flags.read,
+  twentyFourHourTime: state.realm.twentyFourHourTime,
 }), boundActions)(MainScreenContainer);
