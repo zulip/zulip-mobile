@@ -88,7 +88,7 @@ class MessageFull extends React.PureComponent {
             selfEmail={selfEmail}
           />
           <MessageTags
-            timestamp={message.edit_timestamp}
+            timestamp={message.last_edit_timestamp}
             starred={starred}
           />
         </View>
