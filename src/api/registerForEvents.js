@@ -28,6 +28,7 @@ export default (auth: Auth) =>
         'muted_topics',
         'update_display_settings',
         'update_global_notifications',
+        'presence',
       ]),
     },
   );

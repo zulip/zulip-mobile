@@ -12,6 +12,7 @@ import streams from './streamlist/streamsReducers';
 import subscriptions from './subscriptions/subscriptionsReducers';
 import typing from './typing/typingReducers';
 import users from './users/usersReducers';
+import presence from './presence/presenceReducers';
 
 // Thanks to https://twitter.com/dan_abramov/status/656074974533459968?lang=en
 const enableBatching = (reducer) =>
@@ -31,6 +32,7 @@ export default enableBatching(combineReducers({
   flags,
   mute,
   nav,
+  presence,
   realm,
   settings,
   streams,
