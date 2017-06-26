@@ -104,6 +104,7 @@ export default class InfiniteScrollView extends React.Component {
         scrollEventThrottle={config.scrollCallbackThrottle}
         stickyHeaderIndices={this.props.stickyHeaderIndices}
         autoScrollToBottom={this.props.autoScrollToBottom}
+        removeClippedSubviews
       >
         {this.props.children}
       </AnchorScrollView>

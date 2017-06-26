@@ -63,7 +63,7 @@ public class AnchorScrollViewManager
         view.setVerticalScrollBarEnabled(value);
     }
 
-    @ReactProp(name = ReactClippingViewGroupHelper.PROP_REMOVE_CLIPPED_SUBVIEWS)
+    @ReactProp(name = ReactClippingViewGroupHelper.PROP_REMOVE_CLIPPED_SUBVIEWS, defaultBoolean = true)
     public void setRemoveClippedSubviews(AnchorScrollView view, boolean removeClippedSubviews) {
         view.setRemoveClippedSubviews(removeClippedSubviews);
     }
