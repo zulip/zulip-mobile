@@ -26,8 +26,6 @@ export default StyleSheet.create({
   span: {
   },
   bullet: {
-    paddingLeft: 4,
-    paddingRight: 8,
   },
   a: {
   },
