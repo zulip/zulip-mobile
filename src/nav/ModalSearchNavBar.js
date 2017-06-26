@@ -3,7 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 
-import { PopRouteAction } from '../types';
+import type { PopRouteAction } from '../types';
 import boundActions from '../boundActions';
 import { CONTROL_SIZE } from '../styles';
 import { Label, SearchInput } from '../common';

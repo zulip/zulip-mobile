@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import { DoNarrowAction, PushRouteAction } from '../types';
+import type { DoNarrowAction, PushRouteAction } from '../types';
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 import SideDrawer from './SideDrawer';

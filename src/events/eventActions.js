@@ -1,5 +1,5 @@
 /* @flow */
-import { Auth, Dispatch, GetState } from '../types';
+import type { Auth, Dispatch, GetState } from '../types';
 import { pollForEvents, registerForEvents } from '../api';
 import { switchAccount } from '../account/accountActions';
 import { timeout } from '../utils/async';

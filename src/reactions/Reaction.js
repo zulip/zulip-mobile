@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Auth, GlobalState } from '../types';
+import type { Auth, GlobalState } from '../types';
 import { BRAND_COLOR, HALF_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from '../styles';
 import { Touchable } from '../common';
 import Emoji from '../emoji/Emoji';

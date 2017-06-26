@@ -1,7 +1,7 @@
 /* @flow */
 import { NavigationExperimental } from 'react-native';
 
-import { NavigationState, Action } from '../types';
+import type { NavigationState, Action } from '../types';
 import {
   INIT_ROUTES,
   ACCOUNT_SWITCH,

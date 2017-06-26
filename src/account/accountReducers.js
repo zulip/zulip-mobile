@@ -8,7 +8,7 @@ import {
   ACCOUNT_REMOVE,
 } from '../actionConstants';
 
-import { AccountState, Action } from '../types';
+import type { AccountState, Action } from '../types';
 
 const initialState = [];
 

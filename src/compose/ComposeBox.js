@@ -3,7 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Auth, Narrow, GlobalState } from '../types';
+import type { Auth, Narrow, GlobalState } from '../types';
 import { getAuth } from '../account/accountSelectors';
 import ComposeText from './ComposeText';
 import CameraRollView from './CameraRollView';
@@ -42,11 +42,14 @@ class ComposeBox extends React.Component {
     text: string,
   };
 
-  state = {
-    optionSelected: 0,
-    operator: '',
-    text: '',
-  };
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      optionSelected: 0,
+      operator: '',
+      text: ''
+    };
+  }
 
   setTopic = (operator: string) => this.setState({ operator });
 

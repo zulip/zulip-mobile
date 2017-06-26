@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import { InitRouteAction, Auth } from '../types';
+import type { InitRouteAction, Auth } from '../types';
 import boundActions from '../boundActions';
 import { getInitialRoutes } from '../nav/routingSelectors';
 import { ZulipButton } from '../common';

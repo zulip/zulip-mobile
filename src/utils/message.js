@@ -1,5 +1,5 @@
 /* @flow */
-import { Recipient, Narrow, Message } from '../types';
+import type { Recipient, Narrow, Message } from '../types';
 
 export const normalizeRecipients = (recipients: Recipient[]) =>
   (!Array.isArray(recipients) ?

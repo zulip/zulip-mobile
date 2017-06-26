@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, TextInput } from 'react-native';
 
-import { Auth, Narrow, User } from '../types';
+import type { Auth, Narrow, User } from '../types';
 import { Input } from '../common';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { registerUserInputActivity } from '../utils/activity';
@@ -45,13 +45,16 @@ export default class ComposeText extends React.Component {
     editing: boolean,
     autocomplete: boolean,
     contentHeight: number,
-  }
-
-  state = {
-    editing: false,
-    autocomplete: false,
-    contentHeight: MIN_HEIGHT,
   };
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      editing: false,
+      autocomplete: false,
+      contentHeight: MIN_HEIGHT,
+    };
+  }
 
   handleSend = () => {
     const { auth, narrow, operator, text } = this.props;
@@ -71,7 +74,7 @@ export default class ComposeText extends React.Component {
 
 
     this.clearInput();
-  }
+  };
 
   clearInput = () => {
     this.textInput.clear();
@@ -79,7 +82,7 @@ export default class ComposeText extends React.Component {
       contentHeight: MIN_HEIGHT,
     });
     this.props.handleChangeText('');
-  }
+  };
 
   handleOnChange = (event: Object) =>
     this.setState({ contentHeight: event.nativeEvent.contentSize.height });

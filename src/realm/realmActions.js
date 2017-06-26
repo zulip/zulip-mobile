@@ -1,5 +1,5 @@
 /* @flow */
-import { Auth, Dispatch } from '../types';
+import type { Auth, Dispatch } from '../types';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { getSubscriptions, getMessages, getStreams, getUsers, getRealmEmojis } from '../api';

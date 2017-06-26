@@ -1,5 +1,5 @@
 /* @flow */
-import { Auth } from '../types';
+import type { Auth } from '../types';
 import { apiDelete } from './apiFetch';
 
 export default (

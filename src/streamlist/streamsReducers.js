@@ -1,5 +1,5 @@
 /* @flow */
-import { Action, StreamsState } from '../types';
+import type { Action, StreamsState } from '../types';
 import {
   INIT_STREAMS,
   EVENT_STREAM_ADD,

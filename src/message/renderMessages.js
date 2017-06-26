@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import { Auth, DoNarrowAction, Narrow, PushRouteAction } from '../types';
+import type { Auth, DoNarrowAction, Narrow, PushRouteAction } from '../types';
 import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import MessageHeader from '../message/headers/MessageHeader';
 import MessageContainer from '../message/MessageContainer';

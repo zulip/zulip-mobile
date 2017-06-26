@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
-import { NavigationState } from '../types';
+import type { NavigationState } from '../types';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
 const styles = StyleSheet.create({

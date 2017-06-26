@@ -12,8 +12,8 @@ export default class Avatar extends React.PureComponent {
     name: string,
     size: number,
     status?: string,
-    realm?: string,
-    shape?: 'square' | 'rounded' | 'circle',
+    realm: string,
+    shape: 'square' | 'rounded' | 'circle',
     onPress?: () => void,
   };
 

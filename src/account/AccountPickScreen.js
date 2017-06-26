@@ -3,7 +3,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Auth, PushRouteAction } from '../types';
+import type { Auth, PushRouteAction } from '../types';
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import { ZulipButton, Logo, Screen } from '../common';

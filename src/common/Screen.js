@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
-import { LocalizableText, PopRouteAction, NavigationState } from '../types';
+import type { LocalizableText, PopRouteAction, NavigationState } from '../types';
 import { ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
 
@@ -29,7 +29,7 @@ class Screen extends React.Component {
     nav: NavigationState,
     children: [],
     popRoute: PopRouteAction,
-  }
+  };
 
   render() {
     const { keyboardAvoiding, title, nav, children, popRoute } = this.props;

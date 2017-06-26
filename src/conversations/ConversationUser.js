@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import { Narrow } from '../types';
+import type { Narrow } from '../types';
 import UserItem from '../users/UserItem';
 import { isPrivateNarrow } from '../utils/narrow';
 

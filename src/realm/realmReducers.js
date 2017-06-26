@@ -1,5 +1,5 @@
 /* @flow */
-import { RealmState, Action } from '../types';
+import type { RealmState, Action } from '../types';
 import {
   REALM_INIT,
   EVENT_REALM_EMOJI_UPDATE,

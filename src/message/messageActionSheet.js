@@ -1,6 +1,6 @@
 /* @flow */
 import { Clipboard, Share } from 'react-native';
-import { DoNarrowAction, Auth } from '../types';
+import type { DoNarrowAction, Auth } from '../types';
 import {
   narrowFromMessage,
   isHomeNarrow,

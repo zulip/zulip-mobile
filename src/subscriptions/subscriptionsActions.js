@@ -1,5 +1,5 @@
 /* @flow */
-import { Auth, Dispatch } from '../types';
+import type { Auth, Dispatch } from '../types';
 import { getSubscriptions } from '../api';
 import {
   INIT_SUBSCRIPTIONS,

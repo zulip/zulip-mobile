@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import { PushRouteAction } from '../types';
+import type { PushRouteAction } from '../types';
 import boundActions from '../boundActions';
 import { Avatar } from '../common';
 import Subheader from './Subheader';

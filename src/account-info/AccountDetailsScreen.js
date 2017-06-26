@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { NOT_FOUND_USER } from '../constants';
-import { Auth } from '../types';
+import type { Auth } from '../types';
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import { Screen } from '../common';

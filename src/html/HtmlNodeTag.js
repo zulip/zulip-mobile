@@ -2,7 +2,7 @@
 import React from 'react';
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-import { Auth, Message, PushRouteAction } from '../types';
+import type { Auth, Message, PushRouteAction } from '../types';
 import styles from './HtmlStyles';
 import cascadingStyles from './cascadingStylesView';
 import cascadingStylesText from './cascadingStylesText';

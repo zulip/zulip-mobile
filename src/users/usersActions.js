@@ -1,5 +1,5 @@
 /* @flow */
-import { Dispatch, Auth } from '../types';
+import type { Dispatch, Auth } from '../types';
 import { focusPing, getUsers } from '../api';
 import {
   INIT_USERS,

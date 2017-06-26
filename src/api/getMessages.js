@@ -1,5 +1,5 @@
 /* @flow */
-import { Auth, Narrow } from '../types';
+import type { Auth, Narrow } from '../types';
 
 import { apiGet } from './apiFetch';
 
