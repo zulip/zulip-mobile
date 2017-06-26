@@ -20,6 +20,7 @@ type Props = {
   doNarrow: DoNarrowAction,
   onLongPress: () => void,
   pushRoute: PushRouteAction,
+  twentyFourHourTime: boolean,
 };
 
 export default ({
@@ -33,6 +34,7 @@ export default ({
   onLongPress,
   flags,
   pushRoute,
+  twentyFourHourTime,
 }: Props) => {
   const list: Object[] = [];
   let prevItem;
@@ -83,7 +85,8 @@ export default ({
         onLongPress={onLongPress}
         flags={flags}
         pushRoute={pushRoute}
-      />,
+        twentyFourHourTime={twentyFourHourTime}
+      />
     );
 
     prevItem = item;

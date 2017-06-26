@@ -24,6 +24,7 @@ export default (auth: Auth) =>
       ]),
       fetch_event_types: JSON.stringify([
         'muted_topics',
+        'update_display_settings',
       ]),
     },
   );
