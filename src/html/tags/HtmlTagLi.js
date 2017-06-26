@@ -18,7 +18,7 @@ const customStyles = StyleSheet.create({
 
 export default ({ style, ...restProps }) => (
   <View style={[styles.li, style]}>
-    <HtmlNodeText style={styles.bullet} data={BULLET} />
+    <HtmlNodeText style={styles.bullet} data={` ${BULLET}  `} />
     <View style={customStyles.text}>
       {renderHtmlChildren({ ...restProps })}
     </View>
