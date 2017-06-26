@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.util.Pair;
 import android.util.TypedValue;
 
 import java.io.IOException;
@@ -12,6 +13,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class NotificationHelper {
 
@@ -48,5 +51,62 @@ public class NotificationHelper {
             }
         }
         return url;
+    }
+
+
+    public static String extractName(String key) {
+        return key.split(":")[0];
+    }
+
+    public static String buildNotificationContent(LinkedHashMap<String, Pair<String, Integer>> conversations) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Map.Entry<String, Pair<String, Integer>> map : conversations.entrySet()) {
+            stringBuilder.append(extractName(map.getKey())).append(" (").append(map.getValue().second).append("): ").append(map.getValue().first).append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
+    public static int extractTotalMessagesCount(LinkedHashMap<String, Pair<String, Integer>> conversations) {
+        int totalNumber = 0;
+        for (Map.Entry<String, Pair<String, Integer>> map : conversations.entrySet()) {
+            totalNumber += map.getValue().second;
+        }
+        return totalNumber;
+    }
+
+    /**
+     * Formats -
+     * private message - fullName:Email
+     * stream message - fullName:Email:stream
+     */
+    public static String buildKeyString(PushNotificationsProp prop) {
+        if (prop.getRecipientType() == "stream")
+            return prop.getSenderFullName() + ":" + prop.getEmail();
+        else
+            return String.format("%s:%s:stream", prop.getSenderFullName(), prop.getEmail());
+    }
+
+    public static String[] extractNames(LinkedHashMap<String, Pair<String, Integer>> conversations) {
+        String[] names = new String[conversations.size()];
+        int index = 0;
+        for (Map.Entry<String, Pair<String, Integer>> map : conversations.entrySet()) {
+            names[index++] = map.getKey().split(":")[0];
+        }
+        return names;
+    }
+
+    public static void addConversationToMap(PushNotificationsProp prop, LinkedHashMap<String, Pair<String, Integer>> conversations) {
+        String key = buildKeyString(prop);
+        Pair<String, Integer> messages = conversations.get(key);
+        if (messages != null) {
+            conversations.put(key, new Pair<>(prop.getContent(), messages.second + 1));
+        } else {
+            conversations.put(key, new Pair<>(prop.getContent(), 1));
+        }
+    }
+
+
+    public static void clearConversations(LinkedHashMap<String, Pair<String, Integer>> conversations) {
+        conversations.clear();
     }
 }
