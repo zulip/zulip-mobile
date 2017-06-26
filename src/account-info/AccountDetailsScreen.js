@@ -22,6 +22,7 @@ class AccountDetailsScreen extends Component {
     email: string,
     avatarUrl: string,
     users: Object[],
+    orientation: string,
     fetchMessages: () => void,
     doNarrow: (string) => void,
     popRoute: (string) => void,

@@ -5,10 +5,6 @@ import { Text, StyleSheet, View } from 'react-native';
 import { Touchable } from './';
 import UserStatusIndicator from '../common/UserStatusIndicator';
 
-const SHAPE_SQUARE = 'square';
-const SHAPE_ROUNDED = 'rounded';
-const SHAPE_CIRCLE = 'circle';
-
 export const colorHashFromName = (name: string) => {
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = hash * 31 + name.charCodeAt(1);
@@ -39,7 +35,7 @@ type Props = {
   name: string,
   size: number,
   status?: string,
-  isCircular?: boolean,
+  shape: string,
   onPress?: () => void,
 };
 
@@ -48,15 +44,15 @@ export default ({
   name,
   size,
   status,
-  shape = SHAPE_ROUNDED,
+  shape,
   onPress
 }: Props) => {
   const frameSize = {
     height: size,
     width: size,
-    borderRadius: (shape === SHAPE_ROUNDED) ? size / 8
-      : (shape === SHAPE_CIRCLE) ? size / 2
-        : (shape === SHAPE_SQUARE) ? 0 : 0,
+    borderRadius: (shape === 'rounded') ? size / 8
+      : (shape === 'circle') ? size / 2
+        : (shape === 'square') ? 0 : 0,
     backgroundColor: colorHashFromName(name),
   };
   const textSize = {

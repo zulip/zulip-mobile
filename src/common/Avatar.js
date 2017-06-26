@@ -13,6 +13,7 @@ export default class Avatar extends React.PureComponent {
     size: number,
     status?: string,
     realm?: string,
+    shape: 'square' | 'rounded' | 'circle',
     onPress?: () => void,
   };
 
@@ -20,6 +21,7 @@ export default class Avatar extends React.PureComponent {
     name: '',
     size: 32,
     realm: '',
+    shape: 'rounded',
     onPress: () => {}
   };
 

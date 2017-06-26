@@ -8,7 +8,7 @@ type Props = {
   avatarUrl: string,
   size: number,
   status?: string,
-  shape?: string,
+  shape: string,
   onPress?: () => void,
 };
 
@@ -16,7 +16,7 @@ export default ({
   avatarUrl,
   size,
   status,
-  shape = 'rounded',
+  shape,
   onPress = () => {}
 }: Props) => {
   const touchableStyle = {

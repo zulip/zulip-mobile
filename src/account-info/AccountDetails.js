@@ -46,13 +46,13 @@ export default class AccountDetails extends Component {
     popRoute();
   };
 
-  handleOrientationChange = (event) => {
+  handleOrientationChange = (event: Object) => {
     this.setState({
       layoutStyle: this.props.orientation
     });
   };
 
-  renderAvatar = (width) => (
+  renderAvatar = (width: number) => (
     <Avatar
       avatarUrl={mediumAvatarUrl(this.props.avatarUrl)}
       name={this.props.fullName}
@@ -80,7 +80,7 @@ export default class AccountDetails extends Component {
     </View>
   );
 
-  renderContent = (orientation, landscapeContent, portraitContent) => {
+  renderContent = (orientation: string, landscapeContent, portraitContent) => {
     if (orientation === ORIENTATION_LANDSCAPE) {
       return landscapeContent;
     } else {
