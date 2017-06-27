@@ -2,7 +2,7 @@ import getComposeInputPlaceholder from '../getComposeInputPlaceholder';
 import { privateNarrow, streamNarrow, topicNarrow, groupNarrow } from '../../utils/narrow';
 
 describe('getComposeInputPlaceholder', () => {
-  test('returns "Message @ThisPerson" for person narrow', () => {
+  test('returns "Message @ThisPerson" object for person narrow', () => {
     const narrow = privateNarrow('abc@zulip.com');
 
     const ownEmail = 'hamlet@zulip.com';
@@ -21,33 +21,36 @@ describe('getComposeInputPlaceholder', () => {
     ];
 
     const placeholder = getComposeInputPlaceholder(narrow, ownEmail, users);
-    expect(placeholder).toEqual('Message @ABC');
+    expect(placeholder).toEqual({ text: 'Message {recipient}', values: { recipient: '@ABC' } });
   });
 
-  test('returns "Jot down something" for self narrow', () => {
+  test('returns "Jot down something" object for self narrow', () => {
     const narrow = privateNarrow('abc@zulip.com');
 
     const ownEmail = 'abc@zulip.com';
 
     const placeholder = getComposeInputPlaceholder(narrow, ownEmail);
-    expect(placeholder).toEqual('Jot down something');
+    expect(placeholder).toEqual({ text: 'Jot down something' });
   });
 
   test('returns "Message #streamName" for stream narrow', () => {
     const narrow = streamNarrow('Denmark');
     const placeholder = getComposeInputPlaceholder(narrow);
-    expect(placeholder).toEqual('Message #Denmark');
+    expect(placeholder).toEqual({ text: 'Message {recipient}', values: { recipient: '#Denmark' } });
   });
 
   test('returns "Message #streamName topic:topicName" for stream narrow', () => {
     const narrow = topicNarrow('Denmark', 'Copenhagen');
     const placeholder = getComposeInputPlaceholder(narrow);
-    expect(placeholder).toEqual('Message #Denmark topic:Copenhagen');
+    expect(placeholder).toEqual({
+      text: 'Message {recipient}',
+      values: { recipient: '#Denmark:Copenhagen' },
+    });
   });
 
-  test('returns "Message group" for group narrow', () => {
+  test('returns "Message group" object for group narrow', () => {
     const narrow = groupNarrow(['abc@zulip.com, xyz@zulip.com']);
     const placeholder = getComposeInputPlaceholder(narrow);
-    expect(placeholder).toEqual('Message group');
+    expect(placeholder).toEqual({ text: 'Message group' });
   });
 });

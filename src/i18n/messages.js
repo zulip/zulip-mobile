@@ -1,7 +1,6 @@
 /* eslint-disable */
 /* flow */
 
-import { Translation } from './types';
 import ar from './translations/messages_ar';
 import bg from './translations/messages_bg';
 import cs from './translations/messages_cs';
@@ -25,25 +24,25 @@ import ta from './translations/messages_ta';
 import zh from './translations/messages_zh-Hans';
 
 export default {
-  ar: Translation,
-  bg: Translation,
-  cs: Translation,
-  de: Translation,
-  en: Translation,
-  es: Translation,
-  fr: Translation,
-  hi: Translation,
-  hu: Translation,
-  it: Translation,
-  ja: Translation,
-  ko: Translation,
-  ml: Translation,
-  nl: Translation,
-  pl: Translation,
-  pt: Translation,
-  ru: Translation,
-  sr: Translation,
-  sv: Translation,
-  ta: Translation,
-  zh: Translation,
+  ar,
+  bg,
+  cs,
+  de,
+  en,
+  es,
+  fr,
+  hi,
+  hu,
+  it,
+  ja,
+  ko,
+  ml,
+  nl,
+  pl,
+  pt,
+  ru,
+  sr,
+  sv,
+  ta,
+  zh,
 };

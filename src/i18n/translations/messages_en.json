@@ -49,5 +49,10 @@
   "Night mode": "Night mode",
   "Language": "Language",
   "Topic": "Topic",
-  "Type a message here": "Type a message here"
+  "Type a message": "Type a message",
+  "Message group": "Message group",
+  "starred": "starred",
+  "Enable notifications": "Enable notifications",
+  "Jot down something": "Jot down something",
+  "Message {recipient}": "Message {recipient}"
 }

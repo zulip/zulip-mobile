@@ -49,5 +49,10 @@
   "Night mode": "रात्री स्वरुप",
   "Language": "भाषा",
   "Topic": "विषय",
-  "Type a message here": "संदेश यहाँ लिखें"
+  "Type a message": "Type a message",
+  "Message group": "Message group",
+  "starred": "starred",
+  "Enable notifications": "Enable notifications",
+  "Jot down something": "Jot down something",
+  "Message {recipient}": "Message {recipient}"
 }
