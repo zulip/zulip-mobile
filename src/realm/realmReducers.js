@@ -9,6 +9,7 @@ import {
   INIT_REALM_EMOJI,
   SAVE_TOKEN_GCM,
   DELETE_TOKEN_GCM,
+  EVENT_UPDATE_DISPLAY_SETTINGS,
 } from '../actionConstants';
 
 // Initial state
@@ -56,6 +57,13 @@ const reducer = (state: RealmState = initialState, action: Action): RealmState =
         ...state,
         emoji: action.realm_emoji,
       };
+    case EVENT_UPDATE_DISPLAY_SETTINGS:
+      switch (action.setting_name) {
+        case 'twenty_four_hour_time':
+          return { ...state, twentyFourHourTime: action.setting };
+        default:
+          return state;
+      }
     default:
       return state;
   }

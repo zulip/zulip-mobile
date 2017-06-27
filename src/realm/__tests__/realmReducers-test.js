@@ -3,7 +3,8 @@ import {
   ACCOUNT_SWITCH,
   SAVE_TOKEN_GCM,
   DELETE_TOKEN_GCM,
-  EVENT_REALM_EMOJI_UPDATE
+  EVENT_REALM_EMOJI_UPDATE,
+  EVENT_UPDATE_DISPLAY_SETTINGS,
 } from '../../actionConstants';
 
 describe('realmReducers', () => {
@@ -61,6 +62,33 @@ describe('realmReducers', () => {
       };
       const expectedState = {
         twentyFourHourTime: false,
+        'gcmToken': '',
+        emoji: { customEmoji1: {} },
+      };
+
+      const actualState = realmReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+  });
+
+  describe('EVENT_UPDATE_DISPLAY_SETTINGS', () => {
+    test('change the display settings', () => {
+      const initialState = {
+        twentyFourHourTime: false,
+        'gcmToken': '',
+        emoji: { customEmoji1: {} },
+      };
+      const action = {
+        type: EVENT_UPDATE_DISPLAY_SETTINGS,
+        'eventId': 1,
+        'id': 1,
+        'setting': true,
+        'setting_name': 'twenty_four_hour_time',
+        'user': 'example@zulip.com',
+      };
+      const expectedState = {
+        twentyFourHourTime: true,
         'gcmToken': '',
         emoji: { customEmoji1: {} },
       };
