@@ -21,6 +21,7 @@ export default (auth: Auth) =>
         'typing',
         'update_message',
         'update_message_flags',
+        'update_display_settings',
       ]),
       fetch_event_types: JSON.stringify([
         'muted_topics',
