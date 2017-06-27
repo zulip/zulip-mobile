@@ -89,7 +89,7 @@ public class GCMPushNotifications extends PushNotification {
 
         if (conversations.size() == 1) {
             //Only one 1 notification therefore no using of big view styles
-            builder.setContentTitle(title);
+            builder.setContentTitle(title + " (" + totalMessagesCount + ")");
             if (type.equals("stream")) {
                 if (Build.VERSION.SDK_INT >= 16) {
                     String displayTopic = stream + " > "
@@ -104,6 +104,7 @@ public class GCMPushNotifications extends PushNotification {
                     builder.setLargeIcon(avatar);
                 }
             }
+            builder.setStyle(new Notification.BigTextStyle().bigText(content));
         } else {
             builder.setContentTitle(String.format(Locale.ENGLISH, "%d messages in %d conversations", totalMessagesCount, conversations.size()));
             builder.setStyle(new Notification.BigTextStyle().bigText(buildNotificationContent(conversations)));
@@ -137,7 +138,7 @@ public class GCMPushNotifications extends PushNotification {
             bundle.putString(ACTION_NOTIFICATIONS_DISMISS, ACTION_NOTIFICATIONS_DISMISS);
             dismissIntent.putExtra(PUSH_NOTIFICATION_EXTRA_NAME, bundle);
             PendingIntent piDismiss = PendingIntent.getService(mContext, 0, dismissIntent, 0);
-            Notification.Action action = new Notification.Action(android.R.drawable.ic_notification_clear_all, "Clear", piDismiss);
+            Notification.Action action = new Notification.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss);
             builder.addAction(action);
         }
         return builder;
