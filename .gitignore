@@ -56,3 +56,4 @@ fastlane/screenshots
 
 flow-coverage/
 yarn-error.log
+package-lock.json

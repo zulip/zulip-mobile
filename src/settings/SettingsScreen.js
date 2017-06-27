@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import boundActions from '../boundActions';
 import { Label, Screen, ZulipSwitch } from '../common';
 import LanguagePicker from './LanguagePicker';
+import { getAuth } from '../account/accountSelectors';
+import toggleOfflinePushNotifications from '../api/toggleOfflinePushNotifications';
 
 const styles = StyleSheet.create({
   optionWrapper: {
@@ -44,12 +46,23 @@ class SettingsScreen extends React.Component {
     this.props.settingsChange('theme', value ? 'night' : 'default');
   };
 
-  render() {
-    const { theme, locale } = this.props;
+  handleNotificationChange = (value) => {
+    toggleOfflinePushNotifications(this.props.auth, value);
+    this.props.settingsChange('offlinePushNotification', value);
+  };
 
+  render() {
+    const { offlinePushNotification, theme, locale } = this.props;
     return (
       <Screen title="Settings">
         <View style={styles.optionWrapper}>
+          <View style={styles.optionRow}>
+            <Label text="Enable push notifications" />
+            <ZulipSwitch
+              defaultValue={offlinePushNotification}
+              onValueChange={this.handleNotificationChange}
+            />
+          </View>
           <View style={styles.optionRow}>
             <Label text="Night mode" />
             <ZulipSwitch
@@ -72,8 +85,10 @@ class SettingsScreen extends React.Component {
 
 export default connect(
   (state) => ({
+    offlinePushNotification: state.settings.offlinePushNotification,
     locale: state.settings.locale,
     theme: state.settings.theme,
+    auth: getAuth(state),
   }),
   boundActions,
 )(SettingsScreen);
