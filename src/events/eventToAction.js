@@ -23,6 +23,7 @@ import {
   EVENT_USER_UPDATE,
   EVENT_MUTED_TOPICS,
   EVENT_REALM_EMOJI_UPDATE,
+  EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   EVENT_UPDATE_DISPLAY_SETTINGS
 } from '../actionConstants';
 
@@ -139,6 +140,11 @@ export default (state: GlobalState, event: Object) => {
       return {
         ...event,
         type: EVENT_REALM_EMOJI_UPDATE,
+      };
+    case 'update_global_notifications':
+      return {
+        ...event,
+        type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
       };
     case 'update_display_settings':
       return {

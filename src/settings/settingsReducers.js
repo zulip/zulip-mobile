@@ -1,6 +1,6 @@
 /* @flow */
 import { SettingsState, Action } from '../types';
-import { SETTINGS_CHANGE, REALM_INIT } from '../actionConstants';
+import { SETTINGS_CHANGE, REALM_INIT, EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS } from '../actionConstants';
 
 const initialState: SettingsState = {
   locale: 'en',
@@ -20,6 +20,13 @@ export default (state: SettingsState = initialState, action: Action): SettingsSt
         ...state,
         [action.key]: action.value,
       };
+    case EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS:
+      switch (action.notification_name) {
+        case 'enable_offline_push_notifications':
+          return { ...state, offlinePushNotification: action.setting };
+        default:
+          return state;
+      }
     default:
       return state;
   }

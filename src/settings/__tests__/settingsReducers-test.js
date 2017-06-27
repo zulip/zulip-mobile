@@ -1,4 +1,4 @@
-import { SETTINGS_CHANGE } from '../../actionConstants';
+import { SETTINGS_CHANGE, EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS } from '../../actionConstants';
 import settingsReducers from '../settingsReducers';
 
 describe('settingsReducers', () => {
@@ -30,6 +30,34 @@ describe('settingsReducers', () => {
       };
       const expectedState = {
         key: 456,
+      };
+
+      const actualState = settingsReducers(prevState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+  });
+
+  describe('EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS', () => {
+    test('changes the notification settings', () => {
+      const prevState = {
+        locale: 'en',
+        theme: 'default',
+        'offlinePushNotification': true,
+      };
+      const action = {
+        type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+        'eventId': 0,
+        'id': 0,
+        'notification_name': 'enable_offline_push_notifications',
+        'setting': false,
+        'timestamp': 1498530886.862562,
+        'user': 'example@zulip.com'
+      };
+      const expectedState = {
+        locale: 'en',
+        theme: 'default',
+        'offlinePushNotification': false,
       };
 
       const actualState = settingsReducers(prevState, action);
