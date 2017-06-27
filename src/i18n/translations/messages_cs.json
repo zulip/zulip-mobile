@@ -49,5 +49,10 @@
   "Night mode": "Noční režim",
   "Language": "Jazyk",
   "Topic": "Předmět hovoru",
-  "Type a message here": "Zde pište svoji zprávu"
+  "Type a message": "Type a message",
+  "Message group": "Message group",
+  "starred": "starred",
+  "Enable notifications": "Enable notifications",
+  "Jot down something": "Jot down something",
+  "Message {recipient}": "Message {recipient}"
 }

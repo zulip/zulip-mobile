@@ -49,5 +49,10 @@
   "Night mode": "இரவு நிலை",
   "Language": "மொழி",
   "Topic": "தலைப்பு",
-  "Type a message here": "ஒரு செய்தியை இங்கே தட்டச்சு செய்க"
+  "Type a message": "Type a message",
+  "Message group": "Message group",
+  "starred": "starred",
+  "Enable notifications": "Enable notifications",
+  "Jot down something": "Jot down something",
+  "Message {recipient}": "Message {recipient}"
 }

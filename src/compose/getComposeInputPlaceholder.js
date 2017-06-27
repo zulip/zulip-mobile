@@ -7,20 +7,39 @@ import {
 
 export default (narrow, ownEmail, users) => {
   if (isGroupNarrow(narrow)) {
-    return 'Message group';
-  } else if (isPrivateNarrow(narrow)) {
-    if (ownEmail && narrow[0].operand === ownEmail) return 'Jot down something';
-    else if (users) {
-      const user = users.find(u => u.email === narrow[0].operand);
-      return user && `Message @${user.fullName}`;
-    } else {
-      return 'Type a message';
-    }
-  } else if (isStreamNarrow(narrow)) {
-    return `Message #${narrow[0].operand}`;
-  } else if (isTopicNarrow(narrow)) {
-    return `Message #${narrow[0].operand} topic:${narrow[1].operand}`;
-  } else {
-    return 'Type a message';
+    return { text: 'Message group' };
   }
+
+  if (isPrivateNarrow(narrow)) {
+    if (ownEmail && narrow[0].operand === ownEmail) {
+      return { text: 'Jot down something' };
+    }
+
+    if (!users) {
+      return { text: 'Type a message' };
+    }
+
+    const user = users.find(u => u.email === narrow[0].operand);
+    return {
+      text: 'Message {recipient}',
+      values: { recipient: `@${user.fullName}` }
+    };
+    // return user && `Message @${user.fullName}`;
+  }
+
+  if (isStreamNarrow(narrow)) {
+    return {
+      text: 'Message {recipient}',
+      values: { recipient: `#${narrow[0].operand}` }
+    };
+  }
+
+  if (isTopicNarrow(narrow)) {
+    return {
+      text: 'Message {recipient}',
+      values: { recipient: `#${narrow[0].operand}:${narrow[1].operand}` }
+    };
+  }
+
+  return { text: 'Type a message' };
 };

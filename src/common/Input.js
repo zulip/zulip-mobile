@@ -15,7 +15,8 @@ export default class Input extends Component {
   props: {
     style: StyleObj,
     restProps?: any[],
-    placeholder: string,
+    placeholder?: string,
+    placeholderValues?: Object,
     textInputRef?: (component: TextInput) => void,
   };
 
@@ -26,10 +27,10 @@ export default class Input extends Component {
 
   render() {
     const { styles } = this.context;
-    const { style, placeholder, textInputRef, ...restProps } = this.props;
+    const { style, placeholder, placeholderValues, textInputRef, ...restProps } = this.props;
 
     return (
-      <FormattedMessage id={placeholder} defaultMessage={placeholder}>
+      <FormattedMessage id={placeholder} defaultMessage={placeholder} values={placeholderValues}>
         {text => (
           <TextInput
             style={[styles.input, style]}

@@ -49,5 +49,10 @@
   "Night mode": "Tryb nocny",
   "Language": "Język",
   "Topic": "Wątek",
-  "Type a message here": "Wprowadź wiadomość"
+  "Type a message": "Type a message",
+  "Message group": "Message group",
+  "starred": "starred",
+  "Enable notifications": "Enable notifications",
+  "Jot down something": "Jot down something",
+  "Message {recipient}": "Message {recipient}"
 }

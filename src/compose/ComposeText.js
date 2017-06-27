@@ -94,6 +94,7 @@ export default class ComposeText extends React.Component {
     const { narrow, auth, users, text } = this.props;
     const { contentHeight } = this.state;
     const height = Math.min(Math.max(MIN_HEIGHT, contentHeight), MAX_HEIGHT);
+    const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
 
     return (
       <View style={componentStyles.wrapper}>
@@ -107,7 +108,8 @@ export default class ComposeText extends React.Component {
             height={contentHeight}
             onChange={this.handleOnChange}
             onChangeText={this.handleChangeText}
-            placeholder={getComposeInputPlaceholder(narrow, auth.email, users)}
+            placeholder={placeholder.text}
+            placeholderValues={placeholder.values}
           />
         </ScrollView>
         <SendButton

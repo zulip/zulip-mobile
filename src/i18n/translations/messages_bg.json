@@ -49,5 +49,10 @@
   "Night mode": "Нощен режим",
   "Language": "Език",
   "Topic": "Тема",
-  "Type a message here": "Напиши съобщение тук"
+  "Type a message": "Напиши съобщение",
+  "Message group": "Изпрати на група",
+  "starred": "любим",
+  "Enable notifications": "Включи известявания",
+  "Jot down something": "Напиши нещо",
+  "Message {recipient}": "Изпрати до {recipient}"
 }
