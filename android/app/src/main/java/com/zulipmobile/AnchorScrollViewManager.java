@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 
 import com.facebook.react.bridge.ReadableArray;
@@ -152,6 +153,7 @@ public class AnchorScrollViewManager
 
     @Override
     public @Nullable Map getExportedCustomDirectEventTypeConstants() {
+        Log.e("eeeeeeeeeeeee", ScrollEventType.SCROLL.getJSEventName());
         return createExportedCustomDirectEventTypeConstants();
     }
 

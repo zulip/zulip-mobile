@@ -9,9 +9,11 @@
 
 package com.zulipmobile;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -189,7 +191,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                 if (children != null) {
                     for (int i = 0; i < children.length; i++) {
                         View child = children[i];
-                        if (child == null || !(child.getTag() instanceof String)) {
+                        if (child == null || !isMessageTag(child)) {
                             continue;
                         }
                         String tag = (String) child.getTag();
@@ -220,7 +222,8 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
             }
 
             findAnchorView();
-            ReactScrollViewHelper.emitScrollEvent(this);
+//            Log.e(TAG, getVisibleIds().toString());
+            AnchorScrollViewHelper.emitScrollEvent(this);
         }
     }
 
@@ -367,6 +370,36 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         int contentHeight = mContentView.getHeight();
         int viewportHeight = getHeight() - getPaddingBottom() - getPaddingTop();
         return Math.max(0, contentHeight - viewportHeight);
+    }
+
+    // Zulip changes
+    public ArrayList<String> getVisibleIds() {
+        ArrayList<String> visibleIds = new ArrayList<>();
+
+        for (int i = 0 ; i < mContentView.getChildCount() ; i++) {
+            View child = mContentView.getChildAt(i);
+            if (child != null && isMessageTag(child) && isChildVisible(child)) {
+                visibleIds.add((String) child.getTag());
+            }
+        }
+
+        return visibleIds;
+    }
+
+    // Zulip changes
+    private boolean isChildVisible(@Nonnull View child) {
+        int height = getHeight();
+        int containerTop = getScrollY();
+        int containerBottom = containerTop + height;
+        int viewTop = child.getTop();
+        int viewBottom = child.getBottom();
+
+        return (viewTop >= containerTop && viewBottom <= containerBottom);
+    }
+
+    // Zulip changes
+    private boolean isMessageTag(@Nonnull View child) {
+        return (child.getTag() instanceof String);
     }
 
     @Override
