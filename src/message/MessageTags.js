@@ -8,36 +8,43 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'flex-end',
-    paddingRight: 8,
   },
   text: {
     fontSize: 10,
-    color: '#999'
+    color: 'rgba(127, 127, 127, 0.75)',
   },
-  editedContainer: {
-    flexDirection: 'row',
+  tag: {
+    paddingTop: 2,
+    paddingRight: 4,
+    paddingBottom: 2,
+    paddingLeft: 4,
+    marginLeft: 4,
+    borderRadius: 2,
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
   }
 });
 
 export default class MessageTags extends React.PureComponent {
   render() {
     const { timestamp, starred } = this.props;
-    const { container, text, editedContainer } = styles;
 
     if (timestamp === undefined && !starred) return null;
 
+    const editedTime = distanceInWordsToNow(timestamp * 1000);
+
     return (
-      <View style={container}>
+      <View style={styles.container}>
         {timestamp &&
-          <View style={editedContainer}>
-            <Label style={text} text={'edited '} />
-            <RawLabel style={text} text={distanceInWordsToNow(timestamp * 1000)} />
-            {starred && <RawLabel style={text} text={', '} />}
+          <View style={styles.tag}>
+            <RawLabel style={styles.text} text={`edited ${editedTime} ago`} />
           </View>
         }
-        {starred && <Label style={text} text={'starred'} />}
+        {starred &&
+          <View style={styles.tag}>
+            <Label style={styles.text} text={'starred'} />
+          </View>
+        }
       </View>
     );
   }

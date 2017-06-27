@@ -57,7 +57,7 @@ class SettingsScreen extends React.Component {
       <Screen title="Settings">
         <View style={styles.optionWrapper}>
           <View style={styles.optionRow}>
-            <Label text="Enable push notifications" />
+            <Label text="Enable notifications" />
             <ZulipSwitch
               defaultValue={offlinePushNotification}
               onValueChange={this.handleNotificationChange}
