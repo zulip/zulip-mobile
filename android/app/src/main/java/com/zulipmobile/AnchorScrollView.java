@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
- *
+ * <p>
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
@@ -9,9 +9,11 @@
 
 package com.zulipmobile;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -34,7 +36,6 @@ import com.facebook.react.uimanager.ReactClippingViewGroupHelper;
 import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.views.scroll.FpsListener;
 import com.facebook.react.views.scroll.OnScrollDispatchHelper;
-import com.facebook.react.views.scroll.ReactScrollViewHelper;
 import com.facebook.react.views.view.ReactViewGroup;
 
 public class AnchorScrollView extends ScrollView implements ReactClippingViewGroup, ViewGroup.OnHierarchyChangeListener, View.OnLayoutChangeListener {
@@ -117,8 +118,9 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         setScrollBarStyle(SCROLLBARS_OUTSIDE_OVERLAY);
     }
 
-    // Zulip changes inspired from https://github.com/facebook/react-native/blob/master/ReactAndroid/src/main/java/com/facebook/react/views/scroll/ReactScrollView.java#L75
+    // Zulip changes
     public void getAllReactChildrenField(Class clazz) {
+        // inspired by https://github.com/facebook/react-native/blob/master/ReactAndroid/src/main/java/com/facebook/react/views/scroll/ReactScrollView.java#L75
         if (!sTriedAllReactChildrenField) {
             sTriedAllReactChildrenField = true;
             try {
@@ -189,7 +191,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                 if (children != null) {
                     for (int i = 0; i < children.length; i++) {
                         View child = children[i];
-                        if (child == null || !(child.getTag() instanceof String)) {
+                        if (child == null || !isMessageTag(child)) {
                             continue;
                         }
                         String tag = (String) child.getTag();
@@ -220,7 +222,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
             }
 
             findAnchorView();
-            ReactScrollViewHelper.emitScrollEvent(this);
+            AnchorScrollViewHelper.emitScrollEvent(this);
         }
     }
 
@@ -232,7 +234,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
 
         if (super.onInterceptTouchEvent(ev)) {
             NativeGestureUtil.notifyNativeGestureStarted(this, ev);
-            ReactScrollViewHelper.emitScrollBeginDragEvent(this);
+            AnchorScrollViewHelper.emitScrollBeginDragEvent(this);
             mDragging = true;
             enableFpsListener();
             return true;
@@ -249,11 +251,16 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
 
         int action = ev.getAction() & MotionEvent.ACTION_MASK;
         if (action == MotionEvent.ACTION_UP && mDragging) {
-            ReactScrollViewHelper.emitScrollEndDragEvent(this);
+            AnchorScrollViewHelper.emitScrollEndDragEvent(this);
             mDragging = false;
             disableFpsListener();
         }
         return super.onTouchEvent(ev);
+    }
+
+    @Override
+    public boolean getRemoveClippedSubviews() {
+        return mRemoveClippedSubviews;
     }
 
     @Override
@@ -263,11 +270,6 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         }
         mRemoveClippedSubviews = removeClippedSubviews;
         updateClippingRect();
-    }
-
-    @Override
-    public boolean getRemoveClippedSubviews() {
-        return mRemoveClippedSubviews;
     }
 
     @Override
@@ -325,21 +327,21 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         if (mSendMomentumEvents || isScrollPerfLoggingEnabled()) {
             mFlinging = true;
             enableFpsListener();
-            ReactScrollViewHelper.emitScrollMomentumBeginEvent(this);
+            AnchorScrollViewHelper.emitScrollMomentumBeginEvent(this);
             Runnable r = new Runnable() {
                 @Override
                 public void run() {
                     if (mDoneFlinging) {
                         mFlinging = false;
                         disableFpsListener();
-                        ReactScrollViewHelper.emitScrollMomentumEndEvent(AnchorScrollView.this);
+                        AnchorScrollViewHelper.emitScrollMomentumEndEvent(AnchorScrollView.this);
                     } else {
                         mDoneFlinging = true;
-                        AnchorScrollView.this.postOnAnimationDelayed(this, ReactScrollViewHelper.MOMENTUM_DELAY);
+                        AnchorScrollView.this.postOnAnimationDelayed(this, AnchorScrollViewHelper.MOMENTUM_DELAY);
                     }
                 }
             };
-            postOnAnimationDelayed(r, ReactScrollViewHelper.MOMENTUM_DELAY);
+            postOnAnimationDelayed(r, AnchorScrollViewHelper.MOMENTUM_DELAY);
         }
     }
 
@@ -367,6 +369,36 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         int contentHeight = mContentView.getHeight();
         int viewportHeight = getHeight() - getPaddingBottom() - getPaddingTop();
         return Math.max(0, contentHeight - viewportHeight);
+    }
+
+    // Zulip changes
+    public ArrayList<String> getVisibleIds() {
+        ArrayList<String> visibleIds = new ArrayList<>();
+        if (mContentView instanceof ReactViewGroup) {
+            for (int i = 0; i < mContentView.getChildCount(); i++) {
+                View child = mContentView.getChildAt(i);
+                if (child != null && isMessageTag(child) && isChildVisible(child)) {
+                    visibleIds.add((String) child.getTag());
+                }
+            }
+        }
+        return visibleIds;
+    }
+
+    // Zulip changes
+    private boolean isChildVisible(@Nonnull View child) {
+        int height = getHeight();
+        int containerTop = getScrollY();
+        int containerBottom = containerTop + height;
+        int viewTop = child.getTop();
+        int viewBottom = child.getBottom();
+
+        return (viewTop >= containerTop && viewBottom <= containerBottom);
+    }
+
+    // Zulip changes
+    private boolean isMessageTag(@Nonnull View child) {
+        return (child.getTag() instanceof String);
     }
 
     @Override

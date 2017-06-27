@@ -23,10 +23,6 @@ export default class Chat extends React.Component {
   scrollOffset = 0;
 
   handleMessageListScroll = e => {
-    if (!e.visibleIds) {
-      return; // temporary fix for Android
-    }
-
     const { auth, flags, markMessagesRead } = this.props;
     const visibleMessageIds = e.visibleIds.map(x => +x);
     const unreadMessageIds = filterUnreadMessageIds(visibleMessageIds, flags);
