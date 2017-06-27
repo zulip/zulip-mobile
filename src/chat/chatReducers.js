@@ -108,7 +108,28 @@ export default (state: ChatState = initialState, action: Action) => {
         ...oldMessage,
         content: action.rendered_content || oldMessage.content,
         subject: action.subject || oldMessage.subject,
-        edit_timestamp: action.edit_timestamp,
+        subject_links: action.subject_links || oldMessage.subject_links,
+        edit_history: [
+          action.orig_rendered_content ? (action.orig_subject ? {
+            prev_rendered_content: action.orig_rendered_content,
+            prev_subject: oldMessage.subject,
+            timestamp: action.edit_timestamp,
+            prev_rendered_content_version: action.prev_rendered_content_version,
+            user_id: action.user_id,
+          } : {
+            prev_rendered_content: action.orig_rendered_content,
+            timestamp: action.edit_timestamp,
+            prev_rendered_content_version: action.prev_rendered_content_version,
+            user_id: action.user_id,
+          }) :
+          {
+            prev_subject: oldMessage.subject,
+            timestamp: action.edit_timestamp,
+            user_id: action.user_id,
+          },
+          ...oldMessage.edit_history || [],
+        ],
+        last_edit_timestamp: action.edit_timestamp,
       }));
 
     default:

@@ -247,18 +247,45 @@ describe('chatReducers', () => {
       const action = {
         type: EVENT_UPDATE_MESSAGE,
         message_id: 3,
-        rendered_content: 'New content',
+        orig_rendered_content: '<p>Old content</p>',
+        rendered_content: '<p>New content</p>',
         edit_timestamp: 123,
+        prev_rendered_content_version: 1,
+        user_id: 5,
       };
       const expectedState = {
         messages: {
           [homeNarrowStr]: [
             { id: 1 },
             { id: 2 },
-            { id: 3, content: 'New content', edit_timestamp: 123 },
+            {
+              id: 3,
+              content: '<p>New content</p>',
+              last_edit_timestamp: 123,
+              edit_history: [
+                {
+                  prev_rendered_content: '<p>Old content</p>',
+                  prev_rendered_content_version: 1,
+                  timestamp: 123,
+                  user_id: 5
+                }
+              ]
+            },
           ],
           [privateNarrowStr]: [
-            { id: 3, content: 'New content', edit_timestamp: 123 },
+            {
+              id: 3,
+              content: '<p>New content</p>',
+              last_edit_timestamp: 123,
+              edit_history: [
+                {
+                  prev_rendered_content: '<p>Old content</p>',
+                  prev_rendered_content_version: 1,
+                  timestamp: 123,
+                  user_id: 5
+                }
+              ]
+            },
           ]
         }
       };
@@ -273,10 +300,10 @@ describe('chatReducers', () => {
       const initialState = {
         messages: {
           [homeNarrowStr]: [
-            { id: 1, content: 'Old content' },
+            { id: 1, content: 'Old content', subject: 'Old subject' },
           ],
           [privateNarrowStr]: [
-            { id: 1, content: 'Old content' },
+            { id: 1, content: 'Old content', subject: 'Old subject' },
           ]
         },
       };
@@ -284,15 +311,147 @@ describe('chatReducers', () => {
         type: EVENT_UPDATE_MESSAGE,
         message_id: 1,
         subject: 'New topic',
+        orig_subject: 'Old subject',
         edit_timestamp: 123,
+        user_id: 5,
       };
       const expectedState = {
         messages: {
           [homeNarrowStr]: [
-            { id: 1, content: 'Old content', subject: 'New topic', edit_timestamp: 123 },
+            {
+              id: 1,
+              content: 'Old content',
+              subject: 'New topic',
+              last_edit_timestamp: 123,
+              edit_history: [
+                {
+                  prev_subject: 'Old subject',
+                  timestamp: 123,
+                  user_id: 5
+                }
+              ]
+            },
           ],
           [privateNarrowStr]: [
-            { id: 1, content: 'Old content', subject: 'New topic', edit_timestamp: 123 },
+            {
+              id: 1,
+              content: 'Old content',
+              subject: 'New topic',
+              last_edit_timestamp: 123,
+              edit_history: [
+                {
+                  prev_subject: 'Old subject',
+                  timestamp: 123,
+                  user_id: 5
+                }
+              ]
+            },
+          ]
+        }
+      };
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).not.toBe(initialState);
+      expect(newState.messages).toEqual(expectedState.messages);
+    });
+
+    test('when event contains a new subject and a new content, update both and update edit history object', () => {
+      const initialState = {
+        messages: {
+          [homeNarrowStr]: [
+            {
+              id: 1,
+              content: 'Old content',
+              subject: 'New topic',
+              last_edit_timestamp: 123,
+              subject_links: [],
+              edit_history: [
+                {
+                  prev_subject: 'Old subject',
+                  timestamp: 123,
+                  user_id: 5
+                }
+              ]
+            },
+          ],
+          [privateNarrowStr]: [
+            {
+              id: 1,
+              content: 'Old content',
+              subject: 'New topic',
+              last_edit_timestamp: 123,
+              subject_links: [],
+              edit_history: [
+                {
+                  prev_subject: 'Old subject',
+                  timestamp: 123,
+                  user_id: 5
+                }
+              ]
+            },
+          ]
+        },
+      };
+      const action = {
+        type: EVENT_UPDATE_MESSAGE,
+        message_id: 1,
+        orig_rendered_content: '<p>Old content</p>',
+        rendered_content: '<p>New content</p>',
+        subject: 'New updated topic',
+        orig_subject: 'New topic',
+        prev_rendered_content_version: 1,
+        edit_timestamp: 456,
+        user_id: 5,
+        subject_links: [],
+      };
+      const expectedState = {
+        messages: {
+          [homeNarrowStr]: [
+            {
+              id: 1,
+              content: '<p>New content</p>',
+              subject: 'New updated topic',
+              last_edit_timestamp: 456,
+              subject_links: [],
+              edit_history: [
+                {
+                  prev_rendered_content: '<p>Old content</p>',
+                  prev_rendered_content_version: 1,
+                  prev_subject: 'New topic',
+                  timestamp: 456,
+                  user_id: 5
+                },
+                {
+                  prev_subject: 'Old subject',
+                  timestamp: 123,
+                  user_id: 5
+                }
+              ]
+            },
+          ],
+          [privateNarrowStr]: [
+            {
+              id: 1,
+              content: '<p>New content</p>',
+              subject: 'New updated topic',
+              last_edit_timestamp: 456,
+              subject_links: [],
+              edit_history: [
+                {
+                  prev_rendered_content: '<p>Old content</p>',
+                  prev_rendered_content_version: 1,
+                  prev_subject: 'New topic',
+                  timestamp: 456,
+                  user_id: 5
+                },
+                {
+                  prev_subject: 'Old subject',
+                  timestamp: 123,
+                  user_id: 5
+                }
+              ]
+            },
           ]
         }
       };
