@@ -14,8 +14,6 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 import android.graphics.Color;
-import android.util.Log;
-import android.view.View;
 
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.common.MapBuilder;
@@ -25,7 +23,6 @@ import com.facebook.react.uimanager.ReactClippingViewGroupHelper;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.views.scroll.FpsListener;
 import com.facebook.react.views.scroll.ReactScrollViewCommandHelper;
-import com.facebook.react.views.scroll.ReactScrollViewHelper;
 import com.facebook.react.views.scroll.ScrollEventType;
 
 public class AnchorScrollViewManager
@@ -110,7 +107,7 @@ public class AnchorScrollViewManager
      */
     @ReactProp(name = "overScrollMode")
     public void setOverScrollMode(AnchorScrollView view, String value) {
-        view.setOverScrollMode(ReactScrollViewHelper.parseOverScrollMode(value));
+        view.setOverScrollMode(AnchorScrollViewHelper.parseOverScrollMode(value));
     }
 
     @Override
@@ -153,7 +150,6 @@ public class AnchorScrollViewManager
 
     @Override
     public @Nullable Map getExportedCustomDirectEventTypeConstants() {
-        Log.e("eeeeeeeeeeeee", ScrollEventType.SCROLL.getJSEventName());
         return createExportedCustomDirectEventTypeConstants();
     }
 

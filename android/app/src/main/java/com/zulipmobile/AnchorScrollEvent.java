@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
- *
+ * <p>
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
@@ -40,8 +40,12 @@ public class AnchorScrollEvent extends Event<AnchorScrollEvent> {
     private int mScrollViewWidth;
     private int mScrollViewHeight;
     private ArrayList<String> mVisibleIds;
-    private @Nullable
+    private
+    @Nullable
     ScrollEventType mScrollEventType;
+
+    private AnchorScrollEvent() {
+    }
 
     public static AnchorScrollEvent obtain(
             int viewTag,
@@ -73,9 +77,6 @@ public class AnchorScrollEvent extends Event<AnchorScrollEvent> {
     @Override
     public void onDispose() {
         EVENTS_POOL.release(this);
-    }
-
-    private AnchorScrollEvent() {
     }
 
     private void init(

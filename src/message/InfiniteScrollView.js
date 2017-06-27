@@ -86,7 +86,6 @@ export default class InfiniteScrollView extends React.Component {
   }
 
   _onScroll = (e) => {
-    console.log(e.nativeEvent);
     this._scrollOffset = e.nativeEvent.contentOffset.y;
     this._maybeCallOnStartOrEndReached();
     this.props.onScroll(e.nativeEvent);
