@@ -35,7 +35,7 @@ class PasswordAuthView extends React.Component {
     password: string,
     error: string,
     progress: boolean,
-    ishidden: boolean,
+    isPasswordHidden: boolean,
     toggleText: string,
   };
 
@@ -46,7 +46,7 @@ class PasswordAuthView extends React.Component {
       email: props.email || config.defaultLoginEmail,
       password: config.defaultLoginPassword,
       error: '',
-      ishidden: true,
+      isPasswordHidden: true,
       toggleText: 'Show',
     };
   }
@@ -82,12 +82,13 @@ class PasswordAuthView extends React.Component {
   };
 
   handleToggle = () => {
+    const { isPasswordHidden } = this.state;
 
-    if (this.state.toggleText === 'Show') {
-      this.setState({ ishidden: false });
+    if (isPasswordHidden) {
+      this.setState({ isPasswordHidden: false });
       this.setState({ toggleText: 'Hide' });
     } else {
-      this.setState({ ishidden: true });
+      this.setState({ isPasswordHidden: true });
       this.setState({ toggleText: 'Show' });
     }
   };
@@ -112,14 +113,14 @@ class PasswordAuthView extends React.Component {
         <Input
           style={styles.passwordfield}
           placeholder="Password"
-          secureTextEntry={this.state.ishidden}
+          secureTextEntry={this.state.isPasswordHidden}
           value={password}
           onChangeText={newPassword => this.setState({ password: newPassword })}
           blurOnSubmit={false}
           onSubmitEditing={this.validateForm}
         />
         <View style={styles.togglePassword}>
-          <Touchable onPress={ () => this.handleToggle()}>
+          <Touchable onPress={this.handleToggle}>
             <Text style={styles.field}>
               {this.state.toggleText}
             </Text>
