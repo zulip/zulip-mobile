@@ -7,7 +7,7 @@ import { UserType, GlobalState } from '../types';
 import { getAuth } from '../account/accountSelectors';
 import { Popup } from '../common';
 import UserItem from '../users/UserItem';
-import { sortUserList, filterUsersStartingWith } from '../users/usersSelectors';
+import { alphabeticallySort, getAutocompleteSuggestion } from '../users/usersSelectors';
 
 class PeopleAutocomplete extends Component {
 
@@ -20,7 +20,7 @@ class PeopleAutocomplete extends Component {
 
   render() {
     const { filter, ownEmail, users, onAutocomplete } = this.props;
-    const people: UserType[] = sortUserList(filterUsersStartingWith(users, filter, ownEmail));
+    const people: UserType[] = getAutocompleteSuggestion(users, filter, ownEmail);
 
     if (people.length === 0) return null;
 
@@ -49,5 +49,5 @@ class PeopleAutocomplete extends Component {
 
 export default connect((state: GlobalState) => ({
   ownEmail: getAuth(state).email,
-  users: state.users,
+  users: alphabeticallySort(state.users),
 }))(PeopleAutocomplete);

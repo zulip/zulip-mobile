@@ -1,7 +1,7 @@
 import {
   sortUserList,
   filterUserList,
-  filterUsersStartingWith,
+  getAutocompleteSuggestion,
   groupUsersByInitials,
 } from '../usersSelectors';
 
@@ -44,10 +44,10 @@ describe('filterUserList', () => {
   });
 });
 
-describe('filterUsersStartingWith', () => {
+describe('getAutocompleteSuggestion', () => {
   test('empty input results in empty list', () => {
     const users = [];
-    const filteredUsers = filterUsersStartingWith(users, 'some filter');
+    const filteredUsers = getAutocompleteSuggestion(users, 'some filter');
     expect(filteredUsers).toEqual([]);
   });
 
@@ -57,7 +57,7 @@ describe('filterUsersStartingWith', () => {
       { email: 'my@example.com', fullName: 'Me' },
     ];
     const shouldMatch = [{ email: 'email@example.com', fullName: 'Some Guy' }];
-    const filteredUsers = filterUsersStartingWith(users, '', 'my@example.com');
+    const filteredUsers = getAutocompleteSuggestion(users, '', 'my@example.com');
     expect(filteredUsers).toEqual(shouldMatch);
   });
 
@@ -75,18 +75,24 @@ describe('filterUsersStartingWith', () => {
       { fullName: 'MaTcH Case Insensitive', email: 'any@example.com' },
       { fullName: 'Example', email: 'match@example.com' },
     ];
-    const filteredUsers = filterUsersStartingWith(allUsers, 'match');
+    const filteredUsers = getAutocompleteSuggestion(allUsers, 'match');
     expect(filteredUsers).toEqual(shouldMatch);
   });
 
-  test('search by initials in name', () => {
+  test('result should be in priority of startsWith, initials, contains in name, matches in email', () => {
     const allUsers = [
-      { fullName: 'Apple Boy Cot', email: 'any@example.com' },
+      { fullName: 'M Apple', email: 'any@example.com' },
+      { fullName: 'Normal boy', email: 'any@example.com' },
+      { fullName: 'Example', email: 'match@example.com' },
+      { fullName: 'match', email: 'any@example.com' },
     ];
     const shouldMatch = [
-      { fullName: 'Apple Boy Cot', email: 'any@example.com' },
+      { fullName: 'match', email: 'any@example.com' },   // name starts with 'ma'
+      { fullName: 'M Apple', email: 'any@example.com' }, // initials 'MA'
+      { fullName: 'Normal boy', email: 'any@example.com' }, // name contains in 'ma'
+      { fullName: 'Example', email: 'match@example.com' }, // email contains 'ma'
     ];
-    const filteredUsers = filterUsersStartingWith(allUsers, 'abc');
+    const filteredUsers = getAutocompleteSuggestion(allUsers, 'ma');
     expect(filteredUsers).toEqual(shouldMatch);
   });
 });

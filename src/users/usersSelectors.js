@@ -29,14 +29,6 @@ export const sortUserList = (users: any[]): UserType[] =>
     x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase())
   );
 
-export const filterUsersStartingWith = (users: any[], filter: string = '', ownEmail: string): any[] =>
-  users.filter(user =>
-    user.email !== ownEmail &&
-    (user.fullName.toLowerCase().startsWith(filter.toLowerCase())
-    || user.fullName.replace(/(\s|[a-z])/g, '').toLowerCase().startsWith(filter.toLowerCase())
-    || user.email.toLowerCase().includes(filter.toLowerCase()))
-  );
-
 export const filterUserList = (users: any[], filter: string = '', ownEmail: ?string): any[] =>
   users.filter(user =>
     user.email !== ownEmail &&
@@ -44,3 +36,32 @@ export const filterUserList = (users: any[], filter: string = '', ownEmail: ?str
     user.fullName.toLowerCase().includes(filter.toLowerCase()) ||
     user.email.toLowerCase().includes(filter.toLowerCase()))
   );
+
+export const alphabeticallySort = (users: any[]): UserType[] =>
+  users.sort((x1, x2) =>
+    x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase())
+  );
+
+export const getAutocompleteSuggestion = (users: any[], filter: string = '', ownEmail: string) => {
+  let startWith = [];
+  let initials = [];
+  let contains = [];
+  let matchesEmail = [];
+  users.map((user) => {
+    if (user.email === ownEmail) return user;
+    else if (user.fullName.toLowerCase().startsWith(filter.toLowerCase())) {
+      startWith = [...startWith, user];
+      return user;
+    } else if (user.fullName.replace(/(\s|[a-z])/g, '').toLowerCase().startsWith(filter.toLowerCase())) {
+      initials = [...initials, user];
+      return user;
+    } else if (user.fullName.toLowerCase().includes(filter.toLowerCase())) {
+      contains = [...contains, user];
+      return user;
+    } else if (user.email.toLowerCase().includes(filter.toLowerCase())) {
+      matchesEmail = [...matchesEmail, user];
+      return user;
+    } else return user;
+  });
+  return [...startWith, ...initials, ...contains, ...matchesEmail];
+};
