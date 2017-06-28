@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
 import { Avatar, ZulipButton } from '../common';
+import { BRAND_COLOR } from '../styles';
 import { privateNarrow } from '../utils/narrow';
 import UserStatusIndicator from '../common/UserStatusIndicator';
 import mediumAvatarUrl from '../utils/mediumAvatar';
@@ -16,6 +17,7 @@ const styles = StyleSheet.create({
   info: {
     textAlign: 'center',
     fontSize: 18,
+    color: BRAND_COLOR,
   },
   details: {
     flexDirection: 'row',
