@@ -13,7 +13,7 @@ import {
   getCurrentTypingUsers,
 } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
-import { canSendToNarrow } from '../utils/narrow';
+import { canSendToNarrow, isStreamOrTopicNarrow } from '../utils/narrow';
 import { filterUnreadMessageIds, countUnread } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { queueMarkAsRead } from '../api';
@@ -63,7 +63,8 @@ class Chat extends React.Component {
 
   isSubscribed = () => {
     const { narrow, subscriptions } = this.props;
-    return subscriptions.find((sub) => narrow[0].operand === sub.name) !== undefined;
+    return (isStreamOrTopicNarrow(narrow) ?
+    subscriptions.find((sub) => narrow[0].operand === sub.name) !== undefined : true);
   }
 
   showSubscribeButton = () => {
