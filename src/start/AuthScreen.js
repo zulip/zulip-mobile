@@ -1,18 +1,14 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Linking, Platform, View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import SafariView from 'react-native-safari-view';
-import parseURL from 'url-parse';
-
-import type { Actions } from '../types';
+import { Action } from '../types';
 import boundActions from '../boundActions';
 import { RawLabel, Screen, ZulipButton } from '../common';
-import { generateOtp, extractApiKey } from '../utils/encoding';
 import { getCurrentRealm } from '../selectors';
-
 import PasswordAuthView from './PasswordAuthView';
+import OAuthView from './OAuthView';
 
 const componentStyles = StyleSheet.create({
   description: {
@@ -37,111 +33,18 @@ class AuthScreen extends PureComponent {
   };
 
   props: {
-    actions: Actions,
     realm: string,
+    setAuthType: Action,
     navigation: Object,
+    navigateToDev: () => void,
   };
 
-  otp: ?string;
-  safariViewDismissEvent: Event;
+  handleDevAuth = () => {
+    const { setAuthType, navigateToDev } = this.props;
 
-  componentDidMount = () => {
-    // Add listeners for OAuth flow
-    if (Platform.OS === 'ios') {
-      Linking.addEventListener('url', this.endOAuthFlow);
-      this.safariViewDismissEvent = SafariView.addEventListener('onDismiss', () => {
-        this.otp = undefined;
-      });
-    }
+    setAuthType('dev');
+    navigateToDev();
   };
-
-  componentWillUnmount = () => {
-    // Remove listeners for OAuth flow
-    if (Platform.OS === 'ios') {
-      Linking.removeEventListener('url', this.endOAuthFlow);
-      SafariView.removeEventListener('onDismiss', this.safariViewDismissEvent);
-    }
-  };
-
-  handleTypeSelect = (authType: string) => {
-    const { actions, realm } = this.props;
-
-    if (authType === 'google') {
-      // Google OAuth flow
-      this.beginOAuthFlow(`${realm}/accounts/login/google/`);
-    } else if (authType === 'github') {
-      // Github OAuth flow
-      this.beginOAuthFlow(`${realm}/accounts/login/social/github/`);
-    } else if (authType === 'dev') {
-      // Dev Auth backend flow
-      actions.navigateToDev();
-    } else {
-      // Password auth flow
-      actions.setAuthType(authType);
-      actions.navigateToAuth(authType);
-    }
-  };
-
-  beginOAuthFlow = async url => {
-    // Generate a one time pad (OTP) to send up with the request
-    // The server XORs the API key with this OTP in its response to protect
-    // against malicious apps registering an identical URI scheme and trying
-    // to intercept credentials
-    this.otp = await generateOtp();
-    SafariView.show({ url: `${url}?mobile_flow_otp=${this.otp}` });
-  };
-
-  endOAuthFlow = event => {
-    const { actions, realm } = this.props;
-
-    SafariView.dismiss();
-
-    const url = parseURL(event.url, true);
-
-    // The OAuth callback should have the following format:
-    // zulip://login?realm={}&email={}&otp_encrypted_api_key={}
-    if (url.host === 'login') {
-      const query = url.query;
-
-      // Check for errors
-      if (query.realm !== realm) {
-        // eslint-disable-next-line no-console
-        console.error('Zulip realm does not match request.');
-        return;
-      }
-
-      if (!this.otp) {
-        // eslint-disable-next-line no-console
-        console.error('No one time pad stored. This auth redirect may not have been requested.');
-        return;
-      }
-
-      if (!query.email || !query.otp_encrypted_api_key) {
-        // eslint-disable-next-line no-console
-        console.error('No credentials returned in server response.');
-        return;
-      }
-
-      if (query.otp_encrypted_api_key.length !== this.otp.length) {
-        // eslint-disable-next-line no-console
-        console.error('API key in server response has the wrong length.');
-        return;
-      }
-
-      // If we have made it this far we have a valid API key
-      const apiKey = extractApiKey(query.otp_encrypted_api_key, this.otp);
-
-      // Reset stored one time pad
-      this.otp = undefined;
-
-      // Add the authenticated account
-      actions.loginSuccess(realm, query.email, apiKey);
-    }
-  };
-
-  shouldShowOAuth = () =>
-    // OAuth flow only supports iOS 9+ right now
-    Platform.OS === 'ios' && !Platform.Version.startsWith('8.');
 
   render() {
     const { serverSettings } = this.props.navigation.state.params;
@@ -153,28 +56,13 @@ class AuthScreen extends PureComponent {
             style={componentStyles.icon}
             source={{ uri: this.props.realm + serverSettings.realm_icon }}
           />
-          <RawLabel
-            style={componentStyles.name}
-            text={serverSettings.realm_name}
-            editable={false}
-          />
+          <RawLabel style={componentStyles.name} text={serverSettings.realm_name} />
         </View>
         {serverSettings.authentication_methods.dev && (
-          <ZulipButton
-            text="Sign in with dev account"
-            onPress={() => this.handleTypeSelect('dev')}
-          />
+          <ZulipButton text="Sign in with dev account" onPress={this.handleDevAuth} />
         )}
         {serverSettings.authentication_methods.password && <PasswordAuthView />}
-        {serverSettings.authentication_methods.google &&
-          this.shouldShowOAuth() && (
-            <ZulipButton
-              secondary
-              text="Sign in with Google"
-              icon="logo-google"
-              onPress={() => this.handleTypeSelect('google')}
-            />
-          )}
+        {serverSettings.authentication_methods.google && <OAuthView />}
       </Screen>
     );
   }

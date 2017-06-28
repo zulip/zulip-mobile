@@ -33,8 +33,8 @@ export const base64ToHex = (bytes: string) => asciiToHex(base64.decode(bytes));
 
 export const hexToBase64 = (hex: string) => base64.encode(hexToAscii(hex));
 
-// Returns a one time pad (OTP) as a hex string
-// Uses the native platform random number generator
+// Generate a one time pad (OTP) which the server XORs the API key with
+// in its response to protect against credentials intercept
 export const generateOtp = async () => {
   const rand = await NativeModules.UtilManager.randomBase64(32);
   return base64ToHex(rand);

@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 
 export default class MessageListWeb extends PureComponent {
   handleMessage = event => {
-    const { fetchOlder, navigateToAccountDetails } = this.props;
+    const { actions, fetchOlder, navigateToAccountDetails } = this.props;
     const data = JSON.parse(event.nativeEvent.data);
 
     switch (data.type) {
@@ -22,13 +22,16 @@ export default class MessageListWeb extends PureComponent {
           fetchOlder();
         }
         break;
+
       case 'avatar':
-        this.props.actions.pushRoute('account-details', data.fromEmail);
+        actions.navigateToAccountDetails(data.fromEmail);
         break;
+
       case 'narrow':
         this.props.actions.doNarrow(JSON.parse(data.narrow.replace(/'/g, '"')));
         navigateToAccountDetails(data.fromEmail);
         break;
+
       default:
     }
   };
