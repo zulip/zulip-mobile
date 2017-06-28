@@ -1,13 +1,13 @@
 /* @flow */
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Auth } from '../types';
 import boundActions from '../boundActions';
 import { fetchApiKey } from '../api';
 import config from '../config';
-import { ErrorMsg, ZulipButton, Input } from '../common';
+import { ErrorMsg, ZulipButton, Input, Touchable } from '../common';
 import { getAuth } from '../account/accountSelectors';
 
 type Props = {
@@ -35,6 +35,8 @@ class PasswordAuthView extends React.Component {
     password: string,
     error: string,
     progress: boolean,
+    ishidden: boolean,
+    toggleText: string,
   };
 
   constructor(props: Props) {
@@ -43,7 +45,9 @@ class PasswordAuthView extends React.Component {
       progress: false,
       email: props.email || config.defaultLoginEmail,
       password: config.defaultLoginPassword,
-      error: ''
+      error: '',
+      ishidden: true,
+      toggleText: 'Show',
     };
   }
 
@@ -77,6 +81,17 @@ class PasswordAuthView extends React.Component {
     }
   };
 
+  handleToggle = () => {
+
+    if (this.state.toggleText === 'Show') {
+      this.setState({ ishidden: false });
+      this.setState({ toggleText: 'Hide' });
+    } else {
+      this.setState({ ishidden: true });
+      this.setState({ toggleText: 'Show' });
+    }
+  };
+
   render() {
     const { styles } = this.context;
     const { email, password, progress, error } = this.state;
@@ -95,14 +110,21 @@ class PasswordAuthView extends React.Component {
           onChangeText={newEmail => this.setState({ email: newEmail })}
         />
         <Input
-          style={styles.field}
+          style={styles.passwordfield}
           placeholder="Password"
-          secureTextEntry
+          secureTextEntry={this.state.ishidden}
           value={password}
           onChangeText={newPassword => this.setState({ password: newPassword })}
           blurOnSubmit={false}
           onSubmitEditing={this.validateForm}
         />
+        <View style={styles.togglePassword}>
+          <Touchable onPress={ () => this.handleToggle()}>
+            <Text style={styles.field}>
+              {this.state.toggleText}
+            </Text>
+          </Touchable>
+        </View>
         <ZulipButton
           text="Sign in with password"
           progress={progress}
