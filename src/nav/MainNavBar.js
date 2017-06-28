@@ -30,7 +30,7 @@ class MainNavBar extends React.Component {
       onPressStreams, onPressPeople } = this.props;
     const backgroundColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
       (subscriptions.find((sub) => narrow[0].operand === sub.name)).color :
-      styles.navBar.backgroundColor;
+      StyleSheet.flatten(styles.navBar).backgroundColor;
 
     const textColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
       foregroundColorFromBackground(backgroundColor) :
