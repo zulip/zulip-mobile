@@ -108,8 +108,7 @@ export default class ComposeText extends React.Component {
             height={contentHeight}
             onChange={this.handleOnChange}
             onChangeText={this.handleChangeText}
-            placeholder={placeholder.text}
-            placeholderValues={placeholder.values}
+            placeholder={placeholder}
           />
         </ScrollView>
         <SendButton

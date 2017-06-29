@@ -68,7 +68,7 @@ export default class AccountDetails extends Component {
   renderSendPMButton = () => (
     <ZulipButton
       style={styles.sendButton}
-      text="Send Private Message"
+      text="Send private message"
       onPress={this.handleChatPress}
       icon="md-mail"
     />
