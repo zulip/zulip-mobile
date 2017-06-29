@@ -1,4 +1,5 @@
 /* @flow */
+import uniqby from 'lodash.uniqby';
 import { UserType } from '../types';
 
 const statusOrder = (status) => {
@@ -37,31 +38,42 @@ export const filterUserList = (users: any[], filter: string = '', ownEmail: ?str
     user.email.toLowerCase().includes(filter.toLowerCase()))
   );
 
-export const alphabeticallySort = (users: any[]): UserType[] =>
+export const sortAlphabetically = (users: UserType[]): UserType[] =>
   users.sort((x1, x2) =>
     x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase())
   );
 
-export const getAutocompleteSuggestion = (users: any[], filter: string = '', ownEmail: string) => {
-  let startWith = [];
-  let initials = [];
-  let contains = [];
-  let matchesEmail = [];
-  users.map((user) => {
-    if (user.email === ownEmail) return user;
-    else if (user.fullName.toLowerCase().startsWith(filter.toLowerCase())) {
-      startWith = [...startWith, user];
-      return user;
-    } else if (user.fullName.replace(/(\s|[a-z])/g, '').toLowerCase().startsWith(filter.toLowerCase())) {
-      initials = [...initials, user];
-      return user;
-    } else if (user.fullName.toLowerCase().includes(filter.toLowerCase())) {
-      contains = [...contains, user];
-      return user;
-    } else if (user.email.toLowerCase().includes(filter.toLowerCase())) {
-      matchesEmail = [...matchesEmail, user];
-      return user;
-    } else return user;
-  });
-  return [...startWith, ...initials, ...contains, ...matchesEmail];
+export const filterUserStartWith = (users: UserType[], filter: string = '', ownEmail: string): UserType[] =>
+  users.filter(user =>
+    user.email !== ownEmail &&
+    user.fullName.toLowerCase().startsWith(filter.toLowerCase())
+  );
+
+export const filterUserByInitials = (users: UserType[], filter: string = '', ownEmail: string): UserType[] =>
+  users.filter(user =>
+    user.email !== ownEmail &&
+    user.fullName.replace(/(\s|[a-z])/g, '').toLowerCase().startsWith(filter.toLowerCase())
+  );
+
+export const filterUserThatContains = (users: UserType[], filter: string = '', ownEmail: string): UserType[] =>
+  users.filter(user =>
+    user.email !== ownEmail &&
+    user.fullName.toLowerCase().includes(filter.toLowerCase())
+  );
+
+export const filterUserMatchesEmail = (users: UserType[], filter: string = '', ownEmail: string): UserType[] =>
+  users.filter(user =>
+    user.email !== ownEmail &&
+    user.email.toLowerCase().includes(filter.toLowerCase())
+  );
+
+export const getUniqueUsers = (users: UserType[]): UserType[] =>
+  uniqby(users, 'email');
+
+export const getAutocompleteSuggestion = (users: UserType[], filter: string = '', ownEmail: string): UserType[] => {
+  const startWith = filterUserStartWith(users, filter, ownEmail);
+  const initials = filterUserByInitials(users, filter, ownEmail);
+  const contains = filterUserThatContains(users, filter, ownEmail);
+  const matchesEmail = filterUserMatchesEmail(users, filter, ownEmail);
+  return getUniqueUsers([...startWith, ...initials, ...contains, ...matchesEmail]);
 };

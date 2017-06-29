@@ -7,7 +7,7 @@ import { UserType, GlobalState } from '../types';
 import { getAuth } from '../account/accountSelectors';
 import { Popup } from '../common';
 import UserItem from '../users/UserItem';
-import { alphabeticallySort, getAutocompleteSuggestion } from '../users/usersSelectors';
+import { sortAlphabetically, getAutocompleteSuggestion } from '../users/usersSelectors';
 
 class PeopleAutocomplete extends Component {
 
@@ -49,5 +49,5 @@ class PeopleAutocomplete extends Component {
 
 export default connect((state: GlobalState) => ({
   ownEmail: getAuth(state).email,
-  users: alphabeticallySort(state.users),
+  users: sortAlphabetically(state.users),
 }))(PeopleAutocomplete);
