@@ -225,3 +225,5 @@ export type ReactionType = {
   count: number,
   selfReacted: boolean,
 };
+
+export type LocalizableText = string | { text: string, values: Object, };

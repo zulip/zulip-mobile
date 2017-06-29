@@ -1,4 +1,5 @@
 {
+  "{_}": "{_}",
   "Home": "Всичко",
   "Private messages": "Лични съобщения",
   "Starred": "Любим",
@@ -54,5 +55,6 @@
   "starred": "любим",
   "Enable notifications": "Включи известявания",
   "Jot down something": "Напиши нещо",
-  "Message {recipient}": "Изпрати до {recipient}"
+  "Message {recipient}": "Изпрати до {recipient}",
+  "Send private message": "Изпрати лично съобщение"
 }

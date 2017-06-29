@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, ScrollView, TextInput } from 'react-native';
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
+import type { LocalizableText } from '../types';
 import { Input } from '../common';
 
 const MIN_HEIGHT = 34;
@@ -19,15 +20,19 @@ export default class MultilineInput extends React.Component {
 
   props: {
     style?: StyleObj,
-    placeholder?: string,
+    placeholder: LocalizableText,
     onChange?: (text: string) => void,
+  };
+
+  static defaultProps = {
+    placeholder: {},
   };
 
   textInput: TextInput;
 
   state: {
     contentHeight: number,
-  }
+  };
 
   state = {
     contentHeight: MIN_HEIGHT,

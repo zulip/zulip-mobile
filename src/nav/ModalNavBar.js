@@ -7,7 +7,7 @@ import boundActions from '../boundActions';
 import { CONTROL_SIZE } from '../styles';
 import { Label } from '../common';
 import NavButton from './NavButton';
-import { PopRouteAction, StyleObj } from '../types';
+import { LocalizableText, PopRouteAction, StyleObj } from '../types';
 
 const customStyles = StyleSheet.create({
   centerItem: {
@@ -25,7 +25,7 @@ class ModalNavBar extends React.Component {
 
   props: {
     nav: any,
-    title?: string,
+    title?: LocalizableText,
     titleColor?: ?string,
     itemsColor?: ?string,
     rightItem?: Object,
@@ -61,9 +61,9 @@ class ModalNavBar extends React.Component {
 
     return (
       <View style={[styles.navBar, style]}>
-        {nav.index > 0 &&
-          !isRightItemNav &&
-          <NavButton name="ios-arrow-back" color={itemsColor} onPress={popRoute} />}
+        {nav.index > 0 && !isRightItemNav &&
+          <NavButton name="ios-arrow-back" color={itemsColor} onPress={popRoute} />
+        }
         <View style={[customStyles.centerItem, childrenStyle]}>
           {content}
         </View>

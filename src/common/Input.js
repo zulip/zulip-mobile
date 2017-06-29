@@ -4,6 +4,7 @@ import { TextInput } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
+import type { LocalizableText } from '../types';
 import { HALF_COLOR } from '../styles';
 
 export default class Input extends Component {
@@ -15,9 +16,12 @@ export default class Input extends Component {
   props: {
     style: StyleObj,
     restProps?: any[],
-    placeholder?: string,
-    placeholderValues?: Object,
+    placeholder: LocalizableText,
     textInputRef?: (component: TextInput) => void,
+  };
+
+  static defaultProps = {
+    placeholder: {},
   };
 
   static defaultProps = {
@@ -27,10 +31,15 @@ export default class Input extends Component {
 
   render() {
     const { styles } = this.context;
-    const { style, placeholder, placeholderValues, textInputRef, ...restProps } = this.props;
+    const { style, placeholder, textInputRef, ...restProps } = this.props;
+    const placeholderMessage = placeholder.text || placeholder;
 
     return (
-      <FormattedMessage id={placeholder} defaultMessage={placeholder} values={placeholderValues}>
+      <FormattedMessage
+        id={placeholderMessage}
+        defaultMessage={placeholderMessage}
+        values={placeholder.values}
+      >
         {text => (
           <TextInput
             style={[styles.input, style]}

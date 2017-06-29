@@ -24,7 +24,6 @@ export default (narrow, ownEmail, users) => {
       text: 'Message {recipient}',
       values: { recipient: `@${user.fullName}` }
     };
-    // return user && `Message @${user.fullName}`;
   }
 
   if (isStreamNarrow(narrow)) {

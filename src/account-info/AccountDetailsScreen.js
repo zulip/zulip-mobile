@@ -37,9 +37,15 @@ class AccountDetailsScreen extends Component {
 
   render() {
     const { auth, fetchMessages, doNarrow, popRoute, orientation } = this.props;
+    const title = {
+      text: '{_}',
+      values: {
+        _: this.user.fullName,
+      },
+    };
 
     return (
-      <Screen title={this.user.fullName}>
+      <Screen title={title}>
         <AccountDetails
           auth={auth}
           fullName={this.user.fullName}

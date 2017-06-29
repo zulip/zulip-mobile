@@ -1,4 +1,5 @@
 {
+  "{_}": "{_}",
   "Home": "Inicio",
   "Private messages": "Mensajes privados",
   "Starred": "Destacados",
@@ -54,5 +55,6 @@
   "starred": "starred",
   "Enable notifications": "Enable notifications",
   "Jot down something": "Jot down something",
-  "Message {recipient}": "Message {recipient}"
+  "Message {recipient}": "Message {recipient}",
+  "Send private message": "Enviar mensaje privado"
 }
