@@ -1,7 +1,12 @@
 /* @flow */
 import { Clipboard } from 'react-native';
 import { DoNarrowAction, Auth } from '../types';
-import { narrowFromMessage } from '../utils/narrow';
+import {
+  narrowFromMessage,
+  isHomeNarrow,
+  isStreamNarrow,
+  isSpecialNarrow
+} from '../utils/narrow';
 import { getSingleMessage } from '../api';
 import { isTopicMuted } from '../utils/message';
 import muteTopicApi from '../api/muteTopic';
@@ -9,10 +14,12 @@ import unmuteTopicApi from '../api/unmuteTopic';
 import unmuteStreamApi from '../api/unmuteStream';
 import muteStreamApi from '../api/muteStream';
 import toggleMessageStarredApi from '../api/toggleMessageStarred';
+import showToast from '../utils/showToast';
 
 type MessageAndDoNarrowType = {
   message: Object,
   doNarrow: DoNarrowAction,
+  auth: Auth,
 };
 
 type AuthAndMessageType = {
@@ -50,13 +57,18 @@ type ConstructActionButtonsType = {
   flags: Object,
 };
 
-const reply = ({ message, doNarrow }: MessageAndDoNarrowType) => {
-  doNarrow(narrowFromMessage(message), message.id);
+const narrowToConversation = ({ message, doNarrow, auth }: MessageAndDoNarrowType) => {
+  doNarrow(narrowFromMessage(message, auth.email), message.id);
+};
+
+const reply = ({ message, doNarrow, auth }: MessageAndDoNarrowType) => {
+  doNarrow(narrowFromMessage(message, auth.email), message.id);
 };
 
 const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
   const rawMessage = await getSingleMessage(auth, message.id);
   Clipboard.setString(rawMessage);
+  showToast('Message copied!');
 };
 
 const unmuteTopic = ({ auth, message }: AuthAndMessageType) => {
@@ -101,6 +113,7 @@ const actionSheetButtons: ButtonType[] = [
   { title: 'Reply', onPress: reply },
   { title: 'Copy to clipboard', onPress: copyToClipboard },
   // If skip then covered in constructActionButtons
+  { title: 'Narrow to conversation', onPress: narrowToConversation, onlyIf: skip },
   { title: 'Star Message', onPress: starMessage, onlyIf: skip },
   { title: 'Unstar Message', onPress: unstarMessage, onlyIf: skip },
   { title: 'Unmute topic', onPress: unmuteTopic, onlyIf: skip },
@@ -122,11 +135,16 @@ export const constructActionButtons = ({
     !x.onlyIf || x.onlyIf({ message, auth, narrow })).map(x => x.title);
 
   // These are dependent conditions, hence better if we manage here rather than using onlyIf
+  if (isHomeNarrow(narrow) || isStreamNarrow(narrow) || isSpecialNarrow(narrow)) {
+    buttons.push('Narrow to conversation');
+  }
+
   if (message.id in flags.starred) {
     buttons.push('Unstar Message');
   } else {
     buttons.push('Star Message');
   }
+
   if (message.type === 'stream') {
     if (isTopicMuted(message, mute)) {
       buttons.push('Unmute topic');
