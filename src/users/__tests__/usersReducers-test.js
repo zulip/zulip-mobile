@@ -3,9 +3,7 @@ import {
   EVENT_USER_ADD,
   ACCOUNT_SWITCH,
 } from '../../actionConstants';
-import usersReducers, { activityFromPresence, timestampFromPresence } from '../usersReducers';
-
-const fiveSecsAgo = Math.floor(new Date() - 5) / 1000;
+import usersReducers from '../usersReducers';
 
 describe('usersReducers', () => {
   test('handles unknown action and no state by returning initial state', () => {
