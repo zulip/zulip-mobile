@@ -12,6 +12,7 @@ import { isSameDay } from '../utils/date';
 type Props = {
   auth: Auth,
   subscriptions: any[],
+  streams: any[],
   users: Object[],
   messages: any[],
   mute: boolean,
@@ -26,6 +27,7 @@ type Props = {
 export default ({
   auth,
   subscriptions,
+  streams,
   users,
   messages,
   narrow,
@@ -86,6 +88,7 @@ export default ({
         flags={flags}
         pushRoute={pushRoute}
         twentyFourHourTime={twentyFourHourTime}
+        streams={streams}
       />
     );
 

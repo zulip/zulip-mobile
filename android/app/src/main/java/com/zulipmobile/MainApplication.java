@@ -11,6 +11,7 @@ import com.wix.reactnativenotifications.RNNotificationsPackage;
 import com.remobile.toast.RCTToastPackage;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
+import com.azendoo.reactnativesnackbar.SnackbarPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
@@ -52,6 +53,7 @@ public class MainApplication extends Application implements ReactApplication, IN
                     new PhotoViewPackage(),
                     new RCTToastPackage(),
                     new RNFetchBlobPackage(),
+                    new SnackbarPackage(),
                     new RNSoundPackage(),
                     new RNDeviceInfo(),
                     new ZulipNativePackage(),

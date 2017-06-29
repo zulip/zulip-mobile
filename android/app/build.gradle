@@ -157,6 +157,7 @@ dependencies {
     compile project(':@remobile/react-native-toast')
     compile project(':react-native-photo-view')
     compile project(':react-native-fetch-blob')
+    compile project(':react-native-snackbar')
     compile project(':react-native-sound')
     compile project(':react-native-fabric')
     compile project(':react-native-device-info')

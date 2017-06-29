@@ -8,6 +8,8 @@ import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
 import openLink from '../utils/openLink';
+import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
+import { showSnackBar } from '../utils/showSnackBar';
 
 type Href = string;
 
@@ -22,6 +24,7 @@ export default class MessageContainer extends React.PureComponent {
     avatarUrl: string,
     twentyFourHourTime?: boolean,
     isBrief: boolean,
+    streams: any[],
     pushRoute: PushRouteAction,
   };
 
@@ -30,9 +33,14 @@ export default class MessageContainer extends React.PureComponent {
   };
 
   inAppLinkPress = (href: Href) => {
-    const { users, auth, doNarrow } = this.props;
+    const { users, auth, doNarrow, streams, pushRoute } = this.props;
     const anchor = getMessageIdFromLink(href, auth.realm);
     const narrow = getNarrowFromLink(href, auth.realm, users);
+    if ((isStreamNarrow(narrow) || isTopicNarrow(narrow)) &&
+    !streams.find((sub) => narrow[0].operand === sub.name)) {
+      showSnackBar(`The stream ${narrow[0].operand} does not exist.`, 'Manage streams', () => pushRoute('subscriptions'));
+      return;
+    }
     doNarrow(narrow, anchor);
   };
 
