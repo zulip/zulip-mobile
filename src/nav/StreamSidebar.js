@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
 export default class StreamSidebar extends React.Component {
 
-  props = {
+  props: {
     onNarrow: OnNarrowAction,
     pushRoute: PushRouteAction,
   };
