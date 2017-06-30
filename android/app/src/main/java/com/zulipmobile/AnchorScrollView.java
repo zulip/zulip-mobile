@@ -222,7 +222,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
             }
 
             findAnchorView();
-            AnchorScrollViewHelper.emitScrollEvent(this);
+            AnchorScrollViewHelper.emitScrollEvent(this, null);
         }
     }
 
@@ -411,6 +411,11 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
             }
         }
         super.draw(canvas);
+
+//      Dispatch event after scrollview is drawn.
+//      Without this, as onScrollChanged() is called before a view draws,
+//      we'd miss to calculate visible ids currently on screen.
+        AnchorScrollViewHelper.emitScrollEvent(this, getVisibleIds());
     }
 
     public void setEndFillColor(int color) {

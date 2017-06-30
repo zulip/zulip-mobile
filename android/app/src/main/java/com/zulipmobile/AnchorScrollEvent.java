@@ -56,7 +56,7 @@ public class AnchorScrollEvent extends Event<AnchorScrollEvent> {
             int contentHeight,
             int scrollViewWidth,
             int scrollViewHeight,
-            ArrayList<String> visibleIds) {
+            @Nullable ArrayList<String> visibleIds) {
         AnchorScrollEvent event = EVENTS_POOL.acquire();
         if (event == null) {
             event = new AnchorScrollEvent();
@@ -88,7 +88,7 @@ public class AnchorScrollEvent extends Event<AnchorScrollEvent> {
             int contentHeight,
             int scrollViewWidth,
             int scrollViewHeight,
-            ArrayList<String> visibleIds) {
+            @Nullable ArrayList<String> visibleIds) {
         super.init(viewTag);
         mScrollEventType = scrollEventType;
         mScrollX = scrollX;
@@ -148,8 +148,10 @@ public class AnchorScrollEvent extends Event<AnchorScrollEvent> {
 
         // Zulip changes
         WritableArray visibleIds = Arguments.createArray();
-        for (String id : mVisibleIds) {
-            visibleIds.pushString(id);
+        if (mVisibleIds != null) {
+            for (String id : mVisibleIds) {
+                visibleIds.pushString(id);
+            }
         }
 
         WritableMap event = Arguments.createMap();

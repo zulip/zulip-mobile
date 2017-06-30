@@ -9,6 +9,7 @@
 
 package com.zulipmobile;
 
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,6 +17,8 @@ import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.views.scroll.ScrollEventType;
+
+import java.util.ArrayList;
 
 /**
  * Helper class that deals with emitting Scroll Events.
@@ -30,27 +33,27 @@ public class AnchorScrollViewHelper {
     /**
      * Used by {@link AnchorScrollView}
      */
-    public static void emitScrollEvent(ViewGroup scrollView) {
-        emitScrollEvent(scrollView, ScrollEventType.SCROLL);
+    public static void emitScrollEvent(ViewGroup scrollView, @Nullable ArrayList<String> visibleIds) {
+        emitScrollEvent(scrollView, ScrollEventType.SCROLL, visibleIds);
     }
 
     public static void emitScrollBeginDragEvent(ViewGroup scrollView) {
-        emitScrollEvent(scrollView, ScrollEventType.BEGIN_DRAG);
+        emitScrollEvent(scrollView, ScrollEventType.BEGIN_DRAG, null);
     }
 
     public static void emitScrollEndDragEvent(ViewGroup scrollView) {
-        emitScrollEvent(scrollView, ScrollEventType.END_DRAG);
+        emitScrollEvent(scrollView, ScrollEventType.END_DRAG, null);
     }
 
     public static void emitScrollMomentumBeginEvent(ViewGroup scrollView) {
-        emitScrollEvent(scrollView, ScrollEventType.MOMENTUM_BEGIN);
+        emitScrollEvent(scrollView, ScrollEventType.MOMENTUM_BEGIN, null);
     }
 
     public static void emitScrollMomentumEndEvent(ViewGroup scrollView) {
-        emitScrollEvent(scrollView, ScrollEventType.MOMENTUM_END);
+        emitScrollEvent(scrollView, ScrollEventType.MOMENTUM_END, null);
     }
 
-    private static void emitScrollEvent(ViewGroup scrollView, ScrollEventType scrollEventType) {
+    private static void emitScrollEvent(ViewGroup scrollView, ScrollEventType scrollEventType, @Nullable ArrayList<String> visibleIds) {
         View contentView = scrollView.getChildAt(0);
 
         if (contentView == null) {
@@ -69,7 +72,7 @@ public class AnchorScrollViewHelper {
                         contentView.getHeight(),
                         scrollView.getWidth(),
                         scrollView.getHeight(),
-                        ((AnchorScrollView) scrollView).getVisibleIds())
+                        visibleIds)
         );
     }
 
