@@ -8,6 +8,7 @@ import boundActions from '../boundActions';
 import { fetchApiKey } from '../api';
 import config from '../config';
 import { ErrorMsg, ZulipButton, Input, Touchable } from '../common';
+import { BRAND_COLOR } from '../styles';
 import { getAuth } from '../account/accountSelectors';
 
 type Props = {
@@ -20,6 +21,9 @@ const moreStyles = StyleSheet.create({
   container: {
     paddingBottom: 10,
   },
+  toggleText: {
+    color: BRAND_COLOR,
+  }
 });
 
 class PasswordAuthView extends React.Component {
@@ -121,7 +125,7 @@ class PasswordAuthView extends React.Component {
         />
         <View style={styles.togglePassword}>
           <Touchable onPress={this.handleToggle}>
-            <Text style={styles.field}>
+            <Text style={moreStyles.toggleText}>
               {this.state.toggleText}
             </Text>
           </Touchable>
