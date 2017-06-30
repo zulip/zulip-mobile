@@ -1,7 +1,9 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
+import type { Auth, SettingsChangeAction } from '../types';
 import boundActions from '../boundActions';
 import { Label, Screen, ZulipSwitch } from '../common';
 import LanguagePicker from './LanguagePicker';
@@ -30,8 +32,11 @@ const styles = StyleSheet.create({
 class SettingsScreen extends React.Component {
 
   props: {
+    auth: Auth,
+    notifications: boolean,
     theme: string,
     locale: string,
+    settingsChange: SettingsChangeAction,
   };
 
   state: {
@@ -48,18 +53,19 @@ class SettingsScreen extends React.Component {
 
   handleNotificationChange = (value) => {
     toggleOfflinePushNotifications(this.props.auth, value);
-    this.props.settingsChange('offlinePushNotification', value);
+    this.props.settingsChange('notifications', value);
   };
 
   render() {
-    const { offlinePushNotification, theme, locale } = this.props;
+    const { notifications, theme, locale } = this.props;
+
     return (
       <Screen title="Settings">
         <View style={styles.optionWrapper}>
           <View style={styles.optionRow}>
             <Label text="Enable notifications" />
             <ZulipSwitch
-              defaultValue={offlinePushNotification}
+              defaultValue={notifications}
               onValueChange={this.handleNotificationChange}
             />
           </View>
@@ -85,7 +91,7 @@ class SettingsScreen extends React.Component {
 
 export default connect(
   (state) => ({
-    offlinePushNotification: state.settings.offlinePushNotification,
+    notifications: state.settings.notifications,
     locale: state.settings.locale,
     theme: state.settings.theme,
     auth: getAuth(state),

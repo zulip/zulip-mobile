@@ -1,10 +1,6 @@
 /* @flow */
 import type { MuteState, Action } from '../types';
-import {
-  REALM_INIT,
-  ACCOUNT_SWITCH,
-  EVENT_MUTED_TOPICS
-} from '../actionConstants';
+import { REALM_INIT, ACCOUNT_SWITCH, EVENT_MUTED_TOPICS } from '../actionConstants';
 
 const initialState: MuteState = [];
 

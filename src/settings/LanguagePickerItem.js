@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -23,6 +24,9 @@ const styles = StyleSheet.create({
 export default class LanguagePickerItem extends React.Component {
 
   props: {
+    locale: string,
+    flag: string,
+    name: string,
     selected: boolean,
     onValueChange: () => void,
   };

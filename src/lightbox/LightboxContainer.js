@@ -1,4 +1,4 @@
-/* flow */
+/* @flow */
 import React from 'react';
 import { View, StyleSheet, Dimensions, Easing } from 'react-native';
 import { connect } from 'react-redux';

@@ -1,13 +1,6 @@
 /* @flow */
 import React from 'react';
-import {
-  ActivityIndicator,
-  Image,
-  ListView,
-  StyleSheet,
-  View,
-  groupByEveryN,
-} from 'react-native';
+import { ActivityIndicator, Image, ListView, StyleSheet, View, groupByEveryN } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,8 +23,8 @@ export default class CameraPhotoList extends React.Component {
   props: {
     noMoreData: boolean,
     dataSource: any,
-    onEndReached: () => {},
-    imagesPerRow: number,
+    onEndReached: () => void,
+    imagesPerRow?: number,
   };
 
   defaultProps: {

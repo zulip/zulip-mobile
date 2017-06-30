@@ -2,6 +2,7 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 
+import type { StyleObj } from '../types';
 import { SlideAnimationView } from '../common';
 import NavButton from '../nav/NavButton';
 
@@ -21,8 +22,7 @@ type Props = {
   onPress: () => void,
   from: number,
   to: number,
-  movement: string,
-  style: Object,
+  style: StyleObj,
 };
 
 export default ({ displayMessage, onPress, ...restProps }: Props) => (

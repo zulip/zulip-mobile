@@ -111,19 +111,19 @@ export type ApiResponse = {
 
 export type ResponseExtractionFunc = (ApiResponse) => any;
 
-export type PropsAction = (string) => void;
+export type Action = Object;
 
-export type PushRouteAction = PropsAction;
+export type PushRouteAction = Action;
 
-export type DoNarrowAction = PropsAction;
+export type DoNarrowAction = Action;
 
-export type OnNarrowAction = PropsAction;
+export type OnNarrowAction = Action;
 
-export type PopRouteAction = PropsAction;
+export type PopRouteAction = Action;
 
-export type InitRouteAction = PropsAction;
+export type InitRouteAction = Action;
 
-export type SetAuthType = PropsAction;
+export type SetAuthType = Action;
 
 export type AccountState = [];
 
@@ -141,7 +141,7 @@ export type ChatState = {
   fetching: { older: boolean, newer: boolean, },
   caughtUp: { older: boolean, newer: boolean, },
   narrow: Narrow,
-  messages: MapOfMessages,
+  messages: Object,
 };
 
 export type FlagsState = {
@@ -204,14 +204,14 @@ export type GlobalState = {
   users: UsersState,
 };
 
-export type Action = {
-  type: string,
-  apiKey: string,
-  isOnline: boolean,
-  isActive: boolean,
-  orientation: string,
-  payload: GlobalState,
-};
+// export type Action = {
+//   type: string,
+//   apiKey: string,
+//   isOnline: boolean,
+//   isActive: boolean,
+//   orientation: string,
+//   payload: GlobalState,
+// };
 
 export type MatchResult = Array<string> & { index: number, input: string, };
 
@@ -227,3 +227,13 @@ export type ReactionType = {
 };
 
 export type LocalizableText = string | { text: string, values: Object, };
+
+export type DomElement = {
+  name: string,
+  type: string,
+  attribs: Object,
+  next: DomElement,
+  parent: DomElement,
+  prev: DomElement,
+  children: DomElement[],
+};

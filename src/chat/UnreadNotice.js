@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { Animated, StyleSheet, Text, Easing } from 'react-native';
 import { IconDownArrow } from '../common/Icons';
@@ -56,24 +57,29 @@ const STATE_HIDDEN = 'hidden';
 const STATE_VISIBLE = 'visible';
 const STATE_PEEKING = 'peeking';
 
+type Props = {
+  unreadCount: number,
+  scrollOffset: number,
+  shouldOffsetForInput: boolean,
+};
+
 export default class UnreadNotice extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      translateAnimation: new Animated.Value(0),
-      noticeState: STATE_HIDDEN
-    };
+  props: Props;
 
-    this.hideTimeout = null;
-  }
+  hideTimeout = null;
 
-  componentWillReceiveProps(nextProps) {
+  state = {
+    translateAnimation: new Animated.Value(0),
+    noticeState: STATE_HIDDEN
+  };
+
+  componentWillReceiveProps(nextProps: Props) {
     const { unreadCount, scrollOffset } = nextProps;
     const { noticeState } = this.state;
 
-    const shouldBecomeVisible = (nextProps.unreadCount > this.props.unreadCount > 0) &&
-      scrollOffset > 0;
+    const shouldBecomeVisible = nextProps.unreadCount > unreadCount &&
+      unreadCount > 0 && scrollOffset > 0;
 
     if (noticeState === STATE_PEEKING && unreadCount === 0) this.hidePeekingNotice();
 

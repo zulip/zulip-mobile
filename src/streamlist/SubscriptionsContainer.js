@@ -3,7 +3,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Narrow, GlobalState, SubscriptionsState } from '../types';
+import type { Narrow, GlobalState, SubscriptionsState } from '../types';
 import StreamList from './StreamList';
 import { isStreamNarrow, streamNarrow } from '../utils/narrow';
 

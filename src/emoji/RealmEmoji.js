@@ -2,8 +2,9 @@
 import React from 'react';
 import { StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
+
+import type { Auth } from '../types';
 import { getAuth } from '../account/accountSelectors';
-import { Auth } from '../types';
 
 const styles = StyleSheet.create({
   image: {

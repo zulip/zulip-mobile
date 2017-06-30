@@ -1,3 +1,4 @@
+/* @flow */
 import { Children, PropTypes, PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 

@@ -1,6 +1,8 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import type { StyleObj } from '../../types';
 import { Touchable } from '../../common';
 import { topicNarrow } from '../../utils/narrow';
 
@@ -27,9 +29,11 @@ export default class TopicMessageHeader extends React.PureComponent {
   };
 
   props: {
+    style?: StyleObj,
     itemId: number,
     stream: string,
     topic: string,
+    doNarrow: () => void,
   }
 
   performTopicNarrow = () => {

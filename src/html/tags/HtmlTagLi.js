@@ -1,6 +1,8 @@
-import React from 'react';
+/* @flow */
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import type { StyleObj } from '../../types';
 import styles from '../HtmlStyles';
 import HtmlNodeText from '../HtmlNodeText';
 import renderHtmlChildren from '../renderHtmlChildren';
@@ -16,11 +18,22 @@ const customStyles = StyleSheet.create({
   }
 });
 
-export default ({ style, ...restProps }) => (
-  <View style={[styles.li, style]}>
-    <HtmlNodeText style={styles.bullet} data={` ${BULLET}  `} />
-    <View style={customStyles.text}>
-      {renderHtmlChildren({ ...restProps })}
-    </View>
-  </View>
-);
+export default class HtmlTagLi extends PureComponent {
+
+  props: {
+    style: StyleObj,
+  };
+
+  render() {
+    const { style, ...restProps } = this.props;
+
+    return (
+      <View style={[styles.li, style]}>
+        <HtmlNodeText style={styles.bullet} data={` ${BULLET}  `} />
+        <View style={customStyles.text}>
+          {renderHtmlChildren({ ...restProps })}
+        </View>
+      </View>
+    );
+  }
+}

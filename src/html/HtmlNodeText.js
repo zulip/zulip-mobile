@@ -1,12 +1,13 @@
 /* @flow */
 import React from 'react';
 import entities from 'entities';
-import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+
+import type { StyleObj } from '../types';
 import { RawLabel } from '../common';
 
 type Props = {
   data: string,
-  cascadingTextStyle: StyleObj,
+  cascadingTextStyle?: StyleObj,
 };
 
 export default ({ data, cascadingTextStyle }: Props) => (

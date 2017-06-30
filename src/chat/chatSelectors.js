@@ -1,20 +1,22 @@
+/* @flow */
+import type { GlobalState, Message } from '../types';
 import { specialNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients, normalizeRecipientsSansMe, shouldBeMuted } from '../utils/message';
 import { countUnread } from '../utils/unread';
 import { getUserById } from '../users/usersSelectors';
 
-export const getAllMessages = (state) =>
+export const getAllMessages = (state: GlobalState): Message[] =>
   state.chat.messages;
 
-export const getMessagesInActiveNarrow = (state) =>
+export const getMessagesInActiveNarrow = (state: GlobalState): Message[] =>
   state.chat.messages[JSON.stringify(state.chat.narrow)] || [];
 
-export const getShownMessagesInActiveNarrow = (state) =>
+export const getShownMessagesInActiveNarrow = (state: GlobalState): Message[] =>
   getMessagesInActiveNarrow(state).filter(item =>
     !shouldBeMuted(item, state.chat.narrow, state.subscriptions, state.mute)
   );
 
-export const getAnchor = (state) => {
+export const getAnchor = (state: GlobalState) => {
   const messages = getMessagesInActiveNarrow(state);
 
   if (messages.length === 0) {
@@ -27,7 +29,7 @@ export const getAnchor = (state) => {
   };
 };
 
-export const getRecentConversations = (state) => {
+export const getRecentConversations = (state: GlobalState) => {
   const selfEmail = state.accounts[0].email;
   const privateNarrowStr = JSON.stringify(specialNarrow('private'));
   const messages = state.chat.messages[privateNarrowStr] || [];
@@ -63,13 +65,13 @@ export const getRecentConversations = (state) => {
     .sort((a, b) => +b.timestamp - +a.timestamp);
 };
 
-export const getPrivateMessages = (state) =>
+export const getPrivateMessages = (state: GlobalState): Message[] =>
   state.chat.messages[JSON.stringify(specialNarrow('private'))] || [];
 
-export const getUnreadPrivateMessagesCount = (state): number =>
+export const getUnreadPrivateMessagesCount = (state: GlobalState): number =>
   countUnread(getPrivateMessages(state).map(msg => msg.id), state.flags.read);
 
-export const getCurrentTypingUsers = state => {
+export const getCurrentTypingUsers = (state: GlobalState) => {
   if (!isPrivateOrGroupNarrow(state.chat.narrow)) {
     return undefined;
   }
@@ -86,7 +88,7 @@ export const getCurrentTypingUsers = state => {
   return currentTyping.map(userId => getUserById(state.users, userId));
 };
 
-export const getLastTopicInActiveNarrow = state => {
+export const getLastTopicInActiveNarrow = (state: GlobalState): string => {
   const messagesInActiveNarrow = getMessagesInActiveNarrow(state);
   const lastMessageWithSubject = messagesInActiveNarrow.slice().reverse().find(msg => msg.subject);
   return (lastMessageWithSubject && lastMessageWithSubject.subject) || '';

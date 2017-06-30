@@ -1,6 +1,8 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import type { StyleObj } from '../../types';
 import { Touchable } from '../../common';
 import TopicMessageHeader from './TopicMessageHeader';
 import { streamNarrow } from '../../utils/narrow';
@@ -36,10 +38,14 @@ const componentStyles = StyleSheet.create({
 export default class StreamMessageHeader extends React.PureComponent {
 
   props: {
+    style: StyleObj,
     itemId: number,
     stream: string,
+    topic: string,
     color: string,
+    isMuted: boolean,
     isPrivate: boolean,
+    doNarrow: () => void,
   }
 
   static contextTypes = {

@@ -1,4 +1,9 @@
-export default (state, messageId, updater) => ({
+/* @flow */
+import type { GlobalState, Message } from '../types';
+
+type UpdaterFunc = (message: Message) => Message[];
+
+export default (state: GlobalState, messageId: number, updater: UpdaterFunc): GlobalState => ({
   ...state,
   messages: Object.keys(state.messages).reduce((msg, key) => {
     const messages = state.messages[key];

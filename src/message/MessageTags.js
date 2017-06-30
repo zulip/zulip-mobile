@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';

@@ -1,5 +1,5 @@
 /* @flow */
-import { Auth } from '../types';
+import type { Auth } from '../types';
 
 import download from '../api/downloadFile';
 import share from './share';

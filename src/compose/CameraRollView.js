@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import {
   CameraRoll,
@@ -36,21 +37,17 @@ export default class CameraRollView extends React.Component {
     noMore: boolean,
     loadingMore: boolean,
     dataSource: [],
-
   };
 
-  constructor(props: Object) {
-    super(props);
-    this.state = {
-      assets: [],
-      groupTypes: 'All',
-      lastCursor: '',
-      // assetType: AssetType,
-      noMore: false,
-      loadingMore: false,
-      dataSource: new ListView.DataSource({ rowHasChanged: this.handleRowHasChanged }),
-    };
-  }
+  state = {
+    assets: [],
+    groupTypes: 'All',
+    lastCursor: '',
+    // assetType: AssetType,
+    noMore: false,
+    loadingMore: false,
+    dataSource: new ListView.DataSource({ rowHasChanged: this.handleRowHasChanged }),
+  };
 
   rendererChanged = () => {
     const ds = new ListView.DataSource({ rowHasChanged: this.handleRowHasChanged });
@@ -63,19 +60,25 @@ export default class CameraRollView extends React.Component {
     this.fetchPhotos();
   }
 
+  getInitialState = () => ({});
+
   componentWillReceiveProps = (nextProps: Props) => {
     if (this.props.groupTypes !== nextProps.groupTypes) {
       this.setState(this.getInitialState(), this.fetchPhotos);
     }
   }
 
-  fetchPhotos = async () => {
-    const data = await CameraRoll.getPhotos({
+  retrievePhotosFromCamera = async () => {
+    await CameraRoll.getPhotos({
       first: this.props.batchSize,
       groupTypes: 'All', // not supported in android, do not include? Platform.OS === 'android'
       assetType: this.props.assetType,
       after: this.state.lastCursor,
     });
+  }
+
+  fetchPhotos = () => {
+    const data = this.retrievePhotosFromCamera();
     this.appendAssets(data);
   }
 

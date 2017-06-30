@@ -1,7 +1,7 @@
 /* @flow */
 import { REHYDRATE } from 'redux-persist/constants';
 
-import { ChatState, Action } from '../types';
+import type { ChatState, Action } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,

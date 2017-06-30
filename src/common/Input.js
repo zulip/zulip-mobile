@@ -2,8 +2,7 @@
 import React, { Component } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { FormattedMessage } from 'react-intl';
-import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
-import type { LocalizableText } from '../types';
+import type { LocalizableText, StyleObj } from '../types';
 import { HALF_COLOR } from '../styles';
 import Icon from '../common/Icons';
 import Touchable from '../common/Touchable';

@@ -2,10 +2,10 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import type { StyleObj } from '../types';
 import { BRAND_COLOR, CONTROL_SIZE } from '../styles';
 import { Touchable } from '../common';
 import Icon from '../common/Icons';
-import { StyleObj } from '../types';
 
 const styles = StyleSheet.create({
   frame: {

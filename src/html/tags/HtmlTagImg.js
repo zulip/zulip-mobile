@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Image, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { getResource, isEmojiUrl } from '../../utils/url';
-import { Auth, Message, PushRouteAction, StyleObj } from '../../types';
+import type { Auth, Message, PushRouteAction, StyleObj } from '../../types';
 import { Touchable } from '../../common';
 
 const styles = StyleSheet.create({
@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
 });
 
 export default class HtmlTagImg extends React.PureComponent {
+
   props: {
     src: string,
     auth: Auth,

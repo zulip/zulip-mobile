@@ -73,7 +73,7 @@ export const isSearchNarrow = (narrow: Narrow): boolean =>
   narrow.length === 1 &&
   narrow[0].operator === 'search';
 
-export const isMessageInNarrow = (message: Message, narrow: Narrow, selfEmail: string) => {
+export const isMessageInNarrow = (message: Message, narrow: Narrow, selfEmail: string): boolean => {
   if (isHomeNarrow(narrow)) {
     return true;
   }
@@ -108,7 +108,7 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, selfEmail: s
   return false;
 };
 
-export const canSendToNarrow = (narrow: Narrow) =>
+export const canSendToNarrow = (narrow: Narrow): boolean =>
   isPrivateNarrow(narrow) ||
   isGroupNarrow(narrow) ||
   isStreamNarrow(narrow) ||

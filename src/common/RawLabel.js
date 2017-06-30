@@ -1,7 +1,8 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
-import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+
+import type { StyleObj } from '../types';
 
 export default class RawLabel extends PureComponent {
 

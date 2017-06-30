@@ -6,12 +6,6 @@ import DeviceInfo from 'react-native-device-info';
 
 import config from '../config';
 import boundActions from '../boundActions';
-import {
-  getShownMessagesInActiveNarrow,
-  getAnchor,
-  getCurrentTypingUsers,
-} from '../chat/chatSelectors';
-import { getAuth } from '../account/accountSelectors';
 import MainScreen from './MainScreen';
 import { initializeNotifications } from '../utils/notifications';
 
@@ -57,21 +51,5 @@ class MainScreenContainer extends React.Component {
 }
 
 export default connect(state => ({
-  auth: getAuth(state),
-  isOnline: state.app.isOnline,
-  needsInitialFetch: state.app.needsInitialFetch,
   orientation: state.app.orientation,
-  subscriptions: state.subscriptions,
-  messages: getShownMessagesInActiveNarrow(state),
-  flags: state.flags,
-  allMessages: state.chat.messages,
-  fetching: state.chat.fetching,
-  caughtUp: state.chat.caughtUp,
-  narrow: state.chat.narrow,
-  mute: state.mute,
-  typingUsers: getCurrentTypingUsers(state),
-  anchor: getAnchor(state),
-  users: state.users,
-  readIds: state.flags.read,
-  twentyFourHourTime: state.realm.twentyFourHourTime,
 }), boundActions)(MainScreenContainer);

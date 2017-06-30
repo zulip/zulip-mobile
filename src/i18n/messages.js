@@ -1,5 +1,5 @@
 /* eslint-disable */
-/* flow */
+/* @flow */
 
 import ar from './translations/messages_ar';
 import bg from './translations/messages_bg';
