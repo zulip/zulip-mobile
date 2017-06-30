@@ -1,4 +1,5 @@
-export default (avatarUrl) => {
+/* @flow */
+export default (avatarUrl: string) => {
   const matches = new RegExp(/(\w+)\.png/g).exec(avatarUrl);
 
   if (matches) {
