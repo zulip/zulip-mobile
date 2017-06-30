@@ -2,9 +2,8 @@
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 import { FormattedMessage } from 'react-intl';
-import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-import { LocalizableText } from '../types';
+import type { LocalizableText, StyleObj } from '../types';
 
 export default class Label extends PureComponent {
 

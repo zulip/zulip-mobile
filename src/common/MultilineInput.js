@@ -1,9 +1,8 @@
 /* @flow */
 import React from 'react';
 import { StyleSheet, ScrollView, TextInput } from 'react-native';
-import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-import type { LocalizableText } from '../types';
+import type { LocalizableText, StyleObj } from '../types';
 import { Input } from '../common';
 
 const MIN_HEIGHT = 34;

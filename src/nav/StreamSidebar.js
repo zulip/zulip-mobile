@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { PushRouteAction, OnNarrowAction, Narrow } from '../types';
+import type { PushRouteAction, OnNarrowAction, Narrow } from '../types';
 import { STATUSBAR_HEIGHT } from '../styles';
 import { ZulipButton } from '../common';
 import { homeNarrow, specialNarrow } from '../utils/narrow';

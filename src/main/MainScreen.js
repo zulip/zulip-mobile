@@ -14,7 +14,6 @@ type Props = {
   pushRoute: PushRouteAction,
 };
 
-
 export default class MainScreen extends React.Component {
 
   props: Props;
@@ -69,7 +68,7 @@ export default class MainScreen extends React.Component {
             onPressPeople={() => this.setState({ rightDrawerOpen: true })}
             onPressStreams={() => this.setState({ leftDrawerOpen: true })}
           >
-            <Chat {...this.props} />
+            <Chat />
           </MainNavBar>
         </SideDrawer>
       </SideDrawer>

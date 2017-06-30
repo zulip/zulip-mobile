@@ -1,4 +1,7 @@
+/* @flow */
 import { combineReducers } from 'redux';
+
+import type { Action, GlobalState } from './types';
 import { BATCH_ACTIONS } from './actionConstants';
 import accounts from './account/accountReducers';
 import app from './app/appReducers';
@@ -16,7 +19,7 @@ import presence from './presence/presenceReducers';
 
 // Thanks to https://twitter.com/dan_abramov/status/656074974533459968?lang=en
 const enableBatching = (reducer) =>
-  (state, action) => {
+  (state: GlobalState, action: Action) => {
     switch (action.type) {
       case BATCH_ACTIONS:
         return action.actions.reduce(reducer, state);

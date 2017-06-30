@@ -1,8 +1,8 @@
 /* @flow */
 import React from 'react';
 import { TouchableHighlight, View } from 'react-native';
-import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
+import type { StyleObj } from '../types';
 import { HIGHLIGHT_COLOR } from '../styles';
 
 type Props = {

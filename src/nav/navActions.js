@@ -1,9 +1,5 @@
 /* @flow */
-import {
-  INIT_ROUTES,
-  PUSH_ROUTE,
-  POP_ROUTE,
-} from '../actionConstants';
+import { INIT_ROUTES, PUSH_ROUTE, POP_ROUTE } from '../actionConstants';
 
 export const initRoutes = (routes: string[]) => ({
   type: INIT_ROUTES,

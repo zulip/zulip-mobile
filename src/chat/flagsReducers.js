@@ -1,5 +1,5 @@
 /* @flow */
-import { FlagsState, Action } from '../types';
+import type { FlagsState, Action } from '../types';
 import {
   MESSAGE_FETCH_SUCCESS,
   EVENT_NEW_MESSAGE,

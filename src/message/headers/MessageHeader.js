@@ -1,6 +1,8 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
+import type { Auth, Narrow } from '../../types';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../../utils/narrow';
 import TopicMessageHeader from './TopicMessageHeader';
 import StreamMessageHeader from './StreamMessageHeader';
@@ -16,10 +18,11 @@ const styles = StyleSheet.create({
 export default class MessageHeader extends React.PureComponent {
 
   props: {
-    auth: Object,
+    auth: Auth,
     item: Object,
+    narrow: Narrow,
     subscriptions: any[],
-    narrow: () => {},
+    doNarrow: () => void,
   }
 
   render() {

@@ -1,3 +1,4 @@
+/* @flow */
 import { AsyncStorage } from 'react-native';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
@@ -12,7 +13,7 @@ const store = compose(
   applyMiddleware(...middleware),
 )(createStore)(rootReducer);
 
-export const restore = (onFinished) =>
+export const restore = (onFinished: () => void) =>
   persistStore(store, {
     blacklist: ['app', 'presence'],
     storage: AsyncStorage,

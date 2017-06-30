@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
-import { GlobalState, SubscriptionsState } from '../types';
+import type { GlobalState, SubscriptionsState } from '../types';
 import { Popup } from '../common';
 import StreamItem from '../streamlist/StreamItem';
 

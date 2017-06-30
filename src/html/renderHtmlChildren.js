@@ -1,18 +1,17 @@
 /* @flow */
 import React from 'react';
-import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
-import type { Auth, Message, PushRouteAction } from '../types';
+import type { Auth, Message, PushRouteAction, DomElement, StyleObj } from '../types';
 import HtmlNode from './HtmlNode';
 
 type Props = {
-  auth: Auth,
-  childrenNodes: ?any[],
+  auth?: Auth,
+  message?: Message,
+  childrenNodes?: DomElement[],
   cascadingStyle?: StyleObj,
   cascadingTextStyle?: StyleObj,
-  onPress: (html: string) => void,
-  message: Message,
-  pushRoute: PushRouteAction,
+  onPress?: (html: string) => void,
+  pushRoute?: PushRouteAction,
 };
 
 export default ({

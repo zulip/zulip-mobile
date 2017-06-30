@@ -1,7 +1,8 @@
 /* @flow */
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+
+import type { StyleObj } from '../types';
 
 const styles = StyleSheet.create({
   common: {

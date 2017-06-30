@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable */
 export default [
   { locale: 'en', name: 'English', flag: '🇬🇧' },

@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
 export default class LanguagePicker extends React.Component {
 
   props: {
-    selected: boolean,
+    value: string,
     onValueChange: () => void,
   };
 

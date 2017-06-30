@@ -1,5 +1,5 @@
 /* @flow */
-import { SettingsState, Action } from '../types';
+import type { SettingsState, Action } from '../types';
 import { SETTINGS_CHANGE, REALM_INIT, EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS } from '../actionConstants';
 
 const initialState: SettingsState = {

@@ -1,7 +1,9 @@
 /* @flow */
 import htmlparser from 'htmlparser2';
 
-export default (html: string) => {
+import type { DomElement } from '../types';
+
+export default (html: string): DomElement[] => {
   let domTree = null;
   const parser = new htmlparser.Parser(
     new htmlparser.DomHandler((err, dom) => {
@@ -10,5 +12,5 @@ export default (html: string) => {
   );
   parser.write(html);
   parser.done();
-  return domTree;
+  return domTree || [];
 };

@@ -2,9 +2,10 @@
 /* eslint-disable */
 import React from 'react';
 import type { Children } from 'react';
-import AnchorScrollView from '../native/AnchorScrollView';
 
+import type { StyleObj } from '../types';
 import config from '../config';
+import AnchorScrollView from '../native/AnchorScrollView';
 
 export default class InfiniteScrollView extends React.Component {
 
@@ -15,7 +16,7 @@ export default class InfiniteScrollView extends React.Component {
     onEndReachedThreshold: number,
     onScroll: (e: Event) => void,
     contentContainerStyle?: Object,
-    style: Object,
+    style: StyleObj,
     stickyHeaderIndices: [],
     autoScrollToBottom: boolean,
     children?: Children,

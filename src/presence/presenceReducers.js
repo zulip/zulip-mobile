@@ -1,5 +1,5 @@
 /* @flow */
-import { UsersState, Action, ClientPresence, Presence, UserStatus } from '../types';
+import type { UsersState, Action, ClientPresence, Presence, UserStatus } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,

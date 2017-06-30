@@ -1,8 +1,18 @@
+/* @flow */
 import React from 'react';
 import { View, KeyboardAvoidingView, Platform } from 'react-native';
+import { connect } from 'react-redux';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
+import type { Auth, Narrow, Message } from '../types';
 import { OfflineNotice } from '../common';
+import boundActions from '../boundActions';
+import {
+  getShownMessagesInActiveNarrow,
+  getAnchor,
+  getCurrentTypingUsers,
+} from '../chat/chatSelectors';
+import { getAuth } from '../account/accountSelectors';
 import { canSendToNarrow } from '../utils/narrow';
 import { filterUnreadMessageIds, countUnread } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
@@ -14,15 +24,27 @@ import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 
 
-export default class Chat extends React.Component {
+class Chat extends React.Component {
 
   static contextTypes = {
     styles: () => null,
   };
 
-  scrollOffset = 0;
+  scrollOffset: number = 0;
 
-  handleMessageListScroll = e => {
+  props: {
+    auth: Auth,
+    narrow: Narrow,
+    needsInitialFetch: boolean,
+    fetching: { newer: boolean, older: boolean, },
+    isOnline: boolean,
+    flags: Object,
+    messages: Message[],
+    readIds: Object,
+    markMessagesRead: () => void,
+  };
+
+  handleMessageListScroll = (e: Object) => {
     const { auth, flags, markMessagesRead } = this.props;
     const visibleMessageIds = e.visibleIds.map(x => +x);
     const unreadMessageIds = filterUnreadMessageIds(visibleMessageIds, flags);
@@ -65,4 +87,23 @@ export default class Chat extends React.Component {
       </WrapperView>
     );
   }
-  }
+}
+
+export default connect(state => ({
+  auth: getAuth(state),
+  isOnline: state.app.isOnline,
+  needsInitialFetch: state.app.needsInitialFetch,
+  subscriptions: state.subscriptions,
+  messages: getShownMessagesInActiveNarrow(state),
+  flags: state.flags,
+  allMessages: state.chat.messages,
+  fetching: state.chat.fetching,
+  caughtUp: state.chat.caughtUp,
+  narrow: state.chat.narrow,
+  mute: state.mute,
+  typingUsers: getCurrentTypingUsers(state),
+  anchor: getAnchor(state),
+  users: state.users,
+  readIds: state.flags.read,
+  twentyFourHourTime: state.realm.twentyFourHourTime,
+}), boundActions)(Chat);

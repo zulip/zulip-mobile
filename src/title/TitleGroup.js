@@ -1,9 +1,6 @@
 /* @flow */
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { NOT_FOUND_USER } from '../constants';
 import { Avatar } from '../common';

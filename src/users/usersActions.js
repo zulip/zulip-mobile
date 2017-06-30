@@ -1,10 +1,7 @@
 /* @flow */
 import type { Dispatch, Auth } from '../types';
 import { focusPing, getUsers } from '../api';
-import {
-  INIT_USERS,
-  PRESENCE_RESPONSE,
-} from '../actionConstants';
+import { INIT_USERS, PRESENCE_RESPONSE } from '../actionConstants';
 
 export const sendFocusPing = (auth: Auth, hasFocus: boolean, newUserInput: boolean) =>
   async (dispatch: Dispatch) => {

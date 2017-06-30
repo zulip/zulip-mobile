@@ -2,7 +2,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import { MatchResult } from '../types';
+import type { MatchResult } from '../types';
 import getAutocompletedText from './getAutocompletedText';
 import EmojiAutocomplete from './EmojiAutocomplete';
 import StreamAutocomplete from './StreamAutocomplete';

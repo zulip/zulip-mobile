@@ -1,3 +1,4 @@
+/* @flow */
 export default {
   devRealm: 'http://localhost:9991', // the default realm suggested during development
   productionRealm: '', // the default realm suggested in production

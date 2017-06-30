@@ -2,8 +2,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { FormattedMessage } from 'react-intl';
-import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
+import type { StyleObj } from '../types';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
 import Icon from '../common/Icons';

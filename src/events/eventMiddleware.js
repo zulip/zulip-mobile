@@ -1,7 +1,7 @@
 /* @flow */
 import { Vibration } from 'react-native';
 
-import { GlobalState } from '../types';
+import type { GlobalState } from '../types';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
 import { getActiveAccount, getSelfEmail } from '../account/accountSelectors';
 import { playMessageSound } from '../utils/sound';

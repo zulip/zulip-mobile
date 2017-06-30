@@ -2,10 +2,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import type { PopRouteAction, StyleObj } from '../types';
 import ModalNavBar from '../nav/ModalNavBar';
 import { SlideAnimationView, Avatar } from '../common';
 import { shortTime, humanDate } from '../utils/date';
-import { PopRouteAction } from '../types';
+
 
 const customStyles = StyleSheet.create({
   text: {
@@ -41,8 +42,7 @@ type Props = {
   timestamp: number,
   from: number,
   to: number,
-  movement: string,
-  style: Object,
+  style: StyleObj,
   avatarUrl: string,
   realm: string,
   styles: () => null,

@@ -3,11 +3,11 @@ import React, { Children } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
+import type { LocalizableText, PopRouteAction, StyleObj } from '../types';
 import boundActions from '../boundActions';
 import { CONTROL_SIZE } from '../styles';
 import { Label } from '../common';
 import NavButton from './NavButton';
-import { LocalizableText, PopRouteAction, StyleObj } from '../types';
 
 const customStyles = StyleSheet.create({
   centerItem: {

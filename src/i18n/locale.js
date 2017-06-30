@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable */
 
 import { addLocaleData } from 'react-intl';

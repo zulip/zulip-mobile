@@ -1,3 +1,4 @@
+/* @flow */
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { REHYDRATE } from 'redux-persist/constants';

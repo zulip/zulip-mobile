@@ -1,10 +1,6 @@
 /* @flow */
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { HALF_COLOR } from '../styles';
 import { humanDate } from '../utils/date';

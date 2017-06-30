@@ -1,6 +1,8 @@
+/* @flow */
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
+import type { StyleObj } from '../../types';
 import { Touchable } from '../../common';
 import { privateNarrow, groupNarrow } from '../../utils/narrow';
 import { IconPrivateChat } from '../../common/Icons';
@@ -28,9 +30,10 @@ const styles = StyleSheet.create({
 export default class PrivateMessageHeader extends React.PureComponent {
 
   props: {
+    style: StyleObj,
     itemId: number,
-    recipients: string,
-    doNarrow: () => {},
+    recipients: Object[],
+    doNarrow: () => void,
   }
 
   performNarrow = () => {
