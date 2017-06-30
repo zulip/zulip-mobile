@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
 import { NavigationState } from '../types';
 import { ZulipStatusBar } from '../common';
@@ -40,7 +40,7 @@ class SearchScreen extends React.Component {
   render() {
     const { keyboardAvoiding, title, searchBar } = this.props;
     const { searchBarOnChange, nav, children } = this.props;
-    const WrapperView = keyboardAvoiding ? KeyboardAvoidingView : View;
+    const WrapperView = keyboardAvoiding && Platform.OS === 'ios' ? KeyboardAvoidingView : View;
 
     return (
       <View style={styles.screen}>
