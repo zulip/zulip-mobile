@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
+import { Input } from '../../common';
 import { isTopicNarrow } from '../../utils/narrow';
 
 const styles = StyleSheet.create({
@@ -31,7 +32,7 @@ export default class StreamBox extends Component {
     const { operator, setTopic } = this.props;
     return (
       <View style={styles.streamInputWrapper}>
-        <TextInput
+        <Input
           ref={component => { this.operandInput = component; }}
           style={styles.topicInput}
           placeholder={'Topic'}
