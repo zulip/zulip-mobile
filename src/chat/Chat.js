@@ -49,11 +49,11 @@ export default class Chat extends React.Component {
 
     return (
       <WrapperView style={styles.screen} behavior="padding">
-        {<UnreadNotice
+        <UnreadNotice
           unreadCount={unreadCount}
           scrollOffset={this.scrollOffset}
           shouldOffsetForInput={canSendToNarrow(narrow)}
-        />}
+        />
         {!isOnline && <OfflineNotice />}
         {noMessages && <NoMessages narrow={narrow} />}
         {noMessagesButLoading && <MessageListLoading />}
