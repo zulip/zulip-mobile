@@ -11,8 +11,8 @@ import { initStreams } from '../streamlist/streamsActions';
 import { initUsers } from '../users/usersActions';
 import {
   INITIAL_FETCH_COMPLETE,
-  SAVE_TOKEN_GCM,
-  DELETE_TOKEN_GCM,
+  SAVE_TOKEN_PUSH,
+  DELETE_TOKEN_PUSH,
 } from '../actionConstants';
 
 export const initialFetchComplete = () => ({
@@ -37,7 +37,7 @@ export const fetchEssentialInitialData = (auth: Auth) =>
     dispatch(initialFetchComplete());
   };
 
-export const fetchRestOfInitialData = (auth: Auth, gcmToken: string) =>
+export const fetchRestOfInitialData = (auth: Auth, pushToken: string) =>
   async (dispatch: Dispatch) => {
     const [streams, users, messages, realmEmoji] = await Promise.all([
       await tryUntilSuccessful(() => getStreams(auth)),
@@ -51,17 +51,17 @@ export const fetchRestOfInitialData = (auth: Auth, gcmToken: string) =>
     dispatch(initStreams(streams));
     dispatch(initUsers(users));
     dispatch(initRealmEmojis(realmEmoji));
-    if (auth.apiKey !== '' && gcmToken === '') {
+    if (auth.apiKey !== '' && pushToken === '') {
       refreshNotificationToken();
     }
   };
 
 
-export const deleteTokenGCM = () => ({
-  type: DELETE_TOKEN_GCM
+export const deleteTokenPush = () => ({
+  type: DELETE_TOKEN_PUSH
 });
 
-export const saveTokenGCM = (gcmToken: string) => ({
-  type: SAVE_TOKEN_GCM,
-  gcmToken
+export const saveTokenPush = (pushToken: string) => ({
+  type: SAVE_TOKEN_PUSH,
+  pushToken
 });

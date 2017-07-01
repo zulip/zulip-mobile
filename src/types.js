@@ -133,7 +133,7 @@ export type AppState = {
   isOnline: boolean,
   isActive: boolean,
   needsInitialFetch: boolean,
-  gcmToken: string,
+  pushToken: string,
   eventQueueId: number,
 };
 
@@ -173,7 +173,7 @@ export type NavigationState = {
 
 export type RealmState = {
   twentyFourHourTime: boolean,
-  gcmToken: string,
+  pushToken: string,
 };
 
 export type SettingsState = {

@@ -1,7 +1,7 @@
 /* @flow */
 import { NotificationsAndroid, PendingNotifications } from 'react-native-notifications';
 
-import registerGCM from '../api/registerGCM';
+import registerPush from '../api/registerPush';
 import { streamNarrow, privateNarrow } from '../utils/narrow';
 import { Auth } from '../types';
 
@@ -19,20 +19,20 @@ const handlePendingNotifications = async (switchNarrow) => {
   }
 };
 
-const handleRegistrationUpdates = (auth: Auth, saveTokenGCM) => {
+const handleRegistrationUpdates = (auth: Auth, saveTokenPush) => {
   NotificationsAndroid.setRegistrationTokenUpdateListener(async (deviceToken) => {
     try {
-      await registerGCM(auth, deviceToken);
+      await registerPush(auth, deviceToken);
     } catch (e) {
       console.log('error ', e); //eslint-disable-line
     }
-    saveTokenGCM(deviceToken);
+    saveTokenPush(deviceToken);
   });
 };
 
-export const initializeNotifications = (auth: Auth, saveTokenGCM: string, doNarrow) => {
+export const initializeNotifications = (auth: Auth, saveTokenPush: string, doNarrow) => {
   handlePendingNotifications(doNarrow);
-  handleRegistrationUpdates(auth, saveTokenGCM);
+  handleRegistrationUpdates(auth, saveTokenPush);
 };
 
 export const refreshNotificationToken = () => {

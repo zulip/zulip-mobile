@@ -7,15 +7,15 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   INIT_REALM_EMOJI,
-  SAVE_TOKEN_GCM,
-  DELETE_TOKEN_GCM,
   EVENT_UPDATE_DISPLAY_SETTINGS,
+  SAVE_TOKEN_PUSH,
+  DELETE_TOKEN_PUSH,
 } from '../actionConstants';
 
 // Initial state
 const initialState = {
   twentyFourHourTime: false,
-  gcmToken: '',
+  pushToken: '',
   emoji: {},
 };
 
@@ -29,16 +29,16 @@ const reducer = (state: RealmState = initialState, action: Action): RealmState =
 
     case ACCOUNT_SWITCH:
       return initialState;
-    case SAVE_TOKEN_GCM: {
+    case SAVE_TOKEN_PUSH: {
       return {
         ...state,
-        gcmToken: action.gcmToken
+        pushToken: action.pushToken
       };
     }
-    case DELETE_TOKEN_GCM: {
+    case DELETE_TOKEN_PUSH: {
       return {
         ...state,
-        gcmToken: ''
+        pushToken: ''
       };
     }
     case LOGOUT:

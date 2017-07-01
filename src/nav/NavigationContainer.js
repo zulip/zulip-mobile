@@ -60,10 +60,10 @@ class NavigationContainer extends React.PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const { needsInitialFetch, auth,
-      fetchEvents, fetchEssentialInitialData, fetchRestOfInitialData, gcmToken } = nextProps;
+      fetchEvents, fetchEssentialInitialData, fetchRestOfInitialData, pushToken } = nextProps;
     if (needsInitialFetch) {
       fetchEssentialInitialData(auth);
-      fetchRestOfInitialData(auth, gcmToken);
+      fetchRestOfInitialData(auth, pushToken);
       fetchEvents(auth);
     }
   }
@@ -87,7 +87,7 @@ export default connect(
     needsInitialFetch: state.app.needsInitialFetch,
     accounts: state.accounts,
     navigation: state.nav,
-    gcmToken: state.realm.gcmToken,
+    pushToken: state.realm.pushToken,
   }),
   boundActions,
 )(NavigationContainer);

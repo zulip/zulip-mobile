@@ -22,7 +22,7 @@ const initialState: AppState = {
   isOnline: true,
   isActive: true,
   needsInitialFetch: false,
-  gcmToken: '',
+  pushToken: '',
   eventQueueId: null,
 };
 

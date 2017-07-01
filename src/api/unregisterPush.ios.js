@@ -5,7 +5,7 @@ import { apiDelete } from './apiFetch';
 export default (auth: Auth, token: string) =>
   apiDelete(
     auth,
-    'users/me/android_gcm_reg_id',
+    'users/me/apns_device_token',
     res => res.api_key,
     { token },
   );
