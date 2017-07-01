@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import boundActions from '../boundActions';
 import { ZulipButton } from '../common';
 import { getAuth } from '../account/accountSelectors';
-import unregisterGCM from '../api/unregisterGCM';
+import unregisterPush from '../api/unregisterPush';
 
 const styles = StyleSheet.create({
   button: {
@@ -21,16 +21,16 @@ class SwitchAccountButton extends Component {
     drawer: () => null,
   };
 
-  shutdownGCM = async () => {
-    const { auth, deleteTokenGCM, gcmToken } = this.props;
-    if (gcmToken !== '') {
-      await unregisterGCM(auth, gcmToken);
-      deleteTokenGCM();
+  shutdownPUSH = async () => {
+    const { auth, deleteTokenPush, pushToken } = this.props;
+    if (pushToken !== '') {
+      await unregisterPush(auth, pushToken);
+      deleteTokenPush();
     }
   }
 
   switchAccount = () => {
-    this.shutdownGCM();
+    this.shutdownPUSH();
     this.context.drawer.close();
     this.props.pushRoute('account');
   }
@@ -51,7 +51,7 @@ export default connect(
   (state) => ({
     auth: getAuth(state),
     accounts: state.accounts,
-    gcmToken: state.realm.gcmToken
+    pushToken: state.realm.pushToken
   }),
   boundActions,
 )(SwitchAccountButton);

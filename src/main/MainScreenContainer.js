@@ -16,8 +16,8 @@ import { initializeNotifications } from '../utils/notifications';
 
 class MainScreenContainer extends React.Component {
   componentWillMount() {
-    const { auth, saveTokenGCM, switchNarrow } = this.props;
-    initializeNotifications(auth, saveTokenGCM, switchNarrow);
+    const { auth, saveTokenPush, switchNarrow } = this.props;
+    initializeNotifications(auth, saveTokenPush, switchNarrow);
   }
 
   componentWillReceiveProps(nextProps) {

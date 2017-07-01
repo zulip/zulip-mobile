@@ -7,7 +7,7 @@ import { InitRouteAction, Auth } from '../types';
 import boundActions from '../boundActions';
 import { getInitialRoutes } from '../nav/routingSelectors';
 import { ZulipButton } from '../common';
-import unregisterGCM from '../api/unregisterGCM';
+import unregisterPush from '../api/unregisterPush';
 import { getAuth } from '../account/accountSelectors';
 
 const styles = StyleSheet.create({
@@ -23,22 +23,22 @@ class LogoutButton extends Component {
     accounts: any[],
     initRoutes: InitRouteAction,
     logout: (accounts: any[]) => void,
-    deleteTokenGCM: () => void,
+    deleteTokenPush: () => void,
     auth: Auth,
-    gcmToken: string,
+    pushToken: string,
   };
 
-  shutdownGCM = async () => {
-    const { auth, deleteTokenGCM, gcmToken } = this.props;
-    if (gcmToken !== '') {
-      await unregisterGCM(auth, gcmToken);
-      deleteTokenGCM();
+  shutdownPUSH = async () => {
+    const { auth, deleteTokenPush, pushToken } = this.props;
+    if (pushToken !== '') {
+      await unregisterPush(auth, pushToken);
+      deleteTokenPush();
     }
   }
 
   logout = () => {
     const { accounts } = this.props;
-    this.shutdownGCM();
+    this.shutdownPUSH();
     this.props.logout(accounts);
     const accountsLoggedOut = accounts.slice();
     accountsLoggedOut[0].apiKey = '';
@@ -61,7 +61,7 @@ export default connect(
   (state) => ({
     auth: getAuth(state),
     accounts: state.accounts,
-    gcmToken: state.realm.gcmToken
+    pushToken: state.realm.pushToken
   }),
   boundActions,
 )(LogoutButton);
