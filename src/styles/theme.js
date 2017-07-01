@@ -72,6 +72,14 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     justifyContent: 'center',
     alignItems: 'stretch',
   },
+  link: {
+    paddingTop: 10,
+    fontSize: 15,
+    textAlign: 'center',
+    color: BRAND_COLOR,
+    position: 'absolute',
+    right: 0,
+  },
   navigationCard: {
     backgroundColor,
     shadowColor: 'transparent',
