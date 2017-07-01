@@ -17,4 +17,13 @@ export default StyleSheet.create({
   li: {
     flexWrap: 'wrap',
   },
+  math: {
+    flexDirection: 'row',
+  },
+  mrow: {
+    flexDirection: 'row',
+  },
+  msup: {
+    flexDirection: 'row',
+  }
 });

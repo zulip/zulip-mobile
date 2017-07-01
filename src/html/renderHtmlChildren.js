@@ -12,6 +12,7 @@ type Props = {
   cascadingTextStyle?: StyleObj,
   onPress?: (html: string) => void,
   pushRoute?: PushRouteAction,
+  indexBasedStyles?: any[],
 };
 
 export default ({
@@ -22,16 +23,22 @@ export default ({
   onPress,
   pushRoute,
   message,
+  indexBasedStyles
 }: Props) =>
   childrenNodes &&
   childrenNodes
-    .filter(x => x.data !== '\n')
-    .map((node, index) => (
-      <HtmlNode
+    .filter(
+      x =>
+        x.data !== '\n' &&
+        !(x.attribs && x.attribs['aria-hidden'] === 'true') &&
+        x.name !== 'annotation'
+    )
+    .map((node, index) =>
+      (<HtmlNode
         key={index}
         auth={auth}
         cascadingStyle={cascadingStyle}
-        cascadingTextStyle={cascadingTextStyle}
+        cascadingTextStyle={[cascadingTextStyle, indexBasedStyles && indexBasedStyles[index]]}
         data={node.data}
         name={node.name}
         type={node.type}
@@ -40,5 +47,5 @@ export default ({
         onPress={onPress}
         pushRoute={pushRoute}
         message={message}
-      />
-    ));
+      />)
+    );

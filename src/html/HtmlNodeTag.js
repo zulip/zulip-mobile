@@ -5,6 +5,7 @@ import type { Auth, Message, PushRouteAction, StyleObj } from '../types';
 import styles from './HtmlStyles';
 import cascadingStyles from './cascadingStylesView';
 import cascadingStylesText from './cascadingStylesText';
+import msup from './indexBasedStyles/msup';
 import HtmlTagSpan from './tags/HtmlTagSpan';
 import HtmlTagA from './tags/HtmlTagA';
 import HtmlTagLi from './tags/HtmlTagLi';
@@ -39,6 +40,10 @@ const specialTags = {
   'td': HtmlTagDiv,
 };
 
+const indexBasedStyles = {
+  'msup': msup,
+};
+
 const stylesFromClassNames = (classNames = '', styleObj) =>
   classNames.split(' ').map(className => styleObj[className]);
 
@@ -70,6 +75,7 @@ export default ({ auth, attribs, name, cascadingStyle,
     cascadingStylesText[name],
     ...stylesFromClassNames(attribs.class, cascadingStylesText),
   ];
+  const newIndexBasedStyles = indexBasedStyles[name];
 
   let HtmlComponent = specialTags[name] || HtmlTagSpan;
 
@@ -88,6 +94,7 @@ export default ({ auth, attribs, name, cascadingStyle,
       style={style}
       cascadingStyle={newCascadingStyle}
       cascadingTextStyle={newCascadingStylesText}
+      indexBasedStyles={newIndexBasedStyles}
       childrenNodes={childrenNodes}
       onPress={onPress}
       pushRoute={pushRoute}
