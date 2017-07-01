@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     backgroundColor: BRAND_COLOR,
   },
   text: {
-    flex: 3,
     marginLeft: 8,
     marginRight: 8,
   },
@@ -24,9 +23,11 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   textEmail: {
-    flex: 2,
     fontSize: 10,
     color: '#999',
+  },
+  textWrapper: {
+    flex: 1,
   },
 });
 
