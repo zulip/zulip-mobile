@@ -3,14 +3,19 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import StreamIcon from '../streamlist/StreamIcon';
+import { isTopicNarrow } from '../utils/narrow';
 
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
   },
-  margin: {
+  text: {
     marginLeft: 4,
+    marginRight: 12,
+    fontSize: 15,
   },
 });
 
@@ -30,8 +35,7 @@ export default class TitleStream extends React.PureComponent {
       in_home_view: false
     };
 
-    const fontSize = narrow.length > 1 ? 14 : 16;
-    const titleStyles = [styles.margin, { fontSize }, { color }];
+    const topic = isTopicNarrow(narrow) ? `\u203a ${narrow[1].operand}` : '';
 
     return (
       <View style={styles.wrapper}>
@@ -39,16 +43,15 @@ export default class TitleStream extends React.PureComponent {
           isMuted={!stream.in_home_view}
           isPrivate={stream.invite_only}
           color={color}
-          size={fontSize}
+          size={12}
         />
-        <Text style={titleStyles}>
-          {stream.name}
+        <Text
+          style={[styles.text, { color }]}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
+          {stream.name} {topic}
         </Text>
-        {narrow.length > 1 &&
-          <Text style={titleStyles}>
-            {'\u203a'} {narrow[1].operand}
-          </Text>
-        }
       </View>
     );
   }
