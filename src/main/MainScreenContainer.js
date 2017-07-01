@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import isEqual from 'lodash.isequal';
+import DeviceInfo from 'react-native-device-info';
 
 import config from '../config';
 import boundActions from '../boundActions';
@@ -17,7 +18,9 @@ import { initializeNotifications } from '../utils/notifications';
 class MainScreenContainer extends React.Component {
   componentWillMount() {
     const { auth, saveTokenPush, switchNarrow } = this.props;
-    initializeNotifications(auth, saveTokenPush, switchNarrow);
+    if (!DeviceInfo.isEmulator()) {
+      initializeNotifications(auth, saveTokenPush, switchNarrow);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
