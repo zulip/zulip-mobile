@@ -124,7 +124,7 @@ class AuthScreen extends React.PureComponent {
 
   shouldShowOAuth = () =>
     // OAuth flow only supports iOS 9+ right now
-    Platform.OS === 'ios' && Platform.Version >= 9.0;
+    Platform.OS === 'ios' && !Platform.Version.startsWith('8.');
 
   render() {
     const { styles } = this.context;
