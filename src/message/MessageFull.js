@@ -82,14 +82,14 @@ class MessageFull extends React.PureComponent {
               </View>
             </TouchableWithoutFeedback>
           </View>
+          <MessageTags
+            timestamp={message.last_edit_timestamp}
+            starred={starred}
+          />
           <ReactionList
             messageId={message.id}
             reactions={message.reactions}
             selfEmail={selfEmail}
-          />
-          <MessageTags
-            timestamp={message.last_edit_timestamp}
-            starred={starred}
           />
         </View>
       </View>

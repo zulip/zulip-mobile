@@ -7,6 +7,8 @@ import { Label, RawLabel } from '../common';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 2,
+    marginBottom: 2,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
