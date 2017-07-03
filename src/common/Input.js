@@ -1,11 +1,29 @@
 /* @flow */
 import React, { Component } from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import type { LocalizableText } from '../types';
-import { HALF_COLOR, BRAND_COLOR } from '../styles';
-import { IconCross } from '../common/Icons';
+import { HALF_COLOR } from '../styles';
+import Icon from '../common/Icons';
+import Touchable from '../common/Touchable';
+
+const localStyles = StyleSheet.create({
+  clearButtonContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 18,
+    height: 18,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    borderRadius: 18
+  },
+  clearButtonIcon: {
+    color: 'white',
+    transform: [
+      { rotate: '45deg' }
+    ]
+  }
+});
 
 export default class Input extends Component {
 
@@ -29,14 +47,14 @@ export default class Input extends Component {
 
   static defaultProps = {
     restProps: [],
-    textInputRef: () => {},
+    textInputRef: () => { },
   };
 
   state: {
     canBeCleared: boolean,
   };
 
-  state= {
+  state = {
     canBeCleared: false,
   };
 
@@ -77,14 +95,12 @@ export default class Input extends Component {
               onChangeText={this.handleTextChange}
               {...restProps}
             />
-            )}
+          )}
         </FormattedMessage>
-        { clearButton && canBeCleared &&
-          <IconCross
-            size={30}
-            color={BRAND_COLOR}
-            onPress={this.handleClear}
-          />
+        {clearButton && canBeCleared &&
+          <Touchable onPress={this.handleClear} style={localStyles.clearButtonContainer}>
+            <Icon name="md-add" size={15} style={localStyles.clearButtonIcon} />
+          </Touchable>
         }
       </View>
     );
