@@ -31,7 +31,6 @@ export const fetchEssentialInitialData = (auth: Auth) =>
       homeNarrow(),
       { older: false, newer: false },
       {},
-      true,
     ));
     dispatch(initSubscriptions(subscriptions));
     dispatch(initialFetchComplete());

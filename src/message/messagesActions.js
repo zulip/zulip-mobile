@@ -33,14 +33,12 @@ export const messageFetchSuccess = (
   narrow: Narrow,
   fetching?: Object,
   caughtUp?: Object,
-  replacePrevious?: boolean
 ) => ({
   type: MESSAGE_FETCH_SUCCESS,
   messages,
   narrow,
   fetching,
   caughtUp,
-  replacePrevious,
 });
 
 export const backgroundFetchMessages = (
@@ -50,7 +48,6 @@ export const backgroundFetchMessages = (
   numAfter: number,
   narrow: Narrow,
   useFirstUnread: boolean = false,
-  replacePrevious: boolean = false,
 ) =>
   async (dispatch: Dispatch) => {
     const messages = await getMessages(
@@ -60,7 +57,6 @@ export const backgroundFetchMessages = (
       numAfter,
       narrow,
       useFirstUnread,
-      replacePrevious,
     );
 
     let caughtUp = { older: false, newer: false };
@@ -88,7 +84,6 @@ export const backgroundFetchMessages = (
         ...(numAfter ? { newer: false } : {}),
       },
       caughtUp,
-      replacePrevious,
     ));
   };
 
@@ -99,7 +94,6 @@ export const fetchMessages = (
   numAfter: number,
   narrow: Narrow,
   useFirstUnread: boolean = false,
-  replacePrevious: boolean = false,
 ) =>
   async (dispatch: Dispatch) => {
     if (numBefore < 0 || numAfter < 0) {
@@ -119,7 +113,6 @@ export const fetchMessages = (
       numAfter,
       narrow,
       useFirstUnread,
-      replacePrevious,
     ));
   };
 
