@@ -20,6 +20,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-between'
   },
+  childrenWrapper: {
+    flex: 1,
+  }
 });
 
 export default class MessageBrief extends React.PureComponent {
@@ -45,7 +48,7 @@ export default class MessageBrief extends React.PureComponent {
       <View style={styles.message}>
         <View style={styles.messageContentWrapper}>
           <TouchableWithoutFeedback onLongPress={onLongPress}>
-            <View>
+            <View style={styles.childrenWrapper}>
               {children}
             </View>
           </TouchableWithoutFeedback>
