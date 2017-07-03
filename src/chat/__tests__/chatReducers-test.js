@@ -1,3 +1,6 @@
+import { REHYDRATE } from 'redux-persist/constants';
+import deepFreeze from 'deep-freeze';
+
 import chatReducers from '../chatReducers';
 import {
   homeNarrow,
@@ -34,10 +37,14 @@ describe('chatReducers', () => {
       const initialState = {
         narrow: [],
       };
+      deepFreeze(initialState);
+
       const action = {
         type: SWITCH_NARROW,
         narrow: streamNarrow('some stream'),
       };
+      deepFreeze(action);
+
       const expectedState = {
         narrow: streamNarrow('some stream'),
         caughtUp: { older: false, newer: false },
@@ -58,10 +65,14 @@ describe('chatReducers', () => {
           [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
         },
       };
+      deepFreeze(initialState);
+
       const action = {
         type: EVENT_NEW_MESSAGE,
         message: { id: 3 },
       };
+      deepFreeze(action);
+
       const expectedState = {
         messages: {
           [homeNarrowStr]: [{ id: 1 }, { id: 2 }, { id: 3 }],
@@ -81,22 +92,26 @@ describe('chatReducers', () => {
       messages: {
         [homeNarrowStr]: [],
         [narrowWithSelfStr]: [],
-      }
+      },
     };
+    deepFreeze(initialState);
+
     const message = {
       id: 1,
-      display_recipient: [{ email: 'me@example.com' }]
+      display_recipient: [{ email: 'me@example.com' }],
     };
     const action = {
       type: EVENT_NEW_MESSAGE,
       selfEmail: 'me@example.com',
       message,
     };
+    deepFreeze(action);
+
     const expectedState = {
       messages: {
         [homeNarrowStr]: [message],
         [narrowWithSelfStr]: [message],
-      }
+      },
     };
 
     const newState = chatReducers(initialState, action);
@@ -114,8 +129,10 @@ describe('chatReducers', () => {
         [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
         [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
         [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
-      }
+      },
     };
+    deepFreeze(initialState);
+
     const message = {
       id: 3,
       type: 'stream',
@@ -126,6 +143,8 @@ describe('chatReducers', () => {
       type: EVENT_NEW_MESSAGE,
       message,
     };
+    deepFreeze(action);
+
     const expectedState = {
       messages: {
         [homeNarrowStr]: [{ id: 1 }, { id: 2 }, message],
@@ -147,8 +166,10 @@ describe('chatReducers', () => {
     const initialState = {
       messages: {
         [homeNarrowStr]: [{ id: 1 }],
-      }
+      },
     };
+    deepFreeze(initialState);
+
     const message = {
       id: 3,
       type: 'stream',
@@ -159,6 +180,8 @@ describe('chatReducers', () => {
       type: EVENT_NEW_MESSAGE,
       message,
     };
+    deepFreeze(action);
+
     const expectedState = {
       messages: {
         [homeNarrowStr]: [{ id: 1 }, message],
@@ -180,22 +203,23 @@ describe('chatReducers', () => {
         [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
         [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
         [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
-      }
+      },
     };
+    deepFreeze(initialState);
+
     const message = {
       id: 5,
       type: 'private',
       sender_email: 'someone@example.com',
-      display_recipient: [
-        { email: 'me@example.com' },
-        { email: 'mark@example.com' },
-      ],
+      display_recipient: [{ email: 'me@example.com' }, { email: 'mark@example.com' }],
     };
     const action = {
       type: EVENT_NEW_MESSAGE,
       message,
       selfEmail: 'me@example.com',
     };
+    deepFreeze(action);
+
     const expectedState = {
       messages: {
         [homeNarrowStr]: [{ id: 1 }, { id: 2 }, message],
@@ -219,12 +243,15 @@ describe('chatReducers', () => {
         messages: {
           [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
           [privateNarrowStr]: [],
-        }
+        },
       };
+      deepFreeze(initialState);
+
       const action = {
         type: EVENT_UPDATE_MESSAGE,
         messageId: 3,
       };
+      deepFreeze(action);
 
       const newState = chatReducers(initialState, action);
 
@@ -234,16 +261,12 @@ describe('chatReducers', () => {
     test('when a message exists in state, new state and new object is created with updated message in every key', () => {
       const initialState = {
         messages: {
-          [homeNarrowStr]: [
-            { id: 1 },
-            { id: 2 },
-            { id: 3, content: 'Old content' },
-          ],
-          [privateNarrowStr]: [
-            { id: 3, content: 'Old content' },
-          ]
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }, { id: 3, content: 'Old content' }],
+          [privateNarrowStr]: [{ id: 3, content: 'Old content' }],
         },
       };
+      deepFreeze(initialState);
+
       const action = {
         type: EVENT_UPDATE_MESSAGE,
         message_id: 3,
@@ -253,6 +276,8 @@ describe('chatReducers', () => {
         prev_rendered_content_version: 1,
         user_id: 5,
       };
+      deepFreeze(action);
+
       const expectedState = {
         messages: {
           [homeNarrowStr]: [
@@ -267,9 +292,9 @@ describe('chatReducers', () => {
                   prev_rendered_content: '<p>Old content</p>',
                   prev_rendered_content_version: 1,
                   timestamp: 123,
-                  user_id: 5
-                }
-              ]
+                  user_id: 5,
+                },
+              ],
             },
           ],
           [privateNarrowStr]: [
@@ -282,12 +307,12 @@ describe('chatReducers', () => {
                   prev_rendered_content: '<p>Old content</p>',
                   prev_rendered_content_version: 1,
                   timestamp: 123,
-                  user_id: 5
-                }
-              ]
+                  user_id: 5,
+                },
+              ],
             },
-          ]
-        }
+          ],
+        },
       };
 
       const newState = chatReducers(initialState, action);
@@ -299,14 +324,12 @@ describe('chatReducers', () => {
     test('when event contains a new subject but no new content only subject is updated', () => {
       const initialState = {
         messages: {
-          [homeNarrowStr]: [
-            { id: 1, content: 'Old content', subject: 'Old subject' },
-          ],
-          [privateNarrowStr]: [
-            { id: 1, content: 'Old content', subject: 'Old subject' },
-          ]
+          [homeNarrowStr]: [{ id: 1, content: 'Old content', subject: 'Old subject' }],
+          [privateNarrowStr]: [{ id: 1, content: 'Old content', subject: 'Old subject' }],
         },
       };
+      deepFreeze(initialState);
+
       const action = {
         type: EVENT_UPDATE_MESSAGE,
         message_id: 1,
@@ -315,6 +338,8 @@ describe('chatReducers', () => {
         edit_timestamp: 123,
         user_id: 5,
       };
+      deepFreeze(action);
+
       const expectedState = {
         messages: {
           [homeNarrowStr]: [
@@ -327,9 +352,9 @@ describe('chatReducers', () => {
                 {
                   prev_subject: 'Old subject',
                   timestamp: 123,
-                  user_id: 5
-                }
-              ]
+                  user_id: 5,
+                },
+              ],
             },
           ],
           [privateNarrowStr]: [
@@ -342,12 +367,12 @@ describe('chatReducers', () => {
                 {
                   prev_subject: 'Old subject',
                   timestamp: 123,
-                  user_id: 5
-                }
-              ]
+                  user_id: 5,
+                },
+              ],
             },
-          ]
-        }
+          ],
+        },
       };
 
       const newState = chatReducers(initialState, action);
@@ -370,9 +395,9 @@ describe('chatReducers', () => {
                 {
                   prev_subject: 'Old subject',
                   timestamp: 123,
-                  user_id: 5
-                }
-              ]
+                  user_id: 5,
+                },
+              ],
             },
           ],
           [privateNarrowStr]: [
@@ -386,13 +411,15 @@ describe('chatReducers', () => {
                 {
                   prev_subject: 'Old subject',
                   timestamp: 123,
-                  user_id: 5
-                }
-              ]
+                  user_id: 5,
+                },
+              ],
             },
-          ]
+          ],
         },
       };
+      deepFreeze(initialState);
+
       const action = {
         type: EVENT_UPDATE_MESSAGE,
         message_id: 1,
@@ -405,6 +432,8 @@ describe('chatReducers', () => {
         user_id: 5,
         subject_links: [],
       };
+      deepFreeze(action);
+
       const expectedState = {
         messages: {
           [homeNarrowStr]: [
@@ -420,14 +449,14 @@ describe('chatReducers', () => {
                   prev_rendered_content_version: 1,
                   prev_subject: 'New topic',
                   timestamp: 456,
-                  user_id: 5
+                  user_id: 5,
                 },
                 {
                   prev_subject: 'Old subject',
                   timestamp: 123,
-                  user_id: 5
-                }
-              ]
+                  user_id: 5,
+                },
+              ],
             },
           ],
           [privateNarrowStr]: [
@@ -443,17 +472,17 @@ describe('chatReducers', () => {
                   prev_rendered_content_version: 1,
                   prev_subject: 'New topic',
                   timestamp: 456,
-                  user_id: 5
+                  user_id: 5,
                 },
                 {
                   prev_subject: 'Old subject',
                   timestamp: 123,
-                  user_id: 5
-                }
-              ]
+                  user_id: 5,
+                },
+              ],
             },
-          ]
-        }
+          ],
+        },
       };
 
       const newState = chatReducers(initialState, action);
@@ -467,27 +496,28 @@ describe('chatReducers', () => {
     test('on event received, add reaction to message with given id', () => {
       const initialState = {
         messages: {
-          [homeNarrowStr]: [
-            { id: 1, reactions: [] },
-            { id: 2, reactions: [] },
-          ],
+          [homeNarrowStr]: [{ id: 1, reactions: [] }, { id: 2, reactions: [] }],
           [privateNarrowStr]: [{ id: 1, reactions: [] }],
-        }
+        },
       };
+      deepFreeze(initialState);
+
       const action = {
         type: EVENT_REACTION_ADD,
         messageId: 2,
         emoji: 'hello',
         user: {},
       };
+      deepFreeze(action);
+
       const expectedState = {
         messages: {
           [homeNarrowStr]: [
             { id: 1, reactions: [] },
-            { id: 2, reactions: [{ emoji_name: 'hello', user: {} }] }
+            { id: 2, reactions: [{ emoji_name: 'hello', user: {} }] },
           ],
           [privateNarrowStr]: [{ id: 1, reactions: [] }],
-        }
+        },
       };
 
       const actualState = chatReducers(initialState, action);
@@ -500,23 +530,23 @@ describe('chatReducers', () => {
     test('if message does not contain reaction, no change is made', () => {
       const initialState = {
         messages: {
-          [homeNarrowStr]: [
-            { id: 1, reactions: [] },
-          ],
-        }
+          [homeNarrowStr]: [{ id: 1, reactions: [] }],
+        },
       };
+      deepFreeze(initialState);
+
       const action = {
         type: EVENT_REACTION_REMOVE,
         messageId: 1,
         emoji: 'hello',
         user: {},
       };
+      deepFreeze(action);
+
       const expectedState = {
         messages: {
-          [homeNarrowStr]: [
-            { id: 1, reactions: [] },
-          ],
-        }
+          [homeNarrowStr]: [{ id: 1, reactions: [] }],
+        },
       };
 
       const actualState = chatReducers(initialState, action);
@@ -537,14 +567,18 @@ describe('chatReducers', () => {
               ],
             },
           ],
-        }
+        },
       };
+      deepFreeze(initialState);
+
       const action = {
         type: EVENT_REACTION_REMOVE,
         messageId: 1,
         emoji: 'hello',
         user: { email: 'bob@example.com' },
       };
+      deepFreeze(action);
+
       const expectedState = {
         messages: {
           [homeNarrowStr]: [
@@ -556,7 +590,7 @@ describe('chatReducers', () => {
               ],
             },
           ],
-        }
+        },
       };
 
       const actualState = chatReducers(initialState, action);
@@ -569,62 +603,21 @@ describe('chatReducers', () => {
     test('no duplicate messages', () => {
       const initialState = {
         messages: {
-          [homeNarrowStr]: [
-            { id: 1 },
-            { id: 2 },
-            { id: 3 },
-          ],
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }, { id: 3 }],
         },
       };
+      deepFreeze(initialState);
+
       const action = {
         type: MESSAGE_FETCH_SUCCESS,
         narrow: [],
-        messages: [
-          { id: 2 },
-          { id: 3 },
-          { id: 4 },
-        ],
+        messages: [{ id: 2 }, { id: 3 }, { id: 4 }],
       };
+      deepFreeze(action);
+
       const expectedState = {
         messages: {
-          [homeNarrowStr]: [
-            { id: 4 },
-            { id: 1 },
-            { id: 2 },
-            { id: 3 },
-          ],
-        },
-      };
-
-      const newState = chatReducers(initialState, action);
-
-      expect(newState.messages).toEqual(expectedState.messages);
-      expect(newState).not.toBe(initialState);
-    });
-
-    test('if replacePrevious is true messages are not merged but replaced', () => {
-      const initialState = {
-        messages: {
-          [homeNarrowStr]: [
-            { id: 1 },
-            { id: 2 },
-            { id: 3 },
-          ],
-        },
-      };
-      const action = {
-        type: MESSAGE_FETCH_SUCCESS,
-        narrow: [],
-        messages: [
-          { id: 5 },
-        ],
-        replacePrevious: true,
-      };
-      const expectedState = {
-        messages: {
-          [homeNarrowStr]: [
-            { id: 5 },
-          ],
+          [homeNarrowStr]: [{ id: 4 }, { id: 1 }, { id: 2 }, { id: 3 }],
         },
       };
 
@@ -637,20 +630,18 @@ describe('chatReducers', () => {
     test('added messages are sorted by timestamp', () => {
       const initialState = {
         messages: {
-          [homeNarrowStr]: [
-            { id: 1, timestamp: 3 },
-            { id: 2, timestamp: 4 },
-          ],
+          [homeNarrowStr]: [{ id: 1, timestamp: 3 }, { id: 2, timestamp: 4 }],
         },
       };
+      deepFreeze(initialState);
+
       const action = {
         type: MESSAGE_FETCH_SUCCESS,
         narrow: [],
-        messages: [
-          { id: 3, timestamp: 2 },
-          { id: 4, timestamp: 1 },
-        ],
+        messages: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
       };
+      deepFreeze(action);
+
       const expectedState = {
         messages: {
           [homeNarrowStr]: [
@@ -666,6 +657,44 @@ describe('chatReducers', () => {
 
       expect(newState.messages).toEqual(expectedState.messages);
       expect(newState).not.toBe(initialState);
+    });
+  });
+
+  describe('REHYDRATE', () => {
+    test('when initial fetch is needed, home narrow messages cache is emptied', () => {
+      const initialState = {};
+      deepFreeze(initialState);
+
+      const action = {
+        type: REHYDRATE,
+        payload: {
+          accounts: [{ apiKey: '123' }],
+          chat: {
+            fetching: { older: true, newer: true },
+            caughtUp: { older: false, newer: false },
+            narrow: streamNarrow('some stream'),
+            messages: {
+              [homeNarrowStr]: [{ id: 4 }, { id: 1 }, { id: 2 }, { id: 3 }],
+              [streamNarrowStr]: [{ id: 6 }, { id: 9 }, { id: 7 }, { id: 5 }],
+            },
+          },
+        },
+      };
+      deepFreeze(action);
+
+      const expectedState = {
+        fetching: { older: true, newer: true },
+        caughtUp: { older: false, newer: false },
+        narrow: streamNarrow('some stream'),
+        messages: {
+          [homeNarrowStr]: [],
+          [streamNarrowStr]: [{ id: 6 }, { id: 9 }, { id: 7 }, { id: 5 }],
+        },
+      };
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
     });
   });
 });
