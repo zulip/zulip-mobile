@@ -1,3 +1,4 @@
+/* @flow */
 import { BATCH_ACTIONS } from './actionConstants';
 
 export * from './app/appActions';
