@@ -1,4 +1,6 @@
 /* @flow */
+import { Vibration } from 'react-native';
+
 import { GlobalState } from '../types';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
 import { getActiveAccount, getSelfEmail } from '../account/accountSelectors';
@@ -18,6 +20,7 @@ export default (state: GlobalState, event: Object) => {
       const isSenderSelf = getSelfEmail(state) === event.message.sender_email;
       if (!isUserInSameNarrow && !isSenderSelf) {
         playMessageSound();
+        Vibration.vibrate();
       }
 
       break;
