@@ -1,4 +1,6 @@
 /* @flow */
+import { REHYDRATE } from 'redux-persist/constants';
+
 import { ChatState, Action } from '../types';
 import {
   LOGOUT,
@@ -14,6 +16,7 @@ import {
 } from '../actionConstants';
 import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
+import { getAuth } from '../account/accountSelectors';
 
 const initialState: ChatState = {
   fetching: { older: true, newer: true },
@@ -28,7 +31,6 @@ export default (state: ChatState = initialState, action: Action) => {
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return initialState;
-
     case MESSAGE_FETCH_START:
       return {
         ...state,
@@ -48,14 +50,12 @@ export default (state: ChatState = initialState, action: Action) => {
 
     case MESSAGE_FETCH_SUCCESS: {
       const key = JSON.stringify(action.narrow);
-      const prevMessages = state.messages[key] || [];
+      const messages = state.messages[key] || [];
 
-      const newMessages = action.replacePrevious
-        ? action.messages
-        : action.messages
-            .filter(x => !prevMessages.find(msg => msg.id === x.id))
-            .concat(prevMessages)
-            .sort((a, b) => a.timestamp - b.timestamp);
+      const newMessages = action.messages
+        .filter(x => !messages.find(msg => msg.id === x.id))
+        .concat(messages)
+        .sort((a, b) => a.timestamp - b.timestamp);
 
       return {
         ...state,
@@ -80,9 +80,8 @@ export default (state: ChatState = initialState, action: Action) => {
     case EVENT_REACTION_REMOVE:
       return chatUpdater(state, action.messageId, oldMessage => ({
         ...oldMessage,
-        reactions: oldMessage.reactions.filter(x =>
-          !(x.emoji_name === action.emoji &&
-          x.user.email === action.user.email)
+        reactions: oldMessage.reactions.filter(
+          x => !(x.emoji_name === action.emoji && x.user.email === action.user.email),
         ),
       }));
 
@@ -91,12 +90,7 @@ export default (state: ChatState = initialState, action: Action) => {
         ...state,
         messages: Object.keys(state.messages).reduce((msg, key) => {
           const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.selfEmail);
-          msg[key] = isInNarrow ?
-          [
-            ...state.messages[key],
-            action.message,
-          ] :
-          state.messages[key];
+          msg[key] = isInNarrow ? [...state.messages[key], action.message] : state.messages[key];
 
           return msg;
         }, {}),
@@ -131,6 +125,21 @@ export default (state: ChatState = initialState, action: Action) => {
         ],
         last_edit_timestamp: action.edit_timestamp,
       }));
+
+    case REHYDRATE:
+      if (getAuth(action.payload).apiKey) {
+        const { chat: rehydratedChat, chat: { messages: rehydratedMessages } } = action.payload;
+        return {
+          ...state,
+          ...rehydratedChat,
+          messages: {
+            ...state.messages,
+            ...rehydratedMessages,
+            [JSON.stringify(homeNarrow())]: [],
+          },
+        };
+      }
+      return state;
 
     default:
       return state;

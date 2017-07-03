@@ -40,7 +40,7 @@ export default class Chat extends React.Component {
 
   render() {
     const { styles } = this.context;
-    const { messages, narrow, fetching, isOnline, readIds } = this.props;
+    const { messages, narrow, fetching, isOnline, readIds, needsInitialFetch } = this.props;
     const noMessages = messages.length === 0 && !(fetching.older || fetching.newer);
     const noMessagesButLoading = messages.length === 0 && (fetching.older || fetching.newer);
     const showMessageList = !noMessages && !noMessagesButLoading;
@@ -55,7 +55,7 @@ export default class Chat extends React.Component {
           shouldOffsetForInput={canSendToNarrow(narrow)}
         />
         {!isOnline && <OfflineNotice />}
-        {noMessages && <NoMessages narrow={narrow} />}
+        {!needsInitialFetch && noMessages && <NoMessages narrow={narrow} />}
         {noMessagesButLoading && <MessageListLoading />}
         {showMessageList &&
         <ActionSheetProvider>

@@ -59,6 +59,7 @@ class MainScreenContainer extends React.Component {
 export default connect(state => ({
   auth: getAuth(state),
   isOnline: state.app.isOnline,
+  needsInitialFetch: state.app.needsInitialFetch,
   orientation: state.app.orientation,
   subscriptions: state.subscriptions,
   messages: getShownMessagesInActiveNarrow(state),
