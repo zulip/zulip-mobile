@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 
 export default class HtmlTagImg extends React.PureComponent {
   props: {
-    src: { uri: string, },
+    src: string,
     auth: Auth,
     message: Message,
     pushRoute: PushRouteAction,
@@ -24,14 +24,14 @@ export default class HtmlTagImg extends React.PureComponent {
 
   handlePress = (resource: Object) => {
     const { src, auth, message, pushRoute } = this.props;
-    if (!isEmojiUrl(src.uri, auth.realm)) {
+    if (!isEmojiUrl(src, auth.realm)) {
       pushRoute('light-box', { src: resource, message, auth });
     }
   };
 
   render() {
     const { src, style, auth } = this.props;
-    const resource = getResource(src.uri, auth);
+    const resource = getResource(src, auth);
     const ContainerComponent = isEmojiUrl ? TouchableWithoutFeedback : Touchable;
     return (
       <ContainerComponent onPress={() => this.handlePress(resource)}>
