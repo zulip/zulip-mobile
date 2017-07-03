@@ -3,7 +3,6 @@ import { REHYDRATE } from 'redux-persist/constants';
 import { AppState, Action } from '../types';
 import {
   LOGIN_SUCCESS,
-  LOGIN_FAILURE,
   LOGOUT,
   APP_ONLINE,
   APP_ACTIVITY,
@@ -38,10 +37,6 @@ export default (state: AppState = initialState, action: Action) => {
       return {
         ...state,
         needsInitialFetch: !!action.apiKey,
-      };
-    case LOGIN_FAILURE:
-      return {
-        ...state,
       };
     case REHYDRATE:
       return {

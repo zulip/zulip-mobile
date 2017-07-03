@@ -1,3 +1,4 @@
+/* @flow */
 export const BATCH_ACTIONS = 'BATCH_ACTIONS';
 
 export const APP_ACTIVITY = 'APP_ACTIVITY';
