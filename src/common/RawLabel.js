@@ -20,7 +20,7 @@ export default class RawLabel extends PureComponent {
 
     return (
       <Text style={[styles.label, style]} {...restProps}>
-        {text}
+        {`${text}`}
       </Text>
     );
   }
