@@ -4,6 +4,7 @@ import {
   ScrollView,
   View,
   StyleSheet,
+  Image,
   Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -90,7 +91,7 @@ class RealmScreen extends React.Component {
     const { progress, realm, error } = this.state;
 
     return (
-      <Screen title="Welcome" keyboardAvoiding>
+      <Screen title="Welcome to Zulip" keyboardAvoiding>
         <ScrollView
           ref={(scrollView) => { this.scrollView = scrollView; }}
           centerContent
@@ -98,13 +99,14 @@ class RealmScreen extends React.Component {
           onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}
         >
           <View style={[styles.container, moreStyles.container]}>
-            <Label text="Your server URL" />
+            <Image style={[styles.image]} source={require('../../static/img/bus.png')} />
+            <Label text="Server URL" />
             <Input
               style={styles.field}
               autoFocus
               autoCorrect={false}
               autoCapitalize="none"
-              placeholder="Server URL"
+              placeholder="https://your-server-url.zulipchat.com"
               defaultValue={realm}
               onTextChange={value => this.setState({ realm: value })}
               blurOnSubmit={false}

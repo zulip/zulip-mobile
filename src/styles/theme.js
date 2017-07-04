@@ -92,6 +92,12 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  image: {
+    padding: 16,
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
   heading2: {
     fontSize: 20,
   },
