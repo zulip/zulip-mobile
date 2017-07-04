@@ -1,6 +1,6 @@
 /* @flow */
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { PopRouteAction } from '../types';
@@ -8,6 +8,14 @@ import boundActions from '../boundActions';
 import { CONTROL_SIZE } from '../styles';
 import { Label, SearchInput } from '../common';
 import NavButton from './NavButton';
+
+const localStyles = StyleSheet.create({
+  buttonCancel: {
+    transform: [
+      { rotate: '45deg' }
+    ]
+  }
+});
 
 class ModalSearchNavBar extends React.Component {
 
@@ -20,6 +28,7 @@ class ModalSearchNavBar extends React.Component {
     title: string,
     searchBar: boolean,
     searchBarOnChange: () => void,
+    clearSearchInput?: () => void,
     popRoute: PopRouteAction,
   };
 
@@ -31,16 +40,22 @@ class ModalSearchNavBar extends React.Component {
     isSearchActive: false,
   };
 
-  changeSearchActiveState = () => {
-    this.setState(prevState => ({
-      isSearchActive: !prevState.isSearchActive
-    }));
+  enableSearchActiveState = () => {
+    this.setState({
+      isSearchActive: true
+    });
+  };
+
+  disableSearchActiveState = () => {
+    this.setState({
+      isSearchActive: false
+    });
   };
 
   render() {
     const { styles } = this.context;
     const { isSearchActive } = this.state;
-    const { nav, title, searchBar, popRoute, searchBarOnChange } = this.props;
+    const { nav, title, searchBar, popRoute, searchBarOnChange, clearSearchInput } = this.props;
     const showSearchInput = isSearchActive || !searchBar;
     const textStyle = [
       styles.navTitle,
@@ -56,10 +71,20 @@ class ModalSearchNavBar extends React.Component {
           <SearchInput onChange={searchBarOnChange} /> :
           <Label style={textStyle} text={title} />
         }
-        {searchBar &&
+        {!showSearchInput &&
           <NavButton
             name="ios-search"
-            onPress={this.changeSearchActiveState}
+            onPress={this.enableSearchActiveState}
+          />
+        }
+        {(showSearchInput && clearSearchInput) &&
+          <NavButton
+            name="md-add"
+            style={localStyles.buttonCancel}
+            onPress={() => {
+              this.disableSearchActiveState();
+              clearSearchInput();
+            }}
           />
         }
       </View>
