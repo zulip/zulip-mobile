@@ -11,24 +11,21 @@ import boundActions from '../boundActions';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
 import { NAVBAR_HEIGHT, LIGHTBOX_FOOTER_OFFSET, LIGHTBOX_OVERLAY_COLOR } from '../styles';
 
-const WINDOW_WIDTH = Dimensions.get('window').width;
-const WINDOW_HEIGHT = Dimensions.get('window').height;
+let WINDOW_WIDTH = Dimensions.get('window').width;
+let WINDOW_HEIGHT = Dimensions.get('window').height;
 const FOOTER_HEIGHT = 44;
 
 const styles = StyleSheet.create({
   img: {
-    width: WINDOW_WIDTH,
     height: 300,
     flex: 1,
   },
   header: {
-    width: WINDOW_WIDTH,
     height: NAVBAR_HEIGHT,
     paddingLeft: 15,
     paddingRight: 5,
   },
   footer: {
-    width: WINDOW_WIDTH,
     height: FOOTER_HEIGHT,
     flexDirection: 'row',
     alignItems: 'center',
@@ -55,6 +52,11 @@ class LightboxContainer extends React.PureComponent {
 
   state = {
     movement: 'out',
+  };
+
+  calculateDimensions = () => {
+    WINDOW_WIDTH = Dimensions.get('window').width;
+    WINDOW_HEIGHT = Dimensions.get('window').height;
   };
 
   handleImagePress = () => {
@@ -101,7 +103,7 @@ class LightboxContainer extends React.PureComponent {
     } = this.props;
     return {
       styles: this.context.styles,
-      style: [styles.overlay, styles.header],
+      style: [styles.overlay, styles.header, { width: WINDOW_WIDTH }],
       from: -NAVBAR_HEIGHT,
       to: 0,
       popRoute,
@@ -115,7 +117,7 @@ class LightboxContainer extends React.PureComponent {
   getFooterProps = () => ({
     displayMessage: this.getFooterMessage(),
     onPress: this.handleOptionsPress,
-    style: [styles.overlay, styles.footer],
+    style: [styles.overlay, styles.footer, { width: WINDOW_WIDTH }],
     from: WINDOW_HEIGHT,
     to: WINDOW_HEIGHT - FOOTER_HEIGHT - LIGHTBOX_FOOTER_OFFSET,
   });
@@ -124,12 +126,13 @@ class LightboxContainer extends React.PureComponent {
     source: this.props.src,
     minimumZoomScale: 1,
     maximumZoomScale: 3,
-    style: styles.img,
+    style: [styles.img, { width: WINDOW_WIDTH }],
     resizeMode: 'contain',
     onTap: this.handleImagePress,
   });
 
   render() {
+    this.calculateDimensions();
     return (
       <View style={styles.container}>
         <Header {...this.getAnimationProps()} {...this.getHeaderProps()} />
