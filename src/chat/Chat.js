@@ -7,11 +7,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import type { Auth, Narrow, Message, Stream } from '../types';
 import { OfflineNotice } from '../common';
 import boundActions from '../boundActions';
-import {
-  getShownMessagesInActiveNarrow,
-  getAnchor,
-  getCurrentTypingUsers,
-} from '../chat/chatSelectors';
+import { getAnchor, getCurrentTypingUsers } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
 import { canSendToNarrow, isStreamOrTopicNarrow } from '../utils/narrow';
 import { filterUnreadMessageIds, countUnread } from '../utils/unread';
@@ -65,8 +61,9 @@ class Chat extends React.Component {
 
   isSubscribed = () => {
     const { narrow, subscriptions } = this.props;
-    return (isStreamOrTopicNarrow(narrow) ?
-    subscriptions.find((sub) => narrow[0].operand === sub.name) !== undefined : true);
+    return isStreamOrTopicNarrow(narrow)
+      ? subscriptions.find((sub) => narrow[0].operand === sub.name) !== undefined
+      : true;
   }
 
   showSubscribeButton = () => {
@@ -112,7 +109,6 @@ export default connect(state => ({
   isOnline: state.app.isOnline,
   needsInitialFetch: state.app.needsInitialFetch,
   subscriptions: state.subscriptions,
-  messages: getShownMessagesInActiveNarrow(state),
   flags: state.flags,
   allMessages: state.chat.messages,
   fetching: state.chat.fetching,

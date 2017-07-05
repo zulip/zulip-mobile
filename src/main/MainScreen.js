@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import type { DoNarrowAction, PushRouteAction } from '../types';
+import type { Message, DoNarrowAction, PushRouteAction } from '../types';
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 import SideDrawer from './SideDrawer';
@@ -9,6 +9,7 @@ import StreamSidebar from '../nav/StreamSidebar';
 import ConversationsContainer from '../conversations/ConversationsContainer';
 
 type Props = {
+  messages: Message[],
   doNarrow: DoNarrowAction,
   orientation: string,
   pushRoute: PushRouteAction,
@@ -29,7 +30,7 @@ export default class MainScreen extends React.Component {
   };
 
   render() {
-    const { doNarrow, orientation, pushRoute } = this.props;
+    const { doNarrow, messages, orientation, pushRoute } = this.props;
     const { leftDrawerOpen, rightDrawerOpen } = this.state;
 
     return (
@@ -68,7 +69,7 @@ export default class MainScreen extends React.Component {
             onPressPeople={() => this.setState({ rightDrawerOpen: true })}
             onPressStreams={() => this.setState({ leftDrawerOpen: true })}
           >
-            <Chat />
+            <Chat messages={messages} />
           </MainNavBar>
         </SideDrawer>
       </SideDrawer>
