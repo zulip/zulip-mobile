@@ -13,10 +13,6 @@ export default StyleSheet.create({
   s2: {
     color: '#ba2121',
   },
-  k: {
-    color: '#008000',
-    fontWeight: 'bold',
-  },
   kt: {
     color: '#b00040',
   },
