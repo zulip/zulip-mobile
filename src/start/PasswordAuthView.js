@@ -115,7 +115,7 @@ class PasswordAuthView extends React.Component {
           <Label
             style={[styles.field, styles.link]}
             onPress={() => openLink(forgotPasswordLink)}
-            text="Forgot Password?"
+            text="Forgot password?"
           />
         </Touchable>
       </View>
