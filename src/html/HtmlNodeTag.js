@@ -6,6 +6,7 @@ import styles from './HtmlStyles';
 import cascadingStyles from './cascadingStylesView';
 import cascadingStylesText from './cascadingStylesText';
 import indexedStyles from './indexedStyles';
+import textStylesFromClass from './textStylesFromClass';
 import HtmlTagSpan from './tags/HtmlTagSpan';
 import HtmlTagA from './tags/HtmlTagA';
 import HtmlTagLi from './tags/HtmlTagLi';
@@ -69,7 +70,7 @@ export default ({ auth, attribs, name, cascadingStyle,
   const newCascadingStylesText = [
     cascadingTextStyle,
     cascadingStylesText[name],
-    ...stylesFromClassNames(attribs.class, cascadingStylesText),
+    ...stylesFromClassNames(attribs.class, textStylesFromClass),
   ];
   const newIndexedStyles = indexedStyles[name];
 
