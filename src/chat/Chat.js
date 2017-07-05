@@ -4,7 +4,7 @@ import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Auth, Narrow, Message } from '../types';
+import type { Auth, Narrow, Message, Stream } from '../types';
 import { OfflineNotice } from '../common';
 import boundActions from '../boundActions';
 import {
@@ -13,7 +13,7 @@ import {
   getCurrentTypingUsers,
 } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
-import { canSendToNarrow } from '../utils/narrow';
+import { canSendToNarrow, isStreamOrTopicNarrow } from '../utils/narrow';
 import { filterUnreadMessageIds, countUnread } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { queueMarkAsRead } from '../api';
@@ -22,6 +22,7 @@ import MessageListLoading from '../message/MessageListLoading';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
+import NotSubscribed from '../message/NotSubscribed';
 
 
 class Chat extends React.Component {
@@ -41,6 +42,8 @@ class Chat extends React.Component {
     flags: Object,
     messages: Message[],
     readIds: Object,
+    subscriptions: any[],
+    streams: Stream,
     markMessagesRead: () => void,
   };
 
@@ -59,6 +62,17 @@ class Chat extends React.Component {
 
     registerAppActivity(auth);
   };
+
+  isSubscribed = () => {
+    const { narrow, subscriptions } = this.props;
+    return (isStreamOrTopicNarrow(narrow) ?
+    subscriptions.find((sub) => narrow[0].operand === sub.name) !== undefined : true);
+  }
+
+  showSubscribeButton = () => {
+    const { narrow, streams } = this.props;
+    return !streams.find((sub) => narrow[0].operand === sub.name).invite_only || false;
+  }
 
   render() {
     const { styles } = this.context;
@@ -83,7 +97,11 @@ class Chat extends React.Component {
         <ActionSheetProvider>
           <MessageList onScroll={this.handleMessageListScroll} {...this.props} />
         </ActionSheetProvider>}
-        {canSendToNarrow(narrow) && <ComposeBox />}
+        {canSendToNarrow(narrow) ? (this.isSubscribed() ? <ComposeBox /> :
+        <NotSubscribed
+          narrow={narrow}
+          showSubscribeButton={this.showSubscribeButton}
+        />) : null}
       </WrapperView>
     );
   }

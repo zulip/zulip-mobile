@@ -44,5 +44,6 @@ export default connect(
     narrow: state.chat.narrow,
     users: state.users,
     subscriptions: state.subscriptions,
+    streams: state.streams,
   })
 )(Title);

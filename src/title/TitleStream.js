@@ -23,17 +23,20 @@ export default class TitleStream extends React.PureComponent {
 
   props: {
     subscriptions: [],
+    streams: [],
     narrow: () => {},
     color: string,
   };
 
   render() {
-    const { narrow, subscriptions, color } = this.props;
-    const stream = subscriptions.find(x => x.name === narrow[0].operand) || {
-      name: '',
-      invite_only: false,
-      in_home_view: false
-    };
+    const { narrow, subscriptions, streams, color } = this.props;
+    const stream = subscriptions.find(x => x.name === narrow[0].operand) ||
+      { ...streams.find(x => x.name === narrow[0].operand), in_home_view: true } ||
+      {
+        name: '',
+        invite_only: false,
+        in_home_view: false
+      };
 
     const topic = isTopicNarrow(narrow) ? `\u203a ${narrow[1].operand}` : '';
 

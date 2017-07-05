@@ -15,6 +15,7 @@ import {
   isSearchNarrow,
   isPrivateOrGroupNarrow,
   isMessageInNarrow,
+  isStreamOrTopicNarrow,
   narrowFromMessage,
 } from '../narrow';
 
@@ -105,6 +106,17 @@ describe('isPrivateOrGroupNarrow', () => {
         },
       ]),
     ).toBe(true);
+  });
+});
+
+describe('isStreamOrTopicNarrow', () => {
+  test('check for stream or topic narrow', () => {
+    expect(isStreamOrTopicNarrow(streamNarrow('some stream'))).toBe(true);
+    expect(isStreamOrTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
+    expect(isStreamOrTopicNarrow(homeNarrow())).toBe(false);
+    expect(isStreamOrTopicNarrow(privateNarrow('a@a.com'))).toBe(false);
+    expect(isStreamOrTopicNarrow(groupNarrow(['john@example.com', 'mark@example.com']))).toBe(false);
+    expect(isStreamOrTopicNarrow(specialNarrow('starred'))).toBe(false);
   });
 });
 
