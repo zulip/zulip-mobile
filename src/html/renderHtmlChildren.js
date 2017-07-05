@@ -12,7 +12,7 @@ type Props = {
   cascadingTextStyle?: StyleObj,
   onPress?: (html: string) => void,
   pushRoute?: PushRouteAction,
-  indexBasedStyles?: any[],
+  indexedStyles?: any[],
 };
 
 export default ({
@@ -23,7 +23,7 @@ export default ({
   onPress,
   pushRoute,
   message,
-  indexBasedStyles
+  indexedStyles
 }: Props) =>
   childrenNodes &&
   childrenNodes
@@ -38,7 +38,7 @@ export default ({
         key={index}
         auth={auth}
         cascadingStyle={cascadingStyle}
-        cascadingTextStyle={[cascadingTextStyle, indexBasedStyles && indexBasedStyles[index]]}
+        cascadingTextStyle={[cascadingTextStyle, indexedStyles && indexedStyles[index]]}
         data={node.data}
         name={node.name}
         type={node.type}
