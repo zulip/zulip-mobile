@@ -3,6 +3,7 @@ import type { Auth, Narrow, Dispatch, GetState } from '../types';
 import { getMessages } from '../api';
 import { registerAppActivity } from '../utils/activity';
 import { getAuth } from '../account/accountSelectors';
+import { getAnchor } from '../chat/chatSelectors';
 import config from '../config';
 import {
   SWITCH_NARROW,
@@ -130,3 +131,27 @@ export const markMessagesRead = (messageIds: number[]) => ({
   type: MARK_MESSAGES_READ,
   messageIds,
 });
+
+export const fetchOlder = () =>
+  (dispatch: Dispatch, getState: GetState) => {
+    const state = getState();
+    const auth = getAuth(state);
+    const anchor = getAnchor(state);
+    const { fetching, caughtUp, narrow } = state.chat;
+
+    if (!fetching.older && !caughtUp.older && anchor) {
+      dispatch(fetchMessages(auth, anchor.older, config.messagesPerRequest, 0, narrow));
+    }
+  };
+
+export const fetchNewer = () =>
+  (dispatch: Dispatch, getState: GetState) => {
+    const state = getState();
+    const auth = getAuth(state);
+    const anchor = getAnchor(state);
+    const { fetching, caughtUp, narrow } = state.chat;
+
+    if (!fetching.newer && !caughtUp.newer && anchor) {
+      dispatch(fetchMessages(auth, anchor.newer, 0, config.messagesPerRequest, narrow));
+    }
+  };

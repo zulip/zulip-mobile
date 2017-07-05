@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import isEqual from 'lodash.isequal';
 import DeviceInfo from 'react-native-device-info';
 
-import config from '../config';
 import boundActions from '../boundActions';
+import { getAuth } from '../account/accountSelectors';
+import { getShownMessagesInActiveNarrow } from '../chat/chatSelectors';
 import MainScreen from './MainScreen';
 import { initializeNotifications } from '../utils/notifications';
 
@@ -19,37 +20,21 @@ class MainScreenContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { auth, fetchMessagesAtFirstUnread, narrow } = this.props;
-
     if (!isEqual(narrow, nextProps.narrow) && nextProps.messages.length === 0) {
       fetchMessagesAtFirstUnread(auth, nextProps.narrow);
     }
   }
 
-  fetchOlder = () => {
-    const { auth, fetching, caughtUp, anchor, narrow, fetchMessages } = this.props;
-    if (!fetching.older && !caughtUp.older && anchor) {
-      fetchMessages(auth, anchor.older, config.messagesPerRequest, 0, narrow);
-    }
-  };
-
-  fetchNewer = () => {
-    const { auth, fetching, caughtUp, anchor, narrow, fetchMessages } = this.props;
-    if (!fetching.newer && !caughtUp.newer && anchor) {
-      fetchMessages(auth, anchor.newer, 0, config.messagesPerRequest, narrow);
-    }
-  };
-
   render() {
     return (
-      <MainScreen
-        fetchOlder={this.fetchOlder}
-        fetchNewer={this.fetchNewer}
-        {...this.props}
-      />
+      <MainScreen {...this.props} />
     );
   }
 }
 
 export default connect(state => ({
+  auth: getAuth(state),
+  narrow: state.chat.narrow,
+  messages: getShownMessagesInActiveNarrow(state),
   orientation: state.app.orientation,
 }), boundActions)(MainScreenContainer);
