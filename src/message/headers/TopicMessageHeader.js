@@ -42,20 +42,34 @@ export default class TopicMessageHeader extends React.PureComponent {
     doNarrow(topicNarrow(stream, topic), itemId);
   }
 
+  topicText() {
+    const { topic, isTopicNarrow } = this.props;
+    const { styles } = this.context;
+    return isTopicNarrow ? (
+      <Text
+        style={[componentStyles.topic, styles.color]}
+      >
+        {topic}
+      </Text>
+    ) : (
+      <Text
+        style={[componentStyles.topic, styles.color]}
+        numberOfLines={1}
+        ellipsizeMode="tail"
+      >
+        {topic}
+      </Text>
+    );
+  }
+
   render() {
     const { styles } = this.context;
-    const { topic, style } = this.props;
+    const { style } = this.props;
 
     return (
       <View style={[componentStyles.wrapper, styles.background, style]}>
         <Touchable style={componentStyles.touch} onPress={this.performTopicNarrow}>
-          <Text
-            style={[componentStyles.topic, styles.color]}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            {topic}
-          </Text>
+          {this.topicText()}
         </Touchable>
       </View>
     );

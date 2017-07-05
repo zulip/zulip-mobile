@@ -28,7 +28,7 @@ export default class MessageHeader extends React.PureComponent {
   render() {
     const { item, subscriptions, auth, narrow, doNarrow } = this.props;
 
-    if (isStreamNarrow(narrow)) {
+    if (isStreamNarrow(narrow) || isTopicNarrow(narrow)) {
       return (
         <TopicMessageHeader
           key={`section_${item.id}`}
@@ -37,6 +37,7 @@ export default class MessageHeader extends React.PureComponent {
           topic={item.subject}
           doNarrow={doNarrow}
           style={styles.margin}
+          isTopicNarrow={isTopicNarrow(narrow)}
         />
       );
     }
