@@ -1,4 +1,4 @@
-import { constructActionButtons } from '../messageActionSheet';
+import { constructActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
 import {
   streamNarrow,
   homeNarrow,
@@ -15,8 +15,8 @@ describe('constructActionButtons', () => {
   };
 
   let message = {};
-  let subscriptions = [];
-  let mute = [];
+  const subscriptions = [];
+  const mute = [];
   const narrow = [];
   const flags = {
     starred: {
@@ -90,58 +90,6 @@ describe('constructActionButtons', () => {
     expect(streamButtons).toContain('Narrow to conversation');
   });
 
-  test('show Unmute topic option if topic is muted', () => {
-    message = {
-      type: 'stream',
-      display_recipient: 'electron issues',
-      subject: 'issue #556'
-    };
-    mute = [[
-      'electron issues', 'issue #556'
-    ]];
-
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
-
-    expect(buttons).toContain('Unmute topic');
-  });
-
-  test('show mute topic option if topic is not muted', () => {
-    message = {
-      type: 'stream',
-      display_recipient: 'electron issues',
-      subject: 'PR #558'
-    };
-
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
-
-    expect(buttons).toContain('Mute topic');
-  });
-
-  test('show Unmute stream option if stream is not in home view', () => {
-    message = {
-      type: 'stream',
-      display_recipient: 'electron issues',
-    };
-    subscriptions = [{
-      name: 'electron issues',
-      in_home_view: false,
-    }];
-
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
-
-    expect(buttons).toContain('Unmute stream');
-  });
-
-  test('show mute stream option if stream is in home view', () => {
-    message = {
-      type: 'stream',
-    };
-
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
-
-    expect(buttons).toContain('Mute stream');
-  });
-
   test('show star message option if message is not starred', () => {
     message = {
       id: 3,
@@ -160,5 +108,67 @@ describe('constructActionButtons', () => {
     const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
 
     expect(buttons).toContain('Unstar Message');
+  });
+});
+
+
+describe('constructHeaderActionButtons', () => {
+  let subscriptions = [
+    { name: 'denmark', in_home_view: true },
+    { name: 'donald', in_home_view: false },
+  ];
+  let mute = [];
+  let item = {};
+
+  test('show Unmute topic option if topic is muted', () => {
+    item = {
+      type: 'stream',
+      display_recipient: 'electron issues',
+      subject: 'issue #556'
+    };
+    mute = [[
+      'electron issues', 'issue #556'
+    ]];
+
+    const buttons = constructHeaderActionButtons({ item, subscriptions, mute });
+
+    expect(buttons).toContain('Unmute topic');
+  });
+
+  test('show mute topic option if topic is not muted', () => {
+    item = {
+      type: 'stream',
+      display_recipient: 'electron issues',
+      subject: 'PR #558'
+    };
+
+    const buttons = constructHeaderActionButtons({ item, subscriptions, mute });
+
+    expect(buttons).toContain('Mute topic');
+  });
+
+  test('show Unmute stream option if stream is not in home view', () => {
+    item = {
+      type: 'stream',
+      display_recipient: 'electron issues',
+    };
+    subscriptions = [{
+      name: 'electron issues',
+      in_home_view: false,
+    }];
+
+    const buttons = constructHeaderActionButtons({ item, subscriptions, mute });
+
+    expect(buttons).toContain('Unmute stream');
+  });
+
+  test('show mute stream option if stream is in home view', () => {
+    item = {
+      type: 'stream',
+    };
+
+    const buttons = constructHeaderActionButtons({ item, subscriptions, mute });
+
+    expect(buttons).toContain('Mute stream');
   });
 });

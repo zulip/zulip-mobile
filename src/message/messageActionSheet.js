@@ -46,6 +46,7 @@ type ExecuteActionSheetActionType = {
   message: Object,
   subscriptions: any[],
   doNarrow?: DoNarrowAction,
+  header: boolean,
 };
 
 type ConstructActionButtonsType = {
@@ -55,6 +56,12 @@ type ConstructActionButtonsType = {
   subscriptions: any[],
   mute: any[],
   flags: Object,
+};
+
+type ConstructHeaderActionButtonsType = {
+  item: Object,
+  subscriptions: any[],
+  mute: any[],
 };
 
 const narrowToConversation = ({ message, doNarrow, auth }: MessageAndDoNarrowType) => {
@@ -123,12 +130,41 @@ const actionSheetButtons: ButtonType[] = [
   { title: 'Narrow to conversation', onPress: narrowToConversation, onlyIf: skip },
   { title: 'Star Message', onPress: starMessage, onlyIf: skip },
   { title: 'Unstar Message', onPress: unstarMessage, onlyIf: skip },
+  { title: 'Cancel', onPress: skip, onlyIf: skip },
+];
+
+const actionHeaderSheetButtons: ButtonType[] = [
   { title: 'Unmute topic', onPress: unmuteTopic, onlyIf: skip },
   { title: 'Mute topic', onPress: muteTopic, onlyIf: skip },
   { title: 'Mute stream', onPress: muteStream, onlyIf: skip },
   { title: 'Unmute stream', onPress: unmuteStream, onlyIf: skip },
   { title: 'Cancel', onPress: skip, onlyIf: skip },
 ];
+
+export const constructHeaderActionButtons = ({
+     item,
+     subscriptions,
+     mute,
+}: ConstructHeaderActionButtonsType) => {
+  const buttons = actionHeaderSheetButtons.filter(x =>
+    !x.onlyIf || x.onlyIf({ item })).map(x => x.title);
+  // These are dependent conditions, hence better if we manage here rather than using onlyIf
+  if (item.type === 'stream') {
+    if (isTopicMuted(item.display_recipient, item.subject, mute)) {
+      buttons.push('Unmute topic');
+    } else {
+      buttons.push('Mute topic');
+    }
+    const sub = subscriptions.find(x => x.name === item.display_recipient);
+    if (sub && !sub.in_home_view) {
+      buttons.push('Unmute stream');
+    } else {
+      buttons.push('Mute stream');
+    }
+  }
+  buttons.push('Cancel');
+  return buttons;
+};
 
 export const constructActionButtons = ({
    message,
@@ -139,7 +175,7 @@ export const constructActionButtons = ({
    flags
 }: ConstructActionButtonsType) => {
   const buttons = actionSheetButtons.filter(x =>
-    !x.onlyIf || x.onlyIf({ message, auth, narrow })).map(x => x.title);
+      !x.onlyIf || x.onlyIf({ message, auth, narrow })).map(x => x.title);
 
   // These are dependent conditions, hence better if we manage here rather than using onlyIf
   if (isHomeNarrow(narrow) || isStreamNarrow(narrow) || isSpecialNarrow(narrow)) {
@@ -151,26 +187,18 @@ export const constructActionButtons = ({
   } else {
     buttons.push('Star Message');
   }
-
-  if (message.type === 'stream') {
-    if (isTopicMuted(message, mute)) {
-      buttons.push('Unmute topic');
-    } else {
-      buttons.push('Mute topic');
-    }
-    const sub = subscriptions.find(x => x.name === message.display_recipient);
-    if (sub && !sub.in_home_view) {
-      buttons.push('Unmute stream');
-    } else {
-      buttons.push('Mute stream');
-    }
-  }
   buttons.push('Cancel');
   return buttons;
 };
 
-export const executeActionSheetAction = ({ title, ...props }: ExecuteActionSheetActionType) => {
-  const button = actionSheetButtons.find(x => x.title === title);
+export const executeActionSheetAction =
+({ title, header, ...props }: ExecuteActionSheetActionType) => {
+  let button;
+  if (header) {
+    button = actionHeaderSheetButtons.find(x => x.title === title);
+  } else {
+    button = actionSheetButtons.find(x => x.title === title);
+  }
   if (button) {
     button.onPress(props);
   }

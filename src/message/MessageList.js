@@ -7,7 +7,7 @@ import { LoadingIndicator } from '../common';
 import MessageTyping from '../message/MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
-import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
+import { constructActionButtons, executeActionSheetAction, constructHeaderActionButtons } from './messageActionSheet';
 
 class MessageList extends React.PureComponent {
 
@@ -25,22 +25,38 @@ class MessageList extends React.PureComponent {
     this.autoScrollToBottom = this.props.caughtUp.newer && nextProps.caughtUp.newer;
   }
 
-  handleLongPress = (message) => {
-    const { auth, narrow, subscriptions, mute, flags } = this.props;
-    const options = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
-    const cancelButtonIndex = options.length - 1;
+  handleHeaderLongPress = (item) => {
+    const { subscriptions, mute } = this.props;
+    const options = constructHeaderActionButtons({ item, subscriptions, mute });
+    const callback = (buttonIndex) => {
+      executeActionSheetAction({
+        title: options[buttonIndex],
+        message: item,
+        header: true,
+        ...this.props
+      });
+    };
+    this.showActionSheet({ options, cancelButtonIndex: options.length - 1, callback });
+  }
 
+  showActionSheet = ({ options, cancelButtonIndex, callback }) => {
     this.props.showActionSheetWithOptions({
       options,
       cancelButtonIndex,
-    },
-      (buttonIndex) => {
-        executeActionSheetAction({
-          title: options[buttonIndex],
-          message,
-          ...this.props
-        });
+    }, callback);
+  }
+
+  handleLongPress = (message) => {
+    const { auth, narrow, subscriptions, mute, flags } = this.props;
+    const options = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
+    const callback = (buttonIndex) => {
+      executeActionSheetAction({
+        title: options[buttonIndex],
+        message,
+        ...this.props
       });
+    };
+    this.showActionSheet({ options, cancelButtonIndex: options.length - 1, callback });
   }
 
   render() {
@@ -58,6 +74,7 @@ class MessageList extends React.PureComponent {
 
     const messageList = renderMessages({
       onLongPress: this.handleLongPress,
+      onHeaderLongPress: this.handleHeaderLongPress,
       ...this.props,
     });
 

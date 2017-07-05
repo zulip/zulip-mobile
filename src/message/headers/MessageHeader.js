@@ -23,7 +23,14 @@ export default class MessageHeader extends React.PureComponent {
     narrow: Narrow,
     subscriptions: any[],
     doNarrow: () => void,
+    narrow: () => {},
+    onHeaderLongPress: () => void,
   }
+
+  onLongPress = () => {
+    const { item, onHeaderLongPress } = this.props;
+    onHeaderLongPress(item);
+  };
 
   render() {
     const { item, subscriptions, auth, narrow, doNarrow } = this.props;
@@ -37,6 +44,7 @@ export default class MessageHeader extends React.PureComponent {
           topic={item.subject}
           doNarrow={doNarrow}
           style={styles.margin}
+          onLongPress={this.onLongPress}
         />
       );
     }
@@ -56,6 +64,7 @@ export default class MessageHeader extends React.PureComponent {
           itemId={item.id}
           doNarrow={doNarrow}
           style={styles.margin}
+          onLongPress={this.onLongPress}
         />
       );
     }
@@ -72,6 +81,7 @@ export default class MessageHeader extends React.PureComponent {
           itemId={item.id}
           doNarrow={doNarrow}
           style={styles.margin}
+          onLongPress={this.onLongPress}
         />
       );
     }

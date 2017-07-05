@@ -7,15 +7,17 @@ import { HIGHLIGHT_COLOR } from '../styles';
 
 type Props = {
   onPress?: () => void | Promise<any>,
+  onLongPress?: () => void,
   style?: StyleObj,
   children?: [],
 };
 
-export default ({ onPress, style, children }: Props) => (
+export default ({ onPress, style, children, onLongPress }: Props) => (
   <TouchableHighlight
     underlayColor={HIGHLIGHT_COLOR}
     style={style}
     onPress={onPress}
+    onLongPress={onLongPress}
   >
     <View>
       {children}

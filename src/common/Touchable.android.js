@@ -11,15 +11,17 @@ const background = Platform.Version >= 21 ?
 
 type Props = {
   onPress?: () => void | Promise<any>,
+  onLongPress?: () => void,
   style?: StyleObj,
   children?: [],
 };
 
-export default ({ onPress, style, children }: Props) => (
+export default ({ onPress, style, children, onLongPress }: Props) => (
   <TouchableNativeFeedback
     style={style}
     background={background}
     onPress={onPress}
+    onLongPress={onLongPress}
   >
     <View>
       {children}
