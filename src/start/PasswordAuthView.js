@@ -1,13 +1,14 @@
 /* @flow */
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { Auth } from '../types';
 import boundActions from '../boundActions';
 import { fetchApiKey } from '../api';
 import config from '../config';
-import { ErrorMsg, ZulipButton, Input } from '../common';
+import { ErrorMsg, ZulipButton, Input, Touchable } from '../common';
+import { BRAND_COLOR } from '../styles';
 import { getAuth } from '../account/accountSelectors';
 
 type Props = {
@@ -20,6 +21,9 @@ const moreStyles = StyleSheet.create({
   container: {
     paddingBottom: 10,
   },
+  toggleText: {
+    color: BRAND_COLOR,
+  }
 });
 
 class PasswordAuthView extends React.Component {
@@ -35,6 +39,8 @@ class PasswordAuthView extends React.Component {
     password: string,
     error: string,
     progress: boolean,
+    isPasswordHidden: boolean,
+    toggleText: string,
   };
 
   constructor(props: Props) {
@@ -43,7 +49,9 @@ class PasswordAuthView extends React.Component {
       progress: false,
       email: props.email || config.defaultLoginEmail,
       password: config.defaultLoginPassword,
-      error: ''
+      error: '',
+      isPasswordHidden: true,
+      toggleText: 'Show',
     };
   }
 
@@ -77,6 +85,18 @@ class PasswordAuthView extends React.Component {
     }
   };
 
+  handleToggle = () => {
+    const { isPasswordHidden } = this.state;
+
+    if (isPasswordHidden) {
+      this.setState({ isPasswordHidden: false });
+      this.setState({ toggleText: 'Hide' });
+    } else {
+      this.setState({ isPasswordHidden: true });
+      this.setState({ toggleText: 'Show' });
+    }
+  };
+
   render() {
     const { styles } = this.context;
     const { email, password, progress, error } = this.state;
@@ -95,14 +115,21 @@ class PasswordAuthView extends React.Component {
           onTextChange={newEmail => this.setState({ email: newEmail })}
         />
         <Input
-          style={styles.field}
+          style={styles.passwordfield}
           placeholder="Password"
-          secureTextEntry
+          secureTextEntry={this.state.isPasswordHidden}
           value={password}
           onTextChange={newPassword => this.setState({ password: newPassword })}
           blurOnSubmit={false}
           onSubmitEditing={this.validateForm}
         />
+        <View style={styles.togglePassword}>
+          <Touchable onPress={this.handleToggle}>
+            <Text style={moreStyles.toggleText}>
+              {this.state.toggleText}
+            </Text>
+          </Touchable>
+        </View>
         <ZulipButton
           text="Sign in with password"
           progress={progress}

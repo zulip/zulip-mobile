@@ -64,6 +64,15 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  togglePassword: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    padding: 10,
+    position: 'absolute',
+    height: CONTROL_SIZE,
+    marginTop: 55,
+    right: 0,
+  },
   screen: {
     flex: 1,
     flexDirection: 'column',
@@ -101,6 +110,13 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     height: CONTROL_SIZE,
     marginTop: 5,
     marginBottom: 5,
+  },
+  passwordfield: {
+    flexDirection: 'row',
+    height: CONTROL_SIZE,
+    marginTop: 5,
+    marginBottom: 5,
+    paddingRight: 45,
   },
   disabled: {
     backgroundColor: '#ddd',
