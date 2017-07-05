@@ -89,7 +89,11 @@ public class GCMPushNotifications extends PushNotification {
 
         if (conversations.size() == 1) {
             //Only one 1 notification therefore no using of big view styles
-            builder.setContentTitle(title + " (" + totalMessagesCount + ")");
+            if (totalMessagesCount > 1) {
+                builder.setContentTitle(title + " (" + totalMessagesCount + ")");
+            } else {
+                builder.setContentTitle(title);
+            }
             if (type.equals("stream")) {
                 if (Build.VERSION.SDK_INT >= 16) {
                     String displayTopic = stream + " > "
