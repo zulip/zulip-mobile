@@ -52,6 +52,13 @@ export type Presence = {
   timestamp: number,
 };
 
+export type Stream = {
+  stream_id: number,
+  description: string,
+  name: string,
+  invite_only: boolean,
+};
+
 export type ClientPresence = {
   [key: string]: Presence,
 };

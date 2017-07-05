@@ -4,7 +4,7 @@ import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Auth, Narrow, Message } from '../types';
+import type { Auth, Narrow, Message, Stream } from '../types';
 import { OfflineNotice } from '../common';
 import boundActions from '../boundActions';
 import {
@@ -42,6 +42,8 @@ class Chat extends React.Component {
     flags: Object,
     messages: Message[],
     readIds: Object,
+    subscriptions: any[],
+    streams: Stream,
     markMessagesRead: () => void,
   };
 
