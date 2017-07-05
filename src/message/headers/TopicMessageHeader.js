@@ -34,6 +34,7 @@ export default class TopicMessageHeader extends React.PureComponent {
     stream: string,
     topic: string,
     doNarrow: () => void,
+    onLongPress: () => void,
   }
 
   performTopicNarrow = () => {
@@ -44,11 +45,15 @@ export default class TopicMessageHeader extends React.PureComponent {
 
   render() {
     const { styles } = this.context;
-    const { topic, style } = this.props;
+    const { topic, style, onLongPress } = this.props;
 
     return (
       <View style={[componentStyles.wrapper, styles.background, style]}>
-        <Touchable style={componentStyles.touch} onPress={this.performTopicNarrow}>
+        <Touchable
+          style={componentStyles.touch}
+          onPress={this.performTopicNarrow}
+          onLongPress={onLongPress}
+        >
           <Text
             style={[componentStyles.topic, styles.color]}
             numberOfLines={1}

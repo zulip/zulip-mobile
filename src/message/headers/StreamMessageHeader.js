@@ -46,6 +46,7 @@ export default class StreamMessageHeader extends React.PureComponent {
     isMuted: boolean,
     isPrivate: boolean,
     doNarrow: () => void,
+    onLongPress: () => void,
   }
 
   static contextTypes = {
@@ -59,13 +60,14 @@ export default class StreamMessageHeader extends React.PureComponent {
 
   render() {
     const { styles } = this.context;
-    const { stream, isPrivate, isMuted, topic, color, itemId, doNarrow, style } = this.props;
+    const { stream, isPrivate, isMuted, topic, color, itemId,
+      doNarrow, style, onLongPress } = this.props;
     const textColor = foregroundColorFromBackground(color);
     const iconType = isPrivate ? 'lock' : 'hashtag';
 
     return (
       <View style={[componentStyles.header, style, styles.background]}>
-        <Touchable onPress={this.performStreamNarrow}>
+        <Touchable onPress={this.performStreamNarrow} onLongPress={onLongPress}>
           <View style={[componentStyles.header, { backgroundColor: color }]}>
             <StreamIcon
               name={iconType}
@@ -86,6 +88,7 @@ export default class StreamMessageHeader extends React.PureComponent {
           stream={stream}
           topic={topic}
           doNarrow={doNarrow}
+          onLongPress={onLongPress}
         />
       </View>
     );

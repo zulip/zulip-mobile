@@ -34,6 +34,7 @@ export default class PrivateMessageHeader extends React.PureComponent {
     itemId: number,
     recipients: Object[],
     doNarrow: () => void,
+    onLongPress: () => void,
   }
 
   performNarrow = () => {
@@ -45,12 +46,12 @@ export default class PrivateMessageHeader extends React.PureComponent {
   }
 
   render() {
-    const { recipients, style } = this.props;
+    const { recipients, style, onLongPress } = this.props;
     const others = recipients.map(r => r.full_name).sort().join(', ');
 
     return (
       <View style={[styles.container, style]}>
-        <Touchable onPress={this.performNarrow}>
+        <Touchable onPress={this.performNarrow} onLongPress={onLongPress}>
           <View style={styles.header}>
             <IconPrivateChat color="white" size={16} style={styles.icon} />
             <Text style={styles.private}>

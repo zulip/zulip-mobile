@@ -19,6 +19,7 @@ type Props = {
   narrow: Narrow,
   doNarrow: DoNarrowAction,
   onLongPress: () => void,
+  onHeaderLongPress: () => void,
   pushRoute: PushRouteAction,
   twentyFourHourTime: boolean,
 };
@@ -32,6 +33,7 @@ export default ({
   mute,
   doNarrow,
   onLongPress,
+  onHeaderLongPress,
   flags,
   pushRoute,
   twentyFourHourTime,
@@ -62,6 +64,7 @@ export default ({
           subscriptions={subscriptions}
           narrow={narrow}
           doNarrow={doNarrow}
+          onHeaderLongPress={onHeaderLongPress}
         />,
       );
     }
