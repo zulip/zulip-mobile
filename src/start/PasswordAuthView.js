@@ -7,8 +7,9 @@ import type { Auth } from '../types';
 import boundActions from '../boundActions';
 import { fetchApiKey } from '../api';
 import config from '../config';
-import { ErrorMsg, ZulipButton, Input } from '../common';
+import { ErrorMsg, ZulipButton, Input, Touchable, Label } from '../common';
 import { getAuth } from '../account/accountSelectors';
+import openLink from '../utils/openLink';
 
 type Props = {
   auth: Auth,
@@ -80,7 +81,8 @@ class PasswordAuthView extends React.Component {
   render() {
     const { styles } = this.context;
     const { email, password, progress, error } = this.state;
-
+    const { auth } = this.props;
+    const forgotPasswordLink = `${auth.realm}/accounts/password/reset/`;
     return (
       <View style={moreStyles.container}>
         <Input
@@ -109,6 +111,13 @@ class PasswordAuthView extends React.Component {
           onPress={this.validateForm}
         />
         <ErrorMsg error={error} />
+        <Touchable>
+          <Label
+            style={[styles.field, styles.link]}
+            onPress={() => openLink(forgotPasswordLink)}
+            text="Forgot Password?"
+          />
+        </Touchable>
       </View>
     );
   }
