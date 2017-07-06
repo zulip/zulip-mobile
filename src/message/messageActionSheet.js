@@ -64,6 +64,12 @@ type ConstructHeaderActionButtonsType = {
   mute: any[],
 };
 
+type MessageAuthAndActions = {
+  message: Message,
+  auth: Auth,
+  actions: Actions,
+};
+
 const narrowToConversation = ({ message, actions, auth }: MessageAndDoNarrowType) => {
   actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
 };
@@ -78,8 +84,8 @@ const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
   showToast('Message copied!');
 };
 
-const editMessage = async ({ message, auth, startEditMessage }) => {
-  startEditMessage(auth, message.id);
+const editMessage = async ({ message, auth, actions }: MessageAuthAndActions) => {
+  actions.startEditMessage(auth, message.id);
 };
 
 const unmuteTopic = ({ auth, message }: AuthAndMessageType) => {
@@ -104,7 +110,7 @@ const muteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscription
   }
 };
 
-const isSentBySelfAndNarrowed = ({ message, auth, narrow }) =>
+const isSentBySelfAndNarrowed = ({ message, auth, narrow }: AuthMessageAndNarrow): boolean =>
   auth.email === message.sender_email && !isHomeNarrow(narrow);
 
 const starMessage = ({ auth, message }: AuthAndMessageType) => {
@@ -126,7 +132,7 @@ const skip = () => false;
 type ButtonType = {
   title: string,
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
-  onlyIf?: () => boolean,
+  onlyIf?: (props: AuthMessageAndNarrow) => boolean,
 };
 
 const actionSheetButtons: ButtonType[] = [

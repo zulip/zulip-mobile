@@ -42,5 +42,5 @@ export default connect(state => ({
   narrow: state.chat.narrow,
   messages: getShownMessagesInActiveNarrow(state),
   orientation: state.app.orientation,
-  editMessage: state.app.editMessage,  
+  editMessage: state.app.editMessage,
 }), boundActions)(MainScreenContainer);

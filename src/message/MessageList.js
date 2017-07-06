@@ -18,6 +18,10 @@ class MessageList extends React.PureComponent {
     styles: () => null,
   };
 
+  state: {
+     actionSheetButtons: [string, string, ],
+  };
+
   autoScrollToBottom = false;
 
   static defaultProps = {

@@ -1,5 +1,5 @@
 /* @flow */
-import type { Action } from '../types';
+import type { Action, Auth, Dispatch } from '../types';
 import {
   APP_ONLINE,
   APP_ORIENTATION,
@@ -24,8 +24,8 @@ export const appOrientation = (orientation: string): Action => ({
   orientation,
 });
 
-export const startEditMessage = (auth, messageId) =>
-    async (dispatch) => {
+export const startEditMessage = (auth: Auth, messageId: number) =>
+    async (dispatch: Dispatch) => {
       const message = await getSingleMessage(auth, messageId);
       dispatch({
         type: START_EDIT_MESSAGE,
