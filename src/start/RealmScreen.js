@@ -26,7 +26,7 @@ type State = {
   progress: boolean,
 };
 
-const moreStyles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   container: {
     paddingBottom: 25,
   },
@@ -97,7 +97,7 @@ class RealmScreen extends React.Component {
           keyboardShouldPersistTaps="always"
           onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}
         >
-          <View style={[styles.container, moreStyles.container]}>
+          <View style={[styles.container, componentStyles.container]}>
             <Label text="Your server URL" />
             <Input
               style={styles.field}

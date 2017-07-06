@@ -17,7 +17,7 @@ type Props = {
   email: string,
 };
 
-const moreStyles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   container: {
     paddingBottom: 10,
   },
@@ -87,7 +87,7 @@ class PasswordAuthView extends React.Component {
     const { auth } = this.props;
     const forgotPasswordLink = `${auth.realm}/accounts/password/reset/`;
     return (
-      <View style={moreStyles.container}>
+      <View style={componentStyles.container}>
         <Input
           style={styles.field}
           autoFocus
@@ -114,7 +114,7 @@ class PasswordAuthView extends React.Component {
           onPress={this.validateForm}
         />
         <ErrorMsg error={error} />
-        <Touchable style={moreStyles.linksTouchable}>
+        <Touchable style={componentStyles.linksTouchable}>
           <Label
             style={[styles.link]}
             onPress={() => openLink(forgotPasswordLink)}
