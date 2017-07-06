@@ -21,6 +21,9 @@ const moreStyles = StyleSheet.create({
   container: {
     paddingBottom: 10,
   },
+  linksTouchable: {
+    alignItems: 'flex-end',
+  }
 });
 
 class PasswordAuthView extends React.Component {
@@ -111,9 +114,9 @@ class PasswordAuthView extends React.Component {
           onPress={this.validateForm}
         />
         <ErrorMsg error={error} />
-        <Touchable>
+        <Touchable style={moreStyles.linksTouchable}>
           <Label
-            style={[styles.field, styles.link]}
+            style={[styles.link]}
             onPress={() => openLink(forgotPasswordLink)}
             text="Forgot password?"
           />
