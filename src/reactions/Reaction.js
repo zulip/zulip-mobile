@@ -1,11 +1,11 @@
 /* @flow */
 import React from 'react';
-import { StyleSheet, Text, View, Animated, Easing } from 'react-native';
+import { StyleSheet, View, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { Auth, GlobalState } from '../types';
 import { BRAND_COLOR, HALF_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from '../styles';
-import { Touchable } from '../common';
+import { Touchable, RawLabel } from '../common';
 import Emoji from '../emoji/Emoji';
 import RealmEmoji from '../emoji/RealmEmoji';
 import emojiMap from '../emoji/emojiMap';
@@ -142,19 +142,17 @@ class Reaction extends React.PureComponent {
 
           <Animated.View style={this.dynamicSpinnerStyles()}>
             <View style={styles.spinnerTextContainer}>
-              <Text style={countStyle}>{voteCount - 1}</Text>
+              <RawLabel style={countStyle} text={voteCount - 1} />
             </View>
             <View style={styles.spinnerTextContainer}>
-              <Text style={countStyle}>{voteCount}</Text>
+              <RawLabel style={countStyle} text={voteCount} />
             </View>
             <View style={styles.spinnerTextContainer}>
-              <Text style={countStyle}>{voteCount + 1}</Text>
+              <RawLabel style={countStyle} text={voteCount + 1} />
             </View>
           </Animated.View>
 
-          <Text style={styles.placeholderCount}>
-            {voteCount}
-          </Text>
+          <RawLabel style={styles.placeholderCount} text={voteCount} />
         </View>
       </Touchable>
     );
