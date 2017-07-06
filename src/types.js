@@ -6,6 +6,8 @@ export type Auth = {
   email: string,
 };
 
+export type Account = Auth;
+
 export type Message = {
   avatar_url: string,
   client: 'website' | '???',
@@ -132,7 +134,7 @@ export type InitRouteAction = Action;
 
 export type SetAuthType = Action;
 
-export type AccountState = [];
+export type AccountState = Account[];
 
 export type AppState = {
   lastActivityTime: Date,
