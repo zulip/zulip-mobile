@@ -177,6 +177,7 @@ describe('getRecentConversations', () => {
 describe('getCurrentTypingUsers', () => {
   test('return undefined when current narrow is not private or group', () => {
     const state = {
+      accounts: [{}],
       chat: {
         narrow: homeNarrow(),
       },

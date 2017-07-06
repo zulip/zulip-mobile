@@ -43,8 +43,8 @@
     "react-native-drawer": "^2.3.0",
     "react-native-fabric": "^0.4.1",
     "react-native-fabric-crashlytics": "^0.1.8",
-    "react-native-notifications": "^1.1.10",
     "react-native-fetch-blob": "^0.10.5",
+    "react-native-notifications": "^1.1.10",
     "react-native-photo-view": "~1.2.0",
     "react-native-safari-view": "^2.0.0",
     "react-native-scrollable-tab-view": "^0.7.0",
@@ -59,6 +59,7 @@
     "redux-logger": "^3.0.1",
     "redux-persist": "^4.8.2",
     "redux-thunk": "^2.1.0",
+    "reselect": "^3.0.1",
     "stream": "^0.0.2",
     "string.fromcodepoint": "^0.2.1",
     "url-parse": "^1.1.8"

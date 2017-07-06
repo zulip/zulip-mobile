@@ -1,95 +1,158 @@
 /* @flow */
-import type { GlobalState, Message } from '../types';
+import { createSelector } from 'reselect';
+
+import type { GlobalState, Account, Narrow, Stream, Message } from '../types';
 import { specialNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients, normalizeRecipientsSansMe, shouldBeMuted } from '../utils/message';
 import { countUnread } from '../utils/unread';
 import { getUserById } from '../users/usersSelectors';
 
+const privateNarrowStr = JSON.stringify(specialNarrow('private'));
+
+export const getSubscriptions = (state: GlobalState): Stream[] =>
+  state.subscriptions;
+
+export const getMute = (state: GlobalState): Object =>
+  state.mute;
+
+export const getTyping = (state: GlobalState): Object =>
+  state.typing;
+
+export const getUsers = (state: GlobalState): Object =>
+  state.users;
+
+export const getReadFlags = (state: GlobalState): Object =>
+  state.flags.read;
+
 export const getAllMessages = (state: GlobalState): Message[] =>
   state.chat.messages;
 
-export const getMessagesInActiveNarrow = (state: GlobalState): Message[] =>
-  state.chat.messages[JSON.stringify(state.chat.narrow)] || [];
+export const getActiveNarrow = (state: GlobalState): Narrow =>
+  state.chat.narrow;
 
-export const getShownMessagesInActiveNarrow = (state: GlobalState): Message[] =>
-  getMessagesInActiveNarrow(state).filter(item =>
-    !shouldBeMuted(item, state.chat.narrow, state.subscriptions, state.mute)
-  );
+export const getAccounts = (state: GlobalState): Account[] =>
+  state.accounts;
 
-export const getAnchor = (state: GlobalState) => {
-  const messages = getMessagesInActiveNarrow(state);
+export const getActiveAccount = createSelector(
+  getAccounts,
+  (accounts) => accounts[0],
+);
 
-  if (messages.length === 0) {
-    return undefined;
-  }
+export const getSelfEmail = createSelector(
+  getActiveAccount,
+  (activeAccount) => activeAccount.email,
+);
 
-  return {
-    older: messages[0].id,
-    newer: messages[messages.length - 1].id,
-  };
-};
+export const getActiveNarrowString = (state: GlobalState): string =>
+  JSON.stringify(state.chat.narrow);
 
-export const getRecentConversations = (state: GlobalState) => {
-  const selfEmail = state.accounts[0].email;
-  const privateNarrowStr = JSON.stringify(specialNarrow('private'));
-  const messages = state.chat.messages[privateNarrowStr] || [];
+export const getPrivateNarrowString = (state: GlobalState): string =>
+  JSON.stringify(state.chat.narrow);
 
-  const recipients = messages.map(msg => ({
-    emails: normalizeRecipientsSansMe(msg.display_recipient, selfEmail),
-    timestamp: msg.timestamp,
-    isRead: state.flags.read[msg.id] || 0,
-  }));
+export const getMessagesInActiveNarrow = createSelector(
+  getAllMessages,
+  getActiveNarrowString,
+  (allMessages, activeNarrowString) => (allMessages[activeNarrowString] || []),
+);
 
-  const groupedRecipients = recipients.reduce((uniqueMap, recipient) => {
-    if (!uniqueMap.has(recipient.emails)) {
-      // new entry
-      uniqueMap.set(recipient.emails, {
-        recipients: recipient.emails,
-        timestamp: recipient.timestamp || 0,
-        unread: +!recipient.isRead,
-      });
-    } else {
-      // update existing entry
-      const prev = uniqueMap.get(recipient.emails);
-      uniqueMap.set(recipient.emails, {
-        recipients: recipient.emails,
-        timestamp: Math.max(prev.timestamp || 0, recipient.timestamp || 0),
-        unread: prev.unread + +!recipient.isRead,
-      });
+export const getShownMessagesInActiveNarrow = createSelector(
+  getMessagesInActiveNarrow,
+  getActiveNarrow,
+  getSubscriptions,
+  getMute,
+  (messagesInActiveNarrow, activeNarrow, subscriptions, mute) =>
+  messagesInActiveNarrow.filter(item => !shouldBeMuted(item, activeNarrow, subscriptions, mute))
+);
+
+export const getAnchor = createSelector(
+  getMessagesInActiveNarrow,
+  (messages) => {
+    if (messages.length === 0) {
+      return undefined;
     }
-    return uniqueMap;
-  }, new Map());
 
-  // sort by most recent timestamp
-  return Array.from(groupedRecipients.values())
-    .sort((a, b) => +b.timestamp - +a.timestamp);
-};
-
-export const getPrivateMessages = (state: GlobalState): Message[] =>
-  state.chat.messages[JSON.stringify(specialNarrow('private'))] || [];
-
-export const getUnreadPrivateMessagesCount = (state: GlobalState): number =>
-  countUnread(getPrivateMessages(state).map(msg => msg.id), state.flags.read);
-
-export const getCurrentTypingUsers = (state: GlobalState) => {
-  if (!isPrivateOrGroupNarrow(state.chat.narrow)) {
-    return undefined;
+    return {
+      older: messages[0].id,
+      newer: messages[messages.length - 1].id,
+    };
   }
+);
 
-  const recipients = state.chat.narrow[0].operand.split(',').map(email => ({ email }));
-  const selfEmail = state.accounts[0].email;
-  const normalizedRecipients = normalizeRecipients(recipients, selfEmail);
-  const currentTyping = state.typing[normalizedRecipients];
+export const getPrivateMessages = createSelector(
+  getAllMessages,
+  (messages) => (messages[privateNarrowStr] || []),
+);
 
-  if (!currentTyping) {
-    return undefined;
-  }
+export const getRecentConversations = createSelector(
+  getSelfEmail,
+  getPrivateMessages,
+  getReadFlags,
+  (selfEmail, messages, read) => {
+    const recipients = messages.map(msg => ({
+      emails: normalizeRecipientsSansMe(msg.display_recipient, selfEmail),
+      timestamp: msg.timestamp,
+      isRead: read[msg.id] || 0,
+    }));
 
-  return currentTyping.map(userId => getUserById(state.users, userId));
-};
+    const groupedRecipients = recipients.reduce((uniqueMap, recipient) => {
+      if (!uniqueMap.has(recipient.emails)) {
+        // new entry
+        uniqueMap.set(recipient.emails, {
+          recipients: recipient.emails,
+          timestamp: recipient.timestamp || 0,
+          unread: +!recipient.isRead,
+        });
+      } else {
+        // update existing entry
+        const prev = uniqueMap.get(recipient.emails);
+        uniqueMap.set(recipient.emails, {
+          recipients: recipient.emails,
+          timestamp: Math.max(prev.timestamp || 0, recipient.timestamp || 0),
+          unread: prev.unread + +!recipient.isRead,
+        });
+      }
+      return uniqueMap;
+    }, new Map());
 
-export const getLastTopicInActiveNarrow = (state: GlobalState): string => {
-  const messagesInActiveNarrow = getMessagesInActiveNarrow(state);
-  const lastMessageWithSubject = messagesInActiveNarrow.slice().reverse().find(msg => msg.subject);
-  return (lastMessageWithSubject && lastMessageWithSubject.subject) || '';
-};
+    // sort by most recent timestamp
+    return Array.from(groupedRecipients.values())
+      .sort((a, b) => +b.timestamp - +a.timestamp);
+  },
+);
+
+export const getUnreadPrivateMessagesCount = createSelector(
+  getPrivateMessages,
+  getReadFlags,
+  (privateMessages, readFlags) => countUnread(privateMessages.map(msg => msg.id), readFlags)
+);
+
+export const getCurrentTypingUsers = createSelector(
+  getActiveNarrow,
+  getTyping,
+  getUsers,
+  getSelfEmail,
+  (activeNarrow, typing, users, selfEmail) => {
+    if (!isPrivateOrGroupNarrow(activeNarrow)) {
+      return undefined;
+    }
+
+    const recipients = activeNarrow[0].operand.split(',').map(email => ({ email }));
+    const normalizedRecipients = normalizeRecipients(recipients, selfEmail);
+    const currentTyping = typing[normalizedRecipients];
+
+    if (!currentTyping) {
+      return undefined;
+    }
+
+    return currentTyping.map(userId => getUserById(users, userId));
+  },
+);
+
+export const getLastTopicInActiveNarrow = createSelector(
+  getMessagesInActiveNarrow,
+  (messagesInActiveNarrow) => {
+    const reversedMessages = messagesInActiveNarrow.slice().reverse();
+    const lastMessageWithSubject = reversedMessages.find(msg => msg.subject);
+    return (lastMessageWithSubject && lastMessageWithSubject.subject) || '';
+  },
+);
