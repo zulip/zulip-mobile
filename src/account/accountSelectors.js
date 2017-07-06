@@ -1,25 +1,32 @@
 /* @flow */
-import type { AccountState } from '../types';
+import { createSelector } from 'reselect';
 
-export const getActiveAccount = (state: AccountState) =>
-  (state.accounts ? state.accounts[0] : undefined);
+import type { Account, GlobalState } from '../types';
 
-export const getSelfEmail = (state: AccountState) =>
-  state.accounts[0].email;
+export const getAccounts = (state: GlobalState): Account[] =>
+  state.accounts;
 
-export const getAuth = (state: AccountState) => {
-  const account = getActiveAccount(state);
+export const getActiveAccount = createSelector(
+  getAccounts,
+  (accounts) => (accounts ? accounts[0] : undefined),
+);
 
-  if (!account) {
-    return {
-      apiKey: undefined,
-      email: undefined,
-      realm: undefined,
-      password: undefined
-    };
-  }
+export const getSelfEmail = createSelector(
+  getActiveAccount,
+  (activeAccount) => activeAccount.email,
+);
 
-  // Returning a copy here (instead of the original object)
-  // causes all components in the app to re-render
-  return account;
-};
+export const getAuth = createSelector(
+  getActiveAccount,
+  (activeAccount) => {
+    if (!activeAccount) {
+      return {
+        apiKey: undefined,
+        email: undefined,
+        realm: undefined,
+      };
+    }
+
+    return activeAccount;
+  },
+);
