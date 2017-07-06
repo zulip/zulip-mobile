@@ -1,7 +1,8 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { GlobalState, Account, Narrow, Stream, Message } from '../types';
+import type { GlobalState, Narrow, Stream, Message } from '../types';
+import { getSelfEmail } from '../account/accountSelectors';
 import { specialNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients, normalizeRecipientsSansMe, shouldBeMuted } from '../utils/message';
 import { countUnread } from '../utils/unread';
@@ -29,19 +30,6 @@ export const getAllMessages = (state: GlobalState): Message[] =>
 
 export const getActiveNarrow = (state: GlobalState): Narrow =>
   state.chat.narrow;
-
-export const getAccounts = (state: GlobalState): Account[] =>
-  state.accounts;
-
-export const getActiveAccount = createSelector(
-  getAccounts,
-  (accounts) => accounts[0],
-);
-
-export const getSelfEmail = createSelector(
-  getActiveAccount,
-  (activeAccount) => activeAccount.email,
-);
 
 export const getActiveNarrowString = (state: GlobalState): string =>
   JSON.stringify(state.chat.narrow);
