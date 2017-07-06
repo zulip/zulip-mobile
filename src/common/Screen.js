@@ -7,7 +7,7 @@ import type { LocalizableText, PopRouteAction, NavigationState } from '../types'
 import { ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
 
-const moreStyles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   screen: {
     flex: 1,
     flexDirection: 'column',
@@ -42,12 +42,12 @@ class Screen extends React.Component {
     const backgroundColor = StyleSheet.flatten(styles.background).backgroundColor;
 
     return (
-      <View style={moreStyles.screen}>
+      <View style={componentStyles.screen}>
         <ZulipStatusBar
           backgroundColor={backgroundColor}
         />
         <ModalNavBar title={title} popRoute={popRoute} nav={nav} />
-        <WrapperView style={moreStyles.screenWrapper} behavior="padding">
+        <WrapperView style={componentStyles.screenWrapper} behavior="padding">
           {children}
         </WrapperView>
       </View>

@@ -11,7 +11,7 @@ import NavButton from './NavButton';
 import { getUnreadPrivateMessagesCount } from '../chat/chatSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 
-const moreStyles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   wrapper: {
     flex: 1,
     flexDirection: 'column',
@@ -37,7 +37,7 @@ class MainNavBar extends React.Component {
       BRAND_COLOR;
 
     return (
-      <View style={moreStyles.wrapper}>
+      <View style={componentStyles.wrapper}>
         <ZulipStatusBar
           backgroundColor={backgroundColor}
         />
