@@ -1,6 +1,6 @@
 /* @flow */
 import { Clipboard, Share } from 'react-native';
-import type { Actions, Auth } from '../types';
+import type { Actions, Auth, Message } from '../types';
 import {
   narrowFromMessage,
   isHomeNarrow,
@@ -68,6 +68,12 @@ type MessageAuthAndActions = {
   message: Message,
   auth: Auth,
   actions: Actions,
+};
+
+type AuthMessageAndNarrow = {
+  message: Message,
+  auth: Auth,
+  narrow: [],
 };
 
 const narrowToConversation = ({ message, actions, auth }: MessageAndDoNarrowType) => {
