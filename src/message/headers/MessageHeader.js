@@ -24,7 +24,7 @@ export default class MessageHeader extends React.PureComponent {
     subscriptions: any[],
     doNarrow: () => void,
     narrow: () => {},
-    onHeaderLongPress: () => void,
+    onHeaderLongPress: (item: Object) => void,
   }
 
   onLongPress = () => {

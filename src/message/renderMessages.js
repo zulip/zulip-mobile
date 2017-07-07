@@ -18,8 +18,8 @@ type Props = {
   flags: Object,
   narrow: Narrow,
   doNarrow: DoNarrowAction,
-  onLongPress: () => void,
-  onHeaderLongPress: () => void,
+  onLongPress: (message: Object) => void,
+  onHeaderLongPress: (item: Object) => void,
   pushRoute: PushRouteAction,
   twentyFourHourTime: boolean,
 };

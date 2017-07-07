@@ -26,15 +26,24 @@ class MainScreenContainer extends React.Component {
   }
 
   render() {
+    const { doNarrow, messages, orientation, pushRoute } = this.props;
     return (
-      <MainScreen {...this.props} />
+      <MainScreen
+        doNarrow={doNarrow}
+        messages={messages}
+        orientation={orientation}
+        pushRoute={pushRoute}
+      />
     );
   }
 }
 
-export default connect(state => ({
-  auth: getAuth(state),
-  narrow: state.chat.narrow,
-  messages: getShownMessagesInActiveNarrow(state),
-  orientation: state.app.orientation,
-}), boundActions)(MainScreenContainer);
+export default connect(
+  state => ({
+    auth: getAuth(state),
+    narrow: state.chat.narrow,
+    messages: getShownMessagesInActiveNarrow(state),
+    orientation: state.app.orientation,
+  }),
+  boundActions,
+)(MainScreenContainer);
