@@ -15,6 +15,7 @@ import { registerAppActivity } from '../utils/activity';
 import { queueMarkAsRead } from '../api';
 import MessageList from '../message/MessageList';
 // import MessageList from '../message/MessageListWeb';
+// import MessageList from '../message/MessageListFlatList';
 import MessageListLoading from '../message/MessageListLoading';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
