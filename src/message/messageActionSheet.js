@@ -46,7 +46,7 @@ type ExecuteActionSheetActionType = {
   message: Object,
   subscriptions: any[],
   doNarrow?: DoNarrowAction,
-  header: boolean,
+  header?: boolean,
 };
 
 type ConstructActionButtonsType = {
