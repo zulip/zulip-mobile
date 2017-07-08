@@ -8,7 +8,7 @@ import boundActions from '../boundActions';
 import { Label, Screen, ZulipSwitch } from '../common';
 import LanguagePicker from './LanguagePicker';
 import { getAuth } from '../account/accountSelectors';
-import toggleOfflinePushNotifications from '../api/toggleOfflinePushNotifications';
+import toggleMobilePushSettings from '../api/toggleMobilePushSettings';
 
 const styles = StyleSheet.create({
   optionWrapper: {
@@ -37,6 +37,8 @@ class SettingsScreen extends React.Component {
     notifications: boolean,
     theme: string,
     locale: string,
+    offlineNotification: boolean,
+    onlineNotification: boolean,
   };
 
   state: {
@@ -51,22 +53,34 @@ class SettingsScreen extends React.Component {
     this.props.actions.settingsChange('theme', value ? 'night' : 'default');
   };
 
-  handleNotificationChange = (value) => {
-    toggleOfflinePushNotifications(this.props.auth, value);
-    this.props.actions.settingsChange('notifications', value);
+  handleOfflineNotificationChange = (value) => {
+    toggleMobilePushSettings({ auth: this.props.auth, offline: value });
+    this.props.actions.settingsChange('offlineNotification', value);
+  };
+
+  handleOnlineNotificationChange = (value) => {
+    toggleMobilePushSettings({ auth: this.props.auth, online: value });
+    this.props.actions.settingsChange('onlineNotification', value);
   };
 
   render() {
-    const { notifications, theme, locale } = this.props;
+    const { offlineNotification, onlineNotification, theme, locale } = this.props;
 
     return (
       <Screen title="Settings">
         <View style={styles.optionWrapper}>
           <View style={styles.optionRow}>
-            <Label text="Enable notifications" />
+            <Label text="Enable notifications (when offline)" />
             <ZulipSwitch
-              defaultValue={notifications}
-              onValueChange={this.handleNotificationChange}
+              defaultValue={offlineNotification}
+              onValueChange={this.handleOfflineNotificationChange}
+            />
+          </View>
+          <View style={styles.optionRow}>
+            <Label text="Enable notifications (when online)" />
+            <ZulipSwitch
+              defaultValue={onlineNotification}
+              onValueChange={this.handleOnlineNotificationChange}
             />
           </View>
           <View style={styles.optionRow}>
@@ -91,7 +105,8 @@ class SettingsScreen extends React.Component {
 
 export default connect(
   (state) => ({
-    notifications: state.settings.notifications,
+    offlineNotification: state.settings.offlineNotification,
+    onlineNotification: state.settings.onlineNotification,
     locale: state.settings.locale,
     theme: state.settings.theme,
     auth: getAuth(state),
