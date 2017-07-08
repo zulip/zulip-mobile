@@ -86,7 +86,7 @@ class MessageContainer extends PureComponent {
   render() {
     const { message, auth, actions, twentyFourHourTime, isBrief } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
-    const childrenNodes = htmlToDomTree(message.match_content || message.content);
+    const childrenNodes = htmlToDomTree((message.match_content || message.content).replace(/\r\n/g, '<br />').replace(/[\r\n]/g, '<br />'));
 
     return (
       <MessageComponent

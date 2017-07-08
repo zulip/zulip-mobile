@@ -31,4 +31,9 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  pre: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    flex: 1,
+  },
 });
