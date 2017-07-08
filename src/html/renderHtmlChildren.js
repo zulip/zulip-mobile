@@ -1,22 +1,24 @@
 /* @flow */
 import React from 'react';
 
-import type { Auth, Message, PushRouteAction, DomElement, StyleObj } from '../types';
+import type { Auth, Actions, Message, DomElement, StyleObj } from '../types';
 import HtmlNode from './HtmlNode';
 
 type Props = {
   auth?: Auth,
+  actions: Actions,
   message?: Message,
   childrenNodes?: DomElement[],
   cascadingStyle?: StyleObj,
   cascadingTextStyle?: StyleObj,
   onPress?: (html: string) => void,
-  pushRoute?: PushRouteAction,
+  actions?: Actions,
   indexedStyles?: any[],
 };
 
 export default ({
   auth,
+  actions,
   cascadingStyle,
   childrenNodes,
   cascadingTextStyle,
@@ -37,6 +39,7 @@ export default ({
       (<HtmlNode
         key={index}
         auth={auth}
+        actions={actions}
         cascadingStyle={cascadingStyle}
         cascadingTextStyle={[cascadingTextStyle, indexedStyles && indexedStyles[index]]}
         data={node.data}
@@ -45,7 +48,6 @@ export default ({
         attribs={node.attribs}
         childrenNodes={node.children}
         onPress={onPress}
-        pushRoute={pushRoute}
         message={message}
       />)
     );

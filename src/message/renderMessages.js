@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import type { Auth, DoNarrowAction, Narrow, PushRouteAction } from '../types';
+import type { Actions, Auth, Narrow } from '../types';
 import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import MessageHeader from '../message/headers/MessageHeader';
 import MessageContainer from '../message/MessageContainer';
@@ -11,31 +11,29 @@ import { isSameDay } from '../utils/date';
 
 type Props = {
   auth: Auth,
+  actions: Actions,
   subscriptions: any[],
   users: Object[],
   messages: any[],
   mute: boolean,
   flags: Object,
   narrow: Narrow,
-  doNarrow: DoNarrowAction,
   onLongPress: (message: Object) => void,
   onHeaderLongPress: (item: Object) => void,
-  pushRoute: PushRouteAction,
   twentyFourHourTime: boolean,
 };
 
 export default ({
   auth,
+  actions,
   subscriptions,
   users,
   messages,
   narrow,
   mute,
-  doNarrow,
   onLongPress,
   onHeaderLongPress,
   flags,
-  pushRoute,
   twentyFourHourTime,
 }: Props) => {
   const list: Object[] = [];
@@ -61,9 +59,9 @@ export default ({
           key={`header${item.id}`}
           item={item}
           auth={auth}
+          actions={actions}
           subscriptions={subscriptions}
           narrow={narrow}
-          doNarrow={doNarrow}
           onHeaderLongPress={onHeaderLongPress}
         />,
       );
@@ -80,14 +78,13 @@ export default ({
         type="message"
         key={item.id}
         auth={auth}
+        actions={actions}
         message={item}
         isBrief={shouldGroupWithPrev}
-        doNarrow={doNarrow}
         avatarUrl={item.avatar_url}
         users={users}
         onLongPress={onLongPress}
         flags={flags}
-        pushRoute={pushRoute}
         twentyFourHourTime={twentyFourHourTime}
       />
     );

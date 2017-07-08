@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { InitRouteAction, Auth } from '../types';
+import type { Actions, Auth } from '../types';
 import boundActions from '../boundActions';
 import { getInitialRoutes } from '../nav/routingSelectors';
 import { ZulipButton } from '../common';
@@ -21,28 +21,28 @@ class LogoutButton extends Component {
 
   props: {
     accounts: any[],
-    initRoutes: InitRouteAction,
     logout: (accounts: any[]) => void,
     deleteTokenPush: () => void,
     auth: Auth,
     pushToken: string,
+    actions: Actions,
   };
 
   shutdownPUSH = async () => {
-    const { auth, deleteTokenPush, pushToken } = this.props;
+    const { auth, actions, pushToken } = this.props;
     if (pushToken !== '') {
       await unregisterPush(auth, pushToken);
-      deleteTokenPush();
+      actions.deleteTokenPush();
     }
   }
 
   logout = () => {
-    const { accounts } = this.props;
+    const { accounts, actions } = this.props;
     this.shutdownPUSH();
-    this.props.logout(accounts);
+    actions.logout(accounts);
     const accountsLoggedOut = accounts.slice();
     accountsLoggedOut[0].apiKey = '';
-    this.props.initRoutes(getInitialRoutes(accounts));
+    actions.initRoutes(getInitialRoutes(accounts));
   }
 
   render() {

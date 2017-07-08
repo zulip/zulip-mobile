@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { Auth, SettingsChangeAction } from '../types';
+import type { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
 import { Label, Screen, ZulipSwitch } from '../common';
 import LanguagePicker from './LanguagePicker';
@@ -33,10 +33,10 @@ class SettingsScreen extends React.Component {
 
   props: {
     auth: Auth,
+    actions: Actions,
     notifications: boolean,
     theme: string,
     locale: string,
-    settingsChange: SettingsChangeAction,
   };
 
   state: {
@@ -44,16 +44,16 @@ class SettingsScreen extends React.Component {
   };
 
   handleLocaleChange = (value) => {
-    this.props.settingsChange('locale', value);
+    this.props.actions.settingsChange('locale', value);
   };
 
   handleThemeChange = (value) => {
-    this.props.settingsChange('theme', value ? 'night' : 'default');
+    this.props.actions.settingsChange('theme', value ? 'night' : 'default');
   };
 
   handleNotificationChange = (value) => {
     toggleOfflinePushNotifications(this.props.auth, value);
-    this.props.settingsChange('notifications', value);
+    this.props.actions.settingsChange('notifications', value);
   };
 
   render() {

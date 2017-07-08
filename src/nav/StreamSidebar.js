@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { PushRouteAction, OnNarrowAction, Narrow } from '../types';
+import type { Actions, Narrow } from '../types';
 import { STATUSBAR_HEIGHT } from '../styles';
 import { ZulipButton } from '../common';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
@@ -27,23 +27,23 @@ const styles = StyleSheet.create({
 export default class StreamSidebar extends React.Component {
 
   props: {
-    onNarrow: OnNarrowAction,
-    pushRoute: PushRouteAction,
+    actions: Actions,
+    onNarrow: () => void,
   };
 
   handleAllStreams = () => {
-    const { pushRoute } = this.props;
-    pushRoute('subscriptions');
+    const { actions } = this.props;
+    actions.pushRoute('subscriptions');
   };
 
   handleSearch = (narrow: Narrow) => {
-    const { pushRoute } = this.props;
-    pushRoute('search');
+    const { actions } = this.props;
+    actions.pushRoute('search');
   };
 
   handleSettings = (narrow: Narrow) => {
-    const { pushRoute } = this.props;
-    pushRoute('settings');
+    const { actions } = this.props;
+    actions.pushRoute('settings');
   };
 
   render() {

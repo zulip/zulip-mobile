@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth, Dispatch } from '../types';
+import type { Auth, Dispatch, Action } from '../types';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { getSubscriptions, getMessages, getStreams, getUsers, getRealmEmojis } from '../api';
@@ -15,11 +15,11 @@ import {
   DELETE_TOKEN_PUSH,
 } from '../actionConstants';
 
-export const initialFetchComplete = () => ({
+export const initialFetchComplete = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
 });
 
-export const fetchEssentialInitialData = (auth: Auth) =>
+export const fetchEssentialInitialData = (auth: Auth): Action =>
   async (dispatch: Dispatch) => {
     const [subscriptions, messages] = await Promise.all([
       await tryUntilSuccessful(() => getSubscriptions(auth)),
@@ -36,7 +36,7 @@ export const fetchEssentialInitialData = (auth: Auth) =>
     dispatch(initialFetchComplete());
   };
 
-export const fetchRestOfInitialData = (auth: Auth, pushToken: string) =>
+export const fetchRestOfInitialData = (auth: Auth, pushToken: string): Action =>
   async (dispatch: Dispatch) => {
     const [streams, users, messages, realmEmoji] = await Promise.all([
       await tryUntilSuccessful(() => getStreams(auth)),
@@ -55,12 +55,11 @@ export const fetchRestOfInitialData = (auth: Auth, pushToken: string) =>
     }
   };
 
-
-export const deleteTokenPush = () => ({
+export const deleteTokenPush = (): Action => ({
   type: DELETE_TOKEN_PUSH
 });
 
-export const saveTokenPush = (pushToken: string) => ({
+export const saveTokenPush = (pushToken: string): Action => ({
   type: SAVE_TOKEN_PUSH,
   pushToken
 });

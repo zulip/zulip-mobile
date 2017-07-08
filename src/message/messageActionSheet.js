@@ -1,6 +1,6 @@
 /* @flow */
 import { Clipboard, Share } from 'react-native';
-import type { DoNarrowAction, Auth } from '../types';
+import type { Actions, Auth } from '../types';
 import {
   narrowFromMessage,
   isHomeNarrow,
@@ -18,7 +18,7 @@ import showToast from '../utils/showToast';
 
 type MessageAndDoNarrowType = {
   message: Object,
-  doNarrow: DoNarrowAction,
+  actions: Actions,
   auth: Auth,
 };
 
@@ -37,15 +37,15 @@ type ButtonProps = {
   auth?: Auth,
   message: Object,
   subscriptions: any[],
-  doNarrow?: DoNarrowAction,
+  actions: Actions,
 };
 
-type ExecuteActionSheetActionType = {
+type ExecuteActionSheetParams = {
   title: string,
   auth?: Auth,
   message: Object,
   subscriptions: any[],
-  doNarrow?: DoNarrowAction,
+  actions: Actions,
   header?: boolean,
 };
 
@@ -64,12 +64,12 @@ type ConstructHeaderActionButtonsType = {
   mute: any[],
 };
 
-const narrowToConversation = ({ message, doNarrow, auth }: MessageAndDoNarrowType) => {
-  doNarrow(narrowFromMessage(message, auth.email), message.id);
+const narrowToConversation = ({ message, actions, auth }: MessageAndDoNarrowType) => {
+  actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
 };
 
-const reply = ({ message, doNarrow, auth }: MessageAndDoNarrowType) => {
-  doNarrow(narrowFromMessage(message, auth.email), message.id);
+const reply = ({ message, actions, auth }: MessageAndDoNarrowType) => {
+  actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
 };
 
 const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
@@ -174,8 +174,9 @@ export const constructActionButtons = ({
    mute,
    flags
 }: ConstructActionButtonsType) => {
-  const buttons = actionSheetButtons.filter(x =>
-      !x.onlyIf || x.onlyIf({ message, auth, narrow })).map(x => x.title);
+  const buttons = actionSheetButtons
+    .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))
+    .map(x => x.title);
 
   // These are dependent conditions, hence better if we manage here rather than using onlyIf
   if (isHomeNarrow(narrow) || isStreamNarrow(narrow) || isSpecialNarrow(narrow)) {
@@ -191,15 +192,16 @@ export const constructActionButtons = ({
   return buttons;
 };
 
-export const executeActionSheetAction =
-({ title, header, ...props }: ExecuteActionSheetActionType) => {
-  let button;
+export const executeActionSheetAction = ({ title, header, ...props }: ExecuteActionSheetParams) => {
   if (header) {
-    button = actionHeaderSheetButtons.find(x => x.title === title);
+    const headerButton = actionHeaderSheetButtons.find(x => x.title === title);
+    if (headerButton) {
+      headerButton.onPress(props);
+    }
   } else {
-    button = actionSheetButtons.find(x => x.title === title);
-  }
-  if (button) {
-    button.onPress(props);
+    const button = actionSheetButtons.find(x => x.title === title);
+    if (button) {
+      button.onPress(props);
+    }
   }
 };

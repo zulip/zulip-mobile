@@ -3,7 +3,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { Auth, PushRouteAction } from '../types';
+import type { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import { ZulipButton, Logo, Screen } from '../common';
@@ -23,26 +23,26 @@ class AccountPickScreen extends React.Component {
   props: {
     auth: Auth,
     accounts: any[],
-    pushRoute: PushRouteAction,
+    actions: Actions,
     removeAccount: (number) => void,
     switchAccount: (number) => void,
   };
 
   handleAddNewAccount = () =>
-    this.props.pushRoute('realm');
+    this.props.actions.pushRoute('realm');
 
   handleAccountSelect = (index: number) => {
-    const { accounts, pushRoute, switchAccount } = this.props;
+    const { accounts, actions } = this.props;
     const { realm, apiKey } = accounts[index];
     if (apiKey) {
-      switchAccount(index); // Reset stream, message, user list
+      actions.switchAccount(index); // Reset stream, message, user list
     } else {
-      pushRoute('realm', { realm });
+      actions.pushRoute('realm', { realm });
     }
   };
 
   handleAccountRemove = (index: number) =>
-    this.props.removeAccount(index);
+    this.props.actions.removeAccount(index);
 
   render() {
     const { accounts, auth } = this.props;

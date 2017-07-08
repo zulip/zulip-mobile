@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { UserType, GlobalState } from '../types';
+import type { User, GlobalState } from '../types';
 import { getAuth } from '../account/accountSelectors';
 import { Popup } from '../common';
 import UserItem from '../users/UserItem';
@@ -15,12 +15,12 @@ class PeopleAutocomplete extends Component {
     filter: string,
     onAutocomplete: (name: string) => void,
     ownEmail: string,
-    users: UserType[],
+    users: User[],
   };
 
   render() {
     const { filter, ownEmail, users, onAutocomplete } = this.props;
-    const people: UserType[] = getAutocompleteSuggestion(users, filter, ownEmail);
+    const people: User[] = getAutocompleteSuggestion(users, filter, ownEmail);
 
     if (people.length === 0) return null;
 

@@ -23,10 +23,10 @@ export default class MessageListWeb extends React.PureComponent {
         }
         break;
       case 'avatar':
-        this.props.pushRoute('account-details', data.fromEmail);
+        this.props.actions.pushRoute('account-details', data.fromEmail);
         break;
       case 'narrow':
-        this.props.doNarrow(JSON.parse(data.narrow.replace(/'/g, '"')));
+        this.props.actions.doNarrow(JSON.parse(data.narrow.replace(/'/g, '"')));
         break;
       default:
     }

@@ -2,7 +2,7 @@
 import uniqby from 'lodash.uniqby';
 
 import { NOT_FOUND_USER } from '../constants';
-import type { UserType } from '../types';
+import type { User } from '../types';
 
 const statusOrder = (status) => {
   switch (status) {
@@ -26,7 +26,7 @@ export const groupUsersByInitials = (users: any[]): Object =>
     return accounts;
   }, {});
 
-export const sortUserList = (users: any[]): UserType[] =>
+export const sortUserList = (users: any[]): User[] =>
   users.sort((x1, x2) =>
     statusOrder(x1.status) - statusOrder(x2.status) ||
     x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase())
@@ -40,39 +40,39 @@ export const filterUserList = (users: any[], filter: string = '', ownEmail: ?str
     user.email.toLowerCase().includes(filter.toLowerCase()))
   );
 
-export const sortAlphabetically = (users: UserType[]): UserType[] =>
+export const sortAlphabetically = (users: User[]): User[] =>
   users.sort((x1, x2) =>
     x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase())
   );
 
-export const filterUserStartWith = (users: UserType[], filter: string = '', ownEmail: string): UserType[] =>
+export const filterUserStartWith = (users: User[], filter: string = '', ownEmail: string): User[] =>
   users.filter(user =>
     user.email !== ownEmail &&
     user.fullName.toLowerCase().startsWith(filter.toLowerCase())
   );
 
-export const filterUserByInitials = (users: UserType[], filter: string = '', ownEmail: string): UserType[] =>
+export const filterUserByInitials = (users: User[], filter: string = '', ownEmail: string): User[] =>
   users.filter(user =>
     user.email !== ownEmail &&
     user.fullName.replace(/(\s|[a-z])/g, '').toLowerCase().startsWith(filter.toLowerCase())
   );
 
-export const filterUserThatContains = (users: UserType[], filter: string = '', ownEmail: string): UserType[] =>
+export const filterUserThatContains = (users: User[], filter: string = '', ownEmail: string): User[] =>
   users.filter(user =>
     user.email !== ownEmail &&
     user.fullName.toLowerCase().includes(filter.toLowerCase())
   );
 
-export const filterUserMatchesEmail = (users: UserType[], filter: string = '', ownEmail: string): UserType[] =>
+export const filterUserMatchesEmail = (users: User[], filter: string = '', ownEmail: string): User[] =>
   users.filter(user =>
     user.email !== ownEmail &&
     user.email.toLowerCase().includes(filter.toLowerCase())
   );
 
-export const getUniqueUsers = (users: UserType[]): UserType[] =>
+export const getUniqueUsers = (users: User[]): User[] =>
   uniqby(users, 'email');
 
-export const getAutocompleteSuggestion = (users: UserType[], filter: string = '', ownEmail: string): UserType[] => {
+export const getAutocompleteSuggestion = (users: User[], filter: string = '', ownEmail: string): User[] => {
   const startWith = filterUserStartWith(users, filter, ownEmail);
   const initials = filterUserByInitials(users, filter, ownEmail);
   const contains = filterUserThatContains(users, filter, ownEmail);

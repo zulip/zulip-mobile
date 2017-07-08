@@ -1,13 +1,9 @@
 /* @flow */
 import React from 'react';
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  Keyboard } from 'react-native';
+import { ScrollView, View, StyleSheet, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { PushRouteAction } from '../types';
+import type { Actions } from '../types';
 import boundActions from '../boundActions';
 import { Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
 import { getAuthBackends } from '../api';
@@ -15,9 +11,9 @@ import config from '../config';
 import { fixRealmUrl } from '../utils/url';
 
 type Props = {
+  actions: Actions,
   realm: string,
   realmAdd: (string) => void,
-  pushRoute: PushRouteAction,
 };
 
 type State = {
@@ -71,12 +67,12 @@ class RealmScreen extends React.Component {
       error: undefined,
     });
 
-    const { pushRoute, realmAdd } = this.props;
+    const { actions } = this.props;
 
     try {
       const authBackends = await getAuthBackends({ realm });
-      realmAdd(realm);
-      pushRoute('auth', { authBackends });
+      actions.realmAdd(realm);
+      actions.pushRoute('auth', { authBackends });
       Keyboard.dismiss();
     } catch (err) {
       this.setState({ error: 'Can not connect to server' });

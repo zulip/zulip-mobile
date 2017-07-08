@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { NOT_FOUND_USER } from '../constants';
-import type { Auth } from '../types';
+import type { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import { Screen } from '../common';
@@ -19,9 +19,7 @@ class AccountDetailsScreen extends Component {
     avatarUrl: string,
     users: Object[],
     orientation: string,
-    fetchMessages: () => void,
-    doNarrow: (string) => void,
-    popRoute: (string) => void,
+    actions: Actions,
   };
   user: Object;
 
@@ -32,7 +30,7 @@ class AccountDetailsScreen extends Component {
   }
 
   render() {
-    const { auth, fetchMessages, doNarrow, popRoute, orientation } = this.props;
+    const { auth, actions, orientation } = this.props;
     const title = {
       text: '{_}',
       values: {
@@ -44,13 +42,14 @@ class AccountDetailsScreen extends Component {
       <Screen title={title}>
         <AccountDetails
           auth={auth}
+          actions={actions}
           fullName={this.user.fullName}
           email={this.user.email}
           avatarUrl={this.user.avatarUrl}
           status={this.user.status}
-          fetchMessages={fetchMessages}
-          doNarrow={doNarrow}
-          popRoute={popRoute}
+          fetchMessages={actions.fetchMessages}
+          doNarrow={actions.doNarrow}
+          popRoute={actions.popRoute}
           orientation={orientation}
         />
       </Screen>

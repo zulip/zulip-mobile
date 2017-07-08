@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import type { Auth, DoNarrowAction, PushRouteAction } from '../types';
+import type { Actions, Auth } from '../types';
 import htmlToDomTree from '../html/htmlToDomTree';
 import renderHtmlChildren from '../html/renderHtmlChildren';
 import MessageFull from './MessageFull';
@@ -13,16 +13,15 @@ type Href = string;
 
 export default class MessageContainer extends React.PureComponent {
   props: {
+    actions: Actions,
     message: Object,
     onLongPress: (message: Object) => void,
     users: Object[],
     auth: Auth,
     flags: Object,
-    doNarrow: DoNarrowAction,
     avatarUrl: string,
     twentyFourHourTime?: boolean,
     isBrief: boolean,
-    pushRoute: PushRouteAction,
   };
 
   defaultProps: {
@@ -30,10 +29,10 @@ export default class MessageContainer extends React.PureComponent {
   };
 
   inAppLinkPress = (href: Href) => {
-    const { users, auth, doNarrow } = this.props;
+    const { actions, users, auth } = this.props;
     const anchor = getMessageIdFromLink(href, auth.realm);
     const narrow = getNarrowFromLink(href, auth.realm, users);
-    doNarrow(narrow, anchor);
+    actions.doNarrow(narrow, anchor);
   };
 
   regularLinkPress = (href: Href) => openLink(getFullUrl(href, this.props.auth.realm));
@@ -57,11 +56,10 @@ export default class MessageContainer extends React.PureComponent {
     const {
       message,
       auth,
+      actions,
       avatarUrl,
       twentyFourHourTime,
       isBrief,
-      doNarrow,
-      pushRoute,
     } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
     const childrenNodes = htmlToDomTree(message.match_content || message.content);
@@ -72,7 +70,7 @@ export default class MessageContainer extends React.PureComponent {
         avatarUrl={avatarUrl}
         twentyFourHourTime={twentyFourHourTime}
         selfEmail={auth.email}
-        doNarrow={doNarrow}
+        doNarrow={actions.doNarrow}
         onLongPress={this.onLongPress}
         starred={this.isStarred(message)}
         realm={auth.realm}
@@ -80,9 +78,9 @@ export default class MessageContainer extends React.PureComponent {
         {renderHtmlChildren({
           childrenNodes,
           auth,
-          onPress: this.handleLinkPress,
-          pushRoute,
+          actions,
           message,
+          onPress: this.handleLinkPress,
         })}
       </MessageComponent>
     );

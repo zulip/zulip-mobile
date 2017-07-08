@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { STATUSBAR_HEIGHT } from '../styles';
-import type { OnNarrowAction, PushRouteAction, } from '../types';
+import type { Actions, Narrow } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import { ZulipButton } from '../common';
 import ConversationList from './ConversationList';
@@ -27,12 +27,12 @@ const styles = StyleSheet.create({
 type Props = {
   ownEmail: string,
   realm: string,
+  narrow: Narrow,
   users: any[],
-  narrow: () => void,
   presence: Object,
-  onNarrow: OnNarrowAction,
-  pushRoute: PushRouteAction,
+  actions: Actions,
   conversations: string[],
+  onNarrow: () => void,
 };
 
 export default class ConversationsCard extends Component {
@@ -57,7 +57,7 @@ export default class ConversationsCard extends Component {
     );
 
   handleSearchPress = () => {
-    this.props.pushRoute('users');
+    this.props.actions.pushRoute('users');
   }
 
   render() {

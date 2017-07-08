@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import type { StyleObj } from '../../types';
+import type { Actions, StyleObj } from '../../types';
 import { Touchable } from '../../common';
 import TopicMessageHeader from './TopicMessageHeader';
 import { streamNarrow } from '../../utils/narrow';
@@ -39,13 +39,13 @@ export default class StreamMessageHeader extends React.PureComponent {
 
   props: {
     style: StyleObj,
+    actions: Actions,
     itemId: number,
     stream: string,
     topic: string,
     color: string,
     isMuted: boolean,
     isPrivate: boolean,
-    doNarrow: () => void,
     onLongPress: () => void,
   }
 
@@ -54,14 +54,14 @@ export default class StreamMessageHeader extends React.PureComponent {
   };
 
   performStreamNarrow = () => {
-    const { itemId, doNarrow, stream } = this.props;
-    doNarrow(streamNarrow(stream), itemId);
+    const { actions, itemId, stream } = this.props;
+    actions.doNarrow(streamNarrow(stream), itemId);
   }
 
   render() {
     const { styles } = this.context;
-    const { stream, isPrivate, isMuted, topic, color, itemId,
-      doNarrow, style, onLongPress } = this.props;
+    const { actions, stream, isPrivate, isMuted,
+      topic, color, itemId, style, onLongPress } = this.props;
     const textColor = foregroundColorFromBackground(color);
     const iconType = isPrivate ? 'lock' : 'hashtag';
 
@@ -87,7 +87,7 @@ export default class StreamMessageHeader extends React.PureComponent {
           itemId={itemId}
           stream={stream}
           topic={topic}
-          doNarrow={doNarrow}
+          actions={actions}
           onLongPress={onLongPress}
         />
       </View>

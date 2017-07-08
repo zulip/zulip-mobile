@@ -22,17 +22,17 @@ class SwitchAccountButton extends Component {
   };
 
   shutdownPUSH = async () => {
-    const { auth, deleteTokenPush, pushToken } = this.props;
+    const { auth, actions, pushToken } = this.props;
     if (pushToken !== '') {
       await unregisterPush(auth, pushToken);
-      deleteTokenPush();
+      actions.deleteTokenPush();
     }
   }
 
   switchAccount = () => {
     this.shutdownPUSH();
     this.context.drawer.close();
-    this.props.pushRoute('account');
+    this.props.actions.pushRoute('account');
   }
 
   render() {

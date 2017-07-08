@@ -23,16 +23,16 @@ class NavigationContainer extends React.PureComponent {
   handleLayout = (event) => {
     const { width, height } = event.nativeEvent.layout;
     const orientation = (width > height) ? 'LANDSCAPE' : 'PORTRAIT';
-    this.props.appOrientation(orientation);
+    this.props.actions.appOrientation(orientation);
   }
 
   handleConnectivityChange = (isConnected) =>
-    this.props.appOnline(isConnected);
+    this.props.actions.appOnline(isConnected);
 
   handleAppStateChange = (state) => {
-    const { auth, appState } = this.props;
+    const { auth, actions } = this.props;
     registerAppActivity(auth, state === 'active');
-    appState(state === 'active');
+    actions.appState(state === 'active');
   }
 
   handleMemoryWarning = () => {
@@ -40,8 +40,8 @@ class NavigationContainer extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { accounts } = this.props;
-    this.props.initRoutes(getInitialRoutes(accounts));
+    const { accounts, actions } = this.props;
+    actions.initRoutes(getInitialRoutes(accounts));
     NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
@@ -59,12 +59,11 @@ class NavigationContainer extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { needsInitialFetch, auth,
-      fetchEvents, fetchEssentialInitialData, fetchRestOfInitialData, pushToken } = nextProps;
+    const { needsInitialFetch, auth, actions, pushToken } = nextProps;
     if (needsInitialFetch) {
-      fetchEssentialInitialData(auth);
-      fetchRestOfInitialData(auth, pushToken);
-      fetchEvents(auth);
+      actions.fetchEssentialInitialData(auth);
+      actions.fetchRestOfInitialData(auth, pushToken);
+      actions.fetchEvents(auth);
     }
   }
 

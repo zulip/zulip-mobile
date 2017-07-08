@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import type { Auth, Message, PushRouteAction, StyleObj } from '../types';
+import type { Auth, Message, Actions, StyleObj } from '../types';
 import styles from './HtmlStyles';
 import cascadingStyles from './cascadingStylesView';
 import cascadingStylesText from './cascadingStylesText';
@@ -53,11 +53,11 @@ type Props = {
   childrenNodes: Object[],
   onPress: () => void,
   message: Message,
-  pushRoute: PushRouteAction,
+  actions: Actions,
 };
 
-export default ({ auth, attribs, name, cascadingStyle,
-  cascadingTextStyle, childrenNodes, onPress, pushRoute, message }: Props) => {
+export default ({ auth, actions, attribs, name, cascadingStyle,
+  cascadingTextStyle, childrenNodes, onPress, message }: Props) => {
   const style = [
     styles[name],
     ...stylesFromClassNames(attribs.class, styles),
@@ -85,6 +85,7 @@ export default ({ auth, attribs, name, cascadingStyle,
     <HtmlComponent
       auth={auth}
       name={name}
+      actions={actions}
       target={attribs.target}
       src={attribs.src}
       href={attribs.href}
@@ -94,7 +95,7 @@ export default ({ auth, attribs, name, cascadingStyle,
       indexedStyles={newIndexedStyles}
       childrenNodes={childrenNodes}
       onPress={onPress}
-      pushRoute={pushRoute}
+      pushRoute={actions.pushRoute}
       message={message}
     />
   );

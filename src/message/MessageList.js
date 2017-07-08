@@ -29,14 +29,14 @@ class MessageList extends React.PureComponent {
   }
 
   handleHeaderLongPress = item => {
-    const { subscriptions, mute, doNarrow, auth } = this.props;
+    const { actions, subscriptions, mute, auth } = this.props;
     const options = constructHeaderActionButtons({ item, subscriptions, mute });
     const callback = buttonIndex => {
       executeActionSheetAction({
+        actions,
         title: options[buttonIndex],
         message: item,
         header: true,
-        doNarrow,
         auth,
         subscriptions
       });
@@ -55,13 +55,13 @@ class MessageList extends React.PureComponent {
   };
 
   handleLongPress = message => {
-    const { auth, narrow, subscriptions, mute, flags, doNarrow } = this.props;
+    const { actions, auth, narrow, subscriptions, mute, flags } = this.props;
     const options = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
     const callback = buttonIndex => {
       executeActionSheetAction({
         title: options[buttonIndex],
         message,
-        doNarrow,
+        actions,
         auth,
         subscriptions
       });
@@ -72,11 +72,9 @@ class MessageList extends React.PureComponent {
   render() {
     const { styles } = this.context;
     const {
+      actions,
       caughtUp,
       fetching,
-      fetchOlder,
-      fetchNewer,
-      pushRoute,
       singleFetchProgress,
       onScroll,
       typingUsers,
@@ -86,7 +84,6 @@ class MessageList extends React.PureComponent {
       messages,
       narrow,
       mute,
-      doNarrow,
       flags,
       twentyFourHourTime,
     } = this.props;
@@ -95,14 +92,13 @@ class MessageList extends React.PureComponent {
       onLongPress: this.handleLongPress,
       onHeaderLongPress: this.handleHeaderLongPress,
       auth,
+      actions,
       subscriptions,
       users,
       messages,
       narrow,
       mute,
-      doNarrow,
       flags,
-      pushRoute,
       twentyFourHourTime,
     });
 
@@ -132,15 +128,15 @@ class MessageList extends React.PureComponent {
         style={styles.messageList}
         automaticallyAdjustContentInset="false"
         stickyHeaderIndices={headerIndices}
-        onStartReached={fetchOlder}
-        onEndReached={fetchNewer}
+        onStartReached={actions.fetchOlder}
+        onEndReached={actions.fetchNewer}
         autoScrollToBottom={this.autoScrollToBottom}
         onScroll={onScroll}
       >
         <LoadingIndicator active={fetching.older} caughtUp={caughtUp.older} />
         {messageList}
         {!singleFetchProgress && fetching.newer && <LoadingIndicator active />}
-        {typingUsers && <MessageTyping users={typingUsers} pushRoute={pushRoute} />}
+        {typingUsers && <MessageTyping users={typingUsers} actions={actions} />}
       </InfiniteScrollView>
     );
   }

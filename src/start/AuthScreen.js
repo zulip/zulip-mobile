@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import SafariView from 'react-native-safari-view';
 import parseURL from 'url-parse';
 
-import type { PushRouteAction, SetAuthType } from '../types';
+import type { Actions } from '../types';
 import boundActions from '../boundActions';
 import { RawLabel, Screen, ZulipButton } from '../common';
 import { generateOtp, extractApiKey } from '../utils/encoding';
@@ -21,11 +21,9 @@ class AuthScreen extends React.PureComponent {
   };
 
   props: {
+    actions: Actions,
     authBackends: string[],
     realm: string,
-    loginSuccess: (realm: string, email: string, apiKey: string) => void,
-    pushRoute: PushRouteAction,
-    setAuthType: SetAuthType,
   };
 
   otp: ?string;
@@ -50,7 +48,7 @@ class AuthScreen extends React.PureComponent {
   }
 
   handleTypeSelect = (authType: string) => {
-    const { realm } = this.props;
+    const { actions, realm } = this.props;
 
     if (authType === 'google') {
       // Google OAuth flow
@@ -60,8 +58,8 @@ class AuthScreen extends React.PureComponent {
       this.beginOAuthFlow(`${realm}/accounts/login/social/github/`);
     } else {
       // Password auth flow
-      this.props.setAuthType(authType);
-      this.props.pushRoute(authType);
+      actions.setAuthType(authType);
+      actions.pushRoute(authType);
     }
   }
 
@@ -75,7 +73,7 @@ class AuthScreen extends React.PureComponent {
   };
 
   endOAuthFlow = (event) => {
-    const { realm, loginSuccess } = this.props;
+    const { actions, realm } = this.props;
 
     SafariView.dismiss();
 
@@ -118,7 +116,7 @@ class AuthScreen extends React.PureComponent {
       this.otp = undefined;
 
       // Add the authenticated account
-      loginSuccess(realm, query.email, apiKey);
+      actions.loginSuccess(realm, query.email, apiKey);
     }
   }
 

@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Auth, Narrow } from '../../types';
+import type { Auth, Actions, Narrow } from '../../types';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../../utils/narrow';
 import TopicMessageHeader from './TopicMessageHeader';
 import StreamMessageHeader from './StreamMessageHeader';
@@ -19,11 +19,10 @@ export default class MessageHeader extends React.PureComponent {
 
   props: {
     auth: Auth,
+    actions: Actions,
     item: Object,
     narrow: Narrow,
     subscriptions: any[],
-    doNarrow: () => void,
-    narrow: () => {},
     onHeaderLongPress: (item: Object) => void,
   }
 
@@ -33,16 +32,16 @@ export default class MessageHeader extends React.PureComponent {
   };
 
   render() {
-    const { item, subscriptions, auth, narrow, doNarrow } = this.props;
+    const { actions, item, subscriptions, auth, narrow } = this.props;
 
     if (isStreamNarrow(narrow)) {
       return (
         <TopicMessageHeader
           key={`section_${item.id}`}
+          actions={actions}
           itemId={item.id}
           stream={item.display_recipient}
           topic={item.subject}
-          doNarrow={doNarrow}
           style={styles.margin}
           onLongPress={this.onLongPress}
         />
@@ -56,13 +55,13 @@ export default class MessageHeader extends React.PureComponent {
       return (
         <StreamMessageHeader
           key={`section_${item.id}`}
+          actions={actions}
           isPrivate={stream && stream.invite_only}
           isMuted={stream && !stream.in_home_view}
           stream={item.display_recipient}
           topic={item.subject}
           color={stream ? stream.color : '#ccc'}
           itemId={item.id}
-          doNarrow={doNarrow}
           style={styles.margin}
           onLongPress={this.onLongPress}
         />
@@ -79,7 +78,7 @@ export default class MessageHeader extends React.PureComponent {
           key={`section_${item.id}`}
           recipients={recipients}
           itemId={item.id}
-          doNarrow={doNarrow}
+          doNarrow={actions.doNarrow}
           style={styles.margin}
           onLongPress={this.onLongPress}
         />
