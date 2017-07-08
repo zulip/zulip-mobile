@@ -3,7 +3,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { PopRouteAction } from '../types';
+import type { Actions } from '../types';
 import boundActions from '../boundActions';
 import { CONTROL_SIZE } from '../styles';
 import { Label, SearchInput } from '../common';
@@ -25,11 +25,11 @@ class ModalSearchNavBar extends React.Component {
 
   props: {
     nav: any,
+    actions: Actions,
     title: string,
     searchBar: boolean,
     searchBarOnChange: () => void,
     clearSearchInput?: () => void,
-    popRoute: PopRouteAction,
   };
 
   state: {
@@ -55,7 +55,7 @@ class ModalSearchNavBar extends React.Component {
   render() {
     const { styles } = this.context;
     const { isSearchActive } = this.state;
-    const { nav, title, searchBar, popRoute, searchBarOnChange, clearSearchInput } = this.props;
+    const { actions, nav, title, searchBar, searchBarOnChange, clearSearchInput } = this.props;
     const showSearchInput = isSearchActive || !searchBar;
     const textStyle = [
       styles.navTitle,
@@ -65,7 +65,7 @@ class ModalSearchNavBar extends React.Component {
     return (
       <View style={styles.navBar}>
         {nav.index > 0 &&
-          <NavButton name="ios-arrow-back" onPress={popRoute} />
+          <NavButton name="ios-arrow-back" onPress={actions.popRoute} />
         }
         {showSearchInput ?
           <SearchInput onChange={searchBarOnChange} /> :

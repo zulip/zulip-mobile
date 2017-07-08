@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth, Dispatch, GetState } from '../types';
+import type { Auth, Dispatch, GetState, Action } from '../types';
 import { pollForEvents, registerForEvents } from '../api';
 import { switchAccount } from '../account/accountActions';
 import { timeout } from '../utils/async';
@@ -74,7 +74,7 @@ const startEventPolling = (auth: Auth, queueId: number, eventId: number) =>
     }
   };
 
-export const fetchEvents = (auth: Auth) =>
+export const fetchEvents = (auth: Auth): Action =>
   async (dispatch: Dispatch, getState: GetState) => {
     const data = await registerForEvents(auth);
 

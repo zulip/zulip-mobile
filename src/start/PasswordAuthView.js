@@ -3,7 +3,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { Auth } from '../types';
+import type { Actions, Auth } from '../types';
 import boundActions from '../boundActions';
 import { fetchApiKey } from '../api';
 import config from '../config';
@@ -12,8 +12,8 @@ import { getAuth } from '../account/accountSelectors';
 import openLink from '../utils/openLink';
 
 type Props = {
+  actions: Actions,
   auth: Auth,
-  loginSuccess: (realm: string, email: string, apiKey: string) => void,
   email: string,
 };
 
@@ -52,7 +52,7 @@ class PasswordAuthView extends React.Component {
   }
 
   tryPasswordLogin = async () => {
-    const { auth, loginSuccess } = this.props;
+    const { auth, actions } = this.props;
     const { email, password } = this.state;
 
     this.setState({ progress: true, error: undefined });
@@ -60,7 +60,7 @@ class PasswordAuthView extends React.Component {
     try {
       const apiKey = await fetchApiKey(auth, email, password);
       this.setState({ progress: false });
-      loginSuccess(auth.realm, email, apiKey);
+      actions.loginSuccess(auth.realm, email, apiKey);
     } catch (err) {
       this.setState({
         progress: false,

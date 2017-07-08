@@ -50,7 +50,7 @@ export default class Navigation extends React.Component {
   handleNavigate = (action: Object) => {
     switch (action && action.type) {
       case 'push':
-        this.props.pushRoute(action.route);
+        this.props.actions.pushRoute(action.route);
         return true;
       case 'back':
       case 'pop':
@@ -61,10 +61,11 @@ export default class Navigation extends React.Component {
   };
 
   handleBackAction = () => {
-    if (this.props.navigation.index === 0) {
+    const { actions, navigation } = this.props;
+    if (navigation.index === 0) {
       return false;
     }
-    this.props.popRoute();
+    actions.popRoute();
     return true;
   };
 

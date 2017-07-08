@@ -12,27 +12,26 @@ import { initializeNotifications } from '../utils/notifications';
 
 class MainScreenContainer extends React.Component {
   componentWillMount() {
-    const { auth, saveTokenPush, switchNarrow } = this.props;
+    const { auth, actions, switchNarrow } = this.props;
     if (!DeviceInfo.isEmulator()) {
-      initializeNotifications(auth, saveTokenPush, switchNarrow);
+      initializeNotifications(auth, actions.saveTokenPush, switchNarrow);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { auth, fetchMessagesAtFirstUnread, narrow } = this.props;
+    const { auth, actions, narrow } = this.props;
     if (!isEqual(narrow, nextProps.narrow) && nextProps.messages.length === 0) {
-      fetchMessagesAtFirstUnread(auth, nextProps.narrow);
+      actions.fetchMessagesAtFirstUnread(auth, nextProps.narrow);
     }
   }
 
   render() {
-    const { doNarrow, messages, orientation, pushRoute } = this.props;
+    const { actions, messages, orientation } = this.props;
     return (
       <MainScreen
-        doNarrow={doNarrow}
+        actions={actions}
         messages={messages}
         orientation={orientation}
-        pushRoute={pushRoute}
       />
     );
   }

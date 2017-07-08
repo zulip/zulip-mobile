@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import type { PushRouteAction } from '../types';
+import type { Actions } from '../types';
 import { Avatar } from '../common';
 
 const styles = StyleSheet.create({
@@ -22,14 +22,14 @@ const styles = StyleSheet.create({
 
 export default class MessageTyping extends React.PureComponent {
   props: {
+    actions: Actions,
     avatarUrl?: string,
     fromName?: string,
     fromEmail?: string,
     users: Object[],
-    pushRoute: PushRouteAction,
   };
 
-  handleAvatarPress = (email: string) => this.props.pushRoute('account-details', email);
+  handleAvatarPress = (email: string) => this.props.actions.pushRoute('account-details', email);
 
   render() {
     const { users } = this.props;

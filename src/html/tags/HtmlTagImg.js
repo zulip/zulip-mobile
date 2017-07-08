@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Image, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { getResource, isEmojiUrl } from '../../utils/url';
-import type { Auth, Message, PushRouteAction, StyleObj } from '../../types';
+import type { Actions, Auth, Message, StyleObj } from '../../types';
 import { Touchable } from '../../common';
 
 const styles = StyleSheet.create({
@@ -18,15 +18,15 @@ export default class HtmlTagImg extends React.PureComponent {
   props: {
     src: string,
     auth: Auth,
+    actions: Actions,
     message: Message,
-    pushRoute: PushRouteAction,
     style: StyleObj,
   };
 
   handlePress = (resource: Object) => {
-    const { src, auth, message, pushRoute } = this.props;
+    const { src, auth, message, actions } = this.props;
     if (!isEmojiUrl(src, auth.realm)) {
-      pushRoute('light-box', { src: resource, message, auth });
+      actions.pushRoute('light-box', { src: resource, message, auth });
     }
   };
 

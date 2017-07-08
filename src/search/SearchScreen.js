@@ -25,7 +25,6 @@ class SearchScreen extends React.Component {
   props: {
     keyboardAvoiding: boolean,
     title: string,
-    isSearchBarApplied: boolean,
     searchBar: boolean,
     searchBarOnChange: () => {},
     clearInput?: () => void,
@@ -39,14 +38,13 @@ class SearchScreen extends React.Component {
 
   render() {
     const { keyboardAvoiding, title, searchBar } = this.props;
-    const { searchBarOnChange, clearInput, nav, children } = this.props;
+    const { searchBarOnChange, clearInput, children } = this.props;
     const WrapperView = keyboardAvoiding && Platform.OS === 'ios' ? KeyboardAvoidingView : View;
 
     return (
       <View style={styles.screen}>
         <ModalSearchNavBar
           title={title}
-          nav={nav}
           searchBar={searchBar}
           searchBarOnChange={searchBarOnChange}
           clearSearchInput={clearInput}

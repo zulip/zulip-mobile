@@ -5,7 +5,8 @@ import renderHtmlChildren from '../renderHtmlChildren';
 
 const htmlToJson = (html) =>
   ReactTestRenderer.create(renderHtmlChildren({
-    childrenNodes: htmlToDomTree(html)
+    childrenNodes: htmlToDomTree(html),
+    actions: {},
   })).toJSON();
 
 describe('renderHtmlChildren', () => {

@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import type { StyleObj } from '../../types';
+import type { Actions, StyleObj } from '../../types';
 import { Touchable } from '../../common';
 import { topicNarrow } from '../../utils/narrow';
 
@@ -29,18 +29,18 @@ export default class TopicMessageHeader extends React.PureComponent {
   };
 
   props: {
+    actions: Actions,
     style?: StyleObj,
     itemId: number,
     stream: string,
     topic: string,
-    doNarrow: () => void,
     onLongPress: () => void,
   }
 
   performTopicNarrow = () => {
-    const { itemId, doNarrow, stream, topic } = this.props;
+    const { actions, itemId, stream, topic } = this.props;
 
-    doNarrow(topicNarrow(stream, topic), itemId);
+    actions.doNarrow(topicNarrow(stream, topic), itemId);
   }
 
   render() {

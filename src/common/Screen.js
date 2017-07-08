@@ -3,7 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
-import type { LocalizableText, PopRouteAction, NavigationState } from '../types';
+import type { Actions, LocalizableText, NavigationState } from '../types';
+import boundActions from '../boundActions';
 import { ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
 
@@ -24,11 +25,11 @@ const componentStyles = StyleSheet.create({
 class Screen extends React.Component {
 
   props: {
+    actions: Actions,
     keyboardAvoiding: boolean,
     title: LocalizableText,
     nav: NavigationState,
     children: [],
-    popRoute: PopRouteAction,
   };
 
   static contextTypes = {
@@ -36,7 +37,7 @@ class Screen extends React.Component {
   };
 
   render() {
-    const { keyboardAvoiding, title, nav, children, popRoute } = this.props;
+    const { actions, keyboardAvoiding, title, nav, children } = this.props;
     const WrapperView = keyboardAvoiding && Platform.OS === 'ios' ? KeyboardAvoidingView : View;
     const { styles } = this.context;
     const backgroundColor = StyleSheet.flatten(styles.background).backgroundColor;
@@ -46,7 +47,7 @@ class Screen extends React.Component {
         <ZulipStatusBar
           backgroundColor={backgroundColor}
         />
-        <ModalNavBar title={title} popRoute={popRoute} nav={nav} />
+        <ModalNavBar title={title} popRoute={actions.popRoute} nav={nav} />
         <WrapperView style={componentStyles.screenWrapper} behavior="padding">
           {children}
         </WrapperView>
@@ -55,6 +56,9 @@ class Screen extends React.Component {
   }
 }
 
-export default connect((state) => ({
-  orientation: state.app.orientation,
-}))(Screen);
+export default connect(
+  (state) => ({
+    orientation: state.app.orientation,
+  }),
+  boundActions,
+)(Screen);

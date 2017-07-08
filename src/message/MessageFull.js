@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { PushRouteAction } from '../types';
+import type { Actions } from '../types';
 import boundActions from '../boundActions';
 import { Avatar } from '../common';
 import Subheader from './Subheader';
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
 class MessageFull extends React.PureComponent {
 
   props: {
+    actions: Actions,
     avatarUrl: string,
     selfEmail: string,
     timestamp: number,
@@ -44,11 +45,10 @@ class MessageFull extends React.PureComponent {
     starred: boolean,
     children?: any[],
     message: Object,
-    pushRoute: PushRouteAction,
   };
 
   handleAvatarPress = () =>
-    this.props.pushRoute('account-details', this.props.message.sender_email);
+    this.props.actions.pushRoute('account-details', this.props.message.sender_email);
 
   render() {
     const {

@@ -43,9 +43,9 @@ export default class AccountDetails extends Component {
   };
 
   handleChatPress = () => {
-    const { email, doNarrow, popRoute } = this.props;
-    doNarrow(privateNarrow(email));
-    popRoute();
+    const { email, actions } = this.props;
+    actions.doNarrow(privateNarrow(email));
+    actions.popRoute();
   };
 
   handleOrientationChange = (event: Object) => {

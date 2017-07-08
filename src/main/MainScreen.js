@@ -1,23 +1,20 @@
 /* @flow */
 import React from 'react';
 
-import type { Message, DoNarrowAction, PushRouteAction } from '../types';
+import type { Actions, Message } from '../types';
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 import SideDrawer from './SideDrawer';
 import StreamSidebar from '../nav/StreamSidebar';
 import ConversationsContainer from '../conversations/ConversationsContainer';
 
-type Props = {
-  messages: Message[],
-  doNarrow: DoNarrowAction,
-  orientation: string,
-  pushRoute: PushRouteAction,
-};
-
 export default class MainScreen extends React.Component {
 
-  props: Props;
+  props: {
+    actions: Actions,
+    messages: Message[],
+    orientation: string,
+  };;
 
   state: {
     leftDrawerOpen: boolean,
@@ -30,7 +27,7 @@ export default class MainScreen extends React.Component {
   };
 
   render() {
-    const { doNarrow, messages, orientation, pushRoute } = this.props;
+    const { actions, messages, orientation } = this.props;
     const { leftDrawerOpen, rightDrawerOpen } = this.state;
 
     return (
@@ -42,9 +39,9 @@ export default class MainScreen extends React.Component {
         onClose={() => this.setState({ leftDrawerOpen: false })}
         content={
           <StreamSidebar
-            pushRoute={pushRoute}
+            actions={actions}
             onNarrow={newNarrow => {
-              doNarrow(newNarrow);
+              actions.doNarrow(newNarrow);
               this.setState({ leftDrawerOpen: false });
             }}
           />
@@ -59,7 +56,7 @@ export default class MainScreen extends React.Component {
           content={
             <ConversationsContainer
               onNarrow={newNarrow => {
-                doNarrow(newNarrow);
+                actions.doNarrow(newNarrow);
                 this.setState({ rightDrawerOpen: false });
               }}
             />

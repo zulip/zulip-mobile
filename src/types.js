@@ -29,12 +29,6 @@ export type Message = {
   type: 'stream' | 'private',
 };
 
-export type UserType = {
-  email: string,
-  fullName: string,
-  avatarUrl: string,
-};
-
 export type UserStatus = 'active' | 'inactive' | 'offline';
 
 export type User = {
@@ -118,21 +112,34 @@ export type ApiResponse = {
   msg: string,
 };
 
-export type ResponseExtractionFunc = (ApiResponse) => any;
-
 export type Action = Object;
 
-export type PushRouteAction = Action;
-
-export type DoNarrowAction = Action;
-
-export type OnNarrowAction = Action;
-
-export type PopRouteAction = Action;
-
-export type InitRouteAction = Action;
-
-export type SetAuthType = Action;
+export type Actions = {
+  initRoutes: (routes: string[]) => Action,
+  pushRoute: (route: Object, data: Object) => Action,
+  popRoute: () => Action,
+  appOnline: (isOnline: boolean) => Action,
+  appState: (isActive: boolean) => Action,
+  appOrientation: (orientation: string) => Action,
+  sendFocusPing: (auth: Auth, hasFocus: boolean, newUserInput: boolean) => Action,
+  initUsers: (users: User[]) => Action,
+  fetchUsers: (auth: Auth) => Action,
+  fetchUsersAndStatus: (auth: Auth) => Action,
+  initialFetchComplete: () => Action,
+  fetchEssentialInitialData: (auth: Auth) => Action,
+  fetchRestOfInitialData: (auth: Auth, pushToken: string) => Action,
+  deleteTokenPush: () => Action,
+  saveTokenPush: (pushToken: string) => Action,
+  fetchEvents: (auth: Auth) => Action,
+  switchAccount: (index: number) => Action,
+  realmAdd: (realm: string) => Action,
+  setAuthType: (authType: string) => Action,
+  removeAccount: (index: number) => Action,
+  loginSuccess: (realm: string, email: string, apiKey: string) => Action,
+  logout: () => Action,
+  initStreams: (streams: any[]) => Action,
+  fetchStreams: (auth: Auth) => Action,
+};
 
 export type AccountState = Account[];
 
@@ -212,15 +219,6 @@ export type GlobalState = {
   typing: TypingState,
   users: UsersState,
 };
-
-// export type Action = {
-//   type: string,
-//   apiKey: string,
-//   isOnline: boolean,
-//   isActive: boolean,
-//   orientation: string,
-//   payload: GlobalState,
-// };
 
 export type MatchResult = Array<string> & { index: number, input: string, };
 
