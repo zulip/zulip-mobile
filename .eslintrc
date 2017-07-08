@@ -92,7 +92,7 @@
       "skipWords": [
         "redux", "Zulip", "uri", "timestamp", "api", "nav", "init", "auth", "prev", "utils", "io",
         "http", "https", "msg", "msg1", "msg2", "gif", "img", "abc", "def", "jkl", "xyz", "fn",
-        "params", "backends", "dev", "www", "johndoe", "janedoe", "func", "num", "popup",
+        "params", "backends", "dev", "www", "johndoe", "janedoe", "func", "num", "popup", "codehilite",
         "autocomplete", "rgba", "rehydrate", "rehydrated",  "async", "whitelist", "str", "del",
         "subheader", "concat", "streamlist", "scrollable", "eslint", "lastword", "renderer",
         "html", "dom", "tbody", "thead", "th", "td", "href", "pre", "blockquote", "li", "br",
