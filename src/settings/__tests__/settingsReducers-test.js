@@ -43,7 +43,8 @@ describe('settingsReducers', () => {
       const prevState = {
         locale: 'en',
         theme: 'default',
-        'offlinePushNotification': true,
+        'offlineNotification': true,
+        'onlineNotification': true,
       };
       const action = {
         type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
@@ -57,7 +58,8 @@ describe('settingsReducers', () => {
       const expectedState = {
         locale: 'en',
         theme: 'default',
-        'offlinePushNotification': false,
+        'onlineNotification': true,
+        'offlineNotification': false,
       };
 
       const actualState = settingsReducers(prevState, action);

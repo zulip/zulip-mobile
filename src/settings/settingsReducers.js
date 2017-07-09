@@ -5,7 +5,8 @@ import { SETTINGS_CHANGE, REALM_INIT, EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS
 const initialState: SettingsState = {
   locale: 'en',
   theme: 'default',
-  'offlinePushNotification': true,
+  'offlineNotification': true,
+  'onlineNotification': true,
 };
 
 export default (state: SettingsState = initialState, action: Action): SettingsState => {
@@ -13,7 +14,8 @@ export default (state: SettingsState = initialState, action: Action): SettingsSt
     case REALM_INIT:
       return {
         ...state,
-        offlinePushNotification: action.data.enable_offline_push_notifications
+        offlineNotification: action.data.enable_offline_push_notifications,
+        onlineNotification: action.data.enable_online_push_notifications,
       };
     case SETTINGS_CHANGE:
       return {
@@ -23,7 +25,9 @@ export default (state: SettingsState = initialState, action: Action): SettingsSt
     case EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS:
       switch (action.notification_name) {
         case 'enable_offline_push_notifications':
-          return { ...state, offlinePushNotification: action.setting };
+          return { ...state, offlineNotification: action.setting };
+        case 'enable_online_push_notifications':
+          return { ...state, onlineNotification: action.setting };
         default:
           return state;
       }
