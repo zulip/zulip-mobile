@@ -5,7 +5,7 @@ import { ScrollView, Text, View } from 'react-native';
 
 import { connect } from 'react-redux';
 
-import type { Auth } from '../types';
+import type { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
 import { ErrorMsg, Screen, ZulipButton } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
@@ -26,7 +26,7 @@ class DevAuthScreen extends React.Component {
 
   props: {
     auth: Auth,
-    loginSuccess: (realm: string, eamil: string, apiKey: string) => void,
+    actions: Actions,
   };
 
   state: State = {
@@ -61,7 +61,7 @@ class DevAuthScreen extends React.Component {
 
     try {
       const apiKey = await devFetchApiKey(auth, email);
-      this.props.loginSuccess(auth.realm, email, apiKey);
+      this.props.actions.loginSuccess(auth.realm, email, apiKey);
       this.setState({ progress: false });
     } catch (err) {
       this.setState({ progress: false, error: err.message });
