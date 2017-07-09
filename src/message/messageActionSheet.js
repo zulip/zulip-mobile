@@ -90,8 +90,8 @@ const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
   showToast('Message copied!');
 };
 
-const editMessage = async ({ message, auth, actions }: MessageAuthAndActions) => {
-  actions.startEditMessage(auth, message.id);
+const editMessage = async ({ message, actions }: MessageAuthAndActions) => {
+  actions.startEditMessage(message.id);
 };
 
 const unmuteTopic = ({ auth, message }: AuthAndMessageType) => {

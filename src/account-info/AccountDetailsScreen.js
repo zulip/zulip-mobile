@@ -46,7 +46,6 @@ class AccountDetailsScreen extends Component {
           email={this.user.email}
           avatarUrl={this.user.avatarUrl}
           status={this.user.status}
-          fetchMessages={actions.fetchMessages}
           doNarrow={actions.doNarrow}
           popRoute={actions.popRoute}
           orientation={orientation}

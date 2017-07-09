@@ -1,15 +1,13 @@
 /* @flow */
-import type { Auth, Dispatch } from '../types';
+import type { GetState, Dispatch } from '../types';
 import { getSubscriptions } from '../api';
-import {
-  INIT_SUBSCRIPTIONS,
-} from '../actionConstants';
+import { INIT_SUBSCRIPTIONS } from '../actionConstants';
+import { getAuth } from '../account/accountSelectors';
 
 export const initSubscriptions = (subscriptions: Object[]) => ({
   type: INIT_SUBSCRIPTIONS,
   subscriptions,
 });
 
-export const fetchSubscriptions = (auth: Auth) =>
-  async (dispatch: Dispatch) =>
-    dispatch(initSubscriptions(await getSubscriptions(auth)));
+export const fetchSubscriptions = () => async (dispatch: Dispatch, getState: GetState) =>
+  dispatch(initSubscriptions(await getSubscriptions(getAuth(getState()))));

@@ -1,28 +1,29 @@
 /* @flow */
-import type { Dispatch, Auth, Action, User } from '../types';
+import type { Dispatch, Action, User, GetState } from '../types';
 import { focusPing, getUsers } from '../api';
 import { INIT_USERS, PRESENCE_RESPONSE } from '../actionConstants';
+import { getAuth } from '../account/accountSelectors';
 
-export const sendFocusPing = (auth: Auth, hasFocus: boolean, newUserInput: boolean): Action =>
-  async (dispatch: Dispatch) => {
-    const response = await focusPing(auth, hasFocus, newUserInput);
-    dispatch({
-      type: PRESENCE_RESPONSE,
-      presence: response,
-    });
-  };
+export const sendFocusPing = (hasFocus: boolean, newUserInput: boolean): Action => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  const response = await focusPing(getAuth(getState()), hasFocus, newUserInput);
+  dispatch({
+    type: PRESENCE_RESPONSE,
+    presence: response,
+  });
+};
 
 export const initUsers = (users: User[]): Action => ({
   type: INIT_USERS,
   users,
 });
 
-export const fetchUsers = (auth: Auth): Action =>
-  async (dispatch: Dispatch) =>
-    dispatch(initUsers(await getUsers(auth)));
+export const fetchUsers = (): Action => async (dispatch: Dispatch, getState: GetState) =>
+  dispatch(initUsers(await getUsers(getAuth(getState()))));
 
-export const fetchUsersAndStatus = (auth: Auth): Action =>
-  async (dispatch: Dispatch) => {
-    await dispatch(fetchUsers(auth));
-    await dispatch(sendFocusPing(auth, true, false));
-  };
+export const fetchUsersAndStatus = (): Action => async (dispatch: Dispatch) => {
+  await dispatch(fetchUsers());
+  await dispatch(sendFocusPing(true, false));
+};

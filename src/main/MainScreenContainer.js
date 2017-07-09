@@ -19,9 +19,9 @@ class MainScreenContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { auth, actions, narrow } = this.props;
+    const { actions, narrow } = this.props;
     if (!isEqual(narrow, nextProps.narrow) && nextProps.messages.length === 0) {
-      actions.fetchMessagesAtFirstUnread(auth, nextProps.narrow);
+      actions.fetchMessagesAtFirstUnread(nextProps.narrow);
     }
   }
 
