@@ -1,5 +1,5 @@
 /* @flow */
-import type { Action, Auth, Dispatch } from '../types';
+import type { Action, Dispatch, GetState } from '../types';
 import {
   APP_ONLINE,
   APP_ORIENTATION,
@@ -8,6 +8,7 @@ import {
   START_EDIT_MESSAGE
 } from '../actionConstants';
 import getSingleMessage from '../api/getSingleMessage';
+import { getAuth } from '../account/accountSelectors';
 
 export const appOnline = (isOnline: boolean): Action => ({
   type: APP_ONLINE,
@@ -24,9 +25,9 @@ export const appOrientation = (orientation: string): Action => ({
   orientation,
 });
 
-export const startEditMessage = (auth: Auth, messageId: number) =>
-    async (dispatch: Dispatch) => {
-      const message = await getSingleMessage(auth, messageId);
+export const startEditMessage = (messageId: number) =>
+    async (dispatch: Dispatch, getState: GetState) => {
+      const message = await getSingleMessage(getAuth(getState()), messageId);
       dispatch({
         type: START_EDIT_MESSAGE,
         messageId,
