@@ -2,8 +2,8 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import type { MatchResult } from '../types';
 import getAutocompletedText from './getAutocompletedText';
+import getAutocompleteFilter from './getAutocompleteFilter';
 import EmojiAutocomplete from './EmojiAutocomplete';
 import StreamAutocomplete from './StreamAutocomplete';
 import PeopleAutocomplete from './PeopleAutocomplete';
@@ -25,16 +25,16 @@ export default class AutoCompleteView extends React.Component {
 
   render() {
     const { text } = this.props;
-    const lastword: MatchResult = text.match(/\b(\w+)$/);
-    const lastWordPrefix = lastword && lastword.index && text[lastword.index - 1];
+    const result = getAutocompleteFilter(text);
     return (
       <View>
-        {lastWordPrefix === ':' && lastword &&
-          <EmojiAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
-        {lastWordPrefix === '#' && lastword &&
-          <StreamAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
-        {lastWordPrefix === '@' && lastword &&
-          <PeopleAutocomplete filter={lastword[0]} onAutocomplete={this.handleAutocomplete} />}
+        { result && result.lastWordPrefix && result.filter &&
+        ((result.lastWordPrefix === ':' &&
+          <EmojiAutocomplete filter={result.filter} onAutocomplete={this.handleAutocomplete} />) ||
+        (result.lastWordPrefix === '#' &&
+          <StreamAutocomplete filter={result.filter} onAutocomplete={this.handleAutocomplete} />) ||
+        (result.lastWordPrefix === '@' &&
+          <PeopleAutocomplete filter={result.filter} onAutocomplete={this.handleAutocomplete} />))}
       </View>
     );
   }
