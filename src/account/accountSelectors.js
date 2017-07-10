@@ -9,7 +9,7 @@ export const getAccounts = (state: GlobalState): Account[] =>
 
 export const getActiveAccount = createSelector(
   getAccounts,
-  (accounts) => (accounts ? accounts[0] : {}),
+  (accounts) => (accounts && accounts.length > 0 ? accounts[0] : NULL_ACCOUNT),
 );
 
 export const getSelfEmail = createSelector(
@@ -17,13 +17,4 @@ export const getSelfEmail = createSelector(
   (activeAccount) => activeAccount.email,
 );
 
-export const getAuth = createSelector(
-  getActiveAccount,
-  (activeAccount) => {
-    if (!activeAccount) {
-      return NULL_ACCOUNT;
-    }
-
-    return activeAccount;
-  },
-);
+export const getAuth = getActiveAccount;

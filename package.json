@@ -17,9 +17,9 @@
     "test:flow": "flow",
     "test:flow-coverage": "flow-coverage-report -i 'src/**/*.js' -x '**/__tests__/**' -t html",
     "test:unit": "jest",
+    "test:e2e": "detox build; jest -t '__e2e__tests__/basic.js'",
     "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "test": "npm run test:lint && npm run test:coveralls && npm run test:flow",
-    "ui-test": "detox build; jest e2e"
+    "test": "npm run test:lint && npm run test:coveralls && npm run test:flow"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^1.0.0",

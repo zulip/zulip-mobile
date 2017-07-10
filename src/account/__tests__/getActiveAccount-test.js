@@ -1,10 +1,11 @@
 /* @flow */
 import { getActiveAccount } from '../accountSelectors';
+import { NULL_ACCOUNT } from '../../nullObjects';
 
 test('when no accounts exist, returns undefined', () => {
   const accounts = [];
   const result = getActiveAccount({ accounts });
-  expect(result).toBeUndefined();
+  expect(result).toBe(NULL_ACCOUNT);
 });
 
 test('returns first in the list', () => {
