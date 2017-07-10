@@ -37,6 +37,7 @@
     "lodash.throttle": "^4.1.1",
     "lodash.uniqby": "^4.4.0",
     "react": "16.0.0-alpha.6",
+    "react-addons-shallow-compare": "^15.6.0",
     "react-intl": "^2.2.3",
     "react-native": "^0.43.3",
     "react-native-device-info": "^0.10.1",

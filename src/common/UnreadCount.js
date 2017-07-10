@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class UnreadCount extends Component {
+export default class UnreadCount extends PureComponent {
   props: {
     count?: number,
   };
