@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { NOT_FOUND_USER } from '../constants';
+import { NULL_USER } from '../nullObjects';
 import { Avatar } from '../common';
 
 const styles = StyleSheet.create({
@@ -20,7 +20,7 @@ export default class TitleGroup extends React.PureComponent {
     const { realm, narrow, users } = this.props;
     const recipientEmails = narrow[0].operand.split(',');
     const recipients = recipientEmails.map(
-      r => users.find(x => x.email === r) || NOT_FOUND_USER
+      r => users.find(x => x.email === r) || NULL_USER
     );
 
     return (

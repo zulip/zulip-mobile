@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { NOT_FOUND_USER } from '../constants';
+import { NULL_USER } from '../nullObjects';
 import type { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
@@ -26,7 +26,7 @@ class AccountDetailsScreen extends Component {
   componentWillMount() {
     // props.email gets reset during navigation slide out (on back)
     // so we cache value to prevent an exception
-    this.user = this.props.users.find(x => x.email === this.props.email) || NOT_FOUND_USER;
+    this.user = this.props.users.find(x => x.email === this.props.email) || NULL_USER;
   }
 
   render() {
