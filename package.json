@@ -19,7 +19,7 @@
     "test:unit": "jest",
     "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "test": "npm run test:lint && npm run test:coveralls && npm run test:flow",
-    "ui-test": "appium; react-native run-ios --configuration=Release; jest __tests__/ui-tests.js"
+    "ui-test": "detox build; jest e2e"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^1.0.0",
@@ -65,7 +65,6 @@
     "url-parse": "^1.1.8"
   },
   "devDependencies": {
-    "appium": "^1.6.5",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.1.1",
     "babel-jest": "^20.0.0",
@@ -73,6 +72,7 @@
     "babel-preset-react-native": "^2.0.0",
     "coveralls": "^2.13.0",
     "deep-freeze": "^0.0.1",
+    "detox": "^5.3.0",
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.6.1",
@@ -85,11 +85,20 @@
     "jest": "^20.0.0",
     "jest-cli": "^20.0.0",
     "jest-react-native": "^18.0.0",
-    "react-native-cli": "^2.0.1",
-    "wd": "^1.2.0"
+    "react-native-cli": "^2.0.1"
   },
   "jest": {
     "preset": "react-native",
     "setupTestFrameworkScriptFile": "./jestSetup.js"
+  },
+  "detox": {
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/ZulipMobile.app",
+        "build": "xcodebuild -project ios/ZulipMobile.xcodeproj -scheme ZulipMobile -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "type": "ios.simulator",
+        "name": "iPhone 6"
+      }
+    }
   }
 }
