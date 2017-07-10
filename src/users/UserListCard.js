@@ -1,29 +1,22 @@
 /* @flow */
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
-import type { Actions } from '../types';
+import { getAuth } from '../account/accountSelectors';
+import boundActions from '../boundActions';
+import type { Actions, User } from '../types';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 type Props = {
   actions: Actions,
   ownEmail: string,
   realm: string,
-  users: any[],
-  narrow: () => void,
-  presence: Object,
+  users: User[],
   filter: string,
 };
 
-export default class UserListCard extends Component {
-
+class UserListCard extends Component {
   props: Props;
 
   state = {
@@ -37,19 +30,24 @@ export default class UserListCard extends Component {
   };
 
   render() {
-    const { ownEmail, realm, users, presence, filter } = this.props;
-
+    const { ownEmail, realm, users, filter } = this.props;
     return (
-      <View style={styles.container}>
-        <UserList
-          ownEmail={ownEmail}
-          users={users}
-          presence={presence}
-          filter={filter}
-          realm={realm}
-          onNarrow={this.handleUserNarrow}
-        />
-      </View>
+      <UserList
+        ownEmail={ownEmail}
+        users={users}
+        filter={filter}
+        realm={realm}
+        onNarrow={this.handleUserNarrow}
+      />
     );
   }
 }
+
+export default connect(
+  state => ({
+    ownEmail: getAuth(state).email,
+    realm: getAuth(state).realm,
+    users: state.users,
+  }),
+  boundActions,
+)(UserListCard);

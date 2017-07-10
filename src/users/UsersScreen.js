@@ -1,18 +1,16 @@
 /* @flow */
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import shallowCompare from 'react-addons-shallow-compare';
 
-import boundActions from '../boundActions';
 import SearchScreen from '../search/SearchScreen';
-import { getAuth } from '../account/accountSelectors';
-import { getRecentConversations } from '../chat/chatSelectors';
 import UserListCard from './UserListCard';
 
-class UsersScreen extends Component {
+type StateProps = {
+  filter: string,
+};
 
-  state: {
-    filter: string,
-  };
+export default class UsersScreen extends Component {
+  state: StateProps;
 
   constructor() {
     super();
@@ -21,25 +19,18 @@ class UsersScreen extends Component {
     };
   }
 
+  shouldComponentUpdate(nextProps: void, nextState: StateProps) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   handleFilterChange = (filter: string) => this.setState({ filter });
 
   render() {
     const { filter } = this.state;
     return (
       <SearchScreen searchBarOnChange={this.handleFilterChange}>
-        <UserListCard {...this.props} filter={filter} />
+        <UserListCard filter={filter} />
       </SearchScreen>
     );
   }
 }
-
-export default connect(
-  (state) => ({
-    auth: getAuth(state),
-    ownEmail: getAuth(state).email,
-    realm: getAuth(state).realm,
-    users: state.users,
-    conversations: getRecentConversations(state),
-  }),
-  boundActions
-)(UsersScreen);

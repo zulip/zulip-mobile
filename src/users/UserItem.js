@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Avatar, RawLabel, Touchable, UnreadCount } from '../common';
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class UserItem extends Component {
+export default class UserItem extends PureComponent {
 
   props: {
     email?: string,
@@ -44,7 +44,6 @@ export default class UserItem extends Component {
     onPress: (email: string) => void,
     realm?: string,
   };
-
 
   handlePress = () => {
     const { email } = this.props;

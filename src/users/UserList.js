@@ -5,6 +5,7 @@ import { StyleSheet, SectionList } from 'react-native';
 import { RawLabel } from '../common';
 import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByInitials } from './usersSelectors';
+import { User } from '../types';
 
 const styles = StyleSheet.create({
   list: {
@@ -23,7 +24,7 @@ export default class UserList extends Component {
   props: {
     ownEmail: string,
     filter: string,
-    users: any[],
+    users: User[],
     onNarrow: (email: string) => void,
     realm: string,
   };
@@ -46,7 +47,6 @@ export default class UserList extends Component {
             fullName={item.fullName}
             avatarUrl={item.avatarUrl}
             email={item.email}
-            status={item.status}
             onPress={onNarrow}
             realm={realm}
           />
