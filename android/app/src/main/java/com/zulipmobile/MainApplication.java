@@ -31,6 +31,9 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
 import static com.zulipmobile.notifications.GCMPushNotifications.ACTION_NOTIFICATIONS_DISMISS;
 import static com.zulipmobile.notifications.NotificationHelper.addConversationToMap;
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
@@ -69,7 +72,7 @@ public class MainApplication extends Application implements ReactApplication, IN
     public void onCreate() {
         super.onCreate();
         SoLoader.init(this, /* native exopackage */ false);
-        //Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
         conversations = new LinkedHashMap<>();
     }
 
