@@ -2,6 +2,7 @@
   "name": "ZulipMobile",
   "version": "0.9.0",
   "private": true,
+  "//": "comment: use `prettier` command as `npm run prettier -- <filename>`",
   "scripts": {
     "start": "react-native start",
     "reinstall": "rm -rf node_modules; yarn cache clean; yarn install",
@@ -12,7 +13,9 @@
     "ios-device": "react-native run-ios --device",
     "android-min": "react-native run-android",
     "android-max": "react-native run-android",
-    "android-release": "react-native run-android --configuration 'Release'",
+    "android-release": "react-native run-android --variant=release",
+    "prettier-all": "prettier --write --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow src/**/*.js",
+    "prettier": "prettier --write --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow",
     "test:lint": "eslint src/",
     "test:flow": "flow",
     "test:flow-coverage": "flow-coverage-report -i 'src/**/*.js' -x '**/__tests__/**' -t html",
