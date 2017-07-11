@@ -9,7 +9,7 @@ export default async (auth: Auth, token: string) => {
     res => res,
     {
       token,
-      appid: 'com.zulip.Zulip'
+      appid: 'org.zulip.Zulip'
     },
   );
 };
