@@ -7,6 +7,7 @@ import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../../uti
 import TopicMessageHeader from './TopicMessageHeader';
 import StreamMessageHeader from './StreamMessageHeader';
 import PrivateMessageHeader from './PrivateMessageHeader';
+import { NULL_SUBSCRIPTION } from '../../nullObjects';
 
 const styles = StyleSheet.create({
   margin: {
@@ -50,7 +51,7 @@ export default class MessageHeader extends React.PureComponent {
 
     if (item.type === 'stream') {
       const stream = subscriptions
-        .find(x => x.name === item.display_recipient);
+        .find(x => x.name === item.display_recipient) || NULL_SUBSCRIPTION;
 
       return (
         <StreamMessageHeader

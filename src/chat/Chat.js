@@ -20,7 +20,7 @@ import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 import NotSubscribed from '../message/NotSubscribed';
-
+import { NULL_STREAM } from '../nullObjects';
 
 class Chat extends React.Component {
 
@@ -69,7 +69,7 @@ class Chat extends React.Component {
 
   showSubscribeButton = () => {
     const { narrow, streams } = this.props;
-    return !streams.find((sub) => narrow[0].operand === sub.name).invite_only || false;
+    return !(streams.find((sub) => narrow[0].operand === sub.name) || NULL_STREAM).invite_only;
   }
 
   render() {

@@ -9,6 +9,7 @@ import {
 } from '../actionConstants';
 
 import type { AccountState, Action } from '../types';
+import { NULL_ACCOUNT_INDEX } from '../nullObjects';
 
 const initialState = [];
 
@@ -19,7 +20,7 @@ export default (state: AccountState = initialState, action: Action) => {
         account.realm === action.realm
       );
 
-      if (accountIndex !== -1) {
+      if (accountIndex !== NULL_ACCOUNT_INDEX) {
         return [
           state[accountIndex],
           ...state.slice(0, accountIndex),
@@ -58,7 +59,7 @@ export default (state: AccountState = initialState, action: Action) => {
 
       const { type, ...newAccount } = action; // eslint-disable-line no-unused-vars
 
-      if (accountIndex === -1) {
+      if (accountIndex === NULL_ACCOUNT_INDEX) {
         return [
           newAccount,
           ...state,

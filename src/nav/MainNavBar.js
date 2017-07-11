@@ -10,6 +10,7 @@ import Title from '../title/Title';
 import NavButton from './NavButton';
 import { getUnreadPrivateMessagesCount } from '../chat/chatSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
+import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 const componentStyles = StyleSheet.create({
   wrapper: {
@@ -30,7 +31,7 @@ class MainNavBar extends React.Component {
       onPressStreams, onPressPeople, cancelEditMessage, editMessage } = this.props;
     const leftPress = (editMessage) ? cancelEditMessage : onPressStreams;
     const backgroundColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
-      (subscriptions.find((sub) => narrow[0].operand === sub.name) || { color: 'gray' }).color :
+      (subscriptions.find((sub) => narrow[0].operand === sub.name) || NULL_SUBSCRIPTION).color :
       StyleSheet.flatten(styles.navBar).backgroundColor;
 
     const textColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?

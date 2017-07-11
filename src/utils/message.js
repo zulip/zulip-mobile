@@ -1,5 +1,6 @@
 /* @flow */
 import type { Recipient, Narrow, Message } from '../types';
+import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 export const normalizeRecipients = (recipients: Recipient[]) =>
   (!Array.isArray(recipients) ?
@@ -54,8 +55,8 @@ export const shouldBeMuted = (
   }
 
   if (narrow.length === 0) {
-    const sub = subscriptions.find(x => x.name === message.display_recipient);
-    if (sub && !sub.in_home_view) {
+    const sub = subscriptions.find(x => x.name === message.display_recipient) || NULL_SUBSCRIPTION;
+    if (!sub.in_home_view) {
       return true;
     }
   }

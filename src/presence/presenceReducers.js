@@ -7,6 +7,7 @@ import {
   EVENT_PRESENCE,
   PRESENCE_RESPONSE,
 } from '../actionConstants';
+import { NULL_USER_INDEX } from '../nullObjects';
 
 const priorityToState = [
   'offline',
@@ -53,7 +54,7 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
       const newState = [...state];
       return Object.keys(action.presence).reduce((currentState, email) => {
         const userIndex = state.findIndex(u => u.email === email);
-        if (userIndex === -1) {
+        if (userIndex === NULL_USER_INDEX) {
           let user = { email };
           user = updateUserWithPresence(user, action.presence[email]);
           return [...currentState, user];
@@ -68,7 +69,7 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
       const userIndex = state.findIndex(u => u.email === action.email);
       let user;
       let newState = [...state];
-      if (userIndex === -1) {
+      if (userIndex === NULL_USER_INDEX) {
         user = { email: action.email };
         user = updateUserWithPresence(user, action.presence);
         newState = [...state, user];
