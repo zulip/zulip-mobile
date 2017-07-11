@@ -14,6 +14,7 @@ import { getAuth, getUsers, getFlags, getSubscriptions } from '../selectors';
 import boundActions from '../boundActions';
 import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 import type { ShowActionSheetTypes } from './messageActionSheet';
+import getMessageContent from './getMessageContent';
 
 type Href = string;
 
@@ -86,7 +87,8 @@ class MessageContainer extends PureComponent {
   render() {
     const { message, auth, actions, twentyFourHourTime, isBrief } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
-    const childrenNodes = htmlToDomTree((message.match_content || message.content).replace(/\r\n/g, '<br />').replace(/[\r\n]/g, '<br />'));
+    const content = getMessageContent(message.match_content || message.content);
+    const childrenNodes = htmlToDomTree(content);
 
     return (
       <MessageComponent
