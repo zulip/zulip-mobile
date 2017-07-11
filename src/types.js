@@ -139,6 +139,8 @@ export type Actions = {
   logout: () => Action,
   initStreams: (streams: any[]) => Action,
   fetchStreams: (auth: Auth) => Action,
+  cancelEditMessage: () => void,
+  startEditMessage: (auth: Auth, messageId: number) => void,
 };
 
 export type AccountState = Account[];
@@ -243,4 +245,9 @@ export type DomElement = {
   parent: DomElement,
   prev: DomElement,
   children: DomElement[],
+};
+
+export type EditMessage = {
+  id: number,
+  content: string,
 };

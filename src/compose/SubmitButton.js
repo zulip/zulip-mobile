@@ -4,7 +4,8 @@ import { StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
 import { Touchable } from '../common';
-import { IconSend } from '../common/Icons';
+import { IconDone, IconSend } from '../common/Icons';
+import { EditMessage } from '../types';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -22,17 +23,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class SendButton extends React.Component {
+export default class SubmitButton extends React.Component {
 
   props: {
     disabled: boolean,
     onPress: () => void,
+    editMessage: EditMessage,
   };
 
   render() {
-    const { disabled, onPress } = this.props;
+    const { disabled, onPress, editMessage } = this.props;
     const opacity = { opacity: disabled ? 0.25 : 1 };
-
+    const Icon = editMessage === null ? IconSend : IconDone;
     // Use <View> as wrapper in disabled state to remove highlight that remains stuck due to
     // slow communication of RN component with native component.
     const WrapperComponent = disabled ? View : Touchable;
@@ -40,7 +42,7 @@ export default class SendButton extends React.Component {
     return (
       <WrapperComponent style={styles.wrapper} onPress={disabled ? undefined : onPress} >
         <View style={[styles.button, opacity]}>
-          <IconSend size={16} color="white" />
+          <Icon size={16} color="white" />
         </View>
       </WrapperComponent>
     );
