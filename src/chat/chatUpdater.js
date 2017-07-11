@@ -1,6 +1,5 @@
 /* @flow */
 import type { GlobalState, Message } from '../types';
-import { NULL_MESSAGE_INDEX } from '../nullObjects';
 
 type UpdaterFunc = (message: Message) => Message[];
 
@@ -10,7 +9,7 @@ export default (state: GlobalState, messageId: number, updater: UpdaterFunc): Gl
     const messages = state.messages[key];
     const prevMessageIndex = messages.findIndex(x => x.id === messageId);
 
-    msg[key] = prevMessageIndex !== NULL_MESSAGE_INDEX ?
+    msg[key] = prevMessageIndex !== -1 ?
     [
       ...messages.slice(0, prevMessageIndex),
       updater(messages[prevMessageIndex]),

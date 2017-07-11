@@ -1,11 +1,5 @@
 /* @flow */
-import type {
-  Account,
-  User,
-  Stream,
-  Message,
-  Subscription,
-} from './types';
+import type { Account, User, Stream, Message, Subscription } from './types';
 
 export const NULL_ACCOUNT: Account = {
   apiKey: '',
@@ -20,12 +14,8 @@ export const NULL_USER: User = {
   email: '',
 };
 
-export const NULL_ACCOUNT_INDEX: number = -1;
-export const NULL_USER_INDEX: number = -1;
-export const NULL_MESSAGE_INDEX: number = -1;
-
 export const NULL_STREAM: Stream = {
-  stream_id: -1,
+  stream_id: 0,
   description: '',
   name: '',
   invite_only: true,
@@ -62,5 +52,5 @@ export const NULL_SUBSCRIPTION: Subscription = {
   invite_only: false,
   name: '',
   pin_to_top: false,
-  stream_id: -1,
+  stream_id: 0,
 };
