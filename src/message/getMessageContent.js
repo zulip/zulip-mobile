@@ -1,5 +1,5 @@
 /* @flow */
-export default (html: string) => {
+export default (html: string): string => {
   if (html.indexOf('<pre>') === -1) return html;
   const array = html.split('<pre>');
   let finalContent = '';
