@@ -27,18 +27,13 @@ class SearchScreen extends React.Component {
     title: string,
     searchBar: boolean,
     searchBarOnChange: () => {},
-    clearInput?: () => void,
     nav: NavigationState,
     children: any[],
   };
 
-  state: {
-    filter: string,
-  };
-
   render() {
     const { keyboardAvoiding, title, searchBar } = this.props;
-    const { searchBarOnChange, clearInput, children } = this.props;
+    const { searchBarOnChange, children } = this.props;
     const WrapperView = keyboardAvoiding && Platform.OS === 'ios' ? KeyboardAvoidingView : View;
 
     return (
@@ -47,7 +42,6 @@ class SearchScreen extends React.Component {
           title={title}
           searchBar={searchBar}
           searchBarOnChange={searchBarOnChange}
-          clearSearchInput={clearInput}
         />
         <WrapperView style={styles.screenWrapper} behavior="padding">
           {children}
