@@ -97,7 +97,7 @@ class LightboxContainer extends React.PureComponent {
 
   getHeaderProps = () => {
     const {
-      popRoute,
+      actions: { popRoute },
       message: { timestamp, sender_full_name: senderName, avatar_url: avatarUrl },
       auth: { realm },
     } = this.props;

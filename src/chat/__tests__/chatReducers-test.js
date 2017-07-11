@@ -49,6 +49,7 @@ describe('chatReducers', () => {
         narrow: streamNarrow('some stream'),
         caughtUp: { older: false, newer: false },
         fetching: { older: false, newer: false },
+        editMessage: null
       };
 
       const newState = chatReducers(initialState, action);
@@ -102,7 +103,7 @@ describe('chatReducers', () => {
     };
     const action = {
       type: EVENT_NEW_MESSAGE,
-      selfEmail: 'me@example.com',
+      ownEmail: 'me@example.com',
       message,
     };
     deepFreeze(action);
@@ -216,7 +217,7 @@ describe('chatReducers', () => {
     const action = {
       type: EVENT_NEW_MESSAGE,
       message,
-      selfEmail: 'me@example.com',
+      ownEmail: 'me@example.com',
     };
     deepFreeze(action);
 

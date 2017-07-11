@@ -18,11 +18,19 @@ class MessageList extends React.PureComponent {
     styles: () => null,
   };
 
+  state: {
+     actionSheetButtons: [string, string, ],
+  };
+
   autoScrollToBottom = false;
 
   static defaultProps = {
     onScroll: () => {},
   };
+  constructor(props) {
+    super(props);
+    this.state = { actionSheetButtons: ['', ''] };
+  }
 
   componentWillReceiveProps(nextProps) {
     this.autoScrollToBottom = this.props.caughtUp.newer && nextProps.caughtUp.newer;

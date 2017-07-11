@@ -11,6 +11,8 @@ import {
   INITIAL_FETCH_COMPLETE,
   APP_ORIENTATION,
   APP_STATE,
+  CANCEL_EDIT_MESSAGE,
+  START_EDIT_MESSAGE
 } from '../actionConstants';
 
 import { getAuth } from '../account/accountSelectors';
@@ -23,6 +25,7 @@ const initialState: AppState = {
   needsInitialFetch: false,
   pushToken: '',
   eventQueueId: null,
+  editMessage: null,
 };
 
 export default (state: AppState = initialState, action: Action) => {
@@ -78,6 +81,19 @@ export default (state: AppState = initialState, action: Action) => {
         ...state,
         orientation: action.orientation,
       };
+    case CANCEL_EDIT_MESSAGE:
+      return ({
+        ...state,
+        editMessage: null
+      });
+    case START_EDIT_MESSAGE:
+      return ({
+        ...state,
+        editMessage: {
+          id: action.messageId,
+          content: action.message
+        }
+      });
     default:
       return state;
   }

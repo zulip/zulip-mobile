@@ -29,7 +29,7 @@ export default class MessageBrief extends React.PureComponent {
 
   props: {
     message: Object,
-    selfEmail: string,
+    ownEmail: string,
     starred: boolean,
     onLongPress: () => void,
     children?: Children,
@@ -42,7 +42,7 @@ export default class MessageBrief extends React.PureComponent {
   };
 
   render() {
-    const { message, children, selfEmail, onLongPress, starred } = this.props;
+    const { message, children, ownEmail, onLongPress, starred } = this.props;
 
     return (
       <View style={styles.message}>
@@ -60,7 +60,7 @@ export default class MessageBrief extends React.PureComponent {
         <ReactionList
           messageId={message.id}
           reactions={message.reactions}
-          selfEmail={selfEmail}
+          ownEmail={ownEmail}
         />
       </View>
     );

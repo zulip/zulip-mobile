@@ -45,6 +45,7 @@ export default (state: ChatState = initialState, action: Action) => {
         narrow: action.narrow,
         fetching: { older: false, newer: false },
         caughtUp: { older: false, newer: false },
+        editMessage: null
       };
     }
 
@@ -89,7 +90,7 @@ export default (state: ChatState = initialState, action: Action) => {
       return {
         ...state,
         messages: Object.keys(state.messages).reduce((msg, key) => {
-          const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.selfEmail);
+          const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
           msg[key] = isInNarrow ? [...state.messages[key], action.message] : state.messages[key];
 
           return msg;
@@ -125,7 +126,6 @@ export default (state: ChatState = initialState, action: Action) => {
         ],
         last_edit_timestamp: action.edit_timestamp,
       }));
-
     case REHYDRATE:
       if (getAuth(action.payload).apiKey) {
         const { chat: rehydratedChat, chat: { messages: rehydratedMessages } } = action.payload;
@@ -140,7 +140,6 @@ export default (state: ChatState = initialState, action: Action) => {
         };
       }
       return state;
-
     default:
       return state;
   }

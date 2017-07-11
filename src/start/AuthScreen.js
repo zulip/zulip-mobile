@@ -10,7 +10,7 @@ import type { Actions } from '../types';
 import boundActions from '../boundActions';
 import { RawLabel, Screen, ZulipButton } from '../common';
 import { generateOtp, extractApiKey } from '../utils/encoding';
-import { getAuth } from '../account/accountSelectors';
+import { getCurrentRealm } from '../account/accountSelectors';
 
 import PasswordAuthView from './PasswordAuthView';
 
@@ -158,7 +158,7 @@ class AuthScreen extends React.PureComponent {
 
 export default connect(
   (state) => ({
-    realm: getAuth(state).realm,
+    realm: getCurrentRealm(state),
   }),
   boundActions,
 )(AuthScreen);

@@ -234,10 +234,10 @@ describe('isMessageInNarrow', () => {
         { email: 'mark@example.com' },
       ],
     };
-    const selfEmail = 'me@example.com';
+    const ownEmail = 'me@example.com';
     const narrow = groupNarrow(['john@example.com', 'mark@example.com']);
 
-    expect(isMessageInNarrow(message, narrow, selfEmail)).toBe(true);
+    expect(isMessageInNarrow(message, narrow, ownEmail)).toBe(true);
   });
 
   test('message with type "private" is always in "private messages" narrow', () => {

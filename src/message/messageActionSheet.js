@@ -1,6 +1,6 @@
 /* @flow */
 import { Clipboard, Share } from 'react-native';
-import type { Actions, Auth } from '../types';
+import type { Actions, Auth, Message } from '../types';
 import {
   narrowFromMessage,
   isHomeNarrow,
@@ -64,6 +64,18 @@ type ConstructHeaderActionButtonsType = {
   mute: any[],
 };
 
+type MessageAuthAndActions = {
+  message: Message,
+  auth: Auth,
+  actions: Actions,
+};
+
+type AuthMessageAndNarrow = {
+  message: Message,
+  auth: Auth,
+  narrow: [],
+};
+
 const narrowToConversation = ({ message, actions, auth }: MessageAndDoNarrowType) => {
   actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
 };
@@ -76,6 +88,10 @@ const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
   const rawMessage = await getSingleMessage(auth, message.id);
   Clipboard.setString(rawMessage);
   showToast('Message copied!');
+};
+
+const editMessage = async ({ message, auth, actions }: MessageAuthAndActions) => {
+  actions.startEditMessage(auth, message.id);
 };
 
 const unmuteTopic = ({ auth, message }: AuthAndMessageType) => {
@@ -100,6 +116,9 @@ const muteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscription
   }
 };
 
+const isSentBySelfAndNarrowed = ({ message, auth, narrow }: AuthMessageAndNarrow): boolean =>
+  auth.email === message.sender_email && !isHomeNarrow(narrow);
+
 const starMessage = ({ auth, message }: AuthAndMessageType) => {
   toggleMessageStarredApi(auth, [message.id], true);
 };
@@ -119,13 +138,14 @@ const skip = () => false;
 type ButtonType = {
   title: string,
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
-  onlyIf?: () => boolean,
+  onlyIf?: (props: AuthMessageAndNarrow) => boolean,
 };
 
 const actionSheetButtons: ButtonType[] = [
   { title: 'Reply', onPress: reply },
   { title: 'Copy to clipboard', onPress: copyToClipboard },
   { title: 'Share', onPress: shareMessage },
+  { title: 'Edit Message', onPress: editMessage, onlyIf: isSentBySelfAndNarrowed },
   // If skip then covered in constructActionButtons
   { title: 'Narrow to conversation', onPress: narrowToConversation, onlyIf: skip },
   { title: 'Star Message', onPress: starMessage, onlyIf: skip },

@@ -1,7 +1,7 @@
 /* @flow */
 import type { ReactionType } from '../types';
 
-export default (reactions: ReactionType[], selfEmail: string) =>
+export default (reactions: ReactionType[], ownEmail: string) =>
   Array.from(
     reactions.reduce((reactionMap, x) => {
       if (!reactionMap.has(x.emoji_name)) {
@@ -19,7 +19,7 @@ export default (reactions: ReactionType[], selfEmail: string) =>
         }
       }
 
-      if (x.user && x.user.email === selfEmail) {
+      if (x.user && x.user.email === ownEmail) {
         reactionMap.set(x.emoji_name, {
           ...reactionMap.get(x.emoji_name),
           selfReacted: true,

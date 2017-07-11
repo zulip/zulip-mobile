@@ -1,25 +1,18 @@
 /* @flow */
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { PureComponent } from 'react';
 
-import boundActions from '../boundActions';
 import SearchScreen from '../search/SearchScreen';
-import { getAuth } from '../account/accountSelectors';
-import { getRecentConversations } from '../chat/chatSelectors';
 import UserListCard from './UserListCard';
 
-class UsersScreen extends Component {
+export default class UsersScreen extends PureComponent {
 
   state: {
     filter: string,
-  };
+  };;
 
-  constructor() {
-    super();
-    this.state = {
-      filter: '',
-    };
-  }
+  state = {
+    filter: '',
+  };
 
   handleFilterChange = (filter: string) => this.setState({ filter });
 
@@ -36,14 +29,3 @@ class UsersScreen extends Component {
     );
   }
 }
-
-export default connect(
-  (state) => ({
-    auth: getAuth(state),
-    ownEmail: getAuth(state).email,
-    realm: getAuth(state).realm,
-    users: state.users,
-    conversations: getRecentConversations(state),
-  }),
-  boundActions
-)(UsersScreen);

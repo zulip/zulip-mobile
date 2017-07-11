@@ -33,10 +33,10 @@ describe('normalizeRecipients', () => {
 describe('normalizeRecipientsSansMe', () => {
   test('if only self email provided return unmodified', () => {
     const recipients = [{ email: 'me@example.com' }];
-    const selfEmail = 'me@example.com';
+    const ownEmail = 'me@example.com';
     const expectedResult = 'me@example.com';
 
-    const normalized = normalizeRecipientsSansMe(recipients, selfEmail);
+    const normalized = normalizeRecipientsSansMe(recipients, ownEmail);
 
     expect(normalized).toEqual(expectedResult);
   });
@@ -47,10 +47,10 @@ describe('normalizeRecipientsSansMe', () => {
       { email: 'me@example.com' },
       { email: '  def@example.com  ' },
     ];
-    const selfEmail = 'me@example.com';
+    const ownEmail = 'me@example.com';
     const expectedResult = 'abc@example.com,def@example.com';
 
-    const normalized = normalizeRecipientsSansMe(recipients, selfEmail);
+    const normalized = normalizeRecipientsSansMe(recipients, ownEmail);
 
     expect(normalized).toEqual(expectedResult);
   });

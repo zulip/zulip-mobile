@@ -3,7 +3,7 @@ import { Vibration } from 'react-native';
 
 import type { GlobalState } from '../types';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
-import { getActiveAccount, getSelfEmail } from '../account/accountSelectors';
+import { getActiveAccount, getOwnEmail } from '../account/accountSelectors';
 import { playMessageSound } from '../utils/sound';
 
 export default (state: GlobalState, event: Object) => {
@@ -17,7 +17,7 @@ export default (state: GlobalState, event: Object) => {
       const activeAccount = getActiveAccount(state);
       const isUserInSameNarrow = !isHomeNarrow(state.chat.narrow) &&
         activeAccount && isMessageInNarrow(event.message, state.chat.narrow, activeAccount.email);
-      const isSenderSelf = getSelfEmail(state) === event.message.sender_email;
+      const isSenderSelf = getOwnEmail(state) === event.message.sender_email;
       if (!isUserInSameNarrow && !isSenderSelf) {
         playMessageSound();
         Vibration.vibrate();

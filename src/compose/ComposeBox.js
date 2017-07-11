@@ -3,7 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { Auth, Narrow, GlobalState } from '../types';
+import type { Auth, Narrow, EditMessage, GlobalState, Actions } from '../types';
 import { getAuth } from '../account/accountSelectors';
 import ComposeText from './ComposeText';
 import CameraRollView from './CameraRollView';
@@ -11,6 +11,7 @@ import { getLastTopicInActiveNarrow } from '../chat/chatSelectors';
 import StreamBox from './ModeViews/StreamBox';
 import { isTopicNarrow, isStreamNarrow } from '../utils/narrow';
 import AutoCompleteView from '../autocomplete/AutoCompleteView';
+import boundActions from '../boundActions';
 
 type Props = {
   onSend: (content: string) => void,
@@ -18,6 +19,8 @@ type Props = {
   narrow: Narrow,
   lastTopic: string,
   users: Object[],
+  editMessage: EditMessage,
+  actions: Actions,
 };
 
 const composeComponents = [
@@ -56,10 +59,18 @@ class ComposeBox extends React.Component {
   handleOptionSelected = (optionSelected: number) =>
     this.setState({ optionSelected });
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.editMessage !== this.props.editMessage) {
+      this.setState({
+        text: (nextProps.editMessage) ? nextProps.editMessage.content : ''
+      });
+    }
+  }
+
   render() {
     const { styles } = this.context;
     const { optionSelected, operator, text } = this.state;
-    const { auth, narrow, users, lastTopic } = this.props;
+    const { auth, narrow, users, lastTopic, editMessage, actions } = this.props;
     const ActiveComposeComponent = composeComponents[optionSelected];
 
     return (
@@ -89,6 +100,8 @@ class ComposeBox extends React.Component {
           users={users}
           text={text}
           handleChangeText={(input) => this.setState({ text: input })}
+          editMessage={editMessage}
+          cancelEditMessage={actions.cancelEditMessage}
         />
       </View>
     );
@@ -101,4 +114,5 @@ export default connect((state: GlobalState) => ({
   narrow: state.chat.narrow,
   users: state.users,
   lastTopic: getLastTopicInActiveNarrow(state),
-}))(ComposeBox);
+  editMessage: state.app.editMessage,
+}), boundActions)(ComposeBox);

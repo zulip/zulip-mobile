@@ -66,7 +66,7 @@ export default (state: GlobalState, event: Object) => {
       return {
         type: EVENT_NEW_MESSAGE,
         message: event.message,
-        selfEmail: state.accounts[0].email,
+        ownEmail: state.accounts[0].email,
       };
 
     case 'update_message':
@@ -128,7 +128,7 @@ export default (state: GlobalState, event: Object) => {
     case 'typing':
       return {
         ...event,
-        selfEmail: state.accounts[0].email,
+        ownEmail: state.accounts[0].email,
         type: opToActionTyping[event.op],
       };
     case 'muted_topics':
