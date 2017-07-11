@@ -26,7 +26,11 @@ class UsersScreen extends Component {
   render() {
     const { filter } = this.state;
     return (
-      <SearchScreen searchBarOnChange={this.handleFilterChange}>
+      <SearchScreen
+        title="Search people"
+        searchBarOnChange={this.handleFilterChange}
+        searchBar
+      >
         <UserListCard {...this.props} filter={filter} />
       </SearchScreen>
     );
