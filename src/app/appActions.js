@@ -5,7 +5,7 @@ import {
   APP_ORIENTATION,
   APP_STATE,
   CANCEL_EDIT_MESSAGE,
-  START_EDIT_MESSAGE
+  START_EDIT_MESSAGE,
 } from '../actionConstants';
 import getSingleMessage from '../api/getSingleMessage';
 import { getAuth } from '../account/accountSelectors';
@@ -25,15 +25,17 @@ export const appOrientation = (orientation: string): Action => ({
   orientation,
 });
 
-export const startEditMessage = (messageId: number) =>
-    async (dispatch: Dispatch, getState: GetState) => {
-      const message = await getSingleMessage(getAuth(getState()), messageId);
-      dispatch({
-        type: START_EDIT_MESSAGE,
-        messageId,
-        message
-      });
-    };
+export const startEditMessage = (messageId: number) => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  const message = await getSingleMessage(getAuth(getState()), messageId);
+  dispatch({
+    type: START_EDIT_MESSAGE,
+    messageId,
+    message,
+  });
+};
 
 export const cancelEditMessage = () => ({
   type: CANCEL_EDIT_MESSAGE,
