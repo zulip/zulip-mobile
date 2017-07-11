@@ -1515,7 +1515,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zulip.Zulip;
+				PRODUCT_BUNDLE_IDENTIFIER = org.zulip.Zulip;
 				PRODUCT_NAME = ZulipMobile;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1552,7 +1552,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zulip.Zulip;
+				PRODUCT_BUNDLE_IDENTIFIER = org.zulip.Zulip;
 				PRODUCT_NAME = ZulipMobile;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
