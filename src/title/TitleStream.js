@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import StreamIcon from '../streamlist/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
+import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -32,11 +33,7 @@ export default class TitleStream extends React.PureComponent {
     const { narrow, subscriptions, streams, color } = this.props;
     const stream = subscriptions.find(x => x.name === narrow[0].operand) ||
       { ...streams.find(x => x.name === narrow[0].operand), in_home_view: true } ||
-      {
-        name: '',
-        invite_only: false,
-        in_home_view: false
-      };
+      NULL_SUBSCRIPTION;
 
     const topic = isTopicNarrow(narrow) ? `\u203a ${narrow[1].operand}` : '';
 

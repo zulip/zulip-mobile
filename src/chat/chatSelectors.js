@@ -7,6 +7,7 @@ import { specialNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients, normalizeRecipientsSansMe, shouldBeMuted } from '../utils/message';
 import { countUnread } from '../utils/unread';
 import { getUserById } from '../users/usersSelectors';
+import { NULL_MESSAGE } from '../nullObjects';
 
 const privateNarrowStr = JSON.stringify(specialNarrow('private'));
 
@@ -140,7 +141,7 @@ export const getLastTopicInActiveNarrow = createSelector(
   getMessagesInActiveNarrow,
   (messagesInActiveNarrow) => {
     const reversedMessages = messagesInActiveNarrow.slice().reverse();
-    const lastMessageWithSubject = reversedMessages.find(msg => msg.subject);
-    return (lastMessageWithSubject && lastMessageWithSubject.subject) || '';
+    const lastMessageWithSubject = reversedMessages.find(msg => msg.subject) || NULL_MESSAGE;
+    return lastMessageWithSubject.subject;
   },
 );

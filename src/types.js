@@ -251,3 +251,16 @@ export type EditMessage = {
   id: number,
   content: string,
 };
+
+export type Subscription = {
+  audible_notifications: boolean,
+  color: string,
+  description: string,
+  desktop_notifications: boolean,
+  email_address: string,
+  in_home_view: boolean,
+  invite_only: boolean,
+  name: string,
+  pin_to_top: boolean,
+  stream_id: number,
+};
