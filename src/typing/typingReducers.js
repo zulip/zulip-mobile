@@ -8,7 +8,7 @@ const initialState: TypingState = {};
 export default (state: TypingState = initialState, action: Action): TypingState => {
   switch (action.type) {
     case EVENT_TYPING_START: {
-      const normalizedRecipients = normalizeRecipientsSansMe(action.recipients, action.selfEmail);
+      const normalizedRecipients = normalizeRecipientsSansMe(action.recipients, action.ownEmail);
       const previousTypingUsers = state[normalizedRecipients] || [];
 
       const isUserAlreadyTyping = previousTypingUsers.indexOf(action.sender.user_id);
@@ -23,7 +23,7 @@ export default (state: TypingState = initialState, action: Action): TypingState 
     }
 
     case EVENT_TYPING_STOP: {
-      const normalizedRecipients = normalizeRecipientsSansMe(action.recipients, action.selfEmail);
+      const normalizedRecipients = normalizeRecipientsSansMe(action.recipients, action.ownEmail);
       const previousTypingUsers = state[normalizedRecipients];
 
       if (!previousTypingUsers) {

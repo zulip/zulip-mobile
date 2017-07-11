@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import type { GlobalState, Narrow, Stream, Message } from '../types';
-import { getSelfEmail } from '../account/accountSelectors';
+import { getOwnEmail } from '../account/accountSelectors';
 import { specialNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients, normalizeRecipientsSansMe, shouldBeMuted } from '../utils/message';
 import { countUnread } from '../utils/unread';
@@ -72,12 +72,12 @@ export const getPrivateMessages = createSelector(
 );
 
 export const getRecentConversations = createSelector(
-  getSelfEmail,
+  getOwnEmail,
   getPrivateMessages,
   getReadFlags,
-  (selfEmail, messages, read) => {
+  (ownEmail, messages, read) => {
     const recipients = messages.map(msg => ({
-      emails: normalizeRecipientsSansMe(msg.display_recipient, selfEmail),
+      emails: normalizeRecipientsSansMe(msg.display_recipient, ownEmail),
       timestamp: msg.timestamp,
       isRead: read[msg.id] || 0,
     }));
@@ -118,14 +118,14 @@ export const getCurrentTypingUsers = createSelector(
   getActiveNarrow,
   getTyping,
   getUsers,
-  getSelfEmail,
-  (activeNarrow, typing, users, selfEmail) => {
+  getOwnEmail,
+  (activeNarrow, typing, users, ownEmail) => {
     if (!isPrivateOrGroupNarrow(activeNarrow)) {
       return undefined;
     }
 
     const recipients = activeNarrow[0].operand.split(',').map(email => ({ email }));
-    const normalizedRecipients = normalizeRecipients(recipients, selfEmail);
+    const normalizedRecipients = normalizeRecipients(recipients, ownEmail);
     const currentTyping = typing[normalizedRecipients];
 
     if (!currentTyping) {

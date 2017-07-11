@@ -8,7 +8,7 @@ import boundActions from '../boundActions';
 import { fetchApiKey } from '../api';
 import config from '../config';
 import { ErrorMsg, ZulipButton, Input, Touchable, Label } from '../common';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth, getOwnEmail } from '../account/accountSelectors';
 import openLink from '../utils/openLink';
 
 type Props = {
@@ -129,7 +129,7 @@ class PasswordAuthView extends React.Component {
 export default connect(
   (state) => ({
     auth: getAuth(state),
-    email: getAuth(state).email,
+    email: getOwnEmail(state),
   }),
   boundActions,
 )(PasswordAuthView);

@@ -36,7 +36,7 @@ class MessageFull extends React.PureComponent {
   props: {
     actions: Actions,
     avatarUrl: string,
-    selfEmail: string,
+    ownEmail: string,
     timestamp: number,
     reactions: [],
     twentyFourHourTime: boolean,
@@ -56,7 +56,7 @@ class MessageFull extends React.PureComponent {
       children,
       avatarUrl,
       twentyFourHourTime,
-      selfEmail,
+      ownEmail,
       starred,
       onLongPress,
       realm } = this.props;
@@ -89,7 +89,7 @@ class MessageFull extends React.PureComponent {
           <ReactionList
             messageId={message.id}
             reactions={message.reactions}
-            selfEmail={selfEmail}
+            ownEmail={ownEmail}
           />
         </View>
       </View>

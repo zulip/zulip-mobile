@@ -89,7 +89,7 @@ export default (state: ChatState = initialState, action: Action) => {
       return {
         ...state,
         messages: Object.keys(state.messages).reduce((msg, key) => {
-          const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.selfEmail);
+          const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
           msg[key] = isInNarrow ? [...state.messages[key], action.message] : state.messages[key];
 
           return msg;

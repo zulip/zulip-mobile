@@ -77,7 +77,7 @@ export const isSearchNarrow = (narrow: Narrow): boolean =>
   narrow.length === 1 &&
   narrow[0].operator === 'search';
 
-export const isMessageInNarrow = (message: Message, narrow: Narrow, selfEmail: string): boolean => {
+export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: string): boolean => {
   if (isHomeNarrow(narrow)) {
     return true;
   }
@@ -98,9 +98,9 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, selfEmail: s
 
   if (isPrivateOrGroupNarrow(narrow)) {
     const normalizedRecipients = normalizeRecipients(message.display_recipient);
-    const normalizedNarrow = [...narrow[0].operand.split(','), selfEmail].sort().join(',');
+    const normalizedNarrow = [...narrow[0].operand.split(','), ownEmail].sort().join(',');
 
-    return normalizedRecipients === selfEmail || normalizedRecipients === normalizedNarrow;
+    return normalizedRecipients === ownEmail || normalizedRecipients === normalizedNarrow;
   }
 
   if (isSpecialNarrow(narrow) &&

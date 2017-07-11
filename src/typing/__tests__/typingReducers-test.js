@@ -13,7 +13,7 @@ describe('typingReducers', () => {
           { email: 'john@example.com', user_id: 1 },
           { email: 'me@example.com', user_id: 2 },
         ],
-        selfEmail: 'me@example.com',
+        ownEmail: 'me@example.com',
       };
       const expectedState = {
         'john@example.com': [1],
@@ -36,7 +36,7 @@ describe('typingReducers', () => {
           { email: 'john@example.com', user_id: 1 },
           { email: 'me@example.com', user_id: 2 },
         ],
-        selfEmail: 'me@example.com',
+        ownEmail: 'me@example.com',
       };
       const expectedState = {
         'john@example.com': [1],
@@ -60,7 +60,7 @@ describe('typingReducers', () => {
           { email: 'mark@example.com', user_id: 2 },
           { email: 'me@example.com', user_id: 3 },
         ],
-        selfEmail: 'me@example.com',
+        ownEmail: 'me@example.com',
       };
       const expectedState = {
         'john@example.com': [1],
@@ -85,7 +85,7 @@ describe('typingReducers', () => {
           { email: 'mark@example.com', user_id: 2 },
           { email: 'me@example.com', user_id: 3 },
         ],
-        selfEmail: 'me@example.com',
+        ownEmail: 'me@example.com',
       };
       const expectedState = {
         'john@example.com,mark@example.com': [1, 2],
@@ -111,7 +111,7 @@ describe('typingReducers', () => {
           { email: 'john@example.com', user_id: 1 },
           { email: 'me@example.com', user_id: 2 },
         ],
-        selfEmail: 'me@example.com',
+        ownEmail: 'me@example.com',
       };
       const expectedState = {
         'mark@example.com': [2],
@@ -134,7 +134,7 @@ describe('typingReducers', () => {
           { email: 'john@example.com', user_id: 1 },
           { email: 'me@example.com', user_id: 2 },
         ],
-        selfEmail: 'me@example.com',
+        ownEmail: 'me@example.com',
       };
       const expectedState = {
         'john@example.com': [2],
@@ -155,7 +155,7 @@ describe('typingReducers', () => {
           { email: 'john@example.com', user_id: 1 },
           { email: 'me@example.com', user_id: 2 },
         ],
-        selfEmail: 'me@example.com',
+        ownEmail: 'me@example.com',
       };
       const expectedState = {};
 

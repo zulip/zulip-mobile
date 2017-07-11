@@ -10,7 +10,7 @@ import {
   isStreamNarrow,
   isTopicNarrow,
 } from '../utils/narrow';
-import { getAuth } from '../account/accountSelectors';
+import { getCurrentRealm } from '../account/accountSelectors';
 
 import TitleHome from './TitleHome';
 import TitlePrivate from './TitlePrivate';
@@ -40,7 +40,7 @@ class Title extends React.PureComponent {
 
 export default connect(
   (state) => ({
-    realm: getAuth(state).realm,
+    realm: getCurrentRealm(state),
     narrow: state.chat.narrow,
     users: state.users,
     subscriptions: state.subscriptions,

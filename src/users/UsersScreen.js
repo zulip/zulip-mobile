@@ -1,27 +1,18 @@
 /* @flow */
-import React, { Component } from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, { PureComponent } from 'react';
 
 import SearchScreen from '../search/SearchScreen';
 import UserListCard from './UserListCard';
 
-type StateProps = {
-  filter: string,
-};
+export default class UsersScreen extends PureComponent {
 
-export default class UsersScreen extends Component {
-  state: StateProps;
+  state: {
+    filter: string,
+  };;
 
-  constructor() {
-    super();
-    this.state = {
-      filter: '',
-    };
-  }
-
-  shouldComponentUpdate(nextProps: void, nextState: StateProps) {
-    return shallowCompare(this, nextProps, nextState);
-  }
+  state = {
+    filter: '',
+  };
 
   handleFilterChange = (filter: string) => this.setState({ filter });
 
