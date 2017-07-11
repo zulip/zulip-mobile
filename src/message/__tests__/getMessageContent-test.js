@@ -61,4 +61,3 @@ inside</pre><div>`),
 		);
 	});
 });
-/* eslint-disable */
