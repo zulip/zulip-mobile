@@ -69,7 +69,7 @@ export default class MessageContainer extends React.PureComponent {
         message={message}
         avatarUrl={avatarUrl}
         twentyFourHourTime={twentyFourHourTime}
-        selfEmail={auth.email}
+        ownEmail={auth.email}
         doNarrow={actions.doNarrow}
         onLongPress={this.onLongPress}
         starred={this.isStarred(message)}

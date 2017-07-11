@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getAuth } from '../account/accountSelectors';
+import { getOwnEmail, getCurrentRealm } from '../account/accountSelectors';
 import boundActions from '../boundActions';
 import type { Actions, User } from '../types';
 import { privateNarrow } from '../utils/narrow';
@@ -45,8 +45,8 @@ class UserListCard extends Component {
 
 export default connect(
   state => ({
-    ownEmail: getAuth(state).email,
-    realm: getAuth(state).realm,
+    ownEmail: getOwnEmail(state),
+    realm: getCurrentRealm(state),
     users: state.users,
   }),
   boundActions,

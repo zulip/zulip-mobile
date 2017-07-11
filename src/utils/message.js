@@ -10,10 +10,10 @@ export const normalizeRecipients = (recipients: Recipient[]) =>
       .sort()
       .join(','));
 
-export const normalizeRecipientsSansMe = (recipients: Recipient[], selfEmail: string) => (
+export const normalizeRecipientsSansMe = (recipients: Recipient[], ownEmail: string) => (
   recipients.length === 1 ?
     recipients[0].email :
-    normalizeRecipients(recipients.filter(r => r.email !== selfEmail))
+    normalizeRecipients(recipients.filter(r => r.email !== ownEmail))
 );
 
 export const isSameRecipient = (message1: Message, message2: Message): boolean => {
