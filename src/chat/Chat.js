@@ -4,7 +4,7 @@ import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Auth, Narrow, Message, Stream } from '../types';
+import type { Auth, Narrow, Message, Stream, Fetching } from '../types';
 import { OfflineNotice } from '../common';
 import boundActions from '../boundActions';
 import { getAnchor, getCurrentTypingUsers } from '../chat/chatSelectors';
@@ -33,24 +33,22 @@ class Chat extends React.Component {
   props: {
     auth: Auth,
     narrow: Narrow,
+    fetching: Fetching,
     needsInitialFetch: boolean,
-    fetching: { newer: boolean, older: boolean, },
     isOnline: boolean,
     flags: Object,
     messages: Message[],
     readIds: Object,
     subscriptions: any[],
     streams: Stream,
-    markMessagesRead: () => void,
   };
 
   handleMessageListScroll = (e: Object) => {
-    const { auth, flags, markMessagesRead } = this.props;
+    const { auth, flags } = this.props;
     const visibleMessageIds = e.visibleIds.map(x => +x);
     const unreadMessageIds = filterUnreadMessageIds(visibleMessageIds, flags);
 
-    if (markMessagesRead && unreadMessageIds.length > 0) {
-      markMessagesRead(unreadMessageIds);
+    if (unreadMessageIds.length > 0) {
       queueMarkAsRead(auth, unreadMessageIds);
     }
 

@@ -2,7 +2,7 @@
   "parser": "babel-eslint",
   "plugins": [
     "react-native",
-    "prettier",
+    # "prettier",
     "jest",
     "flowtype",
     "spellcheck"
@@ -27,26 +27,19 @@
     }
   },
   "rules": {
-    "prettier/prettier": ["error", {
-      "singleQuote": true,
-      "trailingComma": "all",
-      "bracketSpacing": true,
-      "jsxBracketSameLine": true,
-      "parser": "flow",
-      "semi": true,
-    }],
-    "quote-props": 0,
+    # "prettier/prettier": ["error", {
+    #   "singleQuote": true,
+    #   "trailingComma": "all",
+    #   "bracketSpacing": true,
+    #   "jsxBracketSameLine": true,
+    #   "parser": "flow",
+    #   "semi": true,
+    # }],
     "no-bitwise": 0,
     "no-plusplus": 0,
-    "comma-dangle": 0,
-    "arrow-parens": 0,
     "no-param-reassign": 0,
-    "global-require": 0,
-    "no-else-return": 0,
-    "no-mixed-operators": 0,
     "no-nested-ternary": 0,
     "no-restricted-syntax": 0,
-    "class-methods-use-this": 0,
     "no-unused-vars": [1, {"vars": "local", "args": "none"}],
     "new-cap": [2, {
       "capIsNew": false
@@ -55,8 +48,6 @@
     "react/sort-comp": 0,
     "react/jsx-filename-extension": 0,
     "react/prefer-stateless-function": 0,
-    "react/no-array-index-key": 0,
-    "react/no-unused-prop-types": 0,
     "react/require-default-props": 0,
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/__tests__/*.js"]}],

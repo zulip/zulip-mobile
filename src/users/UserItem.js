@@ -46,9 +46,9 @@ export default class UserItem extends PureComponent {
   };
 
   handlePress = () => {
-    const { email } = this.props;
-    if (email) {
-      this.props.onPress(email);
+    const { email, onPress } = this.props;
+    if (email && onPress) {
+      onPress(email);
     }
   };
 
@@ -61,7 +61,7 @@ export default class UserItem extends PureComponent {
       unreadCount,
       realm,
       showEmail,
-      email
+      email,
     } = this.props;
 
     return (

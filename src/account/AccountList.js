@@ -21,7 +21,7 @@ export default class AccountList extends React.PureComponent {
       <View>
         {accounts.map((account, i) => (
           <AccountItem
-            key={i}
+            key={account.apiKey}
             index={i}
             showDoneIcon={i === 0 && auth.apiKey !== '' && auth.apiKey === account.apiKey}
             {...account}

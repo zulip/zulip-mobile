@@ -53,15 +53,16 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
       const newState = [...state];
       return Object.keys(action.presence).reduce((currentState, email) => {
         const userIndex = state.findIndex(u => u.email === email);
+
         if (userIndex === -1) {
           let user = { email };
           user = updateUserWithPresence(user, action.presence[email]);
           return [...currentState, user];
-        } else {
-          currentState[userIndex] = // eslint-disable-line
-            updateUserWithPresence(currentState[userIndex], action.presence[email]);
-          return currentState;
         }
+
+        currentState[userIndex] = // eslint-disable-line
+          updateUserWithPresence(currentState[userIndex], action.presence[email]);
+        return currentState;
       }, newState);
     }
     case EVENT_PRESENCE: {

@@ -12,7 +12,6 @@ require('./i18n/locale');
 crashlytics.init();
 
 export default class ZulipMobile extends Component {
-
   state = {
     rehydrated: false,
   };

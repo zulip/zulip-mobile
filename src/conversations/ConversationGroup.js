@@ -33,14 +33,13 @@ type Props = {
   email: string,
   users: Object[],
   unreadCount: number,
-  onNarrow: (arg: string) => void,
   realm: string,
   narrow?: Narrow,
+  onNarrow: (arg: string) => void,
 };
 
 export default ({ email, users, narrow, unreadCount, onNarrow, realm }: Props) => {
-  const emails = email.split(',');
-  const allNames = emails.map(e =>
+  const allNames = email.split(',').map(e =>
     (users.find(x => x.email === e) || NULL_USER).fullName
   ).join(', ');
   const isSelected = narrow &&

@@ -20,15 +20,6 @@ import LightboxScreen from '../lightbox/LightboxScreen';
 
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
-type RenderSceneProps = {
-  scene: {
-    route: {
-      key: string,
-      data: Object,
-    },
-  },
-};
-
 export default class Navigation extends React.Component {
 
   static contextTypes = {
@@ -71,7 +62,7 @@ export default class Navigation extends React.Component {
 
   navigateTo = (key: string) => this.handleNavigate({ type: 'push', route: { key, title: key } });
 
-  renderScene = (props: RenderSceneProps) => {
+  renderScene = (props: Object) => {
     switch (props.scene.route.key) {
       case 'account':
         return <AccountPickScreen />;

@@ -5,7 +5,7 @@ import { ScrollView, Text, View } from 'react-native';
 
 import { connect } from 'react-redux';
 
-import type { Auth, Actions } from '../types';
+import type { Actions, Auth } from '../types';
 import boundActions from '../boundActions';
 import { ErrorMsg, Screen, ZulipButton } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
@@ -25,8 +25,8 @@ class DevAuthScreen extends React.Component {
   };
 
   props: {
-    auth: Auth,
     actions: Actions,
+    auth: Auth,
   };
 
   state: State = {
@@ -37,11 +37,10 @@ class DevAuthScreen extends React.Component {
   };
 
   componentWillMount = () => {
+    const { auth } = this.props;
+    this.setState({ progress: true, error: undefined });
+
     (async () => {
-      const { auth } = this.props;
-
-      this.setState({ progress: true, error: undefined });
-
       try {
         const [directAdmins, directUsers] = await devGetEmails(auth);
 

@@ -35,9 +35,6 @@ class SearchMessagesScreen extends Component {
 
   props: {
     actions: Actions,
-    fullName: string,
-    email: string,
-    avatarUrl: string,
     twentyFourHourTime: boolean,
     subscriptions: any[],
     auth: Auth,

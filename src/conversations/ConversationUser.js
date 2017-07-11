@@ -9,9 +9,9 @@ type Props = {
   email: string,
   users: Object[],
   unreadCount: number,
-  onNarrow: (arg: string) => void,
   realm: string,
   narrow?: Narrow,
+  onNarrow: (arg: string) => void,
 };
 
 

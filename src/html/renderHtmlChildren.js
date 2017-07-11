@@ -37,7 +37,7 @@ export default ({
     )
     .map((node, index) =>
       (<HtmlNode
-        key={index}
+        key={index} // eslint-disable-line react/no-array-index-key
         auth={auth}
         actions={actions}
         cascadingStyle={cascadingStyle}

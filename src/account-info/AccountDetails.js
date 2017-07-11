@@ -82,13 +82,9 @@ export default class AccountDetails extends Component {
     </View>
   );
 
-  renderContent = (orientation: string, landscapeContent, portraitContent) => {
-    if (orientation === ORIENTATION_LANDSCAPE) {
-      return landscapeContent;
-    } else {
-      return portraitContent;
-    }
-  };
+  renderContent = (orientation: string, landscapeContent, portraitContent) =>
+    orientation === ORIENTATION_LANDSCAPE ? landscapeContent : portraitContent;
+
 
   render() {
     const { layoutStyle } = this.state;
