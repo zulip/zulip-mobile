@@ -16,7 +16,6 @@ class AccountDetailsScreen extends Component {
   props: {
     auth: Auth,
     email: string,
-    avatarUrl: string,
     users: Object[],
     orientation: string,
     actions: Actions,

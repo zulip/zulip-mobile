@@ -81,14 +81,17 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
     case EVENT_NEW_MESSAGE:
       return addFlagsForMessages(state, [action.message.id], action.message.flags);
 
-    case EVENT_UPDATE_MESSAGE_FLAGS:
+    case EVENT_UPDATE_MESSAGE_FLAGS: {
       if (action.operation === 'add') {
         return addFlagsForMessages(state, action.messages, [action.flag]);
-      } else if (action.operation === 'remove') {
-        return removeFlagForMessages(state, action.messages, action.flag);
-      } else {
-        return state;
       }
+
+      if (action.operation === 'remove') {
+        return removeFlagForMessages(state, action.messages, action.flag);
+      }
+
+      return state;
+    }
 
     case MARK_MESSAGES_READ:
       return addFlagsForMessages(state, action.messageIds, ['read']);

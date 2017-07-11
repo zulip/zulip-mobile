@@ -13,7 +13,6 @@ import { fixRealmUrl } from '../utils/url';
 type Props = {
   actions: Actions,
   realm: string,
-  realmAdd: (string) => void,
 };
 
 type State = {

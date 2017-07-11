@@ -155,8 +155,13 @@ export type AppState = {
   eventQueueId: number,
 };
 
+export type Fetching = {
+  older: boolean,
+  newer: boolean,
+};
+
 export type ChatState = {
-  fetching: { older: boolean, newer: boolean, },
+  fetching: Fetching,
   caughtUp: { older: boolean, newer: boolean, },
   narrow: Narrow,
   messages: Object,

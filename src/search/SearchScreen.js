@@ -3,7 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
-import type { NavigationState } from '../types';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
 const styles = StyleSheet.create({
@@ -26,10 +25,9 @@ class SearchScreen extends React.Component {
     keyboardAvoiding: boolean,
     title: string,
     searchBar: boolean,
+    children: any[],
     searchBarOnChange: () => {},
     clearInput?: () => void,
-    nav: NavigationState,
-    children: any[],
   };
 
   state: {

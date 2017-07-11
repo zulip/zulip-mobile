@@ -35,7 +35,7 @@ export default class ReactionList extends React.PureComponent {
       <View style={styles.reactions}>
         {aggregated.map((x: ReactionType, i: number) => (
           <Reaction
-            key={i}
+            key={x.name}
             messageId={messageId}
             name={x.name}
             voted={x.selfReacted}

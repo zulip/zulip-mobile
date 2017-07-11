@@ -1,9 +1,8 @@
 /* @flow */
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-} from 'react-native';
+import { Image, StyleSheet } from 'react-native';
+
+import logoImg from '../../static/img/logo.png';
 
 const styles = StyleSheet.create({
   logo: {
@@ -17,7 +16,7 @@ const styles = StyleSheet.create({
 export default () => (
   <Image
     style={styles.logo}
-    source={require('../../static/img/logo.png')}
+    source={logoImg}
     resizeMode="contain"
   />
 );

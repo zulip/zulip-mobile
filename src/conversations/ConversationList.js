@@ -2,6 +2,7 @@
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
+import type { User } from '../types';
 import { Label } from '../common';
 import ConversationUser from './ConversationUser';
 import ConversationGroup from './ConversationGroup';
@@ -26,14 +27,14 @@ const styles = StyleSheet.create({
 export default class ConversationList extends React.PureComponent {
 
   props: {
-    conversations: string[],
     realm: string,
-    users: any[],
-    onNarrow: (email: string) => void,
+    users: User[],
+    conversations: string[],
+    onNarrow: (arg: string) => void,
   }
 
   render() {
-    const { conversations } = this.props;
+    const { conversations, users, realm, onNarrow } = this.props;
 
     if (!conversations.length) {
       return (
@@ -55,12 +56,16 @@ export default class ConversationList extends React.PureComponent {
             <ConversationUser
               email={item.recipients}
               unreadCount={item.unread}
-              {...this.props}
+              users={users}
+              realm={realm}
+              onNarrow={onNarrow}
             /> :
             <ConversationGroup
               email={item.recipients}
               unreadCount={item.unread}
-              {...this.props}
+              users={users}
+              realm={realm}
+              onNarrow={onNarrow}
             />
         )}
       />

@@ -31,9 +31,8 @@ export default class MessageBrief extends React.PureComponent {
     message: Object,
     ownEmail: string,
     starred: boolean,
-    onLongPress: () => void,
     children?: Children,
-    twentyFourHourTime?: boolean,
+    onLongPress: () => void,
   };
 
   defaultProps: {

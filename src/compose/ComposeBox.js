@@ -14,7 +14,6 @@ import AutoCompleteView from '../autocomplete/AutoCompleteView';
 import boundActions from '../boundActions';
 
 type Props = {
-  onSend: (content: string) => void,
   auth: Auth,
   narrow: Narrow,
   lastTopic: string,

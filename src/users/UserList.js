@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
 export default class UserList extends Component {
 
   props: {
-    ownEmail: string,
     filter: string,
     users: User[],
     onNarrow: (email: string) => void,

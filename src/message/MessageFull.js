@@ -37,8 +37,6 @@ class MessageFull extends React.PureComponent {
     actions: Actions,
     avatarUrl: string,
     ownEmail: string,
-    timestamp: number,
-    reactions: [],
     twentyFourHourTime: boolean,
     realm: string,
     onLongPress: () => void,

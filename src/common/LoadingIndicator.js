@@ -2,6 +2,8 @@
 import React from 'react';
 import { Animated, Easing, Image, StyleSheet, View } from 'react-native';
 
+import messageLoadingImg from '../../static/img/message-loading.png';
+
 const styles = StyleSheet.create({
   row: {
     padding: 8,
@@ -81,7 +83,7 @@ export default class LoadingIndicator extends React.Component {
           {active && <Animated.View style={[styles.semiCircle, animation]} />}
           <Image
             style={[styles.logo]}
-            source={require('../../static/img/message-loading.png')}
+            source={messageLoadingImg}
             resizeMode="contain"
           />
         </View>

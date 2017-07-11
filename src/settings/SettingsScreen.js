@@ -34,7 +34,6 @@ class SettingsScreen extends React.Component {
   props: {
     auth: Auth,
     actions: Actions,
-    notifications: boolean,
     theme: string,
     locale: string,
     offlineNotification: boolean,

@@ -25,11 +25,9 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  ownEmail: string,
   realm: string,
   narrow: Narrow,
   users: any[],
-  presence: Object,
   actions: Actions,
   conversations: string[],
   onNarrow: () => void,

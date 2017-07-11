@@ -23,9 +23,6 @@ const styles = StyleSheet.create({
 export default class MessageTyping extends React.PureComponent {
   props: {
     actions: Actions,
-    avatarUrl?: string,
-    fromName?: string,
-    fromEmail?: string,
     users: Object[],
   };
 

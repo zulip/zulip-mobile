@@ -21,8 +21,6 @@ class LogoutButton extends Component {
 
   props: {
     accounts: any[],
-    logout: (accounts: any[]) => void,
-    deleteTokenPush: () => void,
     auth: Auth,
     pushToken: string,
     actions: Actions,
