@@ -39,8 +39,6 @@ class SearchMessagesScreen extends Component {
     subscriptions: any[],
     auth: Auth,
     flags: Object,
-    navigateToAuth: () => void,
-    navigateBack: () => void,
   };
 
   state = {

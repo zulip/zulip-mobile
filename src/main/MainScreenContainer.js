@@ -18,15 +18,12 @@ class MainScreenContainer extends React.Component {
     actions: Actions,
     messages: Message[],
     orientation: string,
-    saveTokenPush: () => void,
-    switchNarrow: () => void,
-    navigateToUsers: () => void,
   };
 
   componentWillMount() {
-    const { auth, actions, switchNarrow } = this.props;
+    const { auth, actions } = this.props;
     if (!DeviceInfo.isEmulator()) {
-      initializeNotifications(auth, actions.saveTokenPush, switchNarrow);
+      initializeNotifications(auth, actions.saveTokenPush, actions.switchNarrow);
     }
   }
 

@@ -153,7 +153,7 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     padding: 5,
     fontSize: 14,
     borderWidth: 0.5,
-    height: CONTROL_SIZE * 3 / 4,
+    height: CONTROL_SIZE * (3 / 4),
     borderColor: BORDER_COLOR,
   },
   topicWrapper: {

@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
-import type { LocalizableText, NavigationState } from '../types';
+import type { LocalizableText } from '../types';
 import boundActions from '../boundActions';
 import { ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
@@ -27,7 +27,6 @@ class Screen extends React.Component {
   props: {
     keyboardAvoiding: boolean,
     title: LocalizableText,
-    nav: NavigationState,
     children: [],
   };
 

@@ -48,6 +48,11 @@ export type Presence = {
   timestamp: number,
 };
 
+export type Fetching = {
+  older: boolean,
+  newer: boolean,
+};
+
 export type Stream = {
   stream_id: number,
   description: string,
@@ -157,6 +162,33 @@ export type Actions = {
   navigateToAccountDetails: (email: string) => Action,
   navigateToAddNewAccount: (realm: string) => Action,
   navigateToLightbox: (realm: string) => Action,
+  switchNarrow: (narrow: Narrow) => Action,
+  doNarrow: (newNarrow: Narrow, anchor: number) => Action,
+  messageFetchStart: (narrow: Narrow, fetching: Object) => Action,
+  messageFetchSuccess: (
+    messages: any[],
+    narrow: Narrow,
+    fetching?: Fetching,
+    caughtUp?: Object,
+  ) => Action,
+  backgroundFetchMessages: (
+    anchor: number,
+    numBefore: number,
+    numAfter: number,
+    narrow: Narrow,
+    useFirstUnread: boolean,
+  ) => Action,
+  fetchMessages: (
+    anchor: number,
+    numBefore: number,
+    numAfter: number,
+    narrow: Narrow,
+    useFirstUnread: boolean,
+  ) => Action,
+  fetchMessagesAtFirstUnread: (narrow: Narrow) => Action,
+  markMessagesRead: (messageIds: number[]) => Actions,
+  fetchOlder: () => Action,
+  fetchNewer: () => Action,
 };
 
 export type AccountState = Account[];
@@ -169,11 +201,6 @@ export type AppState = {
   needsInitialFetch: boolean,
   pushToken: string,
   eventQueueId: number,
-};
-
-export type Fetching = {
-  older: boolean,
-  newer: boolean,
 };
 
 export type ChatState = {

@@ -1,5 +1,5 @@
 /* @flow */
-import type { Narrow, Dispatch, GetState } from '../types';
+import type { Action, Narrow, Dispatch, GetState, Fetching } from '../types';
 import { getMessages } from '../api';
 import { registerAppActivity } from '../utils/activity';
 import { getAuth } from '../account/accountSelectors';
@@ -12,12 +12,12 @@ import {
   MARK_MESSAGES_READ,
 } from '../actionConstants';
 
-export const switchNarrow = (narrow: Narrow) => ({
+export const switchNarrow = (narrow: Narrow): Action => ({
   type: SWITCH_NARROW,
   narrow,
 });
 
-export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INTEGER) => (
+export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INTEGER): Action => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
@@ -25,7 +25,7 @@ export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INT
   requestIdleCallback(() => dispatch(switchNarrow(newNarrow)));
 };
 
-export const messageFetchStart = (narrow: Narrow, fetching: Object) => ({
+export const messageFetchStart = (narrow: Narrow, fetching: Object): Action => ({
   type: MESSAGE_FETCH_START,
   narrow,
   fetching,
@@ -34,9 +34,9 @@ export const messageFetchStart = (narrow: Narrow, fetching: Object) => ({
 export const messageFetchSuccess = (
   messages: any[],
   narrow: Narrow,
-  fetching?: Object,
+  fetching?: Fetching,
   caughtUp?: Object,
-) => ({
+): Action => ({
   type: MESSAGE_FETCH_SUCCESS,
   messages,
   narrow,
@@ -50,7 +50,7 @@ export const backgroundFetchMessages = (
   numAfter: number,
   narrow: Narrow,
   useFirstUnread: boolean = false,
-) => async (dispatch: Dispatch, getState: GetState) => {
+): Action => async (dispatch: Dispatch, getState: GetState) => {
   const messages = await getMessages(
     getAuth(getState()),
     anchor,
@@ -96,7 +96,7 @@ export const fetchMessages = (
   numAfter: number,
   narrow: Narrow,
   useFirstUnread: boolean = false,
-) => async (dispatch: Dispatch) => {
+): Action => async (dispatch: Dispatch) => {
   if (numBefore < 0 || numAfter < 0) {
     throw Error('numBefore and numAfter must >= 0');
   }
@@ -110,15 +110,15 @@ export const fetchMessages = (
   dispatch(backgroundFetchMessages(anchor, numBefore, numAfter, narrow, useFirstUnread));
 };
 
-export const fetchMessagesAtFirstUnread = (narrow: Narrow) => (dispatch: Dispatch) =>
+export const fetchMessagesAtFirstUnread = (narrow: Narrow): Action => (dispatch: Dispatch) =>
   fetchMessages(0, config.messagesPerRequest / 2, config.messagesPerRequest / 2, narrow, true);
 
-export const markMessagesRead = (messageIds: number[]) => ({
+export const markMessagesRead = (messageIds: number[]): Action => ({
   type: MARK_MESSAGES_READ,
   messageIds,
 });
 
-export const fetchOlder = () => (dispatch: Dispatch, getState: GetState) => {
+export const fetchOlder = () => (dispatch: Dispatch, getState: GetState): Action => {
   const state = getState();
   const anchor = getAnchor(state);
   const { fetching, caughtUp, narrow } = state.chat;
@@ -128,7 +128,7 @@ export const fetchOlder = () => (dispatch: Dispatch, getState: GetState) => {
   }
 };
 
-export const fetchNewer = () => (dispatch: Dispatch, getState: GetState) => {
+export const fetchNewer = () => (dispatch: Dispatch, getState: GetState): Action => {
   const state = getState();
   const anchor = getAnchor(state);
   const { fetching, caughtUp, narrow } = state.chat;

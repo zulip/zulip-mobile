@@ -40,7 +40,7 @@ class AccountPickScreen extends React.Component {
   handleAccountRemove = (index: number) => this.props.actions.removeAccount(index);
 
   render() {
-    const { accounts, auth, navigateToAddNewAccount } = this.props;
+    const { accounts, actions, auth } = this.props;
 
     return (
       <Screen title="Pick account">
@@ -56,7 +56,7 @@ class AccountPickScreen extends React.Component {
             <ZulipButton
               text="Add new account"
               style={styles.button}
-              onPress={navigateToAddNewAccount}
+              onPress={actions.navigateToAddNewAccount}
             />
           </View>
         </ScrollView>
