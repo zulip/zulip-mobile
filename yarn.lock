@@ -1763,6 +1763,12 @@ eslint-config-airbnb@^15.0.1:
   dependencies:
     eslint-config-airbnb-base "^11.2.0"
 
+eslint-config-prettier@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-2.3.0.tgz#b75b1eabea0c8b97b34403647ee25db349b9d8a0"
+  dependencies:
+    get-stdin "^5.0.1"
+
 eslint-import-resolver-node@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.1.tgz#4422574cde66a9a7b099938ee4d508a199e0e3cc"
@@ -1813,6 +1819,13 @@ eslint-plugin-jsx-a11y@^5.0.1:
     damerau-levenshtein "^1.0.0"
     emoji-regex "^6.1.0"
     jsx-ast-utils "^1.4.0"
+
+eslint-plugin-prettier@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-2.1.2.tgz#4b90f4ee7f92bfbe2e926017e1ca40eb628965ea"
+  dependencies:
+    fast-diff "^1.1.1"
+    jest-docblock "^20.0.1"
 
 eslint-plugin-react-native@^2.2.1:
   version "2.3.2"
@@ -1997,6 +2010,10 @@ fancy-log@^1.1.0:
   dependencies:
     chalk "^1.1.1"
     time-stamp "^1.0.0"
+
+fast-diff@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/fast-diff/-/fast-diff-1.1.1.tgz#0aea0e4e605b6a2189f0e936d4b7fbaf1b7cfd9b"
 
 fast-levenshtein@~2.0.4:
   version "2.0.6"
@@ -2199,6 +2216,10 @@ get-port@^2.1.0:
   resolved "https://registry.yarnpkg.com/get-port/-/get-port-2.1.0.tgz#8783f9dcebd1eea495a334e1a6a251e78887ab1a"
   dependencies:
     pinkie-promise "^2.0.0"
+
+get-stdin@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-5.0.1.tgz#122e161591e21ff4c52530305693f20e6393a398"
 
 getpass@^0.1.1:
   version "0.1.7"
@@ -2827,7 +2848,7 @@ jest-diff@^20.0.3:
     jest-matcher-utils "^20.0.3"
     pretty-format "^20.0.3"
 
-jest-docblock@^20.0.3:
+jest-docblock@^20.0.1, jest-docblock@^20.0.3:
   version "20.0.3"
   resolved "https://registry.yarnpkg.com/jest-docblock/-/jest-docblock-20.0.3.tgz#17bea984342cc33d83c50fbe1545ea0efaa44712"
 
@@ -3769,6 +3790,10 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
+prettier@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.5.2.tgz#7ea0751da27b93bfb6cecfcec509994f52d83bb3"
+
 pretty-format@^20.0.3:
   version "20.0.3"
   resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-20.0.3.tgz#020e350a560a1fe1a98dc3beb6ccffb386de8b14"
@@ -3865,23 +3890,6 @@ raw-body@~2.1.2:
     bytes "2.4.0"
     iconv-lite "0.4.13"
     unpipe "1.0.0"
-
-raw-body@~2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/raw-body/-/raw-body-2.2.0.tgz#994976cf6a5096a41162840492f0bdc5d6e7fb96"
-  dependencies:
-    bytes "2.4.0"
-    iconv-lite "0.4.15"
-    unpipe "1.0.0"
-
-rc@^1.1.7:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.1.tgz#2e03e8e42ee450b8cb3dce65be1bf8974e1dfd95"
-  dependencies:
-    deep-extend "~0.4.0"
-    ini "~1.3.0"
-    minimist "^1.2.0"
-    strip-json-comments "~2.0.1"
 
 react-addons-shallow-compare@^15.6.0:
   version "15.6.0"
@@ -5042,19 +5050,6 @@ walker@~1.0.5:
 watch@~0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/watch/-/watch-0.10.0.tgz#77798b2da0f9910d595f1ace5b0c2258521f21dc"
-
-wd@^1.2.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/wd/-/wd-1.3.0.tgz#fdbdfbe192805b1cbd7943375642f06d990bccef"
-  dependencies:
-    archiver "1.3.0"
-    async "2.0.1"
-    lodash "4.16.2"
-    mkdirp "^0.5.1"
-    q "1.4.1"
-    request "2.79.0"
-    underscore.string "3.3.4"
-    vargs "0.1.0"
 
 webidl-conversions@^3.0.0:
   version "3.0.1"

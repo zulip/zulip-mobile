@@ -2,6 +2,7 @@
   "parser": "babel-eslint",
   "plugins": [
     "react-native",
+    "prettier",
     "jest",
     "flowtype",
     "spellcheck"
@@ -14,7 +15,10 @@
   },
   "globals": {
   },
-  "extends": "airbnb",
+  "extends": [
+    "airbnb",
+    "prettier",
+  ],
   "settings": {
     "import/resolver": {
       "node": {
@@ -23,6 +27,14 @@
     }
   },
   "rules": {
+    "prettier/prettier": ["error", {
+      "singleQuote": true,
+      "trailingComma": "all",
+      "bracketSpacing": true,
+      "jsxBracketSameLine": true,
+      "parser": "flow",
+      "semi": true,
+    }],
     "quote-props": 0,
     "no-bitwise": 0,
     "no-plusplus": 0,
