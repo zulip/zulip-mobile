@@ -19,8 +19,12 @@ export default class UsersScreen extends PureComponent {
   render() {
     const { filter } = this.state;
     return (
-      <SearchScreen searchBarOnChange={this.handleFilterChange}>
-        <UserListCard filter={filter} />
+      <SearchScreen
+        title="Search people"
+        searchBarOnChange={this.handleFilterChange}
+        searchBar
+      >
+        <UserListCard {...this.props} filter={filter} />
       </SearchScreen>
     );
   }

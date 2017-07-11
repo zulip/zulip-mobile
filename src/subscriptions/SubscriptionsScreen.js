@@ -39,12 +39,6 @@ class SubscriptionsScreen extends React.Component {
     }
   };
 
-  clearFilter = () => {
-    this.setState({
-      filter: ''
-    });
-  };
-
   render() {
     const { streams, subscriptions } = this.props;
     const filteredStreams = streams.filter(x => x.name.includes(this.state.filter));
@@ -57,7 +51,6 @@ class SubscriptionsScreen extends React.Component {
       <SearchScreen
         title="Subscriptions"
         searchBarOnChange={this.handleFilterChange}
-        clearInput={this.clearFilter}
         searchBar
       >
         <StreamList

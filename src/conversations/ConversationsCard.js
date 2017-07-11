@@ -68,7 +68,7 @@ export default class ConversationsCard extends Component {
         <ZulipButton
           secondary
           style={styles.button}
-          text="Search people"
+          text="New private message"
           onPress={this.handleSearchPress}
         />
         <ConversationList
