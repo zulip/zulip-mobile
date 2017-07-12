@@ -1,6 +1,7 @@
 /* @flow */
 import type { NavigationState, Action } from '../types';
-import { navigateToAccountPicker, navigateBack } from './navActions';
+import { navigateToAccountPicker } from './navActions';
+import { getStateForRoute, getInitialRoute } from './navSelectors';
 import AppNavigator from './AppNavigator';
 import {
   RESET_NAVIGATION,
@@ -8,26 +9,27 @@ import {
   ACCOUNT_SWITCH,
   SET_AUTH_TYPE,
   LOGIN_SUCCESS,
-  LOGOUT,
+  LOGOUT
 } from '../actionConstants';
 
-const initialState = AppNavigator.router.getStateForAction(
-  AppNavigator.router.getActionForPathAndParams('main'),
-);
-
-export default (state: NavigationState = initialState, action: Action): NavigationState => {
+export default (
+  state: NavigationState = getStateForRoute('realm'),
+  action: Action
+): NavigationState => {
   switch (action.type) {
     case RESET_NAVIGATION:
-      return initialState;
     case ACCOUNT_SWITCH:
-      return initialState;
+      return getStateForRoute(getInitialRoute(state));
     case SET_AUTH_TYPE:
       return state;
     case LOGIN_SUCCESS:
     case INITIAL_FETCH_COMPLETE:
-      return AppNavigator.router.getStateForAction(navigateBack(), state);
+      return getStateForRoute('main');
     case LOGOUT: {
-      return AppNavigator.router.getStateForAction(navigateToAccountPicker(), state);
+      return AppNavigator.router.getStateForAction(
+        navigateToAccountPicker(),
+        state
+      );
     }
     default:
       return AppNavigator.router.getStateForAction(action, state);
