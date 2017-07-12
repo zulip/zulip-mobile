@@ -1,6 +1,6 @@
 /* @flow */
 import type { NavigationState, Action } from '../types';
-import { navigateToAccountPicker } from './navActions';
+import { navigateToAccountPicker, navigateToAuth } from './navActions';
 import { getStateForRoute, getInitialRoute } from './navSelectors';
 import AppNavigator from './AppNavigator';
 import {
@@ -20,8 +20,12 @@ export default (
     case RESET_NAVIGATION:
     case ACCOUNT_SWITCH:
       return getStateForRoute(getInitialRoute(state));
-    case SET_AUTH_TYPE:
-      return state;
+    case SET_AUTH_TYPE: {
+      return AppNavigator.router.getStateForAction(
+        navigateToAuth(action.authType),
+        state
+      );
+    }
     case LOGIN_SUCCESS:
     case INITIAL_FETCH_COMPLETE:
       return getStateForRoute('main');
