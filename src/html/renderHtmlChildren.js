@@ -13,6 +13,7 @@ type Props = {
   cascadingTextStyle?: StyleObj,
   onPress?: (html: string) => void,
   indexedStyles?: any[],
+  indexedViewsStyles?: any[],
 };
 
 export default ({
@@ -24,6 +25,7 @@ export default ({
   onPress,
   message,
   indexedStyles,
+  indexedViewsStyles,
 }: Props) =>
   childrenNodes &&
   childrenNodes
@@ -38,7 +40,7 @@ export default ({
         key={index} // eslint-disable-line react/no-array-index-key
         auth={auth}
         actions={actions}
-        cascadingStyle={cascadingStyle}
+        cascadingStyle={[cascadingStyle, indexedViewsStyles && indexedViewsStyles[index]]}
         cascadingTextStyle={[cascadingTextStyle, indexedStyles && indexedStyles[index]]}
         data={node.data}
         name={node.name}

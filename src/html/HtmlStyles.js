@@ -2,6 +2,10 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  common: {
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
   ul: {
     width: '100%',
     flexDirection: 'column',
