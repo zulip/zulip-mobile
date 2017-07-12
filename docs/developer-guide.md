@@ -59,7 +59,7 @@ reflect the new changes.
 
 If you are simply testing it on the iOS device, simply do not stage the said file to
 be committed. On the other hand, if you are also adding a dependency, it is recommended
-that you first `git commit` the dependency link modification itself, and then start 
+that you first `git commit` the dependency link modification itself, and then start
 developing. This way, when you stage your intended changes, you can do a `git reset
 path/to/.pbxproj` to discard any changes relating to the modification of the BundleIdentifier
 and Team, and then continue to commit the rest of the files. When you prepare to push your
@@ -81,3 +81,12 @@ the IP and port of your Vagrant VM.
 
 Finally, run the Xcode project inside of `/ios` with your iOS device as the
 target.
+
+## Formatting code using prettier
+
+- Using atom editor
+Install the prettier-atom plugin to easily integrate the prettier with the eslint setup, Use the command `apm install prettier-atom` to install the plugin.
+
+* Using the command line
+  * For all files - `npm run prettier-all`
+  * For single file - `npm run prettier {filename}`

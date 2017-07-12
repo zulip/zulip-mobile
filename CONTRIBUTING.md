@@ -11,6 +11,9 @@
 sign the [Dropbox Contributor License Agreement][cla]. Also,
 have a look at our [commit message style guidelines][doc-commit-style].
 
+And please make sure to format the whole code using the command `npm run prettier`
+This will format the code using our prettier setup.
+
 * **Issues**. Before working on an issue make sure to claim it. To do so comment
 the following in the issues section: `**@zulipbot** claim`. **zulipbot** will
 assign you to the issue and label it as **in progress**. Learn more about zulipbot at [**zulipbot @ GitHub**](https://github.com/zulip/zulipbot).
