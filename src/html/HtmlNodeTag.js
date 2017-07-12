@@ -6,6 +6,7 @@ import styles from './HtmlStyles';
 import cascadingStyles from './cascadingStylesView';
 import cascadingStylesText from './cascadingStylesText';
 import indexedStyles from './indexedStyles';
+import indexedViewsStyles from './indexedViewsStyles';
 import textStylesFromClass from './textStylesFromClass';
 import HtmlTagSpan from './tags/HtmlTagSpan';
 import HtmlTagA from './tags/HtmlTagA';
@@ -79,6 +80,7 @@ export default ({
     ...stylesFromClassNames(attribs.class, textStylesFromClass),
   ];
   const newIndexedStyles = indexedStyles[name];
+  const newIndexedViewsStyles = indexedViewsStyles[name];
 
   let HtmlComponent = specialTags[name] || HtmlTagSpan;
 
@@ -95,9 +97,10 @@ export default ({
       target={attribs.target}
       src={attribs.src}
       href={attribs.href}
-      style={style}
+      style={[style, styles.common]}
       cascadingStyle={newCascadingStyle}
       cascadingTextStyle={newCascadingStylesText}
+      indexedViewsStyles={newIndexedViewsStyles}
       indexedStyles={newIndexedStyles}
       childrenNodes={childrenNodes}
       onPress={onPress}

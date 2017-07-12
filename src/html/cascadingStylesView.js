@@ -26,4 +26,9 @@ export default StyleSheet.create({
   msup: {
     flexDirection: 'row',
   },
+  mfrac: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
