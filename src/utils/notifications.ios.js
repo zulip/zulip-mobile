@@ -18,10 +18,14 @@ const onPushRegistrationFailed = (error: string) => {
 };
 
 export const initializeNotifications = (auth: Auth, saveTokenPush: (arg: string) => any) => {
-  NotificationsIOS.addEventListener('remoteNotificationsRegistered', (deviceToken) => onPushRegistered(auth, deviceToken, saveTokenPush));
-  NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', onPushRegistrationFailed.bind(null, auth));
+  NotificationsIOS.addEventListener('remoteNotificationsRegistered', deviceToken =>
+    onPushRegistered(auth, deviceToken, saveTokenPush),
+  );
+  NotificationsIOS.addEventListener(
+    'remoteNotificationsRegistrationFailed',
+    onPushRegistrationFailed.bind(null, auth),
+  );
   NotificationsIOS.requestPermissions();
 };
 
-export const refreshNotificationToken = () => {
-};
+export const refreshNotificationToken = () => {};

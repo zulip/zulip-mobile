@@ -5,7 +5,6 @@ import { View, Text } from 'react-native';
 import Timestamp from './Timestamp';
 
 export default class Subheader extends React.PureComponent {
-
   static contextTypes = {
     styles: () => null,
   };
@@ -22,10 +21,7 @@ export default class Subheader extends React.PureComponent {
 
     return (
       <View style={styles.subheader}>
-        <Text
-          style={[styles.username, styles.color]}
-          numberOfLines={1}
-        >
+        <Text style={[styles.username, styles.color]} numberOfLines={1}>
           {from}
         </Text>
         <Timestamp timestamp={timestamp} twentyFourHourTime={twentyFourHourTime} />

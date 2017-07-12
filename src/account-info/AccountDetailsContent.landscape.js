@@ -5,14 +5,14 @@ import { StyleSheet, View } from 'react-native';
 const styles = StyleSheet.create({
   containerLandscape: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   avatarContainerLandscape: {
-    flex: 0.5
+    flex: 0.5,
   },
   infoContainerLandscape: {
-    flex: 0.5
-  }
+    flex: 0.5,
+  },
 });
 
 type Props = {
@@ -23,13 +23,7 @@ type Props = {
   handleOrientationChange: (event: Object) => void,
 };
 
-export default ({
-  screenWidth,
-  handleOrientationChange,
-  avatar,
-  userDetails,
-  sendButton
-}: Props) => (
+export default ({ screenWidth, handleOrientationChange, avatar, userDetails, sendButton }: Props) =>
   <View style={styles.containerLandscape} onLayout={handleOrientationChange}>
     <View style={styles.avatarContainerLandscape}>
       {avatar(screenWidth / 2)}
@@ -38,5 +32,4 @@ export default ({
       {userDetails()}
       {sendButton()}
     </View>
-  </View>
-);
+  </View>;

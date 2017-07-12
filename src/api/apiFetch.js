@@ -7,17 +7,13 @@ import { networkActivityStart, networkActivityStop } from './networkActivity';
 
 const apiVersion = 'api/v1';
 
-export const apiFetch = async (
-  auth: Auth,
-  route: string,
-  params: Object = {},
-) => {
+export const apiFetch = async (auth: Auth, route: string, params: Object = {}) => {
   const url = `${auth.realm}/${apiVersion}/${route}`;
   const allParams = {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
       'User-Agent': userAgent,
-      'Authorization': getAuthHeader(auth.email, auth.apiKey),
+      Authorization: getAuthHeader(auth.email, auth.apiKey),
     },
     ...params,
   };
@@ -37,7 +33,9 @@ export const apiCall = async (
     networkActivityStart(isSilent);
     const response = await timeout(
       await apiFetch(auth, route, params),
-      () => { throw new Error(`Request timed out @ ${route}`); },
+      () => {
+        throw new Error(`Request timed out @ ${route}`);
+      },
       // shouldTimeout, # WTF ITS BOOL ;-( WE NEED NUMBER
     );
     if (response.status === 401) {
@@ -67,9 +65,14 @@ export const apiGet = async (
   resFunc: ResponseExtractionFunc,
   params: Object = {},
 ) =>
-  apiCall(auth, `${route}?${encodeAsURI(params)}`, {
-    method: 'get',
-  }, resFunc);
+  apiCall(
+    auth,
+    `${route}?${encodeAsURI(params)}`,
+    {
+      method: 'get',
+    },
+    resFunc,
+  );
 
 export const apiPost = async (
   auth: Auth,
@@ -77,10 +80,15 @@ export const apiPost = async (
   resFunc: ResponseExtractionFunc,
   params: Object = {},
 ) =>
-  apiCall(auth, route, {
-    method: 'post',
-    body: encodeAsURI(params),
-  }, resFunc);
+  apiCall(
+    auth,
+    route,
+    {
+      method: 'post',
+      body: encodeAsURI(params),
+    },
+    resFunc,
+  );
 
 export const apiPut = async (
   auth: Auth,
@@ -88,10 +96,15 @@ export const apiPut = async (
   resFunc: ResponseExtractionFunc,
   params: Object = {},
 ) =>
-  apiCall(auth, route, {
-    method: 'put',
-    body: encodeAsURI(params),
-  }, resFunc);
+  apiCall(
+    auth,
+    route,
+    {
+      method: 'put',
+      body: encodeAsURI(params),
+    },
+    resFunc,
+  );
 
 export const apiDelete = async (
   auth: Auth,
@@ -99,10 +112,15 @@ export const apiDelete = async (
   resFunc: ResponseExtractionFunc,
   params: Object = {},
 ) =>
-  apiCall(auth, route, {
-    method: 'delete',
-    body: encodeAsURI(params),
-  }, resFunc);
+  apiCall(
+    auth,
+    route,
+    {
+      method: 'delete',
+      body: encodeAsURI(params),
+    },
+    resFunc,
+  );
 
 export const apiPatch = async (
   auth: Auth,
@@ -110,7 +128,12 @@ export const apiPatch = async (
   resFunc: ResponseExtractionFunc,
   params: Object = {},
 ) =>
-  apiCall(auth, route, {
-    method: 'patch',
-    body: encodeAsURI(params),
-  }, resFunc);
+  apiCall(
+    auth,
+    route,
+    {
+      method: 'patch',
+      body: encodeAsURI(params),
+    },
+    resFunc,
+  );

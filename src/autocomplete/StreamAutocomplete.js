@@ -8,7 +8,6 @@ import { Popup } from '../common';
 import StreamItem from '../streamlist/StreamItem';
 
 class StreamAutocomplete extends Component {
-
   props: {
     filter: string,
     onAutocomplete: (name: string) => void,
@@ -17,8 +16,9 @@ class StreamAutocomplete extends Component {
 
   render() {
     const { filter, subscriptions, onAutocomplete } = this.props;
-    const streams = subscriptions
-      .filter(x => x.name.toLowerCase().startsWith(filter.toLowerCase()));
+    const streams = subscriptions.filter(x =>
+      x.name.toLowerCase().startsWith(filter.toLowerCase()),
+    );
 
     if (streams.length === 0) return null;
 
@@ -29,7 +29,7 @@ class StreamAutocomplete extends Component {
           initialNumToRender={streams.length}
           data={streams}
           keyExtractor={item => item.stream_id}
-          renderItem={({ item }) => (
+          renderItem={({ item }) =>
             <StreamItem
               key={item.stream_id}
               name={item.name}
@@ -38,8 +38,7 @@ class StreamAutocomplete extends Component {
               iconSize={12}
               color={item.color}
               onPress={() => onAutocomplete(item.name)}
-            />
-          )}
+            />}
         />
       </Popup>
     );

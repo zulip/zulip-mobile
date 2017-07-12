@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 8,
-  }
+  },
 });
 
 type Props = {
@@ -34,7 +34,6 @@ type Props = {
 };
 
 export default class ConversationsCard extends Component {
-
   props: Props;
 
   state = {
@@ -45,13 +44,11 @@ export default class ConversationsCard extends Component {
     this.setState({
       filter: newFilter,
     });
-  }
+  };
 
   handleUserNarrow = (email: string) =>
     this.props.onNarrow(
-      email.indexOf(',') === -1 ?
-        privateNarrow(email) :
-        groupNarrow(email.split(','))
+      email.indexOf(',') === -1 ? privateNarrow(email) : groupNarrow(email.split(',')),
     );
 
   render() {

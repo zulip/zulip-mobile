@@ -18,15 +18,14 @@ const styles = StyleSheet.create({
   messageContentWrapper: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   childrenWrapper: {
     flex: 1,
-  }
+  },
 });
 
 export default class MessageBrief extends React.PureComponent {
-
   props: {
     message: Object,
     ownEmail: string,
@@ -52,15 +51,8 @@ export default class MessageBrief extends React.PureComponent {
             </View>
           </TouchableWithoutFeedback>
         </View>
-        <MessageTags
-          timestamp={message.last_edit_timestamp}
-          starred={starred}
-        />
-        <ReactionList
-          messageId={message.id}
-          reactions={message.reactions}
-          ownEmail={ownEmail}
-        />
+        <MessageTags timestamp={message.last_edit_timestamp} starred={starred} />
+        <ReactionList messageId={message.id} reactions={message.reactions} ownEmail={ownEmail} />
       </View>
     );
   }

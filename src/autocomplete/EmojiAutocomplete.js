@@ -7,7 +7,6 @@ import EmojiRow from '../emoji/EmojiRow';
 import getFilteredEmojiList from '../emoji/getFilteredEmojiList';
 
 export default class EmojiAutocomplete extends Component {
-
   props: {
     filter: string,
     onAutocomplete: (name: string) => void,
@@ -26,13 +25,8 @@ export default class EmojiAutocomplete extends Component {
           initialNumToRender={12}
           data={emojis}
           keyExtractor={item => item}
-          renderItem={({ item }) => (
-            <EmojiRow
-              key={item}
-              name={item}
-              onPress={() => onAutocomplete(item)}
-            />
-          )}
+          renderItem={({ item }) =>
+            <EmojiRow key={item} name={item} onPress={() => onAutocomplete(item)} />}
         />
       </Popup>
     );

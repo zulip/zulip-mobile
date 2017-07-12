@@ -26,11 +26,10 @@ const styles = StyleSheet.create({
   },
   activity: {
     padding: 8,
-  }
+  },
 });
 
 class SearchMessagesScreen extends Component {
-
   query: string;
 
   props: {
@@ -52,8 +51,14 @@ class SearchMessagesScreen extends Component {
 
     throttle(async () => {
       this.setState({ isFetching: true });
-      const messages = await getMessages(auth, Number.MAX_SAFE_INTEGER,
-        20, 0, searchNarrow(query), false);
+      const messages = await getMessages(
+        auth,
+        Number.MAX_SAFE_INTEGER,
+        20,
+        0,
+        searchNarrow(query),
+        false,
+      );
       this.setState({
         messages,
         isFetching: false,
@@ -70,15 +75,8 @@ class SearchMessagesScreen extends Component {
       <SearchScreen title="Search" keyboardAvoiding searchBarOnChange={this.handleQueryChange}>
         <View style={styles.results}>
           {isFetching &&
-            <ActivityIndicator
-              style={styles.activity}
-              color={BRAND_COLOR}
-              size="large"
-            />
-          }
-          {noResults &&
-            <Label style={styles.empty} text="No results" />
-          }
+            <ActivityIndicator style={styles.activity} color={BRAND_COLOR} size="large" />}
+          {noResults && <Label style={styles.empty} text="No results" />}
           <ActionSheetProvider>
             <MessageList
               actions={actions}
@@ -99,12 +97,15 @@ class SearchMessagesScreen extends Component {
   }
 }
 
-export default connect((state) => ({
-  auth: getAuth(state),
-  isOnline: state.app.isOnline,
-  subscriptions: state.subscriptions,
-  narrow: state.chat.narrow,
-  startReached: state.chat.startReached,
-  streamlistOpened: state.nav.opened,
-  flags: state.flags,
-}), boundActions)(SearchMessagesScreen);
+export default connect(
+  state => ({
+    auth: getAuth(state),
+    isOnline: state.app.isOnline,
+    subscriptions: state.subscriptions,
+    narrow: state.chat.narrow,
+    startReached: state.chat.startReached,
+    streamlistOpened: state.nav.opened,
+    flags: state.flags,
+  }),
+  boundActions,
+)(SearchMessagesScreen);

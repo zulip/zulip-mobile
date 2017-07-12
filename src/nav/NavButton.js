@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     right: 6,
     top: 6,
     position: 'absolute',
-  }
+  },
 });
 
 type Props = {
@@ -36,11 +36,10 @@ type Props = {
   style?: StyleObj,
 };
 
-export default ({ name, color, showCircle, onPress, style }: Props) => (
+export default ({ name, color, showCircle, onPress, style }: Props) =>
   <Touchable onPress={onPress}>
     <View style={styles.frame}>
       <Icon style={[styles.icon, style]} color={color || BRAND_COLOR} name={name} />
       {showCircle && <View style={[styles.circle, { backgroundColor: color }]} />}
     </View>
-  </Touchable>
-);
+  </Touchable>;

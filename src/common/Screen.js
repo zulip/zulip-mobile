@@ -23,7 +23,6 @@ const componentStyles = StyleSheet.create({
 });
 
 class Screen extends React.Component {
-
   props: {
     keyboardAvoiding: boolean,
     title: LocalizableText,
@@ -42,9 +41,7 @@ class Screen extends React.Component {
 
     return (
       <View style={componentStyles.screen}>
-        <ZulipStatusBar
-          backgroundColor={backgroundColor}
-        />
+        <ZulipStatusBar backgroundColor={backgroundColor} />
         <ModalNavBar title={title} />
         <WrapperView style={componentStyles.screenWrapper} behavior="padding">
           {children}
@@ -55,7 +52,7 @@ class Screen extends React.Component {
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     orientation: state.app.orientation,
   }),
   boundActions,

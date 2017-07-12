@@ -26,20 +26,22 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
 
     case EVENT_SUBSCRIPTION_ADD:
       return state.concat(
-        action.subscriptions.filter(x =>
-          !state.find(y => x.stream_id === y.stream_id)
-        )
+        action.subscriptions.filter(x => !state.find(y => x.stream_id === y.stream_id)),
       );
 
     case EVENT_SUBSCRIPTION_REMOVE:
-      return state.filter(x =>
-        !action.subscriptions.find(y => x.stream_id === y.stream_id)
-      );
+      return state.filter(x => !action.subscriptions.find(y => x.stream_id === y.stream_id));
 
     case EVENT_SUBSCRIPTION_UPDATE:
-      return state.map(sub =>
-        (sub.stream_id === action.stream_id ? { ...sub,
-          [action.property]: action.value } : sub));
+      return state.map(
+        sub =>
+          sub.stream_id === action.stream_id
+            ? {
+                ...sub,
+                [action.property]: action.value,
+              }
+            : sub,
+      );
 
     case EVENT_SUBSCRIPTION_PEER_ADD:
       return state.map(subscription => {
@@ -51,10 +53,7 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
 
         return {
           ...subscription,
-          subscribers: [
-            ...subscription.subscribers,
-            action.user.email,
-          ],
+          subscribers: [...subscription.subscribers, action.user.email],
         };
       });
 

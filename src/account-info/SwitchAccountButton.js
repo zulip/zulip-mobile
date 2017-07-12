@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
 });
 
 class SwitchAccountButton extends Component {
-
   static contextTypes = {
     drawer: () => null,
   };
@@ -27,31 +26,26 @@ class SwitchAccountButton extends Component {
       await unregisterPush(auth, pushToken);
       actions.deleteTokenPush();
     }
-  }
+  };
 
   switchAccount = () => {
     this.shutdownPUSH();
     this.context.drawer.close();
     this.props.actions.navigateToAccountPicker();
-  }
+  };
 
   render() {
     return (
-      <ZulipButton
-        style={styles.button}
-        secondary
-        text="Switch"
-        onPress={this.switchAccount}
-      />
+      <ZulipButton style={styles.button} secondary text="Switch" onPress={this.switchAccount} />
     );
   }
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     auth: getAuth(state),
     accounts: state.accounts,
-    pushToken: state.realm.pushToken
+    pushToken: state.realm.pushToken,
   }),
   boundActions,
 )(SwitchAccountButton);

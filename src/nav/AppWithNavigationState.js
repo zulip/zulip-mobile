@@ -4,14 +4,13 @@ import { connect } from 'react-redux';
 
 import AppNavigator from './AppNavigator';
 
-const AppWithNavigationState = props => (
+const AppWithNavigationState = props =>
   <AppNavigator
     navigation={addNavigationHelpers({
       state: props.nav,
       dispatch: props.dispatch,
     })}
-  />
-);
+  />;
 
 const mapStateToProps = state => ({
   nav: state.nav,

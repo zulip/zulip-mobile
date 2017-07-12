@@ -1,17 +1,10 @@
 /* @flow */
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 const styles = StyleSheet.create({
-  table: {
-  },
-  thead: {
-
-  },
+  table: {},
+  thead: {},
   tr: {
     flexDirection: 'row',
   },
@@ -31,7 +24,6 @@ const styles = StyleSheet.create({
 });
 
 export default class MessageFormattingHelp extends React.PureComponent {
-
   render() {
     return (
       <View style={styles.table}>
@@ -51,12 +43,8 @@ export default class MessageFormattingHelp extends React.PureComponent {
             <Text style={styles.td}>Zulip</Text>
           </View>
           <View style={styles.tr}>
-            <Text style={styles.td}>
-              TODO
-            </Text>
-            <Text style={styles.td}>
-              TODO
-            </Text>
+            <Text style={styles.td}>TODO</Text>
+            <Text style={styles.td}>TODO</Text>
           </View>
           <View style={styles.tr}>
             <Text style={styles.td}>:heart:</Text>
@@ -84,9 +72,7 @@ export default class MessageFormattingHelp extends React.PureComponent {
             <Text style={styles.td}>
               {'``` .py\ndef zulip():\n  print "Zulip"\n````'}
             </Text>
-            <Text style={styles.td}>
-              TODO
-            </Text>
+            <Text style={styles.td}>TODO</Text>
           </View>
           <View style={styles.tr}>
             <Text style={styles.td}>
@@ -98,15 +84,11 @@ export default class MessageFormattingHelp extends React.PureComponent {
             <Text style={styles.td}>Quoted</Text>
           </View>
           <View style={styles.tr}>
-            <Text style={styles.td}>``` quote
-              Quoted block
-            ```</Text>
+            <Text style={styles.td}>``` quote Quoted block ```</Text>
             <Text style={styles.td}>Quoted block</Text>
           </View>
           <View style={styles.tr}>
-            <Text>
-              You can also make tables with this Markdown-like table syntax.
-            </Text>
+            <Text>You can also make tables with this Markdown-like table syntax.</Text>
           </View>
         </View>
       </View>

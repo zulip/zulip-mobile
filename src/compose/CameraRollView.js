@@ -1,11 +1,6 @@
 /* @flow */
 import React from 'react';
-import {
-  CameraRoll,
-  Image,
-  ListView,
-  groupByEveryN,
-} from 'react-native';
+import { CameraRoll, Image, ListView, groupByEveryN } from 'react-native';
 
 import CameraPhotoList from './CameraPhotoList';
 
@@ -20,7 +15,6 @@ type Props = {
 };
 
 export default class CameraRollView extends React.Component {
-
   props: Props;
 
   static defaultProps = {
@@ -52,13 +46,13 @@ export default class CameraRollView extends React.Component {
   rendererChanged = () => {
     const ds = new ListView.DataSource({ rowHasChanged: this.handleRowHasChanged });
     this.state.dataSource = ds.cloneWithRows(
-      groupByEveryN(this.state.assets, this.props.imagesPerRow)
+      groupByEveryN(this.state.assets, this.props.imagesPerRow),
     );
-  }
+  };
 
   componentDidMount = () => {
     this.fetchPhotos();
-  }
+  };
 
   getInitialState = () => ({});
 
@@ -66,7 +60,7 @@ export default class CameraRollView extends React.Component {
     if (this.props.groupTypes !== nextProps.groupTypes) {
       this.setState(this.getInitialState(), this.fetchPhotos);
     }
-  }
+  };
 
   retrievePhotosFromCamera = async () => {
     await CameraRoll.getPhotos({
@@ -75,12 +69,12 @@ export default class CameraRollView extends React.Component {
       assetType: this.props.assetType,
       after: this.state.lastCursor,
     });
-  }
+  };
 
   fetchPhotos = () => {
     const data = this.retrievePhotosFromCamera();
     this.appendAssets(data);
-  }
+  };
 
   handleRowHasChanged = (r1: Array<Image>, r2: Array<Image>): boolean => {
     if (r1.length !== r2.length) {
@@ -94,7 +88,7 @@ export default class CameraRollView extends React.Component {
     }
 
     return false;
-  }
+  };
 
   appendAssets = (data: Object) => {
     const assets = data.edges;
@@ -108,18 +102,18 @@ export default class CameraRollView extends React.Component {
       newState.lastCursor = data.page_info.end_cursor;
       newState.assets = this.state.assets.concat(assets);
       newState.dataSource = this.state.dataSource.cloneWithRows(
-        groupByEveryN(newState.assets, this.props.imagesPerRow)
+        groupByEveryN(newState.assets, this.props.imagesPerRow),
       );
     }
 
     this.setState(newState);
-  }
+  };
 
   onEndReached = () => {
     if (!this.state.noMore) {
       this.fetchPhotos();
     }
-  }
+  };
 
   render() {
     const { dataSource } = this.state;

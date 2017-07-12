@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: 'white',
-  }
+  },
 });
 
 type Props = {
@@ -39,12 +39,12 @@ type Props = {
 };
 
 export default ({ email, users, narrow, unreadCount, onNarrow, realm }: Props) => {
-  const allNames = email.split(',').map(e =>
-    (users.find(x => x.email === e) || NULL_USER).fullName
-  ).join(', ');
-  const isSelected = narrow &&
-    isGroupNarrow(narrow) &&
-    email === normalizeRecipients(narrow[0].operand);
+  const allNames = email
+    .split(',')
+    .map(e => (users.find(x => x.email === e) || NULL_USER).fullName)
+    .join(', ');
+  const isSelected =
+    narrow && isGroupNarrow(narrow) && email === normalizeRecipients(narrow[0].operand);
 
   return (
     <Touchable onPress={() => onNarrow(email)}>

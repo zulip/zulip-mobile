@@ -18,11 +18,10 @@ const styles = StyleSheet.create({
   },
   language: {
     flex: 1,
-  }
+  },
 });
 
 export default class LanguagePickerItem extends React.Component {
-
   props: {
     locale: string,
     flag: string,
@@ -39,13 +38,7 @@ export default class LanguagePickerItem extends React.Component {
         <View style={styles.row}>
           <RawLabel style={styles.flag} text={flag} />
           <RawLabel style={styles.language} text={name} />
-          {selected &&
-            <IconDone
-              style={styles.icon}
-              size={24}
-              color={BRAND_COLOR}
-            />
-          }
+          {selected && <IconDone style={styles.icon} size={24} color={BRAND_COLOR} />}
         </View>
       </Touchable>
     );

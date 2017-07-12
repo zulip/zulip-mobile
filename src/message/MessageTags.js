@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     borderRadius: 2,
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
-  }
+  },
 });
 
 export default class MessageTags extends React.PureComponent {
@@ -41,13 +41,11 @@ export default class MessageTags extends React.PureComponent {
         {timestamp &&
           <View style={styles.tag}>
             <RawLabel style={styles.text} text={`edited ${editedTime} ago`} />
-          </View>
-        }
+          </View>}
         {starred &&
           <View style={styles.tag}>
             <Label style={styles.text} text={'starred'} />
-          </View>
-        }
+          </View>}
       </View>
     );
   }

@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   wrapper: {
     padding: 4,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   button: {
     width: 32,
@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
 });
 
 export default class SubmitButton extends React.Component {
-
   props: {
     disabled: boolean,
     onPress: () => void,
@@ -40,7 +39,7 @@ export default class SubmitButton extends React.Component {
     const WrapperComponent = disabled ? View : Touchable;
 
     return (
-      <WrapperComponent style={styles.wrapper} onPress={disabled ? undefined : onPress} >
+      <WrapperComponent style={styles.wrapper} onPress={disabled ? undefined : onPress}>
         <View style={[styles.button, opacity]}>
           <Icon size={16} color="white" />
         </View>

@@ -1,8 +1,4 @@
-import {
-  INIT_USERS,
-  EVENT_USER_ADD,
-  ACCOUNT_SWITCH,
-} from '../../actionConstants';
+import { INIT_USERS, EVENT_USER_ADD, ACCOUNT_SWITCH } from '../../actionConstants';
 import usersReducers from '../usersReducers';
 
 describe('usersReducers', () => {

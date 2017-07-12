@@ -34,7 +34,7 @@ describe('streamsReducers', () => {
           {
             name: 'some other stream',
             stream_id: 2,
-          }
+          },
         ],
       };
       const expectedState = [
@@ -45,7 +45,7 @@ describe('streamsReducers', () => {
         {
           name: 'some other stream',
           stream_id: 2,
-        }
+        },
       ];
 
       const newState = streamsReducers(prevState, action);
@@ -58,8 +58,8 @@ describe('streamsReducers', () => {
         {
           description: 'description',
           stream_id: 1,
-          name: 'some stream'
-        }
+          name: 'some stream',
+        },
       ];
       const action = {
         type: EVENT_STREAM_ADD,
@@ -72,7 +72,7 @@ describe('streamsReducers', () => {
           {
             name: 'some other stream',
             stream_id: 2,
-          }
+          },
         ],
       };
       const expectedState = [
@@ -84,7 +84,7 @@ describe('streamsReducers', () => {
         {
           name: 'some other stream',
           stream_id: 2,
-        }
+        },
       ];
 
       const newState = streamsReducers(prevState, action);
@@ -99,17 +99,17 @@ describe('streamsReducers', () => {
         {
           description: 'description',
           stream_id: 1,
-          name: 'some stream'
+          name: 'some stream',
         },
         {
           description: 'description',
           stream_id: 2,
-          name: 'other stream'
+          name: 'other stream',
         },
         {
           description: 'description',
           stream_id: 3,
-          name: 'third stream'
+          name: 'third stream',
         },
       ];
       const action = {
@@ -129,7 +129,7 @@ describe('streamsReducers', () => {
         {
           description: 'description',
           stream_id: 3,
-          name: 'third stream'
+          name: 'third stream',
         },
       ];
 
@@ -155,7 +155,7 @@ describe('streamsReducers', () => {
           {
             name: 'some other stream',
             stream_id: 2,
-          }
+          },
         ],
       };
       const expectedState = [];
@@ -168,21 +168,23 @@ describe('streamsReducers', () => {
 
   describe('EVENT_SUBSCRIPTION_UPDATE', () => {
     test('Change the name property', () => {
-      const initialState = [{
-        'stream_id': 123,
-        'name': 'competition',
-        'email_address': '123@realm.com'
-      },
-      {
-        'stream_id': 67,
-        'name': 'design',
-        'email_address': '67@realm.com'
-      },
-      {
-        'stream_id': 53,
-        'name': 'mobile',
-        'email_address': '53@realm.com'
-      }];
+      const initialState = [
+        {
+          stream_id: 123,
+          name: 'competition',
+          email_address: '123@realm.com',
+        },
+        {
+          stream_id: 67,
+          name: 'design',
+          email_address: '67@realm.com',
+        },
+        {
+          stream_id: 53,
+          name: 'mobile',
+          email_address: '53@realm.com',
+        },
+      ];
       const action = {
         stream_id: 123,
         type: EVENT_STREAM_UPDATE,
@@ -195,20 +197,21 @@ describe('streamsReducers', () => {
       };
       const expectedState = [
         {
-          'stream_id': 123,
-          'name': 'real competition',
-          'email_address': '123@realm.com'
+          stream_id: 123,
+          name: 'real competition',
+          email_address: '123@realm.com',
         },
         {
-          'stream_id': 67,
-          'name': 'design',
-          'email_address': '67@realm.com'
+          stream_id: 67,
+          name: 'design',
+          email_address: '67@realm.com',
         },
         {
-          'stream_id': 53,
-          'name': 'mobile',
-          'email_address': '53@realm.com'
-        }];
+          stream_id: 53,
+          name: 'mobile',
+          email_address: '53@realm.com',
+        },
+      ];
 
       const actualState = streamsReducers(initialState, action);
 
@@ -216,24 +219,26 @@ describe('streamsReducers', () => {
     });
 
     test('Change the description property', () => {
-      const initialState = [{
-        'stream_id': 123,
-        'name': 'competition',
-        'email_address': '123@realm.com',
-        'description': 'slack',
-      },
-      {
-        'stream_id': 67,
-        'name': 'design',
-        'email_address': '67@realm.com',
-        'description': 'basic design',
-      },
-      {
-        'stream_id': 53,
-        'name': 'mobile',
-        'email_address': '53@realm.com',
-        'description': 'android'
-      }];
+      const initialState = [
+        {
+          stream_id: 123,
+          name: 'competition',
+          email_address: '123@realm.com',
+          description: 'slack',
+        },
+        {
+          stream_id: 67,
+          name: 'design',
+          email_address: '67@realm.com',
+          description: 'basic design',
+        },
+        {
+          stream_id: 53,
+          name: 'mobile',
+          email_address: '53@realm.com',
+          description: 'android',
+        },
+      ];
       const action = {
         stream_id: 53,
         type: EVENT_STREAM_UPDATE,
@@ -246,23 +251,24 @@ describe('streamsReducers', () => {
       };
       const expectedState = [
         {
-          'stream_id': 123,
-          'name': 'competition',
-          'email_address': '123@realm.com',
-          'description': 'slack',
+          stream_id: 123,
+          name: 'competition',
+          email_address: '123@realm.com',
+          description: 'slack',
         },
         {
-          'stream_id': 67,
-          'name': 'design',
-          'email_address': '67@realm.com',
-          'description': 'basic design',
+          stream_id: 67,
+          name: 'design',
+          email_address: '67@realm.com',
+          description: 'basic design',
         },
         {
-          'stream_id': 53,
-          'name': 'mobile',
-          'email_address': '53@realm.com',
-          'description': 'iOS + android',
-        }];
+          stream_id: 53,
+          name: 'mobile',
+          email_address: '53@realm.com',
+          description: 'iOS + android',
+        },
+      ];
 
       const actualState = streamsReducers(initialState, action);
 
@@ -270,21 +276,23 @@ describe('streamsReducers', () => {
     });
 
     test('Change the email_address property', () => {
-      const initialState = [{
-        'stream_id': 123,
-        'name': 'competition',
-        'email_address': '123@realm.com'
-      },
-      {
-        'stream_id': 67,
-        'name': 'design',
-        'email_address': '67@realm.com'
-      },
-      {
-        'stream_id': 53,
-        'name': 'mobile',
-        'email_address': '53@realm.com'
-      }];
+      const initialState = [
+        {
+          stream_id: 123,
+          name: 'competition',
+          email_address: '123@realm.com',
+        },
+        {
+          stream_id: 67,
+          name: 'design',
+          email_address: '67@realm.com',
+        },
+        {
+          stream_id: 53,
+          name: 'mobile',
+          email_address: '53@realm.com',
+        },
+      ];
       const action = {
         stream_id: 123,
         type: EVENT_STREAM_UPDATE,
@@ -297,20 +305,21 @@ describe('streamsReducers', () => {
       };
       const expectedState = [
         {
-          'stream_id': 123,
-          'name': 'competition',
-          'email_address': '1234@realm.com'
+          stream_id: 123,
+          name: 'competition',
+          email_address: '1234@realm.com',
         },
         {
-          'stream_id': 67,
-          'name': 'design',
-          'email_address': '67@realm.com'
+          stream_id: 67,
+          name: 'design',
+          email_address: '67@realm.com',
         },
         {
-          'stream_id': 53,
-          'name': 'mobile',
-          'email_address': '53@realm.com'
-        }];
+          stream_id: 53,
+          name: 'mobile',
+          email_address: '53@realm.com',
+        },
+      ];
 
       const actualState = streamsReducers(initialState, action);
 

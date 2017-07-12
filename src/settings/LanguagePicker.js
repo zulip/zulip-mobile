@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
 });
 
 export default class LanguagePicker extends React.Component {
-
   props: {
     value: string,
     onValueChange: () => void,
@@ -27,13 +26,12 @@ export default class LanguagePicker extends React.Component {
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         data={languages}
         keyExtractor={item => item.locale}
-        renderItem={({ item }) => (
+        renderItem={({ item }) =>
           <LanguagePickerItem
             selected={item.locale === value}
             onValueChange={onValueChange}
             {...item}
-          />
-        )}
+          />}
       />
     );
   }

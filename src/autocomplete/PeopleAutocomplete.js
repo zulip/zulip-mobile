@@ -10,7 +10,6 @@ import UserItem from '../users/UserItem';
 import { sortAlphabetically, getAutocompleteSuggestion } from '../users/usersSelectors';
 
 class PeopleAutocomplete extends Component {
-
   props: {
     filter: string,
     onAutocomplete: (name: string) => void,
@@ -31,7 +30,7 @@ class PeopleAutocomplete extends Component {
           initialNumToRender={10}
           data={people}
           keyExtractor={item => item.email}
-          renderItem={({ item }) => (
+          renderItem={({ item }) =>
             <UserItem
               key={item.email}
               fullName={item.fullName}
@@ -39,8 +38,7 @@ class PeopleAutocomplete extends Component {
               email={item.email}
               showEmail
               onPress={() => onAutocomplete(item.fullName)}
-            />
-          )}
+            />}
         />
       </Popup>
     );

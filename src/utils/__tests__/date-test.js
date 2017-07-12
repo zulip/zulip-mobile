@@ -1,10 +1,4 @@
-import {
-  shortTime,
-  shortDate,
-  longDate,
-  daysInDate,
-  humanDate,
-} from '../date';
+import { shortTime, shortDate, longDate, daysInDate, humanDate } from '../date';
 
 describe('shortTime', () => {
   test('returns only hour and minutes', () => {

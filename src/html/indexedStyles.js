@@ -8,7 +8,7 @@ export default {
     [1]: {
       fontSize: 12,
       lineHeight: 11,
-      textAlignVertical: 'top'
+      textAlignVertical: 'top',
     },
-  })
-}
+  }),
+};

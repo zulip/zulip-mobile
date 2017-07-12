@@ -5,8 +5,7 @@ import registerPush from '../api/registerPush';
 import { streamNarrow, privateNarrow } from '../utils/narrow';
 import type { Auth } from '../types';
 
-
-const handlePendingNotifications = async (switchNarrow) => {
+const handlePendingNotifications = async switchNarrow => {
   const notification = await PendingNotifications.getInitialNotification();
   if (notification) {
     const data = notification.getData();
@@ -20,7 +19,7 @@ const handlePendingNotifications = async (switchNarrow) => {
 };
 
 const handleRegistrationUpdates = (auth: Auth, saveTokenPush) => {
-  NotificationsAndroid.setRegistrationTokenUpdateListener(async (deviceToken) => {
+  NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
     try {
       await registerPush(auth, deviceToken);
     } catch (e) {

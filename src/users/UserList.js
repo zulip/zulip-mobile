@@ -16,11 +16,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingLeft: 8,
     fontSize: 18,
-  }
+  },
 });
 
 export default class UserList extends Component {
-
   props: {
     filter: string,
     users: User[],
@@ -40,7 +39,7 @@ export default class UserList extends Component {
         initialNumToRender={20}
         sections={sections}
         keyExtractor={item => item.email}
-        renderItem={({ item }) => (
+        renderItem={({ item }) =>
           <UserItem
             key={item.email}
             fullName={item.fullName}
@@ -48,11 +47,8 @@ export default class UserList extends Component {
             email={item.email}
             onPress={onNarrow}
             realm={realm}
-          />
-        )}
-        renderSectionHeader={(xx, x) =>
-          <RawLabel style={styles.groupHeader} text={x} />
-        }
+          />}
+        renderSectionHeader={(xx, x) => <RawLabel style={styles.groupHeader} text={x} />}
       />
     );
   }

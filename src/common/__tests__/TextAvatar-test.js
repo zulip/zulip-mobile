@@ -36,6 +36,6 @@ describe('initialsFromName', () => {
 
   test('double names produce one initial', () => {
     expect(initialsFromName('Jean-Pierre')).toEqual('J');
-    expect(initialsFromName('Mc\'Donald')).toEqual('M');
+    expect(initialsFromName("Mc'Donald")).toEqual('M');
   });
 });

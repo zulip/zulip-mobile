@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
 });
 
 class SearchScreen extends React.Component {
-
   props: {
     keyboardAvoiding: boolean,
     title: string,
@@ -55,6 +54,6 @@ class SearchScreen extends React.Component {
   }
 }
 
-export default connect((state) => ({
+export default connect(state => ({
   orientation: state.app.orientation,
 }))(SearchScreen);

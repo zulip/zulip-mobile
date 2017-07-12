@@ -11,13 +11,13 @@ describe('getComposeInputPlaceholder', () => {
       {
         id: 23,
         email: 'abc@zulip.com',
-        fullName: 'ABC'
+        fullName: 'ABC',
       },
       {
         id: 22,
         email: 'xyz@zulip.com',
-        fullName: 'XYZ'
-      }
+        fullName: 'XYZ',
+      },
     ];
 
     const placeholder = getComposeInputPlaceholder(narrow, ownEmail, users);

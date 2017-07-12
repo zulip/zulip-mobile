@@ -5,7 +5,6 @@ import SearchScreen from '../search/SearchScreen';
 import UserListCard from './UserListCard';
 
 export default class UsersScreen extends PureComponent {
-
   state: {
     filter: string,
   };

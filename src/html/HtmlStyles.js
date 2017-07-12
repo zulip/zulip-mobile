@@ -18,21 +18,15 @@ export default StyleSheet.create({
   div: {
     flexWrap: 'wrap',
   },
-  p: {
-  },
+  p: {},
   br: {
     width: '100%',
   },
-  span: {
-  },
-  bullet: {
-  },
-  a: {
-  },
-  b: {
-  },
-  i: {
-  },
+  span: {},
+  bullet: {},
+  a: {},
+  b: {},
+  i: {},
   'user-mention': {
     borderColor: 'rgba(0, 0, 0, 0.2)',
     borderWidth: 1,
@@ -44,7 +38,7 @@ export default StyleSheet.create({
   'user-mention-me': {
     backgroundColor: 'rgba(0, 255, 0, 0.1)',
   },
-  'highlight': {
+  highlight: {
     backgroundColor: 'rgba(255, 255, 0, 0.5)',
   },
   code: {
@@ -71,7 +65,6 @@ export default StyleSheet.create({
   thead: {
     flexDirection: 'column',
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
-
   },
   tbody: {
     flexDirection: 'column',

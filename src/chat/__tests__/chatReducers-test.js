@@ -49,7 +49,7 @@ describe('chatReducers', () => {
         narrow: streamNarrow('some stream'),
         caughtUp: { older: false, newer: false },
         fetching: { older: false, newer: false },
-        editMessage: null
+        editMessage: null,
       };
 
       const newState = chatReducers(initialState, action);

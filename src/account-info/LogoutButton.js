@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
 });
 
 class LogoutButton extends Component {
-
   props: {
     accounts: any[],
     auth: Auth,
@@ -31,7 +30,7 @@ class LogoutButton extends Component {
       await unregisterPush(auth, pushToken);
       actions.deleteTokenPush();
     }
-  }
+  };
 
   logout = () => {
     const { accounts, actions } = this.props;
@@ -40,25 +39,20 @@ class LogoutButton extends Component {
     const accountsLoggedOut = accounts.slice();
     accountsLoggedOut[0].apiKey = '';
     actions.resetNavigation();
-  }
+  };
 
   render() {
     return (
-      <ZulipButton
-        style={styles.logoutButton}
-        secondary
-        text="Logout"
-        onPress={this.logout}
-      />
+      <ZulipButton style={styles.logoutButton} secondary text="Logout" onPress={this.logout} />
     );
   }
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     auth: getAuth(state),
     accounts: state.accounts,
-    pushToken: state.realm.pushToken
+    pushToken: state.realm.pushToken,
   }),
   boundActions,
 )(LogoutButton);

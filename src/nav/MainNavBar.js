@@ -20,32 +20,38 @@ const componentStyles = StyleSheet.create({
 });
 
 class MainNavBar extends React.Component {
-
   static contextTypes = {
     styles: () => null,
   };
 
   render() {
     const { styles } = this.context;
-    const { narrow, subscriptions, unreadPrivateMessagesCount,
-      onPressStreams, onPressPeople, cancelEditMessage, editMessage } = this.props;
-    const leftPress = (editMessage) ? cancelEditMessage : onPressStreams;
-    const backgroundColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
-      (subscriptions.find((sub) => narrow[0].operand === sub.name) || NULL_SUBSCRIPTION).color :
-      StyleSheet.flatten(styles.navBar).backgroundColor;
+    const {
+      narrow,
+      subscriptions,
+      unreadPrivateMessagesCount,
+      onPressStreams,
+      onPressPeople,
+      cancelEditMessage,
+      editMessage,
+    } = this.props;
+    const leftPress = editMessage ? cancelEditMessage : onPressStreams;
+    const backgroundColor =
+      isStreamNarrow(narrow) || isTopicNarrow(narrow)
+        ? (subscriptions.find(sub => narrow[0].operand === sub.name) || NULL_SUBSCRIPTION).color
+        : StyleSheet.flatten(styles.navBar).backgroundColor;
 
-    const textColor = isStreamNarrow(narrow) || isTopicNarrow(narrow) ?
-      foregroundColorFromBackground(backgroundColor) :
-      BRAND_COLOR;
+    const textColor =
+      isStreamNarrow(narrow) || isTopicNarrow(narrow)
+        ? foregroundColorFromBackground(backgroundColor)
+        : BRAND_COLOR;
 
     return (
       <View style={componentStyles.wrapper}>
-        <ZulipStatusBar
-          backgroundColor={backgroundColor}
-        />
+        <ZulipStatusBar backgroundColor={backgroundColor} />
         <View style={[styles.navBar, { backgroundColor }]}>
           <NavButton
-            name={(editMessage) ? 'md-arrow-back' : 'ios-menu'}
+            name={editMessage ? 'md-arrow-back' : 'ios-menu'}
             color={textColor}
             onPress={leftPress}
           />
@@ -56,8 +62,7 @@ class MainNavBar extends React.Component {
               color={textColor}
               showCircle={unreadPrivateMessagesCount > 0}
               onPress={onPressPeople}
-            />
-        }
+            />}
         </View>
         {this.props.children}
       </View>
@@ -65,11 +70,9 @@ class MainNavBar extends React.Component {
   }
 }
 
-export default connect(
-  (state) => ({
-    narrow: state.chat.narrow,
-    subscriptions: state.subscriptions,
-    unreadPrivateMessagesCount: getUnreadPrivateMessagesCount(state),
-    editMessage: state.app.editMessage
-  })
-)(MainNavBar);
+export default connect(state => ({
+  narrow: state.chat.narrow,
+  subscriptions: state.subscriptions,
+  unreadPrivateMessagesCount: getUnreadPrivateMessagesCount(state),
+  editMessage: state.app.editMessage,
+}))(MainNavBar);

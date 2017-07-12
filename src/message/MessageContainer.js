@@ -53,14 +53,7 @@ export default class MessageContainer extends React.PureComponent {
   }
 
   render() {
-    const {
-      message,
-      auth,
-      actions,
-      avatarUrl,
-      twentyFourHourTime,
-      isBrief,
-    } = this.props;
+    const { message, auth, actions, avatarUrl, twentyFourHourTime, isBrief } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
     const childrenNodes = htmlToDomTree(message.match_content || message.content);
 
@@ -73,8 +66,7 @@ export default class MessageContainer extends React.PureComponent {
         doNarrow={actions.doNarrow}
         onLongPress={this.onLongPress}
         starred={this.isStarred(message)}
-        realm={auth.realm}
-      >
+        realm={auth.realm}>
         {renderHtmlChildren({
           childrenNodes,
           auth,

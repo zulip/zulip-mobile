@@ -23,11 +23,10 @@ const componentStyles = StyleSheet.create({
   },
   linksTouchable: {
     alignItems: 'flex-end',
-  }
+  },
 });
 
 class PasswordAuthView extends React.Component {
-
   static contextTypes = {
     styles: () => null,
   };
@@ -47,7 +46,7 @@ class PasswordAuthView extends React.Component {
       progress: false,
       email: props.email || config.defaultLoginEmail,
       password: config.defaultLoginPassword,
-      error: ''
+      error: '',
     };
   }
 
@@ -108,11 +107,7 @@ class PasswordAuthView extends React.Component {
           blurOnSubmit={false}
           onSubmitEditing={this.validateForm}
         />
-        <ZulipButton
-          text="Sign in with password"
-          progress={progress}
-          onPress={this.validateForm}
-        />
+        <ZulipButton text="Sign in with password" progress={progress} onPress={this.validateForm} />
         <ErrorMsg error={error} />
         <Touchable style={componentStyles.linksTouchable}>
           <Label
@@ -127,7 +122,7 @@ class PasswordAuthView extends React.Component {
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     auth: getAuth(state),
     email: getOwnEmail(state),
   }),

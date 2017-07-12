@@ -19,7 +19,6 @@ type State = {
 };
 
 class DevAuthScreen extends React.Component {
-
   static contextTypes = {
     styles: () => null,
   };
@@ -76,27 +75,19 @@ class DevAuthScreen extends React.Component {
         <ScrollView>
           <View style={styles.container}>
             {error && <ErrorMsg error={error} />}
-            <Text style={[styles.field, styles.heading2]}>
-              Administrators
-            </Text>
-            {directAdmins.map((email) => (
-              <ZulipButton
-                key={email}
-                text={email}
-                onPress={() => this.tryDevLogin(email)}
-              />
-            ))}
-            <Text style={[styles.field, styles.heading2]}>
-              Normal users
-            </Text>
-            {directUsers.map((email) => (
+            <Text style={[styles.field, styles.heading2]}>Administrators</Text>
+            {directAdmins.map(email =>
+              <ZulipButton key={email} text={email} onPress={() => this.tryDevLogin(email)} />,
+            )}
+            <Text style={[styles.field, styles.heading2]}>Normal users</Text>
+            {directUsers.map(email =>
               <ZulipButton
                 key={email}
                 text={email}
                 secondary
                 onPress={() => this.tryDevLogin(email)}
-              />
-            ))}
+              />,
+            )}
           </View>
         </ScrollView>
       </Screen>
@@ -105,7 +96,7 @@ class DevAuthScreen extends React.Component {
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     auth: getAuth(state),
   }),
   boundActions,

@@ -28,7 +28,7 @@ describe('subscriptionsReducers', () => {
           {
             name: 'some other stream',
             stream_id: 2,
-          }
+          },
         ],
       };
       const expectedState = [
@@ -39,7 +39,7 @@ describe('subscriptionsReducers', () => {
         {
           name: 'some other stream',
           stream_id: 2,
-        }
+        },
       ];
 
       const newState = subscriptionsReducers(prevState, action);
@@ -52,8 +52,8 @@ describe('subscriptionsReducers', () => {
         {
           color: 'red',
           stream_id: 1,
-          name: 'some stream'
-        }
+          name: 'some stream',
+        },
       ];
       const action = {
         type: EVENT_SUBSCRIPTION_ADD,
@@ -65,7 +65,7 @@ describe('subscriptionsReducers', () => {
           {
             name: 'some other stream',
             stream_id: 2,
-          }
+          },
         ],
       };
       const expectedState = [
@@ -77,7 +77,7 @@ describe('subscriptionsReducers', () => {
         {
           name: 'some other stream',
           stream_id: 2,
-        }
+        },
       ];
 
       const newState = subscriptionsReducers(prevState, action);
@@ -92,17 +92,17 @@ describe('subscriptionsReducers', () => {
         {
           color: 'red',
           stream_id: 1,
-          name: 'some stream'
+          name: 'some stream',
         },
         {
           color: 'green',
           stream_id: 2,
-          name: 'other stream'
+          name: 'other stream',
         },
         {
           color: 'blue',
           stream_id: 3,
-          name: 'third stream'
+          name: 'third stream',
         },
       ];
       const action = {
@@ -122,7 +122,7 @@ describe('subscriptionsReducers', () => {
         {
           color: 'blue',
           stream_id: 3,
-          name: 'third stream'
+          name: 'third stream',
         },
       ];
 
@@ -148,7 +148,7 @@ describe('subscriptionsReducers', () => {
           {
             name: 'some other stream',
             stream_id: 2,
-          }
+          },
         ],
       };
       const expectedState = [];
@@ -161,10 +161,7 @@ describe('subscriptionsReducers', () => {
 
   describe('EVENT_SUBSCRIPTION_PEER_ADD', () => {
     test('adds user as subscriber of specified stream', () => {
-      const prevState = [
-        { stream_id: 1, subscribers: [] },
-        { stream_id: 2, subscribers: [] },
-      ];
+      const prevState = [{ stream_id: 1, subscribers: [] }, { stream_id: 2, subscribers: [] }];
       const action = {
         type: EVENT_SUBSCRIPTION_PEER_ADD,
         subscriptions: [1],
@@ -181,10 +178,7 @@ describe('subscriptionsReducers', () => {
     });
 
     test('adds user as subscriber to multiple streams', () => {
-      const prevState = [
-        { stream_id: 1, subscribers: [] },
-        { stream_id: 2, subscribers: [] },
-      ];
+      const prevState = [{ stream_id: 1, subscribers: [] }, { stream_id: 2, subscribers: [] }];
       const action = {
         type: EVENT_SUBSCRIPTION_PEER_ADD,
         subscriptions: [1, 2, 3],
@@ -212,10 +206,7 @@ describe('subscriptionsReducers', () => {
         subscriptions: [1],
         user: { id: 1, email: 'john@example.com' },
       };
-      const expectedState = [
-        { stream_id: 1, subscribers: [] },
-        { stream_id: 2, subscribers: [] },
-      ];
+      const expectedState = [{ stream_id: 1, subscribers: [] }, { stream_id: 2, subscribers: [] }];
 
       const newState = subscriptionsReducers(prevState, action);
 
@@ -232,10 +223,7 @@ describe('subscriptionsReducers', () => {
         subscriptions: [1, 2, 3],
         user: { id: 1, email: 'john@example.com' },
       };
-      const expectedState = [
-        { stream_id: 1, subscribers: [] },
-        { stream_id: 2, subscribers: [] },
-      ];
+      const expectedState = [{ stream_id: 1, subscribers: [] }, { stream_id: 2, subscribers: [] }];
 
       const newState = subscriptionsReducers(prevState, action);
 
@@ -245,21 +233,23 @@ describe('subscriptionsReducers', () => {
 
   describe('EVENT_SUBSCRIPTION_UPDATE', () => {
     test('Change the in_home_view property', () => {
-      const initialState = [{
-        'stream_id': 123,
-        'name': 'competition',
-        'in_home_view': false
-      },
-      {
-        'stream_id': 67,
-        'name': 'design',
-        'in_home_view': false
-      },
-      {
-        'stream_id': 53,
-        name: 'mobile',
-        'in_home_view': true
-      }];
+      const initialState = [
+        {
+          stream_id: 123,
+          name: 'competition',
+          in_home_view: false,
+        },
+        {
+          stream_id: 67,
+          name: 'design',
+          in_home_view: false,
+        },
+        {
+          stream_id: 53,
+          name: 'mobile',
+          in_home_view: true,
+        },
+      ];
       const action = {
         stream_id: 123,
         type: EVENT_SUBSCRIPTION_UPDATE,
@@ -272,20 +262,21 @@ describe('subscriptionsReducers', () => {
       };
       const expectedState = [
         {
-          'stream_id': 123,
-          'name': 'competition',
-          'in_home_view': true
+          stream_id: 123,
+          name: 'competition',
+          in_home_view: true,
         },
         {
-          'stream_id': 67,
-          'name': 'design',
-          'in_home_view': false
+          stream_id: 67,
+          name: 'design',
+          in_home_view: false,
         },
         {
-          'stream_id': 53,
+          stream_id: 53,
           name: 'mobile',
-          'in_home_view': true
-        }];
+          in_home_view: true,
+        },
+      ];
 
       const actualState = subscriptionsReducers(initialState, action);
 

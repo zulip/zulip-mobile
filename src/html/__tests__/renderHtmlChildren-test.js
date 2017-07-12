@@ -3,11 +3,13 @@ import ReactTestRenderer from 'react-test-renderer';
 import htmlToDomTree from '../htmlToDomTree';
 import renderHtmlChildren from '../renderHtmlChildren';
 
-const htmlToJson = (html) =>
-  ReactTestRenderer.create(renderHtmlChildren({
-    childrenNodes: htmlToDomTree(html),
-    actions: {},
-  })).toJSON();
+const htmlToJson = html =>
+  ReactTestRenderer.create(
+    renderHtmlChildren({
+      childrenNodes: htmlToDomTree(html),
+      actions: {},
+    }),
+  ).toJSON();
 
 describe('renderHtmlChildren', () => {
   test('text renders as <Text />', () => {

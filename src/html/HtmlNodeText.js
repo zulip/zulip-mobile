@@ -10,9 +10,5 @@ type Props = {
   cascadingTextStyle?: StyleObj,
 };
 
-export default ({ data, cascadingTextStyle }: Props) => (
-  <RawLabel
-    style={cascadingTextStyle}
-    text={entities.decodeHTML(data).replace(/\n/, '')}
-  />
-);
+export default ({ data, cascadingTextStyle }: Props) =>
+  <RawLabel style={cascadingTextStyle} text={entities.decodeHTML(data).replace(/\n/, '')} />;

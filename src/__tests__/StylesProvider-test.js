@@ -9,7 +9,7 @@ describe('StylesProvider', () => {
     const rendered = ReactTestRenderer.create(
       <StylesProvider>
         <View />
-      </StylesProvider>
+      </StylesProvider>,
     ).toJSON();
     expect(rendered.type).toEqual('View');
   });

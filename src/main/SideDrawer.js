@@ -12,28 +12,24 @@ type Props = {
   orientation: string,
 };
 
-export default (props: Props) => (
+export default (props: Props) =>
   <Drawer
     content={props.content}
     open={props.open}
     side={props.side}
     tapToClose
-    openDrawerOffset={
-      props.orientation === 'LANDSCAPE' ? 0.4 : 0.2
-    }
+    openDrawerOffset={props.orientation === 'LANDSCAPE' ? 0.4 : 0.2}
     negotiatePan
     panOpenMask={0.1}
     useInteractionManager
     tweenDuration={150}
-    tweenHandler={(ratio) => ({
+    tweenHandler={ratio => ({
       mainOverlay: {
         opacity: ratio / 2,
         backgroundColor: 'black',
-      }
+      },
     })}
     onOpenStart={props.onOpenStart}
-    onClose={props.onClose}
-  >
+    onClose={props.onClose}>
     {props.children}
-  </Drawer>
-);
+  </Drawer>;

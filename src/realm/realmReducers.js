@@ -32,13 +32,13 @@ const reducer = (state: RealmState = initialState, action: Action): RealmState =
     case SAVE_TOKEN_PUSH: {
       return {
         ...state,
-        pushToken: action.pushToken
+        pushToken: action.pushToken,
       };
     }
     case DELETE_TOKEN_PUSH: {
       return {
         ...state,
-        pushToken: ''
+        pushToken: '',
       };
     }
     case LOGOUT:

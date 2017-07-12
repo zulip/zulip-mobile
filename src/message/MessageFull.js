@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
 });
 
 class MessageFull extends React.PureComponent {
-
   props: {
     actions: Actions,
     avatarUrl: string,
@@ -48,7 +47,7 @@ class MessageFull extends React.PureComponent {
   handleAvatarPress = () => {
     const { message, actions } = this.props;
     actions.navigateToAccountDetails(message.sender_email);
-  }
+  };
 
   render() {
     const {
@@ -83,22 +82,12 @@ class MessageFull extends React.PureComponent {
               </View>
             </TouchableWithoutFeedback>
           </View>
-          <MessageTags
-            timestamp={message.last_edit_timestamp}
-            starred={starred}
-          />
-          <ReactionList
-            messageId={message.id}
-            reactions={message.reactions}
-            ownEmail={ownEmail}
-          />
+          <MessageTags timestamp={message.last_edit_timestamp} starred={starred} />
+          <ReactionList messageId={message.id} reactions={message.reactions} ownEmail={ownEmail} />
         </View>
       </View>
     );
   }
 }
 
-export default connect(
-  null,
-  boundActions,
-)(MessageFull);
+export default connect(null, boundActions)(MessageFull);

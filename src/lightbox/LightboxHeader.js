@@ -7,7 +7,6 @@ import ModalNavBar from '../nav/ModalNavBar';
 import { SlideAnimationView, Avatar } from '../common';
 import { shortTime, humanDate } from '../utils/date';
 
-
 const customStyles = StyleSheet.create({
   text: {
     paddingLeft: 10,
@@ -57,11 +56,14 @@ export default ({ actions, senderName, timestamp, styles, ...restProps }: Props)
     <SlideAnimationView property={'translateY'} {...restProps}>
       <ModalNavBar
         itemsColor="white"
-        rightItem={{ name: 'ios-close-outline', onPress: actions.navigateBack, style: { fontSize: 36 } }}
+        rightItem={{
+          name: 'ios-close-outline',
+          onPress: actions.navigateBack,
+          style: { fontSize: 36 },
+        }}
         style={customStyles.navBar}
         childrenStyle={customStyles.children}
-        isRightItemNav
-      >
+        isRightItemNav>
         <Avatar {...restProps} />
         <View style={customStyles.text}>
           <Text style={[styles.username, customStyles.name]} numberOfLines={1}>

@@ -25,9 +25,10 @@ type Props = {
   style: StyleObj,
 };
 
-export default ({ displayMessage, onPress, ...restProps }: Props) => (
+export default ({ displayMessage, onPress, ...restProps }: Props) =>
   <SlideAnimationView property={'translateY'} {...restProps}>
-    <Text style={styles.text}>{displayMessage}</Text>
+    <Text style={styles.text}>
+      {displayMessage}
+    </Text>
     <NavButton name="ios-more" color="white" style={styles.icon} onPress={onPress} />
-  </SlideAnimationView>
-);
+  </SlideAnimationView>;

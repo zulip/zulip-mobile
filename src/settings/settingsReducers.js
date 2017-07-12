@@ -1,12 +1,16 @@
 /* @flow */
 import type { SettingsState, Action } from '../types';
-import { SETTINGS_CHANGE, REALM_INIT, EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS } from '../actionConstants';
+import {
+  SETTINGS_CHANGE,
+  REALM_INIT,
+  EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+} from '../actionConstants';
 
 const initialState: SettingsState = {
   locale: 'en',
   theme: 'default',
-  'offlineNotification': true,
-  'onlineNotification': true,
+  offlineNotification: true,
+  onlineNotification: true,
 };
 
 export default (state: SettingsState = initialState, action: Action): SettingsState => {

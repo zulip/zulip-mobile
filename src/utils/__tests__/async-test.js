@@ -29,8 +29,8 @@ describe('tryUntilSuccessful', () => {
   });
 
   test('resolves any promise, if there is no exception', async () => {
-    const result = await tryUntilSuccessful(() =>
-      new Promise(resolve => setTimeout(() => resolve('hello'), 100))
+    const result = await tryUntilSuccessful(
+      () => new Promise(resolve => setTimeout(() => resolve('hello'), 100)),
     );
 
     expect(result).toEqual('hello');

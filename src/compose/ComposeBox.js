@@ -22,16 +22,9 @@ type Props = {
   actions: Actions,
 };
 
-const composeComponents = [
-  ComposeText,
-  CameraRollView,
-  View,
-  View,
-  View,
-];
+const composeComponents = [ComposeText, CameraRollView, View, View, View];
 
 class ComposeBox extends React.Component {
-
   static contextTypes = {
     styles: () => null,
   };
@@ -49,19 +42,18 @@ class ComposeBox extends React.Component {
     this.state = {
       optionSelected: 0,
       operator: '',
-      text: ''
+      text: '',
     };
   }
 
   setTopic = (operator: string) => this.setState({ operator });
 
-  handleOptionSelected = (optionSelected: number) =>
-    this.setState({ optionSelected });
+  handleOptionSelected = (optionSelected: number) => this.setState({ optionSelected });
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.editMessage !== this.props.editMessage) {
       this.setState({
-        text: (nextProps.editMessage) ? nextProps.editMessage.content : ''
+        text: nextProps.editMessage ? nextProps.editMessage.content : '',
       });
     }
   }
@@ -74,23 +66,19 @@ class ComposeBox extends React.Component {
 
     return (
       <View style={this.context.styles.composeBox}>
-        <AutoCompleteView
-          text={text}
-          onAutocomplete={(input) => this.setState({ text: input })}
-        />
+        <AutoCompleteView text={text} onAutocomplete={input => this.setState({ text: input })} />
         {(isTopicNarrow(narrow) || isStreamNarrow(narrow)) &&
-        <View style={styles.topicWrapper}>
-          <StreamBox
-            optionSelected={optionSelected}
-            handleOptionSelected={this.handleOptionSelected}
-            setTopic={this.setTopic}
-            operator={operator}
-            users={users}
-            narrow={narrow}
-            lastTopic={lastTopic}
-          />
-        </View>
-      }
+          <View style={styles.topicWrapper}>
+            <StreamBox
+              optionSelected={optionSelected}
+              handleOptionSelected={this.handleOptionSelected}
+              setTopic={this.setTopic}
+              operator={operator}
+              users={users}
+              narrow={narrow}
+              lastTopic={lastTopic}
+            />
+          </View>}
         <View style={styles.divider} />
         <ActiveComposeComponent
           auth={auth}
@@ -98,7 +86,7 @@ class ComposeBox extends React.Component {
           operator={operator}
           users={users}
           text={text}
-          handleChangeText={(input) => this.setState({ text: input })}
+          handleChangeText={input => this.setState({ text: input })}
           editMessage={editMessage}
           cancelEditMessage={actions.cancelEditMessage}
         />
@@ -107,11 +95,13 @@ class ComposeBox extends React.Component {
   }
 }
 
-
-export default connect((state: GlobalState) => ({
-  auth: getAuth(state),
-  narrow: state.chat.narrow,
-  users: state.users,
-  lastTopic: getLastTopicInActiveNarrow(state),
-  editMessage: state.app.editMessage,
-}), boundActions)(ComposeBox);
+export default connect(
+  (state: GlobalState) => ({
+    auth: getAuth(state),
+    narrow: state.chat.narrow,
+    users: state.users,
+    lastTopic: getLastTopicInActiveNarrow(state),
+    editMessage: state.app.editMessage,
+  }),
+  boundActions,
+)(ComposeBox);

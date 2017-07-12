@@ -21,28 +21,22 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     fontSize: 20,
-  }
+  },
 });
 
 export default class ConversationList extends React.PureComponent {
-
   props: {
     realm: string,
     users: User[],
     conversations: string[],
     onNarrow: (arg: string) => void,
-  }
+  };
 
   render() {
     const { conversations, users, realm, onNarrow } = this.props;
 
     if (!conversations.length) {
-      return (
-        <Label
-          style={styles.emptySlate}
-          text="No recent conversations"
-        />
-      );
+      return <Label style={styles.emptySlate} text="No recent conversations" />;
     }
 
     return (
@@ -51,23 +45,22 @@ export default class ConversationList extends React.PureComponent {
         initialNumToRender={20}
         data={conversations}
         keyExtractor={item => item.recipients}
-        renderItem={({ item }) => (
-          item.recipients.indexOf(',') === -1 ? // if single recipient
-            <ConversationUser
-              email={item.recipients}
-              unreadCount={item.unread}
-              users={users}
-              realm={realm}
-              onNarrow={onNarrow}
-            /> :
-            <ConversationGroup
-              email={item.recipients}
-              unreadCount={item.unread}
-              users={users}
-              realm={realm}
-              onNarrow={onNarrow}
-            />
-        )}
+        renderItem={({ item }) =>
+          item.recipients.indexOf(',') === -1 // if single recipient
+            ? <ConversationUser
+                email={item.recipients}
+                unreadCount={item.unread}
+                users={users}
+                realm={realm}
+                onNarrow={onNarrow}
+              />
+            : <ConversationGroup
+                email={item.recipients}
+                unreadCount={item.unread}
+                users={users}
+                realm={realm}
+                onNarrow={onNarrow}
+              />}
       />
     );
   }

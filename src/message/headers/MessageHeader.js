@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
 });
 
 export default class MessageHeader extends React.PureComponent {
-
   props: {
     auth: Auth,
     actions: Actions,
@@ -25,7 +24,7 @@ export default class MessageHeader extends React.PureComponent {
     narrow: Narrow,
     subscriptions: any[],
     onHeaderLongPress: (item: Object) => void,
-  }
+  };
 
   onLongPress = () => {
     const { item, onHeaderLongPress } = this.props;
@@ -50,8 +49,8 @@ export default class MessageHeader extends React.PureComponent {
     }
 
     if (item.type === 'stream') {
-      const stream = subscriptions
-        .find(x => x.name === item.display_recipient) || NULL_SUBSCRIPTION;
+      const stream =
+        subscriptions.find(x => x.name === item.display_recipient) || NULL_SUBSCRIPTION;
 
       return (
         <StreamMessageHeader
@@ -69,11 +68,11 @@ export default class MessageHeader extends React.PureComponent {
       );
     }
 
-    if (item.type === 'private' &&
-      !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow)) {
-      const recipients = item.display_recipient.length > 1 ?
-        item.display_recipient.filter(r => r.email !== auth.email) :
-        item.display_recipient;
+    if (item.type === 'private' && !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow)) {
+      const recipients =
+        item.display_recipient.length > 1
+          ? item.display_recipient.filter(r => r.email !== auth.email)
+          : item.display_recipient;
       return (
         <PrivateMessageHeader
           key={`section_${item.id}`}

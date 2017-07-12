@@ -86,7 +86,7 @@ export default ({
         onLongPress={onLongPress}
         flags={flags}
         twentyFourHourTime={twentyFourHourTime}
-      />
+      />,
     );
 
     prevItem = item;

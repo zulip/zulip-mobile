@@ -7,21 +7,20 @@ import themeDark from './styles/themeDark';
 import themeLight from './styles/themeLight';
 
 const themeNameToObject = {
-  'default': themeLight,
-  'light': themeLight,
-  'night': themeDark,
+  default: themeLight,
+  light: themeLight,
+  night: themeDark,
 };
 
 export default class StyleProvider extends PureComponent {
-
   static propTypes = {
     theme: PropTypes.string.isRequired, // eslint-disable-line
-  }
+  };
 
   static childContextTypes = {
     theme: PropTypes.string.isRequired,
     styles: PropTypes.object.isRequired,
-  }
+  };
 
   static defaultProps = {
     theme: 'default',

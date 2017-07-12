@@ -9,14 +9,9 @@ export default async (
   subject: string,
   content: string,
 ) =>
-  apiPost(
-    auth,
-    'messages',
-    res => res.messages,
-    {
-      type,
-      to,
-      subject,
-      content,
-    },
-  );
+  apiPost(auth, 'messages', res => res.messages, {
+    type,
+    to,
+    subject,
+    content,
+  });

@@ -23,7 +23,6 @@ import NotSubscribed from '../message/NotSubscribed';
 import { NULL_STREAM } from '../nullObjects';
 
 class Chat extends React.Component {
-
   static contextTypes = {
     styles: () => null,
   };
@@ -61,14 +60,14 @@ class Chat extends React.Component {
   isSubscribed = () => {
     const { narrow, subscriptions } = this.props;
     return isStreamOrTopicNarrow(narrow)
-      ? subscriptions.find((sub) => narrow[0].operand === sub.name) !== undefined
+      ? subscriptions.find(sub => narrow[0].operand === sub.name) !== undefined
       : true;
-  }
+  };
 
   showSubscribeButton = () => {
     const { narrow, streams } = this.props;
-    return !(streams.find((sub) => narrow[0].operand === sub.name) || NULL_STREAM).invite_only;
-  }
+    return !(streams.find(sub => narrow[0].operand === sub.name) || NULL_STREAM).invite_only;
+  };
 
   render() {
     const { styles } = this.context;
@@ -78,6 +77,9 @@ class Chat extends React.Component {
     const showMessageList = !noMessages && !noMessagesButLoading;
     const unreadCount = countUnread(messages.map(msg => msg.id), readIds);
     const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
+    const CheckSub = this.isSubscribed()
+      ? <ComposeBox />
+      : <NotSubscribed narrow={narrow} showSubscribeButton={this.showSubscribeButton} />;
 
     return (
       <WrapperView style={styles.screen} behavior="padding">
@@ -90,33 +92,32 @@ class Chat extends React.Component {
         {!needsInitialFetch && noMessages && <NoMessages narrow={narrow} />}
         {noMessagesButLoading && <MessageListLoading />}
         {showMessageList &&
-        <ActionSheetProvider>
-          <MessageList onScroll={this.handleMessageListScroll} {...this.props} />
-        </ActionSheetProvider>}
-        {canSendToNarrow(narrow) ? (this.isSubscribed() ? <ComposeBox /> :
-        <NotSubscribed
-          narrow={narrow}
-          showSubscribeButton={this.showSubscribeButton}
-        />) : null}
+          <ActionSheetProvider>
+            <MessageList onScroll={this.handleMessageListScroll} {...this.props} />
+          </ActionSheetProvider>}
+        {canSendToNarrow(narrow) ? CheckSub : null}
       </WrapperView>
     );
   }
 }
 
-export default connect(state => ({
-  auth: getAuth(state),
-  isOnline: state.app.isOnline,
-  needsInitialFetch: state.app.needsInitialFetch,
-  subscriptions: state.subscriptions,
-  flags: state.flags,
-  allMessages: state.chat.messages,
-  fetching: state.chat.fetching,
-  caughtUp: state.chat.caughtUp,
-  narrow: state.chat.narrow,
-  mute: state.mute,
-  typingUsers: getCurrentTypingUsers(state),
-  anchor: getAnchor(state),
-  users: state.users,
-  readIds: state.flags.read,
-  twentyFourHourTime: state.realm.twentyFourHourTime,
-}), boundActions)(Chat);
+export default connect(
+  state => ({
+    auth: getAuth(state),
+    isOnline: state.app.isOnline,
+    needsInitialFetch: state.app.needsInitialFetch,
+    subscriptions: state.subscriptions,
+    flags: state.flags,
+    allMessages: state.chat.messages,
+    fetching: state.chat.fetching,
+    caughtUp: state.chat.caughtUp,
+    narrow: state.chat.narrow,
+    mute: state.mute,
+    typingUsers: getCurrentTypingUsers(state),
+    anchor: getAnchor(state),
+    users: state.users,
+    readIds: state.flags.read,
+    twentyFourHourTime: state.realm.twentyFourHourTime,
+  }),
+  boundActions,
+)(Chat);

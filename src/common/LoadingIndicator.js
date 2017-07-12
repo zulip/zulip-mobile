@@ -57,15 +57,12 @@ export default class LoadingIndicator extends React.Component {
 
   rotate() {
     this.rotation.setValue(0);
-    Animated.timing(
-      this.rotation,
-      {
-        toValue: 1,
-        duration: 2000,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      }
-    ).start(() => this.rotate());
+    Animated.timing(this.rotation, {
+      toValue: 1,
+      duration: 2000,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start(() => this.rotate());
   }
 
   render() {
@@ -81,11 +78,7 @@ export default class LoadingIndicator extends React.Component {
         {caughtUp && <View style={styles.line} />}
         <View style={styles.loading}>
           {active && <Animated.View style={[styles.semiCircle, animation]} />}
-          <Image
-            style={[styles.logo]}
-            source={messageLoadingImg}
-            resizeMode="contain"
-          />
+          <Image style={[styles.logo]} source={messageLoadingImg} resizeMode="contain" />
         </View>
         {caughtUp && <View style={styles.line} />}
       </View>

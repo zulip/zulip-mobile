@@ -11,9 +11,7 @@ describe('aggregateReactions', () => {
   });
 
   test('a single reaction, results in a single aggregate', () => {
-    const reactions = [
-      { emoji_name: 'emoji' }
-    ];
+    const reactions = [{ emoji_name: 'emoji' }];
     const expectedResult = [
       {
         name: 'emoji',

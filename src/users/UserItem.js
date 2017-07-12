@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
 });
 
 export default class UserItem extends PureComponent {
-
   props: {
     email?: string,
     fullName: string,
@@ -67,23 +66,14 @@ export default class UserItem extends PureComponent {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={[styles.row, isSelected && styles.selectedRow]}>
-          <Avatar
-            size={32}
-            avatarUrl={avatarUrl}
-            name={fullName}
-            status={status}
-            realm={realm}
-          />
-          <View style={styles.textWrapper} >
-            <RawLabel
-              style={[styles.text, isSelected && styles.selectedText]}
-              text={fullName}
-            />
+          <Avatar size={32} avatarUrl={avatarUrl} name={fullName} status={status} realm={realm} />
+          <View style={styles.textWrapper}>
+            <RawLabel style={[styles.text, isSelected && styles.selectedText]} text={fullName} />
             {showEmail &&
-            <RawLabel
-              style={[styles.text, styles.textEmail, isSelected && styles.selectedText]}
-              text={email}
-            />}
+              <RawLabel
+                style={[styles.text, styles.textEmail, isSelected && styles.selectedText]}
+                text={email}
+              />}
           </View>
           <UnreadCount count={unreadCount} />
         </View>

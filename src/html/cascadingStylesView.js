@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   blockquote: {
     marginTop: 0,
-    marginBottom: 0
+    marginBottom: 0,
   },
   p: {
     flexDirection: 'row',
@@ -25,5 +25,5 @@ export default StyleSheet.create({
   },
   msup: {
     flexDirection: 'row',
-  }
+  },
 });

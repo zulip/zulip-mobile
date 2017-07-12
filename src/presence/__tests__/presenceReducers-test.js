@@ -1,9 +1,5 @@
 /* @flow */
-import {
-  PRESENCE_RESPONSE,
-  EVENT_PRESENCE,
-  ACCOUNT_SWITCH,
-} from '../../actionConstants';
+import { PRESENCE_RESPONSE, EVENT_PRESENCE, ACCOUNT_SWITCH } from '../../actionConstants';
 import presenceReducers, { activityFromPresence, timestampFromPresence } from '../presenceReducers';
 
 const fiveSecsAgo = Math.floor(new Date() - 5) / 1000;

@@ -6,7 +6,8 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 
 export const IconHome = (props: Object) => <IoniconsIcon name="md-home" {...props} />;
-export const IconPrivateMessage = (props: Object) => <IoniconsIcon name="md-chatboxes" {...props} />;
+export const IconPrivateMessage = (props: Object) =>
+  <IoniconsIcon name="md-chatboxes" {...props} />;
 export const IconStar = (props: Object) => <IoniconsIcon name="md-star" {...props} />;
 export const IconMention = (props: Object) => <IoniconsIcon name="md-at" {...props} />;
 export const IconSearch = (props: Object) => <IoniconsIcon name="md-search" {...props} />;

@@ -15,11 +15,10 @@ const customStyles = StyleSheet.create({
     flex: 1,
     width: '100%',
     flexDirection: 'row',
-  }
+  },
 });
 
 export default class HtmlTagLi extends PureComponent {
-
   props: {
     style: StyleObj,
     actions: Actions,

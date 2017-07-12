@@ -5,9 +5,10 @@ import { TouchableNativeFeedback, Platform, View } from 'react-native';
 import type { StyleObj } from '../types';
 import { HIGHLIGHT_COLOR } from '../styles';
 
-const background = Platform.Version >= 21 ?
-  TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR) :
-  TouchableNativeFeedback.SelectableBackground();
+const background =
+  Platform.Version >= 21
+    ? TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR)
+    : TouchableNativeFeedback.SelectableBackground();
 
 type Props = {
   onPress?: () => void | Promise<any>,
@@ -16,15 +17,13 @@ type Props = {
   children?: [],
 };
 
-export default ({ onPress, style, children, onLongPress }: Props) => (
+export default ({ onPress, style, children, onLongPress }: Props) =>
   <TouchableNativeFeedback
     style={style}
     background={background}
     onPress={onPress}
-    onLongPress={onLongPress}
-  >
+    onLongPress={onLongPress}>
     <View>
       {children}
     </View>
-  </TouchableNativeFeedback>
-);
+  </TouchableNativeFeedback>;
