@@ -21,11 +21,7 @@ export default class TimeRow extends React.PureComponent {
   render() {
     return (
       <View style={styles.row}>
-        <ActivityIndicator
-          size="small"
-          color={BRAND_COLOR}
-          style={styles.fetching}
-        />
+        <ActivityIndicator size="small" color={BRAND_COLOR} style={styles.fetching} />
         <Text style={styles.text}>LOADING...</Text>
       </View>
     );

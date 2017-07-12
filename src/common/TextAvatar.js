@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'white',
-  }
+  },
 });
 
 type Props = {
@@ -39,20 +39,12 @@ type Props = {
   onPress?: () => void,
 };
 
-
-export default ({
-  name,
-  size,
-  status,
-  shape,
-  onPress
-}: Props) => {
+export default ({ name, size, status, shape, onPress }: Props) => {
   const frameSize = {
     height: size,
     width: size,
-    borderRadius: (shape === 'rounded') ? size / 8
-      : (shape === 'circle') ? size / 2
-        : (shape === 'square') ? 0 : 0,
+    borderRadius:
+      shape === 'rounded' ? size / 8 : shape === 'circle' ? size / 2 : shape === 'square' ? 0 : 0,
     backgroundColor: colorHashFromName(name),
   };
   const textSize = {
@@ -65,12 +57,7 @@ export default ({
         <Text style={[styles.text, textSize]}>
           {initialsFromName(name)}
         </Text>
-        {status &&
-          <UserStatusIndicator
-            style={styles.status}
-            status={status}
-          />
-        }
+        {status && <UserStatusIndicator style={styles.status} status={status} />}
       </View>
     </Touchable>
   );

@@ -16,11 +16,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     margin: 8,
-  }
+  },
 });
 
 export default class CompatibilityScreen extends React.Component {
-
   render() {
     return (
       <View style={styles.screen}>

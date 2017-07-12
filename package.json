@@ -14,7 +14,7 @@
     "android-min": "react-native run-android",
     "android-max": "react-native run-android",
     "android-release": "react-native run-android --variant=release",
-    "prettier-all": "prettier --write --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow src/**/*.js",
+    "prettier-all": "prettier --write --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow `find src -name \"*.js\"`",
     "prettier": "prettier --write --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow",
     "test:lint": "eslint src/",
     "test:flow": "flow",

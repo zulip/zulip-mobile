@@ -8,6 +8,5 @@ export const initRealmEmojis = (emojis: Object) => ({
   emojis,
 });
 
-export const fetchRealmEmojis = (auth: Auth) =>
-  async (dispatch: Dispatch) =>
-    dispatch(initRealmEmojis(await getRealmEmojis(auth)));
+export const fetchRealmEmojis = (auth: Auth) => async (dispatch: Dispatch) =>
+  dispatch(initRealmEmojis(await getRealmEmojis(auth)));

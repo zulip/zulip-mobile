@@ -6,7 +6,6 @@ import type { Actions, StyleObj } from '../../types';
 import renderHtmlChildren from '../renderHtmlChildren';
 
 export default class HtmlTagDiv extends PureComponent {
-
   props: {
     style: StyleObj,
     actions: Actions,

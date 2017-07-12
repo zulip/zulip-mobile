@@ -9,13 +9,14 @@ export default (state: GlobalState, messageId: number, updater: UpdaterFunc): Gl
     const messages = state.messages[key];
     const prevMessageIndex = messages.findIndex(x => x.id === messageId);
 
-    msg[key] = prevMessageIndex !== -1 ?
-    [
-      ...messages.slice(0, prevMessageIndex),
-      updater(messages[prevMessageIndex]),
-      ...messages.slice(prevMessageIndex + 1),
-    ] :
-    state.messages[key];
+    msg[key] =
+      prevMessageIndex !== -1
+        ? [
+            ...messages.slice(0, prevMessageIndex),
+            updater(messages[prevMessageIndex]),
+            ...messages.slice(prevMessageIndex + 1),
+          ]
+        : state.messages[key];
 
     return msg;
   }, {}),

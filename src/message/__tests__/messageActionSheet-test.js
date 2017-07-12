@@ -22,7 +22,7 @@ describe('constructActionButtons', () => {
     starred: {
       1: true,
       2: true,
-    }
+    },
   };
 
   test('do not show narrow option in bottom most narrow', () => {
@@ -39,7 +39,7 @@ describe('constructActionButtons', () => {
       narrow: group,
       subscriptions,
       mute,
-      flags
+      flags,
     });
     const topicButtons = constructActionButtons({
       message,
@@ -47,7 +47,7 @@ describe('constructActionButtons', () => {
       narrow: topic,
       subscriptions,
       mute,
-      flags
+      flags,
     });
     const privateButtons = constructActionButtons({
       message,
@@ -55,7 +55,7 @@ describe('constructActionButtons', () => {
       narrow: pmNarrow,
       subscriptions,
       mute,
-      flags
+      flags,
     });
     const specialButtons = constructActionButtons({
       message,
@@ -63,7 +63,7 @@ describe('constructActionButtons', () => {
       narrow: special,
       subscriptions,
       mute,
-      flags
+      flags,
     });
     const homeButtons = constructActionButtons({
       message,
@@ -71,7 +71,7 @@ describe('constructActionButtons', () => {
       narrow: home,
       subscriptions,
       mute,
-      flags
+      flags,
     });
     const streamButtons = constructActionButtons({
       message,
@@ -79,7 +79,7 @@ describe('constructActionButtons', () => {
       narrow: stream,
       subscriptions,
       mute,
-      flags
+      flags,
     });
 
     expect(groupButtons).not.toContain('Narrow to conversation');
@@ -111,7 +111,6 @@ describe('constructActionButtons', () => {
   });
 });
 
-
 describe('constructHeaderActionButtons', () => {
   let subscriptions = [
     { name: 'denmark', in_home_view: true },
@@ -124,11 +123,9 @@ describe('constructHeaderActionButtons', () => {
     item = {
       type: 'stream',
       display_recipient: 'electron issues',
-      subject: 'issue #556'
+      subject: 'issue #556',
     };
-    mute = [[
-      'electron issues', 'issue #556'
-    ]];
+    mute = [['electron issues', 'issue #556']];
 
     const buttons = constructHeaderActionButtons({ item, subscriptions, mute });
 
@@ -139,7 +136,7 @@ describe('constructHeaderActionButtons', () => {
     item = {
       type: 'stream',
       display_recipient: 'electron issues',
-      subject: 'PR #558'
+      subject: 'PR #558',
     };
 
     const buttons = constructHeaderActionButtons({ item, subscriptions, mute });
@@ -152,10 +149,12 @@ describe('constructHeaderActionButtons', () => {
       type: 'stream',
       display_recipient: 'electron issues',
     };
-    subscriptions = [{
-      name: 'electron issues',
-      in_home_view: false,
-    }];
+    subscriptions = [
+      {
+        name: 'electron issues',
+        in_home_view: false,
+      },
+    ];
 
     const buttons = constructHeaderActionButtons({ item, subscriptions, mute });
 

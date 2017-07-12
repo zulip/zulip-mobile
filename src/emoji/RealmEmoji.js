@@ -20,7 +20,6 @@ type Props = {
 };
 
 class RealmEmoji extends React.PureComponent {
-
   props: Props;
 
   render() {
@@ -35,9 +34,7 @@ class RealmEmoji extends React.PureComponent {
   }
 }
 
-export default connect(
-  (state) => ({
-    auth: getAuth(state),
-    realmEmoji: state.realm.emoji,
-  }),
-)(RealmEmoji);
+export default connect(state => ({
+  auth: getAuth(state),
+  realmEmoji: state.realm.emoji,
+}))(RealmEmoji);

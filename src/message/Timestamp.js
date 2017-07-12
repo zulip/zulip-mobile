@@ -13,11 +13,10 @@ const styles = StyleSheet.create({
 });
 
 export default class Timestamp extends React.PureComponent {
-
   props: {
     timestamp: number,
     twentyFourHourTime: boolean,
-  }
+  };
 
   render() {
     const { timestamp, twentyFourHourTime } = this.props;

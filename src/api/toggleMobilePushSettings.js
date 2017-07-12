@@ -13,16 +13,15 @@ const removeUndefinedValues = (offline, online) => {
   return data;
 };
 
-
-export default async (
-  {
-    auth,
-    online,
-    offline,
-  }: { auth: Auth, offline?: boolean, online?: boolean, }) =>
-  apiPatch(
-    auth,
-    'settings/notifications',
-    res => res,
-    { ...removeUndefinedValues(offline, online) }
-  );
+export default async ({
+  auth,
+  online,
+  offline,
+}: {
+  auth: Auth,
+  offline?: boolean,
+  online?: boolean,
+}) =>
+  apiPatch(auth, 'settings/notifications', res => res, {
+    ...removeUndefinedValues(offline, online),
+  });

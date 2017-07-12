@@ -1,9 +1,6 @@
 /* @flow */
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import ComposeIcon from './ComposeIcon';
 
@@ -14,11 +11,10 @@ const styles = StyleSheet.create({
 });
 
 export default class ComposeOptions extends React.Component {
-
   props: {
     selected: number,
     onChange: (index: number) => {},
-  }
+  };
 
   render() {
     const { selected, onChange } = this.props;

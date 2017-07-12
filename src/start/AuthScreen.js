@@ -15,7 +15,6 @@ import { getCurrentRealm } from '../account/accountSelectors';
 import PasswordAuthView from './PasswordAuthView';
 
 class AuthScreen extends React.PureComponent {
-
   static contextTypes = {
     styles: () => null,
   };
@@ -37,7 +36,7 @@ class AuthScreen extends React.PureComponent {
         this.otp = undefined;
       });
     }
-  }
+  };
 
   componentWillUnmount = () => {
     // Remove listeners for OAuth flow
@@ -45,7 +44,7 @@ class AuthScreen extends React.PureComponent {
       Linking.removeEventListener('url', this.endOAuthFlow);
       SafariView.removeEventListener('onDismiss', this.safariViewDismissEvent);
     }
-  }
+  };
 
   handleTypeSelect = (authType: string) => {
     const { actions, realm } = this.props;
@@ -61,9 +60,9 @@ class AuthScreen extends React.PureComponent {
       actions.setAuthType(authType);
       actions.navigateToAuth(authType);
     }
-  }
+  };
 
-  beginOAuthFlow = async (url) => {
+  beginOAuthFlow = async url => {
     // Generate a one time pad (OTP) to send up with the request
     // The server XORs the API key with this OTP in its response to protect
     // against malicious apps registering an identical URI scheme and trying
@@ -72,7 +71,7 @@ class AuthScreen extends React.PureComponent {
     SafariView.show({ url: `${url}?mobile_flow_otp=${this.otp}` });
   };
 
-  endOAuthFlow = (event) => {
+  endOAuthFlow = event => {
     const { actions, realm } = this.props;
 
     SafariView.dismiss();
@@ -118,7 +117,7 @@ class AuthScreen extends React.PureComponent {
       // Add the authenticated account
       actions.loginSuccess(realm, query.email, apiKey);
     }
-  }
+  };
 
   shouldShowOAuth = () =>
     // OAuth flow only supports iOS 9+ right now
@@ -131,25 +130,21 @@ class AuthScreen extends React.PureComponent {
     return (
       <Screen title="Sign in" keyboardAvoiding>
         <View style={styles.container}>
-          <RawLabel
-            text={this.props.realm}
-            editable={false}
-          />
+          <RawLabel text={this.props.realm} editable={false} />
           {authBackends.includes('dev') &&
             <ZulipButton
               text="Sign in with dev account"
               onPress={() => this.handleTypeSelect('dev')}
-            />
-          }
+            />}
           {authBackends.includes('password') && <PasswordAuthView />}
-          {authBackends.includes('google') && this.shouldShowOAuth() &&
+          {authBackends.includes('google') &&
+            this.shouldShowOAuth() &&
             <ZulipButton
               secondary
               text="Sign in with Google"
               icon="logo-google"
               onPress={() => this.handleTypeSelect('google')}
-            />
-          }
+            />}
         </View>
       </Screen>
     );
@@ -157,7 +152,7 @@ class AuthScreen extends React.PureComponent {
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     realm: getCurrentRealm(state),
   }),
   boundActions,

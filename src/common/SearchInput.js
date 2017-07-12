@@ -21,7 +21,6 @@ type Props = {
 };
 
 export default class SearchInput extends Component {
-
   props: Props;
   textInput: TextInput;
 
@@ -31,7 +30,9 @@ export default class SearchInput extends Component {
     return (
       <View style={styles.wrapper}>
         <Input
-          textInputRef={component => { this.textInput = component; }}
+          textInputRef={component => {
+            this.textInput = component;
+          }}
           style={styles.input}
           autoCorrect={false}
           enablesReturnKeyAutomatically

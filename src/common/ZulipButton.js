@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 44
+    height: 44,
   },
   frame: {
     height: 44,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5
+    borderRadius: 5,
   },
   text: {
     color: '#FFFFFF',
@@ -54,14 +54,13 @@ const styles = StyleSheet.create({
   },
   secondaryIcon: {
     color: BRAND_COLOR,
-  }
+  },
 });
 
-const ButtonInProgress = ({ frameStyle }) => (
+const ButtonInProgress = ({ frameStyle }) =>
   <View style={frameStyle}>
     <ActivityIndicator color="white" />
-  </View>
-);
+  </View>;
 
 const ButtonNormal = ({
   frameStyle,
@@ -70,21 +69,18 @@ const ButtonNormal = ({
   text,
   onPress,
   icon,
-  iconStyle }) => (
-    <View style={frameStyle}>
-      <Touchable style={touchTargetStyle} onPress={onPress}>
-        <View style={styles.buttonContent}>
-          {icon && <Icon name={icon} style={iconStyle} size={25} />}
-          <Text style={textStyle}>
-            <FormattedMessage
-              id={text}
-              defaultMessage={text}
-            />
-          </Text>
-        </View>
-      </Touchable>
-    </View>
-  );
+  iconStyle,
+}) =>
+  <View style={frameStyle}>
+    <Touchable style={touchTargetStyle} onPress={onPress}>
+      <View style={styles.buttonContent}>
+        {icon && <Icon name={icon} style={iconStyle} size={25} />}
+        <Text style={textStyle}>
+          <FormattedMessage id={text} defaultMessage={text} />
+        </Text>
+      </View>
+    </Touchable>
+  </View>;
 
 export default class ZulipButton extends React.PureComponent {
   props: {

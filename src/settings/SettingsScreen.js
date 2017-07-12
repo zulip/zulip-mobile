@@ -26,11 +26,10 @@ const styles = StyleSheet.create({
   },
   optionList: {
     flex: 1,
-  }
+  },
 });
 
 class SettingsScreen extends React.Component {
-
   props: {
     auth: Auth,
     actions: Actions,
@@ -44,20 +43,20 @@ class SettingsScreen extends React.Component {
     filter: string,
   };
 
-  handleLocaleChange = (value) => {
+  handleLocaleChange = value => {
     this.props.actions.settingsChange('locale', value);
   };
 
-  handleThemeChange = (value) => {
+  handleThemeChange = value => {
     this.props.actions.settingsChange('theme', value ? 'night' : 'default');
   };
 
-  handleOfflineNotificationChange = (value) => {
+  handleOfflineNotificationChange = value => {
     toggleMobilePushSettings({ auth: this.props.auth, offline: value });
     this.props.actions.settingsChange('offlineNotification', value);
   };
 
-  handleOnlineNotificationChange = (value) => {
+  handleOnlineNotificationChange = value => {
     toggleMobilePushSettings({ auth: this.props.auth, online: value });
     this.props.actions.settingsChange('onlineNotification', value);
   };
@@ -84,17 +83,11 @@ class SettingsScreen extends React.Component {
           </View>
           <View style={styles.optionRow}>
             <Label text="Night mode" />
-            <ZulipSwitch
-              defaultValue={theme === 'night'}
-              onValueChange={this.handleThemeChange}
-            />
+            <ZulipSwitch defaultValue={theme === 'night'} onValueChange={this.handleThemeChange} />
           </View>
           <View style={styles.optionList}>
             <Label style={styles.optionTitle} text="Language" />
-            <LanguagePicker
-              value={locale}
-              onValueChange={this.handleLocaleChange}
-            />
+            <LanguagePicker value={locale} onValueChange={this.handleLocaleChange} />
           </View>
         </View>
       </Screen>
@@ -103,7 +96,7 @@ class SettingsScreen extends React.Component {
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     offlineNotification: state.settings.offlineNotification,
     onlineNotification: state.settings.onlineNotification,
     locale: state.settings.locale,

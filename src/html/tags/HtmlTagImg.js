@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
 });
 
 export default class HtmlTagImg extends React.PureComponent {
-
   props: {
     src: string,
     auth: Auth,

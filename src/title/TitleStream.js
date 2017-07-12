@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
 });
 
 export default class TitleStream extends React.PureComponent {
-
   props: {
     subscriptions: [],
     streams: [],
@@ -31,8 +30,11 @@ export default class TitleStream extends React.PureComponent {
 
   render() {
     const { narrow, subscriptions, streams, color } = this.props;
-    const stream = subscriptions.find(x => x.name === narrow[0].operand) ||
-      { ...streams.find(x => x.name === narrow[0].operand), in_home_view: true } ||
+    const stream =
+      subscriptions.find(x => x.name === narrow[0].operand) || {
+        ...streams.find(x => x.name === narrow[0].operand),
+        in_home_view: true,
+      } ||
       NULL_SUBSCRIPTION;
 
     const topic = isTopicNarrow(narrow) ? `\u203a ${narrow[1].operand}` : '';
@@ -45,11 +47,7 @@ export default class TitleStream extends React.PureComponent {
           color={color}
           size={12}
         />
-        <Text
-          style={[styles.text, { color }]}
-          numberOfLines={1}
-          ellipsizeMode="tail"
-        >
+        <Text style={[styles.text, { color }]} numberOfLines={1} ellipsizeMode="tail">
           {stream.name} {topic}
         </Text>
       </View>

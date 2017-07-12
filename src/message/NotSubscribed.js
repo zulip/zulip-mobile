@@ -31,7 +31,6 @@ type Props = {
 };
 
 class NotSubscribed extends React.Component {
-
   props: Props;
 
   subscribeToStream = () => {
@@ -44,20 +43,16 @@ class NotSubscribed extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Label
-          style={styles.text}
-          text="You are not subscribed to this stream."
-        />
-        {showSubscribeButton &&
-        <ZulipButton
-          text="Subscribe"
-          onPress={this.subscribeToStream}
-        />}
+        <Label style={styles.text} text="You are not subscribed to this stream." />
+        {showSubscribeButton && <ZulipButton text="Subscribe" onPress={this.subscribeToStream} />}
       </View>
     );
   }
 }
 
-export default connect(state => ({
-  auth: getAuth(state),
-}), boundActions)(NotSubscribed);
+export default connect(
+  state => ({
+    auth: getAuth(state),
+  }),
+  boundActions,
+)(NotSubscribed);

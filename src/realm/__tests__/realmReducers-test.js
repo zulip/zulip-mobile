@@ -16,7 +16,7 @@ describe('realmReducers', () => {
       };
       const expectedState = {
         twentyFourHourTime: false,
-        'pushToken': '',
+        pushToken: '',
         emoji: {},
       };
 
@@ -30,16 +30,16 @@ describe('realmReducers', () => {
     test('save a new PUSH token', () => {
       const initialState = {
         twentyFourHourTime: false,
-        'pushToken': '',
+        pushToken: '',
         emoji: { customEmoji1: {} },
       };
       const action = {
         type: SAVE_TOKEN_PUSH,
-        pushToken: 'new-key'
+        pushToken: 'new-key',
       };
       const expectedState = {
         twentyFourHourTime: false,
-        'pushToken': 'new-key',
+        pushToken: 'new-key',
         emoji: { customEmoji1: {} },
       };
 
@@ -49,12 +49,11 @@ describe('realmReducers', () => {
     });
   });
 
-
   describe('DELETE_TOKEN_PUSH', () => {
     test('delete the PUSH token', () => {
       const initialState = {
         twentyFourHourTime: false,
-        'pushToken': 'old-key',
+        pushToken: 'old-key',
         emoji: { customEmoji1: {} },
       };
       const action = {
@@ -62,7 +61,7 @@ describe('realmReducers', () => {
       };
       const expectedState = {
         twentyFourHourTime: false,
-        'pushToken': '',
+        pushToken: '',
         emoji: { customEmoji1: {} },
       };
 
@@ -76,20 +75,20 @@ describe('realmReducers', () => {
     test('change the display settings', () => {
       const initialState = {
         twentyFourHourTime: false,
-        'gcmToken': '',
+        gcmToken: '',
         emoji: { customEmoji1: {} },
       };
       const action = {
         type: EVENT_UPDATE_DISPLAY_SETTINGS,
-        'eventId': 1,
-        'id': 1,
-        'setting': true,
-        'setting_name': 'twenty_four_hour_time',
-        'user': 'example@zulip.com',
+        eventId: 1,
+        id: 1,
+        setting: true,
+        setting_name: 'twenty_four_hour_time',
+        user: 'example@zulip.com',
       };
       const expectedState = {
         twentyFourHourTime: true,
-        'gcmToken': '',
+        gcmToken: '',
         emoji: { customEmoji1: {} },
       };
 
@@ -103,7 +102,7 @@ describe('realmReducers', () => {
     test('update state to new realm_emoji', () => {
       const prevState = {
         twentyFourHourTime: false,
-        'pushToken': 'key',
+        pushToken: 'key',
         emoji: {},
       };
       const action = {
@@ -114,15 +113,15 @@ describe('realmReducers', () => {
           customEmoji1: {},
           customEmoji2: {},
         },
-        type: EVENT_REALM_EMOJI_UPDATE
+        type: EVENT_REALM_EMOJI_UPDATE,
       };
       const expectedState = {
         twentyFourHourTime: false,
-        'pushToken': 'key',
+        pushToken: 'key',
         emoji: {
           customEmoji1: {},
           customEmoji2: {},
-        }
+        },
       };
 
       const newState = realmReducers(prevState, action);

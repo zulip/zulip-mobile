@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
 });
 
 export default class TimeRow extends React.PureComponent {
-
   props: {
     timestamp: number,
   };
@@ -37,7 +36,9 @@ export default class TimeRow extends React.PureComponent {
     return (
       <View style={styles.row}>
         <View style={styles.line} />
-        <Text style={styles.time}>{displayDate}</Text>
+        <Text style={styles.time}>
+          {displayDate}
+        </Text>
         <View style={styles.line} />
       </View>
     );

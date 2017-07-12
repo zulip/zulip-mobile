@@ -4,10 +4,7 @@ import { createLogger } from 'redux-logger';
 import { REHYDRATE } from 'redux-persist/constants';
 import createActionBuffer from 'redux-action-buffer';
 
-const middleware = [
-  thunk,
-  createActionBuffer(REHYDRATE),
-];
+const middleware = [thunk, createActionBuffer(REHYDRATE)];
 
 // Only enable remote debugging! It really slows down the iOS JSC
 // Checking for btoa() is not available in JSC

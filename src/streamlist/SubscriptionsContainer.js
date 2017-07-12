@@ -15,15 +15,13 @@ const styles = StyleSheet.create({
 });
 
 class SubscriptionsContainer extends React.Component {
-
   props: {
     narrow: Narrow,
     subscriptions: SubscriptionsState,
     onNarrow: (email: string) => void,
-  }
+  };
 
-  handleNarrow = (streamName: string) =>
-    this.props.onNarrow(streamNarrow(streamName));
+  handleNarrow = (streamName: string) => this.props.onNarrow(streamNarrow(streamName));
 
   render() {
     const { narrow, subscriptions } = this.props;
@@ -31,11 +29,7 @@ class SubscriptionsContainer extends React.Component {
 
     return (
       <View tabLabel="Streams" style={styles.container}>
-        <StreamList
-          streams={subscriptions}
-          selected={selected}
-          onNarrow={this.handleNarrow}
-        />
+        <StreamList streams={subscriptions} selected={selected} onNarrow={this.handleNarrow} />
       </View>
     );
   }

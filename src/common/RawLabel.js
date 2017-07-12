@@ -5,7 +5,6 @@ import { Text } from 'react-native';
 import type { StyleObj } from '../types';
 
 export default class RawLabel extends PureComponent {
-
   static contextTypes = {
     styles: () => null,
   };

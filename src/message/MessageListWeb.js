@@ -12,8 +12,7 @@ const styles = StyleSheet.create({
 });
 
 export default class MessageListWeb extends React.PureComponent {
-
-  handleMessage = (event) => {
+  handleMessage = event => {
     const { fetchOlder, navigateToAccountDetails } = this.props;
     const data = JSON.parse(event.nativeEvent.data);
 
@@ -34,10 +33,8 @@ export default class MessageListWeb extends React.PureComponent {
     }
   };
 
-  componentDidMount = () => {
-
-  }
-/*
+  componentDidMount = () => {};
+  /*
   shouldComponentUpdate = (nextProps) => {
     // if (this.props.messages.length < nextProps.messages.length) {
     console.log('NEW MSGS');
@@ -59,9 +56,7 @@ export default class MessageListWeb extends React.PureComponent {
   render() {
     const { auth } = this.props;
     const messagesHtml = renderMessagesAsHtml(this.props);
-    const html = messagesHtml
-      .join('')
-      .replace(/src="\//g, `src="${auth.realm}/`);
+    const html = messagesHtml.join('').replace(/src="\//g, `src="${auth.realm}/`);
     // console.log(css + html);
     return (
       <WebView
@@ -69,7 +64,9 @@ export default class MessageListWeb extends React.PureComponent {
         injectedJavaScript={js}
         style={styles.webview}
         decelerationRate={0.999}
-        ref={webview => { this.webview = webview; }}
+        ref={webview => {
+          this.webview = webview;
+        }}
         onMessage={this.handleMessage}
       />
     );

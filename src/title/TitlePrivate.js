@@ -19,18 +19,11 @@ const styles = StyleSheet.create({
 export default class TitlePrivate extends React.PureComponent {
   render() {
     const { narrow, realm, users, color } = this.props;
-    const { fullName, avatarUrl } = users.find(
-      x => x.email === narrow[0].operand
-    ) || NULL_USER;
+    const { fullName, avatarUrl } = users.find(x => x.email === narrow[0].operand) || NULL_USER;
 
     return (
       <View style={styles.wrapper}>
-        <Avatar
-          size={24}
-          name={fullName}
-          avatarUrl={avatarUrl}
-          realm={realm}
-        />
+        <Avatar size={24} name={fullName} avatarUrl={avatarUrl} realm={realm} />
         <Text style={[styles.title, { color }]}>
           {fullName}
         </Text>

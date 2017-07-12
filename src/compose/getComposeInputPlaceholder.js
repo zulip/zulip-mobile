@@ -19,21 +19,21 @@ export default (narrow: Narrow, ownEmail: string, users: User[]): LocalizableTex
     const user = users.find(u => u.email === narrow[0].operand) || {};
     return {
       text: 'Message {recipient}',
-      values: { recipient: `@${user.fullName}` }
+      values: { recipient: `@${user.fullName}` },
     };
   }
 
   if (isStreamNarrow(narrow)) {
     return {
       text: 'Message {recipient}',
-      values: { recipient: `#${narrow[0].operand}` }
+      values: { recipient: `#${narrow[0].operand}` },
     };
   }
 
   if (isTopicNarrow(narrow)) {
     return {
       text: 'Message {recipient}',
-      values: { recipient: `#${narrow[0].operand}:${narrow[1].operand}` }
+      values: { recipient: `#${narrow[0].operand}:${narrow[1].operand}` },
     };
   }
 

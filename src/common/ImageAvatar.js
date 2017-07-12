@@ -12,13 +12,7 @@ type Props = {
   onPress?: () => void,
 };
 
-export default ({
-  avatarUrl,
-  size,
-  status,
-  shape,
-  onPress = () => {}
-}: Props) => {
+export default ({ avatarUrl, size, status, shape, onPress = () => {} }: Props) => {
   const touchableStyle = {
     height: size,
     width: size,
@@ -26,18 +20,13 @@ export default ({
 
   const imageStyle = {
     ...touchableStyle,
-    borderRadius: (shape === 'rounded') ? size / 8
-      : (shape === 'circle') ? size / 2
-        : (shape === 'square') ? 0 : 0
+    borderRadius:
+      shape === 'rounded' ? size / 8 : shape === 'circle' ? size / 2 : shape === 'square' ? 0 : 0,
   };
 
   return (
     <Touchable onPress={onPress} style={touchableStyle}>
-      <Image
-        style={imageStyle}
-        source={{ uri: avatarUrl }}
-        resizeMode="contain"
-      />
+      <Image style={imageStyle} source={{ uri: avatarUrl }} resizeMode="contain" />
     </Touchable>
   );
 };

@@ -74,17 +74,11 @@ describe('isSameRecipient', () => {
   test('recipients are same for private type if display_recipient match in any order', () => {
     const msg1 = {
       type: 'private',
-      display_recipient: [
-        { email: 'abc@example.com' },
-        { email: 'xyz@example.com' },
-      ],
+      display_recipient: [{ email: 'abc@example.com' }, { email: 'xyz@example.com' }],
     };
     const msg2 = {
       type: 'private',
-      display_recipient: [
-        { email: 'xyz@example.com' },
-        { email: 'abc@example.com' },
-      ],
+      display_recipient: [{ email: 'xyz@example.com' }, { email: 'abc@example.com' }],
     };
     expect(isSameRecipient(msg1, msg2)).toBe(true);
   });
@@ -131,10 +125,12 @@ describe('shouldBeMuted', () => {
     const message = {
       display_recipient: 'stream',
     };
-    const subscriptions = [{
-      name: 'stream',
-      in_home_view: false,
-    }];
+    const subscriptions = [
+      {
+        name: 'stream',
+        in_home_view: false,
+      },
+    ];
     const isMuted = shouldBeMuted(message, homeNarrow, subscriptions);
 
     expect(isMuted).toBe(true);
@@ -145,13 +141,13 @@ describe('shouldBeMuted', () => {
       display_recipient: 'stream',
       subject: 'topic',
     };
-    const subscriptions = [{
-      name: 'stream',
-      in_home_view: true,
-    }];
-    const mutes = [
-      ['stream', 'topic'],
+    const subscriptions = [
+      {
+        name: 'stream',
+        in_home_view: true,
+      },
     ];
+    const mutes = [['stream', 'topic']];
     const isMuted = shouldBeMuted(message, homeNarrow, subscriptions, mutes);
 
     expect(isMuted).toBe(true);

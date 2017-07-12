@@ -32,11 +32,10 @@ const componentStyles = StyleSheet.create({
     borderTopColor: 'rgba(127, 127, 127, 0.25)',
     borderRightColor: 'rgba(127, 127, 127, 0.25)',
     borderBottomColor: 'rgba(127, 127, 127, 0.25)',
-  }
+  },
 });
 
 export default class StreamMessageHeader extends React.PureComponent {
-
   props: {
     style: StyleObj,
     actions: Actions,
@@ -47,7 +46,7 @@ export default class StreamMessageHeader extends React.PureComponent {
     isMuted: boolean,
     isPrivate: boolean,
     onLongPress: () => void,
-  }
+  };
 
   static contextTypes = {
     styles: () => null,
@@ -56,12 +55,21 @@ export default class StreamMessageHeader extends React.PureComponent {
   performStreamNarrow = () => {
     const { actions, itemId, stream } = this.props;
     actions.doNarrow(streamNarrow(stream), itemId);
-  }
+  };
 
   render() {
     const { styles } = this.context;
-    const { actions, stream, isPrivate, isMuted,
-      topic, color, itemId, style, onLongPress } = this.props;
+    const {
+      actions,
+      stream,
+      isPrivate,
+      isMuted,
+      topic,
+      color,
+      itemId,
+      style,
+      onLongPress,
+    } = this.props;
     const textColor = foregroundColorFromBackground(color);
     const iconType = isPrivate ? 'lock' : 'hashtag';
 

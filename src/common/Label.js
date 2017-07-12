@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import type { LocalizableText, StyleObj } from '../types';
 
 export default class Label extends PureComponent {
-
   static contextTypes = {
     styles: () => null,
   };
@@ -22,11 +21,7 @@ export default class Label extends PureComponent {
 
     return (
       <Text style={[this.context.styles.label, style]} {...restProps}>
-        <FormattedMessage
-          id={message}
-          defaultMessage={message}
-          values={text.values}
-        />
+        <FormattedMessage id={message} defaultMessage={message} values={text.values} />
       </Text>
     );
   }

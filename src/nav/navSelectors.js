@@ -5,18 +5,12 @@ import { getAccounts, getAuth } from '../account/accountSelectors';
 import AppNavigator from './AppNavigator';
 
 export const getStateForRoute = (route: string) =>
-  AppNavigator.router.getStateForAction(
-    AppNavigator.router.getActionForPathAndParams(route)
-  );
+  AppNavigator.router.getStateForAction(AppNavigator.router.getActionForPathAndParams(route));
 
-export const getInitialRoute = createSelector(
-  getAccounts,
-  getAuth,
-  (accounts, auth) => {
-    if (auth.apiKey) {
-      return 'main';
-    }
+export const getInitialRoute = createSelector(getAccounts, getAuth, (accounts, auth) => {
+  if (auth.apiKey) {
+    return 'main';
+  }
 
-    return accounts.length > 1 ? 'account' : 'realm';
-  },
-);
+  return accounts.length > 1 ? 'account' : 'realm';
+});

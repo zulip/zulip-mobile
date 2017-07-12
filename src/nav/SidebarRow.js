@@ -6,7 +6,6 @@ import { Label, Touchable } from '../common';
 import Icon from '../common/Icons';
 
 export default class SidebarRow extends PureComponent {
-
   props: {
     name: string,
     icon: string,

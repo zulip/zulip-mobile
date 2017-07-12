@@ -8,7 +8,7 @@ import {
   filterUserByInitials,
   filterUserThatContains,
   filterUserMatchesEmail,
-  getUniqueUsers
+  getUniqueUsers,
 } from '../usersSelectors';
 
 describe('filterUserList', () => {
@@ -24,7 +24,7 @@ describe('filterUserList', () => {
     expect(filteredUsers).toEqual(users);
   });
 
-  test('filters out user\'s own entry', () => {
+  test("filters out user's own entry", () => {
     const users = [{ email: 'email@example.com' }, { email: 'my@example.com' }];
     const shouldMatch = [{ email: 'email@example.com' }];
     const filteredUsers = filterUserList(users, '', 'my@example.com');
@@ -57,7 +57,7 @@ describe('getAutocompleteSuggestion', () => {
     expect(filteredUsers).toEqual([]);
   });
 
-  test('filters out user\'s own entry', () => {
+  test("filters out user's own entry", () => {
     const users = [
       { email: 'email@example.com', fullName: 'Some Guy' },
       { email: 'my@example.com', fullName: 'Me' },
@@ -100,7 +100,7 @@ describe('getAutocompleteSuggestion', () => {
       { fullName: 'Normal', email: 'match2@example.com' }, // satisfy contains in name and matches in email condition
     ];
     const shouldMatch = [
-      { fullName: 'match', email: 'any@example.com' },   // name starts with 'ma'
+      { fullName: 'match', email: 'any@example.com' }, // name starts with 'ma'
       { fullName: 'match', email: 'normal@example.com' }, // have priority as starts with 'ma'
       { fullName: 'Match App Normal', email: 'any3@example.com' }, // have priority as starts with 'ma'
       { fullName: 'M Apple', email: 'any1@example.com' }, // initials 'MA'
@@ -148,18 +148,11 @@ describe('groupUsersByInitials', () => {
   });
 
   test('empty input results in empty list', () => {
-    const users = [
-      { fullName: 'Allen' },
-      { fullName: 'Bob Tester' },
-      { fullName: 'bob bob' },
-    ];
+    const users = [{ fullName: 'Allen' }, { fullName: 'Bob Tester' }, { fullName: 'bob bob' }];
     const groupedUsers = groupUsersByInitials(users);
     expect(groupedUsers).toEqual({
-      'A': [{ fullName: 'Allen' }],
-      'B': [
-        { fullName: 'Bob Tester' },
-        { fullName: 'bob bob' },
-      ],
+      A: [{ fullName: 'Allen' }],
+      B: [{ fullName: 'Bob Tester' }, { fullName: 'bob bob' }],
     });
   });
 });
@@ -255,9 +248,7 @@ describe('filterUserMatchesEmail', () => {
       { fullName: 'app', email: 'p@p.com' },
       { fullName: 'app', email: 'own@example.com' },
     ];
-    const expectedUsers = [
-      { fullName: 'Apple', email: 'a@example.com' },
-    ];
+    const expectedUsers = [{ fullName: 'Apple', email: 'a@example.com' }];
     expect(filterUserMatchesEmail(users, 'example', 'own@example.com')).toEqual(expectedUsers);
   });
 });

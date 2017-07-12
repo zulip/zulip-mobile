@@ -7,9 +7,11 @@ export const xorHexStrings = (hex1: string, hex2: string) => {
     throw new Error('Both inputs must have the same length.');
   }
 
-  return hex1.split('').map((char, i) =>
-    (parseInt(hex1[i], 16) ^ parseInt(hex2[i], 16)).toString(16)
-    ).join('').toUpperCase();
+  return hex1
+    .split('')
+    .map((char, i) => (parseInt(hex1[i], 16) ^ parseInt(hex2[i], 16)).toString(16))
+    .join('')
+    .toUpperCase();
 };
 
 export const hexToAscii = (hex: string) => {
@@ -21,15 +23,15 @@ export const hexToAscii = (hex: string) => {
 };
 
 export const asciiToHex = (ascii: string) =>
-  ascii.split('').map((char) =>
-    (`0${char.charCodeAt(0).toString(16)}`).slice(-2)
-  ).join('').toUpperCase();
+  ascii
+    .split('')
+    .map(char => `0${char.charCodeAt(0).toString(16)}`.slice(-2))
+    .join('')
+    .toUpperCase();
 
-export const base64ToHex = (bytes: string) =>
-  asciiToHex(base64.decode(bytes));
+export const base64ToHex = (bytes: string) => asciiToHex(base64.decode(bytes));
 
-export const hexToBase64 = (hex: string) =>
-  base64.encode(hexToAscii(hex));
+export const hexToBase64 = (hex: string) => base64.encode(hexToAscii(hex));
 
 // Returns a one time pad (OTP) as a hex string
 // Uses the native platform random number generator

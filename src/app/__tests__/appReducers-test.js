@@ -1,8 +1,4 @@
-import {
-  ACCOUNT_SWITCH,
-  CANCEL_EDIT_MESSAGE,
-  START_EDIT_MESSAGE
-} from '../../actionConstants';
+import { ACCOUNT_SWITCH, CANCEL_EDIT_MESSAGE, START_EDIT_MESSAGE } from '../../actionConstants';
 import appReducers from '../appReducers';
 
 describe('appReducers', () => {
@@ -23,9 +19,9 @@ describe('appReducers', () => {
     test('Test start edit message method', () => {
       const prevState = {
         twentyFourHourTime: false,
-        'pushToken': '',
+        pushToken: '',
         emoji: {},
-        editMessage: null
+        editMessage: null,
       };
       const action = {
         type: START_EDIT_MESSAGE,
@@ -34,12 +30,12 @@ describe('appReducers', () => {
       };
       const expectedState = {
         twentyFourHourTime: false,
-        'pushToken': '',
+        pushToken: '',
         emoji: {},
         editMessage: {
           id: 12,
           content: 'test',
-        }
+        },
       };
 
       const newState = appReducers(prevState, action);
@@ -52,20 +48,19 @@ describe('appReducers', () => {
     test('Test cancel edit message method', () => {
       const prevState = {
         twentyFourHourTime: false,
-        'pushToken': '',
+        pushToken: '',
         emoji: {},
         editMessage: {
           id: 12,
           content: 'test',
-        }
+        },
       };
       const action = {
         type: START_EDIT_MESSAGE,
-
       };
       const expectedState = {
         twentyFourHourTime: false,
-        'pushToken': '',
+        pushToken: '',
         emoji: {},
         editMessage: {
           content: undefined,

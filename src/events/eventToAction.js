@@ -24,40 +24,40 @@ import {
   EVENT_MUTED_TOPICS,
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
-  EVENT_UPDATE_DISPLAY_SETTINGS
+  EVENT_UPDATE_DISPLAY_SETTINGS,
 } from '../actionConstants';
 
 import { getUserById } from '../users/usersSelectors';
 
 const opToActionSubscription = {
-  'add': EVENT_SUBSCRIPTION_ADD,
-  'remove': EVENT_SUBSCRIPTION_REMOVE,
-  'update': EVENT_SUBSCRIPTION_UPDATE,
-  'peer_add': EVENT_SUBSCRIPTION_PEER_ADD,
-  'peer_remove': EVENT_SUBSCRIPTION_PEER_REMOVE,
+  add: EVENT_SUBSCRIPTION_ADD,
+  remove: EVENT_SUBSCRIPTION_REMOVE,
+  update: EVENT_SUBSCRIPTION_UPDATE,
+  peer_add: EVENT_SUBSCRIPTION_PEER_ADD,
+  peer_remove: EVENT_SUBSCRIPTION_PEER_REMOVE,
 };
 
 const opToActionStream = {
-  'create': EVENT_STREAM_ADD,
-  'delete': EVENT_STREAM_REMOVE,
-  'update': EVENT_STREAM_UPDATE,
-  'occupy': EVENT_STREAM_OCCUPY,
+  create: EVENT_STREAM_ADD,
+  delete: EVENT_STREAM_REMOVE,
+  update: EVENT_STREAM_UPDATE,
+  occupy: EVENT_STREAM_OCCUPY,
 };
 
 const opToActionUser = {
-  'add': EVENT_USER_ADD,
-  'remove': EVENT_USER_REMOVE,
-  'update': EVENT_USER_UPDATE,
+  add: EVENT_USER_ADD,
+  remove: EVENT_USER_REMOVE,
+  update: EVENT_USER_UPDATE,
 };
 
 const opToActionReaction = {
-  'add': EVENT_REACTION_ADD,
-  'remove': EVENT_REACTION_REMOVE,
+  add: EVENT_REACTION_ADD,
+  remove: EVENT_REACTION_REMOVE,
 };
 
 const opToActionTyping = {
-  'start': EVENT_TYPING_START,
-  'stop': EVENT_TYPING_STOP,
+  start: EVENT_TYPING_START,
+  stop: EVENT_TYPING_STOP,
 };
 
 export default (state: GlobalState, event: Object) => {

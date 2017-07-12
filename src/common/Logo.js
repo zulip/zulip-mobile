@@ -13,10 +13,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default () => (
-  <Image
-    style={styles.logo}
-    source={logoImg}
-    resizeMode="contain"
-  />
-);
+export default () => <Image style={styles.logo} source={logoImg} resizeMode="contain" />;

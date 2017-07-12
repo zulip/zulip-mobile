@@ -10,7 +10,7 @@ import {
   EVENT_USER_UPDATE,
 } from '../actionConstants';
 
-const mapApiToStateUser = (user) => ({
+const mapApiToStateUser = user => ({
   id: user.user_id,
   email: user.email,
   fullName: user.full_name,
@@ -33,10 +33,7 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
       return action.users.map(mapApiToStateUser);
 
     case EVENT_USER_ADD:
-      return [
-        ...state,
-        mapApiToStateUser(action.person),
-      ];
+      return [...state, mapApiToStateUser(action.person)];
 
     case EVENT_USER_REMOVE:
       return state; // TODO

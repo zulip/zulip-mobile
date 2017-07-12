@@ -12,12 +12,12 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   unreadText: {
     flex: 0.9,
     color: '#FFFFFF',
-    fontSize: 14
+    fontSize: 14,
   },
   icon: {
     flex: 0.05,
@@ -27,21 +27,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'white',
     textAlign: 'center',
-  }
+  },
 });
 
 const showAnimationConfig = {
   toValue: 1,
   duration: 400,
   easing: Easing.bezier(0.17, 0.67, 0.11, 0.99),
-  useNativeDriver: true
+  useNativeDriver: true,
 };
 
 const hideAnimationConfig = {
   toValue: 0,
   duration: 400,
   easing: Easing.bezier(0.17, 0.67, 0.11, 0.99),
-  useNativeDriver: true
+  useNativeDriver: true,
 };
 
 // Duration after which notice should hide
@@ -64,22 +64,21 @@ type Props = {
 };
 
 export default class UnreadNotice extends React.Component {
-
   props: Props;
 
   hideTimeout = null;
 
   state = {
     translateAnimation: new Animated.Value(0),
-    noticeState: STATE_HIDDEN
+    noticeState: STATE_HIDDEN,
   };
 
   componentWillReceiveProps(nextProps: Props) {
     const { unreadCount, scrollOffset } = nextProps;
     const { noticeState } = this.state;
 
-    const shouldBecomeVisible = nextProps.unreadCount > unreadCount &&
-      unreadCount > 0 && scrollOffset > 0;
+    const shouldBecomeVisible =
+      nextProps.unreadCount > unreadCount && unreadCount > 0 && scrollOffset > 0;
 
     if (noticeState === STATE_PEEKING && unreadCount === 0) this.hidePeekingNotice();
 
@@ -92,7 +91,7 @@ export default class UnreadNotice extends React.Component {
     this.state.translateAnimation.setValue(0);
     Animated.timing(this.state.translateAnimation, showAnimationConfig).start(() => {
       this.setState({
-        noticeState: STATE_VISIBLE
+        noticeState: STATE_VISIBLE,
       });
 
       // Notice should go into peeking state
@@ -104,22 +103,24 @@ export default class UnreadNotice extends React.Component {
   hide = () => {
     const { unreadCount } = this.props;
     this.state.translateAnimation.setValue(1);
-    Animated.timing(this.state.translateAnimation,
-      Object.assign({}, hideAnimationConfig, { toValue: unreadCount === 0 ? 0 : PEEKING_FRACTION })
+    Animated.timing(
+      this.state.translateAnimation,
+      Object.assign({}, hideAnimationConfig, { toValue: unreadCount === 0 ? 0 : PEEKING_FRACTION }),
     ).start(() => {
       this.setState({
-        noticeState: this.state.translateAnimation._value === 0 ? // eslint-disable-line
-          STATE_HIDDEN :
-          STATE_PEEKING
+        noticeState:
+          this.state.translateAnimation._value === 0 // eslint-disable-line
+            ? STATE_HIDDEN
+            : STATE_PEEKING,
       });
     });
-  }
+  };
 
   hidePeekingNotice = () => {
     this.state.translateAnimation.setValue(PEEKING_FRACTION);
     Animated.timing(this.state.translateAnimation, hideAnimationConfig).start(() => {
       this.setState({
-        noticeState: STATE_HIDDEN
+        noticeState: STATE_HIDDEN,
       });
     });
   };
@@ -136,16 +137,16 @@ export default class UnreadNotice extends React.Component {
       bottom: 0,
       opacity: this.state.translateAnimation.interpolate({
         inputRange: [0, PEEKING_FRACTION, 1],
-        outputRange: [0, 1, 1]
+        outputRange: [0, 1, 1],
       }),
       transform: [
         {
           translateY: this.state.translateAnimation.interpolate({
             inputRange: [0, 1],
-            outputRange: [translateFrom, translateTo]
-          })
-        }
-      ]
+            outputRange: [translateFrom, translateTo],
+          }),
+        },
+      ],
     };
   };
 
@@ -156,9 +157,8 @@ export default class UnreadNotice extends React.Component {
       <Animated.View style={this.dynamicContainerStyles()}>
         <IconDownArrow style={styles.icon} />
         <Text style={styles.unreadText}>
-          {unreadCount === 0 ?
-            'No' : unreadCount < 100 ?
-              unreadCount : '99+'} unread {unreadCount === 1 ? 'message' : 'messages'}
+          {unreadCount === 0 ? 'No' : unreadCount < 100 ? unreadCount : '99+'} unread{' '}
+          {unreadCount === 1 ? 'message' : 'messages'}
         </Text>
       </Animated.View>
     );

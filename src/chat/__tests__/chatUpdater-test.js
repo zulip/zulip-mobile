@@ -16,22 +16,16 @@ describe('chatUpdater', () => {
   test('if id exists the message is updated', () => {
     const initialState = {
       messages: {
-        '[]': [
-          { id: 1 },
-          { id: 2 }
-        ],
+        '[]': [{ id: 1 }, { id: 2 }],
       },
     };
     const expectedState = {
       messages: {
-        '[]': [
-          { hello: 'world' },
-          { id: 2 }
-        ],
+        '[]': [{ hello: 'world' }, { id: 2 }],
       },
     };
 
-    const actualState = chatUpdater(initialState, 1, (prev) => ({ hello: 'world' }));
+    const actualState = chatUpdater(initialState, 1, prev => ({ hello: 'world' }));
 
     expect(actualState).toEqual(expectedState);
   });

@@ -14,18 +14,15 @@ const localStyles = StyleSheet.create({
     width: 18,
     height: 18,
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    borderRadius: 18
+    borderRadius: 18,
   },
   clearButtonIcon: {
     color: 'white',
-    transform: [
-      { rotate: '45deg' }
-    ]
-  }
+    transform: [{ rotate: '45deg' }],
+  },
 });
 
 export default class Input extends Component {
-
   static contextTypes = {
     styles: () => null,
   };
@@ -46,7 +43,7 @@ export default class Input extends Component {
 
   static defaultProps = {
     restProps: [],
-    textInputRef: () => { },
+    textInputRef: () => {},
   };
 
   state: {
@@ -62,12 +59,12 @@ export default class Input extends Component {
       canBeCleared: text.length > 0,
     });
     this.props.onTextChange(text);
-  }
+  };
 
   handleClear = () => {
     this.handleTextChange('');
     this.textInput.clear();
-  }
+  };
 
   render() {
     const { styles } = this.context;
@@ -80,9 +77,8 @@ export default class Input extends Component {
         <FormattedMessage
           id={placeholderMessage}
           defaultMessage={placeholderMessage}
-          values={placeholder.values}
-        >
-          {text => (
+          values={placeholder.values}>
+          {text =>
             <TextInput
               style={[styles.input, style]}
               placeholder={text}
@@ -93,14 +89,13 @@ export default class Input extends Component {
               }}
               onChangeText={this.handleTextChange}
               {...restProps}
-            />
-          )}
+            />}
         </FormattedMessage>
-        {clearButton && canBeCleared &&
+        {clearButton &&
+          canBeCleared &&
           <Touchable onPress={this.handleClear} style={localStyles.clearButtonContainer}>
             <Icon name="md-add" size={15} style={localStyles.clearButtonIcon} />
-          </Touchable>
-        }
+          </Touchable>}
       </View>
     );
   }

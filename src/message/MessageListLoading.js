@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default () => (
+export default () =>
   <View style={styles.list}>
     <MessageLoading />
     <MessageLoading />
@@ -19,5 +19,4 @@ export default () => (
     <MessageLoading />
     <MessageLoading />
     <MessageLoading />
-  </View>
-);
+  </View>;

@@ -18,20 +18,22 @@ export default (state: StreamsState = initialState, action: Action): StreamsStat
 
     case EVENT_STREAM_ADD:
       return state.concat(
-        action.streams.filter(x =>
-          !state.find(y => x.stream_id === y.stream_id)
-        )
+        action.streams.filter(x => !state.find(y => x.stream_id === y.stream_id)),
       );
 
     case EVENT_STREAM_REMOVE:
-      return state.filter(x =>
-        !action.streams.find(y => x.stream_id === y.stream_id)
-      );
+      return state.filter(x => !action.streams.find(y => x.stream_id === y.stream_id));
 
     case EVENT_STREAM_UPDATE:
-      return state.map(stream =>
-        (stream.stream_id === action.stream_id ? { ...stream,
-          [action.property]: action.value } : stream));
+      return state.map(
+        stream =>
+          stream.stream_id === action.stream_id
+            ? {
+                ...stream,
+                [action.property]: action.value,
+              }
+            : stream,
+      );
 
     case EVENT_STREAM_OCCUPY:
       return state;

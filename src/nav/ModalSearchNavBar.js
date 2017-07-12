@@ -11,14 +11,11 @@ import NavButton from './NavButton';
 
 const localStyles = StyleSheet.create({
   buttonCancel: {
-    transform: [
-      { rotate: '45deg' }
-    ]
-  }
+    transform: [{ rotate: '45deg' }],
+  },
 });
 
 class ModalSearchNavBar extends React.Component {
-
   static contextTypes = {
     styles: () => null,
   };
@@ -42,13 +39,13 @@ class ModalSearchNavBar extends React.Component {
 
   enableSearchActiveState = () => {
     this.setState({
-      isSearchActive: true
+      isSearchActive: true,
     });
   };
 
   disableSearchActiveState = () => {
     this.setState({
-      isSearchActive: false
+      isSearchActive: false,
     });
   };
 
@@ -59,25 +56,18 @@ class ModalSearchNavBar extends React.Component {
     const showSearchInput = isSearchActive || !searchBar;
     const textStyle = [
       styles.navTitle,
-      nav.index > 0 && showSearchInput && { marginRight: CONTROL_SIZE }
+      nav.index > 0 && showSearchInput && { marginRight: CONTROL_SIZE },
     ];
 
     return (
       <View style={styles.navBar}>
-        {nav.index > 0 &&
-          <NavButton name="ios-arrow-back" onPress={actions.navigateBack} />
-        }
-        {showSearchInput ?
-          <SearchInput onChange={searchBarOnChange} /> :
-          <Label style={textStyle} text={title} />
-        }
-        {!showSearchInput &&
-          <NavButton
-            name="ios-search"
-            onPress={this.enableSearchActiveState}
-          />
-        }
-        {(showSearchInput && clearSearchInput) &&
+        {nav.index > 0 && <NavButton name="ios-arrow-back" onPress={actions.navigateBack} />}
+        {showSearchInput
+          ? <SearchInput onChange={searchBarOnChange} />
+          : <Label style={textStyle} text={title} />}
+        {!showSearchInput && <NavButton name="ios-search" onPress={this.enableSearchActiveState} />}
+        {showSearchInput &&
+          clearSearchInput &&
           <NavButton
             name="md-add"
             style={localStyles.buttonCancel}
@@ -85,15 +75,14 @@ class ModalSearchNavBar extends React.Component {
               this.disableSearchActiveState();
               clearSearchInput();
             }}
-          />
-        }
+          />}
       </View>
     );
   }
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     nav: state.nav,
   }),
   boundActions,

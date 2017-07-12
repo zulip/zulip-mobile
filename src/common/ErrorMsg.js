@@ -20,10 +20,9 @@ const styles = StyleSheet.create({
 });
 
 export default class ErrorMsg extends React.PureComponent {
-
   props: {
     error: string,
-  }
+  };
 
   render() {
     const { error } = this.props;

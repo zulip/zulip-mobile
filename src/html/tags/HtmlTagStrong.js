@@ -7,12 +7,11 @@ import styles from '../HtmlStyles';
 import renderHtmlChildren from '../renderHtmlChildren';
 
 export default class HtmlTagStrong extends PureComponent {
-
   props: {
     style: StyleObj,
     actions: Actions,
     cascadingStyle: StyleObj,
-  }
+  };
 
   render() {
     const { cascadingStyle, ...restProps } = this.props;

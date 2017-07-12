@@ -9,10 +9,7 @@ test('when no accounts exist, returns undefined', () => {
 });
 
 test('returns first in the list', () => {
-  const accounts = [
-    { name: 'account1' },
-    { name: 'account2' },
-  ];
+  const accounts = [{ name: 'account1' }, { name: 'account2' }];
   const result = getActiveAccount({ accounts });
   expect(result).toEqual({ name: 'account1' });
 });

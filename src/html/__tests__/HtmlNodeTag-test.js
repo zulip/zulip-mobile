@@ -5,9 +5,7 @@ import HtmlNodeTag from '../HtmlNodeTag';
 
 describe('HtmlNodeTag', () => {
   test('renders a View component', () => {
-    const rendered = ReactTestRenderer.create(
-      <HtmlNodeTag attribs={{}} actions={{}} />
-    ).toJSON();
+    const rendered = ReactTestRenderer.create(<HtmlNodeTag attribs={{}} actions={{}} />).toJSON();
     expect(rendered.type).toBe('View');
   });
 });

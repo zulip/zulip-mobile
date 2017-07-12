@@ -29,6 +29,9 @@ describe('getAutocompleteFilter', () => {
     expect(getAutocompleteFilter('@ab :cd #a b')).toEqual({ filter: 'a b', lastWordPrefix: '#' });
     expect(getAutocompleteFilter(':#@smile')).toEqual({ filter: 'smile', lastWordPrefix: '@' });
     expect(getAutocompleteFilter('@r@::@q@m p')).toEqual({ filter: 'm p', lastWordPrefix: '@' });
-    expect(getAutocompleteFilter('some @ab:cd #a b')).toEqual({ filter: 'a b', lastWordPrefix: '#' });
+    expect(getAutocompleteFilter('some @ab:cd #a b')).toEqual({
+      filter: 'a b',
+      lastWordPrefix: '#',
+    });
   });
 });

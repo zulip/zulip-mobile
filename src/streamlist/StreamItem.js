@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
 });
 
 export default class StreamItem extends React.PureComponent {
-
   props: {
     name: string,
     description?: string,
@@ -54,8 +53,7 @@ export default class StreamItem extends React.PureComponent {
     onSwitch?: (name: string, newValue: boolean) => void,
   };
 
-  handlePress = () =>
-    this.props.onPress(this.props.name);
+  handlePress = () => this.props.onPress(this.props.name);
 
   handleSwitch = (newValue: boolean) => {
     const { name, onSwitch } = this.props;
@@ -65,8 +63,17 @@ export default class StreamItem extends React.PureComponent {
   };
 
   render() {
-    const { name, description, color, isPrivate, isMuted,
-      iconSize, isSelected, showSwitch, isSwitchedOn } = this.props;
+    const {
+      name,
+      description,
+      color,
+      isPrivate,
+      isMuted,
+      iconSize,
+      isSelected,
+      showSwitch,
+      isSwitchedOn,
+    } = this.props;
     const iconWrapperCustomStyle = {
       width: iconSize * 1.5,
       height: iconSize * 1.5,
@@ -77,34 +84,18 @@ export default class StreamItem extends React.PureComponent {
       <Touchable onPress={this.handlePress}>
         <View style={[styles.row, isSelected && styles.selectedRow]}>
           <View style={[styles.iconWrapper, iconWrapperCustomStyle]}>
-            <StreamIcon
-              size={iconSize}
-              color="white"
-              isMuted={isMuted}
-              isPrivate={isPrivate}
-            />
+            <StreamIcon size={iconSize} color="white" isMuted={isMuted} isPrivate={isPrivate} />
           </View>
           <View style={styles.text}>
             <RawLabel
-              style={[
-                isSelected && styles.selectedText,
-                isMuted && styles.mutedText
-              ]}
+              style={[isSelected && styles.selectedText, isMuted && styles.mutedText]}
               text={name}
             />
             {!!description &&
-              <RawLabel
-                numberOfLines={1}
-                style={styles.description}
-                text={description}
-              />
-            }
+              <RawLabel numberOfLines={1} style={styles.description} text={description} />}
           </View>
           {showSwitch &&
-            <ZulipSwitch
-              defaultValue={isSwitchedOn}
-              onValueChange={this.handleSwitch}
-            />}
+            <ZulipSwitch defaultValue={isSwitchedOn} onValueChange={this.handleSwitch} />}
         </View>
       </Touchable>
     );

@@ -8,11 +8,7 @@ import {
   PRESENCE_RESPONSE,
 } from '../actionConstants';
 
-const priorityToState = [
-  'offline',
-  'idle',
-  'active',
-];
+const priorityToState = ['offline', 'idle', 'active'];
 
 const stateToPriority = {
   offline: 0,
@@ -29,7 +25,7 @@ export const timestampFromPresence = (presence: ClientPresence): UserStatus =>
   Math.max(...Object.values(presence).map((x: Presence) => x.timestamp));
 
 export const activityFromTimestamp = (activity: string, timestamp: number) =>
-  ((new Date() / 1000) - timestamp > 60 ? 'offline' : activity);
+  new Date() / 1000 - timestamp > 60 ? 'offline' : activity;
 
 const updateUserWithPresence = (user: Object, presence: Presence) => {
   const timestamp = timestampFromPresence(presence);
@@ -60,8 +56,11 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
           return [...currentState, user];
         }
 
-        currentState[userIndex] = // eslint-disable-line
-          updateUserWithPresence(currentState[userIndex], action.presence[email]);
+        currentState[userIndex] = updateUserWithPresence(
+          // eslint-disable-line
+          currentState[userIndex],
+          action.presence[email],
+        );
         return currentState;
       }, newState);
     }

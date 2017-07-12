@@ -157,6 +157,8 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     borderColor: BORDER_COLOR,
   },
   topicWrapper: {
-    height: 44, paddingLeft: 4, paddingRight: 4,
-  }
+    height: 44,
+    paddingLeft: 4,
+    paddingRight: 4,
+  },
 });

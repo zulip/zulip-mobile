@@ -33,11 +33,10 @@ const styles = StyleSheet.create({
   },
   icon: {
     padding: 6,
-  }
+  },
 });
 
 export default class AccountItem extends React.PureComponent {
-
   props: {
     index: number,
     email: string,
@@ -47,11 +46,9 @@ export default class AccountItem extends React.PureComponent {
     showDoneIcon: boolean,
   };
 
-  handleSelect = () =>
-    this.props.onSelect(this.props.index);
+  handleSelect = () => this.props.onSelect(this.props.index);
 
-  handleRemove = () =>
-    this.props.onRemove(this.props.index);
+  handleRemove = () => this.props.onRemove(this.props.index);
 
   render() {
     const { email, realm, showDoneIcon } = this.props;
@@ -60,28 +57,17 @@ export default class AccountItem extends React.PureComponent {
       <Touchable style={styles.wrapper} onPress={this.handleSelect}>
         <View style={[styles.accountItem, showDoneIcon && styles.selectedAccountItem]}>
           <View style={styles.details}>
-            <RawLabel
-              style={[styles.text, styles.selectedText]}
-              text={email}
-            />
-            <RawLabel
-              style={[styles.text, styles.selectedText]}
-              text={realm}
-            />
+            <RawLabel style={[styles.text, styles.selectedText]} text={email} />
+            <RawLabel style={[styles.text, styles.selectedText]} text={realm} />
           </View>
-          {!showDoneIcon ?
-            <IconCancel
-              style={styles.icon}
-              size={32}
-              color="crimson"
-              onPress={this.handleRemove}
-            /> :
-            <IconDone
-              style={styles.icon}
-              size={24}
-              color={BRAND_COLOR}
-            />
-          }
+          {!showDoneIcon
+            ? <IconCancel
+                style={styles.icon}
+                size={32}
+                color="crimson"
+                onPress={this.handleRemove}
+              />
+            : <IconDone style={styles.icon} size={24} color={BRAND_COLOR} />}
         </View>
       </Touchable>
     );

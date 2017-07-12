@@ -16,7 +16,6 @@ const componentStyles = StyleSheet.create({
 });
 
 export default class MultilineInput extends React.Component {
-
   props: {
     style?: StyleObj,
     placeholder: LocalizableText,
@@ -39,7 +38,7 @@ export default class MultilineInput extends React.Component {
 
   handleOnChange = (event: Object) => {
     this.setState({ contentHeight: event.nativeEvent.contentSize.height });
-  }
+  };
 
   render() {
     const { placeholder, style, onChange } = this.props;
@@ -50,7 +49,9 @@ export default class MultilineInput extends React.Component {
       <ScrollView style={{ height }} contentContainerStyle={componentStyles.wrapper}>
         <Input
           style={style}
-          textInputRef={component => { this.textInput = component; }}
+          textInputRef={component => {
+            this.textInput = component;
+          }}
           multiline
           underlineColorAndroid="transparent"
           height={height}

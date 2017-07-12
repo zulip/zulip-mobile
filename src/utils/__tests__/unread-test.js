@@ -16,7 +16,7 @@ describe('filterUnreadMessageIds', () => {
     const flags = {
       read: {
         3: true,
-      }
+      },
     };
     const expectedUnread = [1, 2];
 

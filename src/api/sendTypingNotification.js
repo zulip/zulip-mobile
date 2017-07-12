@@ -2,12 +2,8 @@
 import type { Auth } from '../types';
 import { apiPost } from './apiFetch';
 
-export default async (auth: Auth, to: string | string[], op: 'start' | 'stop') => apiPost(
-  auth,
-  'typing',
-  res => res.messages,
-  {
+export default async (auth: Auth, to: string | string[], op: 'start' | 'stop') =>
+  apiPost(auth, 'typing', res => res.messages, {
     to,
     op,
-  },
-);
+  });

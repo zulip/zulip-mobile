@@ -12,24 +12,24 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 2,
   },
-  active: { // eslint-disable-line
+  /* eslint-disable react-native/no-unused-styles */
+  active: {
     backgroundColor: '#44c21d',
   },
-  idle: { // eslint-disable-line
+  idle: {
     backgroundColor: 'rgba(255, 165, 0, 1)',
   },
-  offline: { // eslint-disable-line
+  offline: {
     backgroundColor: 'lightgray',
   },
+  /* eslint-enable react-native/no-unused-styles */
 });
 
-
 export default class UserStatusIndicator extends Component {
-
   props: {
     status: string,
     style: StyleObj,
-  }
+  };
 
   static defaultProps = {
     status: 'unknown',
@@ -40,8 +40,6 @@ export default class UserStatusIndicator extends Component {
 
     if (!status) return null;
 
-    return (
-      <View style={[styles.common, styles[status], style]} />
-    );
+    return <View style={[styles.common, styles[status], style]} />;
   }
 }

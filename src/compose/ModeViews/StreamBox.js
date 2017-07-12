@@ -6,12 +6,14 @@ import { isTopicNarrow } from '../../utils/narrow';
 
 const styles = StyleSheet.create({
   streamInputWrapper: {
-    flexDirection: 'row', alignItems: 'center', flex: 1
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
   },
   topicInput: {
     flex: 0.8,
-    margin: 2
-  }
+    margin: 2,
+  },
 });
 
 export default class StreamBox extends Component {
@@ -33,10 +35,12 @@ export default class StreamBox extends Component {
     return (
       <View style={styles.streamInputWrapper}>
         <Input
-          ref={component => { this.operandInput = component; }}
+          ref={component => {
+            this.operandInput = component;
+          }}
           style={styles.topicInput}
           placeholder={'Topic'}
-          onTextChange={(text) => setTopic(text)}
+          onTextChange={text => setTopic(text)}
           value={operator}
         />
       </View>

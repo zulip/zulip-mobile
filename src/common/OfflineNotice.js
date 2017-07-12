@@ -14,18 +14,15 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 14,
-    color: 'white'
-  }
+    color: 'white',
+  },
 });
 
 export default class OfflineNotice extends React.Component {
   render() {
     return (
       <View style={styles.block}>
-        <Label
-          style={styles.text}
-          text="No Internet connection"
-        />
+        <Label style={styles.text} text="No Internet connection" />
       </View>
     );
   }

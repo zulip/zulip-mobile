@@ -1,8 +1,5 @@
 import muteReducers from '../muteReducers';
-import {
-  ACCOUNT_SWITCH,
-  EVENT_MUTED_TOPICS
-} from '../../actionConstants';
+import { ACCOUNT_SWITCH, EVENT_MUTED_TOPICS } from '../../actionConstants';
 
 describe('muteReducers', () => {
   describe('ACCOUNT_SWITCH', () => {
@@ -24,13 +21,9 @@ describe('muteReducers', () => {
       const initialState = [];
       const action = {
         type: EVENT_MUTED_TOPICS,
-        muted_topics: [
-          [['stream'], ['topic']]
-        ],
+        muted_topics: [[['stream'], ['topic']]],
       };
-      const expectedState = [
-        [['stream'], ['topic']]
-      ];
+      const expectedState = [[['stream'], ['topic']]];
 
       const newState = muteReducers(initialState, action);
 

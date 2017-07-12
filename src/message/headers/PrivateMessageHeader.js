@@ -28,22 +28,22 @@ const styles = StyleSheet.create({
 });
 
 export default class PrivateMessageHeader extends React.PureComponent {
-
   props: {
     style: StyleObj,
     itemId: number,
     recipients: Object[],
     doNarrow: () => void,
     onLongPress: () => void,
-  }
+  };
 
   performNarrow = () => {
     const { itemId, recipients, doNarrow } = this.props;
-    const narrow = recipients.length === 1 ?
-      privateNarrow(recipients[0].email) :
-      groupNarrow(recipients.map(r => r.email));
+    const narrow =
+      recipients.length === 1
+        ? privateNarrow(recipients[0].email)
+        : groupNarrow(recipients.map(r => r.email));
     doNarrow(narrow, itemId);
-  }
+  };
 
   render() {
     const { recipients, style, onLongPress } = this.props;

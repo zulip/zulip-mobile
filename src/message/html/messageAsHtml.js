@@ -10,7 +10,13 @@ const briefMessageAsHtml = ({ id, message }) => `
 `;
 
 const fullMessageAsHtml = ({
-  id, message, fromName, fromEmail, timestamp, avatarUrl, twentyFourHourTime,
+  id,
+  message,
+  fromName,
+  fromEmail,
+  timestamp,
+  avatarUrl,
+  twentyFourHourTime,
 }) => `
   <div class="message" id="${id}">
     <div class="avatar">
@@ -31,4 +37,4 @@ const fullMessageAsHtml = ({
 `;
 
 export default ({ isBrief, ...rest }) =>
-  (isBrief ? briefMessageAsHtml(rest) : fullMessageAsHtml(rest));
+  isBrief ? briefMessageAsHtml(rest) : fullMessageAsHtml(rest);

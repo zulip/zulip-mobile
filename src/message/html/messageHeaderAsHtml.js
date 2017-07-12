@@ -1,10 +1,15 @@
 import {
-  isStreamNarrow, isTopicNarrow, isPrivateNarrow, isGroupNarrow,
-  streamNarrow, topicNarrow, privateNarrow, groupNarrow,
+  isStreamNarrow,
+  isTopicNarrow,
+  isPrivateNarrow,
+  isGroupNarrow,
+  streamNarrow,
+  topicNarrow,
+  privateNarrow,
+  groupNarrow,
 } from '../../utils/narrow';
 
-const objToStr = (obj) =>
-  JSON.stringify(obj).replace(/"/g, "'");
+const objToStr = obj => JSON.stringify(obj).replace(/"/g, "'");
 
 export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
   if (isStreamNarrow(narrow)) {
@@ -18,8 +23,7 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
   }
 
   if (item.type === 'stream') {
-    const stream = subscriptions
-      .find(x => x.name === item.display_recipient);
+    const stream = subscriptions.find(x => x.name === item.display_recipient);
 
     const color = stream ? stream.color : '#ccc';
     const streamNarrowStr = objToStr(streamNarrow(item.display_recipient));
@@ -39,12 +43,17 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
     `;
   }
 
-  if (item.type === 'private' &&
-    !isPrivateNarrow(narrow) && !isGroupNarrow(narrow) && !isTopicNarrow(narrow)) {
+  if (
+    item.type === 'private' &&
+    !isPrivateNarrow(narrow) &&
+    !isGroupNarrow(narrow) &&
+    !isTopicNarrow(narrow)
+  ) {
     const recipients = item.display_recipient.filter(r => r.email !== auth.email);
-    const narrowObj = recipients.length === 1 ?
-      privateNarrow(recipients[0].email) :
-      groupNarrow(recipients.map(r => r.email));
+    const narrowObj =
+      recipients.length === 1
+        ? privateNarrow(recipients[0].email)
+        : groupNarrow(recipients.map(r => r.email));
     const privateNarrowStr = objToStr(narrowObj);
 
     return `

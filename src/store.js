@@ -8,15 +8,16 @@ import middleware from './middleware';
 
 // AsyncStorage.clear(); // use to reset storage during development
 
-const store = compose(
-  autoRehydrate(),
-  applyMiddleware(...middleware),
-)(createStore)(rootReducer);
+const store = compose(autoRehydrate(), applyMiddleware(...middleware))(createStore)(rootReducer);
 
 export const restore = (onFinished: () => void) =>
-  persistStore(store, {
-    blacklist: ['app', 'presence', 'nav'],
-    storage: AsyncStorage,
-  }, onFinished);
+  persistStore(
+    store,
+    {
+      blacklist: ['app', 'presence', 'nav'],
+      storage: AsyncStorage,
+    },
+    onFinished,
+  );
 
 export default store;

@@ -19,7 +19,7 @@ class MessageList extends React.PureComponent {
   };
 
   state: {
-     actionSheetButtons: [string, string, ],
+    actionSheetButtons: [string, string],
   };
 
   autoScrollToBottom = false;
@@ -46,7 +46,7 @@ class MessageList extends React.PureComponent {
         message: item,
         header: true,
         auth,
-        subscriptions
+        subscriptions,
       });
     };
     this.showActionSheet({ options, cancelButtonIndex: options.length - 1, callback });
@@ -71,7 +71,7 @@ class MessageList extends React.PureComponent {
         message,
         actions,
         auth,
-        subscriptions
+        subscriptions,
       });
     };
     this.showActionSheet({ options, cancelButtonIndex: options.length - 1, callback });
@@ -123,8 +123,7 @@ class MessageList extends React.PureComponent {
           <TaggedView
             key={elem.props.message.id}
             tagID={elem.props.message.id.toString()}
-            collapsable={false}
-          >
+            collapsable={false}>
             {elem}
           </TaggedView>
         );
@@ -139,8 +138,7 @@ class MessageList extends React.PureComponent {
         onStartReached={actions.fetchOlder}
         onEndReached={actions.fetchNewer}
         autoScrollToBottom={this.autoScrollToBottom}
-        onScroll={onScroll}
-      >
+        onScroll={onScroll}>
         <LoadingIndicator active={fetching.older} caughtUp={caughtUp.older} />
         {messageList}
         {!singleFetchProgress && fetching.newer && <LoadingIndicator active />}

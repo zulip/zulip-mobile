@@ -16,7 +16,6 @@ type Props = {
 };
 
 class SubscriptionsScreen extends React.Component {
-
   props: Props;
 
   state: {
@@ -41,7 +40,7 @@ class SubscriptionsScreen extends React.Component {
 
   clearFilter = () => {
     this.setState({
-      filter: ''
+      filter: '',
     });
   };
 
@@ -57,9 +56,8 @@ class SubscriptionsScreen extends React.Component {
       <SearchScreen
         title="Subscriptions"
         searchBarOnChange={this.handleFilterChange}
-        clearInput={this.clearFilter}
         searchBar
-      >
+        clearInput={this.clearFilter}>
         <StreamList
           streams={subsAndStreams}
           showSwitch
@@ -73,7 +71,7 @@ class SubscriptionsScreen extends React.Component {
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     auth: getAuth(state),
     streams: state.streams,
     subscriptions: state.subscriptions,

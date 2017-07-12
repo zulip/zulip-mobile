@@ -4,7 +4,6 @@ import { Switch } from 'react-native';
 import { BRAND_COLOR } from '../styles';
 
 export default class ZulipSwitch extends React.PureComponent {
-
   props: {
     value?: boolean,
     defaultValue: boolean,

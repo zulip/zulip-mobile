@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
 });
 
 export default class StreamList extends React.Component {
-
   props: {
     streams: Object[],
     selected?: boolean,
@@ -39,12 +38,12 @@ export default class StreamList extends React.Component {
         initialNumToRender={sortedStreams.length}
         data={sortedStreams}
         keyExtractor={item => item.stream_id}
-        renderItem={({ item }) => (
+        renderItem={({ item }) =>
           <StreamItem
             name={item.name}
             iconSize={16}
             isPrivate={item.invite_only}
-            description={(showDescriptions) ? item.description : ''}
+            description={showDescriptions ? item.description : ''}
             color={item.color}
             isSelected={item.name === selected}
             isMuted={item.in_home_view === false} // if 'undefined' is not muted
@@ -52,8 +51,7 @@ export default class StreamList extends React.Component {
             isSwitchedOn={item.subscribed}
             onPress={onNarrow}
             onSwitch={onSwitch}
-          />
-        )}
+          />}
       />
     );
   }

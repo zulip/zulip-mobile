@@ -14,7 +14,6 @@ type Props = {
   onNarrow: (arg: string) => void,
 };
 
-
 export default ({ email, unreadCount, users, realm, narrow, onNarrow }: Props) => {
   const user = users.find(x => x.email === email);
 

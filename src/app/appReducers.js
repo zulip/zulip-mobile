@@ -12,7 +12,7 @@ import {
   APP_ORIENTATION,
   APP_STATE,
   CANCEL_EDIT_MESSAGE,
-  START_EDIT_MESSAGE
+  START_EDIT_MESSAGE,
 } from '../actionConstants';
 
 import { getAuth } from '../account/accountSelectors';
@@ -82,18 +82,18 @@ export default (state: AppState = initialState, action: Action) => {
         orientation: action.orientation,
       };
     case CANCEL_EDIT_MESSAGE:
-      return ({
+      return {
         ...state,
-        editMessage: null
-      });
+        editMessage: null,
+      };
     case START_EDIT_MESSAGE:
-      return ({
+      return {
         ...state,
         editMessage: {
           id: action.messageId,
-          content: action.message
-        }
-      });
+          content: action.message,
+        },
+      };
     default:
       return state;
   }

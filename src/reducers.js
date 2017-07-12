@@ -18,28 +18,29 @@ import users from './users/usersReducers';
 import presence from './presence/presenceReducers';
 
 // Thanks to https://twitter.com/dan_abramov/status/656074974533459968?lang=en
-const enableBatching = (reducer) =>
-  (state: GlobalState, action: Action) => {
-    switch (action.type) {
-      case BATCH_ACTIONS:
-        return action.actions.reduce(reducer, state);
-      default:
-        return reducer(state, action);
-    }
-  };
+const enableBatching = reducer => (state: GlobalState, action: Action) => {
+  switch (action.type) {
+    case BATCH_ACTIONS:
+      return action.actions.reduce(reducer, state);
+    default:
+      return reducer(state, action);
+  }
+};
 
-export default enableBatching(combineReducers({
-  accounts,
-  app,
-  chat,
-  flags,
-  mute,
-  nav,
-  presence,
-  realm,
-  settings,
-  streams,
-  subscriptions,
-  typing,
-  users,
-}));
+export default enableBatching(
+  combineReducers({
+    accounts,
+    app,
+    chat,
+    flags,
+    mute,
+    nav,
+    presence,
+    realm,
+    settings,
+    streams,
+    subscriptions,
+    typing,
+    users,
+  }),
+);

@@ -23,7 +23,6 @@ const componentStyles = StyleSheet.create({
 });
 
 export default class TopicMessageHeader extends React.PureComponent {
-
   static contextTypes = {
     styles: () => null,
   };
@@ -35,13 +34,13 @@ export default class TopicMessageHeader extends React.PureComponent {
     stream: string,
     topic: string,
     onLongPress: () => void,
-  }
+  };
 
   performTopicNarrow = () => {
     const { actions, itemId, stream, topic } = this.props;
 
     actions.doNarrow(topicNarrow(stream, topic), itemId);
-  }
+  };
 
   render() {
     const { styles } = this.context;
@@ -52,13 +51,11 @@ export default class TopicMessageHeader extends React.PureComponent {
         <Touchable
           style={componentStyles.touch}
           onPress={this.performTopicNarrow}
-          onLongPress={onLongPress}
-        >
+          onLongPress={onLongPress}>
           <Text
             style={[componentStyles.topic, styles.color]}
             numberOfLines={1}
-            ellipsizeMode="tail"
-          >
+            ellipsizeMode="tail">
             {topic}
           </Text>
         </Touchable>

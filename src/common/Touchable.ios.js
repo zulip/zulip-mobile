@@ -12,15 +12,13 @@ type Props = {
   children?: [],
 };
 
-export default ({ onPress, style, children, onLongPress }: Props) => (
+export default ({ onPress, style, children, onLongPress }: Props) =>
   <TouchableHighlight
     underlayColor={HIGHLIGHT_COLOR}
     style={style}
     onPress={onPress}
-    onLongPress={onLongPress}
-  >
+    onLongPress={onLongPress}>
     <View>
       {children}
     </View>
-  </TouchableHighlight>
-);
+  </TouchableHighlight>;

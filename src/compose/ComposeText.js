@@ -18,7 +18,7 @@ const MAX_HEIGHT = 200;
 const componentStyles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
   },
   messageBox: {
     flex: 1,
@@ -40,7 +40,6 @@ type Props = {
 };
 
 export default class ComposeText extends React.Component {
-
   static contextTypes = {
     styles: () => null,
   };
@@ -64,7 +63,6 @@ export default class ComposeText extends React.Component {
     };
   }
 
-
   handleEdit = () => {
     const { auth, editMessage, cancelEditMessage } = this.props;
     if (editMessage.content !== this.props.text) {
@@ -75,7 +73,7 @@ export default class ComposeText extends React.Component {
       }
     }
     cancelEditMessage();
-  }
+  };
 
   handleSend = () => {
     const { auth, narrow, operator, text } = this.props;
@@ -84,15 +82,19 @@ export default class ComposeText extends React.Component {
       sendMessage(auth, 'private', narrow[0].operand, '', text);
     } else if (isTopicNarrow(narrow) || isStreamNarrow(narrow)) {
       if (operator !== null) {
-        sendMessage(auth, 'stream', narrow[0].operand,
-        (operator === '') ? '(no topic)' : operator, text);
+        sendMessage(
+          auth,
+          'stream',
+          narrow[0].operand,
+          operator === '' ? '(no topic)' : operator,
+          text,
+        );
       } else if (isTopicNarrow(narrow)) {
         sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, text);
       } else if (isStreamNarrow(narrow)) {
         sendMessage(auth, 'stream', narrow[0].operand, '(no topic)', text);
       }
     }
-
 
     this.clearInput();
   };
@@ -112,7 +114,7 @@ export default class ComposeText extends React.Component {
     const { auth, handleChangeText } = this.props;
     registerUserInputActivity(auth);
     handleChangeText(text);
-  }
+  };
 
   render() {
     const { narrow, auth, users, text, editMessage } = this.props;
@@ -127,7 +129,9 @@ export default class ComposeText extends React.Component {
           <Input
             value={text}
             style={this.context.styles.composeText}
-            textInputRef={component => { this.textInput = component; }}
+            textInputRef={component => {
+              this.textInput = component;
+            }}
             multiline
             underlineColorAndroid="transparent"
             height={contentHeight}
@@ -136,11 +140,7 @@ export default class ComposeText extends React.Component {
             placeholder={placeholder}
           />
         </ScrollView>
-        <SubmitButton
-          disabled={text.length === 0}
-          onPress={submit}
-          editMessage={editMessage}
-        />
+        <SubmitButton disabled={text.length === 0} onPress={submit} editMessage={editMessage} />
       </View>
     );
   }

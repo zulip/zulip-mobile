@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 1,
     overflow: 'hidden',
-    height: REACTION_HEIGHT
+    height: REACTION_HEIGHT,
   },
   frameVoted: {
     borderColor: BRAND_COLOR,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   placeholderCount: {
     marginLeft: 4,
-    color: 'transparent'
+    color: 'transparent',
   },
   countCommon: {
     marginLeft: 4,
@@ -50,14 +50,14 @@ const styles = StyleSheet.create({
   spinner: {
     position: 'absolute',
     top: -REACTION_SPINNER_OFFSET,
-    right: 4
+    right: 4,
   },
   spinnerTextContainer: {
     flex: 1,
     height: REACTION_SPINNER_OFFSET,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
 const incrementAnimationConfig = {
@@ -75,9 +75,8 @@ const decrementAnimationConfig = {
 };
 
 class Reaction extends React.PureComponent {
-
   state = {
-    voteChangeAnimation: new Animated.Value(0)
+    voteChangeAnimation: new Animated.Value(0),
   };
 
   props: {
@@ -89,7 +88,7 @@ class Reaction extends React.PureComponent {
     realmEmoji: {},
   };
 
-  componentWillReceiveProps = (nextProps) => {
+  componentWillReceiveProps = nextProps => {
     if (nextProps.voteCount > this.props.voteCount) {
       this.incrementSpinner();
     } else if (nextProps.voteCount < this.props.voteCount) {
@@ -123,10 +122,10 @@ class Reaction extends React.PureComponent {
       {
         translateY: this.state.voteChangeAnimation.interpolate({
           inputRange: [0, 0.5, 1, 1.5, 2],
-          outputRange: [0, REACTION_SPINNER_OFFSET, 0, -REACTION_SPINNER_OFFSET, 0]
-        })
-      }
-    ]
+          outputRange: [0, REACTION_SPINNER_OFFSET, 0, -REACTION_SPINNER_OFFSET, 0],
+        }),
+      },
+    ],
   });
 
   render() {
@@ -137,18 +136,25 @@ class Reaction extends React.PureComponent {
     return (
       <Touchable onPress={this.handlePress} style={styles.touchable}>
         <View style={[styles.frameCommon, frameStyle]}>
-          {emojiMap[name] ? <Emoji name={name} /> :
-          (realmEmoji[name] ? <RealmEmoji name={name} /> : <Emoji name={'copyright'} />)}
+          {emojiMap[name]
+            ? <Emoji name={name} />
+            : realmEmoji[name] ? <RealmEmoji name={name} /> : <Emoji name={'copyright'} />}
 
           <Animated.View style={this.dynamicSpinnerStyles()}>
             <View style={styles.spinnerTextContainer}>
-              <Text style={countStyle}>{voteCount - 1}</Text>
+              <Text style={countStyle}>
+                {voteCount - 1}
+              </Text>
             </View>
             <View style={styles.spinnerTextContainer}>
-              <Text style={countStyle}>{voteCount}</Text>
+              <Text style={countStyle}>
+                {voteCount}
+              </Text>
             </View>
             <View style={styles.spinnerTextContainer}>
-              <Text style={countStyle}>{voteCount + 1}</Text>
+              <Text style={countStyle}>
+                {voteCount + 1}
+              </Text>
             </View>
           </Animated.View>
 

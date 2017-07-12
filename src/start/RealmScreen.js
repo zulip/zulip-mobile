@@ -28,7 +28,6 @@ const componentStyles = StyleSheet.create({
 });
 
 class RealmScreen extends React.Component {
-
   static contextTypes = {
     styles: () => null,
   };
@@ -40,9 +39,8 @@ class RealmScreen extends React.Component {
   constructor(props: Props) {
     super(props);
 
-    const realmFromConfig = process.env.NODE_ENV === 'development'
-      ? config.devRealm
-      : config.productionRealm;
+    const realmFromConfig =
+      process.env.NODE_ENV === 'development' ? config.devRealm : config.productionRealm;
     this.state = {
       progress: false,
       realm: props.realm || realmFromConfig,
@@ -87,11 +85,12 @@ class RealmScreen extends React.Component {
     return (
       <Screen title="Welcome" keyboardAvoiding>
         <ScrollView
-          ref={(scrollView) => { this.scrollView = scrollView; }}
+          ref={scrollView => {
+            this.scrollView = scrollView;
+          }}
           centerContent
           keyboardShouldPersistTaps="always"
-          onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}
-        >
+          onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}>
           <View style={[styles.container, componentStyles.container]}>
             <Label text="Your server URL" />
             <Input
@@ -105,11 +104,7 @@ class RealmScreen extends React.Component {
               blurOnSubmit={false}
               onSubmitEditing={this.tryRealm}
             />
-            <ZulipButton
-              text="Enter"
-              progress={progress}
-              onPress={this.tryRealm}
-            />
+            <ZulipButton text="Enter" progress={progress} onPress={this.tryRealm} />
             {error && <ErrorMsg error={error} />}
           </View>
         </ScrollView>

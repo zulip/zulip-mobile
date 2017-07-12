@@ -43,23 +43,23 @@ describe('settingsReducers', () => {
       const prevState = {
         locale: 'en',
         theme: 'default',
-        'offlineNotification': true,
-        'onlineNotification': true,
+        offlineNotification: true,
+        onlineNotification: true,
       };
       const action = {
         type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
-        'eventId': 0,
-        'id': 0,
-        'notification_name': 'enable_offline_push_notifications',
-        'setting': false,
-        'timestamp': 1498530886.862562,
-        'user': 'example@zulip.com'
+        eventId: 0,
+        id: 0,
+        notification_name: 'enable_offline_push_notifications',
+        setting: false,
+        timestamp: 1498530886.862562,
+        user: 'example@zulip.com',
       };
       const expectedState = {
         locale: 'en',
         theme: 'default',
-        'onlineNotification': true,
-        'offlineNotification': false,
+        onlineNotification: true,
+        offlineNotification: false,
       };
 
       const actualState = settingsReducers(prevState, action);

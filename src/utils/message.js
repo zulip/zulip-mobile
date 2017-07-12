@@ -3,19 +3,14 @@ import type { Recipient, Narrow, Message } from '../types';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 export const normalizeRecipients = (recipients: Recipient[]) =>
-  (!Array.isArray(recipients) ?
-    recipients :
-    recipients
-      .map((s) => s.email.trim())
-      .filter(x => x.length > 0)
-      .sort()
-      .join(','));
+  !Array.isArray(recipients)
+    ? recipients
+    : recipients.map(s => s.email.trim()).filter(x => x.length > 0).sort().join(',');
 
-export const normalizeRecipientsSansMe = (recipients: Recipient[], ownEmail: string) => (
-  recipients.length === 1 ?
-    recipients[0].email :
-    normalizeRecipients(recipients.filter(r => r.email !== ownEmail))
-);
+export const normalizeRecipientsSansMe = (recipients: Recipient[], ownEmail: string) =>
+  recipients.length === 1
+    ? recipients[0].email
+    : normalizeRecipients(recipients.filter(r => r.email !== ownEmail));
 
 export const isSameRecipient = (message1: Message, message2: Message): boolean => {
   if (message1 === undefined || message2 === undefined) {
@@ -28,8 +23,10 @@ export const isSameRecipient = (message1: Message, message2: Message): boolean =
 
   switch (message1.type) {
     case 'private':
-      return (normalizeRecipients(message1.display_recipient).toLowerCase() ===
-              normalizeRecipients(message2.display_recipient).toLowerCase());
+      return (
+        normalizeRecipients(message1.display_recipient).toLowerCase() ===
+        normalizeRecipients(message2.display_recipient).toLowerCase()
+      );
     case 'stream':
       return (
         message1.display_recipient.toLowerCase() === message2.display_recipient.toLowerCase() &&
@@ -48,7 +45,7 @@ export const shouldBeMuted = (
   message: Message,
   narrow: Narrow,
   subscriptions: any[],
-  mutes: string[] = []
+  mutes: string[] = [],
 ): boolean => {
   if (typeof message.display_recipient !== 'string') {
     return false; // private/group messages are not muted

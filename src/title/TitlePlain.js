@@ -7,11 +7,11 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     fontSize: 16,
-    paddingRight: CONTROL_SIZE
+    paddingRight: CONTROL_SIZE,
   },
 });
 
-export default ({ text, color }) => (
+export default ({ text, color }) =>
   <Text style={[styles.title, { color }]}>
     {text}
-  </Text>);
+  </Text>;

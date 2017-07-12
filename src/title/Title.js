@@ -33,12 +33,7 @@ class Title extends React.PureComponent {
     const { narrow, editMessage, color } = this.props;
     const titleType = titles.find(x => x.isFunc(narrow));
     if (editMessage != null) {
-      return (
-        <TitlePlain
-          text={'Edit Message'}
-          color={color}
-        />
-      );
+      return <TitlePlain text={'Edit Message'} color={color} />;
     }
     if (!titleType) return null;
 
@@ -46,13 +41,11 @@ class Title extends React.PureComponent {
   }
 }
 
-export default connect(
-  (state) => ({
-    realm: getCurrentRealm(state),
-    narrow: state.chat.narrow,
-    users: state.users,
-    subscriptions: state.subscriptions,
-    streams: state.streams,
-    editMessage: state.app.editMessage,
-  })
-)(Title);
+export default connect(state => ({
+  realm: getCurrentRealm(state),
+  narrow: state.chat.narrow,
+  users: state.users,
+  subscriptions: state.subscriptions,
+  streams: state.streams,
+  editMessage: state.app.editMessage,
+}))(Title);

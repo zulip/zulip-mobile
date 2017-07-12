@@ -349,7 +349,7 @@ describe('getLastTopicInActiveNarrow', () => {
           [JSON.stringify(narrow)]: [
             { id: 0, subject: 'First subject' },
             { id: 1, subject: 'Last subject' },
-          ]
+          ],
         },
       },
     };
@@ -366,9 +366,7 @@ describe('getLastTopicInActiveNarrow', () => {
       chat: {
         narrow,
         messages: {
-          [JSON.stringify(narrow)]: [
-            { id: 0 },
-          ]
+          [JSON.stringify(narrow)]: [{ id: 0 }],
         },
       },
     };
@@ -385,11 +383,7 @@ describe('getLastTopicInActiveNarrow', () => {
       chat: {
         narrow,
         messages: {
-          [JSON.stringify(narrow)]: [
-            { id: 0 },
-            { id: 1, subject: 'Some subject' },
-            { id: 2 },
-          ]
+          [JSON.stringify(narrow)]: [{ id: 0 }, { id: 1, subject: 'Some subject' }, { id: 2 }],
         },
       },
     };

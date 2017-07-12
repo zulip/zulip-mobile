@@ -28,18 +28,17 @@ const styles = StyleSheet.create({
   statusIndicator: {
     width: 20,
     height: 20,
-    marginRight: 5
+    marginRight: 5,
   },
   sendButton: {
     marginRight: 8,
-    marginLeft: 8
-  }
+    marginLeft: 8,
+  },
 });
 
 export default class AccountDetails extends Component {
-
   state = {
-    layoutStyle: ORIENTATION_PORTRAIT
+    layoutStyle: ORIENTATION_PORTRAIT,
   };
 
   handleChatPress = () => {
@@ -50,11 +49,11 @@ export default class AccountDetails extends Component {
 
   handleOrientationChange = (event: Object) => {
     this.setState({
-      layoutStyle: this.props.orientation
+      layoutStyle: this.props.orientation,
     });
   };
 
-  renderAvatar = (width: number) => (
+  renderAvatar = (width: number) =>
     <Avatar
       avatarUrl={mediumAvatarUrl(this.props.avatarUrl)}
       name={this.props.fullName}
@@ -62,35 +61,34 @@ export default class AccountDetails extends Component {
       status={this.props.status}
       realm={this.props.auth.realm}
       shape="square"
-    />
-  );
+    />;
 
-  renderSendPMButton = () => (
+  renderSendPMButton = () =>
     <ZulipButton
       style={styles.sendButton}
       text="Send private message"
       onPress={this.handleChatPress}
       icon="md-mail"
-    />
-  );
+    />;
 
-  renderUserDetails = () => (
+  renderUserDetails = () =>
     <View style={styles.details}>
       {this.props.status &&
         <UserStatusIndicator status={this.props.status} style={styles.statusIndicator} />}
-      <Text style={styles.info}>{this.props.email}</Text>
-    </View>
-  );
+      <Text style={styles.info}>
+        {this.props.email}
+      </Text>
+    </View>;
 
   renderContent = (orientation: string, landscapeContent, portraitContent) =>
-    (orientation === ORIENTATION_LANDSCAPE ? landscapeContent : portraitContent);
-
+    orientation === ORIENTATION_LANDSCAPE ? landscapeContent : portraitContent;
 
   render() {
     const { layoutStyle } = this.state;
     const screenWidth = Dimensions.get('window').width;
 
-    return this.renderContent(layoutStyle,
+    return this.renderContent(
+      layoutStyle,
       <LandscapeContent
         screenWidth={screenWidth}
         handleOrientationChange={this.handleOrientationChange}
@@ -104,6 +102,7 @@ export default class AccountDetails extends Component {
         avatar={this.renderAvatar}
         userDetails={this.renderUserDetails}
         sendButton={this.renderSendPMButton}
-      />);
+      />,
+    );
   }
 }

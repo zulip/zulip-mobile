@@ -9,7 +9,7 @@ describe('HtmlNodeText', () => {
     const rendered = ReactTestRenderer.create(
       <StylesProvider>
         <HtmlNodeText data="hello" />
-      </StylesProvider>
+      </StylesProvider>,
     ).toJSON();
     expect(rendered.children).toEqual(['hello']);
   });

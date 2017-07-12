@@ -1,12 +1,7 @@
 /* @flow */
 import { Clipboard, Share } from 'react-native';
 import type { Actions, Auth, Message } from '../types';
-import {
-  narrowFromMessage,
-  isHomeNarrow,
-  isStreamNarrow,
-  isSpecialNarrow
-} from '../utils/narrow';
+import { narrowFromMessage, isHomeNarrow, isStreamNarrow, isSpecialNarrow } from '../utils/narrow';
 import { getSingleMessage } from '../api';
 import { isTopicMuted } from '../utils/message';
 import muteTopicApi from '../api/muteTopic';
@@ -129,7 +124,7 @@ const unstarMessage = ({ auth, message }: AuthAndMessageType) => {
 
 const shareMessage = ({ message }) => {
   Share.share({
-    message: message.content.replace(/<(?:.|\n)*?>/gm, '')
+    message: message.content.replace(/<(?:.|\n)*?>/gm, ''),
   });
 };
 
@@ -162,12 +157,13 @@ const actionHeaderSheetButtons: ButtonType[] = [
 ];
 
 export const constructHeaderActionButtons = ({
-     item,
-     subscriptions,
-     mute,
+  item,
+  subscriptions,
+  mute,
 }: ConstructHeaderActionButtonsType) => {
-  const buttons = actionHeaderSheetButtons.filter(x =>
-    !x.onlyIf || x.onlyIf({ item })).map(x => x.title);
+  const buttons = actionHeaderSheetButtons
+    .filter(x => !x.onlyIf || x.onlyIf({ item }))
+    .map(x => x.title);
   // These are dependent conditions, hence better if we manage here rather than using onlyIf
   if (item.type === 'stream') {
     if (isTopicMuted(item.display_recipient, item.subject, mute)) {
@@ -187,12 +183,12 @@ export const constructHeaderActionButtons = ({
 };
 
 export const constructActionButtons = ({
-   message,
-   auth,
-   narrow,
-   subscriptions,
-   mute,
-   flags
+  message,
+  auth,
+  narrow,
+  subscriptions,
+  mute,
+  flags,
 }: ConstructActionButtonsType) => {
   const buttons = actionSheetButtons
     .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))
