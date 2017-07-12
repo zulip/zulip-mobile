@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import type { Actions, Message } from '../types';
+import type { Actions } from '../types';
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 import SideDrawer from './SideDrawer';
@@ -11,7 +11,6 @@ import ConversationsContainer from '../conversations/ConversationsContainer';
 export default class MainScreen extends React.Component {
   props: {
     actions: Actions,
-    messages: Message[],
     orientation: string,
   };
 
@@ -26,7 +25,7 @@ export default class MainScreen extends React.Component {
   };
 
   render() {
-    const { actions, messages, orientation } = this.props;
+    const { actions, orientation } = this.props;
     const { leftDrawerOpen, rightDrawerOpen } = this.state;
 
     return (
@@ -63,7 +62,7 @@ export default class MainScreen extends React.Component {
             onPressPeople={() => this.setState({ rightDrawerOpen: true })}
             onPressStreams={() => this.setState({ leftDrawerOpen: true })}
             cancelEditMessage={actions.cancelEditMessage}>
-            <Chat messages={messages} />
+            <Chat />
           </MainNavBar>
         </SideDrawer>
       </SideDrawer>

@@ -3,11 +3,13 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
+import type { Auth, Narrow, Stream } from '../types';
 import boundActions from '../boundActions';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
 import { getAuth } from '../account/accountSelectors';
-import { Auth, Narrow } from '../types';
+import { getActiveNarrow } from '../chat/chatSelectors';
+import { NULL_STREAM } from '../nullObjects';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,22 +26,25 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
-  auth: Auth,
-  narrow: Narrow,
-  showSubscribeButton: boolean,
-};
-
 class NotSubscribed extends React.Component {
-  props: Props;
+  props: {
+    auth: Auth,
+    narrow: Narrow,
+    streams: Stream[],
+  };
 
   subscribeToStream = () => {
     const { auth, narrow } = this.props;
     subscriptionAdd(auth, [{ name: narrow[0].operand }]);
   };
 
+  canSubscribeToStream = () => {
+    const { narrow, streams } = this.props;
+    return !(streams.find(sub => narrow[0].operand === sub.name) || NULL_STREAM).invite_only;
+  };
+
   render() {
-    const { showSubscribeButton } = this.props;
+    const showSubscribeButton = this.canSubscribeToStream();
 
     return (
       <View style={styles.container}>
@@ -53,6 +58,8 @@ class NotSubscribed extends React.Component {
 export default connect(
   state => ({
     auth: getAuth(state),
+    narrow: getActiveNarrow(state),
+    streams: state.streams,
   }),
   boundActions,
 )(NotSubscribed);
