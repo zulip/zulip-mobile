@@ -4,10 +4,10 @@ import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Auth, Narrow, Message, Stream, Fetching } from '../types';
+import type { Auth, Narrow, Message, Fetching } from '../types';
 import { OfflineNotice } from '../common';
 import boundActions from '../boundActions';
-import { getAnchor, getCurrentTypingUsers } from '../chat/chatSelectors';
+import { getCurrentTypingUsers, getShownMessagesInActiveNarrow } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
 import { canSendToNarrow, isStreamOrTopicNarrow } from '../utils/narrow';
 import { filterUnreadMessageIds, countUnread } from '../utils/unread';
@@ -20,7 +20,6 @@ import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 import NotSubscribed from '../message/NotSubscribed';
-import { NULL_STREAM } from '../nullObjects';
 
 class Chat extends React.Component {
   static contextTypes = {
@@ -39,7 +38,6 @@ class Chat extends React.Component {
     messages: Message[],
     readIds: Object,
     subscriptions: any[],
-    streams: Stream,
   };
 
   handleMessageListScroll = (e: Object) => {
@@ -64,22 +62,14 @@ class Chat extends React.Component {
       : true;
   };
 
-  showSubscribeButton = () => {
-    const { narrow, streams } = this.props;
-    return !(streams.find(sub => narrow[0].operand === sub.name) || NULL_STREAM).invite_only;
-  };
-
   render() {
     const { styles } = this.context;
     const { messages, narrow, fetching, isOnline, readIds, needsInitialFetch } = this.props;
-    const noMessages = messages.length === 0 && !(fetching.older || fetching.newer);
-    const noMessagesButLoading = messages.length === 0 && (fetching.older || fetching.newer);
-    const showMessageList = !noMessages && !noMessagesButLoading;
+    const isFetching = needsInitialFetch || fetching.older || fetching.newer;
+    const noMessages = messages.length === 0;
     const unreadCount = countUnread(messages.map(msg => msg.id), readIds);
     const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
-    const CheckSub = this.isSubscribed()
-      ? <ComposeBox />
-      : <NotSubscribed narrow={narrow} showSubscribeButton={this.showSubscribeButton} />;
+    const CheckSub = this.isSubscribed() ? <ComposeBox /> : <NotSubscribed />;
 
     return (
       <WrapperView style={styles.screen} behavior="padding">
@@ -89,9 +79,9 @@ class Chat extends React.Component {
           shouldOffsetForInput={canSendToNarrow(narrow)}
         />
         {!isOnline && <OfflineNotice />}
-        {!needsInitialFetch && noMessages && <NoMessages narrow={narrow} />}
-        {noMessagesButLoading && <MessageListLoading />}
-        {showMessageList &&
+        {noMessages && !isFetching && <NoMessages narrow={narrow} />}
+        {noMessages && isFetching && <MessageListLoading />}
+        {!noMessages &&
           <ActionSheetProvider>
             <MessageList onScroll={this.handleMessageListScroll} {...this.props} />
           </ActionSheetProvider>}
@@ -105,16 +95,15 @@ export default connect(
   state => ({
     auth: getAuth(state),
     isOnline: state.app.isOnline,
-    needsInitialFetch: state.app.needsInitialFetch,
     subscriptions: state.subscriptions,
     flags: state.flags,
-    allMessages: state.chat.messages,
+    needsInitialFetch: state.app.needsInitialFetch,
     fetching: state.chat.fetching,
     caughtUp: state.chat.caughtUp,
     narrow: state.chat.narrow,
     mute: state.mute,
+    messages: getShownMessagesInActiveNarrow(state),
     typingUsers: getCurrentTypingUsers(state),
-    anchor: getAnchor(state),
     users: state.users,
     readIds: state.flags.read,
     twentyFourHourTime: state.realm.twentyFourHourTime,

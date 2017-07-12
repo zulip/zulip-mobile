@@ -36,12 +36,14 @@ export const messageFetchSuccess = (
   narrow: Narrow,
   fetching?: Fetching,
   caughtUp?: Object,
+  replaceExisting: boolean = false,
 ): Action => ({
   type: MESSAGE_FETCH_SUCCESS,
   messages,
   narrow,
   fetching,
   caughtUp,
+  replaceExisting,
 });
 
 export const backgroundFetchMessages = (

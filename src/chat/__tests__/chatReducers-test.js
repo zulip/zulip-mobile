@@ -1,4 +1,3 @@
-import { REHYDRATE } from 'redux-persist/constants';
 import deepFreeze from 'deep-freeze';
 
 import chatReducers from '../chatReducers';
@@ -659,37 +658,28 @@ describe('chatReducers', () => {
       expect(newState.messages).toEqual(expectedState.messages);
       expect(newState).not.toBe(initialState);
     });
-  });
 
-  describe('REHYDRATE', () => {
-    test('when initial fetch is needed, home narrow messages cache is emptied', () => {
-      const initialState = {};
+    test('when replaceExisting is true, previous messages are replaced', () => {
+      const initialState = {
+        messages: {
+          [homeNarrowStr]: [{ id: 1, timestamp: 3 }, { id: 2, timestamp: 4 }],
+        },
+      };
       deepFreeze(initialState);
 
       const action = {
-        type: REHYDRATE,
-        payload: {
-          accounts: [{ apiKey: '123' }],
-          chat: {
-            fetching: { older: true, newer: true },
-            caughtUp: { older: false, newer: false },
-            narrow: streamNarrow('some stream'),
-            messages: {
-              [homeNarrowStr]: [{ id: 4 }, { id: 1 }, { id: 2 }, { id: 3 }],
-              [streamNarrowStr]: [{ id: 6 }, { id: 9 }, { id: 7 }, { id: 5 }],
-            },
-          },
-        },
+        type: MESSAGE_FETCH_SUCCESS,
+        narrow: [],
+        messages: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
+        replaceExisting: true,
       };
       deepFreeze(action);
 
       const expectedState = {
-        fetching: { older: true, newer: true },
-        caughtUp: { older: false, newer: false },
-        narrow: streamNarrow('some stream'),
+        fetching: {},
+        caughtUp: {},
         messages: {
-          [homeNarrowStr]: [],
-          [streamNarrowStr]: [{ id: 6 }, { id: 9 }, { id: 7 }, { id: 5 }],
+          [homeNarrowStr]: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
         },
       };
 

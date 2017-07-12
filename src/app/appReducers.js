@@ -1,5 +1,6 @@
 /* @flow */
 import { REHYDRATE } from 'redux-persist/constants';
+
 import { AppState, Action } from '../types';
 import {
   LOGIN_SUCCESS,

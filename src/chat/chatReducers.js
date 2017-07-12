@@ -1,6 +1,4 @@
 /* @flow */
-import { REHYDRATE } from 'redux-persist/constants';
-
 import type { ChatState, Action } from '../types';
 import {
   LOGOUT,
@@ -16,7 +14,6 @@ import {
 } from '../actionConstants';
 import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
-import { getAuth } from '../account/accountSelectors';
 
 const initialState: ChatState = {
   fetching: { older: true, newer: true },
@@ -53,10 +50,12 @@ export default (state: ChatState = initialState, action: Action) => {
       const key = JSON.stringify(action.narrow);
       const messages = state.messages[key] || [];
 
-      const newMessages = action.messages
-        .filter(x => !messages.find(msg => msg.id === x.id))
-        .concat(messages)
-        .sort((a, b) => a.timestamp - b.timestamp);
+      const newMessages = action.replaceExisting
+        ? action.messages
+        : action.messages
+            .filter(x => !messages.find(msg => msg.id === x.id))
+            .concat(messages)
+            .sort((a, b) => a.timestamp - b.timestamp);
 
       return {
         ...state,
@@ -129,20 +128,6 @@ export default (state: ChatState = initialState, action: Action) => {
         ],
         last_edit_timestamp: action.edit_timestamp,
       }));
-    case REHYDRATE:
-      if (getAuth(action.payload).apiKey) {
-        const { chat: rehydratedChat, chat: { messages: rehydratedMessages } } = action.payload;
-        return {
-          ...state,
-          ...rehydratedChat,
-          messages: {
-            ...state.messages,
-            ...rehydratedMessages,
-            [JSON.stringify(homeNarrow())]: [],
-          },
-        };
-      }
-      return state;
     default:
       return state;
   }

@@ -26,7 +26,7 @@ export const fetchEssentialInitialData = (): Action => async (
     await tryUntilSuccessful(() => getMessages(getAuth(getState()), 0, 10, 10, homeNarrow(), true)),
   ]);
 
-  dispatch(messageFetchSuccess(messages, homeNarrow(), { older: false, newer: false }, {}));
+  dispatch(messageFetchSuccess(messages, homeNarrow(), { older: false, newer: false }, {}, true));
   dispatch(initSubscriptions(subscriptions));
   dispatch(initialFetchComplete());
 };

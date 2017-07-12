@@ -8,6 +8,7 @@ import AppWithNavigationState from './AppWithNavigationState';
 import { getAuth } from '../account/accountSelectors';
 import { registerAppActivity } from '../utils/activity';
 import { checkCompatibility } from '../api';
+import LoadingScreen from '../start/LoadingScreen';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 
 class AppContainer extends React.PureComponent {
@@ -38,13 +39,9 @@ class AppContainer extends React.PureComponent {
   };
 
   componentDidMount() {
-    const { actions } = this.props;
-    actions.resetNavigation();
     NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
-    // check with server if current mobile app is compatible with latest backend
-    // compatibility fails only if server responds with 400 (but not with 200 or 404)
     checkCompatibility().then(res => {
       this.setState({
         compatibilityCheckFail: res.status === 400,
@@ -73,6 +70,12 @@ class AppContainer extends React.PureComponent {
   };
 
   render() {
+    const { isHydrated } = this.props;
+
+    if (!isHydrated) {
+      return <LoadingScreen />;
+    }
+
     const { compatibilityCheckFail } = this.state;
 
     if (compatibilityCheckFail) {
@@ -90,9 +93,8 @@ class AppContainer extends React.PureComponent {
 export default connect(
   state => ({
     auth: getAuth(state),
-    locale: state.settings.locale,
+    isHydrated: state.app.isHydrated,
     needsInitialFetch: state.app.needsInitialFetch,
-    accounts: state.accounts,
     pushToken: state.realm.pushToken,
   }),
   boundActions,

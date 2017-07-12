@@ -1,4 +1,6 @@
 /* @flow */
+import { REHYDRATE } from 'redux-persist/constants';
+
 import type { NavigationState, Action } from '../types';
 import { navigateToAccountPicker, navigateToAuth } from './navActions';
 import { getStateForRoute, getInitialRoute } from './navSelectors';
@@ -17,6 +19,8 @@ export default (
   action: Action,
 ): NavigationState => {
   switch (action.type) {
+    case REHYDRATE:
+      return getStateForRoute(getInitialRoute(action.payload));
     case RESET_NAVIGATION:
     case ACCOUNT_SWITCH:
       return getStateForRoute(getInitialRoute(state));
