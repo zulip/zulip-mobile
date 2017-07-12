@@ -96,7 +96,10 @@
   },
   "jest": {
     "preset": "react-native",
-    "setupTestFrameworkScriptFile": "./jestSetup.js"
+    "setupTestFrameworkScriptFile": "./jestSetup.js",
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-native|@expo/react-native-action-sheet|react-navigation)"
+    ]
   },
   "detox": {
     "configurations": {

@@ -10,17 +10,17 @@ describe('navReducers', () => {
       };
       const action = {
         type: RESET_NAVIGATION,
-        routes: ['main'],
+        routes: [{ routeName: 'main', type: undefined }],
       };
       const expectedState = {
         index: 0,
-        routes: [{ key: 'main' }],
+        routes: [{ routeName: 'realm', type: undefined }],
       };
 
       const newState = navReducers(prevState, action);
 
-      expect(newState).toEqual(expectedState);
-      expect(newState).not.toBe(action.routes);
+      expect(newState.index).toEqual(expectedState.index);
+      expect(newState.routes[0].routeName).toEqual(expectedState.routes[0].routeName);
     });
 
     test('can init with multiple routes at once, last one becomes active', () => {
@@ -30,16 +30,17 @@ describe('navReducers', () => {
       };
       const action = {
         type: RESET_NAVIGATION,
-        routes: ['first', 'second'],
+        routes: [{ routeName: 'main', type: undefined }, { routeName: 'first', type: undefined }],
       };
       const expectedState = {
-        index: 1,
-        routes: [{ key: 'first' }, { key: 'second' }],
+        index: 0,
+        routes: [{ routeName: 'realm', type: undefined }],
       };
 
       const newState = navReducers(prevState, action);
 
-      expect(newState).toEqual(expectedState);
+      expect(newState.index).toEqual(expectedState.index);
+      expect(newState.routes[0].routeName).toEqual(expectedState.routes[0].routeName);
     });
   });
 
@@ -55,12 +56,18 @@ describe('navReducers', () => {
       };
       const expectedState = {
         index: 2,
-        routes: [{ key: 'one' }, { key: 'two' }, { key: 'password' }],
+        routes: [
+          { key: 'one' },
+          { key: 'two' },
+          { key: 'id-1499833198455-2', params: { authBackends: 'password' }, routeName: 'auth' },
+        ],
       };
 
       const newState = navReducers(prevState, action);
 
-      expect(newState).toEqual(expectedState);
+      expect(newState.index).toEqual(expectedState.index);
+      expect(newState.routes[2].routeName).toEqual(expectedState.routes[2].routeName);
+      expect(newState.routes[2].params.authBackends).toEqual('password');
     });
   });
 
@@ -75,12 +82,13 @@ describe('navReducers', () => {
       };
       const expectedState = {
         index: 0,
-        routes: [{ key: 'main' }],
+        routes: [{ routeName: 'main' }],
       };
 
       const newState = navReducers(prevState, action);
 
-      expect(newState).toEqual(expectedState);
+      expect(newState.index).toEqual(expectedState.index);
+      expect(newState.routes[0].routeName).toEqual(expectedState.routes[0].routeName);
     });
   });
 });

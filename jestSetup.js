@@ -5,3 +5,11 @@ jest.mock('react-native-sound', () => () => ({
 jest.mock('react-native-simple-toast', () => () => ({
   SHORT: jest.fn(),
 }));
+
+jest.mock('Linking', () => ({
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+  openURL: jest.fn(),
+  canOpenURL: jest.fn(),
+  getInitialURL: jest.fn(),
+}));
