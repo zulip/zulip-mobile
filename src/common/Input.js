@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 import type { LocalizableText, StyleObj } from '../types';
-import { HALF_COLOR } from '../styles';
+import { HALF_COLOR, BRAND_COLOR } from '../styles';
 import Icon from '../common/Icons';
 import Touchable from '../common/Touchable';
 
@@ -11,13 +11,12 @@ const localStyles = StyleSheet.create({
   clearButtonContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 18,
-    height: 18,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    borderRadius: 18,
+    width: 22,
+    height: 22,
+    marginRight: 12,
   },
   clearButtonIcon: {
-    color: 'white',
+    color: BRAND_COLOR,
     transform: [{ rotate: '45deg' }],
   },
 });
@@ -94,7 +93,7 @@ export default class Input extends Component {
         {clearButton &&
           canBeCleared &&
           <Touchable onPress={this.handleClear} style={localStyles.clearButtonContainer}>
-            <Icon name="md-add" size={15} style={localStyles.clearButtonIcon} />
+            <Icon name="md-add" size={30} style={localStyles.clearButtonIcon} />
           </Touchable>}
       </View>
     );
