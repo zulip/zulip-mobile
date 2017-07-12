@@ -8,7 +8,6 @@ import boundActions from '../boundActions';
 import { getAuth } from '../account/accountSelectors';
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
-import { getCurrentRoute } from '../nav/routingSelectors';
 
 class AccountDetailsScreen extends Component {
   props: {
@@ -51,7 +50,6 @@ export default connect(
   state => ({
     auth: getAuth(state),
     users: state.users,
-    email: getCurrentRoute(state).data,
     orientation: state.app.orientation,
   }),
   boundActions,

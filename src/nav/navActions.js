@@ -21,8 +21,8 @@ export const navigateToSearch = (): Action => NavigationActions.navigate({ route
 export const navigateToSettings = (): Action =>
   NavigationActions.navigate({ routeName: 'settings' });
 
-export const navigateToAuth = (authType: string): Action =>
-  NavigationActions.navigate({ routeName: authType });
+export const navigateToAuth = (authBackends: string): Action =>
+  NavigationActions.navigate({ routeName: 'auth', params: { authBackends } });
 
 export const navigateToAccountPicker = (): Action =>
   NavigationActions.navigate({ routeName: 'account' });

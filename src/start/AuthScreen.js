@@ -22,8 +22,8 @@ class AuthScreen extends React.PureComponent {
 
   props: {
     actions: Actions,
-    authBackends: string[],
     realm: string,
+    navigation: Object,
   };
 
   otp: ?string;
@@ -126,7 +126,7 @@ class AuthScreen extends React.PureComponent {
 
   render() {
     const { styles } = this.context;
-    const { authBackends } = this.props;
+    const { authBackends } = this.props.navigation.state.params;
 
     return (
       <Screen title="Sign in" keyboardAvoiding>
