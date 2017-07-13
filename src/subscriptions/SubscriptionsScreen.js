@@ -6,7 +6,7 @@ import type { Auth } from '../types';
 import boundActions from '../boundActions';
 import SearchScreen from '../search/SearchScreen';
 import { subscriptionAdd, subscriptionRemove } from '../api';
-import StreamList from '../streamlist/StreamList';
+import StreamList from '../streams/StreamList';
 import { getAuth } from '../account/accountSelectors';
 
 type Props = {

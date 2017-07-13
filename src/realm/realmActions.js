@@ -7,7 +7,7 @@ import { refreshNotificationToken } from '../utils/notifications';
 import { messageFetchSuccess } from '../message/messagesActions';
 import { initSubscriptions } from '../subscriptions/subscriptionsActions';
 import { initRealmEmojis } from '../emoji/realmEmojiActions';
-import { initStreams } from '../streamlist/streamsActions';
+import { initStreams } from '../streams/streamsActions';
 import { initUsers } from '../users/usersActions';
 import { getAuth } from '../account/accountSelectors';
 

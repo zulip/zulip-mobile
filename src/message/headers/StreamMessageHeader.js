@@ -7,7 +7,7 @@ import { Touchable } from '../../common';
 import TopicMessageHeader from './TopicMessageHeader';
 import { streamNarrow } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
-import StreamIcon from '../../streamlist/StreamIcon';
+import StreamIcon from '../../streams/StreamIcon';
 
 const componentStyles = StyleSheet.create({
   header: {

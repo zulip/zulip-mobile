@@ -11,7 +11,7 @@ const middleware = [thunk, createActionBuffer(REHYDRATE)];
 const enableLogging = process.env.NODE_ENV === 'development' && !!global.btoa;
 
 if (enableLogging) {
-  middleware.push(createLogger());
+  middleware.push(createLogger({ duration: true }));
 }
 
 export default middleware;

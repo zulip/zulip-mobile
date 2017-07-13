@@ -11,7 +11,7 @@ import mute from './mute/muteReducers';
 import nav from './nav/navReducers';
 import realm from './realm/realmReducers';
 import settings from './settings/settingsReducers';
-import streams from './streamlist/streamsReducers';
+import streams from './streams/streamsReducers';
 import subscriptions from './subscriptions/subscriptionsReducers';
 import typing from './typing/typingReducers';
 import users from './users/usersReducers';

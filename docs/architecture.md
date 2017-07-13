@@ -50,9 +50,8 @@ components of the app:
 * `lib` - miscellaneous shared libraries
 * `message` - messages and groups of related messages
 * `nav` - navigation
-* `stream` - stream of messages
-* `streamlist` - stream selection
-* `userlist` - user display, search and selection
+* `streams` - stream of messages
+* `users` - user display, search and selection
 
 
 `ZulipApp.js` contains the top-level React component for the app and
