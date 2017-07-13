@@ -1,11 +1,14 @@
+import deepFreeze from 'deep-freeze';
+
 import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../../actionConstants';
 import typingReducers from '../typingReducers';
 
 describe('typingReducers', () => {
   describe('EVENT_TYPING_START', () => {
     test('adds sender as currently typing user', () => {
-      const initialState = {};
-      const action = {
+      const initialState = deepFreeze({});
+
+      const action = deepFreeze({
         type: EVENT_TYPING_START,
         op: 'start',
         sender: { email: 'john@example.com', user_id: 1 },
@@ -14,7 +17,8 @@ describe('typingReducers', () => {
           { email: 'me@example.com', user_id: 2 },
         ],
         ownEmail: 'me@example.com',
-      };
+      });
+
       const expectedState = {
         'john@example.com': [1],
       };
@@ -25,10 +29,11 @@ describe('typingReducers', () => {
     });
 
     test('if user is already typing, no change', () => {
-      const initialState = {
+      const initialState = deepFreeze({
         'john@example.com': [1],
-      };
-      const action = {
+      });
+
+      const action = deepFreeze({
         type: EVENT_TYPING_START,
         op: 'start',
         sender: { email: 'john@example.com', user_id: 1 },
@@ -37,7 +42,8 @@ describe('typingReducers', () => {
           { email: 'me@example.com', user_id: 2 },
         ],
         ownEmail: 'me@example.com',
-      };
+      });
+
       const expectedState = {
         'john@example.com': [1],
       };
@@ -48,10 +54,11 @@ describe('typingReducers', () => {
     });
 
     test('if other people are typing in other narrows, add, do not affect them', () => {
-      const initialState = {
+      const initialState = deepFreeze({
         'john@example.com': [1],
-      };
-      const action = {
+      });
+
+      const action = deepFreeze({
         type: EVENT_TYPING_START,
         op: 'start',
         sender: { email: 'mark@example.com', user_id: 2 },
@@ -61,7 +68,8 @@ describe('typingReducers', () => {
           { email: 'me@example.com', user_id: 3 },
         ],
         ownEmail: 'me@example.com',
-      };
+      });
+
       const expectedState = {
         'john@example.com': [1],
         'john@example.com,mark@example.com': [2],
@@ -73,10 +81,11 @@ describe('typingReducers', () => {
     });
 
     test('if another user is typing already, append new one', () => {
-      const initialState = {
+      const initialState = deepFreeze({
         'john@example.com,mark@example.com': [1],
-      };
-      const action = {
+      });
+
+      const action = deepFreeze({
         type: EVENT_TYPING_START,
         op: 'start',
         sender: { email: 'mark@example.com', user_id: 2 },
@@ -86,7 +95,8 @@ describe('typingReducers', () => {
           { email: 'me@example.com', user_id: 3 },
         ],
         ownEmail: 'me@example.com',
-      };
+      });
+
       const expectedState = {
         'john@example.com,mark@example.com': [1, 2],
       };
@@ -99,11 +109,12 @@ describe('typingReducers', () => {
 
   describe('EVENT_TYPING_STOP', () => {
     test('if after removing, key is an empty list, key is removed', () => {
-      const initialState = {
+      const initialState = deepFreeze({
         'john@example.com': [1],
         'mark@example.com': [2],
-      };
-      const action = {
+      });
+
+      const action = deepFreeze({
         type: EVENT_TYPING_STOP,
         op: 'stop',
         sender: { email: 'john@example.com', user_id: 1 },
@@ -112,7 +123,8 @@ describe('typingReducers', () => {
           { email: 'me@example.com', user_id: 2 },
         ],
         ownEmail: 'me@example.com',
-      };
+      });
+
       const expectedState = {
         'mark@example.com': [2],
       };
@@ -123,10 +135,11 @@ describe('typingReducers', () => {
     });
 
     test('if two people are typing, just one is removed', () => {
-      const initialState = {
+      const initialState = deepFreeze({
         'john@example.com': [1, 2],
-      };
-      const action = {
+      });
+
+      const action = deepFreeze({
         type: EVENT_TYPING_STOP,
         op: 'stop',
         sender: { email: 'john@example.com', user_id: 1 },
@@ -135,7 +148,8 @@ describe('typingReducers', () => {
           { email: 'me@example.com', user_id: 2 },
         ],
         ownEmail: 'me@example.com',
-      };
+      });
+
       const expectedState = {
         'john@example.com': [2],
       };
@@ -146,8 +160,9 @@ describe('typingReducers', () => {
     });
 
     test('if typing state does not exist, no change is made', () => {
-      const initialState = {};
-      const action = {
+      const initialState = deepFreeze({});
+
+      const action = deepFreeze({
         type: EVENT_TYPING_STOP,
         op: 'stop',
         sender: { email: 'john@example.com', user_id: 1 },
@@ -156,7 +171,8 @@ describe('typingReducers', () => {
           { email: 'me@example.com', user_id: 2 },
         ],
         ownEmail: 'me@example.com',
-      };
+      });
+
       const expectedState = {};
 
       const newState = typingReducers(initialState, action);

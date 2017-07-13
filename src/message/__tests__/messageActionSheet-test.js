@@ -1,3 +1,5 @@
+import deepFreeze from 'deep-freeze';
+
 import { constructActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
 import {
   streamNarrow,
@@ -9,29 +11,33 @@ import {
 } from '../../utils/narrow';
 
 describe('constructActionButtons', () => {
-  const auth = {
+  const auth = deepFreeze({
     realm: '',
     email: 'Zoe@zulip.com',
-  };
+  });
 
-  let message = {};
-  const subscriptions = [];
-  const mute = [];
-  const narrow = [];
-  const flags = {
+  const subscriptions = deepFreeze([]);
+
+  const mute = deepFreeze([]);
+
+  const narrow = deepFreeze([]);
+
+  const flags = deepFreeze({
     starred: {
       1: true,
       2: true,
     },
-  };
+  });
 
   test('do not show narrow option in bottom most narrow', () => {
-    const group = groupNarrow(['abc@zulip.com, xyz@zulip.com']);
-    const topic = topicNarrow('Denmark', 'Copenhagen');
-    const pmNarrow = privateNarrow('abc@zulip.com');
-    const special = specialNarrow('private');
-    const home = homeNarrow();
-    const stream = streamNarrow('all');
+    const group = deepFreeze(groupNarrow(['abc@zulip.com, xyz@zulip.com']));
+    const topic = deepFreeze(topicNarrow('Denmark', 'Copenhagen'));
+    const pmNarrow = deepFreeze(privateNarrow('abc@zulip.com'));
+    const special = deepFreeze(specialNarrow('private'));
+    const home = deepFreeze(homeNarrow());
+    const stream = deepFreeze(streamNarrow('all'));
+
+    const message = deepFreeze({});
 
     const groupButtons = constructActionButtons({
       message,
@@ -91,9 +97,9 @@ describe('constructActionButtons', () => {
   });
 
   test('show star message option if message is not starred', () => {
-    message = {
+    const message = deepFreeze({
       id: 3,
-    };
+    });
 
     const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
 
@@ -101,9 +107,9 @@ describe('constructActionButtons', () => {
   });
 
   test('show unstar message option if message is starred', () => {
-    message = {
+    const message = deepFreeze({
       id: 1,
-    };
+    });
 
     const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
 
@@ -112,61 +118,77 @@ describe('constructActionButtons', () => {
 });
 
 describe('constructHeaderActionButtons', () => {
-  let subscriptions = [
-    { name: 'denmark', in_home_view: true },
-    { name: 'donald', in_home_view: false },
-  ];
-  let mute = [];
-  let item = {};
-
   test('show Unmute topic option if topic is muted', () => {
-    item = {
+    const subscriptions = deepFreeze([
+      { name: 'denmark', in_home_view: true },
+      { name: 'donald', in_home_view: false },
+    ]);
+
+    const message = deepFreeze({
       type: 'stream',
       display_recipient: 'electron issues',
       subject: 'issue #556',
-    };
-    mute = [['electron issues', 'issue #556']];
+    });
 
-    const buttons = constructHeaderActionButtons({ item, subscriptions, mute });
+    const mute = deepFreeze([['electron issues', 'issue #556']]);
+
+    const buttons = constructHeaderActionButtons({ message, subscriptions, mute });
 
     expect(buttons).toContain('Unmute topic');
   });
 
   test('show mute topic option if topic is not muted', () => {
-    item = {
+    const message = deepFreeze({
       type: 'stream',
       display_recipient: 'electron issues',
       subject: 'PR #558',
-    };
+    });
 
-    const buttons = constructHeaderActionButtons({ item, subscriptions, mute });
+    const subscriptions = deepFreeze([
+      { name: 'denmark', in_home_view: true },
+      { name: 'donald', in_home_view: false },
+    ]);
+
+    const mute = deepFreeze([]);
+
+    const buttons = constructHeaderActionButtons({ message, subscriptions, mute });
 
     expect(buttons).toContain('Mute topic');
   });
 
   test('show Unmute stream option if stream is not in home view', () => {
-    item = {
+    const message = deepFreeze({
       type: 'stream',
       display_recipient: 'electron issues',
-    };
-    subscriptions = [
+    });
+
+    const subscriptions = deepFreeze([
       {
         name: 'electron issues',
         in_home_view: false,
       },
-    ];
+    ]);
 
-    const buttons = constructHeaderActionButtons({ item, subscriptions, mute });
+    const mute = deepFreeze([]);
+
+    const buttons = constructHeaderActionButtons({ message, subscriptions, mute });
 
     expect(buttons).toContain('Unmute stream');
   });
 
   test('show mute stream option if stream is in home view', () => {
-    item = {
+    const message = deepFreeze({
       type: 'stream',
-    };
+    });
 
-    const buttons = constructHeaderActionButtons({ item, subscriptions, mute });
+    const subscriptions = deepFreeze([
+      { name: 'denmark', in_home_view: true },
+      { name: 'donald', in_home_view: false },
+    ]);
+
+    const mute = deepFreeze([]);
+
+    const buttons = constructHeaderActionButtons({ message, subscriptions, mute });
 
     expect(buttons).toContain('Mute stream');
   });

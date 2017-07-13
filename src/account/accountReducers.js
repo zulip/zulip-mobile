@@ -33,9 +33,15 @@ export default (state: AccountState = initialState, action: Action) => {
       ];
     }
     case SET_AUTH_TYPE: {
-      const newState = state.slice();
-      newState[0].authType = action.authType;
-      return newState;
+      return state.map((item, index) => {
+        if (index !== 0) {
+          return item;
+        }
+        return {
+          ...item,
+          authType: action.authType,
+        };
+      });
     }
     case ACCOUNT_SWITCH: {
       if (action.index === 0) {

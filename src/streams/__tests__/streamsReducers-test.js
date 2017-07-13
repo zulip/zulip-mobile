@@ -1,3 +1,5 @@
+import deepFreeze from 'deep-freeze';
+
 import streamsReducers from '../streamsReducers';
 import {
   ACCOUNT_SWITCH,
@@ -9,10 +11,12 @@ import {
 describe('streamsReducers', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const initialState = ['some_stream'];
-      const action = {
+      const initialState = deepFreeze(['some_stream']);
+
+      const action = deepFreeze({
         type: ACCOUNT_SWITCH,
-      };
+      });
+
       const expectedState = [];
 
       const actualState = streamsReducers(initialState, action);
@@ -23,8 +27,9 @@ describe('streamsReducers', () => {
 
   describe('EVENT_STREAM_ADD', () => {
     test('add new stream', () => {
-      const prevState = [];
-      const action = {
+      const initialState = deepFreeze([]);
+
+      const action = deepFreeze({
         type: EVENT_STREAM_ADD,
         streams: [
           {
@@ -36,7 +41,8 @@ describe('streamsReducers', () => {
             stream_id: 2,
           },
         ],
-      };
+      });
+
       const expectedState = [
         {
           name: 'some stream',
@@ -48,20 +54,21 @@ describe('streamsReducers', () => {
         },
       ];
 
-      const newState = streamsReducers(prevState, action);
+      const newState = streamsReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
 
     test('if stream already exist, do not add it', () => {
-      const prevState = [
+      const initialState = deepFreeze([
         {
           description: 'description',
           stream_id: 1,
           name: 'some stream',
         },
-      ];
-      const action = {
+      ]);
+
+      const action = deepFreeze({
         type: EVENT_STREAM_ADD,
         streams: [
           {
@@ -74,7 +81,8 @@ describe('streamsReducers', () => {
             stream_id: 2,
           },
         ],
-      };
+      });
+
       const expectedState = [
         {
           description: 'description',
@@ -87,7 +95,7 @@ describe('streamsReducers', () => {
         },
       ];
 
-      const newState = streamsReducers(prevState, action);
+      const newState = streamsReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -95,7 +103,7 @@ describe('streamsReducers', () => {
 
   describe('EVENT_STREAM_REMOVE', () => {
     test('removes stream from state', () => {
-      const prevState = [
+      const initialState = deepFreeze([
         {
           description: 'description',
           stream_id: 1,
@@ -111,8 +119,9 @@ describe('streamsReducers', () => {
           stream_id: 3,
           name: 'third stream',
         },
-      ];
-      const action = {
+      ]);
+
+      const action = deepFreeze({
         type: EVENT_STREAM_REMOVE,
         streams: [
           {
@@ -124,7 +133,8 @@ describe('streamsReducers', () => {
             stream_id: 2,
           },
         ],
-      };
+      });
+
       const expectedState = [
         {
           description: 'description',
@@ -133,19 +143,20 @@ describe('streamsReducers', () => {
         },
       ];
 
-      const newState = streamsReducers(prevState, action);
+      const newState = streamsReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
 
     test('removes streams that exist, do nothing if not', () => {
-      const prevState = [
+      const initialState = deepFreeze([
         {
           name: 'some stream',
           stream_id: 1,
         },
-      ];
-      const action = {
+      ]);
+
+      const action = deepFreeze({
         type: EVENT_STREAM_REMOVE,
         streams: [
           {
@@ -157,10 +168,11 @@ describe('streamsReducers', () => {
             stream_id: 2,
           },
         ],
-      };
+      });
+
       const expectedState = [];
 
-      const newState = streamsReducers(prevState, action);
+      const newState = streamsReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -168,7 +180,7 @@ describe('streamsReducers', () => {
 
   describe('EVENT_SUBSCRIPTION_UPDATE', () => {
     test('Change the name property', () => {
-      const initialState = [
+      const initialState = deepFreeze([
         {
           stream_id: 123,
           name: 'competition',
@@ -184,8 +196,9 @@ describe('streamsReducers', () => {
           name: 'mobile',
           email_address: '53@realm.com',
         },
-      ];
-      const action = {
+      ]);
+
+      const action = deepFreeze({
         stream_id: 123,
         type: EVENT_STREAM_UPDATE,
         eventId: 2,
@@ -194,7 +207,8 @@ describe('streamsReducers', () => {
         op: 'update',
         property: 'name',
         value: 'real competition',
-      };
+      });
+
       const expectedState = [
         {
           stream_id: 123,
@@ -219,7 +233,7 @@ describe('streamsReducers', () => {
     });
 
     test('Change the description property', () => {
-      const initialState = [
+      const initialState = deepFreeze([
         {
           stream_id: 123,
           name: 'competition',
@@ -238,8 +252,9 @@ describe('streamsReducers', () => {
           email_address: '53@realm.com',
           description: 'android',
         },
-      ];
-      const action = {
+      ]);
+
+      const action = deepFreeze({
         stream_id: 53,
         type: EVENT_STREAM_UPDATE,
         eventId: 2,
@@ -248,7 +263,8 @@ describe('streamsReducers', () => {
         op: 'update',
         property: 'description',
         value: 'iOS + android',
-      };
+      });
+
       const expectedState = [
         {
           stream_id: 123,
@@ -276,7 +292,7 @@ describe('streamsReducers', () => {
     });
 
     test('Change the email_address property', () => {
-      const initialState = [
+      const initialState = deepFreeze([
         {
           stream_id: 123,
           name: 'competition',
@@ -292,8 +308,9 @@ describe('streamsReducers', () => {
           name: 'mobile',
           email_address: '53@realm.com',
         },
-      ];
-      const action = {
+      ]);
+
+      const action = deepFreeze({
         stream_id: 123,
         type: EVENT_STREAM_UPDATE,
         eventId: 2,
@@ -302,7 +319,8 @@ describe('streamsReducers', () => {
         op: 'update',
         property: 'email_address',
         value: '1234@realm.com',
-      };
+      });
+
       const expectedState = [
         {
           stream_id: 123,

@@ -1,37 +1,54 @@
+import deepFreeze from 'deep-freeze';
+
 import { INIT_USERS, EVENT_USER_ADD, ACCOUNT_SWITCH } from '../../actionConstants';
 import usersReducers from '../usersReducers';
 
 describe('usersReducers', () => {
   test('handles unknown action and no state by returning initial state', () => {
-    const newState = usersReducers(undefined, {});
+    const initialState = undefined;
+
+    const action = deepFreeze({});
+
+    const newState = usersReducers(initialState, action);
     expect(newState).toBeDefined();
   });
 
   test('on unrecognized action, returns input state unchanged', () => {
-    const prevState = { hello: 'world' };
-    const newState = usersReducers(prevState, {});
-    expect(newState).toEqual(prevState);
+    const initialState = deepFreeze({ hello: 'world' });
+
+    const action = deepFreeze({});
+
+    const newState = usersReducers(initialState, action);
+    expect(newState).toEqual(initialState);
   });
 
   describe('INIT_USERS', () => {
     test('stores user data', () => {
-      const users = [{ full_name: 'user1' }, { full_name: 'user2' }];
-      const newState = usersReducers([], { type: INIT_USERS, users });
+      const initialState = deepFreeze([]);
+
+      const action = deepFreeze({
+        type: INIT_USERS,
+        users: [{ full_name: 'user1' }, { full_name: 'user2' }],
+      });
+
+      const newState = usersReducers(initialState, action);
       expect(newState.length).toEqual(2);
     });
   });
 
   describe('EVENT_USER_ADD', () => {
     test('flags from all messages are extracted and stored by id', () => {
-      const initialState = [];
-      const action = {
+      const initialState = deepFreeze([]);
+
+      const action = deepFreeze({
         type: EVENT_USER_ADD,
         person: {
           user_id: 1,
           email: 'john@example.com',
           full_name: 'John Doe',
         },
-      };
+      });
+
       const expectedState = [
         {
           id: 1,
@@ -48,16 +65,18 @@ describe('usersReducers', () => {
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const initialState = [
+      const initialState = deepFreeze([
         {
           full_name: 'Some Guy',
           email: 'email@example.com',
           status: 'offline',
         },
-      ];
-      const action = {
+      ]);
+
+      const action = deepFreeze({
         type: ACCOUNT_SWITCH,
-      };
+      });
+
       const expectedState = [];
 
       const actualState = usersReducers(initialState, action);

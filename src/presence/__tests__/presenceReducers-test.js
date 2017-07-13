@@ -1,4 +1,6 @@
 /* @flow */
+import deepFreeze from 'deep-freeze';
+
 import { PRESENCE_RESPONSE, EVENT_PRESENCE, ACCOUNT_SWITCH } from '../../actionConstants';
 import presenceReducers, { activityFromPresence, timestampFromPresence } from '../presenceReducers';
 
@@ -11,65 +13,81 @@ describe('presenceReducers', () => {
   });
 
   test('on unrecognized action, returns input state unchanged', () => {
-    const prevState = { hello: 'world' };
+    const prevState = deepFreeze({ hello: 'world' });
+
     const newState = presenceReducers(prevState, {});
     expect(newState).toEqual(prevState);
   });
 
   describe('activityFromPresence', () => {
     test('when single presence, just returns status', () => {
-      const activity = activityFromPresence({
-        website: {
-          status: 'active',
-        },
-      });
+      const activity = deepFreeze(
+        activityFromPresence({
+          website: {
+            status: 'active',
+          },
+        }),
+      );
+
       expect(activity).toEqual('active');
     });
 
     test('when multiple presences, the most "active" beats "offline"', () => {
-      const activity = activityFromPresence({
-        website: {
-          status: 'offline',
-        },
-        mobile: {
-          status: 'active',
-        },
-      });
+      const activity = deepFreeze(
+        activityFromPresence({
+          website: {
+            status: 'offline',
+          },
+          mobile: {
+            status: 'active',
+          },
+        }),
+      );
+
       expect(activity).toEqual('active');
     });
 
     test('when multiple, the most "idle" beats "offline"', () => {
-      const activity = activityFromPresence({
-        website: {
-          status: 'idle',
-        },
-        mobile: {
-          status: 'offline',
-        },
-      });
+      const activity = deepFreeze(
+        activityFromPresence({
+          website: {
+            status: 'idle',
+          },
+          mobile: {
+            status: 'offline',
+          },
+        }),
+      );
+
       expect(activity).toEqual('idle');
     });
   });
 
   describe('timestampFromPresence', () => {
     test('when single client just return timestamp', () => {
-      const activity = timestampFromPresence({
-        website: {
-          timestamp: 1475109413,
-        },
-      });
+      const activity = deepFreeze(
+        timestampFromPresence({
+          website: {
+            timestamp: 1475109413,
+          },
+        }),
+      );
+
       expect(activity).toEqual(1475109413);
     });
 
     test('when multiple clients return more recent timestamp', () => {
-      const activity = timestampFromPresence({
-        website: {
-          timestamp: 100,
-        },
-        mobile: {
-          timestamp: 200,
-        },
-      });
+      const activity = deepFreeze(
+        timestampFromPresence({
+          website: {
+            timestamp: 100,
+          },
+          mobile: {
+            timestamp: 200,
+          },
+        }),
+      );
+
       expect(activity).toEqual(200);
     });
   });
@@ -84,13 +102,19 @@ describe('presenceReducers', () => {
           },
         },
       };
-      const prevState = [
+      const action = deepFreeze({
+        type: PRESENCE_RESPONSE,
+        presence,
+      });
+
+      const prevState = deepFreeze([
         {
           full_name: 'Some Guy',
           email: 'email@example.com',
           status: 'offline',
         },
-      ];
+      ]);
+
       const expectedState = [
         {
           full_name: 'Some Guy',
@@ -100,7 +124,7 @@ describe('presenceReducers', () => {
         },
       ];
 
-      const newState = presenceReducers(prevState, { type: PRESENCE_RESPONSE, presence });
+      const newState = presenceReducers(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -150,7 +174,12 @@ describe('presenceReducers', () => {
           },
         },
       };
-      const prevState = [
+      const action = deepFreeze({
+        type: PRESENCE_RESPONSE,
+        presence,
+      });
+
+      const prevState = deepFreeze([
         {
           full_name: 'Some Guy',
           email: 'email@example.com',
@@ -166,7 +195,8 @@ describe('presenceReducers', () => {
           email: 'janedoe@example.com',
           status: 'offline',
         },
-      ];
+      ]);
+
       const expectedState = [
         {
           full_name: 'Some Guy',
@@ -188,7 +218,7 @@ describe('presenceReducers', () => {
         },
       ];
 
-      const newState = presenceReducers(prevState, { type: PRESENCE_RESPONSE, presence });
+      const newState = presenceReducers(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -196,14 +226,15 @@ describe('presenceReducers', () => {
 
   describe('EVENT_PRESENCE', () => {
     test('merges a single user presence', () => {
-      const prevState = [
+      const prevState = deepFreeze([
         {
           full_name: 'Some Guy',
           email: 'email@example.com',
           status: 'offline',
         },
-      ];
-      const action = {
+      ]);
+
+      const action = deepFreeze({
         type: EVENT_PRESENCE,
         email: 'email@example.com',
         presence: {
@@ -212,7 +243,8 @@ describe('presenceReducers', () => {
             timestamp: fiveSecsAgo,
           },
         },
-      };
+      });
+
       const expectedState = [
         {
           full_name: 'Some Guy',
@@ -230,16 +262,18 @@ describe('presenceReducers', () => {
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const initialState = [
+      const initialState = deepFreeze([
         {
           full_name: 'Some Guy',
           email: 'email@example.com',
           status: 'offline',
         },
-      ];
-      const action = {
+      ]);
+
+      const action = deepFreeze({
         type: ACCOUNT_SWITCH,
-      };
+      });
+
       const expectedState = [];
 
       const actualState = presenceReducers(initialState, action);

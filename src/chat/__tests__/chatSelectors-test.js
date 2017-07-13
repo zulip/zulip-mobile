@@ -11,15 +11,14 @@ import { homeNarrow, specialNarrow, privateNarrow, groupNarrow } from '../../uti
 
 describe('getAnchor', () => {
   test('return undefined when there are no messages', () => {
-    const state = {
+    const state = deepFreeze({
       chat: {
         narrow: homeNarrow(),
         messages: {
           '[]': [],
         },
       },
-    };
-    deepFreeze(state);
+    });
 
     const anchor = getAnchor(state);
 
@@ -27,15 +26,14 @@ describe('getAnchor', () => {
   });
 
   test('when single message, anchor ids are the same', () => {
-    const state = {
+    const state = deepFreeze({
       chat: {
         narrow: homeNarrow(),
         messages: {
           '[]': [{ id: 123 }],
         },
       },
-    };
-    deepFreeze(state);
+    });
 
     const anchor = getAnchor(state);
 
@@ -43,15 +41,14 @@ describe('getAnchor', () => {
   });
 
   test('when two or more messages, anchor contains first and last message ids', () => {
-    const state = {
+    const state = deepFreeze({
       chat: {
         narrow: homeNarrow(),
         messages: {
           '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
         },
       },
-    };
-    deepFreeze(state);
+    });
 
     const anchor = getAnchor(state);
 
@@ -63,7 +60,7 @@ describe('getRecentConversations', () => {
   const privatesNarrowStr = JSON.stringify(specialNarrow('private'));
 
   test('when no messages, return no conversations', () => {
-    const state = {
+    const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
       flags: { read: {} },
       chat: {
@@ -72,8 +69,7 @@ describe('getRecentConversations', () => {
           [privatesNarrowStr]: [],
         },
       },
-    };
-    deepFreeze(state);
+    });
 
     const actual = getRecentConversations(state);
 
@@ -81,7 +77,7 @@ describe('getRecentConversations', () => {
   });
 
   test('returns unique list of recipients, includes conversations with self', () => {
-    const state = {
+    const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
       flags: { read: {} },
       chat: {
@@ -95,8 +91,8 @@ describe('getRecentConversations', () => {
           ],
         },
       },
-    };
-    deepFreeze(state);
+    });
+
     const expectedPrivate = [
       { recipients: 'john@example.com', timestamp: 0, unread: 2 },
       { recipients: 'mark@example.com', timestamp: 0, unread: 1 },
@@ -110,7 +106,7 @@ describe('getRecentConversations', () => {
   });
 
   test('returns recipients sorted by last activity', () => {
-    const state = {
+    const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
       flags: { read: {} },
       chat: {
@@ -143,8 +139,8 @@ describe('getRecentConversations', () => {
           ],
         },
       },
-    };
-    deepFreeze(state);
+    });
+
     const expectedPrivate = [
       {
         recipients: 'me@example.com',
@@ -176,13 +172,12 @@ describe('getRecentConversations', () => {
 
 describe('getCurrentTypingUsers', () => {
   test('return undefined when current narrow is not private or group', () => {
-    const state = {
+    const state = deepFreeze({
       accounts: [{}],
       chat: {
         narrow: homeNarrow(),
       },
-    };
-    deepFreeze(state);
+    });
 
     const typingUsers = getCurrentTypingUsers(state);
 
@@ -196,7 +191,7 @@ describe('getCurrentTypingUsers', () => {
       avatarUrl: 'http://example.com/avatar.png',
       fullName: 'John Doe',
     };
-    const state = {
+    const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
       chat: {
         narrow: privateNarrow('john@example.com'),
@@ -205,8 +200,7 @@ describe('getCurrentTypingUsers', () => {
         'john@example.com': [1],
       },
       users: [expectedUser],
-    };
-    deepFreeze(state);
+    });
 
     const typingUsers = getCurrentTypingUsers(state);
 
@@ -226,7 +220,7 @@ describe('getCurrentTypingUsers', () => {
       avatarUrl: 'http://example.com/avatar2.png',
       fullName: 'Mark Dark',
     };
-    const state = {
+    const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
       chat: {
         narrow: groupNarrow(['john@example.com', 'mark@example.com']),
@@ -235,8 +229,7 @@ describe('getCurrentTypingUsers', () => {
         'john@example.com,mark@example.com': [1, 2],
       },
       users: [user1, user2],
-    };
-    deepFreeze(state);
+    });
 
     const typingUsers = getCurrentTypingUsers(state);
 
@@ -244,7 +237,7 @@ describe('getCurrentTypingUsers', () => {
   });
 
   test('when in private narrow but different user is typing return undefined', () => {
-    const state = {
+    const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
       chat: {
         narrow: privateNarrow('mark@example.com'),
@@ -252,8 +245,7 @@ describe('getCurrentTypingUsers', () => {
       typing: {
         'john@example.com': [1],
       },
-    };
-    deepFreeze(state);
+    });
 
     const typingUsers = getCurrentTypingUsers(state);
 
@@ -267,7 +259,7 @@ describe('getCurrentTypingUsers', () => {
       avatarUrl: 'http://example.com/avatar.png',
       fullName: 'John Doe',
     };
-    const state = {
+    const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
       chat: {
         narrow: groupNarrow(['mark@example.com', 'john@example.com']),
@@ -276,8 +268,7 @@ describe('getCurrentTypingUsers', () => {
         'john@example.com,mark@example.com': [1],
       },
       users: [expectedUser],
-    };
-    deepFreeze(state);
+    });
 
     const typingUsers = getCurrentTypingUsers(state);
 
@@ -287,15 +278,14 @@ describe('getCurrentTypingUsers', () => {
 
 describe('getUnreadPrivateMessagesCount', () => {
   test('when no private messages, unread count is 0', () => {
-    const state = {
+    const state = deepFreeze({
       flags: {},
       chat: {
         messages: {
           '[]': [],
         },
       },
-    };
-    deepFreeze(state);
+    });
 
     const actualCount = getUnreadPrivateMessagesCount(state);
 
@@ -304,7 +294,7 @@ describe('getUnreadPrivateMessagesCount', () => {
 
   test('count all messages in "private messages" narrow, skip read', () => {
     const privateNarrowStr = JSON.stringify(specialNarrow('private'));
-    const state = {
+    const state = deepFreeze({
       chat: {
         messages: {
           '[]': [{ id: 1 }, { id: 2 }],
@@ -316,8 +306,7 @@ describe('getUnreadPrivateMessagesCount', () => {
           3: true,
         },
       },
-    };
-    deepFreeze(state);
+    });
 
     const actualCount = getUnreadPrivateMessagesCount(state);
 
@@ -327,13 +316,12 @@ describe('getUnreadPrivateMessagesCount', () => {
 
 describe('getLastTopicInActiveNarrow', () => {
   test('when no messages yet, return empty string', () => {
-    const state = {
+    const state = deepFreeze({
       chat: {
         narrow: homeNarrow(),
         messages: {},
       },
-    };
-    deepFreeze(state);
+    });
 
     const actualLastTopic = getLastTopicInActiveNarrow(state);
 
@@ -342,7 +330,7 @@ describe('getLastTopicInActiveNarrow', () => {
 
   test('when last message has a `subject` property, return it', () => {
     const narrow = homeNarrow();
-    const state = {
+    const state = deepFreeze({
       chat: {
         narrow,
         messages: {
@@ -352,8 +340,7 @@ describe('getLastTopicInActiveNarrow', () => {
           ],
         },
       },
-    };
-    deepFreeze(state);
+    });
 
     const actualLastTopic = getLastTopicInActiveNarrow(state);
 
@@ -362,15 +349,14 @@ describe('getLastTopicInActiveNarrow', () => {
 
   test('when there are messages, but none with a `subject` property, return empty', () => {
     const narrow = privateNarrow('john@example.com');
-    const state = {
+    const state = deepFreeze({
       chat: {
         narrow,
         messages: {
           [JSON.stringify(narrow)]: [{ id: 0 }],
         },
       },
-    };
-    deepFreeze(state);
+    });
 
     const actualLastTopic = getLastTopicInActiveNarrow(state);
 
@@ -379,15 +365,14 @@ describe('getLastTopicInActiveNarrow', () => {
 
   test('when last message has no `subject` property, return last one that has', () => {
     const narrow = privateNarrow('john@example.com');
-    const state = {
+    const state = deepFreeze({
       chat: {
         narrow,
         messages: {
           [JSON.stringify(narrow)]: [{ id: 0 }, { id: 1, subject: 'Some subject' }, { id: 2 }],
         },
       },
-    };
-    deepFreeze(state);
+    });
 
     const actualLastTopic = getLastTopicInActiveNarrow(state);
 
