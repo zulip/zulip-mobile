@@ -1,6 +1,6 @@
 /* @flow */
 import React from 'react';
-import { View } from 'react-native';
+import { View, FlatList } from 'react-native';
 
 import type { Auth } from '../types';
 import AccountItem from './AccountItem';
@@ -18,16 +18,20 @@ export default class AccountList extends React.PureComponent {
 
     return (
       <View>
-        {accounts.map((account, i) =>
-          <AccountItem
-            key={account.apiKey}
-            index={i}
-            showDoneIcon={i === 0 && auth.apiKey !== '' && auth.apiKey === account.apiKey}
-            {...account}
-            onSelect={onAccountSelect}
-            onRemove={onAccountRemove}
-          />,
-        )}
+        <FlatList
+          keyboardShouldPersistTaps="always"
+          data={accounts}
+          keyExtractor={item => `${item.email}${item.realm}`}
+          renderItem={({ item, index }) =>
+            <AccountItem
+              key={`${item.email}${item.realm}`}
+              index={index}
+              showDoneIcon={index === 0 && auth.apiKey !== '' && auth.apiKey === item.apiKey}
+              {...item}
+              onSelect={onAccountSelect}
+              onRemove={onAccountRemove}
+            />}
+        />
       </View>
     );
   }
