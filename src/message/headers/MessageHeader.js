@@ -80,7 +80,7 @@ export default class MessageHeader extends React.PureComponent {
           itemId={item.id}
           doNarrow={actions.doNarrow}
           style={styles.margin}
-          onLongPress={this.onLongPress}
+          onLongPress={() => {}}
         />
       );
     }
