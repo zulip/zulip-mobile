@@ -9,7 +9,7 @@ import { STATUSBAR_HEIGHT } from '../styles';
 import { ZulipButton } from '../common';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import NavButton from './NavButton';
-import SubscriptionsContainer from '../streamlist/SubscriptionsContainer';
+import SubscriptionsContainer from '../streams/SubscriptionsContainer';
 
 const styles = StyleSheet.create({
   container: {

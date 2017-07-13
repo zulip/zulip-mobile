@@ -8,7 +8,7 @@ export * from './nav/navActions';
 export * from './message/messagesActions';
 export * from './realm/realmActions';
 export * from './settings/settingsActions';
-export * from './streamlist/streamsActions';
+export * from './streams/streamsActions';
 export * from './subscriptions/subscriptionsActions';
 export * from './typing/typingActions';
 export * from './users/usersActions';

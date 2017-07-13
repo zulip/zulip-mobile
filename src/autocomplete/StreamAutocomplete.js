@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import type { GlobalState, SubscriptionsState } from '../types';
 import { Popup } from '../common';
-import StreamItem from '../streamlist/StreamItem';
+import StreamItem from '../streams/StreamItem';
 
 class StreamAutocomplete extends Component {
   props: {
