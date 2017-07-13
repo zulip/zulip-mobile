@@ -31,7 +31,6 @@ class StreamAutocomplete extends Component {
           keyExtractor={item => item.stream_id}
           renderItem={({ item }) =>
             <StreamItem
-              key={item.stream_id}
               name={item.name}
               isMuted={!item.in_home_view}
               isPrivate={item.invite_only}

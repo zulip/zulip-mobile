@@ -25,8 +25,7 @@ export default class EmojiAutocomplete extends Component {
           initialNumToRender={12}
           data={emojis}
           keyExtractor={item => item}
-          renderItem={({ item }) =>
-            <EmojiRow key={item} name={item} onPress={() => onAutocomplete(item)} />}
+          renderItem={({ item }) => <EmojiRow name={item} onPress={() => onAutocomplete(item)} />}
         />
       </Popup>
     );
