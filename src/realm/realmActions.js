@@ -1,6 +1,6 @@
 /* @flow */
 import type { GetState, Dispatch, Action } from '../types';
-import { homeNarrow, specialNarrow } from '../utils/narrow';
+import { specialNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { getSubscriptions, getMessages, getStreams, getUsers, getRealmEmojis } from '../api';
 import { refreshNotificationToken } from '../utils/notifications';
@@ -10,6 +10,7 @@ import { initRealmEmojis } from '../emoji/realmEmojiActions';
 import { initStreams } from '../streams/streamsActions';
 import { initUsers } from '../users/usersActions';
 import { getAuth } from '../account/accountSelectors';
+import { getActiveNarrow } from '../chat/chatSelectors';
 
 import { INITIAL_FETCH_COMPLETE, SAVE_TOKEN_PUSH, DELETE_TOKEN_PUSH } from '../actionConstants';
 
@@ -21,12 +22,15 @@ export const fetchEssentialInitialData = (): Action => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
+  const auth = getAuth(getState());
+  const narrow = getActiveNarrow(getState());
+
   const [subscriptions, messages] = await Promise.all([
-    await tryUntilSuccessful(() => getSubscriptions(getAuth(getState()))),
-    await tryUntilSuccessful(() => getMessages(getAuth(getState()), 0, 10, 10, homeNarrow(), true)),
+    await tryUntilSuccessful(() => getSubscriptions(auth)),
+    await tryUntilSuccessful(() => getMessages(auth, 0, 10, 10, narrow, true)),
   ]);
 
-  dispatch(messageFetchSuccess(messages, homeNarrow(), { older: false, newer: false }, {}, true));
+  dispatch(messageFetchSuccess(messages, narrow, { older: false, newer: false }, {}, true));
   dispatch(initSubscriptions(subscriptions));
   dispatch(initialFetchComplete());
 };

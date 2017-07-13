@@ -42,7 +42,6 @@ export default (state: ChatState = initialState, action: Action) => {
         narrow: action.narrow,
         fetching: { older: false, newer: false },
         caughtUp: { older: false, newer: false },
-        editMessage: null,
       };
     }
 
