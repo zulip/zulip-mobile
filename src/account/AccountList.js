@@ -24,7 +24,6 @@ export default class AccountList extends React.PureComponent {
           keyExtractor={item => `${item.email}${item.realm}`}
           renderItem={({ item, index }) =>
             <AccountItem
-              key={`${item.email}${item.realm}`}
               index={index}
               showDoneIcon={index === 0 && auth.apiKey !== '' && auth.apiKey === item.apiKey}
               {...item}

@@ -32,7 +32,6 @@ class PeopleAutocomplete extends Component {
           keyExtractor={item => item.email}
           renderItem={({ item }) =>
             <UserItem
-              key={item.email}
               fullName={item.fullName}
               avatarUrl={item.avatarUrl}
               email={item.email}
