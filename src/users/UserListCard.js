@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { getOwnEmail, getCurrentRealm } from '../selectors';
@@ -8,7 +8,7 @@ import type { Actions, User } from '../types';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
 
-class UserListCard extends Component {
+class UserListCard extends PureComponent {
   props: {
     actions: Actions,
     ownEmail: string,

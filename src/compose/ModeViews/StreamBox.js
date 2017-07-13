@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { Input } from '../../common';
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class StreamBox extends Component {
+export default class StreamBox extends PureComponent {
   componentWillReceiveProps(nextProps) {
     if (this.props.narrow !== nextProps.narrow) {
       if (nextProps.narrow[0].operator !== 'pm-with') {

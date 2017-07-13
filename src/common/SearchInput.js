@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
 import { Input } from '../common';
 
@@ -20,7 +20,7 @@ type Props = {
   onChange: (text: string) => void,
 };
 
-export default class SearchInput extends Component {
+export default class SearchInput extends PureComponent {
   props: Props;
   textInput: TextInput;
 

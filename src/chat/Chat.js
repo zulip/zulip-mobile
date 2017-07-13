@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
@@ -27,7 +27,7 @@ import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 import NotSubscribed from '../message/NotSubscribed';
 
-class Chat extends React.Component {
+class Chat extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };

@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 
@@ -82,7 +82,7 @@ const ButtonNormal = ({
     </Touchable>
   </View>;
 
-export default class ZulipButton extends React.PureComponent {
+export default class ZulipButton extends PureComponent {
   props: {
     style?: StyleObj,
     progress?: boolean,

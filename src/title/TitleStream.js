@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import StreamIcon from '../streams/StreamIcon';
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TitleStream extends React.PureComponent {
+export default class TitleStream extends PureComponent {
   props: {
     subscriptions: [],
     streams: [],

@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 import type { Narrow } from '../types';
 import UserItem from '../users/UserItem';
@@ -14,21 +14,26 @@ type Props = {
   onNarrow: (arg: string) => void,
 };
 
-export default ({ email, unreadCount, users, realm, narrow, onNarrow }: Props) => {
-  const user = users.find(x => x.email === email);
+export default class ConversationUser extends PureComponent {
+  props: Props;
 
-  if (!user) return null;
+  render() {
+    const { email, unreadCount, users, realm, narrow, onNarrow } = this.props;
+    const user = users.find(x => x.email === email);
 
-  return (
-    <UserItem
-      fullName={user.fullName}
-      avatarUrl={user.avatarUrl}
-      email={email}
-      unreadCount={unreadCount}
-      status={user.status}
-      isSelected={narrow && isPrivateNarrow(narrow) && narrow[0].operand === email}
-      onPress={onNarrow}
-      realm={realm}
-    />
-  );
-};
+    if (!user) return null;
+
+    return (
+      <UserItem
+        fullName={user.fullName}
+        avatarUrl={user.avatarUrl}
+        email={email}
+        unreadCount={unreadCount}
+        status={user.status}
+        isSelected={narrow && isPrivateNarrow(narrow) && narrow[0].operand === email}
+        onPress={onNarrow}
+        realm={realm}
+      />
+    );
+  }
+}

@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
 import type { StyleObj } from '../../types';
@@ -27,22 +27,22 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class PrivateMessageHeader extends React.PureComponent {
+export default class PrivateMessageHeader extends PureComponent {
   props: {
     style: StyleObj,
-    itemId: number,
+    messageId: number,
     recipients: Object[],
     doNarrow: () => void,
     onLongPress: () => void,
   };
 
   performNarrow = () => {
-    const { itemId, recipients, doNarrow } = this.props;
+    const { messageId, recipients, doNarrow } = this.props;
     const narrow =
       recipients.length === 1
         ? privateNarrow(recipients[0].email)
         : groupNarrow(recipients.map(r => r.email));
-    doNarrow(narrow, itemId);
+    doNarrow(narrow, messageId);
   };
 
   render() {

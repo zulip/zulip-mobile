@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 import { ScrollView, Text, View } from 'react-native';
 
@@ -18,7 +18,7 @@ type State = {
   error: string,
 };
 
-class DevAuthScreen extends React.Component {
+class DevAuthScreen extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };

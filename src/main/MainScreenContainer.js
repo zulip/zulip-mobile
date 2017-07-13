@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import isEqual from 'lodash.isequal';
 import DeviceInfo from 'react-native-device-info';
@@ -10,7 +10,7 @@ import { getAuth, getShownMessagesInActiveNarrow } from '../selectors';
 import MainScreen from './MainScreen';
 import { initializeNotifications } from '../utils/notifications';
 
-class MainScreenContainer extends React.Component {
+class MainScreenContainer extends PureComponent {
   props: {
     auth: Auth,
     narrow: Narrow,
@@ -45,7 +45,6 @@ export default connect(
     narrow: state.chat.narrow,
     messages: getShownMessagesInActiveNarrow(state),
     orientation: state.app.orientation,
-    editMessage: state.app.editMessage,
   }),
   boundActions,
 )(MainScreenContainer);

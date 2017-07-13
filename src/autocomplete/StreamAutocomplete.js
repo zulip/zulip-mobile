@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -7,7 +7,7 @@ import type { GlobalState, SubscriptionsState } from '../types';
 import { Popup } from '../common';
 import StreamItem from '../streams/StreamItem';
 
-class StreamAutocomplete extends Component {
+class StreamAutocomplete extends PureComponent {
   props: {
     filter: string,
     onAutocomplete: (name: string) => void,

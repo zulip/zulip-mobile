@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
 import { Avatar, ZulipButton } from '../common';
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class AccountDetails extends Component {
+export default class AccountDetails extends PureComponent {
   state = {
     layoutStyle: ORIENTATION_PORTRAIT,
   };

@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, SectionList } from 'react-native';
 
 import { RawLabel } from '../common';
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class UserList extends Component {
+export default class UserList extends PureComponent {
   props: {
     filter: string,
     users: User[],

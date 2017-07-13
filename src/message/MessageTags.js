@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageTags extends React.PureComponent {
+export default class MessageTags extends PureComponent {
   render() {
     const { timestamp, starred } = this.props;
 

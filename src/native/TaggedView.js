@@ -2,7 +2,7 @@
 import React from 'react';
 import { requireNativeComponent } from 'react-native';
 
-export default class TaggedView extends React.Component {
+export default class TaggedView extends React.PureComponent {
   render() {
     return (
       <NativeTaggedView {...this.props}>

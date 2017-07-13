@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
 import type { User } from '../types';
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ConversationList extends React.PureComponent {
+export default class ConversationList extends PureComponent {
   props: {
     realm: string,
     users: User[],

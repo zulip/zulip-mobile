@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { ScrollView, View, StyleSheet, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -27,7 +27,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class RealmScreen extends React.Component {
+class RealmScreen extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };

@@ -54,7 +54,7 @@ type ConstructActionButtonsType = {
 };
 
 type ConstructHeaderActionButtonsType = {
-  item: Object,
+  message: Message,
   subscriptions: any[],
   mute: any[],
 };

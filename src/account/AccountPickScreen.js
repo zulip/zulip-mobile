@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class AccountPickScreen extends React.Component {
+class AccountPickScreen extends PureComponent {
   props: {
     auth: Auth,
     accounts: any[],

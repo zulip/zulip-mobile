@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageGroupView extends React.PureComponent {
+export default class MessageGroupView extends PureComponent {
   render() {
     const { stream, thread, children } = this.props;
 

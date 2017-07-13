@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SubscriptionsContainer extends React.Component {
+class SubscriptionsContainer extends PureComponent {
   props: {
     narrow: Narrow,
     subscriptions: SubscriptionsState,

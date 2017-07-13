@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageLoading extends React.PureComponent {
+export default class MessageLoading extends PureComponent {
   render() {
     return (
       <View style={styles.message}>

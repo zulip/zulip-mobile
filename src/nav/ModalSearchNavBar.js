@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -15,7 +15,7 @@ const localStyles = StyleSheet.create({
   },
 });
 
-class ModalSearchNavBar extends React.Component {
+class ModalSearchNavBar extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };

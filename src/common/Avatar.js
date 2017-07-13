@@ -1,11 +1,11 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 import ImageAvatar from './ImageAvatar';
 import TextAvatar from './TextAvatar';
 import { getFullUrl } from '../utils/url';
 
-export default class Avatar extends React.PureComponent {
+export default class Avatar extends PureComponent {
   props: {
     avatarUrl?: string,
     name: string,

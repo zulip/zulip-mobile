@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { Label } from '../common';
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class OfflineNotice extends React.Component {
+export default class OfflineNotice extends PureComponent {
   render() {
     return (
       <View style={styles.block}>

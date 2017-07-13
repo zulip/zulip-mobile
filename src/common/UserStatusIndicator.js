@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { StyleObj } from '../types';
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   /* eslint-enable react-native/no-unused-styles */
 });
 
-export default class UserStatusIndicator extends Component {
+export default class UserStatusIndicator extends PureComponent {
   props: {
     status: string,
     style: StyleObj,

@@ -125,6 +125,11 @@ export type ApiResponse = {
   msg: string,
 };
 
+export type EditMessage = {
+  id: number,
+  content: string,
+};
+
 export type Action = Object;
 
 export type Actions = {
@@ -201,6 +206,7 @@ export type AppState = {
   needsInitialFetch: boolean,
   pushToken: string,
   eventQueueId: number,
+  editMessage: ?EditMessage,
 };
 
 export type ChatState = {
@@ -295,11 +301,6 @@ export type DomElement = {
   parent: DomElement,
   prev: DomElement,
   children: DomElement[],
-};
-
-export type EditMessage = {
-  id: number,
-  content: string,
 };
 
 export type Subscription = {

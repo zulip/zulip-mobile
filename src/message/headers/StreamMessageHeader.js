@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import type { Actions, StyleObj } from '../../types';
@@ -35,11 +35,11 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class StreamMessageHeader extends React.PureComponent {
+export default class StreamMessageHeader extends PureComponent {
   props: {
     style: StyleObj,
     actions: Actions,
-    itemId: number,
+    messageId: number,
     stream: string,
     topic: string,
     color: string,
@@ -53,8 +53,8 @@ export default class StreamMessageHeader extends React.PureComponent {
   };
 
   performStreamNarrow = () => {
-    const { actions, itemId, stream } = this.props;
-    actions.doNarrow(streamNarrow(stream), itemId);
+    const { actions, messageId, stream } = this.props;
+    actions.doNarrow(streamNarrow(stream), messageId);
   };
 
   render() {
@@ -66,7 +66,7 @@ export default class StreamMessageHeader extends React.PureComponent {
       isMuted,
       topic,
       color,
-      itemId,
+      messageId,
       style,
       onLongPress,
     } = this.props;
@@ -92,7 +92,7 @@ export default class StreamMessageHeader extends React.PureComponent {
         </Touchable>
         <View style={[componentStyles.triangle, { borderLeftColor: color }]} />
         <TopicMessageHeader
-          itemId={itemId}
+          messageId={messageId}
           stream={stream}
           topic={topic}
           actions={actions}

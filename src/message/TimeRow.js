@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { HALF_COLOR } from '../styles';
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TimeRow extends React.PureComponent {
+export default class TimeRow extends PureComponent {
   props: {
     timestamp: number,
   };

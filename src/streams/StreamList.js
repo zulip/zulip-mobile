@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
 import StreamItem from './StreamItem';
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class StreamList extends React.Component {
+export default class StreamList extends PureComponent {
   props: {
     streams: Object[],
     selected?: boolean,

@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -28,7 +28,7 @@ const titles = [
   { isFunc: isGroupNarrow, component: TitleGroup },
 ];
 
-class Title extends React.PureComponent {
+class Title extends PureComponent {
   render() {
     const { narrow, editMessage, color } = this.props;
     const titleType = titles.find(x => x.isFunc(narrow));

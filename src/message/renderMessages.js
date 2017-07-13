@@ -15,7 +15,6 @@ type Props = {
   subscriptions: any[],
   users: Object[],
   messages: any[],
-  mute: boolean,
   flags: Object,
   narrow: Narrow,
   onLongPress: (message: Object) => void,
@@ -30,7 +29,6 @@ export default ({
   users,
   messages,
   narrow,
-  mute,
   onLongPress,
   onHeaderLongPress,
   flags,
@@ -57,7 +55,7 @@ export default ({
         <MessageHeader
           type="header"
           key={`header${item.id}`}
-          item={item}
+          message={item}
           auth={auth}
           actions={actions}
           subscriptions={subscriptions}

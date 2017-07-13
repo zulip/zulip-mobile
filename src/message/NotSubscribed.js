@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class NotSubscribed extends React.Component {
+class NotSubscribed extends PureComponent {
   props: {
     auth: Auth,
     narrow: Narrow,

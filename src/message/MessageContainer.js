@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 import type { Actions, Auth } from '../types';
 import htmlToDomTree from '../html/htmlToDomTree';
@@ -11,7 +11,7 @@ import openLink from '../utils/openLink';
 
 type Href = string;
 
-export default class MessageContainer extends React.PureComponent {
+export default class MessageContainer extends PureComponent {
   props: {
     actions: Actions,
     message: Object,

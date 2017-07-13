@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import type { Auth } from '../types';
@@ -15,7 +15,7 @@ type Props = {
   subscriptions: [],
 };
 
-class SubscriptionsScreen extends React.Component {
+class SubscriptionsScreen extends PureComponent {
   props: Props;
 
   state: {

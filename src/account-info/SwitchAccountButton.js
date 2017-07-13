@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SwitchAccountButton extends Component {
+class SwitchAccountButton extends PureComponent {
   static contextTypes = {
     drawer: () => null,
   };

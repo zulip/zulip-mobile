@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class LogoutButton extends Component {
+class LogoutButton extends PureComponent {
   props: {
     accounts: any[],
     auth: Auth,

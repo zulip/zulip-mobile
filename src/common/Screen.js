@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
@@ -22,7 +22,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class Screen extends React.Component {
+class Screen extends PureComponent {
   props: {
     keyboardAvoiding: boolean,
     title: LocalizableText,

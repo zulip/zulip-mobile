@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class SubmitButton extends React.Component {
+export default class SubmitButton extends PureComponent {
   props: {
     disabled: boolean,
     onPress: () => void,

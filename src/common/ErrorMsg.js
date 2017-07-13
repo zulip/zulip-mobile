@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { CONTROL_SIZE } from '../styles';
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ErrorMsg extends React.PureComponent {
+export default class ErrorMsg extends PureComponent {
   props: {
     error: string,
   };

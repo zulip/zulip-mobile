@@ -1,9 +1,9 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Switch } from 'react-native';
 import { BRAND_COLOR } from '../styles';
 
-export default class ZulipSwitch extends React.PureComponent {
+export default class ZulipSwitch extends PureComponent {
   props: {
     value?: boolean,
     defaultValue: boolean,

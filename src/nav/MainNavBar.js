@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 
@@ -19,7 +19,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class MainNavBar extends React.Component {
+class MainNavBar extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };

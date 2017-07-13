@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class StreamSidebar extends Component {
+class StreamSidebar extends PureComponent {
   props: {
     actions: Actions,
     onNarrow: () => void,

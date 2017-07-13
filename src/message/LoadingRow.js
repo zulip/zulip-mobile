@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text, ActivityIndicator, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TimeRow extends React.PureComponent {
+export default class TimeRow extends PureComponent {
   render() {
     return (
       <View style={styles.row}>

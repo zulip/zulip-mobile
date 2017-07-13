@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class AccountItem extends React.PureComponent {
+export default class AccountItem extends PureComponent {
   props: {
     index: number,
     email: string,

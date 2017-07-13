@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Label } from '../common';
@@ -23,7 +23,7 @@ const specials = {
   mentioned: { name: 'Mentions', icon: 'md-at' },
 };
 
-export default class TitleSpecial extends React.PureComponent {
+export default class TitleSpecial extends PureComponent {
   render() {
     const { narrow, color } = this.props;
     const { name, icon } = specials[narrow[0].operand];

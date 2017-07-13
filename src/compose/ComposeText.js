@@ -1,8 +1,8 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView, TextInput } from 'react-native';
 
-import type { Auth, Narrow, User, EditMessage } from '../types';
+import { Auth, Narrow, User, EditMessage } from '../types';
 import { Input } from '../common';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { registerUserInputActivity } from '../utils/activity';
@@ -28,18 +28,15 @@ const componentStyles = StyleSheet.create({
 type Props = {
   auth: Auth,
   narrow: Narrow,
-  operator: string,
   users: User[],
   text: string,
   handleChangeText: (input: string) => void,
-  auth: Object,
-  narrow: Object,
-  operator: string | null,
+  operator: string,
   editMessage: EditMessage,
   cancelEditMessage: () => void,
 };
 
-export default class ComposeText extends React.Component {
+export default class ComposeText extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };
