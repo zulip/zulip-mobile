@@ -80,6 +80,7 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     marginTop: 10,
     fontSize: 15,
     color: BRAND_COLOR,
+    textAlign: 'right',
   },
   navigationCard: {
     backgroundColor,

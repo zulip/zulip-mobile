@@ -109,13 +109,15 @@ class PasswordAuthView extends React.Component {
         />
         <ZulipButton text="Sign in with password" progress={progress} onPress={this.validateForm} />
         <ErrorMsg error={error} />
-        <Touchable style={componentStyles.linksTouchable}>
-          <Label
-            style={[styles.link]}
-            onPress={() => openLink(forgotPasswordLink)}
-            text="Forgot password?"
-          />
-        </Touchable>
+        <View style={componentStyles.linksTouchable}>
+          <Touchable>
+            <Label
+              style={[styles.link]}
+              onPress={() => openLink(forgotPasswordLink)}
+              text="Forgot password?"
+            />
+          </Touchable>
+        </View>
       </View>
     );
   }
