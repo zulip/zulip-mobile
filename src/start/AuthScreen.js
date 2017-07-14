@@ -55,6 +55,9 @@ class AuthScreen extends React.PureComponent {
     } else if (authType === 'github') {
       // Github OAuth flow
       this.beginOAuthFlow(`${realm}/accounts/login/social/github/`);
+    } else if (authType === 'dev') {
+      // Dev Auth backend flow
+      actions.navigateToDev();
     } else {
       // Password auth flow
       actions.setAuthType(authType);
