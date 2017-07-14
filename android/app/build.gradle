@@ -66,6 +66,7 @@ import com.android.build.OutputFile
  */
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -154,11 +155,11 @@ repositories {
 
 
 dependencies {
+    compile project(':react-native-sentry')
     compile project(':@remobile/react-native-toast')
     compile project(':react-native-photo-view')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-sound')
-    compile project(':react-native-fabric')
     compile project(':react-native-device-info')
     compile project(':react-native-vector-icons')
     compile fileTree(dir: "libs", include: ["*.jar"])

@@ -6,24 +6,22 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Pair;
 
-import com.facebook.react.ReactApplication;
-import com.wix.reactnativenotifications.RNNotificationsPackage;
-import com.remobile.toast.RCTToastPackage;
-import com.reactnative.photoview.PhotoViewPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.zmxv.RNSound.RNSoundPackage;
-import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.smixx.fabric.FabricPackage;
+import com.reactnative.photoview.PhotoViewPackage;
+import com.remobile.toast.RCTToastPackage;
+import com.wix.reactnativenotifications.RNNotificationsPackage;
 import com.wix.reactnativenotifications.core.AppLaunchHelper;
 import com.wix.reactnativenotifications.core.AppLifecycleFacade;
 import com.wix.reactnativenotifications.core.JsIOHelper;
 import com.wix.reactnativenotifications.core.notification.INotificationsApplication;
 import com.wix.reactnativenotifications.core.notification.IPushNotification;
+import com.zmxv.RNSound.RNSoundPackage;
 import com.zulipmobile.notifications.GCMPushNotifications;
 import com.zulipmobile.notifications.PushNotificationsProp;
 
@@ -31,8 +29,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
+import io.sentry.RNSentryPackage;
 
 import static com.zulipmobile.notifications.GCMPushNotifications.ACTION_NOTIFICATIONS_DISMISS;
 import static com.zulipmobile.notifications.NotificationHelper.addConversationToMap;
@@ -50,8 +47,8 @@ public class MainApplication extends Application implements ReactApplication, IN
         @Override
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
-                    new FabricPackage(),
                     new MainReactPackage(),
+                    new RNSentryPackage(MainApplication.this),
                     new PhotoViewPackage(),
                     new RCTToastPackage(),
                     new RNFetchBlobPackage(),
@@ -72,7 +69,6 @@ public class MainApplication extends Application implements ReactApplication, IN
     public void onCreate() {
         super.onCreate();
         SoLoader.init(this, /* native exopackage */ false);
-        Fabric.with(this, new Crashlytics());
         conversations = new LinkedHashMap<>();
     }
 

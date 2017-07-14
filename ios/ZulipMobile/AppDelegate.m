@@ -11,9 +11,12 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#if __has_include(<React/RNSentry.h>)
+#import <React/RNSentry.h> // This is used for versions of react >= 0.40
+#else
+#import "RNSentry.h" // This is used for versions of react < 0.40
+#endif
 #import <React/RCTLinkingManager.h>
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
 #import <asl.h>
 #import "RCTLog.h"
 #import "RNNotifications.h"
@@ -27,9 +30,6 @@
   [[RCTBundleURLProvider sharedSettings] setDefaults];
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
 
-  // Set up Crashlytics
-  [Fabric with:@[[Crashlytics class]]];
-
   RCTSetLogThreshold(RCTLogLevelError);
   RCTSetLogFunction(CrashlyticsReactLogFunction);
 
@@ -38,6 +38,8 @@
                                                       moduleName:@"ZulipMobile"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
+  [RNSentry installWithRootView:rootView];
+
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
