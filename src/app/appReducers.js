@@ -15,8 +15,7 @@ import {
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
 } from '../actionConstants';
-
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 
 const initialState: AppState = {
   lastActivityTime: new Date(),

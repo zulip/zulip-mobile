@@ -6,7 +6,7 @@ import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type { Actions, Auth, Message } from '../types';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
 import boundActions from '../boundActions';

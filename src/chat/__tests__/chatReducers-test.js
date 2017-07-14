@@ -46,8 +46,10 @@ describe('chatReducers', () => {
 
       const expectedState = {
         narrow: streamNarrow('some stream'),
-        caughtUp: { older: false, newer: false },
-        fetching: { older: false, newer: false },
+        caughtUpOlder: false,
+        caughtUpNewer: false,
+        fetchingOlder: false,
+        fetchingNewer: false,
       };
 
       const newState = chatReducers(initialState, action);
@@ -675,8 +677,6 @@ describe('chatReducers', () => {
       deepFreeze(action);
 
       const expectedState = {
-        fetching: {},
-        caughtUp: {},
         messages: {
           [homeNarrowStr]: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
         },

@@ -4,7 +4,7 @@ import { StyleSheet, SectionList } from 'react-native';
 
 import { RawLabel } from '../common';
 import UserItem from './UserItem';
-import { sortUserList, filterUserList, groupUsersByInitials } from './usersSelectors';
+import { sortUserList, filterUserList, groupUsersByInitials } from '../selectors';
 import { User } from '../types';
 
 const styles = StyleSheet.create({

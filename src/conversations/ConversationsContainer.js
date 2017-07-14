@@ -3,8 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import { getCurrentRealm } from '../account/accountSelectors';
-import { getRecentConversations } from '../chat/chatSelectors';
+import { getCurrentRealm, getRecentConversations } from '../selectors';
 import ConversationsCard from './ConversationsCard';
 
 export default connect(

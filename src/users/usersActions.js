@@ -2,7 +2,7 @@
 import type { Dispatch, Action, User, GetState } from '../types';
 import { focusPing, getUsers } from '../api';
 import { INIT_USERS, PRESENCE_RESPONSE } from '../actionConstants';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 
 export const sendFocusPing = (hasFocus: boolean, newUserInput: boolean): Action => async (
   dispatch: Dispatch,

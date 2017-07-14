@@ -9,8 +9,7 @@ import { initSubscriptions } from '../subscriptions/subscriptionsActions';
 import { initRealmEmojis } from '../emoji/realmEmojiActions';
 import { initStreams } from '../streams/streamsActions';
 import { initUsers } from '../users/usersActions';
-import { getAuth } from '../account/accountSelectors';
-import { getActiveNarrow } from '../chat/chatSelectors';
+import { getAuth, getActiveNarrow } from '../selectors';
 
 import { INITIAL_FETCH_COMPLETE, SAVE_TOKEN_PUSH, DELETE_TOKEN_PUSH } from '../actionConstants';
 
@@ -30,7 +29,7 @@ export const fetchEssentialInitialData = (): Action => async (
     await tryUntilSuccessful(() => getMessages(auth, 0, 10, 10, narrow, true)),
   ]);
 
-  dispatch(messageFetchSuccess(messages, narrow, { older: false, newer: false }, {}, true));
+  dispatch(messageFetchSuccess(messages, narrow, false, false, false, false, true));
   dispatch(initSubscriptions(subscriptions));
   dispatch(initialFetchComplete());
 };
@@ -39,19 +38,20 @@ export const fetchRestOfInitialData = (pushToken: string): Action => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
+  const auth = getAuth(getState());
   const [streams, users, messages, realmEmoji] = await Promise.all([
-    await tryUntilSuccessful(() => getStreams(getAuth(getState()))),
-    await tryUntilSuccessful(() => getUsers(getAuth(getState()))),
+    await tryUntilSuccessful(() => getStreams(auth)),
+    await tryUntilSuccessful(() => getUsers(auth)),
     await tryUntilSuccessful(() =>
-      getMessages(getAuth(getState()), Number.MAX_SAFE_INTEGER, 100, 0, specialNarrow('private')),
+      getMessages(auth, Number.MAX_SAFE_INTEGER, 100, 0, specialNarrow('private')),
     ),
-    await tryUntilSuccessful(() => getRealmEmojis(getAuth(getState()))),
+    await tryUntilSuccessful(() => getRealmEmojis(auth)),
   ]);
   dispatch(messageFetchSuccess(messages, specialNarrow('private')));
   dispatch(initStreams(streams));
   dispatch(initUsers(users));
   dispatch(initRealmEmojis(realmEmoji));
-  if (getAuth(getState()).apiKey !== '' && pushToken === '') {
+  if (auth.apiKey !== '' && pushToken === '') {
     refreshNotificationToken();
   }
 };

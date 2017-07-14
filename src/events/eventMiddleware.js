@@ -3,7 +3,7 @@ import { Vibration } from 'react-native';
 
 import type { GlobalState } from '../types';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
-import { getActiveAccount, getOwnEmail } from '../account/accountSelectors';
+import { getActiveAccount, getOwnEmail } from '../selectors';
 import { playMessageSound } from '../utils/sound';
 
 export default (state: GlobalState, event: Object) => {

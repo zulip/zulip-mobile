@@ -204,8 +204,10 @@ export type AppState = {
 };
 
 export type ChatState = {
-  fetching: Fetching,
-  caughtUp: { older: boolean, newer: boolean },
+  fetchingOlder: boolean,
+  fetchingNewer: boolean,
+  caughtUpOlder: boolean,
+  caughtUpNewer: boolean,
   narrow: Narrow,
   messages: Object,
 };

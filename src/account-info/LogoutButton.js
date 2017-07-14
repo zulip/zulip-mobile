@@ -7,7 +7,7 @@ import type { Actions, Auth } from '../types';
 import boundActions from '../boundActions';
 import { ZulipButton } from '../common';
 import unregisterPush from '../api/unregisterPush';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 
 const styles = StyleSheet.create({
   logoutButton: {

@@ -8,7 +8,7 @@ import boundActions from '../boundActions';
 import { fetchApiKey } from '../api';
 import config from '../config';
 import { ErrorMsg, ZulipButton, Input, Touchable, Label } from '../common';
-import { getAuth, getOwnEmail } from '../account/accountSelectors';
+import { getAuth, getOwnEmail } from '../selectors';
 import openLink from '../utils/openLink';
 
 type Props = {

@@ -27,7 +27,7 @@ import {
   EVENT_UPDATE_DISPLAY_SETTINGS,
 } from '../actionConstants';
 
-import { getUserById } from '../users/usersSelectors';
+import { getUserById } from '../selectors';
 
 const opToActionSubscription = {
   add: EVENT_SUBSCRIPTION_ADD,

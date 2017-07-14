@@ -2,7 +2,7 @@
 import type { GetState, Dispatch } from '../types';
 import { getSubscriptions } from '../api';
 import { INIT_SUBSCRIPTIONS } from '../actionConstants';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 
 export const initSubscriptions = (subscriptions: Object[]) => ({
   type: INIT_SUBSCRIPTIONS,

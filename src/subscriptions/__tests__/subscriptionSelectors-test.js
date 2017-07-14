@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { getIsActiveStreamSubscribed } from '../subscriptionSelector';
+import { getIsActiveStreamSubscribed } from '../subscriptionSelectors';
 import { homeNarrow, streamNarrow, topicNarrow } from '../../utils/narrow';
 
 describe('getIsActiveStreamSubscribed', () => {

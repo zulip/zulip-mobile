@@ -5,7 +5,7 @@ import { switchAccount } from '../account/accountActions';
 import { timeout } from '../utils/async';
 import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 
 import { BATCH_ACTIONS, REALM_INIT, EVENT_REGISTERED } from '../actionConstants';
 

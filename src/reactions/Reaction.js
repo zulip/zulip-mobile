@@ -9,7 +9,7 @@ import { Touchable } from '../common';
 import Emoji from '../emoji/Emoji';
 import RealmEmoji from '../emoji/RealmEmoji';
 import emojiMap from '../emoji/emojiMap';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 import { emojiReactionAdd, emojiReactionRemove } from '../api';
 
 const styles = StyleSheet.create({

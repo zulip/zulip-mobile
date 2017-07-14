@@ -6,8 +6,7 @@ import DeviceInfo from 'react-native-device-info';
 
 import type { Actions, Auth, Message, Narrow } from '../types';
 import boundActions from '../boundActions';
-import { getAuth } from '../account/accountSelectors';
-import { getShownMessagesInActiveNarrow } from '../chat/chatSelectors';
+import { getAuth, getShownMessagesInActiveNarrow } from '../selectors';
 import MainScreen from './MainScreen';
 import { initializeNotifications } from '../utils/notifications';
 

@@ -16,8 +16,10 @@ import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
 
 const initialState: ChatState = {
-  fetching: { older: true, newer: true },
-  caughtUp: { older: false, newer: false },
+  fetchingOlder: true,
+  fetchingNewer: true,
+  caughtUpOlder: false,
+  caughtUpNewer: false,
   narrow: homeNarrow(),
   messages: {},
 };
@@ -32,16 +34,20 @@ export default (state: ChatState = initialState, action: Action) => {
       return {
         ...state,
         narrow: action.narrow,
-        fetching: { ...state.fetching, ...action.fetching },
-        caughtUp: { ...state.caughtUp, ...action.caughtUp },
+        fetchingOlder: action.fetchingOlder,
+        fetchingNewer: action.fetchingNewer,
+        caughtUpOlder: action.caughtUpOlder,
+        caughtUpNewer: action.caughtUpNewer,
       };
 
     case SWITCH_NARROW: {
       return {
         ...state,
         narrow: action.narrow,
-        fetching: { older: false, newer: false },
-        caughtUp: { older: false, newer: false },
+        fetchingOlder: false,
+        fetchingNewer: false,
+        caughtUpOlder: false,
+        caughtUpNewer: false,
       };
     }
 
@@ -62,8 +68,6 @@ export default (state: ChatState = initialState, action: Action) => {
           ...state.messages,
           [key]: newMessages,
         },
-        fetching: { ...state.fetching, ...action.fetching },
-        caughtUp: { ...state.caughtUp, ...action.caughtUp },
       };
     }
 

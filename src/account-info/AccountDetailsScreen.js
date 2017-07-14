@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { NULL_USER } from '../nullObjects';
 import type { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
 

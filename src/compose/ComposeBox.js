@@ -4,10 +4,9 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { Auth, Narrow, EditMessage, GlobalState, Actions } from '../types';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth, getLastTopicInActiveNarrow } from '../selectors';
 import ComposeText from './ComposeText';
 import CameraRollView from './CameraRollView';
-import { getLastTopicInActiveNarrow } from '../chat/chatSelectors';
 import StreamBox from './ModeViews/StreamBox';
 import { isTopicNarrow, isStreamNarrow } from '../utils/narrow';
 import AutoCompleteView from '../autocomplete/AutoCompleteView';

@@ -9,7 +9,7 @@ import type { Actions, Auth } from '../types';
 import boundActions from '../boundActions';
 import { ErrorMsg, Screen, ZulipButton } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 
 type State = {
   progress: boolean,

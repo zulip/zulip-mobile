@@ -1,29 +1,27 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { GlobalState, Narrow, Stream, Message } from '../types';
+import type { GlobalState } from '../types';
 import { getOwnEmail } from '../account/accountSelectors';
+import { getUserById } from '../users/userSelectors';
+import {
+  getAllMessages,
+  getSubscriptions,
+  getActiveNarrow,
+  getMute,
+  getTyping,
+  getUsers,
+  getReadFlags,
+} from '../selectors';
 import { specialNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients, normalizeRecipientsSansMe, shouldBeMuted } from '../utils/message';
 import { countUnread } from '../utils/unread';
-import { getUserById } from '../users/usersSelectors';
 import { NULL_MESSAGE } from '../nullObjects';
 
 const privateNarrowStr = JSON.stringify(specialNarrow('private'));
 
-export const getSubscriptions = (state: GlobalState): Stream[] => state.subscriptions;
-
-export const getMute = (state: GlobalState): Object => state.mute;
-
-export const getTyping = (state: GlobalState): Object => state.typing;
-
-export const getUsers = (state: GlobalState): Object => state.users;
-
-export const getReadFlags = (state: GlobalState): Object => state.flags.read;
-
-export const getAllMessages = (state: GlobalState): Message[] => state.chat.messages;
-
-export const getActiveNarrow = (state: GlobalState): Narrow => state.chat.narrow;
+export const getIsFetching = (state: GlobalState): boolean =>
+  (state.app.needsInitialFetch && state.chat.fetchingOlder) || state.chat.fetchingOlder;
 
 export const getActiveNarrowString = (state: GlobalState): string =>
   JSON.stringify(state.chat.narrow);

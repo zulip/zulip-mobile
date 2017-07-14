@@ -10,7 +10,7 @@ import {
   isStreamNarrow,
   isTopicNarrow,
 } from '../utils/narrow';
-import { getCurrentRealm } from '../account/accountSelectors';
+import { getCurrentRealm } from '../selectors';
 
 import TitleHome from './TitleHome';
 import TitlePrivate from './TitlePrivate';

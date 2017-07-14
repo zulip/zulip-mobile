@@ -7,7 +7,7 @@ import boundActions from '../boundActions';
 import SearchScreen from '../search/SearchScreen';
 import { subscriptionAdd, subscriptionRemove } from '../api';
 import StreamList from '../streams/StreamList';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 
 type Props = {
   auth: Auth,
@@ -72,7 +72,7 @@ class SubscriptionsScreen extends React.Component {
 
 export default connect(
   state => ({
-    auth: getAuth(state),
+    activeAccount: getAuth(state),
     streams: state.streams,
     subscriptions: state.subscriptions,
   }),

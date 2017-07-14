@@ -2,7 +2,7 @@
 import base64 from 'base-64';
 import type { Auth } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
-import { getUserById } from '../users/usersSelectors';
+import { getUserById } from '../selectors';
 
 export const getAuthHeader = (email: string, apiKey: string): ?string =>
   apiKey ? `Basic ${base64.encode(`${email}:${apiKey}`)}` : undefined;

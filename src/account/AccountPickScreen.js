@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import type { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 import { ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
 

@@ -4,10 +4,9 @@ import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { User, GlobalState } from '../types';
-import { getOwnEmail } from '../account/accountSelectors';
+import { getOwnEmail, sortAlphabetically, getAutocompleteSuggestion } from '../selectors';
 import { Popup } from '../common';
 import UserItem from '../users/UserItem';
-import { sortAlphabetically, getAutocompleteSuggestion } from '../users/usersSelectors';
 
 class PeopleAutocomplete extends Component {
   props: {
