@@ -9,10 +9,11 @@ import { OfflineNotice } from '../common';
 import boundActions from '../boundActions';
 import { getCurrentTypingUsers, getShownMessagesInActiveNarrow } from '../chat/chatSelectors';
 import { getAuth } from '../account/accountSelectors';
-import { canSendToNarrow, isStreamOrTopicNarrow } from '../utils/narrow';
+import { canSendToNarrow } from '../utils/narrow';
 import { filterUnreadMessageIds, countUnread } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { queueMarkAsRead } from '../api';
+import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelector';
 import MessageList from '../message/MessageList';
 // import MessageList from '../message/MessageListWeb';
 // import MessageList from '../message/MessageListFlatList';
@@ -35,10 +36,10 @@ class Chat extends React.Component {
     fetching: Fetching,
     needsInitialFetch: boolean,
     isOnline: boolean,
+    isSubscribed: boolean,
     flags: Object,
     messages: Message[],
     readIds: Object,
-    subscriptions: any[],
   };
 
   handleMessageListScroll = (e: Object) => {
@@ -56,21 +57,22 @@ class Chat extends React.Component {
     registerAppActivity(auth);
   };
 
-  isSubscribed = () => {
-    const { narrow, subscriptions } = this.props;
-    return isStreamOrTopicNarrow(narrow)
-      ? subscriptions.find(sub => narrow[0].operand === sub.name) !== undefined
-      : true;
-  };
-
   render() {
     const { styles } = this.context;
-    const { messages, narrow, fetching, isOnline, readIds, needsInitialFetch } = this.props;
+    const {
+      messages,
+      narrow,
+      fetching,
+      isOnline,
+      readIds,
+      needsInitialFetch,
+      isSubscribed,
+    } = this.props;
     const isFetching = needsInitialFetch || fetching.older || fetching.newer;
     const noMessages = messages.length === 0;
     const unreadCount = countUnread(messages.map(msg => msg.id), readIds);
     const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
-    const CheckSub = this.isSubscribed() ? <ComposeBox /> : <NotSubscribed />;
+    const CheckSub = isSubscribed ? <ComposeBox /> : <NotSubscribed />;
 
     return (
       <WrapperView style={styles.screen} behavior="padding">
@@ -108,6 +110,7 @@ export default connect(
     users: state.users,
     readIds: state.flags.read,
     twentyFourHourTime: state.realm.twentyFourHourTime,
+    isSubscribed: getIsActiveStreamSubscribed(state),
   }),
   boundActions,
 )(Chat);
