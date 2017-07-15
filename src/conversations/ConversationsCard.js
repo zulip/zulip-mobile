@@ -59,7 +59,7 @@ export default class ConversationsCard extends PureComponent {
         <ZulipButton
           secondary
           style={styles.button}
-          text="Search people"
+          text="New private message"
           onPress={actions.navigateToUsersScreen}
         />
         <ConversationList
