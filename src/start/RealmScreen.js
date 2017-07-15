@@ -5,10 +5,12 @@ import { connect } from 'react-redux';
 
 import type { Actions } from '../types';
 import boundActions from '../boundActions';
-import { Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
+import { Label, Screen, ErrorMsg, ZulipButton, Input, Touchable } from '../common';
 import { getAuthBackends } from '../api';
 import config from '../config';
 import { fixRealmUrl } from '../utils/url';
+import { BRAND_COLOR } from '../styles';
+import { IconQuestion } from '../common/Icons';
 
 type Props = {
   actions: Actions,
@@ -24,6 +26,18 @@ type State = {
 const componentStyles = StyleSheet.create({
   container: {
     paddingBottom: 25,
+  },
+  helpButtonIcon: {
+    color: BRAND_COLOR,
+  },
+  helpButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    padding: 22,
+    paddingBottom: 60,
+    position: 'absolute',
+    right: 0,
   },
 });
 
@@ -81,6 +95,7 @@ class RealmScreen extends PureComponent {
   render() {
     const { styles } = this.context;
     const { progress, realm, error } = this.state;
+    const HelpIcon = IconQuestion;
 
     return (
       <Screen title="Welcome" keyboardAvoiding>
@@ -104,6 +119,11 @@ class RealmScreen extends PureComponent {
               blurOnSubmit={false}
               onSubmitEditing={this.tryRealm}
             />
+            <View style={componentStyles.helpButtonContainer}>
+              <Touchable>
+                <HelpIcon name="question" size={22} style={componentStyles.helpButtonIcon} />
+              </Touchable>
+            </View>
             <ZulipButton text="Enter" progress={progress} onPress={this.tryRealm} />
             {error && <ErrorMsg error={error} />}
           </View>

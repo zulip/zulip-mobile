@@ -4,6 +4,7 @@ import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 export const IconHome = (props: Object) => <IoniconsIcon name="md-home" {...props} />;
 export const IconPrivateMessage = (props: Object) =>
@@ -22,5 +23,6 @@ export const IconPrivateChat = (props: Object) => <IoniconsIcon name="md-mail" {
 export const IconDownArrow = (props: Object) => <IoniconsIcon name="md-arrow-down" {...props} />;
 export const IconGoogle = (props: Object) => <IoniconsIcon name="logo-google" {...props} />;
 export const IconCross = (props: Object) => <EntypoIcon name="cross" {...props} />;
+export const IconQuestion = (props: Object) => <EvilIcons name="question" {...props} />;
 
 export default IoniconsIcon;
