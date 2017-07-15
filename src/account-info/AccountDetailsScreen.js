@@ -2,27 +2,26 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import { NULL_USER } from '../nullObjects';
-import type { Auth, Actions } from '../types';
+import type { Auth, Actions, UserType } from '../types';
 import boundActions from '../boundActions';
-import { getAuth } from '../selectors';
+import { getAuth, getAccountDetailsUser } from '../selectors';
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
 
 class AccountDetailsScreen extends PureComponent {
   props: {
     auth: Auth,
-    navigation: Object,
-    users: Object[],
+    user: UserType,
     orientation: string,
     actions: Actions,
   };
 
-  render() {
-    const { auth, actions, navigation, orientation, users } = this.props;
-    const { email } = navigation.state.params;
+  shouldComponentUpdate(nextProps) {
+    return nextProps.user.fullName !== '';
+  }
 
-    const user = users.find(x => x.email === email) || NULL_USER;
+  render() {
+    const { auth, actions, orientation, user } = this.props;
     const title = {
       text: '{_}',
       values: {
@@ -49,7 +48,7 @@ class AccountDetailsScreen extends PureComponent {
 export default connect(
   state => ({
     auth: getAuth(state),
-    users: state.users,
+    user: getAccountDetailsUser(state),
     orientation: state.app.orientation,
   }),
   boundActions,

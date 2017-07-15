@@ -1,9 +1,12 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
 
+import { UserType, Narrow, Actions } from '../types';
+import boundActions from '../boundActions';
 import { NULL_USER } from '../nullObjects';
-import { Avatar } from '../common';
+import { Avatar, Touchable } from '../common';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -15,20 +18,44 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TitleGroup extends PureComponent {
+class TitleGroup extends PureComponent {
+  props: {
+    actions: Actions,
+    users: UserType,
+    narrow: Narrow,
+    realm: string,
+  };
+
+  handlePress = () => {
+    const { narrow, actions, users } = this.props;
+    actions.navigateToGroupDetails(this.getRecipients(narrow, users));
+  };
+
+  getRecipients = (narrow: Narrow, users: UserType) =>
+    narrow[0].operand.split(',').map(r => users.find(x => x.email === r) || NULL_USER);
+
   render() {
     const { realm, narrow, users } = this.props;
-    const recipientEmails = narrow[0].operand.split(',');
-    const recipients = recipientEmails.map(r => users.find(x => x.email === r) || NULL_USER);
+    const recipients = this.getRecipients(narrow, users);
 
     return (
-      <View style={styles.wrapper}>
-        {recipients.map(user =>
-          <View key={user.email} style={styles.avatar}>
-            <Avatar size={32} name={user.fullName} avatarUrl={user.avatarUrl} realm={realm} />
-          </View>,
-        )}
-      </View>
+      <Touchable onPress={this.handlePress}>
+        <View style={styles.wrapper}>
+          {recipients.map(user =>
+            <View key={user.email} style={styles.avatar}>
+              <Avatar
+                size={32}
+                name={user.fullName}
+                avatarUrl={user.avatarUrl}
+                realm={realm}
+                onPress={this.handlePress}
+              />
+            </View>,
+          )}
+        </View>
+      </Touchable>
     );
   }
 }
+
+export default connect(null, boundActions)(TitleGroup);

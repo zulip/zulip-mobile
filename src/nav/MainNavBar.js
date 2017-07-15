@@ -32,6 +32,7 @@ class MainNavBar extends PureComponent {
       unreadPrivateMessagesCount,
       onPressStreams,
       onPressPeople,
+      pushRoute,
       cancelEditMessage,
       editMessage,
     } = this.props;
@@ -55,7 +56,7 @@ class MainNavBar extends PureComponent {
             color={textColor}
             onPress={leftPress}
           />
-          <Title color={textColor} />
+          <Title color={textColor} pushRoute={pushRoute} />
           {!editMessage &&
             <NavButton
               name="md-people"

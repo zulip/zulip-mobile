@@ -165,6 +165,7 @@ export type Actions = {
   navigateToAuth: (authType: string) => Action,
   navigateToAccountPicker: () => Action,
   navigateToAccountDetails: (email: string) => Action,
+  navigateToGroupDetails: (recipients: UserType) => Action,
   navigateToAddNewAccount: (realm: string) => Action,
   navigateToLightbox: (realm: string) => Action,
   switchNarrow: (narrow: Narrow) => Action,

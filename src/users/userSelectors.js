@@ -1,8 +1,11 @@
 /* @flow */
+import { createSelector } from 'reselect';
 import uniqby from 'lodash.uniqby';
 
 import { NULL_USER } from '../nullObjects';
 import type { User } from '../types';
+import { getUsers } from '../selectors';
+import { getCurrentRouteParams } from '../nav/navigationSelectors';
 
 const statusOrder = status => {
   switch (status) {
@@ -17,6 +20,15 @@ const statusOrder = status => {
   }
 };
 
+export const getAccountDetailsUser = createSelector(
+  [getUsers, getCurrentRouteParams],
+  (allUsers, params) => {
+    if (params && params.email) return allUsers.find(x => x.email === params.email) || NULL_USER;
+
+    return NULL_USER;
+  },
+);
+
 export const getUserById = (users: any[], userId: number) =>
   users.find(user => user.id === userId) || NULL_USER;
 
@@ -24,7 +36,7 @@ export const groupUsersByInitials = (users: any[]): Object =>
   users.reduce((accounts, x) => {
     const firstLetter = x.fullName[0].toUpperCase();
     if (!accounts[firstLetter]) {
-      accounts[firstLetter] = []; // eslint-disable-line
+			accounts[firstLetter] = []; // eslint-disable-line
     }
     accounts[firstLetter].push(x);
     return accounts;

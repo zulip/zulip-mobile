@@ -6,9 +6,10 @@ type Props = {
   color: string,
   backgroundColor: string,
   borderColor: string,
+  cardColor: string,
 };
 
-export default ({ color, backgroundColor, borderColor }: Props) => ({
+export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   text: {
     fontSize: 16,
   },
@@ -161,5 +162,12 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     height: 44,
     paddingLeft: 4,
     paddingRight: 4,
+  },
+  cardView: {
+    backgroundColor: cardColor,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    elevation: 2,
   },
 });

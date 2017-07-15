@@ -11,6 +11,7 @@ import {
   filterUserThatContains,
   filterUserMatchesEmail,
   getUniqueUsers,
+  getAccountDetailsUser,
 } from '../userSelectors';
 
 describe('filterUserList', () => {
@@ -296,5 +297,25 @@ describe('getUniqueUsers', () => {
       { fullName: 'app', email: 'own@example.com' },
     ];
     expect(getUniqueUsers(users)).toEqual(expectedUsers);
+  });
+});
+
+describe('getAccountDetailsUser', () => {
+  test('return user for the account details screen', () => {
+    const state = {
+      nav: {
+        index: 1,
+        routes: [
+          { routeName: 'first', params: { email: 'a@a.com' } },
+          { routeName: 'second', params: { email: 'b@a.com' } },
+        ],
+      },
+      users: [{ firstName: 'a', email: 'a@a.com' }, { firstName: 'b', email: 'b@a.com' }],
+    };
+    deepFreeze(state);
+    const expectedUser = { firstName: 'b', email: 'b@a.com' };
+    const actualUser = getAccountDetailsUser(state);
+
+    expect(actualUser).toEqual(expectedUser);
   });
 });

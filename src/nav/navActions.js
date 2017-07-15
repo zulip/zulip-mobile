@@ -1,7 +1,7 @@
 /* @flow */
 import { NavigationActions } from 'react-navigation';
 
-import type { Action, Message } from '../types';
+import type { Action, Message, UserType } from '../types';
 import { RESET_NAVIGATION } from '../actionConstants';
 
 export const resetNavigation = (): Action => ({
@@ -31,6 +31,9 @@ export const navigateToAccountPicker = (): Action =>
 
 export const navigateToAccountDetails = (email: string): Action =>
   NavigationActions.navigate({ routeName: 'account-details', params: { email } });
+
+export const navigateToGroupDetails = (recipients: UserType): Action =>
+  NavigationActions.navigate({ routeName: 'group-details', params: { recipients } });
 
 export const navigateToAddNewAccount = (realm: string): Action =>
   NavigationActions.navigate({ routeName: 'realm', params: { realm } });
