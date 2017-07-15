@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, FlatList, StyleSheet } from 'react-native';
 
@@ -21,7 +21,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class GroupDetailsScreen extends Component {
+class GroupDetailsScreen extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };
