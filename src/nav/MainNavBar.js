@@ -8,7 +8,7 @@ import { BRAND_COLOR } from '../styles';
 import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import Title from '../title/Title';
 import NavButton from './NavButton';
-import { getUnreadPrivateMessagesCount } from '../chat/chatSelectors';
+import { getUnreadPrivateMessagesCount } from '../selectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 

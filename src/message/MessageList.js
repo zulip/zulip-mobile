@@ -31,7 +31,7 @@ class MessageList extends React.PureComponent {
   state = { actionSheetButtons: ['', ''] };
 
   componentWillReceiveProps(nextProps) {
-    this.autoScrollToBottom = this.props.caughtUp.newer && nextProps.caughtUp.newer;
+    this.autoScrollToBottom = this.props.caughtUpNewer && nextProps.caughtUpNewer;
   }
 
   handleHeaderLongPress = item => {
@@ -79,8 +79,9 @@ class MessageList extends React.PureComponent {
     const { styles } = this.context;
     const {
       actions,
-      caughtUp,
-      fetching,
+      caughtUpOlder,
+      fetchingOlder,
+      fetchingNewer,
       singleFetchProgress,
       onScroll,
       typingUsers,
@@ -137,9 +138,9 @@ class MessageList extends React.PureComponent {
         onEndReached={actions.fetchNewer}
         autoScrollToBottom={this.autoScrollToBottom}
         onScroll={onScroll}>
-        <LoadingIndicator active={fetching.older} caughtUp={caughtUp.older} />
+        <LoadingIndicator active={fetchingOlder} caughtUp={caughtUpOlder} />
         {messageList}
-        {!singleFetchProgress && fetching.newer && <LoadingIndicator active />}
+        {!singleFetchProgress && fetchingNewer && <LoadingIndicator active />}
         {typingUsers && <MessageTyping users={typingUsers} actions={actions} />}
       </InfiniteScrollView>
     );

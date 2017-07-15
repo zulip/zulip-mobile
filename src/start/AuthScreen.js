@@ -10,7 +10,7 @@ import type { Actions } from '../types';
 import boundActions from '../boundActions';
 import { RawLabel, Screen, ZulipButton } from '../common';
 import { generateOtp, extractApiKey } from '../utils/encoding';
-import { getCurrentRealm } from '../account/accountSelectors';
+import { getCurrentRealm } from '../selectors';
 
 import PasswordAuthView from './PasswordAuthView';
 

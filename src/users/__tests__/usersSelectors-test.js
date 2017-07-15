@@ -9,7 +9,7 @@ import {
   filterUserThatContains,
   filterUserMatchesEmail,
   getUniqueUsers,
-} from '../usersSelectors';
+} from '../userSelectors';
 
 describe('filterUserList', () => {
   test('empty input results in empty list', () => {

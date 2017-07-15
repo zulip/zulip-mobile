@@ -4,16 +4,20 @@ import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Auth, Narrow, Message, Fetching } from '../types';
+import type { Auth, Narrow, Message } from '../types';
 import { OfflineNotice } from '../common';
 import boundActions from '../boundActions';
-import { getCurrentTypingUsers, getShownMessagesInActiveNarrow } from '../chat/chatSelectors';
-import { getAuth } from '../account/accountSelectors';
+import {
+  getAuth,
+  getIsFetching,
+  getCurrentTypingUsers,
+  getShownMessagesInActiveNarrow,
+} from '../selectors';
+import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelectors';
 import { canSendToNarrow } from '../utils/narrow';
 import { filterUnreadMessageIds, countUnread } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { queueMarkAsRead } from '../api';
-import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelector';
 import MessageList from '../message/MessageList';
 // import MessageList from '../message/MessageListWeb';
 // import MessageList from '../message/MessageListFlatList';
@@ -33,8 +37,7 @@ class Chat extends React.Component {
   props: {
     auth: Auth,
     narrow: Narrow,
-    fetching: Fetching,
-    needsInitialFetch: boolean,
+    isFetching: boolean,
     isOnline: boolean,
     isSubscribed: boolean,
     flags: Object,
@@ -59,16 +62,7 @@ class Chat extends React.Component {
 
   render() {
     const { styles } = this.context;
-    const {
-      messages,
-      narrow,
-      fetching,
-      isOnline,
-      readIds,
-      needsInitialFetch,
-      isSubscribed,
-    } = this.props;
-    const isFetching = needsInitialFetch || fetching.older || fetching.newer;
+    const { isFetching, messages, narrow, isOnline, readIds, isSubscribed } = this.props;
     const noMessages = messages.length === 0;
     const unreadCount = countUnread(messages.map(msg => msg.id), readIds);
     const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
@@ -100,9 +94,7 @@ export default connect(
     isOnline: state.app.isOnline,
     subscriptions: state.subscriptions,
     flags: state.flags,
-    needsInitialFetch: state.app.needsInitialFetch,
-    fetching: state.chat.fetching,
-    caughtUp: state.chat.caughtUp,
+    isFetching: getIsFetching(state),
     narrow: state.chat.narrow,
     mute: state.mute,
     messages: getShownMessagesInActiveNarrow(state),

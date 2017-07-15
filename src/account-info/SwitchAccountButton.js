@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import { ZulipButton } from '../common';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 import unregisterPush from '../api/unregisterPush';
 
 const styles = StyleSheet.create({

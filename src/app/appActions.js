@@ -8,7 +8,7 @@ import {
   START_EDIT_MESSAGE,
 } from '../actionConstants';
 import getSingleMessage from '../api/getSingleMessage';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 
 export const appOnline = (isOnline: boolean): Action => ({
   type: APP_ONLINE,

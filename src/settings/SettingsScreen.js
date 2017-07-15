@@ -7,7 +7,7 @@ import type { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
 import { Label, Screen, ZulipSwitch } from '../common';
 import LanguagePicker from './LanguagePicker';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 import toggleMobilePushSettings from '../api/toggleMobilePushSettings';
 
 const styles = StyleSheet.create({

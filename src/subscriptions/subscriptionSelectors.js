@@ -1,13 +1,10 @@
 /* flow */
 import { createSelector } from 'reselect';
 
-import type { GlobalState } from '../types';
 import { isStreamOrTopicNarrow } from '../utils/narrow';
-import { getActiveNarrow } from '../chat/chatSelectors';
+import { getActiveNarrow, getSubscriptions } from '../baseSelectors';
 
-export const getSubscriptions = (state: GlobalState): Stream[] => state.subscriptions;
-
-export const getIsActiveStreamSubscribed: boolean = createSelector(
+export const getIsActiveStreamSubscribed = createSelector(
   getActiveNarrow,
   getSubscriptions,
   (activeNarrow, subscriptions) => {

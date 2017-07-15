@@ -2,7 +2,7 @@
 import type { GetState, Actions, Dispatch } from '../types';
 import { getStreams } from '../api';
 import { INIT_STREAMS } from '../actionConstants';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 
 export const initStreams = (streams: any[]): Actions => ({
   type: INIT_STREAMS,

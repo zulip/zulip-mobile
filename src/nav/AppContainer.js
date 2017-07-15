@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import AppWithNavigationState from './AppWithNavigationState';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 import { registerAppActivity } from '../utils/activity';
 import { checkCompatibility } from '../api';
 import LoadingScreen from '../start/LoadingScreen';

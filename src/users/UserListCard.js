@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getOwnEmail, getCurrentRealm } from '../account/accountSelectors';
+import { getOwnEmail, getCurrentRealm } from '../selectors';
 import boundActions from '../boundActions';
 import type { Actions, User } from '../types';
 import { privateNarrow } from '../utils/narrow';

@@ -7,8 +7,7 @@ import type { Auth, Narrow, Stream } from '../types';
 import boundActions from '../boundActions';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
-import { getAuth } from '../account/accountSelectors';
-import { getActiveNarrow } from '../chat/chatSelectors';
+import { getAuth, getActiveNarrow } from '../selectors';
 import { NULL_STREAM } from '../nullObjects';
 
 const styles = StyleSheet.create({

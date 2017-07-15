@@ -8,7 +8,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import type { Actions, Auth } from '../types';
 import boundActions from '../boundActions';
 import { Label } from '../common';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../selectors';
 import SearchScreen from './SearchScreen';
 import { BRAND_COLOR } from '../styles';
 import { searchNarrow } from '../utils/narrow';
