@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class LightboxScreen extends React.Component {
+export default class LightboxScreen extends PureComponent {
   render() {
     return (
       <View style={styles.screen}>

@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -8,7 +8,7 @@ import { getOwnEmail, sortAlphabetically, getAutocompleteSuggestion } from '../s
 import { Popup } from '../common';
 import UserItem from '../users/UserItem';
 
-class PeopleAutocomplete extends Component {
+class PeopleAutocomplete extends PureComponent {
   props: {
     filter: string,
     onAutocomplete: (name: string) => void,

@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
@@ -11,7 +11,7 @@ import AppContainer from './nav/AppContainer';
 
 require('./i18n/locale');
 
-class Providers extends Component {
+class Providers extends PureComponent {
   props: {
     locale: string,
     theme: string,

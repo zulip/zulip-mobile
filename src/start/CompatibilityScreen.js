@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Logo } from '../common';
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class CompatibilityScreen extends React.Component {
+export default class CompatibilityScreen extends PureComponent {
   render() {
     return (
       <View style={styles.screen}>

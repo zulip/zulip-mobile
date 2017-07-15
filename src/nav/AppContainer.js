@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { AppState, NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -11,7 +11,7 @@ import { checkCompatibility } from '../api';
 import LoadingScreen from '../start/LoadingScreen';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 
-class AppContainer extends React.PureComponent {
+class AppContainer extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };

@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -74,7 +74,7 @@ const decrementAnimationConfig = {
   useNativeDriver: true,
 };
 
-class Reaction extends React.PureComponent {
+class Reaction extends PureComponent {
   state = {
     voteChangeAnimation: new Animated.Value(0),
   };

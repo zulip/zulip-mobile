@@ -1,8 +1,8 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View, Dimensions } from 'react-native';
 
-export default class Popup extends React.Component {
+export default class Popup extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };

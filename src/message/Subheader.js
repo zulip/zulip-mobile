@@ -1,10 +1,10 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
 
 import Timestamp from './Timestamp';
 
-export default class Subheader extends React.PureComponent {
+export default class Subheader extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };

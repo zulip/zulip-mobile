@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SearchScreen extends React.Component {
+class SearchScreen extends PureComponent {
   props: {
     keyboardAvoiding: boolean,
     title: string,

@@ -1,12 +1,12 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import getFilteredEmojiList from '../emoji/getFilteredEmojiList';
 
-export default class EmojiAutocomplete extends Component {
+export default class EmojiAutocomplete extends PureComponent {
   props: {
     filter: string,
     onAutocomplete: (name: string) => void,

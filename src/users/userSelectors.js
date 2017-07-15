@@ -31,7 +31,7 @@ export const groupUsersByInitials = (users: any[]): Object =>
   }, {});
 
 export const sortUserList = (users: any[]): User[] =>
-  users.sort(
+  [...users].sort(
     (x1, x2) =>
       statusOrder(x1.status) - statusOrder(x2.status) ||
       x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase()),
@@ -47,7 +47,7 @@ export const filterUserList = (users: any[], filter: string = '', ownEmail: ?str
   );
 
 export const sortAlphabetically = (users: User[]): User[] =>
-  users.sort((x1, x2) => x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase()));
+  [...users].sort((x1, x2) => x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase()));
 
 export const filterUserStartWith = (users: User[], filter: string = '', ownEmail: string): User[] =>
   users.filter(

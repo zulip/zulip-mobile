@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { NULL_USER } from '../nullObjects';
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TitlePrivate extends React.PureComponent {
+export default class TitlePrivate extends PureComponent {
   render() {
     const { narrow, realm, users, color } = this.props;
     const { fullName, avatarUrl } = users.find(x => x.email === narrow[0].operand) || NULL_USER;

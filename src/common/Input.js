@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 import type { LocalizableText, StyleObj } from '../types';
@@ -21,7 +21,7 @@ const localStyles = StyleSheet.create({
   },
 });
 
-export default class Input extends Component {
+export default class Input extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };

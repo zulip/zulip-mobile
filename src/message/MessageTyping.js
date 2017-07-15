@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import type { Actions } from '../types';
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageTyping extends React.PureComponent {
+export default class MessageTyping extends PureComponent {
   props: {
     actions: Actions,
     users: Object[],

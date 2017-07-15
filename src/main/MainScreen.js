@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 import type { Actions } from '../types';
 import Chat from '../chat/Chat';
@@ -8,7 +8,7 @@ import SideDrawer from './SideDrawer';
 import StreamSidebar from '../nav/StreamSidebar';
 import ConversationsContainer from '../conversations/ConversationsContainer';
 
-export default class MainScreen extends React.Component {
+export default class MainScreen extends PureComponent {
   props: {
     actions: Actions,
     orientation: string,

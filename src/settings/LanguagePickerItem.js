@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { RawLabel, Touchable } from '../common';
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class LanguagePickerItem extends React.Component {
+export default class LanguagePickerItem extends PureComponent {
   props: {
     locale: string,
     flag: string,

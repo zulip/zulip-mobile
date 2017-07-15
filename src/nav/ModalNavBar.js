@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Children } from 'react';
+import React, { PureComponent, Children } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -18,7 +18,7 @@ const customStyles = StyleSheet.create({
   },
 });
 
-class ModalNavBar extends React.Component {
+class ModalNavBar extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };

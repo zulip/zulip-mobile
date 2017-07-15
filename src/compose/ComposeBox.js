@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -23,7 +23,7 @@ type Props = {
 
 const composeComponents = [ComposeText, CameraRollView, View, View, View];
 
-class ComposeBox extends React.Component {
+class ComposeBox extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };
@@ -49,6 +49,10 @@ class ComposeBox extends React.Component {
 
   handleOptionSelected = (optionSelected: number) => this.setState({ optionSelected });
 
+  handleAutoComplete = input => this.setState({ text: input });
+
+  handleChangeText = input => this.setState({ text: input });
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.editMessage !== this.props.editMessage) {
       this.setState({
@@ -65,7 +69,7 @@ class ComposeBox extends React.Component {
 
     return (
       <View style={this.context.styles.composeBox}>
-        <AutoCompleteView text={text} onAutocomplete={input => this.setState({ text: input })} />
+        <AutoCompleteView text={text} onAutocomplete={this.handleAutoComplete} />
         {(isTopicNarrow(narrow) || isStreamNarrow(narrow)) &&
           <View style={styles.topicWrapper}>
             <StreamBox
@@ -85,7 +89,7 @@ class ComposeBox extends React.Component {
           operator={operator}
           users={users}
           text={text}
-          handleChangeText={input => this.setState({ text: input })}
+          handleChangeText={this.handleChangeText}
           editMessage={editMessage}
           cancelEditMessage={actions.cancelEditMessage}
         />

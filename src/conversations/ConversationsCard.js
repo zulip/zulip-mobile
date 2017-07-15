@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { STATUSBAR_HEIGHT } from '../styles';
@@ -33,7 +33,7 @@ type Props = {
   onNarrow: () => void,
 };
 
-export default class ConversationsCard extends Component {
+export default class ConversationsCard extends PureComponent {
   props: Props;
 
   state = {

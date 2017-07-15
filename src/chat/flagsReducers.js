@@ -1,4 +1,5 @@
 /* @flow */
+
 import type { FlagsState, Action } from '../types';
 import {
   MESSAGE_FETCH_SUCCESS,
@@ -28,19 +29,20 @@ const addFlagsForMessages = (state: FlagsState, messages, flags: string[]): Flag
     return state;
   }
 
-  const newState = { ...state };
+  const newState = {};
 
   flags.forEach(flag => {
-    if (!newState[flag]) {
-      newState[flag] = {};
-    }
+    newState[flag] = { ...(state[flag] || {}) };
 
     messages.forEach(message => {
       newState[flag][message] = true;
     });
   });
 
-  return newState;
+  return {
+    ...state,
+    ...newState,
+  };
 };
 
 const removeFlagForMessages = (state: FlagsState, messages, flag: string[]): FlagsState => {
@@ -65,6 +67,7 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
           if (msg.flags) {
             msg.flags.forEach(flag => {
               if (newState[flag]) {
+                newState[flag] = { ...state[flag], ...newState[flag] };
                 newState[flag][msg.id] = true;
               } else {
                 newState[flag] = {

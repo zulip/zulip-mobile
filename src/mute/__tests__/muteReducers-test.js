@@ -1,13 +1,17 @@
+import deepFreeze from 'deep-freeze';
+
 import muteReducers from '../muteReducers';
 import { ACCOUNT_SWITCH, EVENT_MUTED_TOPICS } from '../../actionConstants';
 
 describe('muteReducers', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const initialState = ['some_topic'];
-      const action = {
+      const initialState = deepFreeze(['some_topic']);
+
+      const action = deepFreeze({
         type: ACCOUNT_SWITCH,
-      };
+      });
+
       const expectedState = [];
 
       const actualState = muteReducers(initialState, action);
@@ -18,11 +22,13 @@ describe('muteReducers', () => {
 
   describe('EVENT_MUTED_TOPICS', () => {
     test('appends and test a new muted topic', () => {
-      const initialState = [];
-      const action = {
+      const initialState = deepFreeze([]);
+
+      const action = deepFreeze({
         type: EVENT_MUTED_TOPICS,
         muted_topics: [[['stream'], ['topic']]],
-      };
+      });
+
       const expectedState = [[['stream'], ['topic']]];
 
       const newState = muteReducers(initialState, action);

@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Narrow } from '../types';
@@ -43,7 +43,7 @@ const messages: EmptyMessage[] = [
   { isFunc: isSearchNarrow, text: 'No messages' },
 ];
 
-export default class NoMessages extends React.PureComponent {
+export default class NoMessages extends PureComponent {
   render() {
     const { narrow } = this.props;
     const message = messages.find(x => x.isFunc(narrow)) || {};

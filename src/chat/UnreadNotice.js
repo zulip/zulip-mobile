@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Animated, StyleSheet, Text, Easing } from 'react-native';
 import { IconDownArrow } from '../common/Icons';
 
@@ -63,7 +63,7 @@ type Props = {
   shouldOffsetForInput: boolean,
 };
 
-export default class UnreadNotice extends React.Component {
+export default class UnreadNotice extends PureComponent {
   props: Props;
 
   hideTimeout = null;

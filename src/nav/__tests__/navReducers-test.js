@@ -1,17 +1,21 @@
+import deepFreeze from 'deep-freeze';
+
 import { RESET_NAVIGATION, SET_AUTH_TYPE, LOGIN_SUCCESS } from '../../actionConstants';
 import navReducers from '../navReducers';
 
 describe('navReducers', () => {
   describe('RESET_NAVIGATION', () => {
     test('replaces current route stack with a new one', () => {
-      const prevState = {
+      const prevState = deepFreeze({
         index: 0,
         routes: [],
-      };
-      const action = {
+      });
+
+      const action = deepFreeze({
         type: RESET_NAVIGATION,
         routes: [{ routeName: 'main', type: undefined }],
-      };
+      });
+
       const expectedState = {
         index: 0,
         routes: [{ routeName: 'realm', type: undefined }],
@@ -24,14 +28,16 @@ describe('navReducers', () => {
     });
 
     test('can init with multiple routes at once, last one becomes active', () => {
-      const prevState = {
+      const prevState = deepFreeze({
         index: 0,
         routes: [],
-      };
-      const action = {
+      });
+
+      const action = deepFreeze({
         type: RESET_NAVIGATION,
         routes: [{ routeName: 'main', type: undefined }, { routeName: 'first', type: undefined }],
-      };
+      });
+
       const expectedState = {
         index: 0,
         routes: [{ routeName: 'realm', type: undefined }],
@@ -46,14 +52,16 @@ describe('navReducers', () => {
 
   describe('SET_AUTH_TYPE', () => {
     test('navigates to a route with the name of the auth type', () => {
-      const prevState = {
+      const prevState = deepFreeze({
         index: 1,
         routes: [{ key: 'one' }, { key: 'two' }],
-      };
-      const action = {
+      });
+
+      const action = deepFreeze({
         type: SET_AUTH_TYPE,
         authType: 'password',
-      };
+      });
+
       const expectedState = {
         index: 2,
         routes: [
@@ -73,13 +81,15 @@ describe('navReducers', () => {
 
   describe('LOGIN_SUCCESS', () => {
     test('replaces the existing route stack with "main" on sign in', () => {
-      const prevState = {
+      const prevState = deepFreeze({
         index: 2,
         routes: [{ key: 'one' }, { key: 'two' }, { key: 'password' }],
-      };
-      const action = {
+      });
+
+      const action = deepFreeze({
         type: LOGIN_SUCCESS,
-      };
+      });
+
       const expectedState = {
         index: 0,
         routes: [{ routeName: 'main' }],

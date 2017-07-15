@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Linking, Platform, View } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -14,7 +14,7 @@ import { getCurrentRealm } from '../selectors';
 
 import PasswordAuthView from './PasswordAuthView';
 
-class AuthScreen extends React.PureComponent {
+class AuthScreen extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };

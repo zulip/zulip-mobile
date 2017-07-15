@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import throttle from 'lodash.throttle';
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SearchMessagesScreen extends Component {
+class SearchMessagesScreen extends PureComponent {
   query: string;
 
   props: {

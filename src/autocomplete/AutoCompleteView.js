@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import getAutocompletedText from './getAutocompletedText';
@@ -13,7 +13,7 @@ type Props = {
   onAutocomplete: (input: string) => void,
 };
 
-export default class AutoCompleteView extends React.Component {
+export default class AutoCompleteView extends PureComponent {
   props: Props;
 
   handleAutocomplete = (autocomplete: string) => {

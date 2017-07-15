@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class LoadingScreen extends React.PureComponent {
+export default class LoadingScreen extends PureComponent {
   render() {
     return (
       <View style={styles.center}>

@@ -1,24 +1,31 @@
+import deepFreeze from 'deep-freeze';
+
 import renderMessages from '../renderMessages';
 
 describe('renderMessages', () => {
-  const auth = {
+  const auth = deepFreeze({
     realm: '',
-  };
-  const subscriptions = [];
-  const narrow = [];
+  });
+
+  const subscriptions = deepFreeze([]);
+
+  const narrow = deepFreeze([]);
 
   test('empty messages results in no rendered messages', () => {
-    const messageList = renderMessages({ messages: [] });
+    const props = deepFreeze({ messages: [] });
+
+    const messageList = renderMessages(props);
     expect(messageList).toEqual([]);
   });
 
   test('renders time, header and message for a single input', () => {
-    const messages = [
+    const messages = deepFreeze([
       {
         timestamp: 123,
         avatar_url: '',
       },
-    ];
+    ]);
+
     const expectedComponentTypes = ['TimeRow', 'MessageHeader', 'MessageContainer'];
 
     const messageList = renderMessages({ messages, subscriptions, auth, narrow });
@@ -28,7 +35,7 @@ describe('renderMessages', () => {
   });
 
   test('several messages in same stream, from same person result in time row, header for the stream, three messages, only first of which is full detail', () => {
-    const messages = [
+    const messages = deepFreeze([
       {
         timestamp: 123,
         type: 'stream',
@@ -53,7 +60,8 @@ describe('renderMessages', () => {
         subject: '',
         avatar_url: '',
       },
-    ];
+    ]);
+
     const expectedComponentTypes = [
       'TimeRow',
       'MessageHeader',
@@ -72,7 +80,7 @@ describe('renderMessages', () => {
   });
 
   test('several messages in same stream, from different people result in time row, header for the stream, three messages, only all full detail', () => {
-    const messages = [
+    const messages = deepFreeze([
       {
         timestamp: 123,
         type: 'stream',
@@ -97,7 +105,8 @@ describe('renderMessages', () => {
         subject: '',
         avatar_url: '',
       },
-    ];
+    ]);
+
     const expectedComponentTypes = [
       'TimeRow',
       'MessageHeader',
@@ -116,7 +125,7 @@ describe('renderMessages', () => {
   });
 
   test('private messages between two people, results in time row, header and two full messages', () => {
-    const messages = [
+    const messages = deepFreeze([
       {
         timestamp: 123,
         type: 'private',
@@ -131,7 +140,8 @@ describe('renderMessages', () => {
         avatar_url: '',
         display_recipient: [{ email: 'john@example.com' }, { email: 'mark@example.com' }],
       },
-    ];
+    ]);
+
     const expectedComponentTypes = [
       'TimeRow',
       'MessageHeader',

@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class MessageFull extends React.PureComponent {
+class MessageFull extends PureComponent {
   props: {
     actions: Actions,
     avatarUrl: string,

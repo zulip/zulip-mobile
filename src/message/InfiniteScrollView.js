@@ -1,13 +1,13 @@
 /* @flow */
 /* eslint-disable */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import type { Children } from 'react';
 
 import type { StyleObj } from '../types';
 import config from '../config';
 import AnchorScrollView from '../native/AnchorScrollView';
 
-export default class InfiniteScrollView extends React.Component {
+export default class InfiniteScrollView extends PureComponent {
   props: {
     onStartReached?: ?() => void,
     onEndReached?: ?() => void,

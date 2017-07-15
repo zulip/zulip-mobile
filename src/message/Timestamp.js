@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text } from 'react-native';
 
 import { shortTime } from '../utils/date';
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Timestamp extends React.PureComponent {
+export default class Timestamp extends PureComponent {
   props: {
     timestamp: number,
     twentyFourHourTime: boolean,

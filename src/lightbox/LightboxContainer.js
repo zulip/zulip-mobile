@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet, Dimensions, Easing } from 'react-native';
 import { connect } from 'react-redux';
 import PhotoView from 'react-native-photo-view';
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class LightboxContainer extends React.PureComponent {
+class LightboxContainer extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };

@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Animated, Easing, Image, StyleSheet, View } from 'react-native';
 
 import messageLoadingImg from '../../static/img/message-loading.png';
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class LoadingIndicator extends React.Component {
+export default class LoadingIndicator extends PureComponent {
   props: {
     active: boolean,
     caughtUp?: boolean,

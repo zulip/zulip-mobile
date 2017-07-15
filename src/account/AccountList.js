@@ -1,11 +1,11 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View, FlatList } from 'react-native';
 
 import type { Auth } from '../types';
 import AccountItem from './AccountItem';
 
-export default class AccountList extends React.PureComponent {
+export default class AccountList extends PureComponent {
   props: {
     auth: Auth,
     accounts: any[],

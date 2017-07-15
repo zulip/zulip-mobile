@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 import type { Auth, Message, Actions, StyleObj } from '../types';
 import styles from './HtmlStyles';
@@ -45,66 +45,69 @@ const specialTags = {
 const stylesFromClassNames = (classNames = '', styleObj) =>
   classNames.split(' ').map(className => styleObj[className]);
 
-type Props = {
-  auth: Auth,
-  attribs: Object,
-  name: string,
-  cascadingStyle: StyleObj,
-  cascadingTextStyle: StyleObj,
-  childrenNodes: Object[],
-  onPress: () => void,
-  message: Message,
-  actions: Actions,
-};
+export default class HtmlNodeTag extends PureComponent {
+  props: {
+    auth: Auth,
+    attribs: Object,
+    name: string,
+    cascadingStyle: StyleObj,
+    cascadingTextStyle: StyleObj,
+    childrenNodes: Object[],
+    onPress: () => void,
+    message: Message,
+    actions: Actions,
+  };
 
-export default ({
-  auth,
-  actions,
-  attribs,
-  name,
-  cascadingStyle,
-  cascadingTextStyle,
-  childrenNodes,
-  onPress,
-  message,
-}: Props) => {
-  const style = [styles[name], ...stylesFromClassNames(attribs.class, styles)];
-  const newCascadingStyle = [
-    cascadingStyle,
-    cascadingStyles[name],
-    ...stylesFromClassNames(attribs.class, cascadingStyles),
-  ];
-  const newCascadingStylesText = [
-    cascadingTextStyle,
-    cascadingStylesText[name],
-    ...stylesFromClassNames(attribs.class, textStylesFromClass),
-  ];
-  const newIndexedStyles = indexedStyles[name];
-  const newIndexedViewsStyles = indexedViewsStyles[name];
+  render() {
+    const {
+      auth,
+      actions,
+      attribs,
+      name,
+      cascadingStyle,
+      cascadingTextStyle,
+      childrenNodes,
+      onPress,
+      message,
+    } = this.props;
+    const style = [styles[name], ...stylesFromClassNames(attribs.class, styles)];
+    const newCascadingStyle = [
+      cascadingStyle,
+      cascadingStyles[name],
+      ...stylesFromClassNames(attribs.class, cascadingStyles),
+    ];
+    const newCascadingStylesText = [
+      cascadingTextStyle,
+      cascadingStylesText[name],
+      ...stylesFromClassNames(attribs.class, textStylesFromClass),
+    ];
+    const newIndexedStyles = indexedStyles[name];
+    const newIndexedViewsStyles = indexedViewsStyles[name];
 
-  let HtmlComponent = specialTags[name] || HtmlTagSpan;
+    let HtmlComponent = specialTags[name] || HtmlTagSpan;
 
-  if (attribs.class && attribs.class.startsWith('emoji emoji-')) {
-    HtmlComponent = HtmlTagImg;
-    attribs.src = getEmojiUrl(attribs.class.split('-').pop());
+    if (attribs.class && attribs.class.startsWith('emoji emoji-')) {
+      HtmlComponent = HtmlTagImg;
+      attribs.src = getEmojiUrl(attribs.class.split('-').pop());
+    }
+
+    return (
+      <HtmlComponent
+        auth={auth}
+        name={name}
+        actions={actions}
+        target={attribs.target}
+        src={attribs.src}
+        href={attribs.href}
+        style={[style, styles.common]}
+        cascadingStyle={newCascadingStyle}
+        cascadingTextStyle={newCascadingStylesText}
+        indexedViewsStyles={newIndexedViewsStyles}
+        indexedStyles={newIndexedStyles}
+        childrenNodes={childrenNodes}
+        onPress={onPress}
+        message={message}
+      />
+    );
   }
-
-  return (
-    <HtmlComponent
-      auth={auth}
-      name={name}
-      actions={actions}
-      target={attribs.target}
-      src={attribs.src}
-      href={attribs.href}
-      style={[style, styles.common]}
-      cascadingStyle={newCascadingStyle}
-      cascadingTextStyle={newCascadingStylesText}
-      indexedViewsStyles={newIndexedViewsStyles}
-      indexedStyles={newIndexedStyles}
-      childrenNodes={childrenNodes}
-      onPress={onPress}
-      message={message}
-    />
-  );
-};
+}

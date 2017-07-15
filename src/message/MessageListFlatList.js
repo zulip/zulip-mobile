@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { FlatList, Text } from 'react-native';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
@@ -13,7 +13,7 @@ import {
   constructHeaderActionButtons,
 } from './messageActionSheet';
 
-class MessageList extends React.PureComponent {
+class MessageList extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };
@@ -34,14 +34,14 @@ class MessageList extends React.PureComponent {
     this.autoScrollToBottom = this.props.caughtUp.newer && nextProps.caughtUp.newer;
   }
 
-  handleHeaderLongPress = item => {
+  handleHeaderLongPress = message => {
     const { actions, subscriptions, mute, auth } = this.props;
-    const options = constructHeaderActionButtons({ item, subscriptions, mute });
+    const options = constructHeaderActionButtons({ message, subscriptions, mute });
     const callback = buttonIndex => {
       executeActionSheetAction({
         actions,
         title: options[buttonIndex],
-        message: item,
+        message,
         header: true,
         auth,
         subscriptions,

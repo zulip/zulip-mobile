@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, WebView } from 'react-native';
 
 import css from './html/css';
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageListWeb extends React.PureComponent {
+export default class MessageListWeb extends PureComponent {
   handleMessage = event => {
     const { fetchOlder, navigateToAccountDetails } = this.props;
     const data = JSON.parse(event.nativeEvent.data);

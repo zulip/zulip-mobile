@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
 import languages from './languages';
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class LanguagePicker extends React.Component {
+export default class LanguagePicker extends PureComponent {
   props: {
     value: string,
     onValueChange: () => void,

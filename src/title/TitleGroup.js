@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { NULL_USER } from '../nullObjects';
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TitleGroup extends React.PureComponent {
+export default class TitleGroup extends PureComponent {
   render() {
     const { realm, narrow, users } = this.props;
     const recipientEmails = narrow[0].operand.split(',');

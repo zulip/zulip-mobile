@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import type { Children } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageBrief extends React.PureComponent {
+export default class MessageBrief extends PureComponent {
   props: {
     message: Object,
     ownEmail: string,

@@ -5,10 +5,9 @@ import { getAuth } from '../accountSelectors';
 import { NULL_ACCOUNT } from '../../nullObjects';
 
 test('getAuth returns an empty object when no accounts', () => {
-  const state = {
+  const state = deepFreeze({
     accounts: [],
-  };
-  deepFreeze(state);
+  });
 
   const auth = getAuth(state);
 
@@ -16,10 +15,9 @@ test('getAuth returns an empty object when no accounts', () => {
 });
 
 test('getAuth returns the auth information from the first account', () => {
-  const state = {
+  const state = deepFreeze({
     accounts: [{ realm: 'https://realm1.com' }, { realm: 'https://realm2.com' }],
-  };
-  deepFreeze(state);
+  });
 
   const auth = getAuth(state);
 

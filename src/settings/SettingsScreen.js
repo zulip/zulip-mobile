@@ -1,9 +1,9 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { Auth, Actions } from '../types';
+import { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
 import { Label, Screen, ZulipSwitch } from '../common';
 import LanguagePicker from './LanguagePicker';
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SettingsScreen extends React.Component {
+class SettingsScreen extends PureComponent {
   props: {
     auth: Auth,
     actions: Actions,

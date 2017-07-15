@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import type { Actions, StyleObj } from '../../types';
@@ -22,7 +22,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class TopicMessageHeader extends React.PureComponent {
+export default class TopicMessageHeader extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };
@@ -30,16 +30,16 @@ export default class TopicMessageHeader extends React.PureComponent {
   props: {
     actions: Actions,
     style?: StyleObj,
-    itemId: number,
+    messageId: number,
     stream: string,
     topic: string,
     onLongPress: () => void,
   };
 
   performTopicNarrow = () => {
-    const { actions, itemId, stream, topic } = this.props;
+    const { actions, messageId, stream, topic } = this.props;
 
-    actions.doNarrow(topicNarrow(stream, topic), itemId);
+    actions.doNarrow(topicNarrow(stream, topic), messageId);
   };
 
   render() {

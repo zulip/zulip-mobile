@@ -54,7 +54,7 @@ type ConstructActionButtonsType = {
 };
 
 type ConstructHeaderActionButtonsType = {
-  item: Object,
+  message: Message,
   subscriptions: any[],
   mute: any[],
 };
@@ -157,21 +157,21 @@ const actionHeaderSheetButtons: ButtonType[] = [
 ];
 
 export const constructHeaderActionButtons = ({
-  item,
+  message,
   subscriptions,
   mute,
 }: ConstructHeaderActionButtonsType) => {
   const buttons = actionHeaderSheetButtons
-    .filter(x => !x.onlyIf || x.onlyIf({ item }))
+    .filter(x => !x.onlyIf || x.onlyIf({ message }))
     .map(x => x.title);
   // These are dependent conditions, hence better if we manage here rather than using onlyIf
-  if (item.type === 'stream') {
-    if (isTopicMuted(item.display_recipient, item.subject, mute)) {
+  if (message.type === 'stream') {
+    if (isTopicMuted(message.display_recipient, message.subject, mute)) {
       buttons.push('Unmute topic');
     } else {
       buttons.push('Mute topic');
     }
-    const sub = subscriptions.find(x => x.name === item.display_recipient);
+    const sub = subscriptions.find(x => x.name === message.display_recipient);
     if (sub && !sub.in_home_view) {
       buttons.push('Unmute stream');
     } else {

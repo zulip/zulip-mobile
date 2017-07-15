@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -26,7 +26,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class PasswordAuthView extends React.Component {
+class PasswordAuthView extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };

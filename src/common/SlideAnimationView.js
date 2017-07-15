@@ -1,8 +1,8 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Animated } from 'react-native';
 
-export default class SlideAnimationView extends Component {
+export default class SlideAnimationView extends PureComponent {
   state = {
     animationIndex: new Animated.Value(0),
   };

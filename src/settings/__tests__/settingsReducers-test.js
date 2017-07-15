@@ -1,15 +1,19 @@
+import deepFreeze from 'deep-freeze';
+
 import { SETTINGS_CHANGE, EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS } from '../../actionConstants';
 import settingsReducers from '../settingsReducers';
 
 describe('settingsReducers', () => {
   describe('SETTINGS_CHANGE', () => {
     test('sets a key if it does not exist', () => {
-      const prevState = {};
-      const action = {
+      const prevState = deepFreeze({});
+
+      const action = deepFreeze({
         type: SETTINGS_CHANGE,
         key: 'key',
         value: 123,
-      };
+      });
+
       const expectedState = {
         key: 123,
       };
@@ -20,14 +24,16 @@ describe('settingsReducers', () => {
     });
 
     test('changes value of an existing key', () => {
-      const prevState = {
+      const prevState = deepFreeze({
         key: 123,
-      };
-      const action = {
+      });
+
+      const action = deepFreeze({
         type: SETTINGS_CHANGE,
         key: 'key',
         value: 456,
-      };
+      });
+
       const expectedState = {
         key: 456,
       };
@@ -40,13 +46,14 @@ describe('settingsReducers', () => {
 
   describe('EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS', () => {
     test('changes the notification settings', () => {
-      const prevState = {
+      const prevState = deepFreeze({
         locale: 'en',
         theme: 'default',
         offlineNotification: true,
         onlineNotification: true,
-      };
-      const action = {
+      });
+
+      const action = deepFreeze({
         type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
         eventId: 0,
         id: 0,
@@ -54,7 +61,8 @@ describe('settingsReducers', () => {
         setting: false,
         timestamp: 1498530886.862562,
         user: 'example@zulip.com',
-      };
+      });
+
       const expectedState = {
         locale: 'en',
         theme: 'default',

@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, ScrollView, TextInput } from 'react-native';
 
 import type { LocalizableText, StyleObj } from '../types';
@@ -15,7 +15,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class MultilineInput extends React.Component {
+export default class MultilineInput extends PureComponent {
   props: {
     style?: StyleObj,
     placeholder: LocalizableText,

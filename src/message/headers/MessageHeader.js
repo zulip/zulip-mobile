@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { Auth, Actions, Narrow } from '../../types';
@@ -16,68 +16,68 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageHeader extends React.PureComponent {
+export default class MessageHeader extends PureComponent {
   props: {
     auth: Auth,
     actions: Actions,
-    item: Object,
+    message: Object,
     narrow: Narrow,
     subscriptions: any[],
-    onHeaderLongPress: (item: Object) => void,
+    onHeaderLongPress: (message: Object) => void,
   };
 
   onLongPress = () => {
-    const { item, onHeaderLongPress } = this.props;
-    onHeaderLongPress(item);
+    const { message, onHeaderLongPress } = this.props;
+    onHeaderLongPress(message);
   };
 
   render() {
-    const { actions, item, subscriptions, auth, narrow } = this.props;
+    const { actions, message, subscriptions, auth, narrow } = this.props;
 
     if (isStreamNarrow(narrow)) {
       return (
         <TopicMessageHeader
-          key={`section_${item.id}`}
+          key={`section_${message.id}`}
           actions={actions}
-          itemId={item.id}
-          stream={item.display_recipient}
-          topic={item.subject}
+          messageId={message.id}
+          stream={message.display_recipient}
+          topic={message.subject}
           style={styles.margin}
           onLongPress={this.onLongPress}
         />
       );
     }
 
-    if (item.type === 'stream') {
+    if (message.type === 'stream') {
       const stream =
-        subscriptions.find(x => x.name === item.display_recipient) || NULL_SUBSCRIPTION;
+        subscriptions.find(x => x.name === message.display_recipient) || NULL_SUBSCRIPTION;
 
       return (
         <StreamMessageHeader
-          key={`section_${item.id}`}
+          key={`section_${message.id}`}
           actions={actions}
           isPrivate={stream && stream.invite_only}
           isMuted={stream && !stream.in_home_view}
-          stream={item.display_recipient}
-          topic={item.subject}
+          stream={message.display_recipient}
+          topic={message.subject}
           color={stream ? stream.color : '#ccc'}
-          itemId={item.id}
+          messageId={message.id}
           style={styles.margin}
           onLongPress={this.onLongPress}
         />
       );
     }
 
-    if (item.type === 'private' && !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow)) {
+    if (message.type === 'private' && !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow)) {
       const recipients =
-        item.display_recipient.length > 1
-          ? item.display_recipient.filter(r => r.email !== auth.email)
-          : item.display_recipient;
+        message.display_recipient.length > 1
+          ? message.display_recipient.filter(r => r.email !== auth.email)
+          : message.display_recipient;
       return (
         <PrivateMessageHeader
-          key={`section_${item.id}`}
+          key={`section_${message.id}`}
           recipients={recipients}
-          itemId={item.id}
+          messageId={message.id}
           doNarrow={actions.doNarrow}
           style={styles.margin}
           onLongPress={() => {}}

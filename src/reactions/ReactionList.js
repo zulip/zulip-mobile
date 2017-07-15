@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { ReactionType } from '../types';
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ReactionList extends React.PureComponent {
+export default class ReactionList extends PureComponent {
   props: {
     messageId: number,
     reactions: Reaction[],

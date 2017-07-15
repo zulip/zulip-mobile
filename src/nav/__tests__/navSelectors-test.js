@@ -1,9 +1,11 @@
+import deepFreeze from 'deep-freeze';
+
 import { getInitialRoute } from '../navSelectors';
 
 test('if logged in, show main route', () => {
-  const state = {
+  const state = deepFreeze({
     accounts: [{ apiKey: '123' }],
-  };
+  });
 
   const route = getInitialRoute(state);
 
@@ -11,9 +13,9 @@ test('if logged in, show main route', () => {
 });
 
 test('if not logged in, and no previous accounts, show realm screen', () => {
-  const state = {
+  const state = deepFreeze({
     accounts: [],
-  };
+  });
 
   const route = getInitialRoute(state);
 
@@ -21,9 +23,9 @@ test('if not logged in, and no previous accounts, show realm screen', () => {
 });
 
 test('if more than one account and no active account, display account list', () => {
-  const state = {
+  const state = deepFreeze({
     accounts: [{}, {}],
-  };
+  });
 
   const route = getInitialRoute(state);
 
@@ -31,9 +33,9 @@ test('if more than one account and no active account, display account list', () 
 });
 
 test('when only a single account and no other properties, redirect to realm', () => {
-  const state = {
+  const state = deepFreeze({
     accounts: [{ realm: 'https://example.com' }],
-  };
+  });
 
   const route = getInitialRoute(state);
 
@@ -41,12 +43,12 @@ test('when only a single account and no other properties, redirect to realm', ()
 });
 
 test('when multiple accounts and default one has realm and email, show account list', () => {
-  const state = {
+  const state = deepFreeze({
     accounts: [
       { realm: 'https://example.com', email: 'johndoe@example.com' },
       { realm: 'https://example.com', email: 'janedoe@example.com' },
     ],
-  };
+  });
 
   const route = getInitialRoute(state);
 
@@ -54,9 +56,9 @@ test('when multiple accounts and default one has realm and email, show account l
 });
 
 test('when default account has server and email set, redirect to realm screen', () => {
-  const state = {
+  const state = deepFreeze({
     accounts: [{ realm: 'https://example.com', email: 'johndoe@example.com' }],
-  };
+  });
 
   const route = getInitialRoute(state);
 

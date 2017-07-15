@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Touchable } from '../common';
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ComposeIcon extends React.Component {
+export default class ComposeIcon extends PureComponent {
   props: {
     isActive: boolean,
     name: string,
