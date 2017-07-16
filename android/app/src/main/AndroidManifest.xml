@@ -29,10 +29,6 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-      <meta-data
-         android:name="io.fabric.ApiKey"
-         android:value="[YOUR API KEY]"
-       />
        <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="835904834568\0"/>
     </application>
 
