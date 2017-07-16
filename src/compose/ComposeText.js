@@ -137,7 +137,11 @@ export default class ComposeText extends PureComponent {
             placeholder={placeholder}
           />
         </ScrollView>
-        <SubmitButton disabled={text.length === 0} onPress={submit} editMessage={editMessage} />
+        <SubmitButton
+          disabled={text.trim().length === 0}
+          onPress={submit}
+          editMessage={editMessage}
+        />
       </View>
     );
   }
