@@ -49,6 +49,7 @@
     "react-native-photo-view": "~1.2.0",
     "react-native-safari-view": "^2.0.0",
     "react-native-scrollable-tab-view": "^0.7.0",
+    "react-native-sentry": "^0.14.5",
     "react-native-simple-toast": "0.0.6",
     "react-native-sound": "^0.10.3",
     "react-native-vector-icons": "^4.2.0",
