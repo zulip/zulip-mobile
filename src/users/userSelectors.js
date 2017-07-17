@@ -29,6 +29,10 @@ export const getAccountDetailsUser = createSelector(
   },
 );
 
+export const getAllActiveUsers = createSelector(getUsers, allUsers =>
+  allUsers.filter(user => user.isActive),
+);
+
 export const getUserById = (users: any[], userId: number) =>
   users.find(user => user.id === userId) || NULL_USER;
 
