@@ -13,6 +13,7 @@ import {
   getUniqueUsers,
   getAccountDetailsUser,
   getAllActiveUsers,
+  getAllActiveUsersWithStatus,
 } from '../userSelectors';
 
 describe('filterUserList', () => {
@@ -337,6 +338,33 @@ describe('getAllActiveUsers', () => {
     ];
 
     const actualUser = getAllActiveUsers(state);
+    expect(actualUser).toEqual(expectedUsers);
+  });
+});
+
+describe('getAllActiveUsersWithStatus', () => {
+  test('return all active users with status object in it, get status from presence', () => {
+    const state = {
+      users: [
+        { id: 1, fullName: 'Abc', isActive: true, email: 'a@a.com' },
+        { id: 2, fullName: 'Def', isActive: false, email: 'd@a.com' },
+        { id: 3, fullName: 'Xyz', isActive: true, email: 'x@a.com' },
+        { id: 4, fullName: 'Joe', isActive: true, email: 'j@a.com' },
+      ],
+      presence: [
+        { email: 'a@a.com', status: 'active', timestamp: 123 },
+        { email: 'd@a.com', status: 'idle', timestamp: 456 },
+        { email: 'x@a.com', status: 'idle', timestamp: 789 },
+      ],
+    };
+    deepFreeze(state);
+    const expectedUsers = [
+      { id: 1, fullName: 'Abc', status: 'active', email: 'a@a.com', isActive: true },
+      { id: 3, fullName: 'Xyz', status: 'idle', email: 'x@a.com', isActive: true },
+      { id: 4, fullName: 'Joe', status: undefined, email: 'j@a.com', isActive: true },
+    ];
+
+    const actualUser = getAllActiveUsersWithStatus(state);
     expect(actualUser).toEqual(expectedUsers);
   });
 });

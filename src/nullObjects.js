@@ -1,5 +1,5 @@
 /* @flow */
-import type { Account, User, Stream, Message, Subscription } from './types';
+import type { Account, User, Stream, Message, Subscription, Presence } from './types';
 
 export const nullFunction = () => {};
 
@@ -55,4 +55,10 @@ export const NULL_SUBSCRIPTION: Subscription = {
   name: '',
   pin_to_top: false,
   stream_id: 0,
+};
+
+export const NULL_PRESENCE: Presence = {
+  email: '',
+  status: undefined,
+  timestamp: 0,
 };

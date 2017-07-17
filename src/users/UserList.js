@@ -47,6 +47,7 @@ export default class UserList extends PureComponent {
             email={item.email}
             onPress={onNarrow}
             realm={realm}
+            status={item.status}
           />}
         renderSectionHeader={({ section }) =>
           <RawLabel style={styles.groupHeader} text={section.key} />}
