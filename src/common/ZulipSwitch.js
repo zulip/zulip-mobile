@@ -8,6 +8,7 @@ export default class ZulipSwitch extends PureComponent {
     value?: boolean,
     defaultValue: boolean,
     onValueChange: (arg: boolean) => void,
+    disabled?: boolean,
   };
 
   state: {
@@ -31,7 +32,7 @@ export default class ZulipSwitch extends PureComponent {
   };
 
   render() {
-    const { value } = this.props;
+    const { value, disabled } = this.props;
     const { valueControlled } = this.state;
     const switchValue = typeof valueControlled !== 'undefined' ? valueControlled : value;
 
@@ -41,6 +42,7 @@ export default class ZulipSwitch extends PureComponent {
         onTintColor={BRAND_COLOR}
         tintColor={BRAND_COLOR}
         onValueChange={this.handleValueChange}
+        disabled={disabled}
       />
     );
   }
