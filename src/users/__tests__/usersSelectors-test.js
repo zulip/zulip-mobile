@@ -12,6 +12,7 @@ import {
   filterUserMatchesEmail,
   getUniqueUsers,
   getAccountDetailsUser,
+  getAllActiveUsers,
 } from '../userSelectors';
 
 describe('filterUserList', () => {
@@ -317,5 +318,25 @@ describe('getAccountDetailsUser', () => {
     const actualUser = getAccountDetailsUser(state);
 
     expect(actualUser).toEqual(expectedUser);
+  });
+});
+
+describe('getAllActiveUsers', () => {
+  test('return all active users from state', () => {
+    const state = {
+      users: [
+        { id: 1, fullName: 'Abc', isActive: true },
+        { id: 2, fullName: 'Def', isActive: false },
+        { id: 3, fullName: 'Xyz', isActive: true },
+      ],
+    };
+    deepFreeze(state);
+    const expectedUsers = [
+      { id: 1, fullName: 'Abc', isActive: true },
+      { id: 3, fullName: 'Xyz', isActive: true },
+    ];
+
+    const actualUser = getAllActiveUsers(state);
+    expect(actualUser).toEqual(expectedUsers);
   });
 });

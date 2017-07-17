@@ -4,7 +4,12 @@ import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { User, GlobalState } from '../types';
-import { getOwnEmail, sortAlphabetically, getAutocompleteSuggestion } from '../selectors';
+import {
+  getOwnEmail,
+  sortAlphabetically,
+  getAutocompleteSuggestion,
+  getAllActiveUsers,
+} from '../selectors';
 import { Popup } from '../common';
 import UserItem from '../users/UserItem';
 
@@ -45,5 +50,5 @@ class PeopleAutocomplete extends PureComponent {
 
 export default connect((state: GlobalState) => ({
   ownEmail: getOwnEmail(state),
-  users: sortAlphabetically(state.users),
+  users: sortAlphabetically(getAllActiveUsers(state)),
 }))(PeopleAutocomplete);
