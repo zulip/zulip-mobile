@@ -1,9 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
 
+import boundActions from '../boundActions';
 import { NULL_USER } from '../nullObjects';
-import type { Narrow } from '../types';
+import type { User, Narrow } from '../types';
 import { normalizeRecipients } from '../utils/message';
 import { isGroupNarrow } from '../utils/narrow';
 import { Avatar, RawLabel, Touchable, UnreadCount } from '../common';
@@ -29,18 +31,22 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class extends PureComponent {
+class ConversationGroup extends PureComponent {
   props: {
     email: string,
-    users: Object[],
+    users: User[],
     unreadCount: number,
-    realm: string,
     narrow?: Narrow,
-    onNarrow: (arg: string) => void,
+    onPress: (emails: string) => void,
+  };
+
+  handlePress = () => {
+    const { email, onPress } = this.props;
+    onPress(email);
   };
 
   render() {
-    const { email, users, narrow, unreadCount, onNarrow, realm } = this.props;
+    const { email, users, narrow, unreadCount } = this.props;
     const allNames = email
       .split(',')
       .map(e => (users.find(x => x.email === e) || NULL_USER).fullName)
@@ -49,9 +55,9 @@ export default class extends PureComponent {
       narrow && isGroupNarrow(narrow) && email === normalizeRecipients(narrow[0].operand);
 
     return (
-      <Touchable onPress={() => onNarrow(email)}>
+      <Touchable onPress={this.handlePress}>
         <View style={[styles.row, isSelected && styles.selectedRow]}>
-          <Avatar size={32} name={allNames} realm={realm} />
+          <Avatar size={32} name={allNames} />
           <RawLabel
             style={[styles.text, isSelected && styles.selectedText]}
             numberOfLines={2}
@@ -64,3 +70,11 @@ export default class extends PureComponent {
     );
   }
 }
+
+export default connect(
+  state => ({
+    narrow: state.chat.narrow,
+    users: state.users,
+  }),
+  boundActions,
+)(ConversationGroup);

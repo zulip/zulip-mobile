@@ -11,7 +11,7 @@ export default {
   scrollCallbackThrottle: 500,
   startMessageListThreshold: 500,
   endMessageListThreshold: 500,
-  enableReduxLogging: !isDevelopment,
+  enableReduxLogging: isDevelopment,
   enableSentry: !isDevelopment,
   sentryKey: 'ADD-DSN-HERE',
 };

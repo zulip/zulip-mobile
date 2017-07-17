@@ -1,11 +1,15 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
+import boundActions from '../boundActions';
+import { nullFunction } from '../nullObjects';
+import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
 import TextAvatar from './TextAvatar';
 import { getFullUrl } from '../utils/url';
 
-export default class Avatar extends PureComponent {
+class Avatar extends PureComponent {
   props: {
     avatarUrl?: string,
     name: string,
@@ -21,7 +25,7 @@ export default class Avatar extends PureComponent {
     size: 32,
     realm: '',
     shape: 'rounded',
-    onPress: () => {},
+    onPress: nullFunction,
   };
 
   render() {
@@ -38,3 +42,10 @@ export default class Avatar extends PureComponent {
       : <TextAvatar name={name} size={size} status={status} onPress={onPress} shape={shape} />;
   }
 }
+
+export default connect(
+  state => ({
+    realm: getCurrentRealm(state),
+  }),
+  boundActions,
+)(Avatar);

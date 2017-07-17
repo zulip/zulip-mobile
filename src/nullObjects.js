@@ -1,6 +1,8 @@
 /* @flow */
 import type { Account, User, Stream, Message, Subscription } from './types';
 
+export const nullFunction = () => {};
+
 export const NULL_ACCOUNT: Account = {
   apiKey: '',
   email: '',

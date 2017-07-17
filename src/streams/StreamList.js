@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
+import type { Stream } from '../types';
 import StreamItem from './StreamItem';
 
 const styles = StyleSheet.create({
@@ -13,23 +14,22 @@ const styles = StyleSheet.create({
 
 export default class StreamList extends PureComponent {
   props: {
-    streams: Object[],
+    streams: Stream[],
     selected?: boolean,
     showDescriptions: boolean,
     showSwitch: boolean,
-    onNarrow: (streamName: string) => void,
-    onSwitch: (streamName: string, newValue: boolean) => void,
+    onPress?: (streamName: string) => void,
+    onSwitch?: (streamName: string, newValue: boolean) => void,
   };
 
   static defaultProps: {
     showSwitch: false,
     showDescriptions: false,
-    onSwitch: (streamName: string, newValue: boolean) => void,
     selected: false,
   };
 
   render() {
-    const { streams, selected, showDescriptions, showSwitch, onNarrow, onSwitch } = this.props;
+    const { streams, selected, showDescriptions, showSwitch, onPress, onSwitch } = this.props;
     const sortedStreams = streams.sort((a, b) => a.name.localeCompare(b.name));
 
     return (
@@ -49,7 +49,7 @@ export default class StreamList extends PureComponent {
             isMuted={item.in_home_view === false} // if 'undefined' is not muted
             showSwitch={showSwitch}
             isSwitchedOn={item.subscribed}
-            onPress={onNarrow}
+            onPress={onPress}
             onSwitch={onSwitch}
           />}
       />

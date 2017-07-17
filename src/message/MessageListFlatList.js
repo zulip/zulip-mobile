@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { FlatList, Text } from 'react-native';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
+import { nullFunction } from '../nullObjects';
 import MessageContainer from './MessageContainer';
 import TaggedView from '../native/TaggedView';
 import renderMessages from './renderMessages';
@@ -25,7 +26,7 @@ class MessageList extends PureComponent {
   autoScrollToBottom = false;
 
   static defaultProps = {
-    onScroll: () => {},
+    onScroll: nullFunction,
   };
 
   state = { actionSheetButtons: ['', ''] };

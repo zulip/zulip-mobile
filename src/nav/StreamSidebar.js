@@ -29,11 +29,10 @@ const styles = StyleSheet.create({
 class StreamSidebar extends PureComponent {
   props: {
     actions: Actions,
-    onNarrow: () => void,
   };
 
   render() {
-    const { actions, onNarrow } = this.props;
+    const { actions } = this.props;
 
     return (
       <View style={styles.container} scrollsToTop={false}>
@@ -45,7 +44,7 @@ class StreamSidebar extends PureComponent {
           <NavButton name="md-search" onPress={actions.navigateToSearch} />
           <NavButton name="md-settings" onPress={actions.navigateToSettings} />
         </View>
-        <SubscriptionsContainer onNarrow={onNarrow} />
+        <SubscriptionsContainer />
         <ZulipButton
           style={styles.button}
           secondary

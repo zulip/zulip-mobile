@@ -37,7 +37,6 @@ class MessageFull extends PureComponent {
     avatarUrl: string,
     ownEmail: string,
     twentyFourHourTime: boolean,
-    realm: string,
     starred: boolean,
     children?: any[],
     message: Object,
@@ -58,7 +57,6 @@ class MessageFull extends PureComponent {
       ownEmail,
       starred,
       onLongPress,
-      realm,
     } = this.props;
 
     return (
@@ -67,7 +65,6 @@ class MessageFull extends PureComponent {
           avatarUrl={avatarUrl}
           name={message.sender_full_name}
           onPress={this.handleAvatarPress}
-          realm={realm}
         />
         <View style={styles.content}>
           <Subheader

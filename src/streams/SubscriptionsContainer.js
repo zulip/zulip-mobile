@@ -3,7 +3,8 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { Narrow, GlobalState, SubscriptionsState } from '../types';
+import boundActions from '../boundActions';
+import type { Actions, Narrow, GlobalState, SubscriptionsState } from '../types';
 import StreamList from './StreamList';
 import { isStreamNarrow, streamNarrow } from '../utils/narrow';
 
@@ -16,12 +17,12 @@ const styles = StyleSheet.create({
 
 class SubscriptionsContainer extends PureComponent {
   props: {
+    actions: Actions,
     narrow: Narrow,
     subscriptions: SubscriptionsState,
-    onNarrow: (email: string) => void,
   };
 
-  handleNarrow = (streamName: string) => this.props.onNarrow(streamNarrow(streamName));
+  handleNarrow = (streamName: string) => this.props.actions.doNarrow(streamNarrow(streamName));
 
   render() {
     const { narrow, subscriptions } = this.props;
@@ -29,13 +30,16 @@ class SubscriptionsContainer extends PureComponent {
 
     return (
       <View tabLabel="Streams" style={styles.container}>
-        <StreamList streams={subscriptions} selected={selected} onNarrow={this.handleNarrow} />
+        <StreamList streams={subscriptions} selected={selected} onPress={this.handleNarrow} />
       </View>
     );
   }
 }
 
-export default connect((state: GlobalState) => ({
-  narrow: state.chat.narrow,
-  subscriptions: state.subscriptions,
-}))(SubscriptionsContainer);
+export default connect(
+  (state: GlobalState) => ({
+    narrow: state.chat.narrow,
+    subscriptions: state.subscriptions,
+  }),
+  boundActions,
+)(SubscriptionsContainer);

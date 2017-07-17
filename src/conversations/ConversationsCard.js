@@ -30,7 +30,6 @@ type Props = {
   users: any[],
   actions: Actions,
   conversations: string[],
-  onNarrow: () => void,
 };
 
 export default class ConversationsCard extends PureComponent {
@@ -47,7 +46,7 @@ export default class ConversationsCard extends PureComponent {
   };
 
   handleUserNarrow = (email: string) =>
-    this.props.onNarrow(
+    this.props.actions.doNarrow(
       email.indexOf(',') === -1 ? privateNarrow(email) : groupNarrow(email.split(',')),
     );
 
@@ -67,7 +66,7 @@ export default class ConversationsCard extends PureComponent {
           realm={realm}
           users={users}
           narrow={narrow}
-          onNarrow={this.handleUserNarrow}
+          onPress={this.handleUserNarrow}
         />
         <View style={styles.accountButtons}>
           <SwitchAccountButton />
