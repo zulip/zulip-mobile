@@ -14,6 +14,7 @@ import settings from './settings/settingsReducers';
 import streams from './streams/streamsReducers';
 import subscriptions from './subscriptions/subscriptionsReducers';
 import typing from './typing/typingReducers';
+import unread from './unread/unreadReducers';
 import users from './users/usersReducers';
 import presence from './presence/presenceReducers';
 
@@ -41,6 +42,7 @@ export default enableBatching(
     streams,
     subscriptions,
     typing,
+    unread,
     users,
   }),
 );

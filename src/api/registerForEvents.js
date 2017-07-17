@@ -25,5 +25,7 @@ export default (auth: Auth) =>
       'update_display_settings',
       'update_global_notifications',
       'presence',
+      'message',
+      'update_message_flags',
     ]),
   });

@@ -262,6 +262,12 @@ export type SubscriptionsState = [];
 
 export type TypingState = Object;
 
+export type UnreadState = {
+  streams: Object[],
+  huddles: Object[],
+  pms: Object[],
+};
+
 export type UsersState = [];
 
 export type GlobalState = {
@@ -276,6 +282,7 @@ export type GlobalState = {
   streams: StreamsState,
   subscriptions: SubscriptionsState,
   typing: TypingState,
+  unread: UnreadState,
   users: UsersState,
 };
 
