@@ -1,4 +1,6 @@
 /* @flow */
+const isDevelopment = process.env.NODE_ENV === 'development' && !!global.btoa;
+
 export default {
   devRealm: 'http://localhost:9991', // the default realm suggested during development
   productionRealm: '', // the default realm suggested in production
@@ -9,4 +11,7 @@ export default {
   scrollCallbackThrottle: 500,
   startMessageListThreshold: 500,
   endMessageListThreshold: 500,
+  enableReduxLogging: !isDevelopment,
+  enableSentry: !isDevelopment,
+  sentryKey: 'ADD-DSN-HERE',
 };

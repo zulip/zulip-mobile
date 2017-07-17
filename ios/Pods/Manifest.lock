@@ -1,16 +1,40 @@
 PODS:
-  - Crashlytics (3.8.4):
-    - Fabric (~> 1.6.3)
-  - Fabric (1.6.11)
+  - KSCrash/Core (1.15.11):
+    - KSCrash/Reporting/Filters/Basic
+  - KSCrash/Recording (1.15.11):
+    - KSCrash/Recording/Tools (= 1.15.11)
+  - KSCrash/Recording/Tools (1.15.11)
+  - KSCrash/Reporting/Filters/Base (1.15.11):
+    - KSCrash/Recording
+  - KSCrash/Reporting/Filters/Basic (1.15.11):
+    - KSCrash/Recording
+    - KSCrash/Reporting/Filters/Base
+  - React (0.11.0):
+    - React/Core (= 0.11.0)
+  - React/Core (0.11.0)
+  - Sentry (3.1.2):
+    - Sentry/Core (= 3.1.2)
+  - Sentry/Core (3.1.2)
+  - Sentry/KSCrash (3.1.2):
+    - KSCrash/Core (~> 1.15.9)
+  - SentryReactNative (0.14.5):
+    - React
+    - Sentry (~> 3.1.2)
+    - Sentry/KSCrash (~> 3.1.2)
 
 DEPENDENCIES:
-  - Crashlytics
-  - Fabric
+  - SentryReactNative (from `../node_modules/react-native-sentry`)
+
+EXTERNAL SOURCES:
+  SentryReactNative:
+    :path: "../node_modules/react-native-sentry"
 
 SPEC CHECKSUMS:
-  Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
-  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
+  KSCrash: 7bd106ca4a2247774deeeb587c740ce0207de8f3
+  React: ab1a2e21deb34965c38328d5ec40cc7d12c6050a
+  Sentry: 5a578891f177e994d89d57effc70adb97bfb29db
+  SentryReactNative: 8f251df76f03c5ee42e702f37a41803709632217
 
-PODFILE CHECKSUM: 1fd0e2a8c7280fb17cab7d7d39c560988c8f19f5
+PODFILE CHECKSUM: ac31dd65484ec9a741127f662f85e8e683eff185
 
 COCOAPODS: 1.2.0
