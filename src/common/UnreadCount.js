@@ -19,21 +19,28 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 12,
   },
+  frameInverse: {
+    backgroundColor: 'white',
+  },
+  textInverse: {
+    color: BRAND_COLOR,
+  },
 });
 
 export default class UnreadCount extends PureComponent {
   props: {
     count?: number,
+    inverse?: boolean,
   };
 
   render() {
-    const { count } = this.props;
+    const { count, inverse } = this.props;
 
     if (!count) return null;
 
     return (
-      <View style={styles.frame}>
-        <Text style={styles.text}>
+      <View style={[styles.frame, inverse && styles.frameInverse]}>
+        <Text style={[styles.text, inverse && styles.textInverse]}>
           {count < 100 ? count : '99+'}
         </Text>
       </View>

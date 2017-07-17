@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import type { Actions, Narrow, GlobalState, SubscriptionsState } from '../types';
+import { getActiveNarrow, getUnreadByStream } from '../selectors';
 import StreamList from './StreamList';
 import { isStreamNarrow, streamNarrow } from '../utils/narrow';
 
@@ -20,17 +21,23 @@ class SubscriptionsContainer extends PureComponent {
     actions: Actions,
     narrow: Narrow,
     subscriptions: SubscriptionsState,
+    unreadByStream: number[],
   };
 
   handleNarrow = (streamName: string) => this.props.actions.doNarrow(streamNarrow(streamName));
 
   render() {
-    const { narrow, subscriptions } = this.props;
+    const { narrow, subscriptions, unreadByStream } = this.props;
     const selected = isStreamNarrow(narrow) && narrow[0].operand;
 
     return (
       <View tabLabel="Streams" style={styles.container}>
-        <StreamList streams={subscriptions} selected={selected} onPress={this.handleNarrow} />
+        <StreamList
+          streams={subscriptions}
+          selected={selected}
+          unreadByStream={unreadByStream}
+          onPress={this.handleNarrow}
+        />
       </View>
     );
   }
@@ -38,8 +45,9 @@ class SubscriptionsContainer extends PureComponent {
 
 export default connect(
   (state: GlobalState) => ({
-    narrow: state.chat.narrow,
+    narrow: getActiveNarrow(state),
     subscriptions: state.subscriptions,
+    unreadByStream: getUnreadByStream(state),
   }),
   boundActions,
 )(SubscriptionsContainer);

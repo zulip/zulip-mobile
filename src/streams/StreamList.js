@@ -18,18 +18,28 @@ export default class StreamList extends PureComponent {
     selected?: boolean,
     showDescriptions: boolean,
     showSwitch: boolean,
+    unreadByStream: number[],
     onPress?: (streamName: string) => void,
     onSwitch?: (streamName: string, newValue: boolean) => void,
   };
 
-  static defaultProps: {
+  static defaultProps = {
     showSwitch: false,
     showDescriptions: false,
     selected: false,
+    unreadByStream: [],
   };
 
   render() {
-    const { streams, selected, showDescriptions, showSwitch, onPress, onSwitch } = this.props;
+    const {
+      streams,
+      selected,
+      showDescriptions,
+      showSwitch,
+      unreadByStream,
+      onPress,
+      onSwitch,
+    } = this.props;
     const sortedStreams = streams.sort((a, b) => a.name.localeCompare(b.name));
 
     return (
@@ -45,6 +55,7 @@ export default class StreamList extends PureComponent {
             isPrivate={item.invite_only}
             description={showDescriptions ? item.description : ''}
             color={item.color}
+            unreadCount={unreadByStream[item.stream_id]}
             isSelected={item.name === selected}
             isMuted={item.in_home_view === false} // if 'undefined' is not muted
             showSwitch={showSwitch}

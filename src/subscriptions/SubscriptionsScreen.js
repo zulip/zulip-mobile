@@ -10,14 +10,12 @@ import { subscriptionAdd, subscriptionRemove } from '../api';
 import StreamList from '../streams/StreamList';
 import { getAuth } from '../selectors';
 
-type Props = {
-  auth: Auth,
-  streams: [],
-  subscriptions: [],
-};
-
 class SubscriptionsScreen extends PureComponent {
-  props: Props;
+  props: {
+    auth: Auth,
+    streams: [],
+    subscriptions: [],
+  };
 
   state: {
     filter: string,

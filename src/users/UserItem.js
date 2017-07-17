@@ -65,7 +65,7 @@ export default class UserItem extends PureComponent {
                 text={email}
               />}
           </View>
-          <UnreadCount count={unreadCount} />
+          <UnreadCount count={unreadCount} inverse={isSelected} />
         </View>
       </Touchable>
     );

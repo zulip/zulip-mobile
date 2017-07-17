@@ -9,6 +9,7 @@ import { OfflineNotice } from '../common';
 import boundActions from '../boundActions';
 import {
   getAuth,
+  getActiveNarrow,
   getIsFetching,
   getCurrentTypingUsers,
   getShownMessagesInActiveNarrow,
@@ -95,7 +96,7 @@ export default connect(
     subscriptions: state.subscriptions,
     flags: state.flags,
     isFetching: getIsFetching(state),
-    narrow: state.chat.narrow,
+    narrow: getActiveNarrow(state),
     mute: state.mute,
     messages: getShownMessagesInActiveNarrow(state),
     typingUsers: getCurrentTypingUsers(state),
