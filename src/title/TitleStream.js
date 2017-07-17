@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
-import { NULL_SUBSCRIPTION } from '../nullObjects';
+import { nullFunction, NULL_SUBSCRIPTION } from '../nullObjects';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -24,7 +24,7 @@ export default class TitleStream extends PureComponent {
   props: {
     subscriptions: [],
     streams: [],
-    narrow: () => {},
+    narrow: nullFunction,
     color: string,
   };
 

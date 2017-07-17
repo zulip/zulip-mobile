@@ -2,7 +2,9 @@
 import React, { PureComponent } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { FormattedMessage } from 'react-intl';
+
 import type { LocalizableText, StyleObj } from '../types';
+import { nullFunction } from '../nullObjects';
 import { HALF_COLOR, BRAND_COLOR } from '../styles';
 import Icon from '../common/Icons';
 import Touchable from '../common/Touchable';
@@ -42,7 +44,7 @@ export default class Input extends PureComponent {
 
   static defaultProps = {
     restProps: [],
-    textInputRef: () => {},
+    textInputRef: nullFunction,
   };
 
   state: {

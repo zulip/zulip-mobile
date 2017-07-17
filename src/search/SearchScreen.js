@@ -25,7 +25,7 @@ class SearchScreen extends PureComponent {
     title: string,
     searchBar: boolean,
     children: any[],
-    searchBarOnChange: () => {},
+    searchBarOnChange: () => void,
   };
 
   render() {

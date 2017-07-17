@@ -41,7 +41,6 @@ export default class UserItem extends PureComponent {
     showEmail?: boolean,
     unreadCount?: number,
     onPress: (email: string) => void,
-    realm?: string,
   };
 
   handlePress = () => {
@@ -52,21 +51,12 @@ export default class UserItem extends PureComponent {
   };
 
   render() {
-    const {
-      fullName,
-      avatarUrl,
-      status,
-      isSelected,
-      unreadCount,
-      realm,
-      showEmail,
-      email,
-    } = this.props;
+    const { fullName, avatarUrl, status, isSelected, unreadCount, showEmail, email } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
         <View style={[styles.row, isSelected && styles.selectedRow]}>
-          <Avatar size={32} avatarUrl={avatarUrl} name={fullName} status={status} realm={realm} />
+          <Avatar size={32} avatarUrl={avatarUrl} name={fullName} status={status} />
           <View style={styles.textWrapper}>
             <RawLabel style={[styles.text, isSelected && styles.selectedText]} text={fullName} />
             {showEmail &&

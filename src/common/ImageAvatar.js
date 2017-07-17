@@ -1,32 +1,39 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Image } from 'react-native';
 
+import { nullFunction } from '../nullObjects';
 import { Touchable } from './';
 
-type Props = {
-  avatarUrl: string,
-  size: number,
-  status?: string,
-  shape: string,
-  onPress?: () => void,
-};
-
-export default ({ avatarUrl, size, status, shape, onPress = () => {} }: Props) => {
-  const touchableStyle = {
-    height: size,
-    width: size,
+export default class ImageAvatar extends PureComponent {
+  props: {
+    avatarUrl: string,
+    size: number,
+    shape: string,
+    onPress?: () => void,
   };
 
-  const imageStyle = {
-    ...touchableStyle,
-    borderRadius:
-      shape === 'rounded' ? size / 8 : shape === 'circle' ? size / 2 : shape === 'square' ? 0 : 0,
+  static defaultProps = {
+    onPress: nullFunction,
   };
 
-  return (
-    <Touchable onPress={onPress} style={touchableStyle}>
-      <Image style={imageStyle} source={{ uri: avatarUrl }} resizeMode="contain" />
-    </Touchable>
-  );
-};
+  render() {
+    const { avatarUrl, size, shape, onPress } = this.props;
+    const touchableStyle = {
+      height: size,
+      width: size,
+    };
+
+    const imageStyle = {
+      ...touchableStyle,
+      borderRadius:
+        shape === 'rounded' ? size / 8 : shape === 'circle' ? size / 2 : shape === 'square' ? 0 : 0,
+    };
+
+    return (
+      <Touchable onPress={onPress} style={touchableStyle}>
+        <Image style={imageStyle} source={{ uri: avatarUrl }} resizeMode="contain" />
+      </Touchable>
+    );
+  }
+}

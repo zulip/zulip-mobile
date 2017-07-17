@@ -23,8 +23,8 @@ export default class UserList extends PureComponent {
   props: {
     filter: string,
     users: User[],
-    onNarrow: (email: string) => void,
     realm: string,
+    onNarrow: (email: string) => void,
   };
 
   render() {

@@ -23,7 +23,6 @@ class TitleGroup extends PureComponent {
     actions: Actions,
     users: UserType,
     narrow: Narrow,
-    realm: string,
   };
 
   handlePress = () => {
@@ -35,7 +34,7 @@ class TitleGroup extends PureComponent {
     narrow[0].operand.split(',').map(r => users.find(x => x.email === r) || NULL_USER);
 
   render() {
-    const { realm, narrow, users } = this.props;
+    const { narrow, users } = this.props;
     const recipients = this.getRecipients(narrow, users);
 
     return (
@@ -47,7 +46,6 @@ class TitleGroup extends PureComponent {
                 size={32}
                 name={user.fullName}
                 avatarUrl={user.avatarUrl}
-                realm={realm}
                 onPress={this.handlePress}
               />
             </View>,

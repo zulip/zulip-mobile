@@ -1,25 +1,26 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-import type { Narrow } from '../types';
+import boundActions from '../boundActions';
+import type { Narrow, User } from '../types';
 import UserItem from '../users/UserItem';
 import { isPrivateNarrow } from '../utils/narrow';
 
-type Props = {
-  email: string,
-  users: Object[],
-  unreadCount: number,
-  realm: string,
-  narrow?: Narrow,
-  onNarrow: (arg: string) => void,
-};
-
-export default class ConversationUser extends PureComponent {
-  props: Props;
+class ConversationUser extends PureComponent {
+  props: {
+    email: string,
+    users: User[],
+    unreadCount: number,
+    realm: string,
+    narrow?: Narrow,
+    onPress: (email: string) => void,
+  };
 
   render() {
-    const { email, unreadCount, users, realm, narrow, onNarrow } = this.props;
+    const { email, unreadCount, users, realm, narrow, onPress } = this.props;
     const user = users.find(x => x.email === email);
+    const isSelected = narrow && isPrivateNarrow(narrow) && narrow[0].operand === email;
 
     if (!user) return null;
 
@@ -30,10 +31,18 @@ export default class ConversationUser extends PureComponent {
         email={email}
         unreadCount={unreadCount}
         status={user.status}
-        isSelected={narrow && isPrivateNarrow(narrow) && narrow[0].operand === email}
-        onPress={onNarrow}
+        isSelected={isSelected}
         realm={realm}
+        onPress={onPress}
       />
     );
   }
 }
+
+export default connect(
+  state => ({
+    narrow: state.chat.narrow,
+    users: state.users,
+  }),
+  boundActions,
+)(ConversationUser);

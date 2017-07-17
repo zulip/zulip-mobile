@@ -3,14 +3,14 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 
-import type { Actions, Narrow } from '../types';
+import type { Actions, Narrow, Stream } from '../types';
 import boundActions from '../boundActions';
 import { ZulipStatusBar } from '../common';
 import { BRAND_COLOR } from '../styles';
 import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import Title from '../title/Title';
 import NavButton from './NavButton';
-import { getUnreadPrivateMessagesCount } from '../selectors';
+import { getActiveNarrow, getSubscriptions, getUnreadPrivateMessagesCount } from '../selectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
@@ -22,6 +22,11 @@ class MainNavBar extends PureComponent {
   props: {
     actions: Actions,
     narrow: Narrow,
+    editMessage: boolean,
+    subscriptions: Stream[],
+    unreadPrivateMessagesCount: number,
+    onPressPeople: () => void,
+    onPressStreams: () => void,
   };
 
   render() {
@@ -69,8 +74,8 @@ class MainNavBar extends PureComponent {
 
 export default connect(
   state => ({
-    narrow: state.chat.narrow,
-    subscriptions: state.subscriptions,
+    narrow: getActiveNarrow(state),
+    subscriptions: getSubscriptions(state),
     unreadPrivateMessagesCount: getUnreadPrivateMessagesCount(state),
     editMessage: state.app.editMessage,
   }),

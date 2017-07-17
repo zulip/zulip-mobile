@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import type { Auth, GlobalState } from '../types';
 import boundActions from '../boundActions';
+import { nullFunction } from '../nullObjects';
 import SearchScreen from '../search/SearchScreen';
 import { subscriptionAdd, subscriptionRemove } from '../api';
 import StreamList from '../streams/StreamList';
@@ -52,8 +53,8 @@ class SubscriptionsScreen extends PureComponent {
           streams={subsAndStreams}
           showSwitch
           showDescriptions
-          onNarrow={() => {}}
           onSwitch={this.handleSwitchChange}
+          onPress={nullFunction}
         />
       </SearchScreen>
     );

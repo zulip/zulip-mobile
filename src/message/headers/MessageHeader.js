@@ -7,7 +7,7 @@ import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../../uti
 import TopicMessageHeader from './TopicMessageHeader';
 import StreamMessageHeader from './StreamMessageHeader';
 import PrivateMessageHeader from './PrivateMessageHeader';
-import { NULL_SUBSCRIPTION } from '../../nullObjects';
+import { nullFunction, NULL_SUBSCRIPTION } from '../../nullObjects';
 
 const styles = StyleSheet.create({
   margin: {
@@ -80,7 +80,7 @@ export default class MessageHeader extends PureComponent {
           messageId={message.id}
           doNarrow={actions.doNarrow}
           style={styles.margin}
-          onLongPress={() => {}}
+          onLongPress={nullFunction}
         />
       );
     }
