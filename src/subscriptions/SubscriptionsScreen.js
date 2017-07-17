@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import type { Auth } from '../types';
+import type { Auth, GlobalState } from '../types';
 import boundActions from '../boundActions';
 import SearchScreen from '../search/SearchScreen';
 import { subscriptionAdd, subscriptionRemove } from '../api';
@@ -61,8 +61,8 @@ class SubscriptionsScreen extends PureComponent {
 }
 
 export default connect(
-  state => ({
-    activeAccount: getAuth(state),
+  (state: GlobalState) => ({
+    auth: getAuth(state),
     streams: state.streams,
     subscriptions: state.subscriptions,
   }),
