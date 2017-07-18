@@ -30,7 +30,6 @@ class SwitchAccountButton extends PureComponent {
 
   switchAccount = () => {
     this.shutdownPUSH();
-    this.context.drawer.close();
     this.props.actions.navigateToAccountPicker();
   };
 
