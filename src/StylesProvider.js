@@ -1,6 +1,7 @@
 /* @flow */
-import { Children, PropTypes, PureComponent } from 'react';
+import { Children, PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 
 import themeCreator from './styles/theme';
 import themeDark from './styles/themeDark';
