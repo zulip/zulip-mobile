@@ -26,15 +26,15 @@ PODS:
     - React/Core
   - React/RCTWebSocket (0.43.4):
     - React/Core
-  - Sentry (3.1.2):
-    - Sentry/Core (= 3.1.2)
-  - Sentry/Core (3.1.2)
-  - Sentry/KSCrash (3.1.2):
-    - KSCrash/Core (~> 1.15.9)
-  - SentryReactNative (0.14.5):
+  - Sentry (3.1.3):
+    - Sentry/Core (= 3.1.3)
+  - Sentry/Core (3.1.3)
+  - Sentry/KSCrash (3.1.3):
+    - KSCrash/Core (~> 1.15.11)
+  - SentryReactNative (0.14.6):
     - React
-    - Sentry (~> 3.1.2)
-    - Sentry/KSCrash (~> 3.1.2)
+    - Sentry (~> 3.1.3)
+    - Sentry/KSCrash (~> 3.1.3)
   - Yoga (0.43.4.React)
 
 DEPENDENCIES:
@@ -57,10 +57,10 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   KSCrash: 7bd106ca4a2247774deeeb587c740ce0207de8f3
   React: 607aa7eb8b0e44b102f95f43fd49dc8aedefa93f
-  Sentry: 5a578891f177e994d89d57effc70adb97bfb29db
-  SentryReactNative: 8f251df76f03c5ee42e702f37a41803709632217
+  Sentry: 851ed834d5b4bacbab9d854aa8642f20e2845e44
+  SentryReactNative: bb53576207e52fe2a0d80fc10f02abd7c4b8e333
   Yoga: 2a70bc5ab41486a272b9fd5b76c482ba9268c5dd
 
-PODFILE CHECKSUM: df40b773c923effce8c6490204372c9ade3b560d
+PODFILE CHECKSUM: bd79ebb54e0a248a4765e8e2b678194206d73ebd
 
 COCOAPODS: 1.2.1
