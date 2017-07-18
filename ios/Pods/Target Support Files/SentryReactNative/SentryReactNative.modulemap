@@ -1,0 +1,6 @@
+framework module SentryReactNative {
+  umbrella header "SentryReactNative-umbrella.h"
+
+  export *
+  module * { export * }
+}

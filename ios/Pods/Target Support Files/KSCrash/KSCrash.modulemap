@@ -1,0 +1,6 @@
+framework module KSCrash {
+  umbrella header "KSCrash-umbrella.h"
+
+  export *
+  module * { export * }
+}

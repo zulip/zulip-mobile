@@ -9,9 +9,23 @@ PODS:
   - KSCrash/Reporting/Filters/Basic (1.15.11):
     - KSCrash/Recording
     - KSCrash/Reporting/Filters/Base
-  - React (0.11.0):
-    - React/Core (= 0.11.0)
-  - React/Core (0.11.0)
+  - React (0.43.4):
+    - React/Core (= 0.43.4)
+  - React/Core (0.43.4):
+    - React/cxxreact
+    - Yoga (= 0.43.4.React)
+  - React/cxxreact (0.43.4):
+    - React/jschelpers
+  - React/jschelpers (0.43.4)
+  - React/RCTImage (0.43.4):
+    - React/Core
+    - React/RCTNetwork
+  - React/RCTNetwork (0.43.4):
+    - React/Core
+  - React/RCTText (0.43.4):
+    - React/Core
+  - React/RCTWebSocket (0.43.4):
+    - React/Core
   - Sentry (3.1.2):
     - Sentry/Core (= 3.1.2)
   - Sentry/Core (3.1.2)
@@ -21,20 +35,32 @@ PODS:
     - React
     - Sentry (~> 3.1.2)
     - Sentry/KSCrash (~> 3.1.2)
+  - Yoga (0.43.4.React)
 
 DEPENDENCIES:
+  - React/Core (from `../node_modules/react-native`)
+  - React/RCTImage (from `../node_modules/react-native`)
+  - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTWebSocket (from `../node_modules/react-native`)
   - SentryReactNative (from `../node_modules/react-native-sentry`)
+  - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
+  React:
+    :path: ../node_modules/react-native
   SentryReactNative:
-    :path: "../node_modules/react-native-sentry"
+    :path: ../node_modules/react-native-sentry
+  Yoga:
+    :path: ../node_modules/react-native/ReactCommon/yoga
 
 SPEC CHECKSUMS:
   KSCrash: 7bd106ca4a2247774deeeb587c740ce0207de8f3
-  React: ab1a2e21deb34965c38328d5ec40cc7d12c6050a
+  React: 607aa7eb8b0e44b102f95f43fd49dc8aedefa93f
   Sentry: 5a578891f177e994d89d57effc70adb97bfb29db
   SentryReactNative: 8f251df76f03c5ee42e702f37a41803709632217
+  Yoga: 2a70bc5ab41486a272b9fd5b76c482ba9268c5dd
 
-PODFILE CHECKSUM: ac31dd65484ec9a741127f662f85e8e683eff185
+PODFILE CHECKSUM: df40b773c923effce8c6490204372c9ade3b560d
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1

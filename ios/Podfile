@@ -10,7 +10,6 @@ target 'ZulipMobile' do
   pod 'Yoga', :path => yoga_path
     pod 'React', :path => react_path, :subspecs => [
       'Core',
-      'BatchedBridge',
       'RCTImage',
       'RCTNetwork',
       'RCTText',
