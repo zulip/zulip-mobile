@@ -16,7 +16,6 @@ import com.facebook.soloader.SoLoader;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.remobile.toast.RCTToastPackage;
-import com.wix.reactnativenotifications.RNNotificationsPackage;
 import com.wix.reactnativenotifications.core.AppLaunchHelper;
 import com.wix.reactnativenotifications.core.AppLifecycleFacade;
 import com.wix.reactnativenotifications.core.JsIOHelper;
@@ -49,7 +48,6 @@ public class MainApplication extends Application implements ReactApplication, IN
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
-                    new RNNotificationsPackage(),
                     new RNSentryPackage(MainApplication.this),
                     new PhotoViewPackage(),
                     new RCTToastPackage(),
