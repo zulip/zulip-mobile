@@ -8,6 +8,7 @@ import muteTopicApi from '../api/muteTopic';
 import unmuteTopicApi from '../api/unmuteTopic';
 import unmuteStreamApi from '../api/unmuteStream';
 import muteStreamApi from '../api/muteStream';
+import patchMessage from '../api/updateMessage';
 import toggleMessageStarredApi from '../api/toggleMessageStarred';
 import showToast from '../utils/showToast';
 
@@ -89,6 +90,10 @@ const editMessage = async ({ message, actions }: MessageAuthAndActions) => {
   actions.startEditMessage(message.id);
 };
 
+const deleteMessage = async ({ auth, message }: AuthAndMessageType) => {
+  patchMessage(auth, '', message.id);
+};
+
 const unmuteTopic = ({ auth, message }: AuthAndMessageType) => {
   unmuteTopicApi(auth, message.display_recipient, message.subject);
 };
@@ -141,6 +146,7 @@ const actionSheetButtons: ButtonType[] = [
   { title: 'Copy to clipboard', onPress: copyToClipboard },
   { title: 'Share', onPress: shareMessage },
   { title: 'Edit Message', onPress: editMessage, onlyIf: isSentBySelfAndNarrowed },
+  { title: 'Delete message', onPress: deleteMessage, onlyIf: isSentBySelfAndNarrowed },
   // If skip then covered in constructActionButtons
   { title: 'Narrow to conversation', onPress: narrowToConversation, onlyIf: skip },
   { title: 'Star Message', onPress: starMessage, onlyIf: skip },
