@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
-import { RawLabel, Touchable, ZulipSwitch } from '../common';
+import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
 import StreamIcon from './StreamIcon';
 
 const styles = StyleSheet.create({
@@ -48,8 +48,9 @@ export default class StreamItem extends PureComponent {
     isSelected?: boolean,
     showSwitch?: boolean,
     color: string,
-    onPress: (name: string) => void,
     isSwitchedOn?: boolean,
+    unreadCount?: number,
+    onPress: (name: string) => void,
     onSwitch?: (name: string, newValue: boolean) => void,
   };
 
@@ -73,6 +74,7 @@ export default class StreamItem extends PureComponent {
       isSelected,
       showSwitch,
       isSwitchedOn,
+      unreadCount,
     } = this.props;
     const iconWrapperCustomStyle = {
       width: iconSize * 1.5,
@@ -94,6 +96,7 @@ export default class StreamItem extends PureComponent {
             {!!description &&
               <RawLabel numberOfLines={1} style={styles.description} text={description} />}
           </View>
+          {unreadCount && <UnreadCount count={unreadCount} inverse={isSelected} />}
           {showSwitch &&
             <ZulipSwitch
               defaultValue={isSwitchedOn}
