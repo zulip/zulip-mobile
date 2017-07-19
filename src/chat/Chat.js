@@ -1,10 +1,16 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  BackAndroid as DeprecatedBackAndroid, // eslint-disable-line
+  BackHandler,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Auth, Narrow, Message } from '../types';
+import type { Auth, Narrow, Message, Action } from '../types';
 import { OfflineNotice } from '../common';
 import boundActions from '../boundActions';
 import {
@@ -33,6 +39,7 @@ class Chat extends PureComponent {
   };
 
   scrollOffset: number = 0;
+  backPressListener: () => ?boolean;
 
   props: {
     auth: Auth,
@@ -43,7 +50,30 @@ class Chat extends PureComponent {
     flags: Object,
     messages: Message[],
     readIds: Object,
+    actions: Action,
   };
+
+  componentWillMount() {
+    const BackAndroid = BackHandler || DeprecatedBackAndroid;
+    if (Platform.OS === 'android') {
+      this.backPressListener = BackAndroid.addEventListener('backPress', this.onBackPressed);
+    }
+  }
+
+  onBackPressed = () => {
+    const { actions, narrow } = this.props;
+    if (narrow.length > 0) {
+      actions.popNarrow();
+      return true; // will not exit, just go back
+    }
+    return false;
+  };
+
+  componentWillUnmount() {
+    if (Platform.OS === 'android') {
+      this.backPressListener.remove();
+    }
+  }
 
   handleMessageListScroll = (e: Object) => {
     const { auth, flags } = this.props;

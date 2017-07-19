@@ -16,6 +16,7 @@ import {
   EVENT_UPDATE_MESSAGE,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
+  POP_NARROW,
 } from '../../actionConstants';
 
 describe('chatReducers', () => {
@@ -44,6 +45,36 @@ describe('chatReducers', () => {
 
       const expectedState = {
         narrow: streamNarrow('some stream'),
+        caughtUpOlder: false,
+        caughtUpNewer: false,
+        fetchingOlder: false,
+        fetchingNewer: false,
+      };
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+      expect(newState).not.toBe(initialState);
+    });
+  });
+
+  describe('POP_NARROW', () => {
+    test('pops the last narrow', () => {
+      const initialState = deepFreeze({
+        narrow: [
+          {
+            operand: 'Denmark',
+            operator: 'stream',
+          },
+        ],
+      });
+
+      const action = deepFreeze({
+        type: POP_NARROW,
+      });
+
+      const expectedState = {
+        narrow: [],
         caughtUpOlder: false,
         caughtUpNewer: false,
         fetchingOlder: false,
