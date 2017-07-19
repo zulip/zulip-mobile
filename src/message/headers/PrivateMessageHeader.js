@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-import type { StyleObj } from '../../types';
+import type { StyleObj, Narrow } from '../../types';
 import { Touchable } from '../../common';
 import { privateNarrow, groupNarrow } from '../../utils/narrow';
 import { IconPrivateChat } from '../../common/Icons';
@@ -32,7 +32,7 @@ export default class PrivateMessageHeader extends PureComponent {
     style: StyleObj,
     messageId: number,
     recipients: Object[],
-    doNarrow: () => void,
+    doNarrow: (Narrow, number) => void,
     onLongPress: () => void,
   };
 

@@ -5,6 +5,7 @@ import { FlatList, StyleSheet } from 'react-native';
 import { Label } from '../common';
 import ConversationUser from './ConversationUser';
 import ConversationGroup from './ConversationGroup';
+import type { User } from '../types';
 
 const styles = StyleSheet.create({
   list: {
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
 
 export default class ConversationList extends PureComponent {
   props: {
-    conversations: string[],
+    conversations: User[],
     onPress: (email: string) => void,
   };
 

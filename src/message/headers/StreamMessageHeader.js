@@ -71,14 +71,12 @@ export default class StreamMessageHeader extends PureComponent {
       onLongPress,
     } = this.props;
     const textColor = foregroundColorFromBackground(color);
-    const iconType = isPrivate ? 'lock' : 'hashtag';
 
     return (
       <View style={[componentStyles.header, style, styles.background]}>
         <Touchable onPress={this.performStreamNarrow} onLongPress={onLongPress}>
           <View style={[componentStyles.header, { backgroundColor: color }]}>
             <StreamIcon
-              name={iconType}
               color={textColor}
               isPrivate={isPrivate}
               isMuted={isMuted}

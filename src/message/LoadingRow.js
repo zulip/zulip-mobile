@@ -21,7 +21,7 @@ export default class TimeRow extends PureComponent {
   render() {
     return (
       <View style={styles.row}>
-        <ActivityIndicator size="small" color={BRAND_COLOR} style={styles.fetching} />
+        <ActivityIndicator size="small" color={BRAND_COLOR} />
         <Text style={styles.text}>LOADING...</Text>
       </View>
     );

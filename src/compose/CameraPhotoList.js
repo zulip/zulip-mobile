@@ -1,6 +1,7 @@
 /* @flow */
 import React from 'react';
-import { ActivityIndicator, Image, ListView, StyleSheet, View, groupByEveryN } from 'react-native';
+import { ActivityIndicator, Image, ListView, StyleSheet, View } from 'react-native';
+import groupByEveryN from 'react-native/Libraries/Utilities/groupByEveryN';
 
 const styles = StyleSheet.create({
   container: {
@@ -41,6 +42,7 @@ export default class CameraPhotoList extends React.Component {
   rendererChanged = () => {
     const ds = new ListView.DataSource({ rowHasChanged: this.handleRowHasChanged });
     this.state.dataSource = ds.cloneWithRows(
+      // $FlowExpectedError
       groupByEveryN(this.state.assets, this.props.imagesPerRow),
     );
   };
@@ -63,7 +65,8 @@ export default class CameraPhotoList extends React.Component {
 
   renderRow = (rowData: Array<Image>, sectionID: string, rowID: string) =>
     <View style={styles.row}>
-      {rowData.map(image => image && <Image source={image.node.image} style={styles.image} />)}
+      {// $FlowExpectedError
+      rowData.map(image => image && <Image source={image.node.image} style={styles.image} />)}
     </View>;
 
   render() {

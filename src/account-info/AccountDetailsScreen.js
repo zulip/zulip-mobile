@@ -1,5 +1,5 @@
 /* @flow */
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import type { Auth, Actions, UserType } from '../types';
@@ -8,7 +8,7 @@ import { getAuth, getAccountDetailsUser } from '../selectors';
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
 
-class AccountDetailsScreen extends PureComponent {
+class AccountDetailsScreen extends Component {
   props: {
     auth: Auth,
     user: UserType,

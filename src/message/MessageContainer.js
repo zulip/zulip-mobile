@@ -35,7 +35,9 @@ export default class MessageContainer extends PureComponent {
     actions.doNarrow(narrow, anchor);
   };
 
-  regularLinkPress = (href: Href) => openLink(getFullUrl(href, this.props.auth.realm));
+  regularLinkPress = (href: Href) => {
+    openLink(getFullUrl(href, this.props.auth.realm));
+  };
 
   handleLinkPress = (href: Href) =>
     (isUrlInAppLink(href, this.props.auth.realm) ? this.inAppLinkPress : this.regularLinkPress)(

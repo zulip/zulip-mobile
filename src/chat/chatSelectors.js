@@ -113,7 +113,7 @@ export const getCurrentTypingUsers = createSelector(
     }
 
     const recipients = activeNarrow[0].operand.split(',').map(email => ({ email }));
-    const normalizedRecipients = normalizeRecipients(recipients, ownEmail);
+    const normalizedRecipients = normalizeRecipients(recipients);
     const currentTyping = typing[normalizedRecipients];
 
     if (!currentTyping) {

@@ -41,8 +41,8 @@ export default class AccountItem extends PureComponent {
     index: number,
     email: string,
     realm: string,
-    onSelect: () => void,
-    onRemove: () => void,
+    onSelect: (index: number) => void,
+    onRemove: (index: number) => void,
     showDoneIcon: boolean,
   };
 
@@ -57,8 +57,8 @@ export default class AccountItem extends PureComponent {
       <Touchable style={styles.wrapper} onPress={this.handleSelect}>
         <View style={[styles.accountItem, showDoneIcon && styles.selectedAccountItem]}>
           <View style={styles.details}>
-            <RawLabel style={[styles.text, styles.selectedText]} text={email} />
-            <RawLabel style={[styles.text, styles.selectedText]} text={realm} />
+            <RawLabel style={[styles.text]} text={email} />
+            <RawLabel style={[styles.text]} text={realm} />
           </View>
           {!showDoneIcon
             ? <IconCancel

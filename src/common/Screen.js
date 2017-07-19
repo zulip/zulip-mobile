@@ -37,7 +37,8 @@ class Screen extends PureComponent {
     const { keyboardAvoiding, title, children } = this.props;
     const WrapperView = keyboardAvoiding && Platform.OS === 'ios' ? KeyboardAvoidingView : View;
     const { styles } = this.context;
-    const backgroundColor = StyleSheet.flatten(styles.background).backgroundColor;
+    const flattenStyle = StyleSheet.flatten(styles.background);
+    const backgroundColor = flattenStyle ? flattenStyle.backgroundColor : undefined;
 
     return (
       <View style={componentStyles.screen}>

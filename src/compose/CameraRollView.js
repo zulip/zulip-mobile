@@ -1,6 +1,7 @@
 /* @flow */
 import React from 'react';
-import { CameraRoll, Image, ListView, groupByEveryN } from 'react-native';
+import { CameraRoll, Image, ListView } from 'react-native';
+import groupByEveryN from 'react-native/Libraries/Utilities/groupByEveryN';
 
 import CameraPhotoList from './CameraPhotoList';
 
@@ -46,6 +47,7 @@ export default class CameraRollView extends React.Component {
   rendererChanged = () => {
     const ds = new ListView.DataSource({ rowHasChanged: this.handleRowHasChanged });
     this.state.dataSource = ds.cloneWithRows(
+      // $FlowExpectedError
       groupByEveryN(this.state.assets, this.props.imagesPerRow),
     );
   };
@@ -102,6 +104,7 @@ export default class CameraRollView extends React.Component {
       newState.lastCursor = data.page_info.end_cursor;
       newState.assets = this.state.assets.concat(assets);
       newState.dataSource = this.state.dataSource.cloneWithRows(
+        // $FlowExpectedError
         groupByEveryN(newState.assets, this.props.imagesPerRow),
       );
     }

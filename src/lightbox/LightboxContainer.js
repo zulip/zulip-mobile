@@ -57,7 +57,7 @@ class LightboxContainer extends PureComponent {
     actions: Actions,
     src: Object,
     message: Message,
-    showActionSheetWithOptions: () => void,
+    showActionSheetWithOptions: (Object, (number) => void) => void,
   };
 
   state = {

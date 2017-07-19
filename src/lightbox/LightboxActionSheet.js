@@ -20,6 +20,16 @@ type ExecuteActionSheetActionType = {
   auth: Auth,
 };
 
+type ButtonProps = {
+  auth?: Auth,
+  url: string,
+};
+
+type ButtonType = {
+  title: string,
+  onPress: (props: ButtonProps) => void | boolean,
+};
+
 const downloadImage = ({ url, auth }: DownloadImageType) => {
   download(url, auth).then(() => Toast('Download complete.'));
 };
@@ -28,7 +38,7 @@ const shareLink = ({ url }: ShareLinkType) => {
   share(url);
 };
 
-const actionSheetButtons = [
+const actionSheetButtons: ButtonType[] = [
   { title: 'Download file', onPress: downloadImage },
   { title: 'Share', onPress: shareLink },
   { title: 'Cancel', onPress: () => false },
