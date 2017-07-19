@@ -11,7 +11,7 @@ export default class HtmlTagA extends PureComponent {
     href: string,
     actions: Actions,
     cascadingStyle: StyleObj,
-    onPress: () => void,
+    onPress: (href: string) => void,
   };
 
   render() {

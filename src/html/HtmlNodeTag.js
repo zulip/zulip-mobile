@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Auth, Message, Actions, StyleObj } from '../types';
+import type { Auth, Message, Actions, StyleObj, SupportedHtmlClasses } from '../types';
 import styles from './HtmlStyles';
 import cascadingStyles from './cascadingStylesView';
 import cascadingStylesText from './cascadingStylesText';
@@ -42,14 +42,15 @@ const specialTags = {
   td: HtmlTagDiv,
 };
 
-const stylesFromClassNames = (classNames = '', styleObj) =>
+// TODO: all classes type :}
+const stylesFromClassNames = (classNames: SupportedHtmlClasses = '', styleObj) =>
   classNames.split(' ').map(className => styleObj[className]);
 
 export default class HtmlNodeTag extends PureComponent {
   props: {
     auth: Auth,
     attribs: Object,
-    name: string,
+    name: SupportedHtmlClasses,
     cascadingStyle: StyleObj,
     cascadingTextStyle: StyleObj,
     childrenNodes: Object[],

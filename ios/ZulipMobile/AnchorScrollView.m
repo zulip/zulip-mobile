@@ -17,7 +17,6 @@
 
 @interface RCTScrollView()
 - (void) reactBridgeDidFinishTransaction;
-- (void) dockClosestSectionHeader;
 - (CGPoint)calculateOffsetForContentSize:(CGSize)newContentSize;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView;
 - (void)sendScrollEventWithName:(NSString *)eventName
@@ -49,7 +48,6 @@ if ([scrollViewListener respondsToSelector:_cmd]) { \
 - (void) reactBridgeDidFinishTransaction
 {
   [super reactBridgeDidFinishTransaction];
-  [super.scrollView performSelector:@selector(dockClosestSectionHeader)];
   [self findAnchor:false];
 }
 
@@ -136,7 +134,6 @@ if ([scrollViewListener respondsToSelector:_cmd]) { \
   NSTimeInterval lastScrollDispatchTime = [[super valueForKey:@"_lastScrollDispatchTime"] doubleValue];
 
 
-  [super.scrollView performSelector:@selector(dockClosestSectionHeader)];
   [super updateClippedSubviews];
 
   NSTimeInterval now = CACurrentMediaTime();

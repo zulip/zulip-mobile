@@ -1,4 +1,4 @@
-/* @flow */
+/* TODO flow */
 import React, { PureComponent } from 'react';
 import { DrawerNavigator } from 'react-navigation';
 

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { StyleObj } from '../types';
+import type { StyleObj, UserStatus } from '../types';
 
 const styles = StyleSheet.create({
   common: {
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 
 export default class UserStatusIndicator extends PureComponent {
   props: {
-    status: string,
+    status: UserStatus,
     style: StyleObj,
   };
 

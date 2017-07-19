@@ -27,7 +27,7 @@ export default class LanguagePickerItem extends PureComponent {
     flag: string,
     name: string,
     selected: boolean,
-    onValueChange: () => void,
+    onValueChange: (locale: string) => void,
   };
 
   render() {
@@ -38,7 +38,7 @@ export default class LanguagePickerItem extends PureComponent {
         <View style={styles.row}>
           <RawLabel style={styles.flag} text={flag} />
           <RawLabel style={styles.language} text={name} />
-          {selected && <IconDone style={styles.icon} size={24} color={BRAND_COLOR} />}
+          {selected && <IconDone size={24} color={BRAND_COLOR} />}
         </View>
       </Touchable>
     );

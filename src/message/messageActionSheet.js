@@ -136,6 +136,12 @@ type ButtonType = {
   onlyIf?: (props: AuthMessageAndNarrow) => boolean,
 };
 
+type HeaderButtonType = {
+  title: string,
+  onPress: (props: ButtonProps) => void | boolean | Promise<any>,
+  onlyIf?: (props: Message) => boolean,
+};
+
 const actionSheetButtons: ButtonType[] = [
   { title: 'Reply', onPress: reply },
   { title: 'Copy to clipboard', onPress: copyToClipboard },
@@ -148,7 +154,7 @@ const actionSheetButtons: ButtonType[] = [
   { title: 'Cancel', onPress: skip, onlyIf: skip },
 ];
 
-const actionHeaderSheetButtons: ButtonType[] = [
+const actionHeaderSheetButtons: HeaderButtonType[] = [
   { title: 'Unmute topic', onPress: unmuteTopic, onlyIf: skip },
   { title: 'Mute topic', onPress: muteTopic, onlyIf: skip },
   { title: 'Mute stream', onPress: muteStream, onlyIf: skip },

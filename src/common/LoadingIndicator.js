@@ -44,7 +44,7 @@ export default class LoadingIndicator extends PureComponent {
     caughtUp?: boolean,
   };
 
-  rotation: Animated;
+  rotation: any;
 
   constructor() {
     super();

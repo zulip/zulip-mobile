@@ -2,6 +2,7 @@
 /* eslint-disable */
 import React, { PureComponent } from 'react';
 import type { Children } from 'react';
+import { Platform } from 'react-native';
 
 import type { StyleObj } from '../types';
 import config from '../config';
@@ -103,7 +104,7 @@ export default class InfiniteScrollView extends PureComponent {
         onLayout={this._onScrollViewLayout}
         onScroll={this._onScroll}
         scrollEventThrottle={config.scrollCallbackThrottle}
-        stickyHeaderIndices={this.props.stickyHeaderIndices}
+        stickyHeaderIndices={Platform.OS === 'ios' ? this.props.stickyHeaderIndices : undefined}
         autoScrollToBottom={this.props.autoScrollToBottom}
         removeClippedSubviews>
         {this.props.children}

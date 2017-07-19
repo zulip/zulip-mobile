@@ -29,6 +29,47 @@ export type Message = {
   type: 'stream' | 'private',
 };
 
+type CascadingStylesClasses =
+  | 'blockquote'
+  | 'p'
+  | 'span'
+  | 'li'
+  | 'math'
+  | 'mrow'
+  | 'msup'
+  | 'mfrac';
+type CascadingStylesTextClasses = 'a' | 'b' | 'strong' | 'th' | 'i' | 'em' | 'del' | 'code' | 'pre';
+type StylesClasses =
+  | 'ul'
+  | 'ol'
+  | 'li'
+  | 'div'
+  | 'p'
+  | 'br'
+  | 'span'
+  | 'bullet'
+  | 'a'
+  | 'b'
+  | 'i'
+  | 'user-mention'
+  | 'user-mention-me'
+  | 'highlight'
+  | 'code'
+  | 'pre'
+  | 'table'
+  | 'thread'
+  | 'tbody'
+  | 'tr'
+  | 'th'
+  | 'td'
+  | 'blockquote'
+  | 'emoji'
+  | 'common';
+export type SupportedHtmlClasses =
+  | CascadingStylesClasses
+  | CascadingStylesTextClasses
+  | StylesClasses;
+
 export type UserStatus = 'active' | 'inactive' | 'offline';
 
 export type User = {

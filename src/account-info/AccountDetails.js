@@ -9,6 +9,7 @@ import UserStatusIndicator from '../common/UserStatusIndicator';
 import mediumAvatarUrl from '../utils/mediumAvatar';
 import LandscapeContent from './AccountDetailsContent.landscape';
 import PortraitContent from './AccountDetailsContent.portrait';
+import type { UserStatus, Auth, Actions } from '../types';
 
 const ORIENTATION_PORTRAIT = 'PORTRAIT';
 const ORIENTATION_LANDSCAPE = 'LANDSCAPE';
@@ -39,6 +40,16 @@ const styles = StyleSheet.create({
 export default class AccountDetails extends PureComponent {
   state = {
     layoutStyle: ORIENTATION_PORTRAIT,
+  };
+
+  props: {
+    email: string,
+    status: UserStatus,
+    avatarUrl: string,
+    fullName: string,
+    auth: Auth,
+    actions: Actions,
+    orientation: string,
   };
 
   handleChatPress = () => {

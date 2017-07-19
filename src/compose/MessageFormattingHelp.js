@@ -33,7 +33,7 @@ export default class MessageFormattingHelp extends PureComponent {
             <Text style={[styles.th, styles.td]}>You get</Text>
           </View>
         </View>
-        <View style={styles.tbody}>
+        <View>
           <View style={styles.tr}>
             <Text style={styles.td}>**bold**</Text>
             <Text style={[styles.td, styles.bold]}>bold</Text>

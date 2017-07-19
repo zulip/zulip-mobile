@@ -41,13 +41,14 @@ class MainNavBar extends PureComponent {
       editMessage,
     } = this.props;
     const leftPress = editMessage ? actions.cancelEditMessage : onPressStreams;
+    const flattenStyle = StyleSheet.flatten(styles.navBar);
     const backgroundColor =
       isStreamNarrow(narrow) || isTopicNarrow(narrow)
         ? (subscriptions.find(sub => narrow[0].operand === sub.name) || NULL_SUBSCRIPTION).color
-        : StyleSheet.flatten(styles.navBar).backgroundColor;
+        : flattenStyle ? flattenStyle.backgroundColor : undefined;
 
     const textColor =
-      isStreamNarrow(narrow) || isTopicNarrow(narrow)
+      backgroundColor && (isStreamNarrow(narrow) || isTopicNarrow(narrow))
         ? foregroundColorFromBackground(backgroundColor)
         : BRAND_COLOR;
 
