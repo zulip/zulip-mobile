@@ -105,7 +105,7 @@ class LightboxContainer extends PureComponent {
 
     const { actions, src, message, auth } = this.props;
     const footerMessage =
-      message.type === 'stream' ? `Shared in #${message.stream}` : 'Shared with you';
+      message.type === 'stream' ? `Shared in #${message.display_recipient}` : 'Shared with you';
 
     return (
       <View style={styles.container}>
