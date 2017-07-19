@@ -48,7 +48,8 @@ export default class UserList extends PureComponent {
             onPress={onNarrow}
             realm={realm}
           />}
-        renderSectionHeader={(xx, x) => <RawLabel style={styles.groupHeader} text={x} />}
+        renderSectionHeader={({ section }) =>
+          <RawLabel style={styles.groupHeader} text={section.key} />}
       />
     );
   }
