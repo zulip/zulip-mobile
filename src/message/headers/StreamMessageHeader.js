@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import type { Actions, StyleObj } from '../../types';
+import type { Actions } from '../../types';
 import { Touchable } from '../../common';
 import TopicMessageHeader from './TopicMessageHeader';
 import { streamNarrow } from '../../utils/narrow';
@@ -37,7 +37,6 @@ const componentStyles = StyleSheet.create({
 
 export default class StreamMessageHeader extends PureComponent {
   props: {
-    style: StyleObj,
     actions: Actions,
     messageId: number,
     stream: string,
@@ -67,13 +66,12 @@ export default class StreamMessageHeader extends PureComponent {
       topic,
       color,
       messageId,
-      style,
       onLongPress,
     } = this.props;
     const textColor = foregroundColorFromBackground(color);
 
     return (
-      <View style={[componentStyles.header, style, styles.background]}>
+      <View style={[componentStyles.header, styles.background]}>
         <Touchable onPress={this.performStreamNarrow} onLongPress={onLongPress}>
           <View style={[componentStyles.header, { backgroundColor: color }]}>
             <StreamIcon

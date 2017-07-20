@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import type { Actions, StyleObj } from '../../types';
+import type { Actions } from '../../types';
 import { Touchable } from '../../common';
 import { topicNarrow } from '../../utils/narrow';
 
@@ -29,7 +29,6 @@ export default class TopicMessageHeader extends PureComponent {
 
   props: {
     actions: Actions,
-    style?: StyleObj,
     messageId: number,
     stream: string,
     topic: string,
@@ -44,10 +43,10 @@ export default class TopicMessageHeader extends PureComponent {
 
   render() {
     const { styles } = this.context;
-    const { topic, style, onLongPress } = this.props;
+    const { topic, onLongPress } = this.props;
 
     return (
-      <View style={[componentStyles.wrapper, styles.background, style]}>
+      <View style={[componentStyles.wrapper, styles.background]}>
         <Touchable
           style={componentStyles.touch}
           onPress={this.performTopicNarrow}
