@@ -8,6 +8,7 @@ import type { Actions, Narrow, GlobalState, SubscriptionsState } from '../types'
 import { getActiveNarrow, getUnreadByStream } from '../selectors';
 import StreamList from './StreamList';
 import { isStreamNarrow, streamNarrow } from '../utils/narrow';
+import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +47,7 @@ class SubscriptionsContainer extends PureComponent {
 export default connect(
   (state: GlobalState) => ({
     narrow: getActiveNarrow(state),
-    subscriptions: state.subscriptions,
+    subscriptions: getSubscribedStreams(state),
     unreadByStream: getUnreadByStream(state),
   }),
   boundActions,

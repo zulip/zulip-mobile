@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import type { GlobalState, SubscriptionsState } from '../types';
 import { Popup } from '../common';
+import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
 import StreamItem from '../streams/StreamItem';
 
 class StreamAutocomplete extends PureComponent {
@@ -45,5 +46,5 @@ class StreamAutocomplete extends PureComponent {
 }
 
 export default connect((state: GlobalState) => ({
-  subscriptions: state.subscriptions,
+  subscriptions: getSubscribedStreams(state),
 }))(StreamAutocomplete);
