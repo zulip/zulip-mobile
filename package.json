@@ -22,7 +22,8 @@
     "test:unit": "jest",
     "test:e2e": "detox build; jest -t '__e2e__tests__/basic.js'",
     "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "test": "npm run test:lint && npm run test:coveralls && npm run test:flow"
+    "test:prettier": "prettier-check  --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow `find src -name \"*.js\"`",
+    "test": "npm run test:lint && npm run test:prettier && npm run test:coveralls && npm run test:flow"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "0.3.1",
@@ -90,6 +91,7 @@
     "jest-cli": "^20.0.0",
     "jest-react-native": "^18.0.0",
     "prettier": "^1.5.3",
+    "prettier-check": "^1.0.0",
     "react-native-cli": "^2.0.1"
   },
   "jest": {
