@@ -29,6 +29,10 @@ export default class MessageHeader extends PureComponent {
     mute: MuteState,
   };
 
+  static contextTypes = {
+    intl: React.PropTypes.object.isRequired,
+  };
+
   showActionSheet = ({ options, cancelButtonIndex, callback }: ShowActionSheetTypes) => {
     this.props.showActionSheetWithOptions(
       {
@@ -41,7 +45,8 @@ export default class MessageHeader extends PureComponent {
 
   handleLongPress = () => {
     const { actions, subscriptions, mute, auth, message } = this.props;
-    const options = constructHeaderActionButtons({ message, subscriptions, mute });
+    const getString = value => this.context.intl.formatMessage({ id: value });
+    const options = constructHeaderActionButtons({ message, subscriptions, mute, getString });
     const callback = buttonIndex => {
       executeActionSheetAction({
         actions,
@@ -50,6 +55,7 @@ export default class MessageHeader extends PureComponent {
         header: true,
         auth,
         subscriptions,
+        getString,
       });
     };
     this.showActionSheet({ options, cancelButtonIndex: options.length - 1, callback });
