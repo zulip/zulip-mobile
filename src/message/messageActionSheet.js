@@ -146,11 +146,11 @@ const actionSheetButtons: ButtonType[] = [
   { title: 'Reply', onPress: reply },
   { title: 'Copy to clipboard', onPress: copyToClipboard },
   { title: 'Share', onPress: shareMessage },
-  { title: 'Edit Message', onPress: editMessage, onlyIf: isSentBySelfAndNarrowed },
+  { title: 'Edit message', onPress: editMessage, onlyIf: isSentBySelfAndNarrowed },
   // If skip then covered in constructActionButtons
   { title: 'Narrow to conversation', onPress: narrowToConversation, onlyIf: skip },
-  { title: 'Star Message', onPress: starMessage, onlyIf: skip },
-  { title: 'Unstar Message', onPress: unstarMessage, onlyIf: skip },
+  { title: 'Star message', onPress: starMessage, onlyIf: skip },
+  { title: 'Unstar message', onPress: unstarMessage, onlyIf: skip },
   { title: 'Cancel', onPress: skip, onlyIf: skip },
 ];
 
