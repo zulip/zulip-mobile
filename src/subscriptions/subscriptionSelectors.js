@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import { isStreamOrTopicNarrow } from '../utils/narrow';
-import { getActiveNarrow, getSubscriptions } from '../baseSelectors';
+import { getActiveNarrow, getSubscriptions, getStreams } from '../baseSelectors';
 
 export const getIsActiveStreamSubscribed = createSelector(
   getActiveNarrow,
@@ -14,4 +14,14 @@ export const getIsActiveStreamSubscribed = createSelector(
 
     return subscriptions.find(sub => activeNarrow[0].operand === sub.name) !== undefined;
   },
+);
+
+export const getSubscribedStreams = createSelector(
+  getStreams,
+  getSubscriptions,
+  (allStreams, allSubscriptions) =>
+    allSubscriptions.map(subscription => ({
+      ...subscription,
+      ...allStreams.find(stream => stream.stream_id === subscription.stream_id),
+    })),
 );
