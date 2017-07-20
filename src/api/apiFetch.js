@@ -64,6 +64,8 @@ export const apiGet = async (
   route: string,
   resFunc: ResponseExtractionFunc,
   params: Object = {},
+  isSilent: boolean = false,
+  shouldTimeout: boolean = true,
 ) =>
   apiCall(
     auth,
@@ -79,6 +81,8 @@ export const apiPost = async (
   route: string,
   resFunc: ResponseExtractionFunc,
   params: Object = {},
+  isSilent: boolean = false,
+  shouldTimeout: boolean = true,
 ) =>
   apiCall(
     auth,

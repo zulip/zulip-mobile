@@ -31,7 +31,7 @@ export default class UserList extends PureComponent {
     const { realm, filter, users, onNarrow } = this.props;
     const shownUsers = sortUserList(filterUserList(users, filter));
     const groupedUsers = groupUsersByInitials(shownUsers);
-    const sections = Object.entries(groupedUsers).map(x => ({ key: x[0], data: x[1] }));
+    const sections = Object.keys(groupedUsers).map(key => ({ key, data: groupedUsers[key] }));
 
     return (
       <SectionList

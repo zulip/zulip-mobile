@@ -1498,9 +1498,9 @@ detox-server@^2.0.4:
     npmlog "^4.0.2"
     ws "^1.1.0"
 
-detox@^5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-5.4.0.tgz#2d5179e2c02a11bea83b7c05c095858cfbbf6e1b"
+detox@^5.5.1:
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-5.5.1.tgz#7b6be786400cbcd62e46a795f3bf9ca0cc9de77a"
   dependencies:
     child-process-promise "^2.2.0"
     commander "^2.9.0"
