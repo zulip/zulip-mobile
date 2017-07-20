@@ -1,7 +1,6 @@
 /* @flow */
 import { Children, PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 
 import themeCreator from './styles/theme';
 import themeDark from './styles/themeDark';
@@ -14,13 +13,14 @@ const themeNameToObject = {
 };
 
 export default class StyleProvider extends PureComponent {
-  static propTypes = {
-    theme: PropTypes.string.isRequired, // eslint-disable-line
+  props: {
+    theme: string,
+    children?: any,
   };
 
   static childContextTypes = {
-    theme: PropTypes.string.isRequired,
-    styles: PropTypes.object.isRequired,
+    theme: () => {},
+    styles: () => {},
   };
 
   static defaultProps = {
