@@ -1,12 +1,13 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { UnreadState, GlobalState } from '../types';
+import type { GlobalState } from '../types';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 
-export const getUnreadStreams = (state: GlobalState): UnreadState => state.unread.streams;
-export const getUnreadPms = (state: GlobalState): UnreadState => state.unread.pms;
-export const getUnreadHuddles = (state: GlobalState): UnreadState => state.unread.huddles;
+export const getUnreadStreams = (state: GlobalState): Object[] => state.unread.streams;
+export const getUnreadPms = (state: GlobalState): Object[] => state.unread.pms;
+export const getUnreadHuddles = (state: GlobalState): Object[] => state.unread.huddles;
+export const getUnreadMentions = (state: GlobalState): number[] => state.unread.mentions;
 
 export const getUnreadByStream = createSelector(getUnreadStreams, unreadStreams =>
   unreadStreams.reduce((totals, stream) => {
@@ -42,12 +43,18 @@ export const getUnreadHuddlesTotal = createSelector(getUnreadHuddles, unreadStre
   unreadStreams.reduce((total, stream) => total + stream.unread_message_ids.length, 0),
 );
 
+export const getUnreadMentionsTotal = createSelector(
+  getUnreadMentions,
+  unreadMentions => unreadMentions.length,
+);
+
 export const getUnreadTotal = createSelector(
   getUnreadStreamTotal,
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
-  (unreadStreamTotal, unreadPmsTotal, unreadHuddlesTotal) =>
-    unreadStreamTotal + unreadPmsTotal + unreadHuddlesTotal,
+  getUnreadMentionsTotal,
+  (unreadStreamTotal, unreadPmsTotal, unreadHuddlesTotal, mentionsTotal) =>
+    unreadStreamTotal + unreadPmsTotal + unreadHuddlesTotal + mentionsTotal,
 );
 
 export const getUnreadStreamsAndTopics = createSelector(
