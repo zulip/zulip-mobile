@@ -7,6 +7,7 @@ import {
   getUnreadPmsTotal,
   getUnreadByHuddles,
   getUnreadHuddlesTotal,
+  getUnreadMentionsTotal,
   getUnreadTotal,
   getUnreadStreamsAndTopics,
 } from '../unreadSelectors';
@@ -50,6 +51,8 @@ const unreadHuddlesData = [
     unread_message_ids: [3, 4, 5],
   },
 ];
+
+const unreadMentionsData = [1, 2, 3];
 
 describe('getUnreadByStream', () => {
   test('when no items in streams key, the result is an empty object', () => {
@@ -207,6 +210,20 @@ describe('getUnreadHuddlesTotal', () => {
   });
 });
 
+describe('getUnreadMentionsTotal', () => {
+  test('unread mentions count is equal to the unread array length', () => {
+    const state = deepFreeze({
+      unread: {
+        mentions: [1, 2, 3],
+      },
+    });
+
+    const unreadCount = getUnreadMentionsTotal(state);
+
+    expect(unreadCount).toEqual(3);
+  });
+});
+
 describe('getUnreadTotal', () => {
   test('if no key has any items then no unread messages', () => {
     const state = deepFreeze({
@@ -214,6 +231,7 @@ describe('getUnreadTotal', () => {
         streams: [],
         pms: [],
         huddles: [],
+        mentions: [],
       },
     });
 
@@ -228,12 +246,13 @@ describe('getUnreadTotal', () => {
         streams: unreadStreamData,
         pms: unreadPmsData,
         huddles: unreadHuddlesData,
+        mentions: unreadMentionsData,
       },
     });
 
     const unreadCount = getUnreadTotal(state);
 
-    expect(unreadCount).toEqual(17);
+    expect(unreadCount).toEqual(20);
   });
 });
 

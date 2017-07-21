@@ -307,6 +307,7 @@ export type UnreadState = {
   streams: Object[],
   huddles: Object[],
   pms: Object[],
+  mentions: number[],
 };
 
 export type UsersState = [];
