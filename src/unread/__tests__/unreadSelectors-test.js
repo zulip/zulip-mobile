@@ -8,6 +8,7 @@ import {
   getUnreadByHuddles,
   getUnreadHuddlesTotal,
   getUnreadTotal,
+  getUnreadStreamsAndTopics,
 } from '../unreadSelectors';
 
 const unreadStreamData = [
@@ -221,7 +222,7 @@ describe('getUnreadTotal', () => {
     expect(unreadCount).toEqual(0);
   });
 
-  test('TODO', () => {
+  test('calculates total unread of streams + pms + huddles', () => {
     const state = deepFreeze({
       unread: {
         streams: unreadStreamData,
@@ -233,5 +234,58 @@ describe('getUnreadTotal', () => {
     const unreadCount = getUnreadTotal(state);
 
     expect(unreadCount).toEqual(17);
+  });
+});
+
+describe('getUnreadStreamsAndTopics', () => {
+  test('if no key has any items then no unread messages', () => {
+    const state = deepFreeze({
+      streams: [],
+      unread: {
+        streams: [],
+      },
+    });
+
+    const unreadCount = getUnreadStreamsAndTopics(state);
+
+    expect(unreadCount).toEqual([]);
+  });
+
+  test('group data by stream and topics inside, count unreads', () => {
+    const state = deepFreeze({
+      streams: [
+        {
+          stream_id: 0,
+          name: 'stream 0',
+        },
+        {
+          stream_id: 2,
+          name: 'stream 2',
+        },
+      ],
+      unread: {
+        streams: unreadStreamData,
+      },
+    });
+
+    const unreadCount = getUnreadStreamsAndTopics(state);
+
+    expect(unreadCount).toEqual([
+      {
+        key: 'stream 0',
+        streamName: 'stream 0',
+        unread: 5,
+        data: [
+          { key: 'some topic', topic: 'some topic', unread: 3 },
+          { key: 'another topic in same stream', topic: 'another topic in same stream', unread: 2 },
+        ],
+      },
+      {
+        key: 'stream 2',
+        streamName: 'stream 2',
+        unread: 2,
+        data: [{ key: 'some other topic', topic: 'some other topic', unread: 2 }],
+      },
+    ]);
   });
 });

@@ -1,7 +1,35 @@
 import deepFreeze from 'deep-freeze';
 
-import { getIsActiveStreamSubscribed, getSubscribedStreams } from '../subscriptionSelectors';
+import {
+  getStreamsById,
+  getIsActiveStreamSubscribed,
+  getSubscribedStreams,
+} from '../subscriptionSelectors';
 import { homeNarrow, streamNarrow, topicNarrow } from '../../utils/narrow';
+
+describe('getStreamsById', () => {
+  test('returns empty object for an empty input', () => {
+    const state = deepFreeze({
+      streams: [],
+    });
+    expect(getStreamsById(state)).toEqual({});
+  });
+
+  test('returns an object with stream id as keys', () => {
+    const state = deepFreeze({
+      streams: [{ stream_id: 1 }, { stream_id: 2 }],
+    });
+
+    const expectedState = {
+      '1': { stream_id: 1 },
+      '2': { stream_id: 2 },
+    };
+
+    const streamsById = getStreamsById(state);
+
+    expect(streamsById).toEqual(expectedState);
+  });
+});
 
 describe('getIsActiveStreamSubscribed', () => {
   test('return true for narrows other than stream and topic', () => {
