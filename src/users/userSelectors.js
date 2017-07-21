@@ -37,10 +37,11 @@ export const getAllActiveUsersWithStatus = createSelector(
   getAllActiveUsers,
   getPresence,
   (allUsers, presence) =>
-    allUsers.map(user => ({
-      ...user,
-      status: (presence.find(x => x.email === user.email) || NULL_PRESENCE).status,
-    })),
+    allUsers.reduce((users, user) => {
+      user.status = (presence.find(x => x.email === user.email) || NULL_PRESENCE).status;
+      users.push(user);
+      return users;
+    }, []),
 );
 
 export const getUserById = (users: any[], userId: number) =>
@@ -50,7 +51,7 @@ export const groupUsersByInitials = (users: any[]): Object =>
   users.reduce((accounts, x) => {
     const firstLetter = x.fullName[0].toUpperCase();
     if (!accounts[firstLetter]) {
-      accounts[firstLetter] = []; // eslint-disable-line
+			accounts[firstLetter] = []; // eslint-disable-line
     }
     accounts[firstLetter].push(x);
     return accounts;
