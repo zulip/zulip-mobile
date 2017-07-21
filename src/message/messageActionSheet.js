@@ -8,7 +8,7 @@ import muteTopicApi from '../api/muteTopic';
 import unmuteTopicApi from '../api/unmuteTopic';
 import unmuteStreamApi from '../api/unmuteStream';
 import muteStreamApi from '../api/muteStream';
-import patchMessage from '../api/updateMessage';
+import deleteMessageApi from '../api/deleteMessage';
 import toggleMessageStarredApi from '../api/toggleMessageStarred';
 import showToast from '../utils/showToast';
 
@@ -91,7 +91,7 @@ const editMessage = async ({ message, actions }: MessageAuthAndActions) => {
 };
 
 const deleteMessage = async ({ auth, message }: AuthAndMessageType) => {
-  patchMessage(auth, '', message.id);
+  deleteMessageApi(auth, message.id);
 };
 
 const unmuteTopic = ({ auth, message }: AuthAndMessageType) => {
