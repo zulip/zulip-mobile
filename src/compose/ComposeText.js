@@ -8,7 +8,7 @@ import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/
 import { registerUserInputActivity } from '../utils/activity';
 import sendMessage from '../api/sendMessage';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
-import patchMessage from '../api/updateMessage';
+import updateMessage from '../api/updateMessage';
 import SubmitButton from './SubmitButton';
 import { showErrorAlert } from '../common/errorAlert';
 
@@ -64,7 +64,7 @@ export default class ComposeText extends PureComponent {
     const { auth, editMessage, cancelEditMessage } = this.props;
     if (editMessage.content !== this.props.text) {
       try {
-        patchMessage(auth, this.props.text, editMessage.id);
+        updateMessage(auth, this.props.text, editMessage.id);
       } catch (err) {
         showErrorAlert(err.message, 'Failed to edit message');
       }
