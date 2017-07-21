@@ -4,6 +4,13 @@ import { createSelector } from 'reselect';
 import { isStreamOrTopicNarrow } from '../utils/narrow';
 import { getActiveNarrow, getSubscriptions, getStreams } from '../baseSelectors';
 
+export const getStreamsById = createSelector(getStreams, streams =>
+  streams.reduce((streamsById, stream) => {
+    streamsById[stream.stream_id] = stream;
+    return streamsById;
+  }, {}),
+);
+
 export const getIsActiveStreamSubscribed = createSelector(
   getActiveNarrow,
   getSubscriptions,

@@ -1,6 +1,8 @@
 /* @flow */
 import { createSelector } from 'reselect';
+
 import type { UnreadState, GlobalState } from '../types';
+import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 
 export const getUnreadStreams = (state: GlobalState): UnreadState => state.unread.streams;
 export const getUnreadPms = (state: GlobalState): UnreadState => state.unread.pms;
@@ -46,4 +48,34 @@ export const getUnreadTotal = createSelector(
   getUnreadHuddlesTotal,
   (unreadStreamTotal, unreadPmsTotal, unreadHuddlesTotal) =>
     unreadStreamTotal + unreadPmsTotal + unreadHuddlesTotal,
+);
+
+export const getUnreadStreamsAndTopics = createSelector(
+  getStreamsById,
+  getUnreadStreams,
+  (streamsById, unreadStreams) =>
+    Object.values(
+      unreadStreams.reduce((totals, stream) => {
+        const streamName = streamsById[stream.stream_id].name;
+
+        if (!totals[stream.stream_id]) {
+          totals[stream.stream_id] = {
+            key: streamName,
+            streamName,
+            color: stream.color,
+            unread: 0,
+            data: [],
+          };
+        }
+
+        totals[stream.stream_id].unread += stream.unread_message_ids.length;
+        totals[stream.stream_id].data.push({
+          key: stream.topic,
+          topic: stream.topic,
+          unread: stream.unread_message_ids.length,
+        });
+
+        return totals;
+      }, {}),
+    ),
 );

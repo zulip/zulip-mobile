@@ -6,8 +6,8 @@ import type { StyleObj } from '../types';
 
 type Props = {
   color: string,
-  isPrivate: boolean,
-  isMuted: boolean,
+  isPrivate?: boolean,
+  isMuted?: boolean,
   size: number,
   style?: StyleObj,
 };
