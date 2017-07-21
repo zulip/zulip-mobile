@@ -10,6 +10,9 @@
 
 Run iOS:
 
+* `react-native run-ios` - runs in an iOS simulator in the default supported device
+(currently iPhone 6)
+
 * `npm run ios-min` - runs in an iOS simulator in the minimally supported device
 (currently iPhone 5)
 
