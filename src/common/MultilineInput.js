@@ -36,7 +36,7 @@ export default class MultilineInput extends PureComponent {
     contentHeight: MIN_HEIGHT,
   };
 
-  handleOnChange = (event: Object) => {
+  handleOnContentSizeChange = (event: Object) => {
     this.setState({ contentHeight: event.nativeEvent.contentSize.height });
   };
 
@@ -55,7 +55,7 @@ export default class MultilineInput extends PureComponent {
           multiline
           underlineColorAndroid="transparent"
           height={height}
-          onChange={this.handleOnChange}
+          onContentSizeChange={this.handleOnContentSizeChange}
           onTextChange={onChange}
           placeholder={placeholder}
         />
