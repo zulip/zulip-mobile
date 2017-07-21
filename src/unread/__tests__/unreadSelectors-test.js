@@ -251,7 +251,7 @@ describe('getUnreadStreamsAndTopics', () => {
     expect(unreadCount).toEqual([]);
   });
 
-  test('group data by stream and topics inside, count unreads', () => {
+  test('group data by stream and topics inside, count unread', () => {
     const state = deepFreeze({
       streams: [
         {

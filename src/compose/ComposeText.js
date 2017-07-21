@@ -104,7 +104,7 @@ export default class ComposeText extends PureComponent {
     this.props.handleChangeText('');
   };
 
-  handleOnChange = (event: Object) =>
+  handleOnContentChange = (event: Object) =>
     this.setState({ contentHeight: event.nativeEvent.contentSize.height });
 
   handleChangeText = (text: string) => {
@@ -132,7 +132,7 @@ export default class ComposeText extends PureComponent {
             multiline
             underlineColorAndroid="transparent"
             height={contentHeight}
-            onChange={this.handleOnChange}
+            onContentSizeChange={this.handleOnContentChange}
             onTextChange={this.handleChangeText}
             placeholder={placeholder}
           />
