@@ -1,5 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -8,13 +9,23 @@ import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
 import TextAvatar from './TextAvatar';
 import { getFullUrl } from '../utils/url';
+import UserStatusIndicator from '../common/UserStatusIndicator';
+import { UserStatus } from '../types';
+
+const componentStyles = StyleSheet.create({
+  status: {
+    bottom: 0,
+    right: 0,
+    position: 'absolute',
+  },
+});
 
 class Avatar extends PureComponent {
   props: {
     avatarUrl?: string,
     name: string,
     size: number,
-    status?: string,
+    status?: UserStatus,
     realm: string,
     shape: 'square' | 'rounded' | 'circle',
     onPress?: () => void,
@@ -30,16 +41,19 @@ class Avatar extends PureComponent {
 
   render() {
     const { avatarUrl, name, size, status, onPress, realm, shape } = this.props;
-
-    return avatarUrl
-      ? <ImageAvatar
-          avatarUrl={getFullUrl(avatarUrl, realm)}
+    const AvatarComponent = avatarUrl ? ImageAvatar : TextAvatar;
+    return (
+      <View>
+        <AvatarComponent
+          name={name}
+          avatarUrl={avatarUrl && getFullUrl(avatarUrl, realm)}
           size={size}
-          status={status}
           onPress={onPress}
-          shape={shape}
-        />
-      : <TextAvatar name={name} size={size} status={status} onPress={onPress} shape={shape} />;
+          shape={shape}>
+          {status && <UserStatusIndicator style={componentStyles.status} status={status} />}
+        </AvatarComponent>
+      </View>
+    );
   }
 }
 

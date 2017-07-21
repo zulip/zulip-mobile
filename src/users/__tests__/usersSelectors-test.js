@@ -357,7 +357,7 @@ describe('getAllActiveUsersWithStatus', () => {
         { email: 'x@a.com', status: 'idle', timestamp: 789 },
       ],
     };
-    deepFreeze(state);
+
     const expectedUsers = [
       { id: 1, fullName: 'Abc', status: 'active', email: 'a@a.com', isActive: true },
       { id: 3, fullName: 'Xyz', status: 'idle', email: 'x@a.com', isActive: true },
