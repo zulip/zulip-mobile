@@ -38,8 +38,10 @@ export const getAllActiveUsersWithStatus = createSelector(
   getPresence,
   (allUsers, presence) =>
     allUsers.reduce((users, user) => {
-      user.status = (presence.find(x => x.email === user.email) || NULL_PRESENCE).status;
-      users.push(user);
+      users.push({
+        ...user,
+        status: (presence.find(x => x.email === user.email) || NULL_PRESENCE).status,
+      });
       return users;
     }, []),
 );
