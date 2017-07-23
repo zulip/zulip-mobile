@@ -3,7 +3,6 @@ import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 
 import { Touchable } from './';
-import UserStatusIndicator from '../common/UserStatusIndicator';
 
 export const colorHashFromName = (name: string) => {
   let hash = 0;
@@ -17,11 +16,6 @@ export const initialsFromName = (name: string) =>
   (name.match(/\S+\s*/g) || []).map(x => x[0].toUpperCase()).join('');
 
 const styles = StyleSheet.create({
-  status: {
-    marginLeft: 21,
-    marginTop: 11,
-    position: 'absolute',
-  },
   frame: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -34,12 +28,12 @@ const styles = StyleSheet.create({
 type Props = {
   name: string,
   size: number,
-  status?: string,
   shape: string,
+  children: [],
   onPress?: () => void,
 };
 
-export default ({ name, size, status, shape, onPress }: Props) => {
+export default ({ name, size, status, shape, onPress, children }: Props) => {
   const frameSize = {
     height: size,
     width: size,
@@ -57,7 +51,7 @@ export default ({ name, size, status, shape, onPress }: Props) => {
         <Text style={[styles.text, textSize]}>
           {initialsFromName(name)}
         </Text>
-        {status && <UserStatusIndicator style={styles.status} status={status} />}
+        {children}
       </View>
     </Touchable>
   );

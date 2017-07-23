@@ -2,9 +2,9 @@
 import { createSelector } from 'reselect';
 import uniqby from 'lodash.uniqby';
 
-import { NULL_USER } from '../nullObjects';
+import { NULL_USER, NULL_PRESENCE } from '../nullObjects';
 import type { User } from '../types';
-import { getUsers } from '../selectors';
+import { getUsers, getPresence } from '../selectors';
 import { getCurrentRouteParams } from '../nav/navigationSelectors';
 
 const statusOrder = status => {
@@ -31,6 +31,19 @@ export const getAccountDetailsUser = createSelector(
 
 export const getAllActiveUsers = createSelector(getUsers, allUsers =>
   allUsers.filter(user => user.isActive),
+);
+
+export const getAllActiveUsersWithStatus = createSelector(
+  getAllActiveUsers,
+  getPresence,
+  (allUsers, presence) =>
+    allUsers.reduce((users, user) => {
+      users.push({
+        ...user,
+        status: (presence.find(x => x.email === user.email) || NULL_PRESENCE).status,
+      });
+      return users;
+    }, []),
 );
 
 export const getUserById = (users: any[], userId: number) =>

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import type { Narrow, User } from '../types';
+import { getAllActiveUsersWithStatus } from '../selectors';
 import UserItem from '../users/UserItem';
 import { isPrivateNarrow } from '../utils/narrow';
 
@@ -42,7 +43,7 @@ class ConversationUser extends PureComponent {
 export default connect(
   state => ({
     narrow: state.chat.narrow,
-    users: state.users,
+    users: getAllActiveUsersWithStatus(state),
   }),
   boundActions,
 )(ConversationUser);

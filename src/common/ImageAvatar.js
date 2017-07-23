@@ -10,6 +10,7 @@ export default class ImageAvatar extends PureComponent {
     avatarUrl: string,
     size: number,
     shape: string,
+    children: [],
     onPress?: () => void,
   };
 
@@ -18,7 +19,7 @@ export default class ImageAvatar extends PureComponent {
   };
 
   render() {
-    const { avatarUrl, size, shape, onPress } = this.props;
+    const { avatarUrl, size, shape, onPress, children } = this.props;
     const touchableStyle = {
       height: size,
       width: size,
@@ -32,7 +33,9 @@ export default class ImageAvatar extends PureComponent {
 
     return (
       <Touchable onPress={onPress} style={touchableStyle}>
-        <Image style={imageStyle} source={{ uri: avatarUrl }} resizeMode="contain" />
+        <Image style={imageStyle} source={{ uri: avatarUrl }} resizeMode="contain">
+          {children}
+        </Image>
       </Touchable>
     );
   }

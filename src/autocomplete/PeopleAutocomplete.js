@@ -8,7 +8,7 @@ import {
   getOwnEmail,
   sortAlphabetically,
   getAutocompleteSuggestion,
-  getAllActiveUsers,
+  getAllActiveUsersWithStatus,
 } from '../selectors';
 import { Popup } from '../common';
 import UserItem from '../users/UserItem';
@@ -39,6 +39,7 @@ class PeopleAutocomplete extends PureComponent {
               fullName={item.fullName}
               avatarUrl={item.avatarUrl}
               email={item.email}
+              status={item.status}
               showEmail
               onPress={() => onAutocomplete(item.fullName)}
             />}
@@ -50,5 +51,5 @@ class PeopleAutocomplete extends PureComponent {
 
 export default connect((state: GlobalState) => ({
   ownEmail: getOwnEmail(state),
-  users: sortAlphabetically(getAllActiveUsers(state)),
+  users: sortAlphabetically(getAllActiveUsersWithStatus(state)),
 }))(PeopleAutocomplete);
