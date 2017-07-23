@@ -18,6 +18,7 @@ export default StyleSheet.create({
   li: {
     flexDirection: 'row',
     marginBottom: 4,
+    alignItems: 'flex-start',
   },
   div: {
     flexWrap: 'wrap',
@@ -94,6 +95,7 @@ export default StyleSheet.create({
     borderColor: 'rgba(127, 127, 127, 0.25)',
     borderLeftWidth: 4,
     paddingLeft: 4,
+    alignItems: 'flex-start',
   },
   emoji: {
     width: 24,

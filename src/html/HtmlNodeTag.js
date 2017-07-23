@@ -100,7 +100,7 @@ export default class HtmlNodeTag extends PureComponent {
         target={attribs.target}
         src={attribs.src}
         href={attribs.href}
-        style={[style, styles.common]}
+        style={[styles.common, style]}
         cascadingStyle={newCascadingStyle}
         cascadingTextStyle={newCascadingStylesText}
         indexedViewsStyles={newIndexedViewsStyles}
