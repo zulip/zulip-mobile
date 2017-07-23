@@ -25,6 +25,8 @@ public class CustomTabsAndroid extends ReactContextBaseJavaModule {
     @ReactMethod
     public void openURL(String url) throws NullPointerException {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setStartAnimations(getReactApplicationContext().getCurrentActivity(), R.anim.slide_in_right, R.anim.slide_out_left);
+        builder.setExitAnimations(getReactApplicationContext().getCurrentActivity(), R.anim.slide_in_left, R.anim.slide_out_right);
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(getReactApplicationContext().getCurrentActivity(), Uri.parse(url));
     }
