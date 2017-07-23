@@ -20,11 +20,11 @@ export default class MessageContainer extends PureComponent {
     auth: Auth,
     flags: Object,
     avatarUrl: string,
-    twentyFourHourTime?: boolean,
+    twentyFourHourTime: boolean,
     isBrief: boolean,
   };
 
-  defaultProps: {
+  static defaultProps = {
     twentyFourHourTime: false,
   };
 

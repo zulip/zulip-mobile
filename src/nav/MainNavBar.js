@@ -9,7 +9,11 @@ import { ZulipStatusBar } from '../common';
 import Title from '../title/Title';
 import NavButton from './NavButton';
 import {
-  getUnreadPrivateMessagesCount,
+  getActiveNarrow,
+  getSubscriptions,
+  getUnreadPmsTotal,
+  getUnreadHuddlesTotal,
+  getUnreadMentionsTotal,
   getTitleBackgroundColor,
   getTitleTextColor,
 } from '../selectors';
@@ -24,7 +28,9 @@ class MainNavBar extends PureComponent {
     backgroundColor: string,
     textColor: string,
     editMessage: boolean,
-    unreadPrivateMessagesCount: number,
+    unreadHuddlesTotal: number,
+    unreadMentionsTotal: number,
+    unreadPmsTotal: number,
     onPressPeople: () => void,
     onPressStreams: () => void,
   };
@@ -35,11 +41,14 @@ class MainNavBar extends PureComponent {
       actions,
       backgroundColor,
       textColor,
-      unreadPrivateMessagesCount,
+      unreadPmsTotal,
+      unreadHuddlesTotal,
+      unreadMentionsTotal,
       onPressStreams,
       onPressPeople,
       editMessage,
     } = this.props;
+
     const leftPress = editMessage ? actions.cancelEditMessage : onPressStreams;
 
     return (
@@ -48,6 +57,7 @@ class MainNavBar extends PureComponent {
         <NavButton
           name={editMessage ? 'md-arrow-back' : 'ios-menu'}
           color={textColor}
+          showCircle={unreadMentionsTotal > 0}
           onPress={leftPress}
         />
         <Title color={textColor} />
@@ -55,7 +65,8 @@ class MainNavBar extends PureComponent {
           <NavButton
             name="md-people"
             color={textColor}
-            showCircle={unreadPrivateMessagesCount > 0}
+            borderRadius={20}
+            unreadCount={unreadPmsTotal + unreadHuddlesTotal}
             onPress={onPressPeople}
           />}
       </View>
@@ -67,7 +78,11 @@ export default connect(
   state => ({
     backgroundColor: getTitleBackgroundColor(state),
     textColor: getTitleTextColor(state),
-    unreadPrivateMessagesCount: getUnreadPrivateMessagesCount(state),
+    narrow: getActiveNarrow(state),
+    subscriptions: getSubscriptions(state),
+    unreadHuddlesTotal: getUnreadHuddlesTotal(state),
+    unreadMentionsTotal: getUnreadMentionsTotal(state),
+    unreadPmsTotal: getUnreadPmsTotal(state),
     editMessage: state.app.editMessage,
   }),
   boundActions,
