@@ -28,7 +28,7 @@ export default class MainScreen extends PureComponent {
           onPressPeople={this.handlePressPeople}
           onPressStreams={this.handlePressStreams}
         />
-        <Chat {...this.props} />
+        <Chat />
       </View>
     );
   }

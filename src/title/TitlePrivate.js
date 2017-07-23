@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { NULL_USER } from '../nullObjects';
 import { Avatar } from '../common';
 
 const styles = StyleSheet.create({
@@ -18,8 +17,8 @@ const styles = StyleSheet.create({
 
 export default class TitlePrivate extends PureComponent {
   render() {
-    const { narrow, users, color } = this.props;
-    const { fullName, avatarUrl } = users.find(x => x.email === narrow[0].operand) || NULL_USER;
+    const { user, color } = this.props;
+    const { fullName, avatarUrl } = user;
 
     return (
       <View style={styles.wrapper}>

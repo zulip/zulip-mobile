@@ -21,7 +21,7 @@ export default class LightboxScreen extends PureComponent {
       <View style={styles.screen}>
         <ZulipStatusBar hidden backgroundColor="black" />
         <ActionSheetProvider>
-          <LightboxContainer {...this.props.navigation.state.params} />
+          <LightboxContainer />
         </ActionSheetProvider>
       </View>
     );
