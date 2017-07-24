@@ -8,7 +8,7 @@ export default class ChatScreen extends PureComponent {
   render() {
     return (
       <Screen title="Chat">
-        <Chat {...this.props} />
+        <Chat />
       </Screen>
     );
   }

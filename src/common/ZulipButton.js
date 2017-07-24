@@ -92,7 +92,7 @@ export default class ZulipButton extends PureComponent {
     onPress: () => void | Promise<any>,
   };
 
-  static defaultProps: {
+  static defaultProps = {
     secondary: false,
   };
 

@@ -2,9 +2,9 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import type { Narrow, Stream } from '../types';
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
-import { nullFunction, NULL_SUBSCRIPTION } from '../nullObjects';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -22,21 +22,13 @@ const styles = StyleSheet.create({
 
 export default class TitleStream extends PureComponent {
   props: {
-    subscriptions: [],
-    streams: [],
-    narrow: nullFunction,
+    narrow: Narrow,
+    stream: Stream,
     color: string,
   };
 
   render() {
-    const { narrow, subscriptions, streams, color } = this.props;
-    const stream =
-      subscriptions.find(x => x.name === narrow[0].operand) || {
-        ...streams.find(x => x.name === narrow[0].operand),
-        in_home_view: true,
-      } ||
-      NULL_SUBSCRIPTION;
-
+    const { narrow, stream, color } = this.props;
     const topic = isTopicNarrow(narrow) ? `\u203a ${narrow[1].operand}` : '';
 
     return (

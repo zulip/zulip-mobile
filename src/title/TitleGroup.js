@@ -1,11 +1,8 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
 
-import { UserType, Narrow, Actions } from '../types';
-import boundActions from '../boundActions';
-import { NULL_USER } from '../nullObjects';
+import { Actions, User } from '../types';
 import { Avatar, Touchable } from '../common';
 
 const styles = StyleSheet.create({
@@ -18,24 +15,19 @@ const styles = StyleSheet.create({
   },
 });
 
-class TitleGroup extends PureComponent {
+export default class TitleGroup extends PureComponent {
   props: {
     actions: Actions,
-    users: UserType,
-    narrow: Narrow,
+    recipients: User[],
   };
 
   handlePress = () => {
-    const { narrow, actions, users } = this.props;
-    actions.navigateToGroupDetails(this.getRecipients(narrow, users));
+    const { actions, recipients } = this.props;
+    actions.navigateToGroupDetails(recipients);
   };
 
-  getRecipients = (narrow: Narrow, users: UserType) =>
-    narrow[0].operand.split(',').map(r => users.find(x => x.email === r) || NULL_USER);
-
   render() {
-    const { narrow, users } = this.props;
-    const recipients = this.getRecipients(narrow, users);
+    const { recipients } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
@@ -55,5 +47,3 @@ class TitleGroup extends PureComponent {
     );
   }
 }
-
-export default connect(null, boundActions)(TitleGroup);

@@ -13,10 +13,10 @@ import {
 import { getCurrentRealm } from '../selectors';
 
 import TitleHome from './TitleHome';
-import TitlePrivate from './TitlePrivate';
-import TitleGroup from './TitleGroup';
-import TitleSpecial from './TitleSpecial';
-import TitleStream from './TitleStream';
+import TitlePrivate from './TitlePrivateContainer';
+import TitleGroup from './TitleGroupContainer';
+import TitleSpecial from './TitleSpecialContainer';
+import TitleStream from './TitleStreamContainer';
 import TitlePlain from './TitlePlain';
 
 const titles = [
@@ -37,7 +37,7 @@ class Title extends PureComponent {
     }
     if (!titleType) return null;
 
-    return <titleType.component {...this.props} />;
+    return <titleType.component color={color} />;
   }
 }
 

@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { StyleObj } from '../types';
@@ -28,18 +28,24 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
-  name: string,
-  color?: ?string,
-  showCircle?: boolean,
-  onPress: () => void,
-  style?: StyleObj,
-};
+export default class NavButton extends PureComponent {
+  props: {
+    name: string,
+    style?: StyleObj,
+    color?: ?string,
+    showCircle?: boolean,
+    onPress: () => void,
+  };
 
-export default ({ name, color, showCircle, onPress, style }: Props) =>
-  <Touchable onPress={onPress}>
-    <View style={styles.frame}>
-      <Icon style={[styles.icon, style]} color={color || BRAND_COLOR} name={name} />
-      {showCircle && <View style={[styles.circle, { backgroundColor: color }]} />}
-    </View>
-  </Touchable>;
+  render() {
+    const { name, color, showCircle, onPress, style } = this.props;
+    return (
+      <Touchable onPress={onPress}>
+        <View style={styles.frame}>
+          <Icon style={[styles.icon, style]} color={color || BRAND_COLOR} name={name} />
+          {showCircle && <View style={[styles.circle, { backgroundColor: color }]} />}
+        </View>
+      </Touchable>
+    );
+  }
+}

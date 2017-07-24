@@ -12,11 +12,12 @@ import {
   getTyping,
   getUsers,
   getReadFlags,
+  getStreams,
 } from '../selectors';
 import { specialNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients, normalizeRecipientsSansMe, shouldBeMuted } from '../utils/message';
 import { countUnread } from '../utils/unread';
-import { NULL_MESSAGE } from '../nullObjects';
+import { NULL_MESSAGE, NULL_USER, NULL_SUBSCRIPTION } from '../nullObjects';
 
 const privateNarrowStr = JSON.stringify(specialNarrow('private'));
 
@@ -131,4 +132,28 @@ export const getLastTopicInActiveNarrow = createSelector(
     const lastMessageWithSubject = reversedMessages.find(msg => msg.subject) || NULL_MESSAGE;
     return lastMessageWithSubject.subject;
   },
+);
+
+export const getUserInPmNarrow = createSelector(
+  getActiveNarrow,
+  getUsers,
+  (narrow, users) => users.find(x => x.email === narrow[0].operand) || NULL_USER,
+);
+
+export const getRecipientsInGroupNarrow = createSelector(
+  getActiveNarrow,
+  getUsers,
+  (narrow, users) => narrow[0].operand.split(',').map(r => users.find(x => x.email === r) || []),
+);
+
+export const getStreamInNarrow = createSelector(
+  getActiveNarrow,
+  getSubscriptions,
+  getStreams,
+  (narrow, subscriptions, streams) =>
+    subscriptions.find(x => x.name === narrow[0].operand) || {
+      ...streams.find(x => x.name === narrow[0].operand),
+      in_home_view: true,
+    } ||
+    NULL_SUBSCRIPTION,
 );
