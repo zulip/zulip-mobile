@@ -214,7 +214,7 @@ describe('getUnreadMentionsTotal', () => {
   test('unread mentions count is equal to the unread array length', () => {
     const state = deepFreeze({
       unread: {
-        mentions: [1, 2, 3],
+        mentioned: [1, 2, 3],
       },
     });
 
@@ -231,7 +231,7 @@ describe('getUnreadTotal', () => {
         streams: [],
         pms: [],
         huddles: [],
-        mentions: [],
+        mentioned: [],
       },
     });
 
@@ -246,7 +246,7 @@ describe('getUnreadTotal', () => {
         streams: unreadStreamData,
         pms: unreadPmsData,
         huddles: unreadHuddlesData,
-        mentions: unreadMentionsData,
+        mentioned: unreadMentionsData,
       },
     });
 

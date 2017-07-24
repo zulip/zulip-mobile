@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import type { StyleObj } from '../types';
 import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
@@ -10,7 +11,6 @@ const styles = StyleSheet.create({
     paddingRight: 4,
     paddingBottom: 2,
     paddingLeft: 4,
-    borderRadius: 2,
     backgroundColor: BRAND_COLOR,
     justifyContent: 'center',
     alignItems: 'center',
@@ -29,18 +29,36 @@ const styles = StyleSheet.create({
 
 export default class UnreadCount extends PureComponent {
   props: {
+    style?: StyleObj,
+    color?: string,
+    borderRadius: number,
     count?: number,
     inverse?: boolean,
   };
 
+  static defaultProps = {
+    color: BRAND_COLOR,
+    borderRadius: 2,
+  };
+
   render() {
-    const { count, inverse } = this.props;
+    const { style, borderRadius, color, count, inverse } = this.props;
 
     if (!count) return null;
 
+    const frameStyle = [
+      styles.frame,
+      inverse && styles.frameInverse,
+      { borderRadius },
+      { backgroundColor: color },
+      style,
+    ];
+
+    const textStyle = [styles.text, inverse && styles.textInverse];
+
     return (
-      <View style={[styles.frame, inverse && styles.frameInverse]}>
-        <Text style={[styles.text, inverse && styles.textInverse]}>
+      <View style={frameStyle}>
+        <Text style={textStyle}>
           {count < 100 ? count : '99+'}
         </Text>
       </View>

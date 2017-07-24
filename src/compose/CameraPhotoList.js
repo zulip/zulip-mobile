@@ -27,7 +27,7 @@ export default class CameraPhotoList extends React.Component {
     imagesPerRow?: number,
   };
 
-  defaultProps: {
+  static defaultProps: {
     groupTypes: 'SavedPhotos',
     batchSize: 5,
     imagesPerRow: 1,

@@ -34,8 +34,7 @@ export default class MessageBrief extends PureComponent {
     onLongPress: () => void,
   };
 
-  defaultProps: {
-    children: [],
+  static defaultProps = {
     twentyFourHourTime: false,
   };
 
