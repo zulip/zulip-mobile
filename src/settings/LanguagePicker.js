@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 export default class LanguagePicker extends PureComponent {
   props: {
     value: string,
-    onValueChange: () => void,
+    onValueChange: (locale: string) => void,
   };
 
   render() {
