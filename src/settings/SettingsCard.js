@@ -3,9 +3,10 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Auth, Actions } from '../types';
-import { Label, ZulipSwitch } from '../common';
+import { Label, ZulipSwitch, Touchable } from '../common';
 import LanguagePicker from './LanguagePicker';
 import toggleMobilePushSettings from '../api/toggleMobilePushSettings';
+import openLink from '../utils/openLink';
 
 const styles = StyleSheet.create({
   optionWrapper: {
@@ -17,12 +18,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 8,
   },
+  optionColumn: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
   optionTitle: {
     padding: 8,
     fontWeight: 'bold',
   },
+  optionSupport: {
+    padding: 8,
+  },
   optionList: {
     flex: 1,
+  },
+  linksTouchable: {
+    alignItems: 'flex-start',
   },
 });
 
@@ -59,7 +70,9 @@ export default class SettingsCard extends PureComponent {
   };
 
   render() {
-    const { offlineNotification, onlineNotification, theme, locale } = this.props;
+    const { offlineNotification, onlineNotification, theme, locale, auth } = this.props;
+    const termsLink = `${auth.realm}/terms/`;
+    const privacyLink = `${auth.realm}/privacy/`;
 
     return (
       <View style={styles.optionWrapper}>
@@ -84,6 +97,25 @@ export default class SettingsCard extends PureComponent {
         <View style={styles.optionList}>
           <Label style={styles.optionTitle} text="Language" />
           <LanguagePicker value={locale} onValueChange={this.handleLocaleChange} />
+        </View>
+        <View style={styles.optionColumn}>
+          <Label style={styles.optionTitle} text="Support" />
+          <View style={styles.linksTouchable}>
+            <Touchable>
+              <Label
+                style={styles.optionSupport}
+                text="Terms of service"
+                onPress={() => openLink(termsLink)}
+              />
+            </Touchable>
+            <Touchable>
+              <Label
+                style={styles.optionSupport}
+                text="Privacy policy"
+                onPress={() => openLink(privacyLink)}
+              />
+            </Touchable>
+          </View>
         </View>
       </View>
     );
