@@ -27,7 +27,7 @@ export default class ComposeOptions extends PureComponent {
         {/* <ComposeIcon name="md-image" isActive={selected === 1} onChange={() => onChange(1)} />
           <ComposeIcon name="md-camera" isActive={selected === 2} onChange={() => onChange(2)} />
           <ComposeIcon name="md-videocam" isActive={selected === 3} onChange={() => onChange(3)} />
-          <ComposeIcon name="md-happy" isActive={selected === 4} onChange={() => onChange(4)} />*/}
+          <ComposeIcon name="md-happy" isActive={selected === 4} onChange={() => onChange(4)} /> */}
       </View>
     );
   }
