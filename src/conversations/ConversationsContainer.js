@@ -1,5 +1,4 @@
 /* @flow */
-import React from 'react';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -11,4 +10,4 @@ export default connect(
     conversations: getRecentConversations(state),
   }),
   boundActions,
-)(props => <ConversationsCard {...props} />);
+)(ConversationsCard);

@@ -32,7 +32,7 @@ class SubscriptionsContainer extends PureComponent {
     const selected = isStreamNarrow(narrow) && narrow[0].operand;
 
     return (
-      <View tabLabel="Streams" style={styles.container}>
+      <View style={styles.container}>
         <StreamList
           streams={subscriptions}
           selected={selected}

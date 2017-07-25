@@ -54,7 +54,7 @@ export default class ConversationsCard extends PureComponent {
     const { actions, conversations, realm, users, narrow } = this.props;
 
     return (
-      <View tabLabel="People" style={styles.container}>
+      <View style={styles.container}>
         <ZulipButton
           secondary
           style={styles.button}

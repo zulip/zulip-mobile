@@ -7,7 +7,8 @@ import DeviceInfo from 'react-native-device-info';
 import type { Actions, Auth, Message, Narrow } from '../types';
 import boundActions from '../boundActions';
 import { getAuth, getShownMessagesInActiveNarrow } from '../selectors';
-import MainScreenWithDrawers from './MainScreenWithDrawers';
+import MainScreen from './MainScreenWithDrawers';
+// import MainScreen from './MainScreenWithTabs';
 import { initializeNotifications } from '../utils/notifications';
 
 class MainScreenContainer extends PureComponent {
@@ -33,7 +34,7 @@ class MainScreenContainer extends PureComponent {
   }
 
   render() {
-    return <MainScreenWithDrawers />;
+    return <MainScreen />;
   }
 }
 

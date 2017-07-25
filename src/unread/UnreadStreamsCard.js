@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
+import { streamNarrow, topicNarrow } from '../utils/narrow';
 import StreamItem from '../streams/StreamItem';
 import TopicItem from '../streams/TopicItem';
 
@@ -10,9 +11,15 @@ export default class UnreadStreamsContainer extends PureComponent {
     styles: () => null,
   };
 
-  handleStreamPress = (stream: string) => {};
+  handleStreamPress = (streamName: string) => {
+    const { actions } = this.props;
+    actions.doNarrow(streamNarrow(streamName));
+  };
 
-  handleTopicPress = (topic: string) => {};
+  handleTopicPress = (stream: string, topic: string) => {
+    const { actions } = this.props;
+    actions.doNarrow(topicNarrow(stream, topic));
+  };
 
   render() {
     const { styles } = this.context;
@@ -33,9 +40,10 @@ export default class UnreadStreamsContainer extends PureComponent {
             unreadCount={section.unread}
             onPress={this.handleStreamPress}
           />}
-        renderItem={({ item }) =>
+        renderItem={({ item, section }) =>
           <TopicItem
             name={item.topic}
+            stream={section.streamName}
             isMuted={false}
             isSelected={false}
             unreadCount={item.unread}
