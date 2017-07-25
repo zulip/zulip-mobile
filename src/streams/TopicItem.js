@@ -30,16 +30,17 @@ const styles = StyleSheet.create({
 
 export default class StreamItem extends PureComponent {
   props: {
+    stream: string,
     name: string,
     isMuted?: boolean,
     isSelected?: boolean,
     unreadCount?: number,
-    onPress: (name: string) => void,
+    onPress: (topic: string, stream: string) => void,
   };
 
   handlePress = () => {
-    const { name, onPress } = this.props;
-    onPress(name);
+    const { name, stream, onPress } = this.props;
+    onPress(name, stream);
   };
 
   render() {

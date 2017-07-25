@@ -22,5 +22,6 @@ export const IconPrivateChat = (props: Object) => <IoniconsIcon name="md-mail" {
 export const IconDownArrow = (props: Object) => <IoniconsIcon name="md-arrow-down" {...props} />;
 export const IconGoogle = (props: Object) => <IoniconsIcon name="logo-google" {...props} />;
 export const IconCross = (props: Object) => <EntypoIcon name="cross" {...props} />;
+export const IconSettings = (props: Object) => <IoniconsIcon name="md-settings" {...props} />;
 
 export default IoniconsIcon;

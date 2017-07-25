@@ -1,3 +1,4 @@
+/* TODO flow */
 import React from 'react';
 import { addNavigationHelpers } from 'react-navigation';
 import { connect } from 'react-redux';
