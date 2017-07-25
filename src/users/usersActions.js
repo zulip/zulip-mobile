@@ -11,7 +11,8 @@ export const sendFocusPing = (hasFocus: boolean, newUserInput: boolean): Action 
   const response = await focusPing(getAuth(getState()), hasFocus, newUserInput);
   dispatch({
     type: PRESENCE_RESPONSE,
-    presence: response,
+    presence: response.presences,
+    serverTimestamp: response.server_timestamp,
   });
 };
 
@@ -25,5 +26,9 @@ export const fetchUsers = (): Action => async (dispatch: Dispatch, getState: Get
 
 export const fetchUsersAndStatus = (): Action => async (dispatch: Dispatch) => {
   await dispatch(fetchUsers());
+  await dispatch(sendFocusPing(true, false));
+};
+
+export const fetchUsersStatus = (): Action => async (dispatch: Dispatch) => {
   await dispatch(sendFocusPing(true, false));
 };

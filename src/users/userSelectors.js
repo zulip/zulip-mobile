@@ -6,6 +6,7 @@ import { NULL_USER, NULL_PRESENCE } from '../nullObjects';
 import type { User } from '../types';
 import { getUsers, getPresence } from '../selectors';
 import { getCurrentRouteParams } from '../nav/navigationSelectors';
+import config from '../config';
 
 const statusOrder = status => {
   switch (status) {
@@ -36,11 +37,15 @@ export const getAllActiveUsers = createSelector(getUsers, allUsers =>
 export const getAllActiveUsersWithStatus = createSelector(
   getAllActiveUsers,
   getPresence,
-  (allUsers, presence) =>
+  (allUsers, allPresence) =>
     allUsers.reduce((users, user) => {
+      let presence = allPresence.find(x => x.email === user.email) || NULL_PRESENCE;
+      if (presence.age > config.offlineThresholdSecs) {
+        presence = NULL_PRESENCE;
+      }
       users.push({
         ...user,
-        status: (presence.find(x => x.email === user.email) || NULL_PRESENCE).status,
+        status: presence.status,
       });
       return users;
     }, []),

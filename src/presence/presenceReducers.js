@@ -1,5 +1,5 @@
 /* @flow */
-import type { UsersState, Action, ClientPresence, Presence, UserStatus } from '../types';
+import type { UsersState, Action, Presence } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -7,34 +7,34 @@ import {
   EVENT_PRESENCE,
   PRESENCE_RESPONSE,
 } from '../actionConstants';
+import { NULL_PRESENCE } from '../nullObjects';
 
-const priorityToState = ['offline', 'idle', 'active'];
-
-const stateToPriority = {
-  offline: 0,
-  idle: 1,
-  active: 2,
-};
-
-export const activityFromPresence = (presence: ClientPresence): UserStatus =>
-  priorityToState[
-    Math.max(...Object.values(presence).map((x: Presence) => stateToPriority[x.status]))
-  ];
-
-export const timestampFromPresence = (presence: ClientPresence): UserStatus =>
-  Math.max(...Object.values(presence).map((x: Presence) => x.timestamp));
-
-export const activityFromTimestamp = (activity: string, timestamp: number) =>
-  new Date() / 1000 - timestamp > 60 ? 'offline' : activity;
-
-const updateUserWithPresence = (user: Object, presence: Presence) => {
-  const timestamp = timestampFromPresence(presence);
-
-  return {
-    ...user,
-    status: activityFromTimestamp(activityFromPresence(presence), timestamp),
-    timestamp,
-  };
+export const updateUserWithPresence = (
+  user: Object,
+  presence: Presence,
+  serverTimestamp: number,
+) => {
+  if (presence.aggregated !== undefined) {
+    return {
+      ...user,
+      status: presence.aggregated.status,
+      timestamp: presence.aggregated.timestamp,
+      age: serverTimestamp - presence.aggregated.timestamp,
+      client: presence.aggregated.client,
+    };
+  }
+  // find latest presence from all the devices available
+  return Object.keys(presence).reduce(
+    (latestPresence, key) => {
+      const newPresence = presence[key];
+      const timestamp = newPresence.timestamp;
+      if (timestamp > latestPresence.timestamp) {
+        latestPresence = { ...newPresence, age: serverTimestamp - timestamp, email: user.email };
+      }
+      return latestPresence;
+    },
+    { ...NULL_PRESENCE, email: user.email },
+  );
 };
 
 const initialState: UsersState = [];
@@ -52,7 +52,7 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
 
         if (userIndex === -1) {
           let user = { email };
-          user = updateUserWithPresence(user, action.presence[email]);
+          user = updateUserWithPresence(user, action.presence[email], action.serverTimestamp);
           return [...currentState, user];
         }
 
@@ -60,6 +60,7 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
           // eslint-disable-line
           currentState[userIndex],
           action.presence[email],
+          action.serverTimestamp,
         );
         return currentState;
       }, newState);
@@ -70,10 +71,10 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
       let newState = [...state];
       if (userIndex === -1) {
         user = { email: action.email };
-        user = updateUserWithPresence(user, action.presence);
+        user = updateUserWithPresence(user, action.presence, action.server_timestamp);
         newState = [...state, user];
       } else {
-        user = updateUserWithPresence(state[userIndex], action.presence);
+        user = updateUserWithPresence(state[userIndex], action.presence, action.server_timestamp);
         newState[userIndex] = user;
       }
       return newState;

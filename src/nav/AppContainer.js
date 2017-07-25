@@ -4,6 +4,7 @@ import { AppState, NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 
+import config from '../config';
 import boundActions from '../boundActions';
 import AppWithNavigationState from './AppWithNavigationState';
 import { getAuth } from '../selectors';
@@ -86,6 +87,8 @@ class AppContainer extends PureComponent {
       if (!DeviceInfo.isEmulator()) {
         actions.initNotifications();
       }
+      actions.fetchUsersStatus(); // do a initial fetch
+      setInterval(() => actions.fetchUsersStatus(), config.activePingInterval);
     }
   };
 
