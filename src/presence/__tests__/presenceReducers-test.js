@@ -16,7 +16,7 @@ describe('presenceReducers', () => {
     const prevState = deepFreeze({ hello: 'world' });
 
     const newState = presenceReducers(prevState, {});
-    expect(newState).toEqual(prevState);
+    expect(newState).toBe(prevState);
   });
 
   describe('activityFromPresence', () => {

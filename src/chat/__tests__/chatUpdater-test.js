@@ -11,7 +11,7 @@ describe('chatUpdater', () => {
 
     const actualState = chatUpdater(initialState, 1, () => ({ hello: 'world' }));
 
-    expect(actualState).toEqual(initialState);
+    expect(actualState).toBe(initialState);
   });
 
   test('if id exists the message is updated', () => {
