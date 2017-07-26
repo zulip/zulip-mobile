@@ -21,7 +21,7 @@ describe('filterUserList', () => {
     const users = deepFreeze([]);
 
     const filteredUsers = filterUserList(users, 'some filter');
-    expect(filteredUsers).toEqual([]);
+    expect(filteredUsers).toBe(users);
   });
 
   test('returns same list if no filter', () => {
@@ -64,7 +64,7 @@ describe('getAutocompleteSuggestion', () => {
     const users = deepFreeze([]);
 
     const filteredUsers = getAutocompleteSuggestion(users, 'some filter');
-    expect(filteredUsers).toEqual([]);
+    expect(filteredUsers).toBe(users);
   });
 
   test("filters out user's own entry", () => {

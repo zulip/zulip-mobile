@@ -67,13 +67,15 @@ export const sortUserList = (users: any[]): User[] =>
   );
 
 export const filterUserList = (users: any[], filter: string = '', ownEmail: ?string): any[] =>
-  users.filter(
-    user =>
-      user.email !== ownEmail &&
-      (filter === '' ||
-        user.fullName.toLowerCase().includes(filter.toLowerCase()) ||
-        user.email.toLowerCase().includes(filter.toLowerCase())),
-  );
+  users.length > 0
+    ? users.filter(
+        user =>
+          user.email !== ownEmail &&
+          (filter === '' ||
+            user.fullName.toLowerCase().includes(filter.toLowerCase()) ||
+            user.email.toLowerCase().includes(filter.toLowerCase())),
+      )
+    : users;
 
 export const sortAlphabetically = (users: User[]): User[] =>
   [...users].sort((x1, x2) => x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase()));
@@ -119,6 +121,10 @@ export const getAutocompleteSuggestion = (
   filter: string = '',
   ownEmail: string,
 ): User[] => {
+  if (users.length === 0) {
+    return users;
+  }
+
   const startWith = filterUserStartWith(users, filter, ownEmail);
   const initials = filterUserByInitials(users, filter, ownEmail);
   const contains = filterUserThatContains(users, filter, ownEmail);

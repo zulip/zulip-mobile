@@ -242,7 +242,7 @@ describe('chatReducers', () => {
 
       const newState = chatReducers(initialState, action);
 
-      expect(newState.messages).toEqual(initialState.messages);
+      expect(newState.messages).toBe(initialState.messages);
     });
 
     test('when a message exists in state, new state and new object is created with updated message in every key', () => {

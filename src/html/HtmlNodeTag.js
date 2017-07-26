@@ -42,7 +42,6 @@ const specialTags = {
   td: HtmlTagDiv,
 };
 
-// TODO: all classes type :}
 const stylesFromClassNames = (classNames: SupportedHtmlClasses = '', styleObj) =>
   classNames.split(' ').map(className => styleObj[className]);
 

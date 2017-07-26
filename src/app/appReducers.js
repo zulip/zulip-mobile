@@ -4,7 +4,6 @@ import { REHYDRATE } from 'redux-persist/constants';
 import { AppState, Action } from '../types';
 import {
   LOGIN_SUCCESS,
-  LOGOUT,
   APP_ONLINE,
   APP_ACTIVITY,
   ACCOUNT_SWITCH,
@@ -46,10 +45,6 @@ export default (state: AppState = initialState, action: Action) => {
         ...state,
         needsInitialFetch: !!getAuth(action.payload).apiKey,
         isHydrated: true,
-      };
-    case LOGOUT:
-      return {
-        ...state,
       };
     case EVENT_REGISTERED:
       return {

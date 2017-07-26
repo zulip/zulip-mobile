@@ -19,7 +19,7 @@ describe('usersReducers', () => {
     const action = deepFreeze({});
 
     const newState = usersReducers(initialState, action);
-    expect(newState).toEqual(initialState);
+    expect(newState).toBe(initialState);
   });
 
   describe('INIT_USERS', () => {
