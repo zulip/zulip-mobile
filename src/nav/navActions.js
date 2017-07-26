@@ -42,3 +42,5 @@ export const navigateToAddNewAccount = (realm: string): Action =>
 
 export const navigateToLightbox = (src: string, message: Message): Action =>
   NavigationActions.navigate({ routeName: 'lightbox', params: { src, message } });
+
+export const navigateToLoading = (): Action => NavigationActions.navigate({ routeName: 'loading' });

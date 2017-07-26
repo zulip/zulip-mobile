@@ -32,6 +32,7 @@ class AccountPickScreen extends PureComponent {
     const { realm, apiKey } = accounts[index];
     if (apiKey) {
       actions.switchAccount(index); // Reset stream, message, user list
+      actions.navigateToLoading();
     } else {
       actions.navigateToAddNewAccount(realm);
     }
