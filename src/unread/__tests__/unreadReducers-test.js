@@ -16,7 +16,7 @@ describe('unreadReducers', () => {
         streams: [],
         huddles: [],
         pms: [],
-        mentioned: [],
+        mentions: [],
       };
 
       const actualState = unreadReducers(initialState, action);
@@ -31,7 +31,7 @@ describe('unreadReducers', () => {
         streams: [],
         huddles: [],
         pms: [],
-        mentioned: [],
+        mentions: [],
       });
 
       const unreadMsgsData = {
@@ -44,7 +44,7 @@ describe('unreadReducers', () => {
         ],
         huddles: [],
         pms: [],
-        mentioned: [],
+        mentions: [],
       };
 
       const action = deepFreeze({

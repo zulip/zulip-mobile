@@ -7,7 +7,7 @@ import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 export const getUnreadStreams = (state: GlobalState): Object[] => state.unread.streams;
 export const getUnreadPms = (state: GlobalState): Object[] => state.unread.pms;
 export const getUnreadHuddles = (state: GlobalState): Object[] => state.unread.huddles;
-export const getUnreadMentions = (state: GlobalState): number[] => state.unread.mentioned;
+export const getUnreadMentions = (state: GlobalState): number[] => state.unread.mentions;
 
 export const getUnreadByStream = createSelector(getUnreadStreams, unreadStreams =>
   unreadStreams.reduce((totals, stream) => {

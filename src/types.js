@@ -264,8 +264,8 @@ export type FlagsState = {
   read: Object,
   starred: Object,
   collapsed: Object,
-  mentioned: Object,
-  wildcard_mentioned: Object,
+  mentions: Object,
+  wildcard_mentions: Object,
   summarize_in_home: Object,
   summarize_in_stream: Object,
   force_expand: Object,
@@ -307,7 +307,7 @@ export type UnreadState = {
   streams: Object[],
   huddles: Object[],
   pms: Object[],
-  mentioned: number[],
+  mentions: number[],
 };
 
 export type UsersState = [];
