@@ -94,6 +94,7 @@ export default class HtmlNodeTag extends PureComponent {
     return (
       <HtmlComponent
         auth={auth}
+        attribs={attribs}
         name={name}
         actions={actions}
         target={attribs.target}
