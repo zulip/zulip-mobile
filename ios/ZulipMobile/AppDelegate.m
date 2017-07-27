@@ -59,7 +59,7 @@ RCTLogFunction CrashlyticsReactLogFunction = ^(
         fprintf(stderr, "%s\n", log.UTF8String);
         fflush(stderr);
     #else
-        CLS_LOG(@"REACT LOG: %s", log.UTF8String);
+        NSLog(@"REACT LOG: %s", log.UTF8String);
     #endif
 
     int aslLevel;
