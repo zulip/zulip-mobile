@@ -6,7 +6,7 @@ const initialState: UnreadState = {
   streams: [],
   huddles: [],
   pms: [],
-  mentioned: [],
+  mentions: [],
 };
 
 export default (state: UnreadState = initialState, action: Action): UnreadState => {
