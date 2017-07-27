@@ -13,6 +13,8 @@ class HtmlTagSpan extends PureComponent {
     style?: StyleObj,
     actions?: Actions,
     cascadingStyle?: StyleObj,
+    attribs?: Object,
+    ownEmail: string,
   };
 
   mentionButtonRefersToSelf = () => {
