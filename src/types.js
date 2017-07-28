@@ -1,5 +1,7 @@
 export type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
+export type { Connector } from 'react-redux';
+
 export type Auth = {
   realm: string,
   apiKey: string,
@@ -7,6 +9,10 @@ export type Auth = {
 };
 
 export type Account = Auth;
+
+export type ImageResource = {
+  uri: string,
+};
 
 export type Message = {
   avatar_url: string,
