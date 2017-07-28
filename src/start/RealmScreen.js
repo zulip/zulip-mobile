@@ -102,6 +102,7 @@ class RealmScreen extends PureComponent {
               defaultValue={realm}
               onTextChange={value => this.setState({ realm: value })}
               blurOnSubmit={false}
+              keyboardType="url"
               onSubmitEditing={this.tryRealm}
             />
             <ZulipButton text="Enter" progress={progress} onPress={this.tryRealm} />
