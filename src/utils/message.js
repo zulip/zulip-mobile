@@ -12,6 +12,11 @@ export const normalizeRecipientsSansMe = (recipients: Recipient[], ownEmail: str
     ? recipients[0].email
     : normalizeRecipients(recipients.filter(r => r.email !== ownEmail));
 
+export const getRecipientsIds = (recipients: Recipient[], ownEmail: string): string =>
+  recipients.length === 2
+    ? recipients.filter(r => r.email !== ownEmail)[0].id.toString()
+    : recipients.map(s => s.id).sort((a, b) => a - b).join(',');
+
 export const isSameRecipient = (message1: Message, message2: Message): boolean => {
   if (message1 === undefined || message2 === undefined) {
     return false;

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { STATUSBAR_HEIGHT } from '../styles';
-import type { Actions, Narrow, User } from '../types';
+import type { Actions } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import { ZulipButton } from '../common';
 import ConversationList from './ConversationList';
@@ -25,11 +25,8 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  realm: string,
-  narrow: Narrow,
-  users: any[],
   actions: Actions,
-  conversations: User[],
+  conversations: Object[],
 };
 
 export default class ConversationsCard extends PureComponent {
@@ -51,7 +48,7 @@ export default class ConversationsCard extends PureComponent {
     );
 
   render() {
-    const { actions, conversations, realm, users, narrow } = this.props;
+    const { actions, conversations } = this.props;
 
     return (
       <View style={styles.container}>
@@ -61,13 +58,7 @@ export default class ConversationsCard extends PureComponent {
           text="Search people"
           onPress={actions.navigateToUsersScreen}
         />
-        <ConversationList
-          conversations={conversations}
-          realm={realm}
-          users={users}
-          narrow={narrow}
-          onPress={this.handleUserNarrow}
-        />
+        <ConversationList conversations={conversations} onPress={this.handleUserNarrow} />
         <View style={styles.accountButtons}>
           <SwitchAccountButton />
           <LogoutButton />
