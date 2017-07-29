@@ -6,7 +6,7 @@ import {
   ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
   MARK_MESSAGES_READ,
-  //  EVENT_UPDATE_MESSAGE_FLAGS,
+  EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../../actionConstants';
 
 describe('unreadStreamsReducers', () => {
@@ -232,123 +232,101 @@ describe('unreadStreamsReducers', () => {
     });
   });
 
-  // describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
-  //   test('when operation is "add" and flag is "read" adds message id to state', () => {
-  //     const initialState = deepFreeze([]);
-  //
-  //     const action = {
-  //       type: EVENT_UPDATE_MESSAGE_FLAGS,
-  //       messages: [1, 2, 3],
-  //       flag: 'read',
-  //       operation: 'add',
-  //     };
-  //
-  //     const expectedState = [
-  //       {
-  //         sender_id: 1,
-  //         unread_message_ids: [1, 2, 3, 4, 5],
-  //       },
-  //     ];
-  //
-  //     const actualState = unreadStreamsReducers(initialState, action);
-  //
-  //     expect(actualState).toEqual(expectedState);
-  //   });
-  //
-  //   test('if flag already exists do not mutate state', () => {
-  //     const initialState = deepFreeze([1]);
-  //
-  //     const action = deepFreeze({
-  //       type: EVENT_UPDATE_MESSAGE_FLAGS,
-  //       messages: [1],
-  //       flag: 'read',
-  //       operation: 'add',
-  //     });
-  //
-  //     const actualState = unreadStreamsReducers(initialState, action);
-  //
-  //     expect(actualState).toBe(initialState);
-  //   });
-  //
-  //   test('if other flags exist, adds new one to the list', () => {
-  //     const initialState = deepFreeze([]);
-  //
-  //     const action = deepFreeze({
-  //       type: EVENT_UPDATE_MESSAGE_FLAGS,
-  //       messages: [1],
-  //       flag: 'read',
-  //       operation: 'add',
-  //     });
-  //
-  //     const expectedState = [1];
-  //
-  //     const actualState = unreadStreamsReducers(initialState, action);
-  //
-  //     expect(actualState).toEqual(expectedState);
-  //   });
-  //
-  //   test('adds flags for multiple messages', () => {
-  //     const initialState = deepFreeze([]);
-  //
-  //     const action = deepFreeze({
-  //       type: EVENT_UPDATE_MESSAGE_FLAGS,
-  //       messages: [1],
-  //       flag: 'starred',
-  //       operation: 'add',
-  //     });
-  //
-  //     const actualState = unreadStreamsReducers(initialState, action);
-  //
-  //     expect(actualState).toBe(initialState);
-  //   });
-  //
-  //   test('when operation is "remove" removes a flag from message', () => {
-  //     const initialState = deepFreeze([1]);
-  //
-  //     const action = deepFreeze({
-  //       type: EVENT_UPDATE_MESSAGE_FLAGS,
-  //       messages: [1],
-  //       flag: 'read',
-  //       operation: 'remove',
-  //     });
-  //
-  //     const expectedState = [];
-  //
-  //     const actualState = unreadStreamsReducers(initialState, action);
-  //
-  //     expect(actualState).toEqual(expectedState);
-  //   });
-  //
-  //   test('if flag does not exist, do nothing', () => {
-  //     const initialState = deepFreeze([]);
-  //
-  //     const action = deepFreeze({
-  //       type: EVENT_UPDATE_MESSAGE_FLAGS,
-  //       messages: [1],
-  //       flag: 'read',
-  //       operation: 'remove',
-  //     });
-  //
-  //     const actualState = unreadStreamsReducers(initialState, action);
-  //
-  //     expect(actualState).toBe(initialState);
-  //   });
-  //
-  //   test('removes flags from multiple messages', () => {
-  //     const initialState = deepFreeze([1, 2, 3, 4, 5]);
-  //
-  //     const action = deepFreeze({
-  //       type: EVENT_UPDATE_MESSAGE_FLAGS,
-  //       messages: [1, 2, 3, 6, 7],
-  //       flag: 'read',
-  //       operation: 'remove',
-  //     });
-  //
-  //     const expectedState = [4, 5];
-  //
-  //     const actualState = unreadStreamsReducers(initialState, action);
-  //
-  //     expect(actualState).toEqual(expectedState);
-  //   });
-  // });
+  describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
+    test('when operation is "add" but flag is not "read" do not mutate state', () => {
+      const initialState = deepFreeze([]);
+
+      const action = {
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        messages: [1, 2, 3],
+        flag: 'star',
+        operation: 'add',
+      };
+
+      const actualState = unreadStreamsReducers(initialState, action);
+
+      expect(actualState).toBe(initialState);
+    });
+
+    test('if id does not exist do not mutate state', () => {
+      const initialState = deepFreeze([
+        {
+          stream_id: 1,
+          topic: 'some topic',
+          unread_message_ids: [1, 2, 3, 4, 5],
+        },
+        {
+          stream_id: 2,
+          topic: 'another topic',
+          unread_message_ids: [4, 5],
+        },
+      ]);
+
+      const action = deepFreeze({
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        messages: [6, 7],
+        flag: 'read',
+        operation: 'add',
+      });
+
+      const actualState = unreadStreamsReducers(initialState, action);
+
+      expect(actualState).toBe(initialState);
+    });
+
+    test('if ids are in state remove them', () => {
+      const initialState = deepFreeze([
+        {
+          stream_id: 1,
+          topic: 'some topic',
+          unread_message_ids: [1, 2, 3],
+        },
+        {
+          stream_id: 2,
+          topic: 'another topic',
+          unread_message_ids: [4, 5],
+        },
+      ]);
+
+      const action = deepFreeze({
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        messages: [3, 4, 5, 6],
+        flag: 'read',
+        operation: 'add',
+      });
+
+      const expectedState = [
+        {
+          stream_id: 1,
+          topic: 'some topic',
+          unread_message_ids: [1, 2],
+        },
+      ];
+
+      const actualState = unreadStreamsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('when operation is "remove" do nothing', () => {
+      const initialState = deepFreeze([
+        {
+          stream_id: 1,
+          topic: 'some topic',
+          unread_message_ids: [1, 2, 3, 4, 5],
+        },
+      ]);
+
+      const action = deepFreeze({
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        messages: [1, 2],
+        flag: 'read',
+        operation: 'remove',
+      });
+
+      const actualState = unreadStreamsReducers(initialState, action);
+
+      expect(actualState).toBe(initialState);
+    });
+  });
 });

@@ -38,13 +38,9 @@ export default (state: UnreadState = initialState, action: Action): UnreadState 
       }
 
       if (action.operation === 'add') {
-        return addItemsToHuddleArray(
-          state,
-          action.messages,
-          getRecipientsIds(action.messages[0].display_recipient),
-        );
-      } else if (action.operation === 'remove') {
         return removeItemsDeeply(state, action.messages);
+      } else if (action.operation === 'remove') {
+        // we do not support that operation
       }
 
       return state;

@@ -33,9 +33,9 @@ export default (state: UnreadState = initialState, action: Action): UnreadState 
       }
 
       if (action.operation === 'add') {
-        return addItemsToArray(state, action.messages);
-      } else if (action.operation === 'remove') {
         return removeItemsFromArray(state, action.messages);
+      } else if (action.operation === 'remove') {
+        // we do not support that operation
       }
 
       return state;

@@ -8,7 +8,7 @@ import { getAuth, getLastTopicInActiveNarrow } from '../selectors';
 import ComposeText from './ComposeText';
 import CameraRollView from './CameraRollView';
 import StreamBox from './ModeViews/StreamBox';
-import { isTopicNarrow, isStreamNarrow } from '../utils/narrow';
+import { isStreamNarrow } from '../utils/narrow';
 import AutoCompleteView from '../autocomplete/AutoCompleteView';
 import boundActions from '../boundActions';
 

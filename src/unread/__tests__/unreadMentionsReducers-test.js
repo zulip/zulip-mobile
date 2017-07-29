@@ -132,29 +132,27 @@ describe('unreadMentionsReducers', () => {
   });
 
   describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
-    test('when operation is "add" and flag is "read" adds message id to state', () => {
+    test('when operation is "add" but flag is not "read" do not mutate state', () => {
       const initialState = deepFreeze([]);
 
       const action = {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         messages: [1, 2, 3],
-        flag: 'read',
+        flag: 'star',
         operation: 'add',
       };
 
-      const expectedState = [1, 2, 3];
-
       const actualState = unreadMentionsReducers(initialState, action);
 
-      expect(actualState).toEqual(expectedState);
+      expect(actualState).toBe(initialState);
     });
 
-    test('if flag already exists do not mutate state', () => {
+    test('if id does not exist do not mutate state', () => {
       const initialState = deepFreeze([1]);
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1],
+        messages: [2],
         flag: 'read',
         operation: 'add',
       });
@@ -164,12 +162,12 @@ describe('unreadMentionsReducers', () => {
       expect(actualState).toBe(initialState);
     });
 
-    test('if other flags exist, adds new one to the list', () => {
-      const initialState = deepFreeze([]);
+    test('if ids are in state remove them', () => {
+      const initialState = deepFreeze([1, 2, 3]);
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1],
+        messages: [2, 3],
         flag: 'read',
         operation: 'add',
       });
@@ -181,44 +179,12 @@ describe('unreadMentionsReducers', () => {
       expect(actualState).toEqual(expectedState);
     });
 
-    test('adds flags for multiple messages', () => {
-      const initialState = deepFreeze([]);
-
-      const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1],
-        flag: 'starred',
-        operation: 'add',
-      });
-
-      const actualState = unreadMentionsReducers(initialState, action);
-
-      expect(actualState).toBe(initialState);
-    });
-
-    test('when operation is "remove" removes a flag from message', () => {
+    test('when operation is "remove" do nothing', () => {
       const initialState = deepFreeze([1]);
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1],
-        flag: 'read',
-        operation: 'remove',
-      });
-
-      const expectedState = [];
-
-      const actualState = unreadMentionsReducers(initialState, action);
-
-      expect(actualState).toEqual(expectedState);
-    });
-
-    test('if flag does not exist, do nothing', () => {
-      const initialState = deepFreeze([]);
-
-      const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1],
+        messages: [1, 2],
         flag: 'read',
         operation: 'remove',
       });
@@ -226,23 +192,6 @@ describe('unreadMentionsReducers', () => {
       const actualState = unreadMentionsReducers(initialState, action);
 
       expect(actualState).toBe(initialState);
-    });
-
-    test('removes flags from multiple messages', () => {
-      const initialState = deepFreeze([1, 2, 3, 4, 5]);
-
-      const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1, 2, 3, 6, 7],
-        flag: 'read',
-        operation: 'remove',
-      });
-
-      const expectedState = [4, 5];
-
-      const actualState = unreadMentionsReducers(initialState, action);
-
-      expect(actualState).toEqual(expectedState);
     });
   });
 });
