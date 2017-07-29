@@ -70,7 +70,7 @@ class ComposeBox extends PureComponent {
     return (
       <View style={this.context.styles.composeBox}>
         <AutoCompleteView text={text} onAutocomplete={this.handleAutoComplete} />
-        {(isTopicNarrow(narrow) || isStreamNarrow(narrow)) &&
+        {isStreamNarrow(narrow) &&
           <View style={styles.topicWrapper}>
             <StreamBox
               optionSelected={optionSelected}

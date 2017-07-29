@@ -77,20 +77,16 @@ export default class ComposeText extends PureComponent {
 
     if (isPrivateOrGroupNarrow(narrow)) {
       sendMessage(auth, 'private', narrow[0].operand, '', text);
-    } else if (isTopicNarrow(narrow) || isStreamNarrow(narrow)) {
-      if (operator !== null) {
-        sendMessage(
-          auth,
-          'stream',
-          narrow[0].operand,
-          operator === '' ? '(no topic)' : operator,
-          text,
-        );
-      } else if (isTopicNarrow(narrow)) {
-        sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, text);
-      } else if (isStreamNarrow(narrow)) {
-        sendMessage(auth, 'stream', narrow[0].operand, '(no topic)', text);
-      }
+    } else if (isStreamNarrow(narrow)) {
+      sendMessage(
+        auth,
+        'stream',
+        narrow[0].operand,
+        operator === '' ? '(no topic)' : operator,
+        text,
+      );
+    } else if (isTopicNarrow(narrow)) {
+      sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, text);
     }
 
     this.clearInput();
