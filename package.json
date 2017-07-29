@@ -26,7 +26,7 @@
     "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "test:prettier": "prettier-check  --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow `find src -name \"*.js\"`",
     "test": "npm run test:lint && npm run test:prettier && npm run test:coveralls && npm run test:flow",
-    "build:release-ios": "detox build --configuration ios.sim.release > /dev/null"
+    "build:ios-release": "detox build --configuration ios.sim.release"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "1.0.0",
@@ -114,7 +114,7 @@
     "configurations": {
       "ios.sim.release": {
         "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/ZulipMobile.app",
-        "build": "xcodebuild -project ios/ZulipMobile.xcodeproj -scheme ZulipMobile -configuration Release -sdk iphonesimulator -derivedDataPath ios/build",
+        "build": "cd ios && xcodebuild -workspace ZulipMobile.xcworkspace -configuration Release -scheme ZulipMobile -derivedDataPath build -sdk iphonesimulator",
         "type": "ios.simulator",
         "name": "iPhone 6"
       }

@@ -48,7 +48,7 @@ notifications:
     on_failure: always
 
 script:
-  - yarn run build:release-ios
+  - yarn run build:ios-release
   - yarn run test
   - yarn run ui-test
 
