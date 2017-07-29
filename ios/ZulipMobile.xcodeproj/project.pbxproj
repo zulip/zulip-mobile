@@ -48,7 +48,6 @@
 		CF1953241E5BE67D00B14FF0 /* AnchorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1953231E5BE67D00B14FF0 /* AnchorScrollView.m */; };
 		CF1953261E5BF2E000B14FF0 /* AnchorScrollViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1953251E5BF2E000B14FF0 /* AnchorScrollViewManager.m */; };
 		CF19532E1E5C062B00B14FF0 /* TaggedViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF19532D1E5C062B00B14FF0 /* TaggedViewManager.m */; };
-		CF6CFE2D1E7DC55100F687C7 /* Build-Phases in Resources */ = {isa = PBXBuildFile; fileRef = CF6CFE2C1E7DC55100F687C7 /* Build-Phases */; };
 		CFA67D201EC23BCB0070048E /* UtilManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA67D1F1EC23BCB0070048E /* UtilManager.m */; };
 		CFCFE5491F00158500C295CF /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A155BFEC1DD8E54100A8B695 /* libRCTCameraRoll.a */; };
 		D6D40984ED07473499B3F0C9 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5664A74FA8048439CBAB734 /* libRNDeviceInfo.a */; };
@@ -140,6 +139,34 @@
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNNotifications;
+		};
+		3C5B4C9A1F298ECA00A22BBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 139D7ECE1E25DB7D00323FB7;
+			remoteInfo = "third-party";
+		};
+		3C5B4C9C1F298ECA00A22BBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D383D3C1EBD27B6005632C8;
+			remoteInfo = "third-party-tvOS";
+		};
+		3C5B4C9E1F298ECA00A22BBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 139D7E881E25C6D100323FB7;
+			remoteInfo = "double-conversion";
+		};
+		3C5B4CA01F298ECA00A22BBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
+			remoteInfo = "double-conversion-tvOS";
 		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -553,6 +580,10 @@
 				CF68BE291E2CD177001D50C6 /* libcxxreact.a */,
 				CF68BE2B1E2CD177001D50C6 /* libjschelpers.a */,
 				CF68BE2D1E2CD177001D50C6 /* libjschelpers.a */,
+				3C5B4C9B1F298ECA00A22BBE /* libthird-party.a */,
+				3C5B4C9D1F298ECA00A22BBE /* libthird-party.a */,
+				3C5B4C9F1F298ECA00A22BBE /* libdouble-conversion.a */,
+				3C5B4CA11F298ECA00A22BBE /* libdouble-conversion.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -664,7 +695,7 @@
 			isa = PBXGroup;
 			children = (
 				A14EA85B1EACE4CF009D9E83 /* libRCTAnimation.a */,
-				A14EA85D1EACE4CF009D9E83 /* libRCTAnimation-tvOS.a */,
+				A14EA85D1EACE4CF009D9E83 /* libRCTAnimation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -977,6 +1008,34 @@
 			remoteRef = 3C4249E51EF6E05C00D245F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		3C5B4C9B1F298ECA00A22BBE /* libthird-party.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libthird-party.a";
+			remoteRef = 3C5B4C9A1F298ECA00A22BBE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3C5B4C9D1F298ECA00A22BBE /* libthird-party.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libthird-party.a";
+			remoteRef = 3C5B4C9C1F298ECA00A22BBE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3C5B4C9F1F298ECA00A22BBE /* libdouble-conversion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libdouble-conversion.a";
+			remoteRef = 3C5B4C9E1F298ECA00A22BBE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3C5B4CA11F298ECA00A22BBE /* libdouble-conversion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libdouble-conversion.a";
+			remoteRef = 3C5B4CA01F298ECA00A22BBE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1012,10 +1071,10 @@
 			remoteRef = A14EA85A1EACE4CF009D9E83 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A14EA85D1EACE4CF009D9E83 /* libRCTAnimation-tvOS.a */ = {
+		A14EA85D1EACE4CF009D9E83 /* libRCTAnimation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libRCTAnimation-tvOS.a";
+			path = libRCTAnimation.a;
 			remoteRef = A14EA85C1EACE4CF009D9E83 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1169,7 +1228,6 @@
 				17449DB932594E96A837970F /* MaterialIcons.ttf in Resources */,
 				48D1FC73615948D79D3BD31E /* Octicons.ttf in Resources */,
 				A148FEFC1E9D8CB900479280 /* zulip.mp3 in Resources */,
-				CF6CFE2D1E7DC55100F687C7 /* Build-Phases in Resources */,
 				3556F3DAC2424EBE9ABF0A31 /* Zocial.ttf in Resources */,
 				C478B42A63D649EFA2CFD12D /* SimpleLineIcons.ttf in Resources */,
 				DBC5C3186FE64F94BD3CDC19 /* MaterialCommunityIcons.ttf in Resources */,
@@ -1191,7 +1249,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/sentry-cli-binary/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "if [[ $SDKROOT == *\"iPhoneSimulator\"* ]]; then\necho [Bundle React Native code and images] Skipping sentry\n../node_modules/react-native/scripts/react-native-xcode.sh\nelse\nexport SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/sentry-cli-binary/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\nfi";
 		};
 		6FD412E618344A7FB938E4AC /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1205,7 +1263,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/sentry-cli-binary/bin/sentry-cli upload-dsym";
+			shellScript = "if [[ $SDKROOT == *\"iPhoneSimulator\"* ]]; then\necho [Upload Debug Symbols to Sentry] Skipping sentry\nelse\nexport SENTRY_PROPERTIES=sentry.properties\n../node_modules/sentry-cli-binary/bin/sentry-cli upload-dsym\nfi\n";
 		};
 		CF6CFE0C1E7DC27200F687C7 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
