@@ -18,11 +18,8 @@ export default class SlideAnimationView extends PureComponent {
     }).start();
   }
 
-  componentWillReceiveProps() {
-    this.animate();
-  }
-
   render() {
+    this.animate();
     const { property, from, to, movement, style } = this.props;
     const animationValue = this.state.animationIndex.interpolate({
       inputRange: [0, 1],

@@ -1,8 +1,8 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import type { Actions, StyleObj } from '../types';
+import type { Action, StyleObj } from '../types';
 import ModalNavBar from '../nav/ModalNavBar';
 import { SlideAnimationView, Avatar } from '../common';
 import { shortTime, humanDate } from '../utils/date';
@@ -36,7 +36,7 @@ const customStyles = StyleSheet.create({
 });
 
 type Props = {
-  actions: Actions,
+  onPressBack: () => Action,
   senderName: string,
   timestamp: number,
   from: number,
@@ -44,21 +44,21 @@ type Props = {
   style: StyleObj,
   avatarUrl: string,
   realm: string,
-  styles: StyleObj,
 };
 
-export default ({ actions, senderName, timestamp, styles, ...restProps }: Props) => {
-  const displayDate = humanDate(new Date(timestamp * 1000));
-  const time = shortTime(new Date(timestamp * 1000));
-  const subheader = `${displayDate} at ${time}`;
+export class Header extends PureComponent {
+  static contextTypes = {
+    styles: () => null,
+  };
 
-  return (
-    <SlideAnimationView property={'translateY'} {...restProps}>
+  render() {
+    const { onPressBack, senderName, subheader, ...restProps } = this.props;
+    return (
       <ModalNavBar
         itemsColor="white"
         rightItem={{
           name: 'ios-close-outline',
-          onPress: actions.navigateBack,
+          onPress: onPressBack,
           style: { fontSize: 36 },
         }}
         style={customStyles.navBar}
@@ -66,7 +66,7 @@ export default ({ actions, senderName, timestamp, styles, ...restProps }: Props)
         isRightItemNav>
         <Avatar {...restProps} />
         <View style={customStyles.text}>
-          <Text style={[styles.username, customStyles.name]} numberOfLines={1}>
+          <Text style={[this.context.styles.username, customStyles.name]} numberOfLines={1}>
             {senderName}
           </Text>
           <Text style={customStyles.subheader} numberOfLines={1}>
@@ -74,6 +74,24 @@ export default ({ actions, senderName, timestamp, styles, ...restProps }: Props)
           </Text>
         </View>
       </ModalNavBar>
+    );
+  }
+}
+
+export default ({ onPressBack, senderName, timestamp, ...restProps }: Props) => {
+  const displayDate = humanDate(new Date(timestamp * 1000));
+  const time = shortTime(new Date(timestamp * 1000));
+  const subheader = `${displayDate} at ${time}`;
+
+  return (
+    <SlideAnimationView property={'translateY'} {...restProps}>
+      <Header
+        onPressBack={onPressBack}
+        senderName={senderName}
+        timestamp={timestamp}
+        subheader={subheader}
+        {...restProps}
+      />
     </SlideAnimationView>
   );
 };

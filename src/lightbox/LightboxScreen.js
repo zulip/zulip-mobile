@@ -5,6 +5,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { ZulipStatusBar } from '../common';
 import LightboxContainer from './LightboxContainer';
+import { Message, ImageResource } from '../types';
 
 const styles = StyleSheet.create({
   screen: {
@@ -16,12 +17,24 @@ const styles = StyleSheet.create({
 });
 
 export default class LightboxScreen extends PureComponent {
+  props: {
+    navigation: {
+      state: {
+        params: {
+          src: ImageResource,
+          message: Message,
+        },
+      },
+    },
+  };
+
   render() {
+    const { src, message } = this.props.navigation.state.params;
     return (
       <View style={styles.screen}>
         <ZulipStatusBar hidden backgroundColor="black" />
         <ActionSheetProvider>
-          <LightboxContainer />
+          <LightboxContainer src={src} message={message} />
         </ActionSheetProvider>
       </View>
     );

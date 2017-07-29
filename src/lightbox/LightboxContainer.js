@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Actions, Auth, Message } from '../types';
+import type { Actions, Auth, Message, ImageResource, Connector } from '../types';
 import { getAuth } from '../selectors';
 import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
@@ -47,18 +47,15 @@ const styles = StyleSheet.create({
   },
 });
 
+type Props = {
+  auth: Auth,
+  actions: Actions,
+  src: ImageResource,
+  message: Message,
+  showActionSheetWithOptions: (Object, (number) => void) => void,
+};
 class LightboxContainer extends PureComponent {
-  static contextTypes = {
-    styles: () => null,
-  };
-
-  props: {
-    auth: Auth,
-    actions: Actions,
-    src: Object,
-    message: Message,
-    showActionSheetWithOptions: (Object, (number) => void) => void,
-  };
+  props: Props;
 
   state = {
     movement: 'out',
@@ -110,8 +107,7 @@ class LightboxContainer extends PureComponent {
     return (
       <View style={styles.container}>
         <LightboxHeader
-          actions={actions}
-          styles={this.context.styles}
+          onPressBack={actions.navigateBack}
           style={[styles.overlay, styles.header, { width: WINDOW_WIDTH }]}
           from={-NAVBAR_HEIGHT}
           to={0}
@@ -132,7 +128,7 @@ class LightboxContainer extends PureComponent {
         <LightboxFooter
           style={[styles.overlay, styles.footer, { width: WINDOW_WIDTH }]}
           displayMessage={footerMessage}
-          onPress={this.handleOptionsPress}
+          onOptionsPress={this.handleOptionsPress}
           from={WINDOW_HEIGHT}
           to={WINDOW_HEIGHT - FOOTER_HEIGHT - LIGHTBOX_FOOTER_OFFSET}
           {...this.getAnimationProps()}
@@ -142,11 +138,11 @@ class LightboxContainer extends PureComponent {
   }
 }
 
-export default connectActionSheet(
-  connect(
-    state => ({
-      auth: getAuth(state),
-    }),
-    boundActions,
-  )(LightboxContainer),
+const connector: Connector<{}, Props> = connect(
+  state => ({
+    auth: getAuth(state),
+  }),
+  boundActions,
 );
+
+export default connectActionSheet(connector(LightboxContainer));
