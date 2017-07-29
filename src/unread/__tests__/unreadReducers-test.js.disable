@@ -1,0 +1,458 @@
+// import deepFreeze from 'deep-freeze';
+//
+// import unreadReducers from '../unreadReducers';
+// import {
+//   REALM_INIT,
+//   ACCOUNT_SWITCH,
+//   EVENT_NEW_MESSAGE,
+//   //  EVENT_UPDATE_MESSAGE_FLAGS,
+//   MARK_MESSAGES_READ,
+// } from '../../actionConstants';
+//
+// describe('unreadReducers', () => {
+//   describe('ACCOUNT_SWITCH', () => {
+//     test('resets state to initial state', () => {
+//       const initialState = deepFreeze(['some_stream']);
+//
+//       const action = deepFreeze({
+//         type: ACCOUNT_SWITCH,
+//       });
+//
+//       const expectedState = {
+//         streams: [],
+//         huddles: [],
+//         pms: [],
+//         mentions: [],
+//       };
+//
+//       const actualState = unreadReducers(initialState, action);
+//
+//       expect(actualState).toEqual(expectedState);
+//     });
+//   });
+//
+//   describe('REALM_INIT', () => {
+//     test('received data from "unread_msgs" key replaces the current state ', () => {
+//       const initialState = deepFreeze({
+//         streams: [],
+//         huddles: [],
+//         pms: [],
+//         mentions: [],
+//       });
+//
+//       const unreadMsgsData = {
+//         streams: [
+//           {
+//             stream_id: 1,
+//             topic: 'some topic',
+//             unread_message_ids: [1, 2, 3],
+//           },
+//         ],
+//         huddles: [],
+//         pms: [],
+//         mentions: [],
+//       };
+//
+//       const action = deepFreeze({
+//         type: REALM_INIT,
+//         data: {
+//           unread_msgs: unreadMsgsData,
+//         },
+//       });
+//
+//       const actualState = unreadReducers(initialState, action);
+//
+//       expect(actualState).toBe(unreadMsgsData);
+//     });
+//   });
+//
+//   describe('EVENT_NEW_MESSAGE', () => {
+//     test('TODO', () => {
+//       const initialState = deepFreeze({
+//         streams: [],
+//         huddles: [],
+//         pms: [],
+//         mentions: [],
+//       });
+//
+//       const action = deepFreeze({
+//         type: EVENT_NEW_MESSAGE,
+//         message: {
+//           id: 2,
+//           type: 'stream',
+//           subject: 'topic',
+//         },
+//       });
+//
+//       const expectedState = {
+//         streams: [
+//           {
+//             stream_id: 1,
+//             topic: 'topic',
+//             unread_message_ids: [2],
+//           },
+//         ],
+//         huddles: [],
+//         pms: [],
+//         mentions: [],
+//       };
+//
+//       const actualState = unreadReducers(initialState, action);
+//
+//       expect(actualState).toEqual(expectedState);
+//     });
+//   });
+//
+//   // describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
+//   //   test('when operation is "add", adds flag to an empty state', () => {
+//   //     const initialState = deepFreeze({});
+//   //
+//   //     const action = deepFreeze({
+//   //       streams: [
+//   //         {
+//   //           stream_id: 1,
+//   //           topic: 'some topic',
+//   //           unread_message_ids: [1, 3],
+//   //         },
+//   //       ],
+//   //       huddles: [],
+//   //       pms: [],
+//   //     });
+//   //
+//   //     const expectedState = {
+//   //       starred: {
+//   //         1: true,
+//   //       },
+//   //     };
+//   //
+//   //     const actualState = unreadReducers(initialState, action);
+//   //
+//   //     expect(actualState).toEqual(expectedState);
+//   //   });
+//   //
+//   //   test('if flag already exists, do not duplicate', () => {
+//   //     const initialState = deepFreeze({
+//   //       starred: {
+//   //         1: true,
+//   //       },
+//   //     });
+//   //
+//   //     const action = deepFreeze({
+//   //       type: EVENT_UPDATE_MESSAGE_FLAGS,
+//   //       messages: [1],
+//   //       flag: 'starred',
+//   //       operation: 'add',
+//   //     });
+//   //
+//   //     const expectedState = {
+//   //       starred: {
+//   //         1: true,
+//   //       },
+//   //     };
+//   //
+//   //     const actualState = unreadReducers(initialState, action);
+//   //
+//   //     expect(actualState).toEqual(expectedState);
+//   //   });
+//   //
+//   //   test('if other flags exist, adds new one to the list', () => {
+//   //     const initialState = deepFreeze({
+//   //       starred: {
+//   //         1: true,
+//   //       },
+//   //     });
+//   //
+//   //     const action = deepFreeze({
+//   //       type: EVENT_UPDATE_MESSAGE_FLAGS,
+//   //       messages: [1],
+//   //       flag: 'read',
+//   //       operation: 'add',
+//   //     });
+//   //
+//   //     const expectedState = {
+//   //       starred: {
+//   //         1: true,
+//   //       },
+//   //       read: {
+//   //         1: true,
+//   //       },
+//   //     };
+//   //
+//   //     const actualState = unreadReducers(initialState, action);
+//   //
+//   //     expect(actualState).toEqual(expectedState);
+//   //   });
+//   //
+//   //   test('adds flags for multiple messages', () => {
+//   //     const initialState = deepFreeze({
+//   //       read: {
+//   //         1: true,
+//   //       },
+//   //       starred: {
+//   //         2: true,
+//   //       },
+//   //     });
+//   //
+//   //     const action = deepFreeze({
+//   //       type: EVENT_UPDATE_MESSAGE_FLAGS,
+//   //       messages: [1, 2, 3],
+//   //       flag: 'starred',
+//   //       operation: 'add',
+//   //     });
+//   //
+//   //     const expectedState = {
+//   //       read: {
+//   //         1: true,
+//   //       },
+//   //       starred: {
+//   //         1: true,
+//   //         2: true,
+//   //         3: true,
+//   //       },
+//   //     };
+//   //
+//   //     const actualState = unreadReducers(initialState, action);
+//   //
+//   //     expect(actualState).toEqual(expectedState);
+//   //   });
+//   //
+//   //   test('when operation is "remove" removes a flag from message', () => {
+//   //     const initialState = deepFreeze({
+//   //       read: {
+//   //         1: true,
+//   //       },
+//   //     });
+//   //
+//   //     const action = deepFreeze({
+//   //       type: EVENT_UPDATE_MESSAGE_FLAGS,
+//   //       messages: [1],
+//   //       flag: 'read',
+//   //       operation: 'remove',
+//   //     });
+//   //
+//   //     const expectedState = {
+//   //       read: {},
+//   //     };
+//   //
+//   //     const actualState = unreadReducers(initialState, action);
+//   //
+//   //     expect(actualState).toEqual(expectedState);
+//   //   });
+//   //
+//   //   test('if flag does not exist, do nothing', () => {
+//   //     const initialState = deepFreeze({});
+//   //
+//   //     const action = deepFreeze({
+//   //       type: EVENT_UPDATE_MESSAGE_FLAGS,
+//   //       messages: [1],
+//   //       flag: 'read',
+//   //       operation: 'remove',
+//   //     });
+//   //
+//   //     const expectedState = {
+//   //       read: {},
+//   //     };
+//   //
+//   //     const actualState = unreadReducers(initialState, action);
+//   //
+//   //     expect(actualState).toEqual(expectedState);
+//   //   });
+//   //
+//   //   test('removes flags from multiple messages', () => {
+//   //     const initialState = deepFreeze({
+//   //       read: {
+//   //         1: true,
+//   //         3: true,
+//   //       },
+//   //       starred: {
+//   //         1: true,
+//   //         3: true,
+//   //       },
+//   //     });
+//   //
+//   //     const action = deepFreeze({
+//   //       type: EVENT_UPDATE_MESSAGE_FLAGS,
+//   //       messages: [1, 2, 3, 4],
+//   //       flag: 'starred',
+//   //       operation: 'remove',
+//   //     });
+//   //
+//   //     const expectedState = {
+//   //       read: {
+//   //         1: true,
+//   //         3: true,
+//   //       },
+//   //       starred: {},
+//   //     };
+//   //
+//   //     const actualState = unreadReducers(initialState, action);
+//   //
+//   //     expect(actualState).toEqual(expectedState);
+//   //   });
+//   // });
+//
+//   describe('MARK_MESSAGES_READ', () => {
+//     test('when ids do not exist, do not change the state', () => {
+//       const initialState = deepFreeze({
+//         streams: [],
+//         huddles: [],
+//         pms: [],
+//         mentions: [],
+//       });
+//
+//       const action = deepFreeze({
+//         type: MARK_MESSAGES_READ,
+//         messageIds: [1, 2, 3],
+//       });
+//
+//       const actualState = unreadReducers(initialState, action);
+//
+//       expect(actualState).toEqual(initialState);
+//     });
+//
+//     test('TODO2', () => {
+//       const initialState = deepFreeze({
+//         streams: [],
+//         huddles: [],
+//         pms: [],
+//         mentions: [1, 2, 3, 4, 5],
+//       });
+//
+//       const action = deepFreeze({
+//         type: MARK_MESSAGES_READ,
+//         messageIds: [1, 2, 3],
+//       });
+//
+//       const expectedState = {
+//         streams: [],
+//         huddles: [],
+//         pms: [],
+//         mentions: [4, 5],
+//       };
+//
+//       const actualState = unreadReducers(initialState, action);
+//
+//       expect(actualState).toEqual(expectedState);
+//     });
+//
+//     test('TODO3', () => {
+//       const initialState = deepFreeze({
+//         streams: [],
+//         huddles: [],
+//         pms: [
+//           {
+//             sender_id: 1,
+//             unread_message_ids: [1, 2, 4, 5],
+//           },
+//           {
+//             sender_id: 2,
+//             unread_message_ids: [3],
+//           },
+//         ],
+//         mentions: [],
+//       });
+//
+//       const action = deepFreeze({
+//         type: MARK_MESSAGES_READ,
+//         messageIds: [1, 2, 3],
+//       });
+//
+//       const expectedState = {
+//         streams: [],
+//         huddles: [],
+//         pms: [
+//           {
+//             sender_id: 1,
+//             unread_message_ids: [4, 5],
+//           },
+//         ],
+//         mentions: [],
+//       };
+//
+//       const actualState = unreadReducers(initialState, action);
+//
+//       expect(actualState).toEqual(expectedState);
+//     });
+//
+//     test('TODO4', () => {
+//       const initialState = deepFreeze({
+//         streams: [],
+//         huddles: [
+//           {
+//             user_ids_string: '1,2,3',
+//             unread_message_ids: [1, 2, 4, 5],
+//           },
+//           {
+//             user_ids_string: '4,5',
+//             unread_message_ids: [3],
+//           },
+//         ],
+//         pms: [],
+//         mentions: [],
+//       });
+//
+//       const action = deepFreeze({
+//         type: MARK_MESSAGES_READ,
+//         messageIds: [1, 2, 3],
+//       });
+//
+//       const expectedState = {
+//         streams: [],
+//         huddles: [
+//           {
+//             user_ids_string: '1,2,3',
+//             unread_message_ids: [4, 5],
+//           },
+//         ],
+//         pms: [],
+//         mentions: [],
+//       };
+//
+//       const actualState = unreadReducers(initialState, action);
+//
+//       expect(actualState).toEqual(expectedState);
+//     });
+//
+//     test('TODO5', () => {
+//       const initialState = deepFreeze({
+//         streams: [
+//           {
+//             stream_id: 0,
+//             topic: 'some topic',
+//             unread_message_ids: [1, 2, 4, 5],
+//           },
+//           {
+//             stream_id: 0,
+//             topic: 'another topic in same stream',
+//             unread_message_ids: [3],
+//           },
+//         ],
+//         huddles: [],
+//         pms: [],
+//         mentions: [],
+//       });
+//
+//       const action = deepFreeze({
+//         type: MARK_MESSAGES_READ,
+//         messageIds: [1, 2, 3],
+//       });
+//
+//       const expectedState = {
+//         streams: [
+//           {
+//             stream_id: 0,
+//             topic: 'some topic',
+//             unread_message_ids: [4, 5],
+//           },
+//         ],
+//         huddles: [],
+//         pms: [],
+//         mentions: [],
+//       };
+//
+//       const actualState = unreadReducers(initialState, action);
+//
+//       expect(actualState).toEqual(expectedState);
+//     });
+//   });
+// });

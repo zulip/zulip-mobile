@@ -1,0 +1,49 @@
+/* @flow */
+import type { Action, UnreadState } from '../types';
+import {
+  REALM_INIT,
+  ACCOUNT_SWITCH,
+  //  MESSAGE_FETCH_SUCCESS,
+  EVENT_NEW_MESSAGE,
+  EVENT_UPDATE_MESSAGE_FLAGS,
+  MARK_MESSAGES_READ,
+} from '../actionConstants';
+import { addUnreadItemsToState, removeUnreadItemsFromState } from './unreadHelpers';
+
+const initialState: UnreadState = {
+  streams: [],
+  huddles: [],
+  pms: [],
+  mentions: [],
+};
+
+export default (state: UnreadState = initialState, action: Action): UnreadState => {
+  switch (action.type) {
+    case REALM_INIT:
+      return action.data.unread_msgs || initialState;
+
+    case ACCOUNT_SWITCH:
+      return initialState;
+
+    case EVENT_NEW_MESSAGE:
+      return addUnreadItemsToState(state, [action.message]);
+
+    case EVENT_UPDATE_MESSAGE_FLAGS: {
+      if (action.operation === 'add') {
+        return addUnreadItemsToState(state, action.messages);
+      }
+
+      if (action.operation === 'remove') {
+        return removeUnreadItemsFromState(state, action.messages);
+      }
+
+      return state;
+    }
+
+    case MARK_MESSAGES_READ:
+      return removeUnreadItemsFromState(state, action.messageIds);
+
+    default:
+      return state;
+  }
+};

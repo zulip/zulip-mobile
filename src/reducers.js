@@ -14,7 +14,10 @@ import settings from './settings/settingsReducers';
 import streams from './streams/streamsReducers';
 import subscriptions from './subscriptions/subscriptionsReducers';
 import typing from './typing/typingReducers';
-import unread from './unread/unreadReducers';
+import unreadStreams from './unread/unreadStreamsReducers';
+import unreadPms from './unread/unreadPmsReducers';
+import unreadHuddles from './unread/unreadHuddlesReducers';
+import unreadMentions from './unread/unreadMentionsReducers';
 import users from './users/usersReducers';
 import presence from './presence/presenceReducers';
 
@@ -42,7 +45,12 @@ export default enableBatching(
     streams,
     subscriptions,
     typing,
-    unread,
+    unread: combineReducers({
+      streams: unreadStreams,
+      pms: unreadPms,
+      huddles: unreadHuddles,
+      mentions: unreadMentions,
+    }),
     users,
   }),
 );
