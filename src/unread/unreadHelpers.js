@@ -12,10 +12,17 @@ export const removeItemsDeeply = (objArray: Object[], messageIds: number[]): Obj
       return obj;
     }
 
+    const filteredIds = removeItemsFromArray(obj.unread_message_ids, messageIds);
+
+    if (filteredIds.length === obj.unread_message_ids.length) {
+      return obj;
+    }
+
     changed = true;
+
     return {
       ...obj,
-      unread_message_ids: removeItemsFromArray(obj.unread_message_ids, messageIds),
+      unread_message_ids: filteredIds,
     };
   });
 
