@@ -23,5 +23,6 @@ export const IconDownArrow = (props: Object) => <IoniconsIcon name="md-arrow-dow
 export const IconGoogle = (props: Object) => <IoniconsIcon name="logo-google" {...props} />;
 export const IconCross = (props: Object) => <EntypoIcon name="cross" {...props} />;
 export const IconSettings = (props: Object) => <IoniconsIcon name="md-settings" {...props} />;
-
+export const IconRightIcon = (props: Object) =>
+  <IoniconsIcon name="ios-arrow-forward" {...props} />;
 export default IoniconsIcon;

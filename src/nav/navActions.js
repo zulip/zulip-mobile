@@ -44,3 +44,6 @@ export const navigateToLightbox = (src: ImageResource, message: Message): Action
   NavigationActions.navigate({ routeName: 'lightbox', params: { src, message } });
 
 export const navigateToLoading = (): Action => NavigationActions.navigate({ routeName: 'loading' });
+
+export const navigateToSettingsDetail = (setting: string, title: string): Action =>
+  NavigationActions.navigate({ routeName: 'settings-detail', params: { setting, title } });
