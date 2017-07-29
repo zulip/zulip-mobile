@@ -13,5 +13,5 @@ export default {
   endMessageListThreshold: 500,
   enableReduxLogging: isDevelopment && !!global.btoa,
   enableSentry: !isDevelopment,
-  sentryKey: 'ADD-KEY-HERE',
+  sentryKey: 'ADD-DSN-HERE',
 };
