@@ -9,12 +9,17 @@ import {
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_SUCCESS,
   MARK_MESSAGES_READ,
+  POP_NARROW,
 } from '../actionConstants';
 import { navigateToChat } from '../nav/navActions';
 
 export const switchNarrow = (narrow: Narrow): Action => ({
   type: SWITCH_NARROW,
   narrow,
+});
+
+export const popNarrow = (): Action => ({
+  type: POP_NARROW,
 });
 
 export const messageFetchStart = (

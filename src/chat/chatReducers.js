@@ -11,6 +11,7 @@ import {
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
+  POP_NARROW,
 } from '../actionConstants';
 import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
@@ -44,6 +45,16 @@ export default (state: ChatState = initialState, action: Action) => {
       return {
         ...state,
         narrow: action.narrow,
+        fetchingOlder: false,
+        fetchingNewer: false,
+        caughtUpOlder: false,
+        caughtUpNewer: false,
+      };
+    }
+    case POP_NARROW: {
+      return {
+        ...state,
+        narrow: state.narrow.slice(0, state.narrow.length - 1),
         fetchingOlder: false,
         fetchingNewer: false,
         caughtUpOlder: false,
