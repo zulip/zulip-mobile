@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.AudioAttributes;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -144,6 +146,14 @@ public class GCMPushNotifications extends PushNotification {
             PendingIntent piDismiss = PendingIntent.getService(mContext, 0, dismissIntent, 0);
             Notification.Action action = new Notification.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss);
             builder.addAction(action);
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            AudioAttributes audioAttr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION).build();
+            builder.setSound(Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.zulip), audioAttr);
+        } else {
+            builder.setSound(Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.zulip));
         }
         return builder;
     }
