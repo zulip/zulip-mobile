@@ -1,5 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
 import type { Auth, Message, Actions, StyleObj, SupportedHtmlClasses } from '../types';
 import styles from './HtmlStyles';
@@ -9,6 +10,7 @@ import indexedStyles from './indexedStyles';
 import indexedViewsStyles from './indexedViewsStyles';
 import textStylesFromClass from './textStylesFromClass';
 import HtmlTagSpan from './tags/HtmlTagSpan';
+import HtmlTagSpanMention from './tags/HtmlTagSpanMention';
 import HtmlTagA from './tags/HtmlTagA';
 import HtmlTagLi from './tags/HtmlTagLi';
 import HtmlTagImg from './tags/HtmlTagImg';
@@ -17,6 +19,7 @@ import HtmlTagStrong from './tags/HtmlTagStrong';
 import HtmlTagItalic from './tags/HtmlTagItalic';
 import HtmlTagDiv from './tags/HtmlTagDiv';
 import { getEmojiUrl } from '../utils/url';
+import { getOwnEmail } from '../selectors';
 
 const specialTags = {
   span: HtmlTagSpan,
@@ -45,7 +48,7 @@ const specialTags = {
 const stylesFromClassNames = (classNames: SupportedHtmlClasses = '', styleObj) =>
   classNames.split(' ').map(className => styleObj[className]);
 
-export default class HtmlNodeTag extends PureComponent {
+class HtmlNodeTag extends PureComponent {
   props: {
     auth: Auth,
     attribs: Object,
@@ -53,6 +56,7 @@ export default class HtmlNodeTag extends PureComponent {
     cascadingStyle: StyleObj,
     cascadingTextStyle: StyleObj,
     childrenNodes: Object[],
+    ownEmail: string,
     onPress: () => void,
     message: Message,
     actions: Actions,
@@ -69,6 +73,7 @@ export default class HtmlNodeTag extends PureComponent {
       childrenNodes,
       onPress,
       message,
+      ownEmail,
     } = this.props;
     const style = [styles[name], ...stylesFromClassNames(attribs.class, styles)];
     const newCascadingStyle = [
@@ -86,9 +91,13 @@ export default class HtmlNodeTag extends PureComponent {
 
     let HtmlComponent = specialTags[name] || HtmlTagSpan;
 
-    if (attribs.class && attribs.class.startsWith('emoji emoji-')) {
-      HtmlComponent = HtmlTagImg;
-      attribs.src = getEmojiUrl(attribs.class.split('-').pop());
+    if (attribs.class) {
+      if (attribs.class.startsWith('emoji emoji-')) {
+        HtmlComponent = HtmlTagImg;
+        attribs.src = getEmojiUrl(attribs.class.split('-').pop());
+      } else if (attribs.class === 'user-mention' && attribs['data-user-email'] === ownEmail) {
+        HtmlComponent = HtmlTagSpanMention;
+      }
     }
 
     return (
@@ -112,3 +121,10 @@ export default class HtmlNodeTag extends PureComponent {
     );
   }
 }
+
+export default connect(
+  state => ({
+    ownEmail: getOwnEmail(state),
+  }),
+  {},
+)(HtmlNodeTag);
