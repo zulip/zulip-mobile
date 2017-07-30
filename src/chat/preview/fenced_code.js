@@ -1,3 +1,12 @@
+// prettier-disable
+/* eslint-disable */
+// prettier-ignore
+
+var forEach = require('lodash.foreach');
+var contains = require('lodash.contains');
+var map = require('lodash.map');
+var reject = require('lodash.reject');
+var util = require('./util');
 var fenced_code = (function () {
 
 var exports = {};
@@ -43,10 +52,10 @@ function wrap_quote(text) {
     var quoted_paragraphs = [];
     // Prefix each quoted paragraph with > at the
     // beginning of each line
-    _.each(paragraphs, function (paragraph) {
+    forEach(paragraphs, function (paragraph) {
         var lines = paragraph.split('\n');
-        quoted_paragraphs.push(_.map(
-                                    _.reject(lines, function (line) { return line === ''; }),
+        quoted_paragraphs.push(map(
+                                    reject(lines, function (line) { return line === ''; }),
                                     function (line) { return '> ' + line; }).join('\n'));
     });
     return quoted_paragraphs.join('\n\n');
@@ -170,7 +179,7 @@ exports.process_fenced_code = function (content) {
     var current_handler = default_hander();
     handler_stack.push(current_handler);
 
-    _.each(input, function (line) {
+    forEach(input, function (line) {
         var handler = handler_stack[handler_stack.length - 1];
         handler.handle_line(line);
     });

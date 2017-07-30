@@ -49,6 +49,12 @@ export const getAllActiveUsersWithStatus = createSelector(
 export const getUserById = (users: any[], userId: number) =>
   users.find(user => user.id === userId) || NULL_USER;
 
+export const getUserByFullName = (users: any[], fullName: number) =>
+  users.find(user => user.fullName === fullName) || NULL_USER;
+
+export const getUserByEmail = (users: any[], email: string) =>
+  users.find(user => user.email === email) || NULL_USER;
+
 export const groupUsersByInitials = (users: any[]): Object =>
   users.reduce((accounts, x) => {
     const firstLetter = x.fullName[0].toUpperCase();

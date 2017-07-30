@@ -4,6 +4,10 @@
  * https://github.com/chjj/marked
  */
 
+// prettier-disable
+/* eslint-disable */
+// prettier-ignore
+
 ;(function() {
 
 /**

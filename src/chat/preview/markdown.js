@@ -4,6 +4,18 @@
 // static/third/marked/lib/marked.js, which we have significantly
 // modified from the original implementation.
 
+// prettier-disable
+/* eslint-disable */
+// prettier-ignore
+
+var forEach = require('lodash.foreach');
+var find = require('lodash.find');
+var contains = require('lodash.contains');
+const marked = require('./marked');
+const hash_util = require('./hash_util');
+const fenced_code = require('./fenced_code');
+const emoji = require('./emoji');
+
 var markdown = (function () {
 
 var exports = {};
@@ -27,14 +39,14 @@ var backend_only_markdown_re = [
 exports.contains_backend_only_syntax = function (content) {
     // Try to guess whether or not a message has bugdown in it
     // If it doesn't, we can immediately render it client-side
-    var markedup = _.find(backend_only_markdown_re, function (re) {
+    var markedup = find(backend_only_markdown_re, function (re) {
         return re.test(content);
     });
     return markedup !== undefined;
 };
 
 function push_uniquely(lst, elem) {
-    if (!_.contains(lst, elem)) {
+    if (!contains(lst, elem)) {
         lst.push(elem);
     }
 }
@@ -43,28 +55,7 @@ exports.apply_markdown = function (message) {
     if (message.flags === undefined) {
         message.flags = [];
     }
-
-    // Our python-markdown processor appends two \n\n to input
-    var options = {
-        userMentionHandler: function (name) {
-            var person = people.get_by_name(name);
-            if (person !== undefined) {
-                if (people.is_my_user_id(person.user_id)) {
-                    push_uniquely(message.flags, 'mentioned');
-                }
-                return '<span class="user-mention" data-user-id="' + person.user_id + '">' +
-                       '@' + person.full_name +
-                       '</span>';
-            } else if (name === 'all' || name === 'everyone') {
-                push_uniquely(message.flags, 'mentioned');
-                return '<span class="user-mention" data-user-id="*">' +
-                       '@' + name +
-                       '</span>';
-            }
-            return undefined;
-        },
-    };
-    message.content = marked(message.raw_content + '\n\n', options).trim();
+    return marked(message + '\n\n').trim();
 };
 
 exports.add_message_flags = function (message) {
@@ -84,7 +75,7 @@ exports.add_subject_links = function (message) {
     }
     var subject = message.subject;
     var links = [];
-    _.each(realm_filter_list, function (realm_filter) {
+    forEach(realm_filter_list, function (realm_filter) {
         var pattern = realm_filter[0];
         var url = realm_filter[1];
         var match;
@@ -153,22 +144,40 @@ function handleAvatar(email) {
 }
 
 function handleStream(streamName) {
-    var stream = stream_data.get_sub(streamName);
+    var stream = this.stream_data.get_sub(streamName);
     if (stream === undefined) {
         return undefined;
     }
     return '<a class="stream" data-stream-id="' + stream.stream_id + '" ' +
-        'href="' + window.location.origin + '/#narrow/stream/' +
+        'href="' + this.realm + '/#narrow/stream/' +
         hash_util.encodeHashComponent(stream.name) + '"' +
         '>' + '#' + stream.name + '</a>';
 
+}
+
+function handleUser(name) {
+    var person = this.people.get_by_name(name);
+    if (person !== undefined) {
+        if (this.people.is_my_user_id(person.user_id)) {
+            push_uniquely(message.flags, 'mentioned');
+        }
+        return '<span class="user-mention" data-user-id="' + person.user_id + '">' +
+               '@' + person.full_name +
+               '</span>';
+    } else if (name === 'all' || name === 'everyone') {
+        push_uniquely(message.flags, 'mentioned');
+        return '<span class="user-mention" data-user-id="*">' +
+               '@' + name +
+               '</span>';
+    }
+    return undefined;
 }
 
 function handleRealmFilter(pattern, matches) {
     var url = realm_filter_map[pattern];
 
     var current_group = 1;
-    _.each(matches, function (match) {
+    forEach(matches, function (match) {
         var back_ref = "\\" + current_group;
         url = url.replace(back_ref, match);
         current_group += 1;
@@ -214,7 +223,7 @@ function python_to_js_filter(pattern, url) {
     // flags, so keep those and ignore the rest
     if (match) {
         var py_flags = match[1].split("");
-        _.each(py_flags, function (flag) {
+        forEach(py_flags, function (flag) {
             if ("im".indexOf(flag) !== -1) {
                 js_flags += flag;
             }
@@ -230,7 +239,7 @@ exports.set_realm_filters = function (realm_filters) {
     realm_filter_list = [];
 
     var marked_rules = [];
-    _.each(realm_filters, function (realm_filter) {
+    forEach(realm_filters, function (realm_filter) {
         var pattern = realm_filter[0];
         var url = realm_filter[1];
         var js_filters = python_to_js_filter(pattern, url);
@@ -243,8 +252,7 @@ exports.set_realm_filters = function (realm_filters) {
     marked.InlineLexer.rules.zulip.realm_filters = marked_rules;
 };
 
-exports.initialize = function () {
-
+exports.initialize = function (people, stream_data, realm) {
     function disable_markdown_regex(rules, name) {
         rules[name] = {exec: function () {
                 return false;
@@ -254,7 +262,6 @@ exports.initialize = function () {
 
     // Configure the marked markdown parser for our usage
     var r = new marked.Renderer();
-
     // No <code> around our code blocks instead a codehilite <div> and disable
     // class-specific highlighting.
     r.code = function (code) {
@@ -303,7 +310,7 @@ exports.initialize = function () {
     // Disable autolink as (a) it is not used in our backend and (b) it interferes with @mentions
     disable_markdown_regex(marked.InlineLexer.rules.zulip, 'autolink');
 
-    exports.set_realm_filters(page_params.realm_filters);
+    // exports.set_realm_filters(page_params.realm_filters);
 
     // Tell our fenced code preprocessor how to insert arbitrary
     // HTML into the output. This generated HTML is safe to not escape
@@ -325,10 +332,14 @@ exports.initialize = function () {
         avatarHandler: handleAvatar,
         unicodeEmojiHandler: handleUnicodeEmoji,
         streamHandler: handleStream,
+        userMentionHandler: handleUser,
         realmFilterHandler: handleRealmFilter,
         texHandler: handleTex,
         renderer: r,
         preprocessors: [preprocess_code_blocks],
+        people: people,
+        stream_data: stream_data,
+        realm: realm
     });
 
 };
