@@ -23,9 +23,18 @@ class SubscriptionsContainer extends PureComponent {
     narrow: Narrow,
     subscriptions: SubscriptionsState,
     unreadByStream: number[],
+    onNarrow: () => void,
   };
 
-  handleNarrow = (streamName: string) => this.props.actions.doNarrow(streamNarrow(streamName));
+  static defaultProps = {
+    onNarrow: () => {},
+  };
+
+  handleNarrow = (streamName: string) => {
+    const { actions, onNarrow } = this.props;
+    actions.doNarrow(streamNarrow(streamName));
+    onNarrow();
+  };
 
   render() {
     const { narrow, subscriptions, unreadByStream } = this.props;

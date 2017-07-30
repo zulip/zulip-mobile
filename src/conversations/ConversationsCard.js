@@ -42,10 +42,12 @@ export default class ConversationsCard extends PureComponent {
     });
   };
 
-  handleUserNarrow = (email: string) =>
-    this.props.actions.doNarrow(
-      email.indexOf(',') === -1 ? privateNarrow(email) : groupNarrow(email.split(',')),
-    );
+  handleUserNarrow = (email: string) => {
+    const { actions, usersNavigation } = this.props;
+    const narrow = email.indexOf(',') === -1 ? privateNarrow(email) : groupNarrow(email.split(','));
+    actions.doNarrow(narrow);
+    usersNavigation.navigate('DrawerClose');
+  };
 
   render() {
     const { actions, conversations } = this.props;

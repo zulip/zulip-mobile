@@ -29,8 +29,7 @@ export const UsersDrawer = DrawerNavigator(
     },
   },
   {
-    contentComponent: props =>
-      <ConversationsContainer streamsNavigation={props.streamsNavigation} />,
+    contentComponent: props => <ConversationsContainer usersNavigation={props.navigation} />,
     initialRouteName: 'main',
     drawerPosition: 'right',
   },
