@@ -29,6 +29,6 @@ export const fetchUsersAndStatus = (): Action => async (dispatch: Dispatch) => {
   await dispatch(sendFocusPing(true, false));
 };
 
-export const fetchUsersStatus = (): Action => async (dispatch: Dispatch) => {
-  await dispatch(sendFocusPing(true, false));
+export const fetchUsersStatus = (isActive: boolean): Action => async (dispatch: Dispatch) => {
+  await dispatch(sendFocusPing(isActive, false));
 };

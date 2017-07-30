@@ -78,7 +78,7 @@ class AppContainer extends PureComponent {
   componentWillReceiveProps = nextProps => this.init(nextProps);
 
   init = props => {
-    const { needsInitialFetch, actions } = props;
+    const { needsInitialFetch, actions, isActive } = props;
 
     if (needsInitialFetch) {
       actions.fetchEssentialInitialData();
@@ -87,8 +87,8 @@ class AppContainer extends PureComponent {
       if (!DeviceInfo.isEmulator()) {
         actions.initNotifications();
       }
-      actions.fetchUsersStatus(); // do a initial fetch
-      setInterval(() => actions.fetchUsersStatus(), config.activePingInterval);
+      actions.fetchUsersStatus(isActive); // do a initial fetch
+      setInterval(() => actions.fetchUsersStatus(isActive), config.activePingInterval);
     }
   };
 
@@ -118,6 +118,7 @@ export default connect(
     auth: getAuth(state),
     isHydrated: state.app.isHydrated,
     needsInitialFetch: state.app.needsInitialFetch,
+    isActive: state.app.isActive,
   }),
   boundActions,
 )(AppContainer);
