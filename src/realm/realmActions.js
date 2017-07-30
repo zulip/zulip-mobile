@@ -9,12 +9,14 @@ import {
   getUsers,
   getRealmEmojis,
   getRealmFilters,
+  getAlertWords,
 } from '../api';
 import { refreshNotificationToken } from '../utils/notifications';
 import { messageFetchSuccess } from '../message/messagesActions';
 import { initSubscriptions } from '../subscriptions/subscriptionsActions';
 import { initRealmEmojis } from '../emoji/realmEmojiActions';
 import { initRealmFilters } from './realmFilterActions';
+import { initAlertWords } from '../alertWords/alertWordsActions';
 import { initStreams } from '../streams/streamsActions';
 import { initUsers } from '../users/usersActions';
 import { getAuth, getActiveNarrow } from '../selectors';
@@ -47,7 +49,7 @@ export const fetchRestOfInitialData = (pushToken: string): Action => async (
   getState: GetState,
 ) => {
   const auth = getAuth(getState());
-  const [streams, users, messages, realmEmoji, realmFilter] = await Promise.all([
+  const [streams, users, messages, realmEmoji, realmFilter, alertWords] = await Promise.all([
     await tryUntilSuccessful(() => getStreams(auth)),
     await tryUntilSuccessful(() => getUsers(auth)),
     await tryUntilSuccessful(() =>
@@ -55,12 +57,14 @@ export const fetchRestOfInitialData = (pushToken: string): Action => async (
     ),
     await tryUntilSuccessful(() => getRealmEmojis(auth)),
     await tryUntilSuccessful(() => getRealmFilters(auth)),
+    await tryUntilSuccessful(() => getAlertWords(auth)),
   ]);
   dispatch(messageFetchSuccess(messages, specialNarrow('private')));
   dispatch(initStreams(streams));
   dispatch(initUsers(users));
   dispatch(initRealmEmojis(realmEmoji));
   dispatch(initRealmFilters(realmFilter));
+  dispatch(initAlertWords(alertWords));
   if (auth.apiKey !== '' && pushToken === '') {
     refreshNotificationToken();
   }

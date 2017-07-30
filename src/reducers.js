@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import type { Action, GlobalState } from './types';
 import { BATCH_ACTIONS } from './actionConstants';
 import accounts from './account/accountReducers';
+import alertWords from './alertWords/alertWordsReducer';
 import app from './app/appReducers';
 import chat from './chat/chatReducers';
 import flags from './chat/flagsReducers';
@@ -34,6 +35,7 @@ const enableBatching = reducer => (state: GlobalState, action: Action) => {
 export default enableBatching(
   combineReducers({
     accounts,
+    alertWords,
     app,
     chat,
     flags,
