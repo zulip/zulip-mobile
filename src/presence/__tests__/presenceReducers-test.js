@@ -4,9 +4,6 @@ import deepFreeze from 'deep-freeze';
 import { PRESENCE_RESPONSE, EVENT_PRESENCE, ACCOUNT_SWITCH } from '../../actionConstants';
 import presenceReducers, { updateUserWithPresence } from '../presenceReducers';
 
-const fiveSecsAgo = Math.floor(new Date() - 5) / 1000;
-const serverTimestamp = new Date() / 1000;
-
 describe('presenceReducers', () => {
   test('handles unknown action and no state by returning initial state', () => {
     const newState = presenceReducers(undefined, {});
@@ -31,12 +28,12 @@ describe('presenceReducers', () => {
         aggregated: {
           client: 'website',
           status: 'active',
-          timestamp: fiveSecsAgo,
+          timestamp: 1474527577,
         },
         ZulipMobile: {
           client: 'ZulipMobile',
           status: 'idle',
-          timestamp: fiveSecsAgo,
+          timestamp: 1474527577,
         },
       };
 
@@ -45,16 +42,12 @@ describe('presenceReducers', () => {
       const expectedResult = {
         client: 'website',
         status: 'active',
-        timestamp: fiveSecsAgo,
+        timestamp: 1474527577,
         email: 'joe@a.com',
-        age: serverTimestamp - fiveSecsAgo,
+        age: 10,
       };
 
-      const actualResult = updateUserWithPresence(
-        { email: 'joe@a.com' },
-        presence,
-        serverTimestamp,
-      );
+      const actualResult = updateUserWithPresence({ email: 'joe@a.com' }, presence, 1474527587);
 
       expect(actualResult).toEqual(expectedResult);
     });
@@ -68,7 +61,7 @@ describe('presenceReducers', () => {
         ZulipMobile: {
           client: 'ZulipMobile',
           status: 'active',
-          timestamp: fiveSecsAgo,
+          timestamp: 1474527517,
         },
       };
 
@@ -77,16 +70,12 @@ describe('presenceReducers', () => {
       const expectedResult = {
         client: 'ZulipMobile',
         status: 'active',
-        timestamp: fiveSecsAgo,
+        timestamp: 1474527517,
         email: 'joe@a.com',
-        age: serverTimestamp - fiveSecsAgo,
+        age: 3,
       };
 
-      const actualResult = updateUserWithPresence(
-        { email: 'joe@a.com' },
-        presence,
-        serverTimestamp,
-      );
+      const actualResult = updateUserWithPresence({ email: 'joe@a.com' }, presence, 1474527520);
 
       expect(actualResult).toEqual(expectedResult);
     });
@@ -99,14 +88,14 @@ describe('presenceReducers', () => {
           website: {
             client: 'website',
             status: 'active',
-            timestamp: fiveSecsAgo,
+            timestamp: 1474527507,
           },
         },
       };
       const action = deepFreeze({
         type: PRESENCE_RESPONSE,
         presence,
-        serverTimestamp,
+        serverTimestamp: 1474527537,
       });
 
       const prevState = deepFreeze([
@@ -120,8 +109,8 @@ describe('presenceReducers', () => {
         {
           email: 'email@example.com',
           status: 'active',
-          timestamp: fiveSecsAgo,
-          age: serverTimestamp - fiveSecsAgo,
+          timestamp: 1474527507,
+          age: 30,
           client: 'website',
         },
       ];
@@ -144,7 +133,7 @@ describe('presenceReducers', () => {
         'johndoe@example.com': {
           website: {
             status: 'active',
-            timestamp: fiveSecsAgo,
+            timestamp: 1475792255,
             client: 'website',
             pushable: false,
           },
@@ -179,7 +168,7 @@ describe('presenceReducers', () => {
       const action = deepFreeze({
         type: PRESENCE_RESPONSE,
         presence,
-        serverTimestamp,
+        serverTimestamp: 1475792265,
       });
 
       const prevState = deepFreeze([
@@ -202,15 +191,15 @@ describe('presenceReducers', () => {
           email: 'email@example.com',
           status: 'active',
           timestamp: 1474527507,
-          age: serverTimestamp - 1474527507,
+          age: 1264758,
           client: 'website',
           pushable: false,
         },
         {
           email: 'johndoe@example.com',
           status: 'active',
-          timestamp: fiveSecsAgo,
-          age: serverTimestamp - fiveSecsAgo,
+          timestamp: 1475792255,
+          age: 10,
           client: 'website',
           pushable: false,
         },
@@ -218,7 +207,7 @@ describe('presenceReducers', () => {
           email: 'janedoe@example.com',
           status: 'active',
           timestamp: 1475792203,
-          age: serverTimestamp - 1475792203,
+          age: 62,
           client: 'ZulipAndroid',
           pushable: false,
         },
@@ -244,11 +233,11 @@ describe('presenceReducers', () => {
       const action = deepFreeze({
         type: EVENT_PRESENCE,
         email: 'email@example.com',
-        server_timestamp: serverTimestamp,
+        server_timestamp: 200,
         presence: {
           website: {
             status: 'active',
-            timestamp: fiveSecsAgo,
+            timestamp: 150,
           },
         },
       });
@@ -257,8 +246,8 @@ describe('presenceReducers', () => {
         {
           email: 'email@example.com',
           status: 'active',
-          timestamp: fiveSecsAgo,
-          age: serverTimestamp - fiveSecsAgo,
+          timestamp: 150,
+          age: 50,
         },
       ];
 
