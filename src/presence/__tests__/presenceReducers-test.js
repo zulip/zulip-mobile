@@ -40,6 +40,8 @@ describe('presenceReducers', () => {
         },
       };
 
+      deepFreeze(presence);
+
       const expectedResult = {
         client: 'website',
         status: 'active',
@@ -69,6 +71,8 @@ describe('presenceReducers', () => {
           timestamp: fiveSecsAgo,
         },
       };
+
+      deepFreeze(presence);
 
       const expectedResult = {
         client: 'ZulipMobile',
