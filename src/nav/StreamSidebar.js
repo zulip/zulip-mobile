@@ -31,20 +31,31 @@ class StreamSidebar extends PureComponent {
     actions: Actions,
   };
 
+  closeDrawer = () => {
+    const { navigation } = this.props;
+    navigation.navigate('DrawerClose');
+  };
+
+  narrowAndClose = (narrow: Narrow) => {
+    const { actions } = this.props;
+    actions.doNarrow(narrow);
+    this.closeDrawer();
+  };
+
   render() {
     const { actions } = this.props;
 
     return (
       <View style={styles.container} scrollsToTop={false}>
         <View style={styles.iconList}>
-          <NavButton name="md-home" onPress={() => actions.doNarrow(homeNarrow())} />
-          <NavButton name="md-mail" onPress={() => actions.doNarrow(specialNarrow('private'))} />
-          <NavButton name="md-star" onPress={() => actions.doNarrow(specialNarrow('starred'))} />
-          <NavButton name="md-at" onPress={() => actions.doNarrow(specialNarrow('mentioned'))} />
+          <NavButton name="md-home" onPress={() => this.narrowAndClose(homeNarrow())} />
+          <NavButton name="md-mail" onPress={() => this.narrowAndClose(specialNarrow('private'))} />
+          <NavButton name="md-star" onPress={() => this.narrowAndClose(specialNarrow('starred'))} />
+          <NavButton name="md-at" onPress={() => this.narrowAndClose(specialNarrow('mentioned'))} />
           <NavButton name="md-search" onPress={actions.navigateToSearch} />
           <NavButton name="md-settings" onPress={actions.navigateToSettings} />
         </View>
-        <SubscriptionsContainer />
+        <SubscriptionsContainer onNarrow={this.closeDrawer} />
         <ZulipButton
           style={styles.button}
           secondary

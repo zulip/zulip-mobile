@@ -10,7 +10,6 @@ import {
   MESSAGE_FETCH_SUCCESS,
   MARK_MESSAGES_READ,
 } from '../actionConstants';
-import { navigateToChat } from '../nav/navActions';
 
 export const switchNarrow = (narrow: Narrow): Action => ({
   type: SWITCH_NARROW,
@@ -135,5 +134,5 @@ export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INT
     dispatch(fetchMessagesAtFirstUnread(newNarrow));
   }
   registerAppActivity(auth);
-  dispatch(navigateToChat());
+  dispatch(switchNarrow(newNarrow));
 };
