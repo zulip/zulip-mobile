@@ -12,7 +12,6 @@ export default class HtmlTagSpan extends PureComponent {
     actions?: Actions,
     cascadingStyle?: StyleObj,
     attribs?: Object,
-    ownEmail: string,
   };
 
   render() {
