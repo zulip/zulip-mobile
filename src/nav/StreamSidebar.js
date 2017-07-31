@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { Actions } from '../types';
+import type { Actions, Narrow } from '../types';
 import boundActions from '../boundActions';
 import { STATUSBAR_HEIGHT } from '../styles';
 import { ZulipButton } from '../common';
@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
 class StreamSidebar extends PureComponent {
   props: {
     actions: Actions,
+    navigation: Object,
   };
 
   closeDrawer = () => {
