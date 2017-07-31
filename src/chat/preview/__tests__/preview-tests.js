@@ -1,3 +1,5 @@
+/* eslint-disable camelcase*/
+
 import parseMarkdown from '../parseMarkdown';
 
 const testCases = [
@@ -174,16 +176,34 @@ const auth = {
   apiKey: 'AJHDFIAS8231827381',
   email: 'iago@zulip.com',
 };
+const realm_users = [];
+const realm_emoji = {
+  burrito: {
+    display_url: '/static/generated/emoji/images/emoji/burrito.png',
+    source_url: '/static/generated/emoji/images/emoji/burrito.png',
+  },
+};
+const realm_filters = [
+  ['#(?P<id>[0-9]{2,8})', 'https://trac.zulip.net/ticket/%(id)s'],
+  ['ZBUG_(?P<id>[0-9]{2,8})', 'https://trac2.zulip.net/ticket/%(id)s'],
+  [
+    'ZGROUP_(?P<id>[0-9]{2,8}):(?P<zone>[0-9]{1,8})',
+    'https://zone_%(zone)s.zulip.net/ticket/%(id)s',
+  ],
+];
 describe('Preview test messages', () => {
-  // const testCase = testCases[30];
-  // test(`Test markdown ${testCase.input.replace('\n', '\\n')}`, () => {
-  //   const parsedHTML = parseMarkdown(testCase.input, users, streams, auth);
-  //   expect(parsedHTML).toEqual(testCase.expected);
-  // });
   let index = 0;
   testCases.forEach(testCase =>
     test(`Test index ${index++} markdown ${testCase.input.replace('\n', '\\n')}`, () => {
-      const parsedHTML = parseMarkdown(testCase.input, users, streams, auth);
+      const parsedHTML = parseMarkdown(
+        testCase.input,
+        users,
+        streams,
+        auth,
+        realm_users,
+        realm_filters,
+        realm_emoji,
+      );
       expect(parsedHTML).toEqual(testCase.expected);
     }),
   );

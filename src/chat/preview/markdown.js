@@ -175,7 +175,6 @@ function handleUser(name) {
 
 function handleRealmFilter(pattern, matches) {
     var url = realm_filter_map[pattern];
-
     var current_group = 1;
     forEach(matches, function (match) {
         var back_ref = "\\" + current_group;
@@ -252,14 +251,13 @@ exports.set_realm_filters = function (realm_filters) {
     marked.InlineLexer.rules.zulip.realm_filters = marked_rules;
 };
 
-exports.initialize = function (people, stream_data, realm) {
+exports.initialize = function (people, stream_data, realm, realm_users, realm_filters, realm_emoji,) {
     function disable_markdown_regex(rules, name) {
         rules[name] = {exec: function () {
                 return false;
             },
         };
     }
-
     // Configure the marked markdown parser for our usage
     var r = new marked.Renderer();
     // No <code> around our code blocks instead a codehilite <div> and disable
@@ -310,7 +308,7 @@ exports.initialize = function (people, stream_data, realm) {
     // Disable autolink as (a) it is not used in our backend and (b) it interferes with @mentions
     disable_markdown_regex(marked.InlineLexer.rules.zulip, 'autolink');
 
-    // exports.set_realm_filters(page_params.realm_filters);
+    exports.set_realm_filters(realm_filters);
 
     // Tell our fenced code preprocessor how to insert arbitrary
     // HTML into the output. This generated HTML is safe to not escape

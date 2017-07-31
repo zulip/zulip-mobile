@@ -5,7 +5,15 @@ import { getUserByFullName, getUserByEmail } from '../../users/userSelectors';
 import { NULL_USER, NULL_STREAM } from '../../nullObjects';
 import { getStreamByName } from '../../subscriptions/subscriptionSelectors';
 
-export default (text: string, users, streams, auth): string => {
+export default (
+  text: string,
+  users,
+  streams,
+  auth,
+  realm_users,
+  realm_filters,
+  realm_emoji,
+): string => {
   const self = getUserByEmail(users, auth.email);
   const people = {
     get_by_name: (name: string) => {
@@ -21,6 +29,6 @@ export default (text: string, users, streams, auth): string => {
       return stream === NULL_STREAM ? undefined : stream;
     },
   };
-  markdown.initialize(people, stream_data, auth.realm);
+  markdown.initialize(people, stream_data, auth.realm, realm_users, realm_filters, realm_emoji);
   return markdown.apply_markdown(text, people, stream_data);
 };
