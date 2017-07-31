@@ -15,6 +15,7 @@ const marked = require('./marked');
 const hash_util = require('./hash_util');
 const fenced_code = require('./fenced_code');
 const emoji = require('./emoji');
+var emoji_codes = require('./emoji_codes');
 
 var markdown = (function () {
 
@@ -309,6 +310,7 @@ exports.initialize = function (people, stream_data, realm, realm_users, realm_fi
     disable_markdown_regex(marked.InlineLexer.rules.zulip, 'autolink');
 
     exports.set_realm_filters(realm_filters);
+    emoji.set_realm_emoji(realm_emoji);
 
     // Tell our fenced code preprocessor how to insert arbitrary
     // HTML into the output. This generated HTML is safe to not escape

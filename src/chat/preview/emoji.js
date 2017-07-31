@@ -2,8 +2,8 @@
 /* eslint-disable */
 // prettier-ignore
 var forEach = require('lodash.foreach');
-
-var emoji = (function () {
+var emoji_codes = require('./emoji_codes');
+var emoji = (function (realm_emoji) {
 
 var exports = {};
 
@@ -17,9 +17,6 @@ exports.emojis_by_unicode = {};
 var default_emojis = [];
 var default_unicode_emojis = [];
 
-
-emoji_codes = {};
-page_params = {};
 
 var zulip_emoji = {
     emoji_name: 'zulip',
@@ -94,7 +91,12 @@ exports.initialize = function initialize() {
     sprite.src = '/static/generated/emoji/sheet_google_32.png';
 };
 
-exports.update_emojis(page_params.realm_emoji);
+exports.set_realm_emoji = function(realm_emoji) {
+  realm_emoji = realm_emoji;
+};
+
+exports.update_emojis(realm_emoji);
+
 
 exports.build_emoji_upload_widget = function () {
 

@@ -82,7 +82,7 @@ const testCases = [
   {
     input: 'mmm...:burrito:s',
     expected:
-      '<p>mmm...<img alt=":burrito:" class="emoji" src="/static/generated/emoji/images/emoji/burrito.png" title="burrito">s</p>',
+      '<p>mmm...<img alt=":burrito:" class="emoji" src="/static/generated/emoji/images/emoji/unicode/1f32f.png" title="burrito">s</p>',
   },
   {
     input: 'This is an :poop: message',
@@ -192,6 +192,19 @@ const realm_filters = [
   ],
 ];
 describe('Preview test messages', () => {
+  // const testCase = testCases[20];
+  // test(`Test markdown ${testCase.input.replace('\n', '\\n')}`, () => {
+  //   const parsedHTML = parseMarkdown(
+  //     testCase.input,
+  //     users,
+  //     streams,
+  //     auth,
+  //     realm_users,
+  //     realm_filters,
+  //     realm_emoji,
+  //   );
+  //   expect(parsedHTML).toEqual(testCase.expected);
+  // });
   let index = 0;
   testCases.forEach(testCase =>
     test(`Test index ${index++} markdown ${testCase.input.replace('\n', '\\n')}`, () => {
