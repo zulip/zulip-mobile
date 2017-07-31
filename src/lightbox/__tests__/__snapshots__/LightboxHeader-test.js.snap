@@ -70,21 +70,36 @@ exports[`LightboxHeader all required props are passed correctly 1`] = `
         tvParallaxProperties={undefined}
       >
         <View>
-          <Image
-            resizeMode="contain"
-            source={
-              Object {
-                "uri": "https://example/tester.png",
-              }
-            }
+          <View
             style={
               Object {
-                "borderRadius": 4,
                 "height": 32,
                 "width": 32,
               }
             }
-          />
+          >
+            <Image
+              borderRadius={4}
+              resizeMode="cover"
+              source={
+                Object {
+                  "uri": "https://example/tester.png",
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  undefined,
+                ]
+              }
+            />
+          </View>
         </View>
       </View>
     </View>
