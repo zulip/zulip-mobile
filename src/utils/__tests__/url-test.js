@@ -1,3 +1,4 @@
+/* eslint-disable spellcheck/spellchecker */
 import {
   getFullUrl,
   getResource,
@@ -31,7 +32,7 @@ describe('getResource', () => {
     const expectedResult = {
       uri: 'https://example.com/img.gif',
       headers: {
-        Authorization: 'Basic am9obmRvZUBleGFtcGxlLmNvbTpzb21lQXBpS2V5', // eslint-disable-line
+        Authorization: 'Basic am9obmRvZUBleGFtcGxlLmNvbTpzb21lQXBpS2V5',
       },
     };
     const resource = getResource('https://example.com/img.gif', {
@@ -46,7 +47,7 @@ describe('getResource', () => {
     const expectedResult = {
       uri: 'https://example.com/img.gif',
       headers: {
-        Authorization: 'Basic dW5kZWZpbmVkOnNvbWVBcGlLZXk=', // eslint-disable-line
+        Authorization: 'Basic dW5kZWZpbmVkOnNvbWVBcGlLZXk=',
       },
     };
     const resource = getResource('/img.gif', {
@@ -330,5 +331,9 @@ describe('fixRealmUrl', () => {
 
   test('when input url is correct, do not change it', () => {
     expect(fixRealmUrl('https://example.com')).toEqual('https://example.com');
+  });
+
+  test('remove white-space from input', () => {
+    expect(fixRealmUrl(' https://example.com/  ')).toEqual('https://example.com');
   });
 });

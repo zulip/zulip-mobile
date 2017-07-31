@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
 type Props = {
   actions: Actions,
   conversations: Object[],
+  usersNavigation: Object,
 };
 
 export default class ConversationsCard extends PureComponent {
