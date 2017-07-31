@@ -1,4 +1,4 @@
-/* eslint-disable spellcheck/spellchecker */
+/* eslint-disable spellcheck/spell-checker */
 import {
   getFullUrl,
   getResource,
