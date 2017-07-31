@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Image } from 'react-native';
+import { ImageBackground } from 'react-native';
 
 import { nullFunction } from '../nullObjects';
 import { Touchable } from './';
@@ -25,17 +25,18 @@ export default class ImageAvatar extends PureComponent {
       width: size,
     };
 
-    const imageStyle = {
-      ...touchableStyle,
-      borderRadius:
-        shape === 'rounded' ? size / 8 : shape === 'circle' ? size / 2 : shape === 'square' ? 0 : 0,
-    };
+    const borderRadius =
+      shape === 'rounded' ? size / 8 : shape === 'circle' ? size / 2 : shape === 'square' ? 0 : 0;
 
     return (
       <Touchable onPress={onPress} style={touchableStyle}>
-        <Image style={imageStyle} source={{ uri: avatarUrl }} resizeMode="contain">
+        <ImageBackground
+          style={touchableStyle}
+          source={{ uri: avatarUrl }}
+          resizeMode="cover"
+          borderRadius={borderRadius}>
           {children}
-        </Image>
+        </ImageBackground>
       </Touchable>
     );
   }
