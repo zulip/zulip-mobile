@@ -7,6 +7,7 @@ import {
   EVENT_UPDATE_DISPLAY_SETTINGS,
   SAVE_TOKEN_PUSH,
   DELETE_TOKEN_PUSH,
+  EVENT_REALM_FILTER_UPDATE,
 } from '../../actionConstants';
 
 describe('realmReducers', () => {
@@ -22,6 +23,7 @@ describe('realmReducers', () => {
         twentyFourHourTime: false,
         pushToken: '',
         emoji: {},
+        filter: [],
       };
 
       const actualState = realmReducers(initialState, action);
@@ -114,6 +116,7 @@ describe('realmReducers', () => {
         twentyFourHourTime: false,
         pushToken: 'key',
         emoji: {},
+        filter: [],
       });
 
       const action = deepFreeze({
@@ -134,6 +137,37 @@ describe('realmReducers', () => {
           customEmoji1: {},
           customEmoji2: {},
         },
+        filter: [],
+      };
+
+      const newState = realmReducers(prevState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('EVENT_REALM_FILTER_UPDATE', () => {
+    test('update state to new realm_filter', () => {
+      const prevState = deepFreeze({
+        twentyFourHourTime: false,
+        pushToken: 'key',
+        emoji: {},
+        filter: [],
+      });
+
+      const action = deepFreeze({
+        eventId: 4,
+        id: 4,
+        op: 'update',
+        realm_filters: [['#(?P<id>[0-9]+)', 'https://github.com/zulip/zulip/issues/%(id)s', 2]],
+        type: EVENT_REALM_FILTER_UPDATE,
+      });
+
+      const expectedState = {
+        twentyFourHourTime: false,
+        pushToken: 'key',
+        emoji: {},
+        filter: [['#(?P<id>[0-9]+)', 'https://github.com/zulip/zulip/issues/%(id)s', 2]],
       };
 
       const newState = realmReducers(prevState, action);
