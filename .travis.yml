@@ -49,7 +49,7 @@ notifications:
     on_failure: always
 
 script:
-  - yarn run build:ios-release | xcpretty
+  - yarn run build:ios-release | xcpretty -t
   - yarn run test:e2e
   - yarn run test
 
