@@ -134,8 +134,8 @@ export default (state: GlobalState, event: Object) => {
       };
     case 'muted_topics':
       return {
-        type: EVENT_MUTED_TOPICS,
         ...event,
+        type: EVENT_MUTED_TOPICS,
       };
     case 'realm_emoji':
       return {
