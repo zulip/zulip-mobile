@@ -50,8 +50,8 @@ notifications:
 
 script:
   - yarn run build:ios-release | xcpretty
+  - yarn run test:e2e
   - yarn run test
-  - yarn run ui-test
 
 cache:
   yarn: true

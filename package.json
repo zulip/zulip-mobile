@@ -22,7 +22,7 @@
     "test:flow": "flow",
     "test:flow-coverage": "flow-coverage-report -i 'src/**/*.js' -x '**/__tests__/**' -t html",
     "test:unit": "jest src/",
-    "test:e2e": "jest -t '__e2e__tests__/basic.spec.js'",
+    "test:e2e": "jest __e2e__tests__/basic.spec.js",
     "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "test:prettier": "prettier-check  --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow `find src -name \"*.js\"`",
     "test": "npm run test:lint && npm run test:prettier && npm run test:coveralls && npm run test:flow",
@@ -108,7 +108,7 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|@expo/react-native-action-sheet|react-navigation)"
     ],
-    "testPathIgnorePatterns": ["/node_modules/", "/__e2e__tests__/"]
+    "testPathIgnorePatterns": ["/node_modules/"]
   },
   "detox": {
     "configurations": {
