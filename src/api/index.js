@@ -8,6 +8,7 @@ export { default as emojiReactionRemove } from './emojiReactionRemove';
 export { default as fetchApiKey } from './fetchApiKey';
 export { default as focusPing } from './focusPing';
 export { default as getAuthBackends } from './getAuthBackends';
+export { default as getAlertWords } from './getAlertWords';
 export { default as getMessages } from './getMessages';
 export { default as getServerSettings } from './getServerSettings';
 export { default as getStreams } from './getStreams';

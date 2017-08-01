@@ -1,6 +1,7 @@
 /* @flow */
 import type { GlobalState } from '../types';
 import {
+  INIT_ALERT_WORDS,
   EVENT_NEW_MESSAGE,
   EVENT_PRESENCE,
   EVENT_REACTION_ADD,
@@ -63,6 +64,11 @@ const opToActionTyping = {
 
 export default (state: GlobalState, event: Object) => {
   switch (event.type) {
+    case 'alert_words':
+      return {
+        type: INIT_ALERT_WORDS,
+        alertWords: event.alert_words,
+      };
     case 'message':
       return {
         type: EVENT_NEW_MESSAGE,

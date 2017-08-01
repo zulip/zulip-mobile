@@ -6,6 +6,7 @@ export default (auth: Auth) =>
   apiPost(auth, 'register', res => res, {
     apply_markdown: true,
     event_types: JSON.stringify([
+      'alert_words',
       'message',
       'muted_topics',
       'presence',
