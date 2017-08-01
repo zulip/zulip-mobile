@@ -11,6 +11,7 @@ export default (auth: Auth) =>
       'presence',
       'reaction',
       'realm_emoji',
+      'realm_filters',
       'realm_user',
       'stream',
       'subscription',

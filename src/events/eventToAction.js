@@ -25,6 +25,7 @@ import {
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   EVENT_UPDATE_DISPLAY_SETTINGS,
+  EVENT_REALM_FILTER_UPDATE,
 } from '../actionConstants';
 
 import { getUserById } from '../selectors';
@@ -140,6 +141,11 @@ export default (state: GlobalState, event: Object) => {
       return {
         ...event,
         type: EVENT_REALM_EMOJI_UPDATE,
+      };
+    case 'realm_filters':
+      return {
+        ...event,
+        type: EVENT_REALM_FILTER_UPDATE,
       };
     case 'update_global_notifications':
       return {

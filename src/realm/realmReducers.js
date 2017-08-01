@@ -10,6 +10,8 @@ import {
   EVENT_UPDATE_DISPLAY_SETTINGS,
   SAVE_TOKEN_PUSH,
   DELETE_TOKEN_PUSH,
+  INIT_REALM_FILTER,
+  EVENT_REALM_FILTER_UPDATE,
 } from '../actionConstants';
 
 // Initial state
@@ -17,6 +19,7 @@ const initialState = {
   twentyFourHourTime: false,
   pushToken: '',
   emoji: {},
+  filter: [],
 };
 
 const reducer = (state: RealmState = initialState, action: Action): RealmState => {
@@ -52,6 +55,18 @@ const reducer = (state: RealmState = initialState, action: Action): RealmState =
         ...state,
         emoji: action.emojis,
       };
+    case INIT_REALM_FILTER: {
+      return {
+        ...state,
+        filter: action.filters,
+      };
+    }
+    case EVENT_REALM_FILTER_UPDATE: {
+      return {
+        ...state,
+        filter: action.realm_filters,
+      };
+    }
     case EVENT_REALM_EMOJI_UPDATE:
       return {
         ...state,
