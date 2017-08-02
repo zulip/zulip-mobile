@@ -259,7 +259,7 @@ describe('getUnreadTotal', () => {
 describe('getUnreadStreamsAndTopics', () => {
   test('if no key has any items then no unread messages', () => {
     const state = deepFreeze({
-      streams: [],
+      subscriptions: [],
       unread: {
         streams: [],
       },
@@ -272,14 +272,16 @@ describe('getUnreadStreamsAndTopics', () => {
 
   test('group data by stream and topics inside, count unread', () => {
     const state = deepFreeze({
-      streams: [
+      subscriptions: [
         {
           stream_id: 0,
           name: 'stream 0',
+          color: 'red',
         },
         {
           stream_id: 2,
           name: 'stream 2',
+          color: 'blue',
         },
       ],
       unread: {
@@ -293,6 +295,7 @@ describe('getUnreadStreamsAndTopics', () => {
       {
         key: 'stream 0',
         streamName: 'stream 0',
+        color: 'red',
         unread: 5,
         data: [
           { key: 'some topic', topic: 'some topic', unread: 3 },
@@ -302,6 +305,7 @@ describe('getUnreadStreamsAndTopics', () => {
       {
         key: 'stream 2',
         streamName: 'stream 2',
+        color: 'blue',
         unread: 2,
         data: [{ key: 'some other topic', topic: 'some other topic', unread: 2 }],
       },

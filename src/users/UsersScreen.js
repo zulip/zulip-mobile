@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import SearchScreen from '../search/SearchScreen';
-import UserListCard from './UserListCard';
+import UsersContainer from './UsersContainer';
 
 export default class UsersScreen extends PureComponent {
   state: {
@@ -19,7 +19,7 @@ export default class UsersScreen extends PureComponent {
     const { filter } = this.state;
     return (
       <SearchScreen searchBarOnChange={this.handleFilterChange}>
-        <UserListCard filter={filter} />
+        <UsersContainer filter={filter} />
       </SearchScreen>
     );
   }

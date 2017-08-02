@@ -1,14 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
-import { getOwnEmail, getCurrentRealm, getAllActiveUsersWithStatus } from '../selectors';
-import boundActions from '../boundActions';
 import type { Actions, User } from '../types';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
 
-class UserListCard extends PureComponent {
+export default class UsersCard extends PureComponent {
   props: {
     actions: Actions,
     ownEmail: string,
@@ -36,12 +33,3 @@ class UserListCard extends PureComponent {
     );
   }
 }
-
-export default connect(
-  state => ({
-    ownEmail: getOwnEmail(state),
-    realm: getCurrentRealm(state),
-    users: getAllActiveUsersWithStatus(state),
-  }),
-  boundActions,
-)(UserListCard);

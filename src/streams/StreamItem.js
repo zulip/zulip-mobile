@@ -48,6 +48,7 @@ export default class StreamItem extends PureComponent {
     isSelected?: boolean,
     showSwitch?: boolean,
     color: string,
+    backgroundColor?: string,
     isSwitchedOn?: boolean,
     unreadCount?: number,
     onPress: (name: string) => void,
@@ -68,6 +69,7 @@ export default class StreamItem extends PureComponent {
       name,
       description,
       color,
+      backgroundColor,
       isPrivate,
       isMuted,
       iconSize,
@@ -84,7 +86,7 @@ export default class StreamItem extends PureComponent {
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={[styles.row, isSelected && styles.selectedRow]}>
+        <View style={[styles.row, { backgroundColor }, isSelected && styles.selectedRow]}>
           <View style={[styles.iconWrapper, iconWrapperCustomStyle]}>
             <StreamIcon size={iconSize} color="white" isMuted={isMuted} isPrivate={isPrivate} />
           </View>

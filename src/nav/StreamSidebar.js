@@ -6,10 +6,9 @@ import { connect } from 'react-redux';
 import type { Actions, Narrow } from '../types';
 import boundActions from '../boundActions';
 import { STATUSBAR_HEIGHT } from '../styles';
-import { ZulipButton } from '../common';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import NavButton from './NavButton';
-import SubscriptionsContainer from '../streams/SubscriptionsContainer';
+import StreamTabs from './StreamTabs';
 
 const styles = StyleSheet.create({
   container: {
@@ -56,13 +55,7 @@ class StreamSidebar extends PureComponent {
           <NavButton name="md-search" onPress={actions.navigateToSearch} />
           <NavButton name="md-settings" onPress={actions.navigateToSettings} />
         </View>
-        <SubscriptionsContainer onNarrow={this.closeDrawer} />
-        <ZulipButton
-          style={styles.button}
-          secondary
-          text="All streams"
-          onPress={actions.navigateToAllStreams}
-        />
+        <StreamTabs screenProps={{ onNarrow: this.closeDrawer }} />
       </View>
     );
   }
