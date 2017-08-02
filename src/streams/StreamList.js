@@ -40,7 +40,9 @@ export default class StreamList extends PureComponent {
       onPress,
       onSwitch,
     } = this.props;
-    const sortedStreams = streams.sort((a, b) => a.name.localeCompare(b.name));
+    const sortedStreams = streams.sort((a, b) =>
+      a.name.toLowerCase().localeCompare(b.name.toLowerCase()),
+    );
 
     return (
       <FlatList
