@@ -55,4 +55,4 @@ module.file_ext=.json
 module.file_ext=.jsx
 
 [version]
-^0.47.0
+^0.49.1
