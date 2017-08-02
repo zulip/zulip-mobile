@@ -2,7 +2,7 @@
 import detox from 'detox';
 import config from '../package.json';
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
 
 const options = {
   validHostUrl: 'http://localhost:9991',
