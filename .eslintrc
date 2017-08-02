@@ -111,6 +111,7 @@
         "Entypo", "msup", "mrow", "webview", "js", "timerow", "reselect", "addons", "cancelable",
         "gravatar_hash", "pms", "msgs",
         "collapsable", "const", "wildcard",
+        "camelcase"
       ],
       "skipIfMatch": [
         "http://[^s]*",

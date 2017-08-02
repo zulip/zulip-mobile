@@ -25,7 +25,8 @@
     "test:e2e": "detox build; jest -t '__e2e__tests__/basic.js'",
     "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "test:prettier": "prettier-check  --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow `find src -name \"*.js\"`",
-    "test": "npm run test:lint && npm run test:prettier && npm run test:coveralls && npm run test:flow"
+    "test": "npm run test:lint && npm run test:prettier && npm run test:coveralls && npm run test:flow",
+    "test-temp": "jest preview"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "0.3.1",
@@ -39,7 +40,12 @@
     "events": "^1.1.1",
     "htmlparser2": "^3.9.2",
     "immutable": "^3.8.1",
+    "lodash.contains": "^2.4.3",
+    "lodash.find": "^4.6.0",
+    "lodash.foreach": "^4.5.0",
     "lodash.isequal": "^4.4.0",
+    "lodash.map": "^4.6.0",
+    "lodash.reject": "^4.6.0",
     "lodash.throttle": "^4.1.1",
     "lodash.uniqby": "^4.4.0",
     "react": "16.0.0-alpha.12",
