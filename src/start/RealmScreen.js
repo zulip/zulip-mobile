@@ -50,9 +50,9 @@ class RealmScreen extends PureComponent {
 
   tryRealm = async () => {
     const { realm } = this.state;
-
+    const fixRealm = fixRealmUrl(realm);
     this.setState({
-      realm: fixRealmUrl(realm),
+      realm: fixRealm,
       progress: true,
       error: undefined,
     });
@@ -60,8 +60,8 @@ class RealmScreen extends PureComponent {
     const { actions } = this.props;
 
     try {
-      const authBackends = await getAuthBackends({ realm });
-      actions.realmAdd(realm);
+      const authBackends = await getAuthBackends({ realm: fixRealm });
+      actions.realmAdd(fixRealm);
       actions.navigateToAuth(authBackends);
       Keyboard.dismiss();
     } catch (err) {
