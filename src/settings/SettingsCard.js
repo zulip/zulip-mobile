@@ -3,26 +3,34 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Auth, Actions } from '../types';
-import { Label, ZulipSwitch } from '../common';
-import LanguagePicker from './LanguagePicker';
+import { Label, ZulipSwitch, Touchable } from '../common';
+import { IconRightIcon } from '../common/Icons';
 import toggleMobilePushSettings from '../api/toggleMobilePushSettings';
 
 const styles = StyleSheet.create({
   optionWrapper: {
     flex: 1,
+    backgroundColor: '#EFEEF3',
   },
   optionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 8,
+    backgroundColor: 'white',
   },
   optionTitle: {
-    padding: 8,
-    fontWeight: 'bold',
+    padding: 6,
+    paddingLeft: 0,
   },
   optionList: {
     flex: 1,
+  },
+  divider: {
+    height: 30,
+  },
+  rightIcon: {
+    marginRight: 6,
   },
 });
 
@@ -31,17 +39,12 @@ export default class SettingsCard extends PureComponent {
     auth: Auth,
     actions: Actions,
     theme: string,
-    locale: string,
     offlineNotification: boolean,
     onlineNotification: boolean,
   };
 
   state: {
     filter: string,
-  };
-
-  handleLocaleChange = (value: string) => {
-    this.props.actions.settingsChange('locale', value);
   };
 
   handleThemeChange = (value: boolean) => {
@@ -59,7 +62,7 @@ export default class SettingsCard extends PureComponent {
   };
 
   render() {
-    const { offlineNotification, onlineNotification, theme, locale } = this.props;
+    const { offlineNotification, onlineNotification, theme, actions } = this.props;
 
     return (
       <View style={styles.optionWrapper}>
@@ -79,12 +82,18 @@ export default class SettingsCard extends PureComponent {
         </View>
         <View style={styles.optionRow}>
           <Label text="Night mode" />
-          <ZulipSwitch defaultValue={theme === 'night'} onValueChange={this.handleThemeChange} />
+          <ZulipSwitch
+            defaultValue={theme === 'night'}
+            onValueChange={actions.navigateToSettingsDetail}
+          />
         </View>
-        <View style={styles.optionList}>
-          <Label style={styles.optionTitle} text="Language" />
-          <LanguagePicker value={locale} onValueChange={this.handleLocaleChange} />
-        </View>
+        <View style={styles.divider} />
+        <Touchable onPress={() => actions.navigateToSettingsDetail('language', 'Language')}>
+          <View style={styles.optionRow}>
+            <Label style={styles.optionTitle} text="Language" />
+            <IconRightIcon size={18} style={styles.rightIcon} />
+          </View>
+        </Touchable>
       </View>
     );
   }

@@ -14,6 +14,7 @@ import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import SettingsScreen from '../settings/SettingsScreen';
+import SettingsDetailScreen from '../settings/SettingsDetailScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 
 export default StackNavigator(
@@ -31,6 +32,7 @@ export default StackNavigator(
     subscriptions: { screen: SubscriptionsScreen },
     users: { screen: UsersScreen },
     settings: { screen: SettingsScreen },
+    'settings-detail': { screen: SettingsDetailScreen },
     lightbox: { screen: LightboxScreen },
   },
   {
