@@ -47,18 +47,21 @@ export default class SettingsCard extends PureComponent {
     filter: string,
   };
 
-  handleThemeChange = (value: boolean) => {
-    this.props.actions.settingsChange('theme', value ? 'night' : 'default');
+  handleThemeChange = () => {
+    const { actions, theme } = this.props;
+    actions.settingsChange('theme', theme === 'default' ? 'night' : 'default');
   };
 
-  handleOfflineNotificationChange = (value: boolean) => {
-    toggleMobilePushSettings({ auth: this.props.auth, offline: value });
-    this.props.actions.settingsChange('offlineNotification', value);
+  handleOfflineNotificationChange = () => {
+    const { actions, auth, offlineNotification } = this.props;
+    toggleMobilePushSettings({ auth, offline: !offlineNotification });
+    actions.settingsChange('offlineNotification', !offlineNotification);
   };
 
-  handleOnlineNotificationChange = (value: boolean) => {
-    toggleMobilePushSettings({ auth: this.props.auth, online: value });
-    this.props.actions.settingsChange('onlineNotification', value);
+  handleOnlineNotificationChange = () => {
+    const { actions, auth, onlineNotification } = this.props;
+    toggleMobilePushSettings({ auth, online: !onlineNotification });
+    actions.settingsChange('onlineNotification', !onlineNotification);
   };
 
   render() {
@@ -67,14 +70,14 @@ export default class SettingsCard extends PureComponent {
     return (
       <View style={styles.optionWrapper}>
         <View style={styles.optionRow}>
-          <Label text="Enable notifications (when offline)" />
+          <Label text="Notifications when offline" />
           <ZulipSwitch
             defaultValue={offlineNotification}
             onValueChange={this.handleOfflineNotificationChange}
           />
         </View>
         <View style={styles.optionRow}>
-          <Label text="Enable notifications (when online)" />
+          <Label text="Notifications when online" />
           <ZulipSwitch
             defaultValue={onlineNotification}
             onValueChange={this.handleOnlineNotificationChange}
@@ -82,10 +85,7 @@ export default class SettingsCard extends PureComponent {
         </View>
         <View style={styles.optionRow}>
           <Label text="Night mode" />
-          <ZulipSwitch
-            defaultValue={theme === 'night'}
-            onValueChange={actions.navigateToSettingsDetail}
-          />
+          <ZulipSwitch defaultValue={theme === 'night'} onValueChange={this.handleThemeChange} />
         </View>
         <View style={styles.divider} />
         <Touchable onPress={() => actions.navigateToSettingsDetail('language', 'Language')}>

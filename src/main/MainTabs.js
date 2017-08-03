@@ -4,7 +4,7 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 
 import { BRAND_COLOR } from '../styles';
 import UnreadStreamsContainer from '../unread/UnreadStreamsContainer';
-import SubscriptionsContainer from '../streams/SubscriptionsContainer';
+import StreamTabs from '../nav/StreamTabs';
 import ConversationsContainer from '../conversations/ConversationsContainer';
 import SettingsContainer from '../settings/SettingsContainer';
 import { IconHome, IconStream, IconPrivateChat, IconSettings } from '../common/Icons';
@@ -19,7 +19,7 @@ export default TabNavigator(
       },
     },
     streams: {
-      screen: SubscriptionsContainer,
+      screen: StreamTabs,
       navigationOptions: {
         tabBarLabel: 'Streams',
         tabBarIcon: ({ tintColor }) => <IconStream size={24} color={tintColor} />,

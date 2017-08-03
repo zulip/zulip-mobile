@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { GlobalState } from '../types';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
+import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 export const getUnreadStreams = (state: GlobalState): Object[] => state.unread.streams;
 export const getUnreadPms = (state: GlobalState): Object[] => state.unread.pms;
@@ -63,7 +64,7 @@ export const getUnreadStreamsAndTopics = createSelector(
   (subscriptionsById, unreadStreams) =>
     Object.values(
       unreadStreams.reduce((totals, stream) => {
-        const { name, color } = subscriptionsById[stream.stream_id];
+        const { name, color } = subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION;
 
         if (!totals[stream.stream_id]) {
           totals[stream.stream_id] = {

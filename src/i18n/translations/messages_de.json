@@ -57,5 +57,12 @@
   "Jot down something": "Jot down something",
   "Message {recipient}": "Message {recipient}",
   "Send private message": "Private Nachricht senden",
-  "Forgot password?": "Passwort vergessen?"
+  "Forgot password?": "Passwort vergessen?",
+  "Members": "Members",
+  "Group details": "Group details",
+  "Delete message": "Nachricht löschen",
+  "Notifications when online": "Notifications when online",
+  "Notifications when offline": "Notifications when offline",
+  "Unread": "Unread",
+  "Subscribed": "Abonniert"
 }
