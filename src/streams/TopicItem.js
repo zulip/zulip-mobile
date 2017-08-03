@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: '100%',
     padding: 8,
     backgroundColor: 'rgba(127, 127, 127, 0.25)',
   },
@@ -23,7 +22,6 @@ const styles = StyleSheet.create({
   },
   label: {
     flex: 1,
-    backgroundColor: 'red',
   },
   selectedText: {
     color: 'white',
@@ -54,14 +52,12 @@ export default class StreamItem extends PureComponent {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={[styles.row, isSelected && styles.selectedRow]}>
-          <View style={styles.text}>
-            <RawLabel
-              style={[styles.label, isSelected && styles.selectedText, isMuted && styles.mutedText]}
-              text={name}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            />
-          </View>
+          <RawLabel
+            style={[styles.label, isSelected && styles.selectedText, isMuted && styles.mutedText]}
+            text={name}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          />
           {unreadCount && <UnreadCount count={unreadCount} inverse={isSelected} />}
         </View>
       </Touchable>
