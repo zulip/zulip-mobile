@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import type { Narrow, Stream } from '../types';
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
+import { Touchable } from '../common';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -27,22 +28,29 @@ export default class TitleStream extends PureComponent {
     color: string,
   };
 
+  handlePress = () => {
+    const { actions, stream } = this.props;
+    actions.navigateToStreamSettings(stream.stream_id);
+  };
+
   render() {
     const { narrow, stream, color } = this.props;
     const topic = isTopicNarrow(narrow) ? `\u203a ${narrow[1].operand}` : '';
 
     return (
-      <View style={styles.wrapper}>
-        <StreamIcon
-          isMuted={!stream.in_home_view}
-          isPrivate={stream.invite_only}
-          color={color}
-          size={12}
-        />
-        <Text style={[styles.text, { color }]} numberOfLines={1} ellipsizeMode="tail">
-          {stream.name} {topic}
-        </Text>
-      </View>
+      <Touchable onPress={this.handlePress}>
+        <View style={styles.wrapper}>
+          <StreamIcon
+            isMuted={!stream.in_home_view}
+            isPrivate={stream.invite_only}
+            color={color}
+            size={12}
+          />
+          <Text style={[styles.text, { color }]} numberOfLines={1} ellipsizeMode="tail">
+            {stream.name} {topic}
+          </Text>
+        </View>
+      </Touchable>
     );
   }
 }

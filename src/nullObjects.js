@@ -55,6 +55,7 @@ export const NULL_SUBSCRIPTION: Subscription = {
   name: '',
   pin_to_top: false,
   stream_id: 0,
+  subscribers: [],
 };
 
 export const NULL_PRESENCE: Presence = {
