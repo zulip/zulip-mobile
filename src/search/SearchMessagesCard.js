@@ -25,19 +25,21 @@ const styles = StyleSheet.create({
   },
 });
 
+type Props = {
+  actions: Actions,
+  twentyFourHourTime: boolean,
+  subscriptions: any[],
+  query: string,
+  auth: Auth,
+  flags: Object,
+};
 export default class SearchMessagesCard extends PureComponent {
-  props: {
-    actions: Actions,
-    twentyFourHourTime: boolean,
-    subscriptions: any[],
-    query: string,
-    auth: Auth,
-    flags: Object,
-  };
+  props: Props;
 
   state = {
     messages: [],
     isFetching: false,
+    query: '',
   };
 
   handleQueryChange = async (query: string) => {
@@ -60,7 +62,7 @@ export default class SearchMessagesCard extends PureComponent {
     }, 500).call(this);
   };
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.query !== this.props.query) {
       this.handleQueryChange(nextProps.query);
     }
