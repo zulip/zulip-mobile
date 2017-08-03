@@ -37,6 +37,9 @@ export const navigateToAccountDetails = (email: string): Action =>
 export const navigateToGroupDetails = (recipients: UserType): Action =>
   NavigationActions.navigate({ routeName: 'group-details', params: { recipients } });
 
+export const navigateToStreamSettings = (streamId: number): Action =>
+  NavigationActions.navigate({ routeName: 'stream-settings', params: { streamId } });
+
 export const navigateToAddNewAccount = (realm: string): Action =>
   NavigationActions.navigate({ routeName: 'realm', params: { realm } });
 

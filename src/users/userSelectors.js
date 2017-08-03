@@ -131,3 +131,9 @@ export const getAutocompleteSuggestion = (
   const matchesEmail = filterUserMatchesEmail(users, filter, ownEmail);
   return getUniqueUsers([...startWith, ...initials, ...contains, ...matchesEmail]);
 };
+
+export const getUsersListFromEmails = (emails: [], users: User[]): User[] =>
+  emails.reduce((userList, email) => {
+    userList.push(users.find(x => x.email === email) || NULL_USER);
+    return userList;
+  }, []);

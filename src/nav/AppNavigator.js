@@ -15,6 +15,7 @@ import ChatScreen from '../chat/ChatScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import SettingsScreen from '../settings/SettingsScreen';
 import SettingsDetailScreen from '../settings/SettingsDetailScreen';
+import StreamSettings from '../streams/StreamSettings';
 import LightboxScreen from '../lightbox/LightboxScreen';
 
 export default StackNavigator(
@@ -33,6 +34,7 @@ export default StackNavigator(
     users: { screen: UsersScreen },
     settings: { screen: SettingsScreen },
     'settings-detail': { screen: SettingsDetailScreen },
+    'stream-settings': { screen: StreamSettings },
     lightbox: { screen: LightboxScreen },
   },
   {
