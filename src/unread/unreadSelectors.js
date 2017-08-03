@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import type { GlobalState } from '../types';
-import { getStreamsById } from '../subscriptions/subscriptionSelectors';
+import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 
 export const getUnreadStreams = (state: GlobalState): Object[] => state.unread.streams;
 export const getUnreadPms = (state: GlobalState): Object[] => state.unread.pms;
@@ -58,18 +58,18 @@ export const getUnreadTotal = createSelector(
 );
 
 export const getUnreadStreamsAndTopics = createSelector(
-  getStreamsById,
+  getSubscriptionsById,
   getUnreadStreams,
-  (streamsById, unreadStreams) =>
+  (subscriptionsById, unreadStreams) =>
     Object.values(
       unreadStreams.reduce((totals, stream) => {
-        const streamName = streamsById[stream.stream_id].name;
+        const { name, color } = subscriptionsById[stream.stream_id];
 
         if (!totals[stream.stream_id]) {
           totals[stream.stream_id] = {
-            key: streamName,
-            streamName,
-            color: stream.color,
+            key: name,
+            streamName: name,
+            color,
             unread: 0,
             data: [],
           };

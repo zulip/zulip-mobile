@@ -2,6 +2,7 @@ import deepFreeze from 'deep-freeze';
 
 import {
   getStreamsById,
+  getSubscriptionsById,
   getIsActiveStreamSubscribed,
   getSubscribedStreams,
 } from '../subscriptionSelectors';
@@ -28,6 +29,30 @@ describe('getStreamsById', () => {
     const streamsById = getStreamsById(state);
 
     expect(streamsById).toEqual(expectedState);
+  });
+});
+
+describe('getSubscriptionsById', () => {
+  test('returns empty object for an empty input', () => {
+    const state = deepFreeze({
+      subscriptions: [],
+    });
+    expect(getSubscriptionsById(state)).toEqual({});
+  });
+
+  test('returns an object with stream id as keys', () => {
+    const state = deepFreeze({
+      subscriptions: [{ stream_id: 1 }, { stream_id: 2 }],
+    });
+
+    const expectedState = {
+      '1': { stream_id: 1 },
+      '2': { stream_id: 2 },
+    };
+
+    const subscriptionsById = getSubscriptionsById(state);
+
+    expect(subscriptionsById).toEqual(expectedState);
   });
 });
 

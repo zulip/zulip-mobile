@@ -11,14 +11,16 @@ export default class UnreadStreamsContainer extends PureComponent {
     styles: () => null,
   };
 
-  handleStreamPress = (streamName: string) => {
-    const { actions } = this.props;
-    actions.doNarrow(streamNarrow(streamName));
+  handleStreamPress = (stream: string) => {
+    const { actions, onNarrow } = this.props;
+    actions.doNarrow(streamNarrow(stream));
+    onNarrow();
   };
 
   handleTopicPress = (stream: string, topic: string) => {
-    const { actions } = this.props;
+    const { actions, onNarrow } = this.props;
     actions.doNarrow(topicNarrow(stream, topic));
+    onNarrow();
   };
 
   render() {
@@ -31,12 +33,13 @@ export default class UnreadStreamsContainer extends PureComponent {
         style={styles.list}
         initialNumToRender={20}
         sections={sections}
-        renderSectionHeader={({ name, color, unread, section }) =>
+        renderSectionHeader={({ section }) =>
           <StreamItem
             style={styles.groupHeader}
             name={section.streamName}
             iconSize={16}
             color={section.color}
+            backgroundColor={section.color}
             unreadCount={section.unread}
             onPress={this.handleStreamPress}
           />}

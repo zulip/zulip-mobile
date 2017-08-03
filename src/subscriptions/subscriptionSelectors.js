@@ -11,6 +11,13 @@ export const getStreamsById = createSelector(getStreams, streams =>
   }, {}),
 );
 
+export const getSubscriptionsById = createSelector(getSubscriptions, subscriptions =>
+  subscriptions.reduce((subsById, subscription) => {
+    subsById[subscription.stream_id] = subscription;
+    return subsById;
+  }, {}),
+);
+
 export const getIsActiveStreamSubscribed = createSelector(
   getActiveNarrow,
   getSubscriptions,

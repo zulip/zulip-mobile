@@ -95,6 +95,10 @@ exports[`LightboxHeader all required props are passed correctly 1`] = `
                     "right": 0,
                     "top": 0,
                   },
+                  Object {
+                    "height": 32,
+                    "width": 32,
+                  },
                   undefined,
                 ]
               }

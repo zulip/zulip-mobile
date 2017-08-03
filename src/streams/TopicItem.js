@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexGrow: 50,
     padding: 8,
+    backgroundColor: 'rgba(127, 127, 127, 0.25)',
   },
   selectedRow: {
     backgroundColor: BRAND_COLOR,
@@ -40,7 +41,7 @@ export default class StreamItem extends PureComponent {
 
   handlePress = () => {
     const { name, stream, onPress } = this.props;
-    onPress(name, stream);
+    onPress(stream, name);
   };
 
   render() {
