@@ -57,5 +57,12 @@
   "Jot down something": "Напиши нещо",
   "Message {recipient}": "Изпрати до {recipient}",
   "Send private message": "Изпрати лично съобщение",
-  "Forgot password?": "Забравена парола?"
+  "Forgot password?": "Забравена парола?",
+  "Members": "Членове",
+  "Group details": "Детайли за групата",
+  "Delete message": "Изтрий съобщение",
+  "Notifications when online": "Известявания когато сте онлайн",
+  "Notifications when offline": "Известявания когато сте офлайн",
+  "Unread": "Непрочетени",
+  "Subscribed": "Абонирани"
 }

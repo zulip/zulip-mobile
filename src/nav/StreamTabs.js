@@ -15,13 +15,13 @@ export default TabNavigator(
         tabBarLabel: 'Unread',
       },
     },
-    streams: {
+    subscribed: {
       screen: props => <SubscriptionsContainer {...props.screenProps} />,
       navigationOptions: {
         tabBarLabel: 'Subscribed',
       },
     },
-    conversations: {
+    streams: {
       screen: props => <StreamsContainer {...props.screenProps} />,
       navigationOptions: {
         tabBarLabel: 'All Streams',

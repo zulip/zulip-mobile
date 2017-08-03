@@ -61,4 +61,8 @@
   "Members": "Members",
   "Group details": "Group details",
   "Delete message": "Delete message",
+  "Notifications when online": "Notifications when online",
+  "Notifications when offline": "Notifications when offline",
+  "Unread": "Unread",
+  "Subscribed": "Subscribed"
 }
