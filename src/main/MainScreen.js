@@ -1,18 +1,15 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-});
-
 export default class MainScreen extends PureComponent {
+  static contextTypes = {
+    styles: () => null,
+  };
+
   handlePressPeople = () => {
     this.props.usersNavigation.navigate('DrawerOpen');
   };
@@ -22,8 +19,10 @@ export default class MainScreen extends PureComponent {
   };
 
   render() {
+    const { styles } = this.context;
+
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.screen}>
         <MainNavBar
           onPressPeople={this.handlePressPeople}
           onPressStreams={this.handlePressStreams}

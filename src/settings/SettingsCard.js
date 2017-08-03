@@ -10,14 +10,13 @@ import toggleMobilePushSettings from '../api/toggleMobilePushSettings';
 const styles = StyleSheet.create({
   optionWrapper: {
     flex: 1,
-    backgroundColor: '#EFEEF3',
   },
   optionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 8,
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(127, 127, 127, 0.1)',
   },
   optionTitle: {
     padding: 6,

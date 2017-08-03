@@ -9,11 +9,6 @@ import { ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
 
 const componentStyles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'stretch',
-  },
   screenWrapper: {
     flex: 1,
     flexDirection: 'column',
@@ -41,7 +36,7 @@ class Screen extends PureComponent {
     const backgroundColor = flattenStyle ? flattenStyle.backgroundColor : undefined;
 
     return (
-      <View style={componentStyles.screen}>
+      <View style={styles.screen}>
         <ZulipStatusBar backgroundColor={backgroundColor} />
         <ModalNavBar title={title} />
         <WrapperView style={componentStyles.screenWrapper} behavior="padding">

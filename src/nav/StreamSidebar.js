@@ -10,7 +10,7 @@ import { homeNarrow, specialNarrow } from '../utils/narrow';
 import NavButton from './NavButton';
 import StreamTabs from './StreamTabs';
 
-const styles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: STATUSBAR_HEIGHT,
@@ -26,6 +26,10 @@ const styles = StyleSheet.create({
 });
 
 class StreamSidebar extends PureComponent {
+  static contextTypes = {
+    styles: () => null,
+  };
+
   props: {
     actions: Actions,
     navigation: Object,
@@ -43,11 +47,12 @@ class StreamSidebar extends PureComponent {
   };
 
   render() {
+    const { styles } = this.context;
     const { actions } = this.props;
 
     return (
-      <View style={styles.container} scrollsToTop={false}>
-        <View style={styles.iconList}>
+      <View style={[componentStyles.container, styles.background]} scrollsToTop={false}>
+        <View style={componentStyles.iconList}>
           <NavButton name="md-home" onPress={() => this.narrowAndClose(homeNarrow())} />
           <NavButton name="md-mail" onPress={() => this.narrowAndClose(specialNarrow('private'))} />
           <NavButton name="md-star" onPress={() => this.narrowAndClose(specialNarrow('starred'))} />

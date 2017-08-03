@@ -16,10 +16,6 @@ const styles = StyleSheet.create({
 });
 
 class SwitchAccountButton extends PureComponent {
-  static contextTypes = {
-    drawer: () => null,
-  };
-
   shutdownPUSH = async () => {
     const { auth, actions, pushToken } = this.props;
     if (pushToken !== '') {

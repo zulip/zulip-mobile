@@ -5,12 +5,7 @@ import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'stretch',
-  },
+const componentStyles = StyleSheet.create({
   screenWrapper: {
     flex: 1,
     flexDirection: 'column',
@@ -20,6 +15,10 @@ const styles = StyleSheet.create({
 });
 
 class SearchScreen extends PureComponent {
+  static contextTypes = {
+    styles: () => null,
+  };
+
   props: {
     keyboardAvoiding: boolean,
     title: string,
@@ -29,8 +28,8 @@ class SearchScreen extends PureComponent {
   };
 
   render() {
-    const { keyboardAvoiding, title, searchBar } = this.props;
-    const { searchBarOnChange, children } = this.props;
+    const { styles } = this.context;
+    const { keyboardAvoiding, title, searchBar, searchBarOnChange, children } = this.props;
     const WrapperView = keyboardAvoiding && Platform.OS === 'ios' ? KeyboardAvoidingView : View;
 
     return (
@@ -40,7 +39,7 @@ class SearchScreen extends PureComponent {
           searchBar={searchBar}
           searchBarOnChange={searchBarOnChange}
         />
-        <WrapperView style={styles.screenWrapper} behavior="padding">
+        <WrapperView style={componentStyles.screenWrapper} behavior="padding">
           {children}
         </WrapperView>
       </View>
