@@ -69,6 +69,7 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'stretch',
+    backgroundColor,
   },
   screenWrapper: {
     flex: 1,

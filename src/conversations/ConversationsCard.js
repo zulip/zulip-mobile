@@ -10,7 +10,7 @@ import ConversationList from './ConversationList';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
 import LogoutButton from '../account-info/LogoutButton';
 
-const styles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -24,14 +24,16 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
-  actions: Actions,
-  conversations: Object[],
-  usersNavigation: Object,
-};
-
 export default class ConversationsCard extends PureComponent {
-  props: Props;
+  static contextTypes = {
+    styles: () => null,
+  };
+
+  props: {
+    actions: Actions,
+    conversations: Object[],
+    usersNavigation: Object,
+  };
 
   state = {
     filter: '',
@@ -51,18 +53,19 @@ export default class ConversationsCard extends PureComponent {
   };
 
   render() {
+    const { styles } = this.context;
     const { actions, conversations } = this.props;
 
     return (
-      <View style={styles.container}>
+      <View style={[componentStyles.container, styles.background]}>
         <ZulipButton
           secondary
-          style={styles.button}
+          style={componentStyles.button}
           text="Search people"
           onPress={actions.navigateToUsersScreen}
         />
         <ConversationList conversations={conversations} onPress={this.handleUserNarrow} />
-        <View style={styles.accountButtons}>
+        <View style={componentStyles.accountButtons}>
           <SwitchAccountButton />
           <LogoutButton />
         </View>

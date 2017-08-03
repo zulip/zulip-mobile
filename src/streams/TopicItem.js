@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    flexGrow: 50,
+    width: '100%',
     padding: 8,
     backgroundColor: 'rgba(127, 127, 127, 0.25)',
   },
@@ -18,8 +18,12 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    paddingLeft: 8,
-    paddingRight: 8,
+    marginLeft: 8,
+    marginRight: 8,
+  },
+  label: {
+    flex: 1,
+    backgroundColor: 'red',
   },
   selectedText: {
     color: 'white',
@@ -52,8 +56,10 @@ export default class StreamItem extends PureComponent {
         <View style={[styles.row, isSelected && styles.selectedRow]}>
           <View style={styles.text}>
             <RawLabel
-              style={[isSelected && styles.selectedText, isMuted && styles.mutedText]}
+              style={[styles.label, isSelected && styles.selectedText, isMuted && styles.mutedText]}
               text={name}
+              numberOfLines={1}
+              ellipsizeMode="tail"
             />
           </View>
           {unreadCount && <UnreadCount count={unreadCount} inverse={isSelected} />}

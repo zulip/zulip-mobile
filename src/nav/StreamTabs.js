@@ -43,6 +43,12 @@ export default TabNavigator(
       tabStyle: {
         backgroundColor: BRAND_COLOR,
       },
+      style: {
+        backgroundColor: 'blue',
+      },
+    },
+    style: {
+      backgroundColor: 'red',
     },
   },
 );
