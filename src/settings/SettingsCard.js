@@ -55,6 +55,8 @@ class SettingsCard extends PureComponent<Props> {
         <View style={styles.divider} />
         <OptionButton label="Language" onPress={actions.navigateToLanguage} />
         <View style={styles.divider} />
+        <OptionButton label="Muted topics" onPress={actions.navigateToMutedTopicScreen} />
+        <View style={styles.divider} />
         <OptionButton label="Diagnostics" onPress={actions.navigateToDiagnostics} />
         <View style={styles.padding}>
           <WebLink label="Terms of service" href="/terms/" />

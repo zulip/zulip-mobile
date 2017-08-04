@@ -13,6 +13,7 @@ import UsersScreen from '../users/UsersScreen';
 import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
 import LoadingScreen from '../start/LoadingScreen';
+import MutedTopicContainer from '../mute/MutedTopicContainer';
 import SettingsScreen from '../settings/SettingsScreen';
 import LanguageScreen from '../settings/LanguageScreen';
 import DebugScreen from '../settings/DebugScreen';
@@ -43,6 +44,7 @@ export default StackNavigator(
     settings: { screen: SettingsScreen },
     language: { screen: LanguageScreen },
     lightbox: { screen: LightboxScreen },
+    'muted-topic': { screen: MutedTopicContainer },
     group: { screen: GroupScreen },
     diagnostics: { screen: DiagnosticsScreen },
     variables: { screen: VariablesScreen },
