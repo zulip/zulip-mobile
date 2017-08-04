@@ -60,11 +60,11 @@ class AppContainer extends PureComponent {
   componentWillReceiveProps = nextProps => this.init(nextProps);
 
   init = props => {
-    const { needsInitialFetch, actions, pushToken } = props;
+    const { needsInitialFetch, actions } = props;
 
     if (needsInitialFetch) {
       actions.fetchEssentialInitialData();
-      actions.fetchRestOfInitialData(pushToken);
+      actions.fetchRestOfInitialData();
       actions.fetchEvents();
     }
   };
@@ -95,7 +95,6 @@ export default connect(
     auth: getAuth(state),
     isHydrated: state.app.isHydrated,
     needsInitialFetch: state.app.needsInitialFetch,
-    pushToken: state.realm.pushToken,
   }),
   boundActions,
 )(AppContainer);
