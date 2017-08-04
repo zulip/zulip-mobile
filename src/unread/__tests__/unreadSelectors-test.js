@@ -15,12 +15,12 @@ import {
 const unreadStreamData = [
   {
     stream_id: 0,
-    topic: 'some topic',
+    topic: 'a topic',
     unread_message_ids: [1, 2, 3],
   },
   {
     stream_id: 0,
-    topic: 'another topic in same stream',
+    topic: 'another topic',
     unread_message_ids: [4, 5],
   },
   {
@@ -298,8 +298,8 @@ describe('getUnreadStreamsAndTopics', () => {
         color: 'red',
         unread: 5,
         data: [
-          { key: 'some topic', topic: 'some topic', unread: 3 },
-          { key: 'another topic in same stream', topic: 'another topic in same stream', unread: 2 },
+          { key: 'a topic', topic: 'a topic', unread: 3 },
+          { key: 'another topic', topic: 'another topic', unread: 2 },
         ],
       },
       {
@@ -308,6 +308,97 @@ describe('getUnreadStreamsAndTopics', () => {
         color: 'blue',
         unread: 2,
         data: [{ key: 'some other topic', topic: 'some other topic', unread: 2 }],
+      },
+    ]);
+  });
+
+  test('both streams and topics are sorted alphabetically, case-insensitive', () => {
+    const state = deepFreeze({
+      subscriptions: [
+        {
+          stream_id: 2,
+          color: 'green',
+          name: 'def stream',
+        },
+        {
+          stream_id: 1,
+          color: 'blue',
+          name: 'xyz stream',
+        },
+        {
+          stream_id: 0,
+          color: 'red',
+          name: 'abc stream',
+        },
+      ],
+      unread: {
+        streams: [
+          {
+            stream_id: 0,
+            topic: 'z topic',
+            unread_message_ids: [1, 2, 3],
+          },
+          {
+            stream_id: 0,
+            topic: 'a topic',
+            unread_message_ids: [4, 5],
+          },
+          {
+            stream_id: 2,
+            topic: 'b topic',
+            unread_message_ids: [6, 7],
+          },
+          {
+            stream_id: 2,
+            topic: 'c topic',
+            unread_message_ids: [7, 8],
+          },
+          {
+            stream_id: 1,
+            topic: 'e topic',
+            unread_message_ids: [10],
+          },
+          {
+            stream_id: 1,
+            topic: 'd topic',
+            unread_message_ids: [9],
+          },
+        ],
+      },
+    });
+
+    const unreadCount = getUnreadStreamsAndTopics(state);
+
+    expect(unreadCount).toEqual([
+      {
+        key: 'abc stream',
+        streamName: 'abc stream',
+        color: 'red',
+        unread: 5,
+        data: [
+          { key: 'a topic', topic: 'a topic', unread: 2 },
+          { key: 'z topic', topic: 'z topic', unread: 3 },
+        ],
+      },
+      {
+        key: 'def stream',
+        streamName: 'def stream',
+        color: 'green',
+        unread: 4,
+        data: [
+          { key: 'b topic', topic: 'b topic', unread: 2 },
+          { key: 'c topic', topic: 'c topic', unread: 2 },
+        ],
+      },
+      {
+        key: 'xyz stream',
+        streamName: 'xyz stream',
+        color: 'blue',
+        unread: 2,
+        data: [
+          { key: 'd topic', topic: 'd topic', unread: 1 },
+          { key: 'e topic', topic: 'e topic', unread: 1 },
+        ],
       },
     ]);
   });

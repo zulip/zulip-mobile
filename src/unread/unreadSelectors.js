@@ -61,29 +61,38 @@ export const getUnreadTotal = createSelector(
 export const getUnreadStreamsAndTopics = createSelector(
   getSubscriptionsById,
   getUnreadStreams,
-  (subscriptionsById, unreadStreams) =>
-    Object.values(
-      unreadStreams.reduce((totals, stream) => {
-        const { name, color } = subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION;
+  (subscriptionsById, unreadStreams) => {
+    const unreadMap = unreadStreams.reduce((totals, stream) => {
+      const { name, color } = subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION;
 
-        if (!totals[stream.stream_id]) {
-          totals[stream.stream_id] = {
-            key: name,
-            streamName: name,
-            color,
-            unread: 0,
-            data: [],
-          };
-        }
+      if (!totals[stream.stream_id]) {
+        totals[stream.stream_id] = {
+          key: name,
+          streamName: name,
+          color,
+          unread: 0,
+          data: [],
+        };
+      }
 
-        totals[stream.stream_id].unread += stream.unread_message_ids.length;
-        totals[stream.stream_id].data.push({
-          key: stream.topic,
-          topic: stream.topic,
-          unread: stream.unread_message_ids.length,
-        });
+      totals[stream.stream_id].unread += stream.unread_message_ids.length;
+      totals[stream.stream_id].data.push({
+        key: stream.topic,
+        topic: stream.topic,
+        unread: stream.unread_message_ids.length,
+      });
 
-        return totals;
-      }, {}),
-    ),
+      return totals;
+    }, {});
+
+    const sortedStreams = Object.values(unreadMap).sort((a, b) =>
+      a.streamName.toLowerCase().localeCompare(b.streamName.toLowerCase()),
+    );
+
+    sortedStreams.forEach(stream => {
+      stream.data.sort((a, b) => a.topic.toLowerCase().localeCompare(b.topic.toLowerCase()));
+    });
+
+    return sortedStreams;
+  },
 );

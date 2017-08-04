@@ -26,13 +26,12 @@ export default class UnreadStreamsContainer extends PureComponent {
   render() {
     const { styles } = this.context;
     const { unreadStreamsAndTopics } = this.props;
-    const sections = unreadStreamsAndTopics;
 
     return (
       <SectionList
         style={styles.list}
         initialNumToRender={20}
-        sections={sections}
+        sections={unreadStreamsAndTopics}
         renderSectionHeader={({ section }) =>
           <StreamItem
             style={styles.groupHeader}
