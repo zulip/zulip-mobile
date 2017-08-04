@@ -1,6 +1,7 @@
 /* @flow */
 export * from './baseSelectors';
 export * from './app/appSelectors';
+export * from './realm/realmSelectors';
 export * from './account/accountSelectors';
 export * from './conversations/conversationsSelectors';
 export * from './chat/chatSelectors';

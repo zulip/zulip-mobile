@@ -19,7 +19,7 @@ import { initRealmFilters } from './realmFilterActions';
 import { initAlertWords } from '../alertWords/alertWordsActions';
 import { initStreams } from '../streams/streamsActions';
 import { initUsers } from '../users/usersActions';
-import { getAuth, getActiveNarrow } from '../selectors';
+import { getAuth, getActiveNarrow, getPushToken } from '../selectors';
 
 import { INITIAL_FETCH_COMPLETE, SAVE_TOKEN_PUSH, DELETE_TOKEN_PUSH } from '../actionConstants';
 
@@ -44,11 +44,12 @@ export const fetchEssentialInitialData = (): Action => async (
   dispatch(initialFetchComplete());
 };
 
-export const fetchRestOfInitialData = (pushToken: string): Action => async (
+export const fetchRestOfInitialData = (): Action => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
   const auth = getAuth(getState());
+  const pushToken = getPushToken(getState());
   const [streams, users, messages, realmEmoji, realmFilter, alertWords] = await Promise.all([
     await tryUntilSuccessful(() => getStreams(auth)),
     await tryUntilSuccessful(() => getUsers(auth)),
