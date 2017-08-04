@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
 import type { Stream } from '../types';
+import { caseInsensitiveCompareObjFunc } from '../utils/misc';
 import StreamItem from './StreamItem';
 
 const styles = StyleSheet.create({
@@ -40,9 +41,7 @@ export default class StreamList extends PureComponent {
       onPress,
       onSwitch,
     } = this.props;
-    const sortedStreams = streams.sort((a, b) =>
-      a.name.toLowerCase().localeCompare(b.name.toLowerCase()),
-    );
+    const sortedStreams = streams.sort(caseInsensitiveCompareObjFunc('name'));
 
     return (
       <FlatList

@@ -2,6 +2,7 @@
 import { createSelector } from 'reselect';
 
 import type { GlobalState } from '../types';
+import { caseInsensitiveCompareObjFunc } from '../utils/misc';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
@@ -58,6 +59,20 @@ export const getUnreadTotal = createSelector(
     unreadStreamTotal + unreadPmsTotal + unreadHuddlesTotal + mentionsTotal,
 );
 
+type UnreadTopic = {
+  key: string,
+  topic: string,
+  unread: number,
+};
+
+type UnreadStream = {
+  key: string,
+  streamName: string,
+  color: string,
+  unread: number,
+  data: Array<UnreadTopic>,
+};
+
 export const getUnreadStreamsAndTopics = createSelector(
   getSubscriptionsById,
   getUnreadStreams,
@@ -85,12 +100,13 @@ export const getUnreadStreamsAndTopics = createSelector(
       return totals;
     }, {});
 
-    const sortedStreams = Object.values(unreadMap).sort((a, b) =>
-      a.streamName.toLowerCase().localeCompare(b.streamName.toLowerCase()),
+    const sortedStreams = Object.values(unreadMap).sort(
+      caseInsensitiveCompareObjFunc('streamName'),
     );
 
-    sortedStreams.forEach(stream => {
-      stream.data.sort((a, b) => a.topic.toLowerCase().localeCompare(b.topic.toLowerCase()));
+    // $FlowFixMe
+    sortedStreams.forEach((stream: UnreadStream) => {
+      stream.data.sort(caseInsensitiveCompareObjFunc('topic'));
     });
 
     return sortedStreams;
