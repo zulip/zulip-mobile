@@ -1,37 +1,45 @@
+import React from 'react';
+import { View } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
+import { Provider } from 'react-redux';
 
+import store from '../../store';
 import htmlToDomTree from '../htmlToDomTree';
 import renderHtmlChildren from '../renderHtmlChildren';
 
 const htmlToJson = html =>
   ReactTestRenderer.create(
-    renderHtmlChildren({
-      childrenNodes: htmlToDomTree(html),
-      actions: {},
-    }),
+    <Provider store={store}>
+      <View>
+        {renderHtmlChildren({
+          childrenNodes: htmlToDomTree(html),
+          actions: {},
+        })}
+      </View>
+    </Provider>,
   ).toJSON();
 
 describe('renderHtmlChildren', () => {
   test('text renders as <Text />', () => {
     const rendered = htmlToJson('hello');
-    expect(rendered.type).toBe('Text');
+    expect(rendered.children[0].type).toBe('Text'); // check for first children as element is View wrapper
   });
 
   test('empty "div" renders as <View /> and no children', () => {
     const rendered = htmlToJson('<div />');
-    expect(rendered.type).toBe('View');
-    expect(rendered.children).toBe(null);
+    expect(rendered.children[0].type).toBe('View'); // check for first children as element is View wrapper
+    expect(rendered.children[0].children).toBe(null);
   });
 
   test('an "a" renders as <View /> with an onPress handler', () => {
     const rendered = htmlToJson('<a />');
-    expect(rendered.type).toBe('View');
+    expect(rendered.children[0].type).toBe('View'); // check for first children as element is View wrapper
   });
 
   test('a link is rendered as a <Touchable> with <Text /> inside', () => {
     const rendered = htmlToJson('<a>Link text</a>');
     const textNode = rendered.children[0].children[0];
-    expect(textNode.type).toBe('Text');
-    expect(textNode.children[0]).toEqual('Link text');
+    expect(textNode.children[0].type).toBe('Text'); // check for first children as element is View wrapper
+    expect(textNode.children[0].children[0]).toEqual('Link text');
   });
 });
