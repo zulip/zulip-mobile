@@ -3,7 +3,7 @@ import React, { PureComponent, Children } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { Actions, LocalizableText, StyleObj } from '../types';
+import type { Actions, LocalizableText, StyleObj, Connector } from '../types';
 import boundActions from '../boundActions';
 import { CONTROL_SIZE } from '../styles';
 import { Label } from '../common';
@@ -18,23 +18,30 @@ const customStyles = StyleSheet.create({
   },
 });
 
+type OwnProps = {
+  title?: LocalizableText,
+  titleColor?: ?string,
+  itemsColor?: ?string,
+  rightItem?: Object,
+  style: StyleObj,
+  children?: Children,
+  isRightItemNav?: boolean,
+  childrenStyle?: StyleObj,
+};
+
+type ReduxProps = {
+  actions: Actions,
+  nav: any,
+};
+
+type Props = OwnProps & ReduxProps;
+
 class ModalNavBar extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    actions: Actions,
-    nav: any,
-    title?: LocalizableText,
-    titleColor?: ?string,
-    itemsColor?: ?string,
-    rightItem?: Object,
-    style: StyleObj,
-    children?: Children,
-    isRightItemNav?: boolean,
-    childrenStyle?: StyleObj,
-  };
+  props: Props;
 
   render() {
     const { styles } = this.context;
@@ -74,9 +81,11 @@ class ModalNavBar extends PureComponent {
   }
 }
 
-export default connect(
+const connector: Connector<OwnProps, Props> = connect(
   state => ({
     nav: state.nav,
   }),
   boundActions,
-)(ModalNavBar);
+);
+
+export default connector(ModalNavBar);

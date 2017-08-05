@@ -4,6 +4,7 @@ import { View, StyleSheet, Dimensions, Easing } from 'react-native';
 import { connect } from 'react-redux';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
+import type { HigherOrderComponent } from 'react-flow-types'; // eslint-disable-line
 
 import type { Actions, Auth, Message, ImageResource, Connector } from '../types';
 import { getAuth } from '../selectors';
@@ -47,13 +48,22 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
-  auth: Auth,
-  actions: Actions,
+type OwnProps = {
   src: ImageResource,
   message: Message,
+};
+
+type ReduxProps = {
+  auth: Auth,
+  actions: Actions,
+};
+
+type ActionSheetProps = {
   showActionSheetWithOptions: (Object, (number) => void) => void,
 };
+
+type Props = OwnProps & ReduxProps & ActionSheetProps;
+
 class LightboxContainer extends PureComponent {
   props: Props;
 
@@ -138,11 +148,12 @@ class LightboxContainer extends PureComponent {
   }
 }
 
-const connector: Connector<{}, Props> = connect(
+const connector: Connector<OwnProps, $Diff<Props, ActionSheetProps>> = connect(
   state => ({
     auth: getAuth(state),
   }),
   boundActions,
 );
 
-export default connectActionSheet(connector(LightboxContainer));
+const actionSheetConnector: HigherOrderComponent<OwnProps, Props> = connectActionSheet; // eslint-disable-line
+export default actionSheetConnector(connector(LightboxContainer));
