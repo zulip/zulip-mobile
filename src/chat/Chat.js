@@ -13,10 +13,11 @@ import {
   getIsFetching,
   getCurrentTypingUsers,
   getShownMessagesInActiveNarrow,
+  getUnreadCountInActiveNarrow,
 } from '../selectors';
 import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelectors';
 import { canSendToNarrow } from '../utils/narrow';
-import { filterUnreadMessageIds, countUnread } from '../utils/unread';
+import { filterUnreadMessageIds } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { queueMarkAsRead } from '../api';
 import MessageList from '../message/MessageList';
@@ -43,7 +44,7 @@ class Chat extends PureComponent {
     isSubscribed: boolean,
     flags: Object,
     messages: Message[],
-    readIds: Object,
+    unreadCount: number,
   };
 
   handleMessageListScroll = (e: Object) => {
@@ -63,19 +64,13 @@ class Chat extends PureComponent {
 
   render() {
     const { styles } = this.context;
-    const { isFetching, messages, narrow, isOnline, readIds, isSubscribed } = this.props;
+    const { isFetching, messages, narrow, unreadCount, isOnline, isSubscribed } = this.props;
     const noMessages = messages.length === 0;
-    const unreadCount = countUnread(messages.map(msg => msg.id), readIds);
     const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
     const CheckSub = isSubscribed ? <ComposeBox /> : <NotSubscribed />;
 
     return (
       <WrapperView style={styles.screen} behavior="padding">
-        <UnreadNotice
-          unreadCount={unreadCount}
-          scrollOffset={this.scrollOffset}
-          shouldOffsetForInput={canSendToNarrow(narrow)}
-        />
         {!isOnline && <OfflineNotice />}
         {noMessages && !isFetching && <NoMessages narrow={narrow} />}
         {noMessages && isFetching && <MessageListLoading />}
@@ -83,6 +78,11 @@ class Chat extends PureComponent {
           <ActionSheetProvider>
             <MessageList onScroll={this.handleMessageListScroll} {...this.props} />
           </ActionSheetProvider>}
+        <UnreadNotice
+          unreadCount={unreadCount}
+          scrollOffset={this.scrollOffset}
+          shouldOffsetForInput={canSendToNarrow(narrow)}
+        />
         {canSendToNarrow(narrow) ? CheckSub : null}
       </WrapperView>
     );
@@ -101,7 +101,7 @@ export default connect(
     messages: getShownMessagesInActiveNarrow(state),
     typingUsers: getCurrentTypingUsers(state),
     users: state.users,
-    readIds: state.flags.read,
+    unreadCount: getUnreadCountInActiveNarrow(state),
     twentyFourHourTime: state.realm.twentyFourHourTime,
     isSubscribed: getIsActiveStreamSubscribed(state),
   }),
