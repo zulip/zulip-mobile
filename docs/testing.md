@@ -20,4 +20,4 @@ the AirBnB [ES6](https://github.com/airbnb/javascript) and
 [React](https://github.com/airbnb/javascript/tree/master/react) style guides.
 
 ## Type checking with Flow
-Use [Flow](https://flowtype.org/) to find and prevent type related issues.
+Use [Flow](https://flowtype.org/) and [flow-typed](https://github.com/flowtype/flow-typed) to find and prevent type related issues.
