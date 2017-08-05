@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { ZulipButton, RawLabel } from '../common';
-import type { MutedTopic } from '../types';
+import type { Auth, MutedTopic } from '../types';
 import unmuteTopicApi from '../api/unmuteTopic';
 
 const componentStyles = StyleSheet.create({
@@ -34,6 +34,7 @@ export default class MutedTopicItem extends PureComponent {
   };
 
   props: {
+    auth: Auth,
     mutedTopic: MutedTopic,
   };
 
@@ -43,7 +44,7 @@ export default class MutedTopicItem extends PureComponent {
   };
 
   render() {
-    const { mutedTopic, onPress } = this.props;
+    const { mutedTopic } = this.props;
 
     return (
       <View style={[componentStyles.row, this.context.styles.cardView]}>
