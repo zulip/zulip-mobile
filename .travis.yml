@@ -39,7 +39,6 @@ install:
 
 
 before_script:
-  # - travis_wait yarn run build:release:ios
   - set -o pipefail && yarn run build:ios-release | xcpretty -t
   - fbsimctl shutdown
 
@@ -53,7 +52,7 @@ notifications:
 
 script:
   - yarn run test:e2e
-  # - yarn run test
+  - yarn run test
 
 cache:
   yarn: true
