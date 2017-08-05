@@ -124,35 +124,38 @@ class ComposeBox extends PureComponent {
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
 
     return (
-      <View style={[styles.composeBox, { height: totalHeight }]}>
-        <AutoCompleteView text={message} onAutocomplete={this.handleMessageChange} />
-        <View style={componentStyles.bottom}>
-          <ComposeMenu />
-        </View>
-        <View style={[componentStyles.composeText]}>
-          {canSelectTopic &&
-            <Input
-              style={[styles.composeTextInput, componentStyles.topic]}
-              underlineColorAndroid="transparent"
-              placeholder="Topic"
+      <View>
+        <AutoCompleteView text={message} onAutocomplete={this.handleAutoComplete} />
+        <View style={[styles.composeBox, { height: totalHeight }]}>
+          <View style={componentStyles.bottom}>
+            <ComposeMenu />
+          </View>
+          <View style={[componentStyles.composeText]}>
+            {canSelectTopic &&
+              <Input
+                style={[styles.composeTextInput, componentStyles.topic]}
+                underlineColorAndroid="transparent"
+                placeholder="Topic"
+                textInputRef={component => {
+                  this.topicInput = component;
+                }}
+                onChangeText={this.handleTopicChange}
+                // value={topic}
+              />}
+            <MultilineInput
+              style={styles.composeTextInput}
+              placeholder={placeholder}
               textInputRef={component => {
-                this.topicInput = component;
+                this.messageInput = component;
               }}
-              onChangeText={this.handleTopicChange}
-              // value={topic}
-            />}
-          <MultilineInput
-            style={styles.composeTextInput}
-            placeholder={placeholder}
-            textInputRef={component => {
-              this.messageInput = component;
-            }}
-            onChange={this.handleMessageChange}
-            onHeightChange={this.handleHeightChange}
-          />
-        </View>
-        <View style={componentStyles.bottom}>
-          <SubmitButton disabled={message.length === 0} onPress={this.handleSend} />
+              onChange={this.handleMessageChange}
+              onHeightChange={this.handleHeightChange}
+              value={message}
+            />
+          </View>
+          <View style={componentStyles.bottom}>
+            <SubmitButton disabled={message.length === 0} onPress={this.handleSend} />
+          </View>
         </View>
       </View>
     );
