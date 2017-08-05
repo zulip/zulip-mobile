@@ -49,7 +49,7 @@ export default class AlertItem extends PureComponent {
 
     return (
       <View style={[componentStyles.row, this.context.styles.cardView]}>
-        <View style={componentStyles.textWrapper}>
+        <View>
           <RawLabel style={componentStyles.alertWordText} text={alertWord} />
         </View>
         <Touchable

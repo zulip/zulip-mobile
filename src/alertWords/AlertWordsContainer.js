@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
+import type { AlertWords, Auth, GlobalState } from '../types';
 import { BRAND_COLOR } from '../styles';
 import AddAlertWordView from './AddAlertWordView';
 import AlertWordsList from './AlertWordsList';
@@ -20,6 +21,11 @@ const componentStyles = StyleSheet.create({
 });
 
 class AlertWordsContainer extends PureComponent {
+  props: {
+    auth: Auth,
+    alertWords: AlertWords,
+  };
+
   render() {
     const { alertWords, auth } = this.props;
     return (

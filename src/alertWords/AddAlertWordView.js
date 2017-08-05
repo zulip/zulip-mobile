@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 
 import { Input, ZulipButton } from '../common';
 import type { Auth } from '../types';
@@ -25,6 +25,8 @@ export default class AddAlertWordView extends PureComponent {
   props: {
     auth: Auth,
   };
+
+  textInput: TextInput;
 
   state: { alertWord: string };
 
