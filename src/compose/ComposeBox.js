@@ -14,6 +14,7 @@ import AutoCompleteView from '../autocomplete/AutoCompleteView';
 import sendMessage from '../api/sendMessage';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import { registerUserInputActivity } from '../utils/activity';
+import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
 
 const MIN_HEIGHT = 46;
 const MAX_HEIGHT = 100;
@@ -90,12 +91,15 @@ class ComposeBox extends PureComponent {
     const { auth, narrow } = this.props;
     const { topic, message } = this.state;
 
+    const topicToSend = replaceEmoticonsWithEmoji(topic);
+    const messageToSend = replaceEmoticonsWithEmoji(message);
+
     if (isPrivateOrGroupNarrow(narrow)) {
-      sendMessage(auth, 'private', narrow[0].operand, '', message);
+      sendMessage(auth, 'private', narrow[0].operand, '', messageToSend);
     } else if (isTopicNarrow(narrow)) {
-      sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, message);
+      sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, messageToSend);
     } else if (isStreamNarrow(narrow)) {
-      sendMessage(auth, 'stream', narrow[0].operand, topic, message);
+      sendMessage(auth, 'stream', narrow[0].operand, topicToSend, messageToSend);
     }
 
     this.clearMessageInput();
