@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
   selectedText: {
     color: 'white',
   },
-  mutedText: {
-    color: 'gray',
+  muted: {
+    opacity: 0.25,
   },
 });
 
@@ -35,10 +35,16 @@ export default class StreamItem extends PureComponent {
   props: {
     stream: string,
     name: string,
-    isMuted?: boolean,
-    isSelected?: boolean,
-    unreadCount?: number,
+    isMuted: boolean,
+    isSelected: boolean,
+    unreadCount: number,
     onPress: (topic: string, stream: string) => void,
+  };
+
+  static defaultProps = {
+    isMuted: false,
+    isSelected: false,
+    unreadCount: 0,
   };
 
   handlePress = () => {
@@ -51,9 +57,9 @@ export default class StreamItem extends PureComponent {
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={[styles.row, isSelected && styles.selectedRow]}>
+        <View style={[styles.row, isSelected && styles.selectedRow, isMuted && styles.muted]}>
           <RawLabel
-            style={[styles.label, isSelected && styles.selectedText, isMuted && styles.mutedText]}
+            style={[styles.label, isSelected && styles.selectedText]}
             text={name}
             numberOfLines={1}
             ellipsizeMode="tail"
