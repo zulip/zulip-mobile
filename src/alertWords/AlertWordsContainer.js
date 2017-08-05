@@ -1,18 +1,38 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
+import { BRAND_COLOR } from '../styles';
+import AddAlertWordView from './AddAlertWordView';
 import AlertWordsList from './AlertWordsList';
 import { getAlertWords, getAuth } from '../selectors';
 
-class MutedTopicContainer extends PureComponent {
+const componentStyles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
+  divider: {
+    margin: 8,
+    height: 1,
+    backgroundColor: BRAND_COLOR,
+  },
+});
+
+class AlertWordsContainer extends PureComponent {
   render() {
     const { alertWords, auth } = this.props;
-    return <AlertWordsList alertWords={alertWords} auth={auth} />;
+    return (
+      <View style={componentStyles.wrapper}>
+        <AddAlertWordView auth={auth} />
+        <View style={componentStyles.divider} />
+        <AlertWordsList alertWords={alertWords} auth={auth} />
+      </View>
+    );
   }
 }
 
 export default connect((state: GlobalState) => ({
   alertWords: getAlertWords(state),
   auth: getAuth(state),
-}))(MutedTopicContainer);
+}))(AlertWordsContainer);

@@ -38,7 +38,6 @@ export default class MuteTopicList extends PureComponent {
 
     return (
       <FlatList
-        keyboardShouldPersistTaps="always"
         initialNumToRender={15}
         data={alertWords}
         keyExtractor={mutedTopic => mutedTopic}
