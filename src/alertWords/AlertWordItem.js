@@ -6,6 +6,7 @@ import { RawLabel, Touchable } from '../common';
 import { IconDelete } from '../common/Icons';
 import { BRAND_COLOR } from '../styles';
 import type { Auth } from '../types';
+import apiRemoveAlertWord from '../api/removeAlertWord';
 
 const componentStyles = StyleSheet.create({
   row: {
@@ -40,6 +41,7 @@ export default class AlertItem extends PureComponent {
 
   removeAlertWord = () => {
     const { auth, alertWord } = this.props;
+    apiRemoveAlertWord(auth, alertWord);
   };
 
   render() {
