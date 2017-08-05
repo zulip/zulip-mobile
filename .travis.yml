@@ -33,11 +33,14 @@ install:
   - brew tap wix/brew
   - brew install applesimutils --HEAD
   - yarn install
-  - gem install xcpretty
+  - gem install xcpretty >/dev/null 2>&1
+  - npm install -g react-native-cli >/dev/null 2>&1
+  - npm install -g detox-cli >/dev/null 2>&1
 
 
 before_script:
   # - travis_wait yarn run build:release:ios
+  - set -o pipefail && yarn run build:ios-release | xcpretty -t
   - fbsimctl shutdown
 
 notifications:
@@ -49,9 +52,8 @@ notifications:
     on_failure: always
 
 script:
-  - yarn run build:ios-release | xcpretty -t
   - yarn run test:e2e
-  - yarn run test
+  # - yarn run test
 
 cache:
   yarn: true

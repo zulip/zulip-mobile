@@ -22,7 +22,7 @@
     "test:flow": "flow",
     "test:flow-coverage": "flow-coverage-report -i 'src/**/*.js' -x '**/__tests__/**' -t html",
     "test:unit": "jest src/",
-    "test:e2e": "jest __e2e__tests__/basic.spec.js",
+    "test:e2e": "detox test --configuration ios.sim.release --cleanup -l verbose",
     "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "test:prettier": "prettier-check  --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow `find src -name \"*.js\"`",
     "test": "npm run test:lint && npm run test:prettier && npm run test:coveralls && npm run test:flow",
@@ -95,6 +95,7 @@
     "jest": "^20.0.0",
     "jest-cli": "^20.0.0",
     "jest-react-native": "^18.0.0",
+    "mocha": "^3.5.0",
     "prettier": "^1.5.3",
     "prettier-check": "^1.0.0",
     "react-flow-types": "^0.1.1",
@@ -114,9 +115,9 @@
     "configurations": {
       "ios.sim.release": {
         "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/ZulipMobile.app",
-        "build": "cd ios && xcodebuild -workspace ZulipMobile.xcworkspace -configuration Release -scheme ZulipMobile -derivedDataPath build -sdk iphonesimulator",
+        "build": "cd ios && xcodebuild -workspace ZulipMobile.xcworkspace -configuration Release -scheme ZulipMobile -derivedDataPath build -sdk iphonesimulator -quiet",
         "type": "ios.simulator",
-        "name": "iPhone 6"
+        "name": "iPhone 6, iOS 10.3"
       }
     }
   }
