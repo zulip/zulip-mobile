@@ -51,7 +51,7 @@ notifications:
     on_failure: always
 
 script:
-  - yarn run test:e2e
+  - travis_wait yarn run test:e2e
   - yarn run test
 
 cache:

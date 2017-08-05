@@ -109,7 +109,7 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|@expo/react-native-action-sheet|react-navigation)"
     ],
-    "testPathIgnorePatterns": ["/node_modules/"]
+    "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/__e2e__tests__"]
   },
   "detox": {
     "configurations": {
@@ -119,6 +119,7 @@
         "type": "ios.simulator",
         "name": "iPhone 6, iOS 10.3"
       }
-    }
+    },
+    "specs": "__e2e__tests__"
   }
 }
