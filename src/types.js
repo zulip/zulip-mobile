@@ -10,6 +10,8 @@ export type Auth = {
 
 export type Account = Auth;
 
+export type AlertWords = [];
+
 export type ImageResource = {
   uri: string,
 };

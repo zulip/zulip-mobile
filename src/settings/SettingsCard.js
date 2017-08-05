@@ -93,6 +93,13 @@ export default class SettingsCard extends PureComponent {
             <IconRightIcon size={18} style={styles.rightIcon} />
           </View>
         </Touchable>
+        <View style={styles.divider} />
+        <Touchable onPress={() => actions.navigateToSettingsDetail('alertWords', 'Alert Words')}>
+          <View style={styles.optionRow}>
+            <Label style={styles.optionTitle} text="Alert Words" />
+            <IconRightIcon size={18} style={styles.rightIcon} />
+          </View>
+        </Touchable>
       </View>
     );
   }

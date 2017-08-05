@@ -12,6 +12,7 @@ export const IconStar = (props: Object) => <IoniconsIcon name="md-star" {...prop
 export const IconMention = (props: Object) => <IoniconsIcon name="md-at" {...props} />;
 export const IconSearch = (props: Object) => <IoniconsIcon name="md-search" {...props} />;
 export const IconDone = (props: Object) => <MaterialIcon name="done" {...props} />;
+export const IconDelete = (props: Object) => <MaterialIcon name="delete" {...props} />;
 export const IconCancel = (props: Object) => <MaterialIcon name="cancel" {...props} />;
 export const IconWarning = (props: Object) => <MaterialIcon name="warning" {...props} />;
 export const IconSend = (props: Object) => <MaterialIcon name="send" {...props} />;
