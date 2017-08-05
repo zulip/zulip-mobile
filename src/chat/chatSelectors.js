@@ -93,3 +93,10 @@ export const getStreamInNarrow = createSelector(
     } ||
     NULL_SUBSCRIPTION,
 );
+
+export const getUnreadCountInActiveNarrow = createSelector(
+  getShownMessagesInActiveNarrow,
+  getReadFlags,
+  (shownMessagesInActiveNarrow, readIds) =>
+    countUnread(shownMessagesInActiveNarrow.map(msg => msg.id), readIds),
+);
