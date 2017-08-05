@@ -17,6 +17,7 @@ export default class MultilineInput extends PureComponent {
   props: {
     style?: StyleObj,
     placeholder: LocalizableText,
+    value: string,
     onChange?: (text: string) => void,
     onHeightChange?: (height: number) => void,
     textInputRef?: (component: TextInput) => void,
