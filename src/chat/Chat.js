@@ -1,21 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { View, KeyboardAvoidingView, Platform } from 'react-native';
-import { connect } from 'react-redux';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Auth, Narrow, Message } from '../types';
 import { OfflineNotice } from '../common';
-import boundActions from '../boundActions';
-import {
-  getAuth,
-  getActiveNarrow,
-  getIsFetching,
-  getCurrentTypingUsers,
-  getShownMessagesInActiveNarrow,
-  getUnreadCountInActiveNarrow,
-} from '../selectors';
-import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelectors';
 import { canSendToNarrow } from '../utils/narrow';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
@@ -29,7 +18,7 @@ import ComposeBox from '../compose/ComposeBox';
 // import UnreadNotice from './UnreadNotice';
 import NotSubscribed from '../message/NotSubscribed';
 
-class Chat extends PureComponent {
+export default class Chat extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };
@@ -88,22 +77,3 @@ class Chat extends PureComponent {
     );
   }
 }
-
-export default connect(
-  state => ({
-    auth: getAuth(state),
-    isOnline: state.app.isOnline,
-    subscriptions: state.subscriptions,
-    flags: state.flags,
-    isFetching: getIsFetching(state),
-    narrow: getActiveNarrow(state),
-    mute: state.mute,
-    messages: getShownMessagesInActiveNarrow(state),
-    typingUsers: getCurrentTypingUsers(state),
-    users: state.users,
-    unreadCount: getUnreadCountInActiveNarrow(state),
-    twentyFourHourTime: state.realm.twentyFourHourTime,
-    isSubscribed: getIsActiveStreamSubscribed(state),
-  }),
-  boundActions,
-)(Chat);
