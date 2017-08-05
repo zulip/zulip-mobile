@@ -37,6 +37,7 @@ export default class UnreadStreamsContainer extends PureComponent {
             style={styles.groupHeader}
             name={section.streamName}
             iconSize={16}
+            isMuted={section.isMuted}
             color={section.color}
             backgroundColor={section.color}
             unreadCount={section.unread}
@@ -46,7 +47,7 @@ export default class UnreadStreamsContainer extends PureComponent {
           <TopicItem
             name={item.topic}
             stream={section.streamName}
-            isMuted={false}
+            isMuted={section.isMuted || item.isMuted}
             isSelected={false}
             unreadCount={item.unread}
             onPress={this.handleTopicPress}

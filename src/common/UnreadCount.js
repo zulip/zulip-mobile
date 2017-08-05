@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
   textInverse: {
     color: BRAND_COLOR,
   },
+  frameMuted: {
+    opacity: 0.5,
+  },
 });
 
 export default class UnreadCount extends PureComponent {
@@ -32,23 +35,26 @@ export default class UnreadCount extends PureComponent {
     style?: StyleObj,
     color?: string,
     borderRadius: number,
+    isMuted: boolean,
     count?: number,
     inverse?: boolean,
   };
 
   static defaultProps = {
     color: BRAND_COLOR,
+    isMuted: false,
     borderRadius: 2,
   };
 
   render() {
-    const { style, borderRadius, color, count, inverse } = this.props;
+    const { style, isMuted, borderRadius, color, count, inverse } = this.props;
 
     if (!count) return null;
 
     const frameStyle = [
       styles.frame,
       inverse && styles.frameInverse,
+      isMuted && styles.frameMuted,
       { borderRadius },
       { backgroundColor: color },
       style,

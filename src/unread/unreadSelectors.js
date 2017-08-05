@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 import type { GlobalState } from '../types';
 import { caseInsensitiveCompareObjFunc } from '../utils/misc';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
+import { getMute } from '../baseSelectors';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 export const getUnreadStreams = (state: GlobalState): Object[] => state.unread.streams;
@@ -76,14 +77,17 @@ type UnreadStream = {
 export const getUnreadStreamsAndTopics = createSelector(
   getSubscriptionsById,
   getUnreadStreams,
-  (subscriptionsById, unreadStreams) => {
+  getMute,
+  (subscriptionsById, unreadStreams, mute) => {
     const unreadMap = unreadStreams.reduce((totals, stream) => {
-      const { name, color } = subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION;
+      const { name, color, in_home_view } =
+        subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION;
 
       if (!totals[stream.stream_id]) {
         totals[stream.stream_id] = {
           key: name,
           streamName: name,
+          isMuted: !in_home_view, // eslint-disable-line
           color,
           unread: 0,
           data: [],
@@ -95,6 +99,7 @@ export const getUnreadStreamsAndTopics = createSelector(
         key: stream.topic,
         topic: stream.topic,
         unread: stream.unread_message_ids.length,
+        isMuted: !mute.every(x => x[0] !== name || x[1] !== stream.topic),
       });
 
       return totals;

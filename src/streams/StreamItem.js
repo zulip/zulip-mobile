@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
   selectedText: {
     color: 'white',
   },
-  mutedText: {
-    color: 'gray',
+  muted: {
+    opacity: 0.25,
   },
 });
 
@@ -78,6 +78,12 @@ export default class StreamItem extends PureComponent {
       isSwitchedOn,
       unreadCount,
     } = this.props;
+    const wrapperStyle = [
+      styles.row,
+      { backgroundColor },
+      isSelected && styles.selectedRow,
+      isMuted && styles.muted,
+    ];
     const iconWrapperCustomStyle = {
       width: iconSize * 1.5,
       height: iconSize * 1.5,
@@ -86,15 +92,12 @@ export default class StreamItem extends PureComponent {
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={[styles.row, { backgroundColor }, isSelected && styles.selectedRow]}>
+        <View style={wrapperStyle}>
           <View style={[styles.iconWrapper, iconWrapperCustomStyle]}>
             <StreamIcon size={iconSize} color="white" isMuted={isMuted} isPrivate={isPrivate} />
           </View>
           <View style={styles.text}>
-            <RawLabel
-              style={[isSelected && styles.selectedText, isMuted && styles.mutedText]}
-              text={name}
-            />
+            <RawLabel style={[isSelected && styles.selectedText]} text={name} />
             {!!description &&
               <RawLabel numberOfLines={1} style={styles.description} text={description} />}
           </View>

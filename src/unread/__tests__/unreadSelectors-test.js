@@ -277,16 +277,19 @@ describe('getUnreadStreamsAndTopics', () => {
           stream_id: 0,
           name: 'stream 0',
           color: 'red',
+          in_home_view: true,
         },
         {
           stream_id: 2,
           name: 'stream 2',
           color: 'blue',
+          in_home_view: true,
         },
       ],
       unread: {
         streams: unreadStreamData,
       },
+      mute: [],
     });
 
     const unreadCount = getUnreadStreamsAndTopics(state);
@@ -297,9 +300,10 @@ describe('getUnreadStreamsAndTopics', () => {
         streamName: 'stream 0',
         color: 'red',
         unread: 5,
+        isMuted: false,
         data: [
-          { key: 'a topic', topic: 'a topic', unread: 3 },
-          { key: 'another topic', topic: 'another topic', unread: 2 },
+          { key: 'a topic', topic: 'a topic', unread: 3, isMuted: false },
+          { key: 'another topic', topic: 'another topic', unread: 2, isMuted: false },
         ],
       },
       {
@@ -307,7 +311,8 @@ describe('getUnreadStreamsAndTopics', () => {
         streamName: 'stream 2',
         color: 'blue',
         unread: 2,
-        data: [{ key: 'some other topic', topic: 'some other topic', unread: 2 }],
+        isMuted: false,
+        data: [{ key: 'some other topic', topic: 'some other topic', unread: 2, isMuted: false }],
       },
     ]);
   });
@@ -319,16 +324,19 @@ describe('getUnreadStreamsAndTopics', () => {
           stream_id: 2,
           color: 'green',
           name: 'def stream',
+          in_home_view: false,
         },
         {
           stream_id: 1,
           color: 'blue',
           name: 'xyz stream',
+          in_home_view: true,
         },
         {
           stream_id: 0,
           color: 'red',
           name: 'abc stream',
+          in_home_view: true,
         },
       ],
       unread: {
@@ -365,6 +373,7 @@ describe('getUnreadStreamsAndTopics', () => {
           },
         ],
       },
+      mute: [['def stream', 'c topic']],
     });
 
     const unreadCount = getUnreadStreamsAndTopics(state);
@@ -374,30 +383,33 @@ describe('getUnreadStreamsAndTopics', () => {
         key: 'abc stream',
         streamName: 'abc stream',
         color: 'red',
+        isMuted: false,
         unread: 5,
         data: [
-          { key: 'a topic', topic: 'a topic', unread: 2 },
-          { key: 'z topic', topic: 'z topic', unread: 3 },
+          { key: 'a topic', topic: 'a topic', unread: 2, isMuted: false },
+          { key: 'z topic', topic: 'z topic', unread: 3, isMuted: false },
         ],
       },
       {
         key: 'def stream',
         streamName: 'def stream',
         color: 'green',
+        isMuted: true,
         unread: 4,
         data: [
-          { key: 'b topic', topic: 'b topic', unread: 2 },
-          { key: 'c topic', topic: 'c topic', unread: 2 },
+          { key: 'b topic', topic: 'b topic', unread: 2, isMuted: false },
+          { key: 'c topic', topic: 'c topic', unread: 2, isMuted: true },
         ],
       },
       {
         key: 'xyz stream',
         streamName: 'xyz stream',
         color: 'blue',
+        isMuted: false,
         unread: 2,
         data: [
-          { key: 'd topic', topic: 'd topic', unread: 1 },
-          { key: 'e topic', topic: 'e topic', unread: 1 },
+          { key: 'd topic', topic: 'd topic', unread: 1, isMuted: false },
+          { key: 'e topic', topic: 'e topic', unread: 1, isMuted: false },
         ],
       },
     ]);
