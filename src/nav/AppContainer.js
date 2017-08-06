@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { AppState, NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
+import DeviceInfo from 'react-native-device-info';
 
 import boundActions from '../boundActions';
 import AppWithNavigationState from './AppWithNavigationState';
@@ -66,6 +67,9 @@ class AppContainer extends PureComponent {
       actions.fetchEssentialInitialData();
       actions.fetchRestOfInitialData();
       actions.fetchEvents();
+      if (!DeviceInfo.isEmulator()) {
+        actions.initNotifications();
+      }
     }
   };
 
