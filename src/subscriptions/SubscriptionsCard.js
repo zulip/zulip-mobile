@@ -33,6 +33,10 @@ export default class SubscriptionsCard extends PureComponent {
     }
   };
 
+  clearInput = () => {
+    this.setState({ filter: '' });
+  };
+
   render() {
     const { streams, subscriptions } = this.props;
     const filteredStreams = streams.filter(x => x.name.includes(this.state.filter));
@@ -48,6 +52,7 @@ export default class SubscriptionsCard extends PureComponent {
         showDescriptions
         onSwitch={this.handleSwitchChange}
         onPress={nullFunction}
+        clearInput={this.clearInput}
       />
     );
   }

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, SectionList } from 'react-native';
 
-import { RawLabel } from '../common';
+import { RawLabel, SearchEmptyState } from '../common';
 import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByInitials } from '../selectors';
 import { User } from '../types';
@@ -32,6 +32,11 @@ export default class UserList extends PureComponent {
     const shownUsers = sortUserList(filterUserList(users, filter));
     const groupedUsers = groupUsersByInitials(shownUsers);
     const sections = Object.keys(groupedUsers).map(key => ({ key, data: groupedUsers[key] }));
+    const noResults = shownUsers.length === 0;
+
+    if (noResults) {
+      return <SearchEmptyState text="No users found" />;
+    }
 
     return (
       <SectionList
