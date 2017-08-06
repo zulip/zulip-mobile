@@ -11,8 +11,8 @@ import {
   getRealmFilters,
   getAlertWords,
 } from '../api';
-import { refreshNotificationToken } from '../utils/notifications';
-import { messageFetchSuccess } from '../message/messagesActions';
+import { refreshNotificationToken, initializeNotifications } from '../utils/notifications';
+import { messageFetchSuccess, switchNarrow } from '../message/messagesActions';
 import { initSubscriptions } from '../subscriptions/subscriptionsActions';
 import { initRealmEmojis } from '../emoji/realmEmojiActions';
 import { initRealmFilters } from './realmFilterActions';
@@ -79,3 +79,7 @@ export const saveTokenPush = (pushToken: string): Action => ({
   type: SAVE_TOKEN_PUSH,
   pushToken,
 });
+
+export const initNotifications = (): Action => (dispatch: Dispatch, getState: GetState) => {
+  initializeNotifications(getAuth(getState()), saveTokenPush, switchNarrow);
+};
