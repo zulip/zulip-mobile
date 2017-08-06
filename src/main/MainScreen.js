@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import Chat from '../chat/Chat';
+import ChatContainer from '../chat/ChatContainer';
 import MainNavBar from '../nav/MainNavBar';
 
 export default class MainScreen extends PureComponent {
@@ -27,7 +27,7 @@ export default class MainScreen extends PureComponent {
           onPressPeople={this.handlePressPeople}
           onPressStreams={this.handlePressStreams}
         />
-        <Chat />
+        <ChatContainer />
       </View>
     );
   }
