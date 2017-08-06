@@ -5,6 +5,7 @@ import { FlatList, StyleSheet } from 'react-native';
 import type { Stream } from '../types';
 import { caseInsensitiveCompareObjFunc } from '../utils/misc';
 import StreamItem from './StreamItem';
+import { SearchEmptyState } from '../common';
 
 const styles = StyleSheet.create({
   list: {
@@ -22,6 +23,7 @@ export default class StreamList extends PureComponent {
     unreadByStream: number[],
     onPress?: (streamName: string) => void,
     onSwitch?: (streamName: string, newValue: boolean) => void,
+    clearInput?: () => void,
   };
 
   static defaultProps = {
@@ -40,8 +42,20 @@ export default class StreamList extends PureComponent {
       unreadByStream,
       onPress,
       onSwitch,
+      clearInput,
     } = this.props;
     const sortedStreams = streams.sort(caseInsensitiveCompareObjFunc('name'));
+    const noResults = streams.length === 0;
+
+    if (noResults) {
+      return (
+        <SearchEmptyState
+          text="No streams found"
+          buttonText="All streams"
+          buttonAction={clearInput}
+        />
+      );
+    }
 
     return (
       <FlatList

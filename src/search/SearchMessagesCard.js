@@ -5,7 +5,7 @@ import throttle from 'lodash.throttle';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Actions, Auth } from '../types';
-import { Label } from '../common';
+import { SearchEmptyState } from '../common';
 import { BRAND_COLOR } from '../styles';
 import { searchNarrow } from '../utils/narrow';
 import MessageList from '../message/MessageList';
@@ -73,11 +73,14 @@ export default class SearchMessagesCard extends PureComponent {
     const { actions, auth, subscriptions, twentyFourHourTime, flags } = this.props;
     const noResults = !!query && !isFetching && !messages.length;
 
+    if (noResults) {
+      return <SearchEmptyState text="No results" />;
+    }
+
     return (
       <View style={styles.results}>
         {isFetching &&
           <ActivityIndicator style={styles.activity} color={BRAND_COLOR} size="large" />}
-        {noResults && <Label style={styles.empty} text="No results" />}
         <ActionSheetProvider>
           <MessageList
             actions={actions}
