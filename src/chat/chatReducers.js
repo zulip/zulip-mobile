@@ -64,6 +64,8 @@ export default (state: ChatState = initialState, action: Action) => {
 
       return {
         ...state,
+        fetchingOlder: false,
+        fetchingNewer: false,
         messages: {
           ...state.messages,
           [key]: newMessages,

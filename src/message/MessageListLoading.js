@@ -1,6 +1,6 @@
 /* @flow */
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
 import MessageLoading from '../message/MessageLoading';
 
@@ -12,11 +12,12 @@ const styles = StyleSheet.create({
 });
 
 export default () =>
-  <View style={styles.list}>
+  <ScrollView contentContainerStyle={styles.list}>
     <MessageLoading />
     <MessageLoading />
     <MessageLoading />
     <MessageLoading />
     <MessageLoading />
     <MessageLoading />
-  </View>;
+    <MessageLoading />
+  </ScrollView>;
