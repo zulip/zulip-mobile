@@ -20,6 +20,8 @@ export default connect(
     subscriptions: state.subscriptions,
     flags: state.flags,
     isFetching: getIsFetching(state),
+    fetchingOlder: state.chat.fetchingOlder,
+    fetchingNewer: state.chat.fetchingNewer,
     narrow: getActiveNarrow(state),
     mute: state.mute,
     messages: getShownMessagesInActiveNarrow(state),
