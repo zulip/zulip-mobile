@@ -96,7 +96,7 @@
         "autocomplete", "rgba", "rehydrate", "rehydrated",  "async", "whitelist", "str", "del",
         "subheader", "concat", "streamlist", "scrollable", "eslint", "lastword", "renderer",
         "html", "dom", "tbody", "thead", "th", "td", "href", "pre", "blockquote", "li", "br",
-        "emojis", "chatboxes", "userlist", "middleware", "trunc", "pushable", "ios", "md",
+        "emojis", "chatboxes", "userlist", "middleware", "trunc", "pushable", "ios", "md", "caughtup",
         "autocompleted", "substring", "png", "ds", "videocam", "unmount", "github", "facebook",
         "idx", "aaa", "bbb", "ccc", "ddd", "eee", "fff", "abcd", "aaaaaa", "ffffff", "24cac2",
         "src", "attribs", "charset", "utf", "urlencoded", "htmlparser", "htmlparser2", "ul", "ol",

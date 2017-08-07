@@ -21,8 +21,6 @@ import { getMessagesById } from '../selectors';
 const initialState: ChatState = {
   fetchingOlder: true,
   fetchingNewer: true,
-  caughtUpOlder: false,
-  caughtUpNewer: false,
   narrow: homeNarrow(),
   messages: {},
 };
@@ -39,8 +37,6 @@ export default (state: ChatState = initialState, action: Action) => {
         narrow: action.narrow,
         fetchingOlder: action.fetchingOlder,
         fetchingNewer: action.fetchingNewer,
-        caughtUpOlder: action.caughtUpOlder,
-        caughtUpNewer: action.caughtUpNewer,
       };
 
     case SWITCH_NARROW: {
@@ -49,8 +45,6 @@ export default (state: ChatState = initialState, action: Action) => {
         narrow: action.narrow,
         fetchingOlder: false,
         fetchingNewer: false,
-        caughtUpOlder: false,
-        caughtUpNewer: false,
       };
     }
 

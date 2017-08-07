@@ -6,6 +6,7 @@ import { BATCH_ACTIONS } from './actionConstants';
 import accounts from './account/accountReducers';
 import alertWords from './alertWords/alertWordsReducer';
 import app from './app/appReducers';
+import caughtUp from './caughtup/caughtUpReducers';
 import chat from './chat/chatReducers';
 import flags from './chat/flagsReducers';
 import mute from './mute/muteReducers';
@@ -38,6 +39,7 @@ export default enableBatching(
     accounts,
     alertWords,
     app,
+    caughtUp,
     chat,
     flags,
     mute,

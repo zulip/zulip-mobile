@@ -44,8 +44,6 @@ describe('chatReducers', () => {
 
       const expectedState = {
         narrow: streamNarrow('some stream'),
-        caughtUpOlder: false,
-        caughtUpNewer: false,
         fetchingOlder: false,
         fetchingNewer: false,
       };

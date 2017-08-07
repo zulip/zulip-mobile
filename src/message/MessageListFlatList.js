@@ -32,7 +32,7 @@ class MessageList extends PureComponent {
   state = { actionSheetButtons: ['', ''] };
 
   componentWillReceiveProps(nextProps) {
-    this.autoScrollToBottom = this.props.caughtUp.newer && nextProps.caughtUp.newer;
+    this.autoScrollToBottom = this.props.caughtUpNewer && nextProps.caughtUpNewer;
   }
 
   handleHeaderLongPress = message => {
