@@ -96,7 +96,9 @@
     "prettier": "^1.5.3",
     "prettier-check": "^1.0.0",
     "react-flow-types": "^0.1.1",
-    "react-native-cli": "^2.0.1"
+    "react-native-cli": "^2.0.1",
+    "reactotron-react-native": "^1.12.2",
+    "reactotron-redux": "^1.12.2"
   },
   "jest": {
     "preset": "react-native",
