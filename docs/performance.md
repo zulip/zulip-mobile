@@ -50,3 +50,5 @@ Passing all the props to wrapped components is generally not needed and requires
 - One can use `console.time("label")` and `console.timeEnd("label")` to time execution of a block of code.
 
 - To test rerenders use this [Higher-order Component](https://gist.github.com/Sam1301/caea1f70bcef1e2e16080ad563012b33).
+
+- [Reactotron](https://github.com/infinitered/reactotron) is integrated with the project. Refer to the [docs](https://github.com/infinitered/reactotron/blob/master/readme.md) for further details.
