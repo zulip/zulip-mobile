@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -43,16 +43,14 @@ class Avatar extends PureComponent {
     const { avatarUrl, name, size, status, onPress, realm, shape } = this.props;
     const AvatarComponent = avatarUrl ? ImageAvatar : TextAvatar;
     return (
-      <View>
-        <AvatarComponent
-          name={name}
-          avatarUrl={avatarUrl && getFullUrl(avatarUrl, realm)}
-          size={size}
-          onPress={onPress}
-          shape={shape}>
-          {status && <UserStatusIndicator style={componentStyles.status} status={status} />}
-        </AvatarComponent>
-      </View>
+      <AvatarComponent
+        name={name}
+        avatarUrl={avatarUrl && getFullUrl(avatarUrl, realm)}
+        size={size}
+        onPress={onPress}
+        shape={shape}>
+        {status && <UserStatusIndicator style={componentStyles.status} status={status} />}
+      </AvatarComponent>
     );
   }
 }

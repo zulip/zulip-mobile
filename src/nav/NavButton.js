@@ -1,10 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import type { StyleObj } from '../types';
 import { BRAND_COLOR, CONTROL_SIZE } from '../styles';
-import { Touchable, UnreadCount } from '../common';
+import { ComponentWithOverlay, UnreadCount } from '../common';
 import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({
@@ -26,18 +26,12 @@ const styles = StyleSheet.create({
     top: 6,
     position: 'absolute',
   },
-  unreadCount: {
-    top: 2,
-    right: 2,
-    position: 'absolute',
-  },
 });
 
 export default class NavButton extends PureComponent {
   props: {
     name: string,
-    color?: ?string,
-    showCircle: boolean,
+    color?: string,
     unreadCount: number,
     style?: StyleObj,
     onPress: () => void,
@@ -49,16 +43,18 @@ export default class NavButton extends PureComponent {
   };
 
   render() {
-    const { name, style, color, showCircle, unreadCount, onPress } = this.props;
+    const { name, style, color, unreadCount, onPress } = this.props;
 
     return (
-      <Touchable onPress={onPress}>
-        <View style={styles.frame}>
-          <Icon style={[styles.icon, style]} color={color || BRAND_COLOR} name={name} />
-          {showCircle && <View style={[styles.circle, { backgroundColor: color }]} />}
-          {unreadCount > 0 && <UnreadCount count={unreadCount} style={styles.unreadCount} />}
-        </View>
-      </Touchable>
+      <ComponentWithOverlay
+        style={styles.frame}
+        showOverlay={unreadCount > 0}
+        overlaySize={20}
+        color="transparent"
+        overlay={<UnreadCount count={unreadCount} />}
+        onPress={onPress}>
+        <Icon style={[styles.icon, style]} color={color || BRAND_COLOR} name={name} />
+      </ComponentWithOverlay>
     );
   }
 }
