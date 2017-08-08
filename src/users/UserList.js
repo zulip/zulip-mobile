@@ -2,15 +2,14 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, SectionList } from 'react-native';
 
+import { StyleObj, User } from '../types';
 import { RawLabel, SearchEmptyState } from '../common';
 import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByInitials } from '../selectors';
-import { User } from '../types';
 
 const styles = StyleSheet.create({
   list: {
     flex: 1,
-    flexDirection: 'column',
   },
   groupHeader: {
     fontWeight: 'bold',
@@ -21,14 +20,14 @@ const styles = StyleSheet.create({
 
 export default class UserList extends PureComponent {
   props: {
+    style?: StyleObj,
     filter: string,
     users: User[],
-    realm: string,
-    onNarrow: (email: string) => void,
+    onPress: (email: string) => void,
   };
 
   render() {
-    const { realm, filter, users, onNarrow } = this.props;
+    const { filter, style, users, onPress } = this.props;
     const shownUsers = sortUserList(filterUserList(users, filter));
     const groupedUsers = groupUsersByInitials(shownUsers);
     const sections = Object.keys(groupedUsers).map(key => ({ key, data: groupedUsers[key] }));
@@ -40,7 +39,7 @@ export default class UserList extends PureComponent {
 
     return (
       <SectionList
-        style={styles.list}
+        style={[styles.list, style]}
         initialNumToRender={20}
         sections={sections}
         keyExtractor={item => item.email}
@@ -50,8 +49,7 @@ export default class UserList extends PureComponent {
             fullName={item.fullName}
             avatarUrl={item.avatarUrl}
             email={item.email}
-            onPress={onNarrow}
-            realm={realm}
+            onPress={onPress}
             status={item.status}
           />}
         renderSectionHeader={({ section }) =>

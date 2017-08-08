@@ -215,6 +215,7 @@ export type Actions = {
   navigateToGroupDetails: (recipients: UserType) => Action,
   navigateToAddNewAccount: (realm: string) => Action,
   navigateToLightbox: (realm: string) => Action,
+  navigateToCreateGroup: () => Action,
   switchNarrow: (narrow: Narrow) => Action,
   doNarrow: (newNarrow: Narrow, anchor: number) => Action,
   messageFetchStart: (narrow: Narrow, fetching: Object) => Action,
