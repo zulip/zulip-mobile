@@ -47,3 +47,6 @@ export const navigateToLoading = (): Action => NavigationActions.navigate({ rout
 
 export const navigateToSettingsDetail = (setting: string, title: string): Action =>
   NavigationActions.navigate({ routeName: 'settings-detail', params: { setting, title } });
+
+export const navigateToCreateGroup = (): Action =>
+  NavigationActions.navigate({ routeName: 'group' });

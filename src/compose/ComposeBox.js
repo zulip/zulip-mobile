@@ -1,14 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
 
-import type { Auth, Narrow, GlobalState, EditMessage, User } from '../types';
-import boundActions from '../boundActions';
+import type { Auth, Narrow, EditMessage, User } from '../types';
 import { Input, MultilineInput } from '../common';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
-import { getAuth, getLastTopicInActiveNarrow } from '../selectors';
-import ComposeMenu from './ComposeMenu';
+import ComposeMenuContainer from './ComposeMenuContainer';
 import SubmitButton from './SubmitButton';
 import AutoCompleteView from '../autocomplete/AutoCompleteView';
 import sendMessage from '../api/sendMessage';
@@ -34,7 +31,14 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class ComposeBox extends PureComponent {
+type Props = {
+  auth: Auth,
+  narrow: Narrow,
+  users: User[],
+  editMessage: EditMessage,
+};
+
+export default class ComposeBox extends PureComponent {
   topicInput = null;
   messageInput = null;
 
@@ -42,12 +46,7 @@ class ComposeBox extends PureComponent {
     styles: () => null,
   };
 
-  props: {
-    auth: Auth,
-    narrow: Narrow,
-    users: User[],
-    editMessage: EditMessage,
-  };
+  props: Props;
 
   state: {
     optionSelected: number,
@@ -105,11 +104,15 @@ class ComposeBox extends PureComponent {
     this.clearMessageInput();
   };
 
-  handleAutoComplete = input => this.setState({ message: input });
+  handleAutoComplete = (input: string) => {
+    this.setState({ message: input });
+  };
 
-  handleChangeText = input => this.setState({ message: input });
+  handleChangeText = (input: string) => {
+    this.setState({ message: input });
+  };
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
       this.setState({
         message: nextProps.editMessage ? nextProps.editMessage.content : '',
@@ -132,7 +135,7 @@ class ComposeBox extends PureComponent {
         <AutoCompleteView text={message} onAutocomplete={this.handleAutoComplete} />
         <View style={[styles.composeBox, { height: totalHeight }]}>
           <View style={componentStyles.bottom}>
-            <ComposeMenu />
+            <ComposeMenuContainer />
           </View>
           <View style={[componentStyles.composeText]}>
             {canSelectTopic &&
@@ -165,14 +168,3 @@ class ComposeBox extends PureComponent {
     );
   }
 }
-
-export default connect(
-  (state: GlobalState) => ({
-    auth: getAuth(state),
-    narrow: state.chat.narrow,
-    users: state.users,
-    lastTopic: getLastTopicInActiveNarrow(state),
-    editMessage: state.app.editMessage,
-  }),
-  boundActions,
-)(ComposeBox);

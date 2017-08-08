@@ -1,15 +1,11 @@
 /* @flow */
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { connectActionSheet, ActionSheetProvider } from '@expo/react-native-action-sheet';
+import { StyleSheet } from 'react-native';
 
 import { Touchable } from '../common';
 import { IconPlus } from '../common/Icons';
 
 const componentStyles = StyleSheet.create({
-  wrapper: {
-    height: 44,
-  },
   touchable: {},
   button: {
     padding: 10,
@@ -17,7 +13,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class ComposeMenu extends React.Component {
+export default class ComposeMenu extends React.Component {
   handlePress = () => {
     this.props.showActionSheetWithOptions(
       {
@@ -25,7 +21,16 @@ class ComposeMenu extends React.Component {
         cancelButtonIndex: 3,
       },
       buttonIndex => {
-        // Do something here depending on the button index selected
+        switch (buttonIndex) {
+          case 1: {
+            const { actions } = this.props;
+            actions.navigateToCreateGroup();
+            break;
+          }
+
+          default:
+            break;
+        }
       },
     );
   };
@@ -38,12 +43,3 @@ class ComposeMenu extends React.Component {
     );
   }
 }
-
-const ConnectedComposeMenu = connectActionSheet(ComposeMenu);
-
-export default () =>
-  <View style={componentStyles.wrapper}>
-    <ActionSheetProvider>
-      <ConnectedComposeMenu />
-    </ActionSheetProvider>
-  </View>;

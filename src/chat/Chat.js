@@ -14,7 +14,7 @@ import MessageList from '../message/MessageList';
 // import MessageList from '../message/MessageListFlatList';
 import MessageListLoading from '../message/MessageListLoading';
 import NoMessages from '../message/NoMessages';
-import ComposeBox from '../compose/ComposeBox';
+import ComposeBoxContainer from '../compose/ComposeBoxContainer';
 // import UnreadNotice from './UnreadNotice';
 import NotSubscribed from '../message/NotSubscribed';
 
@@ -56,7 +56,7 @@ export default class Chat extends PureComponent {
     const { isFetching, messages, narrow, isOnline, isSubscribed } = this.props;
     const noMessages = messages.length === 0;
     const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
-    const CheckSub = isSubscribed ? <ComposeBox /> : <NotSubscribed />;
+    const CheckSub = isSubscribed ? <ComposeBoxContainer /> : <NotSubscribed />;
 
     return (
       <WrapperView style={styles.screen} behavior="padding">
