@@ -233,3 +233,9 @@ export const executeActionSheetAction = ({ title, header, ...props }: ExecuteAct
     }
   }
 };
+
+export type ShowActionSheetTypes = {
+  options: Array<any>,
+  cancelButtonIndex: number,
+  callback: number => void,
+};

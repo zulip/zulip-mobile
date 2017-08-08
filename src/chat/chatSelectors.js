@@ -100,3 +100,8 @@ export const getUnreadCountInActiveNarrow = createSelector(
   (shownMessagesInActiveNarrow, readIds) =>
     countUnread(shownMessagesInActiveNarrow.map(msg => msg.id), readIds),
 );
+
+export const getIfNoMessages = createSelector(
+  getShownMessagesInActiveNarrow,
+  messages => messages && messages.length === 0,
+);

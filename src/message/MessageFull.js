@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
 class MessageFull extends PureComponent {
   props: {
     actions: Actions,
-    avatarUrl: string,
     ownEmail: string,
     twentyFourHourTime: boolean,
     starred: boolean,
@@ -49,20 +48,11 @@ class MessageFull extends PureComponent {
   };
 
   render() {
-    const {
-      message,
-      children,
-      avatarUrl,
-      twentyFourHourTime,
-      ownEmail,
-      starred,
-      onLongPress,
-    } = this.props;
-
+    const { message, children, twentyFourHourTime, ownEmail, starred, onLongPress } = this.props;
     return (
       <View style={styles.message}>
         <Avatar
-          avatarUrl={avatarUrl}
+          avatarUrl={message.avatar_url}
           name={message.sender_full_name}
           onPress={this.handleAvatarPress}
         />

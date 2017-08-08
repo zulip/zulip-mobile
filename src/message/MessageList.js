@@ -1,6 +1,5 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import TaggedView from '../native/TaggedView';
 import { nullFunction } from '../nullObjects';
@@ -8,13 +7,24 @@ import { LoadingIndicator } from '../common';
 import MessageTyping from '../message/MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';
 import renderMessages from './renderMessages';
-import {
-  constructActionButtons,
-  executeActionSheetAction,
-  constructHeaderActionButtons,
-} from './messageActionSheet';
+import type { Actions, TypingState, Message, Narrow } from '../types';
+
+type Props = {
+  actions: Actions,
+  caughtUpNewer: boolean,
+  caughtUpOlder: boolean,
+  fetchingOlder: boolean,
+  fetchingNewer: boolean,
+  singleFetchProgress: boolean,
+  onScroll: () => void,
+  typingUsers?: TypingState,
+  messages: Array<Message>,
+  narrow: Narrow,
+};
 
 class MessageList extends PureComponent {
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };
@@ -31,50 +41,9 @@ class MessageList extends PureComponent {
 
   state = { actionSheetButtons: ['', ''] };
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     this.autoScrollToBottom = this.props.caughtUpNewer && nextProps.caughtUpNewer;
   }
-
-  handleHeaderLongPress = message => {
-    const { actions, subscriptions, mute, auth } = this.props;
-    const options = constructHeaderActionButtons({ message, subscriptions, mute });
-    const callback = buttonIndex => {
-      executeActionSheetAction({
-        actions,
-        title: options[buttonIndex],
-        message,
-        header: true,
-        auth,
-        subscriptions,
-      });
-    };
-    this.showActionSheet({ options, cancelButtonIndex: options.length - 1, callback });
-  };
-
-  showActionSheet = ({ options, cancelButtonIndex, callback }) => {
-    this.props.showActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex,
-      },
-      callback,
-    );
-  };
-
-  handleLongPress = message => {
-    const { actions, auth, narrow, subscriptions, mute, flags } = this.props;
-    const options = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
-    const callback = buttonIndex => {
-      executeActionSheetAction({
-        title: options[buttonIndex],
-        message,
-        actions,
-        auth,
-        subscriptions,
-      });
-    };
-    this.showActionSheet({ options, cancelButtonIndex: options.length - 1, callback });
-  };
 
   render() {
     const { styles } = this.context;
@@ -86,28 +55,13 @@ class MessageList extends PureComponent {
       singleFetchProgress,
       onScroll,
       typingUsers,
-      auth,
-      subscriptions,
-      users,
       messages,
       narrow,
-      mute,
-      flags,
-      twentyFourHourTime,
     } = this.props;
 
     const messageList = renderMessages({
-      onLongPress: this.handleLongPress,
-      onHeaderLongPress: this.handleHeaderLongPress,
-      auth,
-      actions,
-      subscriptions,
-      users,
       messages,
       narrow,
-      mute,
-      flags,
-      twentyFourHourTime,
     });
 
     // `headerIndices` tell the scroll view which components are headers
@@ -148,4 +102,4 @@ class MessageList extends PureComponent {
   }
 }
 
-export default connectActionSheet(MessageList);
+export default MessageList;
