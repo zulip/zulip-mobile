@@ -16,6 +16,7 @@ import LoadingScreen from '../start/LoadingScreen';
 import SettingsScreen from '../settings/SettingsScreen';
 import SettingsDetailScreen from '../settings/SettingsDetailScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
+import GroupScreen from '../group/GroupScreen';
 
 export default StackNavigator(
   {
@@ -34,6 +35,7 @@ export default StackNavigator(
     settings: { screen: SettingsScreen },
     'settings-detail': { screen: SettingsDetailScreen },
     lightbox: { screen: LightboxScreen },
+    group: { screen: GroupScreen },
   },
   {
     initialRouteName: 'main',
