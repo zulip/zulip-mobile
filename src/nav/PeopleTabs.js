@@ -15,7 +15,7 @@ export default TabNavigator(
       },
     },
     people: {
-      screen: props => <UsersContainer {...props.screenProps} />,
+      screen: props => <UsersContainer {...props} />,
       navigationOptions: {
         tabBarLabel: 'People',
       },

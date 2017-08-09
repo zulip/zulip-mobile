@@ -25,7 +25,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class StreamSidebar extends PureComponent {
+class PeopleSidebar extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };
@@ -36,8 +36,8 @@ class StreamSidebar extends PureComponent {
   };
 
   closeDrawer = () => {
-    const { navigation } = this.props;
-    navigation.navigate('DrawerClose');
+    const { usersNavigation } = this.props;
+    usersNavigation.navigate('DrawerClose');
   };
 
   narrowAndClose = (narrow: Narrow) => {
@@ -58,4 +58,4 @@ class StreamSidebar extends PureComponent {
   }
 }
 
-export default connect(null, boundActions)(StreamSidebar);
+export default connect(null, boundActions)(PeopleSidebar);
