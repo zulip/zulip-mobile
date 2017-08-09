@@ -9,7 +9,7 @@ import UsersContainer from '../users/UsersContainer';
 export default TabNavigator(
   {
     conversations: {
-      screen: props => <ConversationsContainer {...props.screenProps} />,
+      screen: props => <ConversationsContainer {...props} />,
       navigationOptions: {
         tabBarLabel: 'Messages',
       },
