@@ -11,15 +11,12 @@ import { registerAppActivity } from '../utils/activity';
 import { checkCompatibility } from '../api';
 import LoadingScreen from '../start/LoadingScreen';
 import CompatibilityScreen from '../start/CompatibilityScreen';
-import { Auth, Outbox, Actions } from '../types';
-import { trySendMessages } from '../outbox/outboxMessageActions';
+import { Auth, Actions } from '../types';
 
 type Props = {
   auth: Auth,
   isHydrated: boolean,
   needsInitialFetch: boolean,
-  outbox: Outbox[],
-  eventQueueId: number,
   actions: Actions,
 };
 
@@ -34,16 +31,17 @@ class AppContainer extends PureComponent {
   };
 
   handleLayout = event => {
+    const { actions } = this.props;
     const { width, height } = event.nativeEvent.layout;
     const orientation = width > height ? 'LANDSCAPE' : 'PORTRAIT';
-    this.props.actions.appOrientation(orientation);
+    actions.appOrientation(orientation);
   };
 
   handleConnectivityChange = isConnected => {
-    const { eventQueueId, auth, outbox } = this.props;
-    this.props.actions.appOnline(isConnected);
+    const { actions } = this.props;
+    actions.appOnline(isConnected);
     if (isConnected) {
-      trySendMessages({ auth, eventQueueId, outbox });
+      actions.trySendMessages();
     }
   };
 
@@ -117,8 +115,6 @@ export default connect(
     auth: getAuth(state),
     isHydrated: state.app.isHydrated,
     needsInitialFetch: state.app.needsInitialFetch,
-    outbox: state.outbox,
-    eventQueueId: state.app.eventQueueId,
   }),
   boundActions,
 )(AppContainer);

@@ -2,12 +2,29 @@
 import type { Dispatch, GetState } from '../types';
 import { MESSAGE_SEND } from '../actionConstants';
 import { getAuth } from '../selectors';
-import { trySendMessages } from './outboxMessageActions';
+import { sendMessage as sendMessageApi } from '../api';
 
-export const sendMessageAction = (params: Object) => ({
+export const sendMessage = (params: Object) => ({
   type: MESSAGE_SEND,
   params,
 });
+
+export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) => {
+  const state = getState();
+  const auth = getAuth(state);
+
+  state.outbox.forEach(item => {
+    sendMessageApi(
+      auth,
+      item.type,
+      item.to,
+      item.subject,
+      item.content,
+      item.localMessageId,
+      state.app.eventQueueId,
+    );
+  });
+};
 
 export const addToOutbox = (
   type: 'private' | 'stream',
@@ -15,8 +32,6 @@ export const addToOutbox = (
   subject: string,
   content: string,
 ) => async (dispatch: Dispatch, getState: GetState) => {
-  dispatch(sendMessageAction({ type, to, subject, content, localMessageId: new Date().getTime() }));
-  const { outbox, app } = getState();
-  const auth = getAuth(getState());
-  trySendMessages({ outbox, eventQueueId: app.eventQueueId, auth });
+  dispatch(sendMessage({ type, to, subject, content, localMessageId: new Date().getTime() }));
+  dispatch(trySendMessages());
 };
