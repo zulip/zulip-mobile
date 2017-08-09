@@ -2,13 +2,12 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Auth, Narrow, EditMessage, User } from '../types';
+import type { Auth, Narrow, EditMessage, User, Actions } from '../types';
 import { Input, MultilineInput } from '../common';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import ComposeMenuContainer from './ComposeMenuContainer';
 import SubmitButton from './SubmitButton';
 import AutoCompleteView from '../autocomplete/AutoCompleteView';
-import sendMessage from '../api/sendMessage';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import { registerUserInputActivity } from '../utils/activity';
 import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
@@ -36,6 +35,7 @@ type Props = {
   narrow: Narrow,
   users: User[],
   editMessage: EditMessage,
+  actions: Actions,
 };
 
 export default class ComposeBox extends PureComponent {
@@ -87,18 +87,23 @@ export default class ComposeBox extends PureComponent {
   };
 
   handleSend = () => {
-    const { auth, narrow } = this.props;
+    const { actions, narrow } = this.props;
     const { topic, message } = this.state;
 
     const topicToSend = replaceEmoticonsWithEmoji(topic);
     const messageToSend = replaceEmoticonsWithEmoji(message);
 
     if (isPrivateOrGroupNarrow(narrow)) {
-      sendMessage(auth, 'private', narrow[0].operand, '', messageToSend);
-    } else if (isTopicNarrow(narrow)) {
-      sendMessage(auth, 'stream', narrow[0].operand, narrow[1].operand, messageToSend);
+      actions.addToOutbox('private', narrow[0].operand, '', messageToSend);
     } else if (isStreamNarrow(narrow)) {
-      sendMessage(auth, 'stream', narrow[0].operand, topicToSend, messageToSend);
+      actions.addToOutbox(
+        'stream',
+        narrow[0].operand,
+        topicToSend === '' ? '(no topic)' : topicToSend,
+        messageToSend,
+      );
+    } else if (isTopicNarrow(narrow)) {
+      actions.addToOutbox('stream', narrow[0].operand, narrow[1].operand, messageToSend);
     }
 
     this.clearMessageInput();
@@ -122,7 +127,7 @@ export default class ComposeBox extends PureComponent {
 
   render() {
     const { styles } = this.context;
-    const { height, message } = this.state;
+    const { height, message, topic } = this.state;
     const { auth, narrow, users } = this.props;
 
     const canSelectTopic = isStreamNarrow(narrow);
@@ -147,7 +152,7 @@ export default class ComposeBox extends PureComponent {
                   this.topicInput = component;
                 }}
                 onChangeText={this.handleTopicChange}
-                // value={topic}
+                value={topic}
               />}
             <MultilineInput
               style={styles.composeTextInput}

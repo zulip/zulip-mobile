@@ -12,6 +12,7 @@ export default connect(
     auth: getAuth(state),
     narrow: state.chat.narrow,
     users: state.users,
+    outbox: state.outbox,
     lastTopic: getLastTopicInActiveNarrow(state),
     editMessage: state.app.editMessage,
   }),

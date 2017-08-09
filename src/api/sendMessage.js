@@ -1,4 +1,6 @@
+/* eslint-disable camelcase */
 /* @flow */
+
 import type { Auth } from '../types';
 import { apiPost } from './apiFetch';
 
@@ -8,10 +10,14 @@ export default async (
   to: string | string[],
   subject: string,
   content: string,
+  localId: number,
+  eventQueueId: number,
 ) =>
   apiPost(auth, 'messages', res => res.messages, {
     type,
     to,
     subject,
     content,
+    local_id: localId,
+    queue_id: eventQueueId,
   });
