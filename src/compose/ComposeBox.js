@@ -3,10 +3,11 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Auth, Narrow, EditMessage, User, Actions } from '../types';
-import { Input, MultilineInput } from '../common';
+import { FloatingActionButton, Input, MultilineInput } from '../common';
+import { IconSend } from '../common/Icons';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import ComposeMenuContainer from './ComposeMenuContainer';
-import SubmitButton from './SubmitButton';
+// import SubmitButton from './SubmitButton';
 import AutoCompleteView from '../autocomplete/AutoCompleteView';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import { registerUserInputActivity } from '../utils/activity';
@@ -166,7 +167,11 @@ export default class ComposeBox extends PureComponent {
             />
           </View>
           <View style={componentStyles.bottom}>
-            <SubmitButton disabled={message.length === 0} onPress={this.handleSend} />
+            <FloatingActionButton
+              Icon={IconSend}
+              disabled={message.length === 0}
+              onPress={this.handleSend}
+            />
           </View>
         </View>
       </View>

@@ -2,6 +2,7 @@
 export { default as Avatar } from './Avatar';
 export { default as ComponentWithOverlay } from './ComponentWithOverlay';
 export { default as ErrorMsg } from './ErrorMsg';
+export { default as FloatingActionButton } from './FloatingActionButton';
 export { default as ImageAvatar } from './ImageAvatar';
 export { default as Input } from './Input';
 export { default as Label } from './Label';
