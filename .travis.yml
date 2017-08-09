@@ -40,7 +40,7 @@ install:
 
 before_script:
   - set -o pipefail && yarn run build:ios-release | xcpretty -t
-  - fbsimctl shutdown
+  # - fbsimctl shutdown
 
 notifications:
   email: false
