@@ -74,7 +74,12 @@ class AppContainer extends PureComponent {
 
   componentWillMount = () => this.init(this.props);
 
-  componentWillReceiveProps = nextProps => this.init(nextProps);
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.outbox === this.props.outbox) {
+      // Execute init only if other props are changed
+      this.init(nextProps);
+    }
+  };
 
   init = props => {
     const { needsInitialFetch, actions } = props;
