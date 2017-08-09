@@ -1,5 +1,6 @@
 /* @flow */
 export { default as Avatar } from './Avatar';
+export { default as ComponentWithOverlay } from './ComponentWithOverlay';
 export { default as ErrorMsg } from './ErrorMsg';
 export { default as ImageAvatar } from './ImageAvatar';
 export { default as Input } from './Input';

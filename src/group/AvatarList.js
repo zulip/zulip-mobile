@@ -2,14 +2,14 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
-import { Avatar } from '../common';
 import { User } from '../types';
+import { Avatar, ComponentWithOverlay } from '../common';
+import { IconCancel } from '../common/Icons';
 
 const styles = StyleSheet.create({
   selected: {
     height: 52,
   },
-
   list: {},
 });
 
@@ -31,14 +31,20 @@ export default class UserList extends PureComponent {
           data={users}
           keyExtractor={item => item.email}
           renderItem={({ item }) =>
-            <Avatar
-              key={item.email}
-              size={52}
-              avatarUrl={item.avatarUrl}
-              name={item.fullName}
-              status={item.status}
-              onPress={() => onPress(item.email)}
-            />}
+            <ComponentWithOverlay
+              overlaySize={20}
+              overlayColor="white"
+              overlayPosition="bottom-right"
+              overlay={<IconCancel color="gray" size={20} />}
+              onPress={() => onPress(item.email)}>
+              <Avatar
+                key={item.email}
+                size={52}
+                avatarUrl={item.avatarUrl}
+                name={item.fullName}
+                status={item.status}
+              />
+            </ComponentWithOverlay>}
         />
       </View>
     );

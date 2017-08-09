@@ -17,8 +17,8 @@ export default class ComposeMenu extends React.Component {
   handlePress = () => {
     this.props.showActionSheetWithOptions(
       {
-        options: ['Hide topic edit', 'Create group', 'Upload image', 'Cancel'],
-        cancelButtonIndex: 3,
+        options: ['Hide topic edit', 'Create group', 'Cancel'],
+        cancelButtonIndex: 2,
       },
       buttonIndex => {
         switch (buttonIndex) {

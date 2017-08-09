@@ -73,7 +73,7 @@ export default class GroupCard extends PureComponent {
 
     return (
       <View style={styles.wrapper}>
-        <AvatarList users={selected} onPress={this.handleUserDeselect} />
+        {selected.length > 0 && <AvatarList users={selected} onPress={this.handleUserDeselect} />}
         <UserList
           style={styles.list}
           ownEmail={ownEmail}

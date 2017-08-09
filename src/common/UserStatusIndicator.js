@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 2,
   },
-  /* eslint-disable react-native/no-unused-styles */
   active: {
     backgroundColor: '#44c21d',
   },
@@ -22,7 +21,6 @@ const styles = StyleSheet.create({
   offline: {
     backgroundColor: 'lightgray',
   },
-  /* eslint-enable react-native/no-unused-styles */
 });
 
 export default class UserStatusIndicator extends PureComponent {
