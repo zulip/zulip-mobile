@@ -11,6 +11,7 @@ import flags from './chat/flagsReducers';
 import mute from './mute/muteReducers';
 import nav from './nav/navReducers';
 import realm from './realm/realmReducers';
+import outbox from './outbox/outboxReducers';
 import settings from './settings/settingsReducers';
 import streams from './streams/streamsReducers';
 import subscriptions from './subscriptions/subscriptionsReducers';
@@ -43,6 +44,7 @@ export default enableBatching(
     nav,
     presence,
     realm,
+    outbox,
     settings,
     streams,
     subscriptions,

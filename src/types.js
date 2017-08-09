@@ -181,6 +181,12 @@ export type Action = Object;
 
 export type Actions = {
   appOnline: (isOnline: boolean) => Action,
+  addToOutbox: (
+    type: 'private' | 'stream',
+    to: string | string[],
+    subject: string,
+    content: string,
+  ) => Action,
   appState: (isActive: boolean) => Action,
   appOrientation: (orientation: string) => Action,
   sendFocusPing: (hasFocus: boolean, newUserInput: boolean) => Action,
@@ -371,4 +377,18 @@ export type Subscription = {
   name: string,
   pin_to_top: boolean,
   stream_id: number,
+};
+
+export type Outbox = {
+  content: string,
+  localMessageId: number,
+  subject: string,
+  to: string,
+  type: string,
+};
+
+export type OutboxSendMessage = {
+  auth: Auth,
+  outbox: Outbox[],
+  eventQueueId: number,
 };

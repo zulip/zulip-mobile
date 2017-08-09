@@ -7,6 +7,7 @@ export * from './events/eventActions';
 export * from './nav/navActions';
 export * from './message/messagesActions';
 export * from './realm/realmActions';
+export * from './outbox/outboxActions';
 export * from './settings/settingsActions';
 export * from './streams/streamsActions';
 export * from './subscriptions/subscriptionsActions';

@@ -74,8 +74,8 @@ export default (state: GlobalState, event: Object) => {
         type: EVENT_NEW_MESSAGE,
         message: event.message,
         ownEmail: state.accounts[0].email,
+        localMessageId: event.local_message_id,
       };
-
     case 'update_message':
       return {
         ...event,
