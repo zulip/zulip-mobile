@@ -7,7 +7,7 @@ import {
   MARK_MESSAGES_READ,
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../actionConstants';
-import { addItemsToArray, removeItemsFromArray } from './unreadHelpers';
+import { addItemsToArray, removeItemsFromArray } from '../utils/immutability';
 
 const initialState: number[] = [];
 

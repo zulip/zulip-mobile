@@ -36,6 +36,19 @@ describe('outboxReducers', () => {
   });
 
   describe(EVENT_NEW_MESSAGE, () => {
+    test('do not mutate state if a message is not removed', () => {
+      const initialState = deepFreeze([]);
+
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        localMessageId: '123',
+      });
+
+      const actualState = outboxReducers(initialState, action);
+
+      expect(actualState).toBe(initialState);
+    });
+
     test('Remove if local message same', () => {
       const initialState = deepFreeze([
         {
