@@ -1670,11 +1670,15 @@ detox-server@^2.0.4:
     ws "^1.1.0"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 detox@^5.6.1:
   version "5.6.1"
   resolved "https://registry.yarnpkg.com/detox/-/detox-5.6.1.tgz#a74710fc9aa88f553df4549c78f9705e1bb896d1"
 =======
 detox@^5.5.1:
+=======
+detox@^5.6.0:
+>>>>>>> Upgrade detox dependency
   version "5.6.0"
   resolved "https://registry.yarnpkg.com/detox/-/detox-5.6.0.tgz#05ba0949cd00435ccfccd9d5a43b3f526d5e6f06"
 >>>>>>> Fix yarn
@@ -2735,6 +2739,7 @@ hoist-non-react-statics@^1.2.0:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 hoist-non-react-statics@^2.2.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.2.2.tgz#c0eca5a7d5a28c5ada3107eb763b01da6bfa81fb"
@@ -2747,6 +2752,11 @@ hoist-non-react-statics@^2.2.1:
 hoist-non-react-statics@^2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.2.1.tgz#a7e41c760121d0abfc7a2339b331d29a26389e52"
+=======
+hoist-non-react-statics@^2.2.0, hoist-non-react-statics@^2.2.1:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.2.2.tgz#c0eca5a7d5a28c5ada3107eb763b01da6bfa81fb"
+>>>>>>> Upgrade detox dependency
 
 <<<<<<< HEAD
 >>>>>>> Fix test's paths
@@ -3262,8 +3272,8 @@ jest-docblock@^20.0.1, jest-docblock@^20.0.3:
   resolved "https://registry.yarnpkg.com/jest-docblock/-/jest-docblock-20.0.3.tgz#17bea984342cc33d83c50fbe1545ea0efaa44712"
 
 jest-docblock@^20.1.0-alpha.3:
-  version "20.1.0-delta.5"
-  resolved "https://registry.yarnpkg.com/jest-docblock/-/jest-docblock-20.1.0-delta.5.tgz#a3699e999a4be26beee576a41988bd9c782cb469"
+  version "20.1.0-echo.1"
+  resolved "https://registry.yarnpkg.com/jest-docblock/-/jest-docblock-20.1.0-echo.1.tgz#be02f43ee019f97e6b83267c746ac7b40d290fe8"
 
 jest-environment-jsdom@^20.0.3:
   version "20.0.3"
@@ -4835,8 +4845,8 @@ react-clone-referenced-element@^1.0.1:
   resolved "https://registry.yarnpkg.com/react-clone-referenced-element/-/react-clone-referenced-element-1.0.1.tgz#2bba8c69404c5e4a944398600bcc4c941f860682"
 
 react-deep-force-update@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.0.1.tgz#f911b5be1d2a6fe387507dd6e9a767aa2924b4c7"
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.1.0.tgz#8d131ae07ae02f08df60744eb2cf2de4fcb325f1"
 
 react-devtools-core@2.3.1:
   version "2.3.1"
@@ -4893,23 +4903,9 @@ react-native-drawer@^2.3.0:
   dependencies:
     tween-functions "^1.0.1"
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 react-native-fetch-blob@^0.10.8:
   version "0.10.8"
   resolved "https://registry.yarnpkg.com/react-native-fetch-blob/-/react-native-fetch-blob-0.10.8.tgz#4fc256abae0cb5f10e7c41f28c11b3ff330d72a9"
-=======
-react-native-fetch-blob@^0.10.7:
-=======
-react-native-fetch-blob@^0.10.8:
->>>>>>> Fix yarn
-  version "0.10.8"
-  resolved "https://registry.yarnpkg.com/react-native-fetch-blob/-/react-native-fetch-blob-0.10.8.tgz#4fc256abae0cb5f10e7c41f28c11b3ff330d72a9"
-<<<<<<< HEAD
->>>>>>> Fix test's paths
->>>>>>> Fix test's paths
-=======
->>>>>>> Yarn file fixed
   dependencies:
     base-64 "0.1.0"
     glob "7.0.6"
@@ -5071,7 +5067,11 @@ react-proxy@^1.1.7:
     lodash "^4.6.1"
     react-deep-force-update "^1.0.0"
 
+<<<<<<< HEAD
 react-redux@^5.0.6:
+=======
+react-redux@^5.0.1:
+>>>>>>> Upgrade detox dependency
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.6.tgz#23ed3a4f986359d68b5212eaaa681e60d6574946"
   dependencies:
