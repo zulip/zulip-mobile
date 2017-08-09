@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@expo/react-native-action-sheet@0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@expo/react-native-action-sheet/-/react-native-action-sheet-0.3.1.tgz#cf1fd38e570febb4930c5518e42dfa1a32b1ace5"
+"@expo/react-native-action-sheet@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@expo/react-native-action-sheet/-/react-native-action-sheet-1.0.0.tgz#0677d2c2e3130dc1ed9597cf72c10743b224e4f1"
   dependencies:
     hoist-non-react-statics "^1.2.0"
 
@@ -4531,9 +4531,9 @@ react-native-drawer@^2.3.0:
   dependencies:
     tween-functions "^1.0.1"
 
-react-native-fetch-blob@^0.10.7:
-  version "0.10.7"
-  resolved "https://registry.yarnpkg.com/react-native-fetch-blob/-/react-native-fetch-blob-0.10.7.tgz#e2630e9e9db2f28bcaf086a7acf56707ddd109de"
+react-native-fetch-blob@^0.10.8:
+  version "0.10.8"
+  resolved "https://registry.yarnpkg.com/react-native-fetch-blob/-/react-native-fetch-blob-0.10.8.tgz#4fc256abae0cb5f10e7c41f28c11b3ff330d72a9"
   dependencies:
     base-64 "0.1.0"
     glob "7.0.6"
