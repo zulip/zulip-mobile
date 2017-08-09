@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { removeItemsFromArray } from '../unreadHelpers';
+import { removeItemsFromArray } from '../immutability';
 
 describe('removeItemsFromArray', () => {
   test('return a new array with items removed, do not mutate input', () => {
