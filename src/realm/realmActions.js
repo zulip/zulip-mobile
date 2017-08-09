@@ -20,7 +20,7 @@ import { initAlertWords } from '../alertWords/alertWordsActions';
 import { initStreams } from '../streams/streamsActions';
 import { initUsers } from '../users/usersActions';
 import { getAuth, getActiveNarrow, getPushToken } from '../selectors';
-import { trySendMessages } from '../outbox/outboxMessageActions';
+import { trySendMessages } from '../outbox/outboxActions';
 
 import { INITIAL_FETCH_COMPLETE, SAVE_TOKEN_PUSH, DELETE_TOKEN_PUSH } from '../actionConstants';
 
@@ -70,8 +70,7 @@ export const fetchRestOfInitialData = (): Action => async (
   if (auth.apiKey !== '' && pushToken === '') {
     refreshNotificationToken();
   }
-  const { outbox, app } = getState();
-  trySendMessages({ outbox, eventQueueId: app.eventQueueId, auth });
+  dispatch(trySendMessages());
 };
 
 export const deleteTokenPush = (): Action => ({

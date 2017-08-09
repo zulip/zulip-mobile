@@ -386,9 +386,3 @@ export type Outbox = {
   to: string,
   type: string,
 };
-
-export type OutboxSendMessage = {
-  auth: Auth,
-  outbox: Outbox[],
-  eventQueueId: number,
-};
