@@ -1,27 +1,35 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Actions, Auth } from '../types';
+import type { Actions, Auth, SubscriptionsState, MuteState, Narrow } from '../types';
 import htmlToDomTree from '../html/htmlToDomTree';
 import renderHtmlChildren from '../html/renderHtmlChildren';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
 import openLink from '../utils/openLink';
+import { getAuth, getUsers, getFlags, getSubscriptions } from '../selectors';
+import boundActions from '../boundActions';
+import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
+import type { ShowActionSheetTypes } from './messageActionSheet';
 
 type Href = string;
 
-export default class MessageContainer extends PureComponent {
+class MessageContainer extends PureComponent {
   props: {
     actions: Actions,
     message: Object,
-    onLongPress: (message: Object) => void,
+    narrow: Narrow,
+    subscriptions: SubscriptionsState,
     users: Object[],
     auth: Auth,
     flags: Object,
-    avatarUrl: string,
     twentyFourHourTime: boolean,
     isBrief: boolean,
+    mute: MuteState,
+    showActionSheetWithOptions: (Object, (number) => void) => void,
   };
 
   static defaultProps = {
@@ -44,29 +52,49 @@ export default class MessageContainer extends PureComponent {
       href,
     );
 
-  onLongPress = () => {
-    const { message, onLongPress } = this.props;
-    onLongPress(message);
-  };
-
   isStarred(message: Object) {
     const { flags } = this.props;
     return message.id in flags.starred;
   }
 
+  showActionSheet = ({ options, cancelButtonIndex, callback }: ShowActionSheetTypes) => {
+    this.props.showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+      },
+      callback,
+    );
+  };
+
+  handleLongPress = () => {
+    const { actions, auth, narrow, subscriptions, mute, flags, message } = this.props;
+    const options = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
+    const callback = buttonIndex => {
+      executeActionSheetAction({
+        title: options[buttonIndex],
+        message,
+        actions,
+        auth,
+        subscriptions,
+      });
+    };
+
+    this.showActionSheet({ options, cancelButtonIndex: options.length - 1, callback });
+  };
+
   render() {
-    const { message, auth, actions, avatarUrl, twentyFourHourTime, isBrief } = this.props;
+    const { message, auth, actions, twentyFourHourTime, isBrief } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
     const childrenNodes = htmlToDomTree(message.match_content || message.content);
 
     return (
       <MessageComponent
         message={message}
-        avatarUrl={avatarUrl}
         twentyFourHourTime={twentyFourHourTime}
         ownEmail={auth.email}
         doNarrow={actions.doNarrow}
-        onLongPress={this.onLongPress}
+        onLongPress={this.handleLongPress}
         starred={this.isStarred(message)}
         realm={auth.realm}>
         {renderHtmlChildren({
@@ -80,3 +108,15 @@ export default class MessageContainer extends PureComponent {
     );
   }
 }
+
+export default connect(
+  state => ({
+    auth: getAuth(state),
+    users: getUsers(state),
+    flags: getFlags(state),
+    twentyFourHourTime: state.realm.twentyFourHourTime,
+    subscriptions: getSubscriptions(state),
+    mute: state.mute,
+  }),
+  boundActions,
+)(connectActionSheet(MessageContainer));

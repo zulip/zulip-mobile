@@ -85,8 +85,10 @@ export default class SearchMessagesCard extends PureComponent {
           <MessageList
             actions={actions}
             messages={messages}
-            caughtUp={{ older: true, newer: true }}
-            fetching={{ older: false, newer: isFetching }}
+            fetchingOlder={false}
+            fetchingNewer={isFetching}
+            caughtUpOlder
+            caughtUpNewer
             singleFetchProgress
             narrow={[]}
             twentyFourHourTime={twentyFourHourTime}

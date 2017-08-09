@@ -1,39 +1,20 @@
 /* @flow */
 import React from 'react';
 
-import type { Actions, Auth, Narrow } from '../types';
+import type { Narrow } from '../types';
 import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
-import MessageHeader from '../message/headers/MessageHeader';
+import MessageHeaderContainer from '../message/headers/MessageHeaderContainer';
 import MessageContainer from '../message/MessageContainer';
 import TimeRow from '../message/TimeRow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
 type Props = {
-  auth: Auth,
-  actions: Actions,
-  subscriptions: any[],
-  users: Object[],
   messages: any[],
-  flags: Object,
   narrow: Narrow,
-  onLongPress: (message: Object) => void,
-  onHeaderLongPress: (item: Object) => void,
-  twentyFourHourTime: boolean,
 };
 
-export default ({
-  auth,
-  actions,
-  subscriptions,
-  users,
-  messages,
-  narrow,
-  onLongPress,
-  onHeaderLongPress,
-  flags,
-  twentyFourHourTime,
-}: Props) => {
+export default ({ messages, narrow }: Props) => {
   const list: Object[] = [];
   let prevItem;
 
@@ -52,15 +33,11 @@ export default ({
 
     if (showHeader && diffRecipient) {
       list.push(
-        <MessageHeader
+        <MessageHeaderContainer
           type="header"
           key={`header${item.id}`}
           message={item}
-          auth={auth}
-          actions={actions}
-          subscriptions={subscriptions}
           narrow={narrow}
-          onHeaderLongPress={onHeaderLongPress}
         />,
       );
     }
@@ -75,15 +52,9 @@ export default ({
       <MessageContainer
         type="message"
         key={item.id}
-        auth={auth}
-        actions={actions}
-        message={item}
         isBrief={shouldGroupWithPrev}
-        avatarUrl={item.avatar_url}
-        users={users}
-        onLongPress={onLongPress}
-        flags={flags}
-        twentyFourHourTime={twentyFourHourTime}
+        message={item}
+        narrow={narrow}
       />,
     );
 

@@ -7,6 +7,8 @@ export const getTyping = (state: GlobalState): Object => state.typing;
 
 export const getUsers = (state: GlobalState): Object => state.users;
 
+export const getFlags = (state: GlobalState): Object => state.flags;
+
 export const getReadFlags = (state: GlobalState): Object => state.flags.read;
 
 export const getAllMessages = (state: GlobalState): Message[] => state.chat.messages;

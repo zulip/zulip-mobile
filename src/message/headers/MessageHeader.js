@@ -2,12 +2,14 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Auth, Actions, Narrow } from '../../types';
+import type { Auth, Actions, Narrow, MuteState } from '../../types';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../../utils/narrow';
 import TopicMessageHeader from './TopicMessageHeader';
 import StreamMessageHeader from './StreamMessageHeader';
 import PrivateMessageHeader from './PrivateMessageHeader';
 import { nullFunction, NULL_SUBSCRIPTION } from '../../nullObjects';
+import { executeActionSheetAction, constructHeaderActionButtons } from '../messageActionSheet';
+import type { ShowActionSheetTypes } from '../messageActionSheet';
 
 const styles = StyleSheet.create({
   margin: {
@@ -16,24 +18,45 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageHeader extends PureComponent {
+class MessageHeader extends PureComponent {
   props: {
     auth: Auth,
     actions: Actions,
     message: Object,
     narrow: Narrow,
     subscriptions: any[],
-    onHeaderLongPress: (message: Object) => void,
+    showActionSheetWithOptions: (Object, (number) => void) => void,
+    mute: MuteState,
   };
 
-  onLongPress = () => {
-    const { message, onHeaderLongPress } = this.props;
-    onHeaderLongPress(message);
+  showActionSheet = ({ options, cancelButtonIndex, callback }: ShowActionSheetTypes) => {
+    this.props.showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+      },
+      callback,
+    );
+  };
+
+  handleLongPress = () => {
+    const { actions, subscriptions, mute, auth, message } = this.props;
+    const options = constructHeaderActionButtons({ message, subscriptions, mute });
+    const callback = buttonIndex => {
+      executeActionSheetAction({
+        actions,
+        title: options[buttonIndex],
+        message,
+        header: true,
+        auth,
+        subscriptions,
+      });
+    };
+    this.showActionSheet({ options, cancelButtonIndex: options.length - 1, callback });
   };
 
   render() {
     const { actions, message, subscriptions, auth, narrow } = this.props;
-
     if (isStreamNarrow(narrow)) {
       return (
         <TopicMessageHeader
@@ -43,7 +66,7 @@ export default class MessageHeader extends PureComponent {
           stream={message.display_recipient}
           topic={message.subject}
           style={styles.margin}
-          onLongPress={this.onLongPress}
+          onLongPress={this.handleLongPress}
         />
       );
     }
@@ -63,7 +86,7 @@ export default class MessageHeader extends PureComponent {
           color={stream ? stream.color : '#ccc'}
           messageId={message.id}
           style={styles.margin}
-          onLongPress={this.onLongPress}
+          onLongPress={this.handleLongPress}
         />
       );
     }
@@ -88,3 +111,5 @@ export default class MessageHeader extends PureComponent {
     return null;
   }
 }
+
+export default MessageHeader;
