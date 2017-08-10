@@ -381,8 +381,12 @@ export type Subscription = {
 
 export type Outbox = {
   content: string,
-  localMessageId: number,
-  subject: string,
-  to: string,
-  type: string,
+  timestamp: number,
+  narrow: Narrow,
+  parsedContent: string,
+  sender_full_name: string,
+  email: string,
+  avatar_url: string,
 };
+
+export type OutboxState = Outbox[];

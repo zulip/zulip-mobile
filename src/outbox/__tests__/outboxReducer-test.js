@@ -2,6 +2,7 @@ import deepFreeze from 'deep-freeze';
 
 import outboxReducers from '../outboxReducers';
 import { MESSAGE_SEND, EVENT_NEW_MESSAGE } from '../../actionConstants';
+import { streamNarrow } from '../../utils/narrow';
 
 describe('outboxReducers', () => {
   describe(MESSAGE_SEND, () => {
@@ -11,21 +12,23 @@ describe('outboxReducers', () => {
       const action = deepFreeze({
         type: MESSAGE_SEND,
         params: {
-          content: 'HI there ',
-          localMessageId: 1501779388307,
-          subject: 'Denmark2',
-          to: 'Denmark',
-          type: 'stream',
+          content: 'New one',
+          email: 'AARON@zulip.com',
+          narrow: streamNarrow('denmark'),
+          parsedContent: '<p>New one</p>',
+          sender_full_name: 'john',
+          timestamp: 1502385930,
         },
       });
 
       const expectedState = [
         {
-          content: 'HI there ',
-          localMessageId: 1501779388307,
-          subject: 'Denmark2',
-          to: 'Denmark',
-          type: 'stream',
+          content: 'New one',
+          email: 'AARON@zulip.com',
+          narrow: streamNarrow('denmark'),
+          parsedContent: '<p>New one</p>',
+          sender_full_name: 'john',
+          timestamp: 1502385930,
         },
       ];
 
@@ -37,35 +40,38 @@ describe('outboxReducers', () => {
 
   describe(EVENT_NEW_MESSAGE, () => {
     test('do not mutate state if a message is not removed', () => {
-      const initialState = deepFreeze([]);
-
-      const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        localMessageId: '123',
-      });
-
-      const actualState = outboxReducers(initialState, action);
-
-      expect(actualState).toBe(initialState);
-    });
-
-    test('Remove if local message same', () => {
       const initialState = deepFreeze([
         {
-          content: 'HI there ',
-          localMessageId: 1501779388307,
-          subject: 'Denmark2',
-          to: 'Denmark',
-          type: 'stream',
+          content: 'New one',
+          email: 'AARON@zulip.com',
+          narrow: streamNarrow('denmark'),
+          parsedContent: '<p>New one</p>',
+          sender_full_name: 'john',
+          timestamp: 1502385930,
         },
       ]);
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
-        localMessageId: '1501779388307',
+        timestamp: 123,
+      });
+      const actualState = outboxReducers(initialState, action);
+      expect(actualState).toBe(initialState);
+    });
+
+    test('Remove if local message same', () => {
+      const initialState = deepFreeze([
+        { timestamp: 1502385930 },
+        { timestamp: 150238512430 },
+        { timestamp: 1502385945450 },
+      ]);
+
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        localMessageId: 1502385930,
       });
 
-      const expectedState = [];
+      const expectedState = [{ timestamp: 150238512430 }, { timestamp: 1502385945450 }];
 
       const actualState = outboxReducers(initialState, action);
 
@@ -75,27 +81,22 @@ describe('outboxReducers', () => {
     test('Not to remove if local message not same', () => {
       const initialState = deepFreeze([
         {
-          content: 'HI there ',
-          subject: 'Denmark2',
-          to: 'Denmark',
-          type: 'stream',
+          content: 'New one',
+          email: 'AARON@zulip.com',
+          narrow: streamNarrow('denmark'),
+          parsedContent: '<p>New one</p>',
+          sender_full_name: 'john',
+          timestamp: 1502385930,
         },
       ]);
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
+        timestamp: 15023859,
       });
 
-      const expectedState = [
-        {
-          content: 'HI there ',
-          subject: 'Denmark2',
-          to: 'Denmark',
-          type: 'stream',
-        },
-      ];
       const actualState = outboxReducers(initialState, action);
-      expect(actualState).toEqual(expectedState);
+      expect(actualState).toEqual(initialState);
     });
   });
 });

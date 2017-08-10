@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import type { Auth, Narrow, EditMessage, User, Actions } from '../types';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
 import { IconSend } from '../common/Icons';
-import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
+import { isStreamNarrow, topicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import ComposeMenuContainer from './ComposeMenuContainer';
 // import SubmitButton from './SubmitButton';
 import AutoCompleteView from '../autocomplete/AutoCompleteView';
@@ -93,18 +93,13 @@ export default class ComposeBox extends PureComponent {
 
     const topicToSend = replaceEmoticonsWithEmoji(topic);
     const messageToSend = replaceEmoticonsWithEmoji(message);
-
-    if (isPrivateOrGroupNarrow(narrow)) {
-      actions.addToOutbox('private', narrow[0].operand, '', messageToSend);
-    } else if (isStreamNarrow(narrow)) {
+    if (isStreamNarrow(narrow)) {
       actions.addToOutbox(
-        'stream',
-        narrow[0].operand,
-        topicToSend === '' ? '(no topic)' : topicToSend,
+        topicNarrow(narrow[0].operand, topicToSend === '' ? '(no topic)' : topicToSend),
         messageToSend,
       );
-    } else if (isTopicNarrow(narrow)) {
-      actions.addToOutbox('stream', narrow[0].operand, narrow[1].operand, messageToSend);
+    } else {
+      actions.addToOutbox(narrow, messageToSend);
     }
 
     this.clearMessageInput();
