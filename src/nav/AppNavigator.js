@@ -14,6 +14,7 @@ import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import SettingsScreen from '../settings/SettingsScreen';
+import UnreadCardsScreen from '../unreadCards/UnreadCardsScreen';
 import SettingsDetailScreen from '../settings/SettingsDetailScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import GroupScreen from '../group/GroupScreen';
@@ -33,6 +34,7 @@ export default StackNavigator(
     subscriptions: { screen: SubscriptionsScreen },
     users: { screen: UsersScreen },
     settings: { screen: SettingsScreen },
+    unreadCards: { screen: UnreadCardsScreen},
     'settings-detail': { screen: SettingsDetailScreen },
     lightbox: { screen: LightboxScreen },
     group: { screen: GroupScreen },
