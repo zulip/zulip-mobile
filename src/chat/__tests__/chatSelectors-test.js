@@ -4,8 +4,72 @@ import {
   getAnchor,
   getUnreadPrivateMessagesCount,
   getLastTopicInActiveNarrow,
+  getMessagesInActiveNarrow,
 } from '../chatSelectors';
-import { homeNarrow, specialNarrow, privateNarrow } from '../../utils/narrow';
+import { homeNarrow, specialNarrow, privateNarrow, streamNarrow } from '../../utils/narrow';
+
+describe('getMessagesInActiveNarrow', () => {
+  test('Combine messages & outbox in same narrow', () => {
+    const state = deepFreeze({
+      chat: {
+        narrow: homeNarrow(),
+        messages: {
+          '[]': [{ id: 123 }],
+        },
+      },
+      outbox: [
+        {
+          email: 'donald@zulip.com',
+          narrow: homeNarrow(),
+          parsedContent: '<p>Hello</p>',
+          sender_full_name: 'donald',
+          timestamp: 1502376058,
+        },
+      ],
+    });
+
+    const anchor = getMessagesInActiveNarrow(state);
+
+    const expectedState = deepFreeze([
+      { id: 123 },
+      {
+        email: 'donald@zulip.com',
+        narrow: [],
+        parsedContent: '<p>Hello</p>',
+        sender_full_name: 'donald',
+        timestamp: 1502376058,
+      },
+    ]);
+
+    expect(anchor).toEqual(expectedState);
+  });
+
+  test('Do not combine messages & outbox in different narrow', () => {
+    const state = deepFreeze({
+      chat: {
+        narrow: privateNarrow('john@example.com'),
+        messages: {
+          [JSON.stringify(privateNarrow('john@example.com'))]: [{ id: 123 }],
+        },
+      },
+      outbox: [
+        {
+          email: 'donald@zulip.com',
+          narrow: streamNarrow('denmark', 'denmark'),
+          parsedContent: '<p>Hello</p>',
+          sender_full_name: 'donald',
+          timestamp: 1502376058,
+        },
+      ],
+    });
+
+    const anchor = getMessagesInActiveNarrow(state);
+
+    const expectedState = deepFreeze([{ id: 123 }]);
+
+    expect(anchor).toEqual(expectedState);
+  });
+});
 
 describe('getAnchor', () => {
   test('return undefined when there are no messages', () => {
@@ -16,6 +80,7 @@ describe('getAnchor', () => {
           '[]': [],
         },
       },
+      outbox: [],
     });
 
     const anchor = getAnchor(state);
@@ -31,6 +96,7 @@ describe('getAnchor', () => {
           '[]': [{ id: 123 }],
         },
       },
+      outbox: [],
     });
 
     const anchor = getAnchor(state);
@@ -46,6 +112,7 @@ describe('getAnchor', () => {
           '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
         },
       },
+      outbox: [],
     });
 
     const anchor = getAnchor(state);
@@ -63,6 +130,7 @@ describe('getUnreadPrivateMessagesCount', () => {
           '[]': [],
         },
       },
+      outbox: [],
     });
 
     const actualCount = getUnreadPrivateMessagesCount(state);
@@ -84,6 +152,7 @@ describe('getUnreadPrivateMessagesCount', () => {
           3: true,
         },
       },
+      outbox: [],
     });
 
     const actualCount = getUnreadPrivateMessagesCount(state);
@@ -118,6 +187,7 @@ describe('getLastTopicInActiveNarrow', () => {
           ],
         },
       },
+      outbox: [],
     });
 
     const actualLastTopic = getLastTopicInActiveNarrow(state);
@@ -134,6 +204,7 @@ describe('getLastTopicInActiveNarrow', () => {
           [JSON.stringify(narrow)]: [{ id: 0 }],
         },
       },
+      outbox: [],
     });
 
     const actualLastTopic = getLastTopicInActiveNarrow(state);
@@ -150,6 +221,7 @@ describe('getLastTopicInActiveNarrow', () => {
           [JSON.stringify(narrow)]: [{ id: 0 }, { id: 1, subject: 'Some subject' }, { id: 2 }],
         },
       },
+      outbox: [],
     });
 
     const actualLastTopic = getLastTopicInActiveNarrow(state);

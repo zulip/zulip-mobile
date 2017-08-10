@@ -63,7 +63,7 @@ describe('outboxReducers', () => {
       const initialState = deepFreeze([
         { timestamp: 1502385930 },
         { timestamp: 150238512430 },
-        { timestamp: 1502385945450 },
+        { timestamp: 150238594540 },
       ]);
 
       const action = deepFreeze({
@@ -71,7 +71,7 @@ describe('outboxReducers', () => {
         localMessageId: 1502385930,
       });
 
-      const expectedState = [{ timestamp: 150238512430 }, { timestamp: 1502385945450 }];
+      const expectedState = [{ timestamp: 150238512430 }, { timestamp: 150238594540 }];
 
       const actualState = outboxReducers(initialState, action);
 

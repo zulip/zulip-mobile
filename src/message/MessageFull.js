@@ -40,6 +40,7 @@ class MessageFull extends PureComponent {
     children?: any[],
     message: Object,
     onLongPress: () => void,
+    outbox?: boolean,
   };
 
   handleAvatarPress = () => {

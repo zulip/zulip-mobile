@@ -1,7 +1,7 @@
 /* @flow */
 import parseMarkdown from 'zulip-markdown-parser';
 
-import type { Dispatch, GetState } from '../types';
+import type { Dispatch, GetState, Narrow } from '../types';
 import { MESSAGE_SEND } from '../actionConstants';
 import { getAuth } from '../selectors';
 import { sendMessage as sendMessageApi } from '../api';

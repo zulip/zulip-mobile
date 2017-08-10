@@ -35,9 +35,7 @@ export default ({ messages, narrow }: Props) => {
 
     const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);
     const diffRecipient = !isSameRecipient(prevItem, item);
-    const extractedOutboxData = isOutbox
-      ? extractTypeToAndSubjectFromNarrow(item.narrow)
-      : undefined;
+    const extractedOutboxData = isOutbox ? extractTypeToAndSubjectFromNarrow(item.narrow) : {};
     if (showHeader && diffRecipient) {
       list.push(
         <MessageHeaderContainer

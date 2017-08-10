@@ -29,9 +29,10 @@ export default class MessageBrief extends PureComponent {
   props: {
     message: Object,
     ownEmail: string,
-    starred: boolean,
+    starred?: boolean,
     children?: Children,
-    onLongPress: () => void,
+    onLongPress?: () => void,
+    outbox?: boolean,
   };
 
   static defaultProps = {
