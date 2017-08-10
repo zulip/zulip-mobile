@@ -16,7 +16,7 @@ export default class HtmlTagDiv extends PureComponent {
     const { style, className, ...restProps } = this.props;
     const WrapperView = className === 'codehilite' ? ScrollView : View;
     return (
-      <WrapperView style={style} horizontal>
+      <WrapperView contentContainerStyle={style} horizontal>
         {renderHtmlChildren({ ...restProps })}
       </WrapperView>
     );
