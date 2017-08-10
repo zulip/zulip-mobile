@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { Actions } from '../types';
 import { Screen } from '../common';
+import AlertWordsContainer from '../alertWords/AlertWordsContainer';
 import LanguagePicker from './LanguagePicker';
 import boundActions from '../boundActions';
 import { getAuth } from '../selectors';
@@ -51,6 +52,9 @@ class SettingsDetailScreen extends PureComponent {
     switch (setting) {
       case 'language': {
         return <LanguagePicker value={locale} onValueChange={this.handleLocaleChange} />;
+      }
+      case 'alertWords': {
+        return <AlertWordsContainer />;
       }
       default:
         return null;

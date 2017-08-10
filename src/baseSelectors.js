@@ -1,6 +1,8 @@
 /* @flow */
 import type { GlobalState, Narrow, Message, Subscription, Stream, Presence } from './types';
 
+export const getAlertWords = (state: GlobalState): Object => state.alertWords;
+
 export const getMute = (state: GlobalState): Object => state.mute;
 
 export const getTyping = (state: GlobalState): Object => state.typing;
