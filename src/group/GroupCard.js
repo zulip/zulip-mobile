@@ -7,6 +7,7 @@ import { ZulipButton } from '../common';
 import { groupNarrow } from '../utils/narrow';
 import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
+import showToast from '../utils/showToast';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -60,6 +61,11 @@ export default class GroupCard extends PureComponent {
   handleCreateGroup = () => {
     const { actions } = this.props;
     const { selected } = this.state;
+
+    if (selected.length === 0) {
+      showToast('Please select at least one person to create group.');
+      return;
+    }
 
     const recipients = selected.map(user => user.email);
 
