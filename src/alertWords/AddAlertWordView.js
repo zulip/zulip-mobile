@@ -56,7 +56,7 @@ export default class AddAlertWordView extends PureComponent {
             }}
             placeholder="Alert word"
             value={alertWord}
-            onTextChange={input => this.setState({ alertWord: input })}
+            onChangeText={input => this.setState({ alertWord: input })}
             blurOnSubmit={false}
             onSubmitEditing={this.addAlertWord}
           />
