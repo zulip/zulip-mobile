@@ -3,21 +3,31 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Actions, User } from '../types';
-import { ZulipButton } from '../common';
+import { FloatingActionButton } from '../common';
+import { IconDone } from '../common/Icons';
 import { groupNarrow } from '../utils/narrow';
 import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
+import AnimatedHeightComponent from '../animation/AnimatedHeightComponent';
+import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
   },
   list: {
-    flexShrink: 1,
+    flex: 1,
+  },
+  button: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
   },
 });
 
 export default class GroupCard extends PureComponent {
+  listRef: Object;
+
   props: {
     actions: Actions,
     ownEmail: string,
@@ -37,6 +47,7 @@ export default class GroupCard extends PureComponent {
     this.setState({
       selected: [...selected, user],
     });
+    this.listRef.scrollToEnd();
   };
 
   handleUserPress = (email: string) => {
@@ -73,15 +84,31 @@ export default class GroupCard extends PureComponent {
 
     return (
       <View style={styles.wrapper}>
-        {selected.length > 0 && <AvatarList users={selected} onPress={this.handleUserDeselect} />}
+        <AnimatedHeightComponent visible={selected.length > 0} height={70}>
+          <AvatarList
+            listRef={component => {
+              this.listRef = component;
+            }}
+            users={selected}
+            onPress={this.handleUserDeselect}
+          />
+        </AnimatedHeightComponent>
         <UserList
           style={styles.list}
           ownEmail={ownEmail}
           filter=""
           users={users}
+          selected={selected}
           onPress={this.handleUserPress}
         />
-        <ZulipButton text="Create" disabled={!selected.length} onPress={this.handleCreateGroup} />
+        <AnimatedScaleComponent visible={selected.length > 0}>
+          <FloatingActionButton
+            style={styles.button}
+            Icon={IconDone}
+            disabled={selected.length === 0}
+            onPress={this.handleCreateGroup}
+          />
+        </AnimatedScaleComponent>
       </View>
     );
   }
