@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { Actions } from '../types';
@@ -64,9 +64,9 @@ class MessageFull extends PureComponent {
           />
           <View style={styles.contentWrapper}>
             <TouchableWithoutFeedback onLongPress={onLongPress}>
-              <View style={styles.inner}>
+              <ScrollView style={styles.inner}>
                 {children}
-              </View>
+              </ScrollView>
             </TouchableWithoutFeedback>
           </View>
           <MessageTags timestamp={message.last_edit_timestamp} starred={starred} />

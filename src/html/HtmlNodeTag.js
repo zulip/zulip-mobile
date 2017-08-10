@@ -109,6 +109,7 @@ class HtmlNodeTag extends PureComponent {
         target={attribs.target}
         src={attribs.src}
         href={attribs.href}
+        className={attribs.class}
         style={[styles.common, style]}
         cascadingStyle={newCascadingStyle}
         cascadingTextStyle={newCascadingStylesText}
