@@ -66,5 +66,6 @@
   "Unread": "Unread",
   "Subscribed": "Subscribed",
   "No users found": "No users found",
-  "No streams found": "No streams found"
+  "No streams found": "No streams found",
+  "Please select at least one person to create group.": "Please select at least one person to create group."
 }
