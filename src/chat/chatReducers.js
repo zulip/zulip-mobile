@@ -56,7 +56,7 @@ export default (state: ChatState = initialState, action: Action) => {
       const messages = state.messages[key] || [];
 
       const newMessages = action.replaceExisting
-        ? action.messages
+        ? action.messages.map(item => messages.find(msg => msg.id === item.id) || item)
         : action.messages
             .filter(x => !messages.find(msg => msg.id === x.id))
             .concat(messages)
