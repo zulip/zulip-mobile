@@ -674,7 +674,38 @@ describe('chatReducers', () => {
 
       const newState = chatReducers(initialState, action);
 
-      expect(...newState.messages[homeNarrowStr]).toBe(...commonMessages);
+      expect(...newState.messages[homeNarrowStr]).toEqual(...commonMessages);
+    });
+
+    test('when replaceExisting is true, deep equal is performed to separate common messages', () => {
+      const commonMessages = [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }];
+      const changedMessage = { id: 4, timestamp: 6, subject: 'new topic' };
+      const initialState = deepFreeze({
+        messages: {
+          [homeNarrowStr]: [
+            { id: 1, timestamp: 3 },
+            ...commonMessages,
+            { id: 4, timestamp: 6, subject: 'some topic' },
+          ],
+        },
+      });
+
+      const action = deepFreeze({
+        type: MESSAGE_FETCH_SUCCESS,
+        narrow: [],
+        messages: [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }, changedMessage],
+        replaceExisting: true,
+      });
+
+      const expectedState = {
+        messages: {
+          [homeNarrowStr]: [...commonMessages, changedMessage],
+        },
+      };
+
+      const newState = chatReducers(initialState, action);
+
+      expect(...newState.messages[homeNarrowStr]).toEqual(...expectedState.messages[homeNarrowStr]);
     });
   });
 });
