@@ -22,14 +22,15 @@ export default class AnimatedScaleComponent extends PureComponent {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, visible } = this.props;
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }],
+      opacity: this.animatedValue,
     };
 
     return (
       <Animated.View style={animatedStyle}>
-        {children}
+        {visible && children}
       </Animated.View>
     );
   }

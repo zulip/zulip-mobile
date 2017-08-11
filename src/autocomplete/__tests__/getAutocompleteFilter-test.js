@@ -1,24 +1,24 @@
 import getAutocompleteFilter from '../getAutocompleteFilter';
 
 describe('getAutocompleteFilter', () => {
-  test('get False for empty text', () => {
-    expect(getAutocompleteFilter('')).toEqual(false);
+  test('get empty object for empty text', () => {
+    expect(getAutocompleteFilter('')).toEqual({ filter: '', lastWordPrefix: '' });
   });
 
   test('get @users filters', () => {
-    expect(getAutocompleteFilter('@')).toEqual(false);
+    expect(getAutocompleteFilter('@')).toEqual({ filter: '', lastWordPrefix: '@' });
     expect(getAutocompleteFilter('@ab')).toEqual({ filter: 'ab', lastWordPrefix: '@' });
     expect(getAutocompleteFilter('@ab cd')).toEqual({ filter: 'ab cd', lastWordPrefix: '@' });
   });
 
   test('get #streams filters', () => {
-    expect(getAutocompleteFilter('#')).toEqual(false);
+    expect(getAutocompleteFilter('#')).toEqual({ filter: '', lastWordPrefix: '#' });
     expect(getAutocompleteFilter('#ab')).toEqual({ filter: 'ab', lastWordPrefix: '#' });
     expect(getAutocompleteFilter('#ab cd')).toEqual({ filter: 'ab cd', lastWordPrefix: '#' });
   });
 
   test('get :emoji filters', () => {
-    expect(getAutocompleteFilter(':')).toEqual(false);
+    expect(getAutocompleteFilter(':')).toEqual({ filter: '', lastWordPrefix: ':' });
     expect(getAutocompleteFilter(':ab')).toEqual({ filter: 'ab', lastWordPrefix: ':' });
     expect(getAutocompleteFilter(':ab cd')).toEqual({ filter: 'ab cd', lastWordPrefix: ':' });
   });

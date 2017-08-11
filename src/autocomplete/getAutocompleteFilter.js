@@ -9,5 +9,5 @@ export default (text: string) => {
   const filter: string =
     text.length > lastIndex + 1 ? text.substring(lastIndex + 1, text.length) : '';
 
-  return filter !== '' && lastWordPrefix !== '' && { lastWordPrefix, filter };
+  return { lastWordPrefix, filter };
 };
