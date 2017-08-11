@@ -656,5 +656,25 @@ describe('chatReducers', () => {
 
       expect(newState).toEqual(expectedState);
     });
+
+    test('when replaceExisting is true, common messages are not replaced', () => {
+      const commonMessages = [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }];
+      const initialState = deepFreeze({
+        messages: {
+          [homeNarrowStr]: [{ id: 1, timestamp: 3 }, ...commonMessages],
+        },
+      });
+
+      const action = deepFreeze({
+        type: MESSAGE_FETCH_SUCCESS,
+        narrow: [],
+        messages: [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }],
+        replaceExisting: true,
+      });
+
+      const newState = chatReducers(initialState, action);
+
+      expect(...newState.messages[homeNarrowStr]).toBe(...commonMessages);
+    });
   });
 });
