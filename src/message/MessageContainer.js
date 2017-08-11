@@ -110,6 +110,8 @@ class MessageContainer extends PureComponent {
     const { message, auth, actions, twentyFourHourTime, isBrief } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
 
+    console.log('action: ', actions);
+
     return (
       <MessageComponent
         message={message}
