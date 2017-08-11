@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode9
+osx_image: xcode8.3
 xcode_sdk: iphonesimulator11.0
 sudo: required
 env:
@@ -40,7 +40,6 @@ install:
 
 before_script:
   - set -o pipefail && yarn run build:ios-release | xcpretty -t
-  # - fbsimctl shutdown
 
 notifications:
   email: false
