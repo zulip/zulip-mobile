@@ -1,4 +1,6 @@
 /* @flow */
+import isEqual from 'lodash.isequal';
+
 import type { ChatState, Action } from '../types';
 import {
   LOGOUT,
@@ -14,6 +16,7 @@ import {
 } from '../actionConstants';
 import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
+import { getMessagesById } from '../selectors';
 
 const initialState: ChatState = {
   fetchingOlder: true,
@@ -55,10 +58,16 @@ export default (state: ChatState = initialState, action: Action) => {
       const key = JSON.stringify(action.narrow);
       const messages = state.messages[key] || [];
 
+      const messagesById = getMessagesById(state);
       const newMessages = action.replaceExisting
-        ? action.messages
+        ? action.messages.map(
+            item =>
+              messagesById[item.id]
+                ? isEqual(messagesById[item.id], item) ? messagesById[item.id] : item
+                : item,
+          )
         : action.messages
-            .filter(x => !messages.find(msg => msg.id === x.id))
+            .filter(x => !messagesById[x.id])
             .concat(messages)
             .sort((a, b) => a.timestamp - b.timestamp);
 

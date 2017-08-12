@@ -11,12 +11,15 @@ import {
   getReadFlags,
   getStreams,
 } from '../baseSelectors';
-import { specialNarrow } from '../utils/narrow';
+import { specialNarrow, homeNarrow } from '../utils/narrow';
 import { shouldBeMuted } from '../utils/message';
 import { countUnread } from '../utils/unread';
 import { NULL_MESSAGE, NULL_USER, NULL_SUBSCRIPTION } from '../nullObjects';
 
 const privateNarrowStr = JSON.stringify(specialNarrow('private'));
+
+const getMessagesFromChatState = state =>
+  state.messages[JSON.stringify(state.narrow || homeNarrow())] || [];
 
 export const getIsFetching = (state: GlobalState): boolean =>
   (state.app.needsInitialFetch && state.chat.fetchingOlder) || state.chat.fetchingOlder;
@@ -104,4 +107,11 @@ export const getUnreadCountInActiveNarrow = createSelector(
 export const getIfNoMessages = createSelector(
   getShownMessagesInActiveNarrow,
   messages => messages && messages.length === 0,
+);
+
+export const getMessagesById = createSelector(getMessagesFromChatState, messages =>
+  messages.reduce((msgById, message) => {
+    msgById[message.id] = message;
+    return msgById;
+  }, {}),
 );
