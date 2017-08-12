@@ -44,11 +44,13 @@ export default class MessageBrief extends PureComponent {
     return (
       <View style={styles.message}>
         <View style={styles.messageContentWrapper}>
-          <TouchableWithoutFeedback onLongPress={onLongPress}>
-            <ScrollView style={styles.childrenWrapper}>
-              {children}
-            </ScrollView>
-          </TouchableWithoutFeedback>
+          <ScrollView style={styles.childrenWrapper}>
+            <TouchableWithoutFeedback onLongPress={onLongPress}>
+              <View>
+                {children}
+              </View>
+            </TouchableWithoutFeedback>
+          </ScrollView>
         </View>
         <MessageTags timestamp={message.last_edit_timestamp} starred={starred} />
         <ReactionList messageId={message.id} reactions={message.reactions} ownEmail={ownEmail} />

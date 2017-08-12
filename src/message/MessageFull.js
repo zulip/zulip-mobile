@@ -63,11 +63,13 @@ class MessageFull extends PureComponent {
             twentyFourHourTime={twentyFourHourTime}
           />
           <View style={styles.contentWrapper}>
-            <TouchableWithoutFeedback onLongPress={onLongPress}>
-              <ScrollView style={styles.inner}>
-                {children}
-              </ScrollView>
-            </TouchableWithoutFeedback>
+            <ScrollView style={styles.inner}>
+              <TouchableWithoutFeedback onLongPress={onLongPress}>
+                <View>
+                  {children}
+                </View>
+              </TouchableWithoutFeedback>
+            </ScrollView>
           </View>
           <MessageTags timestamp={message.last_edit_timestamp} starred={starred} />
           <ReactionList messageId={message.id} reactions={message.reactions} ownEmail={ownEmail} />
