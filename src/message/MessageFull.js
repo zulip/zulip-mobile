@@ -40,6 +40,7 @@ class MessageFull extends PureComponent {
     children?: any[],
     message: Object,
     onLongPress: () => void,
+    isNotYetSent?: boolean,
   };
 
   handleAvatarPress = () => {
@@ -48,7 +49,15 @@ class MessageFull extends PureComponent {
   };
 
   render() {
-    const { message, children, twentyFourHourTime, ownEmail, starred, onLongPress } = this.props;
+    const {
+      message,
+      children,
+      twentyFourHourTime,
+      ownEmail,
+      starred,
+      onLongPress,
+      isNotYetSent,
+    } = this.props;
     return (
       <View style={styles.message}>
         <Avatar
@@ -71,7 +80,11 @@ class MessageFull extends PureComponent {
               </TouchableWithoutFeedback>
             </ScrollView>
           </View>
-          <MessageTags timestamp={message.last_edit_timestamp} starred={starred} />
+          <MessageTags
+            timestamp={message.last_edit_timestamp}
+            starred={starred}
+            isNotYetSent={isNotYetSent}
+          />
           <ReactionList messageId={message.id} reactions={message.reactions} ownEmail={ownEmail} />
         </View>
       </View>

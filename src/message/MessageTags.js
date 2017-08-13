@@ -30,11 +30,10 @@ const styles = StyleSheet.create({
 
 export default class MessageTags extends PureComponent {
   render() {
-    const { timestamp, starred } = this.props;
+    const { timestamp, starred, isNotYetSent } = this.props;
 
-    if (timestamp === undefined && !starred) return null;
-
-    const editedTime = distanceInWordsToNow(timestamp * 1000);
+    if (timestamp === undefined && !starred && !isNotYetSent) return null;
+    const editedTime = timestamp ? distanceInWordsToNow(timestamp * 1000) : '';
 
     return (
       <View style={styles.container}>
@@ -45,6 +44,10 @@ export default class MessageTags extends PureComponent {
         {starred &&
           <View style={styles.tag}>
             <Label style={styles.text} text={'starred'} />
+          </View>}
+        {isNotYetSent &&
+          <View style={styles.tag}>
+            <RawLabel style={styles.text} text={'(not sent)'} />
           </View>}
       </View>
     );

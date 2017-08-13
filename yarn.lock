@@ -3441,6 +3441,12 @@ jsx-ast-utils@^1.4.0, jsx-ast-utils@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-1.4.1.tgz#3867213e8dd79bf1e8f2300c0cfc1efb182c0df1"
 
+katex@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/katex/-/katex-0.7.1.tgz#06bb5298efad05e1e7228035ba8e1591f3061b8f"
+  dependencies:
+    match-at "^0.1.0"
+
 kind-of@^3.0.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
@@ -3518,9 +3524,48 @@ lodash-es@^4.17.4, lodash-es@^4.2.0, lodash-es@^4.2.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
 
+lodash._basebind@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash._basebind/-/lodash._basebind-2.4.1.tgz#e940b9ebdd27c327e0a8dab1b55916c5341e9575"
+  dependencies:
+    lodash._basecreate "~2.4.1"
+    lodash._setbinddata "~2.4.1"
+    lodash._slice "~2.4.1"
+    lodash.isobject "~2.4.1"
+
 lodash._basecopy@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/lodash._basecopy/-/lodash._basecopy-3.0.1.tgz#8da0e6a876cf344c0ad8a54882111dd3c5c7ca36"
+
+lodash._basecreate@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash._basecreate/-/lodash._basecreate-2.4.1.tgz#f8e6f5b578a9e34e541179b56b8eeebf4a287e08"
+  dependencies:
+    lodash._isnative "~2.4.1"
+    lodash.isobject "~2.4.1"
+    lodash.noop "~2.4.1"
+
+lodash._basecreatecallback@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash._basecreatecallback/-/lodash._basecreatecallback-2.4.1.tgz#7d0b267649cb29e7a139d0103b7c11fae84e4851"
+  dependencies:
+    lodash._setbinddata "~2.4.1"
+    lodash.bind "~2.4.1"
+    lodash.identity "~2.4.1"
+    lodash.support "~2.4.1"
+
+lodash._basecreatewrapper@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash._basecreatewrapper/-/lodash._basecreatewrapper-2.4.1.tgz#4d31f2e7de7e134fbf2803762b8150b32519666f"
+  dependencies:
+    lodash._basecreate "~2.4.1"
+    lodash._setbinddata "~2.4.1"
+    lodash._slice "~2.4.1"
+    lodash.isobject "~2.4.1"
+
+lodash._baseindexof@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash._baseindexof/-/lodash._baseindexof-2.4.1.tgz#59db58412b40604ca4531abaf7a43cf1cc36bd59"
 
 lodash._basetostring@^3.0.0:
   version "3.0.1"
@@ -3530,6 +3575,15 @@ lodash._basevalues@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._basevalues/-/lodash._basevalues-3.0.0.tgz#5b775762802bde3d3297503e26300820fdf661b7"
 
+lodash._createwrapper@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash._createwrapper/-/lodash._createwrapper-2.4.1.tgz#51d6957973da4ed556e37290d8c1a18c53de1607"
+  dependencies:
+    lodash._basebind "~2.4.1"
+    lodash._basecreatewrapper "~2.4.1"
+    lodash._slice "~2.4.1"
+    lodash.isfunction "~2.4.1"
+
 lodash._getnative@^3.0.0:
   version "3.9.1"
   resolved "https://registry.yarnpkg.com/lodash._getnative/-/lodash._getnative-3.9.1.tgz#570bc7dede46d61cdcde687d65d3eecbaa3aaff5"
@@ -3537,6 +3591,14 @@ lodash._getnative@^3.0.0:
 lodash._isiterateecall@^3.0.0:
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/lodash._isiterateecall/-/lodash._isiterateecall-3.0.9.tgz#5203ad7ba425fae842460e696db9cf3e6aac057c"
+
+lodash._isnative@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash._isnative/-/lodash._isnative-2.4.1.tgz#3ea6404b784a7be836c7b57580e1cdf79b14832c"
+
+lodash._objecttypes@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash._objecttypes/-/lodash._objecttypes-2.4.1.tgz#7c0b7f69d98a1f76529f890b0cdb1b4dfec11c11"
 
 lodash._reescape@^3.0.0:
   version "3.0.0"
@@ -3554,19 +3616,72 @@ lodash._root@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/lodash._root/-/lodash._root-3.0.1.tgz#fba1c4524c19ee9a5f8136b4609f017cf4ded692"
 
+lodash._setbinddata@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash._setbinddata/-/lodash._setbinddata-2.4.1.tgz#f7c200cd1b92ef236b399eecf73c648d17aa94d2"
+  dependencies:
+    lodash._isnative "~2.4.1"
+    lodash.noop "~2.4.1"
+
+lodash._shimkeys@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash._shimkeys/-/lodash._shimkeys-2.4.1.tgz#6e9cc9666ff081f0b5a6c978b83e242e6949d203"
+  dependencies:
+    lodash._objecttypes "~2.4.1"
+
+lodash._slice@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash._slice/-/lodash._slice-2.4.1.tgz#745cf41a53597b18f688898544405efa2b06d90f"
+
 lodash.assign@^4.0.3, lodash.assign@^4.0.6:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.assign/-/lodash.assign-4.2.0.tgz#0d99f3ccd7a6d261d19bdaeb9245005d285808e7"
 
+lodash.bind@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash.bind/-/lodash.bind-2.4.1.tgz#5d19fa005c8c4d236faf4742c7b7a1fcabe29267"
+  dependencies:
+    lodash._createwrapper "~2.4.1"
+    lodash._slice "~2.4.1"
+
 lodash.cond@^4.3.0:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/lodash.cond/-/lodash.cond-4.5.2.tgz#f471a1da486be60f6ab955d17115523dd1d255d5"
+
+lodash.contains@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/lodash.contains/-/lodash.contains-2.4.3.tgz#3017007f88458254c818f9aa2906420490d9682c"
+  dependencies:
+    lodash._baseindexof "~2.4.1"
+    lodash.forown "~2.4.1"
+    lodash.isarray "~2.4.1"
+    lodash.isstring "~2.4.1"
 
 lodash.escape@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/lodash.escape/-/lodash.escape-3.2.0.tgz#995ee0dc18c1b48cc92effae71a10aab5b487698"
   dependencies:
     lodash._root "^3.0.0"
+
+lodash.find@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.find/-/lodash.find-4.6.0.tgz#cb0704d47ab71789ffa0de8b97dd926fb88b13b1"
+
+lodash.foreach@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.foreach/-/lodash.foreach-4.5.0.tgz#1a6a35eace401280c7f06dddec35165ab27e3e53"
+
+lodash.forown@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash.forown/-/lodash.forown-2.4.1.tgz#78b41eafe1405fa966459ea4193fd502d084524b"
+  dependencies:
+    lodash._basecreatecallback "~2.4.1"
+    lodash._objecttypes "~2.4.1"
+    lodash.keys "~2.4.1"
+
+lodash.identity@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash.identity/-/lodash.identity-2.4.1.tgz#6694cffa65fef931f7c31ce86c74597cf560f4f1"
 
 lodash.isarguments@^3.0.0:
   version "3.1.0"
@@ -3576,9 +3691,29 @@ lodash.isarray@^3.0.0:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/lodash.isarray/-/lodash.isarray-3.0.4.tgz#79e4eb88c36a8122af86f844aa9bcd851b5fbb55"
 
+lodash.isarray@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash.isarray/-/lodash.isarray-2.4.1.tgz#b52a326c1f62f6d7da73a31d5401df6ef44f0fa1"
+  dependencies:
+    lodash._isnative "~2.4.1"
+
 lodash.isequal@^4.4.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+
+lodash.isfunction@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash.isfunction/-/lodash.isfunction-2.4.1.tgz#2cfd575c73e498ab57e319b77fa02adef13a94d1"
+
+lodash.isobject@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash.isobject/-/lodash.isobject-2.4.1.tgz#5a2e47fe69953f1ee631a7eba1fe64d2d06558f5"
+  dependencies:
+    lodash._objecttypes "~2.4.1"
+
+lodash.isstring@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash.isstring/-/lodash.isstring-2.4.1.tgz#3a4a42ee344b5bc09aeaa87ef1dc3097789d0792"
 
 lodash.keys@^3.0.0:
   version "3.1.2"
@@ -3587,6 +3722,22 @@ lodash.keys@^3.0.0:
     lodash._getnative "^3.0.0"
     lodash.isarguments "^3.0.0"
     lodash.isarray "^3.0.0"
+
+lodash.keys@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash.keys/-/lodash.keys-2.4.1.tgz#48dea46df8ff7632b10d706b8acb26591e2b3727"
+  dependencies:
+    lodash._isnative "~2.4.1"
+    lodash._shimkeys "~2.4.1"
+    lodash.isobject "~2.4.1"
+
+lodash.map@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.map/-/lodash.map-4.6.0.tgz#771ec7839e3473d9c4cde28b19394c3562f4f6d3"
+
+lodash.noop@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash.noop/-/lodash.noop-2.4.1.tgz#4fb54f816652e5ae10e8f72f717a388c7326538a"
 
 lodash.pad@^4.1.0:
   version "4.5.1"
@@ -3600,9 +3751,19 @@ lodash.padstart@^4.1.0:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/lodash.padstart/-/lodash.padstart-4.6.1.tgz#d2e3eebff0d9d39ad50f5cbd1b52a7bce6bb611b"
 
+lodash.reject@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.reject/-/lodash.reject-4.6.0.tgz#80d6492dc1470864bbf583533b651f42a9f52415"
+
 lodash.restparam@^3.0.0:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/lodash.restparam/-/lodash.restparam-3.6.1.tgz#936a4e309ef330a7645ed4145986c85ae5b20805"
+
+lodash.support@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash.support/-/lodash.support-2.4.1.tgz#320e0b67031673c28d7a2bb5d9e0331a45240515"
+  dependencies:
+    lodash._isnative "~2.4.1"
 
 lodash.template@^3.0.0:
   version "3.6.2"
@@ -3628,6 +3789,10 @@ lodash.templatesettings@^3.0.0:
 lodash.throttle@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+
+lodash.unescape@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/lodash.unescape/-/lodash.unescape-4.0.1.tgz#bf2249886ce514cda112fae9218cdc065211fc9c"
 
 lodash.uniqby@^4.4.0:
   version "4.7.0"
@@ -3671,6 +3836,10 @@ makeerror@1.0.x:
   resolved "https://registry.yarnpkg.com/makeerror/-/makeerror-1.0.11.tgz#e01a5c9109f2af79660e4e8b9587790184f5a96c"
   dependencies:
     tmpl "1.0.x"
+
+match-at@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/match-at/-/match-at-0.1.0.tgz#f561e7709ff9a105b85cc62c6b8ee7c15bf24f31"
 
 "match-stream@>= 0.0.2 < 1":
   version "0.0.2"
@@ -6065,3 +6234,16 @@ yargs@~3.10.0:
 yeast@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
+
+zulip-markdown-parser@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/zulip-markdown-parser/-/zulip-markdown-parser-1.0.4.tgz#b45ec4fa3c8ae79ddeb1c946fddee64dfbe4c28a"
+  dependencies:
+    jest-cli "^20.0.4"
+    katex "^0.7.1"
+    lodash.contains "^2.4.3"
+    lodash.find "^4.6.0"
+    lodash.foreach "^4.5.0"
+    lodash.map "^4.6.0"
+    lodash.reject "^4.6.0"
+    lodash.unescape "^4.0.1"

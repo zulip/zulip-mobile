@@ -7,6 +7,7 @@ import type { User } from '../types';
 import { getUsers, getPresence } from '../selectors';
 import { getCurrentRouteParams } from '../nav/navigationSelectors';
 import config from '../config';
+import { getOwnEmail } from '../account/accountSelectors';
 
 const statusOrder = status => {
   switch (status) {
@@ -28,6 +29,13 @@ export const getAccountDetailsUser = createSelector(
 
     return NULL_USER;
   },
+);
+
+export const getUserByEmail = (users: any[], userEmail: string) =>
+  users.find(user => user.email === userEmail) || NULL_USER;
+
+export const getSelfUserDetail = createSelector(getUsers, getOwnEmail, (users, ownEmail) =>
+  getUserByEmail(users, ownEmail),
 );
 
 export const getAllActiveUsers = createSelector(getUsers, allUsers =>

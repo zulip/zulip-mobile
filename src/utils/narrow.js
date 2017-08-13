@@ -39,6 +39,9 @@ export const specialNarrow = (operand: string): Narrow => [
 export const isSpecialNarrow = (narrow: Narrow): boolean =>
   narrow.length === 1 && narrow[0].operator === 'is';
 
+export const isAllPrivateNarrow = (narrow: Narrow): boolean =>
+  narrow.length === 1 && narrow[0].operator === 'is' && narrow[0].operand === 'private';
+
 export const streamNarrow = (stream: string): Narrow => [
   {
     operator: 'stream',
@@ -124,4 +127,15 @@ export const narrowFromMessage = (message: Message, email: string) => {
   }
 
   return streamNarrow(message.display_recipient);
+};
+
+export const extractTypeToAndSubjectFromNarrow = (
+  narrow: Narrow,
+): ['private' | 'stream', string, string] => {
+  if (isPrivateOrGroupNarrow(narrow)) {
+    return ['private', narrow[0].operand, ''];
+  } else if (isStreamNarrow(narrow)) {
+    return ['stream', narrow[0].operand, '(no topic)'];
+  }
+  return ['stream', narrow[0].operand, narrow[1].operand];
 };
