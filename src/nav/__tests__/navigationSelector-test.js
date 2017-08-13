@@ -3,7 +3,7 @@ import {
   getNavigationRoutes,
   getNavigationIndex,
   getCurrentRouteParams,
-  getCurrentRouteName,
+  getCurrentRoute,
 } from '../navigationSelectors';
 
 describe('getNavigationRoutes', () => {
@@ -57,7 +57,7 @@ describe('getCurrentRouteParams', () => {
   });
 });
 
-describe('getCurrentRouteName', () => {
+describe('getCurrentRoute', () => {
   test('return name of the current route', () => {
     const state = {
       nav: {
@@ -70,7 +70,7 @@ describe('getCurrentRouteName', () => {
     };
     deepFreeze(state);
     const expectedResult = 'second';
-    const actualResult = getCurrentRouteName(state);
+    const actualResult = getCurrentRoute(state);
 
     expect(actualResult).toEqual(expectedResult);
   });

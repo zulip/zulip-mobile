@@ -12,5 +12,5 @@ export const getCurrentRouteParams = createSelector(
   (routes, index) => routes[index].params,
 );
 
-export const getCurrentRouteName = (state: GlobalState): Object[] =>
+export const getCurrentRoute = (state: GlobalState): string =>
   state.nav.routes[state.nav.index].routeName;

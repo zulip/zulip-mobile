@@ -16,7 +16,7 @@ type MessageAndDoNarrowType = {
   message: Object,
   actions: Actions,
   auth: Auth,
-  currentRouteName?: string,
+  currentRoute?: string,
 };
 
 type AuthAndMessageType = {
@@ -35,7 +35,7 @@ type ButtonProps = {
   message: Object,
   subscriptions: any[],
   actions: Actions,
-  currentRouteName?: string,
+  currentRoute?: string,
 };
 
 type ExecuteActionSheetParams = {
@@ -45,7 +45,7 @@ type ExecuteActionSheetParams = {
   subscriptions: any[],
   actions: Actions,
   header?: boolean,
-  currentRouteName?: string,
+  currentRoute?: string,
 };
 
 type ConstructActionButtonsType = {
@@ -55,7 +55,7 @@ type ConstructActionButtonsType = {
   subscriptions: any[],
   mute: any[],
   flags: Object,
-  currentRouteName?: string,
+  currentRoute?: string,
 };
 
 type ConstructHeaderActionButtonsType = {
@@ -76,21 +76,16 @@ type AuthMessageAndNarrow = {
   narrow: [],
 };
 
-const narrowToConversation = ({
-  message,
-  actions,
-  auth,
-  currentRouteName,
-}: MessageAndDoNarrowType) => {
+const narrowToConversation = ({ message, actions, auth, currentRoute }: MessageAndDoNarrowType) => {
   actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
-  if (currentRouteName === 'search') {
+  if (currentRoute === 'search') {
     actions.navigateBack();
   }
 };
 
-const reply = ({ message, actions, auth, currentRouteName }: MessageAndDoNarrowType) => {
+const reply = ({ message, actions, auth, currentRoute }: MessageAndDoNarrowType) => {
   actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
-  if (currentRouteName === 'search') {
+  if (currentRoute === 'search') {
     actions.navigateBack();
   }
 };
@@ -216,7 +211,7 @@ export const constructActionButtons = ({
   subscriptions,
   mute,
   flags,
-  currentRouteName,
+  currentRoute,
 }: ConstructActionButtonsType) => {
   const buttons = actionSheetButtons
     .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))

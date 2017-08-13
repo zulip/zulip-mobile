@@ -10,7 +10,7 @@ import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
 import openLink from '../utils/openLink';
-import { getAuth, getUsers, getFlags, getSubscriptions, getCurrentRouteName } from '../selectors';
+import { getAuth, getUsers, getFlags, getSubscriptions, getCurrentRoute } from '../selectors';
 import boundActions from '../boundActions';
 import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 import type { ShowActionSheetTypes } from './messageActionSheet';
@@ -21,7 +21,7 @@ type Href = string;
 class MessageContainer extends PureComponent {
   props: {
     actions: Actions,
-    currentRouteName: string,
+    currentRoute: string,
     message: Object,
     narrow: Narrow,
     subscriptions: SubscriptionsState,
@@ -70,16 +70,7 @@ class MessageContainer extends PureComponent {
   };
 
   handleLongPress = () => {
-    const {
-      actions,
-      auth,
-      narrow,
-      subscriptions,
-      mute,
-      flags,
-      message,
-      currentRouteName,
-    } = this.props;
+    const { actions, auth, narrow, subscriptions, mute, flags, message, currentRoute } = this.props;
     const options = constructActionButtons({
       message,
       auth,
@@ -87,7 +78,7 @@ class MessageContainer extends PureComponent {
       subscriptions,
       mute,
       flags,
-      currentRouteName,
+      currentRoute,
     });
     const callback = buttonIndex => {
       executeActionSheetAction({
@@ -96,7 +87,7 @@ class MessageContainer extends PureComponent {
         actions,
         auth,
         subscriptions,
-        currentRouteName,
+        currentRoute,
       });
     };
 
@@ -133,7 +124,7 @@ class MessageContainer extends PureComponent {
 export default connect(
   state => ({
     auth: getAuth(state),
-    currentRouteName: getCurrentRouteName(state),
+    currentRoute: getCurrentRoute(state),
     users: getUsers(state),
     flags: getFlags(state),
     twentyFourHourTime: state.realm.twentyFourHourTime,
