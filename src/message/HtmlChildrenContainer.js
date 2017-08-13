@@ -1,5 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { View } from 'react-native';
 import { RenderTest } from 'react-native-js-watchdog';
 
 import type { Message } from '../types';
@@ -17,13 +18,17 @@ class HtmlChildrenContainer extends PureComponent {
     const content = getMessageContent(message.match_content || message.content);
     const childrenNodes = htmlToDomTree(content);
 
-    return renderHtmlChildren({
-      childrenNodes,
-      auth,
-      actions,
-      message,
-      onPress: handleLinkPress,
-    });
+    return (
+      <View>
+        {renderHtmlChildren({
+          childrenNodes,
+          auth,
+          actions,
+          message,
+          onPress: handleLinkPress,
+        })}
+      </View>
+    );
   }
 }
 

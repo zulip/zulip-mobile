@@ -123,4 +123,4 @@ export default connect(
     mute: state.mute,
   }),
   boundActions,
-)(connectActionSheet(RenderTest(MessageContainer, { verbose: false })));
+)(connectActionSheet(MessageContainer));
