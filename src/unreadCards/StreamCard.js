@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Animated, PanResponder } from 'react-native';
 
 import { IconStream } from '../common/Icons';
 import TopicCard from './TopicCard';
@@ -62,15 +62,53 @@ const UnreadCount = ({ count }) => (
 );
 
 export default class StreamCard extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    const position = new Animated.ValueXY();
+    const panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (event, gesture) => {
+        position.setValue({x: gesture.dx, y: gesture.dy});
+      },
+      onPanResponderRelease: (event, gesture) => {
+        console.log('RELEASED');
+        this.resetPosition();
+      },
+      onPanResponderReject: () => {
+        console.log('REJECTED');
+        this.resetPosition();
+      },
+      onPanResponderTerminate: () => {
+        console.log('TERMINATED');
+        this.resetPosition();
+      },
+      onPanResponderEnd: () => {
+        console.log('ENDED');
+        this.resetPosition();
+      }
+    });
+
+    this.state = { panResponder, position };
+  }
+
+  resetPosition = () => {
+    Animated.spring(this.state.position, {
+      toValue: { x: 0, y: 0}
+    }).start();
+  };
+
   render() {
     return (
-      <View style={styles.container}>
+      <Animated.View 
+        {...this.state.panResponder.panHandlers}
+        style={[styles.container, { left: this.state.position.x }]}>
         <Header />
         <TopicCard 
           topicName="Design"
         />
         <UnreadCount count={2} />
-      </View>
+      </Animated.View>
     );
   }
 };

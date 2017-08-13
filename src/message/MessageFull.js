@@ -49,6 +49,7 @@ export default class MessageFull extends PureComponent {
   };
 
   render() {
+<<<<<<< HEAD
     const {
       message,
       auth,
@@ -60,6 +61,9 @@ export default class MessageFull extends PureComponent {
       handleLinkPress,
     } = this.props;
 
+=======
+    const { message, children, twentyFourHourTime, ownEmail, starred, onLongPress } = this.props;
+>>>>>>> Added initial gesture listeners to StreamCards
     return (
       <View style={styles.message}>
         <Avatar
