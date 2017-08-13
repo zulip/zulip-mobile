@@ -18,6 +18,7 @@ type Props = {
   auth: Auth,
   isHydrated: boolean,
   needsInitialFetch: boolean,
+  isActive: boolean,
   actions: Actions,
 };
 
