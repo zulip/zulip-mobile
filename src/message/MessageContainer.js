@@ -2,10 +2,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
+import { RenderTest } from 'react-native-js-watchdog';
 
 import type { Actions, Auth, SubscriptionsState, MuteState, Narrow } from '../types';
-import htmlToDomTree from '../html/htmlToDomTree';
-import renderHtmlChildren from '../html/renderHtmlChildren';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
@@ -14,7 +13,6 @@ import { getAuth, getUsers, getFlags, getSubscriptions, getCurrentRoute } from '
 import boundActions from '../boundActions';
 import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 import type { ShowActionSheetTypes } from './messageActionSheet';
-import getMessageContent from './getMessageContent';
 
 type Href = string;
 
@@ -97,8 +95,6 @@ class MessageContainer extends PureComponent {
   render() {
     const { message, auth, actions, twentyFourHourTime, isBrief } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
-    const content = getMessageContent(message.match_content || message.content);
-    const childrenNodes = htmlToDomTree(content);
 
     return (
       <MessageComponent
@@ -108,15 +104,11 @@ class MessageContainer extends PureComponent {
         doNarrow={actions.doNarrow}
         onLongPress={this.handleLongPress}
         starred={this.isStarred(message)}
-        realm={auth.realm}>
-        {renderHtmlChildren({
-          childrenNodes,
-          auth,
-          actions,
-          message,
-          onPress: this.handleLinkPress,
-        })}
-      </MessageComponent>
+        realm={auth.realm}
+        auth={auth}
+        actions={actions}
+        handleLinkPress={this.handleLinkPress}
+      />
     );
   }
 }
@@ -132,4 +124,4 @@ export default connect(
     mute: state.mute,
   }),
   boundActions,
-)(connectActionSheet(MessageContainer));
+)(connectActionSheet(RenderTest(MessageContainer, { verbose: false })));

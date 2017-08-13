@@ -1,14 +1,14 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View, ScrollView } from 'react-native';
-import { connect } from 'react-redux';
+import { RenderTest } from 'react-native-js-watchdog';
 
 import type { Actions } from '../types';
-import boundActions from '../boundActions';
 import { Avatar } from '../common';
 import Subheader from './Subheader';
 import ReactionList from '../reactions/ReactionList';
 import MessageTags from './MessageTags';
+import HtmlChildrenContainer from './HtmlChildrenContainer';
 
 const styles = StyleSheet.create({
   message: {
@@ -26,9 +26,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
-  inner: {
-    flex: 1,
-  },
 });
 
 class MessageFull extends PureComponent {
@@ -37,7 +34,7 @@ class MessageFull extends PureComponent {
     ownEmail: string,
     twentyFourHourTime: boolean,
     starred: boolean,
-    children?: any[],
+    auth: Auth,
     message: Object,
     onLongPress: () => void,
     isNotYetSent?: boolean,
@@ -51,7 +48,8 @@ class MessageFull extends PureComponent {
   render() {
     const {
       message,
-      children,
+      auth,
+      actions,
       twentyFourHourTime,
       ownEmail,
       starred,
@@ -74,9 +72,12 @@ class MessageFull extends PureComponent {
           <View style={styles.contentWrapper}>
             <ScrollView style={styles.inner}>
               <TouchableWithoutFeedback onLongPress={onLongPress}>
-                <View>
-                  {children}
-                </View>
+                <HtmlChildrenContainer
+                  message={message}
+                  auth={auth}
+                  actions={actions}
+                  handleLinkPress={this.handleLinkPress}
+                />
               </TouchableWithoutFeedback>
             </ScrollView>
           </View>
@@ -92,4 +93,4 @@ class MessageFull extends PureComponent {
   }
 }
 
-export default connect(null, boundActions)(MessageFull);
+export default RenderTest(MessageFull, { verbose: false });

@@ -1,5 +1,8 @@
 /* @flow */
+import isEqual from 'lodash.isequal';
+
 import type { UsersState, Action } from '../types';
+
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -29,9 +32,15 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case INIT_USERS:
-      return action.users.map(mapApiToStateUser);
+    case INIT_USERS: {
+      const users = action.users.map(mapApiToStateUser);
 
+      // TODO: improve and add tests
+      if (isEqual(state, users)) {
+        return state;
+      }
+      return users;
+    }
     case EVENT_USER_ADD:
       return [...state, mapApiToStateUser(action.person)];
 

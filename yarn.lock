@@ -2157,6 +2157,18 @@ fbjs@0.8.12, fbjs@^0.8.12, fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
+fbjs@^0.8.14:
+  version "0.8.14"
+  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.14.tgz#d1dbe2be254c35a91e09f31f9cd50a40b2a0ed1c"
+  dependencies:
+    core-js "^1.0.0"
+    isomorphic-fetch "^2.1.1"
+    loose-envify "^1.0.0"
+    object-assign "^4.1.0"
+    promise "^7.1.1"
+    setimmediate "^1.0.5"
+    ua-parser-js "^0.7.9"
+
 figures@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/figures/-/figures-2.0.0.tgz#3ab1a2d2a62c8bfb431a0c94cb797a2fce27c962"
@@ -4721,6 +4733,13 @@ react-native-invoke@^0.2.1:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/react-native-invoke/-/react-native-invoke-0.2.2.tgz#6aef6d6ab16e44cc08471dd48e846f0df72323c0"
 
+react-native-js-watchdog@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-js-watchdog/-/react-native-js-watchdog-0.0.6.tgz#6aa36d3e133d4e4e1b88fbc1d84e224143aed3ae"
+  dependencies:
+    fbjs "^0.8.14"
+    underscore "^1.8.3"
+
 react-native-notifications@^1.1.13:
   version "1.1.13"
   resolved "https://registry.yarnpkg.com/react-native-notifications/-/react-native-notifications-1.1.13.tgz#28f63c2068af4c683e6a4fd9d1a96df59f0ab90b"
@@ -5840,6 +5859,10 @@ ultron@1.0.x:
 ultron@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.0.tgz#b07a2e6a541a815fc6a34ccd4533baec307ca864"
+
+underscore@^1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
 
 universalify@^0.1.0:
   version "0.1.1"
