@@ -14,4 +14,6 @@ export default {
   enableReduxLogging: isDevelopment && !!global.btoa,
   enableSentry: !isDevelopment,
   sentryKey: 'ADD-DSN-HERE',
+  activePingInterval: 50 * 1000, // milliseconds between 2 presence fetch api call
+  offlineThresholdSecs: 140,
 };

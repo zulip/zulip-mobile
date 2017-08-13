@@ -367,4 +367,26 @@ describe('getAllActiveUsersWithStatus', () => {
     const actualUser = getAllActiveUsersWithStatus(state);
     expect(actualUser).toEqual(expectedUsers);
   });
+
+  test('if presence age is more than offlineThresholdSecs ignore it', () => {
+    const state = {
+      users: [
+        { id: 1, fullName: 'Abc', isActive: true, email: 'a@a.com' },
+        { id: 2, fullName: 'Def', isActive: true, email: 'd@a.com' },
+      ],
+      presence: [
+        { email: 'a@a.com', status: 'idle', timestamp: 123, age: 10 },
+        { email: 'd@a.com', status: 'active', timestamp: 456, age: 200 },
+      ],
+    };
+
+    deepFreeze(state);
+    const expectedUsers = [
+      { id: 1, fullName: 'Abc', status: 'idle', email: 'a@a.com', isActive: true },
+      { id: 2, fullName: 'Def', status: undefined, email: 'd@a.com', isActive: true },
+    ];
+
+    const actualUser = getAllActiveUsersWithStatus(state);
+    expect(actualUser).toEqual(expectedUsers);
+  });
 });
