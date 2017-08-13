@@ -5,17 +5,11 @@ import { View, Text, StyleSheet } from 'react-native';
 import renderHtmlChildren from '../html/renderHtmlChildren';
 import htmlToDomTree from '../html/htmlToDomTree';
 import MessageFull from '../message/MessageFull';
+import TopicCardHeader from './TopicCardHeader';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF'
-  },
-  header: {
-    flexDirection: 'row',
-    padding: 6,
-    paddingLeft: 8,
-    backgroundColor: '#EDE4E4',
-    alignItems: 'center'
   }
 });
 
@@ -50,31 +44,6 @@ const actions = {
   dummyAction: 'my actions'
 };
 
-const UnreadCount = ({ count }) => (
-  <View style={{
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    padding: 3,
-    backgroundColor: '#979797',
-    marginLeft: 8
-  }}>
-   <Text style={{
-      color: '#FFFFFF',
-      fontSize: 10,
-      borderRadius: 100
-    }}> {count} </Text>
-  </View>
-
-);
-
-const Header = ({ heading, unreadCount }) => (
-  <View style={styles.header}>
-    <Text>{heading}</Text>
-    <UnreadCount count={unreadCount} />
-  </View>
-);
-
 export default class TopicCard extends PureComponent {
   render() {
     const { topicName } = this.props;
@@ -82,9 +51,9 @@ export default class TopicCard extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <Header
+        <TopicCardHeader
           heading={topicName}
-          unreadCount={2}
+          unreadCount={10}
         />
         <MessageFull
           message={message}
