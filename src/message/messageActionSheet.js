@@ -132,7 +132,7 @@ const muteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscription
 };
 
 const isSentBySelfAndNarrowed = ({ message, auth, narrow }: AuthMessageAndNarrow): boolean =>
-  auth.email === message.sender_email && !isHomeNarrow(narrow);
+  auth.email === message.sender_email && !isHomeNarrow(narrow) && !isSpecialNarrow(narrow);
 
 const starMessage = ({ auth, message }: AuthAndMessageType) => {
   toggleMessageStarredApi(auth, [message.id], true);
