@@ -7,7 +7,7 @@ import UnreadCardsList from './UnreadCardsList';
 
 export default class UnreadCardsScreen extends PureComponent {
   render() {
-    return(
+    return (
       <Screen title="Unread Messages">
         <UnreadCardsList />
       </Screen>

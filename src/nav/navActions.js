@@ -23,7 +23,7 @@ export const navigateToSearch = (): Action => NavigationActions.navigate({ route
 export const navigateToSettings = (): Action =>
   NavigationActions.navigate({ routeName: 'settings' });
 
-  // Use this to navigate to the unread cards screen
+// Use this to navigate to the unread cards screen
 export const navigateToUnreadCards = (): Action =>
   NavigationActions.navigate({ routeName: 'unreadCards' });
 

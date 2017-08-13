@@ -11,24 +11,20 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 2,
     borderTopRightRadius: 2,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   headerText: {
     color: '#FFF',
     fontSize: 16,
-    marginLeft: 4
+    marginLeft: 4,
   },
   icon: {
-    color: '#FFF'
-  }
+    color: '#FFF',
+  },
 });
 
 export default class StreamCardHeader extends PureComponent {
-
-  getHeaderStyles = () => ([
-    styles.header,
-    { backgroundColor: this.props.color }
-  ]);
+  getHeaderStyles = () => [styles.header, { backgroundColor: this.props.color }];
 
   render() {
     const { streamName, color } = this.props;
@@ -36,9 +32,10 @@ export default class StreamCardHeader extends PureComponent {
     return (
       <View style={this.getHeaderStyles()}>
         <IconStream size={16} style={styles.icon} />
-        <Text style={styles.headerText}>{streamName}</Text>
+        <Text style={styles.headerText}>
+          {streamName}
+        </Text>
       </View>
     );
   }
-
-};
+}

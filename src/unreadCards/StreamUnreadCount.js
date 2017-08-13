@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
     borderColor: '#FFFFFF',
   },
   text: {
-    color: '#FFFFFF'
-  }
+    color: '#FFFFFF',
+  },
 });
 
 export default class StreamUnreadCount extends PureComponent {
@@ -29,10 +29,10 @@ export default class StreamUnreadCount extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.text}> 
-          {count} 
+        <Text style={styles.text}>
+          {count}
         </Text>
       </View>
     );
   }
-};
+}

@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
     padding: 6,
     paddingLeft: 8,
     backgroundColor: '#EDE4E4',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
 export default class TopicCardHeader extends PureComponent {
@@ -19,9 +19,11 @@ export default class TopicCardHeader extends PureComponent {
     const { heading, unreadCount } = this.props;
     return (
       <View style={styles.header}>
-        <Text>{heading}</Text>
+        <Text>
+          {heading}
+        </Text>
         <TopicUnreadCount count={unreadCount} />
       </View>
     );
   }
-};
+}

@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { FlatList, Text, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 import StreamCard from './StreamCard';
 
@@ -8,22 +8,39 @@ import StreamCard from './StreamCard';
 const data = [
   {
     name: 'mobile',
-    color: '#8999FF'
+    color: '#8999FF',
+    unreadCount: 6,
+    topics: [
+      {
+        name: 'Design',
+        unreadCount: 4,
+      },
+      {
+        name: 'zulip/zulip-master',
+        unreadCount: 2,
+      },
+    ],
   },
   {
     name: 'backend',
-    color: '#F4A543'
-  }
-]
+    color: '#F4A543',
+    unreadCount: 27,
+    topics: [
+      {
+        name: 'meeting',
+        unreadCount: 27,
+      },
+    ],
+  },
+];
 
 const styles = StyleSheet.create({
   list: {
     backgroundColor: '#F3F3F7',
-  }
+  },
 });
 
 export default class UnreadCardsList extends PureComponent {
-
   /*
     Props needed in stream card
     actions,
@@ -36,6 +53,8 @@ export default class UnreadCardsList extends PureComponent {
   renderItem = ({ item }) => {
     return (
       <StreamCard
+        unreadCount={item.unreadCount}
+        topics={item.topics}
         stream={item.name}
         color={item.color}
       />
@@ -43,12 +62,6 @@ export default class UnreadCardsList extends PureComponent {
   };
 
   render() {
-    return (
-      <FlatList
-        style={styles.list}
-        data={data}
-        renderItem={this.renderItem}
-      />
-    );
+    return <FlatList style={styles.list} data={data} renderItem={this.renderItem} />;
   }
-};
+}

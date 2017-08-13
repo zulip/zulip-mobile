@@ -11,13 +11,13 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     padding: 3,
     backgroundColor: '#979797',
-    marginLeft: 8
+    marginLeft: 8,
   },
   text: {
     color: '#FFFFFF',
     fontSize: 10,
-    borderRadius: 100
-  }
+    borderRadius: 100,
+  },
 });
 
 export default class TopicUnreadCount extends PureComponent {
@@ -25,8 +25,10 @@ export default class TopicUnreadCount extends PureComponent {
     const { count } = this.props;
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>{count}</Text>
+        <Text style={styles.text}>
+          {count}
+        </Text>
       </View>
     );
   }
-};
+}

@@ -34,7 +34,7 @@ export default StackNavigator(
     subscriptions: { screen: SubscriptionsScreen },
     users: { screen: UsersScreen },
     settings: { screen: SettingsScreen },
-    unreadCards: { screen: UnreadCardsScreen},
+    unreadCards: { screen: UnreadCardsScreen },
     'settings-detail': { screen: SettingsDetailScreen },
     lightbox: { screen: LightboxScreen },
     group: { screen: GroupScreen },

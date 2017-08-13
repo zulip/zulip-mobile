@@ -9,13 +9,14 @@ import TopicCardHeader from './TopicCardHeader';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF'
-  }
+    backgroundColor: '#FFFFFF',
+  },
 });
 
 // Dummy data
 const message = {
-  avatar_url: 'https://secure.gravatar.com/avatar/37641655de3d5700215259f7bbefe3cd?d=identicon&version=1',
+  avatar_url:
+    'https://secure.gravatar.com/avatar/37641655de3d5700215259f7bbefe3cd?d=identicon&version=1',
   client: 'website',
   content: '<p>Great talk to you then</p>',
   content_type: 'text/html',
@@ -31,36 +32,33 @@ const message = {
   sender_short_name: 'neeraj.wahi',
   subject: '',
   subject_links: [],
-  timestamp: 1502300755
+  timestamp: 1502300755,
 };
 
 const auth = {
   apiKey: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
   email: 'nishantve1@gmail.com',
-  realm: 'https://chat.zulip.org'
+  realm: 'https://chat.zulip.org',
 };
 
 const actions = {
-  dummyAction: 'my actions'
+  dummyAction: 'my actions',
 };
 
 export default class TopicCard extends PureComponent {
   render() {
-    const { topicName } = this.props;
+    const { name, unreadCount } = this.props;
     const childrenNodes = htmlToDomTree(message.match_content || message.content);
 
     return (
       <View style={styles.container}>
-        <TopicCardHeader
-          heading={topicName}
-          unreadCount={10}
-        />
+        <TopicCardHeader heading={name} unreadCount={unreadCount} />
         <MessageFull
           message={message}
           twentyFourHourTime={false}
           ownEmail={auth.email}
-          doNarrow={() => { }}
-          onLongPress={() => { }}
+          doNarrow={() => {}}
+          onLongPress={() => {}}
           starred={false}
           realm={auth.realm}>
           {renderHtmlChildren({
@@ -68,10 +66,10 @@ export default class TopicCard extends PureComponent {
             auth,
             actions,
             message,
-            onPress: () => { },
+            onPress: () => {},
           })}
         </MessageFull>
       </View>
     );
   }
-};
+}

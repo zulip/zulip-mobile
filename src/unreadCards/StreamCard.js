@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, Dimensions, Animated, PanResponder } from 'reac
 import { IconStream } from '../common/Icons';
 import StreamCardHeader from './StreamCardHeader';
 import StreamUnreadCount from './StreamUnreadCount';
-import TopicCard from './TopicCard';
+import TopicList from './TopicList';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     margin: 5,
     marginTop: 10,
-    backgroundColor: '#fff'
-  }
+    backgroundColor: '#fff',
+  },
 });
 
 export default class StreamCard extends PureComponent {
@@ -34,7 +34,7 @@ export default class StreamCard extends PureComponent {
     const panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (event, gesture) => {
-        position.setValue({x: gesture.dx, y: gesture.dy});
+        position.setValue({ x: gesture.dx, y: gesture.dy });
       },
       onPanResponderRelease: (event, gesture) => {
         console.log('RELEASED');
@@ -51,7 +51,7 @@ export default class StreamCard extends PureComponent {
       onPanResponderEnd: () => {
         console.log('ENDED');
         this.resetPosition();
-      }
+      },
     });
 
     this.state = { panResponder, position };
@@ -59,23 +59,23 @@ export default class StreamCard extends PureComponent {
 
   resetPosition = () => {
     Animated.spring(this.state.position, {
-      toValue: { x: 0, y: 0}
+      toValue: { x: 0, y: 0 },
     }).start();
   };
 
   render() {
-    const { stream, color } = this.props;
+    const { stream, color, topics, unreadCount } = this.props;
+
+    console.log('topics: ', topics);
 
     return (
-      <Animated.View 
+      <Animated.View
         {...this.state.panResponder.panHandlers}
         style={[styles.container, { left: this.state.position.x }]}>
-        <StreamCardHeader streamName={stream} color={color}/>
-        <TopicCard 
-          topicName="Design"
-        />
-        <StreamUnreadCount count={2} />
+        <StreamCardHeader streamName={stream} color={color} />
+        <TopicList topics={topics} />
+        <StreamUnreadCount count={unreadCount} />
       </Animated.View>
     );
   }
-};
+}
