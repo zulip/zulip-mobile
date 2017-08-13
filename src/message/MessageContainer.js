@@ -10,7 +10,7 @@ import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
 import openLink from '../utils/openLink';
-import { getAuth, getUsers, getFlags, getSubscriptions } from '../selectors';
+import { getAuth, getUsers, getFlags, getSubscriptions, getCurrentRouteName } from '../selectors';
 import boundActions from '../boundActions';
 import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 import type { ShowActionSheetTypes } from './messageActionSheet';
@@ -21,6 +21,7 @@ type Href = string;
 class MessageContainer extends PureComponent {
   props: {
     actions: Actions,
+    currentRouteName: string,
     message: Object,
     narrow: Narrow,
     subscriptions: SubscriptionsState,
@@ -69,8 +70,25 @@ class MessageContainer extends PureComponent {
   };
 
   handleLongPress = () => {
-    const { actions, auth, narrow, subscriptions, mute, flags, message } = this.props;
-    const options = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
+    const {
+      actions,
+      auth,
+      narrow,
+      subscriptions,
+      mute,
+      flags,
+      message,
+      currentRouteName,
+    } = this.props;
+    const options = constructActionButtons({
+      message,
+      auth,
+      narrow,
+      subscriptions,
+      mute,
+      flags,
+      currentRouteName,
+    });
     const callback = buttonIndex => {
       executeActionSheetAction({
         title: options[buttonIndex],
@@ -78,6 +96,7 @@ class MessageContainer extends PureComponent {
         actions,
         auth,
         subscriptions,
+        currentRouteName,
       });
     };
 
@@ -114,6 +133,7 @@ class MessageContainer extends PureComponent {
 export default connect(
   state => ({
     auth: getAuth(state),
+    currentRouteName: getCurrentRouteName(state),
     users: getUsers(state),
     flags: getFlags(state),
     twentyFourHourTime: state.realm.twentyFourHourTime,

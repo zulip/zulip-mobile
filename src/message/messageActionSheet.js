@@ -16,6 +16,7 @@ type MessageAndDoNarrowType = {
   message: Object,
   actions: Actions,
   auth: Auth,
+  currentRouteName?: string,
 };
 
 type AuthAndMessageType = {
@@ -34,6 +35,7 @@ type ButtonProps = {
   message: Object,
   subscriptions: any[],
   actions: Actions,
+  currentRouteName?: string,
 };
 
 type ExecuteActionSheetParams = {
@@ -43,6 +45,7 @@ type ExecuteActionSheetParams = {
   subscriptions: any[],
   actions: Actions,
   header?: boolean,
+  currentRouteName?: string,
 };
 
 type ConstructActionButtonsType = {
@@ -52,6 +55,7 @@ type ConstructActionButtonsType = {
   subscriptions: any[],
   mute: any[],
   flags: Object,
+  currentRouteName?: string,
 };
 
 type ConstructHeaderActionButtonsType = {
@@ -72,12 +76,23 @@ type AuthMessageAndNarrow = {
   narrow: [],
 };
 
-const narrowToConversation = ({ message, actions, auth }: MessageAndDoNarrowType) => {
+const narrowToConversation = ({
+  message,
+  actions,
+  auth,
+  currentRouteName,
+}: MessageAndDoNarrowType) => {
   actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
+  if (currentRouteName === 'search') {
+    actions.navigateBack();
+  }
 };
 
-const reply = ({ message, actions, auth }: MessageAndDoNarrowType) => {
+const reply = ({ message, actions, auth, currentRouteName }: MessageAndDoNarrowType) => {
   actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
+  if (currentRouteName === 'search') {
+    actions.navigateBack();
+  }
 };
 
 const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
@@ -201,6 +216,7 @@ export const constructActionButtons = ({
   subscriptions,
   mute,
   flags,
+  currentRouteName,
 }: ConstructActionButtonsType) => {
   const buttons = actionSheetButtons
     .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))
