@@ -10,7 +10,7 @@ const reducer = (state: OutboxState = initialState, action: Action): OutboxState
       return [...state, { ...action.params }];
     }
     case EVENT_NEW_MESSAGE: {
-      const newState = state.filter(item => item.timestamp !== Number(action.localMessageId));
+      const newState = state.filter(item => item.timestamp !== +action.localMessageId);
       return newState.length === state.length ? state : newState;
     }
     case LOGOUT: {

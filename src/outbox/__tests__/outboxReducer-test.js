@@ -13,22 +13,22 @@ describe('outboxReducers', () => {
         type: MESSAGE_SEND,
         params: {
           content: 'New one',
-          email: 'AARON@zulip.com',
+          email: 'john@example.com',
           narrow: streamNarrow('denmark'),
           parsedContent: '<p>New one</p>',
           sender_full_name: 'john',
-          timestamp: 1502385930,
+          timestamp: 546,
         },
       });
 
       const expectedState = [
         {
           content: 'New one',
-          email: 'AARON@zulip.com',
+          email: 'john@example.com',
           narrow: streamNarrow('denmark'),
           parsedContent: '<p>New one</p>',
           sender_full_name: 'john',
-          timestamp: 1502385930,
+          timestamp: 546,
         },
       ];
 
@@ -43,11 +43,11 @@ describe('outboxReducers', () => {
       const initialState = deepFreeze([
         {
           content: 'New one',
-          email: 'AARON@zulip.com',
+          email: 'john@example.com',
           narrow: streamNarrow('denmark'),
           parsedContent: '<p>New one</p>',
           sender_full_name: 'john',
-          timestamp: 1502385930,
+          timestamp: 546,
         },
       ]);
 
@@ -61,14 +61,14 @@ describe('outboxReducers', () => {
 
     test('Remove if local message same', () => {
       const initialState = deepFreeze([
-        { timestamp: 1502385930 },
+        { timestamp: 546 },
         { timestamp: 150238512430 },
         { timestamp: 150238594540 },
       ]);
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
-        localMessageId: 1502385930,
+        localMessageId: 546,
       });
 
       const expectedState = [{ timestamp: 150238512430 }, { timestamp: 150238594540 }];
@@ -82,11 +82,11 @@ describe('outboxReducers', () => {
       const initialState = deepFreeze([
         {
           content: 'New one',
-          email: 'AARON@zulip.com',
+          email: 'john@example.com',
           narrow: streamNarrow('denmark'),
           parsedContent: '<p>New one</p>',
           sender_full_name: 'john',
-          timestamp: 1502385930,
+          timestamp: 546,
         },
       ]);
 
@@ -96,7 +96,7 @@ describe('outboxReducers', () => {
       });
 
       const actualState = outboxReducers(initialState, action);
-      expect(actualState).toEqual(initialState);
+      expect(actualState).toBe(initialState);
     });
   });
 });

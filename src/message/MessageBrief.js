@@ -32,7 +32,7 @@ export default class MessageBrief extends PureComponent {
     starred?: boolean,
     children?: Children,
     onLongPress?: () => void,
-    outbox?: boolean,
+    isNotYetSent?: boolean,
   };
 
   static defaultProps = {
@@ -40,7 +40,7 @@ export default class MessageBrief extends PureComponent {
   };
 
   render() {
-    const { message, children, ownEmail, onLongPress, starred, outbox } = this.props;
+    const { message, children, ownEmail, onLongPress, starred, isNotYetSent } = this.props;
 
     return (
       <View style={styles.message}>
@@ -53,7 +53,11 @@ export default class MessageBrief extends PureComponent {
             </TouchableWithoutFeedback>
           </ScrollView>
         </View>
-        <MessageTags timestamp={message.last_edit_timestamp} starred={starred} outbox={outbox} />
+        <MessageTags
+          timestamp={message.last_edit_timestamp}
+          starred={starred}
+          isNotYetSent={isNotYetSent}
+        />
         <ReactionList messageId={message.id} reactions={message.reactions} ownEmail={ownEmail} />
       </View>
     );

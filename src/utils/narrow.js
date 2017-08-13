@@ -39,7 +39,7 @@ export const specialNarrow = (operand: string): Narrow => [
 export const isSpecialNarrow = (narrow: Narrow): boolean =>
   narrow.length === 1 && narrow[0].operator === 'is';
 
-export const isNarrowAllPrivate = (narrow: Narrow): boolean =>
+export const isAllPrivateNarrow = (narrow: Narrow): boolean =>
   narrow.length === 1 && narrow[0].operator === 'is' && narrow[0].operand === 'private';
 
 export const streamNarrow = (stream: string): Narrow => [

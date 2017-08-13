@@ -14,7 +14,7 @@ import {
 } from '../baseSelectors';
 import {
   specialNarrow,
-  isNarrowAllPrivate,
+  isAllPrivateNarrow,
   isPrivateOrGroupNarrow,
   isStreamNarrow,
   isHomeNarrow,
@@ -35,32 +35,28 @@ export const getIsFetching = (state: GlobalState): boolean =>
 export const getActiveNarrowString = (state: GlobalState): string =>
   JSON.stringify(state.chat.narrow);
 
-const getNarrowString = (narrow: Narrow): string => JSON.stringify(narrow);
-
-const addOutboxMessages = (allMessages, narrow, outboxMessages) => {
-  const activeNarrowString = getNarrowString(narrow);
-
-  if (!allMessages[activeNarrowString]) return [];
-  const outboxMessagesForCurrentNarrow = isHomeNarrow(narrow)
-    ? outboxMessages
-    : outboxMessages.filter(item => {
-        if (isNarrowAllPrivate(narrow) && isPrivateOrGroupNarrow(item.narrow)) return true;
-        if (isStreamNarrow(narrow) && item.narrow[0].operand === narrow[0].operand) return true;
-        return getNarrowString(item.narrow) === activeNarrowString;
-      });
-
-  // TODO make this more efficient
-  if (!outboxMessagesForCurrentNarrow) return allMessages[activeNarrowString];
-  return allMessages[activeNarrowString]
-    .concat(outboxMessagesForCurrentNarrow)
-    .sort((a, b) => a.timestamp > b.timestamp);
-};
-
 export const getMessagesInActiveNarrow = createSelector(
   getAllMessages,
   getActiveNarrow,
   getOutbox,
-  (allMessages, narrow, outboxMessages) => addOutboxMessages(allMessages, narrow, outboxMessages),
+  (allMessages, narrow, outboxMessages) => {
+    const activeNarrowString = JSON.stringify(narrow);
+
+    if (!allMessages[activeNarrowString]) return [];
+    const outboxMessagesForCurrentNarrow = isHomeNarrow(narrow)
+      ? outboxMessages
+      : outboxMessages.filter(item => {
+          if (isAllPrivateNarrow(narrow) && isPrivateOrGroupNarrow(item.narrow)) return true;
+          if (isStreamNarrow(narrow) && item.narrow[0].operand === narrow[0].operand) return true;
+          return JSON.stringify(item.narrow) === activeNarrowString;
+        });
+
+    // TODO make this more efficient
+    if (!outboxMessagesForCurrentNarrow) return allMessages[activeNarrowString];
+    return allMessages[activeNarrowString]
+      .concat(outboxMessagesForCurrentNarrow)
+      .sort((a, b) => a.timestamp - b.timestamp);
+  },
 );
 
 export const getShownMessagesInActiveNarrow = createSelector(

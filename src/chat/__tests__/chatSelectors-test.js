@@ -23,7 +23,7 @@ describe('getMessagesInActiveNarrow', () => {
           narrow: homeNarrow(),
           parsedContent: '<p>Hello</p>',
           sender_full_name: 'donald',
-          timestamp: 1502376058,
+          timestamp: 12,
         },
       ],
     });
@@ -37,7 +37,7 @@ describe('getMessagesInActiveNarrow', () => {
         narrow: [],
         parsedContent: '<p>Hello</p>',
         sender_full_name: 'donald',
-        timestamp: 1502376058,
+        timestamp: 12,
       },
     ]);
 
@@ -58,7 +58,7 @@ describe('getMessagesInActiveNarrow', () => {
           narrow: streamNarrow('denmark', 'denmark'),
           parsedContent: '<p>Hello</p>',
           sender_full_name: 'donald',
-          timestamp: 1502376058,
+          timestamp: 12,
         },
       ],
     });
