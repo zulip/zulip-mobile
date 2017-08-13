@@ -52,9 +52,15 @@ export default class ConversationsCard extends PureComponent {
     usersNavigation.navigate('DrawerClose');
   };
 
+  handleSearchPeople = () => {
+    const { actions, usersNavigation } = this.props;
+    actions.navigateToUsersScreen();
+    usersNavigation.navigate('DrawerClose');
+  };
+
   render() {
     const { styles } = this.context;
-    const { actions, conversations } = this.props;
+    const { conversations } = this.props;
 
     return (
       <View style={[componentStyles.container, styles.background]}>
@@ -62,7 +68,7 @@ export default class ConversationsCard extends PureComponent {
           secondary
           style={componentStyles.button}
           text="Search people"
-          onPress={actions.navigateToUsersScreen}
+          onPress={() => this.handleSearchPeople()}
         />
         <ConversationList conversations={conversations} onPress={this.handleUserNarrow} />
         <View style={componentStyles.accountButtons}>
