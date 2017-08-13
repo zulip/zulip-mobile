@@ -68,7 +68,7 @@ export default class ConversationsCard extends PureComponent {
           secondary
           style={componentStyles.button}
           text="Search people"
-          onPress={() => this.handleSearchPeople()}
+          onPress={this.handleSearchPeople}
         />
         <ConversationList conversations={conversations} onPress={this.handleUserNarrow} />
         <View style={componentStyles.accountButtons}>
