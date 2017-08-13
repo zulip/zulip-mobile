@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     shadowOpacity: 0.08,
     margin: 5,
+    marginTop: 10,
     backgroundColor: '#fff'
   },
   header: {
@@ -43,6 +44,23 @@ const Header = () => (
     </View>
   );
 
+const UnreadCount = ({ count }) => (
+  <View style={{
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    borderRadius: 100,
+    padding: 6,
+    backgroundColor: '#E34730',
+    borderWidth: 2,
+    borderColor: '#FFFFFF'
+  }}>
+    <Text style={{
+      color: '#FFFFFF'
+    }}> {count} </Text>
+  </View>
+);
+
 export default class StreamCard extends PureComponent {
   render() {
     return (
@@ -51,6 +69,7 @@ export default class StreamCard extends PureComponent {
         <TopicCard 
           topicName="Design"
         />
+        <UnreadCount count={2} />
       </View>
     );
   }

@@ -17,7 +17,6 @@ export default class UnreadCardsList extends PureComponent {
       <FlatList
         style={{
           backgroundColor: '#F3F3F7',
-          paddingTop: 10
         }}
         data={[{key: 'a'}, {key: 'b'}]}
         renderItem={this.renderItem}

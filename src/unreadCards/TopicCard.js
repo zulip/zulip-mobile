@@ -11,9 +11,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF'
   },
   header: {
+    flexDirection: 'row',
     padding: 6,
     paddingLeft: 8,
-    backgroundColor: '#EDE4E4'
+    backgroundColor: '#EDE4E4',
+    alignItems: 'center'
   }
 });
 
@@ -48,9 +50,28 @@ const actions = {
   dummyAction: 'my actions'
 };
 
-const Header = ({ heading }) => (
+const UnreadCount = ({ count }) => (
+  <View style={{
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+    padding: 3,
+    backgroundColor: '#979797',
+    marginLeft: 8
+  }}>
+   <Text style={{
+      color: '#FFFFFF',
+      fontSize: 10,
+      borderRadius: 100
+    }}> {count} </Text>
+  </View>
+
+);
+
+const Header = ({ heading, unreadCount }) => (
   <View style={styles.header}>
     <Text>{heading}</Text>
+    <UnreadCount count={unreadCount} />
   </View>
 );
 
@@ -63,13 +84,14 @@ export default class TopicCard extends PureComponent {
       <View style={styles.container}>
         <Header
           heading={topicName}
+          unreadCount={2}
         />
         <MessageFull
           message={message}
           twentyFourHourTime={false}
           ownEmail={auth.email}
-          doNarrow={() => {}}
-          onLongPress={() => {}}
+          doNarrow={() => { }}
+          onLongPress={() => { }}
           starred={false}
           realm={auth.realm}>
           {renderHtmlChildren({
@@ -77,36 +99,10 @@ export default class TopicCard extends PureComponent {
             auth,
             actions,
             message,
-            onPress: () => {},
+            onPress: () => { },
           })}
         </MessageFull>
       </View>
     );
   }
 };
-
-/*
-  render() {
-    const { message, auth, actions, twentyFourHourTime, isBrief } = this.props;
-    const MessageComponent = isBrief ? MessageBrief : MessageFull;
-
-    return (
-      <MessageComponent
-        message={message}
-        twentyFourHourTime={twentyFourHourTime}
-        ownEmail={auth.email}
-        doNarrow={actions.doNarrow}
-        onLongPress={this.handleLongPress}
-        starred={this.isStarred(message)}
-        realm={auth.realm}>
-        {renderHtmlChildren({
-          childrenNodes,
-          auth,
-          actions,
-          message,
-          onPress: this.handleLinkPress,
-        })}
-      </MessageComponent>
-    );
-  }
-*/
