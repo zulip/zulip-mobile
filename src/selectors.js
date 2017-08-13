@@ -6,6 +6,7 @@ export * from './conversations/conversationsSelectors';
 export * from './chat/chatSelectors';
 export * from './subscriptions/subscriptionSelectors';
 export * from './nav/navSelectors';
+export * from './nav/navigationSelectors';
 export * from './title/titleSelectors';
 export * from './typing/typingSelectors';
 export * from './unread/unreadSelectors';

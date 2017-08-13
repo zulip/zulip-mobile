@@ -11,3 +11,6 @@ export const getCurrentRouteParams = createSelector(
   getNavigationIndex,
   (routes, index) => routes[index].params,
 );
+
+export const getCurrentRoute = (state: GlobalState): string =>
+  state.nav.routes[state.nav.index].routeName;

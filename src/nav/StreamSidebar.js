@@ -46,9 +46,22 @@ class StreamSidebar extends PureComponent {
     this.closeDrawer();
   };
 
+  navigateAndClose = (screen: string) => {
+    const { actions } = this.props;
+    switch (screen) {
+      case 'search':
+        actions.navigateToSearch();
+        break;
+      case 'settings':
+        actions.navigateToSettings();
+        break;
+      default:
+    }
+    this.closeDrawer();
+  };
+
   render() {
     const { styles } = this.context;
-    const { actions } = this.props;
 
     return (
       <View style={[componentStyles.container, styles.background]} scrollsToTop={false}>
@@ -57,8 +70,8 @@ class StreamSidebar extends PureComponent {
           <NavButton name="md-mail" onPress={() => this.narrowAndClose(specialNarrow('private'))} />
           <NavButton name="md-star" onPress={() => this.narrowAndClose(specialNarrow('starred'))} />
           <NavButton name="md-at" onPress={() => this.narrowAndClose(specialNarrow('mentioned'))} />
-          <NavButton name="md-search" onPress={actions.navigateToSearch} />
-          <NavButton name="md-settings" onPress={actions.navigateToSettings} />
+          <NavButton name="md-search" onPress={() => this.navigateAndClose('search')} />
+          <NavButton name="md-settings" onPress={() => this.navigateAndClose('settings')} />
         </View>
         <StreamTabs screenProps={{ onNarrow: this.closeDrawer }} />
       </View>

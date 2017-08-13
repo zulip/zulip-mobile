@@ -16,6 +16,7 @@ type MessageAndDoNarrowType = {
   message: Object,
   actions: Actions,
   auth: Auth,
+  currentRoute?: string,
 };
 
 type AuthAndMessageType = {
@@ -34,6 +35,7 @@ type ButtonProps = {
   message: Object,
   subscriptions: any[],
   actions: Actions,
+  currentRoute?: string,
 };
 
 type ExecuteActionSheetParams = {
@@ -43,6 +45,7 @@ type ExecuteActionSheetParams = {
   subscriptions: any[],
   actions: Actions,
   header?: boolean,
+  currentRoute?: string,
 };
 
 type ConstructActionButtonsType = {
@@ -52,6 +55,7 @@ type ConstructActionButtonsType = {
   subscriptions: any[],
   mute: any[],
   flags: Object,
+  currentRoute?: string,
 };
 
 type ConstructHeaderActionButtonsType = {
@@ -72,12 +76,18 @@ type AuthMessageAndNarrow = {
   narrow: [],
 };
 
-const narrowToConversation = ({ message, actions, auth }: MessageAndDoNarrowType) => {
+const narrowToConversation = ({ message, actions, auth, currentRoute }: MessageAndDoNarrowType) => {
   actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
+  if (currentRoute === 'search') {
+    actions.navigateBack();
+  }
 };
 
-const reply = ({ message, actions, auth }: MessageAndDoNarrowType) => {
+const reply = ({ message, actions, auth, currentRoute }: MessageAndDoNarrowType) => {
   actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
+  if (currentRoute === 'search') {
+    actions.navigateBack();
+  }
 };
 
 const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
@@ -117,7 +127,7 @@ const muteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscription
 };
 
 const isSentBySelfAndNarrowed = ({ message, auth, narrow }: AuthMessageAndNarrow): boolean =>
-  auth.email === message.sender_email && !isHomeNarrow(narrow);
+  auth.email === message.sender_email && !isHomeNarrow(narrow) && !isSpecialNarrow(narrow);
 
 const starMessage = ({ auth, message }: AuthAndMessageType) => {
   toggleMessageStarredApi(auth, [message.id], true);
@@ -201,6 +211,7 @@ export const constructActionButtons = ({
   subscriptions,
   mute,
   flags,
+  currentRoute,
 }: ConstructActionButtonsType) => {
   const buttons = actionSheetButtons
     .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))
