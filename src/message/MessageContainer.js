@@ -101,7 +101,6 @@ class MessageContainer extends PureComponent {
         message={message}
         twentyFourHourTime={twentyFourHourTime}
         ownEmail={auth.email}
-        doNarrow={actions.doNarrow}
         onLongPress={this.handleLongPress}
         starred={this.isStarred(message)}
         realm={auth.realm}
