@@ -24,7 +24,6 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
       return initialState;
 
     case INIT_SUBSCRIPTIONS:
-      // TODO: improve and add tests
       return isEqual(action.subscriptions, state) ? state : action.subscriptions;
 
     case EVENT_SUBSCRIPTION_ADD:

@@ -34,6 +34,39 @@ describe('usersReducers', () => {
       const newState = usersReducers(initialState, action);
       expect(newState.length).toEqual(2);
     });
+
+    test('when same users data already exists in state, do not change state', () => {
+      const initialState = deepFreeze([
+        {
+          id: 1,
+          email: 'xyz@example.com',
+          fullName: 'Some Guy',
+          avatarUrl: 'http://example.com',
+          isActive: true,
+          isAdmin: true,
+          isBot: false,
+        },
+      ]);
+
+      const action = deepFreeze({
+        type: INIT_USERS,
+        users: [
+          {
+            user_id: 1,
+            email: 'xyz@example.com',
+            full_name: 'Some Guy',
+            avatar_url: 'http://example.com',
+            is_active: true,
+            is_admin: true,
+            is_bot: false,
+          },
+        ],
+      });
+
+      const newState = usersReducers(initialState, action);
+
+      expect(newState).toBe(initialState);
+    });
   });
 
   describe('EVENT_USER_ADD', () => {

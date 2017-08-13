@@ -9,7 +9,6 @@ const initialState: MuteState = [];
 export default (state: MuteState = initialState, action: Action): MuteState => {
   switch (action.type) {
     case REALM_INIT:
-      // TODO: improve and add tests
       return isEqual(action.data.muted_topics, state) ? state : action.data.muted_topics;
     case ACCOUNT_SWITCH:
       return initialState;

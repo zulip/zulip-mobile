@@ -1,6 +1,4 @@
 /* @flow */
-import isEqual from 'lodash.isequal';
-
 import type { FlagsState, Action } from '../types';
 import {
   MESSAGE_FETCH_SUCCESS,
@@ -40,17 +38,10 @@ const addFlagsForMessages = (state: FlagsState, messages, flags: string[]): Flag
     });
   });
 
-  const changedState = {
+  return {
     ...state,
     ...newState,
   };
-
-  // TODO: improve and add tests
-  if (isEqual(changedState, state)) {
-    return state;
-  }
-
-  return changedState;
 };
 
 const removeFlagForMessages = (state: FlagsState, messages, flag: string[]): FlagsState => {
@@ -70,17 +61,22 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
       return initialState;
 
     case MESSAGE_FETCH_SUCCESS: {
+      let stateChanged = false;
       const flags = action.messages.reduce(
         (newState, msg) => {
           if (msg.flags) {
             msg.flags.forEach(flag => {
               if (newState[flag]) {
                 newState[flag] = { ...state[flag], ...newState[flag] };
-                newState[flag][msg.id] = true;
+                if (!newState[flag][msg.id]) {
+                  newState[flag][msg.id] = true;
+                  stateChanged = true;
+                }
               } else {
                 newState[flag] = {
                   [msg.id]: true,
                 };
+                stateChanged = true;
               }
             });
           }
@@ -89,11 +85,9 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
         { ...state },
       );
 
-      // TODO: improve and add tests
-      if (isEqual(flags, state)) {
+      if (!stateChanged) {
         return state;
       }
-
       return flags;
     }
     case EVENT_NEW_MESSAGE:

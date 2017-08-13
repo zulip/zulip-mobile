@@ -35,7 +35,6 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
     case INIT_USERS: {
       const users = action.users.map(mapApiToStateUser);
 
-      // TODO: improve and add tests
       if (isEqual(state, users)) {
         return state;
       }
