@@ -1,7 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import { RenderTest } from 'react-native-js-watchdog';
 
 import type { Message } from '../types';
 import htmlToDomTree from '../html/htmlToDomTree';
@@ -32,4 +31,4 @@ class HtmlChildrenContainer extends PureComponent {
   }
 }
 
-export default RenderTest(HtmlChildrenContainer, { verbose: false });
+export default HtmlChildrenContainer;

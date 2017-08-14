@@ -1,7 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View, ScrollView } from 'react-native';
-import { RenderTest } from 'react-native-js-watchdog';
 
 import ReactionList from '../reactions/ReactionList';
 import MessageTags from './MessageTags';
@@ -23,44 +22,41 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RenderTest(
-  class MessageBrief extends PureComponent {
-    props: {
-      message: Object,
-      ownEmail: string,
-      starred: boolean,
-      auth: Auth,
-      actions: Actions,
-      onLongPress: () => void,
-      isNotYetSent?: boolean,
-    };
+export default class MessageBrief extends PureComponent {
+  props: {
+    message: Object,
+    ownEmail: string,
+    starred: boolean,
+    auth: Auth,
+    actions: Actions,
+    onLongPress: () => void,
+    isNotYetSent?: boolean,
+  };
 
-    render() {
-      const { message, auth, actions, ownEmail, onLongPress, starred, isNotYetSent } = this.props;
+  render() {
+    const { message, auth, actions, ownEmail, onLongPress, starred, isNotYetSent } = this.props;
 
-      return (
-        <View style={styles.message}>
-          <View style={styles.messageContentWrapper}>
-            <ScrollView style={styles.childrenWrapper}>
-              <TouchableWithoutFeedback onLongPress={onLongPress}>
-                <HtmlChildrenContainer
-                  message={message}
-                  auth={auth}
-                  actions={actions}
-                  handleLinkPress={this.handleLinkPress}
-                />
-              </TouchableWithoutFeedback>
-            </ScrollView>
-          </View>
-          <MessageTags
-            timestamp={message.last_edit_timestamp}
-            starred={starred}
-            isNotYetSent={isNotYetSent}
-          />
-          <ReactionList messageId={message.id} reactions={message.reactions} ownEmail={ownEmail} />
+    return (
+      <View style={styles.message}>
+        <View style={styles.messageContentWrapper}>
+          <ScrollView style={styles.childrenWrapper}>
+            <TouchableWithoutFeedback onLongPress={onLongPress}>
+              <HtmlChildrenContainer
+                message={message}
+                auth={auth}
+                actions={actions}
+                handleLinkPress={this.handleLinkPress}
+              />
+            </TouchableWithoutFeedback>
+          </ScrollView>
         </View>
-      );
-    }
-  },
-  { verbose: false },
-);
+        <MessageTags
+          timestamp={message.last_edit_timestamp}
+          starred={starred}
+          isNotYetSent={isNotYetSent}
+        />
+        <ReactionList messageId={message.id} reactions={message.reactions} ownEmail={ownEmail} />
+      </View>
+    );
+  }
+}

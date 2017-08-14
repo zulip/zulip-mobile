@@ -2,9 +2,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
-import { RenderTest } from 'react-native-js-watchdog';
 
-import type { Actions, Auth, SubscriptionsState, MuteState, Narrow } from '../types';
+import type { Actions, Auth, SubscriptionsState, Narrow } from '../types';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
@@ -28,7 +27,6 @@ class MessageContainer extends PureComponent {
     flags: Object,
     twentyFourHourTime: boolean,
     isBrief: boolean,
-    mute: MuteState,
     showActionSheetWithOptions: (Object, (number) => void) => void,
   };
 
@@ -68,15 +66,12 @@ class MessageContainer extends PureComponent {
   };
 
   handleLongPress = () => {
-    const { actions, auth, narrow, subscriptions, mute, flags, message, currentRoute } = this.props;
+    const { actions, auth, narrow, subscriptions, flags, message, currentRoute } = this.props;
     const options = constructActionButtons({
       message,
       auth,
       narrow,
-      subscriptions,
-      mute,
       flags,
-      currentRoute,
     });
     const callback = buttonIndex => {
       executeActionSheetAction({
@@ -120,7 +115,6 @@ export default connect(
     flags: getFlags(state),
     twentyFourHourTime: state.realm.twentyFourHourTime,
     subscriptions: getSubscriptions(state),
-    mute: state.mute,
   }),
   boundActions,
 )(connectActionSheet(MessageContainer));

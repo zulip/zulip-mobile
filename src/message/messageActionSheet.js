@@ -208,10 +208,7 @@ export const constructActionButtons = ({
   message,
   auth,
   narrow,
-  subscriptions,
-  mute,
   flags,
-  currentRoute,
 }: ConstructActionButtonsType) => {
   const buttons = actionSheetButtons
     .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))

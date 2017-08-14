@@ -1,7 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View, ScrollView } from 'react-native';
-import { RenderTest } from 'react-native-js-watchdog';
 
 import type { Actions } from '../types';
 import { Avatar } from '../common';
@@ -93,4 +92,4 @@ class MessageFull extends PureComponent {
   }
 }
 
-export default RenderTest(MessageFull, { verbose: false });
+export default MessageFull;
