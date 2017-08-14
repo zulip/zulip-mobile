@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { STATUSBAR_HEIGHT } from '../styles';
-import type { Actions } from '../types';
+import type { Actions, Narrow } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import { ZulipButton } from '../common';
 import ConversationList from './ConversationList';
@@ -45,11 +45,15 @@ export default class ConversationsCard extends PureComponent {
     });
   };
 
-  handleUserNarrow = (email: string) => {
+  narrowAndClose = (narrow: Narrow) => {
     const { actions, usersNavigation } = this.props;
-    const narrow = email.indexOf(',') === -1 ? privateNarrow(email) : groupNarrow(email.split(','));
-    actions.doNarrow(narrow);
     usersNavigation.navigate('DrawerClose');
+    setTimeout(() => actions.doNarrow(narrow), 100);
+  };
+
+  handleUserNarrow = (email: string) => {
+    const narrow = email.indexOf(',') === -1 ? privateNarrow(email) : groupNarrow(email.split(','));
+    this.narrowAndClose(narrow);
   };
 
   handleSearchPeople = () => {
