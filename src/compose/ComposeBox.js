@@ -96,14 +96,11 @@ export default class ComposeBox extends PureComponent {
 
     const topicToSend = replaceEmoticonsWithEmoji(topic);
     const messageToSend = replaceEmoticonsWithEmoji(message);
-    if (isStreamNarrow(narrow)) {
-      actions.addToOutbox(
-        topicNarrow(narrow[0].operand, topicToSend === '' ? '(no topic)' : topicToSend),
-        messageToSend,
-      );
-    } else {
-      actions.addToOutbox(narrow, messageToSend);
-    }
+
+    actions.addToOutbox(
+      isStreamNarrow(narrow) ? topicNarrow(narrow[0].operand, topicToSend) : narrow,
+      messageToSend,
+    );
 
     this.clearMessageInput();
   };
