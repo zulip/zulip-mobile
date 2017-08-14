@@ -114,7 +114,9 @@ export default class ComposeBox extends PureComponent {
     const { auth, editMessage, actions } = this.props;
     if (editMessage.content !== this.props.text) {
       try {
-        patchMessage(auth, this.state.message, editMessage.id);
+        patchMessage(auth, this.state.message, editMessage.id, (msg: string) =>
+          showErrorAlert(msg, 'Failed to edit message'),
+        );
       } catch (err) {
         showErrorAlert(err.message, 'Failed to edit message');
       }
