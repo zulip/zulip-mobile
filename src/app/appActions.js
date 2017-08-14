@@ -4,6 +4,7 @@ import {
   APP_ONLINE,
   APP_ORIENTATION,
   APP_STATE,
+  TOGGLE_COMPOSE_TOOLS,
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
 } from '../actionConstants';
@@ -23,6 +24,10 @@ export const appState = (isActive: boolean): Action => ({
 export const appOrientation = (orientation: string): Action => ({
   type: APP_ORIENTATION,
   orientation,
+});
+
+export const toggleComposeTools = () => ({
+  type: TOGGLE_COMPOSE_TOOLS,
 });
 
 export const startEditMessage = (messageId: number) => async (

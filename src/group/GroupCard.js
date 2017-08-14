@@ -105,6 +105,7 @@ export default class GroupCard extends PureComponent {
           <FloatingActionButton
             style={styles.button}
             Icon={IconDone}
+            size={50}
             disabled={selected.length === 0}
             onPress={this.handleCreateGroup}
           />

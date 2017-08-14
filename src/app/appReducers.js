@@ -11,6 +11,7 @@ import {
   INITIAL_FETCH_COMPLETE,
   APP_ORIENTATION,
   APP_STATE,
+  TOGGLE_COMPOSE_TOOLS,
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
 } from '../actionConstants';
@@ -22,6 +23,7 @@ const initialState: AppState = {
   isOnline: true,
   isActive: true,
   needsInitialFetch: false,
+  composeTools: false,
   pushToken: '',
   eventQueueId: null,
   editMessage: null,
@@ -75,6 +77,11 @@ export default (state: AppState = initialState, action: Action) => {
       return {
         ...state,
         orientation: action.orientation,
+      };
+    case TOGGLE_COMPOSE_TOOLS:
+      return {
+        ...state,
+        composeTools: !state.composeTools,
       };
     case CANCEL_EDIT_MESSAGE:
       return {

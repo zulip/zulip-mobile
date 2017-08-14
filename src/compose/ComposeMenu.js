@@ -17,11 +17,17 @@ export default class ComposeMenu extends React.Component {
   handlePress = () => {
     this.props.showActionSheetWithOptions(
       {
-        options: ['Hide topic edit', 'Create group', 'Cancel'],
+        options: ['Toggle compose tools', 'Create group', 'Cancel'],
         cancelButtonIndex: 2,
       },
       buttonIndex => {
         switch (buttonIndex) {
+          case 0: {
+            const { actions } = this.props;
+            actions.toggleComposeTools();
+            break;
+          }
+
           case 1: {
             const { actions } = this.props;
             actions.navigateToCreateGroup();

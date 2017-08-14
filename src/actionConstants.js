@@ -5,6 +5,7 @@ export const APP_ACTIVITY = 'APP_ACTIVITY';
 export const APP_ONLINE = 'APP_ONLINE';
 export const APP_ORIENTATION = 'APP_ORIENTATION';
 export const APP_STATE = 'APP_STATE';
+export const TOGGLE_COMPOSE_TOOLS = 'TOGGLE_COMPOSE_TOOLS';
 
 export const REALM_ADD = 'REALM_ADD';
 export const SET_AUTH_TYPE = 'SET_AUTH_TYPE';

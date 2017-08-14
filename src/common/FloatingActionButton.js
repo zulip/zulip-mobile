@@ -10,15 +10,8 @@ const styles = StyleSheet.create({
   wrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  button: {
-    margin: 4,
-    width: 36,
-    height: 36,
-    borderRadius: 18,
     backgroundColor: BRAND_COLOR,
-    justifyContent: 'center',
-    alignItems: 'center',
+    overflow: 'hidden',
   },
 });
 
@@ -26,20 +19,30 @@ export default class FloatingActionButton extends PureComponent {
   props: {
     style?: StyleObj,
     disabled: boolean,
+    size: number,
     Icon: any,
     onPress: () => void,
   };
 
   render() {
-    const { style, disabled, onPress, Icon } = this.props;
-    const opacity = { opacity: disabled ? 0.25 : 1 };
+    const { style, size, disabled, onPress, Icon } = this.props;
+    const iconSize = Math.trunc(size / 2);
+    const customWrapperStyle = {
+      width: size,
+      height: size,
+      borderRadius: size,
+      opacity: disabled ? 0.25 : 1,
+    };
+    const iconStyle = {
+      margin: Math.trunc(size / 4),
+    };
 
     return (
-      <Touchable style={[styles.wrapper, style]} onPress={disabled ? undefined : onPress}>
-        <View style={[styles.button, opacity]}>
-          <Icon size={16} color="white" />
-        </View>
-      </Touchable>
+      <View style={[styles.wrapper, customWrapperStyle, style]}>
+        <Touchable onPress={disabled ? undefined : onPress}>
+          <Icon style={iconStyle} size={iconSize} color="white" />
+        </Touchable>
+      </View>
     );
   }
 }
