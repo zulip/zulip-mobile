@@ -32,11 +32,14 @@ export default (state: ChatState = initialState, action: Action) => {
     case ACCOUNT_SWITCH:
       return initialState;
     case MESSAGE_FETCH_START:
+      if (!isEqual(action.narrow, state.narrow)) {
+        return state;
+      }
+
       return {
         ...state,
-        narrow: action.narrow,
-        fetchingOlder: action.fetchingOlder,
-        fetchingNewer: action.fetchingNewer,
+        fetchingOlder: action.fetchingOlder || state.fetchingOlder,
+        fetchingNewer: action.fetchingNewer || state.fetchingNewer,
       };
 
     case SWITCH_NARROW: {
