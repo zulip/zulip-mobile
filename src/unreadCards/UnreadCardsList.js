@@ -10,6 +10,7 @@ const data = [
     name: 'mobile',
     color: '#8999FF',
     unreadCount: 6,
+    isPrivate: false,
     topics: [
       {
         name: 'Design',
@@ -25,6 +26,7 @@ const data = [
     name: 'backend',
     color: '#F4A543',
     unreadCount: 27,
+    isPrivate: false,
     topics: [
       {
         name: 'meeting',
@@ -32,6 +34,22 @@ const data = [
       },
     ],
   },
+  {
+    name: 'checkins',
+    color: '#B95732',
+    unreadCount: 2,
+    isPrivate: false,
+    topics: [
+      {
+        name: 'Nash',
+        unreadCount: 1
+      },
+      {
+        name: 'Joe',
+        unreadCount: 3
+      }
+    ]
+  }
 ];
 
 const styles = StyleSheet.create({
@@ -41,16 +59,7 @@ const styles = StyleSheet.create({
 });
 
 export default class UnreadCardsList extends PureComponent {
-  /*
-    Props needed in stream card
-    actions,
-    streamName,
-    isPrivate,
-    topic, (topics)
-    color
-  */
-
-  renderItem = ({ item }) => {
+   renderItem = ({ item }) => {
     return (
       <StreamCard
         unreadCount={item.unreadCount}

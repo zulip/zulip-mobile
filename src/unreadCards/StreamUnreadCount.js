@@ -4,22 +4,18 @@ import { View, Text, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    top: 10,
-    right: 10,
-    width: 35,
-    height: 35,
+    height: 20,
     borderRadius: 100,
-    padding: 6,
+    padding: 8,
     backgroundColor: '#E34730',
-    borderWidth: 2,
-    borderColor: '#FFFFFF',
   },
   text: {
     color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: 'bold',
+    borderRadius: 100
   },
 });
 

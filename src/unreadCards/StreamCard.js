@@ -4,7 +4,6 @@ import { View, Text, StyleSheet, Dimensions, Animated, PanResponder } from 'reac
 
 import { IconStream } from '../common/Icons';
 import StreamCardHeader from './StreamCardHeader';
-import StreamUnreadCount from './StreamUnreadCount';
 import TopicList from './TopicList';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -72,9 +71,12 @@ export default class StreamCard extends PureComponent {
       <Animated.View
         {...this.state.panResponder.panHandlers}
         style={[styles.container, { left: this.state.position.x }]}>
-        <StreamCardHeader streamName={stream} color={color} />
+        <StreamCardHeader 
+          unreadCount={unreadCount}
+          streamName={stream} 
+          color={color} 
+        />
         <TopicList topics={topics} />
-        <StreamUnreadCount count={unreadCount} />
       </Animated.View>
     );
   }

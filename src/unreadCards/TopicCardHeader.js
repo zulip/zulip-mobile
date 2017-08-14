@@ -7,8 +7,10 @@ import TopicUnreadCount from './TopicUnreadCount';
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 6,
     paddingLeft: 8,
+    paddingRight: 8,
     backgroundColor: '#EDE4E4',
     alignItems: 'center',
   },
