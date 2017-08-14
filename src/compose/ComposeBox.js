@@ -138,6 +138,7 @@ export default class ComposeBox extends PureComponent {
       this.setState({
         message: nextProps.editMessage ? nextProps.editMessage.content : '',
       });
+      this.messageInput.focus();
     }
   }
 
