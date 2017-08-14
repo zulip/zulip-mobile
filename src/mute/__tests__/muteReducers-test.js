@@ -1,9 +1,25 @@
 import deepFreeze from 'deep-freeze';
 
 import muteReducers from '../muteReducers';
-import { ACCOUNT_SWITCH, EVENT_MUTED_TOPICS } from '../../actionConstants';
+import { ACCOUNT_SWITCH, EVENT_MUTED_TOPICS, REALM_INIT } from '../../actionConstants';
 
 describe('muteReducers', () => {
+  describe('REALM_INIT', () => {
+    test('when same muted topics exists in state, do not change state', () => {
+      const initialState = deepFreeze([['stream'], ['topic']]);
+
+      const action = deepFreeze({
+        type: REALM_INIT,
+        data: {
+          muted_topics: [['stream'], ['topic']],
+        },
+      });
+
+      const actualState = muteReducers(initialState, action);
+      expect(actualState).toBe(initialState);
+    });
+  });
+
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
       const initialState = deepFreeze(['some_topic']);

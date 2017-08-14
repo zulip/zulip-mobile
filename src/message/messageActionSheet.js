@@ -52,10 +52,7 @@ type ConstructActionButtonsType = {
   message: Object,
   auth: Auth,
   narrow: [],
-  subscriptions: any[],
-  mute: any[],
   flags: Object,
-  currentRoute?: string,
 };
 
 type ConstructHeaderActionButtonsType = {
@@ -208,10 +205,7 @@ export const constructActionButtons = ({
   message,
   auth,
   narrow,
-  subscriptions,
-  mute,
   flags,
-  currentRoute,
 }: ConstructActionButtonsType) => {
   const buttons = actionSheetButtons
     .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))

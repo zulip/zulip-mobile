@@ -29,6 +29,26 @@ describe('flagsReducers', () => {
 
       expect(actualState).toEqual(expectedState);
     });
+
+    test('when flags for messages already exist in state, do not change state', () => {
+      const initialState = deepFreeze({
+        read: {
+          1: true,
+        },
+        starred: {
+          1: true,
+        },
+      });
+
+      const action = deepFreeze({
+        type: MESSAGE_FETCH_SUCCESS,
+        messages: [{ id: 1, flags: ['read', 'starred'] }],
+      });
+
+      const actualState = flagsReducers(initialState, action);
+
+      expect(actualState).toBe(initialState);
+    });
   });
 
   test('flags are added or replace existing flags', () => {

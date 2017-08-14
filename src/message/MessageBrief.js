@@ -1,10 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import type { Children } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View, ScrollView } from 'react-native';
 
 import ReactionList from '../reactions/ReactionList';
 import MessageTags from './MessageTags';
+import HtmlChildrenContainer from './HtmlChildrenContainer';
+import type { Auth, Actions } from '../types';
 
 const styles = StyleSheet.create({
   message: {
@@ -30,26 +31,36 @@ export default class MessageBrief extends PureComponent {
     message: Object,
     ownEmail: string,
     starred?: boolean,
-    children?: Children,
+    auth?: Auth,
+    actions: Actions,
     onLongPress?: () => void,
     isNotYetSent?: boolean,
-  };
-
-  static defaultProps = {
-    twentyFourHourTime: false,
+    handleLinkPress?: string => void,
   };
 
   render() {
-    const { message, children, ownEmail, onLongPress, starred, isNotYetSent } = this.props;
+    const {
+      message,
+      auth,
+      actions,
+      handleLinkPress,
+      ownEmail,
+      onLongPress,
+      starred,
+      isNotYetSent,
+    } = this.props;
 
     return (
       <View style={styles.message}>
         <View style={styles.messageContentWrapper}>
           <ScrollView style={styles.childrenWrapper}>
             <TouchableWithoutFeedback onLongPress={onLongPress}>
-              <View>
-                {children}
-              </View>
+              <HtmlChildrenContainer
+                message={message}
+                auth={auth}
+                actions={actions}
+                handleLinkPress={handleLinkPress}
+              />
             </TouchableWithoutFeedback>
           </ScrollView>
         </View>

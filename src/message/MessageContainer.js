@@ -3,9 +3,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Actions, Auth, SubscriptionsState, MuteState, Narrow } from '../types';
-import htmlToDomTree from '../html/htmlToDomTree';
-import renderHtmlChildren from '../html/renderHtmlChildren';
+import type { Actions, Auth, SubscriptionsState, Narrow } from '../types';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
@@ -14,7 +12,6 @@ import { getAuth, getUsers, getFlags, getSubscriptions, getCurrentRoute } from '
 import boundActions from '../boundActions';
 import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 import type { ShowActionSheetTypes } from './messageActionSheet';
-import getMessageContent from './getMessageContent';
 
 type Href = string;
 
@@ -30,7 +27,6 @@ class MessageContainer extends PureComponent {
     flags: Object,
     twentyFourHourTime: boolean,
     isBrief: boolean,
-    mute: MuteState,
     showActionSheetWithOptions: (Object, (number) => void) => void,
   };
 
@@ -70,15 +66,12 @@ class MessageContainer extends PureComponent {
   };
 
   handleLongPress = () => {
-    const { actions, auth, narrow, subscriptions, mute, flags, message, currentRoute } = this.props;
+    const { actions, auth, narrow, subscriptions, flags, message, currentRoute } = this.props;
     const options = constructActionButtons({
       message,
       auth,
       narrow,
-      subscriptions,
-      mute,
       flags,
-      currentRoute,
     });
     const callback = buttonIndex => {
       executeActionSheetAction({
@@ -97,26 +90,19 @@ class MessageContainer extends PureComponent {
   render() {
     const { message, auth, actions, twentyFourHourTime, isBrief } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
-    const content = getMessageContent(message.match_content || message.content);
-    const childrenNodes = htmlToDomTree(content);
 
     return (
       <MessageComponent
         message={message}
         twentyFourHourTime={twentyFourHourTime}
         ownEmail={auth.email}
-        doNarrow={actions.doNarrow}
         onLongPress={this.handleLongPress}
         starred={this.isStarred(message)}
-        realm={auth.realm}>
-        {renderHtmlChildren({
-          childrenNodes,
-          auth,
-          actions,
-          message,
-          onPress: this.handleLinkPress,
-        })}
-      </MessageComponent>
+        realm={auth.realm}
+        auth={auth}
+        actions={actions}
+        handleLinkPress={this.handleLinkPress}
+      />
     );
   }
 }
@@ -129,7 +115,6 @@ export default connect(
     flags: getFlags(state),
     twentyFourHourTime: state.realm.twentyFourHourTime,
     subscriptions: getSubscriptions(state),
-    mute: state.mute,
   }),
   boundActions,
 )(connectActionSheet(MessageContainer));

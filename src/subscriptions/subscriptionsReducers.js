@@ -1,4 +1,6 @@
 /* @flow */
+import isEqual from 'lodash.isequal';
+
 import type { SubscriptionsState, Action } from '../types';
 import {
   LOGOUT,
@@ -22,7 +24,7 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
       return initialState;
 
     case INIT_SUBSCRIPTIONS:
-      return action.subscriptions;
+      return isEqual(action.subscriptions, state) ? state : action.subscriptions;
 
     case EVENT_SUBSCRIPTION_ADD:
       return state.concat(

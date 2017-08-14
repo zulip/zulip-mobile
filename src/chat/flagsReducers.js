@@ -1,5 +1,4 @@
 /* @flow */
-
 import type { FlagsState, Action } from '../types';
 import {
   MESSAGE_FETCH_SUCCESS,
@@ -61,18 +60,23 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case MESSAGE_FETCH_SUCCESS:
-      return action.messages.reduce(
+    case MESSAGE_FETCH_SUCCESS: {
+      let stateChanged = false;
+      const flags = action.messages.reduce(
         (newState, msg) => {
           if (msg.flags) {
             msg.flags.forEach(flag => {
               if (newState[flag]) {
                 newState[flag] = { ...state[flag], ...newState[flag] };
-                newState[flag][msg.id] = true;
+                if (!newState[flag][msg.id]) {
+                  newState[flag][msg.id] = true;
+                  stateChanged = true;
+                }
               } else {
                 newState[flag] = {
                   [msg.id]: true,
                 };
+                stateChanged = true;
               }
             });
           }
@@ -81,6 +85,11 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
         { ...state },
       );
 
+      if (!stateChanged) {
+        return state;
+      }
+      return flags;
+    }
     case EVENT_NEW_MESSAGE:
       return addFlagsForMessages(state, [action.message.id], action.message.flags);
 

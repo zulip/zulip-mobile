@@ -7,10 +7,44 @@ import {
   EVENT_SUBSCRIPTION_PEER_REMOVE,
   EVENT_SUBSCRIPTION_UPDATE,
   ACCOUNT_SWITCH,
+  INIT_SUBSCRIPTIONS,
 } from '../../actionConstants';
 import subscriptionsReducers from '../subscriptionsReducers';
 
 describe('subscriptionsReducers', () => {
+  describe('INIT_SUBSCRIPTIONS', () => {
+    test('when subscriptions are same in state as initialized', () => {
+      const prevState = deepFreeze([
+        {
+          name: 'some stream',
+          stream_id: 1,
+        },
+        {
+          name: 'some other stream',
+          stream_id: 2,
+        },
+      ]);
+
+      const action = deepFreeze({
+        type: INIT_SUBSCRIPTIONS,
+        subscriptions: [
+          {
+            name: 'some stream',
+            stream_id: 1,
+          },
+          {
+            name: 'some other stream',
+            stream_id: 2,
+          },
+        ],
+      });
+
+      const newState = subscriptionsReducers(prevState, action);
+
+      expect(newState).toBe(prevState);
+    });
+  });
+
   test('on unrecognized action, returns input state unchanged', () => {
     const prevState = deepFreeze({ hello: 'world' });
 

@@ -1,14 +1,13 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View, ScrollView } from 'react-native';
-import { connect } from 'react-redux';
 
-import type { Actions } from '../types';
-import boundActions from '../boundActions';
+import type { Actions, Auth } from '../types';
 import { Avatar } from '../common';
 import Subheader from './Subheader';
 import ReactionList from '../reactions/ReactionList';
 import MessageTags from './MessageTags';
+import HtmlChildrenContainer from './HtmlChildrenContainer';
 
 const styles = StyleSheet.create({
   message: {
@@ -36,11 +35,12 @@ class MessageFull extends PureComponent {
     actions: Actions,
     ownEmail: string,
     twentyFourHourTime: boolean,
-    starred: boolean,
-    children?: any[],
+    starred?: boolean,
+    auth?: Auth,
     message: Object,
-    onLongPress: () => void,
+    onLongPress?: () => void,
     isNotYetSent?: boolean,
+    handleLinkPress?: string => void,
   };
 
   handleAvatarPress = () => {
@@ -51,12 +51,14 @@ class MessageFull extends PureComponent {
   render() {
     const {
       message,
-      children,
+      auth,
+      actions,
       twentyFourHourTime,
       ownEmail,
       starred,
       onLongPress,
       isNotYetSent,
+      handleLinkPress,
     } = this.props;
     return (
       <View style={styles.message}>
@@ -74,9 +76,12 @@ class MessageFull extends PureComponent {
           <View style={styles.contentWrapper}>
             <ScrollView style={styles.inner}>
               <TouchableWithoutFeedback onLongPress={onLongPress}>
-                <View>
-                  {children}
-                </View>
+                <HtmlChildrenContainer
+                  message={message}
+                  auth={auth}
+                  actions={actions}
+                  handleLinkPress={handleLinkPress}
+                />
               </TouchableWithoutFeedback>
             </ScrollView>
           </View>
@@ -92,4 +97,4 @@ class MessageFull extends PureComponent {
   }
 }
 
-export default connect(null, boundActions)(MessageFull);
+export default MessageFull;
