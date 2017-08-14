@@ -47,6 +47,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
       sender_full_name: userDetail.fullName,
       email: userDetail.email,
       avatar_url: userDetail.avatarUrl,
+      type: 'outbox',
     }),
   );
   dispatch(trySendMessages());
