@@ -113,7 +113,7 @@ export default class ComposeBox extends PureComponent {
   handleEdit = () => {
     const { auth, editMessage, actions } = this.props;
     const { message } = this.state;
-    if (editMessage.content !== this.props.text) {
+    if (editMessage.content !== message) {
       try {
         patchMessage(auth, replaceEmoticonsWithEmoji(message), editMessage.id, (msg: string) =>
           showErrorAlert(msg, 'Failed to edit message'),
