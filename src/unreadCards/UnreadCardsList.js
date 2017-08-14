@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
 import StreamCard from './StreamCard';
+import PrivateMessageCard from './PrivateMessageCard';
 
 // Dummy Data
 const data = [
@@ -35,6 +36,11 @@ const data = [
     ],
   },
   {
+    sender: 'Neeraj Wahi',
+    unreadCount: 3,
+    isPrivate: true
+  },
+  {
     name: 'checkins',
     color: '#B95732',
     unreadCount: 2,
@@ -49,7 +55,8 @@ const data = [
         unreadCount: 3
       }
     ]
-  }
+  },
+
 ];
 
 const styles = StyleSheet.create({
@@ -60,6 +67,14 @@ const styles = StyleSheet.create({
 
 export default class UnreadCardsList extends PureComponent {
    renderItem = ({ item }) => {
+    if (item.isPrivate) {
+      return (
+        <PrivateMessageCard
+          sender={item.sender}
+          unreadCount={item.unreadCount}
+        />
+      )
+    }
     return (
       <StreamCard
         unreadCount={item.unreadCount}
