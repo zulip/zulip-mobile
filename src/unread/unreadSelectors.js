@@ -80,7 +80,7 @@ export const getUnreadStreamsAndTopics = createSelector(
   getMute,
   (subscriptionsById, unreadStreams, mute) => {
     const unreadMap = unreadStreams.reduce((totals, stream) => {
-      const { name, color, in_home_view } =
+      const { name, color, in_home_view, invite_only } =
         subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION;
 
       if (!totals[stream.stream_id]) {
@@ -88,6 +88,7 @@ export const getUnreadStreamsAndTopics = createSelector(
           key: name,
           streamName: name,
           isMuted: !in_home_view, // eslint-disable-line
+          isPrivate: invite_only,
           color,
           unread: 0,
           data: [],
