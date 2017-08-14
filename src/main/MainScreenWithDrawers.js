@@ -5,6 +5,7 @@ import { DrawerNavigator } from 'react-navigation';
 import MainScreen from './MainScreen';
 import ConversationsContainer from '../conversations/ConversationsContainer';
 import StreamSidebar from '../nav/StreamSidebar';
+import PeopleSidebar from '../nav/PeopleSidebar';
 
 export const StreamsDrawer = DrawerNavigator(
   {
@@ -29,7 +30,7 @@ export const UsersDrawer = DrawerNavigator(
     },
   },
   {
-    contentComponent: props => <ConversationsContainer usersNavigation={props.navigation} />,
+    contentComponent: props => <PeopleSidebar usersNavigation={props.navigation} />,
     initialRouteName: 'main',
     drawerPosition: 'right',
   },

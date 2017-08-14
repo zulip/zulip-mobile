@@ -17,6 +17,7 @@ export default class UsersCard extends PureComponent {
     const { actions } = this.props;
     actions.doNarrow(privateNarrow(email));
     actions.navigateBack();
+    this.props.screenProps.onNarrow();
   };
 
   render() {

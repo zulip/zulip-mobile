@@ -46,10 +46,11 @@ export default class ConversationsCard extends PureComponent {
   };
 
   handleUserNarrow = (email: string) => {
-    const { actions, usersNavigation } = this.props;
+    const { actions, navigation } = this.props;
     const narrow = email.indexOf(',') === -1 ? privateNarrow(email) : groupNarrow(email.split(','));
     actions.doNarrow(narrow);
-    usersNavigation.navigate('DrawerClose');
+    navigation.navigate('DrawerClose');
+    this.props.screenProps.onNarrow();
   };
 
   handleSearchPeople = () => {
@@ -61,6 +62,8 @@ export default class ConversationsCard extends PureComponent {
   render() {
     const { styles } = this.context;
     const { conversations } = this.props;
+
+    console.log(this.props);
 
     return (
       <View style={[componentStyles.container, styles.background]}>
