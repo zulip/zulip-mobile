@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Message } from '../types';
+import type { Message, Auth, Actions } from '../types';
 import htmlToDomTree from '../html/htmlToDomTree';
 import renderHtmlChildren from '../html/renderHtmlChildren';
 import getMessageContent from './getMessageContent';
@@ -10,6 +10,9 @@ import getMessageContent from './getMessageContent';
 class HtmlChildrenContainer extends PureComponent {
   props: {
     message: Message,
+    auth: Auth,
+    actions: Actions,
+    handleLinkPress: string => void,
   };
 
   render() {

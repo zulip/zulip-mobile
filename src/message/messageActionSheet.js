@@ -52,10 +52,7 @@ type ConstructActionButtonsType = {
   message: Object,
   auth: Auth,
   narrow: [],
-  subscriptions: any[],
-  mute: any[],
   flags: Object,
-  currentRoute?: string,
 };
 
 type ConstructHeaderActionButtonsType = {

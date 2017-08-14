@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View, ScrollView } from 'react-native';
 
-import type { Actions } from '../types';
+import type { Actions, Auth } from '../types';
 import { Avatar } from '../common';
 import Subheader from './Subheader';
 import ReactionList from '../reactions/ReactionList';
@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
+  inner: {
+    flex: 1,
+  },
 });
 
 class MessageFull extends PureComponent {
@@ -32,11 +35,12 @@ class MessageFull extends PureComponent {
     actions: Actions,
     ownEmail: string,
     twentyFourHourTime: boolean,
-    starred: boolean,
-    auth: Auth,
+    starred?: boolean,
+    auth?: Auth,
     message: Object,
-    onLongPress: () => void,
+    onLongPress?: () => void,
     isNotYetSent?: boolean,
+    handleLinkPress?: string => void,
   };
 
   handleAvatarPress = () => {
@@ -54,6 +58,7 @@ class MessageFull extends PureComponent {
       starred,
       onLongPress,
       isNotYetSent,
+      handleLinkPress,
     } = this.props;
     return (
       <View style={styles.message}>
@@ -75,7 +80,7 @@ class MessageFull extends PureComponent {
                   message={message}
                   auth={auth}
                   actions={actions}
-                  handleLinkPress={this.handleLinkPress}
+                  handleLinkPress={handleLinkPress}
                 />
               </TouchableWithoutFeedback>
             </ScrollView>
