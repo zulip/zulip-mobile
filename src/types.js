@@ -100,6 +100,11 @@ export type Fetching = {
   newer: boolean,
 };
 
+export type CaughtUp = {
+  older: boolean,
+  newer: boolean,
+};
+
 export type Stream = {
   stream_id: number,
   description: string,
@@ -228,8 +233,8 @@ export type Actions = {
   messageFetchSuccess: (
     messages: any[],
     narrow: Narrow,
-    fetching?: Fetching,
-    caughtUp?: Object,
+    numBefore: number,
+    numAfter: number,
   ) => Action,
   backgroundFetchMessages: (
     anchor: number,
@@ -272,6 +277,8 @@ export type ChatState = {
   narrow: Narrow,
   messages: Object,
 };
+
+export type CaughtUpState = Object;
 
 export type FlagsState = {
   read: Object,

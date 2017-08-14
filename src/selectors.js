@@ -3,6 +3,7 @@ export * from './baseSelectors';
 export * from './app/appSelectors';
 export * from './account/accountSelectors';
 export * from './conversations/conversationsSelectors';
+export * from './caughtup/caughtUpSelectors';
 export * from './chat/chatSelectors';
 export * from './subscriptions/subscriptionSelectors';
 export * from './nav/navSelectors';

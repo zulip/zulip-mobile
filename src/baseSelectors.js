@@ -22,3 +22,6 @@ export const getStreams = (state: GlobalState): Stream[] => state.streams;
 export const getPresence = (state: GlobalState): Presence[] => state.presence;
 
 export const getOutbox = (state: GlobalState): Outbox[] => state.outbox;
+
+export const getActiveNarrowString = (state: GlobalState): string =>
+  JSON.stringify(state.chat.narrow);

@@ -40,7 +40,7 @@ export const fetchEssentialInitialData = (): Action => async (
     await tryUntilSuccessful(() => getMessages(auth, 0, 10, 10, narrow, true)),
   ]);
 
-  dispatch(messageFetchSuccess(messages, narrow, false, false, false, false, true));
+  dispatch(messageFetchSuccess(messages, narrow, 0, 10, 10, true));
   dispatch(initSubscriptions(subscriptions));
   dispatch(initialFetchComplete());
 };
@@ -61,7 +61,7 @@ export const fetchRestOfInitialData = (): Action => async (
     await tryUntilSuccessful(() => getRealmFilters(auth)),
     await tryUntilSuccessful(() => getAlertWords(auth)),
   ]);
-  dispatch(messageFetchSuccess(messages, specialNarrow('private')));
+  dispatch(messageFetchSuccess(messages, specialNarrow('private'), 0, 0, 0));
   dispatch(initStreams(streams));
   dispatch(initUsers(users));
   dispatch(initRealmEmojis(realmEmoji));

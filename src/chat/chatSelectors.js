@@ -1,7 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { GlobalState, Narrow } from '../types';
+import type { GlobalState } from '../types';
 import {
   getAllMessages,
   getSubscriptions,
@@ -31,9 +31,6 @@ const getMessagesFromChatState = state =>
 
 export const getIsFetching = (state: GlobalState): boolean =>
   (state.app.needsInitialFetch && state.chat.fetchingOlder) || state.chat.fetchingOlder;
-
-export const getActiveNarrowString = (state: GlobalState): string =>
-  JSON.stringify(state.chat.narrow);
 
 export const getMessagesInActiveNarrow = createSelector(
   getAllMessages,

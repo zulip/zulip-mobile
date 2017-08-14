@@ -20,7 +20,7 @@ export const restore = (onFinished?: () => void) =>
   persistStore(
     store,
     {
-      blacklist: ['app', 'presence', 'nav'],
+      blacklist: ['app', 'caughtUp', 'presence'],
       storage: AsyncStorage,
     },
     onFinished,

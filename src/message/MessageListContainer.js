@@ -11,6 +11,7 @@ import {
   getCurrentTypingUsers,
   getShownMessagesInActiveNarrow,
   getActiveNarrow,
+  getCaughtUpForActiveNarrow,
 } from '../selectors';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
@@ -61,8 +62,8 @@ class MessageListContainer extends PureComponent {
 
 export default connect(
   state => ({
-    caughtUpOlder: state.chat.caughtUpOlder,
-    caughtUpNewer: state.chat.caughtUpNewer,
+    caughtUpOlder: getCaughtUpForActiveNarrow(state).older,
+    caughtUpNewer: getCaughtUpForActiveNarrow(state).older,
     fetchingOlder: state.chat.fetchingOlder,
     fetchingNewer: state.chat.fetchingNewer,
     typingUsers: getCurrentTypingUsers(state),

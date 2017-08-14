@@ -2,7 +2,7 @@
 import type { Action, Narrow, Dispatch, GetState } from '../types';
 import { getMessages } from '../api';
 import { registerAppActivity } from '../utils/activity';
-import { getAuth, getAllMessages, getAnchor } from '../selectors';
+import { getAuth, getAllMessages, getAnchor, getCaughtUpForActiveNarrow } from '../selectors';
 import config from '../config';
 import {
   SWITCH_NARROW,
@@ -30,19 +30,17 @@ export const messageFetchStart = (
 export const messageFetchSuccess = (
   messages: any[],
   narrow: Narrow,
-  fetchingOlder: boolean = false,
-  fetchingNewer: boolean = false,
-  caughtUpOlder: boolean = false,
-  caughtUpNewer: boolean = false,
+  anchor: number,
+  numBefore: number,
+  numAfter: number,
   replaceExisting: boolean = false,
 ): Action => ({
   type: MESSAGE_FETCH_SUCCESS,
   messages,
   narrow,
-  fetchingOlder,
-  fetchingNewer,
-  caughtUpOlder,
-  caughtUpNewer,
+  anchor,
+  numBefore,
+  numAfter,
   replaceExisting,
 });
 
@@ -62,26 +60,7 @@ export const backgroundFetchMessages = (
     useFirstUnread,
   );
 
-  // Find the anchor in the results (or set it past the end of the list)
-  // We can use the position of the anchor to determine if we're caught up
-  // in both directions.
-  const msgIndex = messages.findIndex(msg => msg.id === anchor);
-  const anchorIdx = msgIndex === -1 ? messages.length : msgIndex;
-
-  // If we're requesting messages before the anchor the server
-  // returns one less than we expect (so as not to duplicate the anchor)
-  const adjustment = numBefore > 0 ? -1 : 0;
-
-  dispatch(
-    messageFetchSuccess(
-      messages,
-      narrow,
-      numBefore > 0,
-      numAfter > 0,
-      anchorIdx + 1 < numBefore,
-      messages.length - anchorIdx + adjustment < numAfter,
-    ),
-  );
+  dispatch(messageFetchSuccess(messages, narrow, anchor, numBefore, numAfter));
 };
 
 export const fetchMessages = (
@@ -106,9 +85,10 @@ export const markMessagesRead = (messageIds: number[]): Action => ({
 export const fetchOlder = () => (dispatch: Dispatch, getState: GetState): Action => {
   const state = getState();
   const anchor = getAnchor(state);
-  const { fetchingOlder, caughtUpOlder, narrow } = state.chat;
+  const caughtUp = getCaughtUpForActiveNarrow(state);
+  const { fetchingOlder, narrow } = state.chat;
 
-  if (!fetchingOlder && !caughtUpOlder && anchor) {
+  if (!fetchingOlder && !caughtUp.older && anchor) {
     dispatch(fetchMessages(anchor.older, config.messagesPerRequest, 0, narrow));
   }
 };
@@ -116,9 +96,10 @@ export const fetchOlder = () => (dispatch: Dispatch, getState: GetState): Action
 export const fetchNewer = () => (dispatch: Dispatch, getState: GetState): Action => {
   const state = getState();
   const anchor = getAnchor(state);
-  const { fetchingNewer, caughtUpNewer, narrow } = state.chat;
+  const caughtUp = getCaughtUpForActiveNarrow(state);
+  const { fetchingNewer, narrow } = state.chat;
 
-  if (!fetchingNewer && !caughtUpNewer && anchor) {
+  if (!fetchingNewer && !caughtUp.newer && anchor) {
     dispatch(fetchMessages(anchor.newer, 0, config.messagesPerRequest, narrow));
   }
 };
