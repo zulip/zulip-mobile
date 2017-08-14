@@ -64,5 +64,9 @@
   "Notifications when online": "Notifications when online",
   "Notifications when offline": "Notifications when offline",
   "Unread": "Unread",
-  "Subscribed": "Subscribed"
+  "Subscribed": "Subscribed",
+  "No users found": "No users found",
+  "No streams found": "No streams found",
+  "New group chat": "New group chat",
+  "Toggle compose tools": "Toggle compose tools"
 }

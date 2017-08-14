@@ -28,12 +28,16 @@ const componentStyles = StyleSheet.create({
     height: 30,
     backgroundColor: 'rgba(127, 127, 127, 0.25)',
   },
+  button: {
+    margin: 5,
+  },
 });
 
 type Props = {
   auth: Auth,
   narrow: Narrow,
   users: User[],
+  composeTools: boolean,
   editMessage: EditMessage,
   actions: Actions,
 };
@@ -123,9 +127,9 @@ export default class ComposeBox extends PureComponent {
   render() {
     const { styles } = this.context;
     const { height, message, topic } = this.state;
-    const { auth, narrow, users } = this.props;
+    const { auth, composeTools, narrow, users } = this.props;
 
-    const canSelectTopic = isStreamNarrow(narrow);
+    const canSelectTopic = composeTools && isStreamNarrow(narrow);
     const messageHeight = Math.min(Math.max(MIN_HEIGHT, height + 10), MAX_HEIGHT);
     const totalHeight = canSelectTopic ? messageHeight + 30 : messageHeight;
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
@@ -162,7 +166,9 @@ export default class ComposeBox extends PureComponent {
           </View>
           <View style={componentStyles.bottom}>
             <FloatingActionButton
+              style={componentStyles.button}
               Icon={IconSend}
+              size={32}
               disabled={message.length === 0}
               onPress={this.handleSend}
             />

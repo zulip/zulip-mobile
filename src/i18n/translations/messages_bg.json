@@ -64,5 +64,9 @@
   "Notifications when online": "Известявания когато сте онлайн",
   "Notifications when offline": "Известявания когато сте офлайн",
   "Unread": "Непрочетени",
-  "Subscribed": "Абонирани"
+  "Subscribed": "Абонирани",
+  "No users found": "Няма намерени потребители",
+  "No streams found": "Няма намерени потоци",
+  "New group chat": "Няма намерени групови разговори",
+  "Toggle compose tools": "Превключи инструменти за редакция"
 }
