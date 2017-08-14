@@ -42,8 +42,8 @@ class StreamSidebar extends PureComponent {
 
   narrowAndClose = (narrow: Narrow) => {
     const { actions } = this.props;
-    actions.doNarrow(narrow);
     this.closeDrawer();
+    setTimeout(() => actions.doNarrow(narrow), 100);
   };
 
   navigateAndClose = (screen: string) => {
