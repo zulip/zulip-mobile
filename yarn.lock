@@ -717,8 +717,8 @@ babel-plugin-transform-regenerator@^6.5.0:
     regenerator-transform "0.9.11"
 
 babel-plugin-transform-remove-console@^6.8.4:
-  version "6.8.4"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-remove-console/-/babel-plugin-transform-remove-console-6.8.4.tgz#41fddac19a729a4c3dd7ef2964eac07b096f9a8f"
+  version "6.8.5"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-remove-console/-/babel-plugin-transform-remove-console-6.8.5.tgz#fde9d2d3d725530b0fadd8d31078402410386810"
 
 babel-plugin-transform-strict-mode@^6.24.1:
   version "6.24.1"
@@ -1102,19 +1102,9 @@ bser@^2.0.0:
   dependencies:
     node-int64 "^0.4.0"
 
-<<<<<<< HEAD
 buffer@^5.0.7:
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.0.7.tgz#570a290b625cf2603290c1149223d27ccf04db97"
-=======
-buffer@^5.0.2:
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.0.7.tgz#570a290b625cf2603290c1149223d27ccf04db97"
-<<<<<<< HEAD
->>>>>>> Fix test's paths
->>>>>>> Fix test's paths
-=======
->>>>>>> Yarn file fixed
   dependencies:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
@@ -1669,19 +1659,9 @@ detox-server@^2.0.4:
     npmlog "^4.0.2"
     ws "^1.1.0"
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 detox@^5.6.1:
   version "5.6.1"
   resolved "https://registry.yarnpkg.com/detox/-/detox-5.6.1.tgz#a74710fc9aa88f553df4549c78f9705e1bb896d1"
-=======
-detox@^5.5.1:
-=======
-detox@^5.6.0:
->>>>>>> Upgrade detox dependency
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-5.6.0.tgz#05ba0949cd00435ccfccd9d5a43b3f526d5e6f06"
->>>>>>> Fix yarn
   dependencies:
     child-process-promise "^2.2.0"
     commander "^2.9.0"
@@ -1953,8 +1933,8 @@ eslint-plugin-react-native@^3.0.1:
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-native/-/eslint-plugin-react-native-3.0.1.tgz#9058efdf8970d2b1f68e328f7f1c2b71831298f4"
 
 eslint-plugin-react@^7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.2.0.tgz#25c77a4ec307e3eebb248ea3350960e372ab6406"
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.2.1.tgz#c2673526ed6571b08c69c5f453d03f5f13e8ddbe"
   dependencies:
     doctrine "^2.0.0"
     has "^1.0.1"
@@ -2737,32 +2717,10 @@ hoist-non-react-statics@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-hoist-non-react-statics@^2.2.1:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.2.2.tgz#c0eca5a7d5a28c5ada3107eb763b01da6bfa81fb"
-
-=======
-<<<<<<< HEAD
-=======
-=======
->>>>>>> Yarn file fixed
-hoist-non-react-statics@^2.2.0:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.2.1.tgz#a7e41c760121d0abfc7a2339b331d29a26389e52"
-=======
 hoist-non-react-statics@^2.2.0, hoist-non-react-statics@^2.2.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.2.2.tgz#c0eca5a7d5a28c5ada3107eb763b01da6bfa81fb"
->>>>>>> Upgrade detox dependency
 
-<<<<<<< HEAD
->>>>>>> Fix test's paths
->>>>>>> Fix test's paths
-=======
->>>>>>> Yarn file fixed
 home-or-tmp@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/home-or-tmp/-/home-or-tmp-2.0.0.tgz#e36c3f2d2cae7d746a857e38d18d5f32a7882db8"
@@ -3660,7 +3618,13 @@ lodash-es@^4.17.4, lodash-es@^4.2.0, lodash-es@^4.2.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
 
-<<<<<<< HEAD
+lodash._baseassign@^3.0.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/lodash._baseassign/-/lodash._baseassign-3.2.0.tgz#8c38a099500f215ad09e59f1722fd0c52bfe0a4e"
+  dependencies:
+    lodash._basecopy "^3.0.0"
+    lodash.keys "^3.0.0"
+
 lodash._basebind@~2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/lodash._basebind/-/lodash._basebind-2.4.1.tgz#e940b9ebdd27c327e0a8dab1b55916c5341e9575"
@@ -3669,20 +3633,15 @@ lodash._basebind@~2.4.1:
     lodash._setbinddata "~2.4.1"
     lodash._slice "~2.4.1"
     lodash.isobject "~2.4.1"
-=======
-lodash._baseassign@^3.0.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/lodash._baseassign/-/lodash._baseassign-3.2.0.tgz#8c38a099500f215ad09e59f1722fd0c52bfe0a4e"
-  dependencies:
-    lodash._basecopy "^3.0.0"
-    lodash.keys "^3.0.0"
->>>>>>> Fix travis
 
 lodash._basecopy@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/lodash._basecopy/-/lodash._basecopy-3.0.1.tgz#8da0e6a876cf344c0ad8a54882111dd3c5c7ca36"
 
-<<<<<<< HEAD
+lodash._basecreate@^3.0.0:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/lodash._basecreate/-/lodash._basecreate-3.0.3.tgz#1bc661614daa7fc311b7d03bf16806a0213cf821"
+
 lodash._basecreate@~2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/lodash._basecreate/-/lodash._basecreate-2.4.1.tgz#f8e6f5b578a9e34e541179b56b8eeebf4a287e08"
@@ -3712,11 +3671,6 @@ lodash._basecreatewrapper@~2.4.1:
 lodash._baseindexof@~2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/lodash._baseindexof/-/lodash._baseindexof-2.4.1.tgz#59db58412b40604ca4531abaf7a43cf1cc36bd59"
-=======
-lodash._basecreate@^3.0.0:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/lodash._basecreate/-/lodash._basecreate-3.0.3.tgz#1bc661614daa7fc311b7d03bf16806a0213cf821"
->>>>>>> Fix travis
 
 lodash._basetostring@^3.0.0:
   version "3.0.1"
@@ -3767,8 +3721,6 @@ lodash._root@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/lodash._root/-/lodash._root-3.0.1.tgz#fba1c4524c19ee9a5f8136b4609f017cf4ded692"
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 lodash._setbinddata@~2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/lodash._setbinddata/-/lodash._setbinddata-2.4.1.tgz#f7c200cd1b92ef236b399eecf73c648d17aa94d2"
@@ -3786,17 +3738,10 @@ lodash._slice@~2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/lodash._slice/-/lodash._slice-2.4.1.tgz#745cf41a53597b18f688898544405efa2b06d90f"
 
-=======
-<<<<<<< HEAD
->>>>>>> Fix test's paths
-=======
->>>>>>> Yarn file fixed
 lodash.assign@^4.0.3, lodash.assign@^4.0.6:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.assign/-/lodash.assign-4.2.0.tgz#0d99f3ccd7a6d261d19bdaeb9245005d285808e7"
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 lodash.bind@~2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/lodash.bind/-/lodash.bind-2.4.1.tgz#5d19fa005c8c4d236faf4742c7b7a1fcabe29267"
@@ -3804,17 +3749,10 @@ lodash.bind@~2.4.1:
     lodash._createwrapper "~2.4.1"
     lodash._slice "~2.4.1"
 
-=======
-=======
->>>>>>> Fix test's paths
->>>>>>> Fix test's paths
-=======
->>>>>>> Yarn file fixed
 lodash.cond@^4.3.0:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/lodash.cond/-/lodash.cond-4.5.2.tgz#f471a1da486be60f6ab955d17115523dd1d255d5"
 
-<<<<<<< HEAD
 lodash.contains@^2.4.3:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/lodash.contains/-/lodash.contains-2.4.3.tgz#3017007f88458254c818f9aa2906420490d9682c"
@@ -3823,7 +3761,7 @@ lodash.contains@^2.4.3:
     lodash.forown "~2.4.1"
     lodash.isarray "~2.4.1"
     lodash.isstring "~2.4.1"
-=======
+
 lodash.create@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/lodash.create/-/lodash.create-3.1.1.tgz#d7f2849f0dbda7e04682bb8cd72ab022461debe7"
@@ -3831,7 +3769,6 @@ lodash.create@3.1.1:
     lodash._baseassign "^3.0.0"
     lodash._basecreate "^3.0.0"
     lodash._isiterateecall "^3.0.0"
->>>>>>> Fix travis
 
 lodash.escape@^3.0.0:
   version "3.2.0"
@@ -4013,17 +3950,10 @@ makeerror@1.0.x:
   dependencies:
     tmpl "1.0.x"
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 match-at@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/match-at/-/match-at-0.1.0.tgz#f561e7709ff9a105b85cc62c6b8ee7c15bf24f31"
 
-=======
-<<<<<<< HEAD
->>>>>>> Fix test's paths
-=======
->>>>>>> Yarn file fixed
 "match-stream@>= 0.0.2 < 1":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/match-stream/-/match-stream-0.0.2.tgz#99eb050093b34dffade421b9ac0b410a9cfa17cf"
@@ -4794,15 +4724,15 @@ querystringify@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-1.0.0.tgz#6286242112c5b712fa654e526652bf6a13ff05cb"
 
-ramda@^0.24.0, ramda@^0.24.1:
+ramda@^0.24.1:
   version "0.24.1"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.24.1.tgz#c3b7755197f35b8dc3502228262c4c91ddb6b857"
 
 ramdasauce@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ramdasauce/-/ramdasauce-2.0.0.tgz#d60d5f6424d16ab44028efaf0f4af1427b9cc3d3"
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/ramdasauce/-/ramdasauce-2.1.0.tgz#65ea157a9cfc17841a7dd6499d3f9f421dc2eb36"
   dependencies:
-    ramda "^0.24.0"
+    ramda "^0.24.1"
 
 random-bytes@~1.0.0:
   version "1.0.0"
@@ -5067,11 +4997,7 @@ react-proxy@^1.1.7:
     lodash "^4.6.1"
     react-deep-force-update "^1.0.0"
 
-<<<<<<< HEAD
 react-redux@^5.0.6:
-=======
-react-redux@^5.0.1:
->>>>>>> Upgrade detox dependency
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.6.tgz#23ed3a4f986359d68b5212eaaa681e60d6574946"
   dependencies:
@@ -6185,8 +6111,8 @@ webidl-conversions@^3.0.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
 
 webidl-conversions@^4.0.0:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.1.tgz#8015a17ab83e7e1b311638486ace81da6ce206a0"
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
 
 whatwg-encoding@^1.0.1:
   version "1.0.1"
@@ -6262,8 +6188,8 @@ wordwrap@~0.0.2:
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
 
 worker-farm@^1.3.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/worker-farm/-/worker-farm-1.4.1.tgz#a438bc993a7a7d133bcb6547c95eca7cff4897d8"
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/worker-farm/-/worker-farm-1.5.0.tgz#adfdf0cd40581465ed0a1f648f9735722afd5c8d"
   dependencies:
     errno "^0.1.4"
     xtend "^4.0.1"
