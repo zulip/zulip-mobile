@@ -40,14 +40,14 @@ export const apiCall = async (
     );
     if (response.status === 401) {
       // TODO: httpUnauthorized()
-      console.log('Unauthorized for:', auth, route, params); // eslint-disable-line
+			console.log('Unauthorized for:', auth, route, params); // eslint-disable-line
       throw Error('Unauthorized');
     }
 
     const json = await response.json();
 
     if (!response.ok || json.result !== 'success') {
-      console.log('Bad response for:', auth, route, params); // eslint-disable-line
+			console.log('Bad response for:', auth, route, params); // eslint-disable-line
       throw new Error(json.msg);
     }
 
