@@ -1,5 +1,14 @@
 /* @flow */
-import type { GlobalState, Narrow, Message, Subscription, Stream, Presence, Outbox } from './types';
+import type {
+  GlobalState,
+  Narrow,
+  Message,
+  Subscription,
+  Stream,
+  Presence,
+  Outbox,
+  SettingsState,
+} from './types';
 
 export const getMute = (state: GlobalState): Object => state.mute;
 
@@ -18,6 +27,8 @@ export const getActiveNarrow = (state: GlobalState): Narrow => state.chat.narrow
 export const getSubscriptions = (state: GlobalState): Subscription[] => state.subscriptions;
 
 export const getStreams = (state: GlobalState): Stream[] => state.streams;
+
+export const getSettings = (state: GlobalState): SettingsState => state.settings;
 
 export const getPresence = (state: GlobalState): Presence[] => state.presence;
 

@@ -314,6 +314,8 @@ export type RealmState = {
 
 export type SettingsState = {
   locale: string,
+  offlineNotification: boolean,
+  onlineNotification: boolean,
   theme: string,
 };
 

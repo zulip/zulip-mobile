@@ -8,6 +8,7 @@ import '../vendor/intl/intl';
 import messages from './i18n/messages';
 import StylesProvider from './StylesProvider';
 import AppContainer from './nav/AppContainer';
+import { getLocale, getTheme } from './selectors';
 
 require('./i18n/locale');
 
@@ -31,6 +32,6 @@ class Providers extends PureComponent {
 }
 
 export default connect(state => ({
-  locale: state.settings.locale,
-  theme: state.settings.theme,
+  locale: getLocale(state),
+  theme: getTheme(state),
 }))(Providers);
