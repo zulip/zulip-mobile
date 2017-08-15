@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 
 import type { Auth, Narrow, EditMessage, User, Actions } from '../types';
 import patchMessage from '../api/updateMessage';
@@ -48,11 +48,13 @@ export default class ComposeBox extends PureComponent {
   topicInput = null;
   messageInput = null;
 
+  messageInput: TextInput;
+  topicInput: TextInput;
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };
-
-  props: Props;
 
   state: {
     optionSelected: number,
@@ -114,13 +116,9 @@ export default class ComposeBox extends PureComponent {
     const { auth, editMessage, actions } = this.props;
     const { message } = this.state;
     if (editMessage.content !== message) {
-      try {
-        patchMessage(auth, replaceEmoticonsWithEmoji(message), editMessage.id, (msg: string) =>
-          showErrorAlert(msg, 'Failed to edit message'),
-        );
-      } catch (err) {
-        showErrorAlert(err.message, 'Failed to edit message');
-      }
+      patchMessage(auth, replaceEmoticonsWithEmoji(message), editMessage.id).catch(error =>
+        showErrorAlert(error.message, 'Failed to edit message'),
+      );
     }
     actions.cancelEditMessage();
   };

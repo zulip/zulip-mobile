@@ -25,7 +25,6 @@ export const apiCall = async (
   route: string,
   params: Object = {},
   resFunc: ResponseExtractionFunc = res => res,
-  errorFunc?: (msg: string) => void,
   isSilent: boolean = false,
   shouldTimeout: boolean = true,
 ) => {
@@ -49,8 +48,7 @@ export const apiCall = async (
 
     if (!response.ok || json.result !== 'success') {
       console.log('Bad response for:', auth, route, params); // eslint-disable-line
-      // throw new Error(json.msg);
-      return errorFunc(json.msg);
+      throw new Error(json.msg);
     }
 
     // send APP_ONLINE
@@ -132,7 +130,6 @@ export const apiPatch = async (
   auth: Auth,
   route: string,
   resFunc: ResponseExtractionFunc,
-  errorFunc?: (msg: string) => void,
   params: Object = {},
 ) =>
   apiCall(
@@ -143,5 +140,4 @@ export const apiPatch = async (
       body: encodeAsURI(params),
     },
     resFunc,
-    errorFunc,
   );
