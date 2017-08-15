@@ -1,10 +1,12 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 
 import type { Auth, Narrow, EditMessage, User, Actions } from '../types';
+import patchMessage from '../api/updateMessage';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
-import { IconSend } from '../common/Icons';
+import { showErrorAlert } from '../common/errorAlert';
+import { IconDone, IconSend } from '../common/Icons';
 import { isStreamNarrow, topicNarrow } from '../utils/narrow';
 import ComposeMenuContainer from './ComposeMenuContainer';
 import AutoCompleteView from '../autocomplete/AutoCompleteView';
@@ -46,11 +48,13 @@ export default class ComposeBox extends PureComponent {
   topicInput = null;
   messageInput = null;
 
+  messageInput: TextInput;
+  topicInput: TextInput;
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };
-
-  props: Props;
 
   state: {
     optionSelected: number,
@@ -105,6 +109,17 @@ export default class ComposeBox extends PureComponent {
     this.clearMessageInput();
   };
 
+  handleEdit = () => {
+    const { auth, editMessage, actions } = this.props;
+    const { message } = this.state;
+    if (editMessage.content !== message) {
+      patchMessage(auth, replaceEmoticonsWithEmoji(message), editMessage.id).catch(error =>
+        showErrorAlert(error.message, 'Failed to edit message'),
+      );
+    }
+    actions.cancelEditMessage();
+  };
+
   handleAutoComplete = (input: string) => {
     this.setState({ message: input });
   };
@@ -118,13 +133,14 @@ export default class ComposeBox extends PureComponent {
       this.setState({
         message: nextProps.editMessage ? nextProps.editMessage.content : '',
       });
+      this.messageInput.focus();
     }
   }
 
   render() {
     const { styles } = this.context;
     const { height, message, topic } = this.state;
-    const { auth, composeTools, narrow, users } = this.props;
+    const { auth, composeTools, narrow, users, editMessage } = this.props;
 
     const canSelectTopic = composeTools && isStreamNarrow(narrow);
     const messageHeight = Math.min(Math.max(MIN_HEIGHT, height + 10), MAX_HEIGHT);
@@ -164,10 +180,10 @@ export default class ComposeBox extends PureComponent {
           <View style={componentStyles.bottom}>
             <FloatingActionButton
               style={componentStyles.button}
-              Icon={IconSend}
+              Icon={editMessage === null ? IconSend : IconDone}
               size={32}
               disabled={message.length === 0}
-              onPress={this.handleSend}
+              onPress={editMessage === null ? this.handleSend : this.handleEdit}
             />
           </View>
         </View>
