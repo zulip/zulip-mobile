@@ -4,6 +4,7 @@ import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 
+import type { ThemeType } from './types';
 import '../vendor/intl/intl';
 import messages from './i18n/messages';
 import StylesProvider from './StylesProvider';
@@ -15,7 +16,7 @@ require('./i18n/locale');
 class Providers extends PureComponent {
   props: {
     locale: string,
-    theme: string,
+    theme: ThemeType,
   };
 
   render() {

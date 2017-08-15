@@ -312,11 +312,13 @@ export type RealmState = {
   pushToken: string,
 };
 
+export type ThemeType = 'default' | 'night';
+
 export type SettingsState = {
   locale: string,
   offlineNotification: boolean,
   onlineNotification: boolean,
-  theme: string,
+  theme: ThemeType,
 };
 
 export type StreamsState = [];
