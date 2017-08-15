@@ -19,10 +19,21 @@ export default (state: UnreadState = initialState, action: Action): UnreadState 
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case EVENT_NEW_MESSAGE:
-      return action.message.type === 'private' && action.message.display_recipient.length === 2
-        ? addItemsToPmArray(state, [action.message.id], action.message.sender_id)
-        : state;
+    case EVENT_NEW_MESSAGE: {
+      if (action.message.type !== 'private') {
+        return state;
+      }
+
+      if (action.ownEmail && action.ownEmail === action.message.sender_email) {
+        return state;
+      }
+
+      if (action.message.display_recipient.length !== 2) {
+        return state;
+      }
+
+      return addItemsToPmArray(state, [action.message.id], action.message.sender_id);
+    }
 
     case MARK_MESSAGES_READ:
       return removeItemsDeeply(state, action.messageIds);
