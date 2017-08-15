@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
-import { Color } from 'color';
+import Color from 'color';
 
 import getStatusBarStyle from '../utils/getStatusBarStyle';
 import type { Narrow, ThemeType } from '../types';
@@ -32,7 +32,7 @@ class ZulipStatusBar extends PureComponent {
         animated
         showHideTransition="slide"
         hidden={hidden && Platform.OS !== 'android'}
-        backgroundColor={backgroundColor}
+        backgroundColor={Color(backgroundColor).darken(0.4)}
         barStyle={barStyle}
       />
     );
