@@ -8,7 +8,7 @@ import { NULL_USER } from '../nullObjects';
 import type { User, Narrow } from '../types';
 import { normalizeRecipients } from '../utils/message';
 import { isGroupNarrow } from '../utils/narrow';
-import { Avatar, RawLabel, Touchable, UnreadCount } from '../common';
+import { TextAvatar, RawLabel, Touchable, UnreadCount } from '../common';
 import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
@@ -36,7 +36,7 @@ class ConversationGroup extends PureComponent {
     email: string,
     users: User[],
     unreadCount: number,
-    narrow?: Narrow,
+    narrow: Narrow,
     onPress: (emails: string) => void,
   };
 
@@ -57,7 +57,7 @@ class ConversationGroup extends PureComponent {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={[styles.row, isSelected && styles.selectedRow]}>
-          <Avatar size={32} name={allNames} />
+          <TextAvatar size={32} name={allNames} />
           <RawLabel
             style={[styles.text, isSelected && styles.selectedText]}
             numberOfLines={2}

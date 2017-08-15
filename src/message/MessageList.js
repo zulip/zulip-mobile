@@ -6,8 +6,7 @@ import { nullFunction } from '../nullObjects';
 import { LoadingIndicator } from '../common';
 import MessageTyping from '../message/MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';
-import renderMessages from './renderMessages';
-import type { Actions, TypingState, Message, Narrow } from '../types';
+import type { Actions, TypingState } from '../types';
 
 type Props = {
   actions: Actions,
@@ -18,8 +17,7 @@ type Props = {
   singleFetchProgress: boolean,
   onScroll: () => void,
   typingUsers?: TypingState,
-  messages: Array<Message>,
-  narrow: Narrow,
+  renderedMessages: any[],
 };
 
 export default class MessageList extends PureComponent {
@@ -49,25 +47,19 @@ export default class MessageList extends PureComponent {
       singleFetchProgress,
       onScroll,
       typingUsers,
-      messages,
-      narrow,
+      renderedMessages,
     } = this.props;
-
-    const messageList = renderMessages({
-      messages,
-      narrow,
-    });
 
     // `headerIndices` tell the scroll view which components are headers
     // and are eligible to be docked at the top of the view.
     const headerIndices = [];
-    for (let i = 0; i < messageList.length; i++) {
-      const elem = messageList[i];
+    for (let i = 0; i < renderedMessages.length; i++) {
+      const elem = renderedMessages[i];
       if (elem.props.type === 'header') {
         headerIndices.push(i + 1);
       }
       if (elem.props.type === 'message') {
-        messageList[i] = (
+        renderedMessages[i] = (
           <TaggedView
             key={elem.props.message.id}
             tagID={elem.props.message.id.toString()}
@@ -82,13 +74,13 @@ export default class MessageList extends PureComponent {
       <InfiniteScrollView
         style={styles.messageList}
         automaticallyAdjustContentInset="false"
-        stickyHeaderIndices={headerIndices}
+        stickyHeaderIndices={[]}
         onStartReached={actions.fetchOlder}
         onEndReached={actions.fetchNewer}
         autoScrollToBottom={this.autoScrollToBottom}
         onScroll={onScroll}>
         <LoadingIndicator active={fetchingOlder} caughtUp={caughtUpOlder} />
-        {messageList}
+        {renderedMessages}
         {!singleFetchProgress && fetchingNewer && <LoadingIndicator active />}
         {typingUsers && <MessageTyping users={typingUsers} actions={actions} />}
       </InfiniteScrollView>

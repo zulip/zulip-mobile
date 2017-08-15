@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class MessageFull extends PureComponent {
+export default class MessageFull extends PureComponent {
   props: {
     actions: Actions,
     ownEmail: string,
@@ -60,6 +60,7 @@ class MessageFull extends PureComponent {
       isNotYetSent,
       handleLinkPress,
     } = this.props;
+
     return (
       <View style={styles.message}>
         <Avatar
@@ -96,5 +97,3 @@ class MessageFull extends PureComponent {
     );
   }
 }
-
-export default MessageFull;

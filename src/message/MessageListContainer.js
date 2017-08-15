@@ -9,7 +9,7 @@ import {
   getAuth,
   getFlags,
   getCurrentTypingUsers,
-  getShownMessagesInActiveNarrow,
+  getRenderedMessages,
   getActiveNarrow,
   getCaughtUpForActiveNarrow,
 } from '../selectors';
@@ -40,7 +40,7 @@ class MessageListContainer extends PureComponent {
       fetchingOlder,
       fetchingNewer,
       typingUsers,
-      messages,
+      renderedMessages,
       narrow,
       actions,
     } = this.props;
@@ -52,7 +52,7 @@ class MessageListContainer extends PureComponent {
         fetchingOlder={fetchingOlder}
         fetchingNewer={fetchingNewer}
         typingUsers={typingUsers}
-        messages={messages}
+        renderedMessages={renderedMessages}
         narrow={narrow}
         actions={actions}
       />
@@ -67,7 +67,7 @@ export default connect(
     fetchingOlder: state.chat.fetchingOlder,
     fetchingNewer: state.chat.fetchingNewer,
     typingUsers: getCurrentTypingUsers(state),
-    messages: getShownMessagesInActiveNarrow(state),
+    renderedMessages: getRenderedMessages(state),
     narrow: getActiveNarrow(state),
     flags: getFlags(state),
     auth: getAuth(state),

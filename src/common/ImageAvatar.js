@@ -10,8 +10,7 @@ export default class ImageAvatar extends PureComponent {
     avatarUrl: string,
     size: number,
     shape: string,
-    children: [],
-    onPress?: () => void,
+    onPress: () => void,
   };
 
   static defaultProps = {
@@ -19,7 +18,7 @@ export default class ImageAvatar extends PureComponent {
   };
 
   render() {
-    const { avatarUrl, size, shape, onPress, children } = this.props;
+    const { avatarUrl, size, shape, onPress } = this.props;
     const touchableStyle = {
       height: size,
       width: size,
@@ -34,9 +33,8 @@ export default class ImageAvatar extends PureComponent {
           style={touchableStyle}
           source={{ uri: avatarUrl }}
           resizeMode="cover"
-          borderRadius={borderRadius}>
-          {children}
-        </ImageBackground>
+          borderRadius={borderRadius}
+        />
       </Touchable>
     );
   }

@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import type { Narrow } from '../types';
+import type { Message, Narrow } from '../types';
 import {
   isTopicNarrow,
   isPrivateOrGroupNarrow,
@@ -14,12 +14,7 @@ import TimeRow from '../message/TimeRow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
-type Props = {
-  messages: any[],
-  narrow: Narrow,
-};
-
-export default ({ messages, narrow }: Props) => {
+export default (messages: Message[], narrow: Narrow) => {
   const list: Object[] = [];
   let prevItem;
 
@@ -83,5 +78,6 @@ export default ({ messages, narrow }: Props) => {
 
     prevItem = item;
   }
+
   return list;
 };
