@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class MessageHeader extends PureComponent {
+export default class MessageHeader extends PureComponent {
   props: {
     auth: Auth,
     actions: Actions,
@@ -111,5 +111,3 @@ class MessageHeader extends PureComponent {
     return null;
   }
 }
-
-export default MessageHeader;

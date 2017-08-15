@@ -8,7 +8,14 @@ import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
 import openLink from '../utils/openLink';
-import { getAuth, getUsers, getFlags, getSubscriptions, getCurrentRoute } from '../selectors';
+import {
+  getAuth,
+  getUsers,
+  getFlags,
+  getSubscriptions,
+  getCurrentRoute,
+  getActiveNarrow,
+} from '../selectors';
 import boundActions from '../boundActions';
 import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 import type { ShowActionSheetTypes } from './messageActionSheet';
@@ -110,6 +117,7 @@ class MessageContainer extends PureComponent {
 export default connect(
   state => ({
     auth: getAuth(state),
+    narrow: getActiveNarrow(state),
     currentRoute: getCurrentRoute(state),
     users: getUsers(state),
     flags: getFlags(state),

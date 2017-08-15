@@ -50,7 +50,6 @@ export default ({ messages, narrow }: Props) => {
                 }
               : item
           }
-          narrow={narrow}
         />,
       );
     }
@@ -67,7 +66,6 @@ export default ({ messages, narrow }: Props) => {
           key={item.timestamp}
           isBrief={shouldGroupWithPrev}
           message={item}
-          narrow={narrow}
         />,
       );
       prevItem = item;
@@ -80,7 +78,6 @@ export default ({ messages, narrow }: Props) => {
         key={item.id}
         isBrief={shouldGroupWithPrev}
         message={item}
-        narrow={narrow}
       />,
     );
 

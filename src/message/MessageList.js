@@ -22,15 +22,11 @@ type Props = {
   narrow: Narrow,
 };
 
-class MessageList extends PureComponent {
+export default class MessageList extends PureComponent {
   props: Props;
 
   static contextTypes = {
     styles: () => null,
-  };
-
-  state: {
-    actionSheetButtons: [string, string],
   };
 
   autoScrollToBottom = false;
@@ -38,8 +34,6 @@ class MessageList extends PureComponent {
   static defaultProps = {
     onScroll: nullFunction,
   };
-
-  state = { actionSheetButtons: ['', ''] };
 
   componentWillReceiveProps(nextProps: Props) {
     this.autoScrollToBottom = this.props.caughtUpNewer && nextProps.caughtUpNewer;
@@ -101,5 +95,3 @@ class MessageList extends PureComponent {
     );
   }
 }
-
-export default MessageList;
