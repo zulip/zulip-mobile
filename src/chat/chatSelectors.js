@@ -66,14 +66,16 @@ export const getShownMessagesInActiveNarrow = createSelector(
 );
 
 export const getAnchor = createSelector(getMessagesInActiveNarrow, messages => {
-  if (messages.length === 0) {
-    return undefined;
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (messages[i].type !== 'outbox') {
+      return {
+        older: messages[0].id,
+        newer: messages[i].id,
+      };
+    }
   }
 
-  return {
-    older: messages[0].id,
-    newer: messages[messages.length - 1].id,
-  };
+  return undefined;
 });
 
 export const getPrivateMessages = createSelector(
