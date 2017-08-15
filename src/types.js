@@ -267,6 +267,7 @@ export type AppState = {
   pushToken: string,
   eventQueueId: number,
   editMessage: ?EditMessage,
+  outboxSending: boolean,
 };
 
 export type ChatState = {
@@ -394,6 +395,7 @@ export type Outbox = {
   sender_full_name: string,
   email: string,
   avatar_url: string,
+  type: 'outbox',
 };
 
 export type OutboxState = Outbox[];

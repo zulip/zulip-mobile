@@ -2,7 +2,7 @@
 import parseMarkdown from 'zulip-markdown-parser';
 
 import type { Dispatch, GetState, Narrow } from '../types';
-import { MESSAGE_SEND } from '../actionConstants';
+import { MESSAGE_SEND, START_OUTBOX_SENDING, FINISHED_OUTBOX_SENDING } from '../actionConstants';
 import { getAuth } from '../selectors';
 import { sendMessage as sendMessageApi } from '../api';
 import { getSelfUserDetail } from '../users/userSelectors';
@@ -13,19 +13,27 @@ export const sendMessage = (params: Object) => ({
   params,
 });
 
+export const toggleOutboxSending = (sending: boolean): {} => ({
+  type: sending ? START_OUTBOX_SENDING : FINISHED_OUTBOX_SENDING,
+  sending,
+});
+
 export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
-  const auth = getAuth(state);
-
-  state.outbox.forEach(item => {
-    sendMessageApi(
-      auth,
-      ...extractTypeToAndSubjectFromNarrow(state.chat.narrow),
-      item.content,
-      item.timestamp,
-      state.app.eventQueueId,
-    );
-  });
+  if (state.outbox.length > 0 && !state.app.outboxSending) {
+    dispatch(toggleOutboxSending(true));
+    const auth = getAuth(state);
+    state.outbox.forEach(async item => {
+      await sendMessageApi(
+        auth,
+        ...extractTypeToAndSubjectFromNarrow(state.chat.narrow),
+        item.content,
+        item.timestamp,
+        state.app.eventQueueId,
+      );
+    });
+    dispatch(toggleOutboxSending(false));
+  }
 };
 
 export const addToOutbox = (narrow: Narrow, content: string) => async (
@@ -47,6 +55,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
       sender_full_name: userDetail.fullName,
       email: userDetail.email,
       avatar_url: userDetail.avatarUrl,
+      type: 'outbox',
     }),
   );
   dispatch(trySendMessages());
