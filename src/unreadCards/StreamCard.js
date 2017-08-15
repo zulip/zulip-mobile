@@ -6,21 +6,27 @@ import StreamCardHeader from './StreamCardHeader';
 import TopicList from './TopicList';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
+const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
+const SWIPE_OUT_DURATION = 250;
 
 const styles = StyleSheet.create({
-  container: {
-    width: SCREEN_WIDTH * 0.95,
+  card: {
     borderRadius: 2,
-    alignSelf: 'center',
     shadowOffset: {
       width: 0,
       height: 3,
     },
     shadowRadius: 4,
     shadowOpacity: 0.08,
-    margin: 5,
-    marginTop: 10,
     backgroundColor: '#fff',
+  },
+  container: {
+    flex: 1,
+    borderRadius: 2,
+    width: SCREEN_WIDTH * 0.95,
+    justifyContent: 'center',
+    backgroundColor: '#5B82FF',
+    alignSelf: 'center',
   },
 });
 
@@ -29,31 +35,62 @@ export default class StreamCard extends PureComponent {
     super(props);
 
     const position = new Animated.ValueXY();
+    const animated = new Animated.Value(1);
+
     const panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (event, gesture) => {
-        position.setValue({ x: gesture.dx, y: gesture.dy });
+        let xOffset = gesture.dx;
+        if (
+          xOffset > 0 // Allow only right swipes
+        )
+          position.setValue({ x: gesture.dx, y: gesture.dy });
       },
       onPanResponderRelease: (event, gesture) => {
-        console.log('RELEASED');
-        this.resetPosition();
+        this.handleTouchEnd(gesture.dx);
       },
-      onPanResponderReject: () => {
-        console.log('REJECTED');
-        this.resetPosition();
+      onPanResponderReject: (e, gesture) => {
+        this.handleTouchEnd(gesture.dx);
       },
-      onPanResponderTerminate: () => {
-        console.log('TERMINATED');
-        this.resetPosition();
+      onPanResponderTerminate: (e, gesture) => {
+        this.handleTouchEnd(gesture.dx);
       },
-      onPanResponderEnd: () => {
-        console.log('ENDED');
-        this.resetPosition();
+      onPanResponderEnd: (e, gesture) => {
+        this.handleTouchEnd(gesture.dx);
       },
     });
 
-    this.state = { panResponder, position };
+    this.state = {
+      panResponder,
+      position,
+      animated,
+      cardHeight: 100,
+    };
   }
+
+  handleTouchEnd = xOffset => {
+    if (xOffset > SWIPE_THRESHOLD) {
+      this.forceSwipe();
+    } else {
+      this.resetPosition();
+    }
+  };
+
+  onSwipeComplete = () => {
+    const { onSwipe } = this.props;
+
+    Animated.timing(this.state.animated, {
+      toValue: 0,
+      duration: 250,
+    }).start(onSwipe);
+  };
+
+  forceSwipe = () => {
+    Animated.timing(this.state.position, {
+      toValue: { x: SCREEN_WIDTH, y: 0 },
+      duration: SWIPE_OUT_DURATION,
+    }).start(() => this.onSwipeComplete());
+  };
 
   resetPosition = () => {
     Animated.spring(this.state.position, {
@@ -61,19 +98,33 @@ export default class StreamCard extends PureComponent {
     }).start();
   };
 
+  measureView = event => {
+    this.setState({
+      cardHeight: event.nativeEvent.layout.height,
+    });
+  };
+
   render() {
     const { stream, color, topics, unreadCount } = this.props;
 
     return (
       <Animated.View
-        {...this.state.panResponder.panHandlers}
-        style={[styles.container, { left: this.state.position.x }]}>
-        <StreamCardHeader 
-          unreadCount={unreadCount}
-          streamName={stream} 
-          color={color} 
-        />
-        <TopicList topics={topics} />
+        style={[
+          styles.container,
+          {
+            height: this.state.animated.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, this.state.cardHeight],
+            }),
+          },
+        ]}>
+        <Animated.View
+          onLayout={event => this.measureView(event)}
+          {...this.state.panResponder.panHandlers}
+          style={[styles.card, { left: this.state.position.x }]}>
+          <StreamCardHeader unreadCount={unreadCount} streamName={stream} color={color} />
+          <TopicList topics={topics} />
+        </Animated.View>
       </Animated.View>
     );
   }

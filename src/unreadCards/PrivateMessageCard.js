@@ -12,7 +12,7 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 // Dummy data
 const message = {
   avatar_url:
-  'https://secure.gravatar.com/avatar/37641655de3d5700215259f7bbefe3cd?d=identicon&version=1',
+    'https://secure.gravatar.com/avatar/37641655de3d5700215259f7bbefe3cd?d=identicon&version=1',
   client: 'website',
   content: '<p>Great talk to you then</p>',
   content_type: 'text/html',
@@ -41,7 +41,6 @@ const actions = {
   dummyAction: 'my actions',
 };
 
-
 const styles = StyleSheet.create({
   container: {
     width: SCREEN_WIDTH * 0.95,
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     shadowOpacity: 0.08,
     margin: 5,
-    marginTop: 10,
+    marginTop: 15,
     backgroundColor: '#fff',
   },
 });
@@ -104,16 +103,13 @@ export default class PrivateMessageCard extends PureComponent {
       <Animated.View
         {...this.state.panResponder.panHandlers}
         style={[styles.container, { left: this.state.position.x }]}>
-        <PrivateMessageCardHeader
-          unreadCount={unreadCount}
-          sender={sender}
-        />
+        <PrivateMessageCardHeader unreadCount={unreadCount} sender={sender} />
         <MessageFull
           message={message}
           twentyFourHourTime={false}
           ownEmail={auth.email}
-          doNarrow={() => { }}
-          onLongPress={() => { }}
+          doNarrow={() => {}}
+          onLongPress={() => {}}
           starred={false}
           realm={auth.realm}>
           {renderHtmlChildren({
@@ -121,7 +117,7 @@ export default class PrivateMessageCard extends PureComponent {
             auth,
             actions,
             message,
-            onPress: () => { },
+            onPress: () => {},
           })}
         </MessageFull>
       </Animated.View>

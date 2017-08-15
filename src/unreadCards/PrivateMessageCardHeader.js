@@ -25,18 +25,17 @@ const styles = StyleSheet.create({
   },
   streamHeading: {
     flexDirection: 'row',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
-const Heading = ({ text }) => (
+const Heading = ({ text }) =>
   <View style={styles.streamHeading}>
     <IconPrivateChat size={16} style={styles.icon} />
     <Text style={styles.headerText}>
       {text}
     </Text>
-  </View>
-);
+  </View>;
 
 export default class PrivateMessageCardHeader extends PureComponent {
   render() {

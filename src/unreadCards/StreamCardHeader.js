@@ -25,18 +25,17 @@ const styles = StyleSheet.create({
   },
   streamHeading: {
     flexDirection: 'row',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
-const StreamHeading = ({ stream }) => (
+const StreamHeading = ({ stream }) =>
   <View style={styles.streamHeading}>
     <IconStream size={16} style={styles.icon} />
     <Text style={styles.headerText}>
       {stream}
     </Text>
-  </View>
-);
+  </View>;
 
 export default class StreamCardHeader extends PureComponent {
   getHeaderStyles = () => [styles.header, { backgroundColor: this.props.color }];
