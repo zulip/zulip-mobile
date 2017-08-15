@@ -33,7 +33,7 @@ class OutboxMessageContainer extends PureComponent {
         message={message}
         twentyFourHourTime={twentyFourHourTime}
         ownEmail={message.email}
-        outbox
+        isNotYetSent
         actions={actions}>
         {renderHtmlChildren({
           childrenNodes,
