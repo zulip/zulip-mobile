@@ -86,6 +86,26 @@ describe('unreadPmsReducers', () => {
       expect(actualState).toBe(initialState);
     });
 
+    test('if message is sent by self, do not mutate state', () => {
+      const initialState = deepFreeze([]);
+
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message: {
+          id: 2,
+          type: 'private',
+          sender_id: 1,
+          sender_email: 'me@example.com',
+          display_recipient: [{ email: 'john@example.com' }, { email: 'me@example.com' }],
+        },
+        ownEmail: 'me@example.com',
+      });
+
+      const actualState = unreadPmsReducers(initialState, action);
+
+      expect(actualState).toBe(initialState);
+    });
+
     test('if message is not private, return original state', () => {
       const initialState = deepFreeze([
         {
