@@ -2,7 +2,12 @@
 import parseMarkdown from 'zulip-markdown-parser';
 
 import type { Dispatch, GetState, Narrow } from '../types';
-import { MESSAGE_SEND, START_OUTBOX_SENDING, FINISHED_OUTBOX_SENDING } from '../actionConstants';
+import {
+  MESSAGE_SEND,
+  START_OUTBOX_SENDING,
+  FINISHED_OUTBOX_SENDING,
+  DELETE_OUTBOX_MESSAGE,
+} from '../actionConstants';
 import { getAuth } from '../selectors';
 import { sendMessage as sendMessageApi } from '../api';
 import { getSelfUserDetail } from '../users/userSelectors';
@@ -15,7 +20,11 @@ export const sendMessage = (params: Object) => ({
 
 export const toggleOutboxSending = (sending: boolean): {} => ({
   type: sending ? START_OUTBOX_SENDING : FINISHED_OUTBOX_SENDING,
-  sending,
+});
+
+export const deleteOutboxMessage = (localMessageId: number) => ({
+  type: DELETE_OUTBOX_MESSAGE,
+  localMessageId,
 });
 
 export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) => {

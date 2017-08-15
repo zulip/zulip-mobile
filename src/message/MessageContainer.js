@@ -104,7 +104,7 @@ class MessageContainer extends PureComponent {
         twentyFourHourTime={twentyFourHourTime}
         ownEmail={auth.email}
         onLongPress={this.handleLongPress}
-        starred={this.isStarred(message)}
+        starred={message.type === 'outbox' ? undefined : this.isStarred(message)}
         realm={auth.realm}
         auth={auth}
         actions={actions}
