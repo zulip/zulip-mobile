@@ -1,4 +1,6 @@
+/* @flow */
 import deepFreeze from 'deep-freeze';
+
 import {
   getLocale,
   getTheme,

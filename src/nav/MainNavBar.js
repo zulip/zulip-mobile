@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 
-import type { Actions } from '../types';
+import type { Actions, Narrow } from '../types';
 import boundActions from '../boundActions';
 import { ZulipStatusBar } from '../common';
 import Title from '../title/Title';
@@ -28,6 +28,7 @@ class MainNavBar extends PureComponent {
     backgroundColor: string,
     textColor: string,
     editMessage: boolean,
+    narrow: Narrow,
     unreadHuddlesTotal: number,
     unreadMentionsTotal: number,
     unreadPmsTotal: number,
@@ -40,6 +41,7 @@ class MainNavBar extends PureComponent {
     const {
       actions,
       backgroundColor,
+      narrow,
       textColor,
       unreadPmsTotal,
       unreadHuddlesTotal,
@@ -53,7 +55,7 @@ class MainNavBar extends PureComponent {
 
     return (
       <View style={[styles.navBar, { backgroundColor }]}>
-        <ZulipStatusBar backgroundColor={backgroundColor} />
+        <ZulipStatusBar narrow={narrow} backgroundColor={backgroundColor} />
         <NavButton
           name={editMessage ? 'md-arrow-back' : 'ios-menu'}
           color={textColor}

@@ -2,8 +2,10 @@
 import React, { PureComponent } from 'react';
 import { Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
+import { Color } from 'color';
 
-import type { ThemeType } from '../types';
+import getStatusBarStyle from '../utils/getStatusBarStyle';
+import type { Narrow, ThemeType } from '../types';
 import { getTheme } from '../selectors';
 import { foregroundColorFromBackground } from '../utils/color';
 
@@ -11,6 +13,7 @@ class ZulipStatusBar extends PureComponent {
   props: {
     hidden: boolean,
     backgroundColor: string,
+    narrow?: Narrow,
     theme: ThemeType,
   };
 
@@ -21,10 +24,9 @@ class ZulipStatusBar extends PureComponent {
   };
 
   render() {
-    const { theme, hidden, backgroundColor } = this.props;
+    const { backgroundColor, hidden, narrow, theme } = this.props;
     const textColor = foregroundColorFromBackground(backgroundColor);
-    const barStyle = textColor === 'white' && theme === 'night' ? 'light-content' : 'dark-content';
-
+    const barStyle = getStatusBarStyle(narrow, textColor, theme);
     return (
       <StatusBar
         animated

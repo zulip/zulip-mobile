@@ -8,6 +8,8 @@ export type Auth = {
   email: string,
 };
 
+export type StatusBarStyle = 'light-content' | 'dark-content';
+
 export type Account = Auth;
 
 export type ImageResource = {
