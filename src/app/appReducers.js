@@ -14,6 +14,8 @@ import {
   TOGGLE_COMPOSE_TOOLS,
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
+  START_OUTBOX_SENDING,
+  FINISHED_OUTBOX_SENDING,
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 
@@ -27,6 +29,7 @@ const initialState: AppState = {
   pushToken: '',
   eventQueueId: null,
   editMessage: null,
+  outboxSending: false,
 };
 
 export default (state: AppState = initialState, action: Action) => {
@@ -96,6 +99,10 @@ export default (state: AppState = initialState, action: Action) => {
           content: action.message,
         },
       };
+    case START_OUTBOX_SENDING:
+      return { ...state, outboxSending: true };
+    case FINISHED_OUTBOX_SENDING:
+      return { ...state, outboxSending: false };
     default:
       return state;
   }
