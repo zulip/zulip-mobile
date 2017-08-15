@@ -19,17 +19,11 @@ class MessageList extends PureComponent {
     styles: () => null,
   };
 
-  state: {
-    actionSheetButtons: [string, string],
-  };
-
   autoScrollToBottom = false;
 
   static defaultProps = {
     onScroll: nullFunction,
   };
-
-  state = { actionSheetButtons: ['', ''] };
 
   componentWillReceiveProps(nextProps) {
     this.autoScrollToBottom = this.props.caughtUpNewer && nextProps.caughtUpNewer;

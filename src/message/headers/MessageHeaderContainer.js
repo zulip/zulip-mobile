@@ -4,11 +4,12 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import MessageHeader from './MessageHeader';
 import boundActions from '../../boundActions';
-import { getAuth, getSubscriptions } from '../../selectors';
+import { getAuth, getActiveNarrow, getSubscriptions } from '../../selectors';
 
 export default connect(
   state => ({
     auth: getAuth(state),
+    narrow: getActiveNarrow(state),
     subscriptions: getSubscriptions(state),
     mute: state.mute,
   }),
