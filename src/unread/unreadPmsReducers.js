@@ -24,11 +24,11 @@ export default (state: UnreadState = initialState, action: Action): UnreadState 
         return state;
       }
 
-      if (action.ownEmail && action.ownEmail === action.message.sender_email) {
+      if (action.message.display_recipient.length !== 2) {
         return state;
       }
 
-      if (action.message.display_recipient.length !== 2) {
+      if (action.ownEmail && action.ownEmail === action.message.sender_email) {
         return state;
       }
 

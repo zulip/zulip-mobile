@@ -112,6 +112,30 @@ describe('unreadHuddlesReducers', () => {
       expect(actualState).toBe(initialState);
     });
 
+    test('if message is sent by self, do not mutate state', () => {
+      const initialState = deepFreeze([]);
+
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message: {
+          id: 2,
+          type: 'private',
+          sender_id: 1,
+          sender_email: 'me@example.com',
+          display_recipient: [
+            { email: 'john@example.com' },
+            { email: 'mark@example.com' },
+            { email: 'me@example.com' },
+          ],
+        },
+        ownEmail: 'me@example.com',
+      });
+
+      const actualState = unreadHuddlesReducers(initialState, action);
+
+      expect(actualState).toBe(initialState);
+    });
+
     test('if message id does not exist, append to state', () => {
       const initialState = deepFreeze([
         {

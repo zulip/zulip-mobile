@@ -115,6 +115,26 @@ describe('unreadStreamsReducers', () => {
       expect(actualState).toBe(initialState);
     });
 
+    test('if message is sent by self, do not mutate state', () => {
+      const initialState = deepFreeze([]);
+
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message: {
+          id: 1,
+          type: 'stream',
+          stream_id: 2,
+          subject: 'another topic',
+          sender_email: 'me@example.com',
+        },
+        ownEmail: 'me@example.com',
+      });
+
+      const actualState = unreadStreamsReducers(initialState, action);
+
+      expect(actualState).toBe(initialState);
+    });
+
     test('if message id does not exist, append to state', () => {
       const initialState = deepFreeze([
         {

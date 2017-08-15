@@ -20,15 +20,25 @@ export default (state: UnreadState = initialState, action: Action): UnreadState 
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case EVENT_NEW_MESSAGE:
-      return action.message.type === 'private' && action.message.display_recipient.length > 2
-        ? addItemsToHuddleArray(
-            state,
-            [action.message.id],
-            getRecipientsIds(action.message.display_recipient),
-          )
-        : state;
+    case EVENT_NEW_MESSAGE: {
+      if (action.message.type !== 'private') {
+        return state;
+      }
 
+      if (action.message.display_recipient.length < 3) {
+        return state;
+      }
+
+      if (action.ownEmail && action.ownEmail === action.message.sender_email) {
+        return state;
+      }
+
+      return addItemsToHuddleArray(
+        state,
+        [action.message.id],
+        getRecipientsIds(action.message.display_recipient),
+      );
+    }
     case MARK_MESSAGES_READ:
       return removeItemsDeeply(state, action.messageIds);
 

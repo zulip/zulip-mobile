@@ -19,15 +19,22 @@ export default (state: UnreadState = initialState, action: Action): UnreadState 
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case EVENT_NEW_MESSAGE:
-      return action.message.type === 'stream'
-        ? addItemsToStreamArray(
-            state,
-            [action.message.id],
-            action.message.stream_id,
-            action.message.subject,
-          )
-        : state;
+    case EVENT_NEW_MESSAGE: {
+      if (action.message.type !== 'stream') {
+        return state;
+      }
+
+      if (action.ownEmail && action.ownEmail === action.message.sender_email) {
+        return state;
+      }
+
+      return addItemsToStreamArray(
+        state,
+        [action.message.id],
+        action.message.stream_id,
+        action.message.subject,
+      );
+    }
 
     case MARK_MESSAGES_READ:
       return removeItemsDeeply(state, action.messageIds);
