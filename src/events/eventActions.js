@@ -25,7 +25,7 @@ const startEventPolling = (queueId: number, eventId: number) => async (
       response = await pollForEvents(getAuth(getState()), queueId, lastEventId);
     } catch (e) {
       // Stop polling - user likely switched accounts or logged out
-      if (queueId !== getState().app.eventQueueId) {
+      if (queueId !== getState().app.eventQueueId || getAuth(getState()).apiKey === '') {
         break;
       }
 

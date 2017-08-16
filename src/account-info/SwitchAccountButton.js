@@ -19,7 +19,11 @@ class SwitchAccountButton extends PureComponent {
   shutdownPUSH = async () => {
     const { auth, actions, pushToken } = this.props;
     if (pushToken !== '') {
-      await unregisterPush(auth, pushToken);
+      try {
+        await unregisterPush(auth, pushToken);
+      } catch (e) {
+        console.log('failed to unregister Push token', e); // eslint-disable-line
+      }
       actions.deleteTokenPush();
     }
   };
