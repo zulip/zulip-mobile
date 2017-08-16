@@ -106,7 +106,7 @@ export default class InfiniteScrollView extends PureComponent {
         onLayout={this._onScrollViewLayout}
         onScroll={this._onScroll}
         scrollEventThrottle={config.scrollCallbackThrottle}
-        stickyHeaderIndices={Platform.OS === 'ios' ? this.props.stickyHeaderIndices : undefined}
+        stickyHeaderIndices={this.props.stickyHeaderIndices}
         autoScrollToBottom={this.props.autoScrollToBottom}
         removeClippedSubviews
         ref={component => {
