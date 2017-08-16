@@ -62,9 +62,11 @@ class AppContainer extends PureComponent {
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     checkCompatibility().then(res => {
-      this.setState({
-        compatibilityCheckFail: res.status === 400,
-      });
+      if (res.status === 400) {
+        this.setState({
+          compatibilityCheckFail: true,
+        });
+      }
     });
   }
 
