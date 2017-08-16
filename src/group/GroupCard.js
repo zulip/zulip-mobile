@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 });
 
 export default class GroupCard extends PureComponent {
-  listRef: Object;
+  listRef: (component: Object) => void;
 
   props: {
     actions: Actions,
