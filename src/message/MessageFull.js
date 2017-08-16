@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, TouchableWithoutFeedback, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 
 import type { Actions, Auth } from '../types';
 import { Avatar } from '../common';
@@ -76,14 +76,13 @@ export default class MessageFull extends PureComponent {
           />
           <View style={styles.contentWrapper}>
             <ScrollView style={styles.inner}>
-              <TouchableWithoutFeedback onLongPress={onLongPress}>
-                <HtmlChildrenContainer
-                  message={message}
-                  auth={auth}
-                  actions={actions}
-                  handleLinkPress={handleLinkPress}
-                />
-              </TouchableWithoutFeedback>
+              <HtmlChildrenContainer
+                message={message}
+                auth={auth}
+                actions={actions}
+                handleLinkPress={handleLinkPress}
+                onLongPress={onLongPress}
+              />
             </ScrollView>
           </View>
           <MessageTags
