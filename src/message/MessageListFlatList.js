@@ -7,7 +7,6 @@ import { nullFunction } from '../nullObjects';
 import MessageContainer from './MessageContainer';
 import TaggedView from '../native/TaggedView';
 import renderMessages from './renderMessages';
-import { getFullUrl } from '../utils/url';
 import {
   constructActionButtons,
   executeActionSheetAction,
@@ -72,32 +71,9 @@ class MessageList extends PureComponent {
 
   render() {
     const { styles } = this.context;
-    const {
-      auth,
-      actions,
-      subscriptions,
-      users,
-      messages,
-      narrow,
-      mute,
-      doNarrow,
-      flags,
-      twentyFourHourTime,
-    } = this.props;
+    const { messages, narrow } = this.props;
 
-    const messageList = renderMessages({
-      onLongPress: this.handleLongPress,
-      onHeaderLongPress: this.handleHeaderLongPress,
-      auth,
-      actions,
-      subscriptions,
-      users,
-      messages,
-      narrow,
-      mute,
-      flags,
-      twentyFourHourTime,
-    });
+    const messageList = renderMessages(messages, narrow);
 
     // `headerIndices` tell the scroll view which components are headers
     // and are eligible to be docked at the top of the view.
@@ -128,14 +104,9 @@ class MessageList extends PureComponent {
         keyExtractor={item => item.id}
         renderItem={({ item }) =>
           <MessageContainer
-            auth={auth}
-            actions={actions}
+            type="message"
             message={item}
             isBrief={false}
-            flags={flags}
-            doNarrow={doNarrow}
-            avatarUrl={getFullUrl(item.avatar_url, auth.realm)}
-            users={users}
             onLongPress={this.handleLongPress}
           />}
         renderSectionHeader={({ section }) =>

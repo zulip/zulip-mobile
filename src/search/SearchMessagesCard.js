@@ -10,6 +10,7 @@ import { BRAND_COLOR } from '../styles';
 import { searchNarrow } from '../utils/narrow';
 import MessageList from '../message/MessageList';
 import { getMessages } from '../api';
+import renderMessages from '../message/renderMessages';
 
 const styles = StyleSheet.create({
   empty: {
@@ -27,12 +28,10 @@ const styles = StyleSheet.create({
 
 type Props = {
   actions: Actions,
-  twentyFourHourTime: boolean,
-  subscriptions: any[],
   query: string,
   auth: Auth,
-  flags: Object,
 };
+
 export default class SearchMessagesCard extends PureComponent {
   props: Props;
 
@@ -70,12 +69,14 @@ export default class SearchMessagesCard extends PureComponent {
 
   render() {
     const { isFetching, messages, query } = this.state;
-    const { actions, auth, subscriptions, twentyFourHourTime, flags } = this.props;
+    const { actions } = this.props;
     const noResults = !!query && !isFetching && !messages.length;
 
     if (noResults) {
       return <SearchEmptyState text="No results" />;
     }
+
+    const renderedMessages = renderMessages(messages, []);
 
     return (
       <View style={styles.results}>
@@ -84,17 +85,12 @@ export default class SearchMessagesCard extends PureComponent {
         <ActionSheetProvider>
           <MessageList
             actions={actions}
-            messages={messages}
+            renderedMessages={renderedMessages}
             fetchingOlder={false}
             fetchingNewer={isFetching}
             caughtUpOlder
             caughtUpNewer
             singleFetchProgress
-            narrow={[]}
-            twentyFourHourTime={twentyFourHourTime}
-            subscriptions={subscriptions}
-            auth={auth}
-            flags={flags}
           />
         </ActionSheetProvider>
       </View>

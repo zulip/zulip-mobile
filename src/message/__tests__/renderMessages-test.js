@@ -6,9 +6,7 @@ describe('renderMessages', () => {
   const narrow = deepFreeze([]);
 
   test('empty messages results in no rendered messages', () => {
-    const props = deepFreeze({ messages: [] });
-
-    const messageList = renderMessages(props);
+    const messageList = renderMessages([]);
     expect(messageList).toEqual([]);
   });
 
@@ -23,7 +21,7 @@ describe('renderMessages', () => {
 
     const expectedComponentKeys = ['time123', 'header1', '1'];
 
-    const messageList = renderMessages({ messages, narrow });
+    const messageList = renderMessages(messages, narrow);
     const messageKeys = messageList.map(x => x.key);
 
     expect(messageKeys).toEqual(expectedComponentKeys);
@@ -62,7 +60,7 @@ describe('renderMessages', () => {
 
     const expectedComponentKeys = ['time123', 'header1', '1', '2', '3'];
 
-    const messageList = renderMessages({ messages, narrow });
+    const messageList = renderMessages(messages, narrow);
     const messageKeys = messageList.map(x => x.key);
 
     expect(messageKeys).toEqual(expectedComponentKeys);
@@ -104,7 +102,7 @@ describe('renderMessages', () => {
 
     const expectedComponentKeys = ['time123', 'header1', '1', '2', '3'];
 
-    const messageList = renderMessages({ messages, narrow });
+    const messageList = renderMessages(messages, narrow);
     const messageKeys = messageList.map(x => x.key);
 
     expect(messageKeys).toEqual(expectedComponentKeys);
@@ -135,7 +133,7 @@ describe('renderMessages', () => {
 
     const expectedComponentTypes = ['time123', 'header1', '1', '2'];
 
-    const messageList = renderMessages({ messages, narrow });
+    const messageList = renderMessages(messages, narrow);
     const messageTypes = messageList.map(x => x.key);
 
     expect(messageTypes).toEqual(expectedComponentTypes);

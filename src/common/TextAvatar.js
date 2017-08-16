@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 
 import { Touchable } from './';
@@ -25,34 +25,36 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
-  name: string,
-  size: number,
-  shape: string,
-  children: [],
-  onPress?: () => void,
-};
-
-export default ({ name, size, status, shape, onPress, children }: Props) => {
-  const frameSize = {
-    height: size,
-    width: size,
-    borderRadius:
-      shape === 'rounded' ? size / 8 : shape === 'circle' ? size / 2 : shape === 'square' ? 0 : 0,
-    backgroundColor: colorHashFromName(name),
-  };
-  const textSize = {
-    fontSize: size / 3,
+export default class TextAvatar extends PureComponent {
+  props: {
+    name: string,
+    size: number,
+    shape?: string,
+    onPress?: () => void,
   };
 
-  return (
-    <Touchable onPress={onPress}>
-      <View style={[styles.frame, frameSize]}>
-        <Text style={[styles.text, textSize]}>
-          {initialsFromName(name)}
-        </Text>
-        {children}
-      </View>
-    </Touchable>
-  );
-};
+  render() {
+    const { name, size, shape, onPress } = this.props;
+
+    const frameSize = {
+      height: size,
+      width: size,
+      borderRadius:
+        shape === 'rounded' ? size / 8 : shape === 'circle' ? size / 2 : shape === 'square' ? 0 : 0,
+      backgroundColor: colorHashFromName(name),
+    };
+    const textSize = {
+      fontSize: size / 3,
+    };
+
+    return (
+      <Touchable onPress={onPress}>
+        <View style={[styles.frame, frameSize]}>
+          <Text style={[styles.text, textSize]}>
+            {initialsFromName(name)}
+          </Text>
+        </View>
+      </Touchable>
+    );
+  }
+}
