@@ -77,11 +77,15 @@ export const deleteTokenPush = (): Action => ({
   type: DELETE_TOKEN_PUSH,
 });
 
-export const saveTokenPush = (pushToken: string): Action => ({
+const saveTokenPush = (pushToken: string) => ({
   type: SAVE_TOKEN_PUSH,
   pushToken,
 });
 
 export const initNotifications = (): Action => (dispatch: Dispatch, getState: GetState) => {
-  initializeNotifications(getAuth(getState()), saveTokenPush, switchNarrow);
+  initializeNotifications(
+    getAuth(getState()),
+    token => dispatch(saveTokenPush(token)),
+    switchNarrow,
+  );
 };

@@ -49,6 +49,7 @@ const reducer = (state: RealmState = initialState, action: Action): RealmState =
       return {
         ...state,
         emoji: {},
+        pushToken: '',
       };
     case INIT_REALM_EMOJI:
       return {

@@ -22,10 +22,10 @@ const handleRegistrationUpdates = (auth: Auth, saveTokenPush) => {
   NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
     try {
       await registerPush(auth, deviceToken);
+      saveTokenPush(deviceToken);
     } catch (e) {
       console.log('error ', e); //eslint-disable-line
     }
-    saveTokenPush(deviceToken);
   });
 };
 
