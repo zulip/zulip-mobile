@@ -21,6 +21,7 @@ export default class Chat extends PureComponent {
   };
 
   scrollOffset: number = 0;
+  listComponent: Object;
 
   props: {
     narrow: Narrow,
@@ -28,14 +29,19 @@ export default class Chat extends PureComponent {
     isOnline: boolean,
     isSubscribed: boolean,
     noMessages: boolean,
-    // unreadCount: number,
+  };
+
+  handleSend = () => {
+    this.listComponent.scrollToEnd();
   };
 
   render() {
     const { styles } = this.context;
     const { isFetching, narrow, isOnline, isSubscribed, noMessages } = this.props;
     const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
-    const CheckSub = isSubscribed ? <ComposeBoxContainer /> : <NotSubscribed />;
+    const CheckSub = isSubscribed
+      ? <ComposeBoxContainer onSend={this.handleSend} />
+      : <NotSubscribed />;
 
     return (
       <WrapperView style={styles.screen} behavior="padding">
@@ -44,7 +50,11 @@ export default class Chat extends PureComponent {
         {noMessages && isFetching && <MessageListLoading />}
         {!noMessages &&
           <ActionSheetProvider>
-            <MessageListContainer />
+            <MessageListContainer
+              listRef={component => {
+                this.listComponent = component || this.listComponent;
+              }}
+            />
           </ActionSheetProvider>}
         {/* <UnreadNotice
           unreadCount={unreadCount}

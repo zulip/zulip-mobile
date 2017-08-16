@@ -133,9 +133,11 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     fontSize: 16,
   },
   composeBox: {
+    marginTop: 2,
     flexDirection: 'row',
     backgroundColor: 'rgba(127, 127, 127, 0.1)',
-    // borderTopColor: borderColor,
+    borderTopColor: borderColor,
+    borderTopWidth: 1,
     // zIndex: 2,
   },
   subheader: {

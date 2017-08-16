@@ -35,6 +35,7 @@ class MessageListContainer extends PureComponent {
 
   render() {
     const {
+      actions,
       caughtUpOlder,
       caughtUpNewer,
       fetchingOlder,
@@ -42,11 +43,12 @@ class MessageListContainer extends PureComponent {
       typingUsers,
       renderedMessages,
       narrow,
-      actions,
+      listRef,
+      onSend,
     } = this.props;
     return (
       <MessageList
-        onScroll={this.handleMessageListScroll}
+        actions={actions}
         caughtUpNewer={caughtUpNewer}
         caughtUpOlder={caughtUpOlder}
         fetchingOlder={fetchingOlder}
@@ -54,7 +56,9 @@ class MessageListContainer extends PureComponent {
         typingUsers={typingUsers}
         renderedMessages={renderedMessages}
         narrow={narrow}
-        actions={actions}
+        listRef={listRef}
+        onScroll={this.handleMessageListScroll}
+        onSend={onSend}
       />
     );
   }

@@ -42,6 +42,7 @@ type Props = {
   composeTools: boolean,
   editMessage: EditMessage,
   actions: Actions,
+  onSend: () => void,
 };
 
 export default class ComposeBox extends PureComponent {
@@ -95,18 +96,19 @@ export default class ComposeBox extends PureComponent {
   };
 
   handleSend = () => {
-    const { actions, narrow } = this.props;
+    const { actions, narrow, onSend } = this.props;
     const { topic, message } = this.state;
 
     const topicToSend = replaceEmoticonsWithEmoji(topic);
     const messageToSend = replaceEmoticonsWithEmoji(message);
+    const destinationNarrow = isStreamNarrow(narrow)
+      ? topicNarrow(narrow[0].operand, topicToSend || '(no topic)')
+      : narrow;
 
-    actions.addToOutbox(
-      isStreamNarrow(narrow) ? topicNarrow(narrow[0].operand, topicToSend) : narrow,
-      messageToSend,
-    );
+    actions.addToOutbox(destinationNarrow, messageToSend);
 
     this.clearMessageInput();
+    onSend();
   };
 
   handleEdit = () => {

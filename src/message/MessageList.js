@@ -15,9 +15,10 @@ type Props = {
   fetchingOlder: boolean,
   fetchingNewer: boolean,
   singleFetchProgress: boolean,
-  onScroll: () => void,
   typingUsers?: TypingState,
+  listRef?: Object,
   renderedMessages: any[],
+  onScroll: () => void,
 };
 
 export default class MessageList extends PureComponent {
@@ -45,6 +46,7 @@ export default class MessageList extends PureComponent {
       fetchingOlder,
       fetchingNewer,
       singleFetchProgress,
+      listRef,
       onScroll,
       typingUsers,
       renderedMessages,
@@ -78,6 +80,7 @@ export default class MessageList extends PureComponent {
         onStartReached={actions.fetchOlder}
         onEndReached={actions.fetchNewer}
         autoScrollToBottom={this.autoScrollToBottom}
+        listRef={listRef}
         onScroll={onScroll}>
         <LoadingIndicator active={fetchingOlder} caughtUp={caughtUpOlder} />
         {renderedMessages}

@@ -46,6 +46,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   const auth = getAuth(state);
 
   const html = parseMarkdown(content, users, streams, auth, realm.realm_filter, realm.realm_emoji);
+
   dispatch(
     sendMessage({
       narrow,

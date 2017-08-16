@@ -13,6 +13,7 @@ class HtmlChildrenContainer extends PureComponent {
     auth: Auth,
     actions: Actions,
     handleLinkPress: string => void,
+    onLongPress: () => void,
   };
 
   render() {
