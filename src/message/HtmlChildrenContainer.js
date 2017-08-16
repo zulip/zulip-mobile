@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
 
 import type { Message, Auth, Actions } from '../types';
 import htmlToDomTree from '../html/htmlToDomTree';
@@ -16,20 +16,22 @@ class HtmlChildrenContainer extends PureComponent {
   };
 
   render() {
-    const { message, auth, actions, handleLinkPress } = this.props;
+    const { message, auth, actions, handleLinkPress, onLongPress } = this.props;
     const content = getMessageContent(message.match_content || message.content);
     const childrenNodes = htmlToDomTree(content);
 
     return (
-      <View>
-        {renderHtmlChildren({
-          childrenNodes,
-          auth,
-          actions,
-          message,
-          onPress: handleLinkPress,
-        })}
-      </View>
+      <TouchableWithoutFeedback onLongPress={onLongPress}>
+        <View>
+          {renderHtmlChildren({
+            childrenNodes,
+            auth,
+            actions,
+            message,
+            onPress: handleLinkPress,
+          })}
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, TouchableWithoutFeedback, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 
 import ReactionList from '../reactions/ReactionList';
 import MessageTags from './MessageTags';
@@ -54,14 +54,13 @@ export default class MessageBrief extends PureComponent {
       <View style={styles.message}>
         <View style={styles.messageContentWrapper}>
           <ScrollView style={styles.childrenWrapper}>
-            <TouchableWithoutFeedback onLongPress={onLongPress}>
-              <HtmlChildrenContainer
-                message={message}
-                auth={auth}
-                actions={actions}
-                handleLinkPress={handleLinkPress}
-              />
-            </TouchableWithoutFeedback>
+            <HtmlChildrenContainer
+              message={message}
+              auth={auth}
+              actions={actions}
+              handleLinkPress={handleLinkPress}
+              onLongPress={onLongPress}
+            />
           </ScrollView>
         </View>
         <MessageTags
