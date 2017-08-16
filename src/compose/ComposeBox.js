@@ -167,7 +167,7 @@ export default class ComposeBox extends PureComponent {
                 value={topic}
               />}
             <MultilineInput
-              style={styles.composeTextInput}
+              style={[styles.composeTextInput, { height: totalHeight }]}
               placeholder={placeholder}
               textInputRef={component => {
                 this.messageInput = component;

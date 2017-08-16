@@ -1,17 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { TextInput } from 'react-native';
 
 import type { LocalizableText, StyleObj } from '../types';
 import { Input } from '../common';
-
-const componentStyles = StyleSheet.create({
-  input: {
-    // borderWidth: 0,
-    // backgroundColor: 'yellow',
-    height: 100,
-  },
-});
 
 export default class MultilineInput extends PureComponent {
   props: {
@@ -42,7 +34,7 @@ export default class MultilineInput extends PureComponent {
 
     return (
       <Input
-        style={[style, componentStyles.input]}
+        style={[style]}
         multiline
         overScrollMode="never"
         bounces={false}
