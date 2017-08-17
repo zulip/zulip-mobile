@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, Dimensions, Animated, PanResponder } from 'reac
 import StreamCardHeader from './StreamCardHeader';
 import TopicList from './TopicList';
 import DummyMessage from './DummyMessage';
+import { IconCross, IconCheck } from '../common/Icons';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
@@ -28,6 +29,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#5B82FF',
     alignSelf: 'center',
+  },
+  readIndicatorText: {
+    color: '#FFFFFF',
   },
 });
 
@@ -108,10 +112,32 @@ export default class StreamCard extends PureComponent {
     },
   ];
 
+  dynamicReadIndicatorStyles = () => ({
+    position: 'absolute',
+    left: 10,
+    flexDirection: 'column',
+    opacity: this.position.x.interpolate({
+      inputRange: [SWIPE_THRESHOLD, SCREEN_WIDTH * 0.9],
+      outputRange: [1, 0],
+    }),
+    transform: [
+      {
+        translateX: this.position.x.interpolate({
+          inputRange: [0, SWIPE_THRESHOLD],
+          outputRange: [0, 20],
+        }),
+      },
+    ],
+  });
+
   render() {
     const { stream, color, topics, unreadCount, isPrivate, sender } = this.props;
     return (
       <Animated.View style={this.dynamicContainerStyles()}>
+        <Animated.View style={this.dynamicReadIndicatorStyles()}>
+          <IconCheck size={48} color="#FFFFFF" />
+          <Text style={styles.readIndicatorText}>Read</Text>
+        </Animated.View>
         <Animated.View
           onLayout={event => this.measureView(event)}
           {...this.panResponder.panHandlers}
