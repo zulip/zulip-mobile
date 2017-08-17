@@ -73,8 +73,7 @@ type AuthMessageAndNarrow = {
   narrow: [],
 };
 
-const isAnOutboxMessage = ({ message }: Message): boolean =>
-  message.isOutbox && message.isOutbox === true;
+const isAnOutboxMessage = ({ message }: Message): boolean => message.isOutbox;
 
 const narrowToConversation = ({ message, actions, auth, currentRoute }: MessageAndDoNarrowType) => {
   actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
@@ -105,8 +104,11 @@ const editMessage = async ({ message, actions }: MessageAuthAndActions) => {
 };
 
 const deleteMessage = async ({ auth, message, actions }: MessageAuthAndActions) => {
-  if (isAnOutboxMessage({ message })) actions.deleteOutboxMessage(message.timestamp);
-  else deleteMessageApi(auth, message.id);
+  if (isAnOutboxMessage({ message })) {
+    actions.deleteOutboxMessage(message.timestamp);
+  } else {
+    deleteMessageApi(auth, message.id);
+  }
 };
 
 const unmuteTopic = ({ auth, message }: AuthAndMessageType) => {

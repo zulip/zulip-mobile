@@ -58,6 +58,7 @@ class MessageContainer extends PureComponent {
     );
 
   isStarred(message: Object) {
+    if (message.isOutbox) return undefined;
     const { flags } = this.props;
     return message.id in flags.starred;
   }
@@ -104,7 +105,7 @@ class MessageContainer extends PureComponent {
         twentyFourHourTime={twentyFourHourTime}
         ownEmail={auth.email}
         onLongPress={this.handleLongPress}
-        starred={message.isOutbox ? undefined : this.isStarred(message)}
+        starred={this.isStarred(message)}
         realm={auth.realm}
         auth={auth}
         actions={actions}

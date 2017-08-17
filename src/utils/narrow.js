@@ -139,18 +139,3 @@ export const extractTypeToAndSubjectFromNarrow = (
   }
   return { type: 'stream', display_recipient: narrow[0].operand, subject: narrow[1].operand };
 };
-
-export const compareNarrows = (narrow1: Narrow, narrow2: Narrow): boolean => {
-  if (!narrow1 || !narrow2) return false;
-  if (narrow1.length !== narrow2.length) return false;
-  if (narrow1[0].operator !== narrow2[0].operator || narrow1[0].operand !== narrow2[0].operand) {
-    return false;
-  }
-  if (
-    narrow1.length === 2 &&
-    (narrow1[1].operator !== narrow2[1].operator || narrow1[1].operand !== narrow2[1].operand)
-  ) {
-    return false;
-  }
-  return true;
-};
