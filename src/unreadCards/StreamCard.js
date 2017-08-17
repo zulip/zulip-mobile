@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Dimensions, Animated, PanResponder } from 'reac
 
 import StreamCardHeader from './StreamCardHeader';
 import TopicList from './TopicList';
+import DummyMessage from './DummyMessage';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
@@ -31,42 +32,35 @@ const styles = StyleSheet.create({
 });
 
 export default class StreamCard extends PureComponent {
-  constructor(props) {
-    super(props);
+  state = {
+    cardHeight: 100,
+  };
 
-    const position = new Animated.ValueXY();
-    const animated = new Animated.Value(1);
+  position = new Animated.ValueXY();
+  animated = new Animated.Value(1);
 
-    const panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onPanResponderMove: (event, gesture) => {
-        let xOffset = gesture.dx;
-        if (
-          xOffset > 0 // Allow only right swipes
-        )
-          position.setValue({ x: gesture.dx, y: gesture.dy });
-      },
-      onPanResponderRelease: (event, gesture) => {
-        this.handleTouchEnd(gesture.dx);
-      },
-      onPanResponderReject: (e, gesture) => {
-        this.handleTouchEnd(gesture.dx);
-      },
-      onPanResponderTerminate: (e, gesture) => {
-        this.handleTouchEnd(gesture.dx);
-      },
-      onPanResponderEnd: (e, gesture) => {
-        this.handleTouchEnd(gesture.dx);
-      },
-    });
-
-    this.state = {
-      panResponder,
-      position,
-      animated,
-      cardHeight: 100,
-    };
-  }
+  panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onPanResponderMove: (event, gesture) => {
+      let xOffset = gesture.dx;
+      if (
+        xOffset > 0 // Allow only right swipes
+      )
+        this.position.setValue({ x: gesture.dx, y: gesture.dy });
+    },
+    onPanResponderRelease: (event, gesture) => {
+      this.handleTouchEnd(gesture.dx);
+    },
+    onPanResponderReject: (e, gesture) => {
+      this.handleTouchEnd(gesture.dx);
+    },
+    onPanResponderTerminate: (e, gesture) => {
+      this.handleTouchEnd(gesture.dx);
+    },
+    onPanResponderEnd: (e, gesture) => {
+      this.handleTouchEnd(gesture.dx);
+    },
+  });
 
   handleTouchEnd = xOffset => {
     if (xOffset > SWIPE_THRESHOLD) {
@@ -79,21 +73,21 @@ export default class StreamCard extends PureComponent {
   onSwipeComplete = () => {
     const { onSwipe } = this.props;
 
-    Animated.timing(this.state.animated, {
+    Animated.timing(this.animated, {
       toValue: 0,
       duration: 250,
     }).start(onSwipe);
   };
 
   forceSwipe = () => {
-    Animated.timing(this.state.position, {
+    Animated.timing(this.position, {
       toValue: { x: SCREEN_WIDTH, y: 0 },
       duration: SWIPE_OUT_DURATION,
     }).start(() => this.onSwipeComplete());
   };
 
   resetPosition = () => {
-    Animated.spring(this.state.position, {
+    Animated.spring(this.position, {
       toValue: { x: 0, y: 0 },
     }).start();
   };
@@ -104,26 +98,32 @@ export default class StreamCard extends PureComponent {
     });
   };
 
-  render() {
-    const { stream, color, topics, unreadCount } = this.props;
+  dynamicContainerStyles = () => [
+    styles.container,
+    {
+      height: this.animated.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, this.state.cardHeight],
+      }),
+    },
+  ];
 
+  render() {
+    const { stream, color, topics, unreadCount, isPrivate, sender } = this.props;
     return (
-      <Animated.View
-        style={[
-          styles.container,
-          {
-            height: this.state.animated.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, this.state.cardHeight],
-            }),
-          },
-        ]}>
+      <Animated.View style={this.dynamicContainerStyles()}>
         <Animated.View
           onLayout={event => this.measureView(event)}
-          {...this.state.panResponder.panHandlers}
-          style={[styles.card, { left: this.state.position.x }]}>
-          <StreamCardHeader unreadCount={unreadCount} streamName={stream} color={color} />
-          <TopicList topics={topics} />
+          {...this.panResponder.panHandlers}
+          style={[styles.card, { left: this.position.x }]}>
+          <StreamCardHeader
+            isPrivate={isPrivate}
+            sender={sender}
+            unreadCount={unreadCount}
+            streamName={stream}
+            color={color}
+          />
+          {isPrivate ? <DummyMessage /> : <TopicList topics={topics} />}
         </Animated.View>
       </Animated.View>
     );

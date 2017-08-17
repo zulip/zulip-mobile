@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 
 import StreamCard from './StreamCard';
-import PrivateMessageCard from './PrivateMessageCard';
 
 const styles = StyleSheet.create({
   list: {
@@ -65,6 +64,12 @@ export default class UnreadCardsList extends PureComponent {
           },
         ],
       },
+      {
+        id: 3,
+        isPrivate: true,
+        sender: 'Nash Vail',
+        unreadCount: 4,
+      },
     ],
   };
 
@@ -80,21 +85,18 @@ export default class UnreadCardsList extends PureComponent {
 
   renderSeparator = () => <View style={styles.separator} />;
 
-  renderItem = ({ item, index }) => {
-    console.log('HERE: ', item, index);
-
-    return (
-      <StreamCard
-        unreadCount={item.unreadCount}
-        topics={item.topics}
-        stream={item.name}
-        color={item.color}
-        onSwipe={() => {
-          this.removeCard(item.id);
-        }}
-      />
-    );
-  };
+  renderItem = ({ item, index }) =>
+    <StreamCard
+      unreadCount={item.unreadCount}
+      topics={item.topics}
+      stream={item.name}
+      color={item.color}
+      isPrivate={item.isPrivate}
+      sender={item.sender}
+      onSwipe={() => {
+        this.removeCard(item.id);
+      }}
+    />;
 
   render() {
     console.log(this.state.data);
