@@ -73,7 +73,8 @@ type AuthMessageAndNarrow = {
   narrow: [],
 };
 
-const isAnOutboxMessage = ({ message }: Message): boolean => message.type === 'outbox';
+const isAnOutboxMessage = ({ message }: Message): boolean =>
+  message.isOutbox && message.isOutbox === true;
 
 const narrowToConversation = ({ message, actions, auth, currentRoute }: MessageAndDoNarrowType) => {
   actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
@@ -97,7 +98,7 @@ const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
   showToast('Message copied!');
 };
 
-const isSentMessage = ({ message }: Message): boolean => message.type !== 'outbox';
+const isSentMessage = ({ message }: Message): boolean => !isAnOutboxMessage({ message });
 
 const editMessage = async ({ message, actions }: MessageAuthAndActions) => {
   actions.startEditMessage(message.id);
@@ -177,7 +178,7 @@ const actionSheetButtons: ButtonType[] = [
     onlyIf: ({ message, auth, narrow }) =>
       resolveMultiple(message, auth, narrow, [isSentMessage, isSentBySelfAndNarrowed]),
   },
-  { title: 'Delete message', onPress: deleteMessage, onlyIf: isAnOutboxMessage },
+  { title: 'Delete message', onPress: deleteMessage },
   // If skip then covered in constructActionButtons
   { title: 'Narrow to conversation', onPress: narrowToConversation, onlyIf: skip },
   { title: 'Star Message', onPress: starMessage, onlyIf: skip },

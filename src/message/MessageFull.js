@@ -87,7 +87,7 @@ export default class MessageFull extends PureComponent {
           <MessageTags
             timestamp={message.last_edit_timestamp}
             starred={starred}
-            isOutbox={message.type === 'outbox'}
+            isOutbox={message.isOutbox}
           />
           <ReactionList messageId={message.id} reactions={message.reactions} ownEmail={ownEmail} />
         </View>

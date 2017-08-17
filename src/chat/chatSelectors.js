@@ -65,13 +65,19 @@ export const getShownMessagesInActiveNarrow = createSelector(
     messagesInActiveNarrow.filter(item => !shouldBeMuted(item, activeNarrow, subscriptions, mute)),
 );
 
+export const getFetchedMessagesInActiveNarrow = createSelector(
+  getAllMessages,
+  getActiveNarrow,
+  (allMessages, activeNarrow) => allMessages[JSON.stringify(activeNarrow)] || [],
+);
+
 export const getFirstMessageId = createSelector(
-  getMessagesInActiveNarrow,
+  getFetchedMessagesInActiveNarrow,
   messages => (messages.length > 0 ? messages[0].id : undefined),
 );
 
 export const getLastMessageId = createSelector(
-  getMessagesInActiveNarrow,
+  getFetchedMessagesInActiveNarrow,
   messages => (messages.length > 0 ? messages[messages.length - 1].id : undefined),
 );
 
