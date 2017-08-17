@@ -7,6 +7,8 @@ const initialState = [];
 const reducer = (state: OutboxState = initialState, action: Action): OutboxState => {
   switch (action.type) {
     case MESSAGE_SEND: {
+      const message = state.find(item => item.timestamp === action.params.timestamp);
+      if (message) return state;
       return [...state, { ...action.params }];
     }
     case DELETE_OUTBOX_MESSAGE:
