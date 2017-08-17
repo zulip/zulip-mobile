@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
 import { Label, RawLabel } from '../common';
@@ -26,6 +26,14 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
   },
+  spinner: {
+    paddingTop: 2,
+    paddingRight: 4,
+    paddingBottom: 2,
+    paddingLeft: 4,
+    marginLeft: 4,
+    borderRadius: 2,
+  },
 });
 
 export default class MessageTags extends PureComponent {
@@ -46,8 +54,8 @@ export default class MessageTags extends PureComponent {
             <Label style={styles.text} text={'starred'} />
           </View>}
         {isOutbox &&
-          <View style={styles.tag}>
-            <RawLabel style={styles.text} text={'(not sent)'} />
+          <View style={styles.spinner}>
+            <ActivityIndicator />
           </View>}
       </View>
     );
