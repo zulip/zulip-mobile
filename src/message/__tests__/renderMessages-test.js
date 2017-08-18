@@ -5,9 +5,9 @@ import renderMessages from '../renderMessages';
 describe('renderMessages', () => {
   const narrow = deepFreeze([]);
 
-  test('empty messages results in no rendered messages', () => {
+  test('empty messages results in a single empty section', () => {
     const messageList = renderMessages([]);
-    expect(messageList).toEqual([]);
+    expect(messageList).toEqual([{ key: 0, data: [] }]);
   });
 
   test('renders time, header and message for a single input', () => {
@@ -15,16 +15,15 @@ describe('renderMessages', () => {
       {
         timestamp: 123,
         avatar_url: '',
-        id: 1,
+        id: 12345,
       },
     ]);
 
-    const expectedComponentKeys = ['time123', 'header1', '1'];
-
     const messageList = renderMessages(messages, narrow);
-    const messageKeys = messageList.map(x => x.key);
 
-    expect(messageKeys).toEqual(expectedComponentKeys);
+    expect(messageList.length).toEqual(2);
+    expect(messageList[0].data[0].key).toEqual('time123');
+    expect(messageList[1].data[0].key).toEqual(12345);
   });
 
   test('several messages in same stream, from same person result in time row, header for the stream, three messages, only first of which is full detail', () => {
@@ -58,15 +57,12 @@ describe('renderMessages', () => {
       },
     ]);
 
-    const expectedComponentKeys = ['time123', 'header1', '1', '2', '3'];
-
     const messageList = renderMessages(messages, narrow);
-    const messageKeys = messageList.map(x => x.key);
 
-    expect(messageKeys).toEqual(expectedComponentKeys);
-    expect(messageList[2].props.isBrief).toBe(false);
-    expect(messageList[3].props.isBrief).toBe(true);
-    expect(messageList[4].props.isBrief).toBe(true);
+    const messageKeys = messageList[1].data.map(x => x.key);
+    const messageBriefs = messageList[1].data.map(x => x.isBrief);
+    expect(messageKeys).toEqual([1, 2, 3]);
+    expect(messageBriefs).toEqual([false, true, true]);
   });
 
   test('several messages in same stream, from different people result in time row, header for the stream, three messages, only all full detail', () => {
@@ -100,15 +96,12 @@ describe('renderMessages', () => {
       },
     ]);
 
-    const expectedComponentKeys = ['time123', 'header1', '1', '2', '3'];
-
     const messageList = renderMessages(messages, narrow);
-    const messageKeys = messageList.map(x => x.key);
 
-    expect(messageKeys).toEqual(expectedComponentKeys);
-    expect(messageList[2].props.isBrief).toBe(false);
-    expect(messageList[3].props.isBrief).toBe(false);
-    expect(messageList[4].props.isBrief).toBe(false);
+    const messageKeys = messageList[1].data.map(x => x.key);
+    const messageBriefs = messageList[1].data.map(x => x.isBrief);
+    expect(messageKeys).toEqual([1, 2, 3]);
+    expect(messageBriefs).toEqual([false, false, false]);
   });
 
   test('private messages between two people, results in time row, header and two full messages', () => {
@@ -131,13 +124,11 @@ describe('renderMessages', () => {
       },
     ]);
 
-    const expectedComponentTypes = ['time123', 'header1', '1', '2'];
-
     const messageList = renderMessages(messages, narrow);
-    const messageTypes = messageList.map(x => x.key);
 
-    expect(messageTypes).toEqual(expectedComponentTypes);
-    expect(messageList[2].props.isBrief).toBe(false);
-    expect(messageList[3].props.isBrief).toBe(false);
+    const messageKeys = messageList[1].data.map(x => x.key);
+    const messageBriefs = messageList[1].data.map(x => x.isBrief);
+    expect(messageKeys).toEqual([1, 2]);
+    expect(messageBriefs).toEqual([false, false]);
   });
 });

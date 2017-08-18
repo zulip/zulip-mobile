@@ -1,17 +1,16 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import TaggedView from '../native/TaggedView';
+import type { Actions, TypingState } from '../types';
 import { nullFunction } from '../nullObjects';
 import { LoadingIndicator } from '../common';
 import MessageTyping from '../message/MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';
-import type { Actions, TypingState } from '../types';
+import MessageListSection from './MessageListSection';
+import MessageListItem from './MessageListItem';
 
 type Props = {
   actions: Actions,
-  caughtUpNewer: boolean,
-  caughtUpOlder: boolean,
   fetchingOlder: boolean,
   fetchingNewer: boolean,
   singleFetchProgress: boolean,
@@ -34,15 +33,10 @@ export default class MessageList extends PureComponent {
     onScroll: nullFunction,
   };
 
-  componentWillReceiveProps(nextProps: Props) {
-    this.autoScrollToBottom = this.props.caughtUpNewer && nextProps.caughtUpNewer;
-  }
-
   render() {
     const { styles } = this.context;
     const {
       actions,
-      caughtUpOlder,
       fetchingOlder,
       fetchingNewer,
       singleFetchProgress,
@@ -52,40 +46,40 @@ export default class MessageList extends PureComponent {
       renderedMessages,
     } = this.props;
 
-    // `headerIndices` tell the scroll view which components are headers
-    // and are eligible to be docked at the top of the view.
-    const headerIndices = [];
-    for (let i = 0; i < renderedMessages.length; i++) {
-      const elem = renderedMessages[i];
-      if (elem.props.type === 'header') {
-        headerIndices.push(i + 1);
-      }
-      if (elem.props.type === 'message') {
-        renderedMessages[i] = (
-          <TaggedView
-            key={elem.props.message.id}
-            tagID={elem.props.message.id.toString()}
-            collapsable={false}>
-            {elem}
-          </TaggedView>
-        );
-      }
-    }
+    const messageList = React.Children.toArray([
+      <LoadingIndicator active={fetchingOlder} />,
+      renderedMessages.reduce(
+        (result, section) =>
+          result.push(
+            <MessageListSection key={section.key} message={section.message} />,
+            section.data.map(item => <MessageListItem {...item} />),
+          ) && result,
+        [],
+      ),
+      !singleFetchProgress && fetchingNewer && <LoadingIndicator active />,
+      typingUsers && <MessageTyping users={typingUsers} actions={actions} />,
+    ]);
 
+    const stickyHeaderIndices = messageList.reduce((indices, component, idx) => {
+      if (component.type === MessageListSection) {
+        indices.push(idx);
+      }
+      return indices;
+    }, []);
+    console.log(
+      '!!!!!!!!!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!!!!!!!!!!!!!!!!!',
+    );
     return (
       <InfiniteScrollView
         style={styles.messageList}
         automaticallyAdjustContentInset="false"
-        stickyHeaderIndices={[]}
+        stickyHeaderIndices={stickyHeaderIndices}
         onStartReached={actions.fetchOlder}
         onEndReached={actions.fetchNewer}
         autoScrollToBottom={this.autoScrollToBottom}
         listRef={listRef}
         onScroll={onScroll}>
-        <LoadingIndicator active={fetchingOlder} caughtUp={caughtUpOlder} />
-        {renderedMessages}
-        {!singleFetchProgress && fetchingNewer && <LoadingIndicator active />}
-        {typingUsers && <MessageTyping users={typingUsers} actions={actions} />}
+        {messageList}
       </InfiniteScrollView>
     );
   }

@@ -1,52 +1,49 @@
 /* @flow */
-import React from 'react';
-
 import type { Message, Narrow } from '../types';
-import {
-  isTopicNarrow,
-  isPrivateOrGroupNarrow,
-  extractTypeToAndSubjectFromNarrow,
-} from '../utils/narrow';
-import MessageHeaderContainer from '../message/headers/MessageHeaderContainer';
-import MessageContainer from '../message/MessageContainer';
-import OutboxMessageContainer from '../message/OutboxMessageContainer';
-import TimeRow from '../message/TimeRow';
+import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
+type TimeDescriptor = {
+  type: 'time',
+  timestamp: number,
+};
+
+type MessageDescriptor = {
+  type: 'message',
+  message: Object,
+};
+
+type ItemDescriptor = MessageDescriptor | TimeDescriptor;
+
+type SectionDescriptor = {
+  message: Object,
+  data: ItemDescriptor[],
+};
+
 export default (messages: Message[], narrow: Narrow) => {
-  const list: Object[] = [];
+  const sections: SectionDescriptor[] = [{ key: 0, data: [] }];
   let prevItem;
 
   for (const item of messages) {
-    const isOutbox = !item.id;
     const diffDays =
       prevItem && !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
     if (!prevItem || diffDays) {
-      list.push(
-        <TimeRow type="time_row" key={`time${item.timestamp}`} timestamp={item.timestamp} />,
-      );
+      sections[sections.length - 1].data.push({
+        key: `time${item.timestamp}`,
+        type: 'time',
+        timestamp: item.timestamp,
+      });
     }
 
     const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);
     const diffRecipient = !isSameRecipient(prevItem, item);
-    const extractedOutboxData = isOutbox ? extractTypeToAndSubjectFromNarrow(item.narrow) : {};
     if (showHeader && diffRecipient) {
-      list.push(
-        <MessageHeaderContainer
-          type="header"
-          key={`header${item.id}`}
-          message={
-            isOutbox
-              ? {
-                  ...item,
-                  display_recipient: extractedOutboxData[1],
-                  subject: extractedOutboxData[2],
-                }
-              : item
-          }
-        />,
-      );
+      sections.push({
+        key: `header${item.id}`,
+        message: item,
+        data: [],
+      });
     }
     const shouldGroupWithPrev =
       !diffRecipient &&
@@ -54,30 +51,15 @@ export default (messages: Message[], narrow: Narrow) => {
       prevItem &&
       prevItem.sender_full_name === item.sender_full_name;
 
-    if (isOutbox) {
-      list.push(
-        <OutboxMessageContainer
-          type="outbox"
-          key={item.timestamp}
-          isBrief={shouldGroupWithPrev}
-          message={item}
-        />,
-      );
-      prevItem = item;
-      continue; // eslint-disable-line
-    }
-
-    list.push(
-      <MessageContainer
-        type="message"
-        key={item.id}
-        isBrief={shouldGroupWithPrev}
-        message={item}
-      />,
-    );
+    sections[sections.length - 1].data.push({
+      key: item.id,
+      type: 'message',
+      isBrief: shouldGroupWithPrev,
+      message: item,
+    });
 
     prevItem = item;
   }
 
-  return list;
+  return sections;
 };

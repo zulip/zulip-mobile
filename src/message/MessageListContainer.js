@@ -5,14 +5,7 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import boundActions from '../boundActions';
 import MessageList from './MessageList';
-import {
-  getAuth,
-  getFlags,
-  getCurrentTypingUsers,
-  getRenderedMessages,
-  getActiveNarrow,
-  getCaughtUpForActiveNarrow,
-} from '../selectors';
+import { getAuth, getCurrentTypingUsers, getRenderedMessages, getActiveNarrow } from '../selectors';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { queueMarkAsRead } from '../api';
@@ -66,14 +59,11 @@ class MessageListContainer extends PureComponent {
 
 export default connect(
   state => ({
-    caughtUpOlder: getCaughtUpForActiveNarrow(state).older,
-    caughtUpNewer: getCaughtUpForActiveNarrow(state).older,
     fetchingOlder: state.chat.fetchingOlder,
     fetchingNewer: state.chat.fetchingNewer,
     typingUsers: getCurrentTypingUsers(state),
     renderedMessages: getRenderedMessages(state),
     narrow: getActiveNarrow(state),
-    flags: getFlags(state),
     auth: getAuth(state),
   }),
   boundActions,
