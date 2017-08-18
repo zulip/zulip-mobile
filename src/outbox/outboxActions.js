@@ -11,7 +11,7 @@ import {
 import { getAuth } from '../selectors';
 import { sendMessage as sendMessageApi } from '../api';
 import { getSelfUserDetail } from '../users/userSelectors';
-import { extractTypeToAndSubjectFromNarrow } from '../utils/narrow';
+import { extractTypeToAndSubjectFromNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 
 export const sendMessage = (params: Object) => ({
   type: MESSAGE_SEND,
@@ -36,7 +36,7 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
       await sendMessageApi(
         auth,
         item.type,
-        item.display_recipient,
+        isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,
         item.subject,
         item.content,
         item.timestamp,
@@ -60,7 +60,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   dispatch(
     sendMessage({
       narrow,
-      ...extractTypeToAndSubjectFromNarrow(narrow),
+      ...extractTypeToAndSubjectFromNarrow(narrow, users),
       content,
       parsedContent: html,
       timestamp: Math.round(new Date().getTime() / 1000),

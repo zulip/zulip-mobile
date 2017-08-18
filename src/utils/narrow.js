@@ -1,6 +1,7 @@
 /* @flow */
 import type { Narrow, Message } from '../types';
 import { normalizeRecipients } from './message';
+import { getUserByEmail } from '../users/userSelectors';
 
 export const homeNarrow = (): Narrow => [];
 
@@ -131,9 +132,17 @@ export const narrowFromMessage = (message: Message, email: string) => {
 
 export const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
+  users,
 ): { type: 'private' | 'stream', display_recipient: string, subject: string } => {
   if (isPrivateOrGroupNarrow(narrow)) {
-    return { type: 'private', display_recipient: narrow[0].operand, subject: '' };
+    return {
+      type: 'private',
+      display_recipient: narrow[0].operand.split(',').map(item => {
+        const user = getUserByEmail(users, item);
+        return { email: item, id: user.id, full_name: user.fullName };
+      }),
+      subject: '',
+    };
   } else if (isStreamNarrow(narrow)) {
     return { type: 'stream', display_recipient: narrow[0].operand, subject: '(no topic)' };
   }
