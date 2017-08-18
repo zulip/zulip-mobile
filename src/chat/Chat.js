@@ -32,7 +32,9 @@ export default class Chat extends PureComponent {
   };
 
   handleSend = () => {
-    if (this.listComponent.scrollToEnd) this.listComponent.scrollToEnd();
+    if (this.listComponent && this.listComponent.scrollToEnd !== undefined) {
+      this.listComponent.scrollToEnd();
+    }
   };
 
   render() {
