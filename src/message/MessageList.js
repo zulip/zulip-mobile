@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import type { Actions, TypingState } from '../types';
 import { nullFunction } from '../nullObjects';
 import { LoadingIndicator } from '../common';
+import { shouldComponentUpdateWithDebug } from '../utils/debug';
 import MessageTyping from '../message/MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';
 import MessageListSection from './MessageListSection';
@@ -32,6 +33,8 @@ export default class MessageList extends PureComponent {
   static defaultProps = {
     onScroll: nullFunction,
   };
+
+  shouldComponentUpdate = nextProps => shouldComponentUpdateWithDebug(this.props, nextProps);
 
   render() {
     const { styles } = this.context;
@@ -66,9 +69,7 @@ export default class MessageList extends PureComponent {
       }
       return indices;
     }, []);
-    console.log(
-      '!!!!!!!!!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!!!!!!!!!!!!!!!!!',
-    );
+
     return (
       <InfiniteScrollView
         style={styles.messageList}
