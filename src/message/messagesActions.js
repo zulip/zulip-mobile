@@ -118,8 +118,9 @@ export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INT
 ) => {
   const auth = getAuth(getState());
   const anyMessagesInNewNarrow = JSON.stringify(newNarrow) in getAllMessages(getState());
+  const caughtUp = getCaughtUpForActiveNarrow(getState());
 
-  if (!anyMessagesInNewNarrow) {
+  if (!anyMessagesInNewNarrow && !caughtUp.newer && !caughtUp.older) {
     dispatch(fetchMessagesAtFirstUnread(newNarrow));
   }
   registerAppActivity(auth);

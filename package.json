@@ -100,7 +100,8 @@
     "react-flow-types": "^0.1.1",
     "react-native-cli": "^2.0.1",
     "reactotron-react-native": "^1.12.2",
-    "reactotron-redux": "^1.12.2"
+    "reactotron-redux": "^1.12.2",
+    "redux-mock-store": "^1.2.3"
   },
   "jest": {
     "preset": "react-native",
@@ -108,7 +109,10 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|@expo/react-native-action-sheet|react-navigation)"
     ],
-    "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/__e2e__tests__"]
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/__e2e__tests__"
+    ]
   },
   "detox": {
     "configurations": {

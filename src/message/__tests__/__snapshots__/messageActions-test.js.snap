@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`messageActions doNarrow when messages in new narrow, only action to switch narrow is dispatched 1`] = `
+Array [
+  Object {
+    "narrow": Array [
+      Object {
+        "operand": "some stream",
+        "operator": "stream",
+      },
+    ],
+    "type": "SWITCH_NARROW",
+  },
+]
+`;
+
+exports[`messageActions doNarrow when no messages in new narrow and caughtUp is false, actions to fetch messages and switch narrow are dispatched 1`] = `
+Array [
+  Object {
+    "fetchingNewer": true,
+    "fetchingOlder": true,
+    "narrow": Array [
+      Object {
+        "operand": "some stream",
+        "operator": "stream",
+      },
+    ],
+    "type": "MESSAGE_FETCH_START",
+  },
+  Object {
+    "narrow": Array [
+      Object {
+        "operand": "some stream",
+        "operator": "stream",
+      },
+    ],
+    "type": "SWITCH_NARROW",
+  },
+]
+`;
+
+exports[`messageActions doNarrow when no messages in new narrow and caughtUp is true, only action to switch narrow is dispatched 1`] = `
+Array [
+  Object {
+    "fetchingNewer": true,
+    "fetchingOlder": true,
+    "narrow": Array [
+      Object {
+        "operand": "some stream",
+        "operator": "stream",
+      },
+    ],
+    "type": "MESSAGE_FETCH_START",
+  },
+  Object {
+    "narrow": Array [
+      Object {
+        "operand": "some stream",
+        "operator": "stream",
+      },
+    ],
+    "type": "SWITCH_NARROW",
+  },
+]
+`;
