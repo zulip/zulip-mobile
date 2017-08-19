@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
+import type { Actions, TypingState } from '../types';
 import config from '../config';
 import { nullFunction } from '../nullObjects';
 import MessageListSection from './MessageListSection';
@@ -13,8 +14,11 @@ export default class MessageList extends PureComponent {
   };
 
   props: {
+    actions: Actions,
+    typingUsers?: TypingState,
     fetchingOlder: boolean,
     fetchingNewer: boolean,
+    renderedMessages: Object[],
     listRef: (component: Object) => void,
   };
 
@@ -24,7 +28,7 @@ export default class MessageList extends PureComponent {
 
   render() {
     const { styles } = this.context;
-    const { actions, renderedMessages, fetchingOlder, caughtUpOlder, listRef } = this.props;
+    const { actions, renderedMessages, fetchingOlder, listRef } = this.props;
 
     return (
       <SectionList
@@ -36,12 +40,12 @@ export default class MessageList extends PureComponent {
         removeClippedSubviews // potentially buggy
         renderSectionHeader={({ section }) => <MessageListSection {...section} />}
         renderItem={({ item }) => <MessageListItem {...item} />}
-        keyExtractor={item => (item.type === 'time' ? `time${item.timestamp}` : item.message.id)}
+        keyExtractor={item => item.key}
         onStartReached={actions.fetchOlder}
         startReachedThreshold={config.startMessageListThreshold}
         onEndReached={actions.fetchNewer}
         endReachedThreshold={config.endMessageListThreshold}
-        onRefresh={caughtUpOlder ? null : actions.fetchOlder}
+        onRefresh={actions.fetchOlder}
         ref={component => {
           if (listRef) listRef(component);
         }}

@@ -1,28 +1,11 @@
 /* @flow */
-import type { Message, Narrow } from '../types';
+import type { Message, Narrow, RenderedSectionDescriptor } from '../types';
 import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
-type TimeDescriptor = {
-  type: 'time',
-  timestamp: number,
-};
-
-type MessageDescriptor = {
-  type: 'message',
-  message: Object,
-};
-
-type ItemDescriptor = MessageDescriptor | TimeDescriptor;
-
-type SectionDescriptor = {
-  message: Object,
-  data: ItemDescriptor[],
-};
-
-export default (messages: Message[], narrow: Narrow) => {
-  const sections: SectionDescriptor[] = [{ key: 0, data: [] }];
+export default (messages: Message[], narrow: Narrow): RenderedSectionDescriptor[] => {
+  const sections: RenderedSectionDescriptor[] = [{ key: 0, data: [], message: {} }];
   let prevItem;
 
   for (const item of messages) {

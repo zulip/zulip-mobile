@@ -399,3 +399,20 @@ export type Outbox = {
 };
 
 export type OutboxState = Outbox[];
+
+export type RenderedTimeDescriptor = {
+  type: 'time',
+  timestamp: number,
+};
+
+export type RenderedMessageDescriptor = {
+  type: 'message',
+  message: Object,
+};
+
+export type RenderedItemDescriptor = MessageDescriptor | TimeDescriptor;
+
+export type RenderedSectionDescriptor = {
+  message: Object,
+  data: ItemDescriptor[],
+};

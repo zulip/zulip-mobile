@@ -11,7 +11,7 @@ export default class MessageListItem extends PureComponent {
     isBrief: boolean,
     type: 'time' | 'message',
     timestamp: number,
-    message?: Message,
+    message: Message,
   };
 
   render() {
