@@ -16,9 +16,12 @@ export default StyleSheet.create({
     flexDirection: 'column',
   },
   li: {
+    width: '90%',
     flexDirection: 'row',
     marginBottom: 4,
-    alignItems: 'flex-start',
+    justifyContent: 'space-around',
+    alignItems: 'stretch',
+    flexWrap: 'wrap',
   },
   div: {
     flexWrap: 'wrap',
