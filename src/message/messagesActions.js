@@ -90,23 +90,25 @@ export const markMessagesRead = (messageIds: number[]): Action => ({
 
 export const fetchOlder = () => (dispatch: Dispatch, getState: GetState): Action => {
   const state = getState();
-  const anchor = getFirstMessageId(state);
+  const firstMessageId = getFirstMessageId(state);
   const caughtUp = getCaughtUpForActiveNarrow(state);
   const { fetchingOlder, narrow } = state.chat;
+  const { needsInitialFetch } = state.app;
 
-  if (!fetchingOlder && !caughtUp.older && anchor) {
-    dispatch(fetchMessages(anchor.older, config.messagesPerRequest, 0, narrow));
+  if (!needsInitialFetch && !fetchingOlder && !caughtUp.older && firstMessageId) {
+    dispatch(fetchMessages(firstMessageId, config.messagesPerRequest, 0, narrow));
   }
 };
 
 export const fetchNewer = () => (dispatch: Dispatch, getState: GetState): Action => {
   const state = getState();
-  const anchor = getLastMessageId(state);
+  const lastMessageId = getLastMessageId(state);
   const caughtUp = getCaughtUpForActiveNarrow(state);
   const { fetchingNewer, narrow } = state.chat;
+  const { needsInitialFetch } = state.app;
 
-  if (!fetchingNewer && !caughtUp.newer && anchor) {
-    dispatch(fetchMessages(anchor.newer, 0, config.messagesPerRequest, narrow));
+  if (!needsInitialFetch && !fetchingNewer && !caughtUp.newer && lastMessageId) {
+    dispatch(fetchMessages(lastMessageId, 0, config.messagesPerRequest, narrow));
   }
 };
 
