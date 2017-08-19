@@ -31,9 +31,6 @@ export default class MessageList extends PureComponent {
     onScroll: nullFunction,
   };
 
-  shouldComponentUpdate = (nextProps: Props) =>
-    shouldComponentUpdateWithDebug(this.props, nextProps);
-
   render() {
     const { styles } = this.context;
     const {
