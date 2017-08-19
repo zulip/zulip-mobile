@@ -101,16 +101,14 @@ export default (state: ChatState = initialState, action: Action) => {
         ...state,
         messages: Object.keys(state.messages).reduce((msg, key) => {
           const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
-          const isMessageAlreadySaved = isInNarrow
-            ? state.messages[key].find(item => action.message.id === item.id) !== undefined
-            : undefined;
-          if (isInNarrow && !isMessageAlreadySaved) stateChange = true;
-          msg[key] =
-            isInNarrow && !isMessageAlreadySaved
-              ? [...state.messages[key], action.message]
-              : state.messages[key];
-
-          return msg;
+          if (
+            isInNarrow &&
+            state.messages[key].find(item => action.message.id === item.id) === undefined
+          ) {
+            stateChange = true;
+            return [...state.messages[key], action.message];
+          }
+          return state.messages[key];
         }, {}),
       };
       return stateChange ? newState : state;
