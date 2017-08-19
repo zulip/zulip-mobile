@@ -130,6 +130,12 @@ export const narrowFromMessage = (message: Message, email: string) => {
   return streamNarrow(message.display_recipient);
 };
 
+const mapEmailsToUsers = (users, narrow) =>
+  narrow[0].operand.split(',').map(item => {
+    const user = getUserByEmail(users, item);
+    return { email: item, id: user.id, full_name: user.fullName };
+  });
+
 export const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
   users,
@@ -137,10 +143,7 @@ export const extractTypeToAndSubjectFromNarrow = (
   if (isPrivateOrGroupNarrow(narrow)) {
     return {
       type: 'private',
-      display_recipient: narrow[0].operand.split(',').map(item => {
-        const user = getUserByEmail(users, item);
-        return { email: item, id: user.id, full_name: user.fullName };
-      }),
+      display_recipient: mapEmailsToUsers(users, narrow),
       subject: '',
     };
   } else if (isStreamNarrow(narrow)) {
