@@ -2,7 +2,13 @@
 import type { Action, Narrow, Dispatch, GetState } from '../types';
 import { getMessages } from '../api';
 import { registerAppActivity } from '../utils/activity';
-import { getAuth, getAllMessages, getAnchor, getCaughtUpForActiveNarrow } from '../selectors';
+import {
+  getAuth,
+  getAllMessages,
+  getFirstMessageId,
+  getLastMessageId,
+  getCaughtUpForActiveNarrow,
+} from '../selectors';
 import config from '../config';
 import {
   SWITCH_NARROW,
@@ -84,7 +90,7 @@ export const markMessagesRead = (messageIds: number[]): Action => ({
 
 export const fetchOlder = () => (dispatch: Dispatch, getState: GetState): Action => {
   const state = getState();
-  const anchor = getAnchor(state);
+  const anchor = getFirstMessageId(state);
   const caughtUp = getCaughtUpForActiveNarrow(state);
   const { fetchingOlder, narrow } = state.chat;
 
@@ -95,7 +101,7 @@ export const fetchOlder = () => (dispatch: Dispatch, getState: GetState): Action
 
 export const fetchNewer = () => (dispatch: Dispatch, getState: GetState): Action => {
   const state = getState();
-  const anchor = getAnchor(state);
+  const anchor = getLastMessageId(state);
   const caughtUp = getCaughtUpForActiveNarrow(state);
   const { fetchingNewer, narrow } = state.chat;
 
