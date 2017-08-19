@@ -17,7 +17,7 @@ export default class InfiniteScrollView extends PureComponent {
     contentContainerStyle?: Object,
     style: StyleObj,
     stickyHeaderIndices: [],
-    autoScrollToBottom: boolean,
+    autoScrollToBottom?: boolean,
     children?: Children,
     onStartReached?: () => void,
     onEndReached?: () => void,

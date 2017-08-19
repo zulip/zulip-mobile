@@ -7,8 +7,7 @@ import { LoadingIndicator } from '../common';
 import { shouldComponentUpdateWithDebug } from '../utils/debug';
 import MessageTyping from '../message/MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';
-import MessageListSection from './MessageListSection';
-import MessageListItem from './MessageListItem';
+import cachedMessageRender from './cachedMessageRender';
 
 type Props = {
   actions: Actions,
@@ -17,7 +16,7 @@ type Props = {
   singleFetchProgress: boolean,
   typingUsers?: TypingState,
   listRef?: Object,
-  renderedMessages: any[],
+  renderedMessages: Object[],
   onScroll: () => void,
 };
 
@@ -28,13 +27,12 @@ export default class MessageList extends PureComponent {
     styles: () => null,
   };
 
-  autoScrollToBottom = false;
-
   static defaultProps = {
     onScroll: nullFunction,
   };
 
-  shouldComponentUpdate = nextProps => shouldComponentUpdateWithDebug(this.props, nextProps);
+  shouldComponentUpdate = (nextProps: Props) =>
+    shouldComponentUpdateWithDebug(this.props, nextProps);
 
   render() {
     const { styles } = this.context;
@@ -49,26 +47,7 @@ export default class MessageList extends PureComponent {
       renderedMessages,
     } = this.props;
 
-    const messageList = React.Children.toArray([
-      <LoadingIndicator active={fetchingOlder} />,
-      renderedMessages.reduce(
-        (result, section) =>
-          result.push(
-            <MessageListSection key={section.key} message={section.message} />,
-            section.data.map(item => <MessageListItem {...item} />),
-          ) && result,
-        [],
-      ),
-      !singleFetchProgress && fetchingNewer && <LoadingIndicator active />,
-      typingUsers && <MessageTyping users={typingUsers} actions={actions} />,
-    ]);
-
-    const stickyHeaderIndices = messageList.reduce((indices, component, idx) => {
-      if (component.type === MessageListSection) {
-        indices.push(idx);
-      }
-      return indices;
-    }, []);
+    const { messageList, stickyHeaderIndices } = cachedMessageRender(renderedMessages);
 
     return (
       <InfiniteScrollView
@@ -77,10 +56,12 @@ export default class MessageList extends PureComponent {
         stickyHeaderIndices={stickyHeaderIndices}
         onStartReached={actions.fetchOlder}
         onEndReached={actions.fetchNewer}
-        autoScrollToBottom={this.autoScrollToBottom}
         listRef={listRef}
         onScroll={onScroll}>
+        <LoadingIndicator active={fetchingOlder} />
         {messageList}
+        {!singleFetchProgress && fetchingNewer && <LoadingIndicator active />}
+        {typingUsers && <MessageTyping users={typingUsers} actions={actions} />}
       </InfiniteScrollView>
     );
   }

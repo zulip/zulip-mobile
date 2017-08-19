@@ -7,7 +7,7 @@ describe('renderMessages', () => {
 
   test('empty messages results in a single empty section', () => {
     const messageList = renderMessages([]);
-    expect(messageList).toEqual([{ key: 0, data: [] }]);
+    expect(messageList).toEqual([{ key: 0, message: {}, data: [] }]);
   });
 
   test('renders time, header and message for a single input', () => {
