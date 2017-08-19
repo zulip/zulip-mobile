@@ -57,13 +57,15 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   const auth = getAuth(state);
 
   const html = parseMarkdown(content, users, streams, auth, realm.realm_filter, realm.realm_emoji);
+  const localTime = Math.round(new Date().getTime() / 1000);
   dispatch(
     sendMessage({
       narrow,
       ...extractTypeToAndSubjectFromNarrow(narrow, users),
       content,
       parsedContent: html,
-      timestamp: Math.round(new Date().getTime() / 1000),
+      timestamp: localTime,
+      id: localTime,
       sender_full_name: userDetail.fullName,
       email: userDetail.email,
       avatar_url: userDetail.avatarUrl,
