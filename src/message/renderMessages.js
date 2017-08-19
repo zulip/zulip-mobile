@@ -1,9 +1,6 @@
 /* @flow */
 import type { Message, Narrow, RenderedSectionDescriptor } from '../types';
 import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
-import MessageHeaderContainer from '../message/headers/MessageHeaderContainer';
-import MessageContainer from '../message/MessageContainer';
-import TimeRow from '../message/TimeRow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 

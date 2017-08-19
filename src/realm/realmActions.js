@@ -61,7 +61,7 @@ export const fetchRestOfInitialData = (): Action => async (
     await tryUntilSuccessful(() => getRealmFilters(auth)),
     await tryUntilSuccessful(() => getAlertWords(auth)),
   ]);
-  dispatch(messageFetchSuccess(messages, specialNarrow('private'), 0, 0, 0));
+  dispatch(messageFetchSuccess(messages, specialNarrow('private'), 0, 0, 0, true));
   dispatch(initStreams(streams));
   dispatch(initUsers(users));
   dispatch(initRealmEmojis(realmEmoji));

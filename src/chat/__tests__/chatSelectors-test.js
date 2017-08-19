@@ -7,13 +7,19 @@ import {
   getLastTopicInActiveNarrow,
   getMessagesInActiveNarrow,
 } from '../chatSelectors';
-import { homeNarrow, specialNarrow, privateNarrow, streamNarrow } from '../../utils/narrow';
+import {
+  homeNarrow,
+  homeNarrowStr,
+  allPrivateNarrowStr,
+  privateNarrow,
+  streamNarrow,
+} from '../../utils/narrow';
 
 describe('getMessagesInActiveNarrow', () => {
   test('Combine messages & outbox in same narrow', () => {
     const state = deepFreeze({
       chat: {
-        narrow: homeNarrow(),
+        narrow: homeNarrow,
         messages: {
           '[]': [{ id: 123 }],
         },
@@ -21,7 +27,7 @@ describe('getMessagesInActiveNarrow', () => {
       outbox: [
         {
           email: 'donald@zulip.com',
-          narrow: homeNarrow(),
+          narrow: homeNarrow,
           parsedContent: '<p>Hello</p>',
           sender_full_name: 'donald',
           timestamp: 12,
@@ -76,7 +82,7 @@ describe('getFirstMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = deepFreeze({
       chat: {
-        narrow: homeNarrow(),
+        narrow: homeNarrow,
         messages: {
           '[]': [],
         },
@@ -92,7 +98,7 @@ describe('getFirstMessageId', () => {
   test('returns first message id', () => {
     const state = deepFreeze({
       chat: {
-        narrow: homeNarrow(),
+        narrow: homeNarrow,
         messages: {
           '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
         },
@@ -110,7 +116,7 @@ describe('getLastMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = deepFreeze({
       chat: {
-        narrow: homeNarrow(),
+        narrow: homeNarrow,
         messages: {
           '[]': [],
         },
@@ -126,7 +132,7 @@ describe('getLastMessageId', () => {
   test('returns last message id', () => {
     const state = deepFreeze({
       chat: {
-        narrow: homeNarrow(),
+        narrow: homeNarrow,
         messages: {
           '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
         },
@@ -158,12 +164,11 @@ describe('getUnreadPrivateMessagesCount', () => {
   });
 
   test('count all messages in "private messages" narrow, skip read', () => {
-    const privateNarrowStr = JSON.stringify(specialNarrow('private'));
     const state = deepFreeze({
       chat: {
         messages: {
           '[]': [{ id: 1 }, { id: 2 }],
-          [privateNarrowStr]: [{ id: 2 }, { id: 3 }, { id: 4 }],
+          [allPrivateNarrowStr]: [{ id: 2 }, { id: 3 }, { id: 4 }],
         },
       },
       flags: {
@@ -184,7 +189,7 @@ describe('getLastTopicInActiveNarrow', () => {
   test('when no messages yet, return empty string', () => {
     const state = deepFreeze({
       chat: {
-        narrow: homeNarrow(),
+        narrow: homeNarrow,
         messages: {},
       },
     });
@@ -195,12 +200,11 @@ describe('getLastTopicInActiveNarrow', () => {
   });
 
   test('when last message has a `subject` property, return it', () => {
-    const narrow = homeNarrow();
     const state = deepFreeze({
       chat: {
-        narrow,
+        narrow: homeNarrow,
         messages: {
-          [JSON.stringify(narrow)]: [
+          [homeNarrowStr]: [
             { id: 0, subject: 'First subject' },
             { id: 1, subject: 'Last subject' },
           ],

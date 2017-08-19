@@ -2,12 +2,12 @@ import deepFreeze from 'deep-freeze';
 
 import chatReducers from '../chatReducers';
 import {
-  homeNarrow,
+  homeNarrowStr,
   privateNarrow,
+  allPrivateNarrowStr,
   groupNarrow,
   streamNarrow,
   topicNarrow,
-  specialNarrow,
 } from '../../utils/narrow';
 import {
   SWITCH_NARROW,
@@ -19,12 +19,10 @@ import {
 } from '../../actionConstants';
 
 describe('chatReducers', () => {
-  const homeNarrowStr = JSON.stringify(homeNarrow());
   const privateNarrowStr = JSON.stringify(privateNarrow('mark@example.com'));
   const groupNarrowStr = JSON.stringify(groupNarrow(['mark@example.com', 'john@example.com']));
   const streamNarrowStr = JSON.stringify(streamNarrow('some stream'));
   const topicNarrowStr = JSON.stringify(topicNarrow('some stream', 'some topic'));
-  const allPrivateMessagesNarrowStr = JSON.stringify(specialNarrow('private'));
 
   test('handles unknown action and no previous state by returning initial state', () => {
     const newState = chatReducers(undefined, {});
@@ -134,7 +132,7 @@ describe('chatReducers', () => {
     const initialState = deepFreeze({
       messages: {
         [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-        [allPrivateMessagesNarrowStr]: [{ id: 1 }, { id: 2 }],
+        [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }],
         [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
         [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
         [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
@@ -156,7 +154,7 @@ describe('chatReducers', () => {
     const expectedState = {
       messages: {
         [homeNarrowStr]: [{ id: 1 }, { id: 2 }, message],
-        [allPrivateMessagesNarrowStr]: [{ id: 1 }, { id: 2 }],
+        [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }],
         [streamNarrowStr]: [{ id: 2 }, { id: 3 }, message],
         [topicNarrowStr]: [{ id: 2 }, { id: 3 }, message],
         [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
@@ -204,7 +202,7 @@ describe('chatReducers', () => {
     const initialState = deepFreeze({
       messages: {
         [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-        [allPrivateMessagesNarrowStr]: [{ id: 1 }, { id: 2 }],
+        [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }],
         [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
         [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
         [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
@@ -227,7 +225,7 @@ describe('chatReducers', () => {
     const expectedState = {
       messages: {
         [homeNarrowStr]: [{ id: 1 }, { id: 2 }, message],
-        [allPrivateMessagesNarrowStr]: [{ id: 1 }, { id: 2 }, message],
+        [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }, message],
         [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
         [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
         [privateNarrowStr]: [{ id: 2 }, { id: 4 }, message],

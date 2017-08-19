@@ -1,18 +1,16 @@
 import deepFreeze from 'deep-freeze';
 
 import { getCaughtUpForActiveNarrow } from '../caughtUpSelectors';
-import { homeNarrow } from '../../utils/narrow';
+import { homeNarrow, homeNarrowStr } from '../../utils/narrow';
 
 describe('getCaughtUpForActiveNarrow', () => {
-  const homeNarrowString = JSON.stringify(homeNarrow());
-
   test('TODO', () => {
     const state = deepFreeze({
       chat: {
-        narrow: homeNarrow(),
+        narrow: homeNarrow,
       },
       caughtUp: {
-        [homeNarrowString]: { older: false, newer: true },
+        [homeNarrowStr]: { older: false, newer: true },
       },
     });
 
@@ -24,7 +22,7 @@ describe('getCaughtUpForActiveNarrow', () => {
   test('TODO2', () => {
     const state = deepFreeze({
       chat: {
-        narrow: homeNarrow(),
+        narrow: homeNarrow,
       },
       caughtUp: {},
     });
