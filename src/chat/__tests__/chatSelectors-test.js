@@ -1,7 +1,8 @@
 import deepFreeze from 'deep-freeze';
 
 import {
-  getAnchor,
+  getFirstMessageId,
+  getLastMessageId,
   getUnreadPrivateMessagesCount,
   getLastTopicInActiveNarrow,
   getMessagesInActiveNarrow,
@@ -71,7 +72,7 @@ describe('getMessagesInActiveNarrow', () => {
   });
 });
 
-describe('getAnchor', () => {
+describe('getFirstMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = deepFreeze({
       chat: {
@@ -83,28 +84,12 @@ describe('getAnchor', () => {
       outbox: [],
     });
 
-    const anchor = getAnchor(state);
+    const anchor = getFirstMessageId(state);
 
     expect(anchor).toEqual(undefined);
   });
 
-  test('when single message, anchor ids are the same', () => {
-    const state = deepFreeze({
-      chat: {
-        narrow: homeNarrow(),
-        messages: {
-          '[]': [{ id: 123 }],
-        },
-      },
-      outbox: [],
-    });
-
-    const anchor = getAnchor(state);
-
-    expect(anchor).toEqual({ older: 123, newer: 123 });
-  });
-
-  test('when two or more messages, anchor contains first and last message ids', () => {
+  test('returns first message id', () => {
     const state = deepFreeze({
       chat: {
         narrow: homeNarrow(),
@@ -115,9 +100,43 @@ describe('getAnchor', () => {
       outbox: [],
     });
 
-    const anchor = getAnchor(state);
+    const anchor = getFirstMessageId(state);
 
-    expect(anchor).toEqual({ older: 1, newer: 3 });
+    expect(anchor).toEqual(1);
+  });
+});
+
+describe('getLastMessageId', () => {
+  test('return undefined when there are no messages', () => {
+    const state = deepFreeze({
+      chat: {
+        narrow: homeNarrow(),
+        messages: {
+          '[]': [],
+        },
+      },
+      outbox: [],
+    });
+
+    const anchor = getLastMessageId(state);
+
+    expect(anchor).toEqual(undefined);
+  });
+
+  test('returns last message id', () => {
+    const state = deepFreeze({
+      chat: {
+        narrow: homeNarrow(),
+        messages: {
+          '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
+        },
+      },
+      outbox: [],
+    });
+
+    const anchor = getLastMessageId(state);
+
+    expect(anchor).toEqual(3);
   });
 });
 

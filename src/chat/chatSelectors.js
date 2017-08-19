@@ -65,18 +65,15 @@ export const getShownMessagesInActiveNarrow = createSelector(
     messagesInActiveNarrow.filter(item => !shouldBeMuted(item, activeNarrow, subscriptions, mute)),
 );
 
-export const getAnchor = createSelector(getMessagesInActiveNarrow, messages => {
-  for (let i = messages.length - 1; i >= 0; i--) {
-    if (messages[i].type !== 'outbox') {
-      return {
-        older: messages[0].id,
-        newer: messages[i].id,
-      };
-    }
-  }
+export const getFirstMessageId = createSelector(
+  getMessagesInActiveNarrow,
+  messages => (messages.length > 0 ? messages[0].id : undefined),
+);
 
-  return undefined;
-});
+export const getLastMessageId = createSelector(
+  getMessagesInActiveNarrow,
+  messages => (messages.length > 0 ? messages[messages.length - 1].id : undefined),
+);
 
 export const getPrivateMessages = createSelector(
   getAllMessages,
