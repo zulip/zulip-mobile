@@ -39,8 +39,8 @@ export default class MessageFull extends PureComponent {
     auth?: Auth,
     message: Object,
     onLongPress?: () => void,
-    isNotYetSent?: boolean,
     handleLinkPress?: string => void,
+    onLongPress: () => void,
   };
 
   handleAvatarPress = () => {
@@ -57,7 +57,6 @@ export default class MessageFull extends PureComponent {
       ownEmail,
       starred,
       onLongPress,
-      isNotYetSent,
       handleLinkPress,
     } = this.props;
 
@@ -88,7 +87,7 @@ export default class MessageFull extends PureComponent {
           <MessageTags
             timestamp={message.last_edit_timestamp}
             starred={starred}
-            isNotYetSent={isNotYetSent}
+            isOutbox={message.isOutbox}
           />
           <ReactionList messageId={message.id} reactions={message.reactions} ownEmail={ownEmail} />
         </View>

@@ -36,6 +36,25 @@ describe('outboxReducers', () => {
 
       expect(actualState).toEqual(expectedState);
     });
+
+    test('add a same timestamp message to outbox', () => {
+      const initialState = deepFreeze([{ timestamp: 123, content: 'hello' }]);
+
+      const action = deepFreeze({
+        type: MESSAGE_SEND,
+        params: {
+          email: 'john@example.com',
+          narrow: streamNarrow('denmark'),
+          parsedContent: '<p>New one</p>',
+          sender_full_name: 'john',
+          timestamp: 123,
+        },
+      });
+
+      const actualState = outboxReducers(initialState, action);
+
+      expect(actualState).toBe(initialState);
+    });
   });
 
   describe(EVENT_NEW_MESSAGE, () => {

@@ -34,21 +34,11 @@ export default class MessageBrief extends PureComponent {
     auth?: Auth,
     actions: Actions,
     onLongPress?: () => void,
-    isNotYetSent?: boolean,
     handleLinkPress?: string => void,
   };
 
   render() {
-    const {
-      message,
-      auth,
-      actions,
-      handleLinkPress,
-      ownEmail,
-      onLongPress,
-      starred,
-      isNotYetSent,
-    } = this.props;
+    const { message, auth, actions, handleLinkPress, ownEmail, onLongPress, starred } = this.props;
 
     return (
       <View style={styles.message}>
@@ -66,7 +56,7 @@ export default class MessageBrief extends PureComponent {
         <MessageTags
           timestamp={message.last_edit_timestamp}
           starred={starred}
-          isNotYetSent={isNotYetSent}
+          isOutbox={message.isOutbox}
         />
         <ReactionList messageId={message.id} reactions={message.reactions} ownEmail={ownEmail} />
       </View>

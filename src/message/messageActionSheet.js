@@ -73,6 +73,8 @@ type AuthMessageAndNarrow = {
   narrow: [],
 };
 
+const isAnOutboxMessage = ({ message }: Message): boolean => message.isOutbox;
+
 const narrowToConversation = ({ message, actions, auth, currentRoute }: MessageAndDoNarrowType) => {
   actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
   if (currentRoute === 'search') {
@@ -88,17 +90,25 @@ const reply = ({ message, actions, auth, currentRoute }: MessageAndDoNarrowType)
 };
 
 const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
-  const rawMessage = await getSingleMessage(auth, message.id);
+  const rawMessage = isAnOutboxMessage({ message })
+    ? message.content
+    : await getSingleMessage(auth, message.id);
   Clipboard.setString(rawMessage);
   showToast('Message copied!');
 };
+
+const isSentMessage = ({ message }: Message): boolean => !isAnOutboxMessage({ message });
 
 const editMessage = async ({ message, actions }: MessageAuthAndActions) => {
   actions.startEditMessage(message.id);
 };
 
-const deleteMessage = async ({ auth, message }: AuthAndMessageType) => {
-  deleteMessageApi(auth, message.id);
+const deleteMessage = async ({ auth, message, actions }: MessageAuthAndActions) => {
+  if (isAnOutboxMessage({ message })) {
+    actions.deleteOutboxMessage(message.timestamp);
+  } else {
+    deleteMessageApi(auth, message.id);
+  }
 };
 
 const unmuteTopic = ({ auth, message }: AuthAndMessageType) => {
@@ -154,12 +164,23 @@ type HeaderButtonType = {
   onlyIf?: (props: Message) => boolean,
 };
 
+const resolveMultiple = (message, auth, narrow, functions) =>
+  functions.every(f => {
+    if (!f({ message, auth, narrow })) return false;
+    return true;
+  });
+
 const actionSheetButtons: ButtonType[] = [
-  { title: 'Reply', onPress: reply },
+  { title: 'Reply', onPress: reply, onlyIf: isSentMessage },
   { title: 'Copy to clipboard', onPress: copyToClipboard },
   { title: 'Share', onPress: shareMessage },
-  { title: 'Edit Message', onPress: editMessage, onlyIf: isSentBySelfAndNarrowed },
-  { title: 'Delete message', onPress: deleteMessage, onlyIf: isSentBySelfAndNarrowed },
+  {
+    title: 'Edit Message',
+    onPress: editMessage,
+    onlyIf: ({ message, auth, narrow }) =>
+      resolveMultiple(message, auth, narrow, [isSentMessage, isSentBySelfAndNarrowed]),
+  },
+  { title: 'Delete message', onPress: deleteMessage },
   // If skip then covered in constructActionButtons
   { title: 'Narrow to conversation', onPress: narrowToConversation, onlyIf: skip },
   { title: 'Star Message', onPress: starMessage, onlyIf: skip },
@@ -215,11 +236,12 @@ export const constructActionButtons = ({
   if (isHomeNarrow(narrow) || isStreamNarrow(narrow) || isSpecialNarrow(narrow)) {
     buttons.push('Narrow to conversation');
   }
-
-  if (message.id in flags.starred) {
-    buttons.push('Unstar Message');
-  } else {
-    buttons.push('Star Message');
+  if (isSentMessage({ message })) {
+    if (message.id in flags.starred) {
+      buttons.push('Unstar Message');
+    } else {
+      buttons.push('Star Message');
+    }
   }
   buttons.push('Cancel');
   return buttons;

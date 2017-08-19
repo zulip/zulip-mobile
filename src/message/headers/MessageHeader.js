@@ -93,7 +93,7 @@ export default class MessageHeader extends PureComponent {
 
     if (message.type === 'private' && !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow)) {
       const recipients =
-        message.display_recipient.length > 1
+        Array.isArray(message.display_recipient) && message.display_recipient.length > 1
           ? message.display_recipient.filter(r => r.email !== auth.email)
           : message.display_recipient;
       return (

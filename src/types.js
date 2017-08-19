@@ -202,6 +202,8 @@ export type Actions = {
   fetchEssentialInitialData: () => Action,
   fetchRestOfInitialData: (pushToken: string) => Action,
   deleteTokenPush: () => Action,
+  deleteOutboxMessage: () => Action,
+  saveTokenPush: (pushToken: string) => Action,
   fetchEvents: () => Action,
   initNotifications: () => Action,
   switchAccount: (index: number) => Action,
@@ -390,12 +392,13 @@ export type Subscription = {
 export type Outbox = {
   content: string,
   timestamp: number,
-  narrow: Narrow,
   parsedContent: string,
   sender_full_name: string,
   email: string,
   avatar_url: string,
-  type: 'outbox',
+  type: 'stream' | 'private',
+  outbox: true,
+  narrow: Narrow,
 };
 
 export type OutboxState = Outbox[];

@@ -81,6 +81,23 @@ describe('chatReducers', () => {
     });
   });
 
+  test('appends same id message to state', () => {
+    const initialState = deepFreeze({
+      messages: {
+        [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+      },
+    });
+
+    const action = deepFreeze({
+      type: EVENT_NEW_MESSAGE,
+      message: { id: 2 },
+    });
+
+    const newState = chatReducers(initialState, action);
+
+    expect(newState).toBe(initialState);
+  });
+
   test('Message sent to self is stored correctly', () => {
     const narrowWithSelfStr = JSON.stringify(privateNarrow('me@example.com'));
     const initialState = deepFreeze({
@@ -126,7 +143,7 @@ describe('chatReducers', () => {
     });
 
     const message = {
-      id: 3,
+      id: 5,
       type: 'stream',
       display_recipient: 'some stream',
       subject: 'some topic',

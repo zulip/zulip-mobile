@@ -58,6 +58,7 @@ class MessageContainer extends PureComponent {
     );
 
   isStarred(message: Object) {
+    if (message.isOutbox) return undefined;
     const { flags } = this.props;
     return message.id in flags.starred;
   }

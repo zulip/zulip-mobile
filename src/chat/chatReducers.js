@@ -95,19 +95,24 @@ export default (state: ChatState = initialState, action: Action) => {
           x => !(x.emoji_name === action.emoji && x.user.email === action.user.email),
         ),
       }));
-
     case EVENT_NEW_MESSAGE: {
-      return {
+      let stateChange = false;
+      const newState = {
         ...state,
         messages: Object.keys(state.messages).reduce((msg, key) => {
           const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
-          msg[key] = isInNarrow ? [...state.messages[key], action.message] : state.messages[key];
-
-          return msg;
+          if (
+            isInNarrow &&
+            state.messages[key].find(item => action.message.id === item.id) === undefined
+          ) {
+            stateChange = true;
+            return [...state.messages[key], action.message];
+          }
+          return state.messages[key];
         }, {}),
       };
+      return stateChange ? newState : state;
     }
-
     case EVENT_UPDATE_MESSAGE:
       return chatUpdater(state, action.message_id, oldMessage => ({
         ...oldMessage,
