@@ -5,7 +5,13 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import boundActions from '../boundActions';
 import MessageList from './MessageList';
-import { getAuth, getCurrentTypingUsers, getRenderedMessages, getActiveNarrow } from '../selectors';
+import {
+  getAuth,
+  getCurrentTypingUsers,
+  getRenderedMessages,
+  getActiveNarrow,
+  getFlags,
+} from '../selectors';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { queueMarkAsRead } from '../api';
@@ -65,6 +71,7 @@ export default connect(
     renderedMessages: getRenderedMessages(state),
     narrow: getActiveNarrow(state),
     auth: getAuth(state),
+    flags: getFlags(state),
   }),
   boundActions,
 )(connectActionSheet(MessageListContainer));
