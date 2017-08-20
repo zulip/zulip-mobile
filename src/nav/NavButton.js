@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import type { StyleObj } from '../types';
 import { BRAND_COLOR, CONTROL_SIZE } from '../styles';
@@ -26,6 +26,10 @@ const styles = StyleSheet.create({
     top: 6,
     position: 'absolute',
   },
+  placeholder: {
+    width: CONTROL_SIZE,
+    height: CONTROL_SIZE,
+  },
 });
 
 export default class NavButton extends PureComponent {
@@ -43,7 +47,9 @@ export default class NavButton extends PureComponent {
   };
 
   render() {
-    const { name, style, color, unreadCount, onPress } = this.props;
+    const { name, style, color, unreadCount, onPress, placeholder } = this.props;
+
+    if (placeholder) return <View style={styles.placeholder} />;
 
     return (
       <ComponentWithOverlay

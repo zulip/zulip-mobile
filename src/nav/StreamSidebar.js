@@ -8,7 +8,7 @@ import { STATUSBAR_HEIGHT } from '../styles/platform';
 import boundActions from '../boundActions';
 import { homeNarrow, specialNarrow, allPrivateNarrow } from '../utils/narrow';
 import NavButton from './NavButton';
-import StreamTabs from './StreamTabs';
+import ModalNavigation from './ModalNavigation';
 
 const componentStyles = StyleSheet.create({
   container: {
@@ -73,7 +73,7 @@ class StreamSidebar extends PureComponent {
           <NavButton name="md-search" onPress={() => this.navigateAndClose('search')} />
           <NavButton name="md-settings" onPress={() => this.navigateAndClose('settings')} />
         </View>
-        <StreamTabs screenProps={{ onNarrow: this.closeDrawer }} />
+        <ModalNavigation screenProps={{ onNarrow: this.closeDrawer }} />
       </View>
     );
   }

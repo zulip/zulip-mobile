@@ -11,12 +11,8 @@ export default class MainScreen extends PureComponent {
     styles: () => null,
   };
 
-  handlePressPeople = () => {
-    this.props.usersNavigation.navigate('DrawerOpen');
-  };
-
   handlePressStreams = () => {
-    this.props.streamsNavigation.navigate('DrawerOpen');
+    this.props.navigation.navigate('DrawerOpen');
   };
 
   render() {
@@ -24,11 +20,7 @@ export default class MainScreen extends PureComponent {
 
     return (
       <View style={styles.screen}>
-        <ZulipStatusBar />
-        <MainNavBar
-          onPressPeople={this.handlePressPeople}
-          onPressStreams={this.handlePressStreams}
-        />
+        <MainNavBar onPressStreams={this.handlePressStreams} />
         <ChatContainer />
       </View>
     );
