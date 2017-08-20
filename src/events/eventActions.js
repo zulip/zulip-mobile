@@ -1,20 +1,18 @@
 /* @flow */
-import type { Dispatch, GetState, Action } from '../types';
-import { pollForEvents, registerForEvents } from '../api';
+import type { Dispatch, GetState } from '../types';
+import { pollForEvents } from '../api';
 import { switchAccount } from '../account/accountActions';
-import { timeout } from '../utils/async';
 import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
 import { getAuth } from '../selectors';
 
-import { BATCH_ACTIONS, REALM_INIT, EVENT_REGISTERED } from '../actionConstants';
+import { BATCH_ACTIONS } from '../actionConstants';
 
-const startEventPolling = (queueId: number, eventId: number) => async (
+export const startEventPolling = (queueId: number, eventId: number) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
   let lastEventId = eventId;
-  let numFailures = 0;
 
   // Event loop
   // eslint-disable-next-line no-constant-condition
@@ -37,19 +35,12 @@ const startEventPolling = (queueId: number, eventId: number) => async (
         break;
       }
 
-      // Use exponential back-off when retrying
-      const retrySec = Math.min(90, Math.exp(numFailures / 2));
-      // eslint-disable-next-line no-await-in-loop
-      await timeout(retrySec * 1000);
-      numFailures++;
       continue; // eslint-disable-line no-continue
     }
     // Stop polling - user likely switched accounts or logged out
     if (queueId !== getState().app.eventQueueId) {
       break;
     }
-
-    numFailures = 0;
 
     const actions = [];
     for (const event of response.events) {
@@ -70,25 +61,4 @@ const startEventPolling = (queueId: number, eventId: number) => async (
       dispatch(actions[0]);
     }
   }
-};
-
-export const fetchEvents = (): Action => async (dispatch: Dispatch, getState: GetState) => {
-  const data = await registerForEvents(getAuth(getState()));
-
-  const queueId = data.queue_id;
-  const lastEventId = data.last_event_id;
-
-  dispatch({
-    type: REALM_INIT,
-    data,
-  });
-
-  dispatch({
-    type: EVENT_REGISTERED,
-    queueId,
-    lastEventId,
-  });
-
-  // Start the event loop
-  dispatch(startEventPolling(queueId, lastEventId));
 };

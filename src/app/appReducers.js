@@ -7,7 +7,7 @@ import {
   APP_ONLINE,
   APP_ACTIVITY,
   ACCOUNT_SWITCH,
-  EVENT_REGISTERED,
+  REALM_INIT,
   INITIAL_FETCH_COMPLETE,
   APP_ORIENTATION,
   APP_STATE,
@@ -51,10 +51,10 @@ export default (state: AppState = initialState, action: Action) => {
         needsInitialFetch: !!getAuth(action.payload).apiKey,
         isHydrated: true,
       };
-    case EVENT_REGISTERED:
+    case REALM_INIT:
       return {
         ...state,
-        eventQueueId: action.queueId,
+        eventQueueId: action.data.queueId,
       };
     case APP_ACTIVITY:
       return {

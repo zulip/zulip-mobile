@@ -2,9 +2,7 @@
 import React, { PureComponent } from 'react';
 import { AppState, NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
-import DeviceInfo from 'react-native-device-info';
 
-import config from '../config';
 import boundActions from '../boundActions';
 import AppWithNavigationState from './AppWithNavigationState';
 import { getAuth } from '../selectors';
@@ -18,7 +16,6 @@ type Props = {
   auth: Auth,
   isHydrated: boolean,
   needsInitialFetch: boolean,
-  isActive: boolean,
   actions: Actions,
 };
 
@@ -81,17 +78,10 @@ class AppContainer extends PureComponent {
   componentWillReceiveProps = nextProps => this.init(nextProps);
 
   init = props => {
-    const { needsInitialFetch, actions, isActive } = props;
+    const { actions, needsInitialFetch } = props;
 
     if (needsInitialFetch) {
-      actions.fetchEssentialInitialData();
-      actions.fetchRestOfInitialData();
-      actions.fetchEvents();
-      if (!DeviceInfo.isEmulator()) {
-        actions.initNotifications();
-      }
-      actions.fetchUsersStatus(isActive); // do a initial fetch
-      setInterval(() => actions.fetchUsersStatus(isActive), config.activePingInterval);
+      actions.doInitialFetch();
     }
   };
 
@@ -121,7 +111,6 @@ export default connect(
     auth: getAuth(state),
     isHydrated: state.app.isHydrated,
     needsInitialFetch: state.app.needsInitialFetch,
-    isActive: state.app.isActive,
   }),
   boundActions,
 )(AppContainer);

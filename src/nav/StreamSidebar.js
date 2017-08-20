@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import type { Actions, Narrow } from '../types';
 import boundActions from '../boundActions';
 import { STATUSBAR_HEIGHT } from '../styles';
-import { homeNarrow, specialNarrow } from '../utils/narrow';
+import { homeNarrow, specialNarrow, allPrivateNarrow } from '../utils/narrow';
 import NavButton from './NavButton';
 import StreamTabs from './StreamTabs';
 
@@ -67,7 +67,7 @@ class StreamSidebar extends PureComponent {
       <View style={[componentStyles.container, styles.background]} scrollsToTop={false}>
         <View style={componentStyles.iconList}>
           <NavButton name="md-home" onPress={() => this.narrowAndClose(homeNarrow)} />
-          <NavButton name="md-mail" onPress={() => this.narrowAndClose(specialNarrow('private'))} />
+          <NavButton name="md-mail" onPress={() => this.narrowAndClose(allPrivateNarrow)} />
           <NavButton name="md-star" onPress={() => this.narrowAndClose(specialNarrow('starred'))} />
           <NavButton name="md-at" onPress={() => this.narrowAndClose(specialNarrow('mentioned'))} />
           <NavButton name="md-search" onPress={() => this.navigateAndClose('search')} />
