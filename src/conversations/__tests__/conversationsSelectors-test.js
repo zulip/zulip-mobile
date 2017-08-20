@@ -10,7 +10,7 @@ describe('getRecentConversations', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
       chat: {
-        narrow: homeNarrow(),
+        narrow: homeNarrow,
         messages: {
           [privatesNarrowStr]: [],
         },

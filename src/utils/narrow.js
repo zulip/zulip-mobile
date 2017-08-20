@@ -1,9 +1,11 @@
 /* @flow */
-import type { Narrow, Message } from '../types';
+import type { Narrow, Message, User } from '../types';
 import { normalizeRecipients } from './message';
 import { getUserByEmail } from '../users/userSelectors';
 
-export const homeNarrow = (): Narrow => [];
+export const homeNarrow: Narrow = [];
+
+export const homeNarrowStr: string = '[]';
 
 export const isHomeNarrow = (narrow: Narrow): boolean => narrow.length === 0;
 
@@ -39,6 +41,10 @@ export const specialNarrow = (operand: string): Narrow => [
 
 export const isSpecialNarrow = (narrow: Narrow): boolean =>
   narrow.length === 1 && narrow[0].operator === 'is';
+
+export const allPrivateNarrow = specialNarrow('private');
+
+export const allPrivateNarrowStr = JSON.stringify(allPrivateNarrow);
 
 export const isAllPrivateNarrow = (narrow: Narrow): boolean =>
   narrow.length === 1 && narrow[0].operator === 'is' && narrow[0].operand === 'private';
@@ -138,7 +144,7 @@ const mapEmailsToUsers = (users, narrow) =>
 
 export const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
-  users,
+  users: User[],
 ): { type: 'private' | 'stream', display_recipient: string, subject: string } => {
   if (isPrivateOrGroupNarrow(narrow)) {
     return {

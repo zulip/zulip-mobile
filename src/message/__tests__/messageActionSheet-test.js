@@ -34,7 +34,7 @@ describe('constructActionButtons', () => {
     const topic = deepFreeze(topicNarrow('Denmark', 'Copenhagen'));
     const pmNarrow = deepFreeze(privateNarrow('abc@zulip.com'));
     const special = deepFreeze(specialNarrow('private'));
-    const home = deepFreeze(homeNarrow());
+    const home = deepFreeze(homeNarrow);
     const stream = deepFreeze(streamNarrow('all'));
 
     const message = deepFreeze({});

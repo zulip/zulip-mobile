@@ -21,7 +21,7 @@ import { getMessagesById } from '../selectors';
 const initialState: ChatState = {
   fetchingOlder: true,
   fetchingNewer: true,
-  narrow: homeNarrow(),
+  narrow: homeNarrow,
   messages: {},
 };
 

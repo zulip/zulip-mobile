@@ -21,7 +21,7 @@ import {
 
 describe('homeNarrow', () => {
   test('produces an empty list', () => {
-    expect(homeNarrow()).toEqual([]);
+    expect(homeNarrow).toEqual([]);
   });
 
   test('empty list is a home narrow', () => {
@@ -113,7 +113,7 @@ describe('isStreamOrTopicNarrow', () => {
   test('check for stream or topic narrow', () => {
     expect(isStreamOrTopicNarrow(streamNarrow('some stream'))).toBe(true);
     expect(isStreamOrTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
-    expect(isStreamOrTopicNarrow(homeNarrow())).toBe(false);
+    expect(isStreamOrTopicNarrow(homeNarrow)).toBe(false);
     expect(isStreamOrTopicNarrow(privateNarrow('a@a.com'))).toBe(false);
     expect(isStreamOrTopicNarrow(groupNarrow(['john@example.com', 'mark@example.com']))).toBe(
       false,
@@ -203,7 +203,7 @@ describe('searchNarrow', () => {
 describe('isMessageInNarrow', () => {
   test('any message is in "Home"', () => {
     const message = {};
-    const narrow = homeNarrow();
+    const narrow = homeNarrow;
     expect(isMessageInNarrow(message, narrow)).toBe(true);
   });
 

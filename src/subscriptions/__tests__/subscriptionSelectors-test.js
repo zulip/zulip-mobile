@@ -60,7 +60,7 @@ describe('getIsActiveStreamSubscribed', () => {
   test('return true for narrows other than stream and topic', () => {
     const state = {
       chat: {
-        narrow: homeNarrow(),
+        narrow: homeNarrow,
       },
     };
     deepFreeze(state);

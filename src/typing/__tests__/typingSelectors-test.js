@@ -8,7 +8,7 @@ describe('getCurrentTypingUsers', () => {
     const state = deepFreeze({
       accounts: [{}],
       chat: {
-        narrow: homeNarrow(),
+        narrow: homeNarrow,
       },
     });
 

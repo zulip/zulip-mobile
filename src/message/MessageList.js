@@ -4,7 +4,6 @@ import React, { PureComponent } from 'react';
 import type { Actions, TypingState } from '../types';
 import { nullFunction } from '../nullObjects';
 import { LoadingIndicator } from '../common';
-import { shouldComponentUpdateWithDebug } from '../utils/debug';
 import MessageTyping from '../message/MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';
 import cachedMessageRender from './cachedMessageRender';

@@ -13,21 +13,19 @@ import {
   getOutbox,
 } from '../baseSelectors';
 import {
-  specialNarrow,
   isAllPrivateNarrow,
   isPrivateOrGroupNarrow,
   isStreamNarrow,
   isHomeNarrow,
   homeNarrow,
+  allPrivateNarrowStr,
 } from '../utils/narrow';
 import { shouldBeMuted } from '../utils/message';
 import { countUnread } from '../utils/unread';
 import { NULL_MESSAGE, NULL_USER, NULL_SUBSCRIPTION } from '../nullObjects';
 
-const privateNarrowStr = JSON.stringify(specialNarrow('private'));
-
 const getMessagesFromChatState = state =>
-  state.messages[JSON.stringify(state.narrow || homeNarrow())] || [];
+  state.messages[JSON.stringify(state.narrow || homeNarrow)] || [];
 
 export const getIsFetching = (state: GlobalState): boolean =>
   (state.app.needsInitialFetch && state.chat.fetchingOlder) || state.chat.fetchingOlder;
@@ -83,7 +81,7 @@ export const getLastMessageId = createSelector(
 
 export const getPrivateMessages = createSelector(
   getAllMessages,
-  messages => messages[privateNarrowStr] || [],
+  messages => messages[allPrivateNarrowStr] || [],
 );
 
 export const getUnreadPrivateMessagesCount = createSelector(

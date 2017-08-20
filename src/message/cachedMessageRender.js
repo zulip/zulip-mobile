@@ -21,12 +21,16 @@ export default (renderedMessages: RenderedSectionDescriptor[]): Object => {
     return result;
   }, []);
 
-  const stickyHeaderIndices = messageList.reduce((indices, component, idx) => {
-    if (component.type === MessageListSection) {
-      indices.push(idx);
-    }
-    return indices;
-  }, []);
+  const stickyHeaderIndices = messageList
+    .map((component, idx) => (component.type === MessageListSection ? idx : -1))
+    .filter(idx => idx !== -1);
+  //
+  // const stickyHeaderIndices = messageList.reduce((indices, component, idx) => {
+  //   if (component.type === MessageListSection) {
+  //     indices.push(idx);
+  //   }
+  //   return indices;
+  // }, []);
 
   lastRenderedMessages = renderedMessages;
   cachedRenderedData = { messageList, stickyHeaderIndices };
