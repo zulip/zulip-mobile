@@ -33,8 +33,9 @@ export default class ImageAvatar extends PureComponent {
           style={touchableStyle}
           source={{ uri: avatarUrl }}
           resizeMode="cover"
-          borderRadius={borderRadius}
-        />
+          borderRadius={borderRadius}>
+          {this.props.children}
+        </ImageBackground>
       </Touchable>
     );
   }

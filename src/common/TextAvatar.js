@@ -53,6 +53,7 @@ export default class TextAvatar extends PureComponent {
           <Text style={[styles.text, textSize]}>
             {initialsFromName(name)}
           </Text>
+          {this.props.children}
         </View>
       </Touchable>
     );
