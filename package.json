@@ -91,7 +91,7 @@
     "eslint-plugin-react": "^7.2.0",
     "eslint-plugin-react-native": "^3.0.1",
     "eslint-plugin-spellcheck": "0.0.6",
-    "flow-bin": "0.50.0",
+    "flow-bin": "0.52.0",
     "flow-typed": "^2.1.5",
     "jest": "^20.0.0",
     "jest-cli": "^20.0.0",
@@ -110,10 +110,7 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|@expo/react-native-action-sheet|react-navigation)"
     ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "<rootDir>/__e2e__tests__"
-    ]
+    "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/__e2e__tests__"]
   },
   "detox": {
     "configurations": {
