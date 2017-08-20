@@ -74,12 +74,18 @@ export default class StreamCard extends PureComponent {
     }
   };
 
+  measureView = event => {
+    this.setState({
+      cardHeight: event.nativeEvent.layout.height,
+    });
+  };
+
   onSwipeComplete = () => {
     const { onSwipe } = this.props;
 
     Animated.timing(this.animated, {
       toValue: 0,
-      duration: 250,
+      duration: SWIPE_OUT_DURATION,
     }).start(onSwipe);
   };
 
@@ -94,12 +100,6 @@ export default class StreamCard extends PureComponent {
     Animated.spring(this.position, {
       toValue: { x: 0, y: 0 },
     }).start();
-  };
-
-  measureView = event => {
-    this.setState({
-      cardHeight: event.nativeEvent.layout.height,
-    });
   };
 
   dynamicContainerStyles = () => [
