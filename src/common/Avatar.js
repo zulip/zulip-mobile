@@ -28,7 +28,7 @@ class Avatar extends PureComponent {
     status?: UserStatus,
     realm: string,
     shape: 'square' | 'rounded' | 'circle',
-    onPress: () => void,
+    onPress?: () => void,
   };
 
   static defaultProps = {
