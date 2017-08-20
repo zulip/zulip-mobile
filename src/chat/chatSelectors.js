@@ -33,7 +33,7 @@ const specialNarrow = (operand: string): Narrow => [
 const privateNarrowStr = JSON.stringify(specialNarrow('private'));
 
 const getMessagesFromChatState = state =>
-  state.messages[JSON.stringify(state.narrow || homeNarrow())] || [];
+  state.messages[JSON.stringify(state.narrow || homeNarrow)] || [];
 
 export const getIsFetching = (state: GlobalState): boolean =>
   (state.app.needsInitialFetch && state.chat.fetchingOlder) || state.chat.fetchingOlder;
