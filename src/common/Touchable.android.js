@@ -17,13 +17,18 @@ type Props = {
   children?: [],
 };
 
-export default ({ onPress, style, children, onLongPress }: Props) =>
-  <TouchableNativeFeedback
-    style={style}
-    background={background}
-    onPress={onPress}
-    onLongPress={onLongPress}>
-    <View>
-      {children}
-    </View>
-  </TouchableNativeFeedback>;
+export default ({ onPress, style, children, onLongPress }: Props) => {
+  const WrapperComponent = onPress || onLongPress ? TouchableNativeFeedback : View;
+
+  return (
+    <WrapperComponent
+      style={style}
+      background={background}
+      onPress={onPress}
+      onLongPress={onLongPress}>
+      <View>
+        {children}
+      </View>
+    </WrapperComponent>
+  );
+};

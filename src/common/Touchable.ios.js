@@ -12,13 +12,18 @@ type Props = {
   children?: [],
 };
 
-export default ({ onPress, style, children, onLongPress }: Props) =>
-  <TouchableHighlight
-    underlayColor={HIGHLIGHT_COLOR}
-    style={style}
-    onPress={onPress}
-    onLongPress={onLongPress}>
-    <View>
-      {children}
-    </View>
-  </TouchableHighlight>;
+export default ({ onPress, style, children, onLongPress }: Props) => {
+  const WrapperComponent = onPress || onLongPress ? TouchableHighlight : View;
+
+  return (
+    <WrapperComponent
+      underlayColor={HIGHLIGHT_COLOR}
+      style={style}
+      onPress={onPress}
+      onLongPress={onLongPress}>
+      <View>
+        {children}
+      </View>
+    </WrapperComponent>
+  );
+};
