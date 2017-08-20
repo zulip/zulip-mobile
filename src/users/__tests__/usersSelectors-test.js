@@ -368,7 +368,7 @@ describe('getAllActiveUsersWithStatus', () => {
     expect(actualUser).toEqual(expectedUsers);
   });
 
-  test('if presence age is more than offlineThresholdSecs ignore it', () => {
+  test('if presence age is more than 120 secs ignore it', () => {
     const state = {
       users: [
         { id: 1, fullName: 'Abc', isActive: true, email: 'a@a.com' },

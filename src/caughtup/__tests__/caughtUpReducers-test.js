@@ -26,7 +26,6 @@ describe('caughtUpReducers', () => {
       const newState = caughtUpReducers(initialState, action);
 
       expect(newState.messages).toEqual(expectedState.messages);
-      expect(newState).not.toBe(initialState);
     });
   });
 
@@ -53,7 +52,6 @@ describe('caughtUpReducers', () => {
       const newState = caughtUpReducers(initialState, action);
 
       expect(newState.messages).toEqual(expectedState.messages);
-      expect(newState).not.toBe(initialState);
     });
   });
 });
