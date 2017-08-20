@@ -9,7 +9,12 @@ import config from './config';
 const middleware = [thunk, createActionBuffer(REHYDRATE)];
 
 if (config.enableReduxLogging) {
-  middleware.push(createLogger({ duration: true }));
+  middleware.push(
+    createLogger({
+      duration: true,
+      // predicate: (getState, action) => action.type === 'MESSAGE_FETCH_SUCCESS',
+    }),
+  );
 }
 
 export default middleware;

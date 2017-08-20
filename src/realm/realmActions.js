@@ -2,6 +2,7 @@
 import DeviceInfo from 'react-native-device-info';
 
 import type { GetState, Dispatch, Action } from '../types';
+import config from '../config';
 import { allPrivateNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import {
@@ -68,11 +69,29 @@ export const fetchEssentialInitialData = (): Action => async (
   const [initData, subscriptions, messages] = await Promise.all([
     await tryUntilSuccessful(() => registerForEvents(auth)),
     await tryUntilSuccessful(() => getSubscriptions(auth)),
-    await tryUntilSuccessful(() => getMessages(auth, 0, 10, 10, narrow, true)),
+    await tryUntilSuccessful(() =>
+      getMessages(
+        auth,
+        0,
+        config.messagesPerRequest / 2,
+        config.messagesPerRequest / 2,
+        narrow,
+        true,
+      ),
+    ),
   ]);
 
   dispatch(realmInit(initData));
-  dispatch(messageFetchSuccess(messages, narrow, 0, 10, 10, true));
+  dispatch(
+    messageFetchSuccess(
+      messages,
+      narrow,
+      0,
+      config.messagesPerRequest / 2,
+      config.messagesPerRequest / 2,
+      true,
+    ),
+  );
   dispatch(initSubscriptions(subscriptions));
   dispatch(initialFetchComplete());
 
@@ -115,5 +134,5 @@ export const doInitialFetch = (): Action => async (dispatch: Dispatch, getState:
     dispatch(initNotifications());
   }
   dispatch(sendFocusPing());
-  // setInterval(() => actions.fetchUsersStatus(isActive), config.activePingInterval);
+  setInterval(() => sendFocusPing(), 60 * 1000);
 };

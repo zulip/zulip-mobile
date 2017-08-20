@@ -1,5 +1,6 @@
 /* @flow */
 import React from 'react';
+import isEqual from 'lodash.isequal';
 
 import type { RenderedSectionDescriptor } from '../types';
 import MessageListSection from './MessageListSection';
@@ -13,19 +14,24 @@ export default (renderedMessages: RenderedSectionDescriptor[]): Object => {
     return cachedRenderedData;
   }
 
-  const messageList: Object[] = renderedMessages.reduce((result, section) => {
-    result.push(
-      <MessageListSection key={section.key} message={section.message} />,
-      section.data.map(item => <MessageListItem {...item} />),
+  if (!isEqual(lastRenderedMessages, renderedMessages)) {
+    const messageList: Object[] = React.Children.toArray(
+      renderedMessages.reduce((result, section) => {
+        result.push(
+          <MessageListSection key={section.key} message={section.message} />,
+          section.data.map(item => <MessageListItem {...item} />),
+        );
+        return result;
+      }, []),
     );
-    return result;
-  }, []);
 
-  const stickyHeaderIndices = messageList
-    .map((component, idx) => (component.type === MessageListSection ? idx : -1))
-    .filter(idx => idx !== -1);
+    const stickyHeaderIndices = messageList
+      .map((component, idx) => (component.type === MessageListSection ? idx + 1 : -1))
+      .filter(idx => idx !== -1);
 
+    cachedRenderedData = { messageList, stickyHeaderIndices };
+  }
   lastRenderedMessages = renderedMessages;
-  cachedRenderedData = { messageList, stickyHeaderIndices };
+
   return cachedRenderedData;
 };
