@@ -106,9 +106,11 @@ export default (state: ChatState = initialState, action: Action) => {
             state.messages[key].find(item => action.message.id === item.id) === undefined
           ) {
             stateChange = true;
-            return [...state.messages[key], action.message];
+            msg[key] = [...state.messages[key], action.message];
+          } else {
+            msg[key] = state.messages[key];
           }
-          return state.messages[key];
+          return msg;
         }, {}),
       };
       return stateChange ? newState : state;
