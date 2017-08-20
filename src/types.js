@@ -197,7 +197,6 @@ export type Actions = {
   sendFocusPing: (hasFocus: boolean, newUserInput: boolean) => Action,
   initUsers: (users: User[]) => Action,
   fetchUsers: () => Action,
-  fetchUsersAndStatus: () => Action,
   initialFetchComplete: () => Action,
   fetchEssentialInitialData: () => Action,
   fetchRestOfInitialData: (pushToken: string) => Action,
