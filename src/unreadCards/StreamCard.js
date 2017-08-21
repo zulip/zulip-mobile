@@ -8,6 +8,8 @@ import DummyMessage from './DummyMessage';
 import { IconCross, IconCheck } from '../common/Icons';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
+
+// Amount the card must be dragged to perform complete swipe
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
 const SWIPE_OUT_DURATION = 250;
 
@@ -40,8 +42,18 @@ export default class StreamCard extends PureComponent {
     cardHeight: 100,
   };
 
-  position = new Animated.ValueXY();
-  animated = new Animated.Value(1);
+  props: {
+    stream?: string,
+    color?: string,
+    topics?: any,
+    unreadCount: number,
+    isPrivate: boolean,
+    sender?: string,
+    onSwipe: () => void,
+  };
+
+  animated_position = new Animated.ValueXY();
+  animated_height = new Animated.Value(1);
 
   panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
@@ -50,7 +62,7 @@ export default class StreamCard extends PureComponent {
       if (
         xOffset > 0 // Allow only right swipes
       )
-        this.position.setValue({ x: gesture.dx, y: gesture.dy });
+        this.animated_position.setValue({ x: gesture.dx, y: gesture.dy });
     },
     onPanResponderRelease: (event, gesture) => {
       this.handleTouchEnd(gesture.dx);
@@ -74,30 +86,25 @@ export default class StreamCard extends PureComponent {
     }
   };
 
-  measureView = event => {
-    this.setState({
-      cardHeight: event.nativeEvent.layout.height,
-    });
-  };
-
   onSwipeComplete = () => {
     const { onSwipe } = this.props;
 
-    Animated.timing(this.animated, {
+    Animated.timing(this.animated_height, {
       toValue: 0,
       duration: SWIPE_OUT_DURATION,
     }).start(onSwipe);
   };
 
+  // If touch ends beyond SWIPE_THRESHOLD swipe the card out forcefully
   forceSwipe = () => {
-    Animated.timing(this.position, {
+    Animated.timing(this.animated_position, {
       toValue: { x: SCREEN_WIDTH, y: 0 },
       duration: SWIPE_OUT_DURATION,
     }).start(() => this.onSwipeComplete());
   };
 
   resetPosition = () => {
-    Animated.spring(this.position, {
+    Animated.spring(this.animated_position, {
       toValue: { x: 0, y: 0 },
     }).start();
   };
@@ -105,7 +112,7 @@ export default class StreamCard extends PureComponent {
   dynamicContainerStyles = () => [
     styles.container,
     {
-      height: this.animated.interpolate({
+      height: this.animated_height.interpolate({
         inputRange: [0, 1],
         outputRange: [0, this.state.cardHeight],
       }),
@@ -116,19 +123,25 @@ export default class StreamCard extends PureComponent {
     position: 'absolute',
     left: 10,
     flexDirection: 'column',
-    opacity: this.position.x.interpolate({
+    opacity: this.animated_position.x.interpolate({
       inputRange: [SWIPE_THRESHOLD, SCREEN_WIDTH * 0.9],
       outputRange: [1, 0],
     }),
     transform: [
       {
-        translateX: this.position.x.interpolate({
+        translateX: this.animated_position.x.interpolate({
           inputRange: [0, SWIPE_THRESHOLD],
           outputRange: [0, 20],
         }),
       },
     ],
   });
+
+  measureView = event => {
+    this.setState({
+      cardHeight: event.nativeEvent.layout.height,
+    });
+  };
 
   render() {
     const { stream, color, topics, unreadCount, isPrivate, sender } = this.props;
@@ -141,7 +154,7 @@ export default class StreamCard extends PureComponent {
         <Animated.View
           onLayout={event => this.measureView(event)}
           {...this.panResponder.panHandlers}
-          style={[styles.card, { left: this.position.x }]}>
+          style={[styles.card, { left: this.animated_position.x }]}>
           <StreamCardHeader
             isPrivate={isPrivate}
             sender={sender}

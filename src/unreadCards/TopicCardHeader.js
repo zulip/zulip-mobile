@@ -16,16 +16,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TopicCardHeader extends PureComponent {
-  render() {
-    const { heading, unreadCount } = this.props;
-    return (
-      <View style={styles.header}>
-        <Text>
-          {heading}
-        </Text>
-        <TopicUnreadCount count={unreadCount} />
-      </View>
-    );
-  }
-}
+export default ({ heading, unreadCount }) =>
+  <View style={styles.header}>
+    <Text>
+      {heading}
+    </Text>
+    <TopicUnreadCount count={unreadCount} />
+  </View>;

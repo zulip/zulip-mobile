@@ -74,7 +74,7 @@ export default class UnreadCardsList extends PureComponent {
   };
 
   // TODO: Improve this
-  removeCard = index => {
+  removeCard = (index: number) => {
     const start = this.state.data.slice(0, index);
     const end = this.state.data.slice(index + 1);
 
@@ -99,8 +99,6 @@ export default class UnreadCardsList extends PureComponent {
     />;
 
   render() {
-    console.log(this.state.data);
-
     return (
       <FlatList
         style={styles.list}

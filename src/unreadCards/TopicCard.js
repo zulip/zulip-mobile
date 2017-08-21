@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import TopicCardHeader from './TopicCardHeader';
+import ExtraUnreadCount from './ExtraUnreadCount';
 import DummyMessage from './DummyMessage';
 
 const styles = StyleSheet.create({
@@ -19,6 +20,7 @@ export default class TopicCard extends PureComponent {
       <View style={styles.container}>
         <TopicCardHeader heading={name} unreadCount={unreadCount} />
         <DummyMessage />
+        {unreadCount > 1 && <ExtraUnreadCount count={unreadCount - 1} />}
       </View>
     );
   }

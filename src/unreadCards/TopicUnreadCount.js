@@ -20,15 +20,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TopicUnreadCount extends PureComponent {
-  render() {
-    const { count } = this.props;
-    return (
-      <View style={styles.container}>
-        <Text style={styles.text}>
-          {count}
-        </Text>
-      </View>
-    );
-  }
-}
+export default ({ count }) =>
+  <View style={styles.container}>
+    <Text style={styles.text}>
+      {count}
+    </Text>
+  </View>;
