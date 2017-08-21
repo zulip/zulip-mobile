@@ -1,16 +1,16 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { GlobalState } from '../types';
 import { caseInsensitiveCompareObjFunc } from '../utils/misc';
+import {
+  getMute,
+  getUnreadStreams,
+  getUnreadPms,
+  getUnreadHuddles,
+  getUnreadMentions,
+} from '../baseSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
-import { getMute } from '../baseSelectors';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
-
-export const getUnreadStreams = (state: GlobalState): Object[] => state.unread.streams;
-export const getUnreadPms = (state: GlobalState): Object[] => state.unread.pms;
-export const getUnreadHuddles = (state: GlobalState): Object[] => state.unread.huddles;
-export const getUnreadMentions = (state: GlobalState): number[] => state.unread.mentions;
 
 export const getUnreadByStream = createSelector(getUnreadStreams, unreadStreams =>
   unreadStreams.reduce((totals, stream) => {
