@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`messageActions backgroundFetchMessages message fetch success action is dispatched after successful fetch 1`] = `
+Array [
+  Object {
+    "anchor": 0,
+    "messages": Array [
+      Object {
+        "id": 1,
+      },
+      Object {
+        "id": 2,
+      },
+      Object {
+        "id": 3,
+      },
+    ],
+    "narrow": Array [],
+    "numAfter": 1,
+    "numBefore": 1,
+    "replaceExisting": false,
+    "type": "MESSAGE_FETCH_SUCCESS",
+  },
+]
+`;
+
 exports[`messageActions doNarrow when messages in new narrow, only action to switch narrow is dispatched 1`] = `
 Array [
   Object {
@@ -63,3 +87,81 @@ Array [
   },
 ]
 `;
+
+exports[`messageActions fetchMessages when messages to be fetched both before and after anchor, fetchingOlder and fetchingNewer is true 1`] = `
+Array [
+  Object {
+    "fetchingNewer": true,
+    "fetchingOlder": true,
+    "narrow": Array [],
+    "type": "MESSAGE_FETCH_START",
+  },
+]
+`;
+
+exports[`messageActions fetchMessages when no messages to be fetched after the anchor, fetchingNewer is false 1`] = `
+Array [
+  Object {
+    "fetchingNewer": false,
+    "fetchingOlder": true,
+    "narrow": Array [],
+    "type": "MESSAGE_FETCH_START",
+  },
+]
+`;
+
+exports[`messageActions fetchMessages when no messages to be fetched before the anchor, fetchingOlder is false 1`] = `
+Array [
+  Object {
+    "fetchingNewer": true,
+    "fetchingOlder": false,
+    "narrow": Array [],
+    "type": "MESSAGE_FETCH_START",
+  },
+]
+`;
+
+exports[`messageActions fetchMessagesAtFirstUnread message fetch start action is dispatched with fetchingOlder and fetchingNewer true 1`] = `
+Array [
+  Object {
+    "fetchingNewer": true,
+    "fetchingOlder": true,
+    "narrow": Array [],
+    "type": "MESSAGE_FETCH_START",
+  },
+]
+`;
+
+exports[`messageActions fetchNewer message fetch start action is dispatched with fetchingNewer true 1`] = `
+Array [
+  Object {
+    "fetchingNewer": true,
+    "fetchingOlder": false,
+    "narrow": Array [],
+    "type": "MESSAGE_FETCH_START",
+  },
+]
+`;
+
+exports[`messageActions fetchNewer when caughtUp newer is true, no action is dispatched 1`] = `Array []`;
+
+exports[`messageActions fetchNewer when fetchingNewer is true, no action is dispatched 1`] = `Array []`;
+
+exports[`messageActions fetchNewer when needsInitialFetch is true, no action is dispatched 1`] = `Array []`;
+
+exports[`messageActions fetchOlder message fetch start action is dispatched with fetchingOlder true 1`] = `
+Array [
+  Object {
+    "fetchingNewer": false,
+    "fetchingOlder": true,
+    "narrow": Array [],
+    "type": "MESSAGE_FETCH_START",
+  },
+]
+`;
+
+exports[`messageActions fetchOlder when caughtUp older is true, no action is dispatched 1`] = `Array []`;
+
+exports[`messageActions fetchOlder when fetchingOlder older is true, no action is dispatched 1`] = `Array []`;
+
+exports[`messageActions fetchOlder when needsInitialFetch is true, no action is dispatched 1`] = `Array []`;
