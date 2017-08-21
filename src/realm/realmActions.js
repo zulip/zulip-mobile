@@ -123,12 +123,12 @@ export const fetchRestOfInitialData = (): Action => async (
   if (auth.apiKey !== '' && pushToken === '') {
     refreshNotificationToken();
   }
+  dispatch(trySendMessages());
 };
 
 export const doInitialFetch = (): Action => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(fetchEssentialInitialData());
   dispatch(fetchRestOfInitialData());
-  dispatch(trySendMessages());
 
   if (!DeviceInfo.isEmulator()) {
     dispatch(initNotifications());
