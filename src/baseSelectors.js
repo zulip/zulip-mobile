@@ -25,3 +25,11 @@ export const getOutbox = (state: GlobalState): Outbox[] => state.outbox;
 
 export const getActiveNarrowString = (state: GlobalState): string =>
   JSON.stringify(state.chat.narrow);
+
+export const getUnreadStreams = (state: GlobalState): Object[] => state.unread.streams;
+
+export const getUnreadPms = (state: GlobalState): Object[] => state.unread.pms;
+
+export const getUnreadHuddles = (state: GlobalState): Object[] => state.unread.huddles;
+
+export const getUnreadMentions = (state: GlobalState): number[] => state.unread.mentions;

@@ -30,11 +30,12 @@ export default class TextAvatar extends PureComponent {
     name: string,
     size: number,
     shape?: string,
+    children?: any[],
     onPress?: () => void,
   };
 
   render() {
-    const { name, size, shape, onPress } = this.props;
+    const { children, name, size, shape, onPress } = this.props;
 
     const frameSize = {
       height: size,
@@ -53,7 +54,7 @@ export default class TextAvatar extends PureComponent {
           <Text style={[styles.text, textSize]}>
             {initialsFromName(name)}
           </Text>
-          {this.props.children}
+          {children}
         </View>
       </Touchable>
     );

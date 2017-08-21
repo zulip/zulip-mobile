@@ -1,7 +1,7 @@
 /* @flow */
 import parseMarkdown from 'zulip-markdown-parser';
 
-import type { Dispatch, GetState, Narrow } from '../types';
+import type { Dispatch, GetState, Narrow, User } from '../types';
 import {
   MESSAGE_SEND,
   START_OUTBOX_SENDING,
@@ -10,8 +10,8 @@ import {
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 import { sendMessage as sendMessageApi } from '../api';
-import { getSelfUserDetail } from '../users/userSelectors';
-import { extractTypeToAndSubjectFromNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
+import { getSelfUserDetail, getUserByEmail } from '../users/userSelectors';
+import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 
 export const sendMessage = (params: Object) => ({
   type: MESSAGE_SEND,
@@ -45,6 +45,28 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
     });
     dispatch(toggleOutboxSending(false));
   }
+};
+
+const mapEmailsToUsers = (users, narrow) =>
+  narrow[0].operand.split(',').map(item => {
+    const user = getUserByEmail(users, item);
+    return { email: item, id: user.id, full_name: user.fullName };
+  });
+
+const extractTypeToAndSubjectFromNarrow = (
+  narrow: Narrow,
+  users: User[],
+): { type: 'private' | 'stream', display_recipient: string, subject: string } => {
+  if (isPrivateOrGroupNarrow(narrow)) {
+    return {
+      type: 'private',
+      display_recipient: mapEmailsToUsers(users, narrow),
+      subject: '',
+    };
+  } else if (isStreamNarrow(narrow)) {
+    return { type: 'stream', display_recipient: narrow[0].operand, subject: '(no topic)' };
+  }
+  return { type: 'stream', display_recipient: narrow[0].operand, subject: narrow[1].operand };
 };
 
 export const addToOutbox = (narrow: Narrow, content: string) => async (
