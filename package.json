@@ -105,13 +105,16 @@
   },
   "jest": {
     "preset": "react-native",
-    "setupTestFrameworkScriptFile": "./jestSetup.js",
+    "setupTestFrameworkScriptFile": "./jest/jestSetup.js",
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|@expo/react-native-action-sheet|react-navigation)"
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/__e2e__tests__"
+    ],
+    "setupFiles": [
+      "./jest/globalFetch.js"
     ]
   },
   "detox": {
