@@ -37,9 +37,9 @@ class AppContainer extends PureComponent {
   };
 
   handleConnectivityChange = isConnected => {
-    const { actions } = this.props;
+    const { actions, needsInitialFetch, isHydrated } = this.props;
     actions.appOnline(isConnected);
-    if (isConnected) {
+    if (isHydrated && !needsInitialFetch && isConnected) {
       actions.trySendMessages();
     }
   };

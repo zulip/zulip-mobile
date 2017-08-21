@@ -54,7 +54,7 @@ export default (state: AppState = initialState, action: Action) => {
     case REALM_INIT:
       return {
         ...state,
-        eventQueueId: action.data.queueId,
+        eventQueueId: action.data.queue_id,
       };
     case APP_ACTIVITY:
       return {

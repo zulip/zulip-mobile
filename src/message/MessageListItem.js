@@ -19,6 +19,8 @@ export default class MessageListItem extends PureComponent {
 
     if (type === 'time') {
       return <TimeRow key={`time${timestamp}`} timestamp={timestamp} />;
+    } else if (message.isOutbox) {
+      return <MessageContainer isBrief={isBrief} message={message} />;
     }
 
     return (

@@ -32,8 +32,8 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
   if (state.outbox.length > 0 && !state.app.outboxSending) {
     dispatch(toggleOutboxSending(true));
     const auth = getAuth(state);
-    state.outbox.forEach(async item => {
-      await sendMessageApi(
+    state.outbox.forEach(item =>
+      sendMessageApi(
         auth,
         item.type,
         isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,
@@ -41,8 +41,8 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
         item.content,
         item.timestamp,
         state.app.eventQueueId,
-      );
-    });
+      ),
+    );
     dispatch(toggleOutboxSending(false));
   }
 };
