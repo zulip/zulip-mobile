@@ -84,8 +84,8 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
     sendMessage({
       narrow,
       ...extractTypeToAndSubjectFromNarrow(narrow, users),
-      content,
-      parsedContent: html,
+      markdownContent: content,
+      content: html,
       timestamp: localTime,
       id: localTime,
       sender_full_name: userDetail.fullName,
