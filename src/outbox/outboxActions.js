@@ -7,6 +7,7 @@ import {
   START_OUTBOX_SENDING,
   FINISHED_OUTBOX_SENDING,
   DELETE_OUTBOX_MESSAGE,
+  MESSAGE_SEND_SUCCESS,
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 import { sendMessage as sendMessageApi } from '../api';
@@ -27,22 +28,32 @@ export const deleteOutboxMessage = (localMessageId: number) => ({
   localMessageId,
 });
 
+export const messageSuccessfulSend = (localMessageId: number) => ({
+  type: MESSAGE_SEND_SUCCESS,
+  localMessageId,
+});
+
 export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   if (state.outbox.length > 0 && !state.app.outboxSending) {
     dispatch(toggleOutboxSending(true));
     const auth = getAuth(state);
-    state.outbox.forEach(item =>
-      sendMessageApi(
-        auth,
-        item.type,
-        isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,
-        item.subject,
-        item.content,
-        item.timestamp,
-        state.app.eventQueueId,
-      ),
-    );
+    state.outbox.forEach(async item => {
+      try {
+        await sendMessageApi(
+          auth,
+          item.type,
+          isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,
+          item.subject,
+          item.markdownContent,
+          item.timestamp,
+          state.app.eventQueueId,
+        );
+        dispatch(messageSuccessfulSend(item.timestamp));
+      } catch (e) {
+        console.log('error caught while sending', e); // eslint-disable-line
+      }
+    });
     dispatch(toggleOutboxSending(false));
   }
 };
