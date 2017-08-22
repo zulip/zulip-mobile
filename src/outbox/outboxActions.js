@@ -58,20 +58,24 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
   }
 };
 
-const mapEmailsToUsers = (users, narrow) =>
-  narrow[0].operand.split(',').map(item => {
-    const user = getUserByEmail(users, item);
-    return { email: item, id: user.id, full_name: user.fullName };
-  });
+const mapEmailsToUsers = (users, narrow, selfDetail) =>
+  narrow[0].operand
+    .split(',')
+    .map(item => {
+      const user = getUserByEmail(users, item);
+      return { email: item, id: user.id, full_name: user.fullName };
+    })
+    .concat({ email: selfDetail.email, id: selfDetail.id, full_name: selfDetail.fullName });
 
 const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
   users: User[],
+  selfDetail: {},
 ): { type: 'private' | 'stream', display_recipient: string, subject: string } => {
   if (isPrivateOrGroupNarrow(narrow)) {
     return {
       type: 'private',
-      display_recipient: mapEmailsToUsers(users, narrow),
+      display_recipient: mapEmailsToUsers(users, narrow, selfDetail),
       subject: '',
     };
   } else if (isStreamNarrow(narrow)) {
@@ -94,7 +98,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   dispatch(
     sendMessage({
       narrow,
-      ...extractTypeToAndSubjectFromNarrow(narrow, users),
+      ...extractTypeToAndSubjectFromNarrow(narrow, users, userDetail),
       markdownContent: content,
       content: html,
       timestamp: localTime,
