@@ -390,8 +390,9 @@ export type Subscription = {
 
 export type Outbox = {
   content: string,
+  markdownContent: string,
   timestamp: number,
-  parsedContent: string,
+  id: number,
   sender_full_name: string,
   email: string,
   avatar_url: string,

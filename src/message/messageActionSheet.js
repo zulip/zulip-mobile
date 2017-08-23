@@ -91,7 +91,7 @@ const reply = ({ message, actions, auth, currentRoute }: MessageAndDoNarrowType)
 
 const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
   const rawMessage = isAnOutboxMessage({ message })
-    ? message.content
+    ? message.markdownContent
     : await getSingleMessage(auth, message.id);
   Clipboard.setString(rawMessage);
   showToast('Message copied!');

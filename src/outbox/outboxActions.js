@@ -7,6 +7,7 @@ import {
   START_OUTBOX_SENDING,
   FINISHED_OUTBOX_SENDING,
   DELETE_OUTBOX_MESSAGE,
+  MESSAGE_SEND_SUCCESS,
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 import { sendMessage as sendMessageApi } from '../api';
@@ -27,40 +28,54 @@ export const deleteOutboxMessage = (localMessageId: number) => ({
   localMessageId,
 });
 
+export const messageSuccessfulSend = (localMessageId: number) => ({
+  type: MESSAGE_SEND_SUCCESS,
+  localMessageId,
+});
+
 export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   if (state.outbox.length > 0 && !state.app.outboxSending) {
     dispatch(toggleOutboxSending(true));
     const auth = getAuth(state);
-    state.outbox.forEach(item =>
-      sendMessageApi(
-        auth,
-        item.type,
-        isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,
-        item.subject,
-        item.content,
-        item.timestamp,
-        state.app.eventQueueId,
-      ),
-    );
+    state.outbox.forEach(async item => {
+      try {
+        await sendMessageApi(
+          auth,
+          item.type,
+          isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,
+          item.subject,
+          item.markdownContent,
+          item.timestamp,
+          state.app.eventQueueId,
+        );
+        dispatch(messageSuccessfulSend(item.timestamp));
+      } catch (e) {
+        console.log('error caught while sending', e); // eslint-disable-line
+      }
+    });
     dispatch(toggleOutboxSending(false));
   }
 };
 
-const mapEmailsToUsers = (users, narrow) =>
-  narrow[0].operand.split(',').map(item => {
-    const user = getUserByEmail(users, item);
-    return { email: item, id: user.id, full_name: user.fullName };
-  });
+const mapEmailsToUsers = (users, narrow, selfDetail) =>
+  narrow[0].operand
+    .split(',')
+    .map(item => {
+      const user = getUserByEmail(users, item);
+      return { email: item, id: user.id, full_name: user.fullName };
+    })
+    .concat({ email: selfDetail.email, id: selfDetail.id, full_name: selfDetail.fullName });
 
 const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
   users: User[],
+  selfDetail: { email: string, id: number, fullName: string },
 ): { type: 'private' | 'stream', display_recipient: string, subject: string } => {
   if (isPrivateOrGroupNarrow(narrow)) {
     return {
       type: 'private',
-      display_recipient: mapEmailsToUsers(users, narrow),
+      display_recipient: mapEmailsToUsers(users, narrow, selfDetail),
       subject: '',
     };
   } else if (isStreamNarrow(narrow)) {
@@ -83,9 +98,9 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   dispatch(
     sendMessage({
       narrow,
-      ...extractTypeToAndSubjectFromNarrow(narrow, users),
-      content,
-      parsedContent: html,
+      ...extractTypeToAndSubjectFromNarrow(narrow, users, userDetail),
+      markdownContent: content,
+      content: html,
       timestamp: localTime,
       id: localTime,
       sender_full_name: userDetail.fullName,
