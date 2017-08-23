@@ -70,7 +70,7 @@ const mapEmailsToUsers = (users, narrow, selfDetail) =>
 const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
   users: User[],
-  selfDetail: {},
+  selfDetail: { email: string, id: number, fullName: string },
 ): { type: 'private' | 'stream', display_recipient: string, subject: string } => {
   if (isPrivateOrGroupNarrow(narrow)) {
     return {
