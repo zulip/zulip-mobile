@@ -47,23 +47,27 @@ export default class Chat extends PureComponent {
 
     return (
       <WrapperView style={styles.screen} behavior="padding">
-        {!isOnline && <OfflineNotice />}
-        {noMessages && !isFetching && <NoMessages narrow={narrow} />}
-        {noMessages && isFetching && <MessageListLoading />}
-        {!noMessages &&
-          <ActionSheetProvider>
-            <MessageListContainer
-              listRef={component => {
-                this.listComponent = component || this.listComponent;
-              }}
-            />
-          </ActionSheetProvider>}
-        {/* <UnreadNotice
-          unreadCount={unreadCount}
-          scrollOffset={this.scrollOffset}
-          shouldOffsetForInput={canSendToNarrow(narrow)}
-        /> */}
-        {canSendToNarrow(narrow) ? CheckSub : null}
+        <ActionSheetProvider>
+          <View style={styles.screen}>
+            {!isOnline && <OfflineNotice />}
+            {noMessages && !isFetching && <NoMessages narrow={narrow} />}
+            {noMessages && isFetching && <MessageListLoading />}
+            {!noMessages &&
+              <ActionSheetProvider>
+                <MessageListContainer
+                  listRef={component => {
+                    this.listComponent = component || this.listComponent;
+                  }}
+                />
+              </ActionSheetProvider>}
+            {/* <UnreadNotice
+              unreadCount={unreadCount}
+              scrollOffset={this.scrollOffset}
+              shouldOffsetForInput={canSendToNarrow(narrow)}
+            /> */}
+            {canSendToNarrow(narrow) ? CheckSub : null}
+          </View>
+        </ActionSheetProvider>
       </WrapperView>
     );
   }
