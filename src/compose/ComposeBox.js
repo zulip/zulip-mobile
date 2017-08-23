@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 
-import { connectActionSheet, ActionSheetProvider } from '@expo/react-native-action-sheet';
 import type { Auth, Narrow, EditMessage, User, Actions } from '../types';
 import patchMessage from '../api/updateMessage';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
@@ -151,7 +150,6 @@ export default class ComposeBox extends PureComponent {
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
 
     return (
-      // <ActionSheetProvider>
       <View>
         <AutoCompleteView text={message} onAutocomplete={this.handleAutoComplete} />
         <View style={[styles.composeBox, { height: totalHeight }]}>
@@ -192,7 +190,6 @@ export default class ComposeBox extends PureComponent {
           </View>
         </View>
       </View>
-      // </ActionSheetProvider>
     );
   }
 }
