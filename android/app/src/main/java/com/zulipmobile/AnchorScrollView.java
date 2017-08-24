@@ -182,28 +182,31 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         // Set up anchor view
         mAnchorTag = null;
 
-        if (!(mContentView instanceof ReactViewGroup)) {
+        if (mRemoveClippedSubviews && !(mContentView instanceof ReactViewGroup)) {
             getAllReactChildrenField(mContentView.getClass());
         }
-        if (sAllReactChildrenField != null) {
+        View[] children = null;
+        if (mRemoveClippedSubviews && sAllReactChildrenField != null) {
             try {
-                View[] children = (View[]) sAllReactChildrenField.get(mContentView);
-                if (children != null) {
-                    for (int i = 0; i < children.length; i++) {
-                        View child = children[i];
-                        if (child == null || !isMessageTag(child)) {
-                            continue;
-                        }
-                        String tag = (String) child.getTag();
-                        if (child.getBottom() >= getScrollY()) {
-                            mLastAnchorY = child.getTop();
-                            mAnchorTag = tag;
-                            break;
-                        }
-                    }
-                }
+                children = (View[]) sAllReactChildrenField.get(mContentView);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "Failed to get mAllChildren field for " + mContentView.getClass().getSimpleName());
+                return;
+            }
+        }
+
+        int arrLength = mRemoveClippedSubviews && children != null ? children.length : mContentView.getChildCount();
+        for (int i = 0; i < arrLength; i++) {
+            View child = mRemoveClippedSubviews && children != null ? children[i] : mContentView.getChildAt(i);
+            if (child == null || !(child.getTag() instanceof String)) {
+                continue;
+            }
+
+            String tag = (String) child.getTag();
+            if (child.getBottom() >= getScrollY()) {
+                mLastAnchorY = child.getTop();
+                mAnchorTag = tag;
+                break;
             }
         }
     }
@@ -481,23 +484,25 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         if (mAnchorTag != null) {
             View mAnchorView = null;
 
-            if (!(mContentView instanceof ReactViewGroup)) {
+            if (mRemoveClippedSubviews && !(mContentView instanceof ReactViewGroup)) {
                 getAllReactChildrenField(mContentView.getClass());
             }
-            if (sAllReactChildrenField != null) {
+            View[] children = null;
+            if (mRemoveClippedSubviews && sAllReactChildrenField != null) {
                 try {
-                    View[] children = (View[]) sAllReactChildrenField.get(mContentView);
-                    if (children != null) {
-                        for (int i = 0; i < children.length; i++) {
-                            View child = children[i];
-                            if (child != null && mAnchorTag.equals(child.getTag())) {
-                                mAnchorView = child;
-                                break;
-                            }
-                        }
-                    }
+                    children = (View[]) sAllReactChildrenField.get(mContentView);
                 } catch (IllegalAccessException e) {
                     Log.e(TAG, "Failed to get mAllChildren field for " + mContentView.getClass().getSimpleName());
+                    return;
+                }
+            }
+
+            int arrLength = mRemoveClippedSubviews && children != null ? children.length : mContentView.getChildCount();
+            for (int i = 0; i < arrLength; i++) {
+                View child = mRemoveClippedSubviews && children != null ? children[i] : mContentView.getChildAt(i);
+
+                if (child != null && mAnchorTag.equals(child.getTag())) {
+                    mAnchorView = child;
                 }
             }
             if (mAnchorView != null) {
