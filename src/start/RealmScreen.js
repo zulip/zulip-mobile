@@ -25,6 +25,12 @@ const componentStyles = StyleSheet.create({
   container: {
     paddingBottom: 25,
   },
+  spacer: {
+    flex: 1,
+    backgroundColor: 'red',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
 });
 
 class RealmScreen extends PureComponent {
@@ -78,28 +84,25 @@ class RealmScreen extends PureComponent {
     return (
       <Screen title="Welcome" keyboardAvoiding>
         <ScrollView
-          ref={scrollView => {
-            this.scrollView = scrollView;
-          }}
+          contentContainerStyle={[styles.container, componentStyles.container]}
           centerContent
-          keyboardShouldPersistTaps="always"
-          onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}>
-          <View style={[styles.container, componentStyles.container]}>
-            <Label text="Your server URL" />
-            <Input
-              style={styles.field}
-              autoFocus
-              autoCorrect={false}
-              autoCapitalize="none"
-              placeholder="Server URL"
-              defaultValue={realm}
-              onChangeText={value => this.setState({ realm: value })}
-              blurOnSubmit={false}
-              keyboardType="url"
-              onSubmitEditing={this.tryRealm}
-            />
-            <ZulipButton text="Enter" progress={progress} onPress={this.tryRealm} />
-            {error && <ErrorMsg error={error} />}
+          keyboardShouldPersistTaps="always">
+          <Label text="Your server URL" />
+          <Input
+            style={styles.field}
+            autoFocus
+            autoCorrect={false}
+            autoCapitalize="none"
+            placeholder="Server URL"
+            defaultValue={realm}
+            onChangeText={value => this.setState({ realm: value })}
+            blurOnSubmit={false}
+            keyboardType="url"
+            onSubmitEditing={this.tryRealm}
+          />
+          {error && <ErrorMsg error={error} />}
+          <View style={componentStyles.spacer}>
+            <ZulipButton text="Enter" fullSize progress={progress} onPress={this.tryRealm} />
           </View>
         </ScrollView>
       </Screen>
