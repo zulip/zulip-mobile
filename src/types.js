@@ -8,6 +8,8 @@ export type Auth = {
   email: string,
 };
 
+export type StatusBarStyle = 'light-content' | 'dark-content';
+
 export type Account = Auth;
 
 export type ImageResource = {
@@ -314,9 +316,13 @@ export type RealmState = {
   pushToken: string,
 };
 
+export type ThemeType = 'default' | 'night';
+
 export type SettingsState = {
   locale: string,
-  theme: string,
+  offlineNotification: boolean,
+  onlineNotification: boolean,
+  theme: ThemeType,
 };
 
 export type StreamsState = [];

@@ -14,3 +14,4 @@ export * from './typing/typingSelectors';
 export * from './unread/unreadSelectors';
 export * from './users/userSelectors';
 export * from './realm/realmSelectors';
+export * from './settings/settingsSelectors';

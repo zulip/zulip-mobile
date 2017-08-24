@@ -1,33 +1,49 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { Platform, StatusBar } from 'react-native';
+import { connect } from 'react-redux';
+import Color from 'color';
 
+import getStatusBarColor from '../utils/getStatusBarColor';
+import getStatusBarStyle from '../utils/getStatusBarStyle';
+import type { Narrow, ThemeType } from '../types';
+import { getTheme } from '../selectors';
 import { foregroundColorFromBackground } from '../utils/color';
 
-export default class ZulipStatusBar extends PureComponent {
+class ZulipStatusBar extends PureComponent {
   props: {
     hidden: boolean,
     backgroundColor: string,
+    narrow?: Narrow,
+    theme: ThemeType,
   };
 
   static defaultProps = {
     hidden: false,
     backgroundColor: 'white',
+    theme: 'default',
   };
 
   render() {
-    const { hidden, backgroundColor } = this.props;
+    const { backgroundColor, hidden, narrow, theme } = this.props;
+    const statusBarColor = getStatusBarColor(backgroundColor, narrow, theme);
     const textColor = foregroundColorFromBackground(backgroundColor);
-    const barStyle = textColor === 'white' ? 'light-content' : 'dark-content';
-
+    const barStyle = getStatusBarStyle(narrow, textColor, theme);
     return (
       <StatusBar
         animated
         showHideTransition="slide"
         hidden={hidden && Platform.OS !== 'android'}
-        backgroundColor={backgroundColor}
+        backgroundColor={Color(statusBarColor).darken(0.4)}
         barStyle={barStyle}
       />
     );
   }
 }
+
+export default connect(
+  state => ({
+    theme: getTheme(state),
+  }),
+  null,
+)(ZulipStatusBar);
