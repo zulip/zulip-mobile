@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, Dimensions, Animated, PanResponder } from 'reac
 import StreamCardHeader from './StreamCardHeader';
 import TopicList from './TopicList';
 import DummyMessage from './DummyMessage';
+import Touchable from '../common/Touchable';
 import { IconCross, IconCheck } from '../common/Icons';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -37,6 +38,13 @@ const styles = StyleSheet.create({
   },
 });
 
+const MarkReadIndicator = ({ style }) => (
+  <Animated.View style={style}>
+    <IconCheck size={48} color="#FFFFFF" />
+    <Text style={styles.readIndicatorText}>Read</Text>
+  </Animated.View>
+);
+
 export default class StreamCard extends PureComponent {
   state = {
     cardHeight: 100,
@@ -50,6 +58,7 @@ export default class StreamCard extends PureComponent {
     isPrivate: boolean,
     sender?: string,
     onSwipe: () => void,
+    onPress: () => void,
   };
 
   animated_position = new Animated.ValueXY();
@@ -57,6 +66,8 @@ export default class StreamCard extends PureComponent {
 
   panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
+    onStartShouldSetPanResponderCapture: () => false,
+    onMoveShouldSetPanResponder: () => true,
     onPanResponderMove: (event, gesture) => {
       let xOffset = gesture.dx;
       if (
@@ -93,6 +104,10 @@ export default class StreamCard extends PureComponent {
       toValue: 0,
       duration: SWIPE_OUT_DURATION,
     }).start(onSwipe);
+  };
+
+  onPress = () => {
+    this.props.onPress();
   };
 
   // If touch ends beyond SWIPE_THRESHOLD swipe the card out forcefully
@@ -145,24 +160,24 @@ export default class StreamCard extends PureComponent {
 
   render() {
     const { stream, color, topics, unreadCount, isPrivate, sender } = this.props;
+
     return (
       <Animated.View style={this.dynamicContainerStyles()}>
-        <Animated.View style={this.dynamicReadIndicatorStyles()}>
-          <IconCheck size={48} color="#FFFFFF" />
-          <Text style={styles.readIndicatorText}>Read</Text>
-        </Animated.View>
+        <MarkReadIndicator style={this.dynamicReadIndicatorStyles()} />
         <Animated.View
           onLayout={event => this.measureView(event)}
           {...this.panResponder.panHandlers}
           style={[styles.card, { left: this.animated_position.x }]}>
-          <StreamCardHeader
-            isPrivate={isPrivate}
-            sender={sender}
-            unreadCount={unreadCount}
-            streamName={stream}
-            color={color}
-          />
-          {isPrivate ? <DummyMessage /> : <TopicList topics={topics} />}
+          <Touchable onPress={this.onPress}>
+            <StreamCardHeader
+              isPrivate={isPrivate}
+              sender={sender}
+              unreadCount={unreadCount}
+              streamName={stream}
+              color={color}
+            />
+            {isPrivate ? <DummyMessage /> : <TopicList topics={topics} />}
+          </Touchable>
         </Animated.View>
       </Animated.View>
     );

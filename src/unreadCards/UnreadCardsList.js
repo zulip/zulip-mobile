@@ -96,6 +96,9 @@ export default class UnreadCardsList extends PureComponent {
       onSwipe={() => {
         this.removeCard(item.id);
       }}
+      onPress={() => {
+        console.log('card pressed');
+      }}
     />;
 
   render() {
