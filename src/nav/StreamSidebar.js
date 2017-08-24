@@ -25,6 +25,8 @@ const componentStyles = StyleSheet.create({
   },
 });
 
+const SHOW_UNREAD_VIEW = true;
+
 class StreamSidebar extends PureComponent {
   static contextTypes = {
     styles: () => null,
@@ -68,7 +70,8 @@ class StreamSidebar extends PureComponent {
         <View style={componentStyles.iconList}>
           <NavButton name="md-home" onPress={() => this.narrowAndClose(homeNarrow)} />
           <NavButton name="md-mail" onPress={() => this.narrowAndClose(allPrivateNarrow)} />
-          <NavButton name="md-albums" onPress={actions.navigateToUnreadCards} />
+          {SHOW_UNREAD_VIEW &&
+            <NavButton name="md-albums" onPress={actions.navigateToUnreadCards} />}
           <NavButton name="md-star" onPress={() => this.narrowAndClose(specialNarrow('starred'))} />
           <NavButton name="md-at" onPress={() => this.narrowAndClose(specialNarrow('mentioned'))} />
           <NavButton name="md-search" onPress={() => this.navigateAndClose('search')} />
