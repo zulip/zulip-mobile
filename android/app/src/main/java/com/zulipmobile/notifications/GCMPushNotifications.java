@@ -138,7 +138,7 @@ public class GCMPushNotifications extends PushNotification {
          * {@link com.zulipmobile.MainApplication#getPushNotification} for this string and then dismissed
          *
          **/
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             Intent dismissIntent = new Intent(mContext, ProxyService.class);
             Bundle bundle = new Bundle();
             bundle.putString(ACTION_NOTIFICATIONS_DISMISS, ACTION_NOTIFICATIONS_DISMISS);
