@@ -2,7 +2,8 @@
 import React, { PureComponent } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 
-import StreamCard from './StreamCard';
+import { streamNarrow } from '../utils/narrow';
+import StreamCardContainer from './StreamCardContainer';
 
 const styles = StyleSheet.create({
   list: {
@@ -86,7 +87,7 @@ export default class UnreadCardsList extends PureComponent {
   renderSeparator = () => <View style={styles.separator} />;
 
   renderItem = ({ item, index }) =>
-    <StreamCard
+    <StreamCardContainer
       unreadCount={item.unreadCount}
       topics={item.topics}
       stream={item.name}
@@ -97,7 +98,7 @@ export default class UnreadCardsList extends PureComponent {
         this.removeCard(item.id);
       }}
       onPress={() => {
-        console.log('card pressed');
+        this.props.actions.doNarrow(streamNarrow(item.name));
       }}
     />;
 

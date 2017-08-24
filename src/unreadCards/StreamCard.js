@@ -6,6 +6,7 @@ import StreamCardHeader from './StreamCardHeader';
 import TopicList from './TopicList';
 import DummyMessage from './DummyMessage';
 import Touchable from '../common/Touchable';
+import { streamNarrow, topicNarrow } from '../utils/narrow';
 import { IconCross, IconCheck } from '../common/Icons';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -38,12 +39,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const MarkReadIndicator = ({ style }) => (
+const MarkReadIndicator = ({ style }) =>
   <Animated.View style={style}>
     <IconCheck size={48} color="#FFFFFF" />
     <Text style={styles.readIndicatorText}>Read</Text>
-  </Animated.View>
-);
+  </Animated.View>;
 
 export default class StreamCard extends PureComponent {
   state = {
