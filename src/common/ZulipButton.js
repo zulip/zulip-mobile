@@ -18,9 +18,10 @@ const styles = StyleSheet.create({
   frame: {
     height: 44,
     justifyContent: 'center',
-    borderRadius: 5,
+    borderRadius: 500,
     marginTop: 5,
     marginBottom: 5,
+    overflow: 'hidden',
   },
   primaryFrame: {
     backgroundColor: BRAND_COLOR,
@@ -29,12 +30,16 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: BRAND_COLOR,
   },
+  fullSizeFrame: {
+    backgroundColor: BRAND_COLOR,
+    borderRadius: 0,
+    flex: 1,
+  },
   touchTarget: {
     flex: 1,
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5,
   },
   text: {
     color: '#FFFFFF',
@@ -89,18 +94,21 @@ export default class ZulipButton extends PureComponent {
     text: string,
     icon?: string,
     secondary: boolean,
+    fullSize: boolean,
     onPress: () => void | Promise<any>,
   };
 
   static defaultProps = {
     secondary: false,
+    fullSize: false,
   };
 
   render() {
-    const { style, text, secondary, progress, onPress, icon } = this.props;
+    const { style, text, secondary, progress, fullSize, onPress, icon } = this.props;
     const frameStyle = [
       styles.frame,
       secondary ? styles.secondaryFrame : styles.primaryFrame,
+      fullSize && styles.fullSizeFrame,
       style,
     ];
     const textStyle = [styles.text, secondary ? styles.secondaryText : styles.primaryText];
