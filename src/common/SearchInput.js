@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 0,
     minHeight: 50,
-    // color: BRAND_COLOR,
   },
 });
 

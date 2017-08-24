@@ -2,8 +2,8 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { STATUSBAR_HEIGHT } from '../styles';
 import type { Actions, Narrow } from '../types';
+import { STATUSBAR_HEIGHT } from '../styles/platform';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import { ZulipButton } from '../common';
 import ConversationList from './ConversationList';

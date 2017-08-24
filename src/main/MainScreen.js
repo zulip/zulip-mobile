@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
+import { ZulipStatusBar } from '../common';
 import ChatContainer from '../chat/ChatContainer';
 import MainNavBar from '../nav/MainNavBar';
 
@@ -23,6 +24,7 @@ export default class MainScreen extends PureComponent {
 
     return (
       <View style={styles.screen}>
+        <ZulipStatusBar />
         <MainNavBar
           onPressPeople={this.handlePressPeople}
           onPressStreams={this.handlePressStreams}

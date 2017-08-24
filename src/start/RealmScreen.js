@@ -22,14 +22,13 @@ type State = {
 };
 
 const componentStyles = StyleSheet.create({
-  container: {
-    paddingBottom: 25,
-  },
   spacer: {
     flex: 1,
-    backgroundColor: 'red',
     flexDirection: 'row',
     alignItems: 'flex-end',
+    marginLeft: -16,
+    marginRight: -16,
+    marginBottom: -16,
   },
 });
 
@@ -71,7 +70,7 @@ class RealmScreen extends PureComponent {
       actions.navigateToAuth(authBackends);
       Keyboard.dismiss();
     } catch (err) {
-      this.setState({ error: 'Can not connect to server' });
+      this.setState({ error: err.message });
     } finally {
       this.setState({ progress: false });
     }
@@ -84,7 +83,7 @@ class RealmScreen extends PureComponent {
     return (
       <Screen title="Welcome" keyboardAvoiding>
         <ScrollView
-          contentContainerStyle={[styles.container, componentStyles.container]}
+          contentContainerStyle={styles.container}
           centerContent
           keyboardShouldPersistTaps="always">
           <Label text="Your server URL" />

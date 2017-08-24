@@ -13,7 +13,7 @@ export const StreamsDrawer = DrawerNavigator(
     },
   },
   {
-    contentComponent: StreamSidebar,
+    contentComponent: props => <StreamSidebar navigation={props.navigation} />,
     initialRouteName: 'main',
   },
 );
