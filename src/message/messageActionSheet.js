@@ -136,6 +136,9 @@ const muteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscription
 const isSentBySelfAndNarrowed = ({ message, auth, narrow }: AuthMessageAndNarrow): boolean =>
   auth.email === message.sender_email && !isHomeNarrow(narrow) && !isSpecialNarrow(narrow);
 
+const isSentBySelf = ({ message, auth }: AuthAndMessageType): boolean =>
+  auth.email === message.sender_email;
+
 const starMessage = ({ auth, message }: AuthAndMessageType) => {
   toggleMessageStarredApi(auth, [message.id], true);
 };
@@ -180,7 +183,12 @@ const actionSheetButtons: ButtonType[] = [
     onlyIf: ({ message, auth, narrow }) =>
       resolveMultiple(message, auth, narrow, [isSentMessage, isSentBySelfAndNarrowed]),
   },
-  { title: 'Delete message', onPress: deleteMessage },
+  {
+    title: 'Delete message',
+    onPress: deleteMessage,
+    onlyIf: ({ message, auth, narrow }) =>
+      resolveMultiple(message, auth, narrow, [isSentMessage, isSentBySelf]),
+  },
   // If skip then covered in constructActionButtons
   { title: 'Narrow to conversation', onPress: narrowToConversation, onlyIf: skip },
   { title: 'Star Message', onPress: starMessage, onlyIf: skip },
