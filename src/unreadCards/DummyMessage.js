@@ -2,7 +2,6 @@
 // Renders dummy message.
 
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 
 import renderHtmlChildren from '../html/renderHtmlChildren';
 import htmlToDomTree from '../html/htmlToDomTree';

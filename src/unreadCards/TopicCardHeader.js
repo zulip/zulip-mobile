@@ -34,4 +34,4 @@ export default class TopicCardHeader extends PureComponent {
       </View>
     );
   }
-};
+}

@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 
 import TopicCard from './TopicCard';
 

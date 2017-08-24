@@ -1,13 +1,12 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, Dimensions, Animated, PanResponder } from 'react-native';
+import { Text, StyleSheet, Dimensions, Animated, PanResponder } from 'react-native';
 
 import UnreadCardHeader from './UnreadCardHeader';
 import TopicList from './TopicList';
 import DummyMessage from './DummyMessage';
 import Touchable from '../common/Touchable';
-import { streamNarrow, topicNarrow } from '../utils/narrow';
-import { IconCross, IconCheck } from '../common/Icons';
+import { IconCheck } from '../common/Icons';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -61,17 +60,17 @@ export default class StreamCard extends PureComponent {
     onPress: () => void,
   };
 
-  animated_position = new Animated.ValueXY();
-  animated_height = new Animated.Value(1);
+  animatedPosition = new Animated.ValueXY();
+  animatedHeight = new Animated.Value(1);
 
   panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onStartShouldSetPanResponderCapture: () => false,
     onMoveShouldSetPanResponder: () => true,
     onPanResponderMove: (event, gesture) => {
-      let xOffset = gesture.dx;
+      const xOffset = gesture.dx;
       if (xOffset > 0) {
-        this.animated_position.setValue({ x: gesture.dx, y: gesture.dy });
+        this.animatedPosition.setValue({ x: xOffset, y: gesture.dy });
       }
     },
     onPanResponderRelease: (event, gesture) => {
@@ -99,7 +98,7 @@ export default class StreamCard extends PureComponent {
   onSwipeComplete = () => {
     const { onSwipe } = this.props;
 
-    Animated.timing(this.animated_height, {
+    Animated.timing(this.animatedHeight, {
       toValue: 0,
       duration: SWIPE_OUT_DURATION,
     }).start(onSwipe);
@@ -111,7 +110,7 @@ export default class StreamCard extends PureComponent {
 
   // If touch ends beyond SWIPE_THRESHOLD swipe the card out forcefully.
   forceSwipe = () => {
-    Animated.timing(this.animated_position, {
+    Animated.timing(this.animatedPosition, {
       toValue: { x: SCREEN_WIDTH, y: 0 },
       duration: SWIPE_OUT_DURATION,
     }).start(() => this.onSwipeComplete());
@@ -119,7 +118,7 @@ export default class StreamCard extends PureComponent {
 
   // If touch ends before SWIPE_THRESHOLD restore the card's position.
   resetPosition = () => {
-    Animated.spring(this.animated_position, {
+    Animated.spring(this.animatedPosition, {
       toValue: { x: 0, y: 0 },
     }).start();
   };
@@ -127,7 +126,7 @@ export default class StreamCard extends PureComponent {
   dynamicContainerStyles = () => [
     styles.container,
     {
-      height: this.animated_height.interpolate({
+      height: this.animatedHeight.interpolate({
         inputRange: [0, 1],
         outputRange: [0, this.state.cardHeight],
       }),
@@ -138,13 +137,13 @@ export default class StreamCard extends PureComponent {
     position: 'absolute',
     left: 10,
     flexDirection: 'column',
-    opacity: this.animated_position.x.interpolate({
+    opacity: this.animatedPosition.x.interpolate({
       inputRange: [SWIPE_THRESHOLD, SCREEN_WIDTH * 0.9],
       outputRange: [1, 0],
     }),
     transform: [
       {
-        translateX: this.animated_position.x.interpolate({
+        translateX: this.animatedPosition.x.interpolate({
           inputRange: [0, SWIPE_THRESHOLD],
           outputRange: [0, 20],
         }),
@@ -169,7 +168,7 @@ export default class StreamCard extends PureComponent {
         <Animated.View
           onLayout={event => this.measureView(event)}
           {...this.panResponder.panHandlers}
-          style={[styles.card, { left: this.animated_position.x }]}>
+          style={[styles.card, { left: this.animatedPosition.x }]}>
           <Touchable onPress={this.onPress}>
             <UnreadCardHeader
               isPrivate={isPrivate}

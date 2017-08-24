@@ -47,7 +47,7 @@ export default class StreamCardHeader extends PureComponent {
     sender: string,
     streamName: string,
     color: string,
-    unreadCount: number
+    unreadCount: number,
   };
 
   getHeaderStyles = () => [
@@ -56,7 +56,7 @@ export default class StreamCardHeader extends PureComponent {
   ];
 
   render() {
-    const { isPrivate, sender, streamName, color, unreadCount } = this.props;
+    const { isPrivate, sender, streamName, unreadCount } = this.props;
 
     return (
       <View style={this.getHeaderStyles()}>

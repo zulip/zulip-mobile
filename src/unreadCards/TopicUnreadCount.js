@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 
 export default class TopicUnreadCount extends PureComponent {
   props: {
-    count: number
+    count: number,
   };
 
   render() {
@@ -35,5 +35,5 @@ export default class TopicUnreadCount extends PureComponent {
         </Text>
       </View>
     );
-  };
-};
+  }
+}

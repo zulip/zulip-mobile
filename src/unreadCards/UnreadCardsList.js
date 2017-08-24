@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 
-import { streamNarrow } from '../utils/narrow';
 import UnreadCard from './UnreadCard';
 
 const styles = StyleSheet.create({

@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import TopicCardHeader from './TopicCardHeader';
 import ExtraUnreadCount from './ExtraUnreadCount';
