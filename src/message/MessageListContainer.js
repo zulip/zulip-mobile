@@ -40,6 +40,7 @@ class MessageListContainer extends PureComponent {
       fetchingOlder,
       fetchingNewer,
       typingUsers,
+      onReplySelect,
       renderedMessages,
       narrow,
       listRef,
@@ -52,6 +53,7 @@ class MessageListContainer extends PureComponent {
         caughtUpOlder={caughtUpOlder}
         fetchingOlder={fetchingOlder}
         fetchingNewer={fetchingNewer}
+        onReplySelect={onReplySelect}
         typingUsers={typingUsers}
         renderedMessages={renderedMessages}
         narrow={narrow}

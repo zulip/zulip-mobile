@@ -34,6 +34,7 @@ class MessageContainer extends PureComponent {
     flags: Object,
     twentyFourHourTime: boolean,
     isBrief: boolean,
+    onReplySelect?: () => void,
     showActionSheetWithOptions: (Object, (number) => void) => void,
   };
 
@@ -74,7 +75,16 @@ class MessageContainer extends PureComponent {
   };
 
   handleLongPress = () => {
-    const { actions, auth, narrow, subscriptions, flags, message, currentRoute } = this.props;
+    const {
+      actions,
+      auth,
+      narrow,
+      subscriptions,
+      flags,
+      message,
+      currentRoute,
+      onReplySelect,
+    } = this.props;
     const options = constructActionButtons({
       message,
       auth,
@@ -89,6 +99,7 @@ class MessageContainer extends PureComponent {
         auth,
         subscriptions,
         currentRoute,
+        onReplySelect,
       });
     };
 

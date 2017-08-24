@@ -12,10 +12,11 @@ export default class MessageListItem extends PureComponent {
     type: 'time' | 'message',
     timestamp: number,
     message: Message,
+    onReplySelect?: () => void,
   };
 
   render() {
-    const { isBrief, type, timestamp, message } = this.props;
+    const { isBrief, type, timestamp, message, onReplySelect } = this.props;
 
     if (type === 'time') {
       return <TimeRow key={`time${timestamp}`} timestamp={timestamp} />;
@@ -25,7 +26,7 @@ export default class MessageListItem extends PureComponent {
 
     return (
       <TaggedView key={message.id} tagID={message.id.toString()} collapsable={false}>
-        <MessageContainer isBrief={isBrief} message={message} />
+        <MessageContainer isBrief={isBrief} message={message} onReplySelect={onReplySelect} />
       </TaggedView>
     );
   }

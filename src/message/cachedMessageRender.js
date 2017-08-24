@@ -9,7 +9,10 @@ import MessageListItem from './MessageListItem';
 let lastRenderedMessages = null;
 let cachedRenderedData = {};
 
-export default (renderedMessages: RenderedSectionDescriptor[]): Object => {
+export default (
+  renderedMessages: RenderedSectionDescriptor[],
+  onReplySelect?: () => void,
+): Object => {
   if (lastRenderedMessages === renderedMessages) {
     return cachedRenderedData;
   }
@@ -19,7 +22,7 @@ export default (renderedMessages: RenderedSectionDescriptor[]): Object => {
       renderedMessages.reduce((result, section) => {
         result.push(
           <MessageListSection key={section.key} message={section.message} />,
-          section.data.map(item => <MessageListItem {...item} />),
+          section.data.map(item => <MessageListItem onReplySelect={onReplySelect} {...item} />),
         );
         return result;
       }, []),

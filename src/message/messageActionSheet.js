@@ -19,6 +19,14 @@ type MessageAndDoNarrowType = {
   currentRoute?: string,
 };
 
+type ReplyOptionType = {
+  message: Object,
+  actions: Actions,
+  auth: Auth,
+  currentRoute?: string,
+  onReplySelect?: () => void,
+};
+
 type AuthAndMessageType = {
   auth: Auth,
   message: Object,
@@ -36,6 +44,7 @@ type ButtonProps = {
   subscriptions: any[],
   actions: Actions,
   currentRoute?: string,
+  onReplySelect?: () => void,
 };
 
 type ExecuteActionSheetParams = {
@@ -46,6 +55,7 @@ type ExecuteActionSheetParams = {
   actions: Actions,
   header?: boolean,
   currentRoute?: string,
+  onReplySelect?: () => void,
 };
 
 type ConstructActionButtonsType = {
@@ -82,8 +92,9 @@ const narrowToConversation = ({ message, actions, auth, currentRoute }: MessageA
   }
 };
 
-const reply = ({ message, actions, auth, currentRoute }: MessageAndDoNarrowType) => {
+const reply = ({ message, actions, auth, currentRoute, onReplySelect }: ReplyOptionType) => {
   actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
+  if (onReplySelect) onReplySelect(); // focus message input
   if (currentRoute === 'search') {
     actions.navigateBack();
   }
@@ -235,6 +246,7 @@ export const constructActionButtons = ({
   auth,
   narrow,
   flags,
+  onReplySelect,
 }: ConstructActionButtonsType) => {
   const buttons = actionSheetButtons
     .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))

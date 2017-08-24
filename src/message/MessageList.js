@@ -16,6 +16,7 @@ type Props = {
   typingUsers?: TypingState,
   listRef?: Object,
   renderedMessages: Object[],
+  onReplySelect?: () => void,
   onScroll: () => void,
 };
 
@@ -38,12 +39,16 @@ export default class MessageList extends PureComponent {
       fetchingNewer,
       singleFetchProgress,
       listRef,
+      onReplySelect,
       onScroll,
       typingUsers,
       renderedMessages,
     } = this.props;
 
-    const { messageList, stickyHeaderIndices } = cachedMessageRender(renderedMessages);
+    const { messageList, stickyHeaderIndices } = cachedMessageRender(
+      renderedMessages,
+      onReplySelect,
+    );
 
     return (
       <InfiniteScrollView
@@ -53,7 +58,8 @@ export default class MessageList extends PureComponent {
         onStartReached={actions.fetchOlder}
         onEndReached={actions.fetchNewer}
         listRef={listRef}
-        onScroll={onScroll}>
+        onScroll={onScroll}
+        onReplySelect={onReplySelect}>
         <LoadingIndicator active={fetchingOlder} />
         {messageList}
         {!singleFetchProgress && fetchingNewer && <LoadingIndicator active />}
