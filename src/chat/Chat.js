@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Narrow } from '../types';
@@ -16,6 +16,9 @@ import ComposeBoxContainer from '../compose/ComposeBoxContainer';
 import NotSubscribed from '../message/NotSubscribed';
 
 export default class Chat extends PureComponent {
+  messageInputRef = null;
+  messageInputRef: TextInput;
+
   static contextTypes = {
     styles: () => null,
   };
@@ -37,12 +40,22 @@ export default class Chat extends PureComponent {
     }
   };
 
+  onReplySelect = () => {
+    // set a timeout because it's take time to render ComposeBox after narrowing from home
+    if (this.messageInputRef) setTimeout(() => this.messageInputRef.focus(), 300);
+  };
+
   render() {
     const { styles } = this.context;
     const { isFetching, narrow, isOnline, isSubscribed, noMessages } = this.props;
     const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
     const CheckSub = isSubscribed
-      ? <ComposeBoxContainer onSend={this.handleSend} />
+      ? <ComposeBoxContainer
+          messageInputRef={component => {
+            this.messageInputRef = component || this.messageInputRef;
+          }}
+          onSend={this.handleSend}
+        />
       : <NotSubscribed />;
 
     return (
@@ -55,6 +68,7 @@ export default class Chat extends PureComponent {
             {!noMessages &&
               <ActionSheetProvider>
                 <MessageListContainer
+                  onReplySelect={this.onReplySelect}
                   listRef={component => {
                     this.listComponent = component || this.listComponent;
                   }}

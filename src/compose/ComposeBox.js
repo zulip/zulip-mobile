@@ -42,6 +42,7 @@ type Props = {
   composeTools: boolean,
   editMessage: EditMessage,
   actions: Actions,
+  messageInputRef: (component: Object) => void,
   onSend: () => void,
 };
 
@@ -142,7 +143,7 @@ export default class ComposeBox extends PureComponent {
   render() {
     const { styles } = this.context;
     const { height, message, topic } = this.state;
-    const { auth, composeTools, narrow, users, editMessage } = this.props;
+    const { auth, composeTools, narrow, users, editMessage, messageInputRef } = this.props;
 
     const canSelectTopic = composeTools && isStreamNarrow(narrow);
     const messageHeight = Math.min(Math.max(MIN_HEIGHT, height + 10), MAX_HEIGHT);
@@ -173,6 +174,7 @@ export default class ComposeBox extends PureComponent {
               placeholder={placeholder}
               textInputRef={component => {
                 this.messageInput = component;
+                if (component) messageInputRef(component);
               }}
               onChange={this.handleMessageChange}
               onHeightChange={this.handleHeightChange}

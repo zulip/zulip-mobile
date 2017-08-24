@@ -21,6 +21,7 @@ export default class InfiniteScrollView extends PureComponent {
     children?: Children,
     onStartReached?: () => void,
     onEndReached?: () => void,
+    onReplySelect: () => void,
     onScroll: (e: Event) => void,
   };
 
