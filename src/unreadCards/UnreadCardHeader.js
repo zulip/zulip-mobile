@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import { IconStream, IconPrivateChat } from '../common/Icons';
-import StreamUnreadCount from './StreamUnreadCount';
+import UnreadCount from './UnreadCount';
 
 const PRIVATE_CHAT_COLOR = '#020202';
 
@@ -42,6 +42,14 @@ const StreamHeading = ({ isPrivate, stream }) =>
   </View>;
 
 export default class StreamCardHeader extends PureComponent {
+  props: {
+    isPrivate: boolean,
+    sender: string,
+    streamName: string,
+    color: string,
+    unreadCount: number
+  };
+
   getHeaderStyles = () => [
     styles.header,
     { backgroundColor: this.props.color || PRIVATE_CHAT_COLOR },
@@ -53,7 +61,7 @@ export default class StreamCardHeader extends PureComponent {
     return (
       <View style={this.getHeaderStyles()}>
         <StreamHeading isPrivate={isPrivate} stream={streamName || sender} />
-        <StreamUnreadCount count={unreadCount} />
+        <UnreadCount count={unreadCount} />
       </View>
     );
   }

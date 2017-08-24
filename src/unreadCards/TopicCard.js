@@ -13,6 +13,11 @@ const styles = StyleSheet.create({
 });
 
 export default class TopicCard extends PureComponent {
+  props: {
+    name: string,
+    unreadCount: number,
+  };
+
   render() {
     const { name, unreadCount } = this.props;
 

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 
 import { streamNarrow } from '../utils/narrow';
-import StreamCardContainer from './StreamCardContainer';
+import UnreadCard from './UnreadCard';
 
 const styles = StyleSheet.create({
   list: {
@@ -12,6 +12,9 @@ const styles = StyleSheet.create({
   },
   separator: {
     margin: 7,
+  },
+  footer: {
+    margin: 10,
   },
 });
 
@@ -74,7 +77,8 @@ export default class UnreadCardsList extends PureComponent {
     ],
   };
 
-  // TODO: Improve this
+  // Operates on dummy data
+  // TODO: Improve this if possible
   removeCard = (index: number) => {
     const start = this.state.data.slice(0, index);
     const end = this.state.data.slice(index + 1);
@@ -86,8 +90,10 @@ export default class UnreadCardsList extends PureComponent {
 
   renderSeparator = () => <View style={styles.separator} />;
 
+  renderFooter = () => <View style={styles.footer} />;
+
   renderItem = ({ item, index }) =>
-    <StreamCardContainer
+    <UnreadCard
       unreadCount={item.unreadCount}
       topics={item.topics}
       stream={item.name}
@@ -96,9 +102,10 @@ export default class UnreadCardsList extends PureComponent {
       sender={item.sender}
       onSwipe={() => {
         this.removeCard(item.id);
+        console.log('Card Swiped');
       }}
       onPress={() => {
-        this.props.actions.doNarrow(streamNarrow(item.name));
+        console.log('Card Pressed');
       }}
     />;
 
@@ -110,6 +117,7 @@ export default class UnreadCardsList extends PureComponent {
         renderItem={this.renderItem}
         keyExtractor={item => item.id}
         ItemSeparatorComponent={this.renderSeparator}
+        ListFooterComponent={this.renderFooter}
       />
     );
   }

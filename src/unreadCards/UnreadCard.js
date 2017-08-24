@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet, Dimensions, Animated, PanResponder } from 'react-native';
 
-import StreamCardHeader from './StreamCardHeader';
+import UnreadCardHeader from './UnreadCardHeader';
 import TopicList from './TopicList';
 import DummyMessage from './DummyMessage';
 import Touchable from '../common/Touchable';
@@ -70,10 +70,9 @@ export default class StreamCard extends PureComponent {
     onMoveShouldSetPanResponder: () => true,
     onPanResponderMove: (event, gesture) => {
       let xOffset = gesture.dx;
-      if (
-        xOffset > 0 // Allow only right swipes
-      )
+      if (xOffset > 0) {
         this.animated_position.setValue({ x: gesture.dx, y: gesture.dy });
+      }
     },
     onPanResponderRelease: (event, gesture) => {
       this.handleTouchEnd(gesture.dx);
@@ -89,7 +88,7 @@ export default class StreamCard extends PureComponent {
     },
   });
 
-  handleTouchEnd = xOffset => {
+  handleTouchEnd = (xOffset: number) => {
     if (xOffset > SWIPE_THRESHOLD) {
       this.forceSwipe();
     } else {
@@ -110,7 +109,7 @@ export default class StreamCard extends PureComponent {
     this.props.onPress();
   };
 
-  // If touch ends beyond SWIPE_THRESHOLD swipe the card out forcefully
+  // If touch ends beyond SWIPE_THRESHOLD swipe the card out forcefully.
   forceSwipe = () => {
     Animated.timing(this.animated_position, {
       toValue: { x: SCREEN_WIDTH, y: 0 },
@@ -118,6 +117,7 @@ export default class StreamCard extends PureComponent {
     }).start(() => this.onSwipeComplete());
   };
 
+  // If touch ends before SWIPE_THRESHOLD restore the card's position.
   resetPosition = () => {
     Animated.spring(this.animated_position, {
       toValue: { x: 0, y: 0 },
@@ -152,6 +152,8 @@ export default class StreamCard extends PureComponent {
     ],
   });
 
+  // Called when component is first laid out to dynamically calculate the
+  // height of the card and make the card container of the same height.
   measureView = event => {
     this.setState({
       cardHeight: event.nativeEvent.layout.height,
@@ -169,7 +171,7 @@ export default class StreamCard extends PureComponent {
           {...this.panResponder.panHandlers}
           style={[styles.card, { left: this.animated_position.x }]}>
           <Touchable onPress={this.onPress}>
-            <StreamCardHeader
+            <UnreadCardHeader
               isPrivate={isPrivate}
               sender={sender}
               unreadCount={unreadCount}

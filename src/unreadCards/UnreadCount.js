@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
 });
 
 export default class StreamUnreadCount extends PureComponent {
+  props: {
+    count: number
+  };
+
   render() {
     const { count } = this.props;
 
