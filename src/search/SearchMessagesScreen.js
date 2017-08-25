@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import SearchScreen from './SearchScreen';
+import { Screen } from '../common';
 import SearchMessagesContainer from './SearchMessagesContainer';
 
 export default class SearchMessagesScreen extends PureComponent {
@@ -19,9 +19,9 @@ export default class SearchMessagesScreen extends PureComponent {
     const { query } = this.state;
 
     return (
-      <SearchScreen title="Search" searchBarOnChange={this.handleQueryChange}>
+      <Screen search title="Search" searchBarOnChange={this.handleQueryChange}>
         <SearchMessagesContainer query={query} />
-      </SearchScreen>
+      </Screen>
     );
   }
 }

@@ -19,8 +19,6 @@ const styles = StyleSheet.create({
     height: 44,
     justifyContent: 'center',
     borderRadius: 500,
-    marginTop: 5,
-    marginBottom: 5,
     overflow: 'hidden',
   },
   primaryFrame: {

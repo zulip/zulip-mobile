@@ -7,7 +7,7 @@ import UnreadStreamsContainer from './UnreadStreamsContainer';
 export default class UsersScreen extends PureComponent {
   render() {
     return (
-      <Screen>
+      <Screen title="Unread">
         <UnreadStreamsContainer />
       </Screen>
     );

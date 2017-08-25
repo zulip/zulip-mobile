@@ -7,8 +7,6 @@ import { foregroundColorFromBackground } from '../utils/color';
 import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
-// const flattenStyle = StyleSheet.flatten(styles.navBar);
-
 export const getTitleBackgroundColor = createSelector(
   getActiveNarrow,
   getSubscriptions,

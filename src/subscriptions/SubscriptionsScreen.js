@@ -1,15 +1,15 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import SearchScreen from '../search/SearchScreen';
+import { Screen } from '../common';
 import SubscriptionsContainer from './SubscriptionsContainer';
 
 export default class SubscriptionsScreen extends PureComponent {
   render() {
     return (
-      <SearchScreen title="Subscriptions">
+      <Screen search title="Subscriptions">
         <SubscriptionsContainer />
-      </SearchScreen>
+      </Screen>
     );
   }
 }

@@ -1,6 +1,6 @@
 /* @flow */
 import { Platform } from 'react-native';
-import { BORDER_COLOR, BRAND_COLOR, STATUSBAR_HEIGHT, CONTROL_SIZE, NAVBAR_HEIGHT } from './';
+import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE, NAVBAR_HEIGHT } from './';
 
 type Props = {
   color: string,
@@ -120,7 +120,6 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     backgroundColor,
     borderColor,
     flexDirection: 'row',
-    paddingTop: STATUSBAR_HEIGHT,
     height: NAVBAR_HEIGHT,
     alignItems: 'center',
     justifyContent: 'space-between',

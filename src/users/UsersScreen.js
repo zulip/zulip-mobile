@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import SearchScreen from '../search/SearchScreen';
+import { Screen } from '../common';
 import UsersContainer from './UsersContainer';
 
 export default class UsersScreen extends PureComponent {
@@ -17,10 +17,11 @@ export default class UsersScreen extends PureComponent {
 
   render() {
     const { filter } = this.state;
+
     return (
-      <SearchScreen searchBarOnChange={this.handleFilterChange}>
+      <Screen search searchBarOnChange={this.handleFilterChange}>
         <UsersContainer filter={filter} />
-      </SearchScreen>
+      </Screen>
     );
   }
 }

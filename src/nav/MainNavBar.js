@@ -5,12 +5,9 @@ import { View } from 'react-native';
 
 import type { Actions } from '../types';
 import boundActions from '../boundActions';
-import { ZulipStatusBar } from '../common';
 import Title from '../title/Title';
 import NavButton from './NavButton';
 import {
-  getActiveNarrow,
-  getSubscriptions,
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
   getUnreadMentionsTotal,
@@ -53,7 +50,6 @@ class MainNavBar extends PureComponent {
 
     return (
       <View style={[styles.navBar, { backgroundColor }]}>
-        <ZulipStatusBar backgroundColor={backgroundColor} />
         <NavButton
           name={editMessage ? 'md-arrow-back' : 'ios-menu'}
           color={textColor}
@@ -78,8 +74,6 @@ export default connect(
   state => ({
     backgroundColor: getTitleBackgroundColor(state),
     textColor: getTitleTextColor(state),
-    narrow: getActiveNarrow(state),
-    subscriptions: getSubscriptions(state),
     unreadHuddlesTotal: getUnreadHuddlesTotal(state),
     unreadMentionsTotal: getUnreadMentionsTotal(state),
     unreadPmsTotal: getUnreadPmsTotal(state),

@@ -32,7 +32,7 @@ export default class LightboxScreen extends PureComponent {
     const { src, message } = this.props.navigation.state.params;
     return (
       <View style={styles.screen}>
-        <ZulipStatusBar hidden backgroundColor="black" />
+        <ZulipStatusBar hidden />
         <ActionSheetProvider>
           <LightboxContainer src={src} message={message} />
         </ActionSheetProvider>

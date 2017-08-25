@@ -4,8 +4,8 @@ import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { Actions, Narrow } from '../types';
+import { STATUSBAR_HEIGHT } from '../styles/platform';
 import boundActions from '../boundActions';
-import { STATUSBAR_HEIGHT } from '../styles';
 import { homeNarrow, specialNarrow, allPrivateNarrow } from '../utils/narrow';
 import NavButton from './NavButton';
 import StreamTabs from './StreamTabs';
@@ -13,8 +13,8 @@ import StreamTabs from './StreamTabs';
 const componentStyles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: STATUSBAR_HEIGHT,
     flexDirection: 'column',
+    paddingTop: STATUSBAR_HEIGHT,
   },
   iconList: {
     flexDirection: 'row',
