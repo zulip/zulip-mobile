@@ -27,23 +27,28 @@ const reducer = (state: RealmState = initialState, action: Action): RealmState =
     case REALM_INIT:
       return {
         ...state,
+        emoji: action.data.emojis,
+        filters: action.data.filters,
         twentyFourHourTime: action.data.twenty_four_hour_time,
       };
 
     case ACCOUNT_SWITCH:
       return initialState;
+
     case SAVE_TOKEN_PUSH: {
       return {
         ...state,
         pushToken: action.pushToken,
       };
     }
+
     case DELETE_TOKEN_PUSH: {
       return {
         ...state,
         pushToken: '',
       };
     }
+
     case LOGOUT:
     case LOGIN_SUCCESS:
       return {
@@ -51,28 +56,33 @@ const reducer = (state: RealmState = initialState, action: Action): RealmState =
         emoji: {},
         pushToken: '',
       };
+
     case INIT_REALM_EMOJI:
       return {
         ...state,
         emoji: action.emojis,
       };
+
     case INIT_REALM_FILTER: {
       return {
         ...state,
         filter: action.filters,
       };
     }
+
     case EVENT_REALM_FILTER_UPDATE: {
       return {
         ...state,
         filter: action.realm_filters,
       };
     }
+
     case EVENT_REALM_EMOJI_UPDATE:
       return {
         ...state,
         emoji: action.realm_emoji,
       };
+
     case EVENT_UPDATE_DISPLAY_SETTINGS:
       switch (action.setting_name) {
         case 'twenty_four_hour_time':
@@ -80,6 +90,7 @@ const reducer = (state: RealmState = initialState, action: Action): RealmState =
         default:
           return state;
       }
+
     default:
       return state;
   }

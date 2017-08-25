@@ -6,7 +6,6 @@ export default (auth: Auth) =>
   apiPost(auth, 'register', res => res, {
     apply_markdown: true,
     event_types: JSON.stringify([
-      'alert_words',
       'message',
       'muted_topics',
       'presence',
@@ -23,10 +22,16 @@ export default (auth: Auth) =>
       'update_global_notifications',
     ]),
     fetch_event_types: JSON.stringify([
+      'alert_words',
+      'message',
       'muted_topics',
+      'presence',
+      'realm_emoji',
+      'realm_filters',
+      'subscription',
       'update_display_settings',
       'update_global_notifications',
-      'message',
       'update_message_flags',
     ]),
+    include_subscribers: false,
   });
