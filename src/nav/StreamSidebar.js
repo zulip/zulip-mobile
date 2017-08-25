@@ -57,6 +57,9 @@ class StreamSidebar extends PureComponent {
       case 'settings':
         actions.navigateToSettings();
         break;
+      case 'unreadCards':
+        actions.navigateToUnreadCards();
+        break;
       default:
     }
     this.closeDrawer();
@@ -71,7 +74,7 @@ class StreamSidebar extends PureComponent {
           <NavButton name="md-home" onPress={() => this.narrowAndClose(homeNarrow)} />
           <NavButton name="md-mail" onPress={() => this.narrowAndClose(allPrivateNarrow)} />
           {SHOW_UNREAD_VIEW &&
-            <NavButton name="md-albums" onPress={actions.navigateToUnreadCards} />}
+            <NavButton name="md-albums" onPress={() => this.navigateAndClose('unreadCards')} />}
           <NavButton name="md-star" onPress={() => this.narrowAndClose(specialNarrow('starred'))} />
           <NavButton name="md-at" onPress={() => this.narrowAndClose(specialNarrow('mentioned'))} />
           <NavButton name="md-search" onPress={() => this.navigateAndClose('search')} />
