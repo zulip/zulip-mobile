@@ -5,22 +5,9 @@ import type { GetState, Dispatch, Action } from '../types';
 import config from '../config';
 import { allPrivateNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
-import {
-  getSubscriptions,
-  getMessages,
-  getStreams,
-  getUsers,
-  getRealmEmojis,
-  getRealmFilters,
-  getAlertWords,
-  registerForEvents,
-} from '../api';
+import { getMessages, getStreams, getUsers, registerForEvents } from '../api';
 import { refreshNotificationToken, initializeNotifications } from '../utils/notifications';
 import { messageFetchSuccess, switchNarrow } from '../message/messagesActions';
-import { initSubscriptions } from '../subscriptions/subscriptionsActions';
-import { initRealmEmojis } from '../emoji/realmEmojiActions';
-import { initRealmFilters } from './realmFilterActions';
-import { initAlertWords } from '../alertWords/alertWordsActions';
 import { initStreams } from '../streams/streamsActions';
 import { initUsers, sendFocusPing } from '../users/usersActions';
 import { getAuth, getActiveNarrow, getPushToken } from '../selectors';
@@ -65,34 +52,15 @@ export const fetchEssentialInitialData = (): Action => async (
 ) => {
   const auth = getAuth(getState());
   const narrow = getActiveNarrow(getState());
+  const halfCount = Math.trunc(config.messagesPerRequest / 2);
 
-  const [initData, subscriptions, messages] = await Promise.all([
+  const [initData, messages] = await Promise.all([
     await tryUntilSuccessful(() => registerForEvents(auth)),
-    await tryUntilSuccessful(() => getSubscriptions(auth)),
-    await tryUntilSuccessful(() =>
-      getMessages(
-        auth,
-        0,
-        config.messagesPerRequest / 2,
-        config.messagesPerRequest / 2,
-        narrow,
-        true,
-      ),
-    ),
+    await tryUntilSuccessful(() => getMessages(auth, 0, halfCount, halfCount, narrow, true)),
   ]);
 
   dispatch(realmInit(initData));
-  dispatch(
-    messageFetchSuccess(
-      messages,
-      narrow,
-      0,
-      config.messagesPerRequest / 2,
-      config.messagesPerRequest / 2,
-      true,
-    ),
-  );
-  dispatch(initSubscriptions(subscriptions));
+  dispatch(messageFetchSuccess(messages, narrow, 0, halfCount, halfCount, true));
   dispatch(initialFetchComplete());
 
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
@@ -104,22 +72,17 @@ export const fetchRestOfInitialData = (): Action => async (
 ) => {
   const auth = getAuth(getState());
   const pushToken = getPushToken(getState());
-  const [streams, users, messages, realmEmoji, realmFilter, alertWords] = await Promise.all([
-    await tryUntilSuccessful(() => getStreams(auth)),
-    await tryUntilSuccessful(() => getUsers(auth)),
+  const [messages, streams, users] = await Promise.all([
     await tryUntilSuccessful(() =>
       getMessages(auth, Number.MAX_SAFE_INTEGER, 100, 0, allPrivateNarrow),
     ),
-    await tryUntilSuccessful(() => getRealmEmojis(auth)),
-    await tryUntilSuccessful(() => getRealmFilters(auth)),
-    await tryUntilSuccessful(() => getAlertWords(auth)),
+    await tryUntilSuccessful(() => getStreams(auth)),
+    await tryUntilSuccessful(() => getUsers(auth)),
   ]);
   dispatch(messageFetchSuccess(messages, allPrivateNarrow, 0, 0, 0, true));
   dispatch(initStreams(streams));
   dispatch(initUsers(users));
-  dispatch(initRealmEmojis(realmEmoji));
-  dispatch(initRealmFilters(realmFilter));
-  dispatch(initAlertWords(alertWords));
+
   if (auth.apiKey !== '' && pushToken === '') {
     refreshNotificationToken();
   }

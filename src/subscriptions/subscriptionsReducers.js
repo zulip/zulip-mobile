@@ -12,6 +12,7 @@ import {
   EVENT_SUBSCRIPTION_UPDATE,
   EVENT_SUBSCRIPTION_PEER_ADD,
   EVENT_SUBSCRIPTION_PEER_REMOVE,
+  REALM_INIT,
 } from '../actionConstants';
 
 const initialState: SubscriptionsState = [];
@@ -22,6 +23,9 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return initialState;
+
+    case REALM_INIT:
+      return isEqual(action.data.subscriptions, state) ? state : action.data.subscriptions;
 
     case INIT_SUBSCRIPTIONS:
       return isEqual(action.subscriptions, state) ? state : action.subscriptions;
