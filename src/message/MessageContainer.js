@@ -3,14 +3,11 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Actions, Auth, SubscriptionsState, Narrow } from '../types';
+import type { Actions, Auth, SubscriptionsState, Narrow, Message } from '../types';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
-import { isUrlInAppLink, getFullUrl, getMessageIdFromLink, getNarrowFromLink } from '../utils/url';
-import openLink from '../utils/openLink';
 import {
   getAuth,
-  getUsers,
   getFlags,
   getSubscriptions,
   getCurrentRoute,
@@ -20,8 +17,6 @@ import boundActions from '../boundActions';
 import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 import type { ShowActionSheetTypes } from './messageActionSheet';
 
-type Href = string;
-
 class MessageContainer extends PureComponent {
   props: {
     actions: Actions,
@@ -29,7 +24,6 @@ class MessageContainer extends PureComponent {
     message: Object,
     narrow: Narrow,
     subscriptions: SubscriptionsState,
-    users: Object[],
     auth: Auth,
     flags: Object,
     twentyFourHourTime: boolean,
@@ -42,24 +36,7 @@ class MessageContainer extends PureComponent {
     twentyFourHourTime: false,
   };
 
-  inAppLinkPress = (href: Href) => {
-    const { actions, users, auth } = this.props;
-    const anchor = getMessageIdFromLink(href, auth.realm);
-    const narrow = getNarrowFromLink(href, auth.realm, users);
-    actions.doNarrow(narrow, anchor);
-  };
-
-  regularLinkPress = (href: Href) => {
-    openLink(getFullUrl(href, this.props.auth.realm));
-  };
-
-  handleLinkPress = (href: Href) =>
-    (isUrlInAppLink(href, this.props.auth.realm) ? this.inAppLinkPress : this.regularLinkPress)(
-      href,
-    );
-
-  isStarred(message: Object) {
-    if (message.isOutbox) return undefined;
+  isStarred(message: Message) {
     const { flags } = this.props;
     return message.id in flags.starred;
   }
@@ -120,7 +97,7 @@ class MessageContainer extends PureComponent {
         realm={auth.realm}
         auth={auth}
         actions={actions}
-        handleLinkPress={this.handleLinkPress}
+        handleLinkPress={actions.messageLinkPress}
       />
     );
   }
@@ -131,7 +108,6 @@ export default connect(
     auth: getAuth(state),
     narrow: getActiveNarrow(state),
     currentRoute: getCurrentRoute(state),
-    users: getUsers(state),
     flags: getFlags(state),
     twentyFourHourTime: state.realm.twentyFourHourTime,
     subscriptions: getSubscriptions(state),

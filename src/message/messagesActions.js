@@ -4,6 +4,7 @@ import { getMessages } from '../api';
 import { registerAppActivity } from '../utils/activity';
 import {
   getAuth,
+  getUsers,
   getAllMessages,
   getFirstMessageId,
   getLastMessageId,
@@ -16,6 +17,8 @@ import {
   MESSAGE_FETCH_SUCCESS,
   MARK_MESSAGES_READ,
 } from '../actionConstants';
+import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
+import openLink from '../utils/openLink';
 
 export const switchNarrow = (narrow: Narrow): Action => ({
   type: SWITCH_NARROW,
@@ -125,4 +128,19 @@ export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INT
   }
   registerAppActivity(auth);
   dispatch(switchNarrow(newNarrow));
+};
+
+export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState: GetState) => {
+  const state = getState();
+  const auth = getAuth(state);
+
+  if (isUrlInAppLink(href, auth.realm)) {
+    const users = getUsers(state);
+    const anchor = getMessageIdFromLink(href, auth.realm);
+    const narrow = getNarrowFromLink(href, auth.realm, users);
+
+    dispatch(doNarrow(narrow, anchor));
+  } else {
+    openLink(getFullUrl(href, auth.realm));
+  }
 };
