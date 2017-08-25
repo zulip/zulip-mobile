@@ -20,16 +20,17 @@ import {
 import { getAuth } from '../selectors';
 
 const initialState: AppState = {
-  lastActivityTime: new Date(),
+  composeTools: false,
+  eventQueueId: null,
+  editMessage: null,
   isHydrated: false,
   isOnline: true,
   isActive: true,
+  lastActivityTime: new Date(),
   needsInitialFetch: false,
-  composeTools: false,
-  pushToken: '',
-  eventQueueId: null,
-  editMessage: null,
+  orientation: 'PORTRAIT',
   outboxSending: false,
+  pushToken: '',
 };
 
 export default (state: AppState = initialState, action: Action) => {
