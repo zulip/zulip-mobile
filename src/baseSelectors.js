@@ -5,7 +5,7 @@ export const getMute = (state: GlobalState): Object => state.mute;
 
 export const getTyping = (state: GlobalState): Object => state.typing;
 
-export const getUsers = (state: GlobalState): Object => state.users;
+export const getUsers = (state: GlobalState): any[] => state.users;
 
 export const getFlags = (state: GlobalState): Object => state.flags;
 
