@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
 import type { Actions, TypingState } from '../types';
-import config from '../config';
 import { nullFunction } from '../nullObjects';
 import MessageListSection from './MessageListSection';
 import MessageListItem from './MessageListItem';
@@ -42,9 +41,7 @@ export default class MessageList extends PureComponent {
         renderItem={({ item }) => <MessageListItem {...item} />}
         keyExtractor={item => item.key}
         onStartReached={actions.fetchOlder}
-        startReachedThreshold={config.startMessageListThreshold}
         onEndReached={actions.fetchNewer}
-        endReachedThreshold={config.endMessageListThreshold}
         onRefresh={actions.fetchOlder}
         ref={component => {
           if (listRef) listRef(component);

@@ -9,8 +9,7 @@ export default {
   defaultLoginPassword: '', // useful during development, empty for production
   messagesPerRequest: 20, // number of messages to request at once
   scrollCallbackThrottle: 500,
-  startMessageListThreshold: 500,
-  endMessageListThreshold: 500,
+  messageListThreshold: 1000,
   enableReduxLogging: isDevelopment && !!global.btoa,
   enableSentry: !isDevelopment,
   sentryKey: 'ADD-DSN-HERE',

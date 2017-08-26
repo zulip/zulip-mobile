@@ -19,16 +19,16 @@ const initialState = {
   twentyFourHourTime: false,
   pushToken: '',
   emoji: {},
-  filter: [],
+  filters: [],
 };
 
-const reducer = (state: RealmState = initialState, action: Action): RealmState => {
+export default (state: RealmState = initialState, action: Action): RealmState => {
   switch (action.type) {
     case REALM_INIT:
       return {
         ...state,
-        emoji: action.data.emojis,
-        filters: action.data.filters,
+        emoji: action.data.realm_emoji,
+        filters: action.data.realm_filters,
         twentyFourHourTime: action.data.twenty_four_hour_time,
       };
 
@@ -66,14 +66,14 @@ const reducer = (state: RealmState = initialState, action: Action): RealmState =
     case INIT_REALM_FILTER: {
       return {
         ...state,
-        filter: action.filters,
+        filters: action.filters,
       };
     }
 
     case EVENT_REALM_FILTER_UPDATE: {
       return {
         ...state,
-        filter: action.realm_filters,
+        filters: action.realm_filters,
       };
     }
 
@@ -95,5 +95,3 @@ const reducer = (state: RealmState = initialState, action: Action): RealmState =
       return state;
   }
 };
-
-export default reducer;

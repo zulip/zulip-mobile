@@ -54,7 +54,6 @@ export default (state: ChatState = initialState, action: Action) => {
     case MESSAGE_FETCH_SUCCESS: {
       const key = JSON.stringify(action.narrow);
       const messages = state.messages[key] || [];
-
       const messagesById = getMessagesById(state);
       const newMessages = action.replaceExisting
         ? action.messages.map(
@@ -95,6 +94,7 @@ export default (state: ChatState = initialState, action: Action) => {
           x => !(x.emoji_name === action.emoji && x.user.email === action.user.email),
         ),
       }));
+
     case EVENT_NEW_MESSAGE: {
       let stateChange = false;
       const newState = {
@@ -115,6 +115,7 @@ export default (state: ChatState = initialState, action: Action) => {
       };
       return stateChange ? newState : state;
     }
+
     case EVENT_UPDATE_MESSAGE:
       return chatUpdater(state, action.message_id, oldMessage => ({
         ...oldMessage,
@@ -146,6 +147,7 @@ export default (state: ChatState = initialState, action: Action) => {
         ],
         last_edit_timestamp: action.edit_timestamp,
       }));
+
     default:
       return state;
   }

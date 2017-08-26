@@ -23,7 +23,7 @@ describe('realmReducers', () => {
         twentyFourHourTime: false,
         pushToken: '',
         emoji: {},
-        filter: [],
+        filters: [],
       };
 
       const actualState = realmReducers(initialState, action);
@@ -152,7 +152,7 @@ describe('realmReducers', () => {
         twentyFourHourTime: false,
         pushToken: 'key',
         emoji: {},
-        filter: [],
+        filters: [],
       });
 
       const action = deepFreeze({
@@ -167,7 +167,7 @@ describe('realmReducers', () => {
         twentyFourHourTime: false,
         pushToken: 'key',
         emoji: {},
-        filter: [['#(?P<id>[0-9]+)', 'https://github.com/zulip/zulip/issues/%(id)s', 2]],
+        filters: [['#(?P<id>[0-9]+)', 'https://github.com/zulip/zulip/issues/%(id)s', 2]],
       };
 
       const newState = realmReducers(prevState, action);
