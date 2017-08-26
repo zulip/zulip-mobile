@@ -17,8 +17,6 @@ describe('Authentication screen testing', () => {
     await element(by.type('RCTTextField')).clearText();
     await element(by.type('RCTTextField')).replaceText(options.invalidHostUrl);
     await element(by.label('Enter')).tap();
-    await expect(
-      element(by.text('Can not connect to server').and(by.type('RCTText'))),
-    ).toBeVisible();
+    await expect(element(by.text('Network request failed').and(by.type('RCTText')))).toBeVisible();
   });
 });
