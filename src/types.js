@@ -427,3 +427,5 @@ export type RenderedSectionDescriptor = {
   message: Object,
   data: ItemDescriptor[],
 };
+
+export type DraftState = {};

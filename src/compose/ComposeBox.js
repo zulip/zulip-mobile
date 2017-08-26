@@ -7,7 +7,7 @@ import patchMessage from '../api/updateMessage';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
 import { showErrorAlert } from '../common/errorAlert';
 import { IconDone, IconSend } from '../common/Icons';
-import { isStreamNarrow, topicNarrow } from '../utils/narrow';
+import { isStreamNarrow, topicNarrow, compareNarrow } from '../utils/narrow';
 import ComposeMenuContainer from './ComposeMenuContainer';
 import AutoCompleteView from '../autocomplete/AutoCompleteView';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
@@ -141,12 +141,41 @@ export default class ComposeBox extends PureComponent {
     this.setState({ message: input });
   };
 
+  componentWillUnmount() {
+    const { drafts } = this.props;
+    const thisNarrow = JSON.stringify(this.props.narrow);
+    if (this.state.message !== '' && drafts[thisNarrow] !== this.state.message) {
+      this.props.actions.saveToDrafts(thisNarrow, this.state.message);
+    }
+  }
+
+  componentWillMount() {
+    const { drafts } = this.props;
+    const thisNarrow = JSON.stringify(this.props.narrow);
+    if (drafts[thisNarrow]) {
+      this.setState({ message: drafts[thisNarrow] });
+    }
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
       this.setState({
         message: nextProps.editMessage ? nextProps.editMessage.content : '',
       });
       this.messageInput.focus();
+    } else if (!compareNarrow(nextProps.narrow, this.props.narrow)) {
+      const { drafts } = this.props;
+      const thisNarrow = JSON.stringify(this.props.narrow);
+      const nextNarrow = JSON.stringify(nextProps.narrow);
+      if (this.state.message !== '' && drafts[thisNarrow] !== this.state.message) {
+        this.props.actions.saveToDrafts(thisNarrow, this.state.message);
+      }
+
+      if (drafts[nextNarrow]) {
+        this.setState({ message: drafts[nextNarrow] });
+      } else {
+        this.clearMessageInput();
+      }
     }
   }
 

@@ -17,6 +17,7 @@ export default connect(
     isSubscribed: getIsActiveStreamSubscribed(state),
     canSend: canSendToActiveNarrow(state),
     editMessage: state.app.editMessage,
+    drafts: state.drafts,
   }),
   boundActions,
 )(ComposeBox);
