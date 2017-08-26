@@ -47,6 +47,7 @@ type Props = {
   actions: Actions,
   messageInputRef: (component: Object) => void,
   onSend: () => void,
+  drafts: { string: string },
 };
 
 export default class ComposeBox extends PureComponent {
