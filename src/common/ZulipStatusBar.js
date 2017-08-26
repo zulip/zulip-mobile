@@ -5,6 +5,7 @@ import { Platform, StatusBar, View } from 'react-native';
 
 import { STATUSBAR_HEIGHT } from '../styles/platform';
 import { getTitleBackgroundColor, getTitleTextColor } from '../selectors';
+import getStatusBarStyle from '../utils/getStatusBarStyle';
 
 class ZulipStatusBar extends PureComponent {
   static contextTypes = {
@@ -25,11 +26,7 @@ class ZulipStatusBar extends PureComponent {
   render() {
     const { theme, backgroundColor, textColor, hidden } = this.props;
     const style = { height: STATUSBAR_HEIGHT, backgroundColor };
-    const barStyle =
-      textColor === 'white' || (backgroundColor === 'transparent' && theme === 'night')
-        ? 'light-content'
-        : 'dark-content';
-
+    const barStyle = getStatusBarStyle(backgroundColor, textColor, theme);
     return (
       <View style={style}>
         <StatusBar

@@ -314,9 +314,13 @@ export type RealmState = {
   pushToken: string,
 };
 
+export type ThemeType = 'default' | 'night';
+
+export type StatusBarStyle = 'light-content' | 'dark-content';
+
 export type SettingsState = {
   locale: string,
-  theme: string,
+  theme: ThemeType,
 };
 
 export type StreamsState = [];
