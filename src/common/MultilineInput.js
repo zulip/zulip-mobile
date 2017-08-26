@@ -12,6 +12,7 @@ export default class MultilineInput extends PureComponent {
     value: string,
     onChange?: (text: string) => void,
     onHeightChange?: (height: number) => void,
+    onSelectionChange?: (event: Object) => void,
     textInputRef?: (component: TextInput) => void,
   };
 
@@ -30,7 +31,7 @@ export default class MultilineInput extends PureComponent {
   };
 
   render() {
-    const { placeholder, textInputRef, style, onChange, value } = this.props;
+    const { placeholder, textInputRef, style, onChange, onSelectionChange, value } = this.props;
 
     return (
       <Input
@@ -41,6 +42,7 @@ export default class MultilineInput extends PureComponent {
         underlineColorAndroid="transparent"
         onChangeText={onChange}
         onContentSizeChange={this.handleOnContentSizeChange}
+        onSelectionChange={onSelectionChange}
         placeholder={placeholder}
         textInputRef={textInputRef}
         value={value}

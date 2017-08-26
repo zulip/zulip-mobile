@@ -1,6 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
+import type { InputSelectionType } from '../types';
 import getAutocompletedText from './getAutocompletedText';
 import getAutocompleteFilter from './getAutocompleteFilter';
 import EmojiAutocomplete from './EmojiAutocomplete';
@@ -17,18 +18,19 @@ const prefixToComponent = {
 export default class AutoCompleteView extends PureComponent {
   props: {
     text: string,
+    selection: InputSelectionType,
     onAutocomplete: (input: string) => void,
   };
 
   handleAutocomplete = (autocomplete: string) => {
-    const { text, onAutocomplete } = this.props;
-    const newText = getAutocompletedText(text, autocomplete);
+    const { text, onAutocomplete, selection } = this.props;
+    const newText = getAutocompletedText(text, autocomplete, selection);
     onAutocomplete(newText);
   };
 
   render() {
-    const { text } = this.props;
-    const result = getAutocompleteFilter(text);
+    const { text, selection } = this.props;
+    const result = getAutocompleteFilter(text, selection);
 
     const AutocompleteComponent = prefixToComponent[result.lastWordPrefix];
 

@@ -8,6 +8,11 @@ export type Auth = {
   email: string,
 };
 
+export type InputSelectionType = {
+  start: number,
+  end: number,
+};
+
 export type Account = Auth;
 
 export type ImageResource = {

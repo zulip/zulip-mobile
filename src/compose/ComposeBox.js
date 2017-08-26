@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 
-import type { Auth, Narrow, EditMessage, User, Actions } from '../types';
+import type { Auth, Narrow, EditMessage, InputSelectionType, User, Actions } from '../types';
 import patchMessage from '../api/updateMessage';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
 import { showErrorAlert } from '../common/errorAlert';
@@ -63,6 +63,7 @@ export default class ComposeBox extends PureComponent {
     topic: string,
     message: string,
     height: number,
+    selection: InputSelectionType,
   };
 
   state = {
@@ -70,6 +71,7 @@ export default class ComposeBox extends PureComponent {
     height: 28,
     topic: '',
     message: '',
+    selection: { start: 0, end: 0 },
   };
 
   handleTopicChange = (topic: string) => {
@@ -80,6 +82,11 @@ export default class ComposeBox extends PureComponent {
     this.setState({ message });
     const { auth } = this.props;
     registerUserInputActivity(auth);
+  };
+
+  handleMessageSelectionChange = (event: Object) => {
+    const { selection } = event.nativeEvent;
+    this.setState({ selection });
   };
 
   handleHeightChange = (height: number) => {
@@ -142,7 +149,7 @@ export default class ComposeBox extends PureComponent {
 
   render() {
     const { styles } = this.context;
-    const { height, message, topic } = this.state;
+    const { height, message, selection, topic } = this.state;
     const { auth, composeTools, narrow, users, editMessage, messageInputRef } = this.props;
 
     const canSelectTopic = composeTools && isStreamNarrow(narrow);
@@ -152,7 +159,11 @@ export default class ComposeBox extends PureComponent {
 
     return (
       <View>
-        <AutoCompleteView text={message} onAutocomplete={this.handleAutoComplete} />
+        <AutoCompleteView
+          text={message}
+          onAutocomplete={this.handleAutoComplete}
+          selection={selection}
+        />
         <View style={[styles.composeBox, { height: totalHeight }]}>
           <View style={componentStyles.bottom}>
             <ComposeMenuContainer />
@@ -178,6 +189,7 @@ export default class ComposeBox extends PureComponent {
               }}
               onChange={this.handleMessageChange}
               onHeightChange={this.handleHeightChange}
+              onSelectionChange={this.handleMessageSelectionChange}
               value={message}
             />
           </View>
