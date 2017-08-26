@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import { BRAND_COLOR } from '../styles';
-import { getSubscriptions, getActiveNarrow } from '../selectors';
+import { getSubscriptions, getActiveNarrow, getCurrentRoute } from '../selectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
@@ -10,8 +10,9 @@ import { NULL_SUBSCRIPTION } from '../nullObjects';
 export const getTitleBackgroundColor = createSelector(
   getActiveNarrow,
   getSubscriptions,
-  (narrow, subscriptions) =>
-    isStreamNarrow(narrow) || isTopicNarrow(narrow)
+  getCurrentRoute,
+  (narrow, subscriptions, route) =>
+    route === 'main' && (isStreamNarrow(narrow) || isTopicNarrow(narrow))
       ? (subscriptions.find(sub => narrow[0].operand === sub.name) || NULL_SUBSCRIPTION).color
       : 'transparent',
 );
@@ -19,8 +20,9 @@ export const getTitleBackgroundColor = createSelector(
 export const getTitleTextColor = createSelector(
   getTitleBackgroundColor,
   getActiveNarrow,
-  (backgroundColor, narrow) =>
-    backgroundColor && (isStreamNarrow(narrow) || isTopicNarrow(narrow))
+  getCurrentRoute,
+  (backgroundColor, narrow, route) =>
+    backgroundColor && route === 'main' && (isStreamNarrow(narrow) || isTopicNarrow(narrow))
       ? foregroundColorFromBackground(backgroundColor)
       : BRAND_COLOR,
 );
