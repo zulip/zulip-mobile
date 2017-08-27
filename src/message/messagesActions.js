@@ -9,6 +9,7 @@ import {
   getFirstMessageId,
   getLastMessageId,
   getCaughtUpForActiveNarrow,
+  getFetchingForActiveNarrow,
 } from '../selectors';
 import config from '../config';
 import {
@@ -25,15 +26,11 @@ export const switchNarrow = (narrow: Narrow): Action => ({
   narrow,
 });
 
-export const messageFetchStart = (
-  narrow: Narrow,
-  fetchingOlder: boolean,
-  fetchingNewer: boolean,
-): Action => ({
+export const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
   type: MESSAGE_FETCH_START,
   narrow,
-  fetchingOlder,
-  fetchingNewer,
+  numBefore,
+  numAfter,
 });
 
 export const messageFetchSuccess = (
@@ -79,7 +76,7 @@ export const fetchMessages = (
   narrow: Narrow,
   useFirstUnread: boolean = false,
 ): Action => async (dispatch: Dispatch) => {
-  dispatch(messageFetchStart(narrow, numBefore > 0, numAfter > 0));
+  dispatch(messageFetchStart(narrow, numBefore, numAfter));
   dispatch(backgroundFetchMessages(anchor, numBefore, numAfter, narrow, useFirstUnread));
 };
 
@@ -95,10 +92,11 @@ export const fetchOlder = () => (dispatch: Dispatch, getState: GetState): Action
   const state = getState();
   const firstMessageId = getFirstMessageId(state);
   const caughtUp = getCaughtUpForActiveNarrow(state);
-  const { fetchingOlder, narrow } = state.chat;
+  const fetching = getFetchingForActiveNarrow(state);
+  const { narrow } = state.chat;
   const { needsInitialFetch } = state.app;
 
-  if (!needsInitialFetch && !fetchingOlder && !caughtUp.older && firstMessageId) {
+  if (!needsInitialFetch && !fetching.older && !caughtUp.older && firstMessageId) {
     dispatch(fetchMessages(firstMessageId, config.messagesPerRequest, 0, narrow));
   }
 };
@@ -107,10 +105,11 @@ export const fetchNewer = () => (dispatch: Dispatch, getState: GetState): Action
   const state = getState();
   const lastMessageId = getLastMessageId(state);
   const caughtUp = getCaughtUpForActiveNarrow(state);
-  const { fetchingNewer, narrow } = state.chat;
+  const fetching = getFetchingForActiveNarrow(state);
+  const { narrow } = state.chat;
   const { needsInitialFetch } = state.app;
 
-  if (!needsInitialFetch && !fetchingNewer && !caughtUp.newer && lastMessageId) {
+  if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId) {
     dispatch(fetchMessages(lastMessageId, 0, config.messagesPerRequest, narrow));
   }
 };

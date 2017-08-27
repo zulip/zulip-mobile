@@ -41,14 +41,14 @@ Array [
 exports[`messageActions doNarrow when no messages in new narrow and caughtUp is false, actions to fetch messages and switch narrow are dispatched 1`] = `
 Array [
   Object {
-    "fetchingNewer": true,
-    "fetchingOlder": true,
     "narrow": Array [
       Object {
         "operand": "some stream",
         "operator": "stream",
       },
     ],
+    "numAfter": 10,
+    "numBefore": 10,
     "type": "MESSAGE_FETCH_START",
   },
   Object {
@@ -66,14 +66,14 @@ Array [
 exports[`messageActions doNarrow when no messages in new narrow and caughtUp is true, only action to switch narrow is dispatched 1`] = `
 Array [
   Object {
-    "fetchingNewer": true,
-    "fetchingOlder": true,
     "narrow": Array [
       Object {
         "operand": "some stream",
         "operator": "stream",
       },
     ],
+    "numAfter": 10,
+    "numBefore": 10,
     "type": "MESSAGE_FETCH_START",
   },
   Object {
@@ -91,9 +91,9 @@ Array [
 exports[`messageActions fetchMessages when messages to be fetched both before and after anchor, fetchingOlder and fetchingNewer is true 1`] = `
 Array [
   Object {
-    "fetchingNewer": true,
-    "fetchingOlder": true,
     "narrow": Array [],
+    "numAfter": 1,
+    "numBefore": 1,
     "type": "MESSAGE_FETCH_START",
   },
 ]
@@ -102,9 +102,9 @@ Array [
 exports[`messageActions fetchMessages when no messages to be fetched after the anchor, fetchingNewer is false 1`] = `
 Array [
   Object {
-    "fetchingNewer": false,
-    "fetchingOlder": true,
     "narrow": Array [],
+    "numAfter": -1,
+    "numBefore": 1,
     "type": "MESSAGE_FETCH_START",
   },
 ]
@@ -113,9 +113,9 @@ Array [
 exports[`messageActions fetchMessages when no messages to be fetched before the anchor, fetchingOlder is false 1`] = `
 Array [
   Object {
-    "fetchingNewer": true,
-    "fetchingOlder": false,
     "narrow": Array [],
+    "numAfter": 1,
+    "numBefore": -1,
     "type": "MESSAGE_FETCH_START",
   },
 ]
@@ -124,9 +124,9 @@ Array [
 exports[`messageActions fetchMessagesAtFirstUnread message fetch start action is dispatched with fetchingOlder and fetchingNewer true 1`] = `
 Array [
   Object {
-    "fetchingNewer": true,
-    "fetchingOlder": true,
     "narrow": Array [],
+    "numAfter": 10,
+    "numBefore": 10,
     "type": "MESSAGE_FETCH_START",
   },
 ]
@@ -135,9 +135,9 @@ Array [
 exports[`messageActions fetchNewer message fetch start action is dispatched with fetchingNewer true 1`] = `
 Array [
   Object {
-    "fetchingNewer": true,
-    "fetchingOlder": false,
     "narrow": Array [],
+    "numAfter": 20,
+    "numBefore": 0,
     "type": "MESSAGE_FETCH_START",
   },
 ]
@@ -145,16 +145,25 @@ Array [
 
 exports[`messageActions fetchNewer when caughtUp newer is true, no action is dispatched 1`] = `Array []`;
 
-exports[`messageActions fetchNewer when fetchingNewer is true, no action is dispatched 1`] = `Array []`;
+exports[`messageActions fetchNewer when fetching.newer is true, no action is dispatched 1`] = `
+Array [
+  Object {
+    "narrow": Array [],
+    "numAfter": 20,
+    "numBefore": 0,
+    "type": "MESSAGE_FETCH_START",
+  },
+]
+`;
 
 exports[`messageActions fetchNewer when needsInitialFetch is true, no action is dispatched 1`] = `Array []`;
 
 exports[`messageActions fetchOlder message fetch start action is dispatched with fetchingOlder true 1`] = `
 Array [
   Object {
-    "fetchingNewer": false,
-    "fetchingOlder": true,
     "narrow": Array [],
+    "numAfter": 0,
+    "numBefore": 20,
     "type": "MESSAGE_FETCH_START",
   },
 ]
@@ -162,6 +171,15 @@ Array [
 
 exports[`messageActions fetchOlder when caughtUp older is true, no action is dispatched 1`] = `Array []`;
 
-exports[`messageActions fetchOlder when fetchingOlder older is true, no action is dispatched 1`] = `Array []`;
+exports[`messageActions fetchOlder when fetchingOlder older is true, no action is dispatched 1`] = `
+Array [
+  Object {
+    "narrow": Array [],
+    "numAfter": 0,
+    "numBefore": 20,
+    "type": "MESSAGE_FETCH_START",
+  },
+]
+`;
 
 exports[`messageActions fetchOlder when needsInitialFetch is true, no action is dispatched 1`] = `Array []`;

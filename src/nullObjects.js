@@ -1,5 +1,14 @@
 /* @flow */
-import type { Account, User, Stream, Message, Subscription, Presence, CaughtUp } from './types';
+import type {
+  Account,
+  User,
+  Stream,
+  Message,
+  Subscription,
+  Presence,
+  CaughtUp,
+  Fetching,
+} from './types';
 
 export const nullFunction = () => {};
 
@@ -65,6 +74,11 @@ export const NULL_PRESENCE: Presence = {
 };
 
 export const NULL_CAUGHTUP: CaughtUp = {
+  older: false,
+  newer: false,
+};
+
+export const NULL_FETCHING: Fetching = {
   older: false,
   newer: false,
 };

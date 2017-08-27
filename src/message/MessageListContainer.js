@@ -11,6 +11,8 @@ import {
   getRenderedMessages,
   getActiveNarrow,
   getFlags,
+  getCaughtUpForActiveNarrow,
+  getFetchingForActiveNarrow,
 } from '../selectors';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
@@ -35,10 +37,8 @@ class MessageListContainer extends PureComponent {
   render() {
     const {
       actions,
-      caughtUpOlder,
-      caughtUpNewer,
-      fetchingOlder,
-      fetchingNewer,
+      caughtUp,
+      fetching,
       typingUsers,
       onReplySelect,
       renderedMessages,
@@ -49,10 +49,10 @@ class MessageListContainer extends PureComponent {
     return (
       <MessageList
         actions={actions}
-        caughtUpNewer={caughtUpNewer}
-        caughtUpOlder={caughtUpOlder}
-        fetchingOlder={fetchingOlder}
-        fetchingNewer={fetchingNewer}
+        caughtUpNewer={caughtUp.newer}
+        caughtUpOlder={caughtUp.older}
+        fetchingOlder={fetching.older}
+        fetchingNewer={fetching.newer}
         onReplySelect={onReplySelect}
         typingUsers={typingUsers}
         renderedMessages={renderedMessages}
@@ -67,8 +67,8 @@ class MessageListContainer extends PureComponent {
 
 export default connect(
   state => ({
-    fetchingOlder: state.chat.fetchingOlder,
-    fetchingNewer: state.chat.fetchingNewer,
+    caughtUp: getCaughtUpForActiveNarrow(state),
+    fetching: getFetchingForActiveNarrow(state),
     typingUsers: getCurrentTypingUsers(state),
     renderedMessages: getRenderedMessages(state),
     narrow: getActiveNarrow(state),

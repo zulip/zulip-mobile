@@ -7,7 +7,6 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   SWITCH_NARROW,
-  MESSAGE_FETCH_START,
   MESSAGE_FETCH_SUCCESS,
   EVENT_NEW_MESSAGE,
   EVENT_REACTION_ADD,
@@ -19,8 +18,6 @@ import chatUpdater from './chatUpdater';
 import { getMessagesById } from '../selectors';
 
 const initialState: ChatState = {
-  fetchingOlder: true,
-  fetchingNewer: true,
   narrow: homeNarrow,
   messages: {},
 };
@@ -31,23 +28,11 @@ export default (state: ChatState = initialState, action: Action) => {
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return initialState;
-    case MESSAGE_FETCH_START:
-      if (!isEqual(action.narrow, state.narrow)) {
-        return state;
-      }
-
-      return {
-        ...state,
-        fetchingOlder: action.fetchingOlder || state.fetchingOlder,
-        fetchingNewer: action.fetchingNewer || state.fetchingNewer,
-      };
 
     case SWITCH_NARROW: {
       return {
         ...state,
         narrow: action.narrow,
-        fetchingOlder: false,
-        fetchingNewer: false,
       };
     }
 
@@ -69,8 +54,6 @@ export default (state: ChatState = initialState, action: Action) => {
 
       return {
         ...state,
-        fetchingOlder: false,
-        fetchingNewer: false,
         messages: {
           ...state.messages,
           [key]: newMessages,

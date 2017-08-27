@@ -167,6 +167,7 @@ describe('messageActions', () => {
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
           },
         },
+        fetching: {},
       });
 
       store.dispatch(fetchOlder(homeNarrow));
@@ -189,6 +190,7 @@ describe('messageActions', () => {
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
           },
         },
+        fetching: {},
       });
 
       store.dispatch(fetchOlder(homeNarrow));
@@ -211,6 +213,7 @@ describe('messageActions', () => {
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
           },
         },
+        fetching: {},
       });
 
       store.dispatch(fetchOlder(homeNarrow));
@@ -233,6 +236,7 @@ describe('messageActions', () => {
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
           },
         },
+        fetching: {},
       });
 
       store.dispatch(fetchOlder(homeNarrow));
@@ -249,13 +253,13 @@ describe('messageActions', () => {
           [homeNarrowStr]: { newer: false },
         },
         chat: {
-          fetchingNewer: false,
           narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 2 }],
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
           },
         },
+        fetching: {},
       });
 
       store.dispatch(fetchNewer(homeNarrow));
@@ -278,13 +282,14 @@ describe('messageActions', () => {
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
           },
         },
+        fetching: {},
       });
 
       store.dispatch(fetchNewer(homeNarrow));
       expect(store.getActions()).toMatchSnapshot();
     });
 
-    test('when fetchingNewer is true, no action is dispatched', () => {
+    test('when fetching.newer is true, no action is dispatched', () => {
       const store = mockStore({
         app: {
           needsInitialFetch: false,
@@ -293,12 +298,14 @@ describe('messageActions', () => {
           [homeNarrowStr]: { newer: false },
         },
         chat: {
-          fetchingNewer: true,
           narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 2 }],
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
           },
+        },
+        fetching: {
+          homeNarrow: { older: false, newer: true },
         },
       });
 
@@ -314,6 +321,7 @@ describe('messageActions', () => {
         caughtUp: {
           [homeNarrowStr]: { newer: false },
         },
+        fetching: {},
         chat: {
           fetchingNewer: false,
           narrow: homeNarrow,
