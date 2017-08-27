@@ -15,30 +15,46 @@ const LIGHT_CONTENT_STYLE = 'light-content';
 const DARK_CONTENT_STYLE = 'dark-content';
 
 const subscriptions = [{ name: 'all', color: '#fff' }, { name: 'announce', color: '#000' }];
+const defaultNav = {
+  index: 0,
+  routes: [{ routeName: 'main' }],
+};
 
 describe('getStatusBarStyle', () => {
   test('return bar style according to theme for screens other than main', () => {
-    const state = deepFreeze({ chat: { narrow: [] }, subscriptions });
+    const state = deepFreeze({ chat: { narrow: [] }, subscriptions, nav: defaultNav });
     expect(getStatusBarStyle(getTitleBackgroundColor(state), darkTextColor, themeDefault)).toEqual(
       DARK_CONTENT_STYLE,
     );
   });
 
   test('return bar style according to text color for stream and topic narrow in main screen', () => {
-    let state = deepFreeze({ chat: { narrow: streamNarrow('all') }, subscriptions });
+    let state = deepFreeze({
+      chat: { narrow: streamNarrow('all') },
+      subscriptions,
+      nav: defaultNav,
+    });
     expect(getStatusBarStyle(state, darkTextColor, themeDefault)).toEqual(DARK_CONTENT_STYLE);
 
-    state = deepFreeze({ chat: { narrow: topicNarrow('all', 'announce') }, subscriptions });
+    state = deepFreeze({
+      chat: { narrow: topicNarrow('all', 'announce') },
+      subscriptions,
+      nav: defaultNav,
+    });
     expect(getStatusBarStyle(state, lightTextColor, themeDefault)).toEqual(LIGHT_CONTENT_STYLE);
   });
 
   test('returns style according to theme for private, group, home and special narrow', () => {
-    let state = deepFreeze({ chat: { narrow: privateNarrow('abc@zulip.com') }, subscriptions });
+    let state = deepFreeze({
+      chat: { narrow: privateNarrow('abc@zulip.com') },
+      subscriptions,
+      nav: defaultNav,
+    });
     expect(getStatusBarStyle(state, darkTextColor, themeDefault)).toEqual(DARK_CONTENT_STYLE);
 
     expect(getStatusBarStyle(state, lightTextColor, themeNight)).toEqual(LIGHT_CONTENT_STYLE);
 
-    state = deepFreeze({ chat: { narrow: [] }, subscriptions });
+    state = deepFreeze({ chat: { narrow: [] }, subscriptions, nav: defaultNav });
     expect(getStatusBarStyle(state, darkTextColor, themeDefault)).toEqual(DARK_CONTENT_STYLE);
 
     state = deepFreeze({
@@ -47,7 +63,11 @@ describe('getStatusBarStyle', () => {
     });
     expect(getStatusBarStyle(state, darkTextColor, themeDefault)).toEqual(DARK_CONTENT_STYLE);
 
-    state = deepFreeze({ chat: { narrow: specialNarrow('private') }, subscriptions });
+    state = deepFreeze({
+      chat: { narrow: specialNarrow('private') },
+      subscriptions,
+      nav: defaultNav,
+    });
     expect(getStatusBarStyle(state, darkTextColor, themeDefault)).toEqual(DARK_CONTENT_STYLE);
   });
 });

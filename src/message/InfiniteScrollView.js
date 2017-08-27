@@ -22,14 +22,14 @@ export default class InfiniteScrollView extends PureComponent {
     onStartReached?: () => void,
     onEndReached?: () => void,
     onReplySelect: () => void,
-    onScroll: (e: Event) => void
+    onScroll: (e: Event) => void,
   };
 
   static defaultProps = {
     onStartReached: nullFunction,
     onEndReached: nullFunction,
     startReachedThreshold: config.messageListThreshold,
-    endReachedThreshold: config.messageListThreshold
+    endReachedThreshold: config.messageListThreshold,
   };
 
   _scrollOffset: number;
@@ -113,8 +113,7 @@ export default class InfiniteScrollView extends PureComponent {
         ref={component => {
           const { listRef } = this.props;
           if (listRef) listRef(component);
-        }}
-      >
+        }}>
         {this.props.children}
       </AnchorScrollView>
     );
