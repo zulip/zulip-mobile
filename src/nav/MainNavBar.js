@@ -5,8 +5,10 @@ import { View } from 'react-native';
 
 import type { Actions } from '../types';
 import boundActions from '../boundActions';
+import { ZulipStatusBar, Touchable } from '../common';
 import Title from '../title/Title';
 import NavButton from './NavButton';
+import { homeNarrow, isHomeNarrow } from '../utils/narrow';
 import {
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
@@ -33,6 +35,7 @@ class MainNavBar extends PureComponent {
     const { styles } = this.context;
     const {
       actions,
+      narrow,
       backgroundColor,
       textColor,
       unreadMentionsTotal,
@@ -44,13 +47,18 @@ class MainNavBar extends PureComponent {
 
     return (
       <View style={[styles.navBar, { backgroundColor }]}>
-        <NavButton
-          name={editMessage ? 'md-arrow-back' : 'ios-menu'}
-          color={textColor}
-          showCircle={unreadMentionsTotal > 0}
-          onPress={leftPress}
-        />
-        <Title color={textColor} />
+        <ZulipStatusBar backgroundColor={backgroundColor} />
+        {isHomeNarrow(narrow)
+          ? <NavButton placeholder />
+          : <NavButton
+              name={'md-arrow-back'}
+              color={textColor}
+              showCircle={unreadMentionsTotal > 0}
+              onPress={() => actions.doNarrow(homeNarrow)}
+            />}
+        <Touchable onPress={leftPress}>
+          <Title color={textColor} />
+        </Touchable>
         <NavButton placeholder />
       </View>
     );

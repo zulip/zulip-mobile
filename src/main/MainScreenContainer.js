@@ -6,8 +6,9 @@ import isEqual from 'lodash.isequal';
 import type { Actions, Message, Narrow } from '../types';
 import boundActions from '../boundActions';
 import { getShownMessagesInActiveNarrow } from '../selectors';
-import MainScreen from './MainScreenWithDrawers';
+// import MainScreen from './MainScreenWithDrawers';
 // import MainScreen from './MainScreenWithTabs';
+import MainScreen from './MainScreenWithModalNavigation';
 
 class MainScreenContainer extends PureComponent {
   props: {

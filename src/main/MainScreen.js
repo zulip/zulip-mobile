@@ -12,7 +12,8 @@ export default class MainScreen extends PureComponent {
   };
 
   handlePressStreams = () => {
-    this.props.navigation.navigate('DrawerOpen');
+    // this.props.navigation.navigate('DrawerOpen');
+    this.props.navigation.navigate('nav');
   };
 
   render() {
