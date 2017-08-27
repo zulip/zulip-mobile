@@ -7,8 +7,6 @@ export const getTyping = (state: GlobalState): Object => state.typing;
 
 export const getUsers = (state: GlobalState): any[] => state.users;
 
-export const getNav = (state: GlobalState): any[] => state.nav;
-
 export const getFlags = (state: GlobalState): Object => state.flags;
 
 export const getReadFlags = (state: GlobalState): Object => state.flags.read;
