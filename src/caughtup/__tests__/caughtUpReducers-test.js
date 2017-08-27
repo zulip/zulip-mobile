@@ -14,8 +14,6 @@ describe('caughtUpReducers', () => {
       const action = deepFreeze({
         type: MESSAGE_FETCH_START,
         narrow: [],
-        fetchingOlder: true,
-        fetchingNewer: true,
       });
 
       const expectedState = {

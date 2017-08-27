@@ -100,12 +100,12 @@ export type Presence = {
   timestamp: number,
 };
 
-export type Fetching = {
+export type CaughtUp = {
   older: boolean,
   newer: boolean,
 };
 
-export type CaughtUp = {
+export type Fetching = {
   older: boolean,
   newer: boolean,
 };
@@ -277,15 +277,13 @@ export type AppState = {
 };
 
 export type ChatState = {
-  fetchingOlder: boolean,
-  fetchingNewer: boolean,
-  caughtUpOlder: boolean,
-  caughtUpNewer: boolean,
   narrow: Narrow,
   messages: Object,
 };
 
 export type CaughtUpState = Object;
+
+export type FetchingState = Object;
 
 export type FlagsState = {
   read: Object,

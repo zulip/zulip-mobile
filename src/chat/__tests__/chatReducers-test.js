@@ -42,8 +42,6 @@ describe('chatReducers', () => {
 
       const expectedState = {
         narrow: streamNarrow('some stream'),
-        fetchingOlder: false,
-        fetchingNewer: false,
       };
 
       const newState = chatReducers(initialState, action);
@@ -658,8 +656,6 @@ describe('chatReducers', () => {
       });
 
       const expectedState = {
-        fetchingOlder: false,
-        fetchingNewer: false,
         messages: {
           [homeNarrowStr]: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
         },
