@@ -11,6 +11,7 @@ export default class SubscriptionsCard extends PureComponent {
     auth: Auth,
     streams: [],
     subscriptions: [],
+    markStreamMessagesRead: (streamId: number) => void,
   };
 
   state: {
@@ -23,13 +24,14 @@ export default class SubscriptionsCard extends PureComponent {
 
   handleFilterChange = (filter: string) => this.setState({ filter });
 
-  handleSwitchChange = (streamName: string, switchValue: boolean) => {
-    const { auth } = this.props;
+  handleSwitchChange = (streamName: string, switchValue: boolean, streamId: number) => {
+    const { auth, markStreamMessagesRead } = this.props;
 
     if (switchValue) {
       subscriptionAdd(auth, [{ name: streamName }]);
     } else {
       subscriptionRemove(auth, [streamName]);
+      markStreamMessagesRead(streamId);
     }
   };
 

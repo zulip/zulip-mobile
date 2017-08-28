@@ -22,7 +22,7 @@ export default class StreamList extends PureComponent {
     showSwitch: boolean,
     unreadByStream: number[],
     onPress?: (streamName: string) => void,
-    onSwitch?: (streamName: string, newValue: boolean) => void,
+    onSwitch?: (streamName: string, newValue: boolean, streamId: number) => void,
     clearInput?: () => void,
   };
 
@@ -64,7 +64,7 @@ export default class StreamList extends PureComponent {
         data={sortedStreams}
         extraData={unreadByStream}
         keyExtractor={item => item.stream_id}
-        renderItem={({ item }) =>
+        renderItem={({ item }) => (
           <StreamItem
             name={item.name}
             iconSize={16}
@@ -77,8 +77,14 @@ export default class StreamList extends PureComponent {
             showSwitch={showSwitch}
             isSwitchedOn={item.subscribed}
             onPress={onPress}
-            onSwitch={onSwitch}
-          />}
+            onSwitch={
+              onSwitch &&
+              ((streamName, switchValue) => {
+                onSwitch(streamName, switchValue, item.stream_id);
+              })
+            }
+          />
+        )}
       />
     );
   }
