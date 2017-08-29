@@ -124,7 +124,10 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
 
 export const narrowFromMessage = (message: Message, email: string) => {
   if (Array.isArray(message.display_recipient)) {
-    const recipient = message.display_recipient.filter(x => x.email !== email);
+    const recipient =
+      message.display_recipient.length > 1
+        ? message.display_recipient.filter(x => x.email !== email)
+        : message.display_recipient;
     return groupNarrow(recipient.map(x => x.email));
   }
 
