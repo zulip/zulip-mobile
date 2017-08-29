@@ -23,16 +23,17 @@ export default class HtmlTagImg extends React.PureComponent {
   };
 
   handlePress = (resource: Object) => {
-    const { src, auth, message, actions } = this.props;
-    if (!isEmojiUrl(src, auth.realm)) {
+    const { className, src, auth, message, actions } = this.props;
+    if (!(className === 'emoji' || isEmojiUrl(src, auth.realm))) {
       actions.navigateToLightbox(resource, message);
     }
   };
 
   render() {
-    const { src, style, auth } = this.props;
+    const { className, src, style, auth } = this.props;
     const resource = getResource(src, auth);
-    const ContainerComponent = isEmojiUrl ? TouchableWithoutFeedback : Touchable;
+    const ContainerComponent =
+      className === 'emoji' || isEmojiUrl(src, auth.realm) ? TouchableWithoutFeedback : Touchable;
 
     return (
       <ContainerComponent onPress={() => this.handlePress(resource)}>
