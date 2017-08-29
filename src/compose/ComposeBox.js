@@ -68,7 +68,7 @@ export default class ComposeBox extends PureComponent {
 
   state = {
     optionSelected: 0,
-    height: 28,
+    height: 46,
     topic: '',
     message: '',
     selection: { start: 0, end: 0 },
@@ -153,7 +153,7 @@ export default class ComposeBox extends PureComponent {
     const { auth, composeTools, narrow, users, editMessage, messageInputRef } = this.props;
 
     const canSelectTopic = composeTools && isStreamNarrow(narrow);
-    const messageHeight = Math.min(Math.max(MIN_HEIGHT, height + 10), MAX_HEIGHT);
+    const messageHeight = Math.min(Math.max(MIN_HEIGHT, height), MAX_HEIGHT);
     const totalHeight = canSelectTopic ? messageHeight + 30 : messageHeight;
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
 
@@ -181,7 +181,7 @@ export default class ComposeBox extends PureComponent {
                 value={topic}
               />}
             <MultilineInput
-              style={[styles.composeTextInput, { height: totalHeight }]}
+              style={[styles.composeTextInput, { height: messageHeight }]}
               placeholder={placeholder}
               textInputRef={component => {
                 this.messageInput = component;
