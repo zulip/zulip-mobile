@@ -1,13 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
 
-import boundActions from '../boundActions';
 import { NULL_USER } from '../nullObjects';
-import type { User, Narrow } from '../types';
-import { normalizeRecipients } from '../utils/message';
-import { isGroupNarrow } from '../utils/narrow';
+import type { User } from '../types';
 import { TextAvatar, RawLabel, Touchable, UnreadCount } from '../common';
 import { BRAND_COLOR } from '../styles';
 
@@ -31,12 +27,12 @@ const styles = StyleSheet.create({
   },
 });
 
-class ConversationGroup extends PureComponent {
+export default class ConversationGroup extends PureComponent {
   props: {
+    isSelected: boolean,
     email: string,
     users: User[],
     unreadCount: number,
-    narrow: Narrow,
     onPress: (emails: string) => void,
   };
 
@@ -46,13 +42,11 @@ class ConversationGroup extends PureComponent {
   };
 
   render() {
-    const { email, users, narrow, unreadCount } = this.props;
+    const { isSelected, email, users, unreadCount } = this.props;
     const allNames = email
       .split(',')
       .map(e => (users.find(x => x.email === e) || NULL_USER).fullName)
       .join(', ');
-    const isSelected =
-      narrow && isGroupNarrow(narrow) && email === normalizeRecipients(narrow[0].operand);
 
     return (
       <Touchable onPress={this.handlePress}>
@@ -70,11 +64,3 @@ class ConversationGroup extends PureComponent {
     );
   }
 }
-
-export default connect(
-  state => ({
-    narrow: state.chat.narrow,
-    users: state.users,
-  }),
-  boundActions,
-)(ConversationGroup);

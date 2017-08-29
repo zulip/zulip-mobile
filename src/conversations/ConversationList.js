@@ -37,6 +37,10 @@ export default class ConversationList extends PureComponent {
       return <Label style={styles.emptySlate} text="No recent conversations" />;
     }
 
+    // const isSelected =
+    //   narrow && isGroupNarrow(narrow) && email === normalizeRecipients(narrow[0].operand);
+    // const isSelected = narrow && isPrivateNarrow(narrow) && narrow[0].operand === email;
+
     return (
       <FlatList
         style={styles.list}
