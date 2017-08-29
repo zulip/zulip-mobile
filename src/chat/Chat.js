@@ -5,7 +5,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Narrow } from '../types';
 import { OfflineNotice } from '../common';
-import { canSendToNarrow } from '../utils/narrow';
+
 import MessageListContainer from '../message/MessageListContainer';
 // import MessageList from '../message/MessageListWeb';
 // import MessageList from '../message/MessageListFlatList';
@@ -13,7 +13,6 @@ import MessageListLoading from '../message/MessageListLoading';
 import NoMessages from '../message/NoMessages';
 import ComposeBoxContainer from '../compose/ComposeBoxContainer';
 // import UnreadNotice from './UnreadNotice';
-import NotSubscribed from '../message/NotSubscribed';
 
 export default class Chat extends PureComponent {
   messageInputRef = null;
@@ -30,33 +29,30 @@ export default class Chat extends PureComponent {
     narrow: Narrow,
     isFetching: boolean,
     isOnline: boolean,
-    isSubscribed: boolean,
     noMessages: boolean,
   };
 
   handleSend = () => {
-    if (this.listComponent && this.listComponent.scrollToEnd !== undefined) {
-      setTimeout(this.listComponent.scrollToEnd, 300);
-    }
+    setTimeout(() => {
+      if (this.listComponent && this.listComponent.scrollToEnd !== undefined) {
+        this.listComponent.scrollToEnd();
+      }
+    }, 300);
   };
 
   onReplySelect = () => {
     // set a timeout because it's take time to render ComposeBox after narrowing from home
-    if (this.messageInputRef) setTimeout(() => this.messageInputRef.focus(), 300);
+    setTimeout(() => {
+      if (this.messageInputRef) {
+        this.messageInputRef.focus();
+      }
+    }, 300);
   };
 
   render() {
     const { styles } = this.context;
-    const { isFetching, narrow, isOnline, isSubscribed, noMessages } = this.props;
+    const { isFetching, narrow, isOnline, noMessages } = this.props;
     const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
-    const CheckSub = isSubscribed
-      ? <ComposeBoxContainer
-          messageInputRef={component => {
-            this.messageInputRef = component || this.messageInputRef;
-          }}
-          onSend={this.handleSend}
-        />
-      : <NotSubscribed />;
 
     return (
       <WrapperView style={styles.screen} behavior="padding">
@@ -79,7 +75,12 @@ export default class Chat extends PureComponent {
               scrollOffset={this.scrollOffset}
               shouldOffsetForInput={canSendToNarrow(narrow)}
             /> */}
-            {canSendToNarrow(narrow) ? CheckSub : null}
+            <ComposeBoxContainer
+              messageInputRef={component => {
+                this.messageInputRef = component || this.messageInputRef;
+              }}
+              onSend={this.handleSend}
+            />
           </View>
         </ActionSheetProvider>
       </WrapperView>

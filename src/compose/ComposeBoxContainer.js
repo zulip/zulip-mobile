@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 
 import type { GlobalState } from '../types';
 import boundActions from '../boundActions';
-import { getAuth, getLastTopicInActiveNarrow } from '../selectors';
+import {
+  getAuth,
+  getLastTopicInActiveNarrow,
+  canSendToActiveNarrow,
+  getIsActiveStreamSubscribed,
+} from '../selectors';
 
 import ComposeBox from './ComposeBox';
 
@@ -14,6 +19,8 @@ export default connect(
     users: state.users,
     composeTools: state.app.composeTools,
     lastTopic: getLastTopicInActiveNarrow(state),
+    isSubscribed: getIsActiveStreamSubscribed(state),
+    canSend: canSendToActiveNarrow(state),
     editMessage: state.app.editMessage,
   }),
   boundActions,

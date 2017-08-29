@@ -8,7 +8,6 @@ import {
   getIfNoMessages,
   getUnreadCountInActiveNarrow,
 } from '../selectors';
-import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelectors';
 import Chat from './Chat';
 
 export default connect(
@@ -17,7 +16,6 @@ export default connect(
     isFetching: getIsFetching(state),
     narrow: getActiveNarrow(state),
     noMessages: getIfNoMessages(state),
-    isSubscribed: getIsActiveStreamSubscribed(state),
     unreadCount: getUnreadCountInActiveNarrow(state),
   }),
   boundActions,

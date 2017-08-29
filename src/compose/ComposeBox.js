@@ -13,6 +13,7 @@ import AutoCompleteView from '../autocomplete/AutoCompleteView';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import { registerUserInputActivity } from '../utils/activity';
 import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
+import NotSubscribed from '../message/NotSubscribed';
 
 const MIN_HEIGHT = 46;
 const MAX_HEIGHT = 100;
@@ -40,6 +41,7 @@ type Props = {
   narrow: Narrow,
   users: User[],
   composeTools: boolean,
+  isSubscribed: boolean,
   editMessage: EditMessage,
   actions: Actions,
   messageInputRef: (component: Object) => void,
@@ -150,7 +152,24 @@ export default class ComposeBox extends PureComponent {
   render() {
     const { styles } = this.context;
     const { height, message, selection, topic } = this.state;
-    const { auth, composeTools, narrow, users, editMessage, messageInputRef } = this.props;
+    const {
+      auth,
+      canSend,
+      composeTools,
+      narrow,
+      users,
+      editMessage,
+      messageInputRef,
+      isSubscribed,
+    } = this.props;
+
+    if (!canSend) {
+      return null;
+    }
+
+    if (!isSubscribed) {
+      return <NotSubscribed />;
+    }
 
     const canSelectTopic = composeTools && isStreamNarrow(narrow);
     const messageHeight = Math.min(Math.max(MIN_HEIGHT, height + 10), MAX_HEIGHT);
