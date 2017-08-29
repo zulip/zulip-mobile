@@ -15,10 +15,11 @@ const styles = StyleSheet.create({
 
 export default class HtmlTagImg extends React.PureComponent {
   props: {
-    src: string,
     auth: Auth,
     actions: Actions,
+    className: string,
     message: Message,
+    src: string,
     style: StyleObj,
   };
 
