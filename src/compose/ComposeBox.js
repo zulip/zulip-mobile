@@ -38,6 +38,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {
   auth: Auth,
+  canSend: boolean,
   narrow: Narrow,
   users: User[],
   composeTools: boolean,

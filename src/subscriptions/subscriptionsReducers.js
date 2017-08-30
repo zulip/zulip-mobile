@@ -50,24 +50,32 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
       );
 
     case EVENT_SUBSCRIPTION_PEER_ADD:
-      return state.map(subscription => {
-        const shouldNotAddToStream = action.subscriptions.indexOf(subscription.stream_id) === -1;
-        const userAlreadySubscribed = subscription.subscribers.includes(action.user.email);
-        if (shouldNotAddToStream || userAlreadySubscribed) {
-          return subscription;
-        }
+      return state;
 
-        return {
-          ...subscription,
-          subscribers: [...subscription.subscribers, action.user.email],
-        };
-      });
+    // we currently do not track subscribers
+
+    // return state.map(subscription => {
+    //   const shouldNotAddToStream = action.subscriptions.indexOf(subscription.stream_id) === -1;
+    //   const userAlreadySubscribed = subscription.subscribers.includes(action.user.email);
+    //   if (shouldNotAddToStream || userAlreadySubscribed) {
+    //     return subscription;
+    //   }
+    //
+    //   return {
+    //     ...subscription,
+    //     subscribers: [...subscription.subscribers, action.user.email],
+    //   };
+    // });
 
     case EVENT_SUBSCRIPTION_PEER_REMOVE:
-      return state.map(subscription => ({
-        ...subscription,
-        subscribers: subscription.subscribers.filter(sub => sub !== action.user.email),
-      }));
+      return state;
+
+    // we currently do not track subscribers
+
+    // return state.map(subscription => ({
+    //   ...subscription,
+    //   subscribers: subscription.subscribers.filter(sub => sub !== action.user.email),
+    // }));
 
     default:
       return state;
