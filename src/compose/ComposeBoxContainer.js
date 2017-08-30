@@ -3,13 +3,8 @@ import { connect } from 'react-redux';
 
 import type { GlobalState } from '../types';
 import boundActions from '../boundActions';
-import {
-  getAuth,
-  getLastTopicInActiveNarrow,
-  canSendToActiveNarrow,
-  getIsActiveStreamSubscribed,
-} from '../selectors';
-
+import { getAuth, getLastTopicInActiveNarrow, canSendToActiveNarrow } from '../selectors';
+import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelectors';
 import ComposeBox from './ComposeBox';
 
 export default connect(
