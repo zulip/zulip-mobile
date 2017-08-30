@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import { Image, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { getResource, isEmojiUrl } from '../../utils/url';
 import type { Actions, Auth, Message, StyleObj } from '../../types';
 import { Touchable } from '../../common';
@@ -23,18 +23,20 @@ export default class HtmlTagImg extends React.PureComponent {
     style: StyleObj,
   };
 
+  isEmoji = () => {
+    const { className, src, auth } = this.props;
+    return className === 'emoji' || isEmojiUrl(src, auth.realm);
+  };
+
   handlePress = (resource: Object) => {
-    const { className, src, auth, message, actions } = this.props;
-    if (!(className === 'emoji' || isEmojiUrl(src, auth.realm))) {
-      actions.navigateToLightbox(resource, message);
-    }
+    const { message, actions } = this.props;
+    actions.navigateToLightbox(resource, message);
   };
 
   render() {
-    const { className, src, style, auth } = this.props;
+    const { src, style, auth } = this.props;
     const resource = getResource(src, auth);
-    const ContainerComponent =
-      className === 'emoji' || isEmojiUrl(src, auth.realm) ? TouchableWithoutFeedback : Touchable;
+    const ContainerComponent = this.isEmoji() ? View : Touchable;
 
     return (
       <ContainerComponent onPress={() => this.handlePress(resource)}>
