@@ -18,6 +18,7 @@ import {
   isHomeNarrow,
   homeNarrow,
   allPrivateNarrowStr,
+  canSendToNarrow,
 } from '../utils/narrow';
 import { shouldBeMuted } from '../utils/message';
 import { countUnread } from '../utils/unread';
@@ -136,4 +137,8 @@ export const getMessagesById = createSelector(getMessagesFromChatState, messages
     msgById[message.id] = message;
     return msgById;
   }, {}),
+);
+
+export const canSendToActiveNarrow = createSelector(getActiveNarrow, narrow =>
+  canSendToNarrow(narrow),
 );
