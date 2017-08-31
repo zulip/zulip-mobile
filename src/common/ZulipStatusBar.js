@@ -2,10 +2,12 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Platform, StatusBar, View } from 'react-native';
+import Color from 'color';
 
 import { STATUSBAR_HEIGHT } from '../styles/platform';
 import { getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 import getStatusBarStyle from '../utils/getStatusBarStyle';
+import getStatusBarColor from '../utils/getStatusBarColor';
 
 class ZulipStatusBar extends PureComponent {
   static contextTypes = {
@@ -27,13 +29,14 @@ class ZulipStatusBar extends PureComponent {
     const { theme, backgroundColor, textColor, hidden } = this.props;
     const style = { height: STATUSBAR_HEIGHT, backgroundColor };
     const barStyle = getStatusBarStyle(backgroundColor, textColor, theme);
+    const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
       <View style={style}>
         <StatusBar
           animated
           showHideTransition="slide"
           hidden={hidden && Platform.OS !== 'android'}
-          backgroundColor={backgroundColor}
+          backgroundColor={Color(statusBarColor).darken(0.4)}
           barStyle={barStyle}
         />
       </View>
