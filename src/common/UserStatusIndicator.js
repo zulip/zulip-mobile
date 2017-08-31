@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   common: {
     width: 12,
     height: 12,
-    borderRadius: 100,
+    borderRadius: 6,
     borderColor: 'white',
     borderWidth: 2,
   },
