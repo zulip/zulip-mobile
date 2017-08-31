@@ -27,5 +27,6 @@ export const IconRightIcon = (props: Object) =>
   <IoniconsIcon name="ios-arrow-forward" {...props} />;
 export const IconPlus = (props: Object) =>
   <IoniconsIcon name="ios-add-circle-outline" {...props} />;
+export const IconPeople = (props: Object) => <IoniconsIcon name="md-people" {...props} />;
 
 export default IoniconsIcon;

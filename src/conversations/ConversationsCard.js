@@ -32,7 +32,7 @@ export default class ConversationsCard extends PureComponent {
   props: {
     actions: Actions,
     conversations: Object[],
-    usersNavigation: Object,
+    onNarrow: () => void,
   };
 
   state = {
@@ -46,8 +46,8 @@ export default class ConversationsCard extends PureComponent {
   };
 
   narrowAndClose = (narrow: Narrow) => {
-    const { actions, usersNavigation } = this.props;
-    usersNavigation.navigate('DrawerClose');
+    const { actions, onNarrow } = this.props;
+    onNarrow();
     setTimeout(() => actions.doNarrow(narrow), 100);
   };
 
@@ -57,9 +57,9 @@ export default class ConversationsCard extends PureComponent {
   };
 
   handleSearchPeople = () => {
-    const { actions, usersNavigation } = this.props;
+    const { actions, onNarrow } = this.props;
     actions.navigateToUsersScreen();
-    usersNavigation.navigate('DrawerClose');
+    onNarrow();
   };
 
   render() {

@@ -5,8 +5,10 @@ import { View } from 'react-native';
 
 import type { Actions } from '../types';
 import boundActions from '../boundActions';
+import { ZulipStatusBar, Touchable } from '../common';
 import Title from '../title/Title';
 import NavButton from './NavButton';
+import { homeNarrow, isHomeNarrow } from '../utils/narrow';
 import {
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
@@ -25,10 +27,7 @@ class MainNavBar extends PureComponent {
     backgroundColor: string,
     textColor: string,
     editMessage: boolean,
-    unreadHuddlesTotal: number,
     unreadMentionsTotal: number,
-    unreadPmsTotal: number,
-    onPressPeople: () => void,
     onPressStreams: () => void,
   };
 
@@ -36,13 +35,11 @@ class MainNavBar extends PureComponent {
     const { styles } = this.context;
     const {
       actions,
+      narrow,
       backgroundColor,
       textColor,
-      unreadPmsTotal,
-      unreadHuddlesTotal,
       unreadMentionsTotal,
       onPressStreams,
-      onPressPeople,
       editMessage,
     } = this.props;
 
@@ -50,21 +47,19 @@ class MainNavBar extends PureComponent {
 
     return (
       <View style={[styles.navBar, { backgroundColor }]}>
-        <NavButton
-          name={editMessage ? 'md-arrow-back' : 'ios-menu'}
-          color={textColor}
-          showCircle={unreadMentionsTotal > 0}
-          onPress={leftPress}
-        />
-        <Title color={textColor} />
-        {!editMessage &&
-          <NavButton
-            name="md-people"
-            color={textColor}
-            borderRadius={20}
-            unreadCount={unreadPmsTotal + unreadHuddlesTotal}
-            onPress={onPressPeople}
-          />}
+        <ZulipStatusBar backgroundColor={backgroundColor} />
+        {isHomeNarrow(narrow)
+          ? <NavButton placeholder />
+          : <NavButton
+              name={'md-arrow-back'}
+              color={textColor}
+              showCircle={unreadMentionsTotal > 0}
+              onPress={() => actions.doNarrow(homeNarrow)}
+            />}
+        <Touchable onPress={leftPress}>
+          <Title color={textColor} />
+        </Touchable>
+        <NavButton placeholder />
       </View>
     );
   }
