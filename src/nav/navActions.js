@@ -23,6 +23,10 @@ export const navigateToSearch = (): Action => NavigationActions.navigate({ route
 export const navigateToSettings = (): Action =>
   NavigationActions.navigate({ routeName: 'settings' });
 
+// Use this to navigate to the unread cards screen
+export const navigateToUnreadCards = (): Action =>
+  NavigationActions.navigate({ routeName: 'unreadCards' });
+
 export const navigateToAuth = (authBackends: string): Action =>
   NavigationActions.navigate({ routeName: 'auth', params: { authBackends } });
 
