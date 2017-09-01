@@ -9,7 +9,7 @@ import InfoItem from './InfoItem';
 export default class DiagnosticsScreen extends PureComponent {
   render() {
     return (
-      <Screen title="Info">
+      <Screen title="Diagnostics">
         <ScrollView>
           <InfoItem label="enableReduxLogging" value={config.enableReduxLogging} />
           <InfoItem label="enableSentry" value={config.enableSentry} />
