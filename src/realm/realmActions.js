@@ -1,6 +1,4 @@
 /* @flow */
-import DeviceInfo from 'react-native-device-info';
-
 import type { GetState, Dispatch, Action } from '../types';
 import config from '../config';
 import { allPrivateNarrow } from '../utils/narrow';
@@ -93,7 +91,7 @@ export const doInitialFetch = (): Action => async (dispatch: Dispatch, getState:
   dispatch(fetchEssentialInitialData());
   dispatch(fetchRestOfInitialData());
 
-  if (!DeviceInfo.isEmulator()) {
+  if (config.enableNotifications) {
     dispatch(initNotifications());
   }
   dispatch(sendFocusPing());

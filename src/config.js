@@ -1,16 +1,17 @@
 /* @flow */
+import { NativeModules } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
+
 const isDevelopment = process.env.NODE_ENV === 'development';
+const isEmulator = NativeModules.RNDeviceInfo ? DeviceInfo.isEmulator() : false;
 
 export default {
-  devRealm: 'http://localhost:9991', // the default realm suggested during development
-  productionRealm: '', // the default realm suggested in production
   compatibilityUrl: 'https://zulipchat.com/compatibility',
-  defaultLoginEmail: '', // useful during development, empty for production
-  defaultLoginPassword: '', // useful during development, empty for production
-  messagesPerRequest: 20, // number of messages to request at once
+  messagesPerRequest: 20,
   scrollCallbackThrottle: 500,
   messageListThreshold: 1000,
   enableReduxLogging: isDevelopment && !!global.btoa,
-  enableSentry: !isDevelopment,
+  enableSentry: !isDevelopment && !isEmulator,
+  enableNotifications: !isEmulator,
   sentryKey: 'ADD-DSN-HERE',
 };
