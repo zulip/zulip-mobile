@@ -14,7 +14,8 @@ import SubscriptionsScreen from '../subscriptions/SubscriptionsScreen';
 import ChatScreen from '../chat/ChatScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import SettingsScreen from '../settings/SettingsScreen';
-import SettingsDetailScreen from '../settings/SettingsDetailScreen';
+import LanguageScreen from '../settings/LanguageScreen';
+import DiagnosticsScreen from '../settings/DiagnosticsScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import GroupScreen from '../group/GroupScreen';
 
@@ -33,9 +34,10 @@ export default StackNavigator(
     subscriptions: { screen: SubscriptionsScreen },
     users: { screen: UsersScreen },
     settings: { screen: SettingsScreen },
-    'settings-detail': { screen: SettingsDetailScreen },
+    language: { screen: LanguageScreen },
     lightbox: { screen: LightboxScreen },
     group: { screen: GroupScreen },
+    diagnostics: { screen: DiagnosticsScreen },
   },
   {
     initialRouteName: 'main',

@@ -45,8 +45,11 @@ export const navigateToLightbox = (src: ImageResource, message: Message): Action
 
 export const navigateToLoading = (): Action => NavigationActions.navigate({ routeName: 'loading' });
 
-export const navigateToSettingsDetail = (setting: string, title: string): Action =>
-  NavigationActions.navigate({ routeName: 'settings-detail', params: { setting, title } });
+export const navigateToLanguage = (): Action =>
+  NavigationActions.navigate({ routeName: 'language' });
 
 export const navigateToCreateGroup = (): Action =>
   NavigationActions.navigate({ routeName: 'group' });
+
+export const navigateToDiagnostics = (): Action =>
+  NavigationActions.navigate({ routeName: 'diagnostics' });

@@ -7,12 +7,10 @@ import type { Actions } from '../types';
 import boundActions from '../boundActions';
 import { Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
 import { getAuthBackends } from '../api';
-import config from '../config';
 import { fixRealmUrl } from '../utils/url';
 
 type Props = {
   actions: Actions,
-  realm: string,
 };
 
 type State = {
@@ -41,17 +39,11 @@ class RealmScreen extends PureComponent {
   state: State;
   scrollView: ScrollView;
 
-  constructor(props: Props) {
-    super(props);
-
-    const realmFromConfig =
-      process.env.NODE_ENV === 'development' ? config.devRealm : config.productionRealm;
-    this.state = {
-      progress: false,
-      realm: props.realm || realmFromConfig,
-      error: undefined,
-    };
-  }
+  state = {
+    progress: false,
+    realm: '',
+    error: undefined,
+  };
 
   tryRealm = async () => {
     const { realm } = this.state;

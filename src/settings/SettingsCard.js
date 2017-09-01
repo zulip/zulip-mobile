@@ -3,30 +3,16 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Auth, Actions } from '../types';
-import { Label, ZulipSwitch, Touchable } from '../common';
-import { IconRightIcon } from '../common/Icons';
 import toggleMobilePushSettings from '../api/toggleMobilePushSettings';
+import OptionRow from './OptionRow';
+import OptionButton from './OptionButton';
 
 const styles = StyleSheet.create({
   optionWrapper: {
     flex: 1,
   },
-  optionRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 8,
-    backgroundColor: 'rgba(127, 127, 127, 0.1)',
-  },
-  optionTitle: {
-    padding: 6,
-    paddingLeft: 0,
-  },
   divider: {
     height: 30,
-  },
-  rightIcon: {
-    marginRight: 6,
   },
 });
 
@@ -65,31 +51,25 @@ export default class SettingsCard extends PureComponent {
 
     return (
       <View style={styles.optionWrapper}>
-        <View style={styles.optionRow}>
-          <Label text="Notifications when offline" />
-          <ZulipSwitch
-            defaultValue={offlineNotification}
-            onValueChange={this.handleOfflineNotificationChange}
-          />
-        </View>
-        <View style={styles.optionRow}>
-          <Label text="Notifications when online" />
-          <ZulipSwitch
-            defaultValue={onlineNotification}
-            onValueChange={this.handleOnlineNotificationChange}
-          />
-        </View>
-        <View style={styles.optionRow}>
-          <Label text="Night mode" />
-          <ZulipSwitch defaultValue={theme === 'night'} onValueChange={this.handleThemeChange} />
-        </View>
+        <OptionRow
+          label="Notifications when offline"
+          defaultValue={offlineNotification}
+          onValueChange={this.handleOfflineNotificationChange}
+        />
+        <OptionRow
+          label="Notifications when online"
+          defaultValue={onlineNotification}
+          onValueChange={this.handleOnlineNotificationChange}
+        />
+        <OptionRow
+          label="Night mode"
+          defaultValue={theme === 'night'}
+          onValueChange={this.handleThemeChange}
+        />
         <View style={styles.divider} />
-        <Touchable onPress={() => actions.navigateToSettingsDetail('language', 'Language')}>
-          <View style={styles.optionRow}>
-            <Label style={styles.optionTitle} text="Language" />
-            <IconRightIcon size={18} style={styles.rightIcon} />
-          </View>
-        </Touchable>
+        <OptionButton label="Language" onPress={actions.navigateToLanguage} />
+        <View style={styles.divider} />
+        <OptionButton label="Diagnostics" onPress={actions.navigateToDiagnostics} />
       </View>
     );
   }

@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import type { Actions, Auth } from '../types';
 import boundActions from '../boundActions';
 import { fetchApiKey } from '../api';
-import config from '../config';
 import { ErrorMsg, ZulipButton, Input, Touchable, Label } from '../common';
 import { getAuth, getOwnEmail } from '../selectors';
 import openLink from '../utils/openLink';
@@ -44,8 +43,8 @@ class PasswordAuthView extends PureComponent {
     super(props);
     this.state = {
       progress: false,
-      email: props.email || config.defaultLoginEmail,
-      password: config.defaultLoginPassword,
+      email: props.email,
+      password: '',
       error: '',
     };
   }
