@@ -23,9 +23,7 @@ export default class TitlePrivate extends PureComponent {
     return (
       <View style={styles.wrapper}>
         <Avatar size={24} name={fullName} avatarUrl={avatarUrl} />
-        <Text style={[styles.title, { color }]}>
-          {fullName}
-        </Text>
+        <Text style={[styles.title, { color }]}>{fullName}</Text>
       </View>
     );
   }

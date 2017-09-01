@@ -30,7 +30,8 @@ export default class ComposeIcon extends PureComponent {
       <Touchable
         onPress={() => {
           onChange(0);
-        }}>
+        }}
+      >
         <Icon style={[styles.icon, isActive && styles.iconActive]} size={24} name={name} />
       </Touchable>
     );

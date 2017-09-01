@@ -63,11 +63,12 @@ export default class CameraPhotoList extends React.Component {
 
   renderFooterSpinner = () => (this.props.noMoreData ? null : <ActivityIndicator />);
 
-  renderRow = (rowData: Array<Image>, sectionID: string, rowID: string) =>
+  renderRow = (rowData: Array<Image>, sectionID: string, rowID: string) => (
     <View style={styles.row}>
       {// $FlowExpectedError
       rowData.map(image => image && <Image source={image.node.image} style={styles.image} />)}
-    </View>;
+    </View>
+  );
 
   render() {
     const { dataSource, onEndReached } = this.props;

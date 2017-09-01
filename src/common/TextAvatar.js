@@ -51,9 +51,7 @@ export default class TextAvatar extends PureComponent {
     return (
       <Touchable onPress={onPress}>
         <View style={[styles.frame, frameSize]}>
-          <Text style={[styles.text, textSize]}>
-            {initialsFromName(name)}
-          </Text>
+          <Text style={[styles.text, textSize]}>{initialsFromName(name)}</Text>
           {children}
         </View>
       </Touchable>

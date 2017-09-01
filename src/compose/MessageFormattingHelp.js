@@ -63,15 +63,11 @@ export default class MessageFormattingHelp extends PureComponent {
             <Text style={styles.td}>Some inline code</Text>
           </View>
           <View style={styles.tr}>
-            <Text style={styles.td}>
-              {'```\ndef zulip():\n  print "Zulip"\n````'}
-            </Text>
+            <Text style={styles.td}>{'```\ndef zulip():\n  print "Zulip"\n````'}</Text>
             <Text style={styles.td}>TODO</Text>
           </View>
           <View style={styles.tr}>
-            <Text style={styles.td}>
-              {'``` .py\ndef zulip():\n  print "Zulip"\n````'}
-            </Text>
+            <Text style={styles.td}>{'``` .py\ndef zulip():\n  print "Zulip"\n````'}</Text>
             <Text style={styles.td}>TODO</Text>
           </View>
           <View style={styles.tr}>

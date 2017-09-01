@@ -50,11 +50,13 @@ export default class TopicMessageHeader extends PureComponent {
         <Touchable
           style={componentStyles.touch}
           onPress={this.performTopicNarrow}
-          onLongPress={onLongPress}>
+          onLongPress={onLongPress}
+        >
           <Text
             style={[componentStyles.topic, styles.color]}
             numberOfLines={1}
-            ellipsizeMode="tail">
+            ellipsizeMode="tail"
+          >
             {topic}
           </Text>
         </Touchable>

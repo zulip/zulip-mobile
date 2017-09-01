@@ -23,8 +23,8 @@ export default connect(
     needsInitialFetch: state.app.needsInitialFetch,
   }),
   boundActions,
-)(props =>
+)(props => (
   <View style={componentStyles.wrapper}>
     <ConnectedComposeMenu {...props} />
-  </View>,
-);
+  </View>
+));

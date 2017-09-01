@@ -63,7 +63,8 @@ export class Header extends PureComponent {
         }}
         style={customStyles.navBar}
         childrenStyle={customStyles.children}
-        isRightItemNav>
+        isRightItemNav
+      >
         <Avatar {...restProps} />
         <View style={customStyles.text}>
           <Text style={[this.context.styles.username, customStyles.name]} numberOfLines={1}>

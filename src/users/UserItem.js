@@ -65,11 +65,12 @@ export default class UserItem extends PureComponent {
           />
           <View style={styles.textWrapper}>
             <RawLabel style={[styles.text, isSelected && styles.selectedText]} text={fullName} />
-            {showEmail &&
+            {showEmail && (
               <RawLabel
                 style={[styles.text, styles.textEmail, isSelected && styles.selectedText]}
                 text={email}
-              />}
+              />
+            )}
           </View>
           <UnreadCount count={unreadCount} inverse={isSelected} />
         </View>

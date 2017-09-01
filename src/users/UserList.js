@@ -49,7 +49,7 @@ export default class UserList extends PureComponent {
         sections={sections}
         exraData={selected}
         keyExtractor={item => item.email}
-        renderItem={({ item }) =>
+        renderItem={({ item }) => (
           <UserItem
             key={item.email}
             fullName={item.fullName}
@@ -58,9 +58,11 @@ export default class UserList extends PureComponent {
             onPress={onPress}
             isSelected={selected.find(x => x.email === item.email)}
             status={item.status}
-          />}
-        renderSectionHeader={({ section }) =>
-          <RawLabel style={styles.groupHeader} text={section.key} />}
+          />
+        )}
+        renderSectionHeader={({ section }) => (
+          <RawLabel style={styles.groupHeader} text={section.key} />
+        )}
       />
     );
   }

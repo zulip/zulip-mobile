@@ -13,11 +13,6 @@ import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
 
 const styles = StyleSheet.create({
-  empty: {
-    fontSize: 20,
-    padding: 8,
-    textAlign: 'center',
-  },
   results: {
     flex: 1,
   },
@@ -80,8 +75,9 @@ export default class SearchMessagesCard extends PureComponent {
 
     return (
       <View style={styles.results}>
-        {isFetching &&
-          <ActivityIndicator style={styles.activity} color={BRAND_COLOR} size="large" />}
+        {isFetching && (
+          <ActivityIndicator style={styles.activity} color={BRAND_COLOR} size="large" />
+        )}
         <ActionSheetProvider>
           <MessageList
             actions={actions}

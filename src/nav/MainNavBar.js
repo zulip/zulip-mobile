@@ -57,14 +57,15 @@ class MainNavBar extends PureComponent {
           onPress={leftPress}
         />
         <Title color={textColor} />
-        {!editMessage &&
+        {!editMessage && (
           <NavButton
             name="md-people"
             color={textColor}
             borderRadius={20}
             unreadCount={unreadPmsTotal + unreadHuddlesTotal}
             onPress={onPressPeople}
-          />}
+          />
+        )}
       </View>
     );
   }

@@ -60,14 +60,11 @@ export default class AccountItem extends PureComponent {
             <RawLabel style={[styles.text]} text={email} />
             <RawLabel style={[styles.text]} text={realm} />
           </View>
-          {!showDoneIcon
-            ? <IconCancel
-                style={styles.icon}
-                size={32}
-                color="crimson"
-                onPress={this.handleRemove}
-              />
-            : <IconDone style={styles.icon} size={24} color={BRAND_COLOR} />}
+          {!showDoneIcon ? (
+            <IconCancel style={styles.icon} size={32} color="crimson" onPress={this.handleRemove} />
+          ) : (
+            <IconDone style={styles.icon} size={24} color={BRAND_COLOR} />
+          )}
         </View>
       </Touchable>
     );

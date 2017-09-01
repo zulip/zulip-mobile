@@ -55,7 +55,7 @@ class GroupDetailsScreen extends PureComponent {
               initialNumToRender={10}
               data={recipients}
               keyExtractor={item => item.email}
-              renderItem={({ item }) =>
+              renderItem={({ item }) => (
                 <UserItem
                   key={item.email}
                   fullName={item.fullName}
@@ -63,7 +63,8 @@ class GroupDetailsScreen extends PureComponent {
                   email={item.email}
                   showEmail
                   onPress={() => this.handlePress(item.email)}
-                />}
+                />
+              )}
             />
           </View>
         </View>

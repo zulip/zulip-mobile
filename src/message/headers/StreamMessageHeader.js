@@ -81,9 +81,7 @@ export default class StreamMessageHeader extends PureComponent {
               size={16}
               style={componentStyles.icon}
             />
-            <Text style={[componentStyles.stream, { color: textColor }]}>
-              {stream}
-            </Text>
+            <Text style={[componentStyles.stream, { color: textColor }]}>{stream}</Text>
           </View>
         </Touchable>
         <View style={[componentStyles.triangle, { borderLeftColor: color }]} />

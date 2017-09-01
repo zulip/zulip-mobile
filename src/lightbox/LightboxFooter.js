@@ -31,15 +31,15 @@ type Props = {
   style: StyleObj,
 };
 
-export const Footer = ({ displayMessage, onOptionsPress, style }: FooterProps) =>
+export const Footer = ({ displayMessage, onOptionsPress, style }: FooterProps) => (
   <View style={style}>
-    <Text style={styles.text}>
-      {displayMessage}
-    </Text>
+    <Text style={styles.text}>{displayMessage}</Text>
     <NavButton name="ios-more" color="white" style={styles.icon} onPress={onOptionsPress} />
-  </View>;
+  </View>
+);
 
-export default ({ displayMessage, onOptionsPress, style, ...restProps }: Props) =>
+export default ({ displayMessage, onOptionsPress, style, ...restProps }: Props) => (
   <SlideAnimationView property={'translateY'} style={style} {...restProps}>
     <Footer displayMessage={displayMessage} onOptionsPress={onOptionsPress} style={style} />
-  </SlideAnimationView>;
+  </SlideAnimationView>
+);

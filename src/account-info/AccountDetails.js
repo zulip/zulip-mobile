@@ -64,7 +64,7 @@ export default class AccountDetails extends PureComponent {
     });
   };
 
-  renderAvatar = (width: number) =>
+  renderAvatar = (width: number) => (
     <Avatar
       avatarUrl={mediumAvatarUrl(this.props.avatarUrl)}
       name={this.props.fullName}
@@ -72,24 +72,26 @@ export default class AccountDetails extends PureComponent {
       status={this.props.status}
       realm={this.props.auth.realm}
       shape="square"
-    />;
+    />
+  );
 
-  renderSendPMButton = () =>
+  renderSendPMButton = () => (
     <ZulipButton
       style={styles.sendButton}
       text="Send private message"
       onPress={this.handleChatPress}
       icon="md-mail"
-    />;
+    />
+  );
 
-  renderUserDetails = () =>
+  renderUserDetails = () => (
     <View style={styles.details}>
-      {this.props.status &&
-        <UserStatusIndicator status={this.props.status} style={styles.statusIndicator} />}
-      <Text style={styles.info}>
-        {this.props.email}
-      </Text>
-    </View>;
+      {this.props.status && (
+        <UserStatusIndicator status={this.props.status} style={styles.statusIndicator} />
+      )}
+      <Text style={styles.info}>{this.props.email}</Text>
+    </View>
+  );
 
   renderContent = (orientation: string, landscapeContent, portraitContent) =>
     orientation === ORIENTATION_LANDSCAPE ? landscapeContent : portraitContent;

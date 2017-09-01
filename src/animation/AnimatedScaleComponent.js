@@ -28,10 +28,6 @@ export default class AnimatedScaleComponent extends PureComponent {
       opacity: this.animatedValue,
     };
 
-    return (
-      <Animated.View style={animatedStyle}>
-        {visible && children}
-      </Animated.View>
-    );
+    return <Animated.View style={animatedStyle}>{visible && children}</Animated.View>;
   }
 }

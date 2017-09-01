@@ -70,7 +70,8 @@ export default class AvatarItem extends PureComponent {
           overlayColor="white"
           overlayPosition="bottom-right"
           overlay={<IconCancel color="gray" size={20} />}
-          onPress={this.handlePress}>
+          onPress={this.handlePress}
+        >
           <Avatar
             key={email}
             size={50}

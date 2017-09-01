@@ -46,16 +46,17 @@ export default class PrivateMessageHeader extends PureComponent {
 
   render() {
     const { recipients, onLongPress } = this.props;
-    const others = recipients.map(r => r.full_name).sort().join(', ');
+    const others = recipients
+      .map(r => r.full_name)
+      .sort()
+      .join(', ');
 
     return (
       <View style={[styles.container]}>
         <Touchable onPress={this.performNarrow} onLongPress={onLongPress}>
           <View style={styles.header}>
             <IconPrivateChat color="white" size={16} style={styles.icon} />
-            <Text style={styles.private}>
-              {others}
-            </Text>
+            <Text style={styles.private}>{others}</Text>
           </View>
         </Touchable>
       </View>

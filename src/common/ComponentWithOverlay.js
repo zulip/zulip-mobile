@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint-disable react-native/no-unused-styles */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -81,11 +82,7 @@ export default class ComponentWithOverlay extends PureComponent {
       <Touchable onPress={onPress}>
         <View style={wrapperStyle}>
           {children}
-          {showOverlay &&
-            overlaySize > 0 &&
-            <View style={overlayStyle}>
-              {overlay}
-            </View>}
+          {showOverlay && overlaySize > 0 && <View style={overlayStyle}>{overlay}</View>}
         </View>
       </Touchable>
     );

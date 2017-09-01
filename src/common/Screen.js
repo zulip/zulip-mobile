@@ -37,9 +37,11 @@ export default class Screen extends PureComponent {
     return (
       <View style={styles.screen}>
         <ZulipStatusBar />
-        {search
-          ? <ModalSearchNavBar title={title} searchBarOnChange={searchBarOnChange} />
-          : <ModalNavBar title={title} />}
+        {search ? (
+          <ModalSearchNavBar title={title} searchBarOnChange={searchBarOnChange} />
+        ) : (
+          <ModalNavBar title={title} />
+        )}
 
         <WrapperView style={componentStyles.screenWrapper} behavior="padding">
           {children}

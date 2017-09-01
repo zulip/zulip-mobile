@@ -61,7 +61,7 @@ export default class Chat extends PureComponent {
             {!isOnline && <OfflineNotice />}
             {noMessages && !isFetching && <NoMessages narrow={narrow} />}
             {noMessages && isFetching && <MessageListLoading />}
-            {!noMessages &&
+            {!noMessages && (
               <ActionSheetProvider>
                 <MessageListContainer
                   onReplySelect={this.onReplySelect}
@@ -69,7 +69,8 @@ export default class Chat extends PureComponent {
                     this.listComponent = component || this.listComponent;
                   }}
                 />
-              </ActionSheetProvider>}
+              </ActionSheetProvider>
+            )}
             {/* <UnreadNotice
               unreadCount={unreadCount}
               scrollOffset={this.scrollOffset}

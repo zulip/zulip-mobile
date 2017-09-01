@@ -6,7 +6,8 @@
   "scripts": {
     "start": "react-native start",
     "build:android": "cd android && ./gradlew assembleRelease",
-    "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
+    "build:ios":
+      "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
     "reinstall": "rm -rf node_modules; yarn cache clean; yarn install",
     "ios": "react-native run-ios",
     "ios-min": "react-native run-ios --simulator 'iPhone 5'",
@@ -16,16 +17,14 @@
     "android-min": "react-native run-android",
     "android-max": "react-native run-android",
     "android-release": "react-native run-android --variant=release",
-    "prettier-all": "prettier --write --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow `find src -name \"*.js\"`",
-    "prettier": "prettier --write --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow",
+    "prettier": "prettier --write `find src -name \"*.js\"`",
     "test:lint": "eslint src/",
     "test:flow": "flow",
     "test:flow-coverage": "flow-coverage-report -i 'src/**/*.js' -x '**/__tests__/**' -t html",
     "test:unit": "jest src/",
     "test:e2e": "detox test --configuration ios.sim.release --cleanup",
     "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "test:prettier": "prettier-check  --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow `find src -name \"*.js\"`",
-    "test": "npm run test:lint && npm run test:prettier && npm run test:coveralls && npm run test:flow",
+    "test": "npm run test:lint && npm run test:coveralls && npm run test:flow",
     "build:ios-release": "detox build --configuration ios.sim.release",
     "update-snapshots": "npm run test:unit -- -u"
   },
@@ -97,7 +96,6 @@
     "jest-react-native": "^18.0.0",
     "mocha": "^3.5.0",
     "prettier": "^1.6.1",
-    "prettier-check": "^1.0.0",
     "react-flow-types": "^0.1.1",
     "react-native-cli": "^2.0.1",
     "reactotron-react-native": "^1.12.2",
@@ -117,7 +115,8 @@
     "configurations": {
       "ios.sim.release": {
         "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/ZulipMobile.app",
-        "build": "cd ios && xcodebuild -workspace ZulipMobile.xcworkspace -configuration Release -scheme ZulipMobile -derivedDataPath build -sdk iphonesimulator -quiet",
+        "build":
+          "cd ios && xcodebuild -workspace ZulipMobile.xcworkspace -configuration Release -scheme ZulipMobile -derivedDataPath build -sdk iphonesimulator -quiet",
         "type": "ios.simulator",
         "name": "iPhone 6, iOS 10.3"
       }

@@ -64,9 +64,7 @@ export default class UnreadCount extends PureComponent {
 
     return (
       <View style={frameStyle}>
-        <Text style={textStyle}>
-          {count < 100 ? count : '99+'}
-        </Text>
+        <Text style={textStyle}>{count < 100 ? count : '99+'}</Text>
       </View>
     );
   }

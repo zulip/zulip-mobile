@@ -189,7 +189,7 @@ export default class ComposeBox extends PureComponent {
             <ComposeMenuContainer />
           </View>
           <View style={[componentStyles.composeText]}>
-            {canSelectTopic &&
+            {canSelectTopic && (
               <Input
                 style={[styles.composeTextInput, componentStyles.topic]}
                 underlineColorAndroid="transparent"
@@ -199,7 +199,8 @@ export default class ComposeBox extends PureComponent {
                 }}
                 onChangeText={this.handleTopicChange}
                 value={topic}
-              />}
+              />
+            )}
             <MultilineInput
               style={[styles.composeTextInput, { height: messageHeight }]}
               placeholder={placeholder}

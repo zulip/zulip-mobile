@@ -84,9 +84,5 @@ target.
 
 ## Formatting code using prettier
 
-- Using atom editor
-Install the prettier-atom plugin to easily integrate the prettier with the eslint setup, Use the command `apm install prettier-atom` to install the plugin.
-
-* Using the command line
-  * For all files - `npm run prettier-all`
-  * For single file - `npm run prettier {filename}`
+* Using atom editor - install the `prettier-atom` plugin
+* Using the command line - run `npm run prettier`

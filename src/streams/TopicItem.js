@@ -15,11 +15,6 @@ const styles = StyleSheet.create({
   selectedRow: {
     backgroundColor: BRAND_COLOR,
   },
-  text: {
-    flex: 1,
-    marginLeft: 8,
-    marginRight: 8,
-  },
   label: {
     flex: 1,
   },

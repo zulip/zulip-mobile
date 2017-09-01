@@ -11,7 +11,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ({ text, color }) =>
-  <Text style={[styles.title, { color }]}>
-    {text}
-  </Text>;
+export default ({ text, color }) => <Text style={[styles.title, { color }]}>{text}</Text>;

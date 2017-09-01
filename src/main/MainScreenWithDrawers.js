@@ -21,11 +21,12 @@ export const StreamsDrawer = DrawerNavigator(
 export const UsersDrawer = DrawerNavigator(
   {
     main: {
-      screen: props =>
+      screen: props => (
         <MainScreen
           streamsNavigation={props.screenProps.streamsNavigation}
           usersNavigation={props.navigation}
-        />,
+        />
+      ),
     },
   },
   {

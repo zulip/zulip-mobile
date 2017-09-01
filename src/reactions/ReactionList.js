@@ -32,15 +32,15 @@ export default class ReactionList extends PureComponent {
 
     return (
       <View style={styles.reactions}>
-        {aggregated.map((x: ReactionType, i: number) =>
+        {aggregated.map((x: ReactionType, i: number) => (
           <Reaction
             key={x.name}
             messageId={messageId}
             name={x.name}
             voted={x.selfReacted}
             voteCount={x.count}
-          />,
-        )}
+          />
+        ))}
       </View>
     );
   }

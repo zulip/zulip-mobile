@@ -60,10 +60,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const ButtonInProgress = ({ frameStyle }) =>
+const ButtonInProgress = ({ frameStyle }) => (
   <View style={frameStyle}>
     <ActivityIndicator color="white" />
-  </View>;
+  </View>
+);
 
 const ButtonNormal = ({
   frameStyle,
@@ -73,7 +74,7 @@ const ButtonNormal = ({
   onPress,
   icon,
   iconStyle,
-}) =>
+}) => (
   <View style={frameStyle}>
     <Touchable style={touchTargetStyle} onPress={onPress}>
       <View style={styles.buttonContent}>
@@ -83,7 +84,8 @@ const ButtonNormal = ({
         </Text>
       </View>
     </Touchable>
-  </View>;
+  </View>
+);
 
 export default class ZulipButton extends PureComponent {
   props: {

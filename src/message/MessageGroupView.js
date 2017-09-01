@@ -33,9 +33,7 @@ export default class MessageGroupView extends PureComponent {
           <Text style={[styles.threadGroupStreamText, { backgroundColor: stream.color }]}>
             {stream.name}
           </Text>
-          <Text style={styles.threadGroupThreadText}>
-            {thread}
-          </Text>
+          <Text style={styles.threadGroupThreadText}>{thread}</Text>
         </View>
         {children}
       </View>

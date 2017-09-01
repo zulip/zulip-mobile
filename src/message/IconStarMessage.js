@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default () =>
+export default () => (
   <View style={styles.iconWrapper}>
     <IconStar style={styles.iconStar} />
-  </View>;
+  </View>
+);

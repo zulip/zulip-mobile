@@ -30,9 +30,7 @@ export default class HtmlTagLi extends PureComponent {
     return (
       <View style={[styles.li, style]}>
         <HtmlNodeText style={styles.bullet} data={` ${BULLET}  `} />
-        <View style={customStyles.text}>
-          {renderHtmlChildren({ ...restProps })}
-        </View>
+        <View style={customStyles.text}>{renderHtmlChildren({ ...restProps })}</View>
       </View>
     );
   }

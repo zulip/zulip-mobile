@@ -45,18 +45,21 @@ export default class MessageTags extends PureComponent {
 
     return (
       <View style={styles.container}>
-        {timestamp &&
+        {timestamp && (
           <View style={styles.tag}>
             <RawLabel style={styles.text} text={`edited ${editedTime} ago`} />
-          </View>}
-        {starred &&
+          </View>
+        )}
+        {starred && (
           <View style={styles.tag}>
             <Label style={styles.text} text={'starred'} />
-          </View>}
-        {isOutbox &&
+          </View>
+        )}
+        {isOutbox && (
           <View style={styles.spinner}>
             <ActivityIndicator />
-          </View>}
+          </View>
+        )}
       </View>
     );
   }

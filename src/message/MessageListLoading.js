@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default () =>
+export default () => (
   <ScrollView contentContainerStyle={styles.list}>
     <MessageLoading />
     <MessageLoading />
@@ -20,4 +20,5 @@ export default () =>
     <MessageLoading />
     <MessageLoading />
     <MessageLoading />
-  </ScrollView>;
+  </ScrollView>
+);

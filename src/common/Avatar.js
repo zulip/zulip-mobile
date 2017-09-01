@@ -48,7 +48,8 @@ class Avatar extends PureComponent {
         avatarUrl={avatarUrl && getFullUrl(avatarUrl, realm)}
         size={size}
         onPress={onPress}
-        shape={shape}>
+        shape={shape}
+      >
         {status && <UserStatusIndicator style={componentStyles.status} status={status} />}
       </AvatarComponent>
     );

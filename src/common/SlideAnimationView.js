@@ -27,10 +27,6 @@ export default class SlideAnimationView extends PureComponent {
     });
 
     const slideStyle = { transform: [{ [property]: animationValue }] };
-    return (
-      <Animated.View style={[style, slideStyle]}>
-        {this.props.children}
-      </Animated.View>
-    );
+    return <Animated.View style={[style, slideStyle]}>{this.props.children}</Animated.View>;
   }
 }
