@@ -30,7 +30,7 @@ class StreamAutocomplete extends PureComponent {
           initialNumToRender={streams.length}
           data={streams}
           keyExtractor={item => item.stream_id}
-          renderItem={({ item }) =>
+          renderItem={({ item }) => (
             <StreamItem
               name={item.name}
               isMuted={!item.in_home_view}
@@ -38,7 +38,8 @@ class StreamAutocomplete extends PureComponent {
               iconSize={12}
               color={item.color}
               onPress={() => onAutocomplete(item.name)}
-            />}
+            />
+          )}
         />
       </Popup>
     );

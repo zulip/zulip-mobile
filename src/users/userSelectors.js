@@ -105,7 +105,10 @@ export const filterUserByInitials = (
   users.filter(
     user =>
       user.email !== ownEmail &&
-      user.fullName.replace(/(\s|[a-z])/g, '').toLowerCase().startsWith(filter.toLowerCase()),
+      user.fullName
+        .replace(/(\s|[a-z])/g, '')
+        .toLowerCase()
+        .startsWith(filter.toLowerCase()),
   );
 
 export const filterUserThatContains = (

@@ -6,24 +6,14 @@ import StylesProvider from '../StylesProvider';
 import store from '../store';
 
 export const rendererWithStore = WrappedComponent =>
-  renderer.create(
-    <Provider store={store}>
-      {WrappedComponent}
-    </Provider>,
-  );
+  renderer.create(<Provider store={store}>{WrappedComponent}</Provider>);
 
 export const rendererWithStyle = WrappedComponent =>
-  renderer.create(
-    <StylesProvider>
-      {WrappedComponent}
-    </StylesProvider>,
-  );
+  renderer.create(<StylesProvider>{WrappedComponent}</StylesProvider>);
 
 export const rendererWithStoreAndStyle = WrappedComponent =>
   renderer.create(
     <Provider store={store}>
-      <StylesProvider>
-        {WrappedComponent}
-      </StylesProvider>
+      <StylesProvider>{WrappedComponent}</StylesProvider>
     </Provider>,
   );

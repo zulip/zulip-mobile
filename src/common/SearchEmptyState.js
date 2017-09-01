@@ -36,8 +36,9 @@ export default class SearchEmptyState extends React.PureComponent {
     return (
       <View style={styles.container}>
         <Label style={styles.text} text={text} />
-        {buttonAction &&
-          <ZulipButton style={styles.button} secondary text={buttonText} onPress={buttonAction} />}
+        {buttonAction && (
+          <ZulipButton style={styles.button} secondary text={buttonText} onPress={buttonAction} />
+        )}
       </View>
     );
   }

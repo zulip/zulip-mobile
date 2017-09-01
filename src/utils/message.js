@@ -5,7 +5,11 @@ import { NULL_SUBSCRIPTION } from '../nullObjects';
 export const normalizeRecipients = (recipients: Recipient[]) =>
   !Array.isArray(recipients)
     ? recipients
-    : recipients.map(s => s.email.trim()).filter(x => x.length > 0).sort().join(',');
+    : recipients
+        .map(s => s.email.trim())
+        .filter(x => x.length > 0)
+        .sort()
+        .join(',');
 
 export const normalizeRecipientsSansMe = (recipients: Recipient[], ownEmail: string) =>
   recipients.length === 1
@@ -15,7 +19,10 @@ export const normalizeRecipientsSansMe = (recipients: Recipient[], ownEmail: str
 export const getRecipientsIds = (recipients: Recipient[], ownEmail?: string): string =>
   recipients.length === 2
     ? recipients.filter(r => r.email !== ownEmail)[0].id.toString()
-    : recipients.map(s => s.id).sort((a, b) => a - b).join(',');
+    : recipients
+        .map(s => s.id)
+        .sort((a, b) => a - b)
+        .join(',');
 
 export const isSameRecipient = (message1: Message, message2: Message): boolean => {
   if (message1 === undefined || message2 === undefined) {

@@ -32,7 +32,7 @@ export default class TitleGroup extends PureComponent {
     return (
       <Touchable onPress={this.handlePress}>
         <View style={styles.wrapper}>
-          {recipients.map(user =>
+          {recipients.map(user => (
             <View key={user.email} style={styles.avatar}>
               <Avatar
                 size={32}
@@ -40,8 +40,8 @@ export default class TitleGroup extends PureComponent {
                 avatarUrl={user.avatarUrl}
                 onPress={this.handlePress}
               />
-            </View>,
-          )}
+            </View>
+          ))}
         </View>
       </Touchable>
     );

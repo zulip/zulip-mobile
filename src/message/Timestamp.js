@@ -21,9 +21,7 @@ export default class Timestamp extends PureComponent {
   render() {
     const { timestamp, twentyFourHourTime } = this.props;
     return (
-      <Text style={styles.time}>
-        {shortTime(new Date(timestamp * 1000), twentyFourHourTime)}
-      </Text>
+      <Text style={styles.time}>{shortTime(new Date(timestamp * 1000), twentyFourHourTime)}</Text>
     );
   }
 }

@@ -113,7 +113,8 @@ export default class InfiniteScrollView extends PureComponent {
         ref={component => {
           const { listRef } = this.props;
           if (listRef) listRef(component);
-        }}>
+        }}
+      >
         {this.props.children}
       </AnchorScrollView>
     );

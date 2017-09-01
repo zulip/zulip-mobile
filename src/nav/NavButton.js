@@ -18,14 +18,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 26,
   },
-  circle: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    right: 6,
-    top: 6,
-    position: 'absolute',
-  },
 });
 
 export default class NavButton extends PureComponent {
@@ -52,7 +44,8 @@ export default class NavButton extends PureComponent {
         overlaySize={20}
         color="transparent"
         overlay={<UnreadCount count={unreadCount} />}
-        onPress={onPress}>
+        onPress={onPress}
+      >
         <Icon style={[styles.icon, style]} color={color || BRAND_COLOR} name={name} />
       </ComponentWithOverlay>
     );

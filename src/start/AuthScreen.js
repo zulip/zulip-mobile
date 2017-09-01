@@ -134,20 +134,22 @@ class AuthScreen extends PureComponent {
       <Screen title="Sign in" keyboardAvoiding>
         <View style={styles.container}>
           <RawLabel text={this.props.realm} editable={false} />
-          {authBackends.includes('dev') &&
+          {authBackends.includes('dev') && (
             <ZulipButton
               text="Sign in with dev account"
               onPress={() => this.handleTypeSelect('dev')}
-            />}
+            />
+          )}
           {authBackends.includes('password') && <PasswordAuthView />}
           {authBackends.includes('google') &&
-            this.shouldShowOAuth() &&
+          this.shouldShowOAuth() && (
             <ZulipButton
               secondary
               text="Sign in with Google"
               icon="logo-google"
               onPress={() => this.handleTypeSelect('google')}
-            />}
+            />
+          )}
         </View>
       </Screen>
     );

@@ -26,12 +26,13 @@ export default class LanguagePicker extends PureComponent {
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         data={languages}
         keyExtractor={item => item.locale}
-        renderItem={({ item }) =>
+        renderItem={({ item }) => (
           <LanguagePickerItem
             selected={item.locale === value}
             onValueChange={onValueChange}
             {...item}
-          />}
+          />
+        )}
       />
     );
   }

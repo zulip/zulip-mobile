@@ -36,9 +36,7 @@ export default class TimeRow extends PureComponent {
     return (
       <View style={styles.row}>
         <View style={styles.line} />
-        <Text style={styles.time}>
-          {displayDate}
-        </Text>
+        <Text style={styles.time}>{displayDate}</Text>
         <View style={styles.line} />
       </View>
     );

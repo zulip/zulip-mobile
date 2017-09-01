@@ -35,7 +35,7 @@ export default ({
         !(x.attribs && x.attribs['aria-hidden'] === 'true') &&
         x.name !== 'annotation',
     )
-    .map((node, index) =>
+    .map((node, index) => (
       <HtmlNode
         key={index} // eslint-disable-line react/no-array-index-key
         auth={auth}
@@ -49,5 +49,5 @@ export default ({
         childrenNodes={node.children}
         onPress={onPress}
         message={message}
-      />,
-    );
+      />
+    ));

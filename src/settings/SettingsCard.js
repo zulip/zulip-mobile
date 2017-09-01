@@ -22,9 +22,6 @@ const styles = StyleSheet.create({
     padding: 6,
     paddingLeft: 0,
   },
-  optionList: {
-    flex: 1,
-  },
   divider: {
     height: 30,
   },

@@ -58,7 +58,10 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
 
     return `
       <div id="${item.id}" class="private-header header" data-narrow="${privateNarrowStr}">
-        ${recipients.map(r => r.full_name).sort().join(', ')}
+        ${recipients
+          .map(r => r.full_name)
+          .sort()
+          .join(', ')}
       </div>
     `;
   }

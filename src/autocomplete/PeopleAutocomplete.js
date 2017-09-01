@@ -34,7 +34,7 @@ class PeopleAutocomplete extends PureComponent {
           initialNumToRender={10}
           data={people}
           keyExtractor={item => item.email}
-          renderItem={({ item }) =>
+          renderItem={({ item }) => (
             <UserItem
               fullName={item.fullName}
               avatarUrl={item.avatarUrl}
@@ -42,7 +42,8 @@ class PeopleAutocomplete extends PureComponent {
               status={item.status}
               showEmail
               onPress={() => onAutocomplete(item.fullName)}
-            />}
+            />
+          )}
         />
       </Popup>
     );

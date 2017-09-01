@@ -38,9 +38,6 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     color: 'transparent',
   },
-  countCommon: {
-    marginLeft: 4,
-  },
   countVoted: {
     color: BRAND_COLOR,
   },
@@ -136,31 +133,27 @@ class Reaction extends PureComponent {
     return (
       <Touchable onPress={this.handlePress} style={styles.touchable}>
         <View style={[styles.frameCommon, frameStyle]}>
-          {emojiMap[name]
-            ? <Emoji name={name} />
-            : realmEmoji[name] ? <RealmEmoji name={name} /> : <Emoji name={'copyright'} />}
+          {emojiMap[name] ? (
+            <Emoji name={name} />
+          ) : realmEmoji[name] ? (
+            <RealmEmoji name={name} />
+          ) : (
+            <Emoji name={'copyright'} />
+          )}
 
           <Animated.View style={this.dynamicSpinnerStyles()}>
             <View style={styles.spinnerTextContainer}>
-              <Text style={countStyle}>
-                {voteCount - 1}
-              </Text>
+              <Text style={countStyle}>{voteCount - 1}</Text>
             </View>
             <View style={styles.spinnerTextContainer}>
-              <Text style={countStyle}>
-                {voteCount}
-              </Text>
+              <Text style={countStyle}>{voteCount}</Text>
             </View>
             <View style={styles.spinnerTextContainer}>
-              <Text style={countStyle}>
-                {voteCount + 1}
-              </Text>
+              <Text style={countStyle}>{voteCount + 1}</Text>
             </View>
           </Animated.View>
 
-          <Text style={styles.placeholderCount}>
-            {voteCount}
-          </Text>
+          <Text style={styles.placeholderCount}>{voteCount}</Text>
         </View>
       </Touchable>
     );

@@ -27,10 +27,6 @@ export default class AnimatedHeightComponent extends PureComponent {
       height: this.animatedValue,
     };
 
-    return (
-      <Animated.View style={animatedStyle}>
-        {children}
-      </Animated.View>
-    );
+    return <Animated.View style={animatedStyle}>{children}</Animated.View>;
   }
 }

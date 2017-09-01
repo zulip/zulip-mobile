@@ -22,14 +22,15 @@ export default class AccountList extends PureComponent {
           keyboardShouldPersistTaps="always"
           data={accounts}
           keyExtractor={item => `${item.email}${item.realm}`}
-          renderItem={({ item, index }) =>
+          renderItem={({ item, index }) => (
             <AccountItem
               index={index}
               showDoneIcon={index === 0 && auth.apiKey !== '' && auth.apiKey === item.apiKey}
               {...item}
               onSelect={onAccountSelect}
               onRemove={onAccountRemove}
-            />}
+            />
+          )}
         />
       </View>
     );

@@ -15,10 +15,6 @@ export default class HtmlTagSpan extends PureComponent {
   render() {
     const { style, cascadingStyle, ...restProps } = this.props;
 
-    return (
-      <View style={[style, cascadingStyle]}>
-        {renderHtmlChildren({ ...restProps })}
-      </View>
-    );
+    return <View style={[style, cascadingStyle]}>{renderHtmlChildren({ ...restProps })}</View>;
   }
 }

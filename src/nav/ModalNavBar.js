@@ -63,18 +63,19 @@ class ModalNavBar extends PureComponent {
       titleColor ? { color: titleColor } : {},
     ];
     const content =
-      React.Children.count(this.props.children) === 0
-        ? <Label style={textStyle} text={title} />
-        : this.props.children;
+      React.Children.count(this.props.children) === 0 ? (
+        <Label style={textStyle} text={title} />
+      ) : (
+        this.props.children
+      );
 
     return (
       <View style={[styles.navBar, style]}>
         {nav.index > 0 &&
-          !isRightItemNav &&
-          <NavButton name="ios-arrow-back" color={itemsColor} onPress={actions.navigateBack} />}
-        <View style={[customStyles.centerItem, childrenStyle]}>
-          {content}
-        </View>
+        !isRightItemNav && (
+          <NavButton name="ios-arrow-back" color={itemsColor} onPress={actions.navigateBack} />
+        )}
+        <View style={[customStyles.centerItem, childrenStyle]}>{content}</View>
         {rightItem && <NavButton color={itemsColor} {...rightItem} />}
       </View>
     );

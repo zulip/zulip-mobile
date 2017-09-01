@@ -85,7 +85,8 @@ class RealmScreen extends PureComponent {
         <ScrollView
           contentContainerStyle={styles.container}
           centerContent
-          keyboardShouldPersistTaps="always">
+          keyboardShouldPersistTaps="always"
+        >
           <Label text="Your server URL" />
           <Input
             style={styles.field}

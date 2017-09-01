@@ -98,16 +98,18 @@ export default class StreamItem extends PureComponent {
           </View>
           <View style={styles.text}>
             <RawLabel style={[isSelected && styles.selectedText]} text={name} />
-            {!!description &&
-              <RawLabel numberOfLines={1} style={styles.description} text={description} />}
+            {!!description && (
+              <RawLabel numberOfLines={1} style={styles.description} text={description} />
+            )}
           </View>
           {unreadCount && <UnreadCount count={unreadCount} inverse={isSelected} />}
-          {showSwitch &&
+          {showSwitch && (
             <ZulipSwitch
               defaultValue={isSwitchedOn}
               onValueChange={this.handleSwitch}
               disabled={!isSwitchedOn && isPrivate}
-            />}
+            />
+          )}
         </View>
       </Touchable>
     );

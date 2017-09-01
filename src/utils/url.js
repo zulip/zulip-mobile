@@ -19,7 +19,12 @@ export const isUrlOnRealm = (url: string, realm: string): boolean =>
   url.startsWith('/') || url.startsWith(realm);
 
 export const isUrlInAppLink = (url: string, realm: string): boolean =>
-  isUrlOnRealm(url, realm) ? url.split(realm).pop().startsWith('/#narrow') : false;
+  isUrlOnRealm(url, realm)
+    ? url
+        .split(realm)
+        .pop()
+        .startsWith('/#narrow')
+    : false;
 
 export const isMessageLink = (url: string, realm: string): boolean =>
   isUrlInAppLink(url, realm) && url.includes('near');
@@ -43,7 +48,10 @@ export const getEmojiUrl = (unicode: string): string =>
   `/static/generated/emoji/images/emoji/unicode/${unicode}.png`;
 
 export const getNarrowFromLink = (url: string, realm: string, users: any[]): [] => {
-  const paths = url.split(realm).pop().split('/');
+  const paths = url
+    .split(realm)
+    .pop()
+    .split('/');
   if (isGroupLink(url, realm)) {
     const recipients = paths[paths.length - 1].split('-')[0].split(',');
     return groupNarrow(
@@ -65,7 +73,10 @@ export const getNarrowFromLink = (url: string, realm: string, users: any[]): [] 
 };
 
 export const getMessageIdFromLink = (url: string, realm: string) => {
-  const paths = url.split(realm).pop().split('/');
+  const paths = url
+    .split(realm)
+    .pop()
+    .split('/');
   return isMessageLink(url, realm) ? parseInt(paths[paths.lastIndexOf('near') + 1], 10) : undefined;
 };
 

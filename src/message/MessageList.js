@@ -59,7 +59,8 @@ export default class MessageList extends PureComponent {
         onEndReached={actions.fetchNewer}
         listRef={listRef}
         onScroll={onScroll}
-        onReplySelect={onReplySelect}>
+        onReplySelect={onReplySelect}
+      >
         <LoadingIndicator active={fetchingOlder} />
         {messageList}
         {!singleFetchProgress && fetchingNewer && <LoadingIndicator active />}

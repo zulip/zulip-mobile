@@ -78,8 +78,9 @@ export default class Input extends PureComponent {
         <FormattedMessage
           id={placeholderMessage}
           defaultMessage={placeholderMessage}
-          values={placeholder.values}>
-          {text =>
+          values={placeholder.values}
+        >
+          {text => (
             <TextInput
               style={[styles.input, style]}
               placeholder={text}
@@ -90,13 +91,15 @@ export default class Input extends PureComponent {
               }}
               onChangeText={this.handleChangeText}
               {...restProps}
-            />}
+            />
+          )}
         </FormattedMessage>
         {clearButton &&
-          canBeCleared &&
+        canBeCleared && (
           <Touchable onPress={this.handleClear} style={localStyles.clearButtonContainer}>
             <Icon name="md-add" size={30} style={localStyles.clearButtonIcon} />
-          </Touchable>}
+          </Touchable>
+        )}
       </View>
     );
   }

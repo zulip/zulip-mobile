@@ -20,9 +20,6 @@ const componentStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  button: {
-    margin: 8,
-  },
 });
 
 class StreamSidebar extends PureComponent {

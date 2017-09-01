@@ -12,11 +12,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
-  groupHeader: {
-    fontWeight: 'bold',
-    paddingLeft: 8,
-    fontSize: 18,
-  },
   emptySlate: {
     flex: 1,
     textAlign: 'center',
@@ -44,17 +39,15 @@ export default class ConversationList extends PureComponent {
         data={conversations}
         keyExtractor={item => item.recipients}
         renderItem={({ item }) =>
-          item.recipients.indexOf(',') === -1 // if single recipient
-            ? <ConversationUser
-                email={item.recipients}
-                unreadCount={item.unread}
-                onPress={onPress}
-              />
-            : <ConversationGroup
-                email={item.recipients}
-                unreadCount={item.unread}
-                onPress={onPress}
-              />}
+          item.recipients.indexOf(',') === -1 ? ( // if single recipient
+            <ConversationUser email={item.recipients} unreadCount={item.unread} onPress={onPress} />
+          ) : (
+            <ConversationGroup
+              email={item.recipients}
+              unreadCount={item.unread}
+              onPress={onPress}
+            />
+          )}
       />
     );
   }

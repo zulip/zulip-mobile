@@ -13,19 +13,6 @@ const styles = StyleSheet.create({
   optionWrapper: {
     flex: 1,
   },
-  optionRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 8,
-  },
-  optionTitle: {
-    padding: 8,
-    fontWeight: 'bold',
-  },
-  optionList: {
-    flex: 1,
-  },
 });
 
 class SettingsDetailScreen extends PureComponent {
@@ -61,9 +48,7 @@ class SettingsDetailScreen extends PureComponent {
     const { title, setting } = this.props.navigation.state.params;
     return (
       <Screen title={title}>
-        <View style={styles.optionWrapper}>
-          {this.renderSettings(setting)}
-        </View>
+        <View style={styles.optionWrapper}>{this.renderSettings(setting)}</View>
       </Screen>
     );
   }
