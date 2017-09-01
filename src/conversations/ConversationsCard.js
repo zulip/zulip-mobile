@@ -48,7 +48,7 @@ export default class ConversationsCard extends PureComponent {
   narrowAndClose = (narrow: Narrow) => {
     const { actions, usersNavigation } = this.props;
     usersNavigation.navigate('DrawerClose');
-    setTimeout(() => actions.doNarrow(narrow), 100);
+    setTimeout(() => actions.doNarrow(narrow), 200);
   };
 
   handleUserNarrow = (email: string) => {
