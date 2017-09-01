@@ -4,7 +4,6 @@ import { View, StyleSheet, Dimensions, Easing } from 'react-native';
 import { connect } from 'react-redux';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
-import type { HigherOrderComponent } from 'react-flow-types'; // eslint-disable-line
 
 import type { Actions, Auth, Message, ImageResource, Connector } from '../types';
 import { getAuth } from '../selectors';
@@ -155,5 +154,4 @@ const connector: Connector<OwnProps, $Diff<Props, ActionSheetProps>> = connect(
   boundActions,
 );
 
-const actionSheetConnector: HigherOrderComponent<OwnProps, Props> = connectActionSheet; // eslint-disable-line
-export default actionSheetConnector(connector(LightboxContainer));
+export default connectActionSheet(connector(LightboxContainer));
