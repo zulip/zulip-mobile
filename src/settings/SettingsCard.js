@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Auth, Actions } from '../types';
+import { WebLink } from '../common';
 import toggleMobilePushSettings from '../api/toggleMobilePushSettings';
 import OptionRow from './OptionRow';
 import OptionButton from './OptionButton';
@@ -13,6 +14,9 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 30,
+  },
+  padding: {
+    padding: 16,
   },
 });
 
@@ -70,6 +74,10 @@ export default class SettingsCard extends PureComponent {
         <OptionButton label="Language" onPress={actions.navigateToLanguage} />
         <View style={styles.divider} />
         <OptionButton label="Diagnostics" onPress={actions.navigateToDiagnostics} />
+        <View style={styles.padding}>
+          <WebLink label="Terms of service" href="/terms/" />
+          <WebLink label="Privacy policy" href="/privacy/" />
+        </View>
       </View>
     );
   }

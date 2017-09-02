@@ -6,9 +6,8 @@ import { connect } from 'react-redux';
 import type { Actions, Auth } from '../types';
 import boundActions from '../boundActions';
 import { fetchApiKey } from '../api';
-import { ErrorMsg, ZulipButton, Input, Touchable, Label } from '../common';
+import { ErrorMsg, ZulipButton, Input, WebLink } from '../common';
 import { getAuth, getOwnEmail } from '../selectors';
-import openLink from '../utils/openLink';
 
 type Props = {
   actions: Actions,
@@ -82,8 +81,7 @@ class PasswordAuthView extends PureComponent {
   render() {
     const { styles } = this.context;
     const { email, password, progress, error } = this.state;
-    const { auth } = this.props;
-    const forgotPasswordLink = `${auth.realm}/accounts/password/reset/`;
+
     return (
       <View style={componentStyles.container}>
         <Input
@@ -109,13 +107,7 @@ class PasswordAuthView extends PureComponent {
         <ZulipButton text="Sign in with password" progress={progress} onPress={this.validateForm} />
         <ErrorMsg error={error} />
         <View style={componentStyles.linksTouchable}>
-          <Touchable>
-            <Label
-              style={[styles.link]}
-              onPress={() => openLink(forgotPasswordLink)}
-              text="Forgot password?"
-            />
-          </Touchable>
+          <WebLink label="Forgot password?" href="/accounts/password/reset/" />
         </View>
       </View>
     );

@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import boundActions from '../boundActions';
 import { nullFunction } from '../nullObjects';
 import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
@@ -56,9 +55,6 @@ class Avatar extends PureComponent {
   }
 }
 
-export default connect(
-  state => ({
-    realm: getCurrentRealm(state),
-  }),
-  boundActions,
-)(Avatar);
+export default connect(state => ({
+  realm: getCurrentRealm(state),
+}))(Avatar);
