@@ -5,6 +5,7 @@ import type { GlobalState } from '../types';
 import boundActions from '../boundActions';
 import { getAuth, getLastTopicInActiveNarrow, canSendToActiveNarrow } from '../selectors';
 import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelectors';
+import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
 import ComposeBox from './ComposeBox';
 
 export default connect(
@@ -17,7 +18,7 @@ export default connect(
     isSubscribed: getIsActiveStreamSubscribed(state),
     canSend: canSendToActiveNarrow(state),
     editMessage: state.app.editMessage,
-    drafts: state.drafts,
+    draft: getDraftForActiveNarrow(state),
   }),
   boundActions,
 )(ComposeBox);

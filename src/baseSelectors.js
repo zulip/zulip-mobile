@@ -3,6 +3,8 @@ import type { GlobalState, Narrow, Message, Subscription, Stream, Presence, Outb
 
 export const getApp = (state: GlobalState): Object => state.app;
 
+export const getDrafts = (state: GlobalState): Object => state.drafts;
+
 export const getMute = (state: GlobalState): Object => state.mute;
 
 export const getTyping = (state: GlobalState): Object => state.typing;

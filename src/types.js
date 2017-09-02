@@ -428,4 +428,4 @@ export type RenderedSectionDescriptor = {
   data: ItemDescriptor[],
 };
 
-export type DraftState = {};
+export type DraftState = { string: string };

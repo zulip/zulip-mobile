@@ -15,6 +15,8 @@ import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import { registerUserInputActivity } from '../utils/activity';
 import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
 import NotSubscribed from '../message/NotSubscribed';
+import { getDrafts, getActiveNarrowString } from '../baseSelectors';
+import { NULL_DRAFT } from '../nullObjects';
 
 const MIN_HEIGHT = 46;
 const MAX_HEIGHT = 100;
@@ -144,18 +146,16 @@ export default class ComposeBox extends PureComponent {
   };
 
   componentWillUnmount() {
-    const { drafts } = this.props;
-    const thisNarrow = JSON.stringify(this.props.narrow);
-    if (this.state.message !== '' && drafts[thisNarrow] !== this.state.message) {
-      this.props.actions.saveToDrafts(thisNarrow, this.state.message);
+    const { draft, narrow } = this.props;
+    if (this.state.message !== '' && draft !== this.state.message) {
+      this.props.actions.saveToDrafts(JSON.stringify(narrow), this.state.message);
     }
   }
 
   componentWillMount() {
-    const { drafts } = this.props;
-    const thisNarrow = JSON.stringify(this.props.narrow);
-    if (drafts[thisNarrow]) {
-      this.setState({ message: drafts[thisNarrow] });
+    const { draft } = this.props;
+    if (draft) {
+      this.setState({ message: draft });
     }
   }
 
@@ -166,15 +166,13 @@ export default class ComposeBox extends PureComponent {
       });
       this.messageInput.focus();
     } else if (!isEqual(nextProps.narrow, this.props.narrow)) {
-      const { drafts } = this.props;
-      const thisNarrow = JSON.stringify(this.props.narrow);
-      const nextNarrow = JSON.stringify(nextProps.narrow);
-      if (this.state.message !== '' && drafts[thisNarrow] !== this.state.message) {
-        this.props.actions.saveToDrafts(thisNarrow, this.state.message);
+      const { draft, narrow } = this.props;
+      if (this.state.message !== '' && draft !== this.state.message) {
+        this.props.actions.saveToDrafts(JSON.stringify(narrow), this.state.message);
       }
 
-      if (drafts[nextNarrow]) {
-        this.setState({ message: drafts[nextNarrow] });
+      if (nextProps.draft) {
+        this.setState({ message: nextProps.draft });
       } else {
         this.clearMessageInput();
       }
