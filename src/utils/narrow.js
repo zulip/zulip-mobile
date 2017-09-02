@@ -1,5 +1,4 @@
 /* @flow */
-import isEqual from 'lodash.isequal';
 import type { Narrow, Message } from '../types';
 import { normalizeRecipients } from './message';
 
@@ -138,6 +137,3 @@ export const narrowFromMessage = (message: Message, email: string) => {
 
   return streamNarrow(message.display_recipient);
 };
-
-export const compareNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
-  isEqual(narrow1, narrow2);

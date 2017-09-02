@@ -19,7 +19,6 @@ import {
   isMessageInNarrow,
   isStreamOrTopicNarrow,
   narrowFromMessage,
-  compareNarrow,
 } from '../narrow';
 
 describe('homeNarrow', () => {
@@ -327,27 +326,5 @@ describe('narrowFromMessage', () => {
     const actualNarrow = narrowFromMessage(message);
 
     expect(actualNarrow).toEqual(expectedNarrow);
-  });
-
-  describe('compareNarrow', () => {
-    const testCases = [
-      [streamNarrow('denmark'), streamNarrow('denmark'), true],
-      [homeNarrow, streamNarrow('denmark'), false],
-      [privateNarrow('hamlet@zulip.com'), streamNarrow('denmark'), false],
-      [undefined, homeNarrow, false],
-      [topicNarrow('stream', 'subject'), topicNarrow('stream', 'diff'), false],
-      [streamNarrow('denmark'), undefined, false],
-      [
-        groupNarrow(['1@example.com', '2@example.com', '3@example.com']),
-        groupNarrow(['1@example.com', '2@example.com', '3@example.com']),
-        true,
-      ],
-    ];
-
-    testCases.forEach(testCase =>
-      test('Compare two narrows', () => {
-        expect(isEqual(testCase[0], testCase[1])).toBe(testCase[2]);
-      }),
-    );
   });
 });

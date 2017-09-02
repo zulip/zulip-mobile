@@ -1,13 +1,14 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
+import isEqual from 'lodash.isequal';
 
 import type { Auth, Narrow, EditMessage, InputSelectionType, User, Actions } from '../types';
 import patchMessage from '../api/updateMessage';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
 import { showErrorAlert } from '../common/errorAlert';
 import { IconDone, IconSend } from '../common/Icons';
-import { isStreamNarrow, topicNarrow, compareNarrow } from '../utils/narrow';
+import { isStreamNarrow, topicNarrow } from '../utils/narrow';
 import ComposeMenuContainer from './ComposeMenuContainer';
 import AutoCompleteView from '../autocomplete/AutoCompleteView';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
@@ -164,7 +165,7 @@ export default class ComposeBox extends PureComponent {
         message: nextProps.editMessage ? nextProps.editMessage.content : '',
       });
       this.messageInput.focus();
-    } else if (!compareNarrow(nextProps.narrow, this.props.narrow)) {
+    } else if (!isEqual(nextProps.narrow, this.props.narrow)) {
       const { drafts } = this.props;
       const thisNarrow = JSON.stringify(this.props.narrow);
       const nextNarrow = JSON.stringify(nextProps.narrow);
