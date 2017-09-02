@@ -14,6 +14,7 @@ import mute from './mute/muteReducers';
 import nav from './nav/navReducers';
 import realm from './realm/realmReducers';
 import outbox from './outbox/outboxReducers';
+import drafts from './drafts/draftsReducers';
 import settings from './settings/settingsReducers';
 import streams from './streams/streamsReducers';
 import subscriptions from './subscriptions/subscriptionsReducers';
@@ -43,6 +44,7 @@ export default enableBatching(
     caughtUp,
     chat,
     fetching,
+    drafts,
     flags,
     mute,
     nav,

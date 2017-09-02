@@ -1,6 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
+import isEqual from 'lodash.isequal';
 
 import type { Auth, Narrow, EditMessage, InputSelectionType, User, Actions } from '../types';
 import patchMessage from '../api/updateMessage';
@@ -14,6 +15,8 @@ import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import { registerUserInputActivity } from '../utils/activity';
 import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
 import NotSubscribed from '../message/NotSubscribed';
+import { getDrafts, getActiveNarrowString } from '../baseSelectors';
+import { NULL_DRAFT } from '../nullObjects';
 
 const MIN_HEIGHT = 46;
 const MAX_HEIGHT = 100;
@@ -47,6 +50,7 @@ type Props = {
   actions: Actions,
   messageInputRef: (component: Object) => void,
   onSend: () => void,
+  drafts: { string: string },
 };
 
 export default class ComposeBox extends PureComponent {
@@ -141,12 +145,37 @@ export default class ComposeBox extends PureComponent {
     this.setState({ message: input });
   };
 
+  componentWillUnmount() {
+    const { draft, narrow } = this.props;
+    if (this.state.message !== '' && draft !== this.state.message) {
+      this.props.actions.saveToDrafts(JSON.stringify(narrow), this.state.message);
+    }
+  }
+
+  componentWillMount() {
+    const { draft } = this.props;
+    if (draft) {
+      this.setState({ message: draft });
+    }
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
       this.setState({
         message: nextProps.editMessage ? nextProps.editMessage.content : '',
       });
       this.messageInput.focus();
+    } else if (!isEqual(nextProps.narrow, this.props.narrow)) {
+      const { draft, narrow } = this.props;
+      if (this.state.message !== '' && draft !== this.state.message) {
+        this.props.actions.saveToDrafts(JSON.stringify(narrow), this.state.message);
+      }
+
+      if (nextProps.draft) {
+        this.setState({ message: nextProps.draft });
+      } else {
+        this.clearMessageInput();
+      }
     }
   }
 

@@ -1,3 +1,5 @@
+import isEqual from 'lodash.isequal';
+
 import {
   homeNarrow,
   isHomeNarrow,
