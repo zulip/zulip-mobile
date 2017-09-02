@@ -60,7 +60,7 @@
   "Forgot password?": "Forgot password?",
   "Members": "Members",
   "Group details": "Group details",
-  "Delete message": "Delete message",
+  "Delete message": "Üzenet törlése",
   "Notifications when online": "Notifications when online",
   "Notifications when offline": "Notifications when offline",
   "Unread": "Unread",
@@ -69,5 +69,7 @@
   "No streams found": "No streams found",
   "New group chat": "New group chat",
   "Diagnostics": "Diagnostics",
-  "Toggle compose tools": "Toggle compose tools"
+  "Toggle compose tools": "Toggle compose tools",
+  "Terms of service": "Terms of service",
+  "Privacy policy": "Privacy policy"
 }

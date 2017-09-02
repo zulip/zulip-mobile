@@ -50,6 +50,9 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     color,
     fontSize: 15,
   },
+  padding: {
+    padding: 8,
+  },
   icon: {
     color,
     width: 24,
