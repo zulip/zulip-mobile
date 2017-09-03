@@ -45,6 +45,7 @@ export default class UserList extends PureComponent {
     return (
       <SectionList
         style={[styles.list, style]}
+        keyboardShouldPersistTaps="always"
         initialNumToRender={20}
         sections={sections}
         exraData={selected}
