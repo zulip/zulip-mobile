@@ -2,7 +2,6 @@ import deepFreeze from 'deep-freeze';
 
 import { getDraftForActiveNarrow } from '../draftsSelectors';
 import { topicNarrow } from '../../utils/narrow';
-import { NULL_DRAFT } from '../../nullObjects';
 
 describe('getDraftForActiveNarrow', () => {
   test('return content of draft if exists', () => {
@@ -19,7 +18,8 @@ describe('getDraftForActiveNarrow', () => {
 
     expect(draft).toEqual('content');
   });
-  test('return null of draft if not exists', () => {
+
+  test('return empty string if not exists', () => {
     const state = deepFreeze({
       chat: {
         narrow: topicNarrow('stream', 'topic1'),
@@ -31,6 +31,6 @@ describe('getDraftForActiveNarrow', () => {
 
     const draft = getDraftForActiveNarrow(state);
 
-    expect(draft).toEqual(NULL_DRAFT);
+    expect(draft).toEqual('');
   });
 });

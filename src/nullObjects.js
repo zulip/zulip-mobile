@@ -82,5 +82,3 @@ export const NULL_FETCHING: Fetching = {
   older: false,
   newer: false,
 };
-
-export const NULL_DRAFT: {} = null;
