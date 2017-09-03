@@ -15,6 +15,7 @@ export const StreamsDrawer = DrawerNavigator(
   {
     contentComponent: props => <StreamSidebar navigation={props.navigation} />,
     initialRouteName: 'main',
+    drawerWidth: 300,
   },
 );
 
@@ -33,6 +34,7 @@ export const UsersDrawer = DrawerNavigator(
     contentComponent: props => <ConversationsContainer usersNavigation={props.navigation} />,
     initialRouteName: 'main',
     drawerPosition: 'right',
+    drawerWidth: 300,
   },
 );
 
