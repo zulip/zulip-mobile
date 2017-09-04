@@ -13,5 +13,5 @@ export const getFetchingForActiveNarrow = createSelector(
 export const getIsFetching = createSelector(
   getApp,
   getFetchingForActiveNarrow,
-  (app, fetching) => (app.needsInitialFetch && fetching.older) || fetching.older,
+  (app, fetching) => app.needsInitialFetch || fetching.older || fetching.newer,
 );
