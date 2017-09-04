@@ -14,7 +14,7 @@ import middleware from './middleware';
 //   compose(autoRehydrate(), applyMiddleware(...middleware)),
 // );
 
-const store = compose(autoRehydrate(), applyMiddleware(...middleware))(createStore)(rootReducer);
+const store = compose(applyMiddleware(...middleware), autoRehydrate())(createStore)(rootReducer);
 
 export const restore = (onFinished?: () => void) =>
   persistStore(

@@ -8,13 +8,11 @@ import AppWithNavigationState from './AppWithNavigationState';
 import { getAuth } from '../selectors';
 import { registerAppActivity } from '../utils/activity';
 import { checkCompatibility } from '../api';
-import LoadingScreen from '../start/LoadingScreen';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 import { Auth, Actions } from '../types';
 
 type Props = {
   auth: Auth,
-  isHydrated: boolean,
   needsInitialFetch: boolean,
   actions: Actions,
 };
@@ -37,9 +35,9 @@ class AppContainer extends PureComponent {
   };
 
   handleConnectivityChange = isConnected => {
-    const { actions, needsInitialFetch, isHydrated } = this.props;
+    const { actions, needsInitialFetch } = this.props;
     actions.appOnline(isConnected);
-    if (isHydrated && !needsInitialFetch && isConnected) {
+    if (!needsInitialFetch && isConnected) {
       actions.trySendMessages();
     }
   };
@@ -86,12 +84,6 @@ class AppContainer extends PureComponent {
   };
 
   render() {
-    const { isHydrated } = this.props;
-
-    if (!isHydrated) {
-      return <LoadingScreen />;
-    }
-
     const { compatibilityCheckFail } = this.state;
 
     if (compatibilityCheckFail) {
@@ -109,7 +101,6 @@ class AppContainer extends PureComponent {
 export default connect(
   state => ({
     auth: getAuth(state),
-    isHydrated: state.app.isHydrated,
     needsInitialFetch: state.app.needsInitialFetch,
   }),
   boundActions,
