@@ -23,7 +23,6 @@ const initialState: AppState = {
   composeTools: false,
   eventQueueId: null,
   editMessage: null,
-  isHydrated: false,
   isOnline: true,
   isActive: true,
   lastActivityTime: new Date(),
@@ -45,12 +44,6 @@ export default (state: AppState = initialState, action: Action) => {
       return {
         ...state,
         needsInitialFetch: !!action.apiKey,
-      };
-    case REHYDRATE:
-      return {
-        ...state,
-        needsInitialFetch: !!getAuth(action.payload).apiKey,
-        isHydrated: true,
       };
     case REALM_INIT:
       return {

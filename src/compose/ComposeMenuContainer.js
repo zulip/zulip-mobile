@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import { getAuth } from '../selectors';
 import boundActions from '../boundActions';
 import ComposeMenu from './ComposeMenu';
 
@@ -16,14 +15,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({
-    auth: getAuth(state),
-    isHydrated: state.app.isHydrated,
-    needsInitialFetch: state.app.needsInitialFetch,
-  }),
-  boundActions,
-)(props => (
+export default connect(null, boundActions)(props => (
   <View style={componentStyles.wrapper}>
     <ConnectedComposeMenu {...props} />
   </View>

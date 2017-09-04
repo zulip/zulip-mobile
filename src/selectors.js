@@ -1,6 +1,5 @@
 /* @flow */
 export * from './baseSelectors';
-export * from './app/appSelectors';
 export * from './account/accountSelectors';
 export * from './conversations/conversationsSelectors';
 export * from './caughtup/caughtUpSelectors';

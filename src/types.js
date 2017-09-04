@@ -267,7 +267,6 @@ export type AccountState = Account[];
 
 export type AppState = {
   lastActivityTime: Date,
-  isHydrated: boolean,
   isOnline: boolean,
   isActive: boolean,
   needsInitialFetch: boolean,
