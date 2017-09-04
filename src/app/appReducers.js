@@ -40,51 +40,67 @@ export default (state: AppState = initialState, action: Action) => {
         lastActivityTime: new Date(),
         needsInitialFetch: true,
       };
+
     case LOGIN_SUCCESS:
       return {
         ...state,
         needsInitialFetch: !!action.apiKey,
       };
+
+    case REHYDRATE:
+      return {
+        ...state,
+        needsInitialFetch: !!getAuth(action.payload).apiKey,
+      };
+
     case REALM_INIT:
       return {
         ...state,
         eventQueueId: action.data.queue_id,
       };
+
     case APP_ACTIVITY:
       return {
         ...state,
         lastActivityTime: new Date(),
       };
+
     case APP_ONLINE:
       return {
         ...state,
         isOnline: action.isOnline,
       };
+
     case APP_STATE:
       return {
         ...state,
         isActive: action.isActive,
       };
+
     case INITIAL_FETCH_COMPLETE:
       return {
         ...state,
         needsInitialFetch: false,
       };
+
     case APP_ORIENTATION:
       return {
         ...state,
         orientation: action.orientation,
       };
+
     case TOGGLE_COMPOSE_TOOLS:
       return {
         ...state,
         composeTools: !state.composeTools,
       };
+
     case CANCEL_EDIT_MESSAGE:
       return {
         ...state,
         editMessage: null,
       };
+
     case START_EDIT_MESSAGE:
       return {
         ...state,
@@ -93,10 +109,13 @@ export default (state: AppState = initialState, action: Action) => {
           content: action.message,
         },
       };
+
     case START_OUTBOX_SENDING:
       return { ...state, outboxSending: true };
+
     case FINISHED_OUTBOX_SENDING:
       return { ...state, outboxSending: false };
+
     default:
       return state;
   }
