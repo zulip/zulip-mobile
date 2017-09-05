@@ -1,11 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { AppState, NetInfo, View } from 'react-native';
+import { AppState, BackHandler, NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import AppWithNavigationState from './AppWithNavigationState';
-import { getAuth } from '../selectors';
+import { getAuth, getNavigationIndex } from '../selectors';
 import { registerAppActivity } from '../utils/activity';
 import { checkCompatibility } from '../api';
 import CompatibilityScreen from '../start/CompatibilityScreen';
@@ -48,6 +48,15 @@ class AppContainer extends PureComponent {
     actions.appState(state === 'active');
   };
 
+  handleBackButtonPress = () => {
+    const { navIndex, actions } = this.props;
+    if (navIndex !== 0) {
+      actions.navigateBack();
+      return true;
+    }
+    return false;
+  }
+
   handleMemoryWarning = () => {
     // Release memory here
   };
@@ -56,6 +65,7 @@ class AppContainer extends PureComponent {
     NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
     checkCompatibility().then(res => {
       if (res.status === 400) {
         this.setState({
@@ -102,6 +112,7 @@ export default connect(
   state => ({
     auth: getAuth(state),
     needsInitialFetch: state.app.needsInitialFetch,
+    navIndex: getNavigationIndex(state),
   }),
   boundActions,
 )(AppContainer);
