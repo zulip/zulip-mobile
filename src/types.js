@@ -428,3 +428,9 @@ export type RenderedSectionDescriptor = {
 };
 
 export type DraftState = { string: string };
+
+export type TimingItem = {
+  text: string,
+  start: Date,
+  end: Date,
+};
