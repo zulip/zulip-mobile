@@ -1,8 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Animated, Easing, Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 
 import messageLoadingImg from '../../static/img/message-loading.png';
+import AnimatedRotateComponent from '../animation/AnimatedRotateComponent';
 
 const styles = StyleSheet.create({
   row: {
@@ -15,9 +16,6 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   semiCircle: {
-    width: 32,
-    height: 32,
-    marginBottom: -28,
     alignSelf: 'center',
     borderColor: 'black',
     borderTopWidth: 1,
@@ -25,8 +23,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   logo: {
-    width: 24,
-    height: 24,
     alignSelf: 'center',
     overflow: 'hidden',
   },
@@ -41,44 +37,36 @@ const styles = StyleSheet.create({
 export default class LoadingIndicator extends PureComponent {
   props: {
     active: boolean,
-    caughtUp?: boolean,
+    caughtUp: boolean,
+    size: number,
   };
 
-  rotation: any;
-
-  constructor() {
-    super();
-    this.rotation = new Animated.Value(0);
-  }
-
-  componentDidMount() {
-    this.rotate();
-  }
-
-  rotate() {
-    this.rotation.setValue(0);
-    Animated.timing(this.rotation, {
-      toValue: 1,
-      duration: 2000,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    }).start(() => this.rotate());
-  }
+  static defaultProps = {
+    active: false,
+    caughtUp: false,
+    size: 32,
+  };
 
   render() {
-    const { active, caughtUp } = this.props;
-    const rotation = this.rotation.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['0deg', '360deg'],
-    });
-    const animation = { transform: [{ rotate: rotation }] };
+    const { active, caughtUp, size } = this.props;
 
     return (
       <View style={styles.row}>
         {caughtUp && <View style={styles.line} />}
         <View style={styles.loading}>
-          {active && <Animated.View style={[styles.semiCircle, animation]} />}
-          <Image style={[styles.logo]} source={messageLoadingImg} resizeMode="contain" />
+          {active && (
+            <AnimatedRotateComponent
+              style={[
+                styles.semiCircle,
+                { width: size, height: size, marginBottom: -size / 8 * 7 },
+              ]}
+            />
+          )}
+          <Image
+            style={[styles.logo, { width: size / 4 * 3, height: size / 4 * 3 }]}
+            source={messageLoadingImg}
+            resizeMode="contain"
+          />
         </View>
         {caughtUp && <View style={styles.line} />}
       </View>

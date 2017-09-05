@@ -1,8 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
+import { LoadingIndicator } from '../common';
 
 const styles = StyleSheet.create({
   center: {
@@ -17,7 +18,7 @@ export default class LoadingScreen extends PureComponent {
   render() {
     return (
       <View style={styles.center}>
-        <ActivityIndicator color={BRAND_COLOR} size="large" />
+        <LoadingIndicator active size={64} />
       </View>
     );
   }
