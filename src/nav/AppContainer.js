@@ -13,6 +13,7 @@ import { Auth, Actions } from '../types';
 
 type Props = {
   auth: Auth,
+  navIndex: number,
   needsInitialFetch: boolean,
   actions: Actions,
 };
