@@ -16,6 +16,7 @@ import LoadingScreen from '../start/LoadingScreen';
 import SettingsScreen from '../settings/SettingsScreen';
 import LanguageScreen from '../settings/LanguageScreen';
 import DiagnosticsScreen from '../settings/DiagnosticsScreen';
+import TimingScreen from '../settings/TimingScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import GroupScreen from '../group/GroupScreen';
 
@@ -38,6 +39,7 @@ export default StackNavigator(
     lightbox: { screen: LightboxScreen },
     group: { screen: GroupScreen },
     diagnostics: { screen: DiagnosticsScreen },
+    timing: { screen: TimingScreen },
   },
   {
     initialRouteName: 'main',
