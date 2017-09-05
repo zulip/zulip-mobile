@@ -28,13 +28,26 @@ export default class LightboxScreen extends PureComponent {
     },
   };
 
+  state: {
+    movement: string,
+  };
+
+  state = {
+    movement: 'in',
+  };
+
+  handleImagePress = (movement: string) => {
+    this.setState({ movement });
+  }
+
   render() {
     const { src, message } = this.props.navigation.state.params;
+    const { movement } = this.state;
     return (
       <View style={styles.screen}>
-        <ZulipStatusBar hidden />
+        <ZulipStatusBar hidden={movement === 'out'} fullScreen />
         <ActionSheetProvider>
-          <LightboxContainer src={src} message={message} />
+          <LightboxContainer src={src} message={message} handleImagePress={this.handleImagePress} />
         </ActionSheetProvider>
       </View>
     );

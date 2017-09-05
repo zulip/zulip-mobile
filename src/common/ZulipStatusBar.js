@@ -26,8 +26,8 @@ class ZulipStatusBar extends PureComponent {
   };
 
   render() {
-    const { theme, backgroundColor, textColor, hidden } = this.props;
-    const style = { height: STATUSBAR_HEIGHT, backgroundColor };
+    const { theme, backgroundColor, textColor, hidden, fullScreen } = this.props;
+    const style = { height: hidden ? 0 : STATUSBAR_HEIGHT, backgroundColor };
     const barStyle = getStatusBarStyle(backgroundColor, textColor, theme);
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
@@ -35,7 +35,7 @@ class ZulipStatusBar extends PureComponent {
         <StatusBar
           animated
           showHideTransition="slide"
-          hidden={hidden && Platform.OS !== 'android'}
+          hidden={hidden && (fullScreen || Platform.OS !== 'android')}
           backgroundColor={Color(statusBarColor).darken(0.4)}
           barStyle={barStyle}
         />
