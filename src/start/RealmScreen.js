@@ -79,13 +79,13 @@ class RealmScreen extends PureComponent {
           centerContent
           keyboardShouldPersistTaps="always"
         >
-          <Label text="Your server URL" />
+          <Label text="URL for your Zulip organization" />
           <Input
             style={styles.field}
             autoFocus
             autoCorrect={false}
             autoCapitalize="none"
-            placeholder="Server URL"
+            placeholder="https://example.zulipchat.com"
             defaultValue={realm}
             onChangeText={value => this.setState({ realm: value })}
             blurOnSubmit={false}
