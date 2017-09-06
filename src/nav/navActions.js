@@ -54,4 +54,9 @@ export const navigateToCreateGroup = (): Action =>
 export const navigateToDiagnostics = (): Action =>
   NavigationActions.navigate({ routeName: 'diagnostics' });
 
+export const navigateToVariables = (): Action =>
+  NavigationActions.navigate({ routeName: 'variables' });
+
 export const navigateToTiming = (): Action => NavigationActions.navigate({ routeName: 'timing' });
+
+export const navigateToStorage = (): Action => NavigationActions.navigate({ routeName: 'storage' });

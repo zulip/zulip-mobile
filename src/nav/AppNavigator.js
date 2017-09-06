@@ -15,8 +15,10 @@ import ChatScreen from '../chat/ChatScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import SettingsScreen from '../settings/SettingsScreen';
 import LanguageScreen from '../settings/LanguageScreen';
-import DiagnosticsScreen from '../settings/DiagnosticsScreen';
-import TimingScreen from '../settings/TimingScreen';
+import DiagnosticsScreen from '../diagnostics/DiagnosticsScreen';
+import VariablesScreen from '../diagnostics/VariablesScreen';
+import TimingScreen from '../diagnostics/TimingScreen';
+import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import GroupScreen from '../group/GroupScreen';
 
@@ -39,7 +41,9 @@ export default StackNavigator(
     lightbox: { screen: LightboxScreen },
     group: { screen: GroupScreen },
     diagnostics: { screen: DiagnosticsScreen },
+    variables: { screen: VariablesScreen },
     timing: { screen: TimingScreen },
+    storage: { screen: StorageScreen },
   },
   {
     initialRouteName: 'main',

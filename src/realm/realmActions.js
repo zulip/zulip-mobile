@@ -1,6 +1,7 @@
 /* @flow */
 import type { GetState, Dispatch, Action } from '../types';
 import config from '../config';
+import timing from '../utils/timing';
 import { allPrivateNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { getMessages, getStreams, getUsers, registerForEvents } from '../api';
@@ -52,10 +53,13 @@ export const fetchEssentialInitialData = (): Action => async (
   const narrow = getActiveNarrow(getState());
   const halfCount = Math.trunc(config.messagesPerRequest / 2);
 
+  timing.start('Essential server data');
   const [initData, messages] = await Promise.all([
     await tryUntilSuccessful(() => registerForEvents(auth)),
     await tryUntilSuccessful(() => getMessages(auth, 0, halfCount, halfCount, narrow, true)),
   ]);
+
+  timing.end('Essential server data');
 
   dispatch(realmInit(initData));
   dispatch(messageFetchSuccess(messages, narrow, 0, halfCount, halfCount, true));
@@ -70,6 +74,8 @@ export const fetchRestOfInitialData = (): Action => async (
 ) => {
   const auth = getAuth(getState());
   const pushToken = getPushToken(getState());
+
+  timing.start('Rest of server data');
   const [messages, streams, users] = await Promise.all([
     await tryUntilSuccessful(() =>
       getMessages(auth, Number.MAX_SAFE_INTEGER, 100, 0, allPrivateNarrow),
@@ -77,6 +83,8 @@ export const fetchRestOfInitialData = (): Action => async (
     await tryUntilSuccessful(() => getStreams(auth)),
     await tryUntilSuccessful(() => getUsers(auth)),
   ]);
+
+  timing.end('Rest of server data');
   dispatch(messageFetchSuccess(messages, allPrivateNarrow, 0, 0, 0, true));
   dispatch(initStreams(streams));
   dispatch(initUsers(users));
