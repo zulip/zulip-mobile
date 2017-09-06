@@ -24,7 +24,7 @@
   "Add new account": "नया खाता जोड़ें",
   "Search messages": "संदेश खोजें",
   "Search people": "लोगों की खोज",
-  "All streams": "सभी धारा",
+  "All streams": "सभी शाखाये ",
   "Write a message...": "एक सन्देश लिखिए...",
   "Email": "ईमेल",
   "Password": "पासवर्ड",
@@ -64,12 +64,15 @@
   "Notifications when online": "ऑनलाइन होने पर सूचनाएं",
   "Notifications when offline": "ऑफ़लाइन होने पर सूचनाएं",
   "Unread": "अपठित",
-  "Subscribed": "Subscribed",
+  "Subscribed": "सदस्यता लिया",
   "No users found": "कोई सदस्य नहीं मिले",
   "No streams found": "कोई धारा नहीं मिला",
   "New group chat": "नया समूह चर्चा",
   "Diagnostics": "निदान",
   "Toggle compose tools": "बदले लेख साधन",
-  "Terms of service": "Terms of service",
-  "Privacy policy": "Privacy policy"
+  "Terms of service": "सेवा की शर्तें",
+  "Privacy policy": "गोपनीयता नीति",
+  "Timing": "Timing",
+  "Variables": "Variables",
+  "Storage": "Storage"
 }

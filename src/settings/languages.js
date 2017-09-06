@@ -1,8 +1,21 @@
 /* @flow */
 /* eslint-disable */
 export default [
-  { locale: 'en', name: 'English', flag: '🇬🇧' },
-  { locale: 'bg', name: 'Bulgarian', flag: '🇧🇬' },
+  {
+    locale: 'en',
+    name: 'English',
+    flag: '🇬🇧',
+  },
+  {
+    locale: 'bg',
+    name: 'Bulgarian',
+    flag: '🇧🇬',
+  },
+  {
+    locale: 'ca',
+    name: 'Catalan',
+    flag: '🇪🇸',
+  },
   {
     locale: 'zh',
     name: 'Chinese Simplified',
@@ -37,6 +50,11 @@ export default [
     locale: 'hu',
     name: 'Hungarian',
     flag: '🇭🇺',
+  },
+  {
+    locale: 'id',
+    name: 'Indonesian',
+    flag: '🇮🇩',
   },
   {
     locale: 'it',
@@ -82,5 +100,10 @@ export default [
     locale: 'ta',
     name: 'Tamil',
     flag: '🇱🇰',
+  },
+  {
+    locale: 'tr',
+    name: 'Turkish',
+    flag: '🇹🇷',
   },
 ];
