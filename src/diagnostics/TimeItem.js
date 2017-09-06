@@ -5,6 +5,7 @@ import format from 'date-fns/format';
 import differenceInMilliseconds from 'date-fns/difference_in_milliseconds';
 
 import { RawLabel } from '../common';
+import { numberWithSeparators } from '../utils/misc';
 
 const styles = StyleSheet.create({
   item: {
@@ -29,8 +30,8 @@ export default class TimeItem extends PureComponent {
 
   render() {
     const { text, start, end } = this.props;
-    const startStr = format(start, 'HH:mm:ss'); // eslint-disable-line
-    const durationStr = differenceInMilliseconds(end, start);
+    const startStr = format(start, 'HH:mm:ss.SSS'); // eslint-disable-line
+    const durationStr = numberWithSeparators(differenceInMilliseconds(end, start));
     const timingStr = `Start: ${startStr}   Duration: ${durationStr} ms`;
 
     return (

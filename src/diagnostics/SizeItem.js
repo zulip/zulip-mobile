@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { RawLabel } from '../common';
+import { numberWithSeparators } from '../utils/misc';
 
 const styles = StyleSheet.create({
   item: {
@@ -30,10 +31,7 @@ export default class SizeItem extends PureComponent {
     return (
       <View style={styles.item}>
         <RawLabel style={styles.key} text={text} />
-        <RawLabel
-          style={styles.size}
-          text={size.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-        />
+        <RawLabel style={styles.size} text={numberWithSeparators(size)} />
       </View>
     );
   }
