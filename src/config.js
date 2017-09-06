@@ -11,6 +11,7 @@ export default {
   scrollCallbackThrottle: 500,
   messageListThreshold: 1000,
   enableReduxLogging: isDevelopment && !!global.btoa,
+  enableReduxPerfLogging: isDevelopment && !!global.btoa,
   enableSentry: !isDevelopment && !isEmulator,
   enableNotifications: !isEmulator,
   sentryKey: 'ADD-DSN-HERE',

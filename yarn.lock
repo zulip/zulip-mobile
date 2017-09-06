@@ -4807,6 +4807,10 @@ prepend-http@^1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
 
+present@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/present/-/present-1.0.0.tgz#6d2f865be7a96885118f4660e83e2161fb71cf2b"
+
 preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
@@ -5328,6 +5332,12 @@ redux-logger@^3.0.1:
 redux-mock-store@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.2.3.tgz#1b3ad299da91cb41ba30d68e3b6f024475fb9e1b"
+
+redux-perf-middleware@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/redux-perf-middleware/-/redux-perf-middleware-1.2.2.tgz#099b4ca38d1f0a3beb77b66617d196ed0ef2f514"
+  dependencies:
+    present "^1.0.0"
 
 redux-persist@^4.9.1:
   version "4.9.1"
