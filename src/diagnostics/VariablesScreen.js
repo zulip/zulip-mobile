@@ -6,10 +6,10 @@ import config from '../config';
 import { Screen } from '../common';
 import InfoItem from './InfoItem';
 
-export default class DiagnosticsScreen extends PureComponent {
+export default class VariablesScreen extends PureComponent {
   render() {
     return (
-      <Screen title="Diagnostics">
+      <Screen title="Variables">
         <ScrollView>
           <InfoItem label="enableReduxLogging" value={config.enableReduxLogging} />
           <InfoItem label="enableSentry" value={config.enableSentry} />

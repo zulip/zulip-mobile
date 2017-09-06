@@ -74,8 +74,6 @@ export default class SettingsCard extends PureComponent {
         <OptionButton label="Language" onPress={actions.navigateToLanguage} />
         <View style={styles.divider} />
         <OptionButton label="Diagnostics" onPress={actions.navigateToDiagnostics} />
-        <View style={styles.divider} />
-        <OptionButton label="Timing" onPress={actions.navigateToTiming} />
         <View style={styles.padding}>
           <WebLink label="Terms of service" href="/terms/" />
           <WebLink label="Privacy policy" href="/privacy/" />

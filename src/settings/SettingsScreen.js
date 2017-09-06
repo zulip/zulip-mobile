@@ -1,15 +1,28 @@
-/* @flow */
+/* TODO flow */
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
+import boundActions from '../boundActions';
+import { getAuth } from '../selectors';
 import { Screen } from '../common';
-import SettingsContainer from './SettingsContainer';
+import SettingsCard from './SettingsCard';
 
-export default class SettingsScreen extends PureComponent {
+class SettingsScreen extends PureComponent {
   render() {
     return (
       <Screen title="Settings">
-        <SettingsContainer />
+        <SettingsCard {...this.props} />
       </Screen>
     );
   }
 }
+
+export default connect(
+  state => ({
+    offlineNotification: state.settings.offlineNotification,
+    onlineNotification: state.settings.onlineNotification,
+    theme: state.settings.theme,
+    auth: getAuth(state),
+  }),
+  boundActions,
+)(SettingsScreen);
