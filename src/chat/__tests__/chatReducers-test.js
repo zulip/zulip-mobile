@@ -683,7 +683,7 @@ describe('chatReducers', () => {
 
       const newState = chatReducers(initialState, action);
 
-      expect(...newState.messages[homeNarrowStr]).toEqual(...commonMessages);
+      expect(newState.messages[homeNarrowStr]).toEqual(commonMessages);
     });
 
     test('when replaceExisting is true, deep equal is performed to separate common messages', () => {
@@ -714,7 +714,7 @@ describe('chatReducers', () => {
 
       const newState = chatReducers(initialState, action);
 
-      expect(...newState.messages[homeNarrowStr]).toEqual(...expectedState.messages[homeNarrowStr]);
+      expect(newState.messages[homeNarrowStr]).toEqual(expectedState.messages[homeNarrowStr]);
     });
   });
 });
