@@ -1,7 +1,6 @@
 /* @flow */
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
-import perfLogger from 'redux-perf-middleware';
 import { REHYDRATE } from 'redux-persist/constants';
 import createActionBuffer from 'redux-action-buffer';
 
@@ -16,10 +15,6 @@ if (config.enableReduxLogging) {
       // predicate: (getState, action) => action.type === 'MESSAGE_FETCH_SUCCESS',
     }),
   );
-}
-
-if (config.enableReduxPerfLogging) {
-  middleware.push(perfLogger);
 }
 
 export default middleware;

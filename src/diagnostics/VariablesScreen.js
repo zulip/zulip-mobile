@@ -10,7 +10,7 @@ export default class VariablesScreen extends PureComponent {
   render() {
     const variables = {
       enableReduxLogging: config.enableReduxLogging,
-      enableReduxPerfLogging: config.enableReduxPerfLogging,
+      enableReduxSlowReducerWarnings: config.enableReduxSlowReducerWarnings,
       enableSentry: config.enableSentry,
       enableNotifications: config.enableNotifications,
       'process.env.NODE_ENV': process.env.NODE_ENV,
