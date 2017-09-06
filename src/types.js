@@ -434,3 +434,5 @@ export type TimingItem = {
   start: Date,
   end: Date,
 };
+
+export type Reducer = (state: GlobalState, action: Action) => GlobalState;

@@ -4,20 +4,24 @@ import { TimingItem } from '../types';
 const timingMap = {};
 const log: TimingItem[] = [];
 
+const add = (item: TimingItem) => {
+  log.push(item);
+};
+
 const start = (key: string) => {
   timingMap[key] = Date.now();
 };
 
 const end = (key: string) => {
   if (timingMap[key]) {
-    log.push({
+    add({
       text: key,
       start: timingMap[key],
       end: Date.now(),
     });
     delete timingMap[key];
   } else {
-    log.push({
+    add({
       text: key,
       end: Date.now(),
     });
@@ -25,6 +29,7 @@ const end = (key: string) => {
 };
 
 export default {
+  add,
   start,
   end,
   log,

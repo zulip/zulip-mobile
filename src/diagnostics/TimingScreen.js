@@ -12,7 +12,7 @@ export default class TimingScreen extends PureComponent {
       <Screen title="Timing">
         <FlatList
           data={timing.log}
-          keyExtractor={item => item.text}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => <TimeItem text={item.text} start={item.start} end={item.end} />}
         />
       </Screen>

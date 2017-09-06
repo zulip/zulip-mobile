@@ -1,8 +1,9 @@
 /* @flow */
 import { combineReducers } from 'redux';
 
-import type { Action, GlobalState } from './types';
-import { BATCH_ACTIONS } from './actionConstants';
+import config from './config';
+import { enableBatching, logSlowReducers } from './utils/redux';
+
 import accounts from './account/accountReducers';
 import alertWords from './alertWords/alertWordsReducer';
 import app from './app/appReducers';
@@ -26,41 +27,33 @@ import unreadMentions from './unread/unreadMentionsReducers';
 import users from './users/usersReducers';
 import presence from './presence/presenceReducers';
 
-// Thanks to https://twitter.com/dan_abramov/status/656074974533459968?lang=en
-const enableBatching = reducer => (state: GlobalState, action: Action) => {
-  switch (action.type) {
-    case BATCH_ACTIONS:
-      return action.actions.reduce(reducer, state);
-    default:
-      return reducer(state, action);
-  }
+const reducers = {
+  accounts,
+  alertWords,
+  app,
+  caughtUp,
+  chat,
+  fetching,
+  drafts,
+  flags,
+  mute,
+  nav,
+  presence,
+  realm,
+  outbox,
+  settings,
+  streams,
+  subscriptions,
+  typing,
+  unread: combineReducers({
+    streams: unreadStreams,
+    pms: unreadPms,
+    huddles: unreadHuddles,
+    mentions: unreadMentions,
+  }),
+  users,
 };
 
 export default enableBatching(
-  combineReducers({
-    accounts,
-    alertWords,
-    app,
-    caughtUp,
-    chat,
-    fetching,
-    drafts,
-    flags,
-    mute,
-    nav,
-    presence,
-    realm,
-    outbox,
-    settings,
-    streams,
-    subscriptions,
-    typing,
-    unread: combineReducers({
-      streams: unreadStreams,
-      pms: unreadPms,
-      huddles: unreadHuddles,
-      mentions: unreadMentions,
-    }),
-    users,
-  }),
+  combineReducers(config.enableReduxSlowReducerWarnings ? logSlowReducers(reducers) : reducers),
 );
