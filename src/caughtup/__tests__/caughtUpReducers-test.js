@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import caughtUpReducers from '../caughtUpReducers';
-import { MESSAGE_FETCH_START, MESSAGE_FETCH_SUCCESS } from '../../actionConstants';
+import { MESSAGE_FETCH_START, MESSAGE_FETCH_COMPLETE } from '../../actionConstants';
 
 describe('caughtUpReducers', () => {
   describe('MESSAGE_FETCH_START', () => {
@@ -27,7 +27,7 @@ describe('caughtUpReducers', () => {
     });
   });
 
-  describe('MESSAGE_FETCH_SUCCESS', () => {
+  describe('MESSAGE_FETCH_COMPLETE', () => {
     test('if we receive less messages than expected we consider it caught up', () => {
       const initialState = deepFreeze({
         older: false,
@@ -35,7 +35,7 @@ describe('caughtUpReducers', () => {
       });
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_SUCCESS,
+        type: MESSAGE_FETCH_COMPLETE,
         narrow: [],
         messages: [{ id: 1 }, { id: 2 }, { id: 3 }],
         numBefore: 5,

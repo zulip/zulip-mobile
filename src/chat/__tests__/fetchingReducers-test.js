@@ -2,7 +2,7 @@ import deepFreeze from 'deep-freeze';
 
 import fetchingReducers from '../fetchingReducers';
 import { homeNarrowStr, streamNarrow } from '../../utils/narrow';
-import { SWITCH_NARROW, MESSAGE_FETCH_START, MESSAGE_FETCH_SUCCESS } from '../../actionConstants';
+import { SWITCH_NARROW, MESSAGE_FETCH_START, MESSAGE_FETCH_COMPLETE } from '../../actionConstants';
 
 describe('fetchingReducers', () => {
   describe('SWITCH_NARROW', () => {
@@ -69,14 +69,14 @@ describe('fetchingReducers', () => {
     });
   });
 
-  describe('MESSAGE_FETCH_SUCCESS', () => {
+  describe('MESSAGE_FETCH_COMPLETE', () => {
     test('sets corresponding fetching flags to false, if messages are received before or after', () => {
       const initialState = deepFreeze({
         [homeNarrowStr]: { older: true, newer: true },
       });
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_SUCCESS,
+        type: MESSAGE_FETCH_COMPLETE,
         narrow: [],
         messages: [{ id: 1 }],
         numBefore: 10,

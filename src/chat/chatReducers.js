@@ -7,7 +7,7 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   SWITCH_NARROW,
-  MESSAGE_FETCH_SUCCESS,
+  MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
@@ -36,7 +36,7 @@ export default (state: ChatState = initialState, action: Action) => {
       };
     }
 
-    case MESSAGE_FETCH_SUCCESS: {
+    case MESSAGE_FETCH_COMPLETE: {
       const key = JSON.stringify(action.narrow);
       const messages = state.messages[key] || [];
       const messagesById = getMessagesById(state);

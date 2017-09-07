@@ -6,7 +6,7 @@ import {
   ACCOUNT_SWITCH,
   SWITCH_NARROW,
   MESSAGE_FETCH_START,
-  MESSAGE_FETCH_SUCCESS,
+  MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
 import { NULL_FETCHING } from '../nullObjects';
 
@@ -33,7 +33,7 @@ export default (state: FetchingState = initialState, action: Action) => {
       };
     }
 
-    case MESSAGE_FETCH_SUCCESS: {
+    case MESSAGE_FETCH_COMPLETE: {
       const key = JSON.stringify(action.narrow);
       const currentValue = state[key] || NULL_FETCHING;
 

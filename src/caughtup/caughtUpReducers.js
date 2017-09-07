@@ -1,6 +1,6 @@
 /* @flow */
 import type { CaughtUpState, Action } from '../types';
-import { LOGOUT, LOGIN_SUCCESS, ACCOUNT_SWITCH, MESSAGE_FETCH_SUCCESS } from '../actionConstants';
+import { LOGOUT, LOGIN_SUCCESS, ACCOUNT_SWITCH, MESSAGE_FETCH_COMPLETE } from '../actionConstants';
 import { NULL_CAUGHTUP } from '../nullObjects';
 
 const initialState: CaughtUpState = {};
@@ -12,7 +12,7 @@ export default (state: CaughtUpState = initialState, action: Action) => {
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case MESSAGE_FETCH_SUCCESS: {
+    case MESSAGE_FETCH_COMPLETE: {
       if (!action.anchor) {
         return state;
       }

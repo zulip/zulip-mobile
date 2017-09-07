@@ -1,7 +1,7 @@
 /* @flow */
 import type { FlagsState, Action } from '../types';
 import {
-  MESSAGE_FETCH_SUCCESS,
+  MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   MARK_MESSAGES_READ,
@@ -60,7 +60,7 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case MESSAGE_FETCH_SUCCESS: {
+    case MESSAGE_FETCH_COMPLETE: {
       let stateChanged = false;
       const flags = action.messages.reduce(
         (newState, msg) => {

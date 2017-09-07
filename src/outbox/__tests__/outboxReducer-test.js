@@ -1,16 +1,16 @@
 import deepFreeze from 'deep-freeze';
 
 import outboxReducers from '../outboxReducers';
-import { MESSAGE_SEND, EVENT_NEW_MESSAGE } from '../../actionConstants';
+import { MESSAGE_SEND_START, EVENT_NEW_MESSAGE } from '../../actionConstants';
 import { streamNarrow } from '../../utils/narrow';
 
 describe('outboxReducers', () => {
-  describe(MESSAGE_SEND, () => {
+  describe(MESSAGE_SEND_START, () => {
     test('add a new message to outbox', () => {
       const initialState = deepFreeze([]);
 
       const action = deepFreeze({
-        type: MESSAGE_SEND,
+        type: MESSAGE_SEND_START,
         params: {
           content: 'New one',
           email: 'john@example.com',
@@ -41,7 +41,7 @@ describe('outboxReducers', () => {
       const initialState = deepFreeze([{ timestamp: 123, content: 'hello' }]);
 
       const action = deepFreeze({
-        type: MESSAGE_SEND,
+        type: MESSAGE_SEND_START,
         params: {
           email: 'john@example.com',
           narrow: streamNarrow('denmark'),

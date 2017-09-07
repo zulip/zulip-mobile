@@ -2,7 +2,7 @@ import deepFreeze from 'deep-freeze';
 
 import flagsReducers from '../flagsReducers';
 import {
-  MESSAGE_FETCH_SUCCESS,
+  MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   MARK_MESSAGES_READ,
@@ -10,12 +10,12 @@ import {
 } from '../../actionConstants';
 
 describe('flagsReducers', () => {
-  describe('MESSAGE_FETCH_SUCCESS', () => {
+  describe('MESSAGE_FETCH_COMPLETE', () => {
     test('flags from all messages are extracted and stored by id', () => {
       const initialState = deepFreeze({});
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_SUCCESS,
+        type: MESSAGE_FETCH_COMPLETE,
         messages: [{ id: 1 }, { id: 2, flags: [] }, { id: 3, flags: ['read'] }],
       });
 
@@ -41,7 +41,7 @@ describe('flagsReducers', () => {
       });
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_SUCCESS,
+        type: MESSAGE_FETCH_COMPLETE,
         messages: [{ id: 1, flags: ['read', 'starred'] }],
       });
 
@@ -59,7 +59,7 @@ describe('flagsReducers', () => {
     });
 
     const action = deepFreeze({
-      type: MESSAGE_FETCH_SUCCESS,
+      type: MESSAGE_FETCH_COMPLETE,
       messages: [{ id: 1, flags: ['read'] }, { id: 2, flags: [] }],
     });
 
