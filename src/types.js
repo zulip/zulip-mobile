@@ -237,7 +237,7 @@ export type Actions = {
   switchNarrow: (narrow: Narrow) => Action,
   doNarrow: (newNarrow: Narrow, anchor: number) => Action,
   messageFetchStart: (narrow: Narrow, fetching: Object) => Action,
-  messageFetchSuccess: (
+  messageFetchComplete: (
     messages: any[],
     narrow: Narrow,
     numBefore: number,

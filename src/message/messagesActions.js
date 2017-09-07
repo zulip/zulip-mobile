@@ -33,7 +33,7 @@ export const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: n
   numAfter,
 });
 
-export const messageFetchSuccess = (
+export const messageFetchComplete = (
   messages: any[],
   narrow: Narrow,
   anchor: number,
@@ -66,7 +66,7 @@ export const backgroundFetchMessages = (
     useFirstUnread,
   );
 
-  dispatch(messageFetchSuccess(messages, narrow, anchor, numBefore, numAfter));
+  dispatch(messageFetchComplete(messages, narrow, anchor, numBefore, numAfter));
 };
 
 export const fetchMessages = (
