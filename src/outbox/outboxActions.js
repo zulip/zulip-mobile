@@ -10,11 +10,11 @@ import {
   MESSAGE_SEND_COMPLETE,
 } from '../actionConstants';
 import { getAuth } from '../selectors';
-import { sendMessage as sendMessageApi } from '../api';
+import { sendMessage } from '../api';
 import { getSelfUserDetail, getUserByEmail } from '../users/userSelectors';
 import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 
-export const sendMessage = (params: Object) => ({
+export const messageSendStart = (params: Object) => ({
   type: MESSAGE_SEND_START,
   params,
 });
@@ -28,7 +28,7 @@ export const deleteOutboxMessage = (localMessageId: number) => ({
   localMessageId,
 });
 
-export const messageSuccessfulSend = (localMessageId: number) => ({
+export const messageSendComplete = (localMessageId: number) => ({
   type: MESSAGE_SEND_COMPLETE,
   localMessageId,
 });
@@ -40,7 +40,7 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
     const auth = getAuth(state);
     state.outbox.forEach(async item => {
       try {
-        await sendMessageApi(
+        await sendMessage(
           auth,
           item.type,
           isPrivateOrGroupNarrow(item.narrow) ? item.narrow[0].operand : item.display_recipient,
@@ -49,7 +49,7 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
           item.timestamp,
           state.app.eventQueueId,
         );
-        dispatch(messageSuccessfulSend(item.timestamp));
+        dispatch(messageSendComplete(item.timestamp));
       } catch (e) {
         console.log('error caught while sending', e); // eslint-disable-line
       }
@@ -96,7 +96,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   const html = parseMarkdown(content, users, streams, auth, realm.realm_filter, realm.realm_emoji);
   const localTime = Math.round(new Date().getTime() / 1000);
   dispatch(
-    sendMessage({
+    messageSendStart({
       narrow,
       ...extractTypeToAndSubjectFromNarrow(narrow, users, userDetail),
       markdownContent: content,

@@ -6,7 +6,7 @@ import { allPrivateNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { getMessages, getStreams, getUsers, registerForEvents } from '../api';
 import { refreshNotificationToken, initializeNotifications } from '../utils/notifications';
-import { messageFetchSuccess, switchNarrow } from '../message/messagesActions';
+import { messageFetchComplete, switchNarrow } from '../message/messagesActions';
 import { initStreams } from '../streams/streamsActions';
 import { initUsers, sendFocusPing } from '../users/usersActions';
 import { getAuth, getActiveNarrow, getPushToken } from '../selectors';
@@ -62,7 +62,7 @@ export const fetchEssentialInitialData = (): Action => async (
   timing.end('Essential server data');
 
   dispatch(realmInit(initData));
-  dispatch(messageFetchSuccess(messages, narrow, 0, halfCount, halfCount, true));
+  dispatch(messageFetchComplete(messages, narrow, 0, halfCount, halfCount, true));
   dispatch(initialFetchComplete());
 
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
@@ -85,7 +85,7 @@ export const fetchRestOfInitialData = (): Action => async (
   ]);
 
   timing.end('Rest of server data');
-  dispatch(messageFetchSuccess(messages, allPrivateNarrow, 0, 0, 0, true));
+  dispatch(messageFetchComplete(messages, allPrivateNarrow, 0, 0, 0, true));
   dispatch(initStreams(streams));
   dispatch(initUsers(users));
 
