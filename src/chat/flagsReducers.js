@@ -7,6 +7,7 @@ import {
   MARK_MESSAGES_READ,
   ACCOUNT_SWITCH,
 } from '../actionConstants';
+import { deeperMerge } from '../utils/misc';
 
 const initialState = {
   read: {},
@@ -62,34 +63,22 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
 
     case MESSAGE_FETCH_COMPLETE: {
       let stateChanged = false;
-      const flags = action.messages.reduce(
-        (newState, msg) => {
-          if (msg.flags) {
-            msg.flags.forEach(flag => {
-              if (newState[flag]) {
-                newState[flag] = { ...state[flag], ...newState[flag] };
-                if (!newState[flag][msg.id]) {
-                  newState[flag][msg.id] = true;
-                  stateChanged = true;
-                }
-              } else {
-                newState[flag] = {
-                  [msg.id]: true,
-                };
-                stateChanged = true;
-              }
-            });
+      const newState = {};
+      action.messages.forEach(msg => {
+        (msg.flags || []).forEach(flag => {
+          if (!state[flag] || !state[flag][msg.id]) {
+            if (!newState[flag]) {
+              newState[flag] = {};
+            }
+            newState[flag][msg.id] = true;
+            stateChanged = true;
           }
-          return newState;
-        },
-        { ...state },
-      );
+        });
+      });
 
-      if (!stateChanged) {
-        return state;
-      }
-      return flags;
+      return stateChanged ? deeperMerge(state, newState) : state;
     }
+
     case EVENT_NEW_MESSAGE:
       return addFlagsForMessages(state, [action.message.id], action.message.flags);
 
