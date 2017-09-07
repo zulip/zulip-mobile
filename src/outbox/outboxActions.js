@@ -3,11 +3,11 @@ import parseMarkdown from 'zulip-markdown-parser';
 
 import type { Dispatch, GetState, Narrow, User } from '../types';
 import {
-  MESSAGE_SEND,
+  MESSAGE_SEND_START,
   START_OUTBOX_SENDING,
   FINISHED_OUTBOX_SENDING,
   DELETE_OUTBOX_MESSAGE,
-  MESSAGE_SEND_SUCCESS,
+  MESSAGE_SEND_COMPLETE,
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 import { sendMessage as sendMessageApi } from '../api';
@@ -15,7 +15,7 @@ import { getSelfUserDetail, getUserByEmail } from '../users/userSelectors';
 import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 
 export const sendMessage = (params: Object) => ({
-  type: MESSAGE_SEND,
+  type: MESSAGE_SEND_START,
   params,
 });
 
@@ -29,7 +29,7 @@ export const deleteOutboxMessage = (localMessageId: number) => ({
 });
 
 export const messageSuccessfulSend = (localMessageId: number) => ({
-  type: MESSAGE_SEND_SUCCESS,
+  type: MESSAGE_SEND_COMPLETE,
   localMessageId,
 });
 

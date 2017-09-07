@@ -19,7 +19,7 @@ Array [
     "numAfter": 1,
     "numBefore": 1,
     "replaceExisting": false,
-    "type": "MESSAGE_FETCH_SUCCESS",
+    "type": "MESSAGE_FETCH_COMPLETE",
   },
 ]
 `;

@@ -15,7 +15,7 @@ import config from '../config';
 import {
   SWITCH_NARROW,
   MESSAGE_FETCH_START,
-  MESSAGE_FETCH_SUCCESS,
+  MESSAGE_FETCH_COMPLETE,
   MARK_MESSAGES_READ,
 } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
@@ -41,7 +41,7 @@ export const messageFetchSuccess = (
   numAfter: number,
   replaceExisting: boolean = false,
 ): Action => ({
-  type: MESSAGE_FETCH_SUCCESS,
+  type: MESSAGE_FETCH_COMPLETE,
   messages,
   narrow,
   anchor,

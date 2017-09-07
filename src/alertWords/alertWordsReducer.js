@@ -5,7 +5,7 @@ import { REALM_INIT, INIT_ALERT_WORDS } from '../actionConstants';
 // Initial state
 const initialState = [];
 
-const reducer = (state: RealmState = initialState, action: Action): RealmState => {
+export default (state: RealmState = initialState, action: Action): RealmState => {
   switch (action.type) {
     case REALM_INIT:
       return action.data.alert_words;
@@ -17,5 +17,3 @@ const reducer = (state: RealmState = initialState, action: Action): RealmState =
       return state;
   }
 };
-
-export default reducer;

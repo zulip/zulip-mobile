@@ -4,12 +4,16 @@ import { DRAFT_ADD, DRAFT_REMOVE, LOGOUT } from '../actionConstants';
 
 const initialState = {};
 
-const reducer = (state: DraftState = initialState, action: Action): DraftState => {
+export default (state: DraftState = initialState, action: Action): DraftState => {
   switch (action.type) {
+    case LOGOUT:
+      return initialState;
+
     case DRAFT_ADD:
       return state[action.narrow] === action.content
         ? state
         : { ...state, [action.narrow]: action.content };
+
     case DRAFT_REMOVE:
       return !state[action.narrow]
         ? state
@@ -20,12 +24,8 @@ const reducer = (state: DraftState = initialState, action: Action): DraftState =
             result[key] = action.content;
             return result;
           }, {});
-    case LOGOUT: {
-      return initialState;
-    }
+
     default:
       return state;
   }
 };
-
-export default reducer;

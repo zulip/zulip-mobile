@@ -11,7 +11,7 @@ import {
 } from '../../utils/narrow';
 import {
   SWITCH_NARROW,
-  MESSAGE_FETCH_SUCCESS,
+  MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE,
   EVENT_REACTION_ADD,
@@ -585,7 +585,7 @@ describe('chatReducers', () => {
     });
   });
 
-  describe('MESSAGE_FETCH_SUCCESS', () => {
+  describe('MESSAGE_FETCH_COMPLETE', () => {
     test('no duplicate messages', () => {
       const initialState = deepFreeze({
         messages: {
@@ -594,7 +594,7 @@ describe('chatReducers', () => {
       });
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_SUCCESS,
+        type: MESSAGE_FETCH_COMPLETE,
         narrow: [],
         messages: [{ id: 2 }, { id: 3 }, { id: 4 }],
       });
@@ -619,7 +619,7 @@ describe('chatReducers', () => {
       });
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_SUCCESS,
+        type: MESSAGE_FETCH_COMPLETE,
         narrow: [],
         messages: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
       });
@@ -649,7 +649,7 @@ describe('chatReducers', () => {
       });
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_SUCCESS,
+        type: MESSAGE_FETCH_COMPLETE,
         narrow: [],
         messages: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
         replaceExisting: true,
@@ -675,7 +675,7 @@ describe('chatReducers', () => {
       });
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_SUCCESS,
+        type: MESSAGE_FETCH_COMPLETE,
         narrow: [],
         messages: [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }],
         replaceExisting: true,
@@ -700,7 +700,7 @@ describe('chatReducers', () => {
       });
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_SUCCESS,
+        type: MESSAGE_FETCH_COMPLETE,
         narrow: [],
         messages: [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }, changedMessage],
         replaceExisting: true,
