@@ -11,6 +11,7 @@ export default class UsersCard extends PureComponent {
     ownEmail: string,
     users: User[],
     filter: string,
+    presences: Object,
   };
 
   handleUserNarrow = (email: string) => {
@@ -20,9 +21,15 @@ export default class UsersCard extends PureComponent {
   };
 
   render() {
-    const { ownEmail, users, filter } = this.props;
+    const { ownEmail, users, filter, presences } = this.props;
     return (
-      <UserList ownEmail={ownEmail} users={users} filter={filter} onPress={this.handleUserNarrow} />
+      <UserList
+        ownEmail={ownEmail}
+        users={users}
+        filter={filter}
+        presences={presences}
+        onPress={this.handleUserNarrow}
+      />
     );
   }
 }

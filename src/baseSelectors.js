@@ -1,5 +1,5 @@
 /* @flow */
-import type { GlobalState, Narrow, Message, Subscription, Stream, Presence, Outbox } from './types';
+import type { GlobalState, Narrow, Message, Subscription, Stream, Outbox } from './types';
 
 export const getApp = (state: GlobalState): Object => state.app;
 
@@ -25,7 +25,7 @@ export const getSubscriptions = (state: GlobalState): Subscription[] => state.su
 
 export const getStreams = (state: GlobalState): Stream[] => state.streams;
 
-export const getPresence = (state: GlobalState): Presence[] => state.presence;
+export const getPresence = (state: GlobalState): Object => state.presence;
 
 export const getOutbox = (state: GlobalState): Outbox[] => state.outbox;
 

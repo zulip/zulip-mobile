@@ -23,16 +23,12 @@ export default class UserList extends PureComponent {
     style?: StyleObj,
     filter: string,
     users: User[],
-    selected: User[],
+    presences: Object,
     onPress: (email: string) => void,
   };
 
-  static defaultProps = {
-    selected: [],
-  };
-
   render() {
-    const { filter, style, users, selected, onPress } = this.props;
+    const { filter, style, users, presences, onPress } = this.props;
     const shownUsers = sortUserList(filterUserList(users, filter));
     const groupedUsers = groupUsersByInitials(shownUsers);
     const sections = Object.keys(groupedUsers).map(key => ({ key, data: groupedUsers[key] }));
@@ -48,7 +44,7 @@ export default class UserList extends PureComponent {
         keyboardShouldPersistTaps="always"
         initialNumToRender={20}
         sections={sections}
-        exraData={selected}
+        exraData={presences}
         keyExtractor={item => item.email}
         renderItem={({ item }) => (
           <UserItem
@@ -56,8 +52,8 @@ export default class UserList extends PureComponent {
             fullName={item.fullName}
             avatarUrl={item.avatarUrl}
             email={item.email}
+            presence={presences[item.email]}
             onPress={onPress}
-            isSelected={selected.find(x => x.email === item.email)}
             status={item.status}
           />
         )}

@@ -3,13 +3,13 @@ import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
+import type { Presence } from '../types';
 import { nullFunction } from '../nullObjects';
 import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
 import TextAvatar from './TextAvatar';
 import { getFullUrl } from '../utils/url';
 import UserStatusIndicator from '../common/UserStatusIndicator';
-import { UserStatus } from '../types';
 
 const componentStyles = StyleSheet.create({
   status: {
@@ -24,7 +24,7 @@ class Avatar extends PureComponent {
     avatarUrl?: string,
     name: string,
     size: number,
-    status?: UserStatus,
+    presence?: Presence,
     realm: string,
     shape: 'square' | 'rounded' | 'circle',
     onPress: () => void,
@@ -39,7 +39,7 @@ class Avatar extends PureComponent {
   };
 
   render() {
-    const { avatarUrl, name, size, status, onPress, realm, shape } = this.props;
+    const { avatarUrl, name, size, presence, onPress, realm, shape } = this.props;
     const AvatarComponent = avatarUrl ? ImageAvatar : TextAvatar;
     return (
       <AvatarComponent
@@ -49,7 +49,7 @@ class Avatar extends PureComponent {
         onPress={onPress}
         shape={shape}
       >
-        {status && <UserStatusIndicator style={componentStyles.status} status={status} />}
+        <UserStatusIndicator style={componentStyles.status} presence={presence} />
       </AvatarComponent>
     );
   }

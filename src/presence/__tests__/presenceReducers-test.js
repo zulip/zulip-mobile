@@ -2,7 +2,7 @@
 import deepFreeze from 'deep-freeze';
 
 import { PRESENCE_RESPONSE, EVENT_PRESENCE, ACCOUNT_SWITCH } from '../../actionConstants';
-import presenceReducers, { updateUserWithPresence } from '../presenceReducers';
+import presenceReducers from '../presenceReducers';
 
 describe('presenceReducers', () => {
   test('handles unknown action and no state by returning initial state', () => {
@@ -17,78 +17,13 @@ describe('presenceReducers', () => {
     expect(newState).toBe(prevState);
   });
 
-  describe('updateUserWithPresence', () => {
-    test('if there is aggregated object present, use that', () => {
-      const presence = {
-        website: {
-          client: 'website',
-          status: 'active',
-          timestamp: 1474527507,
-        },
-        aggregated: {
-          client: 'website',
-          status: 'active',
-          timestamp: 1474527577,
-        },
-        ZulipMobile: {
-          client: 'ZulipMobile',
-          status: 'idle',
-          timestamp: 1474527577,
-        },
-      };
-
-      deepFreeze(presence);
-
-      const expectedResult = {
-        client: 'website',
-        status: 'active',
-        timestamp: 1474527577,
-        email: 'joe@a.com',
-        age: 10,
-      };
-
-      const actualResult = updateUserWithPresence({ email: 'joe@a.com' }, presence, 1474527587);
-
-      expect(actualResult).toEqual(expectedResult);
-    });
-    test('if there is no aggregated object present, get presence from latest device', () => {
-      const presence = {
-        website: {
-          client: 'website',
-          status: 'offline',
-          timestamp: 1474527507,
-        },
-        ZulipMobile: {
-          client: 'ZulipMobile',
-          status: 'active',
-          timestamp: 1474527517,
-        },
-      };
-
-      deepFreeze(presence);
-
-      const expectedResult = {
-        client: 'ZulipMobile',
-        status: 'active',
-        timestamp: 1474527517,
-        email: 'joe@a.com',
-        age: 3,
-      };
-
-      const actualResult = updateUserWithPresence({ email: 'joe@a.com' }, presence, 1474527520);
-
-      expect(actualResult).toEqual(expectedResult);
-    });
-  });
-
   describe('PRESENCE_RESPONSE', () => {
     test('merges a single user in presence response', () => {
       const presence = {
         'email@example.com': {
-          website: {
-            client: 'website',
+          aggregated: {
             status: 'active',
-            timestamp: 1474527507,
+            timestamp: 123,
           },
         },
       };
@@ -98,22 +33,18 @@ describe('presenceReducers', () => {
         serverTimestamp: 1474527537,
       });
 
-      const prevState = deepFreeze([
-        {
-          email: 'email@example.com',
-          status: 'offline',
-        },
-      ]);
+      const prevState = deepFreeze({
+        'email@example.com': {},
+      });
 
-      const expectedState = [
-        {
-          email: 'email@example.com',
-          status: 'active',
-          timestamp: 1474527507,
-          age: 30,
-          client: 'website',
+      const expectedState = {
+        'email@example.com': {
+          aggregated: {
+            status: 'active',
+            timestamp: 123,
+          },
         },
-      ];
+      };
 
       const newState = presenceReducers(prevState, action);
 
@@ -121,97 +52,50 @@ describe('presenceReducers', () => {
     });
 
     test('merges multiple users in presence response', () => {
+      const prevState = deepFreeze({
+        'email@example.com': {},
+        'janedoe@example.com': {},
+      });
+
       const presence = {
         'email@example.com': {
-          website: {
-            status: 'active',
-            timestamp: 1474527507,
+          aggregated: {
             client: 'website',
-            pushable: false,
+            status: 'active',
+            timestamp: 123,
           },
         },
         'johndoe@example.com': {
           website: {
             status: 'active',
-            timestamp: 1475792255,
+            timestamp: 345,
             client: 'website',
-            pushable: false,
-          },
-          ZulipReactNative: {
-            status: 'active',
-            timestamp: 1475792205,
-            client: 'ZulipReactNative',
-            pushable: false,
-          },
-          ZulipAndroid: {
-            status: 'active',
-            timestamp: 1475455046,
-            client: 'ZulipAndroid',
-            pushable: false,
-          },
-        },
-        'janedoe@example.com': {
-          website: {
-            status: 'idle',
-            timestamp: 1475792202,
-            client: 'website',
-            pushable: false,
-          },
-          ZulipAndroid: {
-            status: 'active',
-            timestamp: 1475792203,
-            client: 'ZulipAndroid',
-            pushable: false,
           },
         },
       };
       const action = deepFreeze({
         type: PRESENCE_RESPONSE,
         presence,
-        serverTimestamp: 1475792265,
+        serverTimestamp: 12345,
       });
 
-      const prevState = deepFreeze([
-        {
-          email: 'email@example.com',
-          status: 'offline',
+      const expectedState = {
+        'email@example.com': {
+          aggregated: {
+            client: 'website',
+            status: 'active',
+            timestamp: 123,
+          },
         },
-        {
-          email: 'johndoe@example.com',
-          status: 'offline',
+        'johndoe@example.com': {
+          website: {
+            status: 'active',
+            timestamp: 345,
+            client: 'website',
+          },
         },
-        {
-          email: 'janedoe@example.com',
-          status: 'offline',
-        },
-      ]);
-
-      const expectedState = [
-        {
-          email: 'email@example.com',
-          status: 'active',
-          timestamp: 1474527507,
-          age: 1264758,
-          client: 'website',
-          pushable: false,
-        },
-        {
-          email: 'johndoe@example.com',
-          status: 'active',
-          timestamp: 1475792255,
-          age: 10,
-          client: 'website',
-          pushable: false,
-        },
-        {
-          email: 'janedoe@example.com',
-          status: 'active',
-          timestamp: 1475792203,
-          age: 62,
-          client: 'ZulipAndroid',
-          pushable: false,
-        },
-      ];
+        'janedoe@example.com': {},
+      };
 
       const newState = presenceReducers(prevState, action);
 
@@ -221,35 +105,38 @@ describe('presenceReducers', () => {
 
   describe('EVENT_PRESENCE', () => {
     test('merges a single user presence', () => {
-      const prevState = deepFreeze([
-        {
-          email: 'email@example.com',
-          status: 'offline',
-          timestamp: 200,
-          age: 100,
+      const prevState = deepFreeze({
+        'email@example.com': {
+          aggregated: {
+            client: 'website',
+            status: 'active',
+            timestamp: 123,
+          },
         },
-      ]);
+      });
 
       const action = deepFreeze({
         type: EVENT_PRESENCE,
         email: 'email@example.com',
         server_timestamp: 200,
         presence: {
-          website: {
+          aggregated: {
+            client: 'mobile',
             status: 'active',
-            timestamp: 150,
+            timestamp: 160,
           },
         },
       });
 
-      const expectedState = [
-        {
-          email: 'email@example.com',
-          status: 'active',
-          timestamp: 150,
-          age: 50,
+      const expectedState = {
+        'email@example.com': {
+          aggregated: {
+            client: 'mobile',
+            status: 'active',
+            timestamp: 160,
+          },
         },
-      ];
+      };
 
       const newState = presenceReducers(prevState, action);
 
@@ -271,7 +158,7 @@ describe('presenceReducers', () => {
         type: ACCOUNT_SWITCH,
       });
 
-      const expectedState = [];
+      const expectedState = {};
 
       const actualState = presenceReducers(initialState, action);
 

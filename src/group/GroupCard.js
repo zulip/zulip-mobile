@@ -32,6 +32,7 @@ export default class GroupCard extends PureComponent {
     actions: Actions,
     ownEmail: string,
     users: User[],
+    presences: Object,
   };
 
   state = {
@@ -79,7 +80,7 @@ export default class GroupCard extends PureComponent {
   };
 
   render() {
-    const { ownEmail, users } = this.props;
+    const { ownEmail, users, presences } = this.props;
     const { selected } = this.state;
 
     return (
@@ -98,6 +99,7 @@ export default class GroupCard extends PureComponent {
           ownEmail={ownEmail}
           filter=""
           users={users}
+          presences={presences}
           selected={selected}
           onPress={this.handleUserPress}
         />
