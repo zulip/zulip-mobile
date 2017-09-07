@@ -45,6 +45,7 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return initialState;
+
     case PRESENCE_RESPONSE: {
       const newState = [...state];
       return Object.keys(action.presence).reduce((currentState, email) => {
@@ -65,6 +66,7 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
         return currentState;
       }, newState);
     }
+
     case EVENT_PRESENCE: {
       const userIndex = state.findIndex(u => u.email === action.email);
       let user;
@@ -79,6 +81,7 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
       }
       return newState;
     }
+
     default:
       return state;
   }
