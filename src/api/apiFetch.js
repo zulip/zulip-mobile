@@ -74,6 +74,8 @@ export const apiGet = async (
       method: 'get',
     },
     resFunc,
+    isSilent,
+    shouldTimeout,
   );
 
 export const apiPost = async (
