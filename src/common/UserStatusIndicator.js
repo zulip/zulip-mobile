@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { StyleObj, UserStatus } from '../types';
+import type { StyleObj, Presence } from '../types';
 
 const styles = StyleSheet.create({
   common: {
@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
 
 export default class UserStatusIndicator extends PureComponent {
   props: {
-    status: UserStatus,
     style: StyleObj,
+    presence?: Presence,
   };
 
   static defaultProps = {
@@ -35,10 +35,10 @@ export default class UserStatusIndicator extends PureComponent {
   };
 
   render() {
-    const { status, style } = this.props;
+    const { presence, style } = this.props;
 
-    if (!status) return null;
+    if (!presence || !presence.aggregated) return null;
 
-    return <View style={[styles.common, styles[status], style]} />;
+    return <View style={[styles.common, styles[presence.aggregated.status], style]} />;
   }
 }

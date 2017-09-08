@@ -2,9 +2,9 @@
 import { createSelector } from 'reselect';
 import uniqby from 'lodash.uniqby';
 
-import { NULL_USER, NULL_PRESENCE } from '../nullObjects';
+import { NULL_USER } from '../nullObjects';
 import type { User } from '../types';
-import { getUsers, getPresence } from '../selectors';
+import { getUsers } from '../selectors';
 import { getCurrentRouteParams } from '../nav/navigationSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 
@@ -39,23 +39,6 @@ export const getSelfUserDetail = createSelector(getUsers, getOwnEmail, (users, o
 
 export const getAllActiveUsers = createSelector(getUsers, allUsers =>
   allUsers.filter(user => user.isActive),
-);
-
-export const getAllActiveUsersWithStatus = createSelector(
-  getAllActiveUsers,
-  getPresence,
-  (allUsers, allPresence) =>
-    allUsers.reduce((users, user) => {
-      let presence = allPresence.find(x => x.email === user.email) || NULL_PRESENCE;
-      if (presence.age > 120) {
-        presence = NULL_PRESENCE;
-      }
-      users.push({
-        ...user,
-        status: presence.status,
-      });
-      return users;
-    }, []),
 );
 
 export const getUserById = (users: any[], userId: number) =>

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
 import type { Narrow, User } from '../types';
-import { getAllActiveUsersWithStatus } from '../selectors';
+import { getAllActiveUsers } from '../selectors';
 import UserItem from '../users/UserItem';
 import { isPrivateNarrow } from '../utils/narrow';
 
@@ -14,12 +14,13 @@ class ConversationUser extends PureComponent {
     users: User[],
     unreadCount: number,
     realm: string,
+    presence?: Object,
     narrow?: Narrow,
     onPress: (email: string) => void,
   };
 
   render() {
-    const { email, unreadCount, users, realm, narrow, onPress } = this.props;
+    const { email, unreadCount, users, realm, narrow, presence, onPress } = this.props;
     const user = users.find(x => x.email === email);
     const isSelected = narrow && isPrivateNarrow(narrow) && narrow[0].operand === email;
 
@@ -31,7 +32,7 @@ class ConversationUser extends PureComponent {
         avatarUrl={user.avatarUrl}
         email={email}
         unreadCount={unreadCount}
-        status={user.status}
+        presence={presence}
         isSelected={isSelected}
         realm={realm}
         onPress={onPress}
@@ -43,7 +44,7 @@ class ConversationUser extends PureComponent {
 export default connect(
   state => ({
     narrow: state.chat.narrow,
-    users: getAllActiveUsersWithStatus(state),
+    users: getAllActiveUsers(state),
   }),
   boundActions,
 )(ConversationUser);
