@@ -5,6 +5,7 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import boundActions from '../boundActions';
 import MessageList from './MessageList';
+// import MessageList from './MessageListFlatList';
 import {
   getAuth,
   getCurrentTypingUsers,

@@ -4,6 +4,7 @@ import { SectionList } from 'react-native';
 
 import type { Actions, TypingState } from '../types';
 import { nullFunction } from '../nullObjects';
+import { LoadingIndicator } from '../common';
 import MessageListSection from './MessageListSection';
 import MessageListItem from './MessageListItem';
 
@@ -17,8 +18,10 @@ export default class MessageList extends PureComponent {
     typingUsers?: TypingState,
     fetchingOlder: boolean,
     fetchingNewer: boolean,
+    singleFetchProgress: boolean,
     renderedMessages: Object[],
     listRef: (component: Object) => void,
+    onScroll: () => void,
   };
 
   static defaultProps = {
@@ -27,7 +30,19 @@ export default class MessageList extends PureComponent {
 
   render() {
     const { styles } = this.context;
-    const { actions, renderedMessages, fetchingOlder, listRef } = this.props;
+    const {
+      actions,
+      renderedMessages,
+      singleFetchProgress,
+      fetchingOlder,
+      fetchingNewer,
+      listRef,
+      onScroll,
+    } = this.props;
+
+    if (!singleFetchProgress && fetchingNewer) {
+      return <LoadingIndicator active />;
+    }
 
     return (
       <SectionList
@@ -43,6 +58,7 @@ export default class MessageList extends PureComponent {
         onStartReached={actions.fetchOlder}
         onEndReached={actions.fetchNewer}
         onRefresh={actions.fetchOlder}
+        onScroll={onScroll}
         ref={component => {
           if (listRef) listRef(component);
         }}
