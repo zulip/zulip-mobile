@@ -3,17 +3,17 @@ import React, { PureComponent } from 'react';
 import { AppState, BackHandler, NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
 
+import { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
 import AppWithNavigationState from './AppWithNavigationState';
 import { getAuth, getNavigationIndex } from '../selectors';
 import { registerAppActivity } from '../utils/activity';
-import { checkCompatibility } from '../api';
-import CompatibilityScreen from '../start/CompatibilityScreen';
-import { Auth, Actions } from '../types';
+import LoadingScreen from '../start/LoadingScreen';
 
 type Props = {
   auth: Auth,
   navIndex: number,
+  isHydrated: boolean,
   needsInitialFetch: boolean,
   actions: Actions,
 };
@@ -23,10 +23,6 @@ class AppContainer extends PureComponent {
     styles: () => null,
   };
   props: Props;
-
-  state = {
-    compatibilityCheckFail: false,
-  };
 
   handleLayout = event => {
     const { actions } = this.props;
@@ -56,7 +52,7 @@ class AppContainer extends PureComponent {
       return true;
     }
     return false;
-  }
+  };
 
   handleMemoryWarning = () => {
     // Release memory here
@@ -67,13 +63,6 @@ class AppContainer extends PureComponent {
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
-    checkCompatibility().then(res => {
-      if (res.status === 400) {
-        this.setState({
-          compatibilityCheckFail: true,
-        });
-      }
-    });
   }
 
   componentWillUnmount() {
@@ -95,10 +84,10 @@ class AppContainer extends PureComponent {
   };
 
   render() {
-    const { compatibilityCheckFail } = this.state;
+    const { isHydrated } = this.props;
 
-    if (compatibilityCheckFail) {
-      return <CompatibilityScreen />;
+    if (!isHydrated) {
+      return <LoadingScreen />;
     }
 
     return (
@@ -112,6 +101,7 @@ class AppContainer extends PureComponent {
 export default connect(
   state => ({
     auth: getAuth(state),
+    isHydrated: state.app.isHydrated,
     needsInitialFetch: state.app.needsInitialFetch,
     navIndex: getNavigationIndex(state),
   }),

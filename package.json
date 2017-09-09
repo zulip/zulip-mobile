@@ -37,7 +37,6 @@
     "date-fns": "^1.28.5",
     "entities": "^1.1.1",
     "events": "^1.1.1",
-    "g": "^2.0.1",
     "htmlparser2": "^3.9.2",
     "immutable": "^3.8.1",
     "lodash.isequal": "^4.4.0",

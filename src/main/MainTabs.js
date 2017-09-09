@@ -6,7 +6,7 @@ import { BRAND_COLOR } from '../styles';
 import UnreadStreamsContainer from '../unread/UnreadStreamsContainer';
 import StreamTabs from '../nav/StreamTabs';
 import ConversationsContainer from '../conversations/ConversationsContainer';
-import SettingsCard from '../settings/SettingsCard';
+import SettingsContainer from '../settings/SettingsContainer';
 import { IconHome, IconStream, IconPrivateChat, IconSettings } from '../common/Icons';
 
 export default TabNavigator(
@@ -33,7 +33,7 @@ export default TabNavigator(
       },
     },
     settings: {
-      screen: SettingsCard,
+      screen: SettingsContainer,
       navigationOptions: {
         tabBarLabel: 'Settings',
         tabBarIcon: ({ tintColor }) => <IconSettings size={24} color={tintColor} />,

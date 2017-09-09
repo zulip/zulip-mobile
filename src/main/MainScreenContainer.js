@@ -5,7 +5,6 @@ import isEqual from 'lodash.isequal';
 
 import type { Actions, Message, Narrow } from '../types';
 import boundActions from '../boundActions';
-import { getShownMessagesInActiveNarrow } from '../selectors';
 import MainScreen from './MainScreenWithDrawers';
 // import MainScreen from './MainScreenWithTabs';
 
@@ -28,10 +27,4 @@ class MainScreenContainer extends PureComponent {
   }
 }
 
-export default connect(
-  state => ({
-    narrow: state.chat.narrow,
-    messages: getShownMessagesInActiveNarrow(state),
-  }),
-  boundActions,
-)(MainScreenContainer);
+export default connect(null, boundActions)(MainScreenContainer);

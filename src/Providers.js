@@ -8,6 +8,7 @@ import '../vendor/intl/intl';
 import messages from './i18n/messages';
 import StylesProvider from './StylesProvider';
 import AppContainer from './nav/AppContainer';
+import CompatibilityChecker from './nav/CompatibilityChecker';
 
 require('./i18n/locale');
 
@@ -23,7 +24,9 @@ class Providers extends PureComponent {
     return (
       <IntlProvider key={locale} locale={locale} textComponent={Text} messages={messages[locale]}>
         <StylesProvider key={theme} theme={theme}>
-          <AppContainer />
+          <CompatibilityChecker>
+            <AppContainer />
+          </CompatibilityChecker>
         </StylesProvider>
       </IntlProvider>
     );

@@ -33,26 +33,6 @@ export default class MessageListWeb extends PureComponent {
     }
   };
 
-  componentDidMount = () => {};
-  /*
-  shouldComponentUpdate = (nextProps) => {
-    // if (this.props.messages.length < nextProps.messages.length) {
-    console.log('NEW MSGS');
-    // this.webview.postMessage(JSON.stringify({
-    //   type: 'message',
-    //   html: '<div>Hello World</div>'
-    // }));
-    console.log(nextProps.messages.length - this.props.messages.length);
-    console.log(nextProps.messages.slice(nextProps.messages.length - this.props.messages.length));
-    // }
-
-    if (this.once) {
-      return false;
-    }
-    this.once = true;
-    return true;
-  };
-*/
   render() {
     const { auth } = this.props;
     const messagesHtml = renderMessagesAsHtml(this.props);

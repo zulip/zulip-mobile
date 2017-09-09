@@ -25,6 +25,7 @@ const initialState: AppState = {
   editMessage: null,
   isOnline: true,
   isActive: true,
+  isHydrated: false,
   lastActivityTime: new Date(),
   needsInitialFetch: false,
   orientation: 'PORTRAIT',
@@ -50,6 +51,7 @@ export default (state: AppState = initialState, action: Action) => {
     case REHYDRATE:
       return {
         ...state,
+        isHydrated: true,
         needsInitialFetch: !!getAuth(action.payload).apiKey,
       };
 
