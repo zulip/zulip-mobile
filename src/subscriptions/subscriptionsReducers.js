@@ -7,6 +7,7 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   INIT_SUBSCRIPTIONS,
+  EVENT_STREAM_REMOVE,
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
   EVENT_SUBSCRIPTION_UPDATE,
@@ -34,6 +35,9 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
       return state.concat(
         action.subscriptions.filter(x => !state.find(y => x.stream_id === y.stream_id)),
       );
+
+    case EVENT_STREAM_REMOVE:
+      return state.filter(x => !action.streams.find(y => x.stream_id === y.stream_id));
 
     case EVENT_SUBSCRIPTION_REMOVE:
       return state.filter(x => !action.subscriptions.find(y => x.stream_id === y.stream_id));
