@@ -1,10 +1,11 @@
 /* @flow */
-import { Children, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
-import themeCreator from './styles/theme';
-import themeDark from './styles/themeDark';
-import themeLight from './styles/themeLight';
+import themeCreator from '../styles/theme';
+import themeDark from '../styles/themeDark';
+import themeLight from '../styles/themeLight';
 
 const themeNameToObject = {
   default: themeLight,
@@ -12,7 +13,9 @@ const themeNameToObject = {
   night: themeDark,
 };
 
-export default class StyleProvider extends PureComponent {
+const Dummy = props => props.children;
+
+class StyleProvider extends PureComponent {
   props: {
     theme: string,
     children?: any,
@@ -34,6 +37,12 @@ export default class StyleProvider extends PureComponent {
   }
 
   render() {
-    return Children.only(this.props.children);
+    const { children, theme } = this.props;
+
+    return <Dummy key={theme}>{children}</Dummy>;
   }
 }
+
+export default connect(state => ({
+  theme: state.settings.theme,
+}))(StyleProvider);

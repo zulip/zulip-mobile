@@ -4,7 +4,7 @@ import { createLogger } from 'redux-logger';
 import { REHYDRATE } from 'redux-persist/constants';
 import createActionBuffer from 'redux-action-buffer';
 
-import config from './config';
+import config from '../config';
 
 const middleware = [thunk, createActionBuffer(REHYDRATE)];
 

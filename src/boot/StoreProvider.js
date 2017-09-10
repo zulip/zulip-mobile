@@ -3,14 +3,9 @@ import React, { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 
 import store, { restore } from './store';
-import timing from './utils/timing';
-import Providers from './Providers';
+import timing from '../utils/timing';
 
 export default class StoreHydrator extends PureComponent {
-  state: {
-    isHydrated: boolean,
-  };
-
   componentWillMount() {
     timing.start('Store hydration');
     restore(() => {
@@ -19,10 +14,6 @@ export default class StoreHydrator extends PureComponent {
   }
 
   render() {
-    return (
-      <Provider store={store}>
-        <Providers />
-      </Provider>
-    );
+    return <Provider store={store}>{this.props.children}</Provider>;
   }
 }
