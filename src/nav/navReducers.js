@@ -15,24 +15,27 @@ import {
 } from '../actionConstants';
 
 export default (
-  state: NavigationState = getStateForRoute('realm'),
+  state: NavigationState = getStateForRoute('loading'),
   action: Action,
 ): NavigationState => {
   switch (action.type) {
     case REHYDRATE:
       return getStateForRoute(getInitialRoute(action.payload));
+
     case RESET_NAVIGATION:
     case ACCOUNT_SWITCH:
       return getStateForRoute(getInitialRoute(state));
-    case SET_AUTH_TYPE: {
+
+    case SET_AUTH_TYPE:
       return AppNavigator.router.getStateForAction(navigateToAuth(action.authType), state);
-    }
+
     case LOGIN_SUCCESS:
     case INITIAL_FETCH_COMPLETE:
       return getStateForRoute('main');
-    case LOGOUT: {
+
+    case LOGOUT:
       return AppNavigator.router.getStateForAction(navigateToAccountPicker(), state);
-    }
+
     default:
       return AppNavigator.router.getStateForAction(action, state);
   }

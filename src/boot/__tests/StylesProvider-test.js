@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import { rendererWithStyle } from '../utils/tests';
+import { rendererWithStyle } from '../../utils/tests';
 
 describe('StylesProvider', () => {
   test('renders', () => {

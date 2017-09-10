@@ -5,20 +5,18 @@ import { connect } from 'react-redux';
 
 import { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
-import AppWithNavigationState from './AppWithNavigationState';
 import { getAuth, getNavigationIndex } from '../selectors';
 import { registerAppActivity } from '../utils/activity';
-import LoadingScreen from '../start/LoadingScreen';
 
 type Props = {
   auth: Auth,
   navIndex: number,
-  isHydrated: boolean,
   needsInitialFetch: boolean,
   actions: Actions,
+  children?: any,
 };
 
-class AppContainer extends PureComponent {
+class AppEventHandlers extends PureComponent {
   static contextTypes = {
     styles: () => null,
   };
@@ -67,32 +65,15 @@ class AppContainer extends PureComponent {
 
   componentWillUnmount() {
     NetInfo.isConnected.removeEventListener('change', this.handleConnectivityChange);
-    AppState.addEventListener('change', this.handleAppStateChange);
-    AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
+    AppState.removeEventListener('change', this.handleAppStateChange);
+    AppState.removeEventListener('memoryWarning', this.handleMemoryWarning);
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
   }
 
-  componentWillMount = () => this.init(this.props);
-
-  componentWillReceiveProps = nextProps => this.init(nextProps);
-
-  init = props => {
-    const { actions, needsInitialFetch } = props;
-
-    if (needsInitialFetch) {
-      actions.doInitialFetch();
-    }
-  };
-
   render() {
-    const { isHydrated } = this.props;
-
-    if (!isHydrated) {
-      return <LoadingScreen />;
-    }
-
     return (
       <View style={this.context.styles.screen} onLayout={this.handleLayout}>
-        <AppWithNavigationState />
+        {this.props.children}
       </View>
     );
   }
@@ -101,9 +82,8 @@ class AppContainer extends PureComponent {
 export default connect(
   state => ({
     auth: getAuth(state),
-    isHydrated: state.app.isHydrated,
     needsInitialFetch: state.app.needsInitialFetch,
     navIndex: getNavigationIndex(state),
   }),
   boundActions,
-)(AppContainer);
+)(AppEventHandlers);

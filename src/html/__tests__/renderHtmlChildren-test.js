@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
 import { Provider } from 'react-redux';
 
-import store from '../../store';
+import store from '../../boot/store';
 import htmlToDomTree from '../htmlToDomTree';
 import renderHtmlChildren from '../renderHtmlChildren';
 
