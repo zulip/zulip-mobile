@@ -15,7 +15,7 @@ class ZulipStatusBar extends PureComponent {
   };
 
   props: {
-    fullScreen?: boolean,
+    barStyle?: string,
     hidden: boolean,
     theme: string,
     backgroundColor: string,
@@ -27,26 +27,28 @@ class ZulipStatusBar extends PureComponent {
   };
 
   render() {
-    const { theme, backgroundColor, textColor, hidden, fullScreen } = this.props;
+    const { theme, backgroundColor, textColor, hidden, barStyle } = this.props;
     const style = { height: hidden ? 0 : STATUSBAR_HEIGHT, backgroundColor };
-    const barStyle = getStatusBarStyle(backgroundColor, textColor, theme);
+    const statusBarStyle = !barStyle
+     ? getStatusBarStyle(backgroundColor, textColor, theme)
+     : barStyle;
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
       <View style={style}>
         <StatusBar
           animated
           showHideTransition="slide"
-          hidden={hidden && (fullScreen || Platform.OS !== 'android')}
+          hidden={hidden && Platform.OS !== 'android'}
           backgroundColor={Color(statusBarColor).darken(0.4)}
-          barStyle={barStyle}
+          barStyle={statusBarStyle}
         />
       </View>
     );
   }
 }
 
-export default connect(state => ({
+export default connect((state, props) => ({
   theme: state.settings.theme,
-  backgroundColor: getTitleBackgroundColor(state),
+  backgroundColor: !props.backgroundColor ? getTitleBackgroundColor(state) : props.backgroundColor,
   textColor: getTitleTextColor(state),
 }))(ZulipStatusBar);

@@ -77,11 +77,9 @@ class LightboxContainer extends PureComponent {
   };
 
   handleImagePress = () => {
-    const { handleImagePress } = this.props;
     this.setState(({ movement }, props) => ({
       movement: movement === 'out' ? 'in' : 'out',
     }));
-    handleImagePress(this.state.movement);
   };
 
   handleOptionsPress = () => {

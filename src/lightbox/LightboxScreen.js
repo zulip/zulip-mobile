@@ -6,6 +6,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { ZulipStatusBar } from '../common';
 import LightboxContainer from './LightboxContainer';
 import { Message, ImageResource } from '../types';
+import { LIGHTBOX_OVERLAY_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
   screen: {
@@ -28,26 +29,13 @@ export default class LightboxScreen extends PureComponent {
     },
   };
 
-  state: {
-    movement: string,
-  };
-
-  state = {
-    movement: 'in',
-  };
-
-  handleImagePress = (movement: string) => {
-    this.setState({ movement });
-  }
-
   render() {
     const { src, message } = this.props.navigation.state.params;
-    const { movement } = this.state;
     return (
       <View style={styles.screen}>
-        <ZulipStatusBar hidden={movement === 'out'} fullScreen />
+        <ZulipStatusBar hidden backgroundColor={LIGHTBOX_OVERLAY_COLOR} barStyle={'light-content'} />
         <ActionSheetProvider>
-          <LightboxContainer src={src} message={message} handleImagePress={this.handleImagePress} />
+          <LightboxContainer src={src} message={message} />
         </ActionSheetProvider>
       </View>
     );
