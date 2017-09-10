@@ -28,7 +28,7 @@ export const NULL_USER: User = {
 export const NULL_STREAM: Stream = {
   stream_id: 0,
   description: '',
-  name: '',
+  name: 'Unknown Stream',
   invite_only: true,
 };
 
@@ -61,7 +61,7 @@ export const NULL_SUBSCRIPTION: Subscription = {
   email_address: '',
   in_home_view: true,
   invite_only: false,
-  name: '',
+  name: 'Unknown Stream',
   pin_to_top: false,
   stream_id: 0,
 };
