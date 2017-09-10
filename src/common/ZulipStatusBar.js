@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
+import type { StatusBarStyle } from '../types';
 import { STATUSBAR_HEIGHT } from '../styles/platform';
 import { getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 import getStatusBarStyle from '../utils/getStatusBarStyle';
@@ -15,7 +16,7 @@ class ZulipStatusBar extends PureComponent {
   };
 
   props: {
-    barStyle?: string,
+    barStyle?: StatusBarStyle,
     hidden: boolean,
     theme: string,
     backgroundColor: string,
