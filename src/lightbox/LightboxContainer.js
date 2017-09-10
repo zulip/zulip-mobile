@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
 });
 
 type OwnProps = {
+  handleImagePress: (movement: string) => void,
   src: ImageResource,
   message: Message,
 };

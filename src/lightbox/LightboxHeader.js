@@ -9,10 +9,9 @@ import { shortTime, humanDate } from '../utils/date';
 
 const customStyles = StyleSheet.create({
   text: {
+    flex: 1,
+    justifyContent: 'space-between',
     paddingLeft: 10,
-    paddingTop: 2,
-    paddingBottom: 2,
-    justifyContent: 'space-around',
   },
   name: {
     color: 'white',
@@ -27,7 +26,6 @@ const customStyles = StyleSheet.create({
   subheader: {
     color: 'white',
     fontSize: 12,
-    lineHeight: 12,
   },
   children: {
     justifyContent: 'flex-start',

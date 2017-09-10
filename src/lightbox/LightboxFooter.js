@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: 16,
-    lineHeight: 16,
   },
   icon: {
     fontSize: 32,
