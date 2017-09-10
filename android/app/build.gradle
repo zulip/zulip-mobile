@@ -155,6 +155,7 @@ repositories {
 
 
 dependencies {
+    compile project(':react-native-snackbar')
     compile project(':react-native-sentry')
     compile project(':@remobile/react-native-toast')
     compile project(':react-native-photo-view')
