@@ -1,12 +1,10 @@
 /* @flow */
 import type { Dispatch, GetState } from '../types';
 import { pollForEvents } from '../api';
-import { switchAccount } from '../account/accountActions';
+import { appRefresh, batchActions } from '../actions';
 import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
 import { getAuth } from '../selectors';
-
-import { BATCH_ACTIONS } from '../actionConstants';
 
 export const startEventPolling = (queueId: number, eventId: number) => async (
   dispatch: Dispatch,
@@ -31,7 +29,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       // or has been garbage collected
       if (e.message.indexOf('too old') !== -1 || e.message.indexOf('Bad event queue id') !== -1) {
         // Force a refresh (index 0 is the currently active account)
-        dispatch(switchAccount(0));
+        dispatch(appRefresh());
         break;
       }
 
@@ -56,7 +54,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
     if (actions.length > 1) {
       // Batch actions together to speed up rendering
       // (especially when resuming from a suspended state)
-      dispatch({ type: BATCH_ACTIONS, actions });
+      dispatch(batchActions(actions));
     } else if (actions.length === 1) {
       dispatch(actions[0]);
     }

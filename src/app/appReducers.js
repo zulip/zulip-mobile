@@ -3,6 +3,7 @@ import { REHYDRATE } from 'redux-persist/constants';
 
 import { AppState, Action } from '../types';
 import {
+  APP_REFRESH,
   LOGIN_SUCCESS,
   APP_ONLINE,
   APP_ACTIVITY,
@@ -35,6 +36,7 @@ const initialState: AppState = {
 
 export default (state: AppState = initialState, action: Action) => {
   switch (action.type) {
+    case APP_REFRESH:
     case ACCOUNT_SWITCH:
       return {
         ...state,

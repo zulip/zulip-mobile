@@ -1,6 +1,7 @@
 /* @flow */
 import type { FlagsState, Action } from '../types';
 import {
+  APP_REFRESH,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
@@ -58,6 +59,7 @@ const removeFlagForMessages = (state: FlagsState, messages, flag: string[]): Fla
 
 export default (state: FlagsState = initialState, action: Action): FlagsState => {
   switch (action.type) {
+    case APP_REFRESH:
     case ACCOUNT_SWITCH:
       return initialState;
 
