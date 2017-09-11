@@ -1,5 +1,6 @@
 /* @flow */
 import type { Action, Narrow, Dispatch, GetState } from '../types';
+import { NULL_CAUGHTUP } from '../nullObjects';
 import { getMessages } from '../api';
 import { registerAppActivity } from '../utils/activity';
 import {
@@ -120,7 +121,7 @@ export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INT
 ) => {
   const auth = getAuth(getState());
   const anyMessagesInNewNarrow = JSON.stringify(newNarrow) in getAllMessages(getState());
-  const caughtUp = getCaughtUpForActiveNarrow(getState());
+  const caughtUp = getState().caughtUp[newNarrow] || NULL_CAUGHTUP;
 
   if (!anyMessagesInNewNarrow && !caughtUp.newer && !caughtUp.older) {
     dispatch(fetchMessagesAtFirstUnread(newNarrow));
