@@ -43,7 +43,6 @@ export const getMessagesInActiveNarrow = createSelector(
           return JSON.stringify(item.narrow) === activeNarrowString;
         });
 
-    // TODO make this more efficient
     if (!outboxMessagesForCurrentNarrow) return allMessages[activeNarrowString];
     return allMessages[activeNarrowString]
       .concat(outboxMessagesForCurrentNarrow)
