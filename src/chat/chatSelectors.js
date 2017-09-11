@@ -113,7 +113,7 @@ export const getStreamInNarrow = createSelector(
   getStreams,
   (narrow, subscriptions, streams) =>
     subscriptions.find(x => x.name === narrow[0].operand) || {
-      ...streams.find(x => x.name === narrow[0].operand),
+      ...streams.find(x => x.name === narrow[0].operand) || NULL_SUBSCRIPTION,
       in_home_view: true,
     } ||
     NULL_SUBSCRIPTION,

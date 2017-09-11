@@ -8,6 +8,7 @@ import android.util.Pair;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
+import com.azendoo.reactnativesnackbar.SnackbarPackage;
 import com.wix.reactnativenotifications.RNNotificationsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -48,6 +49,7 @@ public class MainApplication extends Application implements ReactApplication, IN
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new SnackbarPackage(),
                     new RNSentryPackage(MainApplication.this),
                     new PhotoViewPackage(),
                     new RCTToastPackage(),

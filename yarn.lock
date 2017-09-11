@@ -2432,10 +2432,6 @@ functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
 
-g@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/g/-/g-2.0.1.tgz#0b5963ebd0ca70e3bc8c6766934a021821c8b857"
-
 gauge@~1.2.5:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/gauge/-/gauge-1.2.7.tgz#e9cec5483d3d4ee0ef44b60a7d99e4935e136d93"
@@ -4807,10 +4803,6 @@ prepend-http@^1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
 
-present@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/present/-/present-1.0.0.tgz#6d2f865be7a96885118f4660e83e2161fb71cf2b"
-
 preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
@@ -5056,6 +5048,10 @@ react-native-sentry@^0.23.0:
 react-native-simple-toast@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-0.0.7.tgz#2ef51bdafd3e98df718f74fdd0bc0ce08608dff8"
+
+react-native-snackbar@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-snackbar/-/react-native-snackbar-0.4.1.tgz#8b2753833e6ca8db0c62b2026e5c24eb6fd688f5"
 
 react-native-sound@^0.10.4:
   version "0.10.4"
@@ -5323,10 +5319,6 @@ redux-action-buffer@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/redux-action-buffer/-/redux-action-buffer-1.1.0.tgz#9c692ab6532b042d0d43a9f01a48ada120fc941a"
 
-redux-log-slow-reducers@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/redux-log-slow-reducers/-/redux-log-slow-reducers-0.0.2.tgz#08039ae167055fb05eb7a03d94f7d9dae2afa50f"
-
 redux-logger@^3.0.1:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-3.0.6.tgz#f7555966f3098f3c88604c449cf0baf5778274bf"
@@ -5336,12 +5328,6 @@ redux-logger@^3.0.1:
 redux-mock-store@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.2.3.tgz#1b3ad299da91cb41ba30d68e3b6f024475fb9e1b"
-
-redux-perf-middleware@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/redux-perf-middleware/-/redux-perf-middleware-1.2.2.tgz#099b4ca38d1f0a3beb77b66617d196ed0ef2f514"
-  dependencies:
-    present "^1.0.0"
 
 redux-persist@^4.9.1:
   version "4.9.1"

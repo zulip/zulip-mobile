@@ -1,6 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import {
+  EVENT_STREAM_REMOVE,
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
   // EVENT_SUBSCRIPTION_PEER_ADD,
@@ -120,6 +121,83 @@ describe('subscriptionsReducers', () => {
           stream_id: 2,
         },
       ];
+
+      const newState = subscriptionsReducers(prevState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('EVENT_STREAM_REMOVE', () => {
+    test('removes subscriptions from state', () => {
+      const prevState = deepFreeze([
+        {
+          color: 'red',
+          stream_id: 1,
+          name: 'some stream',
+        },
+        {
+          color: 'green',
+          stream_id: 2,
+          name: 'other stream',
+        },
+        {
+          color: 'blue',
+          stream_id: 3,
+          name: 'third stream',
+        },
+      ]);
+
+      const action = deepFreeze({
+        type: EVENT_STREAM_REMOVE,
+        streams: [
+          {
+            name: 'some stream',
+            stream_id: 1,
+          },
+          {
+            name: 'some other stream',
+            stream_id: 2,
+          },
+        ],
+      });
+
+      const expectedState = [
+        {
+          color: 'blue',
+          stream_id: 3,
+          name: 'third stream',
+        },
+      ];
+
+      const newState = subscriptionsReducers(prevState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+
+    test('removes subscriptions that exist, do nothing if not', () => {
+      const prevState = deepFreeze([
+        {
+          name: 'some stream',
+          stream_id: 1,
+        },
+      ]);
+
+      const action = deepFreeze({
+        type: EVENT_STREAM_REMOVE,
+        streams: [
+          {
+            name: 'some stream',
+            stream_id: 1,
+          },
+          {
+            name: 'some other stream',
+            stream_id: 2,
+          },
+        ],
+      });
+
+      const expectedState = [];
 
       const newState = subscriptionsReducers(prevState, action);
 

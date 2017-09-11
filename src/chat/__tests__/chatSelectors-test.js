@@ -6,6 +6,7 @@ import {
   getUnreadPrivateMessagesCount,
   getLastTopicInActiveNarrow,
   getMessagesInActiveNarrow,
+  getStreamInNarrow,
 } from '../chatSelectors';
 import {
   homeNarrow,
@@ -14,6 +15,8 @@ import {
   privateNarrow,
   streamNarrow,
 } from '../../utils/narrow';
+
+import { NULL_SUBSCRIPTION } from '../../nullObjects';
 
 describe('getMessagesInActiveNarrow', () => {
   test('Combine messages & outbox in same narrow', () => {
@@ -250,5 +253,33 @@ describe('getLastTopicInActiveNarrow', () => {
     const actualLastTopic = getLastTopicInActiveNarrow(state);
 
     expect(actualLastTopic).toEqual('Some subject');
+  });
+});
+
+describe('getStreamInNarrow', () => {
+  test('get stream in current narrow', () => {
+    const state = deepFreeze({
+      chat: {
+        narrow: streamNarrow('all'),
+      },
+      streams: [{ name: 'all' }],
+      subscriptions: [{ name: 'all' }],
+    });
+    const actualStream = getStreamInNarrow(state);
+
+    expect(actualStream).toEqual({ name: 'all' });
+  });
+
+  test('return null subscriptions if current narrow stream is outdated', () => {
+    const state = deepFreeze({
+      chat: {
+        narrow: streamNarrow('election 17'),
+      },
+      streams: [{ name: 'all' }],
+      subscriptions: [{ name: 'all' }],
+    });
+    const actualStream = getStreamInNarrow(state);
+
+    expect(actualStream).toEqual(NULL_SUBSCRIPTION);
   });
 });

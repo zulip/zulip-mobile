@@ -11,6 +11,7 @@ import {
   getLastMessageId,
   getCaughtUpForActiveNarrow,
   getFetchingForActiveNarrow,
+  getStreams,
 } from '../selectors';
 import config from '../config';
 import {
@@ -21,6 +22,8 @@ import {
 } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
+import { isStreamOrTopicNarrow } from '../utils/narrow';
+import { showSnackBar } from '../utils/showSnackBar';
 
 export const switchNarrow = (narrow: Narrow): Action => ({
   type: SWITCH_NARROW,
@@ -139,7 +142,12 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
     const anchor = getMessageIdFromLink(href, auth.realm);
     const narrow = getNarrowFromLink(href, auth.realm, users);
 
-    dispatch(doNarrow(narrow, anchor));
+    if (isStreamOrTopicNarrow(narrow) &&
+     !getStreams(state).find(s => s.name === narrow[0].operand)) {
+      showSnackBar(`The stream ${narrow[0].operand} does not exist.`, null);
+    } else {
+      dispatch(doNarrow(narrow, anchor));
+    }
   } else {
     openLink(getFullUrl(href, auth.realm));
   }
