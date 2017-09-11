@@ -17,7 +17,7 @@ require('./i18n/locale');
 // console.disableYellowBox = true; // eslint-disable-line
 
 if (config.enableSentry) {
-  Sentry.config(config.sentryKey).install();
+  Sentry.config(config.sentryKey, { deactivateStacktraceMerging: true }).install();
 }
 
 export default () => (
