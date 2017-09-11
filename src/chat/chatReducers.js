@@ -3,6 +3,7 @@ import isEqual from 'lodash.isequal';
 
 import type { ChatState, Action } from '../types';
 import {
+  APP_REFRESH,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -24,6 +25,7 @@ const initialState: ChatState = {
 
 export default (state: ChatState = initialState, action: Action) => {
   switch (action.type) {
+    case APP_REFRESH:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:

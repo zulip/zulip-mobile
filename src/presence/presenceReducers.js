@@ -1,6 +1,7 @@
 /* @flow */
 import type { UsersState, Action } from '../types';
 import {
+  APP_REFRESH,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -12,6 +13,7 @@ const initialState: Object = {};
 
 export default (state: UsersState = initialState, action: Action): UsersState => {
   switch (action.type) {
+    case APP_REFRESH:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:

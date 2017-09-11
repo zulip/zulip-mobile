@@ -1,6 +1,7 @@
 /* @flow */
 import type { FetchingState, Action } from '../types';
 import {
+  APP_REFRESH,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -14,6 +15,7 @@ const initialState: FetchingState = {};
 
 export default (state: FetchingState = initialState, action: Action) => {
   switch (action.type) {
+    case APP_REFRESH:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case SWITCH_NARROW:

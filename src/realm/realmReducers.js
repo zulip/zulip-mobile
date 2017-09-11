@@ -1,6 +1,7 @@
 /* @flow */
 import type { RealmState, Action } from '../types';
 import {
+  APP_REFRESH,
   REALM_INIT,
   EVENT_REALM_EMOJI_UPDATE,
   LOGOUT,
@@ -32,6 +33,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
         twentyFourHourTime: action.data.twenty_four_hour_time,
       };
 
+    case APP_REFRESH:
     case ACCOUNT_SWITCH:
       return initialState;
 

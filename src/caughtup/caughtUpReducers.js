@@ -1,12 +1,19 @@
 /* @flow */
 import type { CaughtUpState, Action } from '../types';
-import { LOGOUT, LOGIN_SUCCESS, ACCOUNT_SWITCH, MESSAGE_FETCH_COMPLETE } from '../actionConstants';
+import {
+  APP_REFRESH,
+  LOGOUT,
+  LOGIN_SUCCESS,
+  ACCOUNT_SWITCH,
+  MESSAGE_FETCH_COMPLETE,
+} from '../actionConstants';
 import { NULL_CAUGHTUP } from '../nullObjects';
 
 const initialState: CaughtUpState = {};
 
 export default (state: CaughtUpState = initialState, action: Action) => {
   switch (action.type) {
+    case APP_REFRESH:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:

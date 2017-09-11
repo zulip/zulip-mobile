@@ -4,6 +4,7 @@ import {
   APP_ONLINE,
   APP_ORIENTATION,
   APP_STATE,
+  APP_REFRESH,
   TOGGLE_COMPOSE_TOOLS,
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
@@ -26,6 +27,10 @@ export const appOnline = (isOnline: boolean): Action => (
 export const appState = (isActive: boolean): Action => ({
   type: APP_STATE,
   isActive,
+});
+
+export const appRefresh = () => ({
+  type: APP_REFRESH,
 });
 
 export const appOrientation = (orientation: string): Action => (

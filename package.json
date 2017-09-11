@@ -1,6 +1,6 @@
 {
   "name": "ZulipMobile",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "private": true,
   "//": "comment: use `prettier` command as `npm run prettier -- <filename>`",
   "scripts": {
