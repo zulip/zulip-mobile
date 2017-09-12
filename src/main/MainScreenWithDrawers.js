@@ -3,16 +3,16 @@ import React, { PureComponent } from 'react';
 import { DrawerNavigator } from 'react-navigation';
 
 import MainScreen from './MainScreen';
-import StreamSidebar from '../nav/StreamSidebar';
+import Sidebar from '../nav/Sidebar';
 
-export const LeftDrawer = DrawerNavigator(
+export const Drawer = DrawerNavigator(
   {
     main: {
       screen: props => <MainScreen navigation={props.navigation} />,
     },
   },
   {
-    contentComponent: props => <StreamSidebar navigation={props.navigation} />,
+    contentComponent: props => <Sidebar navigation={props.navigation} />,
     initialRouteName: 'main',
     drawerWidth: 300,
   },
@@ -20,6 +20,6 @@ export const LeftDrawer = DrawerNavigator(
 
 export default class MainScreenWithDrawers extends PureComponent {
   render() {
-    return <LeftDrawer />;
+    return <Drawer />;
   }
 }

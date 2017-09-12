@@ -7,6 +7,8 @@ import { WebLink } from '../common';
 import toggleMobilePushSettings from '../api/toggleMobilePushSettings';
 import OptionRow from './OptionRow';
 import OptionButton from './OptionButton';
+import SwitchAccountButton from '../account-info/SwitchAccountButton';
+import LogoutButton from '../account-info/LogoutButton';
 
 const styles = StyleSheet.create({
   optionWrapper: {
@@ -17,6 +19,11 @@ const styles = StyleSheet.create({
   },
   padding: {
     padding: 16,
+  },
+  accountButtons: {
+    flex: 1,
+    alignItems: 'flex-end',
+    flexDirection: 'row',
   },
 });
 
@@ -77,6 +84,10 @@ export default class SettingsCard extends PureComponent {
         <View style={styles.padding}>
           <WebLink label="Terms of service" href="/terms/" />
           <WebLink label="Privacy policy" href="/privacy/" />
+        </View>
+        <View style={styles.accountButtons}>
+          <SwitchAccountButton />
+          <LogoutButton />
         </View>
       </View>
     );
