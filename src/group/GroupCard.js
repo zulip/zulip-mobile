@@ -103,9 +103,8 @@ export default class GroupCard extends PureComponent {
           selected={selected}
           onPress={this.handleUserPress}
         />
-        <AnimatedScaleComponent visible={selected.length > 0}>
+        <AnimatedScaleComponent wrapperStyle={styles.button} visible={selected.length > 0}>
           <FloatingActionButton
-            style={styles.button}
             Icon={IconDone}
             size={50}
             disabled={selected.length === 0}

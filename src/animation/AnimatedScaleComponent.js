@@ -4,7 +4,7 @@ import { Animated, Easing } from 'react-native';
 
 type Props = {
   children: [],
-  visible: boolean,
+  visible: boolean
 };
 
 export default class AnimatedScaleComponent extends PureComponent {
@@ -22,12 +22,14 @@ export default class AnimatedScaleComponent extends PureComponent {
   }
 
   render() {
-    const { children, visible } = this.props;
+    const { children, visible, wrapperStyle } = this.props;
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }],
       opacity: this.animatedValue,
     };
 
-    return <Animated.View style={animatedStyle}>{visible && children}</Animated.View>;
+    return (
+      <Animated.View style={[animatedStyle, wrapperStyle]}>{visible && children}</Animated.View>
+    );
   }
 }
