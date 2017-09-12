@@ -2,9 +2,12 @@
 import React, { PureComponent } from 'react';
 import { Animated, Easing } from 'react-native';
 
+import type { StyleObj } from '../types';
+
 type Props = {
   children: [],
-  visible: boolean
+  visible: boolean,
+  wrapperStyle?: StyleObj
 };
 
 export default class AnimatedScaleComponent extends PureComponent {
