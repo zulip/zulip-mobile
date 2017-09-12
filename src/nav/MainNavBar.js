@@ -22,13 +22,10 @@ class MainNavBar extends PureComponent {
 
   props: {
     actions: Actions,
-    backgroundColor: string,
+    biackgroundColor: string,
     textColor: string,
     editMessage: boolean,
-    unreadHuddlesTotal: number,
     unreadMentionsTotal: number,
-    unreadPmsTotal: number,
-    onPressPeople: () => void,
     onPressStreams: () => void,
   };
 
@@ -38,11 +35,8 @@ class MainNavBar extends PureComponent {
       actions,
       backgroundColor,
       textColor,
-      unreadPmsTotal,
-      unreadHuddlesTotal,
       unreadMentionsTotal,
       onPressStreams,
-      onPressPeople,
       editMessage,
     } = this.props;
 
@@ -57,15 +51,7 @@ class MainNavBar extends PureComponent {
           onPress={leftPress}
         />
         <Title color={textColor} />
-        {!editMessage && (
-          <NavButton
-            name="md-people"
-            color={textColor}
-            borderRadius={20}
-            unreadCount={unreadPmsTotal + unreadHuddlesTotal}
-            onPress={onPressPeople}
-          />
-        )}
+        <NavButton placeholder />
       </View>
     );
   }
