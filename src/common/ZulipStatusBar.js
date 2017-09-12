@@ -35,7 +35,7 @@ class ZulipStatusBar extends PureComponent {
       : barStyle;
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
-      <View style={style}>
+      <View style={[style, { zIndex: 1 }]}>
         <StatusBar
           animated
           showHideTransition="slide"

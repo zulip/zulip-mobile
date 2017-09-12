@@ -44,7 +44,7 @@ class MainNavBar extends PureComponent {
     const leftPress = editMessage ? actions.cancelEditMessage : onPressStreams;
 
     return (
-      <View style={[styles.navBar, { backgroundColor }]}>
+      <View style={[styles.navBar, { backgroundColor, zIndex: 1 }]}>
         <NavButton
           name={editMessage ? 'md-arrow-back' : 'ios-menu'}
           color={textColor}

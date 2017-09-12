@@ -55,7 +55,7 @@ export default class Chat extends PureComponent {
     const showMessagePlaceholders = noMessages && isFetching;
 
     return (
-      <KeyboardAvoider style={styles.screen} behavior="padding">
+      <KeyboardAvoider style={styles.screen} behavior="position" contentContainerStyle={{ flex: 1 }}>
         <ActionSheetProvider>
           <View style={styles.screen}>
             {!isOnline && <OfflineNotice />}
