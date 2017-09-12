@@ -7,6 +7,7 @@ import type { Actions } from '../types';
 import boundActions from '../boundActions';
 import Title from '../title/Title';
 import NavButton from './NavButton';
+import NavButtonPlaceholder from './NavButtonPlaceholder';
 import {
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
@@ -22,9 +23,9 @@ class MainNavBar extends PureComponent {
 
   props: {
     actions: Actions,
-    biackgroundColor: string,
     textColor: string,
     editMessage: boolean,
+    backgroundColor: string,
     unreadMentionsTotal: number,
     onPressStreams: () => void,
   };
@@ -51,7 +52,7 @@ class MainNavBar extends PureComponent {
           onPress={leftPress}
         />
         <Title color={textColor} />
-        <NavButton placeholder />
+        <NavButtonPlaceholder />
       </View>
     );
   }
