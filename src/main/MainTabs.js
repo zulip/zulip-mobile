@@ -3,21 +3,14 @@ import React from 'react';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
 import { BRAND_COLOR } from '../styles';
-import UnreadStreamsContainer from '../unread/UnreadStreamsContainer';
 import StreamTabs from '../nav/StreamTabs';
 import ConversationsContainer from '../conversations/ConversationsContainer';
 import SettingsContainer from '../settings/SettingsContainer';
-import { IconHome, IconStream, IconPrivateChat, IconSettings } from '../common/Icons';
+import { IconStream, IconSettings } from '../common/Icons';
+import IconUnreadConversations from '../nav/IconUnreadConversations';
 
 export default TabNavigator(
   {
-    unread: {
-      screen: UnreadStreamsContainer,
-      navigationOptions: {
-        tabBarLabel: 'Home',
-        tabBarIcon: ({ tintColor }) => <IconHome size={24} color={tintColor} />,
-      },
-    },
     streams: {
       screen: StreamTabs,
       navigationOptions: {
@@ -26,10 +19,10 @@ export default TabNavigator(
       },
     },
     conversations: {
-      screen: ConversationsContainer,
+      screen: props => <ConversationsContainer {...props.screenProps} />,
       navigationOptions: {
         tabBarLabel: 'Conversations',
-        tabBarIcon: ({ tintColor }) => <IconPrivateChat size={24} color={tintColor} />,
+        tabBarIcon: ({ tintColor }) => <IconUnreadConversations color={tintColor} />,
       },
     },
     settings: {
@@ -41,13 +34,13 @@ export default TabNavigator(
     },
   },
   {
-    swipeEnabled: true,
+    // swipeEnabled: true,
     animationEnabled: true,
     tabBarComponent: TabBarBottom,
     tabBarOptions: {
       showIcon: true,
+      showLabel: false,
       activeTintColor: BRAND_COLOR,
-      pressColor: BRAND_COLOR,
     },
   },
 );
