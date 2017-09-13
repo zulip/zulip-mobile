@@ -2,9 +2,12 @@
 import React, { PureComponent } from 'react';
 import { Animated, Easing } from 'react-native';
 
+import type { StyleObj } from '../types';
+
 type Props = {
   children: [],
   visible: boolean,
+  style?: StyleObj
 };
 
 export default class AnimatedScaleComponent extends PureComponent {
@@ -22,12 +25,12 @@ export default class AnimatedScaleComponent extends PureComponent {
   }
 
   render() {
-    const { children, visible } = this.props;
+    const { children, visible, style } = this.props;
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }],
       opacity: this.animatedValue,
     };
 
-    return <Animated.View style={animatedStyle}>{visible && children}</Animated.View>;
+    return <Animated.View style={[animatedStyle, style]}>{visible && children}</Animated.View>;
   }
 }
