@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import type { Actions } from '../types';
 import boundActions from '../boundActions';
@@ -16,6 +16,12 @@ import {
   getTitleTextColor,
 } from '../selectors';
 
+const stylesObj = StyleSheet.create({
+  navBarContainer: {
+    zIndex: 1,
+  },
+});
+
 class MainNavBar extends PureComponent {
   static contextTypes = {
     styles: () => null,
@@ -27,7 +33,7 @@ class MainNavBar extends PureComponent {
     editMessage: boolean,
     backgroundColor: string,
     unreadMentionsTotal: number,
-    onPressStreams: () => void,
+    onPressStreams: () => void
   };
 
   render() {
@@ -44,7 +50,7 @@ class MainNavBar extends PureComponent {
     const leftPress = editMessage ? actions.cancelEditMessage : onPressStreams;
 
     return (
-      <View style={[styles.navBar, { backgroundColor, zIndex: 1 }]}>
+      <View style={[styles.navBar, stylesObj.navBarContainer, { backgroundColor }]}>
         <NavButton
           name={editMessage ? 'md-arrow-back' : 'ios-menu'}
           color={textColor}
@@ -67,5 +73,5 @@ export default connect(
     unreadPmsTotal: getUnreadPmsTotal(state),
     editMessage: state.app.editMessage,
   }),
-  boundActions,
+  boundActions
 )(MainNavBar);

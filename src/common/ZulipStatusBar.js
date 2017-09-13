@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Platform, StatusBar, View } from 'react-native';
+import { Platform, StatusBar, View, StyleSheet } from 'react-native';
 import Color from 'color';
 
 import type { StatusBarStyle } from '../types';
@@ -9,6 +9,12 @@ import { STATUSBAR_HEIGHT } from '../styles/platform';
 import { getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 import getStatusBarStyle from '../utils/getStatusBarStyle';
 import getStatusBarColor from '../utils/getStatusBarColor';
+
+const stylesObj = StyleSheet.create({
+  statusBarContainer: {
+    zIndex: 1,
+  },
+});
 
 class ZulipStatusBar extends PureComponent {
   static contextTypes = {
@@ -20,7 +26,7 @@ class ZulipStatusBar extends PureComponent {
     hidden: boolean,
     theme: string,
     backgroundColor: string,
-    textColor: string,
+    textColor: string
   };
 
   static defaultProps = {
@@ -35,7 +41,7 @@ class ZulipStatusBar extends PureComponent {
       : barStyle;
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
-      <View style={[style, { zIndex: 1 }]}>
+      <View style={[style, stylesObj.statusBarContainer]}>
         <StatusBar
           animated
           showHideTransition="slide"
