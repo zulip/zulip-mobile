@@ -40,15 +40,13 @@ export default TabNavigator(
         fontSize: 13,
         margin: 0,
       },
-      tabStyle: {
+      indicatorStyle: {
         backgroundColor: BRAND_COLOR,
       },
+      tabStyle: {},
       style: {
-        backgroundColor: 'blue',
+        backgroundColor: 'transparent',
       },
-    },
-    style: {
-      backgroundColor: 'red',
     },
   },
 );

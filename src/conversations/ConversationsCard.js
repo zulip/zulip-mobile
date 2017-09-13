@@ -3,21 +3,13 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import type { Actions, Narrow } from '../types';
-import { STATUSBAR_HEIGHT } from '../styles/platform';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import { ZulipButton } from '../common';
 import ConversationList from './ConversationList';
-import SwitchAccountButton from '../account-info/SwitchAccountButton';
-import LogoutButton from '../account-info/LogoutButton';
 
 const componentStyles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    paddingTop: STATUSBAR_HEIGHT,
-  },
-  accountButtons: {
-    flexDirection: 'row',
   },
   button: {
     margin: 8,
@@ -32,7 +24,7 @@ export default class ConversationsCard extends PureComponent {
   props: {
     actions: Actions,
     conversations: Object[],
-    onNarrow: () => void,
+    doNarrowCloseDrawer: (narrow: Narrow) => void,
   };
 
   state = {
@@ -45,21 +37,14 @@ export default class ConversationsCard extends PureComponent {
     });
   };
 
-  narrowAndClose = (narrow: Narrow) => {
-    const { actions, onNarrow } = this.props;
-    onNarrow();
-    setTimeout(() => actions.doNarrow(narrow), 100);
-  };
-
   handleUserNarrow = (email: string) => {
     const narrow = email.indexOf(',') === -1 ? privateNarrow(email) : groupNarrow(email.split(','));
-    this.narrowAndClose(narrow);
+    this.props.doNarrowCloseDrawer(narrow);
   };
 
   handleSearchPeople = () => {
-    const { actions, onNarrow } = this.props;
+    const { actions } = this.props;
     actions.navigateToUsersScreen();
-    onNarrow();
   };
 
   render() {
@@ -75,10 +60,6 @@ export default class ConversationsCard extends PureComponent {
           onPress={this.handleSearchPeople}
         />
         <ConversationList conversations={conversations} onPress={this.handleUserNarrow} />
-        <View style={componentStyles.accountButtons}>
-          <SwitchAccountButton />
-          <LogoutButton />
-        </View>
       </View>
     );
   }

@@ -12,15 +12,11 @@ export default class UnreadStreamsCard extends PureComponent {
   };
 
   handleStreamPress = (stream: string) => {
-    const { actions, onNarrow } = this.props;
-    actions.doNarrow(streamNarrow(stream));
-    onNarrow();
+    this.props.doNarrowCloseDrawer(streamNarrow(stream));
   };
 
   handleTopicPress = (stream: string, topic: string) => {
-    const { actions, onNarrow } = this.props;
-    actions.doNarrow(topicNarrow(stream, topic));
-    onNarrow();
+    this.props.doNarrowCloseDrawer(topicNarrow(stream, topic));
   };
 
   render() {
