@@ -32,7 +32,7 @@ export default class GroupCard extends PureComponent {
     actions: Actions,
     ownEmail: string,
     users: User[],
-    presences: Object,
+    presences: Object
   };
 
   state = {
@@ -103,7 +103,7 @@ export default class GroupCard extends PureComponent {
           selected={selected}
           onPress={this.handleUserPress}
         />
-        <AnimatedScaleComponent wrapperStyle={styles.button} visible={selected.length > 0}>
+        <AnimatedScaleComponent style={styles.button} visible={selected.length > 0}>
           <FloatingActionButton
             Icon={IconDone}
             size={50}

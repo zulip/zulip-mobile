@@ -7,7 +7,7 @@ import type { StyleObj } from '../types';
 type Props = {
   children: [],
   visible: boolean,
-  wrapperStyle?: StyleObj
+  style?: StyleObj
 };
 
 export default class AnimatedScaleComponent extends PureComponent {
@@ -25,14 +25,12 @@ export default class AnimatedScaleComponent extends PureComponent {
   }
 
   render() {
-    const { children, visible, wrapperStyle } = this.props;
+    const { children, visible, style } = this.props;
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }],
       opacity: this.animatedValue,
     };
 
-    return (
-      <Animated.View style={[animatedStyle, wrapperStyle]}>{visible && children}</Animated.View>
-    );
+    return <Animated.View style={[animatedStyle, style]}>{visible && children}</Animated.View>;
   }
 }
