@@ -2,4 +2,5 @@
 
 
     <string name="app_name">Zulip</string>
+    <string name="send_to">Share To</string>
 </resources>
