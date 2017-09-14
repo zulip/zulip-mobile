@@ -128,20 +128,20 @@ class AuthScreen extends PureComponent {
 
   render() {
     const { styles } = this.context;
-    const { authBackends } = this.props.navigation.state.params;
+    const { authMethods } = this.props.navigation.state.params;
 
     return (
       <Screen title="Sign in" keyboardAvoiding>
         <View style={styles.container}>
           <RawLabel text={this.props.realm} editable={false} />
-          {authBackends.includes('dev') && (
+          {authMethods.dev && (
             <ZulipButton
               text="Sign in with dev account"
               onPress={() => this.handleTypeSelect('dev')}
             />
           )}
-          {authBackends.includes('password') && <PasswordAuthView />}
-          {authBackends.includes('google') &&
+          {authMethods.password && <PasswordAuthView />}
+          {authMethods.google &&
           this.shouldShowOAuth() && (
             <ZulipButton
               secondary

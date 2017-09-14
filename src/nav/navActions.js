@@ -23,8 +23,8 @@ export const navigateToSearch = (): Action => NavigationActions.navigate({ route
 export const navigateToSettings = (): Action =>
   NavigationActions.navigate({ routeName: 'settings' });
 
-export const navigateToAuth = (authBackends: string): Action =>
-  NavigationActions.navigate({ routeName: 'auth', params: { authBackends } });
+export const navigateToAuth = (authMethods: AuthenticationMethods): Action =>
+  NavigationActions.navigate({ routeName: 'auth', params: { authMethods } });
 
 export const navigateToDev = (): Action => NavigationActions.navigate({ routeName: 'dev' });
 

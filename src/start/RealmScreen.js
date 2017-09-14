@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import type { Actions } from '../types';
 import boundActions from '../boundActions';
 import { Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
-import { getAuthBackends } from '../api';
+import { getServerSettings } from '../api';
 import { fixRealmUrl } from '../utils/url';
 
 type Props = {
@@ -57,9 +57,10 @@ class RealmScreen extends PureComponent {
     const { actions } = this.props;
 
     try {
-      const authBackends = await getAuthBackends({ realm: fixRealm });
+      const serverSettings = await getServerSettings({ realm: fixRealm });
+
       actions.realmAdd(fixRealm);
-      actions.navigateToAuth(authBackends);
+      actions.navigateToAuth(serverSettings.authentication_methods);
       Keyboard.dismiss();
     } catch (err) {
       this.setState({ error: err.message });
@@ -95,7 +96,7 @@ class RealmScreen extends PureComponent {
           {error && <ErrorMsg error={error} />}
           <View style={componentStyles.spacer}>
             <ZulipButton text="Enter" fullSize progress={progress} onPress={this.tryRealm} />
-          </View>
+          </View>{' '}
         </ScrollView>
       </Screen>
     );
