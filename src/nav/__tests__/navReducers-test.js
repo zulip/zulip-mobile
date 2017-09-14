@@ -59,7 +59,7 @@ describe('navReducers', () => {
 
       const action = deepFreeze({
         type: SET_AUTH_TYPE,
-        authType: 'password',
+        authMethods: { password: true },
       });
 
       const expectedState = {
@@ -67,15 +67,18 @@ describe('navReducers', () => {
         routes: [
           { key: 'one' },
           { key: 'two' },
-          { key: 'id-1499833198455-2', params: { authBackends: 'password' }, routeName: 'auth' },
+          {
+            key: 'id-1499833198455-2',
+            params: { authMethods: { password: true } },
+            routeName: 'auth',
+          },
         ],
       };
 
       const newState = navReducers(prevState, action);
 
       expect(newState.index).toEqual(expectedState.index);
-      expect(newState.routes[2].routeName).toEqual(expectedState.routes[2].routeName);
-      expect(newState.routes[2].params.authBackends).toEqual('password');
+      expect(newState.routes[2].params.authMethods).toEqual({ password: true });
     });
   });
 

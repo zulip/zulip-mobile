@@ -125,8 +125,6 @@ export type Presences = {
   [key: string]: ClientPresence,
 };
 
-export type Backend = 'dev' | 'google' | 'password';
-
 export type HeartbeatEvent = {
   type: 'heartbeat',
   id: number,
@@ -436,3 +434,10 @@ export type TimingItem = {
 };
 
 export type Reducer = (state: GlobalState, action: Action) => GlobalState;
+
+export type AuthenticationMethods = {
+  dev: boolean,
+  github: boolean,
+  google: boolean,
+  password: boolean,
+};
