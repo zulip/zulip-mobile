@@ -1,7 +1,7 @@
 /* TODO flow */
 import { NavigationActions } from 'react-navigation';
 
-import type { Action, Message, UserType, ImageResource } from '../types';
+import type { Action, Message, UserType, ImageResource, ServerSettings } from '../types';
 import { RESET_NAVIGATION } from '../actionConstants';
 
 export const resetNavigation = (): Action => ({
@@ -23,8 +23,8 @@ export const navigateToSearch = (): Action => NavigationActions.navigate({ route
 export const navigateToSettings = (): Action =>
   NavigationActions.navigate({ routeName: 'settings' });
 
-export const navigateToAuth = (authMethods: AuthenticationMethods): Action =>
-  NavigationActions.navigate({ routeName: 'auth', params: { authMethods } });
+export const navigateToAuth = (serverSettings: ServerSettings): Action =>
+  NavigationActions.navigate({ routeName: 'auth', params: { serverSettings } });
 
 export const navigateToDev = (): Action => NavigationActions.navigate({ routeName: 'dev' });
 
