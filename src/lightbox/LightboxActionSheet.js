@@ -7,22 +7,22 @@ import Toast from '../utils/showToast';
 
 type DownloadImageType = {
   url: string,
-  auth: Auth
+  auth: Auth,
 };
 
 type ShareLinkType = {
-  url: string
+  url: string,
 };
 
 type ExecuteActionSheetActionType = {
   title: string,
   url: string,
-  auth: Auth
+  auth: Auth,
 };
 
 type ButtonProps = {
   auth?: Auth,
-  url: string
+  url: string,
 };
 
 type ButtonType = {
@@ -30,8 +30,13 @@ type ButtonType = {
   onPress: (props: ButtonProps) => void | boolean
 };
 
-const downloadImage = ({ url, auth }: DownloadImageType) => {
-  download(url, auth, () => Toast('Download complete.'), () => Toast("Can't download"));
+const downloadImage = async ({ url, auth }: DownloadImageType) => {
+  try {
+    await download(url, auth);
+    Toast('Download complete.');
+  } catch (error) {
+    Toast("Can't download");
+  }
 };
 
 const shareLink = ({ url }: ShareLinkType) => {
