@@ -27,7 +27,7 @@ type ButtonProps = {
 
 type ButtonType = {
   title: string,
-  onPress: (props: ButtonProps) => void | boolean,
+  onPress: (props: ButtonProps) => void | boolean | Promise<any>,
 };
 
 const downloadImage = async ({ url, auth }: DownloadImageType) => {
