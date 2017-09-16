@@ -35,7 +35,7 @@ const downloadImage = async ({ url, auth }: DownloadImageType) => {
     await download(url, auth);
     Toast('Download complete.');
   } catch (error) {
-    Toast("Can't download");
+    Toast('Can\'t download');
   }
 };
 
