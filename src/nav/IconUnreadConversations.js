@@ -13,7 +13,8 @@ const IconUnreadConversations = ({ unreadHuddlesTotal, unreadPmsTotal, color }) 
     <ComponentWithOverlay
       overlaySize={15}
       showOverlay={unreadCount > 0}
-      overlay={<UnreadCount count={unreadCount} />}>
+      overlay={<UnreadCount count={unreadCount} />}
+    >
       <IconPeople size={30} color={color} />
     </ComponentWithOverlay>
   );

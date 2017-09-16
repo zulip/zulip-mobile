@@ -169,14 +169,14 @@ class AuthScreen extends PureComponent {
           )}
           {serverSettings.authentication_methods.password && <PasswordAuthView />}
           {serverSettings.authentication_methods.google &&
-          this.shouldShowOAuth() && (
-            <ZulipButton
-              secondary
-              text="Sign in with Google"
-              icon="logo-google"
-              onPress={() => this.handleTypeSelect('google')}
-            />
-          )}
+            this.shouldShowOAuth() && (
+              <ZulipButton
+                secondary
+                text="Sign in with Google"
+                icon="logo-google"
+                onPress={() => this.handleTypeSelect('google')}
+              />
+            )}
         </View>
       </Screen>
     );
