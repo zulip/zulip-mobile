@@ -69,16 +69,16 @@ class ModalSearchNavBar extends PureComponent {
         )}
         {!showSearchInput && <NavButton name="ios-search" onPress={this.enableSearchActiveState} />}
         {showSearchInput &&
-        clearSearchInput && (
-          <NavButton
-            name="md-add"
-            style={localStyles.buttonCancel}
-            onPress={() => {
-              this.disableSearchActiveState();
-              clearSearchInput();
-            }}
-          />
-        )}
+          clearSearchInput && (
+            <NavButton
+              name="md-add"
+              style={localStyles.buttonCancel}
+              onPress={() => {
+                this.disableSearchActiveState();
+                clearSearchInput();
+              }}
+            />
+          )}
       </View>
     );
   }

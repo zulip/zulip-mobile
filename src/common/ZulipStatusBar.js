@@ -31,8 +31,8 @@ class ZulipStatusBar extends PureComponent {
     const { theme, backgroundColor, textColor, hidden, barStyle } = this.props;
     const style = { height: hidden ? 0 : STATUSBAR_HEIGHT, backgroundColor };
     const statusBarStyle = !barStyle
-     ? getStatusBarStyle(backgroundColor, textColor, theme)
-     : barStyle;
+      ? getStatusBarStyle(backgroundColor, textColor, theme)
+      : barStyle;
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
       <View style={style}>

@@ -7,7 +7,7 @@ import type { StyleObj } from '../types';
 type Props = {
   children: [],
   visible: boolean,
-  style?: StyleObj
+  style?: StyleObj,
 };
 
 export default class AnimatedScaleComponent extends PureComponent {

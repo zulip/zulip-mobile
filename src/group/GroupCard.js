@@ -32,7 +32,7 @@ export default class GroupCard extends PureComponent {
     actions: Actions,
     ownEmail: string,
     users: User[],
-    presences: Object
+    presences: Object,
   };
 
   state = {

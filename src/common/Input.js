@@ -95,11 +95,11 @@ export default class Input extends PureComponent {
           )}
         </FormattedMessage>
         {clearButton &&
-        canBeCleared && (
-          <Touchable onPress={this.handleClear} style={localStyles.clearButtonContainer}>
-            <Icon name="md-add" size={30} style={localStyles.clearButtonIcon} />
-          </Touchable>
-        )}
+          canBeCleared && (
+            <Touchable onPress={this.handleClear} style={localStyles.clearButtonContainer}>
+              <Icon name="md-add" size={30} style={localStyles.clearButtonIcon} />
+            </Touchable>
+          )}
       </View>
     );
   }
