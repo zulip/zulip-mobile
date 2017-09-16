@@ -15,10 +15,8 @@ export default (url: string, auth: Auth) =>
       mime: 'text/plain',
       title: url.split('/').pop(),
     },
-  })
-    .fetch('GET', url, {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-      'User-Agent': userAgent,
-      Authorization: getAuthHeader(auth.email, auth.apiKey),
-    })
-    .catch(new Error("Can't download"));
+  }).fetch('GET', url, {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+    'User-Agent': userAgent,
+    Authorization: getAuthHeader(auth.email, auth.apiKey),
+  });
