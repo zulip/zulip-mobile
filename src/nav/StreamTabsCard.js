@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
-import type { Narrow } from '../types';
+import type { Actions, Narrow } from '../types';
 import { homeNarrow, specialNarrow, allPrivateNarrow } from '../utils/narrow';
 import NavButton from './NavButton';
 import StreamTabs from './StreamTabs';
@@ -21,6 +21,7 @@ const componentStyles = StyleSheet.create({
 
 class StreamTabsCard extends PureComponent {
   props: {
+    actions: Actions,
     doNarrowCloseDrawer: (narrow: Narrow) => void,
   };
 
