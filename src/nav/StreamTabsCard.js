@@ -1,7 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
 
+import boundActions from '../boundActions';
 import type { Narrow } from '../types';
 import { homeNarrow, specialNarrow, allPrivateNarrow } from '../utils/narrow';
 import NavButton from './NavButton';
@@ -17,13 +19,13 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class StreamTabsCard extends PureComponent {
+class StreamTabsCard extends PureComponent {
   props: {
     doNarrowCloseDrawer: (narrow: Narrow) => void,
   };
 
   render() {
-    const { doNarrowCloseDrawer } = this.props;
+    const { actions, doNarrowCloseDrawer } = this.props;
 
     return (
       <View style={componentStyles.container}>
@@ -32,10 +34,12 @@ export default class StreamTabsCard extends PureComponent {
           <NavButton name="md-mail" onPress={() => doNarrowCloseDrawer(allPrivateNarrow)} />
           <NavButton name="md-star" onPress={() => doNarrowCloseDrawer(specialNarrow('starred'))} />
           <NavButton name="md-at" onPress={() => doNarrowCloseDrawer(specialNarrow('mentioned'))} />
-          <NavButton name="md-search" onPress={() => doNarrowCloseDrawer('search')} />
+          <NavButton name="md-search" onPress={actions.navigateToSearch} />
         </View>
         <StreamTabs screenProps={{ doNarrowCloseDrawer }} />
       </View>
     );
   }
 }
+
+export default connect(null, boundActions)(StreamTabsCard);
