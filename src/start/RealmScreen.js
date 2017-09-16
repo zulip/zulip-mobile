@@ -60,7 +60,7 @@ class RealmScreen extends PureComponent {
       const serverSettings = await getServerSettings({ realm: fixRealm });
 
       actions.realmAdd(fixRealm);
-      actions.navigateToAuth(serverSettings.authentication_methods);
+      actions.navigateToAuth(serverSettings);
       Keyboard.dismiss();
     } catch (err) {
       this.setState({ error: err.message });
@@ -96,7 +96,7 @@ class RealmScreen extends PureComponent {
           {error && <ErrorMsg error={error} />}
           <View style={componentStyles.spacer}>
             <ZulipButton text="Enter" fullSize progress={progress} onPress={this.tryRealm} />
-          </View>{' '}
+          </View>
         </ScrollView>
       </Screen>
     );

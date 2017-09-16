@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Linking, Platform, View } from 'react-native';
+import { Linking, Platform, View, Image, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import SafariView from 'react-native-safari-view';
@@ -13,6 +13,23 @@ import { generateOtp, extractApiKey } from '../utils/encoding';
 import { getCurrentRealm } from '../selectors';
 
 import PasswordAuthView from './PasswordAuthView';
+
+const componentStyles = StyleSheet.create({
+  description: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  icon: {
+    width: 25,
+    height: 25,
+    marginRight: 10,
+  },
+  name: {
+    fontSize: 20,
+  },
+});
 
 class AuthScreen extends PureComponent {
   static contextTypes = {
@@ -128,20 +145,30 @@ class AuthScreen extends PureComponent {
 
   render() {
     const { styles } = this.context;
-    const { authMethods } = this.props.navigation.state.params;
+    const { serverSettings } = this.props.navigation.state.params;
 
     return (
       <Screen title="Sign in" keyboardAvoiding>
         <View style={styles.container}>
-          <RawLabel text={this.props.realm} editable={false} />
-          {authMethods.dev && (
+          <View style={componentStyles.description}>
+            <Image
+              style={componentStyles.icon}
+              source={{ uri: this.props.realm + serverSettings.realm_icon }}
+            />
+            <RawLabel
+              style={componentStyles.name}
+              text={serverSettings.realm_name}
+              editable={false}
+            />
+          </View>
+          {serverSettings.authentication_methods.dev && (
             <ZulipButton
               text="Sign in with dev account"
               onPress={() => this.handleTypeSelect('dev')}
             />
           )}
-          {authMethods.password && <PasswordAuthView />}
-          {authMethods.google &&
+          {serverSettings.authentication_methods.password && <PasswordAuthView />}
+          {serverSettings.authentication_methods.google &&
           this.shouldShowOAuth() && (
             <ZulipButton
               secondary

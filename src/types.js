@@ -441,3 +441,7 @@ export type AuthenticationMethods = {
   google: boolean,
   password: boolean,
 };
+
+export type ServerSettings = {
+  auth_methods: AuthenticationMethods,
+};

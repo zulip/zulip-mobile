@@ -27,7 +27,7 @@ export default (
       return getStateForRoute(getInitialRoute(state));
 
     case SET_AUTH_TYPE:
-      return AppNavigator.router.getStateForAction(navigateToAuth(action.authMethods), state);
+      return AppNavigator.router.getStateForAction(navigateToAuth(action.serverSettings), state);
 
     case LOGIN_SUCCESS:
     case INITIAL_FETCH_COMPLETE:
