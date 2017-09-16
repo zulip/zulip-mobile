@@ -27,11 +27,16 @@ type ButtonProps = {
 
 type ButtonType = {
   title: string,
-  onPress: (props: ButtonProps) => void | boolean,
+  onPress: (props: ButtonProps) => void | boolean | Promise<any>,
 };
 
-const downloadImage = ({ url, auth }: DownloadImageType) => {
-  download(url, auth).then(() => Toast('Download complete.'));
+const downloadImage = async ({ url, auth }: DownloadImageType) => {
+  try {
+    await download(url, auth);
+    Toast('Download complete.');
+  } catch (error) {
+    Toast('Can\'t download');
+  }
 };
 
 const shareLink = ({ url }: ShareLinkType) => {

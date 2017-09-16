@@ -8,6 +8,7 @@ import userAgent from '../utils/userAgent';
 export default (url: string, auth: Auth) =>
   RNFetchBlob.config({
     addAndroidDownloads: {
+      path: `${RNFetchBlob.fs.dirs.DownloadDir}/${url.split('/').pop()}`,
       useDownloadManager: true,
       // Optional, but recommended since android DownloadManager will fail when
       // the url does not contains a file extension, by default the mime type will be text/plain
