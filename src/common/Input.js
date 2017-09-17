@@ -18,7 +18,7 @@ export default class Input extends PureComponent {
     restProps?: any[],
     placeholder: LocalizableText,
     clearButton?: boolean,
-    onChangeText: (text: string) => void,
+    onChangeText?: (text: string) => void,
     textInputRef?: (component: TextInput) => void,
   };
 
@@ -31,12 +31,11 @@ export default class Input extends PureComponent {
     textInputRef: nullFunction,
   };
 
-  handleChangeText = (text: string) => {
-    this.props.onChangeText(text);
-  };
-
   handleClear = () => {
-    this.handleChangeText('');
+    const { onChangeText } = this.props;
+    if (onChangeText) {
+      onChangeText('');
+    }
     this.textInput.clear();
   };
 
@@ -60,7 +59,6 @@ export default class Input extends PureComponent {
               this.textInput = component;
               if (textInputRef) textInputRef(component);
             }}
-            onChangeText={this.handleChangeText}
             {...restProps}
           />
         )}

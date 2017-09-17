@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import type { Actions, Auth } from '../types';
 import boundActions from '../boundActions';
 import { fetchApiKey } from '../api';
-import { ErrorMsg, ZulipButton, Input, WebLink } from '../common';
+import { ErrorMsg, ZulipButton, Input, PasswordInput, WebLink } from '../common';
 import { getAuth, getOwnEmail } from '../selectors';
 
 type Props = {
@@ -95,10 +95,9 @@ class PasswordAuthView extends PureComponent {
           defaultValue={email}
           onChangeText={newEmail => this.setState({ email: newEmail })}
         />
-        <Input
+        <PasswordInput
           style={styles.field}
           placeholder="Password"
-          secureTextEntry
           value={password}
           onChangeText={newPassword => this.setState({ password: newPassword })}
           blurOnSubmit={false}
