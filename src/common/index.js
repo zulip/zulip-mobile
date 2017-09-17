@@ -11,6 +11,7 @@ export { default as LoadingIndicator } from './LoadingIndicator';
 export { default as Logo } from './Logo';
 export { default as MultilineInput } from './MultilineInput';
 export { default as OfflineNotice } from './OfflineNotice';
+export { default as PasswordInput } from './PasswordInput';
 export { default as Popup } from './Popup';
 export { default as RawLabel } from './RawLabel';
 export { default as Screen } from './Screen';

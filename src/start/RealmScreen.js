@@ -20,6 +20,7 @@ type State = {
 };
 
 const componentStyles = StyleSheet.create({
+  realm: {},
   spacer: {
     flex: 1,
     flexDirection: 'row',
@@ -80,20 +81,23 @@ class RealmScreen extends PureComponent {
           centerContent
           keyboardShouldPersistTaps="always"
         >
-          <Label text="Your server URL" />
-          <Input
-            style={styles.field}
-            autoFocus
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholder="Server URL"
-            defaultValue={realm}
-            onChangeText={value => this.setState({ realm: value })}
-            blurOnSubmit={false}
-            keyboardType="url"
-            onSubmitEditing={this.tryRealm}
-          />
-          {error && <ErrorMsg error={error} />}
+          <View style={componentStyles.realm}>
+            <Label text="Your server URL" />
+            <Input
+              style={styles.field}
+              autoFocus
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholder="Server URL"
+              defaultValue={realm}
+              onChangeText={value => this.setState({ realm: value })}
+              blurOnSubmit={false}
+              keyboardType="url"
+              onSubmitEditing={this.tryRealm}
+            />
+
+            {error && <ErrorMsg error={error} />}
+          </View>
           <View style={componentStyles.spacer}>
             <ZulipButton text="Enter" fullSize progress={progress} onPress={this.tryRealm} />
           </View>
