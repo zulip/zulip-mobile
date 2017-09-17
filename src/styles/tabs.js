@@ -4,10 +4,10 @@ import { BRAND_COLOR } from './';
 export default (tabBarComponent: Object, tabBarPosition: 'bottom' | 'top', showLabel: boolean) => ({
   tabBarComponent,
   tabBarPosition,
-  showLabel,
   swipeEnabled: true,
   animationEnabled: true,
   tabBarOptions: {
+    showLabel,
     upperCaseLabel: false,
     pressColor: BRAND_COLOR,
     activeTintColor: BRAND_COLOR,

@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import type { LocalizableText } from '../types';
 import { ZulipStatusBar } from '../common';
@@ -19,10 +19,13 @@ const componentStyles = StyleSheet.create({
 export default class Screen extends PureComponent {
   props: {
     search?: boolean,
-    keyboardAvoiding?: boolean,
     title?: LocalizableText,
     children: [],
     searchBarOnChange?: (text: string) => void,
+  };
+
+  static defaultProps = {
+    scrollable: true,
   };
 
   static contextTypes = {
@@ -30,12 +33,11 @@ export default class Screen extends PureComponent {
   };
 
   render() {
-    const { search, keyboardAvoiding, title, children, searchBarOnChange } = this.props;
-    const WrapperView = keyboardAvoiding && Platform.OS === 'ios' ? KeyboardAvoidingView : View;
+    const { search, title, children, searchBarOnChange } = this.props;
     const { styles } = this.context;
 
     return (
-      <View style={styles.screen}>
+      <ScrollView contentContainerStyle={styles.screen}>
         <ZulipStatusBar />
         {search ? (
           <ModalSearchNavBar title={title} searchBarOnChange={searchBarOnChange} />
@@ -43,10 +45,10 @@ export default class Screen extends PureComponent {
           <ModalNavBar title={title} />
         )}
 
-        <WrapperView style={componentStyles.screenWrapper} behavior="padding">
+        <ScrollView contentContainerStyle={componentStyles.screenWrapper} behavior="padding">
           {children}
-        </WrapperView>
-      </View>
+        </ScrollView>
+      </ScrollView>
     );
   }
 }
