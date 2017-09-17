@@ -17,7 +17,6 @@ import HtmlTagImg from './tags/HtmlTagImg';
 import HtmlTagPre from './tags/HtmlTagPre';
 import HtmlTagStrong from './tags/HtmlTagStrong';
 import HtmlTagItalic from './tags/HtmlTagItalic';
-import HtmlTagDiv from './tags/HtmlTagDiv';
 import { getEmojiUrl } from '../utils/url';
 import { getOwnEmail } from '../selectors';
 
@@ -33,16 +32,6 @@ const specialTags = {
   b: HtmlTagStrong,
   em: HtmlTagItalic,
   i: HtmlTagItalic,
-  div: HtmlTagDiv,
-  blockquote: HtmlTagDiv,
-  ul: HtmlTagDiv,
-  ol: HtmlTagDiv,
-  table: HtmlTagDiv,
-  thead: HtmlTagDiv,
-  tbody: HtmlTagDiv,
-  tr: HtmlTagDiv,
-  th: HtmlTagDiv,
-  td: HtmlTagDiv,
 };
 
 const stylesFromClassNames = (classNames: SupportedHtmlClasses = '', styleObj) =>
