@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 
 import { Auth, Actions } from '../types';
 import { WebLink } from '../common';
@@ -61,7 +61,7 @@ export default class SettingsCard extends PureComponent {
     const { offlineNotification, onlineNotification, theme, actions } = this.props;
 
     return (
-      <View style={styles.optionWrapper}>
+      <ScrollView style={styles.optionWrapper}>
         <OptionRow
           label="Notifications when offline"
           defaultValue={offlineNotification}
@@ -89,7 +89,7 @@ export default class SettingsCard extends PureComponent {
           <SwitchAccountButton />
           <LogoutButton />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

@@ -89,6 +89,7 @@ class RealmScreen extends PureComponent {
               autoCorrect={false}
               autoCapitalize="none"
               placeholder="Server URL"
+              returnKeyType="go"
               defaultValue={realm}
               onChangeText={value => this.setState({ realm: value })}
               blurOnSubmit={false}
