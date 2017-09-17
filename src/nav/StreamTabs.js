@@ -2,7 +2,7 @@
 import React from 'react';
 import { TabNavigator, TabBarTop } from 'react-navigation';
 
-import { BRAND_COLOR } from '../styles';
+import tabsOptions from '../styles/tabs';
 import UnreadStreamsContainer from '../unread/UnreadStreamsContainer';
 import SubscriptionsContainer from '../streams/SubscriptionsContainer';
 import StreamsContainer from '../subscriptions/SubscriptionsContainer';
@@ -28,25 +28,5 @@ export default TabNavigator(
       },
     },
   },
-  {
-    swipeEnabled: true,
-    animationEnabled: true,
-    tabBarComponent: TabBarTop,
-    tabBarPosition: 'top',
-    tabBarOptions: {
-      upperCaseLabel: false,
-      pressColor: 'white',
-      labelStyle: {
-        fontSize: 13,
-        margin: 0,
-      },
-      indicatorStyle: {
-        backgroundColor: BRAND_COLOR,
-      },
-      tabStyle: {},
-      style: {
-        backgroundColor: 'transparent',
-      },
-    },
-  },
+  tabsOptions(TabBarTop, 'top', true),
 );

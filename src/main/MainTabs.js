@@ -2,7 +2,7 @@
 import React from 'react';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
-import { BRAND_COLOR } from '../styles';
+import tabsOptions from '../styles/tabs';
 import StreamTabsCard from '../nav/StreamTabsCard';
 import ConversationsContainer from '../conversations/ConversationsContainer';
 import SettingsContainer from '../settings/SettingsContainer';
@@ -33,14 +33,5 @@ export default TabNavigator(
       },
     },
   },
-  {
-    // swipeEnabled: true,
-    animationEnabled: true,
-    tabBarComponent: TabBarBottom,
-    tabBarOptions: {
-      showIcon: true,
-      showLabel: false,
-      activeTintColor: BRAND_COLOR,
-    },
-  },
+  tabsOptions(TabBarBottom, 'bottom', false),
 );
