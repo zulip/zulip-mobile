@@ -47,9 +47,7 @@ Array [
         "operator": "stream",
       },
     ],
-    "numAfter": 10,
-    "numBefore": 10,
-    "type": "MESSAGE_FETCH_START",
+    "type": "SWITCH_NARROW",
   },
   Object {
     "narrow": Array [
@@ -58,7 +56,9 @@ Array [
         "operator": "stream",
       },
     ],
-    "type": "SWITCH_NARROW",
+    "numAfter": 10,
+    "numBefore": 10,
+    "type": "MESSAGE_FETCH_START",
   },
 ]
 `;
@@ -72,9 +72,7 @@ Array [
         "operator": "stream",
       },
     ],
-    "numAfter": 10,
-    "numBefore": 10,
-    "type": "MESSAGE_FETCH_START",
+    "type": "SWITCH_NARROW",
   },
   Object {
     "narrow": Array [
@@ -83,7 +81,9 @@ Array [
         "operator": "stream",
       },
     ],
-    "type": "SWITCH_NARROW",
+    "numAfter": 10,
+    "numBefore": 10,
+    "type": "MESSAGE_FETCH_START",
   },
 ]
 `;
