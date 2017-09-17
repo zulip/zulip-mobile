@@ -119,6 +119,8 @@ export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INT
   dispatch: Dispatch,
   getState: GetState,
 ) => {
+  dispatch(switchNarrow(newNarrow));
+
   const auth = getAuth(getState());
   const anyMessagesInNewNarrow = JSON.stringify(newNarrow) in getAllMessages(getState());
   const caughtUp = getState().caughtUp[newNarrow] || NULL_CAUGHTUP;
@@ -127,7 +129,6 @@ export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INT
     dispatch(fetchMessagesAtFirstUnread(newNarrow));
   }
   registerAppActivity(auth);
-  dispatch(switchNarrow(newNarrow));
 };
 
 export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState: GetState) => {

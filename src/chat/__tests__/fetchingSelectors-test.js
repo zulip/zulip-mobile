@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { getFetchingForActiveNarrow } from '../fetchingSelectors';
+import { getFetchingForActiveNarrow, getIsFetching } from '../fetchingSelectors';
 import { homeNarrow, homeNarrowStr } from '../../utils/narrow';
 
 describe('getFetchingForActiveNarrow', () => {
@@ -32,5 +32,69 @@ describe('getFetchingForActiveNarrow', () => {
     const actualResult = getFetchingForActiveNarrow(state);
 
     expect(actualResult).toEqual(expectedResult);
+  });
+});
+
+describe('getIsFetching', () => {
+  test('when no initial fetching required and fetching is empty returns false', () => {
+    const state = deepFreeze({
+      app: {},
+      chat: {
+        narrow: homeNarrow,
+      },
+      fetching: {},
+    });
+
+    const result = getIsFetching(state);
+
+    expect(result).toEqual(false);
+  });
+
+  test('when initial fetching required regardless of fetching state returns true', () => {
+    const state = deepFreeze({
+      app: {
+        needsInitialFetch: true,
+      },
+      chat: {
+        narrow: homeNarrow,
+      },
+      fetching: {},
+    });
+
+    const result = getIsFetching(state);
+
+    expect(result).toEqual(true);
+  });
+
+  test('if fetching older for current narrow returns true', () => {
+    const state = deepFreeze({
+      app: {},
+      chat: {
+        narrow: homeNarrow,
+      },
+      fetching: {
+        [homeNarrowStr]: { older: true, newer: false },
+      },
+    });
+
+    const result = getIsFetching(state);
+
+    expect(result).toEqual(true);
+  });
+
+  test('if fetching newer for current narrow returns true', () => {
+    const state = deepFreeze({
+      app: {},
+      chat: {
+        narrow: homeNarrow,
+      },
+      fetching: {
+        [homeNarrowStr]: { older: false, newer: true },
+      },
+    });
+
+    const result = getIsFetching(state);
+
+    expect(result).toEqual(true);
   });
 });
