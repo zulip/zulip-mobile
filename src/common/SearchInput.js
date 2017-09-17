@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
-import { Input } from '../common';
+import { InputWithClearButton } from '../common';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -29,7 +29,7 @@ export default class SearchInput extends PureComponent {
 
     return (
       <View style={styles.wrapper}>
-        <Input
+        <InputWithClearButton
           textInputRef={component => {
             this.textInput = component;
           }}
@@ -43,7 +43,6 @@ export default class SearchInput extends PureComponent {
           returnKeyType="search"
           onChangeText={onChange}
           autoFocus
-          clearButton
         />
       </View>
     );
