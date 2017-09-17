@@ -1,9 +1,10 @@
 /* @flow */
 import Sound from 'react-native-sound';
+import { logErrorRemotely } from '../utils/logging';
 
 const messageSound = new Sound('zulip.mp3', Sound.MAIN_BUNDLE, error => {
   if (error) {
-    console.error('Failed to load the sound', error); // eslint-disable-line
+    logErrorRemotely(error, 'Failed to load the sound');
   }
 });
 

@@ -15,4 +15,5 @@ export default {
   enableSentry: !isDevelopment && !isEmulator,
   enableNotifications: !isEmulator,
   sentryKey: 'ADD-DSN-HERE',
+  enableErrorConsoleLogging: true,
 };
