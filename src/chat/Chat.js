@@ -53,6 +53,7 @@ export default class Chat extends PureComponent {
     const { styles } = this.context;
     const { isFetching, narrow, isOnline, noMessages } = this.props;
     const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
+    const showMessagePlaceholders = noMessages && isFetching;
 
     return (
       <WrapperView style={styles.screen} behavior="padding">
@@ -60,7 +61,7 @@ export default class Chat extends PureComponent {
           <View style={styles.screen}>
             {!isOnline && <OfflineNotice />}
             {noMessages && !isFetching && <NoMessages narrow={narrow} />}
-            {noMessages && isFetching && <MessageListLoading />}
+            {showMessagePlaceholders && <MessageListLoading />}
             {!noMessages && (
               <ActionSheetProvider>
                 <MessageListContainer
@@ -76,12 +77,14 @@ export default class Chat extends PureComponent {
               scrollOffset={this.scrollOffset}
               shouldOffsetForInput={canSendToNarrow(narrow)}
             /> */}
-            <ComposeBoxContainer
-              messageInputRef={component => {
-                this.messageInputRef = component || this.messageInputRef;
-              }}
-              onSend={this.handleSend}
-            />
+            {!showMessagePlaceholders && (
+              <ComposeBoxContainer
+                messageInputRef={component => {
+                  this.messageInputRef = component || this.messageInputRef;
+                }}
+                onSend={this.handleSend}
+              />
+            )}
           </View>
         </ActionSheetProvider>
       </WrapperView>
