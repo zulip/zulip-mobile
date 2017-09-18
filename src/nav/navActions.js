@@ -37,8 +37,8 @@ export const navigateToAccountDetails = (email: string): Action =>
 export const navigateToGroupDetails = (recipients: UserType): Action =>
   NavigationActions.navigate({ routeName: 'group-details', params: { recipients } });
 
-export const navigateToAddNewAccount = (): Action =>
-  NavigationActions.navigate({ routeName: 'realm' });
+export const navigateToAddNewAccount = (realm: string): Action =>
+  NavigationActions.navigate({ routeName: 'realm', params: { realm } });
 
 export const navigateToLightbox = (src: ImageResource, message: Message): Action =>
   NavigationActions.navigate({ routeName: 'lightbox', params: { src, message } });

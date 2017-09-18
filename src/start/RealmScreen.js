@@ -39,11 +39,15 @@ class RealmScreen extends PureComponent {
   state: State;
   scrollView: ScrollView;
 
-  state = {
-    progress: false,
-    realm: '',
-    error: undefined,
-  };
+  constructor(props) {
+    super(props);
+    const { realm } = props.navigation.state.params || '';
+    this.state = {
+      progress: false,
+      realm,
+      error: undefined,
+    };
+  }
 
   tryRealm = async () => {
     const { realm } = this.state;
