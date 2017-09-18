@@ -4,8 +4,9 @@ import { BRAND_COLOR } from './';
 export default (tabBarComponent: Object, tabBarPosition: 'bottom' | 'top', showLabel: boolean) => ({
   tabBarComponent,
   tabBarPosition,
-  swipeEnabled: true,
-  animationEnabled: true,
+  swipeEnabled: false,
+  lazyLoad: true,
+  animationEnabled: false,
   tabBarOptions: {
     showLabel,
     upperCaseLabel: false,
