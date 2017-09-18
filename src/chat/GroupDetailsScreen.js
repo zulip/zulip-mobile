@@ -15,10 +15,6 @@ const componentStyles = StyleSheet.create({
     margin: 8,
     fontWeight: 'bold',
   },
-  wrapper: {
-    flex: 1,
-    marginTop: 8,
-  },
 });
 
 class GroupDetailsScreen extends PureComponent {
@@ -48,25 +44,23 @@ class GroupDetailsScreen extends PureComponent {
 
     return (
       <Screen title={title}>
-        <View style={componentStyles.wrapper}>
-          <View style={this.context.styles.cardView}>
-            <Label style={componentStyles.heading} text="Members" />
-            <FlatList
-              initialNumToRender={10}
-              data={recipients}
-              keyExtractor={item => item.email}
-              renderItem={({ item }) => (
-                <UserItem
-                  key={item.email}
-                  fullName={item.fullName}
-                  avatarUrl={item.avatarUrl}
-                  email={item.email}
-                  showEmail
-                  onPress={() => this.handlePress(item.email)}
-                />
-              )}
-            />
-          </View>
+        <View style={this.context.styles.cardView}>
+          <Label style={componentStyles.heading} text="Members" />
+          <FlatList
+            initialNumToRender={10}
+            data={recipients}
+            keyExtractor={item => item.email}
+            renderItem={({ item }) => (
+              <UserItem
+                key={item.email}
+                fullName={item.fullName}
+                avatarUrl={item.avatarUrl}
+                email={item.email}
+                showEmail
+                onPress={() => this.handlePress(item.email)}
+              />
+            )}
+          />
         </View>
       </Screen>
     );

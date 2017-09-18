@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { Auth, Actions } from '../types';
@@ -45,22 +45,20 @@ class AccountPickScreen extends PureComponent {
 
     return (
       <Screen title="Pick account">
-        <ScrollView centerContent>
-          <Logo />
-          <View style={styles.padding}>
-            <AccountList
-              accounts={accounts}
-              onAccountSelect={this.handleAccountSelect}
-              onAccountRemove={this.handleAccountRemove}
-              auth={auth}
-            />
-            <ZulipButton
-              text="Add new account"
-              style={styles.button}
-              onPress={actions.navigateToAddNewAccount}
-            />
-          </View>
-        </ScrollView>
+        {accounts.length === 0 && <Logo />}
+        <View style={styles.padding}>
+          <AccountList
+            accounts={accounts}
+            onAccountSelect={this.handleAccountSelect}
+            onAccountRemove={this.handleAccountRemove}
+            auth={auth}
+          />
+          <ZulipButton
+            text="Add new account"
+            style={styles.button}
+            onPress={actions.navigateToAddNewAccount}
+          />
+        </View>
       </Screen>
     );
   }

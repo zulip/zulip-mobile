@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import { ScrollView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -72,24 +72,22 @@ class DevAuthScreen extends PureComponent {
 
     return (
       <Screen title="Pick a dev account">
-        <ScrollView>
-          <View style={styles.container}>
-            {error && <ErrorMsg error={error} />}
-            <Text style={[styles.field, styles.heading2]}>Administrators</Text>
-            {directAdmins.map(email => (
-              <ZulipButton key={email} text={email} onPress={() => this.tryDevLogin(email)} />
-            ))}
-            <Text style={[styles.field, styles.heading2]}>Normal users</Text>
-            {directUsers.map(email => (
-              <ZulipButton
-                key={email}
-                text={email}
-                secondary
-                onPress={() => this.tryDevLogin(email)}
-              />
-            ))}
-          </View>
-        </ScrollView>
+        <View style={styles.container}>
+          {error && <ErrorMsg error={error} />}
+          <Text style={[styles.field, styles.heading2]}>Administrators</Text>
+          {directAdmins.map(email => (
+            <ZulipButton key={email} text={email} onPress={() => this.tryDevLogin(email)} />
+          ))}
+          <Text style={[styles.field, styles.heading2]}>Normal users</Text>
+          {directUsers.map(email => (
+            <ZulipButton
+              key={email}
+              text={email}
+              secondary
+              onPress={() => this.tryDevLogin(email)}
+            />
+          ))}
+        </View>
       </Screen>
     );
   }

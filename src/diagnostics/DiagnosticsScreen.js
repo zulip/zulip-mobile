@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import boundActions from '../boundActions';
@@ -18,13 +18,11 @@ class DiagnosticsScreen extends PureComponent {
     const { actions } = this.props;
     return (
       <Screen title="Diagnostics">
-        <ScrollView>
-          <OptionButton label="Variables" onPress={actions.navigateToVariables} />
-          <View style={styles.divider} />
-          <OptionButton label="Timing" onPress={actions.navigateToTiming} />
-          <View style={styles.divider} />
-          <OptionButton label="Storage" onPress={actions.navigateToStorage} />
-        </ScrollView>
+        <OptionButton label="Variables" onPress={actions.navigateToVariables} />
+        <View style={styles.divider} />
+        <OptionButton label="Timing" onPress={actions.navigateToTiming} />
+        <View style={styles.divider} />
+        <OptionButton label="Storage" onPress={actions.navigateToStorage} />
       </Screen>
     );
   }
