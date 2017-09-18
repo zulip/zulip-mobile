@@ -1,10 +1,22 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { SectionList } from 'react-native';
+import { SectionList, View, StyleSheet } from 'react-native';
 
+import { Label } from '../common';
 import { streamNarrow, topicNarrow } from '../utils/narrow';
 import StreamItem from '../streams/StreamItem';
 import TopicItem from '../streams/TopicItem';
+
+const componentStyles = StyleSheet.create({
+  emptyUnreadContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyUnread: {
+    fontSize: 16,
+  },
+});
 
 export default class UnreadStreamsCard extends PureComponent {
   static contextTypes = {
@@ -22,7 +34,13 @@ export default class UnreadStreamsCard extends PureComponent {
   render() {
     const { styles } = this.context;
     const { unreadStreamsAndTopics } = this.props;
-
+    if (unreadStreamsAndTopics.length === 0) {
+      return (
+        <View style={componentStyles.emptyUnreadContainer}>
+          <Label style={componentStyles.emptyUnread} text="No unread messages" />
+        </View>
+      );
+    }
     return (
       <SectionList
         style={styles.list}
