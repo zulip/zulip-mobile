@@ -144,40 +144,37 @@ class AuthScreen extends PureComponent {
     Platform.OS === 'ios' && !Platform.Version.startsWith('8.');
 
   render() {
-    const { styles } = this.context;
     const { serverSettings } = this.props.navigation.state.params;
 
     return (
       <Screen title="Sign in" keyboardAvoiding>
-        <View style={styles.container}>
-          <View style={componentStyles.description}>
-            <Image
-              style={componentStyles.icon}
-              source={{ uri: this.props.realm + serverSettings.realm_icon }}
-            />
-            <RawLabel
-              style={componentStyles.name}
-              text={serverSettings.realm_name}
-              editable={false}
-            />
-          </View>
-          {serverSettings.authentication_methods.dev && (
+        <View style={componentStyles.description}>
+          <Image
+            style={componentStyles.icon}
+            source={{ uri: this.props.realm + serverSettings.realm_icon }}
+          />
+          <RawLabel
+            style={componentStyles.name}
+            text={serverSettings.realm_name}
+            editable={false}
+          />
+        </View>
+        {serverSettings.authentication_methods.dev && (
+          <ZulipButton
+            text="Sign in with dev account"
+            onPress={() => this.handleTypeSelect('dev')}
+          />
+        )}
+        {serverSettings.authentication_methods.password && <PasswordAuthView />}
+        {serverSettings.authentication_methods.google &&
+          this.shouldShowOAuth() && (
             <ZulipButton
-              text="Sign in with dev account"
-              onPress={() => this.handleTypeSelect('dev')}
+              secondary
+              text="Sign in with Google"
+              icon="logo-google"
+              onPress={() => this.handleTypeSelect('google')}
             />
           )}
-          {serverSettings.authentication_methods.password && <PasswordAuthView />}
-          {serverSettings.authentication_methods.google &&
-            this.shouldShowOAuth() && (
-              <ZulipButton
-                secondary
-                text="Sign in with Google"
-                icon="logo-google"
-                onPress={() => this.handleTypeSelect('google')}
-              />
-            )}
-        </View>
       </Screen>
     );
   }
