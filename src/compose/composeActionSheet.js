@@ -1,5 +1,5 @@
 /* @flow */
-import type { Actions } from '../types';
+import type { Actions, ActionSheetButtonType } from '../types';
 import { isStreamNarrow } from '../utils/narrow';
 
 type ConstructActionButtonsType = {
@@ -11,7 +11,7 @@ type ExecuteActionSheetParams = {
   actions: Actions,
 };
 
-const actionSheetButtons: ButtonType[] = [
+const actionSheetButtons: ActionSheetButtonType[] = [
   {
     title: 'Toggle compose tools',
     onPress: ({ actions }) => actions.toggleComposeTools(),
