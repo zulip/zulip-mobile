@@ -25,8 +25,6 @@ class AccountPickScreen extends PureComponent {
     actions: Actions,
   };
 
-  handleAddNewAccount = () => this.props.actions.navigateToRealm();
-
   handleAccountSelect = (index: number) => {
     const { accounts, actions } = this.props;
     const { realm, apiKey } = accounts[index];
@@ -56,7 +54,7 @@ class AccountPickScreen extends PureComponent {
           <ZulipButton
             text="Add new account"
             style={styles.button}
-            onPress={actions.navigateToAddNewAccount}
+            onPress={() => actions.navigateToAddNewAccount('')}
           />
         </View>
       </Screen>
