@@ -25,11 +25,10 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   },
   input: {
     color,
-    height: 30,
+    flexBasis: CONTROL_SIZE,
     ...Platform.select({
       ios: {
         borderWidth: 1,
-        flexBasis: CONTROL_SIZE,
         borderColor: BORDER_COLOR,
         borderRadius: 2,
         padding: 8,
@@ -72,6 +71,9 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     flexDirection: 'column',
     alignItems: 'stretch',
     backgroundColor,
+  },
+  messageList: {
+    flex: 1,
   },
   screenWrapper: {
     flex: 1,

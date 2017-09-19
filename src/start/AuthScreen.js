@@ -147,7 +147,7 @@ class AuthScreen extends PureComponent {
     const { serverSettings } = this.props.navigation.state.params;
 
     return (
-      <Screen title="Sign in" keyboardAvoiding>
+      <Screen title="Sign in" padding>
         <View style={componentStyles.description}>
           <Image
             style={componentStyles.icon}

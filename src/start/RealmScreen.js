@@ -21,7 +21,7 @@ type State = {
 
 const componentStyles = StyleSheet.create({
   realm: {
-    padding: 16,
+    padding: 20,
   },
   spacer: {
     flex: 1,

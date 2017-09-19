@@ -47,6 +47,7 @@ class MessageListContainer extends PureComponent {
       listRef,
       onSend,
     } = this.props;
+
     return (
       <MessageList
         actions={actions}
