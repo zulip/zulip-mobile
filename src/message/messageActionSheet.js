@@ -1,6 +1,6 @@
 /* @flow */
 import { Clipboard, Share } from 'react-native';
-import type { Actions, Auth, Message } from '../types';
+import type { Actions, Auth, Message, ActionSheetButtonType } from '../types';
 import { narrowFromMessage, isHomeNarrow, isStreamNarrow, isSpecialNarrow } from '../utils/narrow';
 import { getSingleMessage } from '../api';
 import { isTopicMuted } from '../utils/message';
@@ -166,12 +166,6 @@ const shareMessage = ({ message }) => {
 
 const skip = () => false;
 
-type ButtonType = {
-  title: string,
-  onPress: (props: ButtonProps) => void | boolean | Promise<any>,
-  onlyIf?: (props: AuthMessageAndNarrow) => boolean,
-};
-
 type HeaderButtonType = {
   title: string,
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
@@ -184,7 +178,7 @@ const resolveMultiple = (message, auth, narrow, functions) =>
     return true;
   });
 
-const actionSheetButtons: ButtonType[] = [
+const actionSheetButtons: ActionSheetButtonType[] = [
   { title: 'Reply', onPress: reply, onlyIf: isSentMessage },
   { title: 'Copy to clipboard', onPress: copyToClipboard },
   { title: 'Share', onPress: shareMessage },

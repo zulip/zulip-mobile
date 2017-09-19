@@ -445,3 +445,9 @@ export type AuthenticationMethods = {
 export type ServerSettings = {
   auth_methods: AuthenticationMethods,
 };
+
+export type ActionSheetButtonType = {
+  title: string,
+  onPress: (props: ButtonProps) => void | boolean | Promise<any>,
+  onlyIf?: (props: AuthMessageAndNarrow) => boolean,
+};

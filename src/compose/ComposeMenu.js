@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 
 import { Touchable } from '../common';
 import { IconPlus } from '../common/Icons';
+import { executeActionSheetAction, constructActionButtons } from './composeActionSheet';
 
 const componentStyles = StyleSheet.create({
   touchable: {},
@@ -15,29 +16,23 @@ const componentStyles = StyleSheet.create({
 
 export default class ComposeMenu extends React.Component {
   handlePress = () => {
+    const { narrow } = this.props;
+    const options = constructActionButtons({
+      narrow,
+    });
+    const callback = buttonIndex => {
+      executeActionSheetAction({
+        title: options[buttonIndex],
+        actions: this.props.actions,
+      });
+    };
+
     this.props.showActionSheetWithOptions(
       {
-        options: ['Toggle compose tools', 'Create group', 'Cancel'],
-        cancelButtonIndex: 2,
+        options,
+        cancelButtonIndex: options.length - 1,
       },
-      buttonIndex => {
-        switch (buttonIndex) {
-          case 0: {
-            const { actions } = this.props;
-            actions.toggleComposeTools();
-            break;
-          }
-
-          case 1: {
-            const { actions } = this.props;
-            actions.navigateToCreateGroup();
-            break;
-          }
-
-          default:
-            break;
-        }
-      },
+      callback,
     );
   };
 
