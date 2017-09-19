@@ -50,7 +50,7 @@ export default class PasswordInput extends PureComponent {
 
     return (
       <View style={styles.row}>
-        <Input {...this.props} secureTextEntry={isHidden} />
+        <Input {...this.props} secureTextEntry={isHidden} autoCorrect={false} />
         <Touchable style={componentStyles.button} onPress={this.handleShow}>
           <Label style={componentStyles.buttonText} text={isHidden ? 'show' : 'hide'} />
         </Touchable>

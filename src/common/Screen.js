@@ -1,9 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import type { LocalizableText } from '../types';
-import { ZulipStatusBar } from '../common';
+import { KeyboardAvoider, ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
@@ -17,10 +17,14 @@ const componentStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
   },
+  padding: {
+    padding: 10,
+  },
 });
 
 export default class Screen extends PureComponent {
   props: {
+    padding?: boolean,
     search?: boolean,
     title?: LocalizableText,
     children: [],
@@ -32,7 +36,7 @@ export default class Screen extends PureComponent {
   };
 
   render() {
-    const { search, title, children, searchBarOnChange } = this.props;
+    const { padding, search, title, children, searchBarOnChange } = this.props;
     const { styles } = this.context;
     const ModalBar = search ? ModalSearchNavBar : ModalNavBar;
 
@@ -40,9 +44,17 @@ export default class Screen extends PureComponent {
       <View style={styles.screen}>
         <ZulipStatusBar />
         <ModalBar title={title} searchBarOnChange={searchBarOnChange} />
-        <KeyboardAvoidingView style={componentStyles.keyboardAvoid} behavior="padding">
-          <ScrollView contentContainerStyle={componentStyles.screenWrapper}>{children}</ScrollView>
-        </KeyboardAvoidingView>
+        <KeyboardAvoider style={componentStyles.keyboardAvoid} behavior="padding">
+          <ScrollView
+            keyboardShouldPersistTaps="always"
+            contentContainerStyle={[
+              componentStyles.screenWrapper,
+              padding && componentStyles.padding,
+            ]}
+          >
+            {children}
+          </ScrollView>
+        </KeyboardAvoider>
       </View>
     );
   }

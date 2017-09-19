@@ -103,7 +103,7 @@ class PasswordAuthView extends PureComponent {
           blurOnSubmit={false}
           onSubmitEditing={this.validateForm}
         />
-        <ZulipButton text="Sign in with password" progress={progress} onPress={this.validateForm} />
+        <ZulipButton text="Sign in" progress={progress} onPress={this.validateForm} />
         <ErrorMsg error={error} />
         <View style={componentStyles.linksTouchable}>
           <WebLink label="Forgot password?" href="/accounts/password/reset/" />

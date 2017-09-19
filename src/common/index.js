@@ -6,6 +6,7 @@ export { default as FloatingActionButton } from './FloatingActionButton';
 export { default as ImageAvatar } from './ImageAvatar';
 export { default as Input } from './Input';
 export { default as InputWithClearButton } from './InputWithClearButton';
+export { default as KeyboardAvoider } from './KeyboardAvoider';
 export { default as Label } from './Label';
 export { default as LoadingIndicator } from './LoadingIndicator';
 export { default as Logo } from './Logo';

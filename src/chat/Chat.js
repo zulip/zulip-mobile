@@ -1,10 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
+import { View, TextInput } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Narrow } from '../types';
-import { OfflineNotice } from '../common';
+import { KeyboardAvoider, OfflineNotice } from '../common';
 
 import MessageListContainer from '../message/MessageListContainer';
 // import MessageList from '../message/MessageListWeb';
@@ -40,7 +40,7 @@ export default class Chat extends PureComponent {
     }, 300);
   };
 
-  onReplySelect = () => {
+  handleReplySelect = () => {
     // set a timeout because it's take time to render ComposeBox after narrowing from home
     setTimeout(() => {
       if (this.messageInputRef) {
@@ -52,11 +52,10 @@ export default class Chat extends PureComponent {
   render() {
     const { styles } = this.context;
     const { isFetching, narrow, isOnline, noMessages } = this.props;
-    const WrapperView = Platform.OS === 'ios' ? KeyboardAvoidingView : View;
     const showMessagePlaceholders = noMessages && isFetching;
 
     return (
-      <WrapperView style={styles.screen} behavior="padding">
+      <KeyboardAvoider style={styles.screen} behavior="padding">
         <ActionSheetProvider>
           <View style={styles.screen}>
             {!isOnline && <OfflineNotice />}
@@ -65,7 +64,7 @@ export default class Chat extends PureComponent {
             {!noMessages && (
               <ActionSheetProvider>
                 <MessageListContainer
-                  onReplySelect={this.onReplySelect}
+                  onReplySelect={this.handleReplySelect}
                   listRef={component => {
                     this.listComponent = component || this.listComponent;
                   }}
@@ -87,7 +86,7 @@ export default class Chat extends PureComponent {
             )}
           </View>
         </ActionSheetProvider>
-      </WrapperView>
+      </KeyboardAvoider>
     );
   }
 }

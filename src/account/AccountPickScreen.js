@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { Auth, Actions } from '../types';
@@ -12,9 +12,6 @@ import AccountList from './AccountList';
 const styles = StyleSheet.create({
   button: {
     marginTop: 8,
-  },
-  padding: {
-    padding: 8,
   },
 });
 
@@ -42,21 +39,19 @@ class AccountPickScreen extends PureComponent {
     const { accounts, actions, auth } = this.props;
 
     return (
-      <Screen title="Pick account">
+      <Screen title="Pick account" padding>
         {accounts.length === 0 && <Logo />}
-        <View style={styles.padding}>
-          <AccountList
-            accounts={accounts}
-            onAccountSelect={this.handleAccountSelect}
-            onAccountRemove={this.handleAccountRemove}
-            auth={auth}
-          />
-          <ZulipButton
-            text="Add new account"
-            style={styles.button}
-            onPress={() => actions.navigateToAddNewAccount('')}
-          />
-        </View>
+        <AccountList
+          accounts={accounts}
+          onAccountSelect={this.handleAccountSelect}
+          onAccountRemove={this.handleAccountRemove}
+          auth={auth}
+        />
+        <ZulipButton
+          text="Add new account"
+          style={styles.button}
+          onPress={() => actions.navigateToAddNewAccount('')}
+        />
       </Screen>
     );
   }
