@@ -31,6 +31,7 @@
 		48D1FC73615948D79D3BD31E /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7F287C57D8A4354A8B6A3E7 /* Octicons.ttf */; };
 		49692FC0562C40F3946EC6D4 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A752523B8D8E49E792F653E1 /* Foundation.ttf */; };
 		4B12DC82ECA043809695F227 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB2E7AE39A448A98E7A4E4A /* Ionicons.ttf */; };
+		4F8C4FE2A702482597937D5F /* libRNRandomBytes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F04E301F9A84B718340DE95 /* libRNRandomBytes.a */; };
 		78FA95D8058C4372AB199525 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DE2C81628724C8AA4862247 /* libRNSound.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		840D44FCCBB14F97B77D9443 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC2F95A8684C44BAFA7B11 /* libz.tbd */; };
@@ -252,6 +253,13 @@
 			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
 			remoteInfo = RCTCameraRoll;
 		};
+		A1C258E01F730B6200A02D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 835A85EADC9541359A975606 /* RNRandomBytes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 73EEC9391BFE4B1D00D468EB;
+			remoteInfo = RNRandomBytes;
+		};
 		A1F9F7561E1BE26300A70FA5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ACCD980949044096B1BAD249 /* RNDeviceInfo.xcodeproj */;
@@ -369,8 +377,10 @@
 		6922647B10C64653A76BF3E5 /* RCTToast.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTToast.xcodeproj; path = "../node_modules/@remobile/react-native-toast/ios/RCTToast.xcodeproj"; sourceTree = "<group>"; };
 		6DA76D9085EA458BB979ED8D /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		6DE2C81628724C8AA4862247 /* libRNSound.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSound.a; sourceTree = "<group>"; };
+		6F04E301F9A84B718340DE95 /* libRNRandomBytes.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNRandomBytes.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		835A85EADC9541359A975606 /* RNRandomBytes.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNRandomBytes.xcodeproj; path = "../node_modules/react-native-randombytes/RNRandomBytes.xcodeproj"; sourceTree = "<group>"; };
 		96B2280917D24AE692AD70FE /* SafariViewManager.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SafariViewManager.xcodeproj; path = "../node_modules/react-native-safari-view/SafariViewManager.xcodeproj"; sourceTree = "<group>"; };
 		9DB2E7AE39A448A98E7A4E4A /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		9E53FD60A6D0409A8E58DCB5 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
@@ -443,6 +453,7 @@
 				2318BF63A79049CA9F97E2E0 /* libRNSentry.a in Frameworks */,
 				840D44FCCBB14F97B77D9443 /* libz.tbd in Frameworks */,
 				A9D63FEB69844C47ADA3B14A /* libLRDRCTSimpleToast.a in Frameworks */,
+				4F8C4FE2A702482597937D5F /* libRNRandomBytes.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,6 +648,7 @@
 				FC7EC6A752C243FB9F1B8442 /* RNFetchBlob.xcodeproj */,
 				2E8422FF1CBA4192B7E14D56 /* RNSentry.xcodeproj */,
 				BBB8896EA77146E19DF4FF88 /* LRDRCTSimpleToast.xcodeproj */,
+				835A85EADC9541359A975606 /* RNRandomBytes.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -661,6 +673,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				F9E946BE712842C5A02C7F51 /* Resources */,
 				35C857DE057BA42A6919FBE9 /* Frameworks */,
+				A1C258B51F730B6100A02D77 /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -704,6 +717,30 @@
 			isa = PBXGroup;
 			children = (
 				A155BFEC1DD8E54100A8B695 /* libRCTCameraRoll.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A1C258B51F730B6100A02D77 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				3074EDA2D113487A925E187C /* libRNVectorIcons.a */,
+				D5664A74FA8048439CBAB734 /* libRNDeviceInfo.a */,
+				6DE2C81628724C8AA4862247 /* libRNSound.a */,
+				E518466F398E458DA2C685AF /* libSafariViewManager.a */,
+				2CFB39BBD9094475BB03A3E4 /* libRCTToast.a */,
+				C2F7E19951E64FC7B6BBE612 /* libRNFetchBlob.a */,
+				B83DDAD2507A4F0EB47660BD /* libRNSentry.a */,
+				1013EA9DAA5C4F618516419E /* libLRDRCTSimpleToast.a */,
+				6F04E301F9A84B718340DE95 /* libRNRandomBytes.a */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		A1C258DD1F730B6200A02D77 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1C258E11F730B6200A02D77 /* libRNRandomBytes.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -904,6 +941,10 @@
 				{
 					ProductGroup = 3C4249C71EF6E05C00D245F1 /* Products */;
 					ProjectRef = 3C4249C61EF6E05C00D245F1 /* RNNotifications.xcodeproj */;
+				},
+				{
+					ProductGroup = A1C258DD1F730B6200A02D77 /* Products */;
+					ProjectRef = 835A85EADC9541359A975606 /* RNRandomBytes.xcodeproj */;
 				},
 				{
 					ProductGroup = 0A443F1F1F17F9F6008AB961 /* Products */;
@@ -1118,6 +1159,13 @@
 			fileType = archive.ar;
 			path = libRCTCameraRoll.a;
 			remoteRef = A155BFEB1DD8E54100A8B695 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A1C258E11F730B6200A02D77 /* libRNRandomBytes.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNRandomBytes.a;
+			remoteRef = A1C258E01F730B6200A02D77 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A1F9F7571E1BE26300A70FA5 /* libRNDeviceInfo.a */ = {
@@ -1346,14 +1394,16 @@
 					"$(SRCROOT)/../node_modules/react-native-safari-view",
 					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
+					"$(SRCROOT)/../node_modules/react-native-randombytes",
+					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 				);
 				INFOPLIST_FILE = ZulipMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1389,14 +1439,16 @@
 					"$(SRCROOT)/../node_modules/react-native-safari-view",
 					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
+					"$(SRCROOT)/../node_modules/react-native-randombytes",
+					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 				);
 				INFOPLIST_FILE = ZulipMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1437,8 +1489,9 @@
 					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-notifications/**",
-					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
+					"$(SRCROOT)/../node_modules/react-native-randombytes",
+					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 				);
 				INFOPLIST_FILE = ZulipMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1474,8 +1527,9 @@
 					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-notifications/**",
-					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
+					"$(SRCROOT)/../node_modules/react-native-randombytes",
+					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 				);
 				INFOPLIST_FILE = ZulipMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1536,6 +1590,8 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-randombytes",
+					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1582,6 +1638,8 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-randombytes",
+					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
