@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View } from 'react-native';
 
 import { ZulipStatusBar } from '../common';
 import ChatContainer from '../chat/ChatContainer';
