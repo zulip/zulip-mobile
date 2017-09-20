@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, Platform } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Narrow } from '../types';
@@ -59,12 +59,14 @@ export default class Chat extends PureComponent {
     const { styles } = this.context;
     const { isFetching, narrow, isOnline, noMessages } = this.props;
     const showMessagePlaceholders = noMessages && isFetching;
+    const offset = Platform.OS === 'ios' ? 0 : -400;
 
     return (
       <KeyboardAvoider
         style={styles.screen}
-        behavior="position"
+        behavior={'position'}
         contentContainerStyle={stylesObj.keyboardContainer}
+        keyboardVerticalOffset={offset}
       >
         <ActionSheetProvider>
           <View style={styles.screen}>
