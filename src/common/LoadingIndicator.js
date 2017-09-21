@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
   semiCircle: {
     alignSelf: 'center',
     borderColor: 'black',
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
+    borderStyle: 'dashed',
+    borderWidth: 2,
     borderRadius: 100,
   },
   logo: {
