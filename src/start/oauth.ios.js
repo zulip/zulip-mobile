@@ -8,7 +8,6 @@ import { base64ToHex } from '../utils/encoding';
 // in its response to protect against credentials intercept
 export const generateOtp = async () => {
   const rand = await NativeModules.UtilManager.randomBase64(32);
-  console.log('rand', rand);
   return base64ToHex(rand);
 };
 
