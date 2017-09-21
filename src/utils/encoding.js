@@ -1,6 +1,5 @@
 /* @flow */
 import base64 from 'base-64';
-import { NativeModules } from 'react-native';
 
 export const xorHexStrings = (hex1: string, hex2: string) => {
   if (hex1.length !== hex2.length) {
@@ -32,13 +31,6 @@ export const asciiToHex = (ascii: string) =>
 export const base64ToHex = (bytes: string) => asciiToHex(base64.decode(bytes));
 
 export const hexToBase64 = (hex: string) => base64.encode(hexToAscii(hex));
-
-// Generate a one time pad (OTP) which the server XORs the API key with
-// in its response to protect against credentials intercept
-export const generateOtp = async () => {
-  const rand = await NativeModules.UtilManager.randomBase64(32);
-  return base64ToHex(rand);
-};
 
 // Extract an API key encoded as a hex string XOR'ed with a one time pad (OTP)
 // (this is used during the OAuth flow)

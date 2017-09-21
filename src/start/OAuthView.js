@@ -8,8 +8,8 @@ import type { Actions } from '../types';
 import boundActions from '../boundActions';
 import { ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
-import { generateOtp, extractApiKey } from '../utils/encoding';
-import { openBrowser, closeBrowser } from './oauth';
+import { extractApiKey } from '../utils/encoding';
+import { openBrowser, closeBrowser, generateOtp } from './oauth';
 
 class OAuthView extends React.Component {
   static contextTypes = {
