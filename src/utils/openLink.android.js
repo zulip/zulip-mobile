@@ -1,6 +1,6 @@
 /* @flow */
-import CustomTabsAndroid from '../nativeModules/CustomTabsAndroid';
+import { NativeModules } from 'react-native';
 
-const openLink = (url: string) => CustomTabsAndroid.openURL(url);
+const openLink = (url: string) => NativeModules.CustomTabsAndroid.openURL(url);
 
 export default openLink;
