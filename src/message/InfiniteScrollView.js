@@ -44,7 +44,6 @@ export default class InfiniteScrollView extends PureComponent {
 
   _onContentSizeChanged = (contentWidth: number, contentHeight: number) => {
     this._contentHeight = contentHeight;
-    this._maybeCallOnStartOrEndReached();
   };
 
   _onScrollViewLayout = (e: Object) => {
@@ -91,6 +90,10 @@ export default class InfiniteScrollView extends PureComponent {
   }
 
   _onScroll = e => {
+    if (e.nativeEvent.updatedChildFrames.length > 0) {
+      return; // ignore onScroll events that are not caused by human interaction
+    }
+
     this._scrollOffset = e.nativeEvent.contentOffset.y;
     this._maybeCallOnStartOrEndReached();
     this.props.onScroll(e.nativeEvent);
