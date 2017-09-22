@@ -21,6 +21,9 @@ class OAuthView extends React.Component {
   props: {
     actions: Actions,
     realm: string,
+    name: string,
+    icon: string,
+    url: string,
   };
 
   safariViewDismissEvent: Event;
@@ -80,16 +83,18 @@ class OAuthView extends React.Component {
   };
 
   handleGoogleAuth = () => {
-    const { realm } = this.props;
-    this.beginOAuth(`${realm}/accounts/login/google/`);
+    const { realm, url } = this.props;
+    this.beginOAuth(`${realm}/${url}`);
   };
 
   render() {
+    const { name, icon } = this.props;
+
     return (
       <ZulipButton
         secondary
-        text="Sign in with Google"
-        icon="logo-google"
+        text={`Sign in with ${name}`}
+        icon={icon}
         onPress={this.handleGoogleAuth}
       />
     );
