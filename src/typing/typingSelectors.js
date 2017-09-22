@@ -25,6 +25,6 @@ export const getCurrentTypingUsers = createSelector(
       return undefined;
     }
 
-    return currentTyping.map(userId => getUserById(users, userId));
+    return currentTyping.userIds.map(userId => getUserById(users, userId));
   },
 );

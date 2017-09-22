@@ -138,6 +138,7 @@ export default (state: GlobalState, event: Object) => {
         ...event,
         ownEmail: state.accounts[0].email,
         type: opToActionTyping[event.op],
+        time: new Date().getTime(),
       };
     case 'muted_topics':
       return {
