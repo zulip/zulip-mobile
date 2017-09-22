@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 
-import { Action, Actions } from '../types';
+import { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { Centerer, RawLabel, Screen, ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
@@ -30,7 +30,6 @@ const componentStyles = StyleSheet.create({
 type Props = {
   actions: Actions,
   realm: string,
-  setAuthType: Action,
   navigation: Object,
   navigateToDev: () => void,
 };
@@ -43,7 +42,6 @@ class AuthScreen extends PureComponent<Props> {
   props: Props;
 
   handleDevAuth = () => {
-    this.props.actions.setAuthType('dev');
     this.props.actions.navigateToDev();
   };
 

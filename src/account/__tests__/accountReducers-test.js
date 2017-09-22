@@ -3,7 +3,6 @@ import deepFreeze from 'deep-freeze';
 
 import {
   REALM_ADD,
-  SET_AUTH_TYPE,
   ACCOUNT_SWITCH,
   LOGIN_SUCCESS,
   LOGOUT,
@@ -43,29 +42,6 @@ describe('accountReducers', () => {
       const expectedState = [
         { realm: '2', otherProp: 'otherValue' },
         { realm: '1', someProp: 'someValue' },
-      ];
-
-      const newState = accountReducers(prevState, action);
-
-      expect(newState).toEqual(expectedState);
-      expect(newState).not.toBe(prevState);
-    });
-  });
-
-  describe('SET_AUTH_TYPE', () => {
-    test('changes authType of first account in list, produces new object', () => {
-      const prevState = deepFreeze([
-        {
-          authType: '',
-        },
-      ]);
-
-      const action = deepFreeze({ type: SET_AUTH_TYPE, authType: 'password' });
-
-      const expectedState = [
-        {
-          authType: 'password',
-        },
       ];
 
       const newState = accountReducers(prevState, action);

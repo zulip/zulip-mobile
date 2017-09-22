@@ -8,7 +8,7 @@ import { Label } from '../common';
 const styles = StyleSheet.create({
   field: {
     flexDirection: 'row',
-    height: CONTROL_SIZE,
+    height: CONTROL_SIZE / 2,
     marginTop: 5,
     marginBottom: 5,
     justifyContent: 'center',

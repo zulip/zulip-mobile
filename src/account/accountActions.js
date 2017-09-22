@@ -3,7 +3,6 @@ import type { Action } from '../types';
 import {
   ACCOUNT_SWITCH,
   REALM_ADD,
-  SET_AUTH_TYPE,
   ACCOUNT_REMOVE,
   LOGIN_SUCCESS,
   LOGOUT,
@@ -17,11 +16,6 @@ export const switchAccount = (index: number): Action => ({
 export const realmAdd = (realm: string): Action => ({
   type: REALM_ADD,
   realm,
-});
-
-export const setAuthType = (authType: string): Action => ({
-  type: SET_AUTH_TYPE,
-  authType,
 });
 
 export const removeAccount = (index: number): Action => ({

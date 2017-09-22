@@ -1,7 +1,6 @@
 /* @flow */
 import {
   REALM_ADD,
-  SET_AUTH_TYPE,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   LOGOUT,
@@ -33,17 +32,7 @@ export default (state: AccountState = initialState, action: Action) => {
         ...state,
       ];
     }
-    case SET_AUTH_TYPE: {
-      return state.map((item, index) => {
-        if (index !== 0) {
-          return item;
-        }
-        return {
-          ...item,
-          authType: action.authType,
-        };
-      });
-    }
+
     case ACCOUNT_SWITCH: {
       if (action.index === 0) {
         return state;
@@ -55,6 +44,7 @@ export default (state: AccountState = initialState, action: Action) => {
         ...state.slice(action.index + 1),
       ];
     }
+
     case LOGIN_SUCCESS: {
       const accountIndex = state.findIndex(
         account =>
@@ -79,15 +69,18 @@ export default (state: AccountState = initialState, action: Action) => {
       };
       return [mergedAccount, ...state.slice(0, accountIndex), ...state.slice(accountIndex + 1)];
     }
+
     case LOGOUT: {
       // Empty out the active account's api key
       return [{ ...state[0], apiKey: '' }, ...state.slice(1)];
     }
+
     case ACCOUNT_REMOVE: {
       const newState = state.slice();
       newState.splice(action.index, 1);
       return newState;
     }
+
     default:
       return state;
   }
