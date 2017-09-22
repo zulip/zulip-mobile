@@ -187,6 +187,16 @@ export type EditMessage = {
 
 export type Action = Object;
 
+export type AuthenticationMethods = {
+  dev: boolean,
+  github: boolean,
+  google: boolean,
+  password: boolean,
+};
+export type ServerSettings = {
+  auth_methods: AuthenticationMethods,
+};
+
 export type Actions = {
   appOnline: (isOnline: boolean) => Action,
   addToOutbox: (
@@ -224,7 +234,7 @@ export type Actions = {
   navigateToUsersScreen: () => Action,
   navigateToSearch: () => Action,
   navigateToSettings: () => Action,
-  navigateToAuth: (authType: string) => Action,
+  navigateToAuth: (serverSettings: ServerSettings) => Action,
   navigateToAccountPicker: () => Action,
   navigateToAccountDetails: (email: string) => Action,
   navigateToGroupDetails: (recipients: UserType) => Action,
@@ -434,17 +444,6 @@ export type TimingItem = {
 };
 
 export type Reducer = (state: GlobalState, action: Action) => GlobalState;
-
-export type AuthenticationMethods = {
-  dev: boolean,
-  github: boolean,
-  google: boolean,
-  password: boolean,
-};
-
-export type ServerSettings = {
-  auth_methods: AuthenticationMethods,
-};
 
 export type ActionSheetButtonType = {
   title: string,

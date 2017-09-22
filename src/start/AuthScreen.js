@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Action } from '../types';
+import { Action, Actions } from '../types';
 import boundActions from '../boundActions';
 import { RawLabel, Screen, ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
@@ -37,13 +37,12 @@ class AuthScreen extends PureComponent {
     setAuthType: Action,
     navigation: Object,
     navigateToDev: () => void,
+    actions: Actions,
   };
 
   handleDevAuth = () => {
-    const { setAuthType, navigateToDev } = this.props;
-
-    setAuthType('dev');
-    navigateToDev();
+    this.props.actions.setAuthType('dev');
+    this.props.actions.navigateToDev();
   };
 
   render() {
