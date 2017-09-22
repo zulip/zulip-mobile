@@ -1,7 +1,7 @@
 /* @flow */
 import { NativeModules } from 'react-native';
-import SafariView from 'react-native-safari-view';
 
+import openLink from '../utils/openLink';
 import { base64ToHex } from '../utils/encoding';
 
 export const generateOtp = async () =>
@@ -15,9 +15,7 @@ export const generateOtp = async () =>
   });
 
 export const openBrowser = (url: string, otp: any) => {
-  SafariView.show({ url: `${url}?mobile_flow_otp=${otp}` });
+  openLink(`${url}?mobile_flow_otp=${otp}`);
 };
 
-export const closeBrowser = () => {
-  SafariView.dismiss();
-};
+export const closeBrowser = () => {};
