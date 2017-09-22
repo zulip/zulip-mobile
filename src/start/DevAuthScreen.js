@@ -71,7 +71,7 @@ class DevAuthScreen extends PureComponent {
     const { directAdmins, directUsers, error } = this.state;
 
     return (
-      <Screen title="Pick a dev account">
+      <Screen title="Pick a dev account" padding>
         <View style={styles.container}>
           {error && <ErrorMsg error={error} />}
           <Text style={[styles.field, styles.heading2]}>Administrators</Text>
