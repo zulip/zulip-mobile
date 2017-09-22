@@ -11,6 +11,8 @@ import { getCurrentRealm } from '../selectors';
 import { extractApiKey } from '../utils/encoding';
 import { generateOtp, openBrowser, closeBrowser } from './oauth';
 
+let otp = '';
+
 class OAuthView extends React.Component {
   static contextTypes = {
     styles: () => null,
@@ -21,11 +23,15 @@ class OAuthView extends React.Component {
     realm: string,
   };
 
-  otp: ?string;
   safariViewDismissEvent: Event;
 
   componentDidMount = () => {
     Linking.addEventListener('url', this.endOAuth);
+    Linking.getInitialURL().then(url => {
+      if (url) {
+        this.endOAuth({ url });
+      }
+    });
   };
 
   componentWillUnmount = () => {
@@ -33,9 +39,8 @@ class OAuthView extends React.Component {
   };
 
   beginOAuth = async url => {
-    this.otp = await generateOtp();
-    openBrowser(url, this.otp);
-    // openBrowser(`${url}?mobile_flow_otp=${this.otp}`);
+    otp = await generateOtp();
+    openBrowser(url, otp);
   };
 
   endOAuth = event => {
@@ -55,7 +60,7 @@ class OAuthView extends React.Component {
       return;
     }
 
-    if (!this.otp) {
+    if (!otp) {
       console.log('No one time pad stored. This auth redirect may not have been requested.'); // eslint-disable-line
       return;
     }
@@ -65,12 +70,12 @@ class OAuthView extends React.Component {
       return;
     }
 
-    if (url.query.otp_encrypted_api_key.length !== this.otp.length) {
+    if (url.query.otp_encrypted_api_key.length !== otp.length) {
       console.log('API key in server response has the wrong length.'); // eslint-disable-line
       return;
     }
 
-    const apiKey = extractApiKey(url.query.otp_encrypted_api_key, this.otp);
+    const apiKey = extractApiKey(url.query.otp_encrypted_api_key, otp);
     actions.loginSuccess(realm, url.query.email, apiKey);
   };
 
