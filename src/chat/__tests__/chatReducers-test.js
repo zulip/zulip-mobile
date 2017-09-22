@@ -586,6 +586,24 @@ describe('chatReducers', () => {
   });
 
   describe('MESSAGE_FETCH_COMPLETE', () => {
+    test('if no messages returned do not mutate state', () => {
+      const initialState = deepFreeze({
+        messages: {
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }, { id: 3 }],
+        },
+      });
+
+      const action = deepFreeze({
+        type: MESSAGE_FETCH_COMPLETE,
+        narrow: [],
+        messages: [],
+      });
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toBe(initialState);
+    });
+
     test('no duplicate messages', () => {
       const initialState = deepFreeze({
         messages: {

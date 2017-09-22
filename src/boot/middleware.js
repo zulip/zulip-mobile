@@ -12,7 +12,7 @@ if (config.enableReduxLogging) {
   middleware.push(
     createLogger({
       duration: true,
-      // predicate: (getState, action) => action.type === 'MESSAGE_FETCH_START',
+      // predicate: (getState, action) => action.type === 'MESSAGE_FETCH_COMPLETE',
     }),
   );
 }

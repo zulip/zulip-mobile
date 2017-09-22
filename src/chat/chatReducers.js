@@ -39,6 +39,10 @@ export default (state: ChatState = initialState, action: Action) => {
     }
 
     case MESSAGE_FETCH_COMPLETE: {
+      if (action.messages.length === 0) {
+        return state;
+      }
+
       const key = JSON.stringify(action.narrow);
       const messages = state.messages[key] || [];
       const messagesById = getMessagesById(state);
