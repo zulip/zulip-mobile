@@ -9,7 +9,7 @@ export default {
   compatibilityUrl: 'https://zulipchat.com/compatibility',
   messagesPerRequest: 20,
   scrollCallbackThrottle: 500,
-  messageListThreshold: 1000,
+  messageListThreshold: 250,
   enableReduxLogging: isDevelopment && !!global.btoa,
   enableReduxSlowReducerWarnings: isDevelopment && !!global.btoa,
   enableSentry: !isDevelopment && !isEmulator,
