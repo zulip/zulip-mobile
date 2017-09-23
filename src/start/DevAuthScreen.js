@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet, FlatList } from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -17,6 +17,11 @@ type State = {
   directUsers: string[],
   error: string,
 };
+
+const inlineStyles = StyleSheet.create({
+  accountItem: { height: 10 },
+  heading: { flex: 0 },
+});
 
 class DevAuthScreen extends PureComponent {
   static contextTypes = {
@@ -71,22 +76,27 @@ class DevAuthScreen extends PureComponent {
     const { directAdmins, directUsers, error } = this.state;
 
     return (
-      <Screen title="Pick a dev account" padding>
+      <Screen title="Pick a dev account">
         <View style={styles.container}>
           {error && <ErrorMsg error={error} />}
-          <Text style={[styles.field, styles.heading2]}>Administrators</Text>
+          <Text style={[styles.field, styles.heading2, inlineStyles.heading]}>Administrators</Text>
           {directAdmins.map(email => (
             <ZulipButton key={email} text={email} onPress={() => this.tryDevLogin(email)} />
           ))}
-          <Text style={[styles.field, styles.heading2]}>Normal users</Text>
-          {directUsers.map(email => (
-            <ZulipButton
-              key={email}
-              text={email}
-              secondary
-              onPress={() => this.tryDevLogin(email)}
-            />
-          ))}
+          <Text style={[styles.field, styles.heading2, inlineStyles.heading]}>Normal users</Text>
+          <FlatList
+            data={directUsers}
+            keyExtractor={(item, index) => item}
+            ItemSeparatorComponent={() => <View style={inlineStyles.accountItem} />}
+            renderItem={({ item }) => (
+              <ZulipButton
+                key={item}
+                text={item}
+                secondary
+                onPress={() => this.tryDevLogin(item)}
+              />
+            )}
+          />
         </View>
       </Screen>
     );
