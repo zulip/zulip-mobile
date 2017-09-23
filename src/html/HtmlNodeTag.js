@@ -12,6 +12,7 @@ import textStylesFromClass from './textStylesFromClass';
 import HtmlTagSpan from './tags/HtmlTagSpan';
 import HtmlTagSpanMention from './tags/HtmlTagSpanMention';
 import HtmlTagA from './tags/HtmlTagA';
+import HtmlTagDiv from './tags/HtmlTagDiv';
 import HtmlTagLi from './tags/HtmlTagLi';
 import HtmlTagImg from './tags/HtmlTagImg';
 import HtmlTagPre from './tags/HtmlTagPre';
@@ -32,6 +33,7 @@ const specialTags = {
   b: HtmlTagStrong,
   em: HtmlTagItalic,
   i: HtmlTagItalic,
+  div: HtmlTagDiv,
 };
 
 const stylesFromClassNames = (classNames: SupportedHtmlClasses = '', styleObj) =>
