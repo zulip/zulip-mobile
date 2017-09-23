@@ -24,7 +24,7 @@ class Sidebar extends PureComponent {
   doNarrowCloseDrawer = (narrow: Narrow) => {
     const { actions, navigation } = this.props;
     navigation.navigate('DrawerClose');
-    requestIdleCallback(() => actions.doNarrow(narrow));
+    setTimeout(() => actions.doNarrow(narrow), 0);
   };
 
   render() {

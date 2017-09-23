@@ -1,11 +1,12 @@
 /* @flow */
+import { Platform } from 'react-native';
 import { BRAND_COLOR } from './';
 
 export default (tabBarComponent: Object, tabBarPosition: 'bottom' | 'top', showLabel: boolean) => ({
   tabBarComponent,
   tabBarPosition,
-  swipeEnabled: true,
-  animationEnabled: true,
+  swipeEnabled: Platform.OS === 'ios',
+  animationEnabled: Platform.OS === 'ios',
   tabBarOptions: {
     showLabel,
     upperCaseLabel: false,
