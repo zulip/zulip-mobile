@@ -6,7 +6,7 @@ import type { StyleObj } from '../types';
 
 export default class AnimatedRotateComponent extends PureComponent {
   props: {
-    style: StyleObj,
+    style?: StyleObj,
     children?: [],
   };
 

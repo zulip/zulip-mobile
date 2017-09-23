@@ -61,9 +61,10 @@ export default class MessageList extends PureComponent {
         onScroll={onScroll}
         onReplySelect={onReplySelect}
       >
-        <LoadingIndicator active={fetchingOlder} />
+        <LoadingIndicator active={fetchingOlder} backgroundColor={styles.backgroundColor} />
         {messageList}
-        {!singleFetchProgress && fetchingNewer && <LoadingIndicator active />}
+        {!singleFetchProgress &&
+          fetchingNewer && <LoadingIndicator active backgroundColor={styles.backgroundColor} />}
         {typingUsers && <MessageTyping users={typingUsers} actions={actions} />}
       </InfiniteScrollView>
     );
