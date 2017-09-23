@@ -9,6 +9,7 @@ import { RawLabel, Screen, ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
 import PasswordAuthView from './PasswordAuthView';
 import OAuthView from './OAuthView';
+import { getFullUrl } from '../utils/url';
 
 const componentStyles = StyleSheet.create({
   description: {
@@ -53,7 +54,9 @@ class AuthScreen extends PureComponent {
         <View style={componentStyles.description}>
           <Image
             style={componentStyles.icon}
-            source={{ uri: this.props.realm + serverSettings.realm_icon }}
+            source={{
+              uri: getFullUrl(serverSettings.realm_icon, this.props.realm),
+            }}
           />
           <RawLabel style={componentStyles.name} text={serverSettings.realm_name} />
         </View>
