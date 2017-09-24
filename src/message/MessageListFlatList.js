@@ -41,7 +41,7 @@ export default class MessageList extends PureComponent {
     } = this.props;
 
     if (!singleFetchProgress && fetchingNewer) {
-      return <LoadingIndicator active />;
+      return <LoadingIndicator active backgroundColor={styles.backgroundColor} />;
     }
 
     return (
