@@ -43,8 +43,9 @@ export default class ConversationsCard extends PureComponent {
   };
 
   handleSearchPeople = () => {
-    const { actions } = this.props;
+    const { actions, closeDrawer } = this.props;
     actions.navigateToUsersScreen();
+    closeDrawer();
   };
 
   render() {
