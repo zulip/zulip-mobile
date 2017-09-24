@@ -27,12 +27,22 @@ class Sidebar extends PureComponent {
     setTimeout(() => actions.doNarrow(narrow), 0);
   };
 
+  closeDrawer = () => {
+    const { navigation } = this.props;
+    navigation.navigate('DrawerClose');
+  };
+
   render() {
     const { styles } = this.context;
 
     return (
       <View style={[componentStyles.container, styles.background]}>
-        <MainTabs screenProps={{ doNarrowCloseDrawer: this.doNarrowCloseDrawer }} />
+        <MainTabs
+          screenProps={{
+            doNarrowCloseDrawer: this.doNarrowCloseDrawer,
+            closeDrawer: this.closeDrawer,
+          }}
+        />
       </View>
     );
   }
