@@ -1,4 +1,5 @@
 /* @flow */
+import { logWarningToSentry } from '../utils/logging';
 import type { GlobalState } from '../types';
 import {
   INIT_ALERT_WORDS,
@@ -165,7 +166,7 @@ export default (state: GlobalState, event: Object) => {
       };
     default:
   }
-
+  logWarningToSentry(`Unrecognized event: ${event.type}`);
   // eslint-disable-next-line no-console
   console.warn('Unrecognized event: ', event.type);
   return null;

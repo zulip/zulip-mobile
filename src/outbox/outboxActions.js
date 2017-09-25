@@ -1,6 +1,7 @@
 /* @flow */
 import parseMarkdown from 'zulip-markdown-parser';
 
+import { logErrorRemotely } from '../utils/logging';
 import type { Dispatch, GetState, Narrow, User } from '../types';
 import {
   MESSAGE_SEND_START,
@@ -51,7 +52,7 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
         );
         dispatch(messageSendComplete(item.timestamp));
       } catch (e) {
-        console.log('error caught while sending', e); // eslint-disable-line
+        logErrorRemotely(e, 'error caught while sending');
       }
     });
     dispatch(toggleOutboxSending(false));

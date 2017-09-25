@@ -4,6 +4,7 @@ import { NotificationsAndroid, PendingNotifications } from 'react-native-notific
 import registerPush from '../api/registerPush';
 import { streamNarrow, privateNarrow } from '../utils/narrow';
 import type { Auth } from '../types';
+import { logErrorRemotely } from '../utils/logging';
 
 const handlePendingNotifications = async switchNarrow => {
   const notification = await PendingNotifications.getInitialNotification();
@@ -24,7 +25,7 @@ const handleRegistrationUpdates = (auth: Auth, saveTokenPush) => {
       await registerPush(auth, deviceToken);
       saveTokenPush(deviceToken);
     } catch (e) {
-      console.log('error ', e); //eslint-disable-line
+      logErrorRemotely(e, 'failed to register GCM');
     }
   });
 };

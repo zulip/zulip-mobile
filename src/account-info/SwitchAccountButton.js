@@ -7,6 +7,7 @@ import boundActions from '../boundActions';
 import { ZulipButton } from '../common';
 import { getAuth } from '../selectors';
 import unregisterPush from '../api/unregisterPush';
+import { logErrorRemotely } from '../utils/logging';
 
 const styles = StyleSheet.create({
   button: {
@@ -22,7 +23,7 @@ class SwitchAccountButton extends PureComponent {
       try {
         await unregisterPush(auth, pushToken);
       } catch (e) {
-        console.log('failed to unregister Push token', e); // eslint-disable-line
+        logErrorRemotely(e, 'failed to unregister Push token');
       }
       actions.deleteTokenPush();
     }
