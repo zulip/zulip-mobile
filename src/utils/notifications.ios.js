@@ -9,7 +9,6 @@ const register = async (auth: Auth, deviceToken: string) => {
 };
 
 const onPushRegistered = (auth: Auth, deviceToken: string, saveTokenPush: (arg: string) => any) => {
-  console.log('Device Token Received', auth, deviceToken); // eslint-disable-line
   register(auth, deviceToken);
   saveTokenPush(deviceToken);
 };
