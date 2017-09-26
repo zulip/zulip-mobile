@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import type { Actions } from '../types';
 import boundActions from '../boundActions';
-import { Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
+import { Centerer, Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
 import { getServerSettings } from '../api';
 import { fixRealmUrl } from '../utils/url';
 
@@ -20,9 +20,6 @@ type State = {
 };
 
 const componentStyles = StyleSheet.create({
-  realm: {
-    padding: 20,
-  },
   spacer: {
     flex: 1,
     flexDirection: 'row',
@@ -79,24 +76,25 @@ class RealmScreen extends PureComponent {
 
     return (
       <Screen title="Welcome">
-        <View style={componentStyles.realm}>
-          <Label text="Your server URL" />
-          <Input
-            style={styles.field}
-            autoFocus
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholder="Server URL"
-            returnKeyType="go"
-            defaultValue={realm}
-            onChangeText={value => this.setState({ realm: value })}
-            blurOnSubmit={false}
-            keyboardType="url"
-            onSubmitEditing={this.tryRealm}
-          />
-
-          {error && <ErrorMsg error={error} />}
-        </View>
+        <Centerer>
+          <View>
+            <Label text="Your server URL" />
+            <Input
+              style={styles.field}
+              autoFocus
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholder="Server URL"
+              returnKeyType="go"
+              defaultValue={realm}
+              onChangeText={value => this.setState({ realm: value })}
+              blurOnSubmit={false}
+              keyboardType="url"
+              onSubmitEditing={this.tryRealm}
+            />
+            {error && <ErrorMsg error={error} />}
+          </View>
+        </Centerer>
         <View style={componentStyles.spacer}>
           <ZulipButton text="Enter" fullSize progress={progress} onPress={this.tryRealm} />
         </View>

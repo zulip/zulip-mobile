@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import type { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
 import { getAuth } from '../selectors';
-import { ZulipButton, Logo, Screen } from '../common';
+import { Centerer, ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
 
 const styles = StyleSheet.create({
@@ -40,18 +40,20 @@ class AccountPickScreen extends PureComponent {
 
     return (
       <Screen title="Pick account" padding>
-        {accounts.length === 0 && <Logo />}
-        <AccountList
-          accounts={accounts}
-          onAccountSelect={this.handleAccountSelect}
-          onAccountRemove={this.handleAccountRemove}
-          auth={auth}
-        />
-        <ZulipButton
-          text="Add new account"
-          style={styles.button}
-          onPress={() => actions.navigateToAddNewAccount('')}
-        />
+        <Centerer>
+          {accounts.length === 0 && <Logo />}
+          <AccountList
+            accounts={accounts}
+            onAccountSelect={this.handleAccountSelect}
+            onAccountRemove={this.handleAccountRemove}
+            auth={auth}
+          />
+          <ZulipButton
+            text="Add new account"
+            style={styles.button}
+            onPress={() => actions.navigateToAddNewAccount('')}
+          />
+        </Centerer>
       </Screen>
     );
   }
