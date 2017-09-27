@@ -6,8 +6,7 @@
   "scripts": {
     "start": "react-native start",
     "build:android": "cd android && ./gradlew assembleRelease",
-    "build:ios":
-      "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
+    "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
     "reinstall": "rm -rf node_modules; yarn cache clean; yarn install",
     "ios": "react-native run-ios",
     "ios-min": "react-native run-ios --simulator 'iPhone 5s'",
@@ -51,6 +50,7 @@
     "react-native-notifications": "^1.1.16",
     "react-native-photo-view": "^1.5.1",
     "react-native-safari-view": "^2.0.0",
+    "react-native-safe-area": "^0.1.3",
     "react-native-sentry": "^0.24.2",
     "react-native-simple-toast": "0.0.7",
     "react-native-sound": "^0.10.4",
@@ -107,15 +107,19 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|@expo/react-native-action-sheet|react-navigation)"
     ],
-    "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/__e2e__tests__"],
-    "setupFiles": ["./jest/globalFetch.js"]
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/__e2e__tests__"
+    ],
+    "setupFiles": [
+      "./jest/globalFetch.js"
+    ]
   },
   "detox": {
     "configurations": {
       "ios.sim.release": {
         "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/ZulipMobile.app",
-        "build":
-          "cd ios && xcodebuild -workspace ZulipMobile.xcworkspace -configuration Release -scheme ZulipMobile -derivedDataPath build -sdk iphonesimulator -quiet",
+        "build": "cd ios && xcodebuild -workspace ZulipMobile.xcworkspace -configuration Release -scheme ZulipMobile -derivedDataPath build -sdk iphonesimulator -quiet",
         "type": "ios.simulator",
         "name": "iPhone 6, iOS 10.3"
       }

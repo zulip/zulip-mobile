@@ -1,10 +1,11 @@
 /* @flow */
-import type { Action, Dispatch, GetState } from '../types';
+import type { Action, Dimensions, Dispatch, GetState } from '../types';
 import {
   APP_ONLINE,
   APP_ORIENTATION,
   APP_STATE,
   APP_REFRESH,
+  INIT_SAFE_AREA_INSETS,
   TOGGLE_COMPOSE_TOOLS,
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
@@ -31,6 +32,11 @@ export const appState = (isActive: boolean): Action => ({
 
 export const appRefresh = () => ({
   type: APP_REFRESH,
+});
+
+export const initSafeAreaInsets = (safeAreaInsets: Dimensions) => ({
+  type: INIT_SAFE_AREA_INSETS,
+  ...safeAreaInsets,
 });
 
 export const appOrientation = (orientation: string): Action => (
