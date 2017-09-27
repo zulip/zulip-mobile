@@ -5,14 +5,12 @@ import { connect } from 'react-redux';
 
 import type { Narrow } from '../types';
 import boundActions from '../boundActions';
-import { STATUSBAR_HEIGHT } from '../styles/platform';
 import MainTabs from '../main/MainTabs';
 
 const componentStyles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    paddingTop: STATUSBAR_HEIGHT,
   },
 });
 
@@ -34,9 +32,14 @@ class Sidebar extends PureComponent {
 
   render() {
     const { styles } = this.context;
+    const { safeAreaInsets } = this.props;
+    const paddingStyles = {
+      paddingTop: safeAreaInsets.top,
+      paddingBottom: safeAreaInsets.bottom,
+    };
 
     return (
-      <View style={[componentStyles.container, styles.background]}>
+      <View style={[componentStyles.container, paddingStyles, styles.background]}>
         <MainTabs
           screenProps={{
             doNarrowCloseDrawer: this.doNarrowCloseDrawer,
@@ -48,4 +51,9 @@ class Sidebar extends PureComponent {
   }
 }
 
-export default connect(null, boundActions)(Sidebar);
+export default connect(
+  state => ({
+    safeAreaInsets: state.app.safeAreaInsets,
+  }),
+  boundActions,
+)(Sidebar);
