@@ -52,12 +52,14 @@ class AuthScreen extends PureComponent {
     return (
       <Screen title="Sign in" padding>
         <View style={componentStyles.description}>
-          <Image
-            style={componentStyles.icon}
-            source={{
-              uri: getFullUrl(serverSettings.realm_icon, this.props.realm),
-            }}
-          />
+          {serverSettings.realm_icon && (
+            <Image
+              style={componentStyles.icon}
+              source={{
+                uri: getFullUrl(serverSettings.realm_icon, this.props.realm),
+              }}
+            />
+          )}
           <RawLabel style={componentStyles.name} text={serverSettings.realm_name} />
         </View>
         {serverSettings.authentication_methods.dev && (
