@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, StyleSheet, Platform } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Narrow } from '../types';
@@ -13,6 +13,12 @@ import MessageListLoading from '../message/MessageListLoading';
 import NoMessages from '../message/NoMessages';
 import ComposeBoxContainer from '../compose/ComposeBoxContainer';
 // import UnreadNotice from './UnreadNotice';
+
+const stylesObj = StyleSheet.create({
+  keyboardContainer: {
+    flex: 1,
+  },
+});
 
 export default class Chat extends PureComponent {
   messageInputRef = null;
@@ -29,7 +35,7 @@ export default class Chat extends PureComponent {
     narrow: Narrow,
     isFetching: boolean,
     isOnline: boolean,
-    noMessages: boolean,
+    noMessages: boolean
   };
 
   handleSend = () => {
@@ -53,9 +59,15 @@ export default class Chat extends PureComponent {
     const { styles } = this.context;
     const { isFetching, narrow, isOnline, noMessages } = this.props;
     const showMessagePlaceholders = noMessages && isFetching;
+    const offset = Platform.OS === 'ios' ? 0 : -400;
 
     return (
-      <KeyboardAvoider style={styles.screen} behavior="padding">
+      <KeyboardAvoider
+        style={styles.screen}
+        behavior={'position'}
+        contentContainerStyle={stylesObj.keyboardContainer}
+        keyboardVerticalOffset={offset}
+      >
         <ActionSheetProvider>
           <View style={styles.screen}>
             {!isOnline && <OfflineNotice />}
