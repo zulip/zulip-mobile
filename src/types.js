@@ -194,7 +194,7 @@ export type AuthenticationMethods = {
   password: boolean,
 };
 export type ServerSettings = {
-  auth_methods: AuthenticationMethods,
+  authentication_methods: AuthenticationMethods,
 };
 
 export type Actions = {

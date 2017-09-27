@@ -24,6 +24,7 @@ export default class ConversationsCard extends PureComponent {
   props: {
     actions: Actions,
     conversations: Object[],
+    closeDrawer: () => void,
     doNarrowCloseDrawer: (narrow: Narrow) => void,
     closeDrawer: () => void,
   };
