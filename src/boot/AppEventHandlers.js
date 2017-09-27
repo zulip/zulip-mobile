@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { AppState, BackHandler, NetInfo, View } from 'react-native';
 import { connect } from 'react-redux';
+import SafeArea from 'react-native-safe-area';
 
 import { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
@@ -57,10 +58,13 @@ class AppEventHandlers extends PureComponent {
   };
 
   componentDidMount() {
+    const { actions } = this.props;
+
     NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
+    SafeArea.getSafeAreaInsetsForRootView().then(actions.initSafeAreaInsets);
   }
 
   componentWillUnmount() {

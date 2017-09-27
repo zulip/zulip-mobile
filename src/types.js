@@ -450,3 +450,10 @@ export type ActionSheetButtonType = {
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
   onlyIf?: (props: AuthMessageAndNarrow) => boolean,
 };
+
+export type Dimensions = {
+  bottom: number,
+  left: number,
+  right: number,
+  top: number,
+};
