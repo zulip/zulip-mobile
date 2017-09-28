@@ -62,7 +62,7 @@ export const fetchEssentialInitialData = (): Action => async (
   timing.end('Essential server data');
 
   dispatch(realmInit(initData));
-  dispatch(messageFetchComplete(messages, narrow, 0, halfCount, halfCount, true));
+  dispatch(messageFetchComplete(messages, narrow, 0, config.messagesPerRequest, halfCount, true));
   dispatch(initialFetchComplete());
 
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));

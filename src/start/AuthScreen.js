@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { Action, Actions } from '../types';
 import boundActions from '../boundActions';
-import { RawLabel, Screen, ZulipButton } from '../common';
+import { Centerer, RawLabel, Screen, ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
 import PasswordAuthView from './PasswordAuthView';
 import OAuthView from './OAuthView';
@@ -51,27 +51,29 @@ class AuthScreen extends PureComponent {
 
     return (
       <Screen title="Sign in" padding>
-        <View style={componentStyles.description}>
-          {serverSettings.realm_icon && (
-            <Image
-              style={componentStyles.icon}
-              source={{
-                uri: getFullUrl(serverSettings.realm_icon, this.props.realm),
-              }}
-            />
+        <Centerer>
+          <View style={componentStyles.description}>
+            {serverSettings.realm_icon && (
+              <Image
+                style={componentStyles.icon}
+                source={{
+                  uri: getFullUrl(serverSettings.realm_icon, this.props.realm),
+                }}
+              />
+            )}
+            <RawLabel style={componentStyles.name} text={serverSettings.realm_name} />
+          </View>
+          {serverSettings.authentication_methods.dev && (
+            <ZulipButton text="Sign in with dev account" onPress={this.handleDevAuth} />
           )}
-          <RawLabel style={componentStyles.name} text={serverSettings.realm_name} />
-        </View>
-        {serverSettings.authentication_methods.dev && (
-          <ZulipButton text="Sign in with dev account" onPress={this.handleDevAuth} />
-        )}
-        {serverSettings.authentication_methods.password && <PasswordAuthView />}
-        {serverSettings.authentication_methods.google && (
-          <OAuthView name="Google" icon="logo-google" url="accounts/login/google/" />
-        )}
-        {serverSettings.authentication_methods.github && (
-          <OAuthView name="GitHub" icon="logo-github" url="accounts/login/social/github" />
-        )}
+          {serverSettings.authentication_methods.password && <PasswordAuthView />}
+          {serverSettings.authentication_methods.google && (
+            <OAuthView name="Google" icon="logo-google" url="accounts/login/google/" />
+          )}
+          {/* {serverSettings.authentication_methods.github && (
+            <OAuthView name="GitHub" icon="logo-github" url="accounts/login/social/github" />
+          )} */}
+        </Centerer>
       </Screen>
     );
   }
