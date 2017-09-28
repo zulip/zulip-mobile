@@ -13,6 +13,7 @@ export default connect(
     auth: getAuth(state),
     narrow: state.chat.narrow,
     users: state.users,
+    safeAreaInsets: state.app.safeAreaInsets,
     composeTools: state.app.composeTools,
     lastTopic: getLastTopicInActiveNarrow(state),
     isSubscribed: getIsActiveStreamSubscribed(state),

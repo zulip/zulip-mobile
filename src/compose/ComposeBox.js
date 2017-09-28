@@ -3,7 +3,15 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 import isEqual from 'lodash.isequal';
 
-import type { Auth, Narrow, EditMessage, InputSelectionType, User, Actions } from '../types';
+import type {
+  Auth,
+  Narrow,
+  EditMessage,
+  InputSelectionType,
+  User,
+  Actions,
+  Dimensions,
+} from '../types';
 import patchMessage from '../api/updateMessage';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
 import { showErrorAlert } from '../common/errorAlert';
@@ -46,6 +54,7 @@ type Props = {
   composeTools: boolean,
   isSubscribed: boolean,
   editMessage: EditMessage,
+  safeAreaInsets: Dimensions,
   actions: Actions,
   messageInputRef: (component: Object) => void,
   onSend: () => void,
@@ -189,6 +198,7 @@ export default class ComposeBox extends PureComponent {
       narrow,
       users,
       editMessage,
+      safeAreaInsets,
       messageInputRef,
       isSubscribed,
     } = this.props;
@@ -213,7 +223,9 @@ export default class ComposeBox extends PureComponent {
           onAutocomplete={this.handleAutoComplete}
           selection={selection}
         />
-        <View style={[styles.composeBox, { height: totalHeight }]}>
+        <View
+          style={[styles.composeBox, { height: totalHeight, marginBottom: safeAreaInsets.bottom }]}
+        >
           <View style={componentStyles.bottom}>
             <ComposeMenuContainer />
           </View>
