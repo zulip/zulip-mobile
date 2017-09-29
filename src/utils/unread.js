@@ -29,3 +29,6 @@ export const countUnread = (
 
   return count;
 };
+
+export const unreadToLimitedCount = (count: number): string =>
+  count < 100 ? count.toString() : '99+';

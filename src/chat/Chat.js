@@ -12,7 +12,7 @@ import MessageListContainer from '../message/MessageListContainer';
 import MessageListLoading from '../message/MessageListLoading';
 import NoMessages from '../message/NoMessages';
 import ComposeBoxContainer from '../compose/ComposeBoxContainer';
-// import UnreadNotice from './UnreadNotice';
+import UnreadNoticeContainer from './UnreadNoticeContainer';
 
 export default class Chat extends PureComponent {
   messageInputRef = null;
@@ -71,11 +71,7 @@ export default class Chat extends PureComponent {
                 />
               </ActionSheetProvider>
             )}
-            {/* <UnreadNotice
-              unreadCount={unreadCount}
-              scrollOffset={this.scrollOffset}
-              shouldOffsetForInput={canSendToNarrow(narrow)}
-            /> */}
+            <UnreadNoticeContainer />
             {!showMessagePlaceholders && (
               <ComposeBoxContainer
                 messageInputRef={component => {
