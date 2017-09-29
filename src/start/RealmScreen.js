@@ -76,7 +76,7 @@ class RealmScreen extends PureComponent {
 
     return (
       <Screen title="Welcome">
-        <Centerer>
+        <Centerer padding>
           <View>
             <Label text="Your server URL" />
             <Input
