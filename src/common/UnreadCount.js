@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import type { StyleObj } from '../types';
 import { BRAND_COLOR } from '../styles';
+import { unreadToLimitedCount } from '../utils/unread';
 
 const styles = StyleSheet.create({
   frame: {
@@ -64,7 +65,7 @@ export default class UnreadCount extends PureComponent {
 
     return (
       <View style={frameStyle}>
-        <Text style={textStyle}>{count < 100 ? count : '99+'}</Text>
+        <Text style={textStyle}>{unreadToLimitedCount(count)}</Text>
       </View>
     );
   }

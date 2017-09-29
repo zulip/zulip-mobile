@@ -1,7 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Animated, StyleSheet, Text, Easing } from 'react-native';
+import { Animated, StyleSheet, Easing } from 'react-native';
+
+import { Label, RawLabel } from '../common';
 import { IconDownArrow } from '../common/Icons';
+import { unreadToLimitedCount } from '../utils/unread';
 
 const styles = StyleSheet.create({
   unreadContainer: {
@@ -11,18 +14,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
+    bottom: 0,
     zIndex: 1,
     alignItems: 'center',
   },
   unreadText: {
-    flex: 0.9,
-    color: '#FFFFFF',
     fontSize: 14,
+    color: 'white',
+  },
+  margin: {
+    marginRight: 4,
   },
   icon: {
-    flex: 0.05,
-    width: 14,
-    height: 14,
     margin: 8,
     fontSize: 14,
     color: 'white',
@@ -80,11 +83,17 @@ export default class UnreadNotice extends PureComponent {
     const shouldBecomeVisible =
       nextProps.unreadCount > unreadCount && unreadCount > 0 && scrollOffset > 0;
 
-    if (noticeState === STATE_PEEKING && unreadCount === 0) this.hidePeekingNotice();
+    if (noticeState === STATE_PEEKING && unreadCount === 0) {
+      this.hidePeekingNotice();
+    }
 
-    if (noticeState === STATE_HIDDEN && shouldBecomeVisible) this.show();
-    else if (noticeState === STATE_PEEKING && shouldBecomeVisible) this.show();
-    else if (noticeState === STATE_VISIBLE && !shouldBecomeVisible) this.hide();
+    if (noticeState === STATE_HIDDEN && shouldBecomeVisible) {
+      this.show();
+    } else if (noticeState === STATE_PEEKING && shouldBecomeVisible) {
+      this.show();
+    } else if (noticeState === STATE_VISIBLE && !shouldBecomeVisible) {
+      this.hide();
+    }
   }
 
   show = () => {
@@ -133,7 +142,6 @@ export default class UnreadNotice extends PureComponent {
     const translateTo = shouldOffsetForInput ? -MAX_TRANSLATION : 0;
 
     return {
-      ...StyleSheet.flatten(styles.unreadContainer),
       bottom: 0,
       opacity: this.state.translateAnimation.interpolate({
         inputRange: [0, PEEKING_FRACTION, 1],
@@ -153,13 +161,16 @@ export default class UnreadNotice extends PureComponent {
   render() {
     const { unreadCount } = this.props;
 
+    if (unreadCount === 0) return null;
+
     return (
-      <Animated.View style={this.dynamicContainerStyles()}>
+      <Animated.View style={styles.unreadContainer}>
         <IconDownArrow style={styles.icon} />
-        <Text style={styles.unreadText}>
-          {unreadCount === 0 ? 'No' : unreadCount < 100 ? unreadCount : '99+'} unread{' '}
-          {unreadCount === 1 ? 'message' : 'messages'}
-        </Text>
+        <RawLabel
+          style={[styles.unreadText, styles.margin]}
+          text={unreadToLimitedCount(unreadCount)}
+        />
+        <Label style={styles.unreadText} text="unread messages" />
       </Animated.View>
     );
   }
