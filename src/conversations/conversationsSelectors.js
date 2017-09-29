@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
-import { getPrivateMessages } from '../chat/chatSelectors';
+import { getPrivateMessages } from '../baseSelectors';
 import { normalizeRecipientsSansMe, getRecipientsIds } from '../utils/message';
 
 export const getRecentConversations = createSelector(

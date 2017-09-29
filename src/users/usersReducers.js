@@ -9,6 +9,7 @@ import {
   EVENT_USER_REMOVE,
   EVENT_USER_UPDATE,
 } from '../actionConstants';
+import { NULL_ARRAY } from '../nullObjects';
 
 const mapApiToStateUser = user => ({
   id: user.user_id,
@@ -20,7 +21,7 @@ const mapApiToStateUser = user => ({
   isBot: user.is_bot,
 });
 
-const initialState: UsersState = [];
+const initialState: UsersState = NULL_ARRAY;
 
 export default (state: UsersState = initialState, action: Action): UsersState => {
   switch (action.type) {

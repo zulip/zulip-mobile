@@ -1,9 +1,9 @@
 /* @flow */
 import type { RealmState, Action } from '../types';
 import { REALM_INIT, INIT_ALERT_WORDS } from '../actionConstants';
+import { NULL_ARRAY } from '../nullObjects';
 
-// Initial state
-const initialState = [];
+const initialState = NULL_ARRAY;
 
 export default (state: RealmState = initialState, action: Action): RealmState => {
   switch (action.type) {

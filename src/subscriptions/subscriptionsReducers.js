@@ -14,8 +14,9 @@ import {
   EVENT_SUBSCRIPTION_PEER_REMOVE,
   REALM_INIT,
 } from '../actionConstants';
+import { NULL_ARRAY } from '../nullObjects';
 
-const initialState: SubscriptionsState = [];
+const initialState: SubscriptionsState = NULL_ARRAY;
 
 export default (state: SubscriptionsState = initialState, action: Action): SubscriptionsState => {
   switch (action.type) {

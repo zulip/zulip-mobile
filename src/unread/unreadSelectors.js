@@ -4,12 +4,16 @@ import { createSelector } from 'reselect';
 import { caseInsensitiveCompareObjFunc } from '../utils/misc';
 import {
   getMute,
+  getReadFlags,
   getUnreadStreams,
   getUnreadPms,
   getUnreadHuddles,
   getUnreadMentions,
-} from '../baseSelectors';
+} from '../directSelectors';
+import { getPrivateMessages } from '../baseSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
+import { getShownMessagesInActiveNarrow } from '../chat/chatSelectors';
+import { countUnread } from '../utils/unread';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 export const getUnreadByStream = createSelector(getUnreadStreams, unreadStreams =>
@@ -117,4 +121,17 @@ export const getUnreadStreamsAndTopics = createSelector(
 
     return sortedStreams;
   },
+);
+
+export const getUnreadPrivateMessagesCount = createSelector(
+  getPrivateMessages,
+  getReadFlags,
+  (privateMessages, readFlags) => countUnread(privateMessages.map(msg => msg.id), readFlags),
+);
+
+export const getUnreadCountInActiveNarrow = createSelector(
+  getShownMessagesInActiveNarrow,
+  getReadFlags,
+  (shownMessagesInActiveNarrow, readIds) =>
+    countUnread(shownMessagesInActiveNarrow.map(msg => msg.id), readIds),
 );

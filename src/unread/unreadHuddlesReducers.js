@@ -9,13 +9,14 @@ import {
 } from '../actionConstants';
 import { getRecipientsIds } from '../utils/message';
 import { addItemsToHuddleArray, removeItemsDeeply } from './unreadHelpers';
+import { NULL_ARRAY } from '../nullObjects';
 
-const initialState: Object[] = [];
+const initialState: Object[] = NULL_ARRAY;
 
 export default (state: UnreadState = initialState, action: Action): UnreadState => {
   switch (action.type) {
     case REALM_INIT:
-      return (action.data.unread_msgs && action.data.unread_msgs.huddles) || [];
+      return (action.data.unread_msgs && action.data.unread_msgs.huddles) || NULL_ARRAY;
 
     case ACCOUNT_SWITCH:
       return initialState;

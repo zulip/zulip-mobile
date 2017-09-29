@@ -12,6 +12,8 @@ import type {
 
 export const nullFunction = () => {};
 
+export const NULL_ARRAY = Object.freeze([]);
+
 export const NULL_ACCOUNT: Account = {
   apiKey: '',
   email: '',

@@ -17,6 +17,7 @@ import {
 import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
 import { getMessagesById } from '../selectors';
+import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: ChatState = {
   narrow: homeNarrow,
@@ -44,7 +45,7 @@ export default (state: ChatState = initialState, action: Action) => {
       }
 
       const key = JSON.stringify(action.narrow);
-      const messages = state.messages[key] || [];
+      const messages = state.messages[key] || NULL_ARRAY;
       const messagesById = getMessagesById(state);
       const newMessages = action.replaceExisting
         ? action.messages.map(
@@ -132,7 +133,7 @@ export default (state: ChatState = initialState, action: Action) => {
                 timestamp: action.edit_timestamp,
                 user_id: action.user_id,
               },
-          ...(oldMessage.edit_history || []),
+          ...(oldMessage.edit_history || NULL_ARRAY),
         ],
         last_edit_timestamp: action.edit_timestamp,
       }));

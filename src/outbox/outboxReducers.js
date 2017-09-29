@@ -7,8 +7,9 @@ import {
   DELETE_OUTBOX_MESSAGE,
   MESSAGE_SEND_COMPLETE,
 } from '../actionConstants';
+import { NULL_ARRAY } from '../nullObjects';
 
-const initialState = [];
+const initialState = NULL_ARRAY;
 
 export default (state: OutboxState = initialState, action: Action): OutboxState => {
   switch (action.type) {

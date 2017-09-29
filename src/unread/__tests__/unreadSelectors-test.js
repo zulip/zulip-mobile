@@ -8,9 +8,11 @@ import {
   getUnreadByHuddles,
   getUnreadHuddlesTotal,
   getUnreadMentionsTotal,
+  getUnreadPrivateMessagesCount,
   getUnreadTotal,
   getUnreadStreamsAndTopics,
 } from '../unreadSelectors';
+import { allPrivateNarrowStr } from '../../utils/narrow';
 
 const unreadStreamData = [
   {
@@ -413,5 +415,44 @@ describe('getUnreadStreamsAndTopics', () => {
         ],
       },
     ]);
+  });
+});
+
+describe('getUnreadPrivateMessagesCount', () => {
+  test('when no private messages, unread count is 0', () => {
+    const state = deepFreeze({
+      flags: {},
+      chat: {
+        messages: {
+          '[]': [],
+        },
+      },
+      outbox: [],
+    });
+
+    const actualCount = getUnreadPrivateMessagesCount(state);
+
+    expect(actualCount).toEqual(0);
+  });
+
+  test('count all messages in "private messages" narrow, skip read', () => {
+    const state = deepFreeze({
+      chat: {
+        messages: {
+          '[]': [{ id: 1 }, { id: 2 }],
+          [allPrivateNarrowStr]: [{ id: 2 }, { id: 3 }, { id: 4 }],
+        },
+      },
+      flags: {
+        read: {
+          3: true,
+        },
+      },
+      outbox: [],
+    });
+
+    const actualCount = getUnreadPrivateMessagesCount(state);
+
+    expect(actualCount).toEqual(2);
   });
 });

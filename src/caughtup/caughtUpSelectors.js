@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { GlobalState } from '../types';
 import { NULL_CAUGHTUP } from '../nullObjects';
-import { getActiveNarrowString } from '../baseSelectors';
+import { getActiveNarrowString } from '../directSelectors';
 
 export const getCaughtUp = (state: GlobalState): Object => state.caughtUp;
 

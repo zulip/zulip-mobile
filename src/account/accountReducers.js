@@ -9,8 +9,9 @@ import {
 } from '../actionConstants';
 
 import type { AccountState, Action } from '../types';
+import { NULL_ARRAY } from '../nullObjects';
 
-const initialState = [];
+const initialState = NULL_ARRAY;
 
 export default (state: AccountState = initialState, action: Action) => {
   switch (action.type) {
