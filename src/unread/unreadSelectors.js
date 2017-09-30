@@ -3,17 +3,27 @@ import { createSelector } from 'reselect';
 
 import { caseInsensitiveCompareObjFunc } from '../utils/misc';
 import {
+  getActiveNarrow,
   getMute,
   getReadFlags,
+  getStreams,
+  getUsers,
   getUnreadStreams,
   getUnreadPms,
   getUnreadHuddles,
   getUnreadMentions,
 } from '../directSelectors';
+import { getOwnEmail } from '../account/accountSelectors';
 import { getPrivateMessages } from '../baseSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
-import { getShownMessagesInActiveNarrow } from '../chat/chatSelectors';
 import { countUnread } from '../utils/unread';
+import {
+  isHomeNarrow,
+  isStreamNarrow,
+  isTopicNarrow,
+  isGroupNarrow,
+  isPrivateNarrow,
+} from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 export const getUnreadByStream = createSelector(getUnreadStreams, unreadStreams =>
@@ -34,8 +44,8 @@ export const getUnreadByPms = createSelector(getUnreadPms, unreadPms =>
   }, {}),
 );
 
-export const getUnreadPmsTotal = createSelector(getUnreadPms, unreadStreams =>
-  unreadStreams.reduce((total, stream) => total + stream.unread_message_ids.length, 0),
+export const getUnreadPmsTotal = createSelector(getUnreadPms, unreadPms =>
+  unreadPms.reduce((total, pm) => total + pm.unread_message_ids.length, 0),
 );
 
 export const getUnreadByHuddles = createSelector(getUnreadHuddles, unreadHuddles =>
@@ -46,8 +56,8 @@ export const getUnreadByHuddles = createSelector(getUnreadHuddles, unreadHuddles
   }, {}),
 );
 
-export const getUnreadHuddlesTotal = createSelector(getUnreadHuddles, unreadStreams =>
-  unreadStreams.reduce((total, stream) => total + stream.unread_message_ids.length, 0),
+export const getUnreadHuddlesTotal = createSelector(getUnreadHuddles, unreadHuddles =>
+  unreadHuddles.reduce((total, huddle) => total + huddle.unread_message_ids.length, 0),
 );
 
 export const getUnreadMentionsTotal = createSelector(
@@ -130,8 +140,48 @@ export const getUnreadPrivateMessagesCount = createSelector(
 );
 
 export const getUnreadCountInActiveNarrow = createSelector(
-  getShownMessagesInActiveNarrow,
-  getReadFlags,
-  (shownMessagesInActiveNarrow, readIds) =>
-    countUnread(shownMessagesInActiveNarrow.map(msg => msg.id), readIds),
+  getActiveNarrow,
+  getStreams,
+  getUsers,
+  getOwnEmail,
+  getUnreadTotal,
+  getUnreadStreams,
+  getUnreadHuddles,
+  getUnreadPms,
+  (narrow, streams, users, ownEmail, unreadTotal, unreadStreams, unreadHuddles, unreadPms) => {
+    if (isHomeNarrow(narrow)) {
+      return unreadTotal;
+    }
+
+    if (isStreamNarrow(narrow)) {
+      const streamId = streams.find(stream => stream.name === narrow[0].operand).stream_id;
+      return unreadStreams
+        .filter(x => x.stream_id === streamId)
+        .reduce((sum, x) => sum + x.unread_message_ids.length, 0);
+    }
+
+    if (isTopicNarrow(narrow)) {
+      const streamId = streams.find(stream => stream.name === narrow[0].operand).stream_id;
+      return unreadStreams
+        .filter(x => x.stream_id === streamId && x.topic === narrow[1].operand)
+        .reduce((sum, x) => sum + x.unread_message_ids.length, 0);
+    }
+
+    if (isGroupNarrow(narrow)) {
+      const userIds = [...narrow[0].operand.split(','), ownEmail]
+        .map(email => users.find(user => user.email === email).id)
+        .sort((a, b) => a - b)
+        .join(',');
+      const unread = unreadHuddles.find(x => x.user_ids_string === userIds);
+      return unread ? unread.unread_message_ids.length : 0;
+    }
+
+    if (isPrivateNarrow(narrow)) {
+      const senderId = users.find(user => user.email === narrow[0].operand).id;
+      const unread = unreadPms.find(x => x.sender_id === senderId);
+      return unread ? unread.unread_message_ids.length : 0;
+    }
+
+    return 0;
+  },
 );
