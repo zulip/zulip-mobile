@@ -70,9 +70,9 @@ class AuthScreen extends PureComponent {
           {serverSettings.authentication_methods.google && (
             <OAuthView name="Google" icon="logo-google" url="accounts/login/google/" />
           )}
-          {/* {serverSettings.authentication_methods.github && (
+          {serverSettings.authentication_methods.github && (
             <OAuthView name="GitHub" icon="logo-github" url="accounts/login/social/github" />
-          )} */}
+          )}
         </Centerer>
       </Screen>
     );
