@@ -8,13 +8,14 @@ import {
   MARK_MESSAGES_READ,
 } from '../actionConstants';
 import { addItemsToStreamArray, removeItemsDeeply } from './unreadHelpers';
+import { NULL_ARRAY } from '../nullObjects';
 
-const initialState: Object[] = [];
+const initialState: Object[] = NULL_ARRAY;
 
 export default (state: UnreadState = initialState, action: Action): UnreadState => {
   switch (action.type) {
     case REALM_INIT:
-      return (action.data.unread_msgs && action.data.unread_msgs.streams) || [];
+      return (action.data.unread_msgs && action.data.unread_msgs.streams) || NULL_ARRAY;
 
     case ACCOUNT_SWITCH:
       return initialState;

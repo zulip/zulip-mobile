@@ -8,13 +8,14 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../actionConstants';
 import { addItemsToArray, removeItemsFromArray } from '../utils/immutability';
+import { NULL_ARRAY } from '../nullObjects';
 
-const initialState: number[] = [];
+const initialState: number[] = NULL_ARRAY;
 
 export default (state: UnreadState = initialState, action: Action): UnreadState => {
   switch (action.type) {
     case REALM_INIT:
-      return (action.data.unread_msgs && action.data.unread_msgs.mentions) || [];
+      return (action.data.unread_msgs && action.data.unread_msgs.mentions) || NULL_ARRAY;
 
     case ACCOUNT_SWITCH:
       return initialState;

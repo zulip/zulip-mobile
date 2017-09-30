@@ -8,8 +8,9 @@ import {
   EVENT_STREAM_OCCUPY,
   ACCOUNT_SWITCH,
 } from '../actionConstants';
+import { NULL_ARRAY } from '../nullObjects';
 
-const initialState: StreamsState = [];
+const initialState: StreamsState = NULL_ARRAY;
 
 export default (state: StreamsState = initialState, action: Action): StreamsState => {
   switch (action.type) {

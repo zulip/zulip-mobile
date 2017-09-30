@@ -2,9 +2,9 @@
 import { createSelector } from 'reselect';
 
 import type { Account, GlobalState } from '../types';
-import { NULL_ACCOUNT } from '../nullObjects';
+import { NULL_ACCOUNT, NULL_ARRAY } from '../nullObjects';
 
-export const getAccounts = (state: GlobalState): Account[] => state.accounts || [];
+export const getAccounts = (state: GlobalState): Account[] => state.accounts || NULL_ARRAY;
 
 export const getActiveAccount = createSelector(
   getAccounts,

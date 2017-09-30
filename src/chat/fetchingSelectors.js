@@ -1,7 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import { getActiveNarrowString, getApp, getFetching } from '../baseSelectors';
+import { getActiveNarrowString, getApp, getFetching } from '../directSelectors';
 import { NULL_FETCHING } from '../nullObjects';
 
 export const getFetchingForActiveNarrow = createSelector(

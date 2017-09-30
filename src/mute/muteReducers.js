@@ -3,8 +3,9 @@ import isEqual from 'lodash.isequal';
 
 import type { MuteState, Action } from '../types';
 import { APP_REFRESH, REALM_INIT, ACCOUNT_SWITCH, EVENT_MUTED_TOPICS } from '../actionConstants';
+import { NULL_ARRAY } from '../nullObjects';
 
-const initialState: MuteState = [];
+const initialState: MuteState = NULL_ARRAY;
 
 export default (state: MuteState = initialState, action: Action): MuteState => {
   switch (action.type) {

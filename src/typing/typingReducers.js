@@ -2,6 +2,7 @@
 import type { Action, TypingState } from '../types';
 import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../actionConstants';
 import { normalizeRecipientsSansMe } from '../utils/message';
+import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: TypingState = {};
 
@@ -9,7 +10,7 @@ export default (state: TypingState = initialState, action: Action): TypingState 
   switch (action.type) {
     case EVENT_TYPING_START: {
       const normalizedRecipients = normalizeRecipientsSansMe(action.recipients, action.ownEmail);
-      const previousTypingUsers = state[normalizedRecipients] || [];
+      const previousTypingUsers = state[normalizedRecipients] || NULL_ARRAY;
 
       const isUserAlreadyTyping = previousTypingUsers.indexOf(action.sender.user_id);
       if (isUserAlreadyTyping > -1) {

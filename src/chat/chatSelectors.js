@@ -5,48 +5,55 @@ import {
   getAllMessages,
   getSubscriptions,
   getActiveNarrow,
+  getActiveNarrowString,
   getMute,
   getUsers,
-  getReadFlags,
   getStreams,
   getOutbox,
-} from '../baseSelectors';
+} from '../directSelectors';
 import {
   isAllPrivateNarrow,
   isPrivateOrGroupNarrow,
   isStreamNarrow,
   isHomeNarrow,
   homeNarrow,
-  allPrivateNarrowStr,
   canSendToNarrow,
 } from '../utils/narrow';
 import { shouldBeMuted } from '../utils/message';
-import { countUnread } from '../utils/unread';
-import { NULL_MESSAGE, NULL_USER, NULL_SUBSCRIPTION } from '../nullObjects';
+import { NULL_ARRAY, NULL_MESSAGE, NULL_USER, NULL_SUBSCRIPTION } from '../nullObjects';
 
 const getMessagesFromChatState = state =>
-  state.messages[JSON.stringify(state.narrow || homeNarrow)] || [];
+  state.messages[JSON.stringify(state.narrow || homeNarrow)] || NULL_ARRAY;
 
-export const getMessagesInActiveNarrow = createSelector(
-  getAllMessages,
+export const outboxMessagesForCurrentNarrow = createSelector(
   getActiveNarrow,
+  getActiveNarrowString,
   getOutbox,
-  (allMessages, narrow, outboxMessages) => {
-    const activeNarrowString = JSON.stringify(narrow);
-
-    if (!allMessages[activeNarrowString]) return [];
-    const outboxMessagesForCurrentNarrow = isHomeNarrow(narrow)
+  (narrow, activeNarrowString, outboxMessages) =>
+    isHomeNarrow(narrow)
       ? outboxMessages
       : outboxMessages.filter(item => {
           if (isAllPrivateNarrow(narrow) && isPrivateOrGroupNarrow(item.narrow)) return true;
           if (isStreamNarrow(narrow) && item.narrow[0].operand === narrow[0].operand) return true;
           return JSON.stringify(item.narrow) === activeNarrowString;
-        });
+        }),
+);
 
-    if (!outboxMessagesForCurrentNarrow) return allMessages[activeNarrowString];
-    return allMessages[activeNarrowString]
-      .concat(outboxMessagesForCurrentNarrow)
-      .sort((a, b) => a.timestamp - b.timestamp);
+export const getFetchedMessagesInActiveNarrow = createSelector(
+  getAllMessages,
+  getActiveNarrowString,
+  (allMessages, activeNarrowString) => allMessages[activeNarrowString] || NULL_ARRAY,
+);
+
+export const getMessagesInActiveNarrow = createSelector(
+  getFetchedMessagesInActiveNarrow,
+  outboxMessagesForCurrentNarrow,
+  (fetchedMessages, outboxMessages) => {
+    if (outboxMessages.length === 0) {
+      return fetchedMessages;
+    }
+
+    return [...fetchedMessages, ...outboxMessages].sort((a, b) => a.timestamp - b.timestamp);
   },
 );
 
@@ -59,12 +66,6 @@ export const getShownMessagesInActiveNarrow = createSelector(
     messagesInActiveNarrow.filter(item => !shouldBeMuted(item, activeNarrow, subscriptions, mute)),
 );
 
-export const getFetchedMessagesInActiveNarrow = createSelector(
-  getAllMessages,
-  getActiveNarrow,
-  (allMessages, activeNarrow) => allMessages[JSON.stringify(activeNarrow)] || [],
-);
-
 export const getFirstMessageId = createSelector(
   getFetchedMessagesInActiveNarrow,
   messages => (messages.length > 0 ? messages[0].id : undefined),
@@ -73,17 +74,6 @@ export const getFirstMessageId = createSelector(
 export const getLastMessageId = createSelector(
   getFetchedMessagesInActiveNarrow,
   messages => (messages.length > 0 ? messages[messages.length - 1].id : undefined),
-);
-
-export const getPrivateMessages = createSelector(
-  getAllMessages,
-  messages => messages[allPrivateNarrowStr] || [],
-);
-
-export const getUnreadPrivateMessagesCount = createSelector(
-  getPrivateMessages,
-  getReadFlags,
-  (privateMessages, readFlags) => countUnread(privateMessages.map(msg => msg.id), readFlags),
 );
 
 export const getLastTopicInActiveNarrow = createSelector(
@@ -117,13 +107,6 @@ export const getStreamInNarrow = createSelector(
       in_home_view: true,
     } ||
     NULL_SUBSCRIPTION,
-);
-
-export const getUnreadCountInActiveNarrow = createSelector(
-  getShownMessagesInActiveNarrow,
-  getReadFlags,
-  (shownMessagesInActiveNarrow, readIds) =>
-    countUnread(shownMessagesInActiveNarrow.map(msg => msg.id), readIds),
 );
 
 export const getIfNoMessages = createSelector(

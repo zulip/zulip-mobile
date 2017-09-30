@@ -3,20 +3,29 @@ import deepFreeze from 'deep-freeze';
 import {
   getFirstMessageId,
   getLastMessageId,
-  getUnreadPrivateMessagesCount,
   getLastTopicInActiveNarrow,
   getMessagesInActiveNarrow,
 } from '../chatSelectors';
-import {
-  homeNarrow,
-  homeNarrowStr,
-  allPrivateNarrowStr,
-  privateNarrow,
-  streamNarrow,
-} from '../../utils/narrow';
+import { homeNarrow, homeNarrowStr, privateNarrow, streamNarrow } from '../../utils/narrow';
 
 describe('getMessagesInActiveNarrow', () => {
-  test('Combine messages & outbox in same narrow', () => {
+  test('if no outbox messages returns messages with no change', () => {
+    const state = deepFreeze({
+      chat: {
+        narrow: homeNarrow,
+        messages: {
+          '[]': [{ id: 123 }],
+        },
+      },
+      outbox: [],
+    });
+
+    const anchor = getMessagesInActiveNarrow(state);
+
+    expect(anchor).toBe(state.chat.messages['[]']);
+  });
+
+  test('combine messages & outbox in same narrow', () => {
     const state = deepFreeze({
       chat: {
         narrow: homeNarrow,
@@ -51,7 +60,7 @@ describe('getMessagesInActiveNarrow', () => {
     expect(anchor).toEqual(expectedState);
   });
 
-  test('Do not combine messages & outbox in different narrow', () => {
+  test('do not combine messages & outbox in different narrow', () => {
     const state = deepFreeze({
       chat: {
         narrow: privateNarrow('john@example.com'),
@@ -146,45 +155,6 @@ describe('getLastMessageId', () => {
   });
 });
 
-describe('getUnreadPrivateMessagesCount', () => {
-  test('when no private messages, unread count is 0', () => {
-    const state = deepFreeze({
-      flags: {},
-      chat: {
-        messages: {
-          '[]': [],
-        },
-      },
-      outbox: [],
-    });
-
-    const actualCount = getUnreadPrivateMessagesCount(state);
-
-    expect(actualCount).toEqual(0);
-  });
-
-  test('count all messages in "private messages" narrow, skip read', () => {
-    const state = deepFreeze({
-      chat: {
-        messages: {
-          '[]': [{ id: 1 }, { id: 2 }],
-          [allPrivateNarrowStr]: [{ id: 2 }, { id: 3 }, { id: 4 }],
-        },
-      },
-      flags: {
-        read: {
-          3: true,
-        },
-      },
-      outbox: [],
-    });
-
-    const actualCount = getUnreadPrivateMessagesCount(state);
-
-    expect(actualCount).toEqual(2);
-  });
-});
-
 describe('getLastTopicInActiveNarrow', () => {
   test('when no messages yet, return empty string', () => {
     const state = deepFreeze({
@@ -192,6 +162,7 @@ describe('getLastTopicInActiveNarrow', () => {
         narrow: homeNarrow,
         messages: {},
       },
+      outbox: [],
     });
 
     const actualLastTopic = getLastTopicInActiveNarrow(state);
