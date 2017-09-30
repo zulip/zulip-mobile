@@ -123,10 +123,14 @@ android {
         }
     }
     buildTypes {
+        debug {
+            manifestPlaceholders = [excludeSystemAlertWindowPermission: "false"]
+        }
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+            manifestPlaceholders = [excludeSystemAlertWindowPermission: "true"]
         }
     }
     // applicationVariants are e.g. debug, release
@@ -155,7 +159,6 @@ repositories {
 
 
 dependencies {
-    compile project(':react-native-notifications')
     compile project(':react-native-sentry')
     compile project(':@remobile/react-native-toast')
     compile project(':react-native-photo-view')
