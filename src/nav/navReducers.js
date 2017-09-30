@@ -23,8 +23,10 @@ export default (
       return getStateForRoute(getInitialRoute(action.payload));
 
     case RESET_NAVIGATION:
-    case ACCOUNT_SWITCH:
       return getStateForRoute(getInitialRoute(state));
+
+    case ACCOUNT_SWITCH:
+      return getStateForRoute('loading');
 
     case SET_AUTH_TYPE: {
       if (action.authType === 'dev') return null;
