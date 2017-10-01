@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.OverScroller;
 import android.widget.ScrollView;
 
@@ -72,6 +73,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
 
     private String mAnchorTag;
     private int mLastAnchorY;
+    private ScrollView scrollView;
 
     public AnchorScrollView(ReactContext context) {
         this(context, null);
@@ -79,6 +81,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
 
     public AnchorScrollView(ReactContext context, @Nullable FpsListener fpsListener) {
         super(context);
+        scrollView = this;
         mFpsListener = fpsListener;
 
         if (!sTriedToGetScrollerField) {
@@ -116,7 +119,45 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         getAllReactChildrenField(null);
         setOnHierarchyChangeListener(this);
         setScrollBarStyle(SCROLLBARS_OUTSIDE_OVERLAY);
+
+        this.setOnTouchListener(new OnTouchListener() {
+            private ViewTreeObserver observer;
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (observer == null) {
+                    observer = getViewTreeObserver();
+                    observer.addOnScrollChangedListener(onScrollChangedListener);
+                }
+                else if (!observer.isAlive()) {
+                    observer.removeOnScrollChangedListener(onScrollChangedListener);
+                    observer = getViewTreeObserver();
+                    observer.addOnScrollChangedListener(onScrollChangedListener);
+                }
+
+                return false;
+            }
+        });
     }
+
+    final ViewTreeObserver.OnScrollChangedListener onScrollChangedListener = new
+            ViewTreeObserver.OnScrollChangedListener() {
+
+                @Override
+                public void onScrollChanged() {
+                    if (mOnScrollDispatchHelper.onScrollChanged(getScrollX(), getScrollY())) {
+                        if (mRemoveClippedSubviews) {
+                            updateClippingRect();
+                        }
+
+                        if (mFlinging) {
+                            mDoneFlinging = false;
+                        }
+
+                        findAnchorView();
+                        AnchorScrollViewHelper.emitScrollEvent(scrollView, null);
+                    }
+                }
+            };
 
     // Zulip changes
     public void getAllReactChildrenField(Class clazz) {
@@ -208,24 +249,6 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                 mAnchorTag = tag;
                 break;
             }
-        }
-    }
-
-    @Override
-    protected void onScrollChanged(int x, int y, int oldX, int oldY) {
-        super.onScrollChanged(x, y, oldX, oldY);
-
-        if (mOnScrollDispatchHelper.onScrollChanged(x, y)) {
-            if (mRemoveClippedSubviews) {
-                updateClippingRect();
-            }
-
-            if (mFlinging) {
-                mDoneFlinging = false;
-            }
-
-            findAnchorView();
-            AnchorScrollViewHelper.emitScrollEvent(this, null);
         }
     }
 
@@ -414,11 +437,6 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
             }
         }
         super.draw(canvas);
-
-//      Dispatch event after scrollview is drawn.
-//      Without this, as onScrollChanged() is called before a view draws,
-//      we'd miss to calculate visible ids currently on screen.
-        AnchorScrollViewHelper.emitScrollEvent(this, getVisibleIds());
     }
 
     public void setEndFillColor(int color) {
