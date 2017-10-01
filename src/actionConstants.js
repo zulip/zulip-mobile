@@ -1,6 +1,4 @@
 /* @flow */
-export const BATCH_ACTIONS = 'BATCH_ACTIONS';
-
 export const APP_ACTIVITY = 'APP_ACTIVITY';
 export const APP_ONLINE = 'APP_ONLINE';
 export const APP_ORIENTATION = 'APP_ORIENTATION';

@@ -1,7 +1,9 @@
 /* @flow */
+import { batchActions } from 'redux-batched-actions';
+
 import type { Dispatch, GetState } from '../types';
 import { pollForEvents } from '../api';
-import { appRefresh, batchActions } from '../actions';
+import { appRefresh } from '../actions';
 import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
 import { getAuth } from '../selectors';

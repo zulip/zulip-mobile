@@ -1,8 +1,9 @@
 /* @flow */
 import { combineReducers } from 'redux';
+import { enableBatching } from 'redux-batched-actions';
 
 import config from '../config';
-import { enableBatching, logSlowReducers } from '../utils/redux';
+import { logSlowReducers } from '../utils/redux';
 
 import accounts from '../account/accountReducers';
 import alertWords from '../alertWords/alertWordsReducer';

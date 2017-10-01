@@ -60,6 +60,7 @@
     "react-test-renderer": "16.0.0-alpha.12",
     "redux": "^3.7.2",
     "redux-action-buffer": "^1.1.0",
+    "redux-batched-actions": "^0.1.6",
     "redux-logger": "^3.0.1",
     "redux-persist": "^4.10.1",
     "redux-thunk": "^2.1.0",
