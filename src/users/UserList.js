@@ -19,6 +19,10 @@ const styles = StyleSheet.create({
 });
 
 export default class UserList extends PureComponent {
+  static contextTypes = {
+    styles: () => null,
+  };
+
   props: {
     style?: StyleObj,
     filter: string,
@@ -42,6 +46,7 @@ export default class UserList extends PureComponent {
     return (
       <SectionList
         style={[styles.list, style]}
+        stickySectionHeadersEnabled
         keyboardShouldPersistTaps="always"
         initialNumToRender={20}
         sections={sections}
@@ -60,7 +65,10 @@ export default class UserList extends PureComponent {
           />
         )}
         renderSectionHeader={({ section }) => (
-          <RawLabel style={styles.groupHeader} text={section.key} />
+          <RawLabel
+            style={[styles.groupHeader, this.context.styles.backgroundColor]}
+            text={section.key}
+          />
         )}
       />
     );
