@@ -23,6 +23,7 @@ export default class AvatarList extends PureComponent {
       <FlatList
         style={styles.list}
         horizontal
+        showsHorizontalScrollIndicator={false}
         initialNumToRender={20}
         data={users}
         ref={component => {
