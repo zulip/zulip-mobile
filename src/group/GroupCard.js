@@ -48,7 +48,7 @@ export default class GroupCard extends PureComponent {
     this.setState({
       selected: [...selected, user],
     });
-    this.listRef.scrollToEnd();
+    setTimeout(() => this.listRef.scrollToEnd(), 300);
   };
 
   handleUserPress = (email: string) => {
