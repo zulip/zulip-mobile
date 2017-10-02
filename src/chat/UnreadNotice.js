@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Animated, StyleSheet } from 'react-native';
 
-import { Label, RawLabel } from '../common';
+import { Label, RawLabel, ZulipButton } from '../common';
 import { IconDownArrow } from '../common/Icons';
 import { unreadToLimitedCount } from '../utils/unread';
 
@@ -26,6 +26,13 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
   },
+  button: {
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 20,
+    paddingRight: 20,
+    margin: 5,
+  },
 });
 
 type Props = {
@@ -48,6 +55,7 @@ export default class UnreadNotice extends PureComponent {
           text={unreadToLimitedCount(unreadCount)}
         />
         <Label style={styles.unreadText} text="unread messages" />
+        <ZulipButton style={styles.button} text="Mark all read" />
       </Animated.View>
     );
   }
