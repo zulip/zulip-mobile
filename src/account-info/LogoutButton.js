@@ -41,9 +41,6 @@ class LogoutButton extends PureComponent {
     const { accounts, actions } = this.props;
     this.shutdownPUSH();
     actions.logout(accounts);
-    const accountsLoggedOut = accounts.slice();
-    accountsLoggedOut[0].apiKey = '';
-    actions.resetNavigation();
   };
 
   render() {
