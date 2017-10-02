@@ -75,5 +75,8 @@
   "Privacy policy": "Privacy policy",
   "Timing": "Timing",
   "Variables": "Variables",
-  "Storage": "Storage"
+  "Storage": "Storage",
+  "Mark all as read": "Mark all as read",
+  "Mark stream as read": "Mark stream as read",
+  "Mark topic as read": "Mark topic as read"
 }

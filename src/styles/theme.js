@@ -25,7 +25,7 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   },
   input: {
     color,
-    flexBasis: CONTROL_SIZE,
+    height: CONTROL_SIZE,
     ...Platform.select({
       ios: {
         borderWidth: 1,
@@ -38,7 +38,7 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   composeTextInput: {
     color,
     borderColor: 'transparent',
-    flex: 1,
+    // flex: 1,
     padding: 6,
     fontSize: 15,
   },
@@ -137,12 +137,11 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     fontSize: 16,
   },
   composeBox: {
-    marginTop: 2,
+    paddingTop: 2,
     flexDirection: 'row',
     backgroundColor: 'rgba(127, 127, 127, 0.1)',
     borderTopColor: borderColor,
     borderTopWidth: 1,
-    // zIndex: 2,
   },
   subheader: {
     flex: 1,
