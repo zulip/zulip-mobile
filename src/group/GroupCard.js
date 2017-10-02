@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Actions, User } from '../types';
-import { FloatingActionButton } from '../common';
+import { FloatingActionButton, LineSeparator } from '../common';
 import { IconDone } from '../common/Icons';
 import { groupNarrow } from '../utils/narrow';
 import UserList from '../users/UserList';
@@ -94,6 +94,7 @@ export default class GroupCard extends PureComponent {
             onPress={this.handleUserDeselect}
           />
         </AnimatedHeightComponent>
+        {selected.length > 0 && <LineSeparator />}
         <UserList
           style={styles.list}
           ownEmail={ownEmail}
