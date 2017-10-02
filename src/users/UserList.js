@@ -23,12 +23,13 @@ export default class UserList extends PureComponent {
     style?: StyleObj,
     filter: string,
     users: User[],
+    selected: User[],
     presences: Object,
     onPress: (email: string) => void,
   };
 
   render() {
-    const { filter, style, users, presences, onPress } = this.props;
+    const { filter, style, users, presences, onPress, selected } = this.props;
     const shownUsers = sortUserList(filterUserList(users, filter));
     const groupedUsers = groupUsersByInitials(shownUsers);
     const sections = Object.keys(groupedUsers).map(key => ({ key, data: groupedUsers[key] }));
@@ -55,6 +56,7 @@ export default class UserList extends PureComponent {
             presence={presences[item.email]}
             onPress={onPress}
             status={item.status}
+            isSelected={selected.find(user => user.id === item.id)}
           />
         )}
         renderSectionHeader={({ section }) => (
