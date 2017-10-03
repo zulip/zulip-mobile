@@ -2,7 +2,6 @@
 import type { Auth, ResponseExtractionFunc } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
-import { timeout } from '../utils/async';
 import { networkActivityStart, networkActivityStop } from './networkActivity';
 
 const apiVersion = 'api/v1';
@@ -29,15 +28,9 @@ export const apiCall = async (
   shouldTimeout: boolean = true,
 ) => {
   try {
-    // Show network activity indicator if this fetch is not silent
     networkActivityStart(isSilent);
-    const response = await timeout(
-      await apiFetch(auth, route, params),
-      () => {
-        throw new Error(`Request timed out @ ${route}`);
-      },
-      // shouldTimeout, # WTF ITS BOOL ;-( WE NEED NUMBER
-    );
+    const response = await apiFetch(auth, route, params);
+
     if (response.status === 401) {
       // TODO: httpUnauthorized()
       console.log('Unauthorized for:', auth, route, params); // eslint-disable-line
@@ -50,8 +43,6 @@ export const apiCall = async (
       console.log('Bad response for:', auth, route, params); // eslint-disable-line
       throw new Error(json.msg);
     }
-
-    // send APP_ONLINE
 
     return resFunc(json);
   } finally {
