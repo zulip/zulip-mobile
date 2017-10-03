@@ -103,7 +103,7 @@ describe('constructActionButtons', () => {
 
     const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
 
-    expect(buttons).toContain('Star Message');
+    expect(buttons).toContain('Star message');
   });
 
   test('show unstar message option if message is starred', () => {
@@ -113,7 +113,7 @@ describe('constructActionButtons', () => {
 
     const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
 
-    expect(buttons).toContain('Unstar Message');
+    expect(buttons).toContain('Unstar message');
   });
 });
 

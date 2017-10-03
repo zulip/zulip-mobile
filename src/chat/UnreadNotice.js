@@ -53,7 +53,10 @@ export default class UnreadNotice extends PureComponent {
             style={[styles.unreadText, styles.margin]}
             text={unreadToLimitedCount(unreadCount)}
           />
-          <Label style={styles.unreadText} text="unread messages" />
+          <Label
+            style={styles.unreadText}
+            text={unreadCount === 1 ? 'unread message' : 'unread messages'}
+          />
         </View>
         <MarkUnreadButton />
       </View>
