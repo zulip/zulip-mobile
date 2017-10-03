@@ -12,6 +12,7 @@
   "No messages with this topic": "इस विषय के साथ कोई संदेश नहीं है",
   "No messages with this person": "इस व्यक्ति के साथ कोई संदेश नहीं है",
   "No messages in this group": "इस समूह में कोई संदेश नहीं है",
+  "No unread messages": "No unread messages",
   "Pick account": "खाता चुनें",
   "Welcome": "स्वागत हे",
   "Subscriptions": "सदस्यता",
@@ -74,5 +75,16 @@
   "Privacy policy": "गोपनीयता नीति",
   "Timing": "Timing",
   "Variables": "Variables",
-  "Storage": "Storage"
+  "Storage": "Storage",
+  "Mark as read": "Mark as read",
+  "Mark all as read": "Mark all as read",
+  "Mark stream as read": "Mark stream as read",
+  "Mark topic as read": "Mark topic as read",
+  "unread message": "unread message",
+  "unread messages": "unread messages",
+  "Create group": "Create group",
+  "Share": "Share",
+  "Star message": "Star message",
+  "Unstar message": "Unstar message",
+  "Cancel": "Cancel"
 }

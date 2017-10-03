@@ -12,6 +12,7 @@
   "No messages with this topic": "该主题没有消息",
   "No messages with this person": "该用户没有消息",
   "No messages in this group": "该组没有消息",
+  "No unread messages": "No unread messages",
   "Pick account": "选择帐户",
   "Welcome": "欢迎",
   "Subscriptions": "订阅",
@@ -74,5 +75,16 @@
   "Privacy policy": "Privacy policy",
   "Timing": "Timing",
   "Variables": "Variables",
-  "Storage": "Storage"
+  "Storage": "Storage",
+  "Mark as read": "Mark as read",
+  "Mark all as read": "Mark all as read",
+  "Mark stream as read": "Mark stream as read",
+  "Mark topic as read": "Mark topic as read",
+  "unread message": "unread message",
+  "unread messages": "unread messages",
+  "Create group": "Create group",
+  "Share": "Share",
+  "Star message": "Star message",
+  "Unstar message": "Unstar message",
+  "Cancel": "Cancel"
 }

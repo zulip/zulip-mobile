@@ -12,6 +12,7 @@
   "No messages with this topic": "Geen berichten met dit onderwerp",
   "No messages with this person": "Geen berichten uitgewisseld met deze persoon",
   "No messages in this group": "Geen berichten in deze groep",
+  "No unread messages": "No unread messages",
   "Pick account": "Kies een account",
   "Welcome": "Welkom",
   "Subscriptions": "Abonnementen",
@@ -74,5 +75,16 @@
   "Privacy policy": "Privacy policy",
   "Timing": "Timing",
   "Variables": "Variables",
-  "Storage": "Storage"
+  "Storage": "Storage",
+  "Mark as read": "Mark as read",
+  "Mark all as read": "Mark all as read",
+  "Mark stream as read": "Mark stream as read",
+  "Mark topic as read": "Mark topic as read",
+  "unread message": "unread message",
+  "unread messages": "unread messages",
+  "Create group": "Create group",
+  "Share": "Share",
+  "Star message": "Star message",
+  "Unstar message": "Unstar message",
+  "Cancel": "Cancel"
 }

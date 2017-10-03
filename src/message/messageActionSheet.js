@@ -183,7 +183,7 @@ const actionSheetButtons: ActionSheetButtonType[] = [
   { title: 'Copy to clipboard', onPress: copyToClipboard },
   { title: 'Share', onPress: shareMessage },
   {
-    title: 'Edit Message',
+    title: 'Edit message',
     onPress: editMessage,
     onlyIf: ({ message, auth, narrow }) =>
       resolveMultiple(message, auth, narrow, [isSentMessage, isSentBySelfAndNarrowed]),
@@ -196,8 +196,8 @@ const actionSheetButtons: ActionSheetButtonType[] = [
   },
   // If skip then covered in constructActionButtons
   { title: 'Narrow to conversation', onPress: narrowToConversation, onlyIf: skip },
-  { title: 'Star Message', onPress: starMessage, onlyIf: skip },
-  { title: 'Unstar Message', onPress: unstarMessage, onlyIf: skip },
+  { title: 'Star message', onPress: starMessage, onlyIf: skip },
+  { title: 'Unstar message', onPress: unstarMessage, onlyIf: skip },
   { title: 'Cancel', onPress: skip, onlyIf: skip },
 ];
 
@@ -252,9 +252,9 @@ export const constructActionButtons = ({
   }
   if (isSentMessage({ message })) {
     if (message.id in flags.starred) {
-      buttons.push('Unstar Message');
+      buttons.push('Unstar message');
     } else {
-      buttons.push('Star Message');
+      buttons.push('Star message');
     }
   }
   buttons.push('Cancel');

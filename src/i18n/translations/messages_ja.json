@@ -12,6 +12,7 @@
   "No messages with this topic": "このトピックにメッセージはありません",
   "No messages with this person": "この人とのメッセージはありません",
   "No messages in this group": "このグループのメッセージはありません",
+  "No unread messages": "No unread messages",
   "Pick account": "アカウントを選択",
   "Welcome": "ようこそ",
   "Subscriptions": "購読中",
@@ -74,5 +75,16 @@
   "Privacy policy": "プライバシーポリシー",
   "Timing": "Timing",
   "Variables": "Variables",
-  "Storage": "Storage"
+  "Storage": "Storage",
+  "Mark as read": "Mark as read",
+  "Mark all as read": "Mark all as read",
+  "Mark stream as read": "Mark stream as read",
+  "Mark topic as read": "Mark topic as read",
+  "unread message": "unread message",
+  "unread messages": "unread messages",
+  "Create group": "Create group",
+  "Share": "Share",
+  "Star message": "Star message",
+  "Unstar message": "Unstar message",
+  "Cancel": "Cancel"
 }
