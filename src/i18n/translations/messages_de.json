@@ -12,6 +12,7 @@
   "No messages with this topic": "In diesem Thema gibt es keine  Nachrichten",
   "No messages with this person": "Mit dieser Person gibt es keine Unterhaltung",
   "No messages in this group": "In dieser Gruppe gibt es keine Nachrichten",
+  "No unread messages": "No unread messages",
   "Pick account": "Account auswählen",
   "Welcome": "Willkommen",
   "Subscriptions": "Abonnements",
@@ -73,6 +74,17 @@
   "Terms of service": "Nutzungsbedingungen",
   "Privacy policy": "Privatssphäreeinstellungen",
   "Timing": "Timing",
-  "Variables": "Variables",
-  "Storage": "Storage"
+  "Variables": "Variablen",
+  "Storage": "Speicher",
+  "Mark as read": "Mark as read",
+  "Mark all as read": "Mark all as read",
+  "Mark stream as read": "Mark stream as read",
+  "Mark topic as read": "Mark topic as read",
+  "unread message": "unread message",
+  "unread messages": "unread messages",
+  "Create group": "Create group",
+  "Share": "Share",
+  "Star message": "Star message",
+  "Unstar message": "Unstar message",
+  "Cancel": "Cancel"
 }

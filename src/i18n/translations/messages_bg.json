@@ -12,6 +12,7 @@
   "No messages with this topic": "Няма съобщения с тази тема",
   "No messages with this person": "Няма съобщения с този потребител",
   "No messages in this group": "Няма съобщения в тази група",
+  "No unread messages": "Няма непрочетени съобщения",
   "Pick account": "Избери профил",
   "Welcome": "Добре дошли",
   "Subscriptions": "Абонаменти",
@@ -74,5 +75,16 @@
   "Privacy policy": "Правила за поверителност",
   "Timing": "Времена",
   "Variables": "Променливи",
-  "Storage": "Хранилище"
+  "Storage": "Хранилище",
+  "Mark as read": "Маркирай като прочетени",
+  "Mark all as read": "Mаркирай всички като прочетени",
+  "Mark stream as read": "Mаркирай поток като прочетен",
+  "Mark topic as read": "Маркирай тема като прочетена",
+  "unread message": "непрочетено съобщение",
+  "unread messages": "непрочетени съобщения",
+  "Create group": "Създай група",
+  "Share": "Сподели",
+  "Star message": "Запази съобщение в любими",
+  "Unstar message": "Премахни съобщение от любими",
+  "Cancel": "Откажи"
 }
