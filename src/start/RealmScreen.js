@@ -80,7 +80,7 @@ class RealmScreen extends PureComponent {
           <View>
             <Label text="Your server URL" />
             <Input
-              style={styles.field}
+              style={styles.smallMarginTop}
               autoFocus
               autoCorrect={false}
               autoCapitalize="none"

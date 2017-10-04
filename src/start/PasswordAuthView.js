@@ -85,7 +85,7 @@ class PasswordAuthView extends PureComponent {
     return (
       <View style={componentStyles.container}>
         <Input
-          style={styles.field}
+          style={styles.smallMarginTop}
           autoFocus
           autoCapitalize="none"
           autoCorrect={false}
@@ -96,14 +96,19 @@ class PasswordAuthView extends PureComponent {
           onChangeText={newEmail => this.setState({ email: newEmail })}
         />
         <PasswordInput
-          style={styles.field}
+          style={[styles.smallMarginTop, styles.field]}
           placeholder="Password"
           value={password}
           onChangeText={newPassword => this.setState({ password: newPassword })}
           blurOnSubmit={false}
           onSubmitEditing={this.validateForm}
         />
-        <ZulipButton text="Sign in" progress={progress} onPress={this.validateForm} />
+        <ZulipButton
+          style={styles.smallMarginTop}
+          text="Sign in"
+          progress={progress}
+          onPress={this.validateForm}
+        />
         <ErrorMsg error={error} />
         <View style={componentStyles.linksTouchable}>
           <WebLink label="Forgot password?" href="/accounts/password/reset/" />

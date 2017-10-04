@@ -88,10 +88,12 @@ class OAuthView extends React.Component {
   };
 
   render() {
+    const { styles } = this.context;
     const { name, icon } = this.props;
 
     return (
       <ZulipButton
+        style={styles.smallMarginTop}
         secondary
         text={`Sign in with ${name}`}
         icon={icon}
