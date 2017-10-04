@@ -163,4 +163,9 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     shadowOpacity: 0.2,
     elevation: 2,
   },
+  lineSeparator: {
+    height: 1,
+    backgroundColor: cardColor,
+    margin: 4,
+  },
 });

@@ -19,16 +19,21 @@ const styles = StyleSheet.create({
 });
 
 export default class UserList extends PureComponent {
+  static contextTypes = {
+    styles: () => null,
+  };
+
   props: {
     style?: StyleObj,
     filter: string,
     users: User[],
+    selected: User[],
     presences: Object,
     onPress: (email: string) => void,
   };
 
   render() {
-    const { filter, style, users, presences, onPress } = this.props;
+    const { filter, style, users, presences, onPress, selected } = this.props;
     const shownUsers = sortUserList(filterUserList(users, filter));
     const groupedUsers = groupUsersByInitials(shownUsers);
     const sections = Object.keys(groupedUsers).map(key => ({ key, data: groupedUsers[key] }));
@@ -41,6 +46,7 @@ export default class UserList extends PureComponent {
     return (
       <SectionList
         style={[styles.list, style]}
+        stickySectionHeadersEnabled
         keyboardShouldPersistTaps="always"
         initialNumToRender={20}
         sections={sections}
@@ -55,10 +61,14 @@ export default class UserList extends PureComponent {
             presence={presences[item.email]}
             onPress={onPress}
             status={item.status}
+            isSelected={selected.find(user => user.id === item.id)}
           />
         )}
         renderSectionHeader={({ section }) => (
-          <RawLabel style={styles.groupHeader} text={section.key} />
+          <RawLabel
+            style={[styles.groupHeader, this.context.styles.backgroundColor]}
+            text={section.key}
+          />
         )}
       />
     );
