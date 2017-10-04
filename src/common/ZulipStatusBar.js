@@ -1,6 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import { connect } from 'react-redux';
 import Color from 'color';
 
@@ -8,6 +9,7 @@ import type { Dimensions, StatusBarStyle } from '../types';
 import { getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 import getStatusBarStyle from '../utils/getStatusBarStyle';
 import getStatusBarColor from '../utils/getStatusBarColor';
+import { STATUSBAR_HEIGHT } from '../styles/platform';
 
 class ZulipStatusBar extends PureComponent {
   static contextTypes = {
@@ -29,7 +31,12 @@ class ZulipStatusBar extends PureComponent {
 
   render() {
     const { theme, backgroundColor, textColor, hidden, barStyle, safeAreaInsets } = this.props;
-    const style = { height: hidden ? 0 : safeAreaInsets.top, backgroundColor };
+    const style = {
+      height: hidden
+        ? 0
+        : DeviceInfo.getSystemVersion() >= 11 ? safeAreaInsets.top : STATUSBAR_HEIGHT,
+      backgroundColor,
+    };
     const statusBarStyle = !barStyle
       ? getStatusBarStyle(backgroundColor, textColor, theme)
       : barStyle;
