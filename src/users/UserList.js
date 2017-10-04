@@ -32,6 +32,10 @@ export default class UserList extends PureComponent {
     onPress: (email: string) => void,
   };
 
+  static defaultProps = {
+    selected: [],
+  };
+
   render() {
     const { filter, style, users, presences, onPress, selected } = this.props;
     const shownUsers = sortUserList(filterUserList(users, filter));
