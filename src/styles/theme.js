@@ -168,4 +168,7 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     backgroundColor: cardColor,
     margin: 4,
   },
+  smallMarginTop: {
+    marginTop: 8,
+  },
 });
