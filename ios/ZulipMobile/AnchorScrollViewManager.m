@@ -14,7 +14,6 @@
 #import "AnchorScrollViewManager.h"
 
 #import "AnchorScrollView.h"
-#import "RCTBridgeModule.h"
 
 #import <objc/runtime.h>
 
