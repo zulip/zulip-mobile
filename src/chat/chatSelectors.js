@@ -11,6 +11,7 @@ import {
   getStreams,
   getOutbox,
 } from '../directSelectors';
+import { getCaughtUpForActiveNarrow } from '../caughtup/caughtUpSelectors';
 import {
   isAllPrivateNarrow,
   isPrivateOrGroupNarrow,
@@ -27,16 +28,24 @@ const getMessagesFromChatState = state =>
 
 export const outboxMessagesForCurrentNarrow = createSelector(
   getActiveNarrow,
+  getCaughtUpForActiveNarrow,
   getActiveNarrowString,
   getOutbox,
-  (narrow, activeNarrowString, outboxMessages) =>
-    isHomeNarrow(narrow)
-      ? outboxMessages
-      : outboxMessages.filter(item => {
-          if (isAllPrivateNarrow(narrow) && isPrivateOrGroupNarrow(item.narrow)) return true;
-          if (isStreamNarrow(narrow) && item.narrow[0].operand === narrow[0].operand) return true;
-          return JSON.stringify(item.narrow) === activeNarrowString;
-        }),
+  (narrow, caughtUp, activeNarrowString, outboxMessages) => {
+    if (!caughtUp.newer) {
+      return [];
+    }
+
+    if (isHomeNarrow(narrow)) {
+      return outboxMessages;
+    }
+
+    return outboxMessages.filter(item => {
+      if (isAllPrivateNarrow(narrow) && isPrivateOrGroupNarrow(item.narrow)) return true;
+      if (isStreamNarrow(narrow) && item.narrow[0].operand === narrow[0].operand) return true;
+      return JSON.stringify(item.narrow) === activeNarrowString;
+    });
+  },
 );
 
 export const getFetchedMessagesInActiveNarrow = createSelector(

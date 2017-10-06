@@ -8,8 +8,9 @@ import {
   EVENT_PRESENCE,
   PRESENCE_RESPONSE,
 } from '../actionConstants';
+import { NULL_OBJECT } from '../nullObjects';
 
-const initialState: Object = {};
+const initialState: Object = NULL_OBJECT;
 
 export default (state: UsersState = initialState, action: Action): UsersState => {
   switch (action.type) {

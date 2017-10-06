@@ -1,8 +1,9 @@
 /* @flow */
 import type { DraftState, Action } from '../types';
 import { DRAFT_ADD, DRAFT_REMOVE, LOGOUT } from '../actionConstants';
+import { NULL_OBJECT } from '../nullObjects';
 
-const initialState = {};
+const initialState = NULL_OBJECT;
 
 export default (state: DraftState = initialState, action: Action): DraftState => {
   switch (action.type) {
