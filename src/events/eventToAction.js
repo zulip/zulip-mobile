@@ -74,6 +74,7 @@ export default (state: GlobalState, event: Object) => {
       return {
         type: EVENT_NEW_MESSAGE,
         message: event.message,
+        caughtUp: state.caughtUp,
         ownEmail: state.accounts[0].email,
         localMessageId: event.local_message_id,
       };

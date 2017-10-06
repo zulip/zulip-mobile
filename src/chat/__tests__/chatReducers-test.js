@@ -52,6 +52,24 @@ describe('chatReducers', () => {
   });
 
   describe('EVENT_NEW_MESSAGE', () => {
+    test('if not caught up in narrow, do not add message', () => {
+      const initialState = deepFreeze({
+        messages: {
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+        },
+      });
+
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message: { id: 3 },
+        caughtUp: {},
+      });
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toBe(initialState);
+    });
+
     test('appends message to state producing a copy of messages', () => {
       const initialState = deepFreeze({
         messages: {
@@ -62,6 +80,12 @@ describe('chatReducers', () => {
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
         message: { id: 3 },
+        caughtUp: {
+          [homeNarrowStr]: {
+            older: false,
+            newer: true,
+          },
+        },
       });
 
       const expectedState = {
@@ -87,6 +111,12 @@ describe('chatReducers', () => {
     const action = deepFreeze({
       type: EVENT_NEW_MESSAGE,
       message: { id: 2 },
+      caughtUp: {
+        [homeNarrowStr]: {
+          older: false,
+          newer: true,
+        },
+      },
     });
 
     const newState = chatReducers(initialState, action);
@@ -94,7 +124,7 @@ describe('chatReducers', () => {
     expect(newState).toBe(initialState);
   });
 
-  test('Message sent to self is stored correctly', () => {
+  test('message sent to self is stored correctly', () => {
     const narrowWithSelfStr = JSON.stringify(privateNarrow('me@example.com'));
     const initialState = deepFreeze({
       messages: {
@@ -111,6 +141,10 @@ describe('chatReducers', () => {
       type: EVENT_NEW_MESSAGE,
       ownEmail: 'me@example.com',
       message,
+      caughtUp: {
+        [homeNarrowStr]: { older: false, newer: true },
+        [narrowWithSelfStr]: { older: false, newer: true },
+      },
     });
 
     const expectedState = {
@@ -126,7 +160,7 @@ describe('chatReducers', () => {
     expect(newState).not.toBe(initialState);
   });
 
-  test('appends stream message to all cached narrows that match', () => {
+  test('appends stream message to all cached narrows that match and are caught up', () => {
     const initialState = deepFreeze({
       messages: {
         [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
@@ -147,6 +181,11 @@ describe('chatReducers', () => {
     const action = deepFreeze({
       type: EVENT_NEW_MESSAGE,
       message,
+      caughtUp: {
+        [homeNarrowStr]: { older: false, newer: true },
+        [streamNarrowStr]: { older: false, newer: true },
+        [topicNarrowStr]: { older: false, newer: true },
+      },
     });
 
     const expectedState = {
@@ -182,6 +221,9 @@ describe('chatReducers', () => {
     const action = deepFreeze({
       type: EVENT_NEW_MESSAGE,
       message,
+      caughtUp: {
+        [homeNarrowStr]: { older: false, newer: true },
+      },
     });
 
     const expectedState = {
@@ -218,6 +260,11 @@ describe('chatReducers', () => {
       type: EVENT_NEW_MESSAGE,
       message,
       ownEmail: 'me@example.com',
+      caughtUp: {
+        [homeNarrowStr]: { older: false, newer: true },
+        [allPrivateNarrowStr]: { older: false, newer: true },
+        [privateNarrowStr]: { older: false, newer: true },
+      },
     });
 
     const expectedState = {

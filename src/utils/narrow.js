@@ -122,7 +122,7 @@ export const canSendToNarrow = (narrow: Narrow): boolean =>
   isStreamNarrow(narrow) ||
   isTopicNarrow(narrow);
 
-export const narrowFromMessage = (message: Message, email: string) => {
+export const getNarrowFromMessage = (message: Message, email: string) => {
   if (Array.isArray(message.display_recipient)) {
     const recipient =
       message.display_recipient.length > 1

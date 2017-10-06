@@ -16,7 +16,7 @@ import {
   isPrivateOrGroupNarrow,
   isMessageInNarrow,
   isStreamOrTopicNarrow,
-  narrowFromMessage,
+  getNarrowFromMessage,
 } from '../narrow';
 
 describe('homeNarrow', () => {
@@ -274,7 +274,7 @@ describe('isMessageInNarrow', () => {
   });
 });
 
-describe('narrowFromMessage', () => {
+describe('getNarrowFromMessage', () => {
   test('message with single recipient, returns a private narrow', () => {
     const message = {
       display_recipient: [{ email: 'bob@example.com' }],
@@ -284,7 +284,7 @@ describe('narrowFromMessage', () => {
     };
     const expectedNarrow = privateNarrow('bob@example.com');
 
-    const actualNarrow = narrowFromMessage(message, auth.email);
+    const actualNarrow = getNarrowFromMessage(message, auth.email);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
@@ -298,7 +298,7 @@ describe('narrowFromMessage', () => {
     };
     const expectedNarrow = groupNarrow(['bob@example.com', 'john@example.com']);
 
-    const actualNarrow = narrowFromMessage(message, auth.email);
+    const actualNarrow = getNarrowFromMessage(message, auth.email);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
@@ -309,7 +309,7 @@ describe('narrowFromMessage', () => {
     };
     const expectedNarrow = streamNarrow('stream');
 
-    const actualNarrow = narrowFromMessage(message);
+    const actualNarrow = getNarrowFromMessage(message);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });
@@ -321,7 +321,7 @@ describe('narrowFromMessage', () => {
     };
     const expectedNarrow = topicNarrow('stream', 'subject');
 
-    const actualNarrow = narrowFromMessage(message);
+    const actualNarrow = getNarrowFromMessage(message);
 
     expect(actualNarrow).toEqual(expectedNarrow);
   });

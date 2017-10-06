@@ -1,7 +1,7 @@
 /* @flow */
 import { Clipboard, Share } from 'react-native';
 import type { Actions, Auth, Message, ActionSheetButtonType } from '../types';
-import { narrowFromMessage, isHomeNarrow, isStreamNarrow, isSpecialNarrow } from '../utils/narrow';
+import { getNarrowFromMessage, isHomeNarrow, isStreamNarrow, isSpecialNarrow } from '../utils/narrow';
 import { getSingleMessage } from '../api';
 import { isTopicMuted } from '../utils/message';
 import muteTopicApi from '../api/muteTopic';
@@ -86,14 +86,14 @@ type AuthMessageAndNarrow = {
 const isAnOutboxMessage = ({ message }: Message): boolean => message.isOutbox;
 
 const narrowToConversation = ({ message, actions, auth, currentRoute }: MessageAndDoNarrowType) => {
-  actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
+  actions.doNarrow(getNarrowFromMessage(message, auth.email), message.id);
   if (currentRoute === 'search') {
     actions.navigateBack();
   }
 };
 
 const reply = ({ message, actions, auth, currentRoute, onReplySelect }: ReplyOptionType) => {
-  actions.doNarrow(narrowFromMessage(message, auth.email), message.id);
+  actions.doNarrow(getNarrowFromMessage(message, auth.email), message.id);
   if (onReplySelect) onReplySelect(); // focus message input
   if (currentRoute === 'search') {
     actions.navigateBack();
