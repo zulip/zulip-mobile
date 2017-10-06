@@ -9,9 +9,9 @@ import {
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
-import { NULL_FETCHING } from '../nullObjects';
+import { NULL_FETCHING, NULL_OBJECT } from '../nullObjects';
 
-const initialState: FetchingState = {};
+const initialState: FetchingState = NULL_OBJECT;
 
 export default (state: FetchingState = initialState, action: Action) => {
   switch (action.type) {

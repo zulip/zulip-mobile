@@ -25,7 +25,7 @@ describe('getMessagesInActiveNarrow', () => {
     expect(anchor).toBe(state.chat.messages['[]']);
   });
 
-  test('combine messages & outbox in same narrow', () => {
+  test('combine messages and outbox in same narrow', () => {
     const state = deepFreeze({
       chat: {
         narrow: homeNarrow,
@@ -42,6 +42,9 @@ describe('getMessagesInActiveNarrow', () => {
           timestamp: 12,
         },
       ],
+      caughtUp: {
+        [homeNarrowStr]: { older: false, newer: true },
+      },
     });
 
     const anchor = getMessagesInActiveNarrow(state);
@@ -60,7 +63,31 @@ describe('getMessagesInActiveNarrow', () => {
     expect(anchor).toEqual(expectedState);
   });
 
-  test('do not combine messages & outbox in different narrow', () => {
+  test('do not combine messages and outbox if not caught up', () => {
+    const state = deepFreeze({
+      chat: {
+        narrow: homeNarrow,
+        messages: {
+          [homeNarrowStr]: [{ id: 123 }],
+        },
+      },
+      outbox: [
+        {
+          email: 'donald@zulip.com',
+          narrow: homeNarrow,
+          parsedContent: '<p>Hello</p>',
+          sender_full_name: 'donald',
+          timestamp: 12,
+        },
+      ],
+    });
+
+    const anchor = getMessagesInActiveNarrow(state);
+
+    expect(anchor).toBe(state.chat.messages[homeNarrowStr]);
+  });
+
+  test('do not combine messages and outbox in different narrow', () => {
     const state = deepFreeze({
       chat: {
         narrow: privateNarrow('john@example.com'),

@@ -7,9 +7,9 @@ import {
   ACCOUNT_SWITCH,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
-import { NULL_CAUGHTUP } from '../nullObjects';
+import { NULL_CAUGHTUP, NULL_OBJECT } from '../nullObjects';
 
-const initialState: CaughtUpState = {};
+const initialState: CaughtUpState = NULL_OBJECT;
 
 export default (state: CaughtUpState = initialState, action: Action) => {
   switch (action.type) {

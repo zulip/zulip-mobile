@@ -2,9 +2,9 @@
 import type { Action, TypingState } from '../types';
 import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../actionConstants';
 import { normalizeRecipientsSansMe } from '../utils/message';
-import { NULL_ARRAY } from '../nullObjects';
+import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
 
-const initialState: TypingState = {};
+const initialState: TypingState = NULL_OBJECT;
 
 export default (state: TypingState = initialState, action: Action): TypingState => {
   switch (action.type) {

@@ -14,14 +14,14 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
 } from '../actionConstants';
-import { homeNarrow, isMessageInNarrow, getNarrowFromMessage } from '../utils/narrow';
+import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
 import { getMessagesById } from '../selectors';
-import { NULL_ARRAY } from '../nullObjects';
+import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
 
 const initialState: ChatState = {
   narrow: homeNarrow,
-  messages: {},
+  messages: NULL_OBJECT,
 };
 
 export default (state: ChatState = initialState, action: Action) => {
