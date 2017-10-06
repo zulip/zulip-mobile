@@ -14,7 +14,7 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
 } from '../actionConstants';
-import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
+import { homeNarrow, isMessageInNarrow, getNarrowFromMessage } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
 import { getMessagesById } from '../selectors';
 import { NULL_ARRAY } from '../nullObjects';
@@ -86,6 +86,13 @@ export default (state: ChatState = initialState, action: Action) => {
       }));
 
     case EVENT_NEW_MESSAGE: {
+      // const narrow = getNarrowFromMessage(action.message);
+      // const caughtUp = action.caughtUp[JSON.stringify(narrow)];
+      // console.log('YOLO', narrow, caughtUp);
+      // if (!caughtUp || !caughtUp.newer) {
+      //   return state;
+      // }
+
       let stateChange = false;
       const newState = {
         ...state,
@@ -93,6 +100,7 @@ export default (state: ChatState = initialState, action: Action) => {
           const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
           if (
             isInNarrow &&
+            (action.caughtUp[key] && action.caughtUp[key].newer) &&
             state.messages[key].find(item => action.message.id === item.id) === undefined
           ) {
             stateChange = true;
