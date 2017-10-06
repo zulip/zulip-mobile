@@ -82,7 +82,7 @@ export const fetchMessages = (
 };
 
 export const fetchMessagesAtFirstUnread = (narrow: Narrow): Action =>
-  fetchMessages(0, config.messagesPerRequest / 2, config.messagesPerRequest / 2, narrow, true);
+  fetchMessages(0, config.messagesPerRequest, 0, narrow, true);
 
 export const markMessagesRead = (messageIds: number[]): Action => ({
   type: MARK_MESSAGES_READ,
