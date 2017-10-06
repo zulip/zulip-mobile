@@ -17,6 +17,7 @@ import { getOwnEmail } from '../account/accountSelectors';
 import { getPrivateMessages } from '../baseSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { countUnread } from '../utils/unread';
+import { isTopicMuted } from '../utils/message';
 import {
   isHomeNarrow,
   isStreamNarrow,
@@ -33,8 +34,19 @@ export const getUnreadByStream = createSelector(getUnreadStreams, unreadStreams 
   }, {}),
 );
 
-export const getUnreadStreamTotal = createSelector(getUnreadStreams, unreadStreams =>
-  unreadStreams.reduce((total, stream) => total + stream.unread_message_ids.length, 0),
+export const getUnreadStreamTotal = createSelector(
+  getUnreadStreams,
+  getSubscriptionsById,
+  getMute,
+  (unreadStreams, subscriptionsById, mute) =>
+    unreadStreams.reduce(
+      (total, stream) =>
+        !subscriptionsById[stream.stream_id].in_home_view ||
+        isTopicMuted(subscriptionsById[stream.stream_id].name, stream.topic, mute)
+          ? total
+          : total + stream.unread_message_ids.length,
+      0,
+    ),
 );
 
 export const getUnreadByPms = createSelector(getUnreadPms, unreadPms =>
