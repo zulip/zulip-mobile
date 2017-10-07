@@ -1,13 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
-import DeviceInfo from 'react-native-device-info';
 
 import type { Narrow } from '../types';
 import boundActions from '../boundActions';
 import MainTabs from '../main/MainTabs';
-import { STATUSBAR_HEIGHT } from '../styles/platform';
 
 const componentStyles = StyleSheet.create({
   container: {
@@ -36,7 +34,8 @@ class Sidebar extends PureComponent {
     const { styles } = this.context;
     const { safeAreaInsets } = this.props;
     const paddingStyles = {
-      paddingTop: DeviceInfo.getSystemVersion() >= 11 ? safeAreaInsets.top : STATUSBAR_HEIGHT,
+      paddingTop:
+        Platform.OS === 'android' || parseInt(Platform.Version, 10) >= 11 ? safeAreaInsets.top : 20,
       paddingBottom: safeAreaInsets.bottom,
     };
 
