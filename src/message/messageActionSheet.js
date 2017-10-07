@@ -121,7 +121,7 @@ const copyToClipboard = async ({ getString, auth, message }: AuthGetStringAndMes
     ? message.markdownContent
     : await getSingleMessage(auth, message.id);
   Clipboard.setString(rawMessage);
-  showToast(getString('Message copied!'));
+  showToast(getString('Message copied'));
 };
 
 const isSentMessage = ({ message }: Message): boolean => !isAnOutboxMessage({ message });

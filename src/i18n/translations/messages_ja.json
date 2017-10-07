@@ -84,7 +84,9 @@
   "unread messages": "unread messages",
   "Create group": "Create group",
   "Share": "Share",
-  "Star message": "Star message",
-  "Unstar message": "Unstar message",
-  "Cancel": "Cancel"
+  "Star message": "メッセージをスター付け",
+  "Unstar message": "メッセージからスター外し",
+  "Cancel": "キャンセル",
+  "Message copied": "メッセージをコピーしました",
+  "Edit message": "メッセージを編集"
 }

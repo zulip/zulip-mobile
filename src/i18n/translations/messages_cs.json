@@ -84,7 +84,9 @@
   "unread messages": "unread messages",
   "Create group": "Create group",
   "Share": "Share",
-  "Star message": "Star message",
-  "Unstar message": "Unstar message",
-  "Cancel": "Cancel"
+  "Star message": "Označit zprávu hvězdičkou",
+  "Unstar message": "Odebrat zprávě hvězdičku",
+  "Cancel": "Zrušit",
+  "Message copied": "Zpráva zkopírována",
+  "Edit message": "Upravit zprávu"
 }

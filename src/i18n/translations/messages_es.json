@@ -84,7 +84,9 @@
   "unread messages": "unread messages",
   "Create group": "Create group",
   "Share": "Share",
-  "Star message": "Star message",
-  "Unstar message": "Unstar message",
-  "Cancel": "Cancel"
+  "Star message": "Destacar mensaje",
+  "Unstar message": "No destacar mensaje",
+  "Cancel": "Cancelar",
+  "Message copied": "Mensaje copiado",
+  "Edit message": "Editar mensaje"
 }

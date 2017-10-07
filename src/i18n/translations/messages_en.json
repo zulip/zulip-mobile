@@ -87,11 +87,6 @@
   "Star message": "Star message",
   "Unstar message": "Unstar message",
   "Cancel": "Cancel",
-  "Toggle compose tools": "Toggle compose tools",
-  "Message copied!": "Message copied!",
-  "Reply": "Reply",
-  "Copy to clipboard": "Copy to clipboard",
-  "Share": "Share",
-  "Narrow to conversation": "Narrow to conversation",
+  "Message copied": "Message copied",
   "Edit message": "Edit message"
 }
