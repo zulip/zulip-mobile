@@ -50,7 +50,6 @@ export default class UserList extends PureComponent {
     return (
       <SectionList
         style={[styles.list, style]}
-        stickySectionHeadersEnabled
         keyboardShouldPersistTaps="always"
         initialNumToRender={20}
         sections={sections}
