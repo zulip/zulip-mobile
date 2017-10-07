@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { AppState, BackHandler, NetInfo, View } from 'react-native';
+import { AppState, BackHandler, NetInfo, View, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import SafeArea from 'react-native-safe-area';
 
@@ -8,6 +8,7 @@ import { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
 import { getAuth, getNavigationIndex } from '../selectors';
 import { registerAppActivity } from '../utils/activity';
+import { handlePendingNotifications } from '../utils/notifications';
 
 type Props = {
   auth: Auth,
@@ -39,9 +40,12 @@ class AppEventHandlers extends PureComponent {
   };
 
   handleAppStateChange = state => {
-    const { auth, actions } = this.props;
+    const { auth, actions, needsInitialFetch } = this.props;
     registerAppActivity(auth, state === 'active');
     actions.appState(state === 'active');
+    if (state === 'active' && Platform.OS === 'android' && !needsInitialFetch) {
+      handlePendingNotifications(actions.doNarrow);
+    }
   };
 
   handleBackButtonPress = () => {
