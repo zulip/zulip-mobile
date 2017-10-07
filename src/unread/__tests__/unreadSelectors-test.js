@@ -88,6 +88,8 @@ describe('getUnreadStreamTotal', () => {
       unread: {
         streams: [],
       },
+      subscriptions: [],
+      mute: [],
     });
 
     const unreadCount = getUnreadStreamTotal(state);
@@ -100,6 +102,21 @@ describe('getUnreadStreamTotal', () => {
       unread: {
         streams: unreadStreamData,
       },
+      subscriptions: [
+        {
+          stream_id: 0,
+          in_home_view: true,
+        },
+        {
+          stream_id: 0,
+          in_home_view: true,
+        },
+        {
+          stream_id: 2,
+          in_home_view: true,
+        },
+      ],
+      mute: [],
     });
 
     const unreadCount = getUnreadStreamTotal(state);
@@ -235,6 +252,8 @@ describe('getUnreadTotal', () => {
         huddles: [],
         mentions: [],
       },
+      subscriptions: [],
+      mute: [],
     });
 
     const unreadCount = getUnreadTotal(state);
@@ -250,6 +269,21 @@ describe('getUnreadTotal', () => {
         huddles: unreadHuddlesData,
         mentions: unreadMentionsData,
       },
+      subscriptions: [
+        {
+          stream_id: 0,
+          in_home_view: true,
+        },
+        {
+          stream_id: 0,
+          in_home_view: true,
+        },
+        {
+          stream_id: 2,
+          in_home_view: true,
+        },
+      ],
+      mute: [],
     });
 
     const unreadCount = getUnreadTotal(state);
