@@ -1,7 +1,18 @@
 /* @flow */
 import { Clipboard, Share } from 'react-native';
-import type { Actions, Auth, Message, ActionSheetButtonType } from '../types';
-import { getNarrowFromMessage, isHomeNarrow, isStreamNarrow, isSpecialNarrow } from '../utils/narrow';
+import type {
+  Actions,
+  Auth,
+  Message,
+  ActionSheetButtonType,
+  AuthGetStringAndMessageType,
+} from '../types';
+import {
+  getNarrowFromMessage,
+  isHomeNarrow,
+  isStreamNarrow,
+  isSpecialNarrow,
+} from '../utils/narrow';
 import { getSingleMessage } from '../api';
 import { isTopicMuted } from '../utils/message';
 import muteTopicApi from '../api/muteTopic';
@@ -30,7 +41,6 @@ type ReplyOptionType = {
 type AuthAndMessageType = {
   auth: Auth,
   message: Object,
-  getString: (value: string) => string,
 };
 
 type AuthMessageAndSubscriptionsType = {
@@ -87,11 +97,6 @@ type AuthMessageAndNarrow = {
   message: Message,
   auth: Auth,
   narrow: [],
-};
-
-type AuthAndMessageType = {
-  message: Message,
-  auth: Auth,
 };
 
 const isAnOutboxMessage = ({ message }: Message): boolean => message.isOutbox;
@@ -265,9 +270,9 @@ export const constructActionButtons = ({
   }
   if (isSentMessage({ message })) {
     if (message.id in flags.starred) {
-      buttons.push(getString('Unstar Message'));
+      buttons.push(getString('Unstar message'));
     } else {
-      buttons.push(getString('Star Message'));
+      buttons.push(getString('Star message'));
     }
   }
   buttons.push(getString('Cancel'));
