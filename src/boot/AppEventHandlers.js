@@ -43,7 +43,12 @@ class AppEventHandlers extends PureComponent {
     const { auth, actions, needsInitialFetch } = this.props;
     registerAppActivity(auth, state === 'active');
     actions.appState(state === 'active');
-    if (state === 'active' && Platform.OS === 'android' && !needsInitialFetch) {
+    if (
+      state === 'active' &&
+      Platform.OS === 'android' &&
+      !needsInitialFetch &&
+      auth.realm !== ''
+    ) {
       handlePendingNotifications(actions.doNarrow);
     }
   };
