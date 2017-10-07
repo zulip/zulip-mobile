@@ -30,6 +30,7 @@ type ReplyOptionType = {
 type AuthAndMessageType = {
   auth: Auth,
   message: Object,
+  getString: (value: string) => string,
 };
 
 type AuthMessageAndSubscriptionsType = {
@@ -45,6 +46,7 @@ type ButtonProps = {
   actions: Actions,
   currentRoute?: string,
   onReplySelect?: () => void,
+  getString: (value: string) => string,
 };
 
 type ExecuteActionSheetParams = {
@@ -56,6 +58,7 @@ type ExecuteActionSheetParams = {
   header?: boolean,
   currentRoute?: string,
   onReplySelect?: () => void,
+  getString: (value: string) => string,
 };
 
 type ConstructActionButtonsType = {
@@ -63,12 +66,15 @@ type ConstructActionButtonsType = {
   auth: Auth,
   narrow: [],
   flags: Object,
+  currentRoute?: string,
+  getString: (value: string) => string,
 };
 
 type ConstructHeaderActionButtonsType = {
   message: Message,
   subscriptions: any[],
   mute: any[],
+  getString: (value: string) => string,
 };
 
 type MessageAuthAndActions = {
@@ -81,6 +87,11 @@ type AuthMessageAndNarrow = {
   message: Message,
   auth: Auth,
   narrow: [],
+};
+
+type AuthAndMessageType = {
+  message: Message,
+  auth: Auth,
 };
 
 const isAnOutboxMessage = ({ message }: Message): boolean => message.isOutbox;
@@ -100,12 +111,12 @@ const reply = ({ message, actions, auth, currentRoute, onReplySelect }: ReplyOpt
   }
 };
 
-const copyToClipboard = async ({ auth, message }: AuthAndMessageType) => {
+const copyToClipboard = async ({ getString, auth, message }: AuthGetStringAndMessageType) => {
   const rawMessage = isAnOutboxMessage({ message })
     ? message.markdownContent
     : await getSingleMessage(auth, message.id);
   Clipboard.setString(rawMessage);
-  showToast('Message copied!');
+  showToast(getString('Message copied!'));
 };
 
 const isSentMessage = ({ message }: Message): boolean => !isAnOutboxMessage({ message });
@@ -154,7 +165,7 @@ const starMessage = ({ auth, message }: AuthAndMessageType) => {
   toggleMessageStarredApi(auth, [message.id], true);
 };
 
-const unstarMessage = ({ auth, message }: AuthAndMessageType) => {
+const unstarMessage = ({ auth, message }: AuthGetStringAndMessageType) => {
   toggleMessageStarredApi(auth, [message.id], false);
 };
 
@@ -213,25 +224,26 @@ export const constructHeaderActionButtons = ({
   message,
   subscriptions,
   mute,
+  getString,
 }: ConstructHeaderActionButtonsType) => {
   const buttons = actionHeaderSheetButtons
     .filter(x => !x.onlyIf || x.onlyIf({ message }))
-    .map(x => x.title);
+    .map(x => getString(x.title));
   // These are dependent conditions, hence better if we manage here rather than using onlyIf
   if (message.type === 'stream') {
     if (isTopicMuted(message.display_recipient, message.subject, mute)) {
-      buttons.push('Unmute topic');
+      buttons.push(getString('Unmute topic'));
     } else {
-      buttons.push('Mute topic');
+      buttons.push(getString('Mute topic'));
     }
     const sub = subscriptions.find(x => x.name === message.display_recipient);
     if (sub && !sub.in_home_view) {
-      buttons.push('Unmute stream');
+      buttons.push(getString('Unmute stream'));
     } else {
-      buttons.push('Mute stream');
+      buttons.push(getString('Mute stream'));
     }
   }
-  buttons.push('Cancel');
+  buttons.push(getString('Cancel'));
   return buttons;
 };
 
@@ -241,36 +253,42 @@ export const constructActionButtons = ({
   narrow,
   flags,
   onReplySelect,
+  currentRoute,
+  getString,
 }: ConstructActionButtonsType) => {
   const buttons = actionSheetButtons
     .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))
-    .map(x => x.title);
-
+    .map(x => getString(x.title));
   // These are dependent conditions, hence better if we manage here rather than using onlyIf
   if (isHomeNarrow(narrow) || isStreamNarrow(narrow) || isSpecialNarrow(narrow)) {
     buttons.push('Narrow to conversation');
   }
   if (isSentMessage({ message })) {
     if (message.id in flags.starred) {
-      buttons.push('Unstar message');
+      buttons.push(getString('Unstar Message'));
     } else {
-      buttons.push('Star message');
+      buttons.push(getString('Star Message'));
     }
   }
-  buttons.push('Cancel');
+  buttons.push(getString('Cancel'));
   return buttons;
 };
 
-export const executeActionSheetAction = ({ title, header, ...props }: ExecuteActionSheetParams) => {
+export const executeActionSheetAction = ({
+  title,
+  header,
+  getString,
+  ...props
+}: ExecuteActionSheetParams) => {
   if (header) {
-    const headerButton = actionHeaderSheetButtons.find(x => x.title === title);
+    const headerButton = actionHeaderSheetButtons.find(x => getString(x.title) === title);
     if (headerButton) {
-      headerButton.onPress(props);
+      headerButton.onPress({ ...props, getString });
     }
   } else {
-    const button = actionSheetButtons.find(x => x.title === title);
+    const button = actionSheetButtons.find(x => getString(x.title) === title);
     if (button) {
-      button.onPress(props);
+      button.onPress({ ...props, getString });
     }
   }
 };

@@ -9,12 +9,14 @@ import {
   topicNarrow,
   groupNarrow,
 } from '../../utils/narrow';
+import extractString from '../../i18n/extractString';
 
 describe('constructActionButtons', () => {
   const auth = deepFreeze({
     realm: '',
     email: 'Zoe@zulip.com',
   });
+  const getString = value => extractString('en', value);
 
   const subscriptions = deepFreeze([]);
 
@@ -46,6 +48,7 @@ describe('constructActionButtons', () => {
       subscriptions,
       mute,
       flags,
+      getString,
     });
     const topicButtons = constructActionButtons({
       message,
@@ -54,6 +57,7 @@ describe('constructActionButtons', () => {
       subscriptions,
       mute,
       flags,
+      getString,
     });
     const privateButtons = constructActionButtons({
       message,
@@ -62,6 +66,7 @@ describe('constructActionButtons', () => {
       subscriptions,
       mute,
       flags,
+      getString,
     });
     const specialButtons = constructActionButtons({
       message,
@@ -70,6 +75,7 @@ describe('constructActionButtons', () => {
       subscriptions,
       mute,
       flags,
+      getString,
     });
     const homeButtons = constructActionButtons({
       message,
@@ -78,6 +84,7 @@ describe('constructActionButtons', () => {
       subscriptions,
       mute,
       flags,
+      getString,
     });
     const streamButtons = constructActionButtons({
       message,
@@ -86,6 +93,7 @@ describe('constructActionButtons', () => {
       subscriptions,
       mute,
       flags,
+      getString,
     });
 
     expect(groupButtons).not.toContain('Narrow to conversation');
@@ -101,7 +109,15 @@ describe('constructActionButtons', () => {
       id: 3,
     });
 
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
+    const buttons = constructActionButtons({
+      message,
+      auth,
+      narrow,
+      subscriptions,
+      mute,
+      flags,
+      getString,
+    });
 
     expect(buttons).toContain('Star message');
   });
@@ -111,13 +127,22 @@ describe('constructActionButtons', () => {
       id: 1,
     });
 
-    const buttons = constructActionButtons({ message, auth, narrow, subscriptions, mute, flags });
+    const buttons = constructActionButtons({
+      message,
+      auth,
+      narrow,
+      subscriptions,
+      mute,
+      flags,
+      getString,
+    });
 
     expect(buttons).toContain('Unstar message');
   });
 });
 
 describe('constructHeaderActionButtons', () => {
+  const getString = value => extractString('en', value);
   test('show Unmute topic option if topic is muted', () => {
     const subscriptions = deepFreeze([
       { name: 'denmark', in_home_view: true },
@@ -132,7 +157,7 @@ describe('constructHeaderActionButtons', () => {
 
     const mute = deepFreeze([['electron issues', 'issue #556']]);
 
-    const buttons = constructHeaderActionButtons({ message, subscriptions, mute });
+    const buttons = constructHeaderActionButtons({ message, subscriptions, mute, getString });
 
     expect(buttons).toContain('Unmute topic');
   });
@@ -151,7 +176,7 @@ describe('constructHeaderActionButtons', () => {
 
     const mute = deepFreeze([]);
 
-    const buttons = constructHeaderActionButtons({ message, subscriptions, mute });
+    const buttons = constructHeaderActionButtons({ message, subscriptions, mute, getString });
 
     expect(buttons).toContain('Mute topic');
   });
@@ -171,7 +196,7 @@ describe('constructHeaderActionButtons', () => {
 
     const mute = deepFreeze([]);
 
-    const buttons = constructHeaderActionButtons({ message, subscriptions, mute });
+    const buttons = constructHeaderActionButtons({ message, subscriptions, mute, getString });
 
     expect(buttons).toContain('Unmute stream');
   });
@@ -188,7 +213,7 @@ describe('constructHeaderActionButtons', () => {
 
     const mute = deepFreeze([]);
 
-    const buttons = constructHeaderActionButtons({ message, subscriptions, mute });
+    const buttons = constructHeaderActionButtons({ message, subscriptions, mute, getString });
 
     expect(buttons).toContain('Mute stream');
   });

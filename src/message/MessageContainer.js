@@ -32,6 +32,10 @@ class MessageContainer extends PureComponent {
     showActionSheetWithOptions: (Object, (number) => void) => void,
   };
 
+  static contextTypes = {
+    intl: React.PropTypes.object.isRequired,
+  };
+
   static defaultProps = {
     twentyFourHourTime: false,
   };
@@ -62,11 +66,14 @@ class MessageContainer extends PureComponent {
       currentRoute,
       onReplySelect,
     } = this.props;
+    const getString = value => this.context.intl.formatMessage({ id: value });
     const options = constructActionButtons({
       message,
       auth,
       narrow,
       flags,
+      currentRoute,
+      getString,
     });
     const callback = buttonIndex => {
       executeActionSheetAction({
@@ -77,6 +84,7 @@ class MessageContainer extends PureComponent {
         subscriptions,
         currentRoute,
         onReplySelect,
+        getString,
       });
     };
 
