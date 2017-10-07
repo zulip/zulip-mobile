@@ -84,7 +84,9 @@
   "unread messages": "unread messages",
   "Create group": "Create group",
   "Share": "Share",
-  "Star message": "Star message",
-  "Unstar message": "Unstar message",
-  "Cancel": "Cancel"
+  "Star message": "Bintangi pesan",
+  "Unstar message": "Tidak bintangi pesan",
+  "Cancel": "Batal",
+  "Message copied": "Pesan disalin",
+  "Edit message": "Edit pesan"
 }
