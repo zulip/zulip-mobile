@@ -8,7 +8,7 @@ import { Input } from '../common';
 export default class MultilineInput extends PureComponent {
   props: {
     style?: StyleObj,
-    placeholder: LocalizableText,
+    placeholder?: LocalizableText,
     value: string,
     onChange?: (text: string) => void,
     onHeightChange?: (height: number) => void,

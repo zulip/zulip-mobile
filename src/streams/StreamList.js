@@ -18,9 +18,9 @@ export default class StreamList extends PureComponent {
   props: {
     streams: Stream[],
     selected?: boolean,
-    showDescriptions: boolean,
-    showSwitch: boolean,
-    unreadByStream: number[],
+    showDescriptions?: boolean,
+    showSwitch?: boolean,
+    unreadByStream?: number[],
     onPress?: (streamName: string) => void,
     onSwitch?: (streamName: string, newValue: boolean) => void,
     clearInput?: () => void,

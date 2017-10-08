@@ -26,7 +26,7 @@ class MessageContainer extends PureComponent {
     subscriptions: SubscriptionsState,
     auth: Auth,
     flags: Object,
-    twentyFourHourTime: boolean,
+    twentyFourHourTime?: boolean,
     isBrief: boolean,
     onReplySelect?: () => void,
     showActionSheetWithOptions: (Object, (number) => void) => void,

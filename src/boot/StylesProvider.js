@@ -17,7 +17,7 @@ const Dummy = props => props.children;
 
 class StyleProvider extends PureComponent {
   props: {
-    theme: string,
+    theme?: string,
     children?: any,
   };
 

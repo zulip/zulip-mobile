@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import { Text, View, StyleSheet, FlatList } from 'react-native';
+import { ActivityIndicator, Text, View, StyleSheet, FlatList } from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -73,11 +73,12 @@ class DevAuthScreen extends PureComponent {
 
   render() {
     const { styles } = this.context;
-    const { directAdmins, directUsers, error } = this.state;
+    const { directAdmins, directUsers, error, progress } = this.state;
 
     return (
       <Screen title="Pick a dev account">
         <View style={styles.container}>
+          {progress && <ActivityIndicator />}
           {error && <ErrorMsg error={error} />}
           <Text style={[styles.field, styles.heading2, inlineStyles.heading]}>Administrators</Text>
           {directAdmins.map(email => (

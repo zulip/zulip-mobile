@@ -138,7 +138,7 @@ class Reaction extends PureComponent {
           ) : realmEmoji[name] ? (
             <RealmEmoji name={name} />
           ) : (
-            <Emoji name={'copyright'} />
+            <Emoji name="copyright" />
           )}
 
           <Animated.View style={this.dynamicSpinnerStyles()}>

@@ -30,10 +30,6 @@ export default class UserStatusIndicator extends PureComponent {
     presence?: Presence,
   };
 
-  static defaultProps = {
-    status: 'unknown',
-  };
-
   render() {
     const { presence, style } = this.props;
 

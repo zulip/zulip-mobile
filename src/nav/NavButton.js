@@ -24,13 +24,12 @@ export default class NavButton extends PureComponent {
   props: {
     name?: string,
     color?: string,
-    unreadCount: number,
     style?: StyleObj,
+    unreadCount?: number,
     onPress?: () => void,
   };
 
   static defaultProps = {
-    showCircle: false,
     unreadCount: 0,
   };
 

@@ -22,7 +22,7 @@ export default class MessageList extends PureComponent {
     singleFetchProgress: boolean,
     renderedMessages: Object[],
     listRef: (component: Object) => void,
-    onScroll: () => void,
+    onScroll?: () => void,
   };
 
   static defaultProps = {

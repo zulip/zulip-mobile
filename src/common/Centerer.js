@@ -24,7 +24,7 @@ export default class Centerer extends PureComponent {
   props: {
     style?: StyleObj,
     children: any[],
-    padding: boolean,
+    padding?: boolean,
   };
 
   static defaultProps = {

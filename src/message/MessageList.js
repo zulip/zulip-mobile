@@ -17,7 +17,7 @@ type Props = {
   listRef?: Object,
   renderedMessages: Object[],
   onReplySelect?: () => void,
-  onScroll: () => void,
+  onScroll?: () => void,
 };
 
 export default class MessageList extends PureComponent {

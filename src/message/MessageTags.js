@@ -52,7 +52,7 @@ export default class MessageTags extends PureComponent {
         )}
         {starred && (
           <View style={styles.tag}>
-            <Label style={styles.text} text={'starred'} />
+            <Label style={styles.text} text="starred" />
           </View>
         )}
         {isOutbox && (

@@ -38,7 +38,7 @@ export const Footer = ({ displayMessage, onOptionsPress, style }: FooterProps) =
 );
 
 export default ({ displayMessage, onOptionsPress, style, ...restProps }: Props) => (
-  <SlideAnimationView property={'translateY'} style={style} {...restProps}>
+  <SlideAnimationView property="translateY" style={style} {...restProps}>
     <Footer displayMessage={displayMessage} onOptionsPress={onOptionsPress} style={style} />
   </SlideAnimationView>
 );

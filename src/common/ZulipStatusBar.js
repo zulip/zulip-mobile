@@ -16,7 +16,7 @@ class ZulipStatusBar extends PureComponent {
 
   props: {
     barStyle?: StatusBarStyle,
-    hidden: boolean,
+    hidden?: boolean,
     theme: string,
     backgroundColor: string,
     safeAreaInsets: Dimensions,

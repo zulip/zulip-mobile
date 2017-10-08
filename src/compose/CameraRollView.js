@@ -8,10 +8,10 @@ import CameraPhotoList from './CameraPhotoList';
 type AssetType = 'Photos' | 'Videos' | 'All';
 
 type Props = {
-  batchSize: number,
+  batchSize?: number,
   // renderImage: () => {},
   imagesPerRow?: number,
-  assetType: AssetType,
+  assetType?: AssetType,
   groupTypes?: string,
 };
 
@@ -30,17 +30,14 @@ export default class CameraRollView extends React.Component {
     groupTypes: string,
     lastCursor: string,
     noMore: boolean,
-    loadingMore: boolean,
     dataSource: [],
   };
 
   state = {
     assets: [],
-    groupTypes: 'All',
     lastCursor: '',
     // assetType: AssetType,
     noMore: false,
-    loadingMore: false,
     dataSource: new ListView.DataSource({ rowHasChanged: this.handleRowHasChanged }),
   };
 
