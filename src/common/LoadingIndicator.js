@@ -42,9 +42,9 @@ const styles = StyleSheet.create({
 
 export default class LoadingIndicator extends PureComponent {
   props: {
-    active: boolean,
-    caughtUp: boolean,
-    size: number,
+    active?: boolean,
+    caughtUp?: boolean,
+    size?: number,
     backgroundColor: StyleObj,
   };
 

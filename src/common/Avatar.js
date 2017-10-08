@@ -22,12 +22,12 @@ const componentStyles = StyleSheet.create({
 class Avatar extends PureComponent {
   props: {
     avatarUrl?: string,
-    name: string,
-    size: number,
+    name?: string,
+    size?: number,
     presence?: Presence,
-    realm: string,
-    shape: 'square' | 'rounded' | 'circle',
-    onPress: () => void,
+    realm?: string,
+    shape?: 'square' | 'rounded' | 'circle',
+    onPress?: () => void,
   };
 
   static defaultProps = {

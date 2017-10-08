@@ -16,7 +16,7 @@ export default class Input extends PureComponent {
   props: {
     style?: StyleObj,
     restProps?: any[],
-    placeholder: LocalizableText,
+    placeholder?: LocalizableText,
     clearButton?: boolean,
     onChangeText?: (text: string) => void,
     textInputRef?: (component: TextInput) => void,

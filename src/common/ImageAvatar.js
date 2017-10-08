@@ -11,7 +11,7 @@ export default class ImageAvatar extends PureComponent {
     size: number,
     shape: string,
     children: any[],
-    onPress: () => void,
+    onPress?: () => void,
   };
 
   static defaultProps = {

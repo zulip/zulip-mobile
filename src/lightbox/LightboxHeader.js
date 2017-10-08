@@ -83,7 +83,7 @@ export default ({ onPressBack, senderName, timestamp, ...restProps }: Props) => 
   const subheader = `${displayDate} at ${time}`;
 
   return (
-    <SlideAnimationView property={'translateY'} {...restProps}>
+    <SlideAnimationView property="translateY" {...restProps}>
       <Header
         onPressBack={onPressBack}
         senderName={senderName}

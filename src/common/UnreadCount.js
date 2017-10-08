@@ -35,8 +35,8 @@ export default class UnreadCount extends PureComponent {
   props: {
     style?: StyleObj,
     color?: string,
-    borderRadius: number,
-    isMuted: boolean,
+    borderRadius?: number,
+    isMuted?: boolean,
     count?: number,
     inverse?: boolean,
   };

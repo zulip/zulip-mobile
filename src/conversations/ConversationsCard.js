@@ -29,16 +29,6 @@ export default class ConversationsCard extends PureComponent {
     closeDrawer: () => void,
   };
 
-  state = {
-    filter: '',
-  };
-
-  handleFilterChange = (newFilter: string) => {
-    this.setState({
-      filter: newFilter,
-    });
-  };
-
   handleUserNarrow = (email: string) => {
     const narrow = email.indexOf(',') === -1 ? privateNarrow(email) : groupNarrow(email.split(','));
     this.props.doNarrowCloseDrawer(narrow);

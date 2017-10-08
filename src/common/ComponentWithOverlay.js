@@ -38,10 +38,10 @@ export default class ComponentWithOverlay extends PureComponent {
   props: {
     children: any[],
     overlay: any,
-    showOverlay: boolean,
-    overlaySize: number,
-    overlayColor: string,
-    overlayPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left',
+    showOverlay?: boolean,
+    overlaySize?: number,
+    overlayColor?: string,
+    overlayPosition?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left',
     style?: StyleObj,
     onPress: () => void,
   };

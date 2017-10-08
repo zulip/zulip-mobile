@@ -73,7 +73,6 @@ export default class ComposeBox extends PureComponent {
   };
 
   state: {
-    optionSelected: number,
     topic: string,
     message: string,
     height: number,
@@ -81,7 +80,6 @@ export default class ComposeBox extends PureComponent {
   };
 
   state = {
-    optionSelected: 0,
     height: 46,
     topic: '',
     message: '',
