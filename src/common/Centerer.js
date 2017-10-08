@@ -20,12 +20,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Centerer extends PureComponent {
-  props: {
-    style?: StyleObj,
-    children: any[],
-    padding?: boolean,
-  };
+type Props = {
+  style?: StyleObj,
+  children: any[],
+  padding?: boolean,
+};
+
+export default class Centerer extends PureComponent<Props> {
+  props: Props;
 
   static defaultProps = {
     padding: false,

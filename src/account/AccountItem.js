@@ -36,15 +36,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class AccountItem extends PureComponent {
-  props: {
-    index: number,
-    email: string,
-    realm: string,
-    onSelect: (index: number) => void,
-    onRemove: (index: number) => void,
-    showDoneIcon: boolean,
-  };
+type Props = {
+  index: number,
+  email: string,
+  realm: string,
+  onSelect: (index: number) => void,
+  onRemove: (index: number) => void,
+  showDoneIcon: boolean,
+};
+
+export default class AccountItem extends PureComponent<Props> {
+  props: Props;
 
   handleSelect = () => this.props.onSelect(this.props.index);
 

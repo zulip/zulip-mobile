@@ -4,10 +4,14 @@ import React, { PureComponent } from 'react';
 import { Screen } from '../common';
 import SearchMessagesContainer from './SearchMessagesContainer';
 
-export default class SearchMessagesScreen extends PureComponent {
-  state: {
-    query: string,
-  };
+type Props = {};
+
+type State = {
+  query: string,
+};
+
+export default class SearchMessagesScreen extends PureComponent<Props, State> {
+  state: State;
 
   state = {
     query: '',

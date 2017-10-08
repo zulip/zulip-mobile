@@ -19,16 +19,18 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class Avatar extends PureComponent {
-  props: {
-    avatarUrl?: string,
-    name?: string,
-    size?: number,
-    presence?: Presence,
-    realm?: string,
-    shape?: 'square' | 'rounded' | 'circle',
-    onPress?: () => void,
-  };
+type Props = {
+  avatarUrl?: string,
+  name?: string,
+  size?: number,
+  presence?: Presence,
+  realm?: string,
+  shape?: 'square' | 'rounded' | 'circle',
+  onPress?: () => void,
+};
+
+class Avatar extends PureComponent<Props> {
+  props: Props;
 
   static defaultProps = {
     name: '',

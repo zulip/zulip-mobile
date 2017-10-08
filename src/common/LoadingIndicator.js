@@ -40,13 +40,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class LoadingIndicator extends PureComponent {
-  props: {
-    active?: boolean,
-    caughtUp?: boolean,
-    size?: number,
-    backgroundColor: StyleObj,
-  };
+type Props = {
+  active?: boolean,
+  caughtUp?: boolean,
+  size?: number,
+  backgroundColor: StyleObj,
+};
+
+export default class LoadingIndicator extends PureComponent<Props> {
+  props: Props;
 
   static defaultProps = {
     active: false,

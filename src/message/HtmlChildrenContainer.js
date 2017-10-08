@@ -7,14 +7,16 @@ import htmlToDomTree from '../html/htmlToDomTree';
 import renderHtmlChildren from '../html/renderHtmlChildren';
 import getMessageContent from './getMessageContent';
 
-class HtmlChildrenContainer extends PureComponent {
-  props: {
-    message: Message,
-    auth: Auth,
-    actions: Actions,
-    handleLinkPress: string => void,
-    onLongPress: () => void,
-  };
+type Props = {
+  message: Message,
+  auth: Auth,
+  actions: Actions,
+  handleLinkPress: string => void,
+  onLongPress: () => void,
+};
+
+class HtmlChildrenContainer extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { message, auth, actions, handleLinkPress, onLongPress } = this.props;

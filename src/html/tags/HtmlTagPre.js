@@ -5,11 +5,13 @@ import { View } from 'react-native';
 import type { StyleObj } from '../../types';
 import HtmlTagSpan from './HtmlTagSpan';
 
-export default class HtmlTagPre extends PureComponent {
-  props: {
-    style: StyleObj,
-    cascadingStyle: StyleObj,
-  };
+type Props = {
+  style: StyleObj,
+  cascadingStyle: StyleObj,
+};
+
+export default class HtmlTagPre extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { style, ...restProps } = this.props;

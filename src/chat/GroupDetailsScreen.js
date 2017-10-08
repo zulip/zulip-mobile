@@ -17,15 +17,17 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class GroupDetailsScreen extends PureComponent {
+type Props = {
+  navigation: Object,
+  actions: Actions,
+};
+
+class GroupDetailsScreen extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    navigation: Object,
-    actions: Actions,
-  };
+  props: Props;
 
   handlePress = (email: string) => {
     const { actions } = this.props;

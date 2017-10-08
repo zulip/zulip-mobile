@@ -19,11 +19,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ConversationList extends PureComponent {
-  props: {
-    conversations: User[],
-    onPress: (email: string) => void,
-  };
+type Props = {
+  conversations: User[],
+  onPress: (email: string) => void,
+};
+
+export default class ConversationList extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { conversations, onPress } = this.props;

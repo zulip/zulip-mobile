@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Touchable } from '../common';
@@ -14,25 +14,24 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class ComposeMenu extends React.Component {
+export default class ComposeMenu extends Component {
   handlePress = () => {
     const { narrow } = this.props;
     const options = constructActionButtons({
       narrow,
     });
-    const callback = buttonIndex => {
-      executeActionSheetAction({
-        title: options[buttonIndex],
-        actions: this.props.actions,
-      });
-    };
 
     this.props.showActionSheetWithOptions(
       {
         options,
         cancelButtonIndex: options.length - 1,
       },
-      callback,
+      buttonIndex => {
+        executeActionSheetAction({
+          title: options[buttonIndex],
+          actions: this.props.actions,
+        });
+      },
     );
   };
 

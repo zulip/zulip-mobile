@@ -8,12 +8,14 @@ import { Popup } from '../common';
 import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
 import StreamItem from '../streams/StreamItem';
 
-class StreamAutocomplete extends PureComponent {
-  props: {
-    filter: string,
-    onAutocomplete: (name: string) => void,
-    subscriptions: SubscriptionsState,
-  };
+type Props = {
+  filter: string,
+  onAutocomplete: (name: string) => void,
+  subscriptions: SubscriptionsState,
+};
+
+class StreamAutocomplete extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { filter, subscriptions, onAutocomplete } = this.props;

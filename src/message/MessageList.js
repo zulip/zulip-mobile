@@ -20,7 +20,7 @@ type Props = {
   onScroll?: () => void,
 };
 
-export default class MessageList extends PureComponent {
+export default class MessageList extends PureComponent<Props> {
   props: Props;
 
   static contextTypes = {

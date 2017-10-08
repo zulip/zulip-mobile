@@ -18,12 +18,14 @@ const styles = StyleSheet.create({
   },
 });
 
-class MarkUnreadButton extends PureComponent {
-  props: {
-    auth: Auth,
-    narrow: Narrow,
-    streams: Stream[],
-  };
+type Props = {
+  auth: Auth,
+  narrow: Narrow,
+  streams: Stream[],
+};
+
+class MarkUnreadButton extends PureComponent<Props> {
+  props: Props;
 
   handleMarkAllAsRead = () => {
     const { auth } = this.props;

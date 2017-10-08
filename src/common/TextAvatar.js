@@ -25,14 +25,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TextAvatar extends PureComponent {
-  props: {
-    name: string,
-    size: number,
-    shape?: string,
-    children?: any[],
-    onPress?: () => void,
-  };
+type Props = {
+  name: string,
+  size: number,
+  shape?: string,
+  children?: any[],
+  onPress?: () => void,
+};
+
+export default class TextAvatar extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { children, name, size, shape, onPress } = this.props;

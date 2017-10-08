@@ -21,12 +21,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TimeItem extends PureComponent {
-  props: {
-    text: string,
-    start: Date,
-    end: Date,
-  };
+type Props = {
+  text: string,
+  start: Date,
+  end: Date,
+};
+
+export default class TimeItem extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { text, start, end } = this.props;

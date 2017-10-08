@@ -19,11 +19,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class SizeItem extends PureComponent {
-  props: {
-    text: string,
-    size: number,
-  };
+type Props = {
+  text: string,
+  size: number,
+};
+
+export default class SizeItem extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { text, size } = this.props;

@@ -3,17 +3,21 @@ import React, { PureComponent } from 'react';
 import { Switch } from 'react-native';
 import { BRAND_COLOR } from '../styles';
 
-export default class ZulipSwitch extends PureComponent {
-  props: {
-    value?: boolean,
-    defaultValue: boolean,
-    onValueChange: (arg: boolean) => void,
-    disabled?: boolean,
-  };
+type Props = {
+  value?: boolean,
+  disabled?: boolean,
+  defaultValue: boolean,
+  onValueChange: (arg: boolean) => void,
+};
 
-  state: {
-    valueControlled: boolean,
-  };
+type State = {
+  valueControlled: boolean,
+};
+
+export default class ZulipSwitch extends PureComponent<Props, State> {
+  props: Props;
+
+  state: State;
 
   state = {
     valueControlled: this.props.defaultValue,

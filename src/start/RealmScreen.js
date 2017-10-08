@@ -27,7 +27,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class RealmScreen extends PureComponent {
+class RealmScreen extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };

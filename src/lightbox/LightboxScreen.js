@@ -17,17 +17,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class LightboxScreen extends PureComponent {
-  props: {
-    navigation: {
-      state: {
-        params: {
-          src: ImageResource,
-          message: Message,
-        },
+type Props = {
+  navigation: {
+    state: {
+      params: {
+        src: ImageResource,
+        message: Message,
       },
     },
-  };
+  },
+};
+
+export default class LightboxScreen extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { src, message } = this.props.navigation.state.params;

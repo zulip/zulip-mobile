@@ -10,7 +10,7 @@ type Props = {
   style?: StyleObj,
 };
 
-export default class AnimatedScaleComponent extends PureComponent {
+export default class AnimatedScaleComponent extends PureComponent<Props> {
   props: Props;
 
   animatedValue = new Animated.Value(0);

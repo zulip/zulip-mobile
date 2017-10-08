@@ -35,17 +35,19 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class StreamMessageHeader extends PureComponent {
-  props: {
-    actions: Actions,
-    messageId: number,
-    stream: string,
-    topic: string,
-    color: string,
-    isMuted: boolean,
-    isPrivate: boolean,
-    onLongPress: () => void,
-  };
+type Props = {
+  actions: Actions,
+  messageId: number,
+  stream: string,
+  topic: string,
+  color: string,
+  isMuted: boolean,
+  isPrivate: boolean,
+  onLongPress: () => void,
+};
+
+export default class StreamMessageHeader extends PureComponent<Props> {
+  props: Props;
 
   static contextTypes = {
     styles: () => null,

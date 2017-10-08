@@ -22,21 +22,25 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class InputWithClearButton extends PureComponent {
+type Props = {
+  placeholder: LocalizableText,
+  onChangeText: (text: string) => void,
+};
+
+type State = {
+  canBeCleared: boolean,
+};
+
+export default class InputWithClearButton extends PureComponent<Props, State> {
   static contextTypes = {
     styles: () => null,
   };
 
   textInput: TextInput;
 
-  props: {
-    placeholder: LocalizableText,
-    onChangeText: (text: string) => void,
-  };
+  props: Props;
 
-  state: {
-    canBeCleared: boolean,
-  };
+  state: State;
 
   state = {
     canBeCleared: false,

@@ -28,18 +28,20 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class AuthScreen extends PureComponent {
+type Props = {
+  actions: Actions,
+  realm: string,
+  setAuthType: Action,
+  navigation: Object,
+  navigateToDev: () => void,
+};
+
+class AuthScreen extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    realm: string,
-    setAuthType: Action,
-    navigation: Object,
-    navigateToDev: () => void,
-    actions: Actions,
-  };
+  props: Props;
 
   handleDevAuth = () => {
     this.props.actions.setAuthType('dev');

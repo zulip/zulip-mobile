@@ -9,12 +9,14 @@ const styles = StyleSheet.create({
   list: {},
 });
 
-export default class AvatarList extends PureComponent {
-  props: {
-    listRef: (component: Object) => void,
-    users: User[],
-    onPress: (email: string) => void,
-  };
+type Props = {
+  users: User[],
+  listRef: (component: Object) => void,
+  onPress: (email: string) => void,
+};
+
+export default class AvatarList extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { listRef, users, onPress } = this.props;

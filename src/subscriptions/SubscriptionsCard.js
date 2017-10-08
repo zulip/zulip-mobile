@@ -6,16 +6,20 @@ import { nullFunction } from '../nullObjects';
 import { subscriptionAdd, subscriptionRemove } from '../api';
 import StreamList from '../streams/StreamList';
 
-export default class SubscriptionsCard extends PureComponent {
-  props: {
-    auth: Auth,
-    streams: [],
-    subscriptions: [],
-  };
+type Props = {
+  auth: Auth,
+  streams: [],
+  subscriptions: [],
+};
 
-  state: {
-    filter: string,
-  };
+type State = {
+  filter: string,
+};
+
+export default class SubscriptionsCard extends PureComponent<Props, State> {
+  props: Props;
+
+  state: State;
 
   state = {
     filter: '',

@@ -4,7 +4,17 @@ import React, { PureComponent } from 'react';
 import { checkCompatibility } from '../api';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 
-export default class CompatibilityChecker extends PureComponent {
+type Props = {};
+
+type State = {
+  compatibilityCheckFail: boolean,
+};
+
+export default class CompatibilityChecker extends PureComponent<Props, State> {
+  props: Props;
+
+  state: State;
+
   state = {
     compatibilityCheckFail: false,
   };

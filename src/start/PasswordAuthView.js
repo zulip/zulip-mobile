@@ -9,12 +9,6 @@ import { fetchApiKey } from '../api';
 import { ErrorMsg, ZulipButton, Input, PasswordInput, WebLink } from '../common';
 import { getAuth, getOwnEmail } from '../selectors';
 
-type Props = {
-  actions: Actions,
-  auth: Auth,
-  email: string,
-};
-
 const componentStyles = StyleSheet.create({
   container: {
     paddingBottom: 10,
@@ -24,19 +18,27 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class PasswordAuthView extends PureComponent {
+type Props = {
+  actions: Actions,
+  auth: Auth,
+  email: string,
+};
+
+type State = {
+  email: string,
+  password: string,
+  error: string,
+  progress: boolean,
+};
+
+class PasswordAuthView extends PureComponent<Props, State> {
   static contextTypes = {
     styles: () => null,
   };
 
   props: Props;
 
-  state: {
-    email: string,
-    password: string,
-    error: string,
-    progress: boolean,
-  };
+  state: State;
 
   constructor(props: Props) {
     super(props);

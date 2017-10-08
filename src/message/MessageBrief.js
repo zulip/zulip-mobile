@@ -26,16 +26,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageBrief extends PureComponent {
-  props: {
-    message: Object,
-    ownEmail: string,
-    starred?: boolean,
-    auth?: Auth,
-    actions: Actions,
-    onLongPress?: () => void,
-    handleLinkPress?: string => void,
-  };
+type Props = {
+  message: Object,
+  ownEmail: string,
+  starred?: boolean,
+  auth?: Auth,
+  actions: Actions,
+  onLongPress?: () => void,
+  handleLinkPress?: string => void,
+};
+
+export default class MessageBrief extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { message, auth, actions, handleLinkPress, ownEmail, onLongPress, starred } = this.props;

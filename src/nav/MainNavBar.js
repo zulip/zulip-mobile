@@ -16,19 +16,21 @@ import {
   getTitleTextColor,
 } from '../selectors';
 
-class MainNavBar extends PureComponent {
+type Props = {
+  actions: Actions,
+  textColor: string,
+  editMessage: boolean,
+  backgroundColor: string,
+  unreadMentionsTotal: number,
+  onPressStreams: () => void,
+};
+
+class MainNavBar extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    actions: Actions,
-    textColor: string,
-    editMessage: boolean,
-    backgroundColor: string,
-    unreadMentionsTotal: number,
-    onPressStreams: () => void,
-  };
+  props: Props;
 
   render() {
     const { styles } = this.context;

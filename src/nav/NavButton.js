@@ -20,14 +20,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class NavButton extends PureComponent {
-  props: {
-    name?: string,
-    color?: string,
-    style?: StyleObj,
-    unreadCount?: number,
-    onPress?: () => void,
-  };
+type Props = {
+  name?: string,
+  color?: string,
+  style?: StyleObj,
+  unreadCount?: number,
+  onPress?: () => void,
+};
+
+export default class NavButton extends PureComponent<Props> {
+  props: Props;
 
   static defaultProps = {
     unreadCount: 0,

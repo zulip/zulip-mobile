@@ -12,14 +12,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Timestamp extends PureComponent {
-  props: {
-    timestamp: number,
-    twentyFourHourTime: boolean,
-  };
+type Props = {
+  timestamp: number,
+  twentyFourHourTime: boolean,
+};
+
+export default class Timestamp extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { timestamp, twentyFourHourTime } = this.props;
+
     return (
       <Text style={styles.time}>{shortTime(new Date(timestamp * 1000), twentyFourHourTime)}</Text>
     );

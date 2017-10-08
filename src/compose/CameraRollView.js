@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { Component } from 'react';
 import { CameraRoll, Image, ListView } from 'react-native';
 import groupByEveryN from 'react-native/Libraries/Utilities/groupByEveryN';
 
@@ -15,7 +15,15 @@ type Props = {
   groupTypes?: string,
 };
 
-export default class CameraRollView extends React.Component {
+type State = {
+  assets: [],
+  groupTypes: string,
+  lastCursor: string,
+  noMore: boolean,
+  dataSource: [],
+};
+
+export default class CameraRollView extends Component<Props, State> {
   props: Props;
 
   static defaultProps = {
@@ -25,13 +33,7 @@ export default class CameraRollView extends React.Component {
     assetType: 'Photos',
   };
 
-  state: {
-    assets: [],
-    groupTypes: string,
-    lastCursor: string,
-    noMore: boolean,
-    dataSource: [],
-  };
+  state: State;
 
   state = {
     assets: [],

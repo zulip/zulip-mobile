@@ -22,11 +22,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class OptionButton extends PureComponent {
-  props: {
-    label: string,
-    onPress: () => void,
-  };
+type Props = {
+  label: string,
+  onPress: () => void,
+};
+
+export default class OptionButton extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { label, onPress } = this.props;

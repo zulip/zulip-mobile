@@ -32,17 +32,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class UserItem extends PureComponent {
-  props: {
-    email?: string,
-    fullName: string,
-    avatarUrl: string,
-    presence?: Presence,
-    isSelected?: boolean,
-    showEmail?: boolean,
-    unreadCount?: number,
-    onPress: (email: string) => void,
-  };
+type Props = {
+  email?: string,
+  fullName: string,
+  avatarUrl: string,
+  presence?: Presence,
+  isSelected?: boolean,
+  showEmail?: boolean,
+  unreadCount?: number,
+  onPress: (email: string) => void,
+};
+
+export default class UserItem extends PureComponent<Props> {
+  props: Props;
 
   handlePress = () => {
     const { email, onPress } = this.props;

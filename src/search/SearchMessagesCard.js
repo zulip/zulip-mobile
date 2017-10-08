@@ -27,7 +27,7 @@ type Props = {
   auth: Auth,
 };
 
-export default class SearchMessagesCard extends PureComponent {
+export default class SearchMessagesCard extends PureComponent<Props> {
   props: Props;
 
   state = {

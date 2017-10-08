@@ -6,11 +6,13 @@ import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import getFilteredEmojiList from '../emoji/getFilteredEmojiList';
 
-export default class EmojiAutocomplete extends PureComponent {
-  props: {
-    filter: string,
-    onAutocomplete: (name: string) => void,
-  };
+type Props = {
+  filter: string,
+  onAutocomplete: (name: string) => void,
+};
+
+export default class EmojiAutocomplete extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { filter, onAutocomplete } = this.props;

@@ -25,12 +25,14 @@ const styles = StyleSheet.create({
   },
 });
 
-class NotSubscribed extends PureComponent {
-  props: {
-    auth: Auth,
-    narrow: Narrow,
-    streams: Stream[],
-  };
+type Props = {
+  auth: Auth,
+  narrow: Narrow,
+  streams: Stream[],
+};
+
+class NotSubscribed extends PureComponent<Props> {
+  props: Props;
 
   subscribeToStream = () => {
     const { auth, narrow } = this.props;

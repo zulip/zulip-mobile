@@ -27,13 +27,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class PrivateMessageHeader extends PureComponent {
-  props: {
-    messageId: number,
-    recipients: Object[],
-    doNarrow: (Narrow, number) => void,
-    onLongPress: () => void,
-  };
+type Props = {
+  messageId: number,
+  recipients: Object[],
+  doNarrow: (Narrow, number) => void,
+  onLongPress: () => void,
+};
+
+export default class PrivateMessageHeader extends PureComponent<Props> {
+  props: Props;
 
   performNarrow = () => {
     const { messageId, recipients, doNarrow } = this.props;

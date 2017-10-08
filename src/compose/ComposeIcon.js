@@ -16,12 +16,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ComposeIcon extends PureComponent {
-  props: {
-    isActive: boolean,
-    name: string,
-    onChange: (index: number) => {},
-  };
+type Props = {
+  isActive: boolean,
+  name: string,
+  onChange: (index: number) => {},
+};
+
+export default class ComposeIcon extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { isActive, name, onChange } = this.props;

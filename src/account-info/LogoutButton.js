@@ -17,13 +17,15 @@ const styles = StyleSheet.create({
   },
 });
 
-class LogoutButton extends PureComponent {
-  props: {
-    accounts: any[],
-    auth: Auth,
-    pushToken: string,
-    actions: Actions,
-  };
+type Props = {
+  accounts: any[],
+  auth: Auth,
+  pushToken: string,
+  actions: Actions,
+};
+
+class LogoutButton extends PureComponent<Props> {
+  props: Props;
 
   shutdownPUSH = async () => {
     const { auth, actions, pushToken } = this.props;

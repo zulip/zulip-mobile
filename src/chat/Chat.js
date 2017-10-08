@@ -14,7 +14,14 @@ import NoMessages from '../message/NoMessages';
 import ComposeBoxContainer from '../compose/ComposeBoxContainer';
 import UnreadNoticeContainer from './UnreadNoticeContainer';
 
-export default class Chat extends PureComponent {
+type Props = {
+  narrow: Narrow,
+  isFetching: boolean,
+  isOnline: boolean,
+  noMessages: boolean,
+};
+
+export default class Chat extends PureComponent<Props> {
   messageInputRef = null;
   messageInputRef: TextInput;
 
@@ -25,12 +32,7 @@ export default class Chat extends PureComponent {
   scrollOffset: number = 0;
   listComponent: Object;
 
-  props: {
-    narrow: Narrow,
-    isFetching: boolean,
-    isOnline: boolean,
-    noMessages: boolean,
-  };
+  props: Props;
 
   handleSend = () => {
     setTimeout(() => {

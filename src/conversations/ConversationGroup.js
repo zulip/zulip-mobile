@@ -31,14 +31,16 @@ const styles = StyleSheet.create({
   },
 });
 
-class ConversationGroup extends PureComponent {
-  props: {
-    email: string,
-    users: User[],
-    unreadCount: number,
-    narrow: Narrow,
-    onPress: (emails: string) => void,
-  };
+type Props = {
+  email: string,
+  users: User[],
+  unreadCount: number,
+  narrow: Narrow,
+  onPress: (emails: string) => void,
+};
+
+class ConversationGroup extends PureComponent<Props> {
+  props: Props;
 
   handlePress = () => {
     const { email, onPress } = this.props;

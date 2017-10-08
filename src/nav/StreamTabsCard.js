@@ -19,11 +19,13 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class StreamTabsCard extends PureComponent {
-  props: {
-    actions: Actions,
-    doNarrowCloseDrawer: (narrow: Narrow) => void,
-  };
+type Props = {
+  actions: Actions,
+  doNarrowCloseDrawer: (narrow: Narrow) => void,
+};
+
+class StreamTabsCard extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { actions, doNarrowCloseDrawer } = this.props;

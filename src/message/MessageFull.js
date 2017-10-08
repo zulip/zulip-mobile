@@ -30,18 +30,20 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageFull extends PureComponent {
-  props: {
-    actions: Actions,
-    ownEmail: string,
-    twentyFourHourTime: boolean,
-    starred?: boolean,
-    auth?: Auth,
-    message: Object,
-    onLongPress?: () => void,
-    handleLinkPress?: string => void,
-    onLongPress: () => void,
-  };
+type Props = {
+  actions: Actions,
+  ownEmail: string,
+  twentyFourHourTime: boolean,
+  starred?: boolean,
+  auth?: Auth,
+  message: Object,
+  handleLinkPress?: string => void,
+  onLongPress?: () => void,
+  onLongPress: () => void,
+};
+
+export default class MessageFull extends PureComponent<Props> {
+  props: Props;
 
   handleAvatarPress = () => {
     const { message, actions } = this.props;

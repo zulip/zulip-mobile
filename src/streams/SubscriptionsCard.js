@@ -13,13 +13,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class SubscriptionsContainer extends PureComponent {
-  props: {
-    narrow: Narrow,
-    subscriptions: SubscriptionsState,
-    unreadByStream: number[],
-    doNarrowCloseDrawer: (narrow: Narrow) => void,
-  };
+type Props = {
+  narrow: Narrow,
+  subscriptions: SubscriptionsState,
+  unreadByStream: number[],
+  doNarrowCloseDrawer: (narrow: Narrow) => void,
+};
+
+export default class SubscriptionsContainer extends PureComponent<Props> {
+  props: Props;
 
   handleNarrow = (streamName: string) => {
     this.props.doNarrowCloseDrawer(streamNarrow(streamName));

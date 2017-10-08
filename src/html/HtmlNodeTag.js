@@ -39,19 +39,21 @@ const specialTags = {
 const stylesFromClassNames = (classNames: SupportedHtmlClasses = '', styleObj) =>
   classNames.split(' ').map(className => styleObj[className]);
 
-class HtmlNodeTag extends PureComponent {
-  props: {
-    auth: Auth,
-    attribs: Object,
-    name: SupportedHtmlClasses,
-    cascadingStyle: StyleObj,
-    cascadingTextStyle: StyleObj,
-    childrenNodes: Object[],
-    ownEmail: string,
-    onPress: () => void,
-    message: Message,
-    actions: Actions,
-  };
+type Props = {
+  auth: Auth,
+  attribs: Object,
+  name: SupportedHtmlClasses,
+  cascadingStyle: StyleObj,
+  cascadingTextStyle: StyleObj,
+  childrenNodes: Object[],
+  ownEmail: string,
+  message: Message,
+  actions: Actions,
+  onPress: () => void,
+};
+
+class HtmlNodeTag extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const {

@@ -18,7 +18,9 @@ const customStyles = StyleSheet.create({
   },
 });
 
-type OwnProps = {
+type Props = {
+  actions: Actions,
+  nav: any,
   title?: LocalizableText,
   titleColor?: ?string,
   itemsColor?: ?string,
@@ -29,14 +31,7 @@ type OwnProps = {
   childrenStyle?: StyleObj,
 };
 
-type ReduxProps = {
-  actions: Actions,
-  nav: any,
-};
-
-type Props = OwnProps & ReduxProps;
-
-class ModalNavBar extends PureComponent {
+class ModalNavBar extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };

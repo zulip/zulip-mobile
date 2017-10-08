@@ -87,16 +87,18 @@ const ButtonNormal = ({
   </View>
 );
 
-export default class ZulipButton extends PureComponent {
-  props: {
-    style?: StyleObj,
-    progress?: boolean,
-    text: string,
-    icon?: string,
-    secondary: boolean,
-    fullSize: boolean,
-    onPress: () => void | Promise<any>,
-  };
+type Props = {
+  style?: StyleObj,
+  progress?: boolean,
+  text: string,
+  icon?: string,
+  secondary: boolean,
+  fullSize: boolean,
+  onPress: () => void | Promise<any>,
+};
+
+export default class ZulipButton extends PureComponent<Props> {
+  props: Props;
 
   static defaultProps = {
     secondary: false,

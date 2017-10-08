@@ -6,13 +6,15 @@ import type { Actions, StyleObj } from '../../types';
 import renderHtmlChildren from '../renderHtmlChildren';
 import styles from '../HtmlStyles';
 
-export default class HtmlTagSpan extends PureComponent {
-  props: {
-    style?: StyleObj,
-    actions?: Actions,
-    cascadingStyle?: StyleObj,
-    attribs?: Object,
-  };
+type Props = {
+  style?: StyleObj,
+  actions?: Actions,
+  cascadingStyle?: StyleObj,
+  attribs?: Object,
+};
+
+export default class HtmlTagSpan extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { style, cascadingStyle, ...restProps } = this.props;

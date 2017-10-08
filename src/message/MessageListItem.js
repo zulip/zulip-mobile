@@ -6,14 +6,16 @@ import TaggedView from '../native/TaggedView';
 import TimeRow from './TimeRow';
 import MessageContainer from './MessageContainer';
 
-export default class MessageListItem extends PureComponent {
-  props: {
-    isBrief: boolean,
-    type: 'time' | 'message',
-    timestamp: number,
-    message: Message,
-    onReplySelect?: () => void,
-  };
+type Props = {
+  isBrief: boolean,
+  type: 'time' | 'message',
+  timestamp: number,
+  message: Message,
+  onReplySelect?: () => void,
+};
+
+export default class MessageListItem extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { isBrief, type, timestamp, message, onReplySelect } = this.props;

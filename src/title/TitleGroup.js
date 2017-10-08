@@ -15,11 +15,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TitleGroup extends PureComponent {
-  props: {
-    actions: Actions,
-    recipients: User[],
-  };
+type Props = {
+  actions: Actions,
+  recipients: User[],
+};
+
+export default class TitleGroup extends PureComponent<Props> {
+  props: Props;
 
   handlePress = () => {
     const { actions, recipients } = this.props;
