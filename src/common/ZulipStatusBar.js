@@ -29,7 +29,14 @@ class ZulipStatusBar extends PureComponent {
 
   render() {
     const { theme, backgroundColor, textColor, hidden, barStyle, safeAreaInsets } = this.props;
-    const style = { height: hidden ? 0 : safeAreaInsets.top, backgroundColor };
+    const style = {
+      height: hidden
+        ? 0
+        : Platform.OS === 'android' || parseInt(Platform.Version, 10) >= 11
+          ? safeAreaInsets.top
+          : 20,
+      backgroundColor,
+    };
     const statusBarStyle = !barStyle
       ? getStatusBarStyle(backgroundColor, textColor, theme)
       : barStyle;

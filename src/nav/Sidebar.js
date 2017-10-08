@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { Narrow } from '../types';
@@ -34,7 +34,8 @@ class Sidebar extends PureComponent {
     const { styles } = this.context;
     const { safeAreaInsets } = this.props;
     const paddingStyles = {
-      paddingTop: safeAreaInsets.top,
+      paddingTop:
+        Platform.OS === 'android' || parseInt(Platform.Version, 10) >= 11 ? safeAreaInsets.top : 20,
       paddingBottom: safeAreaInsets.bottom,
     };
 
