@@ -15,6 +15,7 @@ import android.util.Pair;
 
 import com.wix.reactnativenotifications.core.AppLaunchHelper;
 import com.wix.reactnativenotifications.core.AppLifecycleFacade;
+import com.wix.reactnativenotifications.core.InitialNotificationHolder;
 import com.wix.reactnativenotifications.core.JsIOHelper;
 import com.wix.reactnativenotifications.core.ProxyService;
 import com.wix.reactnativenotifications.core.notification.PushNotification;
@@ -60,6 +61,11 @@ public class GCMPushNotifications extends PushNotification {
 
     @Override
     public void onOpened() {
+        try {
+            InitialNotificationHolder.getInstance().set(getProps());
+        } catch (Exception e) {
+            Log.e("PendingNotif error", e.toString());
+        }
         super.onOpened();
         clearConversations(conversations);
         try {

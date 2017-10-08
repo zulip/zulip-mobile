@@ -6,7 +6,7 @@ import { streamNarrow, privateNarrow } from '../utils/narrow';
 import type { Auth } from '../types';
 import { logErrorRemotely } from '../utils/logging';
 
-const handlePendingNotifications = async switchNarrow => {
+export const handlePendingNotifications = async switchNarrow => {
   const notification = await PendingNotifications.getInitialNotification();
   if (notification) {
     const data = notification.getData();
