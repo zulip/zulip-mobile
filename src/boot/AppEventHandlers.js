@@ -31,8 +31,9 @@ class AppEventHandlers extends PureComponent {
     actions.appOrientation(orientation);
   };
 
-  handleConnectivityChange = isConnected => {
+  handleConnectivityChange = connectionInfo => {
     const { actions, needsInitialFetch } = this.props;
+    const isConnected = connectionInfo.type !== 'none' && connectionInfo.type !== 'unknown';
     actions.appOnline(isConnected);
     if (!needsInitialFetch && isConnected) {
       actions.trySendMessages();
@@ -69,7 +70,7 @@ class AppEventHandlers extends PureComponent {
   componentDidMount() {
     const { actions } = this.props;
 
-    NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange);
+    NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
@@ -77,7 +78,7 @@ class AppEventHandlers extends PureComponent {
   }
 
   componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener('change', this.handleConnectivityChange);
+    NetInfo.removeEventListener('connectionChange', this.handleConnectivityChange);
     AppState.removeEventListener('change', this.handleAppStateChange);
     AppState.removeEventListener('memoryWarning', this.handleMemoryWarning);
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
