@@ -33,7 +33,7 @@ class MessageContainer extends PureComponent {
   };
 
   static contextTypes = {
-    intl: React.PropTypes.object.isRequired,
+    intl: () => null,
   };
 
   static defaultProps = {

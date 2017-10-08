@@ -11,7 +11,7 @@ import MessageListItem from './MessageListItem';
 export default class MessageList extends PureComponent {
   static contextTypes = {
     styles: () => null,
-    intl: React.PropTypes.object.isRequired,
+    intl: () => null,
   };
 
   props: {

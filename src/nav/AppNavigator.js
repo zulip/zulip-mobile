@@ -51,5 +51,5 @@ export default StackNavigator(
     cardStyle: {
       backgroundColor: 'white',
     },
-  }
+  },
 );
