@@ -30,7 +30,7 @@ export default class MessageHeader extends PureComponent {
   };
 
   static contextTypes = {
-    intl: React.PropTypes.object.isRequired,
+    intl: () => null,
   };
 
   showActionSheet = ({ options, cancelButtonIndex, callback }: ShowActionSheetTypes) => {

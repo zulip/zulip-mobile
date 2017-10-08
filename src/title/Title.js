@@ -33,7 +33,7 @@ class Title extends PureComponent {
     const { narrow, editMessage, color } = this.props;
     const titleType = titles.find(x => x.isFunc(narrow));
     if (editMessage != null) {
-      return <TitlePlain text={'Edit Message'} color={color} />;
+      return <TitlePlain text="Edit message" color={color} />;
     }
     if (!titleType) return null;
 

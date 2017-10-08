@@ -18,4 +18,6 @@ export const openBrowser = (url: string, otp: any) => {
   openLink(`${url}?mobile_flow_otp=${otp}`);
 };
 
-export const closeBrowser = () => { NativeModules.CloseAllCustomTabsAndroid.closeAll(); };
+export const closeBrowser = () => {
+  NativeModules.CloseAllCustomTabsAndroid.closeAll();
+};
