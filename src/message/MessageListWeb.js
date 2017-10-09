@@ -40,7 +40,7 @@ export default class MessageListWeb extends PureComponent {
     const { auth } = this.props;
     const messagesHtml = renderMessagesAsHtml(this.props);
     const html = messagesHtml.join('').replace(/src="\//g, `src="${auth.realm}/`);
-    // console.log(css + html);
+
     return (
       <WebView
         source={{ html: css + html }}
