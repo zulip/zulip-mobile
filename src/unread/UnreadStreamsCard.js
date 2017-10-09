@@ -18,7 +18,13 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class UnreadStreamsCard extends PureComponent {
+type Props = {
+  unreadStreamsAndTopics: any,
+};
+
+export default class UnreadStreamsCard extends PureComponent<Props> {
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };

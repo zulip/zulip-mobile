@@ -27,8 +27,15 @@ type Props = {
   auth: Auth,
 };
 
-export default class SearchMessagesCard extends PureComponent<Props> {
+type State = {
+  messages: Message[],
+  isFetching: boolean,
+  query: string,
+};
+
+export default class SearchMessagesCard extends PureComponent<Props, State> {
   props: Props;
+  state: State;
 
   state = {
     messages: [],

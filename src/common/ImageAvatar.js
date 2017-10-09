@@ -9,7 +9,7 @@ type Props = {
   avatarUrl: string,
   size: number,
   shape: string,
-  children: any[],
+  children: React.ChildrenArray<any>,
   onPress?: () => void,
 };
 

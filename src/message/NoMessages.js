@@ -43,7 +43,13 @@ const messages: EmptyMessage[] = [
   { isFunc: isSearchNarrow, text: 'No messages' },
 ];
 
-export default class NoMessages extends PureComponent {
+type Props = {
+  narrow: Narrow,
+};
+
+export default class NoMessages extends PureComponent<Props> {
+  props: Props;
+
   render() {
     const { narrow } = this.props;
     const message = messages.find(x => x.isFunc(narrow)) || {};

@@ -9,7 +9,7 @@ type Props = {
   onPress?: () => void | Promise<any>,
   onLongPress?: () => void,
   style?: StyleObj,
-  children?: [],
+  children?: React.ChildrenArray<any>,
 };
 
 export default ({ onPress, style, children, onLongPress }: Props) => {

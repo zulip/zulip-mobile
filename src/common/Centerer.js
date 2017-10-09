@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   style?: StyleObj,
-  children: any[],
+  children: React.ChildrenArray<any>,
   padding?: boolean,
 };
 

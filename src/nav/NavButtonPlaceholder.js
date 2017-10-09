@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class NavButtonPlaceholder extends PureComponent {
+export default class NavButtonPlaceholder extends PureComponent<void> {
   render() {
     return <View style={styles.placeholder} />;
   }

@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class LoadingScreen extends PureComponent {
+export default class LoadingScreen extends PureComponent<void> {
   render() {
     return (
       <View style={styles.center}>

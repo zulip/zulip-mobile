@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class OfflineNotice extends PureComponent {
+export default class OfflineNotice extends PureComponent<void> {
   render() {
     return (
       <View style={styles.block}>

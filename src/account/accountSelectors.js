@@ -6,7 +6,7 @@ import { NULL_ACCOUNT, NULL_ARRAY } from '../nullObjects';
 
 export const getAccounts = (state: GlobalState): Account[] => state.accounts || NULL_ARRAY;
 
-export const getActiveAccount = createSelector(
+export const getActiveAccount: Account = createSelector(
   getAccounts,
   accounts => (accounts && accounts.length > 0 ? accounts[0] : NULL_ACCOUNT),
 );

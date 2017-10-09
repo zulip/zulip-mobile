@@ -28,7 +28,15 @@ const titles = [
   { isFunc: isGroupNarrow, component: TitleGroup },
 ];
 
-class Title extends PureComponent {
+type Props = {
+  narrow: Narrow,
+  editMessage: Message,
+  color: string,
+};
+
+class Title extends PureComponent<Props> {
+  props: Props;
+
   render() {
     const { narrow, editMessage, color } = this.props;
     const titleType = titles.find(x => x.isFunc(narrow));

@@ -57,7 +57,7 @@ export default class Input extends PureComponent<Props> {
             style={[styles.input, style]}
             placeholder={text}
             placeholderTextColor={HALF_COLOR}
-            ref={component => {
+            ref={(component: TextInput) => {
               this.textInput = component;
               if (textInputRef) textInputRef(component);
             }}

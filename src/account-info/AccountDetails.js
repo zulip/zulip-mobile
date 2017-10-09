@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
+import type { Auth, Actions, Orientation, UserStatus } from '../types';
 import { Avatar, ZulipButton } from '../common';
 import { BRAND_COLOR } from '../styles';
 import { privateNarrow } from '../utils/narrow';
@@ -9,10 +10,6 @@ import UserStatusIndicator from '../common/UserStatusIndicator';
 import mediumAvatarUrl from '../utils/mediumAvatar';
 import LandscapeContent from './AccountDetailsContent.landscape';
 import PortraitContent from './AccountDetailsContent.portrait';
-import type { UserStatus, Auth, Actions } from '../types';
-
-const ORIENTATION_PORTRAIT = 'PORTRAIT';
-const ORIENTATION_LANDSCAPE = 'LANDSCAPE';
 
 const styles = StyleSheet.create({
   info: {
@@ -44,14 +41,15 @@ type Props = {
   fullName: string,
   auth: Auth,
   actions: Actions,
-  orientation: string,
+  orientation: Orientation,
 };
 
-export default class AccountDetails extends PureComponent<Props> {
+export default class AccountDetails extends PureComponent<Props, State> {
   props: Props;
+  state: State;
 
   state = {
-    layoutStyle: ORIENTATION_PORTRAIT,
+    orientation: 'PORTRAIT',
   };
 
   handleChatPress = () => {
@@ -62,7 +60,7 @@ export default class AccountDetails extends PureComponent<Props> {
 
   handleOrientationChange = (event: Object) => {
     this.setState({
-      layoutStyle: this.props.orientation,
+      orientation: this.props.orientation,
     });
   };
 
@@ -96,14 +94,14 @@ export default class AccountDetails extends PureComponent<Props> {
   );
 
   renderContent = (orientation: string, landscapeContent, portraitContent) =>
-    orientation === ORIENTATION_LANDSCAPE ? landscapeContent : portraitContent;
+    orientation === 'LANDSCAPE' ? landscapeContent : portraitContent;
 
   render() {
-    const { layoutStyle } = this.state;
+    const { orientation } = this.state;
     const screenWidth = Dimensions.get('window').width;
 
     return this.renderContent(
-      layoutStyle,
+      orientation,
       <LandscapeContent
         screenWidth={screenWidth}
         handleOrientationChange={this.handleOrientationChange}

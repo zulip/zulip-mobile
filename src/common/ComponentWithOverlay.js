@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  children: any[],
+  children: React.ChildrenArray<any>,
   overlay: any,
   showOverlay?: boolean,
   overlaySize?: number,

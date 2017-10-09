@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class EmojiPicker extends Component {
+export default class EmojiPicker extends Component<void> {
   render() {
     return (
       <View style={styles.container}>

@@ -11,15 +11,21 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageListWeb extends PureComponent {
+type Props = {
+  actions: Actions,
+};
+
+export default class MessageListWeb extends PureComponent<Props> {
+  props: Props;
+
   handleMessage = event => {
-    const { actions, fetchOlder, navigateToAccountDetails } = this.props;
+    const { actions } = this.props;
     const data = JSON.parse(event.nativeEvent.data);
 
     switch (data.type) {
       case 'scroll':
         if (data.y === 0) {
-          fetchOlder();
+          actions.fetchOlder();
         }
         break;
 
@@ -28,8 +34,8 @@ export default class MessageListWeb extends PureComponent {
         break;
 
       case 'narrow':
-        this.props.actions.doNarrow(JSON.parse(data.narrow.replace(/'/g, '"')));
-        navigateToAccountDetails(data.fromEmail);
+        actions.doNarrow(JSON.parse(data.narrow.replace(/'/g, '"')));
+        actions.navigateToAccountDetails(data.fromEmail);
         break;
 
       default:

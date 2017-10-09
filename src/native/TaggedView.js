@@ -2,7 +2,14 @@
 import React, { PureComponent } from 'react';
 import { requireNativeComponent } from 'react-native';
 
-export default class TaggedView extends PureComponent {
+type Props = {
+  collapsable: boolean,
+  tagID: number,
+};
+
+export default class TaggedView extends PureComponent<Props> {
+  props: Props;
+
   render() {
     const { collapsable, tagID } = this.props;
 

@@ -32,7 +32,7 @@ type Props = {
   presences: Object,
 };
 
-export default class GroupCard extends PureComponent<Props> {
+export default class GroupCard extends PureComponent<Props, State> {
   listRef: (component: Object) => void;
 
   props: Props;

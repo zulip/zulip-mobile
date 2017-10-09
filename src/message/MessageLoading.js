@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageLoading extends PureComponent {
+export default class MessageLoading extends PureComponent<void> {
   render() {
     return (
       <View style={styles.message}>

@@ -457,3 +457,5 @@ export type Dimensions = {
   right: number,
   top: number,
 };
+
+export type Orientation = 'PORTRAIT' | 'LANDSCAPE';

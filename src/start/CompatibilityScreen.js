@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class CompatibilityScreen extends PureComponent {
+export default class CompatibilityScreen extends PureComponent<void> {
   render() {
     return (
       <View style={styles.screen}>
