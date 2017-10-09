@@ -535,4 +535,8 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         }
         findAnchorView();
     }
+
+    public void flashScrollIndicators() {
+        awakenScrollBars();
+    }
 }
