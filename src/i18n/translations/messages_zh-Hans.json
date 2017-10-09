@@ -88,5 +88,8 @@
   "Unstar message": "Unstar message",
   "Cancel": "取消",
   "Message copied": "消息已复制",
-  "Edit message": "编辑消息"
+  "Edit message": "编辑消息",
+  "Network request failed": "Network request failed",
+  "show": "show",
+  "hide": "hide"
 }

@@ -88,5 +88,8 @@
   "Unstar message": "Odznacz wiadomość",
   "Cancel": "Anuluj",
   "Message copied": "Wiadomość skopiowana",
-  "Edit message": "Edytuj wiadomość"
+  "Edit message": "Edytuj wiadomość",
+  "Network request failed": "Network request failed",
+  "show": "show",
+  "hide": "hide"
 }

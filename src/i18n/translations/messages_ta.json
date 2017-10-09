@@ -88,5 +88,8 @@
   "Unstar message": "Unstar message",
   "Cancel": "இரத்து",
   "Message copied": "Message copied",
-  "Edit message": "Edit message"
+  "Edit message": "Edit message",
+  "Network request failed": "Network request failed",
+  "show": "show",
+  "hide": "hide"
 }
