@@ -5,14 +5,16 @@ import type { Actions, User } from '../types';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
 
-export default class UsersCard extends PureComponent {
-  props: {
-    actions: Actions,
-    ownEmail: string,
-    users: User[],
-    filter: string,
-    presences: Object,
-  };
+type Props = {
+  actions: Actions,
+  ownEmail: string,
+  users: User[],
+  filter: string,
+  presences: Object,
+};
+
+export default class UsersCard extends PureComponent<Props> {
+  props: Props;
 
   handleUserNarrow = (email: string) => {
     const { actions } = this.props;

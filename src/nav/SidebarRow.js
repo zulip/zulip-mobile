@@ -5,12 +5,14 @@ import { View } from 'react-native';
 import { Label, Touchable } from '../common';
 import Icon from '../common/Icons';
 
-export default class SidebarRow extends PureComponent {
-  props: {
-    name: string,
-    icon: string,
-    onPress: () => void,
-  };
+type Props = {
+  name: string,
+  icon: string,
+  onPress: () => void,
+};
+
+export default class SidebarRow extends PureComponent<Props> {
+  props: Props;
 
   static contextTypes = {
     styles: () => null,

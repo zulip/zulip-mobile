@@ -20,12 +20,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TitleStream extends PureComponent {
-  props: {
-    narrow: Narrow,
-    stream: Stream,
-    color: string,
-  };
+type Props = {
+  narrow: Narrow,
+  stream: Stream,
+  color: string,
+};
+
+export default class TitleStream extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { narrow, stream, color } = this.props;

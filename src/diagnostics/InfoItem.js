@@ -18,11 +18,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class InfoItem extends PureComponent {
-  props: {
-    label: string,
-    value: any,
-  };
+type Props = {
+  label: string,
+  value: any,
+};
+
+export default class InfoItem extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { label, value } = this.props;

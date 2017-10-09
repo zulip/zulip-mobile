@@ -5,15 +5,17 @@ import { FormattedMessage } from 'react-intl';
 
 import type { LocalizableText, StyleObj } from '../types';
 
-export default class Label extends PureComponent {
+type Props = {
+  text: LocalizableText,
+  style?: StyleObj,
+};
+
+export default class Label extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    text: LocalizableText,
-    style?: StyleObj,
-  };
+  props: Props;
 
   render() {
     const { text, style, ...restProps } = this.props;

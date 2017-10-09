@@ -7,11 +7,13 @@ import { Screen } from '../common';
 import LanguagePicker from './LanguagePicker';
 import boundActions from '../boundActions';
 
-class LanguageScreen extends PureComponent {
-  props: {
-    actions: Actions,
-    locale: string,
-  };
+type Props = {
+  actions: Actions,
+  locale: string,
+};
+
+class LanguageScreen extends PureComponent<Props> {
+  props: Props;
 
   handleLocaleChange = (value: string) => {
     const { actions } = this.props;

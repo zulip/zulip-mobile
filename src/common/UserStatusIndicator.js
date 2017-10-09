@@ -24,11 +24,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class UserStatusIndicator extends PureComponent {
-  props: {
-    style: StyleObj,
-    presence?: Presence,
-  };
+type Props = {
+  style: StyleObj,
+  presence?: Presence,
+};
+
+export default class UserStatusIndicator extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { presence, style } = this.props;

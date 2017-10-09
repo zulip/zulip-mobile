@@ -15,12 +15,14 @@ const styles = StyleSheet.create({
   },
 });
 
-class AccountPickScreen extends PureComponent {
-  props: {
-    auth: Auth,
-    accounts: any[],
-    actions: Actions,
-  };
+type Props = {
+  auth: Auth,
+  accounts: any[],
+  actions: Actions,
+};
+
+class AccountPickScreen extends PureComponent<Props> {
+  props: Props;
 
   handleAccountSelect = (index: number) => {
     const { accounts, actions } = this.props;

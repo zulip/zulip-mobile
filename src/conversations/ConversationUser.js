@@ -8,16 +8,18 @@ import { getAllActiveUsers } from '../selectors';
 import UserItem from '../users/UserItem';
 import { isPrivateNarrow } from '../utils/narrow';
 
-class ConversationUser extends PureComponent {
-  props: {
-    email: string,
-    users: User[],
-    unreadCount: number,
-    realm: string,
-    presence?: Object,
-    narrow?: Narrow,
-    onPress: (email: string) => void,
-  };
+type Props = {
+  email: string,
+  users: User[],
+  unreadCount: number,
+  realm: string,
+  presence?: Object,
+  narrow?: Narrow,
+  onPress: (email: string) => void,
+};
+
+class ConversationUser extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { email, unreadCount, users, realm, narrow, presence, onPress } = this.props;

@@ -5,12 +5,14 @@ import { View, ScrollView } from 'react-native';
 import type { Actions, StyleObj } from '../../types';
 import renderHtmlChildren from '../renderHtmlChildren';
 
-export default class HtmlTagDiv extends PureComponent {
-  props: {
-    style: StyleObj,
-    actions: Actions,
-    className: string,
-  };
+type Props = {
+  style: StyleObj,
+  actions: Actions,
+  className: string,
+};
+
+export default class HtmlTagDiv extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { style, className, ...restProps } = this.props;

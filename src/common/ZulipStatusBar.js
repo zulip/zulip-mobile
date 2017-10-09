@@ -9,19 +9,21 @@ import { getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 import getStatusBarStyle from '../utils/getStatusBarStyle';
 import getStatusBarColor from '../utils/getStatusBarColor';
 
-class ZulipStatusBar extends PureComponent {
+type Props = {
+  barStyle?: StatusBarStyle,
+  hidden?: boolean,
+  theme: string,
+  backgroundColor: string,
+  safeAreaInsets: Dimensions,
+  textColor: string,
+};
+
+class ZulipStatusBar extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    barStyle?: StatusBarStyle,
-    hidden?: boolean,
-    theme: string,
-    backgroundColor: string,
-    safeAreaInsets: Dimensions,
-    textColor: string,
-  };
+  props: Props;
 
   static defaultProps = {
     hidden: false,

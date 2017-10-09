@@ -19,20 +19,24 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class PasswordInput extends PureComponent {
+type Props = {
+  placeholder: LocalizableText,
+};
+
+type State = {
+  isHidden: boolean,
+};
+
+export default class PasswordInput extends PureComponent<Props, State> {
   static contextTypes = {
     styles: () => null,
   };
 
   textInput: TextInput;
 
-  props: {
-    placeholder: LocalizableText,
-  };
+  props: Props;
 
-  state: {
-    isHidden: boolean,
-  };
+  state: State;
 
   state = {
     isHidden: true,

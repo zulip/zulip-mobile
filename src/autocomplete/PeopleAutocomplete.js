@@ -13,13 +13,15 @@ import {
 import { Popup } from '../common';
 import UserItem from '../users/UserItem';
 
-class PeopleAutocomplete extends PureComponent {
-  props: {
-    filter: string,
-    onAutocomplete: (name: string) => void,
-    ownEmail: string,
-    users: User[],
-  };
+type Props = {
+  filter: string,
+  onAutocomplete: (name: string) => void,
+  ownEmail: string,
+  users: User[],
+};
+
+class PeopleAutocomplete extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { filter, ownEmail, users, onAutocomplete } = this.props;

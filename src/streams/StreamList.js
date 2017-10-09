@@ -14,17 +14,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class StreamList extends PureComponent {
-  props: {
-    streams: Stream[],
-    selected?: boolean,
-    showDescriptions?: boolean,
-    showSwitch?: boolean,
-    unreadByStream?: number[],
-    onPress?: (streamName: string) => void,
-    onSwitch?: (streamName: string, newValue: boolean) => void,
-    clearInput?: () => void,
-  };
+type Props = {
+  streams: Stream[],
+  selected?: boolean,
+  showDescriptions?: boolean,
+  showSwitch?: boolean,
+  unreadByStream?: number[],
+  onPress?: (streamName: string) => void,
+  onSwitch?: (streamName: string, newValue: boolean) => void,
+  clearInput?: () => void,
+};
+
+export default class StreamList extends PureComponent<Props> {
+  props: Props;
 
   static defaultProps = {
     showSwitch: false,

@@ -23,15 +23,17 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class Screen extends PureComponent {
-  props: {
-    padding?: boolean,
-    search?: boolean,
-    safeAreaInsets: Dimensions,
-    title?: LocalizableText,
-    children: [],
-    searchBarOnChange?: (text: string) => void,
-  };
+type Props = {
+  padding?: boolean,
+  search?: boolean,
+  safeAreaInsets: Dimensions,
+  title?: LocalizableText,
+  children: [],
+  searchBarOnChange?: (text: string) => void,
+};
+
+class Screen extends PureComponent<Props> {
+  props: Props;
 
   static contextTypes = {
     styles: () => null,

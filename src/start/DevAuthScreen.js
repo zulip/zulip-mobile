@@ -23,15 +23,17 @@ const inlineStyles = StyleSheet.create({
   heading: { flex: 0 },
 });
 
-class DevAuthScreen extends PureComponent {
+type Props = {
+  actions: Actions,
+  auth: Auth,
+};
+
+class DevAuthScreen extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    actions: Actions,
-    auth: Auth,
-  };
+  props: Props;
 
   state: State = {
     progress: false,

@@ -15,12 +15,14 @@ const prefixToComponent = {
   '@': PeopleAutocomplete,
 };
 
-export default class AutoCompleteView extends PureComponent {
-  props: {
-    text: string,
-    selection: InputSelectionType,
-    onAutocomplete: (input: string) => void,
-  };
+type Props = {
+  text: string,
+  selection: InputSelectionType,
+  onAutocomplete: (input: string) => void,
+};
+
+export default class AutoCompleteView extends PureComponent<Props> {
+  props: Props;
 
   handleAutocomplete = (autocomplete: string) => {
     const { text, onAutocomplete, selection } = this.props;

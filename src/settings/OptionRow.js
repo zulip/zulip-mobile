@@ -14,12 +14,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class OptionRow extends PureComponent {
-  props: {
-    label: string,
-    defaultValue: boolean,
-    onValueChange: () => void,
-  };
+type Props = {
+  label: string,
+  defaultValue: boolean,
+  onValueChange: () => void,
+};
+
+export default class OptionRow extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { label, defaultValue, onValueChange } = this.props;

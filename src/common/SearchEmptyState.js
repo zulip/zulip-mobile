@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ZulipButton, Label } from './';
 
@@ -18,12 +18,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class SearchEmptyState extends React.PureComponent {
-  props: {
-    text?: string,
-    buttonText?: string,
-    buttonAction?: () => void,
-  };
+type Props = {
+  text?: string,
+  buttonText?: string,
+  buttonAction?: () => void,
+};
+
+export default class SearchEmptyState extends PureComponent<Props> {
+  props: Props;
 
   static defaultProps = {
     text: 'No Results',

@@ -24,10 +24,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TimeRow extends PureComponent {
-  props: {
-    timestamp: number,
-  };
+type Props = {
+  timestamp: number,
+};
+
+export default class TimeRow extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { timestamp } = this.props;

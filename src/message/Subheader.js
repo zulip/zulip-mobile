@@ -4,16 +4,18 @@ import { View, Text } from 'react-native';
 
 import Timestamp from './Timestamp';
 
-export default class Subheader extends PureComponent {
+type Props = {
+  from: string,
+  timestamp: number,
+  twentyFourHourTime: boolean,
+};
+
+export default class Subheader extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    from: string,
-    timestamp: number,
-    twentyFourHourTime: boolean,
-  };
+  props: Props;
 
   render() {
     const { styles } = this.context;

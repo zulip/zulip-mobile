@@ -60,7 +60,14 @@ type Props = {
   onSend: () => void,
 };
 
-export default class ComposeBox extends PureComponent {
+type State = {
+  topic: string,
+  message: string,
+  height: number,
+  selection: InputSelectionType,
+};
+
+export default class ComposeBox extends PureComponent<Props, State> {
   topicInput = null;
   messageInput = null;
 
@@ -72,12 +79,7 @@ export default class ComposeBox extends PureComponent {
     styles: () => null,
   };
 
-  state: {
-    topic: string,
-    message: string,
-    height: number,
-    selection: InputSelectionType,
-  };
+  state: State;
 
   state = {
     height: 46,

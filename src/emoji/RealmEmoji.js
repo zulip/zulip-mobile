@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -19,7 +19,7 @@ type Props = {
   name: string,
 };
 
-class RealmEmoji extends React.PureComponent {
+class RealmEmoji extends PureComponent<Props> {
   props: Props;
 
   render() {

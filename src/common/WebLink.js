@@ -7,16 +7,18 @@ import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { getCurrentRealm } from '../selectors';
 
-class WebLink extends PureComponent {
+type Props = {
+  label: string,
+  href: string,
+  realm: string,
+};
+
+class WebLink extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    label: string,
-    href: string,
-    realm: string,
-  };
+  props: Props;
 
   handlePress = () => {
     const { realm, href } = this.props;

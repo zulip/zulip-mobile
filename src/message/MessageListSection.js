@@ -4,10 +4,12 @@ import React, { PureComponent } from 'react';
 import type { Message } from '../types';
 import MessageHeaderContainer from './headers/MessageHeaderContainer';
 
-export default class MessageListSection extends PureComponent {
-  props: {
-    message?: Message,
-  };
+type Props = {
+  message?: Message,
+};
+
+export default class MessageListSection extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { message } = this.props;

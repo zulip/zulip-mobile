@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 import { Image, StyleSheet, View } from 'react-native';
 import { getResource, isEmojiUrl } from '../../utils/url';
@@ -13,15 +13,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class HtmlTagImg extends React.PureComponent {
-  props: {
-    auth: Auth,
-    actions: Actions,
-    className: string,
-    message: Message,
-    src: string,
-    style: StyleObj,
-  };
+type Props = {
+  auth: Auth,
+  actions: Actions,
+  className: string,
+  message: Message,
+  src: string,
+  style: StyleObj,
+};
+
+export default class HtmlTagImg extends PureComponent<Props> {
+  props: Props;
 
   isEmoji = () => {
     const { className, src, auth } = this.props;

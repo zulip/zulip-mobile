@@ -37,19 +37,21 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class AccountDetails extends PureComponent {
+type Props = {
+  email: string,
+  status: UserStatus,
+  avatarUrl: string,
+  fullName: string,
+  auth: Auth,
+  actions: Actions,
+  orientation: string,
+};
+
+export default class AccountDetails extends PureComponent<Props> {
+  props: Props;
+
   state = {
     layoutStyle: ORIENTATION_PORTRAIT,
-  };
-
-  props: {
-    email: string,
-    status: UserStatus,
-    avatarUrl: string,
-    fullName: string,
-    auth: Auth,
-    actions: Actions,
-    orientation: string,
   };
 
   handleChatPress = () => {

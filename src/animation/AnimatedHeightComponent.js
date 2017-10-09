@@ -8,7 +8,7 @@ type Props = {
   height: number,
 };
 
-export default class AnimatedHeightComponent extends PureComponent {
+export default class AnimatedHeightComponent extends PureComponent<Props> {
   props: Props;
 
   animatedValue = new Animated.Value(0);

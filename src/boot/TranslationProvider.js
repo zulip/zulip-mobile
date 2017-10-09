@@ -9,12 +9,12 @@ import messages from '../i18n/messages';
 
 require('../i18n/locale');
 
-class TranslationProvider extends PureComponent {
-  props: {
-    locale: string,
-    children?: any,
-  };
+type Props = {
+  locale: string,
+  children?: any,
+};
 
+class TranslationProvider extends PureComponent<Props> {
   render() {
     const { locale, children } = this.props;
 

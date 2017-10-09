@@ -8,22 +8,24 @@ import { LoadingIndicator } from '../common';
 import MessageListSection from './MessageListSection';
 import MessageListItem from './MessageListItem';
 
-export default class MessageList extends PureComponent {
+type Props = {
+  actions: Actions,
+  typingUsers?: TypingState,
+  fetchingOlder: boolean,
+  fetchingNewer: boolean,
+  singleFetchProgress: boolean,
+  renderedMessages: Object[],
+  listRef: (component: Object) => void,
+  onScroll?: () => void,
+};
+
+export default class MessageList extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
     intl: () => null,
   };
 
-  props: {
-    actions: Actions,
-    typingUsers?: TypingState,
-    fetchingOlder: boolean,
-    fetchingNewer: boolean,
-    singleFetchProgress: boolean,
-    renderedMessages: Object[],
-    listRef: (component: Object) => void,
-    onScroll?: () => void,
-  };
+  props: Props;
 
   static defaultProps = {
     onScroll: nullFunction,

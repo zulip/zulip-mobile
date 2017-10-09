@@ -5,14 +5,16 @@ import { ImageBackground } from 'react-native';
 import { nullFunction } from '../nullObjects';
 import { Touchable } from './';
 
-export default class ImageAvatar extends PureComponent {
-  props: {
-    avatarUrl: string,
-    size: number,
-    shape: string,
-    children: any[],
-    onPress?: () => void,
-  };
+type Props = {
+  avatarUrl: string,
+  size: number,
+  shape: string,
+  children: any[],
+  onPress?: () => void,
+};
+
+export default class ImageAvatar extends PureComponent<Props> {
+  props: Props;
 
   static defaultProps = {
     onPress: nullFunction,

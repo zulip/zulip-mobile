@@ -22,18 +22,20 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class TopicMessageHeader extends PureComponent {
+type Props = {
+  actions: Actions,
+  messageId: number,
+  stream: string,
+  topic: string,
+  onLongPress: () => void,
+};
+
+export default class TopicMessageHeader extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    actions: Actions,
-    messageId: number,
-    stream: string,
-    topic: string,
-    onLongPress: () => void,
-  };
+  props: Props;
 
   performTopicNarrow = () => {
     const { actions, messageId, stream, topic } = this.props;

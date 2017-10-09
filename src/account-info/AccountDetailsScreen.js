@@ -8,13 +8,15 @@ import { getAuth, getAccountDetailsUser } from '../selectors';
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
 
-class AccountDetailsScreen extends Component {
-  props: {
-    auth: Auth,
-    user: UserType,
-    orientation: string,
-    actions: Actions,
-  };
+type Props = {
+  auth: Auth,
+  user: UserType,
+  orientation: string,
+  actions: Actions,
+};
+
+class AccountDetailsScreen extends Component<Props> {
+  props: Props;
 
   shouldComponentUpdate(nextProps) {
     return nextProps.user.fullName !== '';

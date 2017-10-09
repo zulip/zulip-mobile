@@ -15,14 +15,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class FloatingActionButton extends PureComponent {
-  props: {
-    style?: StyleObj,
-    disabled: boolean,
-    size: number,
-    Icon: any,
-    onPress: () => void,
-  };
+type Props = {
+  style?: StyleObj,
+  disabled: boolean,
+  size: number,
+  Icon: any,
+  onPress: () => void,
+};
+
+export default class FloatingActionButton extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { style, size, disabled, onPress, Icon } = this.props;

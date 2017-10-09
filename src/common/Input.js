@@ -7,20 +7,22 @@ import type { LocalizableText, StyleObj } from '../types';
 import { nullFunction } from '../nullObjects';
 import { HALF_COLOR } from '../styles';
 
-export default class Input extends PureComponent {
+type Props = {
+  style?: StyleObj,
+  restProps?: any[],
+  placeholder?: LocalizableText,
+  clearButton?: boolean,
+  onChangeText?: (text: string) => void,
+  textInputRef?: (component: TextInput) => void,
+};
+
+export default class Input extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
   textInput: TextInput;
-  props: {
-    style?: StyleObj,
-    restProps?: any[],
-    placeholder?: LocalizableText,
-    clearButton?: boolean,
-    onChangeText?: (text: string) => void,
-    textInputRef?: (component: TextInput) => void,
-  };
+  props: Props;
 
   static defaultProps = {
     placeholder: {},

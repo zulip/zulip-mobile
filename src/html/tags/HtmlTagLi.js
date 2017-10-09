@@ -18,11 +18,13 @@ const customStyles = StyleSheet.create({
   },
 });
 
-export default class HtmlTagLi extends PureComponent {
-  props: {
-    style: StyleObj,
-    actions: Actions,
-  };
+type Props = {
+  style: StyleObj,
+  actions: Actions,
+};
+
+export default class HtmlTagLi extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { style, ...restProps } = this.props;

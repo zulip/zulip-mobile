@@ -4,15 +4,17 @@ import { Text } from 'react-native';
 
 import type { StyleObj } from '../types';
 
-export default class RawLabel extends PureComponent {
+type Props = {
+  text: string,
+  style?: StyleObj,
+};
+
+export default class RawLabel extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    text: string,
-    style?: StyleObj,
-  };
+  props: Props;
 
   render() {
     const styles = this.context.styles || {};

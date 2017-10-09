@@ -5,12 +5,14 @@ import { View } from 'react-native';
 import type { Actions, StyleObj } from '../../types';
 import renderHtmlChildren from '../renderHtmlChildren';
 
-export default class HtmlTagSpan extends PureComponent {
-  props: {
-    style?: StyleObj,
-    actions?: Actions,
-    cascadingStyle?: StyleObj,
-  };
+type Props = {
+  style?: StyleObj,
+  actions?: Actions,
+  cascadingStyle?: StyleObj,
+};
+
+export default class HtmlTagSpan extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { style, cascadingStyle, ...restProps } = this.props;

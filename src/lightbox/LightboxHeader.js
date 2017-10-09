@@ -44,7 +44,7 @@ type Props = {
   realm: string,
 };
 
-export class Header extends PureComponent {
+export class Header extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };

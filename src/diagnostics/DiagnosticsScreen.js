@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 class DiagnosticsScreen extends PureComponent {
   render() {
     const { actions } = this.props;
+
     return (
       <Screen title="Diagnostics">
         <OptionButton label="Variables" onPress={actions.navigateToVariables} />

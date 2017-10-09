@@ -37,7 +37,7 @@ type Props = {
   unreadCount: number,
 };
 
-export default class UnreadNotice extends PureComponent {
+export default class UnreadNotice extends PureComponent<Props> {
   props: Props;
 
   render() {

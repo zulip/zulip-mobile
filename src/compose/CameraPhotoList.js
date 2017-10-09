@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { Component } from 'react';
 import { ActivityIndicator, Image, ListView, StyleSheet, View } from 'react-native';
 import groupByEveryN from 'react-native/Libraries/Utilities/groupByEveryN';
 
@@ -19,25 +19,26 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class CameraPhotoList extends React.Component {
-  props: {
-    noMoreData: boolean,
-    dataSource: any,
-    onEndReached: () => void,
-    imagesPerRow?: number,
-  };
+type Props = {
+  noMoreData: boolean,
+  dataSource: any,
+  imagesPerRow?: number,
+  onEndReached: () => void,
+};
 
-  static defaultProps: {
-    groupTypes: 'SavedPhotos',
-    batchSize: 5,
+type State = {
+  dataSource: ?[],
+  assets: [],
+};
+
+export default class CameraPhotoList extends Component<Props, State> {
+  props: Props;
+
+  static defaultProps = {
     imagesPerRow: 1,
-    assetType: 'Photos',
   };
 
-  state: {
-    dataSource: ?[],
-    assets: [],
-  };
+  state: State;
 
   rendererChanged = () => {
     const ds = new ListView.DataSource({ rowHasChanged: this.handleRowHasChanged });

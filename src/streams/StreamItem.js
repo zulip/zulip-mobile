@@ -38,22 +38,24 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class StreamItem extends PureComponent {
-  props: {
-    name: string,
-    description?: string,
-    iconSize: number,
-    isMuted?: boolean,
-    isPrivate?: boolean,
-    isSelected?: boolean,
-    showSwitch?: boolean,
-    color: string,
-    backgroundColor?: string,
-    isSwitchedOn?: boolean,
-    unreadCount?: number,
-    onPress: (name: string) => void,
-    onSwitch?: (name: string, newValue: boolean) => void,
-  };
+type Props = {
+  name: string,
+  description?: string,
+  iconSize: number,
+  isMuted?: boolean,
+  isPrivate?: boolean,
+  isSelected?: boolean,
+  showSwitch?: boolean,
+  color: string,
+  backgroundColor?: string,
+  isSwitchedOn?: boolean,
+  unreadCount?: number,
+  onPress: (name: string) => void,
+  onSwitch?: (name: string, newValue: boolean) => void,
+};
+
+export default class StreamItem extends PureComponent<Props> {
+  props: Props;
 
   handlePress = () => this.props.onPress(this.props.name);
 

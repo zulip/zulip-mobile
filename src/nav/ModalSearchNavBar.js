@@ -15,23 +15,27 @@ const localStyles = StyleSheet.create({
   },
 });
 
-class ModalSearchNavBar extends PureComponent {
+type Props = {
+  nav: any,
+  actions: Actions,
+  title: string,
+  searchBar: boolean,
+  searchBarOnChange: () => void,
+  clearSearchInput?: () => void,
+};
+
+type State = {
+  isSearchActive: boolean,
+};
+
+class ModalSearchNavBar extends PureComponent<Props, State> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    nav: any,
-    actions: Actions,
-    title: string,
-    searchBar: boolean,
-    searchBarOnChange: () => void,
-    clearSearchInput?: () => void,
-  };
+  props: Props;
 
-  state: {
-    isSearchActive: boolean,
-  };
+  state: State;
 
   state = {
     isSearchActive: false,

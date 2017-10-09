@@ -19,10 +19,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ErrorMsg extends PureComponent {
-  props: {
-    error: string,
-  };
+type Props = {
+  error: string,
+};
+
+export default class ErrorMsg extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { error } = this.props;

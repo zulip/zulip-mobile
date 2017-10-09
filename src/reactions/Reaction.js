@@ -71,19 +71,21 @@ const decrementAnimationConfig = {
   useNativeDriver: true,
 };
 
-class Reaction extends PureComponent {
+type Props = {
+  name: string,
+  voted: boolean,
+  voteCount: number,
+  messageId: number,
+  auth: Auth,
+  realmEmoji: {},
+};
+
+class Reaction extends PureComponent<Props> {
   state = {
     voteChangeAnimation: new Animated.Value(0),
   };
 
-  props: {
-    name: string,
-    voted: boolean,
-    voteCount: number,
-    messageId: number,
-    auth: Auth,
-    realmEmoji: {},
-  };
+  props: Props;
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.voteCount > this.props.voteCount) {

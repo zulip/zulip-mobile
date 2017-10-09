@@ -17,20 +17,22 @@ import boundActions from '../boundActions';
 import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 import type { ShowActionSheetTypes } from './messageActionSheet';
 
-class MessageContainer extends PureComponent {
-  props: {
-    actions: Actions,
-    currentRoute: string,
-    message: Object,
-    narrow: Narrow,
-    subscriptions: SubscriptionsState,
-    auth: Auth,
-    flags: Object,
-    twentyFourHourTime?: boolean,
-    isBrief: boolean,
-    onReplySelect?: () => void,
-    showActionSheetWithOptions: (Object, (number) => void) => void,
-  };
+type Props = {
+  actions: Actions,
+  currentRoute: string,
+  message: Object,
+  narrow: Narrow,
+  subscriptions: SubscriptionsState,
+  auth: Auth,
+  flags: Object,
+  twentyFourHourTime?: boolean,
+  isBrief: boolean,
+  onReplySelect?: () => void,
+  showActionSheetWithOptions: (Object, (number) => void) => void,
+};
+
+class MessageContainer extends PureComponent<Props> {
+  props: Props;
 
   static contextTypes = {
     intl: () => null,

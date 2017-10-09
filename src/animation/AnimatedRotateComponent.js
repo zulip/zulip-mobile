@@ -4,11 +4,13 @@ import { Animated, Easing } from 'react-native';
 
 import type { StyleObj } from '../types';
 
-export default class AnimatedRotateComponent extends PureComponent {
-  props: {
-    style?: StyleObj,
-    children?: [],
-  };
+type Props = {
+  style?: StyleObj,
+  children?: [],
+};
+
+export default class AnimatedRotateComponent extends PureComponent<Props> {
+  props: Props;
 
   rotation = new Animated.Value(0);
 

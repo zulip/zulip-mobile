@@ -20,11 +20,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageTyping extends PureComponent {
-  props: {
-    actions: Actions,
-    users: Object[],
-  };
+type Props = {
+  actions: Actions,
+  users: Object[],
+};
+
+export default class MessageTyping extends PureComponent<Props> {
+  props: Props;
 
   handleAvatarPress = (email: string) => this.props.actions.navigateToAccountDetails(email);
 

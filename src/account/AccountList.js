@@ -5,13 +5,15 @@ import { View, FlatList } from 'react-native';
 import type { Auth } from '../types';
 import AccountItem from './AccountItem';
 
-export default class AccountList extends PureComponent {
-  props: {
-    auth: Auth,
-    accounts: any[],
-    onAccountSelect: number => void,
-    onAccountRemove: number => void,
-  };
+type Props = {
+  auth: Auth,
+  accounts: any[],
+  onAccountSelect: number => void,
+  onAccountRemove: number => void,
+};
+
+export default class AccountList extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { accounts, onAccountSelect, onAccountRemove, auth } = this.props;

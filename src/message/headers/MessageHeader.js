@@ -18,16 +18,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageHeader extends PureComponent {
-  props: {
-    auth: Auth,
-    actions: Actions,
-    message: Object,
-    narrow: Narrow,
-    subscriptions: any[],
-    showActionSheetWithOptions: (Object, (number) => void) => void,
-    mute: MuteState,
-  };
+type Props = {
+  auth: Auth,
+  actions: Actions,
+  message: Object,
+  narrow: Narrow,
+  subscriptions: any[],
+  showActionSheetWithOptions: (Object, (number) => void) => void,
+  mute: MuteState,
+};
+
+export default class MessageHeader extends PureComponent<Props> {
+  props: Props;
 
   static contextTypes = {
     intl: () => null,

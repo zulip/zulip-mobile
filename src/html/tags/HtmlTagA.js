@@ -6,13 +6,15 @@ import styles from '../HtmlStyles';
 import { Touchable } from '../../common';
 import renderHtmlChildren from '../renderHtmlChildren';
 
-export default class HtmlTagA extends PureComponent {
-  props: {
-    href: string,
-    actions: Actions,
-    cascadingStyle: StyleObj,
-    onPress: (href: string) => void,
-  };
+type Props = {
+  href: string,
+  actions: Actions,
+  cascadingStyle: StyleObj,
+  onPress: (href: string) => void,
+};
+
+export default class HtmlTagA extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { cascadingStyle, href, onPress, ...restProps } = this.props;

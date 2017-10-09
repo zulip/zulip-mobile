@@ -15,11 +15,13 @@ const themeNameToObject = {
 
 const Dummy = props => props.children;
 
-class StyleProvider extends PureComponent {
-  props: {
-    theme?: string,
-    children?: any,
-  };
+type Props = {
+  theme?: string,
+  children?: any,
+};
+
+class StyleProvider extends PureComponent<Props> {
+  props: Props;
 
   static childContextTypes = {
     theme: () => {},

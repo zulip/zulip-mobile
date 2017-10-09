@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import { Actions } from '../types';
 import boundActions from '../boundActions';
 
-class AppDataFetcher extends PureComponent {
-  props: {
-    needsInitialFetch: boolean,
-    actions: Actions,
-    children?: any,
-  };
+type Props = {
+  needsInitialFetch: boolean,
+  actions: Actions,
+  children?: any,
+};
+
+class AppDataFetcher extends PureComponent<Props> {
+  props: Props;
 
   componentWillMount = () => this.init(this.props);
 

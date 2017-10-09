@@ -12,11 +12,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class LanguagePicker extends PureComponent {
-  props: {
-    value: string,
-    onValueChange: (locale: string) => void,
-  };
+type Props = {
+  value: string,
+  onValueChange: (locale: string) => void,
+};
+
+export default class LanguagePicker extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { value, onValueChange } = this.props;

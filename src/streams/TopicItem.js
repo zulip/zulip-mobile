@@ -26,15 +26,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class StreamItem extends PureComponent {
-  props: {
-    stream: string,
-    name: string,
-    isMuted?: boolean,
-    isSelected?: boolean,
-    unreadCount?: number,
-    onPress: (topic: string, stream: string) => void,
-  };
+type Props = {
+  stream: string,
+  name: string,
+  isMuted?: boolean,
+  isSelected?: boolean,
+  unreadCount?: number,
+  onPress: (topic: string, stream: string) => void,
+};
+
+export default class StreamItem extends PureComponent<Props> {
+  props: Props;
 
   static defaultProps = {
     isMuted: false,

@@ -27,18 +27,22 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class SettingsCard extends PureComponent {
-  props: {
-    auth: Auth,
-    actions: Actions,
-    theme: string,
-    offlineNotification: boolean,
-    onlineNotification: boolean,
-  };
+type Props = {
+  auth: Auth,
+  actions: Actions,
+  theme: string,
+  offlineNotification: boolean,
+  onlineNotification: boolean,
+};
 
-  state: {
-    filter: string,
-  };
+type State = {
+  filter: string,
+};
+
+export default class SettingsCard extends PureComponent<Props, State> {
+  props: Props;
+
+  state: State;
 
   handleThemeChange = () => {
     const { actions, theme } = this.props;

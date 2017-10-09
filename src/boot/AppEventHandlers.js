@@ -18,7 +18,7 @@ type Props = {
   children?: any,
 };
 
-class AppEventHandlers extends PureComponent {
+class AppEventHandlers extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };

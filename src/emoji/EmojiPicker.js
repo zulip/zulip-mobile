@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Emoji from './Emoji';
 
@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class EmojiPicker extends React.Component {
+export default class EmojiPicker extends Component {
   render() {
     return (
       <View style={styles.container}>

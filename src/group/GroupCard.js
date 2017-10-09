@@ -25,15 +25,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class GroupCard extends PureComponent {
+type Props = {
+  actions: Actions,
+  ownEmail: string,
+  users: User[],
+  presences: Object,
+};
+
+export default class GroupCard extends PureComponent<Props> {
   listRef: (component: Object) => void;
 
-  props: {
-    actions: Actions,
-    ownEmail: string,
-    users: User[],
-    presences: Object,
-  };
+  props: Props;
 
   state = {
     selected: [],

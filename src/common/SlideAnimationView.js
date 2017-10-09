@@ -2,7 +2,15 @@
 import React, { PureComponent } from 'react';
 import { Animated } from 'react-native';
 
-export default class SlideAnimationView extends PureComponent {
+type Props = {};
+
+type State = {
+  animationIndex: AnimatedValue,
+};
+
+export default class SlideAnimationView extends PureComponent<Props, State> {
+  state: State;
+
   state = {
     animationIndex: new Animated.Value(0),
   };

@@ -31,15 +31,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class UnreadCount extends PureComponent {
-  props: {
-    style?: StyleObj,
-    color?: string,
-    borderRadius?: number,
-    isMuted?: boolean,
-    count?: number,
-    inverse?: boolean,
-  };
+type Props = {
+  style?: StyleObj,
+  color?: string,
+  borderRadius?: number,
+  isMuted?: boolean,
+  count?: number,
+  inverse?: boolean,
+};
+
+export default class UnreadCount extends PureComponent<Props> {
+  props: Props;
 
   static defaultProps = {
     color: BRAND_COLOR,

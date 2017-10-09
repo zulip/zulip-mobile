@@ -9,21 +9,23 @@ import config from '../config';
 import { nullFunction } from '../nullObjects';
 import AnchorScrollView from '../native/AnchorScrollView';
 
-export default class InfiniteScrollView extends PureComponent {
-  props: {
-    startReachedThreshold: number,
-    endReachedThreshold: number,
-    listRef: (component: Object) => void,
-    contentContainerStyle?: Object,
-    style: StyleObj,
-    stickyHeaderIndices: [],
-    autoScrollToBottom?: boolean,
-    children?: Children,
-    onStartReached?: () => void,
-    onEndReached?: () => void,
-    onReplySelect: () => void,
-    onScroll: (e: Event) => void,
-  };
+type Props = {
+  startReachedThreshold: number,
+  endReachedThreshold: number,
+  contentContainerStyle?: Object,
+  style: StyleObj,
+  stickyHeaderIndices: [],
+  autoScrollToBottom?: boolean,
+  children?: Children,
+  listRef: (component: Object) => void,
+  onStartReached?: () => void,
+  onEndReached?: () => void,
+  onReplySelect: () => void,
+  onScroll: (e: Event) => void,
+};
+
+export default class InfiniteScrollView extends PureComponent<Props> {
+  props: Props;
 
   static defaultProps = {
     onStartReached: nullFunction,

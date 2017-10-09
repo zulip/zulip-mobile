@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { RawLabel, Touchable } from '../common';
@@ -16,11 +16,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class EmojiRow extends React.Component {
-  props: {
-    name: string,
-    onPress: () => void,
-  };
+type Props = {
+  name: string,
+  onPress: () => void,
+};
+
+export default class EmojiRow extends Component<Props> {
+  props: Props;
 
   render() {
     const { name, onPress } = this.props;

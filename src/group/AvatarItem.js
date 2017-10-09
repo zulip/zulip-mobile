@@ -26,14 +26,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class AvatarItem extends PureComponent {
-  props: {
-    email: string,
-    avatarUrl: string,
-    fullName: string,
-    status: UserStatus,
-    onPress: (email: string) => void,
-  };
+type Props = {
+  email: string,
+  avatarUrl: string,
+  fullName: string,
+  status: UserStatus,
+  onPress: (email: string) => void,
+};
+
+export default class AvatarItem extends PureComponent<Props> {
+  props: Props;
 
   animatedValue = new Animated.Value(0);
 

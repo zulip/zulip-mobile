@@ -34,17 +34,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ComponentWithOverlay extends PureComponent {
-  props: {
-    children: any[],
-    overlay: any,
-    showOverlay?: boolean,
-    overlaySize?: number,
-    overlayColor?: string,
-    overlayPosition?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left',
-    style?: StyleObj,
-    onPress: () => void,
-  };
+type Props = {
+  children: any[],
+  overlay: any,
+  showOverlay?: boolean,
+  overlaySize?: number,
+  overlayColor?: string,
+  overlayPosition?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left',
+  style?: StyleObj,
+  onPress: () => void,
+};
+
+export default class ComponentWithOverlay extends PureComponent<Props> {
+  props: Props;
 
   static defaultProps = {
     showOverlay: true,

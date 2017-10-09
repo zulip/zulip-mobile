@@ -18,19 +18,21 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class UserList extends PureComponent {
+type Props = {
+  style?: StyleObj,
+  filter: string,
+  users: User[],
+  selected?: User[],
+  presences: Object,
+  onPress: (email: string) => void,
+};
+
+export default class UserList extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    style?: StyleObj,
-    filter: string,
-    users: User[],
-    selected?: User[],
-    presences: Object,
-    onPress: (email: string) => void,
-  };
+  props: Props;
 
   static defaultProps = {
     selected: [],

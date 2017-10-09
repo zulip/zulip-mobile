@@ -16,18 +16,20 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class ConversationsCard extends PureComponent {
+type Props = {
+  actions: Actions,
+  conversations: Object[],
+  closeDrawer: () => void,
+  doNarrowCloseDrawer: (narrow: Narrow) => void,
+  closeDrawer: () => void,
+};
+
+export default class ConversationsCard extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    actions: Actions,
-    conversations: Object[],
-    closeDrawer: () => void,
-    doNarrowCloseDrawer: (narrow: Narrow) => void,
-    closeDrawer: () => void,
-  };
+  props: Props;
 
   handleUserNarrow = (email: string) => {
     const narrow = email.indexOf(',') === -1 ? privateNarrow(email) : groupNarrow(email.split(','));

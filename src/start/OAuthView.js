@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { Component } from 'react';
 import { Linking } from 'react-native';
 import { connect } from 'react-redux';
 import parseURL from 'url-parse';
@@ -11,20 +11,22 @@ import { getCurrentRealm } from '../selectors';
 import { extractApiKey } from '../utils/encoding';
 import { generateOtp, openBrowser, closeBrowser } from './oauth';
 
+type Props = {
+  actions: Actions,
+  realm: string,
+  name: string,
+  icon: string,
+  url: string,
+};
+
 let otp = '';
 
-class OAuthView extends React.Component {
+class OAuthView extends Component<Props> {
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    actions: Actions,
-    realm: string,
-    name: string,
-    icon: string,
-    url: string,
-  };
+  props: Props;
 
   safariViewDismissEvent: Event;
 

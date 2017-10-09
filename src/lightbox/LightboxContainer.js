@@ -47,25 +47,22 @@ const styles = StyleSheet.create({
   },
 });
 
-type OwnProps = {
-  handleImagePress: (movement: string) => void,
-  src: ImageResource,
-  message: Message,
-};
-
-type ReduxProps = {
+type Props = {
   auth: Auth,
   actions: Actions,
-};
-
-type ActionSheetProps = {
+  src: ImageResource,
+  message: Message,
+  handleImagePress: (movement: string) => void,
   showActionSheetWithOptions: (Object, (number) => void) => void,
 };
 
-type Props = OwnProps & ReduxProps & ActionSheetProps;
+type State = {
+  movement: string,
+};
 
-class LightboxContainer extends PureComponent {
+class LightboxContainer extends PureComponent<Props, State> {
   props: Props;
+  state: State;
 
   state = {
     movement: 'out',

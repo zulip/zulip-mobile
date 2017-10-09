@@ -14,12 +14,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ReactionList extends PureComponent {
-  props: {
-    messageId: number,
-    reactions: Reaction[],
-    ownEmail: string,
-  };
+type Props = {
+  messageId: number,
+  reactions: Reaction[],
+  ownEmail: string,
+};
+
+export default class ReactionList extends PureComponent<Props> {
+  props: Props;
 
   render() {
     const { messageId, reactions, ownEmail } = this.props;

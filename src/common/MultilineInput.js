@@ -5,16 +5,18 @@ import { TextInput } from 'react-native';
 import type { LocalizableText, StyleObj } from '../types';
 import { Input } from '../common';
 
-export default class MultilineInput extends PureComponent {
-  props: {
-    style?: StyleObj,
-    placeholder?: LocalizableText,
-    value: string,
-    onChange?: (text: string) => void,
-    onHeightChange?: (height: number) => void,
-    onSelectionChange?: (event: Object) => void,
-    textInputRef?: (component: TextInput) => void,
-  };
+type Props = {
+  style?: StyleObj,
+  placeholder?: LocalizableText,
+  value: string,
+  onChange?: (text: string) => void,
+  onHeightChange?: (height: number) => void,
+  onSelectionChange?: (event: Object) => void,
+  textInputRef?: (component: TextInput) => void,
+};
+
+export default class MultilineInput extends PureComponent<Props> {
+  props: Props;
 
   static defaultProps = {
     placeholder: {},
