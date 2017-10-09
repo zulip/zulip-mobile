@@ -77,7 +77,7 @@ type Props = {
   voteCount: number,
   messageId: number,
   auth: Auth,
-  realmEmoji: {},
+  realmEmoji: Object,
 };
 
 class Reaction extends PureComponent<Props> {

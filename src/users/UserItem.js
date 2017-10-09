@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  email?: string,
+  email: string,
   fullName: string,
   avatarUrl: string,
   presence?: Presence,

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 type Props = {
   style?: StyleObj,
   children: React.ChildrenArray<any>,
-  padding?: boolean,
+  padding: boolean,
 };
 
 export default class Centerer extends PureComponent<Props> {

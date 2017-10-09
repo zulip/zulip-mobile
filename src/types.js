@@ -266,7 +266,7 @@ export type Actions = {
     useFirstUnread: boolean,
   ) => Action,
   fetchMessagesAtFirstUnread: (narrow: Narrow) => Action,
-  markMessagesRead: (messageIds: number[]) => Actions,
+  markMessagesRead: (messageIds: number[]) => Action,
   fetchOlder: () => Action,
   fetchNewer: () => Action,
 };

@@ -1,8 +1,14 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { Animated } from 'react-native';
+import type { AnimatedValue } from 'react-native';
 
-type Props = {};
+type Props = {
+  from: number,
+  to: number,
+  duration: number,
+  easing: (value: number) => number,
+};
 
 type State = {
   animationIndex: AnimatedValue,

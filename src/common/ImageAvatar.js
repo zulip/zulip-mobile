@@ -10,7 +10,7 @@ type Props = {
   size: number,
   shape: string,
   children: React.ChildrenArray<any>,
-  onPress?: () => void,
+  onPress: () => void,
 };
 
 export default class ImageAvatar extends PureComponent<Props> {

@@ -8,11 +8,11 @@ import CameraPhotoList from './CameraPhotoList';
 type AssetType = 'Photos' | 'Videos' | 'All';
 
 type Props = {
-  batchSize?: number,
+  assetType: AssetType,
+  batchSize: number,
   // renderImage: () => {},
-  imagesPerRow?: number,
-  assetType?: AssetType,
   groupTypes?: string,
+  imagesPerRow: number,
 };
 
 type State = {
@@ -27,10 +27,10 @@ export default class CameraRollView extends Component<Props, State> {
   props: Props;
 
   static defaultProps = {
-    groupTypes: 'SavedPhotos',
-    batchSize: 5,
-    imagesPerRow: 1,
     assetType: 'Photos',
+    batchSize: 5,
+    groupTypes: 'SavedPhotos',
+    imagesPerRow: 1,
   };
 
   state: State;

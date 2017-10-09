@@ -16,7 +16,7 @@ const themeNameToObject = {
 const Dummy = props => props.children;
 
 type Props = {
-  theme?: string,
+  theme: string,
   children?: any,
 };
 

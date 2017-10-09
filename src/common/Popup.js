@@ -16,7 +16,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Popup extends PureComponent<void> {
+type Props = {
+  children: React.ChildrenArray<any>,
+};
+
+export default class Popup extends PureComponent<Props> {
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };

@@ -1,7 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+
 import { ZulipButton, Label } from './';
+import { nullFunction } from '../nullObjects';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,9 +21,9 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  text?: string,
-  buttonText?: string,
-  buttonAction?: () => void,
+  text: string,
+  buttonText: string,
+  buttonAction: () => void,
 };
 
 export default class SearchEmptyState extends PureComponent<Props> {
@@ -30,6 +32,7 @@ export default class SearchEmptyState extends PureComponent<Props> {
   static defaultProps = {
     text: 'No Results',
     buttonText: 'Show All',
+    buttonAction: nullFunction,
   };
 
   render() {

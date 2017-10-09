@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  active?: boolean,
-  caughtUp?: boolean,
-  size?: number,
+  active: boolean,
+  caughtUp: boolean,
+  size: number,
   backgroundColor: StyleObj,
 };
 

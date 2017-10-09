@@ -22,7 +22,7 @@ type Props = {
   style?: StyleObj,
   filter: string,
   users: User[],
-  selected?: User[],
+  selected: User[],
   presences: Object,
   onPress: (email: string) => void,
 };
