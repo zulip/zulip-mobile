@@ -4927,9 +4927,9 @@ react-native-safari-view@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-native-safari-view/-/react-native-safari-view-2.0.0.tgz#3aeb40693b0765df16b9beaf8654b60c7ff1d7ed"
 
-react-native-safe-area@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-safe-area/-/react-native-safe-area-0.2.0.tgz#cc1af68ae144b2709163e1b8ac94cf23090f50f8"
+react-native-safe-area@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area/-/react-native-safe-area-0.2.1.tgz#9bf8eb8dd052b76fc4e830addcd63235dd29cf3c"
 
 react-native-sentry@^0.26.0:
   version "0.26.0"
