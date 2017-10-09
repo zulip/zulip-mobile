@@ -149,6 +149,11 @@ public class AnchorScrollViewManager
     }
 
     @Override
+    public void flashScrollIndicators(AnchorScrollView scrollView) {
+        scrollView.flashScrollIndicators();
+    }
+
+    @Override
     public @Nullable Map getExportedCustomDirectEventTypeConstants() {
         return createExportedCustomDirectEventTypeConstants();
     }
