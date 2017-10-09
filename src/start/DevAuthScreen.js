@@ -11,13 +11,6 @@ import { ErrorMsg, Screen, ZulipButton } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
 import { getAuth } from '../selectors';
 
-type State = {
-  progress: boolean,
-  directAdmins: string[],
-  directUsers: string[],
-  error: string,
-};
-
 const inlineStyles = StyleSheet.create({
   accountItem: { height: 10 },
   heading: { flex: 0 },
@@ -28,7 +21,14 @@ type Props = {
   auth: Auth,
 };
 
-class DevAuthScreen extends PureComponent<Props> {
+type State = {
+  progress: boolean,
+  directAdmins: string[],
+  directUsers: string[],
+  error: string,
+};
+
+class DevAuthScreen extends PureComponent<Props, State> {
   static contextTypes = {
     styles: () => null,
   };

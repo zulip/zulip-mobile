@@ -36,7 +36,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageTags extends PureComponent {
+type Props = {
+  timestamp: number,
+  starred: boolean,
+  isOutbox: boolean,
+};
+
+export default class MessageTags extends PureComponent<Props> {
+  props: Props;
+
   render() {
     const { timestamp, starred, isOutbox } = this.props;
 

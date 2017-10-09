@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
+import type { GlobalState } from '../types';
 import { Screen } from '../common';
 import SizeItem from './SizeItem';
 
@@ -14,7 +15,13 @@ const calculateKeyStorageSizes = obj =>
     }))
     .sort((a, b) => b.size - a.size);
 
-class StorageScreen extends PureComponent {
+type Props = {
+  state: GlobalState,
+};
+
+class StorageScreen extends PureComponent<Props> {
+  props: Props;
+
   render() {
     const { state } = this.props;
     const storageSizes = calculateKeyStorageSizes(state);

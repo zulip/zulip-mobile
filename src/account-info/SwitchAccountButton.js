@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
+import type { Auth, Actions } from '../types';
 import boundActions from '../boundActions';
 import { ZulipButton } from '../common';
 import { getAuth } from '../selectors';
@@ -16,7 +17,15 @@ const styles = StyleSheet.create({
   },
 });
 
-class SwitchAccountButton extends PureComponent {
+type Props = {
+  auth: Auth,
+  actions: Actions,
+  pushToken: string,
+};
+
+class SwitchAccountButton extends PureComponent<Props> {
+  props: Props;
+
   shutdownPUSH = async () => {
     const { auth, actions, pushToken } = this.props;
     if (pushToken !== '') {

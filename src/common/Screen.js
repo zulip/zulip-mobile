@@ -28,7 +28,7 @@ type Props = {
   search?: boolean,
   safeAreaInsets: Dimensions,
   title?: LocalizableText,
-  children: [],
+  children: React.ChildrenArray<any>,
   searchBarOnChange?: (text: string) => void,
 };
 

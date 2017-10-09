@@ -5,7 +5,7 @@ import { Animated, Easing } from 'react-native';
 import type { StyleObj } from '../types';
 
 type Props = {
-  children: [],
+  children: React.ChildrenArray<any>,
   visible: boolean,
   style?: StyleObj,
 };

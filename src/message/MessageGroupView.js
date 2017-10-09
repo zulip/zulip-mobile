@@ -23,7 +23,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageGroupView extends PureComponent {
+type Props = {
+  stream: Stream,
+  thread: string,
+  children: React.ChildrenArray<any>,
+};
+
+export default class MessageGroupView extends PureComponent<Props> {
+  props: Props;
+
   render() {
     const { stream, thread, children } = this.props;
 

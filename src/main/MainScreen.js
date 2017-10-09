@@ -6,7 +6,13 @@ import { ZulipStatusBar } from '../common';
 import ChatContainer from '../chat/ChatContainer';
 import MainNavBar from '../nav/MainNavBar';
 
-export default class MainScreen extends PureComponent {
+type Props = {
+  navigation: any,
+};
+
+export default class MainScreen extends PureComponent<Props> {
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };

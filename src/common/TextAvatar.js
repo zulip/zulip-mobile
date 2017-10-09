@@ -29,7 +29,7 @@ type Props = {
   name: string,
   size: number,
   shape?: string,
-  children?: any[],
+  children?: React.ChildrenArray<any>,
   onPress?: () => void,
 };
 

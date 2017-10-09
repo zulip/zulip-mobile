@@ -14,7 +14,13 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class ComposeMenu extends Component {
+type Props = {
+  showActionSheetWithOptions: any,
+};
+
+export default class ComposeMenu extends Component<Props> {
+  props: Props;
+
   handlePress = () => {
     const { narrow } = this.props;
     const options = constructActionButtons({

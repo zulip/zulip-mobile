@@ -56,5 +56,8 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
 unsafe.enable_getters_and_setters=true
 
+module.file_ext=.ios.js
+module.file_ext=.js
+
 [version]
 ^0.53.0

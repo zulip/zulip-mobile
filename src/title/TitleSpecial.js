@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import type { Narrow } from '../types';
 import { Label } from '../common';
 import Icon from '../common/Icons';
 
@@ -23,7 +24,14 @@ const specials = {
   mentioned: { name: 'Mentions', icon: 'md-at' },
 };
 
-export default class TitleSpecial extends PureComponent {
+type Props = {
+  narrow: Narrow,
+  color: string,
+};
+
+export default class TitleSpecial extends PureComponent<Props> {
+  props: Props;
+
   render() {
     const { narrow, color } = this.props;
     const { name, icon } = specials[narrow[0].operand];

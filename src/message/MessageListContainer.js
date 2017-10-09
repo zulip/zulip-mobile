@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
+import type { Actions, Fetching, Narrow } from '../types';
 import boundActions from '../boundActions';
 import MessageList from './MessageList';
 // import MessageList from './MessageListFlatList';
@@ -19,7 +20,21 @@ import { filterUnreadMessageIds } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
 import { queueMarkAsRead } from '../api';
 
-class MessageListContainer extends PureComponent {
+type Props = {
+  actions: Actions,
+  caughtUp: boolean,
+  fetching: Fetching,
+  typingUsers: any,
+  renderedMessages: any,
+  narrow: Narrow,
+  listRef: () => void,
+  onReplySelect: () => void,
+  onSend: () => void,
+};
+
+class MessageListContainer extends PureComponent<Props> {
+  props: Props;
+
   handleMessageListScroll = (e: Object) => {
     const { auth, flags } = this.props;
     const visibleMessageIds = e.visibleIds.map(x => +x);

@@ -6,7 +6,7 @@ import type { StyleObj } from '../types';
 
 type Props = {
   style?: StyleObj,
-  children?: [],
+  children?: React.ChildrenArray<any>,
 };
 
 export default class AnimatedRotateComponent extends PureComponent<Props> {

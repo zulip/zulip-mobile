@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Popup extends PureComponent {
+export default class Popup extends PureComponent<void> {
   static contextTypes = {
     styles: () => null,
   };

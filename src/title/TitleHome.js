@@ -2,7 +2,13 @@
 import React, { PureComponent } from 'react';
 import TitleSpecial from './TitleSpecial';
 
-export default class TitleHome extends PureComponent {
+type Props = {
+  color: string,
+};
+
+export default class TitleHome extends PureComponent<Props> {
+  props: Props;
+
   render() {
     const { color } = this.props;
 

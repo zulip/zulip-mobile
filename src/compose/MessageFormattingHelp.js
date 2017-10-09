@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MessageFormattingHelp extends PureComponent {
+export default class MessageFormattingHelp extends PureComponent<void> {
   render() {
     return (
       <View style={styles.table}>

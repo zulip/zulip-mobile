@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { Animated, Easing } from 'react-native';
 
 type Props = {
-  children: [],
+  children: React.ChildrenArray<any>,
   visible: boolean,
   height: number,
 };

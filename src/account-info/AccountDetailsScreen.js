@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import type { Auth, Actions, UserType } from '../types';
+import type { Auth, Actions, Orientation, UserType } from '../types';
 import boundActions from '../boundActions';
 import { getAuth, getAccountDetailsUser } from '../selectors';
 import { Screen } from '../common';
@@ -11,7 +11,7 @@ import AccountDetails from './AccountDetails';
 type Props = {
   auth: Auth,
   user: UserType,
-  orientation: string,
+  orientation: Orientation,
   actions: Actions,
 };
 

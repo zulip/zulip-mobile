@@ -6,7 +6,7 @@ import config from '../config';
 import { Screen } from '../common';
 import InfoItem from './InfoItem';
 
-export default class VariablesScreen extends PureComponent {
+export default class VariablesScreen extends PureComponent<void> {
   render() {
     const variables = {
       enableReduxLogging: config.enableReduxLogging,

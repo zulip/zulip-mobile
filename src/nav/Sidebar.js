@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { Narrow } from '../types';
+import type { Dimensions, Narrow } from '../types';
 import boundActions from '../boundActions';
 import MainTabs from '../main/MainTabs';
 
@@ -14,7 +14,11 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-class Sidebar extends PureComponent {
+type Props = {
+  safeAreaInsets: Dimensions,
+};
+
+class Sidebar extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
