@@ -120,7 +120,6 @@ RCTLogFunction CrashlyticsReactLogFunction = ^(
 // Required for the notification event.
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification {
   [RNNotifications didReceiveRemoteNotification:notification];
-  NSLog( @"Recieved zulip push Notification %@", notification );
 }
 
 // Required for the localNotification event.

@@ -86,13 +86,6 @@ export default (state: ChatState = initialState, action: Action) => {
       }));
 
     case EVENT_NEW_MESSAGE: {
-      // const narrow = getNarrowFromMessage(action.message);
-      // const caughtUp = action.caughtUp[JSON.stringify(narrow)];
-      // console.log('YOLO', narrow, caughtUp);
-      // if (!caughtUp || !caughtUp.newer) {
-      //   return state;
-      // }
-
       let stateChange = false;
       const newState = {
         ...state,

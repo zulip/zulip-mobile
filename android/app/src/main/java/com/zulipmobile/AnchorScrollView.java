@@ -222,7 +222,6 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
     protected void findAnchorView() {
         if (mContentView == null) {
             //mContentView can be null as we are setting it to null onChildViewRemoved
-            Log.e(TAG, "mContentView is null");
             return;
         }
         // Set up anchor view
