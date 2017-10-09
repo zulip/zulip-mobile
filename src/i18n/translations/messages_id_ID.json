@@ -88,5 +88,8 @@
   "Unstar message": "Tidak bintangi pesan",
   "Cancel": "Batal",
   "Message copied": "Pesan disalin",
-  "Edit message": "Edit pesan"
+  "Edit message": "Edit pesan",
+  "Network request failed": "Network request failed",
+  "show": "show",
+  "hide": "hide"
 }

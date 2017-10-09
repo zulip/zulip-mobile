@@ -88,5 +88,8 @@
   "Unstar message": "Unstar message",
   "Cancel": "Отмена",
   "Message copied": "Message copied",
-  "Edit message": "Править сообщение"
+  "Edit message": "Править сообщение",
+  "Network request failed": "Network request failed",
+  "show": "show",
+  "hide": "hide"
 }

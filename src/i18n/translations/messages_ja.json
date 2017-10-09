@@ -88,5 +88,8 @@
   "Unstar message": "メッセージからスター外し",
   "Cancel": "キャンセル",
   "Message copied": "メッセージをコピーしました",
-  "Edit message": "メッセージを編集"
+  "Edit message": "メッセージを編集",
+  "Network request failed": "Network request failed",
+  "show": "show",
+  "hide": "hide"
 }

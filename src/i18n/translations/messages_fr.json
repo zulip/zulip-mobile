@@ -88,5 +88,8 @@
   "Unstar message": "Retirer le message des favoris",
   "Cancel": "Annuler",
   "Message copied": "Message copié",
-  "Edit message": "Editer ce message"
+  "Edit message": "Editer ce message",
+  "Network request failed": "Network request failed",
+  "show": "show",
+  "hide": "hide"
 }

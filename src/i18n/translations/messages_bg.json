@@ -88,5 +88,8 @@
   "Unstar message": "Премахни съобщение от любими",
   "Cancel": "Откажи",
   "Message copied": "Съобщение копирано",
-  "Edit message": "Редактирай съобщение"
+  "Edit message": "Редактирай съобщение",
+  "Network request failed": "Връзката се провали",
+  "show": "покажи",
+  "hide": "скрий"
 }

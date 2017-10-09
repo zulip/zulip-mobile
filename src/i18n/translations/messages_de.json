@@ -88,5 +88,8 @@
   "Unstar message": "Markierung entfernen",
   "Cancel": "Abbrechen",
   "Message copied": "Nachricht kopiert",
-  "Edit message": "Nachricht bearbeiten"
+  "Edit message": "Nachricht bearbeiten",
+  "Network request failed": "Network request failed",
+  "show": "show",
+  "hide": "hide"
 }

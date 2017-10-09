@@ -88,5 +88,8 @@
   "Unstar message": "Odebrat zprávě hvězdičku",
   "Cancel": "Zrušit",
   "Message copied": "Zpráva zkopírována",
-  "Edit message": "Upravit zprávu"
+  "Edit message": "Upravit zprávu",
+  "Network request failed": "Network request failed",
+  "show": "show",
+  "hide": "hide"
 }
