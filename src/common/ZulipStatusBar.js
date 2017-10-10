@@ -1,10 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
-import { connect } from 'react-redux';
 import Color from 'color';
 
 import type { Dimensions, StatusBarStyle } from '../types';
+import connectWithActions from '../connectWithActions';
 import { getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 import getStatusBarStyle from '../utils/getStatusBarStyle';
 import getStatusBarColor from '../utils/getStatusBarColor';
@@ -50,7 +50,7 @@ class ZulipStatusBar extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connectWithActions((state, props) => ({
   safeAreaInsets: state.app.safeAreaInsets,
   theme: state.settings.theme,
   backgroundColor: !props.backgroundColor ? getTitleBackgroundColor(state) : props.backgroundColor,

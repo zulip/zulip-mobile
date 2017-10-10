@@ -1,9 +1,8 @@
 /* @flow */
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import type { Auth, Actions, Orientation, UserType } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { getAuth, getAccountDetailsUser } from '../selectors';
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
@@ -47,11 +46,8 @@ class AccountDetailsScreen extends Component<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    auth: getAuth(state),
-    user: getAccountDetailsUser(state),
-    orientation: state.app.orientation,
-  }),
-  boundActions,
-)(AccountDetailsScreen);
+export default connectWithActions(state => ({
+  auth: getAuth(state),
+  user: getAccountDetailsUser(state),
+  orientation: state.app.orientation,
+}))(AccountDetailsScreen);

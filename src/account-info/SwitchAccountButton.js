@@ -1,10 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Auth, Actions } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { ZulipButton } from '../common';
 import { getAuth } from '../selectors';
 import unregisterPush from '../api/unregisterPush';
@@ -50,11 +49,8 @@ class SwitchAccountButton extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    auth: getAuth(state),
-    accounts: state.accounts,
-    pushToken: state.realm.pushToken,
-  }),
-  boundActions,
-)(SwitchAccountButton);
+export default connectWithActions(state => ({
+  auth: getAuth(state),
+  accounts: state.accounts,
+  pushToken: state.realm.pushToken,
+}))(SwitchAccountButton);

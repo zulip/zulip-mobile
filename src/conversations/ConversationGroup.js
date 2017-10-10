@@ -1,9 +1,8 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
 
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { NULL_USER } from '../nullObjects';
 import type { User, Narrow } from '../types';
 import { normalizeRecipients } from '../utils/message';
@@ -73,10 +72,7 @@ class ConversationGroup extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    narrow: state.chat.narrow,
-    users: state.users,
-  }),
-  boundActions,
-)(ConversationGroup);
+export default connectWithActions(state => ({
+  narrow: state.chat.narrow,
+  users: state.users,
+}))(ConversationGroup);

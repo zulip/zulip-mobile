@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
-
-import { connect } from 'react-redux';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type { Actions, Fetching, Narrow } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import MessageList from './MessageList';
 // import MessageList from './MessageListFlatList';
 import {
@@ -82,15 +80,12 @@ class MessageListContainer extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    caughtUp: getCaughtUpForActiveNarrow(state),
-    fetching: getFetchingForActiveNarrow(state),
-    typingUsers: getCurrentTypingUsers(state),
-    renderedMessages: getRenderedMessages(state),
-    narrow: getActiveNarrow(state),
-    auth: getAuth(state),
-    flags: getFlags(state),
-  }),
-  boundActions,
-)(connectActionSheet(MessageListContainer));
+export default connectWithActions(state => ({
+  caughtUp: getCaughtUpForActiveNarrow(state),
+  fetching: getFetchingForActiveNarrow(state),
+  typingUsers: getCurrentTypingUsers(state),
+  renderedMessages: getRenderedMessages(state),
+  narrow: getActiveNarrow(state),
+  auth: getAuth(state),
+  flags: getFlags(state),
+}))(connectActionSheet(MessageListContainer));

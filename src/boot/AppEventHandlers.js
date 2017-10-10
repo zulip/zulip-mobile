@@ -1,11 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { AppState, BackHandler, NetInfo, View, Platform } from 'react-native';
-import { connect } from 'react-redux';
 import SafeArea from 'react-native-safe-area';
 
 import { Auth, Actions } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { getAuth, getNavigationIndex } from '../selectors';
 import { registerAppActivity } from '../utils/activity';
 import { handlePendingNotifications } from '../utils/notifications';
@@ -93,11 +92,8 @@ class AppEventHandlers extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    auth: getAuth(state),
-    needsInitialFetch: state.app.needsInitialFetch,
-    navIndex: getNavigationIndex(state),
-  }),
-  boundActions,
-)(AppEventHandlers);
+export default connectWithActions(state => ({
+  auth: getAuth(state),
+  needsInitialFetch: state.app.needsInitialFetch,
+  navIndex: getNavigationIndex(state),
+}))(AppEventHandlers);

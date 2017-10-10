@@ -1,9 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { User, GlobalState } from '../types';
+import connectWithActions from '../connectWithActions';
 import {
   getOwnEmail,
   sortAlphabetically,
@@ -51,7 +51,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connectWithActions((state: GlobalState) => ({
   ownEmail: getOwnEmail(state),
   users: sortAlphabetically(getAllActiveUsers(state)),
 }))(PeopleAutocomplete);

@@ -1,8 +1,8 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
 
+import connectWithActions from '../connectWithActions';
 import themeCreator from '../styles/theme';
 import themeDark from '../styles/themeDark';
 import themeLight from '../styles/themeLight';
@@ -45,6 +45,6 @@ class StyleProvider extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connectWithActions(state => ({
   theme: state.settings.theme,
 }))(StyleProvider);

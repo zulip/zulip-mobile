@@ -1,9 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { GlobalState, SubscriptionsState } from '../types';
+import connectWithActions from '../connectWithActions';
 import { Popup } from '../common';
 import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
 import StreamItem from '../streams/StreamItem';
@@ -48,6 +48,6 @@ class StreamAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connectWithActions((state: GlobalState) => ({
   subscriptions: getSubscribedStreams(state),
 }))(StreamAutocomplete);

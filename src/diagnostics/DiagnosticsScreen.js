@@ -1,10 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Actions } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { Screen } from '../common';
 import OptionButton from '../settings/OptionButton';
 
@@ -36,4 +35,4 @@ class DiagnosticsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(null, boundActions)(DiagnosticsScreen);
+export default connectWithActions(null)(DiagnosticsScreen);

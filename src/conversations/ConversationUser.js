@@ -1,8 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import type { Narrow, User } from '../types';
 import { getAllActiveUsers } from '../selectors';
 import UserItem from '../users/UserItem';
@@ -43,10 +42,7 @@ class ConversationUser extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    narrow: state.chat.narrow,
-    users: getAllActiveUsers(state),
-  }),
-  boundActions,
-)(ConversationUser);
+export default connectWithActions(state => ({
+  narrow: state.chat.narrow,
+  users: getAllActiveUsers(state),
+}))(ConversationUser);

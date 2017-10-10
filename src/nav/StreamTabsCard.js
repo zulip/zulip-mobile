@@ -1,9 +1,8 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
 
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import type { Actions, Narrow } from '../types';
 import { homeNarrow, specialNarrow, allPrivateNarrow } from '../utils/narrow';
 import NavButton from './NavButton';
@@ -45,4 +44,4 @@ class StreamTabsCard extends PureComponent<Props> {
   }
 }
 
-export default connect(null, boundActions)(StreamTabsCard);
+export default connectWithActions(null)(StreamTabsCard);

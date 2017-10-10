@@ -1,15 +1,14 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, Dimensions, Easing } from 'react-native';
-import { connect } from 'react-redux';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Actions, Auth, Message, ImageResource, Connector } from '../types';
+import type { Actions, Auth, Message, ImageResource } from '../types';
+import connectWithActions from '../connectWithActions';
 import { getAuth } from '../selectors';
 import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
-import boundActions from '../boundActions';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
 import { NAVBAR_HEIGHT, LIGHTBOX_FOOTER_OFFSET, LIGHTBOX_OVERLAY_COLOR } from '../styles';
 
@@ -145,11 +144,10 @@ class LightboxContainer extends PureComponent<Props, State> {
   }
 }
 
-const connector: Connector<OwnProps, $Diff<Props, ActionSheetProps>> = connect(
-  state => ({
-    auth: getAuth(state),
-  }),
-  boundActions,
+export default connectActionSheet(
+  connectWithActions(state =>
+    ({
+      auth: getAuth(state),
+    }(LightboxContainer)),
+  ),
 );
-
-export default connectActionSheet(connector(LightboxContainer));

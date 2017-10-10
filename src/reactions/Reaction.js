@@ -1,9 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, Animated, Easing } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Auth, GlobalState } from '../types';
+import connectWithActions from '../connectWithActions';
 import { BRAND_COLOR, HALF_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from '../styles';
 import { Touchable } from '../common';
 import Emoji from '../emoji/Emoji';
@@ -162,7 +162,7 @@ class Reaction extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connectWithActions((state: GlobalState) => ({
   auth: getAuth(state),
   realmEmoji: state.realm.emoji,
 }))(Reaction);

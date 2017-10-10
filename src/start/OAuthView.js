@@ -1,11 +1,10 @@
 /* @flow */
 import React, { Component } from 'react';
 import { Linking } from 'react-native';
-import { connect } from 'react-redux';
 import parseURL from 'url-parse';
 
 import type { Actions } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
 import { extractApiKey } from '../utils/encoding';
@@ -105,9 +104,6 @@ class OAuthView extends Component<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    realm: getCurrentRealm(state),
-  }),
-  boundActions,
-)(OAuthView);
+export default connectWithActions(state => ({
+  realm: getCurrentRealm(state),
+}))(OAuthView);

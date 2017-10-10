@@ -1,10 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Actions, Auth } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { fetchApiKey } from '../api';
 import { ErrorMsg, ZulipButton, Input, PasswordInput, WebLink } from '../common';
 import { getAuth, getOwnEmail } from '../selectors';
@@ -120,10 +119,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
   }
 }
 
-export default connect(
-  state => ({
-    auth: getAuth(state),
-    email: getOwnEmail(state),
-  }),
-  boundActions,
-)(PasswordAuthView);
+export default connectWithActions(state => ({
+  auth: getAuth(state),
+  email: getOwnEmail(state),
+}))(PasswordAuthView);

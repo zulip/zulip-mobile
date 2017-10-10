@@ -1,9 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
-import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 
+import connectWithActions from '../connectWithActions';
 import '../../vendor/intl/intl';
 import messages from '../i18n/messages';
 
@@ -26,6 +26,6 @@ class TranslationProvider extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connectWithActions(state => ({
   locale: state.settings.locale,
 }))(TranslationProvider);
