@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-import type { Dimensions, LocalizableText } from '../types';
+import type { ChildrenArray, Dimensions, LocalizableText } from '../types';
 import connectWithActions from '../connectWithActions';
 import { KeyboardAvoider, ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
@@ -28,7 +28,7 @@ type Props = {
   search?: boolean,
   safeAreaInsets: Dimensions,
   title?: LocalizableText,
-  children: React.ChildrenArray<any>,
+  children: ChildrenArray<*>,
   searchBarOnChange?: (text: string) => void,
 };
 

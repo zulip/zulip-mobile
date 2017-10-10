@@ -1,13 +1,13 @@
 /* @flow */
 import { PureComponent } from 'react';
 
-import { Actions } from '../types';
+import type { Actions, ChildrenArray } from '../types';
 import connectWithActions from '../connectWithActions';
 
 type Props = {
   needsInitialFetch: boolean,
   actions: Actions,
-  children?: any,
+  children?: ChildrenArray<*>,
 };
 
 class AppDataFetcher extends PureComponent<Props> {

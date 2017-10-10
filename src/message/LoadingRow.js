@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TimeRow extends PureComponent<void> {
+export default class TimeRow extends PureComponent<{}> {
   render() {
     return (
       <View style={styles.row}>

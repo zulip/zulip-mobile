@@ -1,5 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import type { ChildrenArray } from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  children: React.ChildrenArray<any>,
+  children: ChildrenArray<*>,
 };
 
 export default class Popup extends PureComponent<Props> {

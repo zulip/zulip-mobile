@@ -56,7 +56,7 @@ type Props = {
   editMessage: EditMessage,
   safeAreaInsets: Dimensions,
   actions: Actions,
-  messageInputRef: (component: Object) => void,
+  messageInputRef: (component: any) => void,
   onSend: () => void,
 };
 

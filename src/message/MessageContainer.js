@@ -24,7 +24,7 @@ type Props = {
   subscriptions: SubscriptionsState,
   auth: Auth,
   flags: Object,
-  twentyFourHourTime?: boolean,
+  twentyFourHourTime: boolean,
   isBrief: boolean,
   onReplySelect?: () => void,
   showActionSheetWithOptions: (Object, (number) => void) => void,
@@ -106,7 +106,7 @@ class MessageContainer extends PureComponent<Props> {
         realm={auth.realm}
         auth={auth}
         actions={actions}
-        handleLinkPress={actions.messageLinkPress}
+        onLinkPress={actions.messageLinkPress}
       />
     );
   }

@@ -1,6 +1,7 @@
 /* @flow */
-import React, { PureComponent, Children } from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
+import type { ChildrenArray } from 'react';
 
 import type { Actions, LocalizableText, StyleObj } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -21,11 +22,11 @@ type Props = {
   actions: Actions,
   nav: any,
   title?: LocalizableText,
-  titleColor?: ?string,
-  itemsColor?: ?string,
+  titleColor?: string,
+  itemsColor: string,
   rightItem?: Object,
   style: StyleObj,
-  children?: Children,
+  children?: ChildrenArray<*>,
   isRightItemNav?: boolean,
   childrenStyle?: StyleObj,
 };

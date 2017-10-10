@@ -12,6 +12,7 @@ import {
 } from '../utils/narrow';
 import { getCurrentRealm } from '../selectors';
 
+import type { Message, Narrow } from '../types';
 import TitleHome from './TitleHome';
 import TitlePrivate from './TitlePrivateContainer';
 import TitleGroup from './TitleGroupContainer';

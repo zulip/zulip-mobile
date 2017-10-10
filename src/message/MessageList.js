@@ -14,10 +14,10 @@ type Props = {
   fetchingNewer: boolean,
   singleFetchProgress: boolean,
   typingUsers?: TypingState,
-  listRef?: Object,
+  listRef?: (component: any) => void,
   renderedMessages: Object[],
-  onReplySelect?: () => void,
-  onScroll?: () => void,
+  onReplySelect: () => void,
+  onScroll: (e: Event) => void,
 };
 
 export default class MessageList extends PureComponent<Props> {
@@ -28,6 +28,7 @@ export default class MessageList extends PureComponent<Props> {
   };
 
   static defaultProps = {
+    onReplySelect: nullFunction,
     onScroll: nullFunction,
   };
 
@@ -59,7 +60,6 @@ export default class MessageList extends PureComponent<Props> {
         onEndReached={actions.fetchNewer}
         listRef={listRef}
         onScroll={onScroll}
-        onReplySelect={onReplySelect}
       >
         <LoadingIndicator active={fetchingOlder} backgroundColor={styles.backgroundColor} />
         {messageList}

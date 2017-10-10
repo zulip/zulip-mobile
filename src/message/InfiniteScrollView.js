@@ -1,7 +1,7 @@
 /* @flow */
 /* eslint-disable */
 import React, { PureComponent } from 'react';
-import type { Children } from 'react';
+import type { ChildrenArray } from 'react';
 import { Platform } from 'react-native';
 
 import type { StyleObj } from '../types';
@@ -16,11 +16,10 @@ type Props = {
   style: StyleObj,
   stickyHeaderIndices: [],
   autoScrollToBottom?: boolean,
-  children?: Children,
-  listRef: (component: Object) => void,
+  children?: $ReadOnlyArray<ChildrenArray<*>>,
+  listRef?: (component: any) => void,
   onStartReached?: () => void,
   onEndReached?: () => void,
-  onReplySelect: () => void,
   onScroll: (e: Event) => void,
 };
 
@@ -115,7 +114,7 @@ export default class InfiniteScrollView extends PureComponent<Props> {
         // stickyHeaderIndices={Platform.OS === 'ios' ? this.props.stickyHeaderIndices : undefined}
         autoScrollToBottom={this.props.autoScrollToBottom}
         removeClippedSubviews
-        ref={component => {
+        ref={(component: any) => {
           const { listRef } = this.props;
           if (listRef) listRef(component);
         }}

@@ -35,12 +35,16 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  auth: Auth,
+  actions: Actions,
   email: string,
   status: UserStatus,
   avatarUrl: string,
   fullName: string,
-  auth: Auth,
-  actions: Actions,
+  orientation: Orientation,
+};
+
+type State = {
   orientation: Orientation,
 };
 
@@ -93,29 +97,26 @@ export default class AccountDetails extends PureComponent<Props, State> {
     </View>
   );
 
-  renderContent = (orientation: string, landscapeContent, portraitContent) =>
-    orientation === 'LANDSCAPE' ? landscapeContent : portraitContent;
-
   render() {
     const { orientation } = this.state;
     const screenWidth = Dimensions.get('window').width;
 
-    return this.renderContent(
-      orientation,
+    return orientation === 'LANDSCAPE' ? (
       <LandscapeContent
         screenWidth={screenWidth}
         handleOrientationChange={this.handleOrientationChange}
         avatar={this.renderAvatar}
         userDetails={this.renderUserDetails}
         sendButton={this.renderSendPMButton}
-      />,
+      />
+    ) : (
       <PortraitContent
         screenWidth={screenWidth}
         handleOrientationChange={this.handleOrientationChange}
         avatar={this.renderAvatar}
         userDetails={this.renderUserDetails}
         sendButton={this.renderSendPMButton}
-      />,
+      />
     );
   }
 }

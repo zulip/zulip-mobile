@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import type { GlobalState } from '../types';
 
 export const getNavigationRoutes = (state: GlobalState): Object[] => state.nav.routes;
-export const getNavigationIndex = (state: GlobalState): Object[] => state.nav.index;
+export const getNavigationIndex = (state: GlobalState): number => state.nav.index;
 
 export const getCurrentRouteParams = createSelector(
   getNavigationRoutes,

@@ -37,7 +37,7 @@ type Props = {
   color: string,
   count: number,
   isMuted: boolean,
-  inverse?: boolean,
+  inverse: boolean,
 };
 
 export default class UnreadCount extends PureComponent<Props> {
@@ -46,7 +46,7 @@ export default class UnreadCount extends PureComponent<Props> {
   static defaultProps = {
     borderRadius: 2,
     color: BRAND_COLOR,
-    count: false,
+    count: 0,
     isMuted: false,
     inverse: false,
   };

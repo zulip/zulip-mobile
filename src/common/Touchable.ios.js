@@ -2,14 +2,14 @@
 import React from 'react';
 import { TouchableHighlight, View } from 'react-native';
 
-import type { StyleObj } from '../types';
+import type { ChildrenArray, StyleObj } from '../types';
 import { HIGHLIGHT_COLOR } from '../styles';
 
 type Props = {
   onPress?: () => void | Promise<any>,
   onLongPress?: () => void,
   style?: StyleObj,
-  children?: React.ChildrenArray<any>,
+  children?: ChildrenArray<*>,
 };
 
 export default ({ onPress, style, children, onLongPress }: Props) => {

@@ -15,7 +15,7 @@ type Props = {
   fetchingNewer: boolean,
   singleFetchProgress: boolean,
   renderedMessages: Object[],
-  listRef: (component: Object) => void,
+  listRef: (component: any) => void,
   onScroll?: () => void,
 };
 

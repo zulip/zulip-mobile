@@ -4,8 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import type { Action, StyleObj } from '../types';
 import ModalNavBar from '../nav/ModalNavBar';
-import { SlideAnimationView, Avatar } from '../common';
-import { shortTime, humanDate } from '../utils/date';
+import { Avatar } from '../common';
 
 const customStyles = StyleSheet.create({
   text: {
@@ -34,17 +33,18 @@ const customStyles = StyleSheet.create({
 });
 
 type Props = {
-  onPressBack: () => Action,
   senderName: string,
+  subheader: string,
   timestamp: number,
   from: number,
   to: number,
   style: StyleObj,
   avatarUrl: string,
   realm: string,
+  onPressBack: () => Action,
 };
 
-export class Header extends PureComponent<Props> {
+export default class LightboxHeader extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
@@ -76,21 +76,3 @@ export class Header extends PureComponent<Props> {
     );
   }
 }
-
-export default ({ onPressBack, senderName, timestamp, ...restProps }: Props) => {
-  const displayDate = humanDate(new Date(timestamp * 1000));
-  const time = shortTime(new Date(timestamp * 1000));
-  const subheader = `${displayDate} at ${time}`;
-
-  return (
-    <SlideAnimationView property="translateY" {...restProps}>
-      <Header
-        onPressBack={onPressBack}
-        senderName={senderName}
-        timestamp={timestamp}
-        subheader={subheader}
-        {...restProps}
-      />
-    </SlideAnimationView>
-  );
-};

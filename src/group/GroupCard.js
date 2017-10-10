@@ -32,8 +32,12 @@ type Props = {
   presences: Object,
 };
 
+type State = {
+  selected: User[],
+};
+
 export default class GroupCard extends PureComponent<Props, State> {
-  listRef: (component: Object) => void;
+  listRef: (component: any) => void;
 
   props: Props;
 

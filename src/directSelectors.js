@@ -1,5 +1,13 @@
 /* @flow */
-import type { GlobalState, Narrow, Message, Subscription, Stream, Outbox } from './types';
+import type {
+  GlobalState,
+  Narrow,
+  MessageState,
+  Subscription,
+  Stream,
+  Outbox,
+  User,
+} from './types';
 
 export const getApp = (state: GlobalState): Object => state.app;
 
@@ -9,7 +17,7 @@ export const getMute = (state: GlobalState): Object => state.mute;
 
 export const getTyping = (state: GlobalState): Object => state.typing;
 
-export const getUsers = (state: GlobalState): any[] => state.users;
+export const getUsers = (state: GlobalState): User[] => state.users;
 
 export const getFetching = (state: GlobalState): Object => state.fetching;
 
@@ -17,7 +25,7 @@ export const getFlags = (state: GlobalState): Object => state.flags;
 
 export const getReadFlags = (state: GlobalState): Object => state.flags.read;
 
-export const getAllMessages = (state: GlobalState): Message[] => state.chat.messages;
+export const getAllMessages = (state: GlobalState): MessageState => state.chat.messages;
 
 export const getActiveNarrow = (state: GlobalState): Narrow => state.chat.narrow;
 

@@ -32,7 +32,7 @@ export const getRecentConversations = createSelector(
         uniqueMap.set(recipient.emails, {
           ids: recipient.ids,
           recipients: recipient.emails,
-          timestamp: Math.max(prev.timestamp || 0, recipient.timestamp || 0),
+          timestamp: Math.max((prev && prev.timestamp) || 0, recipient.timestamp || 0),
         });
       }
       return uniqueMap;

@@ -29,18 +29,18 @@ const styles = StyleSheet.create({
 type Props = {
   message: Object,
   ownEmail: string,
-  starred?: boolean,
+  starred: boolean,
   auth?: Auth,
   actions: Actions,
-  onLongPress?: () => void,
-  handleLinkPress?: string => void,
+  onLinkPress: string => void,
+  onLongPress: () => void,
 };
 
 export default class MessageBrief extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { message, auth, actions, handleLinkPress, ownEmail, onLongPress, starred } = this.props;
+    const { message, auth, actions, onLinkPress, ownEmail, onLongPress, starred } = this.props;
 
     return (
       <View style={styles.message}>
@@ -50,7 +50,7 @@ export default class MessageBrief extends PureComponent<Props> {
               message={message}
               auth={auth}
               actions={actions}
-              handleLinkPress={handleLinkPress}
+              onLinkPress={onLinkPress}
               onLongPress={onLongPress}
             />
           </ScrollView>

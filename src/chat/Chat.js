@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, TextInput } from 'react-native';
+import { View } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Narrow } from '../types';
@@ -23,14 +23,14 @@ type Props = {
 
 export default class Chat extends PureComponent<Props> {
   messageInputRef = null;
-  messageInputRef: TextInput;
+  messageInputRef: any;
 
   static contextTypes = {
     styles: () => null,
   };
 
   scrollOffset: number = 0;
-  listComponent: Object;
+  listComponent: any;
 
   props: Props;
 
@@ -76,7 +76,7 @@ export default class Chat extends PureComponent<Props> {
             <UnreadNoticeContainer />
             {!showMessagePlaceholders && (
               <ComposeBoxContainer
-                messageInputRef={component => {
+                messageInputRef={(component: any) => {
                   this.messageInputRef = component || this.messageInputRef;
                 }}
                 onSend={this.handleSend}

@@ -58,6 +58,7 @@ unsafe.enable_getters_and_setters=true
 
 module.file_ext=.ios.js
 module.file_ext=.js
+module.file_ext=.json
 
 [version]
 ^0.53.0

@@ -11,7 +11,7 @@ type Props = {
   message: Message,
   auth: Auth,
   actions: Actions,
-  handleLinkPress: string => void,
+  onLinkPress: string => void,
   onLongPress: () => void,
 };
 
@@ -19,7 +19,7 @@ class HtmlChildrenContainer extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { message, auth, actions, handleLinkPress, onLongPress } = this.props;
+    const { message, auth, actions, onLinkPress, onLongPress } = this.props;
     const content = getMessageContent(message.match_content || message.content);
     const childrenNodes = htmlToDomTree(content);
 
@@ -31,7 +31,7 @@ class HtmlChildrenContainer extends PureComponent<Props> {
             auth,
             actions,
             message,
-            onPress: handleLinkPress,
+            onPress: onLinkPress,
           })}
         </View>
       </TouchableWithoutFeedback>

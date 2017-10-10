@@ -72,7 +72,7 @@ export default class UserList extends PureComponent<Props> {
         renderSectionHeader={({ section }) => (
           <RawLabel
             style={[styles.groupHeader, this.context.styles.backgroundColor]}
-            text={section.key}
+            text={section.key || ''}
           />
         )}
       />

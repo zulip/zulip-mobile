@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MainScreenWithTabs extends PureComponent<void> {
+export default class MainScreenWithTabs extends PureComponent<{}> {
   render() {
     return (
       <View style={styles.wrapper}>
