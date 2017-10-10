@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { Presence } from '../types';
-import { nullFunction } from '../nullObjects';
+import { nullFunction, NULL_PRESENCE } from '../nullObjects';
 import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
 import TextAvatar from './TextAvatar';
@@ -21,11 +21,11 @@ const componentStyles = StyleSheet.create({
 
 type Props = {
   avatarUrl?: string,
-  name?: string,
-  size?: number,
+  name: string,
+  size: number,
   presence?: Presence,
-  realm?: string,
-  shape?: 'square' | 'rounded' | 'circle',
+  realm: string,
+  shape: 'square' | 'rounded' | 'circle',
   onPress?: () => void,
 };
 
@@ -33,8 +33,10 @@ class Avatar extends PureComponent<Props> {
   props: Props;
 
   static defaultProps = {
+    avatarUrl: '',
     name: '',
     size: 32,
+    presence: NULL_PRESENCE,
     realm: '',
     shape: 'rounded',
     onPress: nullFunction,

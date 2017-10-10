@@ -29,9 +29,9 @@ const styles = StyleSheet.create({
 type Props = {
   stream: string,
   name: string,
-  isMuted?: boolean,
-  isSelected?: boolean,
-  unreadCount?: number,
+  isMuted: boolean,
+  isSelected: boolean,
+  unreadCount: number,
   onPress: (topic: string, stream: string) => void,
 };
 

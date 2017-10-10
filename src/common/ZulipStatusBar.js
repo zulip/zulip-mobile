@@ -11,7 +11,7 @@ import getStatusBarColor from '../utils/getStatusBarColor';
 
 type Props = {
   barStyle?: StatusBarStyle,
-  hidden?: boolean,
+  hidden: boolean,
   theme: string,
   backgroundColor: string,
   safeAreaInsets: Dimensions,

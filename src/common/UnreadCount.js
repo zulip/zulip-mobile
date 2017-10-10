@@ -33,10 +33,10 @@ const styles = StyleSheet.create({
 
 type Props = {
   style?: StyleObj,
-  color?: string,
-  borderRadius?: number,
-  isMuted?: boolean,
-  count?: number,
+  borderRadius: number,
+  color: string,
+  count: number,
+  isMuted: boolean,
   inverse?: boolean,
 };
 
@@ -44,9 +44,11 @@ export default class UnreadCount extends PureComponent<Props> {
   props: Props;
 
   static defaultProps = {
-    color: BRAND_COLOR,
-    isMuted: false,
     borderRadius: 2,
+    color: BRAND_COLOR,
+    count: false,
+    isMuted: false,
+    inverse: false,
   };
 
   render() {

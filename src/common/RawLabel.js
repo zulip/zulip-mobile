@@ -17,7 +17,7 @@ export default class RawLabel extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const styles = this.context.styles || {};
+    const { styles } = this.context;
     const { text, style, ...restProps } = this.props;
 
     return (

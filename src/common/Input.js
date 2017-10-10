@@ -9,11 +9,11 @@ import { HALF_COLOR } from '../styles';
 
 type Props = {
   style?: StyleObj,
-  restProps?: any[],
-  placeholder?: LocalizableText,
-  clearButton?: boolean,
-  onChangeText?: (text: string) => void,
-  textInputRef?: (component: TextInput) => void,
+  restProps: any[],
+  placeholder: LocalizableText,
+  clearButton: boolean,
+  onChangeText: (text: string) => void,
+  textInputRef: (component: TextInput) => void,
 };
 
 export default class Input extends PureComponent<Props> {
@@ -30,6 +30,8 @@ export default class Input extends PureComponent<Props> {
 
   static defaultProps = {
     restProps: [],
+    clearButton: false,
+    onChangeText: nullFunction,
     textInputRef: nullFunction,
   };
 

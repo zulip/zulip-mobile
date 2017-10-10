@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList, View, StyleSheet } from 'react-native';
 
+import type { Narrow } from '../types';
 import { Label } from '../common';
 import { streamNarrow, topicNarrow } from '../utils/narrow';
 import StreamItem from '../streams/StreamItem';
@@ -20,6 +21,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {
   unreadStreamsAndTopics: any,
+  doNarrowCloseDrawer: (narrow: Narrow) => void,
 };
 
 export default class UnreadStreamsCard extends PureComponent<Props> {
