@@ -41,10 +41,16 @@ export const getUnreadStreamTotal = createSelector(
   (unreadStreams, subscriptionsById, mute) =>
     unreadStreams.reduce(
       (total, stream) =>
-        !subscriptionsById[stream.stream_id].in_home_view ||
-        isTopicMuted(subscriptionsById[stream.stream_id].name, stream.topic, mute)
-          ? total
-          : total + stream.unread_message_ids.length,
+        stream
+          ? !(subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION).in_home_view ||
+            isTopicMuted(
+              (subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION).name,
+              stream.topic,
+              mute,
+            )
+            ? total
+            : total + stream.unread_message_ids.length
+          : total,
       0,
     ),
 );
