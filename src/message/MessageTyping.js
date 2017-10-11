@@ -40,6 +40,7 @@ export default class MessageTyping extends PureComponent<Props> {
           <View key={user.email} style={styles.avatar}>
             <Avatar
               avatarUrl={user.avatarUrl}
+              email={user.email}
               name={user.fullName}
               onPress={() => this.handleAvatarPress(user.email)}
             />

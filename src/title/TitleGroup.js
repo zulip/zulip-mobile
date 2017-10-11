@@ -40,6 +40,7 @@ export default class TitleGroup extends PureComponent<Props> {
                 size={32}
                 name={user.fullName}
                 avatarUrl={user.avatarUrl}
+                email={user.email}
                 onPress={this.handlePress}
               />
             </View>

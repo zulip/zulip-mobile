@@ -66,6 +66,7 @@ export default class MessageFull extends PureComponent<Props> {
       <View style={styles.message}>
         <Avatar
           avatarUrl={message.avatar_url}
+          email={message.sender_email}
           name={message.sender_full_name}
           onPress={this.handleAvatarPress}
         />

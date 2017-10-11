@@ -7,7 +7,7 @@ import { Avatar, ZulipButton } from '../common';
 import { BRAND_COLOR } from '../styles';
 import { privateNarrow } from '../utils/narrow';
 import UserStatusIndicator from '../common/UserStatusIndicator';
-import mediumAvatarUrl from '../utils/mediumAvatar';
+import { getMediumAvatar } from '../utils/avatar';
 import LandscapeContent from './AccountDetailsContent.landscape';
 import PortraitContent from './AccountDetailsContent.portrait';
 
@@ -66,7 +66,7 @@ export default class AccountDetails extends PureComponent<Props, State> {
 
   renderAvatar = (width: number) => (
     <Avatar
-      avatarUrl={mediumAvatarUrl(this.props.avatarUrl)}
+      avatarUrl={getMediumAvatar(this.props.avatarUrl)}
       name={this.props.fullName}
       size={width}
       status={this.props.status}

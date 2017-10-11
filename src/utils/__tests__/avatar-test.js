@@ -1,4 +1,4 @@
-import getMediumAvatar from '../mediumAvatar';
+import { getMediumAvatar, getGravatarFromEmail } from '../avatar';
 
 // avatarUrl can be converted to retrieve medium sized avatars(mediumAvatarUrl) if and only if
 // avatarUrl contains avatar image name with a .png extension (e.g. AVATAR_IMAGE_NAME.png).
@@ -19,5 +19,19 @@ describe('getMediumAvatar', () => {
     const resultUrl = getMediumAvatar(avatarUrl);
 
     expect(resultUrl).toEqual(avatarUrl);
+  });
+});
+
+describe('getGravatarFromEmail', () => {
+  test('given an email return gravatar url', () => {
+    expect(getGravatarFromEmail('test@example.com')).toEqual(
+      'https://secure.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=identicon&s=80',
+    );
+  });
+
+  test('given an email and a size return gravatar url for that size', () => {
+    expect(getGravatarFromEmail('test@example.com', 200)).toEqual(
+      'https://secure.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=identicon&s=200',
+    );
   });
 });
