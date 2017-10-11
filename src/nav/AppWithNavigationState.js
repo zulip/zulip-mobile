@@ -1,11 +1,11 @@
 /* TODO flow */
 import React from 'react';
 import { addNavigationHelpers } from 'react-navigation';
-import { connect } from 'react-redux';
 
+import connectWithActions from '../connectWithActions';
 import AppNavigator from './AppNavigator';
 
-export default connect(state => ({
+export default connectWithActions(state => ({
   nav: state.nav,
 }))(props => (
   <AppNavigator

@@ -1,9 +1,8 @@
 /* @flow */
 import { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 import { Actions } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 
 type Props = {
   needsInitialFetch: boolean,
@@ -31,9 +30,6 @@ class AppDataFetcher extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    needsInitialFetch: state.app.needsInitialFetch,
-  }),
-  boundActions,
-)(AppDataFetcher);
+export default connectWithActions(state => ({
+  needsInitialFetch: state.app.needsInitialFetch,
+}))(AppDataFetcher);

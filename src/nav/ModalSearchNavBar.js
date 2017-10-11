@@ -1,10 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Actions } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { CONTROL_SIZE } from '../styles';
 import { Label, SearchInput } from '../common';
 import NavButton from './NavButton';
@@ -88,9 +87,6 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
   }
 }
 
-export default connect(
-  state => ({
-    nav: state.nav,
-  }),
-  boundActions,
-)(ModalSearchNavBar);
+export default connectWithActions(state => ({
+  nav: state.nav,
+}))(ModalSearchNavBar);

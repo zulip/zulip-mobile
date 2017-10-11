@@ -1,8 +1,8 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 import type { Auth, Message, Actions, StyleObj, SupportedHtmlClasses } from '../types';
+import connectWithActions from '../connectWithActions';
 import styles from './HtmlStyles';
 import cascadingStyles from './cascadingStylesView';
 import cascadingStylesText from './cascadingStylesText';
@@ -116,9 +116,6 @@ class HtmlNodeTag extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    ownEmail: getOwnEmail(state),
-  }),
-  {},
-)(HtmlNodeTag);
+export default connectWithActions(state => ({
+  ownEmail: getOwnEmail(state),
+}))(HtmlNodeTag);

@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
+import connectWithActions from '../connectWithActions';
 import {
   isHomeNarrow,
   isPrivateNarrow,
@@ -49,7 +49,7 @@ class Title extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connectWithActions(state => ({
   realm: getCurrentRealm(state),
   narrow: state.chat.narrow,
   users: state.users,

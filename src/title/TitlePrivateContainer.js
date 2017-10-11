@@ -1,13 +1,8 @@
 /* @flow */
-import { connect } from 'react-redux';
-
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { getUserInPmNarrow } from '../selectors';
 import TitlePrivate from './TitlePrivate';
 
-export default connect(
-  state => ({
-    user: getUserInPmNarrow(state),
-  }),
-  boundActions,
-)(TitlePrivate);
+export default connectWithActions(state => ({
+  user: getUserInPmNarrow(state),
+}))(TitlePrivate);

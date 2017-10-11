@@ -1,10 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import { View, FlatList, StyleSheet } from 'react-native';
 
 import type { Actions } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { Screen, Label } from '../common';
 import UserItem from '../users/UserItem';
 import { BRAND_COLOR } from '../styles';
@@ -69,4 +68,4 @@ class GroupDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(null, boundActions)(GroupDetailsScreen);
+export default connectWithActions(null)(GroupDetailsScreen);

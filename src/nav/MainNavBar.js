@@ -1,10 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import { View } from 'react-native';
 
 import type { Actions } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import Title from '../title/Title';
 import NavButton from './NavButton';
 import NavButtonPlaceholder from './NavButtonPlaceholder';
@@ -60,14 +59,11 @@ class MainNavBar extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    backgroundColor: getTitleBackgroundColor(state),
-    textColor: getTitleTextColor(state),
-    unreadHuddlesTotal: getUnreadHuddlesTotal(state),
-    unreadMentionsTotal: getUnreadMentionsTotal(state),
-    unreadPmsTotal: getUnreadPmsTotal(state),
-    editMessage: state.app.editMessage,
-  }),
-  boundActions,
-)(MainNavBar);
+export default connectWithActions(state => ({
+  backgroundColor: getTitleBackgroundColor(state),
+  textColor: getTitleTextColor(state),
+  unreadHuddlesTotal: getUnreadHuddlesTotal(state),
+  unreadMentionsTotal: getUnreadMentionsTotal(state),
+  unreadPmsTotal: getUnreadPmsTotal(state),
+  editMessage: state.app.editMessage,
+}))(MainNavBar);

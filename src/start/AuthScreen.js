@@ -1,10 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
 
 import { Action, Actions } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { Centerer, RawLabel, Screen, ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
 import PasswordAuthView from './PasswordAuthView';
@@ -81,9 +80,6 @@ class AuthScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    realm: getCurrentRealm(state),
-  }),
-  boundActions,
-)(AuthScreen);
+export default connectWithActions(state => ({
+  realm: getCurrentRealm(state),
+}))(AuthScreen);

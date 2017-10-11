@@ -1,10 +1,9 @@
 /* @flow */
 import React, { PureComponent, Children } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
 
-import type { Actions, LocalizableText, StyleObj, Connector } from '../types';
-import boundActions from '../boundActions';
+import type { Actions, LocalizableText, StyleObj } from '../types';
+import connectWithActions from '../connectWithActions';
 import { CONTROL_SIZE } from '../styles';
 import { Label } from '../common';
 import NavButton from './NavButton';
@@ -77,11 +76,6 @@ class ModalNavBar extends PureComponent<Props> {
   }
 }
 
-const connector: Connector<OwnProps, Props> = connect(
-  state => ({
-    nav: state.nav,
-  }),
-  boundActions,
-);
-
-export default connector(ModalNavBar);
+export default connectWithActions(state => ({
+  nav: state.nav,
+}))(ModalNavBar);

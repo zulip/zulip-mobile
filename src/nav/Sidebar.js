@@ -1,10 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Dimensions, Narrow } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import MainTabs from '../main/MainTabs';
 
 const componentStyles = StyleSheet.create({
@@ -55,9 +54,6 @@ class Sidebar extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    safeAreaInsets: state.app.safeAreaInsets,
-  }),
-  boundActions,
-)(Sidebar);
+export default connectWithActions(state => ({
+  safeAreaInsets: state.app.safeAreaInsets,
+}))(Sidebar);

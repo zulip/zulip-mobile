@@ -1,11 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 import { Actions } from '../types';
 import { Screen } from '../common';
 import LanguagePicker from './LanguagePicker';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 
 type Props = {
   actions: Actions,
@@ -31,9 +30,6 @@ class LanguageScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    locale: state.settings.locale,
-  }),
-  boundActions,
-)(LanguageScreen);
+export default connectWithActions(state => ({
+  locale: state.settings.locale,
+}))(LanguageScreen);

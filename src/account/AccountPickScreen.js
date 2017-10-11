@@ -1,10 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Auth, Actions } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { getAuth } from '../selectors';
 import { Centerer, ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
@@ -60,10 +59,7 @@ class AccountPickScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    auth: getAuth(state),
-    accounts: state.accounts,
-  }),
-  boundActions,
-)(AccountPickScreen);
+export default connectWithActions(state => ({
+  auth: getAuth(state),
+  accounts: state.accounts,
+}))(AccountPickScreen);

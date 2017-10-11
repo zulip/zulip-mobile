@@ -1,6 +1,5 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type { Actions, Auth, SubscriptionsState, Narrow, Message } from '../types';
@@ -13,7 +12,7 @@ import {
   getCurrentRoute,
   getActiveNarrow,
 } from '../selectors';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 import type { ShowActionSheetTypes } from './messageActionSheet';
 
@@ -113,14 +112,11 @@ class MessageContainer extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    auth: getAuth(state),
-    narrow: getActiveNarrow(state),
-    currentRoute: getCurrentRoute(state),
-    flags: getFlags(state),
-    twentyFourHourTime: state.realm.twentyFourHourTime,
-    subscriptions: getSubscriptions(state),
-  }),
-  boundActions,
-)(connectActionSheet(MessageContainer));
+export default connectWithActions(state => ({
+  auth: getAuth(state),
+  narrow: getActiveNarrow(state),
+  currentRoute: getCurrentRoute(state),
+  flags: getFlags(state),
+  twentyFourHourTime: state.realm.twentyFourHourTime,
+  subscriptions: getSubscriptions(state),
+}))(connectActionSheet(MessageContainer));

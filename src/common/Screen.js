@@ -1,9 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Dimensions, LocalizableText } from '../types';
+import connectWithActions from '../connectWithActions';
 import { KeyboardAvoider, ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
@@ -64,6 +64,6 @@ class Screen extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connectWithActions((state, props) => ({
   safeAreaInsets: state.app.safeAreaInsets,
 }))(Screen);

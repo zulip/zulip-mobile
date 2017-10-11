@@ -1,7 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { getUnreadPmsTotal, getUnreadHuddlesTotal } from '../selectors';
 import { IconPeople } from '../common/Icons';
 import { ComponentWithOverlay, UnreadCount } from '../common';
@@ -20,10 +19,7 @@ const IconUnreadConversations = ({ unreadHuddlesTotal, unreadPmsTotal, color }) 
   );
 };
 
-export default connect(
-  state => ({
-    unreadHuddlesTotal: getUnreadHuddlesTotal(state),
-    unreadPmsTotal: getUnreadPmsTotal(state),
-  }),
-  boundActions,
-)(IconUnreadConversations);
+export default connectWithActions(state => ({
+  unreadHuddlesTotal: getUnreadHuddlesTotal(state),
+  unreadPmsTotal: getUnreadPmsTotal(state),
+}))(IconUnreadConversations);

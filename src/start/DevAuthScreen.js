@@ -1,12 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-
 import { ActivityIndicator, Text, View, StyleSheet, FlatList } from 'react-native';
 
-import { connect } from 'react-redux';
-
 import type { Actions, Auth } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { ErrorMsg, Screen, ZulipButton } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
 import { getAuth } from '../selectors';
@@ -106,9 +103,6 @@ class DevAuthScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect(
-  state => ({
-    auth: getAuth(state),
-  }),
-  boundActions,
-)(DevAuthScreen);
+export default connectWithActions(state => ({
+  auth: getAuth(state),
+}))(DevAuthScreen);

@@ -1,10 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Auth, Narrow, Stream } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
 import { getAuth, getActiveNarrow } from '../selectors';
@@ -56,11 +55,8 @@ class NotSubscribed extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    auth: getAuth(state),
-    narrow: getActiveNarrow(state),
-    streams: state.streams,
-  }),
-  boundActions,
-)(NotSubscribed);
+export default connectWithActions(state => ({
+  auth: getAuth(state),
+  narrow: getActiveNarrow(state),
+  streams: state.streams,
+}))(NotSubscribed);

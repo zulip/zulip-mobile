@@ -1,10 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { ScrollView, View, StyleSheet, Keyboard } from 'react-native';
-import { connect } from 'react-redux';
 
 import type { Actions } from '../types';
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { Centerer, Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
 import { getServerSettings } from '../api';
 import { fixRealmUrl } from '../utils/url';
@@ -103,4 +102,4 @@ class RealmScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect(null, boundActions)(RealmScreen);
+export default connectWithActions(null)(RealmScreen);

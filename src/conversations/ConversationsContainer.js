@@ -1,13 +1,8 @@
 /* @flow */
-import { connect } from 'react-redux';
-
-import boundActions from '../boundActions';
+import connectWithActions from '../connectWithActions';
 import { getRecentConversations } from '../selectors';
 import ConversationsCard from './ConversationsCard';
 
-export default connect(
-  state => ({
-    conversations: getRecentConversations(state),
-  }),
-  boundActions,
-)(ConversationsCard);
+export default connectWithActions(state => ({
+  conversations: getRecentConversations(state),
+}))(ConversationsCard);
