@@ -1,5 +1,6 @@
 /* @flow */
 import base64 from 'base-64';
+
 import type { Auth } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { getUserById } from '../selectors';

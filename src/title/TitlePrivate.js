@@ -24,11 +24,11 @@ type Props = {
 export default class TitlePrivate extends PureComponent<Props> {
   render() {
     const { user, color } = this.props;
-    const { fullName, avatarUrl } = user;
+    const { fullName, avatarUrl, email } = user;
 
     return (
       <View style={styles.wrapper}>
-        <Avatar size={24} name={fullName} avatarUrl={avatarUrl} />
+        <Avatar size={24} name={fullName} email={email} avatarUrl={avatarUrl} />
         <Text style={[styles.title, { color }]}>{fullName}</Text>
       </View>
     );

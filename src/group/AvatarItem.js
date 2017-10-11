@@ -78,6 +78,7 @@ export default class AvatarItem extends PureComponent<Props> {
             key={email}
             size={50}
             avatarUrl={avatarUrl}
+            email={email}
             name={fullName}
             status={status}
             onPress={this.handlePress}

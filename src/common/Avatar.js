@@ -9,6 +9,7 @@ import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
 import TextAvatar from './TextAvatar';
 import { getFullUrl } from '../utils/url';
+import { getGravatarFromEmail } from '../utils/avatar';
 import UserStatusIndicator from '../common/UserStatusIndicator';
 
 const componentStyles = StyleSheet.create({
@@ -20,7 +21,8 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
-  avatarUrl?: string,
+  avatarUrl: string,
+  email: string,
   name: string,
   size: number,
   presence?: Presence,
@@ -34,6 +36,7 @@ class Avatar extends PureComponent<Props> {
 
   static defaultProps = {
     avatarUrl: '',
+    email: '',
     name: '',
     size: 32,
     presence: NULL_PRESENCE,
@@ -43,12 +46,14 @@ class Avatar extends PureComponent<Props> {
   };
 
   render() {
-    const { avatarUrl, name, size, presence, onPress, realm, shape } = this.props;
-    const AvatarComponent = avatarUrl ? ImageAvatar : TextAvatar;
+    const { avatarUrl, email, name, size, presence, onPress, realm, shape } = this.props;
+    const fullAvatarUrl = avatarUrl ? getFullUrl(avatarUrl, realm) : getGravatarFromEmail(email);
+    const AvatarComponent = fullAvatarUrl ? ImageAvatar : TextAvatar;
+
     return (
       <AvatarComponent
         name={name}
-        avatarUrl={avatarUrl && getFullUrl(avatarUrl, realm)}
+        avatarUrl={fullAvatarUrl}
         size={size}
         onPress={onPress}
         shape={shape}
