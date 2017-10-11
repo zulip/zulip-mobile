@@ -154,7 +154,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                         }
 
                         findAnchorView();
-                        AnchorScrollViewHelper.emitScrollEvent(scrollView, null);
+                        AnchorScrollViewHelper.emitScrollEvent(scrollView, getVisibleIds());
                     }
                 }
             };
