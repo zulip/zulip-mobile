@@ -9,12 +9,8 @@ import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
 const componentStyles = StyleSheet.create({
-  keyboardAvoid: {
-    flex: 1,
-  },
   screenWrapper: {
     flex: 1,
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
   },
@@ -48,17 +44,16 @@ class Screen extends PureComponent<Props> {
       <View style={[styles.screen, { marginBottom: safeAreaInsets.bottom }]}>
         <ZulipStatusBar />
         <ModalBar title={title} searchBarOnChange={searchBarOnChange} />
-        <KeyboardAvoider style={componentStyles.keyboardAvoid} behavior="padding">
-          <ScrollView
-            keyboardShouldPersistTaps="always"
-            contentContainerStyle={[
-              componentStyles.screenWrapper,
-              padding && componentStyles.padding,
-            ]}
-          >
-            {children}
-          </ScrollView>
-        </KeyboardAvoider>
+        <View style={componentStyles.screenWrapper}>
+          <KeyboardAvoider behavior="padding">
+            <ScrollView
+              keyboardShouldPersistTaps="always"
+              contentContainerStyle={[padding && componentStyles.padding]}
+            >
+              {children}
+            </ScrollView>
+          </KeyboardAvoider>
+        </View>
       </View>
     );
   }
