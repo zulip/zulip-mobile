@@ -61,9 +61,9 @@ export default class Chat extends PureComponent<Props> {
         <ActionSheetProvider>
           <View style={styles.screen}>
             {!isOnline && <OfflineNotice />}
+            <UnreadNoticeContainer />
             {noMessages && !isFetching && <NoMessages narrow={narrow} />}
             {showMessagePlaceholders && <MessageListLoading />}
-            <UnreadNoticeContainer />
             {!noMessages && (
               <ActionSheetProvider>
                 <MessageListContainer
