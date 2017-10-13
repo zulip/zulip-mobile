@@ -2,26 +2,17 @@
 import { apiPatch } from '../api/apiFetch';
 import type { Auth } from '../types';
 
-const removeUndefinedValues = (offline, online) => {
+const getRequestBody = (opp, value) => {
   const data = {};
-  if (!offline) {
-    data.enable_offline_push_notifications = offline;
-  }
-  if (!online) {
-    data.enable_online_push_notifications = online;
+  if (opp === 'offline_notification_change') {
+    data.enable_offline_push_notifications = value;
+  } else if (opp === 'online_notification_change') {
+    data.enable_online_push_notifications = value;
   }
   return data;
 };
 
-export default async ({
-  auth,
-  online,
-  offline,
-}: {
-  auth: Auth,
-  offline?: boolean,
-  online?: boolean,
-}) =>
+export default async ({ auth, opp, value }: { auth: Auth, opp: string, value: boolean }) =>
   apiPatch(auth, 'settings/notifications', res => res, {
-    ...removeUndefinedValues(offline, online),
+    ...getRequestBody(opp, value),
   });

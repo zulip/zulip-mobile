@@ -51,13 +51,21 @@ export default class SettingsCard extends PureComponent<Props, State> {
 
   handleOfflineNotificationChange = () => {
     const { actions, auth, offlineNotification } = this.props;
-    toggleMobilePushSettings({ auth, offline: !offlineNotification });
+    toggleMobilePushSettings({
+      auth,
+      opp: 'offline_notification_change',
+      value: !offlineNotification,
+    });
     actions.settingsChange('offlineNotification', !offlineNotification);
   };
 
   handleOnlineNotificationChange = () => {
     const { actions, auth, onlineNotification } = this.props;
-    toggleMobilePushSettings({ auth, online: !onlineNotification });
+    toggleMobilePushSettings({
+      auth,
+      opp: 'online_notification_change',
+      value: !onlineNotification,
+    });
     actions.settingsChange('onlineNotification', !onlineNotification);
   };
 
