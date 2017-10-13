@@ -1,6 +1,5 @@
 /* @flow */
 import type { Actions, ActionSheetButtonType } from '../types';
-import { isStreamNarrow } from '../utils/narrow';
 
 type ConstructActionButtonsType = {
   narrow: [],
@@ -12,11 +11,6 @@ type ExecuteActionSheetParams = {
 };
 
 const actionSheetButtons: ActionSheetButtonType[] = [
-  {
-    title: 'Toggle compose tools',
-    onPress: ({ actions }) => actions.toggleComposeTools(),
-    onlyIf: isStreamNarrow,
-  },
   {
     title: 'Create group',
     onPress: ({ actions }) => {
