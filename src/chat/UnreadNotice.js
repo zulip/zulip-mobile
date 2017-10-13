@@ -3,13 +3,12 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Label, RawLabel } from '../common';
-import { IconDownArrow } from '../common/Icons';
 import { unreadToLimitedCount } from '../utils/unread';
 import MarkUnreadButton from './MarkUnreadButton';
 
 const styles = StyleSheet.create({
   unreadContainer: {
-    padding: 2,
+    padding: 4,
     backgroundColor: '#96A3F9',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -21,15 +20,7 @@ const styles = StyleSheet.create({
   unreadText: {
     fontSize: 14,
     color: 'white',
-  },
-  margin: {
-    marginRight: 4,
-  },
-  icon: {
-    margin: 8,
-    fontSize: 14,
-    color: 'white',
-    textAlign: 'center',
+    padding: 2,
   },
 });
 
@@ -48,11 +39,7 @@ export default class UnreadNotice extends PureComponent<Props> {
     return (
       <View style={styles.unreadContainer}>
         <View style={styles.unreadTextWrapper}>
-          <IconDownArrow style={styles.icon} />
-          <RawLabel
-            style={[styles.unreadText, styles.margin]}
-            text={unreadToLimitedCount(unreadCount)}
-          />
+          <RawLabel style={[styles.unreadText]} text={unreadToLimitedCount(unreadCount)} />
           <Label
             style={styles.unreadText}
             text={unreadCount === 1 ? 'unread message' : 'unread messages'}

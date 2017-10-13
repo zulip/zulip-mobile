@@ -63,6 +63,7 @@ export default class Chat extends PureComponent<Props> {
             {!isOnline && <OfflineNotice />}
             {noMessages && !isFetching && <NoMessages narrow={narrow} />}
             {showMessagePlaceholders && <MessageListLoading />}
+            <UnreadNoticeContainer />
             {!noMessages && (
               <ActionSheetProvider>
                 <MessageListContainer
@@ -73,7 +74,6 @@ export default class Chat extends PureComponent<Props> {
                 />
               </ActionSheetProvider>
             )}
-            <UnreadNoticeContainer />
             {!showMessagePlaceholders && (
               <ComposeBoxContainer
                 messageInputRef={(component: any) => {
