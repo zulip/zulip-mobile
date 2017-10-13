@@ -10,6 +10,8 @@ type Props = {
   placeholder?: LocalizableText,
   value: string,
   onChange?: (text: string) => void,
+  onBlur?: () => void,
+  onFocus?: () => void,
   onHeightChange?: (height: number) => void,
   onSelectionChange?: (event: Object) => void,
   textInputRef?: (component: any) => void,
@@ -33,7 +35,16 @@ export default class MultilineInput extends PureComponent<Props> {
   };
 
   render() {
-    const { placeholder, textInputRef, style, onChange, onSelectionChange, value } = this.props;
+    const {
+      placeholder,
+      textInputRef,
+      style,
+      onChange,
+      onFocus,
+      onBlur,
+      onSelectionChange,
+      value,
+    } = this.props;
 
     return (
       <Input
@@ -44,6 +55,8 @@ export default class MultilineInput extends PureComponent<Props> {
         underlineColorAndroid="transparent"
         onChangeText={onChange}
         onContentSizeChange={this.handleOnContentSizeChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
         onSelectionChange={onSelectionChange}
         placeholder={placeholder}
         textInputRef={textInputRef}

@@ -51,7 +51,6 @@ type Props = {
   narrow: Narrow,
   users: User[],
   draft: string,
-  composeTools: boolean,
   isSubscribed: boolean,
   editMessage: EditMessage,
   safeAreaInsets: Dimensions,
@@ -61,6 +60,8 @@ type Props = {
 };
 
 type State = {
+  isMessageFocused: boolean,
+  isTopicFocused: boolean,
   topic: string,
   message: string,
   height: number,
@@ -82,6 +83,8 @@ export default class ComposeBox extends PureComponent<Props, State> {
   state: State;
 
   state = {
+    isMessageFocused: false,
+    isTopicFocused: false,
     height: 46,
     topic: '',
     message: '',
@@ -105,6 +108,24 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
   handleHeightChange = (height: number) => {
     this.setState({ height });
+  };
+
+  handleMessageFocus = () => {
+    this.setState({ isMessageFocused: true });
+  };
+
+  handleMessageBlur = () => {
+    setTimeout(() => {
+      this.setState({ isMessageFocused: false });
+    }, 200); // give a chance to the topic input to get the focus
+  };
+
+  handleTopicFocus = () => {
+    this.setState({ isTopicFocused: true });
+  };
+
+  handleTopicBlur = () => {
+    this.setState({ isTopicFocused: false });
   };
 
   clearMessageInput = () => {
@@ -190,11 +211,10 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
   render() {
     const { styles } = this.context;
-    const { height, message, selection, topic } = this.state;
+    const { isMessageFocused, isTopicFocused, height, message, selection, topic } = this.state;
     const {
       auth,
       canSend,
-      composeTools,
       narrow,
       users,
       editMessage,
@@ -211,7 +231,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
       return <NotSubscribed />;
     }
 
-    const canSelectTopic = composeTools && isStreamNarrow(narrow);
+    const canSelectTopic = (isMessageFocused || isTopicFocused) && isStreamNarrow(narrow);
     const messageHeight = Math.min(Math.max(MIN_HEIGHT, height), MAX_HEIGHT);
     const totalHeight = canSelectTopic ? messageHeight + 30 : messageHeight;
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
@@ -239,6 +259,8 @@ export default class ComposeBox extends PureComponent<Props, State> {
                   this.topicInput = component;
                 }}
                 onChangeText={this.handleTopicChange}
+                onFocus={this.handleTopicFocus}
+                onBlur={this.handleTopicBlur}
                 value={topic}
               />
             )}
@@ -250,6 +272,8 @@ export default class ComposeBox extends PureComponent<Props, State> {
                 if (component) messageInputRef(component);
               }}
               onChange={this.handleMessageChange}
+              onFocus={this.handleMessageFocus}
+              onBlur={this.handleMessageBlur}
               onHeightChange={this.handleHeightChange}
               onSelectionChange={this.handleMessageSelectionChange}
               value={message}
