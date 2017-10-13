@@ -1,6 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
+import type { MuteState } from '../types';
 import { caseInsensitiveCompareObjFunc } from '../utils/misc';
 import {
   getActiveNarrow,
@@ -25,7 +26,7 @@ import {
   isGroupNarrow,
   isPrivateNarrow,
 } from '../utils/narrow';
-import { NULL_SUBSCRIPTION } from '../nullObjects';
+import { NULL_SUBSCRIPTION, NULL_USER } from '../nullObjects';
 
 export const getUnreadByStream = createSelector(getUnreadStreams, unreadStreams =>
   unreadStreams.reduce((totals, stream) => {
@@ -38,7 +39,7 @@ export const getUnreadStreamTotal = createSelector(
   getUnreadStreams,
   getSubscriptionsById,
   getMute,
-  (unreadStreams, subscriptionsById, mute) =>
+  (unreadStreams, subscriptionsById, mute: MuteState) =>
     unreadStreams.reduce(
       (total, stream) =>
         stream
@@ -172,22 +173,32 @@ export const getUnreadCountInActiveNarrow = createSelector(
     }
 
     if (isStreamNarrow(narrow)) {
-      const streamId = streams.find(stream => stream.name === narrow[0].operand).stream_id;
+      const stream = streams.find(s => s.name === narrow[0].operand);
+
+      if (!stream) {
+        return 0;
+      }
+
       return unreadStreams
-        .filter(x => x.stream_id === streamId)
+        .filter(x => x.stream_id === stream.stream_id)
         .reduce((sum, x) => sum + x.unread_message_ids.length, 0);
     }
 
     if (isTopicNarrow(narrow)) {
-      const streamId = streams.find(stream => stream.name === narrow[0].operand).stream_id;
+      const stream = streams.find(s => s.name === narrow[0].operand);
+
+      if (!stream) {
+        return 0;
+      }
+
       return unreadStreams
-        .filter(x => x.stream_id === streamId && x.topic === narrow[1].operand)
+        .filter(x => x.stream_id === stream.stream_id && x.topic === narrow[1].operand)
         .reduce((sum, x) => sum + x.unread_message_ids.length, 0);
     }
 
     if (isGroupNarrow(narrow)) {
       const userIds = [...narrow[0].operand.split(','), ownEmail]
-        .map(email => users.find(user => user.email === email).id)
+        .map(email => (users.find(user => user.email === email) || NULL_USER).id)
         .sort((a, b) => a - b)
         .join(',');
       const unread = unreadHuddles.find(x => x.user_ids_string === userIds);
@@ -195,8 +206,11 @@ export const getUnreadCountInActiveNarrow = createSelector(
     }
 
     if (isPrivateNarrow(narrow)) {
-      const senderId = users.find(user => user.email === narrow[0].operand).id;
-      const unread = unreadPms.find(x => x.sender_id === senderId);
+      const sender = users.find(user => user.email === narrow[0].operand);
+      if (!sender) {
+        return 0;
+      }
+      const unread = unreadPms.find(x => x.sender_id === sender.id);
       return unread ? unread.unread_message_ids.length : 0;
     }
 

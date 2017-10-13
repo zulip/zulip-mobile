@@ -1,4 +1,4 @@
-import { foregroundColorFromBackground } from '../color';
+import { foregroundColorFromBackground, colorHashFromName } from '../color';
 
 describe('foregroundColorFromBackground', () => {
   test('returns "black" for light backgrounds', () => {
@@ -11,5 +11,18 @@ describe('foregroundColorFromBackground', () => {
     expect(foregroundColorFromBackground('#000000')).toEqual('white');
     expect(foregroundColorFromBackground('#333333')).toEqual('white');
     expect(foregroundColorFromBackground('#0000f0')).toEqual('white');
+  });
+});
+
+describe('colorHashFromName', () => {
+  test('returns a 6 digit hex number to use as a color ', () => {
+    const hash = colorHashFromName('John Doe');
+    expect(hash.length).toEqual(7);
+  });
+
+  test('produces the same output for the same input', () => {
+    const hash1 = colorHashFromName('John Doe');
+    const hash2 = colorHashFromName('John Doe');
+    expect(hash1).toEqual(hash2);
   });
 });

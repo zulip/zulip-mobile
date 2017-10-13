@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Dimensions, Narrow } from '../types';
+import type { Actions, Dimensions, Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
 import MainTabs from '../main/MainTabs';
 
@@ -14,6 +14,8 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
+  actions: Actions,
+  navigation: any,
   safeAreaInsets: Dimensions,
 };
 

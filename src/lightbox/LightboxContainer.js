@@ -7,8 +7,8 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 import type { Actions, Auth, Message, ImageResource } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getAuth } from '../selectors';
-import LightboxHeader from './LightboxHeader';
-import LightboxFooter from './LightboxFooter';
+import AnimatedLightboxHeader from './AnimatedLightboxHeader';
+import AnimatedLightboxFooter from './AnimatedLightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
 import { NAVBAR_HEIGHT, LIGHTBOX_FOOTER_OFFSET, LIGHTBOX_OVERLAY_COLOR } from '../styles';
 
@@ -56,7 +56,7 @@ type Props = {
 };
 
 type State = {
-  movement: string,
+  movement: 'in' | 'out',
 };
 
 class LightboxContainer extends PureComponent<Props, State> {
@@ -112,7 +112,7 @@ class LightboxContainer extends PureComponent<Props, State> {
 
     return (
       <View style={styles.container}>
-        <LightboxHeader
+        <AnimatedLightboxHeader
           onPressBack={actions.navigateBack}
           style={[styles.overlay, styles.header, { width: WINDOW_WIDTH }]}
           from={-NAVBAR_HEIGHT}
@@ -131,7 +131,7 @@ class LightboxContainer extends PureComponent<Props, State> {
           resizeMode="contain"
           onTap={this.handleImagePress}
         />
-        <LightboxFooter
+        <AnimatedLightboxFooter
           style={[styles.overlay, styles.footer, { width: WINDOW_WIDTH }]}
           displayMessage={footerMessage}
           onOptionsPress={this.handleOptionsPress}
@@ -145,9 +145,7 @@ class LightboxContainer extends PureComponent<Props, State> {
 }
 
 export default connectActionSheet(
-  connectWithActions(state =>
-    ({
-      auth: getAuth(state),
-    }(LightboxContainer)),
-  ),
+  connectWithActions(state => ({
+    auth: getAuth(state),
+  }))(LightboxContainer),
 );

@@ -13,7 +13,7 @@ type Props = {
   placeholder: LocalizableText,
   clearButton: boolean,
   onChangeText: (text: string) => void,
-  textInputRef: (component: TextInput) => void,
+  textInputRef: (component: any) => void,
 };
 
 export default class Input extends PureComponent<Props> {
@@ -59,7 +59,7 @@ export default class Input extends PureComponent<Props> {
             style={[styles.input, style]}
             placeholder={text}
             placeholderTextColor={HALF_COLOR}
-            ref={(component: TextInput) => {
+            ref={(component: any) => {
               this.textInput = component;
               if (textInputRef) textInputRef(component);
             }}

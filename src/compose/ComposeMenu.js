@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 
+import type { Actions, Narrow } from '../types';
 import { Touchable } from '../common';
 import { IconPlus } from '../common/Icons';
 import { executeActionSheetAction, constructActionButtons } from './composeActionSheet';
@@ -15,6 +16,8 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
+  actions: Actions,
+  narrow: Narrow,
   showActionSheetWithOptions: any,
 };
 

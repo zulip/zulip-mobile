@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { AppState, BackHandler, NetInfo, View, Platform } from 'react-native';
 import SafeArea from 'react-native-safe-area';
 
-import { Auth, Actions } from '../types';
+import type { Auth, Actions, ChildrenArray } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getAuth, getNavigationIndex } from '../selectors';
 import { registerAppActivity } from '../utils/activity';
@@ -14,7 +14,7 @@ type Props = {
   navIndex: number,
   needsInitialFetch: boolean,
   actions: Actions,
-  children?: any,
+  children?: ChildrenArray<*>,
 };
 
 class AppEventHandlers extends PureComponent<Props> {

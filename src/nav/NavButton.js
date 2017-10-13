@@ -21,17 +21,18 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  name?: string,
-  color?: string,
+  color: string,
   style?: StyleObj,
-  unreadCount?: number,
-  onPress?: () => void,
+  name?: string,
+  unreadCount: number,
+  onPress: () => void,
 };
 
 export default class NavButton extends PureComponent<Props> {
   props: Props;
 
   static defaultProps = {
+    color: BRAND_COLOR,
     unreadCount: 0,
   };
 
@@ -47,7 +48,7 @@ export default class NavButton extends PureComponent<Props> {
         overlay={<UnreadCount count={unreadCount} />}
         onPress={onPress}
       >
-        <Icon style={[styles.icon, style]} color={color || BRAND_COLOR} name={name} />
+        <Icon style={[styles.icon, style]} color={color} name={name} />
       </ComponentWithOverlay>
     );
   }

@@ -1,8 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import type { ChildrenArray } from 'react';
 import { requireNativeComponent } from 'react-native';
 
 type Props = {
+  children: ChildrenArray<*>,
   collapsable: boolean,
   tagID: number,
 };

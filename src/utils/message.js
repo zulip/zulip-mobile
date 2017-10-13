@@ -1,5 +1,5 @@
 /* @flow */
-import type { Recipient, Narrow, Message } from '../types';
+import type { Recipient, Narrow, Message, MuteState } from '../types';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 export const normalizeRecipients = (recipients: Recipient[]) =>
@@ -60,7 +60,7 @@ export const shouldBeMuted = (
   message: Message,
   narrow: Narrow,
   subscriptions: any[],
-  mutes: string[] = [],
+  mutes: MuteState = [],
 ): boolean => {
   if (typeof message.display_recipient !== 'string') {
     return false; // private/group messages are not muted

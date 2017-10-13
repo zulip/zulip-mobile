@@ -1,6 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import type { ChildrenArray } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+
+import type { Stream } from '../types';
 
 const styles = StyleSheet.create({
   threadGroup: {
@@ -26,7 +29,7 @@ const styles = StyleSheet.create({
 type Props = {
   stream: Stream,
   thread: string,
-  children: React.ChildrenArray<any>,
+  children: ChildrenArray<*>,
 };
 
 export default class MessageGroupView extends PureComponent<Props> {

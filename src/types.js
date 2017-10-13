@@ -1,4 +1,8 @@
 export type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+export type { ChildrenArray } from 'react';
+export type { Dispatch } from 'redux';
+export type { AnimatedValue } from 'react-native';
+export type { MapStateToProps } from 'react-redux';
 
 export type Auth = {
   realm: string,
@@ -36,6 +40,10 @@ export type Message = {
   subject_links: [],
   timestamp: number,
   type: 'stream' | 'private',
+};
+
+export type MessageState = {
+  [narrow: string]: Message[],
 };
 
 type CascadingStylesClasses =
@@ -306,7 +314,7 @@ export type FlagsState = {
   is_me_message: Object,
 };
 
-export type MuteTuple = string[];
+export type MuteTuple = [string, string];
 export type MuteState = MuteTuple[];
 
 export type NavigationState = {
@@ -364,8 +372,6 @@ export type GlobalState = {
 };
 
 export type MatchResult = Array<string> & { index: number, input: string };
-
-export type Dispatch = (action: Action) => void;
 
 export type GetState = () => GlobalState;
 

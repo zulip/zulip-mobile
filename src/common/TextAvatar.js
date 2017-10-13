@@ -2,15 +2,9 @@
 import React, { PureComponent } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 
+import type { ChildrenArray } from '../types';
 import { Touchable } from './';
-
-export const colorHashFromName = (name: string) => {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = hash * 31 + name.charCodeAt(1);
-  let colorHash = hash % 0xffffff;
-  if (colorHash < 0x100000) colorHash += 0x100000;
-  return `#${colorHash.toString(16)}`;
-};
+import { colorHashFromName } from '../utils/color';
 
 export const initialsFromName = (name: string) =>
   (name.match(/\S+\s*/g) || []).map(x => x[0].toUpperCase()).join('');
@@ -29,7 +23,7 @@ type Props = {
   name: string,
   size: number,
   shape?: string,
-  children?: React.ChildrenArray<any>,
+  children?: ChildrenArray<*>,
   onPress?: () => void,
 };
 

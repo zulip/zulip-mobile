@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
+import type { ChildrenArray } from '../types';
 import connectWithActions from '../connectWithActions';
 import themeCreator from '../styles/theme';
 import themeDark from '../styles/themeDark';
@@ -17,7 +18,7 @@ const Dummy = props => props.children;
 
 type Props = {
   theme: string,
-  children?: any,
+  children?: ChildrenArray<*>,
 };
 
 class StyleProvider extends PureComponent<Props> {

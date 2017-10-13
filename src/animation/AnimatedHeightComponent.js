@@ -1,9 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import type { ChildrenArray } from 'react';
 import { Animated, Easing } from 'react-native';
 
 type Props = {
-  children: React.ChildrenArray<any>,
+  children: ChildrenArray<*>,
   visible: boolean,
   height: number,
 };

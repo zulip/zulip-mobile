@@ -1,13 +1,18 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { Animated } from 'react-native';
-import type { AnimatedValue } from 'react-native';
+
+import type { AnimatedValue, ChildrenArray, StyleObj } from '../types';
 
 type Props = {
+  style: StyleObj,
+  children: ChildrenArray<*>,
   from: number,
   to: number,
+  property: string,
+  movement: 'in' | 'out',
   duration: number,
-  easing: (value: number) => number,
+  easing?: (value: number) => number,
 };
 
 type State = {
@@ -16,6 +21,11 @@ type State = {
 
 export default class SlideAnimationView extends PureComponent<Props, State> {
   state: State;
+
+  static defaultProps = {
+    duration: 300,
+    movement: 'out',
+  };
 
   state = {
     animationIndex: new Animated.Value(0),

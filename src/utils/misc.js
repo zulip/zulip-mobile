@@ -15,3 +15,6 @@ export const deeperMerge = (obj1: Object, obj2: Object): Object =>
       typeof obj1[key] === 'object' ? { ...obj1[key], ...obj2[key] } : obj2[key] || obj1[key];
     return newObj;
   }, {});
+
+export const initialsFromName = (name: string) =>
+  (name.match(/\S+\s*/g) || []).map(x => x[0].toUpperCase()).join('');

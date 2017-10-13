@@ -27,8 +27,8 @@ type Props = {
 };
 
 type State = {
-  dataSource: ?[],
   assets: [],
+  dataSource: any,
 };
 
 export default class CameraPhotoList extends Component<Props, State> {

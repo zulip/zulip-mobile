@@ -107,7 +107,7 @@ export default class StreamItem extends PureComponent<Props> {
           {unreadCount && <UnreadCount count={unreadCount} inverse={isSelected} />}
           {showSwitch && (
             <ZulipSwitch
-              defaultValue={isSwitchedOn}
+              defaultValue={!!isSwitchedOn}
               onValueChange={this.handleSwitch}
               disabled={!isSwitchedOn && isPrivate}
             />

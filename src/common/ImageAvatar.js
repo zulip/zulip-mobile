@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { ImageBackground, View } from 'react-native';
 
+import type { ChildrenArray } from '../types';
 import { nullFunction } from '../nullObjects';
 import { Touchable } from './';
 
@@ -9,7 +10,7 @@ type Props = {
   avatarUrl: string,
   size: number,
   shape: string,
-  children: React.ChildrenArray<any>,
+  children: ChildrenArray<*>,
   onPress: () => void,
 };
 

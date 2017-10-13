@@ -12,7 +12,7 @@ type Props = {
   onChange?: (text: string) => void,
   onHeightChange?: (height: number) => void,
   onSelectionChange?: (event: Object) => void,
-  textInputRef?: (component: TextInput) => void,
+  textInputRef?: (component: any) => void,
 };
 
 export default class MultilineInput extends PureComponent<Props> {

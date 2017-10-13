@@ -10,17 +10,15 @@ type AssetType = 'Photos' | 'Videos' | 'All';
 type Props = {
   assetType: AssetType,
   batchSize: number,
-  // renderImage: () => {},
-  groupTypes?: string,
+  groupTypes: string,
   imagesPerRow: number,
 };
 
 type State = {
   assets: [],
-  groupTypes: string,
   lastCursor: string,
   noMore: boolean,
-  dataSource: [],
+  dataSource: any,
 };
 
 export default class CameraRollView extends Component<Props, State> {
@@ -103,7 +101,6 @@ export default class CameraRollView extends Component<Props, State> {
       newState.lastCursor = data.page_info.end_cursor;
       newState.assets = this.state.assets.concat(assets);
       newState.dataSource = this.state.dataSource.cloneWithRows(
-        // $FlowExpectedError
         groupByEveryN(newState.assets, this.props.imagesPerRow),
       );
     }

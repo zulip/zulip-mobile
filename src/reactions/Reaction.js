@@ -1,8 +1,8 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View, Animated, Easing } from 'react-native';
+import { Animated, StyleSheet, Text, View, Easing } from 'react-native';
 
-import type { Auth, GlobalState } from '../types';
+import type { Auth, AnimatedValue, GlobalState } from '../types';
 import connectWithActions from '../connectWithActions';
 import { BRAND_COLOR, HALF_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from '../styles';
 import { Touchable } from '../common';
@@ -80,7 +80,11 @@ type Props = {
   realmEmoji: Object,
 };
 
-class Reaction extends PureComponent<Props> {
+type State = {
+  voteChangeAnimation: AnimatedValue,
+};
+
+class Reaction extends PureComponent<Props, State> {
   state = {
     voteChangeAnimation: new Animated.Value(0),
   };

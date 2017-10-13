@@ -18,7 +18,7 @@ export const Drawer = DrawerNavigator(
   },
 );
 
-export default class MainScreenWithDrawers extends PureComponent<void> {
+export default class MainScreenWithDrawers extends PureComponent<{}> {
   render() {
     return <Drawer />;
   }

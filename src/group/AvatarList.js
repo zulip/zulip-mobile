@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   users: User[],
-  listRef: (component: Object) => void,
+  listRef: (component: any) => void,
   onPress: (email: string) => void,
 };
 
@@ -28,7 +28,7 @@ export default class AvatarList extends PureComponent<Props> {
         showsHorizontalScrollIndicator={false}
         initialNumToRender={20}
         data={users}
-        ref={component => {
+        ref={(component: any) => {
           if (listRef) listRef(component);
         }}
         keyExtractor={item => item.email}

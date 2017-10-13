@@ -1,10 +1,13 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
+import type { ChildrenArray } from '../types';
 import { checkCompatibility } from '../api';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 
-type Props = {};
+type Props = {
+  children?: ChildrenArray<*>,
+};
 
 type State = {
   compatibilityCheckFail: boolean,
@@ -12,7 +15,6 @@ type State = {
 
 export default class CompatibilityChecker extends PureComponent<Props, State> {
   props: Props;
-
   state: State;
 
   state = {

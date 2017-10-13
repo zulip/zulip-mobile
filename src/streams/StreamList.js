@@ -20,7 +20,7 @@ type Props = {
   selected: boolean,
   streams: Stream[],
   unreadByStream: number[],
-  onPress?: (streamName: string) => void,
+  onPress: (streamName: string) => void,
   onSwitch?: (streamName: string, newValue: boolean) => void,
   clearInput?: () => void,
 };

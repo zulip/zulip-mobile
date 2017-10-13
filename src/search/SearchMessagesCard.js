@@ -4,7 +4,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import throttle from 'lodash.throttle';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Actions, Auth } from '../types';
+import type { Actions, Auth, Message } from '../types';
 import { SearchEmptyState } from '../common';
 import { BRAND_COLOR } from '../styles';
 import { searchNarrow } from '../utils/narrow';

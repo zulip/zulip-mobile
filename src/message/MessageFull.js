@@ -34,16 +34,19 @@ type Props = {
   actions: Actions,
   ownEmail: string,
   twentyFourHourTime: boolean,
-  starred?: boolean,
+  starred: boolean,
   auth?: Auth,
   message: Object,
-  handleLinkPress?: string => void,
-  onLongPress?: () => void,
+  onLinkPress: string => void,
   onLongPress: () => void,
 };
 
 export default class MessageFull extends PureComponent<Props> {
   props: Props;
+
+  static defaultProps = {
+    starred: false,
+  };
 
   handleAvatarPress = () => {
     const { message, actions } = this.props;
@@ -59,7 +62,7 @@ export default class MessageFull extends PureComponent<Props> {
       ownEmail,
       starred,
       onLongPress,
-      handleLinkPress,
+      onLinkPress,
     } = this.props;
 
     return (
@@ -82,7 +85,7 @@ export default class MessageFull extends PureComponent<Props> {
                 message={message}
                 auth={auth}
                 actions={actions}
-                handleLinkPress={handleLinkPress}
+                onLinkPress={onLinkPress}
                 onLongPress={onLongPress}
               />
             </ScrollView>
