@@ -4921,6 +4921,10 @@ react-native-notifications@^1.1.16:
     core-js "^1.0.0"
     uuid "^2.0.3"
 
+react-native-orientation@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-orientation/-/react-native-orientation-3.1.0.tgz#ce470fe44a9a47df5be4995b01a1089d3f4a033e"
+
 react-native-photo-view@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/react-native-photo-view/-/react-native-photo-view-1.5.2.tgz#5d7f406ed5532a5a8a78c8ef8f40e81f688de1e2"

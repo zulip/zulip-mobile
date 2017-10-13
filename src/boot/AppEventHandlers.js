@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { AppState, BackHandler, NetInfo, View, Platform } from 'react-native';
 import SafeArea from 'react-native-safe-area';
+import Orientation from 'react-native-orientation';
 
 import { Auth, Actions } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -23,10 +24,8 @@ class AppEventHandlers extends PureComponent<Props> {
   };
   props: Props;
 
-  handleLayout = event => {
+  handleOrientationChange = orientation => {
     const { actions } = this.props;
-    const { width, height } = event.nativeEvent.layout;
-    const orientation = width > height ? 'LANDSCAPE' : 'PORTRAIT';
     actions.appOrientation(orientation);
   };
 
@@ -74,6 +73,7 @@ class AppEventHandlers extends PureComponent<Props> {
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
     SafeArea.getSafeAreaInsetsForRootView().then(actions.initSafeAreaInsets);
+    Orientation.addOrientationListener(this.handleOrientationChange);
   }
 
   componentWillUnmount() {
@@ -81,14 +81,11 @@ class AppEventHandlers extends PureComponent<Props> {
     AppState.removeEventListener('change', this.handleAppStateChange);
     AppState.removeEventListener('memoryWarning', this.handleMemoryWarning);
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
+    Orientation.removeOrientationListener(this.handleOrientationChange);
   }
 
   render() {
-    return (
-      <View style={this.context.styles.screen} onLayout={this.handleLayout}>
-        {this.props.children}
-      </View>
-    );
+    return <View style={this.context.styles.screen}>{this.props.children}</View>;
   }
 }
 
