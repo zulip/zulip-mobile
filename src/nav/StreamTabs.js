@@ -1,5 +1,6 @@
 /* TODO flow */
 import React from 'react';
+import { Text } from 'react-native';
 import { TabNavigator, TabBarTop } from 'react-navigation';
 import { FormattedMessage } from 'react-intl';
 
@@ -13,19 +14,31 @@ export default TabNavigator(
     unread: {
       screen: props => <UnreadStreamsContainer {...props.screenProps} />,
       navigationOptions: {
-        tabBarLabel: <FormattedMessage id="Unread" defaultMessage="Unread" />,
+        tabBarLabel: props => (
+          <Text style={{ color: props.tintColor }}>
+            <FormattedMessage id="Unread" defaultMessage="Unread" />
+          </Text>
+        ),
       },
     },
     subscribed: {
       screen: props => <SubscriptionsContainer {...props.screenProps} />,
       navigationOptions: {
-        tabBarLabel: <FormattedMessage id="Subscribed" defaultMessage="Subscribed" />,
+        tabBarLabel: props => (
+          <Text style={{ color: props.tintColor }}>
+            <FormattedMessage id="Subscribed" defaultMessage="Subscribed" />
+          </Text>
+        ),
       },
     },
     streams: {
       screen: props => <StreamsContainer {...props.screenProps} />,
       navigationOptions: {
-        tabBarLabel: <FormattedMessage id="All streams" defaultMessage="All streams" />,
+        tabBarLabel: props => (
+          <Text style={{ color: props.tintColor }}>
+            <FormattedMessage id="All streams" defaultMessage="All streams" />
+          </Text>
+        ),
       },
     },
   },
