@@ -33,7 +33,6 @@ export default (
       return AppNavigator.router.getStateForAction(navigateToAuth(action.serverSettings), state);
     }
     case LOGIN_SUCCESS:
-    case INITIAL_FETCH_COMPLETE:
       return getStateForRoute('main');
 
     case LOGOUT:
