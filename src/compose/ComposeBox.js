@@ -125,7 +125,9 @@ export default class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleTopicBlur = () => {
-    this.setState({ isTopicFocused: false });
+    setTimeout(() => {
+      this.setState({ isTopicFocused: false });
+    }, 200); // give a chance to the mesage input to get the focus
   };
 
   clearMessageInput = () => {
@@ -215,6 +217,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     const {
       auth,
       canSend,
+      lastTopic,
       narrow,
       users,
       editMessage,
@@ -261,7 +264,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
                 onChangeText={this.handleTopicChange}
                 onFocus={this.handleTopicFocus}
                 onBlur={this.handleTopicBlur}
-                value={topic}
+                defaultValue={lastTopic}
               />
             )}
             <MultilineInput
