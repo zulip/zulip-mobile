@@ -10,6 +10,17 @@ type Props = {
   cascadingTextStyle?: StyleObj,
 };
 
-export default ({ data, cascadingTextStyle }: Props) => (
-  <RawLabel style={cascadingTextStyle} text={entities.decodeHTML(data).replace(/\n/, '')} />
-);
+export default ({ data, cascadingTextStyle }: Props) =>
+  entities
+    .decodeHTML(data)
+    .replace(/\n/, '')
+    .split(' ')
+    .map(text => (
+      <RawLabel
+        key={Math.random()
+          .toString(36)
+          .substring(7)}
+        style={cascadingTextStyle}
+        text={`${text} `}
+      />
+    ));
