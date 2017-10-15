@@ -51,6 +51,7 @@ type Props = {
   narrow: Narrow,
   users: User[],
   draft: string,
+  lastTopic: string,
   isSubscribed: boolean,
   editMessage: EditMessage,
   safeAreaInsets: Dimensions,
