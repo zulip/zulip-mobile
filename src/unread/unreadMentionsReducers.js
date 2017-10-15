@@ -5,7 +5,7 @@ import {
   ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
   MARK_MESSAGES_READ,
-  EVENT_UPDATE_MESSAGE_FLAGS,
+  MARK_MESSAGE_AS_READ_LOCALLY,
 } from '../actionConstants';
 import { addItemsToArray, removeItemsFromArray } from '../utils/immutability';
 import { NULL_ARRAY } from '../nullObjects';
@@ -28,7 +28,7 @@ export default (state: UnreadState = initialState, action: Action): UnreadState 
     case MARK_MESSAGES_READ:
       return removeItemsFromArray(state, action.messageIds);
 
-    case EVENT_UPDATE_MESSAGE_FLAGS: {
+    case MARK_MESSAGE_AS_READ_LOCALLY: {
       if (action.flag !== 'read') {
         return state;
       }

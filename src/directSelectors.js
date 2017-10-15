@@ -47,3 +47,5 @@ export const getUnreadPms = (state: GlobalState): Object[] => state.unread.pms;
 export const getUnreadHuddles = (state: GlobalState): Object[] => state.unread.huddles;
 
 export const getUnreadMentions = (state: GlobalState): number[] => state.unread.mentions;
+
+export const getLocalRead = (state: GlobalState): number[] => state.localRead;
