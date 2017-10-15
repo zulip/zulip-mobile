@@ -4,7 +4,7 @@ import flagsReducers from '../flagsReducers';
 import {
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
-  EVENT_UPDATE_MESSAGE_FLAGS,
+  MARK_MESSAGE_AS_READ_LOCALLY,
   MARK_MESSAGES_READ,
   ACCOUNT_SWITCH,
 } from '../../actionConstants';
@@ -111,12 +111,12 @@ describe('flagsReducers', () => {
     });
   });
 
-  describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
+  describe('MARK_MESSAGE_AS_READ_LOCALLY', () => {
     test('when operation is "add", adds flag to an empty state', () => {
       const initialState = deepFreeze({});
 
       const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [1],
         flag: 'starred',
         operation: 'add',
@@ -141,7 +141,7 @@ describe('flagsReducers', () => {
       });
 
       const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [1],
         flag: 'starred',
         operation: 'add',
@@ -166,7 +166,7 @@ describe('flagsReducers', () => {
       });
 
       const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [1],
         flag: 'read',
         operation: 'add',
@@ -197,7 +197,7 @@ describe('flagsReducers', () => {
       });
 
       const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [1, 2, 3],
         flag: 'starred',
         operation: 'add',
@@ -227,7 +227,7 @@ describe('flagsReducers', () => {
       });
 
       const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [1],
         flag: 'read',
         operation: 'remove',
@@ -246,7 +246,7 @@ describe('flagsReducers', () => {
       const initialState = deepFreeze({});
 
       const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [1],
         flag: 'read',
         operation: 'remove',
@@ -274,7 +274,7 @@ describe('flagsReducers', () => {
       });
 
       const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [1, 2, 3, 4],
         flag: 'starred',
         operation: 'remove',

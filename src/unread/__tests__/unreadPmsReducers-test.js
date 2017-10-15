@@ -6,7 +6,7 @@ import {
   ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
   MARK_MESSAGES_READ,
-  EVENT_UPDATE_MESSAGE_FLAGS,
+  MARK_MESSAGE_AS_READ_LOCALLY,
 } from '../../actionConstants';
 
 describe('unreadPmsReducers', () => {
@@ -242,7 +242,7 @@ describe('unreadPmsReducers', () => {
       const initialState = deepFreeze([]);
 
       const action = {
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [1, 2, 3],
         flag: 'star',
         operation: 'add',
@@ -266,7 +266,7 @@ describe('unreadPmsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [6, 7],
         flag: 'read',
         operation: 'add',
@@ -290,7 +290,7 @@ describe('unreadPmsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [3, 4, 5, 6],
         flag: 'read',
         operation: 'add',
@@ -317,7 +317,7 @@ describe('unreadPmsReducers', () => {
       ]);
 
       const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [1, 2],
         flag: 'read',
         operation: 'remove',
