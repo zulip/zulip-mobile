@@ -3,6 +3,7 @@ import { REHYDRATE } from 'redux-persist/constants';
 
 import type { NavigationState, Action } from '../types';
 import { getFirstIfDeepEqual } from '../utils/immutability';
+import { navigateToChat } from './navActions';
 import { getStateForRoute, getInitialRoute } from './navSelectors';
 import AppNavigator from './AppNavigator';
 import {
@@ -11,6 +12,7 @@ import {
   ACCOUNT_SWITCH,
   LOGIN_SUCCESS,
   LOGOUT,
+  SWITCH_NARROW,
 } from '../actionConstants';
 
 export default (
@@ -39,6 +41,9 @@ export default (
 
     case LOGOUT:
       return getStateForRoute('account');
+
+    case SWITCH_NARROW:
+      return AppNavigator.router.getStateForAction(navigateToChat(), state);
 
     default:
       return AppNavigator.router.getStateForAction(action, state);

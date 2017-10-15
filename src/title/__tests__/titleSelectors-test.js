@@ -15,7 +15,7 @@ import { BRAND_COLOR } from '../../styles';
 const subscriptions = [{ name: 'all', color: '#fff' }, { name: 'announce', color: '#000' }];
 const defaultNav = {
   index: 0,
-  routes: [{ routeName: 'main' }],
+  routes: [{ routeName: 'chat' }],
 };
 const otherNav = {
   index: 1,

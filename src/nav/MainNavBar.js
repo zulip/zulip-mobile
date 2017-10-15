@@ -9,6 +9,7 @@ import NavButton from './NavButton';
 import InfoNavButton from '../title/InfoNavButton';
 import {
   getApp,
+  getCanGoBack,
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
   getUnreadMentionsTotal,
@@ -18,11 +19,9 @@ import {
 
 type Props = {
   actions: Actions,
+  canGoBack: boolean,
   textColor: string,
-  editMessage: boolean,
   backgroundColor: string,
-  unreadMentionsTotal: number,
-  onPressStreams: () => void,
 };
 
 class MainNavBar extends PureComponent<Props> {
@@ -34,25 +33,13 @@ class MainNavBar extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const {
-      actions,
-      backgroundColor,
-      textColor,
-      unreadMentionsTotal,
-      onPressStreams,
-      editMessage,
-    } = this.props;
-
-    const leftPress = editMessage ? actions.cancelEditMessage : onPressStreams;
+    const { actions, backgroundColor, canGoBack, textColor } = this.props;
 
     return (
       <View style={[styles.navBar, { backgroundColor }]}>
-        <NavButton
-          name={editMessage ? 'arrow-left' : 'menu'}
-          color={textColor}
-          showCircle={unreadMentionsTotal > 0}
-          onPress={leftPress}
-        />
+        {canGoBack && (
+          <NavButton name="arrow-left" color={textColor} onPress={actions.navigateBack} />
+        )}
         <Title color={textColor} />
         <InfoNavButton />
       </View>
@@ -62,6 +49,7 @@ class MainNavBar extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   backgroundColor: getTitleBackgroundColor(state),
+  canGoBack: getCanGoBack(state),
   textColor: getTitleTextColor(state),
   unreadHuddlesTotal: getUnreadHuddlesTotal(state),
   unreadMentionsTotal: getUnreadMentionsTotal(state),

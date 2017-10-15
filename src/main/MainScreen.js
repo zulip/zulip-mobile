@@ -6,19 +6,9 @@ import { ZulipStatusBar } from '../common';
 import ChatContainer from '../chat/ChatContainer';
 import MainNavBar from '../nav/MainNavBar';
 
-type Props = {
-  navigation: any,
-};
-
-export default class MainScreen extends PureComponent<Props> {
-  props: Props;
-
+export default class MainScreen extends PureComponent<{}> {
   static contextTypes = {
     styles: () => null,
-  };
-
-  handlePressStreams = () => {
-    this.props.navigation.navigate('DrawerOpen');
   };
 
   render() {
@@ -27,7 +17,7 @@ export default class MainScreen extends PureComponent<Props> {
     return (
       <View style={[styles.flexed, styles.backgroundColor]}>
         <ZulipStatusBar />
-        <MainNavBar onPressStreams={this.handlePressStreams} />
+        <MainNavBar />
         <ChatContainer />
       </View>
     );

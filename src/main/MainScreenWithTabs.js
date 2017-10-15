@@ -1,24 +1,21 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { ZulipStatusBar } from '../common';
-import MainNavBar from '../nav/MainNavBar';
 import MainTabs from './MainTabs';
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-});
-
 export default class MainScreenWithTabs extends PureComponent<{}> {
+  static contextTypes = {
+    styles: () => null,
+  };
+
   render() {
+    const { styles } = this.context;
+
     return (
-      <View style={styles.wrapper}>
+      <View style={[styles.flexed, styles.backgroundColor]}>
         <ZulipStatusBar />
-        <MainNavBar />
         <MainTabs />
       </View>
     );

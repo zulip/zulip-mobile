@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Narrow, UnreadStream } from '../types';
+import type { Actions, UnreadStream } from '../types';
 import { SearchEmptyState } from '../common';
 import { streamNarrow, topicNarrow } from '../utils/narrow';
 import StreamItem from '../streams/StreamItem';
@@ -10,7 +10,8 @@ import TopicItem from '../streams/TopicItem';
 
 type Props = {
   unreadStreamsAndTopics: UnreadStream[],
-  doNarrowCloseDrawer: (narrow: Narrow) => void,
+  actions: Actions,
+  unreadStreamsAndTopics: any,
 };
 
 export default class UnreadStreamsCard extends PureComponent<Props> {
@@ -21,11 +22,11 @@ export default class UnreadStreamsCard extends PureComponent<Props> {
   };
 
   handleStreamPress = (stream: string) => {
-    this.props.doNarrowCloseDrawer(streamNarrow(stream));
+    this.props.actions.doNarrow(streamNarrow(stream));
   };
 
   handleTopicPress = (stream: string, topic: string) => {
-    this.props.doNarrowCloseDrawer(topicNarrow(stream, topic));
+    this.props.actions.doNarrow(topicNarrow(stream, topic));
   };
 
   render() {

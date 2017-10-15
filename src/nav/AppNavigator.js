@@ -5,7 +5,7 @@ import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
 import AuthScreen from '../start/AuthScreen';
 import DevAuthScreen from '../start/DevAuthScreen';
-import MainScreen from '../main/MainScreenWithDrawers';
+import MainScreenWithTabs from '../main/MainScreenWithTabs';
 import AccountDetailsScreen from '../account-info/AccountDetailsScreen';
 import GroupDetailsScreen from '../chat/GroupDetailsScreen';
 import SearchMessagesScreen from '../search/SearchMessagesScreen';
@@ -37,7 +37,7 @@ export default StackNavigator(
     chat: { screen: ChatScreen },
     dev: { screen: DevAuthScreen },
     loading: { screen: LoadingScreen },
-    main: { screen: MainScreen },
+    main: { screen: MainScreenWithTabs },
     realm: { screen: RealmScreen },
     search: { screen: SearchMessagesScreen },
     subscriptions: { screen: SubscriptionsScreen },
