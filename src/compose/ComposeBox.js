@@ -213,7 +213,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
   render() {
     const { styles } = this.context;
-    const { isMessageFocused, isTopicFocused, height, message, selection, topic } = this.state;
+    const { isMessageFocused, isTopicFocused, height, message, selection } = this.state;
     const {
       auth,
       canSend,
