@@ -417,13 +417,17 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
 
     // Zulip changes
     private boolean isChildVisible(@Nonnull View child) {
+        //container
         int height = getHeight();
         int containerTop = getScrollY();
         int containerBottom = containerTop + height;
+
+        //child
         int viewTop = child.getTop();
         int viewBottom = child.getBottom();
 
-        return (viewTop >= containerTop && viewBottom <= containerBottom);
+        //check if child is visible or not
+        return (viewTop >= containerTop && viewBottom <= containerBottom) || child.getHeight() >= height;
     }
 
     // Zulip changes
