@@ -7,7 +7,6 @@ import { getStateForRoute, getInitialRoute } from './navSelectors';
 import AppNavigator from './AppNavigator';
 import {
   RESET_NAVIGATION,
-  INITIAL_FETCH_COMPLETE,
   ACCOUNT_SWITCH,
   SET_AUTH_TYPE,
   LOGIN_SUCCESS,
