@@ -8,15 +8,21 @@ import { isTopicNarrow } from '../utils/narrow';
 
 const styles = StyleSheet.create({
   wrapper: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
   },
-  text: {
+  stream: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  streamText: {
     marginLeft: 4,
-    marginRight: 12,
     fontSize: 15,
+  },
+  topic: {
+    fontSize: 13,
   },
 });
 
@@ -31,19 +37,25 @@ export default class TitleStream extends PureComponent<Props> {
 
   render() {
     const { narrow, stream, color } = this.props;
-    const topic = isTopicNarrow(narrow) ? `\u203a ${narrow[1].operand}` : '';
 
     return (
       <View style={styles.wrapper}>
-        <StreamIcon
-          isMuted={!stream.in_home_view}
-          isPrivate={stream.invite_only}
-          color={color}
-          size={12}
-        />
-        <Text style={[styles.text, { color }]} numberOfLines={1} ellipsizeMode="tail">
-          {stream.name} {topic}
-        </Text>
+        <View style={styles.stream}>
+          <StreamIcon
+            isMuted={!stream.in_home_view}
+            isPrivate={stream.invite_only}
+            color={color}
+            size={12}
+          />
+          <Text style={[styles.streamText, { color }]} numberOfLines={1} ellipsizeMode="tail">
+            {stream.name}
+          </Text>
+        </View>
+        {isTopicNarrow(narrow) && (
+          <Text style={[styles.topic, { color }]} numberOfLines={1} ellipsizeMode="tail">
+            {narrow[1].operand}
+          </Text>
+        )}
       </View>
     );
   }
