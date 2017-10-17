@@ -9,9 +9,9 @@
     hoist-non-react-statics "^2.2.2"
     prop-types "^15.5.10"
 
-"@remobile/react-native-toast@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@remobile/react-native-toast/-/react-native-toast-1.0.6.tgz#a218fd2d6cfb53cc00db46b973149af9d8e9ea62"
+"@remobile/react-native-toast@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@remobile/react-native-toast/-/react-native-toast-1.0.7.tgz#b2e3684cdb13e1c9d9b4ed08e667157d4ad0fab2"
 
 abab@^1.0.3:
   version "1.0.3"
@@ -1577,9 +1577,9 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-date-fns@^1.28.5:
-  version "1.28.5"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.28.5.tgz#257cfc45d322df45ef5658665967ee841cd73faf"
+date-fns@^1.29.0:
+  version "1.29.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.29.0.tgz#12e609cdcb935127311d04d33334e2960a2a54e6"
 
 dateformat@^2.0.0:
   version "2.0.0"
@@ -1702,9 +1702,9 @@ detox-server@^2.0.4:
     npmlog "^4.0.2"
     ws "^1.1.0"
 
-detox@^5.8.1:
-  version "5.8.1"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-5.8.1.tgz#6803740a34af0f7f140e459f5f3514526bfc06cc"
+detox@^5.8.4:
+  version "5.8.4"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-5.8.4.tgz#51b7ea4b242e46c8686adf0a07cd97c91c59d527"
   dependencies:
     child-process-promise "^2.2.0"
     commander "^2.9.0"
@@ -1900,17 +1900,17 @@ escodegen@^1.6.1:
   optionalDependencies:
     source-map "~0.2.0"
 
-eslint-config-airbnb-base@^12.0.2:
-  version "12.0.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-base/-/eslint-config-airbnb-base-12.0.2.tgz#45fea317d71b8f1da323c730f3a8471988757793"
+eslint-config-airbnb-base@^12.1.0:
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-base/-/eslint-config-airbnb-base-12.1.0.tgz#386441e54a12ccd957b0a92564a4bafebd747944"
   dependencies:
     eslint-restricted-globals "^0.1.1"
 
-eslint-config-airbnb@^16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-airbnb/-/eslint-config-airbnb-16.0.0.tgz#21e81476ab7f5f27c1a900ff415cac9e1e12f3ed"
+eslint-config-airbnb@^16.1.0:
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-airbnb/-/eslint-config-airbnb-16.1.0.tgz#2546bfb02cc9fe92284bf1723ccf2e87bc45ca46"
   dependencies:
-    eslint-config-airbnb-base "^12.0.2"
+    eslint-config-airbnb-base "^12.1.0"
 
 eslint-config-prettier@^2.6.0:
   version "2.6.0"
@@ -2008,9 +2008,9 @@ eslint-scope@^3.7.1:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint@^4.8.0:
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.8.0.tgz#229ef0e354e0e61d837c7a80fdfba825e199815e"
+eslint@^4.9.0:
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.9.0.tgz#76879d274068261b191fe0f2f56c74c2f4208e8b"
   dependencies:
     ajv "^5.2.0"
     babel-code-frame "^6.22.0"
@@ -4887,9 +4887,9 @@ react-native-cli@^2.0.1:
     prompt "^0.2.14"
     semver "^5.0.3"
 
-react-native-device-info@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.11.0.tgz#e96dd0e3f8a7d7e3022c1f441f51fa912fdc7444"
+react-native-device-info@^0.12.1:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.12.1.tgz#659ed145caa5a86a4815904381b25e9ebe0c24f6"
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
@@ -4939,9 +4939,9 @@ react-native-safe-area@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/react-native-safe-area/-/react-native-safe-area-0.2.1.tgz#9bf8eb8dd052b76fc4e830addcd63235dd29cf3c"
 
-react-native-sentry@^0.26.0:
-  version "0.26.0"
-  resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.26.0.tgz#786a51d40e5d364c891e2070507a8742e0e2aed6"
+react-native-sentry@^0.28.0:
+  version "0.28.0"
+  resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.28.0.tgz#0b042bd29bdc0eb21dbb190f2fc2640db83edce7"
   dependencies:
     chalk "^1.1.1"
     glob "7.1.1"
@@ -5028,9 +5028,9 @@ react-native@^0.49.3:
     xmldoc "^0.4.0"
     yargs "^6.4.0"
 
-react-navigation@^1.0.0-beta.13:
-  version "1.0.0-beta.13"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.0.0-beta.13.tgz#77521f7080e5755906a3483a28baedbbc66f763c"
+react-navigation@^1.0.0-beta.14:
+  version "1.0.0-beta.14"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.0.0-beta.14.tgz#e470cd3f7c12fd4bf28fca3d43cf725bf04b3d11"
   dependencies:
     babel-plugin-transform-define "^1.3.0"
     clamp "^1.0.1"
