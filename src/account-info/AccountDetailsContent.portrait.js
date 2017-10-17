@@ -17,17 +17,10 @@ type Props = {
   avatar: (width: number) => any,
   userDetails: () => any,
   sendButton: () => any,
-  handleOrientationChange: (event: Object) => void,
 };
 
-export default ({
-  screenWidth,
-  handleOrientationChange,
-  avatar,
-  userDetails,
-  sendButton,
-}: Props) => (
-  <View style={styles.containerPortrait} onLayout={handleOrientationChange}>
+export default ({ screenWidth, avatar, userDetails, sendButton }: Props) => (
+  <View style={styles.containerPortrait}>
     {avatar(screenWidth)}
     <View style={styles.infoContainer}>
       {userDetails()}

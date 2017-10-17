@@ -44,17 +44,8 @@ type Props = {
   orientation: Orientation,
 };
 
-type State = {
-  orientation: Orientation,
-};
-
-export default class AccountDetails extends PureComponent<Props, State> {
+export default class AccountDetails extends PureComponent<Props, void> {
   props: Props;
-  state: State;
-
-  state = {
-    orientation: 'PORTRAIT',
-  };
 
   handleChatPress = () => {
     const { email, actions } = this.props;
@@ -62,60 +53,40 @@ export default class AccountDetails extends PureComponent<Props, State> {
     actions.navigateBack();
   };
 
-  handleOrientationChange = (event: Object) => {
-    this.setState({
-      orientation: this.props.orientation,
-    });
-  };
-
-  renderAvatar = (width: number) => (
-    <Avatar
-      avatarUrl={getMediumAvatar(this.props.avatarUrl)}
-      name={this.props.fullName}
-      size={width}
-      status={this.props.status}
-      realm={this.props.auth.realm}
-      shape="square"
-    />
-  );
-
-  renderSendPMButton = () => (
-    <ZulipButton
-      style={styles.sendButton}
-      text="Send private message"
-      onPress={this.handleChatPress}
-      icon="md-mail"
-    />
-  );
-
-  renderUserDetails = () => (
-    <View style={styles.details}>
-      {this.props.status && (
-        <UserStatusIndicator status={this.props.status} style={styles.statusIndicator} />
-      )}
-      <Text style={styles.info}>{this.props.email}</Text>
-    </View>
-  );
-
   render() {
-    const { orientation } = this.state;
+    const { avatarUrl, auth, email, fullName, status, orientation } = this.props;
     const screenWidth = Dimensions.get('window').width;
 
-    return orientation === 'LANDSCAPE' ? (
-      <LandscapeContent
+    const ContentComponent = orientation === 'LANDSCAPE' ? LandscapeContent : PortraitContent;
+
+    return (
+      <ContentComponent
         screenWidth={screenWidth}
-        handleOrientationChange={this.handleOrientationChange}
-        avatar={this.renderAvatar}
-        userDetails={this.renderUserDetails}
-        sendButton={this.renderSendPMButton}
-      />
-    ) : (
-      <PortraitContent
-        screenWidth={screenWidth}
-        handleOrientationChange={this.handleOrientationChange}
-        avatar={this.renderAvatar}
-        userDetails={this.renderUserDetails}
-        sendButton={this.renderSendPMButton}
+        avatar={width => (
+          <Avatar
+            avatarUrl={getMediumAvatar(avatarUrl)}
+            name={fullName}
+            email={email}
+            size={width}
+            status={status}
+            realm={auth.realm}
+            shape="square"
+          />
+        )}
+        userDetails={() => (
+          <View style={styles.details}>
+            {status && <UserStatusIndicator status={status} style={styles.statusIndicator} />}
+            <Text style={styles.info}>{email}</Text>
+          </View>
+        )}
+        sendButton={() => (
+          <ZulipButton
+            style={styles.sendButton}
+            text="Send private message"
+            onPress={this.handleChatPress}
+            icon="md-mail"
+          />
+        )}
       />
     );
   }
