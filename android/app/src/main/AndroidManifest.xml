@@ -32,7 +32,7 @@
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="zulip" android:host="login" />
-          </intent-filter>
+        </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
        <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="835904834568\0"/>
