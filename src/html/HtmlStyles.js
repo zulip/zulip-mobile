@@ -16,7 +16,6 @@ export default StyleSheet.create({
     flexDirection: 'column',
   },
   li: {
-    width: '90%',
     flexDirection: 'row',
     marginBottom: 4,
     justifyContent: 'space-around',
@@ -31,7 +30,9 @@ export default StyleSheet.create({
     width: '100%',
   },
   span: {},
-  bullet: {},
+  bullet: {
+    fontSize: 32,
+  },
   a: {},
   b: {},
   i: {},
