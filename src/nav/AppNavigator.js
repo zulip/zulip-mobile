@@ -21,6 +21,7 @@ import TimingScreen from '../diagnostics/TimingScreen';
 import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import GroupScreen from '../group/GroupScreen';
+import InternalErrorScreen from '../error/InternalErrorScreen';
 
 export default StackNavigator(
   {
@@ -44,6 +45,7 @@ export default StackNavigator(
     variables: { screen: VariablesScreen },
     timing: { screen: TimingScreen },
     storage: { screen: StorageScreen },
+    'server-error': { screen: InternalErrorScreen },
   },
   {
     initialRouteName: 'main',

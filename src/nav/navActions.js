@@ -20,6 +20,9 @@ export const navigateToUsersScreen = (): Action =>
 
 export const navigateToSearch = (): Action => NavigationActions.navigate({ routeName: 'search' });
 
+export const navigateToInternalErrorScreen = (): Action =>
+  NavigationActions.navigate({ routeName: 'server-error' });
+
 export const navigateToSettings = (): Action =>
   NavigationActions.navigate({ routeName: 'settings' });
 
