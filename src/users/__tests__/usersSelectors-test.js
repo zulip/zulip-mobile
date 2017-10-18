@@ -319,6 +319,24 @@ describe('getAccountDetailsUser', () => {
 
     expect(actualUser).toEqual(expectedUser);
   });
+
+  test('if user does not exist return a user with the same email and no details', () => {
+    const state = {
+      nav: {
+        index: 1,
+        routes: [
+          { routeName: 'first', params: { email: 'a@a.com' } },
+          { routeName: 'second', params: { email: 'b@a.com' } },
+        ],
+      },
+      users: [],
+    };
+    deepFreeze(state);
+    const expectedUser = { email: 'b@a.com', fullName: 'b@a.com', avatarUrl: '' };
+    const actualUser = getAccountDetailsUser(state);
+
+    expect(actualUser).toEqual(expectedUser);
+  });
 });
 
 describe('getAllActiveUsers', () => {
