@@ -24,7 +24,6 @@ export const NULL_ACCOUNT: Account = {
 
 export const NULL_USER: User = {
   fullName: '',
-  status: '',
   avatarUrl: '',
   email: '',
 };

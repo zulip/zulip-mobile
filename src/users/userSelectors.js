@@ -24,9 +24,17 @@ const statusOrder = status => {
 export const getAccountDetailsUser = createSelector(
   [getUsers, getCurrentRouteParams],
   (allUsers, params) => {
-    if (params && params.email) return allUsers.find(x => x.email === params.email) || NULL_USER;
+    if (!params || !params.email) {
+      return NULL_USER;
+    }
 
-    return NULL_USER;
+    return (
+      allUsers.find(x => x.email === params.email) || {
+        ...NULL_USER,
+        email: params.email,
+        fullName: params.email,
+      }
+    );
   },
 );
 
