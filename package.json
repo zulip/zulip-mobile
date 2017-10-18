@@ -57,7 +57,7 @@
     "react-native-simple-toast": "0.0.7",
     "react-native-sound": "^0.10.4",
     "react-native-vector-icons": "^4.4.2",
-    "react-navigation": "^1.0.0-beta.14",
+    "react-navigation": "^1.0.0-beta.15",
     "react-redux": "^5.0.6",
     "react-test-renderer": "16.0.0-beta.5",
     "redux": "^3.7.2",
