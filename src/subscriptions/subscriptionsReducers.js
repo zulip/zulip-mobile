@@ -15,6 +15,7 @@ import {
   REALM_INIT,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
+import { filterArray } from '../utils/immutability';
 
 const initialState: SubscriptionsState = NULL_ARRAY;
 
@@ -37,7 +38,10 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
       );
 
     case EVENT_SUBSCRIPTION_REMOVE:
-      return state.filter(x => !action.subscriptions.find(y => x.stream_id === y.stream_id));
+      return filterArray(
+        state,
+        x => !action.subscriptions.find(y => x && y && x.stream_id === y.stream_id),
+      );
 
     case EVENT_SUBSCRIPTION_UPDATE:
       return state.map(

@@ -1,5 +1,5 @@
 /* @flow */
-import { addItemsToArray, removeItemsFromArray } from '../utils/immutability';
+import { addItemsToArray, removeItemsFromArray, filterArray } from '../utils/immutability';
 
 export const removeItemsDeeply = (objArray: Object[], messageIds: number[]): Object[] => {
   let changed = false;
@@ -27,13 +27,10 @@ export const removeItemsDeeply = (objArray: Object[], messageIds: number[]): Obj
     return objArray;
   }
 
-  const filteredEmptyIds = objWithAddedUnreadIds.filter(
-    sender => sender.unread_message_ids.length > 0,
+  return filterArray(
+    objWithAddedUnreadIds,
+    sender => sender && sender.unread_message_ids.length > 0,
   );
-
-  return objWithAddedUnreadIds.length === filteredEmptyIds.length
-    ? objWithAddedUnreadIds
-    : filteredEmptyIds;
 };
 
 const addItemsDeeply = (input: Object[], itemsToAdd: Object[], index: number): Object[] => {

@@ -9,6 +9,7 @@ import {
   ACCOUNT_SWITCH,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
+import { filterArray } from '../utils/immutability';
 
 const initialState: StreamsState = NULL_ARRAY;
 
@@ -23,7 +24,7 @@ export default (state: StreamsState = initialState, action: Action): StreamsStat
       );
 
     case EVENT_STREAM_REMOVE:
-      return state.filter(x => !action.streams.find(y => x.stream_id === y.stream_id));
+      return filterArray(state, x => !action.streams.find(y => x && x.stream_id === y.stream_id));
 
     case EVENT_STREAM_UPDATE:
       return state.map(
