@@ -89,7 +89,7 @@
   "Cancel": "Abbrechen",
   "Message copied": "Nachricht kopiert",
   "Edit message": "Nachricht bearbeiten",
-  "Network request failed": "Network request failed",
-  "show": "show",
-  "hide": "hide"
+  "Network request failed": "Netzwerkanfrage fehlgeschlagen",
+  "show": "zeigen",
+  "hide": "verbergen"
 }
