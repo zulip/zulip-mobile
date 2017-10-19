@@ -40,6 +40,7 @@ export default {
     'presence',
     'realm_emoji',
     'realm_filters',
+    'realm_user',
     'subscription',
     'update_display_settings',
     'update_global_notifications',
