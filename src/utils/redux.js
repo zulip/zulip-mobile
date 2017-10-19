@@ -1,4 +1,5 @@
 /* @flow */
+import config from '../config';
 import timing from './timing';
 
 export const logSlowReducers = (reducers: Object): Object => {
@@ -8,7 +9,7 @@ export const logSlowReducers = (reducers: Object): Object => {
       const start = Date.now();
       const result = originalReducer(state, action);
       const end = Date.now();
-      if (end - start >= 16) {
+      if (end - start >= config.slowReducersThreshold) {
         timing.add({
           text: `${action.type} @ ${name}`,
           start,
