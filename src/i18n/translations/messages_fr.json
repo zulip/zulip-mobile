@@ -90,6 +90,6 @@
   "Message copied": "Message copié",
   "Edit message": "Editer ce message",
   "Network request failed": "Network request failed",
-  "show": "show",
-  "hide": "hide"
+  "show": "afficher",
+  "hide": "masquer"
 }
