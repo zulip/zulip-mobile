@@ -1,8 +1,11 @@
 /* TODO: flow */
+import { PushNotificationIOS } from 'react-native';
 import NotificationsIOS from 'react-native-notifications';
+
 import type { Auth } from '../types';
 import registerPush from '../api/registerPush';
 import { logErrorRemotely } from './logging';
+import { streamNarrow, privateNarrow } from '../utils/narrow';
 
 const register = async (auth: Auth, deviceToken: string) => {
   await registerPush(auth, deviceToken);
@@ -29,3 +32,18 @@ export const initializeNotifications = (auth: Auth, saveTokenPush: (arg: string)
 };
 
 export const refreshNotificationToken = () => {};
+
+export const handlePendingNotifications = async switchNarrow => {
+  const notification = await PushNotificationIOS.getInitialNotification();
+  if (notification) {
+    const { custom: { zulip } } = notification.getData();
+    console.log('Opened app by notification', zulip); //eslint-disable-line
+    if (zulip && zulip.recipient_type) {
+      if (zulip.recipient_type === 'stream') {
+        switchNarrow(streamNarrow(zulip.stream, zulip.topic));
+      } else if (zulip.recipient_type === 'private') {
+        switchNarrow(privateNarrow(zulip.sender_email));
+      }
+    }
+  }
+};

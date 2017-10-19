@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { AppState, BackHandler, NetInfo, View, Platform, StyleSheet } from 'react-native';
+import { AppState, BackHandler, NetInfo, View, StyleSheet } from 'react-native';
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
@@ -47,12 +47,7 @@ class AppEventHandlers extends PureComponent<Props> {
     const { auth, actions, needsInitialFetch } = this.props;
     registerAppActivity(auth, state === 'active');
     actions.appState(state === 'active');
-    if (
-      state === 'active' &&
-      Platform.OS === 'android' &&
-      !needsInitialFetch &&
-      auth.realm !== ''
-    ) {
+    if (state === 'active' && !needsInitialFetch && auth.realm !== '') {
       handlePendingNotifications(actions.doNarrow);
     }
   };
