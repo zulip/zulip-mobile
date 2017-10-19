@@ -9,7 +9,7 @@ export const addItemsToArray = (input: Object[], itemsToAdd: Object[]): Object[]
   return newItems.length > 0 ? [...input, ...itemsToAdd] : input;
 };
 
-export const filterArray = (input: any[], predicate: () => boolean): any[] => {
+export const filterArray = (input: any[], predicate: () => any): any[] => {
   const filteredList = input.filter(predicate);
   return filteredList.length === input.length ? input : filteredList;
 };

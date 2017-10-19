@@ -8,6 +8,7 @@ import {
   MESSAGE_SEND_COMPLETE,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
+import { filterArray } from '../utils/immutability';
 
 const initialState = NULL_ARRAY;
 
@@ -21,10 +22,8 @@ export default (state: OutboxState = initialState, action: Action): OutboxState 
 
     case MESSAGE_SEND_COMPLETE:
     case DELETE_OUTBOX_MESSAGE:
-    case EVENT_NEW_MESSAGE: {
-      const newState = state.filter(item => item.timestamp !== +action.localMessageId);
-      return newState.length === state.length ? state : newState;
-    }
+    case EVENT_NEW_MESSAGE:
+      return filterArray(state, item => item && item.timestamp !== +action.localMessageId);
 
     case LOGOUT:
       return initialState;
