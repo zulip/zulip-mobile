@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import format from 'date-fns/format';
-import differenceInMilliseconds from 'date-fns/difference_in_milliseconds';
 
 import { RawLabel } from '../common';
 import { numberWithSeparators } from '../utils/misc';
@@ -32,8 +31,8 @@ export default class TimeItem extends PureComponent<Props> {
 
   render() {
     const { text, start, end } = this.props;
-    const startStr = format(start, 'HH:mm:ss.SSS'); // eslint-disable-line
-    const durationStr = numberWithSeparators(differenceInMilliseconds(end, start));
+    const startStr = format(start, 'HH:mm:ss.S'); // eslint-disable-line
+    const durationStr = numberWithSeparators((end - start).toFixed(2));
     const timingStr = `Start: ${startStr}   Duration: ${durationStr} ms`;
 
     return (
