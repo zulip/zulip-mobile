@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 
 import connectWithActions from '../connectWithActions';
 import type { Narrow, User } from '../types';
-import { getAllActiveUsers } from '../selectors';
+import { getUsers } from '../selectors';
 import UserItem from '../users/UserItem';
 import { isPrivateNarrow } from '../utils/narrow';
 
@@ -44,5 +44,5 @@ class ConversationUser extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   narrow: state.chat.narrow,
-  users: getAllActiveUsers(state),
+  users: getUsers(state),
 }))(ConversationUser);

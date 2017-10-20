@@ -5,6 +5,7 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   INIT_USERS,
+  REALM_INIT,
   EVENT_USER_ADD,
   EVENT_USER_REMOVE,
   EVENT_USER_UPDATE,
@@ -32,6 +33,9 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
 
     case INIT_USERS:
       return action.users.map(mapApiToStateUser);
+
+    case REALM_INIT:
+      return action.data.realm_users.map(mapApiToStateUser);
 
     case EVENT_USER_ADD:
       return [...state, mapApiToStateUser(action.person)];

@@ -50,10 +50,10 @@ export default class SearchMessagesCard extends PureComponent<Props, State> {
       this.setState({ isFetching: true });
       const messages = await getMessages(
         auth,
+        searchNarrow(query),
         Number.MAX_SAFE_INTEGER,
         20,
         0,
-        searchNarrow(query),
         false,
       );
       this.setState({

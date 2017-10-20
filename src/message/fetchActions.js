@@ -1,6 +1,6 @@
 /* @flow */
 import type { Action, Narrow, Dispatch, GetState } from '../types';
-import { getMessages, getStreams, getUsers, registerForEvents } from '../api';
+import { getMessages, getStreams, registerForEvents } from '../api';
 import {
   getAuth,
   getFirstMessageId,
@@ -22,7 +22,7 @@ import { allPrivateNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { refreshNotificationToken } from '../utils/notifications';
 import { initStreams } from '../streams/streamsActions';
-import { initUsers, sendFocusPing } from '../users/usersActions';
+import { sendFocusPing } from '../users/usersActions';
 import { initNotifications, realmInit } from '../realm/realmActions';
 import { trySendMessages } from '../outbox/outboxActions';
 import { startEventPolling } from '../events/eventActions';
@@ -60,10 +60,10 @@ export const backgroundFetchMessages = (
 ): Action => async (dispatch: Dispatch, getState: GetState) => {
   const messages = await getMessages(
     getAuth(getState()),
+    narrow,
     anchor,
     numBefore,
     numAfter,
-    narrow,
     useFirstUnread,
   );
 
@@ -130,13 +130,13 @@ export const fetchEssentialInitialData = (): Action => async (
   timing.start('Essential server data');
   const [initData, messages] = await Promise.all([
     await tryUntilSuccessful(() => registerForEvents(auth)),
-    await tryUntilSuccessful(() => getMessages(auth, 0, halfCount, halfCount, narrow, true)),
+    await tryUntilSuccessful(() => getMessages(auth, narrow, 0, halfCount, halfCount, true)),
   ]);
 
   timing.end('Essential server data');
 
   dispatch(realmInit(initData));
-  dispatch(messageFetchComplete(messages, narrow, 0, config.messagesPerRequest, halfCount, true));
+  dispatch(messageFetchComplete(messages, narrow, 0, halfCount, halfCount, true));
   dispatch(initialFetchComplete());
 
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
@@ -150,18 +150,16 @@ export const fetchRestOfInitialData = (): Action => async (
   const pushToken = getPushToken(getState());
 
   timing.start('Rest of server data');
-  const [messages, streams, users] = await Promise.all([
+  const [messages, streams] = await Promise.all([
     await tryUntilSuccessful(() =>
-      getMessages(auth, Number.MAX_SAFE_INTEGER, 100, 0, allPrivateNarrow),
+      getMessages(auth, allPrivateNarrow, Number.MAX_SAFE_INTEGER, 100, 0),
     ),
     await tryUntilSuccessful(() => getStreams(auth)),
-    await tryUntilSuccessful(() => getUsers(auth)),
   ]);
-
   timing.end('Rest of server data');
+
   dispatch(messageFetchComplete(messages, allPrivateNarrow, 0, 0, 0, true));
   dispatch(initStreams(streams));
-  dispatch(initUsers(users));
 
   if (auth.apiKey !== '' && pushToken === '') {
     refreshNotificationToken();

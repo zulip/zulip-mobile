@@ -4,7 +4,7 @@ import uniqby from 'lodash.uniqby';
 
 import { NULL_USER } from '../nullObjects';
 import type { User } from '../types';
-import { getUsers } from '../selectors';
+import { getUsers } from '../directSelectors';
 import { getCurrentRouteParams } from '../nav/navigationSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 
@@ -82,6 +82,10 @@ export const filterUserList = (users: any[], filter: string = '', ownEmail: ?str
 
 export const sortAlphabetically = (users: User[]): User[] =>
   [...users].sort((x1, x2) => x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase()));
+
+export const getSortedUsers = createSelector(getUsers, users =>
+  [...users].sort((x1, x2) => x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase())),
+);
 
 export const filterUserStartWith = (users: User[], filter: string = '', ownEmail: string): User[] =>
   users.filter(
