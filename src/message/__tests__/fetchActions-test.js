@@ -31,7 +31,7 @@ describe('fetchActions', () => {
       const response = '{"messages": [{"id": 1}, {"id": 2}, {"id": 3}], "result": "success"}';
       fetch.mockResponseSuccess(response);
 
-      await store.dispatch(backgroundFetchMessages(0, 1, 1, homeNarrow, true));
+      await store.dispatch(backgroundFetchMessages(homeNarrow, 0, 1, 1, true));
       expect(store.getActions()).toMatchSnapshot();
     });
   });
@@ -47,7 +47,7 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchMessages(0, 1, 1, homeNarrow, true));
+      store.dispatch(fetchMessages(homeNarrow, 0, 1, 1, true));
       expect(store.getActions()).toMatchSnapshot();
     });
 
@@ -61,7 +61,7 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchMessages(0, -1, 1, homeNarrow, true));
+      store.dispatch(fetchMessages(homeNarrow, 0, -1, 1, true));
       expect(store.getActions()).toMatchSnapshot();
     });
 
@@ -75,7 +75,7 @@ describe('fetchActions', () => {
         },
       });
 
-      store.dispatch(fetchMessages(0, 1, -1, homeNarrow, true));
+      store.dispatch(fetchMessages(homeNarrow, 0, 1, -1, true));
       expect(store.getActions()).toMatchSnapshot();
     });
   });

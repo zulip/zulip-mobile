@@ -52,10 +52,10 @@ export const messageFetchComplete = (
 });
 
 export const backgroundFetchMessages = (
+  narrow: Narrow,
   anchor: number,
   numBefore: number,
   numAfter: number,
-  narrow: Narrow,
   useFirstUnread: boolean = false,
 ): Action => async (dispatch: Dispatch, getState: GetState) => {
   const messages = await getMessages(
@@ -71,18 +71,18 @@ export const backgroundFetchMessages = (
 };
 
 export const fetchMessages = (
+  narrow: Narrow,
   anchor: number,
   numBefore: number,
   numAfter: number,
-  narrow: Narrow,
   useFirstUnread: boolean = false,
 ): Action => async (dispatch: Dispatch) => {
   dispatch(messageFetchStart(narrow, numBefore, numAfter));
-  dispatch(backgroundFetchMessages(anchor, numBefore, numAfter, narrow, useFirstUnread));
+  dispatch(backgroundFetchMessages(narrow, anchor, numBefore, numAfter, useFirstUnread));
 };
 
 export const fetchMessagesAtFirstUnread = (narrow: Narrow): Action =>
-  fetchMessages(0, config.messagesPerRequest, 0, narrow, true);
+  fetchMessages(narrow, 0, config.messagesPerRequest, 0, true);
 
 export const markMessagesRead = (messageIds: number[]): Action => ({
   type: MARK_MESSAGES_READ,
@@ -98,7 +98,7 @@ export const fetchOlder = () => (dispatch: Dispatch, getState: GetState): Action
   const { needsInitialFetch } = state.app;
 
   if (!needsInitialFetch && !fetching.older && !caughtUp.older && firstMessageId) {
-    dispatch(fetchMessages(firstMessageId, config.messagesPerRequest, 0, narrow));
+    dispatch(fetchMessages(narrow, firstMessageId, config.messagesPerRequest, 0));
   }
 };
 
@@ -111,7 +111,7 @@ export const fetchNewer = () => (dispatch: Dispatch, getState: GetState): Action
   const { needsInitialFetch } = state.app;
 
   if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId) {
-    dispatch(fetchMessages(lastMessageId + 1, 0, config.messagesPerRequest, narrow));
+    dispatch(fetchMessages(narrow, lastMessageId + 1, 0, config.messagesPerRequest));
   }
 };
 
