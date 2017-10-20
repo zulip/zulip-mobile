@@ -6,6 +6,10 @@
 
 Zulip Mobile is the official mobile Zulip client supporting both iOS and Android, written in JavaScript with React Native. It supersedes our two native apps [zulip-ios](https://github.com/zulip/zulip-ios-legacy) and [zulip-android](https://github.com/zulip/zulip-android).
 
+Production versions of the app are available here:
+ * [Zulip for iOS on iTunes App Store](https://itunes.apple.com/app/zulip/id1203036395)
+ * [Zulip for Android on Google Play Store](https://play.google.com/store/apps/details?id=com.zulipmobile)
+
 All contributors to our previous projects, as well as newcomers, are welcome to contribute. If you are current Android contributor, read more about our
  [plans for Zulip on Android](https://github.com/zulip/zulip-android/blob/master/android-strategy.md).
 
