@@ -2,8 +2,11 @@ package com.zulipmobile;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.util.Log;
 
 import com.facebook.react.ReactActivity;
+
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class MainActivity extends ReactActivity {
 
@@ -22,5 +25,17 @@ public class MainActivity extends ReactActivity {
         Intent intent = new Intent("onConfigurationChanged");
         intent.putExtra("newConfig", newConfig);
         this.sendBroadcast(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            if (ShortcutBadger.isBadgeCounterSupported(MainActivity.this)) {
+                ShortcutBadger.removeCount(MainActivity.this);
+            }
+        } catch (Exception e) {
+            Log.e("BADGE ERROR", e.toString());
+        }
     }
 }
