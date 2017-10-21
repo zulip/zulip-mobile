@@ -118,9 +118,13 @@ public class GCMPushNotifications extends PushNotification {
             }
             builder.setStyle(new Notification.BigTextStyle().bigText(content));
         } else {
-            builder.setContentTitle(String.format(Locale.ENGLISH, "%d messages in %d conversations", totalMessagesCount, conversations.size()));
-            builder.setStyle(new Notification.BigTextStyle().bigText(buildNotificationContent(conversations)));
+            String conversationTitle = String.format(Locale.ENGLISH, "%d messages in %d conversations", totalMessagesCount, conversations.size());
+            builder.setContentTitle(conversationTitle);
             builder.setContentText("Messages from " + TextUtils.join(",", extractNames(conversations)));
+            Notification.InboxStyle inboxStyle = new Notification.InboxStyle(builder);
+            inboxStyle.setSummaryText(String.format(Locale.ENGLISH, "%d conversations", conversations.size()));
+            buildNotificationContent(conversations, inboxStyle, mContext);
+            builder.setStyle(inboxStyle);
         }
 
         try {

@@ -1,12 +1,18 @@
 package com.zulipmobile.notifications;
 
+import android.app.Notification;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
+
+import com.zulipmobile.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class NotificationHelper {
@@ -58,12 +65,16 @@ public class NotificationHelper {
         return key.split(":")[0];
     }
 
-    public static String buildNotificationContent(LinkedHashMap<String, Pair<String, Integer>> conversations) {
-        StringBuilder stringBuilder = new StringBuilder();
+    public static void buildNotificationContent(LinkedHashMap<String, Pair<String, Integer>> conversations, Notification.InboxStyle inboxStyle, Context mContext) {
         for (Map.Entry<String, Pair<String, Integer>> map : conversations.entrySet()) {
-            stringBuilder.append(extractName(map.getKey())).append(" (").append(map.getValue().second).append("): ").append(map.getValue().first).append("\n");
+            String name = extractName(map.getKey());
+
+            Spannable sb = new SpannableString(String.format(Locale.ENGLISH, "%s%s: %s", name,
+                    mContext.getResources().getQuantityString(R.plurals.messages, map.getValue().second, map.getValue().second),
+                    map.getValue().first));
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            inboxStyle.addLine(sb);
         }
-        return stringBuilder.toString();
     }
 
     public static int extractTotalMessagesCount(LinkedHashMap<String, Pair<String, Integer>> conversations) {
