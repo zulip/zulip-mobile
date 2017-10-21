@@ -3,4 +3,8 @@
 
     <string name="app_name">Zulip</string>
     <string name="no_browser_found">No Browser Found</string>
+    <plurals name="messages">
+        <item quantity="one"></item>
+        <item quantity="other">&#160;(%d messages)</item>
+    </plurals>
 </resources>
