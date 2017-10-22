@@ -226,7 +226,6 @@ export type Actions = {
   initNotifications: () => Action,
   switchAccount: (index: number) => Action,
   realmAdd: (realm: string) => Action,
-  setAuthType: (authType: string) => Action,
   removeAccount: (index: number) => Action,
   loginSuccess: (realm: string, email: string, apiKey: string) => Action,
   logout: () => Action,

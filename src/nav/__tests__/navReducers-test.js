@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { RESET_NAVIGATION, SET_AUTH_TYPE, LOGIN_SUCCESS } from '../../actionConstants';
+import { RESET_NAVIGATION, LOGIN_SUCCESS } from '../../actionConstants';
 import navReducers from '../navReducers';
 
 describe('navReducers', () => {
@@ -47,40 +47,6 @@ describe('navReducers', () => {
 
       expect(newState.index).toEqual(expectedState.index);
       expect(newState.routes[0].routeName).toEqual(expectedState.routes[0].routeName);
-    });
-  });
-
-  describe('SET_AUTH_TYPE', () => {
-    test('navigates to a route with the name of the auth type', () => {
-      const prevState = deepFreeze({
-        index: 1,
-        routes: [{ key: 'one' }, { key: 'two' }],
-      });
-
-      const action = deepFreeze({
-        type: SET_AUTH_TYPE,
-        serverSettings: { authentication_methods: { password: true } },
-      });
-
-      const expectedState = {
-        index: 2,
-        routes: [
-          { key: 'one' },
-          { key: 'two' },
-          {
-            key: 'id-1499833198455-2',
-            params: { serverSettings: { authentication_methods: { password: true } } },
-            routeName: 'auth',
-          },
-        ],
-      };
-
-      const newState = navReducers(prevState, action);
-
-      expect(newState.index).toEqual(expectedState.index);
-      expect(newState.routes[2].params.serverSettings.authentication_methods).toEqual({
-        password: true,
-      });
     });
   });
 
