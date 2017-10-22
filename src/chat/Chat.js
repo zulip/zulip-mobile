@@ -7,8 +7,6 @@ import type { Narrow } from '../types';
 import { KeyboardAvoider, OfflineNotice } from '../common';
 
 import MessageListContainer from '../message/MessageListContainer';
-// import MessageList from '../message/MessageListWeb';
-// import MessageList from '../message/MessageListFlatList';
 import MessageListLoading from '../message/MessageListLoading';
 import NoMessages from '../message/NoMessages';
 import ComposeBoxContainer from '../compose/ComposeBoxContainer';

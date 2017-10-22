@@ -13,7 +13,7 @@ body {
   margin: 0;
 }
 body {
-  font-size: 16px;
+  font-size: 15px;
 }
 a {
   color: #08c;
