@@ -21,17 +21,17 @@ if (config.enableSentry) {
 }
 
 export default () => (
-  <StoreProvider>
-    <TranslationProvider>
-      <StylesProvider>
-        <CompatibilityChecker>
-          <AppEventHandlers>
-            <AppDataFetcher>
+  <CompatibilityChecker>
+    <StoreProvider>
+      <AppEventHandlers>
+        <AppDataFetcher>
+          <TranslationProvider>
+            <StylesProvider>
               <AppWithNavigationState />
-            </AppDataFetcher>
-          </AppEventHandlers>
-        </CompatibilityChecker>
-      </StylesProvider>
-    </TranslationProvider>
-  </StoreProvider>
+            </StylesProvider>
+          </TranslationProvider>
+        </AppDataFetcher>
+      </AppEventHandlers>
+    </StoreProvider>
+  </CompatibilityChecker>
 );
