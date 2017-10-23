@@ -1,8 +1,10 @@
 /* @flow */
+import store from '../boot/store';
 import type { Auth, ResponseExtractionFunc } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from './networkActivity';
+import { navigateToInternalErrorScreen } from '../nav/navActions';
 
 const apiVersion = 'api/v1';
 
@@ -35,12 +37,14 @@ export const apiCall = async (
       // TODO: httpUnauthorized()
       console.log('Unauthorized for:', auth, route, params); // eslint-disable-line
       throw Error('Unauthorized');
+    } else if (response.status === 500) {
+      store.dispatch(navigateToInternalErrorScreen(route));
     }
 
     const json = await response.json();
 
     if (!response.ok || json.result !== 'success') {
-      console.log('Bad response for:', auth, route, params); // eslint-disable-line
+      console.log('Bad response for:', auth, route, params, response.status); // eslint-disable-line
       throw new Error(json.msg);
     }
 

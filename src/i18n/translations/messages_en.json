@@ -91,5 +91,7 @@
   "Edit message": "Edit message",
   "Network request failed": "Network request failed",
   "show": "show",
-  "hide": "hide"
+  "hide": "hide",
+  "Internal server error (message)":
+    "This Zulip server is currently experiencing some technical difficulties. Sorry about that!"
 }
