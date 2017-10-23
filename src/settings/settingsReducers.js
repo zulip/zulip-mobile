@@ -12,6 +12,7 @@ const initialState: SettingsState = {
   offlineNotification: true,
   onlineNotification: true,
   experimentalFeaturesEnabled: false,
+  splitMessageText: false,
 };
 
 export default (state: SettingsState = initialState, action: Action): SettingsState => {

@@ -20,6 +20,11 @@ class DiagnosticsScreen extends PureComponent<Props> {
     actions.settingsChange('experimentalFeaturesEnabled', !experimentalFeaturesEnabled);
   };
 
+  handleSplitMessageTextChange = () => {
+    const { actions, splitMessageText } = this.props;
+    actions.settingsChange('splitMessageText', !splitMessageText);
+  };
+
   render() {
     const { actions } = this.props;
 
@@ -32,6 +37,10 @@ class DiagnosticsScreen extends PureComponent<Props> {
         <OptionButton label="Storage" onPress={actions.navigateToStorage} />
         <OptionDivider />
         <OptionButton label="Debug" onPress={actions.navigateToDebug} />
+        <OptionButton
+          label="Split Message Text"
+          onValueChange={this.handleSplitMessageTextChange}
+        />
       </Screen>
     );
   }

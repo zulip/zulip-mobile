@@ -67,6 +67,7 @@ class HtmlNodeTag extends PureComponent<Props> {
       onPress,
       message,
       ownEmail,
+      splitMessageText,
     } = this.props;
     const style = [styles[name], ...stylesFromClassNames(attribs.class, styles)];
     const newCascadingStyle = [
@@ -111,6 +112,7 @@ class HtmlNodeTag extends PureComponent<Props> {
         childrenNodes={childrenNodes}
         onPress={onPress}
         message={message}
+        splitMessageText={splitMessageText}
       />
     );
   }
@@ -118,4 +120,5 @@ class HtmlNodeTag extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   ownEmail: getOwnEmail(state),
+  splitMessageText: state.settings.splitMessageText,
 }))(HtmlNodeTag);

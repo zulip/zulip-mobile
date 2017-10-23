@@ -14,6 +14,7 @@ type Props = {
   onPress?: (html: string) => void,
   indexedStyles?: any[],
   indexedViewsStyles?: any[],
+  splitMessageText: boolean,
 };
 
 export default ({
@@ -26,6 +27,7 @@ export default ({
   message,
   indexedStyles,
   indexedViewsStyles,
+  splitMessageText,
 }: Props) =>
   childrenNodes &&
   childrenNodes
@@ -49,5 +51,6 @@ export default ({
         childrenNodes={node.children}
         onPress={onPress}
         message={message}
+        splitMessageText={splitMessageText}
       />
     ));
