@@ -91,5 +91,6 @@
   "Edit message": "Edit message",
   "Network request failed": "Network request failed",
   "show": "show",
-  "hide": "hide"
+  "hide": "hide",
+  "Debug": "Debug"
 }

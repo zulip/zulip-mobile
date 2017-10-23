@@ -1,18 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { Screen } from '../common';
-import OptionRow from '../settings/OptionRow';
 import OptionButton from '../settings/OptionButton';
-
-const styles = StyleSheet.create({
-  divider: {
-    height: 16,
-  },
-});
+import OptionDivider from '../settings/OptionDivider';
 
 type Props = {
   actions: Actions,
@@ -28,26 +21,20 @@ class DiagnosticsScreen extends PureComponent<Props> {
   };
 
   render() {
-    const { actions, experimentalFeaturesEnabled } = this.props;
+    const { actions } = this.props;
 
     return (
       <Screen title="Diagnostics">
         <OptionButton label="Variables" onPress={actions.navigateToVariables} />
-        <View style={styles.divider} />
+        <OptionDivider />
         <OptionButton label="Timing" onPress={actions.navigateToTiming} />
-        <View style={styles.divider} />
+        <OptionDivider />
         <OptionButton label="Storage" onPress={actions.navigateToStorage} />
-        <View style={styles.divider} />
-        <OptionRow
-          label="Enable experimental features"
-          defaultValue={experimentalFeaturesEnabled}
-          onValueChange={this.handleExperimentalChange}
-        />
+        <OptionDivider />
+        <OptionButton label="Debug" onPress={actions.navigateToDebug} />
       </Screen>
     );
   }
 }
 
-export default connectWithActions(state => ({
-  experimentalFeaturesEnabled: state.settings.experimentalFeaturesEnabled,
-}))(DiagnosticsScreen);
+export default connectWithActions(null)(DiagnosticsScreen);

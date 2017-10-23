@@ -18,6 +18,7 @@ import {
   START_EDIT_MESSAGE,
   START_OUTBOX_SENDING,
   FINISHED_OUTBOX_SENDING,
+  DEBUG_FLAG_TOGGLE,
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 
@@ -38,6 +39,10 @@ const initialState: AppState = {
     left: 0,
     right: 0,
     top: 0,
+  },
+  debug: {
+    htmlMessages: false,
+    unreadMessages: false,
   },
 };
 
@@ -132,6 +137,15 @@ export default (state: AppState = initialState, action: Action) => {
 
     case FINISHED_OUTBOX_SENDING:
       return { ...state, outboxSending: false };
+
+    case DEBUG_FLAG_TOGGLE:
+      return {
+        ...state,
+        debug: {
+          ...state.debug,
+          [action.key]: action.value,
+        },
+      };
 
     default:
       return state;

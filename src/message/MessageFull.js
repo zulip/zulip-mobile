@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
-import type { Actions, Auth } from '../types';
+import type { Actions, Auth, StyleObj } from '../types';
 import { Avatar } from '../common';
 import Subheader from './Subheader';
 import ReactionList from '../reactions/ReactionList';
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   actions: Actions,
+  style?: StyleObj,
   ownEmail: string,
   twentyFourHourTime: boolean,
   starred: boolean,
@@ -55,6 +56,7 @@ export default class MessageFull extends PureComponent<Props> {
 
   render() {
     const {
+      style,
       message,
       auth,
       actions,
@@ -66,7 +68,7 @@ export default class MessageFull extends PureComponent<Props> {
     } = this.props;
 
     return (
-      <View style={styles.message}>
+      <View style={[styles.message, style]}>
         <Avatar
           avatarUrl={message.avatar_url}
           email={message.sender_email}

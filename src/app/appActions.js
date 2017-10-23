@@ -5,6 +5,7 @@ import {
   APP_ORIENTATION,
   APP_STATE,
   APP_REFRESH,
+  DEBUG_FLAG_TOGGLE,
   INIT_SAFE_AREA_INSETS,
   TOGGLE_COMPOSE_TOOLS,
   CANCEL_EDIT_MESSAGE,
@@ -69,4 +70,10 @@ export const startEditMessage = (messageId: number) => async (
 
 export const cancelEditMessage = () => ({
   type: CANCEL_EDIT_MESSAGE,
+});
+
+export const debugFlagToggle = (key: string, value: any) => ({
+  type: DEBUG_FLAG_TOGGLE,
+  key,
+  value,
 });
