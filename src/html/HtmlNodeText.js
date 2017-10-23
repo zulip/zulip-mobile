@@ -8,7 +8,7 @@ import { RawLabel } from '../common';
 type Props = {
   data: string,
   cascadingTextStyle?: StyleObj,
-  splitMessageText: boolean,
+  splitMessageText?: boolean,
 };
 
 export default ({ data, cascadingTextStyle, splitMessageText }: Props) =>

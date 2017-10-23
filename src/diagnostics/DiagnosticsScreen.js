@@ -10,6 +10,7 @@ import OptionDivider from '../settings/OptionDivider';
 type Props = {
   actions: Actions,
   experimentalFeaturesEnabled: boolean,
+  splitMessageText: boolean,
 };
 
 class DiagnosticsScreen extends PureComponent<Props> {

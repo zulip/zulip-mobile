@@ -21,6 +21,7 @@ const customStyles = StyleSheet.create({
 type Props = {
   style: StyleObj,
   actions: Actions,
+  splitMessageText?: boolean,
 };
 
 export default class HtmlTagLi extends PureComponent<Props> {

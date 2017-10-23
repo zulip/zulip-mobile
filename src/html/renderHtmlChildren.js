@@ -14,7 +14,7 @@ type Props = {
   onPress?: (html: string) => void,
   indexedStyles?: any[],
   indexedViewsStyles?: any[],
-  splitMessageText: boolean,
+  splitMessageText?: boolean,
 };
 
 export default ({

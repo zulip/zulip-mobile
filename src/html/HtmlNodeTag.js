@@ -49,6 +49,7 @@ type Props = {
   ownEmail: string,
   message: Message,
   actions: Actions,
+  splitMessageText: boolean,
   onPress: () => void,
 };
 
