@@ -5,6 +5,7 @@ import type { Actions, Fetching, Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
 import MessageList from './MessageList';
 // import MessageList from './MessageListFlatList';
+import MessageListWeb from './MessageListWeb';
 import {
   getAuth,
   getCurrentTypingUsers,
@@ -13,6 +14,7 @@ import {
   getFlags,
   getCaughtUpForActiveNarrow,
   getFetchingForActiveNarrow,
+  getSubscriptions,
 } from '../selectors';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
@@ -57,12 +59,18 @@ class MessageListContainer extends PureComponent<Props> {
       onReplySelect,
       renderedMessages,
       narrow,
+      experimentalFeaturesEnabled,
       listRef,
       onSend,
     } = this.props;
 
+    const MessageListComponent = experimentalFeaturesEnabled ? MessageListWeb : MessageList;
+
     return (
-      <MessageList
+      <MessageListComponent
+        auth={this.props.auth}
+        subscriptions={this.props.subscriptions}
+        isFetching={false}
         actions={actions}
         caughtUpNewer={caughtUp.newer}
         caughtUpOlder={caughtUp.older}
@@ -81,10 +89,12 @@ class MessageListContainer extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
+  experimentalFeaturesEnabled: state.settings.experimentalFeaturesEnabled,
   caughtUp: getCaughtUpForActiveNarrow(state),
   fetching: getFetchingForActiveNarrow(state),
   typingUsers: getCurrentTypingUsers(state),
   renderedMessages: getRenderedMessages(state),
+  subscriptions: getSubscriptions(state),
   narrow: getActiveNarrow(state),
   auth: getAuth(state),
   flags: getFlags(state),

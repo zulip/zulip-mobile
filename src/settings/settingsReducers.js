@@ -11,6 +11,7 @@ const initialState: SettingsState = {
   theme: 'default',
   offlineNotification: true,
   onlineNotification: true,
+  experimentalFeaturesEnabled: false,
 };
 
 export default (state: SettingsState = initialState, action: Action): SettingsState => {
@@ -21,11 +22,13 @@ export default (state: SettingsState = initialState, action: Action): SettingsSt
         offlineNotification: action.data.enable_offline_push_notifications,
         onlineNotification: action.data.enable_online_push_notifications,
       };
+
     case SETTINGS_CHANGE:
       return {
         ...state,
         [action.key]: action.value,
       };
+
     case EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS:
       switch (action.notification_name) {
         case 'enable_offline_push_notifications':
@@ -35,6 +38,7 @@ export default (state: SettingsState = initialState, action: Action): SettingsSt
         default:
           return state;
       }
+
     default:
       return state;
   }

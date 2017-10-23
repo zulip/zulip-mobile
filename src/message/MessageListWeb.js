@@ -3,6 +3,7 @@ import { StyleSheet, WebView } from 'react-native';
 
 import css from './html/css';
 import js from './html/js';
+import head from './html/head';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 
 const styles = StyleSheet.create({
@@ -49,7 +50,7 @@ export default class MessageListWeb extends PureComponent<Props> {
 
     return (
       <WebView
-        source={{ html: css + html }}
+        source={{ html: head + css + html }}
         injectedJavaScript={js}
         style={styles.webview}
         decelerationRate={0.999}
