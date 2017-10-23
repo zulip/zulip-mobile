@@ -26,6 +26,7 @@ export default class LanguagePicker extends PureComponent<Props> {
     return (
       <FlatList
         ItemSeparatorComponent={() => <View style={styles.separator} />}
+        initialNumToRender={languages.length}
         data={languages}
         keyExtractor={item => item.locale}
         renderItem={({ item }) => (
