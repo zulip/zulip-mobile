@@ -52,6 +52,7 @@ export default class UnreadStreamsCard extends PureComponent<Props> {
     return (
       <SectionList
         style={styles.list}
+        stickySectionHeadersEnabled
         initialNumToRender={20}
         sections={unreadStreamsAndTopics}
         renderSectionHeader={({ section }) =>
