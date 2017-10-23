@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { AppState, BackHandler, NetInfo, View, Platform } from 'react-native';
+import { AppState, BackHandler, NetInfo, View, Platform, StyleSheet } from 'react-native';
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
@@ -9,6 +9,14 @@ import connectWithActions from '../connectWithActions';
 import { getAuth, getNavigationIndex } from '../selectors';
 import { registerAppActivity } from '../utils/activity';
 import { handlePendingNotifications } from '../utils/notifications';
+
+const componentStyles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'stretch',
+  },
+});
 
 type Props = {
   auth: Auth,
@@ -19,9 +27,6 @@ type Props = {
 };
 
 class AppEventHandlers extends PureComponent<Props> {
-  static contextTypes = {
-    styles: () => null,
-  };
   props: Props;
 
   handleOrientationChange = orientation => {
@@ -85,7 +90,7 @@ class AppEventHandlers extends PureComponent<Props> {
   }
 
   render() {
-    return <View style={this.context.styles.screen}>{this.props.children}</View>;
+    return <View style={componentStyles.wrapper}>{this.props.children}</View>;
   }
 }
 
