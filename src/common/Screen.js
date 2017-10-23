@@ -23,6 +23,7 @@ type Props = {
   padding?: boolean,
   search?: boolean,
   safeAreaInsets: Dimensions,
+  scrollView: boolean,
   title?: LocalizableText,
   children: ChildrenArray<*>,
   searchBarOnChange?: (text: string) => void,
@@ -35,8 +36,20 @@ class Screen extends PureComponent<Props> {
     styles: () => null,
   };
 
+  static defaultProps = {
+    scrollView: true,
+  };
+
   render() {
-    const { padding, search, title, children, safeAreaInsets, searchBarOnChange } = this.props;
+    const {
+      padding,
+      search,
+      title,
+      children,
+      safeAreaInsets,
+      searchBarOnChange,
+      scrollView,
+    } = this.props;
     const { styles } = this.context;
     const ModalBar = search ? ModalSearchNavBar : ModalNavBar;
 
@@ -45,14 +58,18 @@ class Screen extends PureComponent<Props> {
         <ZulipStatusBar />
         <ModalBar title={title} searchBarOnChange={searchBarOnChange} />
         <View style={componentStyles.screenWrapper}>
-          <KeyboardAvoider behavior="padding">
-            <ScrollView
-              keyboardShouldPersistTaps="always"
-              contentContainerStyle={[padding && componentStyles.padding]}
-            >
-              {children}
-            </ScrollView>
-          </KeyboardAvoider>
+          {scrollView ? (
+            <KeyboardAvoider behavior="padding">
+              <ScrollView
+                keyboardShouldPersistTaps="always"
+                contentContainerStyle={[padding && componentStyles.padding]}
+              >
+                {children}
+              </ScrollView>
+            </KeyboardAvoider>
+          ) : (
+            children
+          )}
         </View>
       </View>
     );
