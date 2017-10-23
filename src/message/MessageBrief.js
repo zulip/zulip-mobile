@@ -5,7 +5,7 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import ReactionList from '../reactions/ReactionList';
 import MessageTags from './MessageTags';
 import HtmlChildrenContainer from './HtmlChildrenContainer';
-import type { Auth, Actions } from '../types';
+import type { Auth, Actions, StyleObj } from '../types';
 
 const styles = StyleSheet.create({
   message: {
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  style?: StyleObj,
   message: Object,
   ownEmail: string,
   starred: boolean,
@@ -40,10 +41,19 @@ export default class MessageBrief extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { message, auth, actions, onLinkPress, ownEmail, onLongPress, starred } = this.props;
+    const {
+      style,
+      message,
+      auth,
+      actions,
+      onLinkPress,
+      ownEmail,
+      onLongPress,
+      starred,
+    } = this.props;
 
     return (
-      <View style={styles.message}>
+      <View style={[styles.message, style]}>
         <View style={styles.messageContentWrapper}>
           <ScrollView style={styles.childrenWrapper}>
             <HtmlChildrenContainer

@@ -60,3 +60,5 @@ export const navigateToVariables = (): Action =>
 export const navigateToTiming = (): Action => NavigationActions.navigate({ routeName: 'timing' });
 
 export const navigateToStorage = (): Action => NavigationActions.navigate({ routeName: 'storage' });
+
+export const navigateToDebug = (): Action => NavigationActions.navigate({ routeName: 'debug' });

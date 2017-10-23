@@ -15,6 +15,7 @@ import ChatScreen from '../chat/ChatScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import SettingsScreen from '../settings/SettingsScreen';
 import LanguageScreen from '../settings/LanguageScreen';
+import DebugScreen from '../settings/DebugScreen';
 import DiagnosticsScreen from '../diagnostics/DiagnosticsScreen';
 import VariablesScreen from '../diagnostics/VariablesScreen';
 import TimingScreen from '../diagnostics/TimingScreen';
@@ -44,6 +45,7 @@ export default StackNavigator(
     variables: { screen: VariablesScreen },
     timing: { screen: TimingScreen },
     storage: { screen: StorageScreen },
+    debug: { screen: DebugScreen },
   },
   {
     initialRouteName: 'main',

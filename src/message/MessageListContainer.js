@@ -25,6 +25,7 @@ type Props = {
   caughtUp: boolean,
   fetching: Fetching,
   typingUsers: any,
+  htmlMessages: boolean,
   renderedMessages: any,
   narrow: Narrow,
   listRef: () => void,
@@ -59,12 +60,12 @@ class MessageListContainer extends PureComponent<Props> {
       onReplySelect,
       renderedMessages,
       narrow,
-      experimentalFeaturesEnabled,
+      htmlMessages,
       listRef,
       onSend,
     } = this.props;
 
-    const MessageListComponent = experimentalFeaturesEnabled ? MessageListWeb : MessageList;
+    const MessageListComponent = htmlMessages ? MessageListWeb : MessageList;
 
     return (
       <MessageListComponent
@@ -89,7 +90,7 @@ class MessageListContainer extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  experimentalFeaturesEnabled: state.settings.experimentalFeaturesEnabled,
+  htmlMessages: state.app.debug.htmlMessages,
   caughtUp: getCaughtUpForActiveNarrow(state),
   fetching: getFetchingForActiveNarrow(state),
   typingUsers: getCurrentTypingUsers(state),

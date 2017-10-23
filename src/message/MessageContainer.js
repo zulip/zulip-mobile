@@ -25,6 +25,7 @@ type Props = {
   auth: Auth,
   flags: Object,
   twentyFourHourTime: boolean,
+  unreadMessages: boolean,
   isBrief: boolean,
   onReplySelect?: () => void,
   showActionSheetWithOptions: (Object, (number) => void) => void,
@@ -93,11 +94,14 @@ class MessageContainer extends PureComponent<Props> {
   };
 
   render() {
-    const { message, auth, actions, twentyFourHourTime, isBrief } = this.props;
+    const { message, auth, actions, twentyFourHourTime, unreadMessages, isBrief } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
+    const style =
+      unreadMessages && message.id in this.props.flags.read ? { backgroundColor: 'red' } : null;
 
     return (
       <MessageComponent
+        style={style}
         message={message}
         twentyFourHourTime={twentyFourHourTime}
         ownEmail={auth.email}
@@ -114,6 +118,7 @@ class MessageContainer extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
+  unreadMessages: state.app.debug.unreadMessages,
   narrow: getActiveNarrow(state),
   currentRoute: getCurrentRoute(state),
   flags: getFlags(state),
