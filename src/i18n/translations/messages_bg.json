@@ -91,5 +91,9 @@
   "Edit message": "Редактирай съобщение",
   "Network request failed": "Връзката се провали",
   "show": "покажи",
-  "hide": "скрий"
+  "hide": "скрий",
+  "Debug": "Дебъг",
+  "Render messages with HTML": "Покажи съобщения с HTML",
+  "Distinguish unread messages": "Отличи нечетените съобщения",
+  "Split message text": "Раздели текст на съобщения"
 }

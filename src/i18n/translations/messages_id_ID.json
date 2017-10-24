@@ -91,5 +91,9 @@
   "Edit message": "Edit pesan",
   "Network request failed": "Permintaan jaringan gagal",
   "show": "tampilkan",
-  "hide": "sembunyikan"
+  "hide": "sembunyikan",
+  "Debug": "Debug",
+  "Render messages with HTML": "Render messages with HTML",
+  "Distinguish unread messages": "Distinguish unread messages",
+  "Split message text": "Split message text"
 }

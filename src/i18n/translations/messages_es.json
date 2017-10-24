@@ -12,7 +12,7 @@
   "No messages with this topic": "No hay mensajes en este tema",
   "No messages with this person": "No hay mensajes con esta persona",
   "No messages in this group": "No hay mensajes en este grupo",
-  "No unread messages": "No unread messages",
+  "No unread messages": "No hay mensajes sin leer",
   "Pick account": "Escoger cuenta",
   "Welcome": "Te damos la bienvenida",
   "Subscriptions": "Suscripciones",
@@ -91,5 +91,9 @@
   "Edit message": "Editar mensaje",
   "Network request failed": "Network request failed",
   "show": "show",
-  "hide": "hide"
+  "hide": "hide",
+  "Debug": "Depurar",
+  "Render messages with HTML": "Render messages with HTML",
+  "Distinguish unread messages": "Distinguish unread messages",
+  "Split message text": "Split message text"
 }

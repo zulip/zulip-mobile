@@ -91,5 +91,9 @@
   "Edit message": "Edit message",
   "Network request failed": "Network request failed",
   "show": "show",
-  "hide": "hide"
+  "hide": "hide",
+  "Debug": "Depurar",
+  "Render messages with HTML": "Render messages with HTML",
+  "Distinguish unread messages": "Distinguish unread messages",
+  "Split message text": "Split message text"
 }

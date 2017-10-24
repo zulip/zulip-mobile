@@ -68,7 +68,7 @@
   "Subscribed": "Abonné",
   "No users found": "Aucun utilisateur trouvé",
   "No streams found": "Aucun canal trouvé",
-  "New group chat": "New group chat",
+  "New group chat": "Nouveau groupe de chat",
   "Diagnostics": "Diagnostiques",
   "Toggle compose tools": "Toggle compose tools",
   "Terms of service": "Conditions d'utilisation",
@@ -91,5 +91,9 @@
   "Edit message": "Editer ce message",
   "Network request failed": "Network request failed",
   "show": "afficher",
-  "hide": "masquer"
+  "hide": "masquer",
+  "Debug": "Debug",
+  "Render messages with HTML": "Render messages with HTML",
+  "Distinguish unread messages": "Distinguish unread messages",
+  "Split message text": "Split message text"
 }

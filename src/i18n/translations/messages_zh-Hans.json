@@ -91,5 +91,9 @@
   "Edit message": "编辑消息",
   "Network request failed": "网络请求失败",
   "show": "显示",
-  "hide": "隐藏"
+  "hide": "隐藏",
+  "Debug": "故障诊断",
+  "Render messages with HTML": "Render messages with HTML",
+  "Distinguish unread messages": "Distinguish unread messages",
+  "Split message text": "Split message text"
 }

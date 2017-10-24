@@ -92,5 +92,8 @@
   "Network request failed": "Network request failed",
   "show": "show",
   "hide": "hide",
-  "Debug": "Debug"
+  "Debug": "Debug",
+  "Render messages with HTML": "Render messages with HTML",
+  "Distinguish unread messages": "Distinguish unread messages",
+  "Split message text": "Split message text"
 }
