@@ -36,6 +36,12 @@ class DebugScreen extends PureComponent<Props> {
           defaultValue={debug.unreadMessages}
           onValueChange={() => this.handleSettingToggle('unreadMessages')}
         />
+        <OptionDivider />
+        <OptionRow
+          label="Split Message Text"
+          defaultValue={debug.splitMessageText}
+          onValueChange={() => this.handleSettingToggle('splitMessageText')}
+        />
       </Screen>
     );
   }
