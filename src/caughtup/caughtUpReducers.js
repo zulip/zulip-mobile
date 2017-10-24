@@ -7,7 +7,7 @@ import {
   ACCOUNT_SWITCH,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
-import { NULL_CAUGHTUP, NULL_OBJECT } from '../nullObjects';
+import { NULL_OBJECT } from '../nullObjects';
 
 const initialState: CaughtUpState = NULL_OBJECT;
 
@@ -39,13 +39,11 @@ export default (state: CaughtUpState = initialState, action: Action) => {
       const caughtUpOlder = anchorIdx + 1 < action.numBefore;
       const caughtUpNewer = action.messages.length - anchorIdx + adjustment < action.numAfter;
 
-      const prevState = state[key] || NULL_CAUGHTUP;
-
       return {
         ...state,
         [key]: {
-          older: prevState.older || caughtUpOlder,
-          newer: prevState.newer || caughtUpNewer,
+          older: caughtUpOlder,
+          newer: caughtUpNewer,
         },
       };
     }
