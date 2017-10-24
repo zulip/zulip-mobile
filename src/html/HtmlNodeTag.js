@@ -121,5 +121,5 @@ class HtmlNodeTag extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   ownEmail: getOwnEmail(state),
-  splitMessageText: state.settings.splitMessageText,
+  splitMessageText: state.app.debug.splitMessageText,
 }))(HtmlNodeTag);
