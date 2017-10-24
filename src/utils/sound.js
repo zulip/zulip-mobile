@@ -2,6 +2,8 @@
 import Sound from 'react-native-sound';
 import { logErrorRemotely } from '../utils/logging';
 
+Sound.setCategory('Ambient', true);
+
 const messageSound = new Sound('zulip.mp3', Sound.MAIN_BUNDLE, error => {
   if (error) {
     logErrorRemotely(error, 'Failed to load the sound');
