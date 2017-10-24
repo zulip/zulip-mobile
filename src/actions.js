@@ -1,6 +1,7 @@
 /* @flow */
 export * from './app/appActions';
 export * from './account/accountActions';
+export * from './device/deviceActions';
 export * from './events/eventActions';
 export * from './nav/navActions';
 export * from './drafts/draftsActions';

@@ -4,7 +4,7 @@ import { AppState, NetInfo, View, StyleSheet } from 'react-native';
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
-import type { Auth, Actions, ChildrenArray } from '../types';
+import type { Auth, Actions, ChildrenArray, SafeAreaInsets } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getAuth } from '../selectors';
 import { registerAppActivity } from '../utils/activity';
@@ -20,9 +20,11 @@ const componentStyles = StyleSheet.create({
 
 type Props = {
   auth: Auth,
+  isHydrated: boolean,
   needsInitialFetch: boolean,
   actions: Actions,
   children?: ChildrenArray<*>,
+  safeAreaInsets: SafeAreaInsets,
 };
 
 class AppEventHandlers extends PureComponent<Props> {
@@ -61,7 +63,6 @@ class AppEventHandlers extends PureComponent<Props> {
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
-    SafeArea.getSafeAreaInsetsForRootView().then(actions.initSafeAreaInsets);
     Orientation.addOrientationListener(this.handleOrientationChange);
   }
 
@@ -72,6 +73,13 @@ class AppEventHandlers extends PureComponent<Props> {
     Orientation.removeOrientationListener(this.handleOrientationChange);
   }
 
+  componentWillUpdate(nextProps) {
+    const { actions, safeAreaInsets, isHydrated } = nextProps;
+    if (safeAreaInsets === undefined && isHydrated) {
+      SafeArea.getSafeAreaInsetsForRootView().then(actions.initSafeAreaInsets);
+    }
+  }
+
   render() {
     return <View style={componentStyles.wrapper}>{this.props.children}</View>;
   }
@@ -80,4 +88,6 @@ class AppEventHandlers extends PureComponent<Props> {
 export default connectWithActions(state => ({
   auth: getAuth(state),
   needsInitialFetch: state.app.needsInitialFetch,
+  safeAreaInsets: state.device.safeAreaInsets,
+  isHydrated: state.app.isHydrated,
 }))(AppEventHandlers);

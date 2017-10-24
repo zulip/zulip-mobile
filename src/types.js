@@ -289,6 +289,17 @@ export type AppState = {
   outboxSending: boolean,
 };
 
+export type SafeAreaInsets = {
+  top: number,
+  bottom: number,
+  right: number,
+  left: number,
+};
+
+export type DeviceState = {
+  safeAreaInsets: SafeAreaInsets,
+};
+
 export type ChatState = {
   narrow: Narrow,
   messages: Object,

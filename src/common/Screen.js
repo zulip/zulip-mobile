@@ -7,6 +7,7 @@ import connectWithActions from '../connectWithActions';
 import { KeyboardAvoider, ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
+import { NULL_SAFE_AREA_INSETS } from '../nullObjects';
 
 const componentStyles = StyleSheet.create({
   screenWrapper: {
@@ -54,7 +55,9 @@ class Screen extends PureComponent<Props> {
     const ModalBar = search ? ModalSearchNavBar : ModalNavBar;
 
     return (
-      <View style={[styles.screen, { marginBottom: safeAreaInsets.bottom }]}>
+      <View
+        style={[styles.screen, { marginBottom: (safeAreaInsets || NULL_SAFE_AREA_INSETS).bottom }]}
+      >
         <ZulipStatusBar />
         <ModalBar title={title} searchBarOnChange={searchBarOnChange} />
         <View style={componentStyles.screenWrapper}>

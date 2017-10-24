@@ -8,6 +8,7 @@ import connectWithActions from '../connectWithActions';
 import { getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 import getStatusBarStyle from '../utils/getStatusBarStyle';
 import getStatusBarColor from '../utils/getStatusBarColor';
+import { NULL_SAFE_AREA_INSETS } from '../nullObjects';
 
 type Props = {
   barStyle?: StatusBarStyle,
@@ -31,7 +32,10 @@ class ZulipStatusBar extends PureComponent<Props> {
 
   render() {
     const { theme, backgroundColor, textColor, hidden, barStyle, safeAreaInsets } = this.props;
-    const style = { height: hidden ? 0 : safeAreaInsets.top, backgroundColor };
+    const style = {
+      height: hidden ? 0 : (safeAreaInsets || NULL_SAFE_AREA_INSETS).top,
+      backgroundColor,
+    };
     const statusBarStyle = !barStyle
       ? getStatusBarStyle(backgroundColor, textColor, theme)
       : barStyle;
@@ -51,7 +55,7 @@ class ZulipStatusBar extends PureComponent<Props> {
 }
 
 export default connectWithActions((state, props) => ({
-  safeAreaInsets: state.app.safeAreaInsets,
+  safeAreaInsets: state.device.safeAreaInsets,
   theme: state.settings.theme,
   backgroundColor: !props.backgroundColor ? getTitleBackgroundColor(state) : props.backgroundColor,
   textColor: getTitleTextColor(state),

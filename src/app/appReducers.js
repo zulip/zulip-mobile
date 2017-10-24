@@ -9,7 +9,6 @@ import {
   APP_ACTIVITY,
   ACCOUNT_SWITCH,
   REALM_INIT,
-  INIT_SAFE_AREA_INSETS,
   INITIAL_FETCH_COMPLETE,
   APP_ORIENTATION,
   APP_STATE,
@@ -34,12 +33,6 @@ const initialState: AppState = {
   orientation: 'PORTRAIT',
   outboxSending: false,
   pushToken: '',
-  safeAreaInsets: {
-    bottom: 0,
-    left: 0,
-    right: 0,
-    top: 0,
-  },
   debug: {
     htmlMessages: false,
     unreadMessages: false,
@@ -98,12 +91,6 @@ export default (state: AppState = initialState, action: Action) => {
       return {
         ...state,
         needsInitialFetch: false,
-      };
-
-    case INIT_SAFE_AREA_INSETS:
-      return {
-        ...state,
-        safeAreaInsets: action.safeAreaInsets,
       };
 
     case APP_ORIENTATION:
