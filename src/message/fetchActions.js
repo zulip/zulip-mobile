@@ -111,7 +111,7 @@ export const fetchNewer = () => (dispatch: Dispatch, getState: GetState): Action
   const { needsInitialFetch } = state.app;
 
   if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId) {
-    dispatch(fetchMessages(narrow, lastMessageId + 1, 0, config.messagesPerRequest));
+    dispatch(fetchMessages(narrow, lastMessageId, 0, config.messagesPerRequest));
   }
 };
 
