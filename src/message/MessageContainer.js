@@ -96,8 +96,13 @@ class MessageContainer extends PureComponent<Props> {
   render() {
     const { message, auth, actions, twentyFourHourTime, unreadMessages, isBrief } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
-    const style =
-      unreadMessages && message.id in this.props.flags.read ? { backgroundColor: 'red' } : null;
+    const isUnread = !(message.id in this.props.flags.read);
+    const isUnread2 = message.flags && message.flags.indexOf('read') === -1;
+    const style = unreadMessages
+      ? {
+          backgroundColor: isUnread !== isUnread2 ? 'red' : isUnread ? 'pink' : 'transparent',
+        }
+      : null;
 
     return (
       <MessageComponent
