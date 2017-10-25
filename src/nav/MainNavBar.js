@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -14,6 +14,12 @@ import {
   getTitleBackgroundColor,
   getTitleTextColor,
 } from '../selectors';
+
+const stylesObj = StyleSheet.create({
+  navBarContainer: {
+    zIndex: 1,
+  },
+});
 
 type Props = {
   actions: Actions,
@@ -45,7 +51,7 @@ class MainNavBar extends PureComponent<Props> {
     const leftPress = editMessage ? actions.cancelEditMessage : onPressStreams;
 
     return (
-      <View style={[styles.navBar, { backgroundColor }]}>
+      <View style={[styles.navBar, { backgroundColor }, stylesObj.navBarContainer]}>
         <NavButton
           name={editMessage ? 'md-arrow-back' : 'ios-menu'}
           color={textColor}
