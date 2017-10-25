@@ -20,7 +20,7 @@ export default (state: CaughtUpState = initialState, action: Action) => {
       return initialState;
 
     case MESSAGE_FETCH_COMPLETE: {
-      if (!action.anchor) {
+      if (!action.anchor && action.replaceExisting) {
         return state;
       }
 
