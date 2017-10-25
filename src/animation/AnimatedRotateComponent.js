@@ -1,4 +1,4 @@
-/* @TODO flow */
+/* @flow */
 import React, { PureComponent } from 'react';
 import type { ChildrenArray } from 'react';
 import { Animated, Easing } from 'react-native';

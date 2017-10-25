@@ -22,7 +22,9 @@ export const IconCross = (props: Object) => <Feather name="x" {...props} />;
 export const IconSettings = (props: Object) => <Feather name="settings" {...props} />;
 export const IconRight = (props: Object) => <Feather name="chevron-right" {...props} />;
 export const IconPlus = (props: Object) => <Feather name="plus-circle" {...props} />;
-export const IconChevronLeft = (props: Object) => <Feather name="chevron-left" {...props} />;
+export const IconLeft = (props: Object) => <Feather name="chevron-left" {...props} />;
 export const IconPeople = (props: Object) => <Feather name="users" {...props} />;
+export const IconImage = (props: Object) => <Feather name="image" {...props} />;
+export const IconCamera = (props: Object) => <Feather name="camera" {...props} />;
 
 export default Feather;
