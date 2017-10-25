@@ -38,9 +38,11 @@ export default (state: CaughtUpState = initialState, action: Action) => {
 
       // if already caughtUp in one direction then fetch of another direction
       // should not affect caughtUp of other
-      const caughtUpOlder = (state[key] && state[key].older) || anchorIdx + 1 < action.numBefore;
+      const caughtUpOlder =
+        (!action.replaceExisting && state[key] && state[key].older) ||
+        anchorIdx + 1 < action.numBefore;
       const caughtUpNewer =
-        (state[key] && state[key].newer) ||
+        (!action.replaceExisting && (state[key] && state[key].newer)) ||
         action.messages.length - anchorIdx + adjustment < action.numAfter;
 
       const prevState = state[key] || NULL_CAUGHTUP;
