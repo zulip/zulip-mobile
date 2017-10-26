@@ -61,8 +61,8 @@ exports[`fetchActions fetchMessagesAtFirstUnread message fetch start action is d
 Array [
   Object {
     "narrow": Array [],
-    "numAfter": 0,
-    "numBefore": 20,
+    "numAfter": 15,
+    "numBefore": 5,
     "type": "MESSAGE_FETCH_START",
   },
 ]
