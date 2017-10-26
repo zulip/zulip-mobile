@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
 });
 
 const specials = {
-  home: { name: 'Home', icon: 'md-home' },
-  private: { name: 'Private messages', icon: 'md-mail' },
-  starred: { name: 'Starred', icon: 'md-star' },
-  mentioned: { name: 'Mentions', icon: 'md-at' },
+  home: { name: 'Home', icon: 'home' },
+  private: { name: 'Private messages', icon: 'mail' },
+  starred: { name: 'Starred', icon: 'star' },
+  mentioned: { name: 'Mentions', icon: 'at-sign' },
 };
 
 type Props = {

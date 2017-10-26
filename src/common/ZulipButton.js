@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import type { StyleObj } from '../types';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
-import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({
   buttonContent: {
@@ -72,13 +71,13 @@ const ButtonNormal = ({
   textStyle,
   text,
   onPress,
-  icon,
+  Icon,
   iconStyle,
 }) => (
   <View style={frameStyle}>
     <Touchable style={touchTargetStyle} onPress={onPress}>
       <View style={styles.buttonContent}>
-        {icon && <Icon name={icon} style={iconStyle} size={25} />}
+        {Icon && <Icon style={iconStyle} size={25} />}
         <Text style={textStyle}>
           <FormattedMessage id={text} defaultMessage={text} />
         </Text>
@@ -90,8 +89,8 @@ const ButtonNormal = ({
 type Props = {
   style?: StyleObj,
   progress?: boolean,
+  Icon?: Object,
   text: string,
-  icon?: string,
   secondary: boolean,
   fullSize: boolean,
   onPress: () => void | Promise<any>,
@@ -106,7 +105,7 @@ export default class ZulipButton extends PureComponent<Props> {
   };
 
   render() {
-    const { style, text, secondary, progress, fullSize, onPress, icon } = this.props;
+    const { style, text, secondary, progress, fullSize, onPress, Icon } = this.props;
     const frameStyle = [
       styles.frame,
       secondary ? styles.secondaryFrame : styles.primaryFrame,
@@ -127,7 +126,7 @@ export default class ZulipButton extends PureComponent<Props> {
         text={text}
         onPress={onPress}
         textStyle={textStyle}
-        icon={icon}
+        Icon={Icon}
         iconStyle={iconStyle}
       />
     );

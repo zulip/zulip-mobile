@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
 import type { Auth, Actions, Orientation, UserStatus } from '../types';
 import { Avatar, ZulipButton } from '../common';
+import { IconPrivateChat } from '../common/Icons';
 import { BRAND_COLOR } from '../styles';
 import { privateNarrow } from '../utils/narrow';
 import UserStatusIndicator from '../common/UserStatusIndicator';
@@ -84,7 +85,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
             style={styles.sendButton}
             text="Send private message"
             onPress={this.handleChatPress}
-            icon="md-mail"
+            Icon={IconPrivateChat}
           />
         )}
       />

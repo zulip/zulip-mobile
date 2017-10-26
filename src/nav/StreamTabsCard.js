@@ -32,11 +32,14 @@ class StreamTabsCard extends PureComponent<Props> {
     return (
       <View style={componentStyles.container}>
         <View style={componentStyles.iconList}>
-          <NavButton name="md-home" onPress={() => doNarrowCloseDrawer(homeNarrow)} />
-          <NavButton name="md-mail" onPress={() => doNarrowCloseDrawer(allPrivateNarrow)} />
-          <NavButton name="md-star" onPress={() => doNarrowCloseDrawer(specialNarrow('starred'))} />
-          <NavButton name="md-at" onPress={() => doNarrowCloseDrawer(specialNarrow('mentioned'))} />
-          <NavButton name="md-search" onPress={actions.navigateToSearch} />
+          <NavButton name="home" onPress={() => doNarrowCloseDrawer(homeNarrow)} />
+          <NavButton name="mail" onPress={() => doNarrowCloseDrawer(allPrivateNarrow)} />
+          <NavButton name="star" onPress={() => doNarrowCloseDrawer(specialNarrow('starred'))} />
+          <NavButton
+            name="at-sign"
+            onPress={() => doNarrowCloseDrawer(specialNarrow('mentioned'))}
+          />
+          <NavButton name="search" onPress={actions.navigateToSearch} />
         </View>
         <StreamTabs screenProps={{ doNarrowCloseDrawer }} />
       </View>

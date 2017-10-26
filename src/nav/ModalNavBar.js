@@ -69,7 +69,7 @@ class ModalNavBar extends PureComponent<Props> {
       <View style={[styles.navBar, style]}>
         {canGoBack &&
           !isRightItemNav && (
-            <NavButton name="ios-arrow-back" color={itemsColor} onPress={actions.navigateBack} />
+            <NavButton name="arrow-left" color={itemsColor} onPress={actions.navigateBack} />
           )}
         <View style={[customStyles.centerItem, childrenStyle]}>{content}</View>
         {rightItem && <NavButton color={itemsColor} {...rightItem} />}
