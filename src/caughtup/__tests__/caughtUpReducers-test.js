@@ -85,7 +85,7 @@ describe('caughtUpReducers', () => {
     expect(newState).toEqual(expectedState);
   });
 
-  test('new results reset previous state', () => {
+  test('new results do not reset previous state', () => {
     const initialState = deepFreeze({
       [homeNarrowStr]: {
         older: true,
@@ -104,8 +104,8 @@ describe('caughtUpReducers', () => {
 
     const expectedState = {
       [homeNarrowStr]: {
-        older: false,
-        newer: false,
+        older: true,
+        newer: true,
       },
     };
 
