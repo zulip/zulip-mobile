@@ -1,4 +1,4 @@
-/* TODO flow */
+/* @TODO flow */
 import React, { PureComponent } from 'react';
 
 import { Screen } from '../common';

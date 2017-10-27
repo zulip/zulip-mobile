@@ -1,4 +1,4 @@
-/* TODO flow */
+/* @TODO flow */
 import React from 'react';
 import { Text } from 'react-native';
 import { TabNavigator, TabBarTop } from 'react-navigation';

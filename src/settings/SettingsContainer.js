@@ -1,4 +1,4 @@
-/* TODO flow */
+/* @TODO flow */
 import connectWithActions from '../connectWithActions';
 import { getAuth } from '../selectors';
 import SettingsCard from './SettingsCard';
