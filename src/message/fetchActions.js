@@ -20,6 +20,7 @@ import {
 import timing from '../utils/timing';
 import { allPrivateNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
+import { findFirstUnread } from '../utils/message';
 import { refreshNotificationToken } from '../utils/notifications';
 import { initStreams } from '../streams/streamsActions';
 import { sendFocusPing } from '../users/usersActions';
@@ -45,7 +46,7 @@ export const messageFetchComplete = (
   type: MESSAGE_FETCH_COMPLETE,
   messages,
   narrow,
-  anchor,
+  anchor: anchor === 0 ? findFirstUnread(messages).id : anchor,
   numBefore,
   numAfter,
   replaceExisting,
