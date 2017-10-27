@@ -3,7 +3,7 @@
 exports[`fetchActions backgroundFetchMessages message fetch success action is dispatched after successful fetch 1`] = `
 Array [
   Object {
-    "anchor": 0,
+    "anchor": 1,
     "messages": Array [
       Object {
         "id": 1,

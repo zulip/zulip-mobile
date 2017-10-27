@@ -1,6 +1,6 @@
 /* @flow */
 import type { Recipient, Narrow, Message, MuteState } from '../types';
-import { NULL_SUBSCRIPTION } from '../nullObjects';
+import { NULL_MESSAGE, NULL_SUBSCRIPTION } from '../nullObjects';
 
 export const normalizeRecipients = (recipients: Recipient[]) =>
   !Array.isArray(recipients)
@@ -75,3 +75,6 @@ export const shouldBeMuted = (
 
   return mutes.some(x => x[0] === message.display_recipient && x[1] === message.subject);
 };
+
+export const findFirstUnread = (messages: Message[]): Message =>
+  messages.find(msg => !msg.flags || msg.flags.indexOf('read') === -1) || NULL_MESSAGE;

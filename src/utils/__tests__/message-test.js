@@ -3,7 +3,9 @@ import {
   normalizeRecipientsSansMe,
   isSameRecipient,
   shouldBeMuted,
+  findFirstUnread,
 } from '../message';
+import { NULL_MESSAGE } from '../../nullObjects';
 
 describe('normalizeRecipients', () => {
   test('joins emails from recipients, sorted, trimmed, not including missing ones', () => {
@@ -151,5 +153,35 @@ describe('shouldBeMuted', () => {
     const isMuted = shouldBeMuted(message, homeNarrow, subscriptions, mutes);
 
     expect(isMuted).toBe(true);
+  });
+});
+
+describe('findFirstUnread', () => {
+  test('returns first message with no flags property', () => {
+    const messages = [{ id: 0, flags: ['read'] }, { id: 1, flags: ['read'] }, { id: 2 }, { id: 3 }];
+
+    const result = findFirstUnread(messages);
+
+    expect(result).toEqual(messages[2]);
+  });
+
+  test('returns first message with no "read" flag', () => {
+    const messages = [{ id: 0, flags: ['read'] }, { id: 1, flags: ['star'] }];
+
+    const result = findFirstUnread(messages);
+
+    expect(result).toEqual(messages[1]);
+  });
+
+  test('if all are read returns undefined', () => {
+    const messages = [
+      { id: 0, flags: ['read'] },
+      { id: 1, flags: ['read'] },
+      { id: 2, flags: ['read'] },
+    ];
+
+    const result = findFirstUnread(messages);
+
+    expect(result).toEqual(NULL_MESSAGE);
   });
 });
