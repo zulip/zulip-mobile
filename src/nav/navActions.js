@@ -1,4 +1,4 @@
-/* TODO flow */
+/* @TODO flow */
 import { NavigationActions } from 'react-navigation';
 
 import type { Action, Message, UserType, ImageResource, ServerSettings } from '../types';

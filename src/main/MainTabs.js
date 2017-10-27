@@ -1,4 +1,4 @@
-/* TODO flow */
+/* @TODO flow */
 import React from 'react';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
