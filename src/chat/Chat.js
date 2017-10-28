@@ -12,8 +12,8 @@ import NoMessages from '../message/NoMessages';
 import ComposeBoxContainer from '../compose/ComposeBoxContainer';
 import UnreadNoticeContainer from './UnreadNoticeContainer';
 
-const stylesObj = StyleSheet.create({
-  keyboardContainer: {
+const componentStyles = StyleSheet.create({
+  container: {
     flex: 1,
   },
 });
@@ -57,17 +57,15 @@ export default class Chat extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    console.log('styles', styles.screen);
     const { isFetching, narrow, isOnline, noMessages } = this.props;
     const showMessagePlaceholders = noMessages && isFetching;
-    const offset = Platform.OS === 'ios' ? 0 : -400;
+    const behavior = Platform.OS === 'ios' ? 'position' : 'height';
 
     return (
       <KeyboardAvoider
-        style={[styles.screen]}
-        behavior="position"
-        contentContainerStyle={stylesObj.keyboardContainer}
-        keyboardVerticalOffset={offset}
+        style={styles.screen}
+        behavior={behavior}
+        contentContainerStyle={componentStyles.container}
       >
         <ActionSheetProvider>
           <View style={styles.screen}>

@@ -9,8 +9,8 @@ import { getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 import getStatusBarStyle from '../utils/getStatusBarStyle';
 import getStatusBarColor from '../utils/getStatusBarColor';
 
-const stylesObj = StyleSheet.create({
-  statusBarContainer: {
+const componentStyles = StyleSheet.create({
+  container: {
     zIndex: 1,
   },
 });
@@ -43,7 +43,7 @@ class ZulipStatusBar extends PureComponent<Props> {
       : barStyle;
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
-      <View style={[style, stylesObj.statusBarContainer]}>
+      <View style={[style, componentStyles.container]}>
         <StatusBar
           animated
           showHideTransition="slide"
