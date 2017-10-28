@@ -6,6 +6,7 @@ let unsentMessageIds = [];
 let lastSentTime = 0;
 
 export default (auth: Auth, messageIds: number[]): any => {
+  return;
   unsentMessageIds.push(...messageIds);
 
   if (Date.now() - lastSentTime > 2000) {

@@ -73,7 +73,8 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     backgroundColor,
   },
   messageList: {
-    flex: 1,
+    // flex: 1,
+    // justifyContent: 'space-between',
   },
   screenWrapper: {
     flex: 1,
