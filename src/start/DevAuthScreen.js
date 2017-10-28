@@ -79,11 +79,11 @@ class DevAuthScreen extends PureComponent<Props, State> {
         <View style={styles.container}>
           {progress && <ActivityIndicator />}
           {error && <ErrorMsg error={error} />}
-          <Text style={[styles.field, styles.heading2, inlineStyles.heading]}>Administrators</Text>
+          <Label style={[styles.field, styles.heading2, inlineStyles.heading]}>Administrators</Label>
           {directAdmins.map(email => (
             <ZulipButton key={email} text={email} onPress={() => this.tryDevLogin(email)} />
           ))}
-          <Text style={[styles.field, styles.heading2, inlineStyles.heading]}>Normal users</Text>
+          <Label style={[styles.field, styles.heading2, inlineStyles.heading]}>Normal users</Label>
           <FlatList
             data={directUsers}
             keyExtractor={(item, index) => item}
