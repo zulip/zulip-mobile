@@ -74,8 +74,8 @@ class AppEventHandlers extends PureComponent<Props> {
   }
 
   componentWillUpdate(nextProps) {
-    const { actions, safeAreaInsets, isHydrated } = nextProps;
-    if (safeAreaInsets === undefined && isHydrated) {
+    const { actions, safeAreaInsets, isHydrated, orientation } = nextProps;
+    if ((safeAreaInsets === undefined && isHydrated) || orientation !== this.props.orientation) {
       SafeArea.getSafeAreaInsetsForRootView().then(actions.initSafeAreaInsets);
     }
   }
@@ -90,4 +90,5 @@ export default connectWithActions(state => ({
   needsInitialFetch: state.app.needsInitialFetch,
   safeAreaInsets: state.device.safeAreaInsets,
   isHydrated: state.app.isHydrated,
+  orientation: state.app.orientation,
 }))(AppEventHandlers);
