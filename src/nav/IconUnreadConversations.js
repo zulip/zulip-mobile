@@ -22,7 +22,7 @@ const IconUnreadConversations = ({ unreadHuddlesTotal, unreadPmsTotal, color }) 
       showOverlay={unreadCount > 0}
       overlay={<UnreadCount count={unreadCount} />}
     >
-      <IconPeople size={30} color={color} />
+      <IconPeople size={24} color={color} />
     </ComponentWithOverlay>
   );
 };

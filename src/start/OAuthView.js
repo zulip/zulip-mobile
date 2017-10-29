@@ -14,7 +14,7 @@ type Props = {
   actions: Actions,
   realm: string,
   name: string,
-  icon: string,
+  Icon: Object,
   url: string,
 };
 
@@ -90,14 +90,14 @@ class OAuthView extends Component<Props> {
 
   render() {
     const { styles } = this.context;
-    const { name, icon } = this.props;
+    const { name, Icon } = this.props;
 
     return (
       <ZulipButton
         style={styles.smallMarginTop}
         secondary
         text={`Sign in with ${name}`}
-        icon={icon}
+        Icon={Icon}
         onPress={this.handleGoogleAuth}
       />
     );

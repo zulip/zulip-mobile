@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Label, Touchable } from '../common';
-import { IconRightIcon } from '../common/Icons';
+import { IconRight } from '../common/Icons';
 
 const styles = StyleSheet.create({
   optionRow: {
@@ -37,7 +37,7 @@ export default class OptionButton extends PureComponent<Props> {
       <Touchable onPress={onPress}>
         <View style={styles.optionRow}>
           <Label style={styles.optionTitle} text={label} />
-          <IconRightIcon size={18} style={styles.rightIcon} />
+          <IconRight size={18} style={styles.rightIcon} />
         </View>
       </Touchable>
     );

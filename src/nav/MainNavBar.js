@@ -47,7 +47,7 @@ class MainNavBar extends PureComponent<Props> {
     return (
       <View style={[styles.navBar, { backgroundColor }]}>
         <NavButton
-          name={editMessage ? 'md-arrow-back' : 'ios-menu'}
+          name={editMessage ? 'arrow-left' : 'menu'}
           color={textColor}
           showCircle={unreadMentionsTotal > 0}
           onPress={leftPress}

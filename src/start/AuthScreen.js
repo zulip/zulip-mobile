@@ -9,6 +9,7 @@ import { getCurrentRealm } from '../selectors';
 import PasswordAuthView from './PasswordAuthView';
 import OAuthView from './OAuthView';
 import { getFullUrl } from '../utils/url';
+import { IconGoogle, IconGitHub } from '../common/Icons';
 
 const componentStyles = StyleSheet.create({
   description: {
@@ -67,10 +68,10 @@ class AuthScreen extends PureComponent<Props> {
           )}
           {serverSettings.authentication_methods.password && <PasswordAuthView />}
           {serverSettings.authentication_methods.google && (
-            <OAuthView name="Google" icon="logo-google" url="accounts/login/google/" />
+            <OAuthView name="Google" Icon={IconGoogle} url="accounts/login/google/" />
           )}
           {serverSettings.authentication_methods.github && (
-            <OAuthView name="GitHub" icon="logo-github" url="accounts/login/social/github" />
+            <OAuthView name="GitHub" Icon={IconGitHub} url="accounts/login/social/github" />
           )}
         </Centerer>
       </Screen>
