@@ -1,10 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { ActivityIndicator, Text, View, StyleSheet, FlatList } from 'react-native';
+import { ActivityIndicator, View, StyleSheet, FlatList } from 'react-native';
 
 import type { Actions, Auth } from '../types';
 import connectWithActions from '../connectWithActions';
-import { ErrorMsg, Screen, ZulipButton } from '../common';
+import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
 import { getAuth } from '../selectors';
 
@@ -79,11 +79,17 @@ class DevAuthScreen extends PureComponent<Props, State> {
         <View style={styles.container}>
           {progress && <ActivityIndicator />}
           {error && <ErrorMsg error={error} />}
-          <Label style={[styles.field, styles.heading2, inlineStyles.heading]} text="Administrators">
+          <Label
+            style={[styles.field, styles.heading2, inlineStyles.heading]}
+            text="Administrators"
+          />
           {directAdmins.map(email => (
             <ZulipButton key={email} text={email} onPress={() => this.tryDevLogin(email)} />
           ))}
-          <Label style={[styles.field, styles.heading2, inlineStyles.heading]} text="Normal users">
+          <Label
+            style={[styles.field, styles.heading2, inlineStyles.heading]}
+            text="Normal users"
+          />
           <FlatList
             data={directUsers}
             keyExtractor={(item, index) => item}

@@ -1702,9 +1702,9 @@ detox-server@^2.0.4:
     npmlog "^4.0.2"
     ws "^1.1.0"
 
-detox@^5.8.4:
-  version "5.8.4"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-5.8.4.tgz#51b7ea4b242e46c8686adf0a07cd97c91c59d527"
+detox@^5.9.2:
+  version "5.9.2"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-5.9.2.tgz#6b2b2eb7b57b14b54636a7561d737ab34fdd8265"
   dependencies:
     child-process-promise "^2.2.0"
     commander "^2.9.0"
@@ -1713,6 +1713,7 @@ detox@^5.8.4:
     get-port "^2.1.0"
     lodash "^4.14.1"
     npmlog "^4.0.2"
+    shell-utils "^1.0.9"
     telnet-client "0.15.3"
     ws "^1.1.1"
 
@@ -1938,9 +1939,9 @@ eslint-plugin-flowtype@^2.39.1:
   dependencies:
     lodash "^4.15.0"
 
-eslint-plugin-import@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.7.0.tgz#21de33380b9efb55f5ef6d2e210ec0e07e7fa69f"
+eslint-plugin-import@^2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.8.0.tgz#fa1b6ef31fcb3c501c09859c1b86f1fc5b986894"
   dependencies:
     builtin-modules "^1.1.1"
     contains-path "^0.1.0"
@@ -2008,9 +2009,9 @@ eslint-scope@^3.7.1:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint@^4.9.0:
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.9.0.tgz#76879d274068261b191fe0f2f56c74c2f4208e8b"
+eslint@^4.10.0:
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.10.0.tgz#f25d0d7955c81968c2309aa5c9a229e045176bb7"
   dependencies:
     ajv "^5.2.0"
     babel-code-frame "^6.22.0"
@@ -2308,9 +2309,9 @@ flow-bin@^0.53.0:
   version "0.53.1"
   resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.53.1.tgz#9b22b63a23c99763ae533ebbab07f88c88c97d84"
 
-flow-typed@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/flow-typed/-/flow-typed-2.2.0.tgz#1cae742b188888b64b0e96fae8fe25965d723647"
+flow-typed@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/flow-typed/-/flow-typed-2.2.1.tgz#3de06241ebb0aa154ff681748ba74d19c7d9042f"
   dependencies:
     babel-polyfill "^6.23.0"
     colors "^1.1.2"
@@ -4028,7 +4029,7 @@ lodash.uniqby@^4.4.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/lodash.uniqby/-/lodash.uniqby-4.7.0.tgz#d99c07a669e9e6d24e1362dfe266c67616af1302"
 
-lodash@4.17.4, lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.14.1, lodash@^4.15.0, lodash@^4.16.6, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1:
+lodash@4.17.4, lodash@4.x.x, lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.14.1, lodash@^4.15.0, lodash@^4.16.6, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -4914,9 +4915,9 @@ react-native-fetch-blob@^0.10.8:
     base-64 "0.1.0"
     glob "7.0.6"
 
-react-native-notifications@^1.1.16:
-  version "1.1.16"
-  resolved "https://registry.yarnpkg.com/react-native-notifications/-/react-native-notifications-1.1.16.tgz#78e423745727aeb48e5c5bc650c06224da94c15f"
+react-native-notifications@^1.1.17:
+  version "1.1.17"
+  resolved "https://registry.yarnpkg.com/react-native-notifications/-/react-native-notifications-1.1.17.tgz#a61f3e7f9a36143d5694c734291b2d19a910638f"
   dependencies:
     core-js "^1.0.0"
     uuid "^2.0.3"
@@ -4939,9 +4940,9 @@ react-native-safe-area@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/react-native-safe-area/-/react-native-safe-area-0.2.1.tgz#9bf8eb8dd052b76fc4e830addcd63235dd29cf3c"
 
-react-native-sentry@^0.28.0:
-  version "0.28.0"
-  resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.28.0.tgz#0b042bd29bdc0eb21dbb190f2fc2640db83edce7"
+react-native-sentry@^0.30.0:
+  version "0.30.0"
+  resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.30.0.tgz#cc677627fbb3ba0fc3215c4c19045e3f38a8faf0"
   dependencies:
     chalk "^1.1.1"
     glob "7.1.1"
@@ -4972,9 +4973,9 @@ react-native-vector-icons@^4.4.2:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-react-native@^0.49.3:
-  version "0.49.3"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.49.3.tgz#0ca459ee49f9c59e8326b2ced9e34c59333a2f26"
+react-native@^0.49.5:
+  version "0.49.5"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.49.5.tgz#89f0fe93a8da4db2670c4bd0d81131a2ff617f27"
   dependencies:
     absolute-path "^0.0.0"
     art "^0.10.0"
@@ -5199,9 +5200,9 @@ redux-mock-store@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.3.0.tgz#6edfef0d2332f20576381069d6d889a6d0a4451c"
 
-redux-persist@^4.10.1:
-  version "4.10.1"
-  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-4.10.1.tgz#4fb2b789942f10f56d51cc7ad068d9d6beb46124"
+redux-persist@^4.10.2:
+  version "4.10.2"
+  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-4.10.2.tgz#8efdb16cfe882c521a78a6d0bfdfef2437f49f96"
   dependencies:
     json-stringify-safe "^5.0.1"
     lodash "^4.17.4"
@@ -5531,6 +5532,12 @@ shell-quote@1.6.1, shell-quote@^1.6.1:
     array-map "~0.0.0"
     array-reduce "~0.0.0"
     jsonify "~0.0.0"
+
+shell-utils@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/shell-utils/-/shell-utils-1.0.9.tgz#6a0cdb6c508f3b716d338a09ee5d770389dc22a5"
+  dependencies:
+    lodash "4.x.x"
 
 shellwords@^0.1.0:
   version "0.1.0"
@@ -6230,16 +6237,9 @@ write@^0.2.1:
   dependencies:
     mkdirp "^0.5.1"
 
-ws@1.1.2:
+ws@1.1.2, ws@^1.1.0, ws@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.2.tgz#8a244fa052401e08c9886cf44a85189e1fd4067f"
-  dependencies:
-    options ">=0.0.5"
-    ultron "1.0.x"
-
-ws@^1.1.0, ws@^1.1.1:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.4.tgz#57f40d036832e5f5055662a397c4de76ed66bf61"
   dependencies:
     options ">=0.0.5"
     ultron "1.0.x"
