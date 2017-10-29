@@ -93,7 +93,9 @@
   "show": "zeigen",
   "hide": "verbergen",
   "Debug": "Debug",
-  "Render messages with HTML": "Render messages with HTML",
-  "Distinguish unread messages": "Distinguish unread messages",
-  "Split message text": "Split message text"
+  "Render messages with HTML": "Nachrichten mit HTML rendern",
+  "Distinguish unread messages": "Ungelesene Nachrichten kennzeichnen",
+  "Split message text": "Nachrichtentext aufspalten",
+  "Administrators":"Administratoren",
+  "Normal users":"Normale Nutzer"
 }

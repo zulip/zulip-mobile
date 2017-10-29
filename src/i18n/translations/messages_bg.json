@@ -95,5 +95,7 @@
   "Debug": "Дебъг",
   "Render messages with HTML": "Покажи съобщения с HTML",
   "Distinguish unread messages": "Отличи нечетените съобщения",
-  "Split message text": "Раздели текст на съобщения"
+  "Split message text": "Раздели текст на съобщения",
+  "Administrators":"Администратори",
+  "Normal users":"Нормални потребители"
 }

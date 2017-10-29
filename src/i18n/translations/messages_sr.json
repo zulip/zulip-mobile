@@ -95,5 +95,7 @@
   "Debug": "Поправљање грешака",
   "Render messages with HTML": "Render messages with HTML",
   "Distinguish unread messages": "Distinguish unread messages",
-  "Split message text": "Split message text"
+  "Split message text": "Split message text",
+  "Administrators":"Админстратори",
+  "Normal users":"Обични корисници"
 }

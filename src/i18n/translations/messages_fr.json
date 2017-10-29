@@ -89,11 +89,13 @@
   "Cancel": "Annuler",
   "Message copied": "Message copié",
   "Edit message": "Editer ce message",
-  "Network request failed": "Network request failed",
+  "Network request failed": "Requête réseau échouée",
   "show": "afficher",
   "hide": "masquer",
-  "Debug": "Debug",
+  "Debug": "Déboguer",
   "Render messages with HTML": "Render messages with HTML",
   "Distinguish unread messages": "Distinguish unread messages",
-  "Split message text": "Split message text"
+  "Split message text": "Split message text",
+  "Administrators":"Administrateurs",
+  "Normal users":"Utilisateurs normaux"
 }
