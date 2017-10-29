@@ -3,14 +3,14 @@ import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { StyleObj } from '../types';
-import { BRAND_COLOR, CONTROL_SIZE } from '../styles';
+import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
 import { ComponentWithOverlay, UnreadCount } from '../common';
 import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({
   frame: {
-    width: CONTROL_SIZE,
-    height: CONTROL_SIZE,
+    width: NAVBAR_SIZE,
+    height: NAVBAR_SIZE,
     justifyContent: 'center',
     alignItems: 'center',
   },
