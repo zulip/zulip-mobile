@@ -2,12 +2,12 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { CONTROL_SIZE } from '../styles';
+import { NAVBAR_SIZE } from '../styles';
 
 const styles = StyleSheet.create({
   placeholder: {
-    width: CONTROL_SIZE,
-    height: CONTROL_SIZE,
+    width: NAVBAR_SIZE,
+    height: NAVBAR_SIZE,
   },
 });
 

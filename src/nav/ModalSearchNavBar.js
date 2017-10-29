@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
-import { CONTROL_SIZE } from '../styles';
+import { NAVBAR_SIZE } from '../styles';
 import { Label, SearchInput } from '../common';
 import NavButton from './NavButton';
 
@@ -59,7 +59,7 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
     const showSearchInput = isSearchActive || !searchBar;
     const textStyle = [
       styles.navTitle,
-      nav.index > 0 && showSearchInput && { marginRight: CONTROL_SIZE },
+      nav.index > 0 && showSearchInput && { marginRight: NAVBAR_SIZE },
     ];
 
     return (

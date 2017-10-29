@@ -10,7 +10,7 @@ import { getAuth } from '../selectors';
 import AnimatedLightboxHeader from './AnimatedLightboxHeader';
 import AnimatedLightboxFooter from './AnimatedLightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
-import { NAVBAR_HEIGHT, LIGHTBOX_FOOTER_OFFSET, LIGHTBOX_OVERLAY_COLOR } from '../styles';
+import { NAVBAR_SIZE, LIGHTBOX_FOOTER_OFFSET, LIGHTBOX_OVERLAY_COLOR } from '../styles';
 
 let WINDOW_WIDTH = Dimensions.get('window').width;
 let WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    height: NAVBAR_HEIGHT,
+    height: NAVBAR_SIZE,
     paddingLeft: 15,
     paddingRight: 5,
   },
@@ -115,7 +115,7 @@ class LightboxContainer extends PureComponent<Props, State> {
         <AnimatedLightboxHeader
           onPressBack={actions.navigateBack}
           style={[styles.overlay, styles.header, { width: WINDOW_WIDTH }]}
-          from={-NAVBAR_HEIGHT}
+          from={-NAVBAR_SIZE}
           to={0}
           timestamp={message.timestamp}
           avatarUrl={message.avatar_url}
