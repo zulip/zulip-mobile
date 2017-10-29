@@ -95,5 +95,7 @@
   "Debug": "故障诊断",
   "Render messages with HTML": "Render messages with HTML",
   "Distinguish unread messages": "Distinguish unread messages",
-  "Split message text": "Split message text"
+  "Split message text": "Split message text",
+  "Administrators":"管理员",
+  "Normal users":"普通用户"
 }
