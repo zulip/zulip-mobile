@@ -159,6 +159,8 @@ repositories {
 
 
 dependencies {
+    compile project(':react-native-notifications')
+    compile project(':react-native-image-picker')
     compile project(':react-native-orientation')
     compile project(':react-native-sentry')
     compile project(':@remobile/react-native-toast')
