@@ -1,10 +1,13 @@
 /* @flow */
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
+// $FlowFixMe
+import ImagePicker from 'react-native-image-picker';
 
 import type { Actions } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { Touchable } from '../common';
+import { showErrorAlert } from '../common/errorAlert';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 
@@ -22,40 +25,55 @@ const styles = StyleSheet.create({
 
 type Props = {
   actions: Actions,
-};
-
-type State = {
   expanded: boolean,
+  onExpandContract: () => void,
 };
 
-export default class ComposeMenu extends Component<Props, State> {
+export default class ComposeMenu extends Component<Props> {
   props: Props;
-  state: State;
 
-  state = {
-    expanded: false,
+  handleImagePickerResponse = (response: Object) => {
+    if (response.didCancel) {
+      return;
+    }
+
+    if (response.error) {
+      showErrorAlert(response.error, 'Error');
+      return;
+    }
+
+    this.props.actions.uploadImage();
   };
 
-  handleExpandContract = () => {
-    this.setState(({ expanded }) => ({
-      expanded: !expanded,
-    }));
+  handleImageUpload = () => {
+    ImagePicker.launchImageLibrary(
+      {
+        storageOptions: {
+          skipBackup: true,
+          path: 'images',
+        },
+      },
+      this.handleImagePickerResponse,
+    );
+  };
+
+  handleCameraCapture = () => {
+    ImagePicker.launchCamera({}, this.handleImagePickerResponse);
   };
 
   render() {
-    const { expanded } = this.state;
-    const { actions } = this.props;
+    const { actions, expanded, onExpandContract } = this.props;
 
     return (
       <View style={styles.wrapper}>
         <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={124}>
           <View style={styles.wrapper}>
             <IconPeople style={styles.button} size={24} onPress={actions.navigateToCreateGroup} />
-            <IconImage style={styles.button} size={24} />
-            <IconCamera style={styles.button} size={24} />
+            <IconImage style={styles.button} size={24} onPress={this.handleImageUpload} />
+            <IconCamera style={styles.button} size={24} onPress={this.handleCameraCapture} />
           </View>
         </AnimatedComponent>
-        <Touchable style={styles.touchable} onPress={this.handleExpandContract}>
+        <Touchable style={styles.touchable} onPress={onExpandContract}>
           {!expanded && <IconPlus style={styles.button} size={24} />}
           {expanded && <IconLeft style={styles.button} size={24} />}
         </Touchable>
