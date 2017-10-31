@@ -6,6 +6,14 @@ import type { StyleObj } from '../types';
 import NavButton from '../nav/NavButton';
 
 const styles = StyleSheet.create({
+  wrapper: {
+    height: 44,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingLeft: 15,
+    paddingRight: 5,
+  },
   text: {
     color: 'white',
     fontSize: 16,
@@ -25,9 +33,14 @@ export default class LightboxFooter extends PureComponent<Props> {
   render() {
     const { displayMessage, onOptionsPress, style } = this.props;
     return (
-      <View style={style}>
+      <View style={[styles.wrapper, style]}>
         <Text style={styles.text}>{displayMessage}</Text>
-        <NavButton name="ios-more" color="white" style={styles.icon} onPress={onOptionsPress} />
+        <NavButton
+          name="more-vertical"
+          color="white"
+          style={styles.icon}
+          onPress={onOptionsPress}
+        />
       </View>
     );
   }

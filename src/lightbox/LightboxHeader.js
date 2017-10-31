@@ -6,7 +6,7 @@ import type { Action, StyleObj } from '../types';
 import ModalNavBar from '../nav/ModalNavBar';
 import { Avatar } from '../common';
 
-const customStyles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   text: {
     flex: 1,
     justifyContent: 'space-between',
@@ -55,20 +55,20 @@ export default class LightboxHeader extends PureComponent<Props> {
       <ModalNavBar
         itemsColor="white"
         rightItem={{
-          name: 'ios-close-outline',
+          name: 'x',
           onPress: onPressBack,
           style: { fontSize: 36 },
         }}
-        style={customStyles.navBar}
-        childrenStyle={customStyles.children}
+        style={componentStyles.navBar}
+        childrenStyle={componentStyles.children}
         isRightItemNav
       >
         <Avatar {...restProps} />
-        <View style={customStyles.text}>
-          <Text style={[this.context.styles.username, customStyles.name]} numberOfLines={1}>
+        <View style={componentStyles.text}>
+          <Text style={[this.context.styles.username, componentStyles.name]} numberOfLines={1}>
             {senderName}
           </Text>
-          <Text style={customStyles.subheader} numberOfLines={1}>
+          <Text style={componentStyles.subheader} numberOfLines={1}>
             {subheader}
           </Text>
         </View>
