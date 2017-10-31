@@ -27,6 +27,7 @@ type Props = {
   title?: LocalizableText,
   children: ChildrenArray<*>,
   searchBarOnChange?: (text: string) => void,
+  rightItem?: Object,
 };
 
 class Screen extends PureComponent<Props> {
@@ -41,14 +42,22 @@ class Screen extends PureComponent<Props> {
   };
 
   render() {
-    const { padding, search, title, children, safeAreaInsets, searchBarOnChange } = this.props;
+    const {
+      padding,
+      search,
+      title,
+      children,
+      safeAreaInsets,
+      searchBarOnChange,
+      rightItem,
+    } = this.props;
     const { styles } = this.context;
     const ModalBar = search ? ModalSearchNavBar : ModalNavBar;
 
     return (
       <View style={[styles.screen, { marginBottom: safeAreaInsets.bottom }]}>
         <ZulipStatusBar />
-        <ModalBar title={title} searchBarOnChange={searchBarOnChange} />
+        <ModalBar title={title} searchBarOnChange={searchBarOnChange} rightItem={rightItem} />
         <KeyboardAvoider
           behavior="padding"
           keyboardShouldPersistTaps="always"
