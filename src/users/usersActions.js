@@ -8,7 +8,12 @@ export const sendFocusPing = (
   hasFocus: boolean = true,
   newUserInput: boolean = false,
 ): Action => async (dispatch: Dispatch, getState: GetState) => {
-  const response = await focusPing(getAuth(getState()), hasFocus, newUserInput);
+  const auth = getAuth(getState());
+  if (auth.realm === '' || auth.apiKey === '') {
+    return; // not logged in
+  }
+
+  const response = await focusPing(auth, hasFocus, newUserInput);
   dispatch({
     type: PRESENCE_RESPONSE,
     presence: response.presences,

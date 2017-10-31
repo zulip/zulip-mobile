@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable } from '../common';
-import { IconDone, IconCancel } from '../common/Icons';
+import { IconDone, IconTrash } from '../common/Icons';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -63,7 +63,7 @@ export default class AccountItem extends PureComponent<Props> {
             <RawLabel style={[styles.text]} text={realm} />
           </View>
           {!showDoneIcon ? (
-            <IconCancel style={styles.icon} size={32} color="crimson" onPress={this.handleRemove} />
+            <IconTrash style={styles.icon} size={32} color="crimson" onPress={this.handleRemove} />
           ) : (
             <IconDone style={styles.icon} size={24} color={BRAND_COLOR} />
           )}
