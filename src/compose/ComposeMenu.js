@@ -1,54 +1,65 @@
 /* @flow */
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import type { Actions, Narrow } from '../types';
+import type { Actions } from '../types';
+import { BRAND_COLOR } from '../styles';
 import { Touchable } from '../common';
-import { IconPlus } from '../common/Icons';
-import { executeActionSheetAction, constructActionButtons } from './composeActionSheet';
+import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
+import AnimatedComponent from '../animation/AnimatedComponent';
 
-const componentStyles = StyleSheet.create({
+const styles = StyleSheet.create({
+  wrapper: {
+    flexDirection: 'row',
+    overflow: 'hidden',
+  },
   touchable: {},
   button: {
     padding: 10,
-    color: '#999',
+    color: BRAND_COLOR,
   },
 });
 
 type Props = {
   actions: Actions,
-  narrow: Narrow,
-  showActionSheetWithOptions: any,
 };
 
-export default class ComposeMenu extends Component<Props> {
+type State = {
+  expanded: boolean,
+};
+
+export default class ComposeMenu extends Component<Props, State> {
   props: Props;
+  state: State;
 
-  handlePress = () => {
-    const { narrow } = this.props;
-    const options = constructActionButtons({
-      narrow,
-    });
+  state = {
+    expanded: false,
+  };
 
-    this.props.showActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex: options.length - 1,
-      },
-      buttonIndex => {
-        executeActionSheetAction({
-          title: options[buttonIndex],
-          actions: this.props.actions,
-        });
-      },
-    );
+  handleExpandContract = () => {
+    this.setState(({ expanded }) => ({
+      expanded: !expanded,
+    }));
   };
 
   render() {
+    const { expanded } = this.state;
+    const { actions } = this.props;
+
     return (
-      <Touchable style={componentStyles.touchable} onPress={this.handlePress}>
-        <IconPlus style={componentStyles.button} size={24} />
-      </Touchable>
+      <View style={styles.wrapper}>
+        <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={124}>
+          <View style={styles.wrapper}>
+            <IconPeople style={styles.button} size={24} onPress={actions.navigateToCreateGroup} />
+            <IconImage style={styles.button} size={24} />
+            <IconCamera style={styles.button} size={24} />
+          </View>
+        </AnimatedComponent>
+        <Touchable style={styles.touchable} onPress={this.handleExpandContract}>
+          {!expanded && <IconPlus style={styles.button} size={24} />}
+          {expanded && <IconLeft style={styles.button} size={24} />}
+        </Touchable>
+      </View>
     );
   }
 }
