@@ -10,32 +10,20 @@ import { getAuth } from '../selectors';
 import AnimatedLightboxHeader from './AnimatedLightboxHeader';
 import AnimatedLightboxFooter from './AnimatedLightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
-import { NAVBAR_SIZE, LIGHTBOX_FOOTER_OFFSET, LIGHTBOX_OVERLAY_COLOR } from '../styles';
+import { NAVBAR_SIZE } from '../styles';
 
 let WINDOW_WIDTH = Dimensions.get('window').width;
 let WINDOW_HEIGHT = Dimensions.get('window').height;
-const FOOTER_HEIGHT = 44;
 
 const styles = StyleSheet.create({
   img: {
     height: 300,
     flex: 1,
   },
-  header: {
-    height: NAVBAR_SIZE,
-    paddingLeft: 15,
-    paddingRight: 5,
-  },
-  footer: {
-    height: FOOTER_HEIGHT,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingLeft: 15,
-    paddingRight: 5,
-  },
+  header: {},
   overlay: {
-    backgroundColor: LIGHTBOX_OVERLAY_COLOR,
+    backgroundColor: 'black',
+    opacity: 0.8,
     position: 'absolute',
     zIndex: 1,
   },
@@ -132,11 +120,11 @@ class LightboxContainer extends PureComponent<Props, State> {
           onTap={this.handleImagePress}
         />
         <AnimatedLightboxFooter
-          style={[styles.overlay, styles.footer, { width: WINDOW_WIDTH }]}
+          style={[styles.overlay, { width: WINDOW_WIDTH }]}
           displayMessage={footerMessage}
           onOptionsPress={this.handleOptionsPress}
           from={WINDOW_HEIGHT}
-          to={WINDOW_HEIGHT - FOOTER_HEIGHT - LIGHTBOX_FOOTER_OFFSET}
+          to={WINDOW_HEIGHT - 44}
           {...this.getAnimationProps()}
         />
       </View>
