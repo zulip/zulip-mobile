@@ -63,6 +63,7 @@ type Props = {
 type State = {
   isMessageFocused: boolean,
   isTopicFocused: boolean,
+  isMenuExpanded: boolean,
   topic: string,
   message: string,
   height: number,
@@ -86,10 +87,17 @@ export default class ComposeBox extends PureComponent<Props, State> {
   state = {
     isMessageFocused: false,
     isTopicFocused: false,
+    isMenuExpanded: false,
     height: 46,
     topic: '',
     message: '',
     selection: { start: 0, end: 0 },
+  };
+
+  handleComposeMenuToggle = () => {
+    this.setState(({ isMenuExpanded }) => ({
+      isMenuExpanded: !isMenuExpanded,
+    }));
   };
 
   handleTopicChange = (topic: string) => {
@@ -112,7 +120,10 @@ export default class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleMessageFocus = () => {
-    this.setState({ isMessageFocused: true });
+    this.setState({
+      isMessageFocused: true,
+      isMenuExpanded: false,
+    });
   };
 
   handleMessageBlur = () => {
@@ -122,7 +133,10 @@ export default class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleTopicFocus = () => {
-    this.setState({ isTopicFocused: true });
+    this.setState({
+      isTopicFocused: true,
+      isMenuExpanded: false,
+    });
   };
 
   handleTopicBlur = () => {
@@ -214,7 +228,14 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
   render() {
     const { styles } = this.context;
-    const { isMessageFocused, isTopicFocused, height, message, selection } = this.state;
+    const {
+      isMessageFocused,
+      isTopicFocused,
+      isMenuExpanded,
+      height,
+      message,
+      selection,
+    } = this.state;
     const {
       auth,
       canSend,
@@ -251,7 +272,10 @@ export default class ComposeBox extends PureComponent<Props, State> {
           style={[styles.composeBox, { height: totalHeight, marginBottom: safeAreaInsets.bottom }]}
         >
           <View style={componentStyles.bottom}>
-            <ComposeMenuContainer />
+            <ComposeMenuContainer
+              expanded={isMenuExpanded}
+              onExpandContract={this.handleComposeMenuToggle}
+            />
           </View>
           <View style={[componentStyles.composeText]}>
             {canSelectTopic && (

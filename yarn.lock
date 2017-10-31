@@ -4944,9 +4944,9 @@ react-native-safe-area@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/react-native-safe-area/-/react-native-safe-area-0.2.1.tgz#9bf8eb8dd052b76fc4e830addcd63235dd29cf3c"
 
-react-native-sentry@^0.30.0:
-  version "0.30.0"
-  resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.30.0.tgz#cc677627fbb3ba0fc3215c4c19045e3f38a8faf0"
+react-native-sentry@^0.30.1:
+  version "0.30.1"
+  resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.30.1.tgz#fd2d21c2f987b8e68ba026a402631c3149705c59"
   dependencies:
     chalk "^1.1.1"
     glob "7.1.1"

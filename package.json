@@ -54,7 +54,7 @@
     "react-native-photo-view": "^1.5.2",
     "react-native-safari-view": "2.0.0",
     "react-native-safe-area": "^0.2.1",
-    "react-native-sentry": "^0.30.0",
+    "react-native-sentry": "^0.30.1",
     "react-native-simple-toast": "0.0.7",
     "react-native-sound": "^0.10.4",
     "react-native-vector-icons": "^4.4.2",
