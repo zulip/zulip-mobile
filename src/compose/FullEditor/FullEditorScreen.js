@@ -5,6 +5,7 @@ import parseMarkdown from 'zulip-markdown-parser';
 
 import Icon from '../../common/Icons';
 import { Screen, MultilineInput } from '../../common';
+import { renderFormatButtons } from './renderButtons';
 import { getAuth } from '../../account/accountSelectors';
 import AutoCompleteView from '../../autocomplete/AutoCompleteView';
 import { BORDER_COLOR } from '../../styles';
@@ -23,17 +24,17 @@ const inlineStyles = StyleSheet.create({
     paddingLeft: 8,
     fontSize: 16,
   },
-  preview: {
-    padding: 5,
-    borderWidth: 1,
-    borderColor: BORDER_COLOR,
+  buttonContainer: {
+    flex: 0,
+    flexDirection: 'row',
   },
   inlinePadding: {
     padding: 8,
   },
-  buttonContainer: {
-    flex: 0,
-    flexDirection: 'row',
+  preview: {
+    padding: 5,
+    borderWidth: 1,
+    borderColor: BORDER_COLOR,
   },
 });
 
@@ -168,6 +169,13 @@ class FullEditorScreen extends React.Component<Props, State> {
             style={inlineStyles.inlinePadding}
             color={BORDER_COLOR}
           />
+          {renderFormatButtons({
+            getState: this.getState,
+            setState: (state, callback) => {
+              this.textInput.focus();
+              this.setState(state, callback);
+            },
+          })}
         </View>
       </Screen>
     );
