@@ -104,7 +104,9 @@ export default class StreamItem extends PureComponent<Props> {
               <RawLabel numberOfLines={1} style={styles.description} text={description} />
             )}
           </View>
-          {unreadCount && <UnreadCount count={unreadCount} inverse={isSelected} />}
+          {unreadCount && (
+            <UnreadCount count={unreadCount} inverse={isSelected} isMuted={isMuted} />
+          )}
           {showSwitch && (
             <ZulipSwitch
               defaultValue={!!isSwitchedOn}

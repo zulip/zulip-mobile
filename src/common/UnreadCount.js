@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 12,
   },
+  mutedText: {
+    color: 'black',
+    fontSize: 12,
+  },
   frameInverse: {
     backgroundColor: 'white',
   },
@@ -65,7 +69,7 @@ export default class UnreadCount extends PureComponent<Props> {
       style,
     ];
 
-    const textStyle = [styles.text, inverse && styles.textInverse];
+    const textStyle = [isMuted ? styles.mutedText : styles.text, inverse && styles.textInverse];
 
     return (
       <View style={frameStyle}>
