@@ -8,10 +8,10 @@ const initialState = NULL_ARRAY;
 export default (state: RealmState = initialState, action: Action): RealmState => {
   switch (action.type) {
     case REALM_INIT:
-      return action.data.alert_words;
+      return action.data.alert_words || state;
 
     case INIT_ALERT_WORDS:
-      return action.alertWords;
+      return action.alertWords || state;
 
     default:
       return state;
