@@ -12,6 +12,8 @@ import { streamNarrow, homeNarrow, homeNarrowStr } from '../../utils/narrow';
 const narrow = streamNarrow('some stream');
 const streamNarrowStr = JSON.stringify(narrow);
 
+global.FormData = class FormData {};
+
 describe('fetchActions', () => {
   afterEach(() => {
     fetch.reset();
