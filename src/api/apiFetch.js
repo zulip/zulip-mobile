@@ -8,9 +8,13 @@ const apiVersion = 'api/v1';
 
 export const apiFetch = async (auth: Auth, route: string, params: Object = {}) => {
   const url = `${auth.realm}/${apiVersion}/${route}`;
+  const contentType =
+    params.body instanceof FormData
+      ? 'multipart/form-data'
+      : 'application/x-www-form-urlencoded; charset=utf-8';
   const allParams = {
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      'Content-Type': contentType,
       'User-Agent': userAgent,
       Authorization: getAuthHeader(auth.email, auth.apiKey),
     },
