@@ -1,6 +1,6 @@
 /* @flow */
 import type { Action, Narrow, Dispatch, GetState } from '../types';
-import { getMessages, getStreams, registerForEvents } from '../api';
+import { getMessages, getStreams, registerForEvents, uploadFile } from '../api';
 import {
   getAuth,
   getFirstMessageId,
@@ -25,7 +25,7 @@ import { refreshNotificationToken } from '../utils/notifications';
 import { initStreams } from '../streams/streamsActions';
 import { sendFocusPing } from '../users/usersActions';
 import { initNotifications, realmInit } from '../realm/realmActions';
-import { trySendMessages } from '../outbox/outboxActions';
+import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
 import { startEventPolling } from '../events/eventActions';
 
 export const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
@@ -179,4 +179,15 @@ export const doInitialFetch = (): Action => async (dispatch: Dispatch, getState:
   setInterval(() => sendFocusPing(), 60 * 1000);
 };
 
-export const uploadImage = (): Action => {};
+export const uploadImage = (
+  narrow: Narrow,
+  uri: string,
+  name: string,
+  type: string,
+): Action => async (dispatch: Dispatch, getState: GetState) => {
+  const auth = getAuth(getState());
+  const serverUri = await uploadFile(auth, uri, name, type);
+  const messageToSend = `[${name}](${serverUri})`;
+
+  dispatch(addToOutbox(narrow, messageToSend));
+};

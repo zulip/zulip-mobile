@@ -1,6 +1,11 @@
 /* @flow */
 import type { Auth } from '../types';
-import { apiPost } from './apiFetch';
+import { apiFile } from './apiFetch';
 
-export default (auth: Auth, messages: number[], op: string, flag: string): mixed =>
-  apiPost(auth, 'upload_file', res => res.uri);
+export default (auth: Auth, uri: string, name: string, type: string = 'image/jpeg') => {
+  const formData = new FormData();
+  // $FlowFixMe
+  formData.append('file', { uri, name, type });
+
+  return apiFile(auth, 'user_uploads', res => res.uri, formData);
+};
