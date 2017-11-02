@@ -74,8 +74,6 @@ export const apiPost = async (
   route: string,
   resFunc: ResponseExtractionFunc,
   params: Object = {},
-  isSilent: boolean = false,
-  shouldTimeout: boolean = true,
 ) =>
   apiCall(
     auth,
@@ -83,6 +81,22 @@ export const apiPost = async (
     {
       method: 'post',
       body: encodeAsURI(params),
+    },
+    resFunc,
+  );
+
+export const apiFile = async (
+  auth: Auth,
+  route: string,
+  resFunc: ResponseExtractionFunc,
+  body: FormData,
+) =>
+  apiCall(
+    auth,
+    route,
+    {
+      method: 'post',
+      body,
     },
     resFunc,
   );

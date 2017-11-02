@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
 
-import type { Actions } from '../types';
+import type { Actions, Narrow } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { Touchable } from '../common';
 import { showErrorAlert } from '../common/errorAlert';
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
 type Props = {
   actions: Actions,
   expanded: boolean,
+  narrow: Narrow,
   onExpandContract: () => void,
 };
 
@@ -42,7 +43,8 @@ export default class ComposeMenu extends Component<Props> {
       return;
     }
 
-    this.props.actions.uploadImage();
+    const { actions, narrow } = this.props;
+    actions.uploadImage(narrow, response.uri, response.fileName, response.type);
   };
 
   handleImageUpload = () => {
