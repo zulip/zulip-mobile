@@ -53,7 +53,6 @@ export default class MessageListWeb extends PureComponent<Props> {
         source={{ html: head + css + html }}
         injectedJavaScript={js}
         style={styles.webview}
-        decelerationRate={0.999}
         ref={webview => {
           this.webview = webview;
         }}
