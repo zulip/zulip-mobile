@@ -23,5 +23,4 @@ export default (url: string, auth: Auth, onSuccess?: () => void) =>
     })
     .then(res => {
       onSuccess(res.path());
-      console.log('The file saved to ', res.path());
     });
