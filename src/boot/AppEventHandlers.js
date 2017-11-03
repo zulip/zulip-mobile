@@ -25,6 +25,7 @@ type Props = {
   actions: Actions,
   children?: ChildrenArray<*>,
   safeAreaInsets: SafeAreaInsets,
+  orientation: string,
 };
 
 class AppEventHandlers extends PureComponent<Props> {
@@ -58,8 +59,6 @@ class AppEventHandlers extends PureComponent<Props> {
   };
 
   componentWillMount() {
-    const { actions } = this.props;
-
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
