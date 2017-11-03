@@ -1,13 +1,9 @@
 /* @flow */
-import { Share } from 'react-native';
-
 import type { Auth } from '../types';
 import download from '../api/downloadFile';
 import share from './share';
 import shareImage from './shareImage';
 import Toast from '../utils/showToast';
-
-import { BRAND_COLOR } from '../styles';
 
 type DownloadImageType = {
   url: string,
@@ -43,17 +39,6 @@ const downloadImage = async ({ url, auth }: DownloadImageType) => {
   }
 };
 
-const shareImage = async ({ url, auth }: DownloadImageType) => {
-  try {
-    await download(url, auth, res =>
-      Share.share({ url: res }, { tintColor: BRAND_COLOR }).catch(err => {}),
-    );
-    Toast('Download complete.');
-  } catch (error) {
-    Toast("Can't download");
-  }
-};
-
 const shareLink = ({ url }: ShareLinkType) => {
   share(url);
 };
@@ -64,7 +49,7 @@ const shareImageDirectly = ({ url, auth }: DownloadImageType) => {
 
 const actionSheetButtons: ButtonType[] = [
   { title: 'Download file', onPress: downloadImage },
-  { title: 'Share Image', onPress: shareImage },
+  { title: 'Share Image', onPress: shareImageDirectly },
   { title: 'Share Image Link', onPress: shareLink },
   { title: 'Cancel', onPress: () => false },
 ];
