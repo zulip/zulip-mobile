@@ -9,14 +9,15 @@ const styles = StyleSheet.create({
   wrapper: {
     height: 44,
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
     paddingLeft: 15,
     paddingRight: 5,
+    flex: 1,
   },
   text: {
     color: 'white',
     fontSize: 16,
+    alignSelf: 'center',
   },
   icon: {
     fontSize: 32,
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  style: StyleObj,
+  style?: StyleObj,
   displayMessage: string,
   onOptionsPress: () => void,
 };

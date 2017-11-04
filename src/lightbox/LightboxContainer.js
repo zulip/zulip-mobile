@@ -120,7 +120,7 @@ class LightboxContainer extends PureComponent<Props, State> {
           onTap={this.handleImagePress}
         />
         <AnimatedLightboxFooter
-          style={[styles.overlay, { width: WINDOW_WIDTH }]}
+          style={[styles.overlay, { width: WINDOW_WIDTH, bottom: WINDOW_HEIGHT - 44 }]}
           displayMessage={footerMessage}
           onOptionsPress={this.handleOptionsPress}
           from={WINDOW_HEIGHT}
