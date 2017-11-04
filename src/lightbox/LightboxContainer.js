@@ -10,7 +10,7 @@ import { getAuth } from '../selectors';
 import AnimatedLightboxHeader from './AnimatedLightboxHeader';
 import AnimatedLightboxFooter from './AnimatedLightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
-import { NAVBAR_SIZE, WINDOW_BOTTOM_OFFSET } from '../styles';
+import { NAVBAR_SIZE } from '../styles';
 
 let WINDOW_WIDTH = Dimensions.get('window').width;
 let WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -124,7 +124,7 @@ class LightboxContainer extends PureComponent<Props, State> {
           displayMessage={footerMessage}
           onOptionsPress={this.handleOptionsPress}
           from={WINDOW_HEIGHT}
-          to={WINDOW_HEIGHT - WINDOW_BOTTOM_OFFSET - 44}
+          to={WINDOW_HEIGHT - 44}
           {...this.getAnimationProps()}
         />
       </View>

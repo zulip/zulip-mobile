@@ -15,10 +15,14 @@ type Props = {
 
 export default class AnimatedLightboxFooter extends PureComponent<Props> {
   render() {
-    const { displayMessage, onOptionsPress, ...restProps } = this.props;
+    const { displayMessage, onOptionsPress, style, ...restProps } = this.props;
     return (
-      <SlideAnimationView property="translateY" {...restProps}>
-        <LightboxFooter displayMessage={displayMessage} onOptionsPress={onOptionsPress} />
+      <SlideAnimationView property="translateY" style={style} {...restProps}>
+        <LightboxFooter
+          displayMessage={displayMessage}
+          onOptionsPress={onOptionsPress}
+          style={style}
+        />
       </SlideAnimationView>
     );
   }

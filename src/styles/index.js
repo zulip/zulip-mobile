@@ -1,12 +1,6 @@
 /* @flow */
 
-export {
-  CONTROL_SIZE,
-  NAVBAR_SIZE,
-  REACTION_HEIGHT,
-  REACTION_SPINNER_OFFSET,
-  WINDOW_BOTTOM_OFFSET,
-} from './platform';
+export { CONTROL_SIZE, NAVBAR_SIZE, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from './platform';
 
 export const BRAND_COLOR = 'rgba(82, 194, 175, 1)';
 export const BORDER_COLOR = BRAND_COLOR;
