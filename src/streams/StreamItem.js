@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   muted: {
-    opacity: 0.25,
+    opacity: 0.5,
   },
 });
 
