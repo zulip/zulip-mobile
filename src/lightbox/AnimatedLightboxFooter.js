@@ -18,11 +18,7 @@ export default class AnimatedLightboxFooter extends PureComponent<Props> {
     const { displayMessage, onOptionsPress, style, ...restProps } = this.props;
     return (
       <SlideAnimationView property="translateY" style={style} {...restProps}>
-        <LightboxFooter
-          displayMessage={displayMessage}
-          onOptionsPress={onOptionsPress}
-          style={style}
-        />
+        <LightboxFooter displayMessage={displayMessage} onOptionsPress={onOptionsPress} />
       </SlideAnimationView>
     );
   }
