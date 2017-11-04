@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  style: StyleObj,
+  style?: StyleObj,
   displayMessage: string,
   onOptionsPress: () => void,
 };
