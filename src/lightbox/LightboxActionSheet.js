@@ -54,8 +54,7 @@ const actionSheetButtons: ButtonType[] = [
   { title: 'Cancel', onPress: () => false },
 ];
 
-export const constructActionSheetButtons = () =>
-  actionSheetButtons.filter(x => !x.onlyIf || x.onlyIf()).map(button => button.title);
+export const constructActionSheetButtons = () => actionSheetButtons.map(button => button.title);
 
 export const executeActionSheetAction = ({ title, ...props }: ExecuteActionSheetActionType) => {
   const button = actionSheetButtons.find(x => x.title === title);
