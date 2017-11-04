@@ -19,6 +19,7 @@ document.addEventListener('message', function(e) {
 let prevHeader;
 
 const updatePinnedHeader = () => {
+  return;
   let crNode = document.elementFromPoint(200, 40);
   while (crNode && crNode.className !== 'message') {
     crNode = crNode.parentNode;
