@@ -106,6 +106,11 @@ pre {
   padding: 0 .2em;
   box-shadow: 0 0 0 1px #ccc;
 }
+.header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
 .avatar,
 .header {
   cursor: pointer;
