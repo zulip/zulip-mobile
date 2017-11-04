@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.common.MapBuilder;
@@ -89,6 +90,18 @@ public class AnchorScrollViewManager
     @ReactProp(name = "scrollPerfTag")
     public void setScrollPerfTag(AnchorScrollView view, String scrollPerfTag) {
         view.setScrollPerfTag(scrollPerfTag);
+    }
+
+    @ReactProp(name = "autoScrollToBottom", defaultBoolean = false)
+    public void setAutoScrollToBottom(AnchorScrollView view, boolean autoScrollToBottom) {
+        Log.e("rrtryt", autoScrollToBottom+"");
+        view.setAutoScrollToBottom(autoScrollToBottom);
+    }
+
+    @ReactProp(name = "anchor", defaultInt = -1)
+    public void setAnchor(AnchorScrollView view, int anchor) {
+        Log.e("anchor props", anchor+"");
+        view.setAnchor(anchor);
     }
 
     /**

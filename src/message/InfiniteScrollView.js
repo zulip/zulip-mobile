@@ -26,6 +26,14 @@ type Props = {
 export default class InfiniteScrollView extends PureComponent<Props> {
   props: Props;
 
+  state: {
+    autoScrollToBottom: false,
+  };
+
+  state = {
+    autoScrollToBottom: true,
+  };
+
   static defaultProps = {
     onStartReached: nullFunction,
     onEndReached: nullFunction,
@@ -60,6 +68,9 @@ export default class InfiniteScrollView extends PureComponent<Props> {
     ) {
       this._sentStartForContentHeight = this._contentHeight;
       this.props.onStartReached();
+      this.setState({
+        autoScrollToBottom: false,
+      });
     }
   }
 
@@ -72,6 +83,9 @@ export default class InfiniteScrollView extends PureComponent<Props> {
     ) {
       this._sentEndForContentHeight = this._contentHeight;
       this.props.onEndReached();
+      this.setState({
+        autoScrollToBottom: false,
+      });
     }
   }
 
@@ -100,10 +114,21 @@ export default class InfiniteScrollView extends PureComponent<Props> {
     this.props.onScroll(e.nativeEvent);
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.narrow !== nextProps.narrow) {
+      this.setState({
+        autoScrollToBottom: true,
+      });
+    }
+  }
+
   render() {
+    const { autoScrollToBottom } = this.state;
+
     return (
       <AnchorScrollView
         style={this.props.style}
+        anchor={this.props.anchor}
         contentContainerStyle={this.props.contentContainerStyle}
         automaticallyAdjustContentInset={false}
         scrollsToTop
@@ -112,11 +137,12 @@ export default class InfiniteScrollView extends PureComponent<Props> {
         onScroll={this._onScroll}
         scrollEventThrottle={config.scrollCallbackThrottle}
         // stickyHeaderIndices={Platform.OS === 'ios' ? this.props.stickyHeaderIndices : undefined}
-        autoScrollToBottom={this.props.autoScrollToBottom}
+        autoScrollToBottom={autoScrollToBottom}
         removeClippedSubviews
         ref={(component: any) => {
           const { listRef } = this.props;
           if (listRef) listRef(component);
+          this.scrollView = component;
         }}
       >
         {this.props.children}

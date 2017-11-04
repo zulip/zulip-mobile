@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -74,6 +75,8 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
     private String mAnchorTag;
     private int mLastAnchorY;
     private ScrollView scrollView;
+    private boolean autoScrollToBottom = false;
+    private int anchor;
 
     public AnchorScrollView(ReactContext context) {
         this(context, null);
@@ -122,13 +125,13 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
 
         this.setOnTouchListener(new OnTouchListener() {
             private ViewTreeObserver observer;
+
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (observer == null) {
                     observer = getViewTreeObserver();
                     observer.addOnScrollChangedListener(onScrollChangedListener);
-                }
-                else if (!observer.isAlive()) {
+                } else if (!observer.isAlive()) {
                     observer.removeOnScrollChangedListener(onScrollChangedListener);
                     observer = getViewTreeObserver();
                     observer.addOnScrollChangedListener(onScrollChangedListener);
@@ -507,7 +510,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         }
 
         // Zulip changes
-        if (mAnchorTag != null) {
+        if (mAnchorTag != null && autoScrollToBottom) {
             View mAnchorView = null;
 
             if (mRemoveClippedSubviews && !(mContentView instanceof ReactViewGroup)) {
@@ -523,13 +526,16 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                 }
             }
 
-            int arrLength = mRemoveClippedSubviews && children != null ? children.length : mContentView.getChildCount();
+            int arrLength = children != null ? children.length : mContentView.getChildCount();
+            View previousChild = null;
             for (int i = 0; i < arrLength; i++) {
-                View child = mRemoveClippedSubviews && children != null ? children[i] : mContentView.getChildAt(i);
+                View child = children != null ? children[i] : mContentView.getChildAt(i);
 
-                if (child != null && mAnchorTag.equals(child.getTag())) {
-                    mAnchorView = child;
+                if (child != null && String.valueOf(anchor).equals(child.getTag())) {
+                    mAnchorView = previousChild != null ? previousChild : child;
+                    break;
                 }
+                previousChild = child;
             }
             if (mAnchorView != null) {
                 int anchorChange = mAnchorView.getTop() - mLastAnchorY;
@@ -541,5 +547,13 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
 
     public void flashScrollIndicators() {
         awakenScrollBars();
+    }
+
+    public void setAutoScrollToBottom(boolean autoScrollToBottom) {
+        this.autoScrollToBottom = autoScrollToBottom;
+    }
+
+    public void setAnchor(int anchor) {
+        this.anchor = anchor;
     }
 }

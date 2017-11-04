@@ -35,6 +35,7 @@ export default class MessageList extends PureComponent<Props> {
   render() {
     const { styles } = this.context;
     const {
+      anchor,
       actions,
       fetchingOlder,
       fetchingNewer,
@@ -44,6 +45,7 @@ export default class MessageList extends PureComponent<Props> {
       onScroll,
       typingUsers,
       renderedMessages,
+      narrow,
     } = this.props;
 
     const { messageList, stickyHeaderIndices } = cachedMessageRender(
@@ -60,6 +62,8 @@ export default class MessageList extends PureComponent<Props> {
         onEndReached={actions.fetchNewer}
         listRef={listRef}
         onScroll={onScroll}
+        narrow={narrow}
+        anchor={anchor}
       >
         <LoadingIndicator active={fetchingOlder} backgroundColor={styles.backgroundColor} />
         {messageList}
