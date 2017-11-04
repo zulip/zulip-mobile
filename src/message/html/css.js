@@ -21,7 +21,7 @@ a {
 }
 blockquote {
   padding-left: 5px;
-  margin-left: 10px;
+  margin-left: 1em;
   border-left-color: #ddd;
 }
 code {
@@ -35,7 +35,7 @@ code {
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 }
 p {
-  margin: 0;
+  margin: 0 0 0.5em 0;
 }
 pre {
   padding: 0.5em;
@@ -73,16 +73,18 @@ pre {
 .timestamp {
   color: silver;
   font-size: 14px;
+  line-height: 1;
 }
 .message {
   display: flex;
   word-wrap: break-word;
-  margin: 0.5em;
+  margin: 0 1em;
 }
 .avatar {
   min-width: 32px;
   width: 32px;
-  margin-right: 0.5em;
+  height: 32px;
+  margin-right: 1em;
 }
 .avatar img {
   width: 100%;
@@ -95,6 +97,7 @@ pre {
 }
 .username {
   font-weight: bold;
+  line-height: 1;
 }
 .user-mention {
   white-space: nowrap;
@@ -111,7 +114,7 @@ pre {
 .private-header,
 .stream-header {
   padding: 0.5em;
-  margin: 0.5em 0;
+  margin-bottom: 1em;
 }
 .topic-header,
 .stream-header {
