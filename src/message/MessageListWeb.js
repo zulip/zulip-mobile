@@ -4,6 +4,7 @@ import { StyleSheet, WebView } from 'react-native';
 import css from './html/css';
 import js from './html/js';
 import head from './html/head';
+import { getResource } from '../utils/url';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 
 const styles = StyleSheet.create({
@@ -19,28 +20,40 @@ type Props = {
 export default class MessageListWeb extends PureComponent<Props> {
   props: Props;
 
-  handleMessage = event => {
+  handleClick = ({ target, targetNodeName, targetClassName }) => {};
+
+  handleScroll = ({ y }) => {
     const { actions } = this.props;
-    const data = JSON.parse(event.nativeEvent.data);
-
-    switch (data.type) {
-      case 'scroll':
-        if (data.y === 0) {
-          actions.fetchOlder();
-        }
-        break;
-
-      case 'avatar':
-        actions.navigateToAccountDetails(data.fromEmail);
-        break;
-
-      case 'narrow':
-        actions.doNarrow(JSON.parse(data.narrow.replace(/'/g, '"')));
-        actions.navigateToAccountDetails(data.fromEmail);
-        break;
-
-      default:
+    if (y === 0) {
+      actions.fetchOlder();
     }
+  };
+
+  handleAvatar = ({ fromEmail }) => {
+    const { actions } = this.props;
+    actions.navigateToAccountDetails(fromEmail);
+  };
+
+  handleNarrow = ({ narrow, fromEmail }) => {
+    const { actions } = this.props;
+
+    actions.doNarrow(JSON.parse(narrow.replace(/'/g, '"')));
+    actions.navigateToAccountDetails(fromEmail);
+  };
+
+  handleImage = ({ src }) => {
+    const { actions, auth } = this.props;
+
+    const message = {}; // find from data.messageId
+    const resource = getResource(src, auth);
+
+    actions.navigateToLightbox(resource, message);
+  };
+
+  handleMessage = event => {
+    const data = JSON.parse(event.nativeEvent.data);
+    const handler = `handle${data.type.charAt(0).toUpperCase()}${data.type.slice(1)}`;
+    this[handler](data);
   };
 
   render() {

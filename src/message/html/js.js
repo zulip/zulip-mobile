@@ -38,37 +38,67 @@ const updatePinnedHeader = () => {
     header.classList.add('fixed-header');
     prevHeader = header;
   }
-}
+};
 
 window.addEventListener('scroll', () => {
-  window.postMessage(JSON.stringify({
-    type: 'scroll',
-    y: window.scrollY,
-  }));
+  window.postMessage(
+    JSON.stringify({
+      type: 'scroll',
+      y: window.scrollY,
+    }),
+  );
   updatePinnedHeader();
 });
 
-document.getElementsByTagName('body')[0].addEventListener('click', (e) => {
-  window.postMessage(JSON.stringify({
-    type: 'click',
-    targetNodeName: e.target.nodeName,
-    targetClassName: e.target.className,
-    matchez: e.target.matches('.avatar'),
-  }));
+document.getElementsByTagName('body')[0].addEventListener('click', e => {
+  // if !(e.target)
+  window.postMessage(
+    JSON.stringify({
+      type: 'click',
+      target: e.traget,
+      targetNodeName: e.target.nodeName,
+      targetClassName: e.target.className,
+      matchez: e.target.matches('a[target="_blank"] > img'),
+    }),
+  );
 
-  if (e.target && e.target.matches('.avatar-img')) {
-    window.postMessage(JSON.stringify({
-      type: 'avatar',
-      fromEmail: e.target.getAttribute('data-email'),
-    }));
+  if (e.target.matches('.avatar-img')) {
+    window.postMessage(
+      JSON.stringify({
+        type: 'avatar',
+        fromEmail: e.target.getAttribute('data-email'),
+      }),
+    );
   }
 
-  if (e.target && e.target.matches('.header')) {
-    window.postMessage(JSON.stringify({
-      type: 'narrow',
-      narrow: e.target.getAttribute('data-narrow'),
-      id: e.target.getAttribute('data-id')
-    }));
+  if (e.target.matches('.header')) {
+    window.postMessage(
+      JSON.stringify({
+        type: 'narrow',
+        narrow: e.target.getAttribute('data-narrow'),
+        id: e.target.getAttribute('data-id'),
+      }),
+    );
+  }
+
+  if (e.target.matches('a[target="_blank"]')) {
+    window.postMessage(
+      JSON.stringify({
+        type: 'image',
+        src: e.target.getAttribute('href'),
+        message: e.target.getAttribute('data-id'),
+      }),
+    );
+  }
+
+  if (e.target.matches('a[target="_blank"] > img')) {
+    window.postMessage(
+      JSON.stringify({
+        type: 'image',
+        src: e.target.parentNode.getAttribute('href'),
+        message: e.target.getAttribute('data-id'),
+      }),
+    );
   }
 });
 
