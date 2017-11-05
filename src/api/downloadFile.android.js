@@ -5,7 +5,7 @@ import type { Auth } from '../types';
 import { getAuthHeader } from '../utils/url';
 import userAgent from '../utils/userAgent';
 
-export default (url: string, auth: Auth, onSuccess?: () => void) =>
+export default (url: string, auth: Auth) =>
   RNFetchBlob.config({
     addAndroidDownloads: {
       path: `${RNFetchBlob.fs.dirs.DownloadDir}/${url.split('/').pop()}`,
@@ -15,12 +15,8 @@ export default (url: string, auth: Auth, onSuccess?: () => void) =>
       mime: 'text/plain',
       title: url.split('/').pop(),
     },
-  })
-    .fetch('GET', url, {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-      'User-Agent': userAgent,
-      Authorization: getAuthHeader(auth.email, auth.apiKey),
-    })
-    .then(res => {
-      onSuccess(res.path());
-    });
+  }).fetch('GET', url, {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+    'User-Agent': userAgent,
+    Authorization: getAuthHeader(auth.email, auth.apiKey),
+  });
