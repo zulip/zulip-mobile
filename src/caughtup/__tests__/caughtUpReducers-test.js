@@ -113,4 +113,80 @@ describe('caughtUpReducers', () => {
 
     expect(newState).toEqual(expectedState);
   });
+
+  describe('verify that server has send extra message before calculating adjustment', () => {
+    test('no adjustment is required if messages are less than or equal to requested', () => {
+      const initialState = deepFreeze({
+        [homeNarrowStr]: {},
+      });
+
+      const action = deepFreeze({
+        type: MESSAGE_FETCH_COMPLETE,
+        narrow: [],
+        anchor: 6,
+        messages: [
+          { id: 1 },
+          { id: 2 },
+          { id: 3 },
+          { id: 4 },
+          { id: 5 },
+          { id: 6 },
+          { id: 7 },
+          { id: 8 },
+          { id: 9 },
+          { id: 10 },
+        ],
+        numBefore: 5,
+        numAfter: 5,
+      });
+
+      const expectedState = {
+        [homeNarrowStr]: {
+          older: false,
+          newer: false,
+        },
+      };
+
+      const newState = caughtUpReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+    test('dynamically determine adjustment whenever required', () => {
+      const initialState = deepFreeze({
+        [homeNarrowStr]: {},
+      });
+
+      const action = deepFreeze({
+        type: MESSAGE_FETCH_COMPLETE,
+        narrow: [],
+        anchor: 5,
+        messages: [
+          { id: 0 },
+          { id: 1 },
+          { id: 2 },
+          { id: 3 },
+          { id: 4 },
+          { id: 5 },
+          { id: 6 },
+          { id: 7 },
+          { id: 8 },
+          { id: 9 },
+          { id: 10 },
+        ],
+        numBefore: 5,
+        numAfter: 5,
+      });
+
+      const expectedState = {
+        [homeNarrowStr]: {
+          older: false,
+          newer: false,
+        },
+      };
+
+      const newState = caughtUpReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+  });
 });

@@ -31,10 +31,14 @@ export default (state: CaughtUpState = initialState, action: Action) => {
       if (anchorIdx === -1) {
         anchorIdx = action.messages.length;
       }
-
+      const totalMessagesRequested = action.numBefore + action.numAfter;
       // If we're requesting messages before the anchor, the server
       // returns one less than we expect (to avoid duplicating the anchor)
-      const adjustment = action.numBefore > 0 ? -1 : 0;
+      // only do adjustment if messages are more than expected
+      const adjustment =
+        action.messages.length > totalMessagesRequested && action.numBefore > 0
+          ? -(action.messages.length - totalMessagesRequested)
+          : 0;
 
       const caughtUpOlder = anchorIdx + 1 < action.numBefore;
       const caughtUpNewer = action.messages.length - anchorIdx + adjustment < action.numAfter;
