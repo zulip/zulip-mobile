@@ -61,4 +61,4 @@ module.file_ext=.js
 module.file_ext=.json
 
 [version]
-^0.53.0
+^0.56.0
