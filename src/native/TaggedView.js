@@ -4,7 +4,7 @@ import type { ChildrenArray } from 'react';
 import { requireNativeComponent } from 'react-native';
 
 type Props = {
-  children: ChildrenArray<*>,
+  children: ChildrenArray<any>,
   collapsable: boolean,
   tagID: number,
 };

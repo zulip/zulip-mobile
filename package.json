@@ -39,7 +39,6 @@
     "entities": "^1.1.1",
     "events": "^1.1.1",
     "htmlparser2": "^3.9.2",
-    "immutable": "^3.8.2",
     "lodash.isequal": "^4.4.0",
     "lodash.throttle": "^4.1.1",
     "lodash.uniqby": "^4.4.0",
