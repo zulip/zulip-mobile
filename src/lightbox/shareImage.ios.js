@@ -7,11 +7,12 @@ import Toast from '../utils/showToast';
 
 export default async (url: string, auth: Auth) => {
   try {
-    await download(url, auth).then((uri: Object) =>
-      Share.share({ url: uri, message: url }).catch(err => {
-        Toast("Can't share");
-      }),
-    );
+    const uri = await download(url, auth);
+    try {
+      await Share.share({ url: uri, message: url });
+    } catch (error) {
+      Toast("Can't share");
+    }
   } catch (error) {
     Toast("Can't download");
   }

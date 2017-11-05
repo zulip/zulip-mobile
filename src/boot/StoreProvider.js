@@ -1,4 +1,4 @@
-/* @TODO flow */
+/* @flow */
 import React, { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 
