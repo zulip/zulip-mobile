@@ -1,5 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import isEqual from 'lodash.isequal';
 
 import type { Actions, TypingState } from '../types';
 import { nullFunction } from '../nullObjects';
@@ -21,8 +22,6 @@ type Props = {
 };
 
 export default class MessageList extends PureComponent<Props> {
-  props: Props;
-
   static contextTypes = {
     styles: () => null,
   };
@@ -32,6 +31,37 @@ export default class MessageList extends PureComponent<Props> {
     onScroll: nullFunction,
   };
 
+  props: Props;
+  listComponent: any;
+
+  listRef = (component: Object) => {
+    this.listComponent = component || this.listComponent;
+    if (this.props.listRef) {
+      this.props.listRef(component);
+    }
+  };
+
+  componentWillReceiveProps(nextProps: Props) {
+    console.log('EEEEEEE', this.props.narrow, nextProps.narrow);
+    if (!isEqual(this.props.narrow, nextProps.narrow)) {
+      console.log('OOOOOOOO');
+      setTimeout(() => {
+        //  this.listComponent.scrollToEnd();
+      }, 300);
+    }
+  }
+
+  handleContentChange = () => {
+    console.log('WOWOW handleContentChange', this.listComponent);
+    // this.listComponent.scrollToEnd();
+    // setTimeout(() => {
+    //   // this.listComponent.scrollToEnd();
+    //   console.log('WOWOW post', this.listComponent);
+    // }, 300);
+
+    // this.listComponent.scrollToEnd();
+  };
+
   render() {
     const { styles } = this.context;
     const {
@@ -39,7 +69,6 @@ export default class MessageList extends PureComponent<Props> {
       fetchingOlder,
       fetchingNewer,
       singleFetchProgress,
-      listRef,
       onReplySelect,
       onScroll,
       typingUsers,
@@ -58,7 +87,8 @@ export default class MessageList extends PureComponent<Props> {
         stickyHeaderIndices={stickyHeaderIndices}
         onStartReached={actions.fetchOlder}
         onEndReached={actions.fetchNewer}
-        listRef={listRef}
+        onContentSizeChange={this.handleContentChange}
+        listRef={this.listRef}
         onScroll={onScroll}
       >
         <LoadingIndicator active={fetchingOlder} backgroundColor={styles.backgroundColor} />

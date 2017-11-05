@@ -45,6 +45,9 @@ export default class InfiniteScrollView extends PureComponent<Props> {
 
   _onContentSizeChanged = (contentWidth: number, contentHeight: number) => {
     this._contentHeight = contentHeight;
+    if (this.props.onContentSizeChange) {
+      this.props.onContentSizeChange(contentWidth, contentHeight);
+    }
   };
 
   _onScrollViewLayout = (e: Object) => {
@@ -101,10 +104,12 @@ export default class InfiniteScrollView extends PureComponent<Props> {
   };
 
   render() {
+    const { style, children, contentContainerStyle, autoScrollToBottom, listRef } = this.props;
+
     return (
       <AnchorScrollView
-        style={this.props.style}
-        contentContainerStyle={this.props.contentContainerStyle}
+        style={style}
+        contentContainerStyle={contentContainerStyle}
         automaticallyAdjustContentInset={false}
         scrollsToTop
         onContentSizeChange={this._onContentSizeChanged}
@@ -112,14 +117,13 @@ export default class InfiniteScrollView extends PureComponent<Props> {
         onScroll={this._onScroll}
         scrollEventThrottle={config.scrollCallbackThrottle}
         // stickyHeaderIndices={Platform.OS === 'ios' ? this.props.stickyHeaderIndices : undefined}
-        autoScrollToBottom={this.props.autoScrollToBottom}
+        autoScrollToBottom={autoScrollToBottom}
         removeClippedSubviews
         ref={(component: any) => {
-          const { listRef } = this.props;
           if (listRef) listRef(component);
         }}
       >
-        {this.props.children}
+        {children}
       </AnchorScrollView>
     );
   }
