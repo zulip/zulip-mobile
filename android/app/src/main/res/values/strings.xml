@@ -7,4 +7,5 @@
         <item quantity="one"></item>
         <item quantity="other">&#160;(%d messages)</item>
     </plurals>
+    <string name="send_to">Share To</string>
 </resources>
