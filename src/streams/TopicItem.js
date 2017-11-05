@@ -35,7 +35,7 @@ type Props = {
   onPress: (topic: string, stream: string) => void,
 };
 
-export default class StreamItem extends PureComponent<Props> {
+export default class TopicItem extends PureComponent<Props> {
   props: Props;
 
   static defaultProps = {

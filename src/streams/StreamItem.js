@@ -52,12 +52,29 @@ type Props = {
   unreadCount?: number,
   onPress: (name: string) => void,
   onSwitch?: (name: string, newValue: boolean) => void,
+  handleNestedPress?: boolean,
+  streamId?: number,
 };
 
 export default class StreamItem extends PureComponent<Props> {
   props: Props;
 
-  handlePress = () => this.props.onPress(this.props.name);
+  static defaultProps = {
+    handleNestedPress: false,
+  };
+
+  handlePressOutside = () => {
+    const { handleNestedPress, openTopics, streamId } = this.props;
+    if (handleNestedPress) {
+      openTopics(streamId);
+    } else {
+      this.props.onPress(this.props.name);
+    }
+  };
+
+  handleNestedPress = () => {
+    this.props.onPress(this.props.name);
+  };
 
   handleSwitch = (newValue: boolean) => {
     const { name, onSwitch } = this.props;
@@ -93,17 +110,19 @@ export default class StreamItem extends PureComponent<Props> {
     };
 
     return (
-      <Touchable onPress={this.handlePress}>
+      <Touchable onPress={this.handlePressOutside}>
         <View style={wrapperStyle}>
           <View style={[styles.iconWrapper, iconWrapperCustomStyle]}>
             <StreamIcon size={iconSize} color="white" isMuted={isMuted} isPrivate={isPrivate} />
           </View>
-          <View style={styles.text}>
-            <RawLabel style={[isSelected && styles.selectedText]} text={name} />
-            {!!description && (
-              <RawLabel numberOfLines={1} style={styles.description} text={description} />
-            )}
-          </View>
+          <Touchable onPress={this.handleNestedPress}>
+            <View style={styles.text} onPress={this.handlePress}>
+              <RawLabel style={[isSelected && styles.selectedText]} text={name} />
+              {!!description && (
+                <RawLabel numberOfLines={1} style={styles.description} text={description} />
+              )}
+            </View>
+          </Touchable>
           {unreadCount && <UnreadCount count={unreadCount} inverse={isSelected} />}
           {showSwitch && (
             <ZulipSwitch

@@ -1,11 +1,12 @@
 /* @flow */
-import React, { PureComponent } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import React, { Component } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 
-import type { Stream } from '../types';
+import type { Stream, Auth } from '../types';
 import { caseInsensitiveCompareObjFunc } from '../utils/misc';
 import StreamItem from './StreamItem';
 import { SearchEmptyState } from '../common';
+import TopicsList from './TopicsList';
 
 const styles = StyleSheet.create({
   list: {
@@ -15,18 +16,27 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  auth: Auth,
   showDescriptions: boolean,
   showSwitch: boolean,
   selected: boolean,
   streams: Stream[],
   unreadByStream: number[],
-  onPress: (streamName: string) => void,
   onSwitch?: (streamName: string, newValue: boolean) => void,
   clearInput?: () => void,
+  doNarrowCloseDrawer?: () => void,
 };
 
-export default class StreamList extends PureComponent<Props> {
+type State = {
+  openStream: int,
+};
+
+export default class StreamList extends Component<Props, State> {
   props: Props;
+  state = {
+    openStream: null,
+  };
+  state: State;
 
   static defaultProps = {
     showDescriptions: false,
@@ -36,17 +46,60 @@ export default class StreamList extends PureComponent<Props> {
     unreadByStream: [],
   };
 
-  render() {
+  openTopics = streamId => {
+    this.setState({
+      openStream: this.state.openStream === streamId ? null : streamId,
+    });
+  };
+
+  renderTopicList = item => {
+    const { auth, doNarrowCloseDrawer } = this.props;
+    return (
+      <View>
+        {this.renderStreamItem(item)}
+        <TopicsList
+          streamId={item.stream_id}
+          auth={auth}
+          doNarrowCloseDrawer={doNarrowCloseDrawer}
+          name={item.name}
+        />
+      </View>
+    );
+  };
+
+  renderStreamItem = item => {
     const {
-      streams,
       selected,
       showDescriptions,
       showSwitch,
       unreadByStream,
-      onPress,
       onSwitch,
-      clearInput,
+      onPress,
     } = this.props;
+    return (
+      <StreamItem
+        name={item.name}
+        iconSize={16}
+        isPrivate={item.invite_only}
+        description={showDescriptions ? item.description : ''}
+        color={item.color}
+        unreadCount={unreadByStream[item.stream_id]}
+        isSelected={item.name === selected}
+        isMuted={item.in_home_view === false} // if 'undefined' is not muted
+        showSwitch={showSwitch}
+        isSwitchedOn={item.subscribed}
+        handleNestedPress
+        openTopics={this.openTopics}
+        onPress={onPress}
+        onSwitch={onSwitch}
+        streamId={item.stream_id}
+      />
+    );
+  };
+  render() {
+    const { streams, unreadByStream, clearInput } = this.props;
+    const { openStream } = this.state;
+
     const sortedStreams = streams.sort(caseInsensitiveCompareObjFunc('name'));
     const noResults = streams.length === 0;
 
@@ -65,24 +118,10 @@ export default class StreamList extends PureComponent<Props> {
         style={styles.list}
         initialNumToRender={sortedStreams.length}
         data={sortedStreams}
-        extraData={unreadByStream}
+        extraData={{ ...unreadByStream, ...this.state }}
         keyExtractor={item => item.stream_id}
-        renderItem={({ item }) => (
-          <StreamItem
-            name={item.name}
-            iconSize={16}
-            isPrivate={item.invite_only}
-            description={showDescriptions ? item.description : ''}
-            color={item.color}
-            unreadCount={unreadByStream[item.stream_id]}
-            isSelected={item.name === selected}
-            isMuted={item.in_home_view === false} // if 'undefined' is not muted
-            showSwitch={showSwitch}
-            isSwitchedOn={item.subscribed}
-            onPress={onPress}
-            onSwitch={onSwitch}
-          />
-        )}
+        renderItem={({ item }) =>
+          openStream === item.stream_id ? this.renderTopicList(item) : this.renderStreamItem(item)}
       />
     );
   }
