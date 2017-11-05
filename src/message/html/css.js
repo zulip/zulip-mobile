@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 import { BORDER_COLOR } from '../../styles/theme';
+import { BRAND_COLOR, HALF_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from '../../styles';
 
 export default `
 <style>
@@ -239,6 +240,21 @@ ul {
   border-radius: 2px;
   color: rgba(127, 127, 127, 0.75);
   background: rgba(0, 0, 0, 0.1);
+}
+.reaction-list {
+  line-height: 2;
+  margin: 1em 0;
+}
+.reaction {
+  color: ${HALF_COLOR};
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid ${HALF_COLOR};
+}
+.self-voted {
+  color: ${BRAND_COLOR};
+  border: 1px solid ${BRAND_COLOR};
+  background: rgba(36, 202, 194, 0.1);
 }
 </style>
 `;
