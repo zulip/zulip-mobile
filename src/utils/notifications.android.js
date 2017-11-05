@@ -1,20 +1,21 @@
 /* @flow */
-import { NotificationsAndroid, PendingNotifications } from 'react-native-notifications';
+import { NotificationsAndroid } from 'react-native-notifications';
 
 import registerPush from '../api/registerPush';
 import { streamNarrow, privateNarrow } from '../utils/narrow';
 import type { Auth } from '../types';
 import { logErrorRemotely } from '../utils/logging';
 
-export const handlePendingNotifications = async switchNarrow => {
-  const notification = await PendingNotifications.getInitialNotification();
+export const handlePendingNotifications = async (notification, doNarrow) => {
   if (notification) {
     const data = notification.getData();
     console.log('Opened app by notification', data); //eslint-disable-line
-    if (data.recipient_type === 'stream') {
-      switchNarrow(streamNarrow(data.stream, data.topic));
-    } else if (data.recipient_type === 'private') {
-      switchNarrow(privateNarrow(data.sender_email));
+    if (data && data.recipient_type) {
+      if (data.recipient_type === 'stream') {
+        doNarrow(streamNarrow(data.stream, data.topic));
+      } else if (data.recipient_type === 'private') {
+        doNarrow(privateNarrow(data.sender_email));
+      }
     }
   }
 };
@@ -31,7 +32,6 @@ const handleRegistrationUpdates = (auth: Auth, saveTokenPush) => {
 };
 
 export const initializeNotifications = (auth: Auth, saveTokenPush: string, doNarrow) => {
-  handlePendingNotifications(doNarrow);
   handleRegistrationUpdates(auth, saveTokenPush);
 };
 

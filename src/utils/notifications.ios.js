@@ -1,5 +1,4 @@
 /* TODO: flow */
-import { PushNotificationIOS } from 'react-native';
 import NotificationsIOS from 'react-native-notifications';
 
 import type { Auth } from '../types';
@@ -33,16 +32,17 @@ export const initializeNotifications = (auth: Auth, saveTokenPush: (arg: string)
 
 export const refreshNotificationToken = () => {};
 
-export const handlePendingNotifications = async switchNarrow => {
-  const notification = await PushNotificationIOS.getInitialNotification();
+export const handlePendingNotifications = async (notification, doNarrow) => {
   if (notification) {
-    const { custom: { zulip } } = notification.getData();
-    console.log('Opened app by notification', zulip); //eslint-disable-line
-    if (zulip && zulip.recipient_type) {
-      if (zulip.recipient_type === 'stream') {
-        switchNarrow(streamNarrow(zulip.stream, zulip.topic));
-      } else if (zulip.recipient_type === 'private') {
-        switchNarrow(privateNarrow(zulip.sender_email));
+    const data = notification.getData();
+    if (data && data.custom) {
+      const { custom: { zulip } } = data;
+      if (zulip && zulip.recipient_type) {
+        if (zulip.recipient_type === 'stream') {
+          doNarrow(streamNarrow(zulip.stream, zulip.topic));
+        } else if (zulip.recipient_type === 'private') {
+          doNarrow(privateNarrow(zulip.sender_email));
+        }
       }
     }
   }

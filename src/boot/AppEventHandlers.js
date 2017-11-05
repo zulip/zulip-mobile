@@ -1,8 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { AppState, NetInfo, View, StyleSheet } from 'react-native';
+import { AppState, NetInfo, View, StyleSheet, Platform } from 'react-native';
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
+import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
 
 import type { Auth, Actions, ChildrenArray } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -43,12 +44,14 @@ class AppEventHandlers extends PureComponent<Props> {
   };
 
   handleAppStateChange = state => {
-    const { auth, actions, needsInitialFetch } = this.props;
+    const { auth, actions } = this.props;
     registerAppActivity(auth, state === 'active');
     actions.appState(state === 'active');
-    if (state === 'active' && !needsInitialFetch && auth.realm !== '') {
-      handlePendingNotifications(actions.doNarrow);
-    }
+  };
+
+  handleNotificationOpen = notification => {
+    const { doNarrow } = this.props.actions;
+    setTimeout(() => handlePendingNotifications(notification, doNarrow), 600);
   };
 
   handleMemoryWarning = () => {
@@ -63,6 +66,11 @@ class AppEventHandlers extends PureComponent<Props> {
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     SafeArea.getSafeAreaInsetsForRootView().then(actions.initSafeAreaInsets);
     Orientation.addOrientationListener(this.handleOrientationChange);
+    if (Platform.OS === 'ios') {
+      NotificationsIOS.addEventListener('notificationOpened', this.handleNotificationOpen);
+    } else {
+      NotificationsAndroid.setNotificationOpenedListener(this.handleNotificationOpen);
+    }
   }
 
   componentWillUnmount() {
@@ -70,6 +78,9 @@ class AppEventHandlers extends PureComponent<Props> {
     AppState.removeEventListener('change', this.handleAppStateChange);
     AppState.removeEventListener('memoryWarning', this.handleMemoryWarning);
     Orientation.removeOrientationListener(this.handleOrientationChange);
+    if (Platform.OS === 'ios') {
+      NotificationsIOS.removeEventListener('notificationOpened', this.handleNotificationOpen);
+    }
   }
 
   render() {
