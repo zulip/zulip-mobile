@@ -26,9 +26,12 @@ export default ({ auth, subscriptions, renderedMessages, isFetching, narrow, doN
             isBrief: item.isBrief,
             fromName: item.message.sender_full_name,
             fromEmail: item.message.sender_email,
-            message: item.message.content,
+            content: item.message.content,
             timestamp: item.message.timestamp,
             avatarUrl: getFullUrl(item.message.avatar_url, auth ? auth.realm : ''),
+            timeEdited: item.message.last_edit_timestamp,
+            isOutbox: item.message.isOutbox,
+            isStarred: (item.message.flags || []).indexOf('starred') > -1,
           }),
         );
       }

@@ -228,5 +228,17 @@ ul {
   width: 100%;
   margin: 0;
 }
+.message-tags {
+  text-align: right;
+  margin: 0.25em 0;
+  font-size: 10px;
+}
+.message-tag {
+  padding: 0.25em 0.5em;
+  margin-left: 4;
+  border-radius: 2px;
+  color: rgba(127, 127, 127, 0.75);
+  background: rgba(0, 0, 0, 0.1);
+}
 </style>
 `;
