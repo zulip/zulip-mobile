@@ -85,11 +85,41 @@ describe('caughtUpReducers', () => {
     expect(newState).toEqual(expectedState);
   });
 
-  test('new results do not reset previous state', () => {
+  test('new results reset previous state if replaceExisting is true', () => {
     const initialState = deepFreeze({
       [homeNarrowStr]: {
         older: true,
         newer: true,
+      },
+    });
+
+    const action = deepFreeze({
+      type: MESSAGE_FETCH_COMPLETE,
+      narrow: [],
+      anchor: 3,
+      messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+      numBefore: 2,
+      numAfter: 2,
+      replaceExisting: true,
+    });
+
+    const expectedState = {
+      [homeNarrowStr]: {
+        older: true,
+        newer: true,
+      },
+    };
+
+    const newState = caughtUpReducers(initialState, action);
+
+    expect(newState).toEqual(expectedState);
+  });
+
+  test('if older is caughtUp then upon fetching newer should not affect older caughtUp', () => {
+    const initialState = deepFreeze({
+      [homeNarrowStr]: {
+        older: true,
+        newer: false,
       },
     });
 
@@ -105,6 +135,35 @@ describe('caughtUpReducers', () => {
     const expectedState = {
       [homeNarrowStr]: {
         older: true,
+        newer: false,
+      },
+    };
+
+    const newState = caughtUpReducers(initialState, action);
+
+    expect(newState).toEqual(expectedState);
+  });
+
+  test('if newer is caughtUp then upon fetching older should not affect newer caughtUp', () => {
+    const initialState = deepFreeze({
+      [homeNarrowStr]: {
+        older: false,
+        newer: true,
+      },
+    });
+
+    const action = deepFreeze({
+      type: MESSAGE_FETCH_COMPLETE,
+      narrow: [],
+      anchor: 3,
+      messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+      numBefore: 2,
+      numAfter: 2,
+    });
+
+    const expectedState = {
+      [homeNarrowStr]: {
+        older: false,
         newer: true,
       },
     };

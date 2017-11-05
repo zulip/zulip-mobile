@@ -20,7 +20,7 @@ export default (state: CaughtUpState = initialState, action: Action) => {
       return initialState;
 
     case MESSAGE_FETCH_COMPLETE: {
-      if (!action.anchor) {
+      if (!action.anchor && action.replaceExisting) {
         return state;
       }
 
@@ -36,8 +36,14 @@ export default (state: CaughtUpState = initialState, action: Action) => {
       // returns one less than we expect (to avoid duplicating the anchor)
       const adjustment = action.numBefore > 0 ? -1 : 0;
 
-      const caughtUpOlder = anchorIdx + 1 < action.numBefore;
-      const caughtUpNewer = action.messages.length - anchorIdx + adjustment < action.numAfter;
+      // if already caughtUp in one direction then fetch of another direction
+      // should not affect caughtUp of other
+      const caughtUpOlder =
+        (!action.replaceExisting && state[key] && state[key].older) ||
+        anchorIdx + 1 < action.numBefore;
+      const caughtUpNewer =
+        (!action.replaceExisting && (state[key] && state[key].newer)) ||
+        action.messages.length - anchorIdx + adjustment < action.numAfter;
 
       const prevState = state[key] || NULL_CAUGHTUP;
 
