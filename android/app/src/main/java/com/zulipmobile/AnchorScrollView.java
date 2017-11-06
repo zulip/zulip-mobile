@@ -539,10 +539,37 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
             }
             if (mAnchorView != null) {
                 int anchorChange = mAnchorView.getTop() - mLastAnchorY;
-                scrollTo(getScrollX(), currentScrollY + anchorChange - getHeight()/2);
+                scrollTo(getScrollX(), currentScrollY + anchorChange - getHeight() / 2);
+            }
+            //send events to fetch more if whole screen is not occupied
+            if (canNotScroll()) {
+                AnchorScrollViewHelper.emitScrollEvent(AnchorScrollView.this, getVisibleIds());
             }
         }
         findAnchorView();
+    }
+
+    private int getScrollRange() {
+        int scrollRange = 0;
+        if (getChildCount() > 0) {
+            View child = getChildAt(0);
+            scrollRange = Math.max(0,
+                    child.getHeight() - (getHeight() - getPaddingBottom() - getPaddingTop()));
+        }
+        return scrollRange;
+    }
+
+    private boolean canNotScroll() {
+        try {
+            return getHeight() > getChildAt(0).getHeight();
+        } catch (Exception e) {
+            int scrollRange = getScrollRange();
+            int maxScrollY = getMaxScrollY();
+            if (scrollRange == 0 && maxScrollY == 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void flashScrollIndicators() {

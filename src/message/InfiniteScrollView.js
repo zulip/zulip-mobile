@@ -105,6 +105,7 @@ export default class InfiniteScrollView extends PureComponent<Props> {
   }
 
   _onScroll = e => {
+    console.log(e);
     if (e.nativeEvent.updatedChildFrames && e.nativeEvent.updatedChildFrames.length > 0) {
       return; // ignore onScroll events that are not caused by human interaction
     }
