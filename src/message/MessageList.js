@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Actions, TypingState } from '../types';
+import type { Actions, TypingState, Narrow } from '../types';
 import { nullFunction } from '../nullObjects';
 import { LoadingIndicator } from '../common';
 import MessageTyping from '../message/MessageTyping';
@@ -13,9 +13,11 @@ type Props = {
   fetchingOlder: boolean,
   fetchingNewer: boolean,
   singleFetchProgress: boolean,
+  renderedMessages: Object[],
+  anchor?: number,
+  narrow?: Narrow,
   typingUsers?: TypingState,
   listRef?: (component: any) => void,
-  renderedMessages: Object[],
   onReplySelect: () => void,
   onScroll: (e: Event) => void,
 };

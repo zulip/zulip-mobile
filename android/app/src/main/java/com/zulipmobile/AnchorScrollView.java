@@ -20,7 +20,6 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -527,7 +526,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
             }
 
             int arrLength = children != null ? children.length : mContentView.getChildCount();
-            View previousChild = null;
+            View previousChild = null; //adjust scroll position is such a way that last read message and first unread message both are visible at same time
             for (int i = 0; i < arrLength; i++) {
                 View child = children != null ? children[i] : mContentView.getChildAt(i);
 

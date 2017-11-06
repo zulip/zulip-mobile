@@ -14,7 +14,6 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 import android.graphics.Color;
-import android.util.Log;
 
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.common.MapBuilder;
@@ -92,15 +91,23 @@ public class AnchorScrollViewManager
         view.setScrollPerfTag(scrollPerfTag);
     }
 
+    /**
+     * boolean used to check whether we need to adjust scroll position after render
+     * @param view
+     * @param autoScrollToBottom
+     */
     @ReactProp(name = "autoScrollToBottom", defaultBoolean = false)
     public void setAutoScrollToBottom(AnchorScrollView view, boolean autoScrollToBottom) {
-        Log.e("rrtryt", autoScrollToBottom+"");
         view.setAutoScrollToBottom(autoScrollToBottom);
     }
 
+    /**
+     * id of the first unread message, to which we need to scroll
+     * @param view
+     * @param anchor
+     */
     @ReactProp(name = "anchor", defaultInt = -1)
     public void setAnchor(AnchorScrollView view, int anchor) {
-        Log.e("anchor props", anchor+"");
         view.setAnchor(anchor);
     }
 

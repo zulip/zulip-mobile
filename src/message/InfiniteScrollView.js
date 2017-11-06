@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import type { ChildrenArray } from 'react';
 import { Platform } from 'react-native';
 
-import type { StyleObj } from '../types';
+import type { StyleObj, Narrow } from '../types';
 import config from '../config';
 import { nullFunction } from '../nullObjects';
 import AnchorScrollView from '../native/AnchorScrollView';
@@ -15,6 +15,8 @@ type Props = {
   contentContainerStyle?: Object,
   style: StyleObj,
   stickyHeaderIndices: [],
+  anchor?: number,
+  narrow?: Narrow,
   autoScrollToBottom?: boolean,
   children?: $ReadOnlyArray<ChildrenArray<*>>,
   listRef?: (component: any) => void,
@@ -23,15 +25,20 @@ type Props = {
   onScroll: (e: Event) => void,
 };
 
-export default class InfiniteScrollView extends PureComponent<Props> {
+type State = {
+  autoScrollToBottom: boolean,
+};
+
+export default class InfiniteScrollView extends PureComponent<Props, State> {
   props: Props;
+  nextProps: Props;
+  state: State;
 
-  state: {
-    autoScrollToBottom: false,
-  };
-
+  // we only need to adjust scroll position after first render
+  // for subsequent fetch we don't need to adjust scroll
+  // this info is captured in autoScrollToBottom
   state = {
-    autoScrollToBottom: true,
+    autoScrollToBottom: false,
   };
 
   static defaultProps = {
@@ -105,7 +112,6 @@ export default class InfiniteScrollView extends PureComponent<Props> {
   }
 
   _onScroll = e => {
-    console.log(e);
     if (e.nativeEvent.updatedChildFrames && e.nativeEvent.updatedChildFrames.length > 0) {
       return; // ignore onScroll events that are not caused by human interaction
     }
@@ -115,7 +121,7 @@ export default class InfiniteScrollView extends PureComponent<Props> {
     this.props.onScroll(e.nativeEvent);
   };
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (this.props.narrow !== nextProps.narrow) {
       this.setState({
         autoScrollToBottom: true,
@@ -143,7 +149,6 @@ export default class InfiniteScrollView extends PureComponent<Props> {
         ref={(component: any) => {
           const { listRef } = this.props;
           if (listRef) listRef(component);
-          this.scrollView = component;
         }}
       >
         {this.props.children}

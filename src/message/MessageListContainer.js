@@ -43,7 +43,7 @@ class MessageListContainer extends PureComponent<Props> {
     const unreadMessageIds = filterUnreadMessageIds(visibleMessageIds, flags);
 
     if (unreadMessageIds.length > 0) {
-      // queueMarkAsRead(auth, unreadMessageIds);
+      queueMarkAsRead(auth, unreadMessageIds);
     }
 
     // Calculates the amount user has scrolled up from the very bottom
