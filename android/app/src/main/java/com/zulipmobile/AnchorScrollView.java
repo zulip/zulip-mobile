@@ -540,6 +540,11 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
             if (mAnchorView != null) {
                 int anchorChange = mAnchorView.getTop() - mLastAnchorY;
                 scrollTo(getScrollX(), currentScrollY + anchorChange - getHeight() / 2);
+            } else {
+                //first unread message not found
+                //one case may be no message is unread
+                //scroll to end
+                scrollTo(getScrollX(), getMaxScrollY());
             }
             //send events to fetch more if whole screen is not occupied
             if (canNotScroll()) {
