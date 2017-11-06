@@ -38,7 +38,7 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
   // for subsequent fetch we don't need to adjust scroll
   // this info is captured in autoScrollToBottom
   state = {
-    autoScrollToBottom: false,
+    autoScrollToBottom: true,
   };
 
   static defaultProps = {
