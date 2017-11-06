@@ -539,7 +539,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
             }
             if (mAnchorView != null) {
                 int anchorChange = mAnchorView.getTop() - mLastAnchorY;
-                scrollTo(getScrollX(), currentScrollY + anchorChange);
+                scrollTo(getScrollX(), currentScrollY + anchorChange - getHeight()/2);
             }
         }
         findAnchorView();
