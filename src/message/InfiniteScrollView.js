@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import type { ChildrenArray } from 'react';
 import { Platform } from 'react-native';
 
-import type { StyleObj } from '../types';
+import type { StyleObj, Narrow } from '../types';
 import config from '../config';
 import { nullFunction } from '../nullObjects';
 import AnchorScrollView from '../native/AnchorScrollView';
@@ -15,6 +15,8 @@ type Props = {
   contentContainerStyle?: Object,
   style: StyleObj,
   stickyHeaderIndices: [],
+  anchor?: number,
+  narrow?: Narrow,
   autoScrollToBottom?: boolean,
   children?: $ReadOnlyArray<ChildrenArray<*>>,
   listRef?: (component: any) => void,
@@ -23,8 +25,21 @@ type Props = {
   onScroll: (e: Event) => void,
 };
 
-export default class InfiniteScrollView extends PureComponent<Props> {
+type State = {
+  autoScrollToBottom: boolean,
+};
+
+export default class InfiniteScrollView extends PureComponent<Props, State> {
   props: Props;
+  nextProps: Props;
+  state: State;
+
+  // we only need to adjust scroll position after first render
+  // for subsequent fetch we don't need to adjust scroll
+  // this info is captured in autoScrollToBottom
+  state = {
+    autoScrollToBottom: true,
+  };
 
   static defaultProps = {
     onStartReached: nullFunction,
@@ -60,6 +75,9 @@ export default class InfiniteScrollView extends PureComponent<Props> {
     ) {
       this._sentStartForContentHeight = this._contentHeight;
       this.props.onStartReached();
+      this.setState({
+        autoScrollToBottom: false,
+      });
     }
   }
 
@@ -72,6 +90,9 @@ export default class InfiniteScrollView extends PureComponent<Props> {
     ) {
       this._sentEndForContentHeight = this._contentHeight;
       this.props.onEndReached();
+      this.setState({
+        autoScrollToBottom: false,
+      });
     }
   }
 
@@ -100,10 +121,21 @@ export default class InfiniteScrollView extends PureComponent<Props> {
     this.props.onScroll(e.nativeEvent);
   };
 
+  componentWillReceiveProps(nextProps: Props) {
+    if (this.props.narrow !== nextProps.narrow) {
+      this.setState({
+        autoScrollToBottom: true,
+      });
+    }
+  }
+
   render() {
+    const { autoScrollToBottom } = this.state;
+
     return (
       <AnchorScrollView
         style={this.props.style}
+        anchor={this.props.anchor}
         contentContainerStyle={this.props.contentContainerStyle}
         automaticallyAdjustContentInset={false}
         scrollsToTop
@@ -112,7 +144,7 @@ export default class InfiniteScrollView extends PureComponent<Props> {
         onScroll={this._onScroll}
         scrollEventThrottle={config.scrollCallbackThrottle}
         // stickyHeaderIndices={Platform.OS === 'ios' ? this.props.stickyHeaderIndices : undefined}
-        autoScrollToBottom={this.props.autoScrollToBottom}
+        autoScrollToBottom={autoScrollToBottom}
         removeClippedSubviews
         ref={(component: any) => {
           const { listRef } = this.props;

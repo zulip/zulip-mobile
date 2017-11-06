@@ -74,6 +74,8 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
     private String mAnchorTag;
     private int mLastAnchorY;
     private ScrollView scrollView;
+    private boolean autoScrollToBottom = false;
+    private int anchor;
 
     public AnchorScrollView(ReactContext context) {
         this(context, null);
@@ -122,13 +124,13 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
 
         this.setOnTouchListener(new OnTouchListener() {
             private ViewTreeObserver observer;
+
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (observer == null) {
                     observer = getViewTreeObserver();
                     observer.addOnScrollChangedListener(onScrollChangedListener);
-                }
-                else if (!observer.isAlive()) {
+                } else if (!observer.isAlive()) {
                     observer.removeOnScrollChangedListener(onScrollChangedListener);
                     observer = getViewTreeObserver();
                     observer.addOnScrollChangedListener(onScrollChangedListener);
@@ -507,7 +509,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         }
 
         // Zulip changes
-        if (mAnchorTag != null) {
+        if (mAnchorTag != null && autoScrollToBottom) {
             View mAnchorView = null;
 
             if (mRemoveClippedSubviews && !(mContentView instanceof ReactViewGroup)) {
@@ -523,23 +525,66 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                 }
             }
 
-            int arrLength = mRemoveClippedSubviews && children != null ? children.length : mContentView.getChildCount();
+            int arrLength = children != null ? children.length : mContentView.getChildCount();
+            View previousChild = null; //adjust scroll position is such a way that last read message and first unread message both are visible at same time
             for (int i = 0; i < arrLength; i++) {
-                View child = mRemoveClippedSubviews && children != null ? children[i] : mContentView.getChildAt(i);
+                View child = children != null ? children[i] : mContentView.getChildAt(i);
 
-                if (child != null && mAnchorTag.equals(child.getTag())) {
-                    mAnchorView = child;
+                if (child != null && String.valueOf(anchor).equals(child.getTag())) {
+                    mAnchorView = previousChild != null ? previousChild : child;
+                    break;
                 }
+                previousChild = child;
             }
             if (mAnchorView != null) {
                 int anchorChange = mAnchorView.getTop() - mLastAnchorY;
-                scrollTo(getScrollX(), currentScrollY + anchorChange);
+                scrollTo(getScrollX(), currentScrollY + anchorChange - getHeight() / 2);
+            } else {
+                //first unread message not found
+                //one case may be no message is unread
+                //scroll to end
+                scrollTo(getScrollX(), getMaxScrollY());
+            }
+            //send events to fetch more if whole screen is not occupied
+            if (canNotScroll()) {
+                AnchorScrollViewHelper.emitScrollEvent(AnchorScrollView.this, getVisibleIds());
             }
         }
         findAnchorView();
     }
 
+    private int getScrollRange() {
+        int scrollRange = 0;
+        if (getChildCount() > 0) {
+            View child = getChildAt(0);
+            scrollRange = Math.max(0,
+                    child.getHeight() - (getHeight() - getPaddingBottom() - getPaddingTop()));
+        }
+        return scrollRange;
+    }
+
+    private boolean canNotScroll() {
+        try {
+            return getHeight() > getChildAt(0).getHeight();
+        } catch (Exception e) {
+            int scrollRange = getScrollRange();
+            int maxScrollY = getMaxScrollY();
+            if (scrollRange == 0 && maxScrollY == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void flashScrollIndicators() {
         awakenScrollBars();
+    }
+
+    public void setAutoScrollToBottom(boolean autoScrollToBottom) {
+        this.autoScrollToBottom = autoScrollToBottom;
+    }
+
+    public void setAnchor(int anchor) {
+        this.anchor = anchor;
     }
 }

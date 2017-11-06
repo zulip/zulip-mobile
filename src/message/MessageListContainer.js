@@ -13,6 +13,7 @@ import {
   getActiveNarrow,
   getFlags,
   getCaughtUpForActiveNarrow,
+  getAnchorForCurrentNarrow,
   getFetchingForActiveNarrow,
   getSubscriptions,
 } from '../selectors';
@@ -53,6 +54,7 @@ class MessageListContainer extends PureComponent<Props> {
 
   render() {
     const {
+      anchor,
       actions,
       caughtUp,
       fetching,
@@ -70,6 +72,7 @@ class MessageListContainer extends PureComponent<Props> {
     return (
       <MessageListComponent
         auth={this.props.auth}
+        anchor={anchor}
         subscriptions={this.props.subscriptions}
         isFetching={false}
         actions={actions}
@@ -95,6 +98,7 @@ export default connectWithActions(state => ({
   fetching: getFetchingForActiveNarrow(state),
   typingUsers: getCurrentTypingUsers(state),
   renderedMessages: getRenderedMessages(state),
+  anchor: getAnchorForCurrentNarrow(state),
   subscriptions: getSubscriptions(state),
   narrow: getActiveNarrow(state),
   auth: getAuth(state),
