@@ -45,6 +45,19 @@ pre {
   border: 1px solid rgba(0,0,0,0.15);
   border-radius: 4px;
 }
+table {
+  border-collapse: collapse;
+}
+table, th, td {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+thead {
+  background: rgba(0, 0, 0, 0.05);
+}
+th, td {
+  align: center;
+  padding: 0.25em 0.5em;
+}
 .subheader {
   display: flex;
   flex-direction: row;
