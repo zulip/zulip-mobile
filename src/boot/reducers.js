@@ -20,6 +20,7 @@ import drafts from '../drafts/draftsReducers';
 import settings from '../settings/settingsReducers';
 import streams from '../streams/streamsReducers';
 import subscriptions from '../subscriptions/subscriptionsReducers';
+import topics from '../topics/topicsReducers';
 import typing from '../typing/typingReducers';
 import unreadStreams from '../unread/unreadStreamsReducers';
 import unreadPms from '../unread/unreadPmsReducers';
@@ -45,6 +46,7 @@ const reducers = {
   settings,
   streams,
   subscriptions,
+  topics,
   typing,
   unread: combineReducers({
     streams: unreadStreams,

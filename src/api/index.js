@@ -11,6 +11,7 @@ export { default as getAlertWords } from './getAlertWords';
 export { default as getMessages } from './getMessages';
 export { default as getServerSettings } from './getServerSettings';
 export { default as getStreams } from './getStreams';
+export { default as getTopics } from './getTopics';
 export { default as getRealmEmojis } from './getRealmEmojis';
 export { default as getSubscriptions } from './getSubscriptions';
 export { default as getUsers } from './getUsers';
