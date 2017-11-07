@@ -6,6 +6,7 @@ import js from './html/js';
 import head from './html/head';
 import { getResource } from '../utils/url';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
+import { emojiReactionAdd, emojiReactionRemove } from '../api';
 
 const styles = StyleSheet.create({
   webview: {
@@ -41,10 +42,10 @@ export default class MessageListWeb extends PureComponent<Props> {
     actions.navigateToAccountDetails(fromEmail);
   };
 
-  handleImage = ({ src }) => {
-    const { actions, auth } = this.props;
+  handleImage = ({ src, messageId }) => {
+    const { actions, auth, messages } = this.props;
 
-    const message = {}; // find from data.messageId
+    const message = messages.find(x => x.id === messageId);
     const resource = getResource(src, auth);
 
     actions.navigateToLightbox(resource, message);
@@ -53,7 +54,18 @@ export default class MessageListWeb extends PureComponent<Props> {
   handleMessage = event => {
     const data = JSON.parse(event.nativeEvent.data);
     const handler = `handle${data.type.charAt(0).toUpperCase()}${data.type.slice(1)}`;
+
     this[handler](data);
+  };
+
+  handleReaction = ({ messageId, name, voted }) => {
+    const { auth } = this.props;
+
+    if (voted) {
+      emojiReactionRemove(auth, messageId, name);
+    } else {
+      emojiReactionAdd(auth, messageId, name);
+    }
   };
 
   render() {

@@ -1,12 +1,22 @@
 import { shortTime } from '../../utils/date';
 import messageTagsAsHtml from './messageTagsAsHtml';
+import messageReactionListAsHtml from './messageReactionListAsHtml';
 
-const briefMessageAsHtml = ({ id, content, timeEdited, isOutbox, isStarred }) => `
+const briefMessageAsHtml = ({
+  id,
+  content,
+  timeEdited,
+  isOutbox,
+  isStarred,
+  reactions,
+  ownEmail,
+}) => `
   <div class="message" id="${id}">
     <div class="avatar"><img></div>
     <div class="content">
       ${content}
       ${messageTagsAsHtml(timeEdited, isOutbox, isStarred)}
+      ${messageReactionListAsHtml(reactions, id, ownEmail)}
     </div>
   </div>
 `;
@@ -22,6 +32,8 @@ const fullMessageAsHtml = ({
   timeEdited,
   isOutbox,
   isStarred,
+  reactions,
+  ownEmail,
 }) => `
   <div class="message" id="${id}">
     <div class="avatar">
@@ -38,6 +50,7 @@ const fullMessageAsHtml = ({
       </div>
       ${content}
       ${messageTagsAsHtml(timeEdited, isOutbox, isStarred)}
+      ${messageReactionListAsHtml(reactions, id, ownEmail)}
     </div>
   </div>
 `;

@@ -32,6 +32,8 @@ export default ({ auth, subscriptions, renderedMessages, isFetching, narrow, doN
             timeEdited: item.message.last_edit_timestamp,
             isOutbox: item.message.isOutbox,
             isStarred: (item.message.flags || []).indexOf('starred') > -1,
+            reactions: item.message.reactions,
+            ownEmail: auth.email,
           }),
         );
       }

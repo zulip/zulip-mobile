@@ -1,6 +1,8 @@
 /* eslint-disable */
 
 export default `
+window.onerror = (message) => alert(message);
+
 document.addEventListener('message', function(e) {
   const msg = JSON.parse(e.data);
   switch (msgObj.type) {
@@ -16,14 +18,23 @@ document.addEventListener('message', function(e) {
   }
 });
 
+const getMessageNode = node => {
+  let crNode = node;
+  while (crNode && crNode.className !== 'message') {
+    crNode = crNode.parentNode;
+  }
+  return crNode;
+};
+
+const sendMessage = msg => {
+  window.postMessage(JSON.stringify(msg));
+};
+
 let prevHeader;
 
 const updatePinnedHeader = () => {
   return;
-  let crNode = document.elementFromPoint(200, 40);
-  while (crNode && crNode.className !== 'message') {
-    crNode = crNode.parentNode;
-  }
+  let crNode = getMessageNode(document.elementFromPoint(200, 40));
 
   let header = crNode;
   while (header) {
@@ -51,58 +62,55 @@ window.addEventListener('scroll', () => {
   updatePinnedHeader();
 });
 
-document.getElementsByTagName('body')[0].addEventListener('click', e => {
-  // if !(e.target)
-  window.postMessage(
-    JSON.stringify({
-      type: 'click',
-      target: e.traget,
-      targetNodeName: e.target.nodeName,
-      targetClassName: e.target.className,
-      matchez: e.target.matches('a[target="_blank"] > img'),
-    }),
-  );
+document.body.addEventListener('click', e => {
+  alert('click');
+  sendMessage({
+    type: 'click',
+    target: e.traget,
+    targetNodeName: e.target.nodeName,
+    targetClassName: e.target.className,
+    matchez: e.target.matches('a[target="_blank"] > img'),
+  });
 
   if (e.target.matches('.avatar-img')) {
-    window.postMessage(
-      JSON.stringify({
-        type: 'avatar',
-        fromEmail: e.target.getAttribute('data-email'),
-      }),
-    );
+    sendMessage({
+      type: 'avatar',
+      fromEmail: e.target.getAttribute('data-email'),
+    });
   }
 
   if (e.target.matches('.header')) {
-    window.postMessage(
-      JSON.stringify({
-        type: 'narrow',
-        narrow: e.target.getAttribute('data-narrow'),
-        id: e.target.getAttribute('data-id'),
-      }),
-    );
+    sendMessage({
+      type: 'narrow',
+      narrow: e.target.getAttribute('data-narrow'),
+      id: e.target.getAttribute('data-id'),
+    });
   }
 
   if (e.target.matches('a[target="_blank"]')) {
-    window.postMessage(
-      JSON.stringify({
-        type: 'image',
-        src: e.target.getAttribute('href'),
-        message: e.target.getAttribute('data-id'),
-      }),
-    );
+    sendMessage({
+      type: 'image',
+      src: e.target.getAttribute('href'),
+      messageId: +getMessageNode(e.target).id,
+    });
   }
 
   if (e.target.matches('a[target="_blank"] > img')) {
-    window.postMessage(
-      JSON.stringify({
-        type: 'image',
-        src: e.target.parentNode.getAttribute('href'),
-        message: e.target.getAttribute('data-id'),
-      }),
-    );
+    sendMessage({
+      type: 'image',
+      src: e.target.parentNode.getAttribute('href'),
+      messageId: +getMessageNode(e.target).id,
+    });
+  }
+
+  if (e.target.matches('.reaction')) {
+    alert('match');
+    sendMessage({
+      type: 'reaction',
+      messageId: +getMessageNode(e.target).id,
+    });
   }
 });
 
 updatePinnedHeader();
-
 `;

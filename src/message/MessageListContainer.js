@@ -16,6 +16,7 @@ import {
   getAnchorForCurrentNarrow,
   getFetchingForActiveNarrow,
   getSubscriptions,
+  getShownMessagesInActiveNarrow,
 } from '../selectors';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { registerAppActivity } from '../utils/activity';
@@ -58,6 +59,7 @@ class MessageListContainer extends PureComponent<Props> {
       actions,
       caughtUp,
       fetching,
+      messages,
       typingUsers,
       onReplySelect,
       renderedMessages,
@@ -83,6 +85,7 @@ class MessageListContainer extends PureComponent<Props> {
         onReplySelect={onReplySelect}
         typingUsers={typingUsers}
         renderedMessages={renderedMessages}
+        messages={messages}
         narrow={narrow}
         listRef={listRef}
         onScroll={this.handleMessageListScroll}
@@ -97,6 +100,7 @@ export default connectWithActions(state => ({
   caughtUp: getCaughtUpForActiveNarrow(state),
   fetching: getFetchingForActiveNarrow(state),
   typingUsers: getCurrentTypingUsers(state),
+  messages: getShownMessagesInActiveNarrow(state),
   renderedMessages: getRenderedMessages(state),
   anchor: getAnchorForCurrentNarrow(state),
   subscriptions: getSubscriptions(state),
