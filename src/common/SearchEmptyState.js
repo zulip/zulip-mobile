@@ -41,7 +41,7 @@ export default class SearchEmptyState extends PureComponent<Props> {
     return (
       <View style={styles.container}>
         <Label style={styles.text} text={text} />
-        {buttonAction && (
+        {buttonAction !== nullFunction && (
           <ZulipButton style={styles.button} secondary text={buttonText} onPress={buttonAction} />
         )}
       </View>

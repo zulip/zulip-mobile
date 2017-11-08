@@ -18,7 +18,6 @@ const componentStyles = StyleSheet.create({
   },
   clearButtonIcon: {
     color: BRAND_COLOR,
-    transform: [{ rotate: '45deg' }],
   },
 });
 
@@ -73,7 +72,7 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
         />
         {canBeCleared && (
           <Touchable style={componentStyles.clearButtonContainer} onPress={this.handleClear}>
-            <Icon name="md-add" size={30} style={componentStyles.clearButtonIcon} />
+            <Icon name="x" size={20} style={componentStyles.clearButtonIcon} />
           </Touchable>
         )}
       </View>
