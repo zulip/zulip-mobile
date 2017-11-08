@@ -1,8 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { Text } from 'react-native';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type { Actions, Auth, SubscriptionsState, Narrow, Message } from '../types';
+import { logErrorRemotely } from '../utils/logging';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
 import {
@@ -31,8 +33,15 @@ type Props = {
   showActionSheetWithOptions: (Object, (number) => void) => void,
 };
 
-class MessageContainer extends PureComponent<Props> {
+type State = {
+  hasError: boolean,
+};
+
+class MessageContainer extends PureComponent<Props, State> {
   props: Props;
+  state: State;
+
+  state = { hasError: false };
 
   static contextTypes = {
     intl: () => null,
@@ -41,6 +50,11 @@ class MessageContainer extends PureComponent<Props> {
   static defaultProps = {
     twentyFourHourTime: false,
   };
+
+  componentDidCatch(error, info) {
+    this.setState({ hasError: true });
+    logErrorRemotely(error, info);
+  }
 
   isStarred(message: Message) {
     const { flags } = this.props;
@@ -94,6 +108,10 @@ class MessageContainer extends PureComponent<Props> {
   };
 
   render() {
+    if (this.state.hasError) {
+      return <Text>Error</Text>;
+    }
+
     const { message, auth, actions, twentyFourHourTime, unreadMessages, isBrief } = this.props;
     const MessageComponent = isBrief ? MessageBrief : MessageFull;
     const isUnread = !(message.id in this.props.flags.read);
