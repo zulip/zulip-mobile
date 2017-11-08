@@ -330,6 +330,13 @@ export type RealmState = {
   pushToken: string,
 };
 
+export type TopicDetails = {
+  name: string,
+  max_id: number,
+};
+
+export type TopicsState = TopicDetails[];
+
 export type ThemeType = 'default' | 'night';
 
 export type StatusBarStyle = 'light-content' | 'dark-content';
