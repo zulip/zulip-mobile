@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { removeItemsFromArray, filterArray } from '../immutability';
+import { removeItemsFromArray, filterArray, replaceItemInArray } from '../immutability';
 
 describe('removeItemsFromArray', () => {
   test('return a new array with items removed, do not mutate input', () => {
@@ -41,5 +41,43 @@ describe('filterArray', () => {
     const result = filterArray(input, predicate);
 
     expect(result).toBe(input);
+  });
+});
+
+describe('replaceItemInArray', () => {
+  test('replace item by producing a new array', () => {
+    const input = [1, 2, 3];
+    const predicate = x => x === 2;
+    const replaceFunc = x => 'two';
+    const expectedResult = [1, 'two', 3];
+
+    const result = replaceItemInArray(input, predicate, replaceFunc);
+
+    expect(result).not.toBe(input);
+    expect(result).toEqual(expectedResult);
+  });
+
+  test('replace several items if more than one match', () => {
+    const input = [1, 2, 3, 4, 5];
+    const predicate = x => x % 2 === 1;
+    const replaceFunc = x => 'odd';
+    const expectedResult = ['odd', 2, 'odd', 4, 'odd'];
+
+    const result = replaceItemInArray(input, predicate, replaceFunc);
+
+    expect(result).not.toBe(input);
+    expect(result).toEqual(expectedResult);
+  });
+
+  test('if item is not found append it', () => {
+    const input = [1, 2, 3];
+    const predicate = x => x === 4;
+    const replaceFunc = x => 'four';
+    const expectedResult = [1, 2, 3, 'four'];
+
+    const result = replaceItemInArray(input, predicate, replaceFunc);
+
+    expect(result).not.toBe(input);
+    expect(result).toEqual(expectedResult);
   });
 });

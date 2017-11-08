@@ -8,11 +8,12 @@ import {
   MARK_MESSAGES_READ,
   ACCOUNT_SWITCH,
 } from '../../actionConstants';
+import { NULL_OBJECT } from '../../nullObjects';
 
 describe('flagsReducers', () => {
   describe('MESSAGE_FETCH_COMPLETE', () => {
     test('flags from all messages are extracted and stored by id', () => {
-      const initialState = deepFreeze({});
+      const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
@@ -77,7 +78,7 @@ describe('flagsReducers', () => {
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('when no flags key is passed, do not fail, do nothing', () => {
-      const initialState = deepFreeze({});
+      const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
@@ -92,7 +93,7 @@ describe('flagsReducers', () => {
     });
 
     test('adds to store flags from new message', () => {
-      const initialState = deepFreeze({});
+      const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
@@ -113,7 +114,7 @@ describe('flagsReducers', () => {
 
   describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
     test('when operation is "add", adds flag to an empty state', () => {
-      const initialState = deepFreeze({});
+      const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
@@ -243,7 +244,7 @@ describe('flagsReducers', () => {
     });
 
     test('if flag does not exist, do nothing', () => {
-      const initialState = deepFreeze({});
+      const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,

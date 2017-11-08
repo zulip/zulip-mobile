@@ -9,11 +9,12 @@ import {
   DELETE_TOKEN_PUSH,
   EVENT_REALM_FILTER_UPDATE,
 } from '../../actionConstants';
+import { NULL_OBJECT } from '../../nullObjects';
 
 describe('realmReducers', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const initialState = deepFreeze({});
+      const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,

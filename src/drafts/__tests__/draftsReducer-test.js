@@ -1,5 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
+import { NULL_OBJECT } from '../../nullObjects';
 import draftsReducers from '../draftsReducers';
 import { DRAFT_ADD, DRAFT_REMOVE } from '../../actionConstants';
 import { topicNarrow } from '../../utils/narrow';
@@ -9,7 +10,7 @@ describe('draftsReducers', () => {
 
   describe(DRAFT_ADD, () => {
     test('add a new drafts to drafts', () => {
-      const initialState = deepFreeze({});
+      const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: DRAFT_ADD,
