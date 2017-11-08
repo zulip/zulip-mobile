@@ -32,7 +32,7 @@ export default class SearchEmptyState extends PureComponent<Props> {
   static defaultProps = {
     text: 'No Results',
     buttonText: 'Show All',
-    buttonAction: nullFunction,
+    buttonAction: undefined,
   };
 
   render() {
