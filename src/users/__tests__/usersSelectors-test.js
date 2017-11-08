@@ -72,7 +72,10 @@ describe('getAutocompleteSuggestion', () => {
       { email: 'my@example.com', fullName: 'Me' },
     ]);
 
-    const shouldMatch = [{ email: 'email@example.com', fullName: 'Some Guy' }];
+    const shouldMatch = [
+      { fullName: 'all', id: 'all', email: '(Notify everyone)' },
+      { email: 'email@example.com', fullName: 'Some Guy' },
+    ];
     const filteredUsers = getAutocompleteSuggestion(users, '', 'my@example.com');
     expect(filteredUsers).toEqual(shouldMatch);
   });
