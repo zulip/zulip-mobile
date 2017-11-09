@@ -13,3 +13,25 @@ export const filterArray = (input: any[], predicate: () => any): any[] => {
   const filteredList = input.filter(predicate);
   return filteredList.length === input.length ? input : filteredList;
 };
+
+export const replaceItemInArray = (
+  input: any[],
+  predicate: (item: any) => boolean,
+  replaceFunc: (item: any) => any,
+): any[] => {
+  let replacementHappened = false;
+
+  const newArray = input.map(x => {
+    if (predicate(x)) {
+      replacementHappened = true;
+      return replaceFunc(x);
+    }
+    return x;
+  });
+
+  if (!replacementHappened) {
+    newArray.push(replaceFunc());
+  }
+
+  return newArray;
+};

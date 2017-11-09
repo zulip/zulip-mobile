@@ -2,11 +2,12 @@ import deepFreeze from 'deep-freeze';
 
 import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../../actionConstants';
 import typingReducers from '../typingReducers';
+import { NULL_OBJECT } from '../../nullObjects';
 
 describe('typingReducers', () => {
   describe('EVENT_TYPING_START', () => {
     test('adds sender as currently typing user', () => {
-      const initialState = deepFreeze({});
+      const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: EVENT_TYPING_START,
@@ -160,7 +161,7 @@ describe('typingReducers', () => {
     });
 
     test('if typing state does not exist, no change is made', () => {
-      const initialState = deepFreeze({});
+      const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: EVENT_TYPING_STOP,
