@@ -49,7 +49,8 @@ export default class ConversationList extends PureComponent<Props> {
               unreadCount={item.unread}
               onPress={onPress}
             />
-          )}
+          )
+        }
       />
     );
   }
