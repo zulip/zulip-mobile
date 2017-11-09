@@ -99,6 +99,68 @@ describe('chatReducers', () => {
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(initialState);
     });
+
+    describe('if new message key is not present than create new key', () => {
+      test('if message is of type stream, then create key of topicNarrow type', () => {
+        const initialState = deepFreeze({
+          messages: {
+            [JSON.stringify(topicNarrow('all', 'GCI'))]: [{ id: 1 }, { id: 2 }],
+          },
+        });
+
+        const action = deepFreeze({
+          type: EVENT_NEW_MESSAGE,
+          message: { id: 3, type: 'stream', display_recipient: 'mobile', subject: 'release' },
+          caughtUp: {},
+        });
+
+        const newState = chatReducers(initialState, action);
+
+        const expectedState = {
+          messages: {
+            [JSON.stringify(topicNarrow('all', 'GCI'))]: [{ id: 1 }, { id: 2 }],
+            [JSON.stringify(topicNarrow('mobile', 'release'))]: [
+              { id: 3, type: 'stream', display_recipient: 'mobile', subject: 'release' },
+            ],
+          },
+        };
+        expect(newState).toEqual(expectedState);
+      });
+
+      test('if message is of type private, then create key of groupNarrow type', () => {
+        const initialState = deepFreeze({
+          messages: {
+            [JSON.stringify(topicNarrow('all', 'GCI'))]: [{ id: 1 }, { id: 2 }],
+          },
+        });
+
+        const action = deepFreeze({
+          type: EVENT_NEW_MESSAGE,
+          message: {
+            id: 3,
+            type: 'private',
+            display_recipient: [{ email: 'a@a.com' }, { email: 'b@b.com' }],
+          },
+          caughtUp: {},
+        });
+
+        const newState = chatReducers(initialState, action);
+
+        const expectedState = {
+          messages: {
+            [JSON.stringify(topicNarrow('all', 'GCI'))]: [{ id: 1 }, { id: 2 }],
+            [JSON.stringify(groupNarrow(['a@a.com', 'b@b.com']))]: [
+              {
+                id: 3,
+                type: 'private',
+                display_recipient: [{ email: 'a@a.com' }, { email: 'b@b.com' }],
+              },
+            ],
+          },
+        };
+        expect(newState).toEqual(expectedState);
+      });
+    });
   });
 
   test('appends same id message to state', () => {

@@ -14,7 +14,7 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
 } from '../actionConstants';
-import { homeNarrow, isMessageInNarrow } from '../utils/narrow';
+import { homeNarrow, isMessageInNarrow, topicNarrow, groupNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
 import { getMessagesById } from '../selectors';
 import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
@@ -87,7 +87,7 @@ export default (state: ChatState = initialState, action: Action) => {
 
     case EVENT_NEW_MESSAGE: {
       let stateChange = false;
-      const newState = {
+      let newState = {
         ...state,
         messages: Object.keys(state.messages).reduce((msg, key) => {
           const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
@@ -106,6 +106,26 @@ export default (state: ChatState = initialState, action: Action) => {
           return msg;
         }, {}),
       };
+      if (!stateChange) {
+        // new message is in new narrow in which we don't have any message
+        const { message } = action;
+        let key;
+        if (message.type === 'stream') {
+          key = JSON.stringify(topicNarrow(message.display_recipient, message.subject));
+        } else if (message.type === 'private') {
+          key = JSON.stringify(groupNarrow(message.display_recipient.map(user => user.email)));
+        }
+        if (key) {
+          stateChange = true;
+          newState = {
+            ...state,
+            messages: {
+              ...state.messages,
+              [key]: [action.message],
+            },
+          };
+        }
+      }
       return stateChange ? newState : state;
     }
 
