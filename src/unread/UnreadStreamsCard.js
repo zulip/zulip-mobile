@@ -68,7 +68,8 @@ export default class UnreadStreamsCard extends PureComponent<Props> {
               unreadCount={section.unread}
               onPress={this.handleStreamPress}
             />
-          )}
+          )
+        }
         renderItem={({ item, section }) =>
           section.isMuted || item.isMuted ? null : (
             <TopicItem
@@ -79,7 +80,8 @@ export default class UnreadStreamsCard extends PureComponent<Props> {
               unreadCount={item.unread}
               onPress={this.handleTopicPress}
             />
-          )}
+          )
+        }
       />
     );
   }
