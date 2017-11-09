@@ -15,7 +15,7 @@ import { sendMessage } from '../api';
 import {
   getSelfUserDetail,
   getUserByEmail,
-  getAllUserAutocompleteOptions,
+  getAllMentionsSuggestions,
 } from '../users/userSelectors';
 import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 
@@ -99,7 +99,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   const auth = getAuth(state);
   const html = parseMarkdown(
     content,
-    getAllUserAutocompleteOptions(users),
+    getAllMentionsSuggestions(users),
     streams,
     auth,
     realm.realm_filter,
