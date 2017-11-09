@@ -3,9 +3,16 @@ import { REHYDRATE } from 'redux-persist/constants';
 
 import type { NavigationState, Action } from '../types';
 import { navigateToAccountPicker } from './navActions';
+import { getFirstIfDeepEqual } from '../utils/immutability';
 import { getStateForRoute, getInitialRoute } from './navSelectors';
 import AppNavigator from './AppNavigator';
-import { RESET_NAVIGATION, ACCOUNT_SWITCH, LOGIN_SUCCESS, LOGOUT } from '../actionConstants';
+import {
+  RESET_NAVIGATION,
+  INITIAL_FETCH_COMPLETE,
+  ACCOUNT_SWITCH,
+  LOGIN_SUCCESS,
+  LOGOUT,
+} from '../actionConstants';
 
 export default (
   state: NavigationState = getStateForRoute('loading'),
@@ -23,6 +30,13 @@ export default (
 
     case LOGIN_SUCCESS:
       return getStateForRoute('main');
+
+    case INITIAL_FETCH_COMPLETE:
+      return getFirstIfDeepEqual(
+        state,
+        getStateForRoute('main'),
+        (a, b) => state.routes[0].routeName === 'main',
+      );
 
     case LOGOUT:
       return AppNavigator.router.getStateForAction(navigateToAccountPicker(), state);
