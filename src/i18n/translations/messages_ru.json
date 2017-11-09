@@ -42,9 +42,9 @@
   "Narrow to conversation": "Narrow to conversation",
   "Reply": "Ответить",
   "Copy to clipboard": "Copy to clipboard",
-  "Mute topic": "Mute topic",
+  "Mute topic": "Заглушить тему",
   "Unmute topic": "Unmute topic",
-  "Mute stream": "Mute stream",
+  "Mute stream": "Заглушить канал",
   "Unmute stream": "Unmute stream",
   "No Internet connection": "No Internet connection",
   "Settings": "Настройки",
@@ -61,7 +61,7 @@
   "Forgot password?": "Забыли пароль?",
   "Members": "Members",
   "Group details": "Group details",
-  "Delete message": "Delete message",
+  "Delete message": "Удалить сообщение",
   "Notifications when online": "Notifications when online",
   "Notifications when offline": "Notifications when offline",
   "Unread": "Unread",
@@ -97,5 +97,7 @@
   "Distinguish unread messages": "Distinguish unread messages",
   "Split message text": "Split message text",
   "Administrators":"Администраторы",
-  "Normal users":"Обычные пользователи"
+  "Normal users":"Обычные пользователи",
+  "Share image": "Share image",
+  "Share link to image": "Share link to image"
 }

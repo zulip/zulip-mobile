@@ -97,5 +97,7 @@
   "Distinguish unread messages": "Отличи нечетените съобщения",
   "Split message text": "Раздели текст на съобщения",
   "Administrators":"Администратори",
-  "Normal users":"Нормални потребители"
+  "Normal users":"Нормални потребители",
+  "Share image": "Сподели изображение",
+  "Share link to image": "Сподели връзка към изображение"
 }
