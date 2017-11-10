@@ -1,4 +1,6 @@
 /* @flow */
+import isEqual from 'lodash.isequal';
+
 export const removeItemsFromArray = (input: number[], itemsToRemove: number[]): number[] => {
   const output = input.filter(item => !itemsToRemove.includes(item));
   return input.length === output.length ? input : output;
@@ -35,3 +37,9 @@ export const replaceItemInArray = (
 
   return newArray;
 };
+
+export const getFirstIfDeepEqual = (
+  first: any,
+  second: any,
+  predicate: (a: any, b: any) => boolean = isEqual,
+): any => (predicate(first, second) ? first : second);
