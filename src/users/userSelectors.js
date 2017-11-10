@@ -126,7 +126,7 @@ export const filterUserMatchesEmail = (
 
 export const getUniqueUsers = (users: User[]): User[] => uniqby(users, 'email');
 
-export const getAllMentionsSuggestions = (users: User[]) => [
+export const getUsersAndWildcards = (users: User[]) => [
   { fullName: 'all', id: 'all', email: '(Notify everyone)' },
   { fullName: 'everyone', id: 'everyone', email: '(Notify everyone)' },
   ...users,
@@ -140,7 +140,7 @@ export const getAutocompleteSuggestion = (
   if (users.length === 0) {
     return users;
   }
-  const allAutocompleteOptions = getAllMentionsSuggestions(users);
+  const allAutocompleteOptions = getUsersAndWildcards(users);
   const startWith = filterUserStartWith(allAutocompleteOptions, filter, ownEmail);
   const initials = filterUserByInitials(allAutocompleteOptions, filter, ownEmail);
   const contains = filterUserThatContains(allAutocompleteOptions, filter, ownEmail);
