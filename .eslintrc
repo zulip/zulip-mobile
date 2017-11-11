@@ -113,7 +113,7 @@
         "Entypo", "msup", "mrow", "webview", "js", "timerow", "reselect", "addons", "cancelable",
         "gravatar_hash", "pms", "msgs", "collapsable", "const", "wildcard", "reactotron", "camelcase",
         "hydrator", "perf", "stacktrace", "Dir", "fs", "avoider", "octicons", "centerer",
-        "gravatar", "identicon", "blueimp", "filename"
+        "gravatar", "identicon", "blueimp", "filename", "wildcards"
       ],
       "skipIfMatch": [
         "http://[^s]*",

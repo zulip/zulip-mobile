@@ -12,7 +12,11 @@ import {
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 import { sendMessage } from '../api';
-import { getSelfUserDetail, getUserByEmail } from '../users/userSelectors';
+import {
+  getSelfUserDetail,
+  getUserByEmail,
+  getUsersAndWildcards,
+} from '../users/userSelectors';
 import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 
 export const messageSendStart = (params: Object) => ({
@@ -93,8 +97,14 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   const userDetail = getSelfUserDetail(state);
   const { users, streams, realm } = state;
   const auth = getAuth(state);
-
-  const html = parseMarkdown(content, users, streams, auth, realm.realm_filter, realm.realm_emoji);
+  const html = parseMarkdown(
+    content,
+    getUsersAndWildcards(users),
+    streams,
+    auth,
+    realm.realm_filter,
+    realm.realm_emoji,
+  );
   const localTime = Math.round(new Date().getTime() / 1000);
   dispatch(
     messageSendStart({
