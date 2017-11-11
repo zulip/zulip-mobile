@@ -509,7 +509,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         }
 
         // Zulip changes
-        if (mAnchorTag != null && autoScrollToBottom) {
+        if (mAnchorTag != null) {
             View mAnchorView = null;
 
             if (mRemoveClippedSubviews && !(mContentView instanceof ReactViewGroup)) {
@@ -530,20 +530,26 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
             for (int i = 0; i < arrLength; i++) {
                 View child = children != null ? children[i] : mContentView.getChildAt(i);
 
-                if (child != null && String.valueOf(anchor).equals(child.getTag())) {
-                    mAnchorView = previousChild != null ? previousChild : child;
-                    break;
+                if (child != null) {
+                    if (autoScrollToBottom && String.valueOf(anchor).equals(child.getTag())) {
+                        mAnchorView = (autoScrollToBottom && previousChild != null) ? previousChild : child;
+                        break;
+                    } else if (mAnchorTag.equals(child.getTag())) {
+                        mAnchorView = child;
+                    }
                 }
+
                 previousChild = child;
             }
             if (mAnchorView != null) {
                 int anchorChange = mAnchorView.getTop() - mLastAnchorY;
-                scrollTo(getScrollX(), currentScrollY + anchorChange - getHeight() / 2);
+                int scrollY = autoScrollToBottom ? (int) (0.98 * (currentScrollY + anchorChange - getHeight() / 3)) : currentScrollY + anchorChange;
+                scrollTo(getScrollX(), scrollY);
             } else {
                 //first unread message not found
                 //one case may be no message is unread
                 //scroll to end
-                scrollTo(getScrollX(), getMaxScrollY());
+                scrollTo(getScrollX(), (int) (0.98 * getMaxScrollY()));
             }
             //send events to fetch more if whole screen is not occupied
             if (canNotScroll()) {
