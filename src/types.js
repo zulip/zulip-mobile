@@ -1,3 +1,4 @@
+/* @noflow */
 export type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 export type { ChildrenArray } from 'react';
 export type { Dispatch } from 'redux';
@@ -469,3 +470,20 @@ export type Dimensions = {
 };
 
 export type Orientation = 'PORTRAIT' | 'LANDSCAPE';
+
+export type UnreadTopic = {
+  isMuted: boolean,
+  key: string,
+  topic: string,
+  unread: number,
+};
+
+export type UnreadStream = {
+  color: string,
+  data: UnreadTopic[],
+  isMuted: boolean,
+  isPrivate: boolean,
+  key: string,
+  streamName: string,
+  unread: number,
+};

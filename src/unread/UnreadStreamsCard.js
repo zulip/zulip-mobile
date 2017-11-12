@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList, View, StyleSheet } from 'react-native';
 
-import type { Narrow } from '../types';
+import type { Narrow, UnreadStream } from '../types';
 import { Label } from '../common';
 import { streamNarrow, topicNarrow } from '../utils/narrow';
 import StreamItem from '../streams/StreamItem';
@@ -20,7 +20,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
-  unreadStreamsAndTopics: any,
+  unreadStreamsAndTopics: UnreadStream[],
   doNarrowCloseDrawer: (narrow: Narrow) => void,
 };
 
@@ -42,6 +42,7 @@ export default class UnreadStreamsCard extends PureComponent<Props> {
   render() {
     const { styles } = this.context;
     const { unreadStreamsAndTopics } = this.props;
+
     if (unreadStreamsAndTopics.length === 0) {
       return (
         <View style={componentStyles.emptyUnreadContainer}>
@@ -49,6 +50,7 @@ export default class UnreadStreamsCard extends PureComponent<Props> {
         </View>
       );
     }
+
     return (
       <SectionList
         style={styles.list}

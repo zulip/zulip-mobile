@@ -1,7 +1,7 @@
 /* @flow */
 import type { ReactionType } from '../types';
 
-export default (reactions: ReactionType[], ownEmail: string) =>
+export default (reactions: ReactionType[], ownEmail: string): ReactionType[] =>
   Array.from(
     reactions
       .reduce((reactionMap, x) => {

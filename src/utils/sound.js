@@ -6,7 +6,7 @@ if (Sound && Sound.setCategory) {
   Sound.setCategory('Ambient', true);
 }
 
-const messageSound = new Sound('zulip.mp3', Sound.MAIN_BUNDLE, error => {
+const messageSound = new Sound('zulip.mp3', Sound.MAIN_BUNDLE, (error: Object) => {
   if (error) {
     logErrorRemotely(error, 'Failed to load the sound');
   }

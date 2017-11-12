@@ -1,4 +1,4 @@
-/* @TODO flow */
+/* @noflow */
 import React, { PureComponent } from 'react';
 import { BackHandler } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';

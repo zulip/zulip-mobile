@@ -1,4 +1,4 @@
-/* @TODO flow */
+/* @noflow */
 import React, { PureComponent } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 

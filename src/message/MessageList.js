@@ -12,7 +12,7 @@ type Props = {
   actions: Actions,
   fetchingOlder: boolean,
   fetchingNewer: boolean,
-  singleFetchProgress: boolean,
+  singleFetchProgress?: boolean,
   renderedMessages: Object[],
   anchor?: number,
   narrow?: Narrow,

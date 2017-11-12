@@ -1,3 +1,4 @@
+/* @flow */
 import aggregateReactions from '../../reactions/aggregateReactions';
 import messageReactionAsHtml from './messageReactionAsHtml';
 
