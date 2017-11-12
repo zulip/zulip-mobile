@@ -1,7 +1,17 @@
+/* @flow */
 import React, { PureComponent } from 'react';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Actions, Fetching, Narrow } from '../types';
+import type {
+  Actions,
+  Auth,
+  CaughtUp,
+  Fetching,
+  FlagsState,
+  Message,
+  Narrow,
+  Subscription,
+} from '../types';
 import connectWithActions from '../connectWithActions';
 import MessageList from './MessageList';
 // import MessageList from './MessageListFlatList';
@@ -24,11 +34,16 @@ import { queueMarkAsRead } from '../api';
 
 type Props = {
   actions: Actions,
-  caughtUp: boolean,
+  anchor: number,
+  auth: Auth,
+  caughtUp: CaughtUp,
   fetching: Fetching,
+  flags: FlagsState,
   typingUsers: any,
   htmlMessages: boolean,
+  messages: Message[],
   renderedMessages: any,
+  subscriptions: Subscription[],
   narrow: Narrow,
   listRef: () => void,
   onReplySelect: () => void,
@@ -36,6 +51,7 @@ type Props = {
 };
 
 class MessageListContainer extends PureComponent<Props> {
+  scrollOffset: number;
   props: Props;
 
   handleMessageListScroll = (e: Object) => {
@@ -64,6 +80,7 @@ class MessageListContainer extends PureComponent<Props> {
       onReplySelect,
       renderedMessages,
       narrow,
+      subscriptions,
       htmlMessages,
       listRef,
       onSend,
@@ -75,7 +92,7 @@ class MessageListContainer extends PureComponent<Props> {
       <MessageListComponent
         auth={this.props.auth}
         anchor={anchor}
-        subscriptions={this.props.subscriptions}
+        subscriptions={subscriptions}
         isFetching={false}
         actions={actions}
         caughtUpNewer={caughtUp.newer}

@@ -1,4 +1,4 @@
-/* TODO: flow */
+/* @noflow */
 import NotificationsIOS from 'react-native-notifications';
 
 import type { Auth } from '../types';

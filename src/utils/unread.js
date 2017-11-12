@@ -2,7 +2,7 @@
 import type { Message } from '../types';
 
 export const filterUnreadMessageIds = (messageIds: number[], flags: Object): Message[] =>
-  messageIds.filter(msgId => !flags || !flags.read || !flags.read[msgId]);
+  messageIds.filter((msgId: number) => !flags || !flags.read || !flags.read[msgId]);
 
 export const countUnread = (
   messageIds: number[],
