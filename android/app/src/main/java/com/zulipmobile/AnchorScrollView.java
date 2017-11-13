@@ -9,12 +9,7 @@
 
 package com.zulipmobile;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -28,16 +23,22 @@ import android.view.ViewTreeObserver;
 import android.widget.OverScroller;
 import android.widget.ScrollView;
 
+import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.uimanager.MeasureSpecAssertions;
-import com.facebook.react.uimanager.events.NativeGestureUtil;
 import com.facebook.react.uimanager.ReactClippingViewGroup;
 import com.facebook.react.uimanager.ReactClippingViewGroupHelper;
-import com.facebook.infer.annotation.Assertions;
+import com.facebook.react.uimanager.events.NativeGestureUtil;
 import com.facebook.react.views.scroll.FpsListener;
 import com.facebook.react.views.scroll.OnScrollDispatchHelper;
 import com.facebook.react.views.view.ReactViewGroup;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class AnchorScrollView extends ScrollView implements ReactClippingViewGroup, ViewGroup.OnHierarchyChangeListener, View.OnLayoutChangeListener {
 
@@ -76,15 +77,20 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
     private ScrollView scrollView;
     private boolean autoScrollToBottom = false;
     private int anchor;
+    private int counter = 0;
+    public int previousScrollY = 0;
+    private Activity activity;
 
-    public AnchorScrollView(ReactContext context) {
-        this(context, null);
+
+    public AnchorScrollView(ReactContext activity) {
+        this(activity, null);
     }
 
-    public AnchorScrollView(ReactContext context, @Nullable FpsListener fpsListener) {
-        super(context);
+    public AnchorScrollView(final ReactContext activity, @Nullable FpsListener fpsListener) {
+        super(activity);
         scrollView = this;
         mFpsListener = fpsListener;
+        this.activity = activity.getCurrentActivity();
 
         if (!sTriedToGetScrollerField) {
             sTriedToGetScrollerField = true;
@@ -199,7 +205,39 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         // Call with the present values in order to re-layout if necessary
-        scrollTo(getScrollX(), getScrollY());
+        //scrollTo(getScrollX(), getScrollY());
+
+        //thanks to https://stackoverflow.com/a/37948358/5612089
+        // navigation bar height
+        int navigationBarHeight = 0;
+        int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            navigationBarHeight = getResources().getDimensionPixelSize(resourceId);
+        }
+
+        // status bar height
+        int statusBarHeight = 0;
+        resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+        }
+
+        // display window size for the app layout
+        Rect rect = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+
+        // screen height - (user app height + status + nav) ..... if non-zero, then there is a soft keyboard
+        int keyboardHeight = getRootView().getHeight() - (statusBarHeight + navigationBarHeight + rect.height());
+
+        if (keyboardHeight <= 0) {
+            // keyboard is hidden
+            scrollTo(0, previousScrollY);
+        } else {
+            // keyboard is shown
+            this.previousScrollY = getScrollY();
+            scrollTo(0, this.previousScrollY + keyboardHeight);
+        }
+
     }
 
     @Override
@@ -209,6 +247,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
             updateClippingRect();
         }
         findAnchorView();
+
     }
 
     @Override
