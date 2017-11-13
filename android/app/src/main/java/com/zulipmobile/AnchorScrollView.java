@@ -231,7 +231,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
 
         if (keyboardHeight <= 0) {
             // keyboard is hidden
-            scrollTo(0, previousScrollY);
+            scrollTo(0, previousScrollY != 0 ? previousScrollY : getScrollY());
         } else {
             // keyboard is shown
             this.previousScrollY = getScrollY();
