@@ -2,7 +2,7 @@
 import type { Action, Narrow, Dispatch, GetState } from '../types';
 import { NULL_CAUGHTUP } from '../nullObjects';
 import { getAuth, getUsers, getAllMessages, getStreams } from '../selectors';
-import { SWITCH_NARROW } from '../actionConstants';
+import { EVENT_UPDATE_MESSAGE_FLAGS, SWITCH_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread } from './fetchActions';
@@ -48,4 +48,18 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
   } else {
     openLink(getFullUrl(href, auth.realm));
   }
+};
+
+export const addReadFlagToMessages = (narrow: Narrow, messageIds: number[]): Action => ({
+  type: EVENT_UPDATE_MESSAGE_FLAGS,
+  messages: messageIds,
+  flag: 'read',
+  operation: 'add',
+});
+
+export const markMessageAsRead = (narrow: Narrow, messageIds: number[]): Action => (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  dispatch(addReadFlagToMessages(narrow, messageIds));
 };
