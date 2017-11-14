@@ -10,6 +10,7 @@
 package com.zulipmobile;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -20,6 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.OverScroller;
 import android.widget.ScrollView;
 
@@ -140,6 +142,15 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                     observer.removeOnScrollChangedListener(onScrollChangedListener);
                     observer = getViewTreeObserver();
                     observer.addOnScrollChangedListener(onScrollChangedListener);
+                }
+
+                if (motionEvent != null && motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
+                    InputMethodManager imm = ((InputMethodManager) activity.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE));
+                    boolean isKeyboardUp = imm.isAcceptingText();
+
+                    if (isKeyboardUp) {
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
                 }
 
                 return false;
