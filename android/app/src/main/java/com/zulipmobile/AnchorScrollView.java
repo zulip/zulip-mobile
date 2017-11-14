@@ -144,6 +144,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                     observer.addOnScrollChangedListener(onScrollChangedListener);
                 }
 
+                //hide keybaord on scroll
                 if (motionEvent != null && motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
                     InputMethodManager imm = ((InputMethodManager) activity.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE));
                     boolean isKeyboardUp = imm.isAcceptingText();
@@ -218,7 +219,9 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
         // Call with the present values in order to re-layout if necessary
         //scrollTo(getScrollX(), getScrollY());
 
-        //thanks to https://stackoverflow.com/a/37948358/5612089
+        //Zulip changes
+        //inspired from to https://stackoverflow.com/a/37948358/5612089
+
         // navigation bar height
         int navigationBarHeight = 0;
         int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
