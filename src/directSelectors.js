@@ -1,15 +1,18 @@
 /* @flow */
 import type {
+  AppState,
+  FlagsState,
+  MessageState,
+  TopicsState,
   GlobalState,
   Narrow,
-  MessageState,
   Subscription,
   Stream,
   Outbox,
   User,
 } from './types';
 
-export const getApp = (state: GlobalState): Object => state.app;
+export const getApp = (state: GlobalState): AppState => state.app;
 
 export const getDrafts = (state: GlobalState): Object => state.drafts;
 
@@ -17,11 +20,13 @@ export const getMute = (state: GlobalState): Object => state.mute;
 
 export const getTyping = (state: GlobalState): Object => state.typing;
 
+export const getTopics = (state: GlobalState): TopicsState => state.topics;
+
 export const getUsers = (state: GlobalState): User[] => state.users;
 
 export const getFetching = (state: GlobalState): Object => state.fetching;
 
-export const getFlags = (state: GlobalState): Object => state.flags;
+export const getFlags = (state: GlobalState): FlagsState => state.flags;
 
 export const getReadFlags = (state: GlobalState): Object => state.flags.read;
 

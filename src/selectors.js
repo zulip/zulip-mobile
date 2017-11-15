@@ -11,6 +11,7 @@ export * from './message/messageSelectors';
 export * from './nav/navSelectors';
 export * from './nav/navigationSelectors';
 export * from './title/titleSelectors';
+export * from './topics/topicSelectors';
 export * from './typing/typingSelectors';
 export * from './unread/unreadSelectors';
 export * from './users/userSelectors';
