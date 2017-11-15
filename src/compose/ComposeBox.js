@@ -19,6 +19,7 @@ import { IconDone, IconSend } from '../common/Icons';
 import { isStreamNarrow, topicNarrow } from '../utils/narrow';
 import ComposeMenuContainer from './ComposeMenuContainer';
 import AutoCompleteView from '../autocomplete/AutoCompleteView';
+import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import { registerUserInputActivity } from '../utils/activity';
 import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
@@ -182,14 +183,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
     actions.cancelEditMessage();
   };
 
-  handleAutoComplete = (input: string) => {
-    this.setState({ message: input });
-  };
-
-  handleChangeText = (input: string) => {
-    this.setState({ message: input });
-  };
-
   tryUpdateDraft = () => {
     const { actions, draft, narrow } = this.props;
     const { message } = this.state;
@@ -234,6 +227,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
       isMenuExpanded,
       height,
       message,
+      topic,
       selection,
     } = this.state;
     const {
@@ -263,9 +257,10 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
     return (
       <View>
+        <TopicAutocomplete text={topic} onAutocomplete={this.handleTopicChange} />
         <AutoCompleteView
           text={message}
-          onAutocomplete={this.handleAutoComplete}
+          onAutocomplete={this.handleMessageChange}
           selection={selection}
         />
         <View
@@ -283,6 +278,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
                 style={[styles.composeTextInput, componentStyles.topic]}
                 underlineColorAndroid="transparent"
                 placeholder="Topic"
+                selectTextOnFocus
                 textInputRef={component => {
                   this.topicInput = component;
                 }}
@@ -290,6 +286,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
                 onFocus={this.handleTopicFocus}
                 onBlur={this.handleTopicBlur}
                 defaultValue={lastTopic}
+                value={topic}
               />
             )}
             <MultilineInput
