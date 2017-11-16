@@ -15,8 +15,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     backgroundColor: 'gray',
-    paddingLeft: 4,
-    paddingRight: 4,
+    paddingLeft: 16,
+    paddingTop: 8,
+    paddingRight: 16,
+    paddingBottom: 8,
   },
   text: {
     flex: 4,
@@ -48,7 +50,7 @@ class NotSubscribed extends PureComponent<Props> {
 
     return (
       <View style={styles.container}>
-        <Label style={styles.text} text="You are not subscribed to this stream." />
+        <Label style={styles.text} text="You are not subscribed to this stream" />
         {showSubscribeButton && <ZulipButton text="Subscribe" onPress={this.subscribeToStream} />}
       </View>
     );
