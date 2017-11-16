@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
   touchable: {},
   button: {
-    padding: 10,
+    padding: 8,
     color: BRAND_COLOR,
   },
 });

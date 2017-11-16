@@ -24,7 +24,7 @@ import { registerUserInputActivity } from '../utils/activity';
 import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
 import NotSubscribed from '../message/NotSubscribed';
 
-const MIN_HEIGHT = 46;
+const MIN_HEIGHT = 42;
 const MAX_HEIGHT = 100;
 
 const componentStyles = StyleSheet.create({
@@ -88,7 +88,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     isMessageFocused: false,
     isTopicFocused: false,
     isMenuExpanded: false,
-    height: 46,
+    height: 40,
     topic: '',
     message: '',
     selection: { start: 0, end: 0 },
@@ -257,7 +257,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     }
 
     const canSelectTopic = (isMessageFocused || isTopicFocused) && isStreamNarrow(narrow);
-    const messageHeight = Math.min(Math.max(MIN_HEIGHT, height), MAX_HEIGHT);
+    const messageHeight = Math.min(Math.max(MIN_HEIGHT, height + 12), MAX_HEIGHT);
     const totalHeight = canSelectTopic ? messageHeight + 30 : messageHeight;
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
 
