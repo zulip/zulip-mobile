@@ -23,8 +23,8 @@ export { default as markStreamAsRead } from './mark_as_read/markStreamAsRead';
 export { default as markTopicAsRead } from './mark_as_read/markTopicAsRead';
 
 export { default as deleteMessage } from './messages/deleteMessage';
+export { default as getMessageById } from './messages/getMessageById';
 export { default as getMessages } from './messages/getMessages';
-export { default as getSingleMessage } from './messages/getSingleMessage';
 export { default as messagesFlags } from './messages/messagesFlags';
 export { default as sendMessage } from './messages/sendMessage';
 export { default as updateMessage } from './messages/updateMessage';
@@ -50,5 +50,7 @@ export { default as createUserGroup } from './user_groups/createUserGroup';
 export { default as deleteUserGroup } from './user_groups/deleteUserGroup';
 export { default as editUserGroup } from './user_groups/editUserGroup';
 export { default as editUserGroupMembers } from './user_groups/editUserGroupMembers';
+export { default as getUserGroupById } from './user_groups/getUserGroupById';
+export { default as getUserGroups } from './user_groups/getUserGroups';
 
 export { default as getUsers } from './users/getUsers';

@@ -15,7 +15,7 @@ import {
 } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
 import {
-  getSingleMessage,
+  getMessageById,
   muteTopic,
   unmuteTopic,
   unmuteStream,
@@ -121,7 +121,7 @@ const reply = ({ message, actions, auth, currentRoute, onReplySelect }: ReplyOpt
 const copyToClipboard = async ({ getString, auth, message }: AuthGetStringAndMessageType) => {
   const rawMessage = isAnOutboxMessage({ message })
     ? message.markdownContent
-    : await getSingleMessage(auth, message.id);
+    : await getMessageById(auth, message.id);
   Clipboard.setString(rawMessage);
   showToast(getString('Message copied'));
 };
