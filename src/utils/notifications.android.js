@@ -1,9 +1,9 @@
 /* @flow */
 import { NotificationsAndroid } from 'react-native-notifications';
 
-import registerPush from '../api/registerPush';
-import { streamNarrow, privateNarrow } from '../utils/narrow';
 import type { Auth } from '../types';
+import { registerPush } from '../api';
+import { streamNarrow, privateNarrow } from '../utils/narrow';
 import { logErrorRemotely } from '../utils/logging';
 
 export const handlePendingNotifications = async (notification, doNarrow) => {

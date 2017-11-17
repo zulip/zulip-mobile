@@ -6,7 +6,7 @@ import type { Auth, Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { ZulipButton } from '../common';
 import { getAuth } from '../selectors';
-import unregisterPush from '../api/unregisterPush';
+import { unregisterPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 
 const styles = StyleSheet.create({

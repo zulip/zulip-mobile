@@ -1,6 +1,6 @@
 /* @flow */
 import type { Auth } from '../types';
-import messagesFlags from './messagesFlags';
+import messagesFlags from './messages/messagesFlags';
 
 let unsentMessageIds = [];
 let lastSentTime = 0;

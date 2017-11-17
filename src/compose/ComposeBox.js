@@ -12,7 +12,7 @@ import type {
   Actions,
   Dimensions,
 } from '../types';
-import patchMessage from '../api/updateMessage';
+import { updateMessage } from '../api';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
 import { showErrorAlert } from '../common/errorAlert';
 import { IconDone, IconSend } from '../common/Icons';
@@ -175,7 +175,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     const { auth, editMessage, actions } = this.props;
     const { message } = this.state;
     if (editMessage.content !== message) {
-      patchMessage(auth, replaceEmoticonsWithEmoji(message), editMessage.id).catch(error =>
+      updateMessage(auth, replaceEmoticonsWithEmoji(message), editMessage.id).catch(error =>
         showErrorAlert(error.message, 'Failed to edit message'),
       );
     }

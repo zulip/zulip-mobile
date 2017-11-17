@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 import type { Actions, Auth } from '../types';
 import connectWithActions from '../connectWithActions';
 import { ZulipButton } from '../common';
-import unregisterPush from '../api/unregisterPush';
+import { unregisterPush } from '../api';
 import { getAuth } from '../selectors';
 import { logErrorRemotely } from '../utils/logging';
 
