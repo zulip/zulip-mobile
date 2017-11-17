@@ -2,7 +2,7 @@
 import type { Auth, ResponseExtractionFunc } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
-import { networkActivityStart, networkActivityStop } from './networkActivity';
+import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
 
 const apiVersion = 'api/v1';
 

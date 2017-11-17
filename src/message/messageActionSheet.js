@@ -13,14 +13,16 @@ import {
   isStreamNarrow,
   isSpecialNarrow,
 } from '../utils/narrow';
-import { getSingleMessage } from '../api';
 import { isTopicMuted } from '../utils/message';
-import muteTopicApi from '../api/muteTopic';
-import unmuteTopicApi from '../api/unmuteTopic';
-import unmuteStreamApi from '../api/unmuteStream';
-import muteStreamApi from '../api/muteStream';
-import deleteMessageApi from '../api/deleteMessage';
-import toggleMessageStarredApi from '../api/toggleMessageStarred';
+import {
+  getSingleMessage,
+  muteTopic,
+  unmuteTopic,
+  unmuteStream,
+  muteStream,
+  deleteMessage,
+  toggleMessageStarred,
+} from '../api';
 import showToast from '../utils/showToast';
 
 type MessageAndDoNarrowType = {
@@ -130,33 +132,33 @@ const editMessage = async ({ message, actions }: MessageAuthAndActions) => {
   actions.startEditMessage(message.id);
 };
 
-const deleteMessage = async ({ auth, message, actions }: MessageAuthAndActions) => {
+const doDeleteMessage = async ({ auth, message, actions }: MessageAuthAndActions) => {
   if (isAnOutboxMessage({ message })) {
     actions.deleteOutboxMessage(message.timestamp);
   } else {
-    deleteMessageApi(auth, message.id);
+    deleteMessage(auth, message.id);
   }
 };
 
-const unmuteTopic = ({ auth, message }: AuthAndMessageType) => {
-  unmuteTopicApi(auth, message.display_recipient, message.subject);
+const doUnmuteTopic = ({ auth, message }: AuthAndMessageType) => {
+  unmuteTopic(auth, message.display_recipient, message.subject);
 };
 
-const muteTopic = ({ auth, message }: AuthAndMessageType) => {
-  muteTopicApi(auth, message.display_recipient, message.subject);
+const doMuteTopic = ({ auth, message }: AuthAndMessageType) => {
+  muteTopic(auth, message.display_recipient, message.subject);
 };
 
-const unmuteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscriptionsType) => {
+const doUnmuteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscriptionsType) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
-    unmuteStreamApi(auth, sub.stream_id);
+    unmuteStream(auth, sub.stream_id);
   }
 };
 
-const muteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscriptionsType) => {
+const doMuteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscriptionsType) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
-    muteStreamApi(auth, sub.stream_id);
+    muteStream(auth, sub.stream_id);
   }
 };
 
@@ -167,11 +169,11 @@ const isSentBySelf = ({ message, auth }: AuthAndMessageType): boolean =>
   auth.email === message.sender_email;
 
 const starMessage = ({ auth, message }: AuthAndMessageType) => {
-  toggleMessageStarredApi(auth, [message.id], true);
+  toggleMessageStarred(auth, [message.id], true);
 };
 
 const unstarMessage = ({ auth, message }: AuthGetStringAndMessageType) => {
-  toggleMessageStarredApi(auth, [message.id], false);
+  toggleMessageStarred(auth, [message.id], false);
 };
 
 const shareMessage = ({ message }) => {
@@ -206,7 +208,7 @@ const actionSheetButtons: ActionSheetButtonType[] = [
   },
   {
     title: 'Delete message',
-    onPress: deleteMessage,
+    onPress: doDeleteMessage,
     onlyIf: ({ message, auth, narrow }) =>
       resolveMultiple(message, auth, narrow, [isSentMessage, isSentBySelf]),
   },
@@ -218,10 +220,10 @@ const actionSheetButtons: ActionSheetButtonType[] = [
 ];
 
 const actionHeaderSheetButtons: HeaderButtonType[] = [
-  { title: 'Unmute topic', onPress: unmuteTopic, onlyIf: skip },
-  { title: 'Mute topic', onPress: muteTopic, onlyIf: skip },
-  { title: 'Mute stream', onPress: muteStream, onlyIf: skip },
-  { title: 'Unmute stream', onPress: unmuteStream, onlyIf: skip },
+  { title: 'Unmute topic', onPress: doUnmuteTopic, onlyIf: skip },
+  { title: 'Mute topic', onPress: doMuteTopic, onlyIf: skip },
+  { title: 'Mute stream', onPress: doMuteStream, onlyIf: skip },
+  { title: 'Unmute stream', onPress: doUnmuteStream, onlyIf: skip },
   { title: 'Cancel', onPress: skip, onlyIf: skip },
 ];
 
