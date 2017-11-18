@@ -42,5 +42,5 @@ export default TabNavigator(
       },
     },
   },
-  tabsOptions(TabBarTop, 'top', true),
+  tabsOptions(TabBarTop, 'top', true, 100),
 );
