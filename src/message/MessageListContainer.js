@@ -49,6 +49,9 @@ type Props = {
   onSend: () => void,
 };
 
+let unsentMessageIds = [];
+let lastSentTime = 0;
+
 class MessageListContainer extends PureComponent<Props> {
   scrollOffset: number;
   props: Props;
@@ -59,8 +62,14 @@ class MessageListContainer extends PureComponent<Props> {
     const unreadMessageIds = filterUnreadMessageIds(visibleMessageIds, flags);
 
     if (unreadMessageIds.length > 0) {
-      queueMarkAsRead(auth, unreadMessageIds);
-      actions.markMessageAsRead(narrow, unreadMessageIds);
+      unsentMessageIds.push(...unreadMessageIds);
+
+      if (Date.now() - lastSentTime > 2000) {
+        queueMarkAsRead(auth, unreadMessageIds);
+        actions.markMessageAsRead(narrow, unreadMessageIds);
+        unsentMessageIds = [];
+        lastSentTime = Date.now();
+      }
     }
 
     // Calculates the amount user has scrolled up from the very bottom
