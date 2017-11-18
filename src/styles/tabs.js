@@ -2,7 +2,12 @@
 import { Platform } from 'react-native';
 import { BRAND_COLOR } from './';
 
-export default (tabBarComponent: Object, tabBarPosition: 'bottom' | 'top', showLabel: boolean) => ({
+export default (
+  tabBarComponent: Object,
+  tabBarPosition: 'bottom' | 'top',
+  showLabel: boolean,
+  tabWidth: number,
+) => ({
   tabBarComponent,
   tabBarPosition,
   swipeEnabled: Platform.OS === 'ios',
@@ -20,7 +25,9 @@ export default (tabBarComponent: Object, tabBarPosition: 'bottom' | 'top', showL
     indicatorStyle: {
       backgroundColor: BRAND_COLOR,
     },
-    tabStyle: {},
+    tabStyle: {
+      width: tabWidth,
+    },
     style: {
       backgroundColor: 'transparent',
     },
