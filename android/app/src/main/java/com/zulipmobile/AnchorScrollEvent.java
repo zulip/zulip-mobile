@@ -9,11 +9,6 @@
 
 package com.zulipmobile;
 
-import javax.annotation.Nullable;
-
-import java.lang.Override;
-import java.util.ArrayList;
-
 import android.support.v4.util.Pools;
 
 import com.facebook.infer.annotation.Assertions;
@@ -24,6 +19,10 @@ import com.facebook.react.uimanager.PixelUtil;
 import com.facebook.react.uimanager.events.Event;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.facebook.react.views.scroll.ScrollEventType;
+
+import java.util.ArrayList;
+
+import javax.annotation.Nullable;
 
 /**
  * A event dispatched from a ScrollView scrolling.
@@ -40,6 +39,7 @@ public class AnchorScrollEvent extends Event<AnchorScrollEvent> {
     private int mScrollViewWidth;
     private int mScrollViewHeight;
     private ArrayList<String> mVisibleIds;
+    private boolean mHumanInteraction;
     private
     @Nullable
     ScrollEventType mScrollEventType;
@@ -56,7 +56,8 @@ public class AnchorScrollEvent extends Event<AnchorScrollEvent> {
             int contentHeight,
             int scrollViewWidth,
             int scrollViewHeight,
-            @Nullable ArrayList<String> visibleIds) {
+            @Nullable ArrayList<String> visibleIds,
+            boolean humanInteraction) {
         AnchorScrollEvent event = EVENTS_POOL.acquire();
         if (event == null) {
             event = new AnchorScrollEvent();
@@ -70,7 +71,8 @@ public class AnchorScrollEvent extends Event<AnchorScrollEvent> {
                 contentHeight,
                 scrollViewWidth,
                 scrollViewHeight,
-                visibleIds);
+                visibleIds,
+                humanInteraction);
         return event;
     }
 
@@ -88,7 +90,8 @@ public class AnchorScrollEvent extends Event<AnchorScrollEvent> {
             int contentHeight,
             int scrollViewWidth,
             int scrollViewHeight,
-            @Nullable ArrayList<String> visibleIds) {
+            @Nullable ArrayList<String> visibleIds,
+            boolean humanInteraction) {
         super.init(viewTag);
         mScrollEventType = scrollEventType;
         mScrollX = scrollX;
@@ -97,6 +100,7 @@ public class AnchorScrollEvent extends Event<AnchorScrollEvent> {
         mContentHeight = contentHeight;
         mScrollViewWidth = scrollViewWidth;
         mScrollViewHeight = scrollViewHeight;
+        mHumanInteraction = humanInteraction;
 
         // Zulip changes
         mVisibleIds = visibleIds;
@@ -160,6 +164,7 @@ public class AnchorScrollEvent extends Event<AnchorScrollEvent> {
         event.putMap("contentSize", contentSize);
         event.putMap("layoutMeasurement", layoutMeasurement);
         event.putArray("visibleIds", visibleIds);
+        event.putBoolean("humanInteraction", mHumanInteraction);
 
         event.putInt("target", getViewTag());
         event.putBoolean("responderIgnoreScroll", true);

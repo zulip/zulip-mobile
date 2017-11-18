@@ -51,6 +51,7 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
 
   _scrollOffset: number;
   _previousScrollOffset: number;
+  _keyboardHeight: number;
   _contentHeight: number;
   _scrollViewHeight: number;
   _sentStartForContentHeight: ?number;
@@ -68,9 +69,10 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
 
   _keyboardDidShow(e) {
     _previousScrollOffset = _scrollOffset;
+    _keyboardHeight = e.endCoordinates.height;
     listComponent.scrollTo({
       x: 0,
-      y: _scrollOffset + e.endCoordinates.height,
+      y: _scrollOffset + _keyboardHeight,
       animated: true,
     });
   }
@@ -78,7 +80,7 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
   _keyboardDidHide() {
     listComponent.scrollTo({
       x: 0,
-      y: _previousScrollOffset,
+      y: _scrollOffset - _keyboardHeight,
       animated: true,
     });
   }
@@ -142,7 +144,11 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
 
   _onScroll = e => {
     _scrollOffset = e.nativeEvent.contentOffset.y;
-    if (e.nativeEvent.updatedChildFrames && e.nativeEvent.updatedChildFrames.length > 0) {
+    console.log(_scrollOffset + ' ' + e.nativeEvent.humanInteraction);
+    if (
+      (e.nativeEvent.updatedChildFrames && e.nativeEvent.updatedChildFrames.length > 0) ||
+      !e.nativeEvent.humanInteraction
+    ) {
       return; // ignore onScroll events that are not caused by human interaction
     }
 

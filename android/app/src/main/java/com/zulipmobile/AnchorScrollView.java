@@ -156,10 +156,11 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                         }
 
                         findAnchorView();
-                        AnchorScrollViewHelper.emitScrollEvent(scrollView, getVisibleIds());
+                        AnchorScrollViewHelper.emitScrollEvent(scrollView, getVisibleIds(), true);
                     }
                 }
             };
+
 
     // Zulip changes
     public void getAllReactChildrenField(Class clazz) {
@@ -553,7 +554,11 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
             }
             //send events to fetch more if whole screen is not occupied
             if (canNotScroll()) {
-                AnchorScrollViewHelper.emitScrollEvent(AnchorScrollView.this, getVisibleIds());
+                AnchorScrollViewHelper.emitScrollEvent(AnchorScrollView.this, getVisibleIds(), true);
+            }else {
+                //send event to update scroll offset, which will be useful when keyboard pop's up
+                // this event is without human interaction
+                AnchorScrollViewHelper.emitScrollEvent(AnchorScrollView.this, getVisibleIds(), false);
             }
         }
         findAnchorView();
