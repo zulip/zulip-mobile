@@ -88,7 +88,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     isMessageFocused: false,
     isTopicFocused: false,
     isMenuExpanded: false,
-    height: 40,
+    height: 23,
     topic: '',
     message: '',
     selection: { start: 0, end: 0 },
