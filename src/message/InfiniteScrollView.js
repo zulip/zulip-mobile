@@ -80,19 +80,23 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
 
   _keyboardWillShow(e) {
     this._keyboardHeight = e.endCoordinates.height;
-    listComponent.scrollTo({
-      x: 0,
-      y: _scrollOffset + this._keyboardHeight,
-      animated: true,
-    });
+    if (_scrollOffset) {
+      listComponent.scrollTo({
+        x: 0,
+        y: _scrollOffset + this._keyboardHeight,
+        animated: true,
+      });
+    }
   }
 
   _keyboardWillHide() {
-    listComponent.scrollTo({
-      x: 0,
-      y: _scrollOffset - this._keyboardHeight,
-      animated: true,
-    });
+    if (_scrollOffset) {
+      listComponent.scrollTo({
+        x: 0,
+        y: _scrollOffset - this._keyboardHeight,
+        animated: true,
+      });
+    }
   }
 
   componentDidMount() {
