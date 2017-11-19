@@ -1,12 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import throttle from 'lodash.throttle';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Actions, Auth, Message } from '../types';
 import { SearchEmptyState } from '../common';
-import { BRAND_COLOR } from '../styles';
 import { searchNarrow } from '../utils/narrow';
 import MessageList from '../message/MessageList';
 import { getMessages } from '../api';
@@ -15,9 +14,6 @@ import renderMessages from '../message/renderMessages';
 const styles = StyleSheet.create({
   results: {
     flex: 1,
-  },
-  activity: {
-    padding: 8,
   },
 });
 
@@ -82,14 +78,11 @@ export default class SearchMessagesCard extends PureComponent<Props, State> {
 
     return (
       <View style={styles.results}>
-        {isFetching && (
-          <ActivityIndicator style={styles.activity} color={BRAND_COLOR} size="large" />
-        )}
         <ActionSheetProvider>
           <MessageList
             actions={actions}
             renderedMessages={renderedMessages}
-            fetchingOlder={false}
+            fetchingOlder={isFetching}
             fetchingNewer={isFetching}
             caughtUpOlder
             caughtUpNewer
