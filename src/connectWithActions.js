@@ -10,6 +10,7 @@ let cachedBoundActions;
 const boundActions = (dispatch: Dispatch, ownProps: Object) => {
   if (!cachedBoundActions) {
     cachedBoundActions = {
+      dispatch,
       actions: bindActionCreators(actions, dispatch),
     };
   }
