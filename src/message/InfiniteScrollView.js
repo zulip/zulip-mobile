@@ -59,26 +59,26 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
   _sentStartForContentHeight: ?number;
   _sentEndForContentHeight: ?number;
 
-  keyboardWillShowListener: any;
-  keyboardWillHideListener: any;
+  keyboardShowListener: any;
+  keyboardHideListener: any;
 
   componentWillMount() {
-    this.keyboardWillShowListener = Keyboard.addListener(
-      'keyboardWillShow',
-      this._keyboardWillShow,
+    this.keyboardShowListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      this._keyboardShow,
     );
-    this.keyboardWillHideListener = Keyboard.addListener(
-      'keyboardWillHide',
-      this._keyboardWillHide,
+    this.keyboardHideListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      this._keyboardHide,
     );
   }
 
   componentWillUnmount() {
-    this.keyboardWillShowListener.remove();
-    this.keyboardWillHideListener.remove();
+    this.keyboardShowListener.remove();
+    this.keyboardHideListener.remove();
   }
 
-  _keyboardWillShow(e) {
+  _keyboardShow(e) {
     this._keyboardHeight = e.endCoordinates.height;
     if (_scrollOffset !== undefined) {
       listComponent.scrollTo({
@@ -91,7 +91,7 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
     }
   }
 
-  _keyboardWillHide() {
+  _keyboardHide() {
     if (_scrollOffset) {
       listComponent.scrollTo({
         x: 0,
