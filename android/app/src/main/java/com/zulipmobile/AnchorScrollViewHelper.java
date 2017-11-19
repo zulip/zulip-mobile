@@ -33,27 +33,30 @@ public class AnchorScrollViewHelper {
     /**
      * Used by {@link AnchorScrollView}
      */
-    public static void emitScrollEvent(ViewGroup scrollView, @Nullable ArrayList<String> visibleIds) {
-        emitScrollEvent(scrollView, ScrollEventType.SCROLL, visibleIds);
+    public static void emitScrollEvent(ViewGroup scrollView, @Nullable ArrayList<String> visibleIds,
+                                       @Nullable boolean humanInteraction) {
+        emitScrollEvent(scrollView, ScrollEventType.SCROLL, visibleIds, humanInteraction);
     }
 
     public static void emitScrollBeginDragEvent(ViewGroup scrollView) {
-        emitScrollEvent(scrollView, ScrollEventType.BEGIN_DRAG, null);
+        emitScrollEvent(scrollView, ScrollEventType.BEGIN_DRAG, null, true);
     }
 
     public static void emitScrollEndDragEvent(ViewGroup scrollView) {
-        emitScrollEvent(scrollView, ScrollEventType.END_DRAG, null);
+        emitScrollEvent(scrollView, ScrollEventType.END_DRAG, null, true);
     }
 
     public static void emitScrollMomentumBeginEvent(ViewGroup scrollView) {
-        emitScrollEvent(scrollView, ScrollEventType.MOMENTUM_BEGIN, null);
+        emitScrollEvent(scrollView, ScrollEventType.MOMENTUM_BEGIN, null, true);
     }
 
     public static void emitScrollMomentumEndEvent(ViewGroup scrollView) {
-        emitScrollEvent(scrollView, ScrollEventType.MOMENTUM_END, null);
+        emitScrollEvent(scrollView, ScrollEventType.MOMENTUM_END, null, true);
     }
 
-    private static void emitScrollEvent(ViewGroup scrollView, ScrollEventType scrollEventType, @Nullable ArrayList<String> visibleIds) {
+    private static void emitScrollEvent(ViewGroup scrollView, ScrollEventType scrollEventType,
+                                        @Nullable ArrayList<String> visibleIds,
+                                        @Nullable boolean humanInteraction) {
         View contentView = scrollView.getChildAt(0);
 
         if (contentView == null) {
@@ -72,7 +75,8 @@ public class AnchorScrollViewHelper {
                         contentView.getHeight(),
                         scrollView.getWidth(),
                         scrollView.getHeight(),
-                        visibleIds)
+                        visibleIds,
+                        humanInteraction)
         );
     }
 

@@ -2,7 +2,7 @@
 /* eslint-disable */
 import React, { PureComponent } from 'react';
 import type { ChildrenArray } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Keyboard } from 'react-native';
 
 import type { StyleObj, Narrow } from '../types';
 import config from '../config';
@@ -29,10 +29,14 @@ type State = {
   autoScrollToBottom: boolean,
 };
 
+let _scrollOffset;
+let listComponent;
+
 export default class InfiniteScrollView extends PureComponent<Props, State> {
   props: Props;
   nextProps: Props;
   state: State;
+  listComponent: AnchorScrollView;
 
   // we only need to adjust scroll position after first render
   // for subsequent fetch we don't need to adjust scroll
@@ -49,13 +53,56 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
   };
 
   _scrollOffset: number;
+  _keyboardHeight: number;
   _contentHeight: number;
   _scrollViewHeight: number;
   _sentStartForContentHeight: ?number;
   _sentEndForContentHeight: ?number;
 
+  keyboardShowListener: any;
+  keyboardHideListener: any;
+
+  componentWillMount() {
+    this.keyboardShowListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      this._keyboardShow,
+    );
+    this.keyboardHideListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      this._keyboardHide,
+    );
+  }
+
+  componentWillUnmount() {
+    this.keyboardShowListener.remove();
+    this.keyboardHideListener.remove();
+  }
+
+  _keyboardShow(e) {
+    this._keyboardHeight = e.endCoordinates.height;
+    if (_scrollOffset !== undefined) {
+      listComponent.scrollTo({
+        x: 0,
+        y: _scrollOffset + this._keyboardHeight,
+        animated: true,
+      });
+    } else if (_scrollOffset === 0) {
+      listComponent.scrollToEnd();
+    }
+  }
+
+  _keyboardHide() {
+    if (_scrollOffset) {
+      listComponent.scrollTo({
+        x: 0,
+        y: _scrollOffset - this._keyboardHeight,
+        animated: true,
+      });
+    }
+  }
+
   componentDidMount() {
-    this._scrollOffset = 0;
+    _scrollOffset = 0;
   }
 
   _onContentSizeChanged = (contentWidth: number, contentHeight: number) => {
@@ -97,8 +144,8 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
   }
 
   _maybeCallOnStartOrEndReached() {
-    const distFromStart = this._scrollOffset;
-    const distFromEnd = this._contentHeight - this._scrollViewHeight - this._scrollOffset;
+    const distFromStart = _scrollOffset;
+    const distFromEnd = this._contentHeight - this._scrollViewHeight - _scrollOffset;
 
     this._maybeCallOnStartReached(distFromStart);
     if (this.props.onStartReached && distFromStart > this.props.startReachedThreshold) {
@@ -112,11 +159,14 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
   }
 
   _onScroll = e => {
-    if (e.nativeEvent.updatedChildFrames && e.nativeEvent.updatedChildFrames.length > 0) {
+    _scrollOffset = e.nativeEvent.contentOffset.y;
+    if (
+      (e.nativeEvent.updatedChildFrames && e.nativeEvent.updatedChildFrames.length > 0) ||
+      (e.nativeEvent.humanInteraction && e.nativeEvent.humanInteraction === 'false')
+    ) {
       return; // ignore onScroll events that are not caused by human interaction
     }
 
-    this._scrollOffset = e.nativeEvent.contentOffset.y;
     this._maybeCallOnStartOrEndReached();
     this.props.onScroll(e.nativeEvent);
   };
@@ -147,6 +197,7 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
         autoScrollToBottom={autoScrollToBottom}
         removeClippedSubviews
         ref={(component: any) => {
+          listComponent = component;
           const { listRef } = this.props;
           if (listRef) listRef(component);
         }}
