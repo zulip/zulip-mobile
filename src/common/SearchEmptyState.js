@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     marginTop: 10,
+    justifyContent: 'center',
   },
   text: {
     fontSize: 18,

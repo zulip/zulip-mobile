@@ -22,7 +22,6 @@ type Props = {
   unreadByStream: number[],
   onPress: (streamName: string) => void,
   onSwitch?: (streamName: string, newValue: boolean) => void,
-  clearInput?: () => void,
 };
 
 export default class StreamList extends PureComponent<Props> {
@@ -45,19 +44,12 @@ export default class StreamList extends PureComponent<Props> {
       unreadByStream,
       onPress,
       onSwitch,
-      clearInput,
     } = this.props;
     const sortedStreams = streams.sort(caseInsensitiveCompareObjFunc('name'));
     const noResults = streams.length === 0;
 
     if (noResults) {
-      return (
-        <SearchEmptyState
-          text="No streams found"
-          buttonText="All streams"
-          buttonAction={clearInput}
-        />
-      );
+      return <SearchEmptyState text="No streams found" />;
     }
 
     return (
