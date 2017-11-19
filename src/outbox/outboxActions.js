@@ -12,11 +12,7 @@ import {
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 import { sendMessage } from '../api';
-import {
-  getSelfUserDetail,
-  getUserByEmail,
-  getUsersAndWildcards,
-} from '../users/userSelectors';
+import { getSelfUserDetail, getUserByEmail, getUsersAndWildcards } from '../users/userSelectors';
 import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 
 export const messageSendStart = (params: Object) => ({
