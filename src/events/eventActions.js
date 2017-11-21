@@ -48,8 +48,12 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       eventMiddleware(getState(), event);
       const action = eventToAction(getState(), event);
 
-      if (action) {
-        actions.push({ ...action, eventId: event.id });
+      if (action !== 'ignore') {
+        if (action && action.type) {
+          actions.push({ ...action, eventId: event.id });
+        } else {
+          console.log('Can not handle event or operation', event); // eslint-disable-line
+        }
       }
     }
 

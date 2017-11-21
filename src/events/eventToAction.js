@@ -119,8 +119,7 @@ export default (state: GlobalState, event: Object) => {
       };
 
     case 'heartbeat':
-      // ignore, no need to handle
-      return null;
+      return 'ignore';
 
     case 'presence':
       return {
@@ -166,6 +165,7 @@ export default (state: GlobalState, event: Object) => {
         type: EVENT_UPDATE_DISPLAY_SETTINGS,
       };
     default:
+      return 'unknown';
   }
   logWarningToSentry(`Unrecognized event: ${event.type}`);
   // eslint-disable-next-line no-console
