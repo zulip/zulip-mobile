@@ -5,7 +5,7 @@ import { StyleSheet, SectionList } from 'react-native';
 import { StyleObj, User } from '../types';
 import { RawLabel, SearchEmptyState } from '../common';
 import UserItem from './UserItem';
-import { sortUserList, filterUserList, groupUsersByInitials } from '../selectors';
+import { sortUserList, filterUserList, groupUsersByInitials } from '../users/userHelpers';
 
 const styles = StyleSheet.create({
   list: {

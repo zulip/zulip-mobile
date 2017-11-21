@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import { getOwnEmail } from '../account/accountSelectors';
-import { getUserById } from '../users/userSelectors';
+import { getUserById } from '../users/userHelpers';
 import { getActiveNarrow, getTyping, getUsers } from '../selectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients } from '../utils/message';
