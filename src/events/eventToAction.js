@@ -30,7 +30,7 @@ import {
   EVENT_REALM_FILTER_UPDATE,
 } from '../actionConstants';
 
-import { getUserById } from '../selectors';
+import { getUserById } from '../users/userHelpers';
 
 const opToActionSubscription = {
   add: EVENT_SUBSCRIPTION_ADD,

@@ -4,7 +4,8 @@ import { FlatList } from 'react-native';
 
 import type { User, GlobalState } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getOwnEmail, getSortedUsers, getAutocompleteSuggestion } from '../selectors';
+import { getOwnEmail, getSortedUsers } from '../selectors';
+import { getAutocompleteSuggestion } from '../users/userHelpers';
 import { Popup } from '../common';
 import UserItem from '../users/UserItem';
 
