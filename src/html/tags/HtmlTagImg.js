@@ -5,6 +5,7 @@ import { Image, StyleSheet, View } from 'react-native';
 import { getResource, isEmojiUrl } from '../../utils/url';
 import type { Actions, Auth, Message, StyleObj } from '../../types';
 import { Touchable } from '../../common';
+import Emoji from '../../emoji/Emoji';
 
 const styles = StyleSheet.create({
   img: {
@@ -22,8 +23,17 @@ type Props = {
   style: StyleObj,
 };
 
-export default class HtmlTagImg extends PureComponent<Props> {
+type State = {
+  validImage: boolean,
+};
+
+export default class HtmlTagImg extends PureComponent<Props, State> {
   props: Props;
+  state: State;
+
+  state = {
+    validImage: true,
+  };
 
   isEmoji = () => {
     const { className, src, auth } = this.props;
@@ -35,14 +45,28 @@ export default class HtmlTagImg extends PureComponent<Props> {
     actions.navigateToLightbox(resource, message);
   };
 
+  onError = () => {
+    this.setState({ validImage: false });
+  };
+
   render() {
     const { src, style, auth } = this.props;
+    const { validImage } = this.state;
     const resource = getResource(src, auth);
     const ContainerComponent = this.isEmoji() ? View : Touchable;
 
     return (
       <ContainerComponent onPress={() => this.handlePress(resource)}>
-        <Image source={resource} resizeMode="contain" style={[styles.img, style]} />
+        {validImage ? (
+          <Image
+            source={resource}
+            resizeMode="contain"
+            style={[styles.img, style]}
+            onError={this.onError}
+          />
+        ) : (
+          <Emoji name="question" />
+        )}
       </ContainerComponent>
     );
   }
