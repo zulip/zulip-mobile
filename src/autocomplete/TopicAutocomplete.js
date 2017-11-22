@@ -27,8 +27,9 @@ class TopicAutocomplete extends PureComponent<Props> {
     const { topics, text, onAutocomplete } = this.props;
 
     if (text.length === 0) return null;
-
-    const topicsToSuggest = topics.filter(x => x !== text && x.match(new RegExp(text, 'i')));
+    const topicsToSuggest = topics.filter(
+      x => x.topic !== text && x.topic.match(new RegExp(text, 'i')),
+    );
 
     return (
       <AnimatedScaleComponent visible={topicsToSuggest.length > 0}>
@@ -37,10 +38,10 @@ class TopicAutocomplete extends PureComponent<Props> {
             keyboardShouldPersistTaps="always"
             initialNumToRender={10}
             data={topicsToSuggest}
-            keyExtractor={item => item}
+            keyExtractor={item => item.topic}
             renderItem={({ item }) => (
-              <Touchable onPress={() => onAutocomplete(item)}>
-                <RawLabel style={styles.topic} text={item} />
+              <Touchable onPress={() => onAutocomplete(item.topic)}>
+                <RawLabel style={styles.topic} text={item.topic} />
               </Touchable>
             )}
           />
