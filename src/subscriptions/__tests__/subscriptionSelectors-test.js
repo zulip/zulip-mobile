@@ -58,63 +58,63 @@ describe('getSubscriptionsById', () => {
 
 describe('getIsActiveStreamSubscribed', () => {
   test('return true for narrows other than stream and topic', () => {
-    const state = {
+    const state = deepFreeze({
       chat: {
         narrow: homeNarrow,
       },
-    };
-    deepFreeze(state);
+    });
+
     expect(getIsActiveStreamSubscribed(state)).toBe(true);
   });
 
   test('return true if current narrowed stream is subscribed', () => {
-    const state = {
+    const state = deepFreeze({
       chat: {
         narrow: streamNarrow('announce'),
       },
       subscriptions: [{ name: 'announce' }],
-    };
-    deepFreeze(state);
+    });
+
     expect(getIsActiveStreamSubscribed(state)).toBe(true);
   });
 
   test('return false if current narrowed stream is not subscribed', () => {
-    const state = {
+    const state = deepFreeze({
       chat: {
         narrow: streamNarrow('all'),
       },
       subscriptions: [{ name: 'announce' }],
-    };
-    deepFreeze(state);
+    });
+
     expect(getIsActiveStreamSubscribed(state)).toBe(false);
   });
 
   test('return true if stream of current narrowed topic is subscribed', () => {
-    const state = {
+    const state = deepFreeze({
       chat: {
         narrow: topicNarrow('announce', 'news'),
       },
       subscriptions: [{ name: 'announce' }],
-    };
-    deepFreeze(state);
+    });
+
     expect(getIsActiveStreamSubscribed(state)).toBe(true);
   });
 
   test('return false if stream of current narrowed topic is not subscribed', () => {
-    const state = {
+    const state = deepFreeze({
       chat: {
         narrow: streamNarrow('all', 'news'),
       },
       subscriptions: [{ name: 'announce' }],
-    };
-    deepFreeze(state);
+    });
+
     expect(getIsActiveStreamSubscribed(state)).toBe(false);
   });
 });
 
 describe('getSubscribedStreams', () => {
   test('get all subscribed streams', () => {
-    const state = {
+    const state = deepFreeze({
       streams: [
         { stream_id: 1, name: 'all', description: 'stream for all' },
         { stream_id: 2, name: 'new announce', description: 'stream for announce' },
@@ -126,8 +126,8 @@ describe('getSubscribedStreams', () => {
         { stream_id: 2, name: 'announce', color: '#002' },
         { stream_id: 4, name: 'general', color: '#003' },
       ],
-    };
-    deepFreeze(state);
+    });
+
     const expectedResult = [
       { stream_id: 1, name: 'all', color: '#001', description: 'stream for all' },
       { stream_id: 2, name: 'new announce', color: '#002', description: 'stream for announce' },
