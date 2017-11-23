@@ -138,6 +138,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
       isTopicFocused: true,
       isMenuExpanded: false,
     });
+    this.props.actions.fetchTopicsForActiveStream();
   };
 
   handleTopicBlur = () => {

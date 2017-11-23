@@ -19,6 +19,6 @@ export const getTopicsInActiveNarrow = createSelector(
       return NULL_ARRAY;
     }
 
-    return topics[stream.stream_id].map(x => x.topic);
+    return topics[stream.stream_id].map(x => x.name);
   },
 );

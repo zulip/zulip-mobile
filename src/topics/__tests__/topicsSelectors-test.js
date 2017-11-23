@@ -23,7 +23,7 @@ describe('getTopicsInActiveNarrow', () => {
       },
       streams: [{ stream_id: 123, name: 'hello' }],
       topics: {
-        123: [{ topic: 'hi' }, { topic: 'wow' }],
+        123: [{ name: 'hi' }, { name: 'wow' }],
       },
     });
 
