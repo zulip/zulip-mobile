@@ -4,7 +4,7 @@ import { getTopicsInActiveNarrow } from '../topicSelectors';
 import { homeNarrow, streamNarrow } from '../../utils/narrow';
 
 describe('getTopicsInActiveNarrow', () => {
-  test('when ', () => {
+  test('when no topics return an empty list', () => {
     const state = deepFreeze({
       chat: {
         narrow: homeNarrow,
@@ -16,14 +16,14 @@ describe('getTopicsInActiveNarrow', () => {
     expect(topics).toEqual([]);
   });
 
-  test('when do', () => {
+  test('when there are topics in the active narrow, return them as string array', () => {
     const state = deepFreeze({
       chat: {
         narrow: streamNarrow('hello'),
       },
       streams: [{ stream_id: 123, name: 'hello' }],
       topics: {
-        123: ['hi', 'wow'],
+        123: [{ topic: 'hi' }, { topic: 'wow' }],
       },
     });
 

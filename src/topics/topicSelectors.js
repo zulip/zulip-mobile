@@ -14,6 +14,11 @@ export const getTopicsInActiveNarrow = createSelector(
       return NULL_ARRAY;
     }
     const stream = streams.find(x => x.name === narrow[0].operand);
-    return (stream && topics[stream.stream_id] && topics[stream.stream_id].topic) || NULL_ARRAY;
+
+    if (!stream || !topics[stream.stream_id]) {
+      return NULL_ARRAY;
+    }
+
+    return topics[stream.stream_id].map(x => x.topic);
   },
 );
