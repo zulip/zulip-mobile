@@ -105,3 +105,18 @@ export const fixRealmUrl = (url: string) => {
 
   return url;
 };
+
+export const getFileExtension = (filename: string): string => filename.split('.').pop();
+
+const mimes = {
+  jpeg: 'image/jpeg',
+  jpg: 'image/jpeg',
+  png: 'image/png',
+  gif: 'image/gif',
+  tif: 'image/tiff',
+  tiff: 'image/tiff',
+  mov: 'video/quicktime',
+};
+
+export const getMimeTypeFromFileExtension = (extension: string): string =>
+  mimes[extension.toLowerCase()] || 'application/octet-stream';
