@@ -179,14 +179,12 @@ export const doInitialFetch = (): Action => async (dispatch: Dispatch, getState:
   setInterval(() => sendFocusPing(), 60 * 1000);
 };
 
-export const uploadImage = (
-  narrow: Narrow,
-  uri: string,
-  name: string,
-  type: string,
-): Action => async (dispatch: Dispatch, getState: GetState) => {
+export const uploadImage = (narrow: Narrow, uri: string, name: string): Action => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
   const auth = getAuth(getState());
-  const serverUri = await uploadFile(auth, uri, name, type);
+  const serverUri = await uploadFile(auth, uri, name);
   const messageToSend = `[${name}](${serverUri})`;
 
   dispatch(addToOutbox(narrow, messageToSend));

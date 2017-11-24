@@ -44,7 +44,8 @@ export default class ComposeMenu extends Component<Props> {
     }
 
     const { actions, narrow } = this.props;
-    actions.uploadImage(narrow, response.uri, response.fileName, response.type);
+
+    actions.uploadImage(narrow, response.uri, response.fileName);
   };
 
   handleImageUpload = () => {
