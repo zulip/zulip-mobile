@@ -51,6 +51,8 @@ export default class ComposeMenu extends Component<Props> {
   handleImageUpload = () => {
     ImagePicker.launchImageLibrary(
       {
+        quality: 1.0,
+        noData: true,
         storageOptions: {
           skipBackup: true,
           path: 'images',
