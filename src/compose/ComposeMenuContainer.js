@@ -1,8 +1,8 @@
 /* @flow */
 import connectWithActions from '../connectWithActions';
 import ComposeMenu from './ComposeMenu';
-import { getActiveNarrow } from '../selectors';
+import { getNarrowToSendTo } from '../selectors';
 
 export default connectWithActions(state => ({
-  narrow: getActiveNarrow(state),
+  narrow: getNarrowToSendTo(state),
 }))(ComposeMenu);

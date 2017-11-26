@@ -8,7 +8,7 @@ import {
   getShownMessagesInActiveNarrow,
 } from '../selectors';
 import { NULL_ARRAY } from '../nullObjects';
-import { isStreamNarrow } from '../utils/narrow';
+import { isStreamNarrow, topicNarrow } from '../utils/narrow';
 
 export const getTopicsInActiveNarrow = createSelector(
   getActiveNarrow,
@@ -31,4 +31,11 @@ export const getTopicsInActiveNarrow = createSelector(
 export const getLastMessageTopic = createSelector(
   getShownMessagesInActiveNarrow,
   messages => (messages.length === 0 ? '' : messages.pop().subject),
+);
+
+export const getNarrowToSendTo = createSelector(
+  getActiveNarrow,
+  getLastMessageTopic,
+  (narrow, lastTopic) =>
+    isStreamNarrow(narrow) ? topicNarrow(narrow[0].operand, lastTopic) : narrow,
 );
