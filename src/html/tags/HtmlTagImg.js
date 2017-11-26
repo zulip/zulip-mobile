@@ -30,9 +30,9 @@ export default class HtmlTagImg extends PureComponent<Props> {
     return className === 'emoji' || isEmojiUrl(src, auth.realm);
   };
 
-  handlePress = (resource: Object) => {
-    const { message, actions } = this.props;
-    actions.navigateToLightbox(resource, message);
+  handlePress = () => {
+    const { actions, message, src } = this.props;
+    actions.navigateToLightbox(src, message);
   };
 
   render() {
@@ -41,7 +41,7 @@ export default class HtmlTagImg extends PureComponent<Props> {
     const ContainerComponent = this.isEmoji() ? View : Touchable;
 
     return (
-      <ContainerComponent onPress={() => this.handlePress(resource)}>
+      <ContainerComponent onPress={this.handlePress}>
         <Image source={resource} resizeMode="contain" style={[styles.img, style]} />
       </ContainerComponent>
     );
