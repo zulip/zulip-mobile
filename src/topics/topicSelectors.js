@@ -1,7 +1,12 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import { getActiveNarrow, getStreams, getTopics } from '../selectors';
+import {
+  getActiveNarrow,
+  getStreams,
+  getTopics,
+  getShownMessagesInActiveNarrow,
+} from '../selectors';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow } from '../utils/narrow';
 
@@ -21,4 +26,9 @@ export const getTopicsInActiveNarrow = createSelector(
 
     return topics[stream.stream_id].map(x => x.name);
   },
+);
+
+export const getLastMessageTopic = createSelector(
+  getShownMessagesInActiveNarrow,
+  messages => (messages.length === 0 ? '' : messages.pop().subject),
 );

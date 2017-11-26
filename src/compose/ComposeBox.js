@@ -52,7 +52,7 @@ type Props = {
   narrow: Narrow,
   users: User[],
   draft: string,
-  lastTopic: string,
+  lastMessageTopic: string,
   isSubscribed: boolean,
   editMessage: EditMessage,
   safeAreaInsets: Dimensions,
@@ -121,10 +121,12 @@ export default class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleMessageFocus = () => {
-    this.setState({
+    const { lastMessageTopic } = this.props;
+    this.setState(({ topic }) => ({
       isMessageFocused: true,
       isMenuExpanded: false,
-    });
+      topic: topic || lastMessageTopic,
+    }));
   };
 
   handleMessageBlur = () => {
@@ -234,7 +236,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
     const {
       auth,
       canSend,
-      lastTopic,
       narrow,
       users,
       editMessage,
@@ -286,7 +287,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
                 onChangeText={this.handleTopicChange}
                 onFocus={this.handleTopicFocus}
                 onBlur={this.handleTopicBlur}
-                defaultValue={lastTopic}
                 value={topic}
               />
             )}
