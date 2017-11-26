@@ -124,6 +124,45 @@ describe('chatReducers', () => {
     expect(newState).toBe(initialState);
   });
 
+  test('message sent to topic is stored correctly', () => {
+    const initialState = deepFreeze({
+      messages: {
+        [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+        [topicNarrowStr]: [{ id: 2 }],
+      },
+    });
+    const message = {
+      id: 3,
+      type: 'stream',
+      display_recipient: 'some stream',
+      subject: 'some topic',
+    };
+    const action = deepFreeze({
+      type: EVENT_NEW_MESSAGE,
+      message,
+      caughtUp: {
+        [homeNarrowStr]: {
+          older: false,
+          newer: false,
+        },
+        [topicNarrowStr]: {
+          older: false,
+          newer: true,
+        },
+      },
+    });
+    const expectedState = {
+      messages: {
+        [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+        [topicNarrowStr]: [{ id: 2 }, message],
+      },
+    };
+
+    const newState = chatReducers(initialState, action);
+
+    expect(newState).toEqual(expectedState);
+  });
+
   test('message sent to self is stored correctly', () => {
     const narrowWithSelfStr = JSON.stringify(privateNarrow('me@example.com'));
     const initialState = deepFreeze({
