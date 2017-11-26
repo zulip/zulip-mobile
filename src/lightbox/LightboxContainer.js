@@ -7,13 +7,11 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 import type { Actions, Auth, Message, ImageResource } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getAuth } from '../selectors';
+import { getResource } from '../utils/url';
 import AnimatedLightboxHeader from './AnimatedLightboxHeader';
 import AnimatedLightboxFooter from './AnimatedLightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
 import { NAVBAR_SIZE } from '../styles';
-
-let WINDOW_WIDTH = Dimensions.get('window').width;
-let WINDOW_HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   img: {
@@ -55,11 +53,6 @@ class LightboxContainer extends PureComponent<Props, State> {
     movement: 'out',
   };
 
-  calculateDimensions = () => {
-    WINDOW_WIDTH = Dimensions.get('window').width;
-    WINDOW_HEIGHT = Dimensions.get('window').height;
-  };
-
   handleImagePress = () => {
     this.setState(({ movement }, props) => ({
       movement: movement === 'out' ? 'in' : 'out',
@@ -92,17 +85,17 @@ class LightboxContainer extends PureComponent<Props, State> {
   });
 
   render() {
-    this.calculateDimensions();
-
     const { actions, src, message, auth } = this.props;
     const footerMessage =
       message.type === 'stream' ? `Shared in #${message.display_recipient}` : 'Shared with you';
+    const resource = getResource(src, auth);
+    const { width, height } = Dimensions.get('window');
 
     return (
       <View style={styles.container}>
         <AnimatedLightboxHeader
           onPressBack={actions.navigateBack}
-          style={[styles.overlay, styles.header, { width: WINDOW_WIDTH }]}
+          style={[styles.overlay, styles.header, { width }]}
           from={-NAVBAR_SIZE}
           to={0}
           timestamp={message.timestamp}
@@ -112,19 +105,17 @@ class LightboxContainer extends PureComponent<Props, State> {
           {...this.getAnimationProps()}
         />
         <PhotoView
-          source={src}
-          minimumZoomScale={1}
-          maximumZoomScale={3}
-          style={[styles.img, { width: WINDOW_WIDTH }]}
+          source={resource}
+          style={[styles.img, { width }]}
           resizeMode="contain"
           onTap={this.handleImagePress}
         />
         <AnimatedLightboxFooter
-          style={[styles.overlay, { width: WINDOW_WIDTH, bottom: WINDOW_HEIGHT - 44 }]}
+          style={[styles.overlay, { width, bottom: height - 44 }]}
           displayMessage={footerMessage}
           onOptionsPress={this.handleOptionsPress}
-          from={WINDOW_HEIGHT}
-          to={WINDOW_HEIGHT - 44}
+          from={height}
+          to={height - 44}
           {...this.getAnimationProps()}
         />
       </View>

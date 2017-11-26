@@ -1,7 +1,7 @@
 /* @noflow */
 import { NavigationActions } from 'react-navigation';
 
-import type { Action, Message, UserType, ImageResource, ServerSettings } from '../types';
+import type { Action, Message, UserType, ServerSettings } from '../types';
 import { RESET_NAVIGATION } from '../actionConstants';
 
 export const resetNavigation = (): Action => ({
@@ -40,7 +40,7 @@ export const navigateToGroupDetails = (recipients: UserType): Action =>
 export const navigateToAddNewAccount = (realm: string): Action =>
   NavigationActions.navigate({ routeName: 'realm', params: { realm } });
 
-export const navigateToLightbox = (src: ImageResource, message: Message): Action =>
+export const navigateToLightbox = (src: string, message: Message): Action =>
   NavigationActions.navigate({ routeName: 'lightbox', params: { src, message } });
 
 export const navigateToLoading = (): Action => NavigationActions.navigate({ routeName: 'loading' });
