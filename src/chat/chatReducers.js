@@ -106,10 +106,10 @@ export default (state: ChatState = initialState, action: Action) => {
           return msg;
         }, {}),
       };
-      if (!stateChange) {
+      const { message } = action;
+      const key = JSON.stringify(getNarrowFromMessage(message, action.ownEmail));
+      if (!stateChange && state.messages[key] === undefined) {
         // new message is in new narrow in which we don't have any message
-        const { message } = action;
-        const key = JSON.stringify(getNarrowFromMessage(message));
         stateChange = true;
         newState = {
           ...state,
