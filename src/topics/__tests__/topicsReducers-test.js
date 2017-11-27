@@ -7,7 +7,7 @@ import { NULL_OBJECT } from '../../nullObjects';
 describe('streamsReducers', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const initialState = deepFreeze([{ max_id: 1, topic: 'some_topic' }]);
+      const initialState = deepFreeze([{ max_id: 1, name: 'some_topic' }]);
 
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,
@@ -31,11 +31,11 @@ describe('streamsReducers', () => {
         topics: [
           {
             max_id: 1,
-            topic: 'topic1',
+            name: 'topic1',
           },
           {
             max_id: 3,
-            topic: 'topic1',
+            name: 'topic1',
           },
         ],
       });
@@ -44,11 +44,11 @@ describe('streamsReducers', () => {
         '1': [
           {
             max_id: 1,
-            topic: 'topic1',
+            name: 'topic1',
           },
           {
             max_id: 3,
-            topic: 'topic1',
+            name: 'topic1',
           },
         ],
       };
@@ -63,7 +63,7 @@ describe('streamsReducers', () => {
         '1': [
           {
             max_id: 1,
-            topic: 'some topic',
+            name: 'some topic',
           },
         ],
       });
@@ -74,11 +74,11 @@ describe('streamsReducers', () => {
         topics: [
           {
             max_id: 2,
-            topic: 'topic1',
+            name: 'topic1',
           },
           {
             max_id: 3,
-            topic: 'topic1',
+            name: 'topic1',
           },
         ],
       });
@@ -87,11 +87,11 @@ describe('streamsReducers', () => {
         '1': [
           {
             max_id: 2,
-            topic: 'topic1',
+            name: 'topic1',
           },
           {
             max_id: 3,
-            topic: 'topic1',
+            name: 'topic1',
           },
         ],
       };
@@ -125,7 +125,7 @@ describe('streamsReducers', () => {
         123: [
           {
             max_id: 1,
-            topic: 'some topic',
+            name: 'some topic',
           },
         ],
       };
@@ -144,7 +144,7 @@ describe('streamsReducers', () => {
         123: [
           {
             max_id: 234,
-            topic: 'some topic',
+            name: 'some topic',
           },
         ],
       };
@@ -171,7 +171,7 @@ describe('streamsReducers', () => {
         123: [
           {
             max_id: 2,
-            topic: 'some topic',
+            name: 'some topic',
           },
         ],
       };
