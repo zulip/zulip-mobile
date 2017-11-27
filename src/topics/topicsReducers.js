@@ -28,7 +28,7 @@ export default (state: TopicsState = initialState, action: Action) => {
           [action.message.stream_id]: [
             {
               max_id: action.message.id,
-              topic: action.message.subject,
+              name: action.message.subject,
             },
           ],
         };
@@ -38,10 +38,10 @@ export default (state: TopicsState = initialState, action: Action) => {
         ...state,
         [action.message.stream_id]: replaceItemInArray(
           state[action.message.stream_id],
-          x => x.topic === action.message.subject,
+          x => x.name === action.message.subject,
           () => ({
             max_id: action.message.id,
-            topic: action.message.subject,
+            name: action.message.subject,
           }),
         ),
       };
