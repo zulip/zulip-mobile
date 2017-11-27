@@ -69,8 +69,11 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   screen: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'stretch',
+    // alignItems: 'stretch',
     backgroundColor,
+  },
+  flexed: {
+    flex: 1,
   },
   messageList: {
     flex: 1,

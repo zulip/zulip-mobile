@@ -55,9 +55,9 @@ export default class Chat extends PureComponent<Props> {
     const showMessagePlaceholders = noMessages && isFetching;
 
     return (
-      <KeyboardAvoider style={styles.screen} behavior="padding">
+      <KeyboardAvoider style={styles.flexed} behavior="padding">
         <ActionSheetProvider>
-          <View style={styles.screen}>
+          <View style={styles.flexed}>
             {!isOnline && <OfflineNotice />}
             <UnreadNoticeContainer />
             {noMessages && !isFetching && <NoMessages narrow={narrow} />}
