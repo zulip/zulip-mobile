@@ -1,10 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { ScrollView, View, StyleSheet, Keyboard } from 'react-native';
+import { ScrollView, Keyboard } from 'react-native';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
-import { Centerer, Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
+import { Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
 import { getServerSettings } from '../api';
 import { fixRealmUrl } from '../utils/url';
 
@@ -17,14 +17,6 @@ type State = {
   error: ?string,
   progress: boolean,
 };
-
-const componentStyles = StyleSheet.create({
-  spacer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-});
 
 class RealmScreen extends PureComponent<Props, State> {
   static contextTypes = {
@@ -74,29 +66,28 @@ class RealmScreen extends PureComponent<Props, State> {
     const { progress, realm, error } = this.state;
 
     return (
-      <Screen title="Welcome">
-        <Centerer padding>
-          <View>
-            <Label text="Your server URL" />
-            <Input
-              style={styles.smallMarginTop}
-              autoFocus
-              autoCorrect={false}
-              autoCapitalize="none"
-              placeholder="Server URL"
-              returnKeyType="go"
-              defaultValue={realm}
-              onChangeText={value => this.setState({ realm: value })}
-              blurOnSubmit={false}
-              keyboardType="url"
-              onSubmitEditing={this.tryRealm}
-            />
-            {error && <ErrorMsg error={error} />}
-          </View>
-        </Centerer>
-        <View style={componentStyles.spacer}>
-          <ZulipButton text="Enter" fullSize progress={progress} onPress={this.tryRealm} />
-        </View>
+      <Screen title="Welcome" padding scrollView>
+        <Label text="Your server URL" />
+        <Input
+          style={styles.smallMarginTop}
+          autoFocus
+          autoCorrect={false}
+          autoCapitalize="none"
+          placeholder="Server URL"
+          returnKeyType="go"
+          defaultValue={realm}
+          onChangeText={value => this.setState({ realm: value })}
+          blurOnSubmit={false}
+          keyboardType="url"
+          onSubmitEditing={this.tryRealm}
+        />
+        {error && <ErrorMsg error={error} />}
+        <ZulipButton
+          style={styles.smallMarginTop}
+          text="Enter"
+          progress={progress}
+          onPress={this.tryRealm}
+        />
       </Screen>
     );
   }

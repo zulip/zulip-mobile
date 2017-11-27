@@ -57,7 +57,7 @@ export default class MessageList extends PureComponent<Props> {
 
     return (
       <InfiniteScrollView
-        style={styles.messageList}
+        style={styles.flexed}
         automaticallyAdjustContentInset="false"
         stickyHeaderIndices={stickyHeaderIndices}
         onStartReached={actions.fetchOlder}
@@ -67,7 +67,7 @@ export default class MessageList extends PureComponent<Props> {
         narrow={narrow}
         anchor={anchor}
       >
-        <LoadingIndicator active={fetchingOlder} backgroundColor={styles.backgroundColor} />
+        {fetchingOlder && <LoadingIndicator active backgroundColor={styles.backgroundColor} />}
         {messageList}
         {!singleFetchProgress &&
           fetchingNewer && <LoadingIndicator active backgroundColor={styles.backgroundColor} />}

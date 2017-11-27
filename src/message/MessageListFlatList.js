@@ -49,7 +49,7 @@ export default class MessageList extends PureComponent<Props> {
 
     return (
       <SectionList
-        style={styles.messageList}
+        style={styles.flexed}
         initialNumToRender={20}
         sections={renderedMessages}
         refreshing={fetchingOlder}
