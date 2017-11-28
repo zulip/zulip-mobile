@@ -21,7 +21,6 @@ import ComposeMenuContainer from './ComposeMenuContainer';
 import AutoCompleteView from '../autocomplete/AutoCompleteView';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
-import { registerUserInputActivity } from '../utils/activity';
 import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
 import NotSubscribed from '../message/NotSubscribed';
 
@@ -107,8 +106,8 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
   handleMessageChange = (message: string) => {
     this.setState({ message });
-    const { auth } = this.props;
-    registerUserInputActivity(auth);
+    const { actions } = this.props;
+    actions.sendFocusPing();
   };
 
   handleMessageSelectionChange = (event: Object) => {

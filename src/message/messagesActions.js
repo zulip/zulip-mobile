@@ -1,7 +1,6 @@
 /* @flow */
 import type { Action, Narrow, Dispatch, GetState } from '../types';
 import { NULL_CAUGHTUP } from '../nullObjects';
-import { registerAppActivity } from '../utils/activity';
 import { getAuth, getUsers, getAllMessages } from '../selectors';
 import { SWITCH_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
@@ -19,14 +18,12 @@ export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INT
 ) => {
   dispatch(switchNarrow(newNarrow));
 
-  const auth = getAuth(getState());
   const anyMessagesInNewNarrow = JSON.stringify(newNarrow) in getAllMessages(getState());
   const caughtUp = getState().caughtUp[newNarrow] || NULL_CAUGHTUP;
 
   if (!anyMessagesInNewNarrow && !caughtUp.newer && !caughtUp.older) {
     dispatch(fetchMessagesAtFirstUnread(newNarrow));
   }
-  registerAppActivity(auth);
 };
 
 export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState: GetState) => {
