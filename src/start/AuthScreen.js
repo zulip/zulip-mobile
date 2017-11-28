@@ -66,7 +66,10 @@ class AuthScreen extends PureComponent<Props> {
           {serverSettings.authentication_methods.dev && (
             <ZulipButton text="Sign in with dev account" onPress={this.handleDevAuth} />
           )}
-          {serverSettings.authentication_methods.password && <PasswordAuthView />}
+          {(serverSettings.authentication_methods.password ||
+            serverSettings.authentication_methods.ldap) && (
+            <PasswordAuthView ldap={serverSettings.authentication_methods.ldap} />
+          )}
           {serverSettings.authentication_methods.google && (
             <OAuthView name="Google" Icon={IconGoogle} url="accounts/login/google/" />
           )}
