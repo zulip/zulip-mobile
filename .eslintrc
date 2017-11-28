@@ -114,7 +114,7 @@
         "lightbox", "resize", "remobile", "multiline", "uniqby", "zoe", "localizable", "appid", "apns",
         "Entypo", "msup", "mrow", "webview", "js", "timerow", "reselect", "addons", "cancelable",
         "gravatar_hash", "pms", "msgs", "collapsable", "const", "wildcard", "reactotron", "camelcase",
-        "hydrator", "perf", "stacktrace", "Dir", "fs", "avoider", "octicons", "centerer",
+        "hydrator", "perf", "stacktrace", "Dir", "fs", "avoider", "octicons", "centerer", "ldap",
         "gravatar", "identicon", "blueimp", "filename", "wildcards", "jpeg", "jpg", "tif", "mov",
       ],
       "skipIfMatch": [

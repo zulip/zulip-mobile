@@ -21,6 +21,7 @@ type Props = {
   actions: Actions,
   auth: Auth,
   email: string,
+  ldap: boolean,
 };
 
 type State = {
@@ -39,18 +40,15 @@ class PasswordAuthView extends PureComponent<Props, State> {
 
   state: State;
 
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      progress: false,
-      email: props.email,
-      password: '',
-      error: '',
-    };
-  }
+  state = {
+    progress: false,
+    email: '',
+    password: '',
+    error: '',
+  };
 
   tryPasswordLogin = async () => {
-    const { auth, actions } = this.props;
+    const { actions, auth, ldap } = this.props;
     const { email, password } = this.state;
 
     this.setState({ progress: true, error: undefined });
@@ -62,16 +60,19 @@ class PasswordAuthView extends PureComponent<Props, State> {
     } catch (err) {
       this.setState({
         progress: false,
-        error: 'Wrong email or password. Try again.',
+        error: ldap
+          ? 'Wrong username or password. Try again.'
+          : 'Wrong email or password. Try again.',
       });
     }
   };
 
   validateForm = () => {
+    const { ldap } = this.props;
     const { email, password } = this.state;
 
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      this.setState({ error: 'Enter a valid email address' });
+    if (!email || (!ldap && !/\S+@\S+\.\S+/.test(email))) {
+      this.setState({ error: ldap ? 'Enter a username' : 'Enter a valid email address' });
     } else if (!password) {
       this.setState({ error: 'Enter a password' });
     } else {
@@ -81,6 +82,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
 
   render() {
     const { styles } = this.context;
+    const { ldap } = this.props;
     const { email, password, progress, error } = this.state;
 
     return (
@@ -91,8 +93,8 @@ class PasswordAuthView extends PureComponent<Props, State> {
           autoCapitalize="none"
           autoCorrect={false}
           blurOnSubmit={false}
-          keyboardType="email-address"
-          placeholder="Email"
+          keyboardType={ldap ? 'default' : 'email-address'}
+          placeholder={ldap ? 'Username' : 'Email'}
           defaultValue={email}
           onChangeText={newEmail => this.setState({ email: newEmail })}
         />

@@ -196,8 +196,10 @@ export type Action = Object;
 
 export type AuthenticationMethods = {
   dev: boolean,
+  email: boolean,
   github: boolean,
   google: boolean,
+  ldap: boolean,
   password: boolean,
 };
 export type ServerSettings = {
