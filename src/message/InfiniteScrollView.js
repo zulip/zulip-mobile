@@ -110,6 +110,7 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
   };
 
   _onScrollViewLayout = (e: Object) => {
+    console.log('OnScroll');
     this._scrollViewHeight = e.nativeEvent.layout.height;
   };
 
@@ -188,6 +189,7 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
         anchor={this.props.anchor}
         contentContainerStyle={this.props.contentContainerStyle}
         automaticallyAdjustContentInset={false}
+        overScrollMode="always"
         scrollsToTop
         onContentSizeChange={this._onContentSizeChanged}
         onLayout={this._onScrollViewLayout}
@@ -195,6 +197,7 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
         scrollEventThrottle={config.scrollCallbackThrottle}
         // stickyHeaderIndices={Platform.OS === 'ios' ? this.props.stickyHeaderIndices : undefined}
         autoScrollToBottom={autoScrollToBottom}
+        endFillColor="red"
         removeClippedSubviews
         ref={(component: any) => {
           listComponent = component;

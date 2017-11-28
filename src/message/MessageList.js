@@ -58,10 +58,9 @@ export default class MessageList extends PureComponent<Props> {
     return (
       <InfiniteScrollView
         style={styles.flexed}
-        automaticallyAdjustContentInset="false"
         stickyHeaderIndices={stickyHeaderIndices}
-        onStartReached={actions.fetchOlder}
-        onEndReached={actions.fetchNewer}
+        onStartReached={() => console.log('onStartReached')}
+        onEndReached={() => console.log('onEndReached')}
         listRef={listRef}
         onScroll={onScroll}
         narrow={narrow}
