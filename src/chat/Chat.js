@@ -33,11 +33,11 @@ export default class Chat extends PureComponent<Props> {
   props: Props;
 
   handleSend = () => {
-    setTimeout(() => {
+    /* setTimeout(() => {
       if (this.listComponent && this.listComponent.scrollToEnd !== undefined) {
         this.listComponent.scrollToEnd();
       }
-    }, 300);
+    }, 300); */
   };
 
   handleReplySelect = () => {
