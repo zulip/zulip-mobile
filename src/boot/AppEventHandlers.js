@@ -8,7 +8,6 @@ import NotificationsIOS, { NotificationsAndroid } from 'react-native-notificatio
 import type { Auth, Actions, ChildrenArray } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getAuth } from '../selectors';
-import { registerAppActivity } from '../utils/activity';
 import { handlePendingNotifications } from '../utils/notifications';
 
 const componentStyles = StyleSheet.create({
@@ -44,8 +43,8 @@ class AppEventHandlers extends PureComponent<Props> {
   };
 
   handleAppStateChange = state => {
-    const { auth, actions } = this.props;
-    registerAppActivity(auth, state === 'active');
+    const { actions } = this.props;
+    actions.sendFocusPing(state === 'active');
     actions.appState(state === 'active');
   };
 

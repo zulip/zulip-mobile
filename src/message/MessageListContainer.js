@@ -29,7 +29,6 @@ import {
   getShownMessagesInActiveNarrow,
 } from '../selectors';
 import { filterUnreadMessageIds } from '../utils/unread';
-import { registerAppActivity } from '../utils/activity';
 import { queueMarkAsRead } from '../api';
 
 type Props = {
@@ -65,8 +64,6 @@ class MessageListContainer extends PureComponent<Props> {
 
     // Calculates the amount user has scrolled up from the very bottom
     this.scrollOffset = e.contentSize.height - e.contentOffset.y - e.layoutMeasurement.height;
-
-    registerAppActivity(auth);
   };
 
   render() {
