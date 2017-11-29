@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 16,
-    paddingLeft: 4,
+    fontSize: 18,
+    paddingLeft: 8,
   },
 });
 
