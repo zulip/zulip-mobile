@@ -28,7 +28,7 @@ class TopicAutocomplete extends PureComponent<Props> {
 
     if (text.length === 0) return null;
 
-    const topicsToSuggest = topics.filter(x => x !== text && x.match(new RegExp(text, 'i')));
+    const topicsToSuggest = topics.filter(x => x && x !== text && x.match(new RegExp(text, 'i')));
 
     return (
       <AnimatedScaleComponent visible={topicsToSuggest.length > 0}>
