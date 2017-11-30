@@ -43,23 +43,21 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  const state = getState();
-
   let lastEventId = eventId;
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const auth = getAuth(state);
+    const auth = getAuth(getState());
     try {
       // eslint-disable-next-line no-await-in-loop
       const response = await pollForEvents(auth, queueId, lastEventId);
 
       // User switched accounts or logged out
-      if (queueId !== state.app.eventQueueId || auth.apiKey === '') {
+      if (queueId !== getState().app.eventQueueId || auth.apiKey === '') {
         break;
       }
 
-      const actions = responseToActions(state, response);
+      const actions = responseToActions(getState(), response);
 
       dispatchOrBatch(dispatch, actions);
 
