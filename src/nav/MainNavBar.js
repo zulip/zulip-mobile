@@ -2,18 +2,20 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Actions } from '../types';
+import type { Actions, Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
 import Title from '../title/Title';
 import NavButton from './NavButton';
 import NavButtonPlaceholder from './NavButtonPlaceholder';
 import {
+  getActiveNarrow,
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
   getUnreadMentionsTotal,
   getTitleBackgroundColor,
   getTitleTextColor,
 } from '../selectors';
+import { isHomeNarrow, navigateBackFromNarrow } from '../utils/narrow';
 
 type Props = {
   actions: Actions,
@@ -21,36 +23,44 @@ type Props = {
   editMessage: boolean,
   backgroundColor: string,
   unreadMentionsTotal: number,
-  onPressStreams: () => void,
+  narrow: Narrow,
+  openDrawer: () => void,
 };
 
 class MainNavBar extends PureComponent<Props> {
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };
 
-  props: Props;
+  selectLeftIcon = () => {
+    const { narrow, editMessage } = this.props;
+    return editMessage || !isHomeNarrow(narrow) ? 'arrow-left' : 'menu';
+  };
+
+  onLeftPress = () => {
+    const { actions, editMessage, narrow, openDrawer } = this.props;
+
+    if (editMessage) {
+      return actions.cancelEditMessage;
+    } else if (!isHomeNarrow(narrow)) {
+      return () => actions.doNarrow(navigateBackFromNarrow());
+    }
+    return openDrawer;
+  };
 
   render() {
     const { styles } = this.context;
-    const {
-      actions,
-      backgroundColor,
-      textColor,
-      unreadMentionsTotal,
-      onPressStreams,
-      editMessage,
-    } = this.props;
-
-    const leftPress = editMessage ? actions.cancelEditMessage : onPressStreams;
+    const { backgroundColor, textColor, unreadMentionsTotal } = this.props;
 
     return (
       <View style={[styles.navBar, { backgroundColor }]}>
         <NavButton
-          name={editMessage ? 'arrow-left' : 'menu'}
+          name={this.selectLeftIcon()}
           color={textColor}
           showCircle={unreadMentionsTotal > 0}
-          onPress={leftPress}
+          onPress={this.onLeftPress()}
         />
         <Title color={textColor} />
         <NavButtonPlaceholder />
@@ -61,6 +71,7 @@ class MainNavBar extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   backgroundColor: getTitleBackgroundColor(state),
+  narrow: getActiveNarrow(state),
   textColor: getTitleTextColor(state),
   unreadHuddlesTotal: getUnreadHuddlesTotal(state),
   unreadMentionsTotal: getUnreadMentionsTotal(state),
