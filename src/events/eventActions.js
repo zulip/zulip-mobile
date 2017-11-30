@@ -43,7 +43,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  const state = getState();
+  let state = getState();
 
   let lastEventId = eventId;
 
@@ -59,6 +59,9 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
         break;
       }
 
+      // update state so that event can be handled according to new state
+      // there might be cases where state became outdated in waiting for event
+      state = getState();
       const actions = responseToActions(state, response);
 
       dispatchOrBatch(dispatch, actions);
