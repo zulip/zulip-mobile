@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Narrow } from '../types';
+import type { Message, Narrow } from '../types';
 import { KeyboardAvoider, OfflineNotice } from '../common';
 
 import MessageListContainer from '../message/MessageListContainer';
@@ -17,6 +17,8 @@ type Props = {
   isFetching: boolean,
   isOnline: boolean,
   noMessages: boolean,
+  lastMessage: Message,
+  ownEmail: string,
 };
 
 export default class Chat extends PureComponent<Props> {
@@ -32,13 +34,17 @@ export default class Chat extends PureComponent<Props> {
 
   props: Props;
 
-  handleSend = () => {
-    /* setTimeout(() => {
-      if (this.listComponent && this.listComponent.scrollToEnd !== undefined) {
-        this.listComponent.scrollToEnd();
-      }
-    }, 300); */
-  };
+  componentDidUpdate(prevProps: Props) {
+    const { noMessages, lastMessage, ownEmail } = this.props;
+
+    if (noMessages || lastMessage.id === prevProps.lastMessage.id) {
+      return;
+    }
+
+    if (lastMessage.sender_email === ownEmail && this.listComponent) {
+      this.listComponent.scrollToEnd();
+    }
+  }
 
   handleReplySelect = () => {
     // set a timeout because it's take time to render ComposeBox after narrowing from home
@@ -77,7 +83,6 @@ export default class Chat extends PureComponent<Props> {
                 messageInputRef={(component: any) => {
                   this.messageInputRef = component || this.messageInputRef;
                 }}
-                onSend={this.handleSend}
               />
             )}
           </View>

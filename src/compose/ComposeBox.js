@@ -159,7 +159,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleSend = () => {
-    const { actions, narrow, onSend } = this.props;
+    const { actions, narrow } = this.props;
     const { topic, message } = this.state;
 
     const topicToSend = replaceEmoticonsWithEmoji(topic);
@@ -171,7 +171,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
     actions.addToOutbox(destinationNarrow, messageToSend);
 
     this.clearMessageInput();
-    onSend();
   };
 
   handleEdit = () => {
