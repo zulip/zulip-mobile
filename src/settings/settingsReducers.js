@@ -13,6 +13,7 @@ const initialState: SettingsState = {
   onlineNotification: true,
   experimentalFeaturesEnabled: false,
   splitMessageText: false,
+  streamNotification: false,
 };
 
 export default (state: SettingsState = initialState, action: Action): SettingsState => {
@@ -36,6 +37,8 @@ export default (state: SettingsState = initialState, action: Action): SettingsSt
           return { ...state, offlineNotification: action.setting };
         case 'enable_online_push_notifications':
           return { ...state, onlineNotification: action.setting };
+        case 'enable_stream_push_notifications':
+          return { ...state, streamNotification: action.setting };
         default:
           return state;
       }

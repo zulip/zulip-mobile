@@ -8,6 +8,8 @@ const getRequestBody = (opp, value) => {
     data.enable_offline_push_notifications = value;
   } else if (opp === 'online_notification_change') {
     data.enable_online_push_notifications = value;
+  } else if (opp === 'stream_notification_change') {
+    data.enable_stream_push_notifications = value;
   }
   return data;
 };

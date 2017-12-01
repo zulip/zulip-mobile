@@ -33,6 +33,7 @@ type Props = {
   theme: string,
   offlineNotification: boolean,
   onlineNotification: boolean,
+  streamNotification: boolean,
 };
 
 type State = {
@@ -69,8 +70,24 @@ export default class SettingsCard extends PureComponent<Props, State> {
     actions.settingsChange('onlineNotification', !onlineNotification);
   };
 
+  handleStreamNotificationChange = () => {
+    const { actions, auth, streamNotification } = this.props;
+    toggleMobilePushSettings({
+      auth,
+      opp: 'stream_notification_change',
+      value: !streamNotification,
+    });
+    actions.settingsChange('streamNotification', !streamNotification);
+  };
+
   render() {
-    const { offlineNotification, onlineNotification, theme, actions } = this.props;
+    const {
+      offlineNotification,
+      onlineNotification,
+      theme,
+      actions,
+      streamNotification,
+    } = this.props;
 
     return (
       <ScrollView style={styles.optionWrapper}>
@@ -83,6 +100,11 @@ export default class SettingsCard extends PureComponent<Props, State> {
           label="Notifications when online"
           defaultValue={onlineNotification}
           onValueChange={this.handleOnlineNotificationChange}
+        />
+        <OptionRow
+          label="Notifications when stream message"
+          defaultValue={streamNotification}
+          onValueChange={this.handleStreamNotificationChange}
         />
         <OptionRow
           label="Night mode"
