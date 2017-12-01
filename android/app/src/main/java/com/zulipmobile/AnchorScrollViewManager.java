@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
- *
+ * <p>
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
@@ -9,21 +9,21 @@
 
 package com.zulipmobile;
 
-import javax.annotation.Nullable;
-
-import java.util.Map;
-
 import android.graphics.Color;
 
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.common.MapBuilder;
+import com.facebook.react.uimanager.ReactClippingViewGroupHelper;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
-import com.facebook.react.uimanager.ReactClippingViewGroupHelper;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.views.scroll.FpsListener;
 import com.facebook.react.views.scroll.ReactScrollViewCommandHelper;
 import com.facebook.react.views.scroll.ScrollEventType;
+
+import java.util.Map;
+
+import javax.annotation.Nullable;
 
 public class AnchorScrollViewManager
         extends ViewGroupManager<AnchorScrollView>
@@ -31,7 +31,9 @@ public class AnchorScrollViewManager
 
     protected static final String REACT_CLASS = "AnchorScrollView";
 
-    private @Nullable FpsListener mFpsListener = null;
+    private
+    @Nullable
+    FpsListener mFpsListener = null;
 
     public AnchorScrollViewManager() {
         this(null);
@@ -112,6 +114,16 @@ public class AnchorScrollViewManager
     }
 
     /**
+     * boolean used to check whether we are caught up at bottom or not
+     * @param view
+     * @param caughtUpNewer
+     */
+    @ReactProp(name = "caughtUpNewer", defaultBoolean = false)
+    public void setCaughtUpNewer(AnchorScrollView view, boolean caughtUpNewer) {
+        view.setCaughtUpNewer(caughtUpNewer);
+    }
+
+    /**
      * When set, fills the rest of the scrollview with a color to avoid setting a background and
      * creating unnecessary overdraw.
      * @param view
@@ -131,7 +143,9 @@ public class AnchorScrollViewManager
     }
 
     @Override
-    public @Nullable Map<String, Integer> getCommandsMap() {
+    public
+    @Nullable
+    Map<String, Integer> getCommandsMap() {
         return ReactScrollViewCommandHelper.getCommandsMap();
     }
 
@@ -174,7 +188,9 @@ public class AnchorScrollViewManager
     }
 
     @Override
-    public @Nullable Map getExportedCustomDirectEventTypeConstants() {
+    public
+    @Nullable
+    Map getExportedCustomDirectEventTypeConstants() {
         return createExportedCustomDirectEventTypeConstants();
     }
 
