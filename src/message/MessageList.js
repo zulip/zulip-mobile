@@ -57,7 +57,7 @@ export default class MessageList extends PureComponent<Props> {
 
     return (
       <InfiniteScrollView
-        style={styles.flexed}
+        style={[styles.flexed, styles.backgroundColor]}
         automaticallyAdjustContentInset="false"
         stickyHeaderIndices={stickyHeaderIndices}
         onStartReached={actions.fetchOlder}

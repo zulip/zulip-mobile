@@ -25,7 +25,7 @@ export default class MainScreen extends PureComponent<Props> {
     const { styles } = this.context;
 
     return (
-      <View style={styles.flexed}>
+      <View style={[styles.flexed, styles.backgroundColor]}>
         <ZulipStatusBar />
         <MainNavBar onPressStreams={this.handlePressStreams} />
         <ChatContainer />
