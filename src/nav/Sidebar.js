@@ -2,6 +2,8 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { homeNarrow, specialNarrow, allPrivateNarrow } from '../utils/narrow';
+import NavButton from './NavButton';
 import type { Actions, Dimensions, Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
 import MainTabs from '../main/MainTabs';
@@ -10,6 +12,10 @@ const componentStyles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+  },
+  iconList: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 
@@ -37,7 +43,7 @@ class Sidebar extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { safeAreaInsets } = this.props;
+    const { safeAreaInsets, actions } = this.props;
     const paddingStyles = {
       paddingTop: safeAreaInsets.top,
       paddingBottom: safeAreaInsets.bottom,
@@ -45,6 +51,19 @@ class Sidebar extends PureComponent<Props> {
 
     return (
       <View style={[componentStyles.container, paddingStyles, styles.background]}>
+        <View style={componentStyles.iconList}>
+          <NavButton name="home" onPress={() => this.doNarrowCloseDrawer(homeNarrow)} />
+          <NavButton name="mail" onPress={() => this.doNarrowCloseDrawer(allPrivateNarrow)} />
+          <NavButton
+            name="star"
+            onPress={() => this.doNarrowCloseDrawer(specialNarrow('starred'))}
+          />
+          <NavButton
+            name="at-sign"
+            onPress={() => this.doNarrowCloseDrawer(specialNarrow('mentioned'))}
+          />
+          <NavButton name="search" onPress={actions.navigateToSearch} />
+        </View>
         <MainTabs
           screenProps={{
             doNarrowCloseDrawer: this.doNarrowCloseDrawer,
