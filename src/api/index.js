@@ -5,7 +5,6 @@ export { default as devFetchApiKey } from './devFetchApiKey';
 export { default as devGetEmails } from './devGetEmails';
 export { default as fetchApiKey } from './fetchApiKey';
 export { default as focusPing } from './focusPing';
-export { default as getStreams } from './getStreams';
 export { default as getTopics } from './getTopics';
 export { default as toggleMessageStarred } from './toggleMessageStarred';
 
@@ -37,6 +36,11 @@ export { default as getRealmFilters } from './realm/getRealmFilters';
 
 export { default as getServerSettings } from './settings/getServerSettings';
 export { default as toggleMobilePushSettings } from './settings/toggleMobilePushSettings';
+
+export { default as createStream } from './streams/createStream';
+export { default as deleteStream } from './streams/deleteStream';
+export { default as getStreams } from './streams/getStreams';
+export { default as updateStream } from './streams/updateStream';
 
 export { default as getSubscriptions } from './subscriptions/getSubscriptions';
 export { default as muteStream } from './subscriptions/muteStream';
