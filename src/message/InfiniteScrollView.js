@@ -194,6 +194,7 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
         contentContainerStyle={this.props.contentContainerStyle}
         automaticallyAdjustContentInset={false}
         scrollsToTop
+        overScrollMode="always"
         onContentSizeChange={this._onContentSizeChanged}
         onLayout={this._onScrollViewLayout}
         onScroll={this._onScroll}

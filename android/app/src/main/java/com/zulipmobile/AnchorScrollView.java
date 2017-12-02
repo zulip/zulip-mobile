@@ -598,4 +598,9 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
     public void setAnchor(int anchor) {
         this.anchor = anchor;
     }
+
+    @Override
+    public void setOverScrollMode(int mode) {
+        super.setOverScrollMode(mode);
+    }
 }
