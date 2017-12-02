@@ -22,6 +22,7 @@ import TimingScreen from '../diagnostics/TimingScreen';
 import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import GroupScreen from '../group/GroupScreen';
+import FullEditorScreen from '../compose/FullEditor/FullEditorScreen';
 
 export default StackNavigator(
   {
@@ -33,6 +34,7 @@ export default StackNavigator(
     dev: { screen: DevAuthScreen },
     loading: { screen: LoadingScreen },
     main: { screen: MainScreen },
+    'full-screen-editor': { screen: FullEditorScreen },
     realm: { screen: RealmScreen },
     search: { screen: SearchMessagesScreen },
     subscriptions: { screen: SubscriptionsScreen },
