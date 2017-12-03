@@ -67,6 +67,7 @@
   "Delete message": "Delete message",
   "Notifications when online": "Notifications when online",
   "Notifications when offline": "Notifications when offline",
+  "Stream notifications": "Stream notifications",
   "Unread": "Unread",
   "Subscribed": "Subscribed",
   "No users found": "No users found",
@@ -107,5 +108,8 @@
   "Create new stream": "Create new stream",
   "Name": "Name",
   "Description": "Description",
-  "Create": "Create"
+  "Create": "Create",
+  "Public": "Public",
+  "Private": "Private",
+  "Notifications": "Notifications"
 }

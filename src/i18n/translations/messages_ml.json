@@ -67,6 +67,7 @@
   "Delete message": "Delete message",
   "Notifications when online": "Notifications when online",
   "Notifications when offline": "Notifications when offline",
+  "Stream notifications": "Stream notifications",
   "Unread": "Unread",
   "Subscribed": "വരിക്കാരനായി",
   "No users found": "No users found",
@@ -107,5 +108,8 @@
   "Create new stream": "പുതിയ ശാഖ നിർമ്മിക്കുക",
   "Name": "പേര്",
   "Description": "Description",
-  "Create": "Create"
+  "Create": "Create",
+  "Public": "Public",
+  "Private": "Private",
+  "Notifications": "അറിയിപ്പുകൾ"
 }

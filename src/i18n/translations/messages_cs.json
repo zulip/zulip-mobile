@@ -67,6 +67,7 @@
   "Delete message": "Smazat zprávu",
   "Notifications when online": "Oznámení, když jste připojení k internetu",
   "Notifications when offline": "Oznámení, když nejste připojení k internetu",
+  "Stream notifications": "Stream notifications",
   "Unread": "Nepřečteno",
   "Subscribed": "Odebíráno",
   "No users found": "Nenalezeni žádní uživatelé",
@@ -107,5 +108,8 @@
   "Create new stream": "Vytvořit novou skupinu",
   "Name": "Název",
   "Description": "Popis",
-  "Create": "Vytvořit"
+  "Create": "Vytvořit",
+  "Public": "Public",
+  "Private": "Private",
+  "Notifications": "Oznámení"
 }
