@@ -62,3 +62,6 @@ export const navigateToTiming = (): Action => NavigationActions.navigate({ route
 export const navigateToStorage = (): Action => NavigationActions.navigate({ routeName: 'storage' });
 
 export const navigateToDebug = (): Action => NavigationActions.navigate({ routeName: 'debug' });
+
+export const navigateToCreateStream = (): Action =>
+  NavigationActions.navigate({ routeName: 'stream-create' });

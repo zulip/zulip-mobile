@@ -103,5 +103,9 @@
   "Normal users":"Normální uživatelé",
   "Share image": "Share image",
   "Share link to image": "Share link to image",
-  "You are not subscribed to this stream": "You are not subscribed to this stream"
+  "You are not subscribed to this stream": "You are not subscribed to this stream",
+  "Create new stream": "Vytvořit novou skupinu",
+  "Name": "Název",
+  "Description": "Popis",
+  "Create": "Vytvořit"
 }

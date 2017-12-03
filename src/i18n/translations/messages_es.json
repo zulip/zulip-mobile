@@ -59,7 +59,7 @@
   "starred": "starred",
   "Enable notifications": "Activar notificaciones",
   "Jot down something": "Anota algo",
-  "Message {recipient}": "Enviar un memsaje a {recipient}",
+  "Message {recipient}": "Enviar un mensaje a {recipient}",
   "Send private message": "Enviar mensaje privado",
   "Forgot password?": "¿Olvidaste la contraseña?",
   "Members": "Members",
@@ -103,5 +103,9 @@
   "Normal users":"Usuarios normales",
   "Share image": "Share image",
   "Share link to image": "Share link to image",
-  "You are not subscribed to this stream": "You are not subscribed to this stream"
+  "You are not subscribed to this stream": "You are not subscribed to this stream",
+  "Create new stream": "Crear nuevo canal",
+  "Name": "Nombre",
+  "Description": "Descripción",
+  "Create": "Crear"
 }

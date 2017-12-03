@@ -38,9 +38,9 @@
   "Sign in with dev account": "dev계정으로 가입하기",
   "Can not connect to server": "서버에 접속할 수 없음",
   "Wrong email or password. Try again.": "이메일 혹은 비밀번호가 틀렸습니다. 다시 시도하세요.",
-  "Wrong username or password. Try again.": "Wrong username or password. Try again.",
+  "Wrong username or password. Try again.": "잘못된 사용자명 혹은 비밀번호입니다. 다시 시도하세요.",
   "Enter a valid email address": "유효한 이메일 주소를 입력하세요.",
-  "Enter a username": "Enter a username",
+  "Enter a username": "사용자명을 입력하세요.",
   "Enter a password": "비밀번호를 입력하세요.",
   "Narrow to conversation": "대화로 한정해서 보기",
   "Reply": "응답",
@@ -103,5 +103,9 @@
   "Normal users":"일반사용자",
   "Share image": "이미지 공유",
   "Share link to image": "이미지로 링크 공유",
-  "You are not subscribed to this stream": "이 스트림을 구독하지 않았습니다."
+  "You are not subscribed to this stream": "이 스트림을 구독하지 않았습니다.",
+  "Create new stream": "새로운 스트림 만들기",
+  "Name": "이름",
+  "Description": "서술",
+  "Create": "생성"
 }

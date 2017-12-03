@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Narrow, SubscriptionsState } from '../types';
+import type { Actions, Narrow, SubscriptionsState } from '../types';
 import StreamList from './StreamList';
 import { isStreamNarrow, streamNarrow } from '../utils/narrow';
 
@@ -14,13 +14,14 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  actions: Actions,
   narrow: Narrow,
   subscriptions: SubscriptionsState,
   unreadByStream: number[],
   doNarrowCloseDrawer: (narrow: Narrow) => void,
 };
 
-export default class SubscriptionsContainer extends PureComponent<Props> {
+export default class SubscriptionsCard extends PureComponent<Props> {
   props: Props;
 
   handleNarrow = (streamName: string) => {

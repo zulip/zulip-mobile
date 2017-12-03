@@ -2,13 +2,13 @@
 import React, { PureComponent } from 'react';
 
 import { Screen } from '../common';
-import SubscriptionsContainer from './SubscriptionsContainer';
+import StreamListContainer from './StreamListContainer';
 
 export default class SubscriptionsScreen extends PureComponent<{}> {
   render() {
     return (
       <Screen search title="Subscriptions">
-        <SubscriptionsContainer />
+        <StreamListContainer />
       </Screen>
     );
   }

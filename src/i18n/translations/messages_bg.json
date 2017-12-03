@@ -37,8 +37,8 @@
   "Sign in with password": "Вход с парола",
   "Sign in with dev account": "Вход с профил на разработчик",
   "Can not connect to server": "Невъзможно свързване със сървъра",
-  "Wrong email or password. Try again.": "Грешен email или парола. Опитайте отново.",
-  "Wrong username or password. Try again.": "Wrong username or password. Try again.",
+  "Wrong email or password. Try again.": "Грешен email или парола. Опитай отново.",
+  "Wrong username or password. Try again.": "Грешно потребителско име или парола. Опитай отново.",
   "Enter a valid email address": "Въведете валиден email",
   "Enter a username": "Въведи потребителско име",
   "Enter a password": "Въведете парола",
@@ -103,5 +103,9 @@
   "Normal users":"Нормални потребители",
   "Share image": "Сподели изображение",
   "Share link to image": "Сподели връзка към изображение",
-  "You are not subscribed to this stream": "Не сте абонирани за този поток"
+  "You are not subscribed to this stream": "Не сте абонирани за този поток",
+  "Create new stream": "Създай нов поток",
+  "Name": "Име",
+  "Description": "Описание",
+  "Create": "Създай"
 }

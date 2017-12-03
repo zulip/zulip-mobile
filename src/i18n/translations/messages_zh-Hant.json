@@ -103,5 +103,9 @@
   "Normal users":"普通用戶",
   "Share image": "Share image",
   "Share link to image": "Share link to image",
-  "You are not subscribed to this stream": "You are not subscribed to this stream"
+  "You are not subscribed to this stream": "You are not subscribed to this stream",
+  "Create new stream": "開設新的頻道",
+  "Name": "Name",
+  "Description": "Description",
+  "Create": "Create"
 }

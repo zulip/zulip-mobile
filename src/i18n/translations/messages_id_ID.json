@@ -103,5 +103,9 @@
   "Normal users":"Pengguna biasa",
   "Share image": "Share image",
   "Share link to image": "Share link to image",
-  "You are not subscribed to this stream": "You are not subscribed to this stream"
+  "You are not subscribed to this stream": "You are not subscribed to this stream",
+  "Create new stream": "Buat stream baru",
+  "Name": "Nama",
+  "Description": "Deskripsi",
+  "Create": "Buat"
 }
