@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import tabsOptions from '../styles/tabs';
 import UnreadStreamsContainer from '../unread/UnreadStreamsContainer';
 import SubscriptionsContainer from '../streams/SubscriptionsContainer';
-import StreamsContainer from '../subscriptions/SubscriptionsContainer';
+import StreamListContainer from '../subscriptions/StreamListContainer';
 
 export default TabNavigator(
   {
@@ -32,7 +32,7 @@ export default TabNavigator(
       },
     },
     streams: {
-      screen: props => <StreamsContainer {...props.screenProps} />,
+      screen: props => <StreamListContainer {...props.screenProps} />,
       navigationOptions: {
         tabBarLabel: props => (
           <Text style={{ color: props.tintColor }}>

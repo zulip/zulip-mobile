@@ -4,13 +4,14 @@ import { apiPost } from '../apiFetch';
 
 export default (
   auth: Auth,
-  subscriptions: Object[],
-  principals: string[],
-  inviteOnly: boolean,
-  announce: boolean,
+  name: string,
+  description?: string = '',
+  principals?: string[] = [],
+  inviteOnly?: boolean = false,
+  announce?: boolean = false,
 ) =>
   apiPost(auth, 'users/me/subscriptions', res => res, {
-    subscriptions: JSON.stringify(subscriptions),
+    subscriptions: JSON.stringify([{ name, description }]),
     principals: JSON.stringify(principals),
     invite_only: inviteOnly,
     announce,

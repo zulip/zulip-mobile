@@ -3,9 +3,7 @@ import React, { PureComponent } from 'react';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
-import { Screen } from '../common';
-import OptionRow from '../settings/OptionRow';
-import OptionDivider from '../settings/OptionDivider';
+import { OptionDivider, OptionRow, Screen } from '../common';
 
 type Props = {
   actions: Actions,

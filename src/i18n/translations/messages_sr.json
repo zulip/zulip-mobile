@@ -103,5 +103,9 @@
   "Normal users":"Обични корисници",
   "Share image": "Share image",
   "Share link to image": "Share link to image",
-  "You are not subscribed to this stream": "You are not subscribed to this stream"
+  "You are not subscribed to this stream": "You are not subscribed to this stream",
+  "Create new stream": "Create new stream",
+  "Name": "Name",
+  "Description": "Description",
+  "Create": "Create"
 }

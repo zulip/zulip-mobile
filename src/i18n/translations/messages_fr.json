@@ -103,5 +103,9 @@
   "Normal users":"Utilisateurs normaux",
   "Share image": "Share image",
   "Share link to image": "Share link to image",
-  "You are not subscribed to this stream": "You are not subscribed to this stream"
+  "You are not subscribed to this stream": "You are not subscribed to this stream",
+  "Create new stream": "Créer un nouveau canal",
+  "Name": "Nom",
+  "Description": "Description",
+  "Create": "Créer"
 }

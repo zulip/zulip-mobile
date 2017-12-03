@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 type Props = {
   label: string,
   defaultValue: boolean,
-  onValueChange: () => void,
+  onValueChange: (newValue: boolean) => void,
 };
 
 export default class OptionRow extends PureComponent<Props> {

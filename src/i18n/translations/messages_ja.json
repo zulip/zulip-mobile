@@ -103,5 +103,9 @@
   "Normal users":"一般ユーザー",
   "Share image": "Share image",
   "Share link to image": "Share link to image",
-  "You are not subscribed to this stream": "You are not subscribed to this stream"
+  "You are not subscribed to this stream": "You are not subscribed to this stream",
+  "Create new stream": "新しいストリームを作成",
+  "Name": "名前",
+  "Description": "説明",
+  "Create": "作成"
 }

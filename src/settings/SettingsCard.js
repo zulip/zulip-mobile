@@ -3,10 +3,8 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
 import { Auth, Actions } from '../types';
-import { WebLink } from '../common';
+import { OptionButton, OptionRow, WebLink } from '../common';
 import { toggleMobilePushSettings } from '../api';
-import OptionRow from './OptionRow';
-import OptionButton from './OptionButton';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
 import LogoutButton from '../account-info/LogoutButton';
 
