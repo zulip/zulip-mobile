@@ -67,6 +67,7 @@
   "Delete message": "Hapus pesan",
   "Notifications when online": "Notifikasi ketika online",
   "Notifications when offline": "Notifikasi ketika offline",
+  "Stream notifications": "Stream notifications",
   "Unread": "Belum dibaca",
   "Subscribed": "Berlangganan",
   "No users found": "Pengguna tidak ditemukan",
@@ -107,5 +108,8 @@
   "Create new stream": "Buat stream baru",
   "Name": "Nama",
   "Description": "Deskripsi",
-  "Create": "Buat"
+  "Create": "Buat",
+  "Public": "Public",
+  "Private": "Private",
+  "Notifications": "Notifikasi"
 }

@@ -67,6 +67,7 @@
   "Delete message": "删除消息",
   "Notifications when online": "上线时通知",
   "Notifications when offline": "离线时通知",
+  "Stream notifications": "Stream notifications",
   "Unread": "未读",
   "Subscribed": "已订阅",
   "No users found": "未找到用户",
@@ -107,5 +108,8 @@
   "Create new stream": "创建新频道",
   "Name": "名称",
   "Description": "描述",
-  "Create": "创建"
+  "Create": "创建",
+  "Public": "Public",
+  "Private": "Private",
+  "Notifications": "通知设置"
 }

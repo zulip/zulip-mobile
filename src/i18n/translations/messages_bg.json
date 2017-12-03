@@ -67,6 +67,7 @@
   "Delete message": "Изтрий съобщение",
   "Notifications when online": "Известявания когато сте онлайн",
   "Notifications when offline": "Известявания когато сте офлайн",
+  "Stream notifications": "Известия за потоци",
   "Unread": "Непрочетени",
   "Subscribed": "Абонирани",
   "No users found": "Няма намерени потребители",
@@ -107,5 +108,8 @@
   "Create new stream": "Създай нов поток",
   "Name": "Име",
   "Description": "Описание",
-  "Create": "Създай"
+  "Create": "Създай",
+  "Public": "Публичен",
+  "Private": "Частен",
+  "Notifications": "Известия"
 }

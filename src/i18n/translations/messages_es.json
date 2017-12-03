@@ -67,6 +67,7 @@
   "Delete message": "Eliminar mensaje",
   "Notifications when online": "Notificaciones cuando estás conectado",
   "Notifications when offline": "Notificaciones cuando estás desconectado",
+  "Stream notifications": "Stream notifications",
   "Unread": "Unread",
   "Subscribed": "Suscrito",
   "No users found": "No users found",
@@ -107,5 +108,8 @@
   "Create new stream": "Crear nuevo canal",
   "Name": "Nombre",
   "Description": "Descripción",
-  "Create": "Crear"
+  "Create": "Crear",
+  "Public": "Public",
+  "Private": "Private",
+  "Notifications": "Notificaciones"
 }

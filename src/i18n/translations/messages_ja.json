@@ -67,6 +67,7 @@
   "Delete message": "メッセージを削除",
   "Notifications when online": "オンライン時に通知",
   "Notifications when offline": "オフライン時に通知",
+  "Stream notifications": "Stream notifications",
   "Unread": "未読",
   "Subscribed": "購読済み",
   "No users found": "ユーザーが見つかりません",
@@ -107,5 +108,8 @@
   "Create new stream": "新しいストリームを作成",
   "Name": "名前",
   "Description": "説明",
-  "Create": "作成"
+  "Create": "作成",
+  "Public": "Public",
+  "Private": "Private",
+  "Notifications": "通知"
 }

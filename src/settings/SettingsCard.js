@@ -100,7 +100,7 @@ export default class SettingsCard extends PureComponent<Props, State> {
           onValueChange={this.handleOnlineNotificationChange}
         />
         <OptionRow
-          label="Notifications when stream message"
+          label="Stream notifications"
           defaultValue={streamNotification}
           onValueChange={this.handleStreamNotificationChange}
         />

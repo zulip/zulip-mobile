@@ -67,6 +67,7 @@
   "Delete message": "संदेश हटाए",
   "Notifications when online": "ऑनलाइन होने पर सूचनाएं",
   "Notifications when offline": "ऑफ़लाइन होने पर सूचनाएं",
+  "Stream notifications": "Stream notifications",
   "Unread": "अपठित",
   "Subscribed": "सदस्यता लिया",
   "No users found": "कोई सदस्य नहीं मिले",
@@ -107,5 +108,8 @@
   "Create new stream": "Create new stream",
   "Name": "Name",
   "Description": "Description",
-  "Create": "Create"
+  "Create": "Create",
+  "Public": "Public",
+  "Private": "Private",
+  "Notifications": "Notifications"
 }
