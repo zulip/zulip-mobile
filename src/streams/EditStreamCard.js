@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Actions } from '../types';
-import { Input, OptionRow, ZulipButton } from '../common';
+import { Input, Label, OptionRow, ZulipButton } from '../common';
 
 const styles = StyleSheet.create({
   marginBottom: {
@@ -16,12 +16,13 @@ const styles = StyleSheet.create({
 
 type Props = {
   actions: Actions,
+  ownEmail: string,
   initialValues: {
     name: string,
     description: string,
-    isPrivate: boolean,
+    invite_only: boolean,
   },
-  onUpdate: (name: string, description: string, isPrivate: boolean) => void,
+  streamId: number,
 };
 
 type State = {
@@ -37,14 +38,19 @@ export default class EditStreamCard extends PureComponent<Props, State> {
   state = {
     name: this.props.initialValues.name,
     description: this.props.initialValues.description,
-    isPrivate: this.props.initialValues.isPrivate,
+    isPrivate: this.props.initialValues.invite_only,
   };
 
   handlePerformAction = () => {
-    const { onUpdate } = this.props;
+    const { actions, ownEmail, streamId, initialValues } = this.props;
     const { name, description, isPrivate } = this.state;
 
-    onUpdate(name, description, isPrivate);
+    if (!streamId) {
+      actions.createNewStream(name, description, [ownEmail], isPrivate);
+    } else {
+      actions.updateExistingStream(streamId, initialValues, { name, description, isPrivate });
+    }
+    actions.navigateBack();
   };
 
   handleNameChange = (name: string) => {
@@ -60,29 +66,37 @@ export default class EditStreamCard extends PureComponent<Props, State> {
   };
 
   render() {
-    const { name, description, isPrivate } = this.props.initialValues;
+    const { initialValues, streamId } = this.props;
+    const { name } = this.state;
 
     return (
       <View>
+        <Label text="Name" />
         <Input
           style={styles.marginBottom}
           placeholder="Name"
           autoFocus
-          defaultValue={name}
+          defaultValue={initialValues.name}
           onChangeText={this.handleNameChange}
         />
+        <Label text="Description" />
         <Input
           style={styles.marginBottom}
           placeholder="Description"
-          defaultValue={description}
+          defaultValue={initialValues.description}
           onChangeText={this.handleDescriptionChange}
         />
         <OptionRow
           label="Private"
-          defaultValue={isPrivate}
+          defaultValue={initialValues.invite_only}
           onValueChange={this.handleIsPrivateChange}
         />
-        <ZulipButton style={styles.marginTop} text="Create" onPress={this.handlePerformAction} />
+        <ZulipButton
+          style={styles.marginTop}
+          text={streamId ? 'Update' : 'Create'}
+          disabled={name.length === 0}
+          onPress={this.handlePerformAction}
+        />
       </View>
     );
   }

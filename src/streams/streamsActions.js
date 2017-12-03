@@ -23,10 +23,16 @@ export const createNewStream = (
 
 export const updateExistingStream = (
   id: number,
-  name: string,
-  description: string,
-  principals: string[],
-  isPrivate: boolean,
+  initialValues: Object,
+  newValues: Object,
 ): Actions => async (dispatch: Dispatch, getState: GetState) => {
-  await updateStream(getAuth(getState()), id, name, description, isPrivate);
+  if (initialValues.name !== newValues.name) {
+    await updateStream(getAuth(getState()), id, 'name', newValues.name);
+  }
+  if (initialValues.description !== newValues.description) {
+    await updateStream(getAuth(getState()), id, 'description', newValues.description);
+  }
+  if (initialValues.invite_only !== newValues.isPrivate) {
+    await updateStream(getAuth(getState()), id, 'is_private', newValues.isPrivate);
+  }
 };
