@@ -65,3 +65,6 @@ export const navigateToDebug = (): Action => NavigationActions.navigate({ routeN
 
 export const navigateToCreateStream = (): Action =>
   NavigationActions.navigate({ routeName: 'stream-create' });
+
+export const navigateToNotifications = (): Action =>
+  NavigationActions.navigate({ routeName: 'notifications' });
