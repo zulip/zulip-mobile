@@ -3,8 +3,9 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
 import { Auth, Actions } from '../types';
+import { getAuth } from '../selectors';
+import connectWithActions from '../connectWithActions';
 import { OptionButton, OptionRow, WebLink } from '../common';
-import { toggleMobilePushSettings } from '../api';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
 import LogoutButton from '../account-info/LogoutButton';
 
@@ -29,86 +30,28 @@ type Props = {
   auth: Auth,
   actions: Actions,
   theme: string,
-  offlineNotification: boolean,
-  onlineNotification: boolean,
-  streamNotification: boolean,
 };
 
-type State = {
-  filter: string,
-};
-
-export default class SettingsCard extends PureComponent<Props, State> {
+class SettingsCard extends PureComponent<Props> {
   props: Props;
-
-  state: State;
 
   handleThemeChange = () => {
     const { actions, theme } = this.props;
     actions.settingsChange('theme', theme === 'default' ? 'night' : 'default');
   };
 
-  handleOfflineNotificationChange = () => {
-    const { actions, auth, offlineNotification } = this.props;
-    toggleMobilePushSettings({
-      auth,
-      opp: 'offline_notification_change',
-      value: !offlineNotification,
-    });
-    actions.settingsChange('offlineNotification', !offlineNotification);
-  };
-
-  handleOnlineNotificationChange = () => {
-    const { actions, auth, onlineNotification } = this.props;
-    toggleMobilePushSettings({
-      auth,
-      opp: 'online_notification_change',
-      value: !onlineNotification,
-    });
-    actions.settingsChange('onlineNotification', !onlineNotification);
-  };
-
-  handleStreamNotificationChange = () => {
-    const { actions, auth, streamNotification } = this.props;
-    toggleMobilePushSettings({
-      auth,
-      opp: 'stream_notification_change',
-      value: !streamNotification,
-    });
-    actions.settingsChange('streamNotification', !streamNotification);
-  };
-
   render() {
-    const {
-      offlineNotification,
-      onlineNotification,
-      theme,
-      actions,
-      streamNotification,
-    } = this.props;
+    const { theme, actions } = this.props;
 
     return (
       <ScrollView style={styles.optionWrapper}>
-        <OptionRow
-          label="Notifications when offline"
-          defaultValue={offlineNotification}
-          onValueChange={this.handleOfflineNotificationChange}
-        />
-        <OptionRow
-          label="Notifications when online"
-          defaultValue={onlineNotification}
-          onValueChange={this.handleOnlineNotificationChange}
-        />
-        <OptionRow
-          label="Stream notifications"
-          defaultValue={streamNotification}
-          onValueChange={this.handleStreamNotificationChange}
-        />
         <OptionRow
           label="Night mode"
           defaultValue={theme === 'night'}
           onValueChange={this.handleThemeChange}
         />
+        <View style={styles.divider} />
+        <OptionButton label="Notifications" onPress={actions.navigateToNotifications} />
         <View style={styles.divider} />
         <OptionButton label="Language" onPress={actions.navigateToLanguage} />
         <View style={styles.divider} />
@@ -125,3 +68,8 @@ export default class SettingsCard extends PureComponent<Props, State> {
     );
   }
 }
+
+export default connectWithActions(state => ({
+  auth: getAuth(state),
+  theme: state.settings.theme,
+}))(SettingsCard);

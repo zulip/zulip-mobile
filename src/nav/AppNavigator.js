@@ -23,6 +23,7 @@ import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import GroupScreen from '../group/GroupScreen';
 import CreateStreamScreen from '../streams/CreateStreamScreen';
+import NotificationsScreen from '../settings/NotificationsScreen';
 
 export default StackNavigator(
   {
@@ -48,6 +49,7 @@ export default StackNavigator(
     storage: { screen: StorageScreen },
     debug: { screen: DebugScreen },
     'stream-create': { screen: CreateStreamScreen },
+    notifications: { screen: NotificationsScreen },
   },
   {
     initialRouteName: 'main',
