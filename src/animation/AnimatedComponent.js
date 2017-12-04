@@ -7,6 +7,7 @@ import type { StyleObj } from '../types';
 
 type Props = {
   children: ChildrenArray<*>,
+  duration?: number,
   style?: StyleObj,
   visible: boolean,
   property: string,
