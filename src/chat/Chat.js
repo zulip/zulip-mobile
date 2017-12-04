@@ -65,7 +65,6 @@ export default class Chat extends PureComponent<Props> {
         <ActionSheetProvider>
           <View style={styles.flexed}>
             {!isOnline && <OfflineNotice />}
-            <UnreadNoticeContainer />
             {noMessages && !isFetching && <NoMessages narrow={narrow} />}
             {showMessagePlaceholders && <MessageListLoading />}
             {!noMessages && (
@@ -78,6 +77,9 @@ export default class Chat extends PureComponent<Props> {
                 />
               </ActionSheetProvider>
             )}
+            <View style={styles.floatingView}>
+              <UnreadNoticeContainer />
+            </View>
             {!showMessagePlaceholders && (
               <ComposeBoxContainer
                 messageInputRef={(component: any) => {

@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import { Label, RawLabel } from '../common';
 import { unreadToLimitedCount } from '../utils/unread';
 import MarkUnreadButton from './MarkUnreadButton';
+import AnimatedComponent from '../animation/AnimatedComponent';
 
 const styles = StyleSheet.create({
   unreadContainer: {
@@ -12,6 +13,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#96A3F9',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    overflow: 'hidden',
   },
   unreadTextWrapper: {
     flexDirection: 'row',
@@ -33,20 +35,29 @@ export default class UnreadNotice extends PureComponent<Props> {
 
   render() {
     const { unreadCount } = this.props;
-
-    if (unreadCount === 0) return null;
+    const visible = unreadCount !== 0;
 
     return (
-      <View style={styles.unreadContainer}>
-        <View style={styles.unreadTextWrapper}>
-          <RawLabel style={[styles.unreadText]} text={unreadToLimitedCount(unreadCount)} />
-          <Label
-            style={styles.unreadText}
-            text={unreadCount === 1 ? 'unread message' : 'unread messages'}
-          />
-        </View>
-        <MarkUnreadButton />
-      </View>
+      <AnimatedComponent
+        property="height"
+        useNativeDriver={false}
+        visible={visible}
+        height={30}
+        duration={600}
+      >
+        {visible && (
+          <View style={styles.unreadContainer}>
+            <View style={styles.unreadTextWrapper}>
+              <RawLabel style={[styles.unreadText]} text={unreadToLimitedCount(unreadCount)} />
+              <Label
+                style={styles.unreadText}
+                text={unreadCount === 1 ? 'unread message' : 'unread messages'}
+              />
+            </View>
+            <MarkUnreadButton />
+          </View>
+        )}
+      </AnimatedComponent>
     );
   }
 }
