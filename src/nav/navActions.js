@@ -69,5 +69,8 @@ export const navigateToStream = (streamId: number): Action =>
 export const navigateToCreateStream = (): Action =>
   NavigationActions.navigate({ routeName: 'stream-create' });
 
+export const navigateToEditStream = (streamId: number): Action =>
+  NavigationActions.navigate({ routeName: 'stream-edit', params: { streamId } });
+
 export const navigateToNotifications = (): Action =>
   NavigationActions.navigate({ routeName: 'notifications' });

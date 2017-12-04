@@ -18,8 +18,8 @@ class StreamScreen extends PureComponent<Props> {
   props: Props;
 
   handleEdit = () => {
-    const { actions } = this.props;
-    actions.navigateToEditStream();
+    const { actions, navigation } = this.props;
+    actions.navigateToEditStream(navigation.state.params.streamId);
   };
 
   render() {

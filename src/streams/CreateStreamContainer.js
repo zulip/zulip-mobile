@@ -1,5 +1,11 @@
 /* @flow */
 import connectWithActions from '../connectWithActions';
-import CreateStreamCard from './CreateStreamCard';
+import EditStreamCard from './EditStreamCard';
 
-export default connectWithActions(() => ({}))(CreateStreamCard);
+export default connectWithActions(() => ({
+  initialValues: {
+    name: '',
+    description: '',
+    isPrivate: false,
+  },
+}))(EditStreamCard);

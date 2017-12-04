@@ -24,6 +24,7 @@ import LightboxScreen from '../lightbox/LightboxScreen';
 import GroupScreen from '../group/GroupScreen';
 import StreamScreen from '../streams/StreamScreen';
 import CreateStreamScreen from '../streams/CreateStreamScreen';
+import EditStreamScreen from '../streams/EditStreamScreen';
 import NotificationsScreen from '../settings/NotificationsScreen';
 
 export default StackNavigator(
@@ -50,6 +51,7 @@ export default StackNavigator(
     storage: { screen: StorageScreen },
     debug: { screen: DebugScreen },
     stream: { screen: StreamScreen },
+    'stream-edit': { screen: EditStreamScreen },
     'stream-create': { screen: CreateStreamScreen },
     notifications: { screen: NotificationsScreen },
   },
