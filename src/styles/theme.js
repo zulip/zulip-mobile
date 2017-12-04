@@ -41,6 +41,11 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     // flex: 1,
     padding: 6,
     fontSize: 15,
+    ...Platform.select({
+      ios: {
+        paddingTop: 11,
+      },
+    }),
   },
   background: {
     backgroundColor,
