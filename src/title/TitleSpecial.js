@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 16,
-    marginLeft: 4,
+    fontSize: 18,
+    marginLeft: 8,
   },
 });
 
@@ -38,7 +38,7 @@ export default class TitleSpecial extends PureComponent<Props> {
 
     return (
       <View style={styles.wrapper}>
-        <Icon name={icon} size={20} color={color} />
+        <Icon name={icon} size={18} color={color} />
         <Label style={[styles.title, { color }]} text={name} />
       </View>
     );

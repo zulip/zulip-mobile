@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import type { Auth, Actions, Orientation, UserType } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -14,12 +14,8 @@ type Props = {
   actions: Actions,
 };
 
-class AccountDetailsScreen extends Component<Props> {
+class AccountDetailsScreen extends PureComponent<Props> {
   props: Props;
-
-  shouldComponentUpdate(nextProps) {
-    return nextProps.user.fullName !== '';
-  }
 
   render() {
     const { auth, actions, orientation, user } = this.props;

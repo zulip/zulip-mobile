@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import type { ChildrenArray } from 'react';
 
 import type { Actions, LocalizableText, StyleObj } from '../types';
@@ -9,15 +9,6 @@ import { NAVBAR_SIZE } from '../styles';
 import { Label } from '../common';
 import { getCanGoBack } from '../selectors';
 import NavButton from './NavButton';
-
-const customStyles = StyleSheet.create({
-  centerItem: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    flex: 1,
-    justifyContent: 'center',
-  },
-});
 
 type Props = {
   actions: Actions,
@@ -71,7 +62,7 @@ class ModalNavBar extends PureComponent<Props> {
           !isRightItemNav && (
             <NavButton name="arrow-left" color={itemsColor} onPress={actions.navigateBack} />
           )}
-        <View style={[customStyles.centerItem, childrenStyle]}>{content}</View>
+        <View style={[styles.flexed, childrenStyle]}>{content}</View>
         {rightItem && <NavButton color={itemsColor} {...rightItem} />}
       </View>
     );
