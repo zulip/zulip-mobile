@@ -17,15 +17,10 @@ export const getFullUrl = (url: string, realm: string): string =>
   url.startsWith('/') ? `${realm}${url}` : url;
 
 export const isUrlOnRealm = (url: string, realm: string): boolean =>
-  url.startsWith('/') || url.startsWith(realm);
+  url.startsWith('/') || url.startsWith(realm) || !/^(http|www.)/i.test(url);
 
 export const isUrlInAppLink = (url: string, realm: string): boolean =>
-  isUrlOnRealm(url, realm)
-    ? url
-        .split(realm)
-        .pop()
-        .startsWith('/#narrow')
-    : false;
+  isUrlOnRealm(url, realm) ? /^(\/#narrow|#narrow)/i.test(url.split(realm).pop()) : false;
 
 export const isMessageLink = (url: string, realm: string): boolean =>
   isUrlInAppLink(url, realm) && url.includes('near');
