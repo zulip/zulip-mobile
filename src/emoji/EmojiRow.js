@@ -10,7 +10,7 @@ import type { RealmEmojiType } from '../types';
 const styles = StyleSheet.create({
   emojiRow: {
     flexDirection: 'row',
-    padding: 2,
+    padding: 8,
     alignItems: 'center',
   },
   text: {
