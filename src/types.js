@@ -384,6 +384,16 @@ export type MatchResult = Array<string> & { index: number, input: string };
 
 export type GetState = () => GlobalState;
 
+export type RealmEmojiType = {
+  author: {
+    email: string,
+    full_name: string,
+    id: number,
+  },
+  deactivated: boolean,
+  source_url: string,
+};
+
 export type ReactionType = {
   emoji_name: string,
   name: string,

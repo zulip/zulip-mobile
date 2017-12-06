@@ -7,13 +7,10 @@ const styles = StyleSheet.create({
   popup: {
     marginLeft: 20,
     marginRight: 20,
+    margin: 2,
     borderRadius: 5,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowRadius: 10,
     shadowOpacity: 0.25,
+    elevation: 3,
   },
 });
 

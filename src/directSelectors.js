@@ -6,6 +6,7 @@ import type {
   TopicsState,
   GlobalState,
   Narrow,
+  RealmEmojiType,
   Subscription,
   Stream,
   Outbox,
@@ -52,3 +53,5 @@ export const getUnreadPms = (state: GlobalState): Object[] => state.unread.pms;
 export const getUnreadHuddles = (state: GlobalState): Object[] => state.unread.huddles;
 
 export const getUnreadMentions = (state: GlobalState): number[] => state.unread.mentions;
+
+export const getRealmEmoji = (state: GlobalState): RealmEmojiType[] => state.realm.emoji;
