@@ -1,11 +1,16 @@
 /* @flow */
 import React from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput } from 'react-native';
+import parseMarkdown from 'zulip-markdown-parser';
 
+import Icon from '../../common/Icons';
 import { Screen, MultilineInput } from '../../common';
+import { getAuth } from '../../account/accountSelectors';
 import AutoCompleteView from '../../autocomplete/AutoCompleteView';
 import { BORDER_COLOR } from '../../styles';
 import connectWithActions from '../../connectWithActions';
+import htmlToDomTree from '../../html/htmlToDomTree';
+import renderHtmlChildren from '../../html/renderHtmlChildren';
 import { Subscription, Auth, Actions, User } from '../../types';
 
 const inlineStyles = StyleSheet.create({
@@ -17,6 +22,18 @@ const inlineStyles = StyleSheet.create({
     padding: 4,
     paddingLeft: 8,
     fontSize: 16,
+  },
+  preview: {
+    padding: 5,
+    borderWidth: 1,
+    borderColor: BORDER_COLOR,
+  },
+  inlinePadding: {
+    padding: 8,
+  },
+  buttonContainer: {
+    flex: 0,
+    flexDirection: 'row',
   },
 });
 
@@ -40,6 +57,7 @@ type Props = {
 type State = {
   text: string,
   selection: Object,
+  showPreview: boolean,
 };
 
 class FullEditorScreen extends React.Component<Props, State> {
@@ -55,13 +73,18 @@ class FullEditorScreen extends React.Component<Props, State> {
     this.state = {
       text: props.navigation.state.params.message || '',
       selection: { start: 0, end: 0 },
+      showPreview: false,
     };
   }
   textInput: TextInput;
 
-   changeText = (input: string) => {
-        this.setState({ text: input });
-    };
+  changeText = (input: string) => {
+    if (input === '') {
+      this.setState({ showPreview: false, text: input });
+    } else {
+      this.setState({ text: input });
+    }
+  };
 
   onSelectionChange = event => {
     this.setState({
@@ -73,13 +96,42 @@ class FullEditorScreen extends React.Component<Props, State> {
     this.textInput.focus();
   }
 
+  getState = () => {
+    this.setState({
+      selection: {
+        start: 1,
+        end: 1,
+      },
+    });
+    return this.state;
+  };
+
   submitText = () => {
     this.props.navigation.state.params.saveNewText(this.state.text);
     this.props.actions.navigateBack();
   };
 
+  convertMarkdown = () => {
+    this.setState({ showPreview: !this.state.showPreview });
+  };
+
+  renderPreview = () => {
+    const { users, streams, auth, realm_emoji, realm_filter } = this.props;
+    const html = parseMarkdown(this.state.text, users, streams, auth, realm_filter, realm_emoji);
+    const childrenNodes = htmlToDomTree(html);
+    return (
+      <View style={inlineStyles.preview}>
+        {renderHtmlChildren({
+          childrenNodes,
+          auth,
+          actions: {},
+          message: {},
+        })}
+      </View>
+    );
+  };
   render() {
-    const { text, selection } = this.state;
+    const { text, selection, showPreview } = this.state;
     return (
       <Screen
         title="Full screen editor"
@@ -102,14 +154,31 @@ class FullEditorScreen extends React.Component<Props, State> {
           }}
           selection={selection}
         />
+        {showPreview ? this.renderPreview() : null}
         <AutoCompleteView
           text={text}
           onAutocomplete={input => this.setState({ text: input })}
           selection={selection}
         />
+        <View style={inlineStyles.buttonContainer}>
+          <Icon
+            name="arrow-up"
+            onPress={this.convertMarkdown}
+            size={28}
+            style={inlineStyles.inlinePadding}
+            color={BORDER_COLOR}
+          />
+        </View>
       </Screen>
     );
   }
 }
 
-export default connectWithActions(null)(FullEditorScreen);
+export default connectWithActions(state => ({
+  auth: getAuth(state),
+  narrow: state.chat.narrow,
+  users: state.users,
+  streams: state.subscriptions,
+  realm_emoji: state.realm.emoji,
+  realm_filter: state.realm.filters,
+}))(FullEditorScreen);
