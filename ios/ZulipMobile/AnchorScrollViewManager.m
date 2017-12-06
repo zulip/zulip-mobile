@@ -53,5 +53,6 @@ RCT_EXTERN void RCTRegisterModule(Class);
 }
 
 RCT_EXPORT_VIEW_PROPERTY(autoScrollToBottom, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(anchor, NSNumber)
 
 @end
