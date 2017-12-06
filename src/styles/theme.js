@@ -134,7 +134,6 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     borderBottomWidth: 1,
   },
   navTitle: {
-    flex: 1,
     color: BRAND_COLOR,
     textAlign: 'center',
     fontSize: 16,
