@@ -63,7 +63,6 @@ window.addEventListener('scroll', () => {
 });
 
 document.body.addEventListener('click', e => {
-  alert('click');
   sendMessage({
     type: 'click',
     target: e.traget,
