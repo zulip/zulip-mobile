@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 
 import { Screen, MultilineInput } from '../../common';
+import AutoCompleteView from '../../autocomplete/AutoCompleteView';
 import { BORDER_COLOR } from '../../styles';
 import connectWithActions from '../../connectWithActions';
 import { Subscription, Auth, Actions, User } from '../../types';
@@ -99,6 +100,11 @@ class FullEditorScreen extends React.Component<Props, State> {
           textInputRef={component => {
             this.textInput = component;
           }}
+          selection={selection}
+        />
+        <AutoCompleteView
+          text={text}
+          onAutocomplete={input => this.setState({ text: input })}
           selection={selection}
         />
       </Screen>
