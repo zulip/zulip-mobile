@@ -7,7 +7,6 @@ import type { StyleObj } from '../types';
 
 type Props = {
   children: ChildrenArray<*>,
-  duration?: number,
   style?: StyleObj,
   visible: boolean,
   property: string,
@@ -20,7 +19,6 @@ export default class AnimatedComponent extends PureComponent<Props> {
   static defaultProps = {
     visible: true,
     useNativeDriver: true,
-    duration: 300,
   };
 
   animatedValue = new Animated.Value(0);
@@ -28,7 +26,7 @@ export default class AnimatedComponent extends PureComponent<Props> {
   componentWillReceiveProps(nextProps: Props) {
     Animated.timing(this.animatedValue, {
       toValue: nextProps.visible ? nextProps[nextProps.property] : 0,
-      duration: nextProps.duration,
+      duration: 300,
       useNativeDriver: nextProps.useNativeDriver,
       easing: nextProps.visible ? Easing.elastic() : Easing.back(2),
     }).start();

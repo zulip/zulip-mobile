@@ -8,7 +8,11 @@ import MarkUnreadButton from './MarkUnreadButton';
 import AnimatedComponent from '../animation/AnimatedComponent';
 
 const styles = StyleSheet.create({
+  wrapper: {
+    height: 40,
+  },
   unreadContainer: {
+    flex: 1,
     padding: 4,
     backgroundColor: '#96A3F9',
     flexDirection: 'row',
@@ -39,11 +43,11 @@ export default class UnreadNotice extends PureComponent<Props> {
 
     return (
       <AnimatedComponent
+        style={styles.wrapper}
         property="height"
         useNativeDriver={false}
         visible={visible}
         height={30}
-        duration={600}
       >
         {visible && (
           <View style={styles.unreadContainer}>
