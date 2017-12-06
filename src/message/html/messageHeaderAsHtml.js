@@ -31,12 +31,12 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
 
     return `
       <div id="${item.id}" class="stream-header header">
-        <div class="stream-text" style="background: ${color}"
+        <div class="stream-text header" style="background: ${color}"
           data-narrow="${streamNarrowStr}">
           ${item.display_recipient}
         </div>
         <div class="arrow-right" style="border-left-color: ${color}"></div>
-        <div class="title-text" data-narrow="${topicNarrowStr}">
+        <div class="title-text header" data-narrow="${topicNarrowStr}">
           ${item.subject}
         </div>
       </div>

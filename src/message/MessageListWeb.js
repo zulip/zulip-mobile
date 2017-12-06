@@ -26,7 +26,9 @@ export default class MessageListWeb extends PureComponent<Props> {
   webview: ?Object;
   props: Props;
 
-  // handleClick = ({ target, targetNodeName, targetClassName }) => {};
+  handleClick = ({ target, targetNodeName, targetClassName }: {
+    target: string, targetNodeName: string, targetClassName: string
+  }) => {};
 
   handleScroll = ({ y }: { y: number }) => {
     const { actions } = this.props;
@@ -44,7 +46,6 @@ export default class MessageListWeb extends PureComponent<Props> {
     const { actions } = this.props;
 
     actions.doNarrow(JSON.parse(narrow.replace(/'/g, '"')));
-    actions.navigateToAccountDetails(fromEmail);
   };
 
   handleImage = ({ src, messageId }: { src: string, messageId: number }) => {
