@@ -1,8 +1,8 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
-import { connect } from 'react-redux';
 
+import connectWithActions from '../connectWithActions';
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import getFilteredEmojiList from '../emoji/getFilteredEmojiList';
@@ -44,6 +44,6 @@ class EmojiAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connectWithActions((state: GlobalState) => ({
   realmEmoji: getRealmEmoji(state),
 }))(EmojiAutocomplete);
