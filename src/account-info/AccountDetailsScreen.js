@@ -22,7 +22,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
     const title = {
       text: '{_}',
       values: {
-        _: user.fullName,
+        _: user.fullName || ' ',
       },
     };
 
