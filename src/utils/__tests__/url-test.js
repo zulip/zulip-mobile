@@ -2,6 +2,7 @@
 import {
   getFullUrl,
   getResource,
+  isUrlOnRealm,
   isUrlInAppLink,
   isMessageLink,
   isStreamLink,
@@ -69,6 +70,24 @@ describe('getResource', () => {
   });
 });
 
+describe('isUrlOnRealm', () => {
+  test('when link is on realm, return true', () => {
+    expect(isUrlOnRealm('/#narrow/stream/jest', 'https://example.com')).toBe(true);
+
+    expect(isUrlOnRealm('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
+      true,
+    );
+
+    expect(isUrlOnRealm('#narrow/#near/1', 'https://example.com')).toBe(true);
+  });
+
+  test('when link is on not realm, return false', () => {
+    expect(isUrlOnRealm('https://demo.example.com', 'https://example.com')).toBe(false);
+
+    expect(isUrlOnRealm('www.google.com', 'https://example.com')).toBe(false);
+  });
+});
+
 describe('isUrlInAppLink', () => {
   test('when link is external, return false', () => {
     expect(isUrlInAppLink('https://example.com', 'https://another.com')).toBe(false);
@@ -80,6 +99,16 @@ describe('isUrlInAppLink', () => {
 
   test('when link is internal and in app, return true', () => {
     expect(isUrlInAppLink('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
+      true,
+    );
+  });
+
+  test('when link is relative and in app, return true', () => {
+    expect(
+      isUrlInAppLink('#narrow/stream/jest/topic/topic1', 'https://example.com/#narrow/stream/jest'),
+    ).toBe(true);
+
+    expect(isUrlInAppLink('/#narrow/stream/jest', 'https://example.com/#narrow/stream/jest')).toBe(
       true,
     );
   });
