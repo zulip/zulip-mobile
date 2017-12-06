@@ -77,9 +77,7 @@ export default class Chat extends PureComponent<Props> {
                 />
               </ActionSheetProvider>
             )}
-            <View style={styles.floatingView}>
-              <UnreadNoticeContainer />
-            </View>
+            <UnreadNoticeContainer />
             {!showMessagePlaceholders && (
               <ComposeBoxContainer
                 messageInputRef={(component: any) => {

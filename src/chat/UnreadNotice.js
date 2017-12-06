@@ -37,31 +37,37 @@ type Props = {
 export default class UnreadNotice extends PureComponent<Props> {
   props: Props;
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   render() {
     const { unreadCount } = this.props;
     const visible = unreadCount !== 0;
 
     return (
-      <AnimatedComponent
-        style={styles.wrapper}
-        property="height"
-        useNativeDriver={false}
-        visible={visible}
-        height={30}
-      >
-        {visible && (
-          <View style={styles.unreadContainer}>
-            <View style={styles.unreadTextWrapper}>
-              <RawLabel style={[styles.unreadText]} text={unreadToLimitedCount(unreadCount)} />
-              <Label
-                style={styles.unreadText}
-                text={unreadCount === 1 ? 'unread message' : 'unread messages'}
-              />
+      <View style={this.context.styles.floatingView}>
+        <AnimatedComponent
+          style={styles.wrapper}
+          property="height"
+          useNativeDriver={false}
+          visible={visible}
+          height={30}
+        >
+          {visible && (
+            <View style={styles.unreadContainer}>
+              <View style={styles.unreadTextWrapper}>
+                <RawLabel style={[styles.unreadText]} text={unreadToLimitedCount(unreadCount)} />
+                <Label
+                  style={styles.unreadText}
+                  text={unreadCount === 1 ? 'unread message' : 'unread messages'}
+                />
+              </View>
+              <MarkUnreadButton />
             </View>
-            <MarkUnreadButton />
-          </View>
-        )}
-      </AnimatedComponent>
+          )}
+        </AnimatedComponent>
+      </View>
     );
   }
 }
