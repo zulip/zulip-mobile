@@ -270,6 +270,8 @@ export default class ComposeBox extends PureComponent<Props, State> {
             <ComposeMenuContainer
               expanded={isMenuExpanded}
               onExpandContract={this.handleComposeMenuToggle}
+              saveNewText={this.handleMessageChange}
+              message={message}
             />
           </View>
           <View style={[componentStyles.composeText]}>
