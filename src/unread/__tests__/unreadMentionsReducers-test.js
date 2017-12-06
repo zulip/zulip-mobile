@@ -6,7 +6,7 @@ import {
   ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
   MARK_MESSAGES_READ,
-  EVENT_UPDATE_MESSAGE_FLAGS,
+  MARK_MESSAGE_AS_READ_LOCALLY,
 } from '../../actionConstants';
 
 describe('unreadMentionsReducers', () => {
@@ -131,12 +131,12 @@ describe('unreadMentionsReducers', () => {
     });
   });
 
-  describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
+  describe('MARK_MESSAGE_AS_READ_LOCALLY', () => {
     test('when operation is "add" but flag is not "read" do not mutate state', () => {
       const initialState = deepFreeze([]);
 
       const action = {
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [1, 2, 3],
         flag: 'star',
         operation: 'add',
@@ -151,7 +151,7 @@ describe('unreadMentionsReducers', () => {
       const initialState = deepFreeze([1]);
 
       const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [2],
         flag: 'read',
         operation: 'add',
@@ -166,7 +166,7 @@ describe('unreadMentionsReducers', () => {
       const initialState = deepFreeze([1, 2, 3]);
 
       const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [2, 3],
         flag: 'read',
         operation: 'add',
@@ -183,7 +183,7 @@ describe('unreadMentionsReducers', () => {
       const initialState = deepFreeze([1]);
 
       const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        type: MARK_MESSAGE_AS_READ_LOCALLY,
         messages: [1, 2],
         flag: 'read',
         operation: 'remove',

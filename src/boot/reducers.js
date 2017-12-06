@@ -12,6 +12,7 @@ import caughtUp from '../caughtup/caughtUpReducers';
 import chat from '../chat/chatReducers';
 import fetching from '../chat/fetchingReducers';
 import flags from '../chat/flagsReducers';
+import localRead from '../localRead/localReadReducers';
 import mute from '../mute/muteReducers';
 import nav from '../nav/navReducers';
 import realm from '../realm/realmReducers';
@@ -38,6 +39,7 @@ const reducers = {
   fetching,
   drafts,
   flags,
+  localRead,
   mute,
   nav,
   presence,

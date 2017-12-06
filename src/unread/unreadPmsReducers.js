@@ -4,7 +4,7 @@ import {
   REALM_INIT,
   ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
-  EVENT_UPDATE_MESSAGE_FLAGS,
+  MARK_MESSAGE_AS_READ_LOCALLY,
   MARK_MESSAGES_READ,
 } from '../actionConstants';
 import { addItemsToPmArray, removeItemsDeeply } from './unreadHelpers';
@@ -39,7 +39,7 @@ export default (state: UnreadState = initialState, action: Action): UnreadState 
     case MARK_MESSAGES_READ:
       return removeItemsDeeply(state, action.messageIds);
 
-    case EVENT_UPDATE_MESSAGE_FLAGS: {
+    case MARK_MESSAGE_AS_READ_LOCALLY: {
       if (action.flag !== 'read') {
         return state;
       }

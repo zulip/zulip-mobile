@@ -4,9 +4,10 @@ import {
   APP_REFRESH,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
-  EVENT_UPDATE_MESSAGE_FLAGS,
+  MARK_MESSAGE_AS_READ_LOCALLY,
   MARK_MESSAGES_READ,
   ACCOUNT_SWITCH,
+  REALM_INIT,
 } from '../actionConstants';
 import { deeperMerge } from '../utils/misc';
 
@@ -59,6 +60,7 @@ const removeFlagForMessages = (state: FlagsState, messages, flag: string[]): Fla
 
 export default (state: FlagsState = initialState, action: Action): FlagsState => {
   switch (action.type) {
+    case REALM_INIT:
     case APP_REFRESH:
     case ACCOUNT_SWITCH:
       return initialState;
@@ -84,7 +86,7 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
     case EVENT_NEW_MESSAGE:
       return addFlagsForMessages(state, [action.message.id], action.message.flags);
 
-    case EVENT_UPDATE_MESSAGE_FLAGS: {
+    case MARK_MESSAGE_AS_READ_LOCALLY: {
       if (action.operation === 'add') {
         return addFlagsForMessages(state, action.messages, [action.flag]);
       }
