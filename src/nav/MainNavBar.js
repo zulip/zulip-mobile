@@ -6,7 +6,7 @@ import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import Title from '../title/Title';
 import NavButton from './NavButton';
-import NavButtonPlaceholder from './NavButtonPlaceholder';
+import InfoNavButton from '../title/InfoNavButton';
 import {
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
@@ -53,7 +53,7 @@ class MainNavBar extends PureComponent<Props> {
           onPress={leftPress}
         />
         <Title color={textColor} />
-        <NavButtonPlaceholder />
+        <InfoNavButton color={textColor} />
       </View>
     );
   }
