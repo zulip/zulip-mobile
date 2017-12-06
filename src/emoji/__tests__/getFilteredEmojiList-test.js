@@ -17,17 +17,23 @@ describe('getFilteredEmojiList', () => {
   });
 
   test('search in realm emojis as well', () => {
-    const list = getFilteredEmojiList('don', { 'done': { source_url: '/user_avatars/2/emoji/done.png' } });
+    const list = getFilteredEmojiList('don', {
+      done: { source_url: '/user_avatars/2/emoji/done.png' },
+    });
     expect(list).toEqual(['done']);
   });
 
   test('remove duplicates', () => {
-    const list = getFilteredEmojiList('dog', { 'dog': { source_url: '/user_avatars/2/emoji/dog.png' } });
+    const list = getFilteredEmojiList('dog', {
+      dog: { source_url: '/user_avatars/2/emoji/dog.png' },
+    });
     expect(list).toEqual(['dog', 'dog2', 'dog_face']);
   });
 
   test('return realm emojis which includes filter ', () => {
-    const list = getFilteredEmojiList('all', { 'small': { source_url: '/user_avatars/2/emoji/small.png' } });
+    const list = getFilteredEmojiList('all', {
+      small: { source_url: '/user_avatars/2/emoji/small.png' },
+    });
     expect(list).toEqual(['small']);
   });
 });

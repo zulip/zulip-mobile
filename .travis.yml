@@ -17,6 +17,7 @@ notifications:
     on_failure: always
 
 install:
+  npm i yarn -g
   yarn
 
 scripts:
