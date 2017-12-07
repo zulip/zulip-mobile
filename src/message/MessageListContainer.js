@@ -29,7 +29,6 @@ import {
   getShownMessagesInActiveNarrow,
 } from '../selectors';
 import { filterUnreadMessageIds } from '../utils/unread';
-import { queueMarkAsRead } from '../api';
 
 type Props = {
   actions: Actions,
@@ -49,27 +48,17 @@ type Props = {
   onSend: () => void,
 };
 
-let unsentMessageIds = [];
-let lastSentTime = 0;
-
 class MessageListContainer extends PureComponent<Props> {
   scrollOffset: number;
   props: Props;
 
   handleMessageListScroll = (e: Object) => {
-    const { actions, auth, flags, narrow } = this.props;
+    const { actions, flags } = this.props;
     const visibleMessageIds = e.visibleIds.map(x => +x);
     const unreadMessageIds = filterUnreadMessageIds(visibleMessageIds, flags);
 
     if (unreadMessageIds.length > 0) {
-      unsentMessageIds.push(...unreadMessageIds);
-
-      if (Date.now() - lastSentTime > 2000) {
-        queueMarkAsRead(auth, unreadMessageIds);
-        actions.markMessageAsRead(narrow, unreadMessageIds);
-        unsentMessageIds = [];
-        lastSentTime = Date.now();
-      }
+      actions.addMessagesToQueue(unreadMessageIds);
     }
 
     // Calculates the amount user has scrolled up from the very bottom
