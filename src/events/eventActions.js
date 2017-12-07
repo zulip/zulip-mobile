@@ -60,8 +60,8 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
 
       const actions = responseToActions(getState(), response);
 
-      dispatchOrBatch(dispatch, actions);
       actionCreator(dispatch, actions, getState());
+      dispatchOrBatch(dispatch, actions);
 
       lastEventId = Math.max.apply(null, [lastEventId, ...response.events.map(x => x.id)]);
     } catch (e) {
