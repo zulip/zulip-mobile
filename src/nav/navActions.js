@@ -63,6 +63,9 @@ export const navigateToStorage = (): Action => NavigationActions.navigate({ rout
 
 export const navigateToDebug = (): Action => NavigationActions.navigate({ routeName: 'debug' });
 
+export const navigateToStream = (streamId: number): Action =>
+  NavigationActions.navigate({ routeName: 'stream', params: { streamId } });
+
 export const navigateToCreateStream = (): Action =>
   NavigationActions.navigate({ routeName: 'stream-create' });
 

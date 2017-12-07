@@ -111,5 +111,8 @@
   "Create": "Create",
   "Public": "Public",
   "Private": "Private",
-  "Notifications": "Értesítések"
+  "Notifications": "Értesítések",
+  "Stream": "Folyam",
+  "Edit": "Edit",
+  "Muted topics": "Muted topics"
 }

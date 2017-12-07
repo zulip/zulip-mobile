@@ -111,5 +111,8 @@
   "Create": "Aanmaken",
   "Public": "Public",
   "Private": "Private",
-  "Notifications": "Meldingen"
+  "Notifications": "Meldingen",
+  "Stream": "Kanaal",
+  "Edit": "Bewerk",
+  "Muted topics": "Muted topics"
 }

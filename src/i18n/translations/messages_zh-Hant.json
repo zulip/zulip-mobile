@@ -111,5 +111,8 @@
   "Create": "Create",
   "Public": "Public",
   "Private": "Private",
-  "Notifications": "Notifications"
+  "Notifications": "Notifications",
+  "Stream": "頻道",
+  "Edit": "Edit",
+  "Muted topics": "Muted topics"
 }
