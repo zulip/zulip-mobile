@@ -67,7 +67,7 @@
   "Delete message": "메시지 삭제",
   "Notifications when online": "온라인일때 알리기",
   "Notifications when offline": "오프라인일때 알리기",
-  "Stream notifications": "Stream notifications",
+  "Stream notifications": "스트림 알림",
   "Unread": "읽지않음",
   "Subscribed": "구독됨",
   "No users found": "사용자가 발견되지 않음.",
@@ -109,7 +109,10 @@
   "Name": "이름",
   "Description": "서술",
   "Create": "생성",
-  "Public": "Public",
-  "Private": "Private",
-  "Notifications": "알림"
+  "Public": "공개",
+  "Private": "개인",
+  "Notifications": "알림",
+  "Stream": "스트림",
+  "Edit": "편집",
+  "Muted topics": "숨겨진 주제들"
 }

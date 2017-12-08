@@ -111,5 +111,8 @@
   "Create": "Buat",
   "Public": "Public",
   "Private": "Private",
-  "Notifications": "Notifikasi"
+  "Notifications": "Notifikasi",
+  "Stream": "Stream",
+  "Edit": "Edit",
+  "Muted topics": "Muted topics"
 }

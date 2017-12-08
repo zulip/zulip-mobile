@@ -111,5 +111,8 @@
   "Create": "Создать",
   "Public": "Public",
   "Private": "Private",
-  "Notifications": "Оповещения"
+  "Notifications": "Оповещения",
+  "Stream": "Канал",
+  "Edit": "Изменить",
+  "Muted topics": "Заглушенные темы"
 }

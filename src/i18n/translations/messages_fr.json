@@ -111,5 +111,8 @@
   "Create": "Créer",
   "Public": "Public",
   "Private": "Private",
-  "Notifications": "Notifications"
+  "Notifications": "Notifications",
+  "Stream": "Canal",
+  "Edit": "Modifier",
+  "Muted topics": "Sujets muets"
 }

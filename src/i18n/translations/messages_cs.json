@@ -111,5 +111,8 @@
   "Create": "Vytvořit",
   "Public": "Public",
   "Private": "Private",
-  "Notifications": "Oznámení"
+  "Notifications": "Oznámení",
+  "Stream": "Skupina",
+  "Edit": "Upravit",
+  "Muted topics": "Utlumené předměty hovoru"
 }

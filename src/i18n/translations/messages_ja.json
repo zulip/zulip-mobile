@@ -111,5 +111,8 @@
   "Create": "作成",
   "Public": "Public",
   "Private": "Private",
-  "Notifications": "通知"
+  "Notifications": "通知",
+  "Stream": "ストリーム",
+  "Edit": "編集",
+  "Muted topics": "ミュート中のトピック"
 }

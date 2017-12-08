@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Actions, Narrow } from '../types';
+import type { Actions, Narrow, Stream } from '../types';
 import connectWithActions from '../connectWithActions';
 import {
   isHomeNarrow,
@@ -19,14 +19,18 @@ type Props = {
   actions: Actions,
   narrow: Narrow,
   color: string,
+  streams: Stream[],
 };
 
 class InfoNavButton extends PureComponent<Props> {
   props: Props;
 
   handleStreamInfo = () => {
-    const { actions, narrow } = this.props;
-    actions.streamSettings(narrow[0].operand);
+    const { actions, narrow, streams } = this.props;
+    const stream = streams.find(x => x.name === narrow[0].operand);
+    if (stream) {
+      actions.navigateToStream(stream.stream_id);
+    }
   };
 
   handlePrivateInfo = () => {
@@ -40,8 +44,8 @@ class InfoNavButton extends PureComponent<Props> {
     const handlers = [
       { isFunc: isHomeNarrow, handlerFunc: null },
       { isFunc: isSpecialNarrow, handlerFunc: null },
-      { isFunc: isStreamNarrow, handlerFunc: null }, // TODO: this.handleStreamInfo },
-      { isFunc: isTopicNarrow, handlerFunc: null }, // TODO: this.handleStreamInfo },
+      { isFunc: isStreamNarrow, handlerFunc: this.handleStreamInfo },
+      { isFunc: isTopicNarrow, handlerFunc: this.handleStreamInfo },
       { isFunc: isPrivateNarrow, handlerFunc: this.handlePrivateInfo },
       { isFunc: isGroupNarrow, handlerFunc: null }, // TODO: show user list
     ];

@@ -111,5 +111,8 @@
   "Create": "创建",
   "Public": "Public",
   "Private": "Private",
-  "Notifications": "通知设置"
+  "Notifications": "通知设置",
+  "Stream": "频道",
+  "Edit": "编辑",
+  "Muted topics": "已静音主题"
 }

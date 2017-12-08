@@ -47,7 +47,7 @@
   "Copy to clipboard": "Копирай в клипборд",
   "Mute topic": "Заглуши тема",
   "Unmute topic": "Не заглушавай тема",
-  "Mute stream": "Ограничи канал",
+  "Mute stream": "Заглуши канал",
   "Unmute stream": "Не заглушавай канал",
   "No Internet connection": "Няма връзка с Интернет",
   "Settings": "Настройки",
@@ -111,5 +111,8 @@
   "Create": "Създай",
   "Public": "Публичен",
   "Private": "Частен",
-  "Notifications": "Известия"
+  "Notifications": "Известия",
+  "Stream": "Канал",
+  "Edit": "Редактирай",
+  "Muted topics": "Заглушени теми"
 }
