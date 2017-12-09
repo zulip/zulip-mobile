@@ -103,7 +103,10 @@ export const getUserInPmNarrow = createSelector(
 export const getRecipientsInGroupNarrow = createSelector(
   getActiveNarrow,
   getUsers,
-  (narrow, users) => narrow[0].operand.split(',').map(r => users.find(x => x.email === r) || []),
+  (narrow, users) =>
+    !narrow || narrow.length === 0
+      ? []
+      : narrow[0].operand.split(',').map(r => users.find(x => x.email === r) || []),
 );
 
 export const getStreamInNarrow = createSelector(
