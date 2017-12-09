@@ -7,25 +7,19 @@ import messageLoadingImg from '../../static/img/message-loading.png';
 import AnimatedRotateComponent from '../animation/AnimatedRotateComponent';
 
 const styles = StyleSheet.create({
+  animatedComponent: {
+    position: 'absolute',
+  },
   row: {
     padding: 8,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  loading: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 8,
-  },
   semiCircle: {
-    alignSelf: 'center',
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 100,
-  },
-  semiCircleCover: {
-    position: 'absolute',
   },
   logo: {
     alignSelf: 'center',
@@ -62,24 +56,22 @@ export default class LoadingIndicator extends PureComponent<Props> {
     return (
       <View style={styles.row}>
         {caughtUp && <View style={styles.line} />}
-        <View style={styles.loading}>
+        <View>
           {active && (
-            <AnimatedRotateComponent>
-              <View style={[styles.semiCircle, { width: size, height: size }]} />
-              <View
-                style={[
-                  styles.semiCircleCover,
-                  backgroundColor,
-                  {
-                    height: size / 2,
-                    width: size,
-                  },
-                ]}
-              />
-            </AnimatedRotateComponent>
+            <View>
+              <View style={[styles.semiCircle, { height: size, width: size }]} />
+              <AnimatedRotateComponent style={styles.animatedComponent}>
+                <View
+                  style={[{ marginTop: size / 2, height: size / 2, width: size }, backgroundColor]}
+                />
+              </AnimatedRotateComponent>
+            </View>
           )}
           <Image
-            style={[styles.logo, { width: size / 4 * 3, height: size / 4 * 3 }]}
+            style={[
+              styles.logo,
+              { width: size / 4 * 3, height: size / 4 * 3, marginTop: size / 8 },
+            ]}
             source={messageLoadingImg}
             resizeMode="contain"
           />
