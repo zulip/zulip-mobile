@@ -23,7 +23,7 @@ export const NULL_ACCOUNT: Account = {
 };
 
 export const NULL_USER: User = {
-  fullName: '',
+  fullName: 'Zulip User',
   avatarUrl: '',
   email: '',
 };
@@ -31,7 +31,7 @@ export const NULL_USER: User = {
 export const NULL_STREAM: Stream = {
   stream_id: 0,
   description: '',
-  name: '',
+  name: 'Zulip Stream',
   invite_only: true,
 };
 
@@ -64,7 +64,7 @@ export const NULL_SUBSCRIPTION: Subscription = {
   email_address: '',
   in_home_view: true,
   invite_only: false,
-  name: '',
+  name: 'Zulip Stream',
   pin_to_top: false,
   stream_id: 0,
 };
