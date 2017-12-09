@@ -51,6 +51,7 @@
     "react-native-notifications": "^1.1.17",
     "react-native-orientation": "^3.1.0",
     "react-native-photo-view": "^1.5.2",
+    "react-native-progress": "^3.4.0",
     "react-native-safari-view": "2.0.0",
     "react-native-safe-area": "^0.2.1",
     "react-native-sentry": "^0.31.0",
