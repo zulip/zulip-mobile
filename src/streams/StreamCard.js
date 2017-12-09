@@ -36,7 +36,7 @@ export default class StreamScreen extends PureComponent<Props> {
           <StreamIcon
             size={20}
             color={subscription.color}
-            isMuted={stream && !stream.in_home_view}
+            isMuted={subscription && !subscription.in_home_view}
             isPrivate={stream && stream.invite_only}
           />
           <RawLabel style={styles.streamText} text={subscription.name} />
