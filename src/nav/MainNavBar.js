@@ -53,7 +53,7 @@ class MainNavBar extends PureComponent<Props> {
           onPress={leftPress}
         />
         <Title color={textColor} />
-        <InfoNavButton color={textColor} />
+        <InfoNavButton />
       </View>
     );
   }
