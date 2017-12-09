@@ -28,8 +28,9 @@ export default class TitleGroup extends PureComponent<Props> {
 
     return (
       <View style={styles.wrapper}>
-        {recipients.map(user => (
-          <View key={user.email} style={styles.avatar}>
+        {recipients.map((user, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <View key={`${user.email}${index}`} style={styles.avatar}>
             <Avatar size={32} name={user.fullName} avatarUrl={user.avatarUrl} email={user.email} />
           </View>
         ))}
