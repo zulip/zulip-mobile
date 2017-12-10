@@ -209,7 +209,9 @@ export default class ComposeBox extends PureComponent<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
       const topic =
-        isStreamNarrow(nextProps.narrow) & nextProps.editMessage ? nextProps.editMessage.topic : '';
+        isStreamNarrow(nextProps.narrow) && nextProps.editMessage
+          ? nextProps.editMessage.topic
+          : '';
       this.setState({
         message: nextProps.editMessage ? nextProps.editMessage.content : '',
         topic,
