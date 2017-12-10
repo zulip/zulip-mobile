@@ -13,10 +13,7 @@ describe('getAccountDetailsUser', () => {
     const state = deepFreeze({
       nav: {
         index: 1,
-        routes: [
-          { routeName: 'first', params: { email: 'a@a.com' } },
-          { routeName: 'second', params: { email: 'b@a.com' } },
-        ],
+        routes: [{ routeName: 'first' }, { routeName: 'second', params: { email: 'b@a.com' } }],
       },
       users: [{ firstName: 'a', email: 'a@a.com' }, { firstName: 'b', email: 'b@a.com' }],
     });

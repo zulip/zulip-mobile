@@ -2,11 +2,10 @@
 import React, { PureComponent } from 'react';
 
 import type { Auth, Actions, Orientation, UserType } from '../types';
-import connectWithActions from '../connectWithActions';
+import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { getAuth, getAccountDetailsUser } from '../selectors';
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
-import { isStateGoingBack } from '../utils/misc';
 
 type Props = {
   auth: Auth,
@@ -43,14 +42,8 @@ class AccountDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(
-  state => ({
-    auth: getAuth(state),
-    user: getAccountDetailsUser(state),
-    orientation: state.app.orientation,
-  }),
-  null,
-  {
-    areStatesEqual: isStateGoingBack,
-  },
-)(AccountDetailsScreen);
+export default connectWithActionsPreserveOnBack(state => ({
+  auth: getAuth(state),
+  user: getAccountDetailsUser(state),
+  orientation: state.app.orientation,
+}))(AccountDetailsScreen);
