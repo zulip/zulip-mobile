@@ -4,6 +4,7 @@ import base64 from 'base-64';
 import type { Auth } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { getUserById } from '../users/userHelpers';
+import { transformToEncodedURI } from './string';
 
 export const getAuthHeader = (email: string, apiKey: string): ?string =>
   apiKey ? `Basic ${base64.encode(`${email}:${apiKey}`)}` : undefined;
@@ -55,12 +56,12 @@ export const getNarrowFromLink = (url: string, realm: string, users: any[]): [] 
     );
   } else if (isTopicLink(url, realm)) {
     return topicNarrow(
-      decodeURIComponent(paths[paths.lastIndexOf('stream') + 1].replace(/\./g, '%')),
-      decodeURIComponent(paths[paths.lastIndexOf('topic') + 1].replace(/\./g, '%')),
+      decodeURIComponent(transformToEncodedURI(paths[paths.lastIndexOf('stream') + 1])),
+      decodeURIComponent(transformToEncodedURI(paths[paths.lastIndexOf('topic') + 1])),
     );
   } else if (isStreamLink(url, realm)) {
     return streamNarrow(
-      decodeURIComponent(paths[paths.lastIndexOf('stream') + 1].replace(/\./g, '%')),
+      decodeURIComponent(transformToEncodedURI(paths[paths.lastIndexOf('stream') + 1])),
     );
   } else if (isSpecialLink(url, realm)) {
     return specialNarrow(paths[paths.length - 1]);

@@ -16,6 +16,8 @@ import {
   fixRealmUrl,
 } from '../url';
 
+import { streamNarrow, topicNarrow } from '../narrow';
+
 describe('getFullUrl', () => {
   test('when uri contains domain, do not change', () => {
     const url = getFullUrl('https://example.com/img.gif', '');
@@ -223,44 +225,39 @@ describe('getNarrowFromLink', () => {
   });
 
   test('when link is stream link, return matching streamNarrow', () => {
-    const expectedValue = [
-      {
-        operator: 'stream',
-        operand: 'jest',
-      },
-    ];
     expect(
       getNarrowFromLink('https://example.com/#narrow/stream/jest', 'https://example.com'),
-    ).toEqual(expectedValue);
+    ).toEqual(streamNarrow('jest'));
+
+    expect(
+      getNarrowFromLink('https://example.com/#narrow/stream/bot.20testing', 'https://example.com'),
+    ).toEqual(streamNarrow('bot testing'));
+
+    expect(
+      getNarrowFromLink('https://example.com/#narrow/stream/jest.API', 'https://example.com'),
+    ).toEqual(streamNarrow('jest.API'));
   });
 
   test('when link is stream link, without realm info, return matching streamNarrow', () => {
-    const expectedValue = [
-      {
-        operator: 'stream',
-        operand: 'jest',
-      },
-    ];
-    expect(getNarrowFromLink('/#narrow/stream/jest', 'https://example.com')).toEqual(expectedValue);
+    expect(getNarrowFromLink('/#narrow/stream/jest', 'https://example.com')).toEqual(
+      streamNarrow('jest'),
+    );
   });
 
   test('when link is a topic link and encoded, decode stream and topic names and return matching streamNarrow and topicNarrow', () => {
-    const expectedValue = [
-      {
-        operator: 'stream',
-        operand: 'jest',
-      },
-      {
-        operator: 'topic',
-        operand: '(no topic)',
-      },
-    ];
     expect(
       getNarrowFromLink(
         'https://example.com/#narrow/stream/jest/topic/(no.20topic)',
         'https://example.com',
       ),
-    ).toEqual(expectedValue);
+    ).toEqual(topicNarrow('jest', '(no topic)'));
+
+    expect(
+      getNarrowFromLink(
+        'https://example.com/#narrow/stream/jest/topic/google.com',
+        'https://example.com',
+      ),
+    ).toEqual(topicNarrow('jest', 'google.com'));
   });
 
   test('when link is a group link, return matching groupNarrow', () => {
