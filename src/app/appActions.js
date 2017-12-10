@@ -56,7 +56,7 @@ export const toggleComposeTools = () => ({
   type: TOGGLE_COMPOSE_TOOLS,
 });
 
-export const startEditMessage = (messageId: number) => async (
+export const startEditMessage = (messageId: number, topic: string) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
@@ -65,6 +65,7 @@ export const startEditMessage = (messageId: number) => async (
     type: START_EDIT_MESSAGE,
     messageId,
     message,
+    topic,
   });
 };
 

@@ -175,11 +175,14 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
   handleEdit = () => {
     const { auth, editMessage, actions } = this.props;
-    const { message } = this.state;
-    if (editMessage.content !== message) {
-      updateMessage(auth, replaceEmoticonsWithEmoji(message), editMessage.id).catch(error =>
-        showErrorAlert(error.message, 'Failed to edit message'),
-      );
+    const { message, topic } = this.state;
+    const content =
+      editMessage.content !== message ? replaceEmoticonsWithEmoji(message) : undefined;
+    const subject = topic !== editMessage.topic ? topic : undefined;
+    if (content || subject) {
+      updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
+        showErrorAlert(error.message, 'Failed to edit message');
+      });
     }
     actions.cancelEditMessage();
   };
@@ -205,8 +208,11 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
+      const topic =
+        isStreamNarrow(nextProps.narrow) & nextProps.editMessage ? nextProps.editMessage.topic : '';
       this.setState({
         message: nextProps.editMessage ? nextProps.editMessage.content : '',
+        topic,
       });
       this.messageInput.focus();
     } else if (!isEqual(nextProps.narrow, this.props.narrow)) {
