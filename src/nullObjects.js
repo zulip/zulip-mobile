@@ -8,6 +8,7 @@ import type {
   Presence,
   CaughtUp,
   Fetching,
+  SafeAreaInsets,
 } from './types';
 
 export const nullFunction = () => {};
@@ -84,4 +85,11 @@ export const NULL_CAUGHTUP: CaughtUp = {
 export const NULL_FETCHING: Fetching = {
   older: false,
   newer: false,
+};
+
+export const NULL_SAFE_AREA_INSETS: SafeAreaInsets = {
+  bottom: 0,
+  left: 0,
+  right: 0,
+  top: 0,
 };

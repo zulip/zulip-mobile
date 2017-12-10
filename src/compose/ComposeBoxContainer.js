@@ -5,12 +5,13 @@ import { getAuth, canSendToActiveNarrow, getLastMessageTopic } from '../selector
 import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelectors';
 import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
 import ComposeBox from './ComposeBox';
+import { NULL_SAFE_AREA_INSETS } from '../nullObjects';
 
 export default connectWithActions((state: GlobalState) => ({
   auth: getAuth(state),
   narrow: state.chat.narrow,
   users: state.users,
-  safeAreaInsets: state.app.safeAreaInsets,
+  safeAreaInsets: state.device.safeAreaInsets || NULL_SAFE_AREA_INSETS,
   composeTools: state.app.composeTools,
   isSubscribed: getIsActiveStreamSubscribed(state),
   canSend: canSendToActiveNarrow(state),

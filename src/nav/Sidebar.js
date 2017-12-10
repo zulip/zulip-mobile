@@ -7,6 +7,7 @@ import NavButton from './NavButton';
 import type { Actions, Dimensions, Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
 import MainTabs from '../main/MainTabs';
+import { NULL_SAFE_AREA_INSETS } from '../nullObjects';
 
 const componentStyles = StyleSheet.create({
   container: {
@@ -45,8 +46,8 @@ class Sidebar extends PureComponent<Props> {
     const { styles } = this.context;
     const { safeAreaInsets, actions } = this.props;
     const paddingStyles = {
-      paddingTop: safeAreaInsets.top,
-      paddingBottom: safeAreaInsets.bottom,
+      paddingTop: (safeAreaInsets || NULL_SAFE_AREA_INSETS).top,
+      paddingBottom: (safeAreaInsets || NULL_SAFE_AREA_INSETS).bottom,
     };
 
     return (
@@ -76,5 +77,5 @@ class Sidebar extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  safeAreaInsets: state.app.safeAreaInsets,
+  safeAreaInsets: state.device.safeAreaInsets,
 }))(Sidebar);

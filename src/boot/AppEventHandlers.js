@@ -5,7 +5,7 @@ import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
 
-import type { Auth, Actions, ChildrenArray } from '../types';
+import type { Auth, Actions, ChildrenArray, SafeAreaInsets } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getAuth } from '../selectors';
 import { handlePendingNotifications } from '../utils/notifications';
@@ -20,9 +20,12 @@ const componentStyles = StyleSheet.create({
 
 type Props = {
   auth: Auth,
+  isHydrated: boolean,
   needsInitialFetch: boolean,
   actions: Actions,
   children?: ChildrenArray<*>,
+  safeAreaInsets: SafeAreaInsets,
+  orientation: string,
 };
 
 class AppEventHandlers extends PureComponent<Props> {
@@ -58,12 +61,9 @@ class AppEventHandlers extends PureComponent<Props> {
   };
 
   componentWillMount() {
-    const { actions } = this.props;
-
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
-    SafeArea.getSafeAreaInsetsForRootView().then(actions.initSafeAreaInsets);
     Orientation.addOrientationListener(this.handleOrientationChange);
     if (Platform.OS === 'ios') {
       NotificationsIOS.addEventListener('notificationOpened', this.handleNotificationOpen);
@@ -82,6 +82,13 @@ class AppEventHandlers extends PureComponent<Props> {
     }
   }
 
+  componentWillUpdate(nextProps) {
+    const { actions, safeAreaInsets, isHydrated, orientation } = nextProps;
+    if ((safeAreaInsets === undefined && isHydrated) || orientation !== this.props.orientation) {
+      SafeArea.getSafeAreaInsetsForRootView().then(actions.initSafeAreaInsets);
+    }
+  }
+
   render() {
     return <View style={componentStyles.wrapper}>{this.props.children}</View>;
   }
@@ -90,4 +97,7 @@ class AppEventHandlers extends PureComponent<Props> {
 export default connectWithActions(state => ({
   auth: getAuth(state),
   needsInitialFetch: state.app.needsInitialFetch,
+  safeAreaInsets: state.device.safeAreaInsets,
+  isHydrated: state.app.isHydrated,
+  orientation: state.app.orientation,
 }))(AppEventHandlers);
