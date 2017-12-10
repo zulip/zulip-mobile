@@ -35,7 +35,7 @@ import static com.zulipmobile.notifications.NotificationHelper.extractTotalMessa
 
 public class GCMPushNotifications extends PushNotification {
 
-    private static final int NOTIFICATION_ID = 435;
+    public static final int NOTIFICATION_ID = 435;
     public static final String ACTION_NOTIFICATIONS_DISMISS = "ACTION_NOTIFICATIONS_DISMISS";
     private LinkedHashMap<String, Pair<String, Integer>> conversations;
 

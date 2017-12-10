@@ -1,13 +1,13 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { AppState, NetInfo, View, StyleSheet, Platform } from 'react-native';
+import { AppState, NetInfo, View, StyleSheet, Platform, NativeModules } from 'react-native';
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
 
 import type { Auth, Actions, ChildrenArray } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getAuth } from '../selectors';
+import { getAuth, getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import { handlePendingNotifications } from '../utils/notifications';
 
 const componentStyles = StyleSheet.create({
@@ -23,6 +23,7 @@ type Props = {
   needsInitialFetch: boolean,
   actions: Actions,
   children?: ChildrenArray<*>,
+  unreadCount: number,
 };
 
 class AppEventHandlers extends PureComponent<Props> {
@@ -43,9 +44,12 @@ class AppEventHandlers extends PureComponent<Props> {
   };
 
   handleAppStateChange = state => {
-    const { actions } = this.props;
+    const { actions, unreadCount } = this.props;
     actions.sendFocusPing(state === 'active');
     actions.appState(state === 'active');
+    if (state === 'background' && Platform.OS === 'android') {
+      NativeModules.BadgeCountUpdaterModule.setBadgeCount(unreadCount);
+    }
   };
 
   handleNotificationOpen = notification => {
@@ -90,4 +94,5 @@ class AppEventHandlers extends PureComponent<Props> {
 export default connectWithActions(state => ({
   auth: getAuth(state),
   needsInitialFetch: state.app.needsInitialFetch,
+  unreadCount: getUnreadByHuddlesMentionsAndPMs(state),
 }))(AppEventHandlers);
