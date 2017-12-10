@@ -158,6 +158,13 @@ export const getUnreadPrivateMessagesCount = createSelector(
   (privateMessages, readFlags) => countUnread(privateMessages.map(msg => msg.id), readFlags),
 );
 
+export const getUnreadByHuddlesMentionsAndPMs = createSelector(
+  getUnreadPmsTotal,
+  getUnreadHuddlesTotal,
+  getUnreadMentionsTotal,
+  (unreadPms, unreadHuddles, unreadMentions) => unreadPms + unreadHuddles + unreadMentions,
+);
+
 export const getUnreadCountInActiveNarrow = createSelector(
   getActiveNarrow,
   getStreams,
