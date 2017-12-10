@@ -130,6 +130,7 @@ export default (state: AppState = initialState, action: Action) => {
         editMessage: {
           id: action.messageId,
           content: action.message,
+          topic: action.topic,
         },
       };
 

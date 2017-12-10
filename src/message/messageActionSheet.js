@@ -129,7 +129,7 @@ const copyToClipboard = async ({ getString, auth, message }: AuthGetStringAndMes
 const isSentMessage = ({ message }: Message): boolean => !isAnOutboxMessage({ message });
 
 const editMessage = async ({ message, actions }: MessageAuthAndActions) => {
-  actions.startEditMessage(message.id);
+  actions.startEditMessage(message.id, message.subject);
 };
 
 const doDeleteMessage = async ({ auth, message, actions }: MessageAuthAndActions) => {
