@@ -120,7 +120,7 @@ export const getUnreadStreamsAndTopics = createSelector(
         totals[stream.stream_id] = {
           key: name,
           streamName: name,
-          isMuted: !in_home_view, // eslint-disable-line
+          isMuted: !in_home_view,
           isPrivate: invite_only,
           color,
           unread: 0,

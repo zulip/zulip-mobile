@@ -18,5 +18,6 @@ const boundActions = (dispatch: Dispatch, ownProps: Object) => {
   return cachedBoundActions;
 };
 
-export default (mapStateToProps: MapStateToProps) => (component: React$Component<*, *, *>) =>
-  connect(mapStateToProps, boundActions)(component);
+export default (mapStateToProps: MapStateToProps, mergeProps, options) => (
+  component: React$Component<*, *, *>,
+) => connect(mapStateToProps, boundActions, mergeProps, options)(component);
