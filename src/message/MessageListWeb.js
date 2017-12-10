@@ -26,8 +26,14 @@ export default class MessageListWeb extends PureComponent<Props> {
   webview: ?Object;
   props: Props;
 
-  handleClick = ({ target, targetNodeName, targetClassName }: {
-    target: string, targetNodeName: string, targetClassName: string
+  handleClick = ({
+    target,
+    targetNodeName,
+    targetClassName,
+  }: {
+    target: string,
+    targetNodeName: string,
+    targetClassName: string,
   }) => {};
 
   handleScroll = ({ y }: { y: number }) => {
