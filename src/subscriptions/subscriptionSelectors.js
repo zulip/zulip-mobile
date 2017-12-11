@@ -1,8 +1,10 @@
 /* flow */
 import { createSelector } from 'reselect';
 
+import { NULL_STREAM } from '../nullObjects';
 import { isStreamOrTopicNarrow } from '../utils/narrow';
 import { getActiveNarrow, getSubscriptions, getStreams } from '../directSelectors';
+import { getCurrentRouteParams } from '../nav/navigationSelectors';
 
 export const getStreamsById = createSelector(getStreams, streams =>
   streams.reduce((streamsById, stream) => {
@@ -38,4 +40,15 @@ export const getSubscribedStreams = createSelector(
       ...subscription,
       ...allStreams.find(stream => stream.stream_id === subscription.stream_id),
     })),
+);
+
+export const getStreamEditInitialValues = createSelector(
+  [getStreams, getCurrentRouteParams],
+  (streams, params) => {
+    if (!params || !params.streamId) {
+      return NULL_STREAM;
+    }
+
+    return streams.find(x => x.stream_id === params.streamId) || NULL_STREAM;
+  },
 );

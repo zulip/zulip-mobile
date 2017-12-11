@@ -1,6 +1,6 @@
 /* @flow */
 import type { GetState, Actions, Dispatch } from '../types';
-import { createStream, getStreams } from '../api';
+import { createStream, updateStream, getStreams } from '../api';
 import { INIT_STREAMS } from '../actionConstants';
 import { getAuth } from '../selectors';
 
@@ -19,4 +19,14 @@ export const createNewStream = (
   isPrivate: boolean,
 ): Actions => async (dispatch: Dispatch, getState: GetState) => {
   await createStream(getAuth(getState()), name, description, principals, isPrivate);
+};
+
+export const updateExistingStream = (
+  id: number,
+  name: string,
+  description: string,
+  principals: string[],
+  isPrivate: boolean,
+): Actions => async (dispatch: Dispatch, getState: GetState) => {
+  await updateStream(getAuth(getState()), id, name, description, isPrivate);
 };

@@ -16,6 +16,12 @@ const styles = StyleSheet.create({
 
 type Props = {
   actions: Actions,
+  initialValues: {
+    name: string,
+    description: string,
+    isPrivate: boolean,
+  },
+  onUpdate: (name: string, description: string, isPrivate: boolean) => void,
 };
 
 type State = {
@@ -24,22 +30,21 @@ type State = {
   isPrivate: boolean,
 };
 
-export default class CreateStreamCard extends PureComponent<Props, State> {
+export default class EditStreamCard extends PureComponent<Props, State> {
   props: Props;
   state: State;
 
   state = {
-    name: '',
-    description: '',
-    isPrivate: false,
+    name: this.props.initialValues.name,
+    description: this.props.initialValues.description,
+    isPrivate: this.props.initialValues.isPrivate,
   };
 
-  handleCreateScreen = () => {
-    const { actions } = this.props;
+  handlePerformAction = () => {
+    const { onUpdate } = this.props;
     const { name, description, isPrivate } = this.state;
 
-    actions.createNewStream(name, description, [], isPrivate);
-    actions.navigateBack();
+    onUpdate(name, description, isPrivate);
   };
 
   handleNameChange = (name: string) => {
@@ -55,7 +60,7 @@ export default class CreateStreamCard extends PureComponent<Props, State> {
   };
 
   render() {
-    const { name, description, isPrivate } = this.state;
+    const { name, description, isPrivate } = this.props.initialValues;
 
     return (
       <View>
@@ -77,7 +82,7 @@ export default class CreateStreamCard extends PureComponent<Props, State> {
           defaultValue={isPrivate}
           onValueChange={this.handleIsPrivateChange}
         />
-        <ZulipButton style={styles.marginTop} text="Create" onPress={this.handleCreateScreen} />
+        <ZulipButton style={styles.marginTop} text="Create" onPress={this.handlePerformAction} />
       </View>
     );
   }

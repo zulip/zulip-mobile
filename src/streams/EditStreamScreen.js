@@ -9,20 +9,20 @@ type Props = {
   actions: Actions,
 };
 
-export default class CreateStreamScreen extends PureComponent<Props> {
+export default class EditStreamScreen extends PureComponent<Props> {
   props: Props;
 
-  handleCreateScreen = (name: string, description: string, isPrivate: boolean) => {
+  handleEditScreen = (name: string, description: string, isPrivate: boolean) => {
     const { actions } = this.props;
 
-    actions.createNewStream(name, description, [], isPrivate);
+    actions.updateExistingStream(name, description, isPrivate);
     actions.navigateBack();
   };
 
   render() {
     return (
-      <Screen title="Create new stream" padding>
-        <EditStreamContainer onUpdate={this.handleCreateScreen} />
+      <Screen title="Edit stream" padding>
+        <EditStreamContainer onUpdate={this.handleEditScreen} />
       </Screen>
     );
   }
