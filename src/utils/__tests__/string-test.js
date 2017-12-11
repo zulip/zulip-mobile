@@ -1,13 +1,6 @@
 /* @flow */
 
-import { replaceAtIndex, transformToEncodedURI } from '../string';
-
-describe('replaceAtIndex', () => {
-  test('replace char in given string at particular index', () => {
-    expect(replaceAtIndex('play', 0, 'c')).toEqual('clay');
-    expect(replaceAtIndex('some.text', 4, '%')).toEqual('some%text');
-  });
-});
+import { transformToEncodedURI } from '../string';
 
 describe('transformToEncodedURI', () => {
   test('if dot is part of encoding, i.e followed by digit then replace it with "%"', () => {
