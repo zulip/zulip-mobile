@@ -133,9 +133,9 @@ describe('isStreamLink', () => {
     expect(isStreamLink('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
       true,
     );
-    expect(
-      isStreamLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
-    ).toBe(true);
+    expect(isStreamLink('https://example.com/#narrow/stream/stream/', 'https://example.com')).toBe(
+      true,
+    );
   });
 });
 
@@ -144,18 +144,43 @@ describe('isTopicLink', () => {
     expect(
       isTopicLink('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
     ).toBe(false);
+
     expect(isTopicLink('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
       false,
     );
+
     expect(
       isTopicLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
     ).toBe(true);
+
     expect(
       isTopicLink(
-        'https://example.com/#narrow/near/1/stream/jest/topic/test',
+        'https://example.com/#narrow/stream/mobile/subject/topic/near/378333',
         'https://example.com',
       ),
     ).toBe(true);
+
+    expect(
+      isTopicLink('https://example.com/#narrow/stream/mobile/topic/topic/', 'https://example.com'),
+    ).toBe(true);
+
+    expect(
+      isTopicLink(
+        'https://example.com/#narrow/stream/stream/topic/topic/near/',
+        'https://example.com',
+      ),
+    ).toBe(false);
+
+    expect(
+      isTopicLink(
+        'https://example.com/#narrow/stream/stream/topic/topic/near/1',
+        'https://example.com',
+      ),
+    ).toBe(true);
+
+    expect(isTopicLink('https://example.com/#narrow/stream/topic/', 'https://example.com')).toBe(
+      false,
+    );
   });
 });
 
@@ -168,7 +193,13 @@ describe('isGroupLink', () => {
       isGroupLink('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
     ).toBe(true);
     expect(
-      isGroupLink('https://example.com/#narrow/near/1/pm-with/1,2-group', 'https://example.com'),
+      isGroupLink('https://example.com/#narrow/pm-with/1,2-group/near/1', 'https://example.com'),
+    ).toBe(true);
+    expect(
+      isGroupLink(
+        'https://example.com/#narrow/pm-with/a.40b.2Ecom.c.d.2Ecom/near/3',
+        'https://example.com',
+      ),
     ).toBe(true);
   });
 });
@@ -178,14 +209,27 @@ describe('isSpecialLink', () => {
     expect(
       isSpecialLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
     ).toBe(false);
+
     expect(isSpecialLink('https://example.com/#narrow/is/private', 'https://example.com')).toBe(
       true,
     );
+
     expect(isSpecialLink('https://example.com/#narrow/is/starred', 'https://example.com')).toBe(
       true,
     );
+
     expect(isSpecialLink('https://example.com/#narrow/is/mentioned', 'https://example.com')).toBe(
       true,
+    );
+
+    expect(isSpecialLink('https://example.com/#narrow/is/men', 'https://example.com')).toBe(false);
+
+    expect(isSpecialLink('https://example.com/#narrow/is/men/stream', 'https://example.com')).toBe(
+      false,
+    );
+
+    expect(isSpecialLink('https://example.com/#narrow/are/men/stream', 'https://example.com')).toBe(
+      false,
     );
   });
 });
@@ -236,6 +280,14 @@ describe('getNarrowFromLink', () => {
     expect(
       getNarrowFromLink('https://example.com/#narrow/stream/jest.API', 'https://example.com'),
     ).toEqual(streamNarrow('jest.API'));
+
+    expect(
+      getNarrowFromLink('https://example.com/#narrow/stream/stream', 'https://example.com'),
+    ).toEqual(streamNarrow('stream'));
+
+    expect(
+      getNarrowFromLink('https://example.com/#narrow/stream/topic', 'https://example.com'),
+    ).toEqual(streamNarrow('topic'));
   });
 
   test('when link is stream link, without realm info, return matching streamNarrow', () => {
@@ -258,6 +310,27 @@ describe('getNarrowFromLink', () => {
         'https://example.com',
       ),
     ).toEqual(topicNarrow('jest', 'google.com'));
+
+    expect(
+      getNarrowFromLink(
+        'https://example.com/#narrow/stream/topic/topic/topic.20name',
+        'https://example.com',
+      ),
+    ).toEqual(topicNarrow('topic', 'topic name'));
+
+    expect(
+      getNarrowFromLink(
+        'https://example.com/#narrow/stream/topic/topic/stream',
+        'https://example.com',
+      ),
+    ).toEqual(topicNarrow('topic', 'stream'));
+
+    expect(
+      getNarrowFromLink(
+        'https://example.com/#narrow/stream/stream/topic/topic',
+        'https://example.com',
+      ),
+    ).toEqual(topicNarrow('stream', 'topic'));
   });
 
   test('when link is a group link, return matching groupNarrow', () => {
@@ -291,7 +364,7 @@ describe('getNarrowFromLink', () => {
   test('when link is a message link, return matching narrow', () => {
     expect(
       getNarrowFromLink(
-        'https://example.com/#narrow/near/1/pm-with/1,3-group',
+        'https://example.com/#narrow/pm-with/1,3-group/near/2',
         'https://example.com',
         users,
       ),
@@ -301,22 +374,22 @@ describe('getNarrowFromLink', () => {
         operand: 'abc@example.com,def@example.com',
       },
     ]);
+
     expect(
       getNarrowFromLink(
-        'https://example.com/#narrow/near/1/stream/jest/topic/test',
+        'https://example.com/#narrow/stream/jest/topic/test/near/1',
         'https://example.com',
         users,
       ),
-    ).toEqual([
-      {
-        operator: 'stream',
-        operand: 'jest',
-      },
-      {
-        operator: 'topic',
-        operand: 'test',
-      },
-    ]);
+    ).toEqual(topicNarrow('jest', 'test'));
+
+    expect(
+      getNarrowFromLink(
+        'https://example.com/#narrow/stream/jest/subject/test/near/1',
+        'https://example.com',
+        users,
+      ),
+    ).toEqual(topicNarrow('jest', 'test'));
   });
 });
 
@@ -330,7 +403,7 @@ describe('getMessageIdFromLink', () => {
   test('when link is a group link, return anchor message id', () => {
     expect(
       getMessageIdFromLink(
-        'https://example.com/#narrow/near/1/pm-with/1,3-group',
+        'https://example.com/#narrow/pm-with/1,3-group/near/1/',
         'https://example.com',
       ),
     ).toBe(1);
@@ -339,7 +412,7 @@ describe('getMessageIdFromLink', () => {
   test('when link is a topic link, return anchor message id', () => {
     expect(
       getMessageIdFromLink(
-        'https://example.com/#narrow/near/1/stream/jest/topic/test',
+        'https://example.com/#narrow/stream/jest/topic/test/near/1',
         'https://example.com',
       ),
     ).toBe(1);
