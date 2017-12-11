@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`messageActions doNarrow if newNarrow stream is not valid, do nothing 1`] = `Array []`;
+
+exports[`messageActions doNarrow if newNarrow user is deactivated, do nothing 1`] = `Array []`;
+
 exports[`messageActions doNarrow when messages in new narrow, only action to switch narrow is dispatched 1`] = `
 Array [
   Object {
