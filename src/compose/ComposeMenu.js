@@ -8,7 +8,7 @@ import type { Actions, Narrow } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { Touchable } from '../common';
 import { showErrorAlert } from '../common/errorAlert';
-import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
+import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera, IconEdit } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 
 const styles = StyleSheet.create({
@@ -28,6 +28,8 @@ type Props = {
   expanded: boolean,
   narrow: Narrow,
   onExpandContract: () => void,
+  message: string,
+  saveNewText: string => void,
 };
 
 export default class ComposeMenu extends Component<Props> {
@@ -67,15 +69,20 @@ export default class ComposeMenu extends Component<Props> {
   };
 
   render() {
-    const { actions, expanded, onExpandContract } = this.props;
+    const { actions, expanded, onExpandContract, saveNewText, message } = this.props;
 
     return (
       <View style={styles.wrapper}>
-        <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={124}>
+        <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={165}>
           <View style={styles.wrapper}>
             <IconPeople style={styles.button} size={24} onPress={actions.navigateToCreateGroup} />
             <IconImage style={styles.button} size={24} onPress={this.handleImageUpload} />
             <IconCamera style={styles.button} size={24} onPress={this.handleCameraCapture} />
+            <IconEdit
+              style={styles.button}
+              size={24}
+              onPress={() => actions.navigateToFullEditor(saveNewText, message)}
+            />
           </View>
         </AnimatedComponent>
         <Touchable style={styles.touchable} onPress={onExpandContract}>

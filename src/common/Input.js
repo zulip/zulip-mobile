@@ -14,6 +14,7 @@ type Props = {
   clearButton: boolean,
   onChangeText: (text: string) => void,
   textInputRef: (component: any) => void,
+  selection?: Object,
 };
 
 export default class Input extends PureComponent<Props> {

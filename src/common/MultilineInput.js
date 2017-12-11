@@ -15,6 +15,7 @@ type Props = {
   onHeightChange?: (height: number) => void,
   onSelectionChange?: (event: Object) => void,
   textInputRef?: (component: any) => void,
+  selection?: Object,
 };
 
 export default class MultilineInput extends PureComponent<Props> {
@@ -44,6 +45,7 @@ export default class MultilineInput extends PureComponent<Props> {
       onBlur,
       onSelectionChange,
       value,
+      selection,
     } = this.props;
 
     return (
@@ -61,6 +63,7 @@ export default class MultilineInput extends PureComponent<Props> {
         placeholder={placeholder}
         textInputRef={textInputRef}
         value={value}
+        selection={selection}
       />
     );
   }
