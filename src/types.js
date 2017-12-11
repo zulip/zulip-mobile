@@ -403,7 +403,7 @@ export type ReactionType = {
 
 export type LocalizableText = string | { text: string, values: Object };
 
-export type MutedTopic = [];
+export type MutedTopic = [string, string];
 
 export type DomElement = {
   name: string,

@@ -1,10 +1,10 @@
 /* @flow */
-import React, { PureComponent } from 'react';
+import connectWithActions from '../connectWithActions';
+import { getAuth, getMute } from '../selectors';
 
-import MutedTopicList from './MutedTopicList';
+import MutedTopicScreen from './MutedTopicScreen';
 
-export default class MutedTopicContainer extends PureComponent {
-  render() {
-    return <MutedTopicList />;
-  }
-}
+export default connectWithActions(state => ({
+  auth: getAuth(state),
+  mute: getMute(state),
+}))(MutedTopicScreen);

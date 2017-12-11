@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { ZulipButton, RawLabel } from '../common';
 import type { Auth, MutedTopic } from '../types';
-import unmuteTopicApi from '../api/unmuteTopic';
+import { unmuteTopic } from '../api';
 
 const componentStyles = StyleSheet.create({
   row: {
@@ -28,19 +28,21 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class MutedTopicItem extends PureComponent {
+type Props = {
+  auth: Auth,
+  mutedTopic: MutedTopic,
+};
+
+export default class MutedTopicItem extends PureComponent<Props> {
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };
 
-  props: {
-    auth: Auth,
-    mutedTopic: MutedTopic,
-  };
-
   unmuteTopic = () => {
     const { auth, mutedTopic } = this.props;
-    unmuteTopicApi(auth, mutedTopic[0], mutedTopic[1]);
+    unmuteTopic(auth, mutedTopic[0], mutedTopic[1]);
   };
 
   render() {
