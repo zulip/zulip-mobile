@@ -17,6 +17,12 @@ const actionSheetButtons: ActionSheetButtonType[] = [
       actions.navigateToCreateGroup();
     },
   },
+  {
+    title: 'Full screen editor',
+    onPress: ({ actions, saveNewText, message }) => {
+      actions.navigateToFullEditor(saveNewText, message);
+    },
+  },
 ];
 
 export const constructActionButtons = ({ narrow }: ConstructActionButtonsType) => {
