@@ -1,7 +1,7 @@
 import mockStore from 'redux-mock-store'; // eslint-disable-line
 
 import { doNarrow } from '../messagesActions';
-import { streamNarrow, homeNarrow } from '../../utils/narrow';
+import { streamNarrow, homeNarrow, privateNarrow } from '../../utils/narrow';
 
 const narrow = streamNarrow('some stream');
 const streamNarrowStr = JSON.stringify(narrow);
@@ -20,6 +20,11 @@ describe('messageActions', () => {
           narrow: homeNarrow,
           messages: {},
         },
+        streams: [
+          {
+            name: 'some stream',
+          },
+        ],
       });
 
       store.dispatch(doNarrow(narrow));
@@ -38,6 +43,11 @@ describe('messageActions', () => {
           narrow: homeNarrow,
           messages: {},
         },
+        streams: [
+          {
+            name: 'some stream',
+          },
+        ],
       });
 
       store.dispatch(doNarrow(narrow));
@@ -53,9 +63,54 @@ describe('messageActions', () => {
             [streamNarrowStr]: [{ id: 1 }],
           },
         },
+        streams: [
+          {
+            name: 'some stream',
+          },
+        ],
       });
 
       store.dispatch(doNarrow(narrow));
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
+    test('if newNarrow stream is not valid, do nothing', () => {
+      const store = mockStore({
+        caughtUp: {},
+        chat: {
+          narrow: homeNarrow,
+          messages: {
+            [streamNarrowStr]: [{ id: 1 }],
+          },
+        },
+        streams: [
+          {
+            name: 'some updated stream',
+          },
+        ],
+      });
+
+      store.dispatch(doNarrow(narrow));
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
+    test('if newNarrow user is deactivated, do nothing', () => {
+      const store = mockStore({
+        caughtUp: {},
+        chat: {
+          narrow: homeNarrow,
+          messages: {
+            [streamNarrowStr]: [{ id: 1 }],
+          },
+        },
+        users: [
+          {
+            email: 'ab@a.com',
+          },
+        ],
+      });
+
+      store.dispatch(doNarrow(privateNarrow('a@a.com')));
       expect(store.getActions()).toMatchSnapshot();
     });
   });

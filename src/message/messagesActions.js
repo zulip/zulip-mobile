@@ -1,11 +1,13 @@
 /* @flow */
 import type { Action, Narrow, Dispatch, GetState } from '../types';
 import { NULL_CAUGHTUP } from '../nullObjects';
-import { getAuth, getUsers, getAllMessages } from '../selectors';
+import { getAuth, getUsers, getAllMessages, getStreams } from '../selectors';
 import { SWITCH_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread } from './fetchActions';
+import { validateNarrow } from '../utils/narrow';
+// import showToast from '../utils/showToast';
 
 export const switchNarrow = (narrow: Narrow): Action => ({
   type: SWITCH_NARROW,
@@ -16,6 +18,13 @@ export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INT
   dispatch: Dispatch,
   getState: GetState,
 ) => {
+  const isValidNarrow = validateNarrow(newNarrow, getStreams(getState()), getUsers(getState()));
+
+  if (!isValidNarrow) {
+    // show message to user that narrow is outdated now
+    // showToast('Invalid narrow');
+    return;
+  }
   dispatch(switchNarrow(newNarrow));
 
   const anyMessagesInNewNarrow = JSON.stringify(newNarrow) in getAllMessages(getState());
