@@ -137,3 +137,5 @@ export const getNarrowFromMessage = (message: Message, email: string) => {
 
   return streamNarrow(message.display_recipient);
 };
+
+export const navigateBackFromNarrow = (narrow: Narrow): Narrow => homeNarrow;

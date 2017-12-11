@@ -17,7 +17,7 @@ export default class MainScreen extends PureComponent<Props> {
     styles: () => null,
   };
 
-  handlePressStreams = () => {
+  openDrawer = () => {
     this.props.navigation.navigate('DrawerOpen');
   };
 
@@ -27,7 +27,7 @@ export default class MainScreen extends PureComponent<Props> {
     return (
       <View style={[styles.flexed, styles.backgroundColor]}>
         <ZulipStatusBar />
-        <MainNavBar onPressStreams={this.handlePressStreams} />
+        <MainNavBar openDrawer={this.openDrawer} />
         <ChatContainer />
       </View>
     );
