@@ -26,6 +26,7 @@ import StreamScreen from '../streams/StreamScreen';
 import CreateStreamScreen from '../streams/CreateStreamScreen';
 import EditStreamScreen from '../streams/EditStreamScreen';
 import NotificationsScreen from '../settings/NotificationsScreen';
+import FullEditorScreen from '../compose/FullEditor/FullEditorScreen';
 
 export default StackNavigator(
   {
@@ -37,6 +38,7 @@ export default StackNavigator(
     dev: { screen: DevAuthScreen },
     loading: { screen: LoadingScreen },
     main: { screen: MainScreen },
+    'full-screen-editor': { screen: FullEditorScreen },
     realm: { screen: RealmScreen },
     search: { screen: SearchMessagesScreen },
     subscriptions: { screen: SubscriptionsScreen },
