@@ -3,7 +3,7 @@ import { Share } from 'react-native';
 
 import type { Auth } from '../types';
 import download from '../api/downloadFile';
-import Toast from '../utils/showToast';
+import { showToast } from '../utils/info';
 
 export default async (url: string, auth: Auth) => {
   try {
@@ -11,9 +11,9 @@ export default async (url: string, auth: Auth) => {
     try {
       await Share.share({ url: uri, message: url });
     } catch (error) {
-      Toast("Can't share");
+      showToast('Can not share');
     }
   } catch (error) {
-    Toast("Can't download");
+    showToast('Can not download');
   }
 };

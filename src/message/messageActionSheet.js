@@ -23,7 +23,7 @@ import {
   deleteMessage,
   toggleMessageStarred,
 } from '../api';
-import showToast from '../utils/showToast';
+import { showToast } from '../utils/info';
 
 type MessageAndDoNarrowType = {
   message: Object,

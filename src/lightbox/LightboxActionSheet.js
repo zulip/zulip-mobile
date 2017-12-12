@@ -3,7 +3,7 @@ import type { Auth } from '../types';
 import download from '../api/downloadFile';
 import share from './share';
 import shareImage from './shareImage';
-import Toast from '../utils/showToast';
+import { showToast } from '../utils/info';
 
 type DownloadImageType = {
   url: string,
@@ -33,9 +33,9 @@ type ButtonType = {
 const downloadImage = async ({ url, auth }: DownloadImageType) => {
   try {
     await download(url, auth);
-    Toast('Download complete.');
+    showToast('Download complete');
   } catch (error) {
-    Toast("Can't download");
+    showToast('Can not download');
   }
 };
 

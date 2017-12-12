@@ -7,7 +7,7 @@ import ImagePicker from 'react-native-image-picker';
 import type { Actions, Narrow } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { Touchable } from '../common';
-import { showErrorAlert } from '../common/errorAlert';
+import { showErrorAlert } from '../utils/info';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 
