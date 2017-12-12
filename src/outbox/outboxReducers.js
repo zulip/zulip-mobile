@@ -4,6 +4,7 @@ import {
   MESSAGE_SEND_START,
   EVENT_NEW_MESSAGE,
   LOGOUT,
+  ACCOUNT_SWITCH,
   DELETE_OUTBOX_MESSAGE,
   MESSAGE_SEND_COMPLETE,
 } from '../actionConstants';
@@ -25,6 +26,7 @@ export default (state: OutboxState = initialState, action: Action): OutboxState 
     case EVENT_NEW_MESSAGE:
       return filterArray(state, item => item && item.timestamp !== +action.localMessageId);
 
+    case ACCOUNT_SWITCH:
     case LOGOUT:
       return initialState;
 
