@@ -57,6 +57,9 @@ const styles = StyleSheet.create({
   secondaryIcon: {
     color: BRAND_COLOR,
   },
+  disabled: {
+    opacity: 0.25,
+  },
 });
 
 const ButtonInProgress = ({ frameStyle }) => (
@@ -89,6 +92,7 @@ const ButtonNormal = ({
 type Props = {
   style?: StyleObj,
   progress?: boolean,
+  disabled: boolean,
   Icon?: Object,
   text: string,
   secondary: boolean,
@@ -102,14 +106,16 @@ export default class ZulipButton extends PureComponent<Props> {
   static defaultProps = {
     secondary: false,
     fullSize: false,
+    disabled: false,
   };
 
   render() {
-    const { style, text, secondary, progress, fullSize, onPress, Icon } = this.props;
+    const { style, text, disabled, secondary, progress, fullSize, onPress, Icon } = this.props;
     const frameStyle = [
       styles.frame,
       secondary ? styles.secondaryFrame : styles.primaryFrame,
       fullSize && styles.fullSizeFrame,
+      disabled && styles.disabled,
       style,
     ];
     const textStyle = [styles.text, secondary ? styles.secondaryText : styles.primaryText];
@@ -124,7 +130,7 @@ export default class ZulipButton extends PureComponent<Props> {
         frameStyle={frameStyle}
         touchTargetStyle={styles.touchTarget}
         text={text}
-        onPress={onPress}
+        onPress={disabled ? undefined : onPress}
         textStyle={textStyle}
         Icon={Icon}
         iconStyle={iconStyle}
