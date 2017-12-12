@@ -6,7 +6,14 @@ import ImagePicker from 'react-native-image-picker';
 
 import type { Actions, Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
-import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
+import {
+  IconPlus,
+  IconLeft,
+  IconPeople,
+  IconImage,
+  IconCamera,
+  IconLifeBuoy,
+} from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 
 type Props = {
@@ -14,6 +21,7 @@ type Props = {
   expanded: boolean,
   narrow: Narrow,
   onExpandContract: () => void,
+  handleHelperButtons: () => void,
 };
 
 export default class ComposeMenu extends Component<Props> {
@@ -62,7 +70,7 @@ export default class ComposeMenu extends Component<Props> {
 
     return (
       <View style={styles.composeMenu}>
-        <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={120}>
+        <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={154}>
           <View style={styles.composeMenu}>
             <IconPeople
               style={styles.composeMenuButton}
@@ -78,6 +86,11 @@ export default class ComposeMenu extends Component<Props> {
               style={styles.composeMenuButton}
               size={24}
               onPress={this.handleCameraCapture}
+            />
+            <IconLifeBuoy
+              style={styles.composeMenuButton}
+              size={24}
+              onPress={this.props.handleHelperButtons}
             />
           </View>
         </AnimatedComponent>

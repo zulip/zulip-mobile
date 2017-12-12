@@ -6,9 +6,9 @@ export type { ChildrenArray } from 'react';
 
 export type AnimatedValue = any; // { AnimatedValue } from 'react-native';
 export type MapStateToProps = any; // { MapStateToProps } from 'react-redux';
-
-export type * from './actionTypes';
-export type * from './api/apiTypes';
+//
+// export type * from './actionTypes';
+// export type * from './api/apiTypes';
 
 export type Style = boolean | number | Array<Style> | ?{ [string]: any };
 export type Dispatch = any;
