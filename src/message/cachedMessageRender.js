@@ -21,9 +21,12 @@ export default (
   if (!isEqual(lastRenderedMessages, renderedMessages)) {
     const rendered: Object[] = renderedMessages.reduce((result, section) => {
       result.push(
-        <MessageListSection key={section.key} message={section.message} />,
+        Object.keys(section.message).length > 0 && (
+          <MessageListSection key={section.key} message={section.message} />
+        ),
         section.data.map(item => <MessageListItem onReplySelect={onReplySelect} {...item} />),
       );
+
       return result;
     }, []);
     const messageList: ChildrenArray<*> = React.Children.toArray(rendered);
