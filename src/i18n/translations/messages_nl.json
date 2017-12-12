@@ -115,5 +115,10 @@
   "Stream": "Kanaal",
   "Edit": "Bewerk",
   "Muted topics": "Muted topics",
-  "Edit stream": "Edit stream"
+  "Edit stream": "Edit stream",
+  "OK": "OK",
+  "Can not share": "Can not share",
+  "Download complete": "Download complete",
+  "Can not download": "Can not download",
+  "Download file": "Download file"
 }

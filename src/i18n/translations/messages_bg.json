@@ -115,5 +115,10 @@
   "Stream": "Канал",
   "Edit": "Редактирай",
   "Muted topics": "Заглушени теми",
-  "Edit stream": "Редактирай поток"
+  "Edit stream": "Редактирай поток",
+  "OK": "OK",
+  "Can not share": "Не може да бъде споделено",
+  "Download complete": "Изтеглянето завърши",
+  "Can not download": "Не може да се изтегли",
+  "Download file": "Изтегли файл"
 }
