@@ -60,8 +60,8 @@ export default class MessageList extends PureComponent<Props> {
         style={[styles.flexed, styles.backgroundColor]}
         automaticallyAdjustContentInset="false"
         stickyHeaderIndices={stickyHeaderIndices}
-        onStartReached={actions.fetchOlder}
-        onEndReached={actions.fetchNewer}
+        onStartReached={() => console.log('onStartReached')}
+        onEndReached={() => console.log('onEndReached')}
         listRef={listRef}
         onScroll={onScroll}
         narrow={narrow}
