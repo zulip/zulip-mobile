@@ -141,10 +141,19 @@ export const getNarrowFromMessage = (message: Message, email: string) => {
 export const validateNarrow = (narrow: Narrow, streams: Stream[], users: User[]): boolean => {
   if (isStreamOrTopicNarrow(narrow)) {
     // check if stream is not outdated
-    return streams && streams.find(s => s.name === narrow[0].operand) !== undefined;
+    return !!(streams && streams.find(s => s.name === narrow[0].operand) !== undefined);
   } else if (isPrivateNarrow(narrow)) {
     // check user account is not deactivited
-    return users && users.find(u => u.email === narrow[0].operand) !== undefined;
+    return !!(users && users.find(u => u.email === narrow[0].operand) !== undefined);
+  } else if (isGroupNarrow(narrow)) {
+    // check any of the recipient is not deactivited
+    const recipients = narrow[0].operand.split(',');
+    return !!(
+      users &&
+      recipients
+        .map(recipient => users.find(u => u.email === recipient))
+        .filter(user => user !== undefined).length === recipients.length
+    );
   }
-  return isSpecialNarrow(narrow) || isHomeNarrow(narrow);
+  return !!(isHomeNarrow(narrow) || isSpecialNarrow(narrow));
 };
