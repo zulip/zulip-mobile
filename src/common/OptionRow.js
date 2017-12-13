@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Label, ZulipSwitch } from '../common';
+import type { StyleObj } from '../types';
 
 const styles = StyleSheet.create({
   optionRow: {
@@ -17,6 +18,7 @@ const styles = StyleSheet.create({
 type Props = {
   label: string,
   defaultValue: boolean,
+  style?: StyleObj,
   onValueChange: (newValue: boolean) => void,
 };
 
@@ -24,10 +26,10 @@ export default class OptionRow extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { label, defaultValue, onValueChange } = this.props;
+    const { label, defaultValue, onValueChange, style } = this.props;
 
     return (
-      <View style={styles.optionRow}>
+      <View style={[styles.optionRow, style]}>
         <Label text={label} />
         <ZulipSwitch defaultValue={defaultValue} onValueChange={onValueChange} />
       </View>

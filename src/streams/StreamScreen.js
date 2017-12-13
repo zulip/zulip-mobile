@@ -29,6 +29,17 @@ class StreamScreen extends PureComponent<Props> {
     actions.navigateToEditStream(navigation.state.params.streamId);
   };
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
+  toggleStreamPushNotification = () => {
+    const { subscriptions, navigation, actions } = this.props;
+    const { streamId } = navigation.state.params;
+    const subscription = subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION;
+    actions.toggleStreamNotification(streamId, !subscription.push_notifications);
+  };
+
   render() {
     const { streams, subscriptions, navigation } = this.props;
     const { streamId } = navigation.state.params;
@@ -44,6 +55,12 @@ class StreamScreen extends PureComponent<Props> {
           onValueChange={this.handleTogglePinStream}
         />
         <ZulipButton text="Edit" onPress={this.handleEdit} />
+        <OptionRow
+          label="Notifications"
+          defaultValue={subscription.push_notifications}
+          onValueChange={this.toggleStreamPushNotification}
+          customStyle={this.context.styles.backgroundColor}
+        />
       </Screen>
     );
   }
