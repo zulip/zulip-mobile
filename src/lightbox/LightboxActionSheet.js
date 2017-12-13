@@ -1,14 +1,15 @@
 /* @flow */
-import type { Auth } from '../types';
+import type { Auth, TranslateStringType } from '../types';
 import downloadFile from '../api/downloadFile';
 import share from './share';
 import shareImage from './shareImage';
 import { showToast } from '../utils/info';
 import { getFullUrl } from '../utils/url';
 
-type DownloadImageType = {
+type DownloadImageAndTranslateType = {
   src: string,
   auth: Auth,
+  translateString: TranslateStringType,
 };
 
 type ShareLinkType = {
@@ -20,11 +21,13 @@ type ExecuteActionSheetActionType = {
   title: string,
   src: string,
   auth: Auth,
+  translateString: TranslateStringType,
 };
 
 type ButtonProps = {
   auth: Auth,
   src: string,
+  translateString: TranslateStringType,
 };
 
 type ButtonType = {
@@ -32,12 +35,12 @@ type ButtonType = {
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
 };
 
-const downloadImage = async ({ src, auth }: DownloadImageType) => {
+const downloadImage = async ({ src, auth, translateString }: DownloadImageAndTranslateType) => {
   try {
     await downloadFile(src, auth);
-    showToast('Download complete');
+    showToast(translateString('Download complete'));
   } catch (error) {
-    showToast('Can not download');
+    showToast(translateString('Can not download'));
   }
 };
 
@@ -45,8 +48,8 @@ const shareLink = ({ src, auth }: ShareLinkType) => {
   share(getFullUrl(src, auth.realm));
 };
 
-const shareImageDirectly = ({ src, auth }: DownloadImageType) => {
-  shareImage(src, auth);
+const shareImageDirectly = ({ src, auth, translateString }: DownloadImageAndTranslateType) => {
+  shareImage(src, auth, translateString);
 };
 
 const actionSheetButtons: ButtonType[] = [
