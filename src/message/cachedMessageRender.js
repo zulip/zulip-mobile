@@ -21,9 +21,7 @@ export default (
   if (!isEqual(lastRenderedMessages, renderedMessages)) {
     const rendered: Object[] = renderedMessages.reduce((result, section) => {
       result.push(
-        Object.keys(section.message).length > 0 && (
-          <MessageListSection key={section.key} message={section.message} />
-        ),
+        <MessageListSection key={section.key} message={section.message} />,
         section.data.map(item => <MessageListItem onReplySelect={onReplySelect} {...item} />),
       );
 
