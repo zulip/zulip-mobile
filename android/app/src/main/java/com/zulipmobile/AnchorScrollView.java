@@ -9,12 +9,6 @@
 
 package com.zulipmobile;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -28,16 +22,22 @@ import android.view.ViewTreeObserver;
 import android.widget.OverScroller;
 import android.widget.ScrollView;
 
+import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.uimanager.MeasureSpecAssertions;
-import com.facebook.react.uimanager.events.NativeGestureUtil;
 import com.facebook.react.uimanager.ReactClippingViewGroup;
 import com.facebook.react.uimanager.ReactClippingViewGroupHelper;
-import com.facebook.infer.annotation.Assertions;
+import com.facebook.react.uimanager.events.NativeGestureUtil;
 import com.facebook.react.views.scroll.FpsListener;
 import com.facebook.react.views.scroll.OnScrollDispatchHelper;
 import com.facebook.react.views.view.ReactViewGroup;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class AnchorScrollView extends ScrollView implements ReactClippingViewGroup, ViewGroup.OnHierarchyChangeListener, View.OnLayoutChangeListener {
 
@@ -139,6 +139,23 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                 return false;
             }
         });
+
+        scrollView.setFillViewport(true);
+    }
+
+    @Override
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        super.onScrollChanged(l, t, oldl, oldt);
+
+        if (mOnScrollDispatchHelper.onScrollChanged(l, t)) {
+            if (mRemoveClippedSubviews) {
+                updateClippingRect();
+            }
+
+            if (mFlinging) {
+                mDoneFlinging = false;
+            }
+        }
     }
 
     final ViewTreeObserver.OnScrollChangedListener onScrollChangedListener = new
@@ -154,7 +171,6 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                         if (mFlinging) {
                             mDoneFlinging = false;
                         }
-
                         findAnchorView();
                         AnchorScrollViewHelper.emitScrollEvent(scrollView, getVisibleIds(), true);
                     }
@@ -533,7 +549,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
 
                 if (child != null) {
                     if (autoScrollToBottom && String.valueOf(anchor).equals(child.getTag())) {
-                        mAnchorView = (autoScrollToBottom && previousChild != null) ? previousChild : child;
+                        mAnchorView = previousChild != null ? previousChild : child;
                         break;
                     } else if (mAnchorTag.equals(child.getTag())) {
                         mAnchorView = child;
@@ -543,25 +559,46 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                 previousChild = child;
             }
             if (mAnchorView != null) {
-                int anchorChange = mAnchorView.getTop() - mLastAnchorY;
-                int scrollY = autoScrollToBottom ? (int) (0.98 * (currentScrollY + anchorChange - getHeight() / 3)) : currentScrollY + anchorChange;
-                scrollTo(getScrollX(), scrollY);
+                if (autoScrollToBottom) {
+                    if (anchor == -1) {
+                        //first unread message not found
+                        //one case may be no message is unread
+                        //scroll to end
+                        scrollView.smoothScrollTo(scrollView.getScrollX(), getScrollViewBottom());
+                    } else {
+                        final int topPosition = mAnchorView.getTop();
+                        scrollView.post(new Runnable() {
+                            public void run() {
+                                scrollView.smoothScrollTo(0, topPosition);
+                            }
+                        });
+                    }
+                } else {
+                    int anchorChange = mAnchorView.getTop() - mLastAnchorY;
+                    scrollTo(getScrollX(), currentScrollY + anchorChange);
+                }
             } else {
-                //first unread message not found
-                //one case may be no message is unread
-                //scroll to end
-                scrollTo(getScrollX(), (int) (0.98 * getMaxScrollY()));
+                // not able to get anchor
+                scrollView.smoothScrollTo(scrollView.getScrollX(), getScrollViewBottom());
             }
             //send events to fetch more if whole screen is not occupied
             if (canNotScroll()) {
                 AnchorScrollViewHelper.emitScrollEvent(AnchorScrollView.this, getVisibleIds(), true);
-            }else {
+            } else {
                 //send event to update scroll offset, which will be useful when keyboard pop's up
                 // this event is without human interaction
                 AnchorScrollViewHelper.emitScrollEvent(AnchorScrollView.this, getVisibleIds(), false);
             }
         }
         findAnchorView();
+    }
+
+    /**
+     * @return bottom position of the scrollView
+     */
+    private int getScrollViewBottom() {
+        // ScrollView always has one child - the scrollable area
+        return scrollView.getChildAt(0).getHeight() + scrollView.getPaddingBottom();
     }
 
     private int getScrollRange() {
