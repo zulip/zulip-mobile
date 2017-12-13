@@ -772,3 +772,5 @@ export type InitialData = InitialDataBase &
   InitialDataUpdateDisplaySettings &
   InitialDataUpdateGlobalNotifications &
   InitialDataUpdateMessageFlags;
+
+export type TranslateStringType = (value: string) => string;
