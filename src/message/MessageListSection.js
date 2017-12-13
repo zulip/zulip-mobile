@@ -14,7 +14,7 @@ export default class MessageListSection extends PureComponent<Props> {
   render() {
     const { message } = this.props;
 
-    if (!message) return null;
+    if (!message || Object.keys(message).length === 0) return null;
 
     return <MessageHeaderContainer message={message} />;
   }

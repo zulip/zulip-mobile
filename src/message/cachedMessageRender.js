@@ -24,6 +24,7 @@ export default (
         <MessageListSection key={section.key} message={section.message} />,
         section.data.map(item => <MessageListItem onReplySelect={onReplySelect} {...item} />),
       );
+
       return result;
     }, []);
     const messageList: ChildrenArray<*> = React.Children.toArray(rendered);
