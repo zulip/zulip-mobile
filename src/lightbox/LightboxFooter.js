@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 14,
     alignSelf: 'center',
   },
   icon: {
-    fontSize: 32,
+    fontSize: 28,
   },
 });
 

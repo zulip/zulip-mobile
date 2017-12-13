@@ -14,8 +14,7 @@ const componentStyles = StyleSheet.create({
   },
   name: {
     color: 'white',
-    fontSize: 14,
-    lineHeight: 14,
+    fontSize: 12,
   },
   navBar: {
     backgroundColor: 'transparent',
@@ -24,11 +23,15 @@ const componentStyles = StyleSheet.create({
   },
   subheader: {
     color: 'white',
-    fontSize: 12,
+    fontSize: 10,
   },
   children: {
+    flex: 1,
     justifyContent: 'flex-start',
-    paddingRight: 10,
+    paddingRight: 15,
+    paddingLeft: 15,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 });
 
