@@ -1,11 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { SectionList, StyleSheet } from 'react-native';
 
 import type { Stream } from '../types';
 import { caseInsensitiveCompareObjFunc } from '../utils/misc';
 import StreamItem from './StreamItem';
-import { SearchEmptyState } from '../common';
+import { SectionSeparatorBetween, SearchEmptyState } from '../common';
 
 const styles = StyleSheet.create({
   list: {
@@ -45,18 +45,27 @@ export default class StreamList extends PureComponent<Props> {
       onPress,
       onSwitch,
     } = this.props;
-    const sortedStreams = streams.sort(caseInsensitiveCompareObjFunc('name'));
-    const noResults = streams.length === 0;
 
-    if (noResults) {
+    if (streams.length === 0) {
       return <SearchEmptyState text="No streams found" />;
     }
 
+    const sortedStreams = streams.sort(caseInsensitiveCompareObjFunc('name'));
+    const sections = [
+      {
+        key: 'Pinned',
+        data: sortedStreams.filter(x => x.pin_to_top),
+      },
+      {
+        key: 'Unpinned',
+        data: sortedStreams.filter(x => !x.pin_to_top),
+      },
+    ];
+
     return (
-      <FlatList
+      <SectionList
         style={styles.list}
-        initialNumToRender={sortedStreams.length}
-        data={sortedStreams}
+        sections={sections}
         extraData={unreadByStream}
         keyExtractor={item => item.stream_id}
         renderItem={({ item }) => (
@@ -75,6 +84,7 @@ export default class StreamList extends PureComponent<Props> {
             onSwitch={onSwitch}
           />
         )}
+        SectionSeparatorComponent={SectionSeparatorBetween}
       />
     );
   }
