@@ -106,8 +106,8 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
   handleMessageChange = (message: string) => {
     this.setState({ message });
-    const { actions } = this.props;
-    actions.sendFocusPing();
+    const { actions, narrow } = this.props;
+    actions.sendTypingEvent(narrow);
   };
 
   handleMessageSelectionChange = (event: Object) => {
