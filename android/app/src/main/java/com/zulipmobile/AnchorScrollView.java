@@ -611,6 +611,9 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
 
     }
 
+    /*
+    update scrolledToEnd whether list is scrolled to end or not
+     */
     private void updateIsScrolledToEnd() {
         View child = getChildAt(getChildCount() - 1);
         if (child != null) {

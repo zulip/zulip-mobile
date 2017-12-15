@@ -37,7 +37,7 @@ export default class Chat extends PureComponent<Props> {
   componentDidUpdate(prevProps: Props) {
     const { noMessages, lastMessage, ownEmail } = this.props;
 
-    // for android it scrolled from native side
+    // for android it is scrolled from native side
     if (noMessages || lastMessage.id === prevProps.lastMessage.id || Platform.OS === 'android') {
       return;
     }
