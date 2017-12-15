@@ -561,7 +561,13 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
 
                 previousChild = child;
             }
-            if (mAnchorView != null) {
+            if (scrolledToEnd && caughtUpNewer) {
+                // already at bottom
+                // scroll to end
+                // so that user can can see updated events
+                // new messages, typing notification
+                scrollView.smoothScrollTo(0, getScrollViewBottom());
+            } else if (mAnchorView != null) {
                 if (autoScrollToBottom) {
                     if (anchor == -1) {
                         //first unread message not found
