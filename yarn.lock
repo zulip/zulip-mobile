@@ -66,10 +66,17 @@
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@remobile/react-native-toast/-/react-native-toast-1.0.7.tgz#b2e3684cdb13e1c9d9b4ed08e667157d4ad0fab2"
 
-"@sentry/wizard@^0.6.0":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@sentry/wizard/-/wizard-0.6.1.tgz#39c32f00b2a3b361984405f8ddd3d5500b7392cf"
+"@sentry/cli@^1.26.1":
+  version "1.26.1"
+  resolved "https://registry.yarnpkg.com/@sentry/cli/-/cli-1.26.1.tgz#2c803e985b1b662b9a05eadb15b65d5b6ba2921d"
   dependencies:
+    progress "2.0.0"
+
+"@sentry/wizard@^0.7.3":
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/@sentry/wizard/-/wizard-0.7.3.tgz#76782f79aedb3774e79e60b7dd73cee32308ad18"
+  dependencies:
+    "@sentry/cli" "^1.26.1"
     chalk "^2.3.0"
     glob "^7.1.2"
     inquirer "^4.0.0"
@@ -77,7 +84,6 @@
     open "^0.0.5"
     r2 "^2.0.0"
     read-env "^1.1.1"
-    sentry-cli-binary "^1.21.0"
     xcode "^1.0.0"
     yargs "^10.0.3"
 
@@ -1704,9 +1710,9 @@ detox-server@^6.0.2:
     npmlog "^4.0.2"
     ws "^1.1.0"
 
-detox@^6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-6.0.2.tgz#22c6d3fdb5dbe2e20269aeda7bf1fa1e1bb9fe95"
+detox@^6.0.4:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-6.0.4.tgz#d8ba32bfd5f0161527a338638f6f94581a0c7765"
   dependencies:
     child-process-promise "^2.2.0"
     commander "^2.9.0"
@@ -1943,9 +1949,9 @@ eslint-module-utils@^2.1.1:
     debug "^2.6.8"
     pkg-dir "^1.0.0"
 
-eslint-plugin-flowtype@^2.39.1:
-  version "2.39.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.39.1.tgz#b5624622a0388bcd969f4351131232dcb9649cd5"
+eslint-plugin-flowtype@^2.40.1:
+  version "2.40.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.40.1.tgz#f78a8e6a4cc6da831dd541eb61e803ff0279b796"
   dependencies:
     lodash "^4.15.0"
 
@@ -1964,13 +1970,13 @@ eslint-plugin-import@^2.8.0:
     minimatch "^3.0.3"
     read-pkg-up "^2.0.0"
 
-eslint-plugin-jest@^21.4.2:
-  version "21.4.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-21.4.2.tgz#0e8ec03687259169cef46656827a0a0715e8a8d4"
+eslint-plugin-jest@^21.4.3:
+  version "21.4.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-21.4.3.tgz#34a5ded103cf2482b2e1c28d0c0bb7dbe1b3fc38"
 
-eslint-plugin-jsx-a11y@^6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-6.0.2.tgz#659277a758b036c305a7e4a13057c301cd3be73f"
+eslint-plugin-jsx-a11y@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-6.0.3.tgz#54583d1ae442483162e040e13cc31865465100e5"
   dependencies:
     aria-query "^0.7.0"
     array-includes "^3.0.3"
@@ -1978,7 +1984,7 @@ eslint-plugin-jsx-a11y@^6.0.2:
     axobject-query "^0.1.0"
     damerau-levenshtein "^1.0.0"
     emoji-regex "^6.1.0"
-    jsx-ast-utils "^1.4.0"
+    jsx-ast-utils "^2.0.0"
 
 eslint-plugin-prettier@^2.3.1:
   version "2.3.1"
@@ -1991,14 +1997,14 @@ eslint-plugin-react-native@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-native/-/eslint-plugin-react-native-3.2.0.tgz#3ec47907858bd07275248bef2de3142ee5c1efb1"
 
-eslint-plugin-react@7.4.0:
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.4.0.tgz#300a95861b9729c087d362dd64abcc351a74364a"
+eslint-plugin-react@7.5.1:
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.5.1.tgz#52e56e8d80c810de158859ef07b880d2f56ee30b"
   dependencies:
     doctrine "^2.0.0"
     has "^1.0.1"
     jsx-ast-utils "^2.0.0"
-    prop-types "^15.5.10"
+    prop-types "^15.6.0"
 
 eslint-plugin-spellcheck@0.0.6:
   version "0.0.6"
@@ -2019,9 +2025,9 @@ eslint-scope@^3.7.1:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint@^4.13.0:
-  version "4.13.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.13.0.tgz#1991aa359586af83877bde59de9d41f53e20826d"
+eslint@^4.13.1:
+  version "4.13.1"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.13.1.tgz#0055e0014464c7eb7878caf549ef2941992b444f"
   dependencies:
     ajv "^5.3.0"
     babel-code-frame "^6.22.0"
@@ -3686,10 +3692,6 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jsx-ast-utils@^1.4.0:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-1.4.1.tgz#3867213e8dd79bf1e8f2300c0cfc1efb182c0df1"
-
 jsx-ast-utils@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-2.0.0.tgz#ec06a3d60cf307e5e119dac7bad81e89f096f0f8"
@@ -4744,9 +4746,9 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-prettier@^1.9.1:
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.9.1.tgz#41638a0d47c1efbd1b7d5a742aaa5548eab86d70"
+prettier@^1.9.2:
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.9.2.tgz#96bc2132f7a32338e6078aeb29727178c6335827"
 
 pretty-format@^20.0.3:
   version "20.0.3"
@@ -4999,13 +5001,12 @@ react-native-safe-area@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/react-native-safe-area/-/react-native-safe-area-0.2.1.tgz#9bf8eb8dd052b76fc4e830addcd63235dd29cf3c"
 
-react-native-sentry@^0.31.0:
-  version "0.31.0"
-  resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.31.0.tgz#2499594c882dacc29b6743043b893f816945e2f5"
+react-native-sentry@^0.32.0:
+  version "0.32.0"
+  resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.32.0.tgz#f99530836ca0f9e4ea053fb7c73f7f4b1d493646"
   dependencies:
-    "@sentry/wizard" "^0.6.0"
+    "@sentry/wizard" "^0.7.3"
     raven-js "^3.19.1"
-    sentry-cli-binary "^1.21.0"
 
 react-native-simple-toast@0.0.7:
   version "0.0.7"
@@ -5536,12 +5537,6 @@ send@0.13.2:
     on-finished "~2.3.0"
     range-parser "~1.0.3"
     statuses "~1.2.1"
-
-sentry-cli-binary@^1.21.0:
-  version "1.22.0"
-  resolved "https://registry.yarnpkg.com/sentry-cli-binary/-/sentry-cli-binary-1.22.0.tgz#25f0e6784a467d287abb09d32b9e2e946aad2cd8"
-  dependencies:
-    progress "2.0.0"
 
 serve-favicon@~2.3.0:
   version "2.3.2"

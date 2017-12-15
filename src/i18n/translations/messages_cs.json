@@ -122,5 +122,7 @@
   "Can not download": "Can not download",
   "Download file": "Stáhnout soubor",
   "Update": "Update",
-  "Save": "Uložit"
+  "Save": "Uložit",
+  "Pinned": "Pinned",
+  "Pin": "Pin"
 }

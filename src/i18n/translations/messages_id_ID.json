@@ -122,5 +122,7 @@
   "Can not download": "Can not download",
   "Download file": "Download file",
   "Update": "Update",
-  "Save": "Simpan"
+  "Save": "Simpan",
+  "Pinned": "Pinned",
+  "Pin": "Pin"
 }
