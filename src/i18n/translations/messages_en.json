@@ -100,8 +100,8 @@
   "Render messages with HTML": "Render messages with HTML",
   "Distinguish unread messages": "Distinguish unread messages",
   "Split message text": "Split message text",
-  "Administrators":"Administrators",
-  "Normal users":"Normal users",
+  "Administrators": "Administrators",
+  "Normal users": "Normal users",
   "Share image": "Share image",
   "Share link to image": "Share link to image",
   "You are not subscribed to this stream": "You are not subscribed to this stream",
@@ -124,5 +124,6 @@
   "Update": "Update",
   "Save": "Save",
   "Pinned": "Pinned",
-  "Pin": "Pin"
+  "Pin": "Pin",
+  "Notifications": "Notifications"
 }
