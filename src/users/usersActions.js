@@ -1,7 +1,7 @@
 /* @flow */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 
-import type { Dispatch, Action, User, GetState } from '../types';
+import type { Dispatch, Action, Narrow, User, GetState } from '../types';
 import { focusPing, getUsers, typing } from '../api';
 import { INIT_USERS, PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth } from '../selectors';
