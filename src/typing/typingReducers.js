@@ -9,6 +9,11 @@ const initialState: TypingState = NULL_OBJECT;
 export default (state: TypingState = initialState, action: Action): TypingState => {
   switch (action.type) {
     case EVENT_TYPING_START: {
+      if (action.sender.email === action.ownEmail) {
+        // don't change state when self is typing
+        return state;
+      }
+
       const normalizedRecipients = normalizeRecipientsSansMe(action.recipients, action.ownEmail);
       const previousTypingUsers = state[normalizedRecipients] || NULL_ARRAY;
 
