@@ -10,6 +10,7 @@ import cachedMessageRender from './cachedMessageRender';
 
 type Props = {
   actions: Actions,
+  caughtUpNewer: boolean,
   fetchingOlder: boolean,
   fetchingNewer: boolean,
   singleFetchProgress?: boolean,

@@ -12,6 +12,7 @@ import AnchorScrollView from '../native/AnchorScrollView';
 type Props = {
   startReachedThreshold: number,
   endReachedThreshold: number,
+  caughtUpNewer: boolean,
   contentContainerStyle?: Object,
   style: StyleObj,
   stickyHeaderIndices: [],
