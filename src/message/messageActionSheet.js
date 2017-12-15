@@ -18,8 +18,7 @@ import {
   getMessageById,
   muteTopic,
   unmuteTopic,
-  unmuteStream,
-  muteStream,
+  toggleMuteStream,
   deleteMessage,
   toggleMessageStarred,
 } from '../api';
@@ -151,14 +150,14 @@ const doMuteTopic = ({ auth, message }: AuthAndMessageType) => {
 const doUnmuteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscriptionsType) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
-    unmuteStream(auth, sub.stream_id);
+    toggleMuteStream(auth, sub.stream_id, false);
   }
 };
 
 const doMuteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscriptionsType) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
-    muteStream(auth, sub.stream_id);
+    toggleMuteStream(auth, sub.stream_id, true);
   }
 };
 
