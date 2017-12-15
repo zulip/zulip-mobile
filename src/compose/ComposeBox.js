@@ -316,7 +316,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
               style={componentStyles.button}
               Icon={editMessage === null ? IconSend : IconDone}
               size={32}
-              disabled={message.length === 0}
+              disabled={message.trim().length === 0}
               onPress={editMessage === null ? this.handleSend : this.handleEdit}
             />
           </View>
