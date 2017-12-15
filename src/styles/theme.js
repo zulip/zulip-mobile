@@ -154,7 +154,6 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     flex: 1,
     fontWeight: 'bold',
     fontSize: 16,
-    lineHeight: 16,
   },
   cardView: {
     backgroundColor: cardColor,

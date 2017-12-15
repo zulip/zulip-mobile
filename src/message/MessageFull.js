@@ -74,6 +74,7 @@ export default class MessageFull extends PureComponent<Props> {
           email={message.sender_email}
           name={message.sender_full_name}
           onPress={this.handleAvatarPress}
+          size={40}
         />
         <View style={styles.content}>
           <Subheader

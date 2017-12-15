@@ -1,7 +1,8 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
+import { RawLabel } from '../common';
 import Timestamp from './Timestamp';
 
 type Props = {
@@ -23,9 +24,7 @@ export default class Subheader extends PureComponent<Props> {
 
     return (
       <View style={styles.subheader}>
-        <Text style={[styles.username, styles.color]} numberOfLines={1}>
-          {from}
-        </Text>
+        <RawLabel style={[styles.username]} text={from} numberOfLines={1} />
         <Timestamp timestamp={timestamp} twentyFourHourTime={twentyFourHourTime} />
       </View>
     );
