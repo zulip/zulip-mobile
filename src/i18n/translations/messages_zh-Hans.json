@@ -122,5 +122,7 @@
   "Can not download": "Can not download",
   "Download file": "下载文件",
   "Update": "Update",
-  "Save": "保存"
+  "Save": "保存",
+  "Pinned": "Pinned",
+  "Pin": "Pin"
 }
