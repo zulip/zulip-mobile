@@ -1,7 +1,10 @@
 /* eslint-disable */
 
 export default `
-window.onerror = (message) => alert(message);
+window.onerror = function(message){
+   alert('error');
+   return false;
+ };
 
 document.addEventListener('message', function(e) {
   const msg = JSON.parse(e.data);
@@ -18,7 +21,7 @@ document.addEventListener('message', function(e) {
   }
 });
 
-const getMessageNode = node => {
+function getMessageNode(node) {
   let crNode = node;
   while (crNode && crNode.className !== 'message') {
     crNode = crNode.parentNode;
@@ -26,13 +29,13 @@ const getMessageNode = node => {
   return crNode;
 };
 
-const sendMessage = msg => {
-  window.postMessage(JSON.stringify(msg));
+function sendMessage(msg) {
+  window.postMessage(JSON.stringify(msg), '*');
 };
 
 let prevHeader;
 
-const updatePinnedHeader = () => {
+function updatePinnedHeader() {
   return;
   let crNode = getMessageNode(document.elementFromPoint(200, 40));
 
@@ -52,17 +55,19 @@ const updatePinnedHeader = () => {
   }
 };
 
-window.addEventListener('scroll', () => {
+window.addEventListener('scroll', function() {
   window.postMessage(
     JSON.stringify({
       type: 'scroll',
       y: window.scrollY,
     }),
+    '*'
   );
   updatePinnedHeader();
 });
 
-document.body.addEventListener('click', e => {
+document.body.addEventListener('click', function(e) {
+  alert(e.target);
   sendMessage({
     type: 'click',
     target: e.traget,
