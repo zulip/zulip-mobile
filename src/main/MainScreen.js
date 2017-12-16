@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { Keyboard, View } from 'react-native';
 
 import { ZulipStatusBar } from '../common';
 import ChatContainer from '../chat/ChatContainer';
@@ -18,6 +18,7 @@ export default class MainScreen extends PureComponent<Props> {
   };
 
   handlePressStreams = () => {
+    Keyboard.dismiss();
     this.props.navigation.navigate('DrawerOpen');
   };
 
