@@ -103,6 +103,7 @@ export default class MessageListWeb extends PureComponent<Props> {
           this.webview = webview;
         }}
         onMessage={this.handleMessage}
+        javaScriptEnabled
       />
     );
   }
