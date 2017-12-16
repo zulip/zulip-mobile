@@ -10,6 +10,9 @@ iOS version can be run only on a macOS, while Android can be run on Linux, Windo
 
 ## Dev environment
 
+Before starting, make sure you have [git](https://git-scm.com/) and
+[Yarn](https://yarnpkg.com) installed.
+
 Setting up a dev environment should be as simple as running the commands
 below in your terminal:
 ```
