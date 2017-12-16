@@ -17,6 +17,7 @@ import {
   isMessageInNarrow,
   isStreamOrTopicNarrow,
   getNarrowFromMessage,
+  validateNarrow,
 } from '../narrow';
 
 describe('homeNarrow', () => {
@@ -324,5 +325,47 @@ describe('getNarrowFromMessage', () => {
     const actualNarrow = getNarrowFromMessage(message);
 
     expect(actualNarrow).toEqual(expectedNarrow);
+  });
+});
+
+describe('validateNarrow', () => {
+  test('return true for narrow to valid stream/topic narrow, else false', () => {
+    const streams = [
+      {
+        name: 'stream',
+      },
+    ];
+
+    expect(validateNarrow(streamNarrow('stream'), streams, [])).toBe(true);
+    expect(validateNarrow(streamNarrow('stream'), undefined, [])).toBe(false);
+    expect(validateNarrow(streamNarrow('unknown stream'), streams, [])).toBe(false);
+    expect(validateNarrow(streamNarrow('stream', 'topic'), streams, [])).toBe(true);
+    expect(validateNarrow(topicNarrow('unknown stream', 'topic'), streams, [])).toBe(false);
+  });
+
+  test('return true for private narrow to non deactivated user, else false', () => {
+    const users = [
+      {
+        email: 'a@a.com',
+      },
+      {
+        email: 'b@a.com',
+      },
+      {
+        email: 'c@a.com',
+      },
+    ];
+
+    expect(validateNarrow(privateNarrow('a@a.com'), [], users)).toBe(true);
+    expect(validateNarrow(privateNarrow('a@a.com'), [], undefined)).toBe(false);
+    expect(validateNarrow(privateNarrow('z@a.com'), [], users)).toBe(false);
+    expect(validateNarrow(groupNarrow(['a@a.com', 'b@a.com']), [], users)).toBe(true);
+    expect(validateNarrow(groupNarrow(['x@z.com']), [], users)).toBe(false);
+  });
+
+  test('for home and special narrow return true', () => {
+    expect(validateNarrow(specialNarrow('private'))).toBe(true);
+    expect(validateNarrow(specialNarrow('mentions'))).toBe(true);
+    expect(validateNarrow(homeNarrow)).toBe(true);
   });
 });
