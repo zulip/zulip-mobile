@@ -15,7 +15,6 @@ const componentStyles = StyleSheet.create({
   name: {
     color: 'white',
     fontSize: 14,
-    lineHeight: 14,
   },
   navBar: {
     backgroundColor: 'transparent',
@@ -27,8 +26,12 @@ const componentStyles = StyleSheet.create({
     fontSize: 12,
   },
   children: {
+    flex: 1,
     justifyContent: 'flex-start',
-    paddingRight: 10,
+    paddingRight: 15,
+    paddingLeft: 15,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 });
 
@@ -63,7 +66,7 @@ export default class LightboxHeader extends PureComponent<Props> {
         childrenStyle={componentStyles.children}
         isRightItemNav
       >
-        <Avatar {...restProps} />
+        <Avatar size={36} {...restProps} />
         <View style={componentStyles.text}>
           <Text style={[this.context.styles.username, componentStyles.name]} numberOfLines={1}>
             {senderName}
