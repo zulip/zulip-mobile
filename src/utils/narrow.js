@@ -142,9 +142,12 @@ export const validateNarrow = (narrow: Narrow, streams: Stream[], users: User[])
   if (isStreamOrTopicNarrow(narrow)) {
     // check if stream is not outdated
     return streams && streams.find(s => s.name === narrow[0].operand) !== undefined;
-  } else if (isPrivateNarrow(narrow)) {
+  }
+
+  if (isPrivateNarrow(narrow)) {
     // check user account is not deactivited
     return users && users.find(u => u.email === narrow[0].operand) !== undefined;
   }
-  return isSpecialNarrow(narrow) || isHomeNarrow(narrow);
+
+  return true;
 };
