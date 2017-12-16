@@ -68,7 +68,13 @@ window.addEventListener('scroll', function() {
   updatePinnedHeader();
 });
 
-document.body.addEventListener('click', function(e) {
+updatePinnedHeader();
+
+var handler = function(event) {
+  clickHandler(event);
+};
+
+var clickHandler = function(e) {
   sendMessage({
     type: 'click',
     target: e.traget,
@@ -115,7 +121,8 @@ document.body.addEventListener('click', function(e) {
       messageId: +getMessageNode(e.target).id,
     });
   }
-});
+};
 
-updatePinnedHeader();
+document.body.addEventListener('click', handler, false);
+
 `;
