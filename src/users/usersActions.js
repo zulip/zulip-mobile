@@ -1,12 +1,14 @@
 /* @flow */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 
-import type { Dispatch, Action, User, GetState } from '../types';
-import { focusPing, getUsers } from '../api';
+import type { Dispatch, Action, Narrow, User, GetState } from '../types';
+import { focusPing, getUsers, typing } from '../api';
 import { INIT_USERS, PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth } from '../selectors';
+import { isPrivateOrGroupNarrow } from '../utils/narrow';
 
 let lastFocusPing = new Date();
+let lastTypingStart = new Date();
 
 export const sendFocusPing = (
   hasFocus: boolean = true,
@@ -38,3 +40,18 @@ export const initUsers = (users: User[]): Action => ({
 
 export const fetchUsers = (): Action => async (dispatch: Dispatch, getState: GetState) =>
   dispatch(initUsers(await getUsers(getAuth(getState()))));
+
+export const sendTypingEvent = (narrow: Narrow) => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  if (!isPrivateOrGroupNarrow(narrow)) {
+    return;
+  }
+
+  if (differenceInSeconds(new Date(), lastTypingStart) > 15) {
+    const auth = getAuth(getState());
+    typing(auth, narrow[0].operand, 'start');
+    lastTypingStart = new Date();
+  }
+};
