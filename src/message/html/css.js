@@ -195,6 +195,21 @@ th, td {
 .loading-subheader .timestamp {
   width: 60px;
 }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.loading-spinner {
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  margin: 1em auto;
+  font-size: 10px;
+  position: relative;
+  border: 3px solid rgba(0, 0, 0, 0.25);
+  border-left: 3px solid rgba(0, 0, 0, 0.75);
+  animation: spin 1s linear infinite;
+}
 .message_inline_image {
   text-align: center;
 }
