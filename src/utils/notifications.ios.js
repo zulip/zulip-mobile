@@ -6,13 +6,11 @@ import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';
 import { streamNarrow, privateNarrow } from '../utils/narrow';
 
-const register = async (auth: Auth, deviceToken: string) => {
-  await registerPush(auth, deviceToken);
-};
+const register = async (auth: Auth, deviceToken: string) => registerPush(auth, deviceToken);
 
 const onPushRegistered = (auth: Auth, deviceToken: string, saveTokenPush: (arg: string) => any) => {
-  register(auth, deviceToken);
-  saveTokenPush(deviceToken);
+  const result = register(auth, deviceToken);
+  saveTokenPush(deviceToken, result.msg, result.result);
 };
 
 const onPushRegistrationFailed = (error: string) => {

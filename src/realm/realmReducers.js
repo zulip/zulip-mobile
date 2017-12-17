@@ -18,7 +18,7 @@ import {
 // Initial state
 const initialState = {
   twentyFourHourTime: false,
-  pushToken: '',
+  pushToken: { token: '', result: '', msg: '' },
   emoji: {},
   filters: [],
 };
@@ -40,14 +40,18 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
     case SAVE_TOKEN_PUSH: {
       return {
         ...state,
-        pushToken: action.pushToken,
+        pushToken: {
+          token: action.pushToken,
+          result: action.result,
+          msg: action.msg,
+        },
       };
     }
 
     case DELETE_TOKEN_PUSH: {
       return {
         ...state,
-        pushToken: '',
+        pushToken: { token: '', result: '', msg: '' },
       };
     }
 
@@ -56,7 +60,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
       return {
         ...state,
         emoji: {},
-        pushToken: '',
+        pushToken: { token: '', result: '', msg: '' },
       };
 
     case INIT_REALM_EMOJI:

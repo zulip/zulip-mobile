@@ -23,8 +23,8 @@ export const handlePendingNotifications = async (notification, doNarrow) => {
 const handleRegistrationUpdates = (auth: Auth, saveTokenPush) => {
   NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
     try {
-      await registerPush(auth, deviceToken);
-      saveTokenPush(deviceToken);
+      const result = await registerPush(auth, deviceToken);
+      saveTokenPush(deviceToken, result.msg, result.result);
     } catch (e) {
       logErrorRemotely(e, 'failed to register GCM');
     }

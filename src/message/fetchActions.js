@@ -161,8 +161,7 @@ export const fetchRestOfInitialData = (): Action => async (
 
   dispatch(messageFetchComplete(messages, allPrivateNarrow, 0, 0, 0, true));
   dispatch(initStreams(streams));
-
-  if (auth.apiKey !== '' && pushToken === '') {
+  if (auth.apiKey !== '' && (pushToken === '' || pushToken === undefined)) {
     refreshNotificationToken();
   }
   dispatch(trySendMessages());

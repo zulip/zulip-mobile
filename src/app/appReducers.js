@@ -33,7 +33,6 @@ const initialState: AppState = {
   needsInitialFetch: false,
   orientation: 'PORTRAIT',
   outboxSending: false,
-  pushToken: '',
   safeAreaInsets: {
     bottom: 0,
     left: 0,

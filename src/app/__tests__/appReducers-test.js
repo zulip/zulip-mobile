@@ -22,7 +22,7 @@ describe('appReducers', () => {
     test('Test start edit message method', () => {
       const prevState = deepFreeze({
         twentyFourHourTime: false,
-        pushToken: '',
+        pushToken: {},
         emoji: {},
         editMessage: null,
       });
@@ -35,7 +35,7 @@ describe('appReducers', () => {
 
       const expectedState = {
         twentyFourHourTime: false,
-        pushToken: '',
+        pushToken: {},
         emoji: {},
         editMessage: {
           id: 12,
@@ -53,7 +53,7 @@ describe('appReducers', () => {
     test('Test cancel edit message method', () => {
       const prevState = deepFreeze({
         twentyFourHourTime: false,
-        pushToken: '',
+        pushToken: {},
         emoji: {},
         editMessage: {
           id: 12,
@@ -67,7 +67,7 @@ describe('appReducers', () => {
 
       const expectedState = {
         twentyFourHourTime: false,
-        pushToken: '',
+        pushToken: {},
         emoji: {},
         editMessage: {
           content: undefined,

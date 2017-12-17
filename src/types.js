@@ -224,7 +224,7 @@ export type Actions = {
   fetchRestOfInitialData: (pushToken: string) => Action,
   deleteTokenPush: () => Action,
   deleteOutboxMessage: () => Action,
-  saveTokenPush: (pushToken: string) => Action,
+  saveTokenPush: (pushToken: string, result: string, msg: string) => Action,
   fetchEvents: () => Action,
   initNotifications: () => Action,
   switchAccount: (index: number) => Action,
@@ -286,7 +286,6 @@ export type AppState = {
   isOnline: boolean,
   isActive: boolean,
   needsInitialFetch: boolean,
-  pushToken: string,
   eventQueueId: number,
   editMessage: ?EditMessage,
   outboxSending: boolean,
@@ -330,7 +329,11 @@ export type NavigationState = {
 
 export type RealmState = {
   twentyFourHourTime: boolean,
-  pushToken: string,
+  pushToken: {
+    token: '',
+    msg: '',
+    result: '',
+  },
 };
 
 export type TopicDetails = {
