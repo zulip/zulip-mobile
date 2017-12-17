@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, WebView } from 'react-native';
 
-import type { Actions, Auth, Message } from '../types';
+import type { Actions, Auth, Narrow, TypingState } from '../types';
 import css from './html/css';
 import js from './html/js';
 import head from './html/head';
@@ -18,7 +18,13 @@ const styles = StyleSheet.create({
 type Props = {
   actions: Actions,
   auth: Auth,
-  messages: Message[],
+  fetchingOlder: boolean,
+  fetchingNewer: boolean,
+  singleFetchProgress?: boolean,
+  renderedMessages: Object[],
+  anchor?: number,
+  narrow?: Narrow,
+  typingUsers?: TypingState,
 };
 
 export default class MessageListWeb extends PureComponent<Props> {
@@ -34,8 +40,13 @@ export default class MessageListWeb extends PureComponent<Props> {
   };
 
   render() {
-    const { auth } = this.props;
-    const messagesHtml = renderMessagesAsHtml(this.props);
+    const { auth, singleFetchProgress, fetchingOlder, fetchingNewer } = this.props;
+    const messagesHtml = [
+      fetchingOlder ? '<div class="loading-spinner"></div>' : '',
+      ...renderMessagesAsHtml(this.props),
+      !singleFetchProgress && fetchingNewer ? '<div class="loading-spinner"></div>' : '',
+    ];
+
     const html = messagesHtml.join('').replace(/src="\//g, `src="${auth.realm}/`);
 
     return (

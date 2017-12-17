@@ -67,7 +67,7 @@ window.addEventListener('scroll', function() {
 });
 
 document.body.addEventListener('click', function(e) {
-  alert(e.target);
+  // alert(e.target);
   sendMessage({
     type: 'click',
     target: e.traget,
