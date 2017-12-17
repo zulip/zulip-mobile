@@ -47,21 +47,107 @@ export default class MessageListWeb extends Component<Props> {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    this.webview.postMessage(
-      JSON.stringify({
-        type: 'aboveMessages',
-        html: this.getHtml(nextProps),
-      }),
-      '*',
-    );
+    if (nextProps.fetchingOlder !== this.props.fetchingOlder) {
+      // toggle top loading-spinner
+      this.webview.postMessage(
+        JSON.stringify({
+          type: 'loading-top',
+          newState: nextProps.fetchingOlder,
+        }),
+        '*',
+      );
+    }
+    if (nextProps.fetchingNewer !== this.props.fetchingNewer) {
+      this.webview.postMessage(
+        JSON.stringify({
+          type: 'loading-bottom',
+          newState: nextProps.fetchingNewer,
+        }),
+        '*',
+      );
+    }
+    // find newly fetched message
+    console.log(`${nextProps.messages.length} ${this.props.messages.length}`);
+    if (nextProps.messages.length > this.props.messages.length) {
+      console.log(this.props.messages);
+      console.log(nextProps.messages);
+      console.log(
+        `${nextProps.messages[nextProps.messages.length - 1].timestamp} ${
+          this.props.messages[this.props.messages.length - 1].timestamp
+        }`,
+      );
+      if (nextProps.messages[0].timestamp === this.props.messages[0].timestamp) {
+        // newly messages are at bottom
+        console.log('cool1');
+        this.webview.postMessage(
+          JSON.stringify({
+            type: 'message-below',
+            html: this.getHtml({
+              ...nextProps,
+              messages: nextProps.messages.slice(
+                this.props.messages.length,
+                nextProps.messages.length,
+              ),
+            }),
+          }),
+          '*',
+        );
+      } else if (
+        nextProps.messages[nextProps.messages.length - 1].timestamp ===
+        this.props.messages[this.props.messages.length - 1].timestamp
+      ) {
+        console.log('cool');
+        // newly messages are at top
+        this.webview.postMessage(
+          JSON.stringify({
+            type: 'message-top',
+            html: this.getHtml({
+              ...nextProps,
+              messages: nextProps.messages.slice(0, nextProps.messages.length),
+            }),
+          }),
+          '*',
+        );
+      } else {
+        // replace all
+        this.webview.postMessage(
+          JSON.stringify({
+            type: 'message-replace',
+            html: this.getHtml(nextProps),
+          }),
+          '*',
+        );
+      }
+    } else if (
+      !(
+        nextProps.messages.length === this.props.messages.length &&
+        nextProps.messages[0].id === this.props.messages[0].id &&
+        nextProps.messages[nextProps.messages.length - 1].id ===
+          this.props.messages[this.props.messages.length - 1].id
+      )
+    ) {
+      // if all messages are same
+      // narrow are changed
+      // replace all messages
+      this.webview.postMessage(
+        JSON.stringify({
+          type: 'message-replace',
+          html: this.getHtml(nextProps),
+        }),
+        '*',
+      );
+    }
 
     return false;
   }
 
   render() {
-    const html = `<div class="loading-spinner"></div>${this.getHtml(
-      this.props,
-    )}<div class="loading-spinner"></div>`;
+    const { fetchingOlder, fetchingNewer, singleFetchProgress } = this.props;
+    const html = `<div id="top_loader" class="${
+      fetchingOlder ? 'loading-spinner' : ''
+    }"></div>${this.getHtml(this.props)}<div id="bottom_loader" class="${
+      !singleFetchProgress && fetchingNewer ? 'loading-spinner' : ''
+    }"></div>`;
 
     return (
       <WebView

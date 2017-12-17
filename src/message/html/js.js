@@ -12,7 +12,23 @@ document.addEventListener('message', function(e) {
     case 'bottom':
       window.scrollTo(0, document.body.scrollHeight);
       break;
-    case 'aboveMessages':
+    case 'loading-top':
+      var element = document.getElementById("top_loader");
+      if (msg.newState) {
+        element.classList.add("loading-spinner");
+      }else {
+        element.classList.remove("loading-spinner");
+      }
+      break;
+    case 'loading-bottom':
+      var element = document.getElementById("bottom_loader");
+      if (msg.newState) {
+        element.classList.add("loading-spinner");
+      }else {
+        element.classList.remove("loading-spinner");
+      }
+      break;
+    case 'message-top':
       let first = document.body.children[1];
       let before = document.createElement('div');
       before.innerHTML = msg.html;

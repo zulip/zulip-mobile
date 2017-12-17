@@ -284,5 +284,13 @@ ul {
   border: 1px solid ${BRAND_COLOR};
   background: rgba(36, 202, 194, 0.1);
 }
+.hidden {
+  visibility: 'hidden';
+  height: 0;
+}
+.visible {
+  visibility: 'visible';
+  height: 'auto';
+}
 </style>
 `;
