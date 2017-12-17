@@ -7,6 +7,7 @@ import {
   ACCOUNT_SWITCH,
   EVENT_PRESENCE,
   PRESENCE_RESPONSE,
+  REALM_INIT,
 } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 
@@ -19,6 +20,9 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return initialState;
+
+    case REALM_INIT:
+      return action.data.presences;
 
     case PRESENCE_RESPONSE:
       return {
