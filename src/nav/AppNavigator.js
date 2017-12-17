@@ -19,6 +19,7 @@ import DebugScreen from '../settings/DebugScreen';
 import DiagnosticsScreen from '../diagnostics/DiagnosticsScreen';
 import VariablesScreen from '../diagnostics/VariablesScreen';
 import TimingScreen from '../diagnostics/TimingScreen';
+import NotificationDiagScreen from '../diagnostics/NotificationDiagScreen';
 import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import GroupScreen from '../group/GroupScreen';
@@ -53,6 +54,7 @@ export default StackNavigator(
     stream: { screen: StreamScreen },
     'stream-edit': { screen: EditStreamScreen },
     'stream-create': { screen: CreateStreamScreen },
+    notifDiag: { screen: NotificationDiagScreen },
     notifications: { screen: NotificationsScreen },
   },
   {
