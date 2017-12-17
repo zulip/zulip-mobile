@@ -1,5 +1,5 @@
 /* @flow */
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, WebView } from 'react-native';
 
 import type { Actions, Auth, Narrow, TypingState } from '../types';
@@ -27,7 +27,7 @@ type Props = {
   typingUsers?: TypingState,
 };
 
-export default class MessageListWeb extends PureComponent<Props> {
+export default class MessageListWeb extends Component<Props> {
   webview: ?Object;
   props: Props;
 
@@ -39,15 +39,31 @@ export default class MessageListWeb extends PureComponent<Props> {
     webViewEventHandlers[handler](this.props, eventData);
   };
 
-  render() {
-    const { auth, singleFetchProgress, fetchingOlder, fetchingNewer } = this.props;
-    const messagesHtml = [
+  getHtml = props => {
+    const { auth, singleFetchProgress, fetchingOlder, fetchingNewer } = props;
+
+    const messageAsHtml = [
       fetchingOlder ? '<div class="loading-spinner"></div>' : '',
       ...renderMessagesAsHtml(this.props),
       !singleFetchProgress && fetchingNewer ? '<div class="loading-spinner"></div>' : '',
     ];
+    return messageAsHtml.join('').replace(/src="\//g, `src="${auth.realm}/`);
+  };
 
-    const html = messagesHtml.join('').replace(/src="\//g, `src="${auth.realm}/`);
+  shouldComponentUpdate(nextProps, nextState) {
+    this.webview.postMessage(
+      JSON.stringify({
+        type: 'aboveMessages',
+        html: this.getHtml(nextProps),
+      }),
+      '*',
+    );
+
+    return false;
+  }
+
+  render() {
+    const html = this.getHtml(this.props);
 
     return (
       <WebView

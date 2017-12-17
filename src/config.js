@@ -7,7 +7,7 @@ const isEmulator = NativeModules.RNDeviceInfo ? DeviceInfo.isEmulator() : false;
 
 export default {
   compatibilityUrl: 'https://zulipchat.com/compatibility',
-  messagesPerRequest: 20,
+  messagesPerRequest: 5,
   scrollCallbackThrottle: 500,
   messageListThreshold: 500,
   enableReduxLogging: isDevelopment && !!global.btoa,

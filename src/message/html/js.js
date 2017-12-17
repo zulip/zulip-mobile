@@ -2,21 +2,22 @@
 
 export default `
 window.onerror = function(message){
-   alert('error');
+   alert(message);
    return false;
  };
 
 document.addEventListener('message', function(e) {
   const msg = JSON.parse(e.data);
-  switch (msgObj.type) {
+  switch (msg.type) {
     case 'bottom':
       window.scrollTo(0, document.body.scrollHeight);
       break;
-    case 'messages':
+    case 'aboveMessages':
       let first = document.body.children[0];
       let before = document.createElement('div');
-      before.innerHTML = msgObj.html;
+      before.innerHTML = msg.html;
       document.body.insertBefore(before, first);
+      window.scrollTo(0, before.scrollHeight);
       break;
   }
 });
