@@ -10,7 +10,7 @@ export default (text: string, selection: InputSelectionType) => {
   const lastIndex: number = Math.max(
     text.lastIndexOf(':'),
     text.lastIndexOf('#'),
-    text[text.lastIndexOf('@') - 1] === ' ' || text.lastIndexOf('@') === 0
+    [' ', '#', ':'].includes(text[text.lastIndexOf('@') - 1]) || text.lastIndexOf('@') === 0
       ? text.lastIndexOf('@')
       : -1,
   );
