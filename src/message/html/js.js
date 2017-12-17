@@ -13,7 +13,7 @@ document.addEventListener('message', function(e) {
       window.scrollTo(0, document.body.scrollHeight);
       break;
     case 'aboveMessages':
-      let first = document.body.children[0];
+      let first = document.body.children[1];
       let before = document.createElement('div');
       before.innerHTML = msg.html;
       document.body.insertBefore(before, first);

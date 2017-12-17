@@ -40,13 +40,9 @@ export default class MessageListWeb extends Component<Props> {
   };
 
   getHtml = props => {
-    const { auth, singleFetchProgress, fetchingOlder, fetchingNewer } = props;
+    const { auth } = props;
 
-    const messageAsHtml = [
-      fetchingOlder ? '<div class="loading-spinner"></div>' : '',
-      ...renderMessagesAsHtml(this.props),
-      !singleFetchProgress && fetchingNewer ? '<div class="loading-spinner"></div>' : '',
-    ];
+    const messageAsHtml = renderMessagesAsHtml(props);
     return messageAsHtml.join('').replace(/src="\//g, `src="${auth.realm}/`);
   };
 
@@ -63,7 +59,9 @@ export default class MessageListWeb extends Component<Props> {
   }
 
   render() {
-    const html = this.getHtml(this.props);
+    const html = `<div class="loading-spinner"></div>${this.getHtml(
+      this.props,
+    )}<div class="loading-spinner"></div>`;
 
     return (
       <WebView
