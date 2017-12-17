@@ -35,6 +35,12 @@ document.addEventListener('message', function(e) {
       document.body.insertBefore(before, first);
       window.scrollTo(0, before.scrollHeight);
       break;
+    case 'message-below':
+      let last = document.body.children[document.body.childElementCount - 1];
+      let after = document.createElement('div');
+      after.innerHTML = msg.html;
+      document.body.insertBefore(after, last);
+      break;
   }
 });
 
@@ -73,11 +79,15 @@ function updatePinnedHeader() {
 };
 
 window.addEventListener('scroll', function() {
+  var data = JSON.stringify({
+    type: 'scroll',
+    y: window.scrollY,
+    innerHeight: window.innerHeight,
+    offsetHeight: document.body.offsetHeight,
+  });
+  // alert(data);
   window.postMessage(
-    JSON.stringify({
-      type: 'scroll',
-      y: window.scrollY,
-    }),
+    data,
     '*'
   );
   updatePinnedHeader();

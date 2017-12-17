@@ -43,9 +43,12 @@ type Props = {
 export const handleClick = (props: Props, event: MessageListEventClick) => {};
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
-  const { y } = event;
+  const { y, innerHeight, offsetHeight } = event;
+  console.log(event);
   if (y === 0) {
     props.actions.fetchOlder();
+  } else if (innerHeight + y >= offsetHeight) {
+    props.actions.fetchNewer();
   }
 };
 

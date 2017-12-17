@@ -67,18 +67,9 @@ export default class MessageListWeb extends Component<Props> {
       );
     }
     // find newly fetched message
-    console.log(`${nextProps.messages.length} ${this.props.messages.length}`);
     if (nextProps.messages.length > this.props.messages.length) {
-      console.log(this.props.messages);
-      console.log(nextProps.messages);
-      console.log(
-        `${nextProps.messages[nextProps.messages.length - 1].timestamp} ${
-          this.props.messages[this.props.messages.length - 1].timestamp
-        }`,
-      );
       if (nextProps.messages[0].timestamp === this.props.messages[0].timestamp) {
         // newly messages are at bottom
-        console.log('cool1');
         this.webview.postMessage(
           JSON.stringify({
             type: 'message-below',
@@ -96,7 +87,6 @@ export default class MessageListWeb extends Component<Props> {
         nextProps.messages[nextProps.messages.length - 1].timestamp ===
         this.props.messages[this.props.messages.length - 1].timestamp
       ) {
-        console.log('cool');
         // newly messages are at top
         this.webview.postMessage(
           JSON.stringify({
