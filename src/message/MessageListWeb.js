@@ -6,9 +6,8 @@ import type { Actions, Auth, Message } from '../types';
 import css from './html/css';
 import js from './html/js';
 import head from './html/head';
-import { getResource } from '../utils/url';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
-import { emojiReactionAdd, emojiReactionRemove } from '../api';
+import * as webViewEventHandlers from './webViewEventHandlers';
 
 const styles = StyleSheet.create({
   webview: {
@@ -26,67 +25,12 @@ export default class MessageListWeb extends PureComponent<Props> {
   webview: ?Object;
   props: Props;
 
-  handleClick = ({
-    target,
-    targetNodeName,
-    targetClassName,
-  }: {
-    target: string,
-    targetNodeName: string,
-    targetClassName: string,
-  }) => {};
-
-  handleScroll = ({ y }: { y: number }) => {
-    const { actions } = this.props;
-    if (y === 0) {
-      actions.fetchOlder();
-    }
-  };
-
-  handleAvatar = ({ fromEmail }: { fromEmail: string }) => {
-    const { actions } = this.props;
-    actions.navigateToAccountDetails(fromEmail);
-  };
-
-  handleNarrow = ({ narrow, fromEmail }: { narrow: string, fromEmail: string }) => {
-    const { actions } = this.props;
-
-    actions.doNarrow(JSON.parse(narrow.replace(/'/g, '"')));
-  };
-
-  handleImage = ({ src, messageId }: { src: string, messageId: number }) => {
-    const { actions, auth, messages } = this.props;
-
-    const message = messages.find(x => x.id === messageId);
-    const resource = getResource(src, auth);
-
-    actions.navigateToLightbox(resource, message);
-  };
-
   handleMessage = (event: Object) => {
-    const data = JSON.parse(event.nativeEvent.data);
-    const handler = `handle${data.type.charAt(0).toUpperCase()}${data.type.slice(1)}`;
+    const eventData = JSON.parse(event.nativeEvent.data);
+    const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
 
     // $FlowFixMe
-    this[handler](data);
-  };
-
-  handleReaction = ({
-    messageId,
-    name,
-    voted,
-  }: {
-    messageId: number,
-    name: string,
-    voted: boolean,
-  }) => {
-    const { auth } = this.props;
-
-    if (voted) {
-      emojiReactionRemove(auth, messageId, name);
-    } else {
-      emojiReactionAdd(auth, messageId, name);
-    }
+    webViewEventHandlers[handler](this.props, eventData);
   };
 
   render() {
