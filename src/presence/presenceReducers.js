@@ -7,6 +7,7 @@ import {
   ACCOUNT_SWITCH,
   EVENT_PRESENCE,
   PRESENCE_RESPONSE,
+  REALM_INIT,
 } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 
@@ -19,7 +20,18 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return initialState;
-
+    case REALM_INIT: {
+      return {
+        ...state,
+        presence: {
+          ...state.presence,
+          ...Object.keys(action.data.presences).reduce((obj, key) => {
+            obj[key] = { ...action.data.presences[key].aggregated };
+            return obj;
+          }, {}),
+        },
+      };
+    }
     case PRESENCE_RESPONSE:
       return {
         ...state,

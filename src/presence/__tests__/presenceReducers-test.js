@@ -1,7 +1,12 @@
 /* @flow */
 import deepFreeze from 'deep-freeze';
 
-import { PRESENCE_RESPONSE, EVENT_PRESENCE, ACCOUNT_SWITCH } from '../../actionConstants';
+import {
+  PRESENCE_RESPONSE,
+  EVENT_PRESENCE,
+  ACCOUNT_SWITCH,
+  REALM_INIT,
+} from '../../actionConstants';
 import presenceReducers from '../presenceReducers';
 
 describe('presenceReducers', () => {
@@ -99,6 +104,86 @@ describe('presenceReducers', () => {
 
       const newState = presenceReducers(prevState, action);
 
+      expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('REALM_INIT', () => {
+    test('Test REALM_INIT for storing blank data', () => {
+      const prevState = deepFreeze({});
+      const action = deepFreeze({
+        type: REALM_INIT,
+        data: {
+          presences: {},
+        },
+      });
+
+      const expectedState = deepFreeze({
+        presence: {},
+      });
+
+      const newState = presenceReducers(prevState, action);
+      expect(newState).toEqual(expectedState);
+    });
+
+    test('Test REALM_INIT for storing data', () => {
+      const prevState = deepFreeze({});
+      const action = deepFreeze({
+        type: REALM_INIT,
+        data: {
+          presences: {
+            'test1@zulip.com': {
+              aggregated: {
+                client: 'website',
+                status: 'active',
+                timestamp: 1512651465,
+              },
+              website: {
+                pushable: false,
+                client: 'website',
+                timestamp: 1512651465,
+                status: 'active',
+              },
+            },
+            'test2@zulip.com': {
+              aggregated: {
+                client: 'website',
+                status: 'active',
+                timestamp: 1513351616,
+              },
+              website: {
+                pushable: false,
+                client: 'website',
+                timestamp: 1513351616,
+                status: 'active',
+              },
+              ZulipAndroid: {
+                pushable: false,
+                client: 'ZulipAndroid',
+                timestamp: 1512909431,
+                status: 'active',
+              },
+            },
+          },
+        },
+      });
+
+      const expectedState = deepFreeze({
+        presence: {
+          'test1@zulip.com': {
+            client: 'website',
+            status: 'active',
+            timestamp: 1512651465,
+          },
+          'test2@zulip.com': {
+            client: 'website',
+            status: 'active',
+            timestamp: 1513351616,
+          },
+        },
+      });
+
+      const newState = presenceReducers(prevState, action);
       expect(newState).toEqual(expectedState);
     });
   });
