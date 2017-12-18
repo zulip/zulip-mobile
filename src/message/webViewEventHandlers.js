@@ -11,7 +11,9 @@ type MessageListEventClick = {
 };
 
 type MessageListEventScroll = {
-  y: number,
+  innerHeight: number,
+  offsetHeight: number,
+  scrollY: number,
 };
 
 type MessageListEventAvatar = {
@@ -43,9 +45,12 @@ type Props = {
 export const handleClick = (props: Props, event: MessageListEventClick) => {};
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
-  const { y } = event;
-  if (y === 0) {
-    props.actions.fetchOlder();
+  const { innerHeight, offsetHeight, scrollY } = event;
+  const { actions } = props;
+  if (scrollY === 0) {
+    actions.fetchOlder();
+  } else if (innerHeight + scrollY >= offsetHeight) {
+    actions.fetchNewer();
   }
 };
 
