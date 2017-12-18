@@ -190,6 +190,12 @@ if ([scrollViewListener respondsToSelector:_cmd]) { \
     // offset falls outside of bounds, scroll back to end of list
     newOffset.y = MAX(0, newContentSize.height - self.bounds.size.height);
   }
+  // Dispatch event
+  // update scrollOfset at JS component
+  RCT_SEND_SCROLL_EVENT(onScroll, (@{
+                                     @"updatedChildFrames": @[],
+                                     @"visibleIds": @[]
+                                     }));
   return newOffset;
 }
 
