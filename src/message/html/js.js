@@ -59,7 +59,9 @@ window.addEventListener('scroll', function() {
   window.postMessage(
     JSON.stringify({
       type: 'scroll',
-      y: window.scrollY,
+      scrollY: window.scrollY,
+      innerHeight: window.innerHeight,
+      offsetHeight: document.body.offsetHeight,
     }),
     '*'
   );
