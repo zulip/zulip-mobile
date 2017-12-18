@@ -6,6 +6,8 @@ import {
   getUsersStatusActive,
   getUsersStatusIdle,
   getUsersStatusOffline,
+  getUsersByEmail,
+  getUsersById,
 } from '../userSelectors';
 
 describe('getAccountDetailsUser', () => {
@@ -154,5 +156,47 @@ describe('getUsersStatusOffline', () => {
     const actualUser = getUsersStatusOffline(state);
 
     expect(actualUser).toEqual(expectedUsers);
+  });
+});
+
+describe('getUsersByEmail', () => {
+  test('return users mapped by their email', () => {
+    const state = deepFreeze({
+      users: [
+        { id: 1, email: 'abc@example.com', isActive: true },
+        { id: 2, email: 'def@example.com', isActive: true },
+        { id: 3, email: 'xyz@example.com', isActive: true },
+      ],
+    });
+    const expectedResult = {
+      'abc@example.com': { id: 1, email: 'abc@example.com', isActive: true },
+      'def@example.com': { id: 2, email: 'def@example.com', isActive: true },
+      'xyz@example.com': { id: 3, email: 'xyz@example.com', isActive: true },
+    };
+
+    const result = getUsersByEmail(state);
+
+    expect(result).toEqual(expectedResult);
+  });
+});
+
+describe('getUsersById', () => {
+  test('return users mapped by their Id', () => {
+    const state = deepFreeze({
+      users: [
+        { id: 1, email: 'abc@example.com', isActive: true },
+        { id: 2, email: 'def@example.com', isActive: true },
+        { id: 3, email: 'xyz@example.com', isActive: true },
+      ],
+    });
+    const expectedResult = {
+      1: { id: 1, email: 'abc@example.com', isActive: true },
+      2: { id: 2, email: 'def@example.com', isActive: true },
+      3: { id: 3, email: 'xyz@example.com', isActive: true },
+    };
+
+    const result = getUsersById(state);
+
+    expect(result).toEqual(expectedResult);
   });
 });
