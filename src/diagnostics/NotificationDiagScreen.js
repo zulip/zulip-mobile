@@ -7,14 +7,16 @@ import connectWithActions from '../connectWithActions';
 
 type Props = {
   pushToken: { token: string, msg: string, result: string },
+  initialNotification: {},
 };
 
 class NotificationDiagScreen extends PureComponent<Props> {
   render() {
-    const { pushToken } = this.props;
+    const { pushToken, initialNotification } = this.props;
     const variables = {
       Result: pushToken.result,
       Message: pushToken.msg,
+      'Initial notification': JSON.stringify(initialNotification),
     };
     return (
       <Screen title="Notification Diagnostics" padding>
@@ -30,4 +32,5 @@ class NotificationDiagScreen extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   pushToken: state.realm.pushToken,
+  initialNotification: state.app.debug.initialNotification,
 }))(NotificationDiagScreen);
