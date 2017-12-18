@@ -40,7 +40,7 @@ const initialState: AppState = {
     top: 0,
   },
   debug: {
-    htmlMessages: false,
+    htmlMessages: true,
     unreadMessages: false,
     splitMessageText: false,
   },

@@ -2,21 +2,44 @@
 
 export default `
 window.onerror = function(message){
-   alert('error');
+   alert(message);
    return false;
  };
 
 document.addEventListener('message', function(e) {
   const msg = JSON.parse(e.data);
-  switch (msgObj.type) {
+  switch (msg.type) {
     case 'bottom':
       window.scrollTo(0, document.body.scrollHeight);
       break;
-    case 'messages':
-      let first = document.body.children[0];
+    case 'loading-top':
+      var element = document.getElementById("top_loader");
+      if (msg.newState) {
+        element.classList.add("loading-spinner");
+      }else {
+        element.classList.remove("loading-spinner");
+      }
+      break;
+    case 'loading-bottom':
+      var element = document.getElementById("bottom_loader");
+      if (msg.newState) {
+        element.classList.add("loading-spinner");
+      }else {
+        element.classList.remove("loading-spinner");
+      }
+      break;
+    case 'message-top':
+      let first = document.body.children[1];
       let before = document.createElement('div');
-      before.innerHTML = msgObj.html;
+      before.innerHTML = msg.html;
       document.body.insertBefore(before, first);
+      window.scrollTo(0, before.scrollHeight);
+      break;
+    case 'message-below':
+      let last = document.body.children[document.body.childElementCount - 1];
+      let after = document.createElement('div');
+      after.innerHTML = msg.html;
+      document.body.insertBefore(after, last);
       break;
   }
 });
@@ -56,11 +79,15 @@ function updatePinnedHeader() {
 };
 
 window.addEventListener('scroll', function() {
+  var data = JSON.stringify({
+    type: 'scroll',
+    y: window.scrollY,
+    innerHeight: window.innerHeight,
+    offsetHeight: document.body.offsetHeight,
+  });
+  // alert(data);
   window.postMessage(
-    JSON.stringify({
-      type: 'scroll',
-      y: window.scrollY,
-    }),
+    data,
     '*'
   );
   updatePinnedHeader();
