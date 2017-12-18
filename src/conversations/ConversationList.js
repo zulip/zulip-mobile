@@ -2,10 +2,10 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import { Label } from '../common';
-import ConversationUser from './ConversationUser';
-import ConversationGroup from './ConversationGroup';
 import type { User } from '../types';
+import { Label } from '../common';
+import UserItem from '../users/UserItem';
+import ConversationGroup from './ConversationGroup';
 
 const styles = StyleSheet.create({
   list: {
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   conversations: User[],
+  usersByEmail: Object,
   onPress: (email: string) => void,
 };
 
@@ -28,7 +29,7 @@ export default class ConversationList extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { conversations, onPress } = this.props;
+    const { conversations, usersByEmail, onPress } = this.props;
 
     if (!conversations.length) {
       return <Label style={styles.emptySlate} text="No recent conversations" />;
@@ -40,17 +41,32 @@ export default class ConversationList extends PureComponent<Props> {
         initialNumToRender={20}
         data={conversations}
         keyExtractor={item => item.recipients}
-        renderItem={({ item }) =>
-          item.recipients.indexOf(',') === -1 ? ( // if single recipient
-            <ConversationUser email={item.recipients} unreadCount={item.unread} onPress={onPress} />
-          ) : (
+        renderItem={({ item }) => {
+          if (item.recipients.indexOf(',') === -1) {
+            const user = usersByEmail[item.recipients];
+
+            if (!user) return null;
+
+            return (
+              <UserItem
+                email={user.email}
+                fullName={user.fullName}
+                avatarUrl={user.avatarUrl}
+                unreadCount={item.unread}
+                onPress={onPress}
+              />
+            );
+          }
+
+          return (
             <ConversationGroup
               email={item.recipients}
               unreadCount={item.unread}
+              usersByEmail={usersByEmail}
               onPress={onPress}
             />
-          )
-        }
+          );
+        }}
       />
     );
   }
