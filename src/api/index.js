@@ -1,5 +1,4 @@
 /* @flow */
-export { default as queueMarkAsRead } from './queueMarkAsRead';
 export { default as checkCompatibility } from './checkCompatibility';
 export { default as devFetchApiKey } from './devFetchApiKey';
 export { default as devGetEmails } from './devGetEmails';
@@ -28,6 +27,7 @@ export { default as getMessages } from './messages/getMessages';
 export { default as messagesFlags } from './messages/messagesFlags';
 export { default as sendMessage } from './messages/sendMessage';
 export { default as updateMessage } from './messages/updateMessage';
+export { default as markAsRead } from './messages/markAsRead';
 
 export { default as registerPush } from './notifications/registerPush';
 export { default as unregisterPush } from './notifications/unregisterPush';
