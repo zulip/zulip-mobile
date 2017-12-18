@@ -12,6 +12,10 @@ import {
 const objToStr = obj => JSON.stringify(obj).replace(/"/g, "'");
 
 export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
+  if (Object.keys(item).length === 0) {
+    return '';
+  }
+
   if (isStreamNarrow(narrow)) {
     const streamNarrowStr = objToStr(streamNarrow(item.display_recipient));
 

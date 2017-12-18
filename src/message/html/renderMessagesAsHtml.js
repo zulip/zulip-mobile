@@ -8,16 +8,15 @@ import timeRowAsHtml from './timeRowAsHtml';
 export default ({ auth, subscriptions, renderedMessages, isFetching, narrow, doNarrow }) =>
   renderedMessages.reduce(
     (list, section, index) => {
-      if (Object.keys(section.message).length > 0) {
-        list.push(
-          messageHeaderAsHtml({
-            auth,
-            item: section.message,
-            subscriptions,
-            narrow,
-          }),
-        );
-      }
+      list.push(
+        messageHeaderAsHtml({
+          auth,
+          item: section.message,
+          subscriptions,
+          narrow,
+        }),
+      );
+
       section.data.forEach((item, idx) => {
         if (item.type === 'time') {
           list.push(timeRowAsHtml(item.timestamp));
