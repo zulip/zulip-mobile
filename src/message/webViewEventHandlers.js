@@ -11,7 +11,9 @@ type MessageListEventClick = {
 };
 
 type MessageListEventScroll = {
-  y: number,
+  innerHeight: number,
+  offsetHeight: number,
+  scrollY: number,
 };
 
 type MessageListEventAvatar = {
