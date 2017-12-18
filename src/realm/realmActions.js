@@ -15,15 +15,17 @@ export const deleteTokenPush = (): Action => ({
   type: DELETE_TOKEN_PUSH,
 });
 
-const saveTokenPush = (pushToken: string) => ({
+const saveTokenPush = (pushToken: string, result: string, msg: string) => ({
   type: SAVE_TOKEN_PUSH,
   pushToken,
+  result,
+  msg,
 });
 
 export const initNotifications = (): Action => (dispatch: Dispatch, getState: GetState) => {
   initializeNotifications(
     getAuth(getState()),
-    token => dispatch(saveTokenPush(token)),
+    (token, msg, result) => dispatch(saveTokenPush(token, result, msg)),
     switchNarrow,
   );
 };

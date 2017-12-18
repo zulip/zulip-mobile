@@ -30,6 +30,8 @@ class DiagnosticsScreen extends PureComponent<Props> {
         <OptionButton label="Storage" onPress={actions.navigateToStorage} />
         <OptionDivider />
         <OptionButton label="Debug" onPress={actions.navigateToDebug} />
+        <OptionDivider />
+        <OptionButton label="Notifications" onPress={actions.navigateToNotifDiag} />
       </Screen>
     );
   }

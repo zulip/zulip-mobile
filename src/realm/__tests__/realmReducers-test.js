@@ -22,7 +22,7 @@ describe('realmReducers', () => {
 
       const expectedState = {
         twentyFourHourTime: false,
-        pushToken: '',
+        pushToken: { token: '', result: '', msg: '' },
         emoji: {},
         filters: [],
       };
@@ -37,18 +37,20 @@ describe('realmReducers', () => {
     test('save a new PUSH token', () => {
       const initialState = deepFreeze({
         twentyFourHourTime: false,
-        pushToken: '',
+        pushToken: { token: '', result: '', msg: '' },
         emoji: { customEmoji1: {} },
       });
 
       const action = deepFreeze({
         type: SAVE_TOKEN_PUSH,
         pushToken: 'new-key',
+        result: 'b',
+        msg: 'a',
       });
 
       const expectedState = {
         twentyFourHourTime: false,
-        pushToken: 'new-key',
+        pushToken: { token: 'new-key', result: 'b', msg: 'a' },
         emoji: { customEmoji1: {} },
       };
 
@@ -62,7 +64,7 @@ describe('realmReducers', () => {
     test('delete the PUSH token', () => {
       const initialState = deepFreeze({
         twentyFourHourTime: false,
-        pushToken: 'old-key',
+        pushToken: { token: 'old-key', result: '', msg: '' },
         emoji: { customEmoji1: {} },
       });
 
@@ -72,7 +74,7 @@ describe('realmReducers', () => {
 
       const expectedState = {
         twentyFourHourTime: false,
-        pushToken: '',
+        pushToken: { token: '', result: '', msg: '' },
         emoji: { customEmoji1: {} },
       };
 
@@ -86,7 +88,7 @@ describe('realmReducers', () => {
     test('change the display settings', () => {
       const initialState = deepFreeze({
         twentyFourHourTime: false,
-        gcmToken: '',
+        pushToken: { token: '', result: '', msg: '' },
         emoji: { customEmoji1: {} },
       });
 
@@ -101,7 +103,7 @@ describe('realmReducers', () => {
 
       const expectedState = {
         twentyFourHourTime: true,
-        gcmToken: '',
+        pushToken: { token: '', result: '', msg: '' },
         emoji: { customEmoji1: {} },
       };
 
@@ -115,7 +117,7 @@ describe('realmReducers', () => {
     test('update state to new realm_emoji', () => {
       const prevState = deepFreeze({
         twentyFourHourTime: false,
-        pushToken: 'key',
+        pushToken: { token: '', result: '', msg: '' },
         emoji: {},
         filter: [],
       });
@@ -133,7 +135,7 @@ describe('realmReducers', () => {
 
       const expectedState = {
         twentyFourHourTime: false,
-        pushToken: 'key',
+        pushToken: { token: '', result: '', msg: '' },
         emoji: {
           customEmoji1: {},
           customEmoji2: {},
@@ -151,7 +153,7 @@ describe('realmReducers', () => {
     test('update state to new realm_filter', () => {
       const prevState = deepFreeze({
         twentyFourHourTime: false,
-        pushToken: 'key',
+        pushToken: { token: '', result: '', msg: '' },
         emoji: {},
         filters: [],
       });
@@ -166,7 +168,7 @@ describe('realmReducers', () => {
 
       const expectedState = {
         twentyFourHourTime: false,
-        pushToken: 'key',
+        pushToken: { token: '', result: '', msg: '' },
         emoji: {},
         filters: [['#(?P<id>[0-9]+)', 'https://github.com/zulip/zulip/issues/%(id)s', 2]],
       };
