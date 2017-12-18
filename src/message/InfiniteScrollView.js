@@ -81,7 +81,8 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
   _keyboardShow(e) {
     this._keyboardHeight = e.endCoordinates.height;
 
-    if (!listComponent) {
+    if (!listComponent || !(this._keyboardHeight > 0)) {
+      //this._keyboardHeight = undefined;
       return;
     }
 
@@ -97,7 +98,7 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
   }
 
   _keyboardHide() {
-    if (_scrollOffset && listComponent) {
+    if (_scrollOffset && listComponent && this._keyboardHeight > 0) {
       listComponent.scrollTo({
         x: 0,
         y: _scrollOffset - this._keyboardHeight,

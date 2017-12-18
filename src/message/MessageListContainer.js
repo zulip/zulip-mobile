@@ -55,7 +55,7 @@ class MessageListContainer extends PureComponent<Props> {
 
   handleMessageListScroll = (e: Object) => {
     const { auth, flags } = this.props;
-    const visibleMessageIds = e.visibleIds.map(x => +x);
+    const visibleMessageIds = e.visibleIds ? e.visibleIds.map(x => +x) : [];
     const unreadMessageIds = filterUnreadMessageIds(visibleMessageIds, flags);
 
     if (unreadMessageIds.length > 0) {
