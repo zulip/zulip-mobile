@@ -19,6 +19,7 @@ const componentStyles = StyleSheet.create({
 type Props = {
   actions: Actions,
   conversations: Object[],
+  usersByEmail: Object,
   closeDrawer: () => void,
   doNarrowCloseDrawer: (narrow: Narrow) => void,
   closeDrawer: () => void,
@@ -44,7 +45,7 @@ export default class ConversationsCard extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { conversations } = this.props;
+    const { conversations, usersByEmail } = this.props;
 
     return (
       <View style={[componentStyles.container, styles.background]}>
@@ -54,7 +55,11 @@ export default class ConversationsCard extends PureComponent<Props> {
           text="Search people"
           onPress={this.handleSearchPeople}
         />
-        <ConversationList conversations={conversations} onPress={this.handleUserNarrow} />
+        <ConversationList
+          conversations={conversations}
+          usersByEmail={usersByEmail}
+          onPress={this.handleUserNarrow}
+        />
       </View>
     );
   }
