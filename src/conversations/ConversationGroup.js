@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Narrow } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { TextAvatar, RawLabel, Touchable, UnreadCount } from '../common';
 

@@ -23,7 +23,7 @@ export const getUserByEmail = (users: any[], userEmail: string) =>
 export const getUserById = (users: any[], userId: number) =>
   users.find(user => user.id === userId) || NULL_USER;
 
-export const groupUsersByInitials = (users: any[]): Object =>
+export const groupUsersByInitials = (users: User[]): Object =>
   users.reduce((accounts, x) => {
     const firstLetter = x.fullName[0].toUpperCase();
     if (!accounts[firstLetter]) {
@@ -32,6 +32,16 @@ export const groupUsersByInitials = (users: any[]): Object =>
     accounts[firstLetter].push(x);
     return accounts;
   }, {});
+
+export const groupUsersByStatus = (users: User[], presences: Object): Object =>
+  users.reduce(
+    (groupedUsers, user) => {
+      const status = presences[user.email] ? presences[user.email].aggregated.status : 'offline';
+      groupedUsers[status].push(user);
+      return groupedUsers;
+    },
+    { active: [], idle: [], offline: [] },
+  );
 
 export const sortUserList = (users: any[]): User[] =>
   [...users].sort(
