@@ -11,6 +11,7 @@ import {
   filterUserThatContains,
   filterUserMatchesEmail,
   getUniqueUsers,
+  groupUsersByStatus,
 } from '../userHelpers';
 
 describe('filterUserList', () => {
@@ -239,6 +240,38 @@ describe('filterUserByInitials', () => {
       { fullName: 'Mac App', email: 'p@p2.com' },
     ];
     expect(filterUserByInitials(users, 'ma', 'own@example.com')).toEqual(expectedUsers);
+  });
+});
+
+describe('groupUsersByStatus', () => {
+  test('empty input results in empty map !!!', () => {
+    const users = deepFreeze([]);
+    const presence = deepFreeze({});
+
+    const groupedUsers = groupUsersByStatus(users, presence);
+    expect(groupedUsers).toEqual({ active: [], idle: [], offline: [] });
+  });
+
+  test('sort input by status, when no presence entry consider offline', () => {
+    const users = deepFreeze([
+      { email: 'allen@example.com' },
+      { email: 'bob@example.com' },
+      { email: 'carter@example.com' },
+      { email: 'dan@example.com' },
+    ]);
+    const presence = {
+      'allen@example.com': { aggregated: { status: 'active' } },
+      'bob@example.com': { aggregated: { status: 'idle' } },
+      'carter@example.com': { aggregated: { status: 'offline' } },
+    };
+    const expectedResult = {
+      active: [{ email: 'allen@example.com' }],
+      idle: [{ email: 'bob@example.com' }],
+      offline: [{ email: 'carter@example.com' }, { email: 'dan@example.com' }],
+    };
+
+    const groupedUsers = groupUsersByStatus(users, presence);
+    expect(groupedUsers).toEqual(expectedResult);
   });
 });
 
