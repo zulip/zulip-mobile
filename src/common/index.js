@@ -23,6 +23,7 @@ export { default as RawLabel } from './RawLabel';
 export { default as Screen } from './Screen';
 export { default as SearchEmptyState } from './SearchEmptyState';
 export { default as SearchInput } from './SearchInput';
+export { default as SectionHeader } from './SectionHeader';
 export { default as SectionSeparator } from './SectionSeparator';
 export { default as SectionSeparatorBetween } from './SectionSeparatorBetween';
 export { default as SlideAnimationView } from './SlideAnimationView';
