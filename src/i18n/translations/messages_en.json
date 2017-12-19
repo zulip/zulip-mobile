@@ -124,5 +124,8 @@
   "Update": "Update",
   "Save": "Save",
   "Pinned": "Pinned",
-  "Pin": "Pin"
+  "Pin": "Pin",
+  "Active": "Active",
+  "Idle": "Idle",
+  "Offline": "Offline"
 }

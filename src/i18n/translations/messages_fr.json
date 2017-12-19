@@ -100,8 +100,8 @@
   "Render messages with HTML": "Traduire le message en HTML",
   "Distinguish unread messages": "Différencier les messages non lus",
   "Split message text": "Séparer le texte du message",
-  "Administrators":"Administrateurs",
-  "Normal users":"Utilisateurs normaux",
+  "Administrators": "Administrateurs",
+  "Normal users": "Utilisateurs normaux",
   "Share image": "Share image",
   "Share link to image": "Share link to image",
   "You are not subscribed to this stream": "You are not subscribed to this stream",
@@ -124,5 +124,8 @@
   "Update": "Update",
   "Save": "Sauver",
   "Pinned": "Pinned",
-  "Pin": "Pin"
+  "Pin": "Pin",
+  "Active": "Active",
+  "Idle": "Idle",
+  "Offline": "Offline"
 }
