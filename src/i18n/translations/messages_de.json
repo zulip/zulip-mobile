@@ -100,8 +100,8 @@
   "Render messages with HTML": "Nachrichten mit HTML rendern",
   "Distinguish unread messages": "Ungelesene Nachrichten kennzeichnen",
   "Split message text": "Nachrichtentext aufspalten",
-  "Administrators":"Administratoren",
-  "Normal users":"Normale Nutzer",
+  "Administrators": "Administratoren",
+  "Normal users": "Normale Nutzer",
   "Share image": "Share image",
   "Share link to image": "Share link to image",
   "You are not subscribed to this stream": "You are not subscribed to this stream",
@@ -124,5 +124,8 @@
   "Update": "Update",
   "Save": "Speichern",
   "Pinned": "Pinned",
-  "Pin": "Pin"
+  "Pin": "Pin",
+  "Active": "Active",
+  "Idle": "Idle",
+  "Offline": "Offline"
 }

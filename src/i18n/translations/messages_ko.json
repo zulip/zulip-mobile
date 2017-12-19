@@ -100,8 +100,8 @@
   "Render messages with HTML": "HTML로 메시지 렌더링",
   "Distinguish unread messages": "읽지 않은 메시지 구분",
   "Split message text": "메시지 문자 분리",
-  "Administrators":"관리자",
-  "Normal users":"일반사용자",
+  "Administrators": "관리자",
+  "Normal users": "일반사용자",
   "Share image": "이미지 공유",
   "Share link to image": "이미지로 링크 공유",
   "You are not subscribed to this stream": "이 스트림을 구독하지 않았습니다.",
@@ -124,5 +124,8 @@
   "Update": "Update",
   "Save": "저장",
   "Pinned": "Pinned",
-  "Pin": "Pin"
+  "Pin": "Pin",
+  "Active": "Active",
+  "Idle": "Idle",
+  "Offline": "Offline"
 }

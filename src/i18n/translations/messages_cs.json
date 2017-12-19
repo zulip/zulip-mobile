@@ -100,8 +100,8 @@
   "Render messages with HTML": "Render messages with HTML",
   "Distinguish unread messages": "Distinguish unread messages",
   "Split message text": "Split message text",
-  "Administrators":"Správci",
-  "Normal users":"Normální uživatelé",
+  "Administrators": "Správci",
+  "Normal users": "Normální uživatelé",
   "Share image": "Share image",
   "Share link to image": "Share link to image",
   "You are not subscribed to this stream": "You are not subscribed to this stream",
@@ -124,5 +124,8 @@
   "Update": "Update",
   "Save": "Uložit",
   "Pinned": "Pinned",
-  "Pin": "Pin"
+  "Pin": "Pin",
+  "Active": "Činný",
+  "Idle": "Idle",
+  "Offline": "Offline"
 }
