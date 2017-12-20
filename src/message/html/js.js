@@ -53,7 +53,7 @@ function getMessageNode(node) {
     crNode = crNode.parentNode;
   }
   return crNode;
-}
+};
 
 window.addEventListener('scroll', function() {
   window.postMessage(
@@ -63,7 +63,7 @@ window.addEventListener('scroll', function() {
       innerHeight: window.innerHeight,
       offsetHeight: document.body.offsetHeight,
     }),
-    '*',
+    '*'
   );
   updatePinnedHeader();
 });
