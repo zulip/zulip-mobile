@@ -8,15 +8,16 @@ window.onerror = function(message){
 
 document.addEventListener('message', function(e) {
   const msg = JSON.parse(e.data);
-  switch (msgObj.type) {
+  switch (msg.type) {
     case 'bottom':
       window.scrollTo(0, document.body.scrollHeight);
       break;
-    case 'messages':
-      let first = document.body.children[0];
+    case 'message-top':
+      let first = document.body.children[1];
       let before = document.createElement('div');
-      before.innerHTML = msgObj.html;
+      before.innerHTML = msg.html;
       document.body.insertBefore(before, first);
+      window.scrollTo(0, before.scrollHeight);
       break;
   }
 });
