@@ -1,6 +1,7 @@
 /* @flow */
 import type { Actions, Auth, Message } from '../types';
 
+import config from '../config';
 import { getResource } from '../utils/url';
 import { emojiReactionAdd, emojiReactionRemove } from '../api';
 
@@ -47,9 +48,10 @@ export const handleClick = (props: Props, event: MessageListEventClick) => {};
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
   const { innerHeight, offsetHeight, scrollY } = event;
   const { actions } = props;
-  if (scrollY === 0) {
+
+  if (scrollY < config.messageListThreshold) {
     actions.fetchOlder();
-  } else if (innerHeight + scrollY >= offsetHeight) {
+  } else if (innerHeight + scrollY >= offsetHeight - config.messageListThreshold) {
     actions.fetchNewer();
   }
 };
