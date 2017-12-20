@@ -18,6 +18,12 @@ document.addEventListener('message', function(e) {
       before.innerHTML = msgObj.html;
       document.body.insertBefore(before, first);
       break;
+    case 'message-below':
+      let last = document.body.children[document.body.childElementCount - 1];
+      let after = document.createElement('div');
+      after.innerHTML = msg.html;
+      document.body.insertBefore(after, last);
+      break;
   }
 });
 
