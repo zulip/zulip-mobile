@@ -53,7 +53,11 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
     !isGroupNarrow(narrow) &&
     !isTopicNarrow(narrow)
   ) {
-    const recipients = item.display_recipient.filter(r => r.email !== auth.email);
+    const recipients =
+      item.display_recipient.length === 1 && item.display_recipient[0].email === auth.email
+        ? item.display_recipient
+        : item.display_recipient.filter(r => r.email !== auth.email);
+
     const narrowObj =
       recipients.length === 1
         ? privateNarrow(recipients[0].email)
