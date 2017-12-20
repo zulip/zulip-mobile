@@ -48,7 +48,7 @@ export default class MessageListWeb extends PureComponent<Props> {
     ];
 
     const html = messagesHtml.join('').replace(/src="\//g, `src="${auth.realm}/`);
-    console.log('Vishwesh');
+
     return (
       <WebView
         source={{ html: head + css + html }}
