@@ -92,13 +92,13 @@ th, td {
 .message {
   display: flex;
   word-wrap: break-word;
-  margin: 0 1em;
+  margin: 0.5em;
 }
 .avatar {
-  min-width: 32px;
-  width: 32px;
-  height: 32px;
-  margin-right: 1em;
+  min-width: 2.5em;
+  width: 2.5em;
+  height: 2.5em;
+  margin-right: 0.5em;
 }
 .avatar img {
   width: 100%;
