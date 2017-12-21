@@ -21,6 +21,7 @@ type Props = {
   children?: ChildrenArray<*>,
   isRightItemNav?: boolean,
   childrenStyle?: StyleObj,
+  orientation: string,
 };
 
 class ModalNavBar extends PureComponent<Props> {
@@ -42,6 +43,7 @@ class ModalNavBar extends PureComponent<Props> {
       style,
       isRightItemNav,
       childrenStyle,
+      orientation,
     } = this.props;
     const textStyle = [
       styles.navTitle,
@@ -55,9 +57,10 @@ class ModalNavBar extends PureComponent<Props> {
       ) : (
         this.props.children
       );
+    const navBarStyle = orientation === 'PORTRAIT' ? styles.navBar : styles.navBarLandscape;
 
     return (
-      <View style={[styles.navBar, style]}>
+      <View style={[navBarStyle, style]}>
         {canGoBack &&
           !isRightItemNav && (
             <NavButton name="arrow-left" color={itemsColor} onPress={actions.navigateBack} />
@@ -71,4 +74,5 @@ class ModalNavBar extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   canGoBack: getCanGoBack(state),
+  orientation: state.app.orientation,
 }))(ModalNavBar);
