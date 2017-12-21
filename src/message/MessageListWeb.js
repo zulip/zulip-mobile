@@ -57,18 +57,18 @@ export default class MessageListWeb extends Component<Props> {
   };
 
   componentWillReceiveProps = (nextProps: Props) => {
-    if (this.props.fetchOlder !== nextProps.fetchOlder) {
+    if (this.props.fetchingOlder !== nextProps.fetchingOlder) {
       // toggle top loading-spinner
       this.sendMessage({
-        type: 'loading-top',
-        newState: nextProps.fetchingOlder,
+        type: 'fetchingOlder',
+        isVisible: nextProps.fetchingOlder,
       });
       return;
     }
     if (nextProps.fetchingNewer !== this.props.fetchingNewer) {
       this.sendMessage({
-        type: 'loading-bottom',
-        newState: nextProps.fetchingNewer,
+        type: 'fetchingNewer',
+        isVisible: nextProps.fetchingNewer,
       });
       return;
     }

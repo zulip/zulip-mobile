@@ -26,22 +26,20 @@ document.addEventListener('message', function(e) {
       var first = document.getElementById('message-list');
       var before = document.createElement('div');
       first.innerHTML = msg.content;
-    case 'loading-top':
-      var element = document.getElementById('top_loader');
-      if (msg.newState) {
-        element.classList.add('loading-spinner');
-        window.scrollTo(0, 0);
+    case 'fetchingOlder':
+      var element = document.getElementById('spinner-older');
+      if (msg.isVisible) {
+        element.classList.remove('hidden');
       } else {
-        element.classList.remove('loading-spinner');
+        element.classList.add('hidden');
       }
       break;
-    case 'loading-bottom':
-      var element = document.getElementById('bottom_loader');
-      if (msg.newState) {
-        element.classList.add('loading-spinner');
-        window.scrollTo(0, document.body.scrollHeight);
+    case 'fetchingNewer':
+      var element = document.getElementById('spinner-newer');
+      if (msg.isVisible) {
+        element.classList.remove('hidden');
       } else {
-        element.classList.remove('loading-spinner');
+        element.classList.add('hidden');
       }
       break;
   }
