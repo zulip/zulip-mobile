@@ -1,21 +1,33 @@
 /* eslint-disable */
 
 export default `
-window.onerror = function(message){
-   alert('error');
-   return false;
- };
+<script>
+function sendMessage(msg) {
+  window.postMessage(JSON.stringify(msg), '*');
+};
+
+window.onerror = function(message, source, lineno, colno, error) {
+  alert([
+    'Message: ' + msg,
+    'URL: ' + url,
+    'Line: ' + lineNo,
+    'Column: ' + columnNo,
+    'Error object: ' + JSON.stringify(error)
+  ].join(' - '));
+
+  return false;
+};
 
 document.addEventListener('message', function(e) {
   const msg = JSON.parse(e.data);
-  switch (msgObj.type) {
+  switch (msg.type) {
     case 'bottom':
       window.scrollTo(0, document.body.scrollHeight);
       break;
-    case 'messages':
-      let first = document.body.children[0];
-      let before = document.createElement('div');
-      before.innerHTML = msgObj.html;
+    case 'content':
+      var first = document.getElementById('message-list');
+      var before = document.createElement('div');
+      first.innerHTML = msg.content;
       document.body.insertBefore(before, first);
       break;
   }
@@ -27,32 +39,6 @@ function getMessageNode(node) {
     crNode = crNode.parentNode;
   }
   return crNode;
-};
-
-function sendMessage(msg) {
-  window.postMessage(JSON.stringify(msg), '*');
-};
-
-let prevHeader;
-
-function updatePinnedHeader() {
-  return;
-  let crNode = getMessageNode(document.elementFromPoint(200, 40));
-
-  let header = crNode;
-  while (header) {
-    if (header.matches && header.matches('.header')) break;
-    header = header.previousSibling;
-  }
-
-  if (prevHeader && header && header !== prevHeader) {
-    prevHeader.classList.remove('fixed-header');
-  }
-
-  if (header) {
-    header.classList.add('fixed-header');
-    prevHeader = header;
-  }
 };
 
 window.addEventListener('scroll', function() {
@@ -117,5 +103,5 @@ document.body.addEventListener('click', function(e) {
   }
 });
 
-updatePinnedHeader();
+</script>
 `;

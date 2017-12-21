@@ -284,5 +284,8 @@ ul {
   border: 1px solid ${BRAND_COLOR};
   background: rgba(36, 202, 194, 0.1);
 }
+.hidden {
+  display: none;
+}
 </style>
 `;
