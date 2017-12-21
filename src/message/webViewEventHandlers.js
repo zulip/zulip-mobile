@@ -45,6 +45,11 @@ type Props = {
 
 export const handleClick = (props: Props, event: MessageListEventClick) => {};
 
+export const handleUrl = (props: Props, event: MessageListEventClick) => {
+  const { actions } = props;
+  actions.messageLinkPress(event.href);
+};
+
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
   const { innerHeight, offsetHeight, scrollY } = event;
   const { actions } = props;

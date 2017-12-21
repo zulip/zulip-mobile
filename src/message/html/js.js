@@ -84,6 +84,11 @@ document.body.addEventListener('click', function(e) {
       src: e.target.getAttribute('href'),
       messageId: +getMessageNode(e.target).id,
     });
+  } else if (e.target.matches('a')) {
+    sendMessage({
+      type: 'url',
+      href: e.target.getAttribute('href'),
+    });
   }
 
   if (e.target.matches('a[target="_blank"] > img')) {
