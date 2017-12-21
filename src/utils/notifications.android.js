@@ -3,19 +3,15 @@ import { NotificationsAndroid } from 'react-native-notifications';
 
 import type { Auth } from '../types';
 import { registerPush } from '../api';
-import { streamNarrow, privateNarrow } from '../utils/narrow';
 import { logErrorRemotely } from '../utils/logging';
+import { handleNotification } from './notificationsCommon';
 
 export const handlePendingNotifications = async (notification, doNarrow) => {
   if (notification) {
     const data = notification.getData();
     console.log('Opened app by notification', data); //eslint-disable-line
-    if (data && data.recipient_type) {
-      if (data.recipient_type === 'stream') {
-        doNarrow(streamNarrow(data.stream, data.topic));
-      } else if (data.recipient_type === 'private') {
-        doNarrow(privateNarrow(data.sender_email));
-      }
+    if (data) {
+      handleNotification(data, doNarrow);
     }
   }
 };

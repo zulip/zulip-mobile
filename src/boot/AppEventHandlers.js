@@ -54,7 +54,7 @@ class AppEventHandlers extends PureComponent<Props> {
 
   handleNotificationOpen = notification => {
     const { doNarrow, saveInitialNotificationDetails } = this.props.actions;
-    saveInitialNotificationDetails(notification);
+    saveInitialNotificationDetails(notification.getData());
     setTimeout(() => handlePendingNotifications(notification, doNarrow), 600);
   };
 
