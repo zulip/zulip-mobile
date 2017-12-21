@@ -37,6 +37,11 @@ type MessageListEventReaction = {
   voted: boolean,
 };
 
+type MessageListEventUrl = {
+  href: string,
+  messageId: number,
+};
+
 type Props = {
   actions: Actions,
   auth: Auth,
@@ -44,6 +49,11 @@ type Props = {
 };
 
 export const handleClick = (props: Props, event: MessageListEventClick) => {};
+
+export const handleUrl = (props: Props, event: MessageListEventUrl) => {
+  const { actions } = props;
+  actions.messageLinkPress(event.href);
+};
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
   const { innerHeight, offsetHeight, scrollY } = event;
