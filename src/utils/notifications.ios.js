@@ -5,11 +5,14 @@ import type { Auth } from '../types';
 import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';
 import { streamNarrow, privateNarrow } from '../utils/narrow';
+import { handleNotification } from './notifications';
 
-const register = async (auth: Auth, deviceToken: string) => registerPush(auth, deviceToken);
-
-const onPushRegistered = (auth: Auth, deviceToken: string, saveTokenPush: (arg: string) => any) => {
-  const result = register(auth, deviceToken);
+const onPushRegistered = async (
+  auth: Auth,
+  deviceToken: string,
+  saveTokenPush: (arg: string) => any,
+) => {
+  const result = await registerPush(auth, deviceToken);
   saveTokenPush(deviceToken, result.msg, result.result);
 };
 
@@ -32,15 +35,11 @@ export const refreshNotificationToken = () => {};
 
 export const handlePendingNotifications = async (notification, doNarrow) => {
   if (notification) {
-    const data = notification.getData();
-    if (data && data.custom) {
-      const { custom: { zulip } } = data;
-      if (zulip && zulip.recipient_type) {
-        if (zulip.recipient_type === 'stream') {
-          doNarrow(streamNarrow(zulip.stream, zulip.topic));
-        } else if (zulip.recipient_type === 'private') {
-          doNarrow(privateNarrow(zulip.sender_email));
-        }
+    const notifData = notification.getData();
+    if (notifData && notifData.custom) {
+      const { custom: { data } } = notifData;
+      if (data) {
+        handleNotification(data, doNarrow);
       }
     }
   }
