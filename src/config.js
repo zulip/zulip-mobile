@@ -17,6 +17,7 @@ export default {
   slowReducersThreshold: 5,
   sentryKey: 'ADD-DSN-HERE',
   enableErrorConsoleLogging: true,
+  offlineThresholdSecs: 140,
   trackServerEvents: [
     'message',
     'muted_topics',
