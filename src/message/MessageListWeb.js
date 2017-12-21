@@ -47,10 +47,10 @@ export default class MessageListWeb extends Component<Props> {
 
   shouldComponentUpdate = () => false;
 
-  content = () => {
-    const { auth } = this.props;
+  content = (props: Props) => {
+    const { auth } = props;
 
-    return renderMessagesAsHtml(this.props)
+    return renderMessagesAsHtml(props)
       .join('')
       .replace(/src="\//g, `src="${auth.realm}/`);
   };
@@ -58,14 +58,14 @@ export default class MessageListWeb extends Component<Props> {
   componentWillReceiveProps = (nextProps: Props) => {
     this.sendMessage({
       type: 'content',
-      content: this.content(),
+      content: this.content(nextProps),
     });
   };
 
   render() {
     return (
       <WebView
-        source={{ html: css + html(this.content()) + js }}
+        source={{ html: css + html(this.content(this.props)) + js }}
         style={styles.webview}
         ref={webview => {
           this.webview = webview;
