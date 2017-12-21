@@ -1,11 +1,11 @@
 /* @flow */
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, WebView } from 'react-native';
 
 import type { Actions, Auth, Narrow, TypingState } from '../types';
 import css from './html/css';
 import js from './html/js';
-import head from './html/head';
+import html from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import * as webViewEventHandlers from './webViewEventHandlers';
 
@@ -27,7 +27,7 @@ type Props = {
   typingUsers?: TypingState,
 };
 
-export default class MessageListWeb extends PureComponent<Props> {
+export default class MessageListWeb extends Component<Props> {
   webview: ?Object;
   props: Props;
 
@@ -39,20 +39,33 @@ export default class MessageListWeb extends PureComponent<Props> {
     webViewEventHandlers[handler](this.props, eventData);
   };
 
+  sendMessage = (msg: Object) => {
+    if (this.webview) {
+      this.webview.postMessage(JSON.stringify(msg), '*');
+    }
+  };
+
+  shouldComponentUpdate = () => false;
+
+  content = () => {
+    const { auth } = this.props;
+
+    return renderMessagesAsHtml(this.props)
+      .join('')
+      .replace(/src="\//g, `src="${auth.realm}/`);
+  };
+
+  componentWillReceiveProps = (nextProps: Props) => {
+    this.sendMessage({
+      type: 'content',
+      content: this.content(),
+    });
+  };
+
   render() {
-    const { auth, singleFetchProgress, fetchingOlder, fetchingNewer } = this.props;
-    const messagesHtml = [
-      fetchingOlder ? '<div class="loading-spinner"></div>' : '',
-      ...renderMessagesAsHtml(this.props),
-      !singleFetchProgress && fetchingNewer ? '<div class="loading-spinner"></div>' : '',
-    ];
-
-    const html = messagesHtml.join('').replace(/src="\//g, `src="${auth.realm}/`);
-
     return (
       <WebView
-        source={{ html: head + css + html }}
-        injectedJavaScript={js}
+        source={{ html: css + html(this.content()) + js }}
         style={styles.webview}
         ref={webview => {
           this.webview = webview;
