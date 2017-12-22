@@ -502,3 +502,9 @@ export type UnreadStream = {
   streamName: string,
   unread: number,
 };
+
+export type PresenceAggregated = {
+  client: string,
+  status: string,
+  timestamp: number,
+};

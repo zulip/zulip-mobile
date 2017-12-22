@@ -1,7 +1,7 @@
 /* @flow */
 import uniqby from 'lodash.uniqby';
 
-import { NULL_USER } from '../nullObjects';
+import { NULL_USER, NULL_PRESENCE_AGGREGATED } from '../nullObjects';
 import type { User } from '../types';
 
 const statusOrder = status => {
@@ -36,7 +36,9 @@ export const groupUsersByInitials = (users: User[]): Object =>
 export const groupUsersByStatus = (users: User[], presences: Object): Object =>
   users.reduce(
     (groupedUsers, user) => {
-      const status = presences[user.email] ? presences[user.email].aggregated.status : 'offline';
+      const status = presences[user.email]
+        ? (presences[user.email].aggregated || NULL_PRESENCE_AGGREGATED).status
+        : 'offline';
       groupedUsers[status].push(user);
       return groupedUsers;
     },
