@@ -88,6 +88,7 @@ document.body.addEventListener('click', function(e) {
     sendMessage({
       type: 'url',
       href: e.target.getAttribute('href'),
+      messageId: +getMessageNode(e.target).id,
     });
   }
 

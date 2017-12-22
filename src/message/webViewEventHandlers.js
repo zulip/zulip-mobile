@@ -73,9 +73,8 @@ export const handleImage = (props: Props, event: MessageListEventImage) => {
   const { src, messageId } = event;
 
   const message = props.messages.find(x => x.id === messageId);
-  const resource = getResource(src, props.auth);
 
-  props.actions.navigateToLightbox(resource, message);
+  props.actions.navigateToLightbox(src, message);
 };
 
 export const handleUrl = (props: Props, event: MessageListEventUrl) => {
