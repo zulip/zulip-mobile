@@ -26,21 +26,11 @@ document.addEventListener('message', function(e) {
       var first = document.getElementById('message-list');
       var before = document.createElement('div');
       first.innerHTML = msg.content;
-    case 'fetchingOlder':
-      var element = document.getElementById('spinner-older');
-      if (msg.isVisible) {
-        element.classList.remove('hidden');
-      } else {
-        element.classList.add('hidden');
-      }
-      break;
-    case 'fetchingNewer':
-      var element = document.getElementById('spinner-newer');
-      if (msg.isVisible) {
-        element.classList.remove('hidden');
-      } else {
-        element.classList.add('hidden');
-      }
+    case 'spinner':
+      var spinnerOlder = document.getElementById('spinner-older');
+      var spinnerNewer = document.getElementById('spinner-newer');
+      spinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
+      spinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
       break;
   }
 });
