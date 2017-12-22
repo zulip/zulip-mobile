@@ -137,6 +137,9 @@ export const fixRealmUrl = (url: string) => {
 
 export const getFileExtension = (filename: string): string => filename.split('.').pop();
 
+export const isUrlAnImage = (url: string): boolean =>
+  ['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(getFileExtension(url).toLowerCase());
+
 const mimes = {
   jpeg: 'image/jpeg',
   jpg: 'image/jpeg',
