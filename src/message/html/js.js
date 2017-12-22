@@ -5,12 +5,12 @@ function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
 };
 
-window.onerror = function(message, source, lineno, colno, error) {
+window.onerror = function(message, source, line, column, error) {
   alert([
-    'Message: ' + msg,
-    'URL: ' + url,
-    'Line: ' + lineNo,
-    'Column: ' + columnNo,
+    'Message: ' + message,
+    'Source: ' + source,
+    'Line: ' + line,
+    'Column: ' + column,
     'Error object: ' + JSON.stringify(error)
   ].join(' - '));
   return false;
