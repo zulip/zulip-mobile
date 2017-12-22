@@ -2,7 +2,7 @@
 import type { Actions, Auth, Message } from '../types';
 
 import config from '../config';
-import { getResource } from '../utils/url';
+import { getResource, isUrlAnImage } from '../utils/url';
 import { emojiReactionAdd, emojiReactionRemove } from '../api';
 
 type MessageListEventClick = {
@@ -50,11 +50,6 @@ type Props = {
 
 export const handleClick = (props: Props, event: MessageListEventClick) => {};
 
-export const handleUrl = (props: Props, event: MessageListEventUrl) => {
-  const { actions } = props;
-  actions.messageLinkPress(event.href);
-};
-
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
   const { innerHeight, offsetHeight, scrollY } = event;
   const { actions } = props;
@@ -81,6 +76,18 @@ export const handleImage = (props: Props, event: MessageListEventImage) => {
   const resource = getResource(src, props.auth);
 
   props.actions.navigateToLightbox(resource, message);
+};
+
+export const handleUrl = (props: Props, event: MessageListEventUrl) => {
+  const { actions } = props;
+
+  if (isUrlAnImage(event.href)) {
+    const imageEvent = { src: event.href, messageId: event.messageId };
+    handleImage(props, imageEvent);
+    return;
+  }
+
+  actions.messageLinkPress(event.href);
 };
 
 export const handleReaction = (props: Props, event: MessageListEventReaction) => {
