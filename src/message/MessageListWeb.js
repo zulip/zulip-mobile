@@ -28,9 +28,8 @@ type Props = {
 };
 
 export default class MessageListWeb extends Component<Props> {
-  webview: WebView;
+  webview: ?Object;
   props: Props;
-  nextProps: Props;
 
   handleMessage = (event: Object) => {
     const eventData = JSON.parse(event.nativeEvent.data);
