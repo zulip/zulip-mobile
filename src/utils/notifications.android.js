@@ -1,12 +1,15 @@
 /* @flow */
 import { NotificationsAndroid } from 'react-native-notifications';
 
-import type { Auth } from '../types';
+import type { Auth, Actions } from '../types';
 import { registerPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { handleNotification } from './notificationsCommon';
 
-export const handlePendingNotifications = async (notification, doNarrow) => {
+export const handlePendingNotifications = async (
+  notification: Object,
+  doNarrow: Actions.doNarrow,
+) => {
   if (notification) {
     const data = notification.getData();
     console.log('Opened app by notification', data); //eslint-disable-line
@@ -16,7 +19,7 @@ export const handlePendingNotifications = async (notification, doNarrow) => {
   }
 };
 
-const handleRegistrationUpdates = (auth: Auth, saveTokenPush) => {
+const handleRegistrationUpdates = (auth: Auth, saveTokenPush: Actions.saveTokenPush) => {
   NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
     try {
       const result = await registerPush(auth, deviceToken);
@@ -27,7 +30,7 @@ const handleRegistrationUpdates = (auth: Auth, saveTokenPush) => {
   });
 };
 
-export const initializeNotifications = (auth: Auth, saveTokenPush: string, doNarrow) => {
+export const initializeNotifications = (auth: Auth, saveTokenPush: Actions.saveTokenPush) => {
   handleRegistrationUpdates(auth, saveTokenPush);
 };
 

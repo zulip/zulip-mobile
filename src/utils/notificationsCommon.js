@@ -1,8 +1,8 @@
 /* @flow */
-import type { Action, Narrow } from '../types';
+import type { Actions } from '../types';
 import { topicNarrow, privateNarrow } from '../utils/narrow';
 
-export const handleNotification = (data: Object, doNarrow: (newNarrow: Narrow) => Action) => {
+export const handleNotification = (data: Object, doNarrow: Actions.doNarrow): void => {
   if (data && data.recipient_type) {
     if (data.recipient_type === 'stream') {
       doNarrow(topicNarrow(data.stream, data.topic));

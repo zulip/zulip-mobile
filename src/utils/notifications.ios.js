@@ -1,15 +1,15 @@
-/* @noflow */
+/* @flow */
 import NotificationsIOS from 'react-native-notifications';
 
-import type { Auth } from '../types';
+import type { Auth, Actions } from '../types';
 import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';
-import { handleNotification } from './notifications';
+import { handleNotification } from './notificationsCommon';
 
 const onPushRegistered = async (
   auth: Auth,
   deviceToken: string,
-  saveTokenPush: (arg: string) => any,
+  saveTokenPush: Actions.saveTokenPush,
 ) => {
   const result = await registerPush(auth, deviceToken);
   saveTokenPush(deviceToken, result.msg, result.result);
@@ -19,7 +19,7 @@ const onPushRegistrationFailed = (error: string) => {
   logErrorRemotely(new Error(error), 'register ios push token failed');
 };
 
-export const initializeNotifications = (auth: Auth, saveTokenPush: (arg: string) => any) => {
+export const initializeNotifications = (auth: Auth, saveTokenPush: Actions.saveTokenPush) => {
   NotificationsIOS.addEventListener('remoteNotificationsRegistered', deviceToken =>
     onPushRegistered(auth, deviceToken, saveTokenPush),
   );
@@ -32,7 +32,10 @@ export const initializeNotifications = (auth: Auth, saveTokenPush: (arg: string)
 
 export const refreshNotificationToken = () => {};
 
-export const handlePendingNotifications = async (notification, doNarrow) => {
+export const handlePendingNotifications = async (
+  notification: Object,
+  doNarrow: Actions.doNarrow,
+) => {
   if (notification) {
     const notifData = notification.getData();
     if (notifData && notifData.custom) {
