@@ -2,7 +2,7 @@
 import type { Actions, Auth, Message } from '../types';
 
 import config from '../config';
-import { getResource, isUrlAnImage } from '../utils/url';
+import { isUrlAnImage } from '../utils/url';
 import { emojiReactionAdd, emojiReactionRemove } from '../api';
 
 type MessageListEventClick = {
