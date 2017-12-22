@@ -4,7 +4,6 @@ import NotificationsIOS from 'react-native-notifications';
 import type { Auth } from '../types';
 import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';
-import { streamNarrow, privateNarrow } from '../utils/narrow';
 import { handleNotification } from './notifications';
 
 const onPushRegistered = async (

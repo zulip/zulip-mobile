@@ -1,7 +1,9 @@
 /* eslint-disable */
+import { codeToEmojiMap } from '../../emoji/emojiMap';
 
 import { BORDER_COLOR } from '../../styles/theme';
 import { BRAND_COLOR, HALF_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from '../../styles';
+import cssEmojis from './cssEmojis';
 
 export default `
 <style>
@@ -219,11 +221,6 @@ th, td {
   max-width: 50vw;
   max-height: 50vh;
 }
-.emoji {
-  height: 25px;
-  width: 25px;
-  vertical-align: text-bottom;
-}
 blockquote {
   margin: 0.5em 0;
   border-left: 5px solid #ddd;
@@ -287,5 +284,16 @@ ul {
 .hidden {
   display: none;
 }
+.emoji {
+  display: inline-block;
+  height: 22px;
+  width: 22px;
+  white-space: nowrap;
+  color: white;
+  font-size: 20px;
+}
+
+
+${cssEmojis}
 </style>
 `;
