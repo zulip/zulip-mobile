@@ -57,8 +57,9 @@ export default class MessageListWeb extends Component<Props> {
 
   componentWillReceiveProps = (nextProps: Props) => {
     this.sendMessage({
-      type: 'content',
-      content: this.content(),
+      type: 'spinner',
+      fetchingOlder: nextProps.fetchingOlder,
+      fetchingNewer: nextProps.fetchingNewer,
     });
   };
 

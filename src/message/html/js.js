@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 export default `
 <script>
 function sendMessage(msg) {
@@ -14,7 +13,6 @@ window.onerror = function(message, source, lineno, colno, error) {
     'Column: ' + columnNo,
     'Error object: ' + JSON.stringify(error)
   ].join(' - '));
-
   return false;
 };
 
@@ -28,7 +26,11 @@ document.addEventListener('message', function(e) {
       var first = document.getElementById('message-list');
       var before = document.createElement('div');
       first.innerHTML = msg.content;
-      document.body.insertBefore(before, first);
+    case 'spinner':
+      var spinnerOlder = document.getElementById('spinner-older');
+      var spinnerNewer = document.getElementById('spinner-newer');
+      spinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
+      spinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
       break;
   }
 });
@@ -100,7 +102,6 @@ document.body.addEventListener('click', function(e) {
   }
 
   if (e.target.matches('.reaction')) {
-    alert('match');
     sendMessage({
       type: 'reaction',
       messageId: +getMessageNode(e.target).id,
