@@ -80,23 +80,16 @@ document.body.addEventListener('click', function(e) {
     });
   }
 
-  if (e.target.matches('a[target="_blank"]')) {
+  if (e.target.matches('a[target="_blank"] > img')) {
     sendMessage({
       type: 'image',
-      src: e.target.getAttribute('href'),
+      src: e.target.parentNode.getAttribute('href'),
       messageId: +getMessageNode(e.target).id,
     });
   } else if (e.target.matches('a')) {
     sendMessage({
       type: 'url',
       href: e.target.getAttribute('href'),
-    });
-  }
-
-  if (e.target.matches('a[target="_blank"] > img')) {
-    sendMessage({
-      type: 'image',
-      src: e.target.parentNode.getAttribute('href'),
       messageId: +getMessageNode(e.target).id,
     });
   }
