@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import { NULL_USER } from '../nullObjects';
-import { getPresence, getUsers } from '../directSelectors';
+import { getValidPresence, getUsers } from '../selectors';
 import { getCurrentRouteParams } from '../nav/navigationSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserByEmail } from './userHelpers';
@@ -36,17 +36,25 @@ export const getSortedUsers = createSelector(getUsers, users =>
   [...users].sort((x1, x2) => x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase())),
 );
 
-export const getUsersStatusActive = createSelector(getActiveUsers, getPresence, (users, presence) =>
-  users.filter(user => presence[user.email] && presence[user.email].aggregated.status === 'active'),
+export const getUsersStatusActive = createSelector(
+  getActiveUsers,
+  getValidPresence,
+  (users, presence) =>
+    users.filter(
+      user => presence[user.email] && presence[user.email].aggregated.status === 'active',
+    ),
 );
 
-export const getUsersStatusIdle = createSelector(getActiveUsers, getPresence, (users, presence) =>
-  users.filter(user => presence[user.email] && presence[user.email].aggregated.status === 'idle'),
+export const getUsersStatusIdle = createSelector(
+  getActiveUsers,
+  getValidPresence,
+  (users, presence) =>
+    users.filter(user => presence[user.email] && presence[user.email].aggregated.status === 'idle'),
 );
 
 export const getUsersStatusOffline = createSelector(
   getActiveUsers,
-  getPresence,
+  getValidPresence,
   (users, presence) =>
     users.filter(
       user => presence[user.email] && presence[user.email].aggregated.status === 'offline',

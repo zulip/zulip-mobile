@@ -4,8 +4,6 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { StyleObj, Presence } from '../types';
-import { NULL_PRESENCE_AGGREGATED } from '../nullObjects';
-import config from '../config';
 
 const styles = StyleSheet.create({
   common: {
@@ -37,12 +35,7 @@ export default class UserStatusIndicator extends PureComponent<Props> {
   render() {
     const { presence, style } = this.props;
 
-    if (
-      !presence ||
-      !presence.aggregated ||
-      new Date().getTime() / 1000 - (presence.aggregated || NULL_PRESENCE_AGGREGATED).timestamp >
-        config.offlineThresholdSecs
-    ) {
+    if (!presence || !presence.aggregated) {
       return null;
     }
 

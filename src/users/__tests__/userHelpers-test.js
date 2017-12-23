@@ -14,8 +14,6 @@ import {
   groupUsersByStatus,
 } from '../userHelpers';
 
-const currentTimestamp = new Date().getTime() / 1000;
-
 describe('filterUserList', () => {
   test('empty input results in empty list', () => {
     const users = deepFreeze([]);
@@ -260,24 +258,16 @@ describe('groupUsersByStatus', () => {
       { email: 'bob@example.com' },
       { email: 'carter@example.com' },
       { email: 'dan@example.com' },
-      { email: 'hamlet@example.com' },
     ]);
     const presence = {
-      'allen@example.com': {
-        aggregated: { status: 'active', timestamp: currentTimestamp - 10 },
-      },
-      'bob@example.com': { aggregated: { status: 'idle', timestamp: currentTimestamp - 20 } },
-      'carter@example.com': { aggregated: { status: 'offline', timestamp: currentTimestamp - 30 } },
-      'hamlet@example.com': { aggregated: { status: 'online' }, timestamp: currentTimestamp - 300 },
+      'allen@example.com': { aggregated: { status: 'active' } },
+      'bob@example.com': { aggregated: { status: 'idle' } },
+      'carter@example.com': { aggregated: { status: 'offline' } },
     };
     const expectedResult = {
       active: [{ email: 'allen@example.com' }],
       idle: [{ email: 'bob@example.com' }],
-      offline: [
-        { email: 'carter@example.com' },
-        { email: 'dan@example.com' },
-        { email: 'hamlet@example.com' },
-      ],
+      offline: [{ email: 'carter@example.com' }, { email: 'dan@example.com' }],
     };
 
     const groupedUsers = groupUsersByStatus(users, presence);
