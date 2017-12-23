@@ -74,7 +74,7 @@ export default class MessageListWeb extends Component<Props> {
 
   render() {
     const { anchor } = this.props;
-    console.log(css + html(this.content()) + js);
+    // console.log(css + html(this.content(this.props)) + js);
     return (
       <WebView
         source={{ html: css + html(this.content(this.props)) + js }}
