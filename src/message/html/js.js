@@ -32,6 +32,12 @@ document.addEventListener('message', function(e) {
       spinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
       spinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
       break;
+    case 'message-below':
+      let last = document.body.children[document.body.childElementCount - 1];
+      let after = document.createElement('div');
+      after.innerHTML = msg.html;
+      document.body.insertBefore(after, last);
+      break;
   }
 });
 
