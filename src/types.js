@@ -251,7 +251,7 @@ export type Actions = {
   navigateToCreateGroup: () => Action,
   navigateToDiagnostics: () => Action,
   switchNarrow: (narrow: Narrow) => Action,
-  doNarrow: (newNarrow: Narrow, anchor: number) => Action,
+  doNarrow: (newNarrow: Narrow, anchor?: number) => Action,
   messageFetchStart: (narrow: Narrow, fetching: Object) => Action,
   messageFetchComplete: (
     messages: any[],
@@ -501,4 +501,10 @@ export type UnreadStream = {
   key: string,
   streamName: string,
   unread: number,
+};
+
+export type PresenceAggregated = {
+  client: string,
+  status: string,
+  timestamp: number,
 };

@@ -56,16 +56,29 @@ export default class MessageListWeb extends Component<Props> {
   };
 
   componentWillReceiveProps = (nextProps: Props) => {
-    this.sendMessage({
-      type: 'content',
-      content: this.content(nextProps),
-    });
+    const { anchor, fetchingOlder, fetchingNewer } = this.props;
+    if (fetchingOlder !== nextProps.fetchingOlder || fetchingNewer !== nextProps.fetchingNewer) {
+      this.sendMessage({
+        type: 'fetching',
+        fetchingOlder: nextProps.fetchingOlder,
+        fetchingNewer: nextProps.fetchingNewer,
+      });
+    } else {
+      this.sendMessage({
+        type: 'content',
+        anchor,
+        content: this.content(nextProps),
+      });
+    }
   };
 
   render() {
+    const { anchor } = this.props;
+    console.log(css + html(this.content()) + js);
     return (
       <WebView
         source={{ html: css + html(this.content(this.props)) + js }}
+        anchor={anchor}
         style={styles.webview}
         ref={webview => {
           this.webview = webview;

@@ -2,7 +2,7 @@
 import type { Actions, Auth, Message } from '../types';
 
 import config from '../config';
-import { getResource } from '../utils/url';
+import { isUrlAnImage } from '../utils/url';
 import { emojiReactionAdd, emojiReactionRemove } from '../api';
 
 type MessageListEventClick = {
@@ -37,6 +37,11 @@ type MessageListEventReaction = {
   voted: boolean,
 };
 
+type MessageListEventUrl = {
+  href: string,
+  messageId: number,
+};
+
 type Props = {
   actions: Actions,
   auth: Auth,
@@ -68,9 +73,20 @@ export const handleImage = (props: Props, event: MessageListEventImage) => {
   const { src, messageId } = event;
 
   const message = props.messages.find(x => x.id === messageId);
-  const resource = getResource(src, props.auth);
 
-  props.actions.navigateToLightbox(resource, message);
+  props.actions.navigateToLightbox(src, message);
+};
+
+export const handleUrl = (props: Props, event: MessageListEventUrl) => {
+  const { actions } = props;
+
+  if (isUrlAnImage(event.href)) {
+    const imageEvent = { src: event.href, messageId: event.messageId };
+    handleImage(props, imageEvent);
+    return;
+  }
+
+  actions.messageLinkPress(event.href);
 };
 
 export const handleReaction = (props: Props, event: MessageListEventReaction) => {
