@@ -97,7 +97,9 @@ document.body.addEventListener('click', function(e) {
   if (e.target.matches('.reaction')) {
     sendMessage({
       type: 'reaction',
+      name: e.target.getAttribute('data-name'),
       messageId: +getMessageNode(e.target).id,
+      voted: e.target.classList.contains('self-voted'),
     });
   }
 });
