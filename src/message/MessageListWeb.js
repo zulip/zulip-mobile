@@ -22,7 +22,7 @@ type Props = {
   fetchingNewer: boolean,
   singleFetchProgress?: boolean,
   renderedMessages: Object[],
-  anchor?: number,
+  anchor: number,
   narrow?: Narrow,
   typingUsers?: TypingState,
 };
@@ -56,14 +56,17 @@ export default class MessageListWeb extends Component<Props> {
   };
 
   componentWillReceiveProps = (nextProps: Props) => {
-    const { anchor, fetchingOlder, fetchingNewer } = this.props;
+    const { anchor, fetchingOlder, fetchingNewer, renderedMessages } = this.props;
+
     if (fetchingOlder !== nextProps.fetchingOlder || fetchingNewer !== nextProps.fetchingNewer) {
       this.sendMessage({
         type: 'fetching',
         fetchingOlder: nextProps.fetchingOlder,
         fetchingNewer: nextProps.fetchingNewer,
       });
-    } else {
+    }
+
+    if (renderedMessages !== nextProps.renderedMessages) {
       this.sendMessage({
         type: 'content',
         anchor,
@@ -79,6 +82,7 @@ export default class MessageListWeb extends Component<Props> {
       <WebView
         source={{ html: css + html(this.content(this.props)) + js }}
         anchor={anchor}
+        injectedJavaScript={`scrollToAnchor(${anchor})`}
         style={styles.webview}
         ref={webview => {
           this.webview = webview;

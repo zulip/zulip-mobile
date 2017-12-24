@@ -17,12 +17,14 @@ function scrollToBottom() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
-function scrollToNode(node) {
-  node.scrollIntoView(false);
+function scrollToAnchor(anchor) {
+  var anchorNode = document.getElementById('msg-' + anchor);
+  if (anchorNode) {
+    anchorNode.scrollIntoView(false);
+  } else {
+    scrollToBottom();
+  }
 }
-
-
-scrollToBottom();
 
 
 window.onerror = function(message, source, line, column, error) {
@@ -49,12 +51,7 @@ document.addEventListener('message', function(e) {
       var before = document.createElement('div');
       first.innerHTML = msg.content;
 
-      var anchorNode = document.getElementById('msg-' + msg.anchor);
-      if (anchorNode) {
-        scrollToNode(anchorNode);
-      } else {
-        scrollToBottom();
-      }
+      scrollToAnchor(msg.anchor);
       break;
     case 'fetching':
       document.getElementById('spinner-older').classList.toggle('hidden', !msg.fetchingOlder);
