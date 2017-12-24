@@ -22,7 +22,6 @@ import {
   getRenderedMessages,
   getActiveNarrow,
   getFlags,
-  getCaughtUpForActiveNarrow,
   getAnchorForActiveNarrow,
   getFetchingForActiveNarrow,
   getSubscriptions,
@@ -70,7 +69,6 @@ class MessageListContainer extends PureComponent<Props> {
     const {
       anchor,
       actions,
-      caughtUp,
       fetching,
       messages,
       typingUsers,
@@ -92,8 +90,6 @@ class MessageListContainer extends PureComponent<Props> {
         subscriptions={subscriptions}
         isFetching={false}
         actions={actions}
-        caughtUpNewer={caughtUp.newer}
-        caughtUpOlder={caughtUp.older}
         fetchingOlder={fetching.older}
         fetchingNewer={fetching.newer}
         onReplySelect={onReplySelect}
@@ -111,7 +107,6 @@ class MessageListContainer extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   htmlMessages: state.app.debug.htmlMessages,
-  caughtUp: getCaughtUpForActiveNarrow(state),
   fetching: getFetchingForActiveNarrow(state),
   typingUsers: getCurrentTypingUsers(state),
   messages: getShownMessagesInActiveNarrow(state),
