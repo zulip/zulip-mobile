@@ -12,11 +12,12 @@ export default (
   const sections: RenderedSectionDescriptor[] = [{ key: 0, data: [], message: {} }];
   const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);
   const isPartialRender = prevItem !== undefined;
-  console.log(messages);
+  console.log(prevItem);
+  console.log(!prevItem);
   messages.forEach(item => {
-    console.log(item);
     const diffDays =
       prevItem && !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
+    console.log(`${diffDays} ${prevItem ? prevItem.timestamp : 'null'} ${item.timestamp}`);
     if (!prevItem || diffDays) {
       sections[sections.length - 1].data.push({
         key: `time${item.timestamp}`,
