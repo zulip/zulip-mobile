@@ -47,14 +47,7 @@ document.addEventListener('message', function(e) {
       break;
     case 'content':
       var first = document.getElementById('message-list');
-      var child = document.getElementById('message-list-child');
-      alert("vishwesh");
-      first.removeChild(child);
-      alert("vishwesh2");
-      var newElement = document.createElement('div');
-      newElement.setAttribute('id', 'message-list-child');
-      newElement.innerHTML = msg.content;
-      first.appendChild(newElement);
+      first.innerHTML = msg.content;
       scrollToAnchor(msg.anchor);
       break;
     case 'fetching':
