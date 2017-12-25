@@ -47,6 +47,7 @@ document.addEventListener('message', function(e) {
       break;
     case 'content':
       var first = document.getElementById('message-list');
+      var before = document.createElement('div');
       first.innerHTML = msg.content;
       scrollToAnchor(msg.anchor);
       break;
