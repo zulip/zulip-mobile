@@ -25,11 +25,13 @@ type Props = {
   anchor: number,
   narrow?: Narrow,
   typingUsers?: TypingState,
+  listRef: (ref: Object) => void,
 };
 
 export default class MessageListWeb extends Component<Props> {
   webview: ?Object;
   props: Props;
+  previousContent: string;
 
   handleMessage = (event: Object) => {
     const eventData = JSON.parse(event.nativeEvent.data);
@@ -55,6 +57,10 @@ export default class MessageListWeb extends Component<Props> {
       .replace(/src="\//g, `src="${auth.realm}/`);
   };
 
+  scrollToEnd = () => {
+    this.sendMessage({ type: 'bottom' });
+  };
+
   componentWillReceiveProps = (nextProps: Props) => {
     const { anchor, fetchingOlder, fetchingNewer, renderedMessages } = this.props;
 
@@ -67,16 +73,23 @@ export default class MessageListWeb extends Component<Props> {
     }
 
     if (renderedMessages !== nextProps.renderedMessages) {
-      this.sendMessage({
-        type: 'content',
-        anchor,
-        content: this.content(nextProps),
-      });
+      const content = this.content(nextProps);
+
+      if (content !== this.previousContent) {
+        this.previousContent = content;
+        this.sendMessage({
+          type: 'content',
+          anchor,
+          content,
+        });
+      }
     }
   };
 
   render() {
-    const { anchor } = this.props;
+    const { anchor, listRef } = this.props;
+
+    listRef({ scrollToEnd: this.scrollToEnd });
     // console.log(css + html(this.content(this.props)) + js);
     return (
       <WebView
