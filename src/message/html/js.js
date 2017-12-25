@@ -57,6 +57,12 @@ document.addEventListener('message', function(e) {
       document.getElementById('spinner-older').classList.toggle('hidden', !msg.fetchingOlder);
       document.getElementById('spinner-newer').classList.toggle('hidden', !msg.fetchingNewer);
       break;
+    case 'bottom-messages':
+      let last = document.body.children[document.body.childElementCount - 2];
+      let newContent = document.createElement('div');
+      newContent.innerHTML = msg.content;
+      document.body.insertBefore(newContent, last);
+      break;
   }
 });
 

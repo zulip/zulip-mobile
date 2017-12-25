@@ -4,12 +4,17 @@ import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
-export default (messages: Message[], narrow: Narrow): RenderedSectionDescriptor[] => {
+export default (
+  messages: Message[],
+  narrow: Narrow,
+  prevItem: Object,
+): RenderedSectionDescriptor[] => {
   const sections: RenderedSectionDescriptor[] = [{ key: 0, data: [], message: {} }];
-  let prevItem;
   const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);
-
-  for (const item of messages) {
+  const isPartialRender = prevItem !== undefined;
+  console.log(messages);
+  messages.forEach(item => {
+    console.log(item);
     const diffDays =
       prevItem && !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
     if (!prevItem || diffDays) {
@@ -33,15 +38,18 @@ export default (messages: Message[], narrow: Narrow): RenderedSectionDescriptor[
       prevItem &&
       prevItem.sender_full_name === item.sender_full_name;
 
-    sections[sections.length - 1].data.push({
-      key: item.id,
-      type: 'message',
-      isBrief: shouldGroupWithPrev,
-      message: item,
-    });
+    // if (!(isPartialRender && sections.length === 0))
+    {
+      sections[sections.length - 1].data.push({
+        key: item.id,
+        type: 'message',
+        isBrief: shouldGroupWithPrev,
+        message: item,
+      });
+    }
 
     prevItem = item;
-  }
+  });
 
   return sections;
 };

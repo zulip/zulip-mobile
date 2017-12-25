@@ -8,6 +8,8 @@ import js from './html/js';
 import html from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import * as webViewEventHandlers from './webViewEventHandlers';
+import connectWithActions from '../connectWithActions';
+import renderMessages from './renderMessages';
 
 const styles = StyleSheet.create({
   webview: {
@@ -28,7 +30,7 @@ type Props = {
   listRef: (ref: Object) => void,
 };
 
-export default class MessageListWeb extends Component<Props> {
+class MessageListWeb extends Component<Props> {
   webview: ?Object;
   props: Props;
   previousContent: string;
@@ -52,9 +54,13 @@ export default class MessageListWeb extends Component<Props> {
   content = (props: Props) => {
     const { auth } = props;
 
-    return renderMessagesAsHtml(props)
+    const temp = renderMessagesAsHtml(props)
       .join('')
       .replace(/src="\//g, `src="${auth.realm}/`);
+    console.log('ASD');
+    console.log(temp);
+    console.log('ZXC');
+    return temp;
   };
 
   scrollToEnd = () => {
@@ -62,7 +68,7 @@ export default class MessageListWeb extends Component<Props> {
   };
 
   componentWillReceiveProps = (nextProps: Props) => {
-    const { anchor, fetchingOlder, fetchingNewer, renderedMessages } = this.props;
+    const { actions, anchor, fetchingOlder, fetchingNewer, renderedMessages } = this.props;
 
     if (fetchingOlder !== nextProps.fetchingOlder || fetchingNewer !== nextProps.fetchingNewer) {
       this.sendMessage({
@@ -72,17 +78,40 @@ export default class MessageListWeb extends Component<Props> {
       });
     }
 
-    if (renderedMessages !== nextProps.renderedMessages) {
-      const content = this.content(nextProps);
-
-      if (content !== this.previousContent) {
-        this.previousContent = content;
-        this.sendMessage({
-          type: 'content',
-          anchor,
-          content,
-        });
-      }
+    if (nextProps.updateMessages.length > this.props.updateMessages.length) {
+      // new messages are fetched & needs to be appended in the list
+      nextProps.updateMessages.forEach(messagesAction => {
+        const { action } = messagesAction;
+        // find where to append
+        if (action.numBefore === 0) {
+          // append at bottom
+          // get new rendered messages
+          const renderedMessages = renderMessages(
+            action.messages.slice(1, action.messages.length - 1),
+            nextProps.narrow,
+            this.props.renderedMessages[this.props.renderedMessages.length - 1].data[
+              this.props.renderedMessages[this.props.renderedMessages.length - 1].data.length - 1
+            ],
+          );
+          console.log(this.props.renderedMessages);
+          console.log(renderedMessages);
+          console.log(this.props.messages);
+          console.log(action.messages);
+          this.sendMessage({
+            type: 'bottom-messages',
+            content: this.content({ ...nextProps, renderedMessages }),
+          });
+        } else if (action.numAfter === 0) {
+          // append at top
+        }
+      });
+      actions.clearAllMessagesFromWebView();
+    } else if (this.props.narrow !== nextProps.narrow || nextProps.messages.length === 20) {
+      this.sendMessage({
+        type: 'content',
+        anchor,
+        content: this.content(nextProps),
+      });
     }
   };
 
@@ -106,3 +135,7 @@ export default class MessageListWeb extends Component<Props> {
     );
   }
 }
+
+export default connectWithActions(state => ({
+  updateMessages: state.webView.messages,
+}))(MessageListWeb);
