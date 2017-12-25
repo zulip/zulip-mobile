@@ -111,10 +111,19 @@ class MessageListWeb extends Component<Props> {
           console.log('initial fetch Replace all');
           // replace all
           // initial fetch
+          const renderedMessages = renderMessages(
+            action.messages,
+            action.narrow || nextProps.narrow,
+          );
+          console.log(renderedMessages);
           this.sendMessage({
             type: 'content',
-            anchor,
-            content: this.content(nextProps),
+            anchor: action.anchor,
+            content: this.content({
+              ...nextProps,
+              renderedMessages,
+              narrow: action.narrow || nextProps.narrow,
+            }),
           });
         }
       });

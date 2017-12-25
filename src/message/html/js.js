@@ -1,7 +1,6 @@
 /* eslint-disable */
 export default `
 <script>
-alert("Vishwesh");
 function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
 };
@@ -48,9 +47,14 @@ document.addEventListener('message', function(e) {
       break;
     case 'content':
       var first = document.getElementById('message-list');
-      var before = document.createElement('div');
-      first.innerHTML = msg.content;
-
+      var child = document.getElementById('message-list-child');
+      alert("vishwesh");
+      first.removeChild(child);
+      alert("vishwesh2");
+      var newElement = document.createElement('div');
+      newElement.setAttribute('id', 'message-list-child');
+      newElement.innerHTML = msg.content;
+      first.appendChild(newElement);
       scrollToAnchor(msg.anchor);
       break;
     case 'fetching':
