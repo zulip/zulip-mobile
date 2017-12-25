@@ -35,7 +35,7 @@ window.onerror = function(message, source, line, column, error) {
       'Line: ' + line,
       'Column: ' + column,
       'Error object: ' + JSON.stringify(error),
-    ].join(' - '),
+    ].join(' - ')
   );
   return false;
 };
@@ -68,7 +68,7 @@ window.addEventListener('scroll', function() {
       innerHeight: window.innerHeight,
       offsetHeight: document.body.offsetHeight,
     }),
-    '*',
+    '*'
   );
 });
 
