@@ -1,9 +1,10 @@
 /* eslint-disable */
 export default `
 <script>
+alert("Vishwesh");
 function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
-}
+};
 
 function getMessageNode(node) {
   let crNode = node;
@@ -11,11 +12,11 @@ function getMessageNode(node) {
     crNode = crNode.parentNode;
   }
   return crNode;
-}
+};
 
 function scrollToBottom() {
   window.scrollTo(0, document.body.scrollHeight);
-}
+};
 
 function scrollToAnchor(anchor) {
   var anchorNode = document.getElementById('msg-' + anchor);
@@ -24,8 +25,7 @@ function scrollToAnchor(anchor) {
   } else {
     scrollToBottom();
   }
-}
-
+};
 
 window.onerror = function(message, source, line, column, error) {
   alert(

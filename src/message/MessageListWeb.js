@@ -80,7 +80,18 @@ class MessageListWeb extends Component<Props> {
       nextProps.updateMessages.forEach(messagesAction => {
         const { action } = messagesAction;
         // find where to append
-        if (action.numBefore === 0) {
+        if (action.numAfter === -1 && action.numBefore === -1) {
+          console.log('Replace all');
+          // replace all
+          // get new rendered messages
+          const renderedMessages = renderMessages(action.messages, action.narrow);
+          console.log(renderedMessages);
+          this.sendMessage({
+            type: 'content',
+            anchor: action.anchor,
+            content: this.content({ ...nextProps, renderedMessages, narrow: action.narrow }),
+          });
+        } else if (action.numBefore === 0) {
           // append at bottom
           // get new rendered messages
           const renderedMessages = renderMessages(
@@ -96,15 +107,18 @@ class MessageListWeb extends Component<Props> {
           });
         } else if (action.numAfter === 0) {
           // append at top
+        } else {
+          console.log('initial fetch Replace all');
+          // replace all
+          // initial fetch
+          this.sendMessage({
+            type: 'content',
+            anchor,
+            content: this.content(nextProps),
+          });
         }
       });
       actions.clearAllMessagesFromWebView();
-    } else if (this.props.narrow !== nextProps.narrow || nextProps.messages.length === 20) {
-      this.sendMessage({
-        type: 'content',
-        anchor,
-        content: this.content(nextProps),
-      });
     }
   };
 
@@ -130,5 +144,5 @@ class MessageListWeb extends Component<Props> {
 }
 
 export default connectWithActions(state => ({
-  updateMessages: state.webView.messages,
+  updateMessages: state.chat.webView.messages,
 }))(MessageListWeb);
