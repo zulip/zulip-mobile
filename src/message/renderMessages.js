@@ -11,13 +11,10 @@ export default (
 ): RenderedSectionDescriptor[] => {
   const sections: RenderedSectionDescriptor[] = [{ key: 0, data: [], message: {} }];
   const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);
-  const isPartialRender = prevItem !== undefined;
-  console.log(prevItem);
-  console.log(!prevItem);
+
   messages.forEach(item => {
     const diffDays =
       prevItem && !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
-    console.log(`${diffDays} ${prevItem ? prevItem.timestamp : 'null'} ${item.timestamp}`);
     if (!prevItem || diffDays) {
       sections[sections.length - 1].data.push({
         key: `time${item.timestamp}`,
@@ -39,15 +36,12 @@ export default (
       prevItem &&
       prevItem.sender_full_name === item.sender_full_name;
 
-    // if (!(isPartialRender && sections.length === 0))
-    {
-      sections[sections.length - 1].data.push({
-        key: item.id,
-        type: 'message',
-        isBrief: shouldGroupWithPrev,
-        message: item,
-      });
-    }
+    sections[sections.length - 1].data.push({
+      key: item.id,
+      type: 'message',
+      isBrief: shouldGroupWithPrev,
+      message: item,
+    });
 
     prevItem = item;
   });

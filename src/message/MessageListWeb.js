@@ -57,9 +57,6 @@ class MessageListWeb extends Component<Props> {
     const temp = renderMessagesAsHtml(props)
       .join('')
       .replace(/src="\//g, `src="${auth.realm}/`);
-    // console.log('ASD');
-    // console.log(temp);
-    // console.log('ZXC');
     return temp;
   };
 
@@ -93,10 +90,6 @@ class MessageListWeb extends Component<Props> {
               this.props.renderedMessages[this.props.renderedMessages.length - 1].data.length - 1
             ].message,
           );
-          console.log(this.props.renderedMessages);
-          console.log(renderedMessages);
-          console.log(this.props.messages);
-          console.log(action.messages);
           this.sendMessage({
             type: 'bottom-messages',
             content: this.content({ ...nextProps, renderedMessages }),
