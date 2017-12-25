@@ -36,8 +36,8 @@ Array [
         "operator": "stream",
       },
     ],
-    "numAfter": 0,
-    "numBefore": 20,
+    "numAfter": 25,
+    "numBefore": 25,
     "type": "MESSAGE_FETCH_START",
   },
 ]
@@ -61,8 +61,8 @@ Array [
         "operator": "stream",
       },
     ],
-    "numAfter": 0,
-    "numBefore": 20,
+    "numAfter": 25,
+    "numBefore": 25,
     "type": "MESSAGE_FETCH_START",
   },
 ]

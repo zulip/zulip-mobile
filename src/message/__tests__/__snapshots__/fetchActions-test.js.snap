@@ -61,8 +61,8 @@ exports[`fetchActions fetchMessagesAtFirstUnread message fetch start action is d
 Array [
   Object {
     "narrow": Array [],
-    "numAfter": 0,
-    "numBefore": 20,
+    "numAfter": 25,
+    "numBefore": 25,
     "type": "MESSAGE_FETCH_START",
   },
 ]
@@ -72,7 +72,7 @@ exports[`fetchActions fetchNewer message fetch start action is dispatched with f
 Array [
   Object {
     "narrow": Array [],
-    "numAfter": 20,
+    "numAfter": 50,
     "numBefore": 0,
     "type": "MESSAGE_FETCH_START",
   },
@@ -85,7 +85,7 @@ exports[`fetchActions fetchNewer when fetching.newer is true, no action is dispa
 Array [
   Object {
     "narrow": Array [],
-    "numAfter": 20,
+    "numAfter": 50,
     "numBefore": 0,
     "type": "MESSAGE_FETCH_START",
   },
@@ -99,7 +99,7 @@ Array [
   Object {
     "narrow": Array [],
     "numAfter": 0,
-    "numBefore": 20,
+    "numBefore": 50,
     "type": "MESSAGE_FETCH_START",
   },
 ]
@@ -112,7 +112,7 @@ Array [
   Object {
     "narrow": Array [],
     "numAfter": 0,
-    "numBefore": 20,
+    "numBefore": 50,
     "type": "MESSAGE_FETCH_START",
   },
 ]
