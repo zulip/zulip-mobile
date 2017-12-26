@@ -15,6 +15,9 @@ export const Drawer = DrawerNavigator(
     contentComponent: props => <Sidebar navigation={props.navigation} />,
     initialRouteName: 'main',
     drawerWidth: 300,
+    drawerOpenRoute: 'DrawerOpen',
+    drawerCloseRoute: 'DrawerClose',
+    drawerToggleRoute: 'DrawerToggle',
   },
 );
 
