@@ -14,6 +14,7 @@ import {
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
+  EVENT_UPDATE_MESSAGE_FLAGS,
   WEBVIEW_CLEAR_MESSAGES_FROM,
   WEBVIEW_CLEAR_ALL_UPDATE_MESSAGES,
   WEBVIEW_CLEAR_ALL_UPDATE_MESSAGE_TAGS,
@@ -188,6 +189,40 @@ export default (state: ChatState = initialState, action: Action) => {
         ],
         last_edit_timestamp: action.edit_timestamp,
       }));
+
+    case EVENT_UPDATE_MESSAGE_FLAGS:
+      if (action.flag !== 'starred') {
+        return state;
+      }
+
+      return {
+        ...state,
+        webView: {
+          ...state.webView,
+          updateMessageTags: [
+            ...state.webView.updateMessageTags,
+            ...action.messages
+              .map(messageId => {
+                const message = state.messages[JSON.stringify(state.narrow)].find(
+                  x => x.id === messageId,
+                );
+                if (message) {
+                  return {
+                    id: Date.now(),
+                    action: {
+                      messageId,
+                      timeEdited: message.last_edit_timestamp,
+                      isStarred: action.operation === 'add',
+                      isOutbox: message.isOutbox,
+                    },
+                  };
+                }
+                return undefined;
+              })
+              .filter(messagesAction => messagesAction !== undefined),
+          ],
+        },
+      };
 
     case WEBVIEW_CLEAR_MESSAGES_FROM:
       return { ...state, webView: { ...state.webView, messages: [] } };

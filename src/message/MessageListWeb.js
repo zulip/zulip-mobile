@@ -153,9 +153,10 @@ class MessageListWeb extends Component<Props> {
         this.sendMessage({
           type: 'update-message-tags',
           id: action.messageId,
-          content: messageTagsAsHtml(action.timeEdited, action.isStarred, action.isOutbox),
+          content: messageTagsAsHtml(action.timeEdited, action.isOutbox, action.isStarred),
         });
       });
+      actions.clearAllUpdateMessagesTagsFromWebView();
     }
   };
 
