@@ -54,13 +54,13 @@ class StreamScreen extends PureComponent<Props> {
           defaultValue={subscription.pin_to_top}
           onValueChange={this.handleTogglePinStream}
         />
-        <ZulipButton text="Edit" onPress={this.handleEdit} />
         <OptionRow
           label="Notifications"
           defaultValue={subscription.push_notifications}
           onValueChange={this.toggleStreamPushNotification}
           customStyle={this.context.styles.backgroundColor}
         />
+        <ZulipButton text="Edit" onPress={this.handleEdit} />
       </Screen>
     );
   }

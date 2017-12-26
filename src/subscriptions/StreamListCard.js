@@ -2,10 +2,10 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Actions, Auth } from '../types';
-import { nullFunction } from '../nullObjects';
+import type { Actions, Auth, Narrow } from '../types';
 import { ZulipButton } from '../common';
 import { subscriptionAdd, subscriptionRemove } from '../api';
+import { streamNarrow } from '../utils/narrow';
 import StreamList from '../streams/StreamList';
 
 const styles = StyleSheet.create({
@@ -22,6 +22,7 @@ type Props = {
   auth: Auth,
   streams: [],
   subscriptions: [],
+  doNarrowCloseDrawer: (narrow: Narrow) => void,
 };
 
 type State = {
@@ -53,6 +54,10 @@ export default class StreamListCard extends PureComponent<Props, State> {
     this.setState({ filter: '' });
   };
 
+  handleNarrow = (streamName: string) => {
+    this.props.doNarrowCloseDrawer(streamNarrow(streamName));
+  };
+
   render() {
     const { actions, streams, subscriptions } = this.props;
     const filteredStreams = streams.filter(x => x.name.includes(this.state.filter));
@@ -73,7 +78,7 @@ export default class StreamListCard extends PureComponent<Props, State> {
           showSwitch
           showDescriptions
           onSwitch={this.handleSwitchChange}
-          onPress={nullFunction}
+          onPress={this.handleNarrow}
           clearInput={this.clearInput}
         />
       </View>

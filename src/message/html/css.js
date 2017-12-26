@@ -94,7 +94,7 @@ th, td {
 .message {
   display: flex;
   word-wrap: break-word;
-  margin: 0.5em;
+  margin: 0 0.5em;
 }
 .avatar {
   min-width: 2.5em;
