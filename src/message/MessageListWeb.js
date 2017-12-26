@@ -132,6 +132,23 @@ class MessageListWeb extends Component<Props> {
       });
       actions.clearAllMessagesFromWebView();
     }
+
+    if (
+      nextProps.updateEditMessages &&
+      this.props.updateEditMessages &&
+      nextProps.updateEditMessages.length > this.props.updateEditMessages.length
+    ) {
+      nextProps.updateEditMessages.forEach(messagesAction => {
+        const { action } = messagesAction;
+        this.sendMessage({
+          type: 'update-message',
+          id: action.message_id,
+          content: action.rendered_content,
+        });
+      });
+
+      actions.clearAllUpdateMessagesFromWebView();
+    }
   };
 
   render() {
@@ -157,4 +174,5 @@ class MessageListWeb extends Component<Props> {
 
 export default connectWithActions(state => ({
   updateMessages: state.chat.webView.messages,
+  updateEditMessages: state.chat.webView.updateMessages,
 }))(MessageListWeb);

@@ -14,7 +14,9 @@ const briefMessageAsHtml = ({
   <div class="message" id="msg-${id}">
     <div class="avatar"><img></div>
     <div class="content">
-      ${content}
+      <div id="msg-${id}-content">
+        ${content}
+      </div>
       ${messageTagsAsHtml(timeEdited, isOutbox, isStarred)}
       ${messageReactionListAsHtml(reactions, id, ownEmail)}
     </div>
@@ -48,7 +50,9 @@ const fullMessageAsHtml = ({
           ${shortTime(timestamp * 1000, twentyFourHourTime)}
         </div>
       </div>
-      ${content}
+      <div id="msg-${id}-content">
+        ${content}
+      </div>
       ${messageTagsAsHtml(timeEdited, isOutbox, isStarred)}
       ${messageReactionListAsHtml(reactions, id, ownEmail)}
     </div>

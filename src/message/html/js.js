@@ -58,6 +58,9 @@ document.addEventListener('message', function(e) {
       newContent.innerHTML = msg.content;
       document.getElementById('message-list').appendChild(newContent);
       break;
+    case 'update-message':
+      document.getElementById('msg-' + msg.id + '-content').innerHTML = msg.content;
+      break;
   }
 });
 
