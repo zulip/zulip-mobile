@@ -2,12 +2,11 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Auth, Narrow, Stream } from '../types';
+import type { Auth, Stream } from '../types';
 import connectWithActions from '../connectWithActions';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
-import { getAuth, getActiveNarrow } from '../selectors';
-import { NULL_STREAM } from '../nullObjects';
+import { getAuth, getStreamInNarrow } from '../selectors';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,37 +20,36 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   text: {
-    flex: 4,
+    flex: 1,
     color: 'white',
+  },
+  button: {
+    padding: 10,
   },
 });
 
 type Props = {
   auth: Auth,
-  narrow: Narrow,
-  streams: Stream[],
+  stream: Stream,
 };
 
 class NotSubscribed extends PureComponent<Props> {
   props: Props;
 
   subscribeToStream = () => {
-    const { auth, narrow } = this.props;
-    subscriptionAdd(auth, [{ name: narrow[0].operand }]);
-  };
-
-  canSubscribeToStream = () => {
-    const { narrow, streams } = this.props;
-    return !(streams.find(sub => narrow[0].operand === sub.name) || NULL_STREAM).invite_only;
+    const { auth, stream } = this.props;
+    subscriptionAdd(auth, [{ name: stream.name }]);
   };
 
   render() {
-    const showSubscribeButton = this.canSubscribeToStream();
+    const { stream } = this.props;
 
     return (
       <View style={styles.container}>
         <Label style={styles.text} text="You are not subscribed to this stream" />
-        {showSubscribeButton && <ZulipButton text="Subscribe" onPress={this.subscribeToStream} />}
+        {!stream.invite_only && (
+          <ZulipButton style={styles.button} text="Subscribe" onPress={this.subscribeToStream} />
+        )}
       </View>
     );
   }
@@ -59,6 +57,5 @@ class NotSubscribed extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
-  narrow: getActiveNarrow(state),
-  streams: state.streams,
+  stream: getStreamInNarrow(state),
 }))(NotSubscribed);

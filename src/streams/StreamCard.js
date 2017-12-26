@@ -30,6 +30,9 @@ export default class StreamScreen extends PureComponent<Props> {
   render() {
     const { stream, subscription } = this.props;
 
+    const name = subscription.name || stream.name;
+    const description = subscription.description || stream.description;
+
     return (
       <View>
         <View style={styles.streamRow}>
@@ -39,9 +42,9 @@ export default class StreamScreen extends PureComponent<Props> {
             isMuted={subscription && !subscription.in_home_view}
             isPrivate={stream && stream.invite_only}
           />
-          <RawLabel style={styles.streamText} text={subscription.name} />
+          <RawLabel style={styles.streamText} text={name} />
         </View>
-        <RawLabel style={styles.descriptionText} text={subscription.description} />
+        <RawLabel style={styles.descriptionText} text={description} />
       </View>
     );
   }
