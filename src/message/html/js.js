@@ -46,8 +46,7 @@ document.addEventListener('message', function(e) {
       scrollToBottom();
       break;
     case 'content':
-      var first = document.getElementById('message-list');
-      first.innerHTML = msg.content;
+      document.getElementById('message-list').innerHTML = msg.content;
       scrollToAnchor(msg.anchor);
       break;
     case 'fetching':
@@ -55,10 +54,9 @@ document.addEventListener('message', function(e) {
       document.getElementById('spinner-newer').classList.toggle('hidden', !msg.fetchingNewer);
       break;
     case 'bottom-messages':
-      let messageList = document.getElementById('message-list');
       let newContent = document.createElement('div');
       newContent.innerHTML = msg.content;
-      messageList.appendChild(newContent);
+      document.getElementById('message-list').appendChild(newContent);
       break;
   }
 });

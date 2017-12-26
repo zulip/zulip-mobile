@@ -48,7 +48,7 @@ export default (state: ChatState = initialState, action: Action) => {
               action: {
                 numAfter: -1,
                 numBefore: -1,
-                messages: state.messages[key],
+                messages: state.messages[key] || [],
                 narrow: action.narrow,
               },
             },

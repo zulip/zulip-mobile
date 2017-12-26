@@ -28,7 +28,6 @@ import unreadHuddles from '../unread/unreadHuddlesReducers';
 import unreadMentions from '../unread/unreadMentionsReducers';
 import users from '../users/usersReducers';
 import presence from '../presence/presenceReducers';
-import webView from '../message/html/webViewReducers';
 
 const reducers = {
   accounts,
@@ -56,7 +55,6 @@ const reducers = {
     mentions: unreadMentions,
   }),
   users,
-  webView,
 };
 
 export default enableBatching(

@@ -54,10 +54,9 @@ class MessageListWeb extends Component<Props> {
   content = (props: Props) => {
     const { auth } = props;
 
-    const temp = renderMessagesAsHtml(props)
+    return renderMessagesAsHtml(props)
       .join('')
       .replace(/src="\//g, `src="${auth.realm}/`);
-    return temp;
   };
 
   scrollToEnd = () => {
@@ -65,8 +64,7 @@ class MessageListWeb extends Component<Props> {
   };
 
   componentWillReceiveProps = (nextProps: Props) => {
-    const { actions, anchor, fetchingOlder, fetchingNewer, renderedMessages } = this.props;
-
+    const { actions, fetchingOlder, fetchingNewer } = this.props;
     if (fetchingOlder !== nextProps.fetchingOlder || fetchingNewer !== nextProps.fetchingNewer) {
       this.sendMessage({
         type: 'fetching',
@@ -81,11 +79,9 @@ class MessageListWeb extends Component<Props> {
         const { action } = messagesAction;
         // find where to append
         if (action.numAfter === -1 && action.numBefore === -1) {
-          console.log('Replace all');
           // replace all
           // get new rendered messages
           const renderedMessages = renderMessages(action.messages, action.narrow);
-          console.log(renderedMessages);
           this.sendMessage({
             type: 'content',
             anchor: action.anchor,
@@ -108,14 +104,12 @@ class MessageListWeb extends Component<Props> {
         } else if (action.numAfter === 0) {
           // append at top
         } else {
-          console.log('initial fetch Replace all');
           // replace all
           // initial fetch
           const renderedMessages = renderMessages(
             action.messages,
             action.narrow || nextProps.narrow,
           );
-          console.log(renderedMessages);
           this.sendMessage({
             type: 'content',
             anchor: action.anchor,
