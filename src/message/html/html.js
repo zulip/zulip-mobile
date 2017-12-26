@@ -6,5 +6,6 @@ export default content => `
   <div id="spinner-older" class="hidden loading-spinner"></div>
   <div id="message-list">${content}</div>
   <div id="spinner-newer" class="hidden loading-spinner"></div>
+  <div id="typing" class="message"></div>
 </body>
 `;

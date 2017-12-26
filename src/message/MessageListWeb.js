@@ -8,6 +8,7 @@ import js from './html/js';
 import html from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import * as webViewEventHandlers from './webViewEventHandlers';
+import messageTypingAsHtml from './html/messageTypingAsHtml';
 
 const styles = StyleSheet.create({
   webview: {
@@ -62,7 +63,7 @@ export default class MessageListWeb extends Component<Props> {
   };
 
   componentWillReceiveProps = (nextProps: Props) => {
-    const { anchor, fetchingOlder, fetchingNewer, renderedMessages } = this.props;
+    const { anchor, fetchingOlder, fetchingNewer, renderedMessages, typingUsers } = this.props;
 
     if (fetchingOlder !== nextProps.fetchingOlder || fetchingNewer !== nextProps.fetchingNewer) {
       this.sendMessage({
@@ -83,6 +84,15 @@ export default class MessageListWeb extends Component<Props> {
           content,
         });
       }
+    }
+
+    if (typingUsers !== nextProps.typingUsers) {
+      this.sendMessage({
+        type: 'typing',
+        content: nextProps.typingUsers
+          ? messageTypingAsHtml(nextProps.auth.realm, nextProps.typingUsers)
+          : '',
+      });
     }
   };
 

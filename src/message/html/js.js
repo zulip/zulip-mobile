@@ -17,6 +17,12 @@ function scrollToBottom() {
   window.scrollTo(0, document.body.scrollHeight);
 }
 
+function scrollToBottomIfNearEnd() {
+  if (document.body.scrollHeight - 100 < document.body.scrollTop + document.body.clientHeight) {
+    scrollToBottom();
+  }
+}
+
 function scrollToAnchor(anchor) {
   var anchorNode = document.getElementById('msg-' + anchor);
   if (anchorNode) {
@@ -56,6 +62,11 @@ document.addEventListener('message', function(e) {
     case 'fetching':
       document.getElementById('spinner-older').classList.toggle('hidden', !msg.fetchingOlder);
       document.getElementById('spinner-newer').classList.toggle('hidden', !msg.fetchingNewer);
+      break;
+    case 'typing':
+      var node = document.getElementById('typing');
+      node.innerHTML = msg.content;
+      setTimeout(() => scrollToBottomIfNearEnd());
       break;
   }
 });
