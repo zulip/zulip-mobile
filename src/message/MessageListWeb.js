@@ -43,6 +43,17 @@ class MessageListWeb extends Component<Props> {
     webViewEventHandlers[handler](this.props, eventData);
   };
 
+  sendNewContent = (anchor: number, content: string) => {
+    if (content !== this.previousContent) {
+      this.previousContent = content;
+      this.sendMessage({
+        type: 'content',
+        anchor,
+        content,
+      });
+    }
+  };
+
   sendMessage = (msg: Object) => {
     if (this.webview) {
       this.webview.postMessage(JSON.stringify(msg), '*');
@@ -82,11 +93,10 @@ class MessageListWeb extends Component<Props> {
           // replace all
           // get new rendered messages
           const renderedMessages = renderMessages(action.messages, action.narrow);
-          this.sendMessage({
-            type: 'content',
-            anchor: action.anchor,
-            content: this.content({ ...nextProps, renderedMessages, narrow: action.narrow }),
-          });
+          this.sendNewContent(
+            action.anchor,
+            this.content({ ...nextProps, renderedMessages, narrow: action.narrow }),
+          );
         } else if (action.numBefore === 0) {
           // append at bottom
           // get new rendered messages
@@ -111,15 +121,12 @@ class MessageListWeb extends Component<Props> {
             action.messages,
             action.narrow || nextProps.narrow,
           );
-          this.sendMessage({
-            type: 'content',
-            anchor: action.anchor,
-            content: this.content({
-              ...nextProps,
-              renderedMessages,
-              narrow: action.narrow || nextProps.narrow,
-            }),
+          const newContent = this.content({
+            ...nextProps,
+            renderedMessages,
+            narrow: action.narrow || nextProps.narrow,
           });
+          this.sendNewContent(action.anchor, newContent);
         }
       });
       actions.clearAllMessagesFromWebView();
