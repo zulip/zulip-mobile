@@ -33,6 +33,8 @@ describe('chatReducers', () => {
     test('changes active narrow', () => {
       const initialState = deepFreeze({
         narrow: [],
+        messages: {},
+        webView: {},
       });
 
       const action = deepFreeze({
@@ -42,6 +44,20 @@ describe('chatReducers', () => {
 
       const expectedState = {
         narrow: streamNarrow('some stream'),
+        messages: {},
+        webView: {
+          messages: [
+            {
+              id: Date.now(),
+              action: {
+                numAfter: -1,
+                numBefore: -1,
+                messages: [],
+                narrow: streamNarrow('some stream'),
+              },
+            },
+          ],
+        },
       };
 
       const newState = chatReducers(initialState, action);

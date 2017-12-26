@@ -4,6 +4,7 @@ import isEqual from 'lodash.isequal';
 import type { ChatState, Action } from '../types';
 import {
   APP_REFRESH,
+  INITIAL_FETCH_COMPLETE,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -13,8 +14,12 @@ import {
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
+  EVENT_UPDATE_MESSAGE_FLAGS,
+  WEBVIEW_CLEAR_MESSAGES_FROM,
+  WEBVIEW_CLEAR_ALL_UPDATE_MESSAGES,
+  WEBVIEW_CLEAR_ALL_UPDATE_MESSAGE_TAGS,
 } from '../actionConstants';
-import { homeNarrow, isMessageInNarrow, getNarrowFromMessage } from '../utils/narrow';
+import { homeNarrow, isMessageInNarrow, getNarrowFromMessage, isSameNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
 import { getMessagesById } from '../selectors';
 import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
@@ -22,6 +27,7 @@ import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
 const initialState: ChatState = {
   narrow: homeNarrow,
   messages: NULL_OBJECT,
+  webView: { updateMessages: [], messages: [], updateMessageTags: [] },
 };
 
 export default (state: ChatState = initialState, action: Action) => {
@@ -33,9 +39,24 @@ export default (state: ChatState = initialState, action: Action) => {
       return initialState;
 
     case SWITCH_NARROW: {
+      const key = JSON.stringify(action.narrow);
       return {
         ...state,
         narrow: action.narrow,
+        webView: {
+          ...state.webView,
+          messages: [
+            {
+              id: Date.now(),
+              action: {
+                numAfter: -1,
+                numBefore: -1,
+                messages: state.messages[key] || [],
+                narrow: action.narrow,
+              },
+            },
+          ],
+        },
       };
     }
 
@@ -59,11 +80,26 @@ export default (state: ChatState = initialState, action: Action) => {
             .concat(messages)
             .sort((a, b) => a.timestamp - b.timestamp);
 
+      // check if messages are in active narrow
+      if (!isSameNarrow(action.narrow, state.narrow)) {
+        return {
+          ...state,
+          messages: {
+            ...state.messages,
+            [key]: newMessages,
+          },
+        };
+      }
+
       return {
         ...state,
         messages: {
           ...state.messages,
           [key]: newMessages,
+        },
+        webView: {
+          ...state.webView,
+          messages: [...state.webView.messages, { id: Date.now(), action }],
         },
       };
     }
@@ -123,7 +159,7 @@ export default (state: ChatState = initialState, action: Action) => {
     }
 
     case EVENT_UPDATE_MESSAGE:
-      return chatUpdater(state, action.message_id, oldMessage => ({
+      return chatUpdater(state, action, oldMessage => ({
         ...oldMessage,
         content: action.rendered_content || oldMessage.content,
         subject: action.subject || oldMessage.subject,
@@ -153,6 +189,52 @@ export default (state: ChatState = initialState, action: Action) => {
         ],
         last_edit_timestamp: action.edit_timestamp,
       }));
+
+    case EVENT_UPDATE_MESSAGE_FLAGS:
+      if (action.flag !== 'starred') {
+        return state;
+      }
+
+      return {
+        ...state,
+        webView: {
+          ...state.webView,
+          updateMessageTags: [
+            ...state.webView.updateMessageTags,
+            ...action.messages
+              .map(messageId => {
+                const message = state.messages[JSON.stringify(state.narrow)].find(
+                  x => x.id === messageId,
+                );
+                if (message) {
+                  return {
+                    id: Date.now(),
+                    action: {
+                      messageId,
+                      timeEdited: message.last_edit_timestamp,
+                      isStarred: action.operation === 'add',
+                      isOutbox: message.isOutbox,
+                    },
+                  };
+                }
+                return undefined;
+              })
+              .filter(messagesAction => messagesAction !== undefined),
+          ],
+        },
+      };
+
+    case WEBVIEW_CLEAR_MESSAGES_FROM:
+      return { ...state, webView: { ...state.webView, messages: [] } };
+
+    case WEBVIEW_CLEAR_ALL_UPDATE_MESSAGES:
+      return { ...state, webView: { ...state.webView, updateMessages: [] } };
+
+    case WEBVIEW_CLEAR_ALL_UPDATE_MESSAGE_TAGS:
+      return { ...state, webView: { ...state.webView, updateMessageTags: [] } };
+
+    case INITIAL_FETCH_COMPLETE:
+      return { ...state, webView: { messages: [], updateMessages: [], updateMessageTags: [] } };
 
     default:
       return state;
