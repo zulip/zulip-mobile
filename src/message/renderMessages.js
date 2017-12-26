@@ -7,7 +7,7 @@ import { isSameDay } from '../utils/date';
 export default (
   messages: Message[],
   narrow: Narrow,
-  prevItem: Object,
+  prevItem?: Object,
 ): RenderedSectionDescriptor[] => {
   const sections: RenderedSectionDescriptor[] = [{ key: 0, data: [], message: {} }];
   const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);

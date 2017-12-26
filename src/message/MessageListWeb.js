@@ -27,6 +27,7 @@ type Props = {
   anchor: number,
   narrow?: Narrow,
   typingUsers?: TypingState,
+  updateMessages: [],
   listRef: (ref: Object) => void,
 };
 
