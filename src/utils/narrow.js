@@ -151,3 +151,6 @@ export const validateNarrow = (narrow: Narrow, streams: Stream[], users: User[])
 
   return true;
 };
+
+export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
+  JSON.stringify(narrow1) === JSON.stringify(narrow2);

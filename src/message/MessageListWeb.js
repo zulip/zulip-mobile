@@ -8,6 +8,8 @@ import js from './html/js';
 import html from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import * as webViewEventHandlers from './webViewEventHandlers';
+import connectWithActions from '../connectWithActions';
+import renderMessages from './renderMessages';
 
 const styles = StyleSheet.create({
   webview: {
@@ -25,10 +27,11 @@ type Props = {
   anchor: number,
   narrow?: Narrow,
   typingUsers?: TypingState,
+  updateMessages: [],
   listRef: (ref: Object) => void,
 };
 
-export default class MessageListWeb extends Component<Props> {
+class MessageListWeb extends Component<Props> {
   webview: ?Object;
   props: Props;
   previousContent: string;
@@ -39,6 +42,17 @@ export default class MessageListWeb extends Component<Props> {
 
     // $FlowFixMe
     webViewEventHandlers[handler](this.props, eventData);
+  };
+
+  sendNewContent = (anchor: number, content: string) => {
+    if (content !== this.previousContent) {
+      this.previousContent = content;
+      this.sendMessage({
+        type: 'content',
+        anchor,
+        content,
+      });
+    }
   };
 
   sendMessage = (msg: Object) => {
@@ -62,8 +76,7 @@ export default class MessageListWeb extends Component<Props> {
   };
 
   componentWillReceiveProps = (nextProps: Props) => {
-    const { anchor, fetchingOlder, fetchingNewer, renderedMessages } = this.props;
-
+    const { actions, fetchingOlder, fetchingNewer } = this.props;
     if (fetchingOlder !== nextProps.fetchingOlder || fetchingNewer !== nextProps.fetchingNewer) {
       this.sendMessage({
         type: 'fetching',
@@ -72,17 +85,52 @@ export default class MessageListWeb extends Component<Props> {
       });
     }
 
-    if (renderedMessages !== nextProps.renderedMessages) {
-      const content = this.content(nextProps);
-
-      if (content !== this.previousContent) {
-        this.previousContent = content;
-        this.sendMessage({
-          type: 'content',
-          anchor,
-          content,
-        });
-      }
+    if (nextProps.updateMessages.length > this.props.updateMessages.length) {
+      // new messages are fetched & needs to be appended in the list
+      nextProps.updateMessages.forEach(messagesAction => {
+        const { action } = messagesAction;
+        // find where to append
+        if (action.numAfter === -1 && action.numBefore === -1) {
+          // replace all
+          // get new rendered messages
+          const renderedMessages = renderMessages(action.messages, action.narrow);
+          this.sendNewContent(
+            action.anchor,
+            this.content({ ...nextProps, renderedMessages, narrow: action.narrow }),
+          );
+        } else if (action.numBefore === 0) {
+          // append at bottom
+          // get new rendered messages
+          const { renderedMessages } = this.props;
+          const newRenderedMessages = renderMessages(
+            action.messages.slice(1),
+            nextProps.narrow,
+            renderedMessages[renderedMessages.length - 1].data[
+              renderedMessages[renderedMessages.length - 1].data.length - 1
+            ].message,
+          );
+          this.sendMessage({
+            type: 'bottom-messages',
+            content: this.content({ ...nextProps, renderedMessages: newRenderedMessages }),
+          });
+        } else if (action.numAfter === 0) {
+          // append at top
+        } else {
+          // replace all
+          // initial fetch
+          const renderedMessages = renderMessages(
+            action.messages,
+            action.narrow || nextProps.narrow,
+          );
+          const newContent = this.content({
+            ...nextProps,
+            renderedMessages,
+            narrow: action.narrow || nextProps.narrow,
+          });
+          this.sendNewContent(action.anchor, newContent);
+        }
+      });
+      actions.clearAllMessagesFromWebView();
     }
   };
 
@@ -106,3 +154,7 @@ export default class MessageListWeb extends Component<Props> {
     );
   }
 }
+
+export default connectWithActions(state => ({
+  updateMessages: state.chat.webView.messages,
+}))(MessageListWeb);

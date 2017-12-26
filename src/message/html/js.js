@@ -3,7 +3,7 @@ export default `
 <script>
 function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
-}
+};
 
 function getMessageNode(node) {
   let crNode = node;
@@ -11,11 +11,11 @@ function getMessageNode(node) {
     crNode = crNode.parentNode;
   }
   return crNode;
-}
+};
 
 function scrollToBottom() {
   window.scrollTo(0, document.body.scrollHeight);
-}
+};
 
 function scrollToAnchor(anchor) {
   var anchorNode = document.getElementById('msg-' + anchor);
@@ -24,8 +24,7 @@ function scrollToAnchor(anchor) {
   } else {
     scrollToBottom();
   }
-}
-
+};
 
 window.onerror = function(message, source, line, column, error) {
   alert(
@@ -47,15 +46,17 @@ document.addEventListener('message', function(e) {
       scrollToBottom();
       break;
     case 'content':
-      var first = document.getElementById('message-list');
-      var before = document.createElement('div');
-      first.innerHTML = msg.content;
-
+      document.getElementById('message-list').innerHTML = msg.content;
       scrollToAnchor(msg.anchor);
       break;
     case 'fetching':
       document.getElementById('spinner-older').classList.toggle('hidden', !msg.fetchingOlder);
       document.getElementById('spinner-newer').classList.toggle('hidden', !msg.fetchingNewer);
+      break;
+    case 'bottom-messages':
+      let newContent = document.createElement('div');
+      newContent.innerHTML = msg.content;
+      document.getElementById('message-list').appendChild(newContent);
       break;
   }
 });
