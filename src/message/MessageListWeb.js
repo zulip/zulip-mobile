@@ -10,6 +10,7 @@ import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import * as webViewEventHandlers from './webViewEventHandlers';
 import connectWithActions from '../connectWithActions';
 import renderMessages from './renderMessages';
+import messageTagsAsHtml from './html/messageTagsAsHtml';
 
 const styles = StyleSheet.create({
   webview: {
@@ -133,11 +134,7 @@ class MessageListWeb extends Component<Props> {
       actions.clearAllMessagesFromWebView();
     }
 
-    if (
-      nextProps.updateEditMessages &&
-      this.props.updateEditMessages &&
-      nextProps.updateEditMessages.length > this.props.updateEditMessages.length
-    ) {
+    if (nextProps.updateEditMessages.length > this.props.updateEditMessages.length) {
       nextProps.updateEditMessages.forEach(messagesAction => {
         const { action } = messagesAction;
         this.sendMessage({
@@ -148,6 +145,17 @@ class MessageListWeb extends Component<Props> {
       });
 
       actions.clearAllUpdateMessagesFromWebView();
+    }
+
+    if (nextProps.updateMessageTags.length > this.props.updateMessageTags.length) {
+      nextProps.updateMessageTags.forEach(messagesAction => {
+        const { action } = messagesAction;
+        this.sendMessage({
+          type: 'update-message-tags',
+          id: action.messageId,
+          content: messageTagsAsHtml(action.timeEdited, action.isStarred, action.isOutbox),
+        });
+      });
     }
   };
 
@@ -175,4 +183,5 @@ class MessageListWeb extends Component<Props> {
 export default connectWithActions(state => ({
   updateMessages: state.chat.webView.messages,
   updateEditMessages: state.chat.webView.updateMessages,
+  updateMessageTags: state.chat.webView.updateMessageTags,
 }))(MessageListWeb);

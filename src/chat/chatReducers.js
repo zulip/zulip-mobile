@@ -16,6 +16,7 @@ import {
   EVENT_UPDATE_MESSAGE,
   WEBVIEW_CLEAR_MESSAGES_FROM,
   WEBVIEW_CLEAR_ALL_UPDATE_MESSAGES,
+  WEBVIEW_CLEAR_ALL_UPDATE_MESSAGE_TAGS,
 } from '../actionConstants';
 import { homeNarrow, isMessageInNarrow, getNarrowFromMessage, isSameNarrow } from '../utils/narrow';
 import chatUpdater from './chatUpdater';
@@ -25,7 +26,7 @@ import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
 const initialState: ChatState = {
   narrow: homeNarrow,
   messages: NULL_OBJECT,
-  webView: { updateMessages: [], messages: [] },
+  webView: { updateMessages: [], messages: [], updateMessageTags: [] },
 };
 
 export default (state: ChatState = initialState, action: Action) => {
@@ -194,8 +195,11 @@ export default (state: ChatState = initialState, action: Action) => {
     case WEBVIEW_CLEAR_ALL_UPDATE_MESSAGES:
       return { ...state, webView: { ...state.webView, updateMessages: [] } };
 
+    case WEBVIEW_CLEAR_ALL_UPDATE_MESSAGE_TAGS:
+      return { ...state, webView: { ...state.webView, updateMessageTags: [] } };
+
     case INITIAL_FETCH_COMPLETE:
-      return { ...state, webView: { messages: [], updateMessages: [] } };
+      return { ...state, webView: { messages: [], updateMessages: [], updateMessageTags: [] } };
 
     default:
       return state;

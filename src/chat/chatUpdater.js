@@ -13,13 +13,33 @@ export default (state: GlobalState, action: Object, updater: UpdaterFunc): Globa
   }
 
   let newWebViewState = state.webView;
-  if (
-    state.messages[JSON.stringify(state.narrow)].findIndex(x => x.id === action.message_id) !== -1
-  ) {
-    newWebViewState = {
-      ...state.webView,
-      updateMessages: [...state.webView.updateMessages, { id: Date.now(), action }],
-    };
+  const oldMessage = state.messages[JSON.stringify(state.narrow)].find(
+    x => x.id === action.message_id,
+  );
+  if (oldMessage) {
+    if (oldMessage.last_edit_timestamp) {
+      newWebViewState = {
+        ...state.webView,
+        updateMessages: [...state.webView.updateMessages, { id: Date.now(), action }],
+      };
+    } else {
+      newWebViewState = {
+        ...state.webView,
+        updateMessages: [...state.webView.updateMessages, { id: Date.now(), action }],
+        updateMessageTags: [
+          ...state.webView.updateMessageTags,
+          {
+            id: Date.now(),
+            action: {
+              messageId: action.message_id,
+              timeEdited: action.edit_timestamp,
+              isStarred: (oldMessage.flags || []).indexOf('starred') > -1,
+              isOutbox: oldMessage.isOutbox,
+            },
+          },
+        ],
+      };
+    }
   }
 
   return {

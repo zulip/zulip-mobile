@@ -61,6 +61,9 @@ document.addEventListener('message', function(e) {
     case 'update-message':
       document.getElementById('msg-' + msg.id + '-content').innerHTML = msg.content;
       break;
+    case 'update-message-tags':
+      document.getElementById('msg-' + msg.id + '-tags').innerHTML = msg.content;
+      break;
   }
 });
 

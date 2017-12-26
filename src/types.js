@@ -294,7 +294,7 @@ export type AppState = {
 export type ChatState = {
   narrow: Narrow,
   messages: Object,
-  webView: { updateMessages: [], messages: [] },
+  webView: { updateMessages: [], messages: [], updateMessageTags: [] },
 };
 
 export type CaughtUpState = Object;

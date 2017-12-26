@@ -17,7 +17,9 @@ const briefMessageAsHtml = ({
       <div id="msg-${id}-content">
         ${content}
       </div>
-      ${messageTagsAsHtml(timeEdited, isOutbox, isStarred)}
+      <div class="message-tags" id="msg-${id}-tags">
+        ${messageTagsAsHtml(timeEdited, isOutbox, isStarred)}
+      </div>
       ${messageReactionListAsHtml(reactions, id, ownEmail)}
     </div>
   </div>
@@ -53,7 +55,9 @@ const fullMessageAsHtml = ({
       <div id="msg-${id}-content">
         ${content}
       </div>
-      ${messageTagsAsHtml(timeEdited, isOutbox, isStarred)}
+      <div class="message-tags" id="msg-${id}-tags">
+        ${messageTagsAsHtml(timeEdited, isOutbox, isStarred)}
+      </div>
       ${messageReactionListAsHtml(reactions, id, ownEmail)}
     </div>
   </div>
