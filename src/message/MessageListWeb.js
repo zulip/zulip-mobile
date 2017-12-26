@@ -90,16 +90,17 @@ class MessageListWeb extends Component<Props> {
         } else if (action.numBefore === 0) {
           // append at bottom
           // get new rendered messages
-          const renderedMessages = renderMessages(
+          const { renderedMessages } = this.props;
+          const newRenderedMessages = renderMessages(
             action.messages.slice(1),
             nextProps.narrow,
-            this.props.renderedMessages[this.props.renderedMessages.length - 1].data[
-              this.props.renderedMessages[this.props.renderedMessages.length - 1].data.length - 1
+            renderedMessages[renderedMessages.length - 1].data[
+              renderedMessages[renderedMessages.length - 1].data.length - 1
             ].message,
           );
           this.sendMessage({
             type: 'bottom-messages',
-            content: this.content({ ...nextProps, renderedMessages }),
+            content: this.content({ ...nextProps, renderedMessages: newRenderedMessages }),
           });
         } else if (action.numAfter === 0) {
           // append at top
