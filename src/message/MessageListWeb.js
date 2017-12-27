@@ -45,6 +45,7 @@ export default class MessageListWeb extends Component<Props> {
   onNavigationStateChange = (navigator: WebViewNavigationState) => {
     const { url } = navigator;
     if (!url.startsWith('data:')) {
+      // $FlowFixMe
       this.webview.stopLoading();
       return false;
     }
