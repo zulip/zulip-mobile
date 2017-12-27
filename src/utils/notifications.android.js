@@ -1,5 +1,5 @@
 /* @flow */
-import { NotificationsAndroid } from 'react-native-notifications';
+import { NotificationsAndroid, PendingNotifications } from 'react-native-notifications';
 
 import type { Auth, Actions } from '../types';
 import { registerPush } from '../api';
@@ -36,4 +36,11 @@ export const initializeNotifications = (auth: Auth, saveTokenPush: Actions.saveT
 
 export const refreshNotificationToken = () => {
   NotificationsAndroid.refreshToken();
+};
+
+export const tryInitialNotification = async (doNarrow: Actions.doNarrow) => {
+  const data = await PendingNotifications.getInitialNotification();
+  if (data && data.getData) {
+    handlePendingNotifications(data, doNarrow);
+  }
 };

@@ -6,6 +6,7 @@ import { addNavigationHelpers } from 'react-navigation';
 import connectWithActions from '../connectWithActions';
 import { getCanGoBack } from '../selectors';
 import AppNavigator from './AppNavigator';
+import { tryInitialNotification } from '../utils/notifications';
 
 type Props = {
   canGoBack: boolean,
@@ -14,6 +15,7 @@ type Props = {
 class AppWithNavigation extends PureComponent<Props> {
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
+    tryInitialNotification(this.props.actions.doNarrow);
   }
 
   componentWillUnmount() {
