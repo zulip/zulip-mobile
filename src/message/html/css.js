@@ -292,7 +292,12 @@ ul {
   color: white;
   font-size: 20px;
 }
-
+#typing {
+}
+.typing-list {
+  background: green;
+  height: 20px;
+}
 
 ${cssEmojis}
 </style>
