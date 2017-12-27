@@ -42,7 +42,7 @@ export default class MessageListWeb extends Component<Props> {
     webViewEventHandlers[handler](this.props, eventData);
   };
 
-  onNavigationStateChange = (navigator: WebViewNavigationState) => {
+  handleNavigationStateChange = (navigator: WebViewNavigationState) => {
     const { url } = navigator;
     if (!url.startsWith('data:')) {
       // $FlowFixMe
@@ -116,7 +116,7 @@ export default class MessageListWeb extends Component<Props> {
         source={{ html: css + html(this.content(this.props)) + js }}
         anchor={anchor}
         injectedJavaScript={`scrollToAnchor(${anchor})`}
-        onNavigationStateChange={this.onNavigationStateChange}
+        onNavigationStateChange={this.handleNavigationStateChange}
         style={styles.webview}
         ref={webview => {
           this.webview = webview;
