@@ -129,6 +129,8 @@ document.body.addEventListener('click', function(e) {
       voted: e.target.classList.contains('self-voted'),
     });
   }
+
+  return false;
 });
 </script>
 `;

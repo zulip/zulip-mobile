@@ -508,3 +508,12 @@ export type PresenceAggregated = {
   status: string,
   timestamp: number,
 };
+
+export type WebViewNavigationState = {
+  canGoBack: boolean,
+  canGoForward: boolean,
+  loading: boolean,
+  target: number,
+  title: number,
+  url: string,
+};

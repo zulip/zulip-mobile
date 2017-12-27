@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, WebView } from 'react-native';
 
-import type { Actions, Auth, Narrow, TypingState } from '../types';
+import type { Actions, Auth, Narrow, TypingState, WebViewNavigationState } from '../types';
 import css from './html/css';
 import js from './html/js';
 import html from './html/html';
@@ -40,6 +40,16 @@ export default class MessageListWeb extends Component<Props> {
 
     // $FlowFixMe
     webViewEventHandlers[handler](this.props, eventData);
+  };
+
+  onNavigationStateChange = (navigator: WebViewNavigationState) => {
+    const { url } = navigator;
+    if (!url.startsWith('data:')) {
+      // $FlowFixMe
+      this.webview.stopLoading();
+      return false;
+    }
+    return true;
   };
 
   sendMessage = (msg: Object) => {
@@ -106,6 +116,7 @@ export default class MessageListWeb extends Component<Props> {
         source={{ html: css + html(this.content(this.props)) + js }}
         anchor={anchor}
         injectedJavaScript={`scrollToAnchor(${anchor})`}
+        onNavigationStateChange={this.onNavigationStateChange}
         style={styles.webview}
         ref={webview => {
           this.webview = webview;
