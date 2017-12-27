@@ -52,8 +52,8 @@ describe('getAutocompleteFilter', () => {
   test('get filter for more complicated text', () => {
     selection = { start: 9, end: 9 };
     expect(getAutocompleteFilter(':smile@ab', selection)).toEqual({
-      filter: 'ab',
-      lastWordPrefix: '@',
+      filter: 'smile@ab',
+      lastWordPrefix: ':',
     });
 
     selection = { start: 2, end: 2 };
@@ -61,8 +61,8 @@ describe('getAutocompleteFilter', () => {
 
     selection = { start: 12, end: 12 };
     expect(getAutocompleteFilter(':smile@ab cd', selection)).toEqual({
-      filter: 'ab cd',
-      lastWordPrefix: '@',
+      filter: 'smile@ab cd',
+      lastWordPrefix: ':',
     });
 
     selection = { start: 3, end: 3 };
@@ -97,8 +97,8 @@ describe('getAutocompleteFilter', () => {
 
     selection = { start: 11, end: 11 };
     expect(getAutocompleteFilter('@r@::@q@m p', selection)).toEqual({
-      filter: 'm p',
-      lastWordPrefix: '@',
+      filter: '@q@m p',
+      lastWordPrefix: ':',
     });
 
     selection = { start: 1, end: 1 };
