@@ -17,10 +17,10 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
   }
 
   if (isStreamNarrow(narrow)) {
-    const streamNarrowStr = objToStr(streamNarrow(item.display_recipient));
+    const topicNarrowStr = objToStr(topicNarrow(item.display_recipient, item.subject));
 
     return `
-      <div id="${item.id}" class="topic-header header" data-narrow="${streamNarrowStr}">
+      <div id="${item.id}" class="topic-header header" data-narrow="${topicNarrowStr}">
         ${item.subject}
       </div>
     `;
