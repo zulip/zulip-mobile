@@ -21,6 +21,7 @@
 #import <asl.h>
 #import "RCTLog.h"
 #import "RNNotifications.h"
+#import <React/RCTPushNotificationManager.h>
 
 @implementation AppDelegate
 
@@ -118,13 +119,17 @@ RCTLogFunction CrashlyticsReactLogFunction = ^(
 }
 
 // Required for the notification event.
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification {
-  [RNNotifications didReceiveRemoteNotification:notification];
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+                                                       fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+  [RNNotifications didReceiveRemoteNotification:userInfo];
+  [RCTPushNotificationManager didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 }
 
 // Required for the localNotification event.
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
   [RNNotifications didReceiveLocalNotification:notification];
+  [RCTPushNotificationManager didReceiveLocalNotification:notification];
 }
 @end
