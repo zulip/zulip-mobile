@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import type { Stream, Subscription } from '../types';
 import { RawLabel } from '../common';
 import StreamIcon from '../streams/StreamIcon';
+import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 const styles = StyleSheet.create({
   streamRow: {
@@ -38,7 +39,7 @@ export default class StreamScreen extends PureComponent<Props> {
         <View style={styles.streamRow}>
           <StreamIcon
             size={20}
-            color={subscription.color}
+            color={subscription.color || NULL_SUBSCRIPTION.color}
             isMuted={subscription && !subscription.in_home_view}
             isPrivate={stream && stream.invite_only}
           />
