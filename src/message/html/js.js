@@ -7,10 +7,18 @@ function sendMessage(msg) {
 
 function getMessageNode(node) {
   var crNode = node;
-  while (crNode && crNode.className !== 'message') {
+  while (crNode && crNode.parentNode && crNode.parentNode.id !== 'message-list') {
     crNode = crNode.parentNode;
   }
   return crNode;
+}
+
+function getMessageIdFromNode(node) {
+  var node = getMessageNode(node);
+  if (!node) {
+    console.log('!!!! WHOA', node);
+  }
+  return node && node.getAttribute('data-msg-id');
 }
 
 function scrollToBottom() {
@@ -69,6 +77,11 @@ document.addEventListener('message', function(e) {
 });
 
 window.addEventListener('scroll', function() {
+  var node = document.elementFromPoint(200, window.scrollY);
+  var msgNode = getMessageNode(node);
+  console.log(window.scrollY, msgNode);
+  console.log(msgNode && msgNode.getAttribute('data-msg-id'));
+
   window.postMessage(
     JSON.stringify({
       type: 'scroll',

@@ -18,6 +18,7 @@ export default (messages: Message[], narrow: Narrow): RenderedSectionDescriptor[
           key: `time${item.timestamp}`,
           type: 'time',
           timestamp: item.timestamp,
+          firstMessage: item,
         });
       }
       const diffRecipient = !isSameRecipient(prevItem, item);

@@ -8,7 +8,6 @@ import MainNavBar from '../nav/MainNavBar';
 
 type Props = {
   navigation: any,
-  orientation: string,
 };
 
 export default class MainScreen extends PureComponent<Props> {
