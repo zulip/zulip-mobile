@@ -46,8 +46,7 @@ export default class NavButton extends PureComponent<Props> {
         overlaySize={20}
         color="transparent"
         overlay={<UnreadCount count={unreadCount} />}
-        onPress={onPress}
-      >
+        onPress={onPress}>
         <Icon style={[styles.icon, style]} color={color} name={name} />
       </ComponentWithOverlay>
     );

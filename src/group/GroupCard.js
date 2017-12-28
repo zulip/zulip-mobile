@@ -95,8 +95,7 @@ export default class GroupCard extends PureComponent<Props, State> {
           property="height"
           useNativeDriver={false}
           visible={selected.length > 0}
-          height={70}
-        >
+          height={70}>
           <AvatarList
             listRef={component => {
               this.listRef = component;

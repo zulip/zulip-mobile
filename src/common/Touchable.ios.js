@@ -20,8 +20,7 @@ export default ({ onPress, style, children, onLongPress }: Props) => {
       underlayColor={HIGHLIGHT_COLOR}
       style={style}
       onPress={onPress}
-      onLongPress={onLongPress}
-    >
+      onLongPress={onLongPress}>
       <View>{children}</View>
     </WrapperComponent>
   );
