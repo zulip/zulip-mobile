@@ -15,6 +15,7 @@ import {
   isSearchNarrow,
   isPrivateOrGroupNarrow,
   isMessageInNarrow,
+  isSameNarrow,
   isStreamOrTopicNarrow,
   getNarrowFromMessage,
 } from '../narrow';
@@ -324,5 +325,19 @@ describe('getNarrowFromMessage', () => {
     const actualNarrow = getNarrowFromMessage(message);
 
     expect(actualNarrow).toEqual(expectedNarrow);
+  });
+});
+
+describe('isSameNarrow', () => {
+  test('Return true if two narrows are same', () => {
+    expect(isSameNarrow(streamNarrow('stream'), streamNarrow('stream'))).toBe(true);
+    expect(isSameNarrow(streamNarrow('stream'), streamNarrow('stream1'))).toBe(false);
+    expect(isSameNarrow(streamNarrow('stream'), topicNarrow('stream', 'topic'))).toBe(false);
+    expect(isSameNarrow(topicNarrow('stream', 'topic'), topicNarrow('stream', 'topic'))).toBe(true);
+    expect(isSameNarrow(topicNarrow('stream', 'topic'), topicNarrow('stream', 'topic1'))).toBe(
+      false,
+    );
+    expect(isSameNarrow(homeNarrow, specialNarrow('private'))).toBe(false);
+    expect(isSameNarrow(homeNarrow, homeNarrow)).toBe(true);
   });
 });

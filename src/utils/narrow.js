@@ -1,4 +1,6 @@
 /* @flow */
+import isEqual from 'lodash.isequal';
+
 import type { Narrow, Message, Stream, User } from '../types';
 import { normalizeRecipients } from './message';
 
@@ -151,3 +153,6 @@ export const validateNarrow = (narrow: Narrow, streams: Stream[], users: User[])
 
   return true;
 };
+
+export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
+  isEqual(narrow1, narrow2);
