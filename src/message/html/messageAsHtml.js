@@ -11,7 +11,7 @@ const briefMessageAsHtml = ({
   reactions,
   ownEmail,
 }) => `
-  <div class="message" id="msg-${id}">
+  <div class="message message-brief" id="msg-${id}">
     <div class="avatar"><img></div>
     <div class="content">
       ${content}
@@ -35,7 +35,7 @@ const fullMessageAsHtml = ({
   reactions,
   ownEmail,
 }) => `
-  <div class="message" id="msg-${id}">
+  <div class="message message-full" id="msg-${id}">
     <div class="avatar">
       <img src="${avatarUrl}" class="avatar-img" data-email="${fromEmail}">
     </div>

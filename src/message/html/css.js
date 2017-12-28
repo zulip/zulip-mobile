@@ -38,7 +38,7 @@ code {
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 }
 p {
-  margin: 0 0 0.5em 0;
+  margin: 0;
 }
 pre {
   padding: 0.5em;
@@ -64,12 +64,10 @@ th, td {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.25em;
 }
 .timerow {
   text-align: center;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
   color: #999;
   display: flex;
   align-items: center;
@@ -94,12 +92,17 @@ th, td {
 .message {
   display: flex;
   word-wrap: break-word;
-  margin: 0 0.5em;
+  padding: 0 0.5em;
+}
+.message-full {
+  padding-top: 0.5em;
+}
+.message + div:not(.message) {
+  padding-top: 0.5em;
 }
 .avatar {
   min-width: 2.5em;
   width: 2.5em;
-  height: 2.5em;
   margin-right: 0.5em;
 }
 .avatar img {

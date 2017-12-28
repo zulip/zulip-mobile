@@ -6,7 +6,7 @@ function sendMessage(msg) {
 }
 
 function getMessageNode(node) {
-  let crNode = node;
+  var crNode = node;
   while (crNode && crNode.className !== 'message') {
     crNode = crNode.parentNode;
   }
@@ -53,10 +53,7 @@ document.addEventListener('message', function(e) {
       scrollToBottom();
       break;
     case 'content':
-      var first = document.getElementById('message-list');
-      var before = document.createElement('div');
-      first.innerHTML = msg.content;
-
+      document.getElementById('message-list').innerHTML = msg.content;
       scrollToAnchor(msg.anchor);
       break;
     case 'fetching':
@@ -64,10 +61,10 @@ document.addEventListener('message', function(e) {
       document.getElementById('spinner-newer').classList.toggle('hidden', !msg.fetchingNewer);
       break;
     case 'typing':
-      var node = document.getElementById('typing');
-      node.innerHTML = msg.content;
+      document.getElementById('typing').innerHTML = msg.content;
       setTimeout(() => scrollToBottomIfNearEnd());
       break;
+    default:
   }
 });
 
