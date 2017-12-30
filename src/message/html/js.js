@@ -77,10 +77,9 @@ document.addEventListener('message', function(e) {
 });
 
 window.addEventListener('scroll', function() {
-  var node = document.elementFromPoint(200, window.scrollY);
-  var msgNode = getMessageNode(node);
-  console.log(window.scrollY, msgNode);
-  console.log(msgNode && msgNode.getAttribute('data-msg-id'));
+  var startNode = getMessageNode(document.elementFromPoint(200, 20));
+  var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
+  console.log(startNode, endNode);
 
   window.postMessage(
     JSON.stringify({

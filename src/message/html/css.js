@@ -71,6 +71,7 @@ th, td {
   color: #999;
   display: flex;
   align-items: center;
+  padding: 0.5em 0;
 }
 .timerow-left,
 .timerow-right {
@@ -92,13 +93,10 @@ th, td {
 .message {
   display: flex;
   word-wrap: break-word;
-  padding: 0 0.5em;
+  padding: 0.5em;
 }
-.message-full {
-  padding-top: 0.5em;
-}
-.message + div:not(.message) {
-  padding-top: 0.5em;
+.message-brief {
+  padding-top: 0;
 }
 .avatar {
   min-width: 2.5em;
@@ -138,7 +136,6 @@ th, td {
 .private-header,
 .stream-header {
   padding: 0.5em;
-  margin-bottom: 1em;
 }
 .topic-header,
 .stream-header {
@@ -153,6 +150,9 @@ th, td {
 .title-text {
   padding: 0.5em;
   line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .title-text {
   flex: 1;
@@ -172,6 +172,7 @@ th, td {
   background: #444;
   color: white;
   padding: 0.5em;
+  line-height: 1;
 }
 .loading-avatar {
   width: 32px;
@@ -271,13 +272,16 @@ ul {
 }
 .reaction-list {
   line-height: 2;
-  margin: 1em 0;
+  margin: 0.5em 0;
 }
 .reaction {
   color: ${HALF_COLOR};
   padding: 4px;
   border-radius: 4px;
   border: 1px solid ${HALF_COLOR};
+}
+.reaction + .reaction {
+  margin-left: 0.5em;
 }
 .self-voted {
   color: ${BRAND_COLOR};
