@@ -420,6 +420,10 @@ describe('getMessageIdFromLink', () => {
 });
 
 describe('fixRealmUrl', () => {
+  test('undefined input results in empty string', () => {
+    expect(fixRealmUrl()).toEqual('');
+  });
+
   test('when a realm url is missing a protocol, prepend https', () => {
     expect(fixRealmUrl('example.com')).toEqual('https://example.com');
   });
