@@ -17,7 +17,7 @@ export default ({ auth, subscriptions, renderedMessages, narrow, doNarrow }) =>
 
     section.data.forEach((item, idx) => {
       if (item.type === 'time') {
-        list.push(timeRowAsHtml(item.timestamp));
+        list.push(timeRowAsHtml(item.timestamp, item.firstMessage));
       } else {
         list.push(
           messageAsHtml({
