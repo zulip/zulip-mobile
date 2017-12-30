@@ -110,7 +110,7 @@ export default class MessageListWeb extends Component<Props> {
     const { anchor, listRef } = this.props;
 
     listRef({ scrollToEnd: this.scrollToEnd });
-    console.log(css + html(this.content(this.props)) + js);
+    // console.log(css + html(this.content(this.props)) + js);
     return (
       <WebView
         source={{ html: css + html(this.content(this.props)) + js }}

@@ -10,6 +10,7 @@ import { fixRealmUrl } from '../utils/url';
 
 type Props = {
   actions: Actions,
+  navigation: Object,
 };
 
 type State = {
@@ -19,23 +20,19 @@ type State = {
 };
 
 class RealmScreen extends PureComponent<Props, State> {
-  static contextTypes = {
-    styles: () => null,
-  };
-
   props: Props;
   state: State;
   scrollView: ScrollView;
 
-  constructor(props) {
-    super(props);
-    const { realm } = props.navigation.state.params || '';
-    this.state = {
-      progress: false,
-      realm,
-      error: undefined,
-    };
-  }
+  static contextTypes = {
+    styles: () => null,
+  };
+
+  state = {
+    progress: false,
+    realm: this.props.navigation.state.params.realm || '',
+    error: undefined,
+  };
 
   tryRealm = async () => {
     const { realm } = this.state;
