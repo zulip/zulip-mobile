@@ -16,6 +16,7 @@ type Props = {
   backgroundColor: string,
   safeAreaInsets: Dimensions,
   textColor: string,
+  orientation: string,
 };
 
 class ZulipStatusBar extends PureComponent<Props> {
@@ -30,22 +31,24 @@ class ZulipStatusBar extends PureComponent<Props> {
   };
 
   render() {
-    const { theme, backgroundColor, textColor, hidden, barStyle, safeAreaInsets } = this.props;
+    const { theme, backgroundColor, textColor, hidden, barStyle, safeAreaInsets,
+            orientation } = this.props;
     const style = { height: hidden ? 0 : safeAreaInsets.top, backgroundColor };
     const statusBarStyle = !barStyle
       ? getStatusBarStyle(backgroundColor, textColor, theme)
       : barStyle;
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
-      <View style={style}>
-        <StatusBar
-          animated
-          showHideTransition="slide"
-          hidden={hidden && Platform.OS !== 'android'}
-          backgroundColor={Color(statusBarColor).darken(0.1)}
-          barStyle={statusBarStyle}
-        />
-      </View>
+      orientation === 'PORTRAIT' &&
+        <View style={style}>
+          <StatusBar
+            animated
+            showHideTransition="slide"
+            hidden={hidden && Platform.OS !== 'android'}
+            backgroundColor={Color(statusBarColor).darken(0.1)}
+            barStyle={statusBarStyle}
+          />
+        </View>
     );
   }
 }
@@ -55,4 +58,5 @@ export default connectWithActions((state, props) => ({
   theme: state.settings.theme,
   backgroundColor: !props.backgroundColor ? getTitleBackgroundColor(state) : props.backgroundColor,
   textColor: getTitleTextColor(state),
+  orientation: state.app.orientation,
 }))(ZulipStatusBar);
