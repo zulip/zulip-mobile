@@ -2,7 +2,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 
 import type { NavigationState, Action } from '../types';
-import { navigateToAccountPicker } from './navActions';
 import { getFirstIfDeepEqual } from '../utils/immutability';
 import { getStateForRoute, getInitialRoute } from './navSelectors';
 import AppNavigator from './AppNavigator';
@@ -39,7 +38,7 @@ export default (
       );
 
     case LOGOUT:
-      return AppNavigator.router.getStateForAction(navigateToAccountPicker(), state);
+      return getStateForRoute('account');
 
     default:
       return AppNavigator.router.getStateForAction(action, state);
