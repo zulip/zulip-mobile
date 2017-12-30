@@ -120,13 +120,13 @@ document.body.addEventListener('click', function(e) {
     sendMessage({
       type: 'image',
       src: e.target.parentNode.getAttribute('href'),
-      messageId: +getMessageNode(e.target).id,
+      messageId: +getMessageIdFromNode(e.target),
     });
   } else if (e.target.matches('a')) {
     sendMessage({
       type: 'url',
       href: e.target.getAttribute('href'),
-      messageId: +getMessageNode(e.target).id,
+      messageId: +getMessageIdFromNode(e.target),
     });
   }
 
@@ -134,7 +134,7 @@ document.body.addEventListener('click', function(e) {
     sendMessage({
       type: 'reaction',
       name: e.target.getAttribute('data-name'),
-      messageId: +getMessageNode(e.target).id,
+      messageId: +getMessageIdFromNode(e.target),
       voted: e.target.classList.contains('self-voted'),
     });
   }

@@ -74,7 +74,9 @@ export const handleImage = (props: Props, event: MessageListEventImage) => {
 
   const message = props.messages.find(x => x.id === messageId);
 
-  props.actions.navigateToLightbox(src, message);
+  if (message) {
+    props.actions.navigateToLightbox(src, message);
+  }
 };
 
 export const handleUrl = (props: Props, event: MessageListEventUrl) => {
