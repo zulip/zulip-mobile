@@ -1,6 +1,8 @@
 /* eslint-disable */
 export default `
 <script>
+var height = document.body.clientHeight;
+
 function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
 }
@@ -45,6 +47,11 @@ window.onerror = function(message, source, line, column, error) {
   );
   return false;
 };
+
+document.addEventListener('resize', function(event) {
+  window.scrollBy(0, height - document.body.clientHeight);
+  height = document.body.clientHeight;
+});
 
 document.addEventListener('message', function(e) {
   const msg = JSON.parse(e.data);
