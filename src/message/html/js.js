@@ -48,7 +48,7 @@ window.onerror = function(message, source, line, column, error) {
   return false;
 };
 
-document.addEventListener('resize', function(event) {
+window.addEventListener('resize', function(event) {
   window.scrollBy(0, height - document.body.clientHeight);
   height = document.body.clientHeight;
 });
