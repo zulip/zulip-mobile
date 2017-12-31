@@ -20,7 +20,11 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
     const topicNarrowStr = objToStr(topicNarrow(item.display_recipient, item.subject));
 
     return `
-      <div class="topic-header header" data-narrow="${topicNarrowStr}" data-msg-id="${item.id}">
+      <div
+        class="header-wrapper header topic-text"
+        data-narrow="${topicNarrowStr}"
+        data-msg-id="${item.id}"
+      >
         ${item.subject}
       </div>
     `;
@@ -34,13 +38,11 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
     const topicNarrowStr = objToStr(topicNarrow(item.display_recipient, item.subject));
 
     return `
-      <div class="stream-header header" data-msg-id="${item.id}">
-        <div class="stream-text header" style="background: ${color}"
-          data-narrow="${streamNarrowStr}">
+      <div class="header-wrapper stream-header" data-msg-id="${item.id}">
+        <div class="header stream-text" style="background: ${color}" data-narrow="${streamNarrowStr}">
           ${item.display_recipient}
         </div>
-        <div class="arrow-right" style="border-left-color: ${color}"></div>
-        <div class="title-text header" data-narrow="${topicNarrowStr}">
+        <div class="header topic-text" data-narrow="${topicNarrowStr}">
           ${item.subject}
         </div>
       </div>

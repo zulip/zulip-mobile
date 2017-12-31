@@ -5,7 +5,7 @@ import { BORDER_COLOR } from '../../styles/theme';
 import { BRAND_COLOR, HALF_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from '../../styles';
 import cssEmojis from './cssEmojis';
 
-export default `
+const defaultTheme = `
 <style>
 * {
   -webkit-user-select: none;
@@ -20,7 +20,6 @@ body {
 }
 a {
   color: #08c;
-  text-decoration: none;
 }
 blockquote {
   padding-left: 5px;
@@ -44,7 +43,7 @@ pre {
   padding: 0.5em;
   margin: 0;
   background-color: #f5f5f5;
-  border: 1px solid rgba(0,0,0,0.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
 }
 table {
@@ -86,7 +85,7 @@ th, td {
   background: -webkit-linear-gradient(left, #999 0%, transparent 90%);
 }
 .timestamp {
-  color: silver;
+  color: #999;
   font-size: 14px;
   line-height: 1;
 }
@@ -118,28 +117,20 @@ th, td {
 }
 .user-mention {
   white-space: nowrap;
-  background-color: #eee;
+  background-color: rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   padding: 0 .2em;
-  box-shadow: 0 0 0 1px #ccc;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
-.header {
+.header-wrapper {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-}
-.avatar,
-.header {
-  cursor: pointer;
-}
-.topic-header,
-.private-header,
-.stream-header {
   padding: 0.5em;
 }
-.topic-header,
-.stream-header {
-  background: #e2e2e2;
+.avatar,
+.header-wrapper {
+  cursor: pointer;
 }
 .stream-header {
   padding: 0;
@@ -147,19 +138,20 @@ th, td {
   flex-direction: row;
 }
 .stream-text,
-.title-text {
+.topic-text {
   padding: 0.5em;
   line-height: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.title-text {
+.topic-text {
   flex: 1;
   padding-left: 0.5em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  background: #ccc;
 }
 .arrow-right {
   width: 0;
@@ -296,8 +288,11 @@ ul {
   height: 22px;
   width: 22px;
   white-space: nowrap;
-  color: white;
+  color: transparent;
   font-size: 20px;
+}
+.emoji:before {
+  color: white;
 }
 #typing {
 }
@@ -305,7 +300,23 @@ ul {
   background: green;
   height: 20px;
 }
+`;
 
+const darkTheme = `
+body {
+  color: #d5d9dd;
+  background: #212D3B;
+}
+
+.topic-text {
+  background: #54606E;
+}
+`;
+
+export default (theme: ThemeType) => `
+<style>
+${defaultTheme}
+${theme === 'night' ? darkTheme : ''}
 ${cssEmojis}
 </style>
 `;

@@ -1,6 +1,6 @@
 /* @flow */
 import React, { Component } from 'react';
-import { StyleSheet, WebView } from 'react-native';
+import { WebView } from 'react-native';
 
 import type { Actions, Auth, Narrow, TypingState, WebViewNavigationState } from '../types';
 import css from './html/css';
@@ -9,12 +9,6 @@ import html from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import * as webViewEventHandlers from './webViewEventHandlers';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
-
-const styles = StyleSheet.create({
-  webview: {
-    borderWidth: 0,
-  },
-});
 
 type Props = {
   actions: Actions,
@@ -33,6 +27,11 @@ export default class MessageListWeb extends Component<Props> {
   webview: ?Object;
   props: Props;
   previousContent: string;
+
+  static contextTypes = {
+    styles: () => null,
+    theme: () => null,
+  };
 
   handleMessage = (event: Object) => {
     const eventData = JSON.parse(event.nativeEvent.data);
@@ -107,13 +106,14 @@ export default class MessageListWeb extends Component<Props> {
   };
 
   render() {
+    const { styles, theme } = this.context;
     const { anchor, listRef } = this.props;
 
     listRef({ scrollToEnd: this.scrollToEnd });
-    // console.log(css + html(this.content(this.props)) + js);
+    // console.log(css(theme) + html(this.content(this.props)) + js);
     return (
       <WebView
-        source={{ html: css + html(this.content(this.props)) + js }}
+        source={{ html: css(theme) + html(this.content(this.props)) + js }}
         anchor={anchor}
         injectedJavaScript={`scrollToAnchor(${anchor})`}
         onNavigationStateChange={this.handleNavigationStateChange}
