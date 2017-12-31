@@ -117,11 +117,14 @@ window.addEventListener('scroll', () => {
 
 function onLongPress(e) {
   if (e.target.matches('.header')) {
-    sendMessage({
-      type: 'longPress',
-      target: 'header',
-      messageId: +getMessageIdFromNode(e.target),
-    });
+    const messageId = +e.target.getAttribute('id');
+    if (messageId) {
+      sendMessage({
+        type: 'longPress',
+        target: 'header',
+        messageId,
+      });
+    }
   } else {
     const messageId = +getMessageIdFromNode(e.target);
     if (messageId) {

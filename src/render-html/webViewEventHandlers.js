@@ -3,7 +3,11 @@ import type { Actions, Auth, Message } from '../types';
 import config from '../config';
 import { isUrlAnImage } from '../utils/url';
 import { emojiReactionAdd, emojiReactionRemove } from '../api';
-import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
+import {
+  constructActionButtons,
+  executeActionSheetAction,
+  constructHeaderActionButtons,
+} from './messageActionSheet';
 
 type MessageListEventClick = {
   target: string,
@@ -56,51 +60,70 @@ export const handleClick = (props: Props, event: MessageListEventClick) => {};
 
 export const handleLongPress = (props: Props, context, event: MessageListLongPress) => {
   const { messageId, target } = event;
+
+  const {
+    actions,
+    messages,
+    auth,
+    narrow,
+    mute,
+    subscriptions,
+    flags,
+    currentRoute,
+    onReplySelect,
+  } = props;
+
+  const message = messages.find(x => x.id === messageId);
+
+  if (!message) {
+    return;
+  }
+  const getString = value => context.intl.formatMessage({ id: value });
+  let options;
+  let callback;
   if (target === 'message') {
-    const {
-      actions,
-      messages,
+    options = constructActionButtons({
+      message,
       auth,
       narrow,
-      subscriptions,
       flags,
       currentRoute,
-      onReplySelect,
-    } = props;
-
-    const message = messages.find(x => x.id === messageId);
-    if (message) {
-      const getString = value => context.intl.formatMessage({ id: value });
-      const options = constructActionButtons({
+      getString,
+    });
+    callback = buttonIndex => {
+      executeActionSheetAction({
+        title: options[buttonIndex],
         message,
+        actions,
         auth,
-        narrow,
-        flags,
+        subscriptions,
         currentRoute,
+        onReplySelect,
         getString,
       });
-      const callback = buttonIndex => {
-        executeActionSheetAction({
-          title: options[buttonIndex],
-          message,
-          actions,
-          auth,
-          subscriptions,
-          currentRoute,
-          onReplySelect,
-          getString,
-        });
-      };
-
-      props.showActionSheetWithOptions(
-        {
-          options,
-          cancelButtonIndex: options.length - 1,
-        },
-        callback,
-      );
-    }
+    };
+  } else {
+    options = constructHeaderActionButtons({ message, subscriptions, mute, getString });
+    callback = buttonIndex => {
+      executeActionSheetAction({
+        actions,
+        title: options[buttonIndex],
+        message,
+        header: true,
+        auth,
+        subscriptions,
+        getString,
+      });
+    };
   }
+
+  props.showActionSheetWithOptions(
+    {
+      options,
+      cancelButtonIndex: options.length - 1,
+    },
+    callback,
+  );
 };
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
