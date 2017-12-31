@@ -55,49 +55,51 @@ type Props = {
 export const handleClick = (props: Props, event: MessageListEventClick) => {};
 
 export const handleLongPress = (props: Props, context, event: MessageListLongPress) => {
-  const { messageId } = event;
-  const {
-    actions,
-    messages,
-    auth,
-    narrow,
-    subscriptions,
-    flags,
-    currentRoute,
-    onReplySelect,
-  } = props;
-
-  const message = messages.find(x => x.id === messageId);
-  if (message) {
-    const getString = value => context.intl.formatMessage({ id: value });
-    const options = constructActionButtons({
-      message,
+  const { messageId, target } = event;
+  if (target === 'message') {
+    const {
+      actions,
+      messages,
       auth,
       narrow,
+      subscriptions,
       flags,
       currentRoute,
-      getString,
-    });
-    const callback = buttonIndex => {
-      executeActionSheetAction({
-        title: options[buttonIndex],
+      onReplySelect,
+    } = props;
+
+    const message = messages.find(x => x.id === messageId);
+    if (message) {
+      const getString = value => context.intl.formatMessage({ id: value });
+      const options = constructActionButtons({
         message,
-        actions,
         auth,
-        subscriptions,
+        narrow,
+        flags,
         currentRoute,
-        onReplySelect,
         getString,
       });
-    };
+      const callback = buttonIndex => {
+        executeActionSheetAction({
+          title: options[buttonIndex],
+          message,
+          actions,
+          auth,
+          subscriptions,
+          currentRoute,
+          onReplySelect,
+          getString,
+        });
+      };
 
-    props.showActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex: options.length - 1,
-      },
-      callback,
-    );
+      props.showActionSheetWithOptions(
+        {
+          options,
+          cancelButtonIndex: options.length - 1,
+        },
+        callback,
+      );
+    }
   }
 };
 

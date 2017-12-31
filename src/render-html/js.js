@@ -115,10 +115,22 @@ window.addEventListener('scroll', () => {
 });
 
 function onLongPress(e) {
-  sendMessage({
-    type: 'longPress',
-    messageId: +getMessageIdFromNode(e.target),
-  });
+  if (e.target.matches('.header')) {
+    sendMessage({
+      type: 'longPress',
+      target: 'header',
+      messageId: +getMessageIdFromNode(e.target),
+    });
+  }else {
+    var messageId = +getMessageIdFromNode(e.target);
+    if (messageId) {
+      sendMessage({
+        type: 'longPress',
+        target: 'message',
+        messageId: messageId,
+      });
+    }
+  }
 }
 
 function onClick(e) {
