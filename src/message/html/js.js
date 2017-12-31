@@ -34,7 +34,6 @@ function scrollToAnchor(anchor) {
   }
 }
 
-
 window.onerror = function(message, source, line, column, error) {
   alert(
     [
@@ -49,7 +48,13 @@ window.onerror = function(message, source, line, column, error) {
 };
 
 window.addEventListener('resize', function(event) {
-  window.scrollBy(0, height - document.body.clientHeight);
+  var difference = height - document.body.clientHeight;
+  if (
+    difference > 0 ||
+    document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight
+  ) {
+    window.scrollBy(0, difference);
+  }
   height = document.body.clientHeight;
 });
 
