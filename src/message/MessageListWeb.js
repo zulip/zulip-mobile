@@ -7,8 +7,8 @@ import css from './html/css';
 import js from './html/js';
 import html from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
+import webViewHandleUpdates from './webViewHandleUpdates';
 import * as webViewEventHandlers from './webViewEventHandlers';
-import messageTypingAsHtml from './html/messageTypingAsHtml';
 
 type Props = {
   actions: Actions,
@@ -26,7 +26,6 @@ type Props = {
 export default class MessageListWeb extends Component<Props> {
   webview: ?Object;
   props: Props;
-  previousContent: string;
 
   static contextTypes = {
     styles: () => null,
@@ -57,52 +56,14 @@ export default class MessageListWeb extends Component<Props> {
     }
   };
 
-  shouldComponentUpdate = () => false;
-
-  content = (props: Props) => {
-    const { auth } = props;
-
-    return renderMessagesAsHtml(props)
-      .join('')
-      .replace(/src="\//g, `src="${auth.realm}/`);
-  };
-
   scrollToEnd = () => {
     this.sendMessage({ type: 'bottom' });
   };
 
+  shouldComponentUpdate = () => false;
+
   componentWillReceiveProps = (nextProps: Props) => {
-    const { anchor, fetchingOlder, fetchingNewer, renderedMessages, typingUsers } = this.props;
-
-    if (fetchingOlder !== nextProps.fetchingOlder || fetchingNewer !== nextProps.fetchingNewer) {
-      this.sendMessage({
-        type: 'fetching',
-        fetchingOlder: nextProps.fetchingOlder,
-        fetchingNewer: nextProps.fetchingNewer,
-      });
-    }
-
-    if (renderedMessages !== nextProps.renderedMessages) {
-      const content = this.content(nextProps);
-
-      if (content !== this.previousContent) {
-        this.previousContent = content;
-        this.sendMessage({
-          type: 'content',
-          anchor,
-          content,
-        });
-      }
-    }
-
-    if (typingUsers !== nextProps.typingUsers) {
-      this.sendMessage({
-        type: 'typing',
-        content: nextProps.typingUsers
-          ? messageTypingAsHtml(nextProps.auth.realm, nextProps.typingUsers)
-          : '',
-      });
-    }
+    webViewHandleUpdates(this.props, nextProps, this.sendMessage);
   };
 
   render() {
@@ -110,10 +71,10 @@ export default class MessageListWeb extends Component<Props> {
     const { anchor, listRef } = this.props;
 
     listRef({ scrollToEnd: this.scrollToEnd });
-    // console.log(css(theme) + html(this.content(this.props)) + js);
+    // console.log(css(theme) + html(renderMessagesAsHtml(this.props)) + js);
     return (
       <WebView
-        source={{ html: css(theme) + html(this.content(this.props)) + js }}
+        source={{ html: css(theme) + html(renderMessagesAsHtml(this.props)) + js }}
         anchor={anchor}
         injectedJavaScript={`scrollToAnchor(${anchor})`}
         onNavigationStateChange={this.handleNavigationStateChange}

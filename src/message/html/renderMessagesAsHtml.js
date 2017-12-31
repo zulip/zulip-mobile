@@ -4,7 +4,7 @@ import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
 import timeRowAsHtml from './timeRowAsHtml';
 
-export default ({ auth, subscriptions, renderedMessages, narrow, doNarrow }) =>
+const renderMessages = ({ auth, subscriptions, renderedMessages, narrow, doNarrow }) =>
   renderedMessages.reduce((list, section, index) => {
     list.push(
       messageHeaderAsHtml({
@@ -40,3 +40,12 @@ export default ({ auth, subscriptions, renderedMessages, narrow, doNarrow }) =>
 
     return list; // eslint-disable-next-line
   }, []);
+
+export default props => {
+  const { auth } = props;
+
+  return renderMessages(props)
+    .join('')
+    .replace(/src="\//g, `src="${auth.realm}/`);
+};
+
