@@ -99,6 +99,7 @@ document.addEventListener('message', (e: Event) => {
 });
 
 window.addEventListener('scroll', () => {
+  lastTouchEvent = null;
   const startNode = getMessageNode(document.elementFromPoint(200, 20));
   const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
   console.log(startNode, endNode);
@@ -121,13 +122,13 @@ function onLongPress(e) {
       target: 'header',
       messageId: +getMessageIdFromNode(e.target),
     });
-  }else {
-    var messageId = +getMessageIdFromNode(e.target);
+  } else {
+    const messageId = +getMessageIdFromNode(e.target);
     if (messageId) {
       sendMessage({
         type: 'longPress',
         target: 'message',
-        messageId: messageId,
+        messageId,
       });
     }
   }
@@ -181,12 +182,14 @@ function onClick(e) {
   }
 }
 
-document.body.addEventListener('touchend', (e) => {
-  const duration = Date.now() - lastTouchTimestamp;
-  if (duration >= 500 && e.target === lastTouchEvent.target) {
-    onLongPress(e);
-  } else if (duration >= 20) {
-    onClick(e);
+document.body.addEventListener('touchend', e => {
+  if (lastTouchEvent && e.target === lastTouchEvent.target) {
+    const duration = Date.now() - lastTouchTimestamp;
+    if (duration >= 500) {
+      onLongPress(e);
+    } else if (duration >= 20) {
+      onClick(e);
+    }
   }
 });
 
@@ -194,4 +197,8 @@ document.body.addEventListener('touchstart', e => {
   lastTouchTimestamp = Date.now();
   lastTouchEvent = e;
   return false;
+});
+
+document.body.addEventListener('drag', e => {
+  lastTouchEvent = null;
 });
