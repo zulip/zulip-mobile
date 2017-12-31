@@ -40,7 +40,7 @@ class MessageListWeb extends Component<Props> {
     const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
 
     // $FlowFixMe
-    webViewEventHandlers[handler](this.props, this.context, this.showActionSheet, eventData);
+    webViewEventHandlers[handler](this.props, this.context, eventData);
   };
 
   handleError = (event: Object) => {

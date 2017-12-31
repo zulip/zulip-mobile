@@ -55,8 +55,7 @@ type Props = {
 export const handleClick = (props: Props, event: MessageListEventClick) => {};
 
 export const handleLongPress = (props: Props, context, event: MessageListLongPress) => {
-  // const { messageId } = event;
-  const messageId = 391469;
+  const { messageId } = event;
   const {
     actions,
     messages,
