@@ -78,6 +78,10 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   messageList: {
     flex: 1,
   },
+  webview: {
+    borderWidth: 0,
+    backgroundColor,
+  },
   screenWrapper: {
     flex: 1,
     padding: 8,
