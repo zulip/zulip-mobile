@@ -3,6 +3,7 @@ import type { Actions, Auth, Message } from '../types';
 import config from '../config';
 import { isUrlAnImage } from '../utils/url';
 import { emojiReactionAdd, emojiReactionRemove } from '../api';
+import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 
 type MessageListEventClick = {
   target: string,
@@ -53,13 +54,52 @@ type Props = {
 
 export const handleClick = (props: Props, event: MessageListEventClick) => {};
 
-export const handleLongPress = (props: Props, event: MessageListLongPress) => {
-  const { messageId } = event;
-  const { actions, messages } = props;
+export const handleLongPress = (props: Props, context, event: MessageListLongPress) => {
+  // const { messageId } = event;
+  const messageId = 391469;
+  const {
+    actions,
+    messages,
+    auth,
+    narrow,
+    subscriptions,
+    flags,
+    currentRoute,
+    onReplySelect,
+    showActionSheet,
+  } = props;
 
   const message = messages.find(x => x.id === messageId);
   if (message) {
-    // actions.onMessageLongPress(message);
+    const getString = value => context.intl.formatMessage({ id: value });
+    const options = constructActionButtons({
+      message,
+      auth,
+      narrow,
+      flags,
+      currentRoute,
+      getString,
+    });
+    const callback = buttonIndex => {
+      executeActionSheetAction({
+        title: options[buttonIndex],
+        message,
+        actions,
+        auth,
+        subscriptions,
+        currentRoute,
+        onReplySelect,
+        getString,
+      });
+    };
+
+    props.showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex: options.length - 1,
+      },
+      callback,
+    );
   }
 };
 

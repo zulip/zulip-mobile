@@ -1,6 +1,7 @@
 /* @flow */
 import React, { Component } from 'react';
 import { WebView } from 'react-native';
+import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type { Actions, Auth, Narrow, TypingState, WebViewNavigationState } from '../types';
 import html from '../render-html/html';
@@ -21,7 +22,7 @@ type Props = {
   listRef: (ref: Object) => void,
 };
 
-export default class MessageListWeb extends Component<Props> {
+class MessageListWeb extends Component<Props> {
   webview: ?Object;
   props: Props;
 
@@ -30,12 +31,16 @@ export default class MessageListWeb extends Component<Props> {
     theme: () => null,
   };
 
+  static contextTypes = {
+    intl: () => null,
+  };
+
   handleMessage = (event: Object) => {
     const eventData = JSON.parse(event.nativeEvent.data);
     const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
 
     // $FlowFixMe
-    webViewEventHandlers[handler](this.props, eventData);
+    webViewEventHandlers[handler](this.props, this.context, this.showActionSheet, eventData);
   };
 
   handleError = (event: Object) => {
@@ -93,3 +98,5 @@ export default class MessageListWeb extends Component<Props> {
     );
   }
 }
+
+export default connectActionSheet(MessageListWeb);

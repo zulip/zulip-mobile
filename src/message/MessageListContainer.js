@@ -18,6 +18,7 @@ import MessageList from '../render-native/MessageListScrollView';
 import MessageListWeb from '../render-html/MessageListWeb';
 import {
   getAuth,
+  getCurrentRoute,
   getCurrentTypingUsers,
   getRenderedMessages,
   getActiveNarrow,
@@ -81,6 +82,7 @@ class MessageListContainer extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
+  currentRoute: getCurrentRoute(state),
   htmlMessages: state.app.debug.htmlMessages,
   isFetching: getIsFetching(state),
   fetching: getFetchingForActiveNarrow(state),
