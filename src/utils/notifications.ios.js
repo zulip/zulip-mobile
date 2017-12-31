@@ -46,3 +46,5 @@ export const handlePendingNotifications = async (
     }
   }
 };
+
+export const tryInitialNotification = async (doNarrow: Actions.doNarrow) => {};
