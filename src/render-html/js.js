@@ -24,6 +24,7 @@ if (
   throw new Error('HTML elements missing');
 }
 
+let lastTouchEvent;
 let lastTouchTimestamp = Date.now();
 
 const sendMessage = msg => {
@@ -168,9 +169,9 @@ function onClick(e) {
   }
 }
 
-document.body.addEventListener('touchend', e => {
+document.body.addEventListener('touchend', (e) => {
   const duration = Date.now() - lastTouchTimestamp;
-  if (duration >= 500) {
+  if (duration >= 500 && e.target === lastTouchEvent.target) {
     onLongPress(e);
   } else if (duration >= 20) {
     onClick(e);
@@ -179,5 +180,6 @@ document.body.addEventListener('touchend', e => {
 
 document.body.addEventListener('touchstart', e => {
   lastTouchTimestamp = Date.now();
+  lastTouchEvent = e;
   return false;
 });

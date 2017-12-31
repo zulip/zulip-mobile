@@ -66,7 +66,6 @@ export const handleLongPress = (props: Props, context, event: MessageListLongPre
     flags,
     currentRoute,
     onReplySelect,
-    showActionSheet,
   } = props;
 
   const message = messages.find(x => x.id === messageId);
