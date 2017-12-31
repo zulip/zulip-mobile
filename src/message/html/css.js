@@ -6,9 +6,11 @@ import { BRAND_COLOR, HALF_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } fro
 import cssEmojis from './cssEmojis';
 
 const defaultTheme = `
-<style>
-* {
-  -webkit-user-select: none;
+html {
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard syntax */
 }
 body {
   font-family: sans-serif;
