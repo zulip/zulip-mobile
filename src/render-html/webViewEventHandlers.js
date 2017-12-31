@@ -41,6 +41,10 @@ type MessageListEventUrl = {
   messageId: number,
 };
 
+type MessageListLongPress = {
+  messageId: number,
+};
+
 type Props = {
   actions: Actions,
   auth: Auth,
@@ -48,6 +52,16 @@ type Props = {
 };
 
 export const handleClick = (props: Props, event: MessageListEventClick) => {};
+
+export const handleLongPress = (props: Props, event: MessageListLongPress) => {
+  const { messageId } = event;
+  const { actions, messages } = props;
+
+  const message = messages.find(x => x.id === messageId);
+  if (message) {
+    // actions.onMessageLongPress(message);
+  }
+};
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
   const { innerHeight, offsetHeight, scrollY } = event;

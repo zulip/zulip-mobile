@@ -24,6 +24,8 @@ if (
   throw new Error('HTML elements missing');
 }
 
+let lastTouchTimestamp = Date.now();
+
 const sendMessage = msg => {
   window.postMessage(JSON.stringify(msg), '*');
 };
@@ -111,7 +113,14 @@ window.addEventListener('scroll', () => {
   );
 });
 
-documentBody.addEventListener('click', (e: Event) => {
+function onLongPress(e) {
+  sendMessage({
+    type: 'longPress',
+    messageId: +getMessageIdFromNode(e.target),
+  });
+}
+
+function onClick(e) {
   sendMessage({
     type: 'click',
     target: e.target,
@@ -157,6 +166,18 @@ documentBody.addEventListener('click', (e: Event) => {
       voted: e.target.classList.contains('self-voted'),
     });
   }
+}
 
+document.body.addEventListener('touchend', e => {
+  const duration = Date.now() - lastTouchTimestamp;
+  if (duration >= 500) {
+    onLongPress(e);
+  } else if (duration >= 20) {
+    onClick(e);
+  }
+});
+
+document.body.addEventListener('touchstart', e => {
+  lastTouchTimestamp = Date.now();
   return false;
 });
