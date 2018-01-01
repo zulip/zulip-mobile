@@ -52,8 +52,7 @@ export default class UnreadNotice extends PureComponent<Props> {
           property="height"
           useNativeDriver={false}
           visible={visible}
-          height={30}
-        >
+          height={30}>
           {visible && (
             <View style={styles.unreadContainer}>
               <View style={styles.unreadTextWrapper}>

@@ -272,8 +272,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
           selection={selection}
         />
         <View
-          style={[styles.composeBox, { height: totalHeight, marginBottom: safeAreaInsets.bottom }]}
-        >
+          style={[styles.composeBox, { height: totalHeight, marginBottom: safeAreaInsets.bottom }]}>
           <View style={componentStyles.bottom}>
             <ComposeMenuContainer
               expanded={isMenuExpanded}

@@ -25,8 +25,7 @@ export default ({ onPress, style, children, onLongPress }: Props) => {
       style={style}
       background={background}
       onPress={onPress}
-      onLongPress={onLongPress}
-    >
+      onLongPress={onLongPress}>
       <View>{children}</View>
     </WrapperComponent>
   );

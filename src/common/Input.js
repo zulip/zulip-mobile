@@ -52,8 +52,7 @@ export default class Input extends PureComponent<Props> {
       <FormattedMessage
         id={placeholderMessage}
         defaultMessage={placeholderMessage}
-        values={placeholder.values}
-      >
+        values={placeholder.values}>
         {text => (
           <TextInput
             style={[styles.input, style]}

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "react-native start",
     "build:android": "cd android && ./gradlew assembleRelease",
-    "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
+    "build:ios":
+      "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
     "reinstall": "rm -rf node_modules; yarn cache clean; yarn install",
     "ios": "react-native run-ios",
     "ios-min": "react-native run-ios --simulator 'iPhone 5s'",
@@ -24,9 +25,16 @@
     "test:unit": "jest src/",
     "test:e2e": "detox test --configuration ios.sim.release --cleanup",
     "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "test": "npm run test:lint && npm run test:coveralls && npm run test:flow",
+    "test":
+      "npm run test:prettier && npm run test:lint && npm run test:coveralls && npm run test:flow",
     "build:ios-release": "detox build --configuration ios.sim.release",
-    "update-snapshots": "npm run test:unit -- -u"
+    "update-snapshots": "npm run test:unit -- -u",
+    "test:prettier":
+      "prettier-check  --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow `find src -name \"*.js\"`",
+    "prettier-all":
+      "prettier --write --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow `find src -name \"*.js\"`",
+    "prettier":
+      "prettier --write --single-quote --jsx-bracket-same-line --trailing-comma all --print-width 100 --parser flow"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "1.0.1",
@@ -99,6 +107,7 @@
     "jest": "^22.0.4",
     "jest-cli": "^22.0.4",
     "jest-react-native": "^18.0.0",
+    "prettier-check": "^2.0.0",
     "prettier": "^1.9.2",
     "react-native-cli": "^2.0.1",
     "reactotron-react-native": "^1.14.0",
@@ -111,19 +120,15 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|@expo/react-native-action-sheet|react-navigation)"
     ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "<rootDir>/__e2e__tests__"
-    ],
-    "setupFiles": [
-      "./jest/globalFetch.js"
-    ]
+    "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/__e2e__tests__"],
+    "setupFiles": ["./jest/globalFetch.js"]
   },
   "detox": {
     "configurations": {
       "ios.sim.release": {
         "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/ZulipMobile.app",
-        "build": "cd ios && xcodebuild -workspace ZulipMobile.xcworkspace -configuration Release -scheme ZulipMobile -derivedDataPath build -sdk iphonesimulator -quiet",
+        "build":
+          "cd ios && xcodebuild -workspace ZulipMobile.xcworkspace -configuration Release -scheme ZulipMobile -derivedDataPath build -sdk iphonesimulator -quiet",
         "type": "ios.simulator",
         "name": "iPhone 6, iOS 10.3"
       }

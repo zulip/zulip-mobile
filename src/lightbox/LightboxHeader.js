@@ -64,8 +64,7 @@ export default class LightboxHeader extends PureComponent<Props> {
         }}
         style={componentStyles.navBar}
         childrenStyle={componentStyles.children}
-        isRightItemNav
-      >
+        isRightItemNav>
         <Avatar size={36} {...restProps} />
         <View style={componentStyles.text}>
           <Text style={[this.context.styles.username, componentStyles.name]} numberOfLines={1}>

@@ -65,8 +65,7 @@ export default class MessageList extends PureComponent<Props> {
         listRef={listRef}
         onScroll={onScroll}
         narrow={narrow}
-        anchor={anchor}
-      >
+        anchor={anchor}>
         <LoadingIndicator active={fetchingOlder} backgroundColor={styles.backgroundColor} />
         {messageList}
         {!singleFetchProgress &&

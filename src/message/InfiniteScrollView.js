@@ -207,8 +207,7 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
         ref={(component: any) => {
           listComponent = component;
           if (listRef) listRef(component);
-        }}
-      >
+        }}>
         {children}
       </AnchorScrollView>
     );
