@@ -1,6 +1,21 @@
-/* eslint-disable */
+/* eslint-disable func-names, no-alert, prefer-template, no-var, prefer-arrow-callback,
+  space-before-function-paren */
 export default `
 <script>
+
+window.onerror = function(message, source, line, column, error) {
+  alert(
+    [
+      'Message: ' + message,
+      'Source: ' + source,
+      'Line: ' + line,
+      'Column: ' + column,
+      'Error object: ' + JSON.stringify(error),
+    ].join(' - '),
+  );
+  return false;
+};
+
 var height = document.body.clientHeight;
 
 function sendMessage(msg) {
@@ -8,19 +23,19 @@ function sendMessage(msg) {
 }
 
 function getMessageNode(node) {
-  var crNode = node;
-  while (crNode && crNode.parentNode && crNode.parentNode.id !== 'message-list') {
-    crNode = crNode.parentNode;
+  var curNode = node;
+  while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
+    curNode = curNode.parentNode;
   }
-  return crNode;
+  return curNode;
 }
 
 function getMessageIdFromNode(node) {
-  var node = getMessageNode(node);
-  if (!node) {
-    console.log('!!!! WHOA', node);
+  var msgNode = getMessageNode(node);
+  if (!msgNode) {
+    console.log('!!!! WHOA', msgNode);
   }
-  return node && node.getAttribute('data-msg-id');
+  return msgNode && msgNode.getAttribute('data-msg-id');
 }
 
 function scrollToBottom() {
@@ -41,19 +56,6 @@ function scrollToAnchor(anchor) {
     scrollToBottom();
   }
 }
-
-window.onerror = function(message, source, line, column, error) {
-  alert(
-    [
-      'Message: ' + message,
-      'Source: ' + source,
-      'Line: ' + line,
-      'Column: ' + column,
-      'Error object: ' + JSON.stringify(error),
-    ].join(' - ')
-  );
-  return false;
-};
 
 window.addEventListener('resize', function(event) {
   var difference = height - document.body.clientHeight;
@@ -100,17 +102,17 @@ window.addEventListener('scroll', function() {
       innerHeight: window.innerHeight,
       offsetHeight: document.body.offsetHeight,
     }),
-    '*'
+    '*',
   );
 });
 
 document.body.addEventListener('click', function(e) {
   sendMessage({
     type: 'click',
-    target: e.traget,
+    target: e.target,
     targetNodeName: e.target.nodeName,
     targetClassName: e.target.className,
-    matchez: e.target.matches('a[target="_blank"] > img'),
+    matches: e.target.matches('a[target="_blank"] > img'),
   });
 
   if (e.target.matches('.avatar-img')) {
@@ -153,5 +155,6 @@ document.body.addEventListener('click', function(e) {
 
   return false;
 });
+
 </script>
 `;
