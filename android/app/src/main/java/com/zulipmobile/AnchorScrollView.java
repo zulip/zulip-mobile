@@ -76,6 +76,8 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
     private ScrollView scrollView;
     private boolean autoScrollToBottom = false;
     private int anchor;
+    private boolean scrolledToEnd = false;
+    private boolean caughtUpNewer = false;
 
     public AnchorScrollView(ReactContext context) {
         this(context, null);
@@ -156,6 +158,8 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                 mDoneFlinging = false;
             }
         }
+
+        updateIsScrolledToEnd();
     }
 
     final ViewTreeObserver.OnScrollChangedListener onScrollChangedListener = new
@@ -171,6 +175,7 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                         if (mFlinging) {
                             mDoneFlinging = false;
                         }
+
                         findAnchorView();
                         AnchorScrollViewHelper.emitScrollEvent(scrollView, getVisibleIds(), true);
                     }
@@ -542,9 +547,9 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
                 }
             }
 
-            int arrLength = children != null ? children.length : mContentView.getChildCount();
+            int childCount = children != null ? children.length : mContentView.getChildCount();
             View previousChild = null; //adjust scroll position is such a way that last read message and first unread message both are visible at same time
-            for (int i = 0; i < arrLength; i++) {
+            for (int i = 0; i < childCount; i++) {
                 View child = children != null ? children[i] : mContentView.getChildAt(i);
 
                 if (child != null) {
@@ -558,7 +563,13 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
 
                 previousChild = child;
             }
-            if (mAnchorView != null) {
+            if (scrolledToEnd && caughtUpNewer) {
+                // already at bottom
+                // scroll to end
+                // so that user can can see updated events
+                // new messages, typing notification
+                scrollView.smoothScrollTo(0, getScrollViewBottom());
+            } else if (mAnchorView != null) {
                 if (autoScrollToBottom) {
                     if (anchor == -1) {
                         //first unread message not found
@@ -599,6 +610,18 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
     private int getScrollViewBottom() {
         // ScrollView always has one child - the scrollable area
         return scrollView.getChildAt(0).getHeight() + scrollView.getPaddingBottom();
+
+    }
+
+    /*
+    update scrolledToEnd whether list is scrolled to end or not
+     */
+    private void updateIsScrolledToEnd() {
+        // scrollView always have 1 child
+        View child = getChildAt(getChildCount() - 1);
+        if (child != null) {
+            scrolledToEnd = child.getBottom() - (getHeight() + getScrollY()) == 0;
+        }
     }
 
     private int getScrollRange() {
@@ -639,5 +662,9 @@ public class AnchorScrollView extends ScrollView implements ReactClippingViewGro
     @Override
     public void setOverScrollMode(int mode) {
         super.setOverScrollMode(mode);
+    }
+
+    public void setCaughtUpNewer(boolean caughtUpNewer) {
+        this.caughtUpNewer = caughtUpNewer;
     }
 }

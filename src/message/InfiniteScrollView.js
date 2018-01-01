@@ -12,6 +12,7 @@ import AnchorScrollView from '../native/AnchorScrollView';
 type Props = {
   startReachedThreshold: number,
   endReachedThreshold: number,
+  caughtUpNewer: boolean,
   contentContainerStyle?: Object,
   style: StyleObj,
   stickyHeaderIndices: [],
@@ -187,13 +188,14 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
 
   render() {
     const { autoScrollToBottom } = this.state;
-    const { anchor, children, contentContainerStyle, listRef, style } = this.props;
+    const { anchor, children, caughtUpNewer, contentContainerStyle, listRef, style } = this.props;
 
     return (
       <AnchorScrollView
         style={style}
         anchor={anchor}
         contentContainerStyle={contentContainerStyle}
+        caughtUpNewer={caughtUpNewer}
         automaticallyAdjustContentInset={false}
         scrollsToTop
         overScrollMode="always"

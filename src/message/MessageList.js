@@ -10,6 +10,7 @@ import cachedMessageRender from './cachedMessageRender';
 
 type Props = {
   actions: Actions,
+  caughtUpNewer: boolean,
   fetchingOlder: boolean,
   fetchingNewer: boolean,
   singleFetchProgress?: boolean,
@@ -39,6 +40,7 @@ export default class MessageList extends PureComponent<Props> {
     const {
       anchor,
       actions,
+      caughtUpNewer,
       fetchingOlder,
       fetchingNewer,
       singleFetchProgress,
@@ -66,6 +68,7 @@ export default class MessageList extends PureComponent<Props> {
         onScroll={onScroll}
         narrow={narrow}
         anchor={anchor}
+        caughtUpNewer={caughtUpNewer}
       >
         <LoadingIndicator active={fetchingOlder} backgroundColor={styles.backgroundColor} />
         {messageList}

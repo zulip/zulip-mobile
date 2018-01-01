@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Message, Narrow } from '../types';
@@ -37,7 +37,8 @@ export default class Chat extends PureComponent<Props> {
   componentDidUpdate(prevProps: Props) {
     const { noMessages, lastMessage, ownEmail } = this.props;
 
-    if (noMessages || lastMessage.id === prevProps.lastMessage.id) {
+    // for android it is scrolled from native side
+    if (noMessages || lastMessage.id === prevProps.lastMessage.id || Platform.OS === 'android') {
       return;
     }
 
