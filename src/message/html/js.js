@@ -1,6 +1,8 @@
 /* eslint-disable */
 export default `
 <script>
+var height = document.body.clientHeight;
+
 function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
 }
@@ -40,7 +42,6 @@ function scrollToAnchor(anchor) {
   }
 }
 
-
 window.onerror = function(message, source, line, column, error) {
   alert(
     [
@@ -53,6 +54,17 @@ window.onerror = function(message, source, line, column, error) {
   );
   return false;
 };
+
+window.addEventListener('resize', function(event) {
+  var difference = height - document.body.clientHeight;
+  if (
+    difference > 0 ||
+    document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight
+  ) {
+    window.scrollBy(0, difference);
+  }
+  height = document.body.clientHeight;
+});
 
 document.addEventListener('message', function(e) {
   const msg = JSON.parse(e.data);
