@@ -6,6 +6,7 @@ import type { Actions, Auth, Narrow, TypingState, WebViewNavigationState } from 
 import css from './html/css';
 import js from './html/js';
 import html from './html/html';
+import MessageListLoading from './MessageListLoading';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import webViewHandleUpdates from './webViewHandleUpdates';
 import * as webViewEventHandlers from './webViewEventHandlers';
@@ -97,7 +98,9 @@ export default class MessageListWeb extends Component<Props> {
             <Text>{description}</Text>
           </View>
         )}
+        startInLoadingState
         javaScriptEnabled
+        renderLoading={MessageListLoading}
       />
     );
   }

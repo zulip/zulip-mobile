@@ -292,6 +292,7 @@ ul {
   white-space: nowrap;
   color: transparent;
   font-size: 20px;
+  overflow: hidden;
 }
 .emoji:before {
   color: white;
