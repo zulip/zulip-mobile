@@ -1,6 +1,10 @@
 <style>
-* {
-  -webkit-user-select: none;
+
+html {
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard syntax */
 }
 body {
   font-family: sans-serif;
@@ -35,7 +39,7 @@ pre {
   padding: 0.5em;
   margin: 0;
   background-color: #f5f5f5;
-  border: 1px solid rgba(0,0,0,0.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
 }
 table {
@@ -114,23 +118,15 @@ th, td {
   padding: 0 .2em;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
-.header {
+.header-wrapper {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-}
-.avatar,
-.header {
-  cursor: pointer;
-}
-.topic-header,
-.private-header,
-.stream-header {
   padding: 0.5em;
 }
-.topic-header,
-.stream-header {
-  background: rgba(127, 127, 127, 0.25);
+.avatar,
+.header-wrapper {
+  cursor: pointer;
 }
 .stream-header {
   padding: 0;
@@ -138,19 +134,20 @@ th, td {
   flex-direction: row;
 }
 .stream-text,
-.title-text {
+.topic-text {
   padding: 0.5em;
   line-height: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.title-text {
+.topic-text {
   flex: 1;
   padding-left: 0.5em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  background: #ccc;
 }
 .arrow-right {
   width: 0;
@@ -298,6 +295,16 @@ ul {
 .typing-list {
   background: green;
   height: 20px;
+}
+
+
+body {
+  color: #d5d9dd;
+  background: #212D3B;
+}
+
+.topic-text {
+  background: #54606E;
 }
 
 .emoji-2049:before { content: '⁉'; }
@@ -1311,188 +1318,258 @@ ul {
 .emoji-1f4a7:before { content: '💧'; }
 .emoji-1f4f3:before { content: '📳'; }
 .emoji-1f574:before { content: '🕴'; }
-
-body {
-  color: #d5d9dd;
-  background: #212D3B;
-}
-
 </style>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <body>
   <div id="spinner-older" class="hidden loading-spinner"></div>
   <div id="message-list">
-  <div class="timerow" data-msg-id="119112127">
+  <div class="timerow" data-msg-id="415759">
     <div class="timerow-left"></div>
-    Nov 29
+    Dec 29, 2017
     <div class="timerow-right"></div>
   </div>
 
-      <div id="119112127" class="private-header header" data-narrow="[{'operator':'pm-with','operand':'welcome-bot@zulip.com'}]">
-        Welcome Bot
-      </div>
-
-  <div class="message message-full" id="msg-119112127" data-msg-id="119112127">
+  <div class="message message-full" id="msg-415759" data-msg-id="415759">
     <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
+      <img src="https://secure.gravatar.com/avatar/96228b1df5debaa9448d937b68d3fa91?d=identicon&version=1" class="avatar-img" data-email="be.0@gmx.com">
     </div>
     <div class="content">
       <div class="subheader">
         <div class="username">
-          Welcome Bot
+          Be.
         </div>
         <div class="timestamp">
-          9:38 PM
+          5:11 PM
         </div>
       </div>
-      <p>Hello, and welcome to Zulip!</p>
-<p>This is a private message from me, Welcome Bot. Here are some tips to get you started:</p>
-<ul>
-<li>Download our <a href="/apps" target="_blank" title="/apps">Desktop and mobile apps</a></li>
-<li>Customize your account and notifications on your <a href="#settings" title="#settings">Settings page</a></li>
-<li>Type <code>?</code> to check out Zulip's keyboard shortcuts</li>
-<li><a href="https://boris.zulipchat.com/help/getting-your-organization-started-with-zulip" target="_blank" title="https://boris.zulipchat.com/help/getting-your-organization-started-with-zulip">Read the guide</a> for getting your organization started with Zulip</li>
-</ul>
-<p>The most important shortcut is <code>r</code> to reply.</p>
-<p>Practice sending a few messages by replying to this conversation. If you're not into keyboards, that's okay too; clicking anywhere on this message will also do the trick!</p>
+      <p>Is there a way to turn off the blinking circle next to an active stream? I find it annoying. I'd rather see a slight change in color to highlight the active stream.</p>
 
 
     </div>
   </div>
 
-      <div id="119112128" class="stream-header header">
-        <div class="stream-text header" style="background: #76ce90"
-          data-narrow="[{'operator':'stream','operand':'announce'}]">
-          announce
-        </div>
-        <div class="arrow-right" style="border-left-color: #76ce90"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'announce'},{'operator':'topic','operand':'welcome'}]">
-          welcome
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119112128" data-msg-id="119112128">
+  <div class="message message-full" id="msg-415775" data-msg-id="415775">
     <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
+      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
     </div>
     <div class="content">
       <div class="subheader">
         <div class="username">
-          Welcome Bot
+          Steve Howell
         </div>
         <div class="timestamp">
-          9:38 PM
+          5:18 PM
         </div>
       </div>
-      <p>This is a message on stream <code>announce</code> with the topic <code>welcome</code>. We'll use this stream for system-generated notifications.</p>
+      <p>Can you send a screenshot?</p>
 
 
     </div>
   </div>
 
-      <div id="119112130" class="stream-header header">
-        <div class="stream-text header" style="background: #fae589"
-          data-narrow="[{'operator':'stream','operand':'general2'}]">
-          general2
-        </div>
-        <div class="arrow-right" style="border-left-color: #fae589"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'general2'},{'operator':'topic','operand':'welcome'}]">
-          welcome
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119112130" data-msg-id="119112130">
+  <div class="message message-full" id="msg-415776" data-msg-id="415776">
     <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
+      <img src="https://secure.gravatar.com/avatar/96228b1df5debaa9448d937b68d3fa91?d=identicon&version=1" class="avatar-img" data-email="be.0@gmx.com">
     </div>
     <div class="content">
       <div class="subheader">
         <div class="username">
-          Welcome Bot
+          Be.
         </div>
         <div class="timestamp">
-          9:38 PM
+          5:18 PM
         </div>
       </div>
-      <p>Welcome to <a class="stream" data-stream-id="106416" href="/#narrow/stream/general">#general</a>.</p>
+      <p><a href="/user_uploads/2/40/-NTCKEYwFH1pp5xkdf24URrw/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a> <br>
+in the lower left</p>
+<div class="message_inline_image"><a href="/user_uploads/2/40/-NTCKEYwFH1pp5xkdf24URrw/pasted_image.png" target="_blank" title="pasted image"><img src="https://chat.zulip.org/user_uploads/2/40/-NTCKEYwFH1pp5xkdf24URrw/pasted_image.png"></a></div>
 
 
     </div>
   </div>
 
-      <div id="119112131" class="stream-header header">
-        <div class="stream-text header" style="background: #a6c7e5"
-          data-narrow="[{'operator':'stream','operand':'new members'}]">
-          new members
-        </div>
-        <div class="arrow-right" style="border-left-color: #a6c7e5"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'new members'},{'operator':'topic','operand':'onboarding'}]">
-          onboarding
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119112131" data-msg-id="119112131">
+  <div class="message message-full" id="msg-415777" data-msg-id="415777">
     <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
+      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
     </div>
     <div class="content">
       <div class="subheader">
         <div class="username">
-          Welcome Bot
+          Steve Howell
         </div>
         <div class="timestamp">
-          9:38 PM
+          5:19 PM
         </div>
       </div>
-      <p>A <a class="stream" data-stream-id="106417" href="/#narrow/stream/new%20members">#new members</a> stream is great for onboarding new members.</p>
-<p>If you're reading this and aren't the first person here, introduce yourself in a new thread using your name as the topic! Type <code>c</code> or click on <code>New Topic</code> at the bottom of the screen to start a new topic.</p>
+      <p>Oh, strange, that's a hotspot.</p>
 
 
     </div>
   </div>
 
-      <div id="119112132" class="stream-header header">
-        <div class="stream-text header" style="background: #e79ab5"
-          data-narrow="[{'operator':'stream','operand':'zulip'}]">
-          zulip
-        </div>
-        <div class="arrow-right" style="border-left-color: #e79ab5"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'zulip'},{'operator':'topic','operand':'topic demonstration'}]">
-          topic demonstration
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119112132" data-msg-id="119112132">
+  <div class="message message-full" id="msg-415778" data-msg-id="415778">
     <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
+      <img src="https://secure.gravatar.com/avatar/96228b1df5debaa9448d937b68d3fa91?d=identicon&version=1" class="avatar-img" data-email="be.0@gmx.com">
     </div>
     <div class="content">
       <div class="subheader">
         <div class="username">
-          Welcome Bot
+          Be.
         </div>
         <div class="timestamp">
-          9:38 PM
+          5:19 PM
         </div>
       </div>
-      <p>Here is a message in one topic. Replies to this message will go to this topic.</p>
+      <p>can I turn it off somehow?</p>
 
 
     </div>
   </div>
 
-  <div class="message message-brief" id="msg-119112133" data-msg-id="119112133">
+  <div class="message message-full" id="msg-415780" data-msg-id="415780">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Steve Howell
+        </div>
+        <div class="timestamp">
+          5:19 PM
+        </div>
+      </div>
+      <p>Out of curiosity, what happens when you click on it?  (I'm surprised you'd be seeing these, since you're not a new user.)</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-415783" data-msg-id="415783">
+    <div class="avatar">
+      <img src="https://secure.gravatar.com/avatar/96228b1df5debaa9448d937b68d3fa91?d=identicon&version=1" class="avatar-img" data-email="be.0@gmx.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Be.
+        </div>
+        <div class="timestamp">
+          5:20 PM
+        </div>
+      </div>
+      <p><a href="/user_uploads/2/1a/M80E01w92mz2rcK_i_bCVa0A/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/1a/M80E01w92mz2rcK_i_bCVa0A/pasted_image.png" target="_blank" title="pasted image"><img src="https://chat.zulip.org/user_uploads/2/1a/M80E01w92mz2rcK_i_bCVa0A/pasted_image.png"></a></div>
+
+
+    </div>
+  </div>
+
+  <div class="message message-brief" id="msg-415784" data-msg-id="415784">
     <div class="avatar"><img></div>
     <div class="content">
-      <p>A second message in this topic. With <a href="/static/images/cute/turtle.png" target="_blank" title="/static/images/cute/turtle.png">turtles</a>!</p>
-<div class="message_inline_image"><a href="/static/images/cute/turtle.png" target="_blank" title="turtles"><img src="https://boris.zulipchat.com/static/images/cute/turtle.png"></a></div>
+      <p>that popped up when I clicked on it</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-brief" id="msg-415785" data-msg-id="415785">
+    <div class="avatar"><img></div>
+    <div class="content">
+      <p>now it's gone</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-415786" data-msg-id="415786">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Steve Howell
+        </div>
+        <div class="timestamp">
+          5:20 PM
+        </div>
+      </div>
+      <p>Huh, that's strange that you're seeing this only now.</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-415787" data-msg-id="415787">
+    <div class="avatar">
+      <img src="https://secure.gravatar.com/avatar/96228b1df5debaa9448d937b68d3fa91?d=identicon&version=1" class="avatar-img" data-email="be.0@gmx.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Be.
+        </div>
+        <div class="timestamp">
+          5:20 PM
+        </div>
+      </div>
+      <p>I didn't realize it was something I could click on. I thought it was just a visual indicator</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-brief" id="msg-415789" data-msg-id="415789">
+    <div class="avatar"><img></div>
+    <div class="content">
+      <p>also, hi, I think we met briefly at the GSOC Mentor Summit this year</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-415790" data-msg-id="415790">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Steve Howell
+        </div>
+        <div class="timestamp">
+          5:22 PM
+        </div>
+      </div>
+      <p>yep, we ate dinner the first night <span class="emoji emoji-1f604" title="smile">:smile:</span></p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-415791" data-msg-id="415791">
+    <div class="avatar">
+      <img src="https://secure.gravatar.com/avatar/96228b1df5debaa9448d937b68d3fa91?d=identicon&version=1" class="avatar-img" data-email="be.0@gmx.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Be.
+        </div>
+        <div class="timestamp">
+          5:22 PM
+        </div>
+      </div>
+      <p>I think other Mixxx developers are finally starting to understand why we should start using Zulip :)</p>
 
 
     <div class="reaction-list">
 
-  <span onClick="" class="reaction" data-name="turtle">
-    🐢 1
+  <span onClick="" class="reaction" data-name="relaxed">
+    ☺ 1
   </span>
 
     </div>
@@ -1500,844 +1577,52 @@ body {
     </div>
   </div>
 
-      <div id="119112134" class="stream-header header">
-        <div class="stream-text header" style="background: #e79ab5"
-          data-narrow="[{'operator':'stream','operand':'zulip'}]">
-          zulip
-        </div>
-        <div class="arrow-right" style="border-left-color: #e79ab5"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'zulip'},{'operator':'topic','operand':'second topic'}]">
-          second topic
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119112134" data-msg-id="119112134">
+  <div class="message message-full" id="msg-415792" data-msg-id="415792">
     <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
+      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
     </div>
     <div class="content">
       <div class="subheader">
         <div class="username">
-          Welcome Bot
+          Steve Howell
         </div>
         <div class="timestamp">
-          9:38 PM
+          5:22 PM
         </div>
       </div>
-      <p>This is a message in a second topic.</p>
-<p>Topics are similar to email subjects, in that each conversation should get its own topic. Keep them short, though; one or two words will do it!</p>
+      <p>We probably should at least have hover on the blinking circle that says "click for tip" or something.</p>
 
 
     </div>
   </div>
 
-      <div id="119112129" class="stream-header header">
-        <div class="stream-text header" style="background: #bfd56f"
-          data-narrow="[{'operator':'stream','operand':'core team'}]">
-          core team
-        </div>
-        <div class="arrow-right" style="border-left-color: #bfd56f"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'core team'},{'operator':'topic','operand':'private streams'}]">
-          private streams
-        </div>
-      </div>
+  <div class="message message-brief" id="msg-415793" data-msg-id="415793">
+    <div class="avatar"><img></div>
+    <div class="content">
+      <blockquote>
+<p>I think other Mixxx developers are finally starting to understand why we should start using Zulip :)</p>
+</blockquote>
+<p>Great!</p>
 
-  <div class="message message-full" id="msg-119112129" data-msg-id="119112129">
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-416772" data-msg-id="416772">
     <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
+      <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
     </div>
     <div class="content">
       <div class="subheader">
         <div class="username">
-          Welcome Bot
+          Rishi Gupta
         </div>
         <div class="timestamp">
-          9:38 PM
+          8:20 PM
         </div>
       </div>
-      <p>This is a private stream. Only admins and people you invite to the stream will be able to see that this stream exists.</p>
-
-
-    </div>
-  </div>
-
-  <div class="timerow" data-msg-id="119118280">
-    <div class="timerow-left"></div>
-    Nov 30
-    <div class="timerow-right"></div>
-  </div>
-
-      <div id="119118280" class="private-header header" data-narrow="[{'operator':'pm-with','operand':'welcome-bot@zulip.com'}]">
-        Welcome Bot
-      </div>
-
-  <div class="message message-full" id="msg-119118280" data-msg-id="119118280">
-    <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Welcome Bot
-        </div>
-        <div class="timestamp">
-          12:21 AM
-        </div>
-      </div>
-      <p>Congratulations on your first reply! <span class="emoji emoji-1f389" title="tada">:tada:</span></p>
-<p>Feel free to continue using this space to practice your new messaging skills. Or, try clicking on some of the stream names to your left!</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-full" id="msg-119118279" data-msg-id="119118279">
-    <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Boris Yankov
-        </div>
-        <div class="timestamp">
-          12:21 AM
-        </div>
-      </div>
-      <p>Hey</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119139414" data-msg-id="119139414">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>OMG</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119142027" data-msg-id="119142027">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Wow</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119142125" data-msg-id="119142125">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Yolo</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119142134" data-msg-id="119142134">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Yolo</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119142188" data-msg-id="119142188">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Hmmm</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119142463" data-msg-id="119142463">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Wow</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119142634" data-msg-id="119142634">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Yo</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119143000" data-msg-id="119143000">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Hmm</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119143003" data-msg-id="119143003">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Wow</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119143006" data-msg-id="119143006">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Hey</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119143007" data-msg-id="119143007">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Whatevs</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119143054" data-msg-id="119143054">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Hey</p>
-
-
-    </div>
-  </div>
-
-      <div id="119143057" class="stream-header header">
-        <div class="stream-text header" style="background: #fae589"
-          data-narrow="[{'operator':'stream','operand':'general2'}]">
-          general2
-        </div>
-        <div class="arrow-right" style="border-left-color: #fae589"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'general2'},{'operator':'topic','operand':'welcome'}]">
-          welcome
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119143057" data-msg-id="119143057">
-    <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Boris Yankov
-        </div>
-        <div class="timestamp">
-          2:53 PM
-        </div>
-      </div>
-      <p>This is how we do it</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119143062" data-msg-id="119143062">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>No matter what</p>
-
-
-    </div>
-  </div>
-
-  <div class="timerow" data-msg-id="119238916">
-    <div class="timerow-left"></div>
-    Dec 2
-    <div class="timerow-right"></div>
-  </div>
-
-      <div id="119238916" class="stream-header header">
-        <div class="stream-text header" style="background: #76ce90"
-          data-narrow="[{'operator':'stream','operand':'announce'}]">
-          announce
-        </div>
-        <div class="arrow-right" style="border-left-color: #76ce90"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'announce'},{'operator':'topic','operand':'Streams'}]">
-          Streams
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119238916" data-msg-id="119238916">
-    <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/9fd9de59f964f6e3af477006ddd0116211347010?x=x&version=2" class="avatar-img" data-email="notification-bot@zulip.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Notification Bot
-        </div>
-        <div class="timestamp">
-          5:48 PM
-        </div>
-      </div>
-      <p>Boris Yankov just created a new stream <a class="stream" data-stream-id="106977" href="/#narrow/stream/Some%20name">#Some name</a>.</p>
-
-
-    </div>
-  </div>
-
-      <div id="119238917" class="stream-header header">
-        <div class="stream-text header" style="background: #ccc"
-          data-narrow="[{'operator':'stream','operand':'!DEACTIVATED:!DEACTIVATED:Some name 2'}]">
-          !DEACTIVATED:!DEACTIVATED:Some name 2
-        </div>
-        <div class="arrow-right" style="border-left-color: #ccc"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'!DEACTIVATED:!DEACTIVATED:Some name 2'},{'operator':'topic','operand':'hello'}]">
-          hello
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119238917" data-msg-id="119238917">
-    <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Welcome Bot
-        </div>
-        <div class="timestamp">
-          5:48 PM
-        </div>
-      </div>
-      <p>Welcome to <a class="stream" data-stream-id="106977" href="/#narrow/stream/Some%20name">#Some name</a>.</p>
-<p><strong>Description</strong>: some description</p>
-
-
-    </div>
-  </div>
-
-  <div class="timerow" data-msg-id="119283695">
-    <div class="timerow-left"></div>
-    Dec 3
-    <div class="timerow-right"></div>
-  </div>
-
-      <div id="119283695" class="stream-header header">
-        <div class="stream-text header" style="background: #76ce90"
-          data-narrow="[{'operator':'stream','operand':'announce'}]">
-          announce
-        </div>
-        <div class="arrow-right" style="border-left-color: #76ce90"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'announce'},{'operator':'topic','operand':'Streams'}]">
-          Streams
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119283695" data-msg-id="119283695">
-    <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/9fd9de59f964f6e3af477006ddd0116211347010?x=x&version=2" class="avatar-img" data-email="notification-bot@zulip.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Notification Bot
-        </div>
-        <div class="timestamp">
-          10:58 PM
-        </div>
-      </div>
-      <p>Boris Yankov just created a new stream <a class="stream" data-stream-id="107045" href="/#narrow/stream/Test">#Test</a>.</p>
-
-
-    </div>
-  </div>
-
-      <div id="119283696" class="stream-header header">
-        <div class="stream-text header" style="background: #f4ae55"
-          data-narrow="[{'operator':'stream','operand':'Test'}]">
-          Test
-        </div>
-        <div class="arrow-right" style="border-left-color: #f4ae55"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'Test'},{'operator':'topic','operand':'hello'}]">
-          hello
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119283696" data-msg-id="119283696">
-    <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Welcome Bot
-        </div>
-        <div class="timestamp">
-          10:58 PM
-        </div>
-      </div>
-      <p>Welcome to <a class="stream" data-stream-id="107045" href="/#narrow/stream/Test">#Test</a>.</p>
-
-
-    </div>
-  </div>
-
-      <div id="119284526" class="stream-header header">
-        <div class="stream-text header" style="background: #b0a5fd"
-          data-narrow="[{'operator':'stream','operand':'Hey'}]">
-          Hey
-        </div>
-        <div class="arrow-right" style="border-left-color: #b0a5fd"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'Hey'},{'operator':'topic','operand':'hello'}]">
-          hello
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119284526" data-msg-id="119284526">
-    <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Welcome Bot
-        </div>
-        <div class="timestamp">
-          11:30 PM
-        </div>
-      </div>
-      <p>Welcome to <a class="stream" data-stream-id="107046" href="/#narrow/stream/Hey">#Hey</a>.</p>
-<p><strong>Description</strong>: Yo</p>
-
-
-    </div>
-  </div>
-
-  <div class="timerow" data-msg-id="119450101">
-    <div class="timerow-left"></div>
-    Dec 7
-    <div class="timerow-right"></div>
-  </div>
-
-      <div id="119450101" class="stream-header header">
-        <div class="stream-text header" style="background: #a6c7e5"
-          data-narrow="[{'operator':'stream','operand':'new members'}]">
-          new members
-        </div>
-        <div class="arrow-right" style="border-left-color: #a6c7e5"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'new members'},{'operator':'topic','operand':'onboarding'}]">
-          onboarding
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119450101" data-msg-id="119450101">
-    <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Boris Yankov
-        </div>
-        <div class="timestamp">
-          4:48 PM
-        </div>
-      </div>
-      <p>Hello</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-119450112" data-msg-id="119450112">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Yolo</p>
-
-
-    </div>
-  </div>
-
-      <div id="119450119" class="stream-header header">
-        <div class="stream-text header" style="background: #addfe5"
-          data-narrow="[{'operator':'stream','operand':'New stream'}]">
-          New stream
-        </div>
-        <div class="arrow-right" style="border-left-color: #addfe5"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'New stream'},{'operator':'topic','operand':'hello'}]">
-          hello
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119450119" data-msg-id="119450119">
-    <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Welcome Bot
-        </div>
-        <div class="timestamp">
-          4:49 PM
-        </div>
-      </div>
-      <p>Welcome to <a class="stream" data-stream-id="107301" href="/#narrow/stream/New%20stream">#New stream</a>.</p>
-
-
-    </div>
-  </div>
-
-      <div id="119450126" class="stream-header header">
-        <div class="stream-text header" style="background: #f5ce6e"
-          data-narrow="[{'operator':'stream','operand':'Private stream'}]">
-          Private stream
-        </div>
-        <div class="arrow-right" style="border-left-color: #f5ce6e"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'Private stream'},{'operator':'topic','operand':'hello'}]">
-          hello
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119450126" data-msg-id="119450126">
-    <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Welcome Bot
-        </div>
-        <div class="timestamp">
-          4:49 PM
-        </div>
-      </div>
-      <p>Welcome to <a class="stream" data-stream-id="107302" href="/#narrow/stream/Private%20stream">#Private stream</a>.</p>
-
-
-    </div>
-  </div>
-
-  <div class="timerow" data-msg-id="119681228">
-    <div class="timerow-left"></div>
-    Dec 12
-    <div class="timerow-right"></div>
-  </div>
-
-      <div id="119681228" class="stream-header header">
-        <div class="stream-text header" style="background: #c2726a"
-          data-narrow="[{'operator':'stream','operand':'First'}]">
-          First
-        </div>
-        <div class="arrow-right" style="border-left-color: #c2726a"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'First'},{'operator':'topic','operand':'hello'}]">
-          hello
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119681228" data-msg-id="119681228">
-    <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Welcome Bot
-        </div>
-        <div class="timestamp">
-          11:16 PM
-        </div>
-      </div>
-      <p>Welcome to <a class="stream" data-stream-id="107592" href="/#narrow/stream/First">#First</a>.</p>
-<p><strong>Description</strong>: Some description</p>
-
-
-    </div>
-  </div>
-
-  <div class="timerow" data-msg-id="119693027">
-    <div class="timerow-left"></div>
-    Dec 13
-    <div class="timerow-right"></div>
-  </div>
-
-      <div id="119693027" class="stream-header header">
-        <div class="stream-text header" style="background: #94c849"
-          data-narrow="[{'operator':'stream','operand':'New one'}]">
-          New one
-        </div>
-        <div class="arrow-right" style="border-left-color: #94c849"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'New one'},{'operator':'topic','operand':'hello'}]">
-          hello
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-119693027" data-msg-id="119693027">
-    <div class="avatar">
-      <img src="https://zulip-avatars.s3.amazonaws.com/1000/1cd87892343b6620726b112851f0b66cbda4a68f?x=x&version=4" class="avatar-img" data-email="welcome-bot@zulip.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Welcome Bot
-        </div>
-        <div class="timestamp">
-          5:14 AM
-        </div>
-      </div>
-      <p>Welcome to <a class="stream" data-stream-id="107599" href="/#narrow/stream/New%20one">#New one</a>.</p>
-
-
-    </div>
-  </div>
-
-  <div class="timerow" data-msg-id="120194018">
-    <div class="timerow-left"></div>
-    Dec 24
-    <div class="timerow-right"></div>
-  </div>
-
-      <div id="120194018" class="stream-header header">
-        <div class="stream-text header" style="background: #f4ae55"
-          data-narrow="[{'operator':'stream','operand':'Test'}]">
-          Test
-        </div>
-        <div class="arrow-right" style="border-left-color: #f4ae55"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'Test'},{'operator':'topic','operand':'hello'}]">
-          hello
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-120194018" data-msg-id="120194018">
-    <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Boris Yankov
-        </div>
-        <div class="timestamp">
-          11:59 PM
-        </div>
-      </div>
-      <p>Test</p>
-
-
-    </div>
-  </div>
-
-  <div class="timerow" data-msg-id="120225934">
-    <div class="timerow-left"></div>
-    Dec 25
-    <div class="timerow-right"></div>
-  </div>
-
-  <div class="message message-full" id="msg-120225934" data-msg-id="120225934">
-    <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Boris Yankov
-        </div>
-        <div class="timestamp">
-          10:06 PM
-        </div>
-      </div>
-      <p>Wow</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-120226080" data-msg-id="120226080">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Look ma!</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-120226082" data-msg-id="120226082">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>This is it!</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-120226083" data-msg-id="120226083">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Do not refresh yo!</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-120226084" data-msg-id="120226084">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Wow!</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-120226304" data-msg-id="120226304">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Hey</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-120226306" data-msg-id="120226306">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Wow</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-120226353" data-msg-id="120226353">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>This is how we do it!</p>
-
-
-    </div>
-  </div>
-
-  <div class="timerow" data-msg-id="120288171">
-    <div class="timerow-left"></div>
-    Dec 27
-    <div class="timerow-right"></div>
-  </div>
-
-      <div id="120288171" class="stream-header header">
-        <div class="stream-text header" style="background: #c2726a"
-          data-narrow="[{'operator':'stream','operand':'First'}]">
-          First
-        </div>
-        <div class="arrow-right" style="border-left-color: #c2726a"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'First'},{'operator':'topic','operand':'hello'}]">
-          hello
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-120288171" data-msg-id="120288171">
-    <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Boris Yankov
-        </div>
-        <div class="timestamp">
-          1:07 PM
-        </div>
-      </div>
-      <p>Wow</p>
-
-
-    </div>
-  </div>
-
-      <div id="120288215" class="stream-header header">
-        <div class="stream-text header" style="background: #f4ae55"
-          data-narrow="[{'operator':'stream','operand':'Test'}]">
-          Test
-        </div>
-        <div class="arrow-right" style="border-left-color: #f4ae55"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'Test'},{'operator':'topic','operand':'hello'}]">
-          hello
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-120288215" data-msg-id="120288215">
-    <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Boris Yankov
-        </div>
-        <div class="timestamp">
-          1:08 PM
-        </div>
-      </div>
-      <p>Nice</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-120288216" data-msg-id="120288216">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Wow</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-120288222" data-msg-id="120288222">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>Yay</p>
-
-
-    </div>
-  </div>
-
-  <div class="timerow" data-msg-id="120427957">
-    <div class="timerow-left"></div>
-    Today
-    <div class="timerow-right"></div>
-  </div>
-
-      <div id="120427957" class="stream-header header">
-        <div class="stream-text header" style="background: #b0a5fd"
-          data-narrow="[{'operator':'stream','operand':'Hey'}]">
-          Hey
-        </div>
-        <div class="arrow-right" style="border-left-color: #b0a5fd"></div>
-        <div class="title-text header" data-narrow="[{'operator':'stream','operand':'Hey'},{'operator':'topic','operand':'hello'}]">
-          hello
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-120427957" data-msg-id="120427957">
-    <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Boris Yankov
-        </div>
-        <div class="timestamp">
-          12:31 AM
-        </div>
-      </div>
-      <p><span class="user-mention" data-user-email="*" data-user-id="*">@all</span> you</p>
+      <p>hm, the hotspot popup also shouldn't be centered like that :/.<br>
+Agreed with putting a hover ("Click me"), and perhaps consider making it more aggressive (discord adds a giant bouncing question mark).</p>
 
 
     </div>
@@ -2348,24 +1633,40 @@ body {
 </body>
 
 <script>
+
+window.onerror = function(message, source, line, column, error) {
+  alert(
+    [
+      'Message: ' + message,
+      'Source: ' + source,
+      'Line: ' + line,
+      'Column: ' + column,
+      'Error object: ' + JSON.stringify(error),
+    ].join(' - '),
+  );
+  return false;
+};
+
+var height = document.body.clientHeight;
+
 function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
 }
 
 function getMessageNode(node) {
-  var crNode = node;
-  while (crNode && crNode.parentNode && crNode.parentNode.id !== 'message-list') {
-    crNode = crNode.parentNode;
+  var curNode = node;
+  while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
+    curNode = curNode.parentNode;
   }
-  return crNode;
+  return curNode;
 }
 
 function getMessageIdFromNode(node) {
-  var node = getMessageNode(node);
-  if (!node) {
-    console.log('!!!! WHOA', node);
+  var msgNode = getMessageNode(node);
+  if (!msgNode) {
+    console.log('!!!! WHOA', msgNode);
   }
-  return node && node.getAttribute('data-msg-id');
+  return msgNode && msgNode.getAttribute('data-msg-id');
 }
 
 function scrollToBottom() {
@@ -2387,18 +1688,16 @@ function scrollToAnchor(anchor) {
   }
 }
 
-window.onerror = function(message, source, line, column, error) {
-  alert(
-    [
-      'Message: ' + message,
-      'Source: ' + source,
-      'Line: ' + line,
-      'Column: ' + column,
-      'Error object: ' + JSON.stringify(error),
-    ].join(' - '),
-  );
-  return false;
-};
+window.addEventListener('resize', function(event) {
+  var difference = height - document.body.clientHeight;
+  if (
+    difference > 0 ||
+    document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight
+  ) {
+    window.scrollBy(0, difference);
+  }
+  height = document.body.clientHeight;
+});
 
 document.addEventListener('message', function(e) {
   const msg = JSON.parse(e.data);
@@ -2441,10 +1740,10 @@ window.addEventListener('scroll', function() {
 document.body.addEventListener('click', function(e) {
   sendMessage({
     type: 'click',
-    target: e.traget,
+    target: e.target,
     targetNodeName: e.target.nodeName,
     targetClassName: e.target.className,
-    matchez: e.target.matches('a[target="_blank"] > img'),
+    matches: e.target.matches('a[target="_blank"] > img'),
   });
 
   if (e.target.matches('.avatar-img')) {
@@ -2466,13 +1765,13 @@ document.body.addEventListener('click', function(e) {
     sendMessage({
       type: 'image',
       src: e.target.parentNode.getAttribute('href'),
-      messageId: +getMessageNode(e.target).id,
+      messageId: +getMessageIdFromNode(e.target),
     });
   } else if (e.target.matches('a')) {
     sendMessage({
       type: 'url',
       href: e.target.getAttribute('href'),
-      messageId: +getMessageNode(e.target).id,
+      messageId: +getMessageIdFromNode(e.target),
     });
   }
 
@@ -2480,11 +1779,12 @@ document.body.addEventListener('click', function(e) {
     sendMessage({
       type: 'reaction',
       name: e.target.getAttribute('data-name'),
-      messageId: +getMessageNode(e.target).id,
+      messageId: +getMessageIdFromNode(e.target),
       voted: e.target.classList.contains('self-voted'),
     });
   }
 
   return false;
 });
+
 </script>

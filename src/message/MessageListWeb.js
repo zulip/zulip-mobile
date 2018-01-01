@@ -1,6 +1,6 @@
 /* @flow */
 import React, { Component } from 'react';
-import { WebView } from 'react-native';
+import { Text, View, WebView } from 'react-native';
 
 import type { Actions, Auth, Narrow, TypingState, WebViewNavigationState } from '../types';
 import css from './html/css';
@@ -40,6 +40,10 @@ export default class MessageListWeb extends Component<Props> {
     webViewEventHandlers[handler](this.props, eventData);
   };
 
+  handleError = (event: Object) => {
+    console.error(event); // eslint-disable-line
+  };
+
   handleNavigationStateChange = (navigator: WebViewNavigationState) => {
     const { url } = navigator;
     if (!url.startsWith('data:')) {
@@ -71,7 +75,9 @@ export default class MessageListWeb extends Component<Props> {
     const { anchor, listRef } = this.props;
 
     listRef({ scrollToEnd: this.scrollToEnd });
+
     // console.log(css(theme) + html(renderMessagesAsHtml(this.props)) + js);
+
     return (
       <WebView
         source={{ html: css(theme) + html(renderMessagesAsHtml(this.props)) + js }}
@@ -83,6 +89,14 @@ export default class MessageListWeb extends Component<Props> {
           this.webview = webview;
         }}
         onMessage={this.handleMessage}
+        onError={this.handleError}
+        renderError={({ domain, code, description }) => (
+          <View>
+            <Text>{domain}</Text>
+            <Text>{code}</Text>
+            <Text>{description}</Text>
+          </View>
+        )}
         javaScriptEnabled
       />
     );
