@@ -3,7 +3,6 @@
 window.onerror = (message, source, line, column, error) => {
   const obj = JSON.stringify(error);
   alert(`Message: ${message} Source: ${source} Line: ${line} Column: ${column} Error: ${obj}`);
-
   return false;
 };
 
