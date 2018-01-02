@@ -41,7 +41,19 @@ const getMessageNode = (node: Node): Node => {
 
 const getMessageIdFromNode = (node: Node): Node => {
   const msgNode = getMessageNode(node);
+
   return msgNode && msgNode.getAttribute('data-msg-id');
+};
+
+const isMessageContentNode = (node: Node): boolean => {
+  let curNode = node;
+  while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
+    if (curNode.matches('.msg-content')) {
+      return true;
+    }
+    curNode = curNode.parentNode;
+  }
+  return false;
 };
 
 const scrollToBottom = () => {
@@ -126,7 +138,7 @@ function onLongPress(e) {
         messageId,
       });
     }
-  } else {
+  } else if (isMessageContentNode(e.target)) {
     const messageId = +getMessageIdFromNode(e.target);
     if (messageId) {
       sendMessage({
