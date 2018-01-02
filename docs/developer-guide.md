@@ -89,3 +89,11 @@ target.
 
 * Using atom editor - install the `prettier-atom` plugin
 * Using the command line - run `npm run prettier`
+
+## Working with webView message rendering
+
+There are some restrictions in code that should be written in JS for WebView like
+
+* No inline comments (not supported on Android)
+* Every statement should end with `;` (not supported on Android)
+* Trailing commas are not supported on Android.
