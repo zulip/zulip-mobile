@@ -1,5 +1,13 @@
 /* @flow */
-import type { Actions, Auth, Message } from '../types';
+import type {
+  Actions,
+  Auth,
+  FlagState,
+  Message,
+  Narrow,
+  MuteState,
+  SubscriptionsState,
+} from '../types';
 import config from '../config';
 import { isUrlAnImage } from '../utils/url';
 import { emojiReactionAdd, emojiReactionRemove } from '../api';
@@ -48,17 +56,25 @@ type MessageListEventUrl = {
 
 type MessageListLongPress = {
   messageId: number,
+  target: string,
 };
 
 type Props = {
   actions: Actions,
   auth: Auth,
+  currentRoute: string,
+  flags: FlagState,
   messages: Message[],
+  mute: MuteState,
+  narrow: Narrow,
+  onReplySelect?: () => void,
+  showActionSheetWithOptions: (Object, (number) => void) => void,
+  subscriptions: SubscriptionsState,
 };
 
 export const handleClick = (props: Props, event: MessageListEventClick) => {};
 
-export const handleLongPress = (props: Props, event: MessageListLongPress, context) => {
+export const handleLongPress = (props: Props, event: MessageListLongPress, context: Object) => {
   const { messageId, target } = event;
 
   const {

@@ -9,6 +9,7 @@ import type {
   Fetching,
   FlagsState,
   Message,
+  MuteState,
   Narrow,
   Subscription,
 } from '../types';
@@ -39,8 +40,10 @@ type Props = {
   auth: Auth,
   caughtUp: CaughtUp,
   isFetching: boolean,
+  currentRoute: string,
   fetching: Fetching,
   flags: FlagsState,
+  mute: MuteState,
   typingUsers: any,
   htmlMessages: boolean,
   messages: Message[],
