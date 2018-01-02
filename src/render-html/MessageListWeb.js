@@ -29,9 +29,6 @@ class MessageListWeb extends Component<Props> {
   static contextTypes = {
     styles: () => null,
     theme: () => null,
-  };
-
-  static contextTypes = {
     intl: () => null,
   };
 
@@ -40,7 +37,7 @@ class MessageListWeb extends Component<Props> {
     const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
 
     // $FlowFixMe
-    webViewEventHandlers[handler](this.props, this.context, eventData);
+    webViewEventHandlers[handler](this.props, eventData, this.context);
   };
 
   handleError = (event: Object) => {

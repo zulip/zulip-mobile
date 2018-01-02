@@ -99,7 +99,7 @@ document.addEventListener('message', (e: Event) => {
 });
 
 window.addEventListener('scroll', () => {
-  lastTouchEvent = null;
+  lastTouchEvent = undefined;
   const startNode = getMessageNode(document.elementFromPoint(200, 20));
   const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
   console.log(startNode, endNode);
@@ -117,7 +117,8 @@ window.addEventListener('scroll', () => {
 
 function onLongPress(e) {
   if (e.target.matches('.header')) {
-    const messageId = +e.target.getAttribute('id');
+    const messageId =
+      +e.target.getAttribute('data-msg-id') || +e.target.parentNode.getAttribute('data-msg-id');
     if (messageId) {
       sendMessage({
         type: 'longPress',
@@ -203,5 +204,5 @@ document.body.addEventListener('touchstart', e => {
 });
 
 document.body.addEventListener('drag', e => {
-  lastTouchEvent = null;
+  lastTouchEvent = undefined;
 });

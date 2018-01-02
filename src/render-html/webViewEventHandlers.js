@@ -7,7 +7,7 @@ import {
   constructActionButtons,
   executeActionSheetAction,
   constructHeaderActionButtons,
-} from './messageActionSheet';
+} from '../message/messageActionSheet';
 
 type MessageListEventClick = {
   target: string,
@@ -58,7 +58,7 @@ type Props = {
 
 export const handleClick = (props: Props, event: MessageListEventClick) => {};
 
-export const handleLongPress = (props: Props, context, event: MessageListLongPress) => {
+export const handleLongPress = (props: Props, event: MessageListLongPress, context) => {
   const { messageId, target } = event;
 
   const {
