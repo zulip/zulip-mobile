@@ -13,9 +13,9 @@ import type {
   Subscription,
 } from '../types';
 import connectWithActions from '../connectWithActions';
-import MessageList from './MessageList';
-// import MessageList from './MessageListFlatList';
-import MessageListWeb from './MessageListWeb';
+import MessageList from '../render-native/MessageList';
+// import MessageList from '../render-native/MessageListFlatList';
+import MessageListWeb from '../render-html/MessageListWeb';
 import {
   getAuth,
   getCurrentTypingUsers,
