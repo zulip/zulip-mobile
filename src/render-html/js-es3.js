@@ -7,17 +7,27 @@ window.onerror = function (message, source, line, column, error) {
   return false;
 };
 
-function sendMessage(msg) {
-  window.postMessage(JSON.stringify(msg), '*');
+var documentBody = document.body;
+var elementMessageList = document.getElementById('message-list');
+var elementSpinnerOlder = document.getElementById('spinner-older');
+var elementSpinnerNewer = document.getElementById('spinner-newer');
+var elementTyping = document.getElementById('typing');
+
+if (!documentBody || !elementMessageList || !elementSpinnerOlder || !elementSpinnerNewer || !elementTyping) {
+  throw new Error('HTML elements missing');
 }
 
-function getMessageNode(node) {
+var sendMessage = function sendMessage(msg) {
+  window.postMessage(JSON.stringify(msg), '*');
+};
+
+var getMessageNode = function getMessageNode(node) {
   var curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
     curNode = curNode.parentNode;
   }
   return curNode;
-}
+};
 
 var getMessageIdFromNode = function getMessageIdFromNode(node) {
   var msgNode = getMessageNode(node);
@@ -25,11 +35,11 @@ var getMessageIdFromNode = function getMessageIdFromNode(node) {
 };
 
 var scrollToBottom = function scrollToBottom() {
-  window.scrollTo(0, document.body.scrollHeight);
+  window.scrollTo(0, documentBody.scrollHeight);
 };
 
 var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
-  if (document.body.scrollHeight - 100 < document.body.scrollTop + document.body.clientHeight) {
+  if (documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight) {
     scrollToBottom();
   }
 };
@@ -43,13 +53,13 @@ var scrollToAnchor = function scrollToAnchor(anchor) {
   }
 };
 
-var height = document.body.clientHeight;
+var height = documentBody.clientHeight;
 window.addEventListener('resize', function (event) {
-  var difference = height - document.body.clientHeight;
-  if (difference > 0 || document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight) {
+  var difference = height - documentBody.clientHeight;
+  if (difference > 0 || documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
     window.scrollBy(0, difference);
   }
-  height = document.body.clientHeight;
+  height = documentBody.clientHeight;
 });
 
 document.addEventListener('message', function (e) {
@@ -59,15 +69,15 @@ document.addEventListener('message', function (e) {
       scrollToBottom();
       break;
     case 'content':
-      document.getElementById('message-list').innerHTML = msg.content;
+      elementMessageList.innerHTML = msg.content;
       scrollToAnchor(msg.anchor);
       break;
     case 'fetching':
-      document.getElementById('spinner-older').classList.toggle('hidden', !msg.fetchingOlder);
-      document.getElementById('spinner-newer').classList.toggle('hidden', !msg.fetchingNewer);
+      elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
+      elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
       break;
     case 'typing':
-      document.getElementById('typing').innerHTML = msg.content;
+      elementTyping.innerHTML = msg.content;
       setTimeout(function () {
         return scrollToBottomIfNearEnd();
       });
@@ -85,11 +95,11 @@ window.addEventListener('scroll', function () {
     type: 'scroll',
     scrollY: window.scrollY,
     innerHeight: window.innerHeight,
-    offsetHeight: document.body.offsetHeight
+    offsetHeight: documentBody.offsetHeight
   }), '*');
 });
 
-document.body.addEventListener('click', function (e) {
+documentBody.addEventListener('click', function (e) {
   sendMessage({
     type: 'click',
     target: e.target,
