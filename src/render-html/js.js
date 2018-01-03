@@ -1,3 +1,4 @@
+/* @noflow */
 /* eslint-disable no-alert */
 
 window.onerror = (message, source, line, column, error) => {
@@ -12,11 +13,27 @@ Error object: ${JSON.stringify(error)}
   return false;
 };
 
+const documentBody = document.body;
+const elementMessageList = document.getElementById('message-list');
+const elementSpinnerOlder = document.getElementById('spinner-older');
+const elementSpinnerNewer = document.getElementById('spinner-newer');
+const elementTyping = document.getElementById('typing');
+
+if (
+  !documentBody ||
+  !elementMessageList ||
+  !elementSpinnerOlder ||
+  !elementSpinnerNewer ||
+  !elementTyping
+) {
+  throw new Error('HTML elements missing');
+}
+
 const sendMessage = msg => {
   window.postMessage(JSON.stringify(msg), '*');
 };
 
-const getMessageNode = node => {
+const getMessageNode = (node: Node): Node => {
   let curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
     curNode = curNode.parentNode;
@@ -24,17 +41,17 @@ const getMessageNode = node => {
   return curNode;
 };
 
-const getMessageIdFromNode = node => {
+const getMessageIdFromNode = (node: Node): Node => {
   const msgNode = getMessageNode(node);
   return msgNode && msgNode.getAttribute('data-msg-id');
 };
 
 const scrollToBottom = () => {
-  window.scrollTo(0, document.body.scrollHeight);
+  window.scrollTo(0, documentBody.scrollHeight);
 };
 
 const scrollToBottomIfNearEnd = () => {
-  if (document.body.scrollHeight - 100 < document.body.scrollTop + document.body.clientHeight) {
+  if (documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight) {
     scrollToBottom();
   }
 };
@@ -48,34 +65,34 @@ const scrollToAnchor = anchor => {
   }
 };
 
-let height = document.body.clientHeight;
+let height = documentBody.clientHeight;
 window.addEventListener('resize', event => {
-  const difference = height - document.body.clientHeight;
+  const difference = height - documentBody.clientHeight;
   if (
     difference > 0 ||
-    document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight
+    documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight
   ) {
     window.scrollBy(0, difference);
   }
-  height = document.body.clientHeight;
+  height = documentBody.clientHeight;
 });
 
-document.addEventListener('message', e => {
+document.addEventListener('message', (e: Event) => {
   const msg = JSON.parse(e.data);
   switch (msg.type) {
     case 'bottom':
       scrollToBottom();
       break;
     case 'content':
-      document.getElementById('message-list').innerHTML = msg.content;
+      elementMessageList.innerHTML = msg.content;
       scrollToAnchor(msg.anchor);
       break;
     case 'fetching':
-      document.getElementById('spinner-older').classList.toggle('hidden', !msg.fetchingOlder);
-      document.getElementById('spinner-newer').classList.toggle('hidden', !msg.fetchingNewer);
+      elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
+      elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
       break;
     case 'typing':
-      document.getElementById('typing').innerHTML = msg.content;
+      elementTyping.innerHTML = msg.content;
       setTimeout(() => scrollToBottomIfNearEnd());
       break;
     default:
@@ -92,13 +109,13 @@ window.addEventListener('scroll', () => {
       type: 'scroll',
       scrollY: window.scrollY,
       innerHeight: window.innerHeight,
-      offsetHeight: document.body.offsetHeight,
+      offsetHeight: documentBody.offsetHeight,
     }),
     '*',
   );
 });
 
-document.body.addEventListener('click', e => {
+documentBody.addEventListener('click', (e: Event) => {
   sendMessage({
     type: 'click',
     target: e.target,
