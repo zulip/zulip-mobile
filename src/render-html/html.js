@@ -1,6 +1,6 @@
 /* @flow */
 import css from './css';
-import js from './js';
+import js from './js-es3';
 
 export default (content: string, theme: string) => `
 ${css(theme)}
