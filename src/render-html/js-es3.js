@@ -1,46 +1,41 @@
-/* eslint-disable no-alert */
+export default `
+'use strict';
 
-window.onerror = (message, source, line, column, error) => {
-  alert(`
-Message: ${message}
-Source: ${source}
-Line: ${line}
-Column: ${column}
-Error object: ${JSON.stringify(error)}
-`);
+window.onerror = function (message, source, line, column, error) {
+  alert('\nMessage: ' + message + '\nSource: ' + source + '\nLine: ' + line + '\nColumn: ' + column + '\nError object: ' + JSON.stringify(error) + '\n');
 
   return false;
 };
 
-const sendMessage = msg => {
+function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
-};
+}
 
-const getMessageNode = node => {
-  let curNode = node;
+function getMessageNode(node) {
+  var curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
     curNode = curNode.parentNode;
   }
   return curNode;
-};
+}
 
-const getMessageIdFromNode = node => {
-  const msgNode = getMessageNode(node);
+var getMessageIdFromNode = function getMessageIdFromNode(node) {
+  var msgNode = getMessageNode(node);
   return msgNode && msgNode.getAttribute('data-msg-id');
 };
 
-const scrollToBottom = () => {
+var scrollToBottom = function scrollToBottom() {
   window.scrollTo(0, document.body.scrollHeight);
 };
 
-const scrollToBottomIfNearEnd = () => {
+var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
   if (document.body.scrollHeight - 100 < document.body.scrollTop + document.body.clientHeight) {
     scrollToBottom();
   }
 };
 
-const scrollToAnchor = anchor => {
-  const anchorNode = document.getElementById(`msg-${anchor}`);
+var scrollToAnchor = function scrollToAnchor(anchor) {
+  var anchorNode = document.getElementById('msg-' + anchor);
   if (anchorNode) {
     anchorNode.scrollIntoView(false);
   } else {
@@ -48,20 +43,17 @@ const scrollToAnchor = anchor => {
   }
 };
 
-let height = document.body.clientHeight;
-window.addEventListener('resize', event => {
-  const difference = height - document.body.clientHeight;
-  if (
-    difference > 0 ||
-    document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight
-  ) {
+var height = document.body.clientHeight;
+window.addEventListener('resize', function (event) {
+  var difference = height - document.body.clientHeight;
+  if (difference > 0 || document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight) {
     window.scrollBy(0, difference);
   }
   height = document.body.clientHeight;
 });
 
-document.addEventListener('message', e => {
-  const msg = JSON.parse(e.data);
+document.addEventListener('message', function (e) {
+  var msg = JSON.parse(e.data);
   switch (msg.type) {
     case 'bottom':
       scrollToBottom();
@@ -76,41 +68,40 @@ document.addEventListener('message', e => {
       break;
     case 'typing':
       document.getElementById('typing').innerHTML = msg.content;
-      setTimeout(() => scrollToBottomIfNearEnd());
+      setTimeout(function () {
+        return scrollToBottomIfNearEnd();
+      });
       break;
     default:
   }
 });
 
-window.addEventListener('scroll', () => {
-  const startNode = getMessageNode(document.elementFromPoint(200, 20));
-  const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
+window.addEventListener('scroll', function () {
+  var startNode = getMessageNode(document.elementFromPoint(200, 20));
+  var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
   console.log(startNode, endNode);
 
-  window.postMessage(
-    JSON.stringify({
-      type: 'scroll',
-      scrollY: window.scrollY,
-      innerHeight: window.innerHeight,
-      offsetHeight: document.body.offsetHeight,
-    }),
-    '*',
-  );
+  window.postMessage(JSON.stringify({
+    type: 'scroll',
+    scrollY: window.scrollY,
+    innerHeight: window.innerHeight,
+    offsetHeight: document.body.offsetHeight
+  }), '*');
 });
 
-document.body.addEventListener('click', e => {
+document.body.addEventListener('click', function (e) {
   sendMessage({
     type: 'click',
     target: e.target,
     targetNodeName: e.target.nodeName,
     targetClassName: e.target.className,
-    matches: e.target.matches('a[target="_blank"] > img'),
+    matches: e.target.matches('a[target="_blank"] > img')
   });
 
   if (e.target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
-      fromEmail: e.target.getAttribute('data-email'),
+      fromEmail: e.target.getAttribute('data-email')
     });
   }
 
@@ -118,7 +109,7 @@ document.body.addEventListener('click', e => {
     sendMessage({
       type: 'narrow',
       narrow: e.target.getAttribute('data-narrow'),
-      id: e.target.getAttribute('data-id'),
+      id: e.target.getAttribute('data-id')
     });
   }
 
@@ -126,13 +117,13 @@ document.body.addEventListener('click', e => {
     sendMessage({
       type: 'image',
       src: e.target.parentNode.getAttribute('href'),
-      messageId: +getMessageIdFromNode(e.target),
+      messageId: +getMessageIdFromNode(e.target)
     });
   } else if (e.target.matches('a')) {
     sendMessage({
       type: 'url',
       href: e.target.getAttribute('href'),
-      messageId: +getMessageIdFromNode(e.target),
+      messageId: +getMessageIdFromNode(e.target)
     });
   }
 
@@ -141,9 +132,10 @@ document.body.addEventListener('click', e => {
       type: 'reaction',
       name: e.target.getAttribute('data-name'),
       messageId: +getMessageIdFromNode(e.target),
-      voted: e.target.classList.contains('self-voted'),
+      voted: e.target.classList.contains('self-voted')
     });
   }
 
   return false;
 });
+`;
