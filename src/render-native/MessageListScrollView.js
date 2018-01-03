@@ -7,9 +7,11 @@ import { LoadingIndicator } from '../common';
 import MessageTyping from './MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';
 import cachedMessageRender from './cachedMessageRender';
+import MessageListLoading from '../message/MessageListLoading';
 
 type Props = {
   actions: Actions,
+  isFetching: boolean,
   fetchingOlder: boolean,
   fetchingNewer: boolean,
   singleFetchProgress?: boolean,
@@ -22,7 +24,7 @@ type Props = {
   onScroll: (e: Event) => void,
 };
 
-export default class MessageList extends PureComponent<Props> {
+export default class MessageListScrollView extends PureComponent<Props> {
   props: Props;
 
   static contextTypes = {
@@ -39,16 +41,22 @@ export default class MessageList extends PureComponent<Props> {
     const {
       anchor,
       actions,
+      isFetching,
       fetchingOlder,
       fetchingNewer,
       singleFetchProgress,
       listRef,
+      messages,
       onReplySelect,
       onScroll,
       typingUsers,
       renderedMessages,
       narrow,
     } = this.props;
+
+    if (isFetching && messages.length === 0) {
+      return <MessageListLoading />;
+    }
 
     const { messageList, stickyHeaderIndices } = cachedMessageRender(
       renderedMessages,

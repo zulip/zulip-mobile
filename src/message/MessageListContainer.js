@@ -13,7 +13,7 @@ import type {
   Subscription,
 } from '../types';
 import connectWithActions from '../connectWithActions';
-import MessageList from '../render-native/MessageList';
+import MessageList from '../render-native/MessageListScrollView';
 // import MessageList from '../render-native/MessageListFlatList';
 import MessageListWeb from '../render-html/MessageListWeb';
 import {
@@ -22,6 +22,7 @@ import {
   getRenderedMessages,
   getActiveNarrow,
   getFlags,
+  getIsFetching,
   getAnchorForActiveNarrow,
   getFetchingForActiveNarrow,
   getSubscriptions,
@@ -35,6 +36,7 @@ type Props = {
   anchor: number,
   auth: Auth,
   caughtUp: CaughtUp,
+  isFetching: boolean,
   fetching: Fetching,
   flags: FlagsState,
   typingUsers: any,
@@ -49,7 +51,6 @@ type Props = {
 };
 
 class MessageListContainer extends PureComponent<Props> {
-  scrollOffset: number;
   props: Props;
 
   handleMessageListScroll = (e: Object) => {
@@ -60,46 +61,20 @@ class MessageListContainer extends PureComponent<Props> {
     if (unreadMessageIds.length > 0) {
       queueMarkAsRead(auth, unreadMessageIds);
     }
-
-    // Calculates the amount user has scrolled up from the very bottom
-    this.scrollOffset = e.contentSize.height - e.contentOffset.y - e.layoutMeasurement.height;
   };
 
   render() {
-    const {
-      anchor,
-      actions,
-      fetching,
-      messages,
-      typingUsers,
-      onReplySelect,
-      renderedMessages,
-      narrow,
-      subscriptions,
-      htmlMessages,
-      listRef,
-      onSend,
-    } = this.props;
+    const { fetching, onReplySelect, htmlMessages } = this.props;
 
     const MessageListComponent = htmlMessages ? MessageListWeb : MessageList;
 
     return (
       <MessageListComponent
-        auth={this.props.auth}
-        anchor={anchor}
-        subscriptions={subscriptions}
-        isFetching={false}
-        actions={actions}
+        {...this.props}
         fetchingOlder={fetching.older}
         fetchingNewer={fetching.newer}
         onReplySelect={onReplySelect}
-        typingUsers={typingUsers}
-        renderedMessages={renderedMessages}
-        messages={messages}
-        narrow={narrow}
-        listRef={listRef}
         onScroll={this.handleMessageListScroll}
-        onSend={onSend}
       />
     );
   }
@@ -107,6 +82,7 @@ class MessageListContainer extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   htmlMessages: state.app.debug.htmlMessages,
+  isFetching: getIsFetching(state),
   fetching: getFetchingForActiveNarrow(state),
   typingUsers: getCurrentTypingUsers(state),
   messages: getShownMessagesInActiveNarrow(state),

@@ -1,14 +1,8 @@
-/* @noflow */
 /* eslint-disable no-alert */
 
 window.onerror = (message, source, line, column, error) => {
-  alert(`
-Message: ${message}
-Source: ${source}
-Line: ${line}
-Column: ${column}
-Error object: ${JSON.stringify(error)}
-`);
+  const obj = JSON.stringify(error);
+  alert(`Message: ${message} Source: ${source} Line: ${line} Column: ${column} Error: ${obj}`);
 
   return false;
 };
@@ -18,6 +12,7 @@ const elementMessageList = document.getElementById('message-list');
 const elementSpinnerOlder = document.getElementById('spinner-older');
 const elementSpinnerNewer = document.getElementById('spinner-newer');
 const elementTyping = document.getElementById('typing');
+const elementMessageLoading = document.getElementById('message-loading');
 
 if (
   !documentBody ||
@@ -88,6 +83,7 @@ document.addEventListener('message', (e: Event) => {
       scrollToAnchor(msg.anchor);
       break;
     case 'fetching':
+      elementMessageLoading.classList.toggle('hidden', !msg.isFetching);
       elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
       elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
       break;

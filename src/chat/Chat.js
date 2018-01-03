@@ -7,7 +7,6 @@ import type { Message, Narrow } from '../types';
 import { KeyboardAvoider, OfflineNotice } from '../common';
 
 import MessageListContainer from '../message/MessageListContainer';
-import MessageListLoading from '../message/MessageListLoading';
 import NoMessages from '../message/NoMessages';
 import ComposeBoxContainer from '../compose/ComposeBoxContainer';
 import UnreadNoticeContainer from './UnreadNoticeContainer';
@@ -66,17 +65,14 @@ export default class Chat extends PureComponent<Props> {
           <View style={styles.flexed}>
             {!isOnline && <OfflineNotice />}
             {noMessages && !isFetching && <NoMessages narrow={narrow} />}
-            {showMessagePlaceholders && <MessageListLoading />}
-            {!noMessages && (
-              <ActionSheetProvider>
-                <MessageListContainer
-                  onReplySelect={this.handleReplySelect}
-                  listRef={component => {
-                    this.listComponent = component || this.listComponent;
-                  }}
-                />
-              </ActionSheetProvider>
-            )}
+            <ActionSheetProvider>
+              <MessageListContainer
+                onReplySelect={this.handleReplySelect}
+                listRef={component => {
+                  this.listComponent = component || this.listComponent;
+                }}
+              />
+            </ActionSheetProvider>
             <UnreadNoticeContainer />
             {!showMessagePlaceholders && (
               <ComposeBoxContainer

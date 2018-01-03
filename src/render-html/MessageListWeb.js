@@ -1,10 +1,9 @@
 /* @flow */
 import React, { Component } from 'react';
-import { Text, View, WebView } from 'react-native';
+import { WebView } from 'react-native';
 
 import type { Actions, Auth, Narrow, TypingState, WebViewNavigationState } from '../types';
 import html from '../render-html/html';
-import MessageListLoading from '../message/MessageListLoading';
 import renderMessagesAsHtml from '../render-html/renderMessagesAsHtml';
 import webViewHandleUpdates from './webViewHandleUpdates';
 import * as webViewEventHandlers from './webViewEventHandlers';
@@ -89,16 +88,7 @@ export default class MessageListWeb extends Component<Props> {
         }}
         onMessage={this.handleMessage}
         onError={this.handleError}
-        renderError={({ domain, code, description }) => (
-          <View>
-            <Text>{domain}</Text>
-            <Text>{code}</Text>
-            <Text>{description}</Text>
-          </View>
-        )}
-        startInLoadingState
         javaScriptEnabled
-        renderLoading={MessageListLoading}
       />
     );
   }
