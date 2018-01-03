@@ -83,9 +83,9 @@ document.addEventListener('message', (e: Event) => {
       scrollToAnchor(msg.anchor);
       break;
     case 'fetching':
-      elementMessageLoading.classList.toggle('hidden', !msg.isFetching);
-      elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
-      elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
+      elementMessageLoading.classList.toggle('hidden', !msg.isEmptyView);
+      elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder || msg.isEmptyView);
+      elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer || msg.isEmptyView);
       break;
     case 'typing':
       elementTyping.innerHTML = msg.content;

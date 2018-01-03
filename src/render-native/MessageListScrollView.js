@@ -41,12 +41,11 @@ export default class MessageListScrollView extends PureComponent<Props> {
     const {
       anchor,
       actions,
-      isFetching,
+      isEmptyView,
       fetchingOlder,
       fetchingNewer,
       singleFetchProgress,
       listRef,
-      messages,
       onReplySelect,
       onScroll,
       typingUsers,
@@ -54,7 +53,7 @@ export default class MessageListScrollView extends PureComponent<Props> {
       narrow,
     } = this.props;
 
-    if (isFetching && messages.length === 0) {
+    if (isEmptyView) {
       return <MessageListLoading />;
     }
 
