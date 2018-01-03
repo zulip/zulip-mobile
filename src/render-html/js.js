@@ -126,7 +126,7 @@ window.addEventListener('scroll', () => {
   );
 });
 
-function onLongPress(e) {
+const onLongPress = (e: Event) => {
   if (e.target.matches('.header')) {
     const messageId =
       +e.target.getAttribute('data-msg-id') || +e.target.parentNode.getAttribute('data-msg-id');
@@ -147,9 +147,9 @@ function onLongPress(e) {
       });
     }
   }
-}
+};
 
-function onClick(e) {
+const onClick = (e: Event) => {
   sendMessage({
     type: 'click',
     target: e.target,
@@ -195,7 +195,7 @@ function onClick(e) {
       voted: e.target.classList.contains('self-voted'),
     });
   }
-}
+};
 
 document.body.addEventListener('touchend', e => {
   if (lastTouchEvent && e.target === lastTouchEvent.target) {

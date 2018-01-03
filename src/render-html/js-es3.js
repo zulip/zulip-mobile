@@ -4,7 +4,6 @@ export default `
 window.onerror = function (message, source, line, column, error) {
   var obj = JSON.stringify(error);
   alert('Message: ' + message + ' Source: ' + source + ' Line: ' + line + ' Column: ' + column + ' Error: ' + obj);
-
   return false;
 };
 
@@ -18,6 +17,9 @@ var elementMessageLoading = document.getElementById('message-loading');
 if (!documentBody || !elementMessageList || !elementSpinnerOlder || !elementSpinnerNewer || !elementTyping) {
   throw new Error('HTML elements missing');
 }
+
+var lastTouchEvent;
+var lastTouchTimestamp = Date.now();
 
 var sendMessage = function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
@@ -33,7 +35,19 @@ var getMessageNode = function getMessageNode(node) {
 
 var getMessageIdFromNode = function getMessageIdFromNode(node) {
   var msgNode = getMessageNode(node);
+
   return msgNode && msgNode.getAttribute('data-msg-id');
+};
+
+var isMessageContentNode = function isMessageContentNode(node) {
+  var curNode = node;
+  while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
+    if (curNode.matches('.msg-content')) {
+      return true;
+    }
+    curNode = curNode.parentNode;
+  }
+  return false;
 };
 
 var scrollToBottom = function scrollToBottom() {
@@ -90,6 +104,7 @@ document.addEventListener('message', function (e) {
 });
 
 window.addEventListener('scroll', function () {
+  lastTouchEvent = undefined;
   var startNode = getMessageNode(document.elementFromPoint(200, 20));
   var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
   console.log(startNode, endNode);
@@ -102,7 +117,29 @@ window.addEventListener('scroll', function () {
   }), '*');
 });
 
-documentBody.addEventListener('click', function (e) {
+function onLongPress(e) {
+  if (e.target.matches('.header')) {
+    var messageId = +e.target.getAttribute('data-msg-id') || +e.target.parentNode.getAttribute('data-msg-id');
+    if (messageId) {
+      sendMessage({
+        type: 'longPress',
+        target: 'header',
+        messageId: messageId
+      });
+    }
+  } else if (isMessageContentNode(e.target)) {
+    var _messageId = +getMessageIdFromNode(e.target);
+    if (_messageId) {
+      sendMessage({
+        type: 'longPress',
+        target: 'message',
+        messageId: _messageId
+      });
+    }
+  }
+}
+
+function onClick(e) {
   sendMessage({
     type: 'click',
     target: e.target,
@@ -148,6 +185,27 @@ documentBody.addEventListener('click', function (e) {
       voted: e.target.classList.contains('self-voted')
     });
   }
+}
 
+document.body.addEventListener('touchend', function (e) {
+  if (lastTouchEvent && e.target === lastTouchEvent.target) {
+    var duration = Date.now() - lastTouchTimestamp;
+    if (duration >= 500) {
+      onLongPress(e);
+    } else if (duration >= 20) {
+      onClick(e);
+    }
+  }
+});
+
+document.body.addEventListener('touchstart', function (e) {
+  lastTouchTimestamp = Date.now();
+  lastTouchEvent = e;
   return false;
-});`;
+});
+
+document.body.addEventListener('drag', function (e) {
+  lastTouchEvent = undefined;
+});
+
+`;
