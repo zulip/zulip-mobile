@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { WebView } from 'react-native';
 
-import type { Actions, Auth, Narrow, TypingState, WebViewNavigationState } from '../types';
+import type { Actions, Auth, Message, Narrow, TypingState, WebViewNavigationState } from '../types';
 import html from '../render-html/html';
 import renderMessagesAsHtml from '../render-html/renderMessagesAsHtml';
 import webViewHandleUpdates from './webViewHandleUpdates';
@@ -13,6 +13,8 @@ type Props = {
   auth: Auth,
   fetchingOlder: boolean,
   fetchingNewer: boolean,
+  isFetching: boolean,
+  messages: Message[],
   singleFetchProgress?: boolean,
   renderedMessages: Object[],
   anchor: number,

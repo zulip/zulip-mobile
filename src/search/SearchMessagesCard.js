@@ -84,6 +84,7 @@ export default class SearchMessagesCard extends PureComponent<Props, State> {
             renderedMessages={renderedMessages}
             fetchingOlder={isFetching}
             fetchingNewer={isFetching}
+            messages={messages}
             caughtUpOlder
             caughtUpNewer
             singleFetchProgress

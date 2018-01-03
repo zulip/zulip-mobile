@@ -1,6 +1,6 @@
 /* @flow */
 /* eslint-disable no-alert, no-console */
-import type { Node } from '../types';
+import type { Event, Node, WebViewMessageEvent } from '../types';
 
 window.onerror = (message, source, line, column, error) => {
   const obj = JSON.stringify(error);
@@ -14,7 +14,7 @@ const elementMessageList = document.getElementById('message-list');
 const elementSpinnerOlder = document.getElementById('spinner-older');
 const elementSpinnerNewer = document.getElementById('spinner-newer');
 const elementTyping = document.getElementById('typing');
-const elementMessageLoading = document.getElementById('message-loading');
+const elementMessageLoading: Node = document.getElementById('message-loading');
 
 if (
   !documentBody ||
@@ -74,7 +74,7 @@ window.addEventListener('resize', event => {
   height = documentBody.clientHeight;
 });
 
-document.addEventListener('message', (e: Event) => {
+document.addEventListener('message', (e: WebViewMessageEvent) => {
   const msg = JSON.parse(e.data);
   switch (msg.type) {
     case 'bottom':

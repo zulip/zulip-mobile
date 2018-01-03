@@ -1,5 +1,5 @@
 /* @flow */
-import type { Actions, Auth, Narrow, TypingState } from '../types';
+import type { Actions, Auth, Message, Narrow, TypingState } from '../types';
 import renderMessagesAsHtml from './renderMessagesAsHtml';
 import messageTypingAsHtml from './messageTypingAsHtml';
 
@@ -9,6 +9,7 @@ type Props = {
   isFetching: boolean,
   fetchingOlder: boolean,
   fetchingNewer: boolean,
+  messages: Message[],
   renderedMessages: Object[],
   anchor: number,
   narrow?: Narrow,

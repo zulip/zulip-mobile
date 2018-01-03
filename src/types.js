@@ -570,3 +570,11 @@ export type Node = {
   innerText?: string,
   outerText?: string,
 };
+
+export type Event = {
+  target: Node,
+};
+
+export type WebViewMessageEvent = {
+  data: Object,
+};
