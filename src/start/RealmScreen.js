@@ -30,7 +30,11 @@ class RealmScreen extends PureComponent<Props, State> {
 
   state = {
     progress: false,
-    realm: this.props.navigation.state.params.realm || '',
+    realm:
+      (this.props.navigation &&
+        this.props.navigation.state.params &&
+        this.props.navigation.state.params.realm) ||
+      '',
     error: undefined,
   };
 
