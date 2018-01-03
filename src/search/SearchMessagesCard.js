@@ -7,7 +7,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import type { Actions, Auth, Message } from '../types';
 import { SearchEmptyState } from '../common';
 import { searchNarrow } from '../utils/narrow';
-import MessageList from '../render-native/MessageList';
+import MessageList from '../render-native/MessageListScrollView';
 import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
 

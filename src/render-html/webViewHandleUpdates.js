@@ -6,9 +6,9 @@ import messageTypingAsHtml from './messageTypingAsHtml';
 type Props = {
   actions: Actions,
   auth: Auth,
+  isFetching: boolean,
   fetchingOlder: boolean,
   fetchingNewer: boolean,
-  singleFetchProgress?: boolean,
   renderedMessages: Object[],
   anchor: number,
   narrow?: Narrow,
@@ -24,6 +24,7 @@ export default (prevProps: Props, nextProps: Props, sendMessage: any => void) =>
   ) {
     sendMessage({
       type: 'fetching',
+      isFetching: nextProps.isFetching && nextProps.messages.length === 0,
       fetchingOlder: nextProps.fetchingOlder,
       fetchingNewer: nextProps.fetchingNewer,
     });

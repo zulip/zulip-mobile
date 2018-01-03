@@ -169,11 +169,12 @@ th, td {
   line-height: 1;
 }
 .loading-avatar {
-  width: 32px;
-  height: 32px;
+  min-width: 2.5em;
+  width: 2.5em;
+  height: 2.5em;
+  margin-right: 0.5em;
   border-radius: 4px;
   background: #ddd;
-  margin-right: 0.5em;
 }
 .loading-content {
   width: 100%;
@@ -302,6 +303,9 @@ ul {
 .typing-list {
   background: green;
   height: 20px;
+}
+#message-loading {
+  opacity: 0.25;
 }
 `;
 

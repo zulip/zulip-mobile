@@ -2,7 +2,8 @@ export default `
 'use strict';
 
 window.onerror = function (message, source, line, column, error) {
-  alert('\nMessage: ' + message + '\nSource: ' + source + '\nLine: ' + line + '\nColumn: ' + column + '\nError object: ' + JSON.stringify(error) + '\n');
+  var obj = JSON.stringify(error);
+  alert('Message: ' + message + ' Source: ' + source + ' Line: ' + line + ' Column: ' + column + ' Error: ' + obj);
 
   return false;
 };
@@ -12,6 +13,7 @@ var elementMessageList = document.getElementById('message-list');
 var elementSpinnerOlder = document.getElementById('spinner-older');
 var elementSpinnerNewer = document.getElementById('spinner-newer');
 var elementTyping = document.getElementById('typing');
+var elementMessageLoading = document.getElementById('message-loading');
 
 if (!documentBody || !elementMessageList || !elementSpinnerOlder || !elementSpinnerNewer || !elementTyping) {
   throw new Error('HTML elements missing');
@@ -73,6 +75,7 @@ document.addEventListener('message', function (e) {
       scrollToAnchor(msg.anchor);
       break;
     case 'fetching':
+      elementMessageLoading.classList.toggle('hidden', !msg.isFetching);
       elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
       elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
       break;
@@ -147,5 +150,4 @@ documentBody.addEventListener('click', function (e) {
   }
 
   return false;
-});
-`;
+});`;

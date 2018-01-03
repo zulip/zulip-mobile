@@ -1,4 +1,4 @@
-export default () => `
+export default `
   <div class="message">
     <div class="loading-avatar"></div>
     <div class="loading-content">
