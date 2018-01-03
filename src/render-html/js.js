@@ -1,4 +1,6 @@
-/* eslint-disable no-alert */
+/* @flow */
+/* eslint-disable no-alert, no-console */
+import type { Node } from '../types';
 
 window.onerror = (message, source, line, column, error) => {
   const obj = JSON.stringify(error);
