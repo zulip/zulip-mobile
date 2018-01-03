@@ -96,7 +96,6 @@ export default class MessageListWeb extends Component<Props> {
             <Text>{description}</Text>
           </View>
         )}
-        startInLoadingState
         javaScriptEnabled
         renderLoading={MessageListLoading}
       />
