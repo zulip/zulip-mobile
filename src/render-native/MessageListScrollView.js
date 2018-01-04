@@ -41,7 +41,7 @@ export default class MessageListScrollView extends PureComponent<Props> {
     const {
       anchor,
       actions,
-      isEmptyView,
+      showMessagePlaceholders,
       fetchingOlder,
       fetchingNewer,
       singleFetchProgress,
@@ -53,7 +53,7 @@ export default class MessageListScrollView extends PureComponent<Props> {
       narrow,
     } = this.props;
 
-    if (isEmptyView) {
+    if (showMessagePlaceholders) {
       return <MessageListLoading />;
     }
 

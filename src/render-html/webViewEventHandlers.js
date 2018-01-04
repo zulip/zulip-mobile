@@ -47,8 +47,6 @@ type Props = {
   messages: Message[],
 };
 
-export const handleClick = (props: Props, event: MessageListEventClick) => {};
-
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
   const { innerHeight, offsetHeight, scrollY } = event;
   const { actions } = props;

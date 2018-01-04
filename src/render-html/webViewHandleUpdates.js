@@ -23,11 +23,11 @@ export default (prevProps: Props, nextProps: Props, sendMessage: any => void) =>
   if (
     prevProps.fetchingOlder !== nextProps.fetchingOlder ||
     prevProps.fetchingNewer !== nextProps.fetchingNewer ||
-    prevProps.isEmptyView !== nextProps.isEmptyView
+    prevProps.showMessagePlaceholders !== nextProps.showMessagePlaceholders
   ) {
     sendMessage({
       type: 'fetching',
-      isEmptyView: nextProps.isFetching,
+      showMessagePlaceholders: nextProps.isFetching,
       fetchingOlder: nextProps.fetchingOlder,
       fetchingNewer: nextProps.fetchingNewer,
     });
