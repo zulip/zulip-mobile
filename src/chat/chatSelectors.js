@@ -12,6 +12,7 @@ import {
   getOutbox,
 } from '../directSelectors';
 import { getCaughtUpForActiveNarrow } from '../caughtup/caughtUpSelectors';
+import { getIsFetching } from './fetchingSelectors';
 import {
   isAllPrivateNarrow,
   isPrivateOrGroupNarrow,
@@ -124,6 +125,12 @@ export const getStreamInNarrow = createSelector(
 export const getIfNoMessages = createSelector(
   getShownMessagesInActiveNarrow,
   messages => messages && messages.length === 0,
+);
+
+export const getShowMessagePlaceholders = createSelector(
+  getIfNoMessages,
+  getIsFetching,
+  (noMessages, isFetching) => isFetching && noMessages,
 );
 
 export const getMessagesById = createSelector(getMessagesFromChatState, messages =>

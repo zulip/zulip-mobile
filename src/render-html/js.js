@@ -17,7 +17,8 @@ if (
   !elementMessageList ||
   !elementSpinnerOlder ||
   !elementSpinnerNewer ||
-  !elementTyping
+  !elementTyping ||
+  !elementMessageLoading
 ) {
   throw new Error('HTML elements missing');
 }
@@ -76,8 +77,8 @@ document.addEventListener('message', (e: Event) => {
     case 'bottom':
       scrollToBottom();
       break;
-    case 'content':
-      let prevPosition = documentBody.scrollTop;
+    case 'content': {
+      const prevPosition = documentBody.scrollTop;
       elementMessageList.innerHTML = msg.content;
       if (msg.anchor) {
         scrollToAnchor(msg.anchor);
@@ -85,10 +86,11 @@ document.addEventListener('message', (e: Event) => {
         documentBody.scrollTop = prevPosition;
       }
       break;
+    }
     case 'fetching':
-      elementMessageLoading.classList.toggle('hidden', !msg.isEmptyView);
-      elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder || msg.isEmptyView);
-      elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer || msg.isEmptyView);
+      elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
+      elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder || msg.showMessagePlaceholders);
+      elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer || msg.showMessagePlaceholders);
       break;
     case 'typing':
       elementTyping.innerHTML = msg.content;
@@ -115,14 +117,6 @@ window.addEventListener('scroll', () => {
 });
 
 documentBody.addEventListener('click', (e: Event) => {
-  sendMessage({
-    type: 'click',
-    target: e.target,
-    targetNodeName: e.target.nodeName,
-    targetClassName: e.target.className,
-    matches: e.target.matches('a[target="_blank"] > img'),
-  });
-
   if (e.target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',

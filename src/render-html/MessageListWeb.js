@@ -13,7 +13,6 @@ type Props = {
   auth: Auth,
   fetchingOlder: boolean,
   fetchingNewer: boolean,
-  singleFetchProgress?: boolean,
   renderedMessages: Object[],
   anchor: number,
   narrow?: Narrow,
@@ -70,25 +69,24 @@ export default class MessageListWeb extends Component<Props> {
 
   render() {
     const { styles, theme } = this.context;
-    const { anchor, listRef, isEmptyView } = this.props;
+    const { anchor, listRef, showMessagePlaceholders } = this.props;
 
     listRef({ scrollToEnd: this.scrollToEnd });
 
-    // console.log(html(renderMessagesAsHtml(this.props), theme));
+    // console.log(html(renderMessagesAsHtml(this.props), theme, showMessagePlaceholders));
 
     return (
       <WebView
-        source={{ html: html(renderMessagesAsHtml(this.props), theme, isEmptyView) }}
+        source={{ html: html(renderMessagesAsHtml(this.props), theme, showMessagePlaceholders) }}
         anchor={anchor}
         injectedJavaScript={`scrollToAnchor(${anchor})`}
-        onNavigationStateChange={this.handleNavigationStateChange}
         style={styles.webview}
         ref={webview => {
           this.webview = webview;
         }}
         onMessage={this.handleMessage}
         onError={this.handleError}
-        javaScriptEnabled
+        onNavigationStateChange={this.handleNavigationStateChange}
       />
     );
   }

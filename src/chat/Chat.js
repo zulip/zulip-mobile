@@ -13,7 +13,7 @@ import UnreadNoticeContainer from './UnreadNoticeContainer';
 
 type Props = {
   narrow: Narrow,
-  isFetching: boolean,
+  showMessagePlaceholders: boolean,
   isOnline: boolean,
   noMessages: boolean,
   lastMessage: Message,
@@ -56,15 +56,14 @@ export default class Chat extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { isFetching, narrow, isOnline, noMessages } = this.props;
-    const showMessagePlaceholders = noMessages && isFetching;
+    const { showMessagePlaceholders, narrow, isOnline, noMessages } = this.props;
 
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
         <ActionSheetProvider>
           <View style={styles.flexed}>
             {!isOnline && <OfflineNotice />}
-            {noMessages && !isFetching && <NoMessages narrow={narrow} />}
+            {noMessages && !showMessagePlaceholders && <NoMessages narrow={narrow} />}
             <ActionSheetProvider>
               <MessageListContainer
                 onReplySelect={this.handleReplySelect}
