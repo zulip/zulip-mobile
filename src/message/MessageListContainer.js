@@ -9,6 +9,7 @@ import type {
   Fetching,
   FlagsState,
   Message,
+  MuteState,
   Narrow,
   Subscription,
 } from '../types';
@@ -18,11 +19,13 @@ import MessageList from '../render-native/MessageListScrollView';
 import MessageListWeb from '../render-html/MessageListWeb';
 import {
   getAuth,
+  getCurrentRoute,
   getCurrentTypingUsers,
   getRenderedMessages,
   getActiveNarrow,
   getFlags,
   getIsFetching,
+  getMute,
   getAnchorForActiveNarrow,
   getFetchingForActiveNarrow,
   getSubscriptions,
@@ -37,8 +40,10 @@ type Props = {
   auth: Auth,
   caughtUp: CaughtUp,
   isFetching: boolean,
+  currentRoute: string,
   fetching: Fetching,
   flags: FlagsState,
+  mute: MuteState,
   typingUsers: any,
   htmlMessages: boolean,
   messages: Message[],
@@ -82,11 +87,13 @@ class MessageListContainer extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
+  currentRoute: getCurrentRoute(state),
   htmlMessages: state.app.debug.htmlMessages,
   isFetching: getIsFetching(state),
   fetching: getFetchingForActiveNarrow(state),
   typingUsers: getCurrentTypingUsers(state),
   messages: getShownMessagesInActiveNarrow(state),
+  mute: getMute(state),
   renderedMessages: getRenderedMessages(state),
   anchor: getAnchorForActiveNarrow(state),
   subscriptions: getSubscriptions(state),

@@ -3,7 +3,6 @@
 window.onerror = (message, source, line, column, error) => {
   const obj = JSON.stringify(error);
   alert(`Message: ${message} Source: ${source} Line: ${line} Column: ${column} Error: ${obj}`);
-
   return false;
 };
 
@@ -24,6 +23,9 @@ if (
   throw new Error('HTML elements missing');
 }
 
+let lastTouchEvent;
+let lastTouchTimestamp = Date.now();
+
 const sendMessage = msg => {
   window.postMessage(JSON.stringify(msg), '*');
 };
@@ -38,7 +40,19 @@ const getMessageNode = (node: Node): Node => {
 
 const getMessageIdFromNode = (node: Node): Node => {
   const msgNode = getMessageNode(node);
+
   return msgNode && msgNode.getAttribute('data-msg-id');
+};
+
+const isMessageContentNode = (node: Node): boolean => {
+  let curNode = node;
+  while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
+    if (curNode.matches('.msg-content')) {
+      return true;
+    }
+    curNode = curNode.parentNode;
+  }
+  return false;
 };
 
 const scrollToBottom = () => {
@@ -96,6 +110,7 @@ document.addEventListener('message', (e: Event) => {
 });
 
 window.addEventListener('scroll', () => {
+  lastTouchEvent = undefined;
   const startNode = getMessageNode(document.elementFromPoint(200, 20));
   const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
   console.log(startNode, endNode);
@@ -111,7 +126,30 @@ window.addEventListener('scroll', () => {
   );
 });
 
-documentBody.addEventListener('click', (e: Event) => {
+const onLongPress = (e: Event) => {
+  if (e.target.matches('.header')) {
+    const messageId =
+      +e.target.getAttribute('data-msg-id') || +e.target.parentNode.getAttribute('data-msg-id');
+    if (messageId) {
+      sendMessage({
+        type: 'longPress',
+        target: 'header',
+        messageId,
+      });
+    }
+  } else if (isMessageContentNode(e.target)) {
+    const messageId = +getMessageIdFromNode(e.target);
+    if (messageId) {
+      sendMessage({
+        type: 'longPress',
+        target: 'message',
+        messageId,
+      });
+    }
+  }
+};
+
+const onClick = (e: Event) => {
   sendMessage({
     type: 'click',
     target: e.target,
@@ -157,6 +195,25 @@ documentBody.addEventListener('click', (e: Event) => {
       voted: e.target.classList.contains('self-voted'),
     });
   }
+};
 
+document.body.addEventListener('touchend', e => {
+  if (lastTouchEvent && e.target === lastTouchEvent.target) {
+    const duration = Date.now() - lastTouchTimestamp;
+    if (duration >= 500) {
+      onLongPress(e);
+    } else if (duration >= 20) {
+      onClick(e);
+    }
+  }
+});
+
+document.body.addEventListener('touchstart', e => {
+  lastTouchTimestamp = Date.now();
+  lastTouchEvent = e;
   return false;
+});
+
+document.body.addEventListener('drag', e => {
+  lastTouchEvent = undefined;
 });

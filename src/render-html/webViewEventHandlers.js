@@ -1,8 +1,21 @@
 /* @flow */
-import type { Actions, Auth, Message } from '../types';
+import type {
+  Actions,
+  Auth,
+  FlagState,
+  Message,
+  Narrow,
+  MuteState,
+  SubscriptionsState,
+} from '../types';
 import config from '../config';
 import { isUrlAnImage } from '../utils/url';
 import { emojiReactionAdd, emojiReactionRemove } from '../api';
+import {
+  constructActionButtons,
+  executeActionSheetAction,
+  constructHeaderActionButtons,
+} from '../message/messageActionSheet';
 
 type MessageListEventClick = {
   target: string,
@@ -41,13 +54,93 @@ type MessageListEventUrl = {
   messageId: number,
 };
 
+type MessageListLongPress = {
+  messageId: number,
+  target: string,
+};
+
 type Props = {
   actions: Actions,
   auth: Auth,
+  currentRoute: string,
+  flags: FlagState,
   messages: Message[],
+  mute: MuteState,
+  narrow: Narrow,
+  onReplySelect?: () => void,
+  showActionSheetWithOptions: (Object, (number) => void) => void,
+  subscriptions: SubscriptionsState,
 };
 
 export const handleClick = (props: Props, event: MessageListEventClick) => {};
+
+export const handleLongPress = (props: Props, event: MessageListLongPress, context: Object) => {
+  const { messageId, target } = event;
+
+  const {
+    actions,
+    messages,
+    auth,
+    narrow,
+    mute,
+    subscriptions,
+    flags,
+    currentRoute,
+    onReplySelect,
+  } = props;
+
+  const message = messages.find(x => x.id === messageId);
+
+  if (!message) {
+    return;
+  }
+  const getString = value => context.intl.formatMessage({ id: value });
+  let options;
+  let callback;
+  if (target === 'message') {
+    options = constructActionButtons({
+      message,
+      auth,
+      narrow,
+      flags,
+      currentRoute,
+      getString,
+    });
+    callback = buttonIndex => {
+      executeActionSheetAction({
+        title: options[buttonIndex],
+        message,
+        actions,
+        auth,
+        subscriptions,
+        currentRoute,
+        onReplySelect,
+        getString,
+      });
+    };
+  } else {
+    options = constructHeaderActionButtons({ message, subscriptions, mute, getString });
+    callback = buttonIndex => {
+      executeActionSheetAction({
+        actions,
+        title: options[buttonIndex],
+        message,
+        header: true,
+        auth,
+        subscriptions,
+        getString,
+      });
+    };
+  }
+
+  props.showActionSheetWithOptions(
+    {
+      options,
+      cancelButtonIndex: options.length - 1,
+    },
+    callback,
+  );
+};
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
   const { innerHeight, offsetHeight, scrollY } = event;
