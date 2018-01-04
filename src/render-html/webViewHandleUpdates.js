@@ -1,4 +1,6 @@
 /* @flow */
+import isEqual from 'lodash.isequal';
+
 import type { Actions, Auth, Narrow, TypingState } from '../types';
 import renderMessagesAsHtml from './renderMessagesAsHtml';
 import messageTypingAsHtml from './messageTypingAsHtml';
@@ -38,7 +40,7 @@ export default (prevProps: Props, nextProps: Props, sendMessage: any => void) =>
       previousContent = content;
       sendMessage({
         type: 'content',
-        anchor: nextProps.anchor,
+        anchor: isEqual(prevProps.narrow, nextProps.narrow) ? 0 : nextProps.anchor,
         content,
       });
     }

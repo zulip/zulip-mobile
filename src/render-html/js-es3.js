@@ -71,8 +71,13 @@ document.addEventListener('message', function (e) {
       scrollToBottom();
       break;
     case 'content':
+      var prevPosition = documentBody.scrollTop;
       elementMessageList.innerHTML = msg.content;
-      scrollToAnchor(msg.anchor);
+      if (msg.anchor) {
+        scrollToAnchor(msg.anchor);
+      } else {
+        documentBody.scrollTop = prevPosition;
+      }
       break;
     case 'fetching':
       elementMessageLoading.classList.toggle('hidden', !msg.isEmptyView);
@@ -150,4 +155,5 @@ documentBody.addEventListener('click', function (e) {
   }
 
   return false;
-});`;
+});
+`;
