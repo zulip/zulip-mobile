@@ -20,11 +20,12 @@ let previousContent = '';
 export default (prevProps: Props, nextProps: Props, sendMessage: any => void) => {
   if (
     prevProps.fetchingOlder !== nextProps.fetchingOlder ||
-    prevProps.fetchingNewer !== nextProps.fetchingNewer
+    prevProps.fetchingNewer !== nextProps.fetchingNewer ||
+    prevProps.isEmptyView !== nextProps.isEmptyView
   ) {
     sendMessage({
       type: 'fetching',
-      isFetching: nextProps.isFetching && nextProps.messages.length === 0,
+      isEmptyView: nextProps.isFetching,
       fetchingOlder: nextProps.fetchingOlder,
       fetchingNewer: nextProps.fetchingNewer,
     });

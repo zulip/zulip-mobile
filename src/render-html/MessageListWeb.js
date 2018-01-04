@@ -70,7 +70,7 @@ export default class MessageListWeb extends Component<Props> {
 
   render() {
     const { styles, theme } = this.context;
-    const { anchor, listRef } = this.props;
+    const { anchor, listRef, isEmptyView } = this.props;
 
     listRef({ scrollToEnd: this.scrollToEnd });
 
@@ -78,7 +78,7 @@ export default class MessageListWeb extends Component<Props> {
 
     return (
       <WebView
-        source={{ html: html(renderMessagesAsHtml(this.props), theme) }}
+        source={{ html: html(renderMessagesAsHtml(this.props), theme, isEmptyView) }}
         anchor={anchor}
         injectedJavaScript={`scrollToAnchor(${anchor})`}
         onNavigationStateChange={this.handleNavigationStateChange}

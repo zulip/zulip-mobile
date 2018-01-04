@@ -64,7 +64,7 @@ class MessageListContainer extends PureComponent<Props> {
   };
 
   render() {
-    const { fetching, onReplySelect, htmlMessages } = this.props;
+    const { fetching, onReplySelect, htmlMessages, isFetching, messages } = this.props;
 
     const MessageListComponent = htmlMessages ? MessageListWeb : MessageList;
 
@@ -75,6 +75,7 @@ class MessageListContainer extends PureComponent<Props> {
         fetchingNewer={fetching.newer}
         onReplySelect={onReplySelect}
         onScroll={this.handleMessageListScroll}
+        isEmptyView={isFetching && messages.length === 0}
       />
     );
   }
