@@ -1,5 +1,3 @@
-/* eslint-disable no-alert */
-
 window.onerror = (message, source, line, column, error) => {
   const obj = JSON.stringify(error);
   alert(`Message: ${message} Source: ${source} Line: ${line} Column: ${column} Error: ${obj}`);
@@ -79,8 +77,13 @@ document.addEventListener('message', (e: Event) => {
       scrollToBottom();
       break;
     case 'content':
+      let prevPosition = documentBody.scrollTop;
       elementMessageList.innerHTML = msg.content;
-      scrollToAnchor(msg.anchor);
+      if (msg.anchor) {
+        scrollToAnchor(msg.anchor);
+      } else {
+        documentBody.scrollTop = prevPosition;
+      }
       break;
     case 'fetching':
       elementMessageLoading.classList.toggle('hidden', !msg.isEmptyView);
