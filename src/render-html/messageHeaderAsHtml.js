@@ -67,7 +67,9 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
     const privateNarrowStr = objToStr(narrowObj);
 
     return `
-      <div class="private-header header" data-narrow="${privateNarrowStr}" data-msg-id="${item.id}">
+      <div class="header-wrapper private-header header" data-narrow="${privateNarrowStr}" data-msg-id="${
+      item.id
+    }">
         ${recipients
           .map(r => r.full_name)
           .sort()
