@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { WebView } from 'react-native';
 
 import type { Actions, Auth, Narrow, TypingState, WebViewNavigationState } from '../types';
-import html from '../render-html/html';
+import getHtml from '../render-html/html';
 import renderMessagesAsHtml from '../render-html/renderMessagesAsHtml';
 import webViewHandleUpdates from './webViewHandleUpdates';
 import * as webViewEventHandlers from './webViewEventHandlers';
@@ -53,6 +53,7 @@ export default class MessageListWeb extends Component<Props> {
 
   sendMessage = (msg: Object) => {
     if (this.webview) {
+      console.log('sendMessage', msg);
       this.webview.postMessage(JSON.stringify(msg), '*');
     }
   };
@@ -70,14 +71,14 @@ export default class MessageListWeb extends Component<Props> {
   render() {
     const { styles, theme } = this.context;
     const { anchor, listRef, showMessagePlaceholders } = this.props;
-
+    const html = getHtml(renderMessagesAsHtml(this.props), theme, showMessagePlaceholders);
     listRef({ scrollToEnd: this.scrollToEnd });
 
-    // console.log(html(renderMessagesAsHtml(this.props), theme, showMessagePlaceholders));
+    console.log(html);
 
     return (
       <WebView
-        source={{ html: html(renderMessagesAsHtml(this.props), theme, showMessagePlaceholders) }}
+        source={{ html }}
         anchor={anchor}
         injectedJavaScript={`scrollToAnchor(${anchor})`}
         style={styles.webview}

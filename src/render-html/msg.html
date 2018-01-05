@@ -18,16 +18,15 @@ a {
   color: #08c;
 }
 blockquote {
-  padding-left: 5px;
-  margin-left: 1em;
-  border-left-color: #ddd;
+  padding-left: 0.5em;
+  margin: 0.5em 0 0.5em 0;
+  border-left: 3px solid rgba(127, 127, 127, 0.5);
 }
 code {
   font-size: .857em;
-  color: black;
-  background-color: #f7f7f9;
+  background-color: rgba(127, 127, 127, 0.25);
   border-radius: 3px;
-  border: 1px solid #e1e1e8;
+  border: 1px solid rgba(127, 127, 127, 0.5);
   white-space: pre-wrap;
   padding: 0 4px;
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
@@ -163,11 +162,12 @@ th, td {
   line-height: 1;
 }
 .loading-avatar {
-  width: 32px;
-  height: 32px;
+  min-width: 2.5em;
+  width: 2.5em;
+  height: 2.5em;
+  margin-right: 0.5em;
   border-radius: 4px;
   background: #ddd;
-  margin-right: 0.5em;
 }
 .loading-content {
   width: 100%;
@@ -212,10 +212,6 @@ th, td {
   // height: 100px;
   max-width: 50vw;
   max-height: 50vh;
-}
-blockquote {
-  margin: 0.5em 0;
-  border-left: 5px solid #ddd;
 }
 ul {
   padding-left: 1em;
@@ -286,6 +282,7 @@ ul {
   white-space: nowrap;
   color: transparent;
   font-size: 20px;
+  overflow: hidden;
 }
 .emoji:before {
   color: white;
@@ -295,6 +292,9 @@ ul {
 .typing-list {
   background: green;
   height: 20px;
+}
+#message-loading {
+  opacity: 0.25;
 }
 
 
@@ -1320,436 +1320,440 @@ body {
 .emoji-1f574:before { content: '🕴'; }
 </style>
 
+
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <body>
   <div id="spinner-older" class="hidden loading-spinner"></div>
   <div id="message-list">
-  <div class="timerow" data-msg-id="415759">
+  <div class="timerow" data-msg-id="20717">
     <div class="timerow-left"></div>
-    Dec 29, 2017
+    Nov 11, 2017
     <div class="timerow-right"></div>
   </div>
 
-  <div class="message message-full" id="msg-415759" data-msg-id="415759">
+      <div class="header-wrapper stream-header" data-msg-id="20717">
+        <div class="header stream-text" style="background: #b0a5fd" data-narrow="[{'operator':'stream','operand':'trac'}]">
+          trac
+        </div>
+        <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'trac'},{'operator':'topic','operand':'#24193: p-adic factoring bug'}]">
+          #24193: p-adic factoring bug
+        </div>
+      </div>
+
+  <div class="message message-full" id="msg-20717" data-msg-id="20717">
     <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/96228b1df5debaa9448d937b68d3fa91?d=identicon&version=1" class="avatar-img" data-email="be.0@gmx.com">
+      <img src="https://zulip.sagemath.org/user_avatars/2/adf08385906f500e055d2ca657e54529b4537f37.png?x=x&version=1" class="avatar-img" data-email="trac-bot@zulip.sagemath.org">
     </div>
     <div class="content">
       <div class="subheader">
         <div class="username">
-          Be.
+          Sage Trac Bot
         </div>
         <div class="timestamp">
-          5:11 PM
+          2:02 AM
         </div>
       </div>
-      <p>Is there a way to turn off the blinking circle next to an active stream? I find it annoying. I'd rather see a slight change in color to highlight the active stream.</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-full" id="msg-415775" data-msg-id="415775">
-    <div class="avatar">
-      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Steve Howell
-        </div>
-        <div class="timestamp">
-          5:18 PM
-        </div>
-      </div>
-      <p>Can you send a screenshot?</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-full" id="msg-415776" data-msg-id="415776">
-    <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/96228b1df5debaa9448d937b68d3fa91?d=identicon&version=1" class="avatar-img" data-email="be.0@gmx.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Be.
-        </div>
-        <div class="timestamp">
-          5:18 PM
-        </div>
-      </div>
-      <p><a href="/user_uploads/2/40/-NTCKEYwFH1pp5xkdf24URrw/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a> <br>
-in the lower left</p>
-<div class="message_inline_image"><a href="/user_uploads/2/40/-NTCKEYwFH1pp5xkdf24URrw/pasted_image.png" target="_blank" title="pasted image"><img src="https://chat.zulip.org/user_uploads/2/40/-NTCKEYwFH1pp5xkdf24URrw/pasted_image.png"></a></div>
-
-
-    </div>
-  </div>
-
-  <div class="message message-full" id="msg-415777" data-msg-id="415777">
-    <div class="avatar">
-      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Steve Howell
-        </div>
-        <div class="timestamp">
-          5:19 PM
-        </div>
-      </div>
-      <p>Oh, strange, that's a hotspot.</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-full" id="msg-415778" data-msg-id="415778">
-    <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/96228b1df5debaa9448d937b68d3fa91?d=identicon&version=1" class="avatar-img" data-email="be.0@gmx.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Be.
-        </div>
-        <div class="timestamp">
-          5:19 PM
-        </div>
-      </div>
-      <p>can I turn it off somehow?</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-full" id="msg-415780" data-msg-id="415780">
-    <div class="avatar">
-      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Steve Howell
-        </div>
-        <div class="timestamp">
-          5:19 PM
-        </div>
-      </div>
-      <p>Out of curiosity, what happens when you click on it?  (I'm surprised you'd be seeing these, since you're not a new user.)</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-full" id="msg-415783" data-msg-id="415783">
-    <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/96228b1df5debaa9448d937b68d3fa91?d=identicon&version=1" class="avatar-img" data-email="be.0@gmx.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Be.
-        </div>
-        <div class="timestamp">
-          5:20 PM
-        </div>
-      </div>
-      <p><a href="/user_uploads/2/1a/M80E01w92mz2rcK_i_bCVa0A/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/1a/M80E01w92mz2rcK_i_bCVa0A/pasted_image.png" target="_blank" title="pasted image"><img src="https://chat.zulip.org/user_uploads/2/1a/M80E01w92mz2rcK_i_bCVa0A/pasted_image.png"></a></div>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-415784" data-msg-id="415784">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>that popped up when I clicked on it</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-415785" data-msg-id="415785">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>now it's gone</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-full" id="msg-415786" data-msg-id="415786">
-    <div class="avatar">
-      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Steve Howell
-        </div>
-        <div class="timestamp">
-          5:20 PM
-        </div>
-      </div>
-      <p>Huh, that's strange that you're seeing this only now.</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-full" id="msg-415787" data-msg-id="415787">
-    <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/96228b1df5debaa9448d937b68d3fa91?d=identicon&version=1" class="avatar-img" data-email="be.0@gmx.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Be.
-        </div>
-        <div class="timestamp">
-          5:20 PM
-        </div>
-      </div>
-      <p>I didn't realize it was something I could click on. I thought it was just a visual indicator</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-415789" data-msg-id="415789">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <p>also, hi, I think we met briefly at the GSOC Mentor Summit this year</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-full" id="msg-415790" data-msg-id="415790">
-    <div class="avatar">
-      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Steve Howell
-        </div>
-        <div class="timestamp">
-          5:22 PM
-        </div>
-      </div>
-      <p>yep, we ate dinner the first night <span class="emoji emoji-1f604" title="smile">:smile:</span></p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-full" id="msg-415791" data-msg-id="415791">
-    <div class="avatar">
-      <img src="https://secure.gravatar.com/avatar/96228b1df5debaa9448d937b68d3fa91?d=identicon&version=1" class="avatar-img" data-email="be.0@gmx.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Be.
-        </div>
-        <div class="timestamp">
-          5:22 PM
-        </div>
-      </div>
-      <p>I think other Mixxx developers are finally starting to understand why we should start using Zulip :)</p>
-
-
-    <div class="reaction-list">
-
-  <span onClick="" class="reaction" data-name="relaxed">
-    ☺ 1
-  </span>
-
-    </div>
-
-    </div>
-  </div>
-
-  <div class="message message-full" id="msg-415792" data-msg-id="415792">
-    <div class="avatar">
-      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Steve Howell
-        </div>
-        <div class="timestamp">
-          5:22 PM
-        </div>
-      </div>
-      <p>We probably should at least have hover on the blinking circle that says "click for tip" or something.</p>
-
-
-    </div>
-  </div>
-
-  <div class="message message-brief" id="msg-415793" data-msg-id="415793">
-    <div class="avatar"><img></div>
-    <div class="content">
-      <blockquote>
-<p>I think other Mixxx developers are finally starting to understand why we should start using Zulip :)</p>
+      <p>roed updated <a href="https://trac.sagemath.org/ticket/24193" target="_blank" title="https://trac.sagemath.org/ticket/24193">#24193</a> (New) with comment: </p>
+<blockquote>
+<p>So, I can replicate this in GP, but I think the problem is that pari doesn't try to handle the precision issues that arise in factoring.  This polynomial is not squarefree, so small perturbations of the coefficients will yield polynomials with different factorization patterns.  Note the following excerpt from the documentation for pari's <code>factorpadic</code>:<br>
+{{{<br>
+If pol has inexact t_PADIC coefficients, this is not always well-defined;<br>
+in this case, the polynomial is first made integral by dividing out the<br>
+p-adic content, then lifted to ℤ using truncate coefficientwise. Hence<br>
+we actually factor exactly a polynomial which is only p-adically close<br>
+to the input. To avoid pitfalls, we advise to only factor polynomials<br>
+with exact rational coefficients.<br>
+}}}<br>
+<a href="https://pari.math.u-bordeaux.fr/dochtml/html/Polynomials_and_power_series.html" target="_blank" title="https://pari.math.u-bordeaux.fr/dochtml/html/Polynomials_and_power_series.html">https://pari.math.u-bordeaux.fr/dochtml/html/Polynomials_and_power_series.html</a></p>
+<p>I think the solution is to implement the reduction to squarefree factorization in Sage.</p>
 </blockquote>
-<p>Great!</p>
 
 
     </div>
   </div>
 
-  <div class="message message-full" id="msg-416772" data-msg-id="416772">
+      <div class="header-wrapper stream-header" data-msg-id="20719">
+        <div class="header stream-text" style="background: #b0a5fd" data-narrow="[{'operator':'stream','operand':'trac'}]">
+          trac
+        </div>
+        <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'trac'},{'operator':'topic','operand':'#23696: Update matplotlib to 2.1.0'}]">
+          #23696: Update matplotlib to 2.1.0
+        </div>
+      </div>
+
+  <div class="message message-full" id="msg-20719" data-msg-id="20719">
     <div class="avatar">
-      <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
+      <img src="https://zulip.sagemath.org/user_avatars/2/adf08385906f500e055d2ca657e54529b4537f37.png?x=x&version=1" class="avatar-img" data-email="trac-bot@zulip.sagemath.org">
     </div>
     <div class="content">
       <div class="subheader">
         <div class="username">
-          Rishi Gupta
+          Sage Trac Bot
         </div>
         <div class="timestamp">
-          8:20 PM
+          2:13 AM
         </div>
       </div>
-      <p>hm, the hotspot popup also shouldn't be centered like that :/.<br>
-Agreed with putting a hover ("Click me"), and perhaps consider making it more aggressive (discord adds a giant bouncing question mark).</p>
+      <p>strogdon updated <a href="https://trac.sagemath.org/ticket/23696" target="_blank" title="https://trac.sagemath.org/ticket/23696">#23696</a> (Needs work) with comment: </p>
+<blockquote>
+<p>To deal with <code>delaunay</code> we could always taint MPL-2.1.0 (or have an optional package) with the <code>delaunay</code> stuff from MPL-2.0.2. I have tried this and it works. But yet another item to maintain.</p>
+</blockquote>
+
+
+    </div>
+  </div>
+
+      <div class="header-wrapper stream-header" data-msg-id="20721">
+        <div class="header stream-text" style="background: #b0a5fd" data-narrow="[{'operator':'stream','operand':'trac'}]">
+          trac
+        </div>
+        <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'trac'},{'operator':'topic','operand':'#24191: fpylll broken on Cygwin, again'}]">
+          #24191: fpylll broken on Cygwin, again
+        </div>
+      </div>
+
+  <div class="message message-full" id="msg-20721" data-msg-id="20721">
+    <div class="avatar">
+      <img src="https://zulip.sagemath.org/user_avatars/2/adf08385906f500e055d2ca657e54529b4537f37.png?x=x&version=1" class="avatar-img" data-email="trac-bot@zulip.sagemath.org">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Sage Trac Bot
+        </div>
+        <div class="timestamp">
+          6:01 AM
+        </div>
+      </div>
+      <p>tscrim updated <a href="https://trac.sagemath.org/ticket/24191" target="_blank" title="https://trac.sagemath.org/ticket/24191">#24191</a> (Positive review) with comment: </p>
+<blockquote>
+<p>Makes sense and LGTM.</p>
+</blockquote>
+<p>status: <strong>needs_review</strong> =&gt; <strong>positive_review</strong>, reviewer: =&gt; <strong>Travis Scrimshaw</strong></p>
+
+
+    </div>
+  </div>
+
+      <div class="header-wrapper stream-header" data-msg-id="20723">
+        <div class="header stream-text" style="background: #b0a5fd" data-narrow="[{'operator':'stream','operand':'trac'}]">
+          trac
+        </div>
+        <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'trac'},{'operator':'topic','operand':'#24192: -std=c99 causes numerous problems on Cygwin'}]">
+          #24192: -std=c99 causes numerous problems on Cygwin
+        </div>
+      </div>
+
+  <div class="message message-full" id="msg-20723" data-msg-id="20723">
+    <div class="avatar">
+      <img src="https://zulip.sagemath.org/user_avatars/2/adf08385906f500e055d2ca657e54529b4537f37.png?x=x&version=1" class="avatar-img" data-email="trac-bot@zulip.sagemath.org">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Sage Trac Bot
+        </div>
+        <div class="timestamp">
+          6:04 AM
+        </div>
+      </div>
+      <p>tscrim updated <a href="https://trac.sagemath.org/ticket/24192" target="_blank" title="https://trac.sagemath.org/ticket/24192">#24192</a> (Needs review) with comment: </p>
+<blockquote>
+<p>Do you mean <code>sys.platform != 'cygwin'</code>?</p>
+</blockquote>
+
+
+    </div>
+  </div>
+
+      <div class="header-wrapper stream-header" data-msg-id="20725">
+        <div class="header stream-text" style="background: #b0a5fd" data-narrow="[{'operator':'stream','operand':'trac'}]">
+          trac
+        </div>
+        <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'trac'},{'operator':'topic','operand':'#24189: Python 2 libpython symlink not created correctly ...'}]">
+          #24189: Python 2 libpython symlink not created correctly ...
+        </div>
+      </div>
+
+  <div class="message message-full" id="msg-20725" data-msg-id="20725">
+    <div class="avatar">
+      <img src="https://zulip.sagemath.org/user_avatars/2/adf08385906f500e055d2ca657e54529b4537f37.png?x=x&version=1" class="avatar-img" data-email="trac-bot@zulip.sagemath.org">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Sage Trac Bot
+        </div>
+        <div class="timestamp">
+          6:10 AM
+        </div>
+      </div>
+      <p>tscrim updated <a href="https://trac.sagemath.org/ticket/24189" target="_blank" title="https://trac.sagemath.org/ticket/24189">#24189</a> (Needs review) with comment: </p>
+<blockquote>
+<p>Is your fpylll build fixed by <a href="https://trac.sagemath.org/ticket/24191" target="_blank" title="https://trac.sagemath.org/ticket/24191">#24191</a>?</p>
+</blockquote>
 
 
     </div>
   </div>
 </div>
+  <div id="message-loading" class="hidden">
+
+<div id="message-loading">
+
+  <div class="message">
+    <div class="loading-avatar"></div>
+    <div class="loading-content">
+      <div class="loading-subheader">
+        <div class="block name"></div>
+        <div class="block timestamp"></div>
+      </div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </div>
+
+
+  <div class="message">
+    <div class="loading-avatar"></div>
+    <div class="loading-content">
+      <div class="loading-subheader">
+        <div class="block name"></div>
+        <div class="block timestamp"></div>
+      </div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </div>
+
+
+  <div class="message">
+    <div class="loading-avatar"></div>
+    <div class="loading-content">
+      <div class="loading-subheader">
+        <div class="block name"></div>
+        <div class="block timestamp"></div>
+      </div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </div>
+
+
+  <div class="message">
+    <div class="loading-avatar"></div>
+    <div class="loading-content">
+      <div class="loading-subheader">
+        <div class="block name"></div>
+        <div class="block timestamp"></div>
+      </div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </div>
+
+
+  <div class="message">
+    <div class="loading-avatar"></div>
+    <div class="loading-content">
+      <div class="loading-subheader">
+        <div class="block name"></div>
+        <div class="block timestamp"></div>
+      </div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </div>
+
+
+  <div class="message">
+    <div class="loading-avatar"></div>
+    <div class="loading-content">
+      <div class="loading-subheader">
+        <div class="block name"></div>
+        <div class="block timestamp"></div>
+      </div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </div>
+
+
+  <div class="message">
+    <div class="loading-avatar"></div>
+    <div class="loading-content">
+      <div class="loading-subheader">
+        <div class="block name"></div>
+        <div class="block timestamp"></div>
+      </div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </div>
+
+
+  <div class="message">
+    <div class="loading-avatar"></div>
+    <div class="loading-content">
+      <div class="loading-subheader">
+        <div class="block name"></div>
+        <div class="block timestamp"></div>
+      </div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </div>
+
+
+  <div class="message">
+    <div class="loading-avatar"></div>
+    <div class="loading-content">
+      <div class="loading-subheader">
+        <div class="block name"></div>
+        <div class="block timestamp"></div>
+      </div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </div>
+
+
+  <div class="message">
+    <div class="loading-avatar"></div>
+    <div class="loading-content">
+      <div class="loading-subheader">
+        <div class="block name"></div>
+        <div class="block timestamp"></div>
+      </div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </div>
+
+</div>
+
+  </div>
   <div id="spinner-newer" class="hidden loading-spinner"></div>
   <div id="typing" class="message"></div>
 </body>
 
 <script>
 
-window.onerror = function(message, source, line, column, error) {
-  alert(
-    [
-      'Message: ' + message,
-      'Source: ' + source,
-      'Line: ' + line,
-      'Column: ' + column,
-      'Error object: ' + JSON.stringify(error),
-    ].join(' - '),
-  );
+'use strict';
+
+window.onerror = function (message, source, line, column, error) {
+  var obj = JSON.stringify(error);
+  alert('Message: ' + message + ' Source: ' + source + ' Line: ' + line + ' Column: ' + column + ' Error: ' + obj);
+
   return false;
 };
 
-var height = document.body.clientHeight;
+var documentBody = document.body;
+var elementMessageList = document.getElementById('message-list');
+var elementSpinnerOlder = document.getElementById('spinner-older');
+var elementSpinnerNewer = document.getElementById('spinner-newer');
+var elementTyping = document.getElementById('typing');
+var elementMessageLoading = document.getElementById('message-loading');
 
-function sendMessage(msg) {
-  window.postMessage(JSON.stringify(msg), '*');
+if (!documentBody || !elementMessageList || !elementSpinnerOlder || !elementSpinnerNewer || !elementTyping || !elementMessageLoading) {
+  throw new Error('HTML elements missing');
 }
 
-function getMessageNode(node) {
+var sendMessage = function sendMessage(msg) {
+  window.postMessage(JSON.stringify(msg), '*');
+};
+
+var getMessageNode = function getMessageNode(node) {
   var curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
     curNode = curNode.parentNode;
   }
   return curNode;
-}
+};
 
-function getMessageIdFromNode(node) {
+var getMessageIdFromNode = function getMessageIdFromNode(node) {
   var msgNode = getMessageNode(node);
-  if (!msgNode) {
-    console.log('!!!! WHOA', msgNode);
-  }
   return msgNode && msgNode.getAttribute('data-msg-id');
-}
+};
 
-function scrollToBottom() {
-  window.scrollTo(0, document.body.scrollHeight);
-}
+var scrollToBottom = function scrollToBottom() {
+  window.scrollTo(0, documentBody.scrollHeight);
+};
 
-function scrollToBottomIfNearEnd() {
-  if (document.body.scrollHeight - 100 < document.body.scrollTop + document.body.clientHeight) {
+var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
+  if (documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight) {
     scrollToBottom();
   }
-}
+};
 
-function scrollToAnchor(anchor) {
+var scrollToAnchor = function scrollToAnchor(anchor) {
   var anchorNode = document.getElementById('msg-' + anchor);
   if (anchorNode) {
     anchorNode.scrollIntoView(false);
   } else {
     scrollToBottom();
   }
-}
+};
 
-window.addEventListener('resize', function(event) {
-  var difference = height - document.body.clientHeight;
-  if (
-    difference > 0 ||
-    document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight
-  ) {
+var height = documentBody.clientHeight;
+window.addEventListener('resize', function (event) {
+  var difference = height - documentBody.clientHeight;
+  if (difference > 0 || documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
     window.scrollBy(0, difference);
   }
-  height = document.body.clientHeight;
+  height = documentBody.clientHeight;
 });
 
-document.addEventListener('message', function(e) {
-  const msg = JSON.parse(e.data);
+document.addEventListener('message', function (e) {
+  var msg = JSON.parse(e.data);
   switch (msg.type) {
     case 'bottom':
       scrollToBottom();
       break;
     case 'content':
-      document.getElementById('message-list').innerHTML = msg.content;
-      scrollToAnchor(msg.anchor);
-      break;
+      {
+        var prevPosition = documentBody.scrollTop;
+        elementMessageList.innerHTML = msg.content;
+        if (msg.anchor) {
+          scrollToAnchor(msg.anchor);
+        } else {
+          documentBody.scrollTop = prevPosition;
+        }
+        break;
+      }
     case 'fetching':
-      document.getElementById('spinner-older').classList.toggle('hidden', !msg.fetchingOlder);
-      document.getElementById('spinner-newer').classList.toggle('hidden', !msg.fetchingNewer);
+      elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
+      elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder || msg.showMessagePlaceholders);
+      elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer || msg.showMessagePlaceholders);
       break;
     case 'typing':
-      document.getElementById('typing').innerHTML = msg.content;
-      setTimeout(() => scrollToBottomIfNearEnd());
+      elementTyping.innerHTML = msg.content;
+      setTimeout(function () {
+        return scrollToBottomIfNearEnd();
+      });
       break;
     default:
   }
 });
 
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', function () {
   var startNode = getMessageNode(document.elementFromPoint(200, 20));
   var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
   console.log(startNode, endNode);
 
-  window.postMessage(
-    JSON.stringify({
-      type: 'scroll',
-      scrollY: window.scrollY,
-      innerHeight: window.innerHeight,
-      offsetHeight: document.body.offsetHeight,
-    }),
-    '*',
-  );
+  window.postMessage(JSON.stringify({
+    type: 'scroll',
+    scrollY: window.scrollY,
+    innerHeight: window.innerHeight,
+    offsetHeight: documentBody.offsetHeight
+  }), '*');
 });
 
-document.body.addEventListener('click', function(e) {
-  sendMessage({
-    type: 'click',
-    target: e.target,
-    targetNodeName: e.target.nodeName,
-    targetClassName: e.target.className,
-    matches: e.target.matches('a[target="_blank"] > img'),
-  });
-
+documentBody.addEventListener('click', function (e) {
   if (e.target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
-      fromEmail: e.target.getAttribute('data-email'),
+      fromEmail: e.target.getAttribute('data-email')
     });
   }
 
@@ -1757,7 +1761,7 @@ document.body.addEventListener('click', function(e) {
     sendMessage({
       type: 'narrow',
       narrow: e.target.getAttribute('data-narrow'),
-      id: e.target.getAttribute('data-id'),
+      id: e.target.getAttribute('data-id')
     });
   }
 
@@ -1765,13 +1769,13 @@ document.body.addEventListener('click', function(e) {
     sendMessage({
       type: 'image',
       src: e.target.parentNode.getAttribute('href'),
-      messageId: +getMessageIdFromNode(e.target),
+      messageId: +getMessageIdFromNode(e.target)
     });
   } else if (e.target.matches('a')) {
     sendMessage({
       type: 'url',
       href: e.target.getAttribute('href'),
-      messageId: +getMessageIdFromNode(e.target),
+      messageId: +getMessageIdFromNode(e.target)
     });
   }
 
@@ -1780,7 +1784,7 @@ document.body.addEventListener('click', function(e) {
       type: 'reaction',
       name: e.target.getAttribute('data-name'),
       messageId: +getMessageIdFromNode(e.target),
-      voted: e.target.classList.contains('self-voted'),
+      voted: e.target.classList.contains('self-voted')
     });
   }
 
