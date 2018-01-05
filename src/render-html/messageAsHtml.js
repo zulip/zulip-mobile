@@ -21,12 +21,21 @@ const messageSubheader = ({ fromName, timestamp, twentyFourHourTime }) => `
 </div>
 `;
 
-const messageBody = ({ content, flags, isOutbox, id, ownEmail, timeEdited, reactions }) => `
+const messageBody = ({
+  content,
+  flags,
+  id,
+  isOutbox,
+  ownEmail,
+  reactions,
+  realmEmoji,
+  timeEdited,
+}) => `
 <div class="msg-raw-content">
   ${content}
 </div>
 ${messageTagsAsHtml(flags, timeEdited, isOutbox)}
-${messageReactionListAsHtml(reactions, id, ownEmail)}
+${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
 `;
 
 const briefMessageAsHtml = ({ id, content, flags, timeEdited, isOutbox, reactions, ownEmail }) => `
@@ -38,6 +47,7 @@ ${messageDiv(id, 'message-brief', flags)}
 `;
 
 const fullMessageAsHtml = ({
+  auth,
   id,
   content,
   flags,
@@ -52,6 +62,7 @@ const fullMessageAsHtml = ({
   reactions,
   ownEmail,
   isMentioned,
+  realmEmoji,
 }) => `
 ${messageDiv(id, 'message-full', flags)}
   <div class="avatar">
@@ -59,7 +70,7 @@ ${messageDiv(id, 'message-full', flags)}
   </div>
   <div class="content">
     ${messageSubheader({ fromName, timestamp, twentyFourHourTime })}
-    ${messageBody({ content, flags, isOutbox, id, ownEmail, timeEdited, reactions })}
+    ${messageBody({ content, flags, id, isOutbox, ownEmail, reactions, realmEmoji, timeEdited })}
   </div>
 </div>
 `;

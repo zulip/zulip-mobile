@@ -4,7 +4,7 @@ import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
 import timeRowAsHtml from './timeRowAsHtml';
 
-const renderMessages = ({ auth, subscriptions, renderedMessages, narrow }) =>
+const renderMessages = ({ auth, subscriptions, realmEmoji, renderedMessages, narrow }) =>
   renderedMessages.reduce((list, section, index) => {
     list.push(
       messageHeaderAsHtml({
@@ -32,7 +32,8 @@ const renderMessages = ({ auth, subscriptions, renderedMessages, narrow }) =>
             timeEdited: item.message.last_edit_timestamp,
             isOutbox: item.message.isOutbox,
             reactions: item.message.reactions,
-            ownEmail: auth.email,
+            auth,
+            realmEmoji,
           }),
         );
       }

@@ -1,8 +1,32 @@
 /* @flow */
+import type { AggregateReaction, RealmEmojiType } from '../types';
+import { getFullUrl } from '../utils/url';
 import emojiMap from '../emoji/emojiMap';
 
-export default (messageId: number, name: string, voteCount: number, voted: boolean) => `
-  <span onClick="" class="reaction${voted ? ' self-voted' : ''}" data-name="${name}">
-    ${emojiMap[name]} ${voteCount}
-  </span>
-`;
+const getRealmEmojiHtml = (
+  reaction: AggregateReaction,
+  realmEmoji: RealmEmojiType,
+  realm: string,
+) =>
+  `<img class="realm-reaction-img" src="${getFullUrl(
+    realmEmoji.source_url,
+    realm,
+  )}" height="16" width="16"/>
+  `;
+
+const getMapEmojiHtml = (reaction: AggregateReaction) => emojiMap[reaction.name];
+
+export default (
+  messageId: number,
+  reaction: AggregateReaction,
+  realmEmoji: RealmEmojiType[],
+  realm: string,
+) =>
+  `<span onClick="" class="reaction${reaction.selfReacted ? ' self-voted' : ''}" data-name="${
+    reaction.name
+  }">${
+    realmEmoji[reaction.name]
+      ? getRealmEmojiHtml(reaction, realmEmoji[reaction.name], realm)
+      : getMapEmojiHtml(reaction)
+  } ${reaction.count}
+  </span>`;
