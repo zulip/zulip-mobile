@@ -2,16 +2,7 @@
 import React, { PureComponent } from 'react';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type {
-  Actions,
-  Auth,
-  CaughtUp,
-  Fetching,
-  FlagsState,
-  Message,
-  Narrow,
-  Subscription,
-} from '../types';
+import type { Actions, Auth, Fetching, FlagsState, Message, Narrow, Subscription } from '../types';
 import connectWithActions from '../connectWithActions';
 import MessageList from '../render-native/MessageListScrollView';
 // import MessageList from '../render-native/MessageListFlatList';
@@ -26,27 +17,29 @@ import {
   getAnchorForActiveNarrow,
   getFetchingForActiveNarrow,
   getSubscriptions,
+  getShowMessagePlaceholders,
   getShownMessagesInActiveNarrow,
 } from '../selectors';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { queueMarkAsRead } from '../api';
 
-type Props = {
+export type Props = {
   actions: Actions,
   anchor: number,
   auth: Auth,
-  caughtUp: CaughtUp,
-  isFetching: boolean,
   fetching: Fetching,
   flags: FlagsState,
-  typingUsers: any,
   htmlMessages: boolean,
+  isFetching: boolean,
   messages: Message[],
-  renderedMessages: any,
-  subscriptions: Subscription[],
   narrow: Narrow,
-  listRef: () => void,
+  renderedMessages: any,
+  showMessagePlaceholders: boolean,
+  subscriptions: Subscription[],
+  typingUsers: any,
+  listRef: (component: any) => void,
   onReplySelect: () => void,
+  onScroll: (e: Event) => void,
   onSend: () => void,
 };
 
@@ -81,15 +74,16 @@ class MessageListContainer extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
+  anchor: getAnchorForActiveNarrow(state),
+  auth: getAuth(state),
+  fetching: getFetchingForActiveNarrow(state),
+  flags: getFlags(state),
   htmlMessages: state.app.debug.htmlMessages,
   isFetching: getIsFetching(state),
-  fetching: getFetchingForActiveNarrow(state),
-  typingUsers: getCurrentTypingUsers(state),
   messages: getShownMessagesInActiveNarrow(state),
-  renderedMessages: getRenderedMessages(state),
-  anchor: getAnchorForActiveNarrow(state),
-  subscriptions: getSubscriptions(state),
   narrow: getActiveNarrow(state),
-  auth: getAuth(state),
-  flags: getFlags(state),
+  renderedMessages: getRenderedMessages(state),
+  showMessagePlaceholders: getShowMessagePlaceholders(state),
+  subscriptions: getSubscriptions(state),
+  typingUsers: getCurrentTypingUsers(state),
 }))(connectActionSheet(MessageListContainer));

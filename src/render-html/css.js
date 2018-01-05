@@ -168,7 +168,7 @@ th, td {
   height: 2.5em;
   margin-right: 0.5em;
   border-radius: 4px;
-  background: #ddd;
+  background: rgba(127, 127, 127, 0.9);
 }
 .loading-content {
   width: 100%;
@@ -178,14 +178,14 @@ th, td {
   justify-content: space-between;
 }
 .loading-content .block {
-  background-color: #eee;
+  background-color: rgba(127, 127, 127, 0.75);
   border-radius: 10px;
   height: 8px;
   margin-bottom: 10px;
 }
 .loading-subheader .name {
   width: 120px;
-  background-color: #ddd;
+  background-color: rgba(127, 127, 127, 0.9);
 }
 .loading-subheader .timestamp {
   width: 60px;

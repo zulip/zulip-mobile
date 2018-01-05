@@ -30,8 +30,9 @@ export default class AnimatedScaleComponent extends PureComponent<Props> {
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }],
       opacity: this.animatedValue,
+      display: visible ? 'flex' : 'none',
     };
 
-    return <Animated.View style={[animatedStyle, style]}>{visible && children}</Animated.View>;
+    return <Animated.View style={[animatedStyle, style]}>{children}</Animated.View>;
   }
 }

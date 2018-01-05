@@ -1,28 +1,13 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Actions, TypingState, Narrow } from '../types';
+import type { Props } from '../message/MessageListContainer';
 import { nullFunction } from '../nullObjects';
 import { LoadingIndicator } from '../common';
 import MessageTyping from './MessageTyping';
 import InfiniteScrollView from './InfiniteScrollView';
 import cachedMessageRender from './cachedMessageRender';
 import MessageListLoading from '../message/MessageListLoading';
-
-type Props = {
-  actions: Actions,
-  isFetching: boolean,
-  fetchingOlder: boolean,
-  fetchingNewer: boolean,
-  singleFetchProgress?: boolean,
-  renderedMessages: Object[],
-  anchor?: number,
-  narrow?: Narrow,
-  typingUsers?: TypingState,
-  listRef?: (component: any) => void,
-  onReplySelect: () => void,
-  onScroll: (e: Event) => void,
-};
 
 export default class MessageListScrollView extends PureComponent<Props> {
   props: Props;
@@ -42,9 +27,7 @@ export default class MessageListScrollView extends PureComponent<Props> {
       anchor,
       actions,
       showMessagePlaceholders,
-      fetchingOlder,
-      fetchingNewer,
-      singleFetchProgress,
+      fetching,
       listRef,
       onReplySelect,
       onScroll,
@@ -74,10 +57,9 @@ export default class MessageListScrollView extends PureComponent<Props> {
         narrow={narrow}
         anchor={anchor}
       >
-        <LoadingIndicator active={fetchingOlder} backgroundColor={styles.backgroundColor} />
+        <LoadingIndicator active={fetching.older} backgroundColor={styles.backgroundColor} />
         {messageList}
-        {!singleFetchProgress &&
-          fetchingNewer && <LoadingIndicator active backgroundColor={styles.backgroundColor} />}
+        {fetching.newer && <LoadingIndicator active backgroundColor={styles.backgroundColor} />}
         {typingUsers && <MessageTyping users={typingUsers} actions={actions} />}
       </InfiniteScrollView>
     );

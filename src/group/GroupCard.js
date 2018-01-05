@@ -8,7 +8,6 @@ import { IconDone } from '../common/Icons';
 import { groupNarrow } from '../utils/narrow';
 import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
-import AnimatedComponent from '../animation/AnimatedComponent';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 
 const styles = StyleSheet.create({
@@ -91,12 +90,7 @@ export default class GroupCard extends PureComponent<Props, State> {
 
     return (
       <View style={styles.wrapper}>
-        <AnimatedComponent
-          property="height"
-          useNativeDriver={false}
-          visible={selected.length > 0}
-          height={70}
-        >
+        <AnimatedScaleComponent visible={selected.length > 0}>
           <AvatarList
             listRef={component => {
               this.listRef = component;
@@ -104,7 +98,7 @@ export default class GroupCard extends PureComponent<Props, State> {
             users={selected}
             onPress={this.handleUserDeselect}
           />
-        </AnimatedComponent>
+        </AnimatedScaleComponent>
         {selected.length > 0 && <LineSeparator />}
         <UserList
           style={styles.list}
