@@ -10,7 +10,6 @@ import {
 import Chat from './Chat';
 
 export default connectWithActions(state => ({
-  isOnline: state.app.isOnline,
   showMessagePlaceholders: getShowMessagePlaceholders(state),
   narrow: getActiveNarrow(state),
   noMessages: getIfNoMessages(state),

@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
+import connectWithActions from '../connectWithActions';
 import { Label } from '../common';
 
 const styles = StyleSheet.create({
@@ -18,8 +19,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class OfflineNotice extends PureComponent<{}> {
+type Props = {
+  isOnline: boolean,
+};
+
+class OfflineNotice extends PureComponent<Props> {
+  props: Props;
+
   render() {
+    const { isOnline } = this.props;
+
+    if (isOnline) return null;
+
     return (
       <View style={styles.block}>
         <Label style={styles.text} text="No Internet connection" />
@@ -27,3 +38,7 @@ export default class OfflineNotice extends PureComponent<{}> {
     );
   }
 }
+
+export default connectWithActions(state => ({
+  isOnline: state.app.isOnline,
+}))(OfflineNotice);

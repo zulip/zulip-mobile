@@ -9,7 +9,7 @@ import { KeyboardAvoider, OfflineNotice } from '../common';
 import MessageListContainer from '../message/MessageListContainer';
 import NoMessages from '../message/NoMessages';
 import ComposeBoxContainer from '../compose/ComposeBoxContainer';
-import UnreadNoticeContainer from './UnreadNoticeContainer';
+import UnreadNotice from './UnreadNotice';
 
 type Props = {
   narrow: Narrow,
@@ -56,14 +56,15 @@ export default class Chat extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { showMessagePlaceholders, narrow, isOnline, noMessages } = this.props;
+    const { showMessagePlaceholders } = this.props;
 
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
         <ActionSheetProvider>
           <View style={styles.flexed}>
-            {!isOnline && <OfflineNotice />}
-            {noMessages && !showMessagePlaceholders && <NoMessages narrow={narrow} />}
+            <OfflineNotice />
+            <UnreadNotice />
+            <NoMessages />
             <ActionSheetProvider>
               <MessageListContainer
                 onReplySelect={this.handleReplySelect}
@@ -72,7 +73,6 @@ export default class Chat extends PureComponent<Props> {
                 }}
               />
             </ActionSheetProvider>
-            <UnreadNoticeContainer />
             {!showMessagePlaceholders && (
               <ComposeBoxContainer
                 messageInputRef={(component: any) => {
