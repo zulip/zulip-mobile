@@ -2,6 +2,8 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import connectWithActions from '../connectWithActions';
+import { getUnreadCountInActiveNarrow } from '../selectors';
 import { Label, RawLabel } from '../common';
 import { unreadToLimitedCount } from '../utils/unread';
 import MarkUnreadButton from './MarkUnreadButton';
@@ -34,7 +36,7 @@ type Props = {
   unreadCount: number,
 };
 
-export default class UnreadNotice extends PureComponent<Props> {
+class UnreadNotice extends PureComponent<Props> {
   props: Props;
 
   static contextTypes = {
@@ -46,28 +48,30 @@ export default class UnreadNotice extends PureComponent<Props> {
     const visible = unreadCount !== 0;
 
     return (
-      <View style={this.context.styles.floatingView}>
-        <AnimatedComponent
-          style={styles.wrapper}
-          property="height"
-          useNativeDriver={false}
-          visible={visible}
-          height={30}
-        >
-          {visible && (
-            <View style={styles.unreadContainer}>
-              <View style={styles.unreadTextWrapper}>
-                <RawLabel style={[styles.unreadText]} text={unreadToLimitedCount(unreadCount)} />
-                <Label
-                  style={styles.unreadText}
-                  text={unreadCount === 1 ? 'unread message' : 'unread messages'}
-                />
-              </View>
-              <MarkUnreadButton />
+      <AnimatedComponent
+        style={styles.wrapper}
+        property="height"
+        useNativeDriver={false}
+        visible={visible}
+        height={30}
+      >
+        {visible && (
+          <View style={styles.unreadContainer}>
+            <View style={styles.unreadTextWrapper}>
+              <RawLabel style={[styles.unreadText]} text={unreadToLimitedCount(unreadCount)} />
+              <Label
+                style={styles.unreadText}
+                text={unreadCount === 1 ? 'unread message' : 'unread messages'}
+              />
             </View>
-          )}
-        </AnimatedComponent>
-      </View>
+            <MarkUnreadButton />
+          </View>
+        )}
+      </AnimatedComponent>
     );
   }
 }
+
+export default connectWithActions(state => ({
+  unreadCount: getUnreadCountInActiveNarrow(state),
+}))(UnreadNotice);

@@ -4,12 +4,6 @@ import config from '../config';
 import { isUrlAnImage } from '../utils/url';
 import { emojiReactionAdd, emojiReactionRemove } from '../api';
 
-type MessageListEventClick = {
-  target: string,
-  targetNodeName: string,
-  targetClassName: string,
-};
-
 type MessageListEventScroll = {
   innerHeight: number,
   offsetHeight: number,

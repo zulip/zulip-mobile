@@ -72,9 +72,10 @@ export default class MessageListWeb extends Component<Props> {
     const { styles, theme } = this.context;
     const { anchor, listRef, showMessagePlaceholders } = this.props;
     const html = getHtml(renderMessagesAsHtml(this.props), theme, showMessagePlaceholders);
+
     listRef({ scrollToEnd: this.scrollToEnd });
 
-    console.log(html);
+    // console.log(html);
 
     return (
       <WebView

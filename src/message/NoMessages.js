@@ -3,6 +3,8 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Narrow } from '../types';
+import connectWithActions from '../connectWithActions';
+import { getActiveNarrow, getIfNoMessages, getShowMessagePlaceholders } from '../selectors';
 import { Label } from '../common';
 
 import {
@@ -45,13 +47,18 @@ const messages: EmptyMessage[] = [
 
 type Props = {
   narrow: Narrow,
+  showMessagePlaceholders: boolean,
+  noMessages: boolean,
 };
 
-export default class NoMessages extends PureComponent<Props> {
+class NoMessages extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { narrow } = this.props;
+    const { noMessages, showMessagePlaceholders, narrow } = this.props;
+
+    if (!noMessages || showMessagePlaceholders) return null;
+
     const message = messages.find(x => x.isFunc(narrow)) || {};
 
     return (
@@ -62,3 +69,9 @@ export default class NoMessages extends PureComponent<Props> {
     );
   }
 }
+
+export default connectWithActions(state => ({
+  showMessagePlaceholders: getShowMessagePlaceholders(state),
+  narrow: getActiveNarrow(state),
+  noMessages: getIfNoMessages(state),
+}))(NoMessages);
