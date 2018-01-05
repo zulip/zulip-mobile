@@ -8,7 +8,7 @@ const getRealmEmojiHtml = (
   realmEmoji: RealmEmojiType,
   realm: string,
 ) =>
-  `<img class="realm-reaction-img" src="${getFullUrl(
+  `<img class="realm-reaction" src="${getFullUrl(
     realmEmoji.source_url,
     realm,
   )}" height="16" width="16"/>

@@ -206,6 +206,13 @@ document.body.addEventListener('click', function (e) {
       messageId: +getMessageIdFromNode(e.target),
       voted: e.target.classList.contains('self-voted')
     });
+  } else if (e.target.matches('.realm-reaction')) {
+    sendMessage({
+      type: 'reaction',
+      name: e.target.parentNode.getAttribute('data-name'),
+      messageId: +getMessageIdFromNode(e.target),
+      voted: e.target.parentNode.classList.contains('self-voted')
+    });
   }
 });
 
