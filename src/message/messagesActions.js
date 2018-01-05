@@ -1,12 +1,12 @@
 /* @flow */
 import type { Action, Narrow, Dispatch, GetState } from '../types';
 import { NULL_CAUGHTUP } from '../nullObjects';
-import { getAuth, getUsers, getAllMessages, getStreams } from '../selectors';
+import { getAuth, getUsers, getAllMessages, getActiveNarrow, getStreams } from '../selectors';
 import { SWITCH_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread } from './fetchActions';
-import { validateNarrow } from '../utils/narrow';
+import { validateNarrow, isSameNarrow } from '../utils/narrow';
 // import { showToast } from '../utils/info';
 
 export const switchNarrow = (narrow: Narrow): Action => ({
@@ -18,6 +18,10 @@ export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INT
   dispatch: Dispatch,
   getState: GetState,
 ) => {
+  if (isSameNarrow(getActiveNarrow(getState()), newNarrow)) {
+    return;
+  }
+
   const isValidNarrow = validateNarrow(newNarrow, getStreams(getState()), getUsers(getState()));
 
   if (!isValidNarrow) {
