@@ -150,6 +150,10 @@ th, td {
   white-space: nowrap;
   background: #ccc;
 }
+[data-mentioned="true"] {
+  padding-top: 4px;
+  background: #fee5e1;
+}
 .arrow-right {
   width: 0;
   height: 0;

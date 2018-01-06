@@ -31,6 +31,7 @@ const renderMessages = ({ auth, subscriptions, renderedMessages, narrow, doNarro
             timeEdited: item.message.last_edit_timestamp,
             isOutbox: item.message.isOutbox,
             isStarred: (item.message.flags || []).indexOf('starred') > -1,
+            isMentioned: (item.message.flags || []).indexOf('mentioned') > -1,
             reactions: item.message.reactions,
             ownEmail: auth.email,
           }),
