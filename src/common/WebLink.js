@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 
 import connectWithActions from '../connectWithActions';
 import { Touchable, Label } from '../common';
+import { StyleObj } from '../types';
 import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { getCurrentRealm } from '../selectors';
