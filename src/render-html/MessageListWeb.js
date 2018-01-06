@@ -2,23 +2,12 @@
 import React, { Component } from 'react';
 import { WebView } from 'react-native';
 
-import type { Actions, Auth, Narrow, TypingState, WebViewNavigationState } from '../types';
+import type { WebViewNavigationState } from '../types';
+import type { Props } from '../message/MessageListContainer';
 import getHtml from '../render-html/html';
 import renderMessagesAsHtml from '../render-html/renderMessagesAsHtml';
 import webViewHandleUpdates from './webViewHandleUpdates';
 import * as webViewEventHandlers from './webViewEventHandlers';
-
-type Props = {
-  actions: Actions,
-  auth: Auth,
-  fetchingOlder: boolean,
-  fetchingNewer: boolean,
-  renderedMessages: Object[],
-  anchor: number,
-  narrow?: Narrow,
-  typingUsers?: TypingState,
-  listRef: (ref: Object) => void,
-};
 
 export default class MessageListWeb extends Component<Props> {
   webview: ?Object;
@@ -53,7 +42,6 @@ export default class MessageListWeb extends Component<Props> {
 
   sendMessage = (msg: Object) => {
     if (this.webview) {
-      console.log('sendMessage', msg);
       this.webview.postMessage(JSON.stringify(msg), '*');
     }
   };

@@ -1,4 +1,4 @@
-/* @flow */
+/* @noflow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import throttle from 'lodash.throttle';
@@ -84,9 +84,6 @@ export default class SearchMessagesCard extends PureComponent<Props, State> {
             renderedMessages={renderedMessages}
             fetchingOlder={isFetching}
             fetchingNewer={isFetching}
-            caughtUpOlder
-            caughtUpNewer
-            singleFetchProgress
           />
         </ActionSheetProvider>
       </View>

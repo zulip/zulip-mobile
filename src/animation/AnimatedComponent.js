@@ -33,15 +33,11 @@ export default class AnimatedComponent extends PureComponent<Props> {
   }
 
   render() {
-    const { children, height, property, style, visible } = this.props;
+    const { children, property, style } = this.props;
     const animatedStyle = {
       [property]: this.animatedValue,
     };
 
-    return (
-      <Animated.View style={[animatedStyle, style, visible && { height }]}>
-        {children}
-      </Animated.View>
-    );
+    return <Animated.View style={[animatedStyle, style]}>{children}</Animated.View>;
   }
 }

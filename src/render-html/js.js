@@ -27,7 +27,7 @@ const sendMessage = msg => {
   window.postMessage(JSON.stringify(msg), '*');
 };
 
-const getMessageNode = (node: Node): Node => {
+const getMessageNode = node => {
   let curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
     curNode = curNode.parentNode;
@@ -35,7 +35,7 @@ const getMessageNode = (node: Node): Node => {
   return curNode;
 };
 
-const getMessageIdFromNode = (node: Node): Node => {
+const getMessageIdFromNode = node => {
   const msgNode = getMessageNode(node);
   return msgNode && msgNode.getAttribute('data-msg-id');
 };
@@ -71,7 +71,7 @@ window.addEventListener('resize', event => {
   height = documentBody.clientHeight;
 });
 
-document.addEventListener('message', (e: Event) => {
+document.addEventListener('message', e => {
   const msg = JSON.parse(e.data);
   switch (msg.type) {
     case 'bottom':
@@ -89,8 +89,14 @@ document.addEventListener('message', (e: Event) => {
     }
     case 'fetching':
       elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
-      elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder || msg.showMessagePlaceholders);
-      elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer || msg.showMessagePlaceholders);
+      elementSpinnerOlder.classList.toggle(
+        'hidden',
+        !msg.fetchingOlder || msg.showMessagePlaceholders,
+      );
+      elementSpinnerNewer.classList.toggle(
+        'hidden',
+        !msg.fetchingNewer || msg.showMessagePlaceholders,
+      );
       break;
     case 'typing':
       elementTyping.innerHTML = msg.content;
@@ -116,7 +122,7 @@ window.addEventListener('scroll', () => {
   );
 });
 
-documentBody.addEventListener('click', (e: Event) => {
+documentBody.addEventListener('click', e => {
   if (e.target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',

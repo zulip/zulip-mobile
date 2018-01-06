@@ -2,22 +2,11 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Actions, TypingState } from '../types';
+import type { Props } from '../message/MessageListContainer';
 import { nullFunction } from '../nullObjects';
-import { LoadingIndicator } from '../common';
 import MessageListSection from './MessageListSection';
 import MessageListItem from './MessageListItem';
-
-type Props = {
-  actions: Actions,
-  typingUsers?: TypingState,
-  fetchingOlder: boolean,
-  fetchingNewer: boolean,
-  singleFetchProgress: boolean,
-  renderedMessages: Object[],
-  listRef: (component: any) => void,
-  onScroll?: () => void,
-};
+import MessageListLoading from '../message/MessageListLoading';
 
 export default class MessageList extends PureComponent<Props> {
   static contextTypes = {
@@ -36,15 +25,14 @@ export default class MessageList extends PureComponent<Props> {
     const {
       actions,
       renderedMessages,
-      singleFetchProgress,
-      fetchingOlder,
-      fetchingNewer,
+      showMessagePlaceholders,
+      fetching,
       listRef,
       onScroll,
     } = this.props;
 
-    if (!singleFetchProgress && fetchingNewer) {
-      return <LoadingIndicator active backgroundColor={styles.backgroundColor} />;
+    if (showMessagePlaceholders) {
+      return <MessageListLoading />;
     }
 
     return (
@@ -52,7 +40,7 @@ export default class MessageList extends PureComponent<Props> {
         style={styles.flexed}
         initialNumToRender={20}
         sections={renderedMessages}
-        refreshing={fetchingOlder}
+        refreshing={fetching.older}
         // initialScrollIndex={123}
         removeClippedSubviews // potentially buggy
         renderSectionHeader={({ section }) => <MessageListSection {...section} />}

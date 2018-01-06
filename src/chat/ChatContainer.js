@@ -10,9 +10,9 @@ import {
 import Chat from './Chat';
 
 export default connectWithActions(state => ({
-  showMessagePlaceholders: getShowMessagePlaceholders(state),
+  lastMessage: getLastMessageInActiveNarrow(state),
   narrow: getActiveNarrow(state),
   noMessages: getIfNoMessages(state),
   ownEmail: getOwnEmail(state),
-  lastMessage: getLastMessageInActiveNarrow(state),
+  showMessagePlaceholders: getShowMessagePlaceholders(state),
 }))(Chat);
