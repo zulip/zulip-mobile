@@ -11,6 +11,8 @@ type Props = {
   label: string,
   href: string,
   realm: string,
+  style?: StyleObj,
+  labelStyle?: StyleObj,
 };
 
 class WebLink extends PureComponent<Props> {
@@ -27,11 +29,11 @@ class WebLink extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { label } = this.props;
+    const { label, style, labelStyle } = this.props;
 
     return (
-      <Touchable>
-        <Label style={[styles.link]} text={label} onPress={this.handlePress} />
+      <Touchable style={style}>
+        <Label style={[styles.link, labelStyle]} text={label} onPress={this.handlePress} />
       </Touchable>
     );
   }
