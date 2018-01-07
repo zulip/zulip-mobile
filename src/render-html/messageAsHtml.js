@@ -12,7 +12,6 @@ const briefMessageAsHtml = ({
   ownEmail,
 }) => `
   <div class="message message-brief" id="msg-${id}" data-msg-id="${id}">
-    <div class="avatar"><img></div>
     <div class="content">
       ${content}
       ${messageTagsAsHtml(timeEdited, isOutbox, isStarred)}

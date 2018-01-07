@@ -92,6 +92,7 @@ th, td {
 }
 .message-brief {
   padding-top: 0;
+  margin-left: 3em;
 }
 .avatar {
   min-width: 2.5em;
