@@ -3,7 +3,8 @@ export default `
 
 window.onerror = function (message, source, line, column, error) {
   var obj = JSON.stringify(error);
-  alert('Message: ' + message + ' Source: ' + source + ' Line: ' + line + ' Column: ' + column + ' Error: ' + obj);
+  var errorStr = '\n<pre>\nMessage: ' + message + '\nSource: ' + source + '\nLine: ' + line + ':' + column + '\nError: ' + obj + '\n</pre>';
+  document.getElementById('js-error').innerHTML = errorStr;
 
   return false;
 };
@@ -34,6 +35,28 @@ var getMessageNode = function getMessageNode(node) {
 var getMessageIdFromNode = function getMessageIdFromNode(node) {
   var msgNode = getMessageNode(node);
   return msgNode && msgNode.getAttribute('data-msg-id');
+};
+
+var scrollTo = function scrollTo(element, to, duration) {
+  if (duration <= 0) return;
+  var difference = to - element.scrollTop;
+  var perTick = difference / duration * 10;
+
+  setTimeout(function () {
+    element.scrollTop += perTick;
+    if (element.scrollTop === to) return;
+    scrollTo(element, to, duration - 10);
+  }, 10);
+};
+
+var animatedScrollBy = function animatedScrollBy(element, by, duration) {
+  var step = by / (duration / 16);
+  var cur = Math.abs(by);
+  var interval = setInterval(function () {
+    cur -= step;
+    window.scrollBy(0, step);
+    if (cur <= 0) clearInterval(interval);
+  }, 16);
 };
 
 var scrollToBottom = function scrollToBottom() {
