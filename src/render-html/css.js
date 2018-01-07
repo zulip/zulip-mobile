@@ -302,6 +302,10 @@ ul {
 #message-loading {
   opacity: 0.25;
 }
+#js-error {
+  background: red;
+  color: white;
+}
 `;
 
 const darkTheme = `

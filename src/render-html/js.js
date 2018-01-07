@@ -1,6 +1,13 @@
 window.onerror = (message, source, line, column, error) => {
   const obj = JSON.stringify(error);
-  alert(`Message: ${message} Source: ${source} Line: ${line} Column: ${column} Error: ${obj}`);
+  const errorStr = `
+<pre>
+Message: ${message}
+Source: ${source}
+Line: ${line}:${column}
+Error: ${obj}
+</pre>`;
+  document.getElementById('js-error').innerHTML = errorStr;
 
   return false;
 };
