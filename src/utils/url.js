@@ -30,7 +30,7 @@ export const encodeAsURI = (params: Object): string =>
     .join('&');
 
 export const getFullUrl = (url: string, realm: string): string =>
-  url.startsWith('/') ? `${realm}${url}` : url;
+  !url.startsWith('http') ? `${realm}${url.startsWith('/') ? '' : '/'}${url}` : url;
 
 export const isUrlOnRealm = (url: string, realm: string): boolean =>
   url.startsWith('/') || url.startsWith(realm) || !/^(http|www.)/i.test(url);

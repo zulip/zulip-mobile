@@ -28,6 +28,11 @@ describe('getFullUrl', () => {
     const url = getFullUrl('/img.gif', 'https://example.com');
     expect(url).toEqual('https://example.com/img.gif');
   });
+
+  test('recognize relative uris', () => {
+    const url = getFullUrl('#something', 'https://example.com');
+    expect(url).toEqual('https://example.com/#something');
+  });
 });
 
 describe('getResource', () => {
