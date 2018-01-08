@@ -97,6 +97,7 @@ th, td {
 .avatar {
   min-width: 2.5em;
   width: 2.5em;
+  height: 2.5em;
   margin-right: 0.5em;
 }
 .avatar img {
