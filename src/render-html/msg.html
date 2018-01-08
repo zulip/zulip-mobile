@@ -17,42 +17,43 @@ body {
 a {
   color: #08c;
 }
-blockquote {
-  padding-left: 0.5em;
-  margin: 0.5em 0 0.5em 0;
-  border-left: 3px solid rgba(127, 127, 127, 0.5);
+p {
+  margin: 0;
 }
 code {
   font-size: .857em;
-  background-color: rgba(127, 127, 127, 0.25);
-  border-radius: 3px;
-  border: 1px solid rgba(127, 127, 127, 0.5);
   white-space: pre-wrap;
-  padding: 0 4px;
-  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
-}
-p {
-  margin: 0;
+  padding: 0 0.25em;
+
 }
 pre {
   padding: 0.5em;
   margin: 0;
-  background-color: #f5f5f5;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
+  font-size: 0.75em;
+  overflow: scroll;
+}
+code, pre {
+  border-radius: 3px;
+  border: 1px solid rgba(127, 127, 127, 0.25);
+  background-color: rgba(127, 127, 127, 0.125);
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 }
 table {
   border-collapse: collapse;
 }
 table, th, td {
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(127, 127, 127, 0.25);
 }
 thead {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(127, 127, 127, 0.1);
 }
 th, td {
   align: center;
   padding: 0.25em 0.5em;
+}
+#message-list {
+  max-width: 100%;
+  overflow: hidden;
 }
 .subheader {
   display: flex;
@@ -91,10 +92,12 @@ th, td {
 }
 .message-brief {
   padding-top: 0;
+  margin-left: 3em;
 }
 .avatar {
   min-width: 2.5em;
   width: 2.5em;
+  height: 2.5em;
   margin-right: 0.5em;
 }
 .avatar img {
@@ -102,8 +105,7 @@ th, td {
   border-radius: 4px;
 }
 .content {
-  flex: 1;
-  max-width: calc(100% - 32px - 0.5em);
+  width: 100%;
   word-wrap: break-word;
 }
 .username {
@@ -167,7 +169,7 @@ th, td {
   height: 2.5em;
   margin-right: 0.5em;
   border-radius: 4px;
-  background: #ddd;
+  background: rgba(127, 127, 127, 0.9);
 }
 .loading-content {
   width: 100%;
@@ -177,14 +179,28 @@ th, td {
   justify-content: space-between;
 }
 .loading-content .block {
-  background-color: #eee;
+  background: linear-gradient(
+    to right,
+    rgba(127, 127, 127, 0.5) 0%,
+    rgba(127, 127, 127, 0.5) 40%,
+    rgba(127, 127, 127, 0.25) 51%,
+    rgba(127, 127, 127, 0.5) 60%,
+    rgba(127, 127, 127, 0.5) 100%
+  );
+  background-size: 200% 200%;
+	animation: gradient-scroll 1s linear infinite;
+
   border-radius: 10px;
   height: 8px;
   margin-bottom: 10px;
 }
+@keyframes gradient-scroll {
+	0% { background-position: 100% 50% }
+	100% { background-position: 0 50% }
+}
 .loading-subheader .name {
   width: 120px;
-  background-color: #ddd;
+  background-color: rgba(127, 127, 127, 0.9);
 }
 .loading-subheader .timestamp {
   width: 60px;
@@ -212,6 +228,11 @@ th, td {
   // height: 100px;
   max-width: 50vw;
   max-height: 50vh;
+}
+blockquote {
+  padding-left: 0.5em;
+  margin: 0.5em 0 0.5em 0;
+  border-left: 3px solid rgba(127, 127, 127, 0.5);
 }
 ul {
   padding-left: 1em;
@@ -296,16 +317,12 @@ ul {
 #message-loading {
   opacity: 0.25;
 }
-
-
-body {
-  color: #d5d9dd;
-  background: #212D3B;
+#js-error {
+  background: red;
+  color: white;
+  font-size: 10px;
 }
 
-.topic-text {
-  background: #54606E;
-}
 
 .emoji-2049:before { content: '⁉'; }
 .emoji-2122:before { content: '™'; }
@@ -1323,183 +1340,8 @@ body {
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <body>
+  <div id="js-error"></div>
   <div id="spinner-older" class="hidden loading-spinner"></div>
-  <div id="message-list">
-  <div class="timerow" data-msg-id="20717">
-    <div class="timerow-left"></div>
-    Nov 11, 2017
-    <div class="timerow-right"></div>
-  </div>
-
-      <div class="header-wrapper stream-header" data-msg-id="20717">
-        <div class="header stream-text" style="background: #b0a5fd" data-narrow="[{'operator':'stream','operand':'trac'}]">
-          trac
-        </div>
-        <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'trac'},{'operator':'topic','operand':'#24193: p-adic factoring bug'}]">
-          #24193: p-adic factoring bug
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-20717" data-msg-id="20717">
-    <div class="avatar">
-      <img src="https://zulip.sagemath.org/user_avatars/2/adf08385906f500e055d2ca657e54529b4537f37.png?x=x&version=1" class="avatar-img" data-email="trac-bot@zulip.sagemath.org">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Sage Trac Bot
-        </div>
-        <div class="timestamp">
-          2:02 AM
-        </div>
-      </div>
-      <p>roed updated <a href="https://trac.sagemath.org/ticket/24193" target="_blank" title="https://trac.sagemath.org/ticket/24193">#24193</a> (New) with comment: </p>
-<blockquote>
-<p>So, I can replicate this in GP, but I think the problem is that pari doesn't try to handle the precision issues that arise in factoring.  This polynomial is not squarefree, so small perturbations of the coefficients will yield polynomials with different factorization patterns.  Note the following excerpt from the documentation for pari's <code>factorpadic</code>:<br>
-{{{<br>
-If pol has inexact t_PADIC coefficients, this is not always well-defined;<br>
-in this case, the polynomial is first made integral by dividing out the<br>
-p-adic content, then lifted to ℤ using truncate coefficientwise. Hence<br>
-we actually factor exactly a polynomial which is only p-adically close<br>
-to the input. To avoid pitfalls, we advise to only factor polynomials<br>
-with exact rational coefficients.<br>
-}}}<br>
-<a href="https://pari.math.u-bordeaux.fr/dochtml/html/Polynomials_and_power_series.html" target="_blank" title="https://pari.math.u-bordeaux.fr/dochtml/html/Polynomials_and_power_series.html">https://pari.math.u-bordeaux.fr/dochtml/html/Polynomials_and_power_series.html</a></p>
-<p>I think the solution is to implement the reduction to squarefree factorization in Sage.</p>
-</blockquote>
-
-
-    </div>
-  </div>
-
-      <div class="header-wrapper stream-header" data-msg-id="20719">
-        <div class="header stream-text" style="background: #b0a5fd" data-narrow="[{'operator':'stream','operand':'trac'}]">
-          trac
-        </div>
-        <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'trac'},{'operator':'topic','operand':'#23696: Update matplotlib to 2.1.0'}]">
-          #23696: Update matplotlib to 2.1.0
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-20719" data-msg-id="20719">
-    <div class="avatar">
-      <img src="https://zulip.sagemath.org/user_avatars/2/adf08385906f500e055d2ca657e54529b4537f37.png?x=x&version=1" class="avatar-img" data-email="trac-bot@zulip.sagemath.org">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Sage Trac Bot
-        </div>
-        <div class="timestamp">
-          2:13 AM
-        </div>
-      </div>
-      <p>strogdon updated <a href="https://trac.sagemath.org/ticket/23696" target="_blank" title="https://trac.sagemath.org/ticket/23696">#23696</a> (Needs work) with comment: </p>
-<blockquote>
-<p>To deal with <code>delaunay</code> we could always taint MPL-2.1.0 (or have an optional package) with the <code>delaunay</code> stuff from MPL-2.0.2. I have tried this and it works. But yet another item to maintain.</p>
-</blockquote>
-
-
-    </div>
-  </div>
-
-      <div class="header-wrapper stream-header" data-msg-id="20721">
-        <div class="header stream-text" style="background: #b0a5fd" data-narrow="[{'operator':'stream','operand':'trac'}]">
-          trac
-        </div>
-        <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'trac'},{'operator':'topic','operand':'#24191: fpylll broken on Cygwin, again'}]">
-          #24191: fpylll broken on Cygwin, again
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-20721" data-msg-id="20721">
-    <div class="avatar">
-      <img src="https://zulip.sagemath.org/user_avatars/2/adf08385906f500e055d2ca657e54529b4537f37.png?x=x&version=1" class="avatar-img" data-email="trac-bot@zulip.sagemath.org">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Sage Trac Bot
-        </div>
-        <div class="timestamp">
-          6:01 AM
-        </div>
-      </div>
-      <p>tscrim updated <a href="https://trac.sagemath.org/ticket/24191" target="_blank" title="https://trac.sagemath.org/ticket/24191">#24191</a> (Positive review) with comment: </p>
-<blockquote>
-<p>Makes sense and LGTM.</p>
-</blockquote>
-<p>status: <strong>needs_review</strong> =&gt; <strong>positive_review</strong>, reviewer: =&gt; <strong>Travis Scrimshaw</strong></p>
-
-
-    </div>
-  </div>
-
-      <div class="header-wrapper stream-header" data-msg-id="20723">
-        <div class="header stream-text" style="background: #b0a5fd" data-narrow="[{'operator':'stream','operand':'trac'}]">
-          trac
-        </div>
-        <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'trac'},{'operator':'topic','operand':'#24192: -std=c99 causes numerous problems on Cygwin'}]">
-          #24192: -std=c99 causes numerous problems on Cygwin
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-20723" data-msg-id="20723">
-    <div class="avatar">
-      <img src="https://zulip.sagemath.org/user_avatars/2/adf08385906f500e055d2ca657e54529b4537f37.png?x=x&version=1" class="avatar-img" data-email="trac-bot@zulip.sagemath.org">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Sage Trac Bot
-        </div>
-        <div class="timestamp">
-          6:04 AM
-        </div>
-      </div>
-      <p>tscrim updated <a href="https://trac.sagemath.org/ticket/24192" target="_blank" title="https://trac.sagemath.org/ticket/24192">#24192</a> (Needs review) with comment: </p>
-<blockquote>
-<p>Do you mean <code>sys.platform != 'cygwin'</code>?</p>
-</blockquote>
-
-
-    </div>
-  </div>
-
-      <div class="header-wrapper stream-header" data-msg-id="20725">
-        <div class="header stream-text" style="background: #b0a5fd" data-narrow="[{'operator':'stream','operand':'trac'}]">
-          trac
-        </div>
-        <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'trac'},{'operator':'topic','operand':'#24189: Python 2 libpython symlink not created correctly ...'}]">
-          #24189: Python 2 libpython symlink not created correctly ...
-        </div>
-      </div>
-
-  <div class="message message-full" id="msg-20725" data-msg-id="20725">
-    <div class="avatar">
-      <img src="https://zulip.sagemath.org/user_avatars/2/adf08385906f500e055d2ca657e54529b4537f37.png?x=x&version=1" class="avatar-img" data-email="trac-bot@zulip.sagemath.org">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          Sage Trac Bot
-        </div>
-        <div class="timestamp">
-          6:10 AM
-        </div>
-      </div>
-      <p>tscrim updated <a href="https://trac.sagemath.org/ticket/24189" target="_blank" title="https://trac.sagemath.org/ticket/24189">#24189</a> (Needs review) with comment: </p>
-<blockquote>
-<p>Is your fpylll build fixed by <a href="https://trac.sagemath.org/ticket/24191" target="_blank" title="https://trac.sagemath.org/ticket/24191">#24191</a>?</p>
-</blockquote>
-
-
-    </div>
-  </div>
-</div>
-  <div id="message-loading" class="hidden">
-
-<div id="message-loading">
 
   <div class="message">
     <div class="loading-avatar"></div>
@@ -1512,6 +1354,527 @@ with exact rational coefficients.<br>
       <div class="block"></div>
     </div>
   </div>
+
+  <div id="message-list">
+  <div class="timerow" data-msg-id="420354">
+    <div class="timerow-left"></div>
+    Jan 2
+    <div class="timerow-right"></div>
+  </div>
+
+  <div class="message message-full" id="msg-420354" data-msg-id="420354">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/7ce437ee13d709a2970e3c90827a8721dfd27759.png?x=x&version=2" class="avatar-img" data-email="adi.bansal241996@gmail.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Aditya Bansal
+        </div>
+        <div class="timestamp">
+          5:09 PM
+        </div>
+      </div>
+      <div class="codehilite"><pre><span></span>real    0m0.804s
+user    0m0.788s
+sys         0m0.012s
+</pre></div>
+
+
+<p>Above is the time to import the dateparser lib which should be one time I guess.</p>
+<div class="codehilite"><pre><span></span>real    0m2.502s
+user    0m2.448s
+sys         0m0.044s
+</pre></div>
+
+
+<p>Above is the time of running dateparser's parse function 1000 times. Above also includes the time to import the lib.<br>
+These were generated / measured using </p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">dateparser</span> <span class="kn">import</span> <span class="n">parse</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">):</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;on 12th may at 12 pm&#39;</span><span class="p">))</span>
+</pre></div>
+
+    <div class="message-tags">
+
+      <span class="message-tag">starred</span>
+
+    </div>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-420483" data-msg-id="420483">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Steve Howell
+        </div>
+        <div class="timestamp">
+          6:40 PM
+        </div>
+      </div>
+      <p>I think your parsing methodology is probably sound and fast enough, but we probably still need <span class="user-mention" data-user-email="rishig@zulipchat.com" data-user-id="131">@Rishi Gupta</span> to clarify the user experience here.  If we're going to have a datepicker widget, then it might be possible to have a more "standard" time representation in the message.</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-420645" data-msg-id="420645">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Rishi Gupta
+        </div>
+        <div class="timestamp">
+          7:21 PM
+        </div>
+      </div>
+      <p>I think for a V1 and possibly even long term we should just require the message starting on a new line. So</p>
+<div class="codehilite"><pre><span></span>\remind date and time string
+message starts here
+</pre></div>
+
+    <div class="message-tags">
+      <span class="message-tag">edited 6 days ago</span>
+
+
+    </div>
+
+
+    </div>
+  </div>
+
+  <div class="message message-brief" id="msg-420647" data-msg-id="420647">
+    <div class="content">
+      <p>If we do eventually allow not putting a newline, I think your suggestion is a good one.</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-420648" data-msg-id="420648">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Steve Howell
+        </div>
+        <div class="timestamp">
+          7:23 PM
+        </div>
+      </div>
+      <p>I like that idea.  We'll want to think about how compose-preview shows those, by the way.</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-420665" data-msg-id="420665">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Rishi Gupta
+        </div>
+        <div class="timestamp">
+          7:30 PM
+        </div>
+      </div>
+      <p>yeah, agreed that would be a slick addition. For this V1 I think we can just preview it without the /remind line.</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-420669" data-msg-id="420669">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/7ce437ee13d709a2970e3c90827a8721dfd27759.png?x=x&version=2" class="avatar-img" data-email="adi.bansal241996@gmail.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Aditya Bansal
+        </div>
+        <div class="timestamp">
+          7:32 PM
+        </div>
+      </div>
+      <p>maybe we can add some stuff like for preview. we can actually parses the date and shows when it is expected to be delivered somewhere in the compose box</p>
+
+    <div class="message-tags">
+      <span class="message-tag">edited 6 days ago</span>
+
+
+    </div>
+
+
+    </div>
+  </div>
+
+  <div class="message message-brief" id="msg-420674" data-msg-id="420674">
+    <div class="content">
+      <p>and if we are doing a newline before the message, that simplifies the situation a lot. Though "without the new line" could probably be done as I explained.</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-brief" id="msg-420676" data-msg-id="420676">
+    <div class="content">
+      <p>another thing is should I add the <code>dateparser</code> lib as dependency? We can parse with <code>dateutil.parser</code> as well but thing is <code>dateparser</code> is much more flexible. <br>
+Things like 'on 12th may at 12 pm' will be recognised by <code>dateparser</code> but not <code>dateutil.parser</code></p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-brief" id="msg-420677" data-msg-id="420677">
+    <div class="content">
+      <p>I feel adding this lib should add more realistic typing experience for the user.</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-brief" id="msg-420679" data-msg-id="420679">
+    <div class="content">
+      <p>oops, what I mean to say is. I have currently used that lib in the PR. Didn't add it as a dependancy. Forgot about it but should I keep it or change it.</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-420694" data-msg-id="420694">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Rishi Gupta
+        </div>
+        <div class="timestamp">
+          7:55 PM
+        </div>
+      </div>
+      <p>interesting. I assume we only use dateutil for its parse function, so maybe this means we should replace dateutil with dateparser everywhere it is used? That being said dateutil.parser should be able to recognize things like "on 12th may at 12 pm"; is there something else that dateparser can do that dateutil cannot (or does better?).</p>
+
+    <div class="message-tags">
+      <span class="message-tag">edited 6 days ago</span>
+
+
+    </div>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-420698" data-msg-id="420698">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/7ce437ee13d709a2970e3c90827a8721dfd27759.png?x=x&version=2" class="avatar-img" data-email="adi.bansal241996@gmail.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Aditya Bansal
+        </div>
+        <div class="timestamp">
+          7:58 PM
+        </div>
+      </div>
+      <p>I don't think dateutil.parser does recognise that string. Let me try it out again. But last I tried out I don't think it did recognise it</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-brief" id="msg-420699" data-msg-id="420699">
+    <div class="content">
+      <p>ohk it does recognise it</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-brief" id="msg-420700" data-msg-id="420700">
+    <div class="content">
+      <p>let me find the examples again which I tried on</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-brief" id="msg-420843" data-msg-id="420843">
+    <div class="content">
+      <p>Some examples can be these </p>
+<div class="codehilite"><pre><span></span>&gt;&gt;&gt; parse(&#39;tomorrow&#39;)
+datetime.datetime(2018, 1, 3, 19, 26, 5, 807763)
+&gt;&gt;&gt; parse(&#39;next week&#39;)
+datetime.datetime(2018, 1, 9, 19, 26, 49, 251024)
+&gt;&gt;&gt; parse(&#39;at 2 pm next week&#39;)
+datetime.datetime(2018, 1, 9, 14, 0)
+&gt;&gt;&gt; parse(&#39;at 2 pm next week ist&#39;)
+datetime.datetime(2018, 1, 9, 22, 42, 32, 609752, tzinfo=&lt;StaticTzInfo &#39;IST&#39;&gt;)
+</pre></div>
+
+
+<p>Of course dateparser also doesn't work in all the cases. I don't think it is NLP powered to do majority of the cases (Of course nlp also misses out sometimes).<br>
+Though still I am unable to recall what cases which were common worked on dateparser but not on dateutil.</p>
+
+    <div class="message-tags">
+      <span class="message-tag">edited 6 days ago</span>
+      <span class="message-tag">starred</span>
+
+    </div>
+
+
+    </div>
+  </div>
+
+  <div class="message message-brief" id="msg-421023" data-msg-id="421023">
+    <div class="content">
+      <p>oh I forgot to mention about inter language support in dateparser.<br>
+<a href="http://dateparser.readthedocs.io/en/latest/#supported-languages" target="_blank" title="http://dateparser.readthedocs.io/en/latest/#supported-languages">http://dateparser.readthedocs.io/en/latest/#supported-languages</a><br>
+I don't know how much it is effective but they list it.</p>
+
+
+    </div>
+  </div>
+
+  <div class="timerow" data-msg-id="427144">
+    <div class="timerow-left"></div>
+    Jan 5
+    <div class="timerow-right"></div>
+  </div>
+
+  <div class="message message-full" id="msg-427144" data-msg-id="427144">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/7ce437ee13d709a2970e3c90827a8721dfd27759.png?x=x&version=2" class="avatar-img" data-email="adi.bansal241996@gmail.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Aditya Bansal
+        </div>
+        <div class="timestamp">
+          3:55 PM
+        </div>
+      </div>
+      <p>I got another use case for using this library. So if we try parsing <code>in 20 mins</code> with <code>dateparser</code> lib and <code>dateutil.parser</code> <br>
+dateparser would give a datetime object 20 mins in future while dateutil.parser will just raise an exception saying <code>Unknown String Format</code>. What I want to say is dateparser is advanced in respect to parsing dates in quite some respects than dateutil.</p>
+
+
+    <div class="reaction-list">
+
+  <span onClick="" class="reaction" data-name="thumbs_up">
+    👍 1
+  </span>
+
+    </div>
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-427769" data-msg-id="427769">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Rishi Gupta
+        </div>
+        <div class="timestamp">
+          7:57 PM
+        </div>
+      </div>
+      <p>after a cursory investigation:</p>
+<ul>
+<li>It does seem like dateparser is substantially more powerful in the areas that we care about</li>
+<li>dateutil is actively maintained, whereas dateparser seems like it mostly isn't. That being said the issues being filed against dateparser seem relatively minor. </li>
+</ul>
+<p>dateparser: <a href="https://github.com/scrapinghub/dateparser" target="_blank" title="https://github.com/scrapinghub/dateparser">https://github.com/scrapinghub/dateparser</a><br>
+dateutil: <a href="https://github.com/dateutil/dateutil" target="_blank" title="https://github.com/dateutil/dateutil">https://github.com/dateutil/dateutil</a></p>
+<p>Am leaning towards dateparser, but would be curious for a few more opinions.</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-427808" data-msg-id="427808">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Steve Howell
+        </div>
+        <div class="timestamp">
+          8:10 PM
+        </div>
+      </div>
+      <p>I think "actively maintained" can be an overrated criterion for certain types of libraries.  It's possible that <code>dateparser</code> just works.</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-427810" data-msg-id="427810">
+    <div class="avatar">
+      <img src="https://secure.gravatar.com/avatar/6cddfa993163e9fc1a2e6fba076ccf43?d=identicon&version=1" class="avatar-img" data-email="oktaya@gmail.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Oktay X
+        </div>
+        <div class="timestamp">
+          8:11 PM
+        </div>
+      </div>
+      <p>I agree. A lot of open source software is "feature complete".</p>
+
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-427834" data-msg-id="427834">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/7ce437ee13d709a2970e3c90827a8721dfd27759.png?x=x&version=2" class="avatar-img" data-email="adi.bansal241996@gmail.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Aditya Bansal
+        </div>
+        <div class="timestamp">
+          8:19 PM
+        </div>
+      </div>
+      <p>So actually dateparser is a bit powerful since scrappinghub developed it for some of there general purpose web crawlers that had to face lots of time stamps (in various forms like '1 min ago' and things like that).</p>
+
+
+    </div>
+  </div>
+
+  <div class="timerow" data-msg-id="431762">
+    <div class="timerow-left"></div>
+    Yesterday
+    <div class="timerow-right"></div>
+  </div>
+
+  <div class="message message-full" id="msg-431762" data-msg-id="431762">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/7ce437ee13d709a2970e3c90827a8721dfd27759.png?x=x&version=2" class="avatar-img" data-email="adi.bansal241996@gmail.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Aditya Bansal
+        </div>
+        <div class="timestamp">
+          11:53 PM
+        </div>
+      </div>
+      <p>do we wanna keep delivered messages that were once scheduled in the ScheduledMessage table?</p>
+
+
+    </div>
+  </div>
+
+  <div class="timerow" data-msg-id="431868">
+    <div class="timerow-left"></div>
+    Today
+    <div class="timerow-right"></div>
+  </div>
+
+  <div class="message message-full" id="msg-431868" data-msg-id="431868">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Steve Howell
+        </div>
+        <div class="timestamp">
+          12:13 AM
+        </div>
+      </div>
+      <p>probably</p>
+
+
+    <div class="reaction-list">
+
+  <span onClick="" class="reaction" data-name="thumbs_up">
+    👍 1
+  </span>
+
+    </div>
+
+    </div>
+  </div>
+
+  <div class="message message-full" id="msg-433454" data-msg-id="433454">
+    <div class="avatar">
+      <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
+    </div>
+    <div class="content">
+      <div class="subheader">
+        <div class="username">
+          Rishi Gupta
+        </div>
+        <div class="timestamp">
+          6:47 PM
+        </div>
+      </div>
+      <p>we can just log them, if we're worried about debugging. But either way is fine, I think.</p>
+
+    <div class="message-tags">
+      <span class="message-tag">edited about 2 hours ago</span>
+
+
+    </div>
+
+
+    <div class="reaction-list">
+
+  <span onClick="" class="reaction" data-name="thumbs_up">
+    👍 1
+  </span>
+
+    </div>
+
+    </div>
+  </div>
+</div>
+<div id="message-loading" class="hidden">
+  <div class="message">
+    <div class="loading-avatar"></div>
+    <div class="loading-content">
+      <div class="loading-subheader">
+        <div class="block name"></div>
+        <div class="block timestamp"></div>
+      </div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </div>
+</div>
 
 
   <div class="message">
@@ -1643,7 +2006,8 @@ with exact rational coefficients.<br>
 
 window.onerror = function (message, source, line, column, error) {
   var obj = JSON.stringify(error);
-  alert('Message: ' + message + ' Source: ' + source + ' Line: ' + line + ' Column: ' + column + ' Error: ' + obj);
+  var errorStr = ['Message: ' + message + '<br>', 'Line: ' + line + ':' + column + '<br>', 'Error: ' + obj + '<br>'].join('');
+  document.getElementById('js-error').innerHTML = errorStr;
 
   return false;
 };
@@ -1674,6 +2038,28 @@ var getMessageNode = function getMessageNode(node) {
 var getMessageIdFromNode = function getMessageIdFromNode(node) {
   var msgNode = getMessageNode(node);
   return msgNode && msgNode.getAttribute('data-msg-id');
+};
+
+var animatedScrollTo = function animatedScrollTo(element, to, duration) {
+  if (duration <= 0) return;
+  var difference = to - element.scrollTop;
+  var perTick = difference / duration * 10;
+
+  setTimeout(function () {
+    element.scrollTop += perTick;
+    if (element.scrollTop === to) return;
+    scrollTo(element, to, duration - 10);
+  }, 10);
+};
+
+var animatedScrollBy = function animatedScrollBy(element, by, duration) {
+  var step = by / (duration / 16);
+  var cur = Math.abs(by);
+  var interval = setInterval(function () {
+    cur -= step;
+    window.scrollBy(0, step);
+    if (cur <= 0) clearInterval(interval);
+  }, 16);
 };
 
 var scrollToBottom = function scrollToBottom() {
