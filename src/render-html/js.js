@@ -1,12 +1,10 @@
 window.onerror = (message, source, line, column, error) => {
   const obj = JSON.stringify(error);
-  const errorStr = `
-<pre>
-Message: ${message}
-Source: ${source}
-Line: ${line}:${column}
-Error: ${obj}
-</pre>`;
+  const errorStr = [
+    `Message: ${message}<br>`,
+    `Line: ${line}:${column}<br>`,
+    `Error: ${obj}<br>`,
+  ].join('');
   document.getElementById('js-error').innerHTML = errorStr;
 
   return false;
@@ -47,7 +45,7 @@ const getMessageIdFromNode = node => {
   return msgNode && msgNode.getAttribute('data-msg-id');
 };
 
-const scrollTo = (element, to, duration) => {
+const animatedScrollTo = (element, to, duration) => {
   if (duration <= 0) return;
   const difference = to - element.scrollTop;
   const perTick = difference / duration * 10;

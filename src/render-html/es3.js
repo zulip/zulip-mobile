@@ -3,7 +3,7 @@ export default `
 
 window.onerror = function (message, source, line, column, error) {
   var obj = JSON.stringify(error);
-  var errorStr = '\n<pre>\nMessage: ' + message + '\nSource: ' + source + '\nLine: ' + line + ':' + column + '\nError: ' + obj + '\n</pre>';
+  var errorStr = ['Message: ' + message + '<br>', 'Line: ' + line + ':' + column + '<br>', 'Error: ' + obj + '<br>'].join('');
   document.getElementById('js-error').innerHTML = errorStr;
 
   return false;
@@ -37,7 +37,7 @@ var getMessageIdFromNode = function getMessageIdFromNode(node) {
   return msgNode && msgNode.getAttribute('data-msg-id');
 };
 
-var scrollTo = function scrollTo(element, to, duration) {
+var animatedScrollTo = function animatedScrollTo(element, to, duration) {
   if (duration <= 0) return;
   var difference = to - element.scrollTop;
   var perTick = difference / duration * 10;
