@@ -1,4 +1,4 @@
 /* @flow */
-import { Linking } from 'react-native';
+import SafariView from 'react-native-safari-view';
 
-export default (url: string) => Linking.openURL(url);
+export default (url: string) => SafariView.show({ url });
