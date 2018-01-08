@@ -53,7 +53,7 @@ const animatedScrollTo = (element, to, duration) => {
   setTimeout(() => {
     element.scrollTop += perTick;
     if (element.scrollTop === to) return;
-    scrollTo(element, to, duration - 10);
+    window.scrollTo(element, to, duration - 10);
   }, 10);
 };
 

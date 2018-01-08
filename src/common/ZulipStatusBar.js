@@ -31,15 +31,22 @@ class ZulipStatusBar extends PureComponent<Props> {
   };
 
   render() {
-    const { theme, backgroundColor, textColor, hidden, barStyle, safeAreaInsets,
-            orientation } = this.props;
+    const {
+      theme,
+      backgroundColor,
+      textColor,
+      hidden,
+      barStyle,
+      safeAreaInsets,
+      orientation,
+    } = this.props;
     const style = { height: hidden ? 0 : safeAreaInsets.top, backgroundColor };
     const statusBarStyle = !barStyle
       ? getStatusBarStyle(backgroundColor, textColor, theme)
       : barStyle;
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
-      orientation === 'PORTRAIT' &&
+      orientation === 'PORTRAIT' && (
         <View style={style}>
           <StatusBar
             animated
@@ -49,6 +56,7 @@ class ZulipStatusBar extends PureComponent<Props> {
             barStyle={statusBarStyle}
           />
         </View>
+      )
     );
   }
 }
