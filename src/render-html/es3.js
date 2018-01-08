@@ -45,7 +45,7 @@ var animatedScrollTo = function animatedScrollTo(element, to, duration) {
   setTimeout(function () {
     element.scrollTop += perTick;
     if (element.scrollTop === to) return;
-    scrollTo(element, to, duration - 10);
+    window.scrollTo(element, to, duration - 10);
   }, 10);
 };
 
@@ -95,12 +95,18 @@ document.addEventListener('message', function (e) {
       break;
     case 'content':
       {
-        var prevPosition = documentBody.scrollTop;
-        elementMessageList.innerHTML = msg.content;
         if (msg.anchor) {
+          elementMessageList.innerHTML = msg.content;
           scrollToAnchor(msg.anchor);
         } else {
-          documentBody.scrollTop = prevPosition;
+          var element = document.elementFromPoint(200, 20);
+          var prevId = element.id;
+          var prevBoundRect = element.getBoundingClientRect();
+          // const prevPosition = documentBody.scrollTop;
+          elementMessageList.innerHTML = msg.content;
+          var newElement = document.getElementById(prevId);
+          var newBoundRect = element.getBoundingClientRect(newElement);
+          window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
         }
         break;
       }
