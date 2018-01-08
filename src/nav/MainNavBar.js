@@ -22,6 +22,7 @@ type Props = {
   backgroundColor: string,
   unreadMentionsTotal: number,
   onPressStreams: () => void,
+  orientation: string,
 };
 
 class MainNavBar extends PureComponent<Props> {
@@ -40,12 +41,14 @@ class MainNavBar extends PureComponent<Props> {
       unreadMentionsTotal,
       onPressStreams,
       editMessage,
+      orientation,
     } = this.props;
 
     const leftPress = editMessage ? actions.cancelEditMessage : onPressStreams;
+    const navBarStyle = orientation === 'PORTRAIT' ? styles.navBar : styles.navBarLandscape;
 
     return (
-      <View style={[styles.navBar, { backgroundColor }]}>
+      <View style={[navBarStyle, { backgroundColor }]}>
         <NavButton
           name={editMessage ? 'arrow-left' : 'menu'}
           color={textColor}
@@ -66,4 +69,5 @@ export default connectWithActions(state => ({
   unreadMentionsTotal: getUnreadMentionsTotal(state),
   unreadPmsTotal: getUnreadPmsTotal(state),
   editMessage: state.app.editMessage,
+  orientation: state.app.orientation,
 }))(MainNavBar);
