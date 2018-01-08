@@ -306,6 +306,7 @@ ul {
 #js-error {
   background: red;
   color: white;
+  font-size: 10px;
 }
 `;
 
