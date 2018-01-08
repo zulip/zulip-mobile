@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { WebView } from 'react-native';
 
-import type { WebViewNavigationState } from '../types';
 import type { Props } from '../message/MessageListContainer';
 import getHtml from '../render-html/html';
 import renderMessagesAsHtml from '../render-html/renderMessagesAsHtml';
@@ -28,16 +27,6 @@ export default class MessageListWeb extends Component<Props> {
 
   handleError = (event: Object) => {
     console.error(event); // eslint-disable-line
-  };
-
-  handleNavigationStateChange = (navigator: WebViewNavigationState) => {
-    const { url } = navigator;
-    if (!url.startsWith('data:')) {
-      // $FlowFixMe
-      this.webview.stopLoading();
-      return false;
-    }
-    return true;
   };
 
   sendMessage = (msg: Object) => {
@@ -76,7 +65,6 @@ export default class MessageListWeb extends Component<Props> {
         }}
         onMessage={this.handleMessage}
         onError={this.handleError}
-        onNavigationStateChange={this.handleNavigationStateChange}
       />
     );
   }

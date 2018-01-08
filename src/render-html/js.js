@@ -177,6 +177,7 @@ documentBody.addEventListener('click', e => {
       href: e.target.getAttribute('href'),
       messageId: +getMessageIdFromNode(e.target),
     });
+    e.preventDefault();
   }
 
   if (e.target.matches('.reaction')) {
@@ -187,6 +188,4 @@ documentBody.addEventListener('click', e => {
       voted: e.target.classList.contains('self-voted'),
     });
   }
-
-  return false;
 });
