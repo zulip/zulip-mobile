@@ -10,7 +10,7 @@ export default (flags: Object, timeEdited?: number, isOutbox: boolean) => {
   return `
 <div class="message-tags">
   ${timeEdited ? `<span class="message-tag">edited ${editedTime} ago</span>` : ''}
-  ${flags.indexOf('starred') > -1} ? '<span class="message-tag">starred</span>' : ''}
+  ${flags.indexOf('starred') > -1 ? '<span class="message-tag">starred</span>' : ''}
   ${isOutbox ? '<span class="activity-indicator" /span>' : ''}
 </div>
   `;
