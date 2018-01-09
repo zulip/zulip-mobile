@@ -105,12 +105,18 @@ document.addEventListener('message', e => {
       scrollToBottom();
       break;
     case 'content': {
-      const prevPosition = documentBody.scrollTop;
-      elementMessageList.innerHTML = msg.content;
       if (msg.anchor) {
+        elementMessageList.innerHTML = msg.content;
         scrollToAnchor(msg.anchor);
       } else {
-        documentBody.scrollTop = prevPosition;
+        const element = document.elementFromPoint(200, 20);
+        const prevId = element.id;
+        const prevBoundRect = element.getBoundingClientRect();
+        // const prevPosition = documentBody.scrollTop;
+        elementMessageList.innerHTML = msg.content;
+        const newElement = document.getElementById(prevId);
+        const newBoundRect = element.getBoundingClientRect(newElement);
+        window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
       }
       break;
     }
