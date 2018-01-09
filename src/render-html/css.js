@@ -309,12 +309,12 @@ ul {
 }
 .emoji {
   display: inline-block;
-  height: 22px;
-  width: 22px;
+  height: 18px;
+  width: 18px;
   white-space: nowrap;
   color: transparent;
-  font-size: 20px;
-  overflow: hidden;
+  vertical-align: middle;
+  transform: scale(1.2);
 }
 .emoji:before {
   color: white;
