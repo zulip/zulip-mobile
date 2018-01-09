@@ -3,9 +3,12 @@ import messageTagsAsHtml from './messageTagsAsHtml';
 import messageReactionListAsHtml from './messageReactionListAsHtml';
 
 const messageDiv = (id, msgClass, flags) =>
-  `<div class="message ${msgClass}" id="msg-${id}" data-msg-id="${id}" data-mentioned="${flags.indexOf(
-    'mentioned',
-  ) > -1}">`;
+  `<div
+     class="message ${msgClass}"
+     id="msg-${id}"
+     data-msg-id="${id}"
+     ${flags.map(flag => `data-${flag}="true" `).join('')}
+    >`;
 
 const briefMessageAsHtml = ({ id, content, flags, timeEdited, isOutbox, reactions, ownEmail }) => `
 ${messageDiv(id, 'message-brief', flags)}

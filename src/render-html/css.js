@@ -155,8 +155,11 @@ th, td {
   white-space: nowrap;
   background: #ccc;
 }
-[data-mentioned="true"] {
+[data-mentioned="true"], [data-wildcard_mentioned="true"] {
   background: rgba(255, 0, 0, 0.05);
+}
+.message:not([data-read="true"]) {
+  background: red !important;
 }
 .arrow-right {
   width: 0;
