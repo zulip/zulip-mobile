@@ -10,12 +10,16 @@ const briefMessageAsHtml = ({
   isStarred,
   reactions,
   ownEmail,
+  isMentioned,
 }) => `
-  <div class="message message-brief" id="msg-${id}" data-msg-id="${id}">
-    <div class="content">
-      ${content}
-      ${messageTagsAsHtml(timeEdited, isOutbox, isStarred)}
-      ${messageReactionListAsHtml(reactions, id, ownEmail)}
+  <div
+    class="message message-brief
+    id="msg-${id}" data-msg-id="${id}"
+    data-mentioned="${isMentioned}">
+      <div class="content">
+        ${content}
+        ${messageTagsAsHtml(timeEdited, isOutbox, isStarred)}
+        ${messageReactionListAsHtml(reactions, id, ownEmail)}
     </div>
   </div>
 `;
@@ -33,23 +37,26 @@ const fullMessageAsHtml = ({
   isStarred,
   reactions,
   ownEmail,
+  isMentioned,
 }) => `
-  <div class="message message-full" id="msg-${id}" data-msg-id="${id}">
-    <div class="avatar">
-      <img src="${avatarUrl}" class="avatar-img" data-email="${fromEmail}">
-    </div>
-    <div class="content">
-      <div class="subheader">
-        <div class="username">
-          ${fromName}
-        </div>
-        <div class="timestamp">
-          ${shortTime(timestamp * 1000, twentyFourHourTime)}
-        </div>
+  <div class="message message-full"
+    id="msg-${id}" data-msg-id="${id}"
+    data-mentioned="${isMentioned}">
+      <div class="avatar">
+        <img src="${avatarUrl}" class="avatar-img" data-email="${fromEmail}">
       </div>
-      ${content}
-      ${messageTagsAsHtml(timeEdited, isOutbox, isStarred)}
-      ${messageReactionListAsHtml(reactions, id, ownEmail)}
+      <div class="content">
+        <div class="subheader">
+          <div class="username">
+            ${fromName}
+          </div>
+          <div class="timestamp">
+            ${shortTime(timestamp * 1000, twentyFourHourTime)}
+          </div>
+        </div>
+        ${content}
+        ${messageTagsAsHtml(timeEdited, isOutbox, isStarred)}
+        ${messageReactionListAsHtml(reactions, id, ownEmail)}
     </div>
   </div>
 `;
