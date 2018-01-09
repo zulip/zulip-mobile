@@ -2,10 +2,11 @@ import { shortTime } from '../utils/date';
 import messageTagsAsHtml from './messageTagsAsHtml';
 import messageReactionListAsHtml from './messageReactionListAsHtml';
 
-const messageDiv = (id, msgClass, flags) =>
-  `<div class="message ${msgClass}" id="msg-${id}" data-msg-id="${id}" data-mentioned="${flags.indexOf(
-    'mentioned',
-  ) > -1}">`;
+const messageDiv = (id, msgClass, flags) => {
+  const isMentioned = flags.indexOf('mentioned') > -1 || flags.indexOf('wildcard_mentioned') > -1;
+
+  return `<div class="message ${msgClass}" id="msg-${id}" data-msg-id="${id}" data-mentioned="${isMentioned}">`;
+};
 
 const briefMessageAsHtml = ({ id, content, flags, timeEdited, isOutbox, reactions, ownEmail }) => `
 ${messageDiv(id, 'message-brief', flags)}
