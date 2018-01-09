@@ -34,12 +34,14 @@ code {
 }
 pre {
   padding: 0.5em;
-  margin: 0;
+  margin: 0.5em 0;
+  font-size: 0.75em;
+  overflow: scroll;
 }
 code, pre {
   border-radius: 3px;
-  border: 1px solid rgba(127, 127, 127, 0.5);
-  background-color: rgba(127, 127, 127, 0.25);
+  border: 1px solid rgba(127, 127, 127, 0.25);
+  background-color: rgba(127, 127, 127, 0.125);
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 }
 table {
@@ -54,6 +56,10 @@ thead {
 th, td {
   align: center;
   padding: 0.25em 0.5em;
+}
+#message-list {
+  max-width: 100%;
+  overflow: hidden;
 }
 .subheader {
   display: flex;
@@ -105,8 +111,7 @@ th, td {
   border-radius: 4px;
 }
 .content {
-  flex: 1;
-  max-width: calc(100% - 32px - 0.5em);
+  width: 100%;
   word-wrap: break-word;
 }
 .username {
@@ -180,10 +185,24 @@ th, td {
   justify-content: space-between;
 }
 .loading-content .block {
-  background-color: rgba(127, 127, 127, 0.75);
+  background: linear-gradient(
+    to right,
+    rgba(127, 127, 127, 0.5) 0%,
+    rgba(127, 127, 127, 0.5) 40%,
+    rgba(127, 127, 127, 0.25) 51%,
+    rgba(127, 127, 127, 0.5) 60%,
+    rgba(127, 127, 127, 0.5) 100%
+  );
+  background-size: 200% 200%;
+	animation: gradient-scroll 1s linear infinite;
+
   border-radius: 10px;
   height: 8px;
   margin-bottom: 10px;
+}
+@keyframes gradient-scroll {
+	0% { background-position: 100% 50% }
+	100% { background-position: 0 50% }
 }
 .loading-subheader .name {
   width: 120px;
