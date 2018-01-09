@@ -157,8 +157,7 @@ th, td {
   background: #ccc;
 }
 [data-mentioned="true"] {
-  padding-top: 4px;
-  background: #fee5e1;
+  background: rgba(255, 0, 0, 0.05);
 }
 .arrow-right {
   width: 0;
