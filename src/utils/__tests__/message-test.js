@@ -173,12 +173,20 @@ describe('findFirstUnread', () => {
     expect(result).toEqual(messages[1]);
   });
 
-  test('if all are read returns undefined', () => {
+  test('if all are read returns the last message', () => {
     const messages = [
       { id: 0, flags: ['read'] },
       { id: 1, flags: ['read'] },
       { id: 2, flags: ['read'] },
     ];
+
+    const result = findFirstUnread(messages);
+
+    expect(result).toEqual({ id: 2, flags: ['read'] });
+  });
+
+  test('if no messages returns NULL_MESSAGE', () => {
+    const messages = [];
 
     const result = findFirstUnread(messages);
 
