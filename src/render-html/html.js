@@ -3,7 +3,12 @@ import css from './css';
 import js from './es3';
 import messageLoadingList from './messageLoadingListAsHtml';
 
-export default (content: string, theme: string, showMessagePlaceholders: boolean) =>
+type InitOptionsType = {
+  anchor: number,
+  showMessagePlaceholders: boolean,
+};
+
+export default (content: string, theme: string, initOptions: InitOptionsType) =>
   `
 ${css(theme)}
 
@@ -13,7 +18,7 @@ ${css(theme)}
 <div id="spinner-older" class="hidden loading-spinner"></div>
 <div id="message-list">${content}</div>
 
-<div id="message-loading" class="${showMessagePlaceholders ? '' : 'hidden'}">
+<div id="message-loading" class="${initOptions.showMessagePlaceholders ? '' : 'hidden'}">
   ${messageLoadingList}
 </div>
 
@@ -23,5 +28,6 @@ ${css(theme)}
 
 <script>
 ${js}
+scrollToAnchor(${initOptions.anchor})
 </script>
 `;
