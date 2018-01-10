@@ -36,7 +36,7 @@ export default class Chat extends PureComponent<Props> {
   componentDidUpdate(prevProps: Props) {
     const { noMessages, lastMessage, ownEmail } = this.props;
 
-    if (noMessages || lastMessage.id === prevProps.lastMessage.id) {
+    if (!this.listComponent || noMessages || lastMessage.id === prevProps.lastMessage.id) {
       return;
     }
 

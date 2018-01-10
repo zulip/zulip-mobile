@@ -35,10 +35,6 @@ export default class MessageListWeb extends Component<Props> {
     }
   };
 
-  scrollToEnd = () => {
-    this.sendMessage({ type: 'bottom' });
-  };
-
   shouldComponentUpdate = () => false;
 
   componentWillReceiveProps = (nextProps: Props) => {
@@ -47,10 +43,11 @@ export default class MessageListWeb extends Component<Props> {
 
   render() {
     const { styles, theme } = this.context;
-    const { anchor, listRef, showMessagePlaceholders } = this.props;
-    const html = getHtml(renderMessagesAsHtml(this.props), theme, showMessagePlaceholders);
-
-    listRef({ scrollToEnd: this.scrollToEnd });
+    const { anchor, showMessagePlaceholders } = this.props;
+    const html = getHtml(renderMessagesAsHtml(this.props), theme, {
+      anchor,
+      showMessagePlaceholders,
+    });
 
     // console.log(html);
 
@@ -58,7 +55,6 @@ export default class MessageListWeb extends Component<Props> {
       <WebView
         source={{ html }}
         anchor={anchor}
-        injectedJavaScript={`scrollToAnchor(${anchor})`}
         style={styles.webview}
         ref={webview => {
           this.webview = webview;

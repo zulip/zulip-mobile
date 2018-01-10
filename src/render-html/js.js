@@ -79,6 +79,7 @@ const scrollToBottomIfNearEnd = () => {
 
 const scrollToAnchor = anchor => {
   const anchorNode = document.getElementById(`msg-${anchor}`);
+
   if (anchorNode) {
     anchorNode.scrollIntoView(false);
   } else {
@@ -104,6 +105,7 @@ document.addEventListener('message', e => {
     case 'bottom':
       scrollToBottom();
       break;
+
     case 'content': {
       const prevPosition = documentBody.scrollTop;
       elementMessageList.innerHTML = msg.content;
@@ -114,6 +116,7 @@ document.addEventListener('message', e => {
       }
       break;
     }
+
     case 'fetching':
       elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
       elementSpinnerOlder.classList.toggle(
@@ -125,10 +128,12 @@ document.addEventListener('message', e => {
         !msg.fetchingNewer || msg.showMessagePlaceholders,
       );
       break;
+
     case 'typing':
       elementTyping.innerHTML = msg.content;
       setTimeout(() => scrollToBottomIfNearEnd());
       break;
+
     default:
   }
 });

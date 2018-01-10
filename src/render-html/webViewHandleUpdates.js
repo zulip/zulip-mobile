@@ -9,13 +9,12 @@ let previousContent = '';
 
 export default (prevProps: Props, nextProps: Props, sendMessage: any => void) => {
   if (
-    prevProps.fetching.older !== nextProps.fetching.older ||
-    prevProps.fetching.newer !== nextProps.fetching.newer ||
+    !isEqual(prevProps.fetching, nextProps.fetching) ||
     prevProps.showMessagePlaceholders !== nextProps.showMessagePlaceholders
   ) {
     sendMessage({
       type: 'fetching',
-      showMessagePlaceholders: nextProps.isFetching,
+      showMessagePlaceholders: nextProps.showMessagePlaceholders,
       fetchingOlder: nextProps.fetching.older,
       fetchingNewer: nextProps.fetching.newer,
     });
@@ -28,7 +27,7 @@ export default (prevProps: Props, nextProps: Props, sendMessage: any => void) =>
       previousContent = content;
       sendMessage({
         type: 'content',
-        anchor: isEqual(prevProps.narrow, nextProps.narrow) ? 0 : nextProps.anchor,
+        anchor: isEqual(prevProps.narrow, nextProps.narrow) ? -1 : nextProps.anchor,
         content,
       });
     }

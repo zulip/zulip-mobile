@@ -35,6 +35,8 @@ type MessageListEventUrl = {
   messageId: number,
 };
 
+type MessageListEventDebug = Object;
+
 type Props = {
   actions: Actions,
   auth: Auth,
@@ -90,4 +92,8 @@ export const handleReaction = (props: Props, event: MessageListEventReaction) =>
   } else {
     emojiReactionAdd(props.auth, messageId, name);
   }
+};
+
+export const handleDebug = (props: Props, event: MessageListEventDebug) => {
+  console.debug(props, event); // eslint-disable-line
 };
