@@ -77,4 +77,7 @@ export const shouldBeMuted = (
 };
 
 export const findFirstUnread = (messages: Message[]): Message =>
-  messages.find(msg => !msg.flags || msg.flags.indexOf('read') === -1) || NULL_MESSAGE;
+  messages.length > 0
+    ? messages.find(msg => !msg.flags || msg.flags.indexOf('read') === -1) ||
+      messages[messages.length - 1]
+    : NULL_MESSAGE;
