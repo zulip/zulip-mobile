@@ -15,8 +15,8 @@ export default (prevProps: Props, nextProps: Props, sendMessage: any => void) =>
     sendMessage({
       type: 'fetching',
       showMessagePlaceholders: nextProps.showMessagePlaceholders,
-      fetchingOlder: nextProps.fetching.older,
-      fetchingNewer: nextProps.fetching.newer,
+      fetchingOlder: nextProps.fetching.older && !nextProps.showMessagePlaceholders,
+      fetchingNewer: nextProps.fetching.newer && !nextProps.showMessagePlaceholders,
     });
   }
 
@@ -27,7 +27,8 @@ export default (prevProps: Props, nextProps: Props, sendMessage: any => void) =>
       previousContent = content;
       sendMessage({
         type: 'content',
-        anchor: isEqual(prevProps.narrow, nextProps.narrow) ? -1 : nextProps.anchor,
+        anchor: nextProps.anchor,
+        sameNarrow: isEqual(prevProps.narrow, nextProps.narrow),
         content,
       });
     }

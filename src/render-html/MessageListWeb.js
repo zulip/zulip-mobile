@@ -17,14 +17,6 @@ export default class MessageListWeb extends Component<Props> {
     theme: () => null,
   };
 
-  handleMessage = (event: Object) => {
-    const eventData = JSON.parse(event.nativeEvent.data);
-    const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
-
-    // $FlowFixMe
-    webViewEventHandlers[handler](this.props, eventData);
-  };
-
   handleError = (event: Object) => {
     console.error(event); // eslint-disable-line
   };
@@ -32,14 +24,22 @@ export default class MessageListWeb extends Component<Props> {
   sendMessage = (msg: Object) => {
     if (this.webview) {
       this.webview.postMessage(JSON.stringify(msg), '*');
+      // console.log('!!! sendMessage', msg, this.props);
     }
   };
 
-  shouldComponentUpdate = () => false;
+  handleMessage = (event: Object) => {
+    const eventData = JSON.parse(event.nativeEvent.data);
+    const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
+
+    webViewEventHandlers[handler](this.props, eventData); // $FlowFixMe
+  };
 
   componentWillReceiveProps = (nextProps: Props) => {
     webViewHandleUpdates(this.props, nextProps, this.sendMessage);
   };
+
+  shouldComponentUpdate = () => false;
 
   render() {
     const { styles, theme } = this.context;

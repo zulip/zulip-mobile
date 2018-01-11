@@ -17,6 +17,8 @@ const elementSpinnerNewer = document.getElementById('spinner-newer');
 const elementTyping = document.getElementById('typing');
 const elementMessageLoading = document.getElementById('message-loading');
 
+let scrollEventsDisabled = false;
+
 if (
   !documentBody ||
   !elementMessageList ||
@@ -59,7 +61,7 @@ const scrollToAnchor = anchor => {
   const anchorNode = document.getElementById(`msg-${anchor}`);
 
   if (anchorNode) {
-    anchorNode.scrollIntoView({ behavior: 'smooth' });
+    anchorNode.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' });
   } else {
     scrollToBottom();
   }
@@ -85,26 +87,31 @@ document.addEventListener('message', e => {
       break;
 
     case 'content': {
-      const prevPosition = documentBody.scrollTop;
-      elementMessageList.innerHTML = msg.content;
-      if (msg.anchor) {
-        scrollToAnchor(msg.anchor);
+      if (msg.anchor === -1) {
+        elementMessageList.innerHTML = msg.content;
       } else {
-        documentBody.scrollTop = prevPosition;
+        scrollEventsDisabled = true;
+        const element = document.elementFromPoint(200, 100);
+        const msgNode = getMessageNode(element);
+        const prevId = msgNode.id;
+        const prevBoundRect = msgNode.getBoundingClientRect();
+        sendMessage({ type: 'debug', msgNode, prevId, prevBoundRect });
+        // const prevPosition = documentBody.scrollTop;
+        elementMessageList.innerHTML = msg.content;
+        const newElement = document.getElementById(prevId);
+        const newBoundRect = newElement.getBoundingClientRect();
+        sendMessage({ type: 'debug', newElement, newBoundRect });
+        window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
+        scrollEventsDisabled = false;
       }
+
       break;
     }
 
     case 'fetching':
       elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
-      elementSpinnerOlder.classList.toggle(
-        'hidden',
-        !msg.fetchingOlder || msg.showMessagePlaceholders,
-      );
-      elementSpinnerNewer.classList.toggle(
-        'hidden',
-        !msg.fetchingNewer || msg.showMessagePlaceholders,
-      );
+      elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
+      elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
       break;
 
     case 'typing':
@@ -117,6 +124,8 @@ document.addEventListener('message', e => {
 });
 
 window.addEventListener('scroll', () => {
+  if (scrollEventsDisabled) return;
+
   const startNode = getMessageNode(document.elementFromPoint(200, 20));
   const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
   console.log(startNode, endNode);

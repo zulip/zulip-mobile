@@ -36,7 +36,7 @@ pre {
   padding: 0.5em;
   margin: 0.5em 0;
   font-size: 0.75em;
-  overflow: scroll;
+  overflow: scroll-x;
 }
 code, pre {
   border-radius: 3px;
@@ -97,7 +97,7 @@ th, td {
   padding: 0.5em;
 }
 .message-brief {
-  padding: 0 0.5em 0 3.5em;
+  padding: 0 0.5em 0.5em 3.5em;
 }
 .avatar {
   min-width: 2.5em;
@@ -112,7 +112,7 @@ th, td {
 .content {
   width: 100%;
   max-width: 100%;
-  overflow: scroll;
+  overflow: scroll-x;
 }
 .username {
   font-weight: bold;
@@ -321,6 +321,7 @@ ul {
   color: white;
 }
 #typing {
+  margin: 0.5em;
 }
 .typing-list {
   background: green;
