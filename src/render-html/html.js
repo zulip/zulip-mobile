@@ -24,7 +24,7 @@ ${css(theme)}
 </div>
 
 <div id="spinner-newer" class="hidden loading-spinner"></div>
-<div id="typing" class="message"></div>
+<div id="typing"></div>
 </body>
 
 <script>

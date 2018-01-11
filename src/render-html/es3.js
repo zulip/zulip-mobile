@@ -16,6 +16,8 @@ var elementSpinnerNewer = document.getElementById('spinner-newer');
 var elementTyping = document.getElementById('typing');
 var elementMessageLoading = document.getElementById('message-loading');
 
+var scrollEventsDisabled = false;
+
 if (!documentBody || !elementMessageList || !elementSpinnerOlder || !elementSpinnerNewer || !elementTyping || !elementMessageLoading) {
   throw new Error('HTML elements missing');
 }
@@ -51,7 +53,7 @@ var scrollToAnchor = function scrollToAnchor(anchor) {
   var anchorNode = document.getElementById('msg-' + anchor);
 
   if (anchorNode) {
-    anchorNode.scrollIntoView({ behavior: 'smooth' });
+    anchorNode.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' });
   } else {
     scrollToBottom();
   }
@@ -75,20 +77,31 @@ document.addEventListener('message', function (e) {
 
     case 'content':
       {
-        var prevPosition = documentBody.scrollTop;
-        elementMessageList.innerHTML = msg.content;
-        if (msg.anchor) {
-          scrollToAnchor(msg.anchor);
+        if (msg.anchor === -1) {
+          elementMessageList.innerHTML = msg.content;
         } else {
-          documentBody.scrollTop = prevPosition;
+          scrollEventsDisabled = true;
+          var element = document.elementFromPoint(200, 100);
+          var msgNode = getMessageNode(element);
+          var prevId = msgNode.id;
+          var prevBoundRect = msgNode.getBoundingClientRect();
+          sendMessage({ type: 'debug', msgNode: msgNode, prevId: prevId, prevBoundRect: prevBoundRect });
+          // const prevPosition = documentBody.scrollTop;
+          elementMessageList.innerHTML = msg.content;
+          var newElement = document.getElementById(prevId);
+          var newBoundRect = newElement.getBoundingClientRect();
+          sendMessage({ type: 'debug', newElement: newElement, newBoundRect: newBoundRect });
+          window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
+          scrollEventsDisabled = false;
         }
+
         break;
       }
 
     case 'fetching':
       elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
-      elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder || msg.showMessagePlaceholders);
-      elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer || msg.showMessagePlaceholders);
+      elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
+      elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
       break;
 
     case 'typing':
@@ -103,6 +116,8 @@ document.addEventListener('message', function (e) {
 });
 
 window.addEventListener('scroll', function () {
+  if (scrollEventsDisabled) return;
+
   var startNode = getMessageNode(document.elementFromPoint(200, 20));
   var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
   console.log(startNode, endNode);
