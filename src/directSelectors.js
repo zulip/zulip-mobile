@@ -54,4 +54,4 @@ export const getUnreadHuddles = (state: GlobalState): Object[] => state.unread.h
 
 export const getUnreadMentions = (state: GlobalState): number[] => state.unread.mentions;
 
-export const getRealmEmoji = (state: GlobalState): RealmEmojiType[] => state.realm.emoji;
+export const getRealmEmoji = (state: GlobalState): Object => state.realm.emoji;
