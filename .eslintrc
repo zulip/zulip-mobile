@@ -119,7 +119,7 @@
         "gravatar_hash", "pms", "msgs", "collapsable", "const", "wildcard", "reactotron", "camelcase",
         "hydrator", "perf", "stacktrace", "Dir", "fs", "avoider", "octicons", "centerer", "ldap",
         "gravatar", "identicon", "blueimp", "filename", "wildcards", "jpeg", "jpg", "tif", "mov",
-        "notif", "diag", "bmp", "viewport", "scalable"
+        "notif", "diag", "bmp", "viewport", "scalable", "polyfill"
       ],
       "skipIfMatch": [
         "http://[^s]*",
