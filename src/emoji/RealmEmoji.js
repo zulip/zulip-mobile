@@ -4,7 +4,7 @@ import { StyleSheet, Image } from 'react-native';
 
 import type { Auth } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getAuth } from '../selectors';
+import { getAuth, getActiveRealmEmoji } from '../selectors';
 
 const styles = StyleSheet.create({
   image: {
@@ -36,5 +36,5 @@ class RealmEmoji extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
-  realmEmoji: state.realm.emoji,
+  realmEmoji: getActiveRealmEmoji(state),
 }))(RealmEmoji);
