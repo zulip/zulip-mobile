@@ -45,30 +45,8 @@ const getMessageIdFromNode = node => {
   return msgNode && msgNode.getAttribute('data-msg-id');
 };
 
-const animatedScrollTo = (element, to, duration) => {
-  if (duration <= 0) return;
-  const difference = to - element.scrollTop;
-  const perTick = difference / duration * 10;
-
-  setTimeout(() => {
-    element.scrollTop += perTick;
-    if (element.scrollTop === to) return;
-    window.scrollTo(element, to, duration - 10);
-  }, 10);
-};
-
-const animatedScrollBy = (element, by, duration) => {
-  const step = by / (duration / 16);
-  let cur = Math.abs(by);
-  const interval = setInterval(() => {
-    cur -= step;
-    window.scrollBy(0, step);
-    if (cur <= 0) clearInterval(interval);
-  }, 16);
-};
-
 const scrollToBottom = () => {
-  window.scrollTo(0, documentBody.scrollHeight);
+  window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
 };
 
 const scrollToBottomIfNearEnd = () => {
@@ -81,7 +59,7 @@ const scrollToAnchor = anchor => {
   const anchorNode = document.getElementById(`msg-${anchor}`);
 
   if (anchorNode) {
-    anchorNode.scrollIntoView(false);
+    anchorNode.scrollIntoView({ behavior: 'smooth' });
   } else {
     scrollToBottom();
   }
@@ -94,7 +72,7 @@ window.addEventListener('resize', event => {
     difference > 0 ||
     documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight
   ) {
-    window.scrollBy(0, difference);
+    window.scrollBy({ left: 0, top: difference, behavior: 'smooth' });
   }
   height = documentBody.clientHeight;
 });

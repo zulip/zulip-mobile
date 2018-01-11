@@ -1,5 +1,6 @@
 /* @flow */
 import css from './css';
+import smoothScroll from './smoothScroll.min';
 import js from './es3';
 import messageLoadingList from './messageLoadingListAsHtml';
 
@@ -27,6 +28,8 @@ ${css(theme)}
 </body>
 
 <script>
+window.__forceSmoothScrollPolyfill__ = true;
+${smoothScroll}
 ${js}
 scrollToAnchor(${initOptions.anchor})
 </script>
