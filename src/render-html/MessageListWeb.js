@@ -32,6 +32,7 @@ export default class MessageListWeb extends Component<Props> {
   sendMessage = (msg: Object) => {
     if (this.webview) {
       this.webview.postMessage(JSON.stringify(msg), '*');
+      console.log('sendMessage', msg);
     }
   };
 
@@ -49,7 +50,7 @@ export default class MessageListWeb extends Component<Props> {
       showMessagePlaceholders,
     });
 
-    // console.log(html);
+    console.log(html);
 
     return (
       <WebView
