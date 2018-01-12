@@ -14,7 +14,7 @@ type Props = {
 export default class AnimatedScaleComponent extends PureComponent<Props> {
   props: Props;
 
-  animatedValue = new Animated.Value(0);
+  animatedValue = new Animated.Value(this.props.visible ? 1 : 0);
 
   componentWillReceiveProps(nextProps: Props) {
     Animated.timing(this.animatedValue, {
