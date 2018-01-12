@@ -24,7 +24,7 @@ yarn install
 Unlike the [Zulip](https://github.com/zulip/zulip) server project, we use
 the host machine directly for development instead of provisioning a VM.
 
-You may also want to install and provision a [Zulip dev VM](https://zulip.readthedocs.io/en/latest/dev-overview.html) to use for
+You may also want to install and provision a [Zulip dev VM](https://zulip.readthedocs.io/en/latest/development/overview.html) to use for
 testing.
 
 
