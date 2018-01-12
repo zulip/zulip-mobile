@@ -20,6 +20,6 @@ assign you to the issue and label it as **in progress**. Learn more about zulipb
 
 
 [open-issues]: https://github.com/zulip/zulip-mobile/issues
-[commit-discipline]: https://zulip.readthedocs.io/en/latest/code-style.html#version-control
+[commit-discipline]: https://zulip.readthedocs.io/en/latest/contributing/code-style.html
 [cla]: https://opensource.dropbox.com/cla/
-[doc-commit-style]: http://zulip.readthedocs.io/en/latest/code-style.html#commit-messages
+[doc-commit-style]: https://zulip.readthedocs.io/en/latest/contributing/version-control.html#commit-messages
