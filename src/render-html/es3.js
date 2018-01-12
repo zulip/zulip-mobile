@@ -53,7 +53,7 @@ var scrollToAnchor = function scrollToAnchor(anchor) {
   var anchorNode = document.getElementById('msg-' + anchor);
 
   if (anchorNode) {
-    anchorNode.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' });
+    anchorNode.scrollIntoView({ block: 'start' });
   } else {
     scrollToBottom();
   }
@@ -68,49 +68,57 @@ window.addEventListener('resize', function (event) {
   height = documentBody.clientHeight;
 });
 
+var handleMessageBottom = function handleMessageBottom(msg) {
+  scrollToBottom();
+};
+
+var handleMessageContent = function handleMessageContent(msg) {
+  var msgNode = document.getElementById('msg-' + msg.anchor);
+
+  if (!msgNode) {
+    elementMessageList.innerHTML = msg.content;
+    return;
+  }
+
+  scrollEventsDisabled = true;
+  var prevBoundRect = msgNode.getBoundingClientRect();
+  elementMessageList.innerHTML = msg.content;
+  var newElement = document.getElementById('msg-' + msg.anchor);
+  if (newElement) {
+    var newBoundRect = newElement.getBoundingClientRect();
+    window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
+  }
+  scrollEventsDisabled = false;
+};
+
+var handleMessageFetching = function handleMessageFetching(msg) {
+  elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
+  elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
+  elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
+};
+
+var handleMessageTyping = function handleMessageTyping(msg) {
+  elementTyping.innerHTML = msg.content;
+  setTimeout(function () {
+    return scrollToBottomIfNearEnd();
+  });
+};
+
 document.addEventListener('message', function (e) {
   var msg = JSON.parse(e.data);
   switch (msg.type) {
     case 'bottom':
-      scrollToBottom();
+      handleMessageBottom(msg);
       break;
-
     case 'content':
-      {
-        if (msg.anchor === -1) {
-          elementMessageList.innerHTML = msg.content;
-        } else {
-          scrollEventsDisabled = true;
-          var element = document.elementFromPoint(200, 100);
-          var msgNode = getMessageNode(element);
-          var prevId = msgNode.id;
-          var prevBoundRect = msgNode.getBoundingClientRect();
-          sendMessage({ type: 'debug', msgNode: msgNode, prevId: prevId, prevBoundRect: prevBoundRect });
-          // const prevPosition = documentBody.scrollTop;
-          elementMessageList.innerHTML = msg.content;
-          var newElement = document.getElementById(prevId);
-          var newBoundRect = newElement.getBoundingClientRect();
-          sendMessage({ type: 'debug', newElement: newElement, newBoundRect: newBoundRect });
-          window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
-          scrollEventsDisabled = false;
-        }
-
-        break;
-      }
-
+      handleMessageContent(msg);
+      break;
     case 'fetching':
-      elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
-      elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
-      elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
+      handleMessageFetching(msg);
       break;
-
     case 'typing':
-      elementTyping.innerHTML = msg.content;
-      setTimeout(function () {
-        return scrollToBottomIfNearEnd();
-      });
+      handleMessageTyping(msg);
       break;
-
     default:
   }
 });
