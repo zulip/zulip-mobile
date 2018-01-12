@@ -61,7 +61,7 @@ const scrollToAnchor = anchor => {
   const anchorNode = document.getElementById(`msg-${anchor}`);
 
   if (anchorNode) {
-    anchorNode.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' });
+    anchorNode.scrollIntoView({ block: 'start' });
   } else {
     scrollToBottom();
   }
@@ -79,46 +79,55 @@ window.addEventListener('resize', event => {
   height = documentBody.clientHeight;
 });
 
+const handleMessageBottom = msg => {
+  scrollToBottom();
+};
+
+const handleMessageContent = msg => {
+  const msgNode = document.getElementById(`msg-${msg.anchor}`);
+
+  if (!msgNode) {
+    elementMessageList.innerHTML = msg.content;
+    return;
+  }
+
+  scrollEventsDisabled = true;
+  const prevBoundRect = msgNode.getBoundingClientRect();
+  elementMessageList.innerHTML = msg.content;
+  const newElement = document.getElementById(`msg-${msg.anchor}`);
+  if (newElement) {
+    const newBoundRect = newElement.getBoundingClientRect();
+    window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
+  }
+  scrollEventsDisabled = false;
+};
+
+const handleMessageFetching = msg => {
+  elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
+  elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
+  elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
+};
+
+const handleMessageTyping = msg => {
+  elementTyping.innerHTML = msg.content;
+  setTimeout(() => scrollToBottomIfNearEnd());
+};
+
 document.addEventListener('message', e => {
   const msg = JSON.parse(e.data);
   switch (msg.type) {
     case 'bottom':
-      scrollToBottom();
+      handleMessageBottom(msg);
       break;
-
-    case 'content': {
-      if (msg.anchor === -1) {
-        elementMessageList.innerHTML = msg.content;
-      } else {
-        scrollEventsDisabled = true;
-        const element = document.elementFromPoint(200, 100);
-        const msgNode = getMessageNode(element);
-        const prevId = msgNode.id;
-        const prevBoundRect = msgNode.getBoundingClientRect();
-        sendMessage({ type: 'debug', msgNode, prevId, prevBoundRect });
-        // const prevPosition = documentBody.scrollTop;
-        elementMessageList.innerHTML = msg.content;
-        const newElement = document.getElementById(prevId);
-        const newBoundRect = newElement.getBoundingClientRect();
-        sendMessage({ type: 'debug', newElement, newBoundRect });
-        window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
-        scrollEventsDisabled = false;
-      }
-
+    case 'content':
+      handleMessageContent(msg);
       break;
-    }
-
     case 'fetching':
-      elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
-      elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
-      elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
+      handleMessageFetching(msg);
       break;
-
     case 'typing':
-      elementTyping.innerHTML = msg.content;
-      setTimeout(() => scrollToBottomIfNearEnd());
+      handleMessageTyping(msg);
       break;
-
     default:
   }
 });
