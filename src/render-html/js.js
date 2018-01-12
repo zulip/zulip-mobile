@@ -70,11 +70,8 @@ const scrollToAnchor = anchor => {
 let height = documentBody.clientHeight;
 window.addEventListener('resize', event => {
   const difference = height - documentBody.clientHeight;
-  if (
-    difference > 0 ||
-    documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight
-  ) {
-    window.scrollBy({ left: 0, top: difference, behavior: 'smooth' });
+  if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
+    window.scrollBy({ left: 0, top: difference });
   }
   height = documentBody.clientHeight;
 });

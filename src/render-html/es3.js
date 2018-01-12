@@ -62,8 +62,8 @@ var scrollToAnchor = function scrollToAnchor(anchor) {
 var height = documentBody.clientHeight;
 window.addEventListener('resize', function (event) {
   var difference = height - documentBody.clientHeight;
-  if (difference > 0 || documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
-    window.scrollBy({ left: 0, top: difference, behavior: 'smooth' });
+  if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
+    window.scrollBy({ left: 0, top: difference });
   }
   height = documentBody.clientHeight;
 });
