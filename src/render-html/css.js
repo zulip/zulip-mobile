@@ -160,7 +160,6 @@ th, td {
   background: rgba(255, 0, 0, 0.05);
 }
 .message:not([data-read="true"]) {
-  background: red !important;
 }
 .arrow-right {
   width: 0;
@@ -228,8 +227,8 @@ th, td {
   margin: 1em auto;
   font-size: 10px;
   position: relative;
-  border: 3px solid rgba(0, 0, 0, 0.25);
-  border-left: 3px solid rgba(0, 0, 0, 0.75);
+  border: 3px solid rgba(82, 194, 175, 0.25);
+  border-left: 3px solid rgba(82, 194, 175, 0.75);
   animation: spin 1s linear infinite;
 }
 .message_inline_image {
