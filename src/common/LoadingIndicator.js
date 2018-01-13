@@ -1,9 +1,9 @@
 /* @noflow */
 import React, { PureComponent } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import * as Progress from 'react-native-progress';
 
 import type { StyleObj } from '../types';
+import { SpinningProgress } from './';
 import messageLoadingImg from '../../static/img/message-loading.png';
 
 const styles = StyleSheet.create({
@@ -47,11 +47,7 @@ export default class LoadingIndicator extends PureComponent<Props> {
     return (
       <View style={styles.row}>
         <View>
-          {active && (
-            <View>
-              <Progress.CircleSnail color="black" size={size} thickness={2} />
-            </View>
-          )}
+          {active && <SpinningProgress size={size} thickness={4} />}
           <Image
             style={[styles.logo, { width: size / 2, height: size / 2, marginTop: size / 4 }]}
             source={messageLoadingImg}

@@ -1,6 +1,8 @@
 /* @flow */
+export { default as Arc } from './Arc';
 export { default as Avatar } from './Avatar';
 export { default as Centerer } from './Centerer';
+export { default as Circle } from './Circle';
 export { default as ComponentWithOverlay } from './ComponentWithOverlay';
 export { default as ErrorMsg } from './ErrorMsg';
 export { default as FloatingActionButton } from './FloatingActionButton';
@@ -27,6 +29,7 @@ export { default as SectionHeader } from './SectionHeader';
 export { default as SectionSeparator } from './SectionSeparator';
 export { default as SectionSeparatorBetween } from './SectionSeparatorBetween';
 export { default as SlideAnimationView } from './SlideAnimationView';
+export { default as SpinningProgress } from './SpinningProgress';
 export { default as TextAvatar } from './TextAvatar';
 export { default as Touchable } from './Touchable';
 export { default as UnreadCount } from './UnreadCount';

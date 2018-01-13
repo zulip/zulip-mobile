@@ -21,7 +21,7 @@ export default class LoadingScreen extends PureComponent<{}> {
   render() {
     return (
       <View style={styles.center}>
-        <LoadingIndicator active size={64} backgroundColor={styles.indicatorStyles} />
+        <LoadingIndicator active size={80} backgroundColor={styles.indicatorStyles} />
       </View>
     );
   }
