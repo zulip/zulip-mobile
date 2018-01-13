@@ -295,9 +295,6 @@ ul {
   border-radius: 4px;
   border: 1px solid ${HALF_COLOR};
 }
-.realm-reaction {
-  
-}
 .reaction + .reaction {
   margin-left: 0.5em;
 }

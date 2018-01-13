@@ -14,8 +14,6 @@ const getRealmEmojiHtml = (
   )}" height="16" width="16"/>
   `;
 
-const getMapEmojiHtml = (reaction: AggregateReaction) => emojiMap[reaction.name];
-
 export default (
   messageId: number,
   reaction: AggregateReaction,
@@ -27,6 +25,6 @@ export default (
   }">${
     realmEmoji[reaction.name]
       ? getRealmEmojiHtml(reaction, realmEmoji[reaction.name], realm)
-      : getMapEmojiHtml(reaction)
+      : emojiMap[reaction.name]
   } ${reaction.count}
   </span>`;
