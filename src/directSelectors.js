@@ -6,7 +6,6 @@ import type {
   TopicsState,
   GlobalState,
   Narrow,
-  RealmEmojiType,
   Subscription,
   Stream,
   Outbox,
