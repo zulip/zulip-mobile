@@ -77,6 +77,7 @@ var handleMessageContent = function handleMessageContent(msg) {
 
   if (!msgNode) {
     elementMessageList.innerHTML = msg.content;
+    scrollToAnchor(msg.anchor);
     return;
   }
 
