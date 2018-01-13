@@ -11,7 +11,7 @@ const getRealmEmojiHtml = (
   `<img class="realm-reaction" src="${getFullUrl(
     realmEmoji.source_url,
     realm,
-  )}" height="16" width="16"/>
+  )}" height="auto" width="16"/>
   `;
 
 export default (
