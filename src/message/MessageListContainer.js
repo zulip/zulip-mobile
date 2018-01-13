@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Actions, Auth, Fetching, FlagsState, Message, Narrow, RealmEmojiType, Subscription } from '../types';
+import type { Actions, Auth, Fetching, FlagsState, Message, Narrow, Subscription } from '../types';
 import connectWithActions from '../connectWithActions';
 import MessageList from '../render-native/MessageListScrollView';
 // import MessageList from '../render-native/MessageListFlatList';
@@ -35,7 +35,7 @@ export type Props = {
   isFetching: boolean,
   messages: Message[],
   narrow: Narrow,
-  realmEmoji: RealmEmojiType[],
+  realmEmoji: {},
   renderedMessages: any,
   showMessagePlaceholders: boolean,
   subscriptions: Subscription[],

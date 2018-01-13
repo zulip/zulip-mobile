@@ -38,10 +38,19 @@ ${messageTagsAsHtml(flags, timeEdited, isOutbox)}
 ${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
 `;
 
-const briefMessageAsHtml = ({ id, content, flags, timeEdited, isOutbox, reactions, ownEmail }) => `
+const briefMessageAsHtml = ({
+  content,
+  flags,
+  id,
+  isOutbox,
+  ownEmail,
+  reactions,
+  realmEmoji,
+  timeEdited,
+}) => `
 ${messageDiv(id, 'message-brief', flags)}
   <div class="content">
-    ${messageBody({ content, flags, isOutbox, id, ownEmail, timeEdited, reactions })}
+    ${messageBody({ content, flags, id, isOutbox, ownEmail, reactions, realmEmoji, timeEdited })}
   </div>
 </div>
 `;

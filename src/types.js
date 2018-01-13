@@ -508,21 +508,9 @@ export type PresenceAggregated = {
   status: string,
   timestamp: number,
 };
-<<<<<<< HEAD
-=======
-
-export type WebViewNavigationState = {
-  canGoBack: boolean,
-  canGoForward: boolean,
-  loading: boolean,
-  target: number,
-  title: number,
-  url: string,
-};
 
 export type AggregateReaction = {
   name: string,
   count: number,
   selfReacted?: boolean,
 };
->>>>>>> webView: render realm emoji.
