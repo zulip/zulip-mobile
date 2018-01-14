@@ -268,12 +268,6 @@ ul {
   height: 32px;
   margin-right: .75em;
 }
-.fixed-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  margin: 0;
-}
 .message-tags {
   text-align: right;
   margin: 0.25em 0;
@@ -330,6 +324,8 @@ ul {
   opacity: 0.25;
 }
 #js-error {
+  position: fixed;
+  width: 100%;
   background: red;
   color: white;
   font-size: 10px;
