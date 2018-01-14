@@ -19,6 +19,7 @@ body {
 }
 body {
   font-size: 15px;
+  overflow-x: hidden;
 }
 a {
   color: #08c;
@@ -36,7 +37,7 @@ pre {
   padding: 0.5em;
   margin: 0.5em 0;
   font-size: 0.75em;
-  overflow: scroll-x;
+  overflow: scroll;
 }
 code, pre {
   border-radius: 3px;
@@ -56,10 +57,6 @@ thead {
 th, td {
   align: center;
   padding: 0.25em 0.5em;
-}
-#message-list {
-  max-width: 100%;
-  overflow: hidden;
 }
 .subheader {
   display: flex;

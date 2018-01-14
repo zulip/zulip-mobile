@@ -2,6 +2,7 @@
 import isEqual from 'lodash.isequal';
 
 import type { Props } from '../message/MessageListContainer';
+import { htmlBody } from './html';
 import renderMessagesAsHtml from './renderMessagesAsHtml';
 import messageTypingAsHtml from './messageTypingAsHtml';
 
@@ -21,7 +22,7 @@ export default (prevProps: Props, nextProps: Props, sendMessage: any => void) =>
   }
 
   if (prevProps.renderedMessages !== nextProps.renderedMessages) {
-    const content = renderMessagesAsHtml(nextProps);
+    const content = htmlBody(renderMessagesAsHtml(nextProps), nextProps.showMessagePlaceholders);
 
     if (content !== previousContent) {
       previousContent = content;
