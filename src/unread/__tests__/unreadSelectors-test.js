@@ -306,6 +306,33 @@ describe('getUnreadStreamsAndTopics', () => {
     expect(unreadCount).toEqual([]);
   });
 
+  test('Muted streams should not be included', () => {
+    const state = deepFreeze({
+      subscriptions: [
+        {
+          stream_id: 0,
+          name: 'stream 0',
+          color: 'red',
+          in_home_view: false,
+        },
+        {
+          stream_id: 2,
+          name: 'stream 2',
+          color: 'blue',
+          in_home_view: false,
+        },
+      ],
+      unread: {
+        streams: unreadStreamData,
+      },
+      mute: [],
+    });
+
+    const unreadCount = getUnreadStreamsAndTopics(state);
+
+    expect(unreadCount).toEqual([]);
+  });
+
   test('group data by stream and topics inside, count unread', () => {
     const state = deepFreeze({
       subscriptions: [
@@ -360,19 +387,22 @@ describe('getUnreadStreamsAndTopics', () => {
           stream_id: 2,
           color: 'green',
           name: 'def stream',
-          in_home_view: false,
+          in_home_view: true,
+          invite_only: false,
         },
         {
           stream_id: 1,
           color: 'blue',
           name: 'xyz stream',
           in_home_view: true,
+          invite_only: false,
         },
         {
           stream_id: 0,
           color: 'red',
           name: 'abc stream',
           in_home_view: true,
+          invite_only: false,
         },
       ],
       unread: {
@@ -420,6 +450,7 @@ describe('getUnreadStreamsAndTopics', () => {
         streamName: 'abc stream',
         color: 'red',
         isMuted: false,
+        isPrivate: false,
         unread: 5,
         data: [
           { key: 'a topic', topic: 'a topic', unread: 2, isMuted: false },
@@ -430,7 +461,8 @@ describe('getUnreadStreamsAndTopics', () => {
         key: 'def stream',
         streamName: 'def stream',
         color: 'green',
-        isMuted: true,
+        isMuted: false,
+        isPrivate: false,
         unread: 4,
         data: [
           { key: 'b topic', topic: 'b topic', unread: 2, isMuted: false },
@@ -442,6 +474,7 @@ describe('getUnreadStreamsAndTopics', () => {
         streamName: 'xyz stream',
         color: 'blue',
         isMuted: false,
+        isPrivate: false,
         unread: 2,
         data: [
           { key: 'd topic', topic: 'd topic', unread: 1, isMuted: false },
