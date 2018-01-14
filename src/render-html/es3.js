@@ -10,7 +10,6 @@ window.onerror = function (message, source, line, column, error) {
 };
 
 var documentBody = document.body;
-var elementMessageList = document.getElementById('message-list');
 var elementSpinnerOlder = document.getElementById('spinner-older');
 var elementSpinnerNewer = document.getElementById('spinner-newer');
 var elementTyping = document.getElementById('typing');
@@ -18,7 +17,7 @@ var elementMessageLoading = document.getElementById('message-loading');
 
 var scrollEventsDisabled = false;
 
-if (!documentBody || !elementMessageList || !elementSpinnerOlder || !elementSpinnerNewer || !elementTyping || !elementMessageLoading) {
+if (!documentBody || !elementSpinnerOlder || !elementSpinnerNewer || !elementTyping || !elementMessageLoading) {
   throw new Error('HTML elements missing');
 }
 
@@ -28,7 +27,7 @@ var sendMessage = function sendMessage(msg) {
 
 var getMessageNode = function getMessageNode(node) {
   var curNode = node;
-  while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
+  while (curNode && curNode.parentNode && curNode !== documentBody) {
     curNode = curNode.parentNode;
   }
   return curNode;
@@ -76,14 +75,14 @@ var handleMessageContent = function handleMessageContent(msg) {
   var msgNode = document.getElementById('msg-' + msg.anchor);
 
   if (!msgNode) {
-    elementMessageList.innerHTML = msg.content;
+    documentBody.innerHTML = msg.content;
     scrollToAnchor(msg.anchor);
     return;
   }
 
   scrollEventsDisabled = true;
   var prevBoundRect = msgNode.getBoundingClientRect();
-  elementMessageList.innerHTML = msg.content;
+  documentBody.innerHTML = msg.content;
   var newElement = document.getElementById('msg-' + msg.anchor);
   if (newElement) {
     var newBoundRect = newElement.getBoundingClientRect();

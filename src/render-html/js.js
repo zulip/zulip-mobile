@@ -11,7 +11,6 @@ window.onerror = (message, source, line, column, error) => {
 };
 
 const documentBody = document.body;
-const elementMessageList = document.getElementById('message-list');
 const elementSpinnerOlder = document.getElementById('spinner-older');
 const elementSpinnerNewer = document.getElementById('spinner-newer');
 const elementTyping = document.getElementById('typing');
@@ -21,7 +20,6 @@ let scrollEventsDisabled = false;
 
 if (
   !documentBody ||
-  !elementMessageList ||
   !elementSpinnerOlder ||
   !elementSpinnerNewer ||
   !elementTyping ||
@@ -36,7 +34,7 @@ const sendMessage = msg => {
 
 const getMessageNode = node => {
   let curNode = node;
-  while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
+  while (curNode && curNode.parentNode && curNode !== documentBody) {
     curNode = curNode.parentNode;
   }
   return curNode;
@@ -84,14 +82,14 @@ const handleMessageContent = msg => {
   const msgNode = document.getElementById(`msg-${msg.anchor}`);
 
   if (!msgNode) {
-    elementMessageList.innerHTML = msg.content;
+    documentBody.innerHTML = msg.content;
     scrollToAnchor(msg.anchor);
     return;
   }
 
   scrollEventsDisabled = true;
   const prevBoundRect = msgNode.getBoundingClientRect();
-  elementMessageList.innerHTML = msg.content;
+  documentBody.innerHTML = msg.content;
   const newElement = document.getElementById(`msg-${msg.anchor}`);
   if (newElement) {
     const newBoundRect = newElement.getBoundingClientRect();
