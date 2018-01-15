@@ -16,6 +16,8 @@ body {
   font-family: sans-serif;
   line-height: 1.4;
   margin: 0;
+  width: 100%;
+  max-width: 100%;
 }
 body {
   font-size: 15px;
@@ -109,7 +111,7 @@ th, td {
 .content {
   width: 100%;
   max-width: 100%;
-  overflow: scroll-x;
+  overflow-x: scroll;
 }
 .username {
   font-weight: bold;
