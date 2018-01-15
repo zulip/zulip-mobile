@@ -34,10 +34,12 @@ const sendMessage = msg => {
 
 const getMessageNode = node => {
   let curNode = node;
+  let previousNode = node;
   while (curNode && curNode.parentNode && curNode !== documentBody) {
+    previousNode = curNode;
     curNode = curNode.parentNode;
   }
-  return curNode;
+  return previousNode;
 };
 
 const getMessageIdFromNode = node => {
