@@ -6,6 +6,7 @@ import messageLoadingList from './messageLoadingListAsHtml';
 
 type InitOptionsType = {
   anchor: number,
+  highlightUnreadMessages: boolean,
   showMessagePlaceholders: boolean,
 };
 
@@ -25,7 +26,7 @@ ${content}
 
 export default (content: string, theme: string, initOptions: InitOptionsType) =>
   `
-${css(theme)}
+${css(theme, initOptions.highlightUnreadMessages)}
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <body>
