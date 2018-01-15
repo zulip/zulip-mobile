@@ -301,6 +301,9 @@ ul {
 .realm-reaction {
   pointer-events: none;
   cursor: default;
+  height: "auto";
+  width: 1.2em;
+  max-height: 1.2em;
 }
 .self-voted {
   color: ${BRAND_COLOR};

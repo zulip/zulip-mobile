@@ -3,7 +3,7 @@ import type { ReactionType } from '../types';
 import emojiMap from '../emoji/emojiMap';
 
 const getRealmEmojiHtml = (reaction: ReactionType, realmEmoji: Object) =>
-  `<img class="realm-reaction" src="${realmEmoji.source_url}" height="auto" width="16"/>
+  `<img class="realm-reaction" src="${realmEmoji.source_url}" />
   `;
 
 export default (messageId: number, reaction: ReactionType, realmEmoji: Object) =>
