@@ -31,8 +31,8 @@ class DebugScreen extends PureComponent<Props> {
         <OptionDivider />
         <OptionRow
           label="Distinguish unread messages"
-          defaultValue={debug.unreadMessages}
-          onValueChange={() => this.handleSettingToggle('unreadMessages')}
+          defaultValue={debug.highlightUnreadMessages}
+          onValueChange={() => this.handleSettingToggle('highlightUnreadMessages')}
         />
         <OptionDivider />
         <OptionRow

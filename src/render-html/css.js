@@ -342,10 +342,11 @@ body {
 }
 `;
 
-export default (theme: ThemeType) => `
+export default (theme: ThemeType, highlightUnreadMessages: boolean) => `
 <style>
 ${defaultTheme}
 ${theme === 'night' ? darkTheme : ''}
 ${cssEmojis}
+${highlightUnreadMessages ? '.message:not([data-read="true"]) { background: red; }' : ''}
 </style>
 `;

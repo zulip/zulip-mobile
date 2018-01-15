@@ -42,9 +42,10 @@ export default class MessageListWeb extends Component<Props> {
 
   render() {
     const { styles, theme } = this.context;
-    const { anchor, showMessagePlaceholders } = this.props;
+    const { anchor, showMessagePlaceholders, highlightUnreadMessages } = this.props;
     const html = getHtml(renderMessagesAsHtml(this.props), theme, {
       anchor,
+      highlightUnreadMessages,
       showMessagePlaceholders,
     });
 
