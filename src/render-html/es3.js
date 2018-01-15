@@ -27,10 +27,12 @@ var sendMessage = function sendMessage(msg) {
 
 var getMessageNode = function getMessageNode(node) {
   var curNode = node;
+  var previousNode = node;
   while (curNode && curNode.parentNode && curNode !== documentBody) {
+    previousNode = curNode;
     curNode = curNode.parentNode;
   }
-  return curNode;
+  return previousNode;
 };
 
 var getMessageIdFromNode = function getMessageIdFromNode(node) {
