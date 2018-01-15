@@ -508,9 +508,3 @@ export type PresenceAggregated = {
   status: string,
   timestamp: number,
 };
-
-export type AggregateReaction = {
-  name: string,
-  count: number,
-  selfReacted?: boolean,
-};
