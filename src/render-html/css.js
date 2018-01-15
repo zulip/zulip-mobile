@@ -302,8 +302,9 @@ ul {
   pointer-events: none;
   cursor: default;
   height: "auto";
-  width: 1.2em;
-  max-height: 1.2em;
+  width: 1em;
+  max-height: 1em;
+  vertical-align: middle;
 }
 .self-voted {
   color: ${BRAND_COLOR};
