@@ -4,7 +4,7 @@ import { StyleSheet, Image } from 'react-native';
 
 import type { Auth } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getAuth, getActiveRealmEmoji } from '../selectors';
+import { getActiveRealmEmoji } from '../selectors';
 
 const styles = StyleSheet.create({
   image: {
@@ -23,20 +23,14 @@ class RealmEmoji extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { name, realmEmoji, auth } = this.props;
+    const { name, realmEmoji } = this.props;
 
     if (!realmEmoji[name]) return null;
 
-    return (
-      <Image
-        style={styles.image}
-        source={{ uri: auth.realm.concat(realmEmoji[name].source_url) }}
-      />
-    );
+    return <Image style={styles.image} source={{ uri: realmEmoji[name].source_url }} />;
   }
 }
 
 export default connectWithActions(state => ({
-  auth: getAuth(state),
   realmEmoji: getActiveRealmEmoji(state),
 }))(RealmEmoji);

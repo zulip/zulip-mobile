@@ -56,7 +56,6 @@ ${messageDiv(id, 'message-brief', flags)}
 `;
 
 const fullMessageAsHtml = ({
-  auth,
   id,
   content,
   flags,

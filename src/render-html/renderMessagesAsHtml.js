@@ -32,7 +32,7 @@ const renderMessages = ({ auth, subscriptions, realmEmoji, renderedMessages, nar
             timeEdited: item.message.last_edit_timestamp,
             isOutbox: item.message.isOutbox,
             reactions: item.message.reactions,
-            auth,
+            ownEmail: auth.email,
             realmEmoji,
           }),
         );

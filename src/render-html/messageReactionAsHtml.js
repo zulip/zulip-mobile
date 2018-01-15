@@ -1,6 +1,5 @@
 /* @flow */
 import type { AggregateReaction, RealmEmojiType } from '../types';
-import { getFullUrl } from '../utils/url';
 import emojiMap from '../emoji/emojiMap';
 
 const getRealmEmojiHtml = (
@@ -8,10 +7,7 @@ const getRealmEmojiHtml = (
   realmEmoji: RealmEmojiType,
   realm: string,
 ) =>
-  `<img class="realm-reaction" src="${getFullUrl(
-    realmEmoji.source_url,
-    realm,
-  )}" height="auto" width="16"/>
+  `<img class="realm-reaction" src="${realmEmoji.source_url}" height="auto" width="16"/>
   `;
 
 export default (
