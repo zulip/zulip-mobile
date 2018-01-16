@@ -124,20 +124,33 @@ document.addEventListener('message', function (e) {
   }
 });
 
+var getStartAndEndNodes = function getStartAndEndNodes() {
+  var startNode = getMessageNode(document.elementFromPoint(200, 20));
+  var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
+
+  return {
+    start: startNode ? startNode.getAttribute('data-msg-id') : 0,
+    end: endNode ? endNode.getAttribute('data-msg-id') : 0
+  };
+};
+
+var prevNodes = getStartAndEndNodes();
+
 window.addEventListener('scroll', function () {
   if (scrollEventsDisabled) return;
 
-  var startNode = getMessageNode(document.elementFromPoint(200, 20));
-  var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
+  var currentNodes = getStartAndEndNodes();
 
   window.postMessage(JSON.stringify({
     type: 'scroll',
     scrollY: window.scrollY,
     innerHeight: window.innerHeight,
     offsetHeight: documentBody.offsetHeight,
-    startMessageId: startNode ? startNode.getAttribute('data-msg-id') : 0,
-    endMessageId: endNode ? endNode.getAttribute('data-msg-id') : 0
+    startMessageId: Math.min(prevNodes.start, currentNodes.start),
+    endMessageId: Math.max(prevNodes.end, currentNodes.end)
   }), '*');
+
+  prevNodes = currentNodes;
 });
 
 documentBody.addEventListener('click', function (e) {

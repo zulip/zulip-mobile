@@ -2,12 +2,15 @@
 import type { Actions, Auth, Message } from '../types';
 import config from '../config';
 import { isUrlAnImage } from '../utils/url';
-import { emojiReactionAdd, emojiReactionRemove } from '../api';
+import { filterUnreadMessagesInRange } from '../utils/unread';
+import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 
 type MessageListEventScroll = {
   innerHeight: number,
   offsetHeight: number,
   scrollY: number,
+  startMessageId: number,
+  endMessageId: number,
 };
 
 type MessageListEventAvatar = {
@@ -40,17 +43,29 @@ type MessageListEventDebug = Object;
 type Props = {
   actions: Actions,
   auth: Auth,
+  flags: Object,
   messages: Message[],
 };
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
-  const { innerHeight, offsetHeight, scrollY } = event;
+  const { innerHeight, offsetHeight, scrollY, startMessageId, endMessageId } = event;
   const { actions } = props;
 
   if (scrollY < config.messageListThreshold) {
     actions.fetchOlder();
   } else if (innerHeight + scrollY >= offsetHeight - config.messageListThreshold) {
     actions.fetchNewer();
+  }
+
+  const unreadMessageIds = filterUnreadMessagesInRange(
+    props.messages,
+    props.flags,
+    startMessageId,
+    endMessageId,
+  );
+
+  if (unreadMessageIds.length > 0) {
+    queueMarkAsRead(props.auth, unreadMessageIds);
   }
 };
 
