@@ -1,4 +1,5 @@
 let scrollEventsDisabled = true;
+let lastTouchEventTimestamp = 0;
 
 const sendMessage = msg => {
   window.postMessage(JSON.stringify(msg), '*');
@@ -97,6 +98,12 @@ const handleMessageTyping = msg => {
   setTimeout(() => scrollToBottomIfNearEnd());
 };
 
+const handleLongPress = e => {
+  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
+
+  lastTouchEventTimestamp = 0;
+};
+
 document.addEventListener('message', e => {
   const msg = JSON.parse(e.data);
   switch (msg.type) {
@@ -131,6 +138,7 @@ const getStartAndEndNodes = () => {
 let prevNodes = getStartAndEndNodes();
 
 window.addEventListener('scroll', () => {
+  lastTouchEventTimestamp = 0;
   if (scrollEventsDisabled) return;
 
   const currentNodes = getStartAndEndNodes();
@@ -151,6 +159,7 @@ window.addEventListener('scroll', () => {
 });
 
 document.body.addEventListener('click', e => {
+  lastTouchEventTimestamp = 0;
   if (e.target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
@@ -189,4 +198,21 @@ document.body.addEventListener('click', e => {
       voted: e.target.classList.contains('self-voted'),
     });
   }
+});
+
+document.body.addEventListener('touchstart', e => {
+  lastTouchEventTimestamp = Date.now();
+  setTimeout(() => handleLongPress(e), 500);
+});
+
+document.body.addEventListener('touchend', e => {
+  lastTouchEventTimestamp = Date.now();
+});
+
+document.body.addEventListener('touchmove', e => {
+  lastTouchEventTimestamp = 0;
+});
+
+document.body.addEventListener('drag', e => {
+  lastTouchEventTimestamp = 0;
 });
