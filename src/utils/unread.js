@@ -1,8 +1,18 @@
 /* @flow */
 import type { Message } from '../types';
 
-export const filterUnreadMessageIds = (messageIds: number[], flags: Object): Message[] =>
+export const filterUnreadMessageIds = (messageIds: number[], flags: Object): number[] =>
   messageIds.filter((msgId: number) => !flags || !flags.read || !flags.read[msgId]);
+
+export const filterUnreadMessagesInRange = (
+  messages: Message[],
+  flags: Object,
+  fromId: number,
+  toId: number,
+): Message[] => {
+  const messagesInRange = messages.filter(msg => msg.id >= fromId && msg.id <= toId);
+  return filterUnreadMessageIds(messagesInRange.map(x => x.id), flags);
+};
 
 export const countUnread = (
   messageIds: number[],

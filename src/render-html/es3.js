@@ -27,7 +27,7 @@ var sendMessage = function sendMessage(msg) {
 
 var getMessageNode = function getMessageNode(node) {
   var curNode = node;
-  while (curNode && curNode.parentNode && curNode !== documentBody) {
+  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
   }
   return curNode;
@@ -128,13 +128,14 @@ window.addEventListener('scroll', function () {
 
   var startNode = getMessageNode(document.elementFromPoint(200, 20));
   var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
-  console.log(startNode, endNode);
 
   window.postMessage(JSON.stringify({
     type: 'scroll',
     scrollY: window.scrollY,
     innerHeight: window.innerHeight,
-    offsetHeight: documentBody.offsetHeight
+    offsetHeight: documentBody.offsetHeight,
+    startMessageId: startNode ? startNode.getAttribute('data-msg-id') : 0,
+    endMessageId: endNode ? endNode.getAttribute('data-msg-id') : 0
   }), '*');
 });
 

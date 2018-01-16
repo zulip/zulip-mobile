@@ -34,7 +34,7 @@ const sendMessage = msg => {
 
 const getMessageNode = node => {
   let curNode = node;
-  while (curNode && curNode.parentNode && curNode !== documentBody) {
+  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
   }
   return curNode;
@@ -133,7 +133,6 @@ window.addEventListener('scroll', () => {
 
   const startNode = getMessageNode(document.elementFromPoint(200, 20));
   const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
-  console.log(startNode, endNode);
 
   window.postMessage(
     JSON.stringify({
@@ -141,6 +140,8 @@ window.addEventListener('scroll', () => {
       scrollY: window.scrollY,
       innerHeight: window.innerHeight,
       offsetHeight: documentBody.offsetHeight,
+      startMessageId: startNode ? startNode.getAttribute('data-msg-id') : 0,
+      endMessageId: endNode ? endNode.getAttribute('data-msg-id') : 0,
     }),
     '*',
   );
