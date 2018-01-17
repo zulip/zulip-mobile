@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
-import type { Dimensions, StatusBarStyle } from '../types';
+import type { SafeAreaDimensions, StatusBarStyle } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 import getStatusBarStyle from '../utils/getStatusBarStyle';
@@ -14,7 +14,7 @@ type Props = {
   hidden: boolean,
   theme: string,
   backgroundColor: string,
-  safeAreaInsets: Dimensions,
+  safeAreaInsets: SafeAreaDimensions,
   textColor: string,
   orientation: string,
 };

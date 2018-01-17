@@ -477,7 +477,7 @@ export type ActionSheetButtonType = {
   onlyIf?: (props: AuthMessageAndNarrow) => boolean,
 };
 
-export type Dimensions = {
+export type SafeAreaDimensions = {
   bottom: number,
   left: number,
   right: number,

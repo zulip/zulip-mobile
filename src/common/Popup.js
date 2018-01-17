@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import type { ChildrenArray } from 'react';
-import { View, Dimensions, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   popup: {
@@ -27,12 +27,8 @@ export default class Popup extends PureComponent<Props> {
   };
 
   render() {
-    const { height } = Dimensions.get('window');
-
     return (
-      <View style={[this.context.styles.backgroundColor, styles.popup]} maxHeight={height / 4}>
-        {this.props.children}
-      </View>
+      <View style={[this.context.styles.backgroundColor, styles.popup]}>{this.props.children}</View>
     );
   }
 }
