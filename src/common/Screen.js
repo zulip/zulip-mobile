@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { ChildrenArray, Dimensions, LocalizableText } from '../types';
+import type { ChildrenArray, LocalizableText, SafeAreaDimensions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { KeyboardAvoider, ZulipStatusBar } from '../common';
 import ModalNavBar from '../nav/ModalNavBar';
@@ -22,7 +22,7 @@ const componentStyles = StyleSheet.create({
 type Props = {
   padding?: boolean,
   search?: boolean,
-  safeAreaInsets: Dimensions,
+  safeAreaInsets: SafeAreaDimensions,
   scrollView: boolean,
   title?: LocalizableText,
   children: ChildrenArray<*>,

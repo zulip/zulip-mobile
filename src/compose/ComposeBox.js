@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput, Dimensions } from 'react-native';
 import isEqual from 'lodash.isequal';
 
 import type {
@@ -10,7 +10,7 @@ import type {
   InputSelectionType,
   User,
   Actions,
-  Dimensions,
+  SafeAreaDimensions,
 } from '../types';
 import { updateMessage } from '../api';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
@@ -26,8 +26,16 @@ import NotSubscribed from '../message/NotSubscribed';
 
 const MIN_HEIGHT = 42;
 const MAX_HEIGHT = 100;
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 const componentStyles = StyleSheet.create({
+  autocompleteWrapper: {
+    bottom: 0,
+    flex: 1,
+    position: 'absolute',
+    width: windowWidth,
+  },
   bottom: {
     flexDirection: 'column',
     justifyContent: 'flex-end',
@@ -54,7 +62,7 @@ type Props = {
   lastMessageTopic: string,
   isSubscribed: boolean,
   editMessage: EditMessage,
-  safeAreaInsets: Dimensions,
+  safeAreaInsets: SafeAreaDimensions,
   actions: Actions,
   messageInputRef: (component: any) => void,
   onSend: () => void,
@@ -265,12 +273,17 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
     return (
       <View>
-        <TopicAutocomplete text={topic} onAutocomplete={this.handleTopicChange} />
-        <AutoCompleteView
-          text={message}
-          onAutocomplete={this.handleMessageChange}
-          selection={selection}
-        />
+        <View
+          style={[componentStyles.autocompleteWrapper, { marginBottom: totalHeight }]}
+          maxHeight={windowHeight / 4}
+        >
+          <TopicAutocomplete text={topic} onAutocomplete={this.handleTopicChange} />
+          <AutoCompleteView
+            text={message}
+            onAutocomplete={this.handleMessageChange}
+            selection={selection}
+          />
+        </View>
         <View
           style={[styles.composeBox, { height: totalHeight, marginBottom: safeAreaInsets.bottom }]}
         >

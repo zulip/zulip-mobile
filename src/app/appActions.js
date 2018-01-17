@@ -1,5 +1,5 @@
 /* @flow */
-import type { Action, Dimensions, Dispatch, GetState } from '../types';
+import type { Action, Dispatch, GetState, SafeAreaDimensions } from '../types';
 import {
   APP_ONLINE,
   APP_ORIENTATION,
@@ -36,7 +36,7 @@ export const appRefresh = () => ({
   type: APP_REFRESH,
 });
 
-export const initSafeAreaInsets = (safeAreaInsets: Dimensions) => ({
+export const initSafeAreaInsets = (safeAreaInsets: SafeAreaDimensions) => ({
   type: INIT_SAFE_AREA_INSETS,
   ...safeAreaInsets,
 });
