@@ -96,7 +96,7 @@ class OAuthView extends Component<Props> {
       <ZulipButton
         style={styles.smallMarginTop}
         secondary
-        text={`Sign in with ${name}`}
+        text={`Log in with ${name}`}
         Icon={Icon}
         onPress={this.handleGoogleAuth}
       />

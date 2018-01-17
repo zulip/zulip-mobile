@@ -108,7 +108,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
         />
         <ZulipButton
           style={styles.smallMarginTop}
-          text="Sign in"
+          text="Log in"
           progress={progress}
           onPress={this.validateForm}
         />

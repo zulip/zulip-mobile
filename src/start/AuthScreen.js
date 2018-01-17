@@ -50,7 +50,7 @@ class AuthScreen extends PureComponent<Props> {
     const { serverSettings } = this.props.navigation.state.params;
 
     return (
-      <Screen title="Sign in" padding>
+      <Screen title="Log in" padding>
         <Centerer>
           <View style={componentStyles.description}>
             {serverSettings.realm_icon && (
@@ -64,7 +64,7 @@ class AuthScreen extends PureComponent<Props> {
             <RawLabel style={componentStyles.name} text={serverSettings.realm_name} />
           </View>
           {serverSettings.authentication_methods.dev && (
-            <ZulipButton text="Sign in with dev account" onPress={this.handleDevAuth} />
+            <ZulipButton text="Log in with dev account" onPress={this.handleDevAuth} />
           )}
           {(serverSettings.authentication_methods.password ||
             serverSettings.authentication_methods.ldap) && (
