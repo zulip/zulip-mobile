@@ -10,7 +10,7 @@ import type {
   InputSelectionType,
   User,
   Actions,
-  Dimensions,
+  DimensionsType,
 } from '../types';
 import { updateMessage } from '../api';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
@@ -59,7 +59,7 @@ type Props = {
   lastMessageTopic: string,
   isSubscribed: boolean,
   editMessage: EditMessage,
-  safeAreaInsets: Dimensions,
+  safeAreaInsets: DimensionsType,
   actions: Actions,
   messageInputRef: (component: any) => void,
   onSend: () => void,

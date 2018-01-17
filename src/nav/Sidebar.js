@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { homeNarrow, specialNarrow, allPrivateNarrow } from '../utils/narrow';
 import NavButton from './NavButton';
-import type { Actions, Dimensions, Narrow } from '../types';
+import type { Actions, Narrow, DimensionsType } from '../types';
 import connectWithActions from '../connectWithActions';
 import MainTabs from '../main/MainTabs';
 
@@ -22,7 +22,7 @@ const componentStyles = StyleSheet.create({
 type Props = {
   actions: Actions,
   navigation: any,
-  safeAreaInsets: Dimensions,
+  safeAreaInsets: DimensionsType,
 };
 
 class Sidebar extends PureComponent<Props> {
