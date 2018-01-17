@@ -45,6 +45,15 @@ const getMessageIdFromNode = node => {
   return msgNode && msgNode.getAttribute('data-msg-id');
 };
 
+const isTargetIsMessageContent = target => {
+  let curNode = target;
+  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
+    if (curNode.matches('.msg-raw-content')) return true;
+    curNode = curNode.parentNode;
+  }
+  return false;
+};
+
 const scrollToBottom = () => {
   window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
 };

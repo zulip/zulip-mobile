@@ -38,6 +38,15 @@ var getMessageIdFromNode = function getMessageIdFromNode(node) {
   return msgNode && msgNode.getAttribute('data-msg-id');
 };
 
+var isTargetIsMessageContent = function isTargetIsMessageContent(target) {
+  var curNode = target;
+  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
+    if (curNode.matches('.msg-raw-content')) return true;
+    curNode = curNode.parentNode;
+  }
+  return false;
+};
+
 var scrollToBottom = function scrollToBottom() {
   window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
 };
