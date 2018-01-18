@@ -13,7 +13,9 @@ const messageDiv = (id, msgClass, flags) =>
 const briefMessageAsHtml = ({ id, content, flags, timeEdited, isOutbox, reactions, ownEmail }) => `
 ${messageDiv(id, 'message-brief', flags)}
   <div class="content">
-    ${content}
+    <div class="msg-raw-content">
+      ${content}
+    </div>
     ${messageTagsAsHtml(flags, timeEdited, isOutbox)}
     ${messageReactionListAsHtml(reactions, id, ownEmail)}
   </div>
@@ -49,7 +51,9 @@ ${messageDiv(id, 'message-full', flags)}
         ${shortTime(timestamp * 1000, twentyFourHourTime)}
       </div>
     </div>
-    ${content}
+    <div class="msg-raw-content">
+      ${content}
+    </div>
     ${messageTagsAsHtml(flags, timeEdited, isOutbox)}
     ${messageReactionListAsHtml(reactions, id, ownEmail)}
   </div>
