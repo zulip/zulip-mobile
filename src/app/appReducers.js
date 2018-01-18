@@ -42,7 +42,7 @@ const initialState: AppState = {
   },
   debug: {
     htmlMessages: true,
-    highlightUnreadMessages: false,
+    highlightUnreadMessages: true,
     splitMessageText: false,
     initialNotification: {},
   },

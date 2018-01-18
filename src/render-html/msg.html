@@ -1,3 +1,412 @@
+<script>
+window.__forceSmoothScrollPolyfill__ = true;
+window.onerror = function(message, source, line, column, error) {
+  var obj = JSON.stringify(error);
+  var errorStr = [
+    'Message: ' + message + '<br>',
+    'Line: ' + line + ':' + column + '<br>',
+    'Error: ' + obj + '<br>',
+  ].join('');
+  document.getElementById('js-error').innerHTML = errorStr;
+  return false;
+};
+
+!(function() {
+  'use strict';
+  function o(o) {
+    var t = ['MSIE ', 'Trident/', 'Edge/'];
+    return new RegExp(t.join('|')).test(o);
+  }
+  function t() {
+    function t(o, t) {
+      (this.scrollLeft = o), (this.scrollTop = t);
+    }
+    function r(o) {
+      return 0.5 * (1 - Math.cos(Math.PI * o));
+    }
+    function i(o) {
+      if (
+        null === o ||
+        'object' != typeof o ||
+        void 0 === o.behavior ||
+        'auto' === o.behavior ||
+        'instant' === o.behavior
+      )
+        return !0;
+      if ('object' == typeof o && 'smooth' === o.behavior) return !1;
+      throw new TypeError(
+        'behavior member of ScrollOptions ' +
+          o.behavior +
+          ' is not a valid value for enumeration ScrollBehavior.',
+      );
+    }
+    function s(o, t) {
+      return 'Y' === t
+        ? o.clientHeight + h < o.scrollHeight
+        : 'X' === t ? o.clientWidth + h < o.scrollWidth : void 0;
+    }
+    function c(o, t) {
+      var e = l.getComputedStyle(o, null)['overflow' + t];
+      return 'auto' === e || 'scroll' === e;
+    }
+    function n(o) {
+      var t = s(o, 'Y') && c(o, 'Y'),
+        l = s(o, 'X') && c(o, 'X');
+      return t || l;
+    }
+    function f(o) {
+      var t;
+      do {
+        t = (o = o.parentNode) === e.body;
+      } while (!1 === t && !1 === n(o));
+      return (t = null), o;
+    }
+    function a(o) {
+      var t,
+        e,
+        i,
+        s = (y() - o.startTime) / v;
+      (t = r((s = s > 1 ? 1 : s))),
+        (e = o.startX + (o.x - o.startX) * t),
+        (i = o.startY + (o.y - o.startY) * t),
+        o.method.call(o.scrollable, e, i),
+        (e === o.x && i === o.y) || l.requestAnimationFrame(a.bind(l, o));
+    }
+    function p(o, r, i) {
+      var s,
+        c,
+        n,
+        f,
+        p = y();
+      o === e.body
+        ? ((s = l),
+          (c = l.scrollX || l.pageXOffset),
+          (n = l.scrollY || l.pageYOffset),
+          (f = u.scroll))
+        : ((s = o), (c = o.scrollLeft), (n = o.scrollTop), (f = t)),
+        a({ scrollable: s, method: f, startTime: p, startX: c, startY: n, x: r, y: i });
+    }
+    if (!('scrollBehavior' in e.documentElement.style && !0 !== l.__forceSmoothScrollPolyfill__)) {
+      var d = l.HTMLElement || l.Element,
+        v = 468,
+        h = o(l.navigator.userAgent) ? 1 : 0,
+        u = {
+          scroll: l.scroll || l.scrollTo,
+          scrollBy: l.scrollBy,
+          elementScroll: d.prototype.scroll || t,
+          scrollIntoView: d.prototype.scrollIntoView,
+        },
+        y = l.performance && l.performance.now ? l.performance.now.bind(l.performance) : Date.now;
+      (l.scroll = l.scrollTo = function() {
+        void 0 !== arguments[0] &&
+          (!0 !== i(arguments[0])
+            ? p.call(
+                l,
+                e.body,
+                void 0 !== arguments[0].left ? ~~arguments[0].left : l.scrollX || l.pageXOffset,
+                void 0 !== arguments[0].top ? ~~arguments[0].top : l.scrollY || l.pageYOffset,
+              )
+            : u.scroll.call(
+                l,
+                void 0 !== arguments[0].left
+                  ? arguments[0].left
+                  : 'object' != typeof arguments[0] ? arguments[0] : l.scrollX || l.pageXOffset,
+                void 0 !== arguments[0].top
+                  ? arguments[0].top
+                  : void 0 !== arguments[1] ? arguments[1] : l.scrollY || l.pageYOffset,
+              ));
+      }),
+        (l.scrollBy = function() {
+          void 0 !== arguments[0] &&
+            (i(arguments[0])
+              ? u.scrollBy.call(
+                  l,
+                  void 0 !== arguments[0].left
+                    ? arguments[0].left
+                    : 'object' != typeof arguments[0] ? arguments[0] : 0,
+                  void 0 !== arguments[0].top
+                    ? arguments[0].top
+                    : void 0 !== arguments[1] ? arguments[1] : 0,
+                )
+              : p.call(
+                  l,
+                  e.body,
+                  ~~arguments[0].left + (l.scrollX || l.pageXOffset),
+                  ~~arguments[0].top + (l.scrollY || l.pageYOffset),
+                ));
+        }),
+        (d.prototype.scroll = d.prototype.scrollTo = function() {
+          if (void 0 !== arguments[0])
+            if (!0 !== i(arguments[0])) {
+              var o = arguments[0].left,
+                t = arguments[0].top;
+              p.call(
+                this,
+                this,
+                void 0 === o ? this.scrollLeft : ~~o,
+                void 0 === t ? this.scrollTop : ~~t,
+              );
+            } else {
+              if ('number' == typeof arguments[0] && void 0 === arguments[1])
+                throw new SyntaxError("Value couldn't be converted");
+              u.elementScroll.call(
+                this,
+                void 0 !== arguments[0].left
+                  ? ~~arguments[0].left
+                  : 'object' != typeof arguments[0] ? ~~arguments[0] : this.scrollLeft,
+                void 0 !== arguments[0].top
+                  ? ~~arguments[0].top
+                  : void 0 !== arguments[1] ? ~~arguments[1] : this.scrollTop,
+              );
+            }
+        }),
+        (d.prototype.scrollBy = function() {
+          void 0 !== arguments[0] &&
+            (!0 !== i(arguments[0])
+              ? this.scroll({
+                  left: ~~arguments[0].left + this.scrollLeft,
+                  top: ~~arguments[0].top + this.scrollTop,
+                  behavior: arguments[0].behavior,
+                })
+              : u.elementScroll.call(
+                  this,
+                  void 0 !== arguments[0].left
+                    ? ~~arguments[0].left + this.scrollLeft
+                    : ~~arguments[0] + this.scrollLeft,
+                  void 0 !== arguments[0].top
+                    ? ~~arguments[0].top + this.scrollTop
+                    : ~~arguments[1] + this.scrollTop,
+                ));
+        }),
+        (d.prototype.scrollIntoView = function() {
+          if (!0 !== i(arguments[0])) {
+            var o = f(this),
+              t = o.getBoundingClientRect(),
+              r = this.getBoundingClientRect();
+            o !== e.body
+              ? (p.call(this, o, o.scrollLeft + r.left - t.left, o.scrollTop + r.top - t.top),
+                'fixed' !== l.getComputedStyle(o).position &&
+                  l.scrollBy({ left: t.left, top: t.top, behavior: 'smooth' }))
+              : l.scrollBy({ left: r.left, top: r.top, behavior: 'smooth' });
+          } else u.scrollIntoView.call(this, void 0 === arguments[0] || arguments[0]);
+        });
+    }
+  }
+  var l = window,
+    e = document;
+  'object' == typeof exports ? (module.exports = { polyfill: t }) : t();
+})();
+
+document.addEventListener('DOMContentLoaded', function() {
+  'use strict';
+
+  var documentBody = document.body;
+  var elementSpinnerOlder = document.getElementById('spinner-older');
+  var elementSpinnerNewer = document.getElementById('spinner-newer');
+  var elementTyping = document.getElementById('typing');
+  var elementMessageLoading = document.getElementById('message-loading');
+
+  var scrollEventsDisabled = false;
+
+  if (
+    !documentBody ||
+    !elementSpinnerOlder ||
+    !elementSpinnerNewer ||
+    !elementTyping ||
+    !elementMessageLoading
+  ) {
+    throw new Error('HTML elements missing');
+  }
+
+  var sendMessage = function sendMessage(msg) {
+    window.postMessage(JSON.stringify(msg), '*');
+  };
+
+  var getMessageNode = function getMessageNode(node) {
+    var curNode = node;
+    while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
+      curNode = curNode.parentNode;
+    }
+    return curNode;
+  };
+
+  var getMessageIdFromNode = function getMessageIdFromNode(node) {
+    var msgNode = getMessageNode(node);
+    return msgNode && msgNode.getAttribute('data-msg-id');
+  };
+
+  var isTargetIsMessageContent = function isTargetIsMessageContent(target) {
+    var curNode = target;
+    while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
+      if (curNode.matches('.msg-raw-content')) return true;
+      curNode = curNode.parentNode;
+    }
+    return false;
+  };
+
+  var scrollToBottom = function scrollToBottom() {
+    window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
+  };
+
+  var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
+    if (documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight) {
+      scrollToBottom();
+    }
+  };
+
+  var scrollToAnchor = function scrollToAnchor(anchor) {
+    var anchorNode = document.getElementById('msg-' + anchor);
+
+    if (anchorNode) {
+      anchorNode.scrollIntoView({ block: 'start' });
+    } else {
+      scrollToBottom();
+    }
+  };
+
+  var height = documentBody.clientHeight;
+  window.addEventListener('resize', function(event) {
+    var difference = height - documentBody.clientHeight;
+    if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
+      window.scrollBy({ left: 0, top: difference });
+    }
+    height = documentBody.clientHeight;
+  });
+
+  var handleMessageBottom = function handleMessageBottom(msg) {
+    scrollToBottom();
+  };
+
+  var handleMessageContent = function handleMessageContent(msg) {
+    var msgNode = document.getElementById('msg-' + msg.anchor);
+
+    if (!msgNode) {
+      documentBody.innerHTML = msg.content;
+      scrollToAnchor(msg.anchor);
+      return;
+    }
+
+    scrollEventsDisabled = true;
+    var prevBoundRect = msgNode.getBoundingClientRect();
+    documentBody.innerHTML = msg.content;
+    var newElement = document.getElementById('msg-' + msg.anchor);
+    if (newElement) {
+      var newBoundRect = newElement.getBoundingClientRect();
+      window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
+    }
+    scrollEventsDisabled = false;
+  };
+
+  var handleMessageFetching = function handleMessageFetching(msg) {
+    elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
+    elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
+    elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
+  };
+
+  var handleMessageTyping = function handleMessageTyping(msg) {
+    elementTyping.innerHTML = msg.content;
+    setTimeout(function() {
+      return scrollToBottomIfNearEnd();
+    });
+  };
+
+  document.addEventListener('message', function(e) {
+    var msg = JSON.parse(e.data);
+    switch (msg.type) {
+      case 'bottom':
+        handleMessageBottom(msg);
+        break;
+      case 'content':
+        handleMessageContent(msg);
+        break;
+      case 'fetching':
+        handleMessageFetching(msg);
+        break;
+      case 'typing':
+        handleMessageTyping(msg);
+        break;
+      default:
+    }
+  });
+
+  var getStartAndEndNodes = function getStartAndEndNodes() {
+    var startNode = getMessageNode(document.elementFromPoint(200, 20));
+    var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
+
+    return {
+      start: startNode ? startNode.getAttribute('data-msg-id') : 0,
+      end: endNode ? endNode.getAttribute('data-msg-id') : 0,
+    };
+  };
+
+  var prevNodes = getStartAndEndNodes();
+
+  window.addEventListener('scroll', function() {
+    if (scrollEventsDisabled) return;
+
+    var currentNodes = getStartAndEndNodes();
+
+    window.postMessage(
+      JSON.stringify({
+        type: 'scroll',
+        scrollY: window.scrollY,
+        innerHeight: window.innerHeight,
+        offsetHeight: documentBody.offsetHeight,
+        startMessageId: Math.min(prevNodes.start, currentNodes.start),
+        endMessageId: Math.max(prevNodes.end, currentNodes.end),
+      }),
+      '*',
+    );
+
+    prevNodes = currentNodes;
+  });
+
+  documentBody.addEventListener('click', function(e) {
+    if (e.target.matches('.avatar-img')) {
+      sendMessage({
+        type: 'avatar',
+        fromEmail: e.target.getAttribute('data-email'),
+      });
+    }
+
+    if (e.target.matches('.header')) {
+      sendMessage({
+        type: 'narrow',
+        narrow: e.target.getAttribute('data-narrow'),
+        id: e.target.getAttribute('data-id'),
+      });
+    }
+
+    if (e.target.matches('a[target="_blank"] > img')) {
+      sendMessage({
+        type: 'image',
+        src: e.target.parentNode.getAttribute('href'),
+        messageId: +getMessageIdFromNode(e.target),
+      });
+    } else if (e.target.matches('a')) {
+      sendMessage({
+        type: 'url',
+        href: e.target.getAttribute('href'),
+        messageId: +getMessageIdFromNode(e.target),
+      });
+      e.preventDefault();
+    }
+
+    if (e.target.matches('.reaction')) {
+      sendMessage({
+        type: 'reaction',
+        name: e.target.getAttribute('data-name'),
+        messageId: +getMessageIdFromNode(e.target),
+        voted: e.target.classList.contains('self-voted'),
+      });
+    }
+  });
+
+  scrollToAnchor(430205);
+});
+</script>
+
+
 <style>
 
 html {
@@ -10,9 +419,12 @@ body {
   font-family: sans-serif;
   line-height: 1.4;
   margin: 0;
+  width: 100%;
+  max-width: 100%;
 }
 body {
   font-size: 15px;
+  overflow-x: hidden;
 }
 a {
   color: #08c;
@@ -30,7 +442,7 @@ pre {
   padding: 0.5em;
   margin: 0.5em 0;
   font-size: 0.75em;
-  overflow: scroll-x;
+  overflow: scroll;
 }
 code, pre {
   border-radius: 3px;
@@ -102,7 +514,7 @@ th, td {
 .content {
   width: 100%;
   max-width: 100%;
-  overflow: scroll-x;
+  overflow-x: scroll;
 }
 .username {
   font-weight: bold;
@@ -321,15 +733,6 @@ ul {
   font-size: 10px;
 }
 
-
-body {
-  color: #d5d9dd;
-  background: #212D3B;
-}
-
-.topic-text {
-  background: #54606E;
-}
 
 .emoji-2049:before { content: '⁉'; }
 .emoji-2122:before { content: '™'; }
@@ -1342,2100 +1745,107 @@ body {
 .emoji-1f4a7:before { content: '💧'; }
 .emoji-1f4f3:before { content: '📳'; }
 .emoji-1f574:before { content: '🕴'; }
+.message:not([data-read="true"]) { background: red; }
 </style>
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <body>
+
 <div id="js-error"></div>
 <div id="spinner-older" class="hidden loading-spinner"></div>
-  <div class="timerow" data-msg-id="411527">
+
+
+  <div class="timerow" data-msg-id="430205">
     <div class="timerow-left"></div>
-    Dec 27, 2017
-    <div class="timerow-right"></div>
-  </div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'jainkuniya@gmail.com'}]" data-msg-id="411527">
-  Vishwesh Jainkuniya
-</div>
-
-<div
-     class="message message-full"
-     id="msg-411527"
-     data-msg-id="411527"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        7:09 AM
-      </div>
-    </div>
-    <p>This one is also important next:<br>
-<a href="https://github.com/zulip/zulip-mobile/issues/1590" target="_blank" title="https://github.com/zulip/zulip-mobile/issues/1590">https://github.com/zulip/zulip-mobile/issues/1590</a></p>
-
-
-    <div class="reaction-list">
-
-  <span onClick="" class="reaction" data-name="thumbs_up">
-    👍 1
-  </span>
-
-    </div>
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-411539"
-     data-msg-id="411539"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Just did a review on the PR. <br>
-You did put a lot of effort in it. Thanks for this,appreciated.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-411540"
-     data-msg-id="411540"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Don't be confused by the 'changes needed' tag I did for the review. It will need a completely different approach, so don't try to modify this one following my comments.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-411541"
-     data-msg-id="411541"
-     data-read="true"
-    >
-  <div class="content">
-    <p>I will try to make it work with the simplest div replacement possible, it seems like it might work.<br>
-Let's try to collect issues that still exist in the list view (the published Betas contain the yesteday's code, so you can try on a real device too)</p>
-
-
-    <div class="reaction-list">
-
-  <span onClick="" class="reaction" data-name="thumbs_up">
-    👍 1
-  </span>
-
-    </div>
-
-  </div>
-</div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'kunall.gupta17@gmail.com'}]" data-msg-id="411545">
-  Kunal Gupta
-</div>
-
-<div
-     class="message message-full"
-     id="msg-411545"
-     data-msg-id="411545"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/959051cc2b06e601d017e3420dfe1f538d7c119f.png?x=x&version=1" class="avatar-img" data-email="kunall.gupta17@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Kunal Gupta
-      </div>
-      <div class="timestamp">
-        7:42 AM
-      </div>
-    </div>
-    <p>I opened this PR <a href="https://github.com/zulip/zulip-mobile/pull/1643" target="_blank" title="https://github.com/zulip/zulip-mobile/pull/1643">https://github.com/zulip/zulip-mobile/pull/1643</a> for the click in iOS but requires a test before deploying, so can you give it a test with the provisioning profile</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-411546"
-     data-msg-id="411546"
-     data-read="true"
-    >
-  <div class="content">
-    <p>This line should contain the data of the opened notification <a href="https://github.com/zulip/zulip-mobile/pull/1643/files#diff-a12eaee7cfa143b2a8237560db247fe4R74" target="_blank" title="https://github.com/zulip/zulip-mobile/pull/1643/files#diff-a12eaee7cfa143b2a8237560db247fe4R74">https://github.com/zulip/zulip-mobile/pull/1643/files#diff-a12eaee7cfa143b2a8237560db247fe4R74</a> but I'm not sure about in which key will have the <code>custom</code> dict of the sent APNS payload will be!</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-411636"
-     data-msg-id="411636"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Hey this PR <a href="https://github.com/zulip/zulip-mobile/pull/1644" target="_blank" title="https://github.com/zulip/zulip-mobile/pull/1644">https://github.com/zulip/zulip-mobile/pull/1644</a> for android notification click is pretty concrete and will work</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-411637"
-     data-msg-id="411637"
-     data-read="true"
-    >
-  <div class="content">
-    <p>And this PR <a href="https://github.com/zulip/zulip-mobile/pull/1643" target="_blank" title="https://github.com/zulip/zulip-mobile/pull/1643">https://github.com/zulip/zulip-mobile/pull/1643</a> for ios, can be deployed before a check though!</p>
-
-
-  </div>
-</div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'jainkuniya@gmail.com'}]" data-msg-id="411955">
-  Vishwesh Jainkuniya
-</div>
-
-<div
-     class="message message-full"
-     id="msg-411955"
-     data-msg-id="411955"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/6192d4535dd2c89098f1c1cce91e40b97632248e.png?x=x&version=2" class="avatar-img" data-email="jainkuniya@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishwesh Jainkuniya
-      </div>
-      <div class="timestamp">
-        3:37 PM
-      </div>
-    </div>
-    <blockquote>
-<p>I suspect this one is for you to tackle? :)<br>
-<a href="https://github.com/zulip/zulip-mobile/issues/1642" target="_blank" title="https://github.com/zulip/zulip-mobile/issues/1642">https://github.com/zulip/zulip-mobile/issues/1642</a></p>
-</blockquote>
-<p>cool! I am also thinking to try some another approach (sometimes on iOS keyboard event is unnecessary triggered) <span class="emoji emoji-1f44d" title="+1">:+1:</span></p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-411956"
-     data-msg-id="411956"
-     data-read="true"
-    >
-  <div class="content">
-    <blockquote>
-<p>Just did a review on the PR. <br>
-You did put a lot of effort in it. Thanks for this,appreciated.</p>
-</blockquote>
-<p>Thanks a lot! got to learn many new stuff :)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-411958"
-     data-msg-id="411958"
-     data-read="true"
-    >
-  <div class="content">
-    <blockquote>
-<p>I will try to make it work with the simplest div replacement possible, it seems like it might work.</p>
-</blockquote>
-<p>great! will he happy to work on this with you. :)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-411959"
-     data-msg-id="411959"
-     data-read="true"
-    >
-  <div class="content">
-    <p>BTW are we only pushing release tag on GitHub repo for public release? (for me that is the only way to get notified for the new update <span class="emoji emoji-1f604" title="smile">:smile:</span> )</p>
-
-
-  </div>
-</div>
-
-  <div class="timerow" data-msg-id="412698">
-    <div class="timerow-left"></div>
-    Dec 28, 2017
-    <div class="timerow-right"></div>
-  </div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'rishig@zulipchat.com,brock@zulipchat.com'}]" data-msg-id="412698">
-  Brock Whittaker, Rishi Gupta
-</div>
-
-<div
-     class="message message-full"
-     id="msg-412698"
-     data-msg-id="412698"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Rishi Gupta
-      </div>
-      <div class="timestamp">
-        1:34 AM
-      </div>
-    </div>
-    <p>Hey Boris, do you by any chance have the ability to generate certificates in our mac developer account? Our Mac App Distribution certificate is expiring on Dec 29, I think Brock is unable to connect to the internet, and I have access to a mac but only an untrusted one.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-412706"
-     data-msg-id="412706"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        1:39 AM
-      </div>
-    </div>
-    <p>Hey, I am not sure, I'll have a look.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-412707"
-     data-msg-id="412707"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Rishi Gupta
-      </div>
-      <div class="timestamp">
-        1:41 AM
-      </div>
-    </div>
-    <p>thanks. It's at <a href="https://developer.apple.com/account/" target="_blank" title="https://developer.apple.com/account/">https://developer.apple.com/account/</a>, under "Certificates, Profiles and Identities"</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-412708"
-     data-msg-id="412708"
-     data-read="true"
-    >
-  <div class="content">
-    <p>and then switch dropdown that has iOS, tvOS, watchOS to macOS</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-412714"
-     data-msg-id="412714"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        1:51 AM
-      </div>
-    </div>
-    <p>I think I did generate one</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-412715"
-     data-msg-id="412715"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Hmm, maybe we want it under the Kandra Labs name, will retry.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-412716"
-     data-msg-id="412716"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Done. Check if that is what you need.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-412720"
-     data-msg-id="412720"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Rishi Gupta
-      </div>
-      <div class="timestamp">
-        2:06 AM
-      </div>
-    </div>
-    <p>okay, it seems like a new one was generated, but with an expiry of today?<br>
-<a href="/user_uploads/2/a4/KjuSEz5V6wZ_gbdWXrP7DUyF/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/a4/KjuSEz5V6wZ_gbdWXrP7DUyF/pasted_image.png" target="_blank" title="pasted image"><img src="https://chat.zulip.org/user_uploads/2/a4/KjuSEz5V6wZ_gbdWXrP7DUyF/pasted_image.png"></a></div>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-412721"
-     data-msg-id="412721"
-     data-read="true"
-    >
-  <div class="content">
-    <p>oh, next year!</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-412722"
-     data-msg-id="412722"
-     data-read="true"
-    >
-  <div class="content">
-    <p>nice, thanks!</p>
-
-
-  </div>
-</div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'abhayku2002@gmail.com'}]" data-msg-id="413644">
-  Abhay kumar
-</div>
-
-<div
-     class="message message-full"
-     id="msg-413644"
-     data-msg-id="413644"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/9c0a89b888ad4b91e69eb09ddf13356b?d=identicon&version=1" class="avatar-img" data-email="abhayku2002@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Abhay kumar
-      </div>
-      <div class="timestamp">
-        4:48 PM
-      </div>
-    </div>
-    <p><a href="https://github.com/zulip/zulip-gci/blob/master/tasks/2017/translations.md" target="_blank" title="https://github.com/zulip/zulip-gci/blob/master/tasks/2017/translations.md">https://github.com/zulip/zulip-gci/blob/master/tasks/2017/translations.md</a></p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-413646"
-     data-msg-id="413646"
-     data-read="true"
-    >
-  <div class="content">
-    <p>can you elaborate 2nd point of task type type a</p>
-
-
-  </div>
-</div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'bobtester@mailinator.com'}]" data-msg-id="414379">
-  Bob Tester
-</div>
-
-<div
-     class="message message-full"
-     id="msg-414379"
-     data-msg-id="414379"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        11:11 PM
-      </div>
-    </div>
-    <p>This is basically a long tweet, you can say two liner.</p>
-
-
-  </div>
-</div>
-
-  <div class="timerow" data-msg-id="423590">
-    <div class="timerow-left"></div>
-    Jan 4
-    <div class="timerow-right"></div>
-  </div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'vishnu@zulipchat.com'}]" data-msg-id="423590">
-  Vishnu Ks
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423590"
-     data-msg-id="423590"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/97f3be7cec784e6e9081ba1b49167fa9bccd0670.png?x=x&version=4" class="avatar-img" data-email="vishnu@zulipchat.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishnu Ks
-      </div>
-      <div class="timestamp">
-        9:12 AM
-      </div>
-    </div>
-    <p>Hey Boris, do you have any recommendation on how to learn React (not native)? I am trying to learn it but find it a bit too complicated :)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423592"
-     data-msg-id="423592"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        9:12 AM
-      </div>
-    </div>
-    <p>Cool idea ;) The trick is to realize it is very simple and not complicated ;)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423593"
-     data-msg-id="423593"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Just start with the basics, which are powerful but simple :)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423594"
-     data-msg-id="423594"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Literally start with their official docs and tutorial, many other projects have bad documentation, but theirs is great</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423595"
-     data-msg-id="423595"
-     data-read="true"
-    >
-  <div class="content">
-    <p><a href="https://reactjs.org/tutorial/tutorial.html" target="_blank" title="https://reactjs.org/tutorial/tutorial.html">https://reactjs.org/tutorial/tutorial.html</a></p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423596"
-     data-msg-id="423596"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Some other tutorials or demo project just throw a ton at you and pretend that you have to know everything, which is definitely not true.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423597"
-     data-msg-id="423597"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/97f3be7cec784e6e9081ba1b49167fa9bccd0670.png?x=x&version=4" class="avatar-img" data-email="vishnu@zulipchat.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishnu Ks
-      </div>
-      <div class="timestamp">
-        9:14 AM
-      </div>
-    </div>
-    <p>Oh yeah. I went through <a href="https://hnpwa.com" target="_blank" title="https://hnpwa.com">https://hnpwa.com</a> and it blew my mind :)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423598"
-     data-msg-id="423598"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        9:14 AM
-      </div>
-    </div>
-    <p>Also, <a href="https://egghead.io/" target="_blank" title="https://egghead.io/">https://egghead.io/</a> have very good React courses, some of them free.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423600"
-     data-msg-id="423600"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Yeah, they put everything in. Not great. For example Redux is an advanced concept that took me few weeks to realize fully, and anyone on the team I had to teach and explain to ;) Like on the current mobile team and at my previous company too ;)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423602"
-     data-msg-id="423602"
-     data-read="true"
-    >
-  <div class="content">
-    <p>BTW we might want to rework the front-end in React at some point</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423603"
-     data-msg-id="423603"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/97f3be7cec784e6e9081ba1b49167fa9bccd0670.png?x=x&version=4" class="avatar-img" data-email="vishnu@zulipchat.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishnu Ks
-      </div>
-      <div class="timestamp">
-        9:16 AM
-      </div>
-    </div>
-    <p>Thanks a lot. I will checkout the official tutorial and <a href="http://egghead.io" target="_blank" title="http://egghead.io">egghead.io</a> :)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423605"
-     data-msg-id="423605"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        9:17 AM
-      </div>
-    </div>
-    <p><span class="emoji emoji-1f44d" title="thumbs up">:thumbs_up:</span></p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423607"
-     data-msg-id="423607"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/97f3be7cec784e6e9081ba1b49167fa9bccd0670.png?x=x&version=4" class="avatar-img" data-email="vishnu@zulipchat.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishnu Ks
-      </div>
-      <div class="timestamp">
-        9:17 AM
-      </div>
-    </div>
-    <p>Yeah. Actually the amount of code we have to write just to add a redundant element in frontend now is way too much.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423613"
-     data-msg-id="423613"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        9:20 AM
-      </div>
-    </div>
-    <p>Also we can reuse a lot of the data logic from the mobile app. Actually 100% of that can be reused.<br>
-Mattermost for example do that</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423614"
-     data-msg-id="423614"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Mattermost's source code might be a good place to look for some source code, though it is likely too complicated as a start</p>
-
-
-    <div class="reaction-list">
-
-  <span onClick="" class="reaction" data-name="thumbs_up">
-    👍 1
-  </span>
-
-    </div>
-
-  </div>
-</div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'jainkuniya@gmail.com'}]" data-msg-id="423629">
-  Vishwesh Jainkuniya
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423629"
-     data-msg-id="423629"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        9:34 AM
-      </div>
-    </div>
-    <p>Hey, you there? :)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423639"
-     data-msg-id="423639"
-     data-read="true"
-    >
-  <div class="content">
-    <p>We should split better the 'fixing' commits between us. Or we are duplicating work.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423679"
-     data-msg-id="423679"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/6192d4535dd2c89098f1c1cce91e40b97632248e.png?x=x&version=2" class="avatar-img" data-email="jainkuniya@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishwesh Jainkuniya
-      </div>
-      <div class="timestamp">
-        10:18 AM
-      </div>
-    </div>
-    <p>hi,</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423682"
-     data-msg-id="423682"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        10:19 AM
-      </div>
-    </div>
-    <p>I have commited early the stuff from yesterday so you don't work against old code, but was working on fixing the Flow and the fetching stuff already ;)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423686"
-     data-msg-id="423686"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/6192d4535dd2c89098f1c1cce91e40b97632248e.png?x=x&version=2" class="avatar-img" data-email="jainkuniya@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishwesh Jainkuniya
-      </div>
-      <div class="timestamp">
-        10:21 AM
-      </div>
-    </div>
-    <p>oh! sorry for that :)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423687"
-     data-msg-id="423687"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        10:22 AM
-      </div>
-    </div>
-    <p>I think the fetching one might be better to do a review and you fix according to my comments</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423689"
-     data-msg-id="423689"
-     data-read="true"
-    >
-  <div class="content">
-    <p>The Flow one, I did rework a lot to reuse the Props types from the several MessageLists and will be too hard to merge</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423691"
-     data-msg-id="423691"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Have you noticed that the JS sometimes is not working?</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423696"
-     data-msg-id="423696"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Would be good to figure out why. Sometimes it is an exception/error but not sure if always</p>
-
-
-    <div class="reaction-list">
-
-  <span onClick="" class="reaction" data-name="thumbs_up">
-    👍 1
-  </span>
-
-    </div>
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423700"
-     data-msg-id="423700"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/6192d4535dd2c89098f1c1cce91e40b97632248e.png?x=x&version=2" class="avatar-img" data-email="jainkuniya@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishwesh Jainkuniya
-      </div>
-      <div class="timestamp">
-        10:25 AM
-      </div>
-    </div>
-    <blockquote>
-<p>Have you noticed that the JS sometimes is not working?</p>
-</blockquote>
-<p>yes! but sure whether it is our code issue or simulator. Because many time js continues to not work even after lots of reloading and seems to work after restarting simulator.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423701"
-     data-msg-id="423701"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        10:25 AM
-      </div>
-    </div>
-    <p>Yeah. Very freaking weird. We need to figure it out, or it is a big problem. It seems that it isn't working in the latest Betas</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423702"
-     data-msg-id="423702"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Update and try on your device</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423705"
-     data-msg-id="423705"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Actually this PR: <a href="https://github.com/zulip/zulip-mobile/pull/1692" target="_blank" title="https://github.com/zulip/zulip-mobile/pull/1692">https://github.com/zulip/zulip-mobile/pull/1692</a> is close enough, I'll rework it according to what I would have commented.</p>
-
-
-    <div class="reaction-list">
-
-  <span onClick="" class="reaction" data-name="thumbs_up">
-    👍 1
-  </span>
-
-    </div>
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423706"
-     data-msg-id="423706"
-     data-read="true"
-    >
-  <div class="content">
-    <p>So I merged it ;)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423707"
-     data-msg-id="423707"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/6192d4535dd2c89098f1c1cce91e40b97632248e.png?x=x&version=2" class="avatar-img" data-email="jainkuniya@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishwesh Jainkuniya
-      </div>
-      <div class="timestamp">
-        10:27 AM
-      </div>
-    </div>
-    <p>I updated to latest beta yesterday, js is working. (on Android 6.0)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423710"
-     data-msg-id="423710"
-     data-read="true"
-    >
-  <div class="content">
-    <p>On which device/ios/Android version you test (more), will test is another set so that we get issues in lesser time :)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423714"
-     data-msg-id="423714"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        10:33 AM
-      </div>
-    </div>
-    <p>I did test both on Android 7 and iOS and it wasn't working which is a bit strange</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-423715"
-     data-msg-id="423715"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Let's focus on Android 6 + for now, so 5 and 4.x we will fix later, though now I guess there should be less issues.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423718"
-     data-msg-id="423718"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/6192d4535dd2c89098f1c1cce91e40b97632248e.png?x=x&version=2" class="avatar-img" data-email="jainkuniya@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishwesh Jainkuniya
-      </div>
-      <div class="timestamp">
-        10:36 AM
-      </div>
-    </div>
-    <p>Tested on iOS <code>iPhone 8 Plus</code>, it is working but not working on <code>iPhone 6</code></p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423719"
-     data-msg-id="423719"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        10:36 AM
-      </div>
-    </div>
-    <p>What OS does the iPhone 6 has? Older?</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423721"
-     data-msg-id="423721"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/6192d4535dd2c89098f1c1cce91e40b97632248e.png?x=x&version=2" class="avatar-img" data-email="jainkuniya@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishwesh Jainkuniya
-      </div>
-      <div class="timestamp">
-        10:38 AM
-      </div>
-    </div>
-    <p><code>iPhone 6</code> version <code>11.2 (15C107)</code></p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423722"
-     data-msg-id="423722"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        10:39 AM
-      </div>
-    </div>
-    <p>Hmmm. Then that is weird</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-423727"
-     data-msg-id="423727"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/6192d4535dd2c89098f1c1cce91e40b97632248e.png?x=x&version=2" class="avatar-img" data-email="jainkuniya@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishwesh Jainkuniya
-      </div>
-      <div class="timestamp">
-        10:44 AM
-      </div>
-    </div>
-    <p>Completely wried. Just now restarted dev environment and js is working now on <code>iPhone 6</code></p>
-
-
-  </div>
-</div>
-
-  <div class="timerow" data-msg-id="427875">
-    <div class="timerow-left"></div>
-    Jan 5
-    <div class="timerow-right"></div>
-  </div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'kunall.gupta17@gmail.com'}]" data-msg-id="427875">
-  Kunal Gupta
-</div>
-
-<div
-     class="message message-full"
-     id="msg-427875"
-     data-msg-id="427875"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/959051cc2b06e601d017e3420dfe1f538d7c119f.png?x=x&version=1" class="avatar-img" data-email="kunall.gupta17@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Kunal Gupta
-      </div>
-      <div class="timestamp">
-        8:31 PM
-      </div>
-    </div>
-    <p>Hey, I have rebased <a href="https://github.com/zulip/zulip-mobile/pull/1643" target="_blank" title="https://github.com/zulip/zulip-mobile/pull/1643">https://github.com/zulip/zulip-mobile/pull/1643</a> PR</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-427877"
-     data-msg-id="427877"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Wbu the small test?</p>
-
-
-  </div>
-</div>
-
-  <div class="timerow" data-msg-id="433705">
-    <div class="timerow-left"></div>
-    Jan 8
-    <div class="timerow-right"></div>
-  </div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'mahak.bagha166h@gmail.com'}]" data-msg-id="433705">
-  Mahak Bagha
-</div>
-
-<div
-     class="message message-full"
-     id="msg-433705"
-     data-msg-id="433705"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/e8352cf984fd99d51ccf1cd2a191d7de?d=identicon&version=1" class="avatar-img" data-email="mahak.bagha166h@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Mahak Bagha
-      </div>
-      <div class="timestamp">
-        8:33 PM
-      </div>
-    </div>
-    <p>hey</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-433708"
-     data-msg-id="433708"
-     data-read="true"
-    >
-  <div class="content">
-    <p>i want to contribute to the mobile app</p>
-
-
-  </div>
-</div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'jainkuniya@gmail.com'}]" data-msg-id="433714">
-  Vishwesh Jainkuniya
-</div>
-
-<div
-     class="message message-full"
-     id="msg-433714"
-     data-msg-id="433714"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/6192d4535dd2c89098f1c1cce91e40b97632248e.png?x=x&version=2" class="avatar-img" data-email="jainkuniya@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishwesh Jainkuniya
-      </div>
-      <div class="timestamp">
-        8:35 PM
-      </div>
-    </div>
-    <p>hi, I am trying to make changes in files of <code>node_modules</code>, but the changes (in the native modules, java files) are not reflected in the app (for js files they are reflected).</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-433723"
-     data-msg-id="433723"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Just wanted to know is there any simple mechanism to test</p>
-
-
-  </div>
-</div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'mahak.bagha166h@gmail.com'}]" data-msg-id="433726">
-  Mahak Bagha
-</div>
-
-<div
-     class="message message-full"
-     id="msg-433726"
-     data-msg-id="433726"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        8:38 PM
-      </div>
-    </div>
-    <p>Hey. Great.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-433727"
-     data-msg-id="433727"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Do you have experience with React Native, React, or mobile development?</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-433728"
-     data-msg-id="433728"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/e8352cf984fd99d51ccf1cd2a191d7de?d=identicon&version=1" class="avatar-img" data-email="mahak.bagha166h@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Mahak Bagha
-      </div>
-      <div class="timestamp">
-        8:39 PM
-      </div>
-    </div>
-    <p>i need to know about some issues for beginners</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-433729"
-     data-msg-id="433729"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        8:39 PM
-      </div>
-    </div>
-    <p>First step would be to setup the project and make it work on your computer</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-433731"
-     data-msg-id="433731"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/e8352cf984fd99d51ccf1cd2a191d7de?d=identicon&version=1" class="avatar-img" data-email="mahak.bagha166h@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Mahak Bagha
-      </div>
-      <div class="timestamp">
-        8:39 PM
-      </div>
-    </div>
-    <p>i have experience with android development and can learn rest</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-433738"
-     data-msg-id="433738"
-     data-read="true"
-    >
-  <div class="content">
-    <p>if u can suggest me some issues for beginners</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-433751"
-     data-msg-id="433751"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        8:48 PM
-      </div>
-    </div>
-    <p>We tend to resolve smaller issues quickly, so not sure if anything too easy is open, though likely there is here <a href="https://github.com/zulip/zulip-mobile/issues" target="_blank" title="https://github.com/zulip/zulip-mobile/issues">https://github.com/zulip/zulip-mobile/issues</a></p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-433753"
-     data-msg-id="433753"
-     data-read="true"
-    >
-  <div class="content">
-    <p>Also, if you find a small issue yourself when using the app, that would be a great start</p>
-
-
-  </div>
-</div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'jainkuniya@gmail.com'}]" data-msg-id="433759">
-  Vishwesh Jainkuniya
-</div>
-
-<div
-     class="message message-full"
-     id="msg-433759"
-     data-msg-id="433759"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        8:49 PM
-      </div>
-    </div>
-    <p>You likely need to restart the build.</p>
-
-
-  </div>
-</div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'mahak.bagha166h@gmail.com'}]" data-msg-id="433785">
-  Mahak Bagha
-</div>
-
-<div
-     class="message message-full"
-     id="msg-433785"
-     data-msg-id="433785"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/e8352cf984fd99d51ccf1cd2a191d7de?d=identicon&version=1" class="avatar-img" data-email="mahak.bagha166h@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Mahak Bagha
-      </div>
-      <div class="timestamp">
-        8:53 PM
-      </div>
-    </div>
-    <p>thanks</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-433930"
-     data-msg-id="433930"
-     data-read="true"
-    >
-  <div class="content">
-    <p>are you planning to take part in outreachy this summer also ?</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-433963"
-     data-msg-id="433963"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        10:04 PM
-      </div>
-    </div>
-    <p>Not really, I am on the mobile team permanently. I will participate by helping ;)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-433965"
-     data-msg-id="433965"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/e8352cf984fd99d51ccf1cd2a191d7de?d=identicon&version=1" class="avatar-img" data-email="mahak.bagha166h@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Mahak Bagha
-      </div>
-      <div class="timestamp">
-        10:04 PM
-      </div>
-    </div>
-    <p>no i mean zulip is der ?</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-433966"
-     data-msg-id="433966"
-     data-read="true"
-    >
-  <div class="content">
-    <p>this summer</p>
-
-
-  </div>
-</div>
-
-  <div class="timerow" data-msg-id="438487">
-    <div class="timerow-left"></div>
-    Jan 10
-    <div class="timerow-right"></div>
-  </div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'jainkuniya@gmail.com'}]" data-msg-id="438487">
-  Vishwesh Jainkuniya
-</div>
-
-<div
-     class="message message-full"
-     id="msg-438487"
-     data-msg-id="438487"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/6192d4535dd2c89098f1c1cce91e40b97632248e.png?x=x&version=2" class="avatar-img" data-email="jainkuniya@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Vishwesh Jainkuniya
-      </div>
-      <div class="timestamp">
-        7:22 PM
-      </div>
-    </div>
-    <p>yup! got it. With this &amp; minor changes in gradle file, now finally I am able to debug in RN code. <span class="emoji emoji-1f44d" title="+1">:+1:</span></p>
-
-
-  </div>
-</div>
-
-  <div class="timerow" data-msg-id="441464">
-    <div class="timerow-left"></div>
-    Jan 11
-    <div class="timerow-right"></div>
-  </div>
-
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'mahak.bagha166h@gmail.com'}]" data-msg-id="441464">
-  Mahak Bagha
-</div>
-
-<div
-     class="message message-full"
-     id="msg-441464"
-     data-msg-id="441464"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/e8352cf984fd99d51ccf1cd2a191d7de?d=identicon&version=1" class="avatar-img" data-email="mahak.bagha166h@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Mahak Bagha
-      </div>
-      <div class="timestamp">
-        8:50 PM
-      </div>
-    </div>
-    <p>hey</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-441709"
-     data-msg-id="441709"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        11:02 PM
-      </div>
-    </div>
-    <p>Hey</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-441713"
-     data-msg-id="441713"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/e8352cf984fd99d51ccf1cd2a191d7de?d=identicon&version=1" class="avatar-img" data-email="mahak.bagha166h@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Mahak Bagha
-      </div>
-      <div class="timestamp">
-        11:03 PM
-      </div>
-    </div>
-    <p>hey Boris! that day I was asking if zulip is part of outreachy this summer</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-441715"
-     data-msg-id="441715"
-     data-read="true"
-    >
-  <div class="content">
-    <p>you misunderstood me that time :)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-441716"
-     data-msg-id="441716"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        11:04 PM
-      </div>
-    </div>
-    <p>Ha, yeah, Zulip totally is part of Outreachy ;)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-441720"
-     data-msg-id="441720"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/e8352cf984fd99d51ccf1cd2a191d7de?d=identicon&version=1" class="avatar-img" data-email="mahak.bagha166h@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Mahak Bagha
-      </div>
-      <div class="timestamp">
-        11:04 PM
-      </div>
-    </div>
-    <p>so usually zulip doesn't participate in summers</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-441724"
-     data-msg-id="441724"
-     data-read="true"
-    >
-  <div class="content">
-    <p>so its there with outreachy for 2018 ?</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-441728"
-     data-msg-id="441728"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Boris Yankov
-      </div>
-      <div class="timestamp">
-        11:09 PM
-      </div>
-    </div>
-    <p>I am pretty sure there is. But no idea on the details.</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-full"
-     id="msg-441730"
-     data-msg-id="441730"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/e8352cf984fd99d51ccf1cd2a191d7de?d=identicon&version=1" class="avatar-img" data-email="mahak.bagha166h@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Mahak Bagha
-      </div>
-      <div class="timestamp">
-        11:09 PM
-      </div>
-    </div>
-    <p>ok ok :)</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-441731"
-     data-msg-id="441731"
-     data-read="true"
-    >
-  <div class="content">
-    <p>i had to discuss an issue with you</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-441732"
-     data-msg-id="441732"
-     data-read="true"
-    >
-  <div class="content">
-    <p>there is default sound on receiving notifications</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-441733"
-     data-msg-id="441733"
-     data-read="true"
-    >
-  <div class="content">
-    <p>so there can be a list of sounds and user can choose from there</p>
-
-
-  </div>
-</div>
-
-<div
-     class="message message-brief"
-     id="msg-441734"
-     data-msg-id="441734"
-     data-read="true"
-    >
-  <div class="content">
-    <p>how about this?</p>
-
-
-  </div>
-</div>
-
-  <div class="timerow" data-msg-id="441871">
-    <div class="timerow-left"></div>
-    Jan 12
+    Jan 6
     <div class="timerow-right"></div>
   </div>
 
 <div
      class="message message-full"
-     id="msg-441871"
-     data-msg-id="441871"
-     data-read="true"
+     id="msg-430205"
+     data-msg-id="430205"
+
     >
   <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
+    <img src="https://chat.zulip.org/user_avatars/2/e1a7404785c9738b20d58b5aac61d393010aca74.png?x=x&version=5" class="avatar-img" data-email="jp@sisolutions.gr">
   </div>
   <div class="content">
     <div class="subheader">
       <div class="username">
-        Boris Yankov
+        John Pagourtzis
       </div>
       <div class="timestamp">
-        12:15 AM
+        11:55 PM
       </div>
     </div>
-    <p>I don't think it is a good idea. I actually think we might just use the default one of the user's phone.</p>
+    <div class="msg-raw-content">
+      <p>Is there a 32bit deb client available?</p>
+    </div>
 
 
   </div>
 </div>
 
-<div
-     class="message message-full"
-     id="msg-441873"
-     data-msg-id="441873"
-     data-read="true"
-    >
-  <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/e8352cf984fd99d51ccf1cd2a191d7de?d=identicon&version=1" class="avatar-img" data-email="mahak.bagha166h@gmail.com">
-  </div>
-  <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Mahak Bagha
-      </div>
-      <div class="timestamp">
-        12:16 AM
-      </div>
-    </div>
-    <p>ok</p>
-
-
-  </div>
-</div>
-
-  <div class="timerow" data-msg-id="444362">
+  <div class="timerow" data-msg-id="430679">
     <div class="timerow-left"></div>
-    Yesterday
+    Jan 7
     <div class="timerow-right"></div>
   </div>
 
-<div class="header-wrapper private-header header" data-narrow="[{'operator':'pm-with','operand':'bobtester@mailinator.com'}]" data-msg-id="444362">
-  Bob Tester
-</div>
-
 <div
      class="message message-full"
-     id="msg-444362"
-     data-msg-id="444362"
-     data-read="true"
+     id="msg-430679"
+     data-msg-id="430679"
+
     >
   <div class="avatar">
-    <img src="https://secure.gravatar.com/avatar/6e226579f8163af9f5e73796abab0b79?d=identicon&version=1" class="avatar-img" data-email="borisyankov@gmail.com">
+    <img src="https://chat.zulip.org/user_avatars/2/b42886636690543d511b70646db4c1e9915b00b5.png?x=x&version=3" class="avatar-img" data-email="akash@zulipchat.com">
   </div>
   <div class="content">
     <div class="subheader">
       <div class="username">
-        Boris Yankov
+        Akash Nimare
       </div>
       <div class="timestamp">
-        2:23 AM
+        11:31 AM
       </div>
     </div>
-    <p>Hey yo</p>
+    <div class="msg-raw-content">
+      <p><span class="user-mention" data-user-email="jp@sisolutions.gr" data-user-id="4611">@John Pagourtzis</span> nope, it's 64-bit currently. You can use the <a href="https://github.com/zulip/zulip-electron/releases/tag/v1.7.0" target="_blank" title="https://github.com/zulip/zulip-electron/releases/tag/v1.7.0">AppImage</a> installer which works on every Linux platforms.</p>
+    </div>
 
 
   </div>
 </div>
+
+<div
+     class="message message-full"
+     id="msg-430704"
+     data-msg-id="430704"
+
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/e1a7404785c9738b20d58b5aac61d393010aca74.png?x=x&version=5" class="avatar-img" data-email="jp@sisolutions.gr">
+  </div>
+  <div class="content">
+    <div class="subheader">
+      <div class="username">
+        John Pagourtzis
+      </div>
+      <div class="timestamp">
+        12:09 PM
+      </div>
+    </div>
+    <div class="msg-raw-content">
+      <p>Οκ thanks.</p>
+    </div>
+
+
+  </div>
 </div>
+
 
 <div id="message-loading" class="hidden">
 
@@ -3567,396 +1977,12 @@ Mattermost for example do that</p>
     <div class="block"></div>
     <div class="block"></div>
   </div>
+</div>
+
 
 </div>
 
 <div id="spinner-newer" class="hidden loading-spinner"></div>
 <div id="typing"></div>
+
 </body>
-
-<script>
-window.__forceSmoothScrollPolyfill__ = true;
-
-!(function() {
-  'use strict';
-  function o(o) {
-    var t = ['MSIE ', 'Trident/', 'Edge/'];
-    return new RegExp(t.join('|')).test(o);
-  }
-  function t() {
-    function t(o, t) {
-      (this.scrollLeft = o), (this.scrollTop = t);
-    }
-    function r(o) {
-      return 0.5 * (1 - Math.cos(Math.PI * o));
-    }
-    function i(o) {
-      if (
-        null === o ||
-        'object' != typeof o ||
-        void 0 === o.behavior ||
-        'auto' === o.behavior ||
-        'instant' === o.behavior
-      )
-        return !0;
-      if ('object' == typeof o && 'smooth' === o.behavior) return !1;
-      throw new TypeError(
-        'behavior member of ScrollOptions ' +
-          o.behavior +
-          ' is not a valid value for enumeration ScrollBehavior.',
-      );
-    }
-    function s(o, t) {
-      return 'Y' === t
-        ? o.clientHeight + h < o.scrollHeight
-        : 'X' === t ? o.clientWidth + h < o.scrollWidth : void 0;
-    }
-    function c(o, t) {
-      var e = l.getComputedStyle(o, null)['overflow' + t];
-      return 'auto' === e || 'scroll' === e;
-    }
-    function n(o) {
-      var t = s(o, 'Y') && c(o, 'Y'),
-        l = s(o, 'X') && c(o, 'X');
-      return t || l;
-    }
-    function f(o) {
-      var t;
-      do {
-        t = (o = o.parentNode) === e.body;
-      } while (!1 === t && !1 === n(o));
-      return (t = null), o;
-    }
-    function a(o) {
-      var t,
-        e,
-        i,
-        s = (y() - o.startTime) / v;
-      (t = r((s = s > 1 ? 1 : s))),
-        (e = o.startX + (o.x - o.startX) * t),
-        (i = o.startY + (o.y - o.startY) * t),
-        o.method.call(o.scrollable, e, i),
-        (e === o.x && i === o.y) || l.requestAnimationFrame(a.bind(l, o));
-    }
-    function p(o, r, i) {
-      var s,
-        c,
-        n,
-        f,
-        p = y();
-      o === e.body
-        ? ((s = l),
-          (c = l.scrollX || l.pageXOffset),
-          (n = l.scrollY || l.pageYOffset),
-          (f = u.scroll))
-        : ((s = o), (c = o.scrollLeft), (n = o.scrollTop), (f = t)),
-        a({ scrollable: s, method: f, startTime: p, startX: c, startY: n, x: r, y: i });
-    }
-    if (!('scrollBehavior' in e.documentElement.style && !0 !== l.__forceSmoothScrollPolyfill__)) {
-      var d = l.HTMLElement || l.Element,
-        v = 468,
-        h = o(l.navigator.userAgent) ? 1 : 0,
-        u = {
-          scroll: l.scroll || l.scrollTo,
-          scrollBy: l.scrollBy,
-          elementScroll: d.prototype.scroll || t,
-          scrollIntoView: d.prototype.scrollIntoView,
-        },
-        y = l.performance && l.performance.now ? l.performance.now.bind(l.performance) : Date.now;
-      (l.scroll = l.scrollTo = function() {
-        void 0 !== arguments[0] &&
-          (!0 !== i(arguments[0])
-            ? p.call(
-                l,
-                e.body,
-                void 0 !== arguments[0].left ? ~~arguments[0].left : l.scrollX || l.pageXOffset,
-                void 0 !== arguments[0].top ? ~~arguments[0].top : l.scrollY || l.pageYOffset,
-              )
-            : u.scroll.call(
-                l,
-                void 0 !== arguments[0].left
-                  ? arguments[0].left
-                  : 'object' != typeof arguments[0] ? arguments[0] : l.scrollX || l.pageXOffset,
-                void 0 !== arguments[0].top
-                  ? arguments[0].top
-                  : void 0 !== arguments[1] ? arguments[1] : l.scrollY || l.pageYOffset,
-              ));
-      }),
-        (l.scrollBy = function() {
-          void 0 !== arguments[0] &&
-            (i(arguments[0])
-              ? u.scrollBy.call(
-                  l,
-                  void 0 !== arguments[0].left
-                    ? arguments[0].left
-                    : 'object' != typeof arguments[0] ? arguments[0] : 0,
-                  void 0 !== arguments[0].top
-                    ? arguments[0].top
-                    : void 0 !== arguments[1] ? arguments[1] : 0,
-                )
-              : p.call(
-                  l,
-                  e.body,
-                  ~~arguments[0].left + (l.scrollX || l.pageXOffset),
-                  ~~arguments[0].top + (l.scrollY || l.pageYOffset),
-                ));
-        }),
-        (d.prototype.scroll = d.prototype.scrollTo = function() {
-          if (void 0 !== arguments[0])
-            if (!0 !== i(arguments[0])) {
-              var o = arguments[0].left,
-                t = arguments[0].top;
-              p.call(
-                this,
-                this,
-                void 0 === o ? this.scrollLeft : ~~o,
-                void 0 === t ? this.scrollTop : ~~t,
-              );
-            } else {
-              if ('number' == typeof arguments[0] && void 0 === arguments[1])
-                throw new SyntaxError("Value couldn't be converted");
-              u.elementScroll.call(
-                this,
-                void 0 !== arguments[0].left
-                  ? ~~arguments[0].left
-                  : 'object' != typeof arguments[0] ? ~~arguments[0] : this.scrollLeft,
-                void 0 !== arguments[0].top
-                  ? ~~arguments[0].top
-                  : void 0 !== arguments[1] ? ~~arguments[1] : this.scrollTop,
-              );
-            }
-        }),
-        (d.prototype.scrollBy = function() {
-          void 0 !== arguments[0] &&
-            (!0 !== i(arguments[0])
-              ? this.scroll({
-                  left: ~~arguments[0].left + this.scrollLeft,
-                  top: ~~arguments[0].top + this.scrollTop,
-                  behavior: arguments[0].behavior,
-                })
-              : u.elementScroll.call(
-                  this,
-                  void 0 !== arguments[0].left
-                    ? ~~arguments[0].left + this.scrollLeft
-                    : ~~arguments[0] + this.scrollLeft,
-                  void 0 !== arguments[0].top
-                    ? ~~arguments[0].top + this.scrollTop
-                    : ~~arguments[1] + this.scrollTop,
-                ));
-        }),
-        (d.prototype.scrollIntoView = function() {
-          if (!0 !== i(arguments[0])) {
-            var o = f(this),
-              t = o.getBoundingClientRect(),
-              r = this.getBoundingClientRect();
-            o !== e.body
-              ? (p.call(this, o, o.scrollLeft + r.left - t.left, o.scrollTop + r.top - t.top),
-                'fixed' !== l.getComputedStyle(o).position &&
-                  l.scrollBy({ left: t.left, top: t.top, behavior: 'smooth' }))
-              : l.scrollBy({ left: r.left, top: r.top, behavior: 'smooth' });
-          } else u.scrollIntoView.call(this, void 0 === arguments[0] || arguments[0]);
-        });
-    }
-  }
-  var l = window,
-    e = document;
-  'object' == typeof exports ? (module.exports = { polyfill: t }) : t();
-})();
-
-('use strict');
-
-window.onerror = function(message, source, line, column, error) {
-  var obj = JSON.stringify(error);
-  var errorStr = [
-    'Message: ' + message + '<br>',
-    'Line: ' + line + ':' + column + '<br>',
-    'Error: ' + obj + '<br>',
-  ].join('');
-  document.getElementById('js-error').innerHTML = errorStr;
-
-  return false;
-};
-
-var documentBody = document.body;
-var elementMessageList = document.getElementById('message-list');
-var elementSpinnerOlder = document.getElementById('spinner-older');
-var elementSpinnerNewer = document.getElementById('spinner-newer');
-var elementTyping = document.getElementById('typing');
-var elementMessageLoading = document.getElementById('message-loading');
-
-var scrollEventsDisabled = false;
-
-if (
-  !documentBody ||
-  !elementMessageList ||
-  !elementSpinnerOlder ||
-  !elementSpinnerNewer ||
-  !elementTyping ||
-  !elementMessageLoading
-) {
-  throw new Error('HTML elements missing');
-}
-
-var sendMessage = function sendMessage(msg) {
-  window.postMessage(JSON.stringify(msg), '*');
-};
-
-var getMessageNode = function getMessageNode(node) {
-  var curNode = node;
-  while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
-    curNode = curNode.parentNode;
-  }
-  return curNode;
-};
-
-var getMessageIdFromNode = function getMessageIdFromNode(node) {
-  var msgNode = getMessageNode(node);
-  return msgNode && msgNode.getAttribute('data-msg-id');
-};
-
-var scrollToBottom = function scrollToBottom() {
-  window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
-};
-
-var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
-  if (documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight) {
-    scrollToBottom();
-  }
-};
-
-var scrollToAnchor = function scrollToAnchor(anchor) {
-  var anchorNode = document.getElementById('msg-' + anchor);
-
-  if (anchorNode) {
-    anchorNode.scrollIntoView({ block: 'start' });
-  } else {
-    scrollToBottom();
-  }
-};
-
-var height = documentBody.clientHeight;
-window.addEventListener('resize', function(event) {
-  var difference = height - documentBody.clientHeight;
-  if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
-    window.scrollBy({ left: 0, top: difference });
-  }
-  height = documentBody.clientHeight;
-});
-
-var handleMessageBottom = function handleMessageBottom(msg) {
-  scrollToBottom();
-};
-
-var handleMessageContent = function handleMessageContent(msg) {
-  var msgNode = document.getElementById('msg-' + msg.anchor);
-
-  if (!msgNode) {
-    elementMessageList.innerHTML = msg.content;
-    scrollToAnchor(msg.anchor);
-    return;
-  }
-
-  scrollEventsDisabled = true;
-  var prevBoundRect = msgNode.getBoundingClientRect();
-  elementMessageList.innerHTML = msg.content;
-  var newElement = document.getElementById('msg-' + msg.anchor);
-  if (newElement) {
-    var newBoundRect = newElement.getBoundingClientRect();
-    window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
-  }
-  scrollEventsDisabled = false;
-};
-
-var handleMessageFetching = function handleMessageFetching(msg) {
-  elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
-  elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
-  elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
-};
-
-var handleMessageTyping = function handleMessageTyping(msg) {
-  elementTyping.innerHTML = msg.content;
-  setTimeout(function() {
-    return scrollToBottomIfNearEnd();
-  });
-};
-
-document.addEventListener('message', function(e) {
-  var msg = JSON.parse(e.data);
-  switch (msg.type) {
-    case 'bottom':
-      handleMessageBottom(msg);
-      break;
-    case 'content':
-      handleMessageContent(msg);
-      break;
-    case 'fetching':
-      handleMessageFetching(msg);
-      break;
-    case 'typing':
-      handleMessageTyping(msg);
-      break;
-    default:
-  }
-});
-
-window.addEventListener('scroll', function() {
-  if (scrollEventsDisabled) return;
-
-  var startNode = getMessageNode(document.elementFromPoint(200, 20));
-  var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 50));
-  console.log(startNode, endNode);
-
-  window.postMessage(
-    JSON.stringify({
-      type: 'scroll',
-      scrollY: window.scrollY,
-      innerHeight: window.innerHeight,
-      offsetHeight: documentBody.offsetHeight,
-    }),
-    '*',
-  );
-});
-
-documentBody.addEventListener('click', function(e) {
-  if (e.target.matches('.avatar-img')) {
-    sendMessage({
-      type: 'avatar',
-      fromEmail: e.target.getAttribute('data-email'),
-    });
-  }
-
-  if (e.target.matches('.header')) {
-    sendMessage({
-      type: 'narrow',
-      narrow: e.target.getAttribute('data-narrow'),
-      id: e.target.getAttribute('data-id'),
-    });
-  }
-
-  if (e.target.matches('a[target="_blank"] > img')) {
-    sendMessage({
-      type: 'image',
-      src: e.target.parentNode.getAttribute('href'),
-      messageId: +getMessageIdFromNode(e.target),
-    });
-  } else if (e.target.matches('a')) {
-    sendMessage({
-      type: 'url',
-      href: e.target.getAttribute('href'),
-      messageId: +getMessageIdFromNode(e.target),
-    });
-    e.preventDefault();
-  }
-
-  if (e.target.matches('.reaction')) {
-    sendMessage({
-      type: 'reaction',
-      name: e.target.getAttribute('data-name'),
-      messageId: +getMessageIdFromNode(e.target),
-      voted: e.target.classList.contains('self-voted'),
-    });
-  }
-});
-
-scrollToAnchor(444362);
-</script>
