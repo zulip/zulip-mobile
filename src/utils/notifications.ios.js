@@ -1,5 +1,6 @@
 /* @flow */
 import NotificationsIOS from 'react-native-notifications';
+import { PushNotificationIOS } from 'react-native';
 
 import type { Auth, Actions } from '../types';
 import { registerPush } from '../api';
@@ -47,4 +48,10 @@ export const handlePendingNotifications = async (
   }
 };
 
-export const tryInitialNotification = async (doNarrow: Actions.doNarrow) => {};
+export const tryInitialNotification = async (doNarrow: Actions.doNarrow) => {
+  const data = await PushNotificationIOS.getInitialNotification();
+  if (data && data.getData) {
+    handlePendingNotifications(data, doNarrow);
+  }
+};
+
