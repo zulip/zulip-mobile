@@ -1,14 +1,6 @@
 export default `
 'use strict';
 
-window.onerror = function (message, source, line, column, error) {
-  var obj = JSON.stringify(error);
-  var errorStr = ['Message: ' + message + '<br>', 'Line: ' + line + ':' + column + '<br>', 'Error: ' + obj + '<br>'].join('');
-  document.getElementById('js-error').innerHTML = errorStr;
-
-  return false;
-};
-
 var documentBody = document.body;
 var elementSpinnerOlder = document.getElementById('spinner-older');
 var elementSpinnerNewer = document.getElementById('spinner-newer');

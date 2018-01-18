@@ -2,7 +2,7 @@
 import isEqual from 'lodash.isequal';
 
 import type { Props } from '../message/MessageListContainer';
-import { htmlBody } from './html';
+import htmlBody from './htmlBody';
 import renderMessagesAsHtml from './renderMessagesAsHtml';
 import messageTypingAsHtml from './messageTypingAsHtml';
 

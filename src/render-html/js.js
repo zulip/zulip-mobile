@@ -1,15 +1,3 @@
-window.onerror = (message, source, line, column, error) => {
-  const obj = JSON.stringify(error);
-  const errorStr = [
-    `Message: ${message}<br>`,
-    `Line: ${line}:${column}<br>`,
-    `Error: ${obj}<br>`,
-  ].join('');
-  document.getElementById('js-error').innerHTML = errorStr;
-
-  return false;
-};
-
 const documentBody = document.body;
 const elementSpinnerOlder = document.getElementById('spinner-older');
 const elementSpinnerNewer = document.getElementById('spinner-newer');
