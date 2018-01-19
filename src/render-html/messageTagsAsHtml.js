@@ -11,7 +11,7 @@ export default (flags: Object, timeEdited?: number, isOutbox: boolean) => {
 <div class="message-tags">
   ${timeEdited ? `<span class="message-tag">edited ${editedTime} ago</span>` : ''}
   ${flags.indexOf('starred') > -1 ? '<span class="message-tag">starred</span>' : ''}
-  ${isOutbox ? '<span class="activity-indicator" /span>' : ''}
+  ${isOutbox ? '<span class="message-tag-spinner"><div class="loading-spinner"></div></span>' : ''}
 </div>
   `;
 };

@@ -225,10 +225,15 @@ th, td {
   border-radius: 50%;
   margin: 1em auto;
   font-size: 10px;
-  position: relative;
   border: 3px solid rgba(82, 194, 175, 0.25);
   border-left: 3px solid rgba(82, 194, 175, 0.75);
   animation: spin 1s linear infinite;
+}
+.message-tag-spinner .loading-spinner {
+  margin: 0 0 0 1em;
+  width: 1em;
+  height: 1em;
+  float: right;
 }
 .message_inline_image {
   text-align: center;
