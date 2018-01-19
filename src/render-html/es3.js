@@ -124,13 +124,17 @@ document.addEventListener('message', function (e) {
   }
 });
 
+var isMessageNode = function isMessageNode(node) {
+  return node && node.getAttribute && node.hasAttribute('data-msg-id');
+};
+
 var getStartAndEndNodes = function getStartAndEndNodes() {
   var startNode = getMessageNode(document.elementFromPoint(200, 20));
   var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
 
   return {
-    start: startNode ? startNode.getAttribute('data-msg-id') : 0,
-    end: endNode ? endNode.getAttribute('data-msg-id') : 0
+    start: isMessageNode(startNode) ? startNode.getAttribute('data-msg-id') : 0,
+    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : 0
   };
 };
 

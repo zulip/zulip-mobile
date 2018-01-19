@@ -125,13 +125,15 @@ document.addEventListener('message', e => {
   }
 });
 
+const isMessageNode = node => node && node.getAttribute && node.hasAttribute('data-msg-id');
+
 const getStartAndEndNodes = () => {
   const startNode = getMessageNode(document.elementFromPoint(200, 20));
   const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
 
   return {
-    start: startNode ? startNode.getAttribute('data-msg-id') : 0,
-    end: endNode ? endNode.getAttribute('data-msg-id') : 0,
+    start: isMessageNode(startNode) ? startNode.getAttribute('data-msg-id') : 0,
+    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : 0,
   };
 };
 
