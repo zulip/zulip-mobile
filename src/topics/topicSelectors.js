@@ -30,7 +30,7 @@ export const getTopicsInActiveNarrow = createSelector(
 
 export const getLastMessageTopic = createSelector(
   getShownMessagesInActiveNarrow,
-  messages => (messages.length === 0 ? '' : messages.pop().subject),
+  messages => (messages.length === 0 ? '' : messages[messages.length - 1].subject),
 );
 
 export const getNarrowToSendTo = createSelector(

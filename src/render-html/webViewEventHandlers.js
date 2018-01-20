@@ -63,7 +63,7 @@ export const handleScroll = (props: Props, event: MessageListEventScroll) => {
     startMessageId,
     endMessageId,
   );
-  console.log({ messages: props.messages, startMessageId, endMessageId, unreadMessageIds });
+
   if (unreadMessageIds.length > 0) {
     queueMarkAsRead(props.auth, unreadMessageIds);
   }
