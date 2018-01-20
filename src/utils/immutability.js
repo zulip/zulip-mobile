@@ -2,12 +2,12 @@
 import isEqual from 'lodash.isequal';
 
 export const removeItemsFromArray = (input: number[], itemsToRemove: number[]): number[] => {
-  const output = input.filter(item => !itemsToRemove.includes(item));
+  const output = input.filter((item: number) => !itemsToRemove.includes(item));
   return input.length === output.length ? input : output;
 };
 
 export const addItemsToArray = (input: Object[], itemsToAdd: Object[]): Object[] => {
-  const newItems = itemsToAdd.filter(item => !input.includes(item));
+  const newItems = itemsToAdd.filter((item: Object) => !input.includes(item));
   return newItems.length > 0 ? [...input, ...itemsToAdd] : input;
 };
 
@@ -23,7 +23,7 @@ export const replaceItemInArray = (
 ): any[] => {
   let replacementHappened = false;
 
-  const newArray = input.map(x => {
+  const newArray = input.map((x: any) => {
     if (predicate(x)) {
       replacementHappened = true;
       return replaceFunc(x);

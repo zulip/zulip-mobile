@@ -20,7 +20,7 @@ var getMessageIdFromNode = function getMessageIdFromNode(node) {
   return msgNode && msgNode.getAttribute('data-msg-id');
 };
 
-var isTargetIsMessageContent = function isTargetIsMessageContent(target) {
+var isTargetMessageContent = function isTargetMessageContent(target) {
   var curNode = target;
   while (curNode && curNode.parentNode && curNode.parentNode !== document.body) {
     if (curNode.matches('.msg-raw-content')) return true;

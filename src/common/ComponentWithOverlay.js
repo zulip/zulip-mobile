@@ -43,7 +43,7 @@ type Props = {
   overlayColor: string,
   overlayPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left',
   style?: StyleObj,
-  onPress: () => void,
+  onPress?: () => void,
 };
 
 export default class ComponentWithOverlay extends PureComponent<Props> {
