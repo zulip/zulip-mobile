@@ -1,17 +1,7 @@
 export default `
 'use strict';
 
-var documentBody = document.body;
-var elementSpinnerOlder = document.getElementById('spinner-older');
-var elementSpinnerNewer = document.getElementById('spinner-newer');
-var elementTyping = document.getElementById('typing');
-var elementMessageLoading = document.getElementById('message-loading');
-
 var scrollEventsDisabled = false;
-
-if (!documentBody || !elementSpinnerOlder || !elementSpinnerNewer || !elementTyping || !elementMessageLoading) {
-  throw new Error('HTML elements missing');
-}
 
 var sendMessage = function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
@@ -19,7 +9,7 @@ var sendMessage = function sendMessage(msg) {
 
 var getMessageNode = function getMessageNode(node) {
   var curNode = node;
-  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
+  while (curNode && curNode.parentNode && curNode.parentNode !== document.body) {
     curNode = curNode.parentNode;
   }
   return curNode;
@@ -32,7 +22,7 @@ var getMessageIdFromNode = function getMessageIdFromNode(node) {
 
 var isTargetIsMessageContent = function isTargetIsMessageContent(target) {
   var curNode = target;
-  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
+  while (curNode && curNode.parentNode && curNode.parentNode !== document.body) {
     if (curNode.matches('.msg-raw-content')) return true;
     curNode = curNode.parentNode;
   }
@@ -40,11 +30,11 @@ var isTargetIsMessageContent = function isTargetIsMessageContent(target) {
 };
 
 var scrollToBottom = function scrollToBottom() {
-  window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
+  window.scroll({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
 };
 
 var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
-  if (documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight) {
+  if (document.body.scrollHeight - 100 < document.body.scrollTop + document.body.clientHeight) {
     scrollToBottom();
   }
 };
@@ -59,13 +49,13 @@ var scrollToAnchor = function scrollToAnchor(anchor) {
   }
 };
 
-var height = documentBody.clientHeight;
+var height = document.body.clientHeight;
 window.addEventListener('resize', function (event) {
-  var difference = height - documentBody.clientHeight;
-  if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
+  var difference = height - document.body.clientHeight;
+  if (document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight) {
     window.scrollBy({ left: 0, top: difference });
   }
-  height = documentBody.clientHeight;
+  height = document.body.clientHeight;
 });
 
 var handleMessageBottom = function handleMessageBottom(msg) {
@@ -76,14 +66,14 @@ var handleMessageContent = function handleMessageContent(msg) {
   var msgNode = document.getElementById('msg-' + msg.anchor);
 
   if (!msgNode) {
-    documentBody.innerHTML = msg.content;
+    document.body.innerHTML = msg.content;
     scrollToAnchor(msg.anchor);
     return;
   }
 
   scrollEventsDisabled = true;
   var prevBoundRect = msgNode.getBoundingClientRect();
-  documentBody.innerHTML = msg.content;
+  document.body.innerHTML = msg.content;
   var newElement = document.getElementById('msg-' + msg.anchor);
   if (newElement) {
     var newBoundRect = newElement.getBoundingClientRect();
@@ -93,13 +83,13 @@ var handleMessageContent = function handleMessageContent(msg) {
 };
 
 var handleMessageFetching = function handleMessageFetching(msg) {
-  elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
-  elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
-  elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
+  document.getElementById('message-loading').classList.toggle('hidden', !msg.showMessagePlaceholders);
+  document.getElementById('spinner-older').classList.toggle('hidden', !msg.fetchingOlder);
+  document.getElementById('spinner-newer').classList.toggle('hidden', !msg.fetchingNewer);
 };
 
 var handleMessageTyping = function handleMessageTyping(msg) {
-  elementTyping.innerHTML = msg.content;
+  document.getElementById('typing').innerHTML = msg.content;
   setTimeout(function () {
     return scrollToBottomIfNearEnd();
   });
@@ -149,7 +139,7 @@ window.addEventListener('scroll', function () {
     type: 'scroll',
     scrollY: window.scrollY,
     innerHeight: window.innerHeight,
-    offsetHeight: documentBody.offsetHeight,
+    offsetHeight: document.body.offsetHeight,
     startMessageId: Math.min(prevNodes.start, currentNodes.start),
     endMessageId: Math.max(prevNodes.end, currentNodes.end)
   }), '*');
@@ -157,7 +147,7 @@ window.addEventListener('scroll', function () {
   prevNodes = currentNodes;
 });
 
-documentBody.addEventListener('click', function (e) {
+document.body.addEventListener('click', function (e) {
   if (e.target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',

@@ -1,20 +1,4 @@
-const documentBody = document.body;
-const elementSpinnerOlder = document.getElementById('spinner-older');
-const elementSpinnerNewer = document.getElementById('spinner-newer');
-const elementTyping = document.getElementById('typing');
-const elementMessageLoading = document.getElementById('message-loading');
-
 let scrollEventsDisabled = false;
-
-if (
-  !documentBody ||
-  !elementSpinnerOlder ||
-  !elementSpinnerNewer ||
-  !elementTyping ||
-  !elementMessageLoading
-) {
-  throw new Error('HTML elements missing');
-}
 
 const sendMessage = msg => {
   window.postMessage(JSON.stringify(msg), '*');
@@ -22,7 +6,7 @@ const sendMessage = msg => {
 
 const getMessageNode = node => {
   let curNode = node;
-  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
+  while (curNode && curNode.parentNode && curNode.parentNode !== document.body) {
     curNode = curNode.parentNode;
   }
   return curNode;
@@ -35,7 +19,7 @@ const getMessageIdFromNode = node => {
 
 const isTargetIsMessageContent = target => {
   let curNode = target;
-  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
+  while (curNode && curNode.parentNode && curNode.parentNode !== document.body) {
     if (curNode.matches('.msg-raw-content')) return true;
     curNode = curNode.parentNode;
   }
@@ -43,11 +27,11 @@ const isTargetIsMessageContent = target => {
 };
 
 const scrollToBottom = () => {
-  window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
+  window.scroll({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
 };
 
 const scrollToBottomIfNearEnd = () => {
-  if (documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight) {
+  if (document.body.scrollHeight - 100 < document.body.scrollTop + document.body.clientHeight) {
     scrollToBottom();
   }
 };
@@ -62,13 +46,13 @@ const scrollToAnchor = anchor => {
   }
 };
 
-let height = documentBody.clientHeight;
+let height = document.body.clientHeight;
 window.addEventListener('resize', event => {
-  const difference = height - documentBody.clientHeight;
-  if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
+  const difference = height - document.body.clientHeight;
+  if (document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight) {
     window.scrollBy({ left: 0, top: difference });
   }
-  height = documentBody.clientHeight;
+  height = document.body.clientHeight;
 });
 
 const handleMessageBottom = msg => {
@@ -79,14 +63,14 @@ const handleMessageContent = msg => {
   const msgNode = document.getElementById(`msg-${msg.anchor}`);
 
   if (!msgNode) {
-    documentBody.innerHTML = msg.content;
+    document.body.innerHTML = msg.content;
     scrollToAnchor(msg.anchor);
     return;
   }
 
   scrollEventsDisabled = true;
   const prevBoundRect = msgNode.getBoundingClientRect();
-  documentBody.innerHTML = msg.content;
+  document.body.innerHTML = msg.content;
   const newElement = document.getElementById(`msg-${msg.anchor}`);
   if (newElement) {
     const newBoundRect = newElement.getBoundingClientRect();
@@ -96,13 +80,15 @@ const handleMessageContent = msg => {
 };
 
 const handleMessageFetching = msg => {
-  elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
-  elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
-  elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
+  document
+    .getElementById('message-loading')
+    .classList.toggle('hidden', !msg.showMessagePlaceholders);
+  document.getElementById('spinner-older').classList.toggle('hidden', !msg.fetchingOlder);
+  document.getElementById('spinner-newer').classList.toggle('hidden', !msg.fetchingNewer);
 };
 
 const handleMessageTyping = msg => {
-  elementTyping.innerHTML = msg.content;
+  document.getElementById('typing').innerHTML = msg.content;
   setTimeout(() => scrollToBottomIfNearEnd());
 };
 
@@ -149,7 +135,7 @@ window.addEventListener('scroll', () => {
       type: 'scroll',
       scrollY: window.scrollY,
       innerHeight: window.innerHeight,
-      offsetHeight: documentBody.offsetHeight,
+      offsetHeight: document.body.offsetHeight,
       startMessageId: Math.min(prevNodes.start, currentNodes.start),
       endMessageId: Math.max(prevNodes.end, currentNodes.end),
     }),
@@ -159,7 +145,7 @@ window.addEventListener('scroll', () => {
   prevNodes = currentNodes;
 });
 
-documentBody.addEventListener('click', e => {
+document.body.addEventListener('click', e => {
   if (e.target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
