@@ -26,7 +26,7 @@ export const getAuthHeader = (email: string, apiKey: string): ?string =>
 
 export const encodeAsURI = (params: Object): string =>
   Object.keys(params)
-    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+    .map((key: string) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     .join('&');
 
 export const getFullUrl = (url: string, realm: string): string =>
@@ -89,7 +89,7 @@ export const getNarrowFromLink = (url: string, realm: string, users: any[]): [] 
   if (isGroupLink(url, realm)) {
     const recipients = paths[1].split('-')[0].split(',');
     return groupNarrow(
-      recipients.map(recipient => getUserById(users, parseInt(recipient, 10)).email),
+      recipients.map((recipient: string) => getUserById(users, parseInt(recipient, 10)).email),
     );
   } else if (isTopicLink(url, realm)) {
     return topicNarrow(

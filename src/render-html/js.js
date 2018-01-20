@@ -17,7 +17,7 @@ const getMessageIdFromNode = node => {
   return msgNode && msgNode.getAttribute('data-msg-id');
 };
 
-const isTargetIsMessageContent = target => {
+const isTargetMessageContent = target => {
   let curNode = target;
   while (curNode && curNode.parentNode && curNode.parentNode !== document.body) {
     if (curNode.matches('.msg-raw-content')) return true;
