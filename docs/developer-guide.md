@@ -89,3 +89,17 @@ target.
 
 * Using atom editor - install the `prettier-atom` plugin
 * Using the command line - run `npm run prettier`
+
+## Working with webView message rendering
+
+There are some restrictions in code that should be written in JS for WebView like
+
+* No inline comments (not supported on Android)
+* Every statement should end with `;` (not supported on Android)
+* Trailing commas are not supported on Android.
+
+Basically some mobile devices are not compatible with newer versions (ES5 and all)
+thus throws an error. That's why JS is not executed inside webView.
+In order to handle such situation we are processing JS first before injecting it to webView.
+So make changes in the `../src/render-html/js.js` file, run `prettier` on it. Then use
+http://babeljs.io/repl/ to get processed JS, and paste it to `../src/render-html/js-es3.js`.
