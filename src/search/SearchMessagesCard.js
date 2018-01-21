@@ -4,10 +4,10 @@ import { StyleSheet, View } from 'react-native';
 import throttle from 'lodash.throttle';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Actions, Auth, Message } from '../types';
-import { SearchEmptyState } from '../common';
+import type { Actions, Auth, Message, Subscription } from '../types';
+import { LoadingIndicator, SearchEmptyState } from '../common';
 import { searchNarrow } from '../utils/narrow';
-import MessageList from '../render-native/MessageListScrollView';
+import MessageList from '../render-html/MessageListWeb';
 import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
 
@@ -19,14 +19,14 @@ const styles = StyleSheet.create({
 
 type Props = {
   actions: Actions,
-  query: string,
   auth: Auth,
+  query: string,
+  subscriptions: Subscription[],
 };
 
 type State = {
   messages: Message[],
   isFetching: boolean,
-  query: string,
 };
 
 export default class SearchMessagesCard extends PureComponent<Props, State> {
@@ -36,7 +36,6 @@ export default class SearchMessagesCard extends PureComponent<Props, State> {
   state = {
     messages: [],
     isFetching: false,
-    query: '',
   };
 
   handleQueryChange = async (query: string) => {
@@ -66,12 +65,15 @@ export default class SearchMessagesCard extends PureComponent<Props, State> {
   }
 
   render() {
-    const { isFetching, messages, query } = this.state;
-    const { actions } = this.props;
-    const noResults = !!query && !isFetching && !messages.length;
+    const { isFetching, messages } = this.state;
+    const { actions, auth, query, subscriptions } = this.props;
 
-    if (noResults) {
-      return <SearchEmptyState text="No results" />;
+    if (isFetching) {
+      return <LoadingIndicator active size={40} />;
+    }
+
+    if (messages.length === 0) {
+      return query.length > 0 ? <SearchEmptyState text="No results" /> : null;
     }
 
     const renderedMessages = renderMessages(messages, []);
@@ -81,9 +83,12 @@ export default class SearchMessagesCard extends PureComponent<Props, State> {
         <ActionSheetProvider>
           <MessageList
             actions={actions}
+            anchor={messages[0].id}
+            auth={auth}
+            messages={messages}
+            narrow={[]}
             renderedMessages={renderedMessages}
-            fetchingOlder={isFetching}
-            fetchingNewer={isFetching}
+            subscriptions={subscriptions}
           />
         </ActionSheetProvider>
       </View>
