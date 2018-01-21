@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   conversations: User[],
+  presences: Object,
   usersByEmail: Object,
   onPress: (email: string) => void,
 };
@@ -29,7 +30,7 @@ export default class ConversationList extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { conversations, usersByEmail, onPress } = this.props;
+    const { conversations, presences, usersByEmail, onPress } = this.props;
 
     if (!conversations.length) {
       return <Label style={styles.emptySlate} text="No recent conversations" />;
@@ -52,6 +53,7 @@ export default class ConversationList extends PureComponent<Props> {
                 email={user.email}
                 fullName={user.fullName}
                 avatarUrl={user.avatarUrl}
+                presence={presences[user.email]}
                 unreadCount={item.unread}
                 onPress={onPress}
               />
