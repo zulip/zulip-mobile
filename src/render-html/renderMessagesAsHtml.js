@@ -4,7 +4,7 @@ import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
 import timeRowAsHtml from './timeRowAsHtml';
 
-const renderMessages = ({ auth, subscriptions, renderedMessages, narrow, doNarrow }) =>
+const renderMessages = ({ auth, subscriptions, renderedMessages, narrow }) =>
   renderedMessages.reduce((list, section, index) => {
     list.push(
       messageHeaderAsHtml({

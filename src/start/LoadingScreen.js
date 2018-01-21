@@ -12,16 +12,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: BRAND_COLOR,
   },
-  indicatorStyles: {
-    backgroundColor: BRAND_COLOR,
-  },
 });
 
 export default class LoadingScreen extends PureComponent<{}> {
   render() {
     return (
       <View style={styles.center}>
-        <LoadingIndicator active size={80} backgroundColor={styles.indicatorStyles} />
+        <LoadingIndicator active size={80} />
       </View>
     );
   }

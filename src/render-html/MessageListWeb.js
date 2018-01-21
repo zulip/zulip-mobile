@@ -55,6 +55,7 @@ export default class MessageListWeb extends Component<Props> {
       <WebView
         source={{ html }}
         anchor={anchor}
+        fetching={{}}
         style={styles.webview}
         ref={webview => {
           this.webview = webview;

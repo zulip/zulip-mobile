@@ -37,7 +37,7 @@ export type Props = {
   renderedMessages: any,
   showMessagePlaceholders: boolean,
   subscriptions: Subscription[],
-  typingUsers: any,
+  typingUsers?: any,
   listRef: (component: any) => void,
   onReplySelect: () => void,
   onScroll: (e: Event) => void,
