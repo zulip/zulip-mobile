@@ -30,7 +30,7 @@ describe('getCurrentTypingUsers', () => {
         narrow: privateNarrow('john@example.com'),
       },
       typing: {
-        'john@example.com': [1],
+        'john@example.com': { userIds: [1] },
       },
       users: [expectedUser],
     });
@@ -59,7 +59,7 @@ describe('getCurrentTypingUsers', () => {
         narrow: groupNarrow(['john@example.com', 'mark@example.com']),
       },
       typing: {
-        'john@example.com,mark@example.com': [1, 2],
+        'john@example.com,mark@example.com': { userIds: [1, 2] },
       },
       users: [user1, user2],
     });
@@ -76,7 +76,7 @@ describe('getCurrentTypingUsers', () => {
         narrow: privateNarrow('mark@example.com'),
       },
       typing: {
-        'john@example.com': [1],
+        'john@example.com': { userIds: [1] },
       },
     });
 
@@ -98,7 +98,7 @@ describe('getCurrentTypingUsers', () => {
         narrow: groupNarrow(['mark@example.com', 'john@example.com']),
       },
       typing: {
-        'john@example.com,mark@example.com': [1],
+        'john@example.com,mark@example.com': { userIds: [1] },
       },
       users: [expectedUser],
     });

@@ -1,8 +1,16 @@
 /* @flow */
 import type { Action, TypingState } from '../types';
-import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../actionConstants';
+import {
+  EVENT_TYPING_START,
+  EVENT_TYPING_STOP,
+  CLEAR_TYPING_NOTIFICATIONS,
+  LOGOUT,
+  LOGIN_SUCCESS,
+  ACCOUNT_SWITCH,
+  REALM_INIT,
+} from '../actionConstants';
 import { normalizeRecipientsSansMe } from '../utils/message';
-import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
+import { NULL_OBJECT } from '../nullObjects';
 
 const initialState: TypingState = NULL_OBJECT;
 
@@ -15,16 +23,25 @@ export default (state: TypingState = initialState, action: Action): TypingState 
       }
 
       const normalizedRecipients = normalizeRecipientsSansMe(action.recipients, action.ownEmail);
-      const previousTypingUsers = state[normalizedRecipients] || NULL_ARRAY;
+      const previousTypingUsers = state[normalizedRecipients] || { userIds: [] };
 
-      const isUserAlreadyTyping = previousTypingUsers.indexOf(action.sender.user_id);
+      const isUserAlreadyTyping = previousTypingUsers.userIds.indexOf(action.sender.user_id);
       if (isUserAlreadyTyping > -1) {
-        return state;
+        return {
+          ...state,
+          [normalizedRecipients]: {
+            userIds: [...previousTypingUsers.userIds],
+            time: action.time,
+          },
+        };
       }
 
       return {
         ...state,
-        [normalizedRecipients]: [...previousTypingUsers, action.sender.user_id],
+        [normalizedRecipients]: {
+          userIds: [...previousTypingUsers.userIds, action.sender.user_id],
+          time: action.time,
+        },
       };
     }
 
@@ -36,7 +53,7 @@ export default (state: TypingState = initialState, action: Action): TypingState 
         return state;
       }
 
-      const newTypingUsers = state[normalizedRecipients].filter(
+      const newTypingUsers = state[normalizedRecipients].userIds.filter(
         userId => userId !== action.sender.user_id,
       );
 
@@ -52,6 +69,18 @@ export default (state: TypingState = initialState, action: Action): TypingState 
       delete newState[normalizedRecipients];
       return newState;
     }
+
+    case CLEAR_TYPING_NOTIFICATIONS: {
+      const newState = { ...state };
+      action.outdatedNotifications.map(recipients => delete newState[recipients]);
+      return newState;
+    }
+
+    case LOGOUT:
+    case LOGIN_SUCCESS:
+    case ACCOUNT_SWITCH:
+    case REALM_INIT:
+      return initialState;
 
     default:
       return state;

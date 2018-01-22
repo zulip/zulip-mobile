@@ -7,6 +7,7 @@ import { appRefresh } from '../actions';
 import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
 import { getAuth } from '../selectors';
+import actionCreator from '../actionCreator';
 
 const responseToActions = (state: GlobalState, response) => {
   const actions = [];
@@ -59,6 +60,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
 
       const actions = responseToActions(getState(), response);
 
+      actionCreator(dispatch, actions, getState());
       dispatchOrBatch(dispatch, actions);
 
       lastEventId = Math.max.apply(null, [lastEventId, ...response.events.map(x => x.id)]);

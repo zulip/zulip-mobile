@@ -18,10 +18,11 @@ describe('typingReducers', () => {
           { email: 'me@example.com', user_id: 2 },
         ],
         ownEmail: 'me@example.com',
+        time: 123456789,
       });
 
       const expectedState = {
-        'john@example.com': [1],
+        'john@example.com': { time: 123456789, userIds: [1] },
       };
 
       const newState = typingReducers(initialState, action);
@@ -29,9 +30,9 @@ describe('typingReducers', () => {
       expect(newState).toEqual(expectedState);
     });
 
-    test('if user is already typing, no change', () => {
+    test('if user is already typing, no change in userIds but update time', () => {
       const initialState = deepFreeze({
-        'john@example.com': [1],
+        'john@example.com': { time: 123456789, userIds: [1] },
       });
 
       const action = deepFreeze({
@@ -43,10 +44,11 @@ describe('typingReducers', () => {
           { email: 'me@example.com', user_id: 2 },
         ],
         ownEmail: 'me@example.com',
+        time: 123456889,
       });
 
       const expectedState = {
-        'john@example.com': [1],
+        'john@example.com': { time: 123456889, userIds: [1] },
       };
 
       const newState = typingReducers(initialState, action);
@@ -56,7 +58,7 @@ describe('typingReducers', () => {
 
     test('if other people are typing in other narrows, add, do not affect them', () => {
       const initialState = deepFreeze({
-        'john@example.com': [1],
+        'john@example.com': { time: 123489, userIds: [1] },
       });
 
       const action = deepFreeze({
@@ -69,11 +71,12 @@ describe('typingReducers', () => {
           { email: 'me@example.com', user_id: 3 },
         ],
         ownEmail: 'me@example.com',
+        time: 123456789,
       });
 
       const expectedState = {
-        'john@example.com': [1],
-        'john@example.com,mark@example.com': [2],
+        'john@example.com': { time: 123489, userIds: [1] },
+        'john@example.com,mark@example.com': { time: 123456789, userIds: [2] },
       };
 
       const newState = typingReducers(initialState, action);
@@ -83,7 +86,7 @@ describe('typingReducers', () => {
 
     test('if another user is typing already, append new one', () => {
       const initialState = deepFreeze({
-        'john@example.com,mark@example.com': [1],
+        'john@example.com,mark@example.com': { time: 123489, userIds: [1] },
       });
 
       const action = deepFreeze({
@@ -96,10 +99,11 @@ describe('typingReducers', () => {
           { email: 'me@example.com', user_id: 3 },
         ],
         ownEmail: 'me@example.com',
+        time: 123456789,
       });
 
       const expectedState = {
-        'john@example.com,mark@example.com': [1, 2],
+        'john@example.com,mark@example.com': { time: 123456789, userIds: [1, 2] },
       };
 
       const newState = typingReducers(initialState, action);
@@ -111,8 +115,8 @@ describe('typingReducers', () => {
   describe('EVENT_TYPING_STOP', () => {
     test('if after removing, key is an empty list, key is removed', () => {
       const initialState = deepFreeze({
-        'john@example.com': [1],
-        'mark@example.com': [2],
+        'john@example.com': { time: 123489, userIds: [1] },
+        'mark@example.com': { time: 123489, userIds: [2] },
       });
 
       const action = deepFreeze({
@@ -124,10 +128,11 @@ describe('typingReducers', () => {
           { email: 'me@example.com', user_id: 2 },
         ],
         ownEmail: 'me@example.com',
+        time: 123456789,
       });
 
       const expectedState = {
-        'mark@example.com': [2],
+        'mark@example.com': { time: 123489, userIds: [2] },
       };
 
       const newState = typingReducers(initialState, action);
@@ -137,7 +142,7 @@ describe('typingReducers', () => {
 
     test('if two people are typing, just one is removed', () => {
       const initialState = deepFreeze({
-        'john@example.com': [1, 2],
+        'john@example.com': { time: 123489, userIds: [1, 2] },
       });
 
       const action = deepFreeze({
@@ -172,6 +177,7 @@ describe('typingReducers', () => {
           { email: 'me@example.com', user_id: 2 },
         ],
         ownEmail: 'me@example.com',
+        time: 123456789,
       });
 
       const expectedState = {};
