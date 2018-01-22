@@ -1,7 +1,7 @@
 export default `
 'use strict';
 
-var scrollEventsDisabled = false;
+var scrollEventsDisabled = true;
 
 var sendMessage = function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
@@ -65,19 +65,18 @@ var handleMessageBottom = function handleMessageBottom(msg) {
 var handleMessageContent = function handleMessageContent(msg) {
   var msgNode = document.getElementById('msg-' + msg.anchor);
 
+  scrollEventsDisabled = true;
   if (!msgNode) {
     document.body.innerHTML = msg.content;
     scrollToAnchor(msg.anchor);
-    return;
-  }
-
-  scrollEventsDisabled = true;
-  var prevBoundRect = msgNode.getBoundingClientRect();
-  document.body.innerHTML = msg.content;
-  var newElement = document.getElementById('msg-' + msg.anchor);
-  if (newElement) {
-    var newBoundRect = newElement.getBoundingClientRect();
-    window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
+  } else {
+    var prevBoundRect = msgNode.getBoundingClientRect();
+    document.body.innerHTML = msg.content;
+    var newElement = document.getElementById('msg-' + msg.anchor);
+    if (newElement) {
+      var newBoundRect = newElement.getBoundingClientRect();
+      window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
+    }
   }
   scrollEventsDisabled = false;
 };

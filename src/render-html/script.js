@@ -14,7 +14,8 @@ window.onerror = function (message, source, line, column, error) {
 ${smoothScroll}
 document.addEventListener('DOMContentLoaded', function() {
   ${js}
-  scrollToAnchor(${anchor})
+  scrollToAnchor(${anchor});
+  scrollEventsDisabled = false;
 });
 </script>
 `;

@@ -1,4 +1,4 @@
-let scrollEventsDisabled = false;
+let scrollEventsDisabled = true;
 
 const sendMessage = msg => {
   window.postMessage(JSON.stringify(msg), '*');
@@ -62,19 +62,18 @@ const handleMessageBottom = msg => {
 const handleMessageContent = msg => {
   const msgNode = document.getElementById(`msg-${msg.anchor}`);
 
+  scrollEventsDisabled = true;
   if (!msgNode) {
     document.body.innerHTML = msg.content;
     scrollToAnchor(msg.anchor);
-    return;
-  }
-
-  scrollEventsDisabled = true;
-  const prevBoundRect = msgNode.getBoundingClientRect();
-  document.body.innerHTML = msg.content;
-  const newElement = document.getElementById(`msg-${msg.anchor}`);
-  if (newElement) {
-    const newBoundRect = newElement.getBoundingClientRect();
-    window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
+  } else {
+    const prevBoundRect = msgNode.getBoundingClientRect();
+    document.body.innerHTML = msg.content;
+    const newElement = document.getElementById(`msg-${msg.anchor}`);
+    if (newElement) {
+      const newBoundRect = newElement.getBoundingClientRect();
+      window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
+    }
   }
   scrollEventsDisabled = false;
 };
