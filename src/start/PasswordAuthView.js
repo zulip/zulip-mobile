@@ -54,9 +54,9 @@ class PasswordAuthView extends PureComponent<Props, State> {
     this.setState({ progress: true, error: undefined });
 
     try {
-      const apiKey = await fetchApiKey(auth, email, password);
+      const fetchedKey = await fetchApiKey(auth, email, password);
       this.setState({ progress: false });
-      actions.loginSuccess(auth.realm, email, apiKey);
+      actions.loginSuccess(auth.realm, fetchedKey.email, fetchedKey.api_key);
     } catch (err) {
       this.setState({
         progress: false,
