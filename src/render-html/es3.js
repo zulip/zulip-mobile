@@ -2,6 +2,7 @@ export default `
 'use strict';
 
 var scrollEventsDisabled = true;
+var lastTouchEventTimestamp = 0;
 
 var sendMessage = function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
@@ -101,6 +102,12 @@ var handleMessageTyping = function handleMessageTyping(msg) {
   });
 };
 
+var handleLongPress = function handleLongPress(e) {
+  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
+
+  lastTouchEventTimestamp = 0;
+};
+
 document.addEventListener('message', function (e) {
   var msg = JSON.parse(e.data);
   switch (msg.type) {
@@ -137,6 +144,7 @@ var getStartAndEndNodes = function getStartAndEndNodes() {
 var prevNodes = getStartAndEndNodes();
 
 window.addEventListener('scroll', function () {
+  lastTouchEventTimestamp = 0;
   if (scrollEventsDisabled) return;
 
   var currentNodes = getStartAndEndNodes();
@@ -154,6 +162,7 @@ window.addEventListener('scroll', function () {
 });
 
 document.body.addEventListener('click', function (e) {
+  lastTouchEventTimestamp = 0;
   if (e.target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
@@ -192,5 +201,24 @@ document.body.addEventListener('click', function (e) {
       voted: e.target.classList.contains('self-voted')
     });
   }
+});
+
+document.body.addEventListener('touchstart', function (e) {
+  lastTouchEventTimestamp = Date.now();
+  setTimeout(function () {
+    return handleLongPress(e);
+  }, 500);
+});
+
+document.body.addEventListener('touchend', function (e) {
+  lastTouchEventTimestamp = Date.now();
+});
+
+document.body.addEventListener('touchmove', function (e) {
+  lastTouchEventTimestamp = 0;
+});
+
+document.body.addEventListener('drag', function (e) {
+  lastTouchEventTimestamp = 0;
 });
 `;
