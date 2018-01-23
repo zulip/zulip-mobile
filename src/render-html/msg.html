@@ -200,23 +200,7 @@ window.onerror = function(message, source, line, column, error) {
 document.addEventListener('DOMContentLoaded', function() {
   'use strict';
 
-  var documentBody = document.body;
-  var elementSpinnerOlder = document.getElementById('spinner-older');
-  var elementSpinnerNewer = document.getElementById('spinner-newer');
-  var elementTyping = document.getElementById('typing');
-  var elementMessageLoading = document.getElementById('message-loading');
-
-  var scrollEventsDisabled = false;
-
-  if (
-    !documentBody ||
-    !elementSpinnerOlder ||
-    !elementSpinnerNewer ||
-    !elementTyping ||
-    !elementMessageLoading
-  ) {
-    throw new Error('HTML elements missing');
-  }
+  var scrollEventsDisabled = true;
 
   var sendMessage = function sendMessage(msg) {
     window.postMessage(JSON.stringify(msg), '*');
@@ -224,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var getMessageNode = function getMessageNode(node) {
     var curNode = node;
-    while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
+    while (curNode && curNode.parentNode && curNode.parentNode !== document.body) {
       curNode = curNode.parentNode;
     }
     return curNode;
@@ -237,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var isTargetMessageContent = function isTargetMessageContent(target) {
     var curNode = target;
-    while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
+    while (curNode && curNode.parentNode && curNode.parentNode !== document.body) {
       if (curNode.matches('.msg-raw-content')) return true;
       curNode = curNode.parentNode;
     }
@@ -245,11 +229,11 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   var scrollToBottom = function scrollToBottom() {
-    window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
+    window.scroll({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
   };
 
   var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
-    if (documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight) {
+    if (document.body.scrollHeight - 100 < document.body.scrollTop + document.body.clientHeight) {
       scrollToBottom();
     }
   };
@@ -264,13 +248,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   };
 
-  var height = documentBody.clientHeight;
+  var height = document.body.clientHeight;
   window.addEventListener('resize', function(event) {
-    var difference = height - documentBody.clientHeight;
-    if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
+    var difference = height - document.body.clientHeight;
+    if (document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight) {
       window.scrollBy({ left: 0, top: difference });
     }
-    height = documentBody.clientHeight;
+    height = document.body.clientHeight;
   });
 
   var handleMessageBottom = function handleMessageBottom(msg) {
@@ -280,31 +264,32 @@ document.addEventListener('DOMContentLoaded', function() {
   var handleMessageContent = function handleMessageContent(msg) {
     var msgNode = document.getElementById('msg-' + msg.anchor);
 
-    if (!msgNode) {
-      documentBody.innerHTML = msg.content;
-      scrollToAnchor(msg.anchor);
-      return;
-    }
-
     scrollEventsDisabled = true;
-    var prevBoundRect = msgNode.getBoundingClientRect();
-    documentBody.innerHTML = msg.content;
-    var newElement = document.getElementById('msg-' + msg.anchor);
-    if (newElement) {
-      var newBoundRect = newElement.getBoundingClientRect();
-      window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
+    if (!msgNode) {
+      document.body.innerHTML = msg.content;
+      scrollToAnchor(msg.anchor);
+    } else {
+      var prevBoundRect = msgNode.getBoundingClientRect();
+      document.body.innerHTML = msg.content;
+      var newElement = document.getElementById('msg-' + msg.anchor);
+      if (newElement) {
+        var newBoundRect = newElement.getBoundingClientRect();
+        window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
+      }
     }
     scrollEventsDisabled = false;
   };
 
   var handleMessageFetching = function handleMessageFetching(msg) {
-    elementMessageLoading.classList.toggle('hidden', !msg.showMessagePlaceholders);
-    elementSpinnerOlder.classList.toggle('hidden', !msg.fetchingOlder);
-    elementSpinnerNewer.classList.toggle('hidden', !msg.fetchingNewer);
+    document
+      .getElementById('message-loading')
+      .classList.toggle('hidden', !msg.showMessagePlaceholders);
+    document.getElementById('spinner-older').classList.toggle('hidden', !msg.fetchingOlder);
+    document.getElementById('spinner-newer').classList.toggle('hidden', !msg.fetchingNewer);
   };
 
   var handleMessageTyping = function handleMessageTyping(msg) {
-    elementTyping.innerHTML = msg.content;
+    document.getElementById('typing').innerHTML = msg.content;
     setTimeout(function() {
       return scrollToBottomIfNearEnd();
     });
@@ -329,13 +314,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  var isMessageNode = function isMessageNode(node) {
+    return node && node.getAttribute && node.hasAttribute('data-msg-id');
+  };
+
   var getStartAndEndNodes = function getStartAndEndNodes() {
     var startNode = getMessageNode(document.elementFromPoint(200, 20));
     var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
 
     return {
-      start: startNode ? startNode.getAttribute('data-msg-id') : 0,
-      end: endNode ? endNode.getAttribute('data-msg-id') : 0,
+      start: isMessageNode(startNode) ? startNode.getAttribute('data-msg-id') : 0,
+      end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : Number.MAX_SAFE_INTEGER,
     };
   };
 
@@ -351,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
         type: 'scroll',
         scrollY: window.scrollY,
         innerHeight: window.innerHeight,
-        offsetHeight: documentBody.offsetHeight,
+        offsetHeight: document.body.offsetHeight,
         startMessageId: Math.min(prevNodes.start, currentNodes.start),
         endMessageId: Math.max(prevNodes.end, currentNodes.end),
       }),
@@ -361,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
     prevNodes = currentNodes;
   });
 
-  documentBody.addEventListener('click', function(e) {
+  document.body.addEventListener('click', function(e) {
     if (e.target.matches('.avatar-img')) {
       sendMessage({
         type: 'avatar',
@@ -402,7 +391,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  scrollToAnchor(430205);
+  scrollToAnchor(455119);
+  scrollEventsDisabled = false;
 });
 </script>
 
@@ -628,10 +618,15 @@ th, td {
   border-radius: 50%;
   margin: 1em auto;
   font-size: 10px;
-  position: relative;
   border: 3px solid rgba(82, 194, 175, 0.25);
   border-left: 3px solid rgba(82, 194, 175, 0.75);
   animation: spin 1s linear infinite;
+}
+.message-tag-spinner .loading-spinner {
+  margin: 0 0 0 1em;
+  width: 1em;
+  height: 1em;
+  float: right;
 }
 .message_inline_image {
   text-align: center;
@@ -733,6 +728,15 @@ ul {
   font-size: 10px;
 }
 
+
+body {
+  color: #d5d9dd;
+  background: #212D3B;
+}
+
+.topic-text {
+  background: #54606E;
+}
 
 .emoji-2049:before { content: '⁉'; }
 .emoji-2122:before { content: '™'; }
@@ -1745,7 +1749,7 @@ ul {
 .emoji-1f4a7:before { content: '💧'; }
 .emoji-1f4f3:before { content: '📳'; }
 .emoji-1f574:before { content: '🕴'; }
-.message:not([data-read="true"]) { background: red; }
+
 </style>
 
 
@@ -1756,65 +1760,539 @@ ul {
 <div id="spinner-older" class="hidden loading-spinner"></div>
 
 
-  <div class="timerow" data-msg-id="430205">
+  <div class="timerow" data-msg-id="454850">
     <div class="timerow-left"></div>
-    Jan 6
+    Jan 18
     <div class="timerow-right"></div>
   </div>
 
+<div class="header-wrapper stream-header" data-msg-id="454850">
+  <div class="header stream-text" style="background: #f4ae55" data-narrow="[{'operator':'stream','operand':'kandra feedback'}]">
+    kandra feedback
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'kandra feedback'},{'operator':'topic','operand':'zulip 1.8'}]">
+    zulip 1.8
+  </div>
+</div>
+
 <div
      class="message message-full"
-     id="msg-430205"
-     data-msg-id="430205"
-
+     id="msg-454850"
+     data-msg-id="454850"
+     data-read="true"
     >
   <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/e1a7404785c9738b20d58b5aac61d393010aca74.png?x=x&version=5" class="avatar-img" data-email="jp@sisolutions.gr">
+    <img src="https://chat.zulip.org/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae.png?x=x&version=2" class="avatar-img" data-email="greg@zulipchat.com">
   </div>
   <div class="content">
-    <div class="subheader">
-      <div class="username">
-        John Pagourtzis
-      </div>
-      <div class="timestamp">
-        11:55 PM
-      </div>
-    </div>
-    <div class="msg-raw-content">
-      <p>Is there a 32bit deb client available?</p>
+
+<div class="subheader">
+  <div class="username">
+    Greg Price
+  </div>
+  <div class="timestamp">
+    11:55 PM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>That seems pretty reasonable.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="454851">
+  <div class="header stream-text" style="background: #e4523d" data-narrow="[{'operator':'stream','operand':'core team'}]">
+    core team
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'core team'},{'operator':'topic','operand':'brute force'}]">
+    brute force
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-454851"
+     data-msg-id="454851"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae.png?x=x&version=2" class="avatar-img" data-email="greg@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Greg Price
+  </div>
+  <div class="timestamp">
+    11:58 PM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>There's an open issue for this (<a href="https://github.com/zulip/zulip/pull/5677" target="_blank" title="https://github.com/zulip/zulip/pull/5677">#5677</a>) and some partial work done on it. We haven't gotten it to the point of being ready to merge.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+  <div class="timerow" data-msg-id="454956">
+    <div class="timerow-left"></div>
+    Jan 19
+    <div class="timerow-right"></div>
+  </div>
+
+<div class="header-wrapper stream-header" data-msg-id="454956">
+  <div class="header stream-text" style="background: #94c849" data-narrow="[{'operator':'stream','operand':'backend'}]">
+    backend
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'backend'},{'operator':'topic','operand':'Difference between rawunread and unread'}]">
+    Difference between rawunread and unread
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-454956"
+     data-msg-id="454956"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Rishi Gupta
+  </div>
+  <div class="timestamp">
+    1:20 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>I think a reasonable V1 for this is just no notifications (PMs or at-mentions) from the user. I think the rest of the project (e.g. adding a UI for muting, adding a db table, etc) will be more than enough work for the V1.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="454974">
+  <div class="header stream-text" style="background: #94c849" data-narrow="[{'operator':'stream','operand':'backend'}]">
+    backend
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'backend'},{'operator':'topic','operand':'title text for links'}]">
+    title text for links
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-454974"
+     data-msg-id="454974"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Rishi Gupta
+  </div>
+  <div class="timestamp">
+    2:07 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>What is the right way to implement <a href="https://github.com/zulip/zulip/pull/8014" target="_blank" title="https://github.com/zulip/zulip/pull/8014">#8014</a> (Set title text of links to the title of the page)? <br>
+Should the request be made on hover, or should it be done by the markdown processor?</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-454983"
+     data-msg-id="454983"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://secure.gravatar.com/avatar/03d6176149e9fe81c83590dd4e7a5225?d=identicon&version=1" class="avatar-img" data-email="sampdingo@hotmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Sampriti Panda
+  </div>
+  <div class="timestamp">
+    2:26 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>Probably on hover, wouldn't want to fetch titles for every link that get's posted.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-454984"
+     data-msg-id="454984"
+     data-read="true"
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>Also would transfer the load to the client.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455010">
+  <div class="header stream-text" style="background: #bfd56f" data-narrow="[{'operator':'stream','operand':'general'}]">
+    general
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'general'},{'operator':'topic','operand':'media kit'}]">
+    media kit
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455010"
+     data-msg-id="455010"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/c036be5d02e2a1f12dbc90eec0ed91458245b738.png?x=x&version=2" class="avatar-img" data-email="shidarin@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Sean Wallitsch
+  </div>
+  <div class="timestamp">
+    2:55 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>Is there a zulip media/press kit?</p>
+</div>
+
+<div class="message-tags">
+  <span class="message-tag">edited 4 days ago</span>
+
+
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455025">
+  <div class="header stream-text" style="background: #a6c7e5" data-narrow="[{'operator':'stream','operand':'GCI mentors'}]">
+    GCI mentors
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'GCI mentors'},{'operator':'topic','operand':'winners'}]">
+    winners
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455025"
+     data-msg-id="455025"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/acd02688af9717e93947b8059e591f6a680c70a4.png?x=x&version=5" class="avatar-img" data-email="jerryguitarist@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Eeshan Garg
+  </div>
+  <div class="timestamp">
+    3:05 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>Hey everyone! Sorry for being so late in replying to this, I've had a few crazy busy days in school! But my top 5 are (in that order):<br>
+1. [<strong>Tie</strong>] Steve/Marco - Steve did a lot of great work. And I really appreciated his perfection and the how meticulously he crafted some of his documentation reviews. Also, with Steve, there were very few times where I had to point out small obvious fixes. I think the same can be said of Marco. One thing I like about Marco is that he has been very responsive to feedback in all of his tasks I've had the chance to review.<br>
+2. Cynthia - Cynthia is of course a great contributor and submitted nothing but high quality PRs that I took less than 5 seconds to hit approve on. I think for second spot again, she might tie with either Steve or Marco. The only thing that concerns me is that Cynthia chose to stick with her comfort zone and rarely seemed to venture out of it. That's not wrong, she is a prolific contributor, but we should still take this into account since a lot of other candidates seem to have been tackling problems that didn't always belong to an area they had already worked on for a long time.<br>
+3. Freddie - He is a close third. He submitted good PRs but sometimes they did require little nitpicks like commit message etiquette and what not. I think he should definitely make the top 5 though.<br>
+4. Priyank - He submitted high quality PRs as well. I haven't had much of a chance to review his work but I do remember reviewing a few tasks and he is a good contributor.</p>
+<p>I personally admire contributors who have a finely calibrated sense of confidence and caution. People who are confident enough to venture out of their usual comfort zones but still be cautious enough to not break anything radically. Even though such contributors don't always explicitly seem to be "helping out" others, in the long run, I believe someone with this kind of attitude and independent thinking has a better chance of eventually becoming a reviewer and help beginning contributors out in that role!</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455029">
+  <div class="header stream-text" style="background: #53a063" data-narrow="[{'operator':'stream','operand':'checkins'}]">
+    checkins
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'checkins'},{'operator':'topic','operand':'Eeshan'}]">
+    Eeshan
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455029"
+     data-msg-id="455029"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/acd02688af9717e93947b8059e591f6a680c70a4.png?x=x&version=5" class="avatar-img" data-email="jerryguitarist@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Eeshan Garg
+  </div>
+  <div class="timestamp">
+    3:11 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>Hi everyone! I had two extremely busy days at school with the first assignments of the term due this Friday, so just catching up with everything now. I'll be online for the next 5-6 hours. :)</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455044">
+  <div class="header stream-text" style="background: #bfd56f" data-narrow="[{'operator':'stream','operand':'general'}]">
+    general
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'general'},{'operator':'topic','operand':'media kit'}]">
+    media kit
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455044"
+     data-msg-id="455044"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/73d9a4e1d805fd4f46e35183340a4cf255e68ca3.png?x=x&version=1" class="avatar-img" data-email="tabbott@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Tim Abbott
+  </div>
+  <div class="timestamp">
+    3:16 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p><span class="user-mention" data-user-email="shidarin@gmail.com" data-user-id="3733">@Sean Wallitsch</span> not other than some directories in the repo.  What items are you looking for?</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455048"
+     data-msg-id="455048"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/c036be5d02e2a1f12dbc90eec0ed91458245b738.png?x=x&version=2" class="avatar-img" data-email="shidarin@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Sean Wallitsch
+  </div>
+  <div class="timestamp">
+    3:17 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>logos and color swatches for some internal pitches</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455050">
+  <div class="header stream-text" style="background: #94c849" data-narrow="[{'operator':'stream','operand':'backend'}]">
+    backend
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'backend'},{'operator':'topic','operand':'title text for links'}]">
+    title text for links
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455050"
+     data-msg-id="455050"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/73d9a4e1d805fd4f46e35183340a4cf255e68ca3.png?x=x&version=1" class="avatar-img" data-email="tabbott@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Tim Abbott
+  </div>
+  <div class="timestamp">
+    3:18 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>Definitely in the markdown processor.  We have basically all the needed infrastructure in the open graph preview logic.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455053">
+  <div class="header stream-text" style="background: #f4ae55" data-narrow="[{'operator':'stream','operand':'kandra feedback'}]">
+    kandra feedback
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'kandra feedback'},{'operator':'topic','operand':'zulip 1.8'}]">
+    zulip 1.8
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455053"
+     data-msg-id="455053"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/73d9a4e1d805fd4f46e35183340a4cf255e68ca3.png?x=x&version=1" class="avatar-img" data-email="tabbott@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Tim Abbott
+  </div>
+  <div class="timestamp">
+    3:20 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>That's reasonable, but I think this is also a sign that we should be releasing more often.</p>
+</div>
+
+
+    <div class="reaction-list">
+
+  <span onClick="" class="reaction self-voted" data-name="thumbs_up">
+    👍 2
+  </span>
+
     </div>
 
 
   </div>
 </div>
 
-  <div class="timerow" data-msg-id="430679">
-    <div class="timerow-left"></div>
-    Jan 7
-    <div class="timerow-right"></div>
+<div class="header-wrapper stream-header" data-msg-id="455059">
+  <div class="header stream-text" style="background: #bfd56f" data-narrow="[{'operator':'stream','operand':'general'}]">
+    general
   </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'general'},{'operator':'topic','operand':'media kit'}]">
+    media kit
+  </div>
+</div>
 
 <div
      class="message message-full"
-     id="msg-430679"
-     data-msg-id="430679"
-
+     id="msg-455059"
+     data-msg-id="455059"
+     data-read="true"
     >
   <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/b42886636690543d511b70646db4c1e9915b00b5.png?x=x&version=3" class="avatar-img" data-email="akash@zulipchat.com">
+    <img src="https://chat.zulip.org/user_avatars/2/73d9a4e1d805fd4f46e35183340a4cf255e68ca3.png?x=x&version=1" class="avatar-img" data-email="tabbott@zulipchat.com">
   </div>
   <div class="content">
-    <div class="subheader">
-      <div class="username">
-        Akash Nimare
-      </div>
-      <div class="timestamp">
-        11:31 AM
-      </div>
-    </div>
-    <div class="msg-raw-content">
-      <p><span class="user-mention" data-user-email="jp@sisolutions.gr" data-user-id="4611">@John Pagourtzis</span> nope, it's 64-bit currently. You can use the <a href="https://github.com/zulip/zulip-electron/releases/tag/v1.7.0" target="_blank" title="https://github.com/zulip/zulip-electron/releases/tag/v1.7.0">AppImage</a> installer which works on every Linux platforms.</p>
-    </div>
+
+<div class="subheader">
+  <div class="username">
+    Tim Abbott
+  </div>
+  <div class="timestamp">
+    3:24 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>Makes sense.  <span class="user-mention" data-user-email="rishig@zulipchat.com" data-user-id="131">@Rishi Gupta</span> do you think a v1 of this is something we could just throw together quickly tomorrow?</p>
+</div>
+
 
 
   </div>
@@ -1822,25 +2300,1081 @@ ul {
 
 <div
      class="message message-full"
-     id="msg-430704"
-     data-msg-id="430704"
+     id="msg-455060"
+     data-msg-id="455060"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/c036be5d02e2a1f12dbc90eec0ed91458245b738.png?x=x&version=2" class="avatar-img" data-email="shidarin@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Sean Wallitsch
+  </div>
+  <div class="timestamp">
+    3:26 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>there's no rush, just in the early stages of the presentation</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455061">
+  <div class="header stream-text" style="background: #53a063" data-narrow="[{'operator':'stream','operand':'checkins'}]">
+    checkins
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'checkins'},{'operator':'topic','operand':'Eeshan'}]">
+    Eeshan
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455061"
+     data-msg-id="455061"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/acd02688af9717e93947b8059e591f6a680c70a4.png?x=x&version=5" class="avatar-img" data-email="jerryguitarist@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Eeshan Garg
+  </div>
+  <div class="timestamp">
+    3:26 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>I remember being a high school student and seeing all of the senior developers at PyCon have email inboxes with hundreds of emails from open source projects they maintained and I remember wondering what it must be like to have an inbox full of emails. I don't wonder anymore. <span class="emoji emoji-1f606" title="laughing">:laughing:</span></p>
+</div>
+
+
+    <div class="reaction-list">
+
+  <span onClick="" class="reaction" data-name="smile">
+    😄 1
+  </span>
+
+    </div>
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455062">
+  <div class="header stream-text" style="background: #bfd56f" data-narrow="[{'operator':'stream','operand':'general'}]">
+    general
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'general'},{'operator':'topic','operand':'media kit'}]">
+    media kit
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455062"
+     data-msg-id="455062"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/c036be5d02e2a1f12dbc90eec0ed91458245b738.png?x=x&version=2" class="avatar-img" data-email="shidarin@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Sean Wallitsch
+  </div>
+  <div class="timestamp">
+    3:26 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>I'm also using the <code>Statistics</code> window that got added in 1.7 <span class="emoji emoji-1f44d" title="thumbs up">:thumbs_up:</span></p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455070">
+  <div class="header stream-text" style="background: #94c849" data-narrow="[{'operator':'stream','operand':'backend'}]">
+    backend
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'backend'},{'operator':'topic','operand':'global-public streams'}]">
+    global-public streams
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455070"
+     data-msg-id="455070"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/7ce437ee13d709a2970e3c90827a8721dfd27759.png?x=x&version=2" class="avatar-img" data-email="adi.bansal241996@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Aditya Bansal
+  </div>
+  <div class="timestamp">
+    3:34 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <blockquote>
+<p>I think one could probably get a prototype working based off that code path relatively quickly, since it already has a way to do its own independent CSS and grouping logic run by the backend.</p>
+</blockquote>
+<p>I haven't seen the code yet but is it something like messages are rendered in the feed.<br>
+when I say messages are rendered in a feed, I mean is the html and CSS correspond to rendering in feed.</p>
+</div>
+
+<div class="message-tags">
+  <span class="message-tag">edited 4 days ago</span>
+
+
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455084">
+  <div class="header stream-text" style="background: #a6c7e5" data-narrow="[{'operator':'stream','operand':'GCI mentors'}]">
+    GCI mentors
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'GCI mentors'},{'operator':'topic','operand':'winners'}]">
+    winners
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455084"
+     data-msg-id="455084"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Steve Howell
+  </div>
+  <div class="timestamp">
+    3:44 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p><span class="user-mention" data-user-email="jerryguitarist@gmail.com" data-user-id="1833">@Eeshan Garg</span> Your top five would leave Xavier out, which is also where I am leaning.  Did you have any data points on him?</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455097"
+     data-msg-id="455097"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/acd02688af9717e93947b8059e591f6a680c70a4.png?x=x&version=5" class="avatar-img" data-email="jerryguitarist@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Eeshan Garg
+  </div>
+  <div class="timestamp">
+    3:47 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>That's the problem, I literally don't have any! I can't remember reviewing anything by Xavier, which is why I am not recommending him. I haven't seen a big PR from him like I have from the other candidates I recommended. I have seen him around on czo chatting, but nothing else. Maybe this is simply a consequence of me not reviewing any of his work, but I don't think he should make the top 5 if it means someone like Freddie won't :)</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455104">
+  <div class="header stream-text" style="background: #f4ae55" data-narrow="[{'operator':'stream','operand':'kandra feedback'}]">
+    kandra feedback
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'kandra feedback'},{'operator':'topic','operand':'zulip 1.8'}]">
+    zulip 1.8
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455104"
+     data-msg-id="455104"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/e35cdbc4771c5e4b94e705bf6ff7cca7fa1efcae.png?x=x&version=2" class="avatar-img" data-email="greg@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Greg Price
+  </div>
+  <div class="timestamp">
+    3:49 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>Yep, agreed.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455105">
+  <div class="header stream-text" style="background: #a6c7e5" data-narrow="[{'operator':'stream','operand':'GCI mentors'}]">
+    GCI mentors
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'GCI mentors'},{'operator':'topic','operand':'winners'}]">
+    winners
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455105"
+     data-msg-id="455105"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Rishi Gupta
+  </div>
+  <div class="timestamp">
+    3:49 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>As an unrelated point of information: the thing we'll need in the end is two winners, one backup winner, and two finalists. So we need to mostly rank the top 5, but it's fine to not separate 1st and 2nd, and 4th and 5th.</p>
+</div>
+
+<div class="message-tags">
+  <span class="message-tag">edited 4 days ago</span>
+
+
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455106"
+     data-msg-id="455106"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/acd02688af9717e93947b8059e591f6a680c70a4.png?x=x&version=5" class="avatar-img" data-email="jerryguitarist@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Eeshan Garg
+  </div>
+  <div class="timestamp">
+    3:49 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>With the other candidates, my mind instantly goes to specific details about their work or style of communication that makes me want to recommend them. Unfortunately, I can't say the same for Xavier. :/</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-455111"
+     data-msg-id="455111"
+     data-read="true"
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>Also, <span class="user-mention" data-user-email="showell@zulipchat.com" data-user-id="58">@Steve Howell</span>, in your top 5, Steve is tied with Xavier. Personally, I think Steve should make the top 5 at least and that is a huge task lead he has which probably can't be ignored. :)</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455116"
+     data-msg-id="455116"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/0f93cc1fd329b3c4d1636c9ff168c524c66023b5.png?x=x&version=4" class="avatar-img" data-email="showell@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Steve Howell
+  </div>
+  <div class="timestamp">
+    3:55 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>I'm not hugely invested in Xavier being in the top five.  I think the task lead was significant enough that we need something pretty compelling to rank Xavier above Steve.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455119"
+     data-msg-id="455119"
 
     >
   <div class="avatar">
-    <img src="https://chat.zulip.org/user_avatars/2/e1a7404785c9738b20d58b5aac61d393010aca74.png?x=x&version=5" class="avatar-img" data-email="jp@sisolutions.gr">
+    <img src="https://chat.zulip.org/user_avatars/2/acd02688af9717e93947b8059e591f6a680c70a4.png?x=x&version=5" class="avatar-img" data-email="jerryguitarist@gmail.com">
   </div>
   <div class="content">
-    <div class="subheader">
-      <div class="username">
-        John Pagourtzis
-      </div>
-      <div class="timestamp">
-        12:09 PM
-      </div>
+
+<div class="subheader">
+  <div class="username">
+    Eeshan Garg
+  </div>
+  <div class="timestamp">
+    3:58 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>Agreed! I have reviewed a lot of tasks, and I haven't noticed his presence much anyway. Also, I actually had a hard time not recommending Jerry or Viraat. I reviewed a few of Jerry's PRs and a lot of Viraat's PRs. However, they are very very new to open source and are still learning, but they are quick learners. Unfortunately for Jerry and Viraat, the other candidates just have a lot more work done and that too in a much shorter time so Jerry and Viraat would probably not make the top 5. :)</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455161"
+     data-msg-id="455161"
+
+    >
+  <div class="avatar">
+    <img src="https://secure.gravatar.com/avatar/03d6176149e9fe81c83590dd4e7a5225?d=identicon&version=1" class="avatar-img" data-email="sampdingo@hotmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Sampriti Panda
+  </div>
+  <div class="timestamp">
+    5:03 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>Re Xavier: He abandoned this PR <a href="https://github.com/zulip/zulip/pull/7853" target="_blank" title="https://github.com/zulip/zulip/pull/7853">#7853</a> after we had approved the GCI Task</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-455162"
+     data-msg-id="455162"
+
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>I think we should have our top 5 in Cynthia, Steve, Marco, Freddie, Priyank</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455165">
+  <div class="header stream-text" style="background: #95a5fd" data-narrow="[{'operator':'stream','operand':'mobile'}]">
+    mobile
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'mobile'},{'operator':'topic','operand':'mobile user group'}]">
+    mobile user group
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455165"
+     data-msg-id="455165"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://secure.gravatar.com/avatar/03d6176149e9fe81c83590dd4e7a5225?d=identicon&version=1" class="avatar-img" data-email="sampdingo@hotmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Sampriti Panda
+  </div>
+  <div class="timestamp">
+    5:17 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>Sorry guys, I accidentally removed someone from the <code>mobile</code> user group, I thought that required admin permissions.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-455166"
+     data-msg-id="455166"
+     data-read="true"
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>And I can't remember who it was <span class="emoji emoji-1f926" title="face palm">:face_palm:</span></p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-455167"
+     data-msg-id="455167"
+     data-read="true"
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>This is pretty confusing though:<br>
+<a href="/user_uploads/2/89/rP2axY6u3vzGsfSz3MORtfIk/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/89/rP2axY6u3vzGsfSz3MORtfIk/pasted_image.png" target="_blank" title="pasted image"><img src="https://chat.zulip.org/user_uploads/2/89/rP2axY6u3vzGsfSz3MORtfIk/pasted_image.png"></a></div>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-455169"
+     data-msg-id="455169"
+     data-read="true"
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>Might have been <span class="user-mention" data-user-email="jainkuniya@gmail.com" data-user-id="703">@Vishwesh Jainkuniya</span>, if it was him, please add back. I'm really sorry <span class="emoji emoji-1f61e" title="disappointed">:disappointed:</span></p>
+</div>
+
+<div class="message-tags">
+  <span class="message-tag">edited 4 days ago</span>
+
+
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455170">
+  <div class="header stream-text" style="background: #bfd56f" data-narrow="[{'operator':'stream','operand':'general'}]">
+    general
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'general'},{'operator':'topic','operand':'media kit'}]">
+    media kit
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455170"
+     data-msg-id="455170"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Rishi Gupta
+  </div>
+  <div class="timestamp">
+    5:25 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p><span class="user-mention" data-user-email="shidarin@gmail.com" data-user-id="3733">@Sean Wallitsch</span> attached a logo. Feel free to use it however you like (any background, any color, etc).<br>
+For a color, maybe hsl(170, 47%, 54%) (the color of the Zulip text the upper left of this org), but we won't be offended if you use something else for the borders of the slide deck :).</p>
+<p>Not totally sure what will be useful, but some links:<br>
+<a href="https://zulipchat.com/why-zulip/" target="_blank" title="https://zulipchat.com/why-zulip/">https://zulipchat.com/why-zulip/</a>, and the links at the bottom e.g. to <a href="https://zulipchat.com/for/companies/" target="_blank" title="https://zulipchat.com/for/companies/">https://zulipchat.com/for/companies/</a><br>
+Our release notes, like <a href="http://blog.zulip.org/2017/10/25/zulip-server-1-7-released/" target="_blank" title="http://blog.zulip.org/2017/10/25/zulip-server-1-7-released/">http://blog.zulip.org/2017/10/25/zulip-server-1-7-released/</a> have lists of features, as does <a href="http://zulipchat.com/features" target="_blank" title="http://zulipchat.com/features">zulipchat.com/features</a> (though it is a bit out of date).</p>
+<p>Let me know if you think of something you would like to put in the presentation as a pro of Zulip, but aren't sure if it's a feature that we have / is on the roadmap :). It's useful for us to know even if it ends up that we don't have it.</p>
+<p><a href="/user_uploads/2/e2/nIlvCpd5kSJavXmFSZkZSLD_/zulip-icon-512x512.png" target="_blank" title="zulip-icon-512x512.png">zulip-icon-512x512.png</a> <br>
+<a href="/user_uploads/2/70/mUPjqxIfqBc0qrBVf2nGyH55/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455182">
+  <div class="header stream-text" style="background: #95a5fd" data-narrow="[{'operator':'stream','operand':'mobile'}]">
+    mobile
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'mobile'},{'operator':'topic','operand':'mobile user group'}]">
+    mobile user group
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455182"
+     data-msg-id="455182"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/276f177099890c58ca4c2cc475565568678cf02d.png?x=x&version=14" class="avatar-img" data-email="cynthialin1004@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Cynthia Lin
+  </div>
+  <div class="timestamp">
+    5:54 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>I don't think anyone minds a small mistake :) It was Vishwesh (according to Tim's screenshot from <a href="https://github.com/zulip/zulip/pull/8088" target="_blank" title="https://github.com/zulip/zulip/pull/8088">#8088</a>), and you can add him back yourself for future reference</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-455183"
+     data-msg-id="455183"
+     data-read="true"
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>Also, the organization/anyone tip appears sporadically;  sometimes I only see the anyone, while other times I see both; might be worth opening an issue for?</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455192">
+  <div class="header stream-text" style="background: #53a063" data-narrow="[{'operator':'stream','operand':'checkins'}]">
+    checkins
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'checkins'},{'operator':'topic','operand':'Eeshan'}]">
+    Eeshan
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455192"
+     data-msg-id="455192"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/acd02688af9717e93947b8059e591f6a680c70a4.png?x=x&version=5" class="avatar-img" data-email="jerryguitarist@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Eeshan Garg
+  </div>
+  <div class="timestamp">
+    6:43 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>Okay, today, I worked on the following:</p>
+<ul>
+<li>Reviewed a few PRs.</li>
+<li>Investigated a permissions issue with the <code>tools/setup/generate_zulip_bots_static_files</code> script. Still didn't get anywhere. I'll probably continue this tomorrow.</li>
+<li>Worked on constructing the tests run by <code>./tools/test-api</code> in a way that they can be turned to code examples that are rendered on our /api docs. I am still trying to decide whether to test examples against the expected fixtures that a particular request is expected to return. I'm hoping to have a PR up by Saturday!</li>
+</ul>
+<p>I still have an assignment to submit for my AI class tomorrow! So that's all for today! Good night everyone! :)</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455213">
+  <div class="header stream-text" style="background: #bd86e5" data-narrow="[{'operator':'stream','operand':'issues'}]">
+    issues
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'issues'},{'operator':'topic','operand':'#7995 Customizing logo and name in upper left  sidebar'}]">
+    #7995 Customizing logo and name in upper left  sidebar
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455213"
+     data-msg-id="455213"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/00f618c4ba18171e555cc26bbf6d335e0d2d6577.png?x=x&version=5" class="avatar-img" data-email="brock@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Brock Whittaker
+  </div>
+  <div class="timestamp">
+    7:47 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>Anything up to 4x1, and we should be using imagemagick or something to be cropping it to 100px height.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455217"
+     data-msg-id="455217"
+
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/2454e7b767a4ef20fd2127cb911658595d7dc145.png?x=x&version=1" class="avatar-img" data-email="rishig@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Rishi Gupta
+  </div>
+  <div class="timestamp">
+    8:03 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>cropping, rather than max-height?  Also, will we allow svg?</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455222">
+  <div class="header stream-text" style="background: #bd86e5" data-narrow="[{'operator':'stream','operand':'design'}]">
+    design
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'design'},{'operator':'topic','operand':'settings save'}]">
+    settings save
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455222"
+     data-msg-id="455222"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/00f618c4ba18171e555cc26bbf6d335e0d2d6577.png?x=x&version=5" class="avatar-img" data-email="brock@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Brock Whittaker
+  </div>
+  <div class="timestamp">
+    8:26 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>I see adding more emoji sets as a non-important addition that should not be prioritized.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455225">
+  <div class="header stream-text" style="background: #e4523d" data-narrow="[{'operator':'stream','operand':'core team'}]">
+    core team
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'core team'},{'operator':'topic','operand':'brute force'}]">
+    brute force
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455225"
+     data-msg-id="455225"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/00f618c4ba18171e555cc26bbf6d335e0d2d6577.png?x=x&version=5" class="avatar-img" data-email="brock@zulipchat.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Brock Whittaker
+  </div>
+  <div class="timestamp">
+    8:32 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>Is there really a concern with brute forcing passwords in local networks? The key to a local network is that users within are generally trusted and part of an organization, and logs are discoverable by admins easily to find malicious activity (and if admins wanted to log into a user's account they could just change the password hash to a known one in postgres anyways).</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-455227"
+     data-msg-id="455227"
+     data-read="true"
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>I think rate limiting is probably good but more from the perspective of people not being able to ddos the cloud hosted version, and less from a password brute forcing risk.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455297">
+  <div class="header stream-text" style="background: #53a063" data-narrow="[{'operator':'stream','operand':'checkins'}]">
+    checkins
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'checkins'},{'operator':'topic','operand':'Umair'}]">
+    Umair
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455297"
+     data-msg-id="455297"
+     data-read="true"
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/32276fcc30bd339033b23ce1f8f49c5452a27bf3.png?x=x&version=2" class="avatar-img" data-email="umair.waheed@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Umair Khan
+  </div>
+  <div class="timestamp">
+    10:11 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p><a href="https://github.com/zulip/zulip/pull/8076" target="_blank" title="https://github.com/zulip/zulip/pull/8076">#8076</a> completes the encryption code for the backend side. I have added tests for encryption library and 'zerver/lib/push_notifications' code. Tests for push notification views are still left.</p>
+<p><a href="https://github.com/zulip/zulip/pull/8109" target="_blank" title="https://github.com/zulip/zulip/pull/8109">#8109</a> makes tracebacks from import errors less verbose.</p>
+</div>
+
+<div class="message-tags">
+  <span class="message-tag">edited 4 days ago</span>
+
+
+</div>
+
+
+    <div class="reaction-list">
+
+  <span onClick="" class="reaction" data-name="tada">
+    🎉 2
+  </span>
+
     </div>
-    <div class="msg-raw-content">
-      <p>Οκ thanks.</p>
-    </div>
+
+
+  </div>
+</div>
+
+<div class="header-wrapper stream-header" data-msg-id="455309">
+  <div class="header stream-text" style="background: #a6c7e5" data-narrow="[{'operator':'stream','operand':'GCI mentors'}]">
+    GCI mentors
+  </div>
+  <div class="header topic-text" data-narrow="[{'operator':'stream','operand':'GCI mentors'},{'operator':'topic','operand':'winners'}]">
+    winners
+  </div>
+</div>
+
+<div
+     class="message message-full"
+     id="msg-455309"
+     data-msg-id="455309"
+
+    >
+  <div class="avatar">
+    <img src="https://chat.zulip.org/user_avatars/2/834c5f4bd7f8109bbe9a6dec0215e0e49175ef5a.png?x=x&version=3" class="avatar-img" data-email="aero31aero@gmail.com">
+  </div>
+  <div class="content">
+
+<div class="subheader">
+  <div class="username">
+    Rohitt Vashishtha
+  </div>
+  <div class="timestamp">
+    10:18 AM
+  </div>
+</div>
+
+
+<div class="msg-raw-content">
+  <p>I'm relieved to finally have a valid datapoint against someone to really make a top 5 out of the top 6 we had. <span class="emoji emoji-1f605" title="sweat smile">:sweat_smile:</span></p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-455311"
+     data-msg-id="455311"
+
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>I would vote for Marco and Cynthia being the top 2.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-455329"
+     data-msg-id="455329"
+
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>1. <strong>Marco</strong> - Mostly for the same reasons as Eeshan said. Working with Marco wasn't like working with other students. When you want to have a discussion about a feature with some other student, it was almost impossible because they were looking for guidance and weren't expressing their own thoughts. With Marco, (and Freddie as well), the discussions were smooth sailing, and he extended our bots' test framework and such changes outside of the scope of the initial task in one of our tasks, just as an example I can immediately recall.</p>
+</div>
+
+<div class="message-tags">
+  <span class="message-tag">edited 4 days ago</span>
+
+
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-455339"
+     data-msg-id="455339"
+
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>2. <strong>Cynthia</strong> - I just checked her commit history and confirmed what's been said before: she just worked on frontend tasks. But, here's where I also saw a lot of diversification. She touched almost all parts of our frontend code- portico headers, documentation, settings page, onboarding tutorial, night mode (one of the main contributors), etc. Also, working with CSS takes a lot of testing and time, so even a small CSS change is a huge time taker in many cases. Add to that her contributions to Zulipbot and her overall engagement in the community, she is definetiley a top two in my opinion.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-455350"
+     data-msg-id="455350"
+
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>3. <strong>Steve</strong> - He has written amazing documentation, and has exceeded expectations in most of his documentation tasks. On the non documentation tasks, he has worked immaculately on those and had a very fast approval in most cases. The only downside is that he wasn't the type of person who remained online on czo while working. In some cases, where I'd have preferred to have a discussion about some piece of code, I had to rely on github or gci to interact. This also means that his involvement in helping others has also been a lot less than others (as can be seen by <span class="user-mention" data-user-email="robhoenig@gmail.com" data-user-id="801">@Robert Hönig</span> 's wonderful comparison a few messages above.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-455371"
+     data-msg-id="455371"
+
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>4. <strong>Freddie</strong> - Freddie had the same good points as Marco in terms of communication and coding skills, in my opinion, but he didn't work on as many tasks as Marco did, and since that is the only major distinction that I can draw up between them, I would rank him below Marco. To keep it short, he had very good attitude and responded well to feedback, and generally wrote good quality code in the first go. With him, reviews were more about the design decisions and not nitpicking coding errors in most cases.</p>
+</div>
+
+
+
+  </div>
+</div>
+
+<div
+     class="message message-brief"
+     id="msg-455376"
+     data-msg-id="455376"
+
+    >
+  <div class="content">
+
+<div class="msg-raw-content">
+  <p>X. <strong>Priyank</strong> - I don't have enough datapoints on him to rank him here, so I'll skip him.</p>
+</div>
+
 
 
   </div>
