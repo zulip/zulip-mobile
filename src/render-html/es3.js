@@ -106,6 +106,14 @@ var handleLongPress = function handleLongPress(e) {
   if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
 
   lastTouchEventTimestamp = 0;
+
+  if (isTargetMessageContent(e.target) || e.target.matches('.header')) {
+    sendMessage({
+      type: 'longPress',
+      target: isTargetMessageContent(e.target) ? 'message' : 'header',
+      messageId: +getMessageIdFromNode(e.target) || e.target.getAttribute('data-msg-id') || e.target.parentNode.getAttribute('data-msg-id')
+    });
+  }
 };
 
 document.addEventListener('message', function (e) {

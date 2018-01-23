@@ -38,6 +38,11 @@ type MessageListEventUrl = {
   messageId: number,
 };
 
+type MessageListEventLongPress = {
+  target: string,
+  messageId: number,
+};
+
 type MessageListEventDebug = Object;
 
 type Props = {
@@ -111,4 +116,8 @@ export const handleReaction = (props: Props, event: MessageListEventReaction) =>
 
 export const handleDebug = (props: Props, event: MessageListEventDebug) => {
   console.debug(props, event); // eslint-disable-line
+};
+
+export const handleLongPress = (props: Props, event: MessageListEventLongPress) => {
+  console.log(event); // eslint-disable-line
 };
