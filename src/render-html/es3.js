@@ -33,8 +33,12 @@ var scrollToBottom = function scrollToBottom() {
   window.scroll({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
 };
 
+var isNearBottom = function isNearBottom() {
+  return document.body.scrollHeight - 100 < document.body.scrollTop + document.body.clientHeight;
+};
+
 var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
-  if (document.body.scrollHeight - 100 < document.body.scrollTop + document.body.clientHeight) {
+  if (isNearBottom()) {
     scrollToBottom();
   }
 };
@@ -66,7 +70,10 @@ var handleMessageContent = function handleMessageContent(msg) {
   var msgNode = document.getElementById('msg-' + msg.anchor);
 
   scrollEventsDisabled = true;
-  if (!msgNode) {
+  if (isNearBottom()) {
+    document.body.innerHTML = msg.content;
+    scrollToBottom();
+  } else if (!msgNode) {
     document.body.innerHTML = msg.content;
     scrollToAnchor(msg.anchor);
   } else {
