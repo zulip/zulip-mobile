@@ -54,7 +54,12 @@ export default class PasswordInput extends PureComponent<Props, State> {
 
     return (
       <View style={styles.row}>
-        <Input {...this.props} secureTextEntry={isHidden} autoCorrect={false} />
+        <Input
+          {...this.props}
+          secureTextEntry={isHidden}
+          autoCorrect={false}
+          autoCapitalize="none"
+        />
         <Touchable style={componentStyles.button} onPress={this.handleShow}>
           <Label style={componentStyles.buttonText} text={isHidden ? 'show' : 'hide'} />
         </Touchable>
