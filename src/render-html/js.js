@@ -103,16 +103,11 @@ const handleLongPress = e => {
 
   lastTouchEventTimestamp = 0;
 
-  if (isTargetMessageContent(e.target) || e.target.matches('.header')) {
-    sendMessage({
-      type: 'longPress',
-      target: isTargetMessageContent(e.target) ? 'message' : 'header',
-      messageId:
-        +getMessageIdFromNode(e.target) ||
-        e.target.getAttribute('data-msg-id') ||
-        e.target.parentNode.getAttribute('data-msg-id'),
-    });
-  }
+  sendMessage({
+    type: 'longPress',
+    target: e.target.matches('.header') ? 'header' : 'message',
+    messageId: +getMessageIdFromNode(e.target),
+  });
 };
 
 document.addEventListener('message', e => {
