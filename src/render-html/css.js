@@ -11,6 +11,7 @@ html {
   -moz-user-select: none; /* Firefox 2+ */
   -ms-user-select: none; /* IE 10+ */
   user-select: none; /* Standard syntax */
+  -khtml-user-select: none;
 }
 body {
   font-family: sans-serif;
