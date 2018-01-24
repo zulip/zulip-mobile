@@ -15,6 +15,7 @@ export default class MessageListWeb extends Component<Props> {
   static contextTypes = {
     styles: () => null,
     theme: () => null,
+    init: () => null,
   };
 
   handleError = (event: Object) => {
@@ -31,7 +32,7 @@ export default class MessageListWeb extends Component<Props> {
     const eventData = JSON.parse(event.nativeEvent.data);
     const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
 
-    webViewEventHandlers[handler](this.props, eventData); // $FlowFixMe
+    webViewEventHandlers[handler](this.props, eventData, this.context); // $FlowFixMe
   };
 
   componentWillReceiveProps = (nextProps: Props) => {

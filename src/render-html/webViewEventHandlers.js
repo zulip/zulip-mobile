@@ -1,9 +1,14 @@
 /* @flow */
-import type { Actions, Auth, Message } from '../types';
+import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
+import {
+  constructActionButtons,
+  constructHeaderActionButtons,
+  executeActionSheetAction,
+} from '../message/messageActionSheet';
+import type { Actions, Auth, Message } from '../types';
 import { isUrlAnImage } from '../utils/url';
 import { filterUnreadMessagesInRange } from '../utils/unread';
-import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 
 type MessageListEventScroll = {
   innerHeight: number,
@@ -90,6 +95,44 @@ export const handleImage = (props: Props, event: MessageListEventImage) => {
   if (message) {
     props.actions.navigateToLightbox(src, message);
   }
+};
+
+export const handleLongPress = (
+  props: Props,
+  event: MessageListLongPressEvent,
+  context: Object,
+) => {
+  const { messageId, target } = event;
+  const message = props.messages.find(x => x.id === messageId);
+
+  if (!message) return;
+
+  const getString = value => context.intl.formatMessage({ id: value });
+  const options =
+    target === 'message'
+      ? constructActionButtons({
+          ...props,
+          message,
+          getString,
+        })
+      : constructHeaderActionButtons({ ...props, message, getString });
+
+  const callback = buttonIndex => {
+    executeActionSheetAction({
+      ...props,
+      message,
+      title: options[buttonIndex],
+      header: target === 'header',
+      getString,
+    });
+  };
+  props.showActionSheetWithOptions(
+    {
+      options,
+      cancelButtonIndex: options.length - 1,
+    },
+    callback,
+  );
 };
 
 export const handleUrl = (props: Props, event: MessageListEventUrl) => {
