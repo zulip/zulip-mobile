@@ -59,8 +59,8 @@ export default class AccountItem extends PureComponent<Props> {
       <Touchable style={styles.wrapper} onPress={this.handleSelect}>
         <View style={[styles.accountItem, showDoneIcon && styles.selectedAccountItem]}>
           <View style={styles.details}>
-            <RawLabel style={[styles.text]} text={email} />
-            <RawLabel style={[styles.text]} text={realm} />
+            <RawLabel style={[styles.text]} text={email} numberOfLines={1} />
+            <RawLabel style={[styles.text]} text={realm} numberOfLines={1} />
           </View>
           {!showDoneIcon ? (
             <IconTrash style={styles.icon} size={32} color="crimson" onPress={this.handleRemove} />
