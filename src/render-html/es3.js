@@ -106,6 +106,12 @@ var handleLongPress = function handleLongPress(e) {
   if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
 
   lastTouchEventTimestamp = 0;
+
+  sendMessage({
+    type: 'longPress',
+    target: e.target.matches('.header') ? 'header' : 'message',
+    messageId: +getMessageIdFromNode(e.target)
+  });
 };
 
 document.addEventListener('message', function (e) {
