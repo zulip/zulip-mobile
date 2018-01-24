@@ -99,7 +99,7 @@ export const handleImage = (props: Props, event: MessageListEventImage) => {
 
 export const handleLongPress = (
   props: Props,
-  event: MessageListLongPressEvent,
+  event: MessageListEventLongPress,
   context: Object,
 ) => {
   const { messageId, target } = event;
@@ -159,8 +159,4 @@ export const handleReaction = (props: Props, event: MessageListEventReaction) =>
 
 export const handleDebug = (props: Props, event: MessageListEventDebug) => {
   console.debug(props, event); // eslint-disable-line
-};
-
-export const handleLongPress = (props: Props, event: MessageListEventLongPress) => {
-  console.log(event); // eslint-disable-line
 };
