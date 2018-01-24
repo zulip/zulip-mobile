@@ -149,9 +149,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
   };
 
   clearMessageInput = () => {
-    if (this.topicInput) {
-      this.topicInput.clear();
-    }
     if (this.messageInput) {
       this.messageInput.clear();
     }
@@ -265,7 +262,11 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
     return (
       <View>
-        <TopicAutocomplete text={topic} onAutocomplete={this.handleTopicChange} />
+        <TopicAutocomplete
+          isFocused={isTopicFocused}
+          text={topic}
+          onAutocomplete={this.handleTopicChange}
+        />
         <AutoCompleteView
           text={message}
           onAutocomplete={this.handleMessageChange}
