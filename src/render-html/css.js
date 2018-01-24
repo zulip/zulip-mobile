@@ -318,7 +318,8 @@ ul {
   color: white;
 }
 #typing {
-  margin: 0.5em;
+  display: flex;
+  padding: 0.5em;
 }
 .typing-list {
   background: green;
