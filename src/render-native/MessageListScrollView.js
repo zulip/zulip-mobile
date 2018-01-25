@@ -17,6 +17,7 @@ export default class MessageListScrollView extends PureComponent<Props> {
   };
 
   static defaultProps = {
+    onLongPress: nullFunction,
     onReplySelect: nullFunction,
     onScroll: nullFunction,
   };
@@ -29,7 +30,7 @@ export default class MessageListScrollView extends PureComponent<Props> {
       showMessagePlaceholders,
       fetching,
       listRef,
-      onReplySelect,
+      onLongPress,
       onScroll,
       typingUsers,
       renderedMessages,
@@ -40,10 +41,7 @@ export default class MessageListScrollView extends PureComponent<Props> {
       return <MessageListLoading />;
     }
 
-    const { messageList, stickyHeaderIndices } = cachedMessageRender(
-      renderedMessages,
-      onReplySelect,
-    );
+    const { messageList, stickyHeaderIndices } = cachedMessageRender(renderedMessages, onLongPress);
 
     return (
       <InfiniteScrollView

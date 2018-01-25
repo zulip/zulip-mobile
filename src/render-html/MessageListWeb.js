@@ -15,7 +15,6 @@ export default class MessageListWeb extends Component<Props> {
   static contextTypes = {
     styles: () => null,
     theme: () => null,
-    intl: () => null,
   };
 
   handleError = (event: Object) => {

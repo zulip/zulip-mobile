@@ -2,17 +2,12 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Auth, Actions, Narrow, MuteState } from '../../types';
-import type { ShowActionSheetTypes } from '../../message/messageActionSheet';
+import type { Auth, Actions, Narrow } from '../../types';
 import { isStreamNarrow, isTopicNarrow, isPrivateOrGroupNarrow } from '../../utils/narrow';
 import TopicMessageHeader from './TopicMessageHeader';
 import StreamMessageHeader from './StreamMessageHeader';
 import PrivateMessageHeader from './PrivateMessageHeader';
 import { nullFunction, NULL_SUBSCRIPTION } from '../../nullObjects';
-import {
-  executeActionSheetAction,
-  constructHeaderActionButtons,
-} from '../../message/messageActionSheet';
 
 const styles = StyleSheet.create({
   margin: {
@@ -26,44 +21,16 @@ type Props = {
   actions: Actions,
   message: Object,
   narrow: Narrow,
+  onLongPress: (messageId: number, target: string) => void,
   subscriptions: any[],
-  showActionSheetWithOptions: (Object, (number) => void) => void,
-  mute: MuteState,
 };
 
 export default class MessageHeader extends PureComponent<Props> {
   props: Props;
 
-  static contextTypes = {
-    intl: () => null,
-  };
-
-  showActionSheet = ({ options, cancelButtonIndex, callback }: ShowActionSheetTypes) => {
-    this.props.showActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex,
-      },
-      callback,
-    );
-  };
-
   handleLongPress = () => {
-    const { actions, subscriptions, mute, auth, message } = this.props;
-    const getString = value => this.context.intl.formatMessage({ id: value });
-    const options = constructHeaderActionButtons({ message, subscriptions, mute, getString });
-    const callback = buttonIndex => {
-      executeActionSheetAction({
-        actions,
-        title: options[buttonIndex],
-        message,
-        header: true,
-        auth,
-        subscriptions,
-        getString,
-      });
-    };
-    this.showActionSheet({ options, cancelButtonIndex: options.length - 1, callback });
+    const { onLongPress, message } = this.props;
+    onLongPress(message.id, 'header');
   };
 
   render() {

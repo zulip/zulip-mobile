@@ -1,20 +1,7 @@
 /* @flow */
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
-import {
-  constructActionButtons,
-  constructHeaderActionButtons,
-  executeActionSheetAction,
-} from '../message/messageActionSheet';
-import type {
-  Actions,
-  Auth,
-  FlagsState,
-  Message,
-  MuteState,
-  Narrow,
-  SubscriptionState,
-} from '../types';
+import type { Actions, Auth, FlagsState, Message, Narrow } from '../types';
 import { isUrlAnImage } from '../utils/url';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 
@@ -61,15 +48,10 @@ type MessageListEventDebug = Object;
 type Props = {
   actions: Actions,
   auth: Auth,
-  currentRoute: string,
   flags: FlagsState,
-  flags: Object,
   messages: Message[],
-  mute: MuteState,
   narrow: Narrow,
-  onReplySelect?: () => void,
-  showActionSheetWithOptions: (Object, (number) => void) => void,
-  subscriptions: SubscriptionState,
+  onLongPress: (messageId: number, target: string) => void,
 };
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
@@ -112,42 +94,9 @@ export const handleImage = (props: Props, event: MessageListEventImage) => {
   }
 };
 
-export const handleLongPress = (
-  props: Props,
-  event: MessageListEventLongPress,
-  context: Object,
-) => {
+export const handleLongPress = (props: Props, event: MessageListEventLongPress) => {
   const { messageId, target } = event;
-  const message = props.messages.find(x => x.id === messageId);
-
-  if (!message) return;
-
-  const getString = value => context.intl.formatMessage({ id: value });
-  const options =
-    target === 'message'
-      ? constructActionButtons({
-          ...props,
-          message,
-          getString,
-        })
-      : constructHeaderActionButtons({ ...props, message, getString });
-
-  const callback = buttonIndex => {
-    executeActionSheetAction({
-      ...props,
-      message,
-      title: options[buttonIndex],
-      header: target === 'header',
-      getString,
-    });
-  };
-  props.showActionSheetWithOptions(
-    {
-      options,
-      cancelButtonIndex: options.length - 1,
-    },
-    callback,
-  );
+  props.onLongPress(messageId, target);
 };
 
 export const handleUrl = (props: Props, event: MessageListEventUrl) => {

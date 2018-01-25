@@ -11,14 +11,14 @@ type Props = {
   type: 'time' | 'message',
   timestamp: number,
   message: Message,
-  onReplySelect?: () => void,
+  onLongPress: (messageId: number, target: string) => void,
 };
 
 export default class MessageListItem extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { isBrief, type, timestamp, message, onReplySelect } = this.props;
+    const { isBrief, type, timestamp, message, onLongPress } = this.props;
 
     if (type === 'time') {
       return <TimeRow key={`time${timestamp}`} timestamp={timestamp} />;
@@ -28,7 +28,7 @@ export default class MessageListItem extends PureComponent<Props> {
 
     return (
       <TaggedView key={message.id} tagID={message.id.toString()} collapsable={false}>
-        <MessageContainer isBrief={isBrief} message={message} onReplySelect={onReplySelect} />
+        <MessageContainer isBrief={isBrief} message={message} onLongPress={onLongPress} />
       </TaggedView>
     );
   }
