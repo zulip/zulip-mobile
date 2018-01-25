@@ -288,6 +288,10 @@ ul {
   margin: 0.25em 0;
   font-size: 10px;
 }
+div.twitter-image > a > img {
+  height: auto;
+  max-width: 150px;
+}
 .message-tag {
   padding: 0.25em 0.5em;
   margin-left: 4;
