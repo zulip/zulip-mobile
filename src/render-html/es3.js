@@ -21,15 +21,6 @@ var getMessageIdFromNode = function getMessageIdFromNode(node) {
   return msgNode && msgNode.getAttribute('data-msg-id');
 };
 
-var isTargetMessageContent = function isTargetMessageContent(target) {
-  var curNode = target;
-  while (curNode && curNode.parentNode && curNode.parentNode !== document.body) {
-    if (curNode.matches('.msg-raw-content')) return true;
-    curNode = curNode.parentNode;
-  }
-  return false;
-};
-
 var scrollToBottom = function scrollToBottom() {
   window.scroll({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
 };
