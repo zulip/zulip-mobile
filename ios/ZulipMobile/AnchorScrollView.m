@@ -77,10 +77,10 @@ if ([scrollViewListener respondsToSelector:_cmd]) { \
   UIView *contentView = [self contentView];
   CGFloat scrollTop = self.scrollView.bounds.origin.y + self.scrollView.contentInset.top;
   CGFloat scrollBottom = self.scrollView.bounds.origin.y + self.scrollView.contentInset.top + self.scrollView.bounds.size.height;
-
+  
   __block UIView *nextAnchor = nil;
   _anchorTag = nil;
-
+  
   NSEnumerationOptions opts = scrollingDown ? NSEnumerationReverse : 0;
   [[contentView reactSubviews] enumerateObjectsWithOptions:opts usingBlock:
    ^(UIView *anchor, __unused NSUInteger idx, BOOL *stop) {
@@ -90,10 +90,10 @@ if ([scrollViewListener respondsToSelector:_cmd]) { \
      CGFloat height = anchor.bounds.size.height;
      CGFloat top = anchor.center.y - height * anchor.layer.anchorPoint.y;
      CGFloat bottom = anchor.center.y + height * anchor.layer.anchorPoint.y;
-
+     
      if (!nextAnchor) {
        BOOL condition = scrollingDown ? top <= scrollBottom : bottom >= scrollTop;
-
+       
        // Find the next anchor
        if (condition) {
          nextAnchor = anchor;
@@ -111,7 +111,7 @@ if ([scrollViewListener respondsToSelector:_cmd]) { \
   NSMutableArray *visibleIds = [NSMutableArray new];
   CGFloat scrollTop = self.scrollView.bounds.origin.y + self.scrollView.contentInset.top;
   CGFloat scrollBottom = self.scrollView.bounds.origin.y + self.scrollView.contentInset.top + self.scrollView.bounds.size.height;
-
+  
   [[self.contentView reactSubviews] enumerateObjectsUsingBlock:
    ^(UIView *anchor, __unused NSUInteger idx, __unused BOOL *stop) {
      NSString *tagID = [anchor tagID];
@@ -132,16 +132,16 @@ if ([scrollViewListener respondsToSelector:_cmd]) { \
 {
   BOOL allowNextScrollNoMatterWhat = [[super valueForKey:@"_allowNextScrollNoMatterWhat"] boolValue];
   NSTimeInterval lastScrollDispatchTime = [[super valueForKey:@"_lastScrollDispatchTime"] doubleValue];
-
-
+  
+  
   [super updateClippedSubviews];
-
+  
   NSTimeInterval now = CACurrentMediaTime();
-
+  
   BOOL scrollingDown = _lastContentOffset.y <= super.scrollView.contentOffset.y;
   [self findAnchor:scrollingDown];
   _lastContentOffset = self.scrollView.contentOffset;
-
+  
   /**
    * TODO: this logic looks wrong, and it may be because it is. Currently, if _scrollEventThrottle
    * is set to zero (the default), the "didScroll" event is only sent once per scroll, instead of repeatedly
@@ -150,17 +150,17 @@ if ([scrollViewListener respondsToSelector:_cmd]) { \
    */
   if (allowNextScrollNoMatterWhat ||
       (super.scrollEventThrottle > 0 && super.scrollEventThrottle < (now - lastScrollDispatchTime))) {
-
+    
     // Calculate changed frames
     NSArray<NSDictionary *> *childFrames = [super calculateChildFramesData];
     NSArray *visibleIds = [self calculateVisibleViews];
-
+    
     // Dispatch event
     RCT_SEND_SCROLL_EVENT(onScroll, (@{
                                        @"updatedChildFrames": childFrames,
                                        @"visibleIds": visibleIds
-                                      }));
-
+                                       }));
+    
     // Update dispatch time
     [super setValue:[NSNumber numberWithDouble:now] forKey:@"_lastScrollDispatchTime"];
     [super setValue:[NSNumber numberWithBool:NO] forKey:@"_allowNextScrollNoMatterWhat"];
@@ -172,21 +172,36 @@ if ([scrollViewListener respondsToSelector:_cmd]) { \
 {
   CGPoint oldOffset = self.scrollView.contentOffset;
   CGPoint newOffset = [super calculateOffsetForContentSize:newContentSize];
-
+  
   CGSize oldContentSize = self.scrollView.contentSize;
-
+  
   // Adjust the offset based on the anchor
   CGFloat offsetHeight = oldOffset.y + self.bounds.size.height;
   CGFloat anchorChange = [self anchorChange];
+  
   if (anchorChange != CGFLOAT_MAX) {
     if (self.autoScrollToBottom &&
         oldContentSize.height >= self.bounds.size.height &&
         offsetHeight >= oldContentSize.height) {
       newOffset.y = MAX(0, newContentSize.height - self.bounds.size.height);
-    } else {
+    } else if(self.autoScrollToBottom) {
+      newOffset.y = [self getTopPostionOfFirstUnreadMessage];
+    }
+    else {
       newOffset.y = MAX(0, oldOffset.y + anchorChange);
     }
+  } else if(self.autoScrollToBottom) {
+    double offset = [self getTopPostionOfFirstUnreadMessage];
+    if (offset==0) {
+      // not able to find first unread message
+      // all are read
+      // scroll to end
+      newOffset.y = MAX(0, newContentSize.height - self.bounds.size.height);
+    }else{
+      newOffset.y = offset;
+    }
   } else {
+    NSLog(@"***** 4 The code runs through here!");
     // offset falls outside of bounds, scroll back to end of list
     newOffset.y = MAX(0, newContentSize.height - self.bounds.size.height);
   }
@@ -203,6 +218,24 @@ if ([scrollViewListener respondsToSelector:_cmd]) { \
 {
   // Do nothing
   // This fixes a bug with section headers in RCTScrollView
+}
+
+- (double) getTopPostionOfFirstUnreadMessage {
+  __block double offset = 0;
+  [[self.contentView reactSubviews] enumerateObjectsUsingBlock:
+   ^(UIView *anchor, __unused NSUInteger idx, __unused BOOL *stop) {
+     NSString *tagID = [anchor tagID];
+     if (!tagID) {
+       return;
+     }
+     CGFloat height = anchor.bounds.size.height;
+     CGFloat top = anchor.center.y - height * anchor.layer.anchorPoint.y;
+     if ([[NSString stringWithFormat:@"%@",self.anchor] isEqualToString:tagID]) {
+       offset = top;
+       *stop = YES;
+     }
+   }];
+  return offset;
 }
 
 @end

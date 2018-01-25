@@ -8,5 +8,6 @@
 @interface AnchorScrollView : RCTScrollView
 
 @property (nonatomic, assign) BOOL autoScrollToBottom;
+@property (nonatomic, assign) NSNumber* anchor;
 
 @end
