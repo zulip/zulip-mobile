@@ -1,7 +1,7 @@
 /* @flow */
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
-import type { Actions, Auth, FlagsState, Message, Narrow } from '../types';
+import type { Actions, Auth, FlagsState, Message } from '../types';
 import { isUrlAnImage } from '../utils/url';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 
@@ -50,7 +50,6 @@ type Props = {
   auth: Auth,
   flags: FlagsState,
   messages: Message[],
-  narrow: Narrow,
   onLongPress: (messageId: number, target: string) => void,
 };
 

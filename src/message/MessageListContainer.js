@@ -123,8 +123,8 @@ class MessageListContainer extends PureComponent<Props> {
         {...this.props}
         fetchingOlder={fetching.older}
         fetchingNewer={fetching.newer}
-        onScroll={this.handleMessageListScroll}
         onLongPress={this.handleLongPress}
+        onScroll={this.handleMessageListScroll}
       />
     );
   }
