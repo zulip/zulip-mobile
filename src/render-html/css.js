@@ -2,7 +2,7 @@
 import { codeToEmojiMap } from '../emoji/emojiMap';
 
 import { BORDER_COLOR } from '../styles/theme';
-import { BRAND_COLOR, HALF_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from '../styles';
+import { BRAND_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from '../styles';
 import cssEmojis from './cssEmojis';
 
 const defaultTheme = `
@@ -50,6 +50,7 @@ code, pre {
 }
 table {
   border-collapse: collapse;
+  width: 100%;
 }
 table, th, td {
   border: 1px solid rgba(127, 127, 127, 0.25);
@@ -128,8 +129,9 @@ th, td {
 .header-wrapper {
   position: -webkit-sticky;
   position: sticky;
-  top: 0;
+  top: -1px;
   padding: 0.5em;
+  z-index: 100;
 }
 .avatar,
 .header-wrapper {
@@ -240,10 +242,8 @@ th, td {
   text-align: center;
 }
 .message_inline_image img {
-  // width: 75px;
-  // height: 100px;
-  max-width: 50vw;
-  max-height: 50vh;
+  max-width: 75vw;
+  max-height: 25vh;
 }
 blockquote {
   padding-left: 0.5em;
@@ -300,10 +300,10 @@ ul {
   margin: 0.5em 0;
 }
 .reaction {
-  color: ${HALF_COLOR};
+  color: rgba(127, 127, 127, 1);
   padding: 4px;
   border-radius: 4px;
-  border: 1px solid ${HALF_COLOR};
+  border: 1px solid rgba(127, 127, 127, 0.75);
 }
 .reaction + .reaction {
   margin-left: 0.5em;
