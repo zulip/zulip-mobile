@@ -1,9 +1,17 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { StyleSheet } from 'react-native';
 
+import DeviceInfo from 'react-native-device-info';
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
-import { OptionButton, OptionDivider, Screen } from '../common';
+import { OptionButton, OptionDivider, Screen, RawLabel } from '../common';
+
+const styles = StyleSheet.create({
+  versionLabel: {
+    textAlign: 'center',
+  },
+});
 
 type Props = {
   actions: Actions,
@@ -23,6 +31,11 @@ class DiagnosticsScreen extends PureComponent<Props> {
 
     return (
       <Screen title="Diagnostics">
+        <RawLabel
+          style={styles.versionLabel}
+          text={`App version: v${DeviceInfo.getReadableVersion()}`}
+        />
+        <OptionDivider />
         <OptionButton label="Variables" onPress={actions.navigateToVariables} />
         <OptionDivider />
         <OptionButton label="Timing" onPress={actions.navigateToTiming} />
