@@ -28,7 +28,7 @@ describe('longDate', () => {
 
 describe('daysInDate', () => {
   test('determines the days in a Date', () => {
-    expect(daysInDate(new Date(1970, 0, 1, 2, 0))).toBe(0);
+    expect(daysInDate(Date.UTC(1970, 0, 1, 2, 0))).toBe(0);
     expect(daysInDate(Date.UTC(2000, 0, 1))).toBe(10957);
   });
 

@@ -6,7 +6,15 @@ import {
   constructHeaderActionButtons,
   executeActionSheetAction,
 } from '../message/messageActionSheet';
-import type { Actions, Auth, Message } from '../types';
+import type {
+  Actions,
+  Auth,
+  FlagsState,
+  Message,
+  MuteState,
+  Narrow,
+  SubscriptionState,
+} from '../types';
 import { isUrlAnImage } from '../utils/url';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 
@@ -53,8 +61,15 @@ type MessageListEventDebug = Object;
 type Props = {
   actions: Actions,
   auth: Auth,
+  currentRoute: string,
+  flags: FlagsState,
   flags: Object,
   messages: Message[],
+  mute: MuteState,
+  narrow: Narrow,
+  onReplySelect?: () => void,
+  showActionSheetWithOptions: (Object, (number) => void) => void,
+  subscriptions: SubscriptionState,
 };
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
