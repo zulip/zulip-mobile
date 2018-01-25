@@ -9,6 +9,7 @@ import MessageList from '../render-native/MessageListScrollView';
 import MessageListWeb from '../render-html/MessageListWeb';
 import {
   getAuth,
+  getAllRealmEmoji,
   getCurrentTypingUsers,
   getRenderedMessages,
   getActiveNarrow,
@@ -34,6 +35,7 @@ export type Props = {
   isFetching: boolean,
   messages: Message[],
   narrow: Narrow,
+  realmEmoji: {},
   renderedMessages: any,
   showMessagePlaceholders: boolean,
   subscriptions: Subscription[],
@@ -84,6 +86,7 @@ export default connectWithActions(state => ({
   isFetching: getIsFetching(state),
   messages: getShownMessagesInActiveNarrow(state),
   narrow: getActiveNarrow(state),
+  realmEmoji: getAllRealmEmoji(state),
   renderedMessages: getRenderedMessages(state),
   showMessagePlaceholders: getShowMessagePlaceholders(state),
   subscriptions: getSubscriptions(state),

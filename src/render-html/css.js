@@ -298,6 +298,14 @@ ul {
 .reaction + .reaction {
   margin-left: 0.5em;
 }
+.realm-reaction {
+  pointer-events: none;
+  cursor: default;
+  height: "auto";
+  width: 1em;
+  max-height: 1em;
+  vertical-align: middle;
+}
 .self-voted {
   color: ${BRAND_COLOR};
   border: 1px solid ${BRAND_COLOR};

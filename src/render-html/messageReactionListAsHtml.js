@@ -2,7 +2,7 @@
 import aggregateReactions from '../reactions/aggregateReactions';
 import messageReactionAsHtml from './messageReactionAsHtml';
 
-export default (reactions: Object[], messageId: number, ownEmail: string) => {
+export default (reactions: Object[], messageId: number, ownEmail: string, realmEmoji: Object) => {
   if (!reactions || reactions.length === 0) {
     return '';
   }
@@ -11,9 +11,7 @@ export default (reactions: Object[], messageId: number, ownEmail: string) => {
 
   return `
     <div class="reaction-list">
-      ${aggregated
-        .map(r => messageReactionAsHtml(messageId, r.name, r.count, r.selfReacted))
-        .join('')}
+      ${aggregated.map(r => messageReactionAsHtml(messageId, r, realmEmoji)).join('')}
     </div>
   `;
 };

@@ -1,8 +1,17 @@
 /* @flow */
+import type { ReactionType } from '../types';
 import emojiMap from '../emoji/emojiMap';
 
-export default (messageId: number, name: string, voteCount: number, voted: boolean) => `
-  <span onClick="" class="reaction${voted ? ' self-voted' : ''}" data-name="${name}">
-    ${emojiMap[name]} ${voteCount}
-  </span>
-`;
+const getRealmEmojiHtml = (realmEmoji: ReactionType) =>
+  `<img class="realm-reaction" src="${realmEmoji.source_url}"/>
+  `;
+
+export default (messageId: number, reaction: ReactionType, realmEmoji: Object) =>
+  `<span onClick="" class="reaction${reaction.selfReacted ? ' self-voted' : ''}" data-name="${
+    reaction.name
+  }">${
+    realmEmoji[reaction.name]
+      ? getRealmEmojiHtml(realmEmoji[reaction.name])
+      : emojiMap[reaction.name]
+  } ${reaction.count}
+  </span>`;
