@@ -66,7 +66,7 @@ export default class SearchMessagesCard extends PureComponent<Props, State> {
 
   render() {
     const { isFetching, messages } = this.state;
-    const { actions, auth, query, subscriptions } = this.props;
+    const { query } = this.props;
 
     if (isFetching) {
       return <LoadingIndicator active size={40} />;
@@ -82,13 +82,11 @@ export default class SearchMessagesCard extends PureComponent<Props, State> {
       <View style={styles.results}>
         <ActionSheetProvider>
           <MessageList
-            actions={actions}
             anchor={messages[0].id}
-            auth={auth}
             messages={messages}
             narrow={[]}
             renderedMessages={renderedMessages}
-            subscriptions={subscriptions}
+            {...this.props}
           />
         </ActionSheetProvider>
       </View>
