@@ -315,7 +315,6 @@ ul {
   display: none;
 }
 .emoji {
-  display: inline-block;
   height: 18px;
   width: 18px;
   white-space: nowrap;
