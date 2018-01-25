@@ -6,16 +6,17 @@ import MessageHeaderContainer from './headers/MessageHeaderContainer';
 
 type Props = {
   message?: Message,
+  onLongPress: (messageId: number, target: string) => void,
 };
 
 export default class MessageListSection extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { message } = this.props;
+    const { onLongPress, message } = this.props;
 
     if (!message || Object.keys(message).length === 0) return null;
 
-    return <MessageHeaderContainer message={message} />;
+    return <MessageHeaderContainer onLongPress={onLongPress} message={(onLongPress, message)} />;
   }
 }

@@ -12,7 +12,7 @@ let cachedRenderedData = {};
 
 export default (
   renderedMessages: RenderedSectionDescriptor[],
-  onReplySelect?: () => void,
+  onLongPress: (messageId: number, target: string) => void,
 ): Object => {
   if (lastRenderedMessages === renderedMessages) {
     return cachedRenderedData;
@@ -21,8 +21,12 @@ export default (
   if (!isEqual(lastRenderedMessages, renderedMessages)) {
     const rendered: Object[] = renderedMessages.reduce((result, section) => {
       result.push(
-        <MessageListSection key={section.key} message={section.message} />,
-        section.data.map(item => <MessageListItem onReplySelect={onReplySelect} {...item} />),
+        <MessageListSection
+          key={section.key}
+          onLongPress={onLongPress}
+          message={section.message}
+        />,
+        section.data.map(item => <MessageListItem onLongPress={onLongPress} {...item} />),
       );
 
       return result;

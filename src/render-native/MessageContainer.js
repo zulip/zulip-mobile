@@ -4,7 +4,6 @@ import { Text } from 'react-native';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type { Actions, Auth, SubscriptionsState, Narrow, Message } from '../types';
-import type { ShowActionSheetTypes } from '../message/messageActionSheet';
 import { logErrorRemotely } from '../utils/logging';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
@@ -16,7 +15,6 @@ import {
   getActiveNarrow,
 } from '../selectors';
 import connectWithActions from '../connectWithActions';
-import { constructActionButtons, executeActionSheetAction } from '../message/messageActionSheet';
 
 type Props = {
   actions: Actions,
@@ -29,7 +27,7 @@ type Props = {
   twentyFourHourTime: boolean,
   unreadMessages: boolean,
   isBrief: boolean,
-  onReplySelect?: () => void,
+  onLongPress: (messageId: number, target: string) => void,
   showActionSheetWithOptions: (Object, (number) => void) => void,
 };
 
@@ -42,10 +40,6 @@ class MessageContainer extends PureComponent<Props, State> {
   state: State;
 
   state = { hasError: false };
-
-  static contextTypes = {
-    intl: () => null,
-  };
 
   static defaultProps = {
     twentyFourHourTime: false,
@@ -61,50 +55,9 @@ class MessageContainer extends PureComponent<Props, State> {
     return message.id in flags.starred;
   }
 
-  showActionSheet = ({ options, cancelButtonIndex, callback }: ShowActionSheetTypes) => {
-    this.props.showActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex,
-      },
-      callback,
-    );
-  };
-
   handleLongPress = () => {
-    const {
-      actions,
-      auth,
-      narrow,
-      subscriptions,
-      flags,
-      message,
-      currentRoute,
-      onReplySelect,
-    } = this.props;
-    const getString = value => this.context.intl.formatMessage({ id: value });
-    const options = constructActionButtons({
-      message,
-      auth,
-      narrow,
-      flags,
-      currentRoute,
-      getString,
-    });
-    const callback = buttonIndex => {
-      executeActionSheetAction({
-        title: options[buttonIndex],
-        message,
-        actions,
-        auth,
-        subscriptions,
-        currentRoute,
-        onReplySelect,
-        getString,
-      });
-    };
-
-    this.showActionSheet({ options, cancelButtonIndex: options.length - 1, callback });
+    const { onLongPress, message } = this.props;
+    onLongPress(message.id, 'message');
   };
 
   render() {

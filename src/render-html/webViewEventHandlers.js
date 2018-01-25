@@ -1,9 +1,9 @@
 /* @flow */
-import type { Actions, Auth, Message } from '../types';
+import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
+import type { Actions, Auth, FlagsState, Message } from '../types';
 import { isUrlAnImage } from '../utils/url';
 import { filterUnreadMessagesInRange } from '../utils/unread';
-import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 
 type MessageListEventScroll = {
   innerHeight: number,
@@ -48,8 +48,9 @@ type MessageListEventDebug = Object;
 type Props = {
   actions: Actions,
   auth: Auth,
-  flags: Object,
+  flags: FlagsState,
   messages: Message[],
+  onLongPress: (messageId: number, target: string) => void,
 };
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
@@ -92,6 +93,11 @@ export const handleImage = (props: Props, event: MessageListEventImage) => {
   }
 };
 
+export const handleLongPress = (props: Props, event: MessageListEventLongPress) => {
+  const { messageId, target } = event;
+  props.onLongPress(messageId, target);
+};
+
 export const handleUrl = (props: Props, event: MessageListEventUrl) => {
   const { actions } = props;
 
@@ -116,8 +122,4 @@ export const handleReaction = (props: Props, event: MessageListEventReaction) =>
 
 export const handleDebug = (props: Props, event: MessageListEventDebug) => {
   console.debug(props, event); // eslint-disable-line
-};
-
-export const handleLongPress = (props: Props, event: MessageListEventLongPress) => {
-  console.log(event); // eslint-disable-line
 };

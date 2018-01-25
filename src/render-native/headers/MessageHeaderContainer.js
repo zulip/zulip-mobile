@@ -9,5 +9,4 @@ export default connectWithActions(state => ({
   auth: getAuth(state),
   narrow: getActiveNarrow(state),
   subscriptions: getSubscriptions(state),
-  mute: state.mute,
 }))(connectActionSheet(MessageHeader));
