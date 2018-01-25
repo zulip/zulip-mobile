@@ -113,7 +113,7 @@ th, td {
 .content {
   width: 100%;
   max-width: 100%;
-  overflow-x: scroll;
+  overflow: hidden;
 }
 .username {
   font-weight: bold;
@@ -330,8 +330,7 @@ ul {
   width: 18px;
   white-space: nowrap;
   color: transparent;
-  vertical-align: middle;
-  transform: scale(1.2);
+  vertical-align: text-top;
 }
 .emoji:before {
   color: white;

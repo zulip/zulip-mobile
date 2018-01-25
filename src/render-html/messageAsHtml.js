@@ -31,9 +31,7 @@ const messageBody = ({
   realmEmoji,
   timeEdited,
 }) => `
-<div class="msg-raw-content">
-  ${content}
-</div>
+${content}
 ${messageTagsAsHtml(flags, timeEdited, isOutbox)}
 ${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
 `;
