@@ -266,12 +266,22 @@ ul {
 .codehilite .nb { color: #008000; }
 .codehilite .s1 { color: #ba2121; }
 .twitter-tweet {
+  border: 2px solid rgba(29, 161, 242, 0.5);
+  background: rgba(29, 161, 242, 0.1);
+  border-radius: 0.25em;
+  padding: 0.5em 0.75em;
+  margin: 0.5em 0;
 }
 .twitter-avatar {
+  border-radius: 0.25em;
+  margin: 0.4em 0.4em 0.2em 0;
   float: left;
-  width: 32px;
-  height: 32px;
-  margin-right: .75em;
+  width: 2.2em;
+  height: 2.2em;
+}
+.twitter-image {
+  text-align: center;
+  margin: 0.5em auto;
 }
 .message-tags {
   text-align: right;
