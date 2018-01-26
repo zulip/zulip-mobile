@@ -74,7 +74,7 @@ export default class ComponentWithOverlay extends PureComponent<Props> {
       styles.overlay,
       styles[overlayPosition],
       {
-        width: overlaySize,
+        minWidth: overlaySize,
         height: overlaySize,
         borderRadius: overlaySize,
         backgroundColor: overlayColor,
