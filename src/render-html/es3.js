@@ -3,6 +3,7 @@ export default `
 
 var scrollEventsDisabled = true;
 var lastTouchEventTimestamp = 0;
+var lastTouchStartEvent = null;
 
 var sendMessage = function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
@@ -201,6 +202,7 @@ document.body.addEventListener('click', function (e) {
 });
 
 document.body.addEventListener('touchstart', function (e) {
+  lastTouchStartEvent = e;
   lastTouchEventTimestamp = Date.now();
   setTimeout(function () {
     return handleLongPress(e);
@@ -208,7 +210,9 @@ document.body.addEventListener('touchstart', function (e) {
 });
 
 document.body.addEventListener('touchend', function (e) {
-  lastTouchEventTimestamp = Date.now();
+  if (lastTouchStartEvent && Math.abs(e.changedTouches[0].pageX - lastTouchStartEvent.changedTouches[0].pageX) < 10 && Math.abs(e.changedTouches[0].pageY - lastTouchStartEvent.changedTouches[0].pageY) < 10) {
+    lastTouchEventTimestamp = Date.now();
+  }
 });
 
 document.body.addEventListener('touchmove', function (e) {

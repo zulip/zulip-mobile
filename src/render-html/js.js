@@ -1,5 +1,6 @@
 let scrollEventsDisabled = true;
 let lastTouchEventTimestamp = 0;
+let lastTouchStartEvent = null;
 
 const sendMessage = msg => {
   window.postMessage(JSON.stringify(msg), '*');
@@ -198,12 +199,19 @@ document.body.addEventListener('click', e => {
 });
 
 document.body.addEventListener('touchstart', e => {
+  lastTouchStartEvent = e;
   lastTouchEventTimestamp = Date.now();
   setTimeout(() => handleLongPress(e), 500);
 });
 
 document.body.addEventListener('touchend', e => {
-  lastTouchEventTimestamp = Date.now();
+  if (
+    lastTouchStartEvent &&
+    Math.abs(e.changedTouches[0].pageX - lastTouchStartEvent.changedTouches[0].pageX) < 10 &&
+    Math.abs(e.changedTouches[0].pageY - lastTouchStartEvent.changedTouches[0].pageY) < 10
+  ) {
+    lastTouchEventTimestamp = Date.now();
+  }
 });
 
 document.body.addEventListener('touchmove', e => {
