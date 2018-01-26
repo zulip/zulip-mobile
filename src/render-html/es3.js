@@ -3,10 +3,15 @@ export default `
 
 var scrollEventsDisabled = true;
 var lastTouchEventTimestamp = 0;
-var lastTouchStartEvent = null;
+var lastTouchPositionX = null;
+var lastTouchPositionY = null;
 
 var sendMessage = function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
+};
+
+var isNearByPositions = function isNearByPositions(x1, y1, x2, y2) {
+  return x1 && y1 && x2 && y2 && Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 };
 
 var getMessageNode = function getMessageNode(node) {
@@ -202,7 +207,8 @@ document.body.addEventListener('click', function (e) {
 });
 
 document.body.addEventListener('touchstart', function (e) {
-  lastTouchStartEvent = e;
+  lastTouchPositionX = e.changedTouches[0].pageX;
+  lastTouchPositionY = e.changedTouches[0].pageY;
   lastTouchEventTimestamp = Date.now();
   setTimeout(function () {
     return handleLongPress(e);
@@ -210,7 +216,7 @@ document.body.addEventListener('touchstart', function (e) {
 });
 
 document.body.addEventListener('touchend', function (e) {
-  if (lastTouchStartEvent && Math.abs(e.changedTouches[0].pageX - lastTouchStartEvent.changedTouches[0].pageX) < 10 && Math.abs(e.changedTouches[0].pageY - lastTouchStartEvent.changedTouches[0].pageY) < 10) {
+  if (isNearByPositions(lastTouchPositionX, lastTouchPositionY, e.changedTouches[0].pageX, e.changedTouches[0].pageY)) {
     lastTouchEventTimestamp = Date.now();
   }
 });

@@ -1,10 +1,14 @@
 let scrollEventsDisabled = true;
 let lastTouchEventTimestamp = 0;
-let lastTouchStartEvent = null;
+let lastTouchPositionX = null;
+let lastTouchPositionY = null;
 
 const sendMessage = msg => {
   window.postMessage(JSON.stringify(msg), '*');
 };
+
+const isNearByPositions = (x1, y1, x2, y2) =>
+  x1 && y1 && x2 && y2 && Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 
 const getMessageNode = node => {
   let curNode = node;
@@ -199,16 +203,20 @@ document.body.addEventListener('click', e => {
 });
 
 document.body.addEventListener('touchstart', e => {
-  lastTouchStartEvent = e;
+  lastTouchPositionX = e.changedTouches[0].pageX;
+  lastTouchPositionY = e.changedTouches[0].pageY;
   lastTouchEventTimestamp = Date.now();
   setTimeout(() => handleLongPress(e), 500);
 });
 
 document.body.addEventListener('touchend', e => {
   if (
-    lastTouchStartEvent &&
-    Math.abs(e.changedTouches[0].pageX - lastTouchStartEvent.changedTouches[0].pageX) < 10 &&
-    Math.abs(e.changedTouches[0].pageY - lastTouchStartEvent.changedTouches[0].pageY) < 10
+    isNearByPositions(
+      lastTouchPositionX,
+      lastTouchPositionY,
+      e.changedTouches[0].pageX,
+      e.changedTouches[0].pageY,
+    )
   ) {
     lastTouchEventTimestamp = Date.now();
   }
