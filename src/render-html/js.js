@@ -198,6 +198,8 @@ document.body.addEventListener('click', e => {
 });
 
 document.body.addEventListener('touchstart', e => {
+  if (e.target.matches('a') || e.target.matches('img')) return;
+
   lastTouchEventTimestamp = Date.now();
   setTimeout(() => handleLongPress(e), 500);
 });
