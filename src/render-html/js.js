@@ -1,9 +1,14 @@
 let scrollEventsDisabled = true;
 let lastTouchEventTimestamp = 0;
+let lastTouchPositionX = null;
+let lastTouchPositionY = null;
 
 const sendMessage = msg => {
   window.postMessage(JSON.stringify(msg), '*');
 };
+
+const isNearByPositions = (x1, y1, x2, y2) =>
+  x1 && y1 && x2 && y2 && Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 
 const getMessageNode = node => {
   let curNode = node;
@@ -198,12 +203,23 @@ document.body.addEventListener('click', e => {
 });
 
 document.body.addEventListener('touchstart', e => {
+  lastTouchPositionX = e.changedTouches[0].pageX;
+  lastTouchPositionY = e.changedTouches[0].pageY;
   lastTouchEventTimestamp = Date.now();
   setTimeout(() => handleLongPress(e), 500);
 });
 
 document.body.addEventListener('touchend', e => {
-  lastTouchEventTimestamp = Date.now();
+  if (
+    isNearByPositions(
+      lastTouchPositionX,
+      lastTouchPositionY,
+      e.changedTouches[0].pageX,
+      e.changedTouches[0].pageY,
+    )
+  ) {
+    lastTouchEventTimestamp = Date.now();
+  }
 });
 
 document.body.addEventListener('touchmove', e => {
