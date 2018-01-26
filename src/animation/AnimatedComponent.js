@@ -21,7 +21,7 @@ export default class AnimatedComponent extends PureComponent<Props> {
     useNativeDriver: true,
   };
 
-  animatedValue = new Animated.Value(0);
+  animatedValue = new Animated.Value(this.props.visible ? 1 : 0);
 
   componentWillReceiveProps(nextProps: Props) {
     Animated.timing(this.animatedValue, {
@@ -33,9 +33,10 @@ export default class AnimatedComponent extends PureComponent<Props> {
   }
 
   render() {
-    const { children, property, style } = this.props;
+    const { children, property, style, visible } = this.props;
     const animatedStyle = {
       [property]: this.animatedValue,
+      display: visible ? 'flex' : 'none',
     };
 
     return <Animated.View style={[animatedStyle, style]}>{children}</Animated.View>;
