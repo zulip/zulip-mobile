@@ -82,6 +82,15 @@ export const fetchMessages = (
   dispatch(backgroundFetchMessages(narrow, anchor, numBefore, numAfter, useFirstUnread));
 };
 
+export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number): Action =>
+  fetchMessages(
+    narrow,
+    anchor,
+    config.messagesPerRequest / 2,
+    config.messagesPerRequest / 2,
+    false,
+  );
+
 export const fetchMessagesAtFirstUnread = (narrow: Narrow): Action =>
   fetchMessages(narrow, 0, config.messagesPerRequest / 2, config.messagesPerRequest / 2, true);
 
