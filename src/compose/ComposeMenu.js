@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     overflow: 'hidden',
+    backgroundColor: 'transparent',
   },
   touchable: {},
   button: {
