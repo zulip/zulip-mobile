@@ -32,7 +32,8 @@ const messageBody = ({
   timeEdited,
 }) => `
 ${content}
-${messageTagsAsHtml(flags, timeEdited, isOutbox)}
+${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
+${messageTagsAsHtml(flags, timeEdited)}
 ${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
 `;
 
