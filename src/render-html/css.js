@@ -222,7 +222,7 @@ th, td {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-.loading-spinner {
+.loading-spinner, .outbox-spinner {
   width: 3em;
   height: 3em;
   border-radius: 50%;
@@ -232,10 +232,11 @@ th, td {
   border-left: 3px solid rgba(82, 194, 175, 0.75);
   animation: spin 1s linear infinite;
 }
-.message-tag-spinner .loading-spinner {
-  margin: 0 0 0 1em;
-  width: 1em;
-  height: 1em;
+.outbox-spinner {
+  margin: -16px 0 0 0;
+  border-width: 2px;
+  width: 12px;
+  height: 12px;
   float: right;
 }
 .message_inline_image {
