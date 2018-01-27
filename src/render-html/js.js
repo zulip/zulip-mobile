@@ -163,6 +163,7 @@ window.addEventListener('scroll', () => {
 });
 
 document.body.addEventListener('click', e => {
+  e.preventDefault();
   lastTouchEventTimestamp = 0;
   if (e.target.matches('.avatar-img')) {
     sendMessage({
@@ -191,7 +192,6 @@ document.body.addEventListener('click', e => {
       href: e.target.getAttribute('href'),
       messageId: +getMessageIdFromNode(e.target),
     });
-    e.preventDefault();
   }
 
   if (e.target.matches('.reaction')) {
