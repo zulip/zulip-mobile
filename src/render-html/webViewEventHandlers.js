@@ -48,6 +48,7 @@ type MessageListEventDebug = Object;
 type Props = {
   actions: Actions,
   auth: Auth,
+  currentRoute: string,
   flags: FlagsState,
   messages: Message[],
   onLongPress: (messageId: number, target: string) => void,
@@ -79,7 +80,9 @@ export const handleAvatar = (props: Props, event: MessageListEventAvatar) => {
   props.actions.navigateToAccountDetails(event.fromEmail);
 };
 
-export const handleNarrow = ({ actions }: Props, event: MessageListEventNarrow) => {
+export const handleNarrow = ({ actions, currentRoute }: Props, event: MessageListEventNarrow) => {
+  if (currentRoute === 'search') actions.navigateBack();
+
   actions.doNarrow(JSON.parse(event.narrow.replace(/'/g, '"')));
 };
 

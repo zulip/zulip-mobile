@@ -41,9 +41,15 @@ class Sidebar extends PureComponent<Props> {
     navigation.navigate('DrawerClose');
   };
 
+  navigateToSearch = () => {
+    const { actions } = this.props;
+    this.closeDrawer();
+    actions.navigateToSearch();
+  };
+
   render() {
     const { styles } = this.context;
-    const { safeAreaInsets, actions } = this.props;
+    const { safeAreaInsets } = this.props;
     const paddingStyles = {
       paddingTop: safeAreaInsets.top,
       paddingBottom: safeAreaInsets.bottom,
@@ -62,7 +68,7 @@ class Sidebar extends PureComponent<Props> {
             name="at-sign"
             onPress={() => this.doNarrowCloseDrawer(specialNarrow('mentioned'))}
           />
-          <NavButton name="search" onPress={actions.navigateToSearch} />
+          <NavButton name="search" onPress={this.navigateToSearch} />
         </View>
         <MainTabs
           screenProps={{
