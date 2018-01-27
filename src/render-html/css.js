@@ -62,6 +62,9 @@ th, td {
   align: center;
   padding: 0.25em 0.5em;
 }
+.highlight {
+  background-color: hsl(51, 94%, 74%);
+}
 .subheader {
   display: flex;
   flex-direction: row;
@@ -360,9 +363,11 @@ body {
   color: #d5d9dd;
   background: #212D3B;
 }
-
 .topic-text {
   background: #54606E;
+}
+.highlight {
+  background-color: hsla(51, 100%, 64%, 0.42);
 }
 `;
 
