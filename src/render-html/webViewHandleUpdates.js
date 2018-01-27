@@ -17,6 +17,7 @@ const updateContent = (prevProps: Props, nextProps: Props, sendMessage: any => v
       type: 'content',
       anchor: nextProps.anchor,
       sameNarrow: isEqual(prevProps.narrow, nextProps.narrow),
+      noMessages: nextProps.messages.length === 0,
       messageDiff: nextProps.messages.length - prevProps.messages.length,
       content,
     });

@@ -63,7 +63,9 @@ const handleMessageContent = msg => {
   const msgNode = document.getElementById(`msg-${msg.anchor}`);
 
   scrollEventsDisabled = true;
-  if (!msgNode) {
+  if (msg.noMessages) {
+    document.body.innerHTML = msg.content;
+  } else if (!msgNode) {
     document.body.innerHTML = msg.content;
     scrollToAnchor(msg.anchor);
   } else if (isNearBottom() && msg.messageDiff === 1) {
