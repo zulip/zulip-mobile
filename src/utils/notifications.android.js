@@ -8,13 +8,13 @@ import { handleNotification } from './notificationsCommon';
 
 export const handlePendingNotifications = async (
   notification: Object,
-  doNarrow: Actions.doNarrow,
+  doNarrowAtAnchor: Actions.doNarrow,
 ) => {
   if (notification) {
     const data = notification.getData();
     console.log('Opened app by notification', data); //eslint-disable-line
     if (data) {
-      handleNotification(data, doNarrow);
+      handleNotification(data, doNarrowAtAnchor, data.zulip_message_id);
     }
   }
 };
@@ -38,9 +38,9 @@ export const refreshNotificationToken = () => {
   NotificationsAndroid.refreshToken();
 };
 
-export const tryInitialNotification = async (doNarrow: Actions.doNarrow) => {
+export const tryInitialNotification = async (doNarrowAtAnchor: Actions.doNarrow) => {
   const data = await PendingNotifications.getInitialNotification();
   if (data && data.getData) {
-    handlePendingNotifications(data, doNarrow);
+    handlePendingNotifications(data, doNarrowAtAnchor);
   }
 };

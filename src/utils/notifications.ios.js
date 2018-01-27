@@ -35,23 +35,22 @@ export const refreshNotificationToken = () => {};
 
 export const handlePendingNotifications = async (
   notification: Object,
-  doNarrow: Actions.doNarrow,
+  doNarrowAtAnchor: Actions.doNarrow,
 ) => {
   if (notification) {
     const notifData = notification.getData();
     if (notifData && notifData.custom) {
       const { custom: { data } } = notifData;
       if (data) {
-        handleNotification(data, doNarrow);
+        handleNotification(data, doNarrowAtAnchor, data.message_ids[0]);
       }
     }
   }
 };
 
-export const tryInitialNotification = async (doNarrow: Actions.doNarrow) => {
+export const tryInitialNotification = async (doNarrowAtAnchor: Actions.doNarrow) => {
   const data = await PushNotificationIOS.getInitialNotification();
   if (data && data.getData) {
-    handlePendingNotifications(data, doNarrow);
+    handlePendingNotifications(data, doNarrowAtAnchor);
   }
 };
-
