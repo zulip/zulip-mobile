@@ -154,9 +154,6 @@ th, td {
 .topic-text {
   flex: 1;
   padding-left: 0.5em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   background: #ccc;
 }
 [data-mentioned="true"], [data-wildcard_mentioned="true"] {
