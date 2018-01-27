@@ -10,6 +10,8 @@ const sendMessage = msg => {
 const isNearByPositions = (x1, y1, x2, y2) =>
   x1 && y1 && x2 && y2 && Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 
+const validateTouchAreaForLongPress = (x1, y1) => x1 < 20;
+
 const getMessageNode = node => {
   let curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode !== document.body) {
@@ -205,6 +207,8 @@ document.body.addEventListener('click', e => {
 });
 
 document.body.addEventListener('touchstart', e => {
+  if (validateTouchAreaForLongPress(e.changedTouches[0].pageX, e.changedTouches[0].pageY)) return;
+
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;
   lastTouchEventTimestamp = Date.now();
