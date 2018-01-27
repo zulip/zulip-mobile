@@ -19,19 +19,20 @@ const renderMessages = ({ auth, subscriptions, realmEmoji, renderedMessages, nar
       if (item.type === 'time') {
         list.push(timeRowAsHtml(item.timestamp, item.firstMessage));
       } else {
+        const { message } = item;
         list.push(
           messageAsHtml({
-            id: item.message.id,
+            id: message.id,
             isBrief: item.isBrief,
-            fromName: item.message.sender_full_name,
-            fromEmail: item.message.sender_email,
-            content: item.message.content,
-            flags: item.message.flags || [],
-            timestamp: item.message.timestamp,
-            avatarUrl: getFullUrl(item.message.avatar_url, auth ? auth.realm : ''),
-            timeEdited: item.message.last_edit_timestamp,
-            isOutbox: item.message.isOutbox,
-            reactions: item.message.reactions,
+            fromName: message.sender_full_name,
+            fromEmail: message.sender_email,
+            content: message.match_content || message.content,
+            flags: message.flags || [],
+            timestamp: message.timestamp,
+            avatarUrl: getFullUrl(message.avatar_url, auth ? auth.realm : ''),
+            timeEdited: message.last_edit_timestamp,
+            isOutbox: message.isOutbox,
+            reactions: message.reactions,
             ownEmail: auth.email,
             realmEmoji,
           }),
