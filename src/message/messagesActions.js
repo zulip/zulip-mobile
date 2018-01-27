@@ -5,7 +5,7 @@ import { getAuth, getUsers, getAllMessages, getStreams } from '../selectors';
 import { SWITCH_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
-import { fetchMessagesAtFirstUnread } from './fetchActions';
+import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
 import { validateNarrow } from '../utils/narrow';
 // import { showToast } from '../utils/info';
 
@@ -14,17 +14,15 @@ export const switchNarrow = (narrow: Narrow): Action => ({
   narrow,
 });
 
+const isNarrowValid = (narrow: Narrow, getState: GetState) =>
+  validateNarrow(narrow, getStreams(getState()), getUsers(getState()));
+
 export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INTEGER): Action => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  const isValidNarrow = validateNarrow(newNarrow, getStreams(getState()), getUsers(getState()));
+  if (!isNarrowValid(newNarrow, getState)) return;
 
-  if (!isValidNarrow) {
-    // show message to user that narrow is outdated now
-    // showToast('Invalid narrow');
-    return;
-  }
   dispatch(switchNarrow(newNarrow));
 
   const anyMessagesInNewNarrow = JSON.stringify(newNarrow) in getAllMessages(getState());
@@ -33,6 +31,16 @@ export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INT
   if (!anyMessagesInNewNarrow && !caughtUp.newer && !caughtUp.older) {
     dispatch(fetchMessagesAtFirstUnread(newNarrow));
   }
+};
+
+export const doNarrowAtAnchor = (newNarrow: Narrow, anchor: number): Action => (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  if (isNarrowValid(newNarrow, getState)) return;
+
+  dispatch(switchNarrow(newNarrow));
+  dispatch(fetchMessagesAroundAnchor(newNarrow, anchor));
 };
 
 export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState: GetState) => {
