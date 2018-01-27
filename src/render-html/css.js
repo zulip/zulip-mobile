@@ -34,13 +34,14 @@ code {
   font-size: .857em;
   white-space: pre-wrap;
   padding: 0 0.25em;
-
 }
 pre {
   padding: 0.5em;
   margin: 0.5em 0;
   font-size: 0.75em;
-  overflow: scroll;
+  white-space: pre;
+  overflow-x: auto;
+  word-wrap: normal;
 }
 code, pre {
   border-radius: 3px;
