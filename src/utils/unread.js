@@ -10,7 +10,9 @@ export const filterUnreadMessagesInRange = (
   fromId: number,
   toId: number,
 ): Message[] => {
-  const messagesInRange = messages.filter(msg => msg.id >= fromId && msg.id <= toId);
+  const messagesInRange = messages
+    .filter(msg => !msg.isOutbox)
+    .filter(msg => msg.id >= fromId && msg.id <= toId);
   return filterUnreadMessageIds(messagesInRange.map(x => x.id), flags);
 };
 

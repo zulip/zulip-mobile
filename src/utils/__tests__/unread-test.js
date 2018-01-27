@@ -71,6 +71,16 @@ describe('filterUnreadMessagesInRange', () => {
     expect(actualUnread).toEqual(expectedUnread);
   });
 
+  test('messages in outbox are filtered out', () => {
+    const messages = [{ id: 1 }, { id: 2 }, { id: 34567, isOutbox: true }];
+    const flags = {};
+    const expectedUnread = [1, 2];
+
+    const actualUnread = filterUnreadMessagesInRange(messages, flags, 1, Number.MAX_SAFE_INTEGER);
+
+    expect(actualUnread).toEqual(expectedUnread);
+  });
+
   test('messages are not read if not in flags object, regardless of message property', () => {
     const messages = [{ id: 1 }];
     const flags = {};
