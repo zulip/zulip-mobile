@@ -132,19 +132,19 @@ class MessageListContainer extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
-  anchor: getAnchorForActiveNarrow(state),
+export default connectWithActions((state, props) => ({
+  anchor: props.anchor || getAnchorForActiveNarrow(state),
   auth: getAuth(state),
-  fetching: getFetchingForActiveNarrow(state),
+  fetching: props.fetching || getFetchingForActiveNarrow(state),
   flags: getFlags(state),
   htmlMessages: state.app.debug.htmlMessages,
   highlightUnreadMessages: state.app.debug.highlightUnreadMessages,
-  isFetching: getIsFetching(state),
-  messages: getShownMessagesInActiveNarrow(state),
-  narrow: getActiveNarrow(state),
+  isFetching: props.isFetching || getIsFetching(state),
+  messages: props.messages || getShownMessagesInActiveNarrow(state),
+  narrow: props.narrow || getActiveNarrow(state),
   realmEmoji: getAllRealmEmoji(state),
-  renderedMessages: getRenderedMessages(state),
-  showMessagePlaceholders: getShowMessagePlaceholders(state),
+  renderedMessages: props.renderedMessages || getRenderedMessages(state),
+  showMessagePlaceholders: props.showMessagePlaceholders || getShowMessagePlaceholders(state),
   subscriptions: getSubscriptions(state),
-  typingUsers: getCurrentTypingUsers(state),
+  typingUsers: props.typingUsers || getCurrentTypingUsers(state),
 }))(connectActionSheet(MessageListContainer));
