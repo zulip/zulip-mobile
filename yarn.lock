@@ -73,26 +73,26 @@
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@remobile/react-native-toast/-/react-native-toast-1.0.7.tgz#b2e3684cdb13e1c9d9b4ed08e667157d4ad0fab2"
 
-"@sentry/cli@^1.27.1":
-  version "1.27.1"
-  resolved "https://registry.yarnpkg.com/@sentry/cli/-/cli-1.27.1.tgz#4b54a4f2eebe31225758c3b5bd7ee3606cc2d49f"
+"@sentry/cli@^1.28.4":
+  version "1.28.4"
+  resolved "https://registry.yarnpkg.com/@sentry/cli/-/cli-1.28.4.tgz#82e7b30dfa1294ad56870690858c37135aac20df"
   dependencies:
     progress "2.0.0"
 
-"@sentry/wizard@^0.7":
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/@sentry/wizard/-/wizard-0.7.4.tgz#fcf9f2d2e9973da93c4475c399716625080ffe5a"
+"@sentry/wizard@^0.8.1":
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/@sentry/wizard/-/wizard-0.8.2.tgz#d6e0c0fa229b395a2b26c8658115e72b448dffb9"
   dependencies:
-    "@sentry/cli" "^1.27.1"
+    "@sentry/cli" "^1.28.4"
     chalk "^2.3.0"
     glob "^7.1.2"
-    inquirer "^4.0.0"
+    inquirer "^5.0.1"
     lodash "^4.17.4"
     open "^0.0.5"
     r2 "^2.0.0"
     read-env "^1.1.1"
     xcode "^1.0.0"
-    yargs "^10.0.3"
+    yargs "^11.0.0"
 
 "@types/node@*":
   version "8.5.1"
@@ -1358,6 +1358,14 @@ cliui@^3.2.0:
     strip-ansi "^3.0.1"
     wrap-ansi "^2.0.0"
 
+cliui@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/cliui/-/cliui-4.0.0.tgz#743d4650e05f36d1ed2575b59638d87322bfbbcc"
+  dependencies:
+    string-width "^2.1.1"
+    strip-ansi "^4.0.0"
+    wrap-ansi "^2.0.0"
+
 clone-stats@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/clone-stats/-/clone-stats-0.0.1.tgz#b88f94a82cf38b8791d58046ea4029ad88ca99d1"
@@ -1391,9 +1399,9 @@ color-string@^1.5.2:
     color-name "^1.0.0"
     simple-swizzle "^0.2.2"
 
-color@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/color/-/color-2.0.1.tgz#e4ed78a3c4603d0891eba5430b04b86314f4c839"
+color@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/color/-/color-3.0.0.tgz#d920b4328d534a3ac8295d68f7bd4ba6c427be9a"
   dependencies:
     color-convert "^1.9.1"
     color-string "^1.5.2"
@@ -1778,21 +1786,21 @@ detect-newline@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-2.1.0.tgz#f41f1c10be4b00e87b5f13da680759f2c5bfd3e2"
 
-detox-server@^6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/detox-server/-/detox-server-6.0.2.tgz#a51140fda1b311782acef6bf48a899924d9a3b7b"
+detox-server@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/detox-server/-/detox-server-7.0.0.tgz#82e571577aa5f867c5ed1fd5b8785e1a9e033ef0"
   dependencies:
     lodash "^4.13.1"
     npmlog "^4.0.2"
     ws "^1.1.0"
 
-detox@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-6.0.4.tgz#d8ba32bfd5f0161527a338638f6f94581a0c7765"
+detox@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-7.0.0.tgz#20ff5b6d5f7f38dac7826308dbcea366af76d805"
   dependencies:
     child-process-promise "^2.2.0"
     commander "^2.9.0"
-    detox-server "^6.0.2"
+    detox-server "^7.0.0"
     fs-extra "^4.0.2"
     get-port "^2.1.0"
     ini "^1.3.4"
@@ -1814,14 +1822,7 @@ doctrine@1.5.0:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-doctrine@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.0.0.tgz#c73d8d2909d22291e1a007a395804da8b665fe63"
-  dependencies:
-    esutils "^2.0.2"
-    isarray "^1.0.0"
-
-doctrine@^2.1.0:
+doctrine@^2.0.2, doctrine@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.1.0.tgz#5cd01fc101621b42c4cd7f5d1a66243716d3f39d"
   dependencies:
@@ -2050,9 +2051,9 @@ eslint-module-utils@^2.1.1:
     debug "^2.6.8"
     pkg-dir "^1.0.0"
 
-eslint-plugin-flowtype@^2.41.0:
-  version "2.41.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.41.0.tgz#fd5221c60ba917c059d7ef69686a99cca09fd871"
+eslint-plugin-flowtype@^2.42.0:
+  version "2.42.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.42.0.tgz#7fcc98df4ed9482a22ac10ba4ca48d649c4c733a"
   dependencies:
     lodash "^4.15.0"
 
@@ -2104,13 +2105,13 @@ eslint-plugin-react-native@^3.2.1:
   dependencies:
     eslint-plugin-react-native-globals "^0.1.1"
 
-eslint-plugin-react@7.5.1:
-  version "7.5.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.5.1.tgz#52e56e8d80c810de158859ef07b880d2f56ee30b"
+eslint-plugin-react@7.6.0:
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.6.0.tgz#351651188c74c5b2fecc2717e3936b7207baa728"
   dependencies:
-    doctrine "^2.0.0"
+    doctrine "^2.0.2"
     has "^1.0.1"
-    jsx-ast-utils "^2.0.0"
+    jsx-ast-utils "^2.0.1"
     prop-types "^15.6.0"
 
 eslint-plugin-spellcheck@0.0.6:
@@ -3018,9 +3019,9 @@ inquirer@^3.0.6:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
-inquirer@^4.0.0:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-4.0.1.tgz#b25cd541789394b4bb56f6440fb213b121149096"
+inquirer@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-5.0.1.tgz#5c0396c974fd98df4cab9afd26ed85874b563550"
   dependencies:
     ansi-escapes "^3.0.0"
     chalk "^2.0.0"
@@ -3031,8 +3032,7 @@ inquirer@^4.0.0:
     lodash "^4.3.0"
     mute-stream "0.0.7"
     run-async "^2.2.0"
-    rx-lite "^4.0.8"
-    rx-lite-aggregates "^4.0.8"
+    rxjs "^5.5.2"
     string-width "^2.1.0"
     strip-ansi "^4.0.0"
     through "^2.3.6"
@@ -4021,6 +4021,12 @@ jsprim@^1.2.2:
 jsx-ast-utils@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-2.0.0.tgz#ec06a3d60cf307e5e119dac7bad81e89f096f0f8"
+  dependencies:
+    array-includes "^3.0.3"
+
+jsx-ast-utils@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-2.0.1.tgz#e801b1b39985e20fffc87b40e3748080e2dcac7f"
   dependencies:
     array-includes "^3.0.3"
 
@@ -5284,9 +5290,9 @@ range-parser@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.0.3.tgz#6872823535c692e2c2a0103826afd82c2e0ff175"
 
-raven-js@^3.19.1:
-  version "3.19.1"
-  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.19.1.tgz#a5d25646556fc2c86d2b188ae4f425c144c08dd8"
+raven-js@^3.22.1:
+  version "3.22.1"
+  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.22.1.tgz#1117f00dfefaa427ef6e1a7d50bbb1fb998a24da"
 
 raw-body@~2.1.2:
   version "2.1.7"
@@ -5400,20 +5406,20 @@ react-native-safe-area@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/react-native-safe-area/-/react-native-safe-area-0.2.3.tgz#a4a181becb360391bdc4a79287252a0813c26ac5"
 
-react-native-sentry@^0.32.1:
-  version "0.32.1"
-  resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.32.1.tgz#ea9c545b219f56fc7c28e3a08a2aa31860a13ec5"
+react-native-sentry@^0.33.0:
+  version "0.33.0"
+  resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.33.0.tgz#d3a2194dccd22712740a25ab62e8a1cf120bd219"
   dependencies:
-    "@sentry/wizard" "^0.7"
-    raven-js "^3.19.1"
+    "@sentry/wizard" "^0.8.1"
+    raven-js "^3.22.1"
 
 react-native-simple-toast@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-0.0.7.tgz#2ef51bdafd3e98df718f74fdd0bc0ce08608dff8"
 
-react-native-sound@^0.10.4:
-  version "0.10.4"
-  resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.4.tgz#242286558f457e023dbed42e8c6cbe52cfd313d4"
+react-native-sound@^0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.5.tgz#50aa0f3faf4ac7cf1e54e1dc48431d0ebcc47b26"
 
 react-native-tab-view@^0.0.74:
   version "0.0.74"
@@ -5429,9 +5435,9 @@ react-native-vector-icons@^4.5.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-react-native@^0.52.0:
-  version "0.52.0"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.52.0.tgz#9784663a2aa40b30c87d4c9c06ef26cf8d419d91"
+react-native@^0.52.2:
+  version "0.52.2"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.52.2.tgz#1ae9a4c4441bd6e54a8ffc8aae4ac2b5c7cccd68"
   dependencies:
     absolute-path "^0.0.0"
     art "^0.10.0"
@@ -5668,9 +5674,9 @@ redux-logger@^3.0.1:
   dependencies:
     deep-diff "^0.3.5"
 
-redux-mock-store@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.4.0.tgz#cdc87650f5759f293588fecc9cac2b057d95190d"
+redux-mock-store@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.5.0.tgz#ec51e6b46ce5ea67445fe65fd2fe769469ad36ed"
   dependencies:
     lodash.isplainobject "^4.0.6"
 
@@ -5934,6 +5940,12 @@ rx-lite-aggregates@^4.0.8:
 rx-lite@*, rx-lite@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-4.0.8.tgz#0b1e11af8bc44836f04a6407e92da42467b79444"
+
+rxjs@^5.5.2:
+  version "5.5.6"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.6.tgz#e31fb96d6fd2ff1fd84bcea8ae9c02d007179c02"
+  dependencies:
+    symbol-observable "1.0.1"
 
 safe-buffer@^5.0.1, safe-buffer@^5.1.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.1"
@@ -6270,7 +6282,7 @@ string-width@^1.0.1, string-width@^1.0.2:
     is-fullwidth-code-point "^1.0.0"
     strip-ansi "^3.0.0"
 
-string-width@^2.0.0, string-width@^2.1.0:
+string-width@^2.0.0, string-width@^2.1.0, string-width@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-2.1.1.tgz#ab93f27a8dc13d28cac815c462143a6d9012ae9e"
   dependencies:
@@ -6340,6 +6352,10 @@ supports-color@^4.0.0:
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-4.2.1.tgz#65a4bb2631e90e02420dba5554c375a4754bb836"
   dependencies:
     has-flag "^2.0.0"
+
+symbol-observable@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.0.1.tgz#8340fc4702c3122df5d22288f88283f513d3fdd4"
 
 symbol-observable@^1.0.3:
   version "1.0.4"
@@ -6943,6 +6959,12 @@ yargs-parser@^8.0.0:
   dependencies:
     camelcase "^4.1.0"
 
+yargs-parser@^9.0.2:
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-9.0.2.tgz#9ccf6a43460fe4ed40a9bb68f48d43b8a68cc077"
+  dependencies:
+    camelcase "^4.1.0"
+
 yargs@^10.0.3:
   version "10.0.3"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-10.0.3.tgz#6542debd9080ad517ec5048fb454efe9e4d4aaae"
@@ -6959,6 +6981,23 @@ yargs@^10.0.3:
     which-module "^2.0.0"
     y18n "^3.2.1"
     yargs-parser "^8.0.0"
+
+yargs@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-11.0.0.tgz#c052931006c5eee74610e5fc0354bedfd08a201b"
+  dependencies:
+    cliui "^4.0.0"
+    decamelize "^1.1.1"
+    find-up "^2.1.0"
+    get-caller-file "^1.0.1"
+    os-locale "^2.0.0"
+    require-directory "^2.1.1"
+    require-main-filename "^1.0.1"
+    set-blocking "^2.0.0"
+    string-width "^2.0.0"
+    which-module "^2.0.0"
+    y18n "^3.2.1"
+    yargs-parser "^9.0.2"
 
 yargs@^4.2.0:
   version "4.8.1"
