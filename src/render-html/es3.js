@@ -14,10 +14,6 @@ var isNearByPositions = function isNearByPositions(x1, y1, x2, y2) {
   return x1 && y1 && x2 && y2 && Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 };
 
-var validateTouchAreaForLongPress = function validateTouchAreaForLongPress(x1, y1) {
-  return x1 < 20;
-};
-
 var getMessageNode = function getMessageNode(node) {
   var curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode !== document.body) {
@@ -213,7 +209,7 @@ document.body.addEventListener('click', function (e) {
 });
 
 document.body.addEventListener('touchstart', function (e) {
-  if (validateTouchAreaForLongPress(e.changedTouches[0].pageX, e.changedTouches[0].pageY)) return;
+  if (e.changedTouches[0].pageX < 20) return;
 
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;
