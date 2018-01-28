@@ -209,6 +209,8 @@ document.body.addEventListener('click', function (e) {
 });
 
 document.body.addEventListener('touchstart', function (e) {
+  if (e.changedTouches[0].pageX < 20) return;
+
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;
   lastTouchEventTimestamp = Date.now();
