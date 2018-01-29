@@ -12,6 +12,7 @@ html {
   -ms-user-select: none; /* IE 10+ */
   user-select: none; /* Standard syntax */
   -khtml-user-select: none;
+  -webkit-touch-callout: none;
 }
 body {
   font-family: sans-serif;
