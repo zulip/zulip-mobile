@@ -9,9 +9,9 @@ export const handleNotification = (
 ): void => {
   if (data && data.recipient_type) {
     if (data.recipient_type === 'stream') {
-      doNarrow(topicNarrow(data.stream, data.topic), anchor);
+      setTimeout(() => doNarrow(topicNarrow(data.stream, data.topic), anchor), 100);
     } else if (data.recipient_type === 'private') {
-      doNarrow(privateNarrow(data.sender_email), anchor);
+      setTimeout(() => doNarrow(privateNarrow(data.sender_email), anchor), 100);
     }
   }
 };

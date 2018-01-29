@@ -21,12 +21,13 @@ import timing from '../utils/timing';
 import { allPrivateNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { findFirstUnread } from '../utils/message';
-import { refreshNotificationToken } from '../utils/notifications';
+import { refreshNotificationToken, tryInitialNotification } from '../utils/notifications';
 import { initStreams } from '../streams/streamsActions';
 import { sendFocusPing } from '../users/usersActions';
 import { initNotifications, realmInit } from '../realm/realmActions';
 import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
 import { startEventPolling } from '../events/eventActions';
+import { doNarrowAtAnchor } from '../message/messagesActions';
 
 export const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
   type: MESSAGE_FETCH_START,
@@ -173,6 +174,9 @@ export const fetchRestOfInitialData = (): Action => async (
   if (auth.apiKey !== '' && (pushToken === '' || pushToken === undefined)) {
     refreshNotificationToken();
   }
+  tryInitialNotification((narrow: Narrow, anchor: number) =>
+    dispatch(doNarrowAtAnchor(narrow, anchor)),
+  );
   dispatch(trySendMessages());
 };
 

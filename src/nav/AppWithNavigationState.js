@@ -6,10 +6,11 @@ import { addNavigationHelpers } from 'react-navigation';
 import connectWithActions from '../connectWithActions';
 import { getCanGoBack } from '../selectors';
 import AppNavigator from './AppNavigator';
-import { tryInitialNotification } from '../utils/notifications';
+import type { Actions } from '../types';
 
 type Props = {
   canGoBack: boolean,
+  actions: Actions,
 };
 
 class AppWithNavigation extends PureComponent<Props> {
@@ -18,7 +19,6 @@ class AppWithNavigation extends PureComponent<Props> {
     // drawer is close & tabs are at initalRoute
     // or MainScreen is not at all in stack
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
-    tryInitialNotification(this.props.actions.doNarrowAtAnchor);
   }
 
   componentWillUnmount() {
