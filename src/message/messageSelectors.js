@@ -1,7 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import { getActiveNarrow } from '../directSelectors';
+import { getActiveNarrow, getMute, getSubscriptions } from '../directSelectors';
 import { getShownMessagesInActiveNarrow } from '../chat/chatSelectors';
 import renderMessages from './renderMessages';
 import { findFirstUnread } from '../utils/message';
@@ -15,7 +15,9 @@ export const getRenderedMessages = createSelector(
 
 export const getAnchorForActiveNarrow = createSelector(
   getShownMessagesInActiveNarrow,
-  messages => findFirstUnread(messages).id,
+  getSubscriptions,
+  getMute,
+  (messages, subscriptions, mute) => findFirstUnread(messages, subscriptions, mute).id,
 );
 
 export const getLastMessageInActiveNarrow = createSelector(

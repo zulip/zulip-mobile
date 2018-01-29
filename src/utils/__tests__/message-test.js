@@ -3,8 +3,10 @@ import {
   normalizeRecipientsSansMe,
   isSameRecipient,
   shouldBeMuted,
+  isMessageRead,
   findFirstUnread,
 } from '../message';
+import { homeNarrow } from '../narrow';
 import { NULL_MESSAGE } from '../../nullObjects';
 
 describe('normalizeRecipients', () => {
@@ -101,8 +103,6 @@ describe('isSameRecipient', () => {
 });
 
 describe('shouldBeMuted', () => {
-  const homeNarrow = [];
-
   test('private messages are never muted', () => {
     const message = {
       display_recipient: [],
@@ -113,14 +113,14 @@ describe('shouldBeMuted', () => {
     expect(isMuted).toBe(false);
   });
 
-  test('message in a stream is not muted if stream is not in mute list', () => {
+  test('message in a stream is muted if stream is not in mute list', () => {
     const message = {
       display_recipient: 'stream',
     };
 
     const isMuted = shouldBeMuted(message, homeNarrow, []);
 
-    expect(isMuted).toBe(false);
+    expect(isMuted).toBe(true);
   });
 
   test('message in a stream is muted if the stream is muted', () => {
@@ -153,6 +153,59 @@ describe('shouldBeMuted', () => {
     const isMuted = shouldBeMuted(message, homeNarrow, subscriptions, mutes);
 
     expect(isMuted).toBe(true);
+  });
+});
+
+describe('isMessageRead', () => {
+  test('message with no flags is considered not read', () => {
+    const message = { id: 0 };
+    const result = isMessageRead(message);
+    expect(result).toEqual(false);
+  });
+
+  test('message with flag of "read" is considered read', () => {
+    const message = { id: 0, flags: ['read'] };
+    const result = isMessageRead(message);
+    expect(result).toEqual(true);
+  });
+
+  test('a message in a muted stream is considered read', () => {
+    const message = {
+      id: 0,
+      flags: [],
+      display_recipient: 'muted stream',
+      subject: 'topic',
+    };
+    const subscriptions = [
+      {
+        name: 'muted stream',
+        in_home_view: false,
+      },
+    ];
+
+    const result = isMessageRead(message, subscriptions);
+
+    expect(result).toEqual(true);
+  });
+
+  test('a message in a muted topic is considered read', () => {
+    const message = {
+      id: 0,
+      flags: [],
+      display_recipient: 'stream',
+      subject: 'muted topic',
+    };
+    const subscriptions = [
+      {
+        name: 'stream',
+        in_home_view: false,
+      },
+    ];
+    const mute = [['stream', 'muted topic']];
+
+    const result = isMessageRead(message, subscriptions, mute);
+
+    expect(result).toEqual(true);
   });
 });
 
@@ -191,5 +244,36 @@ describe('findFirstUnread', () => {
     const result = findFirstUnread(messages);
 
     expect(result).toEqual(NULL_MESSAGE);
+  });
+
+  test('a message in muted stream or topic is considered read', () => {
+    const messageInMutedStream = {
+      id: 0,
+      flags: [],
+      display_recipient: 'muted stream',
+      subject: 'topic',
+    };
+    const messageInMutedTopic = {
+      id: 1,
+      flags: [],
+      display_recipient: 'stream',
+      subject: 'muted topic',
+    };
+    const unreadMessage = { id: 2, flags: [] };
+    const messages = [messageInMutedStream, messageInMutedTopic, unreadMessage];
+    const subscriptions = [
+      {
+        name: 'stream',
+        in_home_view: true,
+      },
+      {
+        name: 'muted stream',
+        in_home_view: false,
+      },
+    ];
+    const mute = [['stream', 'muted topic']];
+    const result = findFirstUnread(messages, subscriptions, mute);
+
+    expect(result).toEqual(unreadMessage);
   });
 });

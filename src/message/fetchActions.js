@@ -9,6 +9,8 @@ import {
   getFetchingForActiveNarrow,
   getActiveNarrow,
   getPushToken,
+  getMute,
+  getSubscriptions,
 } from '../selectors';
 import config from '../config';
 import {
@@ -43,15 +45,19 @@ export const messageFetchComplete = (
   numBefore: number,
   numAfter: number,
   replaceExisting: boolean = false,
-): Action => ({
-  type: MESSAGE_FETCH_COMPLETE,
-  messages,
-  narrow,
-  anchor: anchor === 0 ? findFirstUnread(messages).id : anchor,
-  numBefore,
-  numAfter,
-  replaceExisting,
-});
+): Action => async (dispatch: Dispatch, getState: GetState) =>
+  dispatch({
+    type: MESSAGE_FETCH_COMPLETE,
+    messages,
+    narrow,
+    anchor:
+      anchor === 0
+        ? findFirstUnread(messages, getSubscriptions(getState()), getMute(getState())).id
+        : anchor,
+    numBefore,
+    numAfter,
+    replaceExisting,
+  });
 
 export const backgroundFetchMessages = (
   narrow: Narrow,
