@@ -6,6 +6,10 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 const isEmulator = NativeModules.RNDeviceInfo ? DeviceInfo.isEmulator() : false;
 
 export default {
+  startup: {
+    narrow: undefined,
+    anchor: 0,
+  },
   compatibilityUrl: 'https://zulipchat.com/compatibility',
   messagesPerRequest: 50,
   scrollCallbackThrottle: 500,

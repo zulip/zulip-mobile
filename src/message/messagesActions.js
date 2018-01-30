@@ -17,10 +17,7 @@ export const switchNarrow = (narrow: Narrow): Action => ({
 const isNarrowValid = (narrow: Narrow, getState: GetState) =>
   validateNarrow(narrow, getStreams(getState()), getUsers(getState()));
 
-export const doNarrow = (newNarrow: Narrow, anchor: number = Number.MAX_SAFE_INTEGER): Action => (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const doNarrow = (newNarrow: Narrow): Action => (dispatch: Dispatch, getState: GetState) => {
   if (!isNarrowValid(newNarrow, getState)) return;
 
   dispatch(switchNarrow(newNarrow));
