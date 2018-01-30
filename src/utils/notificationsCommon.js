@@ -1,5 +1,6 @@
 /* @flow */
 import type { Actions } from '../types';
+import config from '../config';
 import { topicNarrow, privateNarrow } from '../utils/narrow';
 
 export const handleNotification = (
@@ -7,11 +8,12 @@ export const handleNotification = (
   doNarrow: Actions.doNarrow,
   anchor: number,
 ): void => {
-  if (data && data.recipient_type) {
-    if (data.recipient_type === 'stream') {
-      setTimeout(() => doNarrow(topicNarrow(data.stream, data.topic), anchor), 100);
-    } else if (data.recipient_type === 'private') {
-      setTimeout(() => doNarrow(privateNarrow(data.sender_email), anchor), 100);
-    }
+  if (!data || !data.recipient_type) return;
+
+  if (data.recipient_type === 'stream') {
+    config.startup.narrow = topicNarrow(data.stream, data.topic);
+  } else if (data.recipient_type === 'private') {
+    config.startup.narrow = privateNarrow(data.sender_email);
   }
+  config.startup.anchor = anchor;
 };

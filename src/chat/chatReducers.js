@@ -1,7 +1,9 @@
 /* @flow */
 import isEqual from 'lodash.isequal';
+import { REHYDRATE } from 'redux-persist/constants';
 
 import type { ChatState, Action } from '../types';
+import config from '../config';
 import {
   APP_REFRESH,
   LOGOUT,
@@ -31,6 +33,14 @@ export default (state: ChatState = initialState, action: Action) => {
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
       return initialState;
+
+    case REHYDRATE:
+      if (!config.startup.narrow) return state;
+
+      return {
+        ...state,
+        narrow: config.startup.narrow,
+      };
 
     case SWITCH_NARROW: {
       return {
