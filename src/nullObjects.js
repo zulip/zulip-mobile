@@ -63,7 +63,7 @@ export const NULL_SUBSCRIPTION: Subscription = {
   description: '',
   desktop_notifications: false,
   email_address: '',
-  in_home_view: true,
+  in_home_view: false,
   invite_only: false,
   name: '',
   pin_to_top: false,

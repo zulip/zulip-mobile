@@ -1,6 +1,7 @@
 /* @flow */
-import type { Recipient, Narrow, Message, MuteState } from '../types';
-import { NULL_MESSAGE, NULL_SUBSCRIPTION } from '../nullObjects';
+import type { Recipient, Narrow, Message, MuteState, Subscription } from '../types';
+import { NULL_MESSAGE } from '../nullObjects';
+import { homeNarrow } from './narrow';
 
 export const normalizeRecipients = (recipients: Recipient[]) =>
   !Array.isArray(recipients)
@@ -59,7 +60,7 @@ export const isTopicMuted = (stream: string, topic: string, mute: string[] = [])
 export const shouldBeMuted = (
   message: Message,
   narrow: Narrow,
-  subscriptions: any[],
+  subscriptions: Subscription[] = [],
   mutes: MuteState = [],
 ): boolean => {
   if (typeof message.display_recipient !== 'string') {
@@ -67,8 +68,8 @@ export const shouldBeMuted = (
   }
 
   if (narrow.length === 0) {
-    const sub = subscriptions.find(x => x.name === message.display_recipient) || NULL_SUBSCRIPTION;
-    if (!sub.in_home_view) {
+    const sub = subscriptions.find(x => x.name === message.display_recipient);
+    if (!sub || !sub.in_home_view) {
       return true;
     }
   }
@@ -76,8 +77,20 @@ export const shouldBeMuted = (
   return mutes.some(x => x[0] === message.display_recipient && x[1] === message.subject);
 };
 
-export const findFirstUnread = (messages: Message[]): Message =>
+export const isMessageRead = (
+  message: Message,
+  subscriptions: Subscription[],
+  mute: MuteState,
+): boolean =>
+  shouldBeMuted(message, homeNarrow, subscriptions, mute) ||
+  (typeof message.flags === 'undefined' ? false : message.flags.indexOf('read') > -1);
+
+export const findFirstUnread = (
+  messages: Message[],
+  subscriptions: Subscription[],
+  mute: MuteState,
+) =>
   messages.length > 0
-    ? messages.find(msg => !msg.flags || msg.flags.indexOf('read') === -1) ||
+    ? messages.find(msg => !isMessageRead(msg, subscriptions, mute)) ||
       messages[messages.length - 1]
     : NULL_MESSAGE;
