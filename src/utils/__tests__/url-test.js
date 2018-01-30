@@ -402,7 +402,7 @@ describe('getMessageIdFromLink', () => {
   test('not message link', () => {
     expect(
       getMessageIdFromLink('https://example.com/#narrow/is/private', 'https://example.com'),
-    ).toBeUndefined();
+    ).toBe(0);
   });
 
   test('when link is a group link, return anchor message id', () => {
