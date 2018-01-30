@@ -24,6 +24,12 @@ class StreamScreen extends PureComponent<Props> {
     actions.doTogglePinStream(streamId, newValue);
   };
 
+  handleToggleMuteStream = (newValue: boolean) => {
+    const { actions, navigation } = this.props;
+    const { streamId } = navigation.state.params;
+    actions.doToggleMuteStream(streamId, newValue);
+  };
+
   handleEdit = () => {
     const { actions, navigation } = this.props;
     actions.navigateToEditStream(navigation.state.params.streamId);
@@ -53,6 +59,11 @@ class StreamScreen extends PureComponent<Props> {
           label="Pinned"
           defaultValue={subscription.pin_to_top}
           onValueChange={this.handleTogglePinStream}
+        />
+        <OptionRow
+          label="Muted"
+          defaultValue={subscription.pin_to_top}
+          onValueChange={this.handleToggleMuteStream}
         />
         <OptionRow
           label="Notifications"
