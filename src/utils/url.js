@@ -104,10 +104,10 @@ export const getNarrowFromLink = (url: string, realm: string, users: any[]): [] 
   return [];
 };
 
-export const getMessageIdFromLink = (url: string, realm: string) => {
+export const getMessageIdFromLink = (url: string, realm: string): number => {
   const paths = getPathsFromUrl(url, realm);
 
-  return isMessageLink(url, realm) ? parseInt(paths[paths.lastIndexOf('near') + 1], 10) : undefined;
+  return isMessageLink(url, realm) ? parseInt(paths[paths.lastIndexOf('near') + 1], 10) : 0;
 };
 
 const getResourceWithAuth = (uri: string, auth: Auth) => ({

@@ -49,7 +49,7 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
     const anchor = getMessageIdFromLink(href, auth.realm);
     const narrow = getNarrowFromLink(href, auth.realm, users);
 
-    dispatch(doNarrow(narrow, anchor));
+    dispatch(doNarrowAtAnchor(narrow, anchor));
   } else {
     openLink(getFullUrl(href, auth.realm));
   }
