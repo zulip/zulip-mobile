@@ -8,7 +8,7 @@ import NotificationsIOS, { NotificationsAndroid } from 'react-native-notificatio
 import type { Auth, Actions, ChildrenArray } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getAuth, getUnreadByHuddlesMentionsAndPMs } from '../selectors';
-import { handlePendingNotifications } from '../utils/notifications';
+import { handlePendingNotifications, tryInitialNotification } from '../utils/notifications';
 
 const componentStyles = StyleSheet.create({
   wrapper: {
@@ -64,6 +64,7 @@ class AppEventHandlers extends PureComponent<Props> {
 
   componentWillMount() {
     const { actions } = this.props;
+    tryInitialNotification();
 
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
