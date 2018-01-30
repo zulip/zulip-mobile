@@ -5,7 +5,7 @@ import type { Actions, Stream, Subscription } from '../types';
 import connectWithActions from '../connectWithActions';
 import { OptionRow, Screen, ZulipButton } from '../common';
 import { getStreams, getSubscriptions } from '../selectors';
-import { NULL_SUBSCRIPTION } from '../nullObjects';
+import { NULL_STREAM, NULL_SUBSCRIPTION } from '../nullObjects';
 import StreamCard from './StreamCard';
 
 type Props = {
@@ -49,7 +49,7 @@ class StreamScreen extends PureComponent<Props> {
   render() {
     const { streams, subscriptions, navigation } = this.props;
     const { streamId } = navigation.state.params;
-    const stream = streams.find(x => x.stream_id === streamId);
+    const stream = streams.find(x => x.stream_id === streamId) || NULL_STREAM;
     const subscription = subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION;
 
     return (
@@ -62,7 +62,7 @@ class StreamScreen extends PureComponent<Props> {
         />
         <OptionRow
           label="Muted"
-          defaultValue={subscription.pin_to_top}
+          defaultValue={stream.in_home_view === false}
           onValueChange={this.handleToggleMuteStream}
         />
         <OptionRow

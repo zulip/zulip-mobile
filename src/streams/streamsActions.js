@@ -1,6 +1,6 @@
 /* @flow */
 import type { GetState, Actions, Dispatch } from '../types';
-import { createStream, updateStream, getStreams, togglePinStream } from '../api';
+import { createStream, updateStream, getStreams, toggleMuteStream, togglePinStream } from '../api';
 import { INIT_STREAMS } from '../actionConstants';
 import { getAuth } from '../selectors';
 
@@ -42,4 +42,11 @@ export const doTogglePinStream = (streamId: number, value: boolean): Actions => 
   getState: GetState,
 ) => {
   await togglePinStream(getAuth(getState()), streamId, value);
+};
+
+export const doToggleMuteStream = (streamId: number, value: boolean): Actions => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  await toggleMuteStream(getAuth(getState()), streamId, value);
 };
