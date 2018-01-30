@@ -5,7 +5,7 @@ import type { Actions, Stream, Subscription } from '../types';
 import connectWithActions from '../connectWithActions';
 import { OptionRow, Screen, ZulipButton } from '../common';
 import { getStreams, getSubscriptions } from '../selectors';
-import { NULL_SUBSCRIPTION } from '../nullObjects';
+import { NULL_STREAM, NULL_SUBSCRIPTION } from '../nullObjects';
 import StreamCard from './StreamCard';
 
 type Props = {
@@ -22,6 +22,12 @@ class StreamScreen extends PureComponent<Props> {
     const { actions, navigation } = this.props;
     const { streamId } = navigation.state.params;
     actions.doTogglePinStream(streamId, newValue);
+  };
+
+  handleToggleMuteStream = (newValue: boolean) => {
+    const { actions, navigation } = this.props;
+    const { streamId } = navigation.state.params;
+    actions.doToggleMuteStream(streamId, newValue);
   };
 
   handleEdit = () => {
@@ -43,7 +49,7 @@ class StreamScreen extends PureComponent<Props> {
   render() {
     const { streams, subscriptions, navigation } = this.props;
     const { streamId } = navigation.state.params;
-    const stream = streams.find(x => x.stream_id === streamId);
+    const stream = streams.find(x => x.stream_id === streamId) || NULL_STREAM;
     const subscription = subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION;
 
     return (
@@ -53,6 +59,11 @@ class StreamScreen extends PureComponent<Props> {
           label="Pinned"
           defaultValue={subscription.pin_to_top}
           onValueChange={this.handleTogglePinStream}
+        />
+        <OptionRow
+          label="Muted"
+          defaultValue={stream.in_home_view === false}
+          onValueChange={this.handleToggleMuteStream}
         />
         <OptionRow
           label="Notifications"
