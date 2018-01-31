@@ -27,6 +27,14 @@ const handleRegistrationUpdates = (auth: Auth, saveTokenPush: Actions.saveTokenP
   });
 };
 
+export const addNotificationListener = (notificationHandler: (notification: Object) => void) => {
+  NotificationsAndroid.setNotificationOpenedListener(notificationHandler);
+};
+
+export const removeNotificationListener = (
+  notificationHandler: (notification: Object) => void,
+) => {};
+
 export const initializeNotifications = (auth: Auth, saveTokenPush: Actions.saveTokenPush) => {
   handleRegistrationUpdates(auth, saveTokenPush);
 };
