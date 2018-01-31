@@ -131,6 +131,7 @@ export default (state: GlobalState, event: Object) => {
       return {
         ...event,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        allMessages: state.chat.messages,
       };
 
     case 'typing':
@@ -140,31 +141,37 @@ export default (state: GlobalState, event: Object) => {
         type: opToActionTyping[event.op],
         time: new Date().getTime(),
       };
+
     case 'muted_topics':
       return {
         ...event,
         type: EVENT_MUTED_TOPICS,
       };
+
     case 'realm_emoji':
       return {
         ...event,
         type: EVENT_REALM_EMOJI_UPDATE,
       };
+
     case 'realm_filters':
       return {
         ...event,
         type: EVENT_REALM_FILTER_UPDATE,
       };
+
     case 'update_global_notifications':
       return {
         ...event,
         type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
       };
+
     case 'update_display_settings':
       return {
         ...event,
         type: EVENT_UPDATE_DISPLAY_SETTINGS,
       };
+
     default:
       return 'unknown';
   }

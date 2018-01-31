@@ -48,6 +48,10 @@ export default (state: UnreadState = initialState, action: Action): UnreadState 
         return state;
       }
 
+      if (action.all) {
+        return initialState;
+      }
+
       if (action.operation === 'add') {
         return removeItemsDeeply(state, action.messages);
       } else if (action.operation === 'remove') {

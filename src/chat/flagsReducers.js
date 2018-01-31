@@ -1,5 +1,5 @@
 /* @flow */
-import type { FlagsState, Action } from '../types';
+import type { Action, FlagsState, Message } from '../types';
 import {
   APP_REFRESH,
   MESSAGE_FETCH_COMPLETE,
@@ -85,6 +85,14 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
       return addFlagsForMessages(state, [action.message.id], action.message.flags);
 
     case EVENT_UPDATE_MESSAGE_FLAGS: {
+      if (action.all) {
+        const allMessages: Message[] = Array.prototype.concat.apply(
+          [],
+          Object.values(action.allMessages),
+        );
+        return addFlagsForMessages(initialState, allMessages.map(msg => msg.id), ['read']);
+      }
+
       if (action.operation === 'add') {
         return addFlagsForMessages(state, action.messages, [action.flag]);
       }
