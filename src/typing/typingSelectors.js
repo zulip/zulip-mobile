@@ -21,7 +21,7 @@ export const getCurrentTypingUsers = createSelector(
     const normalizedRecipients = normalizeRecipients(recipients);
     const currentTyping = typing[normalizedRecipients];
 
-    if (!currentTyping) {
+    if (!currentTyping || !currentTyping.userIds) {
       return undefined;
     }
 
