@@ -8,6 +8,7 @@ import {
   MARK_MESSAGES_READ,
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../../actionConstants';
+import { NULL_ARRAY } from '../../nullObjects';
 
 describe('unreadStreamsReducers', () => {
   describe('ACCOUNT_SWITCH', () => {
@@ -347,6 +348,28 @@ describe('unreadStreamsReducers', () => {
       const actualState = unreadStreamsReducers(initialState, action);
 
       expect(actualState).toBe(initialState);
+    });
+
+    test('when "all" is true reset state', () => {
+      const initialState = deepFreeze([
+        {
+          stream_id: 1,
+          topic: 'some topic',
+          unread_message_ids: [1, 2, 3, 4, 5],
+        },
+      ]);
+
+      const action = deepFreeze({
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        messages: [],
+        flag: 'read',
+        operation: 'add',
+        all: true,
+      });
+
+      const actualState = unreadStreamsReducers(initialState, action);
+
+      expect(actualState).toBe(NULL_ARRAY);
     });
   });
 });

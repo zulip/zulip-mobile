@@ -1,6 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import flagsReducers from '../flagsReducers';
+import { homeNarrowStr, allPrivateNarrowStr, streamNarrow } from '../../utils/narrow';
 import {
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
@@ -292,6 +293,39 @@ describe('flagsReducers', () => {
       const actualState = flagsReducers(initialState, action);
 
       expect(actualState).toEqual(expectedState);
+    });
+
+    test('when "all" is true all messages become read', () => {
+      const initialState = deepFreeze({
+        read: {
+          1: true,
+          3: true,
+        },
+      });
+
+      const action = deepFreeze({
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        messages: [],
+        flag: 'read',
+        operation: 'add',
+        all: true,
+        allMessages: {
+          [homeNarrowStr]: [{ id: 1 }],
+          [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }, { id: 3 }],
+          [JSON.stringify(streamNarrow('some stream'))]: [{ id: 3 }, { id: 4 }, { id: 5 }],
+        },
+      });
+
+      const expectedReadState = {
+        1: true,
+        2: true,
+        3: true,
+        4: true,
+        5: true,
+      };
+
+      const actualState = flagsReducers(initialState, action);
+      expect(actualState.read).toEqual(expectedReadState);
     });
   });
 
