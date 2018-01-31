@@ -3,12 +3,16 @@ import React, { PureComponent } from 'react';
 import { AppState, NetInfo, View, StyleSheet, Platform, NativeModules } from 'react-native';
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
-import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
 
 import type { Auth, Actions, ChildrenArray } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getAuth, getUnreadByHuddlesMentionsAndPMs } from '../selectors';
-import { handlePendingNotifications, tryInitialNotification } from '../utils/notifications';
+import {
+  addNotificationListener,
+  removeNotificationListener,
+  handlePendingNotifications,
+  tryInitialNotification,
+} from '../utils/notifications';
 
 const componentStyles = StyleSheet.create({
   wrapper: {
@@ -52,7 +56,7 @@ class AppEventHandlers extends PureComponent<Props> {
     }
   };
 
-  handleNotificationOpen = notification => {
+  handleNotificationOpen = (notification: Object) => {
     const { actions } = this.props;
     actions.saveInitialNotificationDetails(notification.getData());
     setTimeout(() => handlePendingNotifications(notification), 600);
@@ -71,11 +75,7 @@ class AppEventHandlers extends PureComponent<Props> {
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     SafeArea.getSafeAreaInsetsForRootView().then(actions.initSafeAreaInsets);
     Orientation.addOrientationListener(this.handleOrientationChange);
-    if (Platform.OS === 'ios') {
-      NotificationsIOS.addEventListener('notificationOpened', this.handleNotificationOpen);
-    } else {
-      NotificationsAndroid.setNotificationOpenedListener(this.handleNotificationOpen);
-    }
+    addNotificationListener(this.handleNotificationOpen);
   }
 
   componentWillUnmount() {
@@ -83,9 +83,7 @@ class AppEventHandlers extends PureComponent<Props> {
     AppState.removeEventListener('change', this.handleAppStateChange);
     AppState.removeEventListener('memoryWarning', this.handleMemoryWarning);
     Orientation.removeOrientationListener(this.handleOrientationChange);
-    if (Platform.OS === 'ios') {
-      NotificationsIOS.removeEventListener('notificationOpened', this.handleNotificationOpen);
-    }
+    removeNotificationListener(this.handleNotificationOpen);
   }
 
   render() {

@@ -20,6 +20,14 @@ const onPushRegistrationFailed = (error: string) => {
   logErrorRemotely(new Error(error), 'register ios push token failed');
 };
 
+export const addNotificationListener = (notificationHandler: (notification: Object) => void) => {
+  NotificationsIOS.addEventListener('notificationOpened', notificationHandler);
+};
+
+export const removeNotificationListener = (notificationHandler: (notification: Object) => void) => {
+  NotificationsIOS.removeEventListener('notificationOpened', notificationHandler);
+};
+
 export const initializeNotifications = (auth: Auth, saveTokenPush: Actions.saveTokenPush) => {
   NotificationsIOS.addEventListener('remoteNotificationsRegistered', deviceToken =>
     onPushRegistered(auth, deviceToken, saveTokenPush),
