@@ -9,6 +9,7 @@ import { IconDone, IconTrash } from '../common/Icons';
 const styles = StyleSheet.create({
   wrapper: {
     marginBottom: 8,
+    justifyContent: 'space-between',
   },
   accountItem: {
     flexDirection: 'row',
@@ -24,8 +25,6 @@ const styles = StyleSheet.create({
   },
   details: {
     flex: 1,
-    justifyContent: 'space-between',
-    height: 36,
   },
   text: {
     color: BRAND_COLOR,
