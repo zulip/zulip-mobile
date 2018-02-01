@@ -127,5 +127,6 @@
   "Pin": "Pin",
   "Active": "Active",
   "Idle": "Idle",
-  "Offline": "Offline"
+  "Offline": "Offline",
+  "Do not mark messages read on scroll": "Do not mark messages read on scroll"
 }

@@ -127,5 +127,6 @@
   "Pin": "고정",
   "Active": "활성화",
   "Idle": "대기",
-  "Offline": "오프라인"
+  "Offline": "오프라인",
+  "Do not mark messages read on scroll": "Do not mark messages read on scroll"
 }

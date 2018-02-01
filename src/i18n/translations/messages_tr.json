@@ -127,5 +127,6 @@
   "Pin": "Sabitle",
   "Active": "Active",
   "Idle": "Idle",
-  "Offline": "Çevrim dışı"
+  "Offline": "Çevrim dışı",
+  "Do not mark messages read on scroll": "Do not mark messages read on scroll"
 }

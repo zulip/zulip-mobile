@@ -94,7 +94,6 @@ class MessageContainer extends PureComponent<Props, State> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
-  highlightUnreadMessages: state.app.debug.highlightUnreadMessages,
   narrow: getActiveNarrow(state),
   currentRoute: getCurrentRoute(state),
   flags: getFlags(state),
