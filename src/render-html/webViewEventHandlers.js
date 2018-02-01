@@ -48,6 +48,7 @@ type MessageListEventDebug = Object;
 type Props = {
   actions: Actions,
   auth: Auth,
+  debug: Object,
   flags: FlagsState,
   messages: Message[],
   onLongPress: (messageId: number, target: string) => void,
@@ -70,7 +71,7 @@ export const handleScroll = (props: Props, event: MessageListEventScroll) => {
     endMessageId,
   );
 
-  if (unreadMessageIds.length > 0) {
+  if (unreadMessageIds.length > 0 && !props.debug.doNotMarkMessagesAsRead) {
     queueMarkAsRead(props.auth, unreadMessageIds);
   }
 };

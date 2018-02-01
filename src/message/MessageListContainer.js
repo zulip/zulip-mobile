@@ -18,13 +18,12 @@ import {
   constructHeaderActionButtons,
   executeActionSheetAction,
 } from '../message/messageActionSheet';
-import MessageList from '../render-native/MessageListScrollView';
-// import MessageList from '../render-native/MessageListFlatList';
 import MessageListWeb from '../render-html/MessageListWeb';
 import {
   getAuth,
   getAllRealmEmoji,
   getCurrentTypingUsers,
+  getDebug,
   getRenderedMessages,
   getActiveNarrow,
   getFlags,
@@ -42,10 +41,10 @@ export type Props = {
   actions: Actions,
   anchor: number,
   auth: Auth,
+  debug: Object,
   fetching: Fetching,
   flags: FlagsState,
   highlightUnreadMessages: boolean,
-  htmlMessages: boolean,
   isFetching: boolean,
   messages: Message[],
   mute: MuteState,
@@ -116,12 +115,10 @@ class MessageListContainer extends PureComponent<Props> {
   };
 
   render() {
-    const { fetching, htmlMessages } = this.props;
-
-    const MessageListComponent = htmlMessages ? MessageListWeb : MessageList;
+    const { fetching } = this.props;
 
     return (
-      <MessageListComponent
+      <MessageListWeb
         {...this.props}
         fetchingOlder={fetching.older}
         fetchingNewer={fetching.newer}
@@ -135,10 +132,9 @@ class MessageListContainer extends PureComponent<Props> {
 export default connectWithActions((state, props) => ({
   anchor: props.anchor || getAnchorForActiveNarrow(state),
   auth: getAuth(state),
+  debug: getDebug(state),
   fetching: props.fetching || getFetchingForActiveNarrow(state),
   flags: getFlags(state),
-  htmlMessages: state.app.debug.htmlMessages,
-  highlightUnreadMessages: state.app.debug.highlightUnreadMessages,
   isFetching: props.isFetching || getIsFetching(state),
   messages: props.messages || getShownMessagesInActiveNarrow(state),
   narrow: props.narrow || getActiveNarrow(state),

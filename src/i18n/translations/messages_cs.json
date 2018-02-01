@@ -127,5 +127,6 @@
   "Pin": "Přišpendlit",
   "Active": "Činný",
   "Idle": "Nečinný",
-  "Offline": "Nepřipojen"
+  "Offline": "Nepřipojen",
+  "Do not mark messages read on scroll": "Do not mark messages read on scroll"
 }

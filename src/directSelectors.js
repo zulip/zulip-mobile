@@ -14,6 +14,8 @@ import type {
 
 export const getApp = (state: GlobalState): AppState => state.app;
 
+export const getDebug = (state: GlobalState): Object => state.app.debug;
+
 export const getDrafts = (state: GlobalState): Object => state.drafts;
 
 export const getMute = (state: GlobalState): Object => state.mute;
