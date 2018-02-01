@@ -63,7 +63,7 @@ export const getMessagesInActiveNarrow = createSelector(
       return fetchedMessages;
     }
 
-    return [...fetchedMessages, ...outboxMessages].sort((a, b) => a.timestamp - b.timestamp);
+    return [...fetchedMessages, ...outboxMessages].sort((a, b) => a.id - b.id);
   },
 );
 

@@ -67,7 +67,7 @@ export default (state: ChatState = initialState, action: Action) => {
         : action.messages
             .filter(x => !messagesById[x.id])
             .concat(messages)
-            .sort((a, b) => a.timestamp - b.timestamp);
+            .sort((a, b) => a.id - b.id);
 
       return {
         ...state,

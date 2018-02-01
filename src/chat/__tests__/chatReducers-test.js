@@ -789,7 +789,7 @@ describe('chatReducers', () => {
 
       const expectedState = {
         messages: {
-          [homeNarrowStr]: [{ id: 4 }, { id: 1 }, { id: 2 }, { id: 3 }],
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }],
         },
       };
 
@@ -799,26 +799,26 @@ describe('chatReducers', () => {
       expect(newState).not.toBe(initialState);
     });
 
-    test('added messages are sorted by timestamp', () => {
+    test('added messages are sorted by id', () => {
       const initialState = deepFreeze({
         messages: {
-          [homeNarrowStr]: [{ id: 1, timestamp: 3 }, { id: 2, timestamp: 4 }],
+          [homeNarrowStr]: [{ id: 2, timestamp: 3 }, { id: 1, timestamp: 3 }],
         },
       });
 
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
         narrow: [],
-        messages: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
+        messages: [{ id: 4, timestamp: 2 }, { id: 3, timestamp: 1 }],
       });
 
       const expectedState = {
         messages: {
           [homeNarrowStr]: [
-            { id: 4, timestamp: 1 },
-            { id: 3, timestamp: 2 },
             { id: 1, timestamp: 3 },
-            { id: 2, timestamp: 4 },
+            { id: 2, timestamp: 3 },
+            { id: 3, timestamp: 1 },
+            { id: 4, timestamp: 2 },
           ],
         },
       };
