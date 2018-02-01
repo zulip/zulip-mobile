@@ -34,7 +34,7 @@ const componentStyles = StyleSheet.create({
   },
   composeText: {
     flex: 1,
-    flexDirection: 'column',
+    justifyContent: 'center',
   },
   topic: {
     height: 30,
@@ -298,7 +298,10 @@ export default class ComposeBox extends PureComponent<Props, State> {
               />
             )}
             <MultilineInput
-              style={[styles.composeTextInput, { height: messageHeight }]}
+              style={[
+                styles.composeTextInput,
+                { height: messageHeight === MIN_HEIGHT ? MIN_HEIGHT - 12 : messageHeight },
+              ]}
               placeholder={placeholder}
               textInputRef={component => {
                 this.messageInput = component;
