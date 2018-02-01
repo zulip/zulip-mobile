@@ -59,7 +59,7 @@ class AppEventHandlers extends PureComponent<Props> {
   handleNotificationOpen = (notification: Object) => {
     const { actions } = this.props;
     actions.saveInitialNotificationDetails(notification.getData());
-    setTimeout(() => handlePendingNotifications(notification), 600);
+    handlePendingNotifications(notification, false, this.props.actions.doNarrowAtAnchor);
   };
 
   handleMemoryWarning = () => {

@@ -39,8 +39,7 @@ export const doNarrowAtAnchor = (newNarrow: Narrow, anchor: number): Action => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  if (isNarrowValid(newNarrow, getState)) return;
-
+  if (!isNarrowValid(newNarrow, getState)) return;
   dispatch(switchNarrow(newNarrow));
   dispatch(fetchMessagesAroundAnchor(newNarrow, anchor));
 };
