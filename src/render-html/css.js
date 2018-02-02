@@ -97,6 +97,7 @@ th, td {
   display: flex;
   word-wrap: break-word;
   padding: 0.5em;
+  overflow: hidden;
 }
 .message-brief {
   padding: 0 0.5em 0.5em 3.5em;
@@ -114,7 +115,6 @@ th, td {
 .content {
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
 }
 .username {
   font-weight: bold;
