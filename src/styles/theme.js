@@ -38,8 +38,7 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   composeTextInput: {
     color,
     borderColor: 'transparent',
-    // flex: 1,
-    padding: 6,
+    padding: 0,
     fontSize: 15,
   },
   background: {

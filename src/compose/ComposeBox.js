@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { Platform, StyleSheet, View, TextInput } from 'react-native';
 import isEqual from 'lodash.isequal';
 
 import type {
@@ -259,6 +259,16 @@ export default class ComposeBox extends PureComponent<Props, State> {
     const messageHeight = Math.min(Math.max(MIN_HEIGHT, height + 12), MAX_HEIGHT);
     const totalHeight = canSelectTopic ? messageHeight + 30 : messageHeight;
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
+    const msgInputStyles = {
+      height: messageHeight === MIN_HEIGHT ? MIN_HEIGHT - 12 : messageHeight,
+      ...Platform.select({
+        android: {
+          paddingTop: messageHeight === MAX_HEIGHT ? 6 : 0,
+          paddingBottom: messageHeight === MAX_HEIGHT ? 6 : 0,
+        },
+        ios: { paddingTop: 6, paddingBottom: 6 },
+      }),
+    };
 
     return (
       <View>
@@ -298,10 +308,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
               />
             )}
             <MultilineInput
-              style={[
-                styles.composeTextInput,
-                { height: messageHeight === MIN_HEIGHT ? MIN_HEIGHT - 12 : messageHeight },
-              ]}
+              style={[styles.composeTextInput, msgInputStyles]}
               placeholder={placeholder}
               textInputRef={component => {
                 this.messageInput = component;
