@@ -7,7 +7,6 @@ import {
   findFirstUnread,
 } from '../message';
 import { homeNarrow } from '../narrow';
-import { NULL_MESSAGE } from '../../nullObjects';
 
 describe('normalizeRecipients', () => {
   test('joins emails from recipients, sorted, trimmed, not including missing ones', () => {
@@ -226,7 +225,7 @@ describe('findFirstUnread', () => {
     expect(result).toEqual(messages[1]);
   });
 
-  test('if all are read returns the last message', () => {
+  test('if all are read return undefined', () => {
     const messages = [
       { id: 0, flags: ['read'] },
       { id: 1, flags: ['read'] },
@@ -235,15 +234,15 @@ describe('findFirstUnread', () => {
 
     const result = findFirstUnread(messages);
 
-    expect(result).toEqual({ id: 2, flags: ['read'] });
+    expect(result).toEqual(undefined);
   });
 
-  test('if no messages returns NULL_MESSAGE', () => {
+  test('if no messages returns undefined', () => {
     const messages = [];
 
     const result = findFirstUnread(messages);
 
-    expect(result).toEqual(NULL_MESSAGE);
+    expect(result).toEqual(undefined);
   });
 
   test('a message in muted stream or topic is considered read', () => {

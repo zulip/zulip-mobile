@@ -42,7 +42,7 @@ const scrollToAnchor = anchor => {
   if (anchorNode) {
     anchorNode.scrollIntoView({ block: 'start' });
   } else {
-    scrollToBottom();
+    window.scroll({ left: 0, top: document.body.scrollHeight + 200 });
   }
 };
 
