@@ -31,7 +31,7 @@ class DiagnosticsScreen extends PureComponent<Props> {
 
     return (
       <Screen title="Diagnostics">
-        <RawLabel style={styles.versionLabel} text={`App version: v${DeviceInfo.getVersion()}`} />
+        <RawLabel style={styles.versionLabel} text={`v${DeviceInfo.getVersion()}`} />
         <OptionDivider />
         <OptionButton label="Variables" onPress={actions.navigateToVariables} />
         <OptionDivider />
