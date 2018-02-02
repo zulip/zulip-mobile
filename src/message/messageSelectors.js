@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { getActiveNarrow, getMute, getSubscriptions } from '../directSelectors';
 import { getShownMessagesInActiveNarrow } from '../chat/chatSelectors';
 import renderMessages from './renderMessages';
-import { findFirstUnread } from '../utils/message';
+import { findAnchor } from '../utils/message';
 import { NULL_MESSAGE } from '../nullObjects';
 
 export const getRenderedMessages = createSelector(
@@ -17,7 +17,7 @@ export const getAnchorForActiveNarrow = createSelector(
   getShownMessagesInActiveNarrow,
   getSubscriptions,
   getMute,
-  (messages, subscriptions, mute) => findFirstUnread(messages, subscriptions, mute).id,
+  (messages, subscriptions, mute) => findAnchor(messages, subscriptions, mute),
 );
 
 export const getLastMessageInActiveNarrow = createSelector(

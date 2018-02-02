@@ -1,6 +1,5 @@
 /* @flow */
 import type { Recipient, Narrow, Message, MuteState, Subscription } from '../types';
-import { NULL_MESSAGE } from '../nullObjects';
 import { homeNarrow } from './narrow';
 
 export const normalizeRecipients = (recipients: Recipient[]) =>
@@ -89,8 +88,9 @@ export const findFirstUnread = (
   messages: Message[],
   subscriptions: Subscription[],
   mute: MuteState,
-) =>
-  messages.length > 0
-    ? messages.find(msg => !isMessageRead(msg, subscriptions, mute)) ||
-      messages[messages.length - 1]
-    : NULL_MESSAGE;
+) => messages.find(msg => !isMessageRead(msg, subscriptions, mute));
+
+export const findAnchor = (messages: Message[], subscriptions: Subscription[], mute: MuteState) => {
+  const firstUnreadMessage = findFirstUnread(messages, subscriptions, mute);
+  return firstUnreadMessage ? firstUnreadMessage.id : 0;
+};
