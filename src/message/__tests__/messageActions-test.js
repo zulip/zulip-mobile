@@ -3,8 +3,8 @@ import mockStore from 'redux-mock-store'; // eslint-disable-line
 import { doNarrow } from '../messagesActions';
 import { streamNarrow, homeNarrow, privateNarrow } from '../../utils/narrow';
 
-const narrow = streamNarrow('some stream');
-const streamNarrowStr = JSON.stringify(narrow);
+const streamNarrowObj = streamNarrow('some stream');
+const streamNarrowStr = JSON.stringify(streamNarrowObj);
 
 describe('messageActions', () => {
   describe('doNarrow', () => {
@@ -27,18 +27,13 @@ describe('messageActions', () => {
         ],
       });
 
-      store.dispatch(doNarrow(narrow));
+      store.dispatch(doNarrow(streamNarrowObj));
       const actions = store.getActions();
 
       expect(actions.length).toBe(2);
       expect(actions[0].type).toBe('SWITCH_NARROW');
       expect(actions[1].type).toBe('MESSAGE_FETCH_START');
-      expect(actions[1].narrow).toEqual([
-        {
-          operand: 'some stream',
-          operator: 'stream',
-        },
-      ]);
+      expect(actions[1].narrow).toEqual(streamNarrowObj);
     });
 
     test('when no messages in new narrow but caught up, only switch to narrow, do not fetch', () => {
@@ -62,23 +57,18 @@ describe('messageActions', () => {
         ],
       });
 
-      store.dispatch(doNarrow(narrow));
+      store.dispatch(doNarrow(streamNarrowObj));
       const actions = store.getActions();
 
       expect(actions).toEqual([
         {
-          narrow: [
-            {
-              operand: 'some stream',
-              operator: 'stream',
-            },
-          ],
           type: 'SWITCH_NARROW',
+          narrow: streamNarrowObj,
         },
       ]);
     });
 
-    test('when messages in new narrow, only action to switch narrow is dispatched', () => {
+    test('when messages in new narrow are too few and not caught up, fetch more messages', () => {
       const store = mockStore({
         caughtUp: {},
         chat: {
@@ -94,11 +84,13 @@ describe('messageActions', () => {
         ],
       });
 
-      store.dispatch(doNarrow(narrow));
+      store.dispatch(doNarrow(streamNarrowObj));
       const actions = store.getActions();
 
-      expect(actions.length).toEqual(1);
-      expect(actions[0].type).toEqual('SWITCH_NARROW');
+      expect(actions.length).toBe(2);
+      expect(actions[0].type).toBe('SWITCH_NARROW');
+      expect(actions[1].type).toBe('MESSAGE_FETCH_START');
+      expect(actions[1].narrow).toEqual(streamNarrowObj);
     });
 
     test('if new narrow stream is not valid, do nothing', () => {
@@ -117,7 +109,7 @@ describe('messageActions', () => {
         ],
       });
 
-      store.dispatch(doNarrow(narrow));
+      store.dispatch(doNarrow(streamNarrowObj));
       const actions = store.getActions();
 
       expect(actions.length).toBe(0);
