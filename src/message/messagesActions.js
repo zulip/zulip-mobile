@@ -1,6 +1,7 @@
 /* @flow */
 import type { Action, Narrow, Dispatch, GetState } from '../types';
-import { NULL_CAUGHTUP } from '../nullObjects';
+import config from '../config';
+import { NULL_ARRAY, NULL_CAUGHTUP } from '../nullObjects';
 import { getAuth, getUsers, getAllMessages, getStreams } from '../selectors';
 import { SWITCH_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
@@ -22,10 +23,14 @@ export const doNarrow = (newNarrow: Narrow): Action => (dispatch: Dispatch, getS
 
   dispatch(switchNarrow(newNarrow));
 
-  const anyMessagesInNewNarrow = JSON.stringify(newNarrow) in getAllMessages(getState());
-  const caughtUp = getState().caughtUp[newNarrow] || NULL_CAUGHTUP;
+  const allMessages = getAllMessages(getState());
+  const messagesInActiveNarrow = allMessages[JSON.stringify(newNarrow)] || NULL_ARRAY;
+  const tooFewMessages = messagesInActiveNarrow.length < config.messagesPerRequest / 2;
 
-  if (!anyMessagesInNewNarrow && !caughtUp.newer && !caughtUp.older) {
+  const caughtUp = getState().caughtUp[JSON.stringify(newNarrow)] || NULL_CAUGHTUP;
+  const isCaughtUp = caughtUp.newer && caughtUp.older;
+
+  if (tooFewMessages && !isCaughtUp) {
     dispatch(fetchMessagesAtFirstUnread(newNarrow));
   }
 };
