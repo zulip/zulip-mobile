@@ -28,10 +28,20 @@ describe('messageActions', () => {
       });
 
       store.dispatch(doNarrow(narrow));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(2);
+      expect(actions[0].type).toBe('SWITCH_NARROW');
+      expect(actions[1].type).toBe('MESSAGE_FETCH_START');
+      expect(actions[1].narrow).toEqual([
+        {
+          operand: 'some stream',
+          operator: 'stream',
+        },
+      ]);
     });
 
-    test('when no messages in new narrow and caughtUp is true, only action to switch narrow is dispatched', () => {
+    test('when no messages in new narrow but caught up, only switch to narrow, do not fetch', () => {
       const store = mockStore({
         caughtUp: {
           [streamNarrowStr]: {
@@ -41,7 +51,9 @@ describe('messageActions', () => {
         },
         chat: {
           narrow: homeNarrow,
-          messages: {},
+          messages: {
+            [streamNarrowStr]: [],
+          },
         },
         streams: [
           {
@@ -51,7 +63,19 @@ describe('messageActions', () => {
       });
 
       store.dispatch(doNarrow(narrow));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions).toEqual([
+        {
+          narrow: [
+            {
+              operand: 'some stream',
+              operator: 'stream',
+            },
+          ],
+          type: 'SWITCH_NARROW',
+        },
+      ]);
     });
 
     test('when messages in new narrow, only action to switch narrow is dispatched', () => {
@@ -71,10 +95,13 @@ describe('messageActions', () => {
       });
 
       store.dispatch(doNarrow(narrow));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toEqual(1);
+      expect(actions[0].type).toEqual('SWITCH_NARROW');
     });
 
-    test('if newNarrow stream is not valid, do nothing', () => {
+    test('if new narrow stream is not valid, do nothing', () => {
       const store = mockStore({
         caughtUp: {},
         chat: {
@@ -91,10 +118,12 @@ describe('messageActions', () => {
       });
 
       store.dispatch(doNarrow(narrow));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(0);
     });
 
-    test('if newNarrow user is deactivated, do nothing', () => {
+    test('if new narrow user is deactivated, do nothing', () => {
       const store = mockStore({
         caughtUp: {},
         chat: {
@@ -111,7 +140,9 @@ describe('messageActions', () => {
       });
 
       store.dispatch(doNarrow(privateNarrow('a@a.com')));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(0);
     });
   });
 });
