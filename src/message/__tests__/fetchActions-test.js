@@ -29,12 +29,14 @@ describe('fetchActions', () => {
           },
         },
       });
-
-      const response = '{"messages": [{"id": 1}, {"id": 2}, {"id": 3}], "result": "success"}';
-      fetch.mockResponseSuccess(response);
+      const response = { messages: [{ id: 1 }, { id: 2 }, { id: 3 }], result: 'success' };
+      fetch.mockResponseSuccess(JSON.stringify(response));
 
       await store.dispatch(backgroundFetchMessages(homeNarrow, 0, 1, 1, true));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(1);
+      expect(actions[0].type).toBe('MESSAGE_FETCH_COMPLETE');
     });
   });
 
@@ -50,7 +52,10 @@ describe('fetchActions', () => {
       });
 
       store.dispatch(fetchMessages(homeNarrow, 0, 1, 1, true));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(1);
+      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
 
     test('when no messages to be fetched before the anchor, fetchingOlder is false', () => {
@@ -64,7 +69,10 @@ describe('fetchActions', () => {
       });
 
       store.dispatch(fetchMessages(homeNarrow, 0, -1, 1, true));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(1);
+      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
 
     test('when no messages to be fetched after the anchor, fetchingNewer is false', () => {
@@ -78,7 +86,10 @@ describe('fetchActions', () => {
       });
 
       store.dispatch(fetchMessages(homeNarrow, 0, 1, -1, true));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(1);
+      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
   });
 
@@ -94,7 +105,10 @@ describe('fetchActions', () => {
       });
 
       store.dispatch(fetchMessagesAtFirstUnread(homeNarrow));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(1);
+      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
   });
 
@@ -108,18 +122,22 @@ describe('fetchActions', () => {
           [homeNarrowStr]: { older: false },
         },
         chat: {
-          fetchingOlder: false,
           narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 2 }],
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
           },
         },
-        fetching: {},
+        fetching: {
+          [homeNarrowStr]: { older: false, newer: false },
+        },
       });
 
       store.dispatch(fetchOlder(homeNarrow));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(1);
+      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
 
     test('when caughtUp older is true, no action is dispatched', () => {
@@ -131,18 +149,21 @@ describe('fetchActions', () => {
           [homeNarrowStr]: { older: true },
         },
         chat: {
-          fetchingOlder: false,
           narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 2 }],
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
           },
         },
-        fetching: {},
+        fetching: {
+          [homeNarrowStr]: { older: false, newer: false },
+        },
       });
 
       store.dispatch(fetchOlder(homeNarrow));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(0);
     });
 
     test('when fetchingOlder older is true, no action is dispatched', () => {
@@ -154,18 +175,21 @@ describe('fetchActions', () => {
           [homeNarrowStr]: { older: false },
         },
         chat: {
-          fetchingOlder: true,
           narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 2 }],
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
           },
         },
-        fetching: {},
+        fetching: {
+          [homeNarrowStr]: { older: true, newer: false },
+        },
       });
 
       store.dispatch(fetchOlder(homeNarrow));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(0);
     });
 
     test('when needsInitialFetch is true, no action is dispatched', () => {
@@ -188,9 +212,12 @@ describe('fetchActions', () => {
       });
 
       store.dispatch(fetchOlder(homeNarrow));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(0);
     });
   });
+
   describe('fetchNewer', () => {
     test('message fetch start action is dispatched with fetchingNewer true', () => {
       const store = mockStore({
@@ -211,7 +238,10 @@ describe('fetchActions', () => {
       });
 
       store.dispatch(fetchNewer(homeNarrow));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(1);
+      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
 
     test('when caughtUp newer is true, no action is dispatched', () => {
@@ -234,7 +264,9 @@ describe('fetchActions', () => {
       });
 
       store.dispatch(fetchNewer(homeNarrow));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(0);
     });
 
     test('when fetching.newer is true, no action is dispatched', () => {
@@ -258,7 +290,10 @@ describe('fetchActions', () => {
       });
 
       store.dispatch(fetchNewer(homeNarrow));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(1);
+      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
 
     test('when needsInitialFetch is true, no action is dispatched', () => {
@@ -281,7 +316,9 @@ describe('fetchActions', () => {
       });
 
       store.dispatch(fetchNewer(homeNarrow));
-      expect(store.getActions()).toMatchSnapshot();
+      const actions = store.getActions();
+
+      expect(actions.length).toBe(0);
     });
   });
 });
