@@ -166,6 +166,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
       : narrow;
 
     actions.addToOutbox(destinationNarrow, messageToSend);
+    actions.deleteDraft(JSON.stringify(narrow));
 
     this.clearMessageInput();
   };
