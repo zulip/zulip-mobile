@@ -53,7 +53,6 @@ describe('draftsReducers', () => {
 
       const action = deepFreeze({
         type: DRAFT_REMOVE,
-        content: 'Hello',
         narrow: getNarrowString(topicNarrow('denmark', 'denmark2')),
       });
 
@@ -71,7 +70,6 @@ describe('draftsReducers', () => {
 
       const action = deepFreeze({
         type: DRAFT_REMOVE,
-        content: 'Hello',
         narrow: getNarrowString(topicNarrow('someOther', 'denmark2')),
       });
 

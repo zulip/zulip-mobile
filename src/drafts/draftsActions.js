@@ -1,6 +1,5 @@
 /* @flow */
 import { DRAFT_ADD, DRAFT_REMOVE } from '../actionConstants';
-import type { Draft } from '../types';
 
 export const saveToDrafts = (narrow: string, content: string) => ({
   type: DRAFT_ADD,
@@ -8,7 +7,7 @@ export const saveToDrafts = (narrow: string, content: string) => ({
   content,
 });
 
-export const deleteDraft = (draft: Draft) => ({
+export const deleteDraft = (narrow: string) => ({
   type: DRAFT_REMOVE,
-  draft,
+  narrow,
 });
