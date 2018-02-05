@@ -15,16 +15,14 @@ export default (state: DraftState = initialState, action: Action): DraftState =>
         ? state
         : { ...state, [action.narrow]: action.content };
 
-    case DRAFT_REMOVE:
-      return !state[action.narrow]
-        ? state
-        : Object.keys(state).reduce((result, key) => {
-            if (key === action.narrow) {
-              return result;
-            }
-            result[key] = action.content;
-            return result;
-          }, {});
+    case DRAFT_REMOVE: {
+      if (!state[action.narrow]) {
+        return state;
+      }
+      const newState = { ...state };
+      delete newState[action.narrow];
+      return newState;
+    }
 
     default:
       return state;
