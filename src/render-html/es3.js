@@ -163,6 +163,9 @@ window.addEventListener('scroll', function () {
     endMessageId: Math.max(prevNodes.end, currentNodes.end)
   }), '*');
 
+  var nearEnd = document.body.offsetHeight - window.scrollY - window.innerHeight > 100;
+  document.getElementById('scroll-bottom').classList.toggle('hidden', !nearEnd);
+
   prevNodes = currentNodes;
 });
 
@@ -205,6 +208,10 @@ document.body.addEventListener('click', function (e) {
       messageId: +getMessageIdFromNode(e.target),
       voted: e.target.classList.contains('self-voted')
     });
+  }
+
+  if (e.target.matches('.scroll-bottom')) {
+    scrollToBottom();
   }
 });
 
