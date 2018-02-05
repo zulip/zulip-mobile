@@ -187,6 +187,9 @@ export default class ComposeBox extends PureComponent<Props, State> {
   tryUpdateDraft = () => {
     const { actions, draft, narrow } = this.props;
     const { message } = this.state;
+
+    if (!draft && message.trim().length === 0) return; // do not add empty message draft
+
     if (draft !== message) {
       actions.saveToDrafts(JSON.stringify(narrow), message);
     }
