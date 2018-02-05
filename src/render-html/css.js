@@ -355,6 +355,24 @@ ul {
   color: white;
   font-size: 10px;
 }
+#scroll-bottom {
+  position: fixed;
+  z-index: 200;
+  right: 5px;
+  bottom: 15px;
+}
+#scroll-bottom a {
+  display: block;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(82, 194, 175, 0.5);
+}
+#scroll-bottom svg {
+  width: 32px;
+  height: 32px;
+  fill: rgba(255, 255, 255, 0.75);
+}
 `;
 
 const darkTheme = `
