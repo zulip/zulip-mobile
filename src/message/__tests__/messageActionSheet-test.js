@@ -1,14 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
 import { constructActionButtons, constructHeaderActionButtons } from '../messageActionSheet';
-import {
-  streamNarrow,
-  homeNarrow,
-  specialNarrow,
-  privateNarrow,
-  topicNarrow,
-  groupNarrow,
-} from '../../utils/narrow';
 import extractString from '../../i18n/extractString';
 
 describe('constructActionButtons', () => {
@@ -29,79 +21,6 @@ describe('constructActionButtons', () => {
       1: true,
       2: true,
     },
-  });
-
-  test('do not show narrow option in bottom most narrow', () => {
-    const group = deepFreeze(groupNarrow(['abc@zulip.com, xyz@zulip.com']));
-    const topic = deepFreeze(topicNarrow('Denmark', 'Copenhagen'));
-    const pmNarrow = deepFreeze(privateNarrow('abc@zulip.com'));
-    const special = deepFreeze(specialNarrow('private'));
-    const home = deepFreeze(homeNarrow);
-    const stream = deepFreeze(streamNarrow('all'));
-
-    const message = deepFreeze({});
-
-    const groupButtons = constructActionButtons({
-      message,
-      auth,
-      narrow: group,
-      subscriptions,
-      mute,
-      flags,
-      getString,
-    });
-    const topicButtons = constructActionButtons({
-      message,
-      auth,
-      narrow: topic,
-      subscriptions,
-      mute,
-      flags,
-      getString,
-    });
-    const privateButtons = constructActionButtons({
-      message,
-      auth,
-      narrow: pmNarrow,
-      subscriptions,
-      mute,
-      flags,
-      getString,
-    });
-    const specialButtons = constructActionButtons({
-      message,
-      auth,
-      narrow: special,
-      subscriptions,
-      mute,
-      flags,
-      getString,
-    });
-    const homeButtons = constructActionButtons({
-      message,
-      auth,
-      narrow: home,
-      subscriptions,
-      mute,
-      flags,
-      getString,
-    });
-    const streamButtons = constructActionButtons({
-      message,
-      auth,
-      narrow: stream,
-      subscriptions,
-      mute,
-      flags,
-      getString,
-    });
-
-    expect(groupButtons).not.toContain('Narrow to conversation');
-    expect(topicButtons).not.toContain('Narrow to conversation');
-    expect(privateButtons).not.toContain('Narrow to conversation');
-    expect(specialButtons).toContain('Narrow to conversation');
-    expect(homeButtons).toContain('Narrow to conversation');
-    expect(streamButtons).toContain('Narrow to conversation');
   });
 
   test('show star message option if message is not starred', () => {

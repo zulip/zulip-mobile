@@ -7,12 +7,7 @@ import type {
   ActionSheetButtonType,
   AuthGetStringAndMessageType,
 } from '../types';
-import {
-  getNarrowFromMessage,
-  isHomeNarrow,
-  isStreamNarrow,
-  isSpecialNarrow,
-} from '../utils/narrow';
+import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
 import {
   getMessageById,
@@ -23,13 +18,6 @@ import {
   toggleMessageStarred,
 } from '../api';
 import { showToast } from '../utils/info';
-
-type MessageAndDoNarrowType = {
-  message: Object,
-  actions: Actions,
-  auth: Auth,
-  currentRoute?: string,
-};
 
 type ReplyOptionType = {
   message: Object,
@@ -101,13 +89,6 @@ type AuthMessageAndNarrow = {
 };
 
 const isAnOutboxMessage = ({ message }: Message): boolean => message.isOutbox;
-
-const narrowToConversation = ({ message, actions, auth, currentRoute }: MessageAndDoNarrowType) => {
-  actions.doNarrow(getNarrowFromMessage(message, auth.email), message.id);
-  if (currentRoute === 'search') {
-    actions.navigateBack();
-  }
-};
 
 const reply = ({ message, actions, auth, currentRoute, onReplySelect }: ReplyOptionType) => {
   actions.doNarrow(getNarrowFromMessage(message, auth.email), message.id);
@@ -212,7 +193,6 @@ const actionSheetButtons: ActionSheetButtonType[] = [
       resolveMultiple(message, auth, narrow, [isSentMessage, isSentBySelf]),
   },
   // If skip then covered in constructActionButtons
-  { title: 'Narrow to conversation', onPress: narrowToConversation, onlyIf: skip },
   { title: 'Star message', onPress: starMessage, onlyIf: skip },
   { title: 'Unstar message', onPress: unstarMessage, onlyIf: skip },
   { title: 'Cancel', onPress: skip, onlyIf: skip },
@@ -265,10 +245,6 @@ export const constructActionButtons = ({
   const buttons = actionSheetButtons
     .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))
     .map(x => getString(x.title));
-  // These are dependent conditions, hence better if we manage here rather than using onlyIf
-  if (isHomeNarrow(narrow) || isStreamNarrow(narrow) || isSpecialNarrow(narrow)) {
-    buttons.push('Narrow to conversation');
-  }
   if (isSentMessage({ message })) {
     if (message.id in flags.starred) {
       buttons.push(getString('Unstar message'));
