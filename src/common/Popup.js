@@ -5,9 +5,9 @@ import { View, Dimensions, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   popup: {
-    position: 'absolute',
-    left: 20,
-    right: 20,
+    marginRight: 20,
+    marginLeft: 20,
+    marginBottom: 2,
     bottom: 0,
     borderRadius: 5,
     shadowOpacity: 0.25,

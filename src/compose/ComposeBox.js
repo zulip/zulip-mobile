@@ -28,6 +28,11 @@ const MIN_HEIGHT = 42;
 const MAX_HEIGHT = 100;
 
 const componentStyles = StyleSheet.create({
+  autocompleteWrapper: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+  },
   bottom: {
     flexDirection: 'column',
     justifyContent: 'flex-end',
@@ -279,16 +284,18 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
     return (
       <View>
-        <TopicAutocomplete
-          isFocused={isTopicFocused}
-          text={topic}
-          onAutocomplete={this.handleTopicChange}
-        />
-        <AutoCompleteView
-          text={message}
-          onAutocomplete={this.handleMessageChange}
-          selection={selection}
-        />
+        <View style={[componentStyles.autocompleteWrapper, { marginBottom: totalHeight }]}>
+          <TopicAutocomplete
+            isFocused={isTopicFocused}
+            text={topic}
+            onAutocomplete={this.handleTopicChange}
+          />
+          <AutoCompleteView
+            text={message}
+            onAutocomplete={this.handleMessageChange}
+            selection={selection}
+          />
+        </View>
         <View
           style={[styles.composeBox, { height: totalHeight, marginBottom: safeAreaInsets.bottom }]}
         >
