@@ -11,22 +11,35 @@ type Props = {
   style?: StyleObj,
 };
 
-export default class AnimatedScaleComponent extends PureComponent<Props> {
+type State = {
+  visible: boolean,
+};
+
+export default class AnimatedScaleComponent extends PureComponent<Props, State> {
   props: Props;
+  state: State;
+
+  state = {
+    visible: this.props.visible,
+  };
 
   animatedValue = new Animated.Value(this.props.visible ? 1 : 0);
 
   componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.visible) {
+      this.setState({ visible: true });
+    }
     Animated.timing(this.animatedValue, {
       toValue: nextProps.visible ? 1 : 0,
       duration: 300,
       useNativeDriver: true,
       easing: Easing.elastic(),
-    }).start();
+    }).start(() => this.setState({ visible: nextProps.visible }));
   }
 
   render() {
-    const { children, visible, style } = this.props;
+    const { children, style } = this.props;
+    const { visible } = this.state;
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }],
       opacity: this.animatedValue,
