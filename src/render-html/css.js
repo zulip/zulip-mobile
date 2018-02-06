@@ -224,8 +224,8 @@ th, td {
   100% { transform: rotate(360deg); }
 }
 .loading-spinner, .outbox-spinner {
-  width: 3em;
-  height: 3em;
+  width: 2em;
+  height: 2em;
   border-radius: 50%;
   margin: 1em auto;
   font-size: 10px;

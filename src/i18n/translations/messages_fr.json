@@ -1,6 +1,7 @@
 {
   "{_}": "{_}",
   "Home": "Accueil",
+  "All messages": "Tous les messages",
   "Private messages": "Messages privés",
   "Starred": "Favoris",
   "Mentions": "Mentions",
@@ -34,7 +35,7 @@
   "Why not start the conversation?": "Pourquoi ne pas commencer la conversation ?",
   "Chat": "Chat",
   "Log in with Google": "Se connecter avec Google",
-  "Log in with GitHub": "Se connecter avec GitHub",
+  "Log in with GitHub": "Log in with GitHub",
   "Log in with password": "Connexion avec mot de passe",
   "Log in with dev account": "Connexion avec compte dev",
   "Can not connect to server": "N'arrive pas à se connecter au serveur",

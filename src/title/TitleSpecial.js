@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 const specials = {
-  home: { name: 'Home', icon: 'home' },
+  home: { name: 'All messages', icon: 'home' },
   private: { name: 'Private messages', icon: 'mail' },
   starred: { name: 'Starred', icon: 'star' },
   mentioned: { name: 'Mentions', icon: 'at-sign' },
