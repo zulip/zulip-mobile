@@ -20,9 +20,16 @@ type Props = {
   ownEmail: string,
 };
 
-export default class Chat extends PureComponent<Props> {
-  messageInputRef = null;
-  messageInputRef: any;
+type State = {
+  invalidateFlag: boolean,
+};
+
+export default class Chat extends PureComponent<Props, State> {
+  messageInputRef: any = null;
+  shouldFocusComposeBox: boolean = false;
+  state = {
+    invalidateFlag: false,
+  };
 
   static contextTypes = {
     styles: () => null,
@@ -43,15 +50,15 @@ export default class Chat extends PureComponent<Props> {
     if (lastMessage.sender_email === ownEmail && this.listComponent) {
       this.listComponent.scrollToEnd();
     }
+
+    this.shouldFocusComposeBox = false;
   }
 
   handleReplySelect = () => {
-    // set a timeout because it's take time to render ComposeBox after narrowing from home
-    setTimeout(() => {
-      if (this.messageInputRef) {
-        this.messageInputRef.focus();
-      }
-    }, 300);
+    this.shouldFocusComposeBox = true;
+    this.setState({
+      invalidateFlag: !this.state.invalidateFlag,
+    });
   };
 
   render() {
@@ -74,11 +81,7 @@ export default class Chat extends PureComponent<Props> {
               />
             </ActionSheetProvider>
             {!showMessagePlaceholders && (
-              <ComposeBoxContainer
-                messageInputRef={(component: any) => {
-                  this.messageInputRef = component || this.messageInputRef;
-                }}
-              />
+              <ComposeBoxContainer shouldFocus={this.shouldFocusComposeBox} />
             )}
           </View>
         </ActionSheetProvider>

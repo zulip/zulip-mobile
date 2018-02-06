@@ -51,6 +51,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
+  actions: Actions,
   auth: Auth,
   canSend: boolean,
   narrow: Narrow,
@@ -60,7 +61,7 @@ type Props = {
   isSubscribed: boolean,
   editMessage: EditMessage,
   safeAreaInsets: Dimensions,
-  actions: Actions,
+  shouldFocus: boolean,
   messageInputRef: (component: any) => void,
   onSend: () => void,
 };
@@ -215,6 +216,14 @@ export default class ComposeBox extends PureComponent<Props, State> {
     }
   }
 
+  componentDidUpdate() {
+    const { canSend, isSubscribed, shouldFocus } = this.props;
+
+    if (shouldFocus && canSend && isSubscribed) {
+      this.messageInput.focus();
+    }
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
       const topic =
@@ -326,7 +335,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
               placeholder={placeholder}
               textInputRef={component => {
                 this.messageInput = component;
-                if (component) messageInputRef(component);
+                if (component && messageInputRef) messageInputRef(component);
               }}
               onChange={this.handleMessageChange}
               onFocus={this.handleMessageFocus}
