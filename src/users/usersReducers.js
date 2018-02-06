@@ -32,10 +32,12 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
       return initialState;
 
     case INIT_USERS:
-      return action.users.map(mapApiToStateUser);
+      return initialState;
+    // return action.users.map(mapApiToStateUser);
 
     case REALM_INIT:
-      return action.data.realm_users.map(mapApiToStateUser);
+      return initialState;
+    // return action.data.realm_users.map(mapApiToStateUser);
 
     case EVENT_USER_ADD:
       return [...state, mapApiToStateUser(action.person)];

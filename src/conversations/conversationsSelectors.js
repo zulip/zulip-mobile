@@ -4,7 +4,11 @@ import { createSelector } from 'reselect';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
 import { getPrivateMessages } from '../baseSelectors';
-import { normalizeRecipientsSansMe, getRecipientsIds } from '../utils/message';
+import {
+  normalizeRecipientsSansMe,
+  normalizeRecipientsNamesSansMe,
+  getRecipientsIds,
+} from '../utils/message';
 
 export const getRecentConversations = createSelector(
   getOwnEmail,
@@ -15,6 +19,7 @@ export const getRecentConversations = createSelector(
     const recipients = messages.map(msg => ({
       ids: getRecipientsIds(msg.display_recipient, ownEmail),
       emails: normalizeRecipientsSansMe(msg.display_recipient, ownEmail),
+      names: normalizeRecipientsNamesSansMe(msg.display_recipient, ownEmail),
       timestamp: msg.timestamp,
     }));
 
@@ -24,6 +29,7 @@ export const getRecentConversations = createSelector(
         uniqueMap.set(recipient.emails, {
           ids: recipient.ids,
           recipients: recipient.emails,
+          names: recipient.names,
           timestamp: recipient.timestamp || 0,
         });
       } else {
@@ -32,6 +38,7 @@ export const getRecentConversations = createSelector(
         uniqueMap.set(recipient.emails, {
           ids: recipient.ids,
           recipients: recipient.emails,
+          names: recipient.names,
           timestamp: Math.max((prev && prev.timestamp) || 0, recipient.timestamp || 0),
         });
       }

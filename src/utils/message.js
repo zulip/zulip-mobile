@@ -11,10 +11,24 @@ export const normalizeRecipients = (recipients: Recipient[]) =>
         .sort()
         .join(',');
 
+export const normalizeRecipientsName = (recipients: Recipient[]) =>
+  !Array.isArray(recipients)
+    ? recipients
+    : recipients
+        .map(s => s.full_name.trim())
+        .filter(x => x.length > 0)
+        .sort()
+        .join(',');
+
 export const normalizeRecipientsSansMe = (recipients: Recipient[], ownEmail: string) =>
   recipients.length === 1
     ? recipients[0].email
     : normalizeRecipients(recipients.filter(r => r.email !== ownEmail));
+
+export const normalizeRecipientsNamesSansMe = (recipients: Recipient[], ownEmail: string) =>
+  recipients.length === 1
+    ? recipients[0].email
+    : normalizeRecipientsName(recipients.filter(r => r.email !== ownEmail));
 
 export const getRecipientsIds = (recipients: Recipient[], ownEmail?: string): string =>
   recipients.length === 2
