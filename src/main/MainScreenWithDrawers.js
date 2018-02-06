@@ -1,6 +1,6 @@
 /* @TODO flow */
 import React, { PureComponent } from 'react';
-import { BackHandler } from 'react-native';
+import { BackHandler, Keyboard } from 'react-native';
 import { DrawerNavigator } from 'react-navigation';
 
 import MainScreen from './MainScreen';
@@ -23,6 +23,16 @@ export const Drawer = DrawerNavigator(
     drawerToggleRoute: 'DrawerToggle',
   },
 );
+
+const defaultGetStateForAction = Drawer.router.getStateForAction;
+
+Drawer.router.getStateForAction = (action, state) => {
+  if (state && action.type === 'Navigation/NAVIGATE' && action.routeName === 'DrawerOpen') {
+    Keyboard.dismiss();
+  }
+
+  return defaultGetStateForAction(action, state);
+};
 
 class MainScreenWithDrawers extends PureComponent<{}> {
   componentDidMount() {
