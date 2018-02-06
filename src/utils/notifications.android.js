@@ -6,12 +6,16 @@ import { registerPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { handleNotification } from './notificationsCommon';
 
-export const handlePendingNotifications = async (notification: Object) => {
+export const handlePendingNotifications = async (
+  notification: Object,
+  pending: boolean,
+  doNarrowAtAnchor: Actions.doNarrow,
+) => {
   if (notification) {
     const data = notification.getData();
     console.log('Opened app by notification', data); //eslint-disable-line
     if (data) {
-      handleNotification(data, data.zulip_message_id);
+      handleNotification(data, data.zulip_message_id, pending, doNarrowAtAnchor);
     }
   }
 };
@@ -43,9 +47,9 @@ export const refreshNotificationToken = () => {
   NotificationsAndroid.refreshToken();
 };
 
-export const tryInitialNotification = async () => {
+export const tryInitialNotification = async (doNarrowAtAnchor: Actions.doNarrow) => {
   const data = await PendingNotifications.getInitialNotification();
   if (data && data.getData) {
-    handlePendingNotifications(data);
+    handlePendingNotifications(data, true, doNarrowAtAnchor);
   }
 };
