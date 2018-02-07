@@ -60,7 +60,9 @@ const handleMessageBottom = msg => {
 };
 
 const handleMessageContent = msg => {
-  const msgNode = document.getElementById(`msg-${msg.anchor}`);
+  const msgNode =
+    document.getElementById(`msg-${msg.anchor}`) ||
+    getMessageNode(document.elementFromPoint(200, 50));
 
   scrollEventsDisabled = true;
   if (msg.noMessages) {
