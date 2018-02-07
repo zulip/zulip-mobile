@@ -8,6 +8,7 @@ import android.util.Pair;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
+import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
 import com.wix.reactnativenotifications.RNNotificationsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.github.yamill.orientation.OrientationPackage;
@@ -51,6 +52,7 @@ public class MainApplication extends Application implements ReactApplication, IN
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+                    new RNTextInputResetPackage(),
                     new ImagePickerPackage(),
                     new OrientationPackage(),
                     new RNSentryPackage(MainApplication.this),

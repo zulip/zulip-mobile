@@ -1,6 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Platform, StyleSheet, View, TextInput } from 'react-native';
+import { Platform, StyleSheet, View, TextInput, findNodeHandle } from 'react-native';
+import TextInputReset from 'react-native-text-input-reset';
 import isEqual from 'lodash.isequal';
 
 import type {
@@ -156,7 +157,11 @@ export default class ComposeBox extends PureComponent<Props, State> {
   clearMessageInput = () => {
     if (this.messageInput) {
       this.messageInput.clear();
+      if (TextInputReset) {
+        TextInputReset.resetKeyboardInput(findNodeHandle(this.messageInput));
+      }
     }
+
     this.handleMessageChange('');
   };
 
