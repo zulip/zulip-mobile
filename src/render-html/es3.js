@@ -65,7 +65,7 @@ var handleMessageBottom = function handleMessageBottom(msg) {
 };
 
 var handleMessageContent = function handleMessageContent(msg) {
-  var msgNode = document.getElementById('msg-' + msg.anchor);
+  var msgNode = document.getElementById('msg-' + msg.anchor) || getMessageNode(document.elementFromPoint(200, 50));
 
   scrollEventsDisabled = true;
   if (msg.noMessages) {
