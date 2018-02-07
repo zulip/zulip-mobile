@@ -46,12 +46,13 @@ export default class Chat extends PureComponent<Props> {
   }
 
   handleReplySelect = () => {
-    // set a timeout because it's take time to render ComposeBox after narrowing from home
-    setTimeout(() => {
-      if (this.messageInputRef) {
+    if (this.messageInputRef) {
+      try {
         this.messageInputRef.focus();
+      } catch (e) {
+        // do not crash if component is mounted
       }
-    }, 300);
+    }
   };
 
   render() {
