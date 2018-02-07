@@ -3,10 +3,12 @@ import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { REHYDRATE } from 'redux-persist/constants';
 import createActionBuffer from 'redux-action-buffer';
-
+import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 import config from '../config';
 
-const middleware = [thunk, createActionBuffer(REHYDRATE)];
+const reactNavigationMiddleware = createReactNavigationReduxMiddleware('root', state => state.nav);
+
+const middleware = [reactNavigationMiddleware, thunk, createActionBuffer(REHYDRATE)];
 
 if (config.enableReduxLogging) {
   middleware.push(
