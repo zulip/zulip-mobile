@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { BackHandler } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';
+import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
 import connectWithActions from '../connectWithActions';
 import { getCanGoBack } from '../selectors';
@@ -35,12 +36,14 @@ class AppWithNavigation extends PureComponent<Props> {
 
   render() {
     const { dispatch, nav } = this.props;
+    const addListener = createReduxBoundAddListener('root');
 
     return (
       <AppNavigator
         navigation={addNavigationHelpers({
           state: nav,
           dispatch,
+          addListener,
         })}
       />
     );
