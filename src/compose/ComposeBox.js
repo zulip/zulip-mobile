@@ -284,7 +284,12 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
     return (
       <View>
-        <View style={[componentStyles.autocompleteWrapper, { marginBottom: totalHeight }]}>
+        <View
+          style={[
+            componentStyles.autocompleteWrapper,
+            { marginBottom: totalHeight + safeAreaInsets.bottom },
+          ]}
+        >
           <TopicAutocomplete
             isFocused={isTopicFocused}
             text={topic}
