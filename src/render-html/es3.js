@@ -113,23 +113,16 @@ var handleLongPress = function handleLongPress(e) {
   });
 };
 
+var messageHandlers = {
+  bottom: handleMessageBottom,
+  content: handleMessageContent,
+  fetching: handleMessageFetching,
+  typing: handleMessageTyping
+};
+
 document.addEventListener('message', function (e) {
   var msg = JSON.parse(e.data);
-  switch (msg.type) {
-    case 'bottom':
-      handleMessageBottom(msg);
-      break;
-    case 'content':
-      handleMessageContent(msg);
-      break;
-    case 'fetching':
-      handleMessageFetching(msg);
-      break;
-    case 'typing':
-      handleMessageTyping(msg);
-      break;
-    default:
-  }
+  messageHandlers[msg.type](msg);
 });
 
 var isMessageNode = function isMessageNode(node) {

@@ -110,23 +110,16 @@ const handleLongPress = e => {
   });
 };
 
+const messageHandlers = {
+  bottom: handleMessageBottom,
+  content: handleMessageContent,
+  fetching: handleMessageFetching,
+  typing: handleMessageTyping,
+};
+
 document.addEventListener('message', e => {
   const msg = JSON.parse(e.data);
-  switch (msg.type) {
-    case 'bottom':
-      handleMessageBottom(msg);
-      break;
-    case 'content':
-      handleMessageContent(msg);
-      break;
-    case 'fetching':
-      handleMessageFetching(msg);
-      break;
-    case 'typing':
-      handleMessageTyping(msg);
-      break;
-    default:
-  }
+  messageHandlers[msg.type](msg);
 });
 
 const isMessageNode = node => node && node.getAttribute && node.hasAttribute('data-msg-id');
