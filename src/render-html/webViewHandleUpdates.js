@@ -5,7 +5,7 @@ import type { Props } from '../message/MessageListContainer';
 import htmlBody from './htmlBody';
 import renderMessagesAsHtml from './renderMessagesAsHtml';
 import messageTypingAsHtml from './messageTypingAsHtml';
-import { getMessageTransitionProps } from '../message/messageUpdates';
+import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/messageUpdates';
 
 let previousContent = '';
 
@@ -18,12 +18,13 @@ const updateContent = (prevProps: Props, nextProps: Props, sendMessage: any => v
 
   previousContent = content;
   const transitionProps = getMessageTransitionProps(prevProps, nextProps);
+  const updateStrategy = getMessageUpdateStrategy(transitionProps);
 
   sendMessage({
     type: 'content',
     anchor: nextProps.anchor,
     content,
-    ...transitionProps,
+    updateStrategy,
   });
 };
 
