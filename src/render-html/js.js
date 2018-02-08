@@ -59,28 +59,48 @@ const handleMessageBottom = msg => {
   scrollToBottom();
 };
 
-const handleMessageContent = msg => {
-  const msgNode =
-    document.getElementById(`msg-${msg.anchor}`) ||
-    getMessageNode(document.elementFromPoint(200, 50));
+const replaceContent = msg => {
+  document.body.innerHTML = msg.content;
+};
 
-  scrollEventsDisabled = true;
-  if (msg.noMessages) {
+const updateContentAndScrollToAnchor = msg => {
+  document.body.innerHTML = msg.content;
+  scrollToAnchor(msg.anchor);
+};
+
+const updateContentAndScrollToBottom = msg => {
+  document.body.innerHTML = msg.content;
+  scrollToBottom();
+};
+
+const updateContentAndPreservePosition = msg => {
+  const msgNode = getMessageNode(document.elementFromPoint(200, 50));
+  if (!msgNode) {
     document.body.innerHTML = msg.content;
-  } else if (!msgNode) {
-    document.body.innerHTML = msg.content;
-    scrollToAnchor(msg.anchor);
-  } else if (isNearBottom() && msg.messageDiff === 1) {
-    document.body.innerHTML = msg.content;
-    scrollToBottom();
   } else {
+    const msgId = getMessageIdFromNode(msgNode);
     const prevBoundRect = msgNode.getBoundingClientRect();
     document.body.innerHTML = msg.content;
-    const newElement = document.getElementById(`msg-${msg.anchor}`);
+    const newElement = document.getElementById(`msg-${msgId}`);
     if (newElement) {
       const newBoundRect = newElement.getBoundingClientRect();
       window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
     }
+  }
+};
+
+const handleMessageContent = msg => {
+  scrollEventsDisabled = true;
+  if (msg.noMessages) {
+    replaceContent(msg);
+  } else if (msg.noNewMessages) {
+    updateContentAndPreservePosition(msg);
+  } else if (!msg.sameNarrow) {
+    updateContentAndScrollToAnchor(msg);
+  } else if (msg.onlyOneNewMessage && isNearBottom()) {
+    updateContentAndScrollToBottom(msg);
+  } else {
+    updateContentAndPreservePosition(msg);
   }
   scrollEventsDisabled = false;
 };

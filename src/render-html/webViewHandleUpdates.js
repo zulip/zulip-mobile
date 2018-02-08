@@ -11,17 +11,42 @@ let previousContent = '';
 const updateContent = (prevProps: Props, nextProps: Props, sendMessage: any => void) => {
   const content = htmlBody(renderMessagesAsHtml(nextProps), nextProps.showMessagePlaceholders);
 
-  if (content !== previousContent) {
-    previousContent = content;
-    sendMessage({
-      type: 'content',
-      anchor: nextProps.anchor,
-      sameNarrow: isEqual(prevProps.narrow, nextProps.narrow),
-      noMessages: nextProps.messages.length === 0,
-      messageDiff: nextProps.messages.length - prevProps.messages.length,
-      content,
-    });
+  if (content === previousContent) {
+    return;
   }
+
+  previousContent = content;
+  const sameNarrow = isEqual(prevProps.narrow, nextProps.narrow);
+  const noMessages = nextProps.messages.length === 0;
+  const noNewMessages = sameNarrow && prevProps.messages.length === nextProps.messages.length;
+  const oldMessages =
+    sameNarrow &&
+    prevProps.messages.length > 0 &&
+    nextProps.messages.length > 0 &&
+    prevProps.messages[0].id > nextProps.messages[0].id;
+  const newMessages =
+    sameNarrow &&
+    prevProps.messages.length > 0 &&
+    nextProps.messages.length > 0 &&
+    prevProps.messages[prevProps.messages.length - 1].id <
+      nextProps.messages[nextProps.messages.length - 1].id;
+  const onlyOneNewMessage =
+    prevProps.messages.length > 0 &&
+    nextProps.messages.length > 1 &&
+    prevProps.messages[prevProps.messages.length - 1].id ===
+      nextProps.messages[nextProps.messages.length - 2].id;
+
+  sendMessage({
+    type: 'content',
+    anchor: nextProps.anchor,
+    sameNarrow,
+    noMessages,
+    noNewMessages,
+    onlyOneNewMessage,
+    oldMessages,
+    newMessages,
+    content,
+  });
 };
 
 const updateFetching = (prevProps: Props, nextProps: Props, sendMessage: any => void) => {

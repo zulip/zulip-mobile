@@ -64,26 +64,48 @@ var handleMessageBottom = function handleMessageBottom(msg) {
   scrollToBottom();
 };
 
-var handleMessageContent = function handleMessageContent(msg) {
-  var msgNode = document.getElementById('msg-' + msg.anchor) || getMessageNode(document.elementFromPoint(200, 50));
+var replaceContent = function replaceContent(msg) {
+  document.body.innerHTML = msg.content;
+};
 
-  scrollEventsDisabled = true;
-  if (msg.noMessages) {
+var updateContentAndScrollToAnchor = function updateContentAndScrollToAnchor(msg) {
+  document.body.innerHTML = msg.content;
+  scrollToAnchor(msg.anchor);
+};
+
+var updateContentAndScrollToBottom = function updateContentAndScrollToBottom(msg) {
+  document.body.innerHTML = msg.content;
+  scrollToBottom();
+};
+
+var updateContentAndPreservePosition = function updateContentAndPreservePosition(msg) {
+  var msgNode = getMessageNode(document.elementFromPoint(200, 50));
+  if (!msgNode) {
     document.body.innerHTML = msg.content;
-  } else if (!msgNode) {
-    document.body.innerHTML = msg.content;
-    scrollToAnchor(msg.anchor);
-  } else if (isNearBottom() && msg.messageDiff === 1) {
-    document.body.innerHTML = msg.content;
-    scrollToBottom();
   } else {
+    var msgId = getMessageIdFromNode(msgNode);
     var prevBoundRect = msgNode.getBoundingClientRect();
     document.body.innerHTML = msg.content;
-    var newElement = document.getElementById('msg-' + msg.anchor);
+    var newElement = document.getElementById('msg-' + msgId);
     if (newElement) {
       var newBoundRect = newElement.getBoundingClientRect();
       window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
     }
+  }
+};
+
+var handleMessageContent = function handleMessageContent(msg) {
+  scrollEventsDisabled = true;
+  if (msg.noMessages) {
+    replaceContent(msg);
+  } else if (msg.noNewMessages) {
+    updateContentAndPreservePosition(msg);
+  } else if (!msg.sameNarrow) {
+    updateContentAndScrollToAnchor(msg);
+  } else if (msg.onlyOneNewMessage && isNearBottom()) {
+    updateContentAndScrollToBottom(msg);
+  } else {
+    updateContentAndPreservePosition(msg);
   }
   scrollEventsDisabled = false;
 };
