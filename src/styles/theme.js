@@ -1,6 +1,6 @@
 /* @flow */
 import { Platform } from 'react-native';
-import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE, NAVBAR_SIZE } from './';
+import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE, NAVBAR_SIZE, NAVBAR_SIZE_LANDSCAPE } from './';
 
 type Props = {
   color: string,
@@ -132,6 +132,15 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     borderColor,
     flexDirection: 'row',
     height: NAVBAR_SIZE,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+  },
+  navBarLandscape: {
+    backgroundColor,
+    borderColor,
+    flexDirection: 'row',
+    height: NAVBAR_SIZE_LANDSCAPE,
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
