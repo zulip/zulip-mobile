@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { homeNarrow, specialNarrow, allPrivateNarrow } from '../utils/narrow';
+import { homeNarrow, specialNarrow } from '../utils/narrow';
 import NavButton from './NavButton';
 import type { Actions, Dimensions, Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -53,7 +53,6 @@ class Sidebar extends PureComponent<Props> {
       <View style={[componentStyles.container, paddingStyles, styles.background]}>
         <View style={componentStyles.iconList}>
           <NavButton name="home" onPress={() => this.doNarrowCloseDrawer(homeNarrow)} />
-          <NavButton name="mail" onPress={() => this.doNarrowCloseDrawer(allPrivateNarrow)} />
           <NavButton
             name="star"
             onPress={() => this.doNarrowCloseDrawer(specialNarrow('starred'))}
