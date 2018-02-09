@@ -39,6 +39,8 @@ export default class ReactionList extends PureComponent<Props> {
             key={x.name}
             messageId={messageId}
             name={x.name}
+            code={x.name}
+            reactionType={x.type}
             voted={x.selfReacted}
             voteCount={x.count}
           />

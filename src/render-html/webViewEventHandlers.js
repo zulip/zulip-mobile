@@ -31,6 +31,8 @@ type MessageListEventImage = {
 type MessageListEventReaction = {
   messageId: number,
   name: string,
+  code: string,
+  reactionType: string,
   voted: boolean,
 };
 
