@@ -35,7 +35,9 @@ export default class UserStatusIndicator extends PureComponent<Props> {
   render() {
     const { presence, style } = this.props;
 
-    if (!presence || !presence.aggregated) return null;
+    if (!presence || !presence.aggregated) {
+      return null;
+    }
 
     return <View style={[styles.common, styles[presence.aggregated.status], style]} />;
   }

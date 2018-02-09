@@ -39,6 +39,7 @@ export const groupUsersByStatus = (users: User[], presences: Object): Object =>
       const status = presences[user.email]
         ? (presences[user.email].aggregated || NULL_PRESENCE_AGGREGATED).status
         : 'offline';
+
       groupedUsers[status].push(user);
       return groupedUsers;
     },

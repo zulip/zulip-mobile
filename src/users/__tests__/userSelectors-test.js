@@ -77,6 +77,13 @@ describe('getUsersStatusActive', () => {
         'abc@example.com': {
           aggregated: {
             status: 'active',
+            timestamp: Date.now() - 10,
+          },
+        },
+        'def@example.com': {
+          aggregated: {
+            status: 'active',
+            timestamp: Date.now() / 1000 - 800,
           },
         },
       },
@@ -101,11 +108,13 @@ describe('getUsersStatusIdle', () => {
         'abc@example.com': {
           aggregated: {
             status: 'idle',
+            timestamp: Date.now() - 50,
           },
         },
         'def@example.com': {
           aggregated: {
             status: 'idle',
+            timestamp: Date.now() - 90,
           },
         },
       },
@@ -133,16 +142,19 @@ describe('getUsersStatusOffline', () => {
         'abc@example.com': {
           aggregated: {
             status: 'offline',
+            timestamp: Date.now() - 90,
           },
         },
         'def@example.com': {
           aggregated: {
             status: 'offline',
+            timestamp: Date.now() - 90,
           },
         },
         'xyz@example.com': {
           aggregated: {
             status: 'offline',
+            timestamp: Date.now() - 90,
           },
         },
       },
