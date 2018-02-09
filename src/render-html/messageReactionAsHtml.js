@@ -9,7 +9,7 @@ const getRealmEmojiHtml = (realmEmoji: ReactionType) =>
 export default (messageId: number, reaction: ReactionType, realmEmoji: Object) =>
   `<span onClick="" class="reaction${reaction.selfReacted ? ' self-voted' : ''}" data-name="${
     reaction.name
-  }">${
+  }" data-code="${reaction.code}" data-type="${reaction.type}">${
     realmEmoji[reaction.name]
       ? getRealmEmojiHtml(realmEmoji[reaction.name])
       : emojiMap[reaction.name]

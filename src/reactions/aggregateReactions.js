@@ -7,8 +7,10 @@ export default (reactions: ReactionType[], ownEmail: string): ReactionType[] =>
       .reduce((reactionMap, x) => {
         if (!reactionMap.has(x.emoji_name)) {
           reactionMap.set(x.emoji_name, {
-            name: x.emoji_name,
+            code: x.emoji_code,
             count: 1,
+            name: x.emoji_name,
+            type: x.reaction_type,
           });
         } else {
           const prevReaction = reactionMap.get(x.emoji_name);
