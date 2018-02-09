@@ -4,6 +4,7 @@ import config from '../config';
 import type { Actions, Auth, FlagsState, Message } from '../types';
 import { isUrlAnImage } from '../utils/url';
 import { filterUnreadMessagesInRange } from '../utils/unread';
+import { parseNarrowString } from '../utils/narrow';
 
 type MessageListEventScroll = {
   innerHeight: number,
@@ -81,7 +82,7 @@ export const handleAvatar = (props: Props, event: MessageListEventAvatar) => {
 };
 
 export const handleNarrow = ({ actions }: Props, event: MessageListEventNarrow) => {
-  actions.doNarrow(JSON.parse(event.narrow.replace(/'/g, '"')));
+  actions.doNarrow(parseNarrowString(event.narrow));
 };
 
 export const handleImage = (props: Props, event: MessageListEventImage) => {

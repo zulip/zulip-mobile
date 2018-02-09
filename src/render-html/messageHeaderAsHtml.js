@@ -7,9 +7,9 @@ import {
   topicNarrow,
   privateNarrow,
   groupNarrow,
+  narrowToString,
+  stringifyNarrow,
 } from '../utils/narrow';
-
-const objToStr = obj => JSON.stringify(obj).replace(/"/g, "'");
 
 export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
   if (Object.keys(item).length === 0) {
@@ -17,7 +17,7 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
   }
 
   if (isStreamNarrow(narrow)) {
-    const topicNarrowStr = objToStr(topicNarrow(item.display_recipient, item.subject));
+    const topicNarrowStr = narrowToString(topicNarrow(item.display_recipient, item.subject));
 
     return `
 <div
@@ -34,8 +34,8 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
     const stream = subscriptions.find(x => x.name === item.display_recipient);
 
     const color = stream ? stream.color : '#ccc';
-    const streamNarrowStr = objToStr(streamNarrow(item.display_recipient));
-    const topicNarrowStr = objToStr(topicNarrow(item.display_recipient, item.subject));
+    const streamNarrowStr = stringifyNarrow(streamNarrow(item.display_recipient));
+    const topicNarrowStr = stringifyNarrow(topicNarrow(item.display_recipient, item.subject));
 
     return `
 <div class="header-wrapper stream-header" data-msg-id="${item.id}">
@@ -64,7 +64,7 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
       recipients.length === 1
         ? privateNarrow(recipients[0].email)
         : groupNarrow(recipients.map(r => r.email));
-    const privateNarrowStr = objToStr(narrowObj);
+    const privateNarrowStr = stringifyNarrow(narrowObj);
 
     return `
 <div class="header-wrapper private-header header" data-narrow="${privateNarrowStr}" data-msg-id="${

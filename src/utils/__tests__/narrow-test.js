@@ -18,6 +18,8 @@ import {
   isSameNarrow,
   isStreamOrTopicNarrow,
   getNarrowFromMessage,
+  stringifyNarrow,
+  parseNarrowString,
 } from '../narrow';
 
 describe('homeNarrow', () => {
@@ -339,5 +341,23 @@ describe('isSameNarrow', () => {
     );
     expect(isSameNarrow(homeNarrow, specialNarrow('private'))).toBe(false);
     expect(isSameNarrow(homeNarrow, homeNarrow)).toBe(true);
+  });
+});
+
+describe('stringifyNarrow', () => {
+  test('convert narrow to escaped html string', () => {
+    expect(stringifyNarrow([])).toEqual('[]');
+    expect(stringifyNarrow([{ operator: 'hey' }])).toEqual(
+      '[{&quot;operator&quot;:&quot;hey&quot;}]',
+    );
+  });
+});
+
+describe('parseNarrowString', () => {
+  test('straightforward arrays are parsed', () => {
+    expect(parseNarrowString('[]')).toEqual([]);
+    expect(parseNarrowString('[{&quot;operator&quot;:&quot;hey&quot;}]')).toEqual([
+      { operator: 'hey' },
+    ]);
   });
 });

@@ -1,5 +1,7 @@
 /* @flow */
 import isEqual from 'lodash.isequal';
+import escape from 'lodash.escape';
+import unescape from 'lodash.unescape';
 
 import type { Narrow, Message, Stream, User } from '../types';
 import { normalizeRecipients } from './message';
@@ -156,3 +158,7 @@ export const validateNarrow = (narrow: Narrow, streams: Stream[], users: User[])
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
   isEqual(narrow1, narrow2);
+
+export const stringifyNarrow = (narrow: Narrow): string => escape(JSON.stringify(narrow));
+
+export const parseNarrowString = (narrowStr: string): Narrow => JSON.parse(unescape(narrowStr));
