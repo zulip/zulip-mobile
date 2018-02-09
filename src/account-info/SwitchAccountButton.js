@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 import type { Auth, Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { ZulipButton } from '../common';
-import { getAuth, getPushToken } from '../selectors';
+import { getAuth, getAccounts, getPushToken } from '../selectors';
 import { unregisterPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 
@@ -51,6 +51,6 @@ class SwitchAccountButton extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
-  accounts: state.accounts,
+  accounts: getAccounts(state),
   pushToken: getPushToken(state),
 }))(SwitchAccountButton);

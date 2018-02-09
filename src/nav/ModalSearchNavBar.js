@@ -4,6 +4,7 @@ import { View, StyleSheet } from 'react-native';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
+import { getNav } from '../selectors';
 import { NAVBAR_SIZE } from '../styles';
 import { Label, SearchInput } from '../common';
 import NavButton from './NavButton';
@@ -88,5 +89,5 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
 }
 
 export default connectWithActions(state => ({
-  nav: state.nav,
+  nav: getNav(state),
 }))(ModalSearchNavBar);

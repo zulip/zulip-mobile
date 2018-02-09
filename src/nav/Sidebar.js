@@ -2,10 +2,11 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import type { Actions, Dimensions, Narrow } from '../types';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import NavButton from './NavButton';
-import type { Actions, Dimensions, Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
+import { getApp } from '../selectors';
 import MainTabs from '../main/MainTabs';
 
 const componentStyles = StyleSheet.create({
@@ -75,5 +76,5 @@ class Sidebar extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  safeAreaInsets: state.app.safeAreaInsets,
+  safeAreaInsets: getApp(state).safeAreaInsets,
 }))(Sidebar);

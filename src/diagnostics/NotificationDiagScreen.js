@@ -4,6 +4,7 @@ import { FlatList } from 'react-native';
 import { Screen } from '../common';
 import InfoItem from './InfoItem';
 import connectWithActions from '../connectWithActions';
+import { getDebug, getRealm } from '../selectors';
 
 type Props = {
   pushToken: { token: string, msg: string, result: string },
@@ -31,6 +32,6 @@ class NotificationDiagScreen extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  pushToken: state.realm.pushToken,
-  initialNotification: state.app.debug.initialNotification,
+  pushToken: getRealm(state).pushToken,
+  initialNotification: getDebug(state).initialNotification,
 }))(NotificationDiagScreen);

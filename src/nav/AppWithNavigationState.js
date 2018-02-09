@@ -5,7 +5,7 @@ import { addNavigationHelpers } from 'react-navigation';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
 import connectWithActions from '../connectWithActions';
-import { getCanGoBack } from '../selectors';
+import { getCanGoBack, getNav } from '../selectors';
 import AppNavigator from './AppNavigator';
 import type { Actions } from '../types';
 
@@ -51,6 +51,6 @@ class AppWithNavigation extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  nav: state.nav,
+  nav: getNav(state),
   canGoBack: getCanGoBack(state),
 }))(AppWithNavigation);

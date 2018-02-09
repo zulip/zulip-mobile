@@ -5,12 +5,12 @@ import {
   getAllMessages,
   getSubscriptions,
   getActiveNarrow,
-  getActiveNarrowString,
   getMute,
   getUsers,
   getStreams,
   getOutbox,
 } from '../directSelectors';
+import { getActiveNarrowString } from '../baseSelectors';
 import { getCaughtUpForActiveNarrow } from '../caughtup/caughtUpSelectors';
 import { getIsFetching } from './fetchingSelectors';
 import {

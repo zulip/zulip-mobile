@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
+import { getApp } from '../selectors';
 import { OptionDivider, OptionRow, Screen } from '../common';
 
 type Props = {
@@ -46,5 +47,5 @@ class DebugScreen extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  debug: state.app.debug,
+  debug: getApp(state).debug,
 }))(DebugScreen);

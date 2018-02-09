@@ -5,6 +5,7 @@ import { IntlProvider } from 'react-intl';
 
 import type { ChildrenArray } from '../types';
 import connectWithActions from '../connectWithActions';
+import { getSettings } from '../selectors';
 import '../../vendor/intl/intl';
 import messages from '../i18n/messages';
 
@@ -28,5 +29,5 @@ class TranslationProvider extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  locale: state.settings.locale,
+  locale: getSettings(state).locale,
 }))(TranslationProvider);

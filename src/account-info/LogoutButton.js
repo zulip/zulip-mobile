@@ -6,7 +6,7 @@ import type { Actions, Auth } from '../types';
 import connectWithActions from '../connectWithActions';
 import { ZulipButton } from '../common';
 import { unregisterPush } from '../api';
-import { getAuth, getPushToken } from '../selectors';
+import { getAuth, getAccounts, getPushToken } from '../selectors';
 import { logErrorRemotely } from '../utils/logging';
 
 const styles = StyleSheet.create({
@@ -53,6 +53,6 @@ class LogoutButton extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
-  accounts: state.accounts,
+  accounts: getAccounts(state),
   pushToken: getPushToken(state),
 }))(LogoutButton);

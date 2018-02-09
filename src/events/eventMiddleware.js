@@ -3,7 +3,7 @@
 
 import type { GlobalState } from '../types';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
-import { getActiveAccount, getOwnEmail } from '../selectors';
+import { getActiveAccount, getActiveNarrow, getOwnEmail } from '../selectors';
 import { playMessageSound } from '../utils/sound';
 
 export default (state: GlobalState, event: Object) => {
@@ -15,10 +15,11 @@ export default (state: GlobalState, event: Object) => {
       }
 
       const activeAccount = getActiveAccount(state);
+      const narrow = getActiveNarrow(state);
       const isUserInSameNarrow =
-        !isHomeNarrow(state.chat.narrow) &&
+        !isHomeNarrow(narrow) &&
         activeAccount &&
-        isMessageInNarrow(event.message, state.chat.narrow, activeAccount.email);
+        isMessageInNarrow(event.message, narrow, activeAccount.email);
       const isSenderSelf = getOwnEmail(state) === event.message.sender_email;
       if (!isUserInSameNarrow && !isSenderSelf) {
         playMessageSound();

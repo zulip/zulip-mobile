@@ -5,12 +5,16 @@ import type {
   MessageState,
   TopicsState,
   GlobalState,
+  SettingsState,
+  Account,
   Narrow,
   Subscription,
   Stream,
   Outbox,
   User,
 } from './types';
+
+export const getAccounts = (state: GlobalState): Account[] => state.accounts;
 
 export const getApp = (state: GlobalState): AppState => state.app;
 
@@ -36,6 +40,10 @@ export const getAllMessages = (state: GlobalState): MessageState => state.chat.m
 
 export const getActiveNarrow = (state: GlobalState): Narrow => state.chat.narrow;
 
+export const getNav = (state: GlobalState): Object => state.nav;
+
+export const getSettings = (state: GlobalState): SettingsState => state.settings;
+
 export const getSubscriptions = (state: GlobalState): Subscription[] => state.subscriptions;
 
 export const getStreams = (state: GlobalState): Stream[] => state.streams;
@@ -44,9 +52,6 @@ export const getPresence = (state: GlobalState): Object => state.presence;
 
 export const getOutbox = (state: GlobalState): Outbox[] => state.outbox;
 
-export const getActiveNarrowString = (state: GlobalState): string =>
-  JSON.stringify(state.chat.narrow);
-
 export const getUnreadStreams = (state: GlobalState): Object[] => state.unread.streams;
 
 export const getUnreadPms = (state: GlobalState): Object[] => state.unread.pms;
@@ -54,5 +59,7 @@ export const getUnreadPms = (state: GlobalState): Object[] => state.unread.pms;
 export const getUnreadHuddles = (state: GlobalState): Object[] => state.unread.huddles;
 
 export const getUnreadMentions = (state: GlobalState): number[] => state.unread.mentions;
+
+export const getRealm = (state: GlobalState): Object => state.realm;
 
 export const getRealmEmoji = (state: GlobalState): Object => state.realm.emoji;

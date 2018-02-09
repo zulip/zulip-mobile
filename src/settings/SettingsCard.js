@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
 import { Auth, Actions } from '../types';
-import { getAuth } from '../selectors';
+import { getAuth, getSettings } from '../selectors';
 import connectWithActions from '../connectWithActions';
 import { OptionButton, OptionRow, WebLink } from '../common';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
@@ -71,5 +71,5 @@ class SettingsCard extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
-  theme: state.settings.theme,
+  theme: getSettings(state).theme,
 }))(SettingsCard);

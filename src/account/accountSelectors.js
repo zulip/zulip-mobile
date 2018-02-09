@@ -1,10 +1,9 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { Account, GlobalState } from '../types';
-import { NULL_ACCOUNT, NULL_ARRAY } from '../nullObjects';
-
-export const getAccounts = (state: GlobalState): Account[] => state.accounts || NULL_ARRAY;
+import type { Account } from '../types';
+import { NULL_ACCOUNT } from '../nullObjects';
+import { getAccounts } from '../directSelectors';
 
 export const getActiveAccount: Account = createSelector(
   getAccounts,

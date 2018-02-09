@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 
 import type { Actions, Auth } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getAuth } from '../selectors';
+import { getAuth, getSettings } from '../selectors';
 import { OptionRow, Screen } from '../common';
 import { toggleMobilePushSettings } from '../api';
 
@@ -75,7 +75,7 @@ class NotificationsScreen extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
-  offlineNotification: state.settings.offlineNotification,
-  onlineNotification: state.settings.onlineNotification,
-  streamNotification: state.settings.streamNotification,
+  offlineNotification: getSettings(state).offlineNotification,
+  onlineNotification: getSettings(state).onlineNotification,
+  streamNotification: getSettings(state).streamNotification,
 }))(NotificationsScreen);

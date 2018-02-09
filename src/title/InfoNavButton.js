@@ -11,7 +11,13 @@ import {
   isStreamNarrow,
   isTopicNarrow,
 } from '../utils/narrow';
-import { getCurrentRealm, getRecipientsInGroupNarrow, getTitleTextColor } from '../selectors';
+import {
+  getActiveNarrow,
+  getCurrentRealm,
+  getRecipientsInGroupNarrow,
+  getStreams,
+  getTitleTextColor,
+} from '../selectors';
 import NavButton from '../nav/NavButton';
 import NavButtonPlaceholder from '../nav/NavButtonPlaceholder';
 
@@ -65,8 +71,8 @@ class InfoNavButton extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   realm: getCurrentRealm(state),
-  narrow: state.chat.narrow,
-  streams: state.streams,
+  narrow: getActiveNarrow(state),
+  streams: getStreams(state),
   color: getTitleTextColor(state),
   recipients: getRecipientsInGroupNarrow(state),
 }))(InfoNavButton);
