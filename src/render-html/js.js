@@ -89,19 +89,25 @@ const updateContentAndPreservePosition = msg => {
   }
 };
 
-const handleMessageContent = msg => {
-  scrollEventsDisabled = true;
-  if (msg.noMessages) {
-    replaceContent(msg);
-  } else if (msg.noNewMessages) {
-    updateContentAndPreservePosition(msg);
-  } else if (!msg.sameNarrow) {
-    updateContentAndScrollToAnchor(msg);
-  } else if (msg.onlyOneNewMessage && isNearBottom()) {
+const updateContentAndScrollToBottomIfNearBottom = msg => {
+  if (isNearBottom()) {
     updateContentAndScrollToBottom(msg);
   } else {
     updateContentAndPreservePosition(msg);
   }
+};
+
+const updateFunctions = {
+  replace: replaceContent,
+  'preserve-position': updateContentAndPreservePosition,
+  'scroll-to-anchor': updateContentAndScrollToAnchor,
+  'scroll-to-bottom': updateContentAndScrollToBottom,
+  'scroll-to-bottom-if-near-bottom': updateContentAndScrollToBottomIfNearBottom,
+};
+
+const handleMessageContent = msg => {
+  scrollEventsDisabled = true;
+  updateFunctions[msg.updateStrategy](msg);
   scrollEventsDisabled = false;
 };
 

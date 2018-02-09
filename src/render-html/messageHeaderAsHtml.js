@@ -7,7 +7,6 @@ import {
   topicNarrow,
   privateNarrow,
   groupNarrow,
-  narrowToString,
   stringifyNarrow,
 } from '../utils/narrow';
 
@@ -17,7 +16,7 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
   }
 
   if (isStreamNarrow(narrow)) {
-    const topicNarrowStr = narrowToString(topicNarrow(item.display_recipient, item.subject));
+    const topicNarrowStr = stringifyNarrow(topicNarrow(item.display_recipient, item.subject));
 
     return `
 <div
