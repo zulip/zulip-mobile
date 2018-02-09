@@ -109,7 +109,7 @@
         "src", "attribs", "charset", "utf", "urlencoded", "htmlparser", "htmlparser2", "ul", "ol",
         "chatbubbles", "nonexisting", "primarytext", "autocomple", "stringify", "backend", "Zoe",
         "Menlo", "ok", "py", "todo", "Mc", "lodash", "selectable", "isequal", "lightgray", "tc",
-        "zulipchat", "prepend", "pierre", "allen", "jan", "donald", "jane", "unicode", "joe",
+        "zulipchat", "prepend", "pierre", "allen", "jan", "donald", "jane", "unicode", "joe", "unescape",
         "dan", "abramov", "lang", "bool", "ionicons", "truthy", "bezier", "decrement", "js", "oauth",
         "jsonp", "otp", "Otp", "ascii", "Ascii", "substr", "Util", "actionsheet", "unmute", "mfrac",
         "otp", "Otp", "ascii", "Ascii", "substr", "Util", "actionsheet", "jsonp", "actionsheet", "ionicons",
