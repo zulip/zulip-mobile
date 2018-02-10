@@ -44,26 +44,26 @@ export const refreshNotificationToken = () => {};
 export const handlePendingNotifications = async (
   notification: Object,
   pending: boolean,
-  doNarrowAtAnchor: Actions.doNarrow,
+  doNarrow: Actions.doNarrow,
 ) => {
   if (notification) {
     const notifData = notification.getData();
     if (notifData && notifData.custom) {
       const { custom: { data } } = notifData;
       if (data) {
-        handleNotification(data, data.zulip_message_id, pending, doNarrowAtAnchor);
+        handleNotification(data, data.zulip_message_id, pending, doNarrow);
       }
     }
   }
 };
 
 export const tryInitialNotification = async (
-  doNarrowAtAnchor: Actions.doNarrow,
+  doNarrow: Actions.doNarrow,
   saveInitialNotificationDetails: Actions.saveInitialNotificationDetails,
 ) => {
   const data = await PushNotificationIOS.getInitialNotification();
   if (data && data.getData) {
     saveInitialNotificationDetails(data.getData());
-    handlePendingNotifications(data, true, doNarrowAtAnchor);
+    handlePendingNotifications(data, true, doNarrow);
   }
 };

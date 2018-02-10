@@ -59,7 +59,7 @@ class AppEventHandlers extends PureComponent<Props> {
   handleNotificationOpen = (notification: Object) => {
     const { actions } = this.props;
     actions.saveInitialNotificationDetails(notification.getData());
-    handlePendingNotifications(notification, false, this.props.actions.doNarrowAtAnchor);
+    handlePendingNotifications(notification, false, this.props.actions.doNarrow);
   };
 
   handleMemoryWarning = () => {
@@ -68,7 +68,7 @@ class AppEventHandlers extends PureComponent<Props> {
 
   componentWillMount() {
     const { actions } = this.props;
-    tryInitialNotification(actions.doNarrowAtAnchor, actions.saveInitialNotificationDetails);
+    tryInitialNotification(actions.doNarrow, actions.saveInitialNotificationDetails);
 
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
