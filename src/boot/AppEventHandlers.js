@@ -68,7 +68,7 @@ class AppEventHandlers extends PureComponent<Props> {
 
   componentWillMount() {
     const { actions } = this.props;
-    tryInitialNotification();
+    tryInitialNotification(actions.doNarrowAtAnchor, actions.saveInitialNotificationDetails);
 
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);

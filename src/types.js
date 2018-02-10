@@ -236,6 +236,7 @@ export type Actions = {
   fetchStreams: () => Action,
   cancelEditMessage: () => void,
   startEditMessage: (messageId: number) => void,
+  saveInitialNotificationDetails: (notification: Object) => void,
   resetNavigation: () => Action,
   navigateBack: () => Action,
   navigateToAllStreams: () => Action,
