@@ -47,9 +47,13 @@ export const refreshNotificationToken = () => {
   NotificationsAndroid.refreshToken();
 };
 
-export const tryInitialNotification = async (doNarrowAtAnchor: Actions.doNarrow) => {
+export const tryInitialNotification = async (
+  doNarrowAtAnchor: Actions.doNarrow,
+  saveInitialNotificationDetails: Actions.saveInitialNotificationDetails,
+) => {
   const data = await PendingNotifications.getInitialNotification();
   if (data && data.getData) {
+    saveInitialNotificationDetails(data.getData());
     handlePendingNotifications(data, true, doNarrowAtAnchor);
   }
 };
