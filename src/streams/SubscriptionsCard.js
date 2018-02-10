@@ -18,14 +18,13 @@ type Props = {
   narrow: Narrow,
   subscriptions: SubscriptionsState,
   unreadByStream: number[],
-  doNarrowCloseDrawer: (narrow: Narrow) => void,
 };
 
 export default class SubscriptionsCard extends PureComponent<Props> {
   props: Props;
 
   handleNarrow = (streamName: string) => {
-    this.props.doNarrowCloseDrawer(streamNarrow(streamName));
+    this.props.actions.doNarrow(streamNarrow(streamName));
   };
 
   render() {

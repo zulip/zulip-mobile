@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Actions, Narrow } from '../types';
+import type { Actions } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import { ZulipButton } from '../common';
 import ConversationList from './ConversationList';
@@ -21,9 +21,6 @@ type Props = {
   conversations: Object[],
   presences: Object,
   usersByEmail: Object,
-  closeDrawer: () => void,
-  doNarrowCloseDrawer: (narrow: Narrow) => void,
-  closeDrawer: () => void,
 };
 
 export default class ConversationsCard extends PureComponent<Props> {
@@ -35,13 +32,12 @@ export default class ConversationsCard extends PureComponent<Props> {
 
   handleUserNarrow = (email: string) => {
     const narrow = email.indexOf(',') === -1 ? privateNarrow(email) : groupNarrow(email.split(','));
-    this.props.doNarrowCloseDrawer(narrow);
+    this.props.actions.doNarrow(narrow);
   };
 
   handleSearchPeople = () => {
-    const { actions, closeDrawer } = this.props;
+    const { actions } = this.props;
     actions.navigateToUsersScreen();
-    closeDrawer();
   };
 
   render() {

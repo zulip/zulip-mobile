@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Actions, Auth, Narrow } from '../types';
+import type { Actions, Auth } from '../types';
 import { ZulipButton } from '../common';
 import { subscriptionAdd, subscriptionRemove } from '../api';
 import { streamNarrow } from '../utils/narrow';
@@ -22,7 +22,6 @@ type Props = {
   auth: Auth,
   streams: [],
   subscriptions: [],
-  doNarrowCloseDrawer: (narrow: Narrow) => void,
 };
 
 type State = {
@@ -55,7 +54,8 @@ export default class StreamListCard extends PureComponent<Props, State> {
   };
 
   handleNarrow = (streamName: string) => {
-    this.props.doNarrowCloseDrawer(streamNarrow(streamName));
+    const { actions } = this.props;
+    actions.doNarrow(streamNarrow(streamName));
   };
 
   render() {

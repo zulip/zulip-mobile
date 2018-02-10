@@ -1,15 +1,25 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { View } from 'react-native';
 
-import { Screen } from '../common';
-import ChatContainer from './ChatContainer';
+import { ZulipStatusBar } from '../common';
+import ChatContainer from '../chat/ChatContainer';
+import MainNavBar from '../nav/MainNavBar';
 
 export default class ChatScreen extends PureComponent<{}> {
+  static contextTypes = {
+    styles: () => null,
+  };
+
   render() {
+    const { styles } = this.context;
+
     return (
-      <Screen title="Chat">
+      <View style={styles.screen}>
+        <ZulipStatusBar />
+        <MainNavBar />
         <ChatContainer />
-      </Screen>
+      </View>
     );
   }
 }
