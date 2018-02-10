@@ -57,9 +57,13 @@ export const handlePendingNotifications = async (
   }
 };
 
-export const tryInitialNotification = async (doNarrowAtAnchor: Actions.doNarrow) => {
+export const tryInitialNotification = async (
+  doNarrowAtAnchor: Actions.doNarrow,
+  saveInitialNotificationDetails: Actions.saveInitialNotificationDetails,
+) => {
   const data = await PushNotificationIOS.getInitialNotification();
   if (data && data.getData) {
+    saveInitialNotificationDetails(data.getData());
     handlePendingNotifications(data, true, doNarrowAtAnchor);
   }
 };
