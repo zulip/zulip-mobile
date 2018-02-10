@@ -5,6 +5,7 @@ import { Actions } from '../types';
 import { Screen } from '../common';
 import LanguagePicker from './LanguagePicker';
 import connectWithActions from '../connectWithActions';
+import { getSettings } from '../selectors';
 
 type Props = {
   actions: Actions,
@@ -31,5 +32,5 @@ class LanguageScreen extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  locale: state.settings.locale,
+  locale: getSettings(state).locale,
 }))(LanguageScreen);

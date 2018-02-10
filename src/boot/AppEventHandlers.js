@@ -6,7 +6,7 @@ import Orientation from 'react-native-orientation';
 
 import type { Auth, Actions, ChildrenArray } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getAuth, getUnreadByHuddlesMentionsAndPMs } from '../selectors';
+import { getAuth, getApp, getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import {
   addNotificationListener,
   removeNotificationListener,
@@ -93,6 +93,6 @@ class AppEventHandlers extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
-  needsInitialFetch: state.app.needsInitialFetch,
+  needsInitialFetch: getApp(state).needsInitialFetch,
   unreadCount: getUnreadByHuddlesMentionsAndPMs(state),
 }))(AppEventHandlers);

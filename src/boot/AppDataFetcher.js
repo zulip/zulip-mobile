@@ -3,6 +3,7 @@ import { PureComponent } from 'react';
 
 import type { Actions, ChildrenArray } from '../types';
 import connectWithActions from '../connectWithActions';
+import { getApp } from '../directSelectors';
 
 type Props = {
   needsInitialFetch: boolean,
@@ -31,5 +32,5 @@ class AppDataFetcher extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  needsInitialFetch: state.app.needsInitialFetch,
+  needsInitialFetch: getApp(state).needsInitialFetch,
 }))(AppDataFetcher);

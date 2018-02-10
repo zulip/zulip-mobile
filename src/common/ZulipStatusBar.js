@@ -5,7 +5,7 @@ import Color from 'color';
 
 import type { Dimensions, StatusBarStyle } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getTitleBackgroundColor, getTitleTextColor } from '../selectors';
+import { getApp, getSettings, getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 import getStatusBarStyle from '../utils/getStatusBarStyle';
 import getStatusBarColor from '../utils/getStatusBarColor';
 
@@ -62,9 +62,9 @@ class ZulipStatusBar extends PureComponent<Props> {
 }
 
 export default connectWithActions((state, props) => ({
-  safeAreaInsets: state.app.safeAreaInsets,
-  theme: state.settings.theme,
+  safeAreaInsets: getApp(state).safeAreaInsets,
+  theme: getSettings(state).theme,
   backgroundColor: !props.backgroundColor ? getTitleBackgroundColor(state) : props.backgroundColor,
   textColor: getTitleTextColor(state),
-  orientation: state.app.orientation,
+  orientation: getApp(state).orientation,
 }))(ZulipStatusBar);

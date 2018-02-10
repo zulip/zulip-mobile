@@ -1,20 +1,27 @@
 /* @flow */
 import type { GlobalState } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getAuth, canSendToActiveNarrow, getLastMessageTopic } from '../selectors';
+import {
+  getAuth,
+  getApp,
+  canSendToActiveNarrow,
+  getActiveNarrow,
+  getLastMessageTopic,
+  getUsers,
+} from '../selectors';
 import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelectors';
 import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
 import ComposeBox from './ComposeBox';
 
 export default connectWithActions((state: GlobalState) => ({
   auth: getAuth(state),
-  narrow: state.chat.narrow,
-  users: state.users,
-  safeAreaInsets: state.app.safeAreaInsets,
-  composeTools: state.app.composeTools,
+  narrow: getActiveNarrow(state),
+  users: getUsers(state),
+  safeAreaInsets: getApp(state).safeAreaInsets,
+  composeTools: getApp(state).composeTools,
   isSubscribed: getIsActiveStreamSubscribed(state),
   canSend: canSendToActiveNarrow(state),
-  editMessage: state.app.editMessage,
+  editMessage: getApp(state).editMessage,
   draft: getDraftForActiveNarrow(state),
   lastMessageTopic: getLastMessageTopic(state),
 }))(ComposeBox);

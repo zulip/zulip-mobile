@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import type { Auth, Message, Actions, StyleObj, SupportedHtmlClasses } from '../../types';
 import connectWithActions from '../../connectWithActions';
 import { getEmojiUrl } from '../../utils/url';
-import { getOwnEmail } from '../../selectors';
+import { getApp, getOwnEmail } from '../../selectors';
 import styles from './HtmlStyles';
 import cascadingStyles from './cascadingStylesView';
 import cascadingStylesText from './cascadingStylesText';
@@ -121,5 +121,5 @@ class HtmlNodeTag extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   ownEmail: getOwnEmail(state),
-  splitMessageText: state.app.debug.splitMessageText,
+  splitMessageText: getApp(state).debug.splitMessageText,
 }))(HtmlNodeTag);

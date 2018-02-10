@@ -13,6 +13,7 @@ import {
   getSubscriptions,
   getCurrentRoute,
   getActiveNarrow,
+  getRealm,
 } from '../selectors';
 import connectWithActions from '../connectWithActions';
 
@@ -97,6 +98,6 @@ export default connectWithActions(state => ({
   narrow: getActiveNarrow(state),
   currentRoute: getCurrentRoute(state),
   flags: getFlags(state),
-  twentyFourHourTime: state.realm.twentyFourHourTime,
+  twentyFourHourTime: getRealm(state).twentyFourHourTime,
   subscriptions: getSubscriptions(state),
 }))(connectActionSheet(MessageContainer));

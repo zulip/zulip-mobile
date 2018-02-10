@@ -6,7 +6,7 @@ import { DrawerNavigator } from 'react-navigation';
 import MainScreen from './MainScreen';
 import Sidebar from '../nav/Sidebar';
 import connectWithActions from '../connectWithActions';
-import { getCanGoBack } from '../selectors';
+import { getCanGoBack, getNav } from '../selectors';
 
 export const Drawer = DrawerNavigator(
   {
@@ -58,6 +58,6 @@ class MainScreenWithDrawers extends PureComponent<{}> {
 }
 
 export default connectWithActions(state => ({
-  nav: state.nav,
+  nav: getNav(state),
   canGoBack: getCanGoBack(state),
 }))(MainScreenWithDrawers);

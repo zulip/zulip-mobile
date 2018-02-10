@@ -10,7 +10,14 @@ import {
   isStreamNarrow,
   isTopicNarrow,
 } from '../utils/narrow';
-import { getCurrentRealm } from '../selectors';
+import {
+  getActiveNarrow,
+  getApp,
+  getCurrentRealm,
+  getStreams,
+  getSubscriptions,
+  getUsers,
+} from '../selectors';
 
 import type { Message, Narrow } from '../types';
 import TitleHome from './TitleHome';
@@ -52,9 +59,9 @@ class Title extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   realm: getCurrentRealm(state),
-  narrow: state.chat.narrow,
-  users: state.users,
-  subscriptions: state.subscriptions,
-  streams: state.streams,
-  editMessage: state.app.editMessage,
+  narrow: getActiveNarrow(state),
+  users: getUsers(state),
+  subscriptions: getSubscriptions(state),
+  streams: getStreams(state),
+  editMessage: getApp(state).editMessage,
 }))(Title);

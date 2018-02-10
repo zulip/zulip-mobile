@@ -9,7 +9,7 @@ import { Touchable } from '../common';
 import Emoji from '../emoji/Emoji';
 import RealmEmoji from '../emoji/RealmEmoji';
 import emojiMap from '../emoji/emojiMap';
-import { getAuth } from '../selectors';
+import { getAuth, getRealmEmoji } from '../selectors';
 import { emojiReactionAdd, emojiReactionRemove } from '../api';
 
 const styles = StyleSheet.create({
@@ -168,5 +168,5 @@ class Reaction extends PureComponent<Props, State> {
 
 export default connectWithActions((state: GlobalState) => ({
   auth: getAuth(state),
-  realmEmoji: state.realm.emoji,
+  realmEmoji: getRealmEmoji(state),
 }))(Reaction);

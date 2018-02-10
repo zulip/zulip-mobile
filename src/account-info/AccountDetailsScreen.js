@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 
 import type { Auth, Actions, Orientation, UserType } from '../types';
 import { connectWithActionsPreserveOnBack } from '../connectWithActions';
-import { getAuth, getAccountDetailsUser } from '../selectors';
+import { getAuth, getApp, getAccountDetailsUser } from '../selectors';
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
 
@@ -45,5 +45,5 @@ class AccountDetailsScreen extends PureComponent<Props> {
 export default connectWithActionsPreserveOnBack(state => ({
   auth: getAuth(state),
   user: getAccountDetailsUser(state),
-  orientation: state.app.orientation,
+  orientation: getApp(state).orientation,
 }))(AccountDetailsScreen);

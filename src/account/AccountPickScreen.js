@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 
 import type { Auth, Actions } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getAuth } from '../selectors';
+import { getAuth, getAccounts } from '../selectors';
 import { Centerer, ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
 
@@ -61,5 +61,5 @@ class AccountPickScreen extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
-  accounts: state.accounts,
+  accounts: getAccounts(state),
 }))(AccountPickScreen);

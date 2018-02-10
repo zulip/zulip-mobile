@@ -1,7 +1,8 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import { getDrafts, getActiveNarrowString } from '../directSelectors';
+import { getDrafts } from '../directSelectors';
+import { getActiveNarrowString } from '../baseSelectors';
 
 export const getDraftForActiveNarrow = createSelector(
   getDrafts,
