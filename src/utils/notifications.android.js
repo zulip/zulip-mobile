@@ -9,13 +9,13 @@ import { handleNotification } from './notificationsCommon';
 export const handlePendingNotifications = async (
   notification: Object,
   pending: boolean,
-  doNarrowAtAnchor: Actions.doNarrow,
+  doNarrow: Actions.doNarrow,
 ) => {
   if (notification) {
     const data = notification.getData();
     console.log('Opened app by notification', data); //eslint-disable-line
     if (data) {
-      handleNotification(data, data.zulip_message_id, pending, doNarrowAtAnchor);
+      handleNotification(data, data.zulip_message_id, pending, doNarrow);
     }
   }
 };
@@ -48,12 +48,12 @@ export const refreshNotificationToken = () => {
 };
 
 export const tryInitialNotification = async (
-  doNarrowAtAnchor: Actions.doNarrow,
+  doNarrow: Actions.doNarrow,
   saveInitialNotificationDetails: Actions.saveInitialNotificationDetails,
 ) => {
   const data = await PendingNotifications.getInitialNotification();
   if (data && data.getData) {
     saveInitialNotificationDetails(data.getData());
-    handlePendingNotifications(data, true, doNarrowAtAnchor);
+    handlePendingNotifications(data, true, doNarrow);
   }
 };

@@ -18,7 +18,10 @@ export const switchNarrow = (narrow: Narrow): Action => ({
 const isNarrowValid = (narrow: Narrow, getState: GetState) =>
   validateNarrow(narrow, getStreams(getState()), getUsers(getState()));
 
-export const doNarrow = (newNarrow: Narrow): Action => (dispatch: Dispatch, getState: GetState) => {
+export const doNarrow = (newNarrow: Narrow, anchor: number = 0): Action => (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
   if (!isNarrowValid(newNarrow, getState)) return;
 
   dispatch(switchNarrow(newNarrow));
@@ -30,18 +33,11 @@ export const doNarrow = (newNarrow: Narrow): Action => (dispatch: Dispatch, getS
   const caughtUp = getState().caughtUp[JSON.stringify(newNarrow)] || NULL_CAUGHTUP;
   const isCaughtUp = caughtUp.newer && caughtUp.older;
 
-  if (tooFewMessages && !isCaughtUp) {
+  if (anchor === 0 && tooFewMessages && !isCaughtUp) {
     dispatch(fetchMessagesAtFirstUnread(newNarrow));
+  } else if (anchor !== 0) {
+    dispatch(fetchMessagesAroundAnchor(newNarrow, anchor));
   }
-};
-
-export const doNarrowAtAnchor = (newNarrow: Narrow, anchor: number): Action => (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
-  if (!isNarrowValid(newNarrow, getState)) return;
-  dispatch(switchNarrow(newNarrow));
-  dispatch(fetchMessagesAroundAnchor(newNarrow, anchor));
 };
 
 export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState: GetState) => {
@@ -53,7 +49,7 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
     const anchor = getMessageIdFromLink(href, auth.realm);
     const narrow = getNarrowFromLink(href, auth.realm, users);
 
-    dispatch(doNarrowAtAnchor(narrow, anchor));
+    dispatch(doNarrow(narrow, anchor));
   } else {
     openLink(getFullUrl(href, auth.realm));
   }

@@ -8,7 +8,7 @@ export const handleNotification = (
   data: Object,
   anchor: number,
   pending: boolean,
-  doNarrowAtAnchor: Actions.doNarrow,
+  doNarrow: Actions.doNarrow,
 ): void => {
   if (!data || !data.recipient_type) return;
 
@@ -21,6 +21,6 @@ export const handleNotification = (
     config.startup.narrow = narrow;
     config.startup.anchor = anchor;
   } else {
-    setTimeout(() => doNarrowAtAnchor(narrow, anchor), 100);
+    setTimeout(() => doNarrow(narrow, anchor), 100);
   }
 };
