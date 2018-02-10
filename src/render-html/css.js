@@ -97,16 +97,14 @@ th, td {
   display: flex;
   word-wrap: break-word;
   padding: 0.5em;
-  overflow: hidden;
 }
 .message-brief {
-  padding: 0 0.5em 0.5em 3.5em;
+  padding: 0 0 0.5em 3em;
 }
 .avatar {
   min-width: 2.5em;
   width: 2.5em;
   height: 2.5em;
-  margin-right: 0.5em;
 }
 .avatar img {
   width: 100%;
@@ -115,6 +113,8 @@ th, td {
 .content {
   width: 100%;
   max-width: 100%;
+  overflow: hidden;
+  padding: 0 0 0 0.5em;
 }
 .username {
   font-weight: bold;
