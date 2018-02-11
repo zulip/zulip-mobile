@@ -42,7 +42,6 @@ const initialState: SessionState = {
   debug: {
     highlightUnreadMessages: false,
     doNotMarkMessagesAsRead: false,
-    splitMessageText: false,
   },
 };
 
