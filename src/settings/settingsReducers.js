@@ -12,7 +12,6 @@ const initialState: SettingsState = {
   offlineNotification: true,
   onlineNotification: true,
   experimentalFeaturesEnabled: false,
-  splitMessageText: false,
   streamNotification: false,
 };
 
