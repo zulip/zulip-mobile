@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import { ZulipStatusBar } from '../common';
-import ChatContainer from '../chat/ChatContainer';
+import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 
 export default class ChatScreen extends PureComponent<{}> {
@@ -18,7 +18,7 @@ export default class ChatScreen extends PureComponent<{}> {
       <View style={styles.screen}>
         <ZulipStatusBar />
         <MainNavBar />
-        <ChatContainer />
+        <Chat />
       </View>
     );
   }
