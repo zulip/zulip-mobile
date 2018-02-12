@@ -7,7 +7,6 @@ import type {
   GlobalState,
   SettingsState,
   Account,
-  Narrow,
   Subscription,
   Stream,
   Outbox,
@@ -37,8 +36,6 @@ export const getFlags = (state: GlobalState): FlagsState => state.flags;
 export const getReadFlags = (state: GlobalState): Object => state.flags.read;
 
 export const getAllMessages = (state: GlobalState): MessageState => state.chat.messages;
-
-export const getActiveNarrow = (state: GlobalState): Narrow => state.chat.narrow;
 
 export const getNav = (state: GlobalState): Object => state.nav;
 

@@ -1,7 +1,7 @@
 /* @noflow */
 import { NavigationActions } from 'react-navigation';
 
-import type { Action, Message, UserType, ServerSettings } from '../types';
+import type { Action, Message, Narrow, UserType, ServerSettings } from '../types';
 import { RESET_NAVIGATION } from '../actionConstants';
 
 export const resetNavigation = (): Action => ({
@@ -10,7 +10,8 @@ export const resetNavigation = (): Action => ({
 
 export const navigateBack = (): Action => NavigationActions.back();
 
-export const navigateToChat = (): Action => NavigationActions.navigate({ routeName: 'chat' });
+export const navigateToChat = (narrow: Narrow): Action =>
+  NavigationActions.navigate({ routeName: 'chat', params: { narrow } });
 
 export const navigateToAllStreams = (): Action =>
   NavigationActions.navigate({ routeName: 'subscriptions' });

@@ -1,6 +1,4 @@
 /* @flow */
-import { REHYDRATE } from 'redux-persist/constants';
-
 import type { NavigationState, Action } from '../types';
 import { getFirstIfDeepEqual } from '../utils/immutability';
 import { navigateToChat } from './navActions';
@@ -40,7 +38,7 @@ export default (
       return getStateForRoute('account');
 
     case SWITCH_NARROW:
-      return AppNavigator.router.getStateForAction(navigateToChat(), state);
+      return AppNavigator.router.getStateForAction(navigateToChat(action.narrow), state);
 
     default:
       return AppNavigator.router.getStateForAction(action, state);

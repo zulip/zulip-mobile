@@ -1,15 +1,14 @@
 import deepFreeze from 'deep-freeze';
 
 import { getCurrentTypingUsers } from '../typingSelectors';
+import { navStateWithNarrow } from '../../utils/testHelpers';
 import { homeNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
 
 describe('getCurrentTypingUsers', () => {
   test('return undefined when current narrow is not private or group', () => {
     const state = deepFreeze({
       accounts: [{}],
-      chat: {
-        narrow: homeNarrow,
-      },
+      ...navStateWithNarrow(homeNarrow),
     });
 
     const typingUsers = getCurrentTypingUsers(state);
@@ -26,9 +25,7 @@ describe('getCurrentTypingUsers', () => {
     };
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      chat: {
-        narrow: privateNarrow('john@example.com'),
-      },
+      ...navStateWithNarrow(privateNarrow('john@example.com')),
       typing: {
         'john@example.com': { userIds: [1] },
       },
@@ -55,9 +52,7 @@ describe('getCurrentTypingUsers', () => {
     };
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      chat: {
-        narrow: groupNarrow(['john@example.com', 'mark@example.com']),
-      },
+      ...navStateWithNarrow(groupNarrow(['john@example.com', 'mark@example.com'])),
       typing: {
         'john@example.com,mark@example.com': { userIds: [1, 2] },
       },
@@ -72,9 +67,7 @@ describe('getCurrentTypingUsers', () => {
   test('when in private narrow but different user is typing return undefined', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      chat: {
-        narrow: privateNarrow('mark@example.com'),
-      },
+      ...navStateWithNarrow(privateNarrow('mark@example.com')),
       typing: {
         'john@example.com': { userIds: [1] },
       },
@@ -94,9 +87,7 @@ describe('getCurrentTypingUsers', () => {
     };
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      chat: {
-        narrow: groupNarrow(['mark@example.com', 'john@example.com']),
-      },
+      ...navStateWithNarrow(groupNarrow(['mark@example.com', 'john@example.com'])),
       typing: {
         'john@example.com,mark@example.com': { userIds: [1] },
       },

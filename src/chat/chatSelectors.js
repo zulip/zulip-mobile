@@ -4,13 +4,12 @@ import { createSelector } from 'reselect';
 import {
   getAllMessages,
   getSubscriptions,
-  getActiveNarrow,
   getMute,
   getUsers,
   getStreams,
   getOutbox,
 } from '../directSelectors';
-import { getActiveNarrowString } from '../baseSelectors';
+import { getActiveNarrow, getActiveNarrowString } from '../baseSelectors';
 import { getCaughtUpForActiveNarrow } from '../caughtup/caughtUpSelectors';
 import { getIsFetching } from './fetchingSelectors';
 import {

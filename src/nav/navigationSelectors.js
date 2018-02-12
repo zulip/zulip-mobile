@@ -9,7 +9,7 @@ export const getNavigationIndex = (state: GlobalState): number => state.nav.inde
 export const getCurrentRouteParams = createSelector(
   getNavigationRoutes,
   getNavigationIndex,
-  (routes, index) => routes[index].params,
+  (routes, index) => routes && routes[index] && routes[index].params,
 );
 
 export const getCurrentRoute = (state: GlobalState): string =>

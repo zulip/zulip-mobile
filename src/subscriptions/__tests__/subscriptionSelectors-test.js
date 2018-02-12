@@ -7,6 +7,7 @@ import {
   getSubscribedStreams,
 } from '../subscriptionSelectors';
 import { homeNarrow, streamNarrow, topicNarrow } from '../../utils/narrow';
+import { navStateWithNarrow } from '../../utils/testHelpers';
 
 describe('getStreamsById', () => {
   test('returns empty object for an empty input', () => {
@@ -59,9 +60,7 @@ describe('getSubscriptionsById', () => {
 describe('getIsActiveStreamSubscribed', () => {
   test('return true for narrows other than stream and topic', () => {
     const state = deepFreeze({
-      chat: {
-        narrow: homeNarrow,
-      },
+      ...navStateWithNarrow(homeNarrow),
     });
 
     expect(getIsActiveStreamSubscribed(state)).toBe(true);
@@ -69,9 +68,7 @@ describe('getIsActiveStreamSubscribed', () => {
 
   test('return true if current narrowed stream is subscribed', () => {
     const state = deepFreeze({
-      chat: {
-        narrow: streamNarrow('announce'),
-      },
+      ...navStateWithNarrow(streamNarrow('announce')),
       subscriptions: [{ name: 'announce' }],
     });
 
@@ -80,9 +77,7 @@ describe('getIsActiveStreamSubscribed', () => {
 
   test('return false if current narrowed stream is not subscribed', () => {
     const state = deepFreeze({
-      chat: {
-        narrow: streamNarrow('all'),
-      },
+      ...navStateWithNarrow(streamNarrow('all')),
       subscriptions: [{ name: 'announce' }],
     });
 
@@ -91,9 +86,7 @@ describe('getIsActiveStreamSubscribed', () => {
 
   test('return true if stream of current narrowed topic is subscribed', () => {
     const state = deepFreeze({
-      chat: {
-        narrow: topicNarrow('announce', 'news'),
-      },
+      ...navStateWithNarrow(topicNarrow('announce', 'news')),
       subscriptions: [{ name: 'announce' }],
     });
 
@@ -102,9 +95,7 @@ describe('getIsActiveStreamSubscribed', () => {
 
   test('return false if stream of current narrowed topic is not subscribed', () => {
     const state = deepFreeze({
-      chat: {
-        narrow: streamNarrow('all', 'news'),
-      },
+      ...navStateWithNarrow(streamNarrow('all', 'news')),
       subscriptions: [{ name: 'announce' }],
     });
 

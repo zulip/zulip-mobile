@@ -3,7 +3,8 @@ import { createSelector } from 'reselect';
 
 import { NULL_STREAM } from '../nullObjects';
 import { isStreamOrTopicNarrow } from '../utils/narrow';
-import { getActiveNarrow, getSubscriptions, getStreams } from '../directSelectors';
+import { getSubscriptions, getStreams } from '../directSelectors';
+import { getActiveNarrow } from '../baseSelectors';
 import { getCurrentRouteParams } from '../nav/navigationSelectors';
 
 export const getStreamsById = createSelector(getStreams, streams =>
