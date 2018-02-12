@@ -17,6 +17,7 @@ import {
   isPrivateOrGroupNarrow,
   isStreamNarrow,
   isHomeNarrow,
+  isGroupNarrow,
   homeNarrow,
   canSendToNarrow,
 } from '../utils/narrow';
@@ -104,9 +105,9 @@ export const getRecipientsInGroupNarrow = createSelector(
   getActiveNarrow,
   getUsers,
   (narrow, users) =>
-    !narrow || narrow.length === 0
-      ? []
-      : narrow[0].operand.split(',').map(r => users.find(x => x.email === r) || []),
+    isGroupNarrow(narrow)
+      ? narrow[0].operand.split(',').map(r => users.find(x => x.email === r) || [])
+      : [],
 );
 
 export const getStreamInNarrow = createSelector(
