@@ -2,13 +2,12 @@ import deepFreeze from 'deep-freeze';
 
 import { getFetchingForActiveNarrow, getIsFetching } from '../fetchingSelectors';
 import { homeNarrow, homeNarrowStr } from '../../utils/narrow';
+import { navStateWithNarrow } from '../../utils/testHelpers';
 
 describe('getFetchingForActiveNarrow', () => {
   test('if no narrow information exists in state, return a null fetching object', () => {
     const state = deepFreeze({
-      chat: {
-        narrow: homeNarrow,
-      },
+      ...navStateWithNarrow(homeNarrow),
       fetching: {},
     });
     const expectedResult = { older: false, newer: false };
@@ -20,9 +19,7 @@ describe('getFetchingForActiveNarrow', () => {
 
   test('if an entry matching current narrow exists, it is returned', () => {
     const state = deepFreeze({
-      chat: {
-        narrow: homeNarrow,
-      },
+      ...navStateWithNarrow(homeNarrow),
       fetching: {
         [homeNarrowStr]: { older: true, newer: true },
       },
@@ -39,9 +36,7 @@ describe('getIsFetching', () => {
   test('when no initial fetching required and fetching is empty returns false', () => {
     const state = deepFreeze({
       app: {},
-      chat: {
-        narrow: homeNarrow,
-      },
+      ...navStateWithNarrow(homeNarrow),
       fetching: {},
     });
 
@@ -55,9 +50,7 @@ describe('getIsFetching', () => {
       app: {
         needsInitialFetch: true,
       },
-      chat: {
-        narrow: homeNarrow,
-      },
+      ...navStateWithNarrow(homeNarrow),
       fetching: {},
     });
 
@@ -69,9 +62,7 @@ describe('getIsFetching', () => {
   test('if fetching older for current narrow returns true', () => {
     const state = deepFreeze({
       app: {},
-      chat: {
-        narrow: homeNarrow,
-      },
+      ...navStateWithNarrow(homeNarrow),
       fetching: {
         [homeNarrowStr]: { older: true, newer: false },
       },
@@ -85,9 +76,7 @@ describe('getIsFetching', () => {
   test('if fetching newer for current narrow returns true', () => {
     const state = deepFreeze({
       app: {},
-      chat: {
-        narrow: homeNarrow,
-      },
+      ...navStateWithNarrow(homeNarrow),
       fetching: {
         [homeNarrowStr]: { older: false, newer: true },
       },

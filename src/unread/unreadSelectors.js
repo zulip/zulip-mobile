@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import type { MuteState } from '../types';
 import { caseInsensitiveCompareObjFunc } from '../utils/misc';
 import {
-  getActiveNarrow,
   getMute,
   getReadFlags,
   getStreams,
@@ -15,7 +14,7 @@ import {
   getUnreadMentions,
 } from '../directSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
-import { getPrivateMessages } from '../baseSelectors';
+import { getActiveNarrow, getPrivateMessages } from '../baseSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { countUnread } from '../utils/unread';
 import { isTopicMuted } from '../utils/message';

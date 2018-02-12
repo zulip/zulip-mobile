@@ -115,13 +115,9 @@ class MessageListContainer extends PureComponent<Props> {
   };
 
   render() {
-    const { fetching } = this.props;
-
     return (
       <MessageListWeb
         {...this.props}
-        fetchingOlder={fetching.older}
-        fetchingNewer={fetching.newer}
         onLongPress={this.handleLongPress}
         onScroll={this.handleMessageListScroll}
       />

@@ -1,14 +1,13 @@
 import deepFreeze from 'deep-freeze';
 
 import { getTopicsInActiveNarrow, getLastMessageTopic } from '../topicSelectors';
+import { navStateWithNarrow } from '../../utils/testHelpers';
 import { homeNarrow, streamNarrow } from '../../utils/narrow';
 
 describe('getTopicsInActiveNarrow', () => {
   test('when no topics return an empty list', () => {
     const state = deepFreeze({
-      chat: {
-        narrow: homeNarrow,
-      },
+      ...navStateWithNarrow(homeNarrow),
     });
 
     const topics = getTopicsInActiveNarrow(state);
@@ -18,9 +17,7 @@ describe('getTopicsInActiveNarrow', () => {
 
   test('when there are topics in the active narrow, return them as string array', () => {
     const state = deepFreeze({
-      chat: {
-        narrow: streamNarrow('hello'),
-      },
+      ...navStateWithNarrow(streamNarrow('hello')),
       streams: [{ stream_id: 123, name: 'hello' }],
       topics: {
         123: [{ name: 'hi' }, { name: 'wow' }],
@@ -36,8 +33,8 @@ describe('getTopicsInActiveNarrow', () => {
 describe('getLastMessageTopic', () => {
   test('when no messages in narrow return an empty string', () => {
     const state = deepFreeze({
+      ...navStateWithNarrow(homeNarrow),
       chat: {
-        narrow: homeNarrow,
         messages: {},
       },
     });
@@ -50,8 +47,8 @@ describe('getLastMessageTopic', () => {
   test('when one or more messages return the topic of the last one', () => {
     const narrow = streamNarrow('hello');
     const state = deepFreeze({
+      ...navStateWithNarrow(narrow),
       chat: {
-        narrow,
         messages: {
           [JSON.stringify(narrow)]: [{ id: 1 }, { id: 2, subject: 'some topic' }],
         },

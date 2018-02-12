@@ -8,6 +8,7 @@ import {
   fetchNewer,
 } from '../fetchActions';
 import { streamNarrow, homeNarrow, homeNarrowStr } from '../../utils/narrow';
+import { navStateWithNarrow } from '../../utils/testHelpers';
 
 const narrow = streamNarrow('some stream');
 const streamNarrowStr = JSON.stringify(narrow);
@@ -22,8 +23,8 @@ describe('fetchActions', () => {
   describe('backgroundFetchMessages', () => {
     test('message fetch success action is dispatched after successful fetch', async () => {
       const store = mockStore({
+        ...navStateWithNarrow(homeNarrow),
         chat: {
-          narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 1 }],
           },
@@ -43,8 +44,8 @@ describe('fetchActions', () => {
   describe('fetchMessages', () => {
     test('when messages to be fetched both before and after anchor, fetchingOlder and fetchingNewer is true', () => {
       const store = mockStore({
+        ...navStateWithNarrow(homeNarrow),
         chat: {
-          narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 1 }],
           },
@@ -60,8 +61,8 @@ describe('fetchActions', () => {
 
     test('when no messages to be fetched before the anchor, fetchingOlder is false', () => {
       const store = mockStore({
+        ...navStateWithNarrow(homeNarrow),
         chat: {
-          narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 1 }],
           },
@@ -77,8 +78,8 @@ describe('fetchActions', () => {
 
     test('when no messages to be fetched after the anchor, fetchingNewer is false', () => {
       const store = mockStore({
+        ...navStateWithNarrow(homeNarrow),
         chat: {
-          narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 1 }],
           },
@@ -96,8 +97,8 @@ describe('fetchActions', () => {
   describe('fetchMessagesAtFirstUnread', () => {
     test('message fetch start action is dispatched with fetchingOlder and fetchingNewer true', () => {
       const store = mockStore({
+        ...navStateWithNarrow(homeNarrow),
         chat: {
-          narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 1 }],
           },
@@ -121,8 +122,8 @@ describe('fetchActions', () => {
         caughtUp: {
           [homeNarrowStr]: { older: false },
         },
+        ...navStateWithNarrow(homeNarrow),
         chat: {
-          narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 2 }],
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
@@ -148,8 +149,8 @@ describe('fetchActions', () => {
         caughtUp: {
           [homeNarrowStr]: { older: true },
         },
+        ...navStateWithNarrow(homeNarrow),
         chat: {
-          narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 2 }],
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
@@ -174,8 +175,8 @@ describe('fetchActions', () => {
         caughtUp: {
           [homeNarrowStr]: { older: false },
         },
+        ...navStateWithNarrow(homeNarrow),
         chat: {
-          narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 2 }],
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
@@ -200,9 +201,9 @@ describe('fetchActions', () => {
         caughtUp: {
           [homeNarrowStr]: { older: false },
         },
+        ...navStateWithNarrow(homeNarrow),
         chat: {
           fetchingOlder: false,
-          narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 2 }],
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
@@ -227,8 +228,8 @@ describe('fetchActions', () => {
         caughtUp: {
           [homeNarrowStr]: { newer: false },
         },
+        ...navStateWithNarrow(homeNarrow),
         chat: {
-          narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 2 }],
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
@@ -252,9 +253,9 @@ describe('fetchActions', () => {
         caughtUp: {
           [homeNarrowStr]: { newer: true },
         },
+        ...navStateWithNarrow(homeNarrow),
         chat: {
           fetchingNewer: false,
-          narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 2 }],
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
@@ -277,8 +278,8 @@ describe('fetchActions', () => {
         caughtUp: {
           [homeNarrowStr]: { newer: false },
         },
+        ...navStateWithNarrow(homeNarrow),
         chat: {
-          narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 2 }],
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
@@ -305,9 +306,9 @@ describe('fetchActions', () => {
           [homeNarrowStr]: { newer: false },
         },
         fetching: {},
+        ...navStateWithNarrow(homeNarrow),
         chat: {
           fetchingNewer: false,
-          narrow: homeNarrow,
           messages: {
             [streamNarrowStr]: [{ id: 2 }],
             [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
