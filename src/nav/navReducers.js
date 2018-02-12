@@ -20,9 +20,6 @@ export default (
   action: Action,
 ): NavigationState => {
   switch (action.type) {
-    case REHYDRATE:
-      return getStateForRoute(getInitialRoute(action.payload));
-
     case RESET_NAVIGATION:
       return getStateForRoute(getInitialRoute(state));
 
