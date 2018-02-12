@@ -8,6 +8,7 @@ import {
   getActiveNarrow,
   getLastMessageTopic,
   getUsers,
+  getShowMessagePlaceholders,
 } from '../selectors';
 import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelectors';
 import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
@@ -20,7 +21,7 @@ export default connectWithActions((state: GlobalState) => ({
   safeAreaInsets: getApp(state).safeAreaInsets,
   composeTools: getApp(state).composeTools,
   isSubscribed: getIsActiveStreamSubscribed(state),
-  canSend: canSendToActiveNarrow(state),
+  canSend: canSendToActiveNarrow(state) && !getShowMessagePlaceholders(state),
   editMessage: getApp(state).editMessage,
   draft: getDraftForActiveNarrow(state),
   lastMessageTopic: getLastMessageTopic(state),
