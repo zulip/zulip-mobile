@@ -14,10 +14,10 @@ Run iOS:
 (currently iPhone 6)
 
 * `npm run ios-min` - runs in an iOS simulator in the minimally supported device
-(currently iPhone 5)
+(currently iPhone 5S)
 
 * `npm run ios-max` - runs in an iOS simulator in the newest/most premium
-supported device (currently iPhone 7 Plus)
+supported device (currently iPhone X)
 
 * `npm run ios-device` - runs on a physical iOS device, you need to edit the
 device name in package.json
@@ -28,8 +28,9 @@ Run Android:
 
 All of these can be installed, together with their dependencies, using the Android SDK manager.
 
-* `react-native run-android` - runs in an Android emulator, emulator has to be
-run manually before this command
+* `npm run android-min` or `npm run android-max` - runs in an Android emulator, emulator has to be run manually before this command
+
+Alternate method: Open `zulip-mobile/android` in Android Studio, fix dependancy issues by installing all packages and run.
 
 ## Fix issues
 
