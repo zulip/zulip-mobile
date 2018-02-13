@@ -3,44 +3,61 @@ import deepFreeze from 'deep-freeze';
 import { getInitialRoute } from '../navSelectors';
 
 describe('getInitialRoute', () => {
-  test('if logged in, show main route', () => {
+  test('if logged in, preserve the state', () => {
     const state = deepFreeze({
       accounts: [{ apiKey: '123' }],
+      nav: {
+        routes: [{ routeName: 'route1' }, { routeName: 'route2' }],
+      },
     });
 
-    const route = getInitialRoute(state);
+    const nav = getInitialRoute(state);
 
-    expect(route).toEqual('main');
+    expect(nav.routes.length).toEqual(2);
+    expect(nav.routes[0].routeName).toEqual('route1');
+    expect(nav.routes[1].routeName).toEqual('route2');
   });
 
   test('if not logged in, and no previous accounts, show realm screen', () => {
     const state = deepFreeze({
       accounts: [],
+      nav: {
+        routes: [],
+      },
     });
 
-    const route = getInitialRoute(state);
+    const nav = getInitialRoute(state);
 
-    expect(route).toEqual('realm');
+    expect(nav.routes.length).toBe(1);
+    expect(nav.routes[0].routeName).toEqual('realm');
   });
 
   test('if more than one account and no active account, display account list', () => {
     const state = deepFreeze({
       accounts: [{}, {}],
+      nav: {
+        routes: [],
+      },
     });
 
-    const route = getInitialRoute(state);
+    const nav = getInitialRoute(state);
 
-    expect(route).toEqual('account');
+    expect(nav.routes.length).toBe(1);
+    expect(nav.routes[0].routeName).toEqual('account');
   });
 
   test('when only a single account and no other properties, redirect to realm', () => {
     const state = deepFreeze({
       accounts: [{ realm: 'https://example.com' }],
+      nav: {
+        routes: [],
+      },
     });
 
-    const route = getInitialRoute(state);
+    const nav = getInitialRoute(state);
 
-    expect(route).toEqual('realm');
+    expect(nav.routes.length).toBe(1);
+    expect(nav.routes[0].routeName).toEqual('realm');
   });
 
   test('when multiple accounts and default one has realm and email, show account list', () => {
@@ -49,20 +66,28 @@ describe('getInitialRoute', () => {
         { realm: 'https://example.com', email: 'johndoe@example.com' },
         { realm: 'https://example.com', email: 'janedoe@example.com' },
       ],
+      nav: {
+        routes: [],
+      },
     });
 
-    const route = getInitialRoute(state);
+    const nav = getInitialRoute(state);
 
-    expect(route).toEqual('account');
+    expect(nav.routes.length).toBe(1);
+    expect(nav.routes[0].routeName).toEqual('account');
   });
 
   test('when default account has server and email set, redirect to realm screen', () => {
     const state = deepFreeze({
       accounts: [{ realm: 'https://example.com', email: 'johndoe@example.com' }],
+      nav: {
+        routes: [],
+      },
     });
 
-    const route = getInitialRoute(state);
+    const nav = getInitialRoute(state);
 
-    expect(route).toEqual('realm');
+    expect(nav.routes.length).toBe(1);
+    expect(nav.routes[0].routeName).toEqual('realm');
   });
 });

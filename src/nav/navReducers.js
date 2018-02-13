@@ -24,7 +24,7 @@ export default (
       return getInitialRoute(action.payload);
 
     case RESET_NAVIGATION:
-      return getStateForRoute(getInitialRoute(state));
+      return getInitialRoute(state);
 
     case ACCOUNT_SWITCH:
       return getStateForRoute('loading');
