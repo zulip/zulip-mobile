@@ -7,16 +7,8 @@ import renderMessagesAsHtml from './renderMessagesAsHtml';
 import messageTypingAsHtml from './messageTypingAsHtml';
 import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/messageUpdates';
 
-let previousContent = '';
-
 const updateContent = (prevProps: Props, nextProps: Props, sendMessage: any => void) => {
   const content = htmlBody(renderMessagesAsHtml(nextProps), nextProps.showMessagePlaceholders);
-
-  if (content === previousContent) {
-    return;
-  }
-
-  previousContent = content;
   const transitionProps = getMessageTransitionProps(prevProps, nextProps);
   const updateStrategy = getMessageUpdateStrategy(transitionProps);
 
