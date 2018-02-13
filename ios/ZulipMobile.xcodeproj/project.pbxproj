@@ -50,11 +50,6 @@
 		C478B42A63D649EFA2CFD12D /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E53FD60A6D0409A8E58DCB5 /* SimpleLineIcons.ttf */; };
 		C866080E83494D1C8B535591 /* libRNSafeArea.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AED53B5E6AA4E0AA52DB0C1 /* libRNSafeArea.a */; };
 		C9F58827F1CF47999850925A /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5597847AA2A04FEE894C9C9E /* libRCTOrientation.a */; };
-		CF15A6B21E5C0C8A003EA77F /* UIView+Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15A6B11E5C0C8A003EA77F /* UIView+Tag.m */; };
-		CF15A6B61E5C56E5003EA77F /* OptimizedGifDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15A6B51E5C56E5003EA77F /* OptimizedGifDecoder.m */; };
-		CF1953241E5BE67D00B14FF0 /* AnchorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1953231E5BE67D00B14FF0 /* AnchorScrollView.m */; };
-		CF1953261E5BF2E000B14FF0 /* AnchorScrollViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1953251E5BF2E000B14FF0 /* AnchorScrollViewManager.m */; };
-		CF19532E1E5C062B00B14FF0 /* TaggedViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF19532D1E5C062B00B14FF0 /* TaggedViewManager.m */; };
 		CFA67D201EC23BCB0070048E /* UtilManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA67D1F1EC23BCB0070048E /* UtilManager.m */; };
 		CFCFE5491F00158500C295CF /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A155BFEC1DD8E54100A8B695 /* libRCTCameraRoll.a */; };
 		D6D40984ED07473499B3F0C9 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5664A74FA8048439CBAB734 /* libRNDeviceInfo.a */; };
@@ -104,6 +99,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = ZulipMobile;
+		};
+		0A376B3720308CBA002776B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BDC1FC498900052F4D5;
+			remoteInfo = jsinspector;
+		};
+		0A376B3920308CBA002776B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BFA1FC4989A0052F4D5;
+			remoteInfo = "jsinspector-tvOS";
+		};
+		0A376B4520308CBA002776B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF03F5DAC0924A13BDD49574 /* RNSound.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2DCCC1751FDF4F93007C5315;
+			remoteInfo = "RNSound-tvOS";
 		};
 		0A443F401F17F9F6008AB961 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -495,16 +511,6 @@
 		BBB8896EA77146E19DF4FF88 /* LRDRCTSimpleToast.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = LRDRCTSimpleToast.xcodeproj; path = "../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast.xcodeproj"; sourceTree = "<group>"; };
 		C2F7E19951E64FC7B6BBE612 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		C9B0BDEA40534DFA9BDC4C75 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
-		CF15A6B11E5C0C8A003EA77F /* UIView+Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Tag.m"; path = "ZulipMobile/UIView+Tag.m"; sourceTree = "<group>"; };
-		CF15A6B31E5C21CB003EA77F /* AnchorScrollViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnchorScrollViewManager.h; path = ZulipMobile/AnchorScrollViewManager.h; sourceTree = "<group>"; };
-		CF15A6B51E5C56E5003EA77F /* OptimizedGifDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptimizedGifDecoder.m; path = ZulipMobile/OptimizedGifDecoder.m; sourceTree = "<group>"; };
-		CF15A6B71E5C56F8003EA77F /* OptimizedGifDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OptimizedGifDecoder.h; path = ZulipMobile/OptimizedGifDecoder.h; sourceTree = "<group>"; };
-		CF1953221E5BE66800B14FF0 /* AnchorScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AnchorScrollView.h; path = ZulipMobile/AnchorScrollView.h; sourceTree = "<group>"; };
-		CF1953231E5BE67D00B14FF0 /* AnchorScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnchorScrollView.m; path = ZulipMobile/AnchorScrollView.m; sourceTree = "<group>"; };
-		CF1953251E5BF2E000B14FF0 /* AnchorScrollViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnchorScrollViewManager.m; path = ZulipMobile/AnchorScrollViewManager.m; sourceTree = "<group>"; };
-		CF1953291E5C05BF00B14FF0 /* UIView+Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Tag.h"; path = "ZulipMobile/UIView+Tag.h"; sourceTree = "<group>"; };
-		CF19532C1E5C062B00B14FF0 /* TaggedViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaggedViewManager.h; path = ZulipMobile/TaggedViewManager.h; sourceTree = "<group>"; };
-		CF19532D1E5C062B00B14FF0 /* TaggedViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaggedViewManager.m; path = ZulipMobile/TaggedViewManager.m; sourceTree = "<group>"; };
 		CF6CFE2C1E7DC55100F687C7 /* Build-Phases */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Build-Phases"; sourceTree = "<group>"; };
 		CF6D016517D74B509DBD05DC /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		CFA67D1F1EC23BCB0070048E /* UtilManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UtilManager.m; path = ZulipMobile/UtilManager.m; sourceTree = "<group>"; };
@@ -702,16 +708,6 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				CF1953221E5BE66800B14FF0 /* AnchorScrollView.h */,
-				CF1953231E5BE67D00B14FF0 /* AnchorScrollView.m */,
-				CF15A6B31E5C21CB003EA77F /* AnchorScrollViewManager.h */,
-				CF1953251E5BF2E000B14FF0 /* AnchorScrollViewManager.m */,
-				CF1953291E5C05BF00B14FF0 /* UIView+Tag.h */,
-				CF15A6B11E5C0C8A003EA77F /* UIView+Tag.m */,
-				CF19532C1E5C062B00B14FF0 /* TaggedViewManager.h */,
-				CF19532D1E5C062B00B14FF0 /* TaggedViewManager.m */,
-				CF15A6B51E5C56E5003EA77F /* OptimizedGifDecoder.m */,
-				CF15A6B71E5C56F8003EA77F /* OptimizedGifDecoder.h */,
 				CFA67D1F1EC23BCB0070048E /* UtilManager.m */,
 				CFA67D211EC23BDD0070048E /* UtilManager.h */,
 			);
@@ -729,6 +725,8 @@
 				CF68BE291E2CD177001D50C6 /* libcxxreact.a */,
 				CF68BE2B1E2CD177001D50C6 /* libjschelpers.a */,
 				CF68BE2D1E2CD177001D50C6 /* libjschelpers.a */,
+				0A376B3820308CBA002776B3 /* libjsinspector.a */,
+				0A376B3A20308CBA002776B3 /* libjsinspector-tvOS.a */,
 				3C5B4C9B1F298ECA00A22BBE /* libthird-party.a */,
 				3C5B4C9D1F298ECA00A22BBE /* libthird-party.a */,
 				3C5B4C9F1F298ECA00A22BBE /* libdouble-conversion.a */,
@@ -854,6 +852,7 @@
 			isa = PBXGroup;
 			children = (
 				A148FEF91E9D8C9600479280 /* libRNSound.a */,
+				0A376B4620308CBA002776B3 /* libRNSound-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1185,6 +1184,27 @@
 			fileType = archive.ar;
 			path = libRCTVibration.a;
 			remoteRef = 00C302E31ABCB9EE00DB3ED1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0A376B3820308CBA002776B3 /* libjsinspector.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjsinspector.a;
+			remoteRef = 0A376B3720308CBA002776B3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0A376B3A20308CBA002776B3 /* libjsinspector-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsinspector-tvOS.a";
+			remoteRef = 0A376B3920308CBA002776B3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0A376B4620308CBA002776B3 /* libRNSound-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNSound-tvOS.a";
+			remoteRef = 0A376B4520308CBA002776B3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		0A443F411F17F9F6008AB961 /* libRNSentry.a */ = {
@@ -1607,14 +1627,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF1953261E5BF2E000B14FF0 /* AnchorScrollViewManager.m in Sources */,
-				CF19532E1E5C062B00B14FF0 /* TaggedViewManager.m in Sources */,
 				CFA67D201EC23BCB0070048E /* UtilManager.m in Sources */,
-				CF1953241E5BE67D00B14FF0 /* AnchorScrollView.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				CF15A6B61E5C56E5003EA77F /* OptimizedGifDecoder.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				CF15A6B21E5C0C8A003EA77F /* UIView+Tag.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
