@@ -1,4 +1,6 @@
 /* @flow */
+import { REHYDRATE } from 'redux-persist/constants';
+
 import type { NavigationState, Action } from '../types';
 import { getFirstIfDeepEqual } from '../utils/immutability';
 import { navigateToChat } from './navActions';
@@ -18,6 +20,9 @@ export default (
   action: Action,
 ): NavigationState => {
   switch (action.type) {
+    case REHYDRATE:
+      return getInitialRoute(action.payload);
+
     case RESET_NAVIGATION:
       return getStateForRoute(getInitialRoute(state));
 

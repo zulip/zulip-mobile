@@ -26,7 +26,7 @@ export default (
       backgroundColor: BRAND_COLOR,
     },
     tabStyle: {
-      width: tabWidth,
+      flex: 1,
     },
     style: {
       backgroundColor: 'transparent',
