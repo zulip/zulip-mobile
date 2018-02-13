@@ -131,7 +131,7 @@ export default (state: GlobalState, event: Object) => {
       return {
         ...event,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        allMessages: state.chat.messages,
+        allMessages: state.messages,
       };
 
     case 'typing':

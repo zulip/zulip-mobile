@@ -24,10 +24,8 @@ describe('fetchActions', () => {
     test('message fetch success action is dispatched after successful fetch', async () => {
       const store = mockStore({
         ...navStateWithNarrow(homeNarrow),
-        chat: {
-          messages: {
-            [streamNarrowStr]: [{ id: 1 }],
-          },
+        messages: {
+          [streamNarrowStr]: [{ id: 1 }],
         },
       });
       const response = { messages: [{ id: 1 }, { id: 2 }, { id: 3 }], result: 'success' };
@@ -45,10 +43,8 @@ describe('fetchActions', () => {
     test('when messages to be fetched both before and after anchor, fetchingOlder and fetchingNewer is true', () => {
       const store = mockStore({
         ...navStateWithNarrow(homeNarrow),
-        chat: {
-          messages: {
-            [streamNarrowStr]: [{ id: 1 }],
-          },
+        messages: {
+          [streamNarrowStr]: [{ id: 1 }],
         },
       });
 
@@ -62,10 +58,8 @@ describe('fetchActions', () => {
     test('when no messages to be fetched before the anchor, fetchingOlder is false', () => {
       const store = mockStore({
         ...navStateWithNarrow(homeNarrow),
-        chat: {
-          messages: {
-            [streamNarrowStr]: [{ id: 1 }],
-          },
+        messages: {
+          [streamNarrowStr]: [{ id: 1 }],
         },
       });
 
@@ -79,10 +73,8 @@ describe('fetchActions', () => {
     test('when no messages to be fetched after the anchor, fetchingNewer is false', () => {
       const store = mockStore({
         ...navStateWithNarrow(homeNarrow),
-        chat: {
-          messages: {
-            [streamNarrowStr]: [{ id: 1 }],
-          },
+        messages: {
+          [streamNarrowStr]: [{ id: 1 }],
         },
       });
 
@@ -98,10 +90,8 @@ describe('fetchActions', () => {
     test('message fetch start action is dispatched with fetchingOlder and fetchingNewer true', () => {
       const store = mockStore({
         ...navStateWithNarrow(homeNarrow),
-        chat: {
-          messages: {
-            [streamNarrowStr]: [{ id: 1 }],
-          },
+        messages: {
+          [streamNarrowStr]: [{ id: 1 }],
         },
       });
 
@@ -123,11 +113,9 @@ describe('fetchActions', () => {
           [homeNarrowStr]: { older: false },
         },
         ...navStateWithNarrow(homeNarrow),
-        chat: {
-          messages: {
-            [streamNarrowStr]: [{ id: 2 }],
-            [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-          },
+        messages: {
+          [streamNarrowStr]: [{ id: 2 }],
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {
           [homeNarrowStr]: { older: false, newer: false },
@@ -150,11 +138,9 @@ describe('fetchActions', () => {
           [homeNarrowStr]: { older: true },
         },
         ...navStateWithNarrow(homeNarrow),
-        chat: {
-          messages: {
-            [streamNarrowStr]: [{ id: 2 }],
-            [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-          },
+        messages: {
+          [streamNarrowStr]: [{ id: 2 }],
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {
           [homeNarrowStr]: { older: false, newer: false },
@@ -176,11 +162,9 @@ describe('fetchActions', () => {
           [homeNarrowStr]: { older: false },
         },
         ...navStateWithNarrow(homeNarrow),
-        chat: {
-          messages: {
-            [streamNarrowStr]: [{ id: 2 }],
-            [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-          },
+        messages: {
+          [streamNarrowStr]: [{ id: 2 }],
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {
           [homeNarrowStr]: { older: true, newer: false },
@@ -202,12 +186,9 @@ describe('fetchActions', () => {
           [homeNarrowStr]: { older: false },
         },
         ...navStateWithNarrow(homeNarrow),
-        chat: {
-          fetchingOlder: false,
-          messages: {
-            [streamNarrowStr]: [{ id: 2 }],
-            [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-          },
+        messages: {
+          [streamNarrowStr]: [{ id: 2 }],
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {},
       });
@@ -229,11 +210,9 @@ describe('fetchActions', () => {
           [homeNarrowStr]: { newer: false },
         },
         ...navStateWithNarrow(homeNarrow),
-        chat: {
-          messages: {
-            [streamNarrowStr]: [{ id: 2 }],
-            [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-          },
+        messages: {
+          [streamNarrowStr]: [{ id: 2 }],
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {},
       });
@@ -254,12 +233,9 @@ describe('fetchActions', () => {
           [homeNarrowStr]: { newer: true },
         },
         ...navStateWithNarrow(homeNarrow),
-        chat: {
-          fetchingNewer: false,
-          messages: {
-            [streamNarrowStr]: [{ id: 2 }],
-            [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-          },
+        messages: {
+          [streamNarrowStr]: [{ id: 2 }],
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {},
       });
@@ -279,11 +255,9 @@ describe('fetchActions', () => {
           [homeNarrowStr]: { newer: false },
         },
         ...navStateWithNarrow(homeNarrow),
-        chat: {
-          messages: {
-            [streamNarrowStr]: [{ id: 2 }],
-            [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-          },
+        messages: {
+          [streamNarrowStr]: [{ id: 2 }],
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {
           homeNarrow: { older: false, newer: true },
@@ -307,12 +281,9 @@ describe('fetchActions', () => {
         },
         fetching: {},
         ...navStateWithNarrow(homeNarrow),
-        chat: {
-          fetchingNewer: false,
-          messages: {
-            [streamNarrowStr]: [{ id: 2 }],
-            [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-          },
+        messages: {
+          [streamNarrowStr]: [{ id: 2 }],
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
         },
       });
 

@@ -35,7 +35,7 @@ export const getFlags = (state: GlobalState): FlagsState => state.flags;
 
 export const getReadFlags = (state: GlobalState): Object => state.flags.read;
 
-export const getAllMessages = (state: GlobalState): MessageState => state.chat.messages;
+export const getAllMessages = (state: GlobalState): MessageState => state.messages;
 
 export const getNav = (state: GlobalState): Object => state.nav;
 

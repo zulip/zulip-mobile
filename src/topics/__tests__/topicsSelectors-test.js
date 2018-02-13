@@ -34,9 +34,7 @@ describe('getLastMessageTopic', () => {
   test('when no messages in narrow return an empty string', () => {
     const state = deepFreeze({
       ...navStateWithNarrow(homeNarrow),
-      chat: {
-        messages: {},
-      },
+      messages: {},
     });
 
     const topic = getLastMessageTopic(state);
@@ -48,10 +46,8 @@ describe('getLastMessageTopic', () => {
     const narrow = streamNarrow('hello');
     const state = deepFreeze({
       ...navStateWithNarrow(narrow),
-      chat: {
-        messages: {
-          [JSON.stringify(narrow)]: [{ id: 1 }, { id: 2, subject: 'some topic' }],
-        },
+      messages: {
+        [JSON.stringify(narrow)]: [{ id: 1 }, { id: 2, subject: 'some topic' }],
       },
     });
 

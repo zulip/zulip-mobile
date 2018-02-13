@@ -1,9 +1,7 @@
 /* @flow */
 import isEqual from 'lodash.isequal';
-import { REHYDRATE } from 'redux-persist/constants';
 
 import type { ChatState, Action } from '../types';
-import config from '../config';
 import {
   APP_REFRESH,
   LOGOUT,
@@ -15,15 +13,12 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
 } from '../actionConstants';
-import { homeNarrow, isMessageInNarrow, getNarrowFromMessage } from '../utils/narrow';
+import { isMessageInNarrow, getNarrowFromMessage } from '../utils/narrow';
 import { groupItemsById } from '../utils/misc';
 import chatUpdater from './chatUpdater';
 import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
 
-const initialState: ChatState = {
-  narrow: homeNarrow,
-  messages: NULL_OBJECT,
-};
+const initialState: ChatState = NULL_OBJECT;
 
 export default (state: ChatState = initialState, action: Action) => {
   switch (action.type) {
@@ -33,21 +28,13 @@ export default (state: ChatState = initialState, action: Action) => {
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case REHYDRATE:
-      if (!config.startup.narrow) return state;
-
-      return {
-        ...state,
-        narrow: config.startup.narrow,
-      };
-
     case MESSAGE_FETCH_COMPLETE: {
       if (action.messages.length === 0) {
         return state;
       }
 
       const key = JSON.stringify(action.narrow);
-      const messages = state.messages[key] || NULL_ARRAY;
+      const messages = state[key] || NULL_ARRAY;
       const messagesById = groupItemsById(messages);
       const newMessages = action.replaceExisting
         ? action.messages.map(
@@ -63,10 +50,7 @@ export default (state: ChatState = initialState, action: Action) => {
 
       return {
         ...state,
-        messages: {
-          ...state.messages,
-          [key]: newMessages,
-        },
+        [key]: newMessages,
       };
     }
 
@@ -89,36 +73,30 @@ export default (state: ChatState = initialState, action: Action) => {
 
     case EVENT_NEW_MESSAGE: {
       let stateChange = false;
-      let newState = {
-        ...state,
-        messages: Object.keys(state.messages).reduce((msg, key) => {
-          const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
+      let newState = Object.keys(state).reduce((msg, key) => {
+        const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
 
-          if (
-            isInNarrow &&
-            (action.caughtUp[key] && action.caughtUp[key].newer) &&
-            state.messages[key].find(item => action.message.id === item.id) === undefined
-          ) {
-            stateChange = true;
-            msg[key] = [...state.messages[key], action.message];
-          } else {
-            msg[key] = state.messages[key];
-          }
+        if (
+          isInNarrow &&
+          (action.caughtUp[key] && action.caughtUp[key].newer) &&
+          state[key].find(item => action.message.id === item.id) === undefined
+        ) {
+          stateChange = true;
+          msg[key] = [...state[key], action.message];
+        } else {
+          msg[key] = state[key];
+        }
 
-          return msg;
-        }, {}),
-      };
+        return msg;
+      }, {});
 
       const key = JSON.stringify(getNarrowFromMessage(action.message, action.ownEmail));
-      if (!stateChange && state.messages[key] === undefined) {
+      if (!stateChange && state[key] === undefined) {
         // new message is in new narrow in which we don't have any message
         stateChange = true;
         newState = {
           ...state,
-          messages: {
-            ...state.messages,
-            [key]: [action.message],
-          },
+          [key]: [action.message],
         };
       }
 

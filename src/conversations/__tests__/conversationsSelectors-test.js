@@ -2,6 +2,7 @@ import deepFreeze from 'deep-freeze';
 
 import { getRecentConversations } from '../conversationsSelectors';
 import { homeNarrow, specialNarrow } from '../../utils/narrow';
+import { navStateWithNarrow } from '../../utils/testHelpers';
 
 describe('getRecentConversations', () => {
   const privatesNarrowStr = JSON.stringify(specialNarrow('private'));
@@ -9,11 +10,9 @@ describe('getRecentConversations', () => {
   test('when no messages, return no conversations', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      chat: {
-        narrow: homeNarrow,
-        messages: {
-          [privatesNarrowStr]: [],
-        },
+      ...navStateWithNarrow(homeNarrow),
+      messages: {
+        [privatesNarrowStr]: [],
       },
       unread: {
         pms: [],
@@ -29,44 +28,42 @@ describe('getRecentConversations', () => {
   test('returns unique list of recipients, includes conversations with self', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      chat: {
-        messages: {
-          [privatesNarrowStr]: [
-            {
-              id: 1,
-              display_recipient: [
-                { id: 0, email: 'me@example.com' },
-                { id: 1, email: 'john@example.com' },
-              ],
-            },
-            {
-              id: 2,
-              display_recipient: [
-                { id: 0, email: 'me@example.com' },
-                { id: 2, email: 'mark@example.com' },
-              ],
-            },
-            {
-              id: 3,
-              display_recipient: [
-                { id: 0, email: 'me@example.com' },
-                { id: 1, email: 'john@example.com' },
-              ],
-            },
-            {
-              id: 4,
-              display_recipient: [{ id: 0, email: 'me@example.com' }],
-            },
-            {
-              id: 5,
-              display_recipient: [
-                { id: 0, email: 'me@example.com' },
-                { id: 1, email: 'john@example.com' },
-                { id: 2, email: 'mark@example.com' },
-              ],
-            },
-          ],
-        },
+      messages: {
+        [privatesNarrowStr]: [
+          {
+            id: 1,
+            display_recipient: [
+              { id: 0, email: 'me@example.com' },
+              { id: 1, email: 'john@example.com' },
+            ],
+          },
+          {
+            id: 2,
+            display_recipient: [
+              { id: 0, email: 'me@example.com' },
+              { id: 2, email: 'mark@example.com' },
+            ],
+          },
+          {
+            id: 3,
+            display_recipient: [
+              { id: 0, email: 'me@example.com' },
+              { id: 1, email: 'john@example.com' },
+            ],
+          },
+          {
+            id: 4,
+            display_recipient: [{ id: 0, email: 'me@example.com' }],
+          },
+          {
+            id: 5,
+            display_recipient: [
+              { id: 0, email: 'me@example.com' },
+              { id: 1, email: 'john@example.com' },
+              { id: 2, email: 'mark@example.com' },
+            ],
+          },
+        ],
       },
       unread: {
         pms: [
@@ -127,51 +124,49 @@ describe('getRecentConversations', () => {
   test('returns recipients sorted by last activity', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      chat: {
-        messages: {
-          [privatesNarrowStr]: [
-            {
-              display_recipient: [
-                { id: 0, email: 'me@example.com' },
-                { id: 1, email: 'john@example.com' },
-              ],
-              timestamp: 2,
-            },
-            {
-              display_recipient: [
-                { id: 0, email: 'me@example.com' },
-                { id: 2, email: 'mark@example.com' },
-              ],
-              timestamp: 1,
-            },
-            {
-              display_recipient: [
-                { id: 0, email: 'me@example.com' },
-                { id: 1, email: 'john@example.com' },
-              ],
-              timestamp: 4,
-            },
-            {
-              display_recipient: [
-                { id: 0, email: 'me@example.com' },
-                { id: 2, email: 'mark@example.com' },
-              ],
-              timestamp: 3,
-            },
-            {
-              display_recipient: [
-                { id: 0, email: 'me@example.com' },
-                { id: 1, email: 'john@example.com' },
-                { id: 2, email: 'mark@example.com' },
-              ],
-              timestamp: 5,
-            },
-            {
-              display_recipient: [{ id: 0, email: 'me@example.com' }],
-              timestamp: 6,
-            },
-          ],
-        },
+      messages: {
+        [privatesNarrowStr]: [
+          {
+            display_recipient: [
+              { id: 0, email: 'me@example.com' },
+              { id: 1, email: 'john@example.com' },
+            ],
+            timestamp: 2,
+          },
+          {
+            display_recipient: [
+              { id: 0, email: 'me@example.com' },
+              { id: 2, email: 'mark@example.com' },
+            ],
+            timestamp: 1,
+          },
+          {
+            display_recipient: [
+              { id: 0, email: 'me@example.com' },
+              { id: 1, email: 'john@example.com' },
+            ],
+            timestamp: 4,
+          },
+          {
+            display_recipient: [
+              { id: 0, email: 'me@example.com' },
+              { id: 2, email: 'mark@example.com' },
+            ],
+            timestamp: 3,
+          },
+          {
+            display_recipient: [
+              { id: 0, email: 'me@example.com' },
+              { id: 1, email: 'john@example.com' },
+              { id: 2, email: 'mark@example.com' },
+            ],
+            timestamp: 5,
+          },
+          {
+            display_recipient: [{ id: 0, email: 'me@example.com' }],
+            timestamp: 6,
+          },
+        ],
       },
       unread: {
         pms: [

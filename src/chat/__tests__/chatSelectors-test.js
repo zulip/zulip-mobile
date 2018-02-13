@@ -13,26 +13,22 @@ describe('getMessagesInActiveNarrow', () => {
   test('if no outbox messages returns messages with no change', () => {
     const state = deepFreeze({
       ...navStateWithNarrow(homeNarrow),
-      chat: {
-        messages: {
-          '[]': [{ id: 123 }],
-        },
+      messages: {
+        '[]': [{ id: 123 }],
       },
       outbox: [],
     });
 
     const anchor = getMessagesInActiveNarrow(state);
 
-    expect(anchor).toBe(state.chat.messages['[]']);
+    expect(anchor).toBe(state.messages['[]']);
   });
 
   test('combine messages and outbox in same narrow', () => {
     const state = deepFreeze({
       ...navStateWithNarrow(homeNarrow),
-      chat: {
-        messages: {
-          '[]': [{ id: 123 }],
-        },
+      messages: {
+        '[]': [{ id: 123 }],
       },
       outbox: [
         {
@@ -67,10 +63,8 @@ describe('getMessagesInActiveNarrow', () => {
   test('do not combine messages and outbox if not caught up', () => {
     const state = deepFreeze({
       ...navStateWithNarrow(homeNarrow),
-      chat: {
-        messages: {
-          [homeNarrowStr]: [{ id: 123 }],
-        },
+      messages: {
+        [homeNarrowStr]: [{ id: 123 }],
       },
       outbox: [
         {
@@ -85,16 +79,14 @@ describe('getMessagesInActiveNarrow', () => {
 
     const anchor = getMessagesInActiveNarrow(state);
 
-    expect(anchor).toBe(state.chat.messages[homeNarrowStr]);
+    expect(anchor).toBe(state.messages[homeNarrowStr]);
   });
 
   test('do not combine messages and outbox in different narrow', () => {
     const state = deepFreeze({
       ...navStateWithNarrow(privateNarrow('john@example.com')),
-      chat: {
-        messages: {
-          [JSON.stringify(privateNarrow('john@example.com'))]: [{ id: 123 }],
-        },
+      messages: {
+        [JSON.stringify(privateNarrow('john@example.com'))]: [{ id: 123 }],
       },
       outbox: [
         {
@@ -119,10 +111,8 @@ describe('getFirstMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = deepFreeze({
       ...navStateWithNarrow(homeNarrow),
-      chat: {
-        messages: {
-          '[]': [],
-        },
+      messages: {
+        '[]': [],
       },
       outbox: [],
     });
@@ -135,10 +125,8 @@ describe('getFirstMessageId', () => {
   test('returns first message id', () => {
     const state = deepFreeze({
       ...navStateWithNarrow(homeNarrow),
-      chat: {
-        messages: {
-          '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
-        },
+      messages: {
+        '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
       },
       outbox: [],
     });
@@ -153,10 +141,8 @@ describe('getLastMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = deepFreeze({
       ...navStateWithNarrow(homeNarrow),
-      chat: {
-        messages: {
-          '[]': [],
-        },
+      messages: {
+        '[]': [],
       },
       outbox: [],
     });
@@ -169,10 +155,8 @@ describe('getLastMessageId', () => {
   test('returns last message id', () => {
     const state = deepFreeze({
       ...navStateWithNarrow(homeNarrow),
-      chat: {
-        messages: {
-          '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
-        },
+      messages: {
+        '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
       },
       outbox: [],
     });
@@ -187,9 +171,7 @@ describe('getLastTopicInActiveNarrow', () => {
   test('when no messages yet, return empty string', () => {
     const state = deepFreeze({
       ...navStateWithNarrow(homeNarrow),
-      chat: {
-        messages: {},
-      },
+      messages: {},
       outbox: [],
     });
 
@@ -201,13 +183,8 @@ describe('getLastTopicInActiveNarrow', () => {
   test('when last message has a `subject` property, return it', () => {
     const state = deepFreeze({
       ...navStateWithNarrow(homeNarrow),
-      chat: {
-        messages: {
-          [homeNarrowStr]: [
-            { id: 0, subject: 'First subject' },
-            { id: 1, subject: 'Last subject' },
-          ],
-        },
+      messages: {
+        [homeNarrowStr]: [{ id: 0, subject: 'First subject' }, { id: 1, subject: 'Last subject' }],
       },
       outbox: [],
     });
@@ -221,10 +198,8 @@ describe('getLastTopicInActiveNarrow', () => {
     const narrow = privateNarrow('john@example.com');
     const state = deepFreeze({
       ...navStateWithNarrow(narrow),
-      chat: {
-        messages: {
-          [JSON.stringify(narrow)]: [{ id: 0 }],
-        },
+      messages: {
+        [JSON.stringify(narrow)]: [{ id: 0 }],
       },
       outbox: [],
     });
@@ -238,10 +213,8 @@ describe('getLastTopicInActiveNarrow', () => {
     const narrow = privateNarrow('john@example.com');
     const state = deepFreeze({
       ...navStateWithNarrow(narrow),
-      chat: {
-        messages: {
-          [JSON.stringify(narrow)]: [{ id: 0 }, { id: 1, subject: 'Some subject' }, { id: 2 }],
-        },
+      messages: {
+        [JSON.stringify(narrow)]: [{ id: 0 }, { id: 1, subject: 'Some subject' }, { id: 2 }],
       },
       outbox: [],
     });
