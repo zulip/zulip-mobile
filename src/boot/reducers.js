@@ -9,7 +9,7 @@ import accounts from '../account/accountReducers';
 import alertWords from '../alertWords/alertWordsReducer';
 import app from '../app/appReducers';
 import caughtUp from '../caughtup/caughtUpReducers';
-import chat from '../chat/chatReducers';
+import messages from '../chat/chatReducers';
 import fetching from '../chat/fetchingReducers';
 import flags from '../chat/flagsReducers';
 import mute from '../mute/muteReducers';
@@ -34,10 +34,10 @@ const reducers = {
   alertWords,
   app,
   caughtUp,
-  chat,
   fetching,
   drafts,
   flags,
+  messages,
   mute,
   nav,
   presence,

@@ -1,73 +1,50 @@
 /* @flow */
 import deepFreeze from 'deep-freeze';
 
-import { streamNarrow, topicNarrow, privateNarrow, specialNarrow, groupNarrow } from '../narrow';
+import { homeNarrow, streamNarrow, privateNarrow } from '../narrow';
 import getStatusBarStyle from '../getStatusBarStyle';
 import { getTitleBackgroundColor } from '../../selectors';
+import { navStateWithNarrow } from '../../utils/testHelpers';
 
-const themeNight = 'night';
 const themeDefault = 'default';
 
 const darkTextColor = 'black';
-const lightTextColor = 'white';
 
-const LIGHT_CONTENT_STYLE = 'light-content';
 const DARK_CONTENT_STYLE = 'dark-content';
 
 const subscriptions = [{ name: 'all', color: '#fff' }, { name: 'announce', color: '#000' }];
-const defaultNav = {
-  index: 0,
-  routes: [{ routeName: 'main' }],
-};
 
 describe('getStatusBarStyle', () => {
   test('return bar style according to theme for screens other than main', () => {
-    const state = deepFreeze({ chat: { narrow: [] }, subscriptions, nav: defaultNav });
-    expect(getStatusBarStyle(getTitleBackgroundColor(state), darkTextColor, themeDefault)).toEqual(
-      DARK_CONTENT_STYLE,
-    );
+    const state = deepFreeze({
+      ...navStateWithNarrow(homeNarrow),
+      subscriptions,
+    });
+
+    const result = getStatusBarStyle(getTitleBackgroundColor(state), darkTextColor, themeDefault);
+
+    expect(result).toEqual(DARK_CONTENT_STYLE);
   });
 
   test('return bar style according to text color for stream and topic narrow in main screen', () => {
-    let state = deepFreeze({
-      chat: { narrow: streamNarrow('all') },
+    const state = deepFreeze({
+      ...navStateWithNarrow(streamNarrow('all')),
       subscriptions,
-      nav: defaultNav,
     });
-    expect(getStatusBarStyle(state, darkTextColor, themeDefault)).toEqual(DARK_CONTENT_STYLE);
 
-    state = deepFreeze({
-      chat: { narrow: topicNarrow('all', 'announce') },
-      subscriptions,
-      nav: defaultNav,
-    });
-    expect(getStatusBarStyle(state, lightTextColor, themeDefault)).toEqual(LIGHT_CONTENT_STYLE);
+    const result = getStatusBarStyle(state, darkTextColor, themeDefault);
+
+    expect(result).toEqual(DARK_CONTENT_STYLE);
   });
 
   test('returns style according to theme for private, group, home and special narrow', () => {
-    let state = deepFreeze({
-      chat: { narrow: privateNarrow('abc@zulip.com') },
-      subscriptions,
-      nav: defaultNav,
-    });
-    expect(getStatusBarStyle(state, darkTextColor, themeDefault)).toEqual(DARK_CONTENT_STYLE);
-
-    expect(getStatusBarStyle(state, lightTextColor, themeNight)).toEqual(LIGHT_CONTENT_STYLE);
-
-    state = deepFreeze({ chat: { narrow: [] }, subscriptions, nav: defaultNav });
-    expect(getStatusBarStyle(state, darkTextColor, themeDefault)).toEqual(DARK_CONTENT_STYLE);
-
-    state = deepFreeze({
-      chat: { narrow: groupNarrow(['abc@zulip.com', 'def@zulip.com']) },
+    const state = deepFreeze({
+      ...navStateWithNarrow(privateNarrow('abc@zulip.com')),
       subscriptions,
     });
-    expect(getStatusBarStyle(state, darkTextColor, themeDefault)).toEqual(DARK_CONTENT_STYLE);
 
-    state = deepFreeze({
-      chat: { narrow: specialNarrow('private') },
-      subscriptions,
-      nav: defaultNav,
-    });
-    expect(getStatusBarStyle(state, darkTextColor, themeDefault)).toEqual(DARK_CONTENT_STYLE);
+    const result = getStatusBarStyle(state, darkTextColor, themeDefault);
+
+    expect(result).toEqual(DARK_CONTENT_STYLE);
   });
 });

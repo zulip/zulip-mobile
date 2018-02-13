@@ -2,6 +2,7 @@ import mockStore from 'redux-mock-store'; // eslint-disable-line
 
 import { doNarrow } from '../messagesActions';
 import { streamNarrow, homeNarrow, privateNarrow } from '../../utils/narrow';
+import { navStateWithNarrow } from '../../utils/testHelpers';
 
 const streamNarrowObj = streamNarrow('some stream');
 const streamNarrowStr = JSON.stringify(streamNarrowObj);
@@ -16,10 +17,8 @@ describe('messageActions', () => {
             older: true,
           },
         },
-        chat: {
-          narrow: homeNarrow,
-          messages: {},
-        },
+        ...navStateWithNarrow(homeNarrow),
+        messages: {},
         streams: [
           {
             name: 'some stream',
@@ -44,11 +43,9 @@ describe('messageActions', () => {
             older: true,
           },
         },
-        chat: {
-          narrow: homeNarrow,
-          messages: {
-            [streamNarrowStr]: [],
-          },
+        ...navStateWithNarrow(homeNarrow),
+        messages: {
+          [streamNarrowStr]: [],
         },
         streams: [
           {
@@ -71,11 +68,9 @@ describe('messageActions', () => {
     test('when messages in new narrow are too few and not caught up, fetch more messages', () => {
       const store = mockStore({
         caughtUp: {},
-        chat: {
-          narrow: homeNarrow,
-          messages: {
-            [streamNarrowStr]: [{ id: 1 }],
-          },
+        ...navStateWithNarrow(homeNarrow),
+        messages: {
+          [streamNarrowStr]: [{ id: 1 }],
         },
         streams: [
           {
@@ -96,11 +91,9 @@ describe('messageActions', () => {
     test('if new narrow stream is not valid, do nothing', () => {
       const store = mockStore({
         caughtUp: {},
-        chat: {
-          narrow: homeNarrow,
-          messages: {
-            [streamNarrowStr]: [{ id: 1 }],
-          },
+        ...navStateWithNarrow(homeNarrow),
+        messages: {
+          [streamNarrowStr]: [{ id: 1 }],
         },
         streams: [
           {
@@ -118,11 +111,9 @@ describe('messageActions', () => {
     test('if new narrow user is deactivated, do nothing', () => {
       const store = mockStore({
         caughtUp: {},
-        chat: {
-          narrow: homeNarrow,
-          messages: {
-            [streamNarrowStr]: [{ id: 1 }],
-          },
+        ...navStateWithNarrow(homeNarrow),
+        messages: {
+          [streamNarrowStr]: [{ id: 1 }],
         },
         users: [
           {

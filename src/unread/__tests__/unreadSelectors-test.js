@@ -489,10 +489,8 @@ describe('getUnreadPrivateMessagesCount', () => {
   test('when no private messages, unread count is 0', () => {
     const state = deepFreeze({
       flags: {},
-      chat: {
-        messages: {
-          '[]': [],
-        },
+      messages: {
+        '[]': [],
       },
       outbox: [],
     });
@@ -504,11 +502,9 @@ describe('getUnreadPrivateMessagesCount', () => {
 
   test('count all messages in "private messages" narrow, skip read', () => {
     const state = deepFreeze({
-      chat: {
-        messages: {
-          '[]': [{ id: 1 }, { id: 2 }],
-          [allPrivateNarrowStr]: [{ id: 2 }, { id: 3 }, { id: 4 }],
-        },
+      messages: {
+        '[]': [{ id: 1 }, { id: 2 }],
+        [allPrivateNarrowStr]: [{ id: 2 }, { id: 3 }, { id: 4 }],
       },
       flags: {
         read: {
