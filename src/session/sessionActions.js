@@ -19,7 +19,7 @@ export const appOnline = (isOnline: boolean): Action => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  if (isOnline !== getState().app.isOnline) {
+  if (isOnline !== getState().session.isOnline) {
     dispatch({
       type: APP_ONLINE,
       isOnline,
@@ -45,7 +45,7 @@ export const appOrientation = (orientation: string): Action => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  if (orientation !== getState().app.orientation) {
+  if (orientation !== getState().session.orientation) {
     dispatch({
       type: APP_ORIENTATION,
       orientation,

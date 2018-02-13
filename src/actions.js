@@ -1,5 +1,4 @@
 /* @flow */
-export * from './app/appActions';
 export * from './account/accountActions';
 export * from './events/eventActions';
 export * from './nav/navActions';
@@ -8,6 +7,7 @@ export * from './message/fetchActions';
 export * from './message/messagesActions';
 export * from './realm/realmActions';
 export * from './outbox/outboxActions';
+export * from './session/sessionActions';
 export * from './settings/settingsActions';
 export * from './streams/streamsActions';
 export * from './subscriptions/subscriptionsActions';

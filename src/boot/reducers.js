@@ -7,7 +7,6 @@ import { logSlowReducers } from '../utils/redux';
 
 import accounts from '../account/accountReducers';
 import alertWords from '../alertWords/alertWordsReducer';
-import app from '../app/appReducers';
 import caughtUp from '../caughtup/caughtUpReducers';
 import messages from '../chat/chatReducers';
 import fetching from '../chat/fetchingReducers';
@@ -17,6 +16,7 @@ import nav from '../nav/navReducers';
 import realm from '../realm/realmReducers';
 import outbox from '../outbox/outboxReducers';
 import drafts from '../drafts/draftsReducers';
+import session from '../session/sessionReducers';
 import settings from '../settings/settingsReducers';
 import streams from '../streams/streamsReducers';
 import subscriptions from '../subscriptions/subscriptionsReducers';
@@ -32,7 +32,6 @@ import presence from '../presence/presenceReducers';
 const reducers = {
   accounts,
   alertWords,
-  app,
   caughtUp,
   fetching,
   drafts,
@@ -43,6 +42,7 @@ const reducers = {
   presence,
   realm,
   outbox,
+  session,
   settings,
   streams,
   subscriptions,

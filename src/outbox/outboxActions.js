@@ -37,7 +37,7 @@ export const messageSendComplete = (localMessageId: number) => ({
 
 export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
-  if (state.outbox.length > 0 && !state.app.outboxSending) {
+  if (state.outbox.length > 0 && !state.session.outboxSending) {
     dispatch(toggleOutboxSending(true));
     const auth = getAuth(state);
     state.outbox.forEach(async item => {
@@ -49,7 +49,7 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
           item.subject,
           item.markdownContent,
           item.timestamp,
-          state.app.eventQueueId,
+          state.session.eventQueueId,
         );
         dispatch(messageSendComplete(item.timestamp));
       } catch (e) {

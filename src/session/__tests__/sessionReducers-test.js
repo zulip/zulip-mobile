@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import { ACCOUNT_SWITCH, CANCEL_EDIT_MESSAGE, START_EDIT_MESSAGE } from '../../actionConstants';
-import appReducers from '../appReducers';
+import sessionReducers from '../sessionReducers';
 
 describe('appReducers', () => {
   describe('ACCOUNT_SWITCH', () => {
@@ -12,7 +12,7 @@ describe('appReducers', () => {
         type: ACCOUNT_SWITCH,
       });
 
-      const newState = appReducers(prevState, action);
+      const newState = sessionReducers(prevState, action);
 
       expect(newState.needsInitialFetch).toBe(true);
     });
@@ -43,7 +43,7 @@ describe('appReducers', () => {
         },
       };
 
-      const newState = appReducers(prevState, action);
+      const newState = sessionReducers(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -75,7 +75,7 @@ describe('appReducers', () => {
         },
       };
 
-      const newState = appReducers(prevState, action);
+      const newState = sessionReducers(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });

@@ -106,7 +106,7 @@ describe('fetchActions', () => {
   describe('fetchOlder', () => {
     test('message fetch start action is dispatched with fetchingOlder true', () => {
       const store = mockStore({
-        app: {
+        session: {
           needsInitialFetch: false,
         },
         caughtUp: {
@@ -131,7 +131,7 @@ describe('fetchActions', () => {
 
     test('when caughtUp older is true, no action is dispatched', () => {
       const store = mockStore({
-        app: {
+        session: {
           needsInitialFetch: false,
         },
         caughtUp: {
@@ -155,7 +155,7 @@ describe('fetchActions', () => {
 
     test('when fetchingOlder older is true, no action is dispatched', () => {
       const store = mockStore({
-        app: {
+        session: {
           needsInitialFetch: false,
         },
         caughtUp: {
@@ -179,7 +179,7 @@ describe('fetchActions', () => {
 
     test('when needsInitialFetch is true, no action is dispatched', () => {
       const store = mockStore({
-        app: {
+        session: {
           needsInitialFetch: true,
         },
         caughtUp: {
@@ -203,7 +203,7 @@ describe('fetchActions', () => {
   describe('fetchNewer', () => {
     test('message fetch start action is dispatched with fetchingNewer true', () => {
       const store = mockStore({
-        app: {
+        session: {
           needsInitialFetch: false,
         },
         caughtUp: {
@@ -226,7 +226,7 @@ describe('fetchActions', () => {
 
     test('when caughtUp newer is true, no action is dispatched', () => {
       const store = mockStore({
-        app: {
+        session: {
           needsInitialFetch: false,
         },
         caughtUp: {
@@ -248,7 +248,7 @@ describe('fetchActions', () => {
 
     test('when fetching.newer is true, no action is dispatched', () => {
       const store = mockStore({
-        app: {
+        session: {
           needsInitialFetch: false,
         },
         caughtUp: {
@@ -273,7 +273,7 @@ describe('fetchActions', () => {
 
     test('when needsInitialFetch is true, no action is dispatched', () => {
       const store = mockStore({
-        app: {
+        session: {
           needsInitialFetch: true,
         },
         caughtUp: {

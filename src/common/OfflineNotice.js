@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import connectWithActions from '../connectWithActions';
-import { getApp } from '../selectors';
+import { getSession } from '../selectors';
 import { Label } from '../common';
 
 const styles = StyleSheet.create({
@@ -41,5 +41,5 @@ class OfflineNotice extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  isOnline: getApp(state).isOnline,
+  isOnline: getSession(state).isOnline,
 }))(OfflineNotice);
