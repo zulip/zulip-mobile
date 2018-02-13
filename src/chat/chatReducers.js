@@ -9,7 +9,6 @@ import {
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
-  SWITCH_NARROW,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_REACTION_ADD,
@@ -17,8 +16,8 @@ import {
   EVENT_UPDATE_MESSAGE,
 } from '../actionConstants';
 import { homeNarrow, isMessageInNarrow, getNarrowFromMessage } from '../utils/narrow';
+import { groupItemsById } from '../utils/misc';
 import chatUpdater from './chatUpdater';
-import { getMessagesById } from '../selectors';
 import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
 
 const initialState: ChatState = {
@@ -42,13 +41,6 @@ export default (state: ChatState = initialState, action: Action) => {
         narrow: config.startup.narrow,
       };
 
-    case SWITCH_NARROW: {
-      return {
-        ...state,
-        narrow: action.narrow,
-      };
-    }
-
     case MESSAGE_FETCH_COMPLETE: {
       if (action.messages.length === 0) {
         return state;
@@ -56,7 +48,7 @@ export default (state: ChatState = initialState, action: Action) => {
 
       const key = JSON.stringify(action.narrow);
       const messages = state.messages[key] || NULL_ARRAY;
-      const messagesById = getMessagesById(state);
+      const messagesById = groupItemsById(messages);
       const newMessages = action.replaceExisting
         ? action.messages.map(
             item =>
@@ -116,8 +108,8 @@ export default (state: ChatState = initialState, action: Action) => {
           return msg;
         }, {}),
       };
-      const { message } = action;
-      const key = JSON.stringify(getNarrowFromMessage(message, action.ownEmail));
+
+      const key = JSON.stringify(getNarrowFromMessage(action.message, action.ownEmail));
       if (!stateChange && state.messages[key] === undefined) {
         // new message is in new narrow in which we don't have any message
         stateChange = true;
@@ -129,6 +121,7 @@ export default (state: ChatState = initialState, action: Action) => {
           },
         };
       }
+
       return stateChange ? newState : state;
     }
 

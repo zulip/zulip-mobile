@@ -10,7 +10,6 @@ import {
   topicNarrow,
 } from '../../utils/narrow';
 import {
-  SWITCH_NARROW,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE,
@@ -27,28 +26,6 @@ describe('chatReducers', () => {
   test('handles unknown action and no previous state by returning initial state', () => {
     const newState = chatReducers(undefined, {});
     expect(newState).toBeDefined();
-  });
-
-  describe('SWITCH_NARROW', () => {
-    test('changes active narrow', () => {
-      const initialState = deepFreeze({
-        narrow: [],
-      });
-
-      const action = deepFreeze({
-        type: SWITCH_NARROW,
-        narrow: streamNarrow('some stream'),
-      });
-
-      const expectedState = {
-        narrow: streamNarrow('some stream'),
-      };
-
-      const newState = chatReducers(initialState, action);
-
-      expect(newState).toEqual(expectedState);
-      expect(newState).not.toBe(initialState);
-    });
   });
 
   describe('EVENT_NEW_MESSAGE', () => {

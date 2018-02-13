@@ -3,6 +3,7 @@ import type { Action, Narrow, Dispatch, GetState } from '../types';
 import { getMessages, getStreams, registerForEvents, uploadFile } from '../api';
 import {
   getAuth,
+  getApp,
   getFirstMessageId,
   getLastMessageId,
   getCaughtUpForActiveNarrow,
@@ -107,8 +108,8 @@ export const fetchOlder = () => (dispatch: Dispatch, getState: GetState): Action
   const firstMessageId = getFirstMessageId(state);
   const caughtUp = getCaughtUpForActiveNarrow(state);
   const fetching = getFetchingForActiveNarrow(state);
-  const { narrow } = state.chat;
-  const { needsInitialFetch } = state.app;
+  const narrow = getActiveNarrow(state);
+  const { needsInitialFetch } = getApp(state);
 
   if (!needsInitialFetch && !fetching.older && !caughtUp.older && firstMessageId) {
     dispatch(fetchMessages(narrow, firstMessageId, config.messagesPerRequest, 0));
@@ -120,8 +121,8 @@ export const fetchNewer = () => (dispatch: Dispatch, getState: GetState): Action
   const lastMessageId = getLastMessageId(state);
   const caughtUp = getCaughtUpForActiveNarrow(state);
   const fetching = getFetchingForActiveNarrow(state);
-  const { narrow } = state.chat;
-  const { needsInitialFetch } = state.app;
+  const narrow = getActiveNarrow(state);
+  const { needsInitialFetch } = getApp(state);
 
   if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId) {
     dispatch(fetchMessages(narrow, lastMessageId, 0, config.messagesPerRequest));

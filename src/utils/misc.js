@@ -27,3 +27,9 @@ export const removeEmptyValues = (obj: Object): Object => {
 
 export const isStateGoingBack = (cur: Object, prev: Object): boolean =>
   cur.nav.routes.length < prev.nav.routes.length || isEqual(cur, prev);
+
+export const groupItemsById = (items: Object[]): Object =>
+  items.reduce((itemsById, item) => {
+    itemsById[item.id] = item;
+    return itemsById;
+  }, {});
