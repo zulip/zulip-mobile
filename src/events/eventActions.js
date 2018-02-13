@@ -54,7 +54,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       const response = await pollForEvents(auth, queueId, lastEventId);
 
       // User switched accounts or logged out
-      if (queueId !== getState().app.eventQueueId || auth.apiKey === '') {
+      if (queueId !== getState().session.eventQueueId || auth.apiKey === '') {
         break;
       }
 

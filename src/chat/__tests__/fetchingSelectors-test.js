@@ -35,7 +35,7 @@ describe('getFetchingForActiveNarrow', () => {
 describe('getIsFetching', () => {
   test('when no initial fetching required and fetching is empty returns false', () => {
     const state = deepFreeze({
-      app: {},
+      session: {},
       ...navStateWithNarrow(homeNarrow),
       fetching: {},
     });
@@ -47,7 +47,7 @@ describe('getIsFetching', () => {
 
   test('when initial fetching required regardless of fetching state returns true', () => {
     const state = deepFreeze({
-      app: {
+      session: {
         needsInitialFetch: true,
       },
       ...navStateWithNarrow(homeNarrow),
@@ -61,7 +61,7 @@ describe('getIsFetching', () => {
 
   test('if fetching older for current narrow returns true', () => {
     const state = deepFreeze({
-      app: {},
+      session: {},
       ...navStateWithNarrow(homeNarrow),
       fetching: {
         [homeNarrowStr]: { older: true, newer: false },
@@ -75,7 +75,7 @@ describe('getIsFetching', () => {
 
   test('if fetching newer for current narrow returns true', () => {
     const state = deepFreeze({
-      app: {},
+      session: {},
       ...navStateWithNarrow(homeNarrow),
       fetching: {
         [homeNarrowStr]: { older: false, newer: true },

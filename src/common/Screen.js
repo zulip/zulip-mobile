@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import type { ChildrenArray, Dimensions, LocalizableText } from '../types';
 import connectWithActions from '../connectWithActions';
 import { KeyboardAvoider, ZulipStatusBar } from '../common';
-import { getApp } from '../selectors';
+import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
@@ -64,5 +64,5 @@ class Screen extends PureComponent<Props> {
 }
 
 export default connectWithActions((state, props) => ({
-  safeAreaInsets: getApp(state).safeAreaInsets,
+  safeAreaInsets: getSession(state).safeAreaInsets,
 }))(Screen);

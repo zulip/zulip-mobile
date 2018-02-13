@@ -16,9 +16,6 @@ type Props = {
 
 class AppWithNavigation extends PureComponent<Props> {
   componentDidMount() {
-    // triggered only when
-    // drawer is close & tabs are at initalRoute
-    // or MainScreen is not at all in stack
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
   }
 

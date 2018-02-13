@@ -8,7 +8,7 @@ import Title from '../title/Title';
 import NavButton from './NavButton';
 import InfoNavButton from '../title/InfoNavButton';
 import {
-  getApp,
+  getSession,
   getCanGoBack,
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
@@ -54,5 +54,5 @@ export default connectWithActions(state => ({
   unreadHuddlesTotal: getUnreadHuddlesTotal(state),
   unreadMentionsTotal: getUnreadMentionsTotal(state),
   unreadPmsTotal: getUnreadPmsTotal(state),
-  editMessage: getApp(state).editMessage,
+  editMessage: getSession(state).editMessage,
 }))(MainNavBar);

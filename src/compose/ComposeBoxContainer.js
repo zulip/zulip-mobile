@@ -3,7 +3,7 @@ import type { GlobalState } from '../types';
 import connectWithActions from '../connectWithActions';
 import {
   getAuth,
-  getApp,
+  getSession,
   canSendToActiveNarrow,
   getActiveNarrow,
   getLastMessageTopic,
@@ -18,11 +18,11 @@ export default connectWithActions((state: GlobalState) => ({
   auth: getAuth(state),
   narrow: getActiveNarrow(state),
   users: getUsers(state),
-  safeAreaInsets: getApp(state).safeAreaInsets,
-  composeTools: getApp(state).composeTools,
+  safeAreaInsets: getSession(state).safeAreaInsets,
+  composeTools: getSession(state).composeTools,
   isSubscribed: getIsActiveStreamSubscribed(state),
   canSend: canSendToActiveNarrow(state) && !getShowMessagePlaceholders(state),
-  editMessage: getApp(state).editMessage,
+  editMessage: getSession(state).editMessage,
   draft: getDraftForActiveNarrow(state),
   lastMessageTopic: getLastMessageTopic(state),
 }))(ComposeBox);

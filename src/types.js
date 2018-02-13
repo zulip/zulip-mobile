@@ -214,7 +214,7 @@ export type Actions = {
     subject: string,
     content: string,
   ) => Action,
-  appState: (isActive: boolean) => Action,
+  sessionState: (isActive: boolean) => Action,
   appOrientation: (orientation: string) => Action,
   sendFocusPing: (hasFocus: boolean, newUserInput: boolean) => Action,
   initUsers: (users: User[]) => Action,
@@ -282,7 +282,7 @@ export type Actions = {
 
 export type AccountState = Account[];
 
-export type AppState = {
+export type SessionState = {
   lastActivityTime: Date,
   isOnline: boolean,
   isActive: boolean,
@@ -370,7 +370,7 @@ export type UsersState = [];
 
 export type GlobalState = {
   accounts: AccountState,
-  app: AppState,
+  session: SessionState,
   chat: ChatState,
   flags: FlagsState,
   mute: MuteState,

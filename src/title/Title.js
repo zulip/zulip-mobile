@@ -12,7 +12,7 @@ import {
 } from '../utils/narrow';
 import {
   getActiveNarrow,
-  getApp,
+  getSession,
   getCurrentRealm,
   getStreams,
   getSubscriptions,
@@ -63,5 +63,5 @@ export default connectWithActions(state => ({
   users: getUsers(state),
   subscriptions: getSubscriptions(state),
   streams: getStreams(state),
-  editMessage: getApp(state).editMessage,
+  editMessage: getSession(state).editMessage,
 }))(Title);

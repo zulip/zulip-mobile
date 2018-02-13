@@ -15,9 +15,9 @@ import type {
 
 export const getAccounts = (state: GlobalState): Account[] => state.accounts;
 
-export const getApp = (state: GlobalState): AppState => state.app;
+export const getSession = (state: GlobalState): AppState => state.session;
 
-export const getDebug = (state: GlobalState): Object => state.app.debug;
+export const getDebug = (state: GlobalState): Object => state.session.debug;
 
 export const getDrafts = (state: GlobalState): Object => state.drafts;
 
