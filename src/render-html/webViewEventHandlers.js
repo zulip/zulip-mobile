@@ -61,7 +61,9 @@ export const handleScroll = (props: Props, event: MessageListEventScroll) => {
 
   if (scrollY < config.messageListThreshold) {
     actions.fetchOlder();
-  } else if (innerHeight + scrollY >= offsetHeight - config.messageListThreshold) {
+  }
+
+  if (innerHeight + scrollY >= offsetHeight - config.messageListThreshold) {
     actions.fetchNewer();
   }
 
