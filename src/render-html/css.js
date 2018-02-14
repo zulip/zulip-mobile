@@ -144,9 +144,10 @@ th, td {
   flex-direction: row;
 }
 .stream-text,
-.topic-text {
-  padding: 0.5em;
-  line-height: 1;
+.topic-text,
+.private-header {
+  padding: 0 0.5em;
+  line-height: 2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -174,8 +175,6 @@ th, td {
 .private-header {
   background: #444;
   color: white;
-  padding: 0.5em;
-  line-height: 1;
 }
 .loading-avatar {
   min-width: 2.5em;

@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
+import { foregroundColorFromBackground } from '../utils/color';
 import StreamIcon from './StreamIcon';
 
 const styles = StyleSheet.create({
@@ -87,19 +88,23 @@ export default class StreamItem extends PureComponent<Props> {
       isMuted && styles.muted,
     ];
     const iconWrapperCustomStyle = {
-      width: iconSize * 1.5,
-      height: iconSize * 1.5,
+      width: iconSize,
+      height: iconSize,
       backgroundColor: color || BRAND_COLOR,
     };
+    const textColor = backgroundColor ? foregroundColorFromBackground(backgroundColor) : color;
 
     return (
       <Touchable onPress={this.handlePress}>
         <View style={wrapperStyle}>
           <View style={[styles.iconWrapper, iconWrapperCustomStyle]}>
-            <StreamIcon size={iconSize} color="white" isMuted={isMuted} isPrivate={isPrivate} />
+            <StreamIcon size={iconSize} color={textColor} isMuted={isMuted} isPrivate={isPrivate} />
           </View>
           <View style={styles.text}>
-            <RawLabel style={[isSelected && styles.selectedText]} text={name} />
+            <RawLabel
+              style={[isSelected && styles.selectedText, { color: textColor }]}
+              text={name}
+            />
             {!!description && (
               <RawLabel numberOfLines={1} style={styles.description} text={description} />
             )}

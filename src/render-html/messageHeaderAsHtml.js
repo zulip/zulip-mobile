@@ -9,6 +9,7 @@ import {
   groupNarrow,
   stringifyNarrow,
 } from '../utils/narrow';
+import { foregroundColorFromBackground } from '../utils/color';
 
 export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
   if (Object.keys(item).length === 0) {
@@ -32,14 +33,15 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
   if (item.type === 'stream') {
     const stream = subscriptions.find(x => x.name === item.display_recipient);
 
-    const color = stream ? stream.color : '#ccc';
+    const backgroundColor = stream ? stream.color : '#ccc';
+    const textColor = foregroundColorFromBackground(backgroundColor);
     const streamNarrowStr = stringifyNarrow(streamNarrow(item.display_recipient));
     const topicNarrowStr = stringifyNarrow(topicNarrow(item.display_recipient, item.subject));
 
     return `
 <div class="header-wrapper stream-header" data-msg-id="${item.id}">
-  <div class="header stream-text" style="background: ${color}" data-narrow="${streamNarrowStr}">
-    ${item.display_recipient}
+  <div class="header stream-text" style="color: ${textColor}; background: ${backgroundColor}" data-narrow="${streamNarrowStr}">
+    # ${item.display_recipient}
   </div>
   <div class="header topic-text" data-narrow="${topicNarrowStr}">
     ${item.subject}
