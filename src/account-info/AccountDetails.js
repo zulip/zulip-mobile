@@ -51,7 +51,6 @@ export default class AccountDetails extends PureComponent<Props, void> {
   handleChatPress = () => {
     const { email, actions } = this.props;
     actions.doNarrow(privateNarrow(email));
-    actions.navigateBack();
   };
 
   render() {
