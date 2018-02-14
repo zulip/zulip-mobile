@@ -245,7 +245,8 @@ th, td {
 .message_inline_image {
   text-align: center;
 }
-.message_inline_image img {
+.message_inline_image img,
+.twitter-image img {
   max-width: 75vw;
   max-height: 25vh;
 }
