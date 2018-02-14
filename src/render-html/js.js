@@ -36,6 +36,18 @@ const scrollToBottomIfNearEnd = () => {
   }
 };
 
+const isMessageNode = node => node && node.getAttribute && node.hasAttribute('data-msg-id');
+
+const getStartAndEndNodes = () => {
+  const startNode = getMessageNode(document.elementFromPoint(200, 20));
+  const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
+
+  return {
+    start: isMessageNode(startNode) ? startNode.getAttribute('data-msg-id') : 0,
+    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : Number.MAX_SAFE_INTEGER,
+  };
+};
+
 const scrollToAnchor = anchor => {
   const anchorNode = document.getElementById(`msg-${anchor}`);
 
@@ -54,6 +66,32 @@ window.addEventListener('resize', event => {
   }
   height = document.body.clientHeight;
 });
+
+let prevNodes = getStartAndEndNodes();
+
+const handleScrollEvent = () => {
+  lastTouchEventTimestamp = 0;
+  if (scrollEventsDisabled) return;
+
+  const currentNodes = getStartAndEndNodes();
+
+  window.postMessage(
+    JSON.stringify({
+      type: 'scroll',
+      scrollY: window.scrollY,
+      innerHeight: window.innerHeight,
+      offsetHeight: document.body.offsetHeight,
+      startMessageId: Math.min(prevNodes.start, currentNodes.start),
+      endMessageId: Math.max(prevNodes.end, currentNodes.end),
+    }),
+    '*',
+  );
+
+  const nearEnd = document.body.offsetHeight - window.scrollY - window.innerHeight > 100;
+  document.getElementById('scroll-bottom').classList.toggle('hidden', !nearEnd);
+
+  prevNodes = currentNodes;
+};
 
 const handleMessageBottom = msg => {
   scrollToBottom();
@@ -109,6 +147,9 @@ const handleMessageContent = msg => {
   scrollEventsDisabled = true;
   updateFunctions[msg.updateStrategy](msg);
   scrollEventsDisabled = false;
+  if (document.body.scrollHeight < document.body.clientHeight) {
+    handleScrollEvent();
+  }
 };
 
 const handleMessageFetching = msg => {
@@ -148,43 +189,7 @@ document.addEventListener('message', e => {
   messageHandlers[msg.type](msg);
 });
 
-const isMessageNode = node => node && node.getAttribute && node.hasAttribute('data-msg-id');
-
-const getStartAndEndNodes = () => {
-  const startNode = getMessageNode(document.elementFromPoint(200, 20));
-  const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
-
-  return {
-    start: isMessageNode(startNode) ? startNode.getAttribute('data-msg-id') : 0,
-    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : Number.MAX_SAFE_INTEGER,
-  };
-};
-
-let prevNodes = getStartAndEndNodes();
-
-window.addEventListener('scroll', () => {
-  lastTouchEventTimestamp = 0;
-  if (scrollEventsDisabled) return;
-
-  const currentNodes = getStartAndEndNodes();
-
-  window.postMessage(
-    JSON.stringify({
-      type: 'scroll',
-      scrollY: window.scrollY,
-      innerHeight: window.innerHeight,
-      offsetHeight: document.body.offsetHeight,
-      startMessageId: Math.min(prevNodes.start, currentNodes.start),
-      endMessageId: Math.max(prevNodes.end, currentNodes.end),
-    }),
-    '*',
-  );
-
-  const nearEnd = document.body.offsetHeight - window.scrollY - window.innerHeight > 100;
-  document.getElementById('scroll-bottom').classList.toggle('hidden', !nearEnd);
-
-  prevNodes = currentNodes;
-});
+window.addEventListener('scroll', handleScrollEvent);
 
 document.body.addEventListener('click', e => {
   e.preventDefault();

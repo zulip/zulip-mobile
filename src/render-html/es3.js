@@ -41,6 +41,20 @@ var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
   }
 };
 
+var isMessageNode = function isMessageNode(node) {
+  return node && node.getAttribute && node.hasAttribute('data-msg-id');
+};
+
+var getStartAndEndNodes = function getStartAndEndNodes() {
+  var startNode = getMessageNode(document.elementFromPoint(200, 20));
+  var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
+
+  return {
+    start: isMessageNode(startNode) ? startNode.getAttribute('data-msg-id') : 0,
+    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : Number.MAX_SAFE_INTEGER
+  };
+};
+
 var scrollToAnchor = function scrollToAnchor(anchor) {
   var anchorNode = document.getElementById('msg-' + anchor);
 
@@ -59,6 +73,29 @@ window.addEventListener('resize', function (event) {
   }
   height = document.body.clientHeight;
 });
+
+var prevNodes = getStartAndEndNodes();
+
+var handleScrollEvent = function handleScrollEvent() {
+  lastTouchEventTimestamp = 0;
+  if (scrollEventsDisabled) return;
+
+  var currentNodes = getStartAndEndNodes();
+
+  window.postMessage(JSON.stringify({
+    type: 'scroll',
+    scrollY: window.scrollY,
+    innerHeight: window.innerHeight,
+    offsetHeight: document.body.offsetHeight,
+    startMessageId: Math.min(prevNodes.start, currentNodes.start),
+    endMessageId: Math.max(prevNodes.end, currentNodes.end)
+  }), '*');
+
+  var nearEnd = document.body.offsetHeight - window.scrollY - window.innerHeight > 100;
+  document.getElementById('scroll-bottom').classList.toggle('hidden', !nearEnd);
+
+  prevNodes = currentNodes;
+};
 
 var handleMessageBottom = function handleMessageBottom(msg) {
   scrollToBottom();
@@ -114,6 +151,9 @@ var handleMessageContent = function handleMessageContent(msg) {
   scrollEventsDisabled = true;
   updateFunctions[msg.updateStrategy](msg);
   scrollEventsDisabled = false;
+  if (document.body.scrollHeight < document.body.clientHeight) {
+    handleScrollEvent();
+  }
 };
 
 var handleMessageFetching = function handleMessageFetching(msg) {
@@ -153,42 +193,7 @@ document.addEventListener('message', function (e) {
   messageHandlers[msg.type](msg);
 });
 
-var isMessageNode = function isMessageNode(node) {
-  return node && node.getAttribute && node.hasAttribute('data-msg-id');
-};
-
-var getStartAndEndNodes = function getStartAndEndNodes() {
-  var startNode = getMessageNode(document.elementFromPoint(200, 20));
-  var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
-
-  return {
-    start: isMessageNode(startNode) ? startNode.getAttribute('data-msg-id') : 0,
-    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : Number.MAX_SAFE_INTEGER
-  };
-};
-
-var prevNodes = getStartAndEndNodes();
-
-window.addEventListener('scroll', function () {
-  lastTouchEventTimestamp = 0;
-  if (scrollEventsDisabled) return;
-
-  var currentNodes = getStartAndEndNodes();
-
-  window.postMessage(JSON.stringify({
-    type: 'scroll',
-    scrollY: window.scrollY,
-    innerHeight: window.innerHeight,
-    offsetHeight: document.body.offsetHeight,
-    startMessageId: Math.min(prevNodes.start, currentNodes.start),
-    endMessageId: Math.max(prevNodes.end, currentNodes.end)
-  }), '*');
-
-  var nearEnd = document.body.offsetHeight - window.scrollY - window.innerHeight > 100;
-  document.getElementById('scroll-bottom').classList.toggle('hidden', !nearEnd);
-
-  prevNodes = currentNodes;
-});
+window.addEventListener('scroll', handleScrollEvent);
 
 document.body.addEventListener('click', function (e) {
   e.preventDefault();
