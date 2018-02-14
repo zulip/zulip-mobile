@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import type { StyleObj } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { unreadToLimitedCount } from '../utils/unread';
+import { foregroundColorFromBackground } from '../utils/color';
 
 const styles = StyleSheet.create({
   frame: {
@@ -65,7 +66,8 @@ export default class UnreadCount extends PureComponent<Props> {
       style,
     ];
 
-    const textStyle = [styles.text, inverse && styles.textInverse];
+    const textColor = foregroundColorFromBackground(color);
+    const textStyle = [styles.text, inverse && styles.textInverse, { color: textColor }];
 
     return (
       <View style={frameStyle}>

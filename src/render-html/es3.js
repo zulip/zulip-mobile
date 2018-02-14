@@ -151,7 +151,9 @@ var handleMessageContent = function handleMessageContent(msg) {
   scrollEventsDisabled = true;
   updateFunctions[msg.updateStrategy](msg);
   scrollEventsDisabled = false;
-  handleScrollEvent();
+  if (document.body.scrollHeight < document.body.clientHeight) {
+    handleScrollEvent();
+  }
 };
 
 var handleMessageFetching = function handleMessageFetching(msg) {

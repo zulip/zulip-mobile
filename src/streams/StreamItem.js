@@ -21,11 +21,6 @@ const styles = StyleSheet.create({
     opacity: 0.75,
     fontSize: 12,
   },
-  iconWrapper: {
-    borderRadius: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   text: {
     flex: 1,
     paddingLeft: 8,
@@ -87,19 +82,12 @@ export default class StreamItem extends PureComponent<Props> {
       isSelected && styles.selectedRow,
       isMuted && styles.muted,
     ];
-    const iconWrapperCustomStyle = {
-      width: iconSize,
-      height: iconSize,
-      backgroundColor: color || BRAND_COLOR,
-    };
     const textColor = backgroundColor ? foregroundColorFromBackground(backgroundColor) : color;
 
     return (
       <Touchable onPress={this.handlePress}>
         <View style={wrapperStyle}>
-          <View style={[styles.iconWrapper, iconWrapperCustomStyle]}>
-            <StreamIcon size={iconSize} color={textColor} isMuted={isMuted} isPrivate={isPrivate} />
-          </View>
+          <StreamIcon size={iconSize} color={textColor} isMuted={isMuted} isPrivate={isPrivate} />
           <View style={styles.text}>
             <RawLabel
               style={[isSelected && styles.selectedText, { color: textColor }]}
@@ -109,7 +97,9 @@ export default class StreamItem extends PureComponent<Props> {
               <RawLabel numberOfLines={1} style={styles.description} text={description} />
             )}
           </View>
-          {unreadCount && <UnreadCount count={unreadCount} inverse={isSelected} />}
+          {unreadCount && (
+            <UnreadCount color={textColor} count={unreadCount} inverse={isSelected} />
+          )}
           {showSwitch && (
             <ZulipSwitch
               defaultValue={!!isSwitchedOn}
