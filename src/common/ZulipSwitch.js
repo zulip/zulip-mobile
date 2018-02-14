@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { Switch } from 'react-native';
-import { BRAND_COLOR,BRAND_OFF_COLOR } from '../styles';
+import { BRAND_COLOR, BRAND_OFF_COLOR } from '../styles';
 
 type Props = {
   value: boolean,
