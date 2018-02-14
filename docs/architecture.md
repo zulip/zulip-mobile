@@ -54,5 +54,5 @@ components of the app:
 * `users` - user display, search and selection
 
 
-`ZulipApp.js` contains the top-level React component for the app and
+`ZulipMobile.js` contains the top-level React component for the app and
 `reducers.js` contains the top-level reducer.
