@@ -53,6 +53,10 @@ type Props = {
 export default class StreamItem extends PureComponent<Props> {
   props: Props;
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   handlePress = () => this.props.onPress(this.props.name);
 
   handleSwitch = (newValue: boolean) => {
@@ -82,7 +86,9 @@ export default class StreamItem extends PureComponent<Props> {
       isSelected && styles.selectedRow,
       isMuted && styles.muted,
     ];
-    const textColor = backgroundColor ? foregroundColorFromBackground(backgroundColor) : color;
+    const textColor = backgroundColor
+      ? foregroundColorFromBackground(backgroundColor)
+      : color || (StyleSheet.flatten(this.context.styles.color) || { color: BRAND_COLOR }).color;
 
     return (
       <Touchable onPress={this.handlePress}>
