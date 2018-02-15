@@ -1,5 +1,4 @@
 /* @flow */
-import { logWarningToSentry } from '../utils/logging';
 import type { GlobalState } from '../types';
 import {
   INIT_ALERT_WORDS,
@@ -63,13 +62,14 @@ const opToActionTyping = {
   stop: EVENT_TYPING_STOP,
 };
 
-export default (state: GlobalState, event: Object) => {
+export default (state: GlobalState, event: Object): Object => {
   switch (event.type) {
     case 'alert_words':
       return {
         type: INIT_ALERT_WORDS,
         alertWords: event.alert_words,
       };
+
     case 'message':
       return {
         type: EVENT_NEW_MESSAGE,
@@ -78,6 +78,7 @@ export default (state: GlobalState, event: Object) => {
         ownEmail: state.accounts[0].email,
         localMessageId: event.local_message_id,
       };
+
     case 'update_message':
       return {
         ...event,
@@ -98,17 +99,16 @@ export default (state: GlobalState, event: Object) => {
       };
 
     case 'realm_bot':
-      break;
+      return { type: 'ignore' };
 
     case 'stream':
       return {
         ...event,
         type: opToActionStream[event.op],
       };
-    case 'pointer':
-      // TODO
-      console.log(event); // eslint-disable-line
-      break;
+    // case 'pointer':
+    //   console.log(event); // eslint-disable-line
+    //   break;
 
     case 'reaction':
       return {
@@ -119,7 +119,7 @@ export default (state: GlobalState, event: Object) => {
       };
 
     case 'heartbeat':
-      return 'ignore';
+      return { type: 'ignore' };
 
     case 'presence':
       return {
@@ -173,10 +173,6 @@ export default (state: GlobalState, event: Object) => {
       };
 
     default:
-      return 'unknown';
+      return { type: 'unknown', event };
   }
-  logWarningToSentry(`Unrecognized event: ${event.type}`);
-  // eslint-disable-next-line no-console
-  console.warn('Unrecognized event: ', event.type);
-  return null;
 };

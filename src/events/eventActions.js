@@ -9,30 +9,24 @@ import eventMiddleware from './eventMiddleware';
 import { getAuth } from '../selectors';
 import actionCreator from '../actionCreator';
 
-const responseToActions = (state: GlobalState, response) => {
-  const actions = [];
-  for (const event of response.events) {
-    eventMiddleware(state, event);
-    const action = eventToAction(state, event);
+export const responseToActions = (state: GlobalState, response: Object): Action[] =>
+  response.events
+    .map(event => {
+      eventMiddleware(state, event);
+      return eventToAction(state, event);
+    })
+    .filter(action => {
+      if (action.type === 'ignore') return false;
 
-    if (action === 'ignore') continue;
+      if (!action || !action.type || action.type === 'unknown') {
+        console.log('Can not handle event', action.event); // eslint-disable-line
+        return false;
+      }
 
-    if (!action || action === 'unknown') {
-      console.log('Can not handle event', event); // eslint-disable-line
-      continue;
-    }
+      return true;
+    });
 
-    if (!action.type) {
-      console.log('Can not handle event', event); // eslint-disable-line
-      continue;
-    }
-
-    actions.push({ ...action, eventId: event.id });
-  }
-  return actions;
-};
-
-const dispatchOrBatch = (dispatch: Dispatch, actions: Action[]) => {
+export const dispatchOrBatch = (dispatch: Dispatch, actions: Action[]) => {
   if (actions.length > 1) {
     dispatch(batchActions(actions));
   } else if (actions.length === 1) {
