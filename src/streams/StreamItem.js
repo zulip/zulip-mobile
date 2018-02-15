@@ -88,7 +88,7 @@ export default class StreamItem extends PureComponent<Props> {
     ];
     const textColor = backgroundColor
       ? foregroundColorFromBackground(backgroundColor)
-      : color || StyleSheet.flatten(this.context.styles.color).color;
+      : color || (StyleSheet.flatten(this.context.styles.color) || { color: BRAND_COLOR }).color;
 
     return (
       <Touchable onPress={this.handlePress}>
