@@ -25,7 +25,7 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
   data-narrow="${topicNarrowStr}"
   data-msg-id="${item.id}"
 >
-  ${item.subject}
+  ${item.match_subject || item.subject}
 </div>
     `;
   }
@@ -44,7 +44,7 @@ export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
     # ${item.display_recipient}
   </div>
   <div class="header topic-text" data-narrow="${topicNarrowStr}">
-    ${item.subject}
+    ${item.match_subject || item.subject}
   </div>
 </div>
     `;
