@@ -4,6 +4,7 @@ import {
   REALM_INIT,
   ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
+  EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   MARK_MESSAGES_READ,
 } from '../actionConstants';
@@ -42,6 +43,9 @@ export default (state: UnreadState = initialState, action: Action): UnreadState 
     }
     case MARK_MESSAGES_READ:
       return removeItemsDeeply(state, action.messageIds);
+
+    case EVENT_MESSAGE_DELETE:
+      return removeItemsDeeply(state, [action.messageId]);
 
     case EVENT_UPDATE_MESSAGE_FLAGS: {
       if (action.flag !== 'read') {
