@@ -39,6 +39,13 @@ testing.
 Now a `Virtual Android device` has been created. running `react-native run-android` will launch a new terminal with the React Native
 packager and open up the app in the active Virtual Device
 
+## Running on Android device
+USB debugging must be active on the Android Device.
+Make sure to uninstall Zulip from Play Store
+1. Connect your Android device to PC
+2. Running `react-native run-android` will build the application and install
+the app on your android device
+
 
 ## Running on iOS simulator
 `react-native run-ios` will launch a new terminal with the React Native
