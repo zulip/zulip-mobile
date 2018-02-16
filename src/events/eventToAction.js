@@ -17,6 +17,7 @@ import {
   EVENT_SUBSCRIPTION_PEER_REMOVE,
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
+  EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   EVENT_USER_ADD,
@@ -77,6 +78,12 @@ export default (state: GlobalState, event: Object): Object => {
         caughtUp: state.caughtUp,
         ownEmail: state.accounts[0].email,
         localMessageId: event.local_message_id,
+      };
+
+    case 'delete_message':
+      return {
+        type: EVENT_MESSAGE_DELETE,
+        messageId: event.message_id,
       };
 
     case 'update_message':

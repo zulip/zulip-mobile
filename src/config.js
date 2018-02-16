@@ -22,6 +22,7 @@ export default {
   sentryKey: 'ADD-DSN-HERE',
   enableErrorConsoleLogging: true,
   trackServerEvents: [
+    'delete_message',
     'message',
     'muted_topics',
     'presence',

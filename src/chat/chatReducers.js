@@ -9,6 +9,7 @@ import {
   ACCOUNT_SWITCH,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
+  EVENT_MESSAGE_DELETE,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
@@ -99,6 +100,18 @@ export default (state: ChatState = initialState, action: Action) => {
           [key]: [action.message],
         };
       }
+
+      return stateChange ? newState : state;
+    }
+
+    case EVENT_MESSAGE_DELETE: {
+      let stateChange = false;
+
+      const newState = Object.keys(state).reduce((updatedState, key) => {
+        updatedState[key] = state[key].filter(msg => msg.id !== action.messageId);
+        stateChange = stateChange || updatedState[key].length < state[key].length;
+        return updatedState;
+      }, {});
 
       return stateChange ? newState : state;
     }
