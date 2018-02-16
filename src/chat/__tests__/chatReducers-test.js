@@ -12,6 +12,7 @@ import {
 import {
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
+  EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
@@ -342,6 +343,43 @@ describe('chatReducers', () => {
 
     expect(newState).toEqual(expectedState);
     expect(newState).not.toBe(initialState);
+  });
+
+  describe('EVENT_MESSAGE_DELETE', () => {
+    test('if a message does not exist no changes are made', () => {
+      const initialState = deepFreeze({
+        [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+        [privateNarrowStr]: [],
+      });
+
+      const action = deepFreeze({
+        type: EVENT_MESSAGE_DELETE,
+        messageId: 3,
+      });
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toBe(initialState);
+    });
+
+    test('if a message exists in one or more narrows delete it from there', () => {
+      const initialState = deepFreeze({
+        [homeNarrowStr]: [{ id: 1 }, { id: 2 }, { id: 3 }],
+        [privateNarrowStr]: [{ id: 2 }],
+      });
+      const action = deepFreeze({
+        type: EVENT_MESSAGE_DELETE,
+        messageId: 2,
+      });
+      const expectedState = deepFreeze({
+        [homeNarrowStr]: [{ id: 1 }, { id: 3 }],
+        [privateNarrowStr]: [],
+      });
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
   });
 
   describe('EVENT_UPDATE_MESSAGE', () => {
