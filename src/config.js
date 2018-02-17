@@ -22,11 +22,16 @@ export default {
   sentryKey: 'ADD-DSN-HERE',
   enableErrorConsoleLogging: true,
   trackServerEvents: [
+    // 'custom_profile_fields', // ???
     'delete_message',
+    // 'hotspots', // ???
     'message',
     'muted_topics',
+    // 'pointer', // we are not interested
     'presence',
     'reaction',
+    // 'realm_bot', // ???
+    // 'realm_domains', // ???
     'realm_emoji',
     'realm_filters',
     'realm_user',
@@ -37,6 +42,7 @@ export default {
     'update_message_flags',
     'update_display_settings',
     'update_global_notifications',
+    // 'user_group', // ???
   ],
   serverDataOnStartup: [
     'alert_words',
