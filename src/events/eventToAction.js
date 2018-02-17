@@ -113,9 +113,6 @@ export default (state: GlobalState, event: Object): Object => {
         ...event,
         type: opToActionStream[event.op],
       };
-    // case 'pointer':
-    //   console.log(event); // eslint-disable-line
-    //   break;
 
     case 'reaction':
       return {
