@@ -51,9 +51,4 @@ public class PushNotificationsProp extends PushNotificationProps {
     public String getBaseURL() {
         return mBundle.getString("base_url");
     }
-
-    public String getTrigger() {
-        return mBundle.getString("trigger");
-    }
-
 }
