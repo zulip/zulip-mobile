@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import com.wix.reactnativenotifications.core.notification.PushNotificationProps;
 
+import java.util.Arrays;
+
 public class PushNotificationsProp extends PushNotificationProps {
 
     public PushNotificationsProp(Bundle bundle) {
@@ -50,5 +52,19 @@ public class PushNotificationsProp extends PushNotificationProps {
 
     public String getBaseURL() {
         return mBundle.getString("base_url");
+    }
+
+    public int[] getPmUsers() {
+        if (mBundle.containsKey("pm_users")){
+            return mBundle.getIntArray("pm_users");
+        }
+        return null;
+    }
+
+    public boolean isGroupMessage() {
+        return getRecipientType().equals("private") && mBundle.containsKey("pm_users");
+    }
+    public String getGroupRecipientString() {
+        return Arrays.toString(getPmUsers());
     }
 }
