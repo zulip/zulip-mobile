@@ -87,17 +87,18 @@ public class NotificationHelper {
 
     /**
      * Formats -
-     * private message - fullName:Email:private
-     * stream message - fullName:Email:stream
-     * group message - fullName:Email:group
+     * stream message - fullName:streamName:'stream'
+     * group message - fullName:Recipients:'group'
+     * private message - fullName:Email:'private'
      */
     public static String buildKeyString(PushNotificationsProp prop) {
         if (prop.getRecipientType().equals("stream"))
-            return prop.getSenderFullName() + ":" + prop.getEmail() + ":stream";
-        else if (prop.getTrigger() != null && (prop.getTrigger().equals("group_message") || prop.getTrigger().equals("group_mention"))) {
-                return String.format("%s:%s:group", prop.getSenderFullName(), prop.getEmail());
+            return String.format("%s:%s:stream", prop.getSenderFullName(), prop.getStream());
+        else if (prop.isGroupMessage()) {
+            return String.format("%s:%s:group", prop.getSenderFullName(), prop.getGroupRecipientString());
+        } else {
+            return String.format("%s:%s:private", prop.getSenderFullName(), prop.getEmail());
         }
-        return String.format("%s:%s:private", prop.getSenderFullName(), prop.getEmail());
     }
 
     public static String[] extractNames(LinkedHashMap<String, Pair<String, Integer>> conversations) {
