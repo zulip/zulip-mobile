@@ -2,11 +2,6 @@
 import { NavigationActions } from 'react-navigation';
 
 import type { Action, Message, Narrow, UserType, ServerSettings } from '../types';
-import { RESET_NAVIGATION } from '../actionConstants';
-
-export const resetNavigation = (): Action => ({
-  type: RESET_NAVIGATION,
-});
 
 export const navigateBack = (): Action => NavigationActions.back();
 

@@ -15,8 +15,6 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const HTTP_UNAUTHORIZED = 'HTTP_UNAUTHORIZED';
 export const LOGOUT = 'LOGOUT';
 
-export const RESET_NAVIGATION = 'RESET_NAVIGATION';
-
 export const REALM_INIT = 'REALM_INIT';
 export const SWITCH_NARROW = 'SWITCH_NARROW';
 

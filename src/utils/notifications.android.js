@@ -11,12 +11,13 @@ export const handlePendingNotifications = async (
   pending: boolean,
   doNarrow: Actions.doNarrow,
 ) => {
-  if (notification) {
-    const data = notification.getData();
-    console.log('Opened app by notification', data); //eslint-disable-line
-    if (data) {
-      handleNotification(data, data.zulip_message_id, pending, doNarrow);
-    }
+  if (!notification) {
+    return;
+  }
+
+  const data = notification.getData();
+  if (data) {
+    handleNotification(data, data.zulip_message_id, pending, doNarrow);
   }
 };
 

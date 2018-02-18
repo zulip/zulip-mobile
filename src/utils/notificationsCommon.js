@@ -18,9 +18,11 @@ export const handleNotification = (
       : privateNarrow(data.sender_email);
 
   if (pending) {
-    config.startup.narrow = narrow;
-    config.startup.anchor = anchor;
+    config.startup = {
+      narrow,
+      anchor,
+    };
   } else {
-    setTimeout(() => doNarrow(narrow, anchor), 100);
+    doNarrow(narrow, anchor);
   }
 };
