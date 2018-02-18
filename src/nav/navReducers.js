@@ -4,7 +4,7 @@ import { REHYDRATE } from 'redux-persist/constants';
 import type { NavigationState, Action } from '../types';
 import { getFirstIfDeepEqual } from '../utils/immutability';
 import { navigateToChat } from './navActions';
-import { getStateForRoute, getInitialRoute } from './navSelectors';
+import { getStateForRoute, getInitialNavState } from './navSelectors';
 import AppNavigator from './AppNavigator';
 import {
   INITIAL_FETCH_COMPLETE,
@@ -20,7 +20,7 @@ export default (
 ): NavigationState => {
   switch (action.type) {
     case REHYDRATE:
-      return getInitialRoute(action.payload);
+      return getInitialNavState(action.payload);
 
     case ACCOUNT_SWITCH:
       return getStateForRoute('loading');

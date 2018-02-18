@@ -1,8 +1,8 @@
 import deepFreeze from 'deep-freeze';
 
-import { getInitialRoute } from '../navSelectors';
+import { getInitialNavState } from '../navSelectors';
 
-describe('getInitialRoute', () => {
+describe('getInitialNavState', () => {
   test('if logged in, preserve the state', () => {
     const state = deepFreeze({
       accounts: [{ apiKey: '123' }],
@@ -11,7 +11,7 @@ describe('getInitialRoute', () => {
       },
     });
 
-    const nav = getInitialRoute(state);
+    const nav = getInitialNavState(state);
 
     expect(nav.routes.length).toEqual(2);
     expect(nav.routes[0].routeName).toEqual('route1');
@@ -26,7 +26,7 @@ describe('getInitialRoute', () => {
       },
     });
 
-    const nav = getInitialRoute(state);
+    const nav = getInitialNavState(state);
 
     expect(nav.routes.length).toBe(1);
     expect(nav.routes[0].routeName).toEqual('realm');
@@ -40,7 +40,7 @@ describe('getInitialRoute', () => {
       },
     });
 
-    const nav = getInitialRoute(state);
+    const nav = getInitialNavState(state);
 
     expect(nav.routes.length).toBe(1);
     expect(nav.routes[0].routeName).toEqual('account');
@@ -54,7 +54,7 @@ describe('getInitialRoute', () => {
       },
     });
 
-    const nav = getInitialRoute(state);
+    const nav = getInitialNavState(state);
 
     expect(nav.routes.length).toBe(1);
     expect(nav.routes[0].routeName).toEqual('realm');
@@ -71,7 +71,7 @@ describe('getInitialRoute', () => {
       },
     });
 
-    const nav = getInitialRoute(state);
+    const nav = getInitialNavState(state);
 
     expect(nav.routes.length).toBe(1);
     expect(nav.routes[0].routeName).toEqual('account');
@@ -85,7 +85,7 @@ describe('getInitialRoute', () => {
       },
     });
 
-    const nav = getInitialRoute(state);
+    const nav = getInitialNavState(state);
 
     expect(nav.routes.length).toBe(1);
     expect(nav.routes[0].routeName).toEqual('realm');
