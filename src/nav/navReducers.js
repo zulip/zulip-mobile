@@ -7,7 +7,6 @@ import { navigateToChat } from './navActions';
 import { getStateForRoute, getInitialRoute } from './navSelectors';
 import AppNavigator from './AppNavigator';
 import {
-  RESET_NAVIGATION,
   INITIAL_FETCH_COMPLETE,
   ACCOUNT_SWITCH,
   LOGIN_SUCCESS,
@@ -22,9 +21,6 @@ export default (
   switch (action.type) {
     case REHYDRATE:
       return getInitialRoute(action.payload);
-
-    case RESET_NAVIGATION:
-      return getInitialRoute(state);
 
     case ACCOUNT_SWITCH:
       return getStateForRoute('loading');

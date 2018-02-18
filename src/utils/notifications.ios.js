@@ -46,13 +46,15 @@ export const handlePendingNotifications = async (
   pending: boolean,
   doNarrow: Actions.doNarrow,
 ) => {
-  if (notification) {
-    const notifData = notification.getData();
-    if (notifData && notifData.custom) {
-      const { custom: { data } } = notifData;
-      if (data) {
-        handleNotification(data, data.zulip_message_id, pending, doNarrow);
-      }
+  if (!notification) {
+    return;
+  }
+
+  const notifData = notification.getData();
+  if (notifData && notifData.custom && notifData.custom.data) {
+    const { custom: { data } } = notifData;
+    if (data) {
+      handleNotification(notifData.custom.data, data.zulip_message_id, pending, doNarrow);
     }
   }
 };
