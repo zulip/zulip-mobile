@@ -72,12 +72,14 @@ const decrementAnimationConfig = {
 };
 
 type Props = {
+  code: string,
   name: string,
   voted: boolean,
   voteCount: number,
   messageId: number,
   auth: Auth,
   realmEmoji: Object,
+  reactionType: string,
 };
 
 type State = {
@@ -100,12 +102,12 @@ class Reaction extends PureComponent<Props, State> {
   };
 
   handlePress = () => {
-    const { auth, messageId, name, voted } = this.props;
+    const { auth, code, messageId, name, reactionType, voted } = this.props;
 
     if (voted) {
-      emojiReactionRemove(auth, messageId, name);
+      emojiReactionRemove(auth, messageId, reactionType, code, name);
     } else {
-      emojiReactionAdd(auth, messageId, name);
+      emojiReactionAdd(auth, messageId, reactionType, code, name);
     }
   };
 

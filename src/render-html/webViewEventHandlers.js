@@ -31,6 +31,8 @@ type MessageListEventImage = {
 type MessageListEventReaction = {
   messageId: number,
   name: string,
+  code: string,
+  reactionType: string,
   voted: boolean,
 };
 
@@ -115,12 +117,12 @@ export const handleUrl = (props: Props, event: MessageListEventUrl) => {
 };
 
 export const handleReaction = (props: Props, event: MessageListEventReaction) => {
-  const { messageId, name, voted } = event;
+  const { code, messageId, name, reactionType, voted } = event;
 
   if (voted) {
-    emojiReactionRemove(props.auth, messageId, name);
+    emojiReactionRemove(props.auth, messageId, reactionType, code, name);
   } else {
-    emojiReactionAdd(props.auth, messageId, name);
+    emojiReactionAdd(props.auth, messageId, reactionType, code, name);
   }
 };
 

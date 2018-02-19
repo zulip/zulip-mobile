@@ -231,6 +231,8 @@ document.body.addEventListener('click', function (e) {
     sendMessage({
       type: 'reaction',
       name: e.target.getAttribute('data-name'),
+      code: e.target.getAttribute('data-code'),
+      reactionType: e.target.getAttribute('data-type'),
       messageId: +getMessageIdFromNode(e.target),
       voted: e.target.classList.contains('self-voted')
     });
