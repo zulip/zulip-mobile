@@ -44,7 +44,6 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
   while (true) {
     const auth = getAuth(getState());
     try {
-      // eslint-disable-next-line no-await-in-loop
       const response = await pollForEvents(auth, queueId, lastEventId);
 
       // User switched accounts or logged out

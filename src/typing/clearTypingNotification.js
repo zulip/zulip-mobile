@@ -7,7 +7,6 @@ export const clearTypingNotification = () => async (dispatch: Dispatch, getState
   // loop to auto dismiss typing notifications after typingNotificationTimeout
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    // eslint-disable-next-line no-await-in-loop
     await new Promise(resolve => setTimeout(resolve, 15000));
     const currentTime = new Date().getTime();
     const typing = getTyping(getState());
