@@ -1,5 +1,4 @@
 /* @flow */
-import { Platform } from 'react-native';
 import { BRAND_COLOR } from './';
 
 export default (
@@ -10,8 +9,8 @@ export default (
 ) => ({
   tabBarComponent,
   tabBarPosition,
-  swipeEnabled: Platform.OS === 'ios',
-  animationEnabled: Platform.OS === 'ios',
+  swipeEnabled: true,
+  animationEnabled: true,
   tabBarOptions: {
     showLabel,
     upperCaseLabel: false,
