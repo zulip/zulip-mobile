@@ -1,18 +1,27 @@
-/* @TODO flow */
+/* @flow */
 import React from 'react';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
 import tabsOptions from '../styles/tabs';
-import StreamTabsCard from '../nav/StreamTabsCard';
+import HomeTab from './HomeTab';
+import StreamTabs from './StreamTabs';
 import ConversationsContainer from '../conversations/ConversationsContainer';
 import SettingsCard from '../settings/SettingsCard';
-import { IconStream, IconSettings } from '../common/Icons';
+import { IconHome, IconStream, IconSettings } from '../common/Icons';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 
 export default TabNavigator(
   {
+    home: {
+      screen: props => <HomeTab {...props.screenProps} />,
+      navigationOptions: {
+        tabBarLabel: 'Home',
+        tabBarIcon: ({ tintColor }) => <IconHome size={24} color={tintColor} />,
+      },
+    },
+
     streams: {
-      screen: props => <StreamTabsCard {...props.screenProps} />,
+      screen: props => <StreamTabs {...props.screenProps} />,
       navigationOptions: {
         tabBarLabel: 'Streams',
         tabBarIcon: ({ tintColor }) => <IconStream size={24} color={tintColor} />,
@@ -33,5 +42,5 @@ export default TabNavigator(
       },
     },
   },
-  tabsOptions(TabBarBottom, 'bottom', false),
+  tabsOptions(TabBarBottom, 'bottom', false, 0),
 );

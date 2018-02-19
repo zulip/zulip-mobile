@@ -1,4 +1,4 @@
-/* @TODO flow */
+/* @flow */
 import { ScrollView, requireNativeComponent } from 'react-native';
 
 const NativeAnchorScrollView = requireNativeComponent('AnchorScrollView', null);
