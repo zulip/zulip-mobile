@@ -79,9 +79,8 @@ export default class GroupCard extends PureComponent<Props, State> {
     const { selected } = this.state;
 
     const recipients = selected.map(user => user.email);
-
-    actions.doNarrow(groupNarrow(recipients));
     actions.navigateBack();
+    actions.doNarrow(groupNarrow(recipients));
   };
 
   render() {
