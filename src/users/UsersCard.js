@@ -18,8 +18,8 @@ export default class UsersCard extends PureComponent<Props> {
 
   handleUserNarrow = (email: string) => {
     const { actions } = this.props;
-    actions.doNarrow(privateNarrow(email));
     actions.navigateBack();
+    actions.doNarrow(privateNarrow(email));
   };
 
   render() {

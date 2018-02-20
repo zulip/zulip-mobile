@@ -91,11 +91,11 @@ type AuthMessageAndNarrow = {
 const isAnOutboxMessage = ({ message }: Message): boolean => message.isOutbox;
 
 const reply = ({ message, actions, auth, currentRoute, onReplySelect }: ReplyOptionType) => {
-  actions.doNarrow(getNarrowFromMessage(message, auth.email), message.id);
-  if (onReplySelect) onReplySelect(); // focus message input
   if (currentRoute === 'search') {
     actions.navigateBack();
   }
+  actions.doNarrow(getNarrowFromMessage(message, auth.email), message.id);
+  if (onReplySelect) onReplySelect(); // focus message input
 };
 
 const copyToClipboard = async ({ getString, auth, message }: AuthGetStringAndMessageType) => {
