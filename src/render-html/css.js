@@ -63,6 +63,11 @@ th, td {
   align: center;
   padding: 0.25em 0.5em;
 }
+hr {
+  margin: 1em 0;
+  border: 0;
+  border-top: 1px solid rgba(127, 127, 127, 0.5);
+}
 .highlight {
   background-color: hsl(51, 94%, 74%);
 }
