@@ -35,10 +35,10 @@ export default class ConversationGroup extends PureComponent<Props> {
   };
 
   render() {
-    const { email, usersByEmail, unreadCount } = this.props;
+    const { email, usersByEmail, name, unreadCount } = this.props;
     const allNames = email
       .split(',')
-      .map(e => (usersByEmail[e] || NULL_USER).fullName)
+      .map((e, i) => (usersByEmail[e] || { fullName: name.split(',')[i] }).fullName)
       .join(', ');
 
     return (

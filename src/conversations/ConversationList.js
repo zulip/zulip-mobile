@@ -6,6 +6,7 @@ import type { User } from '../types';
 import { Label } from '../common';
 import UserItem from '../users/UserItem';
 import ConversationGroup from './ConversationGroup';
+import { NULL_USER } from '../nullObjects';
 
 const styles = StyleSheet.create({
   list: {
@@ -35,7 +36,7 @@ export default class ConversationList extends PureComponent<Props> {
     if (!conversations.length) {
       return <Label style={styles.emptySlate} text="No recent conversations" />;
     }
-
+    console.log(conversations);
     return (
       <FlatList
         style={styles.list}
@@ -44,9 +45,13 @@ export default class ConversationList extends PureComponent<Props> {
         keyExtractor={item => item.recipients}
         renderItem={({ item }) => {
           if (item.recipients.indexOf(',') === -1) {
-            const user = usersByEmail[item.recipients];
+            let user = usersByEmail[item.recipients];
 
-            if (!user) return null;
+            if (!user) {
+              user = {
+                fullName: item.names,
+              };
+            }
 
             return (
               <UserItem
@@ -63,6 +68,7 @@ export default class ConversationList extends PureComponent<Props> {
           return (
             <ConversationGroup
               email={item.recipients}
+              name={item.names}
               unreadCount={item.unread}
               usersByEmail={usersByEmail}
               onPress={onPress}
