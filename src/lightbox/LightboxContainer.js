@@ -62,7 +62,7 @@ class LightboxContainer extends PureComponent<Props, State> {
   handleOptionsPress = () => {
     const options = constructActionSheetButtons();
     const cancelButtonIndex = options.length - 1;
-    const { showActionSheetWithOptions, src: { uri: url }, auth } = this.props;
+    const { showActionSheetWithOptions, src, auth } = this.props;
     showActionSheetWithOptions(
       {
         options,
@@ -71,7 +71,7 @@ class LightboxContainer extends PureComponent<Props, State> {
       buttonIndex => {
         executeActionSheetAction({
           title: options[buttonIndex],
-          url,
+          src,
           auth,
         });
       },
