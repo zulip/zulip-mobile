@@ -1,28 +1,28 @@
 /* @flow */
 import type { Auth } from '../types';
-import download from '../api/downloadFile';
+import downloadFile from '../api/downloadFile';
 import share from './share';
 import shareImage from './shareImage';
 import { showToast } from '../utils/info';
 
 type DownloadImageType = {
-  url: string,
+  src: string,
   auth: Auth,
 };
 
 type ShareLinkType = {
-  url: string,
+  src: string,
 };
 
 type ExecuteActionSheetActionType = {
   title: string,
-  url: string,
+  src: string,
   auth: Auth,
 };
 
 type ButtonProps = {
   auth?: Auth,
-  url: string,
+  src: string,
 };
 
 type ButtonType = {
@@ -30,21 +30,21 @@ type ButtonType = {
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
 };
 
-const downloadImage = async ({ url, auth }: DownloadImageType) => {
+const downloadImage = async ({ src, auth }: DownloadImageType) => {
   try {
-    await download(url, auth);
+    await downloadFile(src, auth);
     showToast('Download complete');
   } catch (error) {
     showToast('Can not download');
   }
 };
 
-const shareLink = ({ url }: ShareLinkType) => {
-  share(url);
+const shareLink = ({ src }: ShareLinkType) => {
+  share(src);
 };
 
-const shareImageDirectly = ({ url, auth }: DownloadImageType) => {
-  shareImage(url, auth);
+const shareImageDirectly = ({ src, auth }: DownloadImageType) => {
+  shareImage(src, auth);
 };
 
 const actionSheetButtons: ButtonType[] = [

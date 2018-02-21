@@ -2,20 +2,18 @@
 import RNFetchBlob from 'react-native-fetch-blob';
 
 import type { Auth } from '../types';
-import { getAuthHeader } from '../utils/url';
+import { getAuthHeader, getFullUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 
-export default (url: string, auth: Auth) =>
+export default (src: string, auth: Auth) =>
   RNFetchBlob.config({
     addAndroidDownloads: {
-      path: `${RNFetchBlob.fs.dirs.DownloadDir}/${url.split('/').pop()}`,
+      path: `${RNFetchBlob.fs.dirs.DownloadDir}/${src.split('/').pop()}`,
       useDownloadManager: true,
-      // Optional, but recommended since android DownloadManager will fail when
-      // the url does not contains a file extension, by default the mime type will be text/plain
-      mime: 'text/plain',
-      title: url.split('/').pop(),
+      mime: 'text/plain', // Android DownloadManager fails if the url is missing a file extension
+      title: src.split('/').pop(),
     },
-  }).fetch('GET', url, {
+  }).fetch('GET', getFullUrl(src, auth.realm), {
     'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
     'User-Agent': userAgent,
     Authorization: getAuthHeader(auth.email, auth.apiKey),
