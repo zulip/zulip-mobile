@@ -3,8 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import type { Actions } from '../types';
-import { privateNarrow, groupNarrow } from '../utils/narrow';
-import { ZulipButton } from '../common';
+import { Label, ZulipButton } from '../common';
 import ConversationList from './ConversationList';
 
 const componentStyles = StyleSheet.create({
@@ -13,6 +12,11 @@ const componentStyles = StyleSheet.create({
   },
   button: {
     margin: 8,
+  },
+  emptySlate: {
+    flex: 1,
+    textAlign: 'center',
+    fontSize: 20,
   },
 });
 
@@ -24,15 +28,10 @@ type Props = {
 };
 
 export default class ConversationsCard extends PureComponent<Props> {
-  static contextTypes = {
-    styles: () => null,
-  };
-
   props: Props;
 
-  handleUserNarrow = (email: string) => {
-    const narrow = email.indexOf(',') === -1 ? privateNarrow(email) : groupNarrow(email.split(','));
-    this.props.actions.doNarrow(narrow);
+  static contextTypes = {
+    styles: () => null,
   };
 
   handleSearchPeople = () => {
@@ -42,7 +41,7 @@ export default class ConversationsCard extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { conversations, presences, usersByEmail } = this.props;
+    const { actions, conversations, presences, usersByEmail } = this.props;
 
     return (
       <View style={[componentStyles.container, styles.background]}>
@@ -52,12 +51,16 @@ export default class ConversationsCard extends PureComponent<Props> {
           text="Search people"
           onPress={this.handleSearchPeople}
         />
-        <ConversationList
-          conversations={conversations}
-          presences={presences}
-          usersByEmail={usersByEmail}
-          onPress={this.handleUserNarrow}
-        />
+        {conversations.length === 0 ? (
+          <Label style={componentStyles.emptySlate} text="No recent conversations" />
+        ) : (
+          <ConversationList
+            actions={actions}
+            conversations={conversations}
+            presences={presences}
+            usersByEmail={usersByEmail}
+          />
+        )}
       </View>
     );
   }

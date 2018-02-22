@@ -48,3 +48,7 @@ export const getRecentConversations = createSelector(
     }));
   },
 );
+
+export const getUnreadConversations = createSelector(getRecentConversations, conversations =>
+  conversations.filter(c => c.unread > 0),
+);

@@ -2,8 +2,8 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { User } from '../types';
-import { Label } from '../common';
+import type { Actions } from '../types';
+import { privateNarrow, groupNarrow } from '../utils/narrow';
 import UserItem from '../users/UserItem';
 import ConversationGroup from './ConversationGroup';
 
@@ -12,29 +12,24 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
-  emptySlate: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 20,
-  },
 });
 
 type Props = {
-  conversations: User[],
+  actions: Actions,
+  conversations: Object[],
   presences: Object,
   usersByEmail: Object,
-  onPress: (email: string) => void,
 };
 
 export default class ConversationList extends PureComponent<Props> {
   props: Props;
 
-  render() {
-    const { conversations, presences, usersByEmail, onPress } = this.props;
+  handleUserNarrow = (email: string) => this.props.actions.doNarrow(privateNarrow(email));
 
-    if (!conversations.length) {
-      return <Label style={styles.emptySlate} text="No recent conversations" />;
-    }
+  handleGroupNarrow = (email: string) => this.props.actions.doNarrow(groupNarrow(email.split(',')));
+
+  render() {
+    const { conversations, presences, usersByEmail } = this.props;
 
     return (
       <FlatList
@@ -55,7 +50,7 @@ export default class ConversationList extends PureComponent<Props> {
                 avatarUrl={user.avatarUrl}
                 presence={presences[user.email]}
                 unreadCount={item.unread}
-                onPress={onPress}
+                onPress={this.handleUserNarrow}
               />
             );
           }
@@ -65,7 +60,7 @@ export default class ConversationList extends PureComponent<Props> {
               email={item.recipients}
               unreadCount={item.unread}
               usersByEmail={usersByEmail}
-              onPress={onPress}
+              onPress={this.handleGroupNarrow}
             />
           );
         }}
