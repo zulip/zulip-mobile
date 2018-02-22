@@ -4,10 +4,9 @@ import { StyleSheet, View } from 'react-native';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getPresence, getUnreadConversations, getUsersByEmail } from '../selectors';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import NavButton from '../nav/NavButton';
-import ConversationList from '../conversations/ConversationList';
+import UnreadConversationsContainer from '../conversations/UnreadConversationsContainer';
 import UnreadStreamsContainer from '../unread/UnreadStreamsContainer';
 
 const styles = StyleSheet.create({
@@ -30,7 +29,7 @@ type Props = {
 
 class HomeTab extends PureComponent<Props> {
   render() {
-    const { actions, conversations, presences, usersByEmail } = this.props;
+    const { actions } = this.props;
 
     return (
       <View style={styles.wrapper}>
@@ -40,20 +39,11 @@ class HomeTab extends PureComponent<Props> {
           <NavButton name="at-sign" onPress={() => actions.doNarrow(specialNarrow('mentioned'))} />
           <NavButton name="search" onPress={() => actions.navigateToSearch()} />
         </View>
-        <ConversationList
-          actions={actions}
-          conversations={conversations}
-          presences={presences}
-          usersByEmail={usersByEmail}
-        />
+        <UnreadConversationsContainer />
         <UnreadStreamsContainer />
       </View>
     );
   }
 }
 
-export default connectWithActions(state => ({
-  conversations: getUnreadConversations(state),
-  presences: getPresence(state),
-  usersByEmail: getUsersByEmail(state),
-}))(HomeTab);
+export default connectWithActions(null)(HomeTab);

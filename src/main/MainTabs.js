@@ -19,7 +19,6 @@ export default TabNavigator(
         tabBarIcon: ({ tintColor }) => <IconHome size={24} color={tintColor} />,
       },
     },
-
     streams: {
       screen: props => <StreamTabs {...props.screenProps} />,
       navigationOptions: {

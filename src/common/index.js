@@ -5,6 +5,7 @@ export { default as Centerer } from './Centerer';
 export { default as Circle } from './Circle';
 export { default as ComponentWithOverlay } from './ComponentWithOverlay';
 export { default as ErrorMsg } from './ErrorMsg';
+export { default as FlexView } from './FlexView';
 export { default as FloatingActionButton } from './FloatingActionButton';
 export { default as ImageAvatar } from './ImageAvatar';
 export { default as Input } from './Input';
