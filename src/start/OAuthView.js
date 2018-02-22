@@ -83,7 +83,7 @@ class OAuthView extends Component<Props> {
     actions.loginSuccess(realm, url.query.email, apiKey);
   };
 
-  handleGoogleAuth = () => {
+  handleOAuth = () => {
     const { realm, url } = this.props;
     this.beginOAuth(`${realm}/${url}`);
   };
@@ -98,7 +98,7 @@ class OAuthView extends Component<Props> {
         secondary
         text={`Log in with ${name}`}
         Icon={Icon}
-        onPress={this.handleGoogleAuth}
+        onPress={this.handleOAuth}
       />
     );
   }

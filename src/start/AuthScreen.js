@@ -9,7 +9,7 @@ import { getCurrentRealm } from '../selectors';
 import PasswordAuthView from './PasswordAuthView';
 import OAuthView from './OAuthView';
 import { getFullUrl } from '../utils/url';
-import { IconGoogle, IconGitHub } from '../common/Icons';
+import { IconPrivate, IconGoogle, IconGitHub } from '../common/Icons';
 
 const componentStyles = StyleSheet.create({
   description: {
@@ -75,6 +75,9 @@ class AuthScreen extends PureComponent<Props> {
           )}
           {serverSettings.authentication_methods.github && (
             <OAuthView name="GitHub" Icon={IconGitHub} url="accounts/login/social/github" />
+          )}
+          {serverSettings.authentication_methods.remoteuser && (
+            <OAuthView name="SSO" Icon={IconPrivate} url="accounts/login/sso" />
           )}
         </Centerer>
       </Screen>
