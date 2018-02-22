@@ -148,6 +148,8 @@ const isSentBySelfAndNarrowed = ({ message, auth, narrow }: AuthMessageAndNarrow
 const isSentBySelf = ({ message, auth }: AuthAndMessageType): boolean =>
   auth.email === message.sender_email;
 
+const isNotDeleted = ({ message }): boolean => message.content !== '<p>(deleted)</p>';
+
 const starMessage = ({ auth, message }: AuthAndMessageType) => {
   toggleMessageStarred(auth, [message.id], true);
 };
@@ -178,8 +180,8 @@ const resolveMultiple = (message, auth, narrow, functions) =>
 
 const actionSheetButtons: ActionSheetButtonType[] = [
   { title: 'Reply', onPress: reply, onlyIf: isSentMessage },
-  { title: 'Copy to clipboard', onPress: copyToClipboard },
-  { title: 'Share', onPress: shareMessage },
+  { title: 'Copy to clipboard', onPress: copyToClipboard, onlyIf: isNotDeleted },
+  { title: 'Share', onPress: shareMessage, onlyIf: isNotDeleted },
   {
     title: 'Edit message',
     onPress: editMessage,
@@ -190,7 +192,7 @@ const actionSheetButtons: ActionSheetButtonType[] = [
     title: 'Delete message',
     onPress: doDeleteMessage,
     onlyIf: ({ message, auth, narrow }) =>
-      resolveMultiple(message, auth, narrow, [isSentMessage, isSentBySelf]),
+      resolveMultiple(message, auth, narrow, [isSentMessage, isSentBySelf, isNotDeleted]),
   },
   // If skip then covered in constructActionButtons
   { title: 'Star message', onPress: starMessage, onlyIf: skip },
