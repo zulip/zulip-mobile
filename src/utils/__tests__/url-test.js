@@ -441,7 +441,12 @@ describe('fixRealmUrl', () => {
     expect(fixRealmUrl('https://example.com')).toEqual('https://example.com');
   });
 
-  test('remove white-space from input', () => {
+  test('remove white-space around input', () => {
     expect(fixRealmUrl(' https://example.com/  ')).toEqual('https://example.com');
+  });
+
+  test('remove white-space inside input', () => {
+    const result = fixRealmUrl('https://subdomain   .example.  com/  ');
+    expect(result).toEqual('https://subdomain.example.com');
   });
 });
