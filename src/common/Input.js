@@ -9,7 +9,6 @@ import { HALF_COLOR } from '../styles';
 
 type Props = {
   style?: StyleObj,
-  restProps: any[],
   placeholder: LocalizableText,
   clearButton: boolean,
   onChangeText: (text: string) => void,
