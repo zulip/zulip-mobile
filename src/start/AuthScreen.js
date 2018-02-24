@@ -3,13 +3,13 @@ import React, { PureComponent } from 'react';
 
 import { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
-import { Centerer, Screen, ZulipButton } from '../common';
+import { Centerer, Screen } from '../common';
 import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
-import PasswordAuthView from './PasswordAuthView';
+import AuthButton from './AuthButton';
 import OAuthView from './OAuthView';
 import { getFullUrl } from '../utils/url';
-import { IconPrivate, IconGoogle, IconGitHub } from '../common/Icons';
+import { IconPrivate, IconGoogle, IconGitHub, IconTerminal } from '../common/Icons';
 
 type Props = {
   actions: Actions,
@@ -28,6 +28,11 @@ class AuthScreen extends PureComponent<Props> {
     this.props.actions.navigateToDev();
   };
 
+  handlePassword = () => {
+    const { actions, navigation } = this.props;
+    actions.navigateToPassword(navigation.state.params.serverSettings.authentication_methods.ldap);
+  };
+
   render() {
     const { serverSettings } = this.props.navigation.state.params;
 
@@ -39,11 +44,11 @@ class AuthScreen extends PureComponent<Props> {
             iconUrl={getFullUrl(serverSettings.realm_icon, this.props.realm)}
           />
           {serverSettings.authentication_methods.dev && (
-            <ZulipButton text="Log in with dev account" onPress={this.handleDevAuth} />
+            <AuthButton name="dev account" Icon={IconTerminal} onPress={this.handleDevAuth} />
           )}
           {(serverSettings.authentication_methods.password ||
             serverSettings.authentication_methods.ldap) && (
-            <PasswordAuthView ldap={serverSettings.authentication_methods.ldap} />
+            <AuthButton name="password" Icon={IconPrivate} onPress={this.handlePassword} />
           )}
           {serverSettings.authentication_methods.google && (
             <OAuthView name="Google" Icon={IconGoogle} url="accounts/login/google/" />
