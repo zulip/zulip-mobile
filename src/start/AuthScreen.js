@@ -1,38 +1,20 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
 
 import { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
-import { Centerer, RawLabel, Screen, ZulipButton } from '../common';
+import { Centerer, Screen, ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
+import RealmInfo from './RealmInfo';
 import PasswordAuthView from './PasswordAuthView';
 import OAuthView from './OAuthView';
 import { getFullUrl } from '../utils/url';
 import { IconPrivate, IconGoogle, IconGitHub } from '../common/Icons';
 
-const componentStyles = StyleSheet.create({
-  description: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  icon: {
-    width: 25,
-    height: 25,
-    marginRight: 10,
-  },
-  name: {
-    fontSize: 20,
-  },
-});
-
 type Props = {
   actions: Actions,
   realm: string,
   navigation: Object,
-  navigateToDev: () => void,
 };
 
 class AuthScreen extends PureComponent<Props> {
@@ -52,17 +34,10 @@ class AuthScreen extends PureComponent<Props> {
     return (
       <Screen title="Log in" padding>
         <Centerer>
-          <View style={componentStyles.description}>
-            {serverSettings.realm_icon && (
-              <Image
-                style={componentStyles.icon}
-                source={{
-                  uri: getFullUrl(serverSettings.realm_icon, this.props.realm),
-                }}
-              />
-            )}
-            <RawLabel style={componentStyles.name} text={serverSettings.realm_name} />
-          </View>
+          <RealmInfo
+            name={serverSettings.realm_name}
+            iconUrl={getFullUrl(serverSettings.realm_icon, this.props.realm)}
+          />
           {serverSettings.authentication_methods.dev && (
             <ZulipButton text="Log in with dev account" onPress={this.handleDevAuth} />
           )}

@@ -204,6 +204,8 @@ export type AuthenticationMethods = {
 };
 export type ServerSettings = {
   authentication_methods: AuthenticationMethods,
+  realm_icon: string,
+  realm_name: string,
 };
 
 export type Actions = {
