@@ -15,6 +15,7 @@ import ChatScreen from '../chat/ChatScreen';
 import LoadingScreen from '../start/LoadingScreen';
 import SettingsScreen from '../settings/SettingsScreen';
 import LanguageScreen from '../settings/LanguageScreen';
+import PasswordAuthScreen from '../start/PasswordAuthScreen';
 import DebugScreen from '../settings/DebugScreen';
 import DiagnosticsScreen from '../diagnostics/DiagnosticsScreen';
 import VariablesScreen from '../diagnostics/VariablesScreen';
@@ -38,6 +39,7 @@ export default StackNavigator(
     dev: { screen: DevAuthScreen },
     loading: { screen: LoadingScreen },
     main: { screen: MainScreenWithTabs },
+    password: { screen: PasswordAuthScreen },
     realm: { screen: RealmScreen },
     search: { screen: SearchMessagesScreen },
     subscriptions: { screen: SubscriptionsScreen },

@@ -24,6 +24,9 @@ export const navigateToAuth = (serverSettings: ServerSettings): Action =>
 
 export const navigateToDev = (): Action => NavigationActions.navigate({ routeName: 'dev' });
 
+export const navigateToPassword = (ldap: boolean = false): Action =>
+  NavigationActions.navigate({ routeName: 'password', params: { ldap } });
+
 export const navigateToAccountPicker = (): Action =>
   NavigationActions.navigate({ routeName: 'account' });
 

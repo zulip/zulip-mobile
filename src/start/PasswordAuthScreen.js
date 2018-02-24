@@ -5,7 +5,7 @@ import { View, StyleSheet } from 'react-native';
 import type { Actions, Auth } from '../types';
 import connectWithActions from '../connectWithActions';
 import { fetchApiKey } from '../api';
-import { ErrorMsg, ZulipButton, Input, PasswordInput, WebLink } from '../common';
+import { ErrorMsg, Input, PasswordInput, Screen, WebLink, ZulipButton } from '../common';
 import { getAuth, getOwnEmail } from '../selectors';
 
 const componentStyles = StyleSheet.create({
@@ -21,7 +21,7 @@ type Props = {
   actions: Actions,
   auth: Auth,
   email: string,
-  ldap: boolean,
+  navigation: Object,
 };
 
 type State = {
@@ -48,7 +48,8 @@ class PasswordAuthView extends PureComponent<Props, State> {
   };
 
   tryPasswordLogin = async () => {
-    const { actions, auth, ldap } = this.props;
+    const { actions, auth } = this.props;
+    const { ldap } = this.props.navigation.state.params;
     const { email, password } = this.state;
 
     this.setState({ progress: true, error: undefined });
@@ -68,7 +69,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
   };
 
   validateForm = () => {
-    const { ldap } = this.props;
+    const { ldap } = this.props.navigation.state.params;
     const { email, password } = this.state;
 
     if (!email || (!ldap && !/\S+@\S+\.\S+/.test(email))) {
@@ -82,41 +83,43 @@ class PasswordAuthView extends PureComponent<Props, State> {
 
   render() {
     const { styles } = this.context;
-    const { ldap } = this.props;
+    const { ldap } = this.props.navigation.state.params;
     const { email, password, progress, error } = this.state;
 
     return (
-      <View style={componentStyles.container}>
-        <Input
-          style={styles.smallMarginTop}
-          autoFocus
-          autoCapitalize="none"
-          autoCorrect={false}
-          blurOnSubmit={false}
-          keyboardType={ldap ? 'default' : 'email-address'}
-          placeholder={ldap ? 'Username' : 'Email'}
-          defaultValue={email}
-          onChangeText={newEmail => this.setState({ email: newEmail })}
-        />
-        <PasswordInput
-          style={[styles.smallMarginTop, styles.field]}
-          placeholder="Password"
-          value={password}
-          onChangeText={newPassword => this.setState({ password: newPassword })}
-          blurOnSubmit={false}
-          onSubmitEditing={this.validateForm}
-        />
-        <ZulipButton
-          style={styles.smallMarginTop}
-          text="Log in"
-          progress={progress}
-          onPress={this.validateForm}
-        />
-        <ErrorMsg error={error} />
-        <View style={componentStyles.linksTouchable}>
-          <WebLink label="Forgot password?" href="/accounts/password/reset/" />
+      <Screen title="Log in" padding>
+        <View style={componentStyles.container}>
+          <Input
+            style={styles.smallMarginTop}
+            autoFocus
+            autoCapitalize="none"
+            autoCorrect={false}
+            blurOnSubmit={false}
+            keyboardType={ldap ? 'default' : 'email-address'}
+            placeholder={ldap ? 'Username' : 'Email'}
+            defaultValue={email}
+            onChangeText={newEmail => this.setState({ email: newEmail })}
+          />
+          <PasswordInput
+            style={[styles.smallMarginTop, styles.field]}
+            placeholder="Password"
+            value={password}
+            onChangeText={newPassword => this.setState({ password: newPassword })}
+            blurOnSubmit={false}
+            onSubmitEditing={this.validateForm}
+          />
+          <ZulipButton
+            style={styles.smallMarginTop}
+            text="Log in"
+            progress={progress}
+            onPress={this.validateForm}
+          />
+          <ErrorMsg error={error} />
+          <View style={componentStyles.linksTouchable}>
+            <WebLink label="Forgot password?" href="/accounts/password/reset/" />
+          </View>
         </View>
-      </View>
+      </Screen>
     );
   }
 }
