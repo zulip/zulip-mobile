@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Text } from 'react-native';
 
 import { Auth, Actions } from '../types';
 import { getAuth, getSettings } from '../selectors';
@@ -12,16 +12,28 @@ import LogoutButton from '../account-info/LogoutButton';
 const styles = StyleSheet.create({
   optionWrapper: {
     flex: 1,
+    paddingTop: 20,
+  },
+  header: {
+    color: 'black',
+    fontSize: 40,
+    textAlign: 'center',
+  },
+  headerNight: {
+    color: 'white',
+  },
+  bigGap: {
+    height: 30,
   },
   divider: {
-    height: 16,
+    height: 10,
   },
   padding: {
     padding: 16,
   },
   accountButtons: {
-    flex: 1,
-    alignItems: 'flex-end',
+    position: 'absolute',
+    bottom: -150,
     flexDirection: 'row',
   },
 });
@@ -45,6 +57,8 @@ class SettingsCard extends PureComponent<Props> {
 
     return (
       <ScrollView style={styles.optionWrapper}>
+        <Text style={[styles.header, theme === 'night' && styles.headerNight]}> Settings </Text>
+        <View style={styles.bigGap} />
         <OptionRow
           label="Night mode"
           defaultValue={theme === 'night'}
@@ -57,7 +71,9 @@ class SettingsCard extends PureComponent<Props> {
         <View style={styles.divider} />
         <OptionButton label="Diagnostics" onPress={actions.navigateToDiagnostics} />
         <View style={styles.padding}>
+          <View style={styles.divider} />
           <WebLink label="Terms of service" href="/terms/" />
+          <View style={styles.divider} />
           <WebLink label="Privacy policy" href="/privacy/" />
         </View>
         <View style={styles.accountButtons}>

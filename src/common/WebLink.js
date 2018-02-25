@@ -5,6 +5,7 @@ import connectWithActions from '../connectWithActions';
 import { Touchable, Label } from '../common';
 import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
+import { BRAND_COLOR } from '../styles';
 import { getCurrentRealm } from '../selectors';
 
 type Props = {
@@ -31,7 +32,11 @@ class WebLink extends PureComponent<Props> {
 
     return (
       <Touchable>
-        <Label style={[styles.link]} text={label} onPress={this.handlePress} />
+        <Label
+          style={([styles.link], { textAlign: 'center', color: BRAND_COLOR })}
+          text={label}
+          onPress={this.handlePress}
+        />
       </Touchable>
     );
   }
