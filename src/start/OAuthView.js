@@ -5,10 +5,10 @@ import parseURL from 'url-parse';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
-import { ZulipButton } from '../common';
 import { getCurrentRealm } from '../selectors';
 import { extractApiKey } from '../utils/encoding';
 import { generateOtp, openBrowser, closeBrowser } from './oauth';
+import AuthButton from './AuthButton';
 
 type Props = {
   actions: Actions,
@@ -21,10 +21,6 @@ type Props = {
 let otp = '';
 
 class OAuthView extends Component<Props> {
-  static contextTypes = {
-    styles: () => null,
-  };
-
   props: Props;
 
   safariViewDismissEvent: Event;
@@ -83,24 +79,15 @@ class OAuthView extends Component<Props> {
     actions.loginSuccess(realm, url.query.email, apiKey);
   };
 
-  handleGoogleAuth = () => {
+  handleOAuth = () => {
     const { realm, url } = this.props;
     this.beginOAuth(`${realm}/${url}`);
   };
 
   render() {
-    const { styles } = this.context;
     const { name, Icon } = this.props;
 
-    return (
-      <ZulipButton
-        style={styles.smallMarginTop}
-        secondary
-        text={`Log in with ${name}`}
-        Icon={Icon}
-        onPress={this.handleGoogleAuth}
-      />
-    );
+    return <AuthButton name={name} Icon={Icon} onPress={this.handleOAuth} />;
   }
 }
 
