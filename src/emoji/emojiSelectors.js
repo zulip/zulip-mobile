@@ -1,6 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
-import { getAuth, getRealmEmoji } from '../selectors';
+import { getRealmEmoji } from '../directSelectors';
+import { getAuth } from '../account/accountSelectors';
 import { getFullUrl } from '../utils/url';
 
 export const getAllRealmEmoji = createSelector(getAuth, getRealmEmoji, (auth, emojis) =>

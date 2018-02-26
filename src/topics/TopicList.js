@@ -1,0 +1,52 @@
+/* @flow */
+import React, { PureComponent } from 'react';
+import { FlatList, StyleSheet } from 'react-native';
+
+import type { TopicDetails } from '../types';
+import TopicItem from '../streams/TopicItem';
+import { SectionSeparatorBetween, SearchEmptyState } from '../common';
+
+const styles = StyleSheet.create({
+  list: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+});
+
+type Props = {
+  topics: TopicDetails[],
+  unreadByStream: number[],
+  onPress: (stream: string, topic: string) => void,
+};
+
+export default class TopicList extends PureComponent<Props> {
+  props: Props;
+
+  static defaultProps = {
+    showDescriptions: false,
+    showSwitch: false,
+    selected: false,
+    streams: [],
+    unreadByStream: [],
+  };
+
+  render() {
+    const { topics, onPress } = this.props;
+
+    if (topics.length === 0) {
+      return <SearchEmptyState text="No topics found" />;
+    }
+
+    return (
+      <FlatList
+        style={styles.list}
+        data={topics}
+        keyExtractor={item => item.name}
+        renderItem={({ item }) => (
+          <TopicItem name={item.name} isMuted={false} unreadCount={0} onPress={onPress} />
+        )}
+        SectionSeparatorComponent={SectionSeparatorBetween}
+      />
+    );
+  }
+}

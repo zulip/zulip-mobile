@@ -28,6 +28,7 @@ import StreamScreen from '../streams/StreamScreen';
 import CreateStreamScreen from '../streams/CreateStreamScreen';
 import EditStreamScreen from '../streams/EditStreamScreen';
 import NotificationsScreen from '../settings/NotificationsScreen';
+import TopicListScreen from '../topics/TopicListScreen';
 
 export default StackNavigator(
   {
@@ -56,6 +57,7 @@ export default StackNavigator(
     stream: { screen: StreamScreen },
     'stream-edit': { screen: EditStreamScreen },
     'stream-create': { screen: CreateStreamScreen },
+    topics: { screen: TopicListScreen },
     notifDiag: { screen: NotificationDiagScreen },
     notifications: { screen: NotificationsScreen },
   },

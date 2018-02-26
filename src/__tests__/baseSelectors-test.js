@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { getActiveNarrow } from '../baseSelectors';
+import { getActiveNarrow, getCurrentRoute, getCurrentRouteParams } from '../baseSelectors';
 import { homeNarrow } from '../utils/narrow';
 
 describe('getActiveNarrow', () => {
@@ -71,5 +71,43 @@ describe('getActiveNarrow', () => {
     const narrow = getActiveNarrow(state);
 
     expect(narrow).toEqual('last narrow');
+  });
+});
+
+describe('getCurrentRoute', () => {
+  test('return name of the current route', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 1,
+        routes: [
+          { routeName: 'first', params: { email: 'a@a.com' } },
+          { routeName: 'second', params: { email: 'b@a.com' } },
+        ],
+      },
+    });
+    const expectedResult = 'second';
+
+    const actualResult = getCurrentRoute(state);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+});
+
+describe('getCurrentRouteParams', () => {
+  test('return params of the current route', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 1,
+        routes: [
+          { routeName: 'first', params: { email: 'a@a.com' } },
+          { routeName: 'second', params: { email: 'b@a.com' } },
+        ],
+      },
+    });
+    const expectedResult = { email: 'b@a.com' };
+
+    const actualResult = getCurrentRouteParams(state);
+
+    expect(actualResult).toEqual(expectedResult);
   });
 });

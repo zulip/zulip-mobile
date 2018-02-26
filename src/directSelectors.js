@@ -60,3 +60,7 @@ export const getUnreadMentions = (state: GlobalState): number[] => state.unread.
 export const getRealm = (state: GlobalState): Object => state.realm;
 
 export const getRealmEmoji = (state: GlobalState): Object => state.realm.emoji;
+
+export const getNavigationRoutes = (state: GlobalState): Object[] => state.nav.routes;
+
+export const getNavigationIndex = (state: GlobalState): number => state.nav.index;

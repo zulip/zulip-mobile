@@ -13,8 +13,8 @@ import {
   getUnreadHuddles,
   getUnreadMentions,
 } from '../directSelectors';
-import { getOwnEmail } from '../account/accountSelectors';
 import { getActiveNarrow, getPrivateMessages } from '../baseSelectors';
+import { getOwnEmail } from '../account/accountSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { countUnread } from '../utils/unread';
 import { isTopicMuted } from '../utils/message';
