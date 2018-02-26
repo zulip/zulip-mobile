@@ -16,5 +16,9 @@ export default (realm: string, users: User) => `
       </div>
   `,
   )}
-  <div class="content">${users.length > 1 ? 'are' : 'is'} typing</div>
+  <div class="content">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 `;

@@ -349,6 +349,36 @@ ul {
   display: flex;
   padding: 0.5em;
 }
+#typing .content {
+  padding-left: 0.5em;
+  padding-top: 1em;
+}
+#typing span {
+  display: inline-block;
+  background-color: #B6B5BA;
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: 100%;
+  margin-right: 5px;
+  animation: bob 2s infinite;
+}
+#typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+#typing span:nth-child(3) {
+  animation-delay: 0.3s;
+  margin-right: 0;
+}
+@keyframes bob {
+  10% {
+    transform: translateY(-10px);
+    background-color: #9E9DA2;
+  }
+  50% {
+    transform: translateY(0);
+    background-color: #B6B5BA;
+  }
+}
 .typing-list {
   background: green;
   height: 20px;
