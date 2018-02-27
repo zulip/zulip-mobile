@@ -225,6 +225,12 @@ document.body.addEventListener('click', function (e) {
       href: e.target.getAttribute('href'),
       messageId: +getMessageIdFromNode(e.target)
     });
+  } else if (e.target.parentNode.matches('a')) {
+    sendMessage({
+      type: 'url',
+      href: e.target.parentNode.getAttribute('href'),
+      messageId: +getMessageIdFromNode(e.target.parentNode)
+    });
   }
 
   if (e.target.matches('.reaction')) {
