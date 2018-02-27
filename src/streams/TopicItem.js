@@ -39,6 +39,7 @@ export default class StreamItem extends PureComponent<Props> {
   props: Props;
 
   static defaultProps = {
+    stream: '',
     isMuted: false,
     isSelected: false,
     unreadCount: 0,
@@ -61,7 +62,7 @@ export default class StreamItem extends PureComponent<Props> {
             numberOfLines={1}
             ellipsizeMode="tail"
           />
-          {unreadCount && <UnreadCount count={unreadCount} inverse={isSelected} />}
+          <UnreadCount count={unreadCount} inverse={isSelected} />
         </View>
       </Touchable>
     );

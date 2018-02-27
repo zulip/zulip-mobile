@@ -18,6 +18,10 @@ type Props = {
 class StreamScreen extends PureComponent<Props> {
   props: Props;
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   handleTogglePinStream = (newValue: boolean) => {
     const { actions, navigation } = this.props;
     const { streamId } = navigation.state.params;
@@ -30,13 +34,14 @@ class StreamScreen extends PureComponent<Props> {
     actions.doToggleMuteStream(streamId, newValue);
   };
 
+  handleTopics = () => {
+    const { actions, navigation } = this.props;
+    actions.navigateToTopicList(navigation.state.params.streamId);
+  };
+
   handleEdit = () => {
     const { actions, navigation } = this.props;
     actions.navigateToEditStream(navigation.state.params.streamId);
-  };
-
-  static contextTypes = {
-    styles: () => null,
   };
 
   toggleStreamPushNotification = () => {
@@ -71,6 +76,7 @@ class StreamScreen extends PureComponent<Props> {
           onValueChange={this.toggleStreamPushNotification}
           customStyle={this.context.styles.backgroundColor}
         />
+        <ZulipButton text="Topics" onPress={this.handleTopics} />
         <ZulipButton text="Edit" onPress={this.handleEdit} />
       </Screen>
     );

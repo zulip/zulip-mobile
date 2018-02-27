@@ -1,12 +1,9 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import {
-  getActiveNarrow,
-  getStreams,
-  getTopics,
-  getShownMessagesInActiveNarrow,
-} from '../selectors';
+import { getStreams, getTopics } from '../directSelectors';
+import { getActiveNarrow, getCurrentRouteParams } from '../baseSelectors';
+import { getShownMessagesInActiveNarrow } from '../chat/chatSelectors';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, topicNarrow } from '../utils/narrow';
 
@@ -25,6 +22,18 @@ export const getTopicsInActiveNarrow = createSelector(
     }
 
     return topics[stream.stream_id].map(x => x.name);
+  },
+);
+
+export const getTopicsInScreen = createSelector(
+  getCurrentRouteParams,
+  getTopics,
+  (params, topics) => {
+    if (!params.streamId || !topics[params.streamId]) {
+      return NULL_ARRAY;
+    }
+
+    return topics[params.streamId];
   },
 );
 

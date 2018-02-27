@@ -1,76 +1,92 @@
 import deepFreeze from 'deep-freeze';
-import {
-  getNavigationRoutes,
-  getNavigationIndex,
-  getCurrentRouteParams,
-  getCurrentRoute,
-} from '../navigationSelectors';
+import { getInitialNavState } from '../navSelectors';
 
-describe('getNavigationRoutes', () => {
-  test('return routes in navigation stack', () => {
+describe('getInitialNavState', () => {
+  test('if logged in, preserve the state', () => {
     const state = deepFreeze({
+      accounts: [{ apiKey: '123' }],
       nav: {
-        index: 1,
-        routes: [{ routeName: 'first' }, { routeName: 'second' }],
+        routes: [{ routeName: 'route1' }, { routeName: 'route2' }],
       },
     });
-    const expectedResult = [{ routeName: 'first' }, { routeName: 'second' }];
 
-    const actualResult = getNavigationRoutes(state);
+    const nav = getInitialNavState(state);
 
-    expect(actualResult).toEqual(expectedResult);
+    expect(nav.routes.length).toEqual(2);
+    expect(nav.routes[0].routeName).toEqual('route1');
+    expect(nav.routes[1].routeName).toEqual('route2');
   });
-});
 
-describe('getNavigationIndex', () => {
-  test('return index of the current route in navigation', () => {
+  test('if not logged in, and no previous accounts, show realm screen', () => {
     const state = deepFreeze({
+      accounts: [],
       nav: {
-        index: 1,
-        routes: [{ routeName: 'first' }, { routeName: 'second' }],
+        routes: [],
       },
     });
 
-    const actualResult = getNavigationIndex(state);
+    const nav = getInitialNavState(state);
 
-    expect(actualResult).toEqual(1);
+    expect(nav.routes.length).toBe(1);
+    expect(nav.routes[0].routeName).toEqual('realm');
   });
-});
 
-describe('getCurrentRouteParams', () => {
-  test('return params of the current route', () => {
+  test('if more than one account and no active account, display account list', () => {
     const state = deepFreeze({
+      accounts: [{}, {}],
       nav: {
-        index: 1,
-        routes: [
-          { routeName: 'first', params: { email: 'a@a.com' } },
-          { routeName: 'second', params: { email: 'b@a.com' } },
-        ],
+        routes: [],
       },
     });
-    const expectedResult = { email: 'b@a.com' };
 
-    const actualResult = getCurrentRouteParams(state);
+    const nav = getInitialNavState(state);
 
-    expect(actualResult).toEqual(expectedResult);
+    expect(nav.routes.length).toBe(1);
+    expect(nav.routes[0].routeName).toEqual('account');
   });
-});
 
-describe('getCurrentRoute', () => {
-  test('return name of the current route', () => {
+  test('when only a single account and no other properties, redirect to realm', () => {
     const state = deepFreeze({
+      accounts: [{ realm: 'https://example.com' }],
       nav: {
-        index: 1,
-        routes: [
-          { routeName: 'first', params: { email: 'a@a.com' } },
-          { routeName: 'second', params: { email: 'b@a.com' } },
-        ],
+        routes: [],
       },
     });
-    const expectedResult = 'second';
 
-    const actualResult = getCurrentRoute(state);
+    const nav = getInitialNavState(state);
 
-    expect(actualResult).toEqual(expectedResult);
+    expect(nav.routes.length).toBe(1);
+    expect(nav.routes[0].routeName).toEqual('realm');
+  });
+
+  test('when multiple accounts and default one has realm and email, show account list', () => {
+    const state = deepFreeze({
+      accounts: [
+        { realm: 'https://example.com', email: 'johndoe@example.com' },
+        { realm: 'https://example.com', email: 'janedoe@example.com' },
+      ],
+      nav: {
+        routes: [],
+      },
+    });
+
+    const nav = getInitialNavState(state);
+
+    expect(nav.routes.length).toBe(1);
+    expect(nav.routes[0].routeName).toEqual('account');
+  });
+
+  test('when default account has server and email set, redirect to realm screen', () => {
+    const state = deepFreeze({
+      accounts: [{ realm: 'https://example.com', email: 'johndoe@example.com' }],
+      nav: {
+        routes: [],
+      },
+    });
+
+    const nav = getInitialNavState(state);
+
+    expect(nav.routes.length).toBe(1);
+    expect(nav.routes[0].routeName).toEqual('realm');
   });
 });

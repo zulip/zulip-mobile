@@ -68,6 +68,9 @@ export const navigateToNotifDiag = (): Action =>
 export const navigateToStream = (streamId: number): Action =>
   NavigationActions.navigate({ routeName: 'stream', params: { streamId } });
 
+export const navigateToTopicList = (streamId: number): Action =>
+  NavigationActions.navigate({ routeName: 'topics', params: { streamId } });
+
 export const navigateToCreateStream = (): Action =>
   NavigationActions.navigate({ routeName: 'stream-create' });
 

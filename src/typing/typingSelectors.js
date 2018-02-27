@@ -1,9 +1,10 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
+import { getTyping, getUsers } from '../directSelectors';
+import { getActiveNarrow } from '../baseSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserById } from '../users/userHelpers';
-import { getActiveNarrow, getTyping, getUsers } from '../selectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients } from '../utils/message';
 

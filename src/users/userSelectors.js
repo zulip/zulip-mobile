@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import { NULL_USER } from '../nullObjects';
 import { getPresence, getUsers } from '../directSelectors';
-import { getCurrentRouteParams } from '../nav/navigationSelectors';
+import { getCurrentRouteParams } from '../baseSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserByEmail } from './userHelpers';
 
