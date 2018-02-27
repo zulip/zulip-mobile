@@ -1,5 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { Linking } from 'react-native';
+import parseURL from 'url-parse';
 
 import { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -7,8 +9,9 @@ import { Centerer, Screen } from '../common';
 import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
 import AuthButton from './AuthButton';
-import OAuthView from './OAuthView';
 import { getFullUrl } from '../utils/url';
+import { extractApiKey } from '../utils/encoding';
+import { generateOtp, openBrowser, closeBrowser } from './oauth';
 import { IconPrivate, IconGoogle, IconGitHub, IconTerminal } from '../common/Icons';
 
 type Props = {
@@ -17,20 +20,125 @@ type Props = {
   navigation: Object,
 };
 
+const authentications = [
+  {
+    method: 'dev',
+    name: 'dev account',
+    Icon: IconTerminal,
+    handler: 'handleDevAuth',
+  },
+  {
+    method: 'password',
+    name: 'password',
+    Icon: IconPrivate,
+    handler: 'handlePassword',
+  },
+  {
+    method: 'ldap',
+    name: 'password',
+    Icon: IconPrivate,
+    handler: 'handleLdap',
+  },
+  {
+    method: 'google',
+    name: 'Google',
+    Icon: IconGoogle,
+    handler: 'handleGoogle',
+  },
+  {
+    method: 'github',
+    name: 'GitHub',
+    Icon: IconGitHub,
+    handler: 'handleGitHub',
+  },
+  {
+    method: 'remoteuser',
+    name: 'SSO',
+    Icon: IconPrivate,
+    handler: 'handleSso',
+  },
+];
+
+let otp = '';
+
 class AuthScreen extends PureComponent<Props> {
-  static contextTypes = {
-    styles: () => null,
+  props: Props;
+
+  componentDidMount = () => {
+    Linking.addEventListener('url', this.endOAuth);
+    Linking.getInitialURL().then(initialUrl => {
+      if (initialUrl) {
+        this.endOAuth({ url: initialUrl });
+      }
+    });
+
+    const authList = this.activeAuthentications();
+    if (authList.length === 1) {
+      // $FlowFixMe
+      this[authList[0].handler]();
+    }
   };
 
-  props: Props;
+  componentWillUnmount = () => {
+    Linking.removeEventListener('url', this.endOAuth);
+  };
+
+  beginOAuth = async url => {
+    otp = await generateOtp();
+    openBrowser(`${this.props.realm}/${url}`, otp);
+  };
+
+  endOAuth = event => {
+    closeBrowser();
+
+    const { actions, realm } = this.props;
+    const url = parseURL(event.url, true);
+
+    // callback format expected: zulip://login?realm={}&email={}&otp_encrypted_api_key={}
+    if (
+      url.host === 'login' &&
+      url.query.realm === realm &&
+      otp &&
+      url.query.email &&
+      url.query.otp_encrypted_api_key &&
+      url.query.otp_encrypted_api_key.length === otp.length
+    ) {
+      const apiKey = extractApiKey(url.query.otp_encrypted_api_key, otp);
+      actions.loginSuccess(realm, url.query.email, apiKey);
+    }
+  };
+
+  activeAuthentications = () =>
+    authentications.filter(
+      auth => this.props.navigation.state.params.serverSettings.authentication_methods[auth.method],
+    );
+
+  // navigateToOAuth = url => {
+  //   const { actions, realm } = this.props;
+  //   ttactions.navigateToOAuth(realm, url);
+  // };
 
   handleDevAuth = () => {
     this.props.actions.navigateToDev();
   };
 
   handlePassword = () => {
-    const { actions, navigation } = this.props;
-    actions.navigateToPassword(navigation.state.params.serverSettings.authentication_methods.ldap);
+    this.props.actions.navigateToPassword();
+  };
+  handleLdap = () => {
+    this.props.actions.navigateToPassword(true);
+  };
+
+  handleGoogle = () => {
+    this.beginOAuth('accounts/login/google/');
+  };
+
+  handleGitHub = () => {
+    this.beginOAuth('accounts/login/social/github');
+  };
+
+  handleSso = () => {
+    this.beginOAuth('accounts/login/sso');
   };
 
   render() {
@@ -43,22 +151,17 @@ class AuthScreen extends PureComponent<Props> {
             name={serverSettings.realm_name}
             iconUrl={getFullUrl(serverSettings.realm_icon, this.props.realm)}
           />
-          {serverSettings.authentication_methods.dev && (
-            <AuthButton name="dev account" Icon={IconTerminal} onPress={this.handleDevAuth} />
-          )}
-          {(serverSettings.authentication_methods.password ||
-            serverSettings.authentication_methods.ldap) && (
-            <AuthButton name="password" Icon={IconPrivate} onPress={this.handlePassword} />
-          )}
-          {serverSettings.authentication_methods.google && (
-            <OAuthView name="Google" Icon={IconGoogle} url="accounts/login/google/" />
-          )}
-          {serverSettings.authentication_methods.github && (
-            <OAuthView name="GitHub" Icon={IconGitHub} url="accounts/login/social/github" />
-          )}
-          {serverSettings.authentication_methods.remoteuser && (
-            <OAuthView name="SSO" Icon={IconPrivate} url="accounts/login/sso" />
-          )}
+          {this.activeAuthentications().map(auth => (
+            <AuthButton
+              key={auth.method}
+              name={auth.name}
+              Icon={auth.Icon}
+              onPress={
+                // $FlowFixMe
+                this[auth.handler]
+              }
+            />
+          ))}
         </Centerer>
       </Screen>
     );
