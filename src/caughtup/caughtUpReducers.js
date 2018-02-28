@@ -20,11 +20,17 @@ export default (state: CaughtUpState = initialState, action: Action) => {
       return initialState;
 
     case MESSAGE_FETCH_COMPLETE: {
-      if (!action.anchor) {
-        return state;
-      }
-
       const key = JSON.stringify(action.narrow);
+
+      if (action.anchor === Number.MAX_SAFE_INTEGER) {
+        return {
+          ...state,
+          [key]: {
+            older: action.numBefore > action.messages.length,
+            newer: true,
+          },
+        };
+      }
 
       // Find the anchor in the results (or set it past the end of the list)
       let anchorIdx = action.messages.findIndex(msg => msg.id === action.anchor);
