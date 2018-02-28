@@ -95,10 +95,7 @@ export default class StreamItem extends PureComponent<Props> {
         <View style={wrapperStyle}>
           <StreamIcon size={iconSize} color={textColor} isMuted={isMuted} isPrivate={isPrivate} />
           <View style={styles.text}>
-            <RawLabel
-              style={[isSelected && styles.selectedText, { color: textColor }]}
-              text={name}
-            />
+            <RawLabel style={[isSelected && styles.selectedText]} text={name} />
             {!!description && (
               <RawLabel numberOfLines={1} style={styles.description} text={description} />
             )}
