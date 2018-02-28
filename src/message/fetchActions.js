@@ -172,7 +172,7 @@ export const fetchRestOfInitialData = (): Action => async (
   ]);
   timing.end('Rest of server data');
 
-  dispatch(messageFetchComplete(messages, allPrivateNarrow, 0, 0, 0, true));
+  dispatch(messageFetchComplete(messages, allPrivateNarrow, Number.MAX_SAFE_INTEGER, 100, 0, true));
   dispatch(initStreams(streams));
   if (auth.apiKey !== '' && (pushToken === '' || pushToken === undefined)) {
     refreshNotificationToken();

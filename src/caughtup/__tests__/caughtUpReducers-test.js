@@ -2,7 +2,12 @@ import deepFreeze from 'deep-freeze';
 
 import caughtUpReducers from '../caughtUpReducers';
 import { MESSAGE_FETCH_START, MESSAGE_FETCH_COMPLETE } from '../../actionConstants';
-import { homeNarrow, homeNarrowStr } from '../../utils/narrow';
+import {
+  homeNarrow,
+  homeNarrowStr,
+  allPrivateNarrow,
+  allPrivateNarrowStr,
+} from '../../utils/narrow';
 
 describe('caughtUpReducers', () => {
   describe('MESSAGE_FETCH_START', () => {
@@ -114,6 +119,30 @@ describe('caughtUpReducers', () => {
     expect(newState).toEqual(expectedState);
   });
 
+  test('if requesting latest messages always newer is caught up', () => {
+    const initialState = deepFreeze({});
+
+    const action = deepFreeze({
+      type: MESSAGE_FETCH_COMPLETE,
+      narrow: allPrivateNarrow,
+      anchor: Number.MAX_SAFE_INTEGER,
+      messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+      numBefore: 10,
+      numAfter: 0,
+    });
+
+    const expectedState = {
+      [allPrivateNarrowStr]: {
+        older: true,
+        newer: true,
+      },
+    };
+
+    const newState = caughtUpReducers(initialState, action);
+
+    expect(newState).toEqual(expectedState);
+  });
+
   describe('verify that server has send extra message before calculating adjustment', () => {
     test('no adjustment is required if messages are less than or equal to requested', () => {
       const initialState = deepFreeze({
@@ -151,6 +180,7 @@ describe('caughtUpReducers', () => {
 
       expect(newState).toEqual(expectedState);
     });
+
     test('dynamically determine adjustment whenever required', () => {
       const initialState = deepFreeze({
         [homeNarrowStr]: {},
