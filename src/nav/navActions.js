@@ -47,6 +47,9 @@ export const navigateToLoading = (): Action => NavigationActions.navigate({ rout
 export const navigateToLanguage = (): Action =>
   NavigationActions.navigate({ routeName: 'language' });
 
+export const navigateToMutedTopicScreen = (): Action =>
+  NavigationActions.navigate({ routeName: 'muted-topic' });
+
 export const navigateToCreateGroup = (): Action =>
   NavigationActions.navigate({ routeName: 'group' });
 
