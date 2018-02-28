@@ -128,6 +128,7 @@ export const fixRealmUrl = (url: string) => {
   if (!url) return '';
 
   url = url.trim().replace(/\/$/, '');
+  url = url.replace(/\s/, '');
 
   // Automatically prepend 'https://' if the user does not enter a protocol
   if (url.search(/\b(http|https):\/\//) === -1) {
