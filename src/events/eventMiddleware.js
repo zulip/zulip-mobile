@@ -3,14 +3,15 @@
 
 import type { GlobalState } from '../types';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
-import { getActiveAccount, getActiveNarrow, getOwnEmail } from '../selectors';
+import { getActiveAccount, getActiveNarrow, getOwnEmail, getIsActive } from '../selectors';
 import { playMessageSound } from '../utils/sound';
 
 export default (state: GlobalState, event: Object) => {
   switch (event.type) {
     case 'message': {
+      const isActive = getIsActive(state);
       const isPrivateMessage = Array.isArray(event.message.display_recipient);
-      if (!isPrivateMessage && !event.message.is_mentioned) {
+      if (!isActive || (!isPrivateMessage && !event.message.is_mentioned)) {
         break;
       }
 

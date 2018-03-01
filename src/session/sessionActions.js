@@ -13,13 +13,13 @@ import {
   SAVE_INTIAL_NOTIFICATION,
 } from '../actionConstants';
 import { getMessageById } from '../api';
-import { getAuth } from '../selectors';
+import { getAuth, getIsOnline, getIsActive } from '../selectors';
 
 export const appOnline = (isOnline: boolean): Action => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  if (isOnline !== getState().session.isOnline) {
+  if (isOnline !== getIsOnline(getState())) {
     dispatch({
       type: APP_ONLINE,
       isOnline,
@@ -27,10 +27,14 @@ export const appOnline = (isOnline: boolean): Action => (
   }
 };
 
-export const appState = (isActive: boolean): Action => ({
-  type: APP_STATE,
-  isActive,
-});
+export const appState = (isActive: boolean): Action => (dispatch: Dispatch, getState: GetState) => {
+  if (isActive !== getIsActive(getState())) {
+    dispatch({
+      type: APP_STATE,
+      isActive,
+    });
+  }
+};
 
 export const appRefresh = () => ({
   type: APP_REFRESH,

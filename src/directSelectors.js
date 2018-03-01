@@ -17,6 +17,8 @@ export const getAccounts = (state: GlobalState): Account[] => state.accounts;
 
 export const getSession = (state: GlobalState): AppState => state.session;
 
+export const getIsActive = (state: GlobalState): Object => state.session.isActive;
+export const getIsOnline = (state: GlobalState): Object => state.session.isOnline;
 export const getDebug = (state: GlobalState): Object => state.session.debug;
 
 export const getDrafts = (state: GlobalState): Object => state.drafts;
