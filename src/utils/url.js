@@ -6,7 +6,7 @@ import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow'
 import { getUserById } from '../users/userHelpers';
 import { transformToEncodedURI } from './string';
 
-export const getPathsFromUrl = (url: string, realm: string) => {
+export const getPathsFromUrl = (url: string = '', realm: string) => {
   const paths = url
     .split(realm)
     .pop()
@@ -29,10 +29,10 @@ export const encodeAsURI = (params: Object): string =>
     .map((key: string) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     .join('&');
 
-export const getFullUrl = (url: string, realm: string): string =>
+export const getFullUrl = (url: string = '', realm: string): string =>
   !url.startsWith('http') ? `${realm}${url.startsWith('/') ? '' : '/'}${url}` : url;
 
-export const isUrlOnRealm = (url: string, realm: string): boolean =>
+export const isUrlOnRealm = (url: string = '', realm: string): boolean =>
   url.startsWith('/') || url.startsWith(realm) || !/^(http|www.)/i.test(url);
 
 export const isUrlInAppLink = (url: string, realm: string): boolean =>
@@ -124,9 +124,7 @@ const getResourceNoAuth = (uri: string) => ({
 export const getResource = (uri: string, auth: Auth): Object =>
   isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
 
-export const fixRealmUrl = (url: string) => {
-  if (!url) return '';
-
+export const fixRealmUrl = (url: string = '') => {
   url = url.trim().replace(/\s+|\/$/g, '');
 
   // Automatically prepend 'https://' if the user does not enter a protocol
