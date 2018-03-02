@@ -112,6 +112,10 @@ describe('presenceReducers', () => {
             status: 'active',
             timestamp: 123,
           },
+          website: {
+            status: 'active',
+            timestamp: 123,
+          },
         },
       });
 
@@ -134,6 +138,10 @@ describe('presenceReducers', () => {
             client: 'mobile',
             status: 'active',
             timestamp: 160,
+          },
+          website: {
+            status: 'active',
+            timestamp: 123,
           },
         },
       };
