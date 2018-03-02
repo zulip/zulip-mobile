@@ -62,7 +62,7 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
   keyboardShowListener: any;
   keyboardHideListener: any;
 
-  componentWillMount() {
+  componentDidMount() {
     this.keyboardShowListener = Keyboard.addListener(
       Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
       this._keyboardShow,

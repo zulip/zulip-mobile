@@ -11,7 +11,7 @@ type Props = {
 };
 
 export default class StoreHydrator extends PureComponent<Props> {
-  componentWillMount() {
+  componentDidMount() {
     timing.start('Store hydration');
     restore(() => {
       timing.end('Store hydration');

@@ -96,7 +96,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     isMenuExpanded: false,
     height: 23,
     topic: '',
-    message: '',
+    message: this.props.draft,
     selection: { start: 0, end: 0 },
   };
 
@@ -211,13 +211,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
   componentWillUnmount() {
     this.tryUpdateDraft();
-  }
-
-  componentWillMount() {
-    const { draft } = this.props;
-    if (draft) {
-      this.setState({ message: draft });
-    }
   }
 
   componentWillReceiveProps(nextProps: Props) {

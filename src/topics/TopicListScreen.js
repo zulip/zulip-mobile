@@ -19,7 +19,7 @@ type Props = {
 class TopicListScreen extends PureComponent<Props> {
   props: Props;
 
-  componentWillMount() {
+  componentDidMount() {
     const { actions, stream } = this.props;
     actions.fetchTopics(stream.stream_id);
   }

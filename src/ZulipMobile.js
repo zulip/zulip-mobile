@@ -13,7 +13,8 @@ import AppWithNavigationState from './nav/AppWithNavigationState';
 require('./i18n/locale');
 require('./sentry');
 
-// console.disableYellowBox = true; // eslint-disable-line
+// $FlowFixMe
+console.disableYellowBox = true; // eslint-disable-line
 
 export default () => (
   <CompatibilityChecker>

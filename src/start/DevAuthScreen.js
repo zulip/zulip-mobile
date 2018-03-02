@@ -39,7 +39,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
     error: '',
   };
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     const { auth } = this.props;
     this.setState({ progress: true, error: undefined });
 

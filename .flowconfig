@@ -29,6 +29,8 @@
 .*/node_modules/eslint-plugin-jsx-a11y/.*
 .*/node_modules/react-native-notifications/.*
 .*/node_modules/react-native-tab-view/.*
+.*/node_modules/react-navigation-redux-helpers/.*
+
 
 [include]
 
@@ -63,4 +65,4 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
 [version]
-^0.63.0
+^0.65.0
