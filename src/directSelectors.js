@@ -13,6 +13,8 @@ import type {
   User,
 } from './types';
 
+import { filterOutOutdatedPresence } from './utils/presence';
+
 export const getAccounts = (state: GlobalState): Account[] => state.accounts;
 
 export const getSession = (state: GlobalState): AppState => state.session;
@@ -47,7 +49,8 @@ export const getSubscriptions = (state: GlobalState): Subscription[] => state.su
 
 export const getStreams = (state: GlobalState): Stream[] => state.streams;
 
-export const getPresence = (state: GlobalState): Object => state.presence;
+export const getPresence = (state: GlobalState): Object =>
+  filterOutOutdatedPresence(state.presence);
 
 export const getOutbox = (state: GlobalState): Outbox[] => state.outbox;
 
