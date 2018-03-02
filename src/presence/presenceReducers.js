@@ -30,11 +30,13 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
         ...action.presence,
       };
 
-    case EVENT_PRESENCE:
+    case EVENT_PRESENCE: {
+      const { email } = action;
       return {
         ...state,
-        [action.email]: action.presence,
+        [email]: { ...state[email], ...action.presence },
       };
+    }
 
     default:
       return state;
