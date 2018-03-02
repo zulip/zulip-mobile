@@ -113,11 +113,6 @@ class AuthScreen extends PureComponent<Props> {
       auth => this.props.navigation.state.params.serverSettings.authentication_methods[auth.method],
     );
 
-  // navigateToOAuth = url => {
-  //   const { actions, realm } = this.props;
-  //   ttactions.navigateToOAuth(realm, url);
-  // };
-
   handleDevAuth = () => {
     this.props.actions.navigateToDev();
   };

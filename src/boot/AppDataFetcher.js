@@ -14,7 +14,7 @@ type Props = {
 class AppDataFetcher extends PureComponent<Props> {
   props: Props;
 
-  componentWillMount = () => this.init(this.props);
+  componentDidMount = () => this.init(this.props);
 
   componentWillReceiveProps = nextProps => this.init(nextProps);
 

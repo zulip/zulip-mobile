@@ -66,7 +66,7 @@ class AppEventHandlers extends PureComponent<Props> {
     // Release memory here
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { actions } = this.props;
     tryInitialNotification(actions.doNarrow, actions.saveInitialNotificationDetails);
 
