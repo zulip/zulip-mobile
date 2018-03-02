@@ -1,24 +1,19 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { View, FlatList } from 'react-native';
 
 import type { Actions } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import UserItem from '../users/UserItem';
 import ConversationGroup from './ConversationGroup';
 
-const styles = StyleSheet.create({
-  list: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-});
-
 type Props = {
   actions: Actions,
   conversations: Object[],
   presences: Object,
   usersByEmail: Object,
+  listLabel?: Object,
+  maxHeight?: number,
 };
 
 export default class ConversationList extends PureComponent<Props> {
@@ -29,42 +24,45 @@ export default class ConversationList extends PureComponent<Props> {
   handleGroupNarrow = (email: string) => this.props.actions.doNarrow(groupNarrow(email.split(',')));
 
   render() {
-    const { conversations, presences, usersByEmail } = this.props;
+    const { conversations, listLabel, maxHeight, presences, usersByEmail } = this.props;
 
     return (
-      <FlatList
-        style={styles.list}
-        initialNumToRender={20}
-        data={conversations}
-        keyExtractor={item => item.recipients}
-        renderItem={({ item }) => {
-          if (item.recipients.indexOf(',') === -1) {
-            const user = usersByEmail[item.recipients];
+      <View>
+        {conversations.length > 0 && listLabel}
+        <FlatList
+          initialNumToRender={20}
+          data={conversations}
+          keyExtractor={item => item.recipients}
+          maxHeight={maxHeight}
+          renderItem={({ item }) => {
+            if (item.recipients.indexOf(',') === -1) {
+              const user = usersByEmail[item.recipients];
 
-            if (!user) return null;
+              if (!user) return null;
+
+              return (
+                <UserItem
+                  email={user.email}
+                  fullName={user.fullName}
+                  avatarUrl={user.avatarUrl}
+                  presence={presences[user.email]}
+                  unreadCount={item.unread}
+                  onPress={this.handleUserNarrow}
+                />
+              );
+            }
 
             return (
-              <UserItem
-                email={user.email}
-                fullName={user.fullName}
-                avatarUrl={user.avatarUrl}
-                presence={presences[user.email]}
+              <ConversationGroup
+                email={item.recipients}
                 unreadCount={item.unread}
-                onPress={this.handleUserNarrow}
+                usersByEmail={usersByEmail}
+                onPress={this.handleGroupNarrow}
               />
             );
-          }
-
-          return (
-            <ConversationGroup
-              email={item.recipients}
-              unreadCount={item.unread}
-              usersByEmail={usersByEmail}
-              onPress={this.handleGroupNarrow}
-            />
-          );
-        }}
-      />
+          }}
+        />
+      </View>
     );
   }
 }
