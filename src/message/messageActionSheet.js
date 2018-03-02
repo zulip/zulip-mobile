@@ -179,7 +179,7 @@ const resolveMultiple = (message, auth, narrow, functions) =>
   });
 
 const actionSheetButtons: ActionSheetButtonType[] = [
-  { title: 'Reply', onPress: reply, onlyIf: isSentMessage },
+  { title: 'Reply   ', onPress: reply, onlyIf: isSentMessage },
   { title: 'Copy to clipboard', onPress: copyToClipboard, onlyIf: isNotDeleted },
   { title: 'Share', onPress: shareMessage, onlyIf: isNotDeleted },
   {
