@@ -2161,9 +2161,9 @@ eslint-plugin-import@^2.9.0:
     minimatch "^3.0.3"
     read-pkg-up "^2.0.0"
 
-eslint-plugin-jest@^21.12.2:
-  version "21.12.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-21.12.2.tgz#325f7c6a5078aed51ea087c33c26792337b5ba37"
+eslint-plugin-jest@^21.12.3:
+  version "21.12.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-21.12.3.tgz#58ee535f917371fdd99732e90b9e2ca48e337de5"
 
 eslint-plugin-jsx-a11y@^6.0.3:
   version "6.0.3"
@@ -5585,9 +5585,9 @@ react-navigation-redux-helpers@^1.0.2:
   dependencies:
     invariant "^2.2.2"
 
-react-navigation@1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.3.2.tgz#b2f690f7dd7d9821573460829ba492789ebdd5fd"
+react-navigation@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.4.0.tgz#2e1ec70a5d37af78d4b2cab588caf179b2b16859"
   dependencies:
     clamp "^1.0.1"
     hoist-non-react-statics "^2.2.0"
