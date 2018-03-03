@@ -16,6 +16,7 @@ import {
   REALM_INIT,
 } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
+import { getAggregatedPresence } from '../utils/presence';
 
 const initialState: PresenceState = NULL_OBJECT;
 
@@ -29,7 +30,11 @@ const presenceResponse = (state: PresenceState, action: PresenceResponseAction):
 
 const eventPresence = (state: PresenceState, action: EventPresenceAction): PresenceState => ({
   ...state,
-  [action.email]: { ...state[action.email], ...action.presence },
+  [action.email]: {
+    ...state[action.email],
+    ...action.presence,
+    aggregated: getAggregatedPresence({ ...state[action.email], ...action.presence }),
+  },
 });
 
 export default (state: PresenceState = initialState, action: PresenceAction): PresenceState => {
