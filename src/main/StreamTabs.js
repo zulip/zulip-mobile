@@ -38,5 +38,11 @@ export default TabNavigator(
       },
     },
   },
-  tabsOptions(TabBarTop, 'top', true, 100),
+  tabsOptions({
+    tabBarComponent: TabBarTop,
+    tabBarPosition: 'top',
+    showLabel: true,
+    showIcon: false,
+    tabWidth: 100,
+  }),
 );

@@ -1,18 +1,22 @@
 /* @flow */
 import { BRAND_COLOR } from './';
 
-export default (
+type Props = {
   tabBarComponent: Object,
-  tabBarPosition: 'bottom' | 'top',
+  tabBarPosition: 'top' | 'bottom',
   showLabel: boolean,
+  showIcon: boolean,
   tabWidth: number,
-) => ({
+};
+
+export default ({ tabBarComponent, tabBarPosition, showLabel, showIcon, tabWidth }: Props) => ({
   tabBarComponent,
   tabBarPosition,
   swipeEnabled: true,
   animationEnabled: true,
   tabBarOptions: {
     showLabel,
+    showIcon,
     upperCaseLabel: false,
     pressColor: BRAND_COLOR,
     activeTintColor: BRAND_COLOR,

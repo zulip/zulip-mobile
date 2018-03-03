@@ -5494,9 +5494,9 @@ react-native-simple-toast@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-0.0.8.tgz#513f4add8d30e4c5109e536bfc6ea5825fea5d83"
 
-react-native-sound@^0.10.8:
-  version "0.10.8"
-  resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.8.tgz#07b785b93eca0ba8dc35b841a0d68799d807f515"
+react-native-sound@0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.5.tgz#50aa0f3faf4ac7cf1e54e1dc48431d0ebcc47b26"
 
 react-native-tab-view@^0.0.74:
   version "0.0.74"
