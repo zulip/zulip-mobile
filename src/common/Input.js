@@ -43,6 +43,8 @@ export default class Input extends PureComponent<Props> {
     this.textInput.clear();
   };
 
+  formatText = (text) => text.length > 35 ? text.substring(0, 35).concat('...') : text;
+
   render() {
     const { styles } = this.context;
     const { style, placeholder, textInputRef, ...restProps } = this.props;
@@ -57,7 +59,7 @@ export default class Input extends PureComponent<Props> {
         {text => (
           <TextInput
             style={[styles.input, style]}
-            placeholder={text}
+            placeholder={this.formatText(text)}
             placeholderTextColor={HALF_COLOR}
             ref={(component: any) => {
               this.textInput = component;
