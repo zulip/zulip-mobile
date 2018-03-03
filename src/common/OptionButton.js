@@ -5,6 +5,8 @@ import { StyleSheet, View } from 'react-native';
 import { Label, Touchable } from '../common';
 import { IconRight } from '../common/Icons';
 
+import { BRAND_COLOR } from '../styles';
+
 const styles = StyleSheet.create({
   optionRow: {
     flexDirection: 'row',
@@ -19,6 +21,7 @@ const styles = StyleSheet.create({
   },
   rightIcon: {
     marginRight: 8,
+    color: BRAND_COLOR,
   },
 });
 
