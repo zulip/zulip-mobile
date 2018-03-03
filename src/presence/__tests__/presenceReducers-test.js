@@ -4,6 +4,8 @@ import deepFreeze from 'deep-freeze';
 import { PRESENCE_RESPONSE, EVENT_PRESENCE, ACCOUNT_SWITCH } from '../../actionConstants';
 import presenceReducers from '../presenceReducers';
 
+const currentTimestamp = Date.now() / 1000;
+
 describe('presenceReducers', () => {
   test('handles unknown action and no state by returning initial state', () => {
     const newState = presenceReducers(undefined, {});
@@ -109,12 +111,12 @@ describe('presenceReducers', () => {
         'email@example.com': {
           aggregated: {
             client: 'website',
-            status: 'active',
-            timestamp: 123,
+            status: 'idle',
+            timestamp: currentTimestamp - 20,
           },
           website: {
-            status: 'active',
-            timestamp: 123,
+            status: 'idle',
+            timestamp: currentTimestamp - 20,
           },
         },
       });
@@ -124,10 +126,10 @@ describe('presenceReducers', () => {
         email: 'email@example.com',
         server_timestamp: 200,
         presence: {
-          aggregated: {
-            client: 'mobile',
+          zulipMobile: {
+            client: 'zulipMobile',
             status: 'active',
-            timestamp: 160,
+            timestamp: currentTimestamp - 10,
           },
         },
       });
@@ -135,13 +137,18 @@ describe('presenceReducers', () => {
       const expectedState = {
         'email@example.com': {
           aggregated: {
-            client: 'mobile',
+            client: 'zulipMobile',
             status: 'active',
-            timestamp: 160,
+            timestamp: currentTimestamp - 10,
           },
           website: {
+            status: 'idle',
+            timestamp: currentTimestamp - 20,
+          },
+          zulipMobile: {
+            client: 'zulipMobile',
             status: 'active',
-            timestamp: 123,
+            timestamp: currentTimestamp - 10,
           },
         },
       };
