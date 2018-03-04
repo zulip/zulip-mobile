@@ -30,7 +30,9 @@ export default TabNavigator(
     conversations: {
       screen: props => <ConversationsContainer {...props.screenProps} />,
       navigationOptions: {
-        tabBarLabel: ({ tintColor }) => <IconUnreadConversations color={tintColor} />,
+        tabBarLabel: ({ tintColor }) => (
+          <MainTabIcon Icon={IconUnreadConversations} color={tintColor} />
+        ),
         // tabBarIcon: ({ tintColor }) => <IconUnreadConversations color={tintColor} />,
       },
     },

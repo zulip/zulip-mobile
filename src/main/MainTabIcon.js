@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 const styles = StyleSheet.create({
-  icon: {
+  wrapper: {
     flex: 1,
     padding: 10,
     justifyContent: 'center',
@@ -17,7 +17,7 @@ type Props = {
 };
 
 export default ({ Icon, color }: Props) => (
-  <View>
-    <Icon style={styles.icon} size={24} color={color} />
+  <View style={styles.wrapper}>
+    <Icon size={24} color={color} />
   </View>
 );
