@@ -1,7 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { KeyboardAvoider, OfflineNotice } from '../common';
 import MessageListContainer from '../message/MessageListContainer';
@@ -35,26 +34,22 @@ export default class Chat extends PureComponent<{}> {
 
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
-        <ActionSheetProvider>
-          <View style={styles.flexed}>
-            <OfflineNotice />
-            <UnreadNotice />
-            <NoMessages />
-            <ActionSheetProvider>
-              <MessageListContainer
-                onReplySelect={this.handleReplySelect}
-                listRef={component => {
-                  this.listComponent = component || this.listComponent;
-                }}
-              />
-            </ActionSheetProvider>
-            <ComposeBoxContainer
-              messageInputRef={(component: any) => {
-                this.messageInputRef = component || this.messageInputRef;
-              }}
-            />
-          </View>
-        </ActionSheetProvider>
+        <View style={styles.flexed}>
+          <OfflineNotice />
+          <UnreadNotice />
+          <NoMessages />
+          <MessageListContainer
+            onReplySelect={this.handleReplySelect}
+            listRef={component => {
+              this.listComponent = component || this.listComponent;
+            }}
+          />
+          <ComposeBoxContainer
+            messageInputRef={(component: any) => {
+              this.messageInputRef = component || this.messageInputRef;
+            }}
+          />
+        </View>
       </KeyboardAvoider>
     );
   }
