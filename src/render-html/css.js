@@ -20,10 +20,7 @@ body {
   margin: 0;
   width: 100%;
   max-width: 100%;
-}
-body {
   font-size: 15px;
-  overflow-x: hidden;
 }
 a {
   color: #08c;
