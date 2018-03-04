@@ -2,8 +2,10 @@
 import { NavigationActions } from 'react-navigation';
 
 import type { Action, Message, Narrow, UserType, ServerSettings } from '../types';
+import { getSameRoutesCount } from '../selectors';
 
-export const navigateBack = (): Action => NavigationActions.back();
+export const navigateBack = (): Actions => (dispatch: Dispatch, getState: GetState) =>
+  dispatch(NavigationActions.pop({ n: getSameRoutesCount(getState()) }));
 
 export const navigateToChat = (narrow: Narrow): Action =>
   NavigationActions.navigate({ routeName: 'chat', params: { narrow } });
