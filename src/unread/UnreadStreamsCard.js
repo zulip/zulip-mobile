@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
 import type { Actions, UnreadStream } from '../types';
-import { SearchEmptyState } from '../common';
 import { streamNarrow, topicNarrow } from '../utils/narrow';
 import StreamItem from '../streams/StreamItem';
 import TopicItem from '../streams/TopicItem';
@@ -32,11 +31,6 @@ export default class UnreadStreamsCard extends PureComponent<Props> {
   render() {
     const { styles } = this.context;
     const { unreadStreamsAndTopics } = this.props;
-    const noResults = unreadStreamsAndTopics.length === 0;
-
-    if (noResults) {
-      return <SearchEmptyState text="No unread messages" />;
-    }
 
     return (
       <SectionList
