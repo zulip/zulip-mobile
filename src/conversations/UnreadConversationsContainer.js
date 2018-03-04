@@ -10,8 +10,11 @@ export default connectWithActions(state => ({
   conversations: getUnreadConversations(state),
   presences: getPresence(state),
   usersByEmail: getUsersByEmail(state),
-}))(props => (
-  <FlexView>
-    <ConversationList {...props} />
-  </FlexView>
-));
+}))(
+  props =>
+    props.conversations.length > 0 ? (
+      <FlexView>
+        <ConversationList {...props} />
+      </FlexView>
+    ) : null,
+);
