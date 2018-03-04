@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { SectionList } from 'react-native';
+import { View, SectionList } from 'react-native';
 
 import type { Actions, UnreadStream } from '../types';
 import { SearchEmptyState } from '../common';
@@ -12,6 +12,7 @@ type Props = {
   unreadStreamsAndTopics: UnreadStream[],
   actions: Actions,
   unreadStreamsAndTopics: any,
+  listLabel?: Object,
 };
 
 export default class UnreadStreamsCard extends PureComponent<Props> {
@@ -31,7 +32,7 @@ export default class UnreadStreamsCard extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { unreadStreamsAndTopics } = this.props;
+    const { listLabel, unreadStreamsAndTopics } = this.props;
     const noResults = unreadStreamsAndTopics.length === 0;
 
     if (noResults) {
@@ -39,39 +40,41 @@ export default class UnreadStreamsCard extends PureComponent<Props> {
     }
 
     return (
-      <SectionList
-        style={styles.list}
-        stickySectionHeadersEnabled
-        initialNumToRender={20}
-        sections={unreadStreamsAndTopics}
-        renderSectionHeader={({ section }) =>
-          section.isMuted ? null : (
-            <StreamItem
-              style={styles.groupHeader}
-              name={section.streamName}
-              iconSize={16}
-              isMuted={section.isMuted}
-              isPrivate={section.isPrivate}
-              color={section.color}
-              backgroundColor={section.color}
-              unreadCount={section.unread}
-              onPress={this.handleStreamPress}
-            />
-          )
-        }
-        renderItem={({ item, section }) =>
-          section.isMuted || item.isMuted ? null : (
-            <TopicItem
-              name={item.topic}
-              stream={section.streamName}
-              isMuted={section.isMuted || item.isMuted}
-              isSelected={false}
-              unreadCount={item.unread}
-              onPress={this.handleTopicPress}
-            />
-          )
-        }
-      />
+      <View>
+        {unreadStreamsAndTopics.length > 0 && listLabel}
+        <SectionList
+          stickySectionHeadersEnabled
+          initialNumToRender={20}
+          sections={unreadStreamsAndTopics}
+          renderSectionHeader={({ section }) =>
+            section.isMuted ? null : (
+              <StreamItem
+                style={styles.groupHeader}
+                name={section.streamName}
+                iconSize={16}
+                isMuted={section.isMuted}
+                isPrivate={section.isPrivate}
+                color={section.color}
+                backgroundColor={section.color}
+                unreadCount={section.unread}
+                onPress={this.handleStreamPress}
+              />
+            )
+          }
+          renderItem={({ item, section }) =>
+            section.isMuted || item.isMuted ? null : (
+              <TopicItem
+                name={item.topic}
+                stream={section.streamName}
+                isMuted={section.isMuted || item.isMuted}
+                isSelected={false}
+                unreadCount={item.unread}
+                onPress={this.handleTopicPress}
+              />
+            )
+          }
+        />
+      </View>
     );
   }
 }

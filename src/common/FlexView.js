@@ -17,10 +17,10 @@ export default class FlexView extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { children, ...restProps } = this.props;
+    const { children, style, ...restProps } = this.props;
 
     return (
-      <View style={styles.flexed} {...restProps}>
+      <View style={[style, styles.flexed]} {...restProps}>
         {children}
       </View>
     );
