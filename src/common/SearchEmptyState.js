@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { ZulipButton, Label } from './';
 import { nullFunction } from '../nullObjects';
+import UnreadMsgImg from './UnreadMsgImg';
 
 const styles = StyleSheet.create({
   container: {
@@ -41,6 +42,7 @@ export default class SearchEmptyState extends PureComponent<Props> {
 
     return (
       <View style={styles.container}>
+        <UnreadMsgImg />
         <Label style={styles.text} text={text} />
         {buttonAction !== nullFunction && (
           <ZulipButton style={styles.button} secondary text={buttonText} onPress={buttonAction} />
