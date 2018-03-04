@@ -1,6 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { ZulipStatusBar } from '../common';
 import Chat from '../chat/Chat';
@@ -15,11 +16,13 @@ export default class ChatScreen extends PureComponent<{}> {
     const { styles } = this.context;
 
     return (
-      <View style={styles.screen}>
-        <ZulipStatusBar />
-        <MainNavBar />
-        <Chat />
-      </View>
+      <ActionSheetProvider>
+        <View style={styles.screen}>
+          <ZulipStatusBar />
+          <MainNavBar />
+          <Chat />
+        </View>
+      </ActionSheetProvider>
     );
   }
 }
