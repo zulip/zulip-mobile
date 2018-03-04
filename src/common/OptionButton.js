@@ -5,8 +5,6 @@ import { StyleSheet, View } from 'react-native';
 import { Label, Touchable } from '../common';
 import { IconRight } from '../common/Icons';
 
-import { BRAND_COLOR } from '../styles';
-
 const styles = StyleSheet.create({
   optionRow: {
     flexDirection: 'row',
@@ -21,7 +19,6 @@ const styles = StyleSheet.create({
   },
   rightIcon: {
     marginRight: 8,
-    color: BRAND_COLOR,
   },
 });
 
@@ -31,6 +28,10 @@ type Props = {
 };
 
 export default class OptionButton extends PureComponent<Props> {
+  static contextTypes = {
+    styles: () => null,
+  };
+
   props: Props;
 
   render() {
@@ -40,7 +41,7 @@ export default class OptionButton extends PureComponent<Props> {
       <Touchable onPress={onPress}>
         <View style={styles.optionRow}>
           <Label style={styles.optionTitle} text={label} />
-          <IconRight size={18} style={styles.rightIcon} />
+          <IconRight size={18} style={[this.context.styles.icon, styles.rightIcon]} />
         </View>
       </Touchable>
     );
