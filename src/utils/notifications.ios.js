@@ -48,10 +48,10 @@ export const handlePendingNotifications = async (notification: Notification, act
   }
 
   const data = notification.getData();
+  config.startup.notification = data;
   if (!data || !data.custom || !data.custom.data) {
     return;
   }
-  config.startup.notification = data;
   actions.doNarrow(getNarrowFromNotificationData(data), data.zulip_message_id);
 };
 
