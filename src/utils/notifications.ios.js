@@ -2,10 +2,11 @@
 import NotificationsIOS from 'react-native-notifications';
 import { PushNotificationIOS } from 'react-native';
 
-import type { Auth, Actions } from '../types';
+import type { Auth, Actions, Notification } from '../types';
+import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';
-import { handleNotification } from './notificationsCommon';
+import { getNarrowFromNotificationData } from './notificationsCommon';
 
 const onPushRegistered = async (
   auth: Auth,
@@ -41,11 +42,8 @@ export const initializeNotifications = (auth: Auth, saveTokenPush: Actions.saveT
 
 export const refreshNotificationToken = () => {};
 
-export const handlePendingNotifications = async (
-  notification: Object,
-  doNarrow: Actions.doNarrow,
-) => {
-  if (!notification) {
+export const handlePendingNotifications = async (notification: Notification, actions: Actions) => {
+  if (!notification || !notification.getData) {
     return;
   }
 
@@ -53,13 +51,11 @@ export const handlePendingNotifications = async (
   if (!data || !data.custom || !data.custom.data) {
     return;
   }
-
-  handleNotification(data.custom.data, doNarrow);
+  config.startup.notification = data;
+  actions.doNarrow(getNarrowFromNotificationData(data), data.zulip_message_id);
 };
 
 export const handleInitialNotification = async (actions: Actions) => {
-  const data = await PushNotificationIOS.getInitialNotification();
-  if (data && data.getData) {
-    handlePendingNotifications(data, actions);
-  }
+  const notification = await PushNotificationIOS.getInitialNotification();
+  handlePendingNotifications(notification, actions);
 };

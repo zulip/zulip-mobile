@@ -1,5 +1,5 @@
 /* @flow */
-import type { Action, Narrow, Dispatch, GetState } from '../types';
+import type { Action, Narrow, Dispatch, GetState, GlobalState } from '../types';
 import config from '../config';
 import { NULL_ARRAY, NULL_CAUGHTUP } from '../nullObjects';
 import { getAuth, getUsers, getAllMessages, getStreams, getIsHydrated } from '../selectors';
@@ -15,22 +15,15 @@ export const switchNarrow = (narrow: Narrow): Action => ({
   narrow,
 });
 
-const isNarrowValid = (narrow: Narrow, getState: GetState) =>
-  validateNarrow(narrow, getStreams(getState()), getUsers(getState()));
+const isNarrowValid = (narrow: Narrow, state: GlobalState) =>
+  validateNarrow(narrow, getStreams(state), getUsers(state));
 
 export const doNarrow = (narrow: Narrow, anchor: number = 0): Action => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  if (!isNarrowValid(narrow, getState)) return;
-
   const state = getState();
-
-  if (!getIsHydrated(state)) {
-    config.startup = {
-      narrow,
-      anchor,
-    };
+  if (!isNarrowValid(narrow, state) || !getIsHydrated(state)) {
     return;
   }
 

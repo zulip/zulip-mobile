@@ -1,10 +1,12 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
+
 import { Screen } from '../common';
+import config from '../config';
 import InfoItem from './InfoItem';
 import connectWithActions from '../connectWithActions';
-import { getDebug, getRealm } from '../selectors';
+import { getRealm } from '../selectors';
 
 type Props = {
   pushToken: { token: string, msg: string, result: string },
@@ -13,11 +15,11 @@ type Props = {
 
 class NotificationDiagScreen extends PureComponent<Props> {
   render() {
-    const { pushToken, initialNotification } = this.props;
+    const { pushToken } = this.props;
     const variables = {
       Result: pushToken.result,
       Message: pushToken.msg,
-      'Initial notification': JSON.stringify(initialNotification),
+      'Initial notification': JSON.stringify(config.startup.notification),
     };
     return (
       <Screen title="Notification Diagnostics" padding>
@@ -33,5 +35,4 @@ class NotificationDiagScreen extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   pushToken: getRealm(state).pushToken,
-  initialNotification: getDebug(state).initialNotification,
 }))(NotificationDiagScreen);
