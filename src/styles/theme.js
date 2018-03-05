@@ -93,6 +93,7 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     fontSize: 15,
     color: BRAND_COLOR,
     textAlign: 'right',
+    flex: 0.5,
   },
   navigationCard: {
     backgroundColor,
