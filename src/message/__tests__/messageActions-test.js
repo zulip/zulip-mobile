@@ -11,6 +11,7 @@ describe('messageActions', () => {
   describe('doNarrow', () => {
     test('when no messages in new narrow and caughtUp is false, actions to fetch messages and switch narrow are dispatched', () => {
       const store = mockStore({
+        session: { isHydrated: true },
         caughtUp: {
           [streamNarrowStr]: {
             newer: false,
@@ -37,6 +38,7 @@ describe('messageActions', () => {
 
     test('when no messages in new narrow but caught up, only switch to narrow, do not fetch', () => {
       const store = mockStore({
+        session: { isHydrated: true },
         caughtUp: {
           [streamNarrowStr]: {
             newer: true,
@@ -67,6 +69,7 @@ describe('messageActions', () => {
 
     test('when messages in new narrow are too few and not caught up, fetch more messages', () => {
       const store = mockStore({
+        session: { isHydrated: true },
         caughtUp: {},
         ...navStateWithNarrow(homeNarrow),
         messages: {
@@ -90,6 +93,7 @@ describe('messageActions', () => {
 
     test('if new narrow stream is not valid, do nothing', () => {
       const store = mockStore({
+        session: { isHydrated: true },
         caughtUp: {},
         ...navStateWithNarrow(homeNarrow),
         messages: {
@@ -110,6 +114,7 @@ describe('messageActions', () => {
 
     test('if new narrow user is deactivated, do nothing', () => {
       const store = mockStore({
+        session: { isHydrated: true },
         caughtUp: {},
         ...navStateWithNarrow(homeNarrow),
         messages: {

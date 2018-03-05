@@ -6,21 +6,6 @@ import { registerPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { handleNotification } from './notificationsCommon';
 
-export const handlePendingNotifications = async (
-  notification: Object,
-  pending: boolean,
-  doNarrow: Actions.doNarrow,
-) => {
-  if (!notification) {
-    return;
-  }
-
-  const data = notification.getData();
-  if (data) {
-    handleNotification(data, data.zulip_message_id, pending, doNarrow);
-  }
-};
-
 const handleRegistrationUpdates = (auth: Auth, saveTokenPush: Actions.saveTokenPush) => {
   NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
     try {
@@ -48,13 +33,20 @@ export const refreshNotificationToken = () => {
   NotificationsAndroid.refreshToken();
 };
 
-export const tryInitialNotification = async (
-  doNarrow: Actions.doNarrow,
-  saveInitialNotificationDetails: Actions.saveInitialNotificationDetails,
-) => {
+export const handlePendingNotifications = async (notification: Object, actions: Actions) => {
+  if (!notification) {
+    return;
+  }
+
+  const data = notification.getData();
+  if (data) {
+    handleNotification(data, actions);
+  }
+};
+
+export const handleInitialNotification = async (actions: Actions) => {
   const data = await PendingNotifications.getInitialNotification();
   if (data && data.getData) {
-    saveInitialNotificationDetails(data.getData());
-    handlePendingNotifications(data, true, doNarrow);
+    handlePendingNotifications(data, actions);
   }
 };
