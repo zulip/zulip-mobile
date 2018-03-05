@@ -1,20 +1,32 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { SectionList } from 'react-native';
+import { SectionList, StyleSheet } from 'react-native';
 
 import type { Actions, UnreadStream } from '../types';
-import { SearchEmptyState } from '../common';
-import { streamNarrow, topicNarrow } from '../utils/narrow';
+import { Label, SearchEmptyState } from '../common';
+import ConversationList from '../conversations/ConversationList';
 import StreamItem from '../streams/StreamItem';
 import TopicItem from '../streams/TopicItem';
+import { streamNarrow, topicNarrow } from '../utils/narrow';
+
+const componentStyles = StyleSheet.create({
+  label: {
+    paddingTop: 8,
+    paddingLeft: 4,
+    paddingBottom: 4,
+  },
+});
 
 type Props = {
-  unreadStreamsAndTopics: UnreadStream[],
   actions: Actions,
+  conversations: Object[],
+  presences: Object,
+  usersByEmail: Object,
+  unreadStreamsAndTopics: UnreadStream[],
   unreadStreamsAndTopics: any,
 };
 
-export default class UnreadStreamsCard extends PureComponent<Props> {
+export default class UnreadCards extends PureComponent<Props> {
   props: Props;
 
   static contextTypes = {
@@ -31,21 +43,30 @@ export default class UnreadStreamsCard extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { unreadStreamsAndTopics } = this.props;
-    const noResults = unreadStreamsAndTopics.length === 0;
+    const { conversations, unreadStreamsAndTopics, ...restProps } = this.props;
+    const unreadCards = [];
+    if (conversations.length > 0) {
+      unreadCards.push({
+        key: 'private',
+        data: [{ conversations, ...restProps }],
+        title: 'Private Messages',
+        Component: ConversationList,
+      });
+    }
+    unreadCards.push(...unreadStreamsAndTopics);
 
-    if (noResults) {
+    if (unreadCards.length === 0) {
       return <SearchEmptyState text="No unread messages" />;
     }
-
     return (
       <SectionList
-        style={styles.list}
         stickySectionHeadersEnabled
-        initialNumToRender={20}
-        sections={unreadStreamsAndTopics}
+        initialNumToRender={2}
+        sections={unreadCards}
         renderSectionHeader={({ section }) =>
-          section.isMuted ? null : (
+          section.Component ? (
+            <Label style={[styles.backgroundColor, componentStyles.label]} text={section.title} />
+          ) : section.isMuted ? null : (
             <StreamItem
               style={styles.groupHeader}
               name={section.streamName}
@@ -59,18 +80,21 @@ export default class UnreadStreamsCard extends PureComponent<Props> {
             />
           )
         }
-        renderItem={({ item, section }) =>
-          section.isMuted || item.isMuted ? null : (
+        renderItem={({ item, section }) => {
+          const { Component } = section;
+          return Component ? (
+            <Component {...item} />
+          ) : section.isMuted || item.isMuted ? null : (
             <TopicItem
               name={item.topic}
-              stream={section.streamName}
+              stream={section.streamName || ''}
               isMuted={section.isMuted || item.isMuted}
               isSelected={false}
               unreadCount={item.unread}
               onPress={this.handleTopicPress}
             />
-          )
-        }
+          );
+        }}
       />
     );
   }

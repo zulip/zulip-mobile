@@ -6,8 +6,7 @@ import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import NavButton from '../nav/NavButton';
-import UnreadConversationsContainer from '../conversations/UnreadConversationsContainer';
-import UnreadStreamsContainer from '../unread/UnreadStreamsContainer';
+import UnreadContainer from '../unread/UnreadContainer';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -39,8 +38,7 @@ class HomeTab extends PureComponent<Props> {
           <NavButton name="at-sign" onPress={() => actions.doNarrow(specialNarrow('mentioned'))} />
           <NavButton name="search" onPress={() => actions.navigateToSearch()} />
         </View>
-        <UnreadConversationsContainer />
-        <UnreadStreamsContainer />
+        <UnreadContainer />
       </View>
     );
   }
