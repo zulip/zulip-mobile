@@ -11,7 +11,7 @@ import {
   addNotificationListener,
   removeNotificationListener,
   handlePendingNotifications,
-  tryInitialNotification,
+  handleInitialNotification,
 } from '../utils/notifications';
 
 const componentStyles = StyleSheet.create({
@@ -58,8 +58,7 @@ class AppEventHandlers extends PureComponent<Props> {
 
   handleNotificationOpen = (notification: Object) => {
     const { actions } = this.props;
-    actions.saveInitialNotificationDetails(notification.getData());
-    handlePendingNotifications(notification, false, this.props.actions.doNarrow);
+    handlePendingNotifications(notification, actions);
   };
 
   handleMemoryWarning = () => {
@@ -68,7 +67,7 @@ class AppEventHandlers extends PureComponent<Props> {
 
   componentDidMount() {
     const { actions } = this.props;
-    tryInitialNotification(actions.doNarrow, actions.saveInitialNotificationDetails);
+    handleInitialNotification(actions);
 
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);

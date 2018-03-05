@@ -2,7 +2,7 @@
 import type { Action, Narrow, Dispatch, GetState } from '../types';
 import config from '../config';
 import { NULL_ARRAY, NULL_CAUGHTUP } from '../nullObjects';
-import { getAuth, getUsers, getAllMessages, getStreams } from '../selectors';
+import { getAuth, getUsers, getAllMessages, getStreams, getIsHydrated } from '../selectors';
 import { SWITCH_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
@@ -18,25 +18,35 @@ export const switchNarrow = (narrow: Narrow): Action => ({
 const isNarrowValid = (narrow: Narrow, getState: GetState) =>
   validateNarrow(narrow, getStreams(getState()), getUsers(getState()));
 
-export const doNarrow = (newNarrow: Narrow, anchor: number = 0): Action => (
+export const doNarrow = (narrow: Narrow, anchor: number = 0): Action => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  if (!isNarrowValid(newNarrow, getState)) return;
+  if (!isNarrowValid(narrow, getState)) return;
 
-  dispatch(switchNarrow(newNarrow));
+  const state = getState();
 
-  const allMessages = getAllMessages(getState());
-  const messagesInActiveNarrow = allMessages[JSON.stringify(newNarrow)] || NULL_ARRAY;
+  if (!getIsHydrated(state)) {
+    config.startup = {
+      narrow,
+      anchor,
+    };
+    return;
+  }
+
+  dispatch(switchNarrow(narrow));
+
+  const allMessages = getAllMessages(state);
+  const messagesInActiveNarrow = allMessages[JSON.stringify(narrow)] || NULL_ARRAY;
   const tooFewMessages = messagesInActiveNarrow.length < config.messagesPerRequest / 2;
 
-  const caughtUp = getState().caughtUp[JSON.stringify(newNarrow)] || NULL_CAUGHTUP;
+  const caughtUp = state.caughtUp[JSON.stringify(narrow)] || NULL_CAUGHTUP;
   const isCaughtUp = caughtUp.newer && caughtUp.older;
 
   if (anchor === 0 && tooFewMessages && !isCaughtUp) {
-    dispatch(fetchMessagesAtFirstUnread(newNarrow));
+    dispatch(fetchMessagesAtFirstUnread(narrow));
   } else if (anchor !== 0) {
-    dispatch(fetchMessagesAroundAnchor(newNarrow, anchor));
+    dispatch(fetchMessagesAroundAnchor(narrow, anchor));
   }
 };
 
