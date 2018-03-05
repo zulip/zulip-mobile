@@ -510,3 +510,23 @@ export type PresenceAggregated = {
   status: string,
   timestamp: number,
 };
+
+export type Notification = {
+  alert: string,
+  content: string,
+  content_truncated: boolean,
+  event: 'message',
+  'google.message_id': string,
+  'google.sent_time': string,
+  'google.ttl': number,
+  realm_id: number,
+  recipient_type: 'private' | 'stream',
+  sender_avatar_url: string,
+  sender_id: number,
+  sender_email: string,
+  sender_full_name: string,
+  server: string,
+  time: number,
+  user: string,
+  zulip_message_id: string,
+};

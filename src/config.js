@@ -9,6 +9,7 @@ export default {
   startup: {
     narrow: undefined,
     anchor: 0,
+    notification: undefined,
   },
   compatibilityUrl: 'https://zulipchat.com/compatibility',
   messagesPerRequest: 50,

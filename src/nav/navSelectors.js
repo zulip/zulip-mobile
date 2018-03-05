@@ -5,8 +5,10 @@ import isEqual from 'lodash.isequal';
 import type { GlobalState } from '../types';
 import config from '../config';
 import { getNav, getAccounts } from '../directSelectors';
+import { navigateToChat } from './navActions';
 import { getAuth } from '../account/accountSelectors';
 import AppNavigator from './AppNavigator';
+import { getNarrowFromNotificationData } from '../utils/notificationsCommon';
 
 export const getCanGoBack = (state: GlobalState) => state.nav.index > 0;
 
@@ -58,13 +60,11 @@ export const getInitialNavState = createSelector(
         ? getStateForRoute('main')
         : nav;
 
-    if (config.startup.narrow) {
-      state.routes.push(
-        AppNavigator.router.getActionForPathAndParams('chat', { narrow: config.startup.narrow }),
-      );
-      state.index++;
+    if (!config.startup.notification) {
+      return state;
     }
 
-    return state;
+    const narrow = getNarrowFromNotificationData(config.startup.notification);
+    return AppNavigator.router.getStateForAction(navigateToChat(narrow), state);
   },
 );

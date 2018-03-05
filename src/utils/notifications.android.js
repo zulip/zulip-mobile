@@ -1,10 +1,11 @@
 /* @flow */
 import { NotificationsAndroid, PendingNotifications } from 'react-native-notifications';
 
-import type { Auth, Actions } from '../types';
+import type { Auth, Actions, Notification } from '../types';
+import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
-import { handleNotification } from './notificationsCommon';
+import { getNarrowFromNotificationData } from './notificationsCommon';
 
 const handleRegistrationUpdates = (auth: Auth, saveTokenPush: Actions.saveTokenPush) => {
   NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
@@ -33,20 +34,19 @@ export const refreshNotificationToken = () => {
   NotificationsAndroid.refreshToken();
 };
 
-export const handlePendingNotifications = async (notification: Object, actions: Actions) => {
-  if (!notification) {
+export const handlePendingNotifications = async (notification: Notification, actions: Actions) => {
+  if (!notification || !notification.getData) {
     return;
   }
 
   const data = notification.getData();
+  config.startup.notification = data;
   if (data) {
-    handleNotification(data, actions);
+    actions.doNarrow(getNarrowFromNotificationData(data), data.zulip_message_id);
   }
 };
 
 export const handleInitialNotification = async (actions: Actions) => {
   const data = await PendingNotifications.getInitialNotification();
-  if (data && data.getData) {
-    handlePendingNotifications(data, actions);
-  }
+  handlePendingNotifications(data, actions);
 };
