@@ -14,13 +14,14 @@ export default class ChatScreen extends PureComponent<{}> {
 
   render() {
     const { styles } = this.context;
+    const { narrow } = this.props.navigation.state.params;
 
     return (
       <ActionSheetProvider>
         <View style={styles.screen}>
-          <ZulipStatusBar />
-          <MainNavBar />
-          <Chat />
+          <ZulipStatusBar narrow={narrow} />
+          <MainNavBar narrow={narrow} />
+          <Chat narrow={narrow} />
         </View>
       </ActionSheetProvider>
     );

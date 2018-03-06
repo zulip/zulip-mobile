@@ -16,7 +16,7 @@ export default (state: GlobalState, event: Object) => {
       }
 
       const activeAccount = getActiveAccount(state);
-      const narrow = getActiveNarrow(state);
+      const narrow = getActiveNarrow(state); // TODO
       const isUserInSameNarrow =
         !isHomeNarrow(narrow) &&
         activeAccount &&

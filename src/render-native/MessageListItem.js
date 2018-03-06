@@ -18,17 +18,22 @@ export default class MessageListItem extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { isBrief, type, timestamp, message, onLongPress } = this.props;
+    const { isBrief, type, timestamp, message, narrow, onLongPress } = this.props;
 
     if (type === 'time') {
       return <TimeRow key={`time${timestamp}`} timestamp={timestamp} />;
     } else if (message.isOutbox) {
-      return <MessageContainer isBrief={isBrief} message={message} />;
+      return <MessageContainer isBrief={isBrief} message={message} narrow={narrow} />;
     }
 
     return (
       <TaggedView key={message.id} tagID={message.id.toString()} collapsable={false}>
-        <MessageContainer isBrief={isBrief} message={message} onLongPress={onLongPress} />
+        <MessageContainer
+          isBrief={isBrief}
+          message={message}
+          onLongPress={onLongPress}
+          narrow={narrow}
+        />
       </TaggedView>
     );
   }

@@ -7,14 +7,7 @@ import type { Actions, Auth, SubscriptionsState, Narrow, Message } from '../type
 import { logErrorRemotely } from '../utils/logging';
 import MessageFull from './MessageFull';
 import MessageBrief from './MessageBrief';
-import {
-  getAuth,
-  getFlags,
-  getSubscriptions,
-  getCurrentRoute,
-  getActiveNarrow,
-  getRealm,
-} from '../selectors';
+import { getAuth, getFlags, getSubscriptions, getCurrentRoute, getRealm } from '../selectors';
 import connectWithActions from '../connectWithActions';
 
 type Props = {
@@ -95,7 +88,6 @@ class MessageContainer extends PureComponent<Props, State> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
-  narrow: getActiveNarrow(state),
   currentRoute: getCurrentRoute(state),
   flags: getFlags(state),
   twentyFourHourTime: getRealm(state).twentyFourHourTime,

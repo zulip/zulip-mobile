@@ -8,7 +8,6 @@ import {
   getLastMessageId,
   getCaughtUpForActiveNarrow,
   getFetchingForActiveNarrow,
-  getActiveNarrow,
   getPushToken,
   getMute,
   getSubscriptions,
@@ -103,12 +102,11 @@ export const markMessagesRead = (messageIds: number[]): Action => ({
   messageIds,
 });
 
-export const fetchOlder = () => (dispatch: Dispatch, getState: GetState): Action => {
+export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState): Action => {
   const state = getState();
-  const firstMessageId = getFirstMessageId(state);
-  const caughtUp = getCaughtUpForActiveNarrow(state);
-  const fetching = getFetchingForActiveNarrow(state);
-  const narrow = getActiveNarrow(state);
+  const firstMessageId = getFirstMessageId(narrow)(state);
+  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
+  const fetching = getFetchingForActiveNarrow(narrow)(state);
   const { needsInitialFetch } = getSession(state);
 
   if (!needsInitialFetch && !fetching.older && !caughtUp.older && firstMessageId) {
@@ -116,12 +114,11 @@ export const fetchOlder = () => (dispatch: Dispatch, getState: GetState): Action
   }
 };
 
-export const fetchNewer = () => (dispatch: Dispatch, getState: GetState): Action => {
+export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState): Action => {
   const state = getState();
-  const lastMessageId = getLastMessageId(state);
-  const caughtUp = getCaughtUpForActiveNarrow(state);
-  const fetching = getFetchingForActiveNarrow(state);
-  const narrow = getActiveNarrow(state);
+  const lastMessageId = getLastMessageId(narrow)(state);
+  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
+  const fetching = getFetchingForActiveNarrow(narrow)(state);
   const { needsInitialFetch } = getSession(state);
 
   if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId) {
@@ -138,19 +135,18 @@ export const fetchEssentialInitialData = (): Action => async (
   getState: GetState,
 ) => {
   const auth = getAuth(getState());
-  const narrow = getActiveNarrow(getState());
   const halfCount = Math.trunc(config.messagesPerRequest / 2);
 
   timing.start('Essential server data');
   const [initData, messages] = await Promise.all([
     await tryUntilSuccessful(() => registerForEvents(auth)),
-    await tryUntilSuccessful(() => getMessages(auth, narrow, 0, halfCount, halfCount, true)),
+    await tryUntilSuccessful(() => getMessages(auth, [], 0, halfCount, halfCount, true)), // TODO
   ]);
 
   timing.end('Essential server data');
 
   dispatch(realmInit(initData));
-  dispatch(messageFetchComplete(messages, narrow, 0, halfCount, halfCount, true));
+  dispatch(messageFetchComplete(messages, [], 0, halfCount, halfCount, true)); // TODO
   dispatch(initialFetchComplete());
 
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));

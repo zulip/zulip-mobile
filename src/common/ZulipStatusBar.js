@@ -64,7 +64,9 @@ class ZulipStatusBar extends PureComponent<Props> {
 export default connectWithActions((state, props) => ({
   safeAreaInsets: getSession(state).safeAreaInsets,
   theme: getSettings(state).theme,
-  backgroundColor: !props.backgroundColor ? getTitleBackgroundColor(state) : props.backgroundColor,
+  backgroundColor: !props.backgroundColor
+    ? props.narrow && getTitleBackgroundColor(props.narrow)(state)
+    : props.backgroundColor,
   textColor: getTitleTextColor(state),
   orientation: getSession(state).orientation,
 }))(ZulipStatusBar);

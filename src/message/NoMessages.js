@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import type { Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getActiveNarrow, getIfNoMessages, getShowMessagePlaceholders } from '../selectors';
+import { getIfNoMessages, getShowMessagePlaceholders } from '../selectors';
 import { Label } from '../common';
 
 import {
@@ -70,8 +70,7 @@ class NoMessages extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
-  showMessagePlaceholders: getShowMessagePlaceholders(state),
-  narrow: getActiveNarrow(state),
-  noMessages: getIfNoMessages(state),
+export default connectWithActions((state, props) => ({
+  showMessagePlaceholders: getShowMessagePlaceholders(props.narrow)(state),
+  noMessages: getIfNoMessages(props.narrow)(state),
 }))(NoMessages);

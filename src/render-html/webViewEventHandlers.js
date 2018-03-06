@@ -59,14 +59,14 @@ type Props = {
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
   const { innerHeight, offsetHeight, scrollY, startMessageId, endMessageId } = event;
-  const { actions } = props;
+  const { actions, narrow } = props;
 
   if (scrollY < config.messageListThreshold) {
-    actions.fetchOlder();
+    actions.fetchOlder(narrow);
   }
 
   if (innerHeight + scrollY >= offsetHeight - config.messageListThreshold) {
-    actions.fetchNewer();
+    actions.fetchNewer(narrow);
   }
 
   const unreadMessageIds = filterUnreadMessagesInRange(

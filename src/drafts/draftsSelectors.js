@@ -2,10 +2,6 @@
 import { createSelector } from 'reselect';
 
 import { getDrafts } from '../directSelectors';
-import { getActiveNarrowString } from '../baseSelectors';
 
-export const getDraftForActiveNarrow = createSelector(
-  getDrafts,
-  getActiveNarrowString,
-  (drafts, activeNarrowString) => drafts[activeNarrowString] || '',
-);
+export const getDraftForActiveNarrow = (narrowString: string) =>
+  createSelector(getDrafts, drafts => drafts[narrowString] || '');
