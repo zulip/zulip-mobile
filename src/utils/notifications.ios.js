@@ -11,7 +11,7 @@ import { getNarrowFromNotificationData } from './notificationsCommon';
 const onPushRegistered = async (
   auth: Auth,
   deviceToken: string,
-  saveTokenPush: Actions.saveTokenPush,
+  saveTokenPush: any /* Actions.saveTokenPush */,
 ) => {
   const result = await registerPush(auth, deviceToken);
   saveTokenPush(deviceToken, result.msg, result.result);
@@ -29,7 +29,9 @@ export const removeNotificationListener = (notificationHandler: (notification: O
   NotificationsIOS.removeEventListener('notificationOpened', notificationHandler);
 };
 
-export const initializeNotifications = (auth: Auth, saveTokenPush: Actions.saveTokenPush) => {
+export const initializeNotifications = (
+  auth: Auth, saveTokenPush: any /* Actions.saveTokenPush */,
+) => {
   NotificationsIOS.addEventListener('remoteNotificationsRegistered', deviceToken =>
     onPushRegistered(auth, deviceToken, saveTokenPush),
   );

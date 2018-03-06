@@ -1,15 +1,17 @@
-/* @noflow */
+/* @flow */
 export type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 export type { ChildrenArray } from 'react';
-export type { Dispatch } from 'redux';
-export type { AnimatedValue } from 'react-native';
+export type AnimatedValue = any; // { AnimatedValue } from 'react-native';
 export type { MapStateToProps } from 'react-redux';
 
-export type Auth = {
+export type Dispatch = any;
+// export type { Dispatch } from 'redux';
+
+export type Auth = any; /* {
   realm: string,
   apiKey: string,
   email: string,
-};
+} */
 
 export type InputSelectionType = {
   start: number,
@@ -18,11 +20,11 @@ export type InputSelectionType = {
 
 export type Account = Auth;
 
-export type ImageResource = {
+export type ImageResource = any; /* {
   uri: string,
-};
+} */
 
-export type Message = {
+export type Message = any; /* {
   avatar_url: string,
   client: 'website' | 'ZulipMobile',
   content: string,
@@ -41,7 +43,7 @@ export type Message = {
   subject_links: [],
   timestamp: number,
   type: 'stream' | 'private',
-};
+} */
 
 export type MessageState = {
   [narrow: string]: Message[],
@@ -83,14 +85,14 @@ type StylesClasses =
   | 'blockquote'
   | 'emoji'
   | 'common';
-export type SupportedHtmlClasses =
+export type SupportedHtmlClasses = any; /*
   | CascadingStylesClasses
   | CascadingStylesTextClasses
-  | StylesClasses;
+  | StylesClasses */
 
 export type UserStatus = 'active' | 'inactive' | 'offline';
 
-export type User = {
+export type User = any; /* {
   avatarUrl: string,
   email: string,
   fullName: string,
@@ -98,14 +100,14 @@ export type User = {
   isActive: boolean,
   isAdmin: boolean,
   isBot: boolean,
-};
+} */
 
-export type Presence = {
+export type Presence = any; /* {
   client: string,
   pushable: boolean,
   status: UserStatus,
   timestamp: number,
-};
+} */
 
 export type CaughtUp = {
   older: boolean,
@@ -117,12 +119,12 @@ export type Fetching = {
   newer: boolean,
 };
 
-export type Stream = {
+export type Stream = any; /* {
   stream_id: number,
   description: string,
   name: string,
   invite_only: boolean,
-};
+} */
 
 export type ClientPresence = {
   [key: string]: Presence,
@@ -174,25 +176,25 @@ export type NarrowElement = {
   operator: NarrowOperator,
 };
 
-export type Narrow = NarrowElement[];
+export type Narrow = any; // NarrowElement[];
 
-export type Recipient = {
+export type Recipient = any; /* {
   display_recipient: string,
   subject: string,
   email: string,
-};
+} */
 
 export type ApiResponse = {
   result: string,
   msg: string,
 };
 
-export type EditMessage = {
+export type EditMessage = any; /* {
   id: number,
   content: string,
-};
+} */
 
-export type Action = Object;
+export type Action = any;
 
 export type AuthenticationMethods = {
   dev: boolean,
@@ -208,7 +210,7 @@ export type ServerSettings = {
   realm_name: string,
 };
 
-export type Actions = {
+export type Actions = any; /* {
   appOnline: (isOnline: boolean) => Action,
   addToOutbox: (
     type: 'private' | 'stream',
@@ -279,7 +281,7 @@ export type Actions = {
   markMessagesRead: (messageIds: number[]) => Action,
   fetchOlder: () => Action,
   fetchNewer: () => Action,
-};
+} */
 
 export type AccountState = Account[];
 
@@ -293,16 +295,16 @@ export type SessionState = {
   outboxSending: boolean,
 };
 
-export type ChatState = {
+export type ChatState = any; /* {
   narrow: Narrow,
   messages: Object,
-};
+} */
 
 export type CaughtUpState = Object;
 
 export type FetchingState = Object;
 
-export type FlagsState = {
+export type FlagsState = any; /* {
   read: Object,
   starred: Object,
   collapsed: Object,
@@ -315,61 +317,61 @@ export type FlagsState = {
   has_alert_word: Object,
   historical: Object,
   is_me_message: Object,
-};
+} */
 
 export type MuteTuple = [string, string];
-export type MuteState = MuteTuple[];
+export type MuteState = any; // MuteTuple[];
 
 export type NavigationState = {
   index: number,
   key: string,
-  routes: Array<{
+  routes: Array<any>, /* <{
     key: string,
     title: string,
-  }>,
+  }>, */
 };
 
-export type RealmState = {
+export type RealmState = any; /* {
   twentyFourHourTime: boolean,
   pushToken: {
     token: '',
     msg: '',
     result: '',
   },
-};
+} */
 
-export type TopicDetails = {
+export type TopicDetails = any; /* {
   name: string,
   max_id: number,
-};
+} */
 
-export type TopicsState = TopicDetails[];
+export type TopicsState = any; // TopicDetails[];
 
-export type ThemeType = 'default' | 'night';
+export type ThemeType = any; // 'default' | 'night';
 
 export type StatusBarStyle = 'light-content' | 'dark-content';
 
-export type SettingsState = {
+export type SettingsState = any; /* {
   locale: string,
   theme: ThemeType,
-};
+} */
 
-export type StreamsState = [];
+export type StreamsState = any; // [];
 
-export type SubscriptionsState = [];
+export type SubscriptionsState = any; // [];
 
 export type TypingState = Object;
 
-export type UnreadState = {
+export type UnreadState = any; /* {
   streams: Object[],
   huddles: Object[],
   pms: Object[],
   mentions: number[],
-};
+} */
 
-export type UsersState = [];
+export type UsersState = any; // [];
 
-export type GlobalState = {
+export type GlobalState = any; /* {
   accounts: AccountState,
   session: SessionState,
   chat: ChatState,
@@ -383,7 +385,7 @@ export type GlobalState = {
   typing: TypingState,
   unread: UnreadState,
   users: UsersState,
-};
+} */
 
 export type MatchResult = Array<string> & { index: number, input: string };
 
@@ -399,16 +401,16 @@ export type RealmEmojiType = {
   source_url: string,
 };
 
-export type ReactionType = {
+export type ReactionType = any; /* {
   emoji_name: string,
   name: string,
   count: number,
   selfReacted: boolean,
-};
+} */
 
-export type LocalizableText = string | { text: string, values: Object };
+export type LocalizableText = any; // string | { text: string, values: Object };
 
-export type DomElement = {
+export type DomElement = any; /* {
   name: string,
   type: string,
   attribs: Object,
@@ -416,9 +418,9 @@ export type DomElement = {
   parent: DomElement,
   prev: DomElement,
   children: DomElement[],
-};
+} */
 
-export type Subscription = {
+export type Subscription = any; /* {
   audible_notifications: boolean,
   color: string,
   description: string,
@@ -429,9 +431,9 @@ export type Subscription = {
   name: string,
   pin_to_top: boolean,
   stream_id: number,
-};
+} */
 
-export type Outbox = {
+export type Outbox = any; /* {
   content: string,
   markdownContent: string,
   timestamp: number,
@@ -442,7 +444,7 @@ export type Outbox = {
   type: 'stream' | 'private',
   outbox: true,
   narrow: Narrow,
-};
+} */
 
 export type OutboxState = Outbox[];
 
@@ -456,28 +458,28 @@ export type RenderedMessageDescriptor = {
   message: Object,
 };
 
-export type RenderedItemDescriptor = MessageDescriptor | TimeDescriptor;
+export type RenderedItemDescriptor = any; // MessageDescriptor | TimeDescriptor;
 
-export type RenderedSectionDescriptor = {
+export type RenderedSectionDescriptor = any; /* {
   message: Object,
   data: ItemDescriptor[],
-};
+} */
 
-export type DraftState = { string: string };
+export type DraftState = any; // { string: string };
 
-export type TimingItem = {
+export type TimingItem = any; /* {
   text: string,
   start: Date,
   end: Date,
-};
+} */
 
 export type Reducer = (state: GlobalState, action: Action) => GlobalState;
 
-export type ActionSheetButtonType = {
+export type ActionSheetButtonType = any; /* {
   title: string,
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
   onlyIf?: (props: AuthMessageAndNarrow) => boolean,
-};
+} */
 
 export type Dimensions = {
   bottom: number,
@@ -511,7 +513,7 @@ export type PresenceAggregated = {
   timestamp: number,
 };
 
-export type Notification = {
+export type Notification = any; /* {
   alert: string,
   content: string,
   content_truncated: boolean,
@@ -529,4 +531,10 @@ export type Notification = {
   time: number,
   user: string,
   zulip_message_id: string,
-};
+} */
+
+export type UserType = any;
+export type RealmEmoji = any;
+export type ResponseExtractionFunc = any;
+export type AuthGetStringAndMessageType = any;
+export type AppState = any;
