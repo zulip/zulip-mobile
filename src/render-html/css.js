@@ -247,10 +247,11 @@ hr {
 }
 .message_inline_image img,
 .twitter-image img {
-  width: 75vw;
+  width: 80vw;
   max-height: 40vh;
   object-fit: cover;
   border-radius: 4px;
+  float: left;
 }
 blockquote {
   padding-left: 0.5em;
