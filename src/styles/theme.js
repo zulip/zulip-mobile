@@ -35,6 +35,10 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
       },
     }),
   },
+  realmInput: {
+    color,
+    fontSize: 20,
+  },
   composeTextInput: {
     color,
     borderColor: 'transparent',

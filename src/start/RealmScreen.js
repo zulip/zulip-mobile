@@ -4,13 +4,13 @@ import { ScrollView, Keyboard } from 'react-native';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
-import { Label, Screen, ErrorMsg, ZulipButton, Input } from '../common';
+import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { getServerSettings } from '../api';
-import { fixRealmUrl } from '../utils/url';
 
 type Props = {
   actions: Actions,
   navigation: Object,
+  initialRealm: string,
 };
 
 type State = {
@@ -30,19 +30,15 @@ class RealmScreen extends PureComponent<Props, State> {
 
   state = {
     progress: false,
-    realm:
-      (this.props.navigation &&
-        this.props.navigation.state.params &&
-        this.props.navigation.state.params.realm) ||
-      '',
+    realm: this.props.initialRealm,
     error: undefined,
   };
 
   tryRealm = async () => {
     const { realm } = this.state;
-    const fixRealm = fixRealmUrl(realm);
+
     this.setState({
-      realm: fixRealm,
+      realm,
       progress: true,
       error: undefined,
     });
@@ -50,9 +46,8 @@ class RealmScreen extends PureComponent<Props, State> {
     const { actions } = this.props;
 
     try {
-      const serverSettings = await getServerSettings({ realm: fixRealm });
-
-      actions.realmAdd(fixRealm);
+      const serverSettings = await getServerSettings({ realm });
+      actions.realmAdd(realm);
       actions.navigateToAuth(serverSettings);
       Keyboard.dismiss();
     } catch (err) {
@@ -62,24 +57,23 @@ class RealmScreen extends PureComponent<Props, State> {
     }
   };
 
+  handleRealmChange = value => this.setState({ realm: value });
+
   render() {
     const { styles } = this.context;
-    const { progress, realm, error } = this.state;
+    const { initialRealm } = this.props;
+    const { progress, error } = this.state;
 
     return (
       <Screen title="Welcome" padding scrollView>
-        <Label text="Your server URL" />
-        <Input
-          style={styles.smallMarginTop}
-          autoFocus
-          autoCorrect={false}
-          autoCapitalize="none"
-          placeholder="Server URL"
-          returnKeyType="go"
-          defaultValue={realm}
-          onChangeText={value => this.setState({ realm: value })}
-          blurOnSubmit={false}
-          keyboardType="url"
+        <Label text="Organization URL" />
+        <SmartUrlInput
+          placeholder="your-organization"
+          prepend="https://"
+          append=".zulipchat.com"
+          shortAppend=".com"
+          defaultValue={initialRealm}
+          onChange={this.handleRealmChange}
           onSubmitEditing={this.tryRealm}
         />
         {error && <ErrorMsg error={error} />}
@@ -94,4 +88,8 @@ class RealmScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectWithActions(null)(RealmScreen);
+export default connectWithActions((state, props) => ({
+  initialRealm:
+    (props.navigation && props.navigation.state.params && props.navigation.state.params.realm) ||
+    '',
+}))(RealmScreen);

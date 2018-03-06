@@ -124,16 +124,10 @@ const getResourceNoAuth = (uri: string) => ({
 export const getResource = (uri: string, auth: Auth): Object =>
   isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
 
-export const fixRealmUrl = (url: string = '') => {
-  url = url.trim().replace(/\s+|\/$/g, '');
+export const hasProtocol = (url: string = '') => url.search(/\b(http|https):\/\//) !== -1;
 
-  // Automatically prepend 'https://' if the user does not enter a protocol
-  if (url.search(/\b(http|https):\/\//) === -1) {
-    url = `https://${url}`;
-  }
-
-  return url;
-};
+export const fixRealmUrl = (url: string = '') =>
+  (!hasProtocol(url) ? 'https://' : '') + url.trim().replace(/\s+|\/$/g, '');
 
 export const getFileExtension = (filename: string): string => filename.split('.').pop();
 

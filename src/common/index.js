@@ -30,6 +30,7 @@ export { default as SectionHeader } from './SectionHeader';
 export { default as SectionSeparator } from './SectionSeparator';
 export { default as SectionSeparatorBetween } from './SectionSeparatorBetween';
 export { default as SlideAnimationView } from './SlideAnimationView';
+export { default as SmartUrlInput } from './SmartUrlInput';
 export { default as SpinningProgress } from './SpinningProgress';
 export { default as TextAvatar } from './TextAvatar';
 export { default as Touchable } from './Touchable';
