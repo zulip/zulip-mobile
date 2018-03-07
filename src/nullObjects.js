@@ -34,6 +34,9 @@ export const NULL_STREAM: Stream = {
   description: '',
   name: '',
   invite_only: true,
+  in_home_view: false,
+  pin_to_top: false,
+  color: 'green',
 };
 
 export const NULL_MESSAGE: Message = {

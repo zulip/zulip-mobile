@@ -78,12 +78,15 @@ export type Fetching = {
   newer: boolean,
 };
 
-export type Stream = any; /* {
+export type Stream = {
   stream_id: number,
   description: string,
   name: string,
   invite_only: boolean,
-} */
+  in_home_view: boolean,
+  pin_to_top: boolean,
+  color: string,
+};
 
 export type ClientPresence = {
   [key: string]: Presence,
