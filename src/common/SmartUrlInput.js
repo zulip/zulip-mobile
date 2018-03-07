@@ -1,9 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 
 import type { StyleObj } from '../types';
-import { fixRealmUrl } from '../utils/url';
+import { autoCompleteUrl, fixRealmUrl, hasProtocol } from '../utils/url';
 import RawLabel from './RawLabel';
 
 const componentStyles = StyleSheet.create({
@@ -16,7 +16,7 @@ const componentStyles = StyleSheet.create({
 type Props = {
   defaultValue: string,
   placeholder: string,
-  prepend: string,
+  protocol: string,
   append: string,
   shortAppend: string,
   style?: StyleObj,
@@ -24,40 +24,57 @@ type Props = {
   onSubmitEditing: () => Promise<void>,
 };
 
-export default class SmartUrlInput extends PureComponent<Props> {
+type State = {
+  value: string,
+};
+
+export default class SmartUrlInput extends PureComponent<Props, State> {
+  textInputRef: any;
+  props: Props;
+  state: State = {
+    value: '',
+  };
+
   static contextTypes = {
     styles: () => null,
   };
 
-  props: Props;
+  handleChange = (value: string) => {
+    this.setState({ value });
 
-  handleChange = (input: string) => {
-    const { append, prepend, onChange } = this.props;
+    const { append, shortAppend, protocol, onChange } = this.props;
+    onChange(fixRealmUrl(autoCompleteUrl(value, protocol, append, shortAppend)));
+  };
 
-    const urlEntered = `${prepend}${input || 'your-organization'}${append}`;
-    const fixedRealm = fixRealmUrl(urlEntered);
-
-    onChange(fixedRealm);
+  urlPress = () => {
+    this.textInputRef.focus();
   };
 
   render() {
     const { styles } = this.context;
     const {
       placeholder,
-      prepend,
+      protocol,
       append,
       shortAppend,
       defaultValue,
       style,
       onSubmitEditing,
     } = this.props;
+    const { value } = this.state;
     const placeholderTextColor = (StyleSheet.flatten(styles.realmInput) || {}).color;
+    const useFullAppend = value.indexOf('.') === -1;
+    const showAnyAppend = !value.match(/.+\..+\.+./g); // at least two dots
 
     return (
-      <View style={componentStyles.wrapper}>
-        <RawLabel style={styles.realmInput} text={prepend} />
+      <View style={[componentStyles.wrapper, style]}>
+        {!hasProtocol(value) && (
+          <TouchableWithoutFeedback onPress={this.urlPress}>
+            <RawLabel style={styles.realmInput} text={protocol} />
+          </TouchableWithoutFeedback>
+        )}
         <TextInput
-          style={[styles.realmInput, style]}
+          style={styles.realmInput}
           autoFocus
           autoCorrect={false}
           autoCapitalize="none"
@@ -70,8 +87,15 @@ export default class SmartUrlInput extends PureComponent<Props> {
           keyboardType="url"
           underlineColorAndroid="transparent"
           onSubmitEditing={onSubmitEditing}
+          ref={(component: any) => {
+            this.textInputRef = component;
+          }}
         />
-        <RawLabel style={styles.realmInput} text={true ? append : shortAppend} />
+        {showAnyAppend && (
+          <TouchableWithoutFeedback onPress={this.urlPress}>
+            <RawLabel style={styles.realmInput} text={useFullAppend ? append : shortAppend} />
+          </TouchableWithoutFeedback>
+        )}
       </View>
     );
   }

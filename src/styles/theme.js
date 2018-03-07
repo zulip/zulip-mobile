@@ -178,6 +178,13 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   smallMarginTop: {
     marginTop: 8,
   },
+  marginTop: {
+    marginTop: 16,
+  },
+  marginTopBottom: {
+    marginTop: 16,
+    marginBottom: 16,
+  },
   floatingView: {
     position: 'absolute',
     width: '100%',
