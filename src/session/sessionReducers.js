@@ -1,7 +1,7 @@
 /* @flow */
 import { REHYDRATE } from 'redux-persist/constants';
 
-import { AppState, Action } from '../types';
+import type { AppState, Action } from '../types';
 import {
   APP_REFRESH,
   LOGIN_SUCCESS,

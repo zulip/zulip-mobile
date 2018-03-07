@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
-import { Auth, Actions } from '../types';
+import type { Auth, Actions } from '../types';
 import { getAuth, getSettings } from '../selectors';
 import connectWithActions from '../connectWithActions';
 import { OptionButton, OptionRow, WebLink } from '../common';

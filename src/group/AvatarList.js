@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import { User } from '../types';
+import type { User } from '../types';
 import AvatarItem from './AvatarItem';
 
 const styles = StyleSheet.create({

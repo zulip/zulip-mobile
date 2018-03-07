@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { Linking } from 'react-native';
 import parseURL from 'url-parse';
 
-import { Actions } from '../types';
+import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { Centerer, Screen } from '../common';
 import { getCurrentRealm } from '../selectors';

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, SectionList } from 'react-native';
 
-import { StyleObj, User } from '../types';
+import type { StyleObj, User } from '../types';
 import { SectionHeader, SearchEmptyState } from '../common';
 import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByStatus } from '../users/userHelpers';
