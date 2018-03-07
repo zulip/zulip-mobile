@@ -16,7 +16,7 @@ export default (state: GlobalState, event: Object) => {
       }
 
       const activeAccount = getActiveAccount(state);
-      const { narrow } = getCurrentRouteParams(state);
+      const { narrow } = getCurrentRouteParams(state) || {};
       const isUserInSameNarrow =
         activeAccount &&
         (narrow !== undefined && // chat screen is not at top
