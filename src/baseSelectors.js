@@ -20,11 +20,6 @@ export const getCurrentRouteParams = createSelector(
   (routes, index) => routes && routes[index] && routes[index].params,
 );
 
-export const getActiveNarrow = createSelector(
-  getCurrentRouteParams,
-  params => (params && params.narrow) || NULL_ARRAY,
-);
-
 export const getTopMostNarrow = createSelector(getNav, nav => {
   const { routes } = nav;
   let { index } = nav;
