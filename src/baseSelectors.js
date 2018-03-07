@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import type { GlobalState } from './types';
 import { allPrivateNarrowStr } from './utils/narrow';
 import { getAllMessages, getNavigationRoutes, getNavigationIndex, getNav } from './directSelectors';
-import { NULL_ARRAY } from './nullObjects';
+import { NULL_ARRAY, NULL_OBJECT } from './nullObjects';
 
 export const getPrivateMessages = createSelector(
   getAllMessages,
@@ -17,7 +17,8 @@ export const getCurrentRoute = (state: GlobalState): string =>
 export const getCurrentRouteParams = createSelector(
   getNavigationRoutes,
   getNavigationIndex,
-  (routes, index) => routes && routes[index] && routes[index].params,
+  (routes, index) => (routes && routes[index] && routes[index].params) || NULL_OBJECT,
+  // return NULL_NAVIGATION_PARAMS if current route doent contain params
 );
 
 export const getTopMostNarrow = createSelector(getNav, nav => {

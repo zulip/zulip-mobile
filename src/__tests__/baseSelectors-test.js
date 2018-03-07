@@ -39,6 +39,16 @@ describe('getCurrentRouteParams', () => {
 
     expect(actualResult).toEqual(expectedResult);
   });
+
+  test('return NULL_OBJECT if current route does not contains params ', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 1,
+        routes: [{ routeName: 'first' }, { routeName: 'second' }],
+      },
+    });
+    expect(getCurrentRouteParams(state)).toEqual({});
+  });
 });
 
 describe('getTopMostNarrow', () => {
