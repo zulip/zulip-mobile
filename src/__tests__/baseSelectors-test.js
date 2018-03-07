@@ -1,7 +1,12 @@
 import deepFreeze from 'deep-freeze';
 
-import { getActiveNarrow, getCurrentRoute, getCurrentRouteParams } from '../baseSelectors';
-import { homeNarrow } from '../utils/narrow';
+import {
+  getActiveNarrow,
+  getCurrentRoute,
+  getCurrentRouteParams,
+  getTopMostNarrow,
+} from '../baseSelectors';
+import { homeNarrow, streamNarrow } from '../utils/narrow';
 
 describe('getActiveNarrow', () => {
   test('if not in chat route consider active narrow to be Home', () => {
@@ -109,5 +114,43 @@ describe('getCurrentRouteParams', () => {
     const actualResult = getCurrentRouteParams(state);
 
     expect(actualResult).toEqual(expectedResult);
+  });
+});
+
+describe('getTopMostNarrow', () => {
+  test('return undefined if no chat screen are in stack', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 0,
+        routes: [{ routeName: 'main' }],
+      },
+    });
+    expect(getTopMostNarrow(state)).toBe(undefined);
+  });
+
+  test('return narrow of first chat screen from top', () => {
+    const narrow = streamNarrow('all');
+    const state = deepFreeze({
+      nav: {
+        index: 1,
+        routes: [{ routeName: 'main' }, { routeName: 'chat', params: { narrow } }],
+      },
+    });
+    expect(getTopMostNarrow(state)).toEqual(narrow);
+  });
+
+  test('iterate over stack to get first chat screen', () => {
+    const narrow = streamNarrow('all');
+    const state = deepFreeze({
+      nav: {
+        index: 2,
+        routes: [
+          { routeName: 'main' },
+          { routeName: 'chat', params: { narrow } },
+          { routeName: 'account' },
+        ],
+      },
+    });
+    expect(getTopMostNarrow(state)).toEqual(narrow);
   });
 });

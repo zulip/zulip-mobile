@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { GlobalState } from './types';
 import { allPrivateNarrowStr } from './utils/narrow';
-import { getAllMessages, getNavigationRoutes, getNavigationIndex } from './directSelectors';
+import { getAllMessages, getNavigationRoutes, getNavigationIndex, getNav } from './directSelectors';
 import { NULL_ARRAY } from './nullObjects';
 
 export const getPrivateMessages = createSelector(
@@ -24,3 +24,15 @@ export const getActiveNarrow = createSelector(
   getCurrentRouteParams,
   params => (params && params.narrow) || NULL_ARRAY,
 );
+
+export const getTopMostNarrow = createSelector(getNav, nav => {
+  const { routes } = nav;
+  let { index } = nav;
+  while (index >= 0) {
+    if (routes[index].routeName === 'chat') {
+      return routes[index].params.narrow;
+    }
+    index--;
+  }
+  return undefined;
+});

@@ -11,6 +11,7 @@ import {
   getPushToken,
   getMute,
   getSubscriptions,
+  getTopMostNarrow,
 } from '../selectors';
 import config from '../config';
 import {
@@ -138,15 +139,21 @@ export const fetchEssentialInitialData = (): Action => async (
   const halfCount = Math.trunc(config.messagesPerRequest / 2);
 
   timing.start('Essential server data');
+  // only fetch messages if chat scrren is at the top of stack
+  // get narrow of top most chat screen in the stack
+  const narrow = getTopMostNarrow(getState());
   const [initData, messages] = await Promise.all([
     await tryUntilSuccessful(() => registerForEvents(auth)),
-    await tryUntilSuccessful(() => getMessages(auth, [], 0, halfCount, halfCount, true)), // TODO
+    narrow &&
+      (await tryUntilSuccessful(() => getMessages(auth, narrow, 0, halfCount, halfCount, true))),
   ]);
 
   timing.end('Essential server data');
 
   dispatch(realmInit(initData));
-  dispatch(messageFetchComplete(messages, [], 0, halfCount, halfCount, true)); // TODO
+  if (narrow && messages) {
+    dispatch(messageFetchComplete(messages, narrow, 0, halfCount, halfCount, true));
+  }
   dispatch(initialFetchComplete());
 
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
