@@ -13,10 +13,16 @@ export default class MessageListSection extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { onLongPress, message } = this.props;
+    const { onLongPress, message, narrow } = this.props;
 
     if (!message || Object.keys(message).length === 0) return null;
 
-    return <MessageHeaderContainer onLongPress={onLongPress} message={(onLongPress, message)} />;
+    return (
+      <MessageHeaderContainer
+        onLongPress={onLongPress}
+        message={(onLongPress, message)}
+        narrow={narrow}
+      />
+    );
   }
 }

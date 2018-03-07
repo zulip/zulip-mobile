@@ -3,10 +3,10 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import connectWithActions from '../../connectWithActions';
 import MessageHeader from './MessageHeader';
-import { getAuth, getActiveNarrow, getSubscriptions } from '../../selectors';
+import { getAuth, getSubscriptions } from '../../selectors';
 
-export default connectWithActions(state => ({
+export default connectWithActions((state, props) => ({
   auth: getAuth(state),
-  narrow: getActiveNarrow(state),
+  narrow: props.narrow,
   subscriptions: getSubscriptions(state),
 }))(connectActionSheet(MessageHeader));

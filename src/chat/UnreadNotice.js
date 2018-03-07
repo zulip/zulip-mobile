@@ -41,6 +41,7 @@ class UnreadNotice extends PureComponent<Props> {
 
   render() {
     const { unreadCount } = this.props;
+    const { narrow } = this.props;
 
     return (
       <AnimatedScaleComponent visible={unreadCount > 0}>
@@ -52,7 +53,7 @@ class UnreadNotice extends PureComponent<Props> {
               text={unreadCount === 1 ? 'unread message' : 'unread messages'}
             />
           </View>
-          <MarkUnreadButton />
+          <MarkUnreadButton narrow={narrow} />
         </View>
       </AnimatedScaleComponent>
     );

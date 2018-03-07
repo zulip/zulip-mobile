@@ -41,7 +41,11 @@ export default class MessageListScrollView extends PureComponent<Props> {
       return <MessageListLoading />;
     }
 
-    const { messageList, stickyHeaderIndices } = cachedMessageRender(renderedMessages, onLongPress);
+    const { messageList, stickyHeaderIndices } = cachedMessageRender(
+      narrow,
+      renderedMessages,
+      onLongPress,
+    );
 
     return (
       <InfiniteScrollView

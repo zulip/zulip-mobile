@@ -3,7 +3,7 @@ import React from 'react';
 import isEqual from 'lodash.isequal';
 import type { ChildrenArray } from 'react';
 
-import type { RenderedSectionDescriptor } from '../types';
+import type { Narrow, RenderedSectionDescriptor } from '../types';
 import MessageListSection from './MessageListSection';
 import MessageListItem from './MessageListItem';
 
@@ -11,6 +11,7 @@ let lastRenderedMessages = null;
 let cachedRenderedData = {};
 
 export default (
+  narrow: Narrow,
   renderedMessages: RenderedSectionDescriptor[],
   onLongPress: (messageId: number, target: string) => void,
 ): Object => {
@@ -22,11 +23,14 @@ export default (
     const rendered: Object[] = renderedMessages.reduce((result, section) => {
       result.push(
         <MessageListSection
+          narrow={narrow}
           key={section.key}
           onLongPress={onLongPress}
           message={section.message}
         />,
-        section.data.map(item => <MessageListItem onLongPress={onLongPress} {...item} />),
+        section.data.map(item => (
+          <MessageListItem narrow={narrow} onLongPress={onLongPress} {...item} />
+        )),
       );
 
       return result;

@@ -6,7 +6,7 @@ import type { Auth, Narrow, Stream } from '../types';
 import connectWithActions from '../connectWithActions';
 import { ZulipButton } from '../common';
 import { markAllAsRead, markStreamAsRead, markTopicAsRead } from '../api';
-import { getActiveNarrow, getAuth, getStreams } from '../selectors';
+import { getAuth, getStreams } from '../selectors';
 import { isHomeNarrow, isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 
 const styles = StyleSheet.create({
@@ -87,6 +87,5 @@ class MarkUnreadButton extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
-  narrow: getActiveNarrow(state),
   streams: getStreams(state),
 }))(MarkUnreadButton);
