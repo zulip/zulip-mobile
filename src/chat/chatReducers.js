@@ -1,7 +1,7 @@
 /* @flow */
 import isEqual from 'lodash.isequal';
 
-import type { ChatState, Action } from '../types';
+import type { MessageState, Action } from '../types';
 import {
   APP_REFRESH,
   LOGOUT,
@@ -19,9 +19,9 @@ import { groupItemsById } from '../utils/misc';
 import chatUpdater from './chatUpdater';
 import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
 
-const initialState: ChatState = NULL_OBJECT;
+const initialState: MessageState = NULL_OBJECT;
 
-export default (state: ChatState = initialState, action: Action) => {
+export default (state: MessageState = initialState, action: Action) => {
   switch (action.type) {
     case APP_REFRESH:
     case LOGOUT:
