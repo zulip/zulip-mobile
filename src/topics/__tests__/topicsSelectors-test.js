@@ -1,30 +1,26 @@
 import deepFreeze from 'deep-freeze';
 
 import { getTopicsInActiveNarrow, getLastMessageTopic } from '../topicSelectors';
-import { navStateWithNarrow } from '../../utils/testHelpers';
 import { homeNarrow, streamNarrow } from '../../utils/narrow';
 
 describe('getTopicsInActiveNarrow', () => {
   test('when no topics return an empty list', () => {
-    const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
-    });
+    const state = deepFreeze({});
 
-    const topics = getTopicsInActiveNarrow(state);
+    const topics = getTopicsInActiveNarrow(homeNarrow)(state);
 
     expect(topics).toEqual([]);
   });
 
   test('when there are topics in the active narrow, return them as string array', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(streamNarrow('hello')),
       streams: [{ stream_id: 123, name: 'hello' }],
       topics: {
         123: [{ name: 'hi' }, { name: 'wow' }],
       },
     });
 
-    const topics = getTopicsInActiveNarrow(state);
+    const topics = getTopicsInActiveNarrow(streamNarrow('hello'))(state);
 
     expect(topics).toEqual(['hi', 'wow']);
   });
@@ -33,11 +29,10 @@ describe('getTopicsInActiveNarrow', () => {
 describe('getLastMessageTopic', () => {
   test('when no messages in narrow return an empty string', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
       messages: {},
     });
 
-    const topic = getLastMessageTopic(state);
+    const topic = getLastMessageTopic(homeNarrow)(state);
 
     expect(topic).toEqual('');
   });
@@ -45,13 +40,12 @@ describe('getLastMessageTopic', () => {
   test('when one or more messages return the topic of the last one', () => {
     const narrow = streamNarrow('hello');
     const state = deepFreeze({
-      ...navStateWithNarrow(narrow),
       messages: {
         [JSON.stringify(narrow)]: [{ id: 1 }, { id: 2, subject: 'some topic' }],
       },
     });
 
-    const topic = getLastMessageTopic(state);
+    const topic = getLastMessageTopic(narrow)(state);
 
     expect(topic).toEqual('some topic');
   });

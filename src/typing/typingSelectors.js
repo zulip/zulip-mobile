@@ -8,12 +8,12 @@ import { isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients } from '../utils/message';
 
 export const getCurrentTypingUsers = (narrow: Narrow) =>
-  createSelector(getTyping, getUsers, getOwnEmail, (activeNarrow, typing, users, ownEmail) => {
-    if (!isPrivateOrGroupNarrow(activeNarrow)) {
+  createSelector(getTyping, getUsers, getOwnEmail, (typing, users, ownEmail) => {
+    if (!isPrivateOrGroupNarrow(narrow)) {
       return undefined;
     }
 
-    const recipients = activeNarrow[0].operand.split(',').map(email => ({ email }));
+    const recipients = narrow[0].operand.split(',').map(email => ({ email }));
     const normalizedRecipients = normalizeRecipients(recipients);
     const currentTyping = typing[normalizedRecipients];
 

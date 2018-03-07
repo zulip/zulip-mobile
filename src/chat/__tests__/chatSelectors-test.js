@@ -7,26 +7,23 @@ import {
   getMessagesInActiveNarrow,
 } from '../chatSelectors';
 import { homeNarrow, homeNarrowStr, privateNarrow, streamNarrow } from '../../utils/narrow';
-import { navStateWithNarrow } from '../../utils/testHelpers';
 
 describe('getMessagesInActiveNarrow', () => {
   test('if no outbox messages returns messages with no change', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
       messages: {
         '[]': [{ id: 123 }],
       },
       outbox: [],
     });
 
-    const anchor = getMessagesInActiveNarrow(state);
+    const anchor = getMessagesInActiveNarrow(homeNarrow)(state);
 
     expect(anchor).toBe(state.messages['[]']);
   });
 
   test('combine messages and outbox in same narrow', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
       messages: {
         '[]': [{ id: 123 }],
       },
@@ -44,7 +41,7 @@ describe('getMessagesInActiveNarrow', () => {
       },
     });
 
-    const anchor = getMessagesInActiveNarrow(state);
+    const anchor = getMessagesInActiveNarrow(homeNarrow)(state);
 
     const expectedState = deepFreeze([
       { id: 123 },
@@ -62,7 +59,6 @@ describe('getMessagesInActiveNarrow', () => {
 
   test('do not combine messages and outbox if not caught up', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
       messages: {
         [homeNarrowStr]: [{ id: 123 }],
       },
@@ -77,14 +73,13 @@ describe('getMessagesInActiveNarrow', () => {
       ],
     });
 
-    const anchor = getMessagesInActiveNarrow(state);
+    const anchor = getMessagesInActiveNarrow(homeNarrow)(state);
 
     expect(anchor).toBe(state.messages[homeNarrowStr]);
   });
 
   test('do not combine messages and outbox in different narrow', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(privateNarrow('john@example.com')),
       messages: {
         [JSON.stringify(privateNarrow('john@example.com'))]: [{ id: 123 }],
       },
@@ -99,7 +94,7 @@ describe('getMessagesInActiveNarrow', () => {
       ],
     });
 
-    const anchor = getMessagesInActiveNarrow(state);
+    const anchor = getMessagesInActiveNarrow(privateNarrow('john@example.com'))(state);
 
     const expectedState = deepFreeze([{ id: 123 }]);
 
@@ -110,28 +105,26 @@ describe('getMessagesInActiveNarrow', () => {
 describe('getFirstMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
       messages: {
         '[]': [],
       },
       outbox: [],
     });
 
-    const anchor = getFirstMessageId(state);
+    const anchor = getFirstMessageId(homeNarrow)(state);
 
     expect(anchor).toEqual(undefined);
   });
 
   test('returns first message id', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
       messages: {
         '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
       },
       outbox: [],
     });
 
-    const anchor = getFirstMessageId(state);
+    const anchor = getFirstMessageId(homeNarrow)(state);
 
     expect(anchor).toEqual(1);
   });
@@ -140,28 +133,26 @@ describe('getFirstMessageId', () => {
 describe('getLastMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
       messages: {
         '[]': [],
       },
       outbox: [],
     });
 
-    const anchor = getLastMessageId(state);
+    const anchor = getLastMessageId(homeNarrow)(state);
 
     expect(anchor).toEqual(undefined);
   });
 
   test('returns last message id', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
       messages: {
         '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
       },
       outbox: [],
     });
 
-    const anchor = getLastMessageId(state);
+    const anchor = getLastMessageId(homeNarrow)(state);
 
     expect(anchor).toEqual(3);
   });
@@ -170,26 +161,24 @@ describe('getLastMessageId', () => {
 describe('getLastTopicInActiveNarrow', () => {
   test('when no messages yet, return empty string', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
       messages: {},
       outbox: [],
     });
 
-    const actualLastTopic = getLastTopicInActiveNarrow(state);
+    const actualLastTopic = getLastTopicInActiveNarrow(homeNarrow)(state);
 
     expect(actualLastTopic).toEqual('');
   });
 
   test('when last message has a `subject` property, return it', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
       messages: {
         [homeNarrowStr]: [{ id: 0, subject: 'First subject' }, { id: 1, subject: 'Last subject' }],
       },
       outbox: [],
     });
 
-    const actualLastTopic = getLastTopicInActiveNarrow(state);
+    const actualLastTopic = getLastTopicInActiveNarrow(homeNarrow)(state);
 
     expect(actualLastTopic).toEqual('Last subject');
   });
@@ -197,14 +186,13 @@ describe('getLastTopicInActiveNarrow', () => {
   test('when there are messages, but none with a `subject` property, return empty', () => {
     const narrow = privateNarrow('john@example.com');
     const state = deepFreeze({
-      ...navStateWithNarrow(narrow),
       messages: {
         [JSON.stringify(narrow)]: [{ id: 0 }],
       },
       outbox: [],
     });
 
-    const actualLastTopic = getLastTopicInActiveNarrow(state);
+    const actualLastTopic = getLastTopicInActiveNarrow(narrow)(state);
 
     expect(actualLastTopic).toEqual('');
   });
@@ -212,14 +200,13 @@ describe('getLastTopicInActiveNarrow', () => {
   test('when last message has no `subject` property, return last one that has', () => {
     const narrow = privateNarrow('john@example.com');
     const state = deepFreeze({
-      ...navStateWithNarrow(narrow),
       messages: {
         [JSON.stringify(narrow)]: [{ id: 0 }, { id: 1, subject: 'Some subject' }, { id: 2 }],
       },
       outbox: [],
     });
 
-    const actualLastTopic = getLastTopicInActiveNarrow(state);
+    const actualLastTopic = getLastTopicInActiveNarrow(narrow)(state);
 
     expect(actualLastTopic).toEqual('Some subject');
   });

@@ -21,6 +21,6 @@ export default connectWithActions((state: GlobalState, props) => ({
   isSubscribed: getIsActiveStreamSubscribed(props.narrow)(state),
   canSend: canSendToActiveNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
   editMessage: getSession(state).editMessage,
-  draft: getDraftForActiveNarrow(JSON.stringify(props.narrow))(state),
+  draft: getDraftForActiveNarrow(props.narrow)(state),
   lastMessageTopic: getLastMessageTopic(props.narrow)(state),
 }))(ComposeBox);

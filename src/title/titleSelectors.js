@@ -11,7 +11,7 @@ import { NULL_SUBSCRIPTION } from '../nullObjects';
 export const getIsInTopicOrStreamNarrow = (narrow: Narrow) =>
   createSelector(
     getCurrentRoute,
-    route => route === 'chat' && (isStreamNarrow(narrow) || isTopicNarrow(narrow)),
+    route => (route === 'chat' ? isStreamNarrow(narrow) || isTopicNarrow(narrow) : false),
   );
 
 export const getTitleBackgroundColor = (narrow: Narrow) =>
