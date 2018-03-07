@@ -6,6 +6,7 @@ import type {
   TopicsState,
   GlobalState,
   SettingsState,
+  StreamUnreadItem,
   Account,
   Subscription,
   Stream,
@@ -52,7 +53,7 @@ export const getPresence = (state: GlobalState): Object => state.presence;
 
 export const getOutbox = (state: GlobalState): Outbox[] => state.outbox;
 
-export const getUnreadStreams = (state: GlobalState): Object[] => state.unread.streams;
+export const getUnreadStreams = (state: GlobalState): StreamUnreadItem[] => state.unread.streams;
 
 export const getUnreadPms = (state: GlobalState): Object[] => state.unread.pms;
 

@@ -1,5 +1,5 @@
 /* @flow */
-import type { Action, UnreadState } from '../types';
+import type { Action, StreamUnreadItem } from '../types';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -11,9 +11,9 @@ import {
 import { addItemsToStreamArray, removeItemsDeeply } from './unreadHelpers';
 import { NULL_ARRAY } from '../nullObjects';
 
-const initialState: Object[] = NULL_ARRAY;
+const initialState: StreamUnreadItem[] = NULL_ARRAY;
 
-export default (state: UnreadState = initialState, action: Action): UnreadState => {
+export default (state: StreamUnreadItem[] = initialState, action: Action): StreamUnreadItem[] => {
   switch (action.type) {
     case REALM_INIT:
       return (action.data.unread_msgs && action.data.unread_msgs.streams) || NULL_ARRAY;

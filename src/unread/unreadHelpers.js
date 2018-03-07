@@ -1,4 +1,5 @@
 /* @flow */
+import type { StreamUnreadItem } from '../types';
 import { addItemsToArray, removeItemsFromArray, filterArray } from '../utils/immutability';
 
 export const removeItemsDeeply = (objArray: Object[], messageIds: number[]): Object[] => {
@@ -93,8 +94,8 @@ export const addItemsToHuddleArray = (
 };
 
 export const addItemsToStreamArray = (
-  input: Object[],
-  itemsToAdd: Object[],
+  input: StreamUnreadItem[],
+  itemsToAdd: StreamUnreadItem[],
   streamId: string,
   topic: string,
 ): Object[] => {
