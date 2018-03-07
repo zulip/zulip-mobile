@@ -11,7 +11,7 @@ export default (state: GlobalState, event: Object) => {
     case 'message': {
       const isActive = getIsActive(state);
       const isPrivateMessage = Array.isArray(event.message.display_recipient);
-      if (!isActive || (!isPrivateMessage && !event.message.is_mentioned)) {
+      if (!isActive || (!isPrivateMessage && event.flags.indexOf('mentioned') === -1)) {
         break;
       }
 
