@@ -46,14 +46,7 @@ describe('privateNarrow', () => {
   test('if operator is "pm-with" and only one email, then it is a private narrow', () => {
     expect(isPrivateNarrow([])).toBe(false);
     expect(isPrivateNarrow([{}, {}])).toBe(false);
-    expect(
-      isPrivateNarrow([
-        {
-          operator: 'pm-with',
-          operand: 'bob@example.com',
-        },
-      ]),
-    ).toBe(true);
+    expect(isPrivateNarrow(privateNarrow('bob@example.com'))).toBe(true);
   });
 });
 
@@ -70,50 +63,24 @@ describe('groupNarrow', () => {
   test('a group narrow is only private chat with more than one recipients', () => {
     expect(isGroupNarrow([])).toBe(false);
     expect(isGroupNarrow([{}, {}])).toBe(false);
-    expect(
-      isGroupNarrow([
-        {
-          operator: 'pm-with',
-          operand: 'bob@example.com',
-        },
-      ]),
-    ).toBe(false);
-    expect(
-      isGroupNarrow([
-        {
-          operator: 'pm-with',
-          operand: 'bob@example.com,john@example.com',
-        },
-      ]),
-    ).toBe(true);
+    expect(isGroupNarrow(privateNarrow('bob@example.com'))).toBe(false);
+    expect(isGroupNarrow(groupNarrow(['bob@example.com', 'john@example.com']))).toBe(true);
   });
 });
 
 describe('isPrivateOrGroupNarrow', () => {
   test('a private or group narrow is any "pm-with" narrow', () => {
+    expect(isPrivateOrGroupNarrow(undefined)).toBe(false);
     expect(isPrivateOrGroupNarrow([])).toBe(false);
     expect(isPrivateOrGroupNarrow([{}, {}])).toBe(false);
-    expect(
-      isPrivateOrGroupNarrow([
-        {
-          operator: 'pm-with',
-          operand: 'bob@example.com',
-        },
-      ]),
-    ).toBe(true);
-    expect(
-      isPrivateOrGroupNarrow([
-        {
-          operator: 'pm-with',
-          operand: 'bob@example.com,john@example.com',
-        },
-      ]),
-    ).toBe(true);
+    expect(isPrivateOrGroupNarrow(privateNarrow('bob@example.com'))).toBe(true);
+    expect(isPrivateOrGroupNarrow(groupNarrow(['bob@example.com', 'john@example.com']))).toBe(true);
   });
 });
 
 describe('isStreamOrTopicNarrow', () => {
   test('check for stream or topic narrow', () => {
+    expect(isStreamOrTopicNarrow(undefined)).toBe(false);
     expect(isStreamOrTopicNarrow(streamNarrow('some stream'))).toBe(true);
     expect(isStreamOrTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
     expect(isStreamOrTopicNarrow(homeNarrow)).toBe(false);
@@ -136,10 +103,11 @@ describe('specialNarrow', () => {
   });
 
   test('only narrowing with the "is" operator is special narrow', () => {
+    expect(isSpecialNarrow(undefined)).toBe(false);
     expect(isSpecialNarrow([])).toBe(false);
     expect(isSearchNarrow([{}, {}])).toBe(false);
-    expect(isSpecialNarrow([{ operator: 'stream', operand: 'some stream' }])).toBe(false);
-    expect(isSpecialNarrow([{ operator: 'is', operand: 'starred' }])).toBe(true);
+    expect(isSpecialNarrow(streamNarrow('some stream'))).toBe(false);
+    expect(isSpecialNarrow(specialNarrow('starred'))).toBe(true);
   });
 });
 
@@ -154,9 +122,10 @@ describe('streamNarrow', () => {
   });
 
   test('only narrow with operator of "stream" is a stream narrow', () => {
+    expect(isStreamNarrow(undefined)).toBe(false);
     expect(isStreamNarrow([])).toBe(false);
     expect(isSearchNarrow([{}, {}])).toBe(false);
-    expect(isStreamNarrow([{ operator: 'stream', operand: 'some stream' }])).toBe(true);
+    expect(isStreamNarrow(streamNarrow('some stream'))).toBe(true);
   });
 });
 
@@ -169,20 +138,10 @@ describe('topicNarrow', () => {
   });
 
   test('only narrow with two items, one for stream, one for topic is a topic narrow', () => {
+    expect(isTopicNarrow(undefined)).toBe(false);
     expect(isTopicNarrow([])).toBe(false);
     expect(isTopicNarrow([{}])).toBe(false);
-    expect(
-      isTopicNarrow([
-        {
-          operator: 'stream',
-          operand: 'some stream',
-        },
-        {
-          operator: 'topic',
-          operand: 'some topic',
-        },
-      ]),
-    ).toBe(true);
+    expect(isTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
   });
 });
 
@@ -197,6 +156,7 @@ describe('searchNarrow', () => {
   });
 
   test('narrow with "search" operand is a search narrow', () => {
+    expect(isSearchNarrow(undefined)).toBe(false);
     expect(isSearchNarrow([])).toBe(false);
     expect(isSearchNarrow([{}, {}])).toBe(false);
     expect(isSearchNarrow([{ operator: 'search' }])).toBe(true);
@@ -332,6 +292,8 @@ describe('getNarrowFromMessage', () => {
 
 describe('isSameNarrow', () => {
   test('Return true if two narrows are same', () => {
+    expect(isSameNarrow(undefined, undefined)).toBe(false);
+    expect(isSameNarrow(streamNarrow('stream'), undefined)).toBe(false);
     expect(isSameNarrow(streamNarrow('stream'), streamNarrow('stream'))).toBe(true);
     expect(isSameNarrow(streamNarrow('stream'), streamNarrow('stream1'))).toBe(false);
     expect(isSameNarrow(streamNarrow('stream'), topicNarrow('stream', 'topic'))).toBe(false);
