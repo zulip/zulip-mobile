@@ -5,7 +5,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { ZulipStatusBar } from '../common';
 import LightboxContainer from './LightboxContainer';
-import { Message, ImageResource } from '../types';
+import type { Message, ImageResource } from '../types';
 
 const styles = StyleSheet.create({
   screen: {

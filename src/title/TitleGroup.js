@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Actions, User } from '../types';
+import type { Actions, User } from '../types';
 import { Avatar } from '../common';
 
 const styles = StyleSheet.create({

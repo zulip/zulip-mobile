@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import { Actions } from '../types';
+import type { Actions } from '../types';
 import { Screen } from '../common';
 import LanguagePicker from './LanguagePicker';
 import connectWithActions from '../connectWithActions';

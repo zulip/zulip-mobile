@@ -1,5 +1,5 @@
 /* @flow */
-import { TimingItem } from '../types';
+import type { TimingItem } from '../types';
 
 const timingMap = {};
 const countMap = {};
