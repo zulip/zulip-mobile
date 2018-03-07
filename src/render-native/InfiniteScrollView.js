@@ -74,8 +74,8 @@ export default class InfiniteScrollView extends PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
-    this.keyboardShowListener.remove();
-    this.keyboardHideListener.remove();
+    this.keyboardShowListener && this.keyboardShowListener.remove();
+    this.keyboardHideListener && this.keyboardHideListener.remove();
   }
 
   _keyboardShow(e) {

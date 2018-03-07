@@ -141,11 +141,12 @@ export default class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleTopicFocus = () => {
+    const { actions, narrow } = this.props;
     this.setState({
       isTopicFocused: true,
       isMenuExpanded: false,
     });
-    this.props.actions.fetchTopicsForActiveStream();
+    actions.fetchTopicsForActiveStream(narrow);
   };
 
   handleTopicBlur = () => {
@@ -304,6 +305,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
         >
           <View style={componentStyles.bottom}>
             <ComposeMenuContainer
+              narrow={narrow}
               expanded={isMenuExpanded}
               onExpandContract={this.handleComposeMenuToggle}
             />

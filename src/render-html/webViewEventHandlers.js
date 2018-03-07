@@ -1,7 +1,7 @@
 /* @flow */
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
-import type { Actions, Auth, FlagsState, Message } from '../types';
+import type { Actions, Auth, FlagsState, Message, Narrow } from '../types';
 import { isUrlAnImage } from '../utils/url';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrowString } from '../utils/narrow';
@@ -54,19 +54,20 @@ type Props = {
   debug: Object,
   flags: FlagsState,
   messages: Message[],
+  narrow: Narrow,
   onLongPress: (messageId: number, target: string) => void,
 };
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
   const { innerHeight, offsetHeight, scrollY, startMessageId, endMessageId } = event;
-  const { actions } = props;
+  const { actions, narrow } = props;
 
   if (scrollY < config.messageListThreshold) {
-    actions.fetchOlder();
+    actions.fetchOlder(narrow);
   }
 
   if (innerHeight + scrollY >= offsetHeight - config.messageListThreshold) {
-    actions.fetchNewer();
+    actions.fetchNewer(narrow);
   }
 
   const unreadMessageIds = filterUnreadMessagesInRange(

@@ -1,24 +1,20 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
+import type { Narrow } from '../types';
 import { getTyping, getUsers } from '../directSelectors';
-import { getActiveNarrow } from '../baseSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserById } from '../users/userHelpers';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 import { normalizeRecipients } from '../utils/message';
 
-export const getCurrentTypingUsers = createSelector(
-  getActiveNarrow,
-  getTyping,
-  getUsers,
-  getOwnEmail,
-  (activeNarrow, typing, users, ownEmail) => {
-    if (!isPrivateOrGroupNarrow(activeNarrow)) {
+export const getCurrentTypingUsers = (narrow: Narrow) =>
+  createSelector(getTyping, getUsers, getOwnEmail, (typing, users, ownEmail) => {
+    if (!isPrivateOrGroupNarrow(narrow)) {
       return undefined;
     }
 
-    const recipients = activeNarrow[0].operand.split(',').map(email => ({ email }));
+    const recipients = narrow[0].operand.split(',').map(email => ({ email }));
     const normalizedRecipients = normalizeRecipients(recipients);
     const currentTyping = typing[normalizedRecipients];
 
@@ -27,5 +23,4 @@ export const getCurrentTypingUsers = createSelector(
     }
 
     return currentTyping.userIds.map(userId => getUserById(users, userId));
-  },
-);
+  });

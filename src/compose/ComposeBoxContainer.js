@@ -5,7 +5,6 @@ import {
   getAuth,
   getSession,
   canSendToActiveNarrow,
-  getActiveNarrow,
   getLastMessageTopic,
   getUsers,
   getShowMessagePlaceholders,
@@ -14,15 +13,14 @@ import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelect
 import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
 import ComposeBox from './ComposeBox';
 
-export default connectWithActions((state: GlobalState) => ({
+export default connectWithActions((state: GlobalState, props) => ({
   auth: getAuth(state),
-  narrow: getActiveNarrow(state),
   users: getUsers(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
   composeTools: getSession(state).composeTools,
-  isSubscribed: getIsActiveStreamSubscribed(state),
-  canSend: canSendToActiveNarrow(state) && !getShowMessagePlaceholders(state),
+  isSubscribed: getIsActiveStreamSubscribed(props.narrow)(state),
+  canSend: canSendToActiveNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
   editMessage: getSession(state).editMessage,
-  draft: getDraftForActiveNarrow(state),
-  lastMessageTopic: getLastMessageTopic(state),
+  draft: getDraftForActiveNarrow(props.narrow)(state),
+  lastMessageTopic: getLastMessageTopic(props.narrow)(state),
 }))(ComposeBox);

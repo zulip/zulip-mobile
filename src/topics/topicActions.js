@@ -1,10 +1,10 @@
 /* @flow */
-import type { GetState, Actions, Dispatch } from '../types';
+import type { GetState, Actions, Dispatch, Narrow } from '../types';
 import { getTopics } from '../api';
 import { INIT_TOPICS } from '../actionConstants';
 import { NULL_STREAM } from '../nullObjects';
 import { isStreamNarrow } from '../utils/narrow';
-import { getAuth, getActiveNarrow, getStreams } from '../selectors';
+import { getAuth, getStreams } from '../selectors';
 
 export const initTopics = (topics: any[], streamId: number): Actions => ({
   type: INIT_TOPICS,
@@ -21,12 +21,11 @@ export const fetchTopics = (streamId: number): Actions => async (
   dispatch(initTopics(topics, streamId));
 };
 
-export const fetchTopicsForActiveStream = (): Actions => async (
+export const fetchTopicsForActiveStream = (narrow: Narrow): Actions => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
   const state = getState();
-  const narrow = getActiveNarrow(state);
 
   if (!isStreamNarrow(narrow)) {
     return;

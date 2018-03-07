@@ -1,6 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
+import type { Narrow } from '../types';
 import {
   getAllMessages,
   getSubscriptions,
@@ -9,7 +10,6 @@ import {
   getStreams,
   getOutbox,
 } from '../directSelectors';
-import { getActiveNarrow, getActiveNarrowString } from '../baseSelectors';
 import { getCaughtUpForActiveNarrow } from '../caughtup/caughtUpSelectors';
 import { getIsFetching } from './fetchingSelectors';
 import {
@@ -23,15 +23,11 @@ import { groupItemsById } from '../utils/misc';
 import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_MESSAGE, NULL_USER, NULL_SUBSCRIPTION } from '../nullObjects';
 
-const getMessagesFromChatState = state =>
-  state.messages[getActiveNarrowString(state)] || NULL_ARRAY;
+const getMessagesFromChatState = (narrow: Narrow) => state =>
+  state.messages[JSON.stringify(narrow)] || NULL_ARRAY;
 
-export const outboxMessagesForCurrentNarrow = createSelector(
-  getActiveNarrow,
-  getCaughtUpForActiveNarrow,
-  getActiveNarrowString,
-  getOutbox,
-  (narrow, caughtUp, activeNarrowString, outboxMessages) => {
+export const outboxMessagesForCurrentNarrow = (narrow: Narrow) =>
+  createSelector(getCaughtUpForActiveNarrow(narrow), getOutbox, (caughtUp, outboxMessages) => {
     if (!caughtUp.newer) {
       return [];
     }
@@ -43,97 +39,92 @@ export const outboxMessagesForCurrentNarrow = createSelector(
     return outboxMessages.filter(item => {
       if (isAllPrivateNarrow(narrow) && isPrivateOrGroupNarrow(item.narrow)) return true;
       if (isStreamNarrow(narrow) && item.narrow[0].operand === narrow[0].operand) return true;
-      return JSON.stringify(item.narrow) === activeNarrowString;
+      return JSON.stringify(item.narrow) === JSON.stringify(narrow);
     });
-  },
-);
+  });
 
-export const getFetchedMessagesInActiveNarrow = createSelector(
-  getAllMessages,
-  getActiveNarrowString,
-  (allMessages, activeNarrowString) => allMessages[activeNarrowString] || NULL_ARRAY,
-);
+export const getFetchedMessagesInActiveNarrow = (narrow: Narrow) =>
+  createSelector(getAllMessages, allMessages => allMessages[JSON.stringify(narrow)] || NULL_ARRAY);
 
-export const getMessagesInActiveNarrow = createSelector(
-  getFetchedMessagesInActiveNarrow,
-  outboxMessagesForCurrentNarrow,
-  (fetchedMessages, outboxMessages) => {
-    if (outboxMessages.length === 0) {
-      return fetchedMessages;
-    }
+export const getMessagesInActiveNarrow = (narrow: Narrow) =>
+  createSelector(
+    getFetchedMessagesInActiveNarrow(narrow),
+    outboxMessagesForCurrentNarrow(narrow),
+    (fetchedMessages, outboxMessages) => {
+      if (outboxMessages.length === 0) {
+        return fetchedMessages;
+      }
 
-    return [...fetchedMessages, ...outboxMessages].sort((a, b) => a.id - b.id);
-  },
-);
+      return [...fetchedMessages, ...outboxMessages].sort((a, b) => a.id - b.id);
+    },
+  );
 
-export const getShownMessagesInActiveNarrow = createSelector(
-  getMessagesInActiveNarrow,
-  getActiveNarrow,
-  getSubscriptions,
-  getMute,
-  (messagesInActiveNarrow, activeNarrow, subscriptions, mute) =>
-    messagesInActiveNarrow.filter(item => !shouldBeMuted(item, activeNarrow, subscriptions, mute)),
-);
+export const getShownMessagesInActiveNarrow = (narrow: Narrow) =>
+  createSelector(
+    getMessagesInActiveNarrow(narrow),
+    getSubscriptions,
+    getMute,
+    (messagesInActiveNarrow, subscriptions, mute) =>
+      messagesInActiveNarrow.filter(item => !shouldBeMuted(item, narrow, subscriptions, mute)),
+  );
 
-export const getFirstMessageId = createSelector(
-  getFetchedMessagesInActiveNarrow,
-  messages => (messages.length > 0 ? messages[0].id : undefined),
-);
+export const getFirstMessageId = (narrow: Narrow) =>
+  createSelector(
+    getFetchedMessagesInActiveNarrow(narrow),
+    messages => (messages.length > 0 ? messages[0].id : undefined),
+  );
 
-export const getLastMessageId = createSelector(
-  getFetchedMessagesInActiveNarrow,
-  messages => (messages.length > 0 ? messages[messages.length - 1].id : undefined),
-);
+export const getLastMessageId = (narrow: Narrow) =>
+  createSelector(
+    getFetchedMessagesInActiveNarrow(narrow),
+    messages => (messages.length > 0 ? messages[messages.length - 1].id : undefined),
+  );
 
-export const getLastTopicInActiveNarrow = createSelector(
-  getMessagesInActiveNarrow,
-  messagesInActiveNarrow => {
+export const getLastTopicInActiveNarrow = (narrow: Narrow) =>
+  createSelector(getMessagesInActiveNarrow(narrow), messagesInActiveNarrow => {
     const reversedMessages = messagesInActiveNarrow.slice().reverse();
     const lastMessageWithSubject = reversedMessages.find(msg => msg.subject) || NULL_MESSAGE;
     return lastMessageWithSubject.subject;
-  },
-);
+  });
 
-export const getUserInPmNarrow = createSelector(
-  getActiveNarrow,
-  getUsers,
-  (narrow, users) => users.find(x => x.email === narrow[0].operand) || NULL_USER,
-);
+export const getUserInPmNarrow = (narrow: Narrow) =>
+  createSelector(getUsers, users => users.find(x => x.email === narrow[0].operand) || NULL_USER);
 
-export const getRecipientsInGroupNarrow = createSelector(
-  getActiveNarrow,
-  getUsers,
-  (narrow, users) =>
-    !narrow || narrow.length === 0
-      ? []
-      : narrow[0].operand.split(',').map(r => users.find(x => x.email === r) || []),
-);
+export const getRecipientsInGroupNarrow = (narrow: Narrow) =>
+  createSelector(
+    getUsers,
+    users =>
+      !narrow || narrow.length === 0
+        ? []
+        : narrow[0].operand.split(',').map(r => users.find(x => x.email === r) || []),
+  );
 
-export const getStreamInNarrow = createSelector(
-  getActiveNarrow,
-  getSubscriptions,
-  getStreams,
-  (narrow, subscriptions, streams) =>
-    subscriptions.find(x => x.name === narrow[0].operand) || {
-      ...streams.find(x => x.name === narrow[0].operand),
-      in_home_view: true,
-    } ||
-    NULL_SUBSCRIPTION,
-);
+export const getStreamInNarrow = (narrow: Narrow) =>
+  createSelector(
+    getSubscriptions,
+    getStreams,
+    (subscriptions, streams) =>
+      subscriptions.find(x => x.name === narrow[0].operand) || {
+        ...streams.find(x => x.name === narrow[0].operand),
+        in_home_view: true,
+      } ||
+      NULL_SUBSCRIPTION,
+  );
 
-export const getIfNoMessages = createSelector(
-  getShownMessagesInActiveNarrow,
-  messages => messages && messages.length === 0,
-);
+export const getIfNoMessages = (narrow: Narrow) =>
+  createSelector(
+    getShownMessagesInActiveNarrow(narrow),
+    messages => messages && messages.length === 0,
+  );
 
-export const getShowMessagePlaceholders = createSelector(
-  getIfNoMessages,
-  getIsFetching,
-  (noMessages, isFetching) => isFetching && noMessages,
-);
+export const getShowMessagePlaceholders = (narrow: Narrow) =>
+  createSelector(
+    getIfNoMessages(narrow),
+    getIsFetching(narrow),
+    (noMessages, isFetching) => isFetching && noMessages,
+  );
 
-export const getMessagesById = createSelector(getMessagesFromChatState, groupItemsById);
+export const getMessagesById = (narrow: Narrow) =>
+  createSelector(getMessagesFromChatState(narrow), groupItemsById);
 
-export const canSendToActiveNarrow = createSelector(getActiveNarrow, narrow =>
-  canSendToNarrow(narrow),
-);
+export const canSendToActiveNarrow = (narrow: Narrow) => canSendToNarrow(narrow);

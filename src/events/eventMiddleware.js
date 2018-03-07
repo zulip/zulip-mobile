@@ -3,7 +3,7 @@
 
 import type { GlobalState } from '../types';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
-import { getActiveAccount, getActiveNarrow, getOwnEmail, getIsActive } from '../selectors';
+import { getActiveAccount, getCurrentRouteParams, getOwnEmail, getIsActive } from '../selectors';
 import { playMessageSound } from '../utils/sound';
 
 export default (state: GlobalState, event: Object) => {
@@ -16,11 +16,11 @@ export default (state: GlobalState, event: Object) => {
       }
 
       const activeAccount = getActiveAccount(state);
-      const narrow = getActiveNarrow(state);
+      const { narrow } = getCurrentRouteParams(state) || {};
       const isUserInSameNarrow =
-        !isHomeNarrow(narrow) &&
         activeAccount &&
-        isMessageInNarrow(event.message, narrow, activeAccount.email);
+        (narrow !== undefined && // chat screen is not at top
+          (!isHomeNarrow(narrow) && isMessageInNarrow(event.message, narrow, activeAccount.email)));
       const isSenderSelf = getOwnEmail(state) === event.message.sender_email;
       if (!isUserInSameNarrow && !isSenderSelf) {
         playMessageSound();

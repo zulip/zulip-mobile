@@ -7,7 +7,6 @@ import {
   getSubscribedStreams,
 } from '../subscriptionSelectors';
 import { homeNarrow, streamNarrow, topicNarrow } from '../../utils/narrow';
-import { navStateWithNarrow } from '../../utils/testHelpers';
 
 describe('getStreamsById', () => {
   test('returns empty object for an empty input', () => {
@@ -59,47 +58,41 @@ describe('getSubscriptionsById', () => {
 
 describe('getIsActiveStreamSubscribed', () => {
   test('return true for narrows other than stream and topic', () => {
-    const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
-    });
+    const state = deepFreeze({});
 
-    expect(getIsActiveStreamSubscribed(state)).toBe(true);
+    expect(getIsActiveStreamSubscribed(homeNarrow)(state)).toBe(true);
   });
 
   test('return true if current narrowed stream is subscribed', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(streamNarrow('announce')),
       subscriptions: [{ name: 'announce' }],
     });
 
-    expect(getIsActiveStreamSubscribed(state)).toBe(true);
+    expect(getIsActiveStreamSubscribed(streamNarrow('announce'))(state)).toBe(true);
   });
 
   test('return false if current narrowed stream is not subscribed', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(streamNarrow('all')),
       subscriptions: [{ name: 'announce' }],
     });
 
-    expect(getIsActiveStreamSubscribed(state)).toBe(false);
+    expect(getIsActiveStreamSubscribed(streamNarrow('all'))(state)).toBe(false);
   });
 
   test('return true if stream of current narrowed topic is subscribed', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(topicNarrow('announce', 'news')),
       subscriptions: [{ name: 'announce' }],
     });
 
-    expect(getIsActiveStreamSubscribed(state)).toBe(true);
+    expect(getIsActiveStreamSubscribed(topicNarrow('announce', 'news'))(state)).toBe(true);
   });
 
   test('return false if stream of current narrowed topic is not subscribed', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(streamNarrow('all', 'news')),
       subscriptions: [{ name: 'announce' }],
     });
 
-    expect(getIsActiveStreamSubscribed(state)).toBe(false);
+    expect(getIsActiveStreamSubscribed(topicNarrow('all', 'news'))(state)).toBe(false);
   });
 });
 

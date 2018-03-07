@@ -1,17 +1,15 @@
 import deepFreeze from 'deep-freeze';
 
 import { getCurrentTypingUsers } from '../typingSelectors';
-import { navStateWithNarrow } from '../../utils/testHelpers';
 import { homeNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
 
 describe('getCurrentTypingUsers', () => {
   test('return undefined when current narrow is not private or group', () => {
     const state = deepFreeze({
       accounts: [{}],
-      ...navStateWithNarrow(homeNarrow),
     });
 
-    const typingUsers = getCurrentTypingUsers(state);
+    const typingUsers = getCurrentTypingUsers(homeNarrow)(state);
 
     expect(typingUsers).toEqual(undefined);
   });
@@ -25,14 +23,13 @@ describe('getCurrentTypingUsers', () => {
     };
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      ...navStateWithNarrow(privateNarrow('john@example.com')),
       typing: {
         'john@example.com': { userIds: [1] },
       },
       users: [expectedUser],
     });
 
-    const typingUsers = getCurrentTypingUsers(state);
+    const typingUsers = getCurrentTypingUsers(privateNarrow('john@example.com'))(state);
 
     expect(typingUsers).toEqual([expectedUser]);
   });
@@ -52,14 +49,15 @@ describe('getCurrentTypingUsers', () => {
     };
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      ...navStateWithNarrow(groupNarrow(['john@example.com', 'mark@example.com'])),
       typing: {
         'john@example.com,mark@example.com': { userIds: [1, 2] },
       },
       users: [user1, user2],
     });
 
-    const typingUsers = getCurrentTypingUsers(state);
+    const typingUsers = getCurrentTypingUsers(
+      groupNarrow(['john@example.com', 'mark@example.com']),
+    )(state);
 
     expect(typingUsers).toEqual([user1, user2]);
   });
@@ -67,13 +65,12 @@ describe('getCurrentTypingUsers', () => {
   test('when in private narrow but different user is typing return undefined', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      ...navStateWithNarrow(privateNarrow('mark@example.com')),
       typing: {
         'john@example.com': { userIds: [1] },
       },
     });
 
-    const typingUsers = getCurrentTypingUsers(state);
+    const typingUsers = getCurrentTypingUsers(privateNarrow('mark@example.com'))(state);
 
     expect(typingUsers).toEqual(undefined);
   });
@@ -87,14 +84,15 @@ describe('getCurrentTypingUsers', () => {
     };
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      ...navStateWithNarrow(groupNarrow(['mark@example.com', 'john@example.com'])),
       typing: {
         'john@example.com,mark@example.com': { userIds: [1] },
       },
       users: [expectedUser],
     });
 
-    const typingUsers = getCurrentTypingUsers(state);
+    const typingUsers = getCurrentTypingUsers(
+      groupNarrow(['mark@example.com', 'john@example.com']),
+    )(state);
 
     expect(typingUsers).toEqual([expectedUser]);
   });

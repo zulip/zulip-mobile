@@ -11,7 +11,7 @@ import {
 } from '../narrow';
 import getStatusBarColor from '../getStatusBarColor';
 import { getTitleBackgroundColor } from '../../selectors';
-import { navStateWithNarrow } from '../../utils/testHelpers';
+import { defaultNav, otherNav } from '../testHelpers';
 
 const themeNight = 'night';
 const themeDefault = 'default';
@@ -19,60 +19,85 @@ const themeDefault = 'default';
 const subscriptions = [{ name: 'all', color: '#fff' }, { name: 'announce', color: '#000' }];
 
 describe('getStatusBarColor', () => {
-  test('return bar color according to theme for screens other than main', () => {
+  test('return bar color according to theme for screens other than chat', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
+      nav: otherNav,
       subscriptions,
     });
-    expect(getStatusBarColor(getTitleBackgroundColor(state), themeDefault)).toEqual('white');
+    expect(getStatusBarColor(getTitleBackgroundColor(homeNarrow)(state), themeDefault)).toEqual(
+      'white',
+    );
   });
 
-  test('return bar color according to stream color for stream narrow in main screen', () => {
+  test('return bar color according to stream color for stream narrow in chat screen', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(streamNarrow('all')),
+      nav: defaultNav,
       subscriptions,
     });
-    expect(getStatusBarColor(getTitleBackgroundColor(state), themeDefault)).toEqual('#fff');
+    expect(
+      getStatusBarColor(getTitleBackgroundColor(streamNarrow('all'))(state), themeDefault),
+    ).toEqual('#fff');
   });
 
   test('return bar color according to stream color for topic narrow in main screen', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(topicNarrow('all', 'announce')),
+      nav: defaultNav,
       subscriptions,
     });
-    expect(getStatusBarColor(getTitleBackgroundColor(state), themeDefault)).toEqual('#fff');
+    expect(
+      getStatusBarColor(
+        getTitleBackgroundColor(topicNarrow('all', 'announce'))(state),
+        themeDefault,
+      ),
+    ).toEqual('#fff');
   });
 
   test('returns color according to theme for private narrow', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(privateNarrow('abc@zulip.com')),
+      nav: defaultNav,
       subscriptions,
     });
-    expect(getStatusBarColor(getTitleBackgroundColor(state), themeDefault)).toEqual('white');
-    expect(getStatusBarColor(getTitleBackgroundColor(state), themeNight)).toEqual('#212D3B');
+    expect(
+      getStatusBarColor(
+        getTitleBackgroundColor(privateNarrow('bob@example.com'))(state),
+        themeDefault,
+      ),
+    ).toEqual('white');
+    expect(
+      getStatusBarColor(getTitleBackgroundColor('bob@example.com')(state), themeNight),
+    ).toEqual('#212D3B');
   });
 
   test('returns color according to theme for home narrow', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
+      nav: defaultNav,
       subscriptions,
     });
-    expect(getStatusBarColor(getTitleBackgroundColor(state), themeDefault)).toEqual('white');
+    expect(getStatusBarColor(getTitleBackgroundColor(homeNarrow)(state), themeDefault)).toEqual(
+      'white',
+    );
   });
 
   test('returns color according to theme for group narrow', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(groupNarrow(['abc@zulip.com', 'def@zulip.com'])),
+      nav: defaultNav,
       subscriptions,
     });
-    expect(getStatusBarColor(getTitleBackgroundColor(state), themeDefault)).toEqual('white');
+    expect(
+      getStatusBarColor(
+        getTitleBackgroundColor(groupNarrow(['abc@zulip.com', 'def@zulip.com']))(state),
+        themeDefault,
+      ),
+    ).toEqual('white');
   });
 
   test('returns color according to theme for  special narrow', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(specialNarrow('private')),
+      nav: defaultNav,
       subscriptions,
     });
-    expect(getStatusBarColor(getTitleBackgroundColor(state), themeDefault)).toEqual('white');
+    expect(
+      getStatusBarColor(getTitleBackgroundColor(specialNarrow('mentioned'))(state), themeDefault),
+    ).toEqual('white');
   });
 });

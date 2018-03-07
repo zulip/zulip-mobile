@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import type { Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getUnreadCountInActiveNarrow } from '../selectors';
 import { Label, RawLabel } from '../common';
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  narrow: Narrow,
   unreadCount: number,
 };
 
@@ -41,6 +43,7 @@ class UnreadNotice extends PureComponent<Props> {
 
   render() {
     const { unreadCount } = this.props;
+    const { narrow } = this.props;
 
     return (
       <AnimatedScaleComponent visible={unreadCount > 0}>
@@ -52,13 +55,13 @@ class UnreadNotice extends PureComponent<Props> {
               text={unreadCount === 1 ? 'unread message' : 'unread messages'}
             />
           </View>
-          <MarkUnreadButton />
+          <MarkUnreadButton narrow={narrow} />
         </View>
       </AnimatedScaleComponent>
     );
   }
 }
 
-export default connectWithActions(state => ({
-  unreadCount: getUnreadCountInActiveNarrow(state),
+export default connectWithActions((state, props) => ({
+  unreadCount: getUnreadCountInActiveNarrow(props.narrow)(state),
 }))(UnreadNotice);

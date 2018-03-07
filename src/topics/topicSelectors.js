@@ -1,17 +1,15 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
+import type { Narrow } from '../types';
 import { getStreams, getTopics } from '../directSelectors';
-import { getActiveNarrow, getCurrentRouteParams } from '../baseSelectors';
+import { getCurrentRouteParams } from '../baseSelectors';
 import { getShownMessagesInActiveNarrow } from '../chat/chatSelectors';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, topicNarrow } from '../utils/narrow';
 
-export const getTopicsInActiveNarrow = createSelector(
-  getActiveNarrow,
-  getTopics,
-  getStreams,
-  (narrow, topics, streams) => {
+export const getTopicsInActiveNarrow = (narrow: Narrow) =>
+  createSelector(getTopics, getStreams, (topics, streams) => {
     if (!isStreamNarrow(narrow)) {
       return NULL_ARRAY;
     }
@@ -22,8 +20,7 @@ export const getTopicsInActiveNarrow = createSelector(
     }
 
     return topics[stream.stream_id].map(x => x.name);
-  },
-);
+  });
 
 export const getTopicsInScreen = createSelector(
   getCurrentRouteParams,
@@ -37,14 +34,14 @@ export const getTopicsInScreen = createSelector(
   },
 );
 
-export const getLastMessageTopic = createSelector(
-  getShownMessagesInActiveNarrow,
-  messages => (messages.length === 0 ? '' : messages[messages.length - 1].subject),
-);
+export const getLastMessageTopic = (narrow: Narrow) =>
+  createSelector(
+    getShownMessagesInActiveNarrow(narrow),
+    messages => (messages.length === 0 ? '' : messages[messages.length - 1].subject),
+  );
 
-export const getNarrowToSendTo = createSelector(
-  getActiveNarrow,
-  getLastMessageTopic,
-  (narrow, lastTopic) =>
-    isStreamNarrow(narrow) ? topicNarrow(narrow[0].operand, lastTopic) : narrow,
-);
+export const getNarrowToSendTo = (narrow: Narrow) =>
+  createSelector(
+    getLastMessageTopic(narrow),
+    lastTopic => (isStreamNarrow(narrow) ? topicNarrow(narrow[0].operand, lastTopic) : narrow),
+  );

@@ -10,14 +10,7 @@ import {
   isStreamNarrow,
   isTopicNarrow,
 } from '../utils/narrow';
-import {
-  getActiveNarrow,
-  getSession,
-  getCurrentRealm,
-  getStreams,
-  getSubscriptions,
-  getUsers,
-} from '../selectors';
+import { getSession } from '../selectors';
 
 import type { Message, Narrow } from '../types';
 import TitleHome from './TitleHome';
@@ -47,21 +40,19 @@ class Title extends PureComponent<Props> {
 
   render() {
     const { narrow, editMessage, color } = this.props;
-    const titleType = titles.find(x => x.isFunc(narrow));
+
     if (editMessage != null) {
       return <TitlePlain text="Edit message" color={color} />;
     }
+
+    const titleType = narrow && titles.find(x => x.isFunc(narrow));
+
     if (!titleType) return null;
 
-    return <titleType.component color={color} />;
+    return <titleType.component color={color} narrow={narrow} />;
   }
 }
 
 export default connectWithActions(state => ({
-  realm: getCurrentRealm(state),
-  narrow: getActiveNarrow(state),
-  users: getUsers(state),
-  subscriptions: getSubscriptions(state),
-  streams: getStreams(state),
   editMessage: getSession(state).editMessage,
 }))(Title);

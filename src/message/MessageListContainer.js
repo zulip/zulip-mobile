@@ -25,7 +25,6 @@ import {
   getCurrentTypingUsers,
   getDebug,
   getRenderedMessages,
-  getActiveNarrow,
   getFlags,
   getIsFetching,
   getAnchorForActiveNarrow,
@@ -126,17 +125,17 @@ class MessageListContainer extends PureComponent<Props> {
 }
 
 export default connectWithActions((state, props) => ({
-  anchor: props.anchor || getAnchorForActiveNarrow(state),
+  anchor: props.anchor || getAnchorForActiveNarrow(props.narrow)(state),
   auth: getAuth(state),
   debug: getDebug(state),
-  fetching: props.fetching || getFetchingForActiveNarrow(state),
+  fetching: props.fetching || getFetchingForActiveNarrow(props.narrow)(state),
   flags: getFlags(state),
-  isFetching: props.isFetching || getIsFetching(state),
-  messages: props.messages || getShownMessagesInActiveNarrow(state),
-  narrow: props.narrow || getActiveNarrow(state),
+  isFetching: props.isFetching || getIsFetching(props.narrow)(state),
+  messages: props.messages || getShownMessagesInActiveNarrow(props.narrow)(state),
   realmEmoji: getAllRealmEmoji(state),
-  renderedMessages: props.renderedMessages || getRenderedMessages(state),
-  showMessagePlaceholders: props.showMessagePlaceholders || getShowMessagePlaceholders(state),
+  renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
+  showMessagePlaceholders:
+    props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
   subscriptions: getSubscriptions(state),
-  typingUsers: props.typingUsers || getCurrentTypingUsers(state),
+  typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
 }))(connectActionSheet(MessageListContainer));
