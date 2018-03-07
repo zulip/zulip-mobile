@@ -50,7 +50,7 @@ class MainNavBar extends PureComponent<Props> {
 export default connectWithActions((state, props) => ({
   backgroundColor: getTitleBackgroundColor(props.narrow)(state),
   canGoBack: getCanGoBack(state),
-  textColor: getTitleTextColor(state),
+  textColor: getTitleTextColor(props.narrow)(state),
   unreadHuddlesTotal: getUnreadHuddlesTotal(state),
   unreadMentionsTotal: getUnreadMentionsTotal(state),
   unreadPmsTotal: getUnreadPmsTotal(state),

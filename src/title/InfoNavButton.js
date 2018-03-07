@@ -71,6 +71,6 @@ class InfoNavButton extends PureComponent<Props> {
 export default connectWithActions((state, props) => ({
   realm: getCurrentRealm(state),
   streams: getStreams(state),
-  color: getTitleTextColor(state),
+  color: getTitleTextColor(props.narrow)(state),
   recipients: getRecipientsInGroupNarrow(props.narrow)(state),
 }))(InfoNavButton);

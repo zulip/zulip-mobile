@@ -55,5 +55,5 @@ class ChatNavBar extends PureComponent<Props> {
 
 export default connectWithActions((state, props) => ({
   backgroundColor: getTitleBackgroundColor(props.narrow)(state),
-  textColor: getTitleTextColor(state),
+  textColor: getTitleTextColor(props.narrow)(state),
 }))(ChatNavBar);
