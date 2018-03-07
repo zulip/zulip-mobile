@@ -24,7 +24,3 @@ export const getActiveNarrow = createSelector(
   getCurrentRouteParams,
   params => (params && params.narrow) || NULL_ARRAY,
 );
-
-export const getActiveNarrowString = createSelector(getActiveNarrow, narrow =>
-  JSON.stringify(narrow),
-);

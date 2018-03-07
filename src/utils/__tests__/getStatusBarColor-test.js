@@ -11,6 +11,7 @@ import {
 } from '../narrow';
 import getStatusBarColor from '../getStatusBarColor';
 import { getTitleBackgroundColor } from '../../selectors';
+import { defaultNav, otherNav } from '../testHelpers';
 
 const themeNight = 'night';
 const themeDefault = 'default';
@@ -18,8 +19,9 @@ const themeDefault = 'default';
 const subscriptions = [{ name: 'all', color: '#fff' }, { name: 'announce', color: '#000' }];
 
 describe('getStatusBarColor', () => {
-  test('return bar color according to theme for screens other than main', () => {
+  test('return bar color according to theme for screens other than chat', () => {
     const state = deepFreeze({
+      nav: otherNav,
       subscriptions,
     });
     expect(getStatusBarColor(getTitleBackgroundColor(homeNarrow)(state), themeDefault)).toEqual(
@@ -27,8 +29,9 @@ describe('getStatusBarColor', () => {
     );
   });
 
-  test('return bar color according to stream color for stream narrow in main screen', () => {
+  test('return bar color according to stream color for stream narrow in chat screen', () => {
     const state = deepFreeze({
+      nav: defaultNav,
       subscriptions,
     });
     expect(
@@ -38,6 +41,7 @@ describe('getStatusBarColor', () => {
 
   test('return bar color according to stream color for topic narrow in main screen', () => {
     const state = deepFreeze({
+      nav: defaultNav,
       subscriptions,
     });
     expect(
@@ -50,6 +54,7 @@ describe('getStatusBarColor', () => {
 
   test('returns color according to theme for private narrow', () => {
     const state = deepFreeze({
+      nav: defaultNav,
       subscriptions,
     });
     expect(
@@ -65,6 +70,7 @@ describe('getStatusBarColor', () => {
 
   test('returns color according to theme for home narrow', () => {
     const state = deepFreeze({
+      nav: defaultNav,
       subscriptions,
     });
     expect(getStatusBarColor(getTitleBackgroundColor(homeNarrow)(state), themeDefault)).toEqual(
@@ -74,6 +80,7 @@ describe('getStatusBarColor', () => {
 
   test('returns color according to theme for group narrow', () => {
     const state = deepFreeze({
+      nav: defaultNav,
       subscriptions,
     });
     expect(
@@ -86,6 +93,7 @@ describe('getStatusBarColor', () => {
 
   test('returns color according to theme for  special narrow', () => {
     const state = deepFreeze({
+      nav: defaultNav,
       subscriptions,
     });
     expect(

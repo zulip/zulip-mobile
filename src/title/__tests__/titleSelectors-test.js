@@ -4,16 +4,10 @@ import deepFreeze from 'deep-freeze';
 import { getTitleBackgroundColor, getTitleTextColor } from '../titleSelectors';
 import { streamNarrow, privateNarrow } from '../../utils/narrow';
 import { BRAND_COLOR } from '../../styles';
+import { defaultNav, otherNav } from '../../utils/testHelpers';
 
 const subscriptions = [{ name: 'all', color: '#fff' }, { name: 'announce', color: '#000' }];
-const defaultNav = {
-  index: 0,
-  routes: [{ routeName: 'chat' }],
-};
-const otherNav = {
-  index: 1,
-  routes: [{ routeName: 'main' }, { routeName: 'account' }],
-};
+
 describe('getTitleBackgroundColor', () => {
   test('return transparent color for account', () => {
     const state = deepFreeze({
