@@ -4,6 +4,7 @@ import downloadFile from '../api/downloadFile';
 import share from './share';
 import shareImage from './shareImage';
 import { showToast } from '../utils/info';
+import { getFullUrl } from '../utils/url';
 
 type DownloadImageType = {
   src: string,
@@ -12,6 +13,7 @@ type DownloadImageType = {
 
 type ShareLinkType = {
   src: string,
+  auth: Auth,
 };
 
 type ExecuteActionSheetActionType = {
@@ -39,8 +41,8 @@ const downloadImage = async ({ src, auth }: DownloadImageType) => {
   }
 };
 
-const shareLink = ({ src }: ShareLinkType) => {
-  share(src);
+const shareLink = ({ src, auth }: ShareLinkType) => {
+  share(getFullUrl(src, auth.realm));
 };
 
 const shareImageDirectly = ({ src, auth }: DownloadImageType) => {
