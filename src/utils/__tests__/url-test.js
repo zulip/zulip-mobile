@@ -13,6 +13,7 @@ import {
   getEmojiUrl,
   getNarrowFromLink,
   getMessageIdFromLink,
+  hasProtocol,
   fixRealmUrl,
 } from '../url';
 
@@ -421,6 +422,20 @@ describe('getMessageIdFromLink', () => {
         'https://example.com',
       ),
     ).toBe(1);
+  });
+});
+
+describe('hasProtocol', () => {
+  test('detects strings that have no http/https protocol', () => {
+    expect(hasProtocol(undefined)).toBe(false);
+    expect(hasProtocol('')).toBe(false);
+    expect(hasProtocol('chat.zulip.com')).toBe(false);
+    expect(hasProtocol('ftp://chat.zulip.com')).toBe(false);
+  });
+
+  test('recognizes strings that include the http/https protocol', () => {
+    expect(hasProtocol('http://chat.zulip.com')).toBe(true);
+    expect(hasProtocol('https://chat.zulip.com')).toBe(true);
   });
 });
 

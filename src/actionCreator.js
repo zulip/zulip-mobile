@@ -5,14 +5,13 @@ import { EVENT_TYPING_START } from './actionConstants';
 
 export default (dispatch: Dispatch, actions: Action[], state: GlobalState) => {
   actions.forEach(action => {
-      switch (action.type) {
-        case EVENT_TYPING_START:
-          if (Object.keys(state.typing).length === 0) {
-            dispatch(clearTypingNotification());
-          }
-          break;
-        default:
-      }
+    switch (action.type) {
+      case EVENT_TYPING_START:
+        if (Object.keys(state.typing).length === 0) {
+          dispatch(clearTypingNotification());
+        }
+        break;
+      default:
     }
-  );
+  });
 };
