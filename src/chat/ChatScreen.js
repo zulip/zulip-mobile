@@ -3,11 +3,24 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
+import type { Narrow } from '../types';
 import { ZulipStatusBar } from '../common';
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 
-export default class ChatScreen extends PureComponent<{}> {
+type Props = {
+  navigation: {
+    state: {
+      params: {
+        narrow: Narrow,
+      },
+    },
+  },
+};
+
+export default class ChatScreen extends PureComponent<Props> {
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };

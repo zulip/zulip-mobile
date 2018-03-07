@@ -1,5 +1,5 @@
 /* @flow */
-import type { GetState, Actions, Dispatch } from '../types';
+import type { GetState, Actions, Dispatch, Narrow } from '../types';
 import { getTopics } from '../api';
 import { INIT_TOPICS } from '../actionConstants';
 import { NULL_STREAM } from '../nullObjects';

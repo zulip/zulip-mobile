@@ -1,7 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { MuteState } from '../types';
+import type { MuteState, Narrow } from '../types';
 import { caseInsensitiveCompareObjFunc } from '../utils/misc';
 import {
   getMute,
@@ -165,7 +165,7 @@ export const getUnreadByHuddlesMentionsAndPMs = createSelector(
   (unreadPms, unreadHuddles, unreadMentions) => unreadPms + unreadHuddles + unreadMentions,
 );
 
-export const getUnreadCountInActiveNarrow = (narrow: narrow) =>
+export const getUnreadCountInActiveNarrow = (narrow: Narrow) =>
   createSelector(
     getStreams,
     getUsers,

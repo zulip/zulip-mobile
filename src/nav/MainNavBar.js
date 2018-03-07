@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Actions } from '../types';
+import type { Actions, Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
 import Title from '../title/Title';
 import NavButton from './NavButton';
@@ -19,9 +19,10 @@ import {
 
 type Props = {
   actions: Actions,
-  canGoBack: boolean,
-  textColor: string,
   backgroundColor: string,
+  canGoBack: boolean,
+  narrow: Narrow,
+  textColor: string,
 };
 
 class MainNavBar extends PureComponent<Props> {

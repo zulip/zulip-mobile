@@ -1,6 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
+import type { Narrow } from '../types';
 import { getTyping, getUsers } from '../directSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserById } from '../users/userHelpers';

@@ -1,16 +1,17 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Message } from '../types';
+import type { Message, Narrow } from '../types';
 import TaggedView from './TaggedView';
 import TimeRow from './TimeRow';
 import MessageContainer from './MessageContainer';
 
 type Props = {
   isBrief: boolean,
-  type: 'time' | 'message',
-  timestamp: number,
   message: Message,
+  narrow: Narrow,
+  timestamp: number,
+  type: 'time' | 'message',
   onLongPress: (messageId: number, target: string) => void,
 };
 

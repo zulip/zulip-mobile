@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import type { Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getUnreadCountInActiveNarrow } from '../selectors';
 import { Label, RawLabel } from '../common';
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  narrow: Narrow,
   unreadCount: number,
 };
 

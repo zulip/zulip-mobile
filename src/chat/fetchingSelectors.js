@@ -1,8 +1,8 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
+import type { Narrow } from '../types';
 import { getSession, getFetching } from '../directSelectors';
-
 import { NULL_FETCHING } from '../nullObjects';
 
 export const getFetchingForActiveNarrow = (narrow: Narrow) =>

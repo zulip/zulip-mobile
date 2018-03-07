@@ -1,6 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
+import type { Narrow } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { getSubscriptions } from '../directSelectors';
 import { getCurrentRoute } from '../baseSelectors';

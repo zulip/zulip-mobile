@@ -1,6 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
+import type { Narrow } from '../types';
 import {
   getAllMessages,
   getSubscriptions,

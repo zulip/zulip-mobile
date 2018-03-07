@@ -1,6 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
+import type { Narrow } from '../types';
 import { getMute, getSubscriptions } from '../directSelectors';
 import { getShownMessagesInActiveNarrow } from '../chat/chatSelectors';
 import renderMessages from './renderMessages';

@@ -1,10 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Message } from '../types';
+import type { Message, Narrow } from '../types';
 import MessageHeaderContainer from './headers/MessageHeaderContainer';
 
 type Props = {
+  narrow: Narrow,
   message?: Message,
   onLongPress: (messageId: number, target: string) => void,
 };

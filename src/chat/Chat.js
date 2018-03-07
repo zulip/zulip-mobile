@@ -2,13 +2,19 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
+import type { Narrow } from '../types';
 import { KeyboardAvoider, OfflineNotice } from '../common';
 import MessageListContainer from '../message/MessageListContainer';
 import NoMessages from '../message/NoMessages';
 import ComposeBoxContainer from '../compose/ComposeBoxContainer';
 import UnreadNotice from './UnreadNotice';
 
-export default class Chat extends PureComponent<{}> {
+type Props = {
+  narrow?: Narrow,
+};
+
+export default class Chat extends PureComponent<Props> {
+  props: Props;
   messageInputRef = null;
   messageInputRef: any;
 
