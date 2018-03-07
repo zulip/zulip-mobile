@@ -9,8 +9,6 @@ import {
   getCaughtUpForActiveNarrow,
   getFetchingForActiveNarrow,
   getPushToken,
-  getMute,
-  getSubscriptions,
   getTopMostNarrow,
 } from '../selectors';
 import config from '../config';
@@ -23,7 +21,6 @@ import {
 import timing from '../utils/timing';
 import { allPrivateNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
-import { findAnchor } from '../utils/message';
 import { refreshNotificationToken } from '../utils/notifications';
 import { initStreams } from '../streams/streamsActions';
 import { sendFocusPing } from '../users/usersActions';
@@ -50,7 +47,7 @@ export const messageFetchComplete = (
     type: MESSAGE_FETCH_COMPLETE,
     messages,
     narrow,
-    anchor: anchor || findAnchor(messages, getSubscriptions(getState()), getMute(getState())),
+    anchor,
     numBefore,
     numAfter,
     replaceExisting,
