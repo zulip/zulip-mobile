@@ -8,6 +8,7 @@ import connectWithActions from '../connectWithActions';
 import { getSession, getSettings, getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 import getStatusBarStyle from '../utils/getStatusBarStyle';
 import getStatusBarColor from '../utils/getStatusBarColor';
+import { homeNarrow } from '../utils/narrow';
 
 type Props = {
   barStyle?: StatusBarStyle,
@@ -65,7 +66,7 @@ export default connectWithActions((state, props) => ({
   safeAreaInsets: getSession(state).safeAreaInsets,
   theme: getSettings(state).theme,
   backgroundColor: !props.backgroundColor
-    ? props.narrow && getTitleBackgroundColor(props.narrow)(state)
+    ? getTitleBackgroundColor(props.narrow || homeNarrow)(state)
     : props.backgroundColor,
   textColor: getTitleTextColor(state),
   orientation: getSession(state).orientation,
