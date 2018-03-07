@@ -4,6 +4,7 @@ import type {
   Actions,
   Auth,
   Message,
+  Narrow,
   ActionSheetButtonType,
   AuthGetStringAndMessageType,
 } from '../types';
@@ -63,7 +64,7 @@ type ExecuteActionSheetParams = {
 type ConstructActionButtonsType = {
   message: Object,
   auth: Auth,
-  narrow: [],
+  narrow: Narrow,
   flags: Object,
   currentRoute?: string,
   getString: (value: string) => string,
@@ -85,7 +86,7 @@ type MessageAuthAndActions = {
 type AuthMessageAndNarrow = {
   message: Message,
   auth: Auth,
-  narrow: [],
+  narrow: Narrow,
 };
 
 const isAnOutboxMessage = ({ message }: Message): boolean => message.isOutbox;

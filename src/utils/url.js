@@ -1,7 +1,7 @@
 /* @flow */
 import base64 from 'base-64';
 
-import type { Auth } from '../types';
+import type { Auth, Narrow } from '../types';
 import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { getUserById } from '../users/userHelpers';
 import { transformToEncodedURI } from './string';
@@ -83,7 +83,7 @@ export const isEmojiUrl = (url: string, realm: string): boolean =>
 export const getEmojiUrl = (unicode: string): string =>
   `/static/generated/emoji/images/emoji/unicode/${unicode}.png`;
 
-export const getNarrowFromLink = (url: string, realm: string, users: any[]): [] => {
+export const getNarrowFromLink = (url: string, realm: string, users: any[]): Narrow => {
   const paths = getPathsFromUrl(url, realm);
 
   if (isGroupLink(url, realm)) {
