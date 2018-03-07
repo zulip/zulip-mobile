@@ -325,8 +325,14 @@ export type SubscriptionsState = any; // [];
 
 export type TypingState = Object;
 
+export type StreamUnreadItem = {
+  stream_id: string,
+  topic: string,
+  unread_message_ids: number[],
+};
+
 export type UnreadState = any; /* {
-  streams: Object[],
+  streams: StreamUnreadItem[],
   huddles: Object[],
   pms: Object[],
   mentions: number[],
