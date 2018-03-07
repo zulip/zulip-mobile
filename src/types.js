@@ -299,11 +299,6 @@ export type SessionState = {
   outboxSending: boolean,
 };
 
-export type ChatState = any; /* {
-  narrow: Narrow,
-  messages: Object,
-} */
-
 export type CaughtUpState = Object;
 
 export type FetchingState = Object;
