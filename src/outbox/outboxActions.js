@@ -2,7 +2,7 @@
 import parseMarkdown from 'zulip-markdown-parser';
 
 import { logErrorRemotely } from '../utils/logging';
-import type { Dispatch, GetState, Narrow, User } from '../types';
+import type { Dispatch, GetState, NamedUser, Narrow, User } from '../types';
 import {
   MESSAGE_SEND_START,
   START_OUTBOX_SENDING,
@@ -69,11 +69,12 @@ const mapEmailsToUsers = (users, narrow, selfDetail) =>
     })
     .concat({ email: selfDetail.email, id: selfDetail.id, full_name: selfDetail.fullName });
 
+// TODO type: `string | NamedUser[]` is a bit confusing.
 const extractTypeToAndSubjectFromNarrow = (
   narrow: Narrow,
   users: User[],
   selfDetail: { email: string, id: number, fullName: string },
-): { type: 'private' | 'stream', display_recipient: string, subject: string } => {
+): { type: 'private' | 'stream', display_recipient: string | NamedUser[], subject: string } => {
   if (isPrivateOrGroupNarrow(narrow)) {
     return {
       type: 'private',

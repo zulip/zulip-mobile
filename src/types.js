@@ -169,14 +169,15 @@ export type NarrowOperator =
   | 'stream'
   | 'topic'
   | 'sender'
-  | 'pm-with';
+  | 'pm-with'
+  | 'search';
 
 export type NarrowElement = {
   operand: string,
-  operator: NarrowOperator,
+  operator?: NarrowOperator, // TODO type: this shouldn't be absent.
 };
 
-export type Narrow = any; // NarrowElement[];
+export type Narrow = NarrowElement[];
 
 export type Recipient = any; /* {
   display_recipient: string,
@@ -532,6 +533,12 @@ export type Notification = any; /* {
   user: string,
   zulip_message_id: string,
 } */
+
+export type NamedUser = {
+  id: number,
+  email: string,
+  full_name: string,
+};
 
 export type UserType = any;
 export type RealmEmoji = any;

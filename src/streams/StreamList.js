@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 type Props = {
   showDescriptions: boolean,
   showSwitch: boolean,
-  selected: boolean,
+  selected: boolean | string, // TODO type: pick one
   streams: Stream[],
   unreadByStream: number[],
   onPress: (streamName: string) => void,
