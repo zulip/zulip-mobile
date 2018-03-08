@@ -15,6 +15,7 @@ import {
   getMessageIdFromLink,
   hasProtocol,
   fixRealmUrl,
+  autoCompleteUrl,
 } from '../url';
 
 import { streamNarrow, topicNarrow } from '../narrow';
@@ -463,5 +464,32 @@ describe('fixRealmUrl', () => {
   test('remove white-space inside input', () => {
     const result = fixRealmUrl('https://subdomain   .example.  com/  ');
     expect(result).toEqual('https://subdomain.example.com');
+  });
+});
+
+describe('autoCompleteUrl', () => {
+  test('when no value entered fill in default values', () => {
+    const result = autoCompleteUrl('', 'https://', '.zulipchat.com', '');
+    expect(result).toEqual('https://your-organization.zulipchat.com');
+  });
+
+  test('when an protocol is provided use it', () => {
+    const result = autoCompleteUrl('http://example', 'https://', '.zulipchat.com', '');
+    expect(result).toEqual('http://example.zulipchat.com');
+  });
+
+  test('do not use any other protocol than http and https', () => {
+    const result = autoCompleteUrl('ftp://example', 'https://', '.zulipchat.com', '');
+    expect(result).toEqual('https://ftp://example.zulipchat.com');
+  });
+
+  test('if one dot in the input use the short append instead', () => {
+    const result = autoCompleteUrl('subdomain.mydomain', 'https://', '.zulipchat.com', '.com');
+    expect(result).toEqual('https://subdomain.mydomain.com');
+  });
+
+  test('if more than one dots in input do not use any append', () => {
+    const result = autoCompleteUrl('subdomain.mydomain.org', 'https://', '.zulipchat.com', '.com');
+    expect(result).toEqual('https://subdomain.mydomain.org');
   });
 });

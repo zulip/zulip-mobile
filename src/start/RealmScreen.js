@@ -68,8 +68,9 @@ class RealmScreen extends PureComponent<Props, State> {
       <Screen title="Welcome" padding scrollView>
         <Label text="Organization URL" />
         <SmartUrlInput
+          style={styles.marginTopBottom}
           placeholder="your-organization"
-          prepend="https://"
+          protocol="https://"
           append=".zulipchat.com"
           shortAppend=".com"
           defaultValue={initialRealm}
