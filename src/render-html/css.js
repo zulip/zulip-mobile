@@ -247,8 +247,10 @@ hr {
 }
 .message_inline_image img,
 .twitter-image img {
-  max-width: 75vw;
-  max-height: 25vh;
+  width: 100%;
+  max-height: 40vh;
+  object-fit: cover;
+  border-radius: 4px;
 }
 blockquote {
   padding-left: 0.5em;
