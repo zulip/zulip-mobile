@@ -6,7 +6,7 @@ import { requireNativeComponent } from 'react-native';
 type Props = {
   children: ChildrenArray<any>,
   collapsable: boolean,
-  tagID: number,
+  tagID: number | string, // TODO types: pick one
 };
 
 export default class TaggedView extends PureComponent<Props> {
