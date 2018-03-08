@@ -46,7 +46,7 @@ class RealmScreen extends PureComponent<Props, State> {
     const { actions } = this.props;
 
     try {
-      const serverSettings = await getServerSettings({ realm });
+      const serverSettings = await getServerSettings(realm);
       actions.realmAdd(realm);
       actions.navigateToAuth(serverSettings);
       Keyboard.dismiss();

@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Auth, Message, Actions, StyleObj, SupportedHtmlClasses } from '../../types';
+import type { Auth, Message, Actions, StyleObj } from '../../types';
 import connectWithActions from '../../connectWithActions';
 import { getEmojiUrl } from '../../utils/url';
 import { getSession, getOwnEmail } from '../../selectors';
@@ -36,13 +36,13 @@ const specialTags = {
   div: HtmlTagDiv,
 };
 
-const stylesFromClassNames = (classNames: SupportedHtmlClasses = '', styleObj) =>
+const stylesFromClassNames = (classNames: string = '', styleObj) =>
   classNames.split(' ').map(className => styleObj[className]);
 
 type Props = {
   auth: Auth,
   attribs: Object,
-  name: SupportedHtmlClasses,
+  name: string,
   cascadingStyle: StyleObj,
   cascadingTextStyle: StyleObj,
   childrenNodes: Object[],

@@ -1,11 +1,11 @@
-/* @flow */
+/* @noflow */
 import React from 'react';
 
 import type { Auth, Actions, Message, DomElement, StyleObj } from '../../types';
 import HtmlNode from './HtmlNode';
 
 type Props = {
-  auth?: Auth,
+  auth: Auth,
   actions: Actions,
   message?: Message,
   childrenNodes?: DomElement[],

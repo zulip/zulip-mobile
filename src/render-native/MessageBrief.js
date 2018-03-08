@@ -31,7 +31,7 @@ type Props = {
   message: Object,
   ownEmail: string,
   starred: boolean,
-  auth?: Auth,
+  auth: Auth,
   actions: Actions,
   onLinkPress: string => void,
   onLongPress: () => void,
