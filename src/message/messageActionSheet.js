@@ -89,7 +89,7 @@ type AuthMessageAndNarrow = {
   narrow: Narrow,
 };
 
-const isAnOutboxMessage = ({ message }: Message): boolean => message.isOutbox;
+const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
 
 const reply = ({ message, actions, auth, currentRoute, onReplySelect }: ReplyOptionType) => {
   if (currentRoute === 'search') {
@@ -100,21 +100,21 @@ const reply = ({ message, actions, auth, currentRoute, onReplySelect }: ReplyOpt
 };
 
 const copyToClipboard = async ({ getString, auth, message }: AuthGetStringAndMessageType) => {
-  const rawMessage = isAnOutboxMessage({ message })
+  const rawMessage = isAnOutboxMessage(message)
     ? message.markdownContent
     : await getMessageById(auth, message.id);
   Clipboard.setString(rawMessage);
   showToast(getString('Message copied'));
 };
 
-const isSentMessage = ({ message }: Message): boolean => !isAnOutboxMessage({ message });
+const isSentMessage = ({ message }: {message: Message}): boolean => !isAnOutboxMessage(message);
 
 const editMessage = async ({ message, actions }: MessageAuthAndActions) => {
   actions.startEditMessage(message.id, message.subject);
 };
 
 const doDeleteMessage = async ({ auth, message, actions }: MessageAuthAndActions) => {
-  if (isAnOutboxMessage({ message })) {
+  if (isAnOutboxMessage(message)) {
     actions.deleteOutboxMessage(message.timestamp);
   } else {
     deleteMessage(auth, message.id);
@@ -170,7 +170,7 @@ const skip = () => false;
 type HeaderButtonType = {
   title: string,
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
-  onlyIf?: (props: Message) => boolean,
+  onlyIf?: ({ message: Message }) => boolean,
 };
 
 const resolveMultiple = (message, auth, narrow, functions) =>

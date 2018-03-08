@@ -24,15 +24,24 @@ export type ImageResource = any; /* {
   uri: string,
 } */
 
-export type Message = any; /* {
+export type Reaction = {
+  emoji_name: string,
+  user: any,
+};
+
+export type Message = {
   avatar_url: string,
   client: 'website' | 'ZulipMobile',
   content: string,
   content_type: 'text/html' | 'text/markdown',
-  display_recipient: string,
+  display_recipient: any,
+  edit_history: any[],
   flags: [],
   gravatar_hash: string,
   id: number,
+  isOutbox: boolean,
+  match_content?: string,
+  reactions: Reaction[],
   recipient_id: number,
   sender_domain: string,
   sender_email: string,
@@ -43,7 +52,7 @@ export type Message = any; /* {
   subject_links: [],
   timestamp: number,
   type: 'stream' | 'private',
-} */
+};
 
 export type MessageState = {
   [narrow: string]: Message[],

@@ -1,7 +1,7 @@
 /* @flow */
 import type { GlobalState, Message } from '../types';
 
-type UpdaterFunc = (message: Message) => Message[];
+type UpdaterFunc = (message: Message) => Message;
 
 export default (state: GlobalState, messageId: number, updater: UpdaterFunc): GlobalState => {
   const allMessages = Object.keys(state).reduce((msg, key) => msg.concat(state[key]), []);

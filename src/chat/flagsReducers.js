@@ -86,9 +86,8 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
 
     case EVENT_UPDATE_MESSAGE_FLAGS: {
       if (action.all) {
-        const allMessages: Message[] = Array.prototype.concat.apply(
-          [],
-          Object.values(action.allMessages),
+        const allMessages: any[] = [].concat(
+          ...Object.values(action.allMessages)
         );
         return addFlagsForMessages(initialState, allMessages.map(msg => msg.id), ['read']);
       }
