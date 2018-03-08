@@ -21,7 +21,7 @@ type ExecuteActionSheetActionType = {
 };
 
 type ButtonProps = {
-  auth?: Auth,
+  auth: Auth,
   src: string,
 };
 

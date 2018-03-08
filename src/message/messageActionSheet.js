@@ -39,7 +39,7 @@ type AuthMessageAndSubscriptionsType = {
 };
 
 type ButtonProps = {
-  auth?: Auth,
+  auth: Auth,
   message: Object,
   subscriptions: any[],
   actions: Actions,
@@ -50,7 +50,7 @@ type ButtonProps = {
 
 type ExecuteActionSheetParams = {
   title: string,
-  auth?: Auth,
+  auth: Auth,
   message: Object,
   subscriptions: any[],
   actions: Actions,

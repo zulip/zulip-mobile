@@ -7,11 +7,11 @@ export type { MapStateToProps } from 'react-redux';
 export type Dispatch = any;
 // export type { Dispatch } from 'redux';
 
-export type Auth = any; /* {
+export type Auth = {
   realm: string,
   apiKey: string,
   email: string,
-} */
+};
 
 export type InputSelectionType = {
   start: number,
@@ -48,47 +48,6 @@ export type Message = any; /* {
 export type MessageState = {
   [narrow: string]: Message[],
 };
-
-type CascadingStylesClasses =
-  | 'blockquote'
-  | 'p'
-  | 'span'
-  | 'li'
-  | 'math'
-  | 'mrow'
-  | 'msup'
-  | 'mfrac';
-type CascadingStylesTextClasses = 'a' | 'b' | 'strong' | 'th' | 'i' | 'em' | 'del' | 'code' | 'pre';
-type StylesClasses =
-  | 'ul'
-  | 'ol'
-  | 'li'
-  | 'div'
-  | 'p'
-  | 'br'
-  | 'span'
-  | 'bullet'
-  | 'a'
-  | 'b'
-  | 'i'
-  | 'user-mention'
-  | 'user-mention-me'
-  | 'highlight'
-  | 'code'
-  | 'pre'
-  | 'table'
-  | 'thread'
-  | 'tbody'
-  | 'tr'
-  | 'th'
-  | 'td'
-  | 'blockquote'
-  | 'emoji'
-  | 'common';
-export type SupportedHtmlClasses = any; /*
-  | CascadingStylesClasses
-  | CascadingStylesTextClasses
-  | StylesClasses */
 
 export type UserStatus = 'active' | 'inactive' | 'offline';
 
@@ -325,10 +284,10 @@ export type MuteState = any; // MuteTuple[];
 export type NavigationState = {
   index: number,
   key: string,
-  routes: Array<any>, /* <{
+  routes: Array<any> /* <{
     key: string,
     title: string,
-  }>, */
+  }>, */,
 };
 
 export type RealmState = any; /* {

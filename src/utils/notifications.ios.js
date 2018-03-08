@@ -17,10 +17,6 @@ const onPushRegistered = async (
   saveTokenPush(deviceToken, result.msg, result.result);
 };
 
-const onPushRegistrationFailed = (error: string) => {
-  logErrorRemotely(new Error(error), 'register ios push token failed');
-};
-
 export const addNotificationListener = (notificationHandler: (notification: Object) => void) => {
   NotificationsIOS.addEventListener('notificationOpened', notificationHandler);
 };
@@ -30,15 +26,15 @@ export const removeNotificationListener = (notificationHandler: (notification: O
 };
 
 export const initializeNotifications = (
-  auth: Auth, saveTokenPush: any /* Actions.saveTokenPush */,
+  auth: Auth,
+  saveTokenPush: any /* Actions.saveTokenPush */,
 ) => {
   NotificationsIOS.addEventListener('remoteNotificationsRegistered', deviceToken =>
     onPushRegistered(auth, deviceToken, saveTokenPush),
   );
-  NotificationsIOS.addEventListener(
-    'remoteNotificationsRegistrationFailed',
-    onPushRegistrationFailed.bind(null, auth),
-  );
+  NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', (error: string) => {
+    logErrorRemotely(new Error(error), 'register ios push token failed');
+  });
   NotificationsIOS.requestPermissions();
 };
 
