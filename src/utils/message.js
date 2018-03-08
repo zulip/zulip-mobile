@@ -1,5 +1,5 @@
 /* @flow */
-import type { Recipient, Narrow, Message, MuteState, Subscription } from '../types';
+import type { FlagsState, Recipient, Narrow, Message, MuteState, Subscription } from '../types';
 import { homeNarrow } from './narrow';
 
 export const normalizeRecipients = (recipients: Recipient[]) =>
@@ -78,19 +78,24 @@ export const shouldBeMuted = (
 
 export const isMessageRead = (
   message: Message,
+  flags: FlagsState,
   subscriptions: Subscription[],
   mute: MuteState,
-): boolean =>
-  shouldBeMuted(message, homeNarrow, subscriptions, mute) ||
-  (typeof message.flags === 'undefined' ? false : message.flags.indexOf('read') > -1);
+): boolean => shouldBeMuted(message, homeNarrow, subscriptions, mute) || !!flags.read[message.id];
 
 export const findFirstUnread = (
   messages: Message[],
+  flags: FlagsState,
   subscriptions: Subscription[],
   mute: MuteState,
-) => messages.find(msg => !isMessageRead(msg, subscriptions, mute));
+) => messages.find(msg => !isMessageRead(msg, flags, subscriptions, mute));
 
-export const findAnchor = (messages: Message[], subscriptions: Subscription[], mute: MuteState) => {
-  const firstUnreadMessage = findFirstUnread(messages, subscriptions, mute);
+export const findAnchor = (
+  messages: Message[],
+  flags: FlagsState,
+  subscriptions: Subscription[],
+  mute: MuteState,
+) => {
+  const firstUnreadMessage = findFirstUnread(messages, flags, subscriptions, mute);
   return firstUnreadMessage ? firstUnreadMessage.id : 0;
 };

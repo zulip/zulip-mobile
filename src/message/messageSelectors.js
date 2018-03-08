@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import type { Narrow } from '../types';
-import { getMute, getSubscriptions } from '../directSelectors';
+import { getFlags, getMute, getSubscriptions } from '../directSelectors';
 import { getShownMessagesInActiveNarrow } from '../chat/chatSelectors';
 import renderMessages from './renderMessages';
 import { findAnchor } from '../utils/message';
@@ -16,9 +16,10 @@ export const getRenderedMessages = (narrow: Narrow) =>
 export const getAnchorForActiveNarrow = (narrow: Narrow) =>
   createSelector(
     getShownMessagesInActiveNarrow(narrow),
+    getFlags,
     getSubscriptions,
     getMute,
-    (messages, subscriptions, mute) => findAnchor(messages, subscriptions, mute),
+    (messages, flags, subscriptions, mute) => findAnchor(messages, flags, subscriptions, mute),
   );
 
 export const getLastMessageInActiveNarrow = (narrow: Narrow) =>
