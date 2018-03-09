@@ -1,8 +1,14 @@
 /* @flow */
+import type { ReactionType } from '../types';
 import aggregateReactions from '../reactions/aggregateReactions';
 import messageReactionAsHtml from './messageReactionAsHtml';
 
-export default (reactions: Object[], messageId: number, ownEmail: string, realmEmoji: Object) => {
+export default (
+  reactions: ReactionType[],
+  messageId: number,
+  ownEmail: string,
+  realmEmoji: ReactionType,
+): string => {
   if (!reactions || reactions.length === 0) {
     return '';
   }

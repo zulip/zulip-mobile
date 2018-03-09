@@ -1,8 +1,8 @@
+/* @flow */
 /* eslint-disable */
+import type { ThemeType } from '../types';
 import { codeToEmojiMap } from '../emoji/emojiMap';
-
-import { BORDER_COLOR } from '../styles/theme';
-import { BRAND_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from '../styles';
+import { BORDER_COLOR, BRAND_COLOR, REACTION_HEIGHT, REACTION_SPINNER_OFFSET } from '../styles';
 import cssEmojis from './cssEmojis';
 
 const defaultTheme = `

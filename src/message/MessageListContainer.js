@@ -10,6 +10,7 @@ import type {
   Message,
   MuteState,
   Narrow,
+  RealmEmojiType,
   Subscription,
 } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -48,7 +49,7 @@ export type Props = {
   messages: Message[],
   mute: MuteState,
   narrow: Narrow,
-  realmEmoji: {},
+  realmEmoji: RealmEmojiType,
   renderedMessages: any,
   showMessagePlaceholders: boolean,
   subscriptions: Subscription[],
