@@ -2,6 +2,16 @@ import deepFreeze from 'deep-freeze';
 import { getInitialNavState, getSameRoutesCount, getPreviousDifferentRoute } from '../navSelectors';
 
 describe('getInitialNavState', () => {
+  test('when no previous navigation is given do not throw but return some result', () => {
+    const state = deepFreeze({
+      accounts: [{ apiKey: '123' }],
+    });
+
+    const nav = getInitialNavState(state);
+
+    expect(nav.routes.length).toEqual(1);
+  });
+
   test('if logged in, preserve the state', () => {
     const state = deepFreeze({
       accounts: [{ apiKey: '123' }],
