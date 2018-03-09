@@ -12,7 +12,7 @@ window.onerror = function (message, source, line, column, error) {
 };
 `;
 
-export default (anchor: number) => `
+export default (anchor: number): string => `
 <script>
 window.__forceSmoothScrollPolyfill__ = true;
 ${config.enableWebViewErrorDisplay ? errorHandler : ''}

@@ -1,4 +1,5 @@
 /* @flow */
+import type { ThemeType } from '../types';
 import css from './css';
 import htmlBody from './htmlBody';
 import script from './script';
@@ -9,7 +10,7 @@ type InitOptionsType = {
   showMessagePlaceholders: boolean,
 };
 
-export default (content: string, theme: string, initOptions: InitOptionsType) => `
+export default (content: string, theme: ThemeType, initOptions: InitOptionsType) => `
 ${script(initOptions.anchor)}
 ${css(theme, initOptions.highlightUnreadMessages)}
 

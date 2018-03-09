@@ -1,3 +1,4 @@
+/* @flow */
 import messageLoadingAsHtml from './messageLoadingAsHtml';
 
 export default `

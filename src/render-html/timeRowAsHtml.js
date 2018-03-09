@@ -2,7 +2,7 @@
 import type { Message } from '../types';
 import { humanDate } from '../utils/date';
 
-export default (timestamp: number, nextMessage: Message) => `
+export default (timestamp: number, nextMessage: Message): string => `
   <div class="timerow" data-msg-id="${nextMessage.id}">
     <div class="timerow-left"></div>
     ${humanDate(new Date(timestamp * 1000))}

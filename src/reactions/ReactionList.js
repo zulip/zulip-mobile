@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   messageId: number,
-  reactions: Reaction[],
+  reactions: ReactionType[],
   ownEmail: string,
 };
 
@@ -34,7 +34,7 @@ export default class ReactionList extends PureComponent<Props> {
 
     return (
       <View style={styles.reactions}>
-        {aggregated.map((x: ReactionType, i: number) => (
+        {aggregated.map((x: Reaction, i: number) => (
           <Reaction
             key={x.name}
             messageId={messageId}

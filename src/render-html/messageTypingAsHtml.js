@@ -3,7 +3,7 @@ import type { User } from '../types';
 import { getFullUrl } from '../utils/url';
 import { getGravatarFromEmail } from '../utils/avatar';
 
-export default (realm: string, users: User) => `
+export default (realm: string, users: User): string => `
   ${users.map(
     user => `
       <div class="avatar">

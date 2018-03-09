@@ -24,10 +24,13 @@ export type ImageResource = any; /* {
   uri: string,
 } */
 
-export type Reaction = {
+export type ReactionType = any; /* {
   emoji_name: string,
   user: any,
-};
+  name: string,
+  count: number,
+  selfReacted: boolean,
+}; */
 
 export type Message = {
   avatar_url: string,
@@ -41,7 +44,8 @@ export type Message = {
   id: number,
   isOutbox: boolean,
   match_content?: string,
-  reactions: Reaction[],
+  match_subject?: string,
+  reactions: ReactionType[],
   recipient_id: number,
   sender_domain: string,
   sender_email: string,
@@ -314,7 +318,7 @@ export type TopicDetails = any; /* {
 
 export type TopicsState = any; // TopicDetails[];
 
-export type ThemeType = any; // 'default' | 'night';
+export type ThemeType = 'default' | 'night';
 
 export type StatusBarStyle = 'light-content' | 'dark-content';
 
@@ -373,13 +377,6 @@ export type RealmEmojiType = {
   deactivated: boolean,
   source_url: string,
 };
-
-export type ReactionType = any; /* {
-  emoji_name: string,
-  name: string,
-  count: number,
-  selfReacted: boolean,
-} */
 
 export type LocalizableText = any; // string | { text: string, values: Object };
 

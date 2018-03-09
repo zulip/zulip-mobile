@@ -1,3 +1,5 @@
+/* @flow */
+import type { Auth, Message, Narrow, Subscription } from '../types';
 import {
   isStreamNarrow,
   isTopicNarrow,
@@ -11,7 +13,17 @@ import {
 } from '../utils/narrow';
 import { foregroundColorFromBackground } from '../utils/color';
 
-export default ({ item, subscriptions, auth, narrow, doNarrow }) => {
+export default ({
+  item,
+  subscriptions,
+  auth,
+  narrow,
+}: {
+  auth: Auth,
+  item: Message,
+  subscriptions: Subscription[],
+  narrow: Narrow,
+}) => {
   if (Object.keys(item).length === 0) {
     return '';
   }

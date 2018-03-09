@@ -1,10 +1,18 @@
+/* @flow */
 import { getFullUrl } from '../utils/url';
 
+import type { Props } from '../message/MessageListContainer';
 import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
 import timeRowAsHtml from './timeRowAsHtml';
 
-const renderMessages = ({ auth, subscriptions, realmEmoji, renderedMessages, narrow }) =>
+const renderMessages = ({
+  auth,
+  subscriptions,
+  realmEmoji,
+  renderedMessages,
+  narrow,
+}: Props): string[] =>
   renderedMessages.reduce((list, section, index) => {
     list.push(
       messageHeaderAsHtml({
@@ -35,6 +43,7 @@ const renderMessages = ({ auth, subscriptions, realmEmoji, renderedMessages, nar
             reactions: message.reactions,
             ownEmail: auth.email,
             realmEmoji,
+            twentyFourHourTime: false,
           }),
         );
       }
@@ -43,7 +52,7 @@ const renderMessages = ({ auth, subscriptions, realmEmoji, renderedMessages, nar
     return list; // eslint-disable-next-line
   }, []);
 
-export default props => {
+export default (props: Props): string => {
   const { auth } = props;
 
   return renderMessages(props)
