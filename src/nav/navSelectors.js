@@ -56,7 +56,7 @@ export const getInitialNavState = createSelector(
     }
 
     const state =
-      nav.routes.length === 1 && nav.routes[0].routeName === 'loading'
+      !nav || (nav.routes.length === 1 && nav.routes[0].routeName === 'loading')
         ? getStateForRoute('main')
         : nav;
 
