@@ -15,7 +15,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {
   defaultValue: string,
-  placeholder: string,
+  defaultOrganization: string,
   protocol: string,
   append: string,
   shortAppend: string,
@@ -53,7 +53,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   render() {
     const { styles } = this.context;
     const {
-      placeholder,
+      defaultOrganization,
       protocol,
       append,
       shortAppend,
@@ -62,7 +62,6 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
       onSubmitEditing,
     } = this.props;
     const { value } = this.state;
-    const placeholderTextColor = (StyleSheet.flatten(styles.realmInput) || {}).color;
     const useFullAppend = value.indexOf('.') === -1;
     const showAnyAppend = !value.match(/.+\..+\.+./g); // at least two dots
 
@@ -74,12 +73,10 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
           </TouchableWithoutFeedback>
         )}
         <TextInput
-          style={styles.realmInput}
+          style={[styles.realmInput, value.length === 0 && styles.realmInputEmpty]}
           autoFocus
           autoCorrect={false}
           autoCapitalize="none"
-          placeholder={placeholder}
-          placeholderTextColor={placeholderTextColor}
           returnKeyType="go"
           defaultValue={defaultValue}
           onChangeText={this.handleChange}
@@ -91,6 +88,11 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
             this.textInputRef = component;
           }}
         />
+        {value.length === 0 && (
+          <TouchableWithoutFeedback onPress={this.urlPress}>
+            <RawLabel style={styles.realmInput} text={defaultOrganization} />
+          </TouchableWithoutFeedback>
+        )}
         {showAnyAppend && (
           <TouchableWithoutFeedback onPress={this.urlPress}>
             <RawLabel style={styles.realmInput} text={useFullAppend ? append : shortAppend} />
