@@ -56,6 +56,7 @@ class StreamScreen extends PureComponent<Props> {
     const { streamId } = navigation.state.params;
     const stream = streams.find(x => x.stream_id === streamId) || NULL_STREAM;
     const subscription = subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION;
+    const { styles } = this.context;
 
     return (
       <Screen title="Stream" padding>
@@ -76,8 +77,8 @@ class StreamScreen extends PureComponent<Props> {
           onValueChange={this.toggleStreamPushNotification}
           customStyle={this.context.styles.backgroundColor}
         />
-        <ZulipButton text="Topics" onPress={this.handleTopics} />
-        <ZulipButton text="Edit" onPress={this.handleEdit} />
+        <ZulipButton style={styles.marginTop} text="Topics" onPress={this.handleTopics} />
+        <ZulipButton style={styles.marginTop} text="Edit" onPress={this.handleEdit} />
       </Screen>
     );
   }
