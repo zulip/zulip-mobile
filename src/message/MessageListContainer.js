@@ -31,7 +31,7 @@ import {
   getFetchingForActiveNarrow,
   getSubscriptions,
   getShowMessagePlaceholders,
-  getShownMessagesInActiveNarrow,
+  getShownMessagesforNarrow,
 } from '../selectors';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { queueMarkAsRead } from '../api';
@@ -131,7 +131,7 @@ export default connectWithActions((state, props) => ({
   fetching: props.fetching || getFetchingForActiveNarrow(props.narrow)(state),
   flags: getFlags(state),
   isFetching: props.isFetching || getIsFetching(props.narrow)(state),
-  messages: props.messages || getShownMessagesInActiveNarrow(props.narrow)(state),
+  messages: props.messages || getShownMessagesforNarrow(props.narrow)(state),
   realmEmoji: getAllRealmEmoji(state),
   renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
   showMessagePlaceholders:
