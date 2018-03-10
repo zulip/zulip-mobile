@@ -43,12 +43,12 @@ export const outboxMessagesForCurrentNarrow = (narrow: Narrow) =>
     });
   });
 
-export const getFetchedMessagesforNarrow = (narrow: Narrow) =>
+export const getFetchedMessagesForNarrow = (narrow: Narrow) =>
   createSelector(getAllMessages, allMessages => allMessages[JSON.stringify(narrow)] || NULL_ARRAY);
 
-export const getMessagesforNarrow = (narrow: Narrow) =>
+export const getMessagesForNarrow = (narrow: Narrow) =>
   createSelector(
-    getFetchedMessagesforNarrow(narrow),
+    getFetchedMessagesForNarrow(narrow),
     outboxMessagesForCurrentNarrow(narrow),
     (fetchedMessages, outboxMessages) => {
       if (outboxMessages.length === 0) {
@@ -59,30 +59,30 @@ export const getMessagesforNarrow = (narrow: Narrow) =>
     },
   );
 
-export const getShownMessagesforNarrow = (narrow: Narrow) =>
+export const getShownMessagesForNarrow = (narrow: Narrow) =>
   createSelector(
-    getMessagesforNarrow(narrow),
+    getMessagesForNarrow(narrow),
     getSubscriptions,
     getMute,
-    (messagesforNarrow, subscriptions, mute) =>
-      messagesforNarrow.filter(item => !shouldBeMuted(item, narrow, subscriptions, mute)),
+    (messagesForNarrow, subscriptions, mute) =>
+      messagesForNarrow.filter(item => !shouldBeMuted(item, narrow, subscriptions, mute)),
   );
 
 export const getFirstMessageId = (narrow: Narrow) =>
   createSelector(
-    getFetchedMessagesforNarrow(narrow),
+    getFetchedMessagesForNarrow(narrow),
     messages => (messages.length > 0 ? messages[0].id : undefined),
   );
 
 export const getLastMessageId = (narrow: Narrow) =>
   createSelector(
-    getFetchedMessagesforNarrow(narrow),
+    getFetchedMessagesForNarrow(narrow),
     messages => (messages.length > 0 ? messages[messages.length - 1].id : undefined),
   );
 
-export const getLastTopicforNarrow = (narrow: Narrow) =>
-  createSelector(getMessagesforNarrow(narrow), messagesforNarrow => {
-    const reversedMessages = messagesforNarrow.slice().reverse();
+export const getLastTopicForNarrow = (narrow: Narrow) =>
+  createSelector(getMessagesForNarrow(narrow), messagesForNarrow => {
+    const reversedMessages = messagesForNarrow.slice().reverse();
     const lastMessageWithSubject = reversedMessages.find(msg => msg.subject) || NULL_MESSAGE;
     return lastMessageWithSubject.subject;
   });
@@ -113,7 +113,7 @@ export const getStreamInNarrow = (narrow: Narrow) =>
 
 export const getIfNoMessages = (narrow: Narrow) =>
   createSelector(
-    getShownMessagesforNarrow(narrow),
+    getShownMessagesForNarrow(narrow),
     messages => messages && messages.length === 0,
   );
 
