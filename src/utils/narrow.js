@@ -20,11 +20,10 @@ export const privateNarrow = (email: string): Narrow => [
 ];
 
 export const isPrivateNarrow = (narrow: Narrow): boolean =>
-  narrow
-    ? narrow.length === 1 &&
-      narrow[0].operator === 'pm-with' &&
-      narrow[0].operand.indexOf(',') === -1
-    : false;
+  Array.isArray(narrow) &&
+  narrow.length === 1 &&
+  narrow[0].operator === 'pm-with' &&
+  narrow[0].operand.indexOf(',') === -1;
 
 export const groupNarrow = (emails: string[]): Narrow => [
   {
@@ -34,12 +33,13 @@ export const groupNarrow = (emails: string[]): Narrow => [
 ];
 
 export const isGroupNarrow = (narrow: Narrow): boolean =>
-  narrow
-    ? narrow.length === 1 && narrow[0].operator === 'pm-with' && narrow[0].operand.indexOf(',') >= 0
-    : false;
+  Array.isArray(narrow) &&
+  narrow.length === 1 &&
+  narrow[0].operator === 'pm-with' &&
+  narrow[0].operand.indexOf(',') >= 0;
 
 export const isPrivateOrGroupNarrow = (narrow: Narrow): boolean =>
-  narrow ? narrow.length === 1 && narrow[0].operator === 'pm-with' : false;
+  Array.isArray(narrow) && narrow.length === 1 && narrow[0].operator === 'pm-with';
 
 export const specialNarrow = (operand: string): Narrow => [
   {
@@ -49,16 +49,17 @@ export const specialNarrow = (operand: string): Narrow => [
 ];
 
 export const isSpecialNarrow = (narrow: Narrow): boolean =>
-  narrow ? narrow.length === 1 && narrow[0].operator === 'is' : false;
+  Array.isArray(narrow) && narrow.length === 1 && narrow[0].operator === 'is';
 
 export const allPrivateNarrow = specialNarrow('private');
 
 export const allPrivateNarrowStr = JSON.stringify(allPrivateNarrow);
 
 export const isAllPrivateNarrow = (narrow: Narrow): boolean =>
-  narrow
-    ? narrow.length === 1 && narrow[0].operator === 'is' && narrow[0].operand === 'private'
-    : false;
+  Array.isArray(narrow) &&
+  narrow.length === 1 &&
+  narrow[0].operator === 'is' &&
+  narrow[0].operand === 'private';
 
 export const streamNarrow = (stream: string): Narrow => [
   {
@@ -68,7 +69,7 @@ export const streamNarrow = (stream: string): Narrow => [
 ];
 
 export const isStreamNarrow = (narrow: Narrow): boolean =>
-  narrow ? narrow.length === 1 && narrow[0].operator === 'stream' : false;
+  Array.isArray(narrow) && narrow.length === 1 && narrow[0].operator === 'stream';
 
 export const topicNarrow = (stream: string, topic: string): Narrow => [
   {
@@ -82,10 +83,10 @@ export const topicNarrow = (stream: string, topic: string): Narrow => [
 ];
 
 export const isTopicNarrow = (narrow: Narrow): boolean =>
-  narrow ? narrow.length === 2 && narrow[1].operator === 'topic' : false;
+  Array.isArray(narrow) && narrow.length === 2 && narrow[1].operator === 'topic';
 
 export const isStreamOrTopicNarrow = (narrow: Narrow): boolean =>
-  narrow ? narrow.length >= 1 && narrow[0].operator === 'stream' : false;
+  Array.isArray(narrow) && narrow.length >= 1 && narrow[0].operator === 'stream';
 
 export const searchNarrow = (query: string): Narrow => [
   {
@@ -95,7 +96,7 @@ export const searchNarrow = (query: string): Narrow => [
 ];
 
 export const isSearchNarrow = (narrow: Narrow): boolean =>
-  narrow ? narrow.length === 1 && narrow[0].operator === 'search' : false;
+  Array.isArray(narrow) && narrow.length === 1 && narrow[0].operator === 'search';
 
 export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: string): boolean => {
   if (isHomeNarrow(narrow)) {
