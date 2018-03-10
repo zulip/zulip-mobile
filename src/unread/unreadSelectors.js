@@ -165,7 +165,7 @@ export const getUnreadByHuddlesMentionsAndPMs = createSelector(
   (unreadPms, unreadHuddles, unreadMentions) => unreadPms + unreadHuddles + unreadMentions,
 );
 
-export const getUnreadCountforNarrow = (narrow: Narrow) =>
+export const getUnreadCountForNarrow = (narrow: Narrow) =>
   createSelector(
     getStreams,
     getUsers,

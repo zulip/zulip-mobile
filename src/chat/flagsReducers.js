@@ -1,5 +1,5 @@
 /* @flow */
-import type { Action, FlagsState, Message } from '../types';
+import type { Action, FlagsState } from '../types';
 import {
   APP_REFRESH,
   MESSAGE_FETCH_COMPLETE,

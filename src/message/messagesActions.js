@@ -30,8 +30,8 @@ export const doNarrow = (narrow: Narrow, anchor: number = 0): Action => (
   dispatch(switchNarrow(narrow));
 
   const allMessages = getAllMessages(state);
-  const messagesforNarrow = allMessages[JSON.stringify(narrow)] || NULL_ARRAY;
-  const tooFewMessages = messagesforNarrow.length < config.messagesPerRequest / 2;
+  const messagesForNarrow = allMessages[JSON.stringify(narrow)] || NULL_ARRAY;
+  const tooFewMessages = messagesForNarrow.length < config.messagesPerRequest / 2;
 
   const caughtUp = state.caughtUp[JSON.stringify(narrow)] || NULL_CAUGHTUP;
   const isCaughtUp = caughtUp.newer && caughtUp.older;
