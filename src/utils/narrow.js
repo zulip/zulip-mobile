@@ -10,7 +10,8 @@ export const homeNarrow: Narrow = [];
 
 export const homeNarrowStr: string = '[]';
 
-export const isHomeNarrow = (narrow: Narrow): boolean => (narrow ? narrow.length === 0 : false);
+export const isHomeNarrow = (narrow: Narrow): boolean =>
+  Array.isArray(narrow) && narrow.length === 0;
 
 export const privateNarrow = (email: string): Narrow => [
   {
