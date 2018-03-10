@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import type { Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getUnreadCountInActiveNarrow } from '../selectors';
+import { getUnreadCountforNarrow } from '../selectors';
 import { Label, RawLabel } from '../common';
 import { unreadToLimitedCount } from '../utils/unread';
 import MarkUnreadButton from './MarkUnreadButton';
@@ -63,5 +63,5 @@ class UnreadNotice extends PureComponent<Props> {
 }
 
 export default connectWithActions((state, props) => ({
-  unreadCount: getUnreadCountInActiveNarrow(props.narrow)(state),
+  unreadCount: getUnreadCountforNarrow(props.narrow)(state),
 }))(UnreadNotice);

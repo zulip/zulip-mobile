@@ -3,12 +3,12 @@ import deepFreeze from 'deep-freeze';
 import {
   getFirstMessageId,
   getLastMessageId,
-  getLastTopicInActiveNarrow,
-  getMessagesInActiveNarrow,
+  getLastTopicforNarrow,
+  getMessagesforNarrow,
 } from '../chatSelectors';
 import { homeNarrow, homeNarrowStr, privateNarrow, streamNarrow } from '../../utils/narrow';
 
-describe('getMessagesInActiveNarrow', () => {
+describe('getMessagesforNarrow', () => {
   test('if no outbox messages returns messages with no change', () => {
     const state = deepFreeze({
       messages: {
@@ -17,7 +17,7 @@ describe('getMessagesInActiveNarrow', () => {
       outbox: [],
     });
 
-    const anchor = getMessagesInActiveNarrow(homeNarrow)(state);
+    const anchor = getMessagesforNarrow(homeNarrow)(state);
 
     expect(anchor).toBe(state.messages['[]']);
   });
@@ -41,7 +41,7 @@ describe('getMessagesInActiveNarrow', () => {
       },
     });
 
-    const anchor = getMessagesInActiveNarrow(homeNarrow)(state);
+    const anchor = getMessagesforNarrow(homeNarrow)(state);
 
     const expectedState = deepFreeze([
       { id: 123 },
@@ -73,7 +73,7 @@ describe('getMessagesInActiveNarrow', () => {
       ],
     });
 
-    const anchor = getMessagesInActiveNarrow(homeNarrow)(state);
+    const anchor = getMessagesforNarrow(homeNarrow)(state);
 
     expect(anchor).toBe(state.messages[homeNarrowStr]);
   });
@@ -94,7 +94,7 @@ describe('getMessagesInActiveNarrow', () => {
       ],
     });
 
-    const anchor = getMessagesInActiveNarrow(privateNarrow('john@example.com'))(state);
+    const anchor = getMessagesforNarrow(privateNarrow('john@example.com'))(state);
 
     const expectedState = deepFreeze([{ id: 123 }]);
 
@@ -158,14 +158,14 @@ describe('getLastMessageId', () => {
   });
 });
 
-describe('getLastTopicInActiveNarrow', () => {
+describe('getLastTopicforNarrow', () => {
   test('when no messages yet, return empty string', () => {
     const state = deepFreeze({
       messages: {},
       outbox: [],
     });
 
-    const actualLastTopic = getLastTopicInActiveNarrow(homeNarrow)(state);
+    const actualLastTopic = getLastTopicforNarrow(homeNarrow)(state);
 
     expect(actualLastTopic).toEqual('');
   });
@@ -178,7 +178,7 @@ describe('getLastTopicInActiveNarrow', () => {
       outbox: [],
     });
 
-    const actualLastTopic = getLastTopicInActiveNarrow(homeNarrow)(state);
+    const actualLastTopic = getLastTopicforNarrow(homeNarrow)(state);
 
     expect(actualLastTopic).toEqual('Last subject');
   });
@@ -192,7 +192,7 @@ describe('getLastTopicInActiveNarrow', () => {
       outbox: [],
     });
 
-    const actualLastTopic = getLastTopicInActiveNarrow(narrow)(state);
+    const actualLastTopic = getLastTopicforNarrow(narrow)(state);
 
     expect(actualLastTopic).toEqual('');
   });
@@ -206,7 +206,7 @@ describe('getLastTopicInActiveNarrow', () => {
       outbox: [],
     });
 
-    const actualLastTopic = getLastTopicInActiveNarrow(narrow)(state);
+    const actualLastTopic = getLastTopicforNarrow(narrow)(state);
 
     expect(actualLastTopic).toEqual('Some subject');
   });

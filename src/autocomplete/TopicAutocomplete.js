@@ -4,7 +4,7 @@ import { FlatList, StyleSheet } from 'react-native';
 
 import type { GlobalState } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getTopicsInActiveNarrow } from '../selectors';
+import { getTopicsforNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 
@@ -52,5 +52,5 @@ class TopicAutocomplete extends PureComponent<Props> {
 }
 
 export default connectWithActions((state: GlobalState) => ({
-  topics: getTopicsInActiveNarrow(state),
+  topics: getTopicsforNarrow(state),
 }))(TopicAutocomplete);
