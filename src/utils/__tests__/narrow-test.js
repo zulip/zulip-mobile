@@ -47,6 +47,22 @@ describe('privateNarrow', () => {
     expect(isPrivateNarrow([])).toBe(false);
     expect(isPrivateNarrow([{}, {}])).toBe(false);
     expect(isPrivateNarrow(privateNarrow('bob@example.com'))).toBe(true);
+    expect(
+      isPrivateNarrow([
+        {
+          operator: 'pm-with',
+          operand: 'bob@example.com',
+        },
+      ]),
+    ).toBe(true);
+    expect(
+      isPrivateNarrow([
+        {
+          operator: 'with',
+          operand: 'bob@example.com',
+        },
+      ]),
+    ).toBe(false);
   });
 });
 
@@ -65,6 +81,22 @@ describe('groupNarrow', () => {
     expect(isGroupNarrow([{}, {}])).toBe(false);
     expect(isGroupNarrow(privateNarrow('bob@example.com'))).toBe(false);
     expect(isGroupNarrow(groupNarrow(['bob@example.com', 'john@example.com']))).toBe(true);
+    expect(
+      isGroupNarrow([
+        {
+          operator: 'pm-with',
+          operand: 'bob@example.com',
+        },
+      ]),
+    ).toBe(false);
+    expect(
+      isGroupNarrow([
+        {
+          operator: 'pm-with',
+          operand: 'bob@example.com,john@example.com',
+        },
+      ]),
+    ).toBe(true);
   });
 });
 
@@ -75,6 +107,22 @@ describe('isPrivateOrGroupNarrow', () => {
     expect(isPrivateOrGroupNarrow([{}, {}])).toBe(false);
     expect(isPrivateOrGroupNarrow(privateNarrow('bob@example.com'))).toBe(true);
     expect(isPrivateOrGroupNarrow(groupNarrow(['bob@example.com', 'john@example.com']))).toBe(true);
+    expect(
+      isPrivateOrGroupNarrow([
+        {
+          operator: 'pm-with',
+          operand: 'bob@example.com',
+        },
+      ]),
+    ).toBe(true);
+    expect(
+      isPrivateOrGroupNarrow([
+        {
+          operator: 'pm-with',
+          operand: 'bob@example.com,john@example.com',
+        },
+      ]),
+    ).toBe(true);
   });
 });
 
@@ -108,6 +156,8 @@ describe('specialNarrow', () => {
     expect(isSearchNarrow([{}, {}])).toBe(false);
     expect(isSpecialNarrow(streamNarrow('some stream'))).toBe(false);
     expect(isSpecialNarrow(specialNarrow('starred'))).toBe(true);
+    expect(isSpecialNarrow([{ operator: 'stream', operand: 'some stream' }])).toBe(false);
+    expect(isSpecialNarrow([{ operator: 'is', operand: 'starred' }])).toBe(true);
   });
 });
 
@@ -126,6 +176,7 @@ describe('streamNarrow', () => {
     expect(isStreamNarrow([])).toBe(false);
     expect(isSearchNarrow([{}, {}])).toBe(false);
     expect(isStreamNarrow(streamNarrow('some stream'))).toBe(true);
+    expect(isStreamNarrow([{ operator: 'stream', operand: 'some stream' }])).toBe(true);
   });
 });
 
@@ -142,6 +193,18 @@ describe('topicNarrow', () => {
     expect(isTopicNarrow([])).toBe(false);
     expect(isTopicNarrow([{}])).toBe(false);
     expect(isTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
+    expect(
+      isTopicNarrow([
+        {
+          operator: 'stream',
+          operand: 'some stream',
+        },
+        {
+          operator: 'topic',
+          operand: 'some topic',
+        },
+      ]),
+    ).toBe(true);
   });
 });
 
