@@ -1,5 +1,11 @@
 import deepFreeze from 'deep-freeze';
-import { getInitialNavState, getSameRoutesCount, getPreviousDifferentRoute } from '../navSelectors';
+import {
+  getInitialNavState,
+  getSameRoutesCount,
+  getSameRoutesAndParamsCount,
+  getPreviousDifferentRoute,
+  getPreviousDifferentRouteAndParams,
+} from '../navSelectors';
 
 describe('getInitialNavState', () => {
   test('when no previous navigation is given do not throw but return some result', () => {
@@ -126,25 +132,7 @@ describe('getSameRoutesCount', () => {
     expect(count).toEqual(1);
   });
 
-  test('if several of the last routes are the same return their count', () => {
-    const state = deepFreeze({
-      nav: {
-        routes: [
-          { routeName: 'login' },
-          { routeName: 'main' },
-          { routeName: 'chat' },
-          { routeName: 'chat' },
-          { routeName: 'chat' },
-        ],
-      },
-    });
-
-    const count = getSameRoutesCount(state);
-
-    expect(count).toEqual(3);
-  });
-
-  test('if params of the routes differ consider them different routes', () => {
+  test('if several of the routes are the same ignore the params and return their count', () => {
     const state = deepFreeze({
       nav: {
         routes: [
@@ -158,6 +146,26 @@ describe('getSameRoutesCount', () => {
     });
 
     const count = getSameRoutesCount(state);
+
+    expect(count).toEqual(3);
+  });
+});
+
+describe('getSameRoutesAndParamsCount', () => {
+  test('if params of the routes differ consider them different routes', () => {
+    const state = deepFreeze({
+      nav: {
+        routes: [
+          { routeName: 'login' },
+          { routeName: 'main' },
+          { routeName: 'chat', params: { key: 'value' } },
+          { routeName: 'chat', params: { key: 'another value' } },
+          { routeName: 'chat', params: { anotherKey: 'some value' } },
+        ],
+      },
+    });
+
+    const count = getSameRoutesAndParamsCount(state);
 
     expect(count).toEqual(1);
   });
@@ -232,5 +240,25 @@ describe('getPreviousDifferentRoute', () => {
     const count = getPreviousDifferentRoute(state);
 
     expect(count).toEqual('chat-1');
+  });
+});
+
+describe('getPreviousDifferentRouteAndParams', () => {
+  test('if params of the routes differ consider them different routes', () => {
+    const state = deepFreeze({
+      nav: {
+        routes: [
+          { key: 'loading', routeName: 'login' },
+          { key: 'main', routeName: 'main' },
+          { key: 'chat-1', routeName: 'chat', params: { key: 'value' } },
+          { key: 'chat-2', routeName: 'chat', params: { key: 'another value' } },
+          { key: 'chat-3', routeName: 'chat', params: { anotherKey: 'some value' } },
+        ],
+      },
+    });
+
+    const count = getPreviousDifferentRouteAndParams(state);
+
+    expect(count).toEqual('chat-2');
   });
 });
