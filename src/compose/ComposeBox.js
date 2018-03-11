@@ -291,6 +291,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
         >
           <TopicAutocomplete
             isFocused={isTopicFocused}
+            narrow={narrow}
             text={topic}
             onAutocomplete={this.handleTopicChange}
           />
