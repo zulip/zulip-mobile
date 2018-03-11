@@ -1,5 +1,5 @@
 /* @flow */
-import type { Action, FlagsState } from '../types';
+import type { Action, FlagsState, Message } from '../types';
 import {
   APP_REFRESH,
   MESSAGE_FETCH_COMPLETE,
@@ -25,7 +25,11 @@ const initialState = {
   is_me_message: {},
 };
 
-const addFlagsForMessages = (state: FlagsState, messages, flags: string[]): FlagsState => {
+const addFlagsForMessages = (
+  state: FlagsState,
+  messages: Message[],
+  flags: string[],
+): FlagsState => {
   if (!messages || messages.length === 0 || !flags || flags.length === 0) {
     return state;
   }
@@ -46,7 +50,11 @@ const addFlagsForMessages = (state: FlagsState, messages, flags: string[]): Flag
   };
 };
 
-const removeFlagForMessages = (state: FlagsState, messages, flag: string[]): FlagsState => {
+const removeFlagForMessages = (
+  state: FlagsState,
+  messages: Message[],
+  flag: string[],
+): FlagsState => {
   const newStateForFlag = { ...(state[flag] || {}) };
   messages.forEach(message => {
     delete newStateForFlag[message];
