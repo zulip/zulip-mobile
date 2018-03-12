@@ -25,6 +25,8 @@ export const getIsHydrated = (state: GlobalState): Object => state.session.isHyd
 
 export const getDrafts = (state: GlobalState): Object => state.drafts;
 
+export const getLoading = (state: GlobalState): Object => state.loading;
+
 export const getMute = (state: GlobalState): Object => state.mute;
 
 export const getTyping = (state: GlobalState): Object => state.typing;
