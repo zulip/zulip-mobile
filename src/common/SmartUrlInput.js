@@ -50,6 +50,15 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
     this.textInputRef.focus();
   };
 
+  renderPlaceholderPart = (text: string) => (
+    <TouchableWithoutFeedback onPress={this.urlPress}>
+      <RawLabel
+        style={[this.context.styles.realmInput, this.context.styles.realmPlaceholder]}
+        text={text}
+      />
+    </TouchableWithoutFeedback>
+  );
+
   render() {
     const { styles } = this.context;
     const {
@@ -67,11 +76,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
 
     return (
       <View style={[componentStyles.wrapper, style]}>
-        {!hasProtocol(value) && (
-          <TouchableWithoutFeedback onPress={this.urlPress}>
-            <RawLabel style={styles.realmInput} text={protocol} />
-          </TouchableWithoutFeedback>
-        )}
+        {!hasProtocol(value) && this.renderPlaceholderPart(protocol)}
         <TextInput
           style={[styles.realmInput, value.length === 0 && styles.realmInputEmpty]}
           autoFocus
@@ -88,16 +93,8 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
             this.textInputRef = component;
           }}
         />
-        {value.length === 0 && (
-          <TouchableWithoutFeedback onPress={this.urlPress}>
-            <RawLabel style={styles.realmInput} text={defaultOrganization} />
-          </TouchableWithoutFeedback>
-        )}
-        {showAnyAppend && (
-          <TouchableWithoutFeedback onPress={this.urlPress}>
-            <RawLabel style={styles.realmInput} text={useFullAppend ? append : shortAppend} />
-          </TouchableWithoutFeedback>
-        )}
+        {value.length === 0 && this.renderPlaceholderPart(defaultOrganization)}
+        {showAnyAppend && this.renderPlaceholderPart(useFullAppend ? append : shortAppend)}
       </View>
     );
   }
