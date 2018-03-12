@@ -43,7 +43,7 @@ export default class StreamScreen extends PureComponent<Props> {
             isMuted={subscription && !subscription.in_home_view}
             isPrivate={stream && stream.invite_only}
           />
-          <RawLabel style={styles.streamText} text={name} />
+          <RawLabel style={styles.streamText} text={name} numberOfLines={1} ellipsizeMode="tail" />
         </View>
         <RawLabel style={styles.descriptionText} text={description} />
       </View>
