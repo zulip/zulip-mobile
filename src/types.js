@@ -290,6 +290,14 @@ export type FlagsState = any; /* {
   is_me_message: Object,
 } */
 
+export type LoadingState = {
+  presence: boolean,
+  subscriptions: boolean,
+  streams: boolean,
+  unread: boolean,
+  users: boolean,
+};
+
 export type MuteTuple = [string, string];
 export type MuteState = any; // MuteTuple[];
 
@@ -353,6 +361,7 @@ export type GlobalState = any; /* {
   session: SessionState,
   chat: ChatState,
   flags: FlagsState,
+  loading: LoadingState,
   mute: MuteState,
   nav: NavigationState,
   realm: RealmState,
