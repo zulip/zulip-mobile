@@ -7,7 +7,7 @@ import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
 import { foregroundColorFromBackground } from '../utils/color';
 import StreamIcon from './StreamIcon';
 
-const styles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -39,7 +39,7 @@ type Props = {
   isPrivate?: boolean,
   isSelected?: boolean,
   showSwitch?: boolean,
-  color: string,
+  color?: string,
   backgroundColor?: string,
   isSwitchedOn?: boolean,
   unreadCount?: number,
@@ -64,6 +64,7 @@ export default class StreamItem extends PureComponent<Props> {
   };
 
   render() {
+    const { styles } = this.context;
     const {
       name,
       description,
@@ -79,28 +80,29 @@ export default class StreamItem extends PureComponent<Props> {
     } = this.props;
 
     const wrapperStyle = [
-      styles.row,
+      componentStyles.row,
       { backgroundColor },
-      isSelected && styles.selectedRow,
-      isMuted && styles.muted,
+      isSelected && componentStyles.selectedRow,
+      isMuted && componentStyles.muted,
     ];
     const iconColor = isSelected
       ? 'white'
-      : backgroundColor ? foregroundColorFromBackground(backgroundColor) : color;
+      : color ||
+        foregroundColorFromBackground(
+          backgroundColor || (StyleSheet.flatten(styles.backgroundColor) || {}).backgroundColor,
+        );
     const textColorStyle = isSelected
       ? { color: 'white' }
-      : backgroundColor
-        ? { color: foregroundColorFromBackground(backgroundColor) }
-        : this.context.styles.color;
+      : backgroundColor ? { color: foregroundColorFromBackground(backgroundColor) } : styles.color;
 
     return (
       <Touchable onPress={this.handlePress}>
         <View style={wrapperStyle}>
           <StreamIcon size={iconSize} color={iconColor} isMuted={isMuted} isPrivate={isPrivate} />
-          <View style={styles.text}>
+          <View style={componentStyles.text}>
             <RawLabel style={textColorStyle} text={name} />
             {!!description && (
-              <RawLabel numberOfLines={1} style={styles.description} text={description} />
+              <RawLabel numberOfLines={1} style={componentStyles.description} text={description} />
             )}
           </View>
           {unreadCount && (
