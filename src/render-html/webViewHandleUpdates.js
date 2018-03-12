@@ -32,9 +32,10 @@ const updateFetching = (prevProps: Props, nextProps: Props, sendMessage: any => 
 const updateTyping = (prevProps: Props, nextProps: Props, sendMessage: any => void) => {
   sendMessage({
     type: 'typing',
-    content: nextProps.typingUsers
-      ? messageTypingAsHtml(nextProps.auth.realm, nextProps.typingUsers)
-      : '',
+    content:
+      nextProps.typingUsers.length > 0
+        ? messageTypingAsHtml(nextProps.auth.realm, nextProps.typingUsers)
+        : '',
   });
 };
 

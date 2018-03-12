@@ -12,6 +12,7 @@ import type {
   Narrow,
   RealmEmojiType,
   Subscription,
+  User,
 } from '../types';
 import connectWithActions from '../connectWithActions';
 import {
@@ -53,7 +54,7 @@ export type Props = {
   renderedMessages: any,
   showMessagePlaceholders: boolean,
   subscriptions: Subscription[],
-  typingUsers?: any,
+  typingUsers: User[],
   listRef: (component: any) => void,
   onLongPress: (messageId: number, target: string) => void,
   onReplySelect: () => void,
