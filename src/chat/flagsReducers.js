@@ -25,7 +25,11 @@ const initialState = {
   is_me_message: {},
 };
 
-const addFlagsForMessages = (state: FlagsState, messages, flags: string[]): FlagsState => {
+const addFlagsForMessages = (
+  state: FlagsState,
+  messages: number[],
+  flags: string[],
+): FlagsState => {
   if (!messages || messages.length === 0 || !flags || flags.length === 0) {
     return state;
   }
@@ -46,7 +50,11 @@ const addFlagsForMessages = (state: FlagsState, messages, flags: string[]): Flag
   };
 };
 
-const removeFlagForMessages = (state: FlagsState, messages, flag: string[]): FlagsState => {
+const removeFlagForMessages = (
+  state: FlagsState,
+  messages: number[],
+  flag: string[],
+): FlagsState => {
   const newStateForFlag = { ...(state[flag] || {}) };
   messages.forEach(message => {
     delete newStateForFlag[message];
@@ -86,9 +94,7 @@ export default (state: FlagsState = initialState, action: Action): FlagsState =>
 
     case EVENT_UPDATE_MESSAGE_FLAGS: {
       if (action.all) {
-        const allMessages: any[] = [].concat(
-          ...Object.values(action.allMessages)
-        );
+        const allMessages: any[] = [].concat(...Object.values(action.allMessages));
         return addFlagsForMessages(initialState, allMessages.map(msg => msg.id), ['read']);
       }
 

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { GlobalState } from '../types';
+import type { GlobalState, Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getTopicsForNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   isFocused: boolean,
+  narrow: Narrow,
   text: string,
   topics: string[],
   onAutocomplete: (name: string) => void,
@@ -51,6 +52,6 @@ class TopicAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state: GlobalState) => ({
-  topics: getTopicsForNarrow(state),
+export default connectWithActions((state: GlobalState, props) => ({
+  topics: getTopicsForNarrow(props.narrow)(state),
 }))(TopicAutocomplete);
