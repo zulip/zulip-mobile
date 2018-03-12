@@ -4,14 +4,14 @@ import { getCurrentTypingUsers } from '../typingSelectors';
 import { homeNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
 
 describe('getCurrentTypingUsers', () => {
-  test('return undefined when current narrow is not private or group', () => {
+  test('return empty array when current narrow is not private or group', () => {
     const state = deepFreeze({
       accounts: [{}],
     });
 
     const typingUsers = getCurrentTypingUsers(homeNarrow)(state);
 
-    expect(typingUsers).toEqual(undefined);
+    expect(typingUsers).toEqual([]);
   });
 
   test('when in private narrow and the same user is typing return details', () => {
@@ -62,7 +62,7 @@ describe('getCurrentTypingUsers', () => {
     expect(typingUsers).toEqual([user1, user2]);
   });
 
-  test('when in private narrow but different user is typing return undefined', () => {
+  test('when in private narrow but different user is typing return empty array', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
       typing: {
@@ -72,7 +72,7 @@ describe('getCurrentTypingUsers', () => {
 
     const typingUsers = getCurrentTypingUsers(privateNarrow('mark@example.com'))(state);
 
-    expect(typingUsers).toEqual(undefined);
+    expect(typingUsers).toEqual([]);
   });
 
   test('when in group narrow and someone is typing in that narrow return details', () => {

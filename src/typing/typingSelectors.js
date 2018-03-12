@@ -11,7 +11,7 @@ import { normalizeRecipients } from '../utils/message';
 export const getCurrentTypingUsers = (narrow: Narrow) =>
   createSelector(getTyping, getUsers, getOwnEmail, (typing, users, ownEmail) => {
     if (!isPrivateOrGroupNarrow(narrow)) {
-      return undefined;
+      return [];
     }
 
     const recipients = narrow[0].operand.split(',').map(email => ({ email }));
@@ -19,7 +19,7 @@ export const getCurrentTypingUsers = (narrow: Narrow) =>
     const currentTyping = typing[normalizedRecipients];
 
     if (!currentTyping || !currentTyping.userIds) {
-      return undefined;
+      return [];
     }
 
     return currentTyping.userIds.map(userId => getUserById(users, userId));
