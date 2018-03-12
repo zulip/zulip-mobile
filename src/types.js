@@ -205,7 +205,7 @@ export type Debug = {
 };
 
 export type SessionState = {
-  eventQueueId: ?number,
+  eventQueueId: number,
   editMessage: ?EditMessage,
   isOnline: boolean,
   isActive: boolean,
@@ -297,29 +297,58 @@ export type StreamUnreadItem = {
   unread_message_ids: number[],
 };
 
+export type Outbox = any; /* {
+  content: string,
+  markdownContent: string,
+  timestamp: number,
+  id: number,
+  sender_full_name: string,
+  email: string,
+  avatar_url: string,
+  type: 'stream' | 'private',
+  outbox: true,
+  narrow: Narrow,
+} */
+
 export type UnreadStreamsState = StreamUnreadItem[];
 export type UnreadHuddlesState = Object[];
 export type UnreadPmsState = Object[];
 export type UnreadMentionsState = number[];
 
+export type AlertWordsState = any;
+export type DraftsState = any;
 export type UsersState = any; // [];
+export type PresenceState = any;
+export type OutboxState = Outbox[];
 
-export type GlobalState = any; /* {
+export type GlobalState = {
   accounts: AccountState,
-  session: SessionState,
-  chat: ChatState,
+  alertWords: AlertWordsState,
+  caughtUp: CaughtUpState,
+  drafts: DraftsState,
+  fetching: FetchingState,
   flags: FlagsState,
   loading: LoadingState,
+  messages: MessageState,
   mute: MuteState,
   nav: NavigationState,
+  outbox: OutboxState,
+  presence: PresenceState,
   realm: RealmState,
+  session: SessionState,
   settings: SettingsState,
   streams: StreamsState,
   subscriptions: SubscriptionsState,
+  topics: TopicsState,
   typing: TypingState,
-  unread: UnreadState,
+  unread: {
+    streams: UnreadStreamsState,
+    huddles: UnreadHuddlesState,
+    pms: UnreadPmsState,
+    mentions: UnreadMentionsState,
+  },
   users: UsersState,
-} */
+};
 
 export type MatchResult = Array<string> & { index: number, input: string };
 
@@ -353,21 +382,6 @@ export type Subscription = any; /* {
   stream_id: number,
   stream_weekly_traffic: number,
 } */
-
-export type Outbox = any; /* {
-  content: string,
-  markdownContent: string,
-  timestamp: number,
-  id: number,
-  sender_full_name: string,
-  email: string,
-  avatar_url: string,
-  type: 'stream' | 'private',
-  outbox: true,
-  narrow: Narrow,
-} */
-
-export type OutboxState = Outbox[];
 
 export type RenderedTimeDescriptor = {
   type: 'time',
@@ -458,7 +472,6 @@ export type NamedUser = {
 export type RealmEmoji = any;
 export type ResponseExtractionFunc = any;
 export type AuthGetStringAndMessageType = any;
-export type PresenceState = any;
 
 export type TabNavigationOptionsPropsType = {
   isFocussed: boolean,
