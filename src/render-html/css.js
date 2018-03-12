@@ -98,6 +98,7 @@ hr {
   color: #999;
   font-size: 14px;
   line-height: 1;
+  white-space: nowrap;
 }
 .message {
   display: flex;
@@ -125,6 +126,9 @@ hr {
 .username {
   font-weight: bold;
   line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .user-mention {
   white-space: nowrap;
@@ -162,6 +166,7 @@ hr {
   flex: 1;
   padding-left: 0.5em;
   background: #ccc;
+  min-width: 30%;
 }
 [data-mentioned="true"], [data-wildcard_mentioned="true"] {
   background: rgba(255, 0, 0, 0.05);
