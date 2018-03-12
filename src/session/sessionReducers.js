@@ -21,7 +21,7 @@ import {
 import { getAuth } from '../selectors';
 
 const initialState: SessionState = {
-  eventQueueId: null,
+  eventQueueId: -1,
   editMessage: null,
   isOnline: true,
   isActive: true,
