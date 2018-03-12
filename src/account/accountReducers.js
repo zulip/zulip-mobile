@@ -12,7 +12,7 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState = NULL_ARRAY;
 
-export default (state: AccountState = initialState, action: Action) => {
+export default (state: AccountState = initialState, action: Action): AccountState => {
   switch (action.type) {
     case REALM_ADD: {
       const accountIndex = state.findIndex(account => account.realm === action.realm);
@@ -28,6 +28,8 @@ export default (state: AccountState = initialState, action: Action) => {
       return [
         {
           realm: action.realm,
+          apiKey: '',
+          email: '',
         },
         ...state,
       ];

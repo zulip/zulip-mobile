@@ -1,6 +1,6 @@
 /* @flow */
 import type {
-  AppState,
+  SessionState,
   FlagsState,
   MessageState,
   TopicsState,
@@ -16,7 +16,7 @@ import type {
 
 export const getAccounts = (state: GlobalState): Account[] => state.accounts;
 
-export const getSession = (state: GlobalState): AppState => state.session;
+export const getSession = (state: GlobalState): SessionState => state.session;
 
 export const getIsActive = (state: GlobalState): Object => state.session.isActive;
 export const getIsOnline = (state: GlobalState): Object => state.session.isOnline;

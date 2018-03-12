@@ -1,7 +1,7 @@
 /* @flow */
 import { REHYDRATE } from 'redux-persist/constants';
 
-import type { AppState, Action } from '../types';
+import type { SessionState, Action } from '../types';
 import {
   APP_REFRESH,
   LOGIN_SUCCESS,
@@ -22,7 +22,7 @@ import {
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 
-const initialState: AppState = {
+const initialState: SessionState = {
   composeTools: false,
   eventQueueId: null,
   editMessage: null,
@@ -43,11 +43,10 @@ const initialState: AppState = {
     highlightUnreadMessages: false,
     doNotMarkMessagesAsRead: false,
     splitMessageText: false,
-    initialNotification: {},
   },
 };
 
-export default (state: AppState = initialState, action: Action) => {
+export default (state: SessionState = initialState, action: Action): SessionState => {
   switch (action.type) {
     case APP_REFRESH:
     case ACCOUNT_SWITCH:

@@ -6,8 +6,8 @@ export const removeItemsFromArray = (input: number[], itemsToRemove: number[]): 
   return input.length === output.length ? input : output;
 };
 
-export const addItemsToArray = (input: Object[], itemsToAdd: Object[]): Object[] => {
-  const newItems = itemsToAdd.filter((item: Object) => !input.includes(item));
+export const addItemsToArray = (input: any[], itemsToAdd: any[]): any[] => {
+  const newItems = itemsToAdd.filter((item: any) => !input.includes(item));
   return newItems.length > 0 ? [...input, ...itemsToAdd] : input;
 };
 

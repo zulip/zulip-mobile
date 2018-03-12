@@ -10,7 +10,6 @@ import { getRealm } from '../selectors';
 
 type Props = {
   pushToken: { token: string, msg: string, result: string },
-  initialNotification: {},
 };
 
 class NotificationDiagScreen extends PureComponent<Props> {
