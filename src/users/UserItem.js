@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft: 8,
-    marginRight: 8,
   },
   selectedText: {
     color: 'white',
@@ -68,11 +67,18 @@ export default class UserItem extends PureComponent<Props> {
             onPress={this.handlePress}
           />
           <View style={styles.textWrapper}>
-            <RawLabel style={[styles.text, isSelected && styles.selectedText]} text={fullName} />
+            <RawLabel
+              style={[styles.text, isSelected && styles.selectedText]}
+              text={fullName}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            />
             {showEmail && (
               <RawLabel
                 style={[styles.text, styles.textEmail, isSelected && styles.selectedText]}
                 text={email}
+                numberOfLines={1}
+                ellipsizeMode="tail"
               />
             )}
           </View>
