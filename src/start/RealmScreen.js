@@ -69,7 +69,7 @@ class RealmScreen extends PureComponent<Props, State> {
         <Label text="Organization URL" />
         <SmartUrlInput
           style={styles.marginTopBottom}
-          defaultOrganization="your-organization"
+          defaultOrganization="your-org"
           protocol="https://"
           append=".zulipchat.com"
           shortAppend=".com"

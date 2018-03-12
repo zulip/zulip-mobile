@@ -153,6 +153,6 @@ export const autoCompleteUrl = (
   append: string,
   shortAppend: string,
 ): string =>
-  `${hasProtocol(value) ? '' : protocol}${value || 'your-organization'}${
+  `${hasProtocol(value) ? '' : protocol}${value || 'your-org'}${
     value.indexOf('.') === -1 ? append : !value.match(/.+\..+\.+./g) ? shortAppend : ''
   }`;

@@ -470,7 +470,7 @@ describe('fixRealmUrl', () => {
 describe('autoCompleteUrl', () => {
   test('when no value entered fill in default values', () => {
     const result = autoCompleteUrl('', 'https://', '.zulipchat.com', '');
-    expect(result).toEqual('https://your-organization.zulipchat.com');
+    expect(result).toEqual('https://your-org.zulipchat.com');
   });
 
   test('when an protocol is provided use it', () => {
