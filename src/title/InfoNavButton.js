@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 
 import type { Actions, Narrow, Stream } from '../types';
 import connectWithActions from '../connectWithActions';
+import { ViewPlaceholder } from '../common';
 import {
   isHomeNarrow,
   isPrivateNarrow,
@@ -18,7 +19,6 @@ import {
   getTitleTextColor,
 } from '../selectors';
 import NavButton from '../nav/NavButton';
-import NavButtonPlaceholder from '../nav/NavButtonPlaceholder';
 
 type Props = {
   actions: Actions,
@@ -62,7 +62,7 @@ class InfoNavButton extends PureComponent<Props> {
     ];
     const pressHandler = handlers.find(x => x.isFunc(narrow));
 
-    if (!pressHandler || !pressHandler.handlerFunc) return <NavButtonPlaceholder />;
+    if (!pressHandler || !pressHandler.handlerFunc) return <ViewPlaceholder width={44} />;
 
     return <NavButton name="info" color={color} onPress={pressHandler.handlerFunc} />;
   }
