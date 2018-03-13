@@ -19,7 +19,6 @@ type Props = {
   rightItem?: Object,
   style: StyleObj,
   children?: ChildrenArray<*>,
-  isRightItemNav?: boolean,
   childrenStyle?: StyleObj,
 };
 
@@ -40,12 +39,11 @@ class ModalNavBar extends PureComponent<Props> {
       itemsColor,
       rightItem,
       style,
-      isRightItemNav,
       childrenStyle,
     } = this.props;
     const textStyle = [
       styles.navTitle,
-      canGoBack && !isRightItemNav && { marginRight: NAVBAR_SIZE },
+      canGoBack && { marginRight: NAVBAR_SIZE },
       rightItem ? { marginLeft: NAVBAR_SIZE } : {},
       titleColor ? { color: titleColor } : {},
     ];
@@ -58,11 +56,10 @@ class ModalNavBar extends PureComponent<Props> {
 
     return (
       <View style={[styles.navBar, style]}>
-        {canGoBack &&
-          !isRightItemNav && (
-            <NavButton name="arrow-left" color={itemsColor} onPress={actions.navigateBack} />
-          )}
-        <View style={[styles.flexed, childrenStyle]}>{content}</View>
+        {canGoBack && (
+          <NavButton name="arrow-left" color={itemsColor} onPress={actions.navigateBack} />
+        )}
+        <View style={[styles.flexedLeftAlign, childrenStyle]}>{content}</View>
         {rightItem && <NavButton color={itemsColor} {...rightItem} />}
       </View>
     );

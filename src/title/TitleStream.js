@@ -8,12 +8,11 @@ import { isTopicNarrow } from '../utils/narrow';
 
 const styles = StyleSheet.create({
   wrapper: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flex: 1,
   },
   streamRow: {
     flexDirection: 'row',
-    alignItems: 'center',
   },
   streamText: {
     marginLeft: 4,

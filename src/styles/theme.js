@@ -85,6 +85,10 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   flexed: {
     flex: 1,
   },
+  flexedLeftAlign: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
   messageList: {
     flex: 1,
   },
@@ -149,8 +153,8 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   },
   navTitle: {
     color: BRAND_COLOR,
-    textAlign: 'center',
-    fontSize: 16,
+    textAlign: 'left',
+    fontSize: 18,
   },
   composeBox: {
     flexDirection: 'row',
@@ -191,6 +195,12 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   marginTopBottom: {
     marginTop: 16,
     marginBottom: 16,
+  },
+  smallMarginRight: {
+    marginRight: 8,
+  },
+  marginRight: {
+    marginRight: 16,
   },
   floatingView: {
     position: 'absolute',
