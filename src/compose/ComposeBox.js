@@ -263,7 +263,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     }
 
     if (!isSubscribed) {
-      return <NotSubscribed />;
+      return <NotSubscribed narrow={narrow} />;
     }
 
     const canSelectTopic = (isMessageFocused || isTopicFocused) && isStreamNarrow(narrow);

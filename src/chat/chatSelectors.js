@@ -104,18 +104,16 @@ export const getStreamInNarrow = (narrow: Narrow) =>
     getSubscriptions,
     getStreams,
     (subscriptions, streams) =>
-      subscriptions.find(x => x.name === narrow[0].operand) || {
-        ...streams.find(x => x.name === narrow[0].operand),
-        in_home_view: true,
-      } ||
-      NULL_SUBSCRIPTION,
+      Array.isArray(narrow)
+        ? subscriptions.find(x => x.name === narrow[0].operand) || {
+            ...streams.find(x => x.name === narrow[0].operand),
+            in_home_view: true,
+          }
+        : NULL_SUBSCRIPTION,
   );
 
 export const getIfNoMessages = (narrow: Narrow) =>
-  createSelector(
-    getShownMessagesForNarrow(narrow),
-    messages => messages && messages.length === 0,
-  );
+  createSelector(getShownMessagesForNarrow(narrow), messages => messages && messages.length === 0);
 
 export const getShowMessagePlaceholders = (narrow: Narrow) =>
   createSelector(
