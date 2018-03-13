@@ -2,12 +2,12 @@
 import React, { PureComponent } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 
-import type { StyleObj } from '../types';
 import { SpinningProgress } from './';
 import messageLoadingImg from '../../static/img/message-loading.png';
 
 const styles = StyleSheet.create({
-  row: {
+  wrapper: {
+    flex: 1,
     padding: 4,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -21,28 +21,27 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  active: boolean,
+  color: boolean,
   showLogo: boolean,
   size: number,
-  backgroundColor: StyleObj,
 };
 
 export default class LoadingIndicator extends PureComponent<Props> {
   props: Props;
 
   static defaultProps = {
-    active: false,
+    color: '82, 194, 175',
     showLogo: false,
     size: 40,
   };
 
   render() {
-    const { active, showLogo, size } = this.props;
+    const { color, showLogo, size } = this.props;
 
     return (
-      <View style={styles.row}>
+      <View style={styles.wrapper}>
         <View>
-          {active && <SpinningProgress size={size} thickness={4} />}
+          <SpinningProgress color={color} size={size} thickness={Math.round(size / 20)} />
           {showLogo && (
             <Image
               style={[

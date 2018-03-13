@@ -69,7 +69,7 @@ export default class SearchMessagesCard extends PureComponent<Props, State> {
     const { query } = this.props;
 
     if (isFetching) {
-      return <LoadingIndicator active size={40} />;
+      return <LoadingIndicator size={40} />;
     }
 
     if (messages.length === 0) {
