@@ -18,7 +18,7 @@ export default class LoadingScreen extends PureComponent<{}> {
   render() {
     return (
       <View style={styles.center}>
-        <LoadingIndicator active size={80} />
+        <LoadingIndicator active size={80} showLogo />
       </View>
     );
   }

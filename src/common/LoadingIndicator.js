@@ -18,16 +18,11 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     position: 'absolute',
   },
-  line: {
-    flex: 1,
-    height: 1,
-    borderWidth: 1,
-    borderColor: 'black',
-  },
 });
 
 type Props = {
   active: boolean,
+  showLogo: boolean,
   size: number,
   backgroundColor: StyleObj,
 };
@@ -37,27 +32,28 @@ export default class LoadingIndicator extends PureComponent<Props> {
 
   static defaultProps = {
     active: false,
-    caughtUp: false,
+    showLogo: false,
     size: 40,
   };
 
   render() {
-    const { active, caughtUp, size } = this.props;
+    const { active, showLogo, size } = this.props;
 
     return (
       <View style={styles.row}>
         <View>
           {active && <SpinningProgress size={size} thickness={4} />}
-          <Image
-            style={[
-              styles.logo,
-              { width: size / 3 * 2, height: size / 3 * 2, marginTop: size / 6 },
-            ]}
-            source={messageLoadingImg}
-            resizeMode="contain"
-          />
+          {showLogo && (
+            <Image
+              style={[
+                styles.logo,
+                { width: size / 3 * 2, height: size / 3 * 2, marginTop: size / 6 },
+              ]}
+              source={messageLoadingImg}
+              resizeMode="contain"
+            />
+          )}
         </View>
-        {caughtUp && <View style={styles.line} />}
       </View>
     );
   }
