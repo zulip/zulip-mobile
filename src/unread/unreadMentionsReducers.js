@@ -1,5 +1,5 @@
 /* @flow */
-import type { Action, UnreadState } from '../types';
+import type { Action, UnreadMentionsState } from '../types';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -11,9 +11,9 @@ import {
 import { addItemsToArray, removeItemsFromArray } from '../utils/immutability';
 import { NULL_ARRAY } from '../nullObjects';
 
-const initialState: number[] = NULL_ARRAY;
+const initialState: UnreadMentionsState = NULL_ARRAY;
 
-export default (state: UnreadState = initialState, action: Action): UnreadState => {
+export default (state: UnreadMentionsState = initialState, action: Action): UnreadMentionsState => {
   switch (action.type) {
     case REALM_INIT:
       return (action.data.unread_msgs && action.data.unread_msgs.mentions) || NULL_ARRAY;

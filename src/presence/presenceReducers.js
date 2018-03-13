@@ -1,5 +1,5 @@
 /* @flow */
-import type { UsersState, Action } from '../types';
+import type { PresenceState, Action } from '../types';
 import {
   APP_REFRESH,
   LOGOUT,
@@ -11,9 +11,9 @@ import {
 } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 
-const initialState: Object = NULL_OBJECT;
+const initialState: PresenceState = NULL_OBJECT;
 
-export default (state: UsersState = initialState, action: Action): UsersState => {
+export default (state: PresenceState = initialState, action: Action): PresenceState => {
   switch (action.type) {
     case APP_REFRESH:
     case LOGOUT:

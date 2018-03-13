@@ -13,7 +13,7 @@ import { NULL_FETCHING, NULL_OBJECT } from '../nullObjects';
 
 const initialState: FetchingState = NULL_OBJECT;
 
-export default (state: FetchingState = initialState, action: Action) => {
+export default (state: FetchingState = initialState, action: Action): FetchingState => {
   switch (action.type) {
     case APP_REFRESH:
     case LOGOUT:

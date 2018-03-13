@@ -9,7 +9,7 @@ const initialState: LoadingState = {
   users: false,
 };
 
-export default (state: LoadingState = initialState, action: Action) => {
+export default (state: LoadingState = initialState, action: Action): LoadingState => {
   switch (action.type) {
     default:
       return state;

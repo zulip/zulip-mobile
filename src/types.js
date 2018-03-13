@@ -262,13 +262,28 @@ export type Actions = any; /* {
 export type AccountState = Account[];
 
 export type SessionState = {
+  composeTools: boolean,
+  eventQueueId: ?number,
+  editMessage: ?EditMessage,
   lastActivityTime: Date,
   isOnline: boolean,
   isActive: boolean,
+  isHydrated: boolean,
+  lastActivityTime: Date,
   needsInitialFetch: boolean,
-  eventQueueId: number,
-  editMessage: ?EditMessage,
+  orientation: 'LANDSCAPE' | 'PORTRAIT',
   outboxSending: boolean,
+  safeAreaInsets: {
+    bottom: number,
+    left: number,
+    right: number,
+    top: number,
+  },
+  debug: {
+    highlightUnreadMessages: boolean,
+    doNotMarkMessagesAsRead: boolean,
+    splitMessageText: boolean,
+  },
 };
 
 export type CaughtUpState = Object;
@@ -347,12 +362,10 @@ export type StreamUnreadItem = {
   unread_message_ids: number[],
 };
 
-export type UnreadState = any; /* {
-  streams: StreamUnreadItem[],
-  huddles: Object[],
-  pms: Object[],
-  mentions: number[],
-} */
+export type UnreadStreamsState = StreamUnreadItem[];
+export type UnreadHuddlesState = Object[];
+export type UnreadPmsState = Object[];
+export type UnreadMentionsState = number[];
 
 export type UsersState = any; // [];
 
@@ -522,4 +535,4 @@ export type UserType = any;
 export type RealmEmoji = any;
 export type ResponseExtractionFunc = any;
 export type AuthGetStringAndMessageType = any;
-export type AppState = any;
+export type PresenceState = any;

@@ -6,7 +6,7 @@ import { replaceItemInArray } from '../utils/immutability';
 
 const initialState: TopicsState = NULL_OBJECT;
 
-export default (state: TopicsState = initialState, action: Action) => {
+export default (state: TopicsState = initialState, action: Action): TopicsState => {
   switch (action.type) {
     case INIT_TOPICS:
       return {

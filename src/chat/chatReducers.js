@@ -21,7 +21,7 @@ import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
 
 const initialState: MessageState = NULL_OBJECT;
 
-export default (state: MessageState = initialState, action: Action) => {
+export default (state: MessageState = initialState, action: Action): MessageState => {
   switch (action.type) {
     case APP_REFRESH:
     case LOGOUT:

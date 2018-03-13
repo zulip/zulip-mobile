@@ -1,5 +1,5 @@
 /* @flow */
-import type { Action, UnreadState } from '../types';
+import type { Action, UnreadHuddlesState } from '../types';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -12,9 +12,9 @@ import { getRecipientsIds } from '../utils/message';
 import { addItemsToHuddleArray, removeItemsDeeply } from './unreadHelpers';
 import { NULL_ARRAY } from '../nullObjects';
 
-const initialState: Object[] = NULL_ARRAY;
+const initialState: UnreadHuddlesState = NULL_ARRAY;
 
-export default (state: UnreadState = initialState, action: Action): UnreadState => {
+export default (state: UnreadHuddlesState = initialState, action: Action): UnreadHuddlesState => {
   switch (action.type) {
     case REALM_INIT:
       return (action.data.unread_msgs && action.data.unread_msgs.huddles) || NULL_ARRAY;

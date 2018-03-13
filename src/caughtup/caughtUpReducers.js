@@ -11,7 +11,7 @@ import { NULL_CAUGHTUP, NULL_OBJECT } from '../nullObjects';
 
 const initialState: CaughtUpState = NULL_OBJECT;
 
-export default (state: CaughtUpState = initialState, action: Action) => {
+export default (state: CaughtUpState = initialState, action: Action): CaughtUpState => {
   switch (action.type) {
     case APP_REFRESH:
     case LOGOUT:

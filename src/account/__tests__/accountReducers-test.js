@@ -20,7 +20,11 @@ describe('accountReducers', () => {
         realm: 'new',
       });
 
-      const expectedState = [{ realm: 'new' }, { realm: '1' }, { realm: '2' }];
+      const expectedState = [
+        { realm: 'new', apiKey: '', email: '' },
+        { realm: '1' },
+        { realm: '2' },
+      ];
 
       const newState = accountReducers(prevState, action);
 
