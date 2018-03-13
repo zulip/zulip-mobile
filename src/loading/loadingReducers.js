@@ -26,10 +26,10 @@ export default (state: LoadingState = initialState, action: Action): LoadingStat
     case REALM_INIT:
       return {
         ...state,
-        presence: true,
-        subscriptions: true,
-        unread: true,
-        users: true,
+        presence: false,
+        subscriptions: false,
+        unread: false,
+        users: false,
       };
 
     case INIT_USERS:

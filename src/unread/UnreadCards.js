@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
 import type { Actions, UnreadStream } from '../types';
-import { SearchEmptyState } from '../common';
+import { LoadingIndicator, SearchEmptyState } from '../common';
 import ConversationList from '../conversations/ConversationList';
 import StreamItem from '../streams/StreamItem';
 import TopicItem from '../streams/TopicItem';
@@ -12,6 +12,7 @@ import { streamNarrow, topicNarrow } from '../utils/narrow';
 type Props = {
   actions: Actions,
   conversations: Object[],
+  isLoading: boolean,
   presences: Object,
   usersByEmail: Object,
   unreadStreamsAndTopics: UnreadStream[],
@@ -35,7 +36,7 @@ export default class UnreadCards extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { conversations, unreadStreamsAndTopics, ...restProps } = this.props;
+    const { isLoading, conversations, unreadStreamsAndTopics, ...restProps } = this.props;
     const unreadCards = [
       {
         key: 'private',
@@ -43,6 +44,10 @@ export default class UnreadCards extends PureComponent<Props> {
       },
       ...unreadStreamsAndTopics,
     ];
+
+    if (isLoading) {
+      return <LoadingIndicator size={40} />;
+    }
 
     if (conversations.length === 0 && unreadStreamsAndTopics.length === 0) {
       return <SearchEmptyState text="No unread messages" />;
