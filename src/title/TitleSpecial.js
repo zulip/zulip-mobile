@@ -8,12 +8,13 @@ import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({
   wrapper: {
+    flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
   },
   title: {
     fontSize: 18,
     marginLeft: 8,
+    textAlign: 'left',
   },
 });
 

@@ -7,11 +7,12 @@ import { Avatar } from '../common';
 
 const styles = StyleSheet.create({
   wrapper: {
+    flex: 1,
     flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
   avatar: {
-    paddingLeft: 4,
-    paddingRight: 4,
+    paddingRight: 8,
   },
 });
 
@@ -30,7 +31,7 @@ export default class TitleGroup extends PureComponent<Props> {
       <View style={styles.wrapper}>
         {recipients.map((user, index) => (
           <View key={index} style={styles.avatar}>
-            <Avatar size={32} name={user.fullName} avatarUrl={user.avatarUrl} email={user.email} />
+            <Avatar size={24} name={user.fullName} avatarUrl={user.avatarUrl} email={user.email} />
           </View>
         ))}
       </View>

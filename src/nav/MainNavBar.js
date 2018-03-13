@@ -4,6 +4,7 @@ import { View } from 'react-native';
 
 import type { Actions, Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
+import { ViewPlaceholder } from '../common';
 import Title from '../title/Title';
 import NavButton from './NavButton';
 import InfoNavButton from '../title/InfoNavButton';
@@ -41,6 +42,7 @@ class MainNavBar extends PureComponent<Props> {
         {canGoBack && (
           <NavButton name="arrow-left" color={textColor} onPress={actions.navigateBack} />
         )}
+        {canGoBack && <ViewPlaceholder width={8} />}
         <Title color={textColor} narrow={narrow} />
         <InfoNavButton narrow={narrow} />
       </View>
