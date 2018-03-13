@@ -18,6 +18,7 @@ import {
   isStreamNarrow,
   isHomeNarrow,
   canSendToNarrow,
+  isStreamOrTopicNarrow,
 } from '../utils/narrow';
 import { groupItemsById } from '../utils/misc';
 import { shouldBeMuted } from '../utils/message';
@@ -100,17 +101,26 @@ export const getRecipientsInGroupNarrow = (narrow: Narrow) =>
   );
 
 export const getStreamInNarrow = (narrow: Narrow) =>
-  createSelector(
-    getSubscriptions,
-    getStreams,
-    (subscriptions, streams) =>
-      Array.isArray(narrow)
-        ? subscriptions.find(x => x.name === narrow[0].operand) || {
-            ...streams.find(x => x.name === narrow[0].operand),
-            in_home_view: true,
-          }
-        : NULL_SUBSCRIPTION,
-  );
+  createSelector(getSubscriptions, getStreams, (subscriptions, streams) => {
+    if (!isStreamOrTopicNarrow(narrow)) {
+      return NULL_SUBSCRIPTION;
+    }
+
+    const subscription = subscriptions.find(x => x.name === narrow[0].operand);
+    if (subscription) {
+      return subscription;
+    }
+
+    const stream = streams.find(x => x.name === narrow[0].operand);
+    if (stream) {
+      return {
+        ...stream,
+        in_home_view: true,
+      };
+    }
+
+    return NULL_SUBSCRIPTION;
+  });
 
 export const getIfNoMessages = (narrow: Narrow) =>
   createSelector(getShownMessagesForNarrow(narrow), messages => messages && messages.length === 0);
