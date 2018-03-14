@@ -19,6 +19,12 @@ describe('getAutocompleteFilter', () => {
       filter: 'ab cd',
       lastWordPrefix: '@',
     });
+
+    selection = { start: 5, end: 5 };
+    expect(getAutocompleteFilter('abc @ ', selection)).toEqual({
+      filter: '',
+      lastWordPrefix: '@',
+    });
   });
 
   test('get #streams filters', () => {
@@ -33,6 +39,12 @@ describe('getAutocompleteFilter', () => {
       filter: 'ab cd',
       lastWordPrefix: '#',
     });
+
+    selection = { start: 5, end: 5 };
+    expect(getAutocompleteFilter('abc # ', selection)).toEqual({
+      filter: '',
+      lastWordPrefix: '#',
+    });
   });
 
   test('get :emoji filters', () => {
@@ -45,6 +57,12 @@ describe('getAutocompleteFilter', () => {
     selection = { start: 6, end: 6 };
     expect(getAutocompleteFilter(':ab cd', selection)).toEqual({
       filter: 'ab cd',
+      lastWordPrefix: ':',
+    });
+
+    selection = { start: 5, end: 5 };
+    expect(getAutocompleteFilter('abc : ', selection)).toEqual({
+      filter: '',
       lastWordPrefix: ':',
     });
   });
