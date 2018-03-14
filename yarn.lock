@@ -1979,9 +1979,9 @@ detox-server@^7.0.0:
     npmlog "^4.0.2"
     ws "^1.1.0"
 
-detox@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-7.1.0.tgz#74f4c750bab3e502b8c86b5217a0ef2de55aee94"
+detox@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-7.2.0.tgz#fa2c0c4a1c9daf114b5d017d154d9db398545f55"
   dependencies:
     child-process-promise "^2.2.0"
     commander "^2.9.0"
@@ -2247,9 +2247,9 @@ eslint-plugin-import@^2.9.0:
     minimatch "^3.0.3"
     read-pkg-up "^2.0.0"
 
-eslint-plugin-jest@^21.14.0:
-  version "21.14.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-21.14.0.tgz#ae1c2f9f8cc4ba389c824a5ba9414036b6d5ea5a"
+eslint-plugin-jest@^21.14.1:
+  version "21.14.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-21.14.1.tgz#8961ec94b2c7912a8ad09112b35aadc326d8d38e"
 
 eslint-plugin-jsx-a11y@^6.0.3:
   version "6.0.3"
@@ -5701,12 +5701,6 @@ react-native-photo-view@^1.5.2:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-progress@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/react-native-progress/-/react-native-progress-3.4.0.tgz#c002e6efb2f0b82dd6889510e669c492da2718ac"
-  dependencies:
-    prop-types "^15.5.8"
-
 react-native-safari-view@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-native-safari-view/-/react-native-safari-view-2.0.0.tgz#3aeb40693b0765df16b9beaf8654b60c7ff1d7ed"
@@ -5732,7 +5726,7 @@ react-native-simple-toast@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-0.0.8.tgz#513f4add8d30e4c5109e536bfc6ea5825fea5d83"
 
-react-native-sound@0.10.9:
+react-native-sound@^0.10.9:
   version "0.10.9"
   resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.9.tgz#6b00b0f4afd017cde09fbb9d171df1b5d5b851a8"
 
@@ -5754,9 +5748,9 @@ react-native-vector-icons@^4.5.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-react-native@^0.54.1:
-  version "0.54.1"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.54.1.tgz#d8c30d83c9f84d7941cf9c8d3d9f8ebca1c53e48"
+react-native@^0.54.2:
+  version "0.54.2"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.54.2.tgz#73786e7bf3f80b0b060ca0bfe5b192f9c2f253da"
   dependencies:
     absolute-path "^0.0.0"
     art "^0.10.0"
@@ -5823,9 +5817,9 @@ react-navigation-redux-helpers@^1.0.3:
   dependencies:
     invariant "^2.2.2"
 
-react-navigation@1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.1.tgz#3fc2efa76c773b9dd4a148d45cab3abbe864dbae"
+react-navigation@1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.2.tgz#6b150cbb6706a70ae352562a6eab490cedd05f47"
   dependencies:
     clamp "^1.0.1"
     hoist-non-react-statics "^2.2.0"
@@ -5890,30 +5884,30 @@ react@16.2.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-reactotron-core-client@^2.0.0-alpha.2:
-  version "2.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/reactotron-core-client/-/reactotron-core-client-2.0.0-alpha.2.tgz#b8702e3482b345688d30e4e4d1acf60864e9e7e9"
+reactotron-core-client@^2.0.0-alpha.3:
+  version "2.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/reactotron-core-client/-/reactotron-core-client-2.0.0-alpha.3.tgz#671bac1b1b8340aef4d392c38b0a7d3b0fe7712e"
   dependencies:
     ramda "^0.25.0"
 
-reactotron-react-native@^2.0.0-alpha.2:
-  version "2.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/reactotron-react-native/-/reactotron-react-native-2.0.0-alpha.2.tgz#1c995ca1f22a63626da036c4f5744d2ea7218e4e"
+reactotron-react-native@^2.0.0-alpha.3:
+  version "2.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/reactotron-react-native/-/reactotron-react-native-2.0.0-alpha.3.tgz#ed1a1c00239a111204f62c2403a46ae92840470c"
   dependencies:
     mitt "^1.1.2"
     prop-types "^15.5.10"
     ramda "^0.24.1"
     ramdasauce "^2.0.0"
-    reactotron-core-client "^2.0.0-alpha.2"
+    reactotron-core-client "^2.0.0-alpha.3"
     rn-host-detect "^1.1.3"
 
-reactotron-redux@^2.0.0-alpha.2:
-  version "2.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/reactotron-redux/-/reactotron-redux-2.0.0-alpha.2.tgz#41ba7a0f36d4a0801105460ea0435b7d41224fa7"
+reactotron-redux@^2.0.0-alpha.3:
+  version "2.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/reactotron-redux/-/reactotron-redux-2.0.0-alpha.3.tgz#e6e2c203782e952b81e43986e51a0996e4c95442"
   dependencies:
     ramda "^0.24.1"
     ramdasauce "^2.0.0"
-    reactotron-core-client "^2.0.0-alpha.2"
+    reactotron-core-client "^2.0.0-alpha.3"
     redux "^3.7.1"
 
 read-env@^1.1.1:
