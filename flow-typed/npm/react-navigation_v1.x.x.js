@@ -1,5 +1,5 @@
-// flow-typed signature: ad360ffdbcc50f36a559275026d46dcb
-// flow-typed version: 4ec24a5b93/react-navigation_v1.x.x/flow_>=v0.60.x
+// flow-typed signature: bd2c69866f7180eb05f435316ca832a4
+// flow-typed version: 6475dcc6d1/react-navigation_v1.x.x/flow_>=v0.60.x
 
 // @flow
 
@@ -581,7 +581,7 @@ declare module 'react-navigation' {
 
   declare export type NavigationContainerProps<S: {}, O: {}> = $Shape<{
     uriPrefix?: string | RegExp,
-    onNavigationStateChange?: (
+    onNavigationStateChange?: ?(
       NavigationState,
       NavigationState,
       NavigationAction
@@ -1101,7 +1101,7 @@ declare module 'react-navigation' {
   declare export var TabBarBottom: React$ComponentType<_TabBarBottomProps>;
 
   declare type _NavigationInjectedProps = {
-    navigation: NavigationScreenProp<NavigationState>,
+    navigation: NavigationScreenProp<NavigationStateRoute>,
   };
   declare export function withNavigation<T: {}>(
     Component: React$ComponentType<T & _NavigationInjectedProps>
