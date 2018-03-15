@@ -23,6 +23,7 @@ export const restore = (onFinished?: () => void) =>
       blacklist: [
         'caughtUp',
         'fetching',
+        'loading',
         'nav',
         'presence',
         'session',

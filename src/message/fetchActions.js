@@ -13,6 +13,7 @@ import {
 } from '../selectors';
 import config from '../config';
 import {
+  INITIAL_FETCH_START,
   INITIAL_FETCH_COMPLETE,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
@@ -124,6 +125,10 @@ export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   }
 };
 
+export const initialFetchStart = (): Action => ({
+  type: INITIAL_FETCH_START,
+});
+
 export const initialFetchComplete = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
 });
@@ -132,6 +137,7 @@ export const fetchEssentialInitialData = (): Action => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
+  dispatch(initialFetchStart());
   const auth = getAuth(getState());
   const halfCount = Math.trunc(config.messagesPerRequest / 2);
 
