@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import type { Actions } from '../types';
-import { Label, ZulipButton } from '../common';
+import { Label, LoadingIndicator, ZulipButton } from '../common';
 import ConversationList from './ConversationList';
 
 const componentStyles = StyleSheet.create({
@@ -23,6 +23,7 @@ const componentStyles = StyleSheet.create({
 type Props = {
   actions: Actions,
   conversations: Object[],
+  isLoading: boolean,
   presences: Object,
   usersByEmail: Object,
 };
@@ -41,7 +42,11 @@ export default class ConversationsCard extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { actions, conversations, presences, usersByEmail } = this.props;
+    const { actions, conversations, isLoading, presences, usersByEmail } = this.props;
+
+    if (conversations.length === 0 && isLoading) {
+      return <LoadingIndicator size={40} />;
+    }
 
     return (
       <View style={[componentStyles.container, styles.background]}>

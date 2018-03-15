@@ -45,12 +45,12 @@ export default class UnreadCards extends PureComponent<Props> {
       ...unreadStreamsAndTopics,
     ];
 
-    if (isLoading) {
-      return <LoadingIndicator size={40} />;
-    }
-
     if (conversations.length === 0 && unreadStreamsAndTopics.length === 0) {
-      return <SearchEmptyState text="No unread messages" />;
+      return isLoading ? (
+        <LoadingIndicator size={40} />
+      ) : (
+        <SearchEmptyState text="No unread messages" />
+      );
     }
 
     return (
