@@ -282,7 +282,6 @@ export type SessionState = {
   debug: {
     highlightUnreadMessages: boolean,
     doNotMarkMessagesAsRead: boolean,
-    splitMessageText: boolean,
   },
 };
 
