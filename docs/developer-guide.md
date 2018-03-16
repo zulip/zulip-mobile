@@ -2,8 +2,6 @@
 
 We target operating systems >= Android 4.4 (API 19) and >= iOS 8.0.
 
-[React Native Getting Started](https://facebook.github.io/react-native/docs/getting-started.html)
-
 ## Why React Native?
 
 * Support iOS and Android with one codebase
