@@ -12,7 +12,10 @@ We target operating systems >= Android 4.4 (API 19) and >= iOS 8.0.
 
 ## System requirements
 
-iOS version can be run only on a macOS, while Android can be run on Linux, Windows and macOS.
+* Android: You can build and run with any of Linux, Windows, or macOS.
+* iOS: macOS only.  Many contributors use Linux or Windows and
+  develop without testing on iOS.  Fortunately, React Native means
+  this works fine.
 
 ## Dev environment
 
