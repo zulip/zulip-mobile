@@ -4,7 +4,10 @@
 [![Coverage Status](https://coveralls.io/repos/github/zulip/zulip-mobile/badge.svg?branch=master)](https://coveralls.io/github/zulip/zulip-mobile?branch=master)
 [![Zulip chat](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://chat.zulip.org/#narrow/stream/mobile)
 
-Zulip Mobile is the official mobile Zulip client supporting both iOS and Android, written in JavaScript with React Native. It supersedes our two native apps [zulip-ios](https://github.com/zulip/zulip-ios-legacy) and [zulip-android](https://github.com/zulip/zulip-android).
+Zulip Mobile is the official mobile Zulip client, supporting both iOS
+and Android.
+
+## Get the app
 
 Production versions of the app are available here:
  * [Zulip for iOS on iTunes App Store](https://itunes.apple.com/app/zulip/id1203036395)
@@ -14,19 +17,13 @@ If you want to become a Beta tester:
 * Android - get the [Zulip Beta on Google PlayStore](https://play.google.com/apps/testing/com.zulipmobile/)
 * iOS - get the [TestFlight App](https://developer.apple.com/testflight/testers/) and request an invitation in our [#mobile stream](https://chat.zulip.org/#narrow/stream/mobile)
 
-All contributors to our previous projects, as well as newcomers, are welcome to contribute. If you are current Android contributor, read more about our
- [plans for Zulip on Android](https://github.com/zulip/zulip-android/blob/master/android-strategy.md).
-
-* [Getting Started](docs/getting-started.md)
-* [Developer Guide](docs/developer-guide.md)
-* [Architecture](docs/architecture.md)
-* [Testing](docs/testing.md)
-* [Recommended Reading](docs/recommended-reading.md)
-* [Release Guide](docs/release-guide.md)
-* [Contributing](#contributing)
-* [License](#license)
-
 ## Contributing
+
+Zulip Mobile is written in JavaScript with React Native. It supersedes
+our two legacy apps
+[zulip-ios](https://github.com/zulip/zulip-ios-legacy) and
+[zulip-android](https://github.com/zulip/zulip-android)
+([more history](https://github.com/zulip/zulip-android/blob/master/android-strategy.md)).
 
 For more information about contributing PRs and issues, see our [Contribution Guidelines](CONTRIBUTING.md).
 
@@ -34,6 +31,12 @@ Issues tagged **[help wanted](https://github.com/zulip/zulip-mobile/labels/help%
 
 We encourage the community to ask and answer questions in [our Zulip stream](https://chat.zulip.org/#narrow/stream/mobile)
 
+* [Getting Started](docs/getting-started.md)
+* [Developer Guide](docs/developer-guide.md)
+* [Architecture](docs/architecture.md)
+* [Testing](docs/testing.md)
+* [Recommended Reading](docs/recommended-reading.md)
+* [Release Guide](docs/release-guide.md)
 
 ## License
 
