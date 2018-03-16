@@ -9,13 +9,23 @@ and Android.
 
 ## Get the app
 
-Production versions of the app are available here:
- * [Zulip for iOS on iTunes App Store](https://itunes.apple.com/app/zulip/id1203036395)
- * [Zulip for Android on Google Play Store](https://play.google.com/store/apps/details?id=com.zulipmobile)
+Release versions of the app are available here:
+* [Zulip for iOS](https://itunes.apple.com/app/zulip/id1203036395)
+  on the iTunes App Store
+* [Zulip for Android](https://play.google.com/store/apps/details?id=com.zulipmobile)
+  on the Google Play Store
 
-If you want to become a Beta tester:
-* Android - get the [Zulip Beta on Google PlayStore](https://play.google.com/apps/testing/com.zulipmobile/)
-* iOS - get the [TestFlight App](https://developer.apple.com/testflight/testers/) and request an invitation in our [#mobile stream](https://chat.zulip.org/#narrow/stream/mobile)
+You can help out by running beta versions of the app, and reporting
+bugs!  To get the beta:
+* Android: install the app, then just
+  [join the testing program](https://play.google.com/apps/testing/com.zulipmobile/)
+  on Google Play.
+* iOS: install [TestFlight](https://developer.apple.com/testflight/testers/),
+  then say hello in our [#mobile](czo-mobile) stream on
+  [the Zulip community server](czo-doc) and ask for a beta invitation.
+
+[czo-mobile]: https://chat.zulip.org/#narrow/stream/mobile
+[czo-doc]: https://zulip.readthedocs.io/en/latest/contributing/chat-zulip-org.html
 
 ## Contributing
 
