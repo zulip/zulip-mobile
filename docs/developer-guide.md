@@ -17,12 +17,12 @@ We target operating systems >= Android 4.4 (API 19) and >= iOS 8.0.
 
 ## Dev environment
 
-Before starting, install dependencies if you don't have them:
+Before starting, install these dependencies if you don't have them:
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/en/download/package-manager/), latest 8.x version
 * [Yarn](https://yarnpkg.com/en/docs/install)
 
-Then, just run the commands below in your terminal:
+Then, run the commands below in your terminal:
 ```
 git clone https://github.com/zulip/zulip-mobile
 cd zulip-mobile
@@ -32,32 +32,37 @@ yarn install
 Unlike the [Zulip Server](https://github.com/zulip/zulip) project, we use
 the host machine directly for development, instead of provisioning a VM.
 
-## Android
+To install the React Native tools, and either Xcode or the Android SDK
+and Android Studio, follow the helpful instructions from React
+Native upstream on
+[Getting Started](https://facebook.github.io/react-native/docs/getting-started.html).
+You want the tab "Building Projects with Native Code";
+the "Quick Start" does not apply.
 
-To set up for running on Android, follow our [Android setup doc](android-setup.md).
+Continue those instructions until you can run the Zulip Mobile app
+with either `react-native run-android` or `react-native run-ios`.
+You'll want to be able to use both an emulator and a physical device; but
+for starting out, just get either one working so you can play with the app.
 
-Once you've set up:
-* `react-native run-android` - build and run on an active emulator
-  or USB-connected device
-* `npm run android-min` or `npm run android-max` - runs in an Android emulator, emulator has to be run manually before this command
+## Android tips
 
-## iOS
+* To set up the Android emulator, follow the heading "Using a virtual device"
+  in those React Native
+  [Getting Started](https://facebook.github.io/react-native/docs/getting-started.html)
+  instructions.
+* After you set up the Android emulator, you no longer need Android
+  Studio.  You can start the emulator [from the command
+  line](https://developer.android.com/studio/run/emulator-commandline.html).
+* When running on a physical device, if the device has Zulip installed
+  from the Play Store, you may need to uninstall that version first.
+* Commands once you've set up:
+  * `react-native run-android` - build and run on an active emulator
+    or USB-connected device
+  * `npm run android-min` or `npm run android-max` - runs in an Android emulator, emulator has to be run manually before this command
 
-To set up for running on iOS, follow our [iOS setup doc](ios-setup.md).
-Note the tips at the end.
+## iOS tips
 
-Once you've set up:
-* `react-native run-ios` - runs in an iOS simulator in the default supported device
-(currently iPhone 6)
-
-* `npm run ios-min` - runs in an iOS simulator in the minimally supported device
-(currently iPhone 5S)
-
-* `npm run ios-max` - runs in an iOS simulator in the newest/most premium
-supported device (currently iPhone X)
-
-* `npm run ios-device` - runs on a physical iOS device, you need to edit the
-device name in package.json
+More wrinkles are involved; see our separate doc on [iOS tips](ios-tips.md).
 
 ## Fix issues
 
