@@ -1,5 +1,8 @@
 # iOS Tips
 
+These tips assume you've already [set up a dev
+environment](developer-guide.md#dev-environment) for Zulip Mobile.
+
 ## Running on iOS simulator
 `react-native run-ios` will launch a new terminal with the React Native
 packager and open up the app in the iOS simulator.
@@ -20,14 +23,13 @@ supported device (currently iPhone X)
 device name in package.json
 
 ## Running on an iOS device
-1. [Set up the dev environment](#setting-up-a-dev-environment)
-2. Connect your iOS device
-3. Within the repo, `$ open ios/ZulipMobile.xcworkspace/` to open Xcode
-4. Change BundleIdentifier for both ZulipMobile and ZulipMobileTests to a
+1. Connect your iOS device
+2. Within the repo, `$ open ios/ZulipMobile.xcworkspace/` to open Xcode
+3. Change BundleIdentifier for both ZulipMobile and ZulipMobileTests to a
 unique string, e.g. `<username>ZulipMobile` in the 'General Tab' of your project.
-5. Select your device as the `build target` (from [this guide](https://facebook.github.io/react-native/docs/running-on-device-ios.html))
-6. Hit the `build and run` button (make sure your device is unlocked)
-7. If it's the first time you're running the app, you need to trust the
+4. Select your device as the `build target` (from [this guide](https://facebook.github.io/react-native/docs/running-on-device-ios.html))
+5. Hit the `build and run` button (make sure your device is unlocked)
+6. If it's the first time you're running the app, you need to trust the
 developer and the app in `Settings > General > Device Management > Developer
 App` - make sure you are connected to WiFi, as it often doesn't work with
 mobile networks
