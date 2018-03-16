@@ -1,14 +1,4 @@
-# iOS Setup
-
-## SDK setup
-
-You'll need a Mac.  On it you'll need Xcode and React Native.
-
-To install these, follow the helpful instructions from React Native
-upstream on
-[Getting Started](https://facebook.github.io/react-native/docs/getting-started.html).
-You want the tab "Building Projects with Native Code";
-the "Quick Start" does not apply.
+# iOS Tips
 
 ## Running on iOS simulator
 `react-native run-ios` will launch a new terminal with the React Native
@@ -17,6 +7,17 @@ packager and open up the app in the iOS simulator.
 It will also launch a browser tab in Chrome with the React Native debugger.
 `console.log` statements in React Native will end up in the JS console on
 this tab.
+
+## Other commands
+
+* `npm run ios-min` - runs in an iOS simulator in the minimally supported device
+(currently iPhone 5S)
+
+* `npm run ios-max` - runs in an iOS simulator in the newest/most premium
+supported device (currently iPhone X)
+
+* `npm run ios-device` - runs on a physical iOS device, you need to edit the
+device name in package.json
 
 ## Running on an iOS device
 1. [Set up the dev environment](#setting-up-a-dev-environment)
