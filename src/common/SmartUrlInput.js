@@ -18,6 +18,7 @@ type Props = {
   defaultOrganization: string,
   protocol: string,
   append: string,
+  navigation: Object,
   shortAppend: string,
   style?: StyleObj,
   onChange: (value: string) => void,
@@ -30,6 +31,7 @@ type State = {
 
 export default class SmartUrlInput extends PureComponent<Props, State> {
   textInputRef: any;
+  focusListener: Object;
   props: Props;
   state: State = {
     value: '',
@@ -38,6 +40,16 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   static contextTypes = {
     styles: () => null,
   };
+
+  componentDidMount() {
+    this.focusListener = this.props.navigation.addListener('didFocus', () =>
+      this.textInputRef.focus(),
+    );
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
+  }
 
   handleChange = (value: string) => {
     this.setState({ value });

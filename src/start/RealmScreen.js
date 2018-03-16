@@ -61,7 +61,7 @@ class RealmScreen extends PureComponent<Props, State> {
 
   render() {
     const { styles } = this.context;
-    const { initialRealm } = this.props;
+    const { initialRealm, navigation } = this.props;
     const { progress, error } = this.state;
 
     return (
@@ -69,6 +69,7 @@ class RealmScreen extends PureComponent<Props, State> {
         <Label text="Organization URL" />
         <SmartUrlInput
           style={styles.marginTopBottom}
+          navigation={navigation}
           defaultOrganization="your-org"
           protocol="https://"
           append=".zulipchat.com"
