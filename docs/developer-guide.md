@@ -19,22 +19,20 @@ We target operating systems >= Android 4.4 (API 19) and >= iOS 8.0.
 
 ## Dev environment
 
-Before starting, make sure you have [git](https://git-scm.com/) and
-[Yarn](https://yarnpkg.com) installed.
+Before starting, install dependencies if you don't have them:
+* [Git](https://git-scm.com/)
+* [Node.js](https://nodejs.org/en/download/package-manager/), latest 8.x version
+* [Yarn](https://yarnpkg.com/en/docs/install)
 
-Setting up a dev environment should be as simple as running the commands
-below in your terminal:
+Then, just run the commands below in your terminal:
 ```
-git clone https://github.com/zulip/zulip-mobile.git
+git clone https://github.com/zulip/zulip-mobile
 cd zulip-mobile
 yarn install
 ```
 
-Unlike the [Zulip](https://github.com/zulip/zulip) server project, we use
-the host machine directly for development instead of provisioning a VM.
-
-You may also want to install and provision a [Zulip dev VM](https://zulip.readthedocs.io/en/latest/development/overview.html) to use for
-testing.
+Unlike the [Zulip Server](https://github.com/zulip/zulip) project, we use
+the host machine directly for development, instead of provisioning a VM.
 
 ## Android
 
@@ -80,6 +78,11 @@ iOS Menu > Simulator > Reset Content and Settings…
 ## Signing in to a local dev VM
 
 This process needs improvement and has too many manual steps at the moment.
+(It's not required for most development -- you can use chat.zulip.org,
+or another live Zulip community you belong to, for testing the mobile app.)
+
+If you haven't already, you'll want to install and provision a
+[Zulip Server dev VM](https://zulip.readthedocs.io/en/latest/development/overview.html).
 
 First, you'll need to connect your dev machine and iOS device to the same
 network. If you're running Zulip inside of a VM, you may also need to
