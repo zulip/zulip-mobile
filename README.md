@@ -47,9 +47,8 @@ on this GitHub repo.
 ### Development
 
 Zulip Mobile is written in JavaScript with React Native.  To get
-started with the code, follow these docs:
+started with the code, follow this doc:
 
-* [Getting Started](docs/getting-started.md)
 * [Developer Guide](docs/developer-guide.md)
 
 Then see our [Contribution Guidelines](CONTRIBUTING.md), and come say
