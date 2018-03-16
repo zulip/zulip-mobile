@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 
 import type { ChildrenArray, Dimensions, LocalizableText } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -14,6 +14,10 @@ const componentStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'stretch',
+  },
+  content: {
+    flexGrow: 1,
+    justifyContent: 'center',
   },
   padding: {
     padding: 10,
@@ -56,7 +60,7 @@ class Screen extends PureComponent<Props> {
           style={[componentStyles.wrapper, padding && componentStyles.padding]}
           contentContainerStyle={[padding && componentStyles.padding]}
         >
-          {children}
+          <ScrollView contentContainerStyle={componentStyles.content}>{children}</ScrollView>
         </KeyboardAvoider>
       </View>
     );
