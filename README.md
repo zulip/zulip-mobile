@@ -15,38 +15,61 @@ Release versions of the app are available here:
 * [Zulip for Android](https://play.google.com/store/apps/details?id=com.zulipmobile)
   on the Google Play Store
 
-You can help out by running beta versions of the app, and reporting
-bugs!  To get the beta:
-* Android: install the app, then just
-  [join the testing program](https://play.google.com/apps/testing/com.zulipmobile/)
-  on Google Play.
-* iOS: install [TestFlight](https://developer.apple.com/testflight/testers/),
-  then say hello in our [#mobile](czo-mobile) stream on
-  [the Zulip community server](czo-doc) and ask for a beta invitation.
+You can also help out by [running beta versions](#using-the-beta) of
+the app, and reporting bugs!
+
+## Contributing
+
+### Discussion
+
+To get involved in Zulip Mobile development, please join us on
+[the Zulip community Zulip server][czo-doc], in the
+[#mobile][czo-mobile] stream.  Come say hello, discuss areas to
+work on, and ask and answer questions.
 
 [czo-mobile]: https://chat.zulip.org/#narrow/stream/mobile
 [czo-doc]: https://zulip.readthedocs.io/en/latest/contributing/chat-zulip-org.html
 
-## Contributing
+### Using the beta
 
-Zulip Mobile is written in JavaScript with React Native. It supersedes
-our two legacy apps
-[zulip-ios](https://github.com/zulip/zulip-ios-legacy) and
-[zulip-android](https://github.com/zulip/zulip-android)
-([more history](https://github.com/zulip/zulip-android/blob/master/android-strategy.md)).
+One important way to contribute is to run beta versions of the app, and report
+bugs!  To get the beta:
 
-For more information about contributing PRs and issues, see our [Contribution Guidelines](CONTRIBUTING.md).
+* Android: install the app, then just
+  [join the testing program](https://play.google.com/apps/testing/com.zulipmobile/)
+  on Google Play.
+* iOS: install [TestFlight](https://developer.apple.com/testflight/testers/),
+  then say hello in [the #mobile stream](#discussion) and ask for a beta invitation.
 
-Issues tagged **[help wanted](https://github.com/zulip/zulip-mobile/labels/help%20wanted)** are a great starting point for PRs.
+Bug reports are welcome either in [the #mobile stream](#discussion) or
+on this GitHub repo.
 
-We encourage the community to ask and answer questions in [our Zulip stream](https://chat.zulip.org/#narrow/stream/mobile)
+### Development
+
+Zulip Mobile is written in JavaScript with React Native.  To get
+started with the code, follow these docs:
 
 * [Getting Started](docs/getting-started.md)
 * [Developer Guide](docs/developer-guide.md)
+
+Then see our [Contribution Guidelines](CONTRIBUTING.md), and come say
+hello in [the #mobile stream](#discussion).  Issues tagged
+**[help wanted](https://github.com/zulip/zulip-mobile/labels/help%20wanted)**
+are a great starting point for PRs.
+
+Further reading:
+
 * [Architecture](docs/architecture.md)
 * [Testing](docs/testing.md)
 * [Recommended Reading](docs/recommended-reading.md)
 * [Release Guide](docs/release-guide.md)
+
+### History
+
+Zulip Mobile supersedes two legacy Zulip apps,
+[zulip-ios](https://github.com/zulip/zulip-ios-legacy) and
+[zulip-android](https://github.com/zulip/zulip-android)
+([more history](https://github.com/zulip/zulip-android/blob/master/android-strategy.md)).
 
 ## License
 
