@@ -198,11 +198,18 @@ window.addEventListener('scroll', handleScrollEvent);
 document.body.addEventListener('click', function (e) {
   e.preventDefault();
   lastTouchEventTimestamp = 0;
+
+  if (e.target.matches('.scroll-bottom')) {
+    scrollToBottom();
+    return;
+  }
+
   if (e.target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
       fromEmail: e.target.getAttribute('data-email')
     });
+    return;
   }
 
   if (e.target.matches('.header')) {
@@ -211,6 +218,7 @@ document.body.addEventListener('click', function (e) {
       narrow: e.target.getAttribute('data-narrow'),
       id: e.target.getAttribute('data-id')
     });
+    return;
   }
 
   if (e.target.matches('a[target="_blank"] > img')) {
@@ -219,18 +227,25 @@ document.body.addEventListener('click', function (e) {
       src: e.target.parentNode.getAttribute('href'),
       messageId: +getMessageIdFromNode(e.target)
     });
-  } else if (e.target.matches('a')) {
+    return;
+  }
+
+  if (e.target.matches('a')) {
     sendMessage({
       type: 'url',
       href: e.target.getAttribute('href'),
       messageId: +getMessageIdFromNode(e.target)
     });
-  } else if (e.target.parentNode.matches('a')) {
+    return;
+  }
+
+  if (e.target.parentNode.matches('a')) {
     sendMessage({
       type: 'url',
       href: e.target.parentNode.getAttribute('href'),
       messageId: +getMessageIdFromNode(e.target.parentNode)
     });
+    return;
   }
 
   if (e.target.matches('.reaction')) {
@@ -242,10 +257,6 @@ document.body.addEventListener('click', function (e) {
       messageId: +getMessageIdFromNode(e.target),
       voted: e.target.classList.contains('self-voted')
     });
-  }
-
-  if (e.target.matches('.scroll-bottom')) {
-    scrollToBottom();
   }
 });
 
