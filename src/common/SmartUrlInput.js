@@ -59,7 +59,8 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   };
 
   urlPress = () => {
-    this.textInputRef.focus();
+    this.textInputRef.blur();
+    setTimeout(() => this.textInputRef.focus(), 100);
   };
 
   renderPlaceholderPart = (text: string) => (
