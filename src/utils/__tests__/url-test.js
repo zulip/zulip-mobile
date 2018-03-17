@@ -296,6 +296,9 @@ describe('getNarrowFromLink', () => {
     expect(getNarrowFromLink('/#narrow/stream/jest', 'https://example.com')).toEqual(
       streamNarrow('jest'),
     );
+    expect(getNarrowFromLink('#narrow/stream/jest', 'https://example.com')).toEqual(
+      streamNarrow('jest'),
+    );
   });
 
   test('when link is a topic link and encoded, decode stream and topic names and return matching streamNarrow and topicNarrow', () => {
@@ -333,6 +336,15 @@ describe('getNarrowFromLink', () => {
         'https://example.com',
       ),
     ).toEqual(topicNarrow('stream', 'topic'));
+  });
+
+  test('when link is pointing to a topic without realm info, return matching topicNarrow', () => {
+    expect(getNarrowFromLink('/#narrow/stream/stream/topic/topic', 'https://example.com')).toEqual(
+      topicNarrow('stream', 'topic'),
+    );
+    expect(getNarrowFromLink('#narrow/stream/stream/topic/topic', 'https://example.com')).toEqual(
+      topicNarrow('stream', 'topic'),
+    );
   });
 
   test('when link is a group link, return matching groupNarrow', () => {
