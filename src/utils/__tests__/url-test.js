@@ -142,15 +142,27 @@ describe('isStreamLink', () => {
 });
 
 describe('isTopicLink', () => {
-  test('only in-app link containing "topic" is a topic link', () => {
+  test('when a url is not a topic narrow return false', () => {
     expect(
       isTopicLink('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
     ).toBe(false);
-
     expect(isTopicLink('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
       false,
     );
 
+    expect(
+      isTopicLink(
+        'https://example.com/#narrow/stream/stream/topic/topic/near/',
+        'https://example.com',
+      ),
+    ).toBe(false);
+
+    expect(isTopicLink('https://example.com/#narrow/stream/topic/', 'https://example.com')).toBe(
+      false,
+    );
+  });
+
+  test('when a url is a topic narrow return true', () => {
     expect(
       isTopicLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
     ).toBe(true);
@@ -168,21 +180,19 @@ describe('isTopicLink', () => {
 
     expect(
       isTopicLink(
-        'https://example.com/#narrow/stream/stream/topic/topic/near/',
-        'https://example.com',
-      ),
-    ).toBe(false);
-
-    expect(
-      isTopicLink(
         'https://example.com/#narrow/stream/stream/topic/topic/near/1',
         'https://example.com',
       ),
     ).toBe(true);
 
-    expect(isTopicLink('https://example.com/#narrow/stream/topic/', 'https://example.com')).toBe(
-      false,
-    );
+    expect(
+      isTopicLink(
+        'https://example.com/#narrow/stream/stream/subject/topic/near/1',
+        'https://example.com',
+      ),
+    ).toBe(true);
+
+    expect(isTopicLink('/#narrow/stream/stream/subject/topic', 'https://example.com')).toBe(true);
   });
 });
 

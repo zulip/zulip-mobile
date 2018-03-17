@@ -2,7 +2,7 @@
 import base64 from 'base-64';
 
 import type { Auth, Narrow } from '../types';
-import { topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
+import { homeNarrow, topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { getUserById } from '../users/userHelpers';
 import { transformToEncodedURI } from './string';
 
@@ -45,11 +45,9 @@ export const isTopicLink = (url: string, realm: string): boolean => {
   const paths = getPathsFromUrl(url, realm);
   return (
     isUrlInAppLink(url, realm) &&
-    ((paths.length === 4 && paths[0] === 'stream' && paths[2] === 'topic') ||
-      (paths.length === 6 &&
-        paths[0] === 'stream' &&
-        (paths[2] === 'subject' || paths[2] === 'topic') &&
-        paths[4] === 'near'))
+    ((paths.length === 4 || paths.length === 6) &&
+      paths[0] === 'stream' &&
+      (paths[2] === 'subject' || paths[2] === 'topic'))
   );
 };
 
@@ -101,7 +99,8 @@ export const getNarrowFromLink = (url: string, realm: string, users: any[]): Nar
   } else if (isSpecialLink(url, realm)) {
     return specialNarrow(paths[1]);
   }
-  return [];
+
+  return homeNarrow;
 };
 
 export const getMessageIdFromLink = (url: string, realm: string): number => {
