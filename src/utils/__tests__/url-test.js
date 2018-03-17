@@ -113,13 +113,8 @@ describe('isUrlInAppLink', () => {
   });
 
   test('when link is relative and in app, return true', () => {
-    expect(
-      isUrlInAppLink('#narrow/stream/jest/topic/topic1', 'https://example.com/#narrow/stream/jest'),
-    ).toBe(true);
-
-    expect(isUrlInAppLink('/#narrow/stream/jest', 'https://example.com/#narrow/stream/jest')).toBe(
-      true,
-    );
+    expect(isUrlInAppLink('#narrow/stream/jest/topic/topic1', 'https://example.com')).toBe(true);
+    expect(isUrlInAppLink('/#narrow/stream/jest', 'https://example.com')).toBe(true);
   });
 });
 
