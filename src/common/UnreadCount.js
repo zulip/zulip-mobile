@@ -71,7 +71,7 @@ export default class UnreadCount extends PureComponent<Props> {
 
     return (
       <View style={frameStyle}>
-        <Text style={textStyle} numberOfLines={1}>
+        <Text style={textStyle} numberOfLines={1} ellipsizeMode="clip">
           {unreadToLimitedCount(count)}
         </Text>
       </View>

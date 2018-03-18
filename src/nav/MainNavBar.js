@@ -42,7 +42,7 @@ class MainNavBar extends PureComponent<Props> {
         {canGoBack && (
           <NavButton name="arrow-left" color={textColor} onPress={actions.navigateBack} />
         )}
-        {canGoBack && <ViewPlaceholder width={8} />}
+        <ViewPlaceholder width={8} />
         <Title color={textColor} narrow={narrow} />
         <TitleNavButtons narrow={narrow} />
       </View>
