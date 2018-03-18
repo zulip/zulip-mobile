@@ -1,12 +1,18 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import type { Narrow } from '../types';
 import connectWithActions from '../connectWithActions';
 import { ViewPlaceholder } from '../common';
 import { getTitleTextColor } from '../selectors';
 import { getInfoButtonFromNarrow, getExtraButtonFromNarrow } from './titleButtonFromNarrow';
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flexDirection: 'row',
+  },
+});
 
 type Props = {
   color: string,
@@ -22,13 +28,13 @@ class TitleNavButtons extends PureComponent<Props> {
     const ExtraButton = getExtraButtonFromNarrow(narrow);
 
     return (
-      <View>
-        {InfoButton ? <InfoButton color={color} narrow={narrow} /> : <ViewPlaceholder width={44} />}
+      <View style={styles.wrapper}>
         {ExtraButton ? (
           <ExtraButton color={color} narrow={narrow} />
         ) : (
           <ViewPlaceholder width={44} />
         )}
+        {InfoButton ? <InfoButton color={color} narrow={narrow} /> : <ViewPlaceholder width={44} />}
       </View>
     );
   }
