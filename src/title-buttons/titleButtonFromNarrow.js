@@ -11,6 +11,8 @@ import {
 import InfoNavButtonStream from './InfoNavButtonStream';
 import InfoNavButtonPrivate from './InfoNavButtonPrivate';
 import InfoNavButtonGroup from './InfoNavButtonGroup';
+import ExtraNavButtonStream from './ExtraNavButtonStream';
+import ExtraNavButtonTopic from './ExtraNavButtonTopic';
 
 const infoButtonHandlers = [
   { isFunc: isHomeNarrow, ButtonComponent: null },
@@ -24,8 +26,8 @@ const infoButtonHandlers = [
 const extraButtonHandlers = [
   { isFunc: isHomeNarrow, ButtonComponent: null },
   { isFunc: isSpecialNarrow, ButtonComponent: null },
-  { isFunc: isStreamNarrow, ButtonComponent: null },
-  { isFunc: isTopicNarrow, ButtonComponent: null },
+  { isFunc: isStreamNarrow, ButtonComponent: ExtraNavButtonStream },
+  { isFunc: isTopicNarrow, ButtonComponent: ExtraNavButtonTopic },
   { isFunc: isPrivateNarrow, ButtonComponent: null },
   { isFunc: isGroupNarrow, ButtonComponent: null },
 ];
