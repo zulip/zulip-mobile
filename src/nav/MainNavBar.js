@@ -7,7 +7,7 @@ import connectWithActions from '../connectWithActions';
 import { ViewPlaceholder } from '../common';
 import Title from '../title/Title';
 import NavButton from './NavButton';
-import InfoNavButton from '../title/InfoNavButton';
+import TitleNavButtons from '../title-buttons/TitleNavButtons';
 import {
   getSession,
   getCanGoBack,
@@ -44,7 +44,7 @@ class MainNavBar extends PureComponent<Props> {
         )}
         {canGoBack && <ViewPlaceholder width={8} />}
         <Title color={textColor} narrow={narrow} />
-        <InfoNavButton narrow={narrow} />
+        <TitleNavButtons narrow={narrow} />
       </View>
     );
   }
