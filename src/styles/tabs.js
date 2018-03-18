@@ -7,9 +7,17 @@ type Props = {
   showLabel: boolean,
   showIcon: boolean,
   tabWidth: number,
+  theme: string,
 };
 
-export default ({ tabBarComponent, tabBarPosition, showLabel, showIcon, tabWidth }: Props) => ({
+export default ({
+  tabBarComponent,
+  tabBarPosition,
+  showLabel,
+  showIcon,
+  tabWidth,
+  theme,
+}: Props) => ({
   tabBarComponent,
   tabBarPosition,
   swipeEnabled: true,
@@ -32,7 +40,7 @@ export default ({ tabBarComponent, tabBarPosition, showLabel, showIcon, tabWidth
       flex: 1,
     },
     style: {
-      backgroundColor: 'transparent',
+      backgroundColor: theme === 'night' ? '#212D3B' : 'white',
     },
   },
 });
