@@ -130,5 +130,6 @@
   "Active": "Активен",
   "Idle": "Неактивен",
   "Offline": "Офлайн",
-  "Do not mark messages read on scroll": "Не маркирай съобщенията като прочетени при скролиране"
+  "Do not mark messages read on scroll": "Не маркирай съобщенията като прочетени при скролиране",
+  "Topics": "Теми"
 }

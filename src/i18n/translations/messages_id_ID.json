@@ -130,5 +130,6 @@
   "Active": "Aktif",
   "Idle": "Diam",
   "Offline": "Tidak aktif",
-  "Do not mark messages read on scroll": "Jangan tandai pesan saat scroll"
+  "Do not mark messages read on scroll": "Jangan tandai pesan saat scroll",
+  "Topics": "Topics"
 }

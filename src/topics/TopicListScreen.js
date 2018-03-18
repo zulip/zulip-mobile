@@ -33,7 +33,7 @@ class TopicListScreen extends PureComponent<Props> {
     const { topics } = this.props;
 
     return (
-      <Screen title="Stream" padding>
+      <Screen title="Topics" padding>
         <TopicList topics={topics} onPress={this.handlePress} />
       </Screen>
     );

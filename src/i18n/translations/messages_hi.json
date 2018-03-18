@@ -130,5 +130,6 @@
   "Active": "सक्रिय उपयोगकर्ता",
   "Idle": "दूर उपयोगकर्ताओं",
   "Offline": "ऑफ़लाइन उपयोगकर्ता",
-  "Do not mark messages read on scroll": "Do not mark messages read on scroll"
+  "Do not mark messages read on scroll": "Do not mark messages read on scroll",
+  "Topics": "Topics"
 }
