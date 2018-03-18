@@ -130,5 +130,6 @@
   "Active": "Faal",
   "Idle": "Eylemsiz",
   "Offline": "Çevrim dışı",
-  "Do not mark messages read on scroll": "Kaydırınca iletileri okunmuş işaretleme"
+  "Do not mark messages read on scroll": "Kaydırınca iletileri okunmuş işaretleme",
+  "Topics": "Topics"
 }

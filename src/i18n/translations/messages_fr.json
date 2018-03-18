@@ -130,5 +130,6 @@
   "Active": "Activer",
   "Idle": "Libre",
   "Offline": "Hors-ligne",
-  "Do not mark messages read on scroll": "Ne pas marquer les messages lus lors d'un défilement"
+  "Do not mark messages read on scroll": "Ne pas marquer les messages lus lors d'un défilement",
+  "Topics": "Topics"
 }

@@ -1,7 +1,7 @@
 {
   "{_}": "{_}",
   "Home": "Inicio",
-  "All messages": "All messages",
+  "All messages": "Todos los mensajes",
   "Private messages": "Mensajes privados",
   "Starred": "Destacados",
   "Mentions": "Menciones",
@@ -130,5 +130,6 @@
   "Active": "Activo",
   "Idle": "Idle",
   "Offline": "Offline",
-  "Do not mark messages read on scroll": "Do not mark messages read on scroll"
+  "Do not mark messages read on scroll": "Do not mark messages read on scroll",
+  "Topics": "Topics"
 }
