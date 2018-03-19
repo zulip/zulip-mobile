@@ -107,7 +107,7 @@ const copyToClipboard = async ({ getString, auth, message }: AuthGetStringAndMes
   showToast(getString('Message copied'));
 };
 
-const isSentMessage = ({ message }: {message: Message}): boolean => !isAnOutboxMessage(message);
+const isSentMessage = ({ message }: { message: Message }): boolean => !isAnOutboxMessage(message);
 
 const editMessage = async ({ message, actions }: MessageAuthAndActions) => {
   actions.startEditMessage(message.id, message.subject);

@@ -112,10 +112,7 @@ export const getStreamInNarrow = (narrow: Narrow) =>
   );
 
 export const getIfNoMessages = (narrow: Narrow) =>
-  createSelector(
-    getShownMessagesForNarrow(narrow),
-    messages => messages && messages.length === 0,
-  );
+  createSelector(getShownMessagesForNarrow(narrow), messages => messages && messages.length === 0);
 
 export const getShowMessagePlaceholders = (narrow: Narrow) =>
   createSelector(
