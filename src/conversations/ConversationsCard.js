@@ -44,7 +44,7 @@ export default class ConversationsCard extends PureComponent<Props> {
     const { styles } = this.context;
     const { actions, conversations, isLoading, presences, usersByEmail } = this.props;
 
-    if (conversations.length === 0 && isLoading) {
+    if (isLoading) {
       return <LoadingIndicator size={40} />;
     }
 
