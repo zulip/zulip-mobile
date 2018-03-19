@@ -20,11 +20,11 @@ export type InputSelectionType = {
 
 export type Account = Auth;
 
-export type ImageResource = any; /* {
+export type ImageResource = {
   uri: string,
-} */
+};
 
-export type ReactionType = any; /* {
+export type ReactionType = any; /*{
   emoji_name: string,
   user: any,
   name: string,
