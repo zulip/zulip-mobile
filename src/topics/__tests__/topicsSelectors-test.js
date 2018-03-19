@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { getTopicsForNarrow, getLastMessageTopic } from '../topicSelectors';
+import { getTopicsForNarrow, getLastMessageTopic, getTopicsInScreen } from '../topicSelectors';
 import { homeNarrow, streamNarrow } from '../../utils/narrow';
 
 describe('getTopicsForNarrow', () => {
@@ -48,5 +48,47 @@ describe('getLastMessageTopic', () => {
     const topic = getLastMessageTopic(narrow)(state);
 
     expect(topic).toEqual('some topic');
+  });
+});
+
+describe('getTopicsInScreen', () => {
+  test('when no topics loaded for given stream return undefined', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 0,
+        routes: [
+          {
+            routeName: 'topics',
+            params: { streamId: 123 },
+          },
+        ],
+      },
+      topics: {},
+    });
+
+    const topics = getTopicsInScreen(state);
+
+    expect(topics).toEqual(undefined);
+  });
+
+  test('when topics loaded for given stream return them', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 0,
+        routes: [
+          {
+            routeName: 'topics',
+            params: { streamId: 123 },
+          },
+        ],
+      },
+      topics: {
+        123: [{ name: 'topic', max_id: 456 }],
+      },
+    });
+
+    const topics = getTopicsInScreen(state);
+
+    expect(topics).toEqual([{ name: 'topic', max_id: 456 }]);
   });
 });
