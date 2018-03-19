@@ -24,7 +24,7 @@ export type ImageResource = {
   uri: string,
 };
 
-export type ReactionType = any; /* {
+export type ReactionType = any; /*{
   emoji_name: string,
   user: any,
   name: string,
@@ -62,7 +62,7 @@ export type MessageState = {
   [narrow: string]: Message[],
 };
 
-export type UserStatus = 'active' | 'inactive' | 'offline';
+export type UserStatus = 'active' | 'idle' | 'offline';
 
 export type User = any; /* {
   avatarUrl: string,
@@ -74,12 +74,14 @@ export type User = any; /* {
   isBot: boolean,
 } */
 
-export type Presence = any; /* {
-  client: string,
-  pushable: boolean,
-  status: UserStatus,
-  timestamp: number,
-} */
+export type Presence = {
+  aggregated: {
+    client: string,
+    pushable: boolean,
+    status: UserStatus,
+    timestamp: number,
+  },
+};
 
 export type CaughtUp = {
   older: boolean,
