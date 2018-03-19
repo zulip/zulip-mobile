@@ -25,13 +25,7 @@ export const getTopicsForNarrow = (narrow: Narrow) =>
 export const getTopicsInScreen = createSelector(
   getCurrentRouteParams,
   getTopics,
-  (params, topics) => {
-    if (!params.streamId || !topics[params.streamId]) {
-      return NULL_ARRAY;
-    }
-
-    return topics[params.streamId];
-  },
+  (params, topics) => topics[params.streamId],
 );
 
 export const getLastMessageTopic = (narrow: Narrow) =>

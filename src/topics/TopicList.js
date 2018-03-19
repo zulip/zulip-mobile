@@ -4,7 +4,7 @@ import { FlatList, StyleSheet } from 'react-native';
 
 import type { TopicDetails } from '../types';
 import TopicItem from '../streams/TopicItem';
-import { SectionSeparatorBetween, SearchEmptyState } from '../common';
+import { LoadingIndicator, SectionSeparatorBetween, SearchEmptyState } from '../common';
 
 const styles = StyleSheet.create({
   list: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  topics: TopicDetails[],
+  topics: ?(TopicDetails[]),
   unreadByStream: number[],
   onPress: (stream: string, topic: string) => void,
 };
@@ -32,6 +32,10 @@ export default class TopicList extends PureComponent<Props> {
 
   render() {
     const { topics, onPress } = this.props;
+
+    if (!topics) {
+      return <LoadingIndicator size={40} />;
+    }
 
     if (topics.length === 0) {
       return <SearchEmptyState text="No topics found" />;
