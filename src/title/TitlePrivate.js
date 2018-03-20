@@ -41,7 +41,7 @@ export default class TitlePrivate extends PureComponent<Props> {
           <Text style={[styles.title, { color }]} numberOfLines={1} ellipsizeMode="tail">
             {fullName}
           </Text>
-          <Text style={[styles.time, { color }]}>Active {activity} ago</Text>
+          <Text style={[styles.time, { color }]}>Active {activity}</Text>
         </View>
       </View>
     );
