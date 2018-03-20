@@ -62,7 +62,7 @@ class RealmScreen extends PureComponent<Props, State> {
   render() {
     const { styles } = this.context;
     const { initialRealm, navigation } = this.props;
-    const { progress, error } = this.state;
+    const { progress, error, realm } = this.state;
 
     return (
       <Screen title="Welcome" padding scrollView>
@@ -77,6 +77,7 @@ class RealmScreen extends PureComponent<Props, State> {
           defaultValue={initialRealm}
           onChange={this.handleRealmChange}
           onSubmitEditing={this.tryRealm}
+          enablesReturnKeyAutomatically
         />
         {error && <ErrorMsg error={error} />}
         <ZulipButton
@@ -84,6 +85,7 @@ class RealmScreen extends PureComponent<Props, State> {
           text="Enter"
           progress={progress}
           onPress={this.tryRealm}
+          disabled={!realm}
         />
       </Screen>
     );

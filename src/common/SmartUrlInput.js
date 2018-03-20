@@ -23,6 +23,7 @@ type Props = {
   style?: StyleObj,
   onChange: (value: string) => void,
   onSubmitEditing: () => Promise<void>,
+  enablesReturnKeyAutomatically: boolean,
 };
 
 type State = {
@@ -82,6 +83,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
       defaultValue,
       style,
       onSubmitEditing,
+      enablesReturnKeyAutomatically,
     } = this.props;
     const { value } = this.state;
     const useFullAppend = value.indexOf('.') === -1;
@@ -102,6 +104,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
           keyboardType="url"
           underlineColorAndroid="transparent"
           onSubmitEditing={onSubmitEditing}
+          enablesReturnKeyAutomatically={enablesReturnKeyAutomatically}
           ref={(component: any) => {
             this.textInputRef = component;
           }}
