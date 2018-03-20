@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
   },
   streamRow: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   streamText: {
     marginLeft: 4,
