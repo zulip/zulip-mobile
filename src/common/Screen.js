@@ -27,6 +27,7 @@ const componentStyles = StyleSheet.create({
 type Props = {
   padding?: boolean,
   search?: boolean,
+  centerContent: boolean,
   safeAreaInsets: Dimensions,
   scrollView: boolean,
   title?: LocalizableText,
@@ -43,10 +44,19 @@ class Screen extends PureComponent<Props> {
 
   static defaultProps = {
     scrollView: true,
+    centerContent: false,
   };
 
   render() {
-    const { padding, search, title, children, safeAreaInsets, searchBarOnChange } = this.props;
+    const {
+      padding,
+      search,
+      centerContent,
+      title,
+      children,
+      safeAreaInsets,
+      searchBarOnChange,
+    } = this.props;
     const { styles } = this.context;
     const ModalBar = search ? ModalSearchNavBar : ModalNavBar;
 
@@ -60,7 +70,9 @@ class Screen extends PureComponent<Props> {
           style={[componentStyles.wrapper, padding && componentStyles.padding]}
           contentContainerStyle={[padding && componentStyles.padding]}
         >
-          <ScrollView contentContainerStyle={componentStyles.content}>{children}</ScrollView>
+          <ScrollView contentContainerStyle={centerContent ? componentStyles.content : null}>
+            {children}
+          </ScrollView>
         </KeyboardAvoider>
       </View>
     );
