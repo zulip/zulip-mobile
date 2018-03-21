@@ -100,6 +100,12 @@ export default class ComposeBox extends PureComponent<Props, State> {
     }));
   };
 
+  handleLayoutChange = (event: Object) => {
+    this.setState({
+      height: event.nativeEvent.layout.height,
+    });
+  };
+
   handleTopicChange = (topic: string) => {
     this.setState({ topic });
   };
@@ -271,7 +277,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
           onMessageAutocomplete={this.handleMessageChange}
           onTopicAutocomplete={this.handleTopicChange}
         />
-        <View style={styles.composeBox}>
+        <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
           <View style={componentStyles.bottom}>
             <ComposeMenuContainer
               narrow={narrow}
