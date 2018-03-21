@@ -25,7 +25,7 @@ import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
 import NotSubscribed from '../message/NotSubscribed';
 
 const MIN_HEIGHT = 42;
-const MAX_HEIGHT = 80;
+const MAX_HEIGHT = 82;
 
 const componentStyles = StyleSheet.create({
   bottom: {
@@ -36,12 +36,13 @@ const componentStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  topic: {
+  topicInput: {
+    borderColor: 'transparent',
     padding: 4,
     backgroundColor: 'rgba(127, 127, 127, 0.25)',
   },
   button: {
-    margin: 5,
+    margin: 6,
   },
 });
 
@@ -288,7 +289,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
           <View style={[componentStyles.composeText]}>
             {canSelectTopic && (
               <Input
-                style={[styles.composeTextInput, componentStyles.topic]}
+                style={[componentStyles.topicInput]}
                 underlineColorAndroid="transparent"
                 placeholder="Topic"
                 selectTextOnFocus
