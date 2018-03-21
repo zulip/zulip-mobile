@@ -19,7 +19,7 @@ import { showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import { isStreamNarrow, topicNarrow } from '../utils/narrow';
 import ComposeMenuContainer from './ComposeMenuContainer';
-import AutoCompleteViewWrapper from '../autocomplete/AutoCompleteViewWrapper';
+import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
 import NotSubscribed from '../message/NotSubscribed';
@@ -268,7 +268,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
     return (
       <View style={{ marginBottom: safeAreaInsets.bottom }}>
-        <AutoCompleteViewWrapper
+        <AutocompleteViewWrapper
           composeText={message}
           isTopicFocused={isTopicFocused}
           marginBottom={height}

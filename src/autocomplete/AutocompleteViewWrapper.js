@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { InputSelectionType, Narrow } from '../types';
-import AutoCompleteView from './AutoCompleteView';
+import AutocompleteView from './AutocompleteView';
 import TopicAutocomplete from './TopicAutocomplete';
 
 const styles = StyleSheet.create({
@@ -25,7 +25,7 @@ type Props = {
   onTopicAutocomplete: (topic: string) => void,
 };
 
-export default class AutoCompleteViewWrapper extends PureComponent<Props> {
+export default class AutocompleteViewWrapper extends PureComponent<Props> {
   render() {
     const {
       composeText,
@@ -45,7 +45,7 @@ export default class AutoCompleteViewWrapper extends PureComponent<Props> {
           text={topicText}
           onAutocomplete={onTopicAutocomplete}
         />
-        <AutoCompleteView
+        <AutocompleteView
           selection={messageSelection}
           text={composeText}
           onAutocomplete={onMessageAutocomplete}

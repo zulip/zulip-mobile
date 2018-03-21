@@ -21,7 +21,7 @@ type Props = {
   onAutocomplete: (input: string) => void,
 };
 
-export default class AutoCompleteView extends PureComponent<Props> {
+export default class AutocompleteView extends PureComponent<Props> {
   props: Props;
 
   handleAutocomplete = (autocomplete: string) => {
