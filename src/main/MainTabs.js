@@ -14,7 +14,7 @@ type Props = {
   theme: string,
 };
 
-export default class DynamicTabBar extends Component<Props> {
+export default class BottomTabBar extends Component<Props> {
   render() {
     const Tabs = TabNavigator(
       {
@@ -26,9 +26,7 @@ export default class DynamicTabBar extends Component<Props> {
           },
         },
         streams: {
-          screen: props => (
-            <StreamTabs {...props.screenProps} theme={this.props.theme} />
-          ),
+          screen: props => <StreamTabs {...props.screenProps} theme={this.props.theme} />,
           navigationOptions: {
             tabBarLabel: 'Streams',
             tabBarIcon: ({ tintColor }) => <IconStream size={24} color={tintColor} />,

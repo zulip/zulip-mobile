@@ -1,5 +1,7 @@
 /* @flow */
 import { BRAND_COLOR } from './';
+import themeDark from './themeDark';
+import themeLight from './themeLight';
 
 type Props = {
   tabBarComponent: Object,
@@ -40,7 +42,7 @@ export default ({
       flex: 1,
     },
     style: {
-      backgroundColor: theme === 'night' ? '#212D3B' : 'white',
+      backgroundColor: theme === 'night' ? themeDark.backgroundColor : themeLight.backgroundColor,
     },
   },
 });

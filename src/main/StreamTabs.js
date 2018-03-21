@@ -19,7 +19,7 @@ type Props = {
   theme: string,
 };
 
-export default class DynamicTabBar extends Component<Props> {
+export default class TopTabBar extends Component<Props> {
   render() {
     const Tabs = TabNavigator(
       {
