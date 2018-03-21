@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Platform, StyleSheet, View, TextInput, findNodeHandle } from 'react-native';
+import { StyleSheet, View, TextInput, findNodeHandle } from 'react-native';
 import TextInputReset from 'react-native-text-input-reset';
 import isEqual from 'lodash.isequal';
 
@@ -25,7 +25,7 @@ import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
 import NotSubscribed from '../message/NotSubscribed';
 
 const MIN_HEIGHT = 42;
-const MAX_HEIGHT = 100;
+const MAX_HEIGHT = 80;
 
 const componentStyles = StyleSheet.create({
   bottom: {
@@ -37,7 +37,7 @@ const componentStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   topic: {
-    height: 30,
+    padding: 4,
     backgroundColor: 'rgba(127, 127, 127, 0.25)',
   },
   button: {
@@ -88,7 +88,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     isMessageFocused: false,
     isTopicFocused: false,
     isMenuExpanded: false,
-    height: 23,
+    height: MIN_HEIGHT,
     topic: '',
     message: this.props.draft,
     selection: { start: 0, end: 0 },
@@ -113,10 +113,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
   handleMessageSelectionChange = (event: Object) => {
     const { selection } = event.nativeEvent;
     this.setState({ selection });
-  };
-
-  handleHeightChange = (height: number) => {
-    this.setState({ height });
   };
 
   handleMessageFocus = () => {
@@ -261,35 +257,21 @@ export default class ComposeBox extends PureComponent<Props, State> {
     }
 
     const canSelectTopic = (isMessageFocused || isTopicFocused) && isStreamNarrow(narrow);
-    const messageHeight = Math.min(Math.max(MIN_HEIGHT, height + 12), MAX_HEIGHT);
-    const totalHeight = canSelectTopic ? messageHeight + 30 : messageHeight;
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
-    const msgInputStyles = {
-      height: messageHeight === MIN_HEIGHT ? MIN_HEIGHT - 12 : messageHeight,
-      ...Platform.select({
-        android: {
-          paddingTop: messageHeight === MAX_HEIGHT ? 6 : 0,
-          paddingBottom: messageHeight === MAX_HEIGHT ? 6 : 0,
-        },
-        ios: { paddingTop: 6, paddingBottom: 6 },
-      }),
-    };
 
     return (
-      <View>
+      <View style={{ marginBottom: safeAreaInsets.bottom }}>
         <AutoCompleteViewWrapper
           composeText={message}
           isTopicFocused={isTopicFocused}
-          marginBottom={totalHeight}
+          marginBottom={height}
           messageSelection={selection}
           narrow={narrow}
           topicText={topic}
           onMessageAutocomplete={this.handleMessageChange}
           onTopicAutocomplete={this.handleTopicChange}
         />
-        <View
-          style={[styles.composeBox, { height: totalHeight, marginBottom: safeAreaInsets.bottom }]}
-        >
+        <View style={styles.composeBox}>
           <View style={componentStyles.bottom}>
             <ComposeMenuContainer
               narrow={narrow}
@@ -314,18 +296,18 @@ export default class ComposeBox extends PureComponent<Props, State> {
               />
             )}
             <MultilineInput
-              style={[styles.composeTextInput, msgInputStyles]}
+              style={styles.composeTextInput}
+              maxHeight={MAX_HEIGHT}
               placeholder={placeholder}
               textInputRef={component => {
                 this.messageInput = component;
                 if (component) messageInputRef(component);
               }}
+              value={message}
+              onBlur={this.handleMessageBlur}
               onChange={this.handleMessageChange}
               onFocus={this.handleMessageFocus}
-              onBlur={this.handleMessageBlur}
-              onHeightChange={this.handleHeightChange}
               onSelectionChange={this.handleMessageSelectionChange}
-              value={message}
             />
           </View>
           <View style={componentStyles.bottom}>

@@ -12,7 +12,6 @@ type Props = {
   onChange?: (text: string) => void,
   onBlur?: () => void,
   onFocus?: () => void,
-  onHeightChange?: (height: number) => void,
   onSelectionChange?: (event: Object) => void,
   textInputRef?: (component: any) => void,
 };
@@ -26,14 +25,6 @@ export default class MultilineInput extends PureComponent<Props> {
 
   textInput: TextInput;
 
-  handleOnContentSizeChange = (event: Object) => {
-    const { onHeightChange } = this.props;
-    const contentHeight = event.nativeEvent.contentSize.height;
-    if (onHeightChange) {
-      onHeightChange(contentHeight);
-    }
-  };
-
   render() {
     const { onChange, ...restProps } = this.props;
 
@@ -44,7 +35,6 @@ export default class MultilineInput extends PureComponent<Props> {
         overScrollMode="never"
         underlineColorAndroid="transparent"
         onChangeText={onChange}
-        onContentSizeChange={this.handleOnContentSizeChange}
         {...restProps}
       />
     );
