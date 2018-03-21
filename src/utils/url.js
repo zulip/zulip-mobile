@@ -146,7 +146,7 @@ const mimes = {
 export const getMimeTypeFromFileExtension = (extension: string): string =>
   mimes[extension.toLowerCase()] || 'application/octet-stream';
 
-export const autoCompleteUrl = (
+export const autocompleteUrl = (
   value: string,
   protocol: string,
   append: string,
