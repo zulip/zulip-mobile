@@ -2,6 +2,7 @@
 import React from 'react';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
+import type { TabNavigationOptionsPropsType } from '../types';
 import tabsOptions from '../styles/tabs';
 import HomeTab from './HomeTab';
 import StreamTabs from './StreamTabs';
@@ -16,28 +17,36 @@ export default TabNavigator(
       screen: props => <HomeTab {...props.screenProps} />,
       navigationOptions: {
         tabBarLabel: 'Home',
-        tabBarIcon: ({ tintColor }) => <IconHome size={24} color={tintColor} />,
+        tabBarIcon: (props: TabNavigationOptionsPropsType) => (
+          <IconHome size={24} color={props.tintColor} />
+        ),
       },
     },
     streams: {
       screen: props => <StreamTabs {...props.screenProps} />,
       navigationOptions: {
         tabBarLabel: 'Streams',
-        tabBarIcon: ({ tintColor }) => <IconStream size={24} color={tintColor} />,
+        tabBarIcon: (props: TabNavigationOptionsPropsType) => (
+          <IconStream size={24} color={props.tintColor} />
+        ),
       },
     },
     conversations: {
       screen: props => <ConversationsContainer {...props.screenProps} />,
       navigationOptions: {
         tabBarLabel: 'Conversations',
-        tabBarIcon: ({ tintColor }) => <IconUnreadConversations color={tintColor} />,
+        tabBarIcon: (props: TabNavigationOptionsPropsType) => (
+          <IconUnreadConversations color={props.tintColor} />
+        ),
       },
     },
     settings: {
       screen: SettingsCard,
       navigationOptions: {
         tabBarLabel: 'Settings',
-        tabBarIcon: ({ tintColor }) => <IconSettings size={24} color={tintColor} />,
+        tabBarIcon: (props: TabNavigationOptionsPropsType) => (
+          <IconSettings size={24} color={props.tintColor} />
+        ),
       },
     },
   },
