@@ -1,5 +1,7 @@
 /* @flow */
 import { BRAND_COLOR } from './';
+import themeDark from './themeDark';
+import themeLight from './themeLight';
 
 type Props = {
   tabBarComponent: Object,
@@ -7,9 +9,17 @@ type Props = {
   showLabel: boolean,
   showIcon: boolean,
   tabWidth: number,
+  theme: string,
 };
 
-export default ({ tabBarComponent, tabBarPosition, showLabel, showIcon, tabWidth }: Props) => ({
+export default ({
+  tabBarComponent,
+  tabBarPosition,
+  showLabel,
+  showIcon,
+  tabWidth,
+  theme,
+}: Props) => ({
   tabBarComponent,
   tabBarPosition,
   swipeEnabled: true,
@@ -32,7 +42,7 @@ export default ({ tabBarComponent, tabBarPosition, showLabel, showIcon, tabWidth
       flex: 1,
     },
     style: {
-      backgroundColor: 'transparent',
+      backgroundColor: theme === 'night' ? themeDark.backgroundColor : themeLight.backgroundColor,
     },
   },
 });
