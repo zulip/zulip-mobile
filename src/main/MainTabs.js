@@ -14,7 +14,7 @@ import IconUnreadConversations from '../nav/IconUnreadConversations';
 export default TabNavigator(
   {
     home: {
-      screen: props => <HomeTab {...props.screenProps} />,
+      screen: HomeTab,
       navigationOptions: {
         tabBarLabel: 'Home',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
@@ -23,7 +23,7 @@ export default TabNavigator(
       },
     },
     streams: {
-      screen: props => <StreamTabs {...props.screenProps} />,
+      screen: StreamTabs,
       navigationOptions: {
         tabBarLabel: 'Streams',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
@@ -32,7 +32,7 @@ export default TabNavigator(
       },
     },
     conversations: {
-      screen: props => <ConversationsContainer {...props.screenProps} />,
+      screen: ConversationsContainer,
       navigationOptions: {
         tabBarLabel: 'Conversations',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
