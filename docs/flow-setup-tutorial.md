@@ -13,9 +13,9 @@ Flow is a static-type checker for Javascript code
 1. install babel compiler with command line interface,
 	run command <$yarn add --dev babel-cli babel-preset-flow>
 2. change the present from "react-native" to "flow"
-	{
-	"present": ["flow"]
-	}
+>	{
+>	"present": ["flow"]
+>	}
 3. Install flow version 0.65 for zulip using <$yarn add --dev flow-bin@0.65>
 4. type <$flow init> 
 5. Type flow server by typing <$yarn run flow> to check if flow is correctly installed
@@ -28,7 +28,7 @@ Flow is a static-type checker for Javascript code
 
 
 ### Method 2
-1. run command $whereis flow
-2. type sudo rm -rf <PATH OF FLOW>
+1. run command <$whereis flow>
+2. type <$sudo rm -rf <PATH OF FLOW>>
 
 ** Note **: Flow uses Node8.x so for ubuntu users type <$curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -sudo apt-get install -y nodejs>
