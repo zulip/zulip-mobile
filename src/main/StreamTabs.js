@@ -27,7 +27,7 @@ export default TabNavigator(
         ),
       },
     },
-    streams: {
+    allStreams: {
       screen: props => <StreamListContainer {...props.screenProps} />,
       navigationOptions: {
         tabBarLabel: props => (
