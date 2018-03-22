@@ -1,13 +1,37 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { BackHandler, View } from 'react-native';
 
+import type { Actions } from '../types';
+import connectWithActions from '../connectWithActions';
 import { ZulipStatusBar } from '../common';
+import { getCanGoBack } from '../selectors';
 import MainTabs from './MainTabs';
 
-export default class MainScreenWithTabs extends PureComponent<{}> {
+type Props = {
+  actions: Actions,
+  canGoBack: boolean,
+};
+
+class MainScreenWithTabs extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
+  };
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
+  }
+
+  handleBackButtonPress = () => {
+    const { canGoBack, actions } = this.props;
+    if (canGoBack) {
+      actions.navigateBack();
+    }
+    return canGoBack;
   };
 
   render() {
@@ -21,3 +45,7 @@ export default class MainScreenWithTabs extends PureComponent<{}> {
     );
   }
 }
+
+export default connectWithActions(state => ({
+  canGoBack: getCanGoBack(state),
+}))(MainScreenWithTabs);
