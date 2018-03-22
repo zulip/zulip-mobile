@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 export default TabNavigator(
   {
     subscribed: {
-      screen: props => <SubscriptionsContainer {...props.screenProps} />,
+      screen: SubscriptionsContainer,
       navigationOptions: {
         tabBarLabel: props => (
           <Text style={[styles.tab, { color: props.tintColor }]}>
@@ -28,7 +28,7 @@ export default TabNavigator(
       },
     },
     allStreams: {
-      screen: props => <StreamListContainer {...props.screenProps} />,
+      screen: StreamListContainer,
       navigationOptions: {
         tabBarLabel: props => (
           <Text style={[styles.tab, { color: props.tintColor }]}>
