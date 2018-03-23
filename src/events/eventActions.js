@@ -3,7 +3,7 @@ import { batchActions } from 'redux-batched-actions';
 
 import type { Action, Dispatch, GetState, GlobalState } from '../types';
 import { pollForEvents } from '../api';
-import { appRefresh } from '../actions';
+import { appRefresh, logout } from '../actions';
 import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
 import { getAuth } from '../selectors';
@@ -45,6 +45,14 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
     const auth = getAuth(getState());
     try {
       const response = await pollForEvents(auth, queueId, lastEventId);
+
+      if (response.status === 401) {
+        // UNAUTHORIZED
+        // apiKey got exprired
+        // logout
+        dispatch(logout(auth));
+        break;
+      }
 
       // User switched accounts or logged out
       if (queueId !== getState().session.eventQueueId || auth.apiKey === '') {
