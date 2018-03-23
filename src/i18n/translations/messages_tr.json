@@ -38,7 +38,7 @@
   "Log in with GitHub": "GitHub ile giriş yap",
   "Log in with password": "Parola ile giriş yap",
   "Log in with dev account": "Geliştirici hesabı ile giriş yap",
-  "Can not connect to server": "Sunucuya bağlanılamadı",
+  "Cannot connect to server": "Sunucuya bağlanılamadı",
   "Wrong email or password. Try again.": "Hatalı e-posta veya parola. Tekrar deneyin.",
   "Wrong username or password. Try again.": "Hatalı kullanıcı adı veya parola. Tekrar deneyin.",
   "Enter a valid email address": "Geçerli bir e-posta adresi girin.",
@@ -71,7 +71,7 @@
   "Notifications when offline": "Çevrim dışıyken bildirimler",
   "Stream notifications": "Kanal bildirimleri",
   "Unread": "Okunmamış",
-  "Subscribed": "Abone olundu",
+  "Subscribed": "Abone olunan kanallar",
   "No users found": "Kullanıcı bulunamadı",
   "No streams found": "Kanal bulunmadı",
   "New group chat": "Yeni grup sohbet",
@@ -131,5 +131,5 @@
   "Idle": "Eylemsiz",
   "Offline": "Çevrim dışı",
   "Do not mark messages read on scroll": "Kaydırınca iletileri okunmuş işaretleme",
-  "Topics": "Topics"
+  "Topics": "Konular"
 }

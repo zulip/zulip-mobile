@@ -38,7 +38,7 @@
   "Log in with GitHub": "Log in with GitHub",
   "Log in with password": "Log in with password",
   "Log in with dev account": "Log in with dev account",
-  "Can not connect to server": "சேவையகத்துடன் இணைக்க முடியவில்லை",
+  "Cannot connect to server": "சேவையகத்துடன் இணைக்க முடியவில்லை",
   "Wrong email or password. Try again.": "தவறான மின்னஞ்சல் அல்லது கடவுச்சொல். மீண்டும் முயற்சி செய்.",
   "Wrong username or password. Try again.": "Wrong username or password. Try again.",
   "Enter a valid email address": "சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்",
