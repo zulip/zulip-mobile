@@ -19,6 +19,7 @@ import {
   MESSAGE_FETCH_COMPLETE,
   MARK_MESSAGES_READ,
 } from '../actionConstants';
+import { logout } from '../account/accountActions';
 import timing from '../utils/timing';
 import { allPrivateNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
@@ -28,6 +29,8 @@ import { sendFocusPing } from '../users/usersActions';
 import { initNotifications, realmInit } from '../realm/realmActions';
 import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
 import { startEventPolling } from '../events/eventActions';
+
+let isSuccessfullyRegistered = false;
 
 export const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
   type: MESSAGE_FETCH_START,
@@ -153,7 +156,13 @@ export const fetchEssentialInitialData = (): Action => async (
 
   timing.end('Essential server data');
 
+  if (initData === 401) {
+    dispatch(logout(auth));
+    return;
+  }
+  isSuccessfullyRegistered = true;
   dispatch(realmInit(initData));
+
   if (narrow && messages) {
     dispatch(messageFetchComplete(messages, narrow, 0, halfCount, halfCount, true));
   }
@@ -188,7 +197,9 @@ export const fetchRestOfInitialData = (): Action => async (
 
 export const doInitialFetch = (): Action => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(fetchEssentialInitialData());
-  dispatch(fetchRestOfInitialData());
+  if (isSuccessfullyRegistered) {
+    dispatch(fetchRestOfInitialData());
+  }
 
   if (config.enableNotifications) {
     dispatch(initNotifications());
