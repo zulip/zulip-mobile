@@ -1,21 +1,21 @@
 /* @flow */
 import type { TimingItem } from '../types';
 
-const timingMap = {};
-const countMap = {};
+const timingMap : Object = {};
+const countMap : Object = {};
 const log: TimingItem[] = [];
 
-const now = () => (typeof performance !== 'undefined' ? performance.now() : Date.now() / 1000);
+const now :() => number = () => (typeof performance !== 'undefined' ? performance.now() : Date.now() / 1000 : number);
 
-const add = (item: TimingItem) => {
+const add = (item: TimingItem) : void => {
   log.push(item);
 };
 
-const start = (key: string) => {
+const start : (key: string) => void = (key: string) : void  => {
   timingMap[key] = now();
 };
 
-const startGroup = (key: string) => {
+const startGroup : (key: string) => void = (key: string)  : void => {
   timingMap[key] = now();
   if (countMap[key]) {
     countMap[key]++;
@@ -24,7 +24,7 @@ const startGroup = (key: string) => {
   }
 };
 
-const end = (key: string) => {
+const end : (key: string) => void = (key: string) : void  => {
   if (timingMap[key]) {
     add({
       text: key,
@@ -40,7 +40,7 @@ const end = (key: string) => {
   }
 };
 
-const endGroup = (key: string) => {
+const endGroup : (key: string) => void = (key: string) :void =>  {
   if (countMap[key] % 10 === 0) {
     end(key);
   }
