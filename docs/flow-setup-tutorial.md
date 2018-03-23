@@ -16,7 +16,7 @@ Flow is a static-type checker for Javascript code
 >	{
 >	"present": ["flow"]
 >	}
-3. Install flow version 0.65 for zulip using <$yarn add --dev flow-bin@0.65>
+3. Install flow version 0.65 for zulip using <$yarn add --dev flow-bin@0.xx> where xx is the flow version defined in .flowconfig file.
 4. type <$flow init> 
 5. Type flow server by typing <$yarn run flow> to check if flow is correctly installed
 
