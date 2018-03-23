@@ -535,3 +535,8 @@ export type RealmEmoji = any;
 export type ResponseExtractionFunc = any;
 export type AuthGetStringAndMessageType = any;
 export type PresenceState = any;
+
+export type TabNavigationOptionsPropsType = {
+  isFocussed: boolean,
+  tintColor: string,
+};

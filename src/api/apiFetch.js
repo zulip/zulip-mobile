@@ -42,15 +42,13 @@ export const apiCall = async (
     networkActivityStart(isSilent);
     const response = await apiFetch(auth, route, params);
 
-    if (response.status === 401) {
-      // TODO: httpUnauthorized()
-      console.log('Unauthorized for:', auth, route, params); // eslint-disable-line
-      throw Error('Unauthorized');
+    if (!response.ok) {
+      throw Error(response.statusText);
     }
 
     const json = await response.json();
 
-    if (!response.ok || json.result !== 'success') {
+    if (json.result !== 'success') {
       console.log('Bad response for:', auth, route, params); // eslint-disable-line
       throw new Error(json.msg);
     }
