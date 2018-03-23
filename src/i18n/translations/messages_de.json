@@ -38,7 +38,7 @@
   "Log in with GitHub": "Anmelden mit GitHub",
   "Log in with password": "Anmelden mit Passwort",
   "Log in with dev account": "Anmelden mit Entwickler-Account",
-  "Can not connect to server": "Verbindung zum Server kann nicht hergestellt werden",
+  "Cannot connect to server": "Verbindung zum Server kann nicht hergestellt werden",
   "Wrong email or password. Try again.": "Falsche Email/Passwort-Kombination. Versuche es erneut.",
   "Wrong username or password. Try again.": "Falscher Benutzername oder falsches Passwort. Versuch's nochmal.",
   "Enter a valid email address": "Bitte gib eine gültige Email an.",
@@ -131,5 +131,5 @@
   "Idle": "Beschäftigt",
   "Offline": "Offline",
   "Do not mark messages read on scroll": "Nachrichten beim scrollen nicht als gelesen markieren",
-  "Topics": "Topics"
+  "Topics": "Themen"
 }

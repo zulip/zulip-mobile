@@ -38,7 +38,7 @@
   "Log in with GitHub": "Вход с GitHub",
   "Log in with password": "Вход с парола",
   "Log in with dev account": "Вход с профил на разработчик",
-  "Can not connect to server": "Невъзможно свързване със сървъра",
+  "Cannot connect to server": "Невъзможно свързване със сървъра",
   "Wrong email or password. Try again.": "Грешни email или парола. Опитай отново.",
   "Wrong username or password. Try again.": "Грешно потребителско име или парола. Опитай отново.",
   "Enter a valid email address": "Въведете валиден email адрес",
