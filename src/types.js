@@ -387,11 +387,11 @@ export type RenderedSectionDescriptor = any; /* {
 
 export type DraftState = any; // { string: string };
 
-export type TimingItem = any; /* {
+export type TimingItemType = {
   text: string,
-  start: Date,
-  end: Date,
-} */
+  start: number,
+  end: number,
+};
 
 export type Reducer = (state: GlobalState, action: Action) => GlobalState;
 

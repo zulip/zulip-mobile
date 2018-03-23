@@ -1,13 +1,13 @@
 /* @flow */
-import type { TimingItem } from '../types';
+import type { TimingItemType } from '../types';
 
 const timingMap = {};
 const countMap = {};
-const log: TimingItem[] = [];
+const log: TimingItemType[] = [];
 
 const now = () => (typeof performance !== 'undefined' ? performance.now() : Date.now() / 1000);
 
-const add = (item: TimingItem) => {
+const add = (item: TimingItemType) => {
   log.push(item);
 };
 
@@ -32,11 +32,6 @@ const end = (key: string) => {
       end: now(),
     });
     delete timingMap[key];
-  } else {
-    add({
-      text: key,
-      end: now(),
-    });
   }
 };
 

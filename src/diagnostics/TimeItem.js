@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import format from 'date-fns/format';
+import type { TimingItemType } from '../types';
 
 import { RawLabel } from '../common';
 import { numberWithSeparators } from '../utils/misc';
@@ -20,14 +21,8 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
-  text: string,
-  start: Date,
-  end: Date,
-};
-
-export default class TimeItem extends PureComponent<Props> {
-  props: Props;
+export default class TimeItem extends PureComponent<TimingItemType> {
+  props: TimingItemType;
 
   render() {
     const { text, start, end } = this.props;
