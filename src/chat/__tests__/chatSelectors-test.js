@@ -5,8 +5,16 @@ import {
   getLastMessageId,
   getLastTopicForNarrow,
   getMessagesForNarrow,
+  getStreamInNarrow,
 } from '../chatSelectors';
-import { homeNarrow, homeNarrowStr, privateNarrow, streamNarrow } from '../../utils/narrow';
+import {
+  homeNarrow,
+  homeNarrowStr,
+  privateNarrow,
+  streamNarrow,
+  topicNarrow,
+} from '../../utils/narrow';
+import { NULL_SUBSCRIPTION } from '../../nullObjects';
 
 describe('getMessagesForNarrow', () => {
   test('if no outbox messages returns messages with no change', () => {
@@ -209,5 +217,39 @@ describe('getLastTopicForNarrow', () => {
     const actualLastTopic = getLastTopicForNarrow(narrow)(state);
 
     expect(actualLastTopic).toEqual('Some subject');
+  });
+});
+
+describe('getStreamInNarrow', () => {
+  const state = deepFreeze({
+    streams: [{ name: 'stream' }, { name: 'steam2' }, { name: 'stream3' }],
+    subscriptions: [
+      { name: 'stream', in_home_view: false },
+      { name: 'stream2', in_home_view: true },
+    ],
+  });
+
+  test('return subscription if stream in narrow is subscribed', () => {
+    const narrow = streamNarrow('stream');
+
+    expect(getStreamInNarrow(narrow)(state)).toEqual({ name: 'stream', in_home_view: false });
+  });
+
+  test('return stream if stream in narrow is not subscribed', () => {
+    const narrow = streamNarrow('stream3');
+
+    expect(getStreamInNarrow(narrow)(state)).toEqual({ name: 'stream3', in_home_view: true });
+  });
+
+  test('return NULL_SUBSCRIPTION if stream in narrow is not valid', () => {
+    const narrow = streamNarrow('stream4');
+
+    expect(getStreamInNarrow(narrow)(state)).toEqual(NULL_SUBSCRIPTION);
+  });
+
+  test('return NULL_SUBSCRIPTION is narrow is not topic or stream', () => {
+    expect(getStreamInNarrow(undefined)(state)).toEqual(NULL_SUBSCRIPTION);
+    expect(getStreamInNarrow(privateNarrow('abc@zulip.com'))(state)).toEqual(NULL_SUBSCRIPTION);
+    expect(getStreamInNarrow(topicNarrow('stream4', 'topic'))(state)).toEqual(NULL_SUBSCRIPTION);
   });
 });

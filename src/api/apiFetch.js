@@ -1,4 +1,6 @@
 /* @flow */
+import { isUri } from 'valid-url';
+
 import type { Auth, ResponseExtractionFunc } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
@@ -8,6 +10,11 @@ const apiVersion = 'api/v1';
 
 export const apiFetch = async (auth: Auth, route: string, params: Object = {}) => {
   const url = `${auth.realm}/${apiVersion}/${route}`;
+
+  if (!isUri(url)) {
+    throw new Error(`Invalid url ${url}`);
+  }
+
   const contentType =
     params.body instanceof FormData
       ? 'multipart/form-data'
@@ -35,15 +42,13 @@ export const apiCall = async (
     networkActivityStart(isSilent);
     const response = await apiFetch(auth, route, params);
 
-    if (response.status === 401) {
-      // TODO: httpUnauthorized()
-      console.log('Unauthorized for:', auth, route, params); // eslint-disable-line
-      throw Error('Unauthorized');
+    if (!response.ok) {
+      throw Error(response.statusText);
     }
 
     const json = await response.json();
 
-    if (!response.ok || json.result !== 'success') {
+    if (json.result !== 'success') {
       console.log('Bad response for:', auth, route, params); // eslint-disable-line
       throw new Error(json.msg);
     }

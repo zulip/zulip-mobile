@@ -24,6 +24,11 @@ describe('fetchActions', () => {
     test('message fetch success action is dispatched after successful fetch', async () => {
       const store = mockStore({
         ...navStateWithNarrow(homeNarrow),
+        accounts: [
+          {
+            realm: 'https://example.com',
+          },
+        ],
         messages: {
           [streamNarrowStr]: [{ id: 1 }],
         },

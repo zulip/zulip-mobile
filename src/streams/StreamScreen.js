@@ -1,5 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { StyleSheet } from 'react-native';
 
 import type { Actions, Stream, Subscription } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -7,6 +8,12 @@ import { OptionRow, Screen, ZulipButton } from '../common';
 import { getStreams, getSubscriptions } from '../selectors';
 import { NULL_STREAM, NULL_SUBSCRIPTION } from '../nullObjects';
 import StreamCard from './StreamCard';
+
+const styles = StyleSheet.create({
+  smallMarginTop: {
+    marginTop: 8,
+  },
+});
 
 type Props = {
   actions: Actions,
@@ -76,8 +83,8 @@ class StreamScreen extends PureComponent<Props> {
           onValueChange={this.toggleStreamPushNotification}
           customStyle={this.context.styles.backgroundColor}
         />
-        <ZulipButton text="Topics" onPress={this.handleTopics} />
-        <ZulipButton text="Edit" onPress={this.handleEdit} />
+        <ZulipButton text="Topics" onPress={this.handleTopics} style={styles.smallMarginTop} />
+        <ZulipButton text="Edit" onPress={this.handleEdit} style={styles.smallMarginTop} />
       </Screen>
     );
   }

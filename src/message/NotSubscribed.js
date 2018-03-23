@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Auth, Stream } from '../types';
+import type { Auth, Narrow, Stream } from '../types';
 import connectWithActions from '../connectWithActions';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
 type Props = {
   auth: Auth,
   stream: Stream,
+  narrow: Narrow,
 };
 
 class NotSubscribed extends PureComponent<Props> {

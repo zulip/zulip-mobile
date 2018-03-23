@@ -2,96 +2,90 @@
 
 We target operating systems >= Android 4.4 (API 19) and >= iOS 8.0.
 
-[React Native Getting Started](https://facebook.github.io/react-native/docs/getting-started.html)
+## Why React Native?
+
+* Support iOS and Android with one codebase
+* Familiar web programming model (React + Javascript + Flexbox)
+* Cross-platform, 90% code reuse between iOS and Android platforms
 
 ## System requirements
 
-iOS version can be run only on a macOS, while Android can be run on Linux, Windows and macOS.
+* Android: You can build and run with any of Linux, Windows, or macOS.
+* iOS: macOS only.  Many contributors use Linux or Windows and
+  develop without testing on iOS.  Fortunately, React Native means
+  this works fine.
 
 ## Dev environment
 
-Before starting, make sure you have [git](https://git-scm.com/) and
-[Yarn](https://yarnpkg.com) installed.
+Before starting, install these dependencies if you don't have them:
+* [Git](https://git-scm.com/)
+* [Node.js](https://nodejs.org/en/download/package-manager/), latest 8.x version
+* [Yarn](https://yarnpkg.com/en/docs/install)
 
-Setting up a dev environment should be as simple as running the commands
-below in your terminal:
+Then, run the commands below in your terminal:
 ```
-git clone https://github.com/zulip/zulip-mobile.git
+git clone https://github.com/zulip/zulip-mobile
 cd zulip-mobile
 yarn install
 ```
 
-Unlike the [Zulip](https://github.com/zulip/zulip) server project, we use
-the host machine directly for development instead of provisioning a VM.
+Unlike the [Zulip Server](https://github.com/zulip/zulip) project, we use
+the host machine directly for development, instead of provisioning a VM.
 
-You may also want to install and provision a [Zulip dev VM](https://zulip.readthedocs.io/en/latest/development/overview.html) to use for
-testing.
+To install the React Native tools, and either Xcode or the Android SDK
+and Android Studio, follow the helpful instructions from React
+Native upstream on
+[Getting Started](https://facebook.github.io/react-native/docs/getting-started.html).
+You want the tab "Building Projects with Native Code";
+the "Quick Start" does not apply.
 
+Continue those instructions until you can run the Zulip Mobile app
+with either `react-native run-android` or `react-native run-ios`.
+You'll want to be able to use both an emulator and a physical device; but
+for starting out, just get either one working so you can play with the app.
 
-## Running on Android simulator
-`Virtual Android device` can be created by using Android Studio
-1. Navigate to `Tools/Android/AVD Manager`.
-2. Click on `Create Virtual Device...` and choose the device to be used for testing
-3. Click on `Next`.
-4. Choose the Api level or image to be tested on and click `Next`.
-5. Click on `Finished`.
+## Android tips
 
-Now a `Virtual Android device` has been created. running `react-native run-android` will launch a new terminal with the React Native
-packager and open up the app in the active Virtual Device
+* To set up the Android emulator, follow the heading "Using a virtual device"
+  in those React Native
+  [Getting Started](https://facebook.github.io/react-native/docs/getting-started.html)
+  instructions.
+* After you set up the Android emulator, you no longer need Android
+  Studio.  You can start the emulator [from the command
+  line](https://developer.android.com/studio/run/emulator-commandline.html).
+* When running on a physical device, if the device has Zulip installed
+  from the Play Store, you may need to uninstall that version first.
+* Commands once you've set up:
+  * `react-native run-android` - build and run on an active emulator
+    or USB-connected device
+  * `npm run android-min` or `npm run android-max` - runs in an Android emulator, emulator has to be run manually before this command
 
-## Running on Android device
-USB debugging must be active on the Android Device.
-Make sure to uninstall Zulip from Play Store
-1. Connect your Android device to PC
-2. Running `react-native run-android` will build the application and install
-the app on your android device
+## iOS tips
 
+More wrinkles are involved; see our separate doc on [iOS tips](ios-tips.md).
 
-## Running on iOS simulator
-`react-native run-ios` will launch a new terminal with the React Native
-packager and open up the app in the iOS simulator.
+## Fix issues
 
-It will also launch a browser tab in Chrome with the React Native debugger.
-`console.log` statements in React Native will end up in the JS console on
-this tab.
+If you are having issues running the code on your machine, either for the first time or after updating an outdated code with the latest, please run:
 
-## Running on an iOS device
-1. [Set up the dev environment](#setting-up-a-dev-environment)
-2. Connect your iOS device
-3. Within the repo, `$ open ios/ZulipMobile.xcworkspace/` to open Xcode
-4. Change BundleIdentifier for both ZulipMobile and ZulipMobileTests to a
-unique string, e.g. `<username>ZulipMobile` in the 'General Tab' of your project.
-5. Select your device as the `build target` (from [this guide](https://facebook.github.io/react-native/docs/running-on-device-ios.html))
-6. Hit the `build and run` button (make sure your device is unlocked)
-7. If it's the first time you're running the app, you need to trust the
-developer and the app in `Settings > General > Device Management > Developer
-App` - make sure you are connected to WiFi, as it often doesn't work with
-mobile networks
+```
+npm run reinstall
+```
 
-If it's your first time installing an app on an iOS device, you need to
-obtain Apple Developer credentials that will allow you to sign the app.
-Register at https://developer.apple.com. Then use your Apple ID in Xcode
-and choose it as your `Signing > Team` for both ZulipMobile and ZulipMobileTests.
+Optionally, reset iOS simulator:
 
-### Tips when running on your iOS device
-When you change the BundleIdentifier and Team (required in order to run on a device),
-it **will** modify your `.pbxproj` file, which you do **not** want unless you intend
-to. For instance, if you linking a new dependency, your `.pbxproj` will be modified to
-reflect the new changes.
-
-If you are simply testing it on the iOS device, simply do not stage the said file to
-be committed. On the other hand, if you are also adding a dependency, it is recommended
-that you first `git commit` the dependency link modification itself, and then start
-developing. This way, when you stage your intended changes, you can do a `git reset
-path/to/.pbxproj` to discard any changes relating to the modification of the BundleIdentifier
-and Team, and then continue to commit the rest of the files. When you prepare to push your
-changes, you can just squash the initial commit with your later commits to retain a clean
-commit history. This way, you won't have to deal with any merge conflicts or manual
-deletion of the lines in your `.pbxproj` when you submit your code for a review.
+```
+iOS Menu > Simulator > Reset Content and Settings…
+```
 
 ## Signing in to a local dev VM
 
 This process needs improvement and has too many manual steps at the moment.
+(It's not required for most development -- you can use chat.zulip.org,
+or another live Zulip community you belong to, for testing the mobile app.)
+
+If you haven't already, you'll want to install and provision a
+[Zulip Server dev VM](https://zulip.readthedocs.io/en/latest/development/overview.html).
 
 First, you'll need to connect your dev machine and iOS device to the same
 network. If you're running Zulip inside of a VM, you may also need to
