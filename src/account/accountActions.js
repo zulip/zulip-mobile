@@ -1,5 +1,5 @@
 /* @flow */
-import type { Action } from '../types';
+import type { Action, Auth } from '../types';
 import {
   ACCOUNT_SWITCH,
   REALM_ADD,
@@ -30,6 +30,7 @@ export const loginSuccess = (realm: string, email: string, apiKey: string): Acti
   apiKey,
 });
 
-export const logout = (): Action => ({
+export const logout = (auth: Auth): Action => ({
   type: LOGOUT,
+  auth,
 });
