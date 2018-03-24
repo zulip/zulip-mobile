@@ -29,6 +29,7 @@ type Props = {
   ownEmail: string,
   users: User[],
   presences: Object,
+  filter: string,
 };
 
 type State = {
@@ -39,6 +40,7 @@ export default class GroupCard extends PureComponent<Props, State> {
   listRef: (component: any) => void;
 
   props: Props;
+  state: State;
 
   state = {
     selected: [],
@@ -49,9 +51,9 @@ export default class GroupCard extends PureComponent<Props, State> {
     const { selected } = this.state;
 
     const user = users.find(x => x.email === email);
-
+    const merge = [...selected, user];
     this.setState({
-      selected: [...selected, user],
+      selected: merge,
     });
     setTimeout(() => this.listRef.scrollToEnd(), 300);
   };
@@ -84,9 +86,8 @@ export default class GroupCard extends PureComponent<Props, State> {
   };
 
   render() {
-    const { ownEmail, users, presences } = this.props;
+    const { filter, ownEmail, users, presences } = this.props;
     const { selected } = this.state;
-
     return (
       <View style={styles.wrapper}>
         <AnimatedScaleComponent visible={selected.length > 0}>
@@ -103,7 +104,7 @@ export default class GroupCard extends PureComponent<Props, State> {
           style={styles.list}
           ownEmail={ownEmail}
           filter=""
-          users={users}
+          users={users.filter(user => user.fullName.includes(filter))}
           presences={presences}
           selected={selected}
           onPress={this.handleUserPress}

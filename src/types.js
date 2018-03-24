@@ -84,7 +84,7 @@ export type User = any; /* {
   isActive: boolean,
   isAdmin: boolean,
   isBot: boolean,
-} */
+}; */
 
 export type Presence = {
   pushable: boolean,
