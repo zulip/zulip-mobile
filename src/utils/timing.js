@@ -1,21 +1,22 @@
 /* @flow */
 import type { TimingItem } from '../types';
 
-const timingMap : Object = {};
-const countMap : Object = {};
+const timingMap: Object = {};
+const countMap: Object = {};
 const log: TimingItem[] = [];
 
-const now :() => number = () => (typeof performance !== 'undefined' ? performance.now() : Date.now() / 1000 : number);
+const now: () => number = () =>
+  ((typeof performance !== 'undefined' ? performance.now() : Date.now() / 1000): number);
 
-const add = (item: TimingItem) : void => {
+const add = (item: TimingItem): void => {
   log.push(item);
 };
 
-const start : (key: string) => void = (key: string) : void  => {
+const start: (key: string) => void = (key: string): void => {
   timingMap[key] = now();
 };
 
-const startGroup : (key: string) => void = (key: string)  : void => {
+const startGroup: (key: string) => void = (key: string): void => {
   timingMap[key] = now();
   if (countMap[key]) {
     countMap[key]++;
@@ -24,7 +25,7 @@ const startGroup : (key: string) => void = (key: string)  : void => {
   }
 };
 
-const end : (key: string) => void = (key: string) : void  => {
+const end: (key: string) => void = (key: string): void => {
   if (timingMap[key]) {
     add({
       text: key,
@@ -40,7 +41,7 @@ const end : (key: string) => void = (key: string) : void  => {
   }
 };
 
-const endGroup : (key: string) => void = (key: string) :void =>  {
+const endGroup: (key: string) => void = (key: string): void => {
   if (countMap[key] % 10 === 0) {
     end(key);
   }
