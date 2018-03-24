@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Platform, StyleSheet, View, TextInput, findNodeHandle } from 'react-native';
+import { StyleSheet, View, TextInput, findNodeHandle } from 'react-native';
 import TextInputReset from 'react-native-text-input-reset';
 import isEqual from 'lodash.isequal';
 
@@ -19,21 +19,15 @@ import { showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import { isStreamNarrow, topicNarrow } from '../utils/narrow';
 import ComposeMenuContainer from './ComposeMenuContainer';
-import AutoCompleteView from '../autocomplete/AutoCompleteView';
-import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
+import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
 import NotSubscribed from '../message/NotSubscribed';
 
 const MIN_HEIGHT = 42;
-const MAX_HEIGHT = 100;
+const MAX_HEIGHT = 82;
 
 const componentStyles = StyleSheet.create({
-  autocompleteWrapper: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-  },
   bottom: {
     flexDirection: 'column',
     justifyContent: 'flex-end',
@@ -42,12 +36,13 @@ const componentStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  topic: {
-    height: 30,
+  topicInput: {
+    borderColor: 'transparent',
+    padding: 4,
     backgroundColor: 'rgba(127, 127, 127, 0.25)',
   },
   button: {
-    margin: 5,
+    margin: 6,
   },
 });
 
@@ -94,7 +89,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     isMessageFocused: false,
     isTopicFocused: false,
     isMenuExpanded: false,
-    height: 23,
+    height: MIN_HEIGHT,
     topic: '',
     message: this.props.draft,
     selection: { start: 0, end: 0 },
@@ -104,6 +99,12 @@ export default class ComposeBox extends PureComponent<Props, State> {
     this.setState(({ isMenuExpanded }) => ({
       isMenuExpanded: !isMenuExpanded,
     }));
+  };
+
+  handleLayoutChange = (event: Object) => {
+    this.setState({
+      height: event.nativeEvent.layout.height,
+    });
   };
 
   handleTopicChange = (topic: string) => {
@@ -119,10 +120,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
   handleMessageSelectionChange = (event: Object) => {
     const { selection } = event.nativeEvent;
     this.setState({ selection });
-  };
-
-  handleHeightChange = (height: number) => {
-    this.setState({ height });
   };
 
   handleMessageFocus = () => {
@@ -267,43 +264,21 @@ export default class ComposeBox extends PureComponent<Props, State> {
     }
 
     const canSelectTopic = (isMessageFocused || isTopicFocused) && isStreamNarrow(narrow);
-    const messageHeight = Math.min(Math.max(MIN_HEIGHT, height + 12), MAX_HEIGHT);
-    const totalHeight = canSelectTopic ? messageHeight + 30 : messageHeight;
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
-    const msgInputStyles = {
-      height: messageHeight === MIN_HEIGHT ? MIN_HEIGHT - 12 : messageHeight,
-      ...Platform.select({
-        android: {
-          paddingTop: messageHeight === MAX_HEIGHT ? 6 : 0,
-          paddingBottom: messageHeight === MAX_HEIGHT ? 6 : 0,
-        },
-        ios: { paddingTop: 6, paddingBottom: 6 },
-      }),
-    };
 
     return (
-      <View>
-        <View
-          style={[
-            componentStyles.autocompleteWrapper,
-            { marginBottom: totalHeight + safeAreaInsets.bottom },
-          ]}
-        >
-          <TopicAutocomplete
-            isFocused={isTopicFocused}
-            narrow={narrow}
-            text={topic}
-            onAutocomplete={this.handleTopicChange}
-          />
-          <AutoCompleteView
-            text={message}
-            onAutocomplete={this.handleMessageChange}
-            selection={selection}
-          />
-        </View>
-        <View
-          style={[styles.composeBox, { height: totalHeight, marginBottom: safeAreaInsets.bottom }]}
-        >
+      <View style={{ marginBottom: safeAreaInsets.bottom }}>
+        <AutocompleteViewWrapper
+          composeText={message}
+          isTopicFocused={isTopicFocused}
+          marginBottom={height}
+          messageSelection={selection}
+          narrow={narrow}
+          topicText={topic}
+          onMessageAutocomplete={this.handleMessageChange}
+          onTopicAutocomplete={this.handleTopicChange}
+        />
+        <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
           <View style={componentStyles.bottom}>
             <ComposeMenuContainer
               narrow={narrow}
@@ -314,7 +289,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
           <View style={[componentStyles.composeText]}>
             {canSelectTopic && (
               <Input
-                style={[styles.composeTextInput, componentStyles.topic]}
+                style={[componentStyles.topicInput]}
                 underlineColorAndroid="transparent"
                 placeholder="Topic"
                 selectTextOnFocus
@@ -328,18 +303,18 @@ export default class ComposeBox extends PureComponent<Props, State> {
               />
             )}
             <MultilineInput
-              style={[styles.composeTextInput, msgInputStyles]}
+              style={styles.composeTextInput}
+              maxHeight={MAX_HEIGHT}
               placeholder={placeholder}
               textInputRef={component => {
                 this.messageInput = component;
                 if (component) messageInputRef(component);
               }}
+              value={message}
+              onBlur={this.handleMessageBlur}
               onChange={this.handleMessageChange}
               onFocus={this.handleMessageFocus}
-              onBlur={this.handleMessageBlur}
-              onHeightChange={this.handleHeightChange}
               onSelectionChange={this.handleMessageSelectionChange}
-              value={message}
             />
           </View>
           <View style={componentStyles.bottom}>

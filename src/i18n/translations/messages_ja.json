@@ -38,7 +38,7 @@
   "Log in with GitHub": "Log in with GitHub",
   "Log in with password": "Log in with password",
   "Log in with dev account": "Log in with dev account",
-  "Can not connect to server": "サーバーに接続できません",
+  "Cannot connect to server": "サーバーに接続できません",
   "Wrong email or password. Try again.": "誤ったメールアドレスかパスワードです。再入力してください。",
   "Wrong username or password. Try again.": "Wrong username or password. Try again.",
   "Enter a valid email address": "メールアドレスを入力してください",

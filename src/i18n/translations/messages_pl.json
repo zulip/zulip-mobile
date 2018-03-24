@@ -38,7 +38,7 @@
   "Log in with GitHub": "Log in with GitHub",
   "Log in with password": "Zaloguj się hasłem",
   "Log in with dev account": "Zaloguj się kontem deweloperskim",
-  "Can not connect to server": "Brak połączenia z serwerem",
+  "Cannot connect to server": "Brak połączenia z serwerem",
   "Wrong email or password. Try again.": "Nieprawidłowy email lub hasło. Spróbuj ponownie",
   "Wrong username or password. Try again.": "Nieprawidłowa nazwa użytkownika lub hasło. Spróbuj ponownie.",
   "Enter a valid email address": "Wprowadź prawidłowy adres email",

@@ -38,7 +38,7 @@
   "Log in with GitHub": "Log in with GitHub",
   "Log in with password": "पासवर्ड से प्रवेश करें",
   "Log in with dev account": "देव खाते से लॉग इन करें",
-  "Can not connect to server": "सर्वर से कनेक्ट नहीं हो पा रहा",
+  "Cannot connect to server": "सर्वर से कनेक्ट नहीं हो पा रहा",
   "Wrong email or password. Try again.": "गलत ईमेल या पासवर्ड। पुनः प्रयास करें।",
   "Wrong username or password. Try again.": "उपयोगकर्ता का गलत नाम और पासवर्ड। पुनः प्रयास करें।",
   "Enter a valid email address": "कृपया एक वैध ई - मेल एड्रेस डालें",

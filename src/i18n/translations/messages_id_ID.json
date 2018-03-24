@@ -38,7 +38,7 @@
   "Log in with GitHub": "Masuk dengan GitHub",
   "Log in with password": "Masuk dengan kata sandi",
   "Log in with dev account": "Masuk dengan akun dev",
-  "Can not connect to server": "Tidak dapat terhubung ke server",
+  "Cannot connect to server": "Tidak dapat terhubung ke server",
   "Wrong email or password. Try again.": "Email atau password salah. Coba lagi.",
   "Wrong username or password. Try again.": "Username atau kata sandi salah. Coba lagi.",
   "Enter a valid email address": "Masukkan alamat email yang valid",

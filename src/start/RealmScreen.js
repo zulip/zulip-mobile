@@ -51,7 +51,7 @@ class RealmScreen extends PureComponent<Props, State> {
       actions.navigateToAuth(serverSettings);
       Keyboard.dismiss();
     } catch (err) {
-      this.setState({ error: err.message });
+      this.setState({ error: 'Cannot connect to server' });
     } finally {
       this.setState({ progress: false });
     }

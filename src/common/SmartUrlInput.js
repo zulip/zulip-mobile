@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 
 import type { StyleObj } from '../types';
-import { autoCompleteUrl, fixRealmUrl, hasProtocol } from '../utils/url';
+import { autocompleteUrl, fixRealmUrl, hasProtocol } from '../utils/url';
 import RawLabel from './RawLabel';
 
 const componentStyles = StyleSheet.create({
@@ -55,7 +55,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
     this.setState({ value });
 
     const { append, shortAppend, protocol, onChange } = this.props;
-    onChange(fixRealmUrl(autoCompleteUrl(value, protocol, append, shortAppend)));
+    onChange(fixRealmUrl(autocompleteUrl(value, protocol, append, shortAppend)));
   };
 
   urlPress = () => {
