@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { Narrow } from '../types';
 import { getStreams, getTopics } from '../directSelectors';
-import { getCurrentRouteParams } from '../baseSelectors';
+import { getTopicListScreenParams } from '../baseSelectors';
 import { getShownMessagesForNarrow } from '../chat/chatSelectors';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, topicNarrow } from '../utils/narrow';
@@ -23,7 +23,7 @@ export const getTopicsForNarrow = (narrow: Narrow) =>
   });
 
 export const getTopicsInScreen = createSelector(
-  getCurrentRouteParams,
+  getTopicListScreenParams,
   getTopics,
   (params, topics) => topics[params.streamId],
 );
