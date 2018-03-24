@@ -20,11 +20,11 @@ export type InputSelectionType = {
 
 export type Account = Auth;
 
-export type ImageResource = any; /* {
+export type ImageResource = string; /* {
   uri: string,
 } */
 
-export type ReactionType = any; /* {
+export type ReactionType = Object; /* {
   emoji_name: string,
   user: any,
   name: string,
@@ -74,7 +74,7 @@ export type User = any; /* {
   isBot: boolean,
 } */
 
-export type Presence = any; /* {
+export type Presence = Object; /* {
   client: string,
   pushable: boolean,
   status: UserStatus,
@@ -123,7 +123,7 @@ export type PresenceEvent = {
   type: 'message',
   id: number,
   email: string,
-  presence: any,
+  presence: boolean,
   server_timestamp: number,
 };
 
@@ -154,7 +154,7 @@ export type NarrowElement = {
 
 export type Narrow = NarrowElement[];
 
-export type Recipient = any; /* {
+export type Recipient = Object; /* {
   display_recipient: string,
   subject: string,
   email: string,
@@ -165,12 +165,12 @@ export type ApiResponse = {
   msg: string,
 };
 
-export type EditMessage = any; /* {
+export type EditMessage = Object; /* {
   id: number,
   content: string,
 } */
 
-export type Action = any;
+export type Action = Action;
 
 export type AuthenticationMethods = {
   dev: boolean,
@@ -186,7 +186,7 @@ export type ServerSettings = {
   realm_name: string,
 };
 
-export type Actions = any; /* {
+export type Actions = Object; /* {
   appOnline: (isOnline: boolean) => Action,
   addToOutbox: (
     type: 'private' | 'stream',
@@ -289,7 +289,7 @@ export type CaughtUpState = Object;
 
 export type FetchingState = Object;
 
-export type FlagsState = any; /* {
+export type FlagsState = Object; /* {
   read: Object,
   starred: Object,
   collapsed: Object,
@@ -333,7 +333,7 @@ export type RealmState = any; /* {
   },
 } */
 
-export type TopicDetails = any; /* {
+export type TopicDetails = Object; /* {
   name: string,
   max_id: number,
 } */
@@ -344,7 +344,7 @@ export type ThemeType = 'default' | 'night';
 
 export type StatusBarStyle = 'light-content' | 'dark-content';
 
-export type SettingsState = any; /* {
+export type SettingsState = Object; /* {
   locale: string,
   theme: ThemeType,
 } */
@@ -368,7 +368,7 @@ export type UnreadMentionsState = number[];
 
 export type UsersState = any; // [];
 
-export type GlobalState = any; /* {
+export type GlobalState = Object; /* {
   accounts: AccountState,
   session: SessionState,
   chat: ChatState,
@@ -401,7 +401,7 @@ export type RealmEmojiType = {
 
 export type LocalizableText = any; // string | { text: string, values: Object };
 
-export type DomElement = any; /* {
+export type DomElement = Object; /* {
   name: string,
   type: string,
   attribs: Object,
@@ -411,7 +411,7 @@ export type DomElement = any; /* {
   children: DomElement[],
 } */
 
-export type Subscription = any; /* {
+export type Subscription = Object; /* {
   audible_notifications: boolean,
   color: string,
   description: string,
@@ -424,7 +424,7 @@ export type Subscription = any; /* {
   stream_id: number,
 } */
 
-export type Outbox = any; /* {
+export type Outbox = Object; /* {
   content: string,
   markdownContent: string,
   timestamp: number,
@@ -449,16 +449,16 @@ export type RenderedMessageDescriptor = {
   message: Object,
 };
 
-export type RenderedItemDescriptor = any; // MessageDescriptor | TimeDescriptor;
+export type RenderedItemDescriptor = string; // MessageDescriptor | TimeDescriptor;
 
-export type RenderedSectionDescriptor = any; /* {
+export type RenderedSectionDescriptor = Object; /* {
   message: Object,
   data: ItemDescriptor[],
 } */
 
-export type DraftState = any; // { string: string };
+export type DraftState = Object; // { string: string };
 
-export type TimingItem = any; /* {
+export type TimingItem = Object; /* {
   text: string,
   start: Date,
   end: Date,
@@ -466,7 +466,7 @@ export type TimingItem = any; /* {
 
 export type Reducer = (state: GlobalState, action: Action) => GlobalState;
 
-export type ActionSheetButtonType = any; /* {
+export type ActionSheetButtonType = Object; /* {
   title: string,
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
   onlyIf?: (props: AuthMessageAndNarrow) => boolean,
@@ -504,7 +504,7 @@ export type PresenceAggregated = {
   timestamp: number,
 };
 
-export type Notification = any; /* {
+export type Notification = Object; /* {
   alert: string,
   content: string,
   content_truncated: boolean,
