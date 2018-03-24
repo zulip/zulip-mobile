@@ -41,7 +41,7 @@ const end: (key: string) => void = (key: string): void => {
   }
 };
 
-const endGroup: (key: string) => = (key: string) => {
+const endGroup: (key: string) => void = (key: string) : void => {
   if (countMap[key] % 10 === 0) {
     end(key);
   }
