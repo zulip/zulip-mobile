@@ -25,7 +25,8 @@
     "test:unit": "jest src/",
     "test:e2e": "detox test --configuration ios.sim.release --cleanup",
     "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "test": "npm run test:lint && npm run test:coveralls && npm run test:flow",
+    "test:full": "npm run test:flow && npm run test:lint && npm run test:coveralls",
+    "test": "npm run test:lint && jest && npm run test:flow",
     "build:ios-release": "detox build --configuration ios.sim.release",
     "update-snapshots": "npm run test:unit -- -u"
   },

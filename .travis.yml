@@ -21,9 +21,7 @@ install:
   - yarn
 
 scripts:
-  - npm run test:lint
-  - npm run test:flow
-  - npm run test:coveralls
+  - npm run test:full
 
 env:
   - COVERALLS_REPO_TOKEN=4eYQDtWoBJlDz2QkxoQ2UcnmJFcOB7zkv
