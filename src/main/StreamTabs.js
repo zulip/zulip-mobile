@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { TabNavigator, TabBarTop } from 'react-navigation';
 import { FormattedMessage } from 'react-intl';
@@ -16,7 +16,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabNavigator(
+export default class StreamTabs extends PureComponent<> {
+  render() {
+    return <Tabs />;
+  }
+}
+const Tabs = TabNavigator(
   {
     subscribed: {
       screen: SubscriptionsContainer,
