@@ -23,7 +23,7 @@ export default TabNavigator(
       },
     },
     streams: {
-      screen: StreamTabs,
+      screen: props => <StreamTabs mainTabsNavigationState={props.navigation.state} />,
       navigationOptions: {
         tabBarLabel: 'Streams',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
