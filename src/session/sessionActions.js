@@ -1,5 +1,16 @@
 /* @flow */
-import type { Action, Dimensions, Dispatch, GetState } from '../types';
+import type {
+  AppOnlineAction,
+  AppStateAction,
+  AppRefreshAction,
+  CancelEditMessageAction,
+  AppOrientationAction,
+  DebugFlagToggleAction,
+  InitSafeAreaInsetsAction,
+  Dimensions,
+  Dispatch,
+  GetState,
+} from '../types';
 import {
   APP_ONLINE,
   APP_ORIENTATION,
@@ -14,10 +25,10 @@ import {
 import { getMessageById } from '../api';
 import { getAuth, getIsOnline, getIsActive } from '../selectors';
 
-export const appOnline = (isOnline: boolean): Action => (
+export const appOnline = (isOnline: boolean) => (
   dispatch: Dispatch,
   getState: GetState,
-) => {
+): ?AppOnlineAction => {
   if (isOnline !== getIsOnline(getState())) {
     dispatch({
       type: APP_ONLINE,
@@ -26,7 +37,10 @@ export const appOnline = (isOnline: boolean): Action => (
   }
 };
 
-export const appState = (isActive: boolean): Action => (dispatch: Dispatch, getState: GetState) => {
+export const appState = (isActive: boolean) => (
+  dispatch: Dispatch,
+  getState: GetState,
+): ?AppStateAction => {
   if (isActive !== getIsActive(getState())) {
     dispatch({
       type: APP_STATE,
@@ -35,19 +49,19 @@ export const appState = (isActive: boolean): Action => (dispatch: Dispatch, getS
   }
 };
 
-export const appRefresh = () => ({
+export const appRefresh = (): AppRefreshAction => ({
   type: APP_REFRESH,
 });
 
-export const initSafeAreaInsets = (safeAreaInsets: Dimensions) => ({
+export const initSafeAreaInsets = (safeAreaInsets: Dimensions): InitSafeAreaInsetsAction => ({
   type: INIT_SAFE_AREA_INSETS,
   ...safeAreaInsets,
 });
 
-export const appOrientation = (orientation: string): Action => (
+export const appOrientation = (orientation: string) => (
   dispatch: Dispatch,
   getState: GetState,
-) => {
+): ?AppOrientationAction => {
   if (orientation !== getState().session.orientation) {
     dispatch({
       type: APP_ORIENTATION,
@@ -73,11 +87,11 @@ export const startEditMessage = (messageId: number, topic: string) => async (
   });
 };
 
-export const cancelEditMessage = () => ({
+export const cancelEditMessage = (): CancelEditMessageAction => ({
   type: CANCEL_EDIT_MESSAGE,
 });
 
-export const debugFlagToggle = (key: string, value: any) => ({
+export const debugFlagToggle = (key: string, value: any): DebugFlagToggleAction => ({
   type: DEBUG_FLAG_TOGGLE,
   key,
   value,
