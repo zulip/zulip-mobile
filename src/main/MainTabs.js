@@ -1,5 +1,5 @@
 /* @flow */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
 import type { TabNavigationOptionsPropsType } from '../types';
@@ -11,56 +11,50 @@ import SettingsCard from '../settings/SettingsCard';
 import { IconHome, IconStream, IconSettings } from '../common/Icons';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 
-export default class MainTabs extends PureComponent<> {
-  render() {
-    const Tabs = TabNavigator(
-      {
-        home: {
-          screen: HomeTab,
-          navigationOptions: {
-            tabBarLabel: 'Home',
-            tabBarIcon: (props: TabNavigationOptionsPropsType) => (
-              <IconHome size={24} color={props.tintColor} />
-            ),
-          },
-        },
-        streams: {
-          screen: StreamTabs,
-          navigationOptions: {
-            tabBarLabel: 'Streams',
-            tabBarIcon: (props: TabNavigationOptionsPropsType) => (
-              <IconStream size={24} color={props.tintColor} />
-            ),
-          },
-        },
-        conversations: {
-          screen: ConversationsContainer,
-          navigationOptions: {
-            tabBarLabel: 'Conversations',
-            tabBarIcon: (props: TabNavigationOptionsPropsType) => (
-              <IconUnreadConversations color={props.tintColor} />
-            ),
-          },
-        },
-        settings: {
-          screen: SettingsCard,
-          navigationOptions: {
-            tabBarLabel: 'Settings',
-            tabBarIcon: (props: TabNavigationOptionsPropsType) => (
-              <IconSettings size={24} color={props.tintColor} />
-            ),
-          },
-        },
+export default TabNavigator(
+  {
+    home: {
+      screen: HomeTab,
+      navigationOptions: {
+        tabBarLabel: 'Home',
+        tabBarIcon: (props: TabNavigationOptionsPropsType) => (
+          <IconHome size={24} color={props.tintColor} />
+        ),
       },
-      tabsOptions({
-        tabBarComponent: TabBarBottom,
-        tabBarPosition: 'bottom',
-        showLabel: false,
-        showIcon: true,
-        tabWidth: 0,
-      }),
-    );
-
-    return <Tabs />;
-  }
-}
+    },
+    streams: {
+      screen: props => <StreamTabs {...props} />,
+      navigationOptions: {
+        tabBarLabel: 'Streams',
+        tabBarIcon: (props: TabNavigationOptionsPropsType) => (
+          <IconStream size={24} color={props.tintColor} />
+        ),
+      },
+    },
+    conversations: {
+      screen: ConversationsContainer,
+      navigationOptions: {
+        tabBarLabel: 'Conversations',
+        tabBarIcon: (props: TabNavigationOptionsPropsType) => (
+          <IconUnreadConversations color={props.tintColor} />
+        ),
+      },
+    },
+    settings: {
+      screen: SettingsCard,
+      navigationOptions: {
+        tabBarLabel: 'Settings',
+        tabBarIcon: (props: TabNavigationOptionsPropsType) => (
+          <IconSettings size={24} color={props.tintColor} />
+        ),
+      },
+    },
+  },
+  tabsOptions({
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: 'bottom',
+    showLabel: false,
+    showIcon: true,
+    tabWidth: 0,
+  }),
+);

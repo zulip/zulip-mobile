@@ -4,7 +4,7 @@ import { BackHandler, StyleSheet, Text } from 'react-native';
 import { TabNavigator, TabBarTop } from 'react-navigation';
 import { FormattedMessage } from 'react-intl';
 
-import type { TabNavigationOptionsPropsType } from '../types';
+import type { Actions, TabNavigationOptionsPropsType } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getCanGoBack } from '../selectors';
 import tabsOptions from '../styles/tabs';
@@ -18,7 +18,15 @@ const styles = StyleSheet.create({
   },
 });
 
-class StreamTabs extends PureComponent<> {
+type Props = {
+  actions: Actions,
+  canGoBack: boolean,
+  navigation: Object,
+};
+
+class StreamTabs extends PureComponent<Props> {
+  props: Props;
+
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
   }
@@ -28,11 +36,15 @@ class StreamTabs extends PureComponent<> {
   }
 
   handleBackButtonPress = () => {
-    const { canGoBack, actions } = this.props;
+    const { canGoBack, actions, navigation } = this.props;
     if (canGoBack) {
       actions.navigateBack();
+      return canGoBack;
+    } else if (!navigation.isFocused()) {
+      navigation.navigate('home');
+      return false;
     }
-    return canGoBack;
+    return false;
   };
 
   render() {
