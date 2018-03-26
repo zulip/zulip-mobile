@@ -3,7 +3,7 @@
 
 import type { GlobalState } from '../types';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
-import { getActiveAccount, getCurrentRouteParams, getOwnEmail, getIsActive } from '../selectors';
+import { getActiveAccount, getChatScreenParams, getOwnEmail, getIsActive } from '../selectors';
 import { playMessageSound } from '../utils/sound';
 
 export default (state: GlobalState, event: Object) => {
@@ -16,7 +16,7 @@ export default (state: GlobalState, event: Object) => {
       }
 
       const activeAccount = getActiveAccount(state);
-      const { narrow } = getCurrentRouteParams(state) || {};
+      const { narrow } = getChatScreenParams(state);
       const isUserInSameNarrow =
         activeAccount &&
         (narrow !== undefined && // chat screen is not at top
