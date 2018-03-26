@@ -10,8 +10,8 @@ import AppNavigator from './AppNavigator';
 import type { Actions } from '../types';
 
 type Props = {
-  canGoBack: boolean,
   actions: Actions,
+  canGoBack: boolean,
 };
 
 class AppWithNavigation extends PureComponent<Props> {
@@ -27,8 +27,9 @@ class AppWithNavigation extends PureComponent<Props> {
     const { canGoBack, actions } = this.props;
     if (canGoBack) {
       actions.navigateBack();
+      return true;
     }
-    return canGoBack;
+    return false;
   };
 
   render() {
@@ -48,6 +49,6 @@ class AppWithNavigation extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  nav: getNav(state),
   canGoBack: getCanGoBack(state),
+  nav: getNav(state),
 }))(AppWithNavigation);

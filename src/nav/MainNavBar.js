@@ -10,7 +10,7 @@ import NavButton from './NavButton';
 import TitleNavButtons from '../title-buttons/TitleNavButtons';
 import {
   getSession,
-  getCanGoBack,
+  getShowBackArrow,
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
   getUnreadMentionsTotal,
@@ -21,8 +21,8 @@ import {
 type Props = {
   actions: Actions,
   backgroundColor: string,
-  canGoBack: boolean,
   narrow: Narrow,
+  showBackArrow: boolean,
   textColor: string,
 };
 
@@ -35,11 +35,11 @@ class MainNavBar extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { actions, backgroundColor, canGoBack, narrow, textColor } = this.props;
+    const { actions, backgroundColor, narrow, showBackArrow, textColor } = this.props;
 
     return (
       <View style={[styles.navBar, { backgroundColor }]}>
-        {canGoBack && (
+        {showBackArrow && (
           <NavButton name="arrow-left" color={textColor} onPress={actions.navigateBack} />
         )}
         <ViewPlaceholder width={8} />
@@ -52,7 +52,7 @@ class MainNavBar extends PureComponent<Props> {
 
 export default connectWithActions((state, props) => ({
   backgroundColor: getTitleBackgroundColor(props.narrow)(state),
-  canGoBack: getCanGoBack(state),
+  showBackArrow: getShowBackArrow(state),
   textColor: getTitleTextColor(props.narrow)(state),
   unreadHuddlesTotal: getUnreadHuddlesTotal(state),
   unreadMentionsTotal: getUnreadMentionsTotal(state),

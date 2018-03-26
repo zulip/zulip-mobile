@@ -469,3 +469,11 @@ export type TabNavigationOptionsPropsType = {
   isFocussed: boolean,
   tintColor: string,
 };
+
+export type NavigationScreenPropsType = {
+  screenProps: Object,
+  navigation: {
+    isFocused: () => boolean,
+    state: Object,
+  },
+};
