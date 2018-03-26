@@ -6,7 +6,7 @@ export type { ChildrenArray } from 'react';
 export type AnimatedValue = any; // { AnimatedValue } from 'react-native';
 export type MapStateToProps = any; // { MapStateToProps } from 'react-redux';
 
-export type { Action, Actions } from './actionTypes';
+export type * from './actionTypes';
 
 export type Dispatch = any;
 // export type { Dispatch } from 'redux';
