@@ -1,12 +1,12 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { ScrollView, Keyboard } from 'react-native';
+import { ScrollView, Keyboard, NetInfo } from 'react-native';
 import isUrl from 'is-url';
-
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { getServerSettings } from '../api';
+import ConnectIgnoringSSLAndroid from '../nativeModules/ConnectIgnoringSSLAndroid';
 
 type Props = {
   actions: Actions,
@@ -35,6 +35,24 @@ class RealmScreen extends PureComponent<Props, State> {
     error: undefined,
   };
 
+  classifyError = async realm => {
+    let error = '';
+    const isConnected = await NetInfo.isConnected.fetch();
+    if (!isConnected) {
+      // network connection is down
+      error = 'Network connection is down';
+    } else {
+      // two cases either the server doesnt exist or SSL problem
+      try {
+        await ConnectIgnoringSSLAndroid.connect(realm);
+        error = "This server can't provide a secure connection";
+      } catch (err) {
+        error = 'Cannot connect to the server';
+      }
+    }
+    this.setState({ error });
+  };
+
   tryRealm = async () => {
     const { realm } = this.state;
 
@@ -52,7 +70,7 @@ class RealmScreen extends PureComponent<Props, State> {
       actions.navigateToAuth(serverSettings);
       Keyboard.dismiss();
     } catch (err) {
-      this.setState({ error: 'Cannot connect to server' });
+      this.classifyError(realm);
     } finally {
       this.setState({ progress: false });
     }
