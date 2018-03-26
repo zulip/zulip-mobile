@@ -67,6 +67,7 @@ export default class StreamList extends PureComponent<Props> {
         style={styles.list}
         sections={sections}
         extraData={unreadByStream}
+        initialNumToRender={20}
         keyExtractor={item => item.stream_id}
         renderItem={({ item }) => (
           <StreamItem
