@@ -1,8 +1,11 @@
 /* @flow */
-import React from 'react';
+import React, { PureComponent } from 'react';
+import { BackHandler } from 'react-native';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
-import type { TabNavigationOptionsPropsType } from '../types';
+import type { Actions, TabNavigationOptionsPropsType } from '../types';
+import connectWithActions from '../connectWithActions';
+import { getCanGoBack } from '../selectors';
 import tabsOptions from '../styles/tabs';
 import HomeTab from './HomeTab';
 import StreamTabs from './StreamTabs';
@@ -11,7 +14,37 @@ import SettingsCard from '../settings/SettingsCard';
 import { IconHome, IconStream, IconSettings } from '../common/Icons';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 
-export default TabNavigator(
+type Props = {
+  actions: Actions,
+  canGoBack: boolean,
+};
+
+class MainTabs extends PureComponent<Props> {
+  props: Props;
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
+  }
+
+  handleBackButtonPress = () => {
+    const { canGoBack, actions } = this.props;
+    if (canGoBack) {
+      actions.navigateBack();
+      return canGoBack;
+    }
+    return canGoBack;
+  };
+
+  render() {
+    return <Tabs />;
+  }
+}
+
+const Tabs = TabNavigator(
   {
     home: {
       screen: HomeTab,
@@ -58,3 +91,7 @@ export default TabNavigator(
     tabWidth: 0,
   }),
 );
+
+export default connectWithActions(state => ({
+  canGoBack: getCanGoBack(state),
+}))(MainTabs);
