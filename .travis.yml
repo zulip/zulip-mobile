@@ -20,7 +20,7 @@ install:
   - npm i yarn -g
   - yarn
 
-scripts:
+script:
   - npm run test:full
 
 env:
