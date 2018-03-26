@@ -1,8 +1,12 @@
 /* @flow */
+import type { Action } from './actionTypes';
+
 export type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 export type { ChildrenArray } from 'react';
 export type AnimatedValue = any; // { AnimatedValue } from 'react-native';
 export type MapStateToProps = any; // { MapStateToProps } from 'react-redux';
+
+export type { Action, Actions } from './actionTypes';
 
 export type Dispatch = any;
 // export type { Dispatch } from 'redux';
@@ -170,8 +174,6 @@ export type EditMessage = any; /* {
   content: string,
 } */
 
-export type Action = any;
-
 export type AuthenticationMethods = {
   dev: boolean,
   email: boolean,
@@ -185,79 +187,6 @@ export type ServerSettings = {
   realm_icon: string,
   realm_name: string,
 };
-
-export type Actions = any; /* {
-  appOnline: (isOnline: boolean) => Action,
-  addToOutbox: (
-    type: 'private' | 'stream',
-    to: string | string[],
-    subject: string,
-    content: string,
-  ) => Action,
-  sessionState: (isActive: boolean) => Action,
-  appOrientation: (orientation: string) => Action,
-  sendFocusPing: (hasFocus: boolean, newUserInput: boolean) => Action,
-  initUsers: (users: User[]) => Action,
-  fetchUsers: () => Action,
-  initialFetchComplete: () => Action,
-  fetchEssentialInitialData: () => Action,
-  fetchRestOfInitialData: (pushToken: string) => Action,
-  deleteTokenPush: () => Action,
-  deleteOutboxMessage: () => Action,
-  saveTokenPush: (pushToken: string, result: string, msg: string) => Action,
-  fetchEvents: () => Action,
-  initNotifications: () => Action,
-  switchAccount: (index: number) => Action,
-  realmAdd: (realm: string) => Action,
-  removeAccount: (index: number) => Action,
-  loginSuccess: (realm: string, email: string, apiKey: string) => Action,
-  logout: () => Action,
-  initStreams: (streams: any[]) => Action,
-  fetchStreams: () => Action,
-  cancelEditMessage: () => void,
-  startEditMessage: (messageId: number) => void,
-  resetNavigation: () => Action,
-  navigateBack: () => Action,
-  navigateToAllStreams: () => Action,
-  navigateToUsersScreen: () => Action,
-  navigateToSearch: () => Action,
-  navigateToSettings: () => Action,
-  navigateToAuth: (serverSettings: ServerSettings) => Action,
-  navigateToAccountPicker: () => Action,
-  navigateToAccountDetails: (email: string) => Action,
-  navigateToGroupDetails: (recipients: UserType) => Action,
-  navigateToAddNewAccount: () => Action,
-  navigateToLightbox: (realm: string) => Action,
-  navigateToCreateGroup: () => Action,
-  navigateToDiagnostics: () => Action,
-  switchNarrow: (narrow: Narrow) => Action,
-  doNarrow: (newNarrow: Narrow, anchor?: number) => Action,
-  messageFetchStart: (narrow: Narrow, fetching: Object) => Action,
-  messageFetchComplete: (
-    messages: any[],
-    narrow: Narrow,
-    numBefore: number,
-    numAfter: number,
-  ) => Action,
-  backgroundFetchMessages: (
-    anchor: number,
-    numBefore: number,
-    numAfter: number,
-    narrow: Narrow,
-    useFirstUnread: boolean,
-  ) => Action,
-  fetchMessages: (
-    anchor: number,
-    numBefore: number,
-    numAfter: number,
-    narrow: Narrow,
-    useFirstUnread: boolean,
-  ) => Action,
-  fetchMessagesAtFirstUnread: (narrow: Narrow) => Action,
-  markMessagesRead: (messageIds: number[]) => Action,
-  fetchOlder: () => Action,
-  fetchNewer: () => Action,
-} */
 
 export type AccountState = Account[];
 
