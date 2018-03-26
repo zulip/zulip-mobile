@@ -4,6 +4,7 @@ import {
   getCurrentRoute,
   getCurrentRouteParams,
   getTopicListScreenParams,
+  getAccountDetailsScreenParams,
   getTopMostNarrow,
 } from '../baseSelectors';
 import { streamNarrow } from '../utils/narrow';
@@ -66,6 +67,21 @@ describe('getTopicListScreenParams', () => {
     });
 
     const actualResult = getTopicListScreenParams(state);
+
+    expect(actualResult).toBeDefined();
+  });
+});
+
+describe('getAccountDetailsScreenParams', () => {
+  test('even when no params are passed do not return "undefined"', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 0,
+        routes: [{ routeName: 'account-details' }],
+      },
+    });
+
+    const actualResult = getAccountDetailsScreenParams(state);
 
     expect(actualResult).toBeDefined();
   });

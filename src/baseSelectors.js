@@ -25,6 +25,11 @@ export const getTopicListScreenParams = createSelector(
   params => params || { streamId: -1 },
 );
 
+export const getAccountDetailsScreenParams = createSelector(
+  getCurrentRouteParams,
+  params => params || { email: '' },
+);
+
 export const getTopMostNarrow = createSelector(getNav, nav => {
   const { routes } = nav;
   let { index } = nav;
