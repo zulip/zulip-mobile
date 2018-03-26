@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { BackHandler } from 'react-native';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
-import type { Actions, TabNavigationOptionsPropsType } from '../types';
+import type { Actions, NavigationScreenPropsType, TabNavigationOptionsPropsType } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getCanGoBack } from '../selectors';
 import tabsOptions from '../styles/tabs';
@@ -56,7 +56,7 @@ const Tabs = TabNavigator(
       },
     },
     streams: {
-      screen: props => <StreamTabs {...props} />,
+      screen: (props: NavigationScreenPropsType) => <StreamTabs {...props} />,
       navigationOptions: {
         tabBarLabel: 'Streams',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
