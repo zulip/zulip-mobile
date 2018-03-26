@@ -30,6 +30,11 @@ export const getAccountDetailsScreenParams = createSelector(
   params => params || { email: '' },
 );
 
+export const getEditStreamScreenParams = createSelector(
+  getCurrentRouteParams,
+  params => params || { streamId: -1 },
+);
+
 export const getTopMostNarrow = createSelector(getNav, nav => {
   const { routes } = nav;
   let { index } = nav;
