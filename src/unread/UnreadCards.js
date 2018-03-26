@@ -56,7 +56,7 @@ export default class UnreadCards extends PureComponent<Props> {
     return (
       <SectionList
         stickySectionHeadersEnabled
-        initialNumToRender={2}
+        initialNumToRender={20}
         sections={unreadCards}
         renderSectionHeader={({ section }) =>
           section.key === 'private' || section.isMuted ? null : (
