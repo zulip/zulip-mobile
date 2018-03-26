@@ -7,17 +7,17 @@ import type { Actions, LocalizableText, StyleObj } from '../types';
 import connectWithActions from '../connectWithActions';
 import { NAVBAR_SIZE } from '../styles';
 import { Label, ViewPlaceholder } from '../common';
-import { getCanGoBack } from '../selectors';
+import { getShowBackArrow } from '../selectors';
 import NavButton from './NavButton';
 
 type Props = {
   actions: Actions,
-  canGoBack: boolean,
+  showBackArrow: boolean,
+  style: StyleObj,
   title?: LocalizableText,
   titleColor?: string,
   itemsColor: string,
   rightItem?: Object,
-  style: StyleObj,
   children?: ChildrenArray<*>,
   childrenStyle?: StyleObj,
 };
@@ -33,7 +33,7 @@ class ModalNavBar extends PureComponent<Props> {
     const { styles } = this.context;
     const {
       actions,
-      canGoBack,
+      showBackArrow,
       title,
       titleColor,
       itemsColor,
@@ -43,7 +43,7 @@ class ModalNavBar extends PureComponent<Props> {
     } = this.props;
     const textStyle = [
       styles.navTitle,
-      canGoBack && { marginRight: NAVBAR_SIZE },
+      showBackArrow && { marginRight: NAVBAR_SIZE },
       rightItem ? { marginLeft: NAVBAR_SIZE } : {},
       titleColor ? { color: titleColor } : {},
     ];
@@ -56,7 +56,7 @@ class ModalNavBar extends PureComponent<Props> {
 
     return (
       <View style={[styles.navBar, style]}>
-        {canGoBack && (
+        {showBackArrow && (
           <NavButton name="arrow-left" color={itemsColor} onPress={actions.navigateBack} />
         )}
         <ViewPlaceholder width={8} />
@@ -68,5 +68,5 @@ class ModalNavBar extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  canGoBack: getCanGoBack(state),
+  getShowBackArrow: getShowBackArrow(state),
 }))(ModalNavBar);

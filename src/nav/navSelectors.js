@@ -10,8 +10,17 @@ import { getAuth } from '../account/accountSelectors';
 import AppNavigator from './AppNavigator';
 import { getNarrowFromNotificationData } from '../utils/notificationsCommon';
 
-export const getCanGoBack = (state: GlobalState) =>
-  state.nav.index > 0 && state.nav.routes[state.nav.index].routeName !== 'lightbox';
+export const getCanGoBack = (state: GlobalState) => state.nav.index > 0;
+
+export const isCurrentRouteIsLightBox = (state: GlobalState) =>
+  state.nav.routes[state.nav.index].routeName === 'lightbox';
+
+export const getShowBackArrow = (state: GlobalState) =>
+  createSelector(
+    getCanGoBack,
+    isCurrentRouteIsLightBox,
+    (canGoBack, currentRouteIsLightBox) => canGoBack && !currentRouteIsLightBox,
+  );
 
 export const getSameRoutesCount = createSelector(getNav, nav => {
   let i = nav.routes.length - 1;
