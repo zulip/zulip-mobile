@@ -1,0 +1,9 @@
+{
+    // Disable TS-centric validation.  We'll rely on ESLint for general validation.
+    // See https://github.com/Microsoft/vscode/issues/15171
+    "javascript.validate.enable": false,
+
+    // Makes IntelliSense work with Flow.  See
+    // https://github.com/Microsoft/vscode-react-native/blob/master/doc/intellisense.md .
+    "flow.useNPMPackagedFlow": true,
+}
