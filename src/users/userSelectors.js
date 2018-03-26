@@ -3,14 +3,14 @@ import { createSelector } from 'reselect';
 
 import { NULL_USER } from '../nullObjects';
 import { getPresence, getUsers } from '../directSelectors';
-import { getCurrentRouteParams } from '../baseSelectors';
+import { getAccountDetailsScreenParams } from '../baseSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserByEmail } from './userHelpers';
 
 export const getAccountDetailsUser = createSelector(
-  [getUsers, getCurrentRouteParams],
+  [getUsers, getAccountDetailsScreenParams],
   (allUsers, params) => {
-    if (!params || !params.email) {
+    if (!params.email) {
       return NULL_USER;
     }
 
