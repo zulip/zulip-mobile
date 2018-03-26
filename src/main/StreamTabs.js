@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { BackHandler, StyleSheet, Text } from 'react-native';
 import { TabNavigator, TabBarTop } from 'react-navigation';
 import { FormattedMessage } from 'react-intl';
 
@@ -17,6 +17,22 @@ const styles = StyleSheet.create({
 });
 
 export default class StreamTabs extends PureComponent<> {
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
+  }
+
+  handleBackButtonPress = () => {
+    const { canGoBack, actions } = this.props;
+    if (canGoBack) {
+      actions.navigateBack();
+    }
+    return canGoBack;
+  };
+
   render() {
     return <Tabs />;
   }

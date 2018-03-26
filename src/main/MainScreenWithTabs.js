@@ -36,11 +36,12 @@ class MainScreenWithTabs extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
+    const { canGoBack, actions } = this.props;
 
     return (
       <View style={[styles.flexed, styles.backgroundColor]}>
-        <ZulipStatusBar />
-        <MainTabs />
+        <ZulipStatusBar canGoBack={canGoBack} actions={actions} />
+        <MainTabs canGoBack={canGoBack} actions={actions} />
       </View>
     );
   }
