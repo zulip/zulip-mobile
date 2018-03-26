@@ -13,7 +13,6 @@ import IconUnreadConversations from '../nav/IconUnreadConversations';
 
 export default class MainTabs extends PureComponent<> {
   render() {
-    const { canGoBack, actions } = this.props;
     const Tabs = TabNavigator(
       {
         home: {
@@ -26,13 +25,7 @@ export default class MainTabs extends PureComponent<> {
           },
         },
         streams: {
-          screen: props => (
-            <StreamTabs
-              mainTabsNavigationState={props.navigation.state}
-              actions={actions}
-              canGoBack={canGoBack}
-            />
-          ),
+          screen: StreamTabs,
           navigationOptions: {
             tabBarLabel: 'Streams',
             tabBarIcon: (props: TabNavigationOptionsPropsType) => (

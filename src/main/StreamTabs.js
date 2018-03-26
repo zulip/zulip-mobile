@@ -5,6 +5,8 @@ import { TabNavigator, TabBarTop } from 'react-navigation';
 import { FormattedMessage } from 'react-intl';
 
 import type { TabNavigationOptionsPropsType } from '../types';
+import connectWithActions from '../connectWithActions';
+import { getCanGoBack } from '../selectors';
 import tabsOptions from '../styles/tabs';
 import SubscriptionsContainer from '../streams/SubscriptionsContainer';
 import StreamListContainer from '../subscriptions/StreamListContainer';
@@ -16,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class StreamTabs extends PureComponent<> {
+class StreamTabs extends PureComponent<> {
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
   }
@@ -68,3 +70,7 @@ const Tabs = TabNavigator(
     tabWidth: 100,
   }),
 );
+
+export default connectWithActions(state => ({
+  canGoBack: getCanGoBack(state),
+}))(StreamTabs);
