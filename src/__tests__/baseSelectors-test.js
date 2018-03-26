@@ -6,6 +6,7 @@ import {
   getTopicListScreenParams,
   getAccountDetailsScreenParams,
   getEditStreamScreenParams,
+  getChatScreenParams,
   getTopMostNarrow,
 } from '../baseSelectors';
 import { streamNarrow } from '../utils/narrow';
@@ -98,6 +99,21 @@ describe('getEditStreamScreenParams', () => {
     });
 
     const actualResult = getEditStreamScreenParams(state);
+
+    expect(actualResult).toBeDefined();
+  });
+});
+
+describe('getChatScreenParams', () => {
+  test('when no params are passed do not return "undefined"', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 0,
+        routes: [{ routeName: 'chat' }],
+      },
+    });
+
+    const actualResult = getChatScreenParams(state);
 
     expect(actualResult).toBeDefined();
   });

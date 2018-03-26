@@ -35,6 +35,11 @@ export const getEditStreamScreenParams = createSelector(
   params => params || { streamId: -1 },
 );
 
+export const getChatScreenParams = createSelector(
+  getCurrentRouteParams,
+  params => params || { narrow: undefined },
+);
+
 export const getTopMostNarrow = createSelector(getNav, nav => {
   const { routes } = nav;
   let { index } = nav;
