@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import type { ChildrenArray } from 'react';
 
 import type { Actions, LocalizableText, StyleObj } from '../types';
-import connectWithActions from '../connectWithActions';
+import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { NAVBAR_SIZE } from '../styles';
 import { Label, ViewPlaceholder } from '../common';
 import { getCanGoBack } from '../selectors';
@@ -67,6 +67,6 @@ class ModalNavBar extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connectWithActionsPreserveOnBack(state => ({
   canGoBack: getCanGoBack(state),
 }))(ModalNavBar);

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Actions, Narrow } from '../types';
-import connectWithActions from '../connectWithActions';
+import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { ViewPlaceholder } from '../common';
 import Title from '../title/Title';
 import NavButton from './NavButton';
@@ -50,7 +50,7 @@ class MainNavBar extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state, props) => ({
+export default connectWithActionsPreserveOnBack((state, props) => ({
   backgroundColor: getTitleBackgroundColor(props.narrow)(state),
   canGoBack: getCanGoBack(state),
   textColor: getTitleTextColor(props.narrow)(state),

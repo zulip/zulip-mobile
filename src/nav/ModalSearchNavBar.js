@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import type { Actions } from '../types';
-import connectWithActions from '../connectWithActions';
+import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { getNav } from '../selectors';
 import { NAVBAR_SIZE } from '../styles';
 import { Label, SearchInput } from '../common';
@@ -88,6 +88,6 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connectWithActionsPreserveOnBack(state => ({
   nav: getNav(state),
 }))(ModalSearchNavBar);
