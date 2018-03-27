@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import type { Narrow } from '../types';
 import { KeyboardAvoider, OfflineNotice } from '../common';
@@ -41,24 +41,31 @@ export default class Chat extends PureComponent<Props> {
 
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
-        <View style={styles.flexed}>
-          <OfflineNotice />
-          <UnreadNotice narrow={narrow} />
-          <NoMessages narrow={narrow} />
-          <MessageListContainer
-            narrow={narrow}
-            onReplySelect={this.handleReplySelect}
-            listRef={component => {
-              this.listComponent = component || this.listComponent;
-            }}
-          />
+        <OfflineNotice />
+        <UnreadNotice narrow={narrow} />
+        <NoMessages narrow={narrow} />
+        <ScrollView
+          bounces={false}
+          contentContainerStyle={styles.flexed}
+          keyboardShouldPersistTaps="always"
+          overScrollMode="never"
+        >
+          <View style={styles.flexed}>
+            <MessageListContainer
+              narrow={narrow}
+              onReplySelect={this.handleReplySelect}
+              listRef={component => {
+                this.listComponent = component || this.listComponent;
+              }}
+            />
+          </View>
           <ComposeBoxContainer
             narrow={narrow}
             messageInputRef={(component: any) => {
               this.messageInputRef = component || this.messageInputRef;
             }}
           />
-        </View>
+        </ScrollView>
       </KeyboardAvoider>
     );
   }
