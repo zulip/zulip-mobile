@@ -85,9 +85,13 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
       onSubmitEditing,
       enablesReturnKeyAutomatically,
     } = this.props;
-    const { value } = this.state;
+    let { value } = this.state;
+    let showAnyAppend = !value.match(/.+\..+\.+./g); // at least two dots
     const useFullAppend = value.indexOf('.') === -1;
-    const showAnyAppend = !value.match(/.+\..+\.+./g); // at least two dots
+    if (defaultValue && value.length === 0) {
+      showAnyAppend = false;
+      value = defaultValue;
+    }
 
     return (
       <View style={[componentStyles.wrapper, style]}>
