@@ -60,6 +60,13 @@ class RealmScreen extends PureComponent<Props, State> {
 
   handleRealmChange = value => this.setState({ realm: value });
 
+  componentDidMount() {
+    const { initialRealm } = this.props;
+    if (initialRealm && initialRealm.length > 0) {
+      this.tryRealm();
+    }
+  }
+
   render() {
     const { styles } = this.context;
     const { initialRealm, navigation } = this.props;
