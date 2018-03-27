@@ -3,8 +3,8 @@ import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import type { Action, StyleObj } from '../types';
-import ModalNavBar from '../nav/ModalNavBar';
-import { Avatar } from '../common';
+import { Avatar, Touchable } from '../common';
+import Icon from '../common/Icons';
 
 const componentStyles = StyleSheet.create({
   text: {
@@ -15,23 +15,27 @@ const componentStyles = StyleSheet.create({
   name: {
     color: 'white',
     fontSize: 14,
-  },
-  navBar: {
-    backgroundColor: 'transparent',
-    paddingTop: 0,
-    borderBottomWidth: 0,
+    fontWeight: 'bold',
   },
   subheader: {
     color: 'white',
     fontSize: 12,
   },
-  children: {
+  rightIcon: {
+    fontSize: 36,
+    alignSelf: 'center',
+  },
+  wrapper: {
+    backgroundColor: 'transparent',
+    borderBottomWidth: 0,
     flex: 1,
-    justifyContent: 'flex-start',
-    paddingRight: 15,
-    paddingLeft: 15,
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    paddingBottom: 8,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 0,
   },
 });
 
@@ -54,27 +58,22 @@ export default class LightboxHeader extends PureComponent<Props> {
 
   render() {
     const { onPressBack, senderName, subheader, ...restProps } = this.props;
+
     return (
-      <ModalNavBar
-        itemsColor="white"
-        rightItem={{
-          name: 'x',
-          onPress: onPressBack,
-          style: { fontSize: 36 },
-        }}
-        style={componentStyles.navBar}
-        childrenStyle={componentStyles.children}
-      >
+      <View style={componentStyles.wrapper}>
         <Avatar size={36} {...restProps} />
         <View style={componentStyles.text}>
-          <Text style={[this.context.styles.username, componentStyles.name]} numberOfLines={1}>
+          <Text style={componentStyles.name} numberOfLines={1}>
             {senderName}
           </Text>
           <Text style={componentStyles.subheader} numberOfLines={1}>
             {subheader}
           </Text>
         </View>
-      </ModalNavBar>
+        <Touchable onPress={onPressBack}>
+          <Icon style={componentStyles.rightIcon} color="white" name="x" />
+        </Touchable>
+      </View>
     );
   }
 }
