@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     fontSize: 18,
@@ -39,7 +40,7 @@ export default class TitleSpecial extends PureComponent<Props> {
 
     return (
       <View style={styles.wrapper}>
-        <Icon name={icon} size={18} color={color} />
+        <Icon name={icon} size={20} color={color} />
         <Label style={[styles.title, { color }]} text={name} />
       </View>
     );
