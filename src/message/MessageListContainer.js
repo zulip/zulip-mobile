@@ -19,7 +19,7 @@ import {
   constructActionButtons,
   constructHeaderActionButtons,
   executeActionSheetAction,
-} from '../message/messageActionSheet';
+} from './messageActionSheet';
 import MessageListWeb from '../render-html/MessageListWeb';
 import {
   getAuth,

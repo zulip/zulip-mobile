@@ -2,7 +2,7 @@
 import React from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 
-import MessageLoading from '../message/MessageLoading';
+import MessageLoading from './MessageLoading';
 
 const styles = StyleSheet.create({
   list: {
