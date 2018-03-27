@@ -458,8 +458,12 @@ describe('hasProtocol', () => {
 });
 
 describe('fixRealmUrl', () => {
-  test('undefined input results in empty url with prepended https', () => {
-    expect(fixRealmUrl()).toEqual('https://');
+  test('undefined input results in empty string', () => {
+    expect(fixRealmUrl()).toEqual('');
+  });
+
+  test('empty url input results in empty string', () => {
+    expect(fixRealmUrl('')).toEqual('');
   });
 
   test('when a realm url is missing a protocol, prepend https', () => {
@@ -485,7 +489,7 @@ describe('fixRealmUrl', () => {
 });
 
 describe('autocompleteUrl', () => {
-  test('when no value entered return empty string', () => {
+  test('when no value is entered return empty string', () => {
     const result = autocompleteUrl('', 'https://', '.zulipchat.com', '');
     expect(result).toEqual('');
   });
