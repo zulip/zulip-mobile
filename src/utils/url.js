@@ -126,7 +126,7 @@ export const getResource = (uri: string, auth: Auth): Object =>
 export const hasProtocol = (url: string = '') => url.search(/\b(http|https):\/\//) !== -1;
 
 export const fixRealmUrl = (url: string = '') =>
-  (!hasProtocol(url) ? 'https://' : '') + url.trim().replace(/\s+|\/$/g, '');
+  url.length > 0 ? (!hasProtocol(url) ? 'https://' : '') + url.trim().replace(/\s+|\/$/g, '') : '';
 
 export const getFileExtension = (filename: string): string => filename.split('.').pop();
 
