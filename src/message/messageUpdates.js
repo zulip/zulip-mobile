@@ -1,7 +1,7 @@
 /* @flow */
 import isEqual from 'lodash.isequal';
 
-import type { Props } from '../message/MessageListContainer';
+import type { Props } from './MessageListContainer';
 
 type TransitionProps = {
   sameNarrow: boolean,
