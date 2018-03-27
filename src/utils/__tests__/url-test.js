@@ -485,9 +485,9 @@ describe('fixRealmUrl', () => {
 });
 
 describe('autocompleteUrl', () => {
-  test('when no value entered fill in default values', () => {
+  test('when no value entered return empty string', () => {
     const result = autocompleteUrl('', 'https://', '.zulipchat.com', '');
-    expect(result).toEqual('https://your-org.zulipchat.com');
+    expect(result).toEqual('');
   });
 
   test('when an protocol is provided use it', () => {
