@@ -71,7 +71,7 @@ class LightboxContainer extends PureComponent<Props, State> {
       buttonIndex => {
         executeActionSheetAction({
           title: options[buttonIndex],
-          src,
+          src: src.uri,
           auth,
         });
       },
@@ -88,7 +88,7 @@ class LightboxContainer extends PureComponent<Props, State> {
     const { actions, src, message, auth } = this.props;
     const footerMessage =
       message.type === 'stream' ? `Shared in #${message.display_recipient}` : 'Shared with you';
-    const resource = getResource(src, auth);
+    const resource = getResource(src.uri, auth);
     const { width, height } = Dimensions.get('window');
 
     return (
