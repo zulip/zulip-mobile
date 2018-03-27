@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Auth, Actions, Orientation, UserType } from '../types';
+import type { Auth, Actions, Orientation, User } from '../types';
 import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { getAuth, getSession, getAccountDetailsUser } from '../selectors';
 import { Screen } from '../common';
@@ -9,7 +9,7 @@ import AccountDetails from './AccountDetails';
 
 type Props = {
   auth: Auth,
-  user: UserType,
+  user: User,
   orientation: Orientation,
   actions: Actions,
 };

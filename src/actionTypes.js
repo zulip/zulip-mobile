@@ -1,5 +1,5 @@
 /* @flow */
-import type { Dimensions, GetState, Message } from './types';
+import type { Dimensions, GetState, Message, Narrow, ServerSettings, User } from './types';
 
 export type AsyncActionCreator<A> = (dispatch: Dispatch, getState: GetState) => A;
 
@@ -65,6 +65,17 @@ export type DebugFlagToggleAction = {
 
 export type DebugFlagToggleActionCreator = (key: string, value: any) => DebugFlagToggleAction;
 
+export type NavigateAction = Object;
+export type NavigateActionCreator = () => NavigateAction;
+export type NavigateToChatActionCreator = (narrow: Narrow) => NavigateAction;
+export type NavigateToAuthActionCreator = (serverSettings: ServerSettings) => NavigateAction;
+export type NavigateToPasswordActionCreator = (ldap: boolean) => NavigateAction;
+export type NavigateToAccountDetailsActionCreator = (email: string) => NavigateAction;
+export type NavigateToGroupDetails = (recipients: User[]) => NavigateAction;
+export type NavigateToAddNewAccountActionCreator = (realm: string) => NavigateAction;
+export type NavigateToLightboxActionCreator = (src: string, message: Message) => NavigateAction;
+export type NavigateToStreamActionCreator = (streamId: number) => NavigateAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
@@ -73,7 +84,8 @@ export type Action = any;
   | AppOrientationAction
   | StartEditMessageAction
   | CancelEditMessageAction
-  | DebugFlagToggleAction; */
+  | DebugFlagToggleAction
+  | NavigateAction; */
 
 export type Actions = any; /* {
   appOnline: AppOnlineActionCreator,
@@ -81,8 +93,38 @@ export type Actions = any; /* {
   appRefresh: AppRefreshActionCreator,
   initSafeAreaInsets: InitSafeAreaInsetsActionCreator,
   startEditMessage: StartEditMessageActionCreator,
-  cancelEditMessage;
-  debugFlagToggle;
+  cancelEditMessage: CancelEditMessageActionCreator,
+  debugFlagToggle: DebugFlagToggleActionCreator,
+
+  navigateBack: NavigateActionCreator,
+  navigateToChat: NavigateToChatActionCreator,
+  navigateToAllStreams: NavigateActionCreator,
+  navigateToUsersScreen: NavigateActionCreator,
+  navigateToSearch: NavigateActionCreator,
+  navigateToSettings: NavigateActionCreator,
+  navigateToAuth: NavigateToAuthActionCreator,
+  navigateToDev: NavigateActionCreator,
+  navigateToPassword: NavigateToPasswordActionCreator,
+  navigateToAccountPicker: NavigateActionCreator,
+  navigateToAccountDetails: NavigateToAccountDetailsActionCreator,
+  navigateToGroupDetails: NavigateToGroupDetailsActionCreator,
+  navigateToAddNewAccount: NavigateToAddNewAccountActionCreator,
+  navigateToLightbox: NavigateToLightboxActionCreator,
+  navigateToLoading: NavigateActionCreator,
+  navigateToLanguage: NavigateActionCreator,
+  navigateToCreateGroup: NavigateActionCreator,
+  navigateToDiagnostics: NavigateActionCreator,
+  navigateToVariables: NavigateActionCreator,
+  navigateToTiming: NavigateActionCreator,
+  navigateToStorage: NavigateActionCreator,
+  navigateToDebug: NavigateActionCreator,
+  navigateToNotifDiag: NavigateActionCreator,
+  navigateToStream: NavigateToStreamActionCreator,
+  navigateToTopicList: NavigateToStreamActionCreator,
+  navigateToCreateStream: NavigateActionCreator,
+  navigateToEditStream: NavigateToStreamActionCreator,
+  navigateToNotifications: NavigateActionCreator,
+
   addToOutbox: (
     type: 'private' | 'stream',
     to: string | string[],
