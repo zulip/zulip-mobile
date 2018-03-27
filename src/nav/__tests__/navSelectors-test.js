@@ -1,11 +1,32 @@
 import deepFreeze from 'deep-freeze';
 import {
+  getCanGoBack,
   getInitialNavState,
   getSameRoutesCount,
   getSameRoutesAndParamsCount,
   getPreviousDifferentRoute,
   getPreviousDifferentRouteAndParams,
 } from '../navSelectors';
+
+describe('getCanGoBack', () => {
+  test('return true if current route in the stack is not the only route', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 1,
+      },
+    });
+    expect(getCanGoBack(state)).toBe(true);
+  });
+
+  test('return false if current route in the stack is the only route', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 0,
+      },
+    });
+    expect(getCanGoBack(state)).toBe(false);
+  });
+});
 
 describe('getInitialNavState', () => {
   test('when no previous navigation is given do not throw but return some result', () => {
