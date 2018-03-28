@@ -93,7 +93,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
         <View style={componentStyles.container}>
           <Input
             style={styles.smallMarginTop}
-            autoFocus
+            autoFocus={email.length === 0}
             autoCapitalize="none"
             autoCorrect={false}
             blurOnSubmit={false}
@@ -104,6 +104,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
           />
           <PasswordInput
             style={[styles.smallMarginTop, styles.field]}
+            autoFocus={email.length !== 0}
             placeholder="Password"
             value={password}
             onChangeText={newPassword => this.setState({ password: newPassword })}
