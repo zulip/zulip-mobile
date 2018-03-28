@@ -42,6 +42,13 @@ export const apiCall = async (
     networkActivityStart(isSilent);
     const response = await apiFetch(auth, route, params);
 
+    if (response.status === 401) {
+      // UNAUTHORIZED
+      // apiKey got exprired
+      // logout
+      return response.status;
+    }
+
     if (!response.ok) {
       throw Error(response.statusText);
     }

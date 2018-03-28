@@ -19,6 +19,7 @@ import {
   MESSAGE_FETCH_COMPLETE,
   MARK_MESSAGES_READ,
 } from '../actionConstants';
+import { logout } from '../account/accountActions';
 import timing from '../utils/timing';
 import { allPrivateNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
@@ -133,35 +134,6 @@ export const initialFetchComplete = (): Action => ({
   type: INITIAL_FETCH_COMPLETE,
 });
 
-export const fetchEssentialInitialData = (): Action => async (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
-  dispatch(initialFetchStart());
-  const auth = getAuth(getState());
-  const halfCount = Math.trunc(config.messagesPerRequest / 2);
-
-  timing.start('Essential server data');
-  // only fetch messages if chat scrren is at the top of stack
-  // get narrow of top most chat screen in the stack
-  const narrow = getTopMostNarrow(getState());
-  const [initData, messages] = await Promise.all([
-    await tryUntilSuccessful(() => registerForEvents(auth)),
-    narrow &&
-      (await tryUntilSuccessful(() => getMessages(auth, narrow, 0, halfCount, halfCount, true))),
-  ]);
-
-  timing.end('Essential server data');
-
-  dispatch(realmInit(initData));
-  if (narrow && messages) {
-    dispatch(messageFetchComplete(messages, narrow, 0, halfCount, halfCount, true));
-  }
-  dispatch(initialFetchComplete());
-
-  dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
-};
-
 export const fetchRestOfInitialData = (): Action => async (
   dispatch: Dispatch,
   getState: GetState,
@@ -186,9 +158,45 @@ export const fetchRestOfInitialData = (): Action => async (
   dispatch(trySendMessages());
 };
 
+export const fetchEssentialInitialData = (): Action => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
+  dispatch(initialFetchStart());
+  const auth = getAuth(getState());
+  const halfCount = Math.trunc(config.messagesPerRequest / 2);
+
+  timing.start('Essential server data');
+  // only fetch messages if chat scrren is at the top of stack
+  // get narrow of top most chat screen in the stack
+  const narrow = getTopMostNarrow(getState());
+  const [initData, messages] = await Promise.all([
+    await tryUntilSuccessful(() => registerForEvents(auth)),
+    narrow &&
+      (await tryUntilSuccessful(() => getMessages(auth, narrow, 0, halfCount, halfCount, true))),
+  ]);
+
+  timing.end('Essential server data');
+
+  if (initData === 401) {
+    dispatch(logout(auth));
+    return;
+  }
+
+  dispatch(fetchRestOfInitialData());
+
+  dispatch(realmInit(initData));
+
+  if (narrow && messages) {
+    dispatch(messageFetchComplete(messages, narrow, 0, halfCount, halfCount, true));
+  }
+  dispatch(initialFetchComplete());
+
+  dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
+};
+
 export const doInitialFetch = (): Action => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(fetchEssentialInitialData());
-  dispatch(fetchRestOfInitialData());
 
   if (config.enableNotifications) {
     dispatch(initNotifications());

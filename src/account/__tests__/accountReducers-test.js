@@ -214,11 +214,59 @@ describe('accountReducers', () => {
         },
       ]);
 
-      const action = deepFreeze({ type: LOGOUT });
+      const action = deepFreeze({
+        type: LOGOUT,
+        auth: {
+          apiKey: '123',
+          realm: 'http://realm1.com',
+          email: 'one@example.com',
+        },
+      });
 
       const expectedState = [
         {
           apiKey: '',
+          realm: 'http://realm1.com',
+          email: 'one@example.com',
+        },
+        {
+          apiKey: '456',
+          realm: 'http://realm2.com',
+          email: 'two@example.com',
+        },
+      ];
+
+      const newState = accountReducers(prevState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+
+    test('if logout is on unknown auth then do nothing', () => {
+      const prevState = deepFreeze([
+        {
+          apiKey: '123',
+          realm: 'http://realm1.com',
+          email: 'one@example.com',
+        },
+        {
+          apiKey: '456',
+          realm: 'http://realm2.com',
+          email: 'two@example.com',
+        },
+      ]);
+
+      const action = deepFreeze({
+        type: LOGOUT,
+        auth: {
+          apiKey: '12345',
+          realm: 'http://realm1.com',
+          email: 'one@example.com',
+        },
+      });
+
+      const expectedState = [
+        {
+          apiKey: '123',
           realm: 'http://realm1.com',
           email: 'one@example.com',
         },

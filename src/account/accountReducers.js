@@ -74,7 +74,26 @@ export default (state: AccountState = initialState, action: Action): AccountStat
 
     case LOGOUT: {
       // Empty out the active account's api key
-      return [{ ...state[0], apiKey: '' }, ...state.slice(1)];
+      const { auth } = action;
+      let isStateChanged = false;
+      const newState = state.reduce((accounts, account) => {
+        if (
+          account.apiKey !== '' &&
+          account.email === auth.email &&
+          account.apiKey === auth.apiKey
+        ) {
+          isStateChanged = true;
+          accounts.push({ ...account, apiKey: '' });
+        } else {
+          accounts.push(account);
+        }
+        return accounts;
+      }, []);
+
+      if (isStateChanged) {
+        return newState;
+      }
+      return state;
     }
 
     case ACCOUNT_REMOVE: {

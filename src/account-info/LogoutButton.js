@@ -38,9 +38,9 @@ class LogoutButton extends PureComponent<Props> {
   };
 
   logout = () => {
-    const { actions } = this.props;
+    const { actions, auth } = this.props;
     this.shutdownPUSH();
-    actions.logout();
+    actions.logout(auth);
   };
 
   render() {
