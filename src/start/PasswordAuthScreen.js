@@ -86,6 +86,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
     const { styles } = this.context;
     const { ldap } = this.props.navigation.state.params;
     const { email, password, progress, error } = this.state;
+    const isButtonDisabled = password.length === 0 || !isValidEmailFormat(email);
 
     return (
       <Screen title="Log in" padding centerContent>
@@ -111,6 +112,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
           />
           <ZulipButton
             style={styles.smallMarginTop}
+            disabled={isButtonDisabled}
             text="Log in"
             progress={progress}
             onPress={this.validateForm}
