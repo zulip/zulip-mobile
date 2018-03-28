@@ -87,7 +87,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
     const { email, password, progress, error } = this.state;
 
     return (
-      <Screen title="Log in" padding>
+      <Screen title="Log in" padding centerContent>
         <View style={componentStyles.container}>
           <Input
             style={styles.smallMarginTop}
