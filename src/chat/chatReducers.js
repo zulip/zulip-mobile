@@ -37,7 +37,8 @@ export default (state: MessageState = initialState, action: Action): MessageStat
       const key = JSON.stringify(action.narrow);
       const messages = state[key] || NULL_ARRAY;
       const messagesById = groupItemsById(messages);
-      const newMessages = action.replaceExisting
+      const replaceExisting = action.anchor === 0 || action.anchor === Number.MAX_SAFE_INTEGER;
+      const newMessages = replaceExisting
         ? action.messages.map(
             item =>
               messagesById[item.id]

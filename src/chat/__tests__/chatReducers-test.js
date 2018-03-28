@@ -768,16 +768,16 @@ describe('chatReducers', () => {
       expect(newState).not.toBe(initialState);
     });
 
-    test('when replaceExisting is true, previous messages are replaced', () => {
+    test('when anchor is 0 previous messages are replaced', () => {
       const initialState = deepFreeze({
         [homeNarrowStr]: [{ id: 1, timestamp: 3 }, { id: 2, timestamp: 4 }],
       });
 
       const action = deepFreeze({
+        anchor: 0,
         type: MESSAGE_FETCH_COMPLETE,
         narrow: [],
         messages: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
-        replaceExisting: true,
       });
 
       const expectedState = {
@@ -789,7 +789,28 @@ describe('chatReducers', () => {
       expect(newState).toEqual(expectedState);
     });
 
-    test('when replaceExisting is true, common messages are not replaced', () => {
+    test('when anchor is Number.MAX_SAFE_INTEGER previous messages are replaced', () => {
+      const initialState = deepFreeze({
+        [homeNarrowStr]: [{ id: 1, timestamp: 3 }, { id: 2, timestamp: 4 }],
+      });
+
+      const action = deepFreeze({
+        anchor: Number.MAX_SAFE_INTEGER,
+        type: MESSAGE_FETCH_COMPLETE,
+        narrow: [],
+        messages: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
+      });
+
+      const expectedState = {
+        [homeNarrowStr]: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
+      };
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+
+    test('when anchor is 0 common messages are not replaced', () => {
       const commonMessages = [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }];
       const initialState = deepFreeze({
         [homeNarrowStr]: [{ id: 1, timestamp: 3 }, ...commonMessages],
@@ -797,9 +818,9 @@ describe('chatReducers', () => {
 
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
+        anchor: 0,
         narrow: [],
         messages: [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }],
-        replaceExisting: true,
       });
 
       const newState = chatReducers(initialState, action);
@@ -807,7 +828,7 @@ describe('chatReducers', () => {
       expect(newState[homeNarrowStr]).toEqual(commonMessages);
     });
 
-    test('when replaceExisting is true, deep equal is performed to separate common messages', () => {
+    test('when anchor is 0 deep equal is performed to separate common messages', () => {
       const commonMessages = [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }];
       const changedMessage = { id: 4, timestamp: 6, subject: 'new topic' };
       const initialState = deepFreeze({
@@ -820,9 +841,9 @@ describe('chatReducers', () => {
 
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
+        anchor: 0,
         narrow: [],
         messages: [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }, changedMessage],
-        replaceExisting: true,
       });
 
       const expectedState = {
