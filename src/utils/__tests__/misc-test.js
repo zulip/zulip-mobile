@@ -1,4 +1,4 @@
-import { initialsFromName, numberWithSeparators, deeperMerge } from '../misc';
+import { initialsFromName, isValidEmailFormat, numberWithSeparators, deeperMerge } from '../misc';
 
 describe('numberWithSeparators', () => {
   test('do not change a small number', () => {
@@ -95,5 +95,18 @@ describe('initialsFromName', () => {
   test('double names produce one initial', () => {
     expect(initialsFromName('Jean-Pierre')).toEqual('J');
     expect(initialsFromName("Mc'Donald")).toEqual('M');
+  });
+});
+
+describe('isValidEmail', () => {
+  test('return true if email string is in valid format', () => {
+    expect(isValidEmailFormat('a@a.com')).toBe(true);
+  });
+
+  test('return false if email string is in valid format', () => {
+    expect(isValidEmailFormat('ab.com')).toBe(false);
+    expect(isValidEmailFormat('@a.com')).toBe(false);
+    expect(isValidEmailFormat('a@b')).toBe(false);
+    expect(isValidEmailFormat('a@.com')).toBe(false);
   });
 });

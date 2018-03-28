@@ -33,3 +33,5 @@ export const groupItemsById = (items: Object[]): Object =>
     itemsById[item.id] = item;
     return itemsById;
   }, {});
+
+export const isValidEmailFormat = (email: string = ''): boolean => /\S+@\S+\.\S+/.test(email);
