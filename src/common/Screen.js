@@ -15,6 +15,9 @@ const componentStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
   },
+  childrenWrapper: {
+    flex: 1,
+  },
   content: {
     flexGrow: 1,
     justifyContent: 'center',
@@ -70,7 +73,12 @@ class Screen extends PureComponent<Props> {
           style={[componentStyles.wrapper, padding && componentStyles.padding]}
           contentContainerStyle={[padding && componentStyles.padding]}
         >
-          <ScrollView contentContainerStyle={centerContent ? componentStyles.content : null}>
+          <ScrollView
+            contentContainerStyle={[
+              componentStyles.childrenWrapper,
+              centerContent ? componentStyles.content : null,
+            ]}
+          >
             {children}
           </ScrollView>
         </KeyboardAvoider>
