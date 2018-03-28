@@ -106,11 +106,11 @@ class MessageListContainer extends PureComponent<Props> {
   };
 
   handleMessageListScroll = (e: Object) => {
-    const { auth, flags } = this.props;
+    const { auth, debug, flags } = this.props;
     const visibleMessageIds = e.visibleIds ? e.visibleIds.map(x => +x) : [];
     const unreadMessageIds = filterUnreadMessageIds(visibleMessageIds, flags);
 
-    if (unreadMessageIds.length > 0) {
+    if (unreadMessageIds.length > 0 && !debug.doNotMarkMessagesAsRead) {
       queueMarkAsRead(auth, unreadMessageIds);
     }
   };
