@@ -40,7 +40,7 @@ const updateTyping = (prevProps: Props, nextProps: Props, sendMessage: any => vo
 };
 
 export default (prevProps: Props, nextProps: Props, sendMessage: any => void) => {
-  if (prevProps.renderedMessages !== nextProps.renderedMessages) {
+  if (!isEqual(prevProps.renderedMessages, nextProps.renderedMessages)) {
     updateContent(prevProps, nextProps, sendMessage);
   }
 
@@ -51,7 +51,7 @@ export default (prevProps: Props, nextProps: Props, sendMessage: any => void) =>
     updateFetching(prevProps, nextProps, sendMessage);
   }
 
-  if (prevProps.typingUsers !== nextProps.typingUsers) {
+  if (!isEqual(prevProps.typingUsers, nextProps.typingUsers)) {
     updateTyping(prevProps, nextProps, sendMessage);
   }
 };
