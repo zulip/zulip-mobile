@@ -43,7 +43,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
 
   state = {
     progress: false,
-    email: '',
+    email: this.props.auth.email || '',
     password: '',
     error: '',
   };
