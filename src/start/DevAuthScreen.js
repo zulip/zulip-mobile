@@ -78,7 +78,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
       <Screen title="Pick a dev account">
         <View style={styles.container}>
           {progress && <ActivityIndicator />}
-          {error && <ErrorMsg error={error} />}
+          {!!error && <ErrorMsg error={error} />}
           <Label
             style={[styles.field, styles.heading2, inlineStyles.heading]}
             text="Administrators"
