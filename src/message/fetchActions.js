@@ -42,7 +42,6 @@ export const messageFetchComplete = (
   anchor: number,
   numBefore: number,
   numAfter: number,
-  replaceExisting: boolean = false,
 ): Action => async (dispatch: Dispatch, getState: GetState) =>
   dispatch({
     type: MESSAGE_FETCH_COMPLETE,
@@ -51,7 +50,6 @@ export const messageFetchComplete = (
     anchor,
     numBefore,
     numAfter,
-    replaceExisting,
   });
 
 export const backgroundFetchMessages = (
@@ -155,7 +153,7 @@ export const fetchEssentialInitialData = (): Action => async (
 
   dispatch(realmInit(initData));
   if (narrow && messages) {
-    dispatch(messageFetchComplete(messages, narrow, 0, halfCount, halfCount, true));
+    dispatch(messageFetchComplete(messages, narrow, 0, halfCount, halfCount));
   }
   dispatch(initialFetchComplete());
 
@@ -178,7 +176,7 @@ export const fetchRestOfInitialData = (): Action => async (
   ]);
   timing.end('Rest of server data');
 
-  dispatch(messageFetchComplete(messages, allPrivateNarrow, Number.MAX_SAFE_INTEGER, 100, 0, true));
+  dispatch(messageFetchComplete(messages, allPrivateNarrow, Number.MAX_SAFE_INTEGER, 100, 0));
   dispatch(initStreams(streams));
   if (auth.apiKey !== '' && (pushToken === '' || pushToken === undefined)) {
     refreshNotificationToken();
