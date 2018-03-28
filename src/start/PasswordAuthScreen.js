@@ -7,6 +7,7 @@ import connectWithActions from '../connectWithActions';
 import { fetchApiKey } from '../api';
 import { ErrorMsg, Input, PasswordInput, Screen, WebLink, ZulipButton } from '../common';
 import { getAuth, getOwnEmail } from '../selectors';
+import { isValidEmailFormat } from '../utils/misc';
 
 const componentStyles = StyleSheet.create({
   container: {
@@ -72,7 +73,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
     const { ldap } = this.props.navigation.state.params;
     const { email, password } = this.state;
 
-    if (!email || (!ldap && !/\S+@\S+\.\S+/.test(email))) {
+    if (!email || (!ldap && !isValidEmailFormat(email))) {
       this.setState({ error: ldap ? 'Enter a username' : 'Enter a valid email address' });
     } else if (!password) {
       this.setState({ error: 'Enter a password' });
