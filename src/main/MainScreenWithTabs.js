@@ -1,4 +1,5 @@
 /* @flow */
+// @ts-check
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
@@ -15,7 +16,6 @@ export default class MainScreenWithTabs extends PureComponent<{}> {
 
     return (
       <View style={[styles.flexed, styles.backgroundColor]}>
-        <ZulipStatusBar />
         <MainTabs />
       </View>
     );
