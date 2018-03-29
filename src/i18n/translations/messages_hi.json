@@ -1,7 +1,7 @@
 {
   "{_}": "{_}",
   "Home": "घर",
-  "All messages": "All messages",
+  "All messages": "सभी संदेश",
   "Private messages": "निजी संदेश",
   "Starred": "तारांकित संदेश",
   "Mentions": "उल्लेख",
@@ -34,9 +34,9 @@
   "Server URL": "सर्वर URL",
   "Why not start the conversation?": "चलो बातचीत शुरू करें?",
   "Chat": "बातचीत शुरू करें",
-  "Log in with Google": "Google के साथ प्रवेश करें",
-  "Log in with GitHub": "Log in with GitHub",
-  "Log in with password": "पासवर्ड से प्रवेश करें",
+  "Log in with Google": "Google के जरिए प्रवेश करें",
+  "Log in with GitHub": "GitHub के जरिए प्रवेश करें",
+  "Log in with password": "पासवर्ड के जरिए प्रवेश करें",
   "Log in with dev account": "देव खाते से लॉग इन करें",
   "Cannot connect to server": "सर्वर से कनेक्ट नहीं हो पा रहा",
   "Wrong email or password. Try again.": "गलत ईमेल या पासवर्ड। पुनः प्रयास करें।",
@@ -130,6 +130,6 @@
   "Active": "सक्रिय उपयोगकर्ता",
   "Idle": "दूर उपयोगकर्ताओं",
   "Offline": "ऑफ़लाइन उपयोगकर्ता",
-  "Do not mark messages read on scroll": "Do not mark messages read on scroll",
-  "Topics": "Topics"
+  "Do not mark messages read on scroll": "संदेशों को स्क्रॉल पर पढ़ने के रूप में चिह्नित न करें",
+  "Topics": "सभी विषय"
 }
