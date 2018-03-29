@@ -1,7 +1,7 @@
 /* @flow */
 import { NotificationsAndroid, PendingNotifications } from 'react-native-notifications';
 
-import type { Auth, Actions, Notification } from '../types';
+import type { Auth, Actions } from '../types';
 import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
@@ -34,12 +34,12 @@ export const refreshNotificationToken = () => {
   NotificationsAndroid.refreshToken();
 };
 
-export const handlePendingNotifications = async (notification: Notification, actions: Actions) => {
-  if (!notification || !notification.getData) {
+export const handlePendingNotifications = async (notificationData: Object, actions: Actions) => {
+  if (!notificationData || !notificationData.getData) {
     return;
   }
 
-  const data = notification.getData();
+  const data = notificationData.getData();
   config.startup.notification = data;
   if (data) {
     actions.doNarrow(getNarrowFromNotificationData(data), data.zulip_message_id);

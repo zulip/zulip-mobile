@@ -433,7 +433,7 @@ export type PresenceAggregated = {
   timestamp: number,
 };
 
-export type Notification = any; /* {
+export type Notification = {
   alert: string,
   content: string,
   content_truncated: boolean,
@@ -448,10 +448,12 @@ export type Notification = any; /* {
   sender_email: string,
   sender_full_name: string,
   server: string,
+  stream: string,
+  topic: string,
   time: number,
   user: string,
   zulip_message_id: string,
-} */
+};
 
 export type NamedUser = {
   id: number,
