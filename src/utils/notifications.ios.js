@@ -18,11 +18,11 @@ const onPushRegistered = async (
 };
 
 export const addNotificationListener = (notificationHandler: (notification: Object) => void) => {
-  NotificationsIOS.addEventListener('notificationOpened', notificationHandler);
+  NotificationsIOS.addEventListener('notification', notificationHandler);
 };
 
 export const removeNotificationListener = (notificationHandler: (notification: Object) => void) => {
-  NotificationsIOS.removeEventListener('notificationOpened', notificationHandler);
+  NotificationsIOS.removeEventListener('notification', notificationHandler);
 };
 
 export const initializeNotifications = (
@@ -41,12 +41,12 @@ export const initializeNotifications = (
 export const refreshNotificationToken = () => {};
 
 export const handlePendingNotifications = async (notificationData: Object, actions: Actions) => {
+  config.startup.notification = notificationData;
   if (!notificationData || !notificationData.getData) {
     return;
   }
 
   const data = notificationData.getData();
-  config.startup.notification = data;
   if (!data || !data.custom || !data.custom.data) {
     return;
   }
