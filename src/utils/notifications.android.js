@@ -7,17 +7,6 @@ import { registerPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { getNarrowFromNotificationData } from './notificationsCommon';
 
-const handleRegistrationUpdates = (auth: Auth, saveTokenPush: Actions.saveTokenPush) => {
-  NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
-    try {
-      const result = await registerPush(auth, deviceToken);
-      saveTokenPush(deviceToken, result.msg, result.result);
-    } catch (e) {
-      logErrorRemotely(e, 'failed to register GCM');
-    }
-  });
-};
-
 export const addNotificationListener = (notificationHandler: (notification: Object) => void) => {
   NotificationsAndroid.setNotificationOpenedListener(notificationHandler);
 };
@@ -27,7 +16,14 @@ export const removeNotificationListener = (
 ) => {};
 
 export const initializeNotifications = (auth: Auth, saveTokenPush: Actions.saveTokenPush) => {
-  handleRegistrationUpdates(auth, saveTokenPush);
+  NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
+    try {
+      const result = await registerPush(auth, deviceToken);
+      saveTokenPush(deviceToken, result.msg, result.result);
+    } catch (e) {
+      logErrorRemotely(e, 'failed to register GCM');
+    }
+  });
 };
 
 export const refreshNotificationToken = () => {
