@@ -2,7 +2,7 @@
 import NotificationsIOS from 'react-native-notifications';
 import { PushNotificationIOS } from 'react-native';
 
-import type { Auth, Actions, Notification } from '../types';
+import type { Auth, Actions } from '../types';
 import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';
@@ -40,12 +40,12 @@ export const initializeNotifications = (
 
 export const refreshNotificationToken = () => {};
 
-export const handlePendingNotifications = async (notification: Notification, actions: Actions) => {
-  if (!notification || !notification.getData) {
+export const handlePendingNotifications = async (notificationData: Object, actions: Actions) => {
+  if (!notificationData || !notificationData.getData) {
     return;
   }
 
-  const data = notification.getData();
+  const data = notificationData.getData();
   config.startup.notification = data;
   if (!data || !data.custom || !data.custom.data) {
     return;
@@ -54,6 +54,6 @@ export const handlePendingNotifications = async (notification: Notification, act
 };
 
 export const handleInitialNotification = async (actions: Actions) => {
-  const notification = await PushNotificationIOS.getInitialNotification();
-  handlePendingNotifications(notification, actions);
+  const data = await PushNotificationIOS.getInitialNotification();
+  handlePendingNotifications(data, actions);
 };
