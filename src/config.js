@@ -2,10 +2,34 @@
 import { NativeModules } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
+import type { Narrow, Notification } from './types';
+
 const isDevelopment = process.env.NODE_ENV === 'development';
 const isEmulator = NativeModules.RNDeviceInfo ? DeviceInfo.isEmulator() : false;
 
-export default {
+type Config = {
+  startup: {
+    narrow: ?Narrow,
+    anchor: number,
+    notification: ?Notification,
+  },
+  compatibilityUrl: string,
+  messagesPerRequest: number,
+  scrollCallbackThrottle: number,
+  messageListThreshold: number,
+  enableReduxLogging: boolean,
+  enableReduxSlowReducerWarnings: boolean,
+  enableSentry: boolean,
+  enableWebViewErrorDisplay: boolean,
+  enableNotifications: boolean,
+  slowReducersThreshold: number,
+  sentryKey: string,
+  enableErrorConsoleLogging: boolean,
+  trackServerEvents: string[],
+  serverDataOnStartup: string[],
+};
+
+const config: Config = {
   startup: {
     narrow: undefined,
     anchor: 0,
@@ -60,3 +84,5 @@ export default {
     'update_message_flags',
   ],
 };
+
+export default config;
