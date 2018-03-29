@@ -60,7 +60,10 @@ export default (state: TypingState = initialState, action: Action): TypingState 
       if (newTypingUsers.length > 0) {
         return {
           ...state,
-          [normalizedRecipients]: newTypingUsers,
+          [normalizedRecipients]: {
+            time: action.time,
+            userIds: newTypingUsers,
+          },
         };
       }
 
