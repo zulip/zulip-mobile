@@ -2,7 +2,6 @@
 import { REHYDRATE } from 'redux-persist/constants';
 
 import type { NavigationState, Action } from '../types';
-import { getFirstIfDeepEqual } from '../utils/immutability';
 import { navigateToChat } from './navActions';
 import { getStateForRoute, getInitialNavState } from './navSelectors';
 import AppNavigator from './AppNavigator';
@@ -29,11 +28,8 @@ export default (
       return getStateForRoute('main');
 
     case INITIAL_FETCH_COMPLETE:
-      return getFirstIfDeepEqual(
-        state,
-        getStateForRoute('main'),
-        (a, b) => state.routes[0].routeName === 'main',
-      );
+      return state.routes[0].routeName === 'main' ?
+        state : getStateForRoute('main');
 
     case LOGOUT:
       return getStateForRoute('account');
