@@ -64,7 +64,20 @@ for starting out, just get either one working so you can play with the app.
 
 More wrinkles are involved; see our separate doc on [iOS tips](ios-tips.md).
 
-## Fix issues
+## Troubleshooting
+
+### App shows a blank white screen
+
+If you're developing on a Linux machine, and when you start the dev version of
+the app (either in an emulator or on a device) you just get a blank white
+screen, you may have hit your system's limit for inotify watches.  You can
+increase this limit with the following commands:
+```
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+```
+
+### Other issues
 
 If you are having issues running the code on your machine, either for the first time or after updating an outdated code with the latest, please run:
 
