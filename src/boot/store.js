@@ -3,6 +3,7 @@ import { AsyncStorage } from 'react-native';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
 
+import config from '../config';
 import rootReducer from './reducers';
 import middleware from './middleware';
 
@@ -20,16 +21,7 @@ export const restore = (onFinished?: () => void) =>
   persistStore(
     store,
     {
-      whitelist: [
-        'accounts',
-        'drafts',
-        'messages',
-        'mute',
-        'outbox',
-        'realm',
-        'settings',
-        'subscriptions',
-      ],
+      whitelist: [...config.storeKeys, ...config.cacheKeys],
       storage: AsyncStorage,
     },
     onFinished,
