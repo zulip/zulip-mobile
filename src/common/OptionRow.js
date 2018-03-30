@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
     padding: 8,
     backgroundColor: 'rgba(127, 127, 127, 0.1)',
   },
+  optionTitle: {
+    padding: 8,
+    paddingLeft: 0,
+  },
 });
 
 type Props = {
@@ -30,7 +34,7 @@ export default class OptionRow extends PureComponent<Props> {
 
     return (
       <View style={[styles.optionRow, style]}>
-        <Label text={label} />
+        <Label style={styles.optionTitle} text={label} />
         <ZulipSwitch defaultValue={defaultValue} onValueChange={onValueChange} />
       </View>
     );
