@@ -64,9 +64,17 @@ export const getPreviousDifferentRouteAndParams = createSelector(getNav, nav => 
 });
 
 export const getStateForRoute = (route: string, params?: Object) =>
-  AppNavigator.router.getStateForAction(
-    AppNavigator.router.getActionForPathAndParams(route, params),
-  );
+ { 
+    // console.logs(route);
+    // console.logs(params);
+    let action;
+    action = AppNavigator.router.getActionForPathAndParams(route, params)
+    if(action == null) {
+      route += '/home';
+      action = AppNavigator.router.getActionForPathAndParams(route, params)
+    }
+    return AppNavigator.router.getStateForAction(action);
+};
 
 export const getInitialNavState = createSelector(
   getNav,

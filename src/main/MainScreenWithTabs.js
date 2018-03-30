@@ -10,6 +10,7 @@ export default class MainScreenWithTabs extends PureComponent<{}> {
   static contextTypes = {
     styles: () => null,
   };
+  static router = MainTabs.router; //Try to comment out this line and check navigation state Tab navigator routes are registered with this
 
   render() {
     const { styles } = this.context;
