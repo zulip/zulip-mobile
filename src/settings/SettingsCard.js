@@ -45,6 +45,7 @@ class SettingsCard extends PureComponent<Props> {
 
     return (
       <ScrollView style={styles.optionWrapper}>
+        <View style={styles.divider} />
         <OptionRow
           label="Night mode"
           defaultValue={theme === 'night'}
