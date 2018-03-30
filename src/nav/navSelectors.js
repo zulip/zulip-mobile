@@ -63,10 +63,10 @@ export const getPreviousDifferentRouteAndParams = createSelector(getNav, nav => 
   return nav.routes[i < 0 ? 0 : i].key;
 });
 
-export const getStateForRoute = (route: string, params?: Object) =>
-  AppNavigator.router.getStateForAction(
-    AppNavigator.router.getActionForPathAndParams(route, params),
-  );
+export const getStateForRoute = (route: string, params?: Object) => {
+  const action = AppNavigator.router.getActionForPathAndParams(route, params);
+  return action != null ? AppNavigator.router.getStateForAction(action) : null;
+};
 
 export const getInitialNavState = createSelector(
   getNav,
