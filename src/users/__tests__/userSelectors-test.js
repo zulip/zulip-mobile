@@ -37,7 +37,15 @@ describe('getAccountDetailsUser', () => {
       },
       users: [],
     });
-    const expectedUser = { email: 'b@a.com', fullName: 'b@a.com', avatarUrl: '' };
+    const expectedUser = {
+      email: 'b@a.com',
+      fullName: 'b@a.com',
+      avatarUrl: '',
+      id: -1,
+      isActive: false,
+      isAdmin: false,
+      isBot: false,
+    };
 
     const actualUser = getAccountDetailsUser(state);
 

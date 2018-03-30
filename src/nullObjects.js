@@ -27,6 +27,10 @@ export const NULL_USER: User = {
   fullName: '',
   avatarUrl: '',
   email: '',
+  id: -1,
+  isActive: false,
+  isAdmin: false,
+  isBot: false,
 };
 
 export const NULL_STREAM: Stream = {
