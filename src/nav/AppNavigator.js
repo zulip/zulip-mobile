@@ -1,4 +1,4 @@
-/* @TODO flow */
+/* @flow */
 import { StackNavigator } from 'react-navigation';
 
 import AccountPickScreen from '../account/AccountPickScreen';

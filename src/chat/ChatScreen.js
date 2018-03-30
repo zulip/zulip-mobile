@@ -1,6 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
+import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Narrow } from '../types';
@@ -9,7 +10,7 @@ import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 
 type Props = {
-  navigation: {
+  navigation: NavigationScreenProp<*> & {
     state: {
       params: {
         narrow: Narrow,
