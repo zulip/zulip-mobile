@@ -20,16 +20,15 @@ export const restore = (onFinished?: () => void) =>
   persistStore(
     store,
     {
-      blacklist: [
-        'caughtUp',
-        'fetching',
-        'loading',
-        'nav',
-        'presence',
-        'session',
-        'topics',
-        'typing',
-        'users',
+      whitelist: [
+        'accounts',
+        'drafts',
+        'messages',
+        'mute',
+        'outbox',
+        'realm',
+        'settings',
+        'subscriptions',
       ],
       storage: AsyncStorage,
     },
