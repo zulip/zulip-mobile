@@ -14,9 +14,9 @@ import {
 } from '../actionConstants';
 
 export default (
-  state: NavigationState = getStateForRoute('loading'),
+  state: ?NavigationState = getStateForRoute('loading'),
   action: Action,
-): NavigationState => {
+): ?NavigationState => {
   switch (action.type) {
     case REHYDRATE:
       return getInitialNavState(action.payload);
@@ -28,7 +28,7 @@ export default (
       return getStateForRoute('main');
 
     case INITIAL_FETCH_COMPLETE:
-      return state.routes[0].routeName === 'main' ?
+      return (state && state.routes[0].routeName === 'main') ?
         state : getStateForRoute('main');
 
     case LOGOUT:
