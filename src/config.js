@@ -27,6 +27,8 @@ type Config = {
   enableErrorConsoleLogging: boolean,
   trackServerEvents: string[],
   serverDataOnStartup: string[],
+  storeKeys: string[],
+  cacheKeys: string[],
 };
 
 const config: Config = {
@@ -83,6 +85,8 @@ const config: Config = {
     'update_global_notifications',
     'update_message_flags',
   ],
+  storeKeys: ['accounts', 'drafts', 'outbox', 'settings'],
+  cacheKeys: ['messages', 'mute', 'realm', 'subscriptions'],
 };
 
 export default config;
