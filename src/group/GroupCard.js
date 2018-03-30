@@ -51,9 +51,8 @@ export default class GroupCard extends PureComponent<Props, State> {
     const { selected } = this.state;
 
     const user = users.find(x => x.email === email);
-    const merge = [...selected, user];
     this.setState({
-      selected: merge,
+      selected: [...selected, user],
     });
     setTimeout(() => this.listRef.scrollToEnd(), 300);
   };
@@ -103,8 +102,8 @@ export default class GroupCard extends PureComponent<Props, State> {
         <UserList
           style={styles.list}
           ownEmail={ownEmail}
-          filter=""
-          users={users.filter(user => user.fullName.includes(filter))}
+          filter={filter}
+          users={users}
           presences={presences}
           selected={selected}
           onPress={this.handleUserPress}
