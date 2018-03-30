@@ -1,5 +1,6 @@
 /* @flow */
 import React from 'react';
+import { Platform } from 'react-native';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
 import type { TabNavigationOptionsPropsType } from '../types';
@@ -53,8 +54,7 @@ export default TabNavigator(
   tabsOptions({
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
-    showLabel: false,
+    showLabel: !!Platform.isPad,
     showIcon: true,
-    tabWidth: 0,
   }),
 );

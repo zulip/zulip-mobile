@@ -6,7 +6,6 @@ type Props = {
   tabBarPosition: 'top' | 'bottom',
   showLabel: boolean,
   showIcon: boolean,
-  tabWidth: number,
 };
 
 export default ({ tabBarComponent, tabBarPosition, showLabel, showIcon, tabWidth }: Props) => ({
