@@ -4,7 +4,6 @@ import {
   removeItemsFromArray,
   filterArray,
   replaceItemInArray,
-  getFirstIfDeepEqual,
 } from '../immutability';
 
 describe('removeItemsFromArray', () => {
@@ -84,43 +83,5 @@ describe('replaceItemInArray', () => {
 
     expect(result).not.toBe(input);
     expect(result).toEqual(expectedResult);
-  });
-});
-
-describe('getFirstIfDeepEqual', () => {
-  test('return second parameter if two parameters differ', () => {
-    const first = 123;
-    const second = 456;
-
-    const result = getFirstIfDeepEqual(first, second);
-
-    expect(result).toBe(second);
-  });
-
-  test('return second parameter if two arrays are deep equal', () => {
-    const first = [1, 2, 3];
-    const second = [1, 2, 3];
-
-    const result = getFirstIfDeepEqual(first, second);
-
-    expect(result).toBe(first);
-  });
-
-  test('return second parameter if two objects are deep equal', () => {
-    const first = { hello: 'yo' };
-    const second = { hello: 'yo' };
-
-    const result = getFirstIfDeepEqual(first, second);
-
-    expect(result).toBe(first);
-  });
-
-  test('123', () => {
-    const first = { hello: 'yo', ignored: 123 };
-    const second = { hello: 'yo', ignored: 456 };
-
-    const result = getFirstIfDeepEqual(first, second, (a, b) => a.hello === b.hello);
-
-    expect(result).toBe(first);
   });
 });
