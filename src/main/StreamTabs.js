@@ -39,11 +39,12 @@ export default TabNavigator(
       },
     },
   },
-  tabsOptions({
+  {
     tabBarComponent: TabBarTop,
     tabBarPosition: 'top',
-    showLabel: true,
-    showIcon: false,
-    tabWidth: 100,
-  }),
+    ...tabsOptions({
+      showLabel: true,
+      showIcon: false,
+    }),
+  },
 );

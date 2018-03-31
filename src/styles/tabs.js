@@ -2,15 +2,11 @@
 import { BRAND_COLOR } from './';
 
 type Props = {
-  tabBarComponent: Object,
-  tabBarPosition: 'top' | 'bottom',
   showLabel: boolean,
   showIcon: boolean,
 };
 
-export default ({ tabBarComponent, tabBarPosition, showLabel, showIcon, tabWidth }: Props) => ({
-  tabBarComponent,
-  tabBarPosition,
+export default ({ showLabel, showIcon }: Props) => ({
   swipeEnabled: true,
   animationEnabled: true,
   tabBarOptions: {
