@@ -18,11 +18,11 @@ const onPushRegistered = async (
 };
 
 export const addNotificationListener = (notificationHandler: (notification: Object) => void) => {
-  NotificationsIOS.addEventListener('notification', notificationHandler);
+  NotificationsIOS.addEventListener('notificationOpened', notificationHandler);
 };
 
 export const removeNotificationListener = (notificationHandler: (notification: Object) => void) => {
-  NotificationsIOS.removeEventListener('notification', notificationHandler);
+  NotificationsIOS.removeEventListener('notificationOpened', notificationHandler);
 };
 
 export const initializeNotifications = (
@@ -40,17 +40,16 @@ export const initializeNotifications = (
 
 export const refreshNotificationToken = () => {};
 
-export const handlePendingNotifications = async (notificationData: Object, actions: Actions) => {
-  config.startup.notification = notificationData;
+export const handlePendingNotifications = (notificationData: Object, actions: Actions) => {
   if (!notificationData || !notificationData.getData) {
     return;
   }
 
   const data = notificationData.getData();
-  if (!data || !data.custom || !data.custom.data) {
-    return;
+  config.startup.notification = data;
+  if (data) {
+    actions.doNarrow(getNarrowFromNotificationData(data), data.zulip_message_id);
   }
-  actions.doNarrow(getNarrowFromNotificationData(data), data.zulip_message_id);
 };
 
 export const handleInitialNotification = async (actions: Actions) => {
