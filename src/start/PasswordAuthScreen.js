@@ -89,7 +89,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
     const isButtonDisabled = password.length === 0 || !isValidEmailFormat(email);
 
     return (
-      <Screen title="Log in" padding centerContent>
+      <Screen title="Log in" centerContent padding keyboardShouldPersistTaps="always">
         <View style={componentStyles.container}>
           <Input
             style={styles.smallMarginTop}
