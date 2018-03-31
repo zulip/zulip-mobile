@@ -1,6 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
+import isUrl from 'is-url';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -85,7 +86,7 @@ class RealmScreen extends PureComponent<Props, State> {
           text="Enter"
           progress={progress}
           onPress={this.tryRealm}
-          disabled={!realm}
+          disabled={!isUrl(realm)}
         />
       </Screen>
     );
