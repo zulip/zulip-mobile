@@ -51,10 +51,13 @@ export default TabNavigator(
       },
     },
   },
-  tabsOptions({
-    tabBarComponent: TabBarBottom,
-    tabBarPosition: 'bottom',
-    showLabel: !!Platform.isPad,
-    showIcon: true,
-  }),
+  {
+    ...tabsOptions({
+      tabBarComponent: TabBarBottom,
+      tabBarPosition: 'bottom',
+      showLabel: !!Platform.isPad,
+      showIcon: true,
+    }),
+    backBehavior: 'none',
+  },
 );
