@@ -52,12 +52,12 @@ export default TabNavigator(
     },
   },
   {
+    backBehavior: 'none',
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: 'bottom',
     ...tabsOptions({
-      tabBarComponent: TabBarBottom,
-      tabBarPosition: 'bottom',
       showLabel: !!Platform.isPad,
       showIcon: true,
     }),
-    backBehavior: 'none',
   },
 );
