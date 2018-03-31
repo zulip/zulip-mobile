@@ -6,7 +6,7 @@ import type { Actions, Auth } from '../types';
 import connectWithActions from '../connectWithActions';
 import { fetchApiKey } from '../api';
 import { ErrorMsg, Input, PasswordInput, Screen, WebLink, ZulipButton } from '../common';
-import { getAuth, getOwnEmail } from '../selectors';
+import { getAuth } from '../selectors';
 import { isValidEmailFormat } from '../utils/misc';
 
 const componentStyles = StyleSheet.create({
@@ -21,7 +21,6 @@ const componentStyles = StyleSheet.create({
 type Props = {
   actions: Actions,
   auth: Auth,
-  email: string,
   navigation: Object,
 };
 
@@ -49,8 +48,8 @@ class PasswordAuthView extends PureComponent<Props, State> {
   };
 
   tryPasswordLogin = async () => {
-    const { actions, auth } = this.props;
-    const { ldap } = this.props.navigation.state.params;
+    const { actions, auth, navigation } = this.props;
+    const { ldap } = navigation.state.params;
     const { email, password } = this.state;
 
     this.setState({ progress: true, error: undefined });
@@ -130,5 +129,4 @@ class PasswordAuthView extends PureComponent<Props, State> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
-  email: getOwnEmail(state),
 }))(PasswordAuthView);
