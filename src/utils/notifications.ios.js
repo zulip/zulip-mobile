@@ -46,9 +46,9 @@ export const handlePendingNotifications = (notificationData: Object, actions: Ac
   }
 
   const data = notificationData.getData();
-  config.startup.notification = data;
-  if (data) {
-    actions.doNarrow(getNarrowFromNotificationData(data), data.zulip_message_id);
+  config.startup.notification = data.zulip;
+  if (data && data.zulip) {
+    actions.doNarrow(getNarrowFromNotificationData(data)); // , data.message_ids
   }
 };
 
