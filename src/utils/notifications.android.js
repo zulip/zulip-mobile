@@ -30,7 +30,7 @@ export const refreshNotificationToken = () => {
   NotificationsAndroid.refreshToken();
 };
 
-export const handlePendingNotifications = async (notificationData: Object, actions: Actions) => {
+export const handlePendingNotifications = (notificationData: Object, actions: Actions) => {
   if (!notificationData || !notificationData.getData) {
     return;
   }
