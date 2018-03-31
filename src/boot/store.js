@@ -9,13 +9,25 @@ import middleware from './middleware';
 
 // AsyncStorage.clear(); // use to reset storage during development
 
-// uncomment the following lines to integrate reactotron with redux
-// const store = Reactotron.createStore(
-//   rootReducer,
-//   compose(autoRehydrate(), applyMiddleware(...middleware)),
-// );
-
-const store = compose(applyMiddleware(...middleware), autoRehydrate())(createStore)(rootReducer);
+let store;
+/* eslint-disable no-undef, global-require, import/no-extraneous-dependencies */
+if (__DEV__) { // This block of code is never meant to execute in production
+  const Reactotron = require('reactotron-react-native').default;
+/* eslint-enable */
+  store = Reactotron.createStore(
+    rootReducer,
+    {},
+    compose(
+      applyMiddleware(...middleware),
+      autoRehydrate()
+      )
+    );
+} else {
+  store = compose(
+    applyMiddleware(...middleware),
+    autoRehydrate()
+  )(createStore)(rootReducer);
+}
 
 export const restore = (onFinished?: () => void) =>
   persistStore(
@@ -27,4 +39,6 @@ export const restore = (onFinished?: () => void) =>
     onFinished,
   );
 
-export default store;
+const exportStore = store; // Just a hack to avoid eslint error of exporting non const value.
+
+export default exportStore;

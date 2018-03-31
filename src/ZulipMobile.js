@@ -1,5 +1,8 @@
 /* @flow */
+/* eslint-disable import/first */
+import './ReactotronConfig';
 import React from 'react';
+/* eslint-enable */
 
 import '../vendor/intl/intl';
 import StoreProvider from './boot/StoreProvider';
