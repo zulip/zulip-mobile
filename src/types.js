@@ -169,10 +169,11 @@ export type ApiResponse = {
   msg: string,
 };
 
-export type EditMessage = any; /* {
+export type EditMessage = {
   id: number,
   content: string,
-} */
+  topic: string,
+};
 
 export type AuthenticationMethods = {
   dev: boolean,
