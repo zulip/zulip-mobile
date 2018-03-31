@@ -42,15 +42,15 @@ export const apiCall = async (
     networkActivityStart(isSilent);
     const response = await apiFetch(auth, route, params);
 
-    if (!response.ok) {
-      throw Error(response.statusText);
-    }
-
     const json = await response.json();
 
     if (json.result !== 'success') {
       console.log('Bad response for:', auth, route, params); // eslint-disable-line
-      throw new Error(json.msg);
+      throw Error(json.msg);
+    }
+
+    if (!response.ok) {
+      throw Error(response.statusText);
     }
 
     return resFunc(json);
