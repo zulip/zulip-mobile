@@ -35,6 +35,7 @@ type Props = {
   title?: LocalizableText,
   children: ChildrenArray<*>,
   searchBarOnChange?: (text: string) => void,
+  keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
 };
 
 class Screen extends PureComponent<Props> {
@@ -46,6 +47,7 @@ class Screen extends PureComponent<Props> {
 
   static defaultProps = {
     centerContent: false,
+    keyboardShouldPersistTaps: 'never',
   };
 
   render() {
@@ -57,6 +59,7 @@ class Screen extends PureComponent<Props> {
       children,
       safeAreaInsets,
       searchBarOnChange,
+      keyboardShouldPersistTaps,
     } = this.props;
     const { styles } = this.context;
     const ModalBar = search ? ModalSearchNavBar : ModalNavBar;
@@ -76,6 +79,7 @@ class Screen extends PureComponent<Props> {
               componentStyles.childrenWrapper,
               centerContent && componentStyles.content,
             ]}
+            keyboardShouldPersistTaps={keyboardShouldPersistTaps}
           >
             {children}
           </ScrollView>
