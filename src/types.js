@@ -271,10 +271,14 @@ export type ThemeType = 'default' | 'night';
 
 export type StatusBarStyle = 'light-content' | 'dark-content';
 
-export type SettingsState = any; /* {
+export type SettingsState = {
   locale: string,
   theme: ThemeType,
-} */
+  offlineNotification: boolean,
+  onlineNotification: boolean,
+  experimentalFeaturesEnabled: boolean,
+  streamNotification: boolean,
+};
 
 export type StreamsState = any; // [];
 
