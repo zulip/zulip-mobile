@@ -18,7 +18,6 @@ import {
   APP_REFRESH,
   DEBUG_FLAG_TOGGLE,
   INIT_SAFE_AREA_INSETS,
-  TOGGLE_COMPOSE_TOOLS,
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
 } from '../actionConstants';
@@ -69,10 +68,6 @@ export const appOrientation = (orientation: string) => (
     });
   }
 };
-
-export const toggleComposeTools = () => ({
-  type: TOGGLE_COMPOSE_TOOLS,
-});
 
 export const startEditMessage = (messageId: number, topic: string) => async (
   dispatch: Dispatch,

@@ -13,7 +13,6 @@ import {
   INITIAL_FETCH_COMPLETE,
   APP_ORIENTATION,
   APP_STATE,
-  TOGGLE_COMPOSE_TOOLS,
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
   START_OUTBOX_SENDING,
@@ -23,7 +22,6 @@ import {
 import { getAuth } from '../selectors';
 
 const initialState: SessionState = {
-  composeTools: false,
   eventQueueId: null,
   editMessage: null,
   isOnline: true,
@@ -108,12 +106,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       return {
         ...state,
         orientation: action.orientation,
-      };
-
-    case TOGGLE_COMPOSE_TOOLS:
-      return {
-        ...state,
-        composeTools: !state.composeTools,
       };
 
     case CANCEL_EDIT_MESSAGE:

@@ -17,7 +17,6 @@ export default connectWithActions((state: GlobalState, props) => ({
   auth: getAuth(state),
   users: getUsers(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
-  composeTools: getSession(state).composeTools,
   isSubscribed: getIsActiveStreamSubscribed(props.narrow)(state),
   canSend: canSendToActiveNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
   editMessage: getSession(state).editMessage,
