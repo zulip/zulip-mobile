@@ -192,7 +192,6 @@ export type ServerSettings = {
 export type AccountState = Account[];
 
 export type SessionState = {
-  composeTools: boolean,
   eventQueueId: ?number,
   editMessage: ?EditMessage,
   lastActivityTime: Date,
