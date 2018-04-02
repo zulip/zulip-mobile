@@ -212,21 +212,19 @@ export default class ComposeBox extends PureComponent<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.editMessage !== this.props.editMessage) {
-      const topic =
-        isStreamNarrow(nextProps.narrow) && nextProps.editMessage
-          ? nextProps.editMessage.topic
-          : '';
+    const { editMessage, narrow, draft } = nextProps;
+    if (editMessage !== this.props.editMessage) {
+      const topic = isStreamNarrow(narrow) && editMessage ? editMessage.topic : '';
       this.setState({
-        message: nextProps.editMessage ? nextProps.editMessage.content : '',
+        message: editMessage ? editMessage.content : '',
         topic,
       });
       this.messageInput.focus();
-    } else if (!isEqual(nextProps.narrow, this.props.narrow)) {
+    } else if (!isEqual(narrow, this.props.narrow)) {
       this.tryUpdateDraft();
 
-      if (nextProps.draft) {
-        this.setState({ message: nextProps.draft });
+      if (draft) {
+        this.setState({ message: draft });
       } else {
         this.clearMessageInput();
       }
