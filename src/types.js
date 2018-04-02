@@ -11,6 +11,13 @@ export type * from './actionTypes';
 export type Dispatch = any;
 // export type { Dispatch } from 'redux';
 
+export type Dimensions = {
+  bottom: number,
+  left: number,
+  right: number,
+  top: number,
+};
+
 export type Auth = {
   realm: string,
   apiKey: string,
@@ -192,6 +199,11 @@ export type ServerSettings = {
 
 export type AccountState = Account[];
 
+export type Debug = {
+  highlightUnreadMessages: boolean,
+  doNotMarkMessagesAsRead: boolean,
+};
+
 export type SessionState = {
   eventQueueId: ?number,
   editMessage: ?EditMessage,
@@ -201,16 +213,8 @@ export type SessionState = {
   needsInitialFetch: boolean,
   orientation: 'LANDSCAPE' | 'PORTRAIT',
   outboxSending: boolean,
-  safeAreaInsets: {
-    bottom: number,
-    left: number,
-    right: number,
-    top: number,
-  },
-  debug: {
-    highlightUnreadMessages: boolean,
-    doNotMarkMessagesAsRead: boolean,
-  },
+  safeAreaInsets: Dimensions,
+  debug: Debug,
 };
 
 export type CaughtUpState = Object;
@@ -321,6 +325,8 @@ export type MatchResult = Array<string> & { index: number, input: string };
 
 export type GetState = () => GlobalState;
 
+export type RealmEmojiState = any;
+
 export type RealmEmojiType = {
   author: {
     email: string,
@@ -395,13 +401,6 @@ export type ActionSheetButtonType = any; /* {
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
   onlyIf?: (props: AuthMessageAndNarrow) => boolean,
 } */
-
-export type Dimensions = {
-  bottom: number,
-  left: number,
-  right: number,
-  top: number,
-};
 
 export type Orientation = 'PORTRAIT' | 'LANDSCAPE';
 

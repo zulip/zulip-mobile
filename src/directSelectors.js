@@ -1,13 +1,26 @@
 /* @flow */
 import type {
-  SessionState,
-  FlagsState,
-  MessageState,
-  TopicsState,
   GlobalState,
+  SessionState,
+  DraftState,
+  FetchingState,
+  FlagsState,
+  LoadingState,
+  MessageState,
+  MuteState,
+  NavigationState,
+  TopicsState,
+  PresenceState,
+  RealmEmojiState,
+  RealmState,
   SettingsState,
   StreamUnreadItem,
+  TypingState,
+  UnreadHuddlesState,
+  UnreadMentionsState,
+  UnreadPmsState,
   Account,
+  Debug,
   Subscription,
   Stream,
   Outbox,
@@ -18,24 +31,24 @@ export const getAccounts = (state: GlobalState): Account[] => state.accounts;
 
 export const getSession = (state: GlobalState): SessionState => state.session;
 
-export const getIsActive = (state: GlobalState): Object => state.session.isActive;
-export const getIsOnline = (state: GlobalState): Object => state.session.isOnline;
-export const getDebug = (state: GlobalState): Object => state.session.debug;
-export const getIsHydrated = (state: GlobalState): Object => state.session.isHydrated;
+export const getIsActive = (state: GlobalState): boolean => state.session.isActive;
+export const getIsOnline = (state: GlobalState): boolean => state.session.isOnline;
+export const getDebug = (state: GlobalState): Debug => state.session.debug;
+export const getIsHydrated = (state: GlobalState): boolean => state.session.isHydrated;
 
-export const getDrafts = (state: GlobalState): Object => state.drafts;
+export const getDrafts = (state: GlobalState): DraftState => state.drafts;
 
-export const getLoading = (state: GlobalState): Object => state.loading;
+export const getLoading = (state: GlobalState): LoadingState => state.loading;
 
-export const getMute = (state: GlobalState): Object => state.mute;
+export const getMute = (state: GlobalState): MuteState => state.mute;
 
-export const getTyping = (state: GlobalState): Object => state.typing;
+export const getTyping = (state: GlobalState): TypingState => state.typing;
 
 export const getTopics = (state: GlobalState): TopicsState => state.topics;
 
 export const getUsers = (state: GlobalState): User[] => state.users;
 
-export const getFetching = (state: GlobalState): Object => state.fetching;
+export const getFetching = (state: GlobalState): FetchingState => state.fetching;
 
 export const getFlags = (state: GlobalState): FlagsState => state.flags;
 
@@ -43,7 +56,7 @@ export const getReadFlags = (state: GlobalState): Object => state.flags.read;
 
 export const getAllMessages = (state: GlobalState): MessageState => state.messages;
 
-export const getNav = (state: GlobalState): Object => state.nav;
+export const getNav = (state: GlobalState): NavigationState => state.nav;
 
 export const getSettings = (state: GlobalState): SettingsState => state.settings;
 
@@ -51,21 +64,21 @@ export const getSubscriptions = (state: GlobalState): Subscription[] => state.su
 
 export const getStreams = (state: GlobalState): Stream[] => state.streams;
 
-export const getPresence = (state: GlobalState): Object => state.presence;
+export const getPresence = (state: GlobalState): PresenceState => state.presence;
 
 export const getOutbox = (state: GlobalState): Outbox[] => state.outbox;
 
 export const getUnreadStreams = (state: GlobalState): StreamUnreadItem[] => state.unread.streams;
 
-export const getUnreadPms = (state: GlobalState): Object[] => state.unread.pms;
+export const getUnreadPms = (state: GlobalState): UnreadPmsState => state.unread.pms;
 
-export const getUnreadHuddles = (state: GlobalState): Object[] => state.unread.huddles;
+export const getUnreadHuddles = (state: GlobalState): UnreadHuddlesState => state.unread.huddles;
 
-export const getUnreadMentions = (state: GlobalState): number[] => state.unread.mentions;
+export const getUnreadMentions = (state: GlobalState): UnreadMentionsState => state.unread.mentions;
 
-export const getRealm = (state: GlobalState): Object => state.realm;
+export const getRealm = (state: GlobalState): RealmState => state.realm;
 
-export const getRealmEmoji = (state: GlobalState): Object => state.realm.emoji;
+export const getRealmEmoji = (state: GlobalState): RealmEmojiState => state.realm.emoji;
 
 export const getNavigationRoutes = (state: GlobalState): Object[] => state.nav.routes;
 
