@@ -334,7 +334,7 @@ export type RealmEmojiType = {
 
 export type LocalizableText = any; // string | { text: string, values: Object };
 
-export type DomElement = any; /* {
+export type DomElement = {
   name: string,
   type: string,
   attribs: Object,
@@ -342,7 +342,7 @@ export type DomElement = any; /* {
   parent: DomElement,
   prev: DomElement,
   children: DomElement[],
-} */
+};
 
 export type Subscription = {
   audible_notifications: boolean,
