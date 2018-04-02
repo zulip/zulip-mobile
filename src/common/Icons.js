@@ -21,6 +21,10 @@ export const IconDownArrow = (props: Object) => <Feather name="chevron-down" {..
 export const IconGoogle = (props: Object) => <IoniconsIcon name="logo-google" {...props} />;
 export const IconGitHub = (props: Object) => <Feather name="github" {...props} />;
 export const IconCross = (props: Object) => <Feather name="x" {...props} />;
+export const IconDiagnostics = (props: Object) => <Feather name="activity" {...props} />;
+export const IconNotifications = (props: Object) => <Feather name="bell" {...props} />;
+export const IconLanguage = (props: Object) => <Feather name="globe" {...props} />;
+export const IconNight = (props: Object) => <Feather name="moon" {...props} />;
 export const IconSettings = (props: Object) => <Feather name="settings" {...props} />;
 export const IconRight = (props: Object) => <Feather name="chevron-right" {...props} />;
 export const IconPlus = (props: Object) => <Feather name="plus-circle" {...props} />;

@@ -5,10 +5,10 @@ import { StyleSheet, View } from 'react-native';
 import { Label, Touchable } from '../common';
 import { IconRight } from '../common/Icons';
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   optionRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     padding: 8,
     backgroundColor: 'rgba(127, 127, 127, 0.1)',
@@ -17,12 +17,10 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingLeft: 0,
   },
-  rightIcon: {
-    marginRight: 8,
-  },
 });
 
 type Props = {
+  Icon?: Object,
   label: string,
   onPress: () => void,
 };
@@ -35,13 +33,17 @@ export default class OptionButton extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { label, onPress } = this.props;
+    const { label, onPress, Icon } = this.props;
+    const { styles } = this.context;
 
     return (
       <Touchable onPress={onPress}>
-        <View style={styles.optionRow}>
-          <Label style={styles.optionTitle} text={label} />
-          <IconRight size={18} style={[this.context.styles.icon, styles.rightIcon]} />
+        <View style={style.optionRow}>
+          {Icon && <Icon size={18} style={[styles.icon, styles.settingsIcon]} />}
+          <Label style={style.optionTitle} text={label} />
+          <View style={styles.rightItem}>
+            <IconRight size={18} style={[styles.icon, styles.settingsIcon]} />
+          </View>
         </View>
       </Touchable>
     );
