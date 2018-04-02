@@ -1,11 +1,11 @@
 /* @flow */
-import type { GetState, Dispatch, Action } from '../types';
+import type { GetState, Dispatch, Action, InitialRealmData } from '../types';
 import { initializeNotifications } from '../utils/notifications';
 import { getAuth } from '../selectors';
 
 import { REALM_INIT, SAVE_TOKEN_PUSH, DELETE_TOKEN_PUSH } from '../actionConstants';
 
-export const realmInit = (data: Object): Action => ({
+export const realmInit = (data: InitialRealmData): Action => ({
   type: REALM_INIT,
   data,
 });

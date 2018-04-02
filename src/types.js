@@ -241,7 +241,7 @@ export type LoadingState = {
 };
 
 export type MuteTuple = [string, string];
-export type MuteState = any; // MuteTuple[];
+export type MuteState = any; // MuteTuple[]
 
 export type NavigationState = {
   index: number,
@@ -353,7 +353,9 @@ export type Subscription = any; /* {
   invite_only: boolean,
   name: string,
   pin_to_top: boolean,
+  push_notifications: boolean,
   stream_id: number,
+  stream_weekly_traffic: number,
 } */
 
 export type Outbox = any; /* {
@@ -472,4 +474,80 @@ export type PresenceState = any;
 export type TabNavigationOptionsPropsType = {
   isFocussed: boolean,
   tintColor: string,
+};
+
+export type RealmBot = {
+  email: string,
+  full_name: string,
+  is_admin: boolean,
+  is_bot: true,
+  user_id: number,
+};
+
+export type NeverSubscribedStream = {
+  description: string,
+  invite_only: boolean,
+  is_old_stream: boolean,
+  name: string,
+  stream_id: number,
+};
+
+export type RealmFilter = [string, string, number];
+
+export type InitialRealmData = {
+  alert_words: string[],
+  avatar_source: 'G',
+  avatar_url: string,
+  avatar_url_medium: string,
+  can_create_streams: boolean,
+  cross_realm_bots: RealmBot[],
+  default_desktop_notifications: boolean,
+  default_language: string,
+  email: string,
+  emojiset: string,
+  emojiset_choices: Object,
+  enable_desktop_notifications: boolean,
+  enable_digest_emails: boolean,
+  enable_offline_email_notifications: boolean,
+  enable_offline_push_notifications: boolean,
+  enable_online_push_notifications: boolean,
+  enable_sounds: boolean,
+  enable_stream_desktop_notifications: boolean,
+  enable_stream_email_notifications: boolean,
+  enable_stream_push_notifications: boolean,
+  enable_stream_sounds: boolean,
+  enter_sends: boolean,
+  full_name: string,
+  high_contrast_mode: boolean,
+  is_admin: boolean,
+  last_event_id: number,
+  left_side_userlist: boolean,
+  max_message_id: number,
+  message_content_in_email_notifications: boolean,
+  msg: string,
+  muted_topics: MuteTuple[],
+  never_subscribed: NeverSubscribedStream[],
+  stream_weekly_traffic: number,
+  night_mode: boolean,
+  pm_content_in_desktop_notifications: boolean,
+  presences: Presence[],
+  queue_id: string,
+  realm_emoji: Object, // map of RealmEmojiType
+  realm_filters: RealmFilter[],
+  realm_name_in_notifications: boolean,
+  realm_non_active_users: User[],
+  realm_users: User[],
+  subscriptions: Subscription[],
+  timezone: string,
+  translate_emoticons: boolean,
+  twenty_four_hour_time: boolean,
+  unread_msgs: {
+    streams: UnreadStreamsState,
+    huddles: UnreadHuddlesState,
+    count: number,
+    pms: UnreadPmsState,
+    mentions: UnreadMentionsState,
+  },
+  unsubscribed: Subscription[],
+  user_id: number,
 };
