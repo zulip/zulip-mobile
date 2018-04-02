@@ -158,11 +158,12 @@ export type NarrowElement = {
 
 export type Narrow = NarrowElement[];
 
-export type Recipient = any; /* {
+export type Recipient = {
   display_recipient: string,
   subject: string,
   email: string,
-} */
+  id: number,
+};
 
 export type ApiResponse = {
   result: string,
