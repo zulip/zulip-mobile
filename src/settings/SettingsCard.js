@@ -24,6 +24,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     flexDirection: 'row',
   },
+  linkContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
 });
 
 type Props = {
@@ -57,7 +61,7 @@ class SettingsCard extends PureComponent<Props> {
         <OptionButton label="Language" onPress={actions.navigateToLanguage} />
         <View style={styles.divider} />
         <OptionButton label="Diagnostics" onPress={actions.navigateToDiagnostics} />
-        <View style={styles.padding}>
+        <View style={[styles.padding, styles.linkContainer]}>
           <WebLink label="Terms of service" href="/terms/" />
           <WebLink label="Privacy policy" href="/privacy/" />
         </View>
