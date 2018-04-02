@@ -1,8 +1,8 @@
 /* @flow */
 import type {
-  SwitchAccountAction,
+  AccountSwitchAction,
   RealmAddAction,
-  RemoveAccountAction,
+  AccountRemoveAction,
   LoginSuccessAction,
   LogoutAction,
 } from '../types';
@@ -14,7 +14,7 @@ import {
   LOGOUT,
 } from '../actionConstants';
 
-export const switchAccount = (index: number): SwitchAccountAction => ({
+export const switchAccount = (index: number): AccountSwitchAction => ({
   type: ACCOUNT_SWITCH,
   index,
 });
@@ -24,7 +24,7 @@ export const realmAdd = (realm: string): RealmAddAction => ({
   realm,
 });
 
-export const removeAccount = (index: number): RemoveAccountAction => ({
+export const removeAccount = (index: number): AccountRemoveAction => ({
   type: ACCOUNT_REMOVE,
   index,
 });

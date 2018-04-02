@@ -76,12 +76,12 @@ export type NavigateToAddNewAccountActionCreator = (realm: string) => NavigateAc
 export type NavigateToLightboxActionCreator = (src: string, message: Message) => NavigateAction;
 export type NavigateToStreamActionCreator = (streamId: number) => NavigateAction;
 
-export type SwitchAccountAction = {
+export type AccountSwitchAction = {
   type: 'ACCOUNT_SWITCH',
   index: number,
 };
 
-export type SwitchAccountActionCreator = (index: number) => SwitchAccountAction;
+export type AccountSwitchActionCreator = (index: number) => AccountSwitchAction;
 
 export type RealmAddAction = {
   type: 'REALM_ADD',
@@ -90,12 +90,12 @@ export type RealmAddAction = {
 
 export type RealmAddActionCreator = (realm: string) => RealmAddAction;
 
-export type RemoveAccountAction = {
+export type AccountRemoveAction = {
   type: 'ACCOUNT_REMOVE',
   index: number,
 };
 
-export type RemoveAccountActionCreator = (index: number) => RemoveAccountAction;
+export type AccountRemoveActionCreator = (index: number) => AccountRemoveAction;
 
 export type LoginSuccessAction = {
   type: 'LOGIN_SUCCESS',
@@ -112,6 +112,13 @@ export type LogoutAction = {
 
 export type LogoutActionCreator = (index: number) => LogoutAction;
 
+export type AccountAction =
+  | AccountSwitchAction
+  | RealmAddAction
+  | AccountRemoveAction
+  | LoginSuccessAction
+  | LogoutAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
@@ -122,9 +129,9 @@ export type Action = any;
   | CancelEditMessageAction
   | DebugFlagToggleAction
   | NavigateAction
-  | SwitchAccountAction
+  | AccountSwitchAction
   | RealmAddAction
-  | RemoveAccountAction
+  | AccountRemoveAction
   | LoginSuccessAction
   | LogoutAction; */
 
@@ -166,9 +173,9 @@ export type Actions = any; /* {
   navigateToEditStream: NavigateToStreamActionCreator,
   navigateToNotifications: NavigateActionCreator,
 
-  switchAccount: SwitchAccountActionCreator,
+  switchAccount: AccountSwitchActionCreator,
   realmAdd: RealmAddActionCreator
-  removeAccount: RemoveAccountActionCreator,
+  removeAccount: AccountRemoveActionCreator,
   loginSuccess: LoginSuccessActionCreator,
   logout: LogoutActionCreator,
 
