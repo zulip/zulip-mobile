@@ -1,23 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Label, Touchable } from '../common';
 import { IconRight } from '../common/Icons';
-
-const style = StyleSheet.create({
-  optionRow: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    padding: 8,
-    backgroundColor: 'rgba(127, 127, 127, 0.1)',
-  },
-  optionTitle: {
-    padding: 8,
-    paddingLeft: 0,
-  },
-});
 
 type Props = {
   Icon?: Object,
@@ -38,9 +24,9 @@ export default class OptionButton extends PureComponent<Props> {
 
     return (
       <Touchable onPress={onPress}>
-        <View style={style.optionRow}>
+        <View style={styles.optionRow}>
           {Icon && <Icon size={18} style={[styles.icon, styles.settingsIcon]} />}
-          <Label style={style.optionTitle} text={label} />
+          <Label style={styles.optionTitle} text={label} />
           <View style={styles.rightItem}>
             <IconRight size={18} style={[styles.icon, styles.settingsIcon]} />
           </View>

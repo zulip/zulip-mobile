@@ -117,6 +117,17 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     color: BRAND_COLOR,
     textAlign: 'right',
   },
+  optionRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    padding: 8,
+    backgroundColor: 'rgba(127, 127, 127, 0.1)',
+  },
+  optionTitle: {
+    padding: 8,
+    paddingLeft: 0,
+  },
   navigationCard: {
     backgroundColor,
     shadowColor: 'transparent',
