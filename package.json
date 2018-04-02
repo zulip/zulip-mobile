@@ -35,7 +35,6 @@
     "@remobile/react-native-toast": "^1.0.7",
     "base-64": "^0.1.0",
     "blueimp-md5": "^2.10.0",
-    "buffer": "^5.1.0",
     "color": "^3.0.0",
     "date-fns": "^1.29.0",
     "entities": "^1.1.1",
