@@ -238,6 +238,19 @@ export type DoInitialFetchActionCreator = () => void;
 
 export type UploadImageActionCreator = (narrow: Narrow, uri: string, name: string) => void;
 
+export type EventUpdateGlobalNotificationsSettingsAction = any;
+
+export type SettingsChangeAction = {
+  type: 'SETTINGS_CHANGE',
+  key: string,
+  value: any,
+};
+
+export type SettingsAction =
+  | RealmInitAction
+  | SettingsChangeAction
+  | EventUpdateGlobalNotificationsSettingsAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
