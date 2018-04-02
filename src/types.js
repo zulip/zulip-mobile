@@ -273,10 +273,14 @@ export type ThemeType = 'default' | 'night';
 
 export type StatusBarStyle = 'light-content' | 'dark-content';
 
-export type SettingsState = any; /* {
+export type SettingsState = {
   locale: string,
   theme: ThemeType,
-} */
+  offlineNotification: boolean,
+  onlineNotification: boolean,
+  experimentalFeaturesEnabled: boolean,
+  streamNotification: boolean,
+};
 
 export type StreamsState = any; // [];
 
@@ -340,7 +344,7 @@ export type DomElement = any; /* {
   children: DomElement[],
 } */
 
-export type Subscription = any; /* {
+export type Subscription = {
   audible_notifications: boolean,
   color: string,
   description: string,
@@ -351,7 +355,10 @@ export type Subscription = any; /* {
   name: string,
   pin_to_top: boolean,
   stream_id: number,
-} */
+  is_old_stream: boolean,
+  push_notifications: boolean,
+  stream_weekly_traffic: number,
+};
 
 export type Outbox = any; /* {
   content: string,
