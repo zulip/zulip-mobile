@@ -73,7 +73,7 @@ export type MessageState = {
   [narrow: string]: Message[],
 };
 
-export type UserStatus = 'active' | 'inactive' | 'offline';
+export type UserStatus = 'active' | 'idle' | 'offline';
 
 export type User = any; /* {
   avatarUrl: string,
