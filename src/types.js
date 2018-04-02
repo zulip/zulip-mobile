@@ -333,16 +333,6 @@ export type RealmEmojiType = {
 
 export type LocalizableText = any; // string | { text: string, values: Object };
 
-export type DomElement = any; /* {
-  name: string,
-  type: string,
-  attribs: Object,
-  next: DomElement,
-  parent: DomElement,
-  prev: DomElement,
-  children: DomElement[],
-} */
-
 export type Subscription = any; /* {
   audible_notifications: boolean,
   color: string,
