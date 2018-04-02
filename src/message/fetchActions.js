@@ -1,5 +1,15 @@
 /* @flow */
-import type { Action, Narrow, Dispatch, GetState } from '../types';
+import type {
+  Narrow,
+  Dispatch,
+  GetState,
+  Message,
+  FetchMessagesAction,
+  MessageFetchStartAction,
+  MarkMessagesReadAction,
+  InitialFetchStartAction,
+  InitialFetchCompleteAction,
+} from '../types';
 import { getMessages, getStreams, registerForEvents, uploadFile } from '../api';
 import {
   getAuth,
@@ -29,7 +39,11 @@ import { initNotifications, realmInit } from '../realm/realmActions';
 import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
 import { startEventPolling } from '../events/eventActions';
 
-export const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
+export const messageFetchStart = (
+  narrow: Narrow,
+  numBefore: number,
+  numAfter: number,
+): MessageFetchStartAction => ({
   type: MESSAGE_FETCH_START,
   narrow,
   numBefore,
@@ -37,12 +51,12 @@ export const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: n
 });
 
 export const messageFetchComplete = (
-  messages: any[],
+  messages: Message[],
   narrow: Narrow,
   anchor: number,
   numBefore: number,
   numAfter: number,
-): Action => async (dispatch: Dispatch, getState: GetState) =>
+) => async (dispatch: Dispatch, getState: GetState) =>
   dispatch({
     type: MESSAGE_FETCH_COMPLETE,
     messages,
@@ -58,7 +72,7 @@ export const backgroundFetchMessages = (
   numBefore: number,
   numAfter: number,
   useFirstUnread: boolean = false,
-): Action => async (dispatch: Dispatch, getState: GetState) => {
+) => async (dispatch: Dispatch, getState: GetState) => {
   const messages = await getMessages(
     getAuth(getState()),
     narrow,
@@ -77,12 +91,12 @@ export const fetchMessages = (
   numBefore: number,
   numAfter: number,
   useFirstUnread: boolean = false,
-): Action => async (dispatch: Dispatch) => {
+): FetchMessagesAction => async (dispatch: Dispatch) => {
   dispatch(messageFetchStart(narrow, numBefore, numAfter));
   dispatch(backgroundFetchMessages(narrow, anchor, numBefore, numAfter, useFirstUnread));
 };
 
-export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number): Action =>
+export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number): FetchMessagesAction =>
   fetchMessages(
     narrow,
     anchor,
@@ -91,15 +105,18 @@ export const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number): Actio
     false,
   );
 
-export const fetchMessagesAtFirstUnread = (narrow: Narrow): Action =>
+export const fetchMessagesAtFirstUnread = (narrow: Narrow): FetchMessagesAction =>
   fetchMessages(narrow, 0, config.messagesPerRequest / 2, config.messagesPerRequest / 2, true);
 
-export const markMessagesRead = (messageIds: number[]): Action => ({
+export const markMessagesRead = (messageIds: number[]): MarkMessagesReadAction => ({
   type: MARK_MESSAGES_READ,
   messageIds,
 });
 
-export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState): Action => {
+export const fetchOlder = (narrow: Narrow): FetchMessagesAction => (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
   const state = getState();
   const firstMessageId = getFirstMessageId(narrow)(state);
   const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
@@ -111,7 +128,10 @@ export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   }
 };
 
-export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState): Action => {
+export const fetchNewer = (narrow: Narrow): FetchMessagesAction => (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
   const state = getState();
   const lastMessageId = getLastMessageId(narrow)(state);
   const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
@@ -123,18 +143,15 @@ export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   }
 };
 
-export const initialFetchStart = (): Action => ({
+export const initialFetchStart = (): InitialFetchStartAction => ({
   type: INITIAL_FETCH_START,
 });
 
-export const initialFetchComplete = (): Action => ({
+export const initialFetchComplete = (): InitialFetchCompleteAction => ({
   type: INITIAL_FETCH_COMPLETE,
 });
 
-export const fetchEssentialInitialData = (): Action => async (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
   const halfCount = Math.trunc(config.messagesPerRequest / 2);
@@ -160,10 +177,7 @@ export const fetchEssentialInitialData = (): Action => async (
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
 };
 
-export const fetchRestOfInitialData = (): Action => async (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
   const pushToken = getPushToken(getState());
 
@@ -184,7 +198,7 @@ export const fetchRestOfInitialData = (): Action => async (
   dispatch(trySendMessages());
 };
 
-export const doInitialFetch = (): Action => async (dispatch: Dispatch, getState: GetState) => {
+export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(fetchEssentialInitialData());
   dispatch(fetchRestOfInitialData());
 
@@ -195,7 +209,7 @@ export const doInitialFetch = (): Action => async (dispatch: Dispatch, getState:
   setInterval(() => sendFocusPing(), 60 * 1000);
 };
 
-export const uploadImage = (narrow: Narrow, uri: string, name: string): Action => async (
+export const uploadImage = (narrow: Narrow, uri: string, name: string) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
