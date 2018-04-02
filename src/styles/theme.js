@@ -71,6 +71,10 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     fontSize: 24,
     textAlign: 'center',
   },
+  settingsIcon: {
+    marginLeft: 8,
+    marginRight: 16,
+  },
   item: {
     flex: 1,
     flexBasis: CONTROL_SIZE,
@@ -96,6 +100,9 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   webview: {
     borderWidth: 0,
     backgroundColor,
+  },
+  rightItem: {
+    marginLeft: 'auto',
   },
   screenWrapper: {
     flex: 1,
