@@ -157,6 +157,87 @@ export type InitNotificationsActionCreator = () => void;
 
 export type RealmAction = RealmInitAction | DeleteTokenPushAction | SaveTokenPushAction;
 
+export type MessageFetchStartAction = {
+  type: 'MESSAGE_FETCH_START',
+  narrow: Narrow,
+  numBefore: number,
+  numAfter: number,
+};
+
+export type MessageFetchStartActionCreator = (
+  narrow: Narrow,
+  numBefore: number,
+  numAfter: number,
+) => MessageFetchStartAction;
+
+export type MessageFetchCompleteAction = {
+  type: 'MESSAGE_FETCH_COMPLETE',
+  messages: Message[],
+  narrow: Narrow,
+  anchor: number,
+  numBefore: number,
+  numAfter: number,
+};
+
+export type MessageFetchCompleteActionCreator = (
+  messages: Message[],
+  narrow: Narrow,
+  anchor: number,
+  numBefore: number,
+  numAfter: number,
+) => void;
+
+export type FetchMessagesAction = any;
+
+export type FetchMessagesActionCreator = (
+  narrow: Narrow,
+  anchor: number,
+  numBefore: number,
+  numAfter: number,
+  useFirstUnread: boolean,
+) => FetchMessagesAction;
+
+export type FetchMessagesAroundAnchorActionCreator = (
+  narrow: Narrow,
+  anchor: number,
+) => FetchMessagesAction;
+
+export type FetchMessagesAtFirstUnreadAcionCreator = (narrow: Narrow) => FetchMessagesAction;
+
+export type BackgroundFetchMessagesActionCreator = (
+  narrow: Narrow,
+  anchor: number,
+  numBefore: number,
+  numAfter: number,
+  useFirstUnread: boolean,
+) => void;
+
+export type MarkMessagesReadAction = {
+  type: 'MARK_MESSAGES_READ',
+  messageIds: number[],
+};
+
+export type MarkMessagesReadActionCreator = (messageIds: number[]) => MarkMessagesReadAction;
+
+export type FetchOlderActionCreator = (narrow: Narrow) => FetchMessagesAction;
+export type FetchNewerActionCreator = (narrow: Narrow) => FetchMessagesAction;
+
+export type InitialFetchStartAction = {
+  type: 'INITIAL_FETCH_START',
+};
+
+export type InitialFetchCompleteAction = {
+  type: 'INITIAL_FETCH_COMPLETE',
+};
+
+export type FetchEssentialInitialDataActionCreator = () => void;
+
+export type FetchRestOfInitialDataActionCreator = () => void;
+
+export type DoInitialFetchActionCreator = () => void;
+
+export type UploadImageActionCreator = (narrow: Narrow, uri: string, name: string) => void;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
@@ -174,6 +255,7 @@ export type Action = any;
   | LogoutAction; */
 
 export type Actions = any; /* {
+  // sessionActions
   appOnline: AppOnlineActionCreator,
   appState: AppStateActionCreator,
   appRefresh: AppRefreshActionCreator,
@@ -182,6 +264,7 @@ export type Actions = any; /* {
   cancelEditMessage: CancelEditMessageActionCreator,
   debugFlagToggle: DebugFlagToggleActionCreator,
 
+  // navActions
   navigateBack: NavigateActionCreator,
   navigateToChat: NavigateToChatActionCreator,
   navigateToAllStreams: NavigateActionCreator,
@@ -211,84 +294,33 @@ export type Actions = any; /* {
   navigateToEditStream: NavigateToStreamActionCreator,
   navigateToNotifications: NavigateActionCreator,
 
+  // accountActions
   switchAccount: AccountSwitchActionCreator,
   realmAdd: RealmAddActionCreator
   removeAccount: AccountRemoveActionCreator,
   loginSuccess: LoginSuccessActionCreator,
   logout: LogoutActionCreator,
 
+  // realmActions
   realmInit: RealmInitActionCreator,
   deleteTokenPush: DeleteTokenPushActionCreator,
   saveTokenPush: SaveTokenPushActionCreator,
   initNotifications: InitNotificationsActionCreator,
 
-  addToOutbox: (
-    type: 'private' | 'stream',
-    to: string | string[],
-    subject: string,
-    content: string,
-  ) => Action,
-  sessionState: (isActive: boolean) => Action,
-  appOrientation: (orientation: string) => Action,
-  sendFocusPing: (hasFocus: boolean, newUserInput: boolean) => Action,
-  initUsers: (users: User[]) => Action,
-  fetchUsers: () => Action,
-  initialFetchComplete: () => Action,
-  fetchEssentialInitialData: () => Action,
-  fetchRestOfInitialData: (pushToken: string) => Action,
-  deleteTokenPush: () => Action,
-  deleteOutboxMessage: () => Action,
-  saveTokenPush: (pushToken: string, result: string, msg: string) => Action,
-  fetchEvents: () => Action,
-  initNotifications: () => Action,
-  switchAccount: (index: number) => Action,
-  realmAdd: (realm: string) => Action,
-  removeAccount: (index: number) => Action,
-  loginSuccess: (realm: string, email: string, apiKey: string) => Action,
-  logout: () => Action,
-  initStreams: (streams: any[]) => Action,
-  fetchStreams: () => Action,
-  cancelEditMessage: () => void,
-  startEditMessage: (messageId: number) => void,
-  resetNavigation: () => Action,
-  navigateBack: () => Action,
-  navigateToAllStreams: () => Action,
-  navigateToUsersScreen: () => Action,
-  navigateToSearch: () => Action,
-  navigateToSettings: () => Action,
-  navigateToAuth: (serverSettings: ServerSettings) => Action,
-  navigateToAccountPicker: () => Action,
-  navigateToAccountDetails: (email: string) => Action,
-  navigateToGroupDetails: (recipients: User) => Action,
-  navigateToAddNewAccount: () => Action,
-  navigateToLightbox: (realm: string) => Action,
-  navigateToCreateGroup: () => Action,
-  navigateToDiagnostics: () => Action,
-  switchNarrow: (narrow: Narrow) => Action,
-  doNarrow: (newNarrow: Narrow, anchor?: number) => Action,
-  messageFetchStart: (narrow: Narrow, fetching: Object) => Action,
-  messageFetchComplete: (
-    messages: any[],
-    narrow: Narrow,
-    numBefore: number,
-    numAfter: number,
-  ) => Action,
-  backgroundFetchMessages: (
-    anchor: number,
-    numBefore: number,
-    numAfter: number,
-    narrow: Narrow,
-    useFirstUnread: boolean,
-  ) => Action,
-  fetchMessages: (
-    anchor: number,
-    numBefore: number,
-    numAfter: number,
-    narrow: Narrow,
-    useFirstUnread: boolean,
-  ) => Action,
-  fetchMessagesAtFirstUnread: (narrow: Narrow) => Action,
-  markMessagesRead: (messageIds: number[]) => Action,
-  fetchOlder: () => Action,
-  fetchNewer: () => Action,
+  // fetchActions
+  fetchMessages: FetchMessagesActionCreator,
+  messageFetchStart: MessageFetchStartActionCreator,
+  messageFetchComplete: MessageFetchCompleteActionCreator,
+  fetchMessagesAroundAnchor: FetchMessagesAroundAnchorActionCreator,
+  fetchMessagesAtFirstUnread: FetchMessagesAtFirstUnreadAcionCreator,
+  backgroundFetchMessages: BackgroundFetchMessagesActionCreator,
+  markMessagesRead: MarkMessagesReadActionCreator,
+  fetchOlder: FetchOlderActionCreator,
+  fetchNewer: FetchNewerActionCreator,
+  initialFetchStart: InitialFetchStartActionCreator,
+  initialFetchComplete: InitialFetchCompleteActionCreator,
+  fetchEssentialInitialData: FetchEssentialInitialDataActionCreator,
+  fetchRestOfInitialData: FetchRestOfInitialDataActionCreator,
+  doInitialFetch: DoInitialFetchActionCreator,
+  uploadImage: UploadImageActionCreator,
 }; */
