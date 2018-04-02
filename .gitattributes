@@ -1,3 +1,20 @@
+# Suppress noisy generated files in diffs.
+yarn.lock -diff
+
+# Maintain LF (Unix-style) newlines in text files.
 * text=auto eol=lf
 *.bat eol=crlf
-yarn.lock -diff
+
+# Make sure various image files never get somehow auto-detected as text
+# and then newline-converted.
+*.gif binary
+*.jpg binary
+*.jpeg binary
+*.eot binary
+*.woff binary
+*.woff2 binary
+*.svg binary
+*.ttf binary
+*.png binary
+*.otf binary
+*.tif binary
