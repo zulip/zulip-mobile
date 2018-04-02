@@ -1,5 +1,13 @@
 /* @flow */
-import type { Dimensions, GetState, Message, Narrow, ServerSettings, User } from './types';
+import type {
+  Dimensions,
+  GetState,
+  Message,
+  Narrow,
+  ServerSettings,
+  User,
+  InitialRealmData,
+} from './types';
 
 export type AsyncActionCreator<A> = (dispatch: Dispatch, getState: GetState) => A;
 
@@ -119,6 +127,36 @@ export type AccountAction =
   | LoginSuccessAction
   | LogoutAction;
 
+export type RealmInitAction = {
+  type: 'REALM_INIT',
+  data: InitialRealmData,
+};
+
+export type RealmInitActionCreator = (data: InitialRealmData) => RealmInitAction;
+
+export type DeleteTokenPushAction = {
+  type: 'DELETE_TOKEN_PUSH',
+};
+
+export type DeleteTokenPushActionCreator = () => DeleteTokenPushAction;
+
+export type SaveTokenPushAction = {
+  type: 'SAVE_TOKEN_PUSH',
+  pushToken: string,
+  result: string,
+  msg: string,
+};
+
+export type SaveTokenPushActionCreator = (
+  pushToken: string,
+  result: string,
+  msg: string,
+) => SaveTokenPushAction;
+
+export type InitNotificationsActionCreator = () => void;
+
+export type RealmAction = RealmInitAction | DeleteTokenPushAction | SaveTokenPushAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
@@ -178,6 +216,11 @@ export type Actions = any; /* {
   removeAccount: AccountRemoveActionCreator,
   loginSuccess: LoginSuccessActionCreator,
   logout: LogoutActionCreator,
+
+  realmInit: RealmInitActionCreator,
+  deleteTokenPush: DeleteTokenPushActionCreator,
+  saveTokenPush: SaveTokenPushActionCreator,
+  initNotifications: InitNotificationsActionCreator,
 
   addToOutbox: (
     type: 'private' | 'stream',
