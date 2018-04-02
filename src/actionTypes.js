@@ -76,6 +76,42 @@ export type NavigateToAddNewAccountActionCreator = (realm: string) => NavigateAc
 export type NavigateToLightboxActionCreator = (src: string, message: Message) => NavigateAction;
 export type NavigateToStreamActionCreator = (streamId: number) => NavigateAction;
 
+export type SwitchAccountAction = {
+  type: 'ACCOUNT_SWITCH',
+  index: number,
+};
+
+export type SwitchAccountActionCreator = (index: number) => SwitchAccountAction;
+
+export type RealmAddAction = {
+  type: 'REALM_ADD',
+  realm: string,
+};
+
+export type RealmAddActionCreator = (realm: string) => RealmAddAction;
+
+export type RemoveAccountAction = {
+  type: 'ACCOUNT_REMOVE',
+  index: number,
+};
+
+export type RemoveAccountActionCreator = (index: number) => RemoveAccountAction;
+
+export type LoginSuccessAction = {
+  type: 'LOGIN_SUCCESS',
+  realm: string,
+  email: string,
+  apiKey: string,
+};
+
+export type LoginSuccessActionCreator = (index: number) => LoginSuccessAction;
+
+export type LogoutAction = {
+  type: 'LOGOUT',
+};
+
+export type LogoutActionCreator = (index: number) => LogoutAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
@@ -85,7 +121,12 @@ export type Action = any;
   | StartEditMessageAction
   | CancelEditMessageAction
   | DebugFlagToggleAction
-  | NavigateAction; */
+  | NavigateAction
+  | SwitchAccountAction
+  | RealmAddAction
+  | RemoveAccountAction
+  | LoginSuccessAction
+  | LogoutAction; */
 
 export type Actions = any; /* {
   appOnline: AppOnlineActionCreator,
@@ -124,6 +165,12 @@ export type Actions = any; /* {
   navigateToCreateStream: NavigateActionCreator,
   navigateToEditStream: NavigateToStreamActionCreator,
   navigateToNotifications: NavigateActionCreator,
+
+  switchAccount: SwitchAccountActionCreator,
+  realmAdd: RealmAddActionCreator
+  removeAccount: RemoveAccountActionCreator,
+  loginSuccess: LoginSuccessActionCreator,
+  logout: LogoutActionCreator,
 
   addToOutbox: (
     type: 'private' | 'stream',
