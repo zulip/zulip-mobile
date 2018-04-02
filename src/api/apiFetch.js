@@ -1,5 +1,5 @@
 /* @flow */
-import { isUri } from 'valid-url';
+import isUrl from 'is-url';
 
 import type { Auth, ResponseExtractionFunc } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
@@ -11,7 +11,7 @@ const apiVersion = 'api/v1';
 export const apiFetch = async (auth: Auth, route: string, params: Object = {}) => {
   const url = `${auth.realm}/${apiVersion}/${route}`;
 
-  if (!isUri(url)) {
+  if (!isUrl(url)) {
     throw new Error(`Invalid url ${url}`);
   }
 
