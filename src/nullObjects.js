@@ -78,6 +78,9 @@ export const NULL_SUBSCRIPTION: Subscription = {
   name: '',
   pin_to_top: false,
   stream_id: 0,
+  stream_weekly_traffic: 0,
+  push_notifications: false,
+  is_old_stream: false,
 };
 
 export const NULL_PRESENCE: Presence = {
