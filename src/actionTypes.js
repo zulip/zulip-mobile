@@ -1,6 +1,7 @@
 /* @flow */
 import type {
   Dimensions,
+  Orientation,
   GetState,
   GlobalState,
   Message,
@@ -41,7 +42,7 @@ export type AppRefreshActionCreator = (isActive: boolean) => AppRefreshAction;
 
 export type InitSafeAreaInsetsAction = {
   type: 'INIT_SAFE_AREA_INSETS',
-  ...Dimensions,
+  safeAreaInsets: Dimensions,
 };
 
 export type InitSafeAreaInsetsActionCreator = (
@@ -50,15 +51,15 @@ export type InitSafeAreaInsetsActionCreator = (
 
 export type AppOrientationAction = {
   type: 'APP_ORIENTATION',
-  orientation: string,
+  orientation: Orientation,
 };
 
-export type AppOrientationActionCreator = (orientation: string) => AppOrientationAction;
+export type AppOrientationActionCreator = (orientation: Orientation) => AppOrientationAction;
 
 export type StartEditMessageAction = {
   type: 'START_EDIT_MESSAGE',
   messageId: number,
-  message: Message,
+  message: string,
   topic: string,
 };
 
@@ -436,6 +437,13 @@ export type DeleteOutboxMessageActionCreator = (
   localMessageId: number,
 ) => DeleteOutboxMessageAction;
 
+export type ToggleOutboxSendingAction = {
+  type: 'TOGGLE_OUTBOX_SENDING',
+  sending: boolean,
+};
+
+export type ToggleOutboxSendingActionCreator = (sending: boolean) => ToggleOutboxSendingAction;
+
 export type OutboxAction =
   | MessageSendStartAction
   | MessageSendCompleteAction
@@ -575,9 +583,24 @@ export type UnreadAction =
   | EventMessageDeleteAction
   | EventUpdateMessageFlagsAction;
 
+export type SessionAction =
+  | RehydrateAction
+  | AppStateAction
+  | AppOnlineAction
+  | AppRefreshAction
+  | InitSafeAreaInsetsAction
+  | AppOrientationAction
+  | StartEditMessageAction
+  | CancelEditMessageAction
+  | DebugFlagToggleAction
+  | RealmInitAction
+  | AccountSwitchAction
+  | LoginSuccessAction
+  | ToggleOutboxSendingAction
+  | InitialFetchCompleteAction;
+
 export type Action = any;
 /*  | AppOnlineAction
-  | AppOnlineAction
   | AppRefreshAction
   | InitSafeAreaInsetsAction
   | AppOrientationAction
@@ -681,6 +704,7 @@ export type Actions = any; /* {
   trySendMessages: TrySendMessagesActionCreator,
   addToOutbox: AddToOutboxActionCreator,
   deleteOutboxMessage: DeleteOutboxMessageActionCreator,
+  toggleOutboxSending: ToggleOutboxSendingActionCreator,
 
   // realmActions
   initRealmEmoji: InitRealmEmojiActionCreator,
