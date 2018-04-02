@@ -1,5 +1,4 @@
 /* @flow */
-export const APP_ACTIVITY = 'APP_ACTIVITY';
 export const APP_ONLINE = 'APP_ONLINE';
 export const APP_ORIENTATION = 'APP_ORIENTATION';
 export const APP_STATE = 'APP_STATE';

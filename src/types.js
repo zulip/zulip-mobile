@@ -194,11 +194,9 @@ export type AccountState = Account[];
 export type SessionState = {
   eventQueueId: ?number,
   editMessage: ?EditMessage,
-  lastActivityTime: Date,
   isOnline: boolean,
   isActive: boolean,
   isHydrated: boolean,
-  lastActivityTime: Date,
   needsInitialFetch: boolean,
   orientation: 'LANDSCAPE' | 'PORTRAIT',
   outboxSending: boolean,

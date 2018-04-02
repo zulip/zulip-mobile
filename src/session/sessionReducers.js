@@ -6,7 +6,6 @@ import {
   APP_REFRESH,
   LOGIN_SUCCESS,
   APP_ONLINE,
-  APP_ACTIVITY,
   ACCOUNT_SWITCH,
   REALM_INIT,
   INIT_SAFE_AREA_INSETS,
@@ -27,7 +26,6 @@ const initialState: SessionState = {
   isOnline: true,
   isActive: true,
   isHydrated: false,
-  lastActivityTime: new Date(),
   needsInitialFetch: false,
   orientation: 'PORTRAIT',
   outboxSending: false,
@@ -49,7 +47,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
     case ACCOUNT_SWITCH:
       return {
         ...state,
-        lastActivityTime: new Date(),
         needsInitialFetch: true,
       };
 
@@ -70,12 +67,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       return {
         ...state,
         eventQueueId: action.data.queue_id,
-      };
-
-    case APP_ACTIVITY:
-      return {
-        ...state,
-        lastActivityTime: new Date(),
       };
 
     case APP_ONLINE:
