@@ -12,6 +12,8 @@ export type StyleObj = any;
 export type Dispatch = any;
 // export type { Dispatch } from 'redux';
 
+export type Orientation = 'LANDSCAPE' | 'PORTRAIT';
+
 export type Dimensions = {
   bottom: number,
   left: number,
@@ -214,7 +216,7 @@ export type SessionState = {
   isActive: boolean,
   isHydrated: boolean,
   needsInitialFetch: boolean,
-  orientation: 'LANDSCAPE' | 'PORTRAIT',
+  orientation: Orientation,
   outboxSending: boolean,
   safeAreaInsets: Dimensions,
   debug: Debug,
@@ -425,8 +427,6 @@ export type ActionSheetButtonType = any; /* {
   onlyIf?: (props: AuthMessageAndNarrow) => boolean,
 } */
 
-export type Orientation = 'PORTRAIT' | 'LANDSCAPE';
-
 export type UnreadTopic = {
   isMuted: boolean,
   key: string,
@@ -540,7 +540,7 @@ export type InitialRealmData = {
   night_mode: boolean,
   pm_content_in_desktop_notifications: boolean,
   presences: Presence[],
-  queue_id: string,
+  queue_id: number,
   realm_emoji: Object, // map of RealmEmojiType
   realm_filters: RealmFilter[],
   realm_name_in_notifications: boolean,

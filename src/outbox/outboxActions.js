@@ -11,11 +11,11 @@ import type {
   DeleteOutboxMessageAction,
   MessageSendStartAction,
   MessageSendCompleteAction,
+  ToggleOutboxSendingAction,
 } from '../types';
 import {
   MESSAGE_SEND_START,
-  START_OUTBOX_SENDING,
-  FINISHED_OUTBOX_SENDING,
+  TOGGLE_OUTBOX_SENDING,
   DELETE_OUTBOX_MESSAGE,
   MESSAGE_SEND_COMPLETE,
 } from '../actionConstants';
@@ -30,8 +30,9 @@ export const messageSendStart = (params: Object): MessageSendStartAction => ({
   params,
 });
 
-export const toggleOutboxSending = (sending: boolean): {} => ({
-  type: sending ? START_OUTBOX_SENDING : FINISHED_OUTBOX_SENDING,
+export const toggleOutboxSending = (sending: boolean): ToggleOutboxSendingAction => ({
+  type: TOGGLE_OUTBOX_SENDING,
+  sending,
 });
 
 export const deleteOutboxMessage = (localMessageId: number): DeleteOutboxMessageAction => ({
