@@ -6,14 +6,12 @@ import {
   APP_REFRESH,
   LOGIN_SUCCESS,
   APP_ONLINE,
-  APP_ACTIVITY,
   ACCOUNT_SWITCH,
   REALM_INIT,
   INIT_SAFE_AREA_INSETS,
   INITIAL_FETCH_COMPLETE,
   APP_ORIENTATION,
   APP_STATE,
-  TOGGLE_COMPOSE_TOOLS,
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
   START_OUTBOX_SENDING,
@@ -23,13 +21,11 @@ import {
 import { getAuth } from '../selectors';
 
 const initialState: SessionState = {
-  composeTools: false,
   eventQueueId: null,
   editMessage: null,
   isOnline: true,
   isActive: true,
   isHydrated: false,
-  lastActivityTime: new Date(),
   needsInitialFetch: false,
   orientation: 'PORTRAIT',
   outboxSending: false,
@@ -51,7 +47,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
     case ACCOUNT_SWITCH:
       return {
         ...state,
-        lastActivityTime: new Date(),
         needsInitialFetch: true,
       };
 
@@ -72,12 +67,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       return {
         ...state,
         eventQueueId: action.data.queue_id,
-      };
-
-    case APP_ACTIVITY:
-      return {
-        ...state,
-        lastActivityTime: new Date(),
       };
 
     case APP_ONLINE:
@@ -108,12 +97,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       return {
         ...state,
         orientation: action.orientation,
-      };
-
-    case TOGGLE_COMPOSE_TOOLS:
-      return {
-        ...state,
-        composeTools: !state.composeTools,
       };
 
     case CANCEL_EDIT_MESSAGE:
