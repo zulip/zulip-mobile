@@ -41,6 +41,7 @@
     "entities": "^1.1.1",
     "events": "^2.0.0",
     "htmlparser2": "^3.9.2",
+    "is-url": "^1.2.4",
     "lodash.escape": "^4.0.1",
     "lodash.isequal": "^4.4.0",
     "lodash.throttle": "^4.1.1",
@@ -76,7 +77,6 @@
     "stream": "^0.0.2",
     "string.fromcodepoint": "^0.2.1",
     "url-parse": "^1.2.0",
-    "valid-url": "^1.0.9",
     "zulip-markdown-parser": "^1.0.4"
   },
   "devDependencies": {
