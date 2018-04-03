@@ -10,6 +10,8 @@ import {
   getUsersById,
 } from '../userSelectors';
 
+const currentTimestamp = Date.now() / 1000;
+
 describe('getAccountDetailsUser', () => {
   test('return user for the account details screen', () => {
     const state = deepFreeze({
@@ -85,6 +87,13 @@ describe('getUsersStatusActive', () => {
         'abc@example.com': {
           aggregated: {
             status: 'active',
+            timestamp: currentTimestamp - 50,
+          },
+        },
+        'def@example.com': {
+          aggregated: {
+            status: 'active',
+            timestamp: currentTimestamp - 500,
           },
         },
       },
@@ -109,19 +118,18 @@ describe('getUsersStatusIdle', () => {
         'abc@example.com': {
           aggregated: {
             status: 'idle',
+            timestamp: currentTimestamp - 300,
           },
         },
         'def@example.com': {
           aggregated: {
             status: 'idle',
+            timestamp: currentTimestamp - 10,
           },
         },
       },
     });
-    const expectedUsers = [
-      { id: 1, email: 'abc@example.com', isActive: true },
-      { id: 2, email: 'def@example.com', isActive: true },
-    ];
+    const expectedUsers = [{ id: 2, email: 'def@example.com', isActive: true }];
 
     const actualUser = getUsersStatusIdle(state);
 
@@ -141,16 +149,19 @@ describe('getUsersStatusOffline', () => {
         'abc@example.com': {
           aggregated: {
             status: 'offline',
+            timestamp: currentTimestamp - 4,
           },
         },
         'def@example.com': {
           aggregated: {
             status: 'offline',
+            timestamp: currentTimestamp - 100,
           },
         },
         'xyz@example.com': {
           aggregated: {
             status: 'offline',
+            timestamp: currentTimestamp - 900,
           },
         },
       },
@@ -158,7 +169,6 @@ describe('getUsersStatusOffline', () => {
     const expectedUsers = [
       { id: 1, email: 'abc@example.com', isActive: true },
       { id: 2, email: 'def@example.com', isActive: true },
-      { id: 3, email: 'xyz@example.com', isActive: true },
     ];
 
     const actualUser = getUsersStatusOffline(state);
