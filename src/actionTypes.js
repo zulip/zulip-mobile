@@ -278,6 +278,20 @@ export type SwitchNarrowActionCreator = (narrow: Narrow) => SwitchNarrowAction;
 export type DoNarrowActionCreator = (narrow: Narrow, anchor: number) => void;
 export type MessageLinkPressActionCreator = (href: string) => void;
 
+export type EventReactionAddAction = any;
+export type EventReactionRemoveAction = any;
+export type EventNewMessageAction = any;
+export type EventMessageDeleteAction = any;
+export type EventUpdateMessageAction = any;
+
+export type MessageAction =
+  | MessageFetchCompleteAction
+  | EventReactionAddAction
+  | EventReactionRemoveAction
+  | EventNewMessageAction
+  | EventMessageDeleteAction
+  | EventUpdateMessageAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
