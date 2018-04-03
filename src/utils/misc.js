@@ -1,9 +1,9 @@
 /* @flow */
 import isEqual from 'lodash.isequal';
 
-import type { GlobalState } from '../types';
+import type { GlobalState, ObjectWithId, ObjectsMappedById } from '../types';
 
-export const caseInsensitiveCompareFunc = (a: any, b: any): number =>
+export const caseInsensitiveCompareFunc = (a: string, b: string): number =>
   a.toLowerCase().localeCompare(b.toLowerCase());
 
 export const caseInsensitiveCompareObjFunc = (key: string) => (a: any, b: any): number =>
@@ -19,7 +19,7 @@ export const deeperMerge = (obj1: Object, obj2: Object): Object =>
     return newObj;
   }, {});
 
-export const initialsFromName = (name: string) =>
+export const initialsFromName = (name: string): string =>
   (name.match(/\S+\s*/g) || []).map(x => x[0].toUpperCase()).join('');
 
 export const removeEmptyValues = (obj: Object): Object => {
@@ -33,7 +33,7 @@ export const isStateGoingBack = (cur: GlobalState, prev: GlobalState): boolean =
   prev.nav.isTransitioning ||
   isEqual(cur, prev);
 
-export const groupItemsById = (items: Object[]): { [number]: Object } =>
+export const groupItemsById = (items: ObjectWithId[]): ObjectsMappedById =>
   items.reduce((itemsById, item) => {
     itemsById[item.id] = item;
     return itemsById;

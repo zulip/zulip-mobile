@@ -25,7 +25,7 @@ export const getPathsFromUrl = (url: string = '', realm: string) => {
 export const getAuthHeader = (email: string, apiKey: string): ?string =>
   apiKey ? `Basic ${base64.encode(`${email}:${apiKey}`)}` : undefined;
 
-export const encodeAsURI = (params: Object): string =>
+export const encodeAsURI = (params: { [key: string]: any }): string =>
   Object.keys(params)
     .map((key: string) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     .join('&');
