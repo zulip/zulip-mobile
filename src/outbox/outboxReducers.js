@@ -1,5 +1,5 @@
 /* @flow */
-import type { OutboxState, Action } from '../types';
+import type { OutboxState, MessageSendStartAction, OutboxAction } from '../types';
 import {
   MESSAGE_SEND_START,
   EVENT_NEW_MESSAGE,
@@ -13,18 +13,24 @@ import { filterArray } from '../utils/immutability';
 
 const initialState = NULL_ARRAY;
 
-export default (state: OutboxState = initialState, action: Action): OutboxState => {
+const messageSendStart = (state: OutboxState, action: MessageSendStartAction): OutboxState => {
+  const message = state.find(item => item.timestamp === action.params.timestamp);
+  if (message) return state;
+  return [...state, { ...action.params }];
+};
+
+const messageSendComplete = (state: OutboxState, action: { localMessageId: number }): OutboxState =>
+  filterArray(state, item => item && item.timestamp !== +action.localMessageId);
+
+export default (state: OutboxState = initialState, action: OutboxAction): OutboxState => {
   switch (action.type) {
-    case MESSAGE_SEND_START: {
-      const message = state.find(item => item.timestamp === action.params.timestamp);
-      if (message) return state;
-      return [...state, { ...action.params }];
-    }
+    case MESSAGE_SEND_START:
+      return messageSendStart(state, action);
 
     case MESSAGE_SEND_COMPLETE:
     case DELETE_OUTBOX_MESSAGE:
     case EVENT_NEW_MESSAGE:
-      return filterArray(state, item => item && item.timestamp !== +action.localMessageId);
+      return messageSendComplete(state, action);
 
     case ACCOUNT_SWITCH:
     case LOGOUT:

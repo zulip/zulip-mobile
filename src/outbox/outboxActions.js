@@ -2,7 +2,16 @@
 import parseMarkdown from 'zulip-markdown-parser';
 
 import { logErrorRemotely } from '../utils/logging';
-import type { Dispatch, GetState, NamedUser, Narrow, User } from '../types';
+import type {
+  Dispatch,
+  GetState,
+  NamedUser,
+  Narrow,
+  User,
+  DeleteOutboxMessageAction,
+  MessageSendStartAction,
+  MessageSendCompleteAction,
+} from '../types';
 import {
   MESSAGE_SEND_START,
   START_OUTBOX_SENDING,
@@ -16,7 +25,7 @@ import { getSelfUserDetail } from '../users/userSelectors';
 import { getUserByEmail, getUsersAndWildcards } from '../users/userHelpers';
 import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 
-export const messageSendStart = (params: Object) => ({
+export const messageSendStart = (params: Object): MessageSendStartAction => ({
   type: MESSAGE_SEND_START,
   params,
 });
@@ -25,12 +34,12 @@ export const toggleOutboxSending = (sending: boolean): {} => ({
   type: sending ? START_OUTBOX_SENDING : FINISHED_OUTBOX_SENDING,
 });
 
-export const deleteOutboxMessage = (localMessageId: number) => ({
+export const deleteOutboxMessage = (localMessageId: number): DeleteOutboxMessageAction => ({
   type: DELETE_OUTBOX_MESSAGE,
   localMessageId,
 });
 
-export const messageSendComplete = (localMessageId: number) => ({
+export const messageSendComplete = (localMessageId: number): MessageSendCompleteAction => ({
   type: MESSAGE_SEND_COMPLETE,
   localMessageId,
 });
