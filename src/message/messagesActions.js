@@ -1,5 +1,5 @@
 /* @flow */
-import type { Action, Narrow, Dispatch, GetState, GlobalState } from '../types';
+import type { Narrow, Dispatch, GetState, GlobalState, SwitchNarrowAction } from '../types';
 import config from '../config';
 import { NULL_ARRAY, NULL_CAUGHTUP } from '../nullObjects';
 import { getAuth, getUsers, getAllMessages, getStreams, getIsHydrated } from '../selectors';
@@ -9,15 +9,15 @@ import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
 import { validateNarrow } from '../utils/narrow';
 
-export const switchNarrow = (narrow: Narrow): Action => ({
+export const switchNarrow = (narrow: Narrow): SwitchNarrowAction => ({
   type: SWITCH_NARROW,
   narrow,
 });
 
-const isNarrowValid = (narrow: Narrow, state: GlobalState) =>
+const isNarrowValid = (narrow: Narrow, state: GlobalState): boolean =>
   validateNarrow(narrow, getStreams(state), getUsers(state));
 
-export const doNarrow = (narrow: Narrow, anchor: number = 0): Action => (
+export const doNarrow = (narrow: Narrow, anchor: number = 0) => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
