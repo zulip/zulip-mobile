@@ -35,7 +35,7 @@ const componentStyles = StyleSheet.create({
     paddingBottom: 8,
     paddingLeft: 16,
     paddingRight: 16,
-    paddingTop: 0,
+    paddingTop: 8,
   },
 });
 
