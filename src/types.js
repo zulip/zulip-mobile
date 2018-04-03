@@ -368,7 +368,7 @@ export type RealmEmojiType = {
 
 export type LocalizableText = any; // string | { text: string, values: Object };
 
-export type Subscription = any; /* {
+export type Subscription = {
   audible_notifications: boolean,
   color: string,
   description: string,
@@ -380,8 +380,10 @@ export type Subscription = any; /* {
   pin_to_top: boolean,
   push_notifications: boolean,
   stream_id: number,
+  is_old_stream: boolean,
+  push_notifications: boolean,
   stream_weekly_traffic: number,
-} */
+};
 
 export type RenderedTimeDescriptor = {
   type: 'time',
