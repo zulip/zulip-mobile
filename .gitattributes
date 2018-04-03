@@ -5,8 +5,9 @@ yarn.lock -diff
 * text=auto eol=lf
 *.bat eol=crlf
 
-# Make sure various image files never get somehow auto-detected as text
+# Make sure various media files never get somehow auto-detected as text
 # and then newline-converted.
+*.mp3 binary
 *.gif binary
 *.jpg binary
 *.jpeg binary
