@@ -1,11 +1,7 @@
 /* @flow */
-import type { Action } from '../types';
-import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../actionConstants';
+import type { ClearTypingAction } from '../types';
 
-export const startTyping = (): Action => ({
-  type: EVENT_TYPING_START,
-});
-
-export const stopTyping = (): Action => ({
-  type: EVENT_TYPING_STOP,
+export const clearTyping = (outdatedNotifications: string[]): ClearTypingAction => ({
+  type: 'CLEAR_TYPING',
+  outdatedNotifications,
 });

@@ -1,6 +1,7 @@
 /* @flow */
 import type { Dispatch, GetState } from '../types';
 
+import { clearTyping } from '../typing/typingActions';
 import { getTyping } from '../directSelectors';
 
 export const clearTypingNotification = () => async (dispatch: Dispatch, getState: GetState) => {
@@ -19,11 +20,6 @@ export const clearTypingNotification = () => async (dispatch: Dispatch, getState
         outdatedNotifications.push(recipients);
       }
     });
-    // clear typing notifications
-    const action = {
-      type: 'CLEAR_TYPING_NOTIFICATIONS',
-      outdatedNotifications,
-    };
-    dispatch(action);
+    dispatch(clearTyping(outdatedNotifications));
   }
 };

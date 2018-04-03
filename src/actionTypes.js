@@ -322,6 +322,31 @@ export type OutboxAction =
   | MessageSendCompleteAction
   | DeleteOutboxMessageAction;
 
+export type StartTypingAction = {
+  type: 'EVENT_TYPING_START',
+  time: number,
+  ownEmail: string,
+  sender: { email: string, user_id: number },
+  recipients: Object[],
+};
+
+export type StopTypingAction = {
+  type: 'EVENT_TYPING_STOP',
+  time: number,
+  ownEmail: string,
+  sender: { email: string, user_id: number },
+  recipients: Object[],
+};
+
+export type ClearTypingAction = {
+  type: 'CLEAR_TYPING',
+  outdatedNotifications: string[],
+};
+
+export type ClearTypingActionCreator = (outdatedNotifications: Object[]) => ClearTypingAction;
+
+export type TypingAction = StartTypingAction | StopTypingAction | ClearTypingAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
@@ -412,13 +437,14 @@ export type Actions = any; /* {
   doInitialFetch: DoInitialFetchActionCreator,
   uploadImage: UploadImageActionCreator,
 
-<<<<<<< 65708b9d07220ab3e4a65a9e40d59e33dd3aab2e
   // messageActions
   switchNarrow: SwitchNarrowActionCreator,
   doNarrow: DoNarrowActionCreator,
   messageLinkPress: MessageLinkPressActionCreator,
-=======
+
   // outboxActions
-  messageSendStart: MessageSendStartAction,
->>>>>>> flow: Add types for outbox actions and reducers
+  messageSendStart: MessageSendStartActionCreator,
+
+  // typingActions
+  clearTyping: ClearTypingActionCreator,
 }; */
