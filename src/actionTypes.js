@@ -292,6 +292,36 @@ export type MessageAction =
   | EventMessageDeleteAction
   | EventUpdateMessageAction;
 
+export type MessageSendStartAction = {
+  type: 'MESSAGE_SEND_START',
+  params: Object,
+};
+
+export type MessageSendStartActionCreator = (params: Object) => MessageSendStartAction;
+
+export type MessageSendCompleteAction = {
+  type: 'MESSAGE_SEND_COMPLETE',
+  localMessageId: number,
+};
+
+export type MessageSendCompleteActionCreator = (
+  localMessageId: number,
+) => MessageSendCompleteAction;
+
+export type DeleteOutboxMessageAction = {
+  type: 'DELETE_OUTBOX_MESSAGE',
+  localMessageId: number,
+};
+
+export type DeleteOutboxMessageActionCreator = (
+  localMessageId: number,
+) => DeleteOutboxMessageAction;
+
+export type OutboxAction =
+  | MessageSendStartAction
+  | MessageSendCompleteAction
+  | DeleteOutboxMessageAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
@@ -382,8 +412,13 @@ export type Actions = any; /* {
   doInitialFetch: DoInitialFetchActionCreator,
   uploadImage: UploadImageActionCreator,
 
+<<<<<<< 65708b9d07220ab3e4a65a9e40d59e33dd3aab2e
   // messageActions
   switchNarrow: SwitchNarrowActionCreator,
   doNarrow: DoNarrowActionCreator,
   messageLinkPress: MessageLinkPressActionCreator,
+=======
+  // outboxActions
+  messageSendStart: MessageSendStartAction,
+>>>>>>> flow: Add types for outbox actions and reducers
 }; */
