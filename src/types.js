@@ -22,6 +22,15 @@ export type Dimensions = {
   top: number,
 };
 
+export type ObjectWithId = {
+  id: number,
+  [key: string]: any,
+};
+
+export type ObjectsMappedById = {
+  [key: number]: ObjectWithId,
+};
+
 export type Auth = {
   realm: string,
   apiKey: string,
@@ -522,6 +531,17 @@ export type NeverSubscribedStream = {
   is_old_stream: boolean,
   name: string,
   stream_id: number,
+};
+
+export type UnreadStreamData = {
+  key: string,
+  streamName: string,
+  isMuted: boolean,
+  isPrivate: boolean,
+  isPinned: boolean,
+  color: string,
+  unread: number,
+  data: Object[],
 };
 
 export type InitialDataBase = {
