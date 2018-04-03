@@ -68,7 +68,7 @@ export type MessageState = {
 
 export type UserStatus = 'active' | 'inactive' | 'offline';
 
-export type User = any; /* {
+export type User = {
   avatarUrl: string,
   email: string,
   fullName: string,
@@ -76,7 +76,7 @@ export type User = any; /* {
   isActive: boolean,
   isAdmin: boolean,
   isBot: boolean,
-} */
+};
 
 export type Presence = any; /* {
   client: string,
