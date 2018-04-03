@@ -8,7 +8,6 @@ import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } f
 import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
 import { validateNarrow } from '../utils/narrow';
-// import { showToast } from '../utils/info';
 
 export const switchNarrow = (narrow: Narrow): Action => ({
   type: SWITCH_NARROW,
