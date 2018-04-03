@@ -16,7 +16,7 @@ describe('draftsReducers', () => {
       const action = deepFreeze({
         type: DRAFT_ADD,
         content: 'Hello',
-        narrow: getNarrowString(topicNarrow('denmark', 'denmark2')),
+        narrow: topicNarrow('denmark', 'denmark2'),
       });
 
       const expectedState = {
@@ -36,7 +36,7 @@ describe('draftsReducers', () => {
       const action = deepFreeze({
         type: DRAFT_ADD,
         content: 'Hello',
-        narrow: getNarrowString(topicNarrow('denmark', 'denmark2')),
+        narrow: topicNarrow('denmark', 'denmark2'),
       });
 
       const actualState = draftsReducers(initialState, action);
@@ -53,7 +53,7 @@ describe('draftsReducers', () => {
 
       const action = deepFreeze({
         type: DRAFT_REMOVE,
-        narrow: getNarrowString(topicNarrow('denmark', 'denmark2')),
+        narrow: topicNarrow('denmark', 'denmark2'),
       });
 
       const expectedState = {};
@@ -70,7 +70,7 @@ describe('draftsReducers', () => {
 
       const action = deepFreeze({
         type: DRAFT_REMOVE,
-        narrow: getNarrowString(topicNarrow('someOther', 'denmark2')),
+        narrow: topicNarrow('someOther', 'denmark2'),
       });
 
       const actualState = draftsReducers(initialState, action);

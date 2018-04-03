@@ -202,7 +202,7 @@ export type FetchMessagesAroundAnchorActionCreator = (
   anchor: number,
 ) => FetchMessagesAction;
 
-export type FetchMessagesAtFirstUnreadAcionCreator = (narrow: Narrow) => FetchMessagesAction;
+export type FetchMessagesAtFirstUnreadActionCreator = (narrow: Narrow) => FetchMessagesAction;
 
 export type BackgroundFetchMessagesActionCreator = (
   narrow: Narrow,
@@ -250,6 +250,23 @@ export type SettingsAction =
   | RealmInitAction
   | SettingsChangeAction
   | EventUpdateGlobalNotificationsSettingsAction;
+
+export type DraftAddAction = {
+  type: 'DRAFT_ADD',
+  narrow: Narrow,
+  content: string,
+};
+
+export type DraftAddActionCreator = (narrow: Narrow, content: string) => DraftAddAction;
+
+export type DraftRemoveAction = {
+  type: 'DRAFT_REMOVE',
+  narrow: Narrow,
+};
+
+export type DraftDeleteActionCreator = (narrow: Narrow) => DraftRemoveAction;
+
+export type DraftsAction = DraftAddAction | DraftRemoveAction | LogoutAction;
 
 export type Action = any;
 /*  | AppOnlineAction
@@ -313,6 +330,10 @@ export type Actions = any; /* {
   removeAccount: AccountRemoveActionCreator,
   loginSuccess: LoginSuccessActionCreator,
   logout: LogoutActionCreator,
+
+  // draftsActions
+  draftAdd: DraftAddAction,
+  draftDelete: DraftDeleteActionCreator,
 
   // realmActions
   realmInit: RealmInitActionCreator,
