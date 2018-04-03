@@ -268,6 +268,16 @@ export type DraftDeleteActionCreator = (narrow: Narrow) => DraftRemoveAction;
 
 export type DraftsAction = DraftAddAction | DraftRemoveAction | LogoutAction;
 
+export type SwitchNarrowAction = {
+  type: 'SWITCH_NARROW',
+  narrow: Narrow,
+};
+
+export type SwitchNarrowActionCreator = (narrow: Narrow) => SwitchNarrowAction;
+
+export type DoNarrowActionCreator = (narrow: Narrow, anchor: number) => void;
+export type MessageLinkPressActionCreator = (href: string) => void;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
@@ -357,4 +367,9 @@ export type Actions = any; /* {
   fetchRestOfInitialData: FetchRestOfInitialDataActionCreator,
   doInitialFetch: DoInitialFetchActionCreator,
   uploadImage: UploadImageActionCreator,
+
+  // messageActions
+  switchNarrow: SwitchNarrowActionCreator,
+  doNarrow: DoNarrowActionCreator,
+  messageLinkPress: MessageLinkPressActionCreator,
 }; */
