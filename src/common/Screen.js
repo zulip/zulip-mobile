@@ -75,7 +75,8 @@ class Screen extends PureComponent<Props> {
         >
           <ScrollView
             contentContainerStyle={[
-              componentStyles.childrenWrapper && centerContent ? componentStyles.content : null,
+              componentStyles.childrenWrapper,
+              centerContent && componentStyles.content,
             ]}
           >
             {children}
