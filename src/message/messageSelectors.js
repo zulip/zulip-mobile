@@ -9,9 +9,7 @@ import { findAnchor } from '../utils/message';
 import { NULL_MESSAGE } from '../nullObjects';
 
 export const getRenderedMessages = (narrow: Narrow) =>
-  createSelector(getShownMessagesForNarrow(narrow), messages =>
-    renderMessages(messages, narrow),
-  );
+  createSelector(getShownMessagesForNarrow(narrow), messages => renderMessages(messages, narrow));
 
 export const getAnchorForActiveNarrow = (narrow: Narrow) =>
   createSelector(

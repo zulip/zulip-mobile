@@ -32,9 +32,9 @@ export type InputSelectionType = {
 
 export type Account = Auth;
 
-export type ImageResource = any; /* {
+export type ImageResource = {
   uri: string,
-} */
+};
 
 export type ReactionType = any; /* {
   emoji_name: string,
@@ -86,12 +86,14 @@ export type User = any; /* {
   isBot: boolean,
 } */
 
-export type Presence = any; /* {
-  client: string,
-  pushable: boolean,
-  status: UserStatus,
-  timestamp: number,
-} */
+export type Presence = {
+  aggregated: {
+    client: string,
+    pushable: boolean,
+    status: UserStatus,
+    timestamp: number,
+  },
+};
 
 export type CaughtUp = {
   older: boolean,
