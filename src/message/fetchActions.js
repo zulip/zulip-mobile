@@ -6,6 +6,7 @@ import type {
   Message,
   FetchMessagesAction,
   MessageFetchStartAction,
+  MessageFetchCompleteAction,
   MarkMessagesReadAction,
   InitialFetchStartAction,
   InitialFetchCompleteAction,
@@ -56,15 +57,14 @@ export const messageFetchComplete = (
   anchor: number,
   numBefore: number,
   numAfter: number,
-) => async (dispatch: Dispatch, getState: GetState) =>
-  dispatch({
-    type: MESSAGE_FETCH_COMPLETE,
-    messages,
-    narrow,
-    anchor,
-    numBefore,
-    numAfter,
-  });
+): MessageFetchCompleteAction => ({
+  type: MESSAGE_FETCH_COMPLETE,
+  messages,
+  narrow,
+  anchor,
+  numBefore,
+  numAfter,
+});
 
 export const backgroundFetchMessages = (
   narrow: Narrow,
