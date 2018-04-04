@@ -1,13 +1,14 @@
 /* @flow */
 import type { Action } from './actionTypes';
 
-export type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 export type { ChildrenArray } from 'react';
+
 export type AnimatedValue = any; // { AnimatedValue } from 'react-native';
 export type MapStateToProps = any; // { MapStateToProps } from 'react-redux';
 
 export type * from './actionTypes';
 
+export type StyleObj = any;
 export type Dispatch = any;
 // export type { Dispatch } from 'redux';
 
