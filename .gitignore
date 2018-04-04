@@ -64,3 +64,9 @@ package-lock.json
 # https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
 #
 ios/Pods/
+
+#Generated files
+#
+generated/
+intermediates/
+outputs/
