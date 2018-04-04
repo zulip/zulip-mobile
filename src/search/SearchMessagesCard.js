@@ -59,9 +59,9 @@ export default class SearchMessagesCard extends PureComponent<Props, State> {
     }, 500).call(this);
   };
 
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.query !== this.props.query) {
-      this.handleQueryChange(nextProps.query);
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.query !== this.props.query) {
+      this.handleQueryChange(this.props.query);
     }
   }
 
