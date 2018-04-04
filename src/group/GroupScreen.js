@@ -7,7 +7,7 @@ import GroupContainer from './GroupContainer';
 export default class GroupScreen extends PureComponent<{}> {
   render() {
     return (
-      <Screen title="New group chat" scrollView={false}>
+      <Screen title="New group chat">
         <GroupContainer />
       </Screen>
     );
