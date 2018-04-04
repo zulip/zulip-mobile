@@ -86,12 +86,14 @@ export type User = any; /* {
   isBot: boolean,
 } */
 
-export type Presence = any; /* {
-  client: string,
+export type Presence = {
   pushable: boolean,
-  status: UserStatus,
-  timestamp: number,
-} */
+  aggregated: {
+    client: string,
+    status: UserStatus,
+    timestamp: number,
+  },
+};
 
 export type CaughtUp = {
   older: boolean,

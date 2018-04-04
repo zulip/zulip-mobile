@@ -85,9 +85,13 @@ export const NULL_SUBSCRIPTION: Subscription = {
 
 export const NULL_PRESENCE: Presence = {
   email: '',
-  status: undefined,
-  timestamp: 0,
   age: 0,
+  pushable: false,
+  aggregated: {
+    status: 'offline',
+    timestamp: 0,
+    client: '',
+  },
 };
 
 export const NULL_PRESENCE_AGGREGATED: PresenceAggregated = {
