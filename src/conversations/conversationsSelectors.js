@@ -21,15 +21,7 @@ export const getRecentConversations = createSelector(
 
     const groupedRecipients = recipients.reduce((uniqueMap, recipient) => {
       const prev = uniqueMap.get(recipient.emails);
-      if (!prev) {
-        // new entry
-        uniqueMap.set(recipient.emails, {
-          ids: recipient.ids,
-          recipients: recipient.emails,
-          timestamp: recipient.timestamp || 0,
-          msgId: recipient.msgId,
-        });
-      } else if (recipient.msgId > prev.msgId) {
+      if (!prev || recipient.msgId > prev.msgId) {
         uniqueMap.set(recipient.emails, {
           ids: recipient.ids,
           recipients: recipient.emails,
@@ -37,7 +29,6 @@ export const getRecentConversations = createSelector(
           msgId: recipient.msgId,
         });
       }
-
       return uniqueMap;
     }, new Map());
 
