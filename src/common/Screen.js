@@ -32,7 +32,6 @@ type Props = {
   search?: boolean,
   centerContent: boolean,
   safeAreaInsets: Dimensions,
-  scrollView: boolean,
   title?: LocalizableText,
   children: ChildrenArray<*>,
   searchBarOnChange?: (text: string) => void,
@@ -46,7 +45,6 @@ class Screen extends PureComponent<Props> {
   };
 
   static defaultProps = {
-    scrollView: true,
     centerContent: false,
   };
 
