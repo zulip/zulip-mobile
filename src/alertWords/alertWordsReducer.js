@@ -1,9 +1,17 @@
 /* @flow */
 import type { RealmState, Action } from '../types';
 import { REALM_INIT, INIT_ALERT_WORDS } from '../actionConstants';
-import { NULL_ARRAY } from '../nullObjects';
 
-const initialState = NULL_ARRAY;
+const initialState = {
+  twentyFourHourTime: false,
+  pushToken: {
+    token: '',
+    msg: '',
+    result: '',
+  },
+  filters: [],
+  emoji: {},
+};
 
 export default (state: RealmState = initialState, action: Action): RealmState => {
   switch (action.type) {

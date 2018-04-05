@@ -259,14 +259,18 @@ export type NavigationState = {
   }>, */,
 };
 
-export type RealmState = any; /* {
+export type RealmFilter = [string, string, number];
+
+export type RealmState = {
   twentyFourHourTime: boolean,
   pushToken: {
-    token: '',
-    msg: '',
-    result: '',
+    token: string,
+    msg: string,
+    result: string,
   },
-} */
+  filters: RealmFilter[],
+  emoji: Object,
+};
 
 export type TopicDetails = any; /* {
   name: string,
@@ -498,8 +502,6 @@ export type NeverSubscribedStream = {
   name: string,
   stream_id: number,
 };
-
-export type RealmFilter = [string, string, number];
 
 export type InitialRealmData = {
   alert_words: string[],
