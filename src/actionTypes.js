@@ -2,6 +2,7 @@
 import type {
   Dimensions,
   GetState,
+  GlobalState,
   Message,
   Narrow,
   ServerSettings,
@@ -248,14 +249,63 @@ export type DoInitialFetchActionCreator = () => void;
 
 export type UploadImageActionCreator = (narrow: Narrow, uri: string, name: string) => void;
 
+export type EventAlertWordsAction = any;
+export type EventRealmFiltersAction = any;
 export type EventUpdateGlobalNotificationsSettingsAction = any;
 export type EventSubscriptionAddAction = any;
 export type EventSubscriptionRemoveAction = any;
 export type EventSubscriptionUpdateAction = any;
+export type EventSubscriptionPeerAddAction = any;
+export type EventSubscriptionPeerRemoveAction = any;
 export type EventStreamAddAction = any;
 export type EventStreamRemoveAction = any;
 export type EventStreamUpdateAction = any;
+export type EventStreamOccupyAction = any;
+export type EventNewMessageAction = any;
+export type EventMessageDeleteAction = any;
+export type EventUpdateMessageAction = any;
+export type EventReactionAddAction = any;
+export type EventReactionRemoveAction = any;
+export type EventPresenceAction = any;
+export type EventTypingStartAction = any;
+export type EventTypingStopAction = any;
+export type EventUpdateMessageFlagsAction = any;
 export type EventUserAddAction = any;
+export type EventUserRemoveAction = any;
+export type EventUserUpdateAction = any;
+export type EventMutedTopicsAction = any;
+export type EventRealmEmojiUpdateAction = any;
+export type EventRealmFilterUpdateAction = any;
+export type EventUpdateDisplaySettingsAction = any;
+
+export type EventSubscriptionAction =
+  | EventSubscriptionAddAction
+  | EventSubscriptionRemoveAction
+  | EventSubscriptionUpdateAction
+  | EventSubscriptionPeerAddAction
+  | EventSubscriptionPeerRemoveAction;
+
+export type EventStreamAction =
+  | EventStreamAddAction
+  | EventStreamRemoveAction
+  | EventStreamUpdateAction
+  | EventStreamOccupyAction;
+
+export type EventUserAction = EventUserAddAction | EventUserRemoveAction | EventUserUpdateAction;
+
+export type EventReactionAction = EventReactionAddAction | EventReactionRemoveAction;
+
+export type EventTypingAction = EventTypingStartAction | EventTypingStopAction;
+
+export type EventAction = EventSubscriptionAction | EventUserAction;
+
+export type ResponseToActionsActionCreator = (
+  state: GlobalState,
+  response: Object,
+) => EventAction[];
+
+export type DispatchOrBatchActionCreator = (dispatch: Dispatch, actions: EventAction[]) => void;
+export type StartEventPollingActionCreator = (queueId: number, eventId: number) => void;
 
 export type SettingsChangeAction = {
   type: 'SETTINGS_CHANGE',
@@ -296,12 +346,6 @@ export type SwitchNarrowActionCreator = (narrow: Narrow) => SwitchNarrowAction;
 
 export type DoNarrowActionCreator = (narrow: Narrow, anchor?: number) => void;
 export type MessageLinkPressActionCreator = (href: string) => void;
-
-export type EventReactionAddAction = any;
-export type EventReactionRemoveAction = any;
-export type EventNewMessageAction = any;
-export type EventMessageDeleteAction = any;
-export type EventUpdateMessageAction = any;
 
 export type MessageAction =
   | MessageFetchCompleteAction
@@ -516,6 +560,11 @@ export type Actions = any; /* {
   // draftsActions
   draftAdd: DraftAddActionCreator,
   draftRemove: DraftRemoveActionCreator,
+
+  //eventsActions
+  responseToActions: ResponseToActionsActionCreator,
+  dispatchOrBatch: DispatchOrBatchActionCreator,
+  startEventPolling: StartEventPollingActionCreator,
 
   // realmActions
   realmInit: RealmInitActionCreator,
