@@ -1,9 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import type { ChildrenArray } from '../types';
-import { Touchable } from './';
+import { Touchable, Label } from './';
 import { colorHashFromName } from '../utils/color';
 
 export const initialsFromName = (name: string) =>
@@ -47,7 +47,7 @@ export default class TextAvatar extends PureComponent<Props> {
     return (
       <Touchable onPress={onPress}>
         <View style={[styles.frame, frameSize]}>
-          <Text style={[styles.text, textSize]}>{initialsFromName(name)}</Text>
+          <Label style={[styles.text, textSize]} text={initialsFromName(name)} />
           {children}
         </View>
       </Touchable>
