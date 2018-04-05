@@ -7,6 +7,7 @@ import type {
   ServerSettings,
   User,
   InitialRealmData,
+  Stream,
   Subscription,
   TopicDetails,
 } from './types';
@@ -251,6 +252,9 @@ export type EventUpdateGlobalNotificationsSettingsAction = any;
 export type EventSubscriptionAddAction = any;
 export type EventSubscriptionRemoveAction = any;
 export type EventSubscriptionUpdateAction = any;
+export type EventStreamAddAction = any;
+export type EventStreamRemoveAction = any;
+export type EventStreamUpdateAction = any;
 
 export type SettingsChangeAction = {
   type: 'SETTINGS_CHANGE',
@@ -364,6 +368,38 @@ export type ClearTypingAction = {
 export type ClearTypingActionCreator = (outdatedNotifications: Object[]) => ClearTypingAction;
 
 export type TypingAction = StartTypingAction | StopTypingAction | ClearTypingAction;
+
+export type InitStreamsAction = {
+  type: 'INIT_STREAMS',
+  streams: Stream[],
+};
+
+export type InitStreamsActionCreator = (streams: Stream[]) => InitStreamsAction;
+
+export type FetchStreamsActionCreator = () => void;
+
+export type CreateNewStreamActionCreator = (
+  name: string,
+  description: string,
+  principals: string[],
+  isPrivate: boolean,
+) => void;
+
+export type UpdateExistingStreamActionCreator = (
+  id: number,
+  initialValues: Object,
+  newValues: Object,
+) => void;
+
+export type DoTogglePinStreamActionCreator = (streamId: number, value: boolean) => void;
+
+export type DoToggleMuteStreamActionCreator = (streamId: number, value: boolean) => void;
+
+export type StreamAction =
+  | InitStreamsAction
+  | EventStreamRemoveAction
+  | EventStreamUpdateAction
+  | AccountSwitchAction;
 
 export type InitTopicsAction = {
   type: 'INIT_TOPICS',
@@ -502,6 +538,14 @@ export type Actions = any; /* {
 
   // SettingsAction
   settingsChange: SettingsChangeActionCreator,
+
+  // streamActions
+  initStreams: InitStreamsActionCreator,
+  fetchStreams: FetchStreamsActionCreator,
+  createNewStream: CreateNewStreamActionCreator,
+  updateExistingStream: UpdateExistingStreamActionCreator,
+  doTogglePinStream: DoTogglePinStreamActionCreator,
+  doToggleMuteStream: DoToggleMuteStreamActionCreator,
 
   // subscriptionsActions
   initSubscriptions: InitSubscriptionsActionCreator,
