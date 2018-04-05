@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Actions, User } from '../types';
+import type { User } from '../types';
 import { Avatar } from '../common';
 
 const styles = StyleSheet.create({
@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  actions: Actions,
   recipients: User[],
 };
 

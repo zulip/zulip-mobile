@@ -4,9 +4,9 @@ import { AppState, NetInfo, View, StyleSheet, Platform, NativeModules } from 're
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
-import type { Auth, Actions, ChildrenArray } from '../types';
+import type { Actions, ChildrenArray } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getAuth, getSession, getUnreadByHuddlesMentionsAndPMs } from '../selectors';
+import { getSession, getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import {
   addNotificationListener,
   removeNotificationListener,
@@ -23,7 +23,6 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Auth,
   needsInitialFetch: boolean,
   actions: Actions,
   children?: ChildrenArray<*>,
@@ -91,7 +90,6 @@ class AppEventHandlers extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  auth: getAuth(state),
   needsInitialFetch: getSession(state).needsInitialFetch,
   unreadCount: getUnreadByHuddlesMentionsAndPMs(state),
 }))(AppEventHandlers);

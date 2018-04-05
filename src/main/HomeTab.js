@@ -21,9 +21,6 @@ const styles = StyleSheet.create({
 
 type Props = {
   actions: Actions,
-  conversations: Object[],
-  presences: Object,
-  usersByEmail: Object,
 };
 
 class HomeTab extends PureComponent<Props> {

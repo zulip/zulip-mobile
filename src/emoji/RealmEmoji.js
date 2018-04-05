@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Image } from 'react-native';
 
-import type { Auth } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getActiveRealmEmoji } from '../selectors';
 
@@ -14,7 +13,6 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Auth,
   realmEmoji: {},
   name: string,
 };

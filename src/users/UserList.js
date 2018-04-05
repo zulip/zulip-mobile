@@ -64,7 +64,6 @@ export default class UserList extends PureComponent<Props> {
             email={item.email}
             presence={presences[item.email]}
             onPress={onPress}
-            status={item.status}
             isSelected={selected.find(user => user.id === item.id)}
           />
         )}
