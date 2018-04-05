@@ -1,6 +1,6 @@
 /* @flow */
 import smoothScroll from './smoothScroll.min';
-import js from './es3';
+import js from './generatedEs3';
 import config from '../config';
 
 const errorHandler = `
