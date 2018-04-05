@@ -62,11 +62,25 @@ const styles = StyleSheet.create({
   },
 });
 
-const ButtonInProgress = ({ frameStyle }) => (
+type ButtonInProgressProps = {
+  frameStyle: StyleObj,
+};
+
+const ButtonInProgress = ({ frameStyle }: ButtonInProgressProps) => (
   <View style={frameStyle}>
     <ActivityIndicator color="white" />
   </View>
 );
+
+type ButtonNormalProps = {
+  frameStyle: StyleObj,
+  touchTargetStyle: StyleObj,
+  textStyle: StyleObj,
+  text: string,
+  iconStyle: StyleObj,
+  Icon?: Object,
+  onPress?: () => void | Promise<any>,
+};
 
 const ButtonNormal = ({
   frameStyle,
@@ -76,7 +90,7 @@ const ButtonNormal = ({
   onPress,
   Icon,
   iconStyle,
-}) => (
+}: ButtonNormalProps) => (
   <View style={frameStyle}>
     <Touchable style={touchTargetStyle} onPress={onPress}>
       <View style={styles.buttonContent}>
