@@ -109,8 +109,8 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
     getUsersAndWildcards(users),
     streams,
     auth,
-    realm.realm_filter,
-    realm.realm_emoji,
+    realm.filters,
+    realm.emoji,
   );
   const localTime = Math.round(new Date().getTime() / 1000);
   dispatch(
