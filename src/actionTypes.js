@@ -7,6 +7,7 @@ import type {
   ServerSettings,
   User,
   InitialRealmData,
+  TopicDetails,
 } from './types';
 
 export type AsyncActionCreator<A> = (dispatch: Dispatch, getState: GetState) => A;
@@ -347,6 +348,20 @@ export type ClearTypingActionCreator = (outdatedNotifications: Object[]) => Clea
 
 export type TypingAction = StartTypingAction | StopTypingAction | ClearTypingAction;
 
+export type InitTopicsAction = {
+  type: 'INIT_TOPICS',
+  topics: TopicDetails[],
+  streamId: number,
+};
+
+export type InitTopicsActionCreator = (outdatedNotifications: Object[]) => ClearTypingAction;
+
+export type FetchTopicsActionCreator = (streamId: number) => void;
+
+export type FetchTopicsForActiveStreamActionCreator = (narrow: Narrow) => void;
+
+export type TopicsAction = InitTopicsAction | AccountSwitchAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
@@ -444,6 +459,11 @@ export type Actions = any; /* {
 
   // outboxActions
   messageSendStart: MessageSendStartActionCreator,
+
+  // topicsActions
+  initTopics: InitTopicsActionCreator,
+  fetchTopics: FetchTopicsActionCreator,
+  fetchTopicsForActiveStream: FetchTopicsForActiveStreamActionCreator,
 
   // typingActions
   clearTyping: ClearTypingActionCreator,
