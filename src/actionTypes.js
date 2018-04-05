@@ -7,6 +7,7 @@ import type {
   ServerSettings,
   User,
   InitialRealmData,
+  Subscription,
   TopicDetails,
 } from './types';
 
@@ -240,6 +241,9 @@ export type DoInitialFetchActionCreator = () => void;
 export type UploadImageActionCreator = (narrow: Narrow, uri: string, name: string) => void;
 
 export type EventUpdateGlobalNotificationsSettingsAction = any;
+export type EventSubscriptionAddAction = any;
+export type EventSubscriptionRemoveAction = any;
+export type EventSubscriptionUpdateAction = any;
 
 export type SettingsChangeAction = {
   type: 'SETTINGS_CHANGE',
@@ -362,6 +366,25 @@ export type FetchTopicsForActiveStreamActionCreator = (narrow: Narrow) => void;
 
 export type TopicsAction = InitTopicsAction | AccountSwitchAction;
 
+export type InitSubscriptionsAction = {
+  type: 'INIT_SUBSCRIPTIONS',
+  subscriptions: Subscription[],
+};
+
+export type InitSubscriptionsActionCreator = (
+  subscriptions: Subscription[],
+) => InitSubscriptionsAction;
+
+export type FetchSubscriptionsActionCreator = () => void;
+export type ToggleStreamNotificationActionCreator = (streamId: number, value: boolean) => void;
+
+export type SubscriptionsAction =
+  | InitSubscriptionsAction
+  | RealmInitAction
+  | EventSubscriptionAddAction
+  | EventSubscriptionRemoveAction
+  | EventSubscriptionUpdateAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
@@ -459,6 +482,11 @@ export type Actions = any; /* {
 
   // outboxActions
   messageSendStart: MessageSendStartActionCreator,
+
+  // subscriptionsActions
+  initSubscriptions: InitSubscriptionsActionCreator,
+  fetchSubscriptions: FetchSubscriptionsActionCreator,
+  toggleStreamNotification: ToggleStreamNotificationActionCreator,
 
   // topicsActions
   initTopics: InitTopicsActionCreator,

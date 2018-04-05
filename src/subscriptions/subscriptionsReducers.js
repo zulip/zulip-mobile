@@ -1,7 +1,15 @@
 /* @flow */
 import isEqual from 'lodash.isequal';
 
-import type { SubscriptionsState, Action } from '../types';
+import type {
+  SubscriptionsState,
+  SubscriptionsAction,
+  InitSubscriptionsAction,
+  RealmInitAction,
+  EventSubscriptionAddAction,
+  EventSubscriptionRemoveAction,
+  EventSubscriptionUpdateAction,
+} from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -19,7 +27,44 @@ import { filterArray } from '../utils/immutability';
 
 const initialState: SubscriptionsState = NULL_ARRAY;
 
-export default (state: SubscriptionsState = initialState, action: Action): SubscriptionsState => {
+const realmInit = (state: SubscriptionsState, action: RealmInitAction): SubscriptionsState =>
+  isEqual(action.data.subscriptions, state) ? state : action.data.subscriptions;
+
+const initSubscriptions = (
+  state: SubscriptionsState,
+  action: InitSubscriptionsAction,
+): SubscriptionsState => (isEqual(action.subscriptions, state) ? state : action.subscriptions);
+
+const eventSubscriptionAdd = (
+  state: SubscriptionsState,
+  action: EventSubscriptionAddAction,
+): SubscriptionsState =>
+  state.concat(action.subscriptions.filter(x => !state.find(y => x.stream_id === y.stream_id)));
+
+const eventSubscriptionRemove = (
+  state: SubscriptionsState,
+  action: EventSubscriptionRemoveAction,
+): SubscriptionsState =>
+  filterArray(state, x => !action.subscriptions.find(y => x && y && x.stream_id === y.stream_id));
+
+const eventSubscriptionUpdate = (
+  state: SubscriptionsState,
+  action: EventSubscriptionUpdateAction,
+): SubscriptionsState =>
+  state.map(
+    sub =>
+      sub.stream_id === action.stream_id
+        ? {
+            ...sub,
+            [action.property]: action.value,
+          }
+        : sub,
+  );
+
+export default (
+  state: SubscriptionsState = initialState,
+  action: SubscriptionsAction,
+): SubscriptionsState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:
@@ -27,32 +72,19 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
       return initialState;
 
     case REALM_INIT:
-      return isEqual(action.data.subscriptions, state) ? state : action.data.subscriptions;
+      return realmInit(state, action);
 
     case INIT_SUBSCRIPTIONS:
-      return isEqual(action.subscriptions, state) ? state : action.subscriptions;
+      return initSubscriptions(state, action);
 
     case EVENT_SUBSCRIPTION_ADD:
-      return state.concat(
-        action.subscriptions.filter(x => !state.find(y => x.stream_id === y.stream_id)),
-      );
+      return eventSubscriptionAdd(state, action);
 
     case EVENT_SUBSCRIPTION_REMOVE:
-      return filterArray(
-        state,
-        x => !action.subscriptions.find(y => x && y && x.stream_id === y.stream_id),
-      );
+      return eventSubscriptionRemove(state, action);
 
     case EVENT_SUBSCRIPTION_UPDATE:
-      return state.map(
-        sub =>
-          sub.stream_id === action.stream_id
-            ? {
-                ...sub,
-                [action.property]: action.value,
-              }
-            : sub,
-      );
+      return eventSubscriptionUpdate(state, action);
 
     case EVENT_SUBSCRIPTION_PEER_ADD:
       return state;
