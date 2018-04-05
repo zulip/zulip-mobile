@@ -4,14 +4,16 @@ import { BackHandler } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
+import type { Actions, Dispatch } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getCanGoBack, getNav } from '../selectors';
 import AppNavigator from './AppNavigator';
-import type { Actions } from '../types';
 
 type Props = {
-  canGoBack: boolean,
   actions: Actions,
+  canGoBack: boolean,
+  dispatch: Dispatch,
+  nav: Object,
 };
 
 class AppWithNavigation extends PureComponent<Props> {

@@ -1,4 +1,5 @@
-import React from 'react';
+/* @flow */
+import React, { PureComponent } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { CONTROL_SIZE } from '../styles';
 
@@ -11,4 +12,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ({ text, color }) => <Text style={[styles.title, { color }]}>{text}</Text>;
+type Props = {
+  text: string,
+  color: string,
+};
+
+export default class TitlePrivate extends PureComponent<Props> {
+  render() {
+    const { text, color } = this.props;
+    return <Text style={[styles.title, { color }]}>{text}</Text>;
+  }
+}
