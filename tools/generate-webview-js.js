@@ -10,7 +10,19 @@ const es3Code = babel.transformFileSync(sourceFilename, {
     compact: false,
 }).code;
 
-const prefix = 'export default `\n\'use strict\';\n\n';
-const suffix = '\n`;\n';
+const output = (
+`/*
+ * This is a GENERATED file -- do not edit.
+ * To make changes:
+ *   1. Edit \`js.js\`, which is the source for this file.
+ *   2. Run \`yarn run generate-webview-js\`.
+ */
 
-fs.writeFileSync(outputFilename, `${prefix}${es3Code}${suffix}`);
+export default \`
+'use strict';
+
+${es3Code}
+\`;
+`);
+
+fs.writeFileSync(outputFilename, output);
