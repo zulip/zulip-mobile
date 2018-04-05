@@ -58,7 +58,6 @@ type Props = {
   safeAreaInsets: Dimensions,
   actions: Actions,
   messageInputRef: (component: any) => void,
-  onSend: () => void,
 };
 
 type State = {

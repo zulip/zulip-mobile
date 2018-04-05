@@ -5,8 +5,6 @@ import SectionSeparator from './SectionSeparator';
 type Props = {
   leadingItem: Object,
   leadingSection: Object,
-  trailingItem: Object,
-  trailingSection: Object,
 };
 
 export default class SectionSeparatorBetween extends PureComponent<Props> {

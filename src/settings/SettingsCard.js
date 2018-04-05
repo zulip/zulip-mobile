@@ -2,8 +2,8 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
-import type { Auth, Actions } from '../types';
-import { getAuth, getSettings } from '../selectors';
+import type { Actions } from '../types';
+import { getSettings } from '../selectors';
 import connectWithActions from '../connectWithActions';
 import { OptionButton, OptionRow, WebLink } from '../common';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  auth: Auth,
   actions: Actions,
   theme: string,
 };
@@ -81,6 +80,5 @@ class SettingsCard extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
-  auth: getAuth(state),
   theme: getSettings(state).theme,
 }))(SettingsCard);

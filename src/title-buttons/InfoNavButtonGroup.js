@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Actions, Narrow } from '../types';
+import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getRecipientsInGroupNarrow } from '../selectors';
 import NavButton from '../nav/NavButton';
@@ -9,7 +9,6 @@ import NavButton from '../nav/NavButton';
 type Props = {
   actions: Actions,
   color: string,
-  narrow: Narrow,
   recipients: string[],
 };
 

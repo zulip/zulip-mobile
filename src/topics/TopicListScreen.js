@@ -13,7 +13,6 @@ type Props = {
   actions: Actions,
   stream: Stream,
   topics: TopicDetails[],
-  onPress: (string: string, topic: string) => void,
 };
 
 class TopicListScreen extends PureComponent<Props> {

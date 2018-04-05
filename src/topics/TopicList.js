@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
 
 type Props = {
   topics: ?(TopicDetails[]),
-  unreadByStream: number[],
   onPress: (stream: string, topic: string) => void,
 };
 
@@ -27,7 +26,6 @@ export default class TopicList extends PureComponent<Props> {
     showSwitch: false,
     selected: false,
     streams: [],
-    unreadByStream: [],
   };
 
   render() {
