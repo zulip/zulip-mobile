@@ -14,12 +14,8 @@ type Props = {
 class AppDataFetcher extends PureComponent<Props> {
   props: Props;
 
-  componentDidMount = () => this.init(this.props);
-
-  componentWillReceiveProps = nextProps => this.init(nextProps);
-
-  init = props => {
-    const { actions, needsInitialFetch } = props;
+  componentDidUpdate = () => {
+    const { actions, needsInitialFetch } = this.props;
 
     if (needsInitialFetch) {
       actions.doInitialFetch();
