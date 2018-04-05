@@ -1,8 +1,8 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { Logo } from '../common';
+import { Logo, Label } from '../common';
 import { BRAND_COLOR } from '../styles';
 
 const styles = StyleSheet.create({
@@ -24,8 +24,8 @@ export default class CompatibilityScreen extends PureComponent<{}> {
     return (
       <View style={styles.screen}>
         <Logo />
-        <Text style={styles.text}>This app is too old!</Text>
-        <Text style={styles.text}>Please download the latest version from the App Store.</Text>
+        <Label style={styles.text} text="This app is too old!" />
+        <Label style={styles.text} text="Please download the latest version from the App Store." />
       </View>
     );
   }

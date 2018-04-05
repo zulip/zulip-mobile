@@ -1,9 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import type { StyleObj } from '../types';
 import NavButton from '../nav/NavButton';
+import { Label } from '../common';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -35,7 +36,7 @@ export default class LightboxFooter extends PureComponent<Props> {
     const { displayMessage, onOptionsPress, style } = this.props;
     return (
       <View style={[styles.wrapper, style]}>
-        <Text style={styles.text}>{displayMessage}</Text>
+        <Label style={styles.text} text={displayMessage} />
         <NavButton
           name="more-vertical"
           color="white"
