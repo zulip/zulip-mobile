@@ -65,7 +65,7 @@ export type CancelEditMessageAction = {
   type: 'CANCEL_EDIT_MESSAGE',
 };
 
-export type CancelEditMessageActionCreator = (isActive: boolean) => CancelEditMessageAction;
+export type CancelEditMessageActionCreator = () => CancelEditMessageAction;
 
 export type DebugFlagToggleAction = {
   type: 'DEBUG_FLAG_TOGGLE',
@@ -79,9 +79,9 @@ export type NavigateAction = Object;
 export type NavigateActionCreator = () => NavigateAction;
 export type NavigateToChatActionCreator = (narrow: Narrow) => NavigateAction;
 export type NavigateToAuthActionCreator = (serverSettings: ServerSettings) => NavigateAction;
-export type NavigateToPasswordActionCreator = (ldap: boolean) => NavigateAction;
+export type NavigateToPasswordActionCreator = (ldap?: boolean) => NavigateAction;
 export type NavigateToAccountDetailsActionCreator = (email: string) => NavigateAction;
-export type NavigateToGroupDetails = (recipients: User[]) => NavigateAction;
+export type NavigateToGroupDetailsActionCreator = (recipients: User[]) => NavigateAction;
 export type NavigateToAddNewAccountActionCreator = (realm: string) => NavigateAction;
 export type NavigateToLightboxActionCreator = (src: string, message: Message) => NavigateAction;
 export type NavigateToStreamActionCreator = (streamId: number) => NavigateAction;
@@ -114,13 +114,17 @@ export type LoginSuccessAction = {
   apiKey: string,
 };
 
-export type LoginSuccessActionCreator = (index: number) => LoginSuccessAction;
+export type LoginSuccessActionCreator = (
+  realm: string,
+  email: string,
+  apiKey: string,
+) => LoginSuccessAction;
 
 export type LogoutAction = {
   type: 'LOGOUT',
 };
 
-export type LogoutActionCreator = (index: number) => LogoutAction;
+export type LogoutActionCreator = () => LogoutAction;
 
 export type AccountAction =
   | AccountSwitchAction
@@ -227,10 +231,13 @@ export type FetchNewerActionCreator = (narrow: Narrow) => FetchMessagesAction;
 export type InitialFetchStartAction = {
   type: 'INITIAL_FETCH_START',
 };
+export type InitialFetchStartActionCreator = () => InitialFetchStartAction;
 
 export type InitialFetchCompleteAction = {
   type: 'INITIAL_FETCH_COMPLETE',
 };
+
+export type InitialFetchCompleteActionCreator = () => InitialFetchCompleteAction;
 
 export type FetchEssentialInitialDataActionCreator = () => void;
 
@@ -251,6 +258,8 @@ export type SettingsChangeAction = {
   value: any,
 };
 
+export type SettingsChangeActionCreator = (key: string, value: any) => SettingsChangeAction;
+
 export type SettingsAction =
   | RealmInitAction
   | SettingsChangeAction
@@ -269,7 +278,7 @@ export type DraftRemoveAction = {
   narrow: Narrow,
 };
 
-export type DraftDeleteActionCreator = (narrow: Narrow) => DraftRemoveAction;
+export type DraftRemoveActionCreator = (narrow: Narrow) => DraftRemoveAction;
 
 export type DraftsAction = DraftAddAction | DraftRemoveAction | LogoutAction;
 
@@ -280,7 +289,7 @@ export type SwitchNarrowAction = {
 
 export type SwitchNarrowActionCreator = (narrow: Narrow) => SwitchNarrowAction;
 
-export type DoNarrowActionCreator = (narrow: Narrow, anchor: number) => void;
+export type DoNarrowActionCreator = (narrow: Narrow, anchor?: number) => void;
 export type MessageLinkPressActionCreator = (href: string) => void;
 
 export type EventReactionAddAction = any;
@@ -312,6 +321,10 @@ export type MessageSendCompleteAction = {
 export type MessageSendCompleteActionCreator = (
   localMessageId: number,
 ) => MessageSendCompleteAction;
+
+export type TrySendMessagesActionCreator = () => void;
+
+export type AddToOutboxActionCreator = (narrow: Narrow, content: string) => void;
 
 export type DeleteOutboxMessageAction = {
   type: 'DELETE_OUTBOX_MESSAGE',
@@ -443,14 +456,14 @@ export type Actions = any; /* {
 
   // accountActions
   switchAccount: AccountSwitchActionCreator,
-  realmAdd: RealmAddActionCreator
+  realmAdd: RealmAddActionCreator,
   removeAccount: AccountRemoveActionCreator,
   loginSuccess: LoginSuccessActionCreator,
   logout: LogoutActionCreator,
 
   // draftsActions
-  draftAdd: DraftAddAction,
-  draftDelete: DraftDeleteActionCreator,
+  draftAdd: DraftAddActionCreator,
+  draftRemove: DraftRemoveActionCreator,
 
   // realmActions
   realmInit: RealmInitActionCreator,
@@ -463,7 +476,7 @@ export type Actions = any; /* {
   messageFetchStart: MessageFetchStartActionCreator,
   messageFetchComplete: MessageFetchCompleteActionCreator,
   fetchMessagesAroundAnchor: FetchMessagesAroundAnchorActionCreator,
-  fetchMessagesAtFirstUnread: FetchMessagesAtFirstUnreadAcionCreator,
+  fetchMessagesAtFirstUnread: FetchMessagesAtFirstUnreadActionCreator,
   backgroundFetchMessages: BackgroundFetchMessagesActionCreator,
   markMessagesRead: MarkMessagesReadActionCreator,
   fetchOlder: FetchOlderActionCreator,
@@ -482,6 +495,13 @@ export type Actions = any; /* {
 
   // outboxActions
   messageSendStart: MessageSendStartActionCreator,
+  messagesendComplete: MessageSendCompleteActionCreator,
+  trySendMessages: TrySendMessagesActionCreator,
+  addToOutbox: AddToOutboxActionCreator,
+  deleteOutboxMessage: DeleteOutboxMessageActionCreator,
+
+  // SettingsAction
+  settingsChange: SettingsChangeActionCreator,
 
   // subscriptionsActions
   initSubscriptions: InitSubscriptionsActionCreator,
