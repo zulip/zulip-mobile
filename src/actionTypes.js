@@ -255,6 +255,7 @@ export type EventSubscriptionUpdateAction = any;
 export type EventStreamAddAction = any;
 export type EventStreamRemoveAction = any;
 export type EventStreamUpdateAction = any;
+export type EventUserAddAction = any;
 
 export type SettingsChangeAction = {
   type: 'SETTINGS_CHANGE',
@@ -434,6 +435,21 @@ export type SubscriptionsAction =
   | EventSubscriptionRemoveAction
   | EventSubscriptionUpdateAction;
 
+export type SendFocusPingActionCreator = (hasFocus?: boolean, newUserInput?: boolean) => void;
+
+export type InitUsersAction = {
+  type: 'INIT_USERS',
+  users: User[],
+};
+
+export type InitUsersActionCreator = (users: User[]) => InitUsersAction;
+
+export type FetchUsersActionCreator = () => void;
+
+export type SendTypingEventActionCreator = (narrow: Narrow) => void;
+
+export type UsersAction = InitUsersAction | RealmInitAction | EventUserAddAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
@@ -559,4 +575,10 @@ export type Actions = any; /* {
 
   // typingActions
   clearTyping: ClearTypingActionCreator,
+
+  // usersActions
+  sendFocusPing: SendFocusPingActionCreator,
+  initUsers: InitUsersActionCreator,
+  fetchUsers: FetchUsersActionCreator,
+  sendTypingEvent: SendTypingEventActionCreator,
 }; */

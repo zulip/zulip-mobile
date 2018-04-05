@@ -1,5 +1,11 @@
 /* @flow */
-import type { UsersState, Action } from '../types';
+import type {
+  UsersState,
+  UsersAction,
+  InitUsersAction,
+  RealmInitAction,
+  EventUserAddAction,
+} from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -24,7 +30,18 @@ const mapApiToStateUser = user => ({
 
 const initialState: UsersState = NULL_ARRAY;
 
-export default (state: UsersState = initialState, action: Action): UsersState => {
+const initUsers = (state: UsersState, action: InitUsersAction): UsersState =>
+  action.users.map(mapApiToStateUser);
+
+const realmInit = (state: UsersState, action: RealmInitAction): UsersState =>
+  action.data.realm_users.map(mapApiToStateUser);
+
+const eventUserAdd = (state: UsersState, action: EventUserAddAction): UsersState => [
+  ...state,
+  mapApiToStateUser(action.person),
+];
+
+export default (state: UsersState = initialState, action: UsersAction): UsersState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:
@@ -32,13 +49,13 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
       return initialState;
 
     case INIT_USERS:
-      return action.users.map(mapApiToStateUser);
+      return initUsers(state, action);
 
     case REALM_INIT:
-      return action.data.realm_users.map(mapApiToStateUser);
+      return realmInit(state, action);
 
     case EVENT_USER_ADD:
-      return [...state, mapApiToStateUser(action.person)];
+      return eventUserAdd(state, action);
 
     case EVENT_USER_REMOVE:
       return state; // TODO
