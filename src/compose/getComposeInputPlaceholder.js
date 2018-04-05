@@ -31,10 +31,7 @@ export default (narrow: Narrow, ownEmail: string, users: User[]): LocalizableTex
   }
 
   if (isTopicNarrow(narrow)) {
-    return {
-      text: 'Message {recipient}',
-      values: { recipient: `#${narrow[0].operand}:${narrow[1].operand}` },
-    };
+    return { text: 'Reply' };
   }
 
   return { text: 'Type a message' };
