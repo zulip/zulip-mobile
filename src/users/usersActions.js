@@ -1,7 +1,7 @@
 /* @flow */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 
-import type { Dispatch, Action, Narrow, User, GetState } from '../types';
+import type { Dispatch, GetState, Narrow, User, UsersAction, InitUsersAction } from '../types';
 import { focusPing, getUsers, typing } from '../api';
 import { INIT_USERS, PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth } from '../selectors';
@@ -10,10 +10,10 @@ import { isPrivateOrGroupNarrow } from '../utils/narrow';
 let lastFocusPing = new Date();
 let lastTypingStart = new Date();
 
-export const sendFocusPing = (
-  hasFocus: boolean = true,
-  newUserInput: boolean = false,
-): Action => async (dispatch: Dispatch, getState: GetState) => {
+export const sendFocusPing = (hasFocus: boolean = true, newUserInput: boolean = false) => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => {
   const auth = getAuth(getState());
   if (auth.realm === '' || auth.apiKey === '') {
     return; // not logged in
@@ -33,12 +33,12 @@ export const sendFocusPing = (
   });
 };
 
-export const initUsers = (users: User[]): Action => ({
+export const initUsers = (users: User[]): InitUsersAction => ({
   type: INIT_USERS,
   users,
 });
 
-export const fetchUsers = (): Action => async (dispatch: Dispatch, getState: GetState) =>
+export const fetchUsers = () => async (dispatch: Dispatch, getState: GetState) =>
   dispatch(initUsers(await getUsers(getAuth(getState()))));
 
 export const sendTypingEvent = (narrow: Narrow) => async (
