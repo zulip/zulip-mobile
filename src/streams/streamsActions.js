@@ -1,15 +1,15 @@
 /* @flow */
-import type { GetState, Actions, Dispatch } from '../types';
+import type { GetState, Actions, Dispatch, Stream, InitStreamsAction } from '../types';
 import { createStream, updateStream, getStreams, toggleMuteStream, togglePinStream } from '../api';
 import { INIT_STREAMS } from '../actionConstants';
 import { getAuth } from '../selectors';
 
-export const initStreams = (streams: any[]): Actions => ({
+export const initStreams = (streams: Stream[]): InitStreamsAction => ({
   type: INIT_STREAMS,
   streams,
 });
 
-export const fetchStreams = (): Actions => async (dispatch: Dispatch, getState: GetState) =>
+export const fetchStreams = () => async (dispatch: Dispatch, getState: GetState) =>
   dispatch(initStreams(await getStreams(getAuth(getState()))));
 
 export const createNewStream = (
@@ -17,7 +17,7 @@ export const createNewStream = (
   description: string,
   principals: string[],
   isPrivate: boolean,
-): Actions => async (dispatch: Dispatch, getState: GetState) => {
+) => async (dispatch: Dispatch, getState: GetState) => {
   await createStream(getAuth(getState()), name, description, principals, isPrivate);
 };
 
@@ -25,7 +25,7 @@ export const updateExistingStream = (
   id: number,
   initialValues: Object,
   newValues: Object,
-): Actions => async (dispatch: Dispatch, getState: GetState) => {
+) => async (dispatch: Dispatch, getState: GetState) => {
   if (initialValues.name !== newValues.name) {
     await updateStream(getAuth(getState()), id, 'name', newValues.name);
   }
