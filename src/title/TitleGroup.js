@@ -29,7 +29,7 @@ export default class TitleGroup extends PureComponent<Props> {
     return (
       <View style={styles.wrapper}>
         {recipients.map((user, index) => (
-          <View key={index} style={styles.avatar}>
+          <View key={user.email} style={styles.avatar}>
             <Avatar size={24} name={user.fullName} avatarUrl={user.avatarUrl} email={user.email} />
           </View>
         ))}
