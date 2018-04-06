@@ -54,6 +54,8 @@
 	  <string></string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Upload photos to a Zulip realm</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>Download photos from Zulip realm</string>
     <key>UIAppFonts</key>
     <array>
       <string>Entypo.ttf</string>
