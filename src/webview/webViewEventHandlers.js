@@ -11,12 +11,26 @@ type MessageListEventReady = {
   type: 'ready',
 };
 
+// The user scrolled in the message list, or we pretended they did.  We may
+// need to fetch more messages, or mark some messages as read.
 type MessageListEventScroll = {
   type: 'scroll',
-  innerHeight: number,
+
+  // The height (in logical pixels?) of the entire message list document
+  // this scroll event happened in.
   offsetHeight: number,
+  // The height (in logical pixels?) of the visible portion of the message
+  // list document.
+  innerHeight: number,
+  // The vertical offset (in logical pixels?) from the top of the message list
+  // document to the top of the visible portion, following this scroll event.
   scrollY: number,
+
+  // The earliest message ID of all those in view either before or after
+  // this scroll event.
   startMessageId: number,
+  // The latest message ID of all those in view either before or after
+  // this scroll event.
   endMessageId: number,
 };
 

@@ -123,9 +123,10 @@ const sendScrollMessage = () => {
 
   sendMessage({
     type: 'scroll',
-    scrollY: window.scrollY,
-    innerHeight: window.innerHeight,
+    // See MessageListEventScroll for the meanings of these properties.
     offsetHeight: documentBody.offsetHeight,
+    innerHeight: window.innerHeight,
+    scrollY: window.scrollY,
     startMessageId: Math.min(prevNodes.start, currentNodes.start),
     endMessageId: Math.max(prevNodes.end, currentNodes.end),
   });
