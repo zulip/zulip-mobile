@@ -1,5 +1,12 @@
 /* @flow */
-import type { Action, FlagsState } from '../types';
+import type {
+  FlagsAction,
+  FlagsState,
+  MessageFetchCompleteAction,
+  EventNewMessageAction,
+  EventUpdateMessageFlagsAction,
+  MarkMessagesReadAction,
+} from '../types';
 import {
   APP_REFRESH,
   MESSAGE_FETCH_COMPLETE,
@@ -65,52 +72,70 @@ const removeFlagForMessages = (
   };
 };
 
-export default (state: FlagsState = initialState, action: Action): FlagsState => {
+const messageFetchComplete = (
+  state: FlagsState,
+  action: MessageFetchCompleteAction,
+): FlagsState => {
+  let stateChanged = false;
+  const newState = {};
+  action.messages.forEach(msg => {
+    (msg.flags || []).forEach(flag => {
+      if (!state[flag] || !state[flag][msg.id]) {
+        if (!newState[flag]) {
+          newState[flag] = {};
+        }
+        newState[flag][msg.id] = true;
+        stateChanged = true;
+      }
+    });
+  });
+
+  return stateChanged ? deeperMerge(state, newState) : state;
+};
+
+const eventNewMessage = (state: FlagsState, action: EventNewMessageAction): FlagsState =>
+  addFlagsForMessages(state, [action.message.id], action.message.flags);
+
+const eventUpdateMessageFlags = (
+  state: FlagsState,
+  action: EventUpdateMessageFlagsAction,
+): FlagsState => {
+  if (action.all) {
+    const allMessages: any[] = [].concat(...Object.values(action.allMessages));
+    return addFlagsForMessages(initialState, allMessages.map(msg => msg.id), ['read']);
+  }
+
+  if (action.operation === 'add') {
+    return addFlagsForMessages(state, action.messages, [action.flag]);
+  }
+
+  if (action.operation === 'remove') {
+    return removeFlagForMessages(state, action.messages, action.flag);
+  }
+
+  return state;
+};
+
+const markMessagesRead = (state: FlagsState, action: MarkMessagesReadAction): FlagsState =>
+  addFlagsForMessages(state, action.messageIds, ['read']);
+
+export default (state: FlagsState = initialState, action: FlagsAction): FlagsState => {
   switch (action.type) {
     case APP_REFRESH:
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case MESSAGE_FETCH_COMPLETE: {
-      let stateChanged = false;
-      const newState = {};
-      action.messages.forEach(msg => {
-        (msg.flags || []).forEach(flag => {
-          if (!state[flag] || !state[flag][msg.id]) {
-            if (!newState[flag]) {
-              newState[flag] = {};
-            }
-            newState[flag][msg.id] = true;
-            stateChanged = true;
-          }
-        });
-      });
-
-      return stateChanged ? deeperMerge(state, newState) : state;
-    }
+    case MESSAGE_FETCH_COMPLETE:
+      return messageFetchComplete(state, action);
 
     case EVENT_NEW_MESSAGE:
-      return addFlagsForMessages(state, [action.message.id], action.message.flags);
+      return eventNewMessage(state, action);
 
-    case EVENT_UPDATE_MESSAGE_FLAGS: {
-      if (action.all) {
-        const allMessages: any[] = [].concat(...Object.values(action.allMessages));
-        return addFlagsForMessages(initialState, allMessages.map(msg => msg.id), ['read']);
-      }
-
-      if (action.operation === 'add') {
-        return addFlagsForMessages(state, action.messages, [action.flag]);
-      }
-
-      if (action.operation === 'remove') {
-        return removeFlagForMessages(state, action.messages, action.flag);
-      }
-
-      return state;
-    }
+    case EVENT_UPDATE_MESSAGE_FLAGS:
+      return eventUpdateMessageFlags(state, action);
 
     case MARK_MESSAGES_READ:
-      return addFlagsForMessages(state, action.messageIds, ['read']);
+      return markMessagesRead(state, action);
 
     default:
       return state;
