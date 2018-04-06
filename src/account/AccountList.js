@@ -9,7 +9,7 @@ type Props = {
   auth: Auth,
   accounts: any[],
   onAccountSelect: number => void,
-  onAccountRemove: number => void,
+  onAccountRemove: number => any,
 };
 
 export default class AccountList extends PureComponent<Props> {

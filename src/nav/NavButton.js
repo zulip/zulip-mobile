@@ -25,7 +25,7 @@ type Props = {
   style?: StyleObj,
   name?: string,
   unreadCount: number,
-  onPress: () => void,
+  onPress: () => any,
 };
 
 export default class NavButton extends PureComponent<Props> {
