@@ -17,6 +17,13 @@ var sendMessage = function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
 };
 
+var toggleElementHidden = function toggleElementHidden(elementId, hidden) {
+  var element = document.getElementById(elementId);
+  if (element) {
+    element.classList.toggle('hidden', hidden);
+  }
+};
+
 var isNearByPositions = function isNearByPositions(x1, y1, x2, y2) {
   return x1 && y1 && x2 && y2 && Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 };
@@ -99,7 +106,7 @@ var handleScrollEvent = function handleScrollEvent() {
   }), '*');
 
   var nearEnd = document.body.offsetHeight - window.scrollY - window.innerHeight > 100;
-  document.getElementById('scroll-bottom').classList.toggle('hidden', !nearEnd);
+  toggleElementHidden('scroll-bottom', !nearEnd);
 
   prevNodes = currentNodes;
 };
@@ -164,9 +171,9 @@ var handleMessageContent = function handleMessageContent(msg) {
 };
 
 var handleMessageFetching = function handleMessageFetching(msg) {
-  document.getElementById('message-loading').classList.toggle('hidden', !msg.showMessagePlaceholders);
-  document.getElementById('spinner-older').classList.toggle('hidden', !msg.fetchingOlder);
-  document.getElementById('spinner-newer').classList.toggle('hidden', !msg.fetchingNewer);
+  toggleElementHidden('message-loading', !msg.showMessagePlaceholders);
+  toggleElementHidden('spinner-older', !msg.fetchingOlder);
+  toggleElementHidden('spinner-newer', !msg.fetchingNewer);
 };
 
 var handleMessageTyping = function handleMessageTyping(msg) {

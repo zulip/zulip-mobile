@@ -7,6 +7,13 @@ const sendMessage = msg => {
   window.postMessage(JSON.stringify(msg), '*');
 };
 
+const toggleElementHidden = (elementId, hidden) => {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.classList.toggle('hidden', hidden);
+  }
+};
+
 const isNearByPositions = (x1, y1, x2, y2) =>
   x1 && y1 && x2 && y2 && Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 
@@ -88,7 +95,7 @@ const handleScrollEvent = () => {
   );
 
   const nearEnd = document.body.offsetHeight - window.scrollY - window.innerHeight > 100;
-  document.getElementById('scroll-bottom').classList.toggle('hidden', !nearEnd);
+  toggleElementHidden('scroll-bottom', !nearEnd);
 
   prevNodes = currentNodes;
 };
@@ -153,11 +160,9 @@ const handleMessageContent = msg => {
 };
 
 const handleMessageFetching = msg => {
-  document
-    .getElementById('message-loading')
-    .classList.toggle('hidden', !msg.showMessagePlaceholders);
-  document.getElementById('spinner-older').classList.toggle('hidden', !msg.fetchingOlder);
-  document.getElementById('spinner-newer').classList.toggle('hidden', !msg.fetchingNewer);
+  toggleElementHidden('message-loading', !msg.showMessagePlaceholders);
+  toggleElementHidden('spinner-older', !msg.fetchingOlder);
+  toggleElementHidden('spinner-newer', !msg.fetchingNewer);
 };
 
 const handleMessageTyping = msg => {
