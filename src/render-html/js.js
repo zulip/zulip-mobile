@@ -1,3 +1,8 @@
+/* @flow */
+const documentBody = document.body;
+
+if (!documentBody) throw new Error('No document.body element!');
+
 let scrollEventsDisabled = true;
 let lastTouchEventTimestamp = 0;
 let lastTouchPositionX = null;
@@ -19,7 +24,7 @@ const isNearByPositions = (x1, y1, x2, y2) =>
 
 const getMessageNode = node => {
   let curNode = node;
-  while (curNode && curNode.parentNode && curNode.parentNode !== document.body) {
+  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
   }
   return curNode;
@@ -31,11 +36,11 @@ const getMessageIdFromNode = node => {
 };
 
 const scrollToBottom = () => {
-  window.scroll({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
+  window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
 };
 
 const isNearBottom = () =>
-  document.body.scrollHeight - 100 < document.body.scrollTop + document.body.clientHeight;
+  documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
 
 const scrollToBottomIfNearEnd = () => {
   if (isNearBottom()) {
@@ -61,17 +66,17 @@ const scrollToAnchor = anchor => {
   if (anchorNode) {
     anchorNode.scrollIntoView({ block: 'start' });
   } else {
-    window.scroll({ left: 0, top: document.body.scrollHeight + 200 });
+    window.scroll({ left: 0, top: documentBody.scrollHeight + 200 });
   }
 };
 
-let height = document.body.clientHeight;
+let height = documentBody.clientHeight;
 window.addEventListener('resize', event => {
-  const difference = height - document.body.clientHeight;
-  if (document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight) {
+  const difference = height - documentBody.clientHeight;
+  if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
     window.scrollBy({ left: 0, top: difference });
   }
-  height = document.body.clientHeight;
+  height = documentBody.clientHeight;
 });
 
 let prevNodes = getStartAndEndNodes();
@@ -87,14 +92,14 @@ const handleScrollEvent = () => {
       type: 'scroll',
       scrollY: window.scrollY,
       innerHeight: window.innerHeight,
-      offsetHeight: document.body.offsetHeight,
+      offsetHeight: documentBody.offsetHeight,
       startMessageId: Math.min(prevNodes.start, currentNodes.start),
       endMessageId: Math.max(prevNodes.end, currentNodes.end),
     }),
     '*',
   );
 
-  const nearEnd = document.body.offsetHeight - window.scrollY - window.innerHeight > 100;
+  const nearEnd = documentBody.offsetHeight - window.scrollY - window.innerHeight > 100;
   toggleElementHidden('scroll-bottom', !nearEnd);
 
   prevNodes = currentNodes;
@@ -105,27 +110,27 @@ const handleMessageBottom = msg => {
 };
 
 const replaceContent = msg => {
-  document.body.innerHTML = msg.content;
+  documentBody.innerHTML = msg.content;
 };
 
 const updateContentAndScrollToAnchor = msg => {
-  document.body.innerHTML = msg.content;
+  documentBody.innerHTML = msg.content;
   scrollToAnchor(msg.anchor);
 };
 
 const updateContentAndScrollToBottom = msg => {
-  document.body.innerHTML = msg.content;
+  documentBody.innerHTML = msg.content;
   scrollToBottom();
 };
 
 const updateContentAndPreservePosition = msg => {
   const msgNode = getMessageNode(document.elementFromPoint(200, 50));
   if (!msgNode) {
-    document.body.innerHTML = msg.content;
+    documentBody.innerHTML = msg.content;
   } else {
     const msgId = getMessageIdFromNode(msgNode);
     const prevBoundRect = msgNode.getBoundingClientRect();
-    document.body.innerHTML = msg.content;
+    documentBody.innerHTML = msg.content;
     const newElement = document.getElementById(`msg-${msgId}`);
     if (newElement) {
       const newBoundRect = newElement.getBoundingClientRect();
@@ -154,7 +159,7 @@ const handleMessageContent = msg => {
   scrollEventsDisabled = true;
   updateFunctions[msg.updateStrategy](msg);
   scrollEventsDisabled = false;
-  if (document.body.scrollHeight < document.body.clientHeight) {
+  if (documentBody.scrollHeight < documentBody.clientHeight) {
     handleScrollEvent();
   }
 };
@@ -166,8 +171,11 @@ const handleMessageFetching = msg => {
 };
 
 const handleMessageTyping = msg => {
-  document.getElementById('typing').innerHTML = msg.content;
-  setTimeout(() => scrollToBottomIfNearEnd());
+  const elementTyping = document.getElementById('typing');
+  if (elementTyping) {
+    elementTyping.innerHTML = msg.content;
+    setTimeout(() => scrollToBottomIfNearEnd());
+  }
 };
 
 const handleLongPress = e => {
@@ -189,14 +197,16 @@ const messageHandlers = {
   typing: handleMessageTyping,
 };
 
+// $FlowFixMe
 document.addEventListener('message', e => {
+  // $FlowFixMe
   const msg = JSON.parse(e.data);
   messageHandlers[msg.type](msg);
 });
 
 window.addEventListener('scroll', handleScrollEvent);
 
-document.body.addEventListener('click', e => {
+documentBody.addEventListener('click', e => {
   e.preventDefault();
   lastTouchEventTimestamp = 0;
 
@@ -261,7 +271,7 @@ document.body.addEventListener('click', e => {
   }
 });
 
-document.body.addEventListener('touchstart', e => {
+documentBody.addEventListener('touchstart', e => {
   if (e.changedTouches[0].pageX < 20) return;
 
   lastTouchPositionX = e.changedTouches[0].pageX;
@@ -270,7 +280,7 @@ document.body.addEventListener('touchstart', e => {
   setTimeout(() => handleLongPress(e), 500);
 });
 
-document.body.addEventListener('touchend', e => {
+documentBody.addEventListener('touchend', e => {
   if (
     isNearByPositions(
       lastTouchPositionX,
@@ -283,10 +293,10 @@ document.body.addEventListener('touchend', e => {
   }
 });
 
-document.body.addEventListener('touchmove', e => {
+documentBody.addEventListener('touchmove', e => {
   lastTouchEventTimestamp = 0;
 });
 
-document.body.addEventListener('drag', e => {
+documentBody.addEventListener('drag', e => {
   lastTouchEventTimestamp = 0;
 });

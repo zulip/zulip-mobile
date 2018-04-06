@@ -8,6 +8,11 @@
 export default `
 'use strict';
 
+
+var documentBody = document.body;
+
+if (!documentBody) throw new Error('No document.body element!');
+
 var scrollEventsDisabled = true;
 var lastTouchEventTimestamp = 0;
 var lastTouchPositionX = null;
@@ -30,7 +35,7 @@ var isNearByPositions = function isNearByPositions(x1, y1, x2, y2) {
 
 var getMessageNode = function getMessageNode(node) {
   var curNode = node;
-  while (curNode && curNode.parentNode && curNode.parentNode !== document.body) {
+  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
   }
   return curNode;
@@ -42,11 +47,11 @@ var getMessageIdFromNode = function getMessageIdFromNode(node) {
 };
 
 var scrollToBottom = function scrollToBottom() {
-  window.scroll({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
+  window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
 };
 
 var isNearBottom = function isNearBottom() {
-  return document.body.scrollHeight - 100 < document.body.scrollTop + document.body.clientHeight;
+  return documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
 };
 
 var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
@@ -75,17 +80,17 @@ var scrollToAnchor = function scrollToAnchor(anchor) {
   if (anchorNode) {
     anchorNode.scrollIntoView({ block: 'start' });
   } else {
-    window.scroll({ left: 0, top: document.body.scrollHeight + 200 });
+    window.scroll({ left: 0, top: documentBody.scrollHeight + 200 });
   }
 };
 
-var height = document.body.clientHeight;
+var height = documentBody.clientHeight;
 window.addEventListener('resize', function (event) {
-  var difference = height - document.body.clientHeight;
-  if (document.body.scrollHeight !== document.body.scrollTop + document.body.clientHeight) {
+  var difference = height - documentBody.clientHeight;
+  if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
     window.scrollBy({ left: 0, top: difference });
   }
-  height = document.body.clientHeight;
+  height = documentBody.clientHeight;
 });
 
 var prevNodes = getStartAndEndNodes();
@@ -100,12 +105,12 @@ var handleScrollEvent = function handleScrollEvent() {
     type: 'scroll',
     scrollY: window.scrollY,
     innerHeight: window.innerHeight,
-    offsetHeight: document.body.offsetHeight,
+    offsetHeight: documentBody.offsetHeight,
     startMessageId: Math.min(prevNodes.start, currentNodes.start),
     endMessageId: Math.max(prevNodes.end, currentNodes.end)
   }), '*');
 
-  var nearEnd = document.body.offsetHeight - window.scrollY - window.innerHeight > 100;
+  var nearEnd = documentBody.offsetHeight - window.scrollY - window.innerHeight > 100;
   toggleElementHidden('scroll-bottom', !nearEnd);
 
   prevNodes = currentNodes;
@@ -116,27 +121,27 @@ var handleMessageBottom = function handleMessageBottom(msg) {
 };
 
 var replaceContent = function replaceContent(msg) {
-  document.body.innerHTML = msg.content;
+  documentBody.innerHTML = msg.content;
 };
 
 var updateContentAndScrollToAnchor = function updateContentAndScrollToAnchor(msg) {
-  document.body.innerHTML = msg.content;
+  documentBody.innerHTML = msg.content;
   scrollToAnchor(msg.anchor);
 };
 
 var updateContentAndScrollToBottom = function updateContentAndScrollToBottom(msg) {
-  document.body.innerHTML = msg.content;
+  documentBody.innerHTML = msg.content;
   scrollToBottom();
 };
 
 var updateContentAndPreservePosition = function updateContentAndPreservePosition(msg) {
   var msgNode = getMessageNode(document.elementFromPoint(200, 50));
   if (!msgNode) {
-    document.body.innerHTML = msg.content;
+    documentBody.innerHTML = msg.content;
   } else {
     var msgId = getMessageIdFromNode(msgNode);
     var prevBoundRect = msgNode.getBoundingClientRect();
-    document.body.innerHTML = msg.content;
+    documentBody.innerHTML = msg.content;
     var newElement = document.getElementById('msg-' + msgId);
     if (newElement) {
       var newBoundRect = newElement.getBoundingClientRect();
@@ -165,7 +170,7 @@ var handleMessageContent = function handleMessageContent(msg) {
   scrollEventsDisabled = true;
   updateFunctions[msg.updateStrategy](msg);
   scrollEventsDisabled = false;
-  if (document.body.scrollHeight < document.body.clientHeight) {
+  if (documentBody.scrollHeight < documentBody.clientHeight) {
     handleScrollEvent();
   }
 };
@@ -177,10 +182,13 @@ var handleMessageFetching = function handleMessageFetching(msg) {
 };
 
 var handleMessageTyping = function handleMessageTyping(msg) {
-  document.getElementById('typing').innerHTML = msg.content;
-  setTimeout(function () {
-    return scrollToBottomIfNearEnd();
-  });
+  var elementTyping = document.getElementById('typing');
+  if (elementTyping) {
+    elementTyping.innerHTML = msg.content;
+    setTimeout(function () {
+      return scrollToBottomIfNearEnd();
+    });
+  }
 };
 
 var handleLongPress = function handleLongPress(e) {
@@ -209,7 +217,7 @@ document.addEventListener('message', function (e) {
 
 window.addEventListener('scroll', handleScrollEvent);
 
-document.body.addEventListener('click', function (e) {
+documentBody.addEventListener('click', function (e) {
   e.preventDefault();
   lastTouchEventTimestamp = 0;
 
@@ -274,7 +282,7 @@ document.body.addEventListener('click', function (e) {
   }
 });
 
-document.body.addEventListener('touchstart', function (e) {
+documentBody.addEventListener('touchstart', function (e) {
   if (e.changedTouches[0].pageX < 20) return;
 
   lastTouchPositionX = e.changedTouches[0].pageX;
@@ -285,17 +293,17 @@ document.body.addEventListener('touchstart', function (e) {
   }, 500);
 });
 
-document.body.addEventListener('touchend', function (e) {
+documentBody.addEventListener('touchend', function (e) {
   if (isNearByPositions(lastTouchPositionX, lastTouchPositionY, e.changedTouches[0].pageX, e.changedTouches[0].pageY)) {
     lastTouchEventTimestamp = Date.now();
   }
 });
 
-document.body.addEventListener('touchmove', function (e) {
+documentBody.addEventListener('touchmove', function (e) {
   lastTouchEventTimestamp = 0;
 });
 
-document.body.addEventListener('drag', function (e) {
+documentBody.addEventListener('drag', function (e) {
   lastTouchEventTimestamp = 0;
 });
 `;
