@@ -332,6 +332,12 @@ export type ResponseToActionsActionCreator = (
   response: Object,
 ) => EventAction[];
 
+export type FlagsAction =
+  | MessageFetchCompleteAction
+  | EventNewMessageAction
+  | EventUpdateMessageFlagsAction
+  | MarkMessagesReadAction;
+
 export type DispatchOrBatchActionCreator = (dispatch: Dispatch, actions: EventAction[]) => void;
 export type StartEventPollingActionCreator = (queueId: number, eventId: number) => void;
 
