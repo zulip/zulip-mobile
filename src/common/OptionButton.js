@@ -8,7 +8,7 @@ import { IconRight } from '../common/Icons';
 type Props = {
   Icon?: Object,
   label: string,
-  onPress: () => void,
+  onPress: () => any,
 };
 
 export default class OptionButton extends PureComponent<Props> {

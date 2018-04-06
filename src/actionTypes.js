@@ -614,11 +614,12 @@ export type Action = any;
   | LoginSuccessAction
   | LogoutAction; */
 
-export type Actions = any; /* {
+export type Actions = {
   // sessionActions
   appOnline: AppOnlineActionCreator,
   appState: AppStateActionCreator,
   appRefresh: AppRefreshActionCreator,
+  appOrientation: AppOrientationActionCreator,
   initSafeAreaInsets: InitSafeAreaInsetsActionCreator,
   startEditMessage: StartEditMessageActionCreator,
   cancelEditMessage: CancelEditMessageActionCreator,
@@ -665,7 +666,7 @@ export type Actions = any; /* {
   draftAdd: DraftAddActionCreator,
   draftRemove: DraftRemoveActionCreator,
 
-  //eventsActions
+  // eventsActions
   responseToActions: ResponseToActionsActionCreator,
   dispatchOrBatch: DispatchOrBatchActionCreator,
   startEventPolling: StartEventPollingActionCreator,
@@ -739,4 +740,4 @@ export type Actions = any; /* {
   initUsers: InitUsersActionCreator,
   fetchUsers: FetchUsersActionCreator,
   sendTypingEvent: SendTypingEventActionCreator,
-}; */
+};
