@@ -10,9 +10,6 @@ import { getAuth } from '../selectors';
 import { isValidEmailFormat } from '../utils/misc';
 
 const componentStyles = StyleSheet.create({
-  container: {
-    paddingBottom: 10,
-  },
   linksTouchable: {
     alignItems: 'flex-end',
   },
@@ -89,38 +86,36 @@ class PasswordAuthView extends PureComponent<Props, State> {
 
     return (
       <Screen title="Log in" centerContent padding keyboardShouldPersistTaps="always">
-        <View style={componentStyles.container}>
-          <Input
-            style={styles.smallMarginTop}
-            autoFocus={email.length === 0}
-            autoCapitalize="none"
-            autoCorrect={false}
-            blurOnSubmit={false}
-            keyboardType={ldap ? 'default' : 'email-address'}
-            placeholder={ldap ? 'Username' : 'Email'}
-            defaultValue={email}
-            onChangeText={newEmail => this.setState({ email: newEmail })}
-          />
-          <PasswordInput
-            style={[styles.smallMarginTop, styles.field]}
-            autoFocus={email.length !== 0}
-            placeholder="Password"
-            value={password}
-            onChangeText={newPassword => this.setState({ password: newPassword })}
-            blurOnSubmit={false}
-            onSubmitEditing={this.validateForm}
-          />
-          <ZulipButton
-            style={styles.smallMarginTop}
-            disabled={isButtonDisabled}
-            text="Log in"
-            progress={progress}
-            onPress={this.validateForm}
-          />
-          <ErrorMsg error={error} />
-          <View style={componentStyles.linksTouchable}>
-            <WebLink label="Forgot password?" href="/accounts/password/reset/" />
-          </View>
+        <Input
+          style={styles.smallMarginTop}
+          autoFocus={email.length === 0}
+          autoCapitalize="none"
+          autoCorrect={false}
+          blurOnSubmit={false}
+          keyboardType={ldap ? 'default' : 'email-address'}
+          placeholder={ldap ? 'Username' : 'Email'}
+          defaultValue={email}
+          onChangeText={newEmail => this.setState({ email: newEmail })}
+        />
+        <PasswordInput
+          style={[styles.smallMarginTop, styles.field]}
+          autoFocus={email.length !== 0}
+          placeholder="Password"
+          value={password}
+          onChangeText={newPassword => this.setState({ password: newPassword })}
+          blurOnSubmit={false}
+          onSubmitEditing={this.validateForm}
+        />
+        <ZulipButton
+          style={styles.smallMarginTop}
+          disabled={isButtonDisabled}
+          text="Log in"
+          progress={progress}
+          onPress={this.validateForm}
+        />
+        <ErrorMsg error={error} />
+        <View style={componentStyles.linksTouchable}>
+          <WebLink label="Forgot password?" href="/accounts/password/reset/" />
         </View>
       </Screen>
     );
