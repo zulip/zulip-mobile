@@ -170,3 +170,11 @@ export const appendAuthToImages = (messageStr: string, auth: Auth): string =>
     new RegExp(`<img src="((?:|/|${escapeRegExp(auth.realm)}/)user_uploads/[^"]*)"`, 'g'),
     `<img src="$1?api_key=${auth.apiKey}"`,
   );
+export const encodeImageUri = (uri: string): string => {
+  const last = uri.lastIndexOf('/');
+  const imageName = uri.substring(last + 1);
+  const path = uri.substring(0, last);
+  const encoded = encodeURIComponent(imageName);
+
+  return `${path}/${encoded}`;
+};

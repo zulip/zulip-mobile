@@ -2,7 +2,7 @@
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
 import type { Actions, Auth, FlagsState, Message, Narrow } from '../types';
-import { isUrlAnImage } from '../utils/url';
+import { isUrlAnImage, encodeImageUri } from '../utils/url';
 import { logErrorRemotely } from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrowString } from '../utils/narrow';
@@ -143,11 +143,10 @@ export const handleNarrow = ({ actions }: Props, event: MessageListEventNarrow) 
 
 export const handleImage = (props: Props, event: MessageListEventImage) => {
   const { src, messageId } = event;
-
   const message = props.messages.find(x => x.id === messageId);
 
   if (message) {
-    props.actions.navigateToLightbox(src, message);
+    props.actions.navigateToLightbox(encodeImageUri(src), message);
   }
 };
 
