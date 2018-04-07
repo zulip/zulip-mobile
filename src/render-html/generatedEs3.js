@@ -178,14 +178,24 @@ var handleMessageTyping = function handleMessageTyping(msg) {
 
 var handleLongPress = function handleLongPress(e) {
   if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
-
   lastTouchEventTimestamp = 0;
-
   sendMessage({
     type: 'longPress',
     target: e.target.matches('.header') ? 'header' : 'message',
     messageId: +getMessageIdFromNode(e.target)
   });
+};
+
+var handleImageLongPress = function handleImageLongPress(e) {
+  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
+  if (e.target.matches('a[target="_blank"] > img')) {
+    lastTouchEventTimestamp = 0;
+    sendMessage({
+      type: 'imageLongPress',
+      src: e.target.parentNode.getAttribute('href'),
+      messageId: +getMessageIdFromNode(e.target)
+    });
+  }
 };
 
 var messageHandlers = {
@@ -274,7 +284,7 @@ document.body.addEventListener('touchstart', function (e) {
   lastTouchPositionY = e.changedTouches[0].pageY;
   lastTouchEventTimestamp = Date.now();
   setTimeout(function () {
-    return handleLongPress(e);
+    handleImageLongPress(e);handleLongPress(e);
   }, 500);
 });
 
