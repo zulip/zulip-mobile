@@ -28,14 +28,14 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
+  centerContent: boolean,
+  children: ChildrenArray<*>,
+  safeAreaInsets: Dimensions,
+  keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
   padding?: boolean,
   search?: boolean,
-  centerContent: boolean,
-  safeAreaInsets: Dimensions,
   title?: LocalizableText,
-  children: ChildrenArray<*>,
   searchBarOnChange?: (text: string) => void,
-  keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
 };
 
 class Screen extends PureComponent<Props> {
@@ -52,14 +52,14 @@ class Screen extends PureComponent<Props> {
 
   render() {
     const {
-      padding,
-      search,
       centerContent,
-      title,
       children,
-      safeAreaInsets,
-      searchBarOnChange,
       keyboardShouldPersistTaps,
+      padding,
+      safeAreaInsets,
+      search,
+      searchBarOnChange,
+      title,
     } = this.props;
     const { styles } = this.context;
     const ModalBar = search ? ModalSearchNavBar : ModalNavBar;
