@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { WebView } from 'react-native';
 
+import { getAuthHeader } from '../utils/url';
 import type { Props } from '../message/MessageListContainer';
 import getHtml from '../render-html/html';
 import renderMessagesAsHtml from '../render-html/renderMessagesAsHtml';
@@ -42,7 +43,7 @@ export default class MessageListWeb extends Component<Props> {
 
   render() {
     const { styles, theme } = this.context;
-    const { anchor, showMessagePlaceholders, debug } = this.props;
+    const { anchor, auth, showMessagePlaceholders, debug } = this.props;
     const html = getHtml(renderMessagesAsHtml(this.props), theme, {
       anchor,
       highlightUnreadMessages: debug.highlightUnreadMessages,
@@ -55,7 +56,13 @@ export default class MessageListWeb extends Component<Props> {
 
     return (
       <WebView
-        source={{ html }}
+        source={{
+          baseUrl: auth.realm,
+          headers: {
+            Authorization: getAuthHeader(auth.email, auth.apiKey),
+          },
+          html,
+        }}
         style={styles.webview}
         ref={webview => {
           this.webview = webview;
