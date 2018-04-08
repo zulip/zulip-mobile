@@ -5,7 +5,7 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import type { Actions } from '../types';
 import { getSettings } from '../selectors';
 import connectWithActions from '../connectWithActions';
-import { OptionButton, OptionRow, WebLink } from '../common';
+import { OptionButton, OptionDivider, OptionRow, WebLink } from '../common';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
 import LogoutButton from '../account-info/LogoutButton';
 import { IconDiagnostics, IconNotifications, IconNight, IconLanguage } from '../common/Icons';
@@ -13,9 +13,6 @@ import { IconDiagnostics, IconNotifications, IconNight, IconLanguage } from '../
 const styles = StyleSheet.create({
   optionWrapper: {
     flex: 1,
-  },
-  divider: {
-    height: 16,
   },
   padding: {
     padding: 16,
@@ -45,22 +42,22 @@ class SettingsCard extends PureComponent<Props> {
 
     return (
       <ScrollView style={styles.optionWrapper}>
-        <View style={styles.divider} />
+        <OptionDivider />
         <OptionRow
           Icon={IconNight}
           label="Night mode"
           defaultValue={theme === 'night'}
           onValueChange={this.handleThemeChange}
         />
-        <View style={styles.divider} />
+        <OptionDivider />
         <OptionButton
           Icon={IconNotifications}
           label="Notifications"
           onPress={actions.navigateToNotifications}
         />
-        <View style={styles.divider} />
+        <OptionDivider />
         <OptionButton Icon={IconLanguage} label="Language" onPress={actions.navigateToLanguage} />
-        <View style={styles.divider} />
+        <OptionDivider />
         <OptionButton
           Icon={IconDiagnostics}
           label="Diagnostics"
