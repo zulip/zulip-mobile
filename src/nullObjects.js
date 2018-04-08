@@ -112,6 +112,7 @@ export const NULL_FETCHING: Fetching = {
 
 export const NULL_NAV_STATE: NavigationState = {
   index: -1,
+  isTransitioning: false,
   key: '',
   routes: [],
 };

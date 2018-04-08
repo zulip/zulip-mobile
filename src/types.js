@@ -248,6 +248,7 @@ export type MuteState = any; // MuteTuple[]
 
 export type NavigationState = {
   index: number,
+  isTransitioning: boolean,
   key: string,
   routes: Array<any> /* <{
     key: string,
