@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import type { Actions, Auth } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getAuth, getSettings } from '../selectors';
-import { OptionRow, Screen } from '../common';
+import { OptionDivider, OptionRow, Screen } from '../common';
 import { toggleMobilePushSettings } from '../api';
 
 type Props = {
@@ -53,16 +53,19 @@ class NotificationsScreen extends PureComponent<Props> {
 
     return (
       <Screen title="Notifications">
+        <OptionDivider />
         <OptionRow
           label="Notifications when offline"
           defaultValue={offlineNotification}
           onValueChange={this.handleOfflineNotificationChange}
         />
+        <OptionDivider />
         <OptionRow
           label="Notifications when online"
           defaultValue={onlineNotification}
           onValueChange={this.handleOnlineNotificationChange}
         />
+        <OptionDivider />
         <OptionRow
           label="Stream notifications"
           defaultValue={streamNotification}
