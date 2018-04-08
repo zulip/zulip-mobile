@@ -28,6 +28,7 @@ type Props = {
 
 type State = {
   canBeCleared: boolean,
+  text: string,
 };
 
 export default class InputWithClearButton extends PureComponent<Props, State> {
@@ -43,11 +44,13 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
 
   state = {
     canBeCleared: false,
+    text: '',
   };
 
   handleChangeText = (text: string) => {
     this.setState({
       canBeCleared: text.length > 0,
+      text,
     });
     this.props.onChangeText(text);
   };
@@ -59,7 +62,7 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
 
   render() {
     const { styles } = this.context;
-    const { canBeCleared } = this.state;
+    const { canBeCleared, text } = this.state;
 
     return (
       <View style={styles.row}>
@@ -69,6 +72,7 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
             this.textInput = textInput;
           }}
           onChangeText={this.handleChangeText}
+          value={text}
         />
         {canBeCleared && (
           <Touchable style={componentStyles.clearButtonContainer} onPress={this.handleClear}>
