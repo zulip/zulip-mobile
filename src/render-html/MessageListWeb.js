@@ -2,8 +2,9 @@
 import React, { Component } from 'react';
 import { WebView } from 'react-native';
 
-import { getAuthHeader } from '../utils/url';
 import type { Props } from '../message/MessageListContainer';
+import type { WebviewInputMessage } from './webViewHandleUpdates';
+import { getAuthHeader } from '../utils/url';
 import getHtml from '../render-html/html';
 import renderMessagesAsHtml from '../render-html/renderMessagesAsHtml';
 import webViewHandleUpdates from './webViewHandleUpdates';
@@ -22,7 +23,7 @@ export default class MessageListWeb extends Component<Props> {
     console.error(event); // eslint-disable-line
   };
 
-  sendMessage = (msg: Object) => {
+  sendMessage = (msg: WebviewInputMessage): void => {
     if (this.webview) {
       this.webview.postMessage(JSON.stringify(msg), '*');
     }

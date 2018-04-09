@@ -13,7 +13,7 @@ type TransitionProps = {
   newMessagesAdded: boolean,
 };
 
-type UpdateStrategy =
+export type UpdateStrategy =
   | 'replace'
   | 'preserve-position'
   | 'scroll-to-anchor'
