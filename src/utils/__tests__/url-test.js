@@ -17,6 +17,7 @@ import {
   fixRealmUrl,
   autocompleteUrl,
   appendAuthToImages,
+  encodeImageUri,
 } from '../url';
 
 import { streamNarrow, topicNarrow } from '../narrow';
@@ -587,5 +588,25 @@ describe('appendAuthToImages', () => {
     const input = '<img src="/user_uploads/img.png">"But soft,"';
     const expected = '<img src="/user_uploads/img.png?api_key=some_key">"But soft,"';
     expect(appendAuthToImages(input, auth)).toEqual(expected);
+describe('encode uri component of image src', () => {
+  test('if image name contains arabic characters correctly encode it', () => {
+    const result = encodeImageUri('https://example.com/user_uploads/مرحبا.jpg');
+    const encoded = encodeURIComponent('مرحبا.jpg');
+    expect(result).toEqual(
+      `https://example.com/user_uploads/${encoded}`);
+  });
+
+  test('if image name contains chinese characters correctly encode it', () => {
+    const result = encodeImageUri('https://example.com/user_uploads/你好世界.jpg');
+    const encoded = encodeURIComponent('你好世界.jpg');
+    expect(result).toEqual(
+      `https://example.com/user_uploads/${encoded}`);
+  });
+
+  test('if image name contains cyrillic characters correctly encode it', () => {
+    const result = encodeImageUri('https://example.com/user_uploads/пожалуйста.jpg');
+    const encoded = encodeURIComponent('пожалуйста.jpg');
+    expect(result).toEqual(
+      `https://example.com/user_uploads/${encoded}`);
   });
 });
