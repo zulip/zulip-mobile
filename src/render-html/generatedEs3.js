@@ -15,8 +15,8 @@ if (!documentBody) throw new Error('No document.body element!');
 
 var scrollEventsDisabled = true;
 var lastTouchEventTimestamp = 0;
-var lastTouchPositionX = null;
-var lastTouchPositionY = null;
+var lastTouchPositionX = -1;
+var lastTouchPositionY = -1;
 
 var sendMessage = function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
@@ -29,8 +29,12 @@ var toggleElementHidden = function toggleElementHidden(elementId, hidden) {
   }
 };
 
-var isNearByPositions = function isNearByPositions(x1, y1, x2, y2) {
-  return x1 && y1 && x2 && y2 && Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
+var isNearPositions = function isNearPositions() {
+  var x1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var y1 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var x2 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  var y2 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+  return Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 };
 
 var getMessageNode = function getMessageNode(node) {
@@ -61,7 +65,7 @@ var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
 };
 
 var isMessageNode = function isMessageNode(node) {
-  return node && node.getAttribute && node.hasAttribute('data-msg-id');
+  return !!node && node.getAttribute && node.hasAttribute('data-msg-id');
 };
 
 var getStartAndEndNodes = function getStartAndEndNodes() {
@@ -294,7 +298,7 @@ documentBody.addEventListener('touchstart', function (e) {
 });
 
 documentBody.addEventListener('touchend', function (e) {
-  if (isNearByPositions(lastTouchPositionX, lastTouchPositionY, e.changedTouches[0].pageX, e.changedTouches[0].pageY)) {
+  if (isNearPositions(lastTouchPositionX, lastTouchPositionY, e.changedTouches[0].pageX, e.changedTouches[0].pageY)) {
     lastTouchEventTimestamp = Date.now();
   }
 });
