@@ -1,11 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { ScrollView, Keyboard } from 'react-native';
+import { ScrollView, Keyboard, View } from 'react-native';
 import isUrl from 'is-url';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
-import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
+import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton, Logo } from '../common';
 import { getServerSettings } from '../api';
 
 type Props = {
@@ -66,28 +66,34 @@ class RealmScreen extends PureComponent<Props, State> {
     const { progress, error, realm } = this.state;
 
     return (
-      <Screen title="Welcome" padding centerContent>
-        <Label text="Organization URL" />
-        <SmartUrlInput
-          style={styles.marginTopBottom}
-          navigation={navigation}
-          defaultOrganization="your-org"
-          protocol="https://"
-          append=".zulipchat.com"
-          shortAppend=".com"
-          defaultValue={initialRealm}
-          onChange={this.handleRealmChange}
-          onSubmitEditing={this.tryRealm}
-          enablesReturnKeyAutomatically
-        />
-        {error && <ErrorMsg error={error} />}
-        <ZulipButton
-          style={styles.smallMarginTop}
-          text="Enter"
-          progress={progress}
-          onPress={this.tryRealm}
-          disabled={!isUrl(realm)}
-        />
+      <Screen title="Welcome" hideTitle padding>
+        <View style={styles.center}>
+          <Logo />
+          <Label text="Welcome!" style={styles.headingLarge} />
+        </View>
+        <View style={styles.flexed}>
+          <Label text="Organization URL" />
+          <SmartUrlInput
+            style={styles.marginTopBottom}
+            navigation={navigation}
+            defaultOrganization="your-org"
+            protocol="https://"
+            append=".zulipchat.com"
+            shortAppend=".com"
+            defaultValue={initialRealm}
+            onChange={this.handleRealmChange}
+            onSubmitEditing={this.tryRealm}
+            enablesReturnKeyAutomatically
+          />
+          {error && <ErrorMsg error={error} />}
+          <ZulipButton
+            style={styles.smallMarginTop}
+            text="Enter"
+            progress={progress}
+            onPress={this.tryRealm}
+            disabled={!isUrl(realm)}
+          />
+        </View>
       </Screen>
     );
   }

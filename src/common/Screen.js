@@ -33,6 +33,7 @@ type Props = {
   centerContent: boolean,
   safeAreaInsets: Dimensions,
   title?: LocalizableText,
+  hideTitle?: boolean,
   children: ChildrenArray<*>,
   searchBarOnChange?: (text: string) => void,
 };
@@ -54,6 +55,7 @@ class Screen extends PureComponent<Props> {
       search,
       centerContent,
       title,
+      hideTitle,
       children,
       safeAreaInsets,
       searchBarOnChange,
@@ -64,7 +66,12 @@ class Screen extends PureComponent<Props> {
     return (
       <View style={[styles.screen, { marginBottom: safeAreaInsets.bottom }]}>
         <ZulipStatusBar />
-        <ModalBar title={title} searchBarOnChange={searchBarOnChange} />
+        { hideTitle ?
+          null
+          : (
+            <ModalBar title={title} searchBarOnChange={searchBarOnChange} />
+          )
+        }
         <KeyboardAvoider
           behavior="padding"
           keyboardShouldPersistTaps="always"

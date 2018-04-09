@@ -147,6 +147,9 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   heading2: {
     fontSize: 20,
   },
+  headingLarge: {
+    fontSize: 40,
+  },
   field: {
     flex: 1,
     flexDirection: 'row',
