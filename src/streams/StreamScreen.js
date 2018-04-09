@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 
 import type { Actions, Stream, Subscription } from '../types';
 import connectWithActions from '../connectWithActions';
-import { OptionRow, Screen, ZulipButton } from '../common';
+import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
 import { getStreams, getSubscriptions } from '../selectors';
 import { NULL_STREAM, NULL_SUBSCRIPTION } from '../nullObjects';
 import StreamCard from './StreamCard';
@@ -61,16 +61,19 @@ class StreamScreen extends PureComponent<Props> {
     return (
       <Screen title="Stream" padding>
         <StreamCard stream={stream} subscription={subscription} />
+        <OptionDivider />
         <OptionRow
           label="Pinned"
           defaultValue={subscription.pin_to_top}
           onValueChange={this.handleTogglePinStream}
         />
+        <OptionDivider />
         <OptionRow
           label="Muted"
           defaultValue={stream.in_home_view === false}
           onValueChange={this.handleToggleMuteStream}
         />
+        <OptionDivider />
         <OptionRow
           label="Notifications"
           defaultValue={subscription.push_notifications}
