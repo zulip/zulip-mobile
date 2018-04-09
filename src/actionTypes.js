@@ -15,6 +15,8 @@ import type {
   PresenceState,
 } from './types';
 
+export type RehydrateAction = any;
+
 export type AsyncActionCreator<A> = (dispatch: Dispatch, getState: GetState) => A;
 
 export type AppOnlineAction = {
@@ -414,6 +416,14 @@ export type MessageSendCompleteActionCreator = (
 ) => MessageSendCompleteAction;
 
 export type TrySendMessagesActionCreator = () => void;
+
+export type NavAction =
+  | RehydrateAction
+  | AccountSwitchAction
+  | LoginSuccessAction
+  | InitialFetchCompleteAction
+  | LogoutAction
+  | SwitchNarrowAction;
 
 export type AddToOutboxActionCreator = (narrow: Narrow, content: string) => void;
 
