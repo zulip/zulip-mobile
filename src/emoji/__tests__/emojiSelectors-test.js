@@ -41,6 +41,12 @@ describe('getActiveImageEmojiById', () => {
         deactivated: false,
         source_url: 'https://example.com/static/user_upload/laugh.png',
       },
+      zulip: {
+        deactivated: false,
+        name: 'zulip',
+        code: 'zulip',
+        source_url: 'https://example.com/static/generated/emoji/images/emoji/unicode/zulip.png',
+      },
     };
 
     expect(getActiveImageEmojiById(deepFreeze(state))).toEqual(expectedResult);
@@ -64,11 +70,13 @@ describe('getAllImageEmojiById', () => {
     };
 
     const expectedResult = {
-      1: {
-        source_url: 'https://example.com/static/user_upload/smile.png',
-      },
-      2: {
-        source_url: 'https://example.com/static/user_upload/laugh.png',
+      '1': { source_url: 'https://example.com/static/user_upload/smile.png' },
+      '2': { source_url: 'https://example.com/static/user_upload/laugh.png' },
+      zulip: {
+        deactivated: false,
+        name: 'zulip',
+        code: 'zulip',
+        source_url: 'https://example.com/static/generated/emoji/images/emoji/unicode/zulip.png',
       },
     };
 
@@ -103,6 +111,12 @@ describe('getAllImageEmojiByName', () => {
         name: 'laugh',
         source_url: 'https://example.com/static/user_upload/laugh.png',
       },
+      zulip: {
+        deactivated: false,
+        name: 'zulip',
+        code: 'zulip',
+        source_url: 'https://example.com/static/generated/emoji/images/emoji/unicode/zulip.png',
+      },
     };
     expect(getAllImageEmojiByName(deepFreeze(state))).toEqual(expectedResult);
   });
@@ -134,6 +148,12 @@ describe('getActiveImageEmojiByName', () => {
       laugh: {
         name: 'laugh',
         source_url: 'https://example.com/static/user_upload/laugh.png',
+      },
+      zulip: {
+        deactivated: false,
+        name: 'zulip',
+        code: 'zulip',
+        source_url: 'https://example.com/static/generated/emoji/images/emoji/unicode/zulip.png',
       },
     };
     expect(getActiveImageEmojiByName(deepFreeze(state))).toEqual(expectedResult);

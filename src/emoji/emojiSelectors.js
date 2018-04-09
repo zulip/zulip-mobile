@@ -4,15 +4,21 @@ import type { Selector, RealmEmojiById, ImageEmojiType } from '../types';
 import { getRawRealmEmoji } from '../directSelectors';
 import { getIdentity } from '../account/accountsSelectors';
 import { getFullUrl } from '../utils/url';
+import zulipExtraEmojiMap from '../emoji/zulipExtraEmojiMap';
 
 export const getAllImageEmojiById: Selector<RealmEmojiById> = createSelector(
   getIdentity,
   getRawRealmEmoji,
-  (identity, emojis) =>
-    Object.keys(emojis).reduce((result, id) => {
-      result[id] = { ...emojis[id], source_url: getFullUrl(emojis[id].source_url, identity.realm) };
+  (identity, emojis) => {
+    const allEmojies = { ...emojis, ...zulipExtraEmojiMap };
+    return Object.keys(allEmojies).reduce((result, id) => {
+      result[id] = {
+        ...allEmojies[id],
+        source_url: getFullUrl(allEmojies[id].source_url, identity.realm),
+      };
       return result;
-    }, {}),
+    }, {});
+  },
 );
 
 export const getActiveImageEmojiById: Selector<RealmEmojiById> = createSelector(
