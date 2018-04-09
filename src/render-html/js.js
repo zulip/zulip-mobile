@@ -87,17 +87,14 @@ const handleScrollEvent = () => {
 
   const currentNodes = getStartAndEndNodes();
 
-  window.postMessage(
-    JSON.stringify({
-      type: 'scroll',
-      scrollY: window.scrollY,
-      innerHeight: window.innerHeight,
-      offsetHeight: documentBody.offsetHeight,
-      startMessageId: Math.min(prevNodes.start, currentNodes.start),
-      endMessageId: Math.max(prevNodes.end, currentNodes.end),
-    }),
-    '*',
-  );
+  sendMessage({
+    type: 'scroll',
+    scrollY: window.scrollY,
+    innerHeight: window.innerHeight,
+    offsetHeight: documentBody.offsetHeight,
+    startMessageId: Math.min(prevNodes.start, currentNodes.start),
+    endMessageId: Math.max(prevNodes.end, currentNodes.end),
+  });
 
   const nearEnd = documentBody.offsetHeight - window.scrollY - window.innerHeight > 100;
   toggleElementHidden('scroll-bottom', !nearEnd);
