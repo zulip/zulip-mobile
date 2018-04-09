@@ -9,6 +9,7 @@ import type {
   PresenceAggregated,
   CaughtUp,
   Fetching,
+  NavigationState,
 } from './types';
 
 export const nullFunction = () => {};
@@ -107,4 +108,10 @@ export const NULL_CAUGHTUP: CaughtUp = {
 export const NULL_FETCHING: Fetching = {
   older: false,
   newer: false,
+};
+
+export const NULL_NAV_STATE: NavigationState = {
+  index: -1,
+  key: '',
+  routes: [],
 };
