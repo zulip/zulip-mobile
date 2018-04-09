@@ -5,24 +5,24 @@ if (!documentBody) throw new Error('No document.body element!');
 
 let scrollEventsDisabled = true;
 let lastTouchEventTimestamp = 0;
-let lastTouchPositionX = null;
-let lastTouchPositionY = null;
+let lastTouchPositionX = -1;
+let lastTouchPositionY = -1;
 
-const sendMessage = msg => {
+const sendMessage = (msg: Object) => {
   window.postMessage(JSON.stringify(msg), '*');
 };
 
-const toggleElementHidden = (elementId, hidden) => {
+const toggleElementHidden = (elementId: string, hidden: boolean) => {
   const element = document.getElementById(elementId);
   if (element) {
     element.classList.toggle('hidden', hidden);
   }
 };
 
-const isNearByPositions = (x1, y1, x2, y2) =>
-  x1 && y1 && x2 && y2 && Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
+const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): boolean =>
+  Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 
-const getMessageNode = node => {
+const getMessageNode = (node: Element): Element => {
   let curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
@@ -30,7 +30,7 @@ const getMessageNode = node => {
   return curNode;
 };
 
-const getMessageIdFromNode = node => {
+const getMessageIdFromNode = (node: Node): string => {
   const msgNode = getMessageNode(node);
   return msgNode && msgNode.getAttribute('data-msg-id');
 };
@@ -39,7 +39,7 @@ const scrollToBottom = () => {
   window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
 };
 
-const isNearBottom = () =>
+const isNearBottom = (): boolean =>
   documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
 
 const scrollToBottomIfNearEnd = () => {
@@ -48,9 +48,10 @@ const scrollToBottomIfNearEnd = () => {
   }
 };
 
-const isMessageNode = node => node && node.getAttribute && node.hasAttribute('data-msg-id');
+const isMessageNode = (node: Element): boolean =>
+  !!node && node.getAttribute && node.hasAttribute('data-msg-id');
 
-const getStartAndEndNodes = () => {
+const getStartAndEndNodes = (): { start: number, end: number } => {
   const startNode = getMessageNode(document.elementFromPoint(200, 20));
   const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
 
@@ -60,7 +61,7 @@ const getStartAndEndNodes = () => {
   };
 };
 
-const scrollToAnchor = anchor => {
+const scrollToAnchor = (anchor: number) => {
   const anchorNode = document.getElementById(`msg-${anchor}`);
 
   if (anchorNode) {
@@ -279,7 +280,7 @@ documentBody.addEventListener('touchstart', e => {
 
 documentBody.addEventListener('touchend', e => {
   if (
-    isNearByPositions(
+    isNearPositions(
       lastTouchPositionX,
       lastTouchPositionY,
       e.changedTouches[0].pageX,
