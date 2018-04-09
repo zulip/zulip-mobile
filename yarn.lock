@@ -1279,9 +1279,9 @@ babel-plugin-transform-regenerator@^6.5.0:
   dependencies:
     regenerator-transform "0.9.11"
 
-babel-plugin-transform-remove-console@^6.9.0:
-  version "6.9.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-remove-console/-/babel-plugin-transform-remove-console-6.9.0.tgz#a7b671aab050dd30ef7cf2142b61a7d10efb327f"
+babel-plugin-transform-remove-console@^6.9.1:
+  version "6.9.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-remove-console/-/babel-plugin-transform-remove-console-6.9.1.tgz#40fe95d98cae5811d8a0e1889812d78b12859651"
 
 babel-plugin-transform-strict-mode@^6.24.1:
   version "6.24.1"
@@ -2117,9 +2117,9 @@ detox-server@^7.0.0:
     npmlog "^4.0.2"
     ws "^1.1.0"
 
-detox@^7.3.2:
-  version "7.3.2"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-7.3.2.tgz#5f713aeea224afaac7a82eee83ae2130e56bb933"
+detox@^7.3.3:
+  version "7.3.3"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-7.3.3.tgz#46c1a3d1501bbb9017782f6ef6c174b3531b67c3"
   dependencies:
     child-process-promise "^2.2.0"
     commander "^2.15.1"
@@ -5932,9 +5932,9 @@ react-native-vector-icons@^4.6.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-react-native@^0.55.0:
-  version "0.55.0"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.55.0.tgz#cf17e01e6ff86187c47858e6c0b5ec6a15895361"
+react-native@^0.55.1:
+  version "0.55.1"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.55.1.tgz#0ca06b3e1bcb8ddfb56b916a3853d423f9ee6439"
   dependencies:
     absolute-path "^0.0.0"
     art "^0.10.0"
@@ -5996,15 +5996,15 @@ react-native@^0.55.0:
     xmldoc "^0.4.0"
     yargs "^9.0.0"
 
-react-navigation-redux-helpers@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-navigation-redux-helpers/-/react-navigation-redux-helpers-1.0.3.tgz#46dd9f83bf4ba74ca43d346575c169137f2eaac9"
+react-navigation-redux-helpers@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-navigation-redux-helpers/-/react-navigation-redux-helpers-1.0.4.tgz#ae2f5e23011d23d637dd661d55cb869e1562a6fd"
   dependencies:
     invariant "^2.2.2"
 
-react-navigation@1.5.9:
-  version "1.5.9"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.9.tgz#2740fd1b0056559c1d15f12958f6b30448a2154d"
+react-navigation@^1.5.11:
+  version "1.5.11"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.11.tgz#fba6ab45d7b9987c1763a5aaac53b4f6d62b7f5c"
   dependencies:
     clamp "^1.0.1"
     hoist-non-react-statics "^2.2.0"
@@ -6062,9 +6062,9 @@ react@15.5.4:
     object-assign "^4.1.0"
     prop-types "^15.5.7"
 
-react@16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
+react@16.3.1:
+  version "16.3.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.3.1.tgz#4a2da433d471251c69b6033ada30e2ed1202cfd8"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -7142,9 +7142,9 @@ url-parse-lax@^1.0.0:
   dependencies:
     prepend-http "^1.0.1"
 
-url-parse@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.2.0.tgz#3a19e8aaa6d023ddd27dcc44cb4fc8f7fec23986"
+url-parse@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.3.0.tgz#04a06c420d22beb9804f7ada2d57ad13160a4258"
   dependencies:
     querystringify "~1.0.0"
     requires-port "~1.0.0"
