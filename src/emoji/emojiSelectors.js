@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import { getRealmEmoji } from '../directSelectors';
 import { getAuth } from '../account/accountSelectors';
 import { getFullUrl } from '../utils/url';
+import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 
 export const getAllRealmEmoji = createSelector(getAuth, getRealmEmoji, (auth, emojis) =>
   Object.keys(emojis).reduce((list, key) => {
@@ -18,4 +19,14 @@ export const getActiveRealmEmoji = createSelector(getAllRealmEmoji, emojis =>
       list[key] = emojis[key];
       return list;
     }, {}),
+);
+
+export const getAllZulipExtraEmoji = createSelector(getAuth, auth =>
+  Object.keys(zulipExtraEmojiMap).reduce((list, key) => {
+    list[key] = {
+      ...zulipExtraEmojiMap[key],
+      emoji_url: getFullUrl(zulipExtraEmojiMap[key].emoji_url, auth.realm),
+    };
+    return list;
+  }, {}),
 );
