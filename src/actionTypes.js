@@ -545,6 +545,13 @@ export type LoadingAction =
   | InitStreamsAction
   | InitSubscriptionsAction;
 
+export type CaughtUpAction =
+  | AppRefreshAction
+  | LogoutAction
+  | LoginSuccessAction
+  | AccountSwitchAction
+  | MessageFetchCompleteAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
