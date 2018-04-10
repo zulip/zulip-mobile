@@ -77,11 +77,14 @@ describe('getAllZulipExtraEmoji', () => {
     const state = {
       accounts: [{ realm: 'https://example.com' }],
     };
+    const zulipExtraEmojiMap = {
+      zulip: { emoji_url: '/static/generated/emoji/images/emoji/unicode/zulip.png' },
+    };
     const expectedResult = {
       zulip: {
         emoji_url: 'https://example.com/static/generated/emoji/images/emoji/unicode/zulip.png',
       },
     };
-    expect(getAllZulipExtraEmoji(deepFreeze(state))).toEqual(expectedResult);
+    expect(getAllZulipExtraEmoji(zulipExtraEmojiMap)(deepFreeze(state))).toEqual(expectedResult);
   });
 });
