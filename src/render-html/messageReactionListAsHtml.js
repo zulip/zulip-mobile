@@ -8,6 +8,7 @@ export default (
   messageId: number,
   ownEmail: string,
   realmEmoji: ReactionType,
+  zulipExtraEmojis: Object,
 ): string => {
   if (!reactions || reactions.length === 0) {
     return '';
@@ -17,7 +18,9 @@ export default (
 
   return `
     <div class="reaction-list">
-      ${aggregated.map(r => messageReactionAsHtml(messageId, r, realmEmoji)).join('')}
+      ${aggregated
+        .map(r => messageReactionAsHtml(messageId, r, realmEmoji, zulipExtraEmojis))
+        .join('')}
     </div>
   `;
 };

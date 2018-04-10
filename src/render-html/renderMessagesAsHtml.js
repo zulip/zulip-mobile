@@ -12,6 +12,7 @@ const renderMessages = ({
   realmEmoji,
   renderedMessages,
   narrow,
+  zulipExtraEmojis,
 }: Props): string[] =>
   renderedMessages.reduce((list, section, index) => {
     list.push(
@@ -44,6 +45,7 @@ const renderMessages = ({
             ownEmail: auth.email,
             realmEmoji,
             twentyFourHourTime: false,
+            zulipExtraEmojis,
           }),
         );
       }

@@ -560,3 +560,7 @@ export type InitialRealmData = {
   unsubscribed: Subscription[],
   user_id: number,
 };
+
+export type ZulipExtraEmojiType = {
+  emoji_url: string,
+};

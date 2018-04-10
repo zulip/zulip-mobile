@@ -40,6 +40,7 @@ type BriefMessageProps = {
   reactions: ReactionType[],
   realmEmoji: RealmEmojiType,
   timeEdited: Date,
+  zulipExtraEmojis: Object,
 };
 
 type FullMessageProps = BriefMessageProps & {
@@ -48,6 +49,7 @@ type FullMessageProps = BriefMessageProps & {
   timestamp: number,
   avatarUrl: string,
   twentyFourHourTime: boolean,
+  zulipExtraEmojis: Object,
 };
 
 type Props = FullMessageProps & {
@@ -63,6 +65,7 @@ const messageBody = ({
   reactions,
   realmEmoji,
   timeEdited,
+  zulipExtraEmojis,
 }: {
   content: string,
   flags: Object,
@@ -72,11 +75,12 @@ const messageBody = ({
   reactions: ReactionType[],
   realmEmoji: ReactionType,
   timeEdited: Date,
+  zulipExtraEmojis: Object,
 }) => `
 ${content}
 ${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 ${messageTagsAsHtml(flags, timeEdited)}
-${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
+${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji, zulipExtraEmojis)}
 `;
 
 const briefMessageAsHtml = ({
@@ -88,10 +92,21 @@ const briefMessageAsHtml = ({
   reactions,
   realmEmoji,
   timeEdited,
+  zulipExtraEmojis,
 }: BriefMessageProps) => `
 ${messageDiv(id, 'message-brief', flags)}
   <div class="content">
-    ${messageBody({ content, flags, id, isOutbox, ownEmail, reactions, realmEmoji, timeEdited })}
+    ${messageBody({
+      content,
+      flags,
+      id,
+      isOutbox,
+      ownEmail,
+      reactions,
+      realmEmoji,
+      timeEdited,
+      zulipExtraEmojis,
+    })}
   </div>
 </div>
 `;
@@ -110,6 +125,7 @@ const fullMessageAsHtml = ({
   reactions,
   ownEmail,
   realmEmoji,
+  zulipExtraEmojis,
 }: FullMessageProps) => `
 ${messageDiv(id, 'message-full', flags)}
   <div class="avatar">
@@ -117,7 +133,17 @@ ${messageDiv(id, 'message-full', flags)}
   </div>
   <div class="content">
     ${messageSubheader({ fromName, timestamp, twentyFourHourTime })}
-    ${messageBody({ content, flags, id, isOutbox, ownEmail, reactions, realmEmoji, timeEdited })}
+    ${messageBody({
+      content,
+      flags,
+      id,
+      isOutbox,
+      ownEmail,
+      reactions,
+      realmEmoji,
+      timeEdited,
+      zulipExtraEmojis,
+    })}
   </div>
 </div>
 `;
