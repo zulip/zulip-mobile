@@ -1,15 +1,10 @@
 /* @flow */
-import type { ReactionType, ZulipExtraEmojiType } from '../types';
+import type { ReactionType } from '../types';
 import emojiMap from '../emoji/emojiMap';
 import { getRealmEmojiWithName, getZulipExtraEmojiWithName } from '../emoji/utils';
 
-const getRealmEmojiHtml = (realmEmoji: ReactionType): string =>
-  `<img class="realm-reaction" src="${realmEmoji.source_url}"/>
-  `;
-
-const getZulipExtraEmojiHtml = (
-  zulipExtraEmoji: ZulipExtraEmojiType,
-): string => `<img class="realm-reaction" src="${zulipExtraEmoji.emoji_url}"/>
+const getEmojiImgHtml = (url: string): string =>
+  `<img class="realm-reaction" src="${url}"/>
   `;
 
 export default (
@@ -22,13 +17,12 @@ export default (
   const isZulipExtraEmoji =
     !isRealmEmoji && getZulipExtraEmojiWithName(zulipExtraEmojis, reaction.name);
   // do not call if we already got emoji
-
+  const url =
+    (isRealmEmoji && isRealmEmoji.source_url) || (isZulipExtraEmoji && isZulipExtraEmoji.emoji_url);
   return `<span onClick="" class="reaction${
     reaction.selfReacted ? ' self-voted' : ''
   }" data-name="${reaction.name}" data-code="${reaction.code}" data-type="${reaction.type}">${
-    isRealmEmoji
-      ? getRealmEmojiHtml(isRealmEmoji)
-      : isZulipExtraEmoji ? getZulipExtraEmojiHtml(isZulipExtraEmoji) : emojiMap[reaction.name]
+    url ? getEmojiImgHtml(url) : emojiMap[reaction.name]
   } ${reaction.count}
   </span>`;
 };
