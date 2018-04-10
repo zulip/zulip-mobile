@@ -20,8 +20,10 @@ export default (
   `<span onClick="" class="reaction${reaction.selfReacted ? ' self-voted' : ''}" data-name="${
     reaction.name
   }" data-code="${reaction.code}" data-type="${reaction.type}">${
-    realmEmoji[reaction.name]
-      ? getRealmEmojiHtml(realmEmoji[reaction.name])
+    realmEmoji[Object.keys(realmEmoji).find(key => realmEmoji[key].name === reaction.name)]
+      ? getRealmEmojiHtml(
+          realmEmoji[Object.keys(realmEmoji).find(key => realmEmoji[key].name === reaction.name)],
+        )
       : zulipExtraEmojis[reaction.name]
         ? getZulipExtraEmojiHtml(zulipExtraEmojis[reaction.name])
         : emojiMap[reaction.name]
