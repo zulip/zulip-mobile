@@ -54,7 +54,7 @@ export const appRefresh = (): AppRefreshAction => ({
 
 export const initSafeAreaInsets = (safeAreaInsets: Dimensions): InitSafeAreaInsetsAction => ({
   type: INIT_SAFE_AREA_INSETS,
-  ...safeAreaInsets,
+  safeAreaInsets,
 });
 
 export const appOrientation = (orientation: string) => (

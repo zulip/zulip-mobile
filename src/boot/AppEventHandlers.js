@@ -71,7 +71,9 @@ class AppEventHandlers extends PureComponent<Props> {
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
-    SafeArea.getSafeAreaInsetsForRootView().then(actions.initSafeAreaInsets);
+    SafeArea.getSafeAreaInsetsForRootView().then(params =>
+      actions.initSafeAreaInsets(params.safeAreaInsets),
+    );
     Orientation.addOrientationListener(this.handleOrientationChange);
     addNotificationListener(this.handleNotificationOpen);
   }
