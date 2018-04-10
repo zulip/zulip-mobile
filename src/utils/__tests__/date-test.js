@@ -66,6 +66,10 @@ describe('humanDate', () => {
 });
 
 describe('presenceToHumanTime', () => {
+  test('passing an invalid value does not throw but returns "never"', () => {
+    expect(presenceToHumanTime(undefined)).toBe('never');
+  });
+
   test('given a presence return human readable time', () => {
     const presence = {
       aggregated: {
