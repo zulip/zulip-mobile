@@ -1,5 +1,11 @@
 /* @flow */
-import type { PresenceState, Action } from '../types';
+import type {
+  PresenceState,
+  PresenceAction,
+  EventPresenceAction,
+  PresenceResponseAction,
+  RealmInitAction,
+} from '../types';
 import {
   APP_REFRESH,
   LOGOUT,
@@ -13,7 +19,20 @@ import { NULL_OBJECT } from '../nullObjects';
 
 const initialState: PresenceState = NULL_OBJECT;
 
-export default (state: PresenceState = initialState, action: Action): PresenceState => {
+const realmInit = (state: PresenceState, action: RealmInitAction): PresenceState =>
+  action.data.presences;
+
+const presenceResponse = (state: PresenceState, action: PresenceResponseAction): PresenceState => ({
+  ...state,
+  ...action.presence,
+});
+
+const eventPresence = (state: PresenceState, action: EventPresenceAction): PresenceState => ({
+  ...state,
+  [action.email]: { ...state[action.email], ...action.presence },
+});
+
+export default (state: PresenceState = initialState, action: PresenceAction): PresenceState => {
   switch (action.type) {
     case APP_REFRESH:
     case LOGOUT:
@@ -22,21 +41,13 @@ export default (state: PresenceState = initialState, action: Action): PresenceSt
       return initialState;
 
     case REALM_INIT:
-      return action.data.presences;
+      return realmInit(state, action);
 
     case PRESENCE_RESPONSE:
-      return {
-        ...state,
-        ...action.presence,
-      };
+      return presenceResponse(state, action);
 
-    case EVENT_PRESENCE: {
-      const { email } = action;
-      return {
-        ...state,
-        [email]: { ...state[email], ...action.presence },
-      };
-    }
+    case EVENT_PRESENCE:
+      return eventPresence(state, action);
 
     default:
       return state;
