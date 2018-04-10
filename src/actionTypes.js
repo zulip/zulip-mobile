@@ -12,6 +12,7 @@ import type {
   Stream,
   Subscription,
   TopicDetails,
+  PresenceState,
 } from './types';
 
 export type AsyncActionCreator<A> = (dispatch: Dispatch, getState: GetState) => A;
@@ -371,6 +372,14 @@ export type SwitchNarrowActionCreator = (narrow: Narrow) => SwitchNarrowAction;
 
 export type DoNarrowActionCreator = (narrow: Narrow, anchor?: number) => void;
 export type MessageLinkPressActionCreator = (href: string) => void;
+
+export type PresenceResponseAction = {
+  type: 'PRESENCE_RESPONSE',
+  presence: PresenceState,
+  serverTimestamp: number,
+};
+
+export type PresenceAction = EventPresenceAction | PresenceResponseAction | RealmInitAction;
 
 export type MessageAction =
   | MessageFetchCompleteAction
