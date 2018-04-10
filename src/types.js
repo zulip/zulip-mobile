@@ -226,20 +226,13 @@ export type CaughtUpState = Object;
 
 export type FetchingState = Object;
 
-export type FlagsState = any; /* {
-  read: Object,
-  starred: Object,
-  collapsed: Object,
-  mentions: Object,
-  wildcard_mentions: Object,
-  summarize_in_home: Object,
-  summarize_in_stream: Object,
-  force_expand: Object,
-  force_collapse: Object,
-  has_alert_word: Object,
-  historical: Object,
-  is_me_message: Object,
-} */
+export type FlagMap = {
+  [number]: boolean,
+};
+
+export type FlagsState = {
+  [string]: FlagMap,
+};
 
 export type LoadingState = {
   presence: boolean,

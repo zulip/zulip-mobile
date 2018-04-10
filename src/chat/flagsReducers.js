@@ -57,11 +57,7 @@ const addFlagsForMessages = (
   };
 };
 
-const removeFlagForMessages = (
-  state: FlagsState,
-  messages: number[],
-  flag: string[],
-): FlagsState => {
+const removeFlagForMessages = (state: FlagsState, messages: number[], flag: string): FlagsState => {
   const newStateForFlag = { ...(state[flag] || {}) };
   messages.forEach(message => {
     delete newStateForFlag[message];
