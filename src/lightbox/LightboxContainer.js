@@ -79,6 +79,11 @@ class LightboxContainer extends PureComponent<Props, State> {
     );
   };
 
+  handlePressBack = () => {
+    const { actions } = this.props;
+    actions.navigateBack();
+  };
+
   getAnimationProps = () => ({
     easing: Easing.bezier(0.075, 0.82, 0.165, 1),
     duration: 300,
@@ -86,7 +91,7 @@ class LightboxContainer extends PureComponent<Props, State> {
   });
 
   render() {
-    const { actions, src, message, auth } = this.props;
+    const { src, message, auth } = this.props;
     const footerMessage =
       message.type === 'stream' ? `Shared in #${message.display_recipient}` : 'Shared with you';
     const resource = getResource(src, auth);
@@ -95,7 +100,7 @@ class LightboxContainer extends PureComponent<Props, State> {
     return (
       <View style={styles.container}>
         <AnimatedLightboxHeader
-          onPressBack={actions.navigateBack}
+          onPressBack={this.handlePressBack}
           style={[styles.overlay, styles.header, { width }]}
           from={-NAVBAR_SIZE}
           to={0}

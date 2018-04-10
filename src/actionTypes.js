@@ -135,13 +135,6 @@ export type LogoutAction = {
 
 export type LogoutActionCreator = () => LogoutAction;
 
-export type AccountAction =
-  | AccountSwitchAction
-  | RealmAddAction
-  | AccountRemoveAction
-  | LoginSuccessAction
-  | LogoutAction;
-
 export type RealmInitAction = {
   type: 'REALM_INIT',
   data: InitialData,
@@ -354,11 +347,6 @@ export type SettingsChangeAction = {
 
 export type SettingsChangeActionCreator = (key: string, value: any) => SettingsChangeAction;
 
-export type SettingsAction =
-  | RealmInitAction
-  | SettingsChangeAction
-  | EventUpdateGlobalNotificationsSettingsAction;
-
 export type DraftAddAction = {
   type: 'DRAFT_ADD',
   narrow: Narrow,
@@ -394,14 +382,6 @@ export type PresenceResponseAction = {
 
 export type PresenceAction = EventPresenceAction | PresenceResponseAction | RealmInitAction;
 
-export type MessageAction =
-  | MessageFetchCompleteAction
-  | EventReactionAddAction
-  | EventReactionRemoveAction
-  | EventNewMessageAction
-  | EventMessageDeleteAction
-  | EventUpdateMessageAction;
-
 export type MessageSendStartAction = {
   type: 'MESSAGE_SEND_START',
   outbox: Outbox,
@@ -420,14 +400,6 @@ export type MessageSendCompleteActionCreator = (
 
 export type TrySendMessagesActionCreator = () => void;
 
-export type NavAction =
-  | RehydrateAction
-  | AccountSwitchAction
-  | LoginSuccessAction
-  | InitialFetchCompleteAction
-  | LogoutAction
-  | SwitchNarrowAction;
-
 export type AddToOutboxActionCreator = (narrow: Narrow, content: string) => void;
 
 export type DeleteOutboxMessageAction = {
@@ -445,17 +417,6 @@ export type ToggleOutboxSendingAction = {
 };
 
 export type ToggleOutboxSendingActionCreator = (sending: boolean) => ToggleOutboxSendingAction;
-
-export type OutboxAction =
-  | MessageSendStartAction
-  | MessageSendCompleteAction
-  | DeleteOutboxMessageAction;
-
-export type MuteAction =
-  | AppRefreshAction
-  | AccountSwitchAction
-  | RealmInitAction
-  | EventMutedTopicsAction;
 
 export type StartTypingAction = {
   type: 'EVENT_TYPING_START',
@@ -508,12 +469,6 @@ export type DoTogglePinStreamActionCreator = (streamId: number, value: boolean) 
 
 export type DoToggleMuteStreamActionCreator = (streamId: number, value: boolean) => void;
 
-export type StreamAction =
-  | InitStreamsAction
-  | EventStreamRemoveAction
-  | EventStreamUpdateAction
-  | AccountSwitchAction;
-
 export type InitTopicsAction = {
   type: 'INIT_TOPICS',
   topics: Topic[],
@@ -540,13 +495,6 @@ export type InitSubscriptionsActionCreator = (
 export type FetchSubscriptionsActionCreator = () => void;
 export type ToggleStreamNotificationActionCreator = (streamId: number, value: boolean) => void;
 
-export type SubscriptionsAction =
-  | InitSubscriptionsAction
-  | RealmInitAction
-  | EventSubscriptionAddAction
-  | EventSubscriptionRemoveAction
-  | EventSubscriptionUpdateAction;
-
 export type SendFocusPingActionCreator = (hasFocus?: boolean, newUserInput?: boolean) => void;
 
 export type InitUsersAction = {
@@ -560,7 +508,19 @@ export type FetchUsersActionCreator = () => void;
 
 export type SendTypingEventActionCreator = (narrow: Narrow) => void;
 
-export type UsersAction = InitUsersAction | RealmInitAction | EventUserAddAction;
+export type AccountAction =
+  | AccountSwitchAction
+  | RealmAddAction
+  | AccountRemoveAction
+  | LoginSuccessAction
+  | LogoutAction;
+
+export type CaughtUpAction =
+  | AppRefreshAction
+  | LogoutAction
+  | LoginSuccessAction
+  | AccountSwitchAction
+  | MessageFetchCompleteAction;
 
 export type LoadingAction =
   | AppRefreshAction
@@ -571,19 +531,32 @@ export type LoadingAction =
   | InitStreamsAction
   | InitSubscriptionsAction;
 
-export type CaughtUpAction =
-  | AppRefreshAction
-  | LogoutAction
-  | LoginSuccessAction
-  | AccountSwitchAction
-  | MessageFetchCompleteAction;
-
-export type UnreadAction =
-  | RealmInitAction
+export type MessageAction =
+  | MessageFetchCompleteAction
+  | EventReactionAddAction
+  | EventReactionRemoveAction
   | EventNewMessageAction
-  | MarkMessagesReadAction
   | EventMessageDeleteAction
-  | EventUpdateMessageFlagsAction;
+  | EventUpdateMessageAction;
+
+export type MuteAction =
+  | AppRefreshAction
+  | AccountSwitchAction
+  | RealmInitAction
+  | EventMutedTopicsAction;
+
+export type NavAction =
+  | RehydrateAction
+  | AccountSwitchAction
+  | LoginSuccessAction
+  | InitialFetchCompleteAction
+  | LogoutAction
+  | SwitchNarrowAction;
+
+export type OutboxAction =
+  | MessageSendStartAction
+  | MessageSendCompleteAction
+  | DeleteOutboxMessageAction;
 
 export type SessionAction =
   | RehydrateAction
@@ -601,20 +574,47 @@ export type SessionAction =
   | ToggleOutboxSendingAction
   | InitialFetchCompleteAction;
 
-export type Action = any;
-/*  | AppOnlineAction
-  | AppRefreshAction
-  | InitSafeAreaInsetsAction
-  | AppOrientationAction
-  | StartEditMessageAction
-  | CancelEditMessageAction
-  | DebugFlagToggleAction
-  | NavigateAction
-  | AccountSwitchAction
-  | RealmAddAction
-  | AccountRemoveAction
-  | LoginSuccessAction
-  | LogoutAction; */
+export type SettingsAction =
+  | RealmInitAction
+  | SettingsChangeAction
+  | EventUpdateGlobalNotificationsSettingsAction;
+
+export type StreamAction =
+  | InitStreamsAction
+  | EventStreamRemoveAction
+  | EventStreamUpdateAction
+  | AccountSwitchAction;
+
+export type SubscriptionsAction =
+  | InitSubscriptionsAction
+  | RealmInitAction
+  | EventSubscriptionAddAction
+  | EventSubscriptionRemoveAction
+  | EventSubscriptionUpdateAction;
+
+export type UnreadAction =
+  | RealmInitAction
+  | EventNewMessageAction
+  | MarkMessagesReadAction
+  | EventMessageDeleteAction
+  | EventUpdateMessageFlagsAction;
+
+export type UsersAction = InitUsersAction | RealmInitAction | EventUserAddAction;
+
+export type Action =
+  | AccountAction
+  | CaughtUpAction
+  | LoadingAction
+  | MessageAction
+  | MuteAction
+  | NavAction
+  | OutboxAction
+  | SessionAction
+  | SettingsAction
+  | StreamAction
+  | SubscriptionsAction
+  | UnreadAction
+  | UsersAction;
 
 export type Actions = {
   // sessionActions

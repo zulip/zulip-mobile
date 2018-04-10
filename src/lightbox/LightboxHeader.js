@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import type { Action, Style } from '../types';
+import type { Style } from '../types';
 import { Avatar, Touchable } from '../common';
 import Icon from '../common/Icons';
 
@@ -48,7 +48,7 @@ type Props = {
   style: Style,
   avatarUrl: string,
   realm: string,
-  onPressBack: () => Action,
+  onPressBack: () => void,
 };
 
 export default class LightboxHeader extends PureComponent<Props> {
