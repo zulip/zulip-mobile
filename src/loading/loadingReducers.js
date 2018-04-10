@@ -1,5 +1,13 @@
 /* @flow */
-import type { Action, LoadingState } from '../types';
+import type {
+  LoadingState,
+  LoadingAction,
+  InitialFetchStartAction,
+  InitialFetchCompleteAction,
+  InitUsersAction,
+  InitStreamsAction,
+  InitSubscriptionsAction,
+} from '../types';
 import {
   APP_REFRESH,
   ACCOUNT_SWITCH,
@@ -18,47 +26,60 @@ const initialState: LoadingState = {
   users: false,
 };
 
-export default (state: LoadingState = initialState, action: Action): LoadingState => {
+const initialFetchStart = (state: LoadingState, action: InitialFetchStartAction): LoadingState => ({
+  ...state,
+  presence: true,
+  subscriptions: true,
+  unread: true,
+  users: true,
+});
+
+const initialFetchComplete = (
+  state: LoadingState,
+  action: InitialFetchCompleteAction,
+): LoadingState => ({
+  ...state,
+  presence: false,
+  subscriptions: false,
+  unread: false,
+  users: false,
+});
+
+const initUsers = (state: LoadingState, action: InitUsersAction): LoadingState => ({
+  ...state,
+  users: false,
+});
+
+const initStreams = (state: LoadingState, action: InitStreamsAction): LoadingState => ({
+  ...state,
+  streams: false,
+});
+
+const initSubscriptions = (state: LoadingState, action: InitSubscriptionsAction): LoadingState => ({
+  ...state,
+  subscriptions: false,
+});
+
+export default (state: LoadingState = initialState, action: LoadingAction): LoadingState => {
   switch (action.type) {
     case APP_REFRESH:
     case ACCOUNT_SWITCH:
       return initialState;
 
     case INITIAL_FETCH_START:
-      return {
-        ...state,
-        presence: true,
-        subscriptions: true,
-        unread: true,
-        users: true,
-      };
+      return initialFetchStart(state, action);
 
     case INITIAL_FETCH_COMPLETE:
-      return {
-        ...state,
-        presence: false,
-        subscriptions: false,
-        unread: false,
-        users: false,
-      };
+      return initialFetchComplete(state, action);
 
     case INIT_USERS:
-      return {
-        ...state,
-        users: false,
-      };
+      return initUsers(state, action);
 
     case INIT_STREAMS:
-      return {
-        ...state,
-        streams: false,
-      };
+      return initStreams(state, action);
 
     case INIT_SUBSCRIPTIONS:
-      return {
-        ...state,
-        subscriptions: false,
-      };
+      return initSubscriptions(state, action);
 
     default:
       return state;

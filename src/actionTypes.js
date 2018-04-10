@@ -494,6 +494,15 @@ export type SendTypingEventActionCreator = (narrow: Narrow) => void;
 
 export type UsersAction = InitUsersAction | RealmInitAction | EventUserAddAction;
 
+export type LoadingAction =
+  | AppRefreshAction
+  | AccountSwitchAction
+  | InitialFetchStartAction
+  | InitialFetchCompleteAction
+  | InitUsersAction
+  | InitStreamsAction
+  | InitSubscriptionsAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction
