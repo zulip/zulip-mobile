@@ -423,6 +423,12 @@ export type OutboxAction =
   | MessageSendCompleteAction
   | DeleteOutboxMessageAction;
 
+export type MuteAction =
+  | AppRefreshAction
+  | AccountSwitchAction
+  | RealmInitAction
+  | EventMutedTopicsAction;
+
 export type StartTypingAction = {
   type: 'EVENT_TYPING_START',
   time: number,
