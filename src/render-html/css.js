@@ -315,6 +315,7 @@ ul {
   padding: 4px;
   border-radius: 4px;
   border: 1px solid rgba(127, 127, 127, 0.75);
+  line-height: 1.25em;
 }
 .reaction + .reaction {
   margin-left: 0.5em;
@@ -323,9 +324,9 @@ ul {
   pointer-events: none;
   cursor: default;
   height: "auto";
-  width: 1em;
-  max-height: 1em;
-  vertical-align: middle;
+  width: 1.25em;
+  max-height: 1.25em;
+  vertical-align: top;
 }
 .self-voted {
   color: ${BRAND_COLOR};
