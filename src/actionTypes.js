@@ -8,6 +8,7 @@ import type {
   ServerSettings,
   User,
   InitialRealmData,
+  RealmFilter,
   Stream,
   Subscription,
   TopicDetails,
@@ -163,8 +164,6 @@ export type SaveTokenPushActionCreator = (
 
 export type InitNotificationsActionCreator = () => void;
 
-export type RealmAction = RealmInitAction | DeleteTokenPushAction | SaveTokenPushAction;
-
 export type MessageFetchStartAction = {
   type: 'MESSAGE_FETCH_START',
   narrow: Narrow,
@@ -298,6 +297,32 @@ export type EventReactionAction = EventReactionAddAction | EventReactionRemoveAc
 export type EventTypingAction = EventTypingStartAction | EventTypingStopAction;
 
 export type EventAction = EventSubscriptionAction | EventUserAction;
+
+export type InitRealmEmojiAction = {
+  type: 'INIT_REALM_EMOJI',
+  emojis: Object,
+};
+
+export type InitRealmEmojiActionCreator = (emojis: Object) => InitRealmEmojiAction;
+
+export type InitRealmFilterAction = {
+  type: 'INIT_REALM_FILTER',
+  filters: RealmFilter[],
+};
+
+export type InitRealmFiltersActionCreator = (filters: RealmFilter[]) => InitRealmFilterAction;
+
+export type RealmAction =
+  | AppRefreshAction
+  | RealmInitAction
+  | DeleteTokenPushAction
+  | SaveTokenPushAction
+  | LoginSuccessAction
+  | LogoutAction
+  | InitRealmEmojiAction
+  | InitRealmFilterAction
+  | EventRealmFilterUpdateAction
+  | EventRealmEmojiUpdateAction;
 
 export type ResponseToActionsActionCreator = (
   state: GlobalState,
@@ -610,7 +635,11 @@ export type Actions = any; /* {
   addToOutbox: AddToOutboxActionCreator,
   deleteOutboxMessage: DeleteOutboxMessageActionCreator,
 
-  // SettingsAction
+  // realmActions
+  initRealmEmoji: InitRealmEmojiActionCreator,
+  initRealmFilters: InitRealmFiltersActionCreator,
+
+  // settingsActions
   settingsChange: SettingsChangeActionCreator,
 
   // streamActions
