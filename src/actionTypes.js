@@ -558,6 +558,13 @@ export type CaughtUpAction =
   | AccountSwitchAction
   | MessageFetchCompleteAction;
 
+export type UnreadAction =
+  | RealmInitAction
+  | EventNewMessageAction
+  | MarkMessagesReadAction
+  | EventMessageDeleteAction
+  | EventUpdateMessageFlagsAction;
+
 export type Action = any;
 /*  | AppOnlineAction
   | AppOnlineAction

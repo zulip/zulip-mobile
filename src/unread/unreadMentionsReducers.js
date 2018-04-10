@@ -1,5 +1,13 @@
 /* @flow */
-import type { Action, UnreadMentionsState } from '../types';
+import type {
+  UnreadMentionsState,
+  UnreadAction,
+  RealmInitAction,
+  EventNewMessageAction,
+  MarkMessagesReadAction,
+  EventMessageDeleteAction,
+  EventUpdateMessageFlagsAction,
+} from '../types';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -13,42 +21,70 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UnreadMentionsState = NULL_ARRAY;
 
-export default (state: UnreadMentionsState = initialState, action: Action): UnreadMentionsState => {
-  switch (action.type) {
-    case REALM_INIT:
-      return (action.data.unread_msgs && action.data.unread_msgs.mentions) || NULL_ARRAY;
+const realmInit = (state: UnreadMentionsState, action: RealmInitAction): UnreadMentionsState =>
+  (action.data.unread_msgs && action.data.unread_msgs.mentions) || NULL_ARRAY;
 
+const eventNewMessage = (
+  state: UnreadMentionsState,
+  action: EventNewMessageAction,
+): UnreadMentionsState =>
+  action.message.is_mentioned && !state.includes(action.message.id)
+    ? addItemsToArray(state, [action.message.id])
+    : state;
+
+const markMessagesRead = (
+  state: UnreadMentionsState,
+  action: MarkMessagesReadAction,
+): UnreadMentionsState => removeItemsFromArray(state, action.messageIds);
+
+const eventMessageDelete = (
+  state: UnreadMentionsState,
+  action: EventMessageDeleteAction,
+): UnreadMentionsState => removeItemsFromArray(state, [action.messageId]);
+
+const eventUpdateMessageFlags = (
+  state: UnreadMentionsState,
+  action: EventUpdateMessageFlagsAction,
+): UnreadMentionsState => {
+  if (action.flag !== 'read') {
+    return state;
+  }
+
+  if (action.all) {
+    return initialState;
+  }
+
+  if (action.operation === 'add') {
+    return removeItemsFromArray(state, action.messages);
+  } else if (action.operation === 'remove') {
+    // we do not support that operation
+  }
+
+  return state;
+};
+
+export default (
+  state: UnreadMentionsState = initialState,
+  action: UnreadAction,
+): UnreadMentionsState => {
+  switch (action.type) {
     case ACCOUNT_SWITCH:
       return initialState;
 
+    case REALM_INIT:
+      return realmInit(state, action);
+
     case EVENT_NEW_MESSAGE:
-      return action.message.is_mentioned && !state.includes(action.message.id)
-        ? addItemsToArray(state, [action.message.id])
-        : state;
+      return eventNewMessage(state, action);
 
     case MARK_MESSAGES_READ:
-      return removeItemsFromArray(state, action.messageIds);
+      return markMessagesRead(state, action);
 
     case EVENT_MESSAGE_DELETE:
-      return removeItemsFromArray(state, [action.messageId]);
+      return eventMessageDelete(state, action);
 
-    case EVENT_UPDATE_MESSAGE_FLAGS: {
-      if (action.flag !== 'read') {
-        return state;
-      }
-
-      if (action.all) {
-        return initialState;
-      }
-
-      if (action.operation === 'add') {
-        return removeItemsFromArray(state, action.messages);
-      } else if (action.operation === 'remove') {
-        // we do not support that operation
-      }
-
-      return state;
-    }
+    case EVENT_UPDATE_MESSAGE_FLAGS:
+      return eventUpdateMessageFlags(state, action);
 
     default:
       return state;

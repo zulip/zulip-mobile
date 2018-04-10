@@ -1,5 +1,13 @@
 /* @flow */
-import type { Action, UnreadPmsState } from '../types';
+import type {
+  UnreadPmsState,
+  UnreadAction,
+  RealmInitAction,
+  EventNewMessageAction,
+  MarkMessagesReadAction,
+  EventMessageDeleteAction,
+  EventUpdateMessageFlagsAction,
+} from '../types';
 import {
   REALM_INIT,
   ACCOUNT_SWITCH,
@@ -13,53 +21,73 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UnreadPmsState = NULL_ARRAY;
 
-export default (state: UnreadPmsState = initialState, action: Action): UnreadPmsState => {
-  switch (action.type) {
-    case REALM_INIT:
-      return (action.data.unread_msgs && action.data.unread_msgs.pms) || NULL_ARRAY;
+const realmInit = (state: UnreadPmsState, action: RealmInitAction): UnreadPmsState =>
+  (action.data.unread_msgs && action.data.unread_msgs.pms) || NULL_ARRAY;
 
+const eventNewMessage = (state: UnreadPmsState, action: EventNewMessageAction): UnreadPmsState => {
+  if (action.message.type !== 'private') {
+    return state;
+  }
+
+  if (action.message.display_recipient.length !== 2) {
+    return state;
+  }
+
+  if (action.ownEmail && action.ownEmail === action.message.sender_email) {
+    return state;
+  }
+
+  return addItemsToPmArray(state, [action.message.id], action.message.sender_id);
+};
+
+const markMessagesRead = (state: UnreadPmsState, action: MarkMessagesReadAction): UnreadPmsState =>
+  removeItemsDeeply(state, action.messageIds);
+
+const eventMessageDelete = (
+  state: UnreadPmsState,
+  action: EventMessageDeleteAction,
+): UnreadPmsState => removeItemsDeeply(state, [action.messageId]);
+
+const eventUpdateMessageFlags = (
+  state: UnreadPmsState,
+  action: EventUpdateMessageFlagsAction,
+): UnreadPmsState => {
+  if (action.flag !== 'read') {
+    return state;
+  }
+
+  if (action.all) {
+    return initialState;
+  }
+
+  if (action.operation === 'add') {
+    return removeItemsDeeply(state, action.messages);
+  } else if (action.operation === 'remove') {
+    // we do not support that operation
+  }
+
+  return state;
+};
+
+export default (state: UnreadPmsState = initialState, action: UnreadAction): UnreadPmsState => {
+  switch (action.type) {
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case EVENT_NEW_MESSAGE: {
-      if (action.message.type !== 'private') {
-        return state;
-      }
+    case REALM_INIT:
+      return realmInit(state, action);
 
-      if (action.message.display_recipient.length !== 2) {
-        return state;
-      }
-
-      if (action.ownEmail && action.ownEmail === action.message.sender_email) {
-        return state;
-      }
-
-      return addItemsToPmArray(state, [action.message.id], action.message.sender_id);
-    }
+    case EVENT_NEW_MESSAGE:
+      return eventNewMessage(state, action);
 
     case MARK_MESSAGES_READ:
-      return removeItemsDeeply(state, action.messageIds);
+      return markMessagesRead(state, action);
 
     case EVENT_MESSAGE_DELETE:
-      return removeItemsDeeply(state, [action.messageId]);
+      return eventMessageDelete(state, action);
 
-    case EVENT_UPDATE_MESSAGE_FLAGS: {
-      if (action.flag !== 'read') {
-        return state;
-      }
-
-      if (action.all) {
-        return initialState;
-      }
-
-      if (action.operation === 'add') {
-        return removeItemsDeeply(state, action.messages);
-      } else if (action.operation === 'remove') {
-        // we do not support that operation
-      }
-
-      return state;
-    }
+    case EVENT_UPDATE_MESSAGE_FLAGS:
+      return eventUpdateMessageFlags(state, action);
 
     default:
       return state;
