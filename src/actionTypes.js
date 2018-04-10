@@ -325,6 +325,8 @@ export type RealmAction =
   | EventRealmFilterUpdateAction
   | EventRealmEmojiUpdateAction;
 
+export type AlertWordsAction = RealmInitAction | EventAlertWordsAction;
+
 export type ResponseToActionsActionCreator = (
   state: GlobalState,
   response: Object,

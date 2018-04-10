@@ -1,25 +1,31 @@
 /* @flow */
-import type { RealmState, Action } from '../types';
+import type {
+  AlertWordsState,
+  AlertWordsAction,
+  RealmInitAction,
+  EventAlertWordsAction,
+} from '../types';
 import { REALM_INIT, INIT_ALERT_WORDS } from '../actionConstants';
+import { NULL_ARRAY } from '../nullObjects';
 
-const initialState = {
-  twentyFourHourTime: false,
-  pushToken: {
-    token: '',
-    msg: '',
-    result: '',
-  },
-  filters: [],
-  emoji: {},
-};
+const initialState = NULL_ARRAY;
 
-export default (state: RealmState = initialState, action: Action): RealmState => {
+const realmInit = (state: AlertWordsState, action: RealmInitAction): AlertWordsState =>
+  action.data.alert_words || state;
+
+const initAlertWords = (state: AlertWordsState, action: EventAlertWordsAction): AlertWordsState =>
+  action.alertWords || state;
+
+export default (
+  state: AlertWordsState = initialState,
+  action: AlertWordsAction,
+): AlertWordsState => {
   switch (action.type) {
     case REALM_INIT:
-      return action.data.alert_words || state;
+      return realmInit(state, action);
 
     case INIT_ALERT_WORDS:
-      return action.alertWords || state;
+      return initAlertWords(state, action);
 
     default:
       return state;
