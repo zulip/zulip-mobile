@@ -221,7 +221,9 @@ export default class ComposeBox extends PureComponent<Props, State> {
         message: nextProps.editMessage ? nextProps.editMessage.content : '',
         topic,
       });
-      this.messageInput.focus();
+      if (this.messageInput) {
+        this.messageInput.focus();
+      }
     } else if (!isEqual(nextProps.narrow, this.props.narrow)) {
       this.tryUpdateDraft();
 
@@ -307,8 +309,10 @@ export default class ComposeBox extends PureComponent<Props, State> {
               maxHeight={MAX_HEIGHT}
               placeholder={placeholder}
               textInputRef={component => {
-                this.messageInput = component;
-                if (component) messageInputRef(component);
+                if (component) {
+                  this.messageInput = component;
+                  messageInputRef(component);
+                }
               }}
               value={message}
               onBlur={this.handleMessageBlur}
