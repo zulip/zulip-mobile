@@ -7,6 +7,7 @@ import {
   isGroupNarrow,
   specialNarrow,
   isSpecialNarrow,
+  allPrivateNarrow,
   streamNarrow,
   isStreamNarrow,
   topicNarrow,
@@ -273,9 +274,7 @@ describe('isMessageInNarrow', () => {
       type: 'private',
       display_recipient: [{ email: 'me@example.com' }, { email: 'john@example.com' }],
     };
-    const narrow = specialNarrow('private', 'some topic');
-
-    expect(isMessageInNarrow(message, narrow)).toBe(true);
+    expect(isMessageInNarrow(message, allPrivateNarrow)).toBe(true);
   });
 
   test('message with type "stream" is in narrow if recipient and current stream match', () => {
