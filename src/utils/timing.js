@@ -1,8 +1,8 @@
 /* @flow */
 import type { TimingItem } from '../types';
 
-const timingMap: Object = {};
-const countMap: Object = {};
+const timingMap : { [string]: number } = {};
+const countMap : { [string]: number } = {};
 const log: TimingItem[] = [];
 
 const now: () => number = () =>
@@ -12,11 +12,11 @@ const add = (item: TimingItem): void => {
   log.push(item);
 };
 
-const start: (key: string) => void = (key: string): void => {
+const start = (key: string): void => {
   timingMap[key] = now();
 };
 
-const startGroup: (key: string) => void = (key: string): void => {
+const startGroup = (key: string): void => {
   timingMap[key] = now();
   if (countMap[key]) {
     countMap[key]++;
@@ -25,7 +25,7 @@ const startGroup: (key: string) => void = (key: string): void => {
   }
 };
 
-const end: (key: string) => void = (key: string): void => {
+const end = (key: string): void => {
   if (timingMap[key]) {
     add({
       text: key,
@@ -41,7 +41,7 @@ const end: (key: string) => void = (key: string): void => {
   }
 };
 
-const endGroup: (key: string) => void = (key: string) : void => {
+const endGroup = (key: string): void => {
   if (countMap[key] % 10 === 0) {
     end(key);
   }
