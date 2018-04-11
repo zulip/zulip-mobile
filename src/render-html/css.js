@@ -253,9 +253,8 @@ hr {
 .message_inline_image img,
 .twitter-image img {
   width: 100%;
-  max-height: 40vh;
-  object-fit: cover;
-  border-radius: 4px;
+  height: 30vh;
+  object-fit: contain;
 }
 blockquote {
   padding-left: 0.5em;
