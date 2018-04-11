@@ -114,8 +114,9 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
   link: {
     marginTop: 10,
     fontSize: 15,
+    padding: 5,
     color: BRAND_COLOR,
-    textAlign: 'right',
+    textAlign: 'center',
   },
   optionRow: {
     flexDirection: 'row',
