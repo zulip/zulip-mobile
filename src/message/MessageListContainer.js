@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
-
+import { Clipboard } from 'react-native';
 import type {
   Actions,
   Auth,
@@ -39,6 +39,7 @@ import { isUrlAnImage } from '../utils/url';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { queueMarkAsRead } from '../api';
 import * as LightboxActionSheet from './../lightbox/LightboxActionSheet';
+import { showToast } from '../utils/info';
 
 export type Props = {
   actions: Actions,
@@ -128,8 +129,8 @@ class MessageListContainer extends PureComponent<Props> {
       );
       return;
     }
-    console.log(src);
-    // action sheet for url
+    Clipboard.setString(src);
+    showToast('Copied URL to Clipboard');
   }
 
   handleMessageListScroll = (e: Object) => {
