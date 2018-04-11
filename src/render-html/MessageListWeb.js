@@ -35,11 +35,10 @@ export default class MessageListWeb extends Component<Props> {
     webViewEventHandlers[handler](this.props, eventData); // $FlowFixMe
   };
 
-  componentWillReceiveProps = (nextProps: Props) => {
+  shouldComponentUpdate = (nextProps: Props) => {
     webViewHandleUpdates(this.props, nextProps, this.sendMessage);
+    return false;
   };
-
-  shouldComponentUpdate = () => false;
 
   render() {
     const { styles, theme } = this.context;
