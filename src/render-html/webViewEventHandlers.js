@@ -56,6 +56,7 @@ type Props = {
   messages: Message[],
   narrow: Narrow,
   onLongPress: (messageId: number, target: string) => void,
+  onUrlLongPress: (href: string) => void,
 };
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
@@ -115,6 +116,10 @@ export const handleUrl = (props: Props, event: MessageListEventUrl) => {
   }
 
   actions.messageLinkPress(event.href);
+};
+
+export const handleUrlLongPress = (props: Props, event: MessageListEventUrl) => {
+  props.onUrlLongPress(event.href);
 };
 
 export const handleReaction = (props: Props, event: MessageListEventReaction) => {

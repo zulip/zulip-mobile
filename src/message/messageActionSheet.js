@@ -165,6 +165,10 @@ const shareMessage = ({ message }) => {
   });
 };
 
+const openUrl = ({ message }) => {
+  console.log(message.content);
+};
+
 const skip = () => false;
 
 type HeaderButtonType = {

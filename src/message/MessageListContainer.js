@@ -35,6 +35,7 @@ import {
   getShowMessagePlaceholders,
   getShownMessagesForNarrow,
 } from '../selectors';
+import { isUrlAnImage } from '../utils/url';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { queueMarkAsRead } from '../api';
 
@@ -56,6 +57,7 @@ export type Props = {
   subscriptions: Subscription[],
   typingUsers: User[],
   listRef: (component: any) => void,
+  onUrlLongPress: (src: string) => void,
   onLongPress: (messageId: number, target: string) => void,
   onReplySelect: () => void,
   onScroll: (e: Event) => void,
@@ -105,6 +107,14 @@ class MessageListContainer extends PureComponent<Props> {
     );
   };
 
+  handleUrlLongPress = (src: string) => {
+    if (isUrlAnImage(src)) {
+      // here is the action sheet for image from lightbox
+      return;
+    }
+    // action sheet for url
+  }
+
   handleMessageListScroll = (e: Object) => {
     const { auth, debug, flags } = this.props;
     const visibleMessageIds = e.visibleIds ? e.visibleIds.map(x => +x) : [];
@@ -119,6 +129,7 @@ class MessageListContainer extends PureComponent<Props> {
     return (
       <MessageListWeb
         {...this.props}
+        onUrlLongPress={this.handleUrlLongPress}
         onLongPress={this.handleLongPress}
         onScroll={this.handleMessageListScroll}
       />

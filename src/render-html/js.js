@@ -180,7 +180,22 @@ const handleLongPress = e => {
   if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
 
   lastTouchEventTimestamp = 0;
-
+  if (e.target.matches('a')) {
+    sendMessage({
+      type: 'urlLongPress',
+      href: e.target.getAttribute('href'),
+      messageId: +getMessageIdFromNode(e.target),
+    });
+    return;
+  }
+  if (e.target.parentNode.matches('a')) {
+    sendMessage({
+      type: 'urlLongPress',
+      href: e.target.parentNode.getAttribute('href'),
+      messageId: +getMessageIdFromNode(e.target.parentNode),
+    });
+    return;
+  }
   sendMessage({
     type: 'longPress',
     target: e.target.matches('.header') ? 'header' : 'message',
