@@ -1,6 +1,5 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
 
 import type { Auth, Actions } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -8,13 +7,6 @@ import { ZulipButton } from '../common';
 import { getAuth, getAccounts, getPushToken } from '../selectors';
 import { unregisterPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
-
-const styles = StyleSheet.create({
-  button: {
-    flex: 1,
-    margin: 8,
-  },
-});
 
 type Props = {
   auth: Auth,
@@ -24,6 +16,9 @@ type Props = {
 
 class SwitchAccountButton extends PureComponent<Props> {
   props: Props;
+  static contextTypes = {
+    styles: () => null,
+  };
 
   shutdownPUSH = async () => {
     const { auth, actions, pushToken } = this.props;
@@ -43,6 +38,7 @@ class SwitchAccountButton extends PureComponent<Props> {
   };
 
   render() {
+    const { styles } = this.context;
     return (
       <ZulipButton style={styles.button} secondary text="Switch" onPress={this.switchAccount} />
     );

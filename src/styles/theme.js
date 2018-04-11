@@ -39,6 +39,10 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     padding: 0,
     fontSize: 20,
   },
+  button: {
+    flex: 1,
+    margin: 8,
+  },
   realmPlaceholder: {
     opacity: 0.75,
   },
