@@ -178,14 +178,24 @@ const handleMessageTyping = msg => {
 
 const handleLongPress = e => {
   if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
-
   lastTouchEventTimestamp = 0;
-
   sendMessage({
     type: 'longPress',
     target: e.target.matches('.header') ? 'header' : 'message',
     messageId: +getMessageIdFromNode(e.target),
   });
+};
+
+const handleImageLongPress = e => {
+  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
+  if (e.target.matches('a[target="_blank"] > img')) {
+    lastTouchEventTimestamp = 0;
+    sendMessage({
+      type: 'imageLongPress',
+      src: e.target.parentNode.getAttribute('href'),
+      messageId: +getMessageIdFromNode(e.target),
+    });
+  }
 };
 
 const messageHandlers = {
@@ -275,7 +285,7 @@ documentBody.addEventListener('touchstart', e => {
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;
   lastTouchEventTimestamp = Date.now();
-  setTimeout(() => handleLongPress(e), 500);
+  setTimeout(() => { handleImageLongPress(e); handleLongPress(e); }, 500);
 });
 
 documentBody.addEventListener('touchend', e => {

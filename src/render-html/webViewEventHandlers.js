@@ -46,6 +46,10 @@ type MessageListEventLongPress = {
   messageId: number,
 };
 
+type MessageListEventImageLongPress = {
+  src: string,
+};
+
 type MessageListEventDebug = Object;
 
 type Props = {
@@ -56,6 +60,7 @@ type Props = {
   messages: Message[],
   narrow: Narrow,
   onLongPress: (messageId: number, target: string) => void,
+  onImageLongPress: (src: string) => void,
 };
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
@@ -103,6 +108,10 @@ export const handleImage = (props: Props, event: MessageListEventImage) => {
 export const handleLongPress = (props: Props, event: MessageListEventLongPress) => {
   const { messageId, target } = event;
   props.onLongPress(messageId, target);
+};
+
+export const handleImageLongPress = (props: Props, event: MessageListEventImageLongPress) => {
+  props.onImageLongPress(event.src);
 };
 
 export const handleUrl = (props: Props, event: MessageListEventUrl) => {

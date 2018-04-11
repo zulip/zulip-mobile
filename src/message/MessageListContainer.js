@@ -37,6 +37,7 @@ import {
 } from '../selectors';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { queueMarkAsRead } from '../api';
+import * as LightboxActionSheet from './../lightbox/LightboxActionSheet';
 
 export type Props = {
   actions: Actions,
@@ -57,6 +58,7 @@ export type Props = {
   typingUsers: User[],
   listRef: (component: any) => void,
   onLongPress: (messageId: number, target: string) => void,
+  onImageLongPress: (src: string) => void,
   onReplySelect: () => void,
   onScroll: (e: Event) => void,
   onSend: () => void,
@@ -105,6 +107,25 @@ class MessageListContainer extends PureComponent<Props> {
     );
   };
 
+  handleImageLongPress = (src: string) => {
+    const options = LightboxActionSheet.constructActionSheetButtons();
+    const cancelButtonIndex = options.length - 1;
+    const { showActionSheetWithOptions, auth } = this.props;
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+      },
+      buttonIndex => {
+        LightboxActionSheet.executeActionSheetAction({
+          title: options[buttonIndex],
+          src,
+          auth,
+        });
+      },
+    );
+  }
+
   handleMessageListScroll = (e: Object) => {
     const { auth, debug, flags } = this.props;
     const visibleMessageIds = e.visibleIds ? e.visibleIds.map(x => +x) : [];
@@ -119,6 +140,7 @@ class MessageListContainer extends PureComponent<Props> {
     return (
       <MessageListWeb
         {...this.props}
+        onImageLongPress={this.handleImageLongPress}
         onLongPress={this.handleLongPress}
         onScroll={this.handleMessageListScroll}
       />
