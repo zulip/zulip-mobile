@@ -103,6 +103,7 @@ class MessageListContainer extends PureComponent<Props> {
   };
 
   render() {
+    console.log('!?!?! MessageListContainer.render');
     return <MessageListWeb {...this.props} onLongPress={this.handleLongPress} />;
   }
 }

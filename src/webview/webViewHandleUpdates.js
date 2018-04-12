@@ -58,6 +58,19 @@ const updateTyping = (prevProps: Props, nextProps: Props): MessageInputTyping =>
 });
 
 export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInputMessage[] => {
+  console.log(
+    '!!! getInputMessages => renderedMessages',
+    prevProps.renderedMessages[0].data,
+    nextProps.renderedMessages[0].data,
+  );
+  console.log(
+    '!!! DIFFS',
+    !isEqual(prevProps.renderedMessages, nextProps.renderedMessages),
+    !isEqual(prevProps.fetching, nextProps.fetching) ||
+      prevProps.showMessagePlaceholders !== nextProps.showMessagePlaceholders,
+    !isEqual(prevProps.typingUsers, nextProps.typingUsers),
+  );
+
   if (!isEqual(prevProps.renderedMessages, nextProps.renderedMessages)) {
     return [updateContent(prevProps, nextProps)];
   }
