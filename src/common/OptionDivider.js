@@ -1,11 +1,17 @@
 /* @flow */
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { PureComponent } from 'react';
+import { View } from 'react-native';
 
-const styles = StyleSheet.create({
-  divider: {
-    height: 16,
-  },
-});
+export default class OptionDivider extends PureComponent<{}> {
+  static contextTypes = {
+    styles: () => null,
+  };
 
-export default () => <View style={styles.divider} />;
+  render() {
+    const { styles } = this.context;
+
+    return (
+      <View style={styles.divider} />
+    );
+  }
+}

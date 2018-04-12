@@ -7,9 +7,10 @@ type Props = {
   backgroundColor: string,
   borderColor: string,
   cardColor: string,
+  dividerColor: string,
 };
 
-export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
+export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }: Props) => ({
   text: {
     fontSize: 16,
   },
@@ -122,11 +123,15 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     justifyContent: 'flex-start',
     alignItems: 'center',
     padding: 8,
-    backgroundColor: 'rgba(127, 127, 127, 0.1)',
+    backgroundColor,
   },
   optionTitle: {
     padding: 8,
     paddingLeft: 0,
+  },
+  divider: {
+    borderBottomWidth: 1,
+    borderBottomColor: dividerColor,
   },
   navigationCard: {
     backgroundColor,
