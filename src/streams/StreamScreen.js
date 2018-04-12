@@ -5,12 +5,13 @@ import { View } from 'react-native';
 import type { Actions, Stream, Subscription } from '../types';
 import connectWithActions from '../connectWithActions';
 import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
-import { getStreams, getSubscriptions } from '../selectors';
+import { getIsAdmin, getStreams, getSubscriptions } from '../selectors';
 import { NULL_STREAM, NULL_SUBSCRIPTION } from '../nullObjects';
 import StreamCard from './StreamCard';
 
 type Props = {
   actions: Actions,
+  isAdmin: boolean,
   navigation: Object,
   streams: Stream[],
   subscriptions: Subscription[],
@@ -53,7 +54,7 @@ class StreamScreen extends PureComponent<Props> {
   };
 
   render() {
-    const { streams, subscriptions, navigation } = this.props;
+    const { isAdmin, streams, subscriptions, navigation } = this.props;
     const { streamId } = navigation.state.params;
     const stream = streams.find(x => x.stream_id === streamId) || NULL_STREAM;
     const subscription = subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION;
@@ -81,7 +82,9 @@ class StreamScreen extends PureComponent<Props> {
         <OptionDivider />
         <View style={styles.padding}>
           <ZulipButton text="Topics" onPress={this.handleTopics} />
-          <ZulipButton style={styles.marginTop} text="Edit" onPress={this.handleEdit} />
+          {isAdmin && (
+            <ZulipButton style={styles.marginTop} text="Edit" onPress={this.handleEdit} />
+          )}
         </View>
       </Screen>
     );
@@ -89,6 +92,7 @@ class StreamScreen extends PureComponent<Props> {
 }
 
 export default connectWithActions(state => ({
+  isAdmin: getIsAdmin(state),
   streams: getStreams(state),
   subscriptions: getSubscriptions(state),
 }))(StreamScreen);
