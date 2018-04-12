@@ -112,9 +112,8 @@ export default ({ color, backgroundColor, borderColor, cardColor }: Props) => ({
     alignItems: 'stretch',
   },
   link: {
-    marginTop: 10,
     fontSize: 15,
-    padding: 5,
+    padding: 10,
     color: BRAND_COLOR,
     textAlign: 'center',
   },
