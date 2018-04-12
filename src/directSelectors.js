@@ -85,3 +85,5 @@ export const getRealmEmoji = (state: GlobalState): RealmEmojiState => state.real
 export const getNavigationRoutes = (state: GlobalState): Object[] => state.nav.routes;
 
 export const getNavigationIndex = (state: GlobalState): number => state.nav.index;
+
+export const getIsAdmin = (state: GlobalState): boolean => state.realm.isAdmin;
