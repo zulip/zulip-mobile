@@ -10,14 +10,28 @@ const documentBody = document.body;
 
 if (!documentBody) throw new Error('No document.body element!');
 
+const sendMessage = (msg: Object) => {
+  window.postMessage(JSON.stringify(msg), '*');
+};
+
+window.onerror = (message, source, line, column, error) => {
+  if (window.enableWebViewErrorDisplay) {
+    const elementJsError = document.getElementById('js-error');
+    if (elementJsError) {
+      elementJsError.innerHTML = [
+        `Message: ${message}<br>`,
+        `Line: ${line}:${column}<br>`,
+        `Error: ${JSON.stringify(error)}<br>`,
+      ].join('');
+    }
+  }
+  return false;
+};
+
 let scrollEventsDisabled = true;
 let lastTouchEventTimestamp = 0;
 let lastTouchPositionX = -1;
 let lastTouchPositionY = -1;
-
-const sendMessage = (msg: Object) => {
-  window.postMessage(JSON.stringify(msg), '*');
-};
 
 const toggleElementHidden = (elementId: string, hidden: boolean) => {
   const element = document.getElementById(elementId);

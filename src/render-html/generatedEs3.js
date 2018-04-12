@@ -14,14 +14,24 @@ var documentBody = document.body;
 
 if (!documentBody) throw new Error('No document.body element!');
 
+var sendMessage = function sendMessage(msg) {
+  window.postMessage(JSON.stringify(msg), '*');
+};
+
+window.onerror = function (message, source, line, column, error) {
+  if (window.enableWebViewErrorDisplay) {
+    var elementJsError = document.getElementById('js-error');
+    if (elementJsError) {
+      elementJsError.innerHTML = ['Message: ' + message + '<br>', 'Line: ' + line + ':' + column + '<br>', 'Error: ' + JSON.stringify(error) + '<br>'].join('');
+    }
+  }
+  return false;
+};
+
 var scrollEventsDisabled = true;
 var lastTouchEventTimestamp = 0;
 var lastTouchPositionX = -1;
 var lastTouchPositionY = -1;
-
-var sendMessage = function sendMessage(msg) {
-  window.postMessage(JSON.stringify(msg), '*');
-};
 
 var toggleElementHidden = function toggleElementHidden(elementId, hidden) {
   var element = document.getElementById(elementId);
