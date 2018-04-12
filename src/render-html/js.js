@@ -1,4 +1,11 @@
 /* @flow */
+import type {
+  WebviewInputMessage,
+  MessageInputContent,
+  MessageInputFetching,
+  MessageInputTyping,
+} from './webViewHandleUpdates';
+
 const documentBody = document.body;
 
 if (!documentBody) throw new Error('No document.body element!');
@@ -153,7 +160,7 @@ const updateFunctions = {
   'scroll-to-bottom-if-near-bottom': updateContentAndScrollToBottomIfNearBottom,
 };
 
-const handleMessageContent = msg => {
+const handleMessageContent = (msg: MessageInputContent) => {
   scrollEventsDisabled = true;
   updateFunctions[msg.updateStrategy](msg);
   scrollEventsDisabled = false;
@@ -162,13 +169,13 @@ const handleMessageContent = msg => {
   }
 };
 
-const handleMessageFetching = msg => {
+const handleMessageFetching = (msg: MessageInputFetching) => {
   toggleElementHidden('message-loading', !msg.showMessagePlaceholders);
   toggleElementHidden('spinner-older', !msg.fetchingOlder);
   toggleElementHidden('spinner-newer', !msg.fetchingNewer);
 };
 
-const handleMessageTyping = msg => {
+const handleMessageTyping = (msg: MessageInputTyping) => {
   const elementTyping = document.getElementById('typing');
   if (elementTyping) {
     elementTyping.innerHTML = msg.content;
@@ -198,8 +205,11 @@ const messageHandlers = {
 // $FlowFixMe
 document.addEventListener('message', e => {
   // $FlowFixMe
-  const msg = JSON.parse(e.data);
-  messageHandlers[msg.type](msg);
+  const messages: WebviewInputMessage[] = JSON.parse(e.data);
+  messages.forEach((msg: WebviewInputMessage) => {
+    // $FlowFixMe
+    messageHandlers[msg.type](msg);
+  });
 });
 
 window.addEventListener('scroll', handleScrollEvent);

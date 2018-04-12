@@ -23,7 +23,7 @@ export default class MessageListWeb extends Component<Props> {
     console.error(event); // eslint-disable-line
   };
 
-  sendMessage = (msg: WebviewInputMessage): void => {
+  sendMessages = (msg: WebviewInputMessage[]): void => {
     if (this.webview) {
       this.webview.postMessage(JSON.stringify(msg), '*');
     }
@@ -37,7 +37,7 @@ export default class MessageListWeb extends Component<Props> {
   };
 
   shouldComponentUpdate = (nextProps: Props) => {
-    webViewHandleUpdates(this.props, nextProps, this.sendMessage);
+    webViewHandleUpdates(this.props, nextProps, this.sendMessages);
     return false;
   };
 
