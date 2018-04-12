@@ -39,7 +39,7 @@ const end = (key: string): void => {
       end: now(),
     });
   }
-};
+}
 
 const endGroup = (key: string): void => {
   if (countMap[key] % 10 === 0) {
