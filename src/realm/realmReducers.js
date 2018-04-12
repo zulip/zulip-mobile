@@ -34,6 +34,7 @@ const initialState = {
   pushToken: { token: '', result: '', msg: '' },
   emoji: {},
   filters: [],
+  isAdmin: false,
 };
 
 const realmInit = (state: RealmState, action: RealmInitAction): RealmState => ({
@@ -41,6 +42,7 @@ const realmInit = (state: RealmState, action: RealmInitAction): RealmState => ({
   canCreateStreams: action.data.can_create_streams,
   emoji: action.data.realm_emoji,
   filters: action.data.realm_filters,
+  isAdmin: action.data.is_admin,
   twentyFourHourTime: action.data.twenty_four_hour_time,
 });
 
