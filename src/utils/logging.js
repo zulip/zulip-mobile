@@ -6,7 +6,9 @@ export const logErrorRemotely = (e: Error, msg: string) => {
   if (config.enableSentry) {
     Sentry.captureException(e);
   }
-  if (config.enableErrorConsoleLogging) console.log(msg || '', e); // eslint-disable-line
+  if (config.enableErrorConsoleLogging) {
+    console.log(msg || '', e); // eslint-disable-line
+  }
 };
 
 export const logWarningToSentry = (msg: string) => {

@@ -4,6 +4,7 @@ import { WebView } from 'react-native';
 
 import type { Props } from '../message/MessageListContainer';
 import type { WebviewInputMessage } from './webViewHandleUpdates';
+import type { MessageListEvent } from './webViewEventHandlers';
 import { getAuthHeader } from '../utils/url';
 import getHtml from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
@@ -29,8 +30,8 @@ export default class MessageListWeb extends Component<Props> {
     }
   };
 
-  handleMessage = (event: Object) => {
-    const eventData = JSON.parse(event.nativeEvent.data);
+  handleMessage = (event: { nativeEvent: { data: string } }) => {
+    const eventData: MessageListEvent = JSON.parse(event.nativeEvent.data);
     const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
 
     webViewEventHandlers[handler](this.props, eventData); // $FlowFixMe

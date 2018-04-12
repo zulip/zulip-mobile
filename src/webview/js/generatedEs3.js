@@ -22,10 +22,22 @@ window.onerror = function (message, source, line, column, error) {
   if (window.enableWebViewErrorDisplay) {
     var elementJsError = document.getElementById('js-error');
     if (elementJsError) {
-      elementJsError.innerHTML = ['Message: ' + message + '<br>', 'Line: ' + line + ':' + column + '<br>', 'Error: ' + JSON.stringify(error) + '<br>'].join('');
+      elementJsError.innerHTML = ['Message: ' + message + '<br>', 'Source: ' + source + '<br>', 'Line: ' + line + ':' + column + '<br>', 'Error: ' + JSON.stringify(error) + '<br>'].join('');
     }
   }
-  return false;
+
+  sendMessage({
+    type: 'error',
+    details: {
+      message: message,
+      source: source,
+      line: line,
+      column: column,
+      error: error
+    }
+  });
+
+  return true;
 };
 
 var scrollEventsDisabled = true;

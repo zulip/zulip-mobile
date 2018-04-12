@@ -3,6 +3,7 @@ import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
 import type { Actions, Auth, FlagsState, Message, Narrow } from '../types';
 import { isUrlAnImage } from '../utils/url';
+import { logErrorRemotely } from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrowString } from '../utils/narrow';
 
@@ -57,6 +58,17 @@ type MessageListEventDebug = {
   type: 'debug',
 };
 
+type MessageListEventError = {
+  type: 'error',
+  details: {
+    message: string,
+    source: string,
+    line: number,
+    column: number,
+    error: Object,
+  },
+};
+
 export type MessageListEvent =
   | MessageListEventScroll
   | MessageListEventAvatar
@@ -65,7 +77,8 @@ export type MessageListEvent =
   | MessageListEventReaction
   | MessageListEventUrl
   | MessageListEventLongPress
-  | MessageListEventDebug;
+  | MessageListEventDebug
+  | MessageListEventError;
 
 type Props = {
   actions: Actions,
@@ -148,4 +161,8 @@ export const handleReaction = (props: Props, event: MessageListEventReaction) =>
 
 export const handleDebug = (props: Props, event: MessageListEventDebug) => {
   console.debug(props, event); // eslint-disable-line
+};
+
+export const handleError = (props: Props, event: MessageListEventError) => {
+  logErrorRemotely(new Error(event.details), 'WebView Exception');
 };
