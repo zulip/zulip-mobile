@@ -33,7 +33,7 @@ export default class EmojiRow extends Component<Props> {
     return (
       <Touchable onPress={onPress}>
         <View style={styles.emojiRow}>
-          {realmEmoji ? <RealmEmoji name={name} /> : <Emoji name={name} size={20} />}
+          {realmEmoji ? <RealmEmoji realmEmoji={realmEmoji} /> : <Emoji name={name} size={20} />}
           <RawLabel style={styles.text} text={name} />
         </View>
       </Touchable>

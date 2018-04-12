@@ -2,8 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Image } from 'react-native';
 
-import connectWithActions from '../connectWithActions';
-import { getActiveRealmEmoji } from '../selectors';
+import type { RealmEmojiType } from '../types';
 
 const styles = StyleSheet.create({
   image: {
@@ -13,22 +12,17 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  realmEmoji: {},
-  name: string,
+  realmEmoji: RealmEmojiType,
 };
 
-class RealmEmoji extends PureComponent<Props> {
+export default class RealmEmoji extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { name, realmEmoji } = this.props;
+    const { realmEmoji } = this.props;
 
-    if (!realmEmoji[name]) return null;
+    if (!realmEmoji) return null;
 
-    return <Image style={styles.image} source={{ uri: realmEmoji[name].source_url }} />;
+    return <Image style={styles.image} source={{ uri: realmEmoji.source_url }} />;
   }
 }
-
-export default connectWithActions(state => ({
-  realmEmoji: getActiveRealmEmoji(state),
-}))(RealmEmoji);

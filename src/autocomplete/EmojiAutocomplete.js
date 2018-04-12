@@ -6,12 +6,12 @@ import connectWithActions from '../connectWithActions';
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import getFilteredEmojiList from '../emoji/getFilteredEmojiList';
-import type { GlobalState, RealmEmojiType } from '../types';
+import type { GlobalState, RealmEmojiState } from '../types';
 import { getActiveRealmEmoji } from '../selectors';
 
 type Props = {
   filter: string,
-  realmEmoji: RealmEmojiType,
+  realmEmojiState: RealmEmojiState,
   onAutocomplete: (name: string) => void,
 };
 
@@ -19,8 +19,8 @@ class EmojiAutocomplete extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { filter, realmEmoji, onAutocomplete } = this.props;
-    const emojis = getFilteredEmojiList(filter, realmEmoji);
+    const { filter, realmEmojiState, onAutocomplete } = this.props;
+    const emojis = getFilteredEmojiList(filter, realmEmojiState);
 
     if (emojis.length === 0) return null;
 
@@ -33,7 +33,11 @@ class EmojiAutocomplete extends PureComponent<Props> {
           keyExtractor={item => item}
           renderItem={({ item }) => (
             <EmojiRow
-              realmEmoji={realmEmoji[item]}
+              realmEmoji={
+                realmEmojiState[
+                  Object.keys(realmEmojiState).find(key => realmEmojiState[key].name === item)
+                ]
+              }
               name={item}
               onPress={() => onAutocomplete(item)}
             />
@@ -45,5 +49,5 @@ class EmojiAutocomplete extends PureComponent<Props> {
 }
 
 export default connectWithActions((state: GlobalState) => ({
-  realmEmoji: getActiveRealmEmoji(state),
+  realmEmojiState: getActiveRealmEmoji(state),
 }))(EmojiAutocomplete);
