@@ -20,12 +20,25 @@ window.onerror = (message, source, line, column, error) => {
     if (elementJsError) {
       elementJsError.innerHTML = [
         `Message: ${message}<br>`,
+        `Source: ${source}<br>`,
         `Line: ${line}:${column}<br>`,
         `Error: ${JSON.stringify(error)}<br>`,
       ].join('');
     }
   }
-  return false;
+
+  sendMessage({
+    type: 'error',
+    details: {
+      message,
+      source,
+      line,
+      column,
+      error,
+    },
+  });
+
+  return true;
 };
 
 let scrollEventsDisabled = true;
