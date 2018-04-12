@@ -20,9 +20,10 @@ export default class Label extends PureComponent<Props> {
   render() {
     const { text, style, ...restProps } = this.props;
     const message = text.text || text;
+    const { styles } = this.context;
 
     return (
-      <Text style={[this.context.styles.label, style]} {...restProps}>
+      <Text style={[styles.label, style]} {...restProps}>
         <FormattedMessage id={message} defaultMessage={message} values={text.values} />
       </Text>
     );
