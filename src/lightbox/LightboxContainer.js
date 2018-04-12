@@ -7,7 +7,7 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 import type { Actions, Auth, Message, ImageResource } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getAuth } from '../selectors';
-import { getResource } from '../utils/url';
+import { getResource, encodeImageUri } from '../utils/url';
 import AnimatedLightboxHeader from './AnimatedLightboxHeader';
 import AnimatedLightboxFooter from './AnimatedLightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
@@ -94,7 +94,12 @@ class LightboxContainer extends PureComponent<Props, State> {
     const { src, message, auth } = this.props;
     const footerMessage =
       message.type === 'stream' ? `Shared in #${message.display_recipient}` : 'Shared with you';
-    const resource = getResource(src, auth);
+
+    /* PhotoView is not reliable for Image URIs that include non-Ascii characters.
+     * Before passing the image uri we have to the 'source' attribute of PhotoView,
+     * make sure that every non-ascii character is properly percent-encoded.
+     */
+    const resource = getResource(encodeImageUri(src), auth);
     const { width, height } = Dimensions.get('window');
 
     return (

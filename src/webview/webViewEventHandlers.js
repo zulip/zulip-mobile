@@ -146,7 +146,7 @@ export const handleImage = (props: Props, event: MessageListEventImage) => {
   const message = props.messages.find(x => x.id === messageId);
 
   if (message) {
-    props.actions.navigateToLightbox(encodeImageUri(src), message);
+    props.actions.navigateToLightbox(src, message);
   }
 };
 
