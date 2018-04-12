@@ -8,87 +8,78 @@ import renderMessagesAsHtml from './renderMessagesAsHtml';
 import messageTypingAsHtml from './messageTypingAsHtml';
 import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/messageUpdates';
 
-export type MessageContent = {
+export type MessageInputContent = {
   type: 'content',
   anchor: number,
   content: string,
   updateStrategy: UpdateStrategy,
 };
 
-export type MessageFetching = {
+export type MessageInputFetching = {
   type: 'fetching',
   showMessagePlaceholders: boolean,
   fetchingOlder: boolean,
   fetchingNewer: boolean,
 };
 
-export type MessageTyping = {
+export type MessageInputTyping = {
   type: 'typing',
   content: string,
 };
 
-export type WebviewInputMessage = MessageContent | MessageFetching | MessageTyping;
+export type WebviewInputMessage = MessageInputContent | MessageInputFetching | MessageInputTyping;
 
-const updateContent = (prevProps: Props, nextProps: Props, sendMessage: any => void) => {
+const updateContent = (prevProps: Props, nextProps: Props): MessageInputContent => {
   const content = htmlBody(renderMessagesAsHtml(nextProps), nextProps.showMessagePlaceholders);
   const transitionProps = getMessageTransitionProps(prevProps, nextProps);
   const updateStrategy = getMessageUpdateStrategy(transitionProps);
 
-  const message: MessageContent = {
+  return {
     type: 'content',
     anchor: nextProps.anchor,
     content,
     updateStrategy,
   };
-  sendMessage(message);
 };
 
-const updateFetching = (
-  prevProps: Props,
-  nextProps: Props,
-  sendMessage: (msg: WebviewInputMessage) => void,
-) => {
-  const message: MessageFetching = {
-    type: 'fetching',
-    showMessagePlaceholders: nextProps.showMessagePlaceholders,
-    fetchingOlder: nextProps.fetching.older && !nextProps.showMessagePlaceholders,
-    fetchingNewer: nextProps.fetching.newer && !nextProps.showMessagePlaceholders,
-  };
-  sendMessage(message);
-};
+const updateFetching = (prevProps: Props, nextProps: Props): MessageInputFetching => ({
+  type: 'fetching',
+  showMessagePlaceholders: nextProps.showMessagePlaceholders,
+  fetchingOlder: nextProps.fetching.older && !nextProps.showMessagePlaceholders,
+  fetchingNewer: nextProps.fetching.newer && !nextProps.showMessagePlaceholders,
+});
 
-const updateTyping = (
-  prevProps: Props,
-  nextProps: Props,
-  sendMessage: (msg: WebviewInputMessage) => void,
-) => {
-  const message: MessageTyping = {
-    type: 'typing',
-    content:
-      nextProps.typingUsers.length > 0
-        ? messageTypingAsHtml(nextProps.auth.realm, nextProps.typingUsers)
-        : '',
-  };
-  sendMessage(message);
-};
+const updateTyping = (prevProps: Props, nextProps: Props): MessageInputTyping => ({
+  type: 'typing',
+  content:
+    nextProps.typingUsers.length > 0
+      ? messageTypingAsHtml(nextProps.auth.realm, nextProps.typingUsers)
+      : '',
+});
 
 export default (
   prevProps: Props,
   nextProps: Props,
-  sendMessage: (msg: WebviewInputMessage) => void,
+  sendMessages: (msg: WebviewInputMessage[]) => void,
 ) => {
+  const messages = [];
+
   if (!isEqual(prevProps.renderedMessages, nextProps.renderedMessages)) {
-    updateContent(prevProps, nextProps, sendMessage);
+    messages.push(updateContent(prevProps, nextProps));
   }
 
   if (
     !isEqual(prevProps.fetching, nextProps.fetching) ||
     prevProps.showMessagePlaceholders !== nextProps.showMessagePlaceholders
   ) {
-    updateFetching(prevProps, nextProps, sendMessage);
+    messages.push(updateFetching(prevProps, nextProps));
   }
 
   if (!isEqual(prevProps.typingUsers, nextProps.typingUsers)) {
-    updateTyping(prevProps, nextProps, sendMessage);
+    messages.push(updateTyping(prevProps, nextProps));
+  }
+
+  if (messages.length > 0) {
+    sendMessages(messages);
   }
 };

@@ -9,6 +9,7 @@ export default `
 'use strict';
 
 
+
 var documentBody = document.body;
 
 if (!documentBody) throw new Error('No document.body element!');
@@ -215,8 +216,10 @@ var messageHandlers = {
 };
 
 document.addEventListener('message', function (e) {
-  var msg = JSON.parse(e.data);
-  messageHandlers[msg.type](msg);
+  var messages = JSON.parse(e.data);
+  messages.forEach(function (msg) {
+    messageHandlers[msg.type](msg);
+  });
 });
 
 window.addEventListener('scroll', handleScrollEvent);
