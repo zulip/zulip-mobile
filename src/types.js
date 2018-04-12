@@ -296,6 +296,7 @@ export type RealmState = {
   },
   filters: RealmFilter[],
   emoji: RealmEmojiState,
+  isAdmin: boolean,
 };
 
 export type Topic = {
