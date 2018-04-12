@@ -18,6 +18,7 @@ import {
   autocompleteUrl,
   appendAuthToImages,
   encodeImageUri,
+  containsNonAscii,
 } from '../url';
 
 import { streamNarrow, topicNarrow } from '../narrow';
@@ -589,24 +590,41 @@ describe('appendAuthToImages', () => {
     const expected = '<img src="/user_uploads/img.png?api_key=some_key">"But soft,"';
     expect(appendAuthToImages(input, auth)).toEqual(expected);
 describe('encode uri component of image src', () => {
-  test('if image name contains arabic characters correctly encode it', () => {
+  test('if image uri contains arabic characters correctly encode it', () => {
     const result = encodeImageUri('https://example.com/user_uploads/مرحبا.jpg');
     const encoded = encodeURIComponent('مرحبا.jpg');
     expect(result).toEqual(
       `https://example.com/user_uploads/${encoded}`);
   });
 
-  test('if image name contains chinese characters correctly encode it', () => {
+  test('if image uri contains chinese characters correctly encode it', () => {
     const result = encodeImageUri('https://example.com/user_uploads/你好世界.jpg');
     const encoded = encodeURIComponent('你好世界.jpg');
     expect(result).toEqual(
       `https://example.com/user_uploads/${encoded}`);
   });
 
-  test('if image name contains cyrillic characters correctly encode it', () => {
+  test('if image uri contains cyrillic characters correctly encode it', () => {
     const result = encodeImageUri('https://example.com/user_uploads/пожалуйста.jpg');
     const encoded = encodeURIComponent('пожалуйста.jpg');
     expect(result).toEqual(
       `https://example.com/user_uploads/${encoded}`);
+  });
+
+  test('if image uri does not contain any non-ascii character, return original uri itself', () => {
+    const original = 'https://example.com/user_uploads/valid-ascii.jpg';
+    const result = encodeImageUri(original);
+    expect(result).toEqual(original);
+  });
+});
+
+describe('non-ascii uri', () => {
+  test('check if uri contains non-ascii character(s)', () => {
+    const result = containsNonAscii('https://example.com/user_uploads/not-valid-ascii-مرحبا.jpg');
+    expect(result).toBe(true);
+  });
+  test('check if uri does not contain any non-ascii characters', () => {
+    const result = containsNonAscii('https://example.com/user_uploads/some-valid-ascii_1.jpg');
+    expect(result).toBe(false);
   });
 });
