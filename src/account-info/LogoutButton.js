@@ -1,6 +1,5 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
 
 import type { Actions, Auth } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -8,13 +7,6 @@ import { ZulipButton } from '../common';
 import { unregisterPush } from '../api';
 import { getAuth, getPushToken } from '../selectors';
 import { logErrorRemotely } from '../utils/logging';
-
-const styles = StyleSheet.create({
-  logoutButton: {
-    flex: 1,
-    margin: 8,
-  },
-});
 
 type Props = {
   auth: Auth,
@@ -24,6 +16,9 @@ type Props = {
 
 class LogoutButton extends PureComponent<Props> {
   props: Props;
+  static contextTypes = {
+    styles: () => null,
+  };
 
   shutdownPUSH = async () => {
     const { auth, actions, pushToken } = this.props;
@@ -44,8 +39,10 @@ class LogoutButton extends PureComponent<Props> {
   };
 
   render() {
+    const { styles } = this.context;
+
     return (
-      <ZulipButton style={styles.logoutButton} secondary text="Logout" onPress={this.logout} />
+      <ZulipButton style={styles.button} secondary text="Logout" onPress={this.logout} />
     );
   }
 }
