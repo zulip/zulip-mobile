@@ -42,27 +42,24 @@ class SettingsCard extends PureComponent<Props> {
 
     return (
       <ScrollView style={styles.optionWrapper}>
-        <OptionDivider />
         <OptionRow
           Icon={IconNight}
           label="Night mode"
           defaultValue={theme === 'night'}
           onValueChange={this.handleThemeChange}
         />
-        <OptionDivider />
         <OptionButton
           Icon={IconNotifications}
           label="Notifications"
           onPress={actions.navigateToNotifications}
         />
-        <OptionDivider />
         <OptionButton Icon={IconLanguage} label="Language" onPress={actions.navigateToLanguage} />
-        <OptionDivider />
         <OptionButton
           Icon={IconDiagnostics}
           label="Diagnostics"
           onPress={actions.navigateToDiagnostics}
         />
+        <OptionDivider />
         <View style={styles.padding}>
           <WebLink label="Terms of service" href="/terms/" />
           <WebLink label="Privacy policy" href="/privacy/" />
