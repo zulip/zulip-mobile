@@ -5,7 +5,7 @@ const timingMap: { [string]: number } = {};
 const countMap: { [string]: number } = {};
 const log: TimingItemType[] = [];
 
-const now: () => number = () => ((typeof performance !== 'undefined' ? performance.now() : Date.now() / 1000): number);
+const now = (): number => ((typeof performance !== 'undefined' ? performance.now() : Date.now() / 1000): number);
 
 const add = (item: TimingItemType) => {
   log.push(item);
