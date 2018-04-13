@@ -36,6 +36,8 @@ export const getIsOnline = (state: GlobalState): boolean => state.session.isOnli
 export const getDebug = (state: GlobalState): Debug => state.session.debug;
 export const getIsHydrated = (state: GlobalState): boolean => state.session.isHydrated;
 
+export const getCanCreateStreams = (state: GlobalState): boolean => state.realm.canCreateStreams;
+
 export const getDrafts = (state: GlobalState): DraftState => state.drafts;
 
 export const getLoading = (state: GlobalState): LoadingState => state.loading;
