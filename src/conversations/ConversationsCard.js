@@ -4,6 +4,7 @@ import { View, StyleSheet } from 'react-native';
 
 import type { Actions } from '../types';
 import { Label, LoadingIndicator, ZulipButton } from '../common';
+import { IconPeople, IconSearch } from '../common/Icons';
 import ConversationList from './ConversationList';
 
 const componentStyles = StyleSheet.create({
@@ -12,11 +13,15 @@ const componentStyles = StyleSheet.create({
   },
   button: {
     margin: 8,
+    flex: 1,
   },
   emptySlate: {
     flex: 1,
     textAlign: 'center',
     fontSize: 20,
+  },
+  row: {
+    flexDirection: 'row',
   },
 });
 
@@ -35,11 +40,6 @@ export default class ConversationsCard extends PureComponent<Props> {
     styles: () => null,
   };
 
-  handleSearchPeople = () => {
-    const { actions } = this.props;
-    actions.navigateToUsersScreen();
-  };
-
   render() {
     const { styles } = this.context;
     const { actions, conversations, isLoading, presences, usersByEmail } = this.props;
@@ -50,12 +50,22 @@ export default class ConversationsCard extends PureComponent<Props> {
 
     return (
       <View style={[componentStyles.container, styles.background]}>
-        <ZulipButton
-          secondary
-          style={componentStyles.button}
-          text="Search people"
-          onPress={this.handleSearchPeople}
-        />
+        <View style={componentStyles.row}>
+          <ZulipButton
+            secondary
+            Icon={IconPeople}
+            style={componentStyles.button}
+            text="Create group"
+            onPress={actions.navigateToCreateGroup}
+          />
+          <ZulipButton
+            secondary
+            Icon={IconSearch}
+            style={componentStyles.button}
+            text="Search"
+            onPress={actions.navigateToUsersScreen}
+          />
+        </View>
         {conversations.length === 0 ? (
           <Label style={componentStyles.emptySlate} text="No recent conversations" />
         ) : (
