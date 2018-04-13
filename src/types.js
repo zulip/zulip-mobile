@@ -564,3 +564,5 @@ export type InitialRealmData = {
 export type ZulipExtraEmojiType = {
   emoji_url: string,
 };
+
+export type ZulipExtraEmojisState = any;

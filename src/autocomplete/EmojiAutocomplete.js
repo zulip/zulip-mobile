@@ -6,12 +6,14 @@ import connectWithActions from '../connectWithActions';
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import getFilteredEmojiList from '../emoji/getFilteredEmojiList';
-import type { GlobalState, RealmEmojiState } from '../types';
-import { getActiveRealmEmoji } from '../selectors';
+import type { GlobalState, RealmEmojiState, ZulipExtraEmojisState } from '../types';
+import { getActiveRealmEmoji, getAllZulipExtraEmoji } from '../selectors';
+import zulipExtraEmojiMap from '../emoji/zulipExtraEmojiMap';
 
 type Props = {
   filter: string,
   realmEmojiState: RealmEmojiState,
+  zulipExtraEmojis: ZulipExtraEmojisState,
   onAutocomplete: (name: string) => void,
 };
 
@@ -19,8 +21,8 @@ class EmojiAutocomplete extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { filter, realmEmojiState, onAutocomplete } = this.props;
-    const emojis = getFilteredEmojiList(filter, realmEmojiState);
+    const { filter, realmEmojiState, onAutocomplete, zulipExtraEmojis } = this.props;
+    const emojis = getFilteredEmojiList(filter, realmEmojiState, zulipExtraEmojis);
 
     if (emojis.length === 0) return null;
 
@@ -50,4 +52,5 @@ class EmojiAutocomplete extends PureComponent<Props> {
 
 export default connectWithActions((state: GlobalState) => ({
   realmEmojiState: getActiveRealmEmoji(state),
+  zulipExtraEmojis: getAllZulipExtraEmoji(zulipExtraEmojiMap)(state),
 }))(EmojiAutocomplete);
