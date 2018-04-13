@@ -30,10 +30,18 @@ describe('getFilteredEmojiList', () => {
     expect(list).toEqual(['dog', 'dog2', 'dog_face']);
   });
 
-  test('return realm emojis which includes filter ', () => {
+  test('return realm emojis which includes filter', () => {
     const list = getFilteredEmojiList('all', {
       3: { name: 'small', source_url: '/user_avatars/2/emoji/small.png' },
     });
     expect(list).toEqual(['small']);
+  });
+
+  test('return realm emojis in order of which starts with and then which includes query', () => {
+    const list = getFilteredEmojiList('all', {
+      3: { name: 'small', source_url: '/user_avatars/2/emoji/small.png' },
+      4: { name: 'all', source_url: '/user_avatars/2/emoji/all.png' },
+    });
+    expect(list).toEqual(['all', 'small']);
   });
 });
