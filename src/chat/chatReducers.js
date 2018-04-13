@@ -34,10 +34,6 @@ const messageFetchComplete = (
   state: MessageState,
   action: MessageFetchCompleteAction,
 ): MessageState => {
-  if (action.messages.length === 0) {
-    return state;
-  }
-
   const key = JSON.stringify(action.narrow);
   const messages = state[key] || NULL_ARRAY;
   const messagesById = groupItemsById(messages);
