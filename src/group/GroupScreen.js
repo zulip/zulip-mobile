@@ -20,7 +20,11 @@ export default class GroupScreen extends PureComponent<{}, State> {
   render() {
     const { filter } = this.state;
     return (
-      <Screen search searchBarOnChange={this.handleFilterChange}>
+      <Screen
+        search
+        keyboardShouldPersistTaps="handled"
+        searchBarOnChange={this.handleFilterChange}
+      >
         <GroupContainer filter={filter} />
       </Screen>
     );
