@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl';
 
 import type { TabNavigationOptionsPropsType } from '../types';
 import tabsOptions from '../styles/tabs';
+import UnreadListContainer from '../unread/UnreadListContainer';
 import SubscriptionsContainer from '../streams/SubscriptionsContainer';
 import StreamListContainer from '../subscriptions/StreamListContainer';
 
@@ -18,6 +19,16 @@ const styles = StyleSheet.create({
 
 export default TabNavigator(
   {
+    unread: {
+      screen: props => <UnreadListContainer {...props.screenProps} />,
+      navigationOptions: {
+        tabBarLabel: props => (
+          <Text style={{ color: props.tintColor }}>
+            <FormattedMessage id="Unread" defaultMessage="Unread" />
+          </Text>
+        ),
+      },
+    },
     subscribed: {
       screen: SubscriptionsContainer,
       navigationOptions: {
