@@ -288,6 +288,7 @@ export type RealmEmojiState = {
 
 export type RealmState = {
   twentyFourHourTime: boolean,
+  canCreateStreams: boolean,
   pushToken: {
     token: string,
     msg: string,

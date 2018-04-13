@@ -29,6 +29,7 @@ import {
 
 // Initial state
 const initialState = {
+  canCreateStreams: true,
   twentyFourHourTime: false,
   pushToken: { token: '', result: '', msg: '' },
   emoji: {},
@@ -37,6 +38,7 @@ const initialState = {
 
 const realmInit = (state: RealmState, action: RealmInitAction): RealmState => ({
   ...state,
+  canCreateStreams: action.data.can_create_streams,
   emoji: action.data.realm_emoji,
   filters: action.data.realm_filters,
   twentyFourHourTime: action.data.twenty_four_hour_time,
