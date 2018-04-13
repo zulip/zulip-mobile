@@ -113,10 +113,10 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     alignItems: 'stretch',
   },
   link: {
-    marginTop: 10,
     fontSize: 15,
+    padding: 10,
     color: BRAND_COLOR,
-    textAlign: 'right',
+    textAlign: 'center',
   },
   optionRow: {
     flexDirection: 'row',
