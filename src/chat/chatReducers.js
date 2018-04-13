@@ -84,12 +84,11 @@ const eventNewMessage = (state: MessageState, action: EventNewMessageAction): Me
   let stateChange = false;
   let newState = Object.keys(state).reduce((msg, key) => {
     const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
+    const isCaughtUp = action.caughtUp[key] && action.caughtUp[key].newer;
+    const messageDoesNotExist =
+      state[key].find(item => action.message.id === item.id) === undefined;
 
-    if (
-      isInNarrow &&
-      (action.caughtUp[key] && action.caughtUp[key].newer) &&
-      state[key].find(item => action.message.id === item.id) === undefined
-    ) {
+    if (isInNarrow && isCaughtUp && messageDoesNotExist) {
       stateChange = true;
       msg[key] = [...state[key], action.message];
     } else {
