@@ -30,10 +30,6 @@ export default (state: MessageState = initialState, action: Action): MessageStat
       return initialState;
 
     case MESSAGE_FETCH_COMPLETE: {
-      if (action.messages.length === 0) {
-        return state;
-      }
-
       const key = JSON.stringify(action.narrow);
       const messages = state[key] || NULL_ARRAY;
       const messagesById = groupItemsById(messages);
