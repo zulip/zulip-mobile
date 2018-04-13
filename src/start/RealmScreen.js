@@ -1,10 +1,12 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { ScrollView, Keyboard } from 'react-native';
+import { ScrollView, Keyboard, Platform } from 'react-native';
 import isUrl from 'is-url';
-
+import { getSession } from '../selectors';
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
+import ConnectIgnoringSSLAndroid from '../nativeModules/ConnectIgnoringSSLAndroid';
+import ConnectIgnoringSSLIOS from '../nativeModules/ConnectIgnoringSslIOS';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { getServerSettings } from '../api';
 
@@ -12,6 +14,7 @@ type Props = {
   actions: Actions,
   navigation: Object,
   initialRealm: string,
+  isOnline: boolean,
 };
 
 type State = {
@@ -52,7 +55,7 @@ class RealmScreen extends PureComponent<Props, State> {
       actions.navigateToAuth(serverSettings);
       Keyboard.dismiss();
     } catch (err) {
-      this.setState({ error: 'Cannot connect to server' });
+      this.classifyError(realm);
     } finally {
       this.setState({ progress: false });
     }
@@ -66,6 +69,24 @@ class RealmScreen extends PureComponent<Props, State> {
       this.tryRealm();
     }
   }
+
+  classifyError = async realm => {
+    let error = '';
+    const { isOnline } = this.props;
+    if (!isOnline) {
+      error = 'Network connection is down';
+    } else {
+      // two cases either the server doesnt exist or SSL problem
+      try {
+        if (Platform.OS === 'android') await ConnectIgnoringSSLAndroid.connect(realm);
+        else await ConnectIgnoringSSLIOS.connect(realm);
+        error = "This server can't provide a secure connection";
+      } catch (err) {
+        error = 'Cannot connect to the server';
+      }
+    }
+    this.setState({ error });
+  };
 
   render() {
     const { styles } = this.context;
@@ -104,4 +125,5 @@ export default connectWithActions((state, props) => ({
   initialRealm:
     (props.navigation && props.navigation.state.params && props.navigation.state.params.realm) ||
     '',
+  isOnline: getSession(state).isOnline,
 }))(RealmScreen);
