@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
 type Props = {
   actions: Actions,
   auth: Auth,
+  canCreateStreams: boolean,
   streams: [],
   subscriptions: [],
 };
@@ -59,7 +60,7 @@ export default class StreamListCard extends PureComponent<Props, State> {
   };
 
   render() {
-    const { actions, streams, subscriptions } = this.props;
+    const { actions, canCreateStreams, streams, subscriptions } = this.props;
     const filteredStreams = streams.filter(x => x.name.includes(this.state.filter));
     const subsAndStreams = filteredStreams.map(x => ({
       ...x,
@@ -68,11 +69,13 @@ export default class StreamListCard extends PureComponent<Props, State> {
 
     return (
       <View style={styles.wrapper}>
-        <ZulipButton
-          style={styles.button}
-          text="Create new stream"
-          onPress={actions.navigateToCreateStream}
-        />
+        {canCreateStreams && (
+          <ZulipButton
+            style={styles.button}
+            text="Create new stream"
+            onPress={actions.navigateToCreateStream}
+          />
+        )}
         <StreamList
           streams={subsAndStreams}
           showSwitch
