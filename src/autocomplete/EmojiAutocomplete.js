@@ -40,6 +40,7 @@ class EmojiAutocomplete extends PureComponent<Props> {
                   Object.keys(realmEmojiState).find(key => realmEmojiState[key].name === item)
                 ]
               }
+              zulipExtraEmoji={zulipExtraEmojis[item]}
               name={item}
               onPress={() => onAutocomplete(item)}
             />
