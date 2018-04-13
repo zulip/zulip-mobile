@@ -705,20 +705,23 @@ describe('chatReducers', () => {
   });
 
   describe('MESSAGE_FETCH_COMPLETE', () => {
-    test('if no messages returned do not mutate state', () => {
+    test('if no messages returned still create the key in state', () => {
       const initialState = deepFreeze({
         [homeNarrowStr]: [{ id: 1 }, { id: 2 }, { id: 3 }],
       });
-
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
-        narrow: [],
+        narrow: privateNarrow('mark@example.com'),
         messages: [],
       });
+      const expectedState = {
+        [homeNarrowStr]: [{ id: 1 }, { id: 2 }, { id: 3 }],
+        [JSON.stringify(privateNarrow('mark@example.com'))]: [],
+      };
 
       const newState = chatReducers(initialState, action);
 
-      expect(newState).toBe(initialState);
+      expect(newState).toEqual(expectedState);
     });
 
     test('no duplicate messages', () => {
