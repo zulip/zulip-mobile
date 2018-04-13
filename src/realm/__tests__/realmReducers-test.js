@@ -21,6 +21,7 @@ describe('realmReducers', () => {
       });
 
       const expectedState = {
+        canCreateStreams: true,
         twentyFourHourTime: false,
         pushToken: { token: '', result: '', msg: '' },
         emoji: {},
