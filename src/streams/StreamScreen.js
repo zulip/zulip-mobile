@@ -61,25 +61,23 @@ class StreamScreen extends PureComponent<Props> {
     return (
       <Screen title="Stream" padding>
         <StreamCard stream={stream} subscription={subscription} />
-        <OptionDivider />
         <OptionRow
           label="Pinned"
           defaultValue={subscription.pin_to_top}
           onValueChange={this.handleTogglePinStream}
         />
-        <OptionDivider />
         <OptionRow
           label="Muted"
           defaultValue={stream.in_home_view === false}
           onValueChange={this.handleToggleMuteStream}
         />
-        <OptionDivider />
         <OptionRow
           label="Notifications"
           defaultValue={subscription.push_notifications}
           onValueChange={this.toggleStreamPushNotification}
           customStyle={this.context.styles.backgroundColor}
         />
+        <OptionDivider />
         <ZulipButton style={styles.marginTop} text="Topics" onPress={this.handleTopics} />
         <ZulipButton style={styles.marginTop} text="Edit" onPress={this.handleEdit} />
       </Screen>

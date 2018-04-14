@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getSession } from '../selectors';
-import { OptionDivider, OptionRow, Screen } from '../common';
+import { OptionRow, Screen } from '../common';
 
 type Props = {
   actions: Actions,
@@ -29,7 +29,6 @@ class DebugScreen extends PureComponent<Props> {
           defaultValue={debug.highlightUnreadMessages}
           onValueChange={() => this.handleSettingToggle('highlightUnreadMessages')}
         />
-        <OptionDivider />
         <OptionRow
           label="Do not mark messages read on scroll"
           defaultValue={debug.doNotMarkMessagesAsRead}

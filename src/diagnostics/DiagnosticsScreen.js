@@ -34,13 +34,9 @@ class DiagnosticsScreen extends PureComponent<Props> {
         <RawLabel style={styles.versionLabel} text={`v${DeviceInfo.getVersion()}`} />
         <OptionDivider />
         <OptionButton label="Variables" onPress={actions.navigateToVariables} />
-        <OptionDivider />
         <OptionButton label="Timing" onPress={actions.navigateToTiming} />
-        <OptionDivider />
         <OptionButton label="Storage" onPress={actions.navigateToStorage} />
-        <OptionDivider />
         <OptionButton label="Debug" onPress={actions.navigateToDebug} />
-        <OptionDivider />
         <OptionButton label="Notifications" onPress={actions.navigateToNotifDiag} />
       </Screen>
     );
