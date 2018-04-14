@@ -4,7 +4,7 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 
 import type { ChildrenArray, Dimensions, LocalizableText } from '../types';
 import connectWithActions from '../connectWithActions';
-import { KeyboardAvoider, ZulipStatusBar } from '../common';
+import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
 import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
@@ -34,6 +34,7 @@ type Props = {
   keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
   padding?: boolean,
   search?: boolean,
+  showOfflineNotice?: boolean,
   title?: LocalizableText,
   searchBarOnChange?: (text: string) => void,
 };
@@ -59,6 +60,7 @@ class Screen extends PureComponent<Props> {
       safeAreaInsets,
       search,
       searchBarOnChange,
+      showOfflineNotice,
       title,
     } = this.props;
     const { styles } = this.context;
@@ -68,6 +70,7 @@ class Screen extends PureComponent<Props> {
       <View style={[styles.screen, { marginBottom: safeAreaInsets.bottom }]}>
         <ZulipStatusBar />
         <ModalBar title={title} searchBarOnChange={searchBarOnChange} />
+        {showOfflineNotice && <OfflineNotice />}
         <KeyboardAvoider
           behavior="padding"
           keyboardShouldPersistTaps="always"
