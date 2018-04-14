@@ -18,6 +18,9 @@ const styles = StyleSheet.create({
   descriptionText: {
     opacity: 0.8,
   },
+  padding: {
+    padding: 16,
+  },
 });
 
 type Props = {
@@ -35,7 +38,7 @@ export default class StreamCard extends PureComponent<Props> {
     const description = subscription.description || stream.description;
 
     return (
-      <View>
+      <View style={styles.padding}>
         <View style={styles.streamRow}>
           <StreamIcon
             size={20}

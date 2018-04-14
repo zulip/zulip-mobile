@@ -62,7 +62,7 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     fontSize: 15,
   },
   padding: {
-    padding: 8,
+    padding: 16,
   },
   icon: {
     color,

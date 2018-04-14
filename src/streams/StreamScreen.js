@@ -1,5 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { View } from 'react-native';
 
 import type { Actions, Stream, Subscription } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -59,7 +60,7 @@ class StreamScreen extends PureComponent<Props> {
     const { styles } = this.context;
 
     return (
-      <Screen title="Stream" padding>
+      <Screen title="Stream">
         <StreamCard stream={stream} subscription={subscription} />
         <OptionRow
           label="Pinned"
@@ -78,8 +79,10 @@ class StreamScreen extends PureComponent<Props> {
           customStyle={this.context.styles.backgroundColor}
         />
         <OptionDivider />
-        <ZulipButton style={styles.marginTop} text="Topics" onPress={this.handleTopics} />
-        <ZulipButton style={styles.marginTop} text="Edit" onPress={this.handleEdit} />
+        <View style={styles.padding}>
+          <ZulipButton text="Topics" onPress={this.handleTopics} />
+          <ZulipButton style={styles.marginTop} text="Edit" onPress={this.handleEdit} />
+        </View>
       </Screen>
     );
   }
