@@ -83,6 +83,17 @@ export const getEmojiUrl = (unicode: string): string =>
   `/static/generated/emoji/images/emoji/unicode/${unicode}.png`;
 
 export const getNarrowFromLink = (url: string, realm: string, users: User[]): Narrow => {
+// New url scheme: #narrow/stream/{stream_id}-{stream_name}. We need to extract the stream_name.
+export const extractStreamName = (streamNameWithNumberAppended: string = ''): string =>
+  streamNameWithNumberAppended.trim().replace(/^\d+-/, '');
+
+// We need to extract the stream_id from the new format.
+export const extractStreamID = (streamNameWithNumberAppended: string = ''): number => {
+  const streamID = (/^\d+(?=-)/).exec(streamNameWithNumberAppended.trim());
+  return streamID !== null ? parseInt(streamID, 10) : 0;
+};
+
+export const getNarrowFromLink = (url: string, realm: string, users: any[]): Narrow => {
   const paths = getPathsFromUrl(url, realm);
 
   if (isGroupLink(url, realm)) {
@@ -91,12 +102,16 @@ export const getNarrowFromLink = (url: string, realm: string, users: User[]): Na
       recipients.map((recipient: string) => getUserById(users, parseInt(recipient, 10)).email),
     );
   } else if (isTopicLink(url, realm)) {
+    const streamNameWithNumberAppended = decodeURIComponent(transformToEncodedURI(paths[1]));
     return topicNarrow(
-      decodeURIComponent(transformToEncodedURI(paths[1])),
+      extractStreamName(streamNameWithNumberAppended),
       decodeURIComponent(transformToEncodedURI(paths[3])),
     );
   } else if (isStreamLink(url, realm)) {
-    return streamNarrow(decodeURIComponent(transformToEncodedURI(paths[1])));
+    const streamNameWithNumberAppended = decodeURIComponent(transformToEncodedURI(paths[1]));
+    return streamNarrow(
+      extractStreamName(streamNameWithNumberAppended)
+    );
   } else if (isSpecialLink(url, realm)) {
     return specialNarrow(paths[1]);
   }

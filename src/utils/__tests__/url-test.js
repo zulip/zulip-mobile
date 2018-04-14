@@ -17,6 +17,8 @@ import {
   fixRealmUrl,
   autocompleteUrl,
   appendAuthToImages,
+  extractStreamName,
+  extractStreamID,
 } from '../url';
 
 import { streamNarrow, topicNarrow } from '../narrow';
@@ -587,5 +589,96 @@ describe('appendAuthToImages', () => {
     const input = '<img src="/user_uploads/img.png">"But soft,"';
     const expected = '<img src="/user_uploads/img.png?api_key=some_key">"But soft,"';
     expect(appendAuthToImages(input, auth)).toEqual(expected);
+describe('extractStreamName', () => {
+  test('when no value is entered return empty string', () => {
+    const result = extractStreamName('21-example');
+    expect(result).toEqual('example');
+  });
+
+  test('when empty string provided, return empty string', () => {
+    const result = extractStreamName('');
+    expect(result).toEqual('');
+  });
+
+  test('when no parameter provided, return empty string ', () => {
+    const result = extractStreamName();
+    expect(result).toEqual('');
+  });
+
+  test('when stream_name includes numbers and dash, only remove the appended stream_id', () => {
+    const result = extractStreamName('21-example-21-');
+    expect(result).toEqual('example-21-');
+  });
+
+  test('when stream_name includes numbers and not preceding dash, do not change the original', () => {
+    const result = extractStreamName('example-21');
+    expect(result).toEqual('example-21');
+  });
+
+  test('when there is no appended stream_id, do not change the original', () => {
+    const result = extractStreamName('example');
+    expect(result).toEqual('example');
+  });
+
+  test('when there are multiple dashes and numbers in stream_name, only remove the appended stream_id', () => {
+    const result = extractStreamName('21---example-21-');
+    expect(result).toEqual('--example-21-');
+  });
+});
+
+describe('extractStreamID', () => {
+  test('when empty string provided, return 0', () => {
+    const result = extractStreamID('');
+    expect(result).toEqual(0);
+  });
+
+  test('when no parameter provided, return 0', () => {
+    const result = extractStreamID();
+    expect(result).toEqual(0);
+  });
+
+  test('when there is a number followed by dash, extract it', () => {
+    const result = extractStreamID('11-example');
+    expect(result).toEqual(11);
+  });
+
+  test('when there are numbers followed by dash, extract only the appended number', () => {
+    const result = extractStreamID('11-example-12-');
+    expect(result).toEqual(11);
+  });
+
+  test('when there are numbers and multiple dashes, extract only the appended number', () => {
+    const result = extractStreamID('11---example--12-');
+    expect(result).toEqual(11);
+  });
+
+  test('when there are dash(es) in front, do not extract anything', () => {
+    const result = extractStreamID('-11-example');
+    expect(result).toEqual(0);
+  });
+
+  test('when there is a number in front not followed by dash, do not extract it', () => {
+    const result = extractStreamID('11example');
+    expect(result).toEqual(0);
+  });
+
+  test('when there is no appended number, do not extract anything', () => {
+    const result = extractStreamID('example');
+    expect(result).toEqual(0);
+  });
+
+  test('when there is a dash followed by number in the middle, do not extract it', () => {
+    const result = extractStreamID('example-11-example');
+    expect(result).toEqual(0);
+  });
+
+  test('when there is a dash followed by number in the end, do not extract it', () => {
+    const result = extractStreamID('example-11');
+    expect(result).toEqual(0);
+  });
+
+  test('when there is an appended number that is not integer, do not extract it', () => {
+    const result = extractStreamID('11.1-example');
+    expect(result).toEqual(0);
   });
 });
