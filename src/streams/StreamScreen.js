@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Actions, Stream, Subscription } from '../types';
+import type { Actions, Stream, Subscriptioni, NavigationState } from '../types';
 import connectWithActions from '../connectWithActions';
 import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
 import { getStreams, getSubscriptions } from '../selectors';
@@ -10,7 +10,7 @@ import StreamCard from './StreamCard';
 
 type Props = {
   actions: Actions,
-  navigation: Object,
+  navigation: NavigationS:xtate[],,
   streams: Stream[],
   subscriptions: Subscription[],
 };
