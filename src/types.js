@@ -370,6 +370,8 @@ export type RealmEmojiType = {
     id: number,
   },
   deactivated: boolean,
+  id: number,
+  name: string,
   source_url: string,
 };
 
