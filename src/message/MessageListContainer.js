@@ -111,8 +111,7 @@ class MessageListContainer extends PureComponent<Props> {
 
   handleUrlLongPress = (src: string) => {
     if (isUrlAnImage(src)) {
-      const { showActionSheetWithOptions, auth } = this.props;
-      openLightboxActionSheet({ showActionSheetWithOptions, src, auth });
+      openLightboxActionSheet({ ...this.props, src });
       return;
     }
     copyToClipboard(src);

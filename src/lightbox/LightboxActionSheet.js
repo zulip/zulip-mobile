@@ -33,9 +33,9 @@ type ButtonType = {
 };
 
 type ActionSheetOptionsType = {
-  showActionSheetWithOptions: (Object, (number) => void) => void,
   src: string,
   auth: Auth,
+  showActionSheetWithOptions: (Object, (number) => void) => void,
 };
 
 const downloadImage = async ({ src, auth }: DownloadImageType) => {

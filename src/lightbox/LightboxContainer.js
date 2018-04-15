@@ -59,10 +59,7 @@ class LightboxContainer extends PureComponent<Props, State> {
     }));
   };
 
-  handleOptionsPress = () => {
-    const { showActionSheetWithOptions, src, auth } = this.props;
-    openLightboxActionSheet({ showActionSheetWithOptions, src, auth });
-  };
+  handleOptionsPress = () => openLightboxActionSheet(this.props);
 
   getAnimationProps = () => ({
     easing: Easing.bezier(0.075, 0.82, 0.165, 1),
