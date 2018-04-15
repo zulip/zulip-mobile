@@ -1,7 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
-import { Clipboard } from 'react-native';
 import type {
   Actions,
   Auth,
@@ -40,6 +39,7 @@ import { filterUnreadMessageIds } from '../utils/unread';
 import { queueMarkAsRead } from '../api';
 import { openLightboxActionSheet } from './../lightbox/LightboxActionSheet';
 import { showToast } from '../utils/info';
+import { copyToClipboard } from '../utils/clipboard';
 
 export type Props = {
   actions: Actions,
@@ -115,7 +115,7 @@ class MessageListContainer extends PureComponent<Props> {
       openLightboxActionSheet({ showActionSheetWithOptions, src, auth });
       return;
     }
-    Clipboard.setString(src);
+    copyToClipboard(src);
     showToast('Copied URL to Clipboard');
   }
 
