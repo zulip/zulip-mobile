@@ -38,7 +38,7 @@ import {
 import { isUrlAnImage } from '../utils/url';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { queueMarkAsRead } from '../api';
-import * as LightboxActionSheet from './../lightbox/LightboxActionSheet';
+import { openLightboxActionSheet } from './../lightbox/LightboxActionSheet';
 import { showToast } from '../utils/info';
 
 export type Props = {
@@ -111,22 +111,8 @@ class MessageListContainer extends PureComponent<Props> {
 
   handleUrlLongPress = (src: string) => {
     if (isUrlAnImage(src)) {
-      const options = LightboxActionSheet.constructActionSheetButtons();
-      const cancelButtonIndex = options.length - 1;
       const { showActionSheetWithOptions, auth } = this.props;
-      showActionSheetWithOptions(
-        {
-          options,
-          cancelButtonIndex,
-        },
-        buttonIndex => {
-          LightboxActionSheet.executeActionSheetAction({
-            title: options[buttonIndex],
-            src,
-            auth,
-          });
-        },
-      );
+      openLightboxActionSheet({ showActionSheetWithOptions, src, auth });
       return;
     }
     Clipboard.setString(src);

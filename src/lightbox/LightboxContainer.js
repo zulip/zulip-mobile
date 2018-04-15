@@ -10,7 +10,7 @@ import { getAuth } from '../selectors';
 import { getResource } from '../utils/url';
 import AnimatedLightboxHeader from './AnimatedLightboxHeader';
 import AnimatedLightboxFooter from './AnimatedLightboxFooter';
-import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
+import { openLightboxActionSheet } from './LightboxActionSheet';
 import { NAVBAR_SIZE } from '../styles';
 
 const styles = StyleSheet.create({
@@ -60,22 +60,8 @@ class LightboxContainer extends PureComponent<Props, State> {
   };
 
   handleOptionsPress = () => {
-    const options = constructActionSheetButtons();
-    const cancelButtonIndex = options.length - 1;
     const { showActionSheetWithOptions, src, auth } = this.props;
-    showActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex,
-      },
-      buttonIndex => {
-        executeActionSheetAction({
-          title: options[buttonIndex],
-          src,
-          auth,
-        });
-      },
-    );
+    openLightboxActionSheet({ showActionSheetWithOptions, src, auth });
   };
 
   getAnimationProps = () => ({

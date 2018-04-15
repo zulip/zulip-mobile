@@ -32,6 +32,12 @@ type ButtonType = {
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
 };
 
+type ActionSheetOptionsType = {
+  showActionSheetWithOptions: (Object, (number) => void) => void,
+  src: string,
+  auth: Auth,
+};
+
 const downloadImage = async ({ src, auth }: DownloadImageType) => {
   try {
     await downloadFile(src, auth);
@@ -63,4 +69,23 @@ export const executeActionSheetAction = ({ title, ...props }: ExecuteActionSheet
   if (button) {
     button.onPress(props);
   }
+};
+
+export const openLightboxActionSheet =
+  ({ showActionSheetWithOptions, src, auth }: ActionSheetOptionsType) => {
+  const options = constructActionSheetButtons();
+  const cancelButtonIndex = options.length - 1;
+  showActionSheetWithOptions(
+    {
+      options,
+      cancelButtonIndex,
+    },
+    buttonIndex => {
+      executeActionSheetAction({
+        title: options[buttonIndex],
+        src,
+        auth,
+      });
+    },
+  );
 };
