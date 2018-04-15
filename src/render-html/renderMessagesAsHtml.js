@@ -1,7 +1,7 @@
 /* @flow */
-import { getFullUrl } from '../utils/url';
-
 import type { Props } from '../message/MessageListContainer';
+
+import { appendAuthToImages, getFullUrl } from '../utils/url';
 import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
 import timeRowAsHtml from './timeRowAsHtml';
@@ -55,5 +55,5 @@ const renderMessages = ({
 export default (props: Props): string => {
   const { auth } = props;
 
-  return renderMessages(props).join('');
+  return appendAuthToImages(renderMessages(props).join(''), auth);
 };
