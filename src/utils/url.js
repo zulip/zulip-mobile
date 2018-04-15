@@ -161,3 +161,9 @@ export const autocompleteUrl = (
 // This formula borrowed from MDN:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
 const escapeRegExp = (str: string): string => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+export const appendAuthToImages = (messageStr: string, auth: Auth): string =>
+  messageStr.replace(
+    new RegExp(`<img src="(${escapeRegExp(auth.realm)})?/([^"]*)"`, 'g'),
+    `<img src="$1/$2?api_key=${auth.apiKey}"`,
+  );
