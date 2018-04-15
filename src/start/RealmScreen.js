@@ -1,8 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
-import isUrl from 'is-url';
-
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
@@ -35,9 +33,21 @@ class RealmScreen extends PureComponent<Props, State> {
     error: undefined,
   };
 
+  isURL = str => {
+    const pattern = new RegExp(
+      '^(https?:\\/\\/)?' +
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' +
+        '((\\d{1,3}\\.){3}\\d{1,3}))' +
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
+        '(\\?[;&a-z\\d%_.~+=-]*)?' +
+        '(\\#[-a-z\\d_]*)?$',
+      'i',
+    );
+    return pattern.test(str);
+  };
+
   tryRealm = async () => {
     const { realm } = this.state;
-
     this.setState({
       realm,
       progress: true,
@@ -93,7 +103,7 @@ class RealmScreen extends PureComponent<Props, State> {
           text="Enter"
           progress={progress}
           onPress={this.tryRealm}
-          disabled={!isUrl(realm)}
+          disabled={!this.isURL(realm)}
         />
       </Screen>
     );

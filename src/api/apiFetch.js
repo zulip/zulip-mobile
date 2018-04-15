@@ -1,6 +1,4 @@
 /* @flow */
-import isUrl from 'is-url';
-
 import type { Auth, ResponseExtractionFunc } from '../types';
 import { getAuthHeader, encodeAsURI } from '../utils/url';
 import userAgent from '../utils/userAgent';
@@ -10,10 +8,6 @@ const apiVersion = 'api/v1';
 
 export const apiFetch = async (auth: Auth, route: string, params: Object = {}) => {
   const url = `${auth.realm}/${apiVersion}/${route}`;
-
-  if (!isUrl(url)) {
-    throw new Error(`Invalid url ${url}`);
-  }
 
   const contentType =
     params.body instanceof FormData
