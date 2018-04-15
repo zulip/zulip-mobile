@@ -8,6 +8,7 @@ import {
   getUsersStatusOffline,
   getUsersByEmail,
   getUsersById,
+  getUsersSansMe,
 } from '../userSelectors';
 
 describe('getAccountDetailsUser', () => {
@@ -206,5 +207,28 @@ describe('getUsersById', () => {
     const result = getUsersById(state);
 
     expect(result).toEqual(expectedResult);
+  });
+});
+
+describe('getUsersSansMe', () => {
+  test('returns all users except current user', () => {
+    const state = deepFreeze({
+      users: [
+        { email: 'me@example.com' },
+        { email: 'john@example.com' },
+        { email: 'doe@example.com' },
+      ],
+      accounts: [
+        { email: 'me@example.com' },
+      ],
+    });
+    const expectedResult = [
+        { email: 'john@example.com' },
+        { email: 'doe@example.com' },
+      ];
+
+    const actualResult = getUsersSansMe(state);
+
+    expect(actualResult).toEqual(expectedResult);
   });
 });
