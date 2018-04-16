@@ -2,7 +2,11 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { TopicDetails } from '../types';
+import type { Actions, Stream, TopicDetails } from '../types';
+import connectWithActions from '../connectWithActions';
+import { getStreamEditInitialValues } from '../subscriptions/subscriptionSelectors';
+import { topicNarrow } from '../utils/narrow';
+import { getTopicsInScreen } from '../selectors';
 import TopicItem from '../streams/TopicItem';
 import { LoadingIndicator, SectionSeparatorBetween, SearchEmptyState } from '../common';
 
@@ -14,12 +18,18 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  topics: ?(TopicDetails[]),
-  onPress: (stream: string, topic: string) => void,
+  actions: Actions,
+  stream: Stream,
+  topics: TopicDetails[],
 };
 
-export default class TopicList extends PureComponent<Props> {
+class TopicList extends PureComponent<Props> {
   props: Props;
+
+  componentDidMount() {
+    const { actions, stream } = this.props;
+    actions.fetchTopics(stream.stream_id);
+  }
 
   static defaultProps = {
     showDescriptions: false,
@@ -28,8 +38,13 @@ export default class TopicList extends PureComponent<Props> {
     streams: [],
   };
 
+  handlePress = (streamObj: string, topic: string) => {
+    const { actions, stream } = this.props;
+    actions.doNarrow(topicNarrow(stream.name, topic));
+  };
+
   render() {
-    const { topics, onPress } = this.props;
+    const { topics } = this.props;
 
     if (!topics) {
       return <LoadingIndicator size={40} />;
@@ -45,10 +60,15 @@ export default class TopicList extends PureComponent<Props> {
         data={topics}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
-          <TopicItem name={item.name} isMuted={false} unreadCount={0} onPress={onPress} />
+          <TopicItem name={item.name} isMuted={false} unreadCount={0} onPress={this.handlePress} />
         )}
         SectionSeparatorComponent={SectionSeparatorBetween}
       />
     );
   }
 }
+
+export default connectWithActions(state => ({
+  stream: getStreamEditInitialValues(state),
+  topics: getTopicsInScreen(state),
+}))(TopicList);

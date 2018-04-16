@@ -1,45 +1,29 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Actions, Stream, TopicDetails } from '../types';
 import connectWithActions from '../connectWithActions';
-import { Screen } from '../common';
-import { topicNarrow } from '../utils/narrow';
-import { getTopicsInScreen } from '../selectors';
-import { getStreamEditInitialValues } from '../subscriptions/subscriptionSelectors';
+import { LoadingIndicator, Screen } from '../common';
+import { getSession } from '../selectors';
 import TopicList from './TopicList';
 
 type Props = {
-  actions: Actions,
-  stream: Stream,
-  topics: TopicDetails[],
+  isOnline: boolean,
 };
 
 class TopicListScreen extends PureComponent<Props> {
   props: Props;
 
-  componentDidMount() {
-    const { actions, stream } = this.props;
-    actions.fetchTopics(stream.stream_id);
-  }
-
-  handlePress = (streamObj: string, topic: string) => {
-    const { actions, stream } = this.props;
-    actions.doNarrow(topicNarrow(stream.name, topic));
-  };
-
   render() {
-    const { topics } = this.props;
+    const { isOnline } = this.props;
 
     return (
       <Screen title="Topics" padding>
-        <TopicList topics={topics} onPress={this.handlePress} />
+        {isOnline ? <TopicList /> : <LoadingIndicator size={40} />}
       </Screen>
     );
   }
 }
 
 export default connectWithActions(state => ({
-  stream: getStreamEditInitialValues(state),
-  topics: getTopicsInScreen(state),
+  isOnline: getSession(state).isOnline,
 }))(TopicListScreen);
