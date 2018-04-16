@@ -1,6 +1,6 @@
 /* @flow */
 import base64 from 'base-64';
-import isUrl from 'is-url';
+import urlRegex from 'url-regex';
 
 import type { Auth, Narrow } from '../types';
 import { homeNarrow, topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
@@ -159,4 +159,4 @@ export const autocompleteUrl = (
       }`
     : '';
 
-export const isValidUrl: (url: string) => boolean = isUrl;
+export const isValidUrl = (url: string): boolean => urlRegex({ exact: true }).test(url);
