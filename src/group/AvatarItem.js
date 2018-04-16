@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
 
-import type { UserStatus } from '../types';
 import { Avatar, ComponentWithOverlay, RawLabel } from '../common';
 import { IconCancel } from '../common/Icons';
 
@@ -30,7 +29,6 @@ type Props = {
   email: string,
   avatarUrl: string,
   fullName: string,
-  status: UserStatus,
   onPress: (email: string) => void,
 };
 
@@ -59,7 +57,7 @@ export default class AvatarItem extends PureComponent<Props> {
   };
 
   render() {
-    const { email, avatarUrl, fullName, status } = this.props;
+    const { email, avatarUrl, fullName } = this.props;
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }],
     };
@@ -80,7 +78,6 @@ export default class AvatarItem extends PureComponent<Props> {
             avatarUrl={avatarUrl}
             email={email}
             name={fullName}
-            status={status}
             onPress={this.handlePress}
           />
         </ComponentWithOverlay>

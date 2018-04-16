@@ -1,6 +1,6 @@
 /* @flow */
 import type { Action } from './actionTypes';
-
+import type { ApiUser } from './api/apiTypes';
 export type { ChildrenArray } from 'react';
 
 export type AnimatedValue = any; // { AnimatedValue } from 'react-native';
@@ -79,7 +79,7 @@ export type MessageState = {
 
 export type UserStatus = 'active' | 'idle' | 'offline';
 
-export type User = any; /* {
+export type User = {
   avatarUrl: string,
   email: string,
   fullName: string,
@@ -87,7 +87,7 @@ export type User = any; /* {
   isActive: boolean,
   isAdmin: boolean,
   isBot: boolean,
-}; */
+};
 
 export type Presence = {
   pushable: boolean,
@@ -539,8 +539,8 @@ export type InitialRealmData = {
   realm_emoji: Object, // map of RealmEmojiType
   realm_filters: RealmFilter[],
   realm_name_in_notifications: boolean,
-  realm_non_active_users: User[],
-  realm_users: User[],
+  realm_non_active_users: ApiUser[],
+  realm_users: ApiUser[],
   subscriptions: Subscription[],
   timezone: string,
   translate_emoticons: boolean,

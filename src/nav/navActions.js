@@ -37,7 +37,7 @@ export const navigateToAccountPicker = (): NavigateAction =>
 export const navigateToAccountDetails = (email: string): NavigateAction =>
   NavigationActions.navigate({ routeName: 'account-details', params: { email } });
 
-export const navigateToGroupDetails = (recipients: User[]): NavigateAction =>
+export const navigateToGroupDetails = (recipients: string[]): NavigateAction =>
   NavigationActions.navigate({ routeName: 'group-details', params: { recipients } });
 
 export const navigateToAddNewAccount = (realm: string): NavigateAction =>

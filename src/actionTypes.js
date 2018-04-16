@@ -7,6 +7,7 @@ import type {
   Message,
   Narrow,
   ServerSettings,
+  ApiUser,
   User,
   InitialRealmData,
   RealmFilter,
@@ -88,7 +89,7 @@ export type NavigateToChatActionCreator = (narrow: Narrow) => NavigateAction;
 export type NavigateToAuthActionCreator = (serverSettings: ServerSettings) => NavigateAction;
 export type NavigateToPasswordActionCreator = (ldap?: boolean) => NavigateAction;
 export type NavigateToAccountDetailsActionCreator = (email: string) => NavigateAction;
-export type NavigateToGroupDetailsActionCreator = (recipients: User[]) => NavigateAction;
+export type NavigateToGroupDetailsActionCreator = (recipients: string[]) => NavigateAction;
 export type NavigateToAddNewAccountActionCreator = (realm: string) => NavigateAction;
 export type NavigateToLightboxActionCreator = (src: string, message: Message) => NavigateAction;
 export type NavigateToStreamActionCreator = (streamId: number) => NavigateAction;
@@ -549,7 +550,7 @@ export type SendFocusPingActionCreator = (hasFocus?: boolean, newUserInput?: boo
 
 export type InitUsersAction = {
   type: 'INIT_USERS',
-  users: User[],
+  users: ApiUser[],
 };
 
 export type InitUsersActionCreator = (users: User[]) => InitUsersAction;

@@ -64,7 +64,7 @@ export default class UserList extends PureComponent<Props> {
             email={item.email}
             presence={presences[item.email]}
             onPress={onPress}
-            isSelected={selected.find(user => user.id === item.id)}
+            isSelected={!!selected.find(user => user.id === item.id)}
           />
         )}
         renderSectionHeader={({ section }) =>
