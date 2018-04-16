@@ -68,5 +68,5 @@ export const getUsersById = createSelector(getUsers, users =>
 );
 
 export const getUsersSansMe = createSelector(getUsers, getOwnEmail, (users, ownEmail) =>
-  users.filter(user => user.email !== ownEmail)
+  users.filter(user => user.email !== ownEmail),
 );

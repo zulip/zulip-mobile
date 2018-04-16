@@ -218,14 +218,9 @@ describe('getUsersSansMe', () => {
         { email: 'john@example.com' },
         { email: 'doe@example.com' },
       ],
-      accounts: [
-        { email: 'me@example.com' },
-      ],
+      accounts: [{ email: 'me@example.com' }],
     });
-    const expectedResult = [
-        { email: 'john@example.com' },
-        { email: 'doe@example.com' },
-      ];
+    const expectedResult = [{ email: 'john@example.com' }, { email: 'doe@example.com' }];
 
     const actualResult = getUsersSansMe(state);
 
