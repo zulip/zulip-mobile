@@ -51,10 +51,11 @@ export default class GroupCard extends PureComponent<Props, State> {
     const { selected } = this.state;
 
     const user = users.find(x => x.email === email);
-    this.setState({
-      selected: [...selected, user],
-    });
-    setTimeout(() => this.listRef.scrollToEnd(), 300);
+    if (user) {
+      this.setState({
+        selected: [...selected, user],
+      });
+    }
   };
 
   handleUserPress = (email: string) => {
@@ -82,6 +83,12 @@ export default class GroupCard extends PureComponent<Props, State> {
     const recipients = selected.map(user => user.email);
     actions.navigateBack();
     actions.doNarrow(groupNarrow(recipients));
+  };
+
+  componentDidUpdate = (prevProps: Props, prevState: State) => {
+    if (this.listRef && this.state.selected.length > prevState.selected.length) {
+      setTimeout(() => this.listRef.scrollToEnd());
+    }
   };
 
   render() {
