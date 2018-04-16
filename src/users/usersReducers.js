@@ -1,5 +1,7 @@
 /* @flow */
 import type {
+  User,
+  ApiUser,
   UsersState,
   UsersAction,
   InitUsersAction,
@@ -18,7 +20,7 @@ import {
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 
-const mapApiToStateUser = user => ({
+const mapApiToStateUser = (user: ApiUser): User => ({
   id: user.user_id,
   email: user.email,
   fullName: user.full_name,

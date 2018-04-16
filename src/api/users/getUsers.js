@@ -1,6 +1,6 @@
 /* @flow */
-import type { Auth } from '../../types';
+import type { Auth, ApiUser } from '../../types';
 import { apiGet } from '../apiFetch';
 
-export default (auth: Auth): any =>
+export default (auth: Auth): Promise<ApiUser[]> =>
   apiGet(auth, 'users', res => res.members, { client_gravatar: true });
