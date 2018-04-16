@@ -27,6 +27,7 @@ export const NULL_ACCOUNT: Account = {
 export const NULL_USER: User = {
   avatarUrl: '',
   email: '',
+  fullName: '',
   id: -1,
   isActive: false,
   isAdmin: false,

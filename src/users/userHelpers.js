@@ -26,10 +26,10 @@ export const statusFromPresence = (presence?: Presence): UserStatus => {
   return 'active';
 };
 
-export const getUserByEmail = (users: any[], userEmail: string) =>
+export const getUserByEmail = (users: User[], userEmail: string): User =>
   users.find(user => user.email === userEmail) || NULL_USER;
 
-export const getUserById = (users: any[], userId: number) =>
+export const getUserById = (users: User[], userId: number): User =>
   users.find(user => user.id === userId) || NULL_USER;
 
 export const groupUsersByInitials = (users: User[]): Object =>
@@ -42,7 +42,7 @@ export const groupUsersByInitials = (users: User[]): Object =>
     return accounts;
   }, {});
 
-export const groupUsersByStatus = (users: User[], presences: Object): Object =>
+export const groupUsersByStatus = (users: User[], presences: PresenceState): Object =>
   users.reduce(
     (groupedUsers, user) => {
       const status = statusFromPresence(presences[user.email]);
@@ -73,7 +73,7 @@ export const sortUserList = (users: any[], presences: PresenceState): User[] =>
       x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase()),
   );
 
-export const filterUserList = (users: any[], filter: string = '', ownEmail: ?string): any[] =>
+export const filterUserList = (users: User[], filter: string = '', ownEmail: ?string): User[] =>
   users.length > 0
     ? users.filter(
         user =>
@@ -127,8 +127,8 @@ export const filterUserMatchesEmail = (
 export const getUniqueUsers = (users: User[]): User[] => uniqby(users, 'email');
 
 export const getUsersAndWildcards = (users: User[]) => [
-  { fullName: 'all', id: 'all', email: '(Notify everyone)' },
-  { fullName: 'everyone', id: 'everyone', email: '(Notify everyone)' },
+  { ...NULL_USER, fullName: 'all', email: '(Notify everyone)' },
+  { ...NULL_USER, fullName: 'everyone', email: '(Notify everyone)' },
   ...users,
 ];
 

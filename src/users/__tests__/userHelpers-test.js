@@ -124,7 +124,15 @@ describe('getAutocompleteSuggestion', () => {
     ]);
 
     const shouldMatch = [
-      { fullName: 'all', id: 'all', email: '(Notify everyone)' },
+      {
+        fullName: 'all',
+        email: '(Notify everyone)',
+        id: -1,
+        avatarUrl: '',
+        isActive: false,
+        isAdmin: false,
+        isBot: false,
+      },
       { email: 'email@example.com', fullName: 'Some Guy' },
     ];
     const filteredUsers = getAutocompleteSuggestion(users, '', 'my@example.com');
