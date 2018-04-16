@@ -25,7 +25,7 @@ type Props = {
   subscription: Subscription,
 };
 
-export default class StreamScreen extends PureComponent<Props> {
+export default class StreamCard extends PureComponent<Props> {
   props: Props;
 
   render() {
