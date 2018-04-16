@@ -7,6 +7,7 @@ export type AnimatedValue = any; // { AnimatedValue } from 'react-native';
 export type MapStateToProps = any; // { MapStateToProps } from 'react-redux';
 
 export type * from './actionTypes';
+export type * from './api/apiTypes';
 
 export type StyleObj = any;
 export type Dispatch = any;
