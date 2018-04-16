@@ -1,11 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
-import isUrl from 'is-url';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
+import { isValidUrl } from '../utils/url';
 import { getServerSettings } from '../api';
 
 type Props = {
@@ -93,7 +93,7 @@ class RealmScreen extends PureComponent<Props, State> {
           text="Enter"
           progress={progress}
           onPress={this.tryRealm}
-          disabled={!isUrl(realm)}
+          disabled={!isValidUrl(realm)}
         />
       </Screen>
     );
