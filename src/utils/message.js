@@ -1,6 +1,6 @@
 /* @flow */
 import type { FlagsState, Recipient, Narrow, Message, MuteState, Subscription } from '../types';
-import { homeNarrow } from './narrow';
+import { homeNarrow, isTopicNarrow } from './narrow';
 
 // TODO types: this union is confusing
 export const normalizeRecipients = (recipients: { email: string }[] | string) =>
@@ -65,6 +65,10 @@ export const shouldBeMuted = (
 ): boolean => {
   if (typeof message.display_recipient !== 'string') {
     return false; // private/group messages are not muted
+  }
+
+  if (isTopicNarrow(narrow)) {
+    return false; // never hide a message when narrowed to topic
   }
 
   if (narrow.length === 0) {

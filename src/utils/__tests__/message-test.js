@@ -6,7 +6,7 @@ import {
   isMessageRead,
   findFirstUnread,
 } from '../message';
-import { homeNarrow } from '../narrow';
+import { homeNarrow, topicNarrow } from '../narrow';
 
 describe('normalizeRecipients', () => {
   test('joins emails from recipients, sorted, trimmed, not including missing ones', () => {
@@ -108,6 +108,19 @@ describe('shouldBeMuted', () => {
     };
 
     const isMuted = shouldBeMuted(message, homeNarrow, []);
+
+    expect(isMuted).toBe(false);
+  });
+
+  test('messages when narrowed to a topic are never muted', () => {
+    const message = {
+      display_recipient: 'stream',
+      subject: 'some topic',
+    };
+    const narrow = topicNarrow('some topic');
+    const mutes = [['stream', 'some topic']];
+
+    const isMuted = shouldBeMuted(message, narrow, [], mutes);
 
     expect(isMuted).toBe(false);
   });
