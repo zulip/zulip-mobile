@@ -9,6 +9,8 @@ import { OptionButton, OptionDivider, Screen, RawLabel } from '../common';
 
 const styles = StyleSheet.create({
   versionLabel: {
+    marginTop: 8,
+    marginBottom: 8,
     textAlign: 'center',
     padding: 8,
   },
