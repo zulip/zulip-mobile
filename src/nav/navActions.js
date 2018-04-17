@@ -1,7 +1,7 @@
 /* @flow */
 import { NavigationActions } from 'react-navigation';
 
-import type { NavigateAction, GetState, Message, Narrow, User, ServerSettings } from '../types';
+import type { NavigateAction, GetState, Message, Narrow, ServerSettings } from '../types';
 import { getSameRoutesCount } from '../selectors';
 
 export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigateAction =>
