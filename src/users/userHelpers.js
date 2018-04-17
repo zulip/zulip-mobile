@@ -2,21 +2,8 @@
 import uniqby from 'lodash.uniqby';
 import differenceInMinutes from 'date-fns/difference_in_minutes';
 
-import type { Presence, User, UserStatus } from '../types';
+import type { Presence, User, UserStatus, PresenceState } from '../types';
 import { NULL_USER } from '../nullObjects';
-
-const statusOrder = status => {
-  switch (status) {
-    case 'active':
-      return 1;
-    case 'idle':
-      return 2;
-    case 'offline':
-      return 3;
-    default:
-      return 4;
-  }
-};
 
 export const statusFromPresence = (presence?: Presence): UserStatus => {
   if (!presence || !presence.aggregated) {
@@ -65,10 +52,24 @@ export const groupUsersByStatus = (users: User[], presences: Object): Object =>
     { active: [], idle: [], offline: [] },
   );
 
-export const sortUserList = (users: any[]): User[] =>
+const statusOrder = (presence: Presence): number => {
+  const status = statusFromPresence(presence);
+  switch (status) {
+    case 'active':
+      return 1;
+    case 'idle':
+      return 2;
+    case 'offline':
+      return 3;
+    default:
+      return 4;
+  }
+};
+
+export const sortUserList = (users: any[], presences: PresenceState): User[] =>
   [...users].sort(
     (x1, x2) =>
-      statusOrder(x1.status) - statusOrder(x2.status) ||
+      statusOrder(presences[x1.email]) - statusOrder(presences[x2.email]) ||
       x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase()),
   );
 
