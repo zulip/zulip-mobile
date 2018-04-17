@@ -39,7 +39,6 @@ class Avatar extends PureComponent<Props> {
     email: '',
     name: '',
     size: 32,
-    presence: NULL_PRESENCE,
     realm: '',
     shape: 'rounded',
     onPress: nullFunction,
