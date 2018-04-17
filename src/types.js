@@ -1,6 +1,7 @@
 /* @flow */
 import type { Action } from './actionTypes';
 import type { ApiUser } from './api/apiTypes';
+
 export type { ChildrenArray } from 'react';
 
 export type AnimatedValue = any; // { AnimatedValue } from 'react-native';

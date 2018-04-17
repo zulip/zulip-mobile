@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 
 import type { Presence } from '../types';
 import connectWithActions from '../connectWithActions';
-import { nullFunction, NULL_PRESENCE } from '../nullObjects';
+import { nullFunction } from '../nullObjects';
 import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
 import TextAvatar from './TextAvatar';
