@@ -3,7 +3,7 @@ import type { FlagsState, Recipient, Narrow, Message, MuteState, Subscription } 
 import { homeNarrow, isTopicNarrow } from './narrow';
 
 // TODO types: this union is confusing
-export const normalizeRecipients = (recipients: { email: string }[] | string) =>
+export const normalizeRecipients = (recipients: Recipient[] | string) =>
   !Array.isArray(recipients)
     ? recipients
     : recipients
@@ -12,7 +12,7 @@ export const normalizeRecipients = (recipients: { email: string }[] | string) =>
         .sort()
         .join(',');
 
-export const normalizeRecipientsSansMe = (recipients: { email: string }[], ownEmail: string) =>
+export const normalizeRecipientsSansMe = (recipients: Recipient[], ownEmail: string) =>
   recipients.length === 1
     ? recipients[0].email
     : normalizeRecipients(recipients.filter(r => r.email !== ownEmail));
