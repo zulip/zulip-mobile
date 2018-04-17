@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { StyleObj, Presence } from '../types';
+import { statusFromPresence } from '../users/userHelpers';
 
 const styles = StyleSheet.create({
   common: {
@@ -37,6 +38,7 @@ export default class UserStatusIndicator extends PureComponent<Props> {
 
     if (!presence || !presence.aggregated) return null;
 
-    return <View style={[styles.common, styles[presence.aggregated.status], style]} />;
+    const status = statusFromPresence(presence);
+    return <View style={[styles.common, styles[status], style]} />;
   }
 }
