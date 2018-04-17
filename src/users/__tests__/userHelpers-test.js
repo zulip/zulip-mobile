@@ -183,27 +183,38 @@ describe('getAutocompleteSuggestion', () => {
 describe('sortUserList', () => {
   test('sorts list by name', () => {
     const users = deepFreeze([{ fullName: 'abc' }, { fullName: 'xyz' }, { fullName: 'jkl' }]);
-
+    const presences = {};
     const shouldMatch = [{ fullName: 'abc' }, { fullName: 'jkl' }, { fullName: 'xyz' }];
-    const sortedUsers = sortUserList(users);
+
+    const sortedUsers = sortUserList(users, presences);
+
     expect(sortedUsers).toEqual(shouldMatch);
   });
 
   test('prioritizes status', () => {
     const users = deepFreeze([
-      { fullName: 'abc', status: 'offline' },
-      { fullName: 'xyz', status: 'idle' },
-      { fullName: 'jkl', status: 'active' },
-      { fullName: 'abc', status: 'active' },
+      { fullName: 'Mark', email: 'mark@example.com' },
+      { fullName: 'John', email: 'john@example.com' },
+      { fullName: 'Bob', email: 'bob@example.com' },
+      { fullName: 'Rick', email: 'rick@example.com' },
     ]);
-
+    const presences = {
+      'mark@example.com': { aggregated: { status: 'offline' } },
+      'john@example.com': {
+        aggregated: { status: 'active', timestamp: Date.now() / 1000 - 120 * 60 },
+      },
+      'bob@example.com': { aggregated: { status: 'idle', timestamp: Date.now() / 1000 - 20 * 60 } },
+      'rick@example.com': { aggregated: { status: 'active', timestamp: Date.now() / 1000 } },
+    };
     const shouldMatch = [
-      { fullName: 'abc', status: 'active' },
-      { fullName: 'jkl', status: 'active' },
-      { fullName: 'xyz', status: 'idle' },
-      { fullName: 'abc', status: 'offline' },
+      { fullName: 'Rick', email: 'rick@example.com' },
+      { fullName: 'Bob', email: 'bob@example.com' },
+      { fullName: 'John', email: 'john@example.com' },
+      { fullName: 'Mark', email: 'mark@example.com' },
     ];
-    const sortedUsers = sortUserList(users);
+
+    const sortedUsers = sortUserList(users, presences);
+
     expect(sortedUsers).toEqual(shouldMatch);
   });
 });
