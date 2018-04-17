@@ -40,7 +40,7 @@ export default class StreamCard extends PureComponent<Props> {
           <StreamIcon
             size={20}
             color={subscription.color || NULL_SUBSCRIPTION.color}
-            isMuted={subscription && !subscription.in_home_view}
+            isMuted={subscription ? !subscription.in_home_view : false}
             isPrivate={stream && stream.invite_only}
           />
           <RawLabel style={styles.streamText} text={name} numberOfLines={1} ellipsizeMode="tail" />
