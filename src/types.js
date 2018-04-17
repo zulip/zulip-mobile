@@ -48,12 +48,20 @@ export type ReactionType = any; /* {
   selfReacted: boolean,
 }; */
 
+export type Recipient = any; /* {
+   email: string,
+   full_name: string,
+   id: number,
+   is_mirror_dummy: boolean,
+   short_name: string,
+ }; */
+
 export type Message = {
   avatar_url: string,
   client: 'website' | 'ZulipMobile',
   content: string,
   content_type: 'text/html' | 'text/markdown',
-  display_recipient: any,
+  display_recipient: any, // string | Recipient[],
   edit_history: any[],
   flags: [],
   gravatar_hash: string,
@@ -178,13 +186,6 @@ export type NarrowElement = {
 
 export type Narrow = NarrowElement[];
 
-export type Recipient = {
-  display_recipient: string,
-  subject: string,
-  email: string,
-  id: number,
-};
-
 export type ApiResponse = {
   result: string,
   msg: string,
@@ -230,9 +231,13 @@ export type SessionState = {
   debug: Debug,
 };
 
-export type CaughtUpState = Object;
+export type CaughtUpState = {
+  [narrow: string]: CaughtUp,
+};
 
-export type FetchingState = Object;
+export type FetchingState = {
+  [narrow: string]: Fetching,
+};
 
 export type FlagMap = {
   [number]: boolean,
@@ -314,12 +319,11 @@ export type SettingsState = {
   streamNotification: boolean,
 };
 
-export type TypingState = Object;
-
-export type StreamUnreadItem = {
-  stream_id: string,
-  topic: string,
-  unread_message_ids: number[],
+export type TypingState = {
+  [normalizedRecipients: string]: {
+    time: number,
+    userIds: number[],
+  },
 };
 
 export type Outbox = any; /* {
@@ -335,17 +339,39 @@ export type Outbox = any; /* {
   narrow: Narrow,
 } */
 
+export type StreamUnreadItem = {
+  stream_id: number,
+  topic: string,
+  unread_message_ids: number[],
+};
+
+export type HuddlesUnreadItem = {
+  user_ids_string: string,
+  unread_message_ids: number[],
+};
+
+export type PmsUnreadItem = {
+  sender_id: number,
+  unread_message_ids: number[],
+};
+
 export type UnreadStreamsState = StreamUnreadItem[];
-export type UnreadHuddlesState = Object[];
-export type UnreadPmsState = Object[];
+export type UnreadHuddlesState = HuddlesUnreadItem[];
+export type UnreadPmsState = PmsUnreadItem[];
 export type UnreadMentionsState = number[];
 
-export type AlertWordsState = any;
-export type DraftsState = any;
-export type UsersState = any; // [];
-export type PresenceState = {
-  [narrow: string]: Presence,
+export type AlertWordsState = string[];
+
+export type DraftsState = {
+  [narrow: string]: string,
 };
+
+export type UsersState = User[];
+
+export type PresenceState = {
+  [email: string]: Presence,
+};
+
 export type OutboxState = Outbox[];
 
 export type GlobalState = {
@@ -400,7 +426,9 @@ export type RenderedSectionDescriptor = any; /* {
   data: ItemDescriptor[],
 } */
 
-export type DraftState = any; // { string: string };
+export type DraftState = {
+  [narrow: string]: string,
+};
 
 export type TimingItemType = {
   text: string,
