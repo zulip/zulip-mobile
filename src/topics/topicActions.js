@@ -1,12 +1,12 @@
 /* @flow */
-import type { GetState, Dispatch, Narrow, TopicDetails, InitTopicsAction } from '../types';
+import type { GetState, Dispatch, Narrow, Topic, InitTopicsAction } from '../types';
 import { getTopics } from '../api';
 import { INIT_TOPICS } from '../actionConstants';
 import { NULL_STREAM } from '../nullObjects';
 import { isStreamNarrow } from '../utils/narrow';
 import { getAuth, getStreams } from '../selectors';
 
-export const initTopics = (topics: TopicDetails[], streamId: number): InitTopicsAction => ({
+export const initTopics = (topics: Topic[], streamId: number): InitTopicsAction => ({
   type: INIT_TOPICS,
   topics,
   streamId,

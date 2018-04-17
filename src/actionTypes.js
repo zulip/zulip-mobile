@@ -13,7 +13,7 @@ import type {
   RealmFilter,
   Stream,
   Subscription,
-  TopicDetails,
+  Topic,
   PresenceState,
 } from './types';
 
@@ -515,7 +515,7 @@ export type StreamAction =
 
 export type InitTopicsAction = {
   type: 'INIT_TOPICS',
-  topics: TopicDetails[],
+  topics: Topic[],
   streamId: number,
 };
 

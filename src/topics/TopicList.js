@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { TopicDetails } from '../types';
+import type { Topic } from '../types';
 import TopicItem from '../streams/TopicItem';
 import { LoadingIndicator, SectionSeparatorBetween, SearchEmptyState } from '../common';
 
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  topics: ?(TopicDetails[]),
+  topics: ?(Topic[]),
   onPress: (stream: string, topic: string) => void,
 };
 

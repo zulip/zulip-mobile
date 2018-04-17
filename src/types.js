@@ -270,12 +270,14 @@ export type RealmState = {
   emoji: Object,
 };
 
-export type TopicDetails = any; /* {
+export type Topic = {
   name: string,
   max_id: number,
-} */
+};
 
-export type TopicsState = any; // TopicDetails[];
+export type TopicsState = {
+  [number]: Topic[],
+};
 
 export type ThemeType = 'default' | 'night';
 
