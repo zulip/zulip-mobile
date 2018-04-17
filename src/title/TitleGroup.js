@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { User } from '../types';
+import type { PresenceState, User } from '../types';
 import { Avatar } from '../common';
 
 const styles = StyleSheet.create({
@@ -18,19 +18,26 @@ const styles = StyleSheet.create({
 
 type Props = {
   recipients: User[],
+  presence: PresenceState,
 };
 
 export default class TitleGroup extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { recipients } = this.props;
+    const { recipients, presence } = this.props;
 
     return (
       <View style={styles.wrapper}>
         {recipients.map((user, index) => (
           <View key={user.email} style={styles.avatar}>
-            <Avatar size={24} name={user.fullName} avatarUrl={user.avatarUrl} email={user.email} />
+            <Avatar
+              size={32}
+              name={user.fullName}
+              avatarUrl={user.avatarUrl}
+              email={user.email}
+              presence={presence[user.email]}
+            />
           </View>
         ))}
       </View>
