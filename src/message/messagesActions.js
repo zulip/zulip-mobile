@@ -7,7 +7,7 @@ import { SWITCH_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
-import { validateNarrow } from '../utils/narrow';
+import { validateNarrow, fixStreamNarrowOperand } from '../utils/narrow';
 
 export const switchNarrow = (narrow: Narrow): SwitchNarrowAction => ({
   type: SWITCH_NARROW,
@@ -17,11 +17,17 @@ export const switchNarrow = (narrow: Narrow): SwitchNarrowAction => ({
 const isNarrowValid = (narrow: Narrow, state: GlobalState): boolean =>
   validateNarrow(narrow, getStreams(state), getUsers(state));
 
+const fixStreamNarrow = (narrow: Narrow, state: GlobalState) =>
+  fixStreamNarrowOperand(narrow, getStreams(state));
+
 export const doNarrow = (narrow: Narrow, anchor: number = 0) => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
   const state = getState();
+
+  fixStreamNarrow(narrow, state);
+
   if (!isNarrowValid(narrow, state) || !getIsHydrated(state)) {
     return;
   }

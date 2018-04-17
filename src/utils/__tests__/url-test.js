@@ -589,6 +589,9 @@ describe('appendAuthToImages', () => {
     const input = '<img src="/user_uploads/img.png">"But soft,"';
     const expected = '<img src="/user_uploads/img.png?api_key=some_key">"But soft,"';
     expect(appendAuthToImages(input, auth)).toEqual(expected);
+  });
+});
+
 describe('extractStreamName', () => {
   test('when no value is entered return empty string', () => {
     const result = extractStreamName('21-example');

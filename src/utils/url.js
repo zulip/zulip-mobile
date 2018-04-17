@@ -2,7 +2,7 @@
 import base64 from 'base-64';
 import urlRegex from 'url-regex';
 
-import type { Auth, Narrow, User } from '../types';
+import type { Auth, Narrow, User, Stream } from '../types';
 import { homeNarrow, topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { getUserById } from '../users/userHelpers';
 import { transformToEncodedURI } from './string';
@@ -89,7 +89,7 @@ export const extractStreamName = (streamNameWithNumberAppended: string = ''): st
 
 // We need to extract the stream_id from the new format.
 export const extractStreamID = (streamNameWithNumberAppended: string = ''): number => {
-  const streamID = (/^\d+(?=-)/).exec(streamNameWithNumberAppended.trim());
+  const streamID = /^\d+(?=-)/.exec(streamNameWithNumberAppended.trim());
   return streamID !== null ? parseInt(streamID, 10) : 0;
 };
 
@@ -102,16 +102,12 @@ export const getNarrowFromLink = (url: string, realm: string, users: any[]): Nar
       recipients.map((recipient: string) => getUserById(users, parseInt(recipient, 10)).email),
     );
   } else if (isTopicLink(url, realm)) {
-    const streamNameWithNumberAppended = decodeURIComponent(transformToEncodedURI(paths[1]));
-    return topicNarrow(
-      extractStreamName(streamNameWithNumberAppended),
-      decodeURIComponent(transformToEncodedURI(paths[3])),
-    );
+    const streamNameFromURL = decodeURIComponent(transformToEncodedURI(paths[1]));
+    return topicNarrow(streamNameFromURL, decodeURIComponent(transformToEncodedURI(paths[3])));
   } else if (isStreamLink(url, realm)) {
-    const streamNameWithNumberAppended = decodeURIComponent(transformToEncodedURI(paths[1]));
-    return streamNarrow(
-      extractStreamName(streamNameWithNumberAppended)
-    );
+    const streamNameFromURL = decodeURIComponent(transformToEncodedURI(paths[1]));
+
+    return streamNarrow(streamNameFromURL);
   } else if (isSpecialLink(url, realm)) {
     return specialNarrow(paths[1]);
   }
@@ -185,3 +181,17 @@ export const appendAuthToImages = (messageStr: string, auth: Auth): string =>
     new RegExp(`<img src="((?:|/|${escapeRegExp(auth.realm)}/)user_uploads/[^"]*)"`, 'g'),
     `<img src="$1?api_key=${auth.apiKey}"`,
   );
+export const streamNameFromSlug = (slug: string, streams: Stream[]): string => {
+  const isValidStreamName = streams.find(s => s.name === slug);
+  const streamID: number = extractStreamID(slug);
+
+  if (isValidStreamName) {
+    return slug;
+  } else if (streamID) {
+    const stream = streams.find(s => s.stream_id === streamID);
+    if (stream) {
+      return stream.name;
+    }
+  }
+  return slug;
+};

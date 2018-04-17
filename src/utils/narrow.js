@@ -5,6 +5,7 @@ import unescape from 'lodash.unescape';
 
 import type { Narrow, Message, Stream, User } from '../types';
 import { normalizeRecipients } from './message';
+import { streamNameFromSlug } from './url';
 
 export const homeNarrow: Narrow = [];
 
@@ -150,6 +151,12 @@ export const getNarrowFromMessage = (message: Message, email: string) => {
   }
 
   return streamNarrow(message.display_recipient);
+};
+
+export const fixStreamNarrowOperand = (narrow: Narrow, streams: Stream[]) => {
+  if (isStreamOrTopicNarrow(narrow)) {
+    narrow[0].operand = streamNameFromSlug(narrow[0].operand, streams);
+  }
 };
 
 export const validateNarrow = (narrow: Narrow, streams: Stream[], users: User[]): boolean => {
