@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Actions, Stream, TopicDetails } from '../types';
+import type { Actions, Stream, Topic } from '../types';
 import connectWithActions from '../connectWithActions';
 import { Screen } from '../common';
 import { topicNarrow } from '../utils/narrow';
@@ -12,7 +12,7 @@ import TopicList from './TopicList';
 type Props = {
   actions: Actions,
   stream: Stream,
-  topics: TopicDetails[],
+  topics: Topic[],
 };
 
 class TopicListScreen extends PureComponent<Props> {

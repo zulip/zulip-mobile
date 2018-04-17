@@ -1,7 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { Narrow } from '../types';
+import type { Narrow, StreamsState, TopicsState } from '../types';
 import { getStreams, getTopics } from '../directSelectors';
 import { getTopicListScreenParams } from '../baseSelectors';
 import { getShownMessagesForNarrow } from '../chat/chatSelectors';
@@ -9,7 +9,7 @@ import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, topicNarrow } from '../utils/narrow';
 
 export const getTopicsForNarrow = (narrow: Narrow) =>
-  createSelector(getTopics, getStreams, (topics, streams) => {
+  createSelector(getTopics, getStreams, (topics: TopicsState, streams: StreamsState) => {
     if (!isStreamNarrow(narrow)) {
       return NULL_ARRAY;
     }
@@ -25,7 +25,7 @@ export const getTopicsForNarrow = (narrow: Narrow) =>
 export const getTopicsInScreen = createSelector(
   getTopicListScreenParams,
   getTopics,
-  (params, topics) => topics[params.streamId],
+  (params, topics: TopicsState) => topics[params.streamId],
 );
 
 export const getLastMessageTopic = (narrow: Narrow) =>
