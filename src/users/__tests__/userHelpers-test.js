@@ -313,7 +313,7 @@ describe('groupUsersByStatus', () => {
     ]);
     const presence = {
       'allen@example.com': { aggregated: { status: 'active' } },
-      'bob@example.com': { aggregated: { status: 'idle' } },
+      'bob@example.com': { aggregated: { status: 'idle', timestamp: Date.now() / 1000 - 10 * 60 } },
       'carter@example.com': { aggregated: { status: 'offline' } },
     };
     const expectedResult = {

@@ -3,7 +3,7 @@ import uniqby from 'lodash.uniqby';
 import differenceInMinutes from 'date-fns/difference_in_minutes';
 
 import type { Presence, User, UserStatus } from '../types';
-import { NULL_USER, NULL_PRESENCE_AGGREGATED } from '../nullObjects';
+import { NULL_USER } from '../nullObjects';
 
 const statusOrder = status => {
   switch (status) {
@@ -58,9 +58,7 @@ export const groupUsersByInitials = (users: User[]): Object =>
 export const groupUsersByStatus = (users: User[], presences: Object): Object =>
   users.reduce(
     (groupedUsers, user) => {
-      const status = presences[user.email]
-        ? (presences[user.email].aggregated || NULL_PRESENCE_AGGREGATED).status
-        : 'offline';
+      const status = statusFromPresence(presences[user.email]);
       groupedUsers[status].push(user);
       return groupedUsers;
     },
