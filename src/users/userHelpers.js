@@ -18,7 +18,7 @@ const statusOrder = status => {
   }
 };
 
-export const statusFromPresence = (presence: Presence): UserStatus => {
+export const statusFromPresence = (presence?: Presence): UserStatus => {
   if (!presence || !presence.aggregated) {
     return 'offline';
   }
