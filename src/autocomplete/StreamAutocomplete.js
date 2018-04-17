@@ -31,7 +31,7 @@ class StreamAutocomplete extends PureComponent<Props> {
           keyboardShouldPersistTaps="always"
           initialNumToRender={streams.length}
           data={streams}
-          keyExtractor={item => item.stream_id}
+          keyExtractor={item => item.stream_id.toString()}
           renderItem={({ item }) => (
             <StreamItem
               name={item.name}

@@ -54,7 +54,7 @@ export const isSameRecipient = (message1: Message, message2: Message): boolean =
   }
 };
 
-export const isTopicMuted = (stream: string, topic: string, mute: string[] = []): boolean =>
+export const isTopicMuted = (stream: string, topic: string, mute: MuteState = []): boolean =>
   mute.some(x => x[0] === stream && x[1] === topic);
 
 export const shouldBeMuted = (

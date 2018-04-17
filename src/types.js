@@ -119,6 +119,20 @@ export type Stream = {
   color: string,
 };
 
+export type StreamsState = Stream[];
+
+export type Subscription = Stream & {
+  audible_notifications: boolean,
+  desktop_notifications: boolean,
+  email_address: string,
+  push_notifications: boolean,
+  is_old_stream: boolean,
+  push_notifications: boolean,
+  stream_weekly_traffic: number,
+};
+
+export type SubscriptionsState = Subscription[];
+
 export type ClientPresence = {
   [key: string]: Presence,
 };
@@ -245,7 +259,7 @@ export type LoadingState = {
 };
 
 export type MuteTuple = [string, string];
-export type MuteState = any; // MuteTuple[]
+export type MuteState = MuteTuple[];
 
 export type NavigationState = {
   index: number,
@@ -291,10 +305,6 @@ export type SettingsState = {
   experimentalFeaturesEnabled: boolean,
   streamNotification: boolean,
 };
-
-export type StreamsState = any; // [];
-
-export type SubscriptionsState = any; // [];
 
 export type TypingState = Object;
 
@@ -374,23 +384,6 @@ export type RealmEmojiType = {
 };
 
 export type LocalizableText = any; // string | { text: string, values: Object };
-
-export type Subscription = {
-  audible_notifications: boolean,
-  color: string,
-  description: string,
-  desktop_notifications: boolean,
-  email_address: string,
-  in_home_view: boolean,
-  invite_only: boolean,
-  name: string,
-  pin_to_top: boolean,
-  push_notifications: boolean,
-  stream_id: number,
-  is_old_stream: boolean,
-  push_notifications: boolean,
-  stream_weekly_traffic: number,
-};
 
 export type RenderedTimeDescriptor = {
   type: 'time',
