@@ -75,7 +75,6 @@ class Screen extends PureComponent<Props> {
         )}
         <KeyboardAvoider
           behavior="padding"
-          keyboardShouldPersistTaps="handled"
           style={[componentStyles.wrapper, padding && styles.padding]}
           contentContainerStyle={[padding && styles.padding]}
         >
