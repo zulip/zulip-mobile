@@ -39,7 +39,7 @@ type Props = {
   isPrivate?: boolean,
   isSelected?: boolean,
   showSwitch?: boolean,
-  color: string,
+  color?: string,
   backgroundColor?: string,
   isSwitchedOn?: boolean,
   unreadCount?: number,
