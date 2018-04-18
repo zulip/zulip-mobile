@@ -128,12 +128,16 @@ export const getUnreadStreamsAndTopics = createSelector(
         };
       }
 
-      totals[stream.stream_id].unread += stream.unread_message_ids.length;
+      const isMuted = !mute.every(x => x[0] !== name || x[1] !== stream.topic);
+      if (!isMuted) {
+        totals[stream.stream_id].unread += stream.unread_message_ids.length;
+      }
+
       totals[stream.stream_id].data.push({
         key: stream.topic,
         topic: stream.topic,
         unread: stream.unread_message_ids.length,
-        isMuted: !mute.every(x => x[0] !== name || x[1] !== stream.topic),
+        isMuted,
       });
 
       return totals;

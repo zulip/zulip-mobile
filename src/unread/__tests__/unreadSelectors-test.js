@@ -306,7 +306,7 @@ describe('getUnreadStreamsAndTopics', () => {
     expect(unreadCount).toEqual([]);
   });
 
-  test('Muted streams should not be included', () => {
+  test('muted streams should not be included', () => {
     const state = deepFreeze({
       subscriptions: [
         {
@@ -331,6 +331,50 @@ describe('getUnreadStreamsAndTopics', () => {
     const unreadCount = getUnreadStreamsAndTopics(state);
 
     expect(unreadCount).toEqual([]);
+  });
+
+  test('muted topics inside non muted streams should not be included', () => {
+    const state = deepFreeze({
+      subscriptions: [
+        {
+          stream_id: 0,
+          name: 'stream 0',
+          color: 'red',
+          in_home_view: true,
+        },
+      ],
+      unread: {
+        streams: unreadStreamData,
+      },
+      mute: ['stream 0', 'a topic'],
+    });
+
+    const unreadCount = getUnreadStreamsAndTopics(state);
+
+    expect(unreadCount).toEqual([
+      {
+        color: 'red',
+        data: [
+          {
+            isMuted: false,
+            key: 'a topic',
+            topic: 'a topic',
+            unread: 3,
+          },
+          {
+            isMuted: false,
+            key: 'another topic',
+            topic: 'another topic',
+            unread: 2,
+          },
+        ],
+        isMuted: false,
+        isPrivate: undefined,
+        key: 'stream 0',
+        streamName: 'stream 0',
+        unread: 5,
+      },
+    ]);
   });
 
   test('group data by stream and topics inside, count unread', () => {
@@ -463,7 +507,7 @@ describe('getUnreadStreamsAndTopics', () => {
         color: 'green',
         isMuted: false,
         isPrivate: false,
-        unread: 4,
+        unread: 2,
         data: [
           { key: 'b topic', topic: 'b topic', unread: 2, isMuted: false },
           { key: 'c topic', topic: 'c topic', unread: 2, isMuted: true },
