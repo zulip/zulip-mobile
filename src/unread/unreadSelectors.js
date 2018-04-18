@@ -27,32 +27,27 @@ import {
 } from '../utils/narrow';
 import { NULL_SUBSCRIPTION, NULL_USER } from '../nullObjects';
 
-export const getUnreadByStream = createSelector(getUnreadStreams, unreadStreams =>
-  unreadStreams.reduce((totals, stream) => {
-    totals[stream.stream_id] = (totals[stream.stream_id] || 0) + stream.unread_message_ids.length;
-    return totals;
-  }, {}),
-);
-
-export const getUnreadStreamTotal = createSelector(
+export const getUnreadByStream = createSelector(
   getUnreadStreams,
   getSubscriptionsById,
   getMute,
-  (unreadStreams, subscriptionsById, mute: MuteState) =>
-    unreadStreams.reduce(
-      (total, stream) =>
-        stream
-          ? !(subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION).in_home_view ||
-            isTopicMuted(
-              (subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION).name,
-              stream.topic,
-              mute,
-            )
-            ? total
-            : total + stream.unread_message_ids.length
-          : total,
-      0,
-    ),
+  (unreadStreams, subscriptionsById, mute) =>
+    unreadStreams.reduce((totals, stream) => {
+      if (!totals[stream.stream_id]) {
+        totals[stream.stream_id] = 0;
+      }
+      const isMuted = isTopicMuted(
+        (subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION).name,
+        stream.topic,
+        mute,
+      );
+      totals[stream.stream_id] += isMuted ? 0 : stream.unread_message_ids.length;
+      return totals;
+    }, {}),
+);
+
+export const getUnreadStreamTotal = createSelector(getUnreadByStream, unreadByStream =>
+  Object.values(unreadByStream).reduce((total, x) => +x + total, 0),
 );
 
 export const getUnreadByPms = createSelector(getUnreadPms, unreadPms =>
