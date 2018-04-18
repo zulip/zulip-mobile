@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Actions, UnreadStream } from '../types';
+import type { Actions, PresenceState, UnreadStream } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import ConversationList from '../conversations/ConversationList';
 import StreamItem from '../streams/StreamItem';
@@ -13,7 +13,7 @@ type Props = {
   actions: Actions,
   conversations: Object[],
   isLoading: boolean,
-  presences: Object,
+  presences: PresenceState,
   usersByEmail: Object,
   unreadStreamsAndTopics: UnreadStream[],
   unreadStreamsAndTopics: any,

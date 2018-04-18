@@ -133,14 +133,6 @@ export type Subscription = Stream & {
 
 export type SubscriptionsState = Subscription[];
 
-export type ClientPresence = {
-  [key: string]: Presence,
-};
-
-export type Presences = {
-  [key: string]: ClientPresence,
-};
-
 export type HeartbeatEvent = {
   type: 'heartbeat',
   id: number,
@@ -335,7 +327,9 @@ export type UnreadMentionsState = number[];
 export type AlertWordsState = any;
 export type DraftsState = any;
 export type UsersState = any; // [];
-export type PresenceState = any;
+export type PresenceState = {
+  [narrow: string]: Presence,
+};
 export type OutboxState = Outbox[];
 
 export type GlobalState = {
@@ -530,7 +524,7 @@ export type InitialRealmData = {
   stream_weekly_traffic: number,
   night_mode: boolean,
   pm_content_in_desktop_notifications: boolean,
-  presences: Presence[],
+  presences: PresenceState,
   queue_id: number,
   realm_emoji: Object, // map of RealmEmojiType
   realm_filters: RealmFilter[],

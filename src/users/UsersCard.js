@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Actions, User } from '../types';
+import type { Actions, PresenceState, User } from '../types';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
 
@@ -10,7 +10,7 @@ type Props = {
   ownEmail: string,
   users: User[],
   filter: string,
-  presences: Object,
+  presences: PresenceState,
 };
 
 export default class UsersCard extends PureComponent<Props> {
