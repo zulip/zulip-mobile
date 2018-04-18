@@ -7,7 +7,7 @@ import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
 import { foregroundColorFromBackground } from '../utils/color';
 import StreamIcon from './StreamIcon';
 
-const styles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -64,6 +64,7 @@ export default class StreamItem extends PureComponent<Props> {
   };
 
   render() {
+    const { styles } = this.context;
     const {
       name,
       description,
@@ -79,10 +80,10 @@ export default class StreamItem extends PureComponent<Props> {
     } = this.props;
 
     const wrapperStyle = [
-      styles.row,
+      componentStyles.row,
       { backgroundColor },
-      isSelected && styles.selectedRow,
-      isMuted && styles.muted,
+      isSelected && componentStyles.selectedRow,
+      isMuted && componentStyles.muted,
     ];
     const iconColor = isSelected
       ? 'white'
@@ -93,18 +94,18 @@ export default class StreamItem extends PureComponent<Props> {
       ? { color: 'white' }
       : backgroundColor
         ? { color: foregroundColorFromBackground(backgroundColor) }
-        : this.context.styles.color;
+        : styles.color;
 
     return (
       <Touchable onPress={this.handlePress}>
         <View style={wrapperStyle}>
           <StreamIcon size={iconSize} color={iconColor} isMuted={isMuted} isPrivate={isPrivate} />
-          <View style={styles.text}>
+          <View style={componentStyles.text}>
             <RawLabel numberOfLines={1} style={textColorStyle} text={name} ellipsizeMode="tail" />
             {!!description && (
               <RawLabel
                 numberOfLines={1}
-                style={styles.description}
+                style={componentStyles.description}
                 text={description}
                 ellipsizeMode="tail"
               />
