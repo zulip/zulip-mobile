@@ -41,7 +41,7 @@ class AccountPickScreen extends PureComponent<Props> {
     const { accounts, actions, auth } = this.props;
 
     return (
-      <Screen title="Pick account" padding>
+      <Screen title="Pick account" centerContent padding>
         <Centerer>
           {accounts.length === 0 && <Logo />}
           <AccountList
