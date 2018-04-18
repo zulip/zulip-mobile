@@ -6,12 +6,14 @@ import connectWithActions from '../connectWithActions';
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import getFilteredEmojiList from '../emoji/getFilteredEmojiList';
-import type { GlobalState, RealmEmojiType } from '../types';
-import { getActiveRealmEmoji } from '../selectors';
+import type { GlobalState, RealmEmojiState, ZulipExtraEmojisState } from '../types';
+import { getActiveRealmEmoji, getAllZulipExtraEmoji } from '../selectors';
+import zulipExtraEmojiMap from '../emoji/zulipExtraEmojiMap';
 
 type Props = {
   filter: string,
-  realmEmoji: RealmEmojiType,
+  realmEmojiState: RealmEmojiState,
+  zulipExtraEmojis: ZulipExtraEmojisState,
   onAutocomplete: (name: string) => void,
 };
 
@@ -19,8 +21,8 @@ class EmojiAutocomplete extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { filter, realmEmoji, onAutocomplete } = this.props;
-    const emojis = getFilteredEmojiList(filter, realmEmoji);
+    const { filter, realmEmojiState, onAutocomplete, zulipExtraEmojis } = this.props;
+    const emojis = getFilteredEmojiList(filter, realmEmojiState, zulipExtraEmojis);
 
     if (emojis.length === 0) return null;
 
@@ -33,7 +35,12 @@ class EmojiAutocomplete extends PureComponent<Props> {
           keyExtractor={item => item}
           renderItem={({ item }) => (
             <EmojiRow
-              realmEmoji={realmEmoji[item]}
+              realmEmoji={
+                realmEmojiState[
+                  Object.keys(realmEmojiState).find(key => realmEmojiState[key].name === item)
+                ]
+              }
+              zulipExtraEmoji={zulipExtraEmojis[item]}
               name={item}
               onPress={() => onAutocomplete(item)}
             />
@@ -45,5 +52,6 @@ class EmojiAutocomplete extends PureComponent<Props> {
 }
 
 export default connectWithActions((state: GlobalState) => ({
-  realmEmoji: getActiveRealmEmoji(state),
+  realmEmojiState: getActiveRealmEmoji(state),
+  zulipExtraEmojis: getAllZulipExtraEmoji(zulipExtraEmojiMap)(state),
 }))(EmojiAutocomplete);

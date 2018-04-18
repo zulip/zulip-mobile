@@ -1,6 +1,6 @@
 /* @flow */
 import deepFreeze from 'deep-freeze';
-import { getActiveRealmEmoji, getAllRealmEmoji } from '../emojiSelectors';
+import { getActiveRealmEmoji, getAllRealmEmoji, getAllZulipExtraEmoji } from '../emojiSelectors';
 
 describe('getActiveRealmEmoji', () => {
   test('filter out all deactivated emojis', () => {
@@ -69,5 +69,22 @@ describe('getAllRealmEmoji', () => {
     };
 
     expect(getAllRealmEmoji(deepFreeze(state))).toEqual(expectedResult);
+  });
+});
+
+describe('getAllZulipExtraEmoji', () => {
+  test('get zulip extra emoji with absolute url', () => {
+    const state = {
+      accounts: [{ realm: 'https://example.com' }],
+    };
+    const zulipExtraEmojiMap = {
+      zulip: { emoji_url: '/static/generated/emoji/images/emoji/unicode/zulip.png' },
+    };
+    const expectedResult = {
+      zulip: {
+        emoji_url: 'https://example.com/static/generated/emoji/images/emoji/unicode/zulip.png',
+      },
+    };
+    expect(getAllZulipExtraEmoji(zulipExtraEmojiMap)(deepFreeze(state))).toEqual(expectedResult);
   });
 });

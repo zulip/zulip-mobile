@@ -374,6 +374,8 @@ export type RealmEmojiType = {
     id: number,
   },
   deactivated: boolean,
+  id: number,
+  name: string,
   source_url: string,
 };
 
@@ -545,3 +547,9 @@ export type InitialRealmData = {
   unsubscribed: Subscription[],
   user_id: number,
 };
+
+export type ZulipExtraEmojiType = {
+  emoji_url: string,
+};
+
+export type ZulipExtraEmojisState = any;

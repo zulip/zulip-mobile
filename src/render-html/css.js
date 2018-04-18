@@ -323,8 +323,8 @@ ul {
   pointer-events: none;
   cursor: default;
   height: "auto";
-  width: 1em;
-  max-height: 1em;
+  width: 1.25em;
+  max-height: 1.25em;
   vertical-align: middle;
 }
 .self-voted {

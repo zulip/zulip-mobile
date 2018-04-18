@@ -1,6 +1,7 @@
 /* @flow */
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
+import { getEmojiCodeFromName, getEmojiTypeFromName } from '../emoji/utils';
 import type { Actions, Auth, FlagsState, Message, Narrow } from '../types';
 import { isUrlAnImage } from '../utils/url';
 import { filterUnreadMessagesInRange } from '../utils/unread';
@@ -55,6 +56,8 @@ type Props = {
   flags: FlagsState,
   messages: Message[],
   narrow: Narrow,
+  realmEmoji: Object,
+  zulipExtraEmojis: Object,
   onLongPress: (messageId: number, target: string) => void,
 };
 
@@ -118,7 +121,15 @@ export const handleUrl = (props: Props, event: MessageListEventUrl) => {
 };
 
 export const handleReaction = (props: Props, event: MessageListEventReaction) => {
-  const { code, messageId, name, reactionType, voted } = event;
+  let { code, reactionType } = event;
+  const { messageId, name, voted } = event;
+  code =
+    code === 'undefined' && getEmojiCodeFromName(props.realmEmoji, props.zulipExtraEmojis, name);
+  reactionType =
+    reactionType === 'undefined' &&
+    getEmojiTypeFromName(props.realmEmoji, props.zulipExtraEmojis, name);
+
+  if (!reactionType || !code) return;
 
   if (voted) {
     emojiReactionRemove(props.auth, messageId, reactionType, code, name);

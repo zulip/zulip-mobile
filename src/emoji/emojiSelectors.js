@@ -19,3 +19,14 @@ export const getActiveRealmEmoji = createSelector(getAllRealmEmoji, emojis =>
       return list;
     }, {}),
 );
+
+export const getAllZulipExtraEmoji = (zulipExtraEmojiMap: Object) =>
+  createSelector(getAuth, auth =>
+    Object.keys(zulipExtraEmojiMap).reduce((list, key) => {
+      list[key] = {
+        ...zulipExtraEmojiMap[key],
+        emoji_url: getFullUrl(zulipExtraEmojiMap[key].emoji_url, auth.realm),
+      };
+      return list;
+    }, {}),
+  );

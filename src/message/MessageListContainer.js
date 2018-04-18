@@ -24,6 +24,7 @@ import MessageListWeb from '../render-html/MessageListWeb';
 import {
   getAuth,
   getAllRealmEmoji,
+  getAllZulipExtraEmoji,
   getCurrentTypingUsers,
   getDebug,
   getRenderedMessages,
@@ -37,6 +38,7 @@ import {
 } from '../selectors';
 import { filterUnreadMessageIds } from '../utils/unread';
 import { queueMarkAsRead } from '../api';
+import zulipExtraEmojiMap from '../emoji/zulipExtraEmojiMap';
 
 export type Props = {
   actions: Actions,
@@ -55,6 +57,7 @@ export type Props = {
   showMessagePlaceholders: boolean,
   subscriptions: Subscription[],
   typingUsers: User[],
+  zulipExtraEmojis: Object,
   listRef: (component: any) => void,
   onLongPress: (messageId: number, target: string) => void,
   onReplySelect: () => void,
@@ -140,4 +143,5 @@ export default connectWithActions((state, props) => ({
     props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
   subscriptions: getSubscriptions(state),
   typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
+  zulipExtraEmojis: getAllZulipExtraEmoji(zulipExtraEmojiMap)(state),
 }))(connectActionSheet(MessageListContainer));
