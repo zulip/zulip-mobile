@@ -78,7 +78,7 @@ const eventReactionRemove = (
 
 const eventNewMessage = (state: MessageState, action: EventNewMessageAction): MessageState => {
   let stateChange = false;
-  let newState = Object.keys(state).reduce((msg, key) => {
+  const newState = Object.keys(state).reduce((msg, key) => {
     const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
     const isCaughtUp = action.caughtUp[key] && action.caughtUp[key].newer;
     const messageDoesNotExist =
@@ -93,16 +93,6 @@ const eventNewMessage = (state: MessageState, action: EventNewMessageAction): Me
 
     return msg;
   }, {});
-
-  const key = JSON.stringify(getNarrowFromMessage(action.message, action.ownEmail));
-  if (!stateChange && state[key] === undefined) {
-    // new message is in new narrow in which we don't have any message
-    stateChange = true;
-    newState = {
-      ...state,
-      [key]: [action.message],
-    };
-  }
 
   return stateChange ? newState : state;
 };

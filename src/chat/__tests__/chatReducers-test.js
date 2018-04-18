@@ -45,9 +45,6 @@ describe('chatReducers', () => {
 
       const expectedState = deepFreeze({
         [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-        [JSON.stringify(topicNarrow('some stream', 'some topic'))]: [
-          { id: 3, display_recipient: 'some stream', subject: 'some topic' },
-        ],
       });
 
       expect(newState).toEqual(expectedState);
@@ -79,7 +76,7 @@ describe('chatReducers', () => {
       expect(newState).not.toBe(initialState);
     });
 
-    test('if new message key is now present and is of type stream, then create key of topicNarrow type', () => {
+    test('if new message key does not exist do not create it', () => {
       const initialState = deepFreeze({
         [JSON.stringify(topicNarrow('some stream', 'some topic'))]: [{ id: 1 }, { id: 2 }],
       });
@@ -94,39 +91,6 @@ describe('chatReducers', () => {
 
       const expectedState = {
         [JSON.stringify(topicNarrow('some stream', 'some topic'))]: [{ id: 1 }, { id: 2 }],
-        [JSON.stringify(topicNarrow('stream', 'topic'))]: [
-          { id: 3, type: 'stream', display_recipient: 'stream', subject: 'topic' },
-        ],
-      };
-      expect(newState).toEqual(expectedState);
-    });
-
-    test('if new message key is not present and is of type private, then create key of groupNarrow type', () => {
-      const initialState = deepFreeze({
-        [JSON.stringify(topicNarrow('all', 'GCI'))]: [{ id: 1 }, { id: 2 }],
-      });
-
-      const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        message: {
-          id: 3,
-          type: 'private',
-          display_recipient: [{ email: 'a@a.com' }, { email: 'b@b.com' }],
-        },
-        caughtUp: {},
-      });
-
-      const newState = chatReducers(initialState, action);
-
-      const expectedState = {
-        [JSON.stringify(topicNarrow('all', 'GCI'))]: [{ id: 1 }, { id: 2 }],
-        [JSON.stringify(groupNarrow(['a@a.com', 'b@b.com']))]: [
-          {
-            id: 3,
-            type: 'private',
-            display_recipient: [{ email: 'a@a.com' }, { email: 'b@b.com' }],
-          },
-        ],
       };
       expect(newState).toEqual(expectedState);
     });
@@ -156,40 +120,6 @@ describe('chatReducers', () => {
     const actualState = chatReducers(initialState, action);
 
     expect(actualState).toEqual(expectedState);
-  });
-
-  test('appends same id message to state', () => {
-    const initialState = deepFreeze({
-      [homeNarrowStr]: [
-        { id: 1 },
-        { id: 2, display_recipient: 'some stream', subject: 'some topic' },
-      ],
-    });
-
-    const action = deepFreeze({
-      type: EVENT_NEW_MESSAGE,
-      message: { id: 2, display_recipient: 'some stream', subject: 'some topic' },
-      caughtUp: {
-        [homeNarrowStr]: {
-          older: false,
-          newer: true,
-        },
-      },
-    });
-
-    const newState = chatReducers(initialState, action);
-
-    const expectedState = deepFreeze({
-      [homeNarrowStr]: [
-        { id: 1 },
-        { id: 2, display_recipient: 'some stream', subject: 'some topic' },
-      ],
-      [JSON.stringify(topicNarrow('some stream', 'some topic'))]: [
-        { id: 2, display_recipient: 'some stream', subject: 'some topic' },
-      ],
-    });
-
-    expect(newState).toEqual(expectedState);
   });
 
   test('message sent to topic is stored correctly', () => {
