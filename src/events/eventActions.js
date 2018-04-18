@@ -59,7 +59,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       lastEventId = Math.max.apply(null, [lastEventId, ...response.events.map(x => x.id)]);
     } catch (e) {
       // The event queue is too old or has been garbage collected
-      if (e.message.indexOf('too old') !== -1 || e.message.indexOf('Bad event queue id') !== -1) {
+      if (e.status === 400 && (await e.json()).code === 'BAD_EVENT_QUEUE_ID') {
         dispatch(appRefresh());
         break;
       }
