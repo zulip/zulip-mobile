@@ -67,7 +67,6 @@ export default class UnreadCards extends PureComponent<Props> {
               iconSize={16}
               isMuted={section.isMuted}
               isPrivate={section.isPrivate}
-              color={section.color}
               backgroundColor={section.color}
               unreadCount={section.unread}
               onPress={this.handleStreamPress}

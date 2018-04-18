@@ -5,7 +5,7 @@ import { IconMute, IconStream, IconPrivate } from '../common/Icons';
 import type { StyleObj } from '../types';
 
 type Props = {
-  color: string,
+  color?: string,
   isPrivate?: boolean,
   isMuted?: boolean,
   size: number,
