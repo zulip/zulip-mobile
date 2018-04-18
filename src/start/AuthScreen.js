@@ -140,7 +140,7 @@ class AuthScreen extends PureComponent<Props> {
     const { serverSettings } = this.props.navigation.state.params;
 
     return (
-      <Screen title="Log in" padding>
+      <Screen title="Log in" centerContent padding>
         <Centerer>
           <RealmInfo
             name={serverSettings.realm_name}
