@@ -43,11 +43,11 @@ describe('statusFromPresence', () => {
     expect(result).toBe('offline');
   });
 
-  test('if status is not "offline" and last activity was between 5min and 1hr result is "idle"', () => {
+  test('if status is  "idle" and last activity is less than 140 seconds then result remain "idle"', () => {
     const presence = {
       aggregated: {
-        status: 'active',
-        timestamp: Math.trunc(Date.now() / 1000 - 20 * 60), // 20 minutes
+        status: 'idle',
+        timestamp: Math.trunc(Date.now() / 1000 - 60), // 1 minute
       },
     };
     const result = statusFromPresence(presence);
@@ -332,7 +332,7 @@ describe('groupUsersByStatus', () => {
     ]);
     const presence = {
       'allen@example.com': { aggregated: { status: 'active' } },
-      'bob@example.com': { aggregated: { status: 'idle', timestamp: Date.now() / 1000 - 10 * 60 } },
+      'bob@example.com': { aggregated: { status: 'idle', timestamp: Date.now() / 1000 - 10 } },
       'carter@example.com': { aggregated: { status: 'offline' } },
     };
     const expectedResult = {

@@ -1,9 +1,11 @@
 /* @flow */
 import uniqby from 'lodash.uniqby';
-import differenceInMinutes from 'date-fns/difference_in_minutes';
+import differenceInSeconds from 'date-fns/difference_in_seconds';
 
 import type { Presence, User, UserStatus, PresenceState } from '../types';
 import { NULL_USER } from '../nullObjects';
+
+const OFFLINE_THRESHOLD_SECS = 140;
 
 export const statusFromPresence = (presence?: Presence): UserStatus => {
   if (!presence || !presence.aggregated) {
@@ -15,15 +17,13 @@ export const statusFromPresence = (presence?: Presence): UserStatus => {
   }
 
   const timestampDate = new Date(presence.aggregated.timestamp * 1000);
-  const diffToNowInMinutes = differenceInMinutes(Date.now(), timestampDate);
+  const diffToNowInSeconds = differenceInSeconds(Date.now(), timestampDate);
 
-  if (diffToNowInMinutes > 60) {
+  if (diffToNowInSeconds > OFFLINE_THRESHOLD_SECS) {
     return 'offline';
   }
-  if (diffToNowInMinutes > 5) {
-    return 'idle';
-  }
-  return 'active';
+
+  return presence.aggregated.status;
 };
 
 export const getUserByEmail = (users: User[], userEmail: string): User =>
