@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
-import type { Auth, Actions, Orientation, PresenceState } from '../types';
+import type { Auth, Actions, Orientation, Presence } from '../types';
 import { Avatar, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { BRAND_COLOR } from '../styles';
@@ -39,7 +39,7 @@ type Props = {
   auth: Auth,
   actions: Actions,
   email: string,
-  presence: PresenceState,
+  presence: Presence,
   avatarUrl: string,
   fullName: string,
   orientation: Orientation,

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Actions } from '../types';
+import type { Actions, PresenceState } from '../types';
 import { Label, LoadingIndicator, ZulipButton } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import ConversationList from './ConversationList';
@@ -29,7 +29,7 @@ type Props = {
   actions: Actions,
   conversations: Object[],
   isLoading: boolean,
-  presences: Object,
+  presences: PresenceState,
   usersByEmail: Object,
 };
 

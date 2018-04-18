@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Actions, User } from '../types';
+import type { Actions, User, PresenceState } from '../types';
 import { FloatingActionButton, LineSeparator } from '../common';
 import { IconDone } from '../common/Icons';
 import { groupNarrow } from '../utils/narrow';
@@ -28,7 +28,7 @@ type Props = {
   actions: Actions,
   ownEmail: string,
   users: User[],
-  presences: Object,
+  presences: PresenceState,
   filter: string,
 };
 
