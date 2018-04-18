@@ -15,6 +15,7 @@ import type {
   Subscription,
   Topic,
   PresenceState,
+  RealmEmojiState,
 } from './types';
 
 export type RehydrateAction = any;
@@ -305,7 +306,7 @@ export type EventAction = EventSubscriptionAction | EventUserAction;
 
 export type InitRealmEmojiAction = {
   type: 'INIT_REALM_EMOJI',
-  emojis: Object,
+  emojis: RealmEmojiState,
 };
 
 export type InitRealmEmojiActionCreator = (emojis: Object) => InitRealmEmojiAction;

@@ -265,6 +265,22 @@ export type NavigationState = {
 
 export type RealmFilter = [string, string, number];
 
+export type RealmEmojiType = {
+  author: {
+    email: string,
+    full_name: string,
+    id: number,
+  },
+  deactivated: boolean,
+  id: number,
+  name: string,
+  source_url: string,
+};
+
+export type RealmEmojiState = {
+  [id: string]: RealmEmojiType,
+};
+
 export type RealmState = {
   twentyFourHourTime: boolean,
   pushToken: {
@@ -273,7 +289,7 @@ export type RealmState = {
     result: string,
   },
   filters: RealmFilter[],
-  emoji: Object,
+  emoji: RealmEmojiState,
 };
 
 export type Topic = {
@@ -364,18 +380,6 @@ export type GlobalState = {
 export type MatchResult = Array<string> & { index: number, input: string };
 
 export type GetState = () => GlobalState;
-
-export type RealmEmojiState = any;
-
-export type RealmEmojiType = {
-  author: {
-    email: string,
-    full_name: string,
-    id: number,
-  },
-  deactivated: boolean,
-  source_url: string,
-};
 
 export type LocalizableText = any; // string | { text: string, values: Object };
 
@@ -526,7 +530,7 @@ export type InitialRealmData = {
   pm_content_in_desktop_notifications: boolean,
   presences: PresenceState,
   queue_id: number,
-  realm_emoji: Object, // map of RealmEmojiType
+  realm_emoji: RealmEmojiState,
   realm_filters: RealmFilter[],
   realm_name_in_notifications: boolean,
   realm_non_active_users: ApiUser[],
