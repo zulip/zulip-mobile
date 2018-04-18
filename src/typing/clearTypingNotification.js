@@ -1,6 +1,7 @@
 /* @flow */
 import type { Dispatch, GetState } from '../types';
 
+import { sleep } from '../utils/async';
 import { clearTyping } from '../typing/typingActions';
 import { getTyping } from '../directSelectors';
 
@@ -8,7 +9,7 @@ export const clearTypingNotification = () => async (dispatch: Dispatch, getState
   // loop to auto dismiss typing notifications after typingNotificationTimeout
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    await new Promise(resolve => setTimeout(resolve, 15000));
+    await sleep(15000);
     const currentTime = new Date().getTime();
     const typing = getTyping(getState());
     if (Object.keys(typing).length === 0) {
