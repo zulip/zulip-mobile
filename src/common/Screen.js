@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
-import type { ChildrenArray, Dimensions, LocalizableText } from '../types';
+import type { ChildrenArray, Dimensions, LocalizableText, StyleObj } from '../types';
 import connectWithActions from '../connectWithActions';
 import { KeyboardAvoider, ZulipStatusBar } from '../common';
 import { getSession } from '../selectors';
@@ -33,6 +33,7 @@ type Props = {
   padding?: boolean,
   search?: boolean,
   title?: LocalizableText,
+  style?: StyleObj,
   searchBarOnChange?: (text: string) => void,
 };
 
@@ -59,6 +60,7 @@ class Screen extends PureComponent<Props> {
       safeAreaInsets,
       search,
       searchBarOnChange,
+      style,
       title,
     } = this.props;
     const { styles } = this.context;
@@ -79,7 +81,7 @@ class Screen extends PureComponent<Props> {
         >
           <ScrollView
             style={componentStyles.childrenWrapper}
-            contentContainerStyle={[centerContent && componentStyles.content]}
+            contentContainerStyle={[centerContent && componentStyles.content, style]}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
           >
             {children}
