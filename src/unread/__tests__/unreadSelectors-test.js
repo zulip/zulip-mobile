@@ -59,6 +59,7 @@ const unreadMentionsData = [1, 2, 3];
 describe('getUnreadByStream', () => {
   test('when no items in streams key, the result is an empty object', () => {
     const state = deepFreeze({
+      subscriptions: [],
       unread: {
         streams: [],
       },
@@ -71,14 +72,27 @@ describe('getUnreadByStream', () => {
 
   test('when there are unread stream messages, returns a list with counts per stream_id ', () => {
     const state = deepFreeze({
+      subscriptions: [
+        {
+          stream_id: 0,
+          name: 'stream 0',
+          in_home_view: true,
+        },
+        {
+          stream_id: 2,
+          name: 'stream 2',
+          in_home_view: true,
+        },
+      ],
       unread: {
         streams: unreadStreamData,
       },
+      mute: [['stream 0', 'a topic']],
     });
 
     const unreadByStream = getUnreadByStream(state);
 
-    expect(unreadByStream).toEqual({ '0': 5, '2': 2 });
+    expect(unreadByStream).toEqual({ '0': 2, '2': 2 });
   });
 });
 
@@ -346,7 +360,7 @@ describe('getUnreadStreamsAndTopics', () => {
       unread: {
         streams: unreadStreamData,
       },
-      mute: ['stream 0', 'a topic'],
+      mute: [['stream 0', 'a topic']],
     });
 
     const unreadCount = getUnreadStreamsAndTopics(state);
@@ -356,7 +370,7 @@ describe('getUnreadStreamsAndTopics', () => {
         color: 'red',
         data: [
           {
-            isMuted: false,
+            isMuted: true,
             key: 'a topic',
             topic: 'a topic',
             unread: 3,
@@ -372,7 +386,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isPrivate: undefined,
         key: 'stream 0',
         streamName: 'stream 0',
-        unread: 5,
+        unread: 2,
       },
     ]);
   });
