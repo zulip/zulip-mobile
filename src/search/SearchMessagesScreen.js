@@ -17,13 +17,18 @@ export default class SearchMessagesScreen extends PureComponent<Props, State> {
     query: '',
   };
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   handleQueryChange = (query: string) => this.setState({ query });
 
   render() {
+    const { styles } = this.context;
     const { query } = this.state;
 
     return (
-      <Screen search autoFocus searchBarOnChange={this.handleQueryChange}>
+      <Screen search autoFocus searchBarOnChange={this.handleQueryChange} style={styles.flexed}>
         <SearchMessagesContainer query={query} />
       </Screen>
     );
