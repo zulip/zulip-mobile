@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable */
 import Reactotron, { asyncStorage, networking, openInEditor } from 'reactotron-react-native';
 import { NativeModules } from 'react-native';
