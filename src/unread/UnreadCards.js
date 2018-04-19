@@ -58,8 +58,9 @@ export default class UnreadCards extends PureComponent<Props> {
         stickySectionHeadersEnabled
         initialNumToRender={20}
         sections={unreadCards}
+        keyExtractor={item => item.key}
         renderSectionHeader={({ section }) =>
-          section.key === 'private' || section.isMuted ? null : (
+          section.key === 'private' || section.isMuted || section.unread === 0 ? null : (
             <StreamItem
               style={styles.groupHeader}
               name={section.streamName}
