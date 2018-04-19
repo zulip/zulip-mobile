@@ -5,12 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import type { PresenceState, User } from '../types';
 import { Avatar } from '../common';
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
+const componentStyles = StyleSheet.create({
   avatar: {
     paddingRight: 8,
   },
@@ -24,13 +19,18 @@ type Props = {
 export default class TitleGroup extends PureComponent<Props> {
   props: Props;
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   render() {
+    const { styles } = this.context;
     const { recipients, presence } = this.props;
 
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.navWrapper}>
         {recipients.map((user, index) => (
-          <View key={user.email} style={styles.avatar}>
+          <View key={user.email} style={componentStyles.avatar}>
             <Avatar
               size={32}
               name={user.fullName}

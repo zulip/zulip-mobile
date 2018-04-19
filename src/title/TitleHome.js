@@ -9,6 +9,10 @@ type Props = {
 export default class TitleHome extends PureComponent<Props> {
   props: Props;
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   render() {
     const { color } = this.props;
 

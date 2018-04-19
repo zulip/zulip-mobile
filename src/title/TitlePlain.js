@@ -1,16 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text } from 'react-native';
-import { CONTROL_SIZE } from '../styles';
-
-const styles = StyleSheet.create({
-  title: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 16,
-    paddingRight: CONTROL_SIZE,
-  },
-});
+import { Text } from 'react-native';
 
 type Props = {
   text: string,
@@ -18,8 +8,15 @@ type Props = {
 };
 
 export default class TitlePrivate extends PureComponent<Props> {
+  props: Props;
+
+  static contextTypes = {
+    styles: () => null,
+  };
+
   render() {
+    const { styles } = this.context;
     const { text, color } = this.props;
-    return <Text style={[styles.title, { color }]}>{text}</Text>;
+    return <Text style={[styles.navBar, { color }]}>{text}</Text>;
   }
 }
