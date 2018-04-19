@@ -107,7 +107,7 @@ export const getUnreadStreamsAndTopics = createSelector(
   getMute,
   (subscriptionsById, unreadStreams, mute) => {
     const unreadMap = unreadStreams.reduce((totals, stream) => {
-      const { name, color, in_home_view, invite_only } =
+      const { name, color, in_home_view, invite_only, pin_to_top } =
         subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION;
 
       if (!in_home_view) return totals;
@@ -117,6 +117,7 @@ export const getUnreadStreamsAndTopics = createSelector(
           streamName: name,
           isMuted: !in_home_view,
           isPrivate: invite_only,
+          isPinned: pin_to_top,
           color,
           unread: 0,
           data: [],
@@ -138,9 +139,9 @@ export const getUnreadStreamsAndTopics = createSelector(
       return totals;
     }, {});
 
-    const sortedStreams = Object.values(unreadMap).sort(
-      caseInsensitiveCompareObjFunc('streamName'),
-    );
+    const sortedStreams = Object.values(unreadMap)
+      .sort(caseInsensitiveCompareObjFunc('streamName'))
+      .sort((a: any, b: any) => +b.isPinned - +a.isPinned);
 
     // $FlowFixMe
     sortedStreams.forEach((stream: UnreadStream) => {
