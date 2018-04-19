@@ -174,7 +174,8 @@ export const getUnreadCountForNarrow = (narrow: Narrow) =>
     getUnreadStreams,
     getUnreadHuddles,
     getUnreadPms,
-    (streams, users, ownEmail, unreadTotal, unreadStreams, unreadHuddles, unreadPms) => {
+    getMute,
+    (streams, users, ownEmail, unreadTotal, unreadStreams, unreadHuddles, unreadPms, mute) => {
       if (isHomeNarrow(narrow)) {
         return unreadTotal;
       }
@@ -188,7 +189,11 @@ export const getUnreadCountForNarrow = (narrow: Narrow) =>
 
         return unreadStreams
           .filter(x => x.stream_id === stream.stream_id)
-          .reduce((sum, x) => sum + x.unread_message_ids.length, 0);
+          .reduce(
+            (sum, x) =>
+              sum + (isTopicMuted(stream.name, x.topic, mute) ? 0 : x.unread_message_ids.length),
+            0,
+          );
       }
 
       if (isTopicNarrow(narrow)) {
