@@ -438,7 +438,7 @@ describe('getUnreadStreamsAndTopics', () => {
     ]);
   });
 
-  test('both streams and topics are sorted alphabetically, case-insensitive', () => {
+  test('both streams and topics are sorted alphabetically, case-insensitive, pinned stream on top', () => {
     const state = deepFreeze({
       subscriptions: [
         {
@@ -447,6 +447,7 @@ describe('getUnreadStreamsAndTopics', () => {
           name: 'def stream',
           in_home_view: true,
           invite_only: false,
+          pin_to_top: false,
         },
         {
           stream_id: 1,
@@ -454,6 +455,7 @@ describe('getUnreadStreamsAndTopics', () => {
           name: 'xyz stream',
           in_home_view: true,
           invite_only: false,
+          pin_to_top: true,
         },
         {
           stream_id: 0,
@@ -461,6 +463,7 @@ describe('getUnreadStreamsAndTopics', () => {
           name: 'abc stream',
           in_home_view: true,
           invite_only: false,
+          pin_to_top: false,
         },
       ],
       unread: {
@@ -504,11 +507,25 @@ describe('getUnreadStreamsAndTopics', () => {
 
     expect(unreadCount).toEqual([
       {
+        key: 'xyz stream',
+        streamName: 'xyz stream',
+        color: 'blue',
+        isMuted: false,
+        isPrivate: false,
+        isPinned: true,
+        unread: 2,
+        data: [
+          { key: 'd topic', topic: 'd topic', unread: 1, isMuted: false },
+          { key: 'e topic', topic: 'e topic', unread: 1, isMuted: false },
+        ],
+      },
+      {
         key: 'abc stream',
         streamName: 'abc stream',
         color: 'red',
         isMuted: false,
         isPrivate: false,
+        isPinned: false,
         unread: 5,
         data: [
           { key: 'a topic', topic: 'a topic', unread: 2, isMuted: false },
@@ -521,22 +538,11 @@ describe('getUnreadStreamsAndTopics', () => {
         color: 'green',
         isMuted: false,
         isPrivate: false,
+        isPinned: false,
         unread: 2,
         data: [
           { key: 'b topic', topic: 'b topic', unread: 2, isMuted: false },
           { key: 'c topic', topic: 'c topic', unread: 2, isMuted: true },
-        ],
-      },
-      {
-        key: 'xyz stream',
-        streamName: 'xyz stream',
-        color: 'blue',
-        isMuted: false,
-        isPrivate: false,
-        unread: 2,
-        data: [
-          { key: 'd topic', topic: 'd topic', unread: 1, isMuted: false },
-          { key: 'e topic', topic: 'e topic', unread: 1, isMuted: false },
         ],
       },
     ]);
