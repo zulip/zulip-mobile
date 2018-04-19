@@ -1,23 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { Narrow } from '../types';
 import { Label } from '../common';
 import Icon from '../common/Icons';
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 18,
-    marginLeft: 8,
-    textAlign: 'left',
-  },
-});
 
 const specials = {
   home: { name: 'All messages', icon: 'home' },
@@ -34,14 +21,19 @@ type Props = {
 export default class TitleSpecial extends PureComponent<Props> {
   props: Props;
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   render() {
+    const { styles } = this.context;
     const { narrow, color } = this.props;
     const { name, icon } = specials[narrow[0].operand];
 
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.navWrapper}>
         <Icon name={icon} size={20} color={color} />
-        <Label style={[styles.title, { color }]} text={name} />
+        <Label style={[styles.navTitle, { color }]} text={name} />
       </View>
     );
   }

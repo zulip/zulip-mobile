@@ -175,10 +175,21 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     justifyContent: 'space-between',
     borderBottomWidth: 1,
   },
+  navWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
   navTitle: {
     color: BRAND_COLOR,
     textAlign: 'left',
-    fontSize: 18,
+    fontSize: 20,
+    paddingLeft: 8,
+  },
+  navSubtitle: {
+    fontSize: 13,
+    opacity: 0.8,
   },
   composeBox: {
     flexDirection: 'row',

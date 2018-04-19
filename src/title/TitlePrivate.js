@@ -1,22 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import type { PresenceState, User } from '../types';
 import { Avatar } from '../common';
 import ActivityText from './ActivityText';
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 18,
-    paddingLeft: 8,
-  },
-});
 
 type Props = {
   user: User,
@@ -25,12 +13,19 @@ type Props = {
 };
 
 export default class TitlePrivate extends PureComponent<Props> {
+  props: Props;
+
+  static contextTypes = {
+    styles: () => null,
+  };
+
   render() {
+    const { styles } = this.context;
     const { user, color, presence } = this.props;
     const { fullName, avatarUrl, email } = user;
 
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.navWrapper}>
         <Avatar
           size={32}
           name={fullName}
@@ -39,7 +34,7 @@ export default class TitlePrivate extends PureComponent<Props> {
           presence={presence[email]}
         />
         <View>
-          <Text style={[styles.title, { color }]} numberOfLines={1} ellipsizeMode="tail">
+          <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
             {fullName}
           </Text>
           <ActivityText color={color} email={email} />
