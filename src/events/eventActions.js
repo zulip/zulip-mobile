@@ -61,8 +61,9 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
     } catch (e) {
       // protection from inadvertent DDOS
       await sleep(5000);
+      const error = JSON.parse(e.message);
       // The event queue is too old or has been garbage collected
-      if (e.status === 400 && (await e.json()).code === 'BAD_EVENT_QUEUE_ID') {
+      if (error.status === 400 && error.code === 'BAD_EVENT_QUEUE_ID') {
         dispatch(appRefresh());
         break;
       }
