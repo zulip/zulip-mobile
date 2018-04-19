@@ -23,7 +23,7 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
 } from '../actionConstants';
-import { isMessageInNarrow, getNarrowFromMessage } from '../utils/narrow';
+import { isMessageInNarrow } from '../utils/narrow';
 import { groupItemsById } from '../utils/misc';
 import chatUpdater from './chatUpdater';
 import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
