@@ -44,7 +44,13 @@ export const apiCall = async (
 
     if (!response.ok || json.result !== 'success') {
       console.log('Bad response for:', { auth, route, params, response }); // eslint-disable-line
-      throw Error(response);
+      throw Error(
+        JSON.stringify({
+          status: response.status,
+          statusText: response.statusText,
+          code: json.code,
+        }),
+      );
     }
 
     return resFunc(json);
