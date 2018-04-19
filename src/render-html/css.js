@@ -103,25 +103,25 @@ hr {
 .message {
   display: flex;
   word-wrap: break-word;
-  padding: 0.5em;
+  padding: 1em;
 }
 .message-brief {
   padding: 0 0 0.5em 3em;
 }
 .avatar {
-  min-width: 2.5em;
-  width: 2.5em;
-  height: 2.5em;
+  min-width: 32px;
+  width: 32px;
+  height: 32px;
 }
 .avatar img {
   width: 100%;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 .content {
   width: 100%;
   max-width: 100%;
   overflow: hidden;
-  padding: 0 0 0 0.5em;
+  padding: 0 1em 0 1em;
 }
 .username {
   font-weight: bold;
@@ -185,10 +185,10 @@ hr {
   color: white;
 }
 .loading-avatar {
-  min-width: 2.5em;
-  width: 2.5em;
-  height: 2.5em;
-  margin-right: 0.5em;
+  min-width: 2em;
+  width: 2em;
+  height: 2em;
+  margin-right: 1em;
   border-radius: 4px;
   background: rgba(127, 127, 127, 0.9);
 }
@@ -220,11 +220,11 @@ hr {
 	100% { background-position: 0 50% }
 }
 .loading-subheader .name {
-  width: 120px;
+  width: 10em;
   background-color: rgba(127, 127, 127, 0.9);
 }
 .loading-subheader .timestamp {
-  width: 60px;
+  width: 5em;
 }
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -280,7 +280,7 @@ ul {
   border: 2px solid rgba(29, 161, 242, 0.5);
   background: rgba(29, 161, 242, 0.1);
   border-radius: 0.25em;
-  padding: 0.5em 0.75em;
+  padding: 0.5em 1em;
   margin: 0.5em 0;
 }
 .twitter-avatar {
