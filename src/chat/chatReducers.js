@@ -42,7 +42,9 @@ const messageFetchComplete = (
     ? action.messages.map(
         item =>
           messagesById[item.id]
-            ? isEqual(messagesById[item.id], item) ? messagesById[item.id] : item
+            ? isEqual(messagesById[item.id], item)
+              ? messagesById[item.id]
+              : item
             : item,
       )
     : action.messages
