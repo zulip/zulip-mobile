@@ -541,6 +541,17 @@ describe('appendAuthToImages', () => {
     expect(appendAuthToImages(input, auth)).toEqual(expected);
   });
 
+  // The server generates these if the user contains a literal URL pointing to
+  // an uploaded image on the server: e.g. markdown of
+  //   https://realm.zulip.com/user_uploads/1/2/3/foo.png
+  // is rendered as an image element
+  //   <img src="user_uploads/1/2/3/foo.png">
+  test('appends the api key to a path-relative url', () => {
+    const input = '<img src="user_uploads/img.png" />';
+    const expected = '<img src="user_uploads/img.png?api_key=some_key" />';
+    expect(appendAuthToImages(input, auth)).toEqual(expected);
+  });
+
   test('does not rewrite non-user_uploads urls', () => {
     const input = '<img src="https://realm.zulip.com/other/img.png">';
     const expected = input;
