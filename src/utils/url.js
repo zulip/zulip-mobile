@@ -167,6 +167,6 @@ const escapeRegExp = (str: string): string => str.replace(/[.*+?^${}()|[\]\\]/g,
 
 export const appendAuthToImages = (messageStr: string, auth: Auth): string =>
   messageStr.replace(
-    new RegExp(`<img src="((?:${escapeRegExp(auth.realm)})?/user_uploads/[^"]*)"`, 'g'),
+    new RegExp(`<img src="((?:|/|${escapeRegExp(auth.realm)}/)user_uploads/[^"]*)"`, 'g'),
     `<img src="$1?api_key=${auth.apiKey}"`,
   );
