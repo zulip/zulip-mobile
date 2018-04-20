@@ -160,3 +160,7 @@ export const autocompleteUrl = (
     : '';
 
 export const isValidUrl = (url: string): boolean => urlRegex({ exact: true }).test(url);
+
+// This formula borrowed from MDN:
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+const escapeRegExp = (str: string): string => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
