@@ -529,15 +529,21 @@ describe('appendAuthToImages', () => {
     expect(appendAuthToImages(input, auth)).toEqual(expected);
   });
 
-  test('appends the api key to any relative image src url', () => {
+  test('appends the api key to a relative image src url', () => {
     const input = '<img src="/user_uploads/img.png" />';
     const expected = '<img src="/user_uploads/img.png?api_key=some_key" />';
     expect(appendAuthToImages(input, auth)).toEqual(expected);
   });
 
-  test('appends the api key to any absolute image src if in the same realm', () => {
+  test('appends the api key to an absolute image src if in the same realm', () => {
     const input = '<img src="https://realm.zulip.com/user_uploads/img.png" />';
     const expected = '<img src="https://realm.zulip.com/user_uploads/img.png?api_key=some_key" />';
+    expect(appendAuthToImages(input, auth)).toEqual(expected);
+  });
+
+  test('does not rewrite non-user_uploads urls', () => {
+    const input = '<img src="https://realm.zulip.com/other/img.png">';
+    const expected = input;
     expect(appendAuthToImages(input, auth)).toEqual(expected);
   });
 
