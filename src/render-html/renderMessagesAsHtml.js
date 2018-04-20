@@ -55,7 +55,5 @@ const renderMessages = ({
 export default (props: Props): string => {
   const { auth } = props;
 
-  return renderMessages(props)
-    .join('')
-    .replace(/src="\//g, `src="${auth.realm}/`);
+  return renderMessages(props).join('');
 };
