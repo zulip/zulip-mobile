@@ -9,4 +9,5 @@ export default (auth: Auth) =>
     event_types: JSON.stringify(config.trackServerEvents),
     fetch_event_types: JSON.stringify(config.serverDataOnStartup),
     include_subscribers: false,
+    client_gravatar: true,
   });
