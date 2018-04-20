@@ -530,19 +530,19 @@ describe('appendAuthToImages', () => {
   });
 
   test('appends the api key to any relative image src url', () => {
-    const input = '<img src="/path/img.png" />';
-    const expected = '<img src="/path/img.png?api_key=some_key" />';
+    const input = '<img src="/user_uploads/img.png" />';
+    const expected = '<img src="/user_uploads/img.png?api_key=some_key" />';
     expect(appendAuthToImages(input, auth)).toEqual(expected);
   });
 
   test('appends the api key to any absolute image src if in the same realm', () => {
-    const input = '<img src="https://realm.zulip.com/path/img.png" />';
-    const expected = '<img src="https://realm.zulip.com/path/img.png?api_key=some_key" />';
+    const input = '<img src="https://realm.zulip.com/user_uploads/img.png" />';
+    const expected = '<img src="https://realm.zulip.com/user_uploads/img.png?api_key=some_key" />';
     expect(appendAuthToImages(input, auth)).toEqual(expected);
   });
 
   test('does not append anything to images pointing to different domains', () => {
-    const input = '<img src="https://example.com/path/img.png" />';
+    const input = '<img src="https://example.com/user_uploads/img.png" />';
     const expected = input;
     expect(appendAuthToImages(input, auth)).toEqual(expected);
   });
@@ -554,21 +554,21 @@ describe('appendAuthToImages', () => {
   });
 
   test('does not replace urls not in images', () => {
-    const input = '<a href="/path/img.png" />';
+    const input = '<a href="/user_uploads/img.png" />';
     const expected = input;
     expect(appendAuthToImages(input, auth)).toEqual(expected);
   });
 
   test('replaces urls in images in the whole string', () => {
-    const input = '<img src="/path/img.png" /><img src="/path/img.png" />';
+    const input = '<img src="/user_uploads/img.png" /><img src="/user_uploads/img.png" />';
     const expected =
-      '<img src="/path/img.png?api_key=some_key" /><img src="/path/img.png?api_key=some_key" />';
+      '<img src="/user_uploads/img.png?api_key=some_key" /><img src="/user_uploads/img.png?api_key=some_key" />';
     expect(appendAuthToImages(input, auth)).toEqual(expected);
   });
 
   test('does not overrun', () => {
-    const input = '<img src="/path/img.png">"But soft,"';
-    const expected = '<img src="/path/img.png?api_key=some_key">"But soft,"';
+    const input = '<img src="/user_uploads/img.png">"But soft,"';
+    const expected = '<img src="/user_uploads/img.png?api_key=some_key">"But soft,"';
     expect(appendAuthToImages(input, auth)).toEqual(expected);
   });
 });
