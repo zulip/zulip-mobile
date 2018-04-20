@@ -122,7 +122,7 @@
       ],
       "skipIfMatch": [
         "http://[^s]*",
-        "^[-\\w]+\/[-\\w\\.]+$" //For MIME Types
+        "^[-\\w]+\/[-\\w\\.]+$",  # For MIME Types
       ]
     }]
   }
