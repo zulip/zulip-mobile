@@ -57,7 +57,7 @@ export type Recipient = any; /* {
  }; */
 
 export type Message = {
-  avatar_url: string,
+  avatar_url: ?string,
   client: 'website' | 'ZulipMobile',
   content: string,
   content_type: 'text/html' | 'text/markdown',
