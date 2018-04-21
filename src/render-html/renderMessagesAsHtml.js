@@ -5,6 +5,7 @@ import { appendAuthToImages, getFullUrl } from '../utils/url';
 import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
 import timeRowAsHtml from './timeRowAsHtml';
+import { getGravatarFromEmail } from '../utils/avatar';
 
 const renderMessages = ({
   auth,
@@ -37,7 +38,9 @@ const renderMessages = ({
             content: message.match_content || message.content,
             flags: message.flags || [],
             timestamp: message.timestamp,
-            avatarUrl: getFullUrl(message.avatar_url, auth ? auth.realm : ''),
+            avatarUrl: message.avatar_url
+              ? getFullUrl(message.avatar_url, auth ? auth.realm : '')
+              : getGravatarFromEmail(message.sender_email),
             timeEdited: message.last_edit_timestamp,
             isOutbox: message.isOutbox,
             reactions: message.reactions,
