@@ -116,6 +116,10 @@ class MessageListContainer extends PureComponent<Props> {
   };
 
   render() {
+    const { messages } = this.props;
+
+    if (messages.length === 0) return null;
+
     return (
       <MessageListWeb
         {...this.props}
