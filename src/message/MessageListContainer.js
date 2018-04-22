@@ -15,11 +15,7 @@ import type {
   User,
 } from '../types';
 import connectWithActions from '../connectWithActions';
-import {
-  constructActionButtons,
-  constructHeaderActionButtons,
-  executeActionSheetAction,
-} from './messageActionSheet';
+import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 import MessageListWeb from '../webview/MessageListWeb';
 import {
   getAuth,
@@ -74,14 +70,11 @@ class MessageListContainer extends PureComponent<Props> {
     if (!message) return;
 
     const getString = value => this.context.intl.formatMessage({ id: value });
-    const options =
-      target === 'message'
-        ? constructActionButtons({
-            ...this.props,
-            message,
-            getString,
-          })
-        : constructHeaderActionButtons({ ...this.props, message, getString });
+    const options = constructActionButtons(target)({
+      ...this.props,
+      message,
+      getString,
+    });
 
     const callback = buttonIndex => {
       executeActionSheetAction({
