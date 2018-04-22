@@ -51,6 +51,9 @@ const getMessageNode = (node: Element): Element => {
   return curNode;
 };
 
+const isTargetIsReaction = (node: Element): boolean =>
+  node.matches('.reaction-list') || node.matches('.reaction') || node.matches('.realm-reaction');
+
 const getMessageIdFromNode = (node: Node): string => {
   const msgNode = getMessageNode(node);
   return msgNode && msgNode.getAttribute('data-msg-id');
@@ -204,7 +207,11 @@ const handleLongPress = e => {
 
   sendMessage({
     type: 'longPress',
-    target: e.target.matches('.header') ? 'header' : 'message',
+    target: e.target.matches('.header')
+      ? 'header'
+      : isTargetIsReaction(e.target)
+        ? 'reaction-list'
+        : 'message',
     messageId: +getMessageIdFromNode(e.target),
   });
 };

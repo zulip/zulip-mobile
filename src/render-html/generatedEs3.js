@@ -56,6 +56,10 @@ var getMessageNode = function getMessageNode(node) {
   return curNode;
 };
 
+var isTargetIsReaction = function isTargetIsReaction(node) {
+  return node.matches('.reaction-list') || node.matches('.reaction') || node.matches('.realm-reaction');
+};
+
 var getMessageIdFromNode = function getMessageIdFromNode(node) {
   var msgNode = getMessageNode(node);
   return msgNode && msgNode.getAttribute('data-msg-id');
@@ -213,7 +217,7 @@ var handleLongPress = function handleLongPress(e) {
 
   sendMessage({
     type: 'longPress',
-    target: e.target.matches('.header') ? 'header' : 'message',
+    target: e.target.matches('.header') ? 'header' : isTargetIsReaction(e.target) ? 'reaction-list' : 'message',
     messageId: +getMessageIdFromNode(e.target)
   });
 };
