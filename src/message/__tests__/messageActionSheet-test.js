@@ -28,7 +28,7 @@ describe('constructActionButtons', () => {
       id: 3,
     });
 
-    const buttons = constructActionButtons({
+    const buttons = constructActionButtons('message')({
       message,
       auth,
       narrow,
@@ -46,7 +46,7 @@ describe('constructActionButtons', () => {
       id: 1,
     });
 
-    const buttons = constructActionButtons({
+    const buttons = constructActionButtons('message')({
       message,
       auth,
       narrow,

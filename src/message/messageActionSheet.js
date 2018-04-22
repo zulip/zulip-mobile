@@ -197,7 +197,7 @@ const actionSheetButtons: ActionSheetButtonType[] = [
     onlyIf: ({ message, auth, narrow }) =>
       resolveMultiple(message, auth, narrow, [isSentMessage, isSentBySelf, isNotDeleted]),
   },
-  // If skip then covered in constructActionButtons
+  // If skip then covered in constructMessageActionButtons
   { title: 'Star message', onPress: starMessage, onlyIf: skip },
   { title: 'Unstar message', onPress: unstarMessage, onlyIf: skip },
   { title: 'Cancel', onPress: skip, onlyIf: skip },
@@ -238,7 +238,7 @@ export const constructHeaderActionButtons = ({
   return buttons;
 };
 
-export const constructActionButtons = ({
+export const constructMessageActionButtons = ({
   message,
   auth,
   narrow,
@@ -279,6 +279,9 @@ export const executeActionSheetAction = ({
     }
   }
 };
+
+export const constructActionButtons = (target: string) =>
+  target === 'header' ? constructHeaderActionButtons : constructMessageActionButtons;
 
 export type ShowActionSheetTypes = {
   options: Array<any>,
