@@ -1,8 +1,8 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { Narrow } from '../types';
-import { getSession, getFetching } from '../directSelectors';
+import type { Fetching, Narrow } from '../types';
+import { getFetching } from '../directSelectors';
 import { NULL_FETCHING } from '../nullObjects';
 
 export const getFetchingForActiveNarrow = (narrow: Narrow) =>
@@ -10,7 +10,6 @@ export const getFetchingForActiveNarrow = (narrow: Narrow) =>
 
 export const getIsFetching = (narrow: Narrow) =>
   createSelector(
-    getSession,
     getFetchingForActiveNarrow(narrow),
-    (session, fetching) => session.needsInitialFetch || fetching.older || fetching.newer,
+    (fetching: Fetching): boolean => fetching.older || fetching.newer,
   );
