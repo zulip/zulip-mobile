@@ -25,6 +25,7 @@ export default class AvatarList extends PureComponent<Props> {
       <FlatList
         style={styles.list}
         horizontal
+        keyboardShouldPersistTaps="always"
         showsHorizontalScrollIndicator={false}
         initialNumToRender={20}
         data={users}
