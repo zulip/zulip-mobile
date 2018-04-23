@@ -26,6 +26,7 @@ type Props = {
   size: number,
   realm: string,
   shape: 'square' | 'rounded' | 'circle',
+  showUserStatusIndicator: boolean,
   onPress?: () => void,
 };
 
@@ -39,11 +40,21 @@ class Avatar extends PureComponent<Props> {
     size: 32,
     realm: '',
     shape: 'rounded',
+    showUserStatusIndicator: true,
     onPress: nullFunction,
   };
 
   render() {
-    const { avatarUrl, email, name, size, onPress, realm, shape } = this.props;
+    const {
+      avatarUrl,
+      email,
+      name,
+      size,
+      onPress,
+      realm,
+      shape,
+      showUserStatusIndicator,
+    } = this.props;
     const fullAvatarUrl = avatarUrl ? getFullUrl(avatarUrl, realm) : getGravatarFromEmail(email);
     const AvatarComponent = fullAvatarUrl ? ImageAvatar : TextAvatar;
 
@@ -55,7 +66,9 @@ class Avatar extends PureComponent<Props> {
         onPress={onPress}
         shape={shape}
       >
-        <UserStatusIndicator style={componentStyles.status} email={email} />
+        {showUserStatusIndicator && (
+          <UserStatusIndicator style={componentStyles.status} email={email} />
+        )}
       </AvatarComponent>
     );
   }
