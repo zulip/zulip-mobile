@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
-import type { Auth, Actions, Orientation, Presence } from '../types';
+import type { Auth, Actions, Orientation } from '../types';
 import { Avatar, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { BRAND_COLOR } from '../styles';
@@ -39,7 +39,6 @@ type Props = {
   auth: Auth,
   actions: Actions,
   email: string,
-  presence: Presence,
   avatarUrl: string,
   fullName: string,
   orientation: Orientation,
@@ -54,7 +53,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
   };
 
   render() {
-    const { avatarUrl, auth, email, fullName, presence, orientation } = this.props;
+    const { avatarUrl, auth, email, fullName, orientation } = this.props;
     const screenWidth = Dimensions.get('window').width;
 
     const ContentComponent = orientation === 'LANDSCAPE' ? LandscapeContent : PortraitContent;
@@ -74,7 +73,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
         )}
         userDetails={() => (
           <View style={styles.details}>
-            <UserStatusIndicator presence={presence} style={styles.statusIndicator} />
+            <UserStatusIndicator style={styles.statusIndicator} email={email} />
             <Text style={styles.info}>{email}</Text>
           </View>
         )}

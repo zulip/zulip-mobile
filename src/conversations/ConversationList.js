@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import type { Actions, PresenceState } from '../types';
+import type { Actions } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import UserItem from '../users/UserItem';
 import ConversationGroup from './ConversationGroup';
@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
 type Props = {
   actions: Actions,
   conversations: Object[],
-  presences: PresenceState,
   usersByEmail: Object,
 };
 
@@ -29,7 +28,7 @@ export default class ConversationList extends PureComponent<Props> {
   handleGroupNarrow = (email: string) => this.props.actions.doNarrow(groupNarrow(email.split(',')));
 
   render() {
-    const { conversations, presences, usersByEmail } = this.props;
+    const { conversations, usersByEmail } = this.props;
 
     return (
       <FlatList
@@ -48,7 +47,6 @@ export default class ConversationList extends PureComponent<Props> {
                 email={user.email}
                 fullName={user.fullName}
                 avatarUrl={user.avatarUrl}
-                presence={presences[user.email]}
                 unreadCount={item.unread}
                 onPress={this.handleUserNarrow}
               />

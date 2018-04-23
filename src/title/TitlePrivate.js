@@ -2,14 +2,13 @@
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 
-import type { PresenceState, User } from '../types';
+import type { User } from '../types';
 import { Avatar } from '../common';
 import ActivityText from './ActivityText';
 
 type Props = {
   user: User,
   color: string,
-  presence: PresenceState,
 };
 
 export default class TitlePrivate extends PureComponent<Props> {
@@ -21,18 +20,12 @@ export default class TitlePrivate extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { user, color, presence } = this.props;
+    const { user, color } = this.props;
     const { fullName, avatarUrl, email } = user;
 
     return (
       <View style={styles.navWrapper}>
-        <Avatar
-          size={32}
-          name={fullName}
-          email={email}
-          avatarUrl={avatarUrl}
-          presence={presence[email]}
-        />
+        <Avatar size={32} name={fullName} email={email} avatarUrl={avatarUrl} />
         <View>
           <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
             {fullName}

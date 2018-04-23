@@ -2,7 +2,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Presence } from '../types';
 import connectWithActions from '../connectWithActions';
 import { nullFunction } from '../nullObjects';
 import { getCurrentRealm } from '../selectors';
@@ -25,7 +24,6 @@ type Props = {
   email: string,
   name: string,
   size: number,
-  presence?: Presence,
   realm: string,
   shape: 'square' | 'rounded' | 'circle',
   onPress?: () => void,
@@ -45,7 +43,7 @@ class Avatar extends PureComponent<Props> {
   };
 
   render() {
-    const { avatarUrl, email, name, size, presence, onPress, realm, shape } = this.props;
+    const { avatarUrl, email, name, size, onPress, realm, shape } = this.props;
     const fullAvatarUrl = avatarUrl ? getFullUrl(avatarUrl, realm) : getGravatarFromEmail(email);
     const AvatarComponent = fullAvatarUrl ? ImageAvatar : TextAvatar;
 
@@ -57,7 +55,7 @@ class Avatar extends PureComponent<Props> {
         onPress={onPress}
         shape={shape}
       >
-        <UserStatusIndicator style={componentStyles.status} presence={presence} />
+        <UserStatusIndicator style={componentStyles.status} email={email} />
       </AvatarComponent>
     );
   }

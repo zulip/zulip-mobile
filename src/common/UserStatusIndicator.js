@@ -3,7 +3,9 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { StyleObj, Presence } from '../types';
+import connectWithActions from '../connectWithActions';
+import { getPresence } from '../selectors';
+import type { StyleObj, PresenceState } from '../types';
 import { statusFromPresence } from '../users/userHelpers';
 
 const styles = StyleSheet.create({
@@ -26,19 +28,24 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  email: string,
+  presences: PresenceState,
   style: StyleObj,
-  presence?: Presence,
 };
 
-export default class UserStatusIndicator extends PureComponent<Props> {
+class UserStatusIndicator extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { presence, style } = this.props;
-
+    const { email, presences, style } = this.props;
+    const presence = presences[email];
     if (!presence || !presence.aggregated) return null;
 
     const status = statusFromPresence(presence);
     return <View style={[styles.common, styles[status], style]} />;
   }
 }
+
+export default connectWithActions(state => ({
+  presences: getPresence(state),
+}))(UserStatusIndicator);
