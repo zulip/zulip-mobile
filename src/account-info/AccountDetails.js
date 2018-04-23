@@ -69,6 +69,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
             size={width}
             realm={auth.realm}
             shape="square"
+            showUserStatusIndicator={false}
           />
         )}
         userDetails={() => (
