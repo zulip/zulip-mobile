@@ -184,6 +184,7 @@ const handleMessageContent = (msg: MessageInputContent) => {
 };
 
 const handleMessageFetching = (msg: MessageInputFetching) => {
+  scrollEventsDisabled = !msg.showMessagePlaceholders;
   toggleElementHidden('message-loading', !msg.showMessagePlaceholders);
   toggleElementHidden('spinner-older', !msg.fetchingOlder);
   toggleElementHidden('spinner-newer', !msg.fetchingNewer);
