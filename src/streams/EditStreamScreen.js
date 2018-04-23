@@ -7,7 +7,7 @@ import EditStreamContainer from './EditStreamContainer';
 export default class EditStreamScreen extends PureComponent<{}> {
   render() {
     return (
-      <Screen title="Edit stream" padding keyboardShouldPersistTaps="handled">
+      <Screen title="Edit stream" padding>
         <EditStreamContainer />
       </Screen>
     );
