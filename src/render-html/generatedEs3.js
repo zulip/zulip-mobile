@@ -191,6 +191,7 @@ var handleMessageContent = function handleMessageContent(msg) {
 };
 
 var handleMessageFetching = function handleMessageFetching(msg) {
+  scrollEventsDisabled = !msg.showMessagePlaceholders;
   toggleElementHidden('message-loading', !msg.showMessagePlaceholders);
   toggleElementHidden('spinner-older', !msg.fetchingOlder);
   toggleElementHidden('spinner-newer', !msg.fetchingNewer);
