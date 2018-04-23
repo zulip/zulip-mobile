@@ -86,7 +86,7 @@ const config: Config = {
     'update_message_flags',
   ],
   storeKeys: ['accounts', 'drafts', 'outbox', 'settings'],
-  cacheKeys: ['messages', 'mute', 'realm', 'subscriptions'],
+  cacheKeys: ['messages', 'mute', 'realm', 'subscriptions', 'unread'],
 };
 
 export default config;
