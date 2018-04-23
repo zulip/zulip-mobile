@@ -61,11 +61,13 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
     } catch (e) {
       // protection from inadvertent DDOS
       await sleep(5000);
-      const error = JSON.parse(e.message);
-      // The event queue is too old or has been garbage collected
-      if (error.status === 400 && error.code === 'BAD_EVENT_QUEUE_ID') {
-        dispatch(appRefresh());
-        break;
+
+      if (e.message === 'API') {
+        // The event queue is too old or has been garbage collected
+        if (e.response.status === 400 && e.code === 'BAD_EVENT_QUEUE_ID') {
+          dispatch(appRefresh());
+          break;
+        }
       }
     }
   }
