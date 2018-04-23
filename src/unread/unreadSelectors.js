@@ -141,7 +141,7 @@ export const getUnreadStreamsAndTopics = createSelector(
 
     const sortedStreams = Object.values(unreadMap)
       .sort(caseInsensitiveCompareObjFunc('streamName'))
-      .sort((a: any, b: any) => +b.isPinned - +a.isPinned);
+      .sort((a: any, b: any): number => +b.isPinned - +a.isPinned);
 
     // $FlowFixMe
     sortedStreams.forEach((stream: UnreadStream) => {
