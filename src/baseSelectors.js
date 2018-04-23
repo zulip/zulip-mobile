@@ -22,17 +22,17 @@ export const getCurrentRouteParams = createSelector(
 
 export const getTopicListScreenParams = createSelector(
   getCurrentRouteParams,
-  params => params || { streamId: -1 },
+  params => params || { streamId: undefined },
 );
 
 export const getAccountDetailsScreenParams = createSelector(
   getCurrentRouteParams,
-  params => params || { email: '' },
+  params => params || { email: undefined },
 );
 
 export const getEditStreamScreenParams = createSelector(
   getCurrentRouteParams,
-  params => params || { streamId: -1 },
+  params => params || { streamId: undefined },
 );
 
 export const getChatScreenParams = createSelector(

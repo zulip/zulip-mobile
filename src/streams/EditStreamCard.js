@@ -45,7 +45,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
     const { actions, ownEmail, streamId, initialValues } = this.props;
     const { name, description, isPrivate } = this.state;
 
-    if (streamId === -1) {
+    if (streamId) {
       actions.createNewStream(name, description, [ownEmail], isPrivate);
     } else {
       actions.updateExistingStream(streamId, initialValues, { name, description, isPrivate });
@@ -93,7 +93,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
         />
         <ZulipButton
           style={styles.marginTop}
-          text={streamId === -1 ? 'Create' : 'Update'}
+          text={!streamId ? 'Create' : 'Update'}
           disabled={name.length === 0}
           onPress={this.handlePerformAction}
         />
