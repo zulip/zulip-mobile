@@ -21,7 +21,6 @@ export default class AccountList extends PureComponent<Props> {
     return (
       <View>
         <FlatList
-          keyboardShouldPersistTaps="always"
           data={accounts}
           keyExtractor={item => `${item.email}${item.realm}`}
           renderItem={({ item, index }) => (

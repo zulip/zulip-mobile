@@ -47,7 +47,7 @@ class Screen extends PureComponent<Props> {
 
   static defaultProps = {
     centerContent: false,
-    keyboardShouldPersistTaps: 'never',
+    keyboardShouldPersistTaps: 'handled',
   };
 
   render() {
@@ -70,7 +70,7 @@ class Screen extends PureComponent<Props> {
         <ModalBar title={title} searchBarOnChange={searchBarOnChange} />
         <KeyboardAvoider
           behavior="padding"
-          keyboardShouldPersistTaps="always"
+          keyboardShouldPersistTaps="handled"
           style={[componentStyles.wrapper, padding && componentStyles.padding]}
           contentContainerStyle={[padding && componentStyles.padding]}
         >
