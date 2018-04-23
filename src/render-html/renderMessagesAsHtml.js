@@ -1,7 +1,7 @@
 /* @flow */
 import type { Props } from '../message/MessageListContainer';
 
-import { appendAuthToImages, getFullUrl } from '../utils/url';
+import { appendAuthToImages } from '../utils/url';
 import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
 import timeRowAsHtml from './timeRowAsHtml';
@@ -38,9 +38,7 @@ const renderMessages = ({
             content: message.match_content || message.content,
             flags: message.flags || [],
             timestamp: message.timestamp,
-            avatarUrl: message.avatar_url
-              ? getFullUrl(message.avatar_url, auth ? auth.realm : '')
-              : getGravatarFromEmail(message.sender_email),
+            avatarUrl: message.avatar_url || getGravatarFromEmail(message.sender_email),
             timeEdited: message.last_edit_timestamp,
             isOutbox: message.isOutbox,
             reactions: message.reactions,
