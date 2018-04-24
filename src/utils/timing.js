@@ -1,11 +1,11 @@
 /* @flow */
 import type { TimingItemType } from '../types';
 
-const timingMap = {};
-const countMap = {};
+const timingMap: { [string]: number } = {};
+const countMap: { [string]: number } = {};
 const log: TimingItemType[] = [];
 
-const now = () => (typeof performance !== 'undefined' ? performance.now() : Date.now() / 1000);
+const now = (): number => ((typeof performance !== 'undefined' ? performance.now() : Date.now() / 1000): number);
 
 const add = (item: TimingItemType) => {
   log.push(item);
