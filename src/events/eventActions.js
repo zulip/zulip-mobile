@@ -8,7 +8,7 @@ import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
 import { getAuth } from '../selectors';
 import actionCreator from '../actionCreator';
-import { sleep } from '../utils/async';
+import progressiveTimeout from '../utils/progressiveTimeout';
 
 export const responseToActions = (state: GlobalState, response: Object): EventAction[] =>
   response.events
@@ -60,7 +60,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       lastEventId = Math.max.apply(null, [lastEventId, ...response.events.map(x => x.id)]);
     } catch (e) {
       // protection from inadvertent DDOS
-      await sleep(5000);
+      await progressiveTimeout();
 
       if (e.message === 'API') {
         // The event queue is too old or has been garbage collected
