@@ -182,16 +182,13 @@ var updateFunctions = {
 };
 
 var handleMessageContent = function handleMessageContent(msg) {
-  scrollEventsDisabled = true;
   updateFunctions[msg.updateStrategy](msg);
-  scrollEventsDisabled = false;
   if (documentBody.scrollHeight < documentBody.clientHeight) {
     handleScrollEvent();
   }
 };
 
 var handleMessageFetching = function handleMessageFetching(msg) {
-  scrollEventsDisabled = !msg.showMessagePlaceholders;
   toggleElementHidden('message-loading', !msg.showMessagePlaceholders);
   toggleElementHidden('spinner-older', !msg.fetchingOlder);
   toggleElementHidden('spinner-newer', !msg.fetchingNewer);
@@ -227,10 +224,13 @@ var messageHandlers = {
 };
 
 document.addEventListener('message', function (e) {
+  scrollEventsDisabled = true;
+
   var messages = JSON.parse(e.data);
   messages.forEach(function (msg) {
     messageHandlers[msg.type](msg);
   });
+  scrollEventsDisabled = false;
 });
 
 window.addEventListener('scroll', handleScrollEvent);
