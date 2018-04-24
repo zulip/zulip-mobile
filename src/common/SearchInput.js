@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  autoFocus: boolean,
   onChange: (text: string) => void,
 };
 
@@ -24,8 +25,12 @@ export default class SearchInput extends PureComponent<Props> {
   props: Props;
   textInput: TextInput;
 
+  static defaultProps = {
+    autoFocus: true,
+  };
+
   render() {
-    const { onChange } = this.props;
+    const { autoFocus, onChange } = this.props;
 
     return (
       <View style={styles.wrapper}>
@@ -42,7 +47,7 @@ export default class SearchInput extends PureComponent<Props> {
           placeholder="Search"
           returnKeyType="search"
           onChangeText={onChange}
-          autoFocus
+          autoFocus={autoFocus}
         />
       </View>
     );
