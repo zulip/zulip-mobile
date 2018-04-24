@@ -175,16 +175,13 @@ const updateFunctions = {
 };
 
 const handleMessageContent = (msg: MessageInputContent) => {
-  scrollEventsDisabled = true;
   updateFunctions[msg.updateStrategy](msg);
-  scrollEventsDisabled = false;
   if (documentBody.scrollHeight < documentBody.clientHeight) {
     handleScrollEvent();
   }
 };
 
 const handleMessageFetching = (msg: MessageInputFetching) => {
-  scrollEventsDisabled = !msg.showMessagePlaceholders;
   toggleElementHidden('message-loading', !msg.showMessagePlaceholders);
   toggleElementHidden('spinner-older', !msg.fetchingOlder);
   toggleElementHidden('spinner-newer', !msg.fetchingNewer);
@@ -219,12 +216,14 @@ const messageHandlers = {
 
 // $FlowFixMe
 document.addEventListener('message', e => {
+  scrollEventsDisabled = true;
   // $FlowFixMe
   const messages: WebviewInputMessage[] = JSON.parse(e.data);
   messages.forEach((msg: WebviewInputMessage) => {
     // $FlowFixMe
     messageHandlers[msg.type](msg);
   });
+  scrollEventsDisabled = false;
 });
 
 window.addEventListener('scroll', handleScrollEvent);
