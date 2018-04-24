@@ -28,6 +28,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
+  autoFocus: boolean,
   centerContent: boolean,
   children: ChildrenArray<*>,
   safeAreaInsets: Dimensions,
@@ -46,12 +47,14 @@ class Screen extends PureComponent<Props> {
   };
 
   static defaultProps = {
+    autoFocus: true,
     centerContent: false,
     keyboardShouldPersistTaps: 'handled',
   };
 
   render() {
     const {
+      autoFocus,
       centerContent,
       children,
       keyboardShouldPersistTaps,
@@ -62,12 +65,15 @@ class Screen extends PureComponent<Props> {
       title,
     } = this.props;
     const { styles } = this.context;
-    const ModalBar = search ? ModalSearchNavBar : ModalNavBar;
 
     return (
       <View style={[styles.screen, { marginBottom: safeAreaInsets.bottom }]}>
         <ZulipStatusBar />
-        <ModalBar title={title} searchBarOnChange={searchBarOnChange} />
+        {search ? (
+          <ModalSearchNavBar autoFocus={autoFocus} searchBarOnChange={searchBarOnChange} />
+        ) : (
+          <ModalNavBar title={title} />
+        )}
         <KeyboardAvoider
           behavior="padding"
           keyboardShouldPersistTaps="handled"
