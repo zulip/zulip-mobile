@@ -47,7 +47,7 @@ class Screen extends PureComponent<Props> {
   };
 
   static defaultProps = {
-    autoFocus: true,
+    autoFocus: false,
     centerContent: false,
     keyboardShouldPersistTaps: 'handled',
   };
