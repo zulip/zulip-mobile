@@ -77,8 +77,10 @@ const getStartAndEndNodes = (): { start: number, end: number } => {
   const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
 
   return {
-    start: isMessageNode(startNode) ? startNode.getAttribute('data-msg-id') : 0,
-    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : Number.MAX_SAFE_INTEGER,
+    start: isMessageNode(startNode)
+      ? startNode.getAttribute('data-msg-id')
+      : Number.MAX_SAFE_INTEGER,
+    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : 0,
   };
 };
 
