@@ -80,14 +80,12 @@ class Screen extends PureComponent<Props> {
           style={[componentStyles.wrapper, padding && componentStyles.padding]}
           contentContainerStyle={[padding && componentStyles.padding]}
         >
-          <ScrollView
-            contentContainerStyle={[
-              componentStyles.childrenWrapper,
-              centerContent && componentStyles.content,
-            ]}
-            keyboardShouldPersistTaps={keyboardShouldPersistTaps}
-          >
-            {children}
+          <ScrollView keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
+            <View
+              style={[componentStyles.childrenWrapper, centerContent && componentStyles.content]}
+            >
+              {children}
+            </View>
           </ScrollView>
         </KeyboardAvoider>
       </View>
