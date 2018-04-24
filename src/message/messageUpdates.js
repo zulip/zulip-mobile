@@ -11,6 +11,7 @@ type TransitionProps = {
   onlyOneNewMessage: boolean,
   oldMessagesAdded: boolean,
   newMessagesAdded: boolean,
+  messagesReplaced: boolean,
 };
 
 export type UpdateStrategy =
@@ -44,6 +45,11 @@ export const getMessageTransitionProps = (prevProps: Props, nextProps: Props): T
     nextProps.messages.length > 1 &&
     prevProps.messages[prevProps.messages.length - 1].id ===
       nextProps.messages[nextProps.messages.length - 2].id;
+  const messagesReplaced =
+    sameNarrow &&
+    prevProps.messages.length > 0 &&
+    nextProps.messages.length > 0 &&
+    prevProps.messages[prevProps.messages.length - 1].id < nextProps.messages[0].id;
 
   return {
     sameNarrow,
@@ -53,6 +59,7 @@ export const getMessageTransitionProps = (prevProps: Props, nextProps: Props): T
     onlyOneNewMessage,
     oldMessagesAdded,
     newMessagesAdded,
+    messagesReplaced,
   };
 };
 
