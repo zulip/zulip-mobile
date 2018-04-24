@@ -18,6 +18,7 @@ const localStyles = StyleSheet.create({
 type Props = {
   nav: any,
   actions: Actions,
+  autoFocus: boolean,
   title: string,
   searchBar: boolean,
   searchBarOnChange: () => void,
@@ -56,7 +57,15 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
   render() {
     const { styles } = this.context;
     const { isSearchActive } = this.state;
-    const { actions, nav, title, searchBar, searchBarOnChange, clearSearchInput } = this.props;
+    const {
+      actions,
+      autoFocus,
+      nav,
+      title,
+      searchBar,
+      searchBarOnChange,
+      clearSearchInput,
+    } = this.props;
     const showSearchInput = isSearchActive || !searchBar;
     const textStyle = [
       styles.navTitle,
@@ -67,7 +76,7 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
       <View style={styles.navBar}>
         {nav.index > 0 && <NavButton name="arrow-left" onPress={actions.navigateBack} />}
         {showSearchInput ? (
-          <SearchInput onChange={searchBarOnChange} />
+          <SearchInput autoFocus={autoFocus} onChange={searchBarOnChange} />
         ) : (
           <Label style={textStyle} text={title} />
         )}
