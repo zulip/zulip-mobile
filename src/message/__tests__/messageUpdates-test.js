@@ -21,6 +21,7 @@ describe('getMessageTransitionProps', () => {
       oldMessagesAdded: false,
       onlyOneNewMessage: false,
       sameNarrow: true,
+      messagesReplaced: false,
     });
   });
 
@@ -44,6 +45,7 @@ describe('getMessageTransitionProps', () => {
       oldMessagesAdded: true,
       onlyOneNewMessage: false,
       sameNarrow: true,
+      messagesReplaced: false,
     });
   });
 
@@ -67,6 +69,7 @@ describe('getMessageTransitionProps', () => {
       oldMessagesAdded: false,
       onlyOneNewMessage: false,
       sameNarrow: true,
+      messagesReplaced: false,
     });
   });
 
@@ -90,6 +93,7 @@ describe('getMessageTransitionProps', () => {
       oldMessagesAdded: false,
       onlyOneNewMessage: true,
       sameNarrow: true,
+      messagesReplaced: false,
     });
   });
 
@@ -113,6 +117,7 @@ describe('getMessageTransitionProps', () => {
       oldMessagesAdded: false,
       onlyOneNewMessage: false,
       sameNarrow: false,
+      messagesReplaced: false,
     });
   });
 
@@ -136,6 +141,31 @@ describe('getMessageTransitionProps', () => {
       oldMessagesAdded: false,
       onlyOneNewMessage: false,
       sameNarrow: true,
+      messagesReplaced: false,
+    });
+  });
+
+  test('recognize when messages are invalidated and replaced', () => {
+    const prevProps = {
+      messages: [{ id: 1 }, { id: 2 }],
+      narrow: 'some narrow',
+    };
+    const nextProps = {
+      messages: [{ id: 4 }, { id: 5 }, { id: 6 }],
+      narrow: 'some narrow',
+    };
+
+    const result = getMessageTransitionProps(prevProps, nextProps);
+
+    expect(result).toEqual({
+      newMessagesAdded: true,
+      noMessages: false,
+      noNewMessages: false,
+      allNewMessages: false,
+      oldMessagesAdded: false,
+      onlyOneNewMessage: false,
+      sameNarrow: true,
+      messagesReplaced: true,
     });
   });
 });
