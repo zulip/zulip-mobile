@@ -64,10 +64,6 @@ export default (
 ) => {
   const messages = [];
 
-  if (!isEqual(prevProps.renderedMessages, nextProps.renderedMessages)) {
-    messages.push(updateContent(prevProps, nextProps));
-  }
-
   if (
     !isEqual(prevProps.fetching, nextProps.fetching) ||
     prevProps.showMessagePlaceholders !== nextProps.showMessagePlaceholders
@@ -77,6 +73,10 @@ export default (
 
   if (!isEqual(prevProps.typingUsers, nextProps.typingUsers)) {
     messages.push(updateTyping(prevProps, nextProps));
+  }
+
+  if (!isEqual(prevProps.renderedMessages, nextProps.renderedMessages)) {
+    messages.push(updateContent(prevProps, nextProps));
   }
 
   if (messages.length > 0) {
