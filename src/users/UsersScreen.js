@@ -23,7 +23,7 @@ export default class UsersScreen extends PureComponent<Props, State> {
     const { filter } = this.state;
 
     return (
-      <Screen search searchBarOnChange={this.handleFilterChange}>
+      <Screen search autoFocus searchBarOnChange={this.handleFilterChange}>
         <UsersContainer filter={filter} />
       </Screen>
     );
