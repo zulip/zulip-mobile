@@ -71,6 +71,16 @@ describe('filterUnreadMessagesInRange', () => {
     expect(actualUnread).toEqual(expectedUnread);
   });
 
+  test('if start is after end no messages are returned', () => {
+    const messages = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }];
+    const flags = {};
+    const expectedUnread = [];
+
+    const actualUnread = filterUnreadMessagesInRange(messages, flags, 5, 1);
+
+    expect(actualUnread).toEqual(expectedUnread);
+  });
+
   test('messages in outbox are filtered out', () => {
     const messages = [{ id: 1 }, { id: 2 }, { id: 34567, isOutbox: true }];
     const flags = {};
