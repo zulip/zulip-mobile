@@ -91,6 +91,7 @@ type UnreadTopic = {
   key: string,
   topic: string,
   unread: number,
+  lastUnreadMsgId: number,
 };
 
 type UnreadStream = {
@@ -133,6 +134,7 @@ export const getUnreadStreamsAndTopics = createSelector(
         key: stream.topic,
         topic: stream.topic,
         unread: stream.unread_message_ids.length,
+        lastUnreadMsgId: stream.unread_message_ids[stream.unread_message_ids.length - 1],
         isMuted,
       });
 
@@ -145,7 +147,7 @@ export const getUnreadStreamsAndTopics = createSelector(
 
     // $FlowFixMe
     sortedStreams.forEach((stream: UnreadStream) => {
-      stream.data.sort(caseInsensitiveCompareObjFunc('topic'));
+      stream.data.sort((a, b) => b.lastUnreadMsgId - a.lastUnreadMsgId);
     });
 
     return sortedStreams;

@@ -370,16 +370,18 @@ describe('getUnreadStreamsAndTopics', () => {
         color: 'red',
         data: [
           {
-            isMuted: true,
-            key: 'a topic',
-            topic: 'a topic',
-            unread: 3,
-          },
-          {
             isMuted: false,
             key: 'another topic',
             topic: 'another topic',
             unread: 2,
+            lastUnreadMsgId: 5,
+          },
+          {
+            isMuted: true,
+            key: 'a topic',
+            topic: 'a topic',
+            unread: 3,
+            lastUnreadMsgId: 3,
           },
         ],
         isMuted: false,
@@ -423,8 +425,14 @@ describe('getUnreadStreamsAndTopics', () => {
         unread: 5,
         isMuted: false,
         data: [
-          { key: 'a topic', topic: 'a topic', unread: 3, isMuted: false },
-          { key: 'another topic', topic: 'another topic', unread: 2, isMuted: false },
+          {
+            key: 'another topic',
+            topic: 'another topic',
+            unread: 2,
+            isMuted: false,
+            lastUnreadMsgId: 5,
+          },
+          { key: 'a topic', topic: 'a topic', unread: 3, isMuted: false, lastUnreadMsgId: 3 },
         ],
       },
       {
@@ -433,12 +441,20 @@ describe('getUnreadStreamsAndTopics', () => {
         color: 'blue',
         unread: 2,
         isMuted: false,
-        data: [{ key: 'some other topic', topic: 'some other topic', unread: 2, isMuted: false }],
+        data: [
+          {
+            key: 'some other topic',
+            topic: 'some other topic',
+            unread: 2,
+            isMuted: false,
+            lastUnreadMsgId: 7,
+          },
+        ],
       },
     ]);
   });
 
-  test('both streams and topics are sorted alphabetically, case-insensitive, pinned stream on top', () => {
+  test('streams are sorted alphabetically, case-insensitive, topics by last activity, pinned stream on top', () => {
     const state = deepFreeze({
       subscriptions: [
         {
@@ -515,8 +531,8 @@ describe('getUnreadStreamsAndTopics', () => {
         isPinned: true,
         unread: 2,
         data: [
-          { key: 'd topic', topic: 'd topic', unread: 1, isMuted: false },
-          { key: 'e topic', topic: 'e topic', unread: 1, isMuted: false },
+          { key: 'e topic', topic: 'e topic', unread: 1, isMuted: false, lastUnreadMsgId: 10 },
+          { key: 'd topic', topic: 'd topic', unread: 1, isMuted: false, lastUnreadMsgId: 9 },
         ],
       },
       {
@@ -528,8 +544,8 @@ describe('getUnreadStreamsAndTopics', () => {
         isPinned: false,
         unread: 5,
         data: [
-          { key: 'a topic', topic: 'a topic', unread: 2, isMuted: false },
-          { key: 'z topic', topic: 'z topic', unread: 3, isMuted: false },
+          { key: 'a topic', topic: 'a topic', unread: 2, isMuted: false, lastUnreadMsgId: 5 },
+          { key: 'z topic', topic: 'z topic', unread: 3, isMuted: false, lastUnreadMsgId: 3 },
         ],
       },
       {
@@ -541,8 +557,8 @@ describe('getUnreadStreamsAndTopics', () => {
         isPinned: false,
         unread: 2,
         data: [
-          { key: 'b topic', topic: 'b topic', unread: 2, isMuted: false },
-          { key: 'c topic', topic: 'c topic', unread: 2, isMuted: true },
+          { key: 'c topic', topic: 'c topic', unread: 2, isMuted: true, lastUnreadMsgId: 8 },
+          { key: 'b topic', topic: 'b topic', unread: 2, isMuted: false, lastUnreadMsgId: 7 },
         ],
       },
     ]);
