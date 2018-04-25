@@ -59,7 +59,11 @@ export const getMessageTransitionProps = (prevProps: Props, nextProps: Props): T
 export const getMessageUpdateStrategy = (transitionProps: TransitionProps): UpdateStrategy => {
   if (transitionProps.noMessages) {
     return 'replace';
-  } else if (transitionProps.noNewMessages) {
+  } else if (
+    transitionProps.noNewMessages ||
+    transitionProps.oldMessagesAdded ||
+    (transitionProps.newMessagesAdded && !transitionProps.onlyOneNewMessage)
+  ) {
     return 'preserve-position';
   } else if (!transitionProps.sameNarrow || transitionProps.allNewMessages) {
     return 'scroll-to-anchor';
