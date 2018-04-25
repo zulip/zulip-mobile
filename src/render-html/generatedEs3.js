@@ -175,6 +175,7 @@ var updateContentAndScrollToBottomIfNearBottom = function updateContentAndScroll
 
 var updateFunctions = {
   replace: replaceContent,
+  default: updateContentAndPreservePosition,
   'preserve-position': updateContentAndPreservePosition,
   'scroll-to-anchor': updateContentAndScrollToAnchor,
   'scroll-to-bottom': updateContentAndScrollToBottom,
