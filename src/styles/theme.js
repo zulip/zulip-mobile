@@ -193,8 +193,9 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   },
   composeBox: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(127, 127, 127, 0.1)',
     borderTopColor: borderColor,
+    borderTopWidth: 1,
+    padding: 4,
   },
   subheader: {
     flex: 1,
