@@ -111,9 +111,7 @@ export default class StreamItem extends PureComponent<Props> {
               />
             )}
           </View>
-          {unreadCount && (
-            <UnreadCount color={iconColor} count={unreadCount} inverse={isSelected} />
-          )}
+          <UnreadCount color={iconColor} count={unreadCount} inverse={isSelected} />
           {showSwitch && (
             <ZulipSwitch
               defaultValue={!!isSwitchedOn}
