@@ -93,6 +93,29 @@ describe('getMessageTransitionProps', () => {
     });
   });
 
+  test('when different narrows do not consider new message', () => {
+    const prevProps = {
+      messages: [{ id: 2 }, { id: 3 }, { id: 4 }],
+      narrow: 'some narrow',
+    };
+    const nextProps = {
+      messages: [{ id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+      narrow: 'another narrow',
+    };
+
+    const result = getMessageTransitionProps(prevProps, nextProps);
+
+    expect(result).toEqual({
+      newMessagesAdded: false,
+      noMessages: false,
+      noNewMessages: false,
+      allNewMessages: false,
+      oldMessagesAdded: false,
+      onlyOneNewMessage: false,
+      sameNarrow: false,
+    });
+  });
+
   test('recognize when all messages are loaded', () => {
     const prevProps = {
       messages: [],

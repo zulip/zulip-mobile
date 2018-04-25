@@ -38,6 +38,7 @@ export const getMessageTransitionProps = (prevProps: Props, nextProps: Props): T
     prevProps.messages[prevProps.messages.length - 1].id <
       nextProps.messages[nextProps.messages.length - 1].id;
   const onlyOneNewMessage =
+    sameNarrow &&
     prevProps.messages.length > 0 &&
     nextProps.messages.length > 1 &&
     prevProps.messages[prevProps.messages.length - 1].id ===
