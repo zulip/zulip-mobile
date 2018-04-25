@@ -215,6 +215,21 @@ describe('getMessageUpdateStrategy', () => {
     expect(result).toEqual('replace');
   });
 
+  test('when messages replaced go to anchor', () => {
+    const prevProps = {
+      messages: [{ id: 1 }, { id: 2 }, { id: 3 }],
+      narrow: 'some narrow',
+    };
+    const nextProps = {
+      messages: [{ id: 5 }, { id: 6 }, { id: 7 }],
+      narrow: 'some narrow',
+    };
+
+    const result = getMessageUpdateStrategy(getMessageTransitionProps(prevProps, nextProps));
+
+    expect(result).toEqual('scroll-to-anchor');
+  });
+
   test('when older messages loaded preserve scroll position', () => {
     const prevProps = {
       messages: [{ id: 4 }, { id: 5 }, { id: 6 }],

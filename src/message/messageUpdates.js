@@ -67,13 +67,17 @@ export const getMessageUpdateStrategy = (transitionProps: TransitionProps): Upda
   if (transitionProps.noMessages) {
     return 'replace';
   } else if (
+    !transitionProps.sameNarrow ||
+    transitionProps.allNewMessages ||
+    transitionProps.messagesReplaced
+  ) {
+    return 'scroll-to-anchor';
+  } else if (
     transitionProps.noNewMessages ||
     transitionProps.oldMessagesAdded ||
     (transitionProps.newMessagesAdded && !transitionProps.onlyOneNewMessage)
   ) {
     return 'preserve-position';
-  } else if (!transitionProps.sameNarrow || transitionProps.allNewMessages) {
-    return 'scroll-to-anchor';
   } else if (transitionProps.onlyOneNewMessage) {
     return 'scroll-to-bottom-if-near-bottom';
   }
