@@ -37,7 +37,8 @@ const componentStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   topicInput: {
-    padding: 4,
+    padding: 2,
+    paddingLeft: 8,
     borderColor: 'rgba(127, 127, 127, 0.5)',
     borderWidth: 1,
     borderRadius: 3,
