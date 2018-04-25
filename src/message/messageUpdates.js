@@ -14,6 +14,7 @@ type TransitionProps = {
 };
 
 export type UpdateStrategy =
+  | 'default'
   | 'replace'
   | 'preserve-position'
   | 'scroll-to-anchor'
@@ -66,5 +67,5 @@ export const getMessageUpdateStrategy = (transitionProps: TransitionProps): Upda
     return 'scroll-to-bottom-if-near-bottom';
   }
 
-  return 'preserve-position';
+  return 'default';
 };
