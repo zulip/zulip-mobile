@@ -36,10 +36,23 @@ iOS App Store and the Google Play Store.
 
 ### iOS
 
-* Build iOS through Xcode - select Product -> Archive
+* Build and upload from Xcode.
 
-* Invite people to TestFlight through iTunes Connect
-https://itunesconnect.apple.com/
+  * In the "scheme" menu at the top center-left of the main window,
+    select "ZulipMobile > Generic iOS Device".
+
+  * Select Product -> Archive from the application menu.
+
+  * In the Archives organizer, select the archive and hit the button
+    "Upload to App Store...".  Follow the instructions in the [Xcode
+    docs on uploading][xcode-upload].  For the first upload, see
+    additional steps [under Initial Setup](#prepare-ios) below.
+
+[xcode-upload]: https://help.apple.com/xcode/mac/9.0/#/dev442d7f2ca
+
+* Invite people to TestFlight through [iTunes Connect][itunes-connect].
+
+[itunes-connect]: https://itunesconnect.apple.com/
 
 ### Releasing to production
 
@@ -70,3 +83,29 @@ MYAPP_RELEASE_KEY_ALIAS=zulip-mobile
 MYAPP_RELEASE_STORE_PASSWORD=*****
 MYAPP_RELEASE_KEY_PASSWORD=*****
 ```
+
+### Prepare iOS
+
+In Xcode, sign in to your Apple developer account that is a member of
+the "Kandra Labs, Inc." team.  In the "ZulipMobile" center pane that
+appears when first opening the project in Xcode, this is under the
+"General" tab (the first one shown), in the "Signing" section.
+
+You'll need the private key for the distribution certificate.  To
+install that:
+
+* Get an export from someone who has the key.  Give it a filename
+  ending in `.p12`.
+
+* Open the "Keychain Access" app, and go to File -> Import Items... to
+  import the file.  You'll also need a password, which the same person
+  can give you.
+
+When making your first upload, after hitting the "Upload to App
+Store..." button:
+
+* For the options "Include bitcode for iOS content" and "Upload your
+  app's symbols...", keep both options enabled.
+
+* For signing, select "Manually manage signing".  Choose to download
+  the provisioning profile; choose the one called "XC iOS: org.zulip.Zulip".
