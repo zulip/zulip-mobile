@@ -1,6 +1,7 @@
 /* @flow */
 import { Platform } from 'react-native';
 import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE, NAVBAR_SIZE } from './';
+import utilityStyles from './utilityStyles';
 
 type Props = {
   color: string,
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }: Props) => ({
+  ...utilityStyles,
   text: {
     fontSize: 16,
   },
@@ -69,9 +71,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   label: {
     color,
     fontSize: 15,
-  },
-  padding: {
-    padding: 16,
   },
   icon: {
     color,
