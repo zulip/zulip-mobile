@@ -46,13 +46,22 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   realmInputEmpty: {
     width: 1,
   },
+  topicInput: {
+    borderWidth: 0,
+    borderRadius: 5,
+    backgroundColor,
+    marginTop: 5,
+    padding: 5,
+  },
   composeTextInput: {
-    borderColor: 'transparent',
+    borderWidth: 0,
+    borderRadius: 5,
+    backgroundColor,
     color,
     fontSize: 15,
-    marginTop: 4,
-    marginBottom: 6,
-    padding: 0,
+    marginTop: 5,
+    marginBottom: 5,
+    padding: 5,
   },
   background: {
     backgroundColor,

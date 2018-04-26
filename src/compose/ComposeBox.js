@@ -24,9 +24,6 @@ import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
 import NotSubscribed from '../message/NotSubscribed';
 
-const MIN_HEIGHT = 42;
-const MAX_HEIGHT = 82;
-
 const componentStyles = StyleSheet.create({
   bottom: {
     flexDirection: 'column',
@@ -35,13 +32,6 @@ const componentStyles = StyleSheet.create({
   composeText: {
     flex: 1,
     justifyContent: 'center',
-  },
-  topicInput: {
-    padding: 4,
-    borderColor: 'rgba(127, 127, 127, 0.5)',
-    borderWidth: 1,
-    borderRadius: 3,
-    marginTop: 2,
   },
   button: {
     margin: 6,
@@ -90,7 +80,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     isMessageFocused: false,
     isTopicFocused: false,
     isMenuExpanded: false,
-    height: MIN_HEIGHT,
+    height: 30,
     topic: '',
     message: this.props.draft,
     selection: { start: 0, end: 0 },
@@ -289,10 +279,10 @@ export default class ComposeBox extends PureComponent<Props, State> {
               onExpandContract={this.handleComposeMenuToggle}
             />
           </View>
-          <View style={[componentStyles.composeText]}>
+          <View style={componentStyles.composeText}>
             {canSelectTopic && (
               <Input
-                style={[componentStyles.topicInput]}
+                style={styles.topicInput}
                 underlineColorAndroid="transparent"
                 placeholder="Topic"
                 selectTextOnFocus
@@ -307,7 +297,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
             )}
             <MultilineInput
               style={styles.composeTextInput}
-              maxHeight={MAX_HEIGHT}
               placeholder={placeholder}
               textInputRef={component => {
                 if (component) {
