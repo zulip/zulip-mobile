@@ -45,14 +45,49 @@ iOS App Store and the Google Play Store.
 
   * In the Archives organizer, select the archive and hit the button
     "Upload to App Store...".  Follow the instructions in the [Xcode
-    docs on uploading][xcode-upload].  For the first upload, see
-    additional steps [under Initial Setup](#prepare-ios) below.
+    docs on uploading][xcode-upload].
+
+    * For the options "Include bitcode for iOS content" and "Upload
+      your app's symbols...", keep both options enabled.
+
+    * For signing, select "Manually manage signing".  Choose the
+      provisioning profile called "XC iOS: org.zulip.Zulip".
+      (On your first upload, you'll choose at this screen to download
+      the provisioning profile.)
 
 [xcode-upload]: https://help.apple.com/xcode/mac/9.0/#/dev442d7f2ca
 
-* Invite people to TestFlight through [iTunes Connect][itunes-connect].
+* Distribute from [iTunes Connect][itunes-connect].
+
+  * A tip: use Safari when working with iTunes Connect.  It's still
+    buggy and slow, but not as buggy as it is in Chrome.
+
+  * The new build will appear first in
+    [Activity -> iOS History -> All Builds][itc-builds], with the
+    caveat "(Processing)" next to its build number.  If it doesn't
+    appear there, look for an email from Apple explaining why; this
+    can happen if an automated check doesn't like it.
+
+  * Processing takes a few minutes, and we get an email from Apple
+    when it's complete.
+
+  * After processing is complete, you can add the build to TestFlight
+    so it goes to our beta users.  Go to [TestFlight ->
+    Testers & Groups -> External Testers -> Builds][itc-external-builds],
+    and hit the "+" icon at the top of the list of builds to enter a
+    modal dialog.
+
+    * Leave the username and password (for the Apple reviewer)
+      unchanged.
+
+    * Enter notes for testers.
+
+  * The build will go into "Beta App Review".  This typically comes
+    back in hours, not days; if successful, the app is out in beta!
 
 [itunes-connect]: https://itunesconnect.apple.com/
+[itc-builds]: https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/activity/ios/builds
+[itc-external-builds]: https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/testflight?section=group&subsection=builds&id=1bf18c25-da12-4bad-8384-9dd872ce447f
 
 ### Releasing to production
 
@@ -100,12 +135,3 @@ install that:
 * Open the "Keychain Access" app, and go to File -> Import Items... to
   import the file.  You'll also need a password, which the same person
   can give you.
-
-When making your first upload, after hitting the "Upload to App
-Store..." button:
-
-* For the options "Include bitcode for iOS content" and "Upload your
-  app's symbols...", keep both options enabled.
-
-* For signing, select "Manually manage signing".  Choose to download
-  the provisioning profile; choose the one called "XC iOS: org.zulip.Zulip".
