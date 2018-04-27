@@ -229,22 +229,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     backgroundColor: cardColor,
     margin: 4,
   },
-  smallMarginTop: {
-    marginTop: 8,
-  },
-  marginTop: {
-    marginTop: 16,
-  },
-  marginTopBottom: {
-    marginTop: 16,
-    marginBottom: 16,
-  },
-  smallMarginRight: {
-    marginRight: 8,
-  },
-  marginRight: {
-    marginRight: 16,
-  },
   floatingView: {
     position: 'absolute',
     width: '100%',

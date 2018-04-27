@@ -22,7 +22,7 @@ export default class AuthButton extends Component<Props> {
 
     return (
       <ZulipButton
-        style={styles.smallMarginTop}
+        style={styles.halfMarginTop}
         secondary
         text={`Log in with ${name}`}
         Icon={Icon}

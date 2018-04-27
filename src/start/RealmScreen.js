@@ -89,7 +89,7 @@ class RealmScreen extends PureComponent<Props, State> {
         />
         {error && <ErrorMsg error={error} />}
         <ZulipButton
-          style={styles.smallMarginTop}
+          style={styles.halfMarginTop}
           text="Enter"
           progress={progress}
           onPress={this.tryRealm}

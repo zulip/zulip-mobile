@@ -6,6 +6,14 @@ export default {
   padding: {
     padding: SPACING,
   },
+  paddingTopBottom: {
+    paddingTop: SPACING,
+    paddingBottom: SPACING,
+  },
+  paddingLeftRight: {
+    paddingLeft: SPACING,
+    paddingRight: SPACING,
+  },
   paddingTop: {
     paddingTop: SPACING,
   },
@@ -37,6 +45,14 @@ export default {
   // Margin
   margin: {
     margin: SPACING,
+  },
+  marginTopBottom: {
+    marginTop: SPACING,
+    marginBottom: SPACING,
+  },
+  marginLeftRight: {
+    marginLeft: SPACING,
+    marginRight: SPACING,
   },
   marginTop: {
     marginTop: SPACING,
