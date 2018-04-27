@@ -7,7 +7,7 @@ import { RawLabel } from '../common';
 import StreamIcon from '../streams/StreamIcon';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
-const styles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   streamRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -17,9 +17,6 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     opacity: 0.8,
-  },
-  padding: {
-    padding: 16,
   },
 });
 
@@ -31,7 +28,12 @@ type Props = {
 export default class StreamCard extends PureComponent<Props> {
   props: Props;
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   render() {
+    const { styles } = this.context;
     const { stream, subscription } = this.props;
 
     const name = subscription.name || stream.name;
@@ -39,16 +41,21 @@ export default class StreamCard extends PureComponent<Props> {
 
     return (
       <View style={styles.padding}>
-        <View style={styles.streamRow}>
+        <View style={componentStyles.streamRow}>
           <StreamIcon
             size={20}
             color={subscription.color || NULL_SUBSCRIPTION.color}
             isMuted={subscription ? !subscription.in_home_view : false}
             isPrivate={stream && stream.invite_only}
           />
-          <RawLabel style={styles.streamText} text={name} numberOfLines={1} ellipsizeMode="tail" />
+          <RawLabel
+            style={componentStyles.streamText}
+            text={name}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          />
         </View>
-        <RawLabel style={styles.descriptionText} text={description} />
+        <RawLabel style={componentStyles.descriptionText} text={description} />
       </View>
     );
   }
