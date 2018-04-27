@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 8,
-    backgroundColor: 'rgba(127, 127, 127, 0.25)',
   },
   selectedRow: {
     backgroundColor: BRAND_COLOR,
