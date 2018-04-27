@@ -72,6 +72,7 @@ export default class StreamListCard extends PureComponent<Props, State> {
         {canCreateStreams && (
           <ZulipButton
             style={styles.button}
+            secondary
             text="Create new stream"
             onPress={actions.navigateToCreateStream}
           />
