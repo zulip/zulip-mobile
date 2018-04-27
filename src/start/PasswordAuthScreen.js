@@ -87,7 +87,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
     return (
       <Screen title="Log in" centerContent padding keyboardShouldPersistTaps="always">
         <Input
-          style={styles.smallMarginTop}
+          style={styles.halfMarginTop}
           autoFocus={email.length === 0}
           autoCapitalize="none"
           autoCorrect={false}
@@ -98,7 +98,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
           onChangeText={newEmail => this.setState({ email: newEmail })}
         />
         <PasswordInput
-          style={[styles.smallMarginTop, styles.field]}
+          style={[styles.halfMarginTop, styles.field]}
           autoFocus={email.length !== 0}
           placeholder="Password"
           value={password}
@@ -107,7 +107,7 @@ class PasswordAuthView extends PureComponent<Props, State> {
           onSubmitEditing={this.validateForm}
         />
         <ZulipButton
-          style={styles.smallMarginTop}
+          style={styles.halfMarginTop}
           disabled={isButtonDisabled}
           text="Log in"
           progress={progress}
