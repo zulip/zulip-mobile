@@ -27,7 +27,7 @@ export default class OptionRow extends PureComponent<Props> {
     return (
       <View style={[styles.optionRow, style]}>
         {Icon && <Icon size={18} style={[styles.icon, styles.settingsIcon]} />}
-        <Label style={styles.optionTitle} text={label} />
+        <Label text={label} />
         <View style={styles.rightItem}>
           <ZulipSwitch defaultValue={defaultValue} onValueChange={onValueChange} />
         </View>
