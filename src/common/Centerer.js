@@ -4,15 +4,12 @@ import { StyleSheet, View } from 'react-native';
 
 import type { ChildrenArray, StyleObj } from '../types';
 
-const styles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   centerer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-  },
-  padding: {
-    padding: 20,
   },
   inner: {
     width: '100%',
@@ -29,16 +26,21 @@ type Props = {
 export default class Centerer extends PureComponent<Props> {
   props: Props;
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   static defaultProps = {
     padding: false,
   };
 
   render() {
-    const { children, style, padding } = this.props;
+    const { styles } = this.context;
+    const { children, padding, style } = this.props;
 
     return (
-      <View style={[styles.centerer, padding && styles.padding, style]}>
-        <View style={styles.inner}>{children}</View>
+      <View style={[componentStyles.centerer, padding && styles.padding, style]}>
+        <View style={componentStyles.inner}>{children}</View>
       </View>
     );
   }

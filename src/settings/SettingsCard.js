@@ -10,12 +10,9 @@ import SwitchAccountButton from '../account-info/SwitchAccountButton';
 import LogoutButton from '../account-info/LogoutButton';
 import { IconDiagnostics, IconNotifications, IconNight, IconLanguage } from '../common/Icons';
 
-const styles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   optionWrapper: {
     flex: 1,
-  },
-  padding: {
-    padding: 16,
   },
   accountButtons: {
     flex: 1,
@@ -32,16 +29,21 @@ type Props = {
 class SettingsCard extends PureComponent<Props> {
   props: Props;
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   handleThemeChange = () => {
     const { actions, theme } = this.props;
     actions.settingsChange('theme', theme === 'default' ? 'night' : 'default');
   };
 
   render() {
+    const { styles } = this.context;
     const { theme, actions } = this.props;
 
     return (
-      <ScrollView style={styles.optionWrapper}>
+      <ScrollView style={componentStyles.optionWrapper}>
         <OptionRow
           Icon={IconNight}
           label="Night mode"
@@ -64,7 +66,7 @@ class SettingsCard extends PureComponent<Props> {
           <WebLink label="Terms of service" href="/terms/" />
           <WebLink label="Privacy policy" href="/privacy/" />
         </View>
-        <View style={styles.accountButtons}>
+        <View style={componentStyles.accountButtons}>
           <SwitchAccountButton />
           <LogoutButton />
         </View>

@@ -22,9 +22,6 @@ const componentStyles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
   },
-  padding: {
-    padding: 10,
-  },
 });
 
 type Props = {
@@ -77,8 +74,8 @@ class Screen extends PureComponent<Props> {
         <KeyboardAvoider
           behavior="padding"
           keyboardShouldPersistTaps="handled"
-          style={[componentStyles.wrapper, padding && componentStyles.padding]}
-          contentContainerStyle={[padding && componentStyles.padding]}
+          style={[componentStyles.wrapper, padding && styles.padding]}
+          contentContainerStyle={[padding && styles.padding]}
         >
           <ScrollView
             contentContainerStyle={[
