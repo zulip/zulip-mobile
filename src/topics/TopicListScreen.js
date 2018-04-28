@@ -45,7 +45,7 @@ class TopicListScreen extends PureComponent<Props, State> {
       topics && topics.filter(topic => topic.name.toLowerCase().includes(filter.toLowerCase()));
 
     return (
-      <Screen title="Topics" padding search searchBarOnChange={this.handleFilterChange}>
+      <Screen title="Topics" search searchBarOnChange={this.handleFilterChange}>
         <TopicList topics={filteredTopics} onPress={this.handlePress} />
       </Screen>
     );
