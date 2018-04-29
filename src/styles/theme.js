@@ -1,6 +1,6 @@
 /* @flow */
 import { Platform } from 'react-native';
-import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE, NAVBAR_SIZE, SPACING } from './';
+import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE, NAVBAR_SIZE, HALF_SPACING } from './';
 import utilityStyles from './utilityStyles';
 
 type Props = {
@@ -130,7 +130,7 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    padding: SPACING,
+    padding: HALF_SPACING,
     backgroundColor,
   },
   divider: {
