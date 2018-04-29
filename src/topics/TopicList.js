@@ -41,6 +41,7 @@ export default class TopicList extends PureComponent<Props> {
 
     return (
       <FlatList
+        keyboardShouldPersistTaps="always"
         style={styles.list}
         data={topics}
         keyExtractor={item => item.name}
