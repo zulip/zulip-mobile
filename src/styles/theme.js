@@ -134,13 +134,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     color: BRAND_COLOR,
     textAlign: 'right',
   },
-  optionRow: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    padding: SPACING,
-    backgroundColor,
-  },
   divider: {
     borderBottomWidth: 1,
     borderBottomColor: dividerColor,

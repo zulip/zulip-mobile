@@ -8,12 +8,6 @@ import { foregroundColorFromBackground } from '../utils/color';
 import StreamIcon from './StreamIcon';
 
 const componentStyles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexGrow: 50,
-    padding: 8,
-  },
   selectedRow: {
     backgroundColor: BRAND_COLOR,
   },
