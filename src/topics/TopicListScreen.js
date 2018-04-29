@@ -15,8 +15,16 @@ type Props = {
   topics: Topic[],
 };
 
-class TopicListScreen extends PureComponent<Props> {
+type State = {
+  filter: string,
+};
+
+class TopicListScreen extends PureComponent<Props, State> {
   props: Props;
+
+  state: State = {
+    filter: '',
+  };
 
   componentDidMount() {
     const { actions, stream } = this.props;
@@ -28,12 +36,17 @@ class TopicListScreen extends PureComponent<Props> {
     actions.doNarrow(topicNarrow(stream.name, topic));
   };
 
+  handleFilterChange = (filter: string) => this.setState({ filter });
+
   render() {
     const { topics } = this.props;
+    const { filter } = this.state;
+    const filteredTopics =
+      topics && topics.filter(topic => topic.name.toLowerCase().includes(filter.toLowerCase()));
 
     return (
-      <Screen title="Topics" padding>
-        <TopicList topics={topics} onPress={this.handlePress} />
+      <Screen title="Topics" padding search searchBarOnChange={this.handleFilterChange}>
+        <TopicList topics={filteredTopics} onPress={this.handlePress} />
       </Screen>
     );
   }
