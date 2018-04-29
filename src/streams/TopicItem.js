@@ -5,12 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import { BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
 
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 8,
-  },
+const componentStyles = StyleSheet.create({
   selectedRow: {
     backgroundColor: BRAND_COLOR,
   },
@@ -37,6 +32,10 @@ type Props = {
 export default class StreamItem extends PureComponent<Props> {
   props: Props;
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   static defaultProps = {
     stream: '',
     isMuted: false,
@@ -50,13 +49,20 @@ export default class StreamItem extends PureComponent<Props> {
   };
 
   render() {
+    const { styles } = this.context;
     const { name, isMuted, isSelected, unreadCount } = this.props;
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={[styles.row, isSelected && styles.selectedRow, isMuted && styles.muted]}>
+        <View
+          style={[
+            styles.listItem,
+            isSelected && componentStyles.selectedRow,
+            isMuted && componentStyles.muted,
+          ]}
+        >
           <RawLabel
-            style={[styles.label, isSelected && styles.selectedText]}
+            style={[componentStyles.label, isSelected && componentStyles.selectedText]}
             text={name}
             numberOfLines={1}
             ellipsizeMode="tail"

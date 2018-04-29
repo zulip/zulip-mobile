@@ -5,13 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import { NULL_USER } from '../nullObjects';
 import { TextAvatar, RawLabel, Touchable, UnreadCount } from '../common';
 
-const styles = StyleSheet.create({
-  row: {
-    height: 44,
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 8,
-  },
+const componentStyles = StyleSheet.create({
   text: {
     flex: 1,
     marginLeft: 8,
@@ -29,12 +23,17 @@ type Props = {
 export default class ConversationGroup extends PureComponent<Props> {
   props: Props;
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   handlePress = () => {
     const { email, onPress } = this.props;
     onPress(email);
   };
 
   render() {
+    const { styles } = this.context;
     const { email, usersByEmail, unreadCount } = this.props;
     const allNames = email
       .split(',')
@@ -43,9 +42,14 @@ export default class ConversationGroup extends PureComponent<Props> {
 
     return (
       <Touchable onPress={this.handlePress}>
-        <View style={styles.row}>
+        <View style={styles.listItem}>
           <TextAvatar size={32} name={allNames} />
-          <RawLabel style={styles.text} numberOfLines={2} ellipsizeMode="tail" text={allNames} />
+          <RawLabel
+            style={componentStyles.text}
+            numberOfLines={2}
+            ellipsizeMode="tail"
+            text={allNames}
+          />
           <UnreadCount count={unreadCount} />
         </View>
       </Touchable>

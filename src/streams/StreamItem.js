@@ -80,7 +80,7 @@ export default class StreamItem extends PureComponent<Props> {
     } = this.props;
 
     const wrapperStyle = [
-      componentStyles.row,
+      styles.listItem,
       { backgroundColor },
       isSelected && componentStyles.selectedRow,
       isMuted && componentStyles.muted,

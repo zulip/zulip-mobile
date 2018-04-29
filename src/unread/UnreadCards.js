@@ -62,7 +62,7 @@ export default class UnreadCards extends PureComponent<Props> {
         renderSectionHeader={({ section }) =>
           section.key === 'private' || section.isMuted || section.unread === 0 ? null : (
             <StreamItem
-              style={styles.groupHeader}
+              style={styles.listItem}
               name={section.streamName}
               iconSize={16}
               isMuted={section.isMuted}
