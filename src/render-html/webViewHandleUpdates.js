@@ -58,6 +58,10 @@ const updateTyping = (prevProps: Props, nextProps: Props): MessageInputTyping =>
 });
 
 const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInputMessage[] => {
+  if (!isEqual(prevProps.renderedMessages, nextProps.renderedMessages)) {
+    return [updateContent(prevProps, nextProps)];
+  }
+
   const messages = [];
 
   if (
@@ -69,10 +73,6 @@ const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInputMessa
 
   if (!isEqual(prevProps.typingUsers, nextProps.typingUsers)) {
     messages.push(updateTyping(prevProps, nextProps));
-  }
-
-  if (!isEqual(prevProps.renderedMessages, nextProps.renderedMessages)) {
-    messages.push(updateContent(prevProps, nextProps));
   }
 
   return messages;
