@@ -1,4 +1,5 @@
 /* @flow */
+import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import AccountPickScreen from '../account/AccountPickScreen';
@@ -30,7 +31,10 @@ import EditStreamScreen from '../streams/EditStreamScreen';
 import NotificationsScreen from '../settings/NotificationsScreen';
 import TopicListScreen from '../topics/TopicListScreen';
 
-export default StackNavigator(
+// const MainTabsWithRouter = props => <MainScreenWithTabs navigation={props.navigation} />;
+// MainTabsWithRouter.router = MainScreenWithTabs.router;
+
+const AppNavigator = StackNavigator(
   {
     account: { screen: AccountPickScreen },
     'account-details': { screen: AccountDetailsScreen },
@@ -69,3 +73,7 @@ export default StackNavigator(
     },
   },
 );
+
+MainScreenWithTabs.router = AppNavigator.router;
+
+export default AppNavigator;
