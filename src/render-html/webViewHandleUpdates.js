@@ -57,11 +57,7 @@ const updateTyping = (prevProps: Props, nextProps: Props): MessageInputTyping =>
       : '',
 });
 
-export default (
-  prevProps: Props,
-  nextProps: Props,
-  sendMessages: (msg: WebviewInputMessage[]) => void,
-) => {
+const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInputMessage[] => {
   const messages = [];
 
   if (
@@ -78,6 +74,16 @@ export default (
   if (!isEqual(prevProps.renderedMessages, nextProps.renderedMessages)) {
     messages.push(updateContent(prevProps, nextProps));
   }
+
+  return messages;
+};
+
+export default (
+  prevProps: Props,
+  nextProps: Props,
+  sendMessages: (msg: WebviewInputMessage[]) => void,
+) => {
+  const messages = getInputMessages(prevProps, prevProps);
 
   if (messages.length > 0) {
     sendMessages(messages);
