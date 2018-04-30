@@ -2,10 +2,14 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, QUARTER_COLOR } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
 
 const componentStyles = StyleSheet.create({
+  rowDivider: {
+    borderBottomWidth: 1,
+    borderBottomColor: QUARTER_COLOR,
+  },
   selectedRow: {
     backgroundColor: BRAND_COLOR,
   },
@@ -57,6 +61,7 @@ export default class StreamItem extends PureComponent<Props> {
         <View
           style={[
             styles.listItem,
+            componentStyles.rowDivider,
             isSelected && componentStyles.selectedRow,
             isMuted && componentStyles.muted,
           ]}
