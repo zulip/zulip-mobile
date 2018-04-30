@@ -1,12 +1,13 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { BackHandler } from 'react-native';
+import { BackHandler, View } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
 import type { Actions, Dispatch } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getCanGoBack, getNav } from '../selectors';
+import { ZulipStatusBar } from '../common';
 import AppNavigator from './AppNavigator';
 
 type Props = {
@@ -38,13 +39,16 @@ class AppWithNavigation extends PureComponent<Props> {
     const addListener = createReduxBoundAddListener('root');
 
     return (
-      <AppNavigator
-        navigation={addNavigationHelpers({
-          state: nav,
-          dispatch,
-          addListener,
-        })}
-      />
+      <View style={{ flex:1 }}>
+        <ZulipStatusBar />
+        <AppNavigator
+          navigation={addNavigationHelpers({
+            state: nav,
+            dispatch,
+            addListener,
+          })}
+        />
+      </View>
     );
   }
 }
