@@ -27,7 +27,9 @@ class AccountPickScreen extends PureComponent<Props> {
     const { accounts, actions } = this.props;
     const { realm, apiKey } = accounts[index];
     if (apiKey) {
-      actions.switchAccount(index);
+      setTimeout(() => {
+        actions.switchAccount(index);
+      });
     } else {
       actions.navigateToAddNewAccount(realm);
     }
