@@ -3,9 +3,9 @@ import isEqual from 'lodash.isequal';
 
 import type { Props } from '../message/MessageListContainer';
 import type { UpdateStrategy } from '../message/messageUpdates';
-import htmlBody from './htmlBody';
-import renderMessagesAsHtml from './renderMessagesAsHtml';
-import messageTypingAsHtml from './messageTypingAsHtml';
+import htmlBody from './html/htmlBody';
+import renderMessagesAsHtml from './html/renderMessagesAsHtml';
+import messageTypingAsHtml from './html/messageTypingAsHtml';
 import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/messageUpdates';
 
 export type MessageInputContent = {
@@ -57,7 +57,7 @@ const updateTyping = (prevProps: Props, nextProps: Props): MessageInputTyping =>
       : '',
 });
 
-const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInputMessage[] => {
+export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInputMessage[] => {
   if (!isEqual(prevProps.renderedMessages, nextProps.renderedMessages)) {
     return [updateContent(prevProps, nextProps)];
   }

@@ -1,6 +1,6 @@
 /* @flow */
-import type { ReactionType } from '../types';
-import aggregateReactions from '../reactions/aggregateReactions';
+import type { ReactionType } from '../../types';
+import aggregateReactions from '../../reactions/aggregateReactions';
 import messageReactionAsHtml from './messageReactionAsHtml';
 
 export default (

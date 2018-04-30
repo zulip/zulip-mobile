@@ -3,15 +3,14 @@
 const fs = require('fs');
 const babel = require('babel-core');
 
-const sourceFilename = 'src/render-html/js.js';
-const outputFilename = 'src/render-html/generatedEs3.js';
+const sourceFilename = 'src/webview/js/js.js';
+const outputFilename = 'src/webview/js/generatedEs3.js';
 
 const es3Code = babel.transformFileSync(sourceFilename, {
-    compact: false,
+  compact: false,
 }).code;
 
-const output = (
-`/*
+const output = `/*
  * This is a GENERATED file -- do not edit.
  * To make changes:
  *   1. Edit \`js.js\`, which is the source for this file.
@@ -23,6 +22,6 @@ export default \`
 
 ${es3Code}
 \`;
-`);
+`;
 
 fs.writeFileSync(outputFilename, output);

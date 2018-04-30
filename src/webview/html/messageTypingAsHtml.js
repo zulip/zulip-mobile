@@ -1,7 +1,7 @@
 /* @flow */
-import type { User } from '../types';
-import { getFullUrl } from '../utils/url';
-import { getGravatarFromEmail } from '../utils/avatar';
+import type { User } from '../../types';
+import { getFullUrl } from '../../utils/url';
+import { getGravatarFromEmail } from '../../utils/avatar';
 
 const typingAvatar = (realm: string, user: User): string => `
 <div class="avatar">

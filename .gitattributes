@@ -1,8 +1,6 @@
 # Suppress noisy generated files in diffs.
 yarn.lock -diff
-src/render-html/msg.html -diff
-src/render-html/es3.js -diff
-src/render-html/generatedEs3.js -diff
+src/webview/js/generatedEs3.js -diff
 
 # Maintain LF (Unix-style) newlines in text files.
 * text=auto eol=lf

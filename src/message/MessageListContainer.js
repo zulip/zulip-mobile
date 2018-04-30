@@ -20,7 +20,7 @@ import {
   constructHeaderActionButtons,
   executeActionSheetAction,
 } from './messageActionSheet';
-import MessageListWeb from '../render-html/MessageListWeb';
+import MessageListWeb from '../webview/MessageListWeb';
 import {
   getAuth,
   getAllRealmEmoji,

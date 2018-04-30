@@ -4,7 +4,7 @@ import type {
   MessageInputContent,
   MessageInputFetching,
   MessageInputTyping,
-} from './webViewHandleUpdates';
+} from '../webViewHandleUpdates';
 
 const documentBody = document.body;
 
