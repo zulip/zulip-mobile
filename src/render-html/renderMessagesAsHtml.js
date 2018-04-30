@@ -15,6 +15,7 @@ const renderMessages = ({
   narrow,
 }: Props): string[] =>
   renderedMessages.reduce((list, section, index) => {
+    // console.logs(auth); //Just to check our auth config 
     list.push(
       messageHeaderAsHtml({
         auth,

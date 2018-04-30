@@ -91,7 +91,7 @@ class LightboxContainer extends PureComponent<Props, State> {
       message.type === 'stream' ? `Shared in #${message.display_recipient}` : 'Shared with you';
     const resource = getResource(src, auth);
     const { width, height } = Dimensions.get('window');
-
+    // console.logs(resource); // Check the resource from where images are fetched
     return (
       <View style={styles.container}>
         <AnimatedLightboxHeader

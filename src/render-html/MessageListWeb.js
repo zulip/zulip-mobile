@@ -1,6 +1,6 @@
 /* @flow */
 import React, { Component } from 'react';
-import { WebView } from 'react-native';
+import { WebView,View, Image } from 'react-native';
 
 import type { Props } from '../message/MessageListContainer';
 import type { WebviewInputMessage } from './webViewHandleUpdates';
@@ -49,11 +49,13 @@ export default class MessageListWeb extends Component<Props> {
       highlightUnreadMessages: debug.highlightUnreadMessages,
       showMessagePlaceholders,
     });
+    // console.logs('this renders');
+    // console.logs(html); //Final HTML that is rendered
 
-    // For debugging issues in our HTML and CSS: Uncomment this line,
-    // copy-paste the output to a file, and open in a browser.
-    // console.log(html);
-
+    // FAILED ATTEMPT to either embed cookies or authentication headers into document
+    let cookie = `document.cookie= '_ga=GA1.2.956010057.1520612967; _gid=GA1.2.146282106.1522260427; sessionid=a6rzbsosvitskq7o7mrl5sl2v4wjmd8z; csrftoken=zu0jdLJS2XylUvxGIWcygCkE73fjOV1N4Yl2uQU2Ja3hjUSxHozzHqf7SSgLu99H'`; 
+    let headers = `document.authorization= 'Basic aGFyc2h1bHNoYXJtYTAwMEBnbWFpbC5jb206MjU0ZGNnaFl1Y3MyTG1vM0JJcHdYbDg5TzF1RlVGeEQ='`;
+    
     return (
       <WebView
         source={{
