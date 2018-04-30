@@ -1,6 +1,6 @@
 /* @flow */
-import type { FlagsState, ReactionType, RealmEmojiType } from '../types';
-import { shortTime } from '../utils/date';
+import type { FlagsState, ReactionType, RealmEmojiType } from '../../types';
+import { shortTime } from '../../utils/date';
 import messageTagsAsHtml from './messageTagsAsHtml';
 import messageReactionListAsHtml from './messageReactionListAsHtml';
 

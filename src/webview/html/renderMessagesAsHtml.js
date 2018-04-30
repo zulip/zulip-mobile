@@ -1,11 +1,11 @@
 /* @flow */
-import type { Props } from '../message/MessageListContainer';
+import type { Props } from '../../message/MessageListContainer';
 
-import { appendAuthToImages } from '../utils/url';
+import { appendAuthToImages } from '../../utils/url';
 import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
 import timeRowAsHtml from './timeRowAsHtml';
-import { getGravatarFromEmail } from '../utils/avatar';
+import { getGravatarFromEmail } from '../../utils/avatar';
 
 const renderMessages = ({
   auth,

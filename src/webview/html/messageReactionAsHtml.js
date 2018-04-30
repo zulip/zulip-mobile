@@ -1,6 +1,6 @@
 /* @flow */
-import type { ReactionType } from '../types';
-import emojiMap from '../emoji/emojiMap';
+import type { ReactionType } from '../../types';
+import emojiMap from '../../emoji/emojiMap';
 
 const getRealmEmojiHtml = (realmEmoji: ReactionType): string =>
   `<img class="realm-reaction" src="${realmEmoji.source_url}"/>

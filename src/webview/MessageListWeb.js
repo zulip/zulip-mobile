@@ -5,8 +5,8 @@ import { WebView } from 'react-native';
 import type { Props } from '../message/MessageListContainer';
 import type { WebviewInputMessage } from './webViewHandleUpdates';
 import { getAuthHeader } from '../utils/url';
-import getHtml from '../render-html/html';
-import renderMessagesAsHtml from '../render-html/renderMessagesAsHtml';
+import getHtml from './html/html';
+import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import webViewHandleUpdates from './webViewHandleUpdates';
 import * as webViewEventHandlers from './webViewEventHandlers';
 

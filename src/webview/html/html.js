@@ -1,8 +1,8 @@
 /* @flow */
-import type { ThemeType } from '../types';
-import css from './css';
+import type { ThemeType } from '../../types';
+import css from '../css/css';
 import htmlBody from './htmlBody';
-import script from './script';
+import script from '../js/script';
 
 type InitOptionsType = {
   anchor: number,

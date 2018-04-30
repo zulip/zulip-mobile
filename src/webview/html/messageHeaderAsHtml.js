@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth, Message, Narrow, Subscription } from '../types';
+import type { Auth, Message, Narrow, Subscription } from '../../types';
 import {
   isStreamNarrow,
   isTopicNarrow,
@@ -10,8 +10,8 @@ import {
   privateNarrow,
   groupNarrow,
   stringifyNarrow,
-} from '../utils/narrow';
-import { foregroundColorFromBackground } from '../utils/color';
+} from '../../utils/narrow';
+import { foregroundColorFromBackground } from '../../utils/color';
 
 export default ({
   item,

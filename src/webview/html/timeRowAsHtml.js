@@ -1,6 +1,6 @@
 /* @flow */
-import type { Message } from '../types';
-import { humanDate } from '../utils/date';
+import type { Message } from '../../types';
+import { humanDate } from '../../utils/date';
 
 export default (timestamp: number, nextMessage: Message): string => `
   <div class="timerow" data-msg-id="${nextMessage.id}">
