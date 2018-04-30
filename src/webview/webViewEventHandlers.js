@@ -7,6 +7,7 @@ import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrowString } from '../utils/narrow';
 
 type MessageListEventScroll = {
+  type: 'scroll',
   innerHeight: number,
   offsetHeight: number,
   scrollY: number,
@@ -15,20 +16,24 @@ type MessageListEventScroll = {
 };
 
 type MessageListEventAvatar = {
+  type: 'avatar',
   fromEmail: string,
 };
 
 type MessageListEventNarrow = {
+  type: 'narrow',
   narrow: string,
   fromEmail: string,
 };
 
 type MessageListEventImage = {
+  type: 'image',
   src: string,
   messageId: number,
 };
 
 type MessageListEventReaction = {
+  type: 'reaction',
   messageId: number,
   name: string,
   code: string,
@@ -37,16 +42,30 @@ type MessageListEventReaction = {
 };
 
 type MessageListEventUrl = {
+  type: 'url',
   href: string,
   messageId: number,
 };
 
 type MessageListEventLongPress = {
+  type: 'url',
   target: string,
   messageId: number,
 };
 
-type MessageListEventDebug = Object;
+type MessageListEventDebug = {
+  type: 'debug',
+};
+
+export type MessageListEvent =
+  | MessageListEventScroll
+  | MessageListEventAvatar
+  | MessageListEventNarrow
+  | MessageListEventImage
+  | MessageListEventReaction
+  | MessageListEventUrl
+  | MessageListEventLongPress
+  | MessageListEventDebug;
 
 type Props = {
   actions: Actions,
@@ -109,7 +128,7 @@ export const handleUrl = (props: Props, event: MessageListEventUrl) => {
   const { actions } = props;
 
   if (isUrlAnImage(event.href)) {
-    const imageEvent = { src: event.href, messageId: event.messageId };
+    const imageEvent = { type: 'image', src: event.href, messageId: event.messageId };
     handleImage(props, imageEvent);
     return;
   }
