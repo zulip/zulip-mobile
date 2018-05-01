@@ -5,7 +5,6 @@ import { WebView } from 'react-native';
 import type { Props } from '../message/MessageListContainer';
 import type { WebviewInputMessage } from './webViewHandleUpdates';
 import type { MessageListEvent } from './webViewEventHandlers';
-import { getAuthHeader } from '../utils/url';
 import getHtml from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import webViewHandleUpdates from './webViewHandleUpdates';
@@ -59,9 +58,6 @@ export default class MessageListWeb extends Component<Props> {
       <WebView
         source={{
           baseUrl: auth.realm,
-          headers: {
-            Authorization: getAuthHeader(auth.email, auth.apiKey),
-          },
           html,
         }}
         style={styles.webview}
