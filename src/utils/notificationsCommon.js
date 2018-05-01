@@ -1,10 +1,26 @@
 /* @flow */
-import { homeNarrow, topicNarrow, privateNarrow } from '../utils/narrow';
-import type { Notification } from '../types';
+import type { Notification, NotificationGroup, UserIdMap } from '../types';
+import { homeNarrow, topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
 
-export const getNarrowFromNotificationData = (data: Notification) =>
-  !data || !data.recipient_type
-    ? homeNarrow
-    : data.recipient_type === 'stream'
-      ? topicNarrow(data.stream, data.topic)
-      : privateNarrow(data.sender_email);
+const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
+  const userIds = data.pm_users.split(',');
+  const userEmails = userIds.map(x => usersById[x].email);
+  return groupNarrow(userEmails);
+};
+
+export const getNarrowFromNotificationData = (data: Notification, usersById: UserIdMap = {}) => {
+  if (!data || !data.recipient_type) {
+    return homeNarrow;
+  }
+
+  if (data.recipient_type === 'stream') {
+    return topicNarrow(data.stream, data.topic);
+  }
+
+  // $FlowFixMe
+  if (!data.pm_users) {
+    return privateNarrow(data.sender_email);
+  }
+
+  return getGroupNarrowFromNotificationData(data, usersById);
+};

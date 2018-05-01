@@ -1,5 +1,5 @@
 import { getNarrowFromNotificationData } from '../notificationsCommon';
-import { homeNarrow, topicNarrow, privateNarrow } from '../narrow';
+import { homeNarrow, topicNarrow, privateNarrow, groupNarrow } from '../narrow';
 
 describe('getNarrowFromNotificationData', () => {
   test('unknown notification data returns home narrow', () => {
@@ -25,5 +25,22 @@ describe('getNarrowFromNotificationData', () => {
     };
     const narrow = getNarrowFromNotificationData(notification);
     expect(narrow).toEqual(privateNarrow('mark@example.com'));
+  });
+
+  test('on notification for a group message returns a group narrow', () => {
+    const notification = {
+      recipient_type: 'private',
+      pm_users: '1,2,4',
+    };
+    const usersById = {
+      '1': { email: 'me@example.com' },
+      '2': { email: 'mark@example.com' },
+      '4': { email: 'john@example.com' },
+    };
+    const expectedNarrow = groupNarrow(['me@example.com', 'mark@example.com', 'john@example.com']);
+
+    const narrow = getNarrowFromNotificationData(notification, usersById);
+
+    expect(narrow).toEqual(expectedNarrow);
   });
 });

@@ -98,6 +98,10 @@ export type User = {
   isBot: boolean,
 };
 
+export type UserIdMap = {
+  [userId: string]: User,
+};
+
 export type PresenceAggregated = {
   client: string,
   status: UserStatus,
