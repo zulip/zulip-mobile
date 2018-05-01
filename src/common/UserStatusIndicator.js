@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { StyleObj, Presence } from '../types';
-import { statusFromPresence } from '../users/userHelpers';
+import { statusFromPresence } from '../utils/presence';
 
 const styles = StyleSheet.create({
   common: {
