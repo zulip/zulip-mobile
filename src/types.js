@@ -98,13 +98,22 @@ export type User = {
   isBot: boolean,
 };
 
-export type Presence = {
+export type PresenceAggregated = {
+  client: string,
+  status: UserStatus,
+  timestamp: number,
+};
+
+export type ClientPresence = {
+  status: UserStatus,
+  timestamp: number,
+  client: string,
   pushable: boolean,
-  aggregated: {
-    client: string,
-    status: UserStatus,
-    timestamp: number,
-  },
+};
+
+export type Presence = {
+  aggregated: PresenceAggregated,
+  [client: string]: ClientPresence,
 };
 
 export type CaughtUp = {
@@ -155,7 +164,7 @@ export type PresenceEvent = {
   type: 'message',
   id: number,
   email: string,
-  presence: any,
+  presence: { [client: string]: ClientPresence },
   server_timestamp: number,
 };
 
@@ -447,12 +456,6 @@ export type UnreadStream = {
   key: string,
   streamName: string,
   unread: number,
-};
-
-export type PresenceAggregated = {
-  client: string,
-  status: string,
-  timestamp: number,
 };
 
 export type NotificationCommon = {
