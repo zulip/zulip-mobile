@@ -385,6 +385,8 @@ ul {
   height: 20px;
 }
 #message-loading {
+  position: absolute;
+  width: 100%;
   opacity: 0.25;
 }
 #js-error {
