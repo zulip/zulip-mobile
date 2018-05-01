@@ -455,27 +455,41 @@ export type PresenceAggregated = {
   timestamp: number,
 };
 
-export type Notification = {
+export type NotificationCommon = {
   alert: string,
   content: string,
-  content_truncated: boolean,
-  event: 'message',
+  content_truncated: string, // boolean
   'google.message_id': string,
-  'google.sent_time': string,
+  'google.sent_time': number,
   'google.ttl': number,
-  realm_id: number,
-  recipient_type: 'private' | 'stream',
+  event: 'message',
+  realm_id: string, // string
   sender_avatar_url: string,
-  sender_id: number,
-  sender_email: string,
+  sender_email: string, // email
   sender_full_name: string,
+  sender_id: string,
   server: string,
-  stream: string,
-  topic: string,
-  time: number,
+  time: string,
   user: string,
   zulip_message_id: string,
 };
+
+export type NotificationPrivate = NotificationCommon & {
+  recipient_type: 'private',
+};
+
+export type NotificationGroup = NotificationCommon & {
+  pm_users: string, // comma separated ids
+  recipient_type: 'private',
+};
+
+export type NotificationStream = NotificationCommon & {
+  recipient_type: 'stream',
+  stream: string,
+  topic: string,
+};
+
+export type Notification = NotificationPrivate | NotificationGroup | NotificationStream;
 
 export type NamedUser = {
   id: number,
