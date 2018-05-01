@@ -83,7 +83,7 @@ export default (
   nextProps: Props,
   sendMessages: (msg: WebviewInputMessage[]) => void,
 ) => {
-  const messages = getInputMessages(prevProps, prevProps);
+  const messages = getInputMessages(prevProps, nextProps);
 
   if (messages.length > 0) {
     sendMessages(messages);
