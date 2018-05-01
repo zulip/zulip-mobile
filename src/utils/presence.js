@@ -1,5 +1,6 @@
 /* @flow */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
 import type { PresenceAggregated, Presence, UserStatus } from '../types';
 
@@ -33,6 +34,15 @@ export const getAggregatedPresence = (presence: Presence): PresenceAggregated =>
       },
       { client: '', status: 'offline', timestamp: 0 },
     );
+
+export const presenceToHumanTime = (presence: Presence): string => {
+  if (!presence || !presence.aggregated) return 'never';
+
+  const lastTimeActive = new Date(presence.aggregated.timestamp * 1000);
+  return differenceInSeconds(Date.now(), lastTimeActive) < OFFLINE_THRESHOLD_SECS
+    ? 'now'
+    : `${distanceInWordsToNow(lastTimeActive)} ago`;
+};
 
 export const statusFromPresence = (presence?: Presence): UserStatus => {
   if (!presence || !presence.aggregated) {

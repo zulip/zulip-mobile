@@ -1,11 +1,4 @@
-import {
-  shortTime,
-  shortDate,
-  longDate,
-  daysInDate,
-  humanDate,
-  presenceToHumanTime,
-} from '../date';
+import { shortTime, shortDate, longDate, daysInDate, humanDate } from '../date';
 
 describe('shortTime', () => {
   test('returns only hour and minutes', () => {
@@ -62,29 +55,5 @@ describe('humanDate', () => {
 
   test('if date is any other day than today and yesterday, return formatted date', () => {
     expect(humanDate(new Date(2000, 0, 1))).toBe('Jan 1, 2000');
-  });
-});
-
-describe('presenceToHumanTime', () => {
-  test('passing an invalid value does not throw but returns "never"', () => {
-    expect(presenceToHumanTime(undefined)).toBe('never');
-  });
-
-  test('given a presence return human readable time', () => {
-    const presence = {
-      aggregated: {
-        timestamp: new Date().getTime() / 1000 - 120,
-      },
-    };
-    expect(presenceToHumanTime(presence)).toBe('2 minutes ago');
-  });
-
-  test('if less than a minute, the user is currently active', () => {
-    const presence = {
-      aggregated: {
-        timestamp: new Date().getTime() / 1000,
-      },
-    };
-    expect(presenceToHumanTime(presence)).toBe('now');
   });
 });

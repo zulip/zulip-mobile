@@ -5,7 +5,7 @@ import { StyleSheet, Text } from 'react-native';
 import type { PresenceState } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getPresence } from '../selectors';
-import { presenceToHumanTime } from '../utils/date';
+import { presenceToHumanTime } from '../utils/presence';
 
 const styles = StyleSheet.create({
   time: {

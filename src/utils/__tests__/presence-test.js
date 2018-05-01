@@ -1,6 +1,5 @@
 /* @flow */
-
-import { getAggregatedPresence, statusFromPresence } from '../presence';
+import { getAggregatedPresence, presenceToHumanTime, statusFromPresence } from '../presence';
 
 const currentTimestamp = Date.now() / 1000;
 
@@ -113,6 +112,30 @@ describe('getAggregatedPresence', () => {
     };
 
     expect(getAggregatedPresence(presence)).toEqual(expectedResult);
+  });
+});
+
+describe('presenceToHumanTime', () => {
+  test('passing an invalid value does not throw but returns "never"', () => {
+    expect(presenceToHumanTime(undefined)).toBe('never');
+  });
+
+  test('given a presence return human readable time', () => {
+    const presence = {
+      aggregated: {
+        timestamp: currentTimestamp - 240,
+      },
+    };
+    expect(presenceToHumanTime(presence)).toBe('4 minutes ago');
+  });
+
+  test('if less than a threshold, the user is currently active', () => {
+    const presence = {
+      aggregated: {
+        timestamp: currentTimestamp - 100,
+      },
+    };
+    expect(presenceToHumanTime(presence)).toBe('now');
   });
 });
 
