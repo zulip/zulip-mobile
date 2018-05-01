@@ -4,9 +4,9 @@ import { AppState, NetInfo, View, StyleSheet, Platform, NativeModules } from 're
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
-import type { Actions, ChildrenArray } from '../types';
+import type { Actions, ChildrenArray, UserIdMap } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getSession, getUnreadByHuddlesMentionsAndPMs } from '../selectors';
+import { getSession, getUnreadByHuddlesMentionsAndPMs, getUsersById } from '../selectors';
 import {
   addNotificationListener,
   removeNotificationListener,
@@ -27,6 +27,7 @@ type Props = {
   actions: Actions,
   children?: ChildrenArray<*>,
   unreadCount: number,
+  usersById: UserIdMap,
 };
 
 class AppEventHandlers extends PureComponent<Props> {
@@ -56,8 +57,8 @@ class AppEventHandlers extends PureComponent<Props> {
   };
 
   handleNotificationOpen = (notification: Object) => {
-    const { actions } = this.props;
-    handlePendingNotifications(notification, actions);
+    const { actions, usersById } = this.props;
+    handlePendingNotifications(notification, actions, usersById);
   };
 
   handleMemoryWarning = () => {
@@ -65,8 +66,8 @@ class AppEventHandlers extends PureComponent<Props> {
   };
 
   componentDidMount() {
-    const { actions } = this.props;
-    handleInitialNotification(actions);
+    const { actions, usersById } = this.props;
+    handleInitialNotification(actions, usersById);
 
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
@@ -93,5 +94,6 @@ class AppEventHandlers extends PureComponent<Props> {
 
 export default connectWithActions(state => ({
   needsInitialFetch: getSession(state).needsInitialFetch,
+  usersById: getUsersById(state),
   unreadCount: getUnreadByHuddlesMentionsAndPMs(state),
 }))(AppEventHandlers);

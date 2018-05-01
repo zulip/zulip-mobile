@@ -7,6 +7,7 @@ import config from '../config';
 import { getNav, getAccounts } from '../directSelectors';
 import { navigateToChat } from './navActions';
 import { getAuth } from '../account/accountSelectors';
+import { getUsersById } from '../users/userSelectors';
 import AppNavigator from './AppNavigator';
 import { getNarrowFromNotificationData } from '../utils/notificationsCommon';
 
@@ -72,7 +73,8 @@ export const getInitialNavState = createSelector(
   getNav,
   getAccounts,
   getAuth,
-  (nav, accounts, auth) => {
+  getUsersById,
+  (nav, accounts, auth, usersById) => {
     if (!auth.apiKey) {
       return getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'realm');
     }
@@ -86,7 +88,7 @@ export const getInitialNavState = createSelector(
       return state;
     }
 
-    const narrow = getNarrowFromNotificationData(config.startup.notification);
+    const narrow = getNarrowFromNotificationData(config.startup.notification, usersById);
     return AppNavigator.router.getStateForAction(navigateToChat(narrow), state);
   },
 );

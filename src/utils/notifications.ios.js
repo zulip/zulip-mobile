@@ -2,7 +2,7 @@
 import NotificationsIOS from 'react-native-notifications';
 import { PushNotificationIOS } from 'react-native';
 
-import type { Auth, Actions } from '../types';
+import type { Auth, Actions, UserIdMap } from '../types';
 import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';
@@ -40,7 +40,11 @@ export const initializeNotifications = (
 
 export const refreshNotificationToken = () => {};
 
-export const handlePendingNotifications = (notificationData: Object, actions: Actions) => {
+export const handlePendingNotifications = (
+  notificationData: Object,
+  actions: Actions,
+  usersById: UserIdMap,
+) => {
   if (!notificationData || !notificationData.getData) {
     return;
   }
@@ -48,11 +52,11 @@ export const handlePendingNotifications = (notificationData: Object, actions: Ac
   const data = notificationData.getData();
   config.startup.notification = data.zulip;
   if (data && data.zulip) {
-    actions.doNarrow(getNarrowFromNotificationData(data)); // , data.message_ids
+    actions.doNarrow(getNarrowFromNotificationData(data, usersById));
   }
 };
 
-export const handleInitialNotification = async (actions: Actions) => {
+export const handleInitialNotification = async (actions: Actions, usersById: UserIdMap) => {
   const data = await PushNotificationIOS.getInitialNotification();
-  handlePendingNotifications(data, actions);
+  handlePendingNotifications(data, actions, usersById);
 };

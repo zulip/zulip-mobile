@@ -60,7 +60,7 @@ export const getUsersByEmail = createSelector(getUsers, users =>
   }, {}),
 );
 
-export const getUsersById = createSelector(getUsers, users =>
+export const getUsersById = createSelector(getUsers, (users = []) =>
   users.reduce((usersById, user) => {
     usersById[user.id] = user;
     return usersById;
