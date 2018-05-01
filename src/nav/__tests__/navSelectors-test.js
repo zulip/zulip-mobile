@@ -32,6 +32,7 @@ describe('getInitialNavState', () => {
   test('when no previous navigation is given do not throw but return some result', () => {
     const state = deepFreeze({
       accounts: [{ apiKey: '123' }],
+      users: [],
     });
 
     const nav = getInitialNavState(state);
@@ -42,6 +43,7 @@ describe('getInitialNavState', () => {
   test('if logged in, preserve the state', () => {
     const state = deepFreeze({
       accounts: [{ apiKey: '123' }],
+      users: [],
       nav: {
         routes: [{ routeName: 'route1' }, { routeName: 'route2' }],
       },
@@ -57,6 +59,7 @@ describe('getInitialNavState', () => {
   test('if not logged in, and no previous accounts, show realm screen', () => {
     const state = deepFreeze({
       accounts: [],
+      users: [],
       nav: {
         routes: [],
       },
@@ -71,6 +74,7 @@ describe('getInitialNavState', () => {
   test('if more than one account and no active account, display account list', () => {
     const state = deepFreeze({
       accounts: [{}, {}],
+      users: [],
       nav: {
         routes: [],
       },
@@ -85,6 +89,7 @@ describe('getInitialNavState', () => {
   test('when only a single account and no other properties, redirect to realm', () => {
     const state = deepFreeze({
       accounts: [{ realm: 'https://example.com' }],
+      users: [],
       nav: {
         routes: [],
       },
@@ -102,6 +107,7 @@ describe('getInitialNavState', () => {
         { realm: 'https://example.com', email: 'johndoe@example.com' },
         { realm: 'https://example.com', email: 'janedoe@example.com' },
       ],
+      users: [],
       nav: {
         routes: [],
       },
@@ -116,6 +122,7 @@ describe('getInitialNavState', () => {
   test('when default account has server and email set, redirect to realm screen', () => {
     const state = deepFreeze({
       accounts: [{ realm: 'https://example.com', email: 'johndoe@example.com' }],
+      users: [],
       nav: {
         routes: [],
       },
