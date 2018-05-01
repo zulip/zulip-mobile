@@ -1,11 +1,11 @@
 /* @flow */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 
-import type { Presence, UserStatus } from '../types';
+import type { PresenceAggregated, Presence, UserStatus } from '../types';
 
 const OFFLINE_THRESHOLD_SECS = 140;
 
-export const getAggregatedPresence = (presence: Presence) =>
+export const getAggregatedPresence = (presence: Presence): PresenceAggregated =>
   Object.keys(presence)
     .filter((client: string) => client !== 'aggregated')
     .reduce(
