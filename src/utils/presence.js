@@ -1,5 +1,7 @@
 /* @flow */
-import type { Presence } from '../types';
+import differenceInSeconds from 'date-fns/difference_in_seconds';
+
+import type { Presence, UserStatus } from '../types';
 
 const OFFLINE_THRESHOLD_SECS = 140;
 
@@ -31,3 +33,22 @@ export const getAggregatedPresence = (presence: Presence) =>
       },
       { client: '', status: 'offline', timestamp: 0 },
     );
+
+export const statusFromPresence = (presence?: Presence): UserStatus => {
+  if (!presence || !presence.aggregated) {
+    return 'offline';
+  }
+
+  if (presence.aggregated.status === 'offline') {
+    return 'offline';
+  }
+
+  const timestampDate = new Date(presence.aggregated.timestamp * 1000);
+  const diffToNowInSeconds = differenceInSeconds(Date.now(), timestampDate);
+
+  if (diffToNowInSeconds > OFFLINE_THRESHOLD_SECS) {
+    return 'offline';
+  }
+
+  return presence.aggregated.status;
+};

@@ -1,6 +1,6 @@
 /* @flow */
 
-import { getAggregatedPresence } from '../presence';
+import { getAggregatedPresence, statusFromPresence } from '../presence';
 
 const currentTimestamp = Date.now() / 1000;
 
@@ -113,5 +113,56 @@ describe('getAggregatedPresence', () => {
     };
 
     expect(getAggregatedPresence(presence)).toEqual(expectedResult);
+  });
+});
+
+describe('statusFromPresence', () => {
+  test('invalid input does not throw but returns "offline"', () => {
+    expect(statusFromPresence(undefined)).toBe('offline');
+    expect(statusFromPresence({})).toBe('offline');
+    expect(statusFromPresence('something invalid')).toBe('offline');
+  });
+
+  test('if aggregate status is "offline" the result is always "offline"', () => {
+    const presence = {
+      aggregated: {
+        status: 'offline',
+      },
+    };
+    const result = statusFromPresence(presence);
+    expect(result).toBe('offline');
+  });
+
+  test('if status is not "offline" but last activity was more than 1hr ago result is still "offline"', () => {
+    const presence = {
+      aggregated: {
+        status: 'active',
+        timestamp: Math.trunc(Date.now() / 1000 - 2 * 60 * 60), // two hours
+      },
+    };
+    const result = statusFromPresence(presence);
+    expect(result).toBe('offline');
+  });
+
+  test('if status is  "idle" and last activity is less than 140 seconds then result remain "idle"', () => {
+    const presence = {
+      aggregated: {
+        status: 'idle',
+        timestamp: Math.trunc(Date.now() / 1000 - 60), // 1 minute
+      },
+    };
+    const result = statusFromPresence(presence);
+    expect(result).toBe('idle');
+  });
+
+  test('if status is not "offline" and last activity was less than 5min ago result is "active"', () => {
+    const presence = {
+      aggregated: {
+        status: 'active',
+        timestamp: Math.trunc(Date.now() / 1000 - 60), // 1 minute
+      },
+    };
+    const result = statusFromPresence(presence);
+    expect(result).toBe('active');
   });
 });
