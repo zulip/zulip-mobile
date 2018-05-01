@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
 
-import type { Actions } from '../types';
+import type { Actions, ApiServerSettings } from '../types';
 import connectWithActions from '../connectWithActions';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { isValidUrl } from '../utils/url';
@@ -47,7 +47,7 @@ class RealmScreen extends PureComponent<Props, State> {
     const { actions } = this.props;
 
     try {
-      const serverSettings = await getServerSettings(realm);
+      const serverSettings: ApiServerSettings = await getServerSettings(realm);
       actions.realmAdd(realm);
       actions.navigateToAuth(serverSettings);
       Keyboard.dismiss();

@@ -6,7 +6,7 @@ import type {
   GlobalState,
   Message,
   Narrow,
-  ServerSettings,
+  ApiServerSettings,
   ApiUser,
   User,
   InitialRealmData,
@@ -87,7 +87,7 @@ export type DebugFlagToggleActionCreator = (key: string, value: any) => DebugFla
 export type NavigateAction = Object;
 export type NavigateActionCreator = () => NavigateAction;
 export type NavigateToChatActionCreator = (narrow: Narrow) => NavigateAction;
-export type NavigateToAuthActionCreator = (serverSettings: ServerSettings) => NavigateAction;
+export type NavigateToAuthActionCreator = (serverSettings: ApiServerSettings) => NavigateAction;
 export type NavigateToPasswordActionCreator = (ldap?: boolean) => NavigateAction;
 export type NavigateToAccountDetailsActionCreator = (email: string) => NavigateAction;
 export type NavigateToGroupDetailsActionCreator = (recipients: string[]) => NavigateAction;

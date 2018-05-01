@@ -197,20 +197,6 @@ export type EditMessage = {
   topic: string,
 };
 
-export type AuthenticationMethods = {
-  dev: boolean,
-  email: boolean,
-  github: boolean,
-  google: boolean,
-  ldap: boolean,
-  password: boolean,
-};
-export type ServerSettings = {
-  authentication_methods: AuthenticationMethods,
-  realm_icon: string,
-  realm_name: string,
-};
-
 export type AccountState = Account[];
 
 export type Debug = {
