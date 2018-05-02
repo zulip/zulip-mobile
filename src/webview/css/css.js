@@ -385,7 +385,7 @@ ul {
   height: 20px;
 }
 #message-loading {
-  position: absolute;
+  position: fixed;
   width: 100%;
   opacity: 0.25;
 }
