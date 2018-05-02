@@ -1,6 +1,6 @@
 /* @flow */
 import { Platform } from 'react-native';
-import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE, NAVBAR_SIZE, SPACING, HALF_SPACING } from './';
+import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE, NAVBAR_SIZE, SPACING, HALF_SPACING, HALF_COLOR } from './';
 import utilityStyles from './utilityStyles';
 
 type Props = {
@@ -49,21 +49,22 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     width: 1,
   },
   topicInput: {
-    borderWidth: 0,
+    borderWidth: 1,
     borderRadius: 5,
+    borderColor,
     backgroundColor,
     marginTop: 5,
     padding: 5,
+    flex: 1,
   },
   composeTextInput: {
-    borderWidth: 0,
-    borderRadius: 5,
     backgroundColor,
     color,
     fontSize: 15,
     marginTop: 5,
     marginBottom: 5,
     padding: 5,
+    paddingLeft: SPACING,
   },
   background: {
     backgroundColor,
@@ -198,7 +199,7 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   },
   composeBox: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(127, 127, 127, 0.1)',
+    borderTopWidth: 1,
     borderTopColor: borderColor,
   },
   subheader: {
