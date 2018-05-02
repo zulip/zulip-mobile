@@ -7,6 +7,10 @@ import { logErrorRemotely } from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrowString } from '../utils/narrow';
 
+type MessageListEventReady = {
+  type: 'ready',
+};
+
 type MessageListEventScroll = {
   type: 'scroll',
   innerHeight: number,
@@ -70,6 +74,7 @@ type MessageListEventError = {
 };
 
 export type MessageListEvent =
+  | MessageListEventReady
   | MessageListEventScroll
   | MessageListEventAvatar
   | MessageListEventNarrow
@@ -88,6 +93,10 @@ type Props = {
   messages: Message[],
   narrow: Narrow,
   onLongPress: (messageId: number, target: string) => void,
+};
+
+export const handleReady = (props: Props, event: MessageListEventReady) => {
+  console.log('Ready to send events'); // eslint-disable-line
 };
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {

@@ -337,4 +337,13 @@ documentBody.addEventListener('touchmove', function (e) {
 documentBody.addEventListener('drag', function (e) {
   lastTouchEventTimestamp = 0;
 });
+
+var waitForBridge = function waitForBridge() {
+  if (window.postMessage.length === 1) {
+    sendMessage({ type: 'ready' });
+  } else {
+    setTimeout(waitForBridge, 10);
+  }
+};
+waitForBridge();
 `;
