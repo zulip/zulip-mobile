@@ -4,8 +4,10 @@ import { homeNarrow, topicNarrow, privateNarrow, groupNarrow } from '../utils/na
 
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
   const userIds = data.pm_users.split(',');
-  const userEmails = userIds.map(x => usersById[x].email);
-  return groupNarrow(userEmails);
+  const users = userIds.map(id => usersById[id]);
+  const doAllUsersExist = users.every(user => user);
+
+  return doAllUsersExist ? groupNarrow(users.map(user => user.email)) : homeNarrow;
 };
 
 export const getNarrowFromNotificationData = (data: Notification, usersById: UserIdMap = {}) => {
