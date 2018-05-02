@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import type { Actions, Stream, TopicExtended } from '../types';
-import connectWithActions from '../connectWithActions';
+import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { Screen } from '../common';
 import { topicNarrow } from '../utils/narrow';
 import { getTopicsInStream } from '../selectors';
@@ -52,7 +52,7 @@ class TopicListScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectWithActions((state, props) => ({
+export default connectWithActionsPreserveOnBack((state, props) => ({
   stream: getStreamEditInitialValues(state),
   topics: getTopicsInStream(props.navigation.state.params.streamId)(state),
 }))(TopicListScreen);
