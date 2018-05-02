@@ -338,3 +338,12 @@ documentBody.addEventListener('touchmove', e => {
 documentBody.addEventListener('drag', e => {
   lastTouchEventTimestamp = 0;
 });
+
+const waitForBridge = () => {
+  if (window.postMessage.length === 1) {
+    sendMessage({ type: 'ready' });
+  } else {
+    setTimeout(waitForBridge, 10);
+  }
+};
+waitForBridge();
