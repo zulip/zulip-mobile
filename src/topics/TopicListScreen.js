@@ -5,7 +5,7 @@ import type { Actions, Stream, TopicExtended } from '../types';
 import connectWithActions from '../connectWithActions';
 import { Screen } from '../common';
 import { topicNarrow } from '../utils/narrow';
-import { getTopicsInScreen } from '../selectors';
+import { getTopicsInStream } from '../selectors';
 import { getStreamEditInitialValues } from '../subscriptions/subscriptionSelectors';
 import TopicList from './TopicList';
 
@@ -52,7 +52,7 @@ class TopicListScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connectWithActions((state, props) => ({
   stream: getStreamEditInitialValues(state),
-  topics: getTopicsInScreen(state),
+  topics: getTopicsInStream(props.navigation.state.params.streamId)(state),
 }))(TopicListScreen);
