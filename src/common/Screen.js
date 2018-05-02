@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
 import type { ChildrenArray, Dimensions, LocalizableText, StyleObj } from '../types';
-import connectWithActions from '../connectWithActions';
+import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { KeyboardAvoider, ZulipStatusBar } from '../common';
 import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
@@ -91,6 +91,6 @@ class Screen extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state, props) => ({
+export default connectWithActionsPreserveOnBack((state, props) => ({
   safeAreaInsets: getSession(state).safeAreaInsets,
 }))(Screen);
