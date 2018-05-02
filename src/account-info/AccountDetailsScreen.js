@@ -41,9 +41,9 @@ class AccountDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connectWithActionsPreserveOnBack(state => ({
+export default connectWithActionsPreserveOnBack((state, props) => ({
   auth: getAuth(state),
-  user: getAccountDetailsUser(state),
+  user: getAccountDetailsUser(props.navigation.state.params.email)(state),
   orientation: getSession(state).orientation,
   presence: getPresence(state),
 }))(AccountDetailsScreen);
