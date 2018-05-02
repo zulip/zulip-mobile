@@ -43,4 +43,16 @@ describe('getNarrowFromNotificationData', () => {
 
     expect(narrow).toEqual(expectedNarrow);
   });
+
+  test('do not throw when users are not found; return a home narrow', () => {
+    const notification = {
+      recipient_type: 'private',
+      pm_users: '1,2,4',
+    };
+    const usersById = {};
+
+    const narrow = getNarrowFromNotificationData(notification, usersById);
+
+    expect(narrow).toEqual(homeNarrow);
+  });
 });
