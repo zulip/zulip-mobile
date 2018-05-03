@@ -84,8 +84,5 @@ export default (
   sendMessages: (msg: WebviewInputMessage[]) => void,
 ) => {
   const messages = getInputMessages(prevProps, nextProps);
-
-  if (messages.length > 0) {
-    sendMessages(messages);
-  }
+  sendMessages(messages);
 };

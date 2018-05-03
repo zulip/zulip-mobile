@@ -23,9 +23,9 @@ export default class MessageListWeb extends Component<Props> {
     console.error(event); // eslint-disable-line
   };
 
-  sendMessages = (msg: WebviewInputMessage[]): void => {
-    if (this.webview) {
-      this.webview.postMessage(JSON.stringify(msg), '*');
+  sendMessages = (messages: WebviewInputMessage[]): void => {
+    if (this.webview && messages.length > 0) {
+      this.webview.postMessage(JSON.stringify(messages), '*');
     }
   };
 
