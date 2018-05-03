@@ -95,10 +95,6 @@ type Props = {
   onLongPress: (messageId: number, target: string) => void,
 };
 
-export const handleReady = (props: Props, event: MessageListEventReady) => {
-  console.log('Ready to send events'); // eslint-disable-line
-};
-
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
   const { innerHeight, offsetHeight, scrollY, startMessageId, endMessageId } = event;
   const { actions, narrow } = props;
