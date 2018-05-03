@@ -35,8 +35,6 @@ import {
   getShowMessagePlaceholders,
   getShownMessagesForNarrow,
 } from '../selectors';
-import { filterUnreadMessageIds } from '../utils/unread';
-import { queueMarkAsRead } from '../api';
 
 export type Props = {
   actions: Actions,
@@ -58,7 +56,6 @@ export type Props = {
   listRef: (component: any) => void,
   onLongPress: (messageId: number, target: string) => void,
   onReplySelect: () => void,
-  onScroll: (e: Event) => void,
   onSend: () => void,
   showActionSheetWithOptions: (Object, (number) => void) => void,
 };
@@ -105,24 +102,8 @@ class MessageListContainer extends PureComponent<Props> {
     );
   };
 
-  handleMessageListScroll = (e: Object) => {
-    const { auth, debug, flags } = this.props;
-    const visibleMessageIds = e.visibleIds ? e.visibleIds.map(x => +x) : [];
-    const unreadMessageIds = filterUnreadMessageIds(visibleMessageIds, flags);
-
-    if (unreadMessageIds.length > 0 && !debug.doNotMarkMessagesAsRead) {
-      queueMarkAsRead(auth, unreadMessageIds);
-    }
-  };
-
   render() {
-    return (
-      <MessageListWeb
-        {...this.props}
-        onLongPress={this.handleLongPress}
-        onScroll={this.handleMessageListScroll}
-      />
-    );
+    return <MessageListWeb {...this.props} onLongPress={this.handleLongPress} />;
   }
 }
 
