@@ -7,12 +7,14 @@ import type { WebviewInputMessage } from './webViewHandleUpdates';
 import type { MessageListEvent } from './webViewEventHandlers';
 import getHtml from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
-import webViewHandleUpdates from './webViewHandleUpdates';
+import { getInputMessages } from './webViewHandleUpdates';
 import * as webViewEventHandlers from './webViewEventHandlers';
 
 export default class MessageListWeb extends Component<Props> {
   webview: ?Object;
   props: Props;
+  isReady: boolean;
+  unsentMessages: WebviewInputMessage[] = [];
 
   static contextTypes = {
     styles: () => null,
@@ -31,13 +33,24 @@ export default class MessageListWeb extends Component<Props> {
 
   handleMessage = (event: { nativeEvent: { data: string } }) => {
     const eventData: MessageListEvent = JSON.parse(event.nativeEvent.data);
-    const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
-
-    webViewEventHandlers[handler](this.props, eventData); // $FlowFixMe
+    if (eventData.type === 'ready') {
+      this.isReady = true;
+      this.sendMessages(this.unsentMessages);
+    } else {
+      const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
+      webViewEventHandlers[handler](this.props, eventData); // $FlowFixMe
+    }
   };
 
   shouldComponentUpdate = (nextProps: Props) => {
-    webViewHandleUpdates(this.props, nextProps, this.sendMessages);
+    const messages = getInputMessages(this.props, nextProps);
+
+    if (this.isReady) {
+      this.sendMessages(messages);
+    } else {
+      this.unsentMessages.push(...messages);
+    }
+
     return false;
   };
 
