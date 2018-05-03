@@ -119,10 +119,37 @@ iOS App Store and the Google Play Store.
 Do these after the beta has been out a couple of days and there don't
 seem to be bad regressions.
 
-* Promote an Android Beta to Production
+* For Android, promote the beta to production.
 
-* Submit a final iOS version, again through iTunes Connect 
+  * In the Play Console, go to [Release Management -> App releases ->
+    Manage Beta][play-manage-beta].
 
+  * Hit "Release to Production".  Look at the "What's new" box at the bottom,
+    and check that the text is good.  Hit the button to confirm the release.
+
+[play-manage-beta]: https://play.google.com/apps/publish/?account=8060868091387311598#ManageReleaseTrackPlace:p=com.zulipmobile&releaseTrackId=4697711623380261182
+
+* For iOS, promote the TestFlight build to the App Store.
+
+  * In iTunes Connect for the app, [go to the "App Store" tab][itc-main], and
+    hit the "+ Version" button at the bottom of the left sidebar.  Enter the
+    version number.  This creates a new draft listing.
+
+  * In the draft listing, scroll down to the "Build" section and hit the "+"
+    icon next to the "Build" heading.  Select the desired build.
+
+  * Fill in the "What's New in This Version" input at the top.  Optionally,
+    update the previews/screenshots, and the description and other text.
+
+  * At the top of the draft listing, hit "Save" and then "Submit for Review".
+
+  * For the "Advertising Identifier (IDFA)" question, select No.
+
+  * The draft listing should enter state "Waiting for Review".  From here,
+    it typically takes a couple of days to get a result from the Apple review
+    process; if it passes review, the app will go live.
+
+[itc-main]: https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395
 
 ## Initial setup
 
