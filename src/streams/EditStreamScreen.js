@@ -1,14 +1,25 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import type { NavigationScreenProp } from 'react-navigation';
 
 import { Screen } from '../common';
 import EditStreamContainer from './EditStreamContainer';
 
-export default class EditStreamScreen extends PureComponent<{}> {
+type Props = {
+  navigation: NavigationScreenProp<*> & {
+    state: {
+      params: {
+        streamId: number,
+      },
+    },
+  },
+};
+
+export default class EditStreamScreen extends PureComponent<Props> {
   render() {
     return (
       <Screen title="Edit stream" padding>
-        <EditStreamContainer />
+        <EditStreamContainer streamId={this.props.navigation.state.params.streamId} />
       </Screen>
     );
   }
