@@ -43,9 +43,32 @@ iOS App Store and the Google Play Store.
 
   * Select Product -> Archive from the application menu.
 
+    * This runs the actual build; typically it takes a few minutes.
+      If it fails, debug and try again.
+
+    * When the build succeeds, Xcode opens its "Archives organizer",
+      aka "Organizer", window.
+
   * In the Archives organizer, select the archive and hit the button
     "Upload to App Store...".  Follow the instructions in the [Xcode
     docs on uploading][xcode-upload].
+
+    * If you get an error like "No accounts with iTunes Connect access have
+      been found for the team ...", followed by your account name with the
+      message "No iTunes Connect access for the team": this is an error
+      [often reported, with varying causes][so-xcode-upload-fail].  A
+      workaround that works for many people on the internet, and worked for
+      Greg when he first hit this issue in 2018, is to [use Application
+      Loader instead][application-loader]:
+
+      * Instead of the "Upload to App Store..." button, hit "Export...".
+        This will create a directory somewhere with a `.ipa` file in it.
+
+      * From the Xcode menu, select Xcode -> Open Developer Tool ->
+        Application Loader.  Hit the giant "Deliver Your App" button, then
+        the "Choose" button in the corner.  Select the `.ipa` file you
+        exported.  Proceed through the next screens just like the normal
+        case below.
 
     * For the options "Include bitcode for iOS content" and "Upload
       your app's symbols...", keep both options enabled.
@@ -56,6 +79,8 @@ iOS App Store and the Google Play Store.
       the provisioning profile.)
 
 [xcode-upload]: https://help.apple.com/xcode/mac/9.0/#/dev442d7f2ca
+[so-xcode-upload-fail]: https://stackoverflow.com/questions/46231372/xcode-8-3-3-no-accounts-with-itunes-connect-access
+[application-loader]: https://help.apple.com/itc/apploader/#/apdATD1E12-D1E1A1303-D1E12A1126
 
 * Distribute from [iTunes Connect][itunes-connect].
 
