@@ -15,6 +15,7 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   INIT_SUBSCRIPTIONS,
+  EVENT_STREAM_UPDATE,
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
   EVENT_SUBSCRIPTION_UPDATE,
@@ -83,6 +84,7 @@ export default (
     case EVENT_SUBSCRIPTION_REMOVE:
       return eventSubscriptionRemove(state, action);
 
+    case EVENT_STREAM_UPDATE:
     case EVENT_SUBSCRIPTION_UPDATE:
       return eventSubscriptionUpdate(state, action);
 
