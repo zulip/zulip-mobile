@@ -76,7 +76,7 @@ export const getInitialNavState = createSelector(
   getUsersById,
   (nav, accounts, auth, usersById) => {
     if (!auth.apiKey) {
-      return getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'realm');
+      return getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'welcome');
     }
 
     const state =
