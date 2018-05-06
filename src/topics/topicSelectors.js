@@ -1,10 +1,11 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { Narrow, StreamsState, TopicsState } from '../types';
-import { getStreams, getTopics } from '../directSelectors';
+import type { MuteState, Narrow, StreamsState, StreamUnreadItem, TopicsState } from '../types';
+import { getMute, getStreams, getTopics, getUnreadStreams } from '../directSelectors';
 import { getTopicListScreenParams } from '../baseSelectors';
 import { getShownMessagesForNarrow } from '../chat/chatSelectors';
+import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, topicNarrow } from '../utils/narrow';
 
@@ -25,7 +26,37 @@ export const getTopicsForNarrow = (narrow: Narrow) =>
 export const getTopicsInScreen = createSelector(
   getTopicListScreenParams,
   getTopics,
-  (params, topics: TopicsState) => topics[params.streamId],
+  getMute,
+  getStreamsById,
+  getUnreadStreams,
+  (
+    params,
+    topics: TopicsState,
+    mute: MuteState,
+    streamsById,
+    unreadStreams: StreamUnreadItem[],
+  ) => {
+    const topicList = topics[params.streamId];
+
+    if (!topicList) {
+      return undefined;
+    }
+
+    const stream = streamsById[params.streamId];
+
+    return topicList.map(({ name, max_id }) => {
+      const isMuted = !!mute.find(x => x[0] === stream.name && x[1] === name);
+      const unreadStream = unreadStreams.find(
+        x => x.stream_id === stream.stream_id && x.topic === name,
+      );
+      return {
+        name,
+        max_id,
+        isMuted,
+        unreadCount: unreadStream ? unreadStream.unread_message_ids.length : 0,
+      };
+    });
+  },
 );
 
 export const getLastMessageTopic = (narrow: Narrow) =>
