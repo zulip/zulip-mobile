@@ -58,6 +58,12 @@ export const navigateToCreateGroup = (): NavigateAction =>
 export const navigateToDiagnostics = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'diagnostics' });
 
+export const navigateToWelcomeHelp = (): NavigateAction =>
+  NavigationActions.navigate({ routeName: 'welcomehelp' });
+
+export const navigateToWelcomeScreen = (): NavigateAction =>
+  NavigationActions.navigate({ routeName: 'welcome' });
+
 export const navigateToVariables = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'variables' });
 
