@@ -656,6 +656,8 @@ export type Actions = {
   navigateToCreateStream: NavigateActionCreator,
   navigateToEditStream: NavigateToStreamActionCreator,
   navigateToNotifications: NavigateActionCreator,
+  navigateToWelcomeHelp: NavigateActionCreator,
+  navigateToWelcomeScreen: NavigateActionCreator,
 
   // accountActions
   switchAccount: AccountSwitchActionCreator,
