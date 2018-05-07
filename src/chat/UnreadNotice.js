@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  limited: boolean,
   narrow: Narrow,
   unreadCount: number,
 };
@@ -37,19 +38,25 @@ type Props = {
 class UnreadNotice extends PureComponent<Props> {
   props: Props;
 
+  static defaultProps = {
+    limited: false,
+  };
+
   static contextTypes = {
     styles: () => null,
   };
 
   render() {
-    const { unreadCount } = this.props;
-    const { narrow } = this.props;
+    const { limited, narrow, unreadCount } = this.props;
 
     return (
       <AnimatedScaleComponent visible={unreadCount > 0}>
         <View style={styles.unreadContainer}>
           <View style={styles.unreadTextWrapper}>
-            <RawLabel style={[styles.unreadText]} text={unreadToLimitedCount(unreadCount)} />
+            <RawLabel
+              style={[styles.unreadText]}
+              text={limited ? unreadToLimitedCount(unreadCount) : unreadCount.toString()}
+            />
             <Label
               style={styles.unreadText}
               text={unreadCount === 1 ? 'unread message' : 'unread messages'}
