@@ -1,6 +1,6 @@
 /* @flow */
-import type { Auth } from '../../types';
+import type { ApiResponse, Auth } from '../../types';
 import { apiPost } from '../apiFetch';
 
-export default async (auth: Auth, id: number) =>
+export default async (auth: Auth, id: number): Promise<ApiResponse> =>
   apiPost(auth, `user_groups/${id}/members`, res => res);

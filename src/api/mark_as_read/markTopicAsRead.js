@@ -1,8 +1,8 @@
 /* @flow */
-import type { Auth } from '../../types';
+import type { ApiResponse, Auth } from '../../types';
 import { apiPost } from '../apiFetch';
 
-export default async (auth: Auth, streamId: number, topic: string) =>
+export default async (auth: Auth, streamId: number, topic: string): Promise<ApiResponse> =>
   apiPost(auth, 'mark_topic_as_read', res => res, {
     stream_id: streamId,
     topic_name: topic,

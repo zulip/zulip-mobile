@@ -1,5 +1,5 @@
 /* @flow */
-import type { PresenceState, Auth } from '../../types';
+import type { ApiResponse, Auth } from '../../types';
 import { apiPost } from '../apiFetch';
 
 export default (
@@ -8,7 +8,7 @@ export default (
   reactionType: string,
   emojiCode: string,
   emojiName: string,
-): PresenceState =>
+): Promise<ApiResponse> =>
   apiPost(auth, `messages/${messageId}/reactions`, res => res, {
     reaction_type: reactionType,
     emoji_code: emojiCode,

@@ -1,5 +1,6 @@
 /* @flow */
-import type { Auth } from '../../types';
+import type { ApiResponse, Auth } from '../../types';
 import { apiDelete } from '../apiFetch';
 
-export default (auth: Auth, id: number) => apiDelete(auth, `streams/${id}`, res => res);
+export default (auth: Auth, id: number): Promise<ApiResponse> =>
+  apiDelete(auth, `streams/${id}`, res => res);
