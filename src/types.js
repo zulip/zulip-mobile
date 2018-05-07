@@ -199,11 +199,6 @@ export type NarrowElement = {
 
 export type Narrow = NarrowElement[];
 
-export type ApiResponse = {
-  result: string,
-  msg: string,
-};
-
 export type EditMessage = {
   id: number,
   content: string,
