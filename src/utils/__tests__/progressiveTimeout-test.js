@@ -5,7 +5,7 @@ describe('progressiveTimeout', () => {
     const start = Date.now();
     await progressiveTimeout();
     const duration = Date.now() - start;
-    expect(duration < 100).toBeTruthy();
+    expect(duration < 1000).toBeTruthy();
 
     const start2 = Date.now();
     await progressiveTimeout();
