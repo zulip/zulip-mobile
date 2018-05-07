@@ -303,6 +303,11 @@ export type Topic = {
   max_id: number,
 };
 
+export type TopicExtended = Topic & {
+  isMuted: boolean,
+  unreadCount: number,
+};
+
 export type TopicsState = {
   [number]: Topic[],
 };
