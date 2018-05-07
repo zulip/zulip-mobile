@@ -1,4 +1,16 @@
 /* @flow */
+import type { PresenceState } from '../types';
+
+export type ApiResponse = {
+  result: string,
+  msg: string,
+};
+
+export type ApiResponseWithPresence = ApiResponse & {
+  server_timestamp: number,
+  presences: PresenceState,
+};
+
 export type ApiUser = {
   avatar_url: string,
   bot_type?: number,

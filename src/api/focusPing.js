@@ -1,12 +1,12 @@
 /* @flow */
-import type { PresenceState, Auth } from '../types';
+import type { ApiResponseWithPresence, Auth } from '../types';
 import { apiPost } from './apiFetch';
 
 export default (
   auth: Auth,
   hasFocus: boolean = true,
   newUserInput: boolean = false,
-): PresenceState =>
+): Promise<ApiResponseWithPresence> =>
   apiPost(auth, 'users/me/presence', res => res, {
     status: hasFocus ? 'active' : 'idle',
     new_user_input: newUserInput,
