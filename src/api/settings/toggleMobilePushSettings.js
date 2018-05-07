@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth } from '../../types';
+import type { ApiResponse, Auth } from '../../types';
 import { apiPatch } from '../apiFetch';
 
 const getRequestBody = (opp, value) => {
@@ -14,7 +14,15 @@ const getRequestBody = (opp, value) => {
   return data;
 };
 
-export default async ({ auth, opp, value }: { auth: Auth, opp: string, value: boolean }) =>
+export default async ({
+  auth,
+  opp,
+  value,
+}: {
+  auth: Auth,
+  opp: string,
+  value: boolean,
+}): Promise<ApiResponse> =>
   apiPatch(auth, 'settings/notifications', res => res, {
     ...getRequestBody(opp, value),
   });

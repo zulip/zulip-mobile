@@ -1,7 +1,6 @@
-/* eslint-disable camelcase */
 /* @flow */
 
-import type { Auth } from '../../types';
+import type { ApiResponse, Auth } from '../../types';
 import { apiPost } from '../apiFetch';
 
 export default async (
@@ -12,7 +11,7 @@ export default async (
   content: string,
   localId: number,
   eventQueueId: number,
-) =>
+): Promise<ApiResponse> =>
   apiPost(auth, 'messages', res => res, {
     type,
     to,
