@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     overflow: 'hidden',
-    backgroundColor: 'transparent',
   },
   touchable: {},
   button: {
@@ -72,7 +71,7 @@ export default class ComposeMenu extends Component<Props> {
 
     return (
       <View style={styles.wrapper}>
-        <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={124}>
+        <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={120}>
           <View style={styles.wrapper}>
             <IconPeople style={styles.button} size={24} onPress={actions.navigateToCreateGroup} />
             <IconImage style={styles.button} size={24} onPress={this.handleImageUpload} />
