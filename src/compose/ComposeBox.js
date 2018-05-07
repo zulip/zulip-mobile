@@ -21,7 +21,6 @@ import { isStreamNarrow, topicNarrow } from '../utils/narrow';
 import ComposeMenuContainer from './ComposeMenuContainer';
 import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
-import { replaceEmoticonsWithEmoji } from '../emoji/emoticons';
 import NotSubscribed from '../message/NotSubscribed';
 
 const componentStyles = StyleSheet.create({
@@ -158,13 +157,11 @@ export default class ComposeBox extends PureComponent<Props, State> {
     const { actions, narrow } = this.props;
     const { topic, message } = this.state;
 
-    const topicToSend = replaceEmoticonsWithEmoji(topic);
-    const messageToSend = replaceEmoticonsWithEmoji(message);
     const destinationNarrow = isStreamNarrow(narrow)
-      ? topicNarrow(narrow[0].operand, topicToSend || '(no topic)')
+      ? topicNarrow(narrow[0].operand, topic || '(no topic)')
       : narrow;
 
-    actions.addToOutbox(destinationNarrow, messageToSend);
+    actions.addToOutbox(destinationNarrow, message);
     actions.draftRemove(narrow);
 
     this.clearMessageInput();
@@ -173,8 +170,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
   handleEdit = () => {
     const { auth, editMessage, actions } = this.props;
     const { message, topic } = this.state;
-    const content =
-      editMessage.content !== message ? replaceEmoticonsWithEmoji(message) : undefined;
+    const content = editMessage.content !== message ? message : undefined;
     const subject = topic !== editMessage.topic ? topic : undefined;
     if (content || subject) {
       updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
