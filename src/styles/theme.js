@@ -1,7 +1,9 @@
 /* @flow */
 import { Platform } from 'react-native';
+
 import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE, NAVBAR_SIZE, SPACING, HALF_SPACING } from './';
 import utilityStyles from './utilityStyles';
+import composeBoxStyles from './composeBoxStyles';
 
 type Props = {
   color: string,
@@ -13,6 +15,7 @@ type Props = {
 
 export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }: Props) => ({
   ...utilityStyles,
+  ...composeBoxStyles({ color, backgroundColor, borderColor }),
   text: {
     fontSize: 16,
   },
@@ -47,23 +50,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   },
   realmInputEmpty: {
     width: 1,
-  },
-  topicInput: {
-    borderWidth: 0,
-    borderRadius: 5,
-    backgroundColor,
-    marginTop: 5,
-    padding: 5,
-  },
-  composeTextInput: {
-    borderWidth: 0,
-    borderRadius: 5,
-    backgroundColor,
-    color,
-    fontSize: 15,
-    marginTop: 5,
-    marginBottom: 5,
-    padding: 5,
   },
   background: {
     backgroundColor,
@@ -196,11 +182,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     fontSize: 13,
     opacity: 0.8,
   },
-  composeBox: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(127, 127, 127, 0.1)',
-    borderTopColor: borderColor,
-  },
   subheader: {
     flex: 1,
     flexBasis: 20,
@@ -229,5 +210,9 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   floatingView: {
     position: 'absolute',
     width: '100%',
+  },
+  alignBottom: {
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
 });

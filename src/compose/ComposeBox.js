@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, TextInput, findNodeHandle } from 'react-native';
+import { View, TextInput, findNodeHandle } from 'react-native';
 import TextInputReset from 'react-native-text-input-reset';
 import isEqual from 'lodash.isequal';
 
@@ -22,20 +22,6 @@ import ComposeMenuContainer from './ComposeMenuContainer';
 import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
-
-const componentStyles = StyleSheet.create({
-  bottom: {
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-  },
-  composeText: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  button: {
-    margin: 6,
-  },
-});
 
 type Props = {
   auth: Auth,
@@ -79,7 +65,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     isMessageFocused: false,
     isTopicFocused: false,
     isMenuExpanded: false,
-    height: 30,
+    height: 20,
     topic: '',
     message: this.props.draft,
     selection: { start: 0, end: 0 },
@@ -269,14 +255,14 @@ export default class ComposeBox extends PureComponent<Props, State> {
           onTopicAutocomplete={this.handleTopicChange}
         />
         <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
-          <View style={componentStyles.bottom}>
+          <View style={styles.alignBottom}>
             <ComposeMenuContainer
               narrow={narrow}
               expanded={isMenuExpanded}
               onExpandContract={this.handleComposeMenuToggle}
             />
           </View>
-          <View style={componentStyles.composeText}>
+          <View style={styles.composeText}>
             {canSelectTopic && (
               <Input
                 style={styles.topicInput}
@@ -308,9 +294,8 @@ export default class ComposeBox extends PureComponent<Props, State> {
               onSelectionChange={this.handleMessageSelectionChange}
             />
           </View>
-          <View style={componentStyles.bottom}>
+          <View style={styles.alignBottom}>
             <FloatingActionButton
-              style={componentStyles.button}
               Icon={editMessage === null ? IconSend : IconDone}
               size={32}
               disabled={message.trim().length === 0}
