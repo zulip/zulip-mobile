@@ -1,12 +1,15 @@
 /* @flow */
-import type { Auth, Dispatch } from '../types';
+import type { Dispatch, GetState } from '../types';
 import { getAlertWords } from '../api';
 import { INIT_ALERT_WORDS } from '../actionConstants';
+import { getAuth } from '../selectors';
 
-export const initAlertWords = (alertWords: Object) => ({
+export const initAlertWords = (alertWords: string[]) => ({
   type: INIT_ALERT_WORDS,
   alertWords,
 });
 
-export const fetchAlertWords = (auth: Auth) => async (dispatch: Dispatch) =>
+export const fetchAlertWords = () => async (dispatch: Dispatch, getState: GetState) => {
+  const auth = getAuth(getState());
   dispatch(initAlertWords(await getAlertWords(auth)));
+};
