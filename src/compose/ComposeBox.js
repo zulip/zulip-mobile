@@ -28,6 +28,9 @@ const componentStyles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-end',
   },
+  composeOptions: {
+    flexDirection: 'row',
+  },
   composeText: {
     flex: 1,
     justifyContent: 'center',
@@ -269,28 +272,28 @@ export default class ComposeBox extends PureComponent<Props, State> {
           onTopicAutocomplete={this.handleTopicChange}
         />
         <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
-          <View style={componentStyles.bottom}>
-            <ComposeMenuContainer
-              narrow={narrow}
-              expanded={isMenuExpanded}
-              onExpandContract={this.handleComposeMenuToggle}
-            />
-          </View>
           <View style={componentStyles.composeText}>
             {canSelectTopic && (
-              <Input
-                style={styles.topicInput}
-                underlineColorAndroid="transparent"
-                placeholder="Topic"
-                selectTextOnFocus
-                textInputRef={component => {
-                  this.topicInput = component;
-                }}
-                onChangeText={this.handleTopicChange}
-                onFocus={this.handleTopicFocus}
-                onBlur={this.handleTopicBlur}
-                value={topic}
-              />
+              <View style={componentStyles.composeOptions}>
+                <ComposeMenuContainer
+                  narrow={narrow}
+                  expanded={isMenuExpanded}
+                  onExpandContract={this.handleComposeMenuToggle}
+                />
+                <Input
+                  style={styles.topicInput}
+                  underlineColorAndroid="transparent"
+                  placeholder="Topic"
+                  selectTextOnFocus
+                  textInputRef={component => {
+                    this.topicInput = component;
+                  }}
+                  onChangeText={this.handleTopicChange}
+                  onFocus={this.handleTopicFocus}
+                  onBlur={this.handleTopicBlur}
+                  value={topic}
+                />
+              </View>
             )}
             <MultilineInput
               style={styles.composeTextInput}
