@@ -39,6 +39,7 @@ type Props = {
   count: number,
   isMuted: boolean,
   inverse: boolean,
+  limited: boolean,
 };
 
 export default class UnreadCount extends PureComponent<Props> {
@@ -50,10 +51,11 @@ export default class UnreadCount extends PureComponent<Props> {
     count: 0,
     isMuted: false,
     inverse: false,
+    limited: false,
   };
 
   render() {
-    const { style, isMuted, borderRadius, color, count, inverse } = this.props;
+    const { style, isMuted, borderRadius, color, count, inverse, limited } = this.props;
 
     if (!count) return null;
 
@@ -72,7 +74,7 @@ export default class UnreadCount extends PureComponent<Props> {
     return (
       <View style={frameStyle}>
         <Text style={textStyle} numberOfLines={1}>
-          {unreadToLimitedCount(count)}
+          {limited ? unreadToLimitedCount(count) : count}
         </Text>
       </View>
     );
