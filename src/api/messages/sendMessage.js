@@ -13,7 +13,7 @@ export default async (
   localId: number,
   eventQueueId: number,
 ) =>
-  apiPost(auth, 'messages', res => res.messages, {
+  apiPost(auth, 'messages', res => res, {
     type,
     to,
     subject,

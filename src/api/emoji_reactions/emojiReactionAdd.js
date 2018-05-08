@@ -9,7 +9,7 @@ export default (
   emojiCode: string,
   emojiName: string,
 ): PresenceState =>
-  apiPost(auth, `messages/${messageId}/reactions`, res => res.presences, {
+  apiPost(auth, `messages/${messageId}/reactions`, res => res, {
     reaction_type: reactionType,
     emoji_code: emojiCode,
     emoji_name: emojiName,
