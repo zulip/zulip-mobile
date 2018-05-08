@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList, StyleSheet } from 'react-native';
 
-import type { Stream } from '../types';
+import type { Subscription } from '../types';
 import { caseInsensitiveCompareObjFunc } from '../utils/misc';
 import StreamItem from './StreamItem';
 import { SectionSeparatorBetween, SearchEmptyState } from '../common';
@@ -18,7 +18,7 @@ type Props = {
   showDescriptions: boolean,
   showSwitch: boolean,
   selected: boolean | string, // TODO type: pick one
-  streams: Stream[],
+  streams: Subscription[],
   unreadByStream: number[],
   onPress: (streamName: string) => void,
   onSwitch?: (streamName: string, newValue: boolean) => void,

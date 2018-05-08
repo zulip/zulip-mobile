@@ -135,14 +135,14 @@ export type Stream = {
   description: string,
   name: string,
   invite_only: boolean,
-  in_home_view: boolean,
-  pin_to_top: boolean,
-  color: string,
 };
 
 export type StreamsState = Stream[];
 
 export type Subscription = Stream & {
+  color: string,
+  in_home_view: boolean,
+  pin_to_top: boolean,
   audible_notifications: boolean,
   desktop_notifications: boolean,
   email_address: string,
