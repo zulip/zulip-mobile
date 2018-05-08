@@ -1,7 +1,7 @@
 /* @flow */
 import { Platform } from 'react-native';
 
-import { HALF_SPACING, SPACING } from './';
+import { HALF_SPACING } from './';
 
 type Props = {
   color: string,

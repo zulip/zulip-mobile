@@ -120,6 +120,7 @@ class AuthScreen extends PureComponent<Props> {
   handlePassword = () => {
     this.props.actions.navigateToPassword();
   };
+
   handleLdap = () => {
     this.props.actions.navigateToPassword(true);
   };
