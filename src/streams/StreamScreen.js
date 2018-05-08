@@ -70,7 +70,7 @@ class StreamScreen extends PureComponent<Props> {
         />
         <OptionRow
           label="Muted"
-          defaultValue={stream.in_home_view === false}
+          defaultValue={subscription.in_home_view === false}
           onValueChange={this.handleToggleMuteStream}
         />
         <OptionRow
