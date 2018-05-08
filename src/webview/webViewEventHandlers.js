@@ -169,5 +169,5 @@ export const handleDebug = (props: Props, event: MessageListEventDebug) => {
 };
 
 export const handleError = (props: Props, event: MessageListEventError) => {
-  logErrorRemotely(new Error(event.details), 'WebView Exception');
+  logErrorRemotely(new Error(JSON.stringify(event.details)), 'WebView Exception');
 };
