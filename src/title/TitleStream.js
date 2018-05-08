@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import type { Narrow, Stream } from '../types';
+import type { Narrow, Subscription } from '../types';
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
 
@@ -19,7 +19,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {
   narrow: Narrow,
-  stream: Stream,
+  stream: Subscription,
   color: string,
 };
 

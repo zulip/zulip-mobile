@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Actions, Narrow, Stream } from '../types';
+import type { Actions, Narrow, Subscription } from '../types';
 import StreamList from './StreamList';
 import { isStreamNarrow, streamNarrow } from '../utils/narrow';
 
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 type Props = {
   actions: Actions,
   narrow: Narrow,
-  subscriptions: Stream[],
+  subscriptions: Subscription[],
   unreadByStream: number[],
 };
 
