@@ -25,13 +25,11 @@ class WelcomeScreen extends PureComponent<Props> {
       <Screen title="Welcome!" centerContent padding>
         <Centerer>
           <ZulipButton
-            secondary
             text="I have a Zulip account"
             onPress={() => actions.navigateToAddNewAccount('')}
           />
           <View style={componentStyles.divider} />
           <ZulipButton
-            secondary
             text="I am new to Zulip"
             onPress={() => actions.navigateToWelcomeHelp()}
           />
