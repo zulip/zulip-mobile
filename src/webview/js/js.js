@@ -118,10 +118,7 @@ window.addEventListener('resize', event => {
 
 let prevNodes = getStartAndEndNodes();
 
-const handleScrollEvent = () => {
-  lastTouchEventTimestamp = 0;
-  if (scrollEventsDisabled) return;
-
+const sendScrollMessage = () => {
   const currentNodes = getStartAndEndNodes();
 
   sendMessage({
@@ -132,11 +129,17 @@ const handleScrollEvent = () => {
     startMessageId: Math.min(prevNodes.start, currentNodes.start),
     endMessageId: Math.max(prevNodes.end, currentNodes.end),
   });
+  prevNodes = currentNodes;
+};
+
+const handleScrollEvent = () => {
+  lastTouchEventTimestamp = 0;
+  if (scrollEventsDisabled) return;
+
+  sendScrollMessage();
 
   const nearEnd = documentBody.offsetHeight - window.scrollY - window.innerHeight > 100;
   toggleElementHidden('scroll-bottom', !nearEnd);
-
-  prevNodes = currentNodes;
 };
 
 const handleMessageBottom = msg => {
@@ -193,7 +196,7 @@ const updateFunctions = {
 const handleMessageContent = (msg: MessageInputContent) => {
   updateFunctions[msg.updateStrategy](msg);
   if (documentBody.scrollHeight < documentBody.clientHeight) {
-    handleScrollEvent();
+    sendScrollMessage();
   }
 };
 

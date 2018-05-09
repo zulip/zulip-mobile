@@ -122,10 +122,7 @@ window.addEventListener('resize', function (event) {
 
 var prevNodes = getStartAndEndNodes();
 
-var handleScrollEvent = function handleScrollEvent() {
-  lastTouchEventTimestamp = 0;
-  if (scrollEventsDisabled) return;
-
+var sendScrollMessage = function sendScrollMessage() {
   var currentNodes = getStartAndEndNodes();
 
   sendMessage({
@@ -136,11 +133,17 @@ var handleScrollEvent = function handleScrollEvent() {
     startMessageId: Math.min(prevNodes.start, currentNodes.start),
     endMessageId: Math.max(prevNodes.end, currentNodes.end)
   });
+  prevNodes = currentNodes;
+};
+
+var handleScrollEvent = function handleScrollEvent() {
+  lastTouchEventTimestamp = 0;
+  if (scrollEventsDisabled) return;
+
+  sendScrollMessage();
 
   var nearEnd = documentBody.offsetHeight - window.scrollY - window.innerHeight > 100;
   toggleElementHidden('scroll-bottom', !nearEnd);
-
-  prevNodes = currentNodes;
 };
 
 var handleMessageBottom = function handleMessageBottom(msg) {
@@ -197,7 +200,7 @@ var updateFunctions = {
 var handleMessageContent = function handleMessageContent(msg) {
   updateFunctions[msg.updateStrategy](msg);
   if (documentBody.scrollHeight < documentBody.clientHeight) {
-    handleScrollEvent();
+    sendScrollMessage();
   }
 };
 
