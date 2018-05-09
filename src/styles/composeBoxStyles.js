@@ -62,4 +62,7 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     marginRight: -HALF_SPACING,
     color: BRAND_COLOR,
   },
+  floatingActionButton: {
+    margin: 4,
+  },
 });
