@@ -132,6 +132,12 @@ const sendScrollMessage = () => {
   prevNodes = currentNodes;
 };
 
+const sendScrollMessageIfListShort = () => {
+  if (documentBody.scrollHeight < documentBody.clientHeight) {
+    sendScrollMessage();
+  }
+};
+
 const handleScrollEvent = () => {
   lastTouchEventTimestamp = 0;
   if (scrollEventsDisabled) return;
@@ -195,9 +201,7 @@ const updateFunctions = {
 
 const handleMessageContent = (msg: MessageInputContent) => {
   updateFunctions[msg.updateStrategy](msg);
-  if (documentBody.scrollHeight < documentBody.clientHeight) {
-    sendScrollMessage();
-  }
+  sendScrollMessageIfListShort();
 };
 
 const handleMessageFetching = (msg: MessageInputFetching) => {
