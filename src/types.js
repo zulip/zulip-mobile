@@ -551,6 +551,50 @@ export type InitialDataPresence = {
   presences: PresenceState,
 };
 
+export type InitialDataRealm = {
+  max_icon_file_size: number,
+  realm_add_emoji_by_admins_only: boolean,
+  realm_allow_community_topic_editing: boolean,
+  realm_allow_edit_history: boolean,
+  realm_allow_message_deleting: boolean,
+  realm_allow_message_editing: boolean,
+  realm_authentication_methods: { GitHub: true, Email: true, Google: true },
+  realm_available_video_chat_providers: string[],
+  realm_bot_creation_policy: number,
+  realm_bot_domain: string,
+  realm_create_stream_by_admins_only: boolean,
+  realm_default_language: string,
+  realm_default_twenty_four_hour_time: boolean,
+  realm_description: string,
+  realm_disallow_disposable_email_addresses: boolean,
+  realm_email_auth_enabled: boolean,
+  realm_email_changes_disabled: boolean,
+  realm_google_hangouts_domain: string,
+  realm_icon_source: string,
+  realm_icon_url: string,
+  realm_inline_image_preview: boolean,
+  realm_inline_url_embed_preview: boolean,
+  realm_invite_by_admins_only: boolean,
+  realm_invite_required: boolean,
+  realm_is_zephyr_mirror_realm: boolean,
+  realm_mandatory_topics: boolean,
+  realm_message_content_delete_limit_seconds: number,
+  realm_message_content_edit_limit_seconds: number,
+  realm_message_retention_days: ?number,
+  realm_name: string,
+  realm_name_changes_disabled: boolean,
+  realm_notifications_stream_id: number,
+  realm_password_auth_enabled: boolean,
+  realm_presence_disabled: boolean,
+  realm_restricted_to_domain: boolean,
+  realm_send_welcome_emails: boolean,
+  realm_show_digest_email: boolean,
+  realm_signup_notifications_stream_id: number,
+  realm_uri: string,
+  realm_video_chat_provider: string,
+  realm_waiting_period_threshold: number,
+};
+
 export type InitialDataRealmEmoji = {
   realm_emoji: RealmEmojiState,
 };
@@ -624,6 +668,7 @@ export type InitialData = InitialDataBase &
   InitialDataMessage &
   InitialDataMutedTopics &
   InitialDataPresence &
+  InitialDataRealm &
   InitialDataRealmEmoji &
   InitialDataRealmFilters &
   InitialDataRealmUser &
