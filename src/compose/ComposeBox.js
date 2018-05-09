@@ -296,6 +296,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
           </View>
           <View style={styles.alignBottom}>
             <FloatingActionButton
+              style={styles.composeSendButton}
               Icon={editMessage === null ? IconSend : IconDone}
               size={32}
               disabled={message.trim().length === 0}
