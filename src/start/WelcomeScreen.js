@@ -29,10 +29,7 @@ class WelcomeScreen extends PureComponent<Props> {
             onPress={() => actions.navigateToAddNewAccount('')}
           />
           <View style={componentStyles.divider} />
-          <ZulipButton
-            text="I am new to Zulip"
-            onPress={() => actions.navigateToWelcomeHelp()}
-          />
+          <ZulipButton text="I am new to Zulip" onPress={() => actions.navigateToWelcomeHelp()} />
         </Centerer>
       </Screen>
     );
