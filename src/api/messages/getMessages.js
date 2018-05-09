@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth, Narrow } from '../../types';
+import type { Auth, Message, Narrow } from '../../types';
 import { apiGet } from '../apiFetch';
 
 export default async (
@@ -9,7 +9,7 @@ export default async (
   numBefore: number,
   numAfter: number,
   useFirstUnread: boolean = false,
-) =>
+): Promise<Message[]> =>
   apiGet(auth, 'messages', res => res.messages, {
     narrow: JSON.stringify(narrow),
     anchor,
