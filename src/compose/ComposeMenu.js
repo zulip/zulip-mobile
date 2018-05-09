@@ -1,27 +1,13 @@
 /* @flow */
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
 
 import type { Actions, Narrow } from '../types';
-import { BRAND_COLOR } from '../styles';
-import { Touchable } from '../common';
 import { showErrorAlert } from '../utils/info';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flexDirection: 'row',
-    overflow: 'hidden',
-  },
-  touchable: {},
-  button: {
-    padding: 8,
-    color: BRAND_COLOR,
-  },
-});
 
 type Props = {
   actions: Actions,
@@ -32,6 +18,10 @@ type Props = {
 
 export default class ComposeMenu extends Component<Props> {
   props: Props;
+
+  static contextTypes = {
+    styles: () => null,
+  };
 
   handleImagePickerResponse = (response: Object) => {
     if (response.didCancel) {
@@ -67,21 +57,32 @@ export default class ComposeMenu extends Component<Props> {
   };
 
   render() {
+    const { styles } = this.context;
     const { actions, expanded, onExpandContract } = this.props;
 
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.composeMenu}>
         <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={120}>
-          <View style={styles.wrapper}>
-            <IconPeople style={styles.button} size={24} onPress={actions.navigateToCreateGroup} />
-            <IconImage style={styles.button} size={24} onPress={this.handleImageUpload} />
-            <IconCamera style={styles.button} size={24} onPress={this.handleCameraCapture} />
+          <View style={styles.composeMenu}>
+            <IconPeople
+              style={styles.composeMenuButton}
+              size={24}
+              onPress={actions.navigateToCreateGroup}
+            />
+            <IconImage
+              style={styles.composeMenuButton}
+              size={24}
+              onPress={this.handleImageUpload}
+            />
+            <IconCamera
+              style={styles.composeMenuButton}
+              size={24}
+              onPress={this.handleCameraCapture}
+            />
           </View>
         </AnimatedComponent>
-        <Touchable style={styles.touchable} onPress={onExpandContract}>
-          {!expanded && <IconPlus style={styles.button} size={24} />}
-          {expanded && <IconLeft style={styles.button} size={24} />}
-        </Touchable>
+        {!expanded && <IconPlus style={styles.expandButton} size={24} onPress={onExpandContract} />}
+        {expanded && <IconLeft style={styles.expandButton} size={24} onPress={onExpandContract} />}
       </View>
     );
   }
