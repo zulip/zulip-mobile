@@ -10,11 +10,9 @@ export default class WelcomeHelpScreen extends PureComponent<{}> {
         <Centerer>
           <RawLabel
             text={
-`Zulip combines the immediacy of Slack with an email threading model. With Zulip, you can catch up on important conversations while ignoring irrelevant ones.
+`Welcome to Zulip!
 
-New to Zulip? You'll need to first create an account from your computer.
-
-If you're not sure where to start, go to zulipchat.com from your web browser.
+You'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.
 
 Hope to see you back here soon!
 `
