@@ -15,7 +15,7 @@ class WelcomeScreen extends PureComponent<Props> {
   render() {
     const { actions } = this.props;
     return (
-      <Screen title="Welcome" centerContent padding>
+      <Screen title="Welcome!" centerContent padding>
         <ZulipButton
           text="I have a Zulip account"
           onPress={() => actions.navigateToAddNewAccount('')}
