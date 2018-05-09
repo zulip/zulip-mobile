@@ -48,4 +48,7 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     flex: 1,
     justifyContent: 'center',
   },
+  floatingActionButton: {
+    margin: 4,
+  },
 });
