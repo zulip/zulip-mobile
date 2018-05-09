@@ -529,18 +529,71 @@ export type NeverSubscribedStream = {
   stream_id: number,
 };
 
-export type InitialData = {
+export type InitialDataBase = {
+  last_event_id: number,
+  msg: string,
+  queue_id: number,
+};
+
+export type InitialDataAlertWords = {
   alert_words: string[],
+};
+
+export type InitialDataMessage = {
+  max_message_id: number,
+};
+
+export type InitialDataMutedTopics = {
+  muted_topics: MuteTuple[],
+};
+
+export type InitialDataPresence = {
+  presences: PresenceState,
+};
+
+export type InitialDataRealmEmoji = {
+  realm_emoji: RealmEmojiState,
+};
+
+export type InitialDataRealmFilters = {
+  realm_filters: RealmFilter[],
+};
+
+export type InitialDataRealmUser = {
   avatar_source: 'G',
   avatar_url: string,
   avatar_url_medium: string,
   can_create_streams: boolean,
   cross_realm_bots: RealmBot[],
-  default_desktop_notifications: boolean,
-  default_language: string,
   email: string,
+  enter_sends: boolean,
+  full_name: string,
+  is_admin: boolean,
+  realm_non_active_users: ApiUser[],
+  realm_users: ApiUser[],
+  user_id: number,
+};
+
+export type InitialDataSubscription = {
+  never_subscribed: NeverSubscribedStream[],
+  subscriptions: Subscription[],
+  unsubscribed: Subscription[],
+};
+
+export type InitialDataUpdateDisplaySettings = {
+  default_language: string,
   emojiset: string,
   emojiset_choices: { [string]: string },
+  high_contrast_mode: boolean,
+  left_side_userlist: boolean,
+  night_mode: boolean,
+  timezone: string,
+  translate_emoticons: boolean,
+  twenty_four_hour_time: boolean,
+};
+
+export type InitialDataUpdateGlobalNotifications = {
+  default_desktop_notifications: boolean,
   enable_desktop_notifications: boolean,
   enable_digest_emails: boolean,
   enable_offline_email_notifications: boolean,
@@ -551,32 +604,12 @@ export type InitialData = {
   enable_stream_email_notifications: boolean,
   enable_stream_push_notifications: boolean,
   enable_stream_sounds: boolean,
-  enter_sends: boolean,
-  full_name: string,
-  high_contrast_mode: boolean,
-  is_admin: boolean,
-  last_event_id: number,
-  left_side_userlist: boolean,
-  max_icon_file_size: number,
-  max_message_id: number,
   message_content_in_email_notifications: boolean,
-  msg: string,
-  muted_topics: MuteTuple[],
-  never_subscribed: NeverSubscribedStream[],
-  stream_weekly_traffic: number,
-  night_mode: boolean,
   pm_content_in_desktop_notifications: boolean,
-  presences: PresenceState,
-  queue_id: number,
-  realm_emoji: RealmEmojiState,
-  realm_filters: RealmFilter[],
   realm_name_in_notifications: boolean,
-  realm_non_active_users: ApiUser[],
-  realm_users: ApiUser[],
-  subscriptions: Subscription[],
-  timezone: string,
-  translate_emoticons: boolean,
-  twenty_four_hour_time: boolean,
+};
+
+export type InitialDataUpdateMessageFlags = {
   unread_msgs: {
     streams: UnreadStreamsState,
     huddles: UnreadHuddlesState,
@@ -584,6 +617,17 @@ export type InitialData = {
     pms: UnreadPmsState,
     mentions: UnreadMentionsState,
   },
-  unsubscribed: Subscription[],
-  user_id: number,
 };
+
+export type InitialData = InitialDataBase &
+  InitialDataAlertWords &
+  InitialDataMessage &
+  InitialDataMutedTopics &
+  InitialDataPresence &
+  InitialDataRealmEmoji &
+  InitialDataRealmFilters &
+  InitialDataRealmUser &
+  InitialDataSubscription &
+  InitialDataUpdateDisplaySettings &
+  InitialDataUpdateGlobalNotifications &
+  InitialDataUpdateMessageFlags;
