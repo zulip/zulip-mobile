@@ -41,6 +41,7 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
 ) => {
   let lastEventId = eventId;
 
+  /* eslint-disable no-await-in-loop */
   // eslint-disable-next-line no-constant-condition
   while (true) {
     const auth = getAuth(getState());

@@ -41,7 +41,6 @@ rules:
   no-continue: off
   no-plusplus: off
   no-alert: off
-  no-await-in-loop: off
   no-param-reassign: off
   no-nested-ternary: off
   no-restricted-syntax: off
