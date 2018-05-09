@@ -36,15 +36,19 @@ rules:
   function-paren-newline: off
   object-curly-newline: off
 
-  # Tricky code and likely-wrong code
+  # Tricky code.  We repeal several bans from the Airbnb style.
   no-bitwise: off
   no-continue: off
   no-plusplus: off
-  no-alert: off
-  no-param-reassign: off
   no-nested-ternary: off
+
+  # Likely-wrong code
+  no-alert: off
   no-restricted-syntax: off
   no-unused-vars: [warn, {vars: local, args: none}]
+  # no-param-reassign seems well-intentioned... but fires on common uses
+  # of Array#reduce.  Too noisy.
+  no-param-reassign: off
 
   # Imports
   import/prefer-default-export: off
