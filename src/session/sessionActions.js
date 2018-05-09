@@ -21,7 +21,7 @@ import {
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
 } from '../actionConstants';
-import { getMessageById } from '../api';
+import { getMessageContentById } from '../api';
 import { getAuth, getIsOnline, getIsActive } from '../selectors';
 
 export const appOnline = (isOnline: boolean) => (
@@ -73,7 +73,7 @@ export const startEditMessage = (messageId: number, topic: string) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  const message = await getMessageById(getAuth(getState()), messageId);
+  const message = await getMessageContentById(getAuth(getState()), messageId);
   dispatch({
     type: START_EDIT_MESSAGE,
     messageId,

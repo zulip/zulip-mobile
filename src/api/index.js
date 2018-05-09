@@ -23,7 +23,7 @@ export { default as markStreamAsRead } from './mark_as_read/markStreamAsRead';
 export { default as markTopicAsRead } from './mark_as_read/markTopicAsRead';
 
 export { default as deleteMessage } from './messages/deleteMessage';
-export { default as getMessageById } from './messages/getMessageById';
+export { default as getMessageContentById } from './messages/getMessageContentById';
 export { default as getMessages } from './messages/getMessages';
 export { default as messagesFlags } from './messages/messagesFlags';
 export { default as sendMessage } from './messages/sendMessage';
