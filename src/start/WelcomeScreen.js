@@ -1,16 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
 
 import connectWithActions from '../connectWithActions';
 import type { Actions } from '../types';
-import { Screen, ZulipButton } from '../common';
-
-const componentStyles = StyleSheet.create({
-  divider: {
-    height: 20,
-  },
-});
+import { Screen, ViewPlaceholder, ZulipButton } from '../common';
 
 type Props = {
   actions: Actions,
@@ -27,7 +20,7 @@ class WelcomeScreen extends PureComponent<Props> {
           text="I have a Zulip account"
           onPress={() => actions.navigateToAddNewAccount('')}
         />
-        <View style={componentStyles.divider} />
+        <ViewPlaceholder height={20} />
         <ZulipButton text="I am new to Zulip" onPress={() => actions.navigateToWelcomeHelp()} />
       </Screen>
     );
