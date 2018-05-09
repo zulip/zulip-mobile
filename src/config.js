@@ -77,6 +77,7 @@ const config: Config = {
     'message',
     'muted_topics',
     'presence',
+    'realm',
     'realm_emoji',
     'realm_filters',
     'realm_user',
