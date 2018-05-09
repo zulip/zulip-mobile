@@ -9,7 +9,7 @@ import type {
   ApiServerSettings,
   ApiUser,
   User,
-  InitialRealmData,
+  InitialData,
   RealmFilter,
   Stream,
   Subscription,
@@ -144,10 +144,10 @@ export type AccountAction =
 
 export type RealmInitAction = {
   type: 'REALM_INIT',
-  data: InitialRealmData,
+  data: InitialData,
 };
 
-export type RealmInitActionCreator = (data: InitialRealmData) => RealmInitAction;
+export type RealmInitActionCreator = (data: InitialData) => RealmInitAction;
 
 export type DeleteTokenPushAction = {
   type: 'DELETE_TOKEN_PUSH',

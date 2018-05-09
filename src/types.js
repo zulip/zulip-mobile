@@ -529,7 +529,7 @@ export type NeverSubscribedStream = {
   stream_id: number,
 };
 
-export type InitialRealmData = {
+export type InitialData = {
   alert_words: string[],
   avatar_source: 'G',
   avatar_url: string,
@@ -540,7 +540,7 @@ export type InitialRealmData = {
   default_language: string,
   email: string,
   emojiset: string,
-  emojiset_choices: Object,
+  emojiset_choices: { [string]: string },
   enable_desktop_notifications: boolean,
   enable_digest_emails: boolean,
   enable_offline_email_notifications: boolean,
@@ -557,6 +557,7 @@ export type InitialRealmData = {
   is_admin: boolean,
   last_event_id: number,
   left_side_userlist: boolean,
+  max_icon_file_size: number,
   max_message_id: number,
   message_content_in_email_notifications: boolean,
   msg: string,
