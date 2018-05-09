@@ -4,7 +4,7 @@ import type {
   GetState,
   Dispatch,
   RealmFilter,
-  InitialRealmData,
+  InitialData,
   RealmInitAction,
   DeleteTokenPushAction,
   SaveTokenPushAction,
@@ -23,7 +23,7 @@ import {
   INIT_REALM_FILTER,
 } from '../actionConstants';
 
-export const realmInit = (data: InitialRealmData): RealmInitAction => ({
+export const realmInit = (data: InitialData): RealmInitAction => ({
   type: REALM_INIT,
   data,
 });
