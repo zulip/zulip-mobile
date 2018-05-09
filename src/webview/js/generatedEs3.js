@@ -136,6 +136,12 @@ var sendScrollMessage = function sendScrollMessage() {
   prevNodes = currentNodes;
 };
 
+var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
+  if (documentBody.scrollHeight < documentBody.clientHeight) {
+    sendScrollMessage();
+  }
+};
+
 var handleScrollEvent = function handleScrollEvent() {
   lastTouchEventTimestamp = 0;
   if (scrollEventsDisabled) return;
@@ -199,9 +205,7 @@ var updateFunctions = {
 
 var handleMessageContent = function handleMessageContent(msg) {
   updateFunctions[msg.updateStrategy](msg);
-  if (documentBody.scrollHeight < documentBody.clientHeight) {
-    sendScrollMessage();
-  }
+  sendScrollMessageIfListShort();
 };
 
 var handleMessageFetching = function handleMessageFetching(msg) {

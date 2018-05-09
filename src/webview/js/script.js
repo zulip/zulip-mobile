@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
   ${js}
   scrollToAnchor(${anchor});
   scrollEventsDisabled = false;
+  sendScrollMessageIfListShort();
 });
 </script>
 `;
