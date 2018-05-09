@@ -43,7 +43,7 @@ rules:
   no-nested-ternary: off
 
   # Likely-wrong code
-  no-alert: off
+  no-alert: error
   no-restricted-syntax: off
   no-unused-vars: [warn, {vars: local, args: none}]
   # no-param-reassign seems well-intentioned... but fires on common uses
