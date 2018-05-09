@@ -17,22 +17,26 @@ settings:
     node:
       extensions: [.js, .ios.js, .android.js]
 rules:
+  # Formatting and naming
   prettier/prettier:
   - off
   - printWidth: 100
     parser: flow
     singleQuote: true
     trailingComma: all
+  camelcase: off
+  new-cap: [error, {capIsNew: false}]
   curly: [error, multi-line]
   comma-dangle: [error, always-multiline]
   quote-props: off
   indent: off
-  camelcase: off
   arrow-parens: off
   no-confusing-arrow: off
   no-mixed-operators: off
   function-paren-newline: off
   object-curly-newline: off
+
+  # Tricky code and likely-wrong code
   no-bitwise: off
   no-continue: off
   no-plusplus: off
@@ -42,25 +46,32 @@ rules:
   no-nested-ternary: off
   no-restricted-syntax: off
   no-unused-vars: [warn, {vars: local, args: none}]
-  new-cap: [error, {capIsNew: false}]
-  # react/prop-types: off
-  react/sort-comp: off
-  react/jsx-filename-extension: off
-  react/prefer-stateless-function: off
-  react/require-default-props: off
-  react/default-props-match-prop-types: off
+
+  # Imports
   import/prefer-default-export: off
   import/no-unresolved: [error, {caseSensitive: false}]
   import/no-extraneous-dependencies:
   - error
   - devDependencies: ['**/__tests__/*.js', tools/**]
+
+  # React and React Native
+  react/sort-comp: off
+  react/jsx-filename-extension: off
+  react/prefer-stateless-function: off
+  react/require-default-props: off
+  react/default-props-match-prop-types: off
+  # react/prop-types: off
   react-native/no-unused-styles: error
   react-native/split-platform-components: error
   react-native/no-inline-styles: error
   # to enable after refactoring: react-native/no-color-literals: error
+
+  # Jest
   jest/no-disabled-tests: warn
   jest/no-focused-tests: error
   jest/no-identical-title: error
+
+  # Flow
   flowtype/boolean-style: [error, boolean]
   flowtype/define-flow-type: warn
   flowtype/delimiter-dangle: off
@@ -80,6 +91,7 @@ rules:
   flowtype/union-intersection-spacing: [error, always]
   flowtype/use-flow-type: warn
   flowtype/valid-syntax: warn
+
   spellcheck/spell-checker:
   - warn
   - comments: true
