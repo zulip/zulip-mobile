@@ -59,7 +59,7 @@ export const navigateToDiagnostics = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'diagnostics' });
 
 export const navigateToWelcomeHelp = (): NavigateAction =>
-  NavigationActions.navigate({ routeName: 'welcomehelp' });
+  NavigationActions.navigate({ routeName: 'welcome-help' });
 
 export const navigateToWelcomeScreen = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'welcome' });

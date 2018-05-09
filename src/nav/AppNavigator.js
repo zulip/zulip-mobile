@@ -62,7 +62,7 @@ export default StackNavigator(
     topics: { screen: TopicListScreen },
     notifDiag: { screen: NotificationDiagScreen },
     notifications: { screen: NotificationsScreen },
-    welcomehelp: { screen: WelcomeHelpScreen },
+    'welcome-help': { screen: WelcomeHelpScreen },
     welcome: { screen: WelcomeScreen },
   },
   {
