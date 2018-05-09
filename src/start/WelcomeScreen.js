@@ -34,4 +34,4 @@ class WelcomeScreen extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(props => ({}))(WelcomeScreen);
+export default connectWithActions()(WelcomeScreen);
