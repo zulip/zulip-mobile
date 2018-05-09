@@ -1,7 +1,14 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { StyleSheet } from 'react-native';
 
 import { Screen, RawLabel, Centerer } from '../common';
+
+const styles = StyleSheet.create({
+  helpText: {
+    fontSize: 20,
+  },
+});
 
 export default class WelcomeHelpScreen extends PureComponent<{}> {
   render() {
@@ -9,6 +16,7 @@ export default class WelcomeHelpScreen extends PureComponent<{}> {
       <Screen title="Help" padding>
         <Centerer>
           <RawLabel
+            style={styles.helpText}
             text={
 `Welcome to Zulip!
 
