@@ -82,21 +82,6 @@ const scrollToBottomIfNearEnd = () => {
   }
 };
 
-const isMessageNode = (node: Element): boolean =>
-  !!node && node.getAttribute && node.hasAttribute('data-msg-id');
-
-const getStartAndEndNodes = (): { start: number, end: number } => {
-  const startNode = getMessageNode(document.elementFromPoint(200, 20));
-  const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
-
-  return {
-    start: isMessageNode(startNode)
-      ? startNode.getAttribute('data-msg-id')
-      : Number.MAX_SAFE_INTEGER,
-    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : 0,
-  };
-};
-
 const scrollToAnchor = (anchor: number) => {
   const anchorNode = document.getElementById(`msg-${anchor}`);
 
@@ -115,6 +100,21 @@ window.addEventListener('resize', event => {
   }
   height = documentBody.clientHeight;
 });
+
+const isMessageNode = (node: Element): boolean =>
+  !!node && node.getAttribute && node.hasAttribute('data-msg-id');
+
+const getStartAndEndNodes = (): { start: number, end: number } => {
+  const startNode = getMessageNode(document.elementFromPoint(200, 20));
+  const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
+
+  return {
+    start: isMessageNode(startNode)
+      ? startNode.getAttribute('data-msg-id')
+      : Number.MAX_SAFE_INTEGER,
+    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : 0,
+  };
+};
 
 let prevNodes = getStartAndEndNodes();
 
@@ -152,6 +152,8 @@ const handleScrollEvent = () => {
 const handleMessageBottom = msg => {
   scrollToBottom();
 };
+
+window.addEventListener('scroll', handleScrollEvent);
 
 const replaceContent = msg => {
   documentBody.innerHTML = msg.content;
@@ -249,8 +251,6 @@ document.addEventListener('message', e => {
   });
   scrollEventsDisabled = false;
 });
-
-window.addEventListener('scroll', handleScrollEvent);
 
 documentBody.addEventListener('click', e => {
   e.preventDefault();
