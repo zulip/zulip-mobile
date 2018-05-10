@@ -40,6 +40,19 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
       },
     }),
   },
+  passwordInput: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  showPasswordButton: {
+    position: 'absolute',
+    right: 0,
+    alignItems: 'center',
+    padding: HALF_SPACING,
+  },
+  showPasswordButtonText: {
+    color: BRAND_COLOR,
+  },
   realmInput: {
     color,
     padding: 0,
