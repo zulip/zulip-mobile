@@ -194,7 +194,6 @@ const updateFunctions = {
   default: updateContentAndPreservePosition,
   'preserve-position': updateContentAndPreservePosition,
   'scroll-to-anchor': updateContentAndScrollToAnchor,
-  'scroll-to-bottom': updateContentAndScrollToBottom,
   'scroll-to-bottom-if-near-bottom': updateContentAndScrollToBottomIfNearBottom,
 };
 
