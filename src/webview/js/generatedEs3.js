@@ -153,10 +153,6 @@ var handleScrollEvent = function handleScrollEvent() {
   showHideElement('scroll-bottom', nearEnd);
 };
 
-var handleMessageBottom = function handleMessageBottom(msg) {
-  scrollToBottom();
-};
-
 window.addEventListener('scroll', handleScrollEvent);
 
 var replaceContent = function replaceContent(msg) {
@@ -228,7 +224,6 @@ var handleMessageTyping = function handleMessageTyping(msg) {
 };
 
 var messageHandlers = {
-  bottom: handleMessageBottom,
   content: handleMessageContent,
   fetching: handleMessageFetching,
   typing: handleMessageTyping

@@ -149,10 +149,6 @@ const handleScrollEvent = () => {
   showHideElement('scroll-bottom', nearEnd);
 };
 
-const handleMessageBottom = msg => {
-  scrollToBottom();
-};
-
 window.addEventListener('scroll', handleScrollEvent);
 
 const replaceContent = msg => {
@@ -222,7 +218,6 @@ const handleMessageTyping = (msg: MessageInputTyping) => {
 };
 
 const messageHandlers = {
-  bottom: handleMessageBottom,
   content: handleMessageContent,
   fetching: handleMessageFetching,
   typing: handleMessageTyping,
