@@ -2,11 +2,11 @@
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 
-import type { StyleObj } from '../types';
+import type { Style } from '../types';
 
 type Props = {
   text: string,
-  style?: StyleObj,
+  style?: Style,
 };
 
 export default class RawLabel extends PureComponent<Props> {

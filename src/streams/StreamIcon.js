@@ -2,14 +2,14 @@
 import React from 'react';
 
 import { IconMute, IconStream, IconPrivate } from '../common/Icons';
-import type { StyleObj } from '../types';
+import type { Style } from '../types';
 
 type Props = {
   color?: string,
   isPrivate?: boolean,
   isMuted?: boolean,
   size: number,
-  style?: StyleObj,
+  style?: Style,
 };
 
 export default ({ color, style, isPrivate, isMuted, size }: Props) => {

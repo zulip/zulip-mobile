@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 
-import type { StyleObj } from '../types';
+import type { Style } from '../types';
 import { BRAND_COLOR } from '../styles';
 import Touchable from './Touchable';
 
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 });
 
 type ButtonInProgressProps = {
-  frameStyle: StyleObj,
+  frameStyle: Style,
 };
 
 const ButtonInProgress = ({ frameStyle }: ButtonInProgressProps) => (
@@ -73,11 +73,11 @@ const ButtonInProgress = ({ frameStyle }: ButtonInProgressProps) => (
 );
 
 type ButtonNormalProps = {
-  frameStyle: StyleObj,
-  touchTargetStyle: StyleObj,
-  textStyle: StyleObj,
+  frameStyle: Style,
+  touchTargetStyle: Style,
+  textStyle: Style,
   text: string,
-  iconStyle: StyleObj,
+  iconStyle: Style,
   Icon?: Object,
   onPress?: () => void | Promise<any>,
 };
@@ -104,7 +104,7 @@ const ButtonNormal = ({
 );
 
 type Props = {
-  style?: StyleObj,
+  style?: Style,
   progress?: boolean,
   disabled: boolean,
   Icon?: Object,

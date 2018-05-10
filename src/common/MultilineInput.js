@@ -2,12 +2,12 @@
 import React, { PureComponent } from 'react';
 import { TextInput } from 'react-native';
 
-import type { LocalizableText, StyleObj } from '../types';
+import type { LocalizableText, Style } from '../types';
 import { Input } from '../common';
 
 type Props = {
   value: string,
-  style?: StyleObj,
+  style?: Style,
   placeholder?: LocalizableText,
   onChange?: (text: string) => void,
   onBlur?: () => void,

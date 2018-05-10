@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Action, StyleObj } from '../types';
+import type { Action, Style } from '../types';
 import { SlideAnimationView } from '../common';
 import { shortTime, humanDate } from '../utils/date';
 import LightboxHeader from './LightboxHeader';
@@ -11,7 +11,7 @@ type Props = {
   timestamp: number,
   from: number,
   to: number,
-  style: StyleObj,
+  style: Style,
   avatarUrl: string,
   realm: string,
   onPressBack: () => Action,

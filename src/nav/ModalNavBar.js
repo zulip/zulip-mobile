@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import type { ChildrenArray } from 'react';
 
-import type { Actions, LocalizableText, StyleObj } from '../types';
+import type { Actions, LocalizableText, Style } from '../types';
 import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { NAVBAR_SIZE } from '../styles';
 import { Label, ViewPlaceholder } from '../common';
@@ -17,9 +17,9 @@ type Props = {
   titleColor?: string,
   itemsColor: string,
   rightItem?: Object,
-  style: StyleObj,
+  style: Style,
   children?: ChildrenArray<*>,
-  childrenStyle?: StyleObj,
+  childrenStyle?: Style,
 };
 
 class ModalNavBar extends PureComponent<Props> {

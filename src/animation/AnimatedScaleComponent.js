@@ -3,12 +3,12 @@ import React, { PureComponent } from 'react';
 import type { ChildrenArray } from 'react';
 import { Animated, Easing } from 'react-native';
 
-import type { StyleObj } from '../types';
+import type { Style } from '../types';
 
 type Props = {
   children: ChildrenArray<*>,
   visible: boolean,
-  style?: StyleObj,
+  style?: Style,
 };
 
 type State = {

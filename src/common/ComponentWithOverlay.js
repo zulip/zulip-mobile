@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { ChildrenArray, StyleObj } from '../types';
+import type { ChildrenArray, Style } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { Touchable } from '../common';
 
@@ -42,7 +42,7 @@ type Props = {
   overlaySize: number,
   overlayColor: string,
   overlayPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left',
-  style?: StyleObj,
+  style?: Style,
   onPress?: () => void,
 };
 

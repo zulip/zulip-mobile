@@ -1,12 +1,12 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { StyleObj } from '../types';
+import type { Style } from '../types';
 import { SlideAnimationView } from '../common';
 import LightboxFooter from './LightboxFooter';
 
 type Props = {
-  style: StyleObj,
+  style: Style,
   displayMessage: string,
   from: number,
   to: number,

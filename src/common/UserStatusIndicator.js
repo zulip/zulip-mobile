@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { StyleObj, Presence } from '../types';
+import type { Style, Presence } from '../types';
 import { statusFromPresence } from '../utils/presence';
 
 const styles = StyleSheet.create({
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  style: StyleObj,
+  style: Style,
   presence?: Presence,
 };
 

@@ -2,12 +2,12 @@
 import React, { PureComponent } from 'react';
 import { View, TextInput } from 'react-native';
 
-import type { LocalizableText } from '../types';
+import type { LocalizableText, Style } from '../types';
 import Input from './Input';
 import { Label, Touchable } from '../common';
 
 type Props = {
-  style?: StyleObj,
+  style?: Style,
   placeholder: LocalizableText,
 };
 

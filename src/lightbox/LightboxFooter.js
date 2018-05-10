@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 
-import type { StyleObj } from '../types';
+import type { Style } from '../types';
 import NavButton from '../nav/NavButton';
 
 const styles = StyleSheet.create({
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  style?: StyleObj,
+  style?: Style,
   displayMessage: string,
   onOptionsPress: () => void,
 };

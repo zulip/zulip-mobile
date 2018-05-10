@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { StyleObj } from '../types';
+import type { Style } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { Touchable } from '../common';
 
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  style?: StyleObj,
+  style?: Style,
   disabled: boolean,
   size: number,
   Icon: any,

@@ -3,13 +3,13 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import { Label, ZulipSwitch } from '../common';
-import type { StyleObj } from '../types';
+import type { Style } from '../types';
 
 type Props = {
   Icon?: Object,
   label: string,
   defaultValue: boolean,
-  style?: StyleObj,
+  style?: Style,
   onValueChange: (newValue: boolean) => void,
 };
 
