@@ -229,6 +229,7 @@ var messageHandlers = {
 };
 
 document.addEventListener('message', function (e) {
+  document.getElementById('js-error').innerHTML = JSON.parse(e.data).type;
   scrollEventsDisabled = true;
 
   var messages = JSON.parse(e.data);
@@ -348,4 +349,6 @@ var waitForBridge = function waitForBridge() {
   }
 };
 waitForBridge();
+
+document.getElementById('js-error').innerHTML = 'Loaded';
 `;
