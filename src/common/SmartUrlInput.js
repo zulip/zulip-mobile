@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 
-import type { StyleObj } from '../types';
+import type { Style } from '../types';
 import { autocompleteUrl, fixRealmUrl, hasProtocol } from '../utils/url';
 import RawLabel from './RawLabel';
 
@@ -20,7 +20,7 @@ type Props = {
   append: string,
   navigation: Object,
   shortAppend: string,
-  style?: StyleObj,
+  style?: Style,
   onChange: (value: string) => void,
   onSubmitEditing: () => Promise<void>,
   enablesReturnKeyAutomatically: boolean,

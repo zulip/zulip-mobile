@@ -2,10 +2,10 @@
 import React, { PureComponent } from 'react';
 import { Animated } from 'react-native';
 
-import type { AnimatedValue, ChildrenArray, StyleObj } from '../types';
+import type { AnimatedValue, ChildrenArray, Style } from '../types';
 
 type Props = {
-  style: StyleObj,
+  style: Style,
   children: ChildrenArray<*>,
   from: number,
   to: number,

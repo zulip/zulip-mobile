@@ -2,7 +2,7 @@
 import React from 'react';
 import { TouchableNativeFeedback, Platform, View } from 'react-native';
 
-import type { ChildrenArray, StyleObj } from '../types';
+import type { ChildrenArray, Style } from '../types';
 import { HIGHLIGHT_COLOR } from '../styles';
 
 const background =
@@ -13,7 +13,7 @@ const background =
 type Props = {
   onPress?: () => void | Promise<any>,
   onLongPress?: () => void,
-  style?: StyleObj,
+  style?: Style,
   children?: ChildrenArray<*>,
 };
 

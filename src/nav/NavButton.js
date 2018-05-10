@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { StyleObj } from '../types';
+import type { Style } from '../types';
 import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
 import { ComponentWithOverlay, UnreadCount } from '../common';
 import Icon from '../common/Icons';
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   color: string,
-  style?: StyleObj,
+  style?: Style,
   name?: string,
   unreadCount: number,
   onPress: () => any,

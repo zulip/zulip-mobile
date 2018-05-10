@@ -3,11 +3,11 @@ import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 
-import type { LocalizableText, StyleObj } from '../types';
+import type { LocalizableText, Style } from '../types';
 
 type Props = {
   text: LocalizableText,
-  style?: StyleObj,
+  style?: Style,
 };
 
 export default class Label extends PureComponent<Props> {

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { ChildrenArray, StyleObj } from '../types';
+import type { ChildrenArray, Style } from '../types';
 
 const componentStyles = StyleSheet.create({
   centerer: {
@@ -18,7 +18,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
-  style?: StyleObj,
+  style?: Style,
   children: ChildrenArray<*>,
   padding: boolean,
 };

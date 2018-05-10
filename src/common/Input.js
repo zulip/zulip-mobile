@@ -3,12 +3,12 @@ import React, { PureComponent } from 'react';
 import { TextInput } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 
-import type { LocalizableText, StyleObj } from '../types';
+import type { LocalizableText, Style } from '../types';
 import { nullFunction } from '../nullObjects';
 import { HALF_COLOR } from '../styles';
 
 type Props = {
-  style?: StyleObj,
+  style?: Style,
   placeholder: LocalizableText,
   clearButton: boolean,
   onChangeText: (text: string) => void,

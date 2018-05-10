@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
-import type { ChildrenArray, Dimensions, LocalizableText, StyleObj } from '../types';
+import type { ChildrenArray, Dimensions, LocalizableText, Style } from '../types';
 import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { KeyboardAvoider, ZulipStatusBar } from '../common';
 import { getSession } from '../selectors';
@@ -33,7 +33,7 @@ type Props = {
   padding?: boolean,
   search?: boolean,
   title?: LocalizableText,
-  style?: StyleObj,
+  style?: Style,
   searchBarOnChange?: (text: string) => void,
 };
 

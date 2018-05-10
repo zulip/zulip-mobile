@@ -10,7 +10,7 @@ export type MapStateToProps = any; // { MapStateToProps } from 'react-redux';
 export type * from './actionTypes';
 export type * from './api/apiTypes';
 
-export type StyleObj = any;
+export type Style = boolean | number | Array<Style> | ?{ [string]: any };
 export type Dispatch = any;
 // export type { Dispatch } from 'redux';
 
