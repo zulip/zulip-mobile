@@ -46,10 +46,10 @@ let lastTouchEventTimestamp = 0;
 let lastTouchPositionX = -1;
 let lastTouchPositionY = -1;
 
-const toggleElementHidden = (elementId: string, hidden: boolean) => {
+const showHideElement = (elementId: string, show: boolean) => {
   const element = document.getElementById(elementId);
   if (element) {
-    element.classList.toggle('hidden', hidden);
+    element.classList.toggle('hidden', !show);
   }
 };
 
@@ -146,7 +146,7 @@ const handleScrollEvent = () => {
   sendScrollMessage();
 
   const nearEnd = documentBody.offsetHeight - window.scrollY - window.innerHeight > 100;
-  toggleElementHidden('scroll-bottom', !nearEnd);
+  showHideElement('scroll-bottom', nearEnd);
 };
 
 const handleMessageBottom = msg => {
@@ -208,9 +208,9 @@ const handleMessageContent = (msg: MessageInputContent) => {
 };
 
 const handleMessageFetching = (msg: MessageInputFetching) => {
-  toggleElementHidden('message-loading', !msg.showMessagePlaceholders);
-  toggleElementHidden('spinner-older', !msg.fetchingOlder);
-  toggleElementHidden('spinner-newer', !msg.fetchingNewer);
+  showHideElement('message-loading', msg.showMessagePlaceholders);
+  showHideElement('spinner-older', msg.fetchingOlder);
+  showHideElement('spinner-newer', msg.fetchingNewer);
 };
 
 const handleMessageTyping = (msg: MessageInputTyping) => {

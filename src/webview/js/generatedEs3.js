@@ -45,10 +45,10 @@ var lastTouchEventTimestamp = 0;
 var lastTouchPositionX = -1;
 var lastTouchPositionY = -1;
 
-var toggleElementHidden = function toggleElementHidden(elementId, hidden) {
+var showHideElement = function showHideElement(elementId, show) {
   var element = document.getElementById(elementId);
   if (element) {
-    element.classList.toggle('hidden', hidden);
+    element.classList.toggle('hidden', !show);
   }
 };
 
@@ -150,7 +150,7 @@ var handleScrollEvent = function handleScrollEvent() {
   sendScrollMessage();
 
   var nearEnd = documentBody.offsetHeight - window.scrollY - window.innerHeight > 100;
-  toggleElementHidden('scroll-bottom', !nearEnd);
+  showHideElement('scroll-bottom', nearEnd);
 };
 
 var handleMessageBottom = function handleMessageBottom(msg) {
@@ -212,9 +212,9 @@ var handleMessageContent = function handleMessageContent(msg) {
 };
 
 var handleMessageFetching = function handleMessageFetching(msg) {
-  toggleElementHidden('message-loading', !msg.showMessagePlaceholders);
-  toggleElementHidden('spinner-older', !msg.fetchingOlder);
-  toggleElementHidden('spinner-newer', !msg.fetchingNewer);
+  showHideElement('message-loading', msg.showMessagePlaceholders);
+  showHideElement('spinner-older', msg.fetchingOlder);
+  showHideElement('spinner-newer', msg.fetchingNewer);
 };
 
 var handleMessageTyping = function handleMessageTyping(msg) {
