@@ -69,8 +69,10 @@ class PasswordAuthView extends PureComponent<Props, State> {
     const { ldap } = this.props.navigation.state.params;
     const { email, password } = this.state;
 
-    if (!email || (!ldap && !isValidEmailFormat(email))) {
-      this.setState({ error: ldap ? 'Enter a username' : 'Enter a valid email address' });
+    if (ldap && email.length === 0) {
+      this.setState({ error: 'Enter a username' });
+    } else if (!ldap && !isValidEmailFormat(email)) {
+      this.setState({ error: 'Enter a valid email address' });
     } else if (!password) {
       this.setState({ error: 'Enter a password' });
     } else {
@@ -82,7 +84,8 @@ class PasswordAuthView extends PureComponent<Props, State> {
     const { styles } = this.context;
     const { ldap } = this.props.navigation.state.params;
     const { email, password, progress, error } = this.state;
-    const isButtonDisabled = password.length === 0 || !isValidEmailFormat(email);
+    const isButtonDisabled =
+      password.length === 0 || email.length === 0 || (!ldap && !isValidEmailFormat(email));
 
     return (
       <Screen title="Log in" centerContent padding keyboardShouldPersistTaps="always">
