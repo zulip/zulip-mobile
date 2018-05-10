@@ -221,18 +221,6 @@ const handleMessageTyping = (msg: MessageInputTyping) => {
   }
 };
 
-const handleLongPress = e => {
-  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
-
-  lastTouchEventTimestamp = 0;
-
-  sendMessage({
-    type: 'longPress',
-    target: e.target.matches('.header') ? 'header' : 'message',
-    messageId: +getMessageIdFromNode(e.target),
-  });
-};
-
 const messageHandlers = {
   bottom: handleMessageBottom,
   content: handleMessageContent,
@@ -316,6 +304,18 @@ documentBody.addEventListener('click', e => {
     });
   }
 });
+
+const handleLongPress = e => {
+  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
+
+  lastTouchEventTimestamp = 0;
+
+  sendMessage({
+    type: 'longPress',
+    target: e.target.matches('.header') ? 'header' : 'message',
+    messageId: +getMessageIdFromNode(e.target),
+  });
+};
 
 documentBody.addEventListener('touchstart', e => {
   if (e.changedTouches[0].pageX < 20) return;
