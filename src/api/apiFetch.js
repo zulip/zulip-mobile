@@ -40,9 +40,18 @@ export const apiCall = async (
     networkActivityStart(isSilent);
     const response = await apiFetch(auth, route, params);
 
+    if (!response.ok) {
+      console.log('Bad response for:', { auth, route, params, response }); // eslint-disable-line
+      const error = new Error('API');
+      // $FlowFixMe
+      error.response = response;
+      // $FlowFixMe
+      throw error;
+    }
+
     const json = await response.json();
 
-    if (!response.ok || json.result !== 'success') {
+    if (json.result !== 'success') {
       console.log('Bad response for:', { auth, route, params, response }); // eslint-disable-line
       const error = new Error('API');
       // $FlowFixMe
