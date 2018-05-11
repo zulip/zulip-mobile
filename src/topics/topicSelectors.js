@@ -2,10 +2,16 @@
 import { createSelector } from 'reselect';
 
 import type { MuteState, Narrow, StreamsState, StreamUnreadItem, TopicsState } from '../types';
-import { getMute, getStreams, getTopics, getUnreadStreams } from '../directSelectors';
-import { getTopicListScreenParams } from '../baseSelectors';
-import { getShownMessagesForNarrow } from '../chat/chatSelectors';
-import { getStreamsById } from '../subscriptions/subscriptionSelectors';
+import {
+  getMute,
+  getShownMessagesForNarrow,
+  getStreamsById,
+  getStreams,
+  getTopicListScreenParams,
+  getTopics,
+  getUnreadStreams,
+} from '../selectors';
+
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, topicNarrow } from '../utils/narrow';
 
