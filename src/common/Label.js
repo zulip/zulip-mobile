@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
-import { FormattedMessage } from 'react-intl';
+import TranslatedText from './TranslatedText';
 
 import type { LocalizableText, Style } from '../types';
 
@@ -18,13 +18,12 @@ export default class Label extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { text, style, ...restProps } = this.props;
-    const message = text.text || text;
     const { styles } = this.context;
+    const { text, style, ...restProps } = this.props;
 
     return (
       <Text style={[styles.label, style]} {...restProps}>
-        <FormattedMessage id={message} defaultMessage={message} values={text.values} />
+        <TranslatedText text={text} />
       </Text>
     );
   }
