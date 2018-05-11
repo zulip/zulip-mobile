@@ -102,7 +102,7 @@ describe('getTopicsInScreen', () => {
     expect(topics).toEqual([{ name: 'topic', max_id: 456, isMuted: false, unreadCount: 0 }]);
   });
 
-  test('TODO', () => {
+  test('Return list of topic object with isMuted, unreadCount, topic name and max id in it.', () => {
     const state = deepFreeze({
       nav: {
         index: 0,
