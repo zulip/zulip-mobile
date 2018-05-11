@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import { FormattedMessage } from 'react-intl';
+import TranslatedText from './TranslatedText';
 
 import type { Style } from '../types';
 import { BRAND_COLOR } from '../styles';
@@ -96,7 +96,7 @@ const ButtonNormal = ({
       <View style={styles.buttonContent}>
         {Icon && <Icon style={iconStyle} size={25} />}
         <Text style={textStyle}>
-          <FormattedMessage id={text} defaultMessage={text} />
+          <TranslatedText text={text} />
         </Text>
       </View>
     </Touchable>
