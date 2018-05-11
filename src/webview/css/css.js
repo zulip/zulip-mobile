@@ -129,6 +129,7 @@ hr {
   white-space: nowrap;
   overflow: hidden;
 }
+.user-group-mention,
 .user-mention {
   white-space: nowrap;
   background-color: rgba(0, 0, 0, 0.1);
