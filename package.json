@@ -78,7 +78,7 @@
     "string.fromcodepoint": "^0.2.1",
     "url-parse": "^1.4.0",
     "url-regex": "^4.1.1",
-    "zulip-markdown-parser": "^1.0.4"
+    "zulip-markdown-parser": "^1.0.5"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
