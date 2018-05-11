@@ -33,6 +33,7 @@ import ComposeMenu from './ComposeMenu';
 import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
+import MessageRender from './MessageRender';
 
 import {
   getAuth,
@@ -67,6 +68,7 @@ type State = {
   message: string,
   height: number,
   selection: InputSelectionType,
+  showPreview: boolean,
 };
 
 class ComposeBox extends PureComponent<Props, State> {
@@ -89,6 +91,7 @@ class ComposeBox extends PureComponent<Props, State> {
     topic: '',
     message: this.props.draft,
     selection: { start: 0, end: 0 },
+    showPreview: false,
   };
 
   handleComposeMenuToggle = () => {
@@ -239,6 +242,10 @@ class ComposeBox extends PureComponent<Props, State> {
     }
   }
 
+  handlePreview = () => {
+    this.setState({ showPreview: !this.state.showPreview });
+  };
+
   render() {
     const { styles } = this.context;
     const {
@@ -249,6 +256,7 @@ class ComposeBox extends PureComponent<Props, State> {
       message,
       topic,
       selection,
+      showPreview,
     } = this.state;
     const {
       auth,
@@ -273,7 +281,12 @@ class ComposeBox extends PureComponent<Props, State> {
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, usersAndBots);
 
     return (
-      <View style={{ marginBottom: safeAreaInsets.bottom }}>
+      <View
+        style={[
+          { marginBottom: safeAreaInsets.bottom },
+          showPreview ? styles.composeBoxPreviewContainer : null,
+        ]}
+      >
         <AutocompleteViewWrapper
           composeText={message}
           isTopicFocused={isTopicFocused}
@@ -290,6 +303,7 @@ class ComposeBox extends PureComponent<Props, State> {
               narrow={narrow}
               expanded={isMenuExpanded}
               onExpandContract={this.handleComposeMenuToggle}
+              handlePreview={this.handlePreview}
             />
           </View>
           <View style={styles.composeText}>
@@ -336,6 +350,7 @@ class ComposeBox extends PureComponent<Props, State> {
             />
           </View>
         </View>
+        {showPreview && <MessageRender message={message} style={styles.composeBoxPreview} />}
       </View>
     );
   }
