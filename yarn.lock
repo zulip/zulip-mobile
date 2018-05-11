@@ -7626,9 +7626,9 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-zulip-markdown-parser@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/zulip-markdown-parser/-/zulip-markdown-parser-1.0.4.tgz#b45ec4fa3c8ae79ddeb1c946fddee64dfbe4c28a"
+zulip-markdown-parser@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/zulip-markdown-parser/-/zulip-markdown-parser-1.0.5.tgz#1be5286bc161677a8b1a73c011fc2f093d488503"
   dependencies:
     jest-cli "^20.0.4"
     katex "^0.7.1"
