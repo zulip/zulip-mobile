@@ -474,9 +474,9 @@
     progress "2.0.0"
     proxy-from-env "^1.0.0"
 
-"@sentry/wizard@^0.9.1":
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/@sentry/wizard/-/wizard-0.9.1.tgz#f047672f03184f2fb20224775cefebd1f176795b"
+"@sentry/wizard@^0.9.5":
+  version "0.9.7"
+  resolved "https://registry.yarnpkg.com/@sentry/wizard/-/wizard-0.9.7.tgz#81ea7d08476addfe456950858a74196a85b9e1de"
   dependencies:
     "@sentry/cli" "^1.30.1"
     chalk "^2.3.1"
@@ -835,6 +835,30 @@ babel-core@^6.0.0, babel-core@^6.24.1, babel-core@^6.26.0, babel-core@^6.7.2:
     private "^0.1.7"
     slash "^1.0.0"
     source-map "^0.5.6"
+
+babel-core@^6.26.3:
+  version "6.26.3"
+  resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.26.3.tgz#b2e2f09e342d0f0c88e2f02e067794125e75c207"
+  dependencies:
+    babel-code-frame "^6.26.0"
+    babel-generator "^6.26.0"
+    babel-helpers "^6.24.1"
+    babel-messages "^6.23.0"
+    babel-register "^6.26.0"
+    babel-runtime "^6.26.0"
+    babel-template "^6.26.0"
+    babel-traverse "^6.26.0"
+    babel-types "^6.26.0"
+    babylon "^6.18.0"
+    convert-source-map "^1.5.1"
+    debug "^2.6.9"
+    json5 "^0.5.1"
+    lodash "^4.17.4"
+    minimatch "^3.0.4"
+    path-is-absolute "^1.0.1"
+    private "^0.1.8"
+    slash "^1.0.0"
+    source-map "^0.5.7"
 
 babel-eslint@^8.2.3:
   version "8.2.3"
@@ -1279,9 +1303,9 @@ babel-plugin-transform-regenerator@^6.5.0:
   dependencies:
     regenerator-transform "0.9.11"
 
-babel-plugin-transform-remove-console@^6.9.1:
-  version "6.9.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-remove-console/-/babel-plugin-transform-remove-console-6.9.1.tgz#40fe95d98cae5811d8a0e1889812d78b12859651"
+babel-plugin-transform-remove-console@^6.9.2:
+  version "6.9.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-remove-console/-/babel-plugin-transform-remove-console-6.9.2.tgz#e8a0c27d56c9503ca16e284f6b64dbd4b95d21e9"
 
 babel-plugin-transform-strict-mode@^6.24.1:
   version "6.24.1"
@@ -1887,7 +1911,7 @@ content-type-parser@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/content-type-parser/-/content-type-parser-1.0.1.tgz#c3e56988c53c65127fb46d4032a3a900246fdc94"
 
-convert-source-map@^1.1.0:
+convert-source-map@^1.1.0, convert-source-map@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.5.1.tgz#b8278097b9bc229365de5c62cf5fcaed8b5599e5"
 
@@ -1911,9 +1935,9 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-coveralls@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/coveralls/-/coveralls-3.0.0.tgz#22ef730330538080d29b8c151dc9146afde88a99"
+coveralls@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/coveralls/-/coveralls-3.0.1.tgz#12e15914eaa29204e56869a5ece7b9e1492d2ae2"
   dependencies:
     js-yaml "^3.6.1"
     lcov-parse "^0.0.10"
@@ -1996,7 +2020,7 @@ dateformat@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-2.0.0.tgz#2743e3abb5c3fc2462e527dca445e04e9f4dee17"
 
-debug@2.6.9:
+debug@2.6.9, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   dependencies:
@@ -2117,9 +2141,9 @@ detox-server@^7.0.0:
     npmlog "^4.0.2"
     ws "^1.1.0"
 
-detox@^7.3.3:
-  version "7.3.3"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-7.3.3.tgz#46c1a3d1501bbb9017782f6ef6c174b3531b67c3"
+detox@^7.3.7:
+  version "7.3.7"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-7.3.7.tgz#257a2bdb805b98a5c9c001e4b30a16bf72ce7ba6"
   dependencies:
     child-process-promise "^2.2.0"
     commander "^2.15.1"
@@ -2370,9 +2394,9 @@ eslint-module-utils@^2.2.0:
     debug "^2.6.8"
     pkg-dir "^1.0.0"
 
-eslint-plugin-flowtype@^2.46.2:
-  version "2.46.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.46.2.tgz#8749fddda6f6c30d0672011151bea726765b5753"
+eslint-plugin-flowtype@^2.46.3:
+  version "2.46.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.46.3.tgz#7e84131d87ef18b496b1810448593374860b4e8e"
   dependencies:
     lodash "^4.15.0"
 
@@ -2424,9 +2448,9 @@ eslint-plugin-react-native@^3.2.1:
   dependencies:
     eslint-plugin-react-native-globals "^0.1.1"
 
-eslint-plugin-react@7.7.0:
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.7.0.tgz#f606c719dbd8a1a2b3d25c16299813878cca0160"
+eslint-plugin-react@7.8.1:
+  version "7.8.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.8.1.tgz#6bfb5288227645eb7ca3ba8810b87024e0d6c993"
   dependencies:
     doctrine "^2.0.2"
     has "^1.0.1"
@@ -5650,6 +5674,10 @@ private@^0.1.6, private@^0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/private/-/private-0.1.7.tgz#68ce5e8a1ef0a23bb570cc28537b5332aba63ef1"
 
+private@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/private/-/private-0.1.8.tgz#2381edb3689f7a53d653190060fcf822d2f368ff"
+
 process-nextick-args@~1.0.6:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-1.0.7.tgz#150e20b756590ad3f91093f25a4f2ad8bff30ba3"
@@ -5753,10 +5781,6 @@ ramda@^0.24.1:
   version "0.24.1"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.24.1.tgz#c3b7755197f35b8dc3502228262c4c91ddb6b857"
 
-ramda@^0.25.0:
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"
-
 ramdasauce@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/ramdasauce/-/ramdasauce-2.1.0.tgz#65ea157a9cfc17841a7dd6499d3f9f421dc2eb36"
@@ -5774,9 +5798,9 @@ range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
 
-raven-js@^3.22.1:
-  version "3.22.1"
-  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.22.1.tgz#1117f00dfefaa427ef6e1a7d50bbb1fb998a24da"
+raven-js@^3.24.2:
+  version "3.25.1"
+  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.25.1.tgz#05df39b41af140e3b2fa34e2c522e2b4f99a98be"
 
 rc@^1.1.7:
   version "1.2.1"
@@ -5824,9 +5848,9 @@ react-is@^16.3.2:
   version "16.3.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.3.2.tgz#f4d3d0e2f5fbb6ac46450641eb2e25bf05d36b22"
 
-react-lifecycles-compat@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-1.0.2.tgz#551d8b1d156346e5fcf30ffac9b32ce3f78b8850"
+react-lifecycles-compat@^3.0.2:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
 react-native-cli@^2.0.1:
   version "2.0.1"
@@ -5864,9 +5888,9 @@ react-native-fetch-blob@^0.10.8:
     base-64 "0.1.0"
     glob "7.0.6"
 
-react-native-image-picker@^0.26.7:
-  version "0.26.7"
-  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.26.7.tgz#ad2ee957f7f6cc01396893ea03d84cb2adb2e376"
+react-native-image-picker@^0.26.9:
+  version "0.26.9"
+  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.26.9.tgz#1e66abf778178a6694b8868802abc0488f448db9"
 
 react-native-notifications@^1.2.0:
   version "1.2.0"
@@ -5899,12 +5923,12 @@ react-native-safe-area@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/react-native-safe-area/-/react-native-safe-area-0.2.3.tgz#a4a181becb360391bdc4a79287252a0813c26ac5"
 
-react-native-sentry@^0.35.3:
-  version "0.35.3"
-  resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.35.3.tgz#c4e662705a9d13ac754ad8c0c484e7598e27a025"
+react-native-sentry@^0.36.0:
+  version "0.36.0"
+  resolved "https://registry.yarnpkg.com/react-native-sentry/-/react-native-sentry-0.36.0.tgz#1c66d72af56aa801daaa5569c09fc7d04bea6544"
   dependencies:
-    "@sentry/wizard" "^0.9.1"
-    raven-js "^3.22.1"
+    "@sentry/wizard" "^0.9.5"
+    raven-js "^3.24.2"
 
 react-native-simple-toast@0.0.8:
   version "0.0.8"
@@ -5932,9 +5956,9 @@ react-native-vector-icons@^4.6.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-react-native@^0.55.3:
-  version "0.55.3"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.55.3.tgz#6ff1691bd0645d0480fba16377edb9dce5bd28c4"
+react-native@^0.55.4:
+  version "0.55.4"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.55.4.tgz#eecffada3750a928e2ddd07cf11d857ae9751c30"
   dependencies:
     absolute-path "^0.0.0"
     art "^0.10.0"
@@ -5996,21 +6020,21 @@ react-native@^0.55.3:
     xmldoc "^0.4.0"
     yargs "^9.0.0"
 
-react-navigation-redux-helpers@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/react-navigation-redux-helpers/-/react-navigation-redux-helpers-1.0.5.tgz#b4b3ddeccf9f996f305a1b2e5475065c2b3e6c56"
+react-navigation-redux-helpers@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-navigation-redux-helpers/-/react-navigation-redux-helpers-1.0.6.tgz#427bd5a0d2bc3c4f5b6fd5c57fa4961b1ea45e1d"
   dependencies:
     invariant "^2.2.2"
 
-react-navigation@^1.5.11:
-  version "1.5.11"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.11.tgz#fba6ab45d7b9987c1763a5aaac53b4f6d62b7f5c"
+react-navigation@^1.5.12:
+  version "1.5.12"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.12.tgz#e226b4906c76dde55ddf7cc0a62ea04c77140d8a"
   dependencies:
     clamp "^1.0.1"
     hoist-non-react-statics "^2.2.0"
     path-to-regexp "^1.7.0"
     prop-types "^15.5.10"
-    react-lifecycles-compat "^1.0.2"
+    react-lifecycles-compat "^3.0.2"
     react-native-drawer-layout-polyfill "^1.3.2"
     react-native-safe-area-view "^0.7.0"
     react-native-tab-view "github:react-navigation/react-native-tab-view"
@@ -6071,30 +6095,26 @@ react@16.3.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-reactotron-core-client@^2.0.0-beta.1:
-  version "2.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/reactotron-core-client/-/reactotron-core-client-2.0.0-beta.1.tgz#4513c368f77508a4064b87df14b2c9d7efd23e63"
-  dependencies:
-    ramda "^0.25.0"
+reactotron-core-client@^2.0.0-beta.3:
+  version "2.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/reactotron-core-client/-/reactotron-core-client-2.0.0-beta.3.tgz#0beecd83316a1a9745c0f30dbc48693ff07444e7"
 
-reactotron-react-native@^2.0.0-beta.1:
-  version "2.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/reactotron-react-native/-/reactotron-react-native-2.0.0-beta.1.tgz#2b8aab91ec587b33daec5bac2c565543f9d5fe53"
+reactotron-react-native@^2.0.0-beta.3:
+  version "2.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/reactotron-react-native/-/reactotron-react-native-2.0.0-beta.3.tgz#98f8ff59ac5a9af8fc442e52adf50c9635377795"
   dependencies:
     mitt "^1.1.2"
     prop-types "^15.5.10"
-    ramda "^0.24.1"
-    ramdasauce "^2.0.0"
-    reactotron-core-client "^2.0.0-beta.1"
+    reactotron-core-client "^2.0.0-beta.3"
     rn-host-detect "^1.1.3"
 
-reactotron-redux@^2.0.0-beta.1:
-  version "2.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/reactotron-redux/-/reactotron-redux-2.0.0-beta.1.tgz#c5ceea52fd13d5a95bd52df92c534a2e99b7acff"
+reactotron-redux@^2.0.0-beta.3:
+  version "2.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/reactotron-redux/-/reactotron-redux-2.0.0-beta.3.tgz#948a9ce2ef3418349fac3c0766657f7dc99223dc"
   dependencies:
     ramda "^0.24.1"
     ramdasauce "^2.0.0"
-    reactotron-core-client "^2.0.0-beta.1"
+    reactotron-core-client "^2.0.0-beta.3"
     redux "^3.7.1"
 
 read-env@^1.1.1:
@@ -6182,9 +6202,9 @@ redux-action-buffer@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/redux-action-buffer/-/redux-action-buffer-1.2.0.tgz#2ec0a1d899cc9f6f44ccdeb431ee52ad41dd9755"
 
-redux-batched-actions@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/redux-batched-actions/-/redux-batched-actions-0.2.1.tgz#d0c41d495a934004cabafbe0e851746d1795e9dd"
+redux-batched-actions@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/redux-batched-actions/-/redux-batched-actions-0.3.0.tgz#5bb8f4444d46b6c7a5a51e9fdfb58f70de03ff2b"
 
 redux-logger@^3.0.1:
   version "3.0.6"
@@ -6694,7 +6714,7 @@ source-map@^0.4.4:
   dependencies:
     amdefine ">=0.0.4"
 
-source-map@^0.5.0, source-map@~0.5.6:
+source-map@^0.5.0, source-map@^0.5.7, source-map@~0.5.6:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
 
