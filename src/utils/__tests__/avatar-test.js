@@ -29,6 +29,12 @@ describe('getGravatarFromEmail', () => {
     );
   });
 
+  test('given a case-sensitive email canonize and return gravatar url', () => {
+    expect(getGravatarFromEmail('Test@example.com')).toEqual(
+      'https://secure.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=identicon&s=80',
+    );
+  });
+
   test('given an email and a size return gravatar url for that size', () => {
     expect(getGravatarFromEmail('test@example.com', 200)).toEqual(
       'https://secure.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=identicon&s=200',
