@@ -19,7 +19,6 @@ export type UpdateStrategy =
   | 'replace'
   | 'preserve-position'
   | 'scroll-to-anchor'
-  | 'scroll-to-bottom'
   | 'scroll-to-bottom-if-near-bottom';
 
 export const getMessageTransitionProps = (prevProps: Props, nextProps: Props): TransitionProps => {

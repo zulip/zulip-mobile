@@ -16,7 +16,7 @@ export default class MainScreenWithTabs extends PureComponent<{}> {
     return (
       <View style={[styles.flexed, styles.backgroundColor]}>
         <ZulipStatusBar />
-        <MainTabs />
+        <MainTabs backgroundColor={styles.backgroundColor}/>
       </View>
     );
   }
