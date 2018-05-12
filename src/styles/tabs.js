@@ -4,9 +4,10 @@ import { BRAND_COLOR } from './';
 type Props = {
   showLabel: boolean,
   showIcon: boolean,
+  backgroundColor: string,
 };
 
-export default ({ showLabel, showIcon }: Props) => ({
+export default TabStyles = ({ showLabel, showIcon, backgroundColor }: Props) => ({
   swipeEnabled: true,
   animationEnabled: true,
   tabBarOptions: {
@@ -20,14 +21,14 @@ export default ({ showLabel, showIcon }: Props) => ({
       fontSize: 13,
       margin: 0,
     },
+    style: {
+      backgroundColor,
+    },
     indicatorStyle: {
       backgroundColor: BRAND_COLOR,
     },
     tabStyle: {
       flex: 1,
-    },
-    style: {
-      backgroundColor: 'transparent',
     },
   },
 });
