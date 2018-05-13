@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  style: Style,
+  style?: Style,
   presence?: Presence,
 };
 
