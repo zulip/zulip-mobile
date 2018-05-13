@@ -19,6 +19,9 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   text: {
     fontSize: 16,
   },
+  largerText: {
+    fontSize: 20,
+  },
   color: {
     color,
   },
