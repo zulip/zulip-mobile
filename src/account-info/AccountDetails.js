@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Text, View, Dimensions } from 'react-native';
 
-import type { Auth, Actions, Presence } from '../types';
+import type { Auth, Actions, Presence, User } from '../types';
 import { Avatar, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
@@ -12,10 +12,8 @@ import { getMediumAvatar } from '../utils/avatar';
 type Props = {
   auth: Auth,
   actions: Actions,
-  email: string,
+  user: User,
   presence: Presence,
-  avatarUrl: string,
-  fullName: string,
 };
 
 export default class AccountDetails extends PureComponent<Props, void> {
@@ -26,28 +24,28 @@ export default class AccountDetails extends PureComponent<Props, void> {
   };
 
   handleChatPress = () => {
-    const { email, actions } = this.props;
-    actions.doNarrow(privateNarrow(email));
+    const { user, actions } = this.props;
+    actions.doNarrow(privateNarrow(user.email));
   };
 
   render() {
     const { styles } = this.context;
-    const { avatarUrl, auth, email, fullName, presence } = this.props;
+    const { user, auth, presence } = this.props;
     const screenWidth = Dimensions.get('window').width;
 
     return (
       <View>
         <Avatar
-          avatarUrl={getMediumAvatar(avatarUrl)}
-          name={fullName}
-          email={email}
+          avatarUrl={getMediumAvatar(user.avatar_url)}
+          name={user.full_name}
+          email={user.email}
           size={screenWidth}
           realm={auth.realm}
           shape="square"
         />
         <View style={[styles.row, styles.margin, styles.center]}>
           <UserStatusIndicator presence={presence} />
-          <Text style={[styles.largerText, styles.halfMarginLeft]}>{email}</Text>
+          <Text style={[styles.largerText, styles.halfMarginLeft]}>{user.email}</Text>
         </View>
         <ZulipButton
           style={styles.marginLeftRight}
