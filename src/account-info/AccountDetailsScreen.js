@@ -32,9 +32,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
         <AccountDetails
           auth={auth}
           actions={actions}
-          fullName={user.full_name}
-          email={user.email}
-          avatarUrl={user.avatar_url}
+          user={user}
           presence={presence[user.email]}
           orientation={orientation}
         />
