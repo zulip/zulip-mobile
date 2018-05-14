@@ -6,6 +6,8 @@ import { networkActivityStart, networkActivityStop } from '../utils/networkActiv
 
 const apiVersion = 'api/v1';
 
+const defaultResFunc: ResponseExtractionFunc = res => res;
+
 export const apiFetch = async (auth: Auth, route: string, params: Object = {}) => {
   const url = `${auth.realm}/${apiVersion}/${route}`;
 
@@ -32,7 +34,7 @@ export const apiCall = async (
   auth: Auth,
   route: string,
   params: Object = {},
-  resFunc: ResponseExtractionFunc = res => res,
+  resFunc: ResponseExtractionFunc = defaultResFunc,
   isSilent: boolean = false,
 ) => {
   try {
@@ -69,7 +71,7 @@ export const apiCall = async (
 export const apiGet = async (
   auth: Auth,
   route: string,
-  resFunc: ResponseExtractionFunc,
+  resFunc: ResponseExtractionFunc = defaultResFunc,
   params: Object = {},
   isSilent: boolean = false,
 ) =>
@@ -86,7 +88,7 @@ export const apiGet = async (
 export const apiPost = async (
   auth: Auth,
   route: string,
-  resFunc: ResponseExtractionFunc,
+  resFunc: ResponseExtractionFunc = defaultResFunc,
   params: Object = {},
 ) =>
   apiCall(
@@ -102,7 +104,7 @@ export const apiPost = async (
 export const apiFile = async (
   auth: Auth,
   route: string,
-  resFunc: ResponseExtractionFunc,
+  resFunc: ResponseExtractionFunc = defaultResFunc,
   body: FormData,
 ) =>
   apiCall(
@@ -118,7 +120,7 @@ export const apiFile = async (
 export const apiPut = async (
   auth: Auth,
   route: string,
-  resFunc: ResponseExtractionFunc,
+  resFunc: ResponseExtractionFunc = defaultResFunc,
   params: Object = {},
 ) =>
   apiCall(
@@ -134,7 +136,7 @@ export const apiPut = async (
 export const apiDelete = async (
   auth: Auth,
   route: string,
-  resFunc: ResponseExtractionFunc,
+  resFunc: ResponseExtractionFunc = defaultResFunc,
   params: Object = {},
 ) =>
   apiCall(
@@ -150,7 +152,7 @@ export const apiDelete = async (
 export const apiPatch = async (
   auth: Auth,
   route: string,
-  resFunc: ResponseExtractionFunc,
+  resFunc: ResponseExtractionFunc = defaultResFunc,
   params: Object = {},
 ) =>
   apiCall(
