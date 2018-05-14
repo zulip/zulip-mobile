@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Auth, Actions } from '../types';
+import type { Auth, Actions, Account } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getAuth, getAccounts } from '../selectors';
 import { Centerer, ZulipButton, Logo, Screen } from '../common';
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   auth: Auth,
-  accounts: any[],
+  accounts: Account[],
   actions: Actions,
 };
 
