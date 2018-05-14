@@ -4,7 +4,9 @@ import type {
   Actions,
   Auth,
   Message,
+  MuteTuple,
   Narrow,
+  Subscription,
   ActionSheetButtonType,
   AuthGetStringAndMessageType,
 } from '../types';
@@ -36,13 +38,13 @@ type AuthAndMessageType = {
 type AuthMessageAndSubscriptionsType = {
   auth: Auth,
   message: Object,
-  subscriptions: any[],
+  subscriptions: Subscription[],
 };
 
 type ButtonProps = {
   auth: Auth,
   message: Object,
-  subscriptions: any[],
+  subscriptions: Subscription[],
   actions: Actions,
   currentRoute?: string,
   onReplySelect?: () => void,
@@ -53,7 +55,7 @@ type ExecuteActionSheetParams = {
   title: string,
   auth: Auth,
   message: Object,
-  subscriptions: any[],
+  subscriptions: Subscription[],
   actions: Actions,
   header?: boolean,
   currentRoute?: string,
@@ -72,8 +74,8 @@ type ConstructActionButtonsType = {
 
 type ConstructHeaderActionButtonsType = {
   message: Message,
-  subscriptions: any[],
-  mute: any[],
+  subscriptions: Subscription[],
+  mute: MuteTuple[],
   getString: (value: string) => string,
 };
 
