@@ -1,7 +1,5 @@
 /* @flow */
 import type {
-  User,
-  ApiUser,
   UsersState,
   UsersAction,
   InitUsersAction,
@@ -20,27 +18,16 @@ import {
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 
-const mapApiToStateUser = (user: ApiUser): User => ({
-  id: user.user_id,
-  email: user.email,
-  fullName: user.full_name,
-  avatarUrl: user.avatar_url,
-  isActive: user.is_active,
-  isAdmin: user.is_admin,
-  isBot: user.is_bot,
-});
-
 const initialState: UsersState = NULL_ARRAY;
 
-const initUsers = (state: UsersState, action: InitUsersAction): UsersState =>
-  action.users.map(mapApiToStateUser);
+const initUsers = (state: UsersState, action: InitUsersAction): UsersState => action.users;
 
 const realmInit = (state: UsersState, action: RealmInitAction): UsersState =>
-  action.data.realm_users.map(mapApiToStateUser);
+  action.data.realm_users;
 
 const eventUserAdd = (state: UsersState, action: EventUserAddAction): UsersState => [
   ...state,
-  mapApiToStateUser(action.person),
+  action.person,
 ];
 
 export default (state: UsersState = initialState, action: UsersAction): UsersState => {

@@ -27,8 +27,8 @@ export default class TitleGroup extends PureComponent<Props> {
           <View key={user.email} style={styles.titleAvatar}>
             <Avatar
               size={32}
-              name={user.fullName}
-              avatarUrl={user.avatarUrl}
+              name={user.full_name}
+              avatarUrl={user.avatar_url}
               email={user.email}
               presence={presence[user.email]}
             />

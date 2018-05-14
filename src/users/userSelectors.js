@@ -18,7 +18,7 @@ export const getAccountDetailsUser = createSelector(
       allUsers.find(x => x.email === params.email) || {
         ...NULL_USER,
         email: params.email,
-        fullName: params.email,
+        full_name: params.email,
       }
     );
   },
@@ -29,11 +29,11 @@ export const getSelfUserDetail = createSelector(getUsers, getOwnEmail, (users, o
 );
 
 export const getActiveUsers = createSelector(getUsers, users =>
-  users.filter(user => user.isActive),
+  users.filter(user => user.is_active),
 );
 
 export const getSortedUsers = createSelector(getUsers, users =>
-  [...users].sort((x1, x2) => x1.fullName.toLowerCase().localeCompare(x2.fullName.toLowerCase())),
+  [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase())),
 );
 
 export const getUsersStatusActive = createSelector(getActiveUsers, getPresence, (users, presence) =>
@@ -62,7 +62,7 @@ export const getUsersByEmail = createSelector(getUsers, users =>
 
 export const getUsersById = createSelector(getUsers, (users = []) =>
   users.reduce((usersById, user) => {
-    usersById[user.id] = user;
+    usersById[user.user_id] = user;
     return usersById;
   }, {}),
 );

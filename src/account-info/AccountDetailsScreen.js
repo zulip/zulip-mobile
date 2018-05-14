@@ -23,7 +23,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
     const title = {
       text: '{_}',
       values: {
-        _: user.fullName || ' ',
+        _: user.full_name || ' ',
       },
     };
 
@@ -32,9 +32,9 @@ class AccountDetailsScreen extends PureComponent<Props> {
         <AccountDetails
           auth={auth}
           actions={actions}
-          fullName={user.fullName}
+          fullName={user.full_name}
           email={user.email}
-          avatarUrl={user.avatarUrl}
+          avatarUrl={user.avatar_url}
           presence={presence[user.email]}
           orientation={orientation}
         />

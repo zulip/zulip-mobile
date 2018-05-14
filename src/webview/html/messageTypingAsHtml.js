@@ -8,7 +8,9 @@ const typingAvatar = (realm: string, user: User): string => `
   <img
     class="avatar-img"
     data-email="${user.email}"
-    src="${user.avatarUrl ? getFullUrl(user.avatarUrl, realm) : getGravatarFromEmail(user.email)}">
+    src="${
+      user.avatar_url ? getFullUrl(user.avatar_url, realm) : getGravatarFromEmail(user.email)
+    }">
 </div>
 `;
 

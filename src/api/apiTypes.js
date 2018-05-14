@@ -11,20 +11,6 @@ export type ApiResponseWithPresence = ApiResponse & {
   presences: PresenceState,
 };
 
-export type ApiUser = {
-  avatar_url: string,
-  bot_type?: number,
-  bot_owner?: string,
-  email: string,
-  full_name: string,
-  is_admin: boolean,
-  is_active: boolean,
-  is_bot: boolean,
-  profile_data?: Object,
-  timezone: string,
-  user_id: 5584,
-};
-
 export type AuthenticationMethods = {
   dev: boolean,
   email: boolean,

@@ -1,7 +1,7 @@
 /* @flow */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 
-import type { Dispatch, GetState, Narrow, ApiUser, InitUsersAction } from '../types';
+import type { Dispatch, GetState, Narrow, User, InitUsersAction } from '../types';
 import { focusPing, getUsers, typing } from '../api';
 import { INIT_USERS, PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth } from '../selectors';
@@ -33,7 +33,7 @@ export const sendFocusPing = (hasFocus: boolean = true, newUserInput: boolean = 
   });
 };
 
-export const initUsers = (users: ApiUser[]): InitUsersAction => ({
+export const initUsers = (users: User[]): InitUsersAction => ({
   type: INIT_USERS,
   users,
 });

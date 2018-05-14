@@ -39,18 +39,18 @@ describe('filterUserList', () => {
 
   test('searches in name, email and is case insensitive', () => {
     const allUsers = deepFreeze([
-      { fullName: 'match', email: 'any@example.com' },
-      { fullName: 'partial match', email: 'any@example.com' },
-      { fullName: 'Case Insensitive MaTcH', email: 'any@example.com' },
-      { fullName: 'Any Name', email: 'match@example.com' },
-      { fullName: 'some name', email: 'another@example.com' },
+      { full_name: 'match', email: 'any@example.com' },
+      { full_name: 'partial match', email: 'any@example.com' },
+      { full_name: 'Case Insensitive MaTcH', email: 'any@example.com' },
+      { full_name: 'Any Name', email: 'match@example.com' },
+      { full_name: 'some name', email: 'another@example.com' },
     ]);
 
     const shouldMatch = [
-      { fullName: 'match', email: 'any@example.com' },
-      { fullName: 'partial match', email: 'any@example.com' },
-      { fullName: 'Case Insensitive MaTcH', email: 'any@example.com' },
-      { fullName: 'Any Name', email: 'match@example.com' },
+      { full_name: 'match', email: 'any@example.com' },
+      { full_name: 'partial match', email: 'any@example.com' },
+      { full_name: 'Case Insensitive MaTcH', email: 'any@example.com' },
+      { full_name: 'Any Name', email: 'match@example.com' },
     ];
     const filteredUsers = filterUserList(allUsers, 'match');
     expect(filteredUsers).toEqual(shouldMatch);
@@ -67,21 +67,22 @@ describe('getAutocompleteSuggestion', () => {
 
   test("filters out user's own entry", () => {
     const users = deepFreeze([
-      { email: 'email@example.com', fullName: 'Some Guy' },
-      { email: 'my@example.com', fullName: 'Me' },
+      { email: 'email@example.com', full_name: 'Some Guy' },
+      { email: 'my@example.com', full_name: 'Me' },
     ]);
 
     const shouldMatch = [
       {
-        fullName: 'all',
+        full_name: 'all',
         email: '(Notify everyone)',
-        id: -1,
-        avatarUrl: '',
-        isActive: false,
-        isAdmin: false,
-        isBot: false,
+        user_id: -1,
+        avatar_url: '',
+        timezone: '',
+        is_active: false,
+        is_admin: false,
+        is_bot: false,
       },
-      { email: 'email@example.com', fullName: 'Some Guy' },
+      { email: 'email@example.com', full_name: 'Some Guy' },
     ];
     const filteredUsers = getAutocompleteSuggestion(users, '', 'my@example.com');
     expect(filteredUsers).toEqual(shouldMatch);
@@ -89,18 +90,18 @@ describe('getAutocompleteSuggestion', () => {
 
   test('searches in name, email and is case insensitive', () => {
     const allUsers = deepFreeze([
-      { fullName: 'match', email: 'any1@example.com' },
-      { fullName: 'match this', email: 'any2@example.com' },
-      { fullName: 'MaTcH Case Insensitive', email: 'any3@example.com' },
-      { fullName: 'some name', email: 'another@example.com' },
-      { fullName: 'Example', email: 'match@example.com' },
+      { full_name: 'match', email: 'any1@example.com' },
+      { full_name: 'match this', email: 'any2@example.com' },
+      { full_name: 'MaTcH Case Insensitive', email: 'any3@example.com' },
+      { full_name: 'some name', email: 'another@example.com' },
+      { full_name: 'Example', email: 'match@example.com' },
     ]);
 
     const shouldMatch = [
-      { fullName: 'match', email: 'any1@example.com' },
-      { fullName: 'match this', email: 'any2@example.com' },
-      { fullName: 'MaTcH Case Insensitive', email: 'any3@example.com' },
-      { fullName: 'Example', email: 'match@example.com' },
+      { full_name: 'match', email: 'any1@example.com' },
+      { full_name: 'match this', email: 'any2@example.com' },
+      { full_name: 'MaTcH Case Insensitive', email: 'any3@example.com' },
+      { full_name: 'Example', email: 'match@example.com' },
     ];
     const filteredUsers = getAutocompleteSuggestion(allUsers, 'match');
     expect(filteredUsers).toEqual(shouldMatch);
@@ -108,28 +109,28 @@ describe('getAutocompleteSuggestion', () => {
 
   test('result should be in priority of startsWith, initials, contains in name, matches in email', () => {
     const allUsers = deepFreeze([
-      { fullName: 'M Apple', email: 'any1@example.com' }, // satisfy initials condition
-      { fullName: 'Normal boy', email: 'any2@example.com' }, // satisfy fullName contains condition
-      { fullName: 'example', email: 'example@example.com' }, // random entry
-      { fullName: 'Example', email: 'match@example.com' }, // satisfy email match condition
-      { fullName: 'match', email: 'any@example.com' }, // satisfy fullName starts with condition
-      { fullName: 'match', email: 'normal@example.com' }, // satisfy starts with and email condition
-      { fullName: 'Match App Normal', email: 'any3@example.com' }, // satisfy all conditions
-      { fullName: 'match', email: 'any@example.com' }, // duplicate
-      { fullName: 'Laptop', email: 'laptop@example.com' }, // random entry
-      { fullName: 'Mobile App', email: 'any@match.com' }, // satisfy initials and email condition
-      { fullName: 'Normal', email: 'match2@example.com' }, // satisfy contains in name and matches in email condition
+      { full_name: 'M Apple', email: 'any1@example.com' }, // satisfy initials condition
+      { full_name: 'Normal boy', email: 'any2@example.com' }, // satisfy full_name contains condition
+      { full_name: 'example', email: 'example@example.com' }, // random entry
+      { full_name: 'Example', email: 'match@example.com' }, // satisfy email match condition
+      { full_name: 'match', email: 'any@example.com' }, // satisfy full_name starts with condition
+      { full_name: 'match', email: 'normal@example.com' }, // satisfy starts with and email condition
+      { full_name: 'Match App Normal', email: 'any3@example.com' }, // satisfy all conditions
+      { full_name: 'match', email: 'any@example.com' }, // duplicate
+      { full_name: 'Laptop', email: 'laptop@example.com' }, // random entry
+      { full_name: 'Mobile App', email: 'any@match.com' }, // satisfy initials and email condition
+      { full_name: 'Normal', email: 'match2@example.com' }, // satisfy contains in name and matches in email condition
     ]);
 
     const shouldMatch = [
-      { fullName: 'match', email: 'any@example.com' }, // name starts with 'ma'
-      { fullName: 'match', email: 'normal@example.com' }, // have priority as starts with 'ma'
-      { fullName: 'Match App Normal', email: 'any3@example.com' }, // have priority as starts with 'ma'
-      { fullName: 'M Apple', email: 'any1@example.com' }, // initials 'MA'
-      { fullName: 'Mobile App', email: 'any@match.com' }, // have priority because of initials condition
-      { fullName: 'Normal boy', email: 'any2@example.com' }, // name contains in 'ma'
-      { fullName: 'Normal', email: 'match2@example.com' }, // have priority because of 'ma' contains in name
-      { fullName: 'Example', email: 'match@example.com' }, // email contains 'ma'
+      { full_name: 'match', email: 'any@example.com' }, // name starts with 'ma'
+      { full_name: 'match', email: 'normal@example.com' }, // have priority as starts with 'ma'
+      { full_name: 'Match App Normal', email: 'any3@example.com' }, // have priority as starts with 'ma'
+      { full_name: 'M Apple', email: 'any1@example.com' }, // initials 'MA'
+      { full_name: 'Mobile App', email: 'any@match.com' }, // have priority because of initials condition
+      { full_name: 'Normal boy', email: 'any2@example.com' }, // name contains in 'ma'
+      { full_name: 'Normal', email: 'match2@example.com' }, // have priority because of 'ma' contains in name
+      { full_name: 'Example', email: 'match@example.com' }, // email contains 'ma'
     ];
     const filteredUsers = getAutocompleteSuggestion(allUsers, 'ma');
     expect(filteredUsers).toEqual(shouldMatch);
@@ -138,9 +139,9 @@ describe('getAutocompleteSuggestion', () => {
 
 describe('sortUserList', () => {
   test('sorts list by name', () => {
-    const users = deepFreeze([{ fullName: 'abc' }, { fullName: 'xyz' }, { fullName: 'jkl' }]);
+    const users = deepFreeze([{ full_name: 'abc' }, { full_name: 'xyz' }, { full_name: 'jkl' }]);
     const presences = {};
-    const shouldMatch = [{ fullName: 'abc' }, { fullName: 'jkl' }, { fullName: 'xyz' }];
+    const shouldMatch = [{ full_name: 'abc' }, { full_name: 'jkl' }, { full_name: 'xyz' }];
 
     const sortedUsers = sortUserList(users, presences);
 
@@ -149,10 +150,10 @@ describe('sortUserList', () => {
 
   test('prioritizes status', () => {
     const users = deepFreeze([
-      { fullName: 'Mark', email: 'mark@example.com' },
-      { fullName: 'John', email: 'john@example.com' },
-      { fullName: 'Bob', email: 'bob@example.com' },
-      { fullName: 'Rick', email: 'rick@example.com' },
+      { full_name: 'Mark', email: 'mark@example.com' },
+      { full_name: 'John', email: 'john@example.com' },
+      { full_name: 'Bob', email: 'bob@example.com' },
+      { full_name: 'Rick', email: 'rick@example.com' },
     ]);
     const presences = {
       'mark@example.com': { aggregated: { status: 'offline' } },
@@ -163,10 +164,10 @@ describe('sortUserList', () => {
       'rick@example.com': { aggregated: { status: 'active', timestamp: Date.now() / 1000 } },
     };
     const shouldMatch = [
-      { fullName: 'Rick', email: 'rick@example.com' },
-      { fullName: 'Bob', email: 'bob@example.com' },
-      { fullName: 'John', email: 'john@example.com' },
-      { fullName: 'Mark', email: 'mark@example.com' },
+      { full_name: 'Rick', email: 'rick@example.com' },
+      { full_name: 'Bob', email: 'bob@example.com' },
+      { full_name: 'John', email: 'john@example.com' },
+      { full_name: 'Mark', email: 'mark@example.com' },
     ];
 
     const sortedUsers = sortUserList(users, presences);
@@ -185,39 +186,39 @@ describe('groupUsersByInitials', () => {
 
   test('empty input results in empty list', () => {
     const users = deepFreeze([
-      { fullName: 'Allen' },
-      { fullName: 'Bob Tester' },
-      { fullName: 'bob bob' },
+      { full_name: 'Allen' },
+      { full_name: 'Bob Tester' },
+      { full_name: 'bob bob' },
     ]);
 
     const groupedUsers = groupUsersByInitials(users);
     expect(groupedUsers).toEqual({
-      A: [{ fullName: 'Allen' }],
-      B: [{ fullName: 'Bob Tester' }, { fullName: 'bob bob' }],
+      A: [{ full_name: 'Allen' }],
+      B: [{ full_name: 'Bob Tester' }, { full_name: 'bob bob' }],
     });
   });
 });
 
 describe('sortAlphabetically', () => {
-  test('alphabetically sort user list by fullName', () => {
+  test('alphabetically sort user list by full_name', () => {
     const users = deepFreeze([
-      { fullName: 'zoe', email: 'allen@example.com' },
-      { fullName: 'Ring', email: 'got@example.com' },
-      { fullName: 'watch', email: 'see@example.com' },
-      { fullName: 'mobile', email: 'phone@example.com' },
-      { fullName: 'Ring', email: 'got@example.com' },
-      { fullName: 'hardware', email: 'software@example.com' },
-      { fullName: 'Bob', email: 'tester@example.com' },
+      { full_name: 'zoe', email: 'allen@example.com' },
+      { full_name: 'Ring', email: 'got@example.com' },
+      { full_name: 'watch', email: 'see@example.com' },
+      { full_name: 'mobile', email: 'phone@example.com' },
+      { full_name: 'Ring', email: 'got@example.com' },
+      { full_name: 'hardware', email: 'software@example.com' },
+      { full_name: 'Bob', email: 'tester@example.com' },
     ]);
 
     const expectedUsers = [
-      { fullName: 'Bob', email: 'tester@example.com' },
-      { fullName: 'hardware', email: 'software@example.com' },
-      { fullName: 'mobile', email: 'phone@example.com' },
-      { fullName: 'Ring', email: 'got@example.com' },
-      { fullName: 'Ring', email: 'got@example.com' },
-      { fullName: 'watch', email: 'see@example.com' },
-      { fullName: 'zoe', email: 'allen@example.com' },
+      { full_name: 'Bob', email: 'tester@example.com' },
+      { full_name: 'hardware', email: 'software@example.com' },
+      { full_name: 'mobile', email: 'phone@example.com' },
+      { full_name: 'Ring', email: 'got@example.com' },
+      { full_name: 'Ring', email: 'got@example.com' },
+      { full_name: 'watch', email: 'see@example.com' },
+      { full_name: 'zoe', email: 'allen@example.com' },
     ];
     expect(sortAlphabetically(users)).toEqual(expectedUsers);
   });
@@ -226,37 +227,37 @@ describe('sortAlphabetically', () => {
 describe('filterUserStartWith', () => {
   test('returns users whose name starts with filter excluding self', () => {
     const users = deepFreeze([
-      { fullName: 'Apple', email: 'a@example.com' },
-      { fullName: 'bob', email: 'f@app.com' },
-      { fullName: 'app', email: 'p@p.com' },
-      { fullName: 'Mobile app', email: 'p3@p.com' },
-      { fullName: 'Mac App', email: 'p@p2.com' },
-      { fullName: 'app', email: 'own@example.com' },
+      { full_name: 'Apple', email: 'a@example.com' },
+      { full_name: 'bob', email: 'f@app.com' },
+      { full_name: 'app', email: 'p@p.com' },
+      { full_name: 'Mobile app', email: 'p3@p.com' },
+      { full_name: 'Mac App', email: 'p@p2.com' },
+      { full_name: 'app', email: 'own@example.com' },
     ]);
 
     const expectedUsers = [
-      { fullName: 'Apple', email: 'a@example.com' },
-      { fullName: 'app', email: 'p@p.com' },
+      { full_name: 'Apple', email: 'a@example.com' },
+      { full_name: 'app', email: 'p@p.com' },
     ];
     expect(filterUserStartWith(users, 'app', 'own@example.com')).toEqual(expectedUsers);
   });
 });
 
 describe('filterUserByInitials', () => {
-  test('returns users whose fullName initials matches filter excluding self', () => {
+  test('returns users whose full_name initials matches filter excluding self', () => {
     const users = deepFreeze([
-      { fullName: 'Apple', email: 'a@example.com' },
-      { fullName: 'mam', email: 'f@app.com' },
-      { fullName: 'app', email: 'p@p.com' },
-      { fullName: 'Mobile Application', email: 'p3@p.com' },
-      { fullName: 'Mac App', email: 'p@p2.com' },
-      { fullName: 'app', email: 'p@p.com' },
-      { fullName: 'app', email: 'own@example.com' },
+      { full_name: 'Apple', email: 'a@example.com' },
+      { full_name: 'mam', email: 'f@app.com' },
+      { full_name: 'app', email: 'p@p.com' },
+      { full_name: 'Mobile Application', email: 'p3@p.com' },
+      { full_name: 'Mac App', email: 'p@p2.com' },
+      { full_name: 'app', email: 'p@p.com' },
+      { full_name: 'app', email: 'own@example.com' },
     ]);
 
     const expectedUsers = [
-      { fullName: 'Mobile Application', email: 'p3@p.com' },
-      { fullName: 'Mac App', email: 'p@p2.com' },
+      { full_name: 'Mobile Application', email: 'p3@p.com' },
+      { full_name: 'Mac App', email: 'p@p2.com' },
     ];
     expect(filterUserByInitials(users, 'ma', 'own@example.com')).toEqual(expectedUsers);
   });
@@ -295,20 +296,20 @@ describe('groupUsersByStatus', () => {
 });
 
 describe('filterUserThatContains', () => {
-  test('returns users whose fullName contains filter excluding self', () => {
+  test('returns users whose full_name contains filter excluding self', () => {
     const users = deepFreeze([
-      { fullName: 'Apple', email: 'a@example.com' },
-      { fullName: 'mam', email: 'f@app.com' },
-      { fullName: 'app', email: 'p@p.com' },
-      { fullName: 'Mobile app', email: 'p3@p.com' },
-      { fullName: 'Mac App', email: 'p@p2.com' },
-      { fullName: 'app', email: 'p@p.com' },
-      { fullName: 'app', email: 'own@example.com' },
+      { full_name: 'Apple', email: 'a@example.com' },
+      { full_name: 'mam', email: 'f@app.com' },
+      { full_name: 'app', email: 'p@p.com' },
+      { full_name: 'Mobile app', email: 'p3@p.com' },
+      { full_name: 'Mac App', email: 'p@p2.com' },
+      { full_name: 'app', email: 'p@p.com' },
+      { full_name: 'app', email: 'own@example.com' },
     ]);
 
     const expectedUsers = [
-      { fullName: 'mam', email: 'f@app.com' },
-      { fullName: 'Mac App', email: 'p@p2.com' },
+      { full_name: 'mam', email: 'f@app.com' },
+      { full_name: 'Mac App', email: 'p@p2.com' },
     ];
     expect(filterUserThatContains(users, 'ma', 'own@example.com')).toEqual(expectedUsers);
   });
@@ -317,16 +318,16 @@ describe('filterUserThatContains', () => {
 describe('filterUserMatchesEmail', () => {
   test('returns users whose email matches filter excluding self', () => {
     const users = deepFreeze([
-      { fullName: 'Apple', email: 'a@example.com' },
-      { fullName: 'mam', email: 'f@app.com' },
-      { fullName: 'app', email: 'p@p.com' },
-      { fullName: 'Mobile app', email: 'p3@p.com' },
-      { fullName: 'Mac App', email: 'p@p2.com' },
-      { fullName: 'app', email: 'p@p.com' },
-      { fullName: 'app', email: 'own@example.com' },
+      { full_name: 'Apple', email: 'a@example.com' },
+      { full_name: 'mam', email: 'f@app.com' },
+      { full_name: 'app', email: 'p@p.com' },
+      { full_name: 'Mobile app', email: 'p3@p.com' },
+      { full_name: 'Mac App', email: 'p@p2.com' },
+      { full_name: 'app', email: 'p@p.com' },
+      { full_name: 'app', email: 'own@example.com' },
     ]);
 
-    const expectedUsers = [{ fullName: 'Apple', email: 'a@example.com' }];
+    const expectedUsers = [{ full_name: 'Apple', email: 'a@example.com' }];
     expect(filterUserMatchesEmail(users, 'example', 'own@example.com')).toEqual(expectedUsers);
   });
 });
@@ -334,21 +335,21 @@ describe('filterUserMatchesEmail', () => {
 describe('getUniqueUsers', () => {
   test('returns unique users check by email', () => {
     const users = deepFreeze([
-      { fullName: 'Apple', email: 'a@example.com' },
-      { fullName: 'Apple', email: 'a@example.com' },
-      { fullName: 'app', email: 'p@p.com' },
-      { fullName: 'app', email: 'p@p.com' },
-      { fullName: 'Mac App', email: 'p@p2.com' },
-      { fullName: 'Mac App', email: 'p@p2.com' },
-      { fullName: 'Mac App 2', email: 'p@p2.com' },
-      { fullName: 'app', email: 'own@example.com' },
+      { full_name: 'Apple', email: 'a@example.com' },
+      { full_name: 'Apple', email: 'a@example.com' },
+      { full_name: 'app', email: 'p@p.com' },
+      { full_name: 'app', email: 'p@p.com' },
+      { full_name: 'Mac App', email: 'p@p2.com' },
+      { full_name: 'Mac App', email: 'p@p2.com' },
+      { full_name: 'Mac App 2', email: 'p@p2.com' },
+      { full_name: 'app', email: 'own@example.com' },
     ]);
 
     const expectedUsers = [
-      { fullName: 'Apple', email: 'a@example.com' },
-      { fullName: 'app', email: 'p@p.com' },
-      { fullName: 'Mac App', email: 'p@p2.com' },
-      { fullName: 'app', email: 'own@example.com' },
+      { full_name: 'Apple', email: 'a@example.com' },
+      { full_name: 'app', email: 'p@p.com' },
+      { full_name: 'Mac App', email: 'p@p2.com' },
+      { full_name: 'app', email: 'own@example.com' },
     ];
     expect(getUniqueUsers(users)).toEqual(expectedUsers);
   });

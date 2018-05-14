@@ -13,12 +13,12 @@ describe('getComposeInputPlaceholder', () => {
       {
         id: 23,
         email: 'abc@zulip.com',
-        fullName: 'ABC',
+        full_name: 'ABC',
       },
       {
         id: 22,
         email: 'xyz@zulip.com',
-        fullName: 'XYZ',
+        full_name: 'XYZ',
       },
     ]);
 

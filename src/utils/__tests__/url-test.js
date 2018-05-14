@@ -270,9 +270,9 @@ describe('getEmojiUrl', () => {
 
 describe('getNarrowFromLink', () => {
   const users = [
-    { email: 'abc@example.com', id: 1 },
-    { email: 'xyz@example.com', id: 2 },
-    { email: 'def@example.com', id: 3 },
+    { email: 'abc@example.com', user_id: 1 },
+    { email: 'xyz@example.com', user_id: 2 },
+    { email: 'def@example.com', user_id: 3 },
   ];
 
   test('when link is not in-app link, return default homeNarrow', () => {
