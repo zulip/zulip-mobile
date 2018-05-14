@@ -8,9 +8,7 @@ const apiVersion = 'api/v1';
 
 const defaultResFunc: ResponseExtractionFunc = res => res;
 
-export const apiFetch = async (auth: Auth, route: string, params: Object = {}) => {
-  const url = `${auth.realm}/${apiVersion}/${route}`;
-
+export const fetchWithAuth = async (auth: Auth, url: string, params: Object = {}) => {
   if (!isValidUrl(url)) {
     throw new Error(`Invalid url ${url}`);
   }
@@ -29,6 +27,9 @@ export const apiFetch = async (auth: Auth, route: string, params: Object = {}) =
   };
   return fetch(url, allParams);
 };
+
+export const apiFetch = async (auth: Auth, route: string, params: Object = {}) =>
+  fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
 
 export const apiCall = async (
   auth: Auth,
