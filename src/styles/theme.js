@@ -1,9 +1,10 @@
 /* @flow */
 import { Platform } from 'react-native';
 
-import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE, NAVBAR_SIZE, SPACING, HALF_SPACING } from './';
+import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE, SPACING, HALF_SPACING } from './';
 import utilityStyles from './utilityStyles';
 import composeBoxStyles from './composeBoxStyles';
+import navStyles from './navStyles';
 
 type Props = {
   color: string,
@@ -16,6 +17,7 @@ type Props = {
 export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }: Props) => ({
   ...utilityStyles,
   ...composeBoxStyles({ color, backgroundColor, borderColor }),
+  ...navStyles({ color, backgroundColor, borderColor }),
   text: {
     fontSize: 16,
   },
@@ -169,41 +171,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   disabled: {
     backgroundColor: '#ddd',
     color: '#333',
-  },
-  marginBottom: {
-    marginBottom: 10,
-  },
-  navBar: {
-    backgroundColor,
-    borderColor,
-    flexDirection: 'row',
-    height: NAVBAR_SIZE,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-  },
-  navWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  navTitle: {
-    color: BRAND_COLOR,
-    textAlign: 'left',
-    fontSize: 20,
-    paddingLeft: 8,
-  },
-  navSubtitle: {
-    fontSize: 13,
-    opacity: 0.8,
-  },
-  subheader: {
-    flex: 1,
-    flexBasis: 20,
-    paddingBottom: 4,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   username: {
     flex: 1,

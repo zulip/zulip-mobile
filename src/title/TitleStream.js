@@ -1,21 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import type { Narrow, Subscription } from '../types';
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
-
-const componentStyles = StyleSheet.create({
-  wrapper: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-  streamRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-});
 
 type Props = {
   narrow: Narrow,
@@ -35,8 +24,8 @@ export default class TitleStream extends PureComponent<Props> {
     const { narrow, stream, color } = this.props;
 
     return (
-      <View style={[styles.navWrapper, componentStyles.wrapper]}>
-        <View style={componentStyles.streamRow}>
+      <View style={[styles.navWrapper, styles.titleStreamWrapper]}>
+        <View style={styles.titleStreamRow}>
           <StreamIcon
             isMuted={!stream.in_home_view}
             isPrivate={stream.invite_only}

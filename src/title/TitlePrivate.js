@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 
 import type { PresenceState, User } from '../types';
-import { Avatar } from '../common';
+import { Avatar, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
 
 type Props = {
@@ -33,11 +33,12 @@ export default class TitlePrivate extends PureComponent<Props> {
           avatarUrl={avatarUrl}
           presence={presence[email]}
         />
+        <ViewPlaceholder width={8} />
         <View>
           <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
             {fullName}
           </Text>
-          <ActivityText color={color} email={email} />
+          <ActivityText style={styles.navSubtitle} color={color} email={email} />
         </View>
       </View>
     );
