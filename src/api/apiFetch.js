@@ -34,7 +34,6 @@ export const apiCall = async (
   params: Object = {},
   resFunc: ResponseExtractionFunc = res => res,
   isSilent: boolean = false,
-  shouldTimeout: boolean = true,
 ) => {
   try {
     networkActivityStart(isSilent);
@@ -73,7 +72,6 @@ export const apiGet = async (
   resFunc: ResponseExtractionFunc,
   params: Object = {},
   isSilent: boolean = false,
-  shouldTimeout: boolean = true,
 ) =>
   apiCall(
     auth,
@@ -83,7 +81,6 @@ export const apiGet = async (
     },
     resFunc,
     isSilent,
-    shouldTimeout,
   );
 
 export const apiPost = async (
