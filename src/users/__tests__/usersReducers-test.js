@@ -51,9 +51,9 @@ describe('usersReducers', () => {
 
       const expectedState = [
         {
-          id: 1,
+          user_id: 1,
           email: 'john@example.com',
-          fullName: 'John Doe',
+          full_name: 'John Doe',
         },
       ];
 

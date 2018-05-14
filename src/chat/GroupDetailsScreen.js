@@ -54,8 +54,8 @@ class GroupDetailsScreen extends PureComponent<Props> {
             renderItem={({ item }) => (
               <UserItem
                 key={item.email}
-                fullName={item.fullName}
-                avatarUrl={item.avatarUrl}
+                fullName={item.full_name}
+                avatarUrl={item.avatar_url}
                 email={item.email}
                 showEmail
                 onPress={() => this.handlePress(item.email)}

@@ -22,23 +22,22 @@ export default class TitlePrivate extends PureComponent<Props> {
   render() {
     const { styles } = this.context;
     const { user, color, presence } = this.props;
-    const { fullName, avatarUrl, email } = user;
 
     return (
       <View style={styles.navWrapper}>
         <Avatar
           size={32}
-          name={fullName}
-          email={email}
-          avatarUrl={avatarUrl}
-          presence={presence[email]}
+          name={user.full_name}
+          email={user.email}
+          avatarUrl={user.avatar_url}
+          presence={presence[user.email]}
         />
         <ViewPlaceholder width={8} />
         <View>
           <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
-            {fullName}
+            {user.full_name}
           </Text>
-          <ActivityText style={styles.navSubtitle} color={color} email={email} />
+          <ActivityText style={styles.navSubtitle} color={color} email={user.email} />
         </View>
       </View>
     );

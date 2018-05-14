@@ -1,6 +1,5 @@
 /* @flow */
 import type { Action } from './actionTypes';
-import type { ApiUser } from './api/apiTypes';
 
 export type { ChildrenArray } from 'react';
 
@@ -89,13 +88,17 @@ export type MessageState = {
 export type UserStatus = 'active' | 'idle' | 'offline';
 
 export type User = {
-  avatarUrl: string,
+  avatar_url: string,
+  bot_type?: number,
+  bot_owner?: string,
   email: string,
-  fullName: string,
-  id: number,
-  isActive: boolean,
-  isAdmin: boolean,
-  isBot: boolean,
+  full_name: string,
+  is_admin: boolean,
+  is_active: boolean,
+  is_bot: boolean,
+  profile_data?: Object,
+  timezone: string,
+  user_id: number,
 };
 
 export type UserIdMap = {
@@ -613,8 +616,8 @@ export type InitialDataRealmUser = {
   enter_sends: boolean,
   full_name: string,
   is_admin: boolean,
-  realm_non_active_users: ApiUser[],
-  realm_users: ApiUser[],
+  realm_non_active_users: User[],
+  realm_users: User[],
   user_id: number,
 };
 

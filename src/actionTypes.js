@@ -7,7 +7,6 @@ import type {
   Message,
   Narrow,
   ApiServerSettings,
-  ApiUser,
   User,
   InitialData,
   RealmFilter,
@@ -551,7 +550,7 @@ export type SendFocusPingActionCreator = (hasFocus?: boolean, newUserInput?: boo
 
 export type InitUsersAction = {
   type: 'INIT_USERS',
-  users: ApiUser[],
+  users: User[],
 };
 
 export type InitUsersActionCreator = (users: User[]) => InitUsersAction;

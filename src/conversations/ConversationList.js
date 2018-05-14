@@ -46,8 +46,8 @@ export default class ConversationList extends PureComponent<Props> {
             return (
               <UserItem
                 email={user.email}
-                fullName={user.fullName}
-                avatarUrl={user.avatarUrl}
+                fullName={user.full_name}
+                avatarUrl={user.avatar_url}
                 presence={presences[user.email]}
                 unreadCount={item.unread}
                 onPress={this.handleUserNarrow}

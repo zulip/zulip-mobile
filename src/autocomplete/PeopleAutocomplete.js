@@ -34,11 +34,11 @@ class PeopleAutocomplete extends PureComponent<Props> {
           keyExtractor={item => item.email}
           renderItem={({ item }) => (
             <UserItem
-              fullName={item.fullName}
-              avatarUrl={item.avatarUrl}
+              fullName={item.full_name}
+              avatarUrl={item.avatar_url}
               email={item.email}
               showEmail
-              onPress={() => onAutocomplete(item.fullName)}
+              onPress={() => onAutocomplete(item.full_name)}
             />
           )}
         />

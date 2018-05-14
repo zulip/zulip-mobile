@@ -59,12 +59,12 @@ export default class UserList extends PureComponent<Props> {
         renderItem={({ item }) => (
           <UserItem
             key={item.email}
-            fullName={item.fullName}
-            avatarUrl={item.avatarUrl}
+            fullName={item.full_name}
+            avatarUrl={item.avatar_url}
             email={item.email}
             presence={presences[item.email]}
             onPress={onPress}
-            isSelected={!!selected.find(user => user.id === item.id)}
+            isSelected={!!selected.find(user => user.user_id === item.id)}
           />
         )}
         renderSectionHeader={({ section }) =>

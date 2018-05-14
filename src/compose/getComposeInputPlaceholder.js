@@ -19,7 +19,7 @@ export default (narrow: Narrow, ownEmail: string, users: User[]): LocalizableTex
     const user = users.find(u => u.email === narrow[0].operand) || {};
     return {
       text: 'Message {recipient}',
-      values: { recipient: `@${user.fullName}` },
+      values: { recipient: `@${user.full_name}` },
     };
   }
 
