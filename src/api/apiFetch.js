@@ -164,3 +164,18 @@ export const apiPatch = async (
     },
     resFunc,
   );
+
+export const apiHead = async (
+  auth: Auth,
+  route: string,
+  resFunc: ResponseExtractionFunc = defaultResFunc,
+  params: Object = {},
+) =>
+  apiCall(
+    auth,
+    `${route}?${encodeAsURI(params)}`,
+    {
+      method: 'head',
+    },
+    resFunc,
+  );
