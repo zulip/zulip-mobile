@@ -6,7 +6,7 @@ import type { ChildrenArray } from 'react';
 import type { Actions, LocalizableText, Style } from '../types';
 import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { NAVBAR_SIZE } from '../styles';
-import { Label, ViewPlaceholder } from '../common';
+import { Label } from '../common';
 import { getCanGoBack } from '../selectors';
 import NavButton from './NavButton';
 
@@ -59,7 +59,6 @@ class ModalNavBar extends PureComponent<Props> {
         {canGoBack && (
           <NavButton name="arrow-left" color={itemsColor} onPress={actions.navigateBack} />
         )}
-        <ViewPlaceholder width={8} />
         <View style={[styles.flexedLeftAlign, childrenStyle]}>{content}</View>
         {rightItem && <NavButton color={itemsColor} {...rightItem} />}
       </View>

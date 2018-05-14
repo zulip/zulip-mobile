@@ -1,24 +1,10 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
 
 import type { Style } from '../types';
-import { BRAND_COLOR, NAVBAR_SIZE } from '../styles';
+import { BRAND_COLOR } from '../styles';
 import { ComponentWithOverlay, UnreadCount } from '../common';
 import Icon from '../common/Icons';
-
-const styles = StyleSheet.create({
-  frame: {
-    width: NAVBAR_SIZE,
-    height: NAVBAR_SIZE,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  icon: {
-    textAlign: 'center',
-    fontSize: 26,
-  },
-});
 
 type Props = {
   color: string,
@@ -31,24 +17,29 @@ type Props = {
 export default class NavButton extends PureComponent<Props> {
   props: Props;
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   static defaultProps = {
     color: BRAND_COLOR,
     unreadCount: 0,
   };
 
   render() {
+    const { styles } = this.context;
     const { name, style, color, unreadCount, onPress } = this.props;
 
     return (
       <ComponentWithOverlay
-        style={styles.frame}
+        style={styles.navButtonFrame}
         showOverlay={unreadCount > 0}
         overlaySize={20}
         color="transparent"
         overlay={<UnreadCount count={unreadCount} />}
         onPress={onPress}
       >
-        <Icon style={[styles.icon, style]} color={color} name={name} />
+        <Icon style={[styles.navButtonIcon, style]} color={color} name={name} />
       </ComponentWithOverlay>
     );
   }

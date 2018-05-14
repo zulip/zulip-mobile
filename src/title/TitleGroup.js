@@ -1,15 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { PresenceState, User } from '../types';
 import { Avatar } from '../common';
-
-const componentStyles = StyleSheet.create({
-  avatar: {
-    paddingRight: 8,
-  },
-});
 
 type Props = {
   recipients: User[],
@@ -30,7 +24,7 @@ export default class TitleGroup extends PureComponent<Props> {
     return (
       <View style={styles.navWrapper}>
         {recipients.map((user, index) => (
-          <View key={user.email} style={componentStyles.avatar}>
+          <View key={user.email} style={styles.titleAvatar}>
             <Avatar
               size={32}
               name={user.fullName}
