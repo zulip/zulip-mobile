@@ -44,6 +44,35 @@ with either `react-native run-android` or `react-native run-ios`.
 You'll want to be able to use both an emulator and a physical device; but
 for starting out, just get either one working so you can play with the app.
 
+## Editors / IDEs
+
+### Visual Studio Code
+
+Visual Studio Code is an open-source IDE which supports our codebase well, with good
+support for features like navigating to a definition or showing type
+information.
+
+To use it:
+
+* [Install VS Code](https://code.visualstudio.com/).
+* Install these three extensions, which support important aspects of our
+  codebase.  Each extension page has install instructions at the top.
+  * [React Native
+    Tools](https://marketplace.visualstudio.com/items?itemName=vsmobile.vscode-react-native)
+  * [Flow Language
+    Support](https://marketplace.visualstudio.com/items?itemName=flowtype.flow-for-vscode)
+  * [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+* Take a look through some of VS Code's docs.  In particular:
+  * Be sure to look at the [Code
+    Navigation](https://code.visualstudio.com/docs/editor/editingevolved)
+    doc, and try out Go to Definition (F12), Quick Open (Ctrl+P), and Open
+    Symbol by Name (Ctrl+T).  These can make it much faster to move around
+    our codebase to read and understand it.
+  * Get the [keyboard shortcuts PDF
+    reference](https://code.visualstudio.com/docs/getstarted/keybindings#_keyboard-shortcuts-reference)
+    for your platform, and print it out.  It's a one-page PDF which is
+    extremely helpful to refer to.
+
 ## Android tips
 
 * To set up the Android emulator, follow the heading "Using a virtual device"
