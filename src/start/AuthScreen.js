@@ -37,7 +37,7 @@ const authentications = [
     method: 'ldap',
     name: 'password',
     Icon: IconPrivate,
-    handler: 'handleLdap',
+    handler: 'handlePassword',
   },
   {
     method: 'google',
@@ -118,11 +118,8 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   handlePassword = () => {
-    this.props.actions.navigateToPassword();
-  };
-
-  handleLdap = () => {
-    this.props.actions.navigateToPassword(true);
+    const { serverSettings } = this.props.navigation.state.params;
+    this.props.actions.navigateToPassword(serverSettings.require_email_format_usernames);
   };
 
   handleGoogle = () => {

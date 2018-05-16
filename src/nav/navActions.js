@@ -28,8 +28,8 @@ export const navigateToAuth = (serverSettings: ApiServerSettings): NavigateActio
 
 export const navigateToDev = (): NavigateAction => NavigationActions.navigate({ routeName: 'dev' });
 
-export const navigateToPassword = (ldap: boolean = false): NavigateAction =>
-  NavigationActions.navigate({ routeName: 'password', params: { ldap } });
+export const navigateToPassword = (requireEmailFormat: boolean): NavigateAction =>
+  NavigationActions.navigate({ routeName: 'password', params: { requireEmailFormat } });
 
 export const navigateToAccountPicker = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'account' });
