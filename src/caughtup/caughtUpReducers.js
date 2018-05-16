@@ -27,11 +27,18 @@ const messageFetchComplete = (
     };
   }
 
-  // Find the anchor in the results (or set it past the end of the list)
-  let anchorIdx = action.messages.findIndex(msg => msg.id === action.anchor);
+  let anchorIdx = -1;
+
+  if (action.anchor === 0) {
+    anchorIdx = action.messages.findIndex(msg => msg.flags.indexOf('read') === -1);
+  } else {
+    anchorIdx = action.messages.findIndex(msg => msg.id === action.anchor);
+  }
+
   if (anchorIdx === -1) {
     anchorIdx = action.messages.length;
   }
+
   const totalMessagesRequested = action.numBefore + action.numAfter;
   // If we're requesting messages before the anchor, the server
   // returns one less than we expect (to avoid duplicating the anchor)
@@ -41,7 +48,7 @@ const messageFetchComplete = (
       ? -(action.messages.length - totalMessagesRequested)
       : 0;
 
-  const caughtUpOlder = anchorIdx + 1 < action.numBefore;
+  const caughtUpOlder = anchorIdx < action.numBefore;
   const caughtUpNewer = action.messages.length - anchorIdx + adjustment < action.numAfter;
 
   const prevState = state[key] || NULL_CAUGHTUP;
