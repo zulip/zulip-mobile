@@ -1,14 +1,15 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Text, View, Dimensions } from 'react-native';
+import { View, Dimensions } from 'react-native';
 
 import type { Auth, Actions, Presence, User } from '../types';
-import { Avatar, Centerer, ZulipButton } from '../common';
+import { Avatar, RawLabel, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
 import UserStatusIndicator from '../common/UserStatusIndicator';
 import ActivityText from '../title/ActivityText';
 import { getMediumAvatar } from '../utils/avatar';
+import { nowInTimeZone } from '../utils/date';
 
 type Props = {
   auth: Auth,
@@ -46,11 +47,19 @@ export default class AccountDetails extends PureComponent<Props, void> {
         />
         <View style={[styles.row, styles.margin, styles.center]}>
           <UserStatusIndicator presence={presence} />
-          <Text style={[styles.largerText, styles.halfMarginLeft]}>{user.email}</Text>
+          <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
         </View>
         <View style={[styles.row, styles.margin, styles.center]}>
           <ActivityText style={styles.largerText} email={user.email} />
         </View>
+        {user.timezone && (
+          <View style={[styles.row, styles.margin, styles.center]}>
+            <RawLabel
+              style={styles.largerText}
+              text={`${nowInTimeZone(user.timezone)} Local time`}
+            />
+          </View>
+        )}
         <ZulipButton
           style={styles.marginLeftRight}
           text="Send private message"
