@@ -3,10 +3,11 @@ import React, { PureComponent } from 'react';
 import { Text, View, Dimensions } from 'react-native';
 
 import type { Auth, Actions, Presence, User } from '../types';
-import { Avatar, ZulipButton } from '../common';
+import { Avatar, Centerer, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
 import UserStatusIndicator from '../common/UserStatusIndicator';
+import ActivityText from '../title/ActivityText';
 import { getMediumAvatar } from '../utils/avatar';
 
 type Props = {
@@ -46,6 +47,9 @@ export default class AccountDetails extends PureComponent<Props, void> {
         <View style={[styles.row, styles.margin, styles.center]}>
           <UserStatusIndicator presence={presence} />
           <Text style={[styles.largerText, styles.halfMarginLeft]}>{user.email}</Text>
+        </View>
+        <View style={[styles.row, styles.margin, styles.center]}>
+          <ActivityText style={styles.largerText} email={user.email} />
         </View>
         <ZulipButton
           style={styles.marginLeftRight}
