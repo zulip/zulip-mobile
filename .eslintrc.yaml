@@ -119,7 +119,7 @@ rules:
       ionicons, truthy, bezier, decrement, js, oauth, jsonp, otp, Otp, ascii, Ascii,
       substr, Util, actionsheet, unmute, mfrac, otp, Otp, ascii, Ascii, substr, Util,
       actionsheet, jsonp, actionsheet, ionicons, denmark, copenhagen, unregister,
-      gcm, unstarMessage, Unstar, wildcard_mentioned, lightbox, resize, remobile,
+      gcm, unstarMessage, Unstar, wildcard_mentioned, lightbox, resize, remobile, tz,
       multiline, uniqby, zoe, localizable, appid, apns, Entypo, msup, mrow, webview,
       js, timerow, reselect, addons, cancelable, gravatar_hash, pms, msgs, collapsable,
       const, wildcard, reactotron, camelcase, hydrator, perf, stacktrace, Dir, fs,

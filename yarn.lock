@@ -7023,6 +7023,10 @@ timed-out@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-4.0.1.tgz#f32eacac5a175bea25d7fab565ab3ed8741ef56f"
 
+timezone@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/timezone/-/timezone-1.0.13.tgz#38d3c2e4ff7947b1f4bd6ac6e000c2461483f8b3"
+
 tlds@^1.187.0:
   version "1.203.1"
   resolved "https://registry.yarnpkg.com/tlds/-/tlds-1.203.1.tgz#4dc9b02f53de3315bc98b80665e13de3edfc1dfc"
