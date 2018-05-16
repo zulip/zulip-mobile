@@ -5,6 +5,7 @@ import type {
   GetState,
   GlobalState,
   Message,
+  Outbox,
   Narrow,
   ApiServerSettings,
   User,
@@ -403,7 +404,7 @@ export type MessageAction =
 
 export type MessageSendStartAction = {
   type: 'MESSAGE_SEND_START',
-  params: Object,
+  outbox: Outbox,
 };
 
 export type MessageSendStartActionCreator = (params: Object) => MessageSendStartAction;

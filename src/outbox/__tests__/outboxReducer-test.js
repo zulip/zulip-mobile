@@ -11,7 +11,7 @@ describe('outboxReducers', () => {
 
       const action = deepFreeze({
         type: MESSAGE_SEND_START,
-        params: {
+        outbox: {
           content: 'New one',
           email: 'john@example.com',
           narrow: streamNarrow('denmark'),
@@ -42,7 +42,7 @@ describe('outboxReducers', () => {
 
       const action = deepFreeze({
         type: MESSAGE_SEND_START,
-        params: {
+        outbox: {
           email: 'john@example.com',
           narrow: streamNarrow('denmark'),
           parsedContent: '<p>New one</p>',

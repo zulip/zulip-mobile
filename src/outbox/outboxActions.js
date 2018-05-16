@@ -25,9 +25,9 @@ import { getSelfUserDetail } from '../users/userSelectors';
 import { getUserByEmail, getUsersAndWildcards } from '../users/userHelpers';
 import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 
-export const messageSendStart = (params: Object): MessageSendStartAction => ({
+export const messageSendStart = (outbox: Object): MessageSendStartAction => ({
   type: MESSAGE_SEND_START,
-  params,
+  outbox,
 });
 
 export const toggleOutboxSending = (sending: boolean): ToggleOutboxSendingAction => ({

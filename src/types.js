@@ -330,18 +330,10 @@ export type TypingState = {
   },
 };
 
-export type Outbox = any; /* {
-  content: string,
+export type Outbox = Message & {
   markdownContent: string,
-  timestamp: number,
-  id: number,
-  sender_full_name: string,
-  email: string,
-  avatar_url: string,
-  type: 'stream' | 'private',
-  outbox: true,
   narrow: Narrow,
-} */
+};
 
 export type StreamUnreadItem = {
   stream_id: number,
