@@ -1,7 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { Narrow, UnreadStreamData } from '../types';
+import type { Narrow } from '../types';
 import { caseInsensitiveCompareObjFunc } from '../utils/misc';
 import {
   getMute,
