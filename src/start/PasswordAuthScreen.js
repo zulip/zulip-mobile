@@ -29,24 +29,21 @@ type State = {
 };
 
 class PasswordAuthView extends PureComponent<Props, State> {
-  static contextTypes = {
-    styles: () => null,
-  };
-
   props: Props;
-
-  state: State;
-
-  state = {
+  state: State = {
     progress: false,
     email: this.props.auth.email || '',
     password: '',
     error: '',
   };
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   tryPasswordLogin = async () => {
     const { actions, auth, navigation } = this.props;
-    const { ldap } = navigation.state.params;
+    const { requireEmailFormat } = navigation.state.params;
     const { email, password } = this.state;
 
     this.setState({ progress: true, error: undefined });
@@ -58,21 +55,21 @@ class PasswordAuthView extends PureComponent<Props, State> {
     } catch (err) {
       this.setState({
         progress: false,
-        error: ldap
-          ? 'Wrong username or password. Try again.'
-          : 'Wrong email or password. Try again.',
+        error: requireEmailFormat
+          ? 'Wrong email or password. Try again.'
+          : 'Wrong username or password. Try again.',
       });
     }
   };
 
   validateForm = () => {
-    const { ldap } = this.props.navigation.state.params;
+    const { requireEmailFormat } = this.props.navigation.state.params;
     const { email, password } = this.state;
 
-    if (ldap && email.length === 0) {
-      this.setState({ error: 'Enter a username' });
-    } else if (!ldap && !isValidEmailFormat(email)) {
+    if (requireEmailFormat && !isValidEmailFormat(email)) {
       this.setState({ error: 'Enter a valid email address' });
+    } else if (!requireEmailFormat && email.length === 0) {
+      this.setState({ error: 'Enter a username' });
     } else if (!password) {
       this.setState({ error: 'Enter a password' });
     } else {
@@ -82,10 +79,12 @@ class PasswordAuthView extends PureComponent<Props, State> {
 
   render() {
     const { styles } = this.context;
-    const { ldap } = this.props.navigation.state.params;
+    const { requireEmailFormat } = this.props.navigation.state.params;
     const { email, password, progress, error } = this.state;
     const isButtonDisabled =
-      password.length === 0 || email.length === 0 || (!ldap && !isValidEmailFormat(email));
+      password.length === 0 ||
+      email.length === 0 ||
+      (requireEmailFormat && !isValidEmailFormat(email));
 
     return (
       <Screen title="Log in" centerContent padding keyboardShouldPersistTaps="always">
@@ -94,8 +93,8 @@ class PasswordAuthView extends PureComponent<Props, State> {
           autoCapitalize="none"
           autoCorrect={false}
           blurOnSubmit={false}
-          keyboardType={ldap ? 'default' : 'email-address'}
-          placeholder={ldap ? 'Username' : 'Email'}
+          keyboardType={requireEmailFormat ? 'email-address' : 'default'}
+          placeholder={requireEmailFormat ? 'Email' : 'Username'}
           defaultValue={email}
           onChangeText={newEmail => this.setState({ email: newEmail })}
         />
