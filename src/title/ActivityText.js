@@ -1,15 +1,15 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Text } from 'react-native';
 
 import type { PresenceState, Style } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getPresence } from '../selectors';
 import { presenceToHumanTime } from '../utils/presence';
+import { RawLabel } from '../common';
 
 type Props = {
   email: string,
-  color: string,
+  color?: string,
   presences: PresenceState,
   style: Style,
 };
@@ -30,10 +30,12 @@ class ActivityText extends PureComponent<Props> {
 
     const activity = presenceToHumanTime(presences[email]);
 
-    return <Text style={[style, { color }]}>Active {activity}</Text>;
+    return (
+      <RawLabel style={[style, color !== undefined && { color }]} text={`Active ${activity}`} />
+    );
   }
 }
 
-export default connectWithActions((state, props) => ({
+export default connectWithActions((state, props: Props) => ({
   presences: getPresence(state),
 }))(ActivityText);
