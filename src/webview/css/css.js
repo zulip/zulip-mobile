@@ -105,12 +105,13 @@ hr {
   padding: 1em;
 }
 .message-brief {
-  padding: 0 0 0.5em 3em;
+  padding: 0 1em 1em 4em;
 }
 .avatar {
-  min-width: 32px;
-  width: 32px;
-  height: 32px;
+  min-width: 2em;
+  width: 2em;
+  height: 2em;
+  margin-right: 1em;
 }
 .avatar img {
   width: 100%;
@@ -120,7 +121,6 @@ hr {
   width: 100%;
   max-width: 100%;
   overflow: hidden;
-  padding: 0 1em 0 1em;
 }
 .username {
   font-weight: bold;
@@ -349,10 +349,10 @@ ul {
 }
 #typing {
   display: flex;
-  padding: 0.5em;
+  padding: 1em;
 }
 #typing .content {
-  padding-left: 0.5em;
+  padding-left: 1em;
   padding-top: 1em;
 }
 #typing span {
