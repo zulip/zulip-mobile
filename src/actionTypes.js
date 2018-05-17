@@ -331,6 +331,7 @@ export type ResponseToActionsActionCreator = (
 ) => EventAction[];
 
 export type FlagsAction =
+  | RehydrateAction
   | MessageFetchCompleteAction
   | EventNewMessageAction
   | EventUpdateMessageFlagsAction

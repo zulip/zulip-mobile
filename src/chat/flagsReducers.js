@@ -1,7 +1,10 @@
 /* @flow */
+import { REHYDRATE } from 'redux-persist/constants';
+
 import type {
   FlagsAction,
   FlagsState,
+  RehydrateAction,
   MessageFetchCompleteAction,
   EventNewMessageAction,
   EventUpdateMessageFlagsAction,
@@ -68,6 +71,8 @@ const removeFlagForMessages = (state: FlagsState, messages: number[], flag: stri
   };
 };
 
+const rehydrate = (state: FlagsState, action: RehydrateAction): FlagsState => state;
+
 const messageFetchComplete = (
   state: FlagsState,
   action: MessageFetchCompleteAction,
@@ -117,6 +122,9 @@ const markMessagesRead = (state: FlagsState, action: MarkMessagesReadAction): Fl
 
 export default (state: FlagsState = initialState, action: FlagsAction): FlagsState => {
   switch (action.type) {
+    case REHYDRATE:
+      return rehydrate(state, action);
+
     case APP_REFRESH:
     case ACCOUNT_SWITCH:
       return initialState;
