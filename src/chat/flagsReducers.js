@@ -4,6 +4,7 @@ import { REHYDRATE } from 'redux-persist/constants';
 import type {
   FlagsAction,
   FlagsState,
+  Message,
   RehydrateAction,
   MessageFetchCompleteAction,
   EventNewMessageAction,
@@ -71,15 +72,10 @@ const removeFlagForMessages = (state: FlagsState, messages: number[], flag: stri
   };
 };
 
-const rehydrate = (state: FlagsState, action: RehydrateAction): FlagsState => state;
-
-const messageFetchComplete = (
-  state: FlagsState,
-  action: MessageFetchCompleteAction,
-): FlagsState => {
+const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsState => {
   let stateChanged = false;
   const newState = {};
-  action.messages.forEach(msg => {
+  messages.forEach(msg => {
     (msg.flags || []).forEach(flag => {
       if (!state[flag] || !state[flag][msg.id]) {
         if (!newState[flag]) {
@@ -93,6 +89,11 @@ const messageFetchComplete = (
 
   return stateChanged ? deeperMerge(state, newState) : state;
 };
+
+const rehydrate = (state: FlagsState, action: RehydrateAction): FlagsState => state;
+
+const messageFetchComplete = (state: FlagsState, action: MessageFetchCompleteAction): FlagsState =>
+  processFlagsForMessages(state, action.messages);
 
 const eventNewMessage = (state: FlagsState, action: EventNewMessageAction): FlagsState =>
   addFlagsForMessages(state, [action.message.id], action.message.flags);
