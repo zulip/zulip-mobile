@@ -380,6 +380,8 @@ export type DraftsState = {
 
 export type UsersState = User[];
 
+export type UserGroupsState = UserGroup[];
+
 export type PresenceState = {
   [email: string]: Presence,
 };
@@ -412,6 +414,7 @@ export type GlobalState = {
     pms: UnreadPmsState,
     mentions: UnreadMentionsState,
   },
+  userGroups: UserGroupsState,
   users: UsersState,
 };
 

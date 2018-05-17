@@ -602,6 +602,8 @@ export type UnreadAction =
 
 export type UsersAction = InitUsersAction | RealmInitAction | EventUserAddAction;
 
+export type UserGroupsAction = any;
+
 export type Action =
   | AccountAction
   | CaughtUpAction
