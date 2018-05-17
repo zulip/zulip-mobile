@@ -114,6 +114,13 @@ export type UserIdMap = {
   [userId: string]: User,
 };
 
+export type UserGroup = {
+  description: string,
+  id: number,
+  members: number[],
+  name: string,
+};
+
 export type PresenceAggregated = {
   client: string,
   status: UserStatus,
@@ -633,6 +640,10 @@ export type InitialDataRealmUser = {
   user_id: number,
 };
 
+export type InitialDataRealmUserGroups = {
+  realm_user_groups: UserGroup,
+};
+
 export type InitialDataSubscription = {
   never_subscribed: NeverSubscribedStream[],
   subscriptions: Subscription[],
@@ -687,6 +698,7 @@ export type InitialData = InitialDataBase &
   InitialDataRealmEmoji &
   InitialDataRealmFilters &
   InitialDataRealmUser &
+  InitialDataRealmUserGroups &
   InitialDataSubscription &
   InitialDataUpdateDisplaySettings &
   InitialDataUpdateGlobalNotifications &

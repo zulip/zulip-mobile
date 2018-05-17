@@ -81,6 +81,7 @@ const config: Config = {
     'realm_emoji',
     'realm_filters',
     'realm_user',
+    'realm_user_groups',
     'subscription',
     'update_display_settings',
     'update_global_notifications',
