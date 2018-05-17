@@ -90,7 +90,11 @@ const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsS
   return stateChanged ? deeperMerge(state, newState) : state;
 };
 
-const rehydrate = (state: FlagsState, action: RehydrateAction): FlagsState => state;
+const rehydrate = (state: FlagsState, action: RehydrateAction): FlagsState => {
+  // $FlowFixMe
+  const allMessages: Message[] = Array.prototype.concat(...Object.values(action.payload.messages));
+  return processFlagsForMessages(state, allMessages);
+};
 
 const messageFetchComplete = (state: FlagsState, action: MessageFetchCompleteAction): FlagsState =>
   processFlagsForMessages(state, action.messages);
