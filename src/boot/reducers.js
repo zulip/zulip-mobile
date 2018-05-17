@@ -28,6 +28,7 @@ import unreadHuddles from '../unread/unreadHuddlesReducers';
 import unreadMentions from '../unread/unreadMentionsReducers';
 import unreadPms from '../unread/unreadPmsReducers';
 import unreadStreams from '../unread/unreadStreamsReducers';
+import userGroups from '../user-groups/userGroupsReducers';
 import users from '../users/usersReducers';
 
 const reducers = {
@@ -56,6 +57,7 @@ const reducers = {
     huddles: unreadHuddles,
     mentions: unreadMentions,
   }),
+  userGroups,
   users,
 };
 
