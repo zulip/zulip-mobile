@@ -18,6 +18,7 @@ const componentStyles = StyleSheet.create({
   emptySlate: {
     flex: 1,
     textAlign: 'center',
+    textAlignVertical: 'center',
     fontSize: 20,
   },
   row: {
