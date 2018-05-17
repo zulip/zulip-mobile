@@ -25,6 +25,7 @@ import type {
   Stream,
   Outbox,
   User,
+  UserGroup,
 } from './types';
 
 export const getAccounts = (state: GlobalState): Account[] => state.accounts;
@@ -47,6 +48,8 @@ export const getMute = (state: GlobalState): MuteState => state.mute;
 export const getTyping = (state: GlobalState): TypingState => state.typing;
 
 export const getTopics = (state: GlobalState): TopicsState => state.topics;
+
+export const getUserGroups = (state: GlobalState): UserGroup[] => state.userGroups;
 
 export const getUsers = (state: GlobalState): User[] => state.users;
 

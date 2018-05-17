@@ -644,7 +644,7 @@ export type InitialDataRealmUser = {
 };
 
 export type InitialDataRealmUserGroups = {
-  realm_user_groups: UserGroup,
+  realm_user_groups: UserGroup[],
 };
 
 export type InitialDataSubscription = {
