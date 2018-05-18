@@ -30,6 +30,7 @@
 .*/node_modules/react-native-notifications/.*
 .*/node_modules/react-native-tab-view/.*
 .*/node_modules/react-navigation-redux-helpers/.*
+.*/node_modules/react-native-safe-area/.*
 
 
 [include]
