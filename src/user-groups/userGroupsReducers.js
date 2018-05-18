@@ -11,6 +11,7 @@ import {
   ACCOUNT_SWITCH,
   REALM_INIT,
   EVENT_USER_GROUP_ADD,
+  EVENT_USER_GROUP_REMOVE,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 
@@ -23,6 +24,11 @@ const eventUserGroupAdd = (
   state: UserGroupsState,
   action: EventUserGroupAddAction,
 ): UserGroupsState => [...state, action.group];
+
+const eventUserGroupRemove = (
+  state: UserGroupsState,
+  action: EventUserGroupRemoveAction,
+): UserGroupsState => state.filter(x => action.group_id !== x.id);
 
 export default (
   state: UserGroupsState = initialState,
@@ -39,6 +45,9 @@ export default (
 
     case EVENT_USER_GROUP_ADD:
       return eventUserGroupAdd(state, action);
+
+    case EVENT_USER_GROUP_REMOVE:
+      return eventUserGroupRemove(state, action);
 
     default:
       return state;
