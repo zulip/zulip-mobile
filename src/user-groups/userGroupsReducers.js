@@ -7,6 +7,7 @@ import type {
   EventUserGroupRemoveAction,
   EventUserGroupUpdateAction,
   EventUserGroupAddMembersAction,
+  EventUserGroupRemoveMembersAction,
 } from '../types';
 import {
   LOGOUT,
@@ -17,6 +18,7 @@ import {
   EVENT_USER_GROUP_REMOVE,
   EVENT_USER_GROUP_UPDATE,
   EVENT_USER_GROUP_ADD_MEMBERS,
+  EVENT_USER_GROUP_REMOVE_MEMBERS,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 
@@ -63,6 +65,20 @@ const eventUserGroupAddMembers = (
           },
   );
 
+const eventUserGroupRemoveMembers = (
+  state: UserGroupsState,
+  action: EventUserGroupRemoveMembersAction,
+): UserGroupsState =>
+  state.map(
+    userGroup =>
+      action.group_id !== userGroup.id
+        ? userGroup
+        : {
+            ...userGroup,
+            members: userGroup.members.filter(x => !action.user_ids.includes(x)),
+          },
+  );
+
 export default (
   state: UserGroupsState = initialState,
   action: UserGroupsAction,
@@ -87,6 +103,9 @@ export default (
 
     case EVENT_USER_GROUP_ADD_MEMBERS:
       return eventUserGroupAddMembers(state, action);
+
+    case EVENT_USER_GROUP_REMOVE_MEMBERS:
+      return eventUserGroupRemoveMembers(state, action);
 
     default:
       return state;
