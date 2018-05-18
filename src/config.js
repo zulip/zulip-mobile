@@ -70,7 +70,7 @@ const config: Config = {
     'update_message_flags',
     'update_display_settings',
     'update_global_notifications',
-    // 'user_group', // ???
+    'user_group',
   ],
   serverDataOnStartup: [
     'alert_words',
