@@ -9,6 +9,7 @@ import type {
   Narrow,
   ApiServerSettings,
   User,
+  UserGroup,
   InitialData,
   RealmFilter,
   Stream,
@@ -272,11 +273,39 @@ export type EventUserAddAction = any;
 export type EventUserRemoveAction = any;
 export type EventUserUpdateAction = any;
 export type EventMutedTopicsAction = any;
-export type EventUserGroupAddAction = any;
-export type EventUserGroupRemoveAction = any;
-export type EventUserGroupUpdateAction = any;
-export type EventUserGroupAddMembersAction = any;
-export type EventUserGroupRemoveMembersAction = any;
+export type EventUserGroupAddAction = {
+  type: 'EVENT_USER_GROUP_ADD',
+  op: 'add',
+  id: number,
+  group: UserGroup,
+};
+export type EventUserGroupRemoveAction = {
+  type: 'EVENT_USER_GROUP_REMOVE',
+  op: 'remove',
+  id: number,
+  group_id: number,
+};
+export type EventUserGroupUpdateAction = {
+  type: 'EVENT_USER_GROUP_UPDATE',
+  op: 'update',
+  group_id: number,
+  id: number,
+  data: { description?: string, name?: string },
+};
+export type EventUserGroupAddMembersAction = {
+  type: 'EVENT_USER_GROUP_ADD_MEMBERS',
+  op: 'add_members',
+  group_id: number,
+  id: number,
+  user_ids: number[],
+};
+export type EventUserGroupRemoveMembersAction = {
+  type: 'EVENT_USER_GROUP_REMOVE_MEMBERS',
+  op: 'remove_members',
+  group_id: number,
+  id: number,
+  user_ids: number[],
+};
 export type EventRealmEmojiUpdateAction = any;
 export type EventRealmFilterUpdateAction = any;
 export type EventUpdateDisplaySettingsAction = any;
