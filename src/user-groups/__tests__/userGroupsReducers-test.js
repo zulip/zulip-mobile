@@ -107,4 +107,54 @@ describe('userGroupsReducers', () => {
       expect(actualState).toEqual(expectedState);
     });
   });
+
+  describe('EVENT_USER_GROUP_UPDATE', () => {
+    test('if user group does not exist state does not change', () => {
+      const initialState = deepFreeze([]);
+      const action = deepFreeze({
+        type: 'EVENT_USER_GROUP_UPDATE',
+        op: 'update',
+        group_id: 1,
+        data: { name: 'Some name' },
+      });
+      const expectedState = [];
+
+      const actualState = userGroupsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('updates an existing user group with supplied new values', () => {
+      const initialState = deepFreeze([
+        {
+          id: 1,
+          name: 'Some group',
+        },
+        {
+          id: 2,
+          name: 'Another group',
+        },
+      ]);
+      const action = deepFreeze({
+        type: 'EVENT_USER_GROUP_UPDATE',
+        op: 'update',
+        group_id: 2,
+        data: { name: 'New name' },
+      });
+      const expectedState = [
+        {
+          id: 1,
+          name: 'Some group',
+        },
+        {
+          id: 2,
+          name: 'New name',
+        },
+      ];
+
+      const actualState = userGroupsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+  });
 });

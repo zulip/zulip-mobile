@@ -4,6 +4,8 @@ import type {
   UserGroupsAction,
   RealmInitAction,
   EventUserGroupAddAction,
+  EventUserGroupRemoveAction,
+  EventUserGroupUpdateAction,
 } from '../types';
 import {
   LOGOUT,
@@ -12,6 +14,7 @@ import {
   REALM_INIT,
   EVENT_USER_GROUP_ADD,
   EVENT_USER_GROUP_REMOVE,
+  EVENT_USER_GROUP_UPDATE,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 
@@ -29,6 +32,20 @@ const eventUserGroupRemove = (
   state: UserGroupsState,
   action: EventUserGroupRemoveAction,
 ): UserGroupsState => state.filter(x => action.group_id !== x.id);
+
+const eventUserGroupUpdate = (
+  state: UserGroupsState,
+  action: EventUserGroupUpdateAction,
+): UserGroupsState =>
+  state.map(
+    userGroup =>
+      action.group_id !== userGroup.id
+        ? userGroup
+        : {
+            ...userGroup,
+            ...action.data,
+          },
+  );
 
 export default (
   state: UserGroupsState = initialState,
@@ -48,6 +65,9 @@ export default (
 
     case EVENT_USER_GROUP_REMOVE:
       return eventUserGroupRemove(state, action);
+
+    case EVENT_USER_GROUP_UPDATE:
+      return eventUserGroupUpdate(state, action);
 
     default:
       return state;
