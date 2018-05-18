@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { ACCOUNT_SWITCH } from '../../actionConstants';
+import { ACCOUNT_SWITCH, EVENT_USER_GROUP_ADD } from '../../actionConstants';
 import userGroupsReducers from '../userGroupsReducers';
 
 describe('userGroupsReducers', () => {
@@ -29,6 +29,29 @@ describe('userGroupsReducers', () => {
       });
 
       const expectedState = [];
+
+      const actualState = userGroupsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+  });
+
+  describe('EVENT_USER_GROUP_ADD', () => {
+    test('adds a user group to the state', () => {
+      const initialState = deepFreeze([]);
+      const group = {
+        id: 1,
+        name: 'Some Group',
+        description: 'This is some group',
+        members: [123],
+      };
+      const action = deepFreeze({
+        type: EVENT_USER_GROUP_ADD,
+        op: 'add',
+        group,
+      });
+
+      const expectedState = [group];
 
       const actualState = userGroupsReducers(initialState, action);
 
