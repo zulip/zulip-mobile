@@ -272,6 +272,11 @@ export type EventUserAddAction = any;
 export type EventUserRemoveAction = any;
 export type EventUserUpdateAction = any;
 export type EventMutedTopicsAction = any;
+export type EventUserGroupAddAction = any;
+export type EventUserGroupRemoveAction = any;
+export type EventUserGroupUpdateAction = any;
+export type EventUserGroupAddMembersAction = any;
+export type EventUserGroupRemoveMembersAction = any;
 export type EventRealmEmojiUpdateAction = any;
 export type EventRealmFilterUpdateAction = any;
 export type EventUpdateDisplaySettingsAction = any;
@@ -290,6 +295,13 @@ export type EventStreamAction =
   | EventStreamOccupyAction;
 
 export type EventUserAction = EventUserAddAction | EventUserRemoveAction | EventUserUpdateAction;
+
+export type EventUserGroupAction =
+  | EventUserGroupAddAction
+  | EventUserGroupRemoveAction
+  | EventUserGroupUpdateAction
+  | EventUserGroupAddMembersAction
+  | EventUserGroupRemoveMembersAction;
 
 export type EventReactionAction = EventReactionAddAction | EventReactionRemoveAction;
 
