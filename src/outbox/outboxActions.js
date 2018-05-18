@@ -123,7 +123,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
       timestamp: localTime,
       id: localTime,
       sender_full_name: userDetail.full_name,
-      email: userDetail.email,
+      sender_email: userDetail.email,
       avatar_url: userDetail.avatar_url,
       isOutbox: true,
     }),
