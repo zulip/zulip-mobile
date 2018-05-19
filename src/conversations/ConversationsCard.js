@@ -67,7 +67,7 @@ export default class ConversationsCard extends PureComponent<Props> {
             onPress={actions.navigateToUsersScreen}
           />
         </View>
-        {conversations.length === 0 ? (
+        {conversations.length <= 1 ? (
           <Label style={componentStyles.emptySlate} text="No recent conversations" />
         ) : (
           <ConversationList
