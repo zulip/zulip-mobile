@@ -20,11 +20,6 @@ export const getCurrentRouteParams = createSelector(
   (routes, index) => routes && routes[index] && routes[index].params,
 );
 
-export const getTopicListScreenParams = createSelector(
-  getCurrentRouteParams,
-  params => params || { streamId: -1 },
-);
-
 export const getAccountDetailsScreenParams = createSelector(
   getCurrentRouteParams,
   params => params || { email: '' },
