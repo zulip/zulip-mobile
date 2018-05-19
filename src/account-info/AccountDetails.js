@@ -52,14 +52,14 @@ export default class AccountDetails extends PureComponent<Props, void> {
         <View style={[styles.row, styles.margin, styles.center]}>
           <ActivityText style={styles.largerText} email={user.email} />
         </View>
-        {user.timezone && (
+        {user.timezone ? (
           <View style={[styles.row, styles.margin, styles.center]}>
             <RawLabel
               style={styles.largerText}
               text={`${nowInTimeZone(user.timezone)} Local time`}
             />
           </View>
-        )}
+        ) : null}
         <ZulipButton
           style={styles.marginLeftRight}
           text="Send private message"
