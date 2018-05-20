@@ -142,6 +142,8 @@ const sendScrollMessage = () => {
   prevNodes = currentNodes;
 };
 
+// If the message list is too short to scroll, fake a scroll event
+// in order to cause the messages to be marked as read.
 const sendScrollMessageIfListShort = () => {
   if (documentBody.scrollHeight < documentBody.clientHeight) {
     sendScrollMessage();
