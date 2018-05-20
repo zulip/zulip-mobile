@@ -160,20 +160,6 @@ const handleScrollEvent = () => {
 
 window.addEventListener('scroll', handleScrollEvent);
 
-const replaceContent = msg => {
-  documentBody.innerHTML = msg.content;
-};
-
-const updateContentAndScrollToAnchor = msg => {
-  documentBody.innerHTML = msg.content;
-  scrollToAnchor(msg.anchor);
-};
-
-const updateContentAndScrollToBottom = msg => {
-  documentBody.innerHTML = msg.content;
-  scrollToBottom();
-};
-
 const updateContentAndPreservePosition = msg => {
   const msgNode = getMessageNode(document.elementFromPoint(200, 50));
   if (!msgNode) {
@@ -190,24 +176,28 @@ const updateContentAndPreservePosition = msg => {
   }
 };
 
-const updateContentAndScrollToBottomIfNearBottom = msg => {
-  if (isNearBottom()) {
-    updateContentAndScrollToBottom(msg);
-  } else {
-    updateContentAndPreservePosition(msg);
-  }
-};
-
-const updateFunctions = {
-  replace: replaceContent,
-  default: updateContentAndPreservePosition,
-  'preserve-position': updateContentAndPreservePosition,
-  'scroll-to-anchor': updateContentAndScrollToAnchor,
-  'scroll-to-bottom-if-near-bottom': updateContentAndScrollToBottomIfNearBottom,
-};
-
 const handleMessageContent = (msg: MessageInputContent) => {
-  updateFunctions[msg.updateStrategy](msg);
+  if (msg.updateStrategy === 'replace') {
+    documentBody.innerHTML = msg.content;
+  } else if (
+    msg.updateStrategy === 'default' /* align */ ||
+    msg.updateStrategy === 'preserve-position'
+  ) {
+    updateContentAndPreservePosition(msg);
+  } else if (msg.updateStrategy === 'scroll-to-anchor') {
+    documentBody.innerHTML = msg.content;
+    scrollToAnchor(msg.anchor);
+  } else if (msg.updateStrategy === 'scroll-to-bottom-if-near-bottom') {
+    if (isNearBottom()) {
+      documentBody.innerHTML = msg.content;
+      scrollToBottom();
+    } else {
+      updateContentAndPreservePosition(msg);
+    }
+  } else {
+    // TODO should be impossible; log if happens.
+  }
+
   sendScrollMessageIfListShort();
 };
 

@@ -27,7 +27,6 @@ var sendMessage = function sendMessage(msg) {
 window.onerror = function (message, source, line, column, error) {
   if (window.enableWebViewErrorDisplay) {
     var elementJsError = document.getElementById('js-error');
-
     if (elementJsError) {
       elementJsError.innerHTML = ['Message: ' + message, 'Source: ' + source, 'Line: ' + line + ':' + column, 'Error: ' + JSON.stringify(error), ''].map(escapeHtml).join('<br>');
     }
@@ -162,20 +161,6 @@ var handleScrollEvent = function handleScrollEvent() {
 
 window.addEventListener('scroll', handleScrollEvent);
 
-var replaceContent = function replaceContent(msg) {
-  documentBody.innerHTML = msg.content;
-};
-
-var updateContentAndScrollToAnchor = function updateContentAndScrollToAnchor(msg) {
-  documentBody.innerHTML = msg.content;
-  scrollToAnchor(msg.anchor);
-};
-
-var updateContentAndScrollToBottom = function updateContentAndScrollToBottom(msg) {
-  documentBody.innerHTML = msg.content;
-  scrollToBottom();
-};
-
 var updateContentAndPreservePosition = function updateContentAndPreservePosition(msg) {
   var msgNode = getMessageNode(document.elementFromPoint(200, 50));
   if (!msgNode) {
@@ -192,24 +177,23 @@ var updateContentAndPreservePosition = function updateContentAndPreservePosition
   }
 };
 
-var updateContentAndScrollToBottomIfNearBottom = function updateContentAndScrollToBottomIfNearBottom(msg) {
-  if (isNearBottom()) {
-    updateContentAndScrollToBottom(msg);
-  } else {
-    updateContentAndPreservePosition(msg);
-  }
-};
-
-var updateFunctions = {
-  replace: replaceContent,
-  default: updateContentAndPreservePosition,
-  'preserve-position': updateContentAndPreservePosition,
-  'scroll-to-anchor': updateContentAndScrollToAnchor,
-  'scroll-to-bottom-if-near-bottom': updateContentAndScrollToBottomIfNearBottom
-};
-
 var handleMessageContent = function handleMessageContent(msg) {
-  updateFunctions[msg.updateStrategy](msg);
+  if (msg.updateStrategy === 'replace') {
+    documentBody.innerHTML = msg.content;
+  } else if (msg.updateStrategy === 'default' || msg.updateStrategy === 'preserve-position') {
+    updateContentAndPreservePosition(msg);
+  } else if (msg.updateStrategy === 'scroll-to-anchor') {
+    documentBody.innerHTML = msg.content;
+    scrollToAnchor(msg.anchor);
+  } else if (msg.updateStrategy === 'scroll-to-bottom-if-near-bottom') {
+    if (isNearBottom()) {
+      documentBody.innerHTML = msg.content;
+      scrollToBottom();
+    } else {
+      updateContentAndPreservePosition(msg);
+    }
+  } else {}
+
   sendScrollMessageIfListShort();
 };
 
