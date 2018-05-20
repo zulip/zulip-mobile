@@ -166,9 +166,15 @@ type ScrollTarget =
   | { type: 'anchor', anchor: number }
   | { type: 'preserve', msgId: string, prevBoundTop: number };
 
+// Try to identify a message on screen and its location, so we can
+// scroll the corresponding message to the same place afterward.
 const findPreserveTarget = (): ScrollTarget => {
+  // TODO magic numbers
   const msgNode = getMessageNode(document.elementFromPoint(200, 50));
   if (!msgNode) {
+    // TODO log this -- it's an error which the user will notice.
+    // (We don't attempt this unless there are messages already,
+    // which we really want to keep steady in view.)
     return { type: 'none' };
   }
   const msgId = getMessageIdFromNode(msgNode);
@@ -176,9 +182,11 @@ const findPreserveTarget = (): ScrollTarget => {
   return { type: 'preserve', msgId, prevBoundTop: prevBoundRect.top };
 };
 
+// Scroll the given message to the same height it was at before.
 const scrollToPreserve = (msgId: string, prevBoundTop: number) => {
   const newElement = document.getElementById(`msg-${msgId}`);
   if (!newElement) {
+    // TODO log this -- it's an error which the user will notice.
     return;
   }
   const newBoundRect = newElement.getBoundingClientRect();
