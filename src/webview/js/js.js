@@ -160,42 +160,55 @@ const handleScrollEvent = () => {
 
 window.addEventListener('scroll', handleScrollEvent);
 
-const updateContentAndPreservePosition = msg => {
+type ScrollTarget =
+  | { type: 'none' }
+  | { type: 'bottom' }
+  | { type: 'anchor', anchor: number }
+  | { type: 'preserve', msgId: string, prevBoundTop: number };
+
+const findPreserveTarget = (): ScrollTarget => {
   const msgNode = getMessageNode(document.elementFromPoint(200, 50));
   if (!msgNode) {
-    documentBody.innerHTML = msg.content;
-  } else {
-    const msgId = getMessageIdFromNode(msgNode);
-    const prevBoundRect = msgNode.getBoundingClientRect();
-    documentBody.innerHTML = msg.content;
-    const newElement = document.getElementById(`msg-${msgId}`);
-    if (newElement) {
-      const newBoundRect = newElement.getBoundingClientRect();
-      window.scrollBy(0, newBoundRect.top - prevBoundRect.top);
-    }
+    return { type: 'none' };
   }
+  const msgId = getMessageIdFromNode(msgNode);
+  const prevBoundRect = msgNode.getBoundingClientRect();
+  return { type: 'preserve', msgId, prevBoundTop: prevBoundRect.top };
+};
+
+const scrollToPreserve = (msgId: string, prevBoundTop: number) => {
+  const newElement = document.getElementById(`msg-${msgId}`);
+  if (!newElement) {
+    return;
+  }
+  const newBoundRect = newElement.getBoundingClientRect();
+  window.scrollBy(0, newBoundRect.top - prevBoundTop);
 };
 
 const handleMessageContent = (msg: MessageInputContent) => {
+  let target: ScrollTarget;
   if (msg.updateStrategy === 'replace') {
-    documentBody.innerHTML = msg.content;
-  } else if (
-    msg.updateStrategy === 'default' /* align */ ||
-    msg.updateStrategy === 'preserve-position'
-  ) {
-    updateContentAndPreservePosition(msg);
+    target = { type: 'none' };
   } else if (msg.updateStrategy === 'scroll-to-anchor') {
-    documentBody.innerHTML = msg.content;
-    scrollToAnchor(msg.anchor);
-  } else if (msg.updateStrategy === 'scroll-to-bottom-if-near-bottom') {
-    if (isNearBottom()) {
-      documentBody.innerHTML = msg.content;
-      scrollToBottom();
-    } else {
-      updateContentAndPreservePosition(msg);
-    }
+    target = { type: 'anchor', anchor: msg.anchor };
+  } else if (
+    msg.updateStrategy === 'scroll-to-bottom-if-near-bottom' /* align */ &&
+    isNearBottom()
+  ) {
+    target = { type: 'bottom' };
   } else {
-    // TODO should be impossible; log if happens.
+    // including 'default' and 'preserve-position'
+    target = findPreserveTarget();
+  }
+
+  documentBody.innerHTML = msg.content;
+
+  if (target.type === 'bottom') {
+    scrollToBottom();
+  } else if (target.type === 'anchor') {
+    scrollToAnchor(target.anchor);
+  } else if (target.type === 'preserve') {
+    scrollToPreserve(target.msgId, target.prevBoundTop);
   }
 
   sendScrollMessageIfListShort();
