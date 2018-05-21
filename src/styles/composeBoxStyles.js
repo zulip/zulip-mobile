@@ -1,7 +1,19 @@
 /* @flow */
 import { Platform } from 'react-native';
 
+import type { Style } from '../types';
 import { BRAND_COLOR, HALF_SPACING, SPACING } from './';
+
+export type ComposeBoxStyles = {
+  composeBox: Style,
+  composeText: Style,
+  composeTextInput: Style,
+  topicInput: Style,
+  composeSendButton: Style,
+  composeMenu: Style,
+  expandButton: Style,
+  composeMenuButton: Style,
+};
 
 type Props = {
   color: string,
