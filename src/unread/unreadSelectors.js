@@ -153,6 +153,18 @@ export const getUnreadStreamsAndTopics = createSelector(
   },
 );
 
+export const getUnreadStreamsAndTopicsSansMuted = createSelector(
+  getUnreadStreamsAndTopics,
+  unreadStreamsAndTopics =>
+    unreadStreamsAndTopics
+      .map(stream => ({
+        ...stream,
+        // $FlowFixMe
+        data: stream.data.filter(topic => !topic.isMuted),
+      }))
+      .filter(stream => !stream.isMuted && stream.data.length > 0),
+);
+
 export const getUnreadPrivateMessagesCount = createSelector(
   getPrivateMessages,
   getReadFlags,
