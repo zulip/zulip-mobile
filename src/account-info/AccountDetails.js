@@ -61,7 +61,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
           </View>
         ) : null}
         <ZulipButton
-          style={styles.marginLeftRight}
+          style={styles.marginHorizontal}
           text="Send private message"
           onPress={this.handleChatPress}
           Icon={IconPrivateChat}
