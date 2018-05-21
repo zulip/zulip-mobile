@@ -111,7 +111,6 @@ export const getUnreadStreamsAndTopics = createSelector(
       const { name, color, in_home_view, invite_only, pin_to_top } =
         subscriptionsById[stream.stream_id] || NULL_SUBSCRIPTION;
 
-      if (!in_home_view) return totals;
       if (!totals[stream.stream_id]) {
         totals[stream.stream_id] = {
           key: name,
