@@ -14,6 +14,12 @@ var documentBody = document.body;
 
 if (!documentBody) throw new Error('No document.body element!');
 
+var escapeHtml = function escapeHtml(text) {
+  var element = document.createElement('div');
+  element.innerText = text;
+  return element.innerHTML;
+};
+
 var sendMessage = function sendMessage(msg) {
   window.postMessage(JSON.stringify(msg), '*');
 };
@@ -21,8 +27,9 @@ var sendMessage = function sendMessage(msg) {
 window.onerror = function (message, source, line, column, error) {
   if (window.enableWebViewErrorDisplay) {
     var elementJsError = document.getElementById('js-error');
+
     if (elementJsError) {
-      elementJsError.innerHTML = ['Message: ' + message + '<br>', 'Source: ' + source + '<br>', 'Line: ' + line + ':' + column + '<br>', 'Error: ' + JSON.stringify(error) + '<br>'].join('');
+      elementJsError.innerHTML = ['Message: ' + message, 'Source: ' + source, 'Line: ' + line + ':' + column, 'Error: ' + JSON.stringify(error), ''].map(escapeHtml).join('<br>');
     }
   }
 

@@ -10,6 +10,12 @@ const documentBody = document.body;
 
 if (!documentBody) throw new Error('No document.body element!');
 
+const escapeHtml = (text: string): string => {
+  const element = document.createElement('div');
+  element.innerText = text;
+  return element.innerHTML;
+};
+
 const sendMessage = (msg: Object) => {
   window.postMessage(JSON.stringify(msg), '*');
 };
@@ -19,11 +25,14 @@ window.onerror = (message, source, line, column, error) => {
     const elementJsError = document.getElementById('js-error');
     if (elementJsError) {
       elementJsError.innerHTML = [
-        `Message: ${message}<br>`,
-        `Source: ${source}<br>`,
-        `Line: ${line}:${column}<br>`,
-        `Error: ${JSON.stringify(error)}<br>`,
-      ].join('');
+        `Message: ${message}`,
+        `Source: ${source}`,
+        `Line: ${line}:${column}`,
+        `Error: ${JSON.stringify(error)}`,
+        '',
+      ]
+        .map(escapeHtml)
+        .join('<br>');
     }
   }
 
