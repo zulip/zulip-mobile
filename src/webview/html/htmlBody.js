@@ -1,4 +1,5 @@
 /* @flow */
+import escape from 'lodash.escape';
 import messageLoadingList from './messageLoadingListAsHtml';
 import htmlScrollToBottom from './htmlScrollToBottom';
 
@@ -8,7 +9,7 @@ export default (content: string, showMessagePlaceholders: boolean): string => `
 
 ${content}
 
-<div id="message-loading" class="${showMessagePlaceholders ? '' : 'hidden'}">
+<div id="message-loading" class="${escape(showMessagePlaceholders ? '' : 'hidden')}">
   ${messageLoadingList}
 </div>
 
