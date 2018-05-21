@@ -14,6 +14,21 @@ import { NULL_OBJECT } from '../../nullObjects';
 
 describe('flagsReducers', () => {
   describe('REHYDRATE', () => {
+    test('handles no input data', () => {
+      const initialState = NULL_OBJECT;
+
+      const action = deepFreeze({
+        type: REHYDRATE,
+        payload: {},
+      });
+
+      const expectedState = {};
+
+      const actualState = flagsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
     test('flags from all messages are extracted and stored by id', () => {
       const initialState = NULL_OBJECT;
 
