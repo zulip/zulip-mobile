@@ -6,13 +6,11 @@ export default {
   padding: {
     padding: SPACING,
   },
-  paddingTopBottom: {
-    paddingTop: SPACING,
-    paddingBottom: SPACING,
+  paddingVertical: {
+    paddingVertical: SPACING,
   },
-  paddingLeftRight: {
-    paddingLeft: SPACING,
-    paddingRight: SPACING,
+  paddingHorizontal: {
+    paddingHorizontal: SPACING,
   },
   paddingTop: {
     paddingTop: SPACING,
@@ -30,6 +28,12 @@ export default {
   halfPadding: {
     padding: HALF_SPACING,
   },
+  halfPaddingVertical: {
+    paddingVertical: HALF_SPACING,
+  },
+  halfPaddingHorizontal: {
+    paddingHorizontal: HALF_SPACING,
+  },
   halfPaddingTop: {
     paddingTop: HALF_SPACING,
   },
@@ -46,13 +50,11 @@ export default {
   margin: {
     margin: SPACING,
   },
-  marginTopBottom: {
-    marginTop: SPACING,
-    marginBottom: SPACING,
+  marginVertical: {
+    marginVertical: SPACING,
   },
-  marginLeftRight: {
-    marginLeft: SPACING,
-    marginRight: SPACING,
+  marginHorizontal: {
+    marginHorizontal: SPACING,
   },
   marginTop: {
     marginTop: SPACING,
@@ -69,6 +71,12 @@ export default {
   // Half margin
   halfMargin: {
     margin: HALF_SPACING,
+  },
+  halfMarginVertical: {
+    marginVertical: HALF_SPACING,
+  },
+  halfMarginHorizontal: {
+    marginHorizontal: HALF_SPACING,
   },
   halfMarginTop: {
     marginTop: HALF_SPACING,

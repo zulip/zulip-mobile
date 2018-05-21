@@ -76,7 +76,7 @@ class RealmScreen extends PureComponent<Props, State> {
       <Screen title="Welcome" padding centerContent keyboardShouldPersistTaps="always">
         <Label text="Organization URL" />
         <SmartUrlInput
-          style={styles.marginTopBottom}
+          style={styles.marginVertical}
           navigation={navigation}
           defaultOrganization="your-org"
           protocol="https://"
