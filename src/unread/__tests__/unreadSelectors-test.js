@@ -320,7 +320,7 @@ describe('getUnreadStreamsAndTopics', () => {
     expect(unreadCount).toEqual([]);
   });
 
-  test('muted streams should not be included', () => {
+  test('muted streams are included', () => {
     const state = deepFreeze({
       subscriptions: [
         {
@@ -344,16 +344,62 @@ describe('getUnreadStreamsAndTopics', () => {
 
     const unreadCount = getUnreadStreamsAndTopics(state);
 
-    expect(unreadCount).toEqual([]);
+    expect(unreadCount).toEqual([
+      {
+        color: 'red',
+        data: [
+          {
+            isMuted: false,
+            key: 'another topic',
+            lastUnreadMsgId: 5,
+            topic: 'another topic',
+            unread: 2,
+          },
+          {
+            isMuted: false,
+            key: 'a topic',
+            lastUnreadMsgId: 3,
+            topic: 'a topic',
+            unread: 3,
+          },
+        ],
+        isMuted: true,
+        key: 'stream 0',
+        streamName: 'stream 0',
+        unread: 5,
+      },
+      {
+        color: 'blue',
+        data: [
+          {
+            isMuted: false,
+            key: 'some other topic',
+            lastUnreadMsgId: 7,
+            topic: 'some other topic',
+            unread: 2,
+          },
+        ],
+        isMuted: true,
+        key: 'stream 2',
+        streamName: 'stream 2',
+        unread: 2,
+      },
+    ]);
   });
 
-  test('muted topics inside non muted streams should not be included', () => {
+  test('muted topics inside non muted streams are included', () => {
     const state = deepFreeze({
       subscriptions: [
         {
           stream_id: 0,
           name: 'stream 0',
           color: 'red',
+          in_home_view: true,
+        },
+        {
+          stream_id: 2,
+          name: 'stream 2',
+          color: 'blue',
           in_home_view: true,
         },
       ],
@@ -388,6 +434,22 @@ describe('getUnreadStreamsAndTopics', () => {
         isPrivate: undefined,
         key: 'stream 0',
         streamName: 'stream 0',
+        unread: 2,
+      },
+      {
+        color: 'blue',
+        data: [
+          {
+            isMuted: false,
+            key: 'some other topic',
+            lastUnreadMsgId: 7,
+            topic: 'some other topic',
+            unread: 2,
+          },
+        ],
+        isMuted: false,
+        key: 'stream 2',
+        streamName: 'stream 2',
         unread: 2,
       },
     ]);
