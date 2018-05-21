@@ -1,5 +1,5 @@
 /* @flow */
-import escape from 'lodash.escape';
+import template from './template';
 import type { Auth, Message, Narrow, Subscription } from '../../types';
 import {
   isStreamNarrow,
@@ -31,13 +31,13 @@ export default ({
   if (isStreamNarrow(narrow)) {
     const topicNarrowStr = JSON.stringify(topicNarrow(item.display_recipient, item.subject));
 
-    return `
+    return template`
 <div
   class="header-wrapper header topic-text"
-  data-narrow="${escape(topicNarrowStr)}"
-  data-msg-id="${escape(item.id)}"
+  data-narrow="${topicNarrowStr}"
+  data-msg-id="${item.id}"
 >
-  ${escape(item.match_subject || item.subject)}
+  ${item.match_subject || item.subject}
 </div>
     `;
   }
@@ -50,16 +50,16 @@ export default ({
     const streamNarrowStr = JSON.stringify(streamNarrow(item.display_recipient));
     const topicNarrowStr = JSON.stringify(topicNarrow(item.display_recipient, item.subject));
 
-    return `
-<div class="header-wrapper stream-header" data-msg-id="${escape(item.id)}">
+    return template`
+<div class="header-wrapper stream-header" data-msg-id="${item.id}">
   <div class="header stream-text"
-       style="color: ${escape(textColor)};
-              background: ${escape(backgroundColor)}"
-       data-narrow="${escape(streamNarrowStr)}">
-    # ${escape(item.display_recipient)}
+       style="color: ${textColor};
+              background: ${backgroundColor}"
+       data-narrow="${streamNarrowStr}">
+    # ${item.display_recipient}
   </div>
-  <div class="header topic-text" data-narrow="${escape(topicNarrowStr)}">
-    ${escape(item.match_subject || item.subject)}
+  <div class="header topic-text" data-narrow="${topicNarrowStr}">
+    ${item.match_subject || item.subject}
   </div>
 </div>
     `;
@@ -82,16 +82,14 @@ export default ({
         : groupNarrow(recipients.map(r => r.email));
     const privateNarrowStr = JSON.stringify(narrowObj);
 
-    return `
+    return template`
 <div class="header-wrapper private-header header"
-     data-narrow="${escape(privateNarrowStr)}"
-     data-msg-id="${escape(item.id)}">
-  ${escape(
-    recipients
-      .map(r => r.full_name)
-      .sort()
-      .join(', '),
-  )}
+     data-narrow="${privateNarrowStr}"
+     data-msg-id="${item.id}">
+  ${recipients
+    .map(r => r.full_name)
+    .sort()
+    .join(', ')}
 </div>
     `;
   }

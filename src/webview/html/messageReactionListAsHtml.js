@@ -1,6 +1,7 @@
 /* @flow */
 import type { ReactionType } from '../../types';
 import aggregateReactions from '../../reactions/aggregateReactions';
+import template from './template';
 import messageReactionAsHtml from './messageReactionAsHtml';
 
 export default (
@@ -15,9 +16,9 @@ export default (
 
   const aggregated = aggregateReactions(reactions, ownEmail);
 
-  return `
+  return template`
     <div class="reaction-list">
-      ${aggregated.map(r => messageReactionAsHtml(messageId, r, realmEmoji)).join('')}
+      $!${aggregated.map(r => messageReactionAsHtml(messageId, r, realmEmoji)).join('')}
     </div>
   `;
 };

@@ -1,15 +1,16 @@
 /* @flow */
+import template from './template';
 import messageLoadingAsHtml from './messageLoadingAsHtml';
 
-export default `
-${messageLoadingAsHtml}
-${messageLoadingAsHtml}
-${messageLoadingAsHtml}
-${messageLoadingAsHtml}
-${messageLoadingAsHtml}
-${messageLoadingAsHtml}
-${messageLoadingAsHtml}
-${messageLoadingAsHtml}
-${messageLoadingAsHtml}
-${messageLoadingAsHtml}
+export default template`
+$!${messageLoadingAsHtml}
+$!${messageLoadingAsHtml}
+$!${messageLoadingAsHtml}
+$!${messageLoadingAsHtml}
+$!${messageLoadingAsHtml}
+$!${messageLoadingAsHtml}
+$!${messageLoadingAsHtml}
+$!${messageLoadingAsHtml}
+$!${messageLoadingAsHtml}
+$!${messageLoadingAsHtml}
 `;
