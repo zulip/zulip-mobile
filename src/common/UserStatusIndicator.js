@@ -28,17 +28,25 @@ const styles = StyleSheet.create({
 type Props = {
   style?: Style,
   presence?: Presence,
+  hideIfOffline: boolean,
 };
 
 export default class UserStatusIndicator extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { presence, style } = this.props;
+    const { presence, style, hideIfOffline } = this.props;
 
-    if (!presence || !presence.aggregated) return null;
+    if (!presence || !presence.aggregated) {
+      return null;
+    }
 
     const status = statusFromPresence(presence);
+
+    if (hideIfOffline && status === 'offline') {
+      return null;
+    }
+
     return <View style={[styles.common, styles[status], style]} />;
   }
 }
