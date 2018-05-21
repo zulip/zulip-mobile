@@ -1,5 +1,7 @@
 /* @flow */
-export default `
+import template from './template';
+
+export default template`
 <div class="message">
   <div class="loading-avatar"></div>
   <div class="loading-content">

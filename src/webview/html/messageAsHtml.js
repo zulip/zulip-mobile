@@ -1,16 +1,16 @@
 /* @flow */
-import escape from 'lodash.escape';
+import template from './template';
 import type { FlagsState, ReactionType, RealmEmojiType } from '../../types';
 import { shortTime } from '../../utils/date';
 import messageTagsAsHtml from './messageTagsAsHtml';
 import messageReactionListAsHtml from './messageReactionListAsHtml';
 
 const messageDiv = (id: number, msgClass: string, flags: Object): string =>
-  `<div
-     class="message ${escape(msgClass)}"
-     id="msg-${escape(id)}"
-     data-msg-id="${escape(id)}"
-     ${flags.map(flag => `data-${escape(flag)}="true" `).join('')}
+  template`<div
+     class="message ${msgClass}"
+     id="msg-${id}"
+     data-msg-id="${id}"
+     $!${flags.map(flag => template`data-${flag}="true" `).join('')}
     >`;
 
 const messageSubheader = ({
@@ -21,13 +21,13 @@ const messageSubheader = ({
   fromName: string,
   timestamp: number,
   twentyFourHourTime: boolean,
-}) => `
+}) => template`
 <div class="subheader">
   <div class="username">
-    ${escape(fromName)}
+    ${fromName}
   </div>
   <div class="timestamp">
-    ${escape(shortTime(new Date(timestamp * 1000), twentyFourHourTime))}
+    ${shortTime(new Date(timestamp * 1000), twentyFourHourTime)}
   </div>
 </div>
 `;
@@ -73,11 +73,11 @@ const messageBody = ({
   reactions: ReactionType[],
   realmEmoji: ReactionType,
   timeEdited: Date,
-}) => `
-${content}
-${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
-${messageTagsAsHtml(flags, timeEdited)}
-${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
+}) => template`
+$!${content}
+$!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
+$!${messageTagsAsHtml(flags, timeEdited)}
+$!${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
 `;
 
 const briefMessageAsHtml = ({
@@ -89,10 +89,10 @@ const briefMessageAsHtml = ({
   reactions,
   realmEmoji,
   timeEdited,
-}: BriefMessageProps) => `
-${messageDiv(id, 'message-brief', flags)}
+}: BriefMessageProps) => template`
+$!${messageDiv(id, 'message-brief', flags)}
   <div class="content">
-    ${messageBody({ content, flags, id, isOutbox, ownEmail, reactions, realmEmoji, timeEdited })}
+    $!${messageBody({ content, flags, id, isOutbox, ownEmail, reactions, realmEmoji, timeEdited })}
   </div>
 </div>
 `;
@@ -111,14 +111,14 @@ const fullMessageAsHtml = ({
   reactions,
   ownEmail,
   realmEmoji,
-}: FullMessageProps) => `
-${messageDiv(id, 'message-full', flags)}
+}: FullMessageProps) => template`
+$!${messageDiv(id, 'message-full', flags)}
   <div class="avatar">
-    <img src="${escape(avatarUrl)}" class="avatar-img" data-email="${escape(fromEmail)}">
+    <img src="${avatarUrl}" class="avatar-img" data-email="${fromEmail}">
   </div>
   <div class="content">
-    ${messageSubheader({ fromName, timestamp, twentyFourHourTime })}
-    ${messageBody({ content, flags, id, isOutbox, ownEmail, reactions, realmEmoji, timeEdited })}
+    $!${messageSubheader({ fromName, timestamp, twentyFourHourTime })}
+    $!${messageBody({ content, flags, id, isOutbox, ownEmail, reactions, realmEmoji, timeEdited })}
   </div>
 </div>
 `;
