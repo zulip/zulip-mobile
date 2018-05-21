@@ -92,8 +92,9 @@ const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsS
 
 const rehydrate = (state: FlagsState, action: RehydrateAction): FlagsState => {
   // $FlowFixMe
-  const allMessages: Message[] = Array.prototype.concat(...Object.values(action.payload.messages));
-  return processFlagsForMessages(state, allMessages);
+  const arrayOfMessageArrays: Array<Message[]> = Object.values(action.payload.messages || {});
+  const flattenedMessages: Message[] = Array.prototype.concat(...arrayOfMessageArrays);
+  return processFlagsForMessages(state, flattenedMessages);
 };
 
 const messageFetchComplete = (state: FlagsState, action: MessageFetchCompleteAction): FlagsState =>
