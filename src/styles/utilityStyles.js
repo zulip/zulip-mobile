@@ -1,5 +1,37 @@
 /* @flow */
+import type { Style } from '../types';
 import { SPACING, HALF_SPACING } from './';
+
+export type UtilityStyles = {
+  padding: Style,
+  paddingVertical: Style,
+  paddingHorizontal: Style,
+  paddingTop: Style,
+  paddingBottom: Style,
+  paddingLeft: Style,
+  paddingRight: Style,
+  halfPadding: Style,
+  halfPaddingVertical: Style,
+  halfPaddingHorizontal: Style,
+  halfPaddingTop: Style,
+  halfPaddingBottom: Style,
+  halfPaddingLeft: Style,
+  halfPaddingRight: Style,
+  margin: Style,
+  marginVertical: Style,
+  marginHorizontal: Style,
+  marginTop: Style,
+  marginBottom: Style,
+  marginLeft: Style,
+  marginRight: Style,
+  halfMargin: Style,
+  halfMarginVertical: Style,
+  halfMarginHorizontal: Style,
+  halfMarginTop: Style,
+  halfMarginBottom: Style,
+  halfMarginLeft: Style,
+  halfMarginRight: Style,
+};
 
 export default {
   // Padding

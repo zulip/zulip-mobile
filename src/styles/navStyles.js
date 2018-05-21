@@ -1,5 +1,20 @@
 /* @flow */
+import type { Style } from '../types';
 import { BRAND_COLOR, HALF_SPACING, NAVBAR_SIZE, SPACING } from './';
+
+export type NavStyles = {
+  navBar: Style,
+  navWrapper: Style,
+  subheader: Style,
+  titleAvatar: Style,
+  navSubtitle: Style,
+  navTitle: Style,
+  titleStreamWrapper: Style,
+  titleStreamRow: Style,
+  activityText: Style,
+  navButtonFrame: Style,
+  navButtonIcon: Style,
+};
 
 type Props = {
   color: string,
