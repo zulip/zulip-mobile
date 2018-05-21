@@ -10,7 +10,6 @@ import {
   topicNarrow,
   privateNarrow,
   groupNarrow,
-  stringifyNarrow,
 } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 
@@ -30,12 +29,12 @@ export default ({
   }
 
   if (isStreamNarrow(narrow)) {
-    const topicNarrowStr = stringifyNarrow(topicNarrow(item.display_recipient, item.subject));
+    const topicNarrowStr = JSON.stringify(topicNarrow(item.display_recipient, item.subject));
 
     return `
 <div
   class="header-wrapper header topic-text"
-  data-narrow="${topicNarrowStr}"
+  data-narrow="${escape(topicNarrowStr)}"
   data-msg-id="${escape(item.id)}"
 >
   ${escape(item.match_subject || item.subject)}
@@ -48,18 +47,18 @@ export default ({
 
     const backgroundColor = stream ? stream.color : '#ccc';
     const textColor = foregroundColorFromBackground(backgroundColor);
-    const streamNarrowStr = stringifyNarrow(streamNarrow(item.display_recipient));
-    const topicNarrowStr = stringifyNarrow(topicNarrow(item.display_recipient, item.subject));
+    const streamNarrowStr = JSON.stringify(streamNarrow(item.display_recipient));
+    const topicNarrowStr = JSON.stringify(topicNarrow(item.display_recipient, item.subject));
 
     return `
 <div class="header-wrapper stream-header" data-msg-id="${escape(item.id)}">
   <div class="header stream-text"
        style="color: ${escape(textColor)};
               background: ${escape(backgroundColor)}"
-       data-narrow="${streamNarrowStr}">
+       data-narrow="${escape(streamNarrowStr)}">
     # ${escape(item.display_recipient)}
   </div>
-  <div class="header topic-text" data-narrow="${topicNarrowStr}">
+  <div class="header topic-text" data-narrow="${escape(topicNarrowStr)}">
     ${escape(item.match_subject || item.subject)}
   </div>
 </div>
@@ -81,11 +80,11 @@ export default ({
       recipients.length === 1
         ? privateNarrow(recipients[0].email)
         : groupNarrow(recipients.map(r => r.email));
-    const privateNarrowStr = stringifyNarrow(narrowObj);
+    const privateNarrowStr = JSON.stringify(narrowObj);
 
     return `
 <div class="header-wrapper private-header header"
-     data-narrow="${privateNarrowStr}"
+     data-narrow="${escape(privateNarrowStr)}"
      data-msg-id="${escape(item.id)}">
   ${escape(
     recipients
