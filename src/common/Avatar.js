@@ -57,7 +57,7 @@ class Avatar extends PureComponent<Props> {
         onPress={onPress}
         shape={shape}
       >
-        <UserStatusIndicator style={componentStyles.status} presence={presence} />
+        <UserStatusIndicator style={componentStyles.status} presence={presence} hideIfOffline />
       </AvatarComponent>
     );
   }
