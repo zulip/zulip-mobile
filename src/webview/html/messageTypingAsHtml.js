@@ -1,4 +1,5 @@
 /* @flow */
+import escape from 'lodash.escape';
 import type { User } from '../../types';
 import { getFullUrl } from '../../utils/url';
 import { getGravatarFromEmail } from '../../utils/avatar';
@@ -7,10 +8,10 @@ const typingAvatar = (realm: string, user: User): string => `
 <div class="avatar">
   <img
     class="avatar-img"
-    data-email="${user.email}"
-    src="${
-      user.avatar_url ? getFullUrl(user.avatar_url, realm) : getGravatarFromEmail(user.email)
-    }">
+    data-email="${escape(user.email)}"
+    src="${escape(
+      user.avatar_url ? getFullUrl(user.avatar_url, realm) : getGravatarFromEmail(user.email),
+    )}">
 </div>
 `;
 

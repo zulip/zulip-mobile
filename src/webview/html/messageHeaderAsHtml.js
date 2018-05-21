@@ -1,4 +1,5 @@
 /* @flow */
+import escape from 'lodash.escape';
 import type { Auth, Message, Narrow, Subscription } from '../../types';
 import {
   isStreamNarrow,
@@ -35,9 +36,9 @@ export default ({
 <div
   class="header-wrapper header topic-text"
   data-narrow="${topicNarrowStr}"
-  data-msg-id="${item.id}"
+  data-msg-id="${escape(item.id)}"
 >
-  ${item.match_subject || item.subject}
+  ${escape(item.match_subject || item.subject)}
 </div>
     `;
   }
@@ -51,12 +52,15 @@ export default ({
     const topicNarrowStr = stringifyNarrow(topicNarrow(item.display_recipient, item.subject));
 
     return `
-<div class="header-wrapper stream-header" data-msg-id="${item.id}">
-  <div class="header stream-text" style="color: ${textColor}; background: ${backgroundColor}" data-narrow="${streamNarrowStr}">
-    # ${item.display_recipient}
+<div class="header-wrapper stream-header" data-msg-id="${escape(item.id)}">
+  <div class="header stream-text"
+       style="color: ${escape(textColor)};
+              background: ${escape(backgroundColor)}"
+       data-narrow="${streamNarrowStr}">
+    # ${escape(item.display_recipient)}
   </div>
   <div class="header topic-text" data-narrow="${topicNarrowStr}">
-    ${item.match_subject || item.subject}
+    ${escape(item.match_subject || item.subject)}
   </div>
 </div>
     `;
@@ -80,13 +84,15 @@ export default ({
     const privateNarrowStr = stringifyNarrow(narrowObj);
 
     return `
-<div class="header-wrapper private-header header" data-narrow="${privateNarrowStr}" data-msg-id="${
-      item.id
-    }">
-  ${recipients
-    .map(r => r.full_name)
-    .sort()
-    .join(', ')}
+<div class="header-wrapper private-header header"
+     data-narrow="${privateNarrowStr}"
+     data-msg-id="${escape(item.id)}">
+  ${escape(
+    recipients
+      .map(r => r.full_name)
+      .sort()
+      .join(', '),
+  )}
 </div>
     `;
   }

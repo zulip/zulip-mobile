@@ -1,4 +1,5 @@
 /* @flow */
+import escape from 'lodash.escape';
 import type { FlagsState, ReactionType, RealmEmojiType } from '../../types';
 import { shortTime } from '../../utils/date';
 import messageTagsAsHtml from './messageTagsAsHtml';
@@ -6,10 +7,10 @@ import messageReactionListAsHtml from './messageReactionListAsHtml';
 
 const messageDiv = (id: number, msgClass: string, flags: Object): string =>
   `<div
-     class="message ${msgClass}"
-     id="msg-${id}"
-     data-msg-id="${id}"
-     ${flags.map(flag => `data-${flag}="true" `).join('')}
+     class="message ${escape(msgClass)}"
+     id="msg-${escape(id)}"
+     data-msg-id="${escape(id)}"
+     ${flags.map(flag => `data-${escape(flag)}="true" `).join('')}
     >`;
 
 const messageSubheader = ({
@@ -23,10 +24,10 @@ const messageSubheader = ({
 }) => `
 <div class="subheader">
   <div class="username">
-    ${fromName}
+    ${escape(fromName)}
   </div>
   <div class="timestamp">
-    ${shortTime(new Date(timestamp * 1000), twentyFourHourTime)}
+    ${escape(shortTime(new Date(timestamp * 1000), twentyFourHourTime))}
   </div>
 </div>
 `;
@@ -113,7 +114,7 @@ const fullMessageAsHtml = ({
 }: FullMessageProps) => `
 ${messageDiv(id, 'message-full', flags)}
   <div class="avatar">
-    <img src="${avatarUrl}" class="avatar-img" data-email="${fromEmail}">
+    <img src="${escape(avatarUrl)}" class="avatar-img" data-email="${escape(fromEmail)}">
   </div>
   <div class="content">
     ${messageSubheader({ fromName, timestamp, twentyFourHourTime })}
