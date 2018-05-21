@@ -46,7 +46,7 @@ export default class AccountDetails extends PureComponent<Props, void> {
           shape="square"
         />
         <View style={[styles.row, styles.margin, styles.center]}>
-          <UserStatusIndicator presence={presence} />
+          <UserStatusIndicator presence={presence} hideIfOffline={false} />
           <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
         </View>
         <View style={[styles.row, styles.margin, styles.center]}>
