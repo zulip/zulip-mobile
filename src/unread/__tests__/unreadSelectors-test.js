@@ -11,6 +11,7 @@ import {
   getUnreadPrivateMessagesCount,
   getUnreadTotal,
   getUnreadStreamsAndTopics,
+  getUnreadStreamsAndTopicsSansMuted,
 } from '../unreadSelectors';
 import { allPrivateNarrowStr } from '../../utils/narrow';
 
@@ -622,6 +623,74 @@ describe('getUnreadStreamsAndTopics', () => {
           { key: 'c topic', topic: 'c topic', unread: 2, isMuted: true, lastUnreadMsgId: 8 },
           { key: 'b topic', topic: 'b topic', unread: 2, isMuted: false, lastUnreadMsgId: 7 },
         ],
+      },
+    ]);
+  });
+});
+
+describe('getUnreadStreamsAndTopicsSansMuted', () => {
+  test('muted streams are not included', () => {
+    const state = deepFreeze({
+      subscriptions: [
+        {
+          stream_id: 0,
+          name: 'stream 0',
+          color: 'red',
+          in_home_view: false,
+        },
+        {
+          stream_id: 2,
+          name: 'stream 2',
+          color: 'blue',
+          in_home_view: false,
+        },
+      ],
+      unread: {
+        streams: unreadStreamData,
+      },
+      mute: [],
+    });
+
+    const unreadCount = getUnreadStreamsAndTopicsSansMuted(state);
+
+    expect(unreadCount).toEqual([]);
+  });
+
+  test('muted topics inside non muted streams are not included', () => {
+    const state = deepFreeze({
+      subscriptions: [
+        {
+          stream_id: 0,
+          name: 'stream 0',
+          color: 'red',
+          in_home_view: true,
+        },
+      ],
+      unread: {
+        streams: unreadStreamData,
+      },
+      mute: [['stream 0', 'a topic']],
+    });
+
+    const unreadCount = getUnreadStreamsAndTopicsSansMuted(state);
+
+    expect(unreadCount).toEqual([
+      {
+        color: 'red',
+        data: [
+          {
+            isMuted: false,
+            key: 'another topic',
+            topic: 'another topic',
+            unread: 2,
+            lastUnreadMsgId: 5,
+          },
+        ],
+        isMuted: false,
+        isPrivate: undefined,
+        key: 'stream 0',
+        streamName: 'stream 0',
+        unread: 2,
       },
     ]);
   });
