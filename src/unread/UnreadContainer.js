@@ -5,7 +5,7 @@ import {
   getPresence,
   getUnreadConversations,
   getUsersByEmail,
-  getUnreadStreamsAndTopics,
+  getUnreadStreamsAndTopicsSansMuted,
 } from '../selectors';
 import UnreadCards from './UnreadCards';
 
@@ -14,5 +14,5 @@ export default connectWithActions(state => ({
   conversations: getUnreadConversations(state),
   presences: getPresence(state),
   usersByEmail: getUsersByEmail(state),
-  unreadStreamsAndTopics: getUnreadStreamsAndTopics(state),
+  unreadStreamsAndTopics: getUnreadStreamsAndTopicsSansMuted(state),
 }))(UnreadCards);
