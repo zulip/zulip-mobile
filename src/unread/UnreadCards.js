@@ -60,7 +60,7 @@ export default class UnreadCards extends PureComponent<Props> {
         sections={unreadCards}
         keyExtractor={item => item.key}
         renderSectionHeader={({ section }) =>
-          section.key === 'private' || section.isMuted || section.unread === 0 ? null : (
+          section.key === 'private' ? null : (
             <StreamItem
               style={styles.listItem}
               name={section.streamName}
@@ -76,7 +76,7 @@ export default class UnreadCards extends PureComponent<Props> {
         renderItem={({ item, section }) =>
           section.key === 'private' ? (
             <ConversationList {...item} />
-          ) : section.isMuted || item.isMuted ? null : (
+          ) : (
             <TopicItem
               name={item.topic}
               stream={section.streamName || ''}
