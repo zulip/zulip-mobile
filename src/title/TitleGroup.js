@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { PresenceState, User } from '../types';
+import type { Context, PresenceState, User } from '../types';
 import { Avatar } from '../common';
 
 type Props = {
@@ -11,6 +11,7 @@ type Props = {
 };
 
 export default class TitleGroup extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

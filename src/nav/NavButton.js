@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
-import type { Style } from '../types';
+import type { Context, Style } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { ComponentWithOverlay, UnreadCount } from '../common';
 import Icon from '../common/Icons';
@@ -15,6 +15,7 @@ type Props = {
 };
 
 export default class NavButton extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

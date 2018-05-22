@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { TextInput } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 
-import type { LocalizableText, Style } from '../types';
+import type { Context, LocalizableText, Style } from '../types';
 import { nullFunction } from '../nullObjects';
 import { HALF_COLOR } from '../styles';
 
@@ -16,12 +16,13 @@ type Props = {
 };
 
 export default class Input extends PureComponent<Props> {
+  context: Context;
+  props: Props;
+  textInput: TextInput;
+
   static contextTypes = {
     styles: () => null,
   };
-
-  textInput: TextInput;
-  props: Props;
 
   static defaultProps = {
     placeholder: {},

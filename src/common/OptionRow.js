@@ -2,8 +2,8 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
+import type { Context, Style } from '../types';
 import { Label, ZulipSwitch } from '../common';
-import type { Style } from '../types';
 
 type Props = {
   Icon?: Object,
@@ -14,11 +14,12 @@ type Props = {
 };
 
 export default class OptionRow extends PureComponent<Props> {
+  context: Context;
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };
-
-  props: Props;
 
   render() {
     const { label, defaultValue, onValueChange, style, Icon } = this.props;

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Actions, Auth } from '../types';
+import type { Actions, Auth, Context } from '../types';
 import connectWithActions from '../connectWithActions';
 import { fetchApiKey } from '../api';
 import { ErrorMsg, Input, PasswordInput, Screen, WebLink, ZulipButton } from '../common';
@@ -29,6 +29,7 @@ type State = {
 };
 
 class PasswordAuthView extends PureComponent<Props, State> {
+  context: Context;
   props: Props;
   state: State = {
     progress: false,

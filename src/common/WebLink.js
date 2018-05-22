@@ -1,6 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
+import type { Context } from '../types';
 import connectWithActions from '../connectWithActions';
 import { Touchable, Label } from '../common';
 import { getFullUrl } from '../utils/url';
@@ -14,11 +15,12 @@ type Props = {
 };
 
 class WebLink extends PureComponent<Props> {
+  context: Context;
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };
-
-  props: Props;
 
   handlePress = () => {
     const { realm, href } = this.props;

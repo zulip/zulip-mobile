@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Actions, Stream, Subscription } from '../types';
+import type { Actions, Context, Stream, Subscription } from '../types';
 import connectWithActions from '../connectWithActions';
 import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
 import { getIsAdmin, getStreams, getSubscriptions } from '../selectors';
@@ -18,6 +18,7 @@ type Props = {
 };
 
 class StreamScreen extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

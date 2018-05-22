@@ -1,6 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 
+import type { Context } from '../types';
 import { Screen } from '../common';
 import SearchMessagesContainer from './SearchMessagesContainer';
 
@@ -11,6 +12,8 @@ type State = {
 };
 
 export default class SearchMessagesScreen extends PureComponent<Props, State> {
+  context: Context;
+  props: Props;
   state: State;
 
   state = {

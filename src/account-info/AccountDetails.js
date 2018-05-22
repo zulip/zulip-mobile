@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, Dimensions } from 'react-native';
 
-import type { Auth, Actions, Presence, User } from '../types';
+import type { Auth, Actions, Context, Presence, User } from '../types';
 import { Avatar, RawLabel, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
@@ -19,6 +19,7 @@ type Props = {
 };
 
 export default class AccountDetails extends PureComponent<Props, void> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

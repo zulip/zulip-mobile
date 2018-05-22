@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Presence } from '../types';
+import type { Context, Presence } from '../types';
 import { Avatar, RawLabel, Touchable, UnreadCount } from '../common';
 import { BRAND_COLOR } from '../styles';
 
@@ -37,6 +37,7 @@ type Props = {
 };
 
 export default class UserItem extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

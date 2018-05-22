@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
+import type { Context } from '../types';
 import { Label, Touchable } from '../common';
 import { IconRight } from '../common/Icons';
 
@@ -12,11 +13,12 @@ type Props = {
 };
 
 export default class OptionButton extends PureComponent<Props> {
+  context: Context;
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };
-
-  props: Props;
 
   render() {
     const { label, onPress, Icon } = this.props;

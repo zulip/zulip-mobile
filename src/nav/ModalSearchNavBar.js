@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Actions } from '../types';
+import type { Actions, Context } from '../types';
 import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { getNav } from '../selectors';
 import { NAVBAR_SIZE } from '../styles';
@@ -30,13 +30,13 @@ type State = {
 };
 
 class ModalSearchNavBar extends PureComponent<Props, State> {
+  context: Context;
+  props: Props;
+  state: State;
+
   static contextTypes = {
     styles: () => null,
   };
-
-  props: Props;
-
-  state: State;
 
   state = {
     isSearchActive: false,

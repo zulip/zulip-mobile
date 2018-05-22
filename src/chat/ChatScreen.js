@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Narrow } from '../types';
+import type { Context, Narrow } from '../types';
 import { ZulipStatusBar } from '../common';
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
@@ -20,6 +20,7 @@ type Props = {
 };
 
 export default class ChatScreen extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

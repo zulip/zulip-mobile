@@ -6,6 +6,7 @@ import isEqual from 'lodash.isequal';
 
 import type {
   Auth,
+  Context,
   Narrow,
   EditMessage,
   InputSelectionType,
@@ -48,18 +49,16 @@ type State = {
 };
 
 export default class ComposeBox extends PureComponent<Props, State> {
-  topicInput = null;
-  messageInput = null;
-
-  messageInput: TextInput;
-  topicInput: TextInput;
+  context: Context;
   props: Props;
+  state: State;
+
+  messageInput: TextInput = null;
+  topicInput: TextInput = null;
 
   static contextTypes = {
     styles: () => null,
   };
-
-  state: State;
 
   state = {
     isMessageFocused: false,

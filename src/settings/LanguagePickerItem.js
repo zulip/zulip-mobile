@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import type { Context } from '../types';
 import { RawLabel, Touchable } from '../common';
 import { BRAND_COLOR } from '../styles';
 import { IconDone } from '../common/Icons';
@@ -24,6 +25,7 @@ type Props = {
 };
 
 export default class LanguagePickerItem extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

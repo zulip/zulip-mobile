@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
+import type { Context } from '../types';
 import { Label, Touchable } from '../common';
 import Icon from '../common/Icons';
 
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export default class SidebarRow extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

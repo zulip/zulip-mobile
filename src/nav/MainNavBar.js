@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Actions, Narrow } from '../types';
+import type { Actions, Context, Narrow } from '../types';
 import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import Title from '../title/Title';
 import NavButton from './NavButton';
@@ -26,11 +26,12 @@ type Props = {
 };
 
 class MainNavBar extends PureComponent<Props> {
+  context: Context;
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };
-
-  props: Props;
 
   render() {
     const { styles } = this.context;
