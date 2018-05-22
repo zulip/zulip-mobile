@@ -349,17 +349,17 @@ ul {
 }
 #typing {
   display: flex;
-  padding: 1em;
+  padding-left: 1em;
 }
 #typing .content {
-  padding-left: 1em;
-  padding-top: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 1em;
 }
 #typing span {
   display: inline-block;
   background-color: #B6B5BA;
-  width: 0.75em;
-  height: 0.75em;
+  width: 0.5em;
+  height: 0.5em;
   border-radius: 100%;
   margin-right: 5px;
   animation: bob 2s infinite;
