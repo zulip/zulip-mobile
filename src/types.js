@@ -65,14 +65,23 @@ export type Recipient = any; /* {
    short_name: string,
  }; */
 
+export type MessageEdit = {
+  prev_content?: string,
+  prev_rendered_content?: string,
+  prev_rendered_content_version?: number,
+  prev_subject?: string,
+  timestamp: number,
+  user_id: number,
+};
+
 export type Message = {
   avatar_url: ?string,
   client: 'website' | 'ZulipMobile',
   content: string,
   content_type: 'text/html' | 'text/markdown',
   display_recipient: any, // string | Recipient[],
-  edit_history: any[],
-  flags: [],
+  edit_history: MessageEdit[],
+  flags: string[],
   gravatar_hash: string,
   id: number,
   isOutbox: boolean,
