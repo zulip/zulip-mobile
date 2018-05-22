@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Actions, PresenceState, UnreadStream } from '../types';
+import type { Actions, Context, PresenceState, UnreadStream } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import ConversationList from '../conversations/ConversationList';
 import StreamItem from '../streams/StreamItem';
@@ -20,6 +20,7 @@ type Props = {
 };
 
 export default class UnreadCards extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
 
-import type { Actions, ApiServerSettings } from '../types';
+import type { Actions, ApiServerSettings, Context } from '../types';
 import connectWithActions from '../connectWithActions';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { isValidUrl } from '../utils/url';
@@ -21,6 +21,7 @@ type State = {
 };
 
 class RealmScreen extends PureComponent<Props, State> {
+  context: Context;
   props: Props;
   state: State;
   scrollView: ScrollView;

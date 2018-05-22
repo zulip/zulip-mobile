@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 import TranslatedText from './TranslatedText';
 
-import type { LocalizableText, Style } from '../types';
+import type { Context, LocalizableText, Style } from '../types';
 
 type Props = {
   text: LocalizableText,
@@ -11,11 +11,12 @@ type Props = {
 };
 
 export default class Label extends PureComponent<Props> {
+  context: Context;
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };
-
-  props: Props;
 
   render() {
     const { styles } = this.context;

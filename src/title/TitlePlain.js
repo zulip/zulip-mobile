@@ -2,12 +2,15 @@
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 
+import type { Context } from '../types';
+
 type Props = {
   text: string,
   color: string,
 };
 
 export default class TitlePrivate extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

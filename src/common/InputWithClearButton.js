@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 
-import type { LocalizableText } from '../types';
+import type { Context, LocalizableText } from '../types';
 import Input from './Input';
 import { BRAND_COLOR } from '../styles';
 import Icon from '../common/Icons';
@@ -32,15 +32,14 @@ type State = {
 };
 
 export default class InputWithClearButton extends PureComponent<Props, State> {
+  context: Context;
+  props: Props;
+  state: State;
+  textInput: TextInput;
+
   static contextTypes = {
     styles: () => null,
   };
-
-  textInput: TextInput;
-
-  props: Props;
-
-  state: State;
 
   state = {
     canBeCleared: false,

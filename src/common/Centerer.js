@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { ChildrenArray, Style } from '../types';
+import type { ChildrenArray, Context, Style } from '../types';
 
 const componentStyles = StyleSheet.create({
   centerer: {
@@ -24,6 +24,7 @@ type Props = {
 };
 
 export default class Centerer extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

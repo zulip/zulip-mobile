@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, TextInput } from 'react-native';
 
-import type { LocalizableText, Style } from '../types';
+import type { Context, LocalizableText, Style } from '../types';
 import Input from './Input';
 import { Label, Touchable } from '../common';
 
@@ -16,15 +16,14 @@ type State = {
 };
 
 export default class PasswordInput extends PureComponent<Props, State> {
+  context: Context;
+  props: Props;
+  state: State;
+  textInput: TextInput;
+
   static contextTypes = {
     styles: () => null,
   };
-
-  textInput: TextInput;
-
-  props: Props;
-
-  state: State;
 
   state = {
     isHidden: true,

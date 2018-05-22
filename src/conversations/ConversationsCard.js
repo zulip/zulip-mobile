@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Actions, PresenceState } from '../types';
+import type { Actions, Context, PresenceState } from '../types';
 import { Label, LoadingIndicator, ZulipButton } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import ConversationList from './ConversationList';
@@ -35,6 +35,7 @@ type Props = {
 };
 
 export default class ConversationsCard extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

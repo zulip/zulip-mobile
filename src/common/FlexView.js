@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import type { ChildrenArray } from 'react';
 import { View } from 'react-native';
 
-import type { Style } from '../types';
+import type { Context, Style } from '../types';
 
 type Props = {
   style?: Style,
@@ -11,6 +11,9 @@ type Props = {
 };
 
 export default class FlexView extends PureComponent<Props> {
+  context: Context;
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };

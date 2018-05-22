@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 
-import type { Style } from '../types';
+import type { Context, Style } from '../types';
 import { autocompleteUrl, fixRealmUrl, hasProtocol } from '../utils/url';
 import RawLabel from './RawLabel';
 
@@ -31,12 +31,13 @@ type State = {
 };
 
 export default class SmartUrlInput extends PureComponent<Props, State> {
-  textInputRef: any;
-  focusListener: Object;
+  context: Context;
   props: Props;
   state: State = {
     value: '',
   };
+  textInputRef: any;
+  focusListener: Object;
 
   static contextTypes = {
     styles: () => null,

@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import type { Context } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
 
@@ -30,6 +31,7 @@ type Props = {
 };
 
 export default class StreamItem extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

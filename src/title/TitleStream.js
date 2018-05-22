@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 
-import type { Narrow, Subscription } from '../types';
+import type { Context, Narrow, Subscription } from '../types';
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
 
@@ -13,6 +13,7 @@ type Props = {
 };
 
 export default class TitleStream extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

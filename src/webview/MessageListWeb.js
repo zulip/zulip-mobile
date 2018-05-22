@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { WebView } from 'react-native';
 
+import type { Context } from '../types';
 import type { Props } from '../message/MessageListContainer';
 import type { WebviewInputMessage } from './webViewHandleUpdates';
 import type { MessageListEvent } from './webViewEventHandlers';
@@ -11,8 +12,9 @@ import { getInputMessages } from './webViewHandleUpdates';
 import * as webViewEventHandlers from './webViewEventHandlers';
 
 export default class MessageListWeb extends Component<Props> {
-  webview: ?Object;
+  context: Context;
   props: Props;
+  webview: ?Object;
   isReady: boolean;
   unsentMessages: WebviewInputMessage[] = [];
 

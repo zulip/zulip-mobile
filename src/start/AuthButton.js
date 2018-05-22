@@ -1,6 +1,7 @@
 /* @flow */
 import React, { Component } from 'react';
 
+import type { Context } from '../types';
 import { ZulipButton } from '../common';
 
 type Props = {
@@ -10,11 +11,12 @@ type Props = {
 };
 
 export default class AuthButton extends Component<Props> {
+  context: Context;
+  props: Props;
+
   static contextTypes = {
     styles: () => null,
   };
-
-  props: Props;
 
   render() {
     const { styles } = this.context;

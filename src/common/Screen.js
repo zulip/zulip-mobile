@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
-import type { ChildrenArray, Dimensions, LocalizableText, Style } from '../types';
+import type { ChildrenArray, Context, Dimensions, LocalizableText, Style } from '../types';
 import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { KeyboardAvoider, ZulipStatusBar } from '../common';
 import { getSession } from '../selectors';
@@ -38,6 +38,7 @@ type Props = {
 };
 
 class Screen extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

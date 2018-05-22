@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { ActivityIndicator, View, StyleSheet, FlatList } from 'react-native';
 
-import type { Actions, Auth } from '../types';
+import type { Actions, Auth, Context } from '../types';
 import connectWithActions from '../connectWithActions';
 import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
 import { devGetEmails, devFetchApiKey } from '../api';
@@ -26,17 +26,17 @@ type State = {
 };
 
 class DevAuthScreen extends PureComponent<Props, State> {
-  static contextTypes = {
-    styles: () => null,
-  };
-
+  context: Context;
   props: Props;
-
   state: State = {
     progress: false,
     directAdmins: [],
     directUsers: [],
     error: '',
+  };
+
+  static contextTypes = {
+    styles: () => null,
   };
 
   componentDidMount = () => {

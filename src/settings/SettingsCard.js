@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
-import type { Actions } from '../types';
+import type { Actions, Context } from '../types';
 import { getSettings } from '../selectors';
 import connectWithActions from '../connectWithActions';
 import { OptionButton, OptionDivider, OptionRow, WebLink } from '../common';
@@ -27,6 +27,7 @@ type Props = {
 };
 
 class SettingsCard extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

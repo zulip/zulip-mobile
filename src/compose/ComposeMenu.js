@@ -4,7 +4,7 @@ import { View } from 'react-native';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
 
-import type { Actions, Narrow } from '../types';
+import type { Actions, Context, Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
@@ -17,6 +17,7 @@ type Props = {
 };
 
 export default class ComposeMenu extends Component<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {
