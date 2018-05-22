@@ -151,6 +151,63 @@ seem to be bad regressions.
 
 [itc-main]: https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395
 
+## Security releases
+
+When a release fixes a security vulnerability in the app which isn't already
+public, we follow a variation of the process above.  The goal is to get the
+update onto most users' phones almost before the issue is disclosed,
+minimizing the window where the issue is public and users are still
+vulnerable.
+
+### Preparing commit
+
+* Write the fixes on a private branch, but don't push to the main repo (or
+  other public repos.)
+
+* Prepare and QA the commit as usual.  We'll be skipping the beta phase, so
+  be especially diligent with the QA, and choosy in what commits to include.
+  Definitely make it a stable release, with only hand-picked changes on top
+  of the last release.
+
+* Tag the commit, but don't push it yet.
+
+### Android prep
+
+* Build and upload to Google Play, but release only to alpha for now.
+  Repeat manual QA with the alpha.
+
+* Don't upload to GitHub yet.
+
+### iOS prep
+
+* Build and upload to iTunes Connect, but release only to alpha for now.
+  Repeat manual QA with the alpha.
+
+* Follow the steps to release to production, with one change: in the draft
+  listing, find the option for "Manually release this version", and select it.
+
+### Release
+
+* Wait for Apple's review; on success, the app will enter state "Pending
+  Developer Release".  (On failure, try to fix the issue, then resubmit.)
+
+* Now release the app to the App Store; and in the Play Store, promote to
+  beta and then immediately to production.
+
+* Also now submit to TestFlight, for beta users on iOS.  Wait for that to go
+  out before discussing further.
+
+### Followup
+
+* Wait for the release to be approved for TestFlight.  (On failure, try to
+  fix, then resubmit.)
+
+* Push the tagged commit, and also push the corresponding changes to master.
+
+* Upload the APK to GitHub as usual.
+
+* Discuss freely.
+
 ## Initial setup
 
 ### Configure Sentry error reporting
