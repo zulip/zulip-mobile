@@ -1,5 +1,6 @@
 /* @flow */
 import type { Action } from './actionTypes';
+import type { AppStyles } from './styles/theme';
 
 export type { ChildrenArray } from 'react';
 
@@ -327,6 +328,11 @@ export type TopicsState = {
 };
 
 export type ThemeType = 'default' | 'night';
+
+export type Context = {
+  styles: AppStyles,
+  theme: ThemeType,
+};
 
 export type StatusBarStyle = 'light-content' | 'dark-content';
 
