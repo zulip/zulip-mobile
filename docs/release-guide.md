@@ -3,6 +3,57 @@
 This doc explains how to make a release of Zulip Mobile to the
 iOS App Store and the Google Play Store.
 
+## Terminology
+
+Google and Apple each have different terminology for the various
+channels of progressively wider release.  We don't use or need the
+full complexity of either one, and for sanity's sake we use a common,
+simple terminology for the process we follow with both.
+
+* **Alpha**: A release only to active developers of the app.
+
+  * On Google Play this means an "Internal test" release, and on iOS it
+    means a release in TestFlight to "iTunes Connect Users".
+
+  * On both platforms, a new version in this channel is available for update
+    immediately on devices.  We use it for final manual QA before releasing
+    to beta or production.
+
+  * NB Google Play has its own feature it calls "Alpha" (aka "Closed track"),
+    which is sort of intermediate between "Internal test" and "Beta".  We
+    don't use this feature.
+
+* **Beta**: A release to users who have volunteered to get new versions
+  early and give us feedback.
+
+  * On Google Play this means a "Beta" aka "Open track" release, and on iOS
+    it means a release to all our TestFlight users, through the "External
+    Testers" group.
+
+  * One difference between platforms: on Google Play a beta is open for
+    anyone to join, while on iOS it requires an invite from us.  But as we
+    say in the repo's README, our iOS beta is as open as we can make it:
+    just ask and we gladly send an invite.  (The Google Play analog of the
+    closed TestFlight model would be their "Alpha" aka "Closed track"
+    feature, so we don't use that.)
+
+  * We use this channel for wider testing of a release before sending to
+    production: about 1 day for a typical (stable) release, 2-4 days for a
+    new major release, or not at all for a security release.
+
+* **Production** (aka **prod**): A general release to all users.
+
+  * On Google Play this means a "Production" release, and on iOS an
+    App Store release.
+
+  * On iOS there is a gotcha we've occasionally fallen for in the past:
+    because releasing to the App Store is mostly a separate process from
+    releasing to TestFlight, it's easy to release a given version to the App
+    Store without ever interacting with TestFlight.  If we do, our beta
+    users will simply never get that version, and stay on the (older) last
+    version we gave them.  Naturally this isn't good for our kind beta
+    users, nor for us; so don't do this. :)
+
 ## Release procedure
 
 (For one-time initial setup, see [below](#initial-setup).)
