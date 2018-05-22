@@ -2,11 +2,17 @@
 import { NavigationActions } from 'react-navigation';
 
 import type { NavigateAction, GetState, Message, Narrow, ApiServerSettings } from '../types';
-import { getSameRoutesCount } from '../selectors';
+import { getSameRoutesCount, getSession } from '../selectors';
+import { cancelEditMessage } from '../actions';
 
-export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigateAction =>
+export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigateAction => {
+  // check for edit mode
+  if (getSession(getState()).editMessage) {
+    return dispatch(cancelEditMessage());
+  }
   // $FlowFixMe
-  dispatch(NavigationActions.pop({ n: getSameRoutesCount(getState()) }));
+  return dispatch(NavigationActions.pop({ n: getSameRoutesCount(getState()) }));
+};
 
 export const navigateToChat = (narrow: Narrow): NavigateAction =>
   NavigationActions.navigate({ routeName: 'chat', params: { narrow } });
