@@ -159,7 +159,12 @@ export default class ComposeBox extends PureComponent<Props, State> {
     const subject = topic !== editMessage.topic ? topic : undefined;
     if (content || subject) {
       updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
-        showErrorAlert(error.message, 'Failed to edit message');
+        const { response } = error;
+        try {
+          response.json().then(obj => showErrorAlert(obj.msg, 'Failed to edit message'));
+        } catch (e) {
+          showErrorAlert('', 'Failed to edit message');
+        }
       });
     }
     actions.cancelEditMessage();
