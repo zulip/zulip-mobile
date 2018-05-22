@@ -20,6 +20,6 @@ export default class TitlePrivate extends PureComponent<Props> {
   render() {
     const { styles } = this.context;
     const { text, color } = this.props;
-    return <Text style={[styles.navBar, { color }]}>{text}</Text>;
+    return <Text style={[styles.navTitle, styles.flexed, { color }]}>{text}</Text>;
   }
 }
