@@ -60,7 +60,7 @@ Further reading:
 
 * [Architecture](docs/architecture.md)
 * [Testing](docs/testing.md)
-* [Recommended Reading](docs/recommended-reading.md)
+* [Recommended Reading](docs/background/recommended-reading.md)
 * [Release Guide](docs/release-guide.md)
 
 ### History
