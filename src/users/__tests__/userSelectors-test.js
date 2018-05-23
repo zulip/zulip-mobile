@@ -177,6 +177,10 @@ describe('getUsersByEmail', () => {
         { email: 'def@example.com' },
         { email: 'xyz@example.com' },
       ],
+      realm: {
+        crossRealmBots: [],
+        nonActiveUsers: [],
+      },
     });
     const expectedResult = {
       'abc@example.com': { email: 'abc@example.com' },
