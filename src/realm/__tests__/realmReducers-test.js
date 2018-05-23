@@ -22,11 +22,13 @@ describe('realmReducers', () => {
 
       const expectedState = {
         canCreateStreams: true,
+        crossRealmBots: [],
         isAdmin: false,
         twentyFourHourTime: false,
         pushToken: { token: '', result: '', msg: '' },
         emoji: {},
         filters: [],
+        nonActiveUsers: [],
       };
 
       const actualState = realmReducers(initialState, action);
