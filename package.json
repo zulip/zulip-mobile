@@ -18,7 +18,7 @@
     "android-max": "react-native run-android",
     "android-release": "react-native run-android --variant=release",
     "generate-webview-js": "node tools/generate-webview-js",
-    "prettier": "prettier --write 'src/**/*.js'",
+    "prettier": "prettier --write --loglevel=warn 'src/**/*.js'",
     "test:prettier": "prettier --list-different 'src/**/*.js'",
     "test:lint": "eslint src/",
     "test:flow": "flow",
