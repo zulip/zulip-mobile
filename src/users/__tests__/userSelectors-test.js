@@ -6,7 +6,7 @@ import {
   getUsersStatusActive,
   getUsersStatusIdle,
   getUsersStatusOffline,
-  getUsersByEmail,
+  getAllUsersAndBotsByEmail,
   getUsersById,
   getUsersSansMe,
 } from '../userSelectors';
@@ -169,7 +169,7 @@ describe('getUsersStatusOffline', () => {
   });
 });
 
-describe('getUsersByEmail', () => {
+describe('getAllUsersAndBotsByEmail', () => {
   test('return users mapped by their email', () => {
     const state = deepFreeze({
       users: [
@@ -188,7 +188,7 @@ describe('getUsersByEmail', () => {
       'xyz@example.com': { email: 'xyz@example.com' },
     };
 
-    const result = getUsersByEmail(state);
+    const result = getAllUsersAndBotsByEmail(state);
 
     expect(result).toEqual(expectedResult);
   });
