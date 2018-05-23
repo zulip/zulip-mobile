@@ -18,6 +18,7 @@ export type AuthenticationMethods = {
   google: boolean,
   ldap: boolean,
   password: boolean,
+  remoteuser: boolean,
 };
 
 export type ApiServerSettings = {
