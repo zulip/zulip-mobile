@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import { NULL_USER } from '../nullObjects';
-import { getPresence, getUsers } from '../directSelectors';
+import { getPresence, getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
 import { getAccountDetailsScreenParams } from '../baseSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserByEmail } from './userHelpers';
@@ -53,11 +53,15 @@ export const getUsersStatusOffline = createSelector(
     ),
 );
 
-export const getUsersByEmail = createSelector(getUsers, users =>
-  users.reduce((usersByEmail, user) => {
-    usersByEmail[user.email] = user;
-    return usersByEmail;
-  }, {}),
+export const getUsersByEmail = createSelector(
+  getUsers,
+  getNonActiveUsers,
+  getCrossRealmBots,
+  (users, nonActiveUsers, crossRealmBots) =>
+    [...users, ...nonActiveUsers, ...crossRealmBots].reduce((usersByEmail, user) => {
+      usersByEmail[user.email] = user;
+      return usersByEmail;
+    }, {}),
 );
 
 export const getUsersById = createSelector(getUsers, (users = []) =>
