@@ -307,9 +307,19 @@ export type RealmEmojiState = {
   [id: string]: RealmEmojiType,
 };
 
+export type RealmBot = {
+  email: string,
+  full_name: string,
+  is_admin: boolean,
+  is_bot: true,
+  user_id: number,
+};
+
 export type RealmState = {
   twentyFourHourTime: boolean,
   canCreateStreams: boolean,
+  crossRealmBots: RealmBot[],
+  nonActiveUsers: User[],
   pushToken: {
     token: string,
     msg: string,
@@ -538,14 +548,6 @@ export type AuthGetStringAndMessageType = any;
 export type TabNavigationOptionsPropsType = {
   isFocussed: boolean,
   tintColor: string,
-};
-
-export type RealmBot = {
-  email: string,
-  full_name: string,
-  is_admin: boolean,
-  is_bot: true,
-  user_id: number,
 };
 
 export type NeverSubscribedStream = {
