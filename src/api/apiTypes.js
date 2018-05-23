@@ -13,7 +13,6 @@ export type ApiResponseWithPresence = ApiResponse & {
 
 export type AuthenticationMethods = {
   dev: boolean,
-  email: boolean,
   github: boolean,
   google: boolean,
   ldap: boolean,
