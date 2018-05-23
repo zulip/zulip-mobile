@@ -12,52 +12,13 @@ import AuthButton from './AuthButton';
 import { getFullUrl } from '../utils/url';
 import { extractApiKey } from '../utils/encoding';
 import { generateOtp, openBrowser, closeBrowser } from './oauth';
-import { IconPrivate, IconGoogle, IconGitHub, IconTerminal } from '../common/Icons';
+import { activeAuthentications } from './authentications';
 
 type Props = {
   actions: Actions,
   realm: string,
   navigation: Object,
 };
-
-const authentications = [
-  {
-    method: 'dev',
-    name: 'dev account',
-    Icon: IconTerminal,
-    handler: 'handleDevAuth',
-  },
-  {
-    method: 'password',
-    name: 'password',
-    Icon: IconPrivate,
-    handler: 'handlePassword',
-  },
-  {
-    method: 'ldap',
-    name: 'password',
-    Icon: IconPrivate,
-    handler: 'handlePassword',
-  },
-  {
-    method: 'google',
-    name: 'Google',
-    Icon: IconGoogle,
-    handler: 'handleGoogle',
-  },
-  {
-    method: 'github',
-    name: 'GitHub',
-    Icon: IconGitHub,
-    handler: 'handleGitHub',
-  },
-  {
-    method: 'remoteuser',
-    name: 'SSO',
-    Icon: IconPrivate,
-    handler: 'handleSso',
-  },
-];
 
 let otp = '';
 
@@ -72,7 +33,9 @@ class AuthScreen extends PureComponent<Props> {
       }
     });
 
-    const authList = this.activeAuthentications();
+    const authList = activeAuthentications(
+      this.props.navigation.state.params.serverSettings.authentication_methods,
+    );
     if (authList.length === 1) {
       // $FlowFixMe
       this[authList[0].handler]();
@@ -108,11 +71,6 @@ class AuthScreen extends PureComponent<Props> {
     }
   };
 
-  activeAuthentications = () =>
-    authentications.filter(
-      auth => this.props.navigation.state.params.serverSettings.authentication_methods[auth.method],
-    );
-
   handleDevAuth = () => {
     this.props.actions.navigateToDev();
   };
@@ -144,7 +102,7 @@ class AuthScreen extends PureComponent<Props> {
             name={serverSettings.realm_name}
             iconUrl={getFullUrl(serverSettings.realm_icon, this.props.realm)}
           />
-          {this.activeAuthentications().map(auth => (
+          {activeAuthentications(serverSettings.authentication_methods).map(auth => (
             <AuthButton
               key={auth.method}
               name={auth.name}
