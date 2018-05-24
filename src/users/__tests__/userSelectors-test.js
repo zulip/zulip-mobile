@@ -192,6 +192,25 @@ describe('getAllUsersAndBotsByEmail', () => {
 
     expect(result).toEqual(expectedResult);
   });
+
+  test('return users, bots, and inactive users mapped by their email', () => {
+    const state = deepFreeze({
+      users: [{ email: 'abc@example.com' }],
+      realm: {
+        crossRealmBots: [{ email: 'def@example.com' }],
+        nonActiveUsers: [{ email: 'xyz@example.com' }],
+      },
+    });
+    const expectedResult = {
+      'abc@example.com': { email: 'abc@example.com' },
+      'def@example.com': { email: 'def@example.com' },
+      'xyz@example.com': { email: 'xyz@example.com' },
+    };
+
+    const result = getAllUsersAndBotsByEmail(state);
+
+    expect(result).toEqual(expectedResult);
+  });
 });
 
 describe('getUsersById', () => {
