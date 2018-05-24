@@ -15,6 +15,7 @@ import {
   streamNarrow,
   topicNarrow,
   specialNarrow,
+  groupNarrow,
 } from '../../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../../nullObjects';
 
@@ -293,6 +294,70 @@ describe('isNarrowValid', () => {
       streams: [{ name: 'some stream' }],
     };
     const narrow = topicNarrow('some stream', 'topic does not matter');
+
+    const result = isNarrowValid(narrow)(state);
+
+    expect(result).toBe(true);
+  });
+
+  test('narrowing to a PM with existing user is valid', () => {
+    const state = {
+      realm: {
+        crossRealmBots: [],
+        nonActiveUsers: [],
+      },
+      streams: [],
+      users: [{ email: 'bob@example.com' }],
+    };
+    const narrow = privateNarrow('bob@example.com');
+
+    const result = isNarrowValid(narrow)(state);
+
+    expect(result).toBe(true);
+  });
+
+  test('narrowing to a PM with non-existing user is not valid', () => {
+    const state = {
+      realm: {
+        crossRealmBots: [],
+        nonActiveUsers: [],
+      },
+      streams: [],
+      users: [],
+    };
+    const narrow = privateNarrow('bob@example.com');
+
+    const result = isNarrowValid(narrow)(state);
+
+    expect(result).toBe(false);
+  });
+
+  test('narrowing to a group chat with non-existing user is not valid', () => {
+    const state = {
+      realm: {
+        crossRealmBots: [],
+        nonActiveUsers: [],
+      },
+      streams: [],
+      users: [{ email: 'john@example.com' }, { email: 'mark@example.com' }],
+    };
+    const narrow = groupNarrow(['john@example.com', 'mark@example.com']);
+
+    const result = isNarrowValid(narrow)(state);
+
+    expect(result).toBe(true);
+  });
+
+  test('narrowing to a group chat with non-existing users is also valid', () => {
+    const state = {
+      realm: {
+        crossRealmBots: [],
+        nonActiveUsers: [],
+      },
+      streams: [],
+      users: [],
+    };
+    const narrow = groupNarrow(['john@example.com', 'mark@example.com']);
 
     const result = isNarrowValid(narrow)(state);
 
