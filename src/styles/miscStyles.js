@@ -39,7 +39,6 @@ export type MiscStyles = {
   field: Style,
   disabled: Style,
   username: Style,
-  cardView: Style,
   lineSeparator: Style,
   floatingView: Style,
   alignBottom: Style,
@@ -213,13 +212,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     fontWeight: 'bold',
     fontSize: 16,
     lineHeight: 16,
-  },
-  cardView: {
-    backgroundColor: cardColor,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    elevation: 2,
   },
   lineSeparator: {
     height: 1,
