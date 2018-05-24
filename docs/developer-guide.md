@@ -22,6 +22,8 @@ Before starting, install these dependencies if you don't have them:
 * [Node.js](https://nodejs.org/en/download/package-manager/), latest 8.x version
 * [Yarn](https://yarnpkg.com/en/docs/install), latest stable version
 
+If you are using macOS, upgrade to the latest version of XCode.
+
 Then, run the commands below in your terminal:
 ```
 git clone https://github.com/zulip/zulip-mobile
