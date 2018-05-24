@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
@@ -45,24 +45,22 @@ class GroupDetailsScreen extends PureComponent<Props> {
 
     return (
       <Screen title={title}>
-        <View style={this.context.styles.cardView}>
-          <Label style={componentStyles.heading} text="Members" />
-          <FlatList
-            initialNumToRender={10}
-            data={recipients}
-            keyExtractor={item => item.email}
-            renderItem={({ item }) => (
-              <UserItem
-                key={item.email}
-                fullName={item.full_name}
-                avatarUrl={item.avatar_url}
-                email={item.email}
-                showEmail
-                onPress={() => this.handlePress(item.email)}
-              />
-            )}
-          />
-        </View>
+        <Label style={componentStyles.heading} text="Members" />
+        <FlatList
+          initialNumToRender={10}
+          data={recipients}
+          keyExtractor={item => item.email}
+          renderItem={({ item }) => (
+            <UserItem
+              key={item.email}
+              fullName={item.full_name}
+              avatarUrl={item.avatar_url}
+              email={item.email}
+              showEmail
+              onPress={() => this.handlePress(item.email)}
+            />
+          )}
+        />
       </Screen>
     );
   }
