@@ -259,7 +259,9 @@ describe('getStreamInNarrow', () => {
 
 describe('isNarrowValid', () => {
   test('narrowing to a special narrow is always valid', () => {
-    const state = {};
+    const state = {
+      realm: {},
+    };
     const narrow = specialNarrow('starred');
 
     const result = isNarrowValid(narrow)(state);
@@ -269,6 +271,7 @@ describe('isNarrowValid', () => {
 
   test('narrowing to an existing stream is valid', () => {
     const state = {
+      realm: {},
       streams: [{ name: 'some stream' }],
     };
     const narrow = streamNarrow('some stream');
@@ -280,6 +283,7 @@ describe('isNarrowValid', () => {
 
   test('narrowing to a non-existing stream is invalid', () => {
     const state = {
+      realm: {},
       streams: [],
     };
     const narrow = streamNarrow('nonexisting');
@@ -291,6 +295,7 @@ describe('isNarrowValid', () => {
 
   test('narrowing to an existing stream is valid regardless of topic', () => {
     const state = {
+      realm: {},
       streams: [{ name: 'some stream' }],
     };
     const narrow = topicNarrow('some stream', 'topic does not matter');
@@ -358,6 +363,38 @@ describe('isNarrowValid', () => {
       users: [],
     };
     const narrow = groupNarrow(['john@example.com', 'mark@example.com']);
+
+    const result = isNarrowValid(narrow)(state);
+
+    expect(result).toBe(true);
+  });
+
+  test('narrowing to a PM with bots is valid', () => {
+    const state = {
+      realm: {
+        crossRealmBots: [{ email: 'some-bot@example.com' }],
+        nonActiveUsers: [],
+      },
+      streams: [],
+      users: [],
+    };
+    const narrow = privateNarrow('some-bot@example.com');
+
+    const result = isNarrowValid(narrow)(state);
+
+    expect(result).toBe(true);
+  });
+
+  test('narrowing to non active users is valid', () => {
+    const state = {
+      realm: {
+        crossRealmBots: [],
+        nonActiveUsers: [{ email: 'not-active@example.com' }],
+      },
+      streams: [],
+      users: [],
+    };
+    const narrow = privateNarrow('not-active@example.com');
 
     const result = isNarrowValid(narrow)(state);
 

@@ -11,6 +11,7 @@ describe('messageActions', () => {
   describe('doNarrow', () => {
     test('when no messages in new narrow and caughtUp is false, actions to fetch messages and switch narrow are dispatched', () => {
       const store = mockStore({
+        realm: {},
         session: { isHydrated: true },
         caughtUp: {
           [streamNarrowStr]: {
@@ -38,6 +39,7 @@ describe('messageActions', () => {
 
     test('when no messages in new narrow but caught up, only switch to narrow, do not fetch', () => {
       const store = mockStore({
+        realm: {},
         session: { isHydrated: true },
         caughtUp: {
           [streamNarrowStr]: {
@@ -69,6 +71,7 @@ describe('messageActions', () => {
 
     test('when messages in new narrow are too few and not caught up, fetch more messages', () => {
       const store = mockStore({
+        realm: {},
         session: { isHydrated: true },
         caughtUp: {},
         ...navStateWithNarrow(homeNarrow),
@@ -93,6 +96,7 @@ describe('messageActions', () => {
 
     test('if new narrow stream is not valid, do nothing', () => {
       const store = mockStore({
+        realm: {},
         session: { isHydrated: true },
         caughtUp: {},
         ...navStateWithNarrow(homeNarrow),
@@ -114,6 +118,10 @@ describe('messageActions', () => {
 
     test('if new narrow user is deactivated, do nothing', () => {
       const store = mockStore({
+        realm: {
+          crossRealmBots: [],
+          nonActiveUsers: [],
+        },
         session: { isHydrated: true },
         caughtUp: {},
         ...navStateWithNarrow(homeNarrow),
