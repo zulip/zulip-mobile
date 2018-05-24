@@ -9,6 +9,8 @@ import {
   getUsers,
   getStreams,
   getOutbox,
+  getNonActiveUsers,
+  getCrossRealmBots,
 } from '../directSelectors';
 import { getCaughtUpForActiveNarrow } from '../caughtup/caughtUpSelectors';
 import { getIsFetching } from './fetchingSelectors';
@@ -139,14 +141,21 @@ export const getMessagesById = (narrow: Narrow) =>
 export const canSendToActiveNarrow = (narrow: Narrow) => canSendToNarrow(narrow);
 
 export const isNarrowValid = (narrow: Narrow) =>
-  createSelector(getStreams, getUsers, (streams, users) => {
-    if (isStreamOrTopicNarrow(narrow)) {
-      return streams.find(s => s.name === narrow[0].operand) !== undefined;
-    }
+  createSelector(
+    getStreams,
+    getUsers,
+    getNonActiveUsers,
+    getCrossRealmBots,
+    (streams, users, nonActiveUsers, crossRealmBots) => {
+      if (isStreamOrTopicNarrow(narrow)) {
+        return streams.find(s => s.name === narrow[0].operand) !== undefined;
+      }
 
-    if (isPrivateNarrow(narrow)) {
-      return users.find(u => u.email === narrow[0].operand) !== undefined;
-    }
+      if (isPrivateNarrow(narrow)) {
+        const allUsersAndBots = [...users, ...nonActiveUsers, ...crossRealmBots];
+        return allUsersAndBots.find(u => u.email === narrow[0].operand) !== undefined;
+      }
 
-    return true;
-  });
+      return true;
+    },
+  );
