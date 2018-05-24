@@ -20,7 +20,7 @@ We target operating systems >= Android 4.4 (API 19) and >= iOS 8.0.
 Before starting, install these dependencies if you don't have them:
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/en/download/package-manager/), latest 8.x version
-* [Yarn](https://yarnpkg.com/en/docs/install)
+* [Yarn](https://yarnpkg.com/en/docs/install), latest stable version
 
 Then, run the commands below in your terminal:
 ```
