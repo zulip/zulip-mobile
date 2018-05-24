@@ -3,26 +3,23 @@ import { createSelector } from 'reselect';
 
 import { NULL_USER } from '../nullObjects';
 import { getPresence, getUsers } from '../directSelectors';
-import { getAccountDetailsScreenParams } from '../baseSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserByEmail } from './userHelpers';
 
-export const getAccountDetailsUser = createSelector(
-  [getUsers, getAccountDetailsScreenParams],
-  (allUsers, params) => {
-    if (!params.email) {
+export const getAccountDetailsUser = (email: string) =>
+  createSelector([getUsers], allUsers => {
+    if (!email) {
       return NULL_USER;
     }
 
     return (
-      allUsers.find(x => x.email === params.email) || {
+      allUsers.find(x => x.email === email) || {
         ...NULL_USER,
-        email: params.email,
-        full_name: params.email,
+        email,
+        full_name: email,
       }
     );
-  },
-);
+  });
 
 export const getSelfUserDetail = createSelector(getUsers, getOwnEmail, (users, ownEmail) =>
   getUserByEmail(users, ownEmail),

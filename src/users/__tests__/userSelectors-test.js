@@ -10,32 +10,29 @@ import {
   getUsersById,
   getUsersSansMe,
 } from '../userSelectors';
+import { NULL_USER } from '../../nullObjects';
 
 describe('getAccountDetailsUser', () => {
+  test('if email is undefined return NULL_USER', () => {
+    const state = deepFreeze({
+      users: [],
+    });
+    expect(getAccountDetailsUser(undefined)(state)).toEqual(NULL_USER);
+  });
+
   test('return user for the account details screen', () => {
     const state = deepFreeze({
-      nav: {
-        index: 1,
-        routes: [{ routeName: 'first' }, { routeName: 'second', params: { email: 'b@a.com' } }],
-      },
       users: [{ firstName: 'a', email: 'a@a.com' }, { firstName: 'b', email: 'b@a.com' }],
     });
     const expectedUser = { firstName: 'b', email: 'b@a.com' };
 
-    const actualUser = getAccountDetailsUser(state);
+    const actualUser = getAccountDetailsUser('b@a.com')(state);
 
     expect(actualUser).toEqual(expectedUser);
   });
 
   test('if user does not exist return a user with the same email and no details', () => {
     const state = deepFreeze({
-      nav: {
-        index: 1,
-        routes: [
-          { routeName: 'first', params: { email: 'a@a.com' } },
-          { routeName: 'second', params: { email: 'b@a.com' } },
-        ],
-      },
       users: [],
     });
     const expectedUser = {
@@ -49,7 +46,7 @@ describe('getAccountDetailsUser', () => {
       is_bot: false,
     };
 
-    const actualUser = getAccountDetailsUser(state);
+    const actualUser = getAccountDetailsUser('b@a.com')(state);
 
     expect(actualUser).toEqual(expectedUser);
   });
