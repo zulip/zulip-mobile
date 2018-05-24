@@ -1,28 +1,25 @@
 /* @flow */
-import type { Narrow, Dispatch, GetState, GlobalState, SwitchNarrowAction } from '../types';
+import type { Narrow, Dispatch, GetState, SwitchNarrowAction } from '../types';
 import config from '../config';
 import { NULL_ARRAY, NULL_CAUGHTUP } from '../nullObjects';
-import { getAuth, getUsers, getAllMessages, getStreams, getIsHydrated } from '../selectors';
+import { getAuth, getUsers, getAllMessages, isNarrowValid, getIsHydrated } from '../selectors';
 import { SWITCH_NARROW } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
-import { validateNarrow } from '../utils/narrow';
 
 export const switchNarrow = (narrow: Narrow): SwitchNarrowAction => ({
   type: SWITCH_NARROW,
   narrow,
 });
 
-const isNarrowValid = (narrow: Narrow, state: GlobalState): boolean =>
-  validateNarrow(narrow, getStreams(state), getUsers(state));
-
 export const doNarrow = (narrow: Narrow, anchor: number = 0) => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
   const state = getState();
-  if (!isNarrowValid(narrow, state) || !getIsHydrated(state)) {
+
+  if (!isNarrowValid(narrow)(state) || !getIsHydrated(state)) {
     return;
   }
 

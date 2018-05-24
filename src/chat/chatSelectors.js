@@ -17,6 +17,7 @@ import {
   isPrivateOrGroupNarrow,
   isStreamNarrow,
   isHomeNarrow,
+  isPrivateNarrow,
   canSendToNarrow,
   isStreamOrTopicNarrow,
 } from '../utils/narrow';
@@ -136,3 +137,16 @@ export const getMessagesById = (narrow: Narrow) =>
   createSelector(getMessagesFromChatState(narrow), groupItemsById);
 
 export const canSendToActiveNarrow = (narrow: Narrow) => canSendToNarrow(narrow);
+
+export const isNarrowValid = (narrow: Narrow) =>
+  createSelector(getStreams, getUsers, (streams, users) => {
+    if (isStreamOrTopicNarrow(narrow)) {
+      return streams.find(s => s.name === narrow[0].operand) !== undefined;
+    }
+
+    if (isPrivateNarrow(narrow)) {
+      return users.find(u => u.email === narrow[0].operand) !== undefined;
+    }
+
+    return true;
+  });

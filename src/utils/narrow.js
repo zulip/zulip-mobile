@@ -2,7 +2,7 @@
 import isEqual from 'lodash.isequal';
 import unescape from 'lodash.unescape';
 
-import type { Narrow, Message, Stream, User } from '../types';
+import type { Narrow, Message } from '../types';
 import { normalizeRecipients } from './message';
 
 export const homeNarrow: Narrow = [];
@@ -149,20 +149,6 @@ export const getNarrowFromMessage = (message: Message, email: string) => {
   }
 
   return streamNarrow(message.display_recipient);
-};
-
-export const validateNarrow = (narrow: Narrow, streams: Stream[], users: User[]): boolean => {
-  if (isStreamOrTopicNarrow(narrow)) {
-    // check if stream is not outdated
-    return streams && streams.find(s => s.name === narrow[0].operand) !== undefined;
-  }
-
-  if (isPrivateNarrow(narrow)) {
-    // check user account is not deactivited
-    return users && users.find(u => u.email === narrow[0].operand) !== undefined;
-  }
-
-  return true;
 };
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
