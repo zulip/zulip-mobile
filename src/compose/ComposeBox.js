@@ -44,6 +44,7 @@ type State = {
   isMenuExpanded: boolean,
   topic: string,
   message: string,
+  messageBoxPlaceholder: string,
   height: number,
   selection: InputSelectionType,
 };
@@ -170,7 +171,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     actions.cancelEditMessage();
   };
 
-  onComposeMenuAnimationCompleted = isVisible => {
+  onComposeMenuAnimationCompleted = (isVisible: boolean) => {
     const { auth, narrow, users } = this.props;
     this.setState({
       messageBoxPlaceholder: isVisible
@@ -237,7 +238,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
     const {
       canSend,
       narrow,
-
       editMessage,
       safeAreaInsets,
       messageInputRef,
@@ -253,6 +253,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     }
 
     const canSelectTopic = (isMessageFocused || isTopicFocused) && isStreamNarrow(narrow);
+    const placeholder = isMenuExpanded ? 'Message' : messageBoxPlaceholder;
 
     return (
       <View style={{ marginBottom: safeAreaInsets.bottom }}>
@@ -293,7 +294,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
             )}
             <MultilineInput
               style={styles.composeTextInput}
-              placeholder={messageBoxPlaceholder}
+              placeholder={placeholder}
               textInputRef={component => {
                 if (component) {
                   this.messageInput = component;
