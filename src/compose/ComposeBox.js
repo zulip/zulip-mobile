@@ -239,7 +239,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     }
 
     const canSelectTopic = (isMessageFocused || isTopicFocused) && isStreamNarrow(narrow);
-    const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
+    const placeholder = isMenuExpanded ? 'Message' : getComposeInputPlaceholder(narrow, auth.email, users);
 
     return (
       <View style={{ marginBottom: safeAreaInsets.bottom }}>
