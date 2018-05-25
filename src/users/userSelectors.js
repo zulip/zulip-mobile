@@ -57,7 +57,11 @@ export const getAllUsersAndBots = createSelector(
   getUsers,
   getNonActiveUsers,
   getCrossRealmBots,
-  (users, nonActiveUsers, crossRealmBots) => [...users, ...nonActiveUsers, ...crossRealmBots],
+  (users = [], nonActiveUsers = [], crossRealmBots = []) => [
+    ...users,
+    ...nonActiveUsers,
+    ...crossRealmBots,
+  ],
 );
 
 export const getAllUsersAndBotsByEmail = createSelector(getAllUsersAndBots, allUsersAndBots =>
