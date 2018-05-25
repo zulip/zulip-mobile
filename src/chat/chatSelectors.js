@@ -9,10 +9,9 @@ import {
   getUsers,
   getStreams,
   getOutbox,
-  getNonActiveUsers,
-  getCrossRealmBots,
 } from '../directSelectors';
 import { getCaughtUpForActiveNarrow } from '../caughtup/caughtUpSelectors';
+import { getAllUsersAndBots } from '../users/userSelectors';
 import { getIsFetching } from './fetchingSelectors';
 import {
   isAllPrivateNarrow,
@@ -92,7 +91,10 @@ export const getLastTopicForNarrow = (narrow: Narrow) =>
   });
 
 export const getUserInPmNarrow = (narrow: Narrow) =>
-  createSelector(getUsers, users => users.find(x => x.email === narrow[0].operand) || NULL_USER);
+  createSelector(
+    getAllUsersAndBots,
+    allUsersAndBots => allUsersAndBots.find(x => x.email === narrow[0].operand) || NULL_USER,
+  );
 
 export const getRecipientsInGroupNarrow = (narrow: Narrow) =>
   createSelector(
@@ -141,21 +143,14 @@ export const getMessagesById = (narrow: Narrow) =>
 export const canSendToActiveNarrow = (narrow: Narrow) => canSendToNarrow(narrow);
 
 export const isNarrowValid = (narrow: Narrow) =>
-  createSelector(
-    getStreams,
-    getUsers,
-    getNonActiveUsers,
-    getCrossRealmBots,
-    (streams, users, nonActiveUsers, crossRealmBots) => {
-      if (isStreamOrTopicNarrow(narrow)) {
-        return streams.find(s => s.name === narrow[0].operand) !== undefined;
-      }
+  createSelector(getStreams, getAllUsersAndBots, (streams, allUsersAndBots) => {
+    if (isStreamOrTopicNarrow(narrow)) {
+      return streams.find(s => s.name === narrow[0].operand) !== undefined;
+    }
 
-      if (isPrivateNarrow(narrow)) {
-        const allUsersAndBots = [...users, ...nonActiveUsers, ...crossRealmBots];
-        return allUsersAndBots.find(u => u.email === narrow[0].operand) !== undefined;
-      }
+    if (isPrivateNarrow(narrow)) {
+      return allUsersAndBots.find(u => u.email === narrow[0].operand) !== undefined;
+    }
 
-      return true;
-    },
-  );
+    return true;
+  });
