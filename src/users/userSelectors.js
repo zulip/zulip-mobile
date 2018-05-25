@@ -7,23 +7,6 @@ import { getAccountDetailsScreenParams } from '../baseSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserByEmail } from './userHelpers';
 
-export const getAccountDetailsUser = createSelector(
-  [getUsers, getAccountDetailsScreenParams],
-  (allUsers, params) => {
-    if (!params.email) {
-      return NULL_USER;
-    }
-
-    return (
-      allUsers.find(x => x.email === params.email) || {
-        ...NULL_USER,
-        email: params.email,
-        full_name: params.email,
-      }
-    );
-  },
-);
-
 export const getSelfUserDetail = createSelector(getUsers, getOwnEmail, (users, ownEmail) =>
   getUserByEmail(users, ownEmail),
 );
@@ -80,4 +63,22 @@ export const getUsersById = createSelector(getUsers, (users = []) =>
 
 export const getUsersSansMe = createSelector(getUsers, getOwnEmail, (users, ownEmail) =>
   users.filter(user => user.email !== ownEmail),
+);
+
+export const getAccountDetailsUser = createSelector(
+  getAllUsersAndBots,
+  getAccountDetailsScreenParams,
+  (allUsersAndBots, params) => {
+    if (!params.email) {
+      return NULL_USER;
+    }
+
+    return (
+      allUsersAndBots.find(x => x.email === params.email) || {
+        ...NULL_USER,
+        email: params.email,
+        full_name: params.email,
+      }
+    );
+  },
 );
