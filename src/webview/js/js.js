@@ -323,6 +323,18 @@ documentBody.addEventListener('click', e => {
 });
 
 const handleLongPress = e => {
+  // The logic that defines a "long press" in terms of raw touch events
+  // is pretty subtle.  The `lastTouchEventTimestamp` and surrounding logic
+  // are an attempt to define a long press.
+  //
+  // TODO: The logic around this "timestamp" is a bit obscure; it's
+  // sometimes a real timestamp, other times 0 as sort of a boolean flag.
+  // It would be good to clean it up to be clearer.
+  //
+  // At the same time, the logic is believed not to cover all the cases it
+  // should; for example, multitouch events.  Better would be to either find
+  // a library we can use which strives to handle all that complexity, or
+  // get long-press events from the platform.
   if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
 
   lastTouchEventTimestamp = 0;
