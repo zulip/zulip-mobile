@@ -60,15 +60,11 @@ export const getAllUsersAndBots = createSelector(
   (users, nonActiveUsers, crossRealmBots) => [...users, ...nonActiveUsers, ...crossRealmBots],
 );
 
-export const getAllUsersAndBotsByEmail = createSelector(
-  getUsers,
-  getNonActiveUsers,
-  getCrossRealmBots,
-  (users, nonActiveUsers, crossRealmBots) =>
-    [...users, ...nonActiveUsers, ...crossRealmBots].reduce((usersByEmail, user) => {
-      usersByEmail[user.email] = user;
-      return usersByEmail;
-    }, {}),
+export const getAllUsersAndBotsByEmail = createSelector(getAllUsersAndBots, allUsersAndBots =>
+  allUsersAndBots.reduce((usersByEmail, user) => {
+    usersByEmail[user.email] = user;
+    return usersByEmail;
+  }, {}),
 );
 
 export const getUsersById = createSelector(getUsers, (users = []) =>
