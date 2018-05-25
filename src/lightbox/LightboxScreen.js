@@ -6,7 +6,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { ZulipStatusBar } from '../common';
 import LightboxContainer from './LightboxContainer';
-import type { Message, ImageResource } from '../types';
+import type { Message } from '../types';
 
 const styles = StyleSheet.create({
   screen: {
@@ -21,7 +21,7 @@ type Props = {
   navigation: NavigationScreenProp<*> & {
     state: {
       params: {
-        src: ImageResource,
+        src: string,
         message: Message,
       },
     },

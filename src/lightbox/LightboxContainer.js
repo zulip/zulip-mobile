@@ -4,7 +4,7 @@ import { View, StyleSheet, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Actions, Auth, Message, ImageResource } from '../types';
+import type { Actions, Auth, Message } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getAuth } from '../selectors';
 import { getResource } from '../utils/url';
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 type Props = {
   auth: Auth,
   actions: Actions,
-  src: ImageResource,
+  src: string,
   message: Message,
   handleImagePress: (movement: string) => void,
   showActionSheetWithOptions: (Object, (number) => void) => void,
