@@ -15,6 +15,7 @@ import {
   isStreamNarrow,
   isTopicNarrow,
   isSearchNarrow,
+  canSendToNarrow,
 } from '../utils/narrow';
 
 const styles = StyleSheet.create({
@@ -64,7 +65,7 @@ class NoMessages extends PureComponent<Props> {
     return (
       <View style={styles.container}>
         <Label style={styles.text} text={message.text} />
-        <Label text="Why not start the conversation?" />
+        {canSendToNarrow(narrow) ? <Label text="Why not start the conversation?" /> : null}
       </View>
     );
   }
