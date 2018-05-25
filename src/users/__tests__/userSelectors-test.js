@@ -19,6 +19,7 @@ describe('getAccountDetailsUser', () => {
         index: 1,
         routes: [{ routeName: 'first' }, { routeName: 'second', params: { email: 'b@a.com' } }],
       },
+      realm: {},
       users: [{ firstName: 'a', email: 'a@a.com' }, { firstName: 'b', email: 'b@a.com' }],
     });
     const expectedUser = { firstName: 'b', email: 'b@a.com' };
@@ -37,6 +38,7 @@ describe('getAccountDetailsUser', () => {
           { routeName: 'second', params: { email: 'b@a.com' } },
         ],
       },
+      realm: {},
       users: [],
     });
     const expectedUser = {
