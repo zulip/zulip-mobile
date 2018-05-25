@@ -6,7 +6,6 @@ import {
   getAllMessages,
   getSubscriptions,
   getMute,
-  getUsers,
   getStreams,
   getOutbox,
 } from '../directSelectors';
@@ -98,11 +97,11 @@ export const getUserInPmNarrow = (narrow: Narrow) =>
 
 export const getRecipientsInGroupNarrow = (narrow: Narrow) =>
   createSelector(
-    getUsers,
-    users =>
+    getAllUsersAndBots,
+    allUsersAndBots =>
       !narrow || narrow.length === 0
         ? []
-        : narrow[0].operand.split(',').map(r => users.find(x => x.email === r) || []),
+        : narrow[0].operand.split(',').map(r => allUsersAndBots.find(x => x.email === r) || []),
   );
 
 export const getStreamInNarrow = (narrow: Narrow) =>
