@@ -189,6 +189,17 @@ describe('getAllUsersAndBots', () => {
 
     expect(result).toEqual(expectedResult);
   });
+
+  test('empty state does not cause an exception, returns an empty list', () => {
+    const state = deepFreeze({
+      realm: {},
+    });
+    const expectedResult = [];
+
+    const result = getAllUsersAndBots(state);
+
+    expect(result).toEqual(expectedResult);
+  });
 });
 
 describe('getAllUsersAndBotsByEmail', () => {
