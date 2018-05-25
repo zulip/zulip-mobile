@@ -9,9 +9,7 @@ export default `
 'use strict';
 
 
-
 var documentBody = document.body;
-
 if (!documentBody) throw new Error('No document.body element!');
 
 var escapeHtml = function escapeHtml(text) {

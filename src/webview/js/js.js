@@ -6,8 +6,9 @@ import type {
   MessageInputTyping,
 } from '../webViewHandleUpdates';
 
+// We pull out document.body in one place, and check it's not null, in order
+// to provide that assertion to the type-checker.
 const documentBody = document.body;
-
 if (!documentBody) throw new Error('No document.body element!');
 
 const escapeHtml = (text: string): string => {
