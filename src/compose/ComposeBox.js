@@ -44,6 +44,7 @@ type State = {
   isMenuExpanded: boolean,
   topic: string,
   message: string,
+  messageBoxPlaceholder: string,
   height: number,
   selection: InputSelectionType,
 };
@@ -67,6 +68,11 @@ export default class ComposeBox extends PureComponent<Props, State> {
     height: 20,
     topic: '',
     message: this.props.draft,
+    messageBoxPlaceholder: getComposeInputPlaceholder(
+      this.props.narrow,
+      this.props.auth.email,
+      this.props.users,
+    ),
     selection: { start: 0, end: 0 },
   };
 
@@ -165,6 +171,15 @@ export default class ComposeBox extends PureComponent<Props, State> {
     actions.cancelEditMessage();
   };
 
+  onComposeMenuAnimationCompleted = (isVisible: boolean) => {
+    const { auth, narrow, users } = this.props;
+    this.setState({
+      messageBoxPlaceholder: isVisible
+        ? 'Message'
+        : getComposeInputPlaceholder(narrow, auth.email, users),
+    });
+  };
+
   tryUpdateDraft = () => {
     const { actions, draft, narrow } = this.props;
     const { message } = this.state;
@@ -216,14 +231,13 @@ export default class ComposeBox extends PureComponent<Props, State> {
       isMenuExpanded,
       height,
       message,
+      messageBoxPlaceholder,
       topic,
       selection,
     } = this.state;
     const {
-      auth,
       canSend,
       narrow,
-      users,
       editMessage,
       safeAreaInsets,
       messageInputRef,
@@ -239,7 +253,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     }
 
     const canSelectTopic = (isMessageFocused || isTopicFocused) && isStreamNarrow(narrow);
-    const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
+    const placeholder = isMenuExpanded ? 'Message' : messageBoxPlaceholder;
 
     return (
       <View style={{ marginBottom: safeAreaInsets.bottom }}>
@@ -256,6 +270,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
         <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
           <View style={styles.alignBottom}>
             <ComposeMenuContainer
+              onAnimationCompleted={this.onComposeMenuAnimationCompleted}
               narrow={narrow}
               expanded={isMenuExpanded}
               onExpandContract={this.handleComposeMenuToggle}

@@ -13,6 +13,7 @@ type Props = {
   actions: Actions,
   expanded: boolean,
   narrow: Narrow,
+  onAnimationCompleted: (visible: boolean) => void,
   onExpandContract: () => void,
 };
 
@@ -59,11 +60,17 @@ export default class ComposeMenu extends Component<Props> {
 
   render() {
     const { styles } = this.context;
-    const { actions, expanded, onExpandContract } = this.props;
+    const { actions, expanded, onAnimationCompleted, onExpandContract } = this.props;
 
     return (
       <View style={styles.composeMenu}>
-        <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={120}>
+        <AnimatedComponent
+          property="width"
+          useNativeDriver={false}
+          onAnimationCompleted={onAnimationCompleted}
+          visible={expanded}
+          width={120}
+        >
           <View style={styles.composeMenu}>
             <IconPeople
               style={styles.composeMenuButton}
