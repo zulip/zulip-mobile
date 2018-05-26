@@ -17,8 +17,12 @@ export const longDate = (date: Date): string => format(date, 'MMM D, YYYY');
 export const daysInDate = (date: Date): number => Math.trunc(date / 1000 / 60 / 60 / 24);
 
 export const humanDate = (date: Date): string => {
-  if (isToday(date)) return 'Today';
-  if (isYesterday(date)) return 'Yesterday';
+  if (isToday(date)) {
+    return 'Today';
+  }
+  if (isYesterday(date)) {
+    return 'Yesterday';
+  }
 
   return isSameYear(new Date(date), new Date()) ? shortDate(date) : longDate(date);
 };

@@ -9,7 +9,9 @@ import type {
 // We pull out document.body in one place, and check it's not null, in order
 // to provide that assertion to the type-checker.
 const documentBody = document.body;
-if (!documentBody) throw new Error('No document.body element!');
+if (!documentBody) {
+  throw new Error('No document.body element!');
+}
 
 const escapeHtml = (text: string): string => {
   const element = document.createElement('div');
@@ -153,7 +155,9 @@ const sendScrollMessageIfListShort = () => {
 
 const handleScrollEvent = () => {
   lastTouchEventTimestamp = 0;
-  if (scrollEventsDisabled) return;
+  if (scrollEventsDisabled) {
+    return;
+  }
 
   sendScrollMessage();
 
@@ -335,7 +339,9 @@ const handleLongPress = e => {
   // should; for example, multitouch events.  Better would be to either find
   // a library we can use which strives to handle all that complexity, or
   // get long-press events from the platform.
-  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
+  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) {
+    return;
+  }
 
   lastTouchEventTimestamp = 0;
 
@@ -347,7 +353,9 @@ const handleLongPress = e => {
 };
 
 documentBody.addEventListener('touchstart', e => {
-  if (e.changedTouches[0].pageX < 20) return;
+  if (e.changedTouches[0].pageX < 20) {
+    return;
+  }
 
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;

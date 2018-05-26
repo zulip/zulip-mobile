@@ -22,7 +22,9 @@ class EmojiAutocomplete extends PureComponent<Props> {
     const { filter, realmEmoji, onAutocomplete } = this.props;
     const emojis = getFilteredEmojiList(filter, realmEmoji);
 
-    if (emojis.length === 0) return null;
+    if (emojis.length === 0) {
+      return null;
+    }
 
     return (
       <Popup>

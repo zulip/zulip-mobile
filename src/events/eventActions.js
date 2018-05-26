@@ -17,7 +17,9 @@ export const responseToActions = (state: GlobalState, response: Object): EventAc
       return eventToAction(state, event);
     })
     .filter(action => {
-      if (action.type === 'ignore') return false;
+      if (action.type === 'ignore') {
+        return false;
+      }
 
       if (!action || !action.type || action.type === 'unknown') {
         console.log('Can not handle event', action.event); // eslint-disable-line

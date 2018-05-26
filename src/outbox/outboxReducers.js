@@ -15,7 +15,9 @@ const initialState = NULL_ARRAY;
 
 const messageSendStart = (state: OutboxState, action: MessageSendStartAction): OutboxState => {
   const message = state.find(item => item.timestamp === action.outbox.timestamp);
-  if (message) return state;
+  if (message) {
+    return state;
+  }
   return [...state, { ...action.outbox }];
 };
 

@@ -41,7 +41,9 @@ export default class ConversationList extends PureComponent<Props> {
           if (item.recipients.indexOf(',') === -1) {
             const user = usersByEmail[item.recipients];
 
-            if (!user) return null;
+            if (!user) {
+              return null;
+            }
 
             return (
               <UserItem

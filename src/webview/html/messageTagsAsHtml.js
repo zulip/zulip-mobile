@@ -4,7 +4,9 @@ import template from './template';
 
 export default (flags: Object, timeEdited?: number): string => {
   const isStarred = flags.indexOf('starred') > -1;
-  if (timeEdited === undefined && !isStarred) return '';
+  if (timeEdited === undefined && !isStarred) {
+    return '';
+  }
 
   const editedTime = timeEdited ? distanceInWordsToNow(timeEdited * 1000) : '';
 

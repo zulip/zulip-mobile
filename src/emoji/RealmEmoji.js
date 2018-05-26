@@ -23,7 +23,9 @@ class RealmEmoji extends PureComponent<Props> {
   render() {
     const { name, realmEmoji } = this.props;
 
-    if (!realmEmoji[name]) return null;
+    if (!realmEmoji[name]) {
+      return null;
+    }
 
     return <Image style={styles.image} source={{ uri: realmEmoji[name].source_url }} />;
   }

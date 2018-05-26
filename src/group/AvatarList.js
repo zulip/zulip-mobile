@@ -29,7 +29,9 @@ export default class AvatarList extends PureComponent<Props> {
         initialNumToRender={20}
         data={users}
         ref={(component: any) => {
-          if (listRef) listRef(component);
+          if (listRef) {
+            listRef(component);
+          }
         }}
         keyExtractor={item => item.email}
         renderItem={({ item }) => (

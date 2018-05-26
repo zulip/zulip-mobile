@@ -39,8 +39,12 @@ export const outboxMessagesForCurrentNarrow = (narrow: Narrow) =>
     }
 
     return outboxMessages.filter(item => {
-      if (isAllPrivateNarrow(narrow) && isPrivateOrGroupNarrow(item.narrow)) return true;
-      if (isStreamNarrow(narrow) && item.narrow[0].operand === narrow[0].operand) return true;
+      if (isAllPrivateNarrow(narrow) && isPrivateOrGroupNarrow(item.narrow)) {
+        return true;
+      }
+      if (isStreamNarrow(narrow) && item.narrow[0].operand === narrow[0].operand) {
+        return true;
+      }
       return JSON.stringify(item.narrow) === JSON.stringify(narrow);
     });
   });

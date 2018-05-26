@@ -57,7 +57,9 @@ export default class UnreadCount extends PureComponent<Props> {
   render() {
     const { style, isMuted, borderRadius, color, count, inverse, limited } = this.props;
 
-    if (!count) return null;
+    if (!count) {
+      return null;
+    }
 
     const frameStyle = [
       styles.frame,

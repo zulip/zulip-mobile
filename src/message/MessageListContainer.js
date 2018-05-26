@@ -67,7 +67,9 @@ class MessageListContainer extends PureComponent<Props> {
     const { messages, showActionSheetWithOptions } = this.props;
     const message = messages.find(x => x.id === messageId);
 
-    if (!message) return;
+    if (!message) {
+      return;
+    }
 
     const getString = value => this.context.intl.formatMessage({ id: value });
     const options = constructActionButtons(target)({

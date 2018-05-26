@@ -23,7 +23,9 @@ class PeopleAutocomplete extends PureComponent<Props> {
     const { filter, ownEmail, users, onAutocomplete } = this.props;
     const people: User[] = getAutocompleteSuggestion(users, filter, ownEmail);
 
-    if (people.length === 0) return null;
+    if (people.length === 0) {
+      return null;
+    }
 
     return (
       <Popup>

@@ -23,7 +23,9 @@ class StreamAutocomplete extends PureComponent<Props> {
       x.name.toLowerCase().startsWith(filter.toLowerCase()),
     );
 
-    if (streams.length === 0) return null;
+    if (streams.length === 0) {
+      return null;
+    }
 
     return (
       <Popup>

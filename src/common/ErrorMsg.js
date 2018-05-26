@@ -29,7 +29,9 @@ export default class ErrorMsg extends PureComponent<Props> {
   render() {
     const { error } = this.props;
 
-    if (!error) return null;
+    if (!error) {
+      return null;
+    }
 
     return (
       <View style={styles.field}>

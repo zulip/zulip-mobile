@@ -50,7 +50,9 @@ describe('tryUntilSuccessful', () => {
     let callCount = 0;
     const thrower = () => {
       callCount++;
-      if (callCount === 1) throw new Error('First run exception');
+      if (callCount === 1) {
+        throw new Error('First run exception');
+      }
       return 'hello';
     };
 
@@ -63,7 +65,9 @@ describe('tryUntilSuccessful', () => {
     let callCount = 0;
     const thrower = () => {
       callCount++;
-      if (callCount === 1) throw new Error('First run exception');
+      if (callCount === 1) {
+        throw new Error('First run exception');
+      }
       return 'hello';
     };
 

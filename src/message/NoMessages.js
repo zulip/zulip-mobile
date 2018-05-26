@@ -58,7 +58,9 @@ class NoMessages extends PureComponent<Props> {
   render() {
     const { noMessages, showMessagePlaceholders, narrow } = this.props;
 
-    if (!noMessages || showMessagePlaceholders) return null;
+    if (!noMessages || showMessagePlaceholders) {
+      return null;
+    }
 
     const message = messages.find(x => x.isFunc(narrow)) || {};
 

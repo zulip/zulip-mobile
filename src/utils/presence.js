@@ -36,7 +36,9 @@ export const getAggregatedPresence = (presence: Presence): PresenceAggregated =>
     );
 
 export const presenceToHumanTime = (presence: Presence): string => {
-  if (!presence || !presence.aggregated) return 'never';
+  if (!presence || !presence.aggregated) {
+    return 'never';
+  }
 
   const lastTimeActive = new Date(presence.aggregated.timestamp * 1000);
   return differenceInSeconds(Date.now(), lastTimeActive) < OFFLINE_THRESHOLD_SECS

@@ -39,7 +39,9 @@ export const getSameRoutesAndParamsCount = createSelector(getNav, nav => {
 });
 
 export const getPreviousDifferentRoute = createSelector(getNav, nav => {
-  if (nav.routes.length < 2) return '';
+  if (nav.routes.length < 2) {
+    return '';
+  }
 
   let i = nav.routes.length - 2;
   while (i >= 0 && nav.routes[i].routeName === nav.routes[nav.routes.length - 1].routeName) {
@@ -50,7 +52,9 @@ export const getPreviousDifferentRoute = createSelector(getNav, nav => {
 });
 
 export const getPreviousDifferentRouteAndParams = createSelector(getNav, nav => {
-  if (nav.routes.length < 2) return '';
+  if (nav.routes.length < 2) {
+    return '';
+  }
 
   let i = nav.routes.length - 2;
   while (

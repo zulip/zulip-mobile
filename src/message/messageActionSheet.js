@@ -98,7 +98,9 @@ const reply = ({ message, actions, auth, currentRoute, onReplySelect }: ReplyOpt
     actions.navigateBack();
   }
   actions.doNarrow(getNarrowFromMessage(message, auth.email), message.id);
-  if (onReplySelect) onReplySelect(); // focus message input
+  if (onReplySelect) {
+    onReplySelect();
+  } // focus message input
 };
 
 const copyToClipboard = async ({ getString, auth, message }: AuthGetStringAndMessageType) => {
@@ -177,7 +179,9 @@ type HeaderButtonType = {
 
 const resolveMultiple = (message, auth, narrow, functions) =>
   functions.every(f => {
-    if (!f({ message, auth, narrow })) return false;
+    if (!f({ message, auth, narrow })) {
+      return false;
+    }
     return true;
   });
 

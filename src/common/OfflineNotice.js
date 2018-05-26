@@ -30,7 +30,9 @@ class OfflineNotice extends PureComponent<Props> {
   render() {
     const { isOnline } = this.props;
 
-    if (isOnline) return null;
+    if (isOnline) {
+      return null;
+    }
 
     return (
       <View style={styles.block}>

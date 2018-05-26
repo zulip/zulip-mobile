@@ -27,7 +27,9 @@ class TopicAutocomplete extends PureComponent<Props> {
   render() {
     const { isFocused, topics, text, onAutocomplete } = this.props;
 
-    if (!isFocused || text.length === 0) return null;
+    if (!isFocused || text.length === 0) {
+      return null;
+    }
 
     const topicsToSuggest = topics.filter(x => x && x !== text && x.match(new RegExp(text, 'i')));
 

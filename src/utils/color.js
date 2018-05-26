@@ -7,8 +7,12 @@ export const foregroundColorFromBackground = (color: ColorValue): string =>
 
 export const colorHashFromName = (name: string): string => {
   let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = hash * 31 + name.charCodeAt(1);
+  for (let i = 0; i < name.length; i++) {
+    hash = hash * 31 + name.charCodeAt(1);
+  }
   let colorHash = hash % 0xffffff;
-  if (colorHash < 0x100000) colorHash += 0x100000;
+  if (colorHash < 0x100000) {
+    colorHash += 0x100000;
+  }
   return `#${colorHash.toString(16)}`;
 };

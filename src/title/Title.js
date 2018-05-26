@@ -47,7 +47,9 @@ class Title extends PureComponent<Props> {
 
     const titleType = narrow && titles.find(x => x.isFunc(narrow));
 
-    if (!titleType) return null;
+    if (!titleType) {
+      return null;
+    }
 
     return <titleType.component color={color} narrow={narrow} />;
   }

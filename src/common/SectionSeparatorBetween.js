@@ -13,7 +13,9 @@ export default class SectionSeparatorBetween extends PureComponent<Props> {
   render() {
     const { leadingItem, leadingSection } = this.props;
 
-    if (leadingItem || !leadingSection || leadingSection.data.length === 0) return null;
+    if (leadingItem || !leadingSection || leadingSection.data.length === 0) {
+      return null;
+    }
 
     return <SectionSeparator />;
   }

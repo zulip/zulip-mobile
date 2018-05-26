@@ -26,7 +26,6 @@ rules:
     trailingComma: all
   camelcase: off
   new-cap: [error, {capIsNew: false}]
-  curly: [error, multi-line]
   comma-dangle: [error, always-multiline]
   quote-props: off
   indent: off
@@ -35,6 +34,11 @@ rules:
   no-mixed-operators: off
   function-paren-newline: off
   object-curly-newline: off
+
+  # Disallow tucking a condition or loop body in at the end of a line, like
+  # `if (condition) return;`.  That makes it much too easy to miss control flow.
+  nonblock-statement-body-position: [error, below]
+  curly: [error, all]
 
   # Tricky code.  We repeal several bans from the Airbnb style.
   no-bitwise: off

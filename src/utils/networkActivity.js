@@ -6,7 +6,9 @@ import { StatusBar, Platform } from 'react-native';
 let activityCounter = 0;
 
 export const networkActivityStart = (isSilent: boolean) => {
-  if (isSilent) return;
+  if (isSilent) {
+    return;
+  }
 
   activityCounter++;
   if (Platform.OS === 'ios') {
@@ -15,7 +17,9 @@ export const networkActivityStart = (isSilent: boolean) => {
 };
 
 export const networkActivityStop = (isSilent: boolean) => {
-  if (isSilent) return;
+  if (isSilent) {
+    return;
+  }
 
   activityCounter--;
   if (activityCounter === 0 && Platform.OS === 'ios') {
