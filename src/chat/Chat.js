@@ -54,6 +54,7 @@ export default class Chat extends PureComponent<Props> {
             }}
           />
           <ComposeBoxContainer
+            /* $FlowFixMe: our own props type should probably require `narrow` */
             narrow={narrow}
             messageInputRef={(component: any) => {
               this.messageInputRef = component || this.messageInputRef;

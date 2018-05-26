@@ -11,7 +11,7 @@ import type {
   EditMessage,
   InputSelectionType,
   User,
-  Actions,
+  Dispatch,
   Dimensions,
 } from '../types';
 import { updateMessage } from '../api';
@@ -23,6 +23,11 @@ import ComposeMenuContainer from './ComposeMenuContainer';
 import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
+import { draftAdd, draftRemove } from '../drafts/draftsActions';
+import { addToOutbox } from '../outbox/outboxActions';
+import { cancelEditMessage } from '../session/sessionActions';
+import { fetchTopicsForActiveStream } from '../topics/topicActions';
+import { sendTypingEvent } from '../users/usersActions';
 
 type Props = {
   auth: Auth,
@@ -34,7 +39,7 @@ type Props = {
   isSubscribed: boolean,
   editMessage: EditMessage,
   safeAreaInsets: Dimensions,
-  actions: Actions,
+  dispatch: Dispatch,
   messageInputRef: (component: any) => void,
 };
 
@@ -88,8 +93,8 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
   handleMessageChange = (message: string) => {
     this.setState({ message });
-    const { actions, narrow } = this.props;
-    actions.sendTypingEvent(narrow);
+    const { dispatch, narrow } = this.props;
+    dispatch(sendTypingEvent(narrow));
   };
 
   handleMessageSelectionChange = (event: Object) => {
@@ -113,12 +118,12 @@ export default class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleTopicFocus = () => {
-    const { actions, narrow } = this.props;
+    const { dispatch, narrow } = this.props;
     this.setState({
       isTopicFocused: true,
       isMenuExpanded: false,
     });
-    actions.fetchTopicsForActiveStream(narrow);
+    dispatch(fetchTopicsForActiveStream(narrow));
   };
 
   handleTopicBlur = () => {
@@ -139,21 +144,21 @@ export default class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleSend = () => {
-    const { actions, narrow } = this.props;
+    const { dispatch, narrow } = this.props;
     const { topic, message } = this.state;
 
     const destinationNarrow = isStreamNarrow(narrow)
       ? topicNarrow(narrow[0].operand, topic || '(no topic)')
       : narrow;
 
-    actions.addToOutbox(destinationNarrow, message);
-    actions.draftRemove(narrow);
+    dispatch(addToOutbox(destinationNarrow, message));
+    dispatch(draftRemove(narrow));
 
     this.clearMessageInput();
   };
 
   handleEdit = () => {
-    const { auth, editMessage, actions } = this.props;
+    const { auth, editMessage, dispatch } = this.props;
     const { message, topic } = this.state;
     const content = editMessage.content !== message ? message : undefined;
     const subject = topic !== editMessage.topic ? topic : undefined;
@@ -162,11 +167,11 @@ export default class ComposeBox extends PureComponent<Props, State> {
         showErrorAlert(error.message, 'Failed to edit message');
       });
     }
-    actions.cancelEditMessage();
+    dispatch(cancelEditMessage());
   };
 
   tryUpdateDraft = () => {
-    const { actions, draft, narrow } = this.props;
+    const { dispatch, draft, narrow } = this.props;
     const { message } = this.state;
 
     if (draft.trim() === message.trim()) {
@@ -174,9 +179,9 @@ export default class ComposeBox extends PureComponent<Props, State> {
     }
 
     if (message.trim().length === 0) {
-      actions.draftRemove(narrow);
+      dispatch(draftRemove(narrow));
     } else {
-      actions.draftAdd(narrow, message);
+      dispatch(draftAdd(narrow, message));
     }
   };
 

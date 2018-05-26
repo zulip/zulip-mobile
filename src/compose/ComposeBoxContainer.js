@@ -1,6 +1,7 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import type { GlobalState } from '../types';
-import connectWithActions from '../connectWithActions';
 import {
   getAuth,
   getSession,
@@ -13,7 +14,7 @@ import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelect
 import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
 import ComposeBox from './ComposeBox';
 
-export default connectWithActions((state: GlobalState, props) => ({
+export default connect((state: GlobalState, props) => ({
   auth: getAuth(state),
   users: getUsers(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
