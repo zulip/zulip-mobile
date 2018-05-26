@@ -103,6 +103,6 @@ class RealmScreen extends PureComponent<Props, State> {
 
 export default connectWithActions((state, props) => ({
   initialRealm:
-    (props.navigation && props.navigation.state.params && props.navigation.state.params.realm) ||
-    '',
+    (props.navigation && props.navigation.state.params && props.navigation.state.params.realm)
+    || '',
 }))(RealmScreen);

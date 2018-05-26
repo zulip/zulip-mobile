@@ -207,8 +207,8 @@ const handleMessageContent = (msg: MessageInputContent) => {
   } else if (msg.updateStrategy === 'scroll-to-anchor') {
     target = { type: 'anchor', anchor: msg.anchor };
   } else if (
-    msg.updateStrategy === 'scroll-to-bottom-if-near-bottom' /* align */ &&
-    isNearBottom()
+    msg.updateStrategy === 'scroll-to-bottom-if-near-bottom'
+    && /* align */ isNearBottom()
   ) {
     target = { type: 'bottom' };
   } else {

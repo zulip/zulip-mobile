@@ -28,27 +28,27 @@ export const getMessageTransitionProps = (prevProps: Props, nextProps: Props): T
   const allNewMessages =
     sameNarrow && prevProps.messages.length === 0 && nextProps.messages.length > 0;
   const oldMessagesAdded =
-    sameNarrow &&
-    prevProps.messages.length > 0 &&
-    nextProps.messages.length > 0 &&
-    prevProps.messages[0].id > nextProps.messages[0].id;
+    sameNarrow
+    && prevProps.messages.length > 0
+    && nextProps.messages.length > 0
+    && prevProps.messages[0].id > nextProps.messages[0].id;
   const newMessagesAdded =
-    sameNarrow &&
-    prevProps.messages.length > 0 &&
-    nextProps.messages.length > 0 &&
-    prevProps.messages[prevProps.messages.length - 1].id <
-      nextProps.messages[nextProps.messages.length - 1].id;
+    sameNarrow
+    && prevProps.messages.length > 0
+    && nextProps.messages.length > 0
+    && prevProps.messages[prevProps.messages.length - 1].id
+      < nextProps.messages[nextProps.messages.length - 1].id;
   const onlyOneNewMessage =
-    sameNarrow &&
-    prevProps.messages.length > 0 &&
-    nextProps.messages.length > 1 &&
-    prevProps.messages[prevProps.messages.length - 1].id ===
-      nextProps.messages[nextProps.messages.length - 2].id;
+    sameNarrow
+    && prevProps.messages.length > 0
+    && nextProps.messages.length > 1
+    && prevProps.messages[prevProps.messages.length - 1].id
+      === nextProps.messages[nextProps.messages.length - 2].id;
   const messagesReplaced =
-    sameNarrow &&
-    prevProps.messages.length > 0 &&
-    nextProps.messages.length > 0 &&
-    prevProps.messages[prevProps.messages.length - 1].id < nextProps.messages[0].id;
+    sameNarrow
+    && prevProps.messages.length > 0
+    && nextProps.messages.length > 0
+    && prevProps.messages[prevProps.messages.length - 1].id < nextProps.messages[0].id;
 
   return {
     sameNarrow,
@@ -66,15 +66,15 @@ export const getMessageUpdateStrategy = (transitionProps: TransitionProps): Upda
   if (transitionProps.noMessages) {
     return 'replace';
   } else if (
-    !transitionProps.sameNarrow ||
-    transitionProps.allNewMessages ||
-    transitionProps.messagesReplaced
+    !transitionProps.sameNarrow
+    || transitionProps.allNewMessages
+    || transitionProps.messagesReplaced
   ) {
     return 'scroll-to-anchor';
   } else if (
-    transitionProps.noNewMessages ||
-    transitionProps.oldMessagesAdded ||
-    (transitionProps.newMessagesAdded && !transitionProps.onlyOneNewMessage)
+    transitionProps.noNewMessages
+    || transitionProps.oldMessagesAdded
+    || (transitionProps.newMessagesAdded && !transitionProps.onlyOneNewMessage)
   ) {
     return 'preserve-position';
   } else if (transitionProps.onlyOneNewMessage) {

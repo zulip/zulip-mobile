@@ -11,8 +11,8 @@ export default (messages: Message[], narrow: Narrow): RenderedSectionDescriptor[
   return messages.reduce(
     (sections, item) => {
       const diffDays =
-        prevItem &&
-        !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
+        prevItem
+        && !isSameDay(new Date(prevItem.timestamp * 1000), new Date(item.timestamp * 1000));
       if (!prevItem || diffDays) {
         sections[sections.length - 1].data.push({
           key: `time${item.timestamp}`,
@@ -30,10 +30,10 @@ export default (messages: Message[], narrow: Narrow): RenderedSectionDescriptor[
         });
       }
       const shouldGroupWithPrev =
-        !diffRecipient &&
-        !diffDays &&
-        prevItem &&
-        prevItem.sender_full_name === item.sender_full_name;
+        !diffRecipient
+        && !diffDays
+        && prevItem
+        && prevItem.sender_full_name === item.sender_full_name;
 
       sections[sections.length - 1].data.push({
         key: item.id,

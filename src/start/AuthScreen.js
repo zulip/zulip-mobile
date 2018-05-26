@@ -59,12 +59,12 @@ class AuthScreen extends PureComponent<Props> {
 
     // callback format expected: zulip://login?realm={}&email={}&otp_encrypted_api_key={}
     if (
-      url.host === 'login' &&
-      url.query.realm === realm &&
-      otp &&
-      url.query.email &&
-      url.query.otp_encrypted_api_key &&
-      url.query.otp_encrypted_api_key.length === otp.length
+      url.host === 'login'
+      && url.query.realm === realm
+      && otp
+      && url.query.email
+      && url.query.otp_encrypted_api_key
+      && url.query.otp_encrypted_api_key.length === otp.length
     ) {
       const apiKey = extractApiKey(url.query.otp_encrypted_api_key, otp);
       actions.loginSuccess(realm, url.query.email, apiKey);

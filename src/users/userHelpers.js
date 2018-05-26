@@ -48,18 +48,18 @@ const statusOrder = (presence: Presence): number => {
 export const sortUserList = (users: any[], presences: PresenceState): User[] =>
   [...users].sort(
     (x1, x2) =>
-      statusOrder(presences[x1.email]) - statusOrder(presences[x2.email]) ||
-      x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
+      statusOrder(presences[x1.email]) - statusOrder(presences[x2.email])
+      || x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
   );
 
 export const filterUserList = (users: User[], filter: string = '', ownEmail: ?string): User[] =>
   users.length > 0
     ? users.filter(
         user =>
-          user.email !== ownEmail &&
-          (filter === '' ||
-            user.full_name.toLowerCase().includes(filter.toLowerCase()) ||
-            user.email.toLowerCase().includes(filter.toLowerCase())),
+          user.email !== ownEmail
+          && (filter === ''
+            || user.full_name.toLowerCase().includes(filter.toLowerCase())
+            || user.email.toLowerCase().includes(filter.toLowerCase())),
       )
     : users;
 
@@ -79,8 +79,8 @@ export const filterUserByInitials = (
 ): User[] =>
   users.filter(
     user =>
-      user.email !== ownEmail &&
-      user.full_name
+      user.email !== ownEmail
+      && user.full_name
         .replace(/(\s|[a-z])/g, '')
         .toLowerCase()
         .startsWith(filter.toLowerCase()),

@@ -45,19 +45,19 @@ export const isMessageLink = (url: string, realm: string): boolean =>
 export const isTopicLink = (url: string, realm: string): boolean => {
   const paths = getPathsFromUrl(url, realm);
   return (
-    isUrlInAppLink(url, realm) &&
-    ((paths.length === 4 || paths.length === 6) &&
-      paths[0] === 'stream' &&
-      (paths[2] === 'subject' || paths[2] === 'topic'))
+    isUrlInAppLink(url, realm)
+    && ((paths.length === 4 || paths.length === 6)
+      && paths[0] === 'stream'
+      && (paths[2] === 'subject' || paths[2] === 'topic'))
   );
 };
 
 export const isGroupLink = (url: string, realm: string): boolean => {
   const paths = getPathsFromUrl(url, realm);
   return (
-    isUrlInAppLink(url, realm) &&
-    ((paths.length === 2 && paths[0] === 'pm-with') ||
-      (paths.length === 4 && paths[0] === 'pm-with' && paths[2] === 'near'))
+    isUrlInAppLink(url, realm)
+    && ((paths.length === 2 && paths[0] === 'pm-with')
+      || (paths.length === 4 && paths[0] === 'pm-with' && paths[2] === 'near'))
   );
 };
 
@@ -69,10 +69,10 @@ export const isStreamLink = (url: string, realm: string): boolean => {
 export const isSpecialLink = (url: string, realm: string): boolean => {
   const paths = getPathsFromUrl(url, realm);
   return (
-    isUrlInAppLink(url, realm) &&
-    paths.length === 2 &&
-    paths[0] === 'is' &&
-    /^(private|starred|mentioned)/i.test(paths[1])
+    isUrlInAppLink(url, realm)
+    && paths.length === 2
+    && paths[0] === 'is'
+    && /^(private|starred|mentioned)/i.test(paths[1])
   );
 };
 

@@ -28,10 +28,10 @@ export const removeEmptyValues = (obj: Object): Object => {
 };
 
 export const isStateGoingBack = (cur: GlobalState, prev: GlobalState): boolean =>
-  cur.nav.routes.length < prev.nav.routes.length ||
-  cur.nav.isTransitioning ||
-  prev.nav.isTransitioning ||
-  isEqual(cur, prev);
+  cur.nav.routes.length < prev.nav.routes.length
+  || cur.nav.isTransitioning
+  || prev.nav.isTransitioning
+  || isEqual(cur, prev);
 
 export const groupItemsById = (items: ObjectWithId[]): ObjectsMappedById =>
   items.reduce((itemsById, item) => {

@@ -83,9 +83,9 @@ class PasswordAuthView extends PureComponent<Props, State> {
     const { requireEmailFormat } = this.props.navigation.state.params;
     const { email, password, progress, error } = this.state;
     const isButtonDisabled =
-      password.length === 0 ||
-      email.length === 0 ||
-      (requireEmailFormat && !isValidEmailFormat(email));
+      password.length === 0
+      || email.length === 0
+      || (requireEmailFormat && !isValidEmailFormat(email));
 
     return (
       <Screen title="Log in" centerContent padding keyboardShouldPersistTaps="always">

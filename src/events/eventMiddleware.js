@@ -18,9 +18,9 @@ export default (state: GlobalState, event: Object) => {
       const activeAccount = getActiveAccount(state);
       const { narrow } = getChatScreenParams(state);
       const isUserInSameNarrow =
-        activeAccount &&
-        (narrow !== undefined && // chat screen is not at top
-          (!isHomeNarrow(narrow) && isMessageInNarrow(event.message, narrow, activeAccount.email)));
+        activeAccount
+        && (narrow !== undefined // chat screen is not at top
+          && (!isHomeNarrow(narrow) && isMessageInNarrow(event.message, narrow, activeAccount.email)));
       const isSenderSelf = getOwnEmail(state) === event.message.sender_email;
       if (!isUserInSameNarrow && !isSenderSelf) {
         playMessageSound();

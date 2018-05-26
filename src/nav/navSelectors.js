@@ -28,8 +28,8 @@ export const getSameRoutesAndParamsCount = createSelector(getNav, nav => {
   let i = nav.routes.length - 1;
   while (i >= 0) {
     if (
-      nav.routes[i].routeName !== nav.routes[nav.routes.length - 1].routeName ||
-      !isEqual(nav.routes[i].params, nav.routes[nav.routes.length - 1].params)
+      nav.routes[i].routeName !== nav.routes[nav.routes.length - 1].routeName
+      || !isEqual(nav.routes[i].params, nav.routes[nav.routes.length - 1].params)
     ) {
       break;
     }
@@ -58,9 +58,9 @@ export const getPreviousDifferentRouteAndParams = createSelector(getNav, nav => 
 
   let i = nav.routes.length - 2;
   while (
-    i >= 0 &&
-    nav.routes[i].routeName === nav.routes[nav.routes.length - 1].routeName &&
-    isEqual(nav.routes[i].params, nav.routes[nav.routes.length - 1].params)
+    i >= 0
+    && nav.routes[i].routeName === nav.routes[nav.routes.length - 1].routeName
+    && isEqual(nav.routes[i].params, nav.routes[nav.routes.length - 1].params)
   ) {
     i--;
   }

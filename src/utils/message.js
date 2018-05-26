@@ -37,13 +37,13 @@ export const isSameRecipient = (message1: Message, message2: Message): boolean =
   switch (message1.type) {
     case 'private':
       return (
-        normalizeRecipients(message1.display_recipient).toLowerCase() ===
-        normalizeRecipients(message2.display_recipient).toLowerCase()
+        normalizeRecipients(message1.display_recipient).toLowerCase()
+        === normalizeRecipients(message2.display_recipient).toLowerCase()
       );
     case 'stream':
       return (
-        message1.display_recipient.toLowerCase() === message2.display_recipient.toLowerCase() &&
-        message1.subject.toLowerCase() === message2.subject.toLowerCase()
+        message1.display_recipient.toLowerCase() === message2.display_recipient.toLowerCase()
+        && message1.subject.toLowerCase() === message2.subject.toLowerCase()
       );
     case 'outbox': {
       return message2.isOutbox;

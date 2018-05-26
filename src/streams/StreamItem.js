@@ -83,11 +83,11 @@ export default class StreamItem extends PureComponent<Props> {
     ];
     const iconColor = isSelected
       ? 'white'
-      : color ||
-        foregroundColorFromBackground(
-          backgroundColor || // $FlowFixMe
-            (StyleSheet.flatten(styles.backgroundColor) || {}).backgroundColor ||
-            null,
+      : color
+        || foregroundColorFromBackground(
+          backgroundColor // $FlowFixMe
+            || (StyleSheet.flatten(styles.backgroundColor) || {}).backgroundColor
+            || null,
         );
     const textColorStyle = isSelected
       ? { color: 'white' }

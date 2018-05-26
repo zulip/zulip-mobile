@@ -44,6 +44,6 @@ const authentications = [
 export const activeAuthentications = (authenticationMethods: AuthenticationMethods) =>
   authentications.filter(
     auth =>
-      authenticationMethods[auth.method] &&
-      (auth.method !== 'ldap' || !authenticationMethods.password),
+      authenticationMethods[auth.method]
+      && (auth.method !== 'ldap' || !authenticationMethods.password),
   );

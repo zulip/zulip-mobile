@@ -65,8 +65,8 @@ export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInp
   const messages = [];
 
   if (
-    !isEqual(prevProps.fetching, nextProps.fetching) ||
-    prevProps.showMessagePlaceholders !== nextProps.showMessagePlaceholders
+    !isEqual(prevProps.fetching, nextProps.fetching)
+    || prevProps.showMessagePlaceholders !== nextProps.showMessagePlaceholders
   ) {
     messages.push(updateFetching(prevProps, nextProps));
   }

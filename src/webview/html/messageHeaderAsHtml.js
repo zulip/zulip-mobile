@@ -66,10 +66,10 @@ export default ({
   }
 
   if (
-    item.type === 'private' &&
-    !isPrivateNarrow(narrow) &&
-    !isGroupNarrow(narrow) &&
-    !isTopicNarrow(narrow)
+    item.type === 'private'
+    && !isPrivateNarrow(narrow)
+    && !isGroupNarrow(narrow)
+    && !isTopicNarrow(narrow)
   ) {
     const recipients =
       item.display_recipient.length === 1 && item.display_recipient[0].email === auth.email

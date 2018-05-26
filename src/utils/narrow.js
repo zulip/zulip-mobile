@@ -20,10 +20,10 @@ export const privateNarrow = (email: string): Narrow => [
 ];
 
 export const isPrivateNarrow = (narrow: Narrow): boolean =>
-  Array.isArray(narrow) &&
-  narrow.length === 1 &&
-  narrow[0].operator === 'pm-with' &&
-  narrow[0].operand.indexOf(',') === -1;
+  Array.isArray(narrow)
+  && narrow.length === 1
+  && narrow[0].operator === 'pm-with'
+  && narrow[0].operand.indexOf(',') === -1;
 
 export const groupNarrow = (emails: string[]): Narrow => [
   {
@@ -33,10 +33,10 @@ export const groupNarrow = (emails: string[]): Narrow => [
 ];
 
 export const isGroupNarrow = (narrow: Narrow): boolean =>
-  Array.isArray(narrow) &&
-  narrow.length === 1 &&
-  narrow[0].operator === 'pm-with' &&
-  narrow[0].operand.indexOf(',') >= 0;
+  Array.isArray(narrow)
+  && narrow.length === 1
+  && narrow[0].operator === 'pm-with'
+  && narrow[0].operand.indexOf(',') >= 0;
 
 export const isPrivateOrGroupNarrow = (narrow: Narrow): boolean =>
   Array.isArray(narrow) && narrow.length === 1 && narrow[0].operator === 'pm-with';
@@ -56,10 +56,10 @@ export const allPrivateNarrow = specialNarrow('private');
 export const allPrivateNarrowStr = JSON.stringify(allPrivateNarrow);
 
 export const isAllPrivateNarrow = (narrow: Narrow): boolean =>
-  Array.isArray(narrow) &&
-  narrow.length === 1 &&
-  narrow[0].operator === 'is' &&
-  narrow[0].operand === 'private';
+  Array.isArray(narrow)
+  && narrow.length === 1
+  && narrow[0].operator === 'is'
+  && narrow[0].operand === 'private';
 
 export const streamNarrow = (stream: string): Narrow => [
   {
@@ -108,9 +108,9 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: st
   }
 
   if (
-    isTopicNarrow(narrow) &&
-    message.display_recipient === narrow[0].operand &&
-    message.subject === narrow[1].operand
+    isTopicNarrow(narrow)
+    && message.display_recipient === narrow[0].operand
+    && message.subject === narrow[1].operand
   ) {
     return true;
   }
@@ -130,10 +130,10 @@ export const isMessageInNarrow = (message: Message, narrow: Narrow, ownEmail: st
 };
 
 export const canSendToNarrow = (narrow: Narrow): boolean =>
-  isPrivateNarrow(narrow) ||
-  isGroupNarrow(narrow) ||
-  isStreamNarrow(narrow) ||
-  isTopicNarrow(narrow);
+  isPrivateNarrow(narrow)
+  || isGroupNarrow(narrow)
+  || isStreamNarrow(narrow)
+  || isTopicNarrow(narrow);
 
 export const getNarrowFromMessage = (message: Message, email: string) => {
   if (Array.isArray(message.display_recipient)) {
