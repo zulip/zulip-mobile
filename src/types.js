@@ -1,4 +1,5 @@
 /* @flow */
+import type { Dispatch as ReduxDispatch } from 'redux';
 import type { Action } from './actionTypes';
 import type { AppStyles } from './styles/theme';
 
@@ -10,9 +11,10 @@ export type MapStateToProps = any; // { MapStateToProps } from 'react-redux';
 export type * from './actionTypes';
 export type * from './api/apiTypes';
 
+export type Thunk<A> = ((Dispatch, GetState) => Promise<void> | void) => A;
+export type Dispatch = ReduxDispatch<Action> & Thunk<Action>;
+
 export type Style = boolean | number | Array<Style> | ?{ [string]: any };
-export type Dispatch = any;
-// export type { Dispatch } from 'redux';
 
 export type Orientation = 'LANDSCAPE' | 'PORTRAIT';
 

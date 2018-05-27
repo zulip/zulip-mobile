@@ -39,11 +39,14 @@ class AppWithNavigation extends PureComponent<Props> {
 
     return (
       <AppNavigator
-        navigation={addNavigationHelpers({
-          state: nav,
-          dispatch,
-          addListener,
-        })}
+        navigation={
+          // $FlowFixMe
+          addNavigationHelpers({
+            state: nav,
+            dispatch,
+            addListener,
+          })
+        }
       />
     );
   }
