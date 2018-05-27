@@ -51,6 +51,12 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     fontSize: 15,
     ...inputMarginPadding,
   },
+  composeTextInputShowFullText: {
+    height: 'auto',
+  },
+  composeTextInputShowOneLine: {
+    height: 30,
+  },
   topicInput: {
     borderWidth: 0,
     borderRadius: 5,
