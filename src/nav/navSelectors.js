@@ -84,7 +84,10 @@ export const getInitialNavState = createSelector(
         ? getStateForRoute('main')
         : nav;
 
-    if (!config.startup.notification) {
+    if (
+      !config.startup.notification ||
+      auth.realm.indexOf(config.startup.notification.server) < 0
+    ) {
       return state;
     }
 
