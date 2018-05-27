@@ -14,6 +14,14 @@ import type {
   Dispatch,
   Dimensions,
 } from '../types';
+import {
+  addToOutbox,
+  cancelEditMessage,
+  draftAdd,
+  draftRemove,
+  fetchTopicsForActiveStream,
+  sendTypingEvent,
+} from '../actions';
 import { updateMessage } from '../api';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
 import { showErrorAlert } from '../utils/info';
@@ -23,11 +31,6 @@ import ComposeMenuContainer from './ComposeMenuContainer';
 import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
-import { draftAdd, draftRemove } from '../drafts/draftsActions';
-import { addToOutbox } from '../outbox/outboxActions';
-import { cancelEditMessage } from '../session/sessionActions';
-import { fetchTopicsForActiveStream } from '../topics/topicActions';
-import { sendTypingEvent } from '../users/usersActions';
 
 type Props = {
   auth: Auth,
