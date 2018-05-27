@@ -1,7 +1,6 @@
 parser: babel-eslint
 plugins:
  - react-native
- - prettier
  - jest
  - flowtype
  - spellcheck
@@ -18,12 +17,6 @@ settings:
       extensions: [.js, .ios.js, .android.js]
 rules:
   # Formatting and naming
-  prettier/prettier:
-  - off
-  - printWidth: 100
-    parser: flow
-    singleQuote: true
-    trailingComma: all
   camelcase: off
   new-cap: [error, {capIsNew: false}]
   comma-dangle: [error, always-multiline]
