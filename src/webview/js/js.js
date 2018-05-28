@@ -74,9 +74,9 @@ const getMessageNode = (node: Element): Element => {
   return curNode;
 };
 
-const getMessageIdFromNode = (node: Node): string => {
+const getMessageIdFromNode = (node: Node): number => {
   const msgNode = getMessageNode(node);
-  return msgNode && msgNode.getAttribute('data-msg-id');
+  return msgNode ? +msgNode.getAttribute('data-msg-id') : -1;
 };
 
 const scrollToBottom = () => {
@@ -167,7 +167,7 @@ type ScrollTarget =
   | { type: 'none' }
   | { type: 'bottom' }
   | { type: 'anchor', anchor: number }
-  | { type: 'preserve', msgId: string, prevBoundTop: number };
+  | { type: 'preserve', msgId: number, prevBoundTop: number };
 
 // Try to identify a message on screen and its location, so we can
 // scroll the corresponding message to the same place afterward.
@@ -186,7 +186,7 @@ const findPreserveTarget = (): ScrollTarget => {
 };
 
 // Scroll the given message to the same height it was at before.
-const scrollToPreserve = (msgId: string, prevBoundTop: number) => {
+const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
   const newElement = document.getElementById(`msg-${msgId}`);
   if (!newElement) {
     // TODO log this -- it's an error which the user will notice.
@@ -287,7 +287,7 @@ documentBody.addEventListener('click', e => {
     sendMessage({
       type: 'image',
       src: e.target.parentNode.getAttribute('href'),
-      messageId: +getMessageIdFromNode(e.target),
+      messageId: getMessageIdFromNode(e.target),
     });
     return;
   }
@@ -296,7 +296,7 @@ documentBody.addEventListener('click', e => {
     sendMessage({
       type: 'url',
       href: e.target.getAttribute('href'),
-      messageId: +getMessageIdFromNode(e.target),
+      messageId: getMessageIdFromNode(e.target),
     });
     return;
   }
@@ -305,7 +305,7 @@ documentBody.addEventListener('click', e => {
     sendMessage({
       type: 'url',
       href: e.target.parentNode.getAttribute('href'),
-      messageId: +getMessageIdFromNode(e.target.parentNode),
+      messageId: getMessageIdFromNode(e.target.parentNode),
     });
     return;
   }
@@ -316,7 +316,7 @@ documentBody.addEventListener('click', e => {
       name: e.target.getAttribute('data-name'),
       code: e.target.getAttribute('data-code'),
       reactionType: e.target.getAttribute('data-type'),
-      messageId: +getMessageIdFromNode(e.target),
+      messageId: getMessageIdFromNode(e.target),
       voted: e.target.classList.contains('self-voted'),
     });
   }
@@ -342,7 +342,7 @@ const handleLongPress = e => {
   sendMessage({
     type: 'longPress',
     target: e.target.matches('.header') ? 'header' : 'message',
-    messageId: +getMessageIdFromNode(e.target),
+    messageId: getMessageIdFromNode(e.target),
   });
 };
 

@@ -74,7 +74,7 @@ var getMessageNode = function getMessageNode(node) {
 
 var getMessageIdFromNode = function getMessageIdFromNode(node) {
   var msgNode = getMessageNode(node);
-  return msgNode && msgNode.getAttribute('data-msg-id');
+  return msgNode ? +msgNode.getAttribute('data-msg-id') : -1;
 };
 
 var scrollToBottom = function scrollToBottom() {
@@ -265,7 +265,7 @@ documentBody.addEventListener('click', function (e) {
     sendMessage({
       type: 'image',
       src: e.target.parentNode.getAttribute('href'),
-      messageId: +getMessageIdFromNode(e.target)
+      messageId: getMessageIdFromNode(e.target)
     });
     return;
   }
@@ -274,7 +274,7 @@ documentBody.addEventListener('click', function (e) {
     sendMessage({
       type: 'url',
       href: e.target.getAttribute('href'),
-      messageId: +getMessageIdFromNode(e.target)
+      messageId: getMessageIdFromNode(e.target)
     });
     return;
   }
@@ -283,7 +283,7 @@ documentBody.addEventListener('click', function (e) {
     sendMessage({
       type: 'url',
       href: e.target.parentNode.getAttribute('href'),
-      messageId: +getMessageIdFromNode(e.target.parentNode)
+      messageId: getMessageIdFromNode(e.target.parentNode)
     });
     return;
   }
@@ -294,7 +294,7 @@ documentBody.addEventListener('click', function (e) {
       name: e.target.getAttribute('data-name'),
       code: e.target.getAttribute('data-code'),
       reactionType: e.target.getAttribute('data-type'),
-      messageId: +getMessageIdFromNode(e.target),
+      messageId: getMessageIdFromNode(e.target),
       voted: e.target.classList.contains('self-voted')
     });
   }
@@ -308,7 +308,7 @@ var handleLongPress = function handleLongPress(e) {
   sendMessage({
     type: 'longPress',
     target: e.target.matches('.header') ? 'header' : 'message',
-    messageId: +getMessageIdFromNode(e.target)
+    messageId: getMessageIdFromNode(e.target)
   });
 };
 
