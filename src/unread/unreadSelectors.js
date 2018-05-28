@@ -7,7 +7,6 @@ import {
   getMute,
   getReadFlags,
   getStreams,
-  getUsers,
   getUnreadStreams,
   getUnreadPms,
   getUnreadHuddles,
@@ -26,6 +25,7 @@ import {
   isPrivateNarrow,
 } from '../utils/narrow';
 import { NULL_SUBSCRIPTION, NULL_USER } from '../nullObjects';
+import { getAllUsersAndBots } from '../users/userSelectors';
 
 export const getUnreadByStream = createSelector(
   getUnreadStreams,
@@ -181,7 +181,7 @@ export const getUnreadByHuddlesMentionsAndPMs = createSelector(
 export const getUnreadCountForNarrow = (narrow: Narrow) =>
   createSelector(
     getStreams,
-    getUsers,
+    getAllUsersAndBots,
     getOwnEmail,
     getUnreadTotal,
     getUnreadStreams,
