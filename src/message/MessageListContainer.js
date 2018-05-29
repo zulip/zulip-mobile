@@ -10,7 +10,7 @@ import type {
   Message,
   MuteState,
   Narrow,
-  RealmEmojiType,
+  RealmEmojiState,
   Subscription,
   User,
 } from '../types';
@@ -44,7 +44,7 @@ export type Props = {
   messages: Message[],
   mute: MuteState,
   narrow: Narrow,
-  realmEmoji: RealmEmojiType,
+  realmEmoji: RealmEmojiState,
   renderedMessages: any,
   showMessagePlaceholders: boolean,
   subscriptions: Subscription[],

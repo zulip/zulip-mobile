@@ -6,12 +6,12 @@ import connectWithActions from '../connectWithActions';
 import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import getFilteredEmojiList from '../emoji/getFilteredEmojiList';
-import type { GlobalState, RealmEmojiType } from '../types';
+import type { GlobalState, RealmEmojiState } from '../types';
 import { getActiveRealmEmoji } from '../selectors';
 
 type Props = {
   filter: string,
-  realmEmoji: RealmEmojiType,
+  realmEmoji: RealmEmojiState,
   onAutocomplete: (name: string) => void,
 };
 

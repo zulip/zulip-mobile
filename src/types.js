@@ -304,6 +304,9 @@ export type RealmEmojiType = {
   id: number,
   name: string,
   source_url: string,
+  // This prevents accidentally using this type as a map.
+  // See https://github.com/facebook/flow/issues/4257#issuecomment-321951793
+  [any]: mixed,
 };
 
 export type RealmEmojiState = {

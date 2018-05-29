@@ -1,13 +1,13 @@
 /* @flow */
-import type { ReactionType } from '../../types';
+import type { ReactionType, RealmEmojiState, RealmEmojiType } from '../../types';
 import emojiMap from '../../emoji/emojiMap';
 import template from './template';
 
-const getRealmEmojiHtml = (realmEmoji: ReactionType): string =>
+const getRealmEmojiHtml = (realmEmoji: RealmEmojiType): string =>
   template`<img class="realm-reaction" src="${realmEmoji.source_url}"/>
   `;
 
-export default (messageId: number, reaction: ReactionType, realmEmoji: Object): string =>
+export default (messageId: number, reaction: ReactionType, realmEmoji: RealmEmojiState): string =>
   template`<span onClick="" class="reaction${reaction.selfReacted ? ' self-voted' : ''}"
          data-name="${reaction.name}"
          data-code="${reaction.code}"
