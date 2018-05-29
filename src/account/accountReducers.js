@@ -8,7 +8,7 @@ import {
 } from '../actionConstants';
 
 import type {
-  AccountState,
+  AccountsState,
   AccountAction,
   RealmAddAction,
   AccountSwitchAction,
@@ -20,7 +20,7 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState = NULL_ARRAY;
 
-const realmAdd = (state: AccountState, action: RealmAddAction): AccountState => {
+const realmAdd = (state: AccountsState, action: RealmAddAction): AccountsState => {
   const accountIndex = state.findIndex(account => account.realm === action.realm);
 
   if (accountIndex !== -1) {
@@ -37,7 +37,7 @@ const realmAdd = (state: AccountState, action: RealmAddAction): AccountState => 
   ];
 };
 
-const accountSwitch = (state: AccountState, action: AccountSwitchAction): AccountState => {
+const accountSwitch = (state: AccountsState, action: AccountSwitchAction): AccountsState => {
   if (action.index === 0) {
     return state;
   }
@@ -45,7 +45,7 @@ const accountSwitch = (state: AccountState, action: AccountSwitchAction): Accoun
   return [state[action.index], ...state.slice(0, action.index), ...state.slice(action.index + 1)];
 };
 
-const loginSuccess = (state: AccountState, action: LoginSuccessAction): AccountState => {
+const loginSuccess = (state: AccountsState, action: LoginSuccessAction): AccountsState => {
   const accountIndex = state.findIndex(
     account => account.realm === action.realm && (!account.email || account.email === action.email),
   );
@@ -69,18 +69,18 @@ const loginSuccess = (state: AccountState, action: LoginSuccessAction): AccountS
   return [mergedAccount, ...state.slice(0, accountIndex), ...state.slice(accountIndex + 1)];
 };
 
-const logout = (state: AccountState, action: LogoutAction): AccountState => [
+const logout = (state: AccountsState, action: LogoutAction): AccountsState => [
   { ...state[0], apiKey: '' },
   ...state.slice(1),
 ];
 
-const accountRemove = (state: AccountState, action: AccountRemoveAction): AccountState => {
+const accountRemove = (state: AccountsState, action: AccountRemoveAction): AccountsState => {
   const newState = state.slice();
   newState.splice(action.index, 1);
   return newState;
 };
 
-export default (state: AccountState = initialState, action: AccountAction): AccountState => {
+export default (state: AccountsState = initialState, action: AccountAction): AccountsState => {
   switch (action.type) {
     case REALM_ADD:
       return realmAdd(state, action);
