@@ -411,6 +411,13 @@ export type PresenceState = {
 
 export type OutboxState = Outbox[];
 
+export type UnreadState = {
+  streams: UnreadStreamsState,
+  huddles: UnreadHuddlesState,
+  pms: UnreadPmsState,
+  mentions: UnreadMentionsState,
+};
+
 export type GlobalState = {
   accounts: AccountState,
   alertWords: AlertWordsState,
@@ -431,12 +438,7 @@ export type GlobalState = {
   subscriptions: SubscriptionsState,
   topics: TopicsState,
   typing: TypingState,
-  unread: {
-    streams: UnreadStreamsState,
-    huddles: UnreadHuddlesState,
-    pms: UnreadPmsState,
-    mentions: UnreadMentionsState,
-  },
+  unread: UnreadState,
   userGroups: UserGroupsState,
   users: UsersState,
 };
