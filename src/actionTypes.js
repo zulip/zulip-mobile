@@ -1,4 +1,6 @@
 /* @flow */
+import { REHYDRATE } from './actionConstants';
+
 import type {
   Dimensions,
   Orientation,
@@ -19,7 +21,11 @@ import type {
   RealmEmojiState,
 } from './types';
 
-export type RehydrateAction = any;
+export type RehydrateAction = {
+  type: typeof REHYDRATE,
+  payload: GlobalState,
+  error: ?Object,
+};
 
 export type AsyncActionCreator<A> = (dispatch: Dispatch, getState: GetState) => A;
 

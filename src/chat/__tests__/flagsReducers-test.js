@@ -1,9 +1,9 @@
 import deepFreeze from 'deep-freeze';
-import { REHYDRATE } from 'redux-persist/constants';
 
 import flagsReducers from '../flagsReducers';
 import { homeNarrowStr, allPrivateNarrowStr, streamNarrow } from '../../utils/narrow';
 import {
+  REHYDRATE,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,

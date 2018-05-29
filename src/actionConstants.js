@@ -1,4 +1,6 @@
 /* @flow */
+export const REHYDRATE = 'persist/REHYDRATE';
+
 export const APP_ONLINE = 'APP_ONLINE';
 export const APP_ORIENTATION = 'APP_ORIENTATION';
 export const APP_STATE = 'APP_STATE';
