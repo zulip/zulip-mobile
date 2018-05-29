@@ -47,13 +47,25 @@ export type InputSelectionType = {
 
 export type Account = Auth;
 
-export type Reaction = any; /* {
+export type SlimEventReaction = {
   emoji_name: string,
   user: any,
-  name: string,
+};
+
+export type EventReaction = {
+  emoji_code: string,
+  emoji_name: string,
+  reaction_type: string,
+  user: any,
+};
+
+export type AggregatedReaction = {
+  code: string,
   count: number,
+  name: string,
   selfReacted: boolean,
-}; */
+  type: string,
+};
 
 export type Recipient = any; /* {
    email: string,
@@ -86,7 +98,7 @@ export type Message = {
   is_me_message: boolean,
   match_content?: string,
   match_subject?: string,
-  reactions: Reaction[],
+  reactions: SlimEventReaction[],
   recipient_id: number,
   sender_domain: string,
   sender_email: string,
