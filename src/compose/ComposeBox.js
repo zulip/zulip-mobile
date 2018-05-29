@@ -91,11 +91,11 @@ export default class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleTopicChange = (topic: string) => {
-    this.setState({ topic });
+    this.setState({ topic, isMenuExpanded: false });
   };
 
   handleMessageChange = (message: string) => {
-    this.setState({ message });
+    this.setState({ message, isMenuExpanded: false });
     const { dispatch, narrow } = this.props;
     dispatch(sendTypingEvent(narrow));
   };
