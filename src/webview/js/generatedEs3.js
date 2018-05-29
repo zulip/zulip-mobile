@@ -116,11 +116,14 @@ var isMessageNode = function isMessageNode(node) {
 
 var getStartAndEndNodes = function getStartAndEndNodes() {
   var startNode = getMessageNode(document.elementFromPoint(200, 20));
-  var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
+  var windowInnerHeight = window.innerHeight;
+  var messageListHeight = document.getElementById('message-list').clientHeight;
+  var endPoint = messageListHeight > 0 ? Math.min(windowInnerHeight, messageListHeight) : windowInnerHeight;
+  var endNode = getMessageNode(document.elementFromPoint(200, endPoint - 20));
 
   return {
-    start: isMessageNode(startNode) ? startNode.getAttribute('data-msg-id') : Number.MAX_SAFE_INTEGER,
-    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : 0
+    start: isMessageNode(startNode) ? +startNode.getAttribute('data-msg-id') : Number.MAX_SAFE_INTEGER,
+    end: isMessageNode(endNode) ? +endNode.getAttribute('data-msg-id') : 0
   };
 };
 
