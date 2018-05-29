@@ -1,5 +1,5 @@
 /* @flow */
-import type { ReactionType, RealmEmojiState, RealmEmojiType } from '../../types';
+import type { Reaction, RealmEmojiState, RealmEmojiType } from '../../types';
 import emojiMap from '../../emoji/emojiMap';
 import template from './template';
 
@@ -7,7 +7,7 @@ const getRealmEmojiHtml = (realmEmoji: RealmEmojiType): string =>
   template`<img class="realm-reaction" src="${realmEmoji.source_url}"/>
   `;
 
-export default (messageId: number, reaction: ReactionType, realmEmoji: RealmEmojiState): string =>
+export default (messageId: number, reaction: Reaction, realmEmoji: RealmEmojiState): string =>
   template`<span onClick="" class="reaction${reaction.selfReacted ? ' self-voted' : ''}"
          data-name="${reaction.name}"
          data-code="${reaction.code}"

@@ -1,6 +1,6 @@
 /* @flow */
 import template from './template';
-import type { FlagsState, ReactionType, RealmEmojiState } from '../../types';
+import type { FlagsState, Reaction, RealmEmojiState } from '../../types';
 import { shortTime } from '../../utils/date';
 import messageTagsAsHtml from './messageTagsAsHtml';
 import messageReactionListAsHtml from './messageReactionListAsHtml';
@@ -38,7 +38,7 @@ type BriefMessageProps = {
   id: number,
   isOutbox: boolean,
   ownEmail: string,
-  reactions: ReactionType[],
+  reactions: Reaction[],
   realmEmoji: RealmEmojiState,
   timeEdited: Date,
 };
@@ -70,7 +70,7 @@ const messageBody = ({
   id: number,
   isOutbox: boolean,
   ownEmail: string,
-  reactions: ReactionType[],
+  reactions: Reaction[],
   realmEmoji: RealmEmojiState,
   timeEdited: Date,
 }) => template`

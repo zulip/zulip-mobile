@@ -47,7 +47,7 @@ export type InputSelectionType = {
 
 export type Account = Auth;
 
-export type ReactionType = any; /* {
+export type Reaction = any; /* {
   emoji_name: string,
   user: any,
   name: string,
@@ -86,7 +86,7 @@ export type Message = {
   is_me_message: boolean,
   match_content?: string,
   match_subject?: string,
-  reactions: ReactionType[],
+  reactions: Reaction[],
   recipient_id: number,
   sender_domain: string,
   sender_email: string,
