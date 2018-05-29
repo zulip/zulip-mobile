@@ -20,6 +20,7 @@ describe('aggregateReactions', () => {
       {
         name: 'emoji',
         count: 1,
+        selfReacted: false,
       },
     ];
 
@@ -42,14 +43,17 @@ describe('aggregateReactions', () => {
       {
         name: '1',
         count: 3,
+        selfReacted: false,
       },
       {
         name: '2',
         count: 2,
+        selfReacted: false,
       },
       {
         name: '3',
         count: 1,
+        selfReacted: false,
       },
     ];
 
@@ -70,6 +74,7 @@ describe('aggregateReactions', () => {
       {
         name: '1',
         count: 1,
+        selfReacted: false,
       },
       {
         name: '2',
@@ -79,6 +84,7 @@ describe('aggregateReactions', () => {
       {
         name: '3',
         count: 1,
+        selfReacted: false,
       },
     ];
 

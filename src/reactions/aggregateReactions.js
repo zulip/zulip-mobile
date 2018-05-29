@@ -11,6 +11,7 @@ export default (reactions: Reaction[], ownEmail: string): Reaction[] =>
             count: 1,
             name: x.emoji_name,
             type: x.reaction_type,
+            selfReacted: false,
           });
         } else {
           const prevReaction = reactionMap.get(x.emoji_name);
