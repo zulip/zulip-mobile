@@ -148,7 +148,10 @@ const sendScrollMessage = () => {
 // If the message list is too short to scroll, fake a scroll event
 // in order to cause the messages to be marked as read.
 const sendScrollMessageIfListShort = () => {
-  if (documentBody.scrollHeight === documentBody.clientHeight) {
+  // check if message list is short or not
+  // by comparing total height and message list height.
+  const messageListHeight = document.getElementById('message-list').clientHeight; // offsetHeight includes only padding
+  if (messageListHeight <= documentBody.clientHeight) {
     sendScrollMessage();
   }
 };

@@ -142,7 +142,8 @@ var sendScrollMessage = function sendScrollMessage() {
 };
 
 var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
-  if (documentBody.scrollHeight === documentBody.clientHeight) {
+  var messageListHeight = document.getElementById('message-list').clientHeight;
+  if (messageListHeight <= documentBody.clientHeight) {
     sendScrollMessage();
   }
 };
