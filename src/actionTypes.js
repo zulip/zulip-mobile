@@ -380,7 +380,53 @@ export type EventStreamOccupyAction = {
 
 export type EventNewMessageAction = any;
 export type EventMessageDeleteAction = any;
-export type EventUpdateMessageAction = any;
+
+export type EventUpdateMessageContentAction = {
+  type: 'EVENT_UPDATE_MESSAGE',
+  content?: string,
+  edit_timestamp: number,
+  flags: string[],
+  is_me_message: boolean,
+  mention_user_ids: number[],
+  message_id: number,
+  message_ids: number[],
+  orig_content: string,
+  orig_rendered_content: string,
+  presence_idle_user_ids: number[],
+  prev_rendered_content_version: number,
+  prior_mention_user_ids: number[],
+  push_notify_user_ids: number[],
+  rendered_content: string,
+  sender: string,
+  stream_name: string,
+  stream_push_user_ids: number,
+  user_id: number,
+};
+
+export type EventUpdateMessageTopicAction = {
+  type: 'EVENT_UPDATE_MESSAGE',
+  edit_timestamp: number,
+  flags: string[],
+  message_id: number,
+  message_ids: number[],
+  orig_subject: string,
+  propagate_mode: 'change_one' | 'change_later' | 'change_all',
+  stream_id: number,
+  sender: string,
+  stream_name: string,
+  subject: string,
+  subject_links: string[],
+  user_id: number,
+};
+
+export type EventUpdateMessageContentAndTopicAction = EventUpdateMessageContentAction &
+  EventUpdateMessageTopicAction;
+
+export type EventUpdateMessageAction =
+  | EventUpdateMessageContentAndTopicAction
+  | EventUpdateMessageContentAction
+  | EventUpdateMessageTopicAction;
+
 export type EventReactionAddAction = any;
 export type EventReactionRemoveAction = any;
 export type EventPresenceAction = any;
