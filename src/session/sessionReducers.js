@@ -1,6 +1,4 @@
 /* @flow */
-import { REHYDRATE } from 'redux-persist/constants';
-
 import type {
   SessionState,
   SessionAction,
@@ -20,6 +18,7 @@ import type {
   ToggleOutboxSendingAction,
 } from '../types';
 import {
+  REHYDRATE,
   APP_REFRESH,
   LOGIN_SUCCESS,
   APP_ONLINE,

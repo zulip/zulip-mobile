@@ -1,6 +1,4 @@
 /* @flow */
-import { REHYDRATE } from 'redux-persist/constants';
-
 import type {
   NavigationState,
   NavAction,
@@ -16,6 +14,7 @@ import { getStateForRoute, getInitialNavState } from './navSelectors';
 import AppNavigator from './AppNavigator';
 import { NULL_NAV_STATE } from '../nullObjects';
 import {
+  REHYDRATE,
   INITIAL_FETCH_COMPLETE,
   ACCOUNT_SWITCH,
   LOGIN_SUCCESS,

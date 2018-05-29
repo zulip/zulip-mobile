@@ -1,6 +1,4 @@
 /* @flow */
-import { REHYDRATE } from 'redux-persist/constants';
-
 import type {
   FlagsAction,
   FlagsState,
@@ -12,6 +10,7 @@ import type {
   MarkMessagesReadAction,
 } from '../types';
 import {
+  REHYDRATE,
   APP_REFRESH,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
