@@ -116,7 +116,10 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
   handleMessageBlur = () => {
     setTimeout(() => {
-      this.setState({ isMessageFocused: false });
+      this.setState({
+        isMessageFocused: false,
+        isMenuExpanded: false,
+      });
     }, 200); // give a chance to the topic input to get the focus
   };
 
@@ -131,7 +134,10 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
   handleTopicBlur = () => {
     setTimeout(() => {
-      this.setState({ isTopicFocused: false });
+      this.setState({
+        isTopicFocused: false,
+        isMenuExpanded: false,
+      });
     }, 200); // give a chance to the mesage input to get the focus
   };
 
