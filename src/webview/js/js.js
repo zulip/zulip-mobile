@@ -70,7 +70,7 @@ const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: num
 
 const getMessageNode = (node: Element): Element => {
   let curNode = node;
-  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
+  while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
     curNode = curNode.parentNode;
   }
   return curNode;

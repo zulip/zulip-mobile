@@ -66,7 +66,7 @@ var isNearPositions = function isNearPositions() {
 
 var getMessageNode = function getMessageNode(node) {
   var curNode = node;
-  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
+  while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
     curNode = curNode.parentNode;
   }
   return curNode;
