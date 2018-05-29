@@ -56,6 +56,7 @@ export const NULL_MESSAGE: Message = {
   gravatar_hash: '',
   id: -1,
   isOutbox: false,
+  is_me_message: false,
   reactions: [],
   recipient_id: -1,
   sender_domain: '',
@@ -63,8 +64,10 @@ export const NULL_MESSAGE: Message = {
   sender_full_name: '',
   sender_id: -1,
   sender_short_name: '',
+  sender_realm_str: '',
   subject: '',
   subject_links: [],
+  submessages: [],
   timestamp: 0,
   type: 'stream',
 };
