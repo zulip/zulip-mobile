@@ -98,7 +98,7 @@ export type Message = {
   type: 'stream' | 'private',
 };
 
-export type MessageState = {
+export type MessagesState = {
   [narrow: string]: Message[],
 };
 
@@ -232,7 +232,7 @@ export type EditMessage = {
   topic: string,
 };
 
-export type AccountState = Account[];
+export type AccountsState = Account[];
 
 export type Debug = {
   highlightUnreadMessages: boolean,
@@ -419,14 +419,14 @@ export type UnreadState = {
 };
 
 export type GlobalState = {
-  accounts: AccountState,
+  accounts: AccountsState,
   alertWords: AlertWordsState,
   caughtUp: CaughtUpState,
   drafts: DraftsState,
   fetching: FetchingState,
   flags: FlagsState,
   loading: LoadingState,
-  messages: MessageState,
+  messages: MessagesState,
   mute: MuteState,
   nav: NavigationState,
   outbox: OutboxState,
