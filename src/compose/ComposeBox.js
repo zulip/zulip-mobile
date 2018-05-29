@@ -141,6 +141,10 @@ export default class ComposeBox extends PureComponent<Props, State> {
     }, 200); // give a chance to the mesage input to get the focus
   };
 
+  handleInputTouchStart = () => {
+    this.setState({ isMenuExpanded: false });
+  };
+
   clearMessageInput = () => {
     if (this.messageInput) {
       this.messageInput.clear();
@@ -288,6 +292,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
                 onChangeText={this.handleTopicChange}
                 onFocus={this.handleTopicFocus}
                 onBlur={this.handleTopicBlur}
+                onTouchStart={this.handleInputTouchStart}
                 value={topic}
               />
             )}
@@ -305,6 +310,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
               onChange={this.handleMessageChange}
               onFocus={this.handleMessageFocus}
               onSelectionChange={this.handleMessageSelectionChange}
+              onTouchStart={this.handleInputTouchStart}
             />
           </View>
           <View style={styles.alignBottom}>
