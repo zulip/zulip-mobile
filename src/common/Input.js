@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import type { Context, LocalizableText, Style } from '../types';
 import { nullFunction } from '../nullObjects';
-import { HALF_COLOR } from '../styles';
+import { HALF_COLOR, BORDER_COLOR } from '../styles';
 
 type Props = {
   style?: Style,
@@ -15,9 +15,14 @@ type Props = {
   textInputRef: (component: any) => void,
 };
 
-export default class Input extends PureComponent<Props> {
+type State = {
+  isFocused: boolean,
+};
+
+export default class Input extends PureComponent<Props, State> {
   context: Context;
   props: Props;
+  state: State;
   textInput: TextInput;
 
   static contextTypes = {
@@ -35,6 +40,10 @@ export default class Input extends PureComponent<Props> {
     textInputRef: nullFunction,
   };
 
+  state = {
+    isFocused: false,
+  };
+
   handleClear = () => {
     const { onChangeText } = this.props;
     if (onChangeText) {
@@ -43,9 +52,22 @@ export default class Input extends PureComponent<Props> {
     this.textInput.clear();
   };
 
+  handleFocus = () => {
+    this.setState({
+      isFocused: true,
+    });
+  };
+
+  handleBlur = () => {
+    this.setState({
+      isFocused: false,
+    });
+  };
+
   render() {
     const { styles } = this.context;
     const { style, placeholder, textInputRef, ...restProps } = this.props;
+    const { isFocused } = this.state;
     const placeholderMessage = placeholder.text || placeholder;
 
     return (
@@ -59,6 +81,9 @@ export default class Input extends PureComponent<Props> {
             style={[styles.input, style]}
             placeholder={text}
             placeholderTextColor={HALF_COLOR}
+            underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
             ref={(component: any) => {
               this.textInput = component;
               if (textInputRef) {
