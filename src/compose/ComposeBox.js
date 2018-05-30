@@ -102,10 +102,20 @@ export default class ComposeBox extends PureComponent<Props, State> {
     this.setState({ topic });
   };
 
+  handleTopicAutocomplete = (message: string) => {
+    this.handleTopicChange(message);
+    updateTextInput(this.topicInput, message);
+  };
+
   handleMessageChange = (message: string) => {
     this.setState({ message });
     const { actions, narrow } = this.props;
     actions.sendTypingEvent(narrow);
+  };
+
+  handleMessageAutocomplete = (message: string) => {
+    this.handleMessageChange(message);
+    updateTextInput(this.messageInput, message);
   };
 
   handleMessageSelectionChange = (event: Object) => {
@@ -248,8 +258,8 @@ export default class ComposeBox extends PureComponent<Props, State> {
           messageSelection={selection}
           narrow={narrow}
           topicText={topic}
-          onMessageAutocomplete={this.handleMessageChange}
-          onTopicAutocomplete={this.handleTopicChange}
+          onMessageAutocomplete={this.handleMessageAutocomplete}
+          onTopicAutocomplete={this.handleTopicAutocomplete}
         />
         <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
           <View style={styles.alignBottom}>
