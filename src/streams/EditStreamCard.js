@@ -1,18 +1,9 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { Actions } from '../types';
 import { Input, Label, OptionRow, ZulipButton } from '../common';
-
-const styles = StyleSheet.create({
-  marginBottom: {
-    marginBottom: 10,
-  },
-  marginTop: {
-    marginTop: 10,
-  },
-});
 
 type Props = {
   actions: Actions,
@@ -34,6 +25,10 @@ type State = {
 export default class EditStreamCard extends PureComponent<Props, State> {
   props: Props;
   state: State;
+
+  static contextTypes = {
+    styles: () => null,
+  };
 
   state = {
     name: this.props.initialValues.name,
@@ -68,6 +63,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
   render() {
     const { initialValues, streamId } = this.props;
     const { name } = this.state;
+    const { styles } = this.context;
 
     return (
       <View>
