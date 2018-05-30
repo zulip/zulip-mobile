@@ -28,6 +28,11 @@ export default ({ showLabel, showIcon }: Props) => ({
     },
     style: {
       backgroundColor: 'transparent',
+      // Setting a zero-width border (instead of none) works around an issue
+      // affecting react-navigation's TabNavigator.
+      // github.com/zulip/zulip-mobile/issues/2065
+      borderWidth: 0,
+      elevation: 0,
     },
   },
 });
