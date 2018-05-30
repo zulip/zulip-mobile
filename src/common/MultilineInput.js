@@ -6,7 +6,7 @@ import type { LocalizableText, Style } from '../types';
 import { Input } from '../common';
 
 type Props = {
-  value: string,
+  value?: string,
   style?: Style,
   placeholder?: LocalizableText,
   onChange?: (text: string) => void,
