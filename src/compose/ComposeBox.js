@@ -52,10 +52,9 @@ export const updateTextInput = (textInput: TextInput, text: string): void => {
     return;
   }
 
-  if (text) {
-    textInput.setNativeProps({ text });
-  } else {
-    textInput.clear();
+  textInput.setNativeProps({ text });
+
+  if (text.length === 0) {
     if (TextInputReset) {
       TextInputReset.resetKeyboardInput(findNodeHandle(textInput));
     }
@@ -86,6 +85,16 @@ export default class ComposeBox extends PureComponent<Props, State> {
     selection: { start: 0, end: 0 },
   };
 
+  setMessageInputValue = (message: string) => {
+    updateTextInput(this.messageInput, message);
+    this.handleMessageChange(message);
+  };
+
+  setTopicInputValue = (topic: string) => {
+    updateTextInput(this.topicInput, topic);
+    this.handleTopicChange(topic);
+  };
+
   handleComposeMenuToggle = () => {
     this.setState(({ isMenuExpanded }) => ({
       isMenuExpanded: !isMenuExpanded,
@@ -102,9 +111,8 @@ export default class ComposeBox extends PureComponent<Props, State> {
     this.setState({ topic });
   };
 
-  handleTopicAutocomplete = (message: string) => {
-    this.handleTopicChange(message);
-    updateTextInput(this.topicInput, message);
+  handleTopicAutocomplete = (topic: string) => {
+    this.setTopicInputValue(topic);
   };
 
   handleMessageChange = (message: string) => {
@@ -114,8 +122,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleMessageAutocomplete = (message: string) => {
-    this.handleMessageChange(message);
-    updateTextInput(this.messageInput, message);
+    this.setMessageInputValue(message);
   };
 
   handleMessageSelectionChange = (event: Object) => {
@@ -124,12 +131,15 @@ export default class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleMessageFocus = () => {
+    const { topic } = this.state;
     const { lastMessageTopic } = this.props;
-    this.setState(({ topic }) => ({
+    this.setState({
       isMessageFocused: true,
       isMenuExpanded: false,
-      topic: topic || lastMessageTopic,
-    }));
+    });
+    setTimeout(() => {
+      this.setTopicInputValue(topic || lastMessageTopic);
+    }, 200);
   };
 
   handleMessageBlur = () => {
@@ -163,6 +173,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
     actions.addToOutbox(destinationNarrow, message);
     actions.draftRemove(narrow);
+    this.setMessageInputValue('');
   };
 
   handleEdit = () => {
@@ -197,22 +208,28 @@ export default class ComposeBox extends PureComponent<Props, State> {
     this.tryUpdateDraft();
   }
 
+  componentDidMount() {
+    const { message, topic } = this.state;
+
+    updateTextInput(this.messageInput, message);
+    updateTextInput(this.topicInput, topic);
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.editMessage !== this.props.editMessage) {
       const topic =
         isStreamNarrow(nextProps.narrow) && nextProps.editMessage
           ? nextProps.editMessage.topic
           : '';
-      this.setState({
-        message: nextProps.editMessage ? nextProps.editMessage.content : '',
-        topic,
-      });
+      const message = nextProps.editMessage ? nextProps.editMessage.content : '';
+      this.setMessageInputValue(message);
+      this.setTopicInputValue(topic);
       if (this.messageInput) {
         this.messageInput.focus();
       }
     } else if (!isEqual(nextProps.narrow, this.props.narrow)) {
       this.tryUpdateDraft();
-      this.setState({ message: nextProps.draft });
+      this.setMessageInputValue(nextProps.draft);
     }
   }
 
