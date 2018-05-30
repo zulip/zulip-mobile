@@ -143,10 +143,18 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState({ topic, isMenuExpanded: false });
   };
 
+  handleTopicAutocomplete = (topic: string) => {
+    this.setTopicInputValue(topic);
+  };
+
   handleMessageChange = (message: string) => {
     this.setState({ message, isMenuExpanded: false });
     const { dispatch, narrow } = this.props;
     dispatch(sendTypingEvent(narrow));
+  };
+
+  handleMessageAutocomplete = (message: string) => {
+    this.setMessageInputValue(message);
   };
 
   handleMessageSelectionChange = (event: Object) => {
@@ -155,12 +163,15 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleMessageFocus = () => {
+    const { topic } = this.state;
     const { lastMessageTopic } = this.props;
-    this.setState(({ topic }) => ({
+    this.setState({
       isMessageFocused: true,
       isMenuExpanded: false,
-      topic: topic || lastMessageTopic,
-    }));
+    });
+    setTimeout(() => {
+      this.setTopicInputValue(topic || lastMessageTopic);
+    }, 200);
   };
 
   handleMessageBlur = () => {
@@ -246,10 +257,9 @@ class ComposeBox extends PureComponent<Props, State> {
         isStreamNarrow(nextProps.narrow) && nextProps.editMessage
           ? nextProps.editMessage.topic
           : '';
-      this.setState({
-        message: nextProps.editMessage ? nextProps.editMessage.content : '',
-        topic,
-      });
+      const message = nextProps.editMessage ? nextProps.editMessage.content : '';
+      this.setMessageInputValue(message);
+      this.setTopicInputValue(topic);
       if (this.messageInput) {
         this.messageInput.focus();
       }
@@ -293,8 +303,8 @@ class ComposeBox extends PureComponent<Props, State> {
           messageSelection={selection}
           narrow={narrow}
           topicText={topic}
-          onMessageAutocomplete={this.handleMessageChange}
-          onTopicAutocomplete={this.handleTopicChange}
+          onMessageAutocomplete={this.handleMessageAutocomplete}
+          onTopicAutocomplete={this.handleTopicAutocomplete}
         />
         <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
           <View style={styles.alignBottom}>
