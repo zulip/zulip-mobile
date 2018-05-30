@@ -48,8 +48,17 @@ type State = {
 };
 
 export const updateTextInput = (textInput: TextInput, text: string): void => {
-  if (textInput) {
+  if (!textInput) {
+    return;
+  }
+
+  if (text) {
     textInput.setNativeProps({ text });
+  } else {
+    textInput.clear();
+    if (TextInputReset) {
+      TextInputReset.resetKeyboardInput(findNodeHandle(textInput));
+    }
   }
 };
 
@@ -134,17 +143,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
     }, 200); // give a chance to the mesage input to get the focus
   };
 
-  clearMessageInput = () => {
-    if (this.messageInput) {
-      this.messageInput.clear();
-      if (TextInputReset) {
-        TextInputReset.resetKeyboardInput(findNodeHandle(this.messageInput));
-      }
-    }
-
-    this.handleMessageChange('');
-  };
-
   handleSend = () => {
     const { actions, narrow } = this.props;
     const { topic, message } = this.state;
@@ -155,8 +153,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
 
     actions.addToOutbox(destinationNarrow, message);
     actions.draftRemove(narrow);
-
-    this.clearMessageInput();
   };
 
   handleEdit = () => {
@@ -206,12 +202,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
       }
     } else if (!isEqual(nextProps.narrow, this.props.narrow)) {
       this.tryUpdateDraft();
-
-      if (nextProps.draft) {
-        this.setState({ message: nextProps.draft });
-      } else {
-        this.clearMessageInput();
-      }
+      this.setState({ message: nextProps.draft });
     }
   }
 
