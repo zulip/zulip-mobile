@@ -36,6 +36,12 @@ export const getUsersStatusOffline = createSelector(
     ),
 );
 
+export const getActiveUsersAndBots = createSelector(
+  getUsers,
+  getCrossRealmBots,
+  (users = [], crossRealmBots = []) => [...users, ...crossRealmBots],
+);
+
 export const getAllUsersAndBots = createSelector(
   getUsers,
   getNonActiveUsers,

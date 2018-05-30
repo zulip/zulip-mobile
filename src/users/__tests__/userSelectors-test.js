@@ -6,6 +6,7 @@ import {
   getUsersStatusActive,
   getUsersStatusIdle,
   getUsersStatusOffline,
+  getActiveUsersAndBots,
   getAllUsersAndBots,
   getAllUsersAndBotsByEmail,
   getUsersById,
@@ -169,6 +170,23 @@ describe('getUsersStatusOffline', () => {
     const actualUser = getUsersStatusOffline(state);
 
     expect(actualUser).toEqual(expectedUsers);
+  });
+});
+
+describe('getActiveUsersAndBots', () => {
+  test('return users, bots, does not include inactive users', () => {
+    const state = deepFreeze({
+      users: [{ email: 'abc@example.com' }],
+      realm: {
+        crossRealmBots: [{ email: 'def@example.com' }],
+        nonActiveUsers: [{ email: 'xyz@example.com' }],
+      },
+    });
+    const expectedResult = [{ email: 'abc@example.com' }, { email: 'def@example.com' }];
+
+    const result = getActiveUsersAndBots(state);
+
+    expect(result).toEqual(expectedResult);
   });
 });
 
