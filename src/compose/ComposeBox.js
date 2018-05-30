@@ -335,7 +335,6 @@ class ComposeBox extends PureComponent<Props, State> {
                 onFocus={this.handleTopicFocus}
                 onBlur={this.handleTopicBlur}
                 onTouchStart={this.handleInputTouchStart}
-                value={topic}
               />
             )}
             <MultilineInput
@@ -347,7 +346,6 @@ class ComposeBox extends PureComponent<Props, State> {
                   messageInputRef(component);
                 }
               }}
-              value={message}
               onBlur={this.handleMessageBlur}
               onChange={this.handleMessageChange}
               onFocus={this.handleMessageFocus}
