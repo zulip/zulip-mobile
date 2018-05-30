@@ -47,11 +47,21 @@ export type InputSelectionType = {
 
 export type Account = Auth;
 
+/* An emoji reaction to a message, in minimal form.
+
+   See also EventReaction, which carries additional properties computed from
+   these.
+*/
 export type SlimEventReaction = {
   emoji_name: string,
   user: any,
 };
 
+/* An emoji reaction to a message.
+
+   See also SlimEventReaction, which contains the minimal subset of these
+   properties needed to compute the rest.
+*/
 export type EventReaction = {
   emoji_code: string,
   emoji_name: string,
@@ -59,6 +69,7 @@ export type EventReaction = {
   user: any,
 };
 
+/* An aggregate of all the reactions with one emoji to one message. */
 export type AggregatedReaction = {
   code: string,
   count: number,
