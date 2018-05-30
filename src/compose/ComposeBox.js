@@ -275,7 +275,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
                 onChangeText={this.handleTopicChange}
                 onFocus={this.handleTopicFocus}
                 onBlur={this.handleTopicBlur}
-                value={topic}
               />
             )}
             <MultilineInput
@@ -287,7 +286,6 @@ export default class ComposeBox extends PureComponent<Props, State> {
                   messageInputRef(component);
                 }
               }}
-              value={message}
               onBlur={this.handleMessageBlur}
               onChange={this.handleMessageChange}
               onFocus={this.handleMessageFocus}
