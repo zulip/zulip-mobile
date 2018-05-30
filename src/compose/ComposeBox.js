@@ -47,6 +47,12 @@ type State = {
   selection: InputSelectionType,
 };
 
+export const updateTextInput = (textInput: TextInput, text: string): void => {
+  if (textInput) {
+    textInput.setNativeProps({ text });
+  }
+};
+
 export default class ComposeBox extends PureComponent<Props, State> {
   topicInput = null;
   messageInput = null;
