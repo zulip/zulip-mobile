@@ -1,48 +1,71 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { FlatList } from 'react-native';
+import { SectionList } from 'react-native';
 
-import type { User, GlobalState } from '../types';
+import type { User, UserGroup, GlobalState } from '../types';
 import connectWithActions from '../connectWithActions';
-import { getOwnEmail, getSortedUsers } from '../selectors';
-import { getAutocompleteSuggestion } from '../users/userHelpers';
+import { getOwnEmail, getSortedUsers, getUserGroups } from '../selectors';
+import {
+  getAutocompleteSuggestion,
+  getAutocompleteUserGroupSuggestions,
+} from '../users/userHelpers';
 import { Popup } from '../common';
 import UserItem from '../users/UserItem';
+import UserGroupItem from '../user-groups/UserGroupItem';
 
 type Props = {
   filter: string,
   onAutocomplete: (name: string) => void,
   ownEmail: string,
   users: User[],
+  userGroups: UserGroup[],
 };
 
 class PeopleAutocomplete extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { filter, ownEmail, users, onAutocomplete } = this.props;
-    const people: User[] = getAutocompleteSuggestion(users, filter, ownEmail);
+    const { filter, ownEmail, users, userGroups, onAutocomplete } = this.props;
+    const filteredUserGroups = getAutocompleteUserGroupSuggestions(userGroups, filter);
+    const filteredUsers: User[] = getAutocompleteSuggestion(users, filter, ownEmail);
 
-    if (people.length === 0) {
+    if (filteredUserGroups.length + filteredUsers.length === 0) {
       return null;
     }
 
+    const sections = [
+      {
+        data: filteredUserGroups,
+        renderItem: ({ item }) => (
+          <UserGroupItem
+            key={item.name}
+            name={item.name}
+            description={item.description}
+            onPress={() => onAutocomplete(item.name)}
+          />
+        ),
+      },
+      {
+        data: filteredUsers,
+        renderItem: ({ item }) => (
+          <UserItem
+            key={item.full_name}
+            fullName={item.full_name}
+            avatarUrl={item.avatar_url}
+            email={item.email}
+            showEmail
+            onPress={() => onAutocomplete(item.full_name)}
+          />
+        ),
+      },
+    ];
+
     return (
       <Popup>
-        <FlatList
+        <SectionList
           keyboardShouldPersistTaps="always"
           initialNumToRender={10}
-          data={people}
-          keyExtractor={item => item.email}
-          renderItem={({ item }) => (
-            <UserItem
-              fullName={item.full_name}
-              avatarUrl={item.avatar_url}
-              email={item.email}
-              showEmail
-              onPress={() => onAutocomplete(item.full_name)}
-            />
-          )}
+          sections={sections}
         />
       </Popup>
     );
@@ -52,4 +75,5 @@ class PeopleAutocomplete extends PureComponent<Props> {
 export default connectWithActions((state: GlobalState) => ({
   ownEmail: getOwnEmail(state),
   users: getSortedUsers(state),
+  userGroups: getUserGroups(state),
 }))(PeopleAutocomplete);
