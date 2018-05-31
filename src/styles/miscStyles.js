@@ -35,6 +35,7 @@ export type MiscStyles = {
   navigationCard: Style,
   container: Style,
   center: Style,
+  heading: Style,
   heading2: Style,
   field: Style,
   disabled: Style,
@@ -192,6 +193,11 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  heading: {
+    color: BRAND_COLOR,
+    margin: HALF_SPACING,
+    fontWeight: 'bold',
   },
   heading2: {
     fontSize: 20,

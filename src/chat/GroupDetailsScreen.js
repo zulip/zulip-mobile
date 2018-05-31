@@ -1,20 +1,12 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList } from 'react-native';
 
 import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { Screen, Label } from '../common';
 import UserItem from '../users/UserItem';
 import { BRAND_COLOR } from '../styles';
-
-const componentStyles = StyleSheet.create({
-  heading: {
-    color: BRAND_COLOR,
-    margin: 8,
-    fontWeight: 'bold',
-  },
-});
 
 type Props = {
   navigation: Object,
@@ -36,6 +28,7 @@ class GroupDetailsScreen extends PureComponent<Props> {
   render() {
     const { navigation } = this.props;
     const { recipients } = navigation.state.params;
+    const { styles } = this.context;
     const title = {
       text: '{_}',
       values: {
@@ -45,7 +38,7 @@ class GroupDetailsScreen extends PureComponent<Props> {
 
     return (
       <Screen title={title}>
-        <Label style={componentStyles.heading} text="Members" />
+        <Label style={styles.heading} text="Members" />
         <FlatList
           initialNumToRender={10}
           data={recipients}
