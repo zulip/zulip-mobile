@@ -28,7 +28,7 @@ export default class AnimatedComponent extends PureComponent<Props> {
       toValue: this.props.visible ? this.props[this.props.property] : 0,
       duration: 300,
       useNativeDriver: this.props.useNativeDriver,
-      easing: this.props.visible ? Easing.elastic() : Easing.back(2),
+      easing: Easing.out(Easing.poly(4)),
     }).start();
   }
 
