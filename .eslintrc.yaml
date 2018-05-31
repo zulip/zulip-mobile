@@ -64,7 +64,6 @@ rules:
 
   # Imports
   import/prefer-default-export: off
-  import/no-unresolved: [error, {caseSensitive: false}]
   import/no-extraneous-dependencies:
   - error
   - devDependencies: ['**/__tests__/*.js', tools/**]
