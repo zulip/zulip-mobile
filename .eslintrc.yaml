@@ -19,7 +19,6 @@ rules:
   # Formatting and naming
   camelcase: off
   new-cap: [error, {capIsNew: false}]
-  no-confusing-arrow: off
 
   # Disable a bunch of rules that should be taken care of by prettier.
   arrow-parens: off
@@ -53,6 +52,7 @@ rules:
 
   # Tricky code.  We repeal several bans from the Airbnb style.
   no-bitwise: off
+  no-confusing-arrow: off
   no-continue: off
   no-plusplus: off
   no-nested-ternary: off
