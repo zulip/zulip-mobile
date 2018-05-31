@@ -70,7 +70,7 @@ const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: num
 
 const getMessageNode = (node: Element): Element => {
   let curNode = node;
-  while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
+  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
   }
   return curNode;
@@ -79,6 +79,21 @@ const getMessageNode = (node: Element): Element => {
 const getMessageIdFromNode = (node: Node): number => {
   const msgNode = getMessageNode(node);
   return msgNode ? +msgNode.getAttribute('data-msg-id') : -1;
+};
+
+const getMessageListHeight = () => {
+  // compute message list height
+  // summing up all message, timerow and headers div
+  const messagesDiv = document.getElementsByClassName('message');
+  const timeRowDiv = document.getElementsByClassName('timerow');
+  const headersDiv = document.getElementsByClassName('header');
+  const messageListElements = [...messagesDiv, ...timeRowDiv, ...headersDiv];
+  let totalMessageListHeight = 0;
+  let i;
+  for (i = 0; i < messageListElements.length; i++) {
+    totalMessageListHeight += messageListElements[i].getBoundingClientRect().height;
+  }
+  return totalMessageListHeight;
 };
 
 const scrollToBottom = () => {
@@ -119,7 +134,7 @@ const isMessageNode = (node: Element): boolean =>
 const getStartAndEndNodes = (): { start: number, end: number } => {
   const startNode = getMessageNode(document.elementFromPoint(200, 20));
   const windowInnerHeight = window.innerHeight;
-  const messageListHeight = document.getElementById('message-list').clientHeight;
+  const messageListHeight = getMessageListHeight();
   const endPoint =
     messageListHeight > 0 ? Math.min(windowInnerHeight, messageListHeight) : windowInnerHeight;
   const endNode = getMessageNode(document.elementFromPoint(200, endPoint - 20));
@@ -154,8 +169,7 @@ const sendScrollMessage = () => {
 const sendScrollMessageIfListShort = () => {
   // check if message list is short or not
   // by comparing total height and message list height.
-  const messageListHeight = document.getElementById('message-list').clientHeight; // offsetHeight includes only padding
-  if (messageListHeight <= documentBody.clientHeight) {
+  if (getMessageListHeight() <= documentBody.clientHeight) {
     sendScrollMessage();
   }
 };
@@ -215,7 +229,7 @@ const handleMessageContent = (msg: MessageInputContent) => {
     target = { type: 'anchor', anchor: msg.anchor };
   } else if (
     msg.updateStrategy === 'scroll-to-bottom-if-near-bottom'
-    && isNearBottom() /* align */
+    /* align */ && isNearBottom()
   ) {
     target = { type: 'bottom' };
   } else {

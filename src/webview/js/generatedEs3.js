@@ -8,9 +8,12 @@
 export default `
 'use strict';
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var documentBody = document.body;
-if (!documentBody) throw new Error('No document.body element!');
+if (!documentBody) {
+  throw new Error('No document.body element!');
+}
 
 var escapeHtml = function escapeHtml(text) {
   var element = document.createElement('div');
@@ -66,7 +69,7 @@ var isNearPositions = function isNearPositions() {
 
 var getMessageNode = function getMessageNode(node) {
   var curNode = node;
-  while (curNode && curNode.parentNode && curNode.parentNode.id !== 'message-list') {
+  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
   }
   return curNode;
@@ -75,6 +78,19 @@ var getMessageNode = function getMessageNode(node) {
 var getMessageIdFromNode = function getMessageIdFromNode(node) {
   var msgNode = getMessageNode(node);
   return msgNode ? +msgNode.getAttribute('data-msg-id') : -1;
+};
+
+var getMessageListHeight = function getMessageListHeight() {
+  var messagesDiv = document.getElementsByClassName('message');
+  var timeRowDiv = document.getElementsByClassName('timerow');
+  var headersDiv = document.getElementsByClassName('header');
+  var messageListElements = [].concat(_toConsumableArray(messagesDiv), _toConsumableArray(timeRowDiv), _toConsumableArray(headersDiv));
+  var totalMessageListHeight = 0;
+  var i = void 0;
+  for (i = 0; i < messageListElements.length; i++) {
+    totalMessageListHeight += messageListElements[i].getBoundingClientRect().height;
+  }
+  return totalMessageListHeight;
 };
 
 var scrollToBottom = function scrollToBottom() {
@@ -117,7 +133,7 @@ var isMessageNode = function isMessageNode(node) {
 var getStartAndEndNodes = function getStartAndEndNodes() {
   var startNode = getMessageNode(document.elementFromPoint(200, 20));
   var windowInnerHeight = window.innerHeight;
-  var messageListHeight = document.getElementById('message-list').clientHeight;
+  var messageListHeight = getMessageListHeight();
   var endPoint = messageListHeight > 0 ? Math.min(windowInnerHeight, messageListHeight) : windowInnerHeight;
   var endNode = getMessageNode(document.elementFromPoint(200, endPoint - 20));
 
@@ -145,15 +161,16 @@ var sendScrollMessage = function sendScrollMessage() {
 };
 
 var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
-  var messageListHeight = document.getElementById('message-list').clientHeight;
-  if (messageListHeight <= documentBody.clientHeight) {
+  if (getMessageListHeight() <= documentBody.clientHeight) {
     sendScrollMessage();
   }
 };
 
 var handleScrollEvent = function handleScrollEvent() {
   lastTouchEventTimestamp = 0;
-  if (scrollEventsDisabled) return;
+  if (scrollEventsDisabled) {
+    return;
+  }
 
   sendScrollMessage();
 
@@ -305,7 +322,9 @@ documentBody.addEventListener('click', function (e) {
 });
 
 var handleLongPress = function handleLongPress(e) {
-  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
+  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) {
+    return;
+  }
 
   lastTouchEventTimestamp = 0;
 
@@ -317,7 +336,9 @@ var handleLongPress = function handleLongPress(e) {
 };
 
 documentBody.addEventListener('touchstart', function (e) {
-  if (e.changedTouches[0].pageX < 20) return;
+  if (e.changedTouches[0].pageX < 20) {
+    return;
+  }
 
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;

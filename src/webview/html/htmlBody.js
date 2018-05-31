@@ -7,9 +7,7 @@ export default (content: string, showMessagePlaceholders: boolean): string => te
 <div id="js-error"></div>
 <div id="spinner-older" class="hidden loading-spinner"></div>
 
-<div id="message-list">
-  $!${content}
-</div>
+$!${content}
 
 <div id="message-loading" class="${showMessagePlaceholders ? '' : 'hidden'}">
   $!${messageLoadingList}
