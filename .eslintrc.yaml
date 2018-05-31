@@ -20,14 +20,16 @@ rules:
   camelcase: off
   new-cap: [error, {capIsNew: false}]
   comma-dangle: [error, always-multiline]
-  quote-props: off
-  max-len: off  # This is prettier's job.
-  indent: off
-  arrow-parens: off
   no-confusing-arrow: off
-  no-mixed-operators: off
+
+  # Disable a bunch of rules that should be taken care of by prettier.
+  arrow-parens: off
   function-paren-newline: off
+  indent: off
+  max-len: off
+  no-mixed-operators: off
   object-curly-newline: off
+  quote-props: off
 
   # Disallow tucking a condition or loop body in at the end of a line, like
   # `if (condition) return;`.  That makes it much too easy to miss control flow.
