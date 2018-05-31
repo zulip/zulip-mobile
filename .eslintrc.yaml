@@ -19,11 +19,11 @@ rules:
   # Formatting and naming
   camelcase: off
   new-cap: [error, {capIsNew: false}]
-  comma-dangle: [error, always-multiline]
   no-confusing-arrow: off
 
   # Disable a bunch of rules that should be taken care of by prettier.
   arrow-parens: off
+  comma-dangle: off
   function-paren-newline: off
   indent: off
   max-len: off
