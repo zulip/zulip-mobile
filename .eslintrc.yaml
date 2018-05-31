@@ -57,7 +57,6 @@ rules:
   no-nested-ternary: off
 
   # Likely-wrong code
-  no-restricted-syntax: off
   no-unused-vars: [warn, {vars: local, args: none}]
   # no-param-reassign seems well-intentioned... but fires on common uses
   # of Array#reduce.  Too noisy.
