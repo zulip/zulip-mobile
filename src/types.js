@@ -157,6 +157,11 @@ export type UserGroup = {
   name: string,
 };
 
+export type DevUser = {
+  realm_uri: string,
+  email: string,
+};
+
 export type PresenceAggregated = {
   client: string,
   status: UserStatus,

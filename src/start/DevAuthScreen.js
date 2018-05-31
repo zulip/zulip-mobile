@@ -2,10 +2,10 @@
 import React, { PureComponent } from 'react';
 import { ActivityIndicator, View, StyleSheet, FlatList } from 'react-native';
 
-import type { Actions, Auth, Context } from '../types';
+import type { Actions, Auth, Context, DevUser } from '../types';
 import connectWithActions from '../connectWithActions';
 import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
-import { devGetEmails, devFetchApiKey } from '../api';
+import { devListUsers, devFetchApiKey } from '../api';
 import { getAuth } from '../selectors';
 
 const inlineStyles = StyleSheet.create({
@@ -20,8 +20,8 @@ type Props = {
 
 type State = {
   progress: boolean,
-  directAdmins: string[],
-  directUsers: string[],
+  directAdmins: DevUser[],
+  directUsers: DevUser[],
   error: string,
 };
 
@@ -45,7 +45,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
 
     (async () => {
       try {
-        const [directAdmins, directUsers] = await devGetEmails(auth);
+        const [directAdmins, directUsers] = await devListUsers(auth);
 
         this.setState({ directAdmins, directUsers, progress: false });
       } catch (err) {
@@ -83,15 +83,19 @@ class DevAuthScreen extends PureComponent<Props, State> {
             style={[styles.field, styles.heading2, inlineStyles.heading]}
             text="Administrators"
           />
-          {directAdmins.map(email => (
-            <ZulipButton key={email} text={email} onPress={() => this.tryDevLogin(email)} />
+          {directAdmins.map(admin => (
+            <ZulipButton
+              key={admin.email}
+              text={admin.email}
+              onPress={() => this.tryDevLogin(admin.email)}
+            />
           ))}
           <Label
             style={[styles.field, styles.heading2, inlineStyles.heading]}
             text="Normal users"
           />
           <FlatList
-            data={directUsers}
+            data={directUsers.map(user => user.email)}
             keyExtractor={(item, index) => item}
             ItemSeparatorComponent={() => <View style={inlineStyles.accountItem} />}
             renderItem={({ item }) => (
