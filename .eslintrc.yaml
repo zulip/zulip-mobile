@@ -18,7 +18,6 @@ settings:
 rules:
   # Formatting and naming
   camelcase: off
-  new-cap: [error, {capIsNew: false}]
 
   # Disable a bunch of rules that should be taken care of by prettier.
   arrow-parens: off
