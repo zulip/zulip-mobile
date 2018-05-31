@@ -1,7 +1,7 @@
 /* @flow */
 import uniqby from 'lodash.uniqby';
 
-import type { Presence, User, PresenceState } from '../types';
+import type { Presence, User, UserGroup, PresenceState } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { statusFromPresence } from '../utils/presence';
 
@@ -127,3 +127,13 @@ export const getAutocompleteSuggestion = (
   const matchesEmail = filterUserMatchesEmail(users, filter, ownEmail);
   return getUniqueUsers([...startWith, ...initials, ...contains, ...matchesEmail]);
 };
+
+export const getAutocompleteUserGroupSuggestions = (
+  userGroups: UserGroup[],
+  filter: string = '',
+): UserGroup[] =>
+  userGroups.filter(
+    userGroup =>
+      userGroup.name.toLowerCase().includes(filter.toLowerCase())
+      || userGroup.description.toLowerCase().includes(filter.toLowerCase()),
+  );

@@ -4,6 +4,7 @@ import {
   sortUserList,
   filterUserList,
   getAutocompleteSuggestion,
+  getAutocompleteUserGroupSuggestions,
   groupUsersByInitials,
   sortAlphabetically,
   filterUserStartWith,
@@ -133,6 +134,32 @@ describe('getAutocompleteSuggestion', () => {
       { full_name: 'Example', email: 'match@example.com' }, // email contains 'ma'
     ];
     const filteredUsers = getAutocompleteSuggestion(allUsers, 'ma');
+    expect(filteredUsers).toEqual(shouldMatch);
+  });
+});
+
+describe('getAutocompleteUserGroupSuggestions', () => {
+  test('empty input results in empty list', () => {
+    const userGroups = deepFreeze([]);
+
+    const filteredUserGroups = getAutocompleteUserGroupSuggestions(userGroups, 'some filter');
+
+    expect(filteredUserGroups).toEqual(userGroups);
+  });
+
+  test('searches in name and description, case-insensitive', () => {
+    const userGroups = deepFreeze([
+      { name: 'some user group', description: '' },
+      { name: 'another one', description: '' },
+      { name: 'last one', description: 'This is a Group' },
+    ]);
+    const shouldMatch = [
+      { name: 'some user group', description: '' },
+      { name: 'last one', description: 'This is a Group' },
+    ];
+
+    const filteredUsers = getAutocompleteUserGroupSuggestions(userGroups, 'group');
+
     expect(filteredUsers).toEqual(shouldMatch);
   });
 });
