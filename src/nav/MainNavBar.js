@@ -7,15 +7,7 @@ import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import Title from '../title/Title';
 import NavButton from './NavButton';
 import TitleNavButtons from '../title-buttons/TitleNavButtons';
-import {
-  getSession,
-  getCanGoBack,
-  getUnreadPmsTotal,
-  getUnreadHuddlesTotal,
-  getUnreadMentionsTotal,
-  getTitleBackgroundColor,
-  getTitleTextColor,
-} from '../selectors';
+import { getCanGoBack, getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 
 type Props = {
   actions: Actions,
@@ -53,8 +45,4 @@ export default connectWithActionsPreserveOnBack((state, props) => ({
   backgroundColor: getTitleBackgroundColor(props.narrow)(state),
   canGoBack: getCanGoBack(state),
   textColor: getTitleTextColor(props.narrow)(state),
-  unreadHuddlesTotal: getUnreadHuddlesTotal(state),
-  unreadMentionsTotal: getUnreadMentionsTotal(state),
-  unreadPmsTotal: getUnreadPmsTotal(state),
-  editMessage: getSession(state).editMessage,
 }))(MainNavBar);
