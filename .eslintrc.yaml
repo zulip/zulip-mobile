@@ -10,7 +10,9 @@ env:
   node: true
   jest: true
 globals: {}
-extends: airbnb
+extends:
+  - airbnb
+  - plugin:jest/recommended
 settings:
   import/resolver:
     node:
@@ -84,9 +86,7 @@ rules:
   # react-native/no-color-literals: error  # TODO eliminate these and enable.
 
   # Jest
-  jest/no-disabled-tests: warn
-  jest/no-focused-tests: error
-  jest/no-identical-title: error
+  jest/prefer-to-have-length: off
 
   # Flow
   flowtype/boolean-style: [error, boolean]
