@@ -37,7 +37,7 @@ describe('getInitialNavState', () => {
 
     const nav = getInitialNavState(state);
 
-    expect(nav.routes.length).toEqual(1);
+    expect(nav.routes).toHaveLength(1);
   });
 
   test('if logged in, preserve the state', () => {
@@ -51,7 +51,7 @@ describe('getInitialNavState', () => {
 
     const nav = getInitialNavState(state);
 
-    expect(nav.routes.length).toEqual(2);
+    expect(nav.routes).toHaveLength(2);
     expect(nav.routes[0].routeName).toEqual('route1');
     expect(nav.routes[1].routeName).toEqual('route2');
   });
@@ -67,7 +67,7 @@ describe('getInitialNavState', () => {
 
     const nav = getInitialNavState(state);
 
-    expect(nav.routes.length).toBe(1);
+    expect(nav.routes).toHaveLength(1);
     expect(nav.routes[0].routeName).toEqual('welcome');
   });
 
@@ -82,7 +82,7 @@ describe('getInitialNavState', () => {
 
     const nav = getInitialNavState(state);
 
-    expect(nav.routes.length).toBe(1);
+    expect(nav.routes).toHaveLength(1);
     expect(nav.routes[0].routeName).toEqual('account');
   });
 
@@ -97,7 +97,7 @@ describe('getInitialNavState', () => {
 
     const nav = getInitialNavState(state);
 
-    expect(nav.routes.length).toBe(1);
+    expect(nav.routes).toHaveLength(1);
     expect(nav.routes[0].routeName).toEqual('welcome');
   });
 
@@ -115,7 +115,7 @@ describe('getInitialNavState', () => {
 
     const nav = getInitialNavState(state);
 
-    expect(nav.routes.length).toBe(1);
+    expect(nav.routes).toHaveLength(1);
     expect(nav.routes[0].routeName).toEqual('account');
   });
 
@@ -130,7 +130,7 @@ describe('getInitialNavState', () => {
 
     const nav = getInitialNavState(state);
 
-    expect(nav.routes.length).toBe(1);
+    expect(nav.routes).toHaveLength(1);
     expect(nav.routes[0].routeName).toEqual('welcome');
   });
 });

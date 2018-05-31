@@ -22,6 +22,6 @@ describe('responseToActions', () => {
     const response = { events: [event] };
     const actions = responseToActions({}, response);
 
-    expect(actions.length).toBe(1);
+    expect(actions).toHaveLength(1);
   });
 });

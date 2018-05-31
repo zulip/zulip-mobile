@@ -40,7 +40,7 @@ describe('getInputMessages', () => {
 
     const messages = getInputMessages(prevProps, nextProps);
 
-    expect(messages.length).toEqual(1);
+    expect(messages).toHaveLength(1);
     expect(messages[0].type).toEqual('typing');
   });
 
@@ -73,7 +73,7 @@ describe('getInputMessages', () => {
 
     const messages = getInputMessages(prevProps, nextProps);
 
-    expect(messages.length).toEqual(1);
+    expect(messages).toHaveLength(1);
     expect(messages[0].type).toEqual('content');
   });
 
@@ -91,7 +91,7 @@ describe('getInputMessages', () => {
 
     const messages = getInputMessages(prevProps, nextProps);
 
-    expect(messages.length).toEqual(2);
+    expect(messages).toHaveLength(2);
     expect(messages[0].type).toEqual('fetching');
     expect(messages[1].type).toEqual('typing');
   });
@@ -120,7 +120,7 @@ describe('getInputMessages', () => {
 
     const messages = getInputMessages(prevProps, nextProps);
 
-    expect(messages.length).toEqual(1);
+    expect(messages).toHaveLength(1);
     expect(messages[0].type).toEqual('content');
   });
 });

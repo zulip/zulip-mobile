@@ -31,7 +31,7 @@ describe('messageActions', () => {
       store.dispatch(doNarrow(streamNarrowObj));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(2);
+      expect(actions).toHaveLength(2);
       expect(actions[0].type).toBe('SWITCH_NARROW');
       expect(actions[1].type).toBe('MESSAGE_FETCH_START');
       expect(actions[1].narrow).toEqual(streamNarrowObj);
@@ -88,7 +88,7 @@ describe('messageActions', () => {
       store.dispatch(doNarrow(streamNarrowObj));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(2);
+      expect(actions).toHaveLength(2);
       expect(actions[0].type).toBe('SWITCH_NARROW');
       expect(actions[1].type).toBe('MESSAGE_FETCH_START');
       expect(actions[1].narrow).toEqual(streamNarrowObj);
@@ -113,7 +113,7 @@ describe('messageActions', () => {
       store.dispatch(doNarrow(streamNarrowObj));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(0);
+      expect(actions).toHaveLength(0);
     });
 
     test('if new narrow user is deactivated, do nothing', () => {
@@ -138,7 +138,7 @@ describe('messageActions', () => {
       store.dispatch(doNarrow(privateNarrow('a@a.com')));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(0);
+      expect(actions).toHaveLength(0);
     });
   });
 });

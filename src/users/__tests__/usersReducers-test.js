@@ -32,7 +32,7 @@ describe('usersReducers', () => {
       });
 
       const newState = usersReducers(initialState, action);
-      expect(newState.length).toEqual(2);
+      expect(newState).toHaveLength(2);
     });
   });
 

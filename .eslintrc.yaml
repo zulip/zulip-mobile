@@ -85,9 +85,6 @@ rules:
   react-native/no-inline-styles: error
   # react-native/no-color-literals: error  # TODO eliminate these and enable.
 
-  # Jest
-  jest/prefer-to-have-length: off
-
   # Flow
   flowtype/boolean-style: [error, boolean]
   flowtype/define-flow-type: warn

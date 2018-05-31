@@ -17,7 +17,7 @@ describe('activeAuthentications', () => {
 
     const actual = activeAuthentications(authenticationMethods);
 
-    expect(actual.length).toEqual(2);
+    expect(actual).toHaveLength(2);
   });
 
   test('ldap and password are handled the same so do not duplicate them', () => {
@@ -28,7 +28,7 @@ describe('activeAuthentications', () => {
 
     const actual = activeAuthentications(authenticationMethods);
 
-    expect(actual.length).toEqual(1);
+    expect(actual).toHaveLength(1);
   });
 
   test('recognizes all auth methods and returns them as a list with details', () => {
@@ -43,7 +43,7 @@ describe('activeAuthentications', () => {
 
     const actual = activeAuthentications(authenticationMethods);
 
-    expect(actual.length).toEqual(5);
+    expect(actual).toHaveLength(5);
   });
 
   test('only recognized auth methods are returned while the unknown are ignored', () => {
@@ -54,6 +54,6 @@ describe('activeAuthentications', () => {
 
     const actual = activeAuthentications(authenticationMethods);
 
-    expect(actual.length).toEqual(1);
+    expect(actual).toHaveLength(1);
   });
 });

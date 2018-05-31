@@ -22,7 +22,7 @@ describe('renderMessages', () => {
 
     const messageList = renderMessages(messages, narrow);
 
-    expect(messageList.length).toEqual(2);
+    expect(messageList).toHaveLength(2);
     expect(messageList[0].data[0].key).toEqual('time123');
     expect(messageList[1].data[0].key).toEqual(12345);
   });

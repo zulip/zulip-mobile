@@ -17,7 +17,7 @@ describe('foregroundColorFromBackground', () => {
 describe('colorHashFromName', () => {
   test('returns a 6 digit hex number to use as a color ', () => {
     const hash = colorHashFromName('John Doe');
-    expect(hash.length).toEqual(7);
+    expect(hash).toHaveLength(7);
   });
 
   test('produces the same output for the same input', () => {

@@ -39,7 +39,7 @@ describe('fetchActions', () => {
       await store.dispatch(backgroundFetchMessages(homeNarrow, 0, 1, 1, true));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(1);
+      expect(actions).toHaveLength(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_COMPLETE');
     });
   });
@@ -56,7 +56,7 @@ describe('fetchActions', () => {
       store.dispatch(fetchMessages(homeNarrow, 0, 1, 1, true));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(1);
+      expect(actions).toHaveLength(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
 
@@ -71,7 +71,7 @@ describe('fetchActions', () => {
       store.dispatch(fetchMessages(homeNarrow, 0, -1, 1, true));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(1);
+      expect(actions).toHaveLength(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
 
@@ -86,7 +86,7 @@ describe('fetchActions', () => {
       store.dispatch(fetchMessages(homeNarrow, 0, 1, -1, true));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(1);
+      expect(actions).toHaveLength(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
   });
@@ -103,7 +103,7 @@ describe('fetchActions', () => {
       store.dispatch(fetchMessagesAtFirstUnread(homeNarrow));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(1);
+      expect(actions).toHaveLength(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
   });
@@ -130,7 +130,7 @@ describe('fetchActions', () => {
       store.dispatch(fetchOlder(homeNarrow));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(1);
+      expect(actions).toHaveLength(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
 
@@ -155,7 +155,7 @@ describe('fetchActions', () => {
       store.dispatch(fetchOlder(homeNarrow));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(0);
+      expect(actions).toHaveLength(0);
     });
 
     test('when fetchingOlder older is true, no action is dispatched', () => {
@@ -179,7 +179,7 @@ describe('fetchActions', () => {
       store.dispatch(fetchOlder(homeNarrow));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(0);
+      expect(actions).toHaveLength(0);
     });
 
     test('when needsInitialFetch is true, no action is dispatched', () => {
@@ -201,7 +201,7 @@ describe('fetchActions', () => {
       store.dispatch(fetchOlder(homeNarrow));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(0);
+      expect(actions).toHaveLength(0);
     });
   });
 
@@ -225,7 +225,7 @@ describe('fetchActions', () => {
       store.dispatch(fetchNewer(homeNarrow));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(1);
+      expect(actions).toHaveLength(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
 
@@ -248,7 +248,7 @@ describe('fetchActions', () => {
       store.dispatch(fetchNewer(homeNarrow));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(0);
+      expect(actions).toHaveLength(0);
     });
 
     test('when fetching.newer is true, no action is dispatched', () => {
@@ -272,7 +272,7 @@ describe('fetchActions', () => {
       store.dispatch(fetchNewer(homeNarrow));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(1);
+      expect(actions).toHaveLength(1);
       expect(actions[0].type).toBe('MESSAGE_FETCH_START');
     });
 
@@ -295,7 +295,7 @@ describe('fetchActions', () => {
       store.dispatch(fetchNewer(homeNarrow));
       const actions = store.getActions();
 
-      expect(actions.length).toBe(0);
+      expect(actions).toHaveLength(0);
     });
   });
 });
