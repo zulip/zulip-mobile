@@ -19,7 +19,7 @@ We target operating systems >= Android 4.4 (API 19) and >= iOS 8.0.
 
 Before starting, install these dependencies if you don't have them:
 * [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/en/download/package-manager/), latest 8.x version
+* [Node.js](https://nodejs.org/en/download/package-manager/), LTS
 * [Yarn](https://yarnpkg.com/en/docs/install), latest stable version
 
 If you are using macOS, upgrade to the latest version of the OS and then to
