@@ -8,26 +8,30 @@ debug your app][react-debugging].
 
 ### Remote JS Debugger
 
-The Remote JS Debugger allows you to debug your app in the browser developer
-console. It provides you with prettily formatted debug messages and helpful
-additional information.
+The Remote JS Debugger allows you to debug your app in your browser's
+developer console (or at least in the Chrome Developer Tools).  It provides
+you with prettily formatted debug messages and helpful additional
+information.
 
-To use it, start your app. Then, [open the Developer Menu][dev-menu].
-Here, select "Debug JS Remotely". This will open a new tab at
-http://localhost:8081/debugger-ui. Go to this tab and open the browser developer
-console. It will print all console debug output of your app. This means that you
-can debug the app with statements like
+To use it, start your app in the emulator. Then, [open the Developer
+Menu][dev-menu]. Here, select "Debug JS Remotely". This will open a new tab
+in your browser, at http://localhost:8081/debugger-ui . Go to this tab and
+open the developer console.
+
+This console will show all console debug output from your app, which means
+that you can debug the app with statements like
 ```js
 console.debug(foobar)
 ```
-Additionally, the developer console will log all Redux events.
+Additionally, all Redux events are automatically logged to the console.
 
 ### Common issues
 
 #### "Debug JS remotely" opens a webpage that never loads.
 
-For some reason, React tries to connect to http://10.0.2.2:8081/debugger-ui.
-Instead, it should connect to http://localhost/debugger-ui.
+For some reason, React Native may try to open a browser tab for you at
+http://10.0.2.2:8081/debugger-ui .
+Instead, it should be http://localhost:8081/debugger-ui .
 
 To fix this, simply open http://localhost:8081/debugger-ui in your browser.
 This should load the web debugger you expected. Also, if the app was showing
