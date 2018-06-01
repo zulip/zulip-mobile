@@ -1,6 +1,43 @@
 /* @flow */
 import {
   REHYDRATE,
+  APP_ONLINE,
+  APP_STATE,
+  APP_REFRESH,
+  INIT_SAFE_AREA_INSETS,
+  APP_ORIENTATION,
+  START_EDIT_MESSAGE,
+  CANCEL_EDIT_MESSAGE,
+  DEBUG_FLAG_TOGGLE,
+  ACCOUNT_SWITCH,
+  REALM_ADD,
+  ACCOUNT_REMOVE,
+  LOGIN_SUCCESS,
+  LOGOUT,
+  REALM_INIT,
+  DELETE_TOKEN_PUSH,
+  SAVE_TOKEN_PUSH,
+  MESSAGE_FETCH_START,
+  MESSAGE_FETCH_COMPLETE,
+  MARK_MESSAGES_READ,
+  INITIAL_FETCH_START,
+  INITIAL_FETCH_COMPLETE,
+  INIT_REALM_EMOJI,
+  INIT_REALM_FILTER,
+  SETTINGS_CHANGE,
+  DRAFT_ADD,
+  DRAFT_REMOVE,
+  SWITCH_NARROW,
+  PRESENCE_RESPONSE,
+  MESSAGE_SEND_START,
+  MESSAGE_SEND_COMPLETE,
+  DELETE_OUTBOX_MESSAGE,
+  TOGGLE_OUTBOX_SENDING,
+  EVENT_USER_GROUP_ADD,
+  EVENT_USER_GROUP_REMOVE,
+  EVENT_USER_GROUP_UPDATE,
+  EVENT_USER_GROUP_ADD_MEMBERS,
+  EVENT_USER_GROUP_REMOVE_MEMBERS,
   EVENT_STREAM_ADD,
   EVENT_STREAM_REMOVE,
   EVENT_STREAM_UPDATE,
@@ -8,6 +45,13 @@ import {
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
   EVENT_SUBSCRIPTION_UPDATE,
+  EVENT_TYPING_START,
+  EVENT_TYPING_STOP,
+  CLEAR_TYPING,
+  INIT_STREAMS,
+  INIT_TOPICS,
+  INIT_SUBSCRIPTIONS,
+  INIT_USERS,
 } from './actionConstants';
 
 import type {
@@ -39,27 +83,27 @@ export type RehydrateAction = {
 export type AsyncActionCreator<A> = (dispatch: Dispatch, getState: GetState) => A;
 
 export type AppOnlineAction = {
-  type: 'APP_ONLINE',
+  type: typeof APP_ONLINE,
   isOnline: boolean,
 };
 
 export type AppOnlineActionCreator = (isOnline: boolean) => AsyncActionCreator<AppOnlineAction>;
 
 export type AppStateAction = {
-  type: 'APP_STATE',
+  type: typeof APP_STATE,
   isActive: boolean,
 };
 
 export type AppStateActionCreator = (isActive: boolean) => AppStateAction;
 
 export type AppRefreshAction = {
-  type: 'APP_REFRESH',
+  type: typeof APP_REFRESH,
 };
 
 export type AppRefreshActionCreator = (isActive: boolean) => AppRefreshAction;
 
 export type InitSafeAreaInsetsAction = {
-  type: 'INIT_SAFE_AREA_INSETS',
+  type: typeof INIT_SAFE_AREA_INSETS,
   safeAreaInsets: Dimensions,
 };
 
@@ -68,14 +112,14 @@ export type InitSafeAreaInsetsActionCreator = (
 ) => InitSafeAreaInsetsAction;
 
 export type AppOrientationAction = {
-  type: 'APP_ORIENTATION',
+  type: typeof APP_ORIENTATION,
   orientation: Orientation,
 };
 
 export type AppOrientationActionCreator = (orientation: Orientation) => AppOrientationAction;
 
 export type StartEditMessageAction = {
-  type: 'START_EDIT_MESSAGE',
+  type: typeof START_EDIT_MESSAGE,
   messageId: number,
   message: string,
   topic: string,
@@ -87,13 +131,13 @@ export type StartEditMessageActionCreator = (
 ) => StartEditMessageAction;
 
 export type CancelEditMessageAction = {
-  type: 'CANCEL_EDIT_MESSAGE',
+  type: typeof CANCEL_EDIT_MESSAGE,
 };
 
 export type CancelEditMessageActionCreator = () => CancelEditMessageAction;
 
 export type DebugFlagToggleAction = {
-  type: 'DEBUG_FLAG_TOGGLE',
+  type: typeof DEBUG_FLAG_TOGGLE,
   key: string,
   value: string,
 };
@@ -112,28 +156,28 @@ export type NavigateToLightboxActionCreator = (src: string, message: Message) =>
 export type NavigateToStreamActionCreator = (streamId: number) => NavigateAction;
 
 export type AccountSwitchAction = {
-  type: 'ACCOUNT_SWITCH',
+  type: typeof ACCOUNT_SWITCH,
   index: number,
 };
 
 export type AccountSwitchActionCreator = (index: number) => AccountSwitchAction;
 
 export type RealmAddAction = {
-  type: 'REALM_ADD',
+  type: typeof REALM_ADD,
   realm: string,
 };
 
 export type RealmAddActionCreator = (realm: string) => RealmAddAction;
 
 export type AccountRemoveAction = {
-  type: 'ACCOUNT_REMOVE',
+  type: typeof ACCOUNT_REMOVE,
   index: number,
 };
 
 export type AccountRemoveActionCreator = (index: number) => AccountRemoveAction;
 
 export type LoginSuccessAction = {
-  type: 'LOGIN_SUCCESS',
+  type: typeof LOGIN_SUCCESS,
   realm: string,
   email: string,
   apiKey: string,
@@ -146,26 +190,26 @@ export type LoginSuccessActionCreator = (
 ) => LoginSuccessAction;
 
 export type LogoutAction = {
-  type: 'LOGOUT',
+  type: typeof LOGOUT,
 };
 
 export type LogoutActionCreator = () => LogoutAction;
 
 export type RealmInitAction = {
-  type: 'REALM_INIT',
+  type: typeof REALM_INIT,
   data: InitialData,
 };
 
 export type RealmInitActionCreator = (data: InitialData) => RealmInitAction;
 
 export type DeleteTokenPushAction = {
-  type: 'DELETE_TOKEN_PUSH',
+  type: typeof DELETE_TOKEN_PUSH,
 };
 
 export type DeleteTokenPushActionCreator = () => DeleteTokenPushAction;
 
 export type SaveTokenPushAction = {
-  type: 'SAVE_TOKEN_PUSH',
+  type: typeof SAVE_TOKEN_PUSH,
   pushToken: string,
   result: string,
   msg: string,
@@ -180,7 +224,7 @@ export type SaveTokenPushActionCreator = (
 export type InitNotificationsActionCreator = () => void;
 
 export type MessageFetchStartAction = {
-  type: 'MESSAGE_FETCH_START',
+  type: typeof MESSAGE_FETCH_START,
   narrow: Narrow,
   numBefore: number,
   numAfter: number,
@@ -193,7 +237,7 @@ export type MessageFetchStartActionCreator = (
 ) => MessageFetchStartAction;
 
 export type MessageFetchCompleteAction = {
-  type: 'MESSAGE_FETCH_COMPLETE',
+  type: typeof MESSAGE_FETCH_COMPLETE,
   messages: Message[],
   narrow: Narrow,
   anchor: number,
@@ -235,7 +279,7 @@ export type BackgroundFetchMessagesActionCreator = (
 ) => void;
 
 export type MarkMessagesReadAction = {
-  type: 'MARK_MESSAGES_READ',
+  type: typeof MARK_MESSAGES_READ,
   messageIds: number[],
 };
 
@@ -245,12 +289,12 @@ export type FetchOlderActionCreator = (narrow: Narrow) => FetchMessagesAction;
 export type FetchNewerActionCreator = (narrow: Narrow) => FetchMessagesAction;
 
 export type InitialFetchStartAction = {
-  type: 'INITIAL_FETCH_START',
+  type: typeof INITIAL_FETCH_START,
 };
 export type InitialFetchStartActionCreator = () => InitialFetchStartAction;
 
 export type InitialFetchCompleteAction = {
-  type: 'INITIAL_FETCH_COMPLETE',
+  type: typeof INITIAL_FETCH_COMPLETE,
 };
 
 export type InitialFetchCompleteActionCreator = () => InitialFetchCompleteAction;
@@ -348,33 +392,33 @@ export type EventUserRemoveAction = any;
 export type EventUserUpdateAction = any;
 export type EventMutedTopicsAction = any;
 export type EventUserGroupAddAction = {
-  type: 'EVENT_USER_GROUP_ADD',
+  type: typeof EVENT_USER_GROUP_ADD,
   op: 'add',
   id: number,
   group: UserGroup,
 };
 export type EventUserGroupRemoveAction = {
-  type: 'EVENT_USER_GROUP_REMOVE',
+  type: typeof EVENT_USER_GROUP_REMOVE,
   op: 'remove',
   id: number,
   group_id: number,
 };
 export type EventUserGroupUpdateAction = {
-  type: 'EVENT_USER_GROUP_UPDATE',
+  type: typeof EVENT_USER_GROUP_UPDATE,
   op: 'update',
   group_id: number,
   id: number,
   data: { description?: string, name?: string },
 };
 export type EventUserGroupAddMembersAction = {
-  type: 'EVENT_USER_GROUP_ADD_MEMBERS',
+  type: typeof EVENT_USER_GROUP_ADD_MEMBERS,
   op: 'add_members',
   group_id: number,
   id: number,
   user_ids: number[],
 };
 export type EventUserGroupRemoveMembersAction = {
-  type: 'EVENT_USER_GROUP_REMOVE_MEMBERS',
+  type: typeof EVENT_USER_GROUP_REMOVE_MEMBERS,
   op: 'remove_members',
   group_id: number,
   id: number,
@@ -413,14 +457,14 @@ export type EventTypingAction = EventTypingStartAction | EventTypingStopAction;
 export type EventAction = EventSubscriptionAction | EventUserAction;
 
 export type InitRealmEmojiAction = {
-  type: 'INIT_REALM_EMOJI',
+  type: typeof INIT_REALM_EMOJI,
   emojis: RealmEmojiState,
 };
 
 export type InitRealmEmojiActionCreator = (emojis: Object) => InitRealmEmojiAction;
 
 export type InitRealmFilterAction = {
-  type: 'INIT_REALM_FILTER',
+  type: typeof INIT_REALM_FILTER,
   filters: RealmFilter[],
 };
 
@@ -456,7 +500,7 @@ export type DispatchOrBatchActionCreator = (dispatch: Dispatch, actions: EventAc
 export type StartEventPollingActionCreator = (queueId: number, eventId: number) => void;
 
 export type SettingsChangeAction = {
-  type: 'SETTINGS_CHANGE',
+  type: typeof SETTINGS_CHANGE,
   key: string,
   value: any,
 };
@@ -464,7 +508,7 @@ export type SettingsChangeAction = {
 export type SettingsChangeActionCreator = (key: string, value: any) => SettingsChangeAction;
 
 export type DraftAddAction = {
-  type: 'DRAFT_ADD',
+  type: typeof DRAFT_ADD,
   narrow: Narrow,
   content: string,
 };
@@ -472,7 +516,7 @@ export type DraftAddAction = {
 export type DraftAddActionCreator = (narrow: Narrow, content: string) => DraftAddAction;
 
 export type DraftRemoveAction = {
-  type: 'DRAFT_REMOVE',
+  type: typeof DRAFT_REMOVE,
   narrow: Narrow,
 };
 
@@ -481,7 +525,7 @@ export type DraftRemoveActionCreator = (narrow: Narrow) => DraftRemoveAction;
 export type DraftsAction = DraftAddAction | DraftRemoveAction | LogoutAction;
 
 export type SwitchNarrowAction = {
-  type: 'SWITCH_NARROW',
+  type: typeof SWITCH_NARROW,
   narrow: Narrow,
 };
 
@@ -491,7 +535,7 @@ export type DoNarrowActionCreator = (narrow: Narrow, anchor?: number) => void;
 export type MessageLinkPressActionCreator = (href: string) => void;
 
 export type PresenceResponseAction = {
-  type: 'PRESENCE_RESPONSE',
+  type: typeof PRESENCE_RESPONSE,
   presence: PresenceState,
   serverTimestamp: number,
 };
@@ -499,14 +543,14 @@ export type PresenceResponseAction = {
 export type PresenceAction = EventPresenceAction | PresenceResponseAction | RealmInitAction;
 
 export type MessageSendStartAction = {
-  type: 'MESSAGE_SEND_START',
+  type: typeof MESSAGE_SEND_START,
   outbox: Outbox,
 };
 
 export type MessageSendStartActionCreator = (params: Object) => MessageSendStartAction;
 
 export type MessageSendCompleteAction = {
-  type: 'MESSAGE_SEND_COMPLETE',
+  type: typeof MESSAGE_SEND_COMPLETE,
   localMessageId: number,
 };
 
@@ -519,7 +563,7 @@ export type TrySendMessagesActionCreator = () => void;
 export type AddToOutboxActionCreator = (narrow: Narrow, content: string) => void;
 
 export type DeleteOutboxMessageAction = {
-  type: 'DELETE_OUTBOX_MESSAGE',
+  type: typeof DELETE_OUTBOX_MESSAGE,
   localMessageId: number,
 };
 
@@ -528,14 +572,14 @@ export type DeleteOutboxMessageActionCreator = (
 ) => DeleteOutboxMessageAction;
 
 export type ToggleOutboxSendingAction = {
-  type: 'TOGGLE_OUTBOX_SENDING',
+  type: typeof TOGGLE_OUTBOX_SENDING,
   sending: boolean,
 };
 
 export type ToggleOutboxSendingActionCreator = (sending: boolean) => ToggleOutboxSendingAction;
 
 export type StartTypingAction = {
-  type: 'EVENT_TYPING_START',
+  type: typeof EVENT_TYPING_START,
   time: number,
   ownEmail: string,
   sender: { email: string, user_id: number },
@@ -543,7 +587,7 @@ export type StartTypingAction = {
 };
 
 export type StopTypingAction = {
-  type: 'EVENT_TYPING_STOP',
+  type: typeof EVENT_TYPING_STOP,
   time: number,
   ownEmail: string,
   sender: { email: string, user_id: number },
@@ -551,7 +595,7 @@ export type StopTypingAction = {
 };
 
 export type ClearTypingAction = {
-  type: 'CLEAR_TYPING',
+  type: typeof CLEAR_TYPING,
   outdatedNotifications: string[],
 };
 
@@ -560,7 +604,7 @@ export type ClearTypingActionCreator = (outdatedNotifications: Object[]) => Clea
 export type TypingAction = StartTypingAction | StopTypingAction | ClearTypingAction;
 
 export type InitStreamsAction = {
-  type: 'INIT_STREAMS',
+  type: typeof INIT_STREAMS,
   streams: Stream[],
 };
 
@@ -586,7 +630,7 @@ export type DoTogglePinStreamActionCreator = (streamId: number, value: boolean) 
 export type DoToggleMuteStreamActionCreator = (streamId: number, value: boolean) => void;
 
 export type InitTopicsAction = {
-  type: 'INIT_TOPICS',
+  type: typeof INIT_TOPICS,
   topics: Topic[],
   streamId: number,
 };
@@ -600,7 +644,7 @@ export type FetchTopicsForActiveStreamActionCreator = (narrow: Narrow) => void;
 export type TopicsAction = InitTopicsAction | AccountSwitchAction;
 
 export type InitSubscriptionsAction = {
-  type: 'INIT_SUBSCRIPTIONS',
+  type: typeof INIT_SUBSCRIPTIONS,
   subscriptions: Subscription[],
 };
 
@@ -614,7 +658,7 @@ export type ToggleStreamNotificationActionCreator = (streamId: number, value: bo
 export type SendFocusPingActionCreator = (hasFocus?: boolean, newUserInput?: boolean) => void;
 
 export type InitUsersAction = {
-  type: 'INIT_USERS',
+  type: typeof INIT_USERS,
   users: User[],
 };
 
