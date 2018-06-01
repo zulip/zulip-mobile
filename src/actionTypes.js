@@ -5,6 +5,9 @@ import {
   EVENT_STREAM_REMOVE,
   EVENT_STREAM_UPDATE,
   EVENT_STREAM_OCCUPY,
+  EVENT_SUBSCRIPTION_ADD,
+  EVENT_SUBSCRIPTION_REMOVE,
+  EVENT_SUBSCRIPTION_UPDATE,
 } from './actionConstants';
 
 import type {
@@ -272,9 +275,35 @@ export type StreamUpdateDetails = {
 export type EventAlertWordsAction = any;
 export type EventRealmFiltersAction = any;
 export type EventUpdateGlobalNotificationsSettingsAction = any;
-export type EventSubscriptionAddAction = any;
-export type EventSubscriptionRemoveAction = any;
-export type EventSubscriptionUpdateAction = any;
+
+export type EventSubscriptionAddAction = {
+  type: typeof EVENT_SUBSCRIPTION_ADD,
+  op: 'add',
+  subscriptions: Subscription[],
+  user: User,
+};
+
+export type EventSubscriptionRemoveAction = {
+  type: typeof EVENT_SUBSCRIPTION_REMOVE,
+  op: 'remove',
+  subscriptions: Array<{
+    name: string,
+    stream_id: number,
+  }>,
+  user: User,
+};
+
+export type EventSubscriptionUpdateAction = {
+  type: typeof EVENT_SUBSCRIPTION_UPDATE,
+  op: 'update',
+  email: string,
+  name: string,
+  property: string,
+  stream_id: number,
+  user: User,
+  value: boolean | number | string,
+};
+
 export type EventSubscriptionPeerAddAction = any;
 export type EventSubscriptionPeerRemoveAction = any;
 
