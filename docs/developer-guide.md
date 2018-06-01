@@ -15,7 +15,22 @@ We target operating systems >= Android 4.4 (API 19) and >= iOS 8.0.
   develop without testing on iOS.  Fortunately, React Native means
   this works fine.
 
-## Dev environment
+## Setup
+
+To become highly productive in working on Zulip Mobile, you'll want to set
+up your development environment in several ways:
+
+1. Building and running the app.  See [instructions below](#build-and-run).
+2. An editor, or IDE, with good support for navigation and type information.
+   This makes a big difference in productivity, and especially so when
+   working in a codebase that's new to you.  See [the Editors / IDEs
+   section](#editors--ides) below.
+3. Debugging.  It's fine to skip this at first to get going, but when you're
+   tackling a moderately complex issue, a good debugging setup can help a
+   lot.  See [our debugging guide](debugging.md) for details, including
+   setup instructions.
+
+## Build and run
 
 Before starting, install these dependencies if you don't have them:
 * [Git](https://git-scm.com/)
@@ -47,12 +62,6 @@ Continue those instructions until you can run the Zulip Mobile app
 with either `react-native run-android` or `react-native run-ios`.
 You'll want to be able to use both an emulator and a physical device; but
 for starting out, just get either one working so you can play with the app.
-
-## Debugging
-
-React Native, and our codebase, provide some very helpful tools for
-debugging!  Take a look at [our debugging guide](debugging.md) for details,
-including setup instructions.
 
 ## Editors / IDEs
 
