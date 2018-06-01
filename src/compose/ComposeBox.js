@@ -50,6 +50,7 @@ type State = {
   isMessageFocused: boolean,
   isTopicFocused: boolean,
   isMenuExpanded: boolean,
+  showFullMessage: boolean,
   topic: string,
   message: string,
   height: number,
@@ -72,6 +73,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
     isMessageFocused: false,
     isTopicFocused: false,
     isMenuExpanded: false,
+    showFullMessage: true,
     height: 20,
     topic: '',
     message: this.props.draft,
@@ -79,8 +81,15 @@ export default class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleComposeMenuToggle = () => {
-    this.setState(({ isMenuExpanded }) => ({
+    this.setState(({ isMenuExpanded, showFullMessage }) => ({
+      showFullMessage: false,
       isMenuExpanded: !isMenuExpanded,
+    }));
+  };
+
+  onComposeMenuAnimationCompleted = () => {
+    this.setState(({ isMenuExpanded, showFullMessage }) => ({
+      showFullMessage: isMenuExpanded ? false : true,
     }));
   };
 
@@ -232,6 +241,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
       isMessageFocused,
       isTopicFocused,
       isMenuExpanded,
+      showFullMessage,
       height,
       message,
       topic,
@@ -277,6 +287,7 @@ export default class ComposeBox extends PureComponent<Props, State> {
               narrow={narrow}
               expanded={isMenuExpanded}
               onExpandContract={this.handleComposeMenuToggle}
+              onAnimationCompleted={this.onComposeMenuAnimationCompleted}
             />
           </View>
           <View style={styles.composeText}>
@@ -297,7 +308,12 @@ export default class ComposeBox extends PureComponent<Props, State> {
               />
             )}
             <MultilineInput
-              style={styles.composeTextInput}
+              style={[
+                styles.composeTextInput,
+                showFullMessage
+                  ? styles.composeTextInputShowFullText
+                  : styles.composeTextInputShowOneLine,
+              ]}
               placeholder={placeholder}
               textInputRef={component => {
                 if (component) {
