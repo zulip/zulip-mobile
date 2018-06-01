@@ -41,7 +41,7 @@ class StreamAutocomplete extends PureComponent<Props> {
               isPrivate={item.invite_only}
               iconSize={12}
               color={item.color}
-              onPress={() => onAutocomplete(item.name)}
+              onPress={() => onAutocomplete(`**${item.name}**`)}
             />
           )}
         />

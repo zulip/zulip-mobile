@@ -41,7 +41,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
             key={item.name}
             name={item.name}
             description={item.description}
-            onPress={() => onAutocomplete(item.name)}
+            onPress={() => onAutocomplete(`*${item.name}*`)}
           />
         ),
       },
@@ -54,7 +54,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
             avatarUrl={item.avatar_url}
             email={item.email}
             showEmail
-            onPress={() => onAutocomplete(item.full_name)}
+            onPress={() => onAutocomplete(`**${item.full_name}**`)}
           />
         ),
       },

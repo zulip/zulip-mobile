@@ -4,11 +4,15 @@ import getAutocompletedText from '../getAutocompletedText';
 describe('getAutocompletedText', () => {
   let selection = { start: 3, end: 3 };
   test('can autocomplete users', () => {
-    expect(getAutocompletedText('@ab', 'abcd', selection)).toEqual('@**abcd** ');
+    expect(getAutocompletedText('@ab', '**abcd**', selection)).toEqual('@**abcd** ');
+  });
+
+  test('can autocomplete user groups', () => {
+    expect(getAutocompletedText('@ab', '*abcd*', selection)).toEqual('@*abcd* ');
   });
 
   test('can autocomple streams', () => {
-    expect(getAutocompletedText('#ab', 'abcd', selection)).toEqual('#**abcd** ');
+    expect(getAutocompletedText('#ab', '**abcd**', selection)).toEqual('#**abcd** ');
   });
 
   test('can autocomplete emojis', () => {
@@ -17,7 +21,7 @@ describe('getAutocompletedText', () => {
 
   test('can autocomplete more complicated text', () => {
     selection = { start: 12, end: 12 };
-    expect(getAutocompletedText('@**word** @w', 'word word', selection)).toEqual(
+    expect(getAutocompletedText('@**word** @w', '**word word**', selection)).toEqual(
       '@**word** @**word word** ',
     );
 
