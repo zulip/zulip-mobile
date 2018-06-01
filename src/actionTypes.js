@@ -1,5 +1,11 @@
 /* @flow */
-import { REHYDRATE } from './actionConstants';
+import {
+  REHYDRATE,
+  EVENT_STREAM_ADD,
+  EVENT_STREAM_REMOVE,
+  EVENT_STREAM_UPDATE,
+  EVENT_STREAM_OCCUPY,
+} from './actionConstants';
 
 import type {
   Dimensions,
@@ -254,6 +260,15 @@ export type DoInitialFetchActionCreator = () => void;
 
 export type UploadImageActionCreator = (narrow: Narrow, uri: string, name: string) => void;
 
+export type StreamUpdateDetails = {
+  description: string,
+  history_public_to_subscribers: boolean,
+  invite_only: boolean,
+  is_announcement_only: boolean,
+  name: string,
+  stream_id: number,
+};
+
 export type EventAlertWordsAction = any;
 export type EventRealmFiltersAction = any;
 export type EventUpdateGlobalNotificationsSettingsAction = any;
@@ -262,10 +277,34 @@ export type EventSubscriptionRemoveAction = any;
 export type EventSubscriptionUpdateAction = any;
 export type EventSubscriptionPeerAddAction = any;
 export type EventSubscriptionPeerRemoveAction = any;
-export type EventStreamAddAction = any;
-export type EventStreamRemoveAction = any;
-export type EventStreamUpdateAction = any;
-export type EventStreamOccupyAction = any;
+
+export type EventStreamAddAction = {
+  type: typeof EVENT_STREAM_ADD,
+  op: 'create',
+  streams: StreamUpdateDetails[],
+};
+
+export type EventStreamRemoveAction = {
+  type: typeof EVENT_STREAM_REMOVE,
+  op: 'delete',
+  streams: StreamUpdateDetails[],
+};
+
+export type EventStreamUpdateAction = {
+  type: typeof EVENT_STREAM_UPDATE,
+  op: 'update',
+  name: string,
+  property: string,
+  stream_id: number,
+  value: string,
+};
+
+export type EventStreamOccupyAction = {
+  type: typeof EVENT_STREAM_OCCUPY,
+  op: 'occupy',
+  streams: StreamUpdateDetails[],
+};
+
 export type EventNewMessageAction = any;
 export type EventMessageDeleteAction = any;
 export type EventUpdateMessageAction = any;
