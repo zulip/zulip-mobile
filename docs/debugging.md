@@ -4,7 +4,7 @@ When developing, you often want to examine the state of the app, capture
 events or print debugging messages. [React Native gives you several ways to
 debug your app][react-debugging].
 
-## Setting up tools
+## Tools and setup
 
 ### Remote JS Debugger
 
@@ -24,6 +24,27 @@ that you can debug the app with statements like
 console.debug(foobar)
 ```
 Additionally, all Redux events are automatically logged to the console.
+
+
+### `adb logcat`
+
+When running on Android, either in the emulator or on a physical device, you
+can use ADB (the Android debugger) to fetch or watch the device's logs.
+This will include any messages that you print with a statement like
+```js
+console.debug(foobar)
+```
+
+To see the logs, run `adb logcat`.  A helpful form for this command is
+```
+adb logcat -T 100 | grep ReactNativeJS
+```
+This filters out logs unrelated to the app, but includes anything you print
+with `console.debug`.  It starts with the last 100 log lines from before you
+run the command (so it can be helpful for seeing something that just
+happened), and then it keeps running, printing any new log messages that
+come through.  To quit, hit Ctrl-C.
+
 
 ### Common issues
 
