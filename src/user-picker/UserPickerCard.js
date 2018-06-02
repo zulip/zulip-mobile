@@ -9,8 +9,8 @@ import { FloatingActionButton, LineSeparator } from '../common';
 import { IconDone } from '../common/Icons';
 import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
-import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 import { getPresence, getUsersSansMe } from '../selectors';
+import { AnimatedScaleComponent } from '../animation';
 
 const styles = StyleSheet.create({
   wrapper: {

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Image } from 'react-native';
 
-import AnimatedRotateComponent from '../animation/AnimatedRotateComponent';
+import { AnimatedRotateComponent } from '../animation';
 import spinningProgressImg from '../../static/img/spinning-progress.png';
 import spinningProgressBlackImg from '../../static/img/spinning-progress-black.png';
 

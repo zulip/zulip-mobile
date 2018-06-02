@@ -7,7 +7,7 @@ import { FlatList, StyleSheet } from 'react-native';
 import type { GlobalState } from '../types';
 import { getTopicsForNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
-import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
+import { AnimatedScaleComponent } from '../animation';
 
 const styles = StyleSheet.create({
   topic: {

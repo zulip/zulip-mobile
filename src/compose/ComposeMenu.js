@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 import type { Context, Dispatch, Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
-import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadImage } from '../actions';
+import { AnimatedComponent } from '../animation';
 
 type Props = {|
   dispatch: Dispatch,
