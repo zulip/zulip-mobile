@@ -5,12 +5,12 @@ import { StyleSheet, View } from 'react-native';
 import type { Context } from '../types';
 import { NULL_USER } from '../nullObjects';
 import { TextAvatar, RawLabel, Touchable, UnreadCount } from '../common';
+import { HALF_SPACING } from '../styles';
 
 const componentStyles = StyleSheet.create({
   text: {
     flex: 1,
-    marginLeft: 8,
-    marginRight: 8,
+    marginHorizontal: HALF_SPACING,
   },
 });
 
