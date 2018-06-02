@@ -169,7 +169,7 @@ const sendScrollMessage = () => {
 const sendScrollMessageIfListShort = () => {
   // check if message list is short or not
   // by comparing total height and message list height.
-  if (getMessageListHeight() <= documentBody.clientHeight) {
+  if (getMessageListHeight() < documentBody.clientHeight) {
     sendScrollMessage();
   }
 };

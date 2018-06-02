@@ -161,7 +161,7 @@ var sendScrollMessage = function sendScrollMessage() {
 };
 
 var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
-  if (getMessageListHeight() <= documentBody.clientHeight) {
+  if (getMessageListHeight() < documentBody.clientHeight) {
     sendScrollMessage();
   }
 };
