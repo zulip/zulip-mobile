@@ -7,7 +7,7 @@ import getAutocompleteFilter from './getAutocompleteFilter';
 import EmojiAutocomplete from './EmojiAutocomplete';
 import StreamAutocomplete from './StreamAutocomplete';
 import PeopleAutocomplete from './PeopleAutocomplete';
-import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
+import { AnimatedScaleComponent } from '../animation';
 
 const prefixToComponent = {
   ':': EmojiAutocomplete,

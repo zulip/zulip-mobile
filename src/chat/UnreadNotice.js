@@ -9,7 +9,7 @@ import { getUnreadCountForNarrow } from '../selectors';
 import { Label, RawLabel } from '../common';
 import { unreadToLimitedCount } from '../utils/unread';
 import MarkUnreadButton from './MarkUnreadButton';
-import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
+import { AnimatedScaleComponent } from '../animation';
 
 const styles = StyleSheet.create({
   unreadContainer: {

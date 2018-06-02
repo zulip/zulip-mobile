@@ -3,7 +3,7 @@ import React from 'react';
 import { ART } from 'react-native';
 
 import { Arc, Circle } from './';
-import AnimatedRotateComponent from '../animation/AnimatedRotateComponent';
+import { AnimatedRotateComponent } from '../animation';
 
 type Props = {
   color: string,
