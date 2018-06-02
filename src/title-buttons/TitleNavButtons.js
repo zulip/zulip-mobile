@@ -8,6 +8,7 @@ import type { EditMessage, Narrow } from '../types';
 import { ViewPlaceholder } from '../common';
 import { getSession, getTitleTextColor } from '../selectors';
 import { getInfoButtonFromNarrow, getExtraButtonFromNarrow } from './titleButtonFromNarrow';
+import AnimatedSlideComponent from '../animation/AnimatedSlideComponent';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -29,19 +30,21 @@ class TitleNavButtons extends PureComponent<Props> {
     const InfoButton = getInfoButtonFromNarrow(narrow);
     const ExtraButton = getExtraButtonFromNarrow(narrow);
 
-    if (editMessage) {
-      return null;
-    }
-
     return (
-      <View style={styles.wrapper}>
-        {ExtraButton ? (
-          <ExtraButton color={color} narrow={narrow} />
-        ) : (
-          <ViewPlaceholder width={44} />
-        )}
-        {InfoButton ? <InfoButton color={color} narrow={narrow} /> : <ViewPlaceholder width={44} />}
-      </View>
+      <AnimatedSlideComponent visible={!editMessage} property="translateX">
+        <View style={styles.wrapper}>
+          {ExtraButton ? (
+            <ExtraButton color={color} narrow={narrow} />
+          ) : (
+            <ViewPlaceholder width={44} />
+          )}
+          {InfoButton ? (
+            <InfoButton color={color} narrow={narrow} />
+          ) : (
+            <ViewPlaceholder width={44} />
+          )}
+        </View>
+      </AnimatedSlideComponent>
     );
   }
 }
