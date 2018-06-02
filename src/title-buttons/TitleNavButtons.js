@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Narrow } from '../types';
+import type { EditMessage, Narrow } from '../types';
 import { ViewPlaceholder } from '../common';
-import { getTitleTextColor } from '../selectors';
+import { getSession, getTitleTextColor } from '../selectors';
 import { getInfoButtonFromNarrow, getExtraButtonFromNarrow } from './titleButtonFromNarrow';
 
 const styles = StyleSheet.create({
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   color: string,
+  editMessage: ?EditMessage,
   narrow: Narrow,
 };
 
@@ -24,9 +25,13 @@ class TitleNavButtons extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { color, narrow } = this.props;
+    const { color, editMessage, narrow } = this.props;
     const InfoButton = getInfoButtonFromNarrow(narrow);
     const ExtraButton = getExtraButtonFromNarrow(narrow);
+
+    if (editMessage) {
+      return null;
+    }
 
     return (
       <View style={styles.wrapper}>
@@ -43,4 +48,5 @@ class TitleNavButtons extends PureComponent<Props> {
 
 export default connect((state, props) => ({
   color: getTitleTextColor(props.narrow)(state),
+  editMessage: getSession(state).editMessage,
 }))(TitleNavButtons);
