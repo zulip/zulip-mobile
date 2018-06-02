@@ -28,7 +28,7 @@ import { updateMessage } from '../api';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
 import { showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
-import { isStreamNarrow, topicNarrow } from '../utils/narrow';
+import { isStreamNarrow, isStreamOrTopicNarrow, topicNarrow } from '../utils/narrow';
 import ComposeMenu from './ComposeMenu';
 import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
@@ -93,7 +93,10 @@ class ComposeBox extends PureComponent<Props, State> {
 
   getCanSelectTopic = () => {
     const { isMessageFocused, isTopicFocused } = this.state;
-    const { narrow } = this.props;
+    const { editMessage, narrow } = this.props;
+    if (editMessage) {
+      return isStreamOrTopicNarrow(narrow);
+    }
     if (!isStreamNarrow(narrow)) {
       return false;
     }
