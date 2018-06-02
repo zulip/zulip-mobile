@@ -28,15 +28,9 @@ class GroupDetailsScreen extends PureComponent<Props> {
   render() {
     const { navigation } = this.props;
     const { recipients } = navigation.state.params;
-    const title = {
-      text: '{_}',
-      values: {
-        _: 'Recipients',
-      },
-    };
 
     return (
-      <Screen title={title}>
+      <Screen title="Recipients">
         <FlatList
           initialNumToRender={10}
           data={recipients}
