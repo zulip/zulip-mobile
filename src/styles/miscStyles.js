@@ -132,10 +132,8 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: HALF_SPACING,
-    paddingBottom: HALF_SPACING,
-    paddingLeft: SPACING,
-    paddingRight: SPACING,
+    paddingVertical: HALF_SPACING,
+    paddingHorizontal: SPACING,
   },
   screen: {
     flex: 1,
@@ -200,8 +198,7 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     flex: 1,
     flexDirection: 'row',
     height: CONTROL_SIZE,
-    marginTop: 5,
-    marginBottom: 5,
+    marginVertical: HALF_SPACING,
   },
   disabled: {
     backgroundColor: '#ddd',
