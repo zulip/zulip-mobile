@@ -2,6 +2,7 @@
 import isEqual from 'lodash.isequal';
 
 import type {
+  Message,
   MessagesState,
   MessageAction,
   MessageFetchCompleteAction,
@@ -29,6 +30,13 @@ import chatUpdater from './chatUpdater';
 import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
 
 const initialState: MessagesState = NULL_OBJECT;
+
+const getMessageFromState = (state: MessagesState, messageId: number): ?Message => {
+  const narrowString = Object.keys(state).find(narrow =>
+    state[narrow].find(msg => msg.id === messageId),
+  );
+  return narrowString ? state[narrowString].find(msg => msg.id === messageId) : undefined;
+};
 
 const messageFetchComplete = (
   state: MessagesState,
@@ -117,8 +125,13 @@ const eventMessageDelete = (
 const eventUpdateMessage = (
   state: MessagesState,
   action: EventUpdateMessageAction,
-): MessagesState =>
-  chatUpdater(state, action.message_id, oldMessage => ({
+): MessagesState => {
+  // find old message
+  const oldMessage = getMessageFromState(state, action.message_id);
+  if (!oldMessage) {
+    return state;
+  }
+  const newMessage = {
     ...oldMessage,
     content: action.rendered_content || oldMessage.content,
     subject: action.subject || oldMessage.subject,
@@ -147,7 +160,20 @@ const eventUpdateMessage = (
       ...(oldMessage.edit_history || NULL_ARRAY),
     ],
     last_edit_timestamp: action.edit_timestamp,
-  }));
+  };
+  if (action.orig_subject) {
+    // message subject is edited
+    // remove message from existing bucket
+    // Call a eventNewMessage to store message in another bucket
+    const { caughtUp, ownEmail } = action;
+    return eventNewMessage(chatUpdater(state, action.message_id, oldMsg => undefined), {
+      caughtUp,
+      ownEmail,
+      message: newMessage,
+    });
+  }
+  return chatUpdater(state, action.message_id, oldMsg => newMessage);
+};
 
 export default (state: MessagesState = initialState, action: MessageAction): MessagesState => {
   switch (action.type) {

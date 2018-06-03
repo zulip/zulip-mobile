@@ -117,6 +117,8 @@ const deleteMessage = (state: GlobalState, event: Object): EventMessageDeleteAct
 const updateMessage = (state: GlobalState, event: Object): EventUpdateMessageAction => ({
   ...event,
   type: EVENT_UPDATE_MESSAGE,
+  caughtUp: state.caughtUp,
+  ownEmail: state.accounts[0].email,
 });
 
 const subscription = (state: GlobalState, event: Object): EventSubscriptionAction => ({

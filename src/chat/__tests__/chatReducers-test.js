@@ -414,8 +414,26 @@ describe('chatReducers', () => {
 
     test('when event contains a new subject but no new content only subject is updated', () => {
       const initialState = deepFreeze({
-        [homeNarrowStr]: [{ id: 1, content: 'Old content', subject: 'Old subject' }],
-        [privateNarrowStr]: [{ id: 1, content: 'Old content', subject: 'Old subject' }],
+        [homeNarrowStr]: [
+          {
+            id: 1,
+            content: 'Old content',
+            display_recipient: 'some stream',
+            subject: 'Old subject',
+            sender_email: 'a@example.com',
+            subject_links: [],
+          },
+        ],
+        [streamNarrowStr]: [
+          {
+            id: 1,
+            content: 'Old content',
+            subject: 'Old subject',
+            sender_email: 'a@example.com',
+            display_recipient: 'some stream',
+            subject_links: [],
+          },
+        ],
       });
 
       const action = deepFreeze({
@@ -425,6 +443,11 @@ describe('chatReducers', () => {
         orig_subject: 'Old subject',
         edit_timestamp: 123,
         user_id: 5,
+        caughtUp: {
+          [homeNarrowStr]: { older: false, newer: true },
+          [streamNarrowStr]: { older: false, newer: true },
+        },
+        ownEmail: 'a@example.com',
       });
 
       const expectedState = {
@@ -432,6 +455,7 @@ describe('chatReducers', () => {
           {
             id: 1,
             content: 'Old content',
+            display_recipient: 'some stream',
             subject: 'New topic',
             last_edit_timestamp: 123,
             edit_history: [
@@ -441,12 +465,15 @@ describe('chatReducers', () => {
                 user_id: 5,
               },
             ],
+            sender_email: 'a@example.com',
+            subject_links: [],
           },
         ],
-        [privateNarrowStr]: [
+        [streamNarrowStr]: [
           {
             id: 1,
             content: 'Old content',
+            display_recipient: 'some stream',
             subject: 'New topic',
             last_edit_timestamp: 123,
             edit_history: [
@@ -456,6 +483,8 @@ describe('chatReducers', () => {
                 user_id: 5,
               },
             ],
+            sender_email: 'a@example.com',
+            subject_links: [],
           },
         ],
       };
@@ -472,6 +501,7 @@ describe('chatReducers', () => {
           {
             id: 1,
             content: 'Old content',
+            display_recipient: 'some stream',
             subject: 'New topic',
             last_edit_timestamp: 123,
             subject_links: [],
@@ -484,10 +514,11 @@ describe('chatReducers', () => {
             ],
           },
         ],
-        [privateNarrowStr]: [
+        [streamNarrowStr]: [
           {
             id: 1,
             content: 'Old content',
+            display_recipient: 'some stream',
             subject: 'New topic',
             last_edit_timestamp: 123,
             subject_links: [],
@@ -513,6 +544,10 @@ describe('chatReducers', () => {
         edit_timestamp: 456,
         user_id: 5,
         subject_links: [],
+        caughtUp: {
+          [homeNarrowStr]: { older: false, newer: true },
+          [streamNarrowStr]: { older: false, newer: true },
+        },
       });
 
       const expectedState = {
@@ -520,6 +555,7 @@ describe('chatReducers', () => {
           {
             id: 1,
             content: '<p>New content</p>',
+            display_recipient: 'some stream',
             subject: 'New updated topic',
             last_edit_timestamp: 456,
             subject_links: [],
@@ -539,10 +575,11 @@ describe('chatReducers', () => {
             ],
           },
         ],
-        [privateNarrowStr]: [
+        [streamNarrowStr]: [
           {
             id: 1,
             content: '<p>New content</p>',
+            display_recipient: 'some stream',
             subject: 'New updated topic',
             last_edit_timestamp: 456,
             subject_links: [],
