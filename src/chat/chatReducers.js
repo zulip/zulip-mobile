@@ -88,15 +88,30 @@ const eventReactionRemove = (
 
 const eventNewMessage = (state: MessagesState, action: EventNewMessageAction): MessagesState => {
   let stateChange = false;
+  const { message } = action;
   const newState = Object.keys(state).reduce((msg, key) => {
     const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
     const isCaughtUp = action.caughtUp[key] && action.caughtUp[key].newer;
+    const messagesLength = state[key].length;
+    const isMessageIsInBetween =
+      messagesLength > 0
+      && message.id > state[key][0].id
+      && message.id < state[key][messagesLength - 1].id;
     const messageDoesNotExist =
       state[key].find(item => action.message.id === item.id) === undefined;
 
-    if (isInNarrow && isCaughtUp && messageDoesNotExist) {
+    if (
+      isInNarrow
+      && (isCaughtUp || isMessageIsInBetween || messagesLength === 0)
+      && messageDoesNotExist
+    ) {
       stateChange = true;
       msg[key] = [...state[key], action.message];
+      // if this message is from edited
+      if (isMessageIsInBetween) {
+        // sort messages by id
+        msg[key].sort((msg1: Message, msg2: Message) => msg1.id > msg2.id);
+      }
     } else {
       msg[key] = state[key];
     }

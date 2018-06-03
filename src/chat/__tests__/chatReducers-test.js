@@ -682,6 +682,95 @@ describe('chatReducers', () => {
       expect(newState).not.toBe(initialState);
       expect(newState).toEqual(expectedState);
     });
+
+    test("place new message in the new bucket at it's correct position, i.e sort by message id", () => {
+      const initialState = deepFreeze({
+        [anotherTopicNarrowStr]: [
+          {
+            id: 4,
+            display_recipient: 'some stream',
+            subject: 'some another topic',
+            sender_email: 'a@example.com',
+            subject_links: [],
+          },
+        ],
+        [topicNarrowStr]: [
+          {
+            id: 2,
+            display_recipient: 'some stream',
+            subject: 'some topic',
+            sender_email: 'a@example.com',
+            subject_links: [],
+          },
+          {
+            id: 5,
+            display_recipient: 'some stream',
+            subject: 'some topic',
+            sender_email: 'a@example.com',
+            subject_links: [],
+          },
+        ],
+      });
+
+      const action = deepFreeze({
+        type: EVENT_UPDATE_MESSAGE,
+        message_id: 4,
+        orig_rendered_content: '<p>Old content</p>',
+        rendered_content: '<p>New content</p>',
+        subject: 'some topic',
+        orig_subject: 'some another topic',
+        prev_rendered_content_version: 1,
+        edit_timestamp: 456,
+        user_id: 5,
+        subject_links: [],
+        caughtUp: {
+          [topicNarrowStr]: { older: false, newer: true },
+        },
+      });
+
+      const expectedState = deepFreeze({
+        [anotherTopicNarrowStr]: [],
+        [topicNarrowStr]: [
+          {
+            id: 2,
+            display_recipient: 'some stream',
+            subject: 'some topic',
+            sender_email: 'a@example.com',
+            subject_links: [],
+          },
+          {
+            id: 4,
+            content: '<p>New content</p>',
+            display_recipient: 'some stream',
+            edit_history: [
+              {
+                prev_rendered_content: '<p>Old content</p>',
+                prev_rendered_content_version: 1,
+                prev_subject: 'some another topic',
+                timestamp: 456,
+                user_id: 5,
+              },
+            ],
+            last_edit_timestamp: 456,
+            sender_email: 'a@example.com',
+            subject: 'some topic',
+            subject_links: [],
+          },
+          {
+            id: 5,
+            display_recipient: 'some stream',
+            subject: 'some topic',
+            sender_email: 'a@example.com',
+            subject_links: [],
+          },
+        ],
+      });
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).not.toBe(initialState);
+      expect(newState).toEqual(expectedState);
+    });
   });
 
   describe('EVENT_REACTION_ADD', () => {
