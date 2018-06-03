@@ -5,12 +5,13 @@ import { View, Text, StyleSheet } from 'react-native';
 import type { Style } from '../types';
 import { Avatar, Touchable } from '../common';
 import Icon from '../common/Icons';
+import { SPACING, HALF_SPACING } from '../styles';
 
 const componentStyles = StyleSheet.create({
   text: {
     flex: 1,
     justifyContent: 'space-between',
-    paddingLeft: 10,
+    paddingLeft: HALF_SPACING,
   },
   name: {
     color: 'white',
@@ -32,10 +33,8 @@ const componentStyles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
-    paddingBottom: 8,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingTop: 8,
+    paddingHorizontal: SPACING,
+    paddingVertical: HALF_SPACING,
   },
 });
 
