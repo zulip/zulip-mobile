@@ -91,8 +91,14 @@ const eventNewMessage = (state: MessagesState, action: EventNewMessageAction): M
   const { message } = action;
   const newState = Object.keys(state).reduce((msg, key) => {
     const isInNarrow = isMessageInNarrow(action.message, JSON.parse(key), action.ownEmail);
-    const isCaughtUp = action.caughtUp[key] && action.caughtUp[key].newer;
     const messagesLength = state[key].length;
+    const isCaughtUpNewer =
+      action.caughtUp[key]
+      && (action.caughtUp[key].newer
+        && (messagesLength === 0 || message.id > state[key][messagesLength - 1].id));
+    const isCaughtUpOlder =
+      action.caughtUp[key]
+      && (action.caughtUp[key].older && (messagesLength === 0 || message.id < state[key][0].id));
     const isMessageIsInBetween =
       messagesLength > 0
       && message.id > state[key][0].id
@@ -102,11 +108,13 @@ const eventNewMessage = (state: MessagesState, action: EventNewMessageAction): M
 
     if (
       isInNarrow
-      && (isCaughtUp || isMessageIsInBetween || messagesLength === 0)
+      && (isCaughtUpNewer || isCaughtUpOlder || isMessageIsInBetween || messagesLength === 0)
       && messageDoesNotExist
     ) {
       stateChange = true;
-      msg[key] = [...state[key], action.message];
+      msg[key] = isCaughtUpOlder
+        ? [action.message, ...state[key]]
+        : [...state[key], action.message];
       // if this message is from edited
       if (isMessageIsInBetween) {
         // sort messages by id

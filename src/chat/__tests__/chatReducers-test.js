@@ -304,6 +304,86 @@ describe('chatReducers', () => {
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(initialState);
     });
+
+    test('consider newer caughtUp only if message id is greater than newest one in the narrow', () => {
+      const initialState = deepFreeze({
+        [homeNarrowStr]: [{ id: 5 }, { id: 10 }],
+      });
+
+      const message = {
+        id: 0,
+      };
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message,
+        ownEmail: 'me@example.com',
+        caughtUp: {
+          [homeNarrowStr]: { older: false, newer: true },
+        },
+      });
+
+      const expectedState = {
+        [homeNarrowStr]: [{ id: 5 }, { id: 10 }],
+      };
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+    });
+
+    test('consider older caughtUp only if message id is less than oldest one in the narrow', () => {
+      const initialState = deepFreeze({
+        [homeNarrowStr]: [{ id: 5 }, { id: 10 }],
+      });
+
+      const message = {
+        id: 0,
+      };
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message,
+        ownEmail: 'me@example.com',
+        caughtUp: {
+          [homeNarrowStr]: { older: true, newer: true },
+        },
+      });
+
+      const expectedState = {
+        [homeNarrowStr]: [message, { id: 5 }, { id: 10 }],
+      };
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+      expect(newState).not.toBe(initialState);
+    });
+
+    test('if message id is in between add it irrespective of caughtUp', () => {
+      const initialState = deepFreeze({
+        [homeNarrowStr]: [{ id: 5 }, { id: 10 }],
+      });
+
+      const message = {
+        id: 7,
+      };
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message,
+        ownEmail: 'me@example.com',
+        caughtUp: {
+          [homeNarrowStr]: { older: true, newer: true },
+        },
+      });
+
+      const expectedState = {
+        [homeNarrowStr]: [{ id: 5 }, message, { id: 10 }],
+      };
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+      expect(newState).not.toBe(initialState);
+    });
   });
 
   describe('EVENT_MESSAGE_DELETE', () => {
