@@ -4,10 +4,11 @@ import { View, StyleSheet, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
+import { fetchWithAuth } from '../api/apiFetch';
 import type { Actions, Auth, Message } from '../types';
 import connectWithActions from '../connectWithActions';
 import { getAuth } from '../selectors';
-import { getResource } from '../utils/url';
+import { getResource, getFullUrl } from '../utils/url';
 import AnimatedLightboxHeader from './AnimatedLightboxHeader';
 import AnimatedLightboxFooter from './AnimatedLightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
@@ -90,11 +91,19 @@ class LightboxContainer extends PureComponent<Props, State> {
     movement: this.state.movement,
   });
 
+  componentDidMount() {
+    const { src, auth } = this.props;
+    fetchWithAuth(auth, getFullUrl(src, auth.realm)).then(response =>
+      this.setState({ redirectedUrl: response.url }),
+    );
+  }
+
   render() {
     const { src, message, auth } = this.props;
+    const { redirectedUrl } = this.state;
     const footerMessage =
       message.type === 'stream' ? `Shared in #${message.display_recipient}` : 'Shared with you';
-    const resource = getResource(src, auth);
+    const resource = redirectedUrl ? { uri: redirectedUrl } : getResource(src, auth);
     const { width, height } = Dimensions.get('window');
 
     return (
