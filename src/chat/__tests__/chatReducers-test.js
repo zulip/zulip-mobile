@@ -95,211 +95,215 @@ describe('chatReducers', () => {
       };
       expect(newState).toEqual(expectedState);
     });
-  });
 
-  test('if new message is private or group add it to the "allPrivate" narrow', () => {
-    const initialState = deepFreeze({
-      [allPrivateNarrowStr]: [],
-    });
-    const message = {
-      id: 1,
-      type: 'private',
-      display_recipient: [{ email: 'me@example.com' }, { email: 'a@a.com' }, { email: 'b@b.com' }],
-    };
-    const action = deepFreeze({
-      type: EVENT_NEW_MESSAGE,
-      message,
-      ownEmail: 'me@example.com',
-      caughtUp: {
-        [allPrivateNarrowStr]: { older: true, newer: true },
-      },
-    });
-    const expectedState = {
-      [allPrivateNarrowStr]: [message],
-    };
-
-    const actualState = chatReducers(initialState, action);
-
-    expect(actualState).toEqual(expectedState);
-  });
-
-  test('message sent to topic is stored correctly', () => {
-    const initialState = deepFreeze({
-      [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-      [topicNarrowStr]: [{ id: 2 }],
-    });
-    const message = {
-      id: 3,
-      type: 'stream',
-      display_recipient: 'some stream',
-      subject: 'some topic',
-    };
-    const action = deepFreeze({
-      type: EVENT_NEW_MESSAGE,
-      message,
-      caughtUp: {
-        [homeNarrowStr]: {
-          older: false,
-          newer: false,
+    test('if new message is private or group add it to the "allPrivate" narrow', () => {
+      const initialState = deepFreeze({
+        [allPrivateNarrowStr]: [],
+      });
+      const message = {
+        id: 1,
+        type: 'private',
+        display_recipient: [
+          { email: 'me@example.com' },
+          { email: 'a@a.com' },
+          { email: 'b@b.com' },
+        ],
+      };
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message,
+        ownEmail: 'me@example.com',
+        caughtUp: {
+          [allPrivateNarrowStr]: { older: true, newer: true },
         },
-        [topicNarrowStr]: {
-          older: false,
-          newer: true,
+      });
+      const expectedState = {
+        [allPrivateNarrowStr]: [message],
+      };
+
+      const actualState = chatReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('message sent to topic is stored correctly', () => {
+      const initialState = deepFreeze({
+        [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+        [topicNarrowStr]: [{ id: 2 }],
+      });
+      const message = {
+        id: 3,
+        type: 'stream',
+        display_recipient: 'some stream',
+        subject: 'some topic',
+      };
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message,
+        caughtUp: {
+          [homeNarrowStr]: {
+            older: false,
+            newer: false,
+          },
+          [topicNarrowStr]: {
+            older: false,
+            newer: true,
+          },
         },
-      },
-    });
-    const expectedState = {
-      [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-      [topicNarrowStr]: [{ id: 2 }, message],
-    };
+      });
+      const expectedState = {
+        [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+        [topicNarrowStr]: [{ id: 2 }, message],
+      };
 
-    const newState = chatReducers(initialState, action);
+      const newState = chatReducers(initialState, action);
 
-    expect(newState).toEqual(expectedState);
-  });
-
-  test('message sent to self is stored correctly', () => {
-    const narrowWithSelfStr = JSON.stringify(privateNarrow('me@example.com'));
-    const initialState = deepFreeze({
-      [homeNarrowStr]: [],
-      [narrowWithSelfStr]: [],
+      expect(newState).toEqual(expectedState);
     });
 
-    const message = {
-      id: 1,
-      display_recipient: [{ email: 'me@example.com' }],
-    };
-    const action = deepFreeze({
-      type: EVENT_NEW_MESSAGE,
-      ownEmail: 'me@example.com',
-      message,
-      caughtUp: {
-        [homeNarrowStr]: { older: false, newer: true },
-        [narrowWithSelfStr]: { older: false, newer: true },
-      },
+    test('message sent to self is stored correctly', () => {
+      const narrowWithSelfStr = JSON.stringify(privateNarrow('me@example.com'));
+      const initialState = deepFreeze({
+        [homeNarrowStr]: [],
+        [narrowWithSelfStr]: [],
+      });
+
+      const message = {
+        id: 1,
+        display_recipient: [{ email: 'me@example.com' }],
+      };
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        ownEmail: 'me@example.com',
+        message,
+        caughtUp: {
+          [homeNarrowStr]: { older: false, newer: true },
+          [narrowWithSelfStr]: { older: false, newer: true },
+        },
+      });
+
+      const expectedState = {
+        [homeNarrowStr]: [message],
+        [narrowWithSelfStr]: [message],
+      };
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+      expect(newState).not.toBe(initialState);
     });
 
-    const expectedState = {
-      [homeNarrowStr]: [message],
-      [narrowWithSelfStr]: [message],
-    };
+    test('appends stream message to all cached narrows that match and are caught up', () => {
+      const initialState = deepFreeze({
+        [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+        [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }],
+        [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
+        [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
+        [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
+        [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
+      });
 
-    const newState = chatReducers(initialState, action);
+      const message = {
+        id: 5,
+        type: 'stream',
+        display_recipient: 'some stream',
+        subject: 'some topic',
+      };
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message,
+        caughtUp: {
+          [homeNarrowStr]: { older: false, newer: true },
+          [streamNarrowStr]: { older: false, newer: true },
+          [topicNarrowStr]: { older: false, newer: true },
+        },
+      });
 
-    expect(newState).toEqual(expectedState);
-    expect(newState).not.toBe(initialState);
-  });
+      const expectedState = {
+        [homeNarrowStr]: [{ id: 1 }, { id: 2 }, message],
+        [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }],
+        [streamNarrowStr]: [{ id: 2 }, { id: 3 }, message],
+        [topicNarrowStr]: [{ id: 2 }, { id: 3 }, message],
+        [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
+        [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
+      };
 
-  test('appends stream message to all cached narrows that match and are caught up', () => {
-    const initialState = deepFreeze({
-      [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-      [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }],
-      [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
-      [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
-      [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
-      [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+      expect(newState).not.toBe(initialState);
     });
 
-    const message = {
-      id: 5,
-      type: 'stream',
-      display_recipient: 'some stream',
-      subject: 'some topic',
-    };
-    const action = deepFreeze({
-      type: EVENT_NEW_MESSAGE,
-      message,
-      caughtUp: {
-        [homeNarrowStr]: { older: false, newer: true },
-        [streamNarrowStr]: { older: false, newer: true },
-        [topicNarrowStr]: { older: false, newer: true },
-      },
+    test('does not append stream message to not cached narrows', () => {
+      const initialState = deepFreeze({
+        [homeNarrowStr]: [{ id: 1 }],
+      });
+
+      const message = {
+        id: 3,
+        type: 'stream',
+        display_recipient: 'stream name',
+        subject: 'some topic',
+      };
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message,
+        caughtUp: {
+          [homeNarrowStr]: { older: false, newer: true },
+        },
+      });
+
+      const expectedState = {
+        [homeNarrowStr]: [{ id: 1 }, message],
+      };
+
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+      expect(newState).not.toBe(initialState);
     });
 
-    const expectedState = {
-      [homeNarrowStr]: [{ id: 1 }, { id: 2 }, message],
-      [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }],
-      [streamNarrowStr]: [{ id: 2 }, { id: 3 }, message],
-      [topicNarrowStr]: [{ id: 2 }, { id: 3 }, message],
-      [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
-      [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
-    };
+    test('appends private message to multiple cached narrows', () => {
+      const initialState = deepFreeze({
+        [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+        [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }],
+        [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
+        [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
+        [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
+        [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
+      });
 
-    const newState = chatReducers(initialState, action);
+      const message = {
+        id: 5,
+        type: 'private',
+        sender_email: 'someone@example.com',
+        display_recipient: [{ email: 'me@example.com' }, { email: 'mark@example.com' }],
+      };
+      const action = deepFreeze({
+        type: EVENT_NEW_MESSAGE,
+        message,
+        ownEmail: 'me@example.com',
+        caughtUp: {
+          [homeNarrowStr]: { older: false, newer: true },
+          [allPrivateNarrowStr]: { older: false, newer: true },
+          [privateNarrowStr]: { older: false, newer: true },
+        },
+      });
 
-    expect(newState).toEqual(expectedState);
-    expect(newState).not.toBe(initialState);
-  });
+      const expectedState = {
+        [homeNarrowStr]: [{ id: 1 }, { id: 2 }, message],
+        [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }, message],
+        [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
+        [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
+        [privateNarrowStr]: [{ id: 2 }, { id: 4 }, message],
+        [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
+      };
 
-  test('does not append stream message to not cached narrows', () => {
-    const initialState = deepFreeze({
-      [homeNarrowStr]: [{ id: 1 }],
+      const newState = chatReducers(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+      expect(newState).not.toBe(initialState);
     });
-
-    const message = {
-      id: 3,
-      type: 'stream',
-      display_recipient: 'stream name',
-      subject: 'some topic',
-    };
-    const action = deepFreeze({
-      type: EVENT_NEW_MESSAGE,
-      message,
-      caughtUp: {
-        [homeNarrowStr]: { older: false, newer: true },
-      },
-    });
-
-    const expectedState = {
-      [homeNarrowStr]: [{ id: 1 }, message],
-    };
-
-    const newState = chatReducers(initialState, action);
-
-    expect(newState).toEqual(expectedState);
-    expect(newState).not.toBe(initialState);
-  });
-
-  test('appends private message to multiple cached narrows', () => {
-    const initialState = deepFreeze({
-      [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-      [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }],
-      [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
-      [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
-      [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
-      [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
-    });
-
-    const message = {
-      id: 5,
-      type: 'private',
-      sender_email: 'someone@example.com',
-      display_recipient: [{ email: 'me@example.com' }, { email: 'mark@example.com' }],
-    };
-    const action = deepFreeze({
-      type: EVENT_NEW_MESSAGE,
-      message,
-      ownEmail: 'me@example.com',
-      caughtUp: {
-        [homeNarrowStr]: { older: false, newer: true },
-        [allPrivateNarrowStr]: { older: false, newer: true },
-        [privateNarrowStr]: { older: false, newer: true },
-      },
-    });
-
-    const expectedState = {
-      [homeNarrowStr]: [{ id: 1 }, { id: 2 }, message],
-      [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }, message],
-      [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
-      [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
-      [privateNarrowStr]: [{ id: 2 }, { id: 4 }, message],
-      [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
-    };
-
-    const newState = chatReducers(initialState, action);
-
-    expect(newState).toEqual(expectedState);
-    expect(newState).not.toBe(initialState);
   });
 
   describe('EVENT_MESSAGE_DELETE', () => {
