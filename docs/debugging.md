@@ -12,10 +12,12 @@ React Native supports debugging your app using Chrome's developer tools, in
 much the same way you would a web app.  This provides you with prettily
 formatted debug messages and helpful additional information.
 
-To use it, start your app in the emulator. Then, [open the Developer
-Menu][dev-menu]. Here, select "Debug JS Remotely". This will open a new tab
-in your browser, at http://localhost:8081/debugger-ui . Go to this tab and
-open the developer console.
+To use it, start your app.  (Either in the emulator, or see
+[here][chrome-devtools-device] for additional instructions to do this on a
+physical device.)  Then, [open the Developer Menu][dev-menu].  Here, select
+"Debug JS Remotely".  This will open a new tab in your browser, at
+http://localhost:8081/debugger-ui .  Go to this tab and open the developer
+console.
 
 This console will show all console debug output from your app, which means
 that you can debug the app with statements like
@@ -24,6 +26,7 @@ console.debug(foobar)
 ```
 Additionally, all Redux events are automatically logged to the console.
 
+[chrome-devtools-device]: https://facebook.github.io/react-native/docs/debugging.html#debugging-on-a-device-with-chrome-developer-tools
 
 ### `adb logcat`
 
