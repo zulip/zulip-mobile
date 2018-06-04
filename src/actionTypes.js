@@ -47,6 +47,7 @@ import {
   EVENT_SUBSCRIPTION_UPDATE,
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
+  EVENT_NEW_MESSAGE,
   CLEAR_TYPING,
   INIT_STREAMS,
   INIT_TOPICS,
@@ -72,6 +73,7 @@ import type {
   Topic,
   PresenceState,
   RealmEmojiState,
+  CaughtUpState,
 } from './types';
 
 export type RehydrateAction = {
@@ -378,7 +380,14 @@ export type EventStreamOccupyAction = {
   streams: StreamUpdateDetails[],
 };
 
-export type EventNewMessageAction = any;
+export type EventNewMessageAction = {
+  type: typeof EVENT_NEW_MESSAGE,
+  caughtUp: CaughtUpState,
+  localMessageId: ?number,
+  message: Message,
+  ownEmail: string,
+};
+
 export type EventMessageDeleteAction = any;
 export type EventUpdateMessageAction = any;
 export type EventReactionAddAction = any;
