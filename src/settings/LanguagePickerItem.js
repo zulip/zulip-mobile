@@ -1,20 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { Context } from '../types';
 import { RawLabel, Touchable } from '../common';
 import { BRAND_COLOR } from '../styles';
 import { IconDone } from '../common/Icons';
-
-const componentStyles = StyleSheet.create({
-  flag: {
-    paddingRight: 8,
-  },
-  language: {
-    flex: 1,
-  },
-});
 
 type Props = {
   locale: string,
@@ -39,8 +30,8 @@ export default class LanguagePickerItem extends PureComponent<Props> {
     return (
       <Touchable onPress={() => onValueChange(locale)}>
         <View style={styles.listItem}>
-          <RawLabel style={componentStyles.flag} text={flag} />
-          <RawLabel style={componentStyles.language} text={name} />
+          <RawLabel style={styles.halfPaddingRight} text={flag} />
+          <RawLabel style={styles.flexed} text={name} />
           {selected && <IconDone size={24} color={BRAND_COLOR} />}
         </View>
       </Touchable>
