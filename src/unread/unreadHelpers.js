@@ -1,5 +1,5 @@
 /* @flow */
-import type { StreamUnreadItem } from '../types';
+import type { StreamUnreadItem, UnreadPmsState } from '../types';
 import { addItemsToArray, removeItemsFromArray, filterArray } from '../utils/immutability';
 
 export const removeItemsDeeply = (objArray: Object[], messageIds: number[]): Object[] => {
@@ -34,7 +34,7 @@ export const removeItemsDeeply = (objArray: Object[], messageIds: number[]): Obj
   );
 };
 
-const addItemsDeeply = (input: Object[], itemsToAdd: Object[], index: number): Object[] => {
+const addItemsDeeply = (input: Object[], itemsToAdd: number[], index: number): Object[] => {
   const item = input[index];
 
   const unreadMessageIds = addItemsToArray(item.unread_message_ids, itemsToAdd);
@@ -55,9 +55,9 @@ const addItemsDeeply = (input: Object[], itemsToAdd: Object[], index: number): O
 
 export const addItemsToPmArray = (
   input: Object[],
-  itemsToAdd: Object[],
+  itemsToAdd: number[],
   senderId: number,
-): Object[] => {
+): UnreadPmsState => {
   const index = input.findIndex(sender => sender.sender_id === senderId);
 
   if (index !== -1) {
@@ -75,7 +75,7 @@ export const addItemsToPmArray = (
 
 export const addItemsToHuddleArray = (
   input: Object[],
-  itemsToAdd: Object[],
+  itemsToAdd: number[],
   userIds: string,
 ): Object[] => {
   const index = input.findIndex(recipients => recipients.user_ids_string === userIds);
@@ -95,8 +95,8 @@ export const addItemsToHuddleArray = (
 
 export const addItemsToStreamArray = (
   input: StreamUnreadItem[],
-  itemsToAdd: StreamUnreadItem[],
-  streamId: string,
+  itemsToAdd: number[],
+  streamId: number,
   topic: string,
 ): Object[] => {
   const index = input.findIndex(s => s.stream_id === streamId && s.topic === topic);
