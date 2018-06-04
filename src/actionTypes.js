@@ -48,6 +48,8 @@ import {
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
   EVENT_NEW_MESSAGE,
+  EVENT_REACTION_ADD,
+  EVENT_REACTION_REMOVE,
   CLEAR_TYPING,
   INIT_STREAMS,
   INIT_TOPICS,
@@ -390,8 +392,25 @@ export type EventNewMessageAction = {
 
 export type EventMessageDeleteAction = any;
 export type EventUpdateMessageAction = any;
-export type EventReactionAddAction = any;
-export type EventReactionRemoveAction = any;
+
+export type EventReactionCommon = {
+  emoji: string,
+  messageId: number,
+  user: {
+    email: string,
+    full_name: string,
+    user_id: number,
+  },
+};
+
+export type EventReactionAddAction = EventReactionCommon & {
+  type: typeof EVENT_REACTION_ADD,
+};
+
+export type EventReactionRemoveAction = EventReactionCommon & {
+  type: typeof EVENT_REACTION_REMOVE,
+};
+
 export type EventPresenceAction = any;
 export type EventTypingStartAction = any;
 export type EventTypingStopAction = any;

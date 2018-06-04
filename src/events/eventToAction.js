@@ -140,6 +140,10 @@ const stream = (state: GlobalState, event: Object): EventStreamAction => ({
   type: opToActionStream[event.op],
 });
 
+// Flow can not decide between EventReactionAddAction and EventReactionRemoveAction
+// It suggests adding annotation to the computed property 'opToActionReaction'.
+// That is quite complicated for the benefit it brings, thus ignore this error
+// $FlowFixMe
 const reaction = (state: GlobalState, event: Object): EventReactionAction => ({
   type: opToActionReaction[event.op],
   emoji: event.emoji_name,
