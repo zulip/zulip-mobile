@@ -6,12 +6,11 @@ debug your app][react-debugging].
 
 ## Tools and setup
 
-### Remote JS Debugger
+### Chrome Developer Tools
 
-The Remote JS Debugger allows you to debug your app in your browser's
-developer console (or at least in the Chrome Developer Tools).  It provides
-you with prettily formatted debug messages and helpful additional
-information.
+React Native supports debugging your app using Chrome's developer tools, in
+much the same way you would a web app.  This provides you with prettily
+formatted debug messages and helpful additional information.
 
 To use it, start your app in the emulator. Then, [open the Developer
 Menu][dev-menu]. Here, select "Debug JS Remotely". This will open a new tab
