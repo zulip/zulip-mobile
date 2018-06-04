@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, HALF_SPACING } from '../styles';
 import { RawLabel, Touchable } from '../common';
 import { IconDone, IconTrash } from '../common/Icons';
 
@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   icon: {
-    padding: 6,
+    padding: HALF_SPACING,
+    margin: -HALF_SPACING,
   },
 });
 
