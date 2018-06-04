@@ -39,7 +39,7 @@ import {
   getSession,
   canSendToActiveNarrow,
   getLastMessageTopic,
-  getUsers,
+  getActiveUsersAndBots,
   getShowMessagePlaceholders,
 } from '../selectors';
 import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelectors';
@@ -49,7 +49,7 @@ type Props = {
   auth: Auth,
   canSend: boolean,
   narrow: Narrow,
-  users: User[],
+  usersAndBots: User[],
   draft: string,
   lastMessageTopic: string,
   isSubscribed: boolean,
@@ -254,7 +254,7 @@ class ComposeBox extends PureComponent<Props, State> {
       auth,
       canSend,
       narrow,
-      users,
+      usersAndBots,
       editMessage,
       safeAreaInsets,
       messageInputRef,
@@ -270,7 +270,7 @@ class ComposeBox extends PureComponent<Props, State> {
     }
 
     const canSelectTopic = (isMessageFocused || isTopicFocused) && isStreamNarrow(narrow);
-    const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
+    const placeholder = getComposeInputPlaceholder(narrow, auth.email, usersAndBots);
 
     return (
       <View style={{ marginBottom: safeAreaInsets.bottom }}>
@@ -343,7 +343,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
 export default connect((state: GlobalState, props) => ({
   auth: getAuth(state),
-  users: getUsers(state),
+  usersAndBots: getActiveUsersAndBots(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
   isSubscribed: getIsActiveStreamSubscribed(props.narrow)(state),
   canSend: canSendToActiveNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
