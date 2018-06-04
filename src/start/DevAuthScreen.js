@@ -100,7 +100,12 @@ class DevAuthScreen extends PureComponent<Props, State> {
           {directAdmins.map(admin => (
             <ZulipButton
               key={`${admin.email}${admin.realm_uri}`}
-              text={admin.email}
+              text={`${admin.email} (${
+                admin.realm_uri
+                  .split('http://')[1]
+                  .split('.')[0]
+                  .split(':')[0]
+              })`}
               onPress={() => this.tryDevLogin(admin)}
             />
           ))}
@@ -113,7 +118,16 @@ class DevAuthScreen extends PureComponent<Props, State> {
             keyExtractor={item => `${item.email}${item.realm_uri}`}
             ItemSeparatorComponent={() => <View style={componentStyles.accountItem} />}
             renderItem={({ item }) => (
-              <ZulipButton text={item.email} secondary onPress={() => this.tryDevLogin(item)} />
+              <ZulipButton
+                text={`${item.email} (${
+                  item.realm_uri
+                    .split('http://')[1]
+                    .split('.')[0]
+                    .split(':')[0]
+                })`}
+                secondary
+                onPress={() => this.tryDevLogin(item)}
+              />
             )}
           />
         </View>
