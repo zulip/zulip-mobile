@@ -15,9 +15,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'rgba(36, 202, 194, 0.1)',
-    borderRadius: 5,
-    padding: 8,
-    height: 52,
+    borderRadius: 4,
+    height: 72,
   },
   selectedAccountItem: {
     borderColor: BRAND_COLOR,
@@ -25,13 +24,16 @@ const styles = StyleSheet.create({
   },
   details: {
     flex: 1,
+    marginLeft: 16,
   },
   text: {
     color: BRAND_COLOR,
     fontWeight: 'bold',
+    marginVertical: 2,
   },
   icon: {
-    padding: 6,
+    padding: 12,
+    margin: 12,
   },
 });
 
@@ -62,7 +64,7 @@ export default class AccountItem extends PureComponent<Props> {
             <RawLabel style={[styles.text]} text={realm} numberOfLines={1} />
           </View>
           {!showDoneIcon ? (
-            <IconTrash style={styles.icon} size={32} color="crimson" onPress={this.handleRemove} />
+            <IconTrash style={styles.icon} size={24} color="crimson" onPress={this.handleRemove} />
           ) : (
             <IconDone style={styles.icon} size={24} color={BRAND_COLOR} />
           )}
