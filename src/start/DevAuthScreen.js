@@ -70,14 +70,14 @@ class DevAuthScreen extends PureComponent<Props, State> {
     })();
   };
 
-  tryDevLogin = async (email: string) => {
-    const { auth } = this.props;
+  tryDevLogin = async (user: DevUser) => {
+    const { email, realm_uri } = user;
 
     this.setState({ progress: true, error: undefined });
 
     try {
-      const apiKey = await devFetchApiKey(auth, email);
-      this.props.dispatch(loginSuccess(auth.realm, email, apiKey));
+      const apiKey = await devFetchApiKey({ realm: realm_uri, email, apiKey: '' }, email);
+      this.props.dispatch(loginSuccess(realm_uri, email, apiKey));
       this.setState({ progress: false });
     } catch (err) {
       this.setState({ progress: false, error: err.message });
@@ -101,7 +101,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
             <ZulipButton
               key={admin.email}
               text={admin.email}
-              onPress={() => this.tryDevLogin(admin.email)}
+              onPress={() => this.tryDevLogin(admin)}
             />
           ))}
           <Label
@@ -109,16 +109,11 @@ class DevAuthScreen extends PureComponent<Props, State> {
             text="Normal users"
           />
           <FlatList
-            data={directUsers.map(user => user.email)}
-            keyExtractor={(item, index) => item}
+            data={directUsers}
+            keyExtractor={(item, index) => item.email}
             ItemSeparatorComponent={() => <View style={componentStyles.accountItem} />}
             renderItem={({ item }) => (
-              <ZulipButton
-                key={item}
-                text={item}
-                secondary
-                onPress={() => this.tryDevLogin(item)}
-              />
+              <ZulipButton text={item.email} secondary onPress={() => this.tryDevLogin(item)} />
             )}
           />
         </View>
