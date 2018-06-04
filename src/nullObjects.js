@@ -65,6 +65,7 @@ export const NULL_MESSAGE: Message = {
   sender_id: -1,
   sender_short_name: '',
   sender_realm_str: '',
+  stream_id: -1,
   subject: '',
   subject_links: [],
   submessages: [],

@@ -119,6 +119,7 @@ export type Message = {
   sender_id: number,
   sender_realm_str: string,
   sender_short_name: string,
+  stream_id: number,
   subject: string,
   subject_links: string[],
   submessages: Message[],
