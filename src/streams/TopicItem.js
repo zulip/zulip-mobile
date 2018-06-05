@@ -10,9 +10,6 @@ const componentStyles = StyleSheet.create({
   selectedRow: {
     backgroundColor: BRAND_COLOR,
   },
-  label: {
-    flex: 1,
-  },
   selectedText: {
     color: 'white',
   },
@@ -64,7 +61,7 @@ export default class StreamItem extends PureComponent<Props> {
           ]}
         >
           <RawLabel
-            style={[componentStyles.label, isSelected && componentStyles.selectedText]}
+            style={[styles.flexed, isSelected && componentStyles.selectedText]}
             text={name}
             numberOfLines={1}
             ellipsizeMode="tail"
