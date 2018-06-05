@@ -50,6 +50,7 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
+  EVENT_PRESENCE,
   CLEAR_TYPING,
   INIT_STREAMS,
   INIT_TOPICS,
@@ -74,6 +75,7 @@ import type {
   Subscription,
   Topic,
   PresenceState,
+  Presence,
   RealmEmojiState,
   CaughtUpState,
 } from './types';
@@ -411,7 +413,13 @@ export type EventReactionRemoveAction = EventReactionCommon & {
   type: typeof EVENT_REACTION_REMOVE,
 };
 
-export type EventPresenceAction = any;
+export type EventPresenceAction = {
+  type: typeof EVENT_PRESENCE,
+  email: string,
+  presence: Presence,
+  server_timestamp: number,
+};
+
 export type EventTypingStartAction = any;
 export type EventTypingStopAction = any;
 export type EventUpdateMessageFlagsAction = any;
