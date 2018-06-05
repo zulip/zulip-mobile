@@ -420,8 +420,29 @@ export type EventPresenceAction = {
   server_timestamp: number,
 };
 
-export type EventTypingStartAction = any;
-export type EventTypingStopAction = any;
+export type EventTypingCommon = {
+  ownEmail: string,
+  recipients: Array<{
+    user_id: number,
+    email: string,
+  }>,
+  sender: {
+    user_id: number,
+    email: string,
+  },
+  time: number,
+};
+
+export type EventTypingStartAction = EventTypingCommon & {
+  type: typeof EVENT_TYPING_START,
+  op: 'start',
+};
+
+export type EventTypingStopAction = EventTypingCommon & {
+  type: typeof EVENT_TYPING_STOP,
+  op: 'stop',
+};
+
 export type EventUpdateMessageFlagsAction = any;
 export type EventUserAddAction = any;
 export type EventUserRemoveAction = any;
