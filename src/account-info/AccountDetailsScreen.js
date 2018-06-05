@@ -23,6 +23,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
     const title = {
       text: '{_}',
       values: {
+        // This causes the name not to get translated.
         _: user.full_name || ' ',
       },
     };
