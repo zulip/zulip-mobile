@@ -5,6 +5,8 @@ import { Text, View } from 'react-native';
 import type { Context, PresenceState, User } from '../types';
 import { Avatar, ViewPlaceholder } from '../common';
 import ActivityText from './ActivityText';
+import connectWithActions from '../connectWithActions';
+import { getPresence, getUserInPmNarrow } from '../selectors';
 
 type Props = {
   user: User,
@@ -12,7 +14,7 @@ type Props = {
   presence: PresenceState,
 };
 
-export default class TitlePrivate extends PureComponent<Props> {
+class TitlePrivate extends PureComponent<Props> {
   context: Context;
   props: Props;
 
@@ -44,3 +46,8 @@ export default class TitlePrivate extends PureComponent<Props> {
     );
   }
 }
+
+export default connectWithActions((state, props) => ({
+  user: getUserInPmNarrow(props.narrow)(state),
+  presence: getPresence(state),
+}))(TitlePrivate);
