@@ -15,7 +15,7 @@ import { getSession } from '../selectors';
 import type { Message, Narrow } from '../types';
 import TitleHome from './TitleHome';
 import TitlePrivate from './TitlePrivateContainer';
-import TitleGroup from './TitleGroupContainer';
+import TitleGroup from './TitleGroup';
 import TitleSpecial from './TitleSpecial';
 import TitleStream from './TitleStreamContainer';
 import TitlePlain from './TitlePlain';

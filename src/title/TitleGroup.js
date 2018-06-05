@@ -4,13 +4,15 @@ import { View } from 'react-native';
 
 import type { Context, PresenceState, User } from '../types';
 import { Avatar } from '../common';
+import connectWithActions from '../connectWithActions';
+import { getRecipientsInGroupNarrow, getPresence } from '../selectors';
 
 type Props = {
   recipients: User[],
   presence: PresenceState,
 };
 
-export default class TitleGroup extends PureComponent<Props> {
+class TitleGroup extends PureComponent<Props> {
   context: Context;
   props: Props;
 
@@ -39,3 +41,8 @@ export default class TitleGroup extends PureComponent<Props> {
     );
   }
 }
+
+export default connectWithActions((state, props) => ({
+  recipients: getRecipientsInGroupNarrow(props.narrow)(state),
+  presence: getPresence(state),
+}))(TitleGroup);
