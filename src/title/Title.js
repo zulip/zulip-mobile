@@ -17,7 +17,7 @@ import TitleHome from './TitleHome';
 import TitlePrivate from './TitlePrivate';
 import TitleGroup from './TitleGroup';
 import TitleSpecial from './TitleSpecial';
-import TitleStream from './TitleStreamContainer';
+import TitleStream from './TitleStream';
 import TitlePlain from './TitlePlain';
 
 const titles = [

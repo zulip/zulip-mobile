@@ -5,6 +5,8 @@ import { Text, View } from 'react-native';
 import type { Context, Narrow, Subscription } from '../types';
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
+import connectWithActions from '../connectWithActions';
+import { getStreamInNarrow } from '../selectors';
 
 type Props = {
   narrow: Narrow,
@@ -12,7 +14,7 @@ type Props = {
   color: string,
 };
 
-export default class TitleStream extends PureComponent<Props> {
+class TitleStream extends PureComponent<Props> {
   context: Context;
   props: Props;
 
@@ -46,3 +48,7 @@ export default class TitleStream extends PureComponent<Props> {
     );
   }
 }
+
+export default connectWithActions((state, props) => ({
+  stream: getStreamInNarrow(props.narrow)(state),
+}))(TitleStream);
