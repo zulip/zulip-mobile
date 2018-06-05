@@ -52,6 +52,8 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_PRESENCE,
   EVENT_UPDATE_MESSAGE_FLAGS,
+  EVENT_SUBSCRIPTION_PEER_ADD,
+  EVENT_SUBSCRIPTION_PEER_REMOVE,
   CLEAR_TYPING,
   INIT_STREAMS,
   INIT_TOPICS,
@@ -356,8 +358,21 @@ export type EventSubscriptionUpdateAction = {
   value: boolean | number | string,
 };
 
-export type EventSubscriptionPeerAddAction = any;
-export type EventSubscriptionPeerRemoveAction = any;
+export type EventSubscriptionPeerAddAction = {
+  type: typeof EVENT_SUBSCRIPTION_PEER_ADD,
+  op: 'peer_add',
+  subscriptions: string[],
+  user: User,
+  user_id: number,
+};
+
+export type EventSubscriptionPeerRemoveAction = {
+  type: typeof EVENT_SUBSCRIPTION_PEER_REMOVE,
+  op: 'peer_remove',
+  subscriptions: string[],
+  user: User,
+  user_id: number,
+};
 
 export type EventStreamAddAction = {
   type: typeof EVENT_STREAM_ADD,
