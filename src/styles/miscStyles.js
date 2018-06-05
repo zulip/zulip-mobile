@@ -76,7 +76,7 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
         borderWidth: 1,
         borderColor: BORDER_COLOR,
         borderRadius: 2,
-        padding: 8,
+        padding: HALF_SPACING,
       },
     }),
   },
@@ -115,13 +115,13 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     color,
     width: 24,
     height: 24,
-    margin: 8,
+    margin: HALF_SPACING,
     fontSize: 24,
     textAlign: 'center',
   },
   settingsIcon: {
-    marginLeft: 8,
-    marginRight: 16,
+    marginLeft: HALF_SPACING,
+    marginRight: SPACING,
   },
   item: {
     flex: 1,
@@ -132,10 +132,8 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: HALF_SPACING,
-    paddingBottom: HALF_SPACING,
-    paddingLeft: SPACING,
-    paddingRight: SPACING,
+    paddingVertical: HALF_SPACING,
+    paddingHorizontal: SPACING,
   },
   screen: {
     flex: 1,
@@ -162,13 +160,13 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   },
   screenWrapper: {
     flex: 1,
-    padding: 8,
+    padding: HALF_SPACING,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
   },
   link: {
-    marginTop: 10,
+    marginTop: SPACING,
     fontSize: 15,
     color: BRAND_COLOR,
     textAlign: 'right',
@@ -183,7 +181,7 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   },
   container: {
     flex: 1,
-    padding: 16,
+    padding: SPACING,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
@@ -200,8 +198,7 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     flex: 1,
     flexDirection: 'row',
     height: CONTROL_SIZE,
-    marginTop: 5,
-    marginBottom: 5,
+    marginVertical: HALF_SPACING,
   },
   disabled: {
     backgroundColor: '#ddd',
