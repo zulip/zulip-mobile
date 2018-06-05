@@ -28,7 +28,7 @@ type State = {
   progress: boolean,
 };
 
-class PasswordAuthView extends PureComponent<Props, State> {
+class PasswordAuthScreen extends PureComponent<Props, State> {
   context: Context;
   props: Props;
   state: State = {
@@ -126,4 +126,4 @@ class PasswordAuthView extends PureComponent<Props, State> {
 
 export default connectWithActions(state => ({
   auth: getAuth(state),
-}))(PasswordAuthView);
+}))(PasswordAuthScreen);
