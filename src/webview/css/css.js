@@ -25,7 +25,7 @@ a {
   color: #08c;
 }
 p {
-  margin: 0;
+  margin: 0 0 .5em 0;
 }
 code {
   font-size: .857em;
@@ -102,10 +102,10 @@ hr {
 .message {
   display: flex;
   word-wrap: break-word;
-  padding: 1em;
+  padding: 1em 1em 0.5em 1em;
 }
 .message-brief {
-  padding: 0 1em 1em 4em;
+  padding: 0 1em .5em 4em;
 }
 .avatar {
   min-width: 2em;
