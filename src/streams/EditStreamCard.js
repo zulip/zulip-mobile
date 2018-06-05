@@ -4,6 +4,9 @@ import { View } from 'react-native';
 
 import type { Actions } from '../types';
 import { Input, Label, OptionRow, ZulipButton } from '../common';
+import connectWithActions from '../connectWithActions';
+import { getEditStreamScreenParams, getOwnEmail } from '../selectors';
+import { getStreamEditInitialValues } from '../subscriptions/subscriptionSelectors';
 
 type Props = {
   actions: Actions,
@@ -22,7 +25,7 @@ type State = {
   isPrivate: boolean,
 };
 
-export default class EditStreamCard extends PureComponent<Props, State> {
+class EditStreamCard extends PureComponent<Props, State> {
   props: Props;
   state: State;
 
@@ -97,3 +100,9 @@ export default class EditStreamCard extends PureComponent<Props, State> {
     );
   }
 }
+
+export default connectWithActions(state => ({
+  ownEmail: getOwnEmail(state),
+  streamId: getEditStreamScreenParams(state).streamId,
+  initialValues: getStreamEditInitialValues(state),
+}))(EditStreamCard);
