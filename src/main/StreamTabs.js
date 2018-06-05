@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import type { TabNavigationOptionsPropsType } from '../types';
 import tabsOptions from '../styles/tabs';
 import SubscriptionsCard from '../streams/SubscriptionsCard';
-import StreamListContainer from '../subscriptions/StreamListContainer';
+import StreamListCard from '../subscriptions/StreamListCard';
 
 const styles = StyleSheet.create({
   tab: {
@@ -29,7 +29,7 @@ export default TabNavigator(
       },
     },
     allStreams: {
-      screen: StreamListContainer,
+      screen: StreamListCard,
       navigationOptions: {
         tabBarLabel: (props: TabNavigationOptionsPropsType) => (
           <Text style={[styles.tab, { color: props.tintColor }]}>

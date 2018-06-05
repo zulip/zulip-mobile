@@ -2,11 +2,13 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Actions, Auth } from '../types';
+import type { Actions, Auth, GlobalState } from '../types';
 import { ZulipButton } from '../common';
 import { subscriptionAdd, subscriptionRemove } from '../api';
 import { streamNarrow } from '../utils/narrow';
 import StreamList from '../streams/StreamList';
+import { getAuth, getCanCreateStreams, getStreams, getSubscriptions } from '../selectors';
+import connectWithActions from '../connectWithActions';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -29,7 +31,7 @@ type State = {
   filter: string,
 };
 
-export default class StreamListCard extends PureComponent<Props, State> {
+class StreamListCard extends PureComponent<Props, State> {
   props: Props;
 
   state: State;
@@ -89,3 +91,10 @@ export default class StreamListCard extends PureComponent<Props, State> {
     );
   }
 }
+
+export default connectWithActions((state: GlobalState) => ({
+  auth: getAuth(state),
+  canCreateStreams: getCanCreateStreams(state),
+  streams: getStreams(state),
+  subscriptions: getSubscriptions(state),
+}))(StreamListCard);
