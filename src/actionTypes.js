@@ -51,6 +51,7 @@ import {
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
   EVENT_PRESENCE,
+  EVENT_UPDATE_MESSAGE_FLAGS,
   CLEAR_TYPING,
   INIT_STREAMS,
   INIT_TOPICS,
@@ -78,6 +79,7 @@ import type {
   Presence,
   RealmEmojiState,
   CaughtUpState,
+  MessagesState,
 } from './types';
 
 export type RehydrateAction = {
@@ -443,7 +445,15 @@ export type EventTypingStopAction = EventTypingCommon & {
   op: 'stop',
 };
 
-export type EventUpdateMessageFlagsAction = any;
+export type EventUpdateMessageFlagsAction = {
+  type: typeof EVENT_UPDATE_MESSAGE_FLAGS,
+  all: boolean,
+  allMessages: MessagesState,
+  flag: string,
+  messages: number[],
+  operation: 'add' | 'remove',
+};
+
 export type EventUserAddAction = any;
 export type EventUserRemoveAction = any;
 export type EventUserUpdateAction = any;
