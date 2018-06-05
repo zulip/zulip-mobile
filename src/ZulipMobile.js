@@ -8,7 +8,7 @@ import StylesProvider from './boot/StylesProvider';
 import CompatibilityChecker from './boot/CompatibilityChecker';
 import AppEventHandlers from './boot/AppEventHandlers';
 import AppDataFetcher from './boot/AppDataFetcher';
-import AppWithNavigationState from './nav/AppWithNavigationState';
+import AppWithNavigation from './nav/AppWithNavigation';
 
 require('./i18n/locale');
 require('./sentry');
@@ -23,7 +23,7 @@ export default () => (
         <AppDataFetcher>
           <TranslationProvider>
             <StylesProvider>
-              <AppWithNavigationState />
+              <AppWithNavigation />
             </StylesProvider>
           </TranslationProvider>
         </AppDataFetcher>
