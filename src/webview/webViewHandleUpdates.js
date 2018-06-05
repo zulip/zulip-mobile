@@ -1,7 +1,7 @@
 /* @flow */
 import isEqual from 'lodash.isequal';
 
-import type { Props } from '../message/MessageListContainer';
+import type { Props } from '../message/MessageList';
 import type { UpdateStrategy } from '../message/messageUpdates';
 import htmlBody from './html/htmlBody';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';

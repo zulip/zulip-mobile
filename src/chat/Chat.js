@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 import type { Context, Narrow } from '../types';
 import { KeyboardAvoider, OfflineNotice } from '../common';
-import MessageListContainer from '../message/MessageListContainer';
+import MessageList from '../message/MessageList';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
@@ -46,7 +46,7 @@ export default class Chat extends PureComponent<Props> {
           <OfflineNotice />
           <UnreadNotice narrow={narrow} />
           <NoMessages narrow={narrow} />
-          <MessageListContainer
+          <MessageList
             narrow={narrow}
             onReplySelect={this.handleReplySelect}
             listRef={component => {

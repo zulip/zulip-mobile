@@ -1,5 +1,5 @@
 /* @flow */
-import type { Props } from '../../message/MessageListContainer';
+import type { Props } from '../../message/MessageList';
 
 import { appendAuthToImages } from '../../utils/url';
 import messageAsHtml from './messageAsHtml';

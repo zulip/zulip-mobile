@@ -7,7 +7,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import type { Actions, Auth, Message, Subscription } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import { homeNarrowStr, searchNarrow } from '../utils/narrow';
-import MessageListContainer from '../message/MessageListContainer';
+import MessageList from '../message/MessageList';
 import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
 import { NULL_ARRAY, NULL_FETCHING } from '../nullObjects';
@@ -82,7 +82,7 @@ export default class SearchMessagesCard extends PureComponent<Props, State> {
     return (
       <View style={styles.results}>
         <ActionSheetProvider>
-          <MessageListContainer
+          <MessageList
             anchor={messages[0].id}
             messages={messages}
             narrow={homeNarrowStr}

@@ -56,7 +56,7 @@ export type Props = {
   showActionSheetWithOptions: (Object, (number) => void) => void,
 };
 
-class MessageListContainer extends PureComponent<Props> {
+class MessageList extends PureComponent<Props> {
   props: Props;
 
   static contextTypes = {
@@ -116,4 +116,4 @@ export default connectWithActions((state, props) => ({
     props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
   subscriptions: getSubscriptions(state),
   typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
-}))(connectActionSheet(MessageListContainer));
+}))(connectActionSheet(MessageList));
