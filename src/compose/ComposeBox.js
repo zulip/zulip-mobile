@@ -1,6 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { View, TextInput, findNodeHandle } from 'react-native';
+import { connect } from 'react-redux';
 import TextInputReset from 'react-native-text-input-reset';
 import isEqual from 'lodash.isequal';
 
@@ -13,6 +14,7 @@ import type {
   User,
   Dispatch,
   Dimensions,
+  GlobalState,
 } from '../types';
 import {
   addToOutbox,
@@ -31,6 +33,17 @@ import ComposeMenuContainer from './ComposeMenuContainer';
 import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
+
+import {
+  getAuth,
+  getSession,
+  canSendToActiveNarrow,
+  getLastMessageTopic,
+  getUsers,
+  getShowMessagePlaceholders,
+} from '../selectors';
+import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelectors';
+import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
 
 type Props = {
   auth: Auth,
@@ -56,7 +69,7 @@ type State = {
   selection: InputSelectionType,
 };
 
-export default class ComposeBox extends PureComponent<Props, State> {
+class ComposeBox extends PureComponent<Props, State> {
   context: Context;
   props: Props;
   state: State;
@@ -327,3 +340,14 @@ export default class ComposeBox extends PureComponent<Props, State> {
     );
   }
 }
+
+export default connect((state: GlobalState, props) => ({
+  auth: getAuth(state),
+  users: getUsers(state),
+  safeAreaInsets: getSession(state).safeAreaInsets,
+  isSubscribed: getIsActiveStreamSubscribed(props.narrow)(state),
+  canSend: canSendToActiveNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
+  editMessage: getSession(state).editMessage,
+  draft: getDraftForActiveNarrow(props.narrow)(state),
+  lastMessageTopic: getLastMessageTopic(props.narrow)(state),
+}))(ComposeBox);

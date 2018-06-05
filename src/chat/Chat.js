@@ -6,7 +6,7 @@ import type { Context, Narrow } from '../types';
 import { KeyboardAvoider, OfflineNotice } from '../common';
 import MessageListContainer from '../message/MessageListContainer';
 import NoMessages from '../message/NoMessages';
-import ComposeBoxContainer from '../compose/ComposeBoxContainer';
+import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 
 type Props = {
@@ -53,7 +53,7 @@ export default class Chat extends PureComponent<Props> {
               this.listComponent = component || this.listComponent;
             }}
           />
-          <ComposeBoxContainer
+          <ComposeBox
             /* $FlowFixMe: our own props type should probably require `narrow` */
             narrow={narrow}
             messageInputRef={(component: any) => {
