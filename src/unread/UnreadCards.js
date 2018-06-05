@@ -8,6 +8,14 @@ import ConversationList from '../conversations/ConversationList';
 import StreamItem from '../streams/StreamItem';
 import TopicItem from '../streams/TopicItem';
 import { streamNarrow, topicNarrow } from '../utils/narrow';
+import connectWithActions from '../connectWithActions';
+import {
+  getLoading,
+  getPresence,
+  getUnreadConversations,
+  getAllUsersAndBotsByEmail,
+  getUnreadStreamsAndTopicsSansMuted,
+} from '../selectors';
 
 type Props = {
   actions: Actions,
@@ -19,7 +27,7 @@ type Props = {
   unreadStreamsAndTopics: any,
 };
 
-export default class UnreadCards extends PureComponent<Props> {
+class UnreadCards extends PureComponent<Props> {
   context: Context;
   props: Props;
 
@@ -92,3 +100,11 @@ export default class UnreadCards extends PureComponent<Props> {
     );
   }
 }
+
+export default connectWithActions(state => ({
+  isLoading: getLoading(state).unread,
+  conversations: getUnreadConversations(state),
+  presences: getPresence(state),
+  usersByEmail: getAllUsersAndBotsByEmail(state),
+  unreadStreamsAndTopics: getUnreadStreamsAndTopicsSansMuted(state),
+}))(UnreadCards);
