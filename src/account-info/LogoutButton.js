@@ -1,13 +1,16 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Actions, Auth } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Auth, Dispatch } from '../types';
 import { ZulipButton } from '../common';
 import { unregisterPush } from '../api';
 import { getAuth, getPushToken } from '../selectors';
 import { logErrorRemotely } from '../utils/logging';
+import { logout } from '../account/accountActions';
+import { deleteTokenPush } from '../realm/realmActions';
 
 const styles = StyleSheet.create({
   logoutButton: {
@@ -19,28 +22,28 @@ const styles = StyleSheet.create({
 type Props = {
   auth: Auth,
   pushToken: string,
-  actions: Actions,
+  dispatch: Dispatch,
 };
 
 class LogoutButton extends PureComponent<Props> {
   props: Props;
 
   shutdownPUSH = async () => {
-    const { auth, actions, pushToken } = this.props;
+    const { auth, dispatch, pushToken } = this.props;
     if (pushToken !== '') {
       try {
         await unregisterPush(auth, pushToken);
       } catch (e) {
         logErrorRemotely(e, 'failed to unregister Push token');
       }
-      actions.deleteTokenPush();
+      dispatch(deleteTokenPush());
     }
   };
 
   logout = () => {
-    const { actions } = this.props;
+    const { dispatch } = this.props;
     this.shutdownPUSH();
-    actions.logout();
+    dispatch(logout());
   };
 
   render() {
@@ -50,7 +53,7 @@ class LogoutButton extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   auth: getAuth(state),
   pushToken: getPushToken(state),
 }))(LogoutButton);
