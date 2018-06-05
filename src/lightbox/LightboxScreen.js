@@ -5,7 +5,7 @@ import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { ZulipStatusBar } from '../common';
-import LightboxContainer from './LightboxContainer';
+import Lightbox from './Lightbox';
 import type { Message } from '../types';
 
 const styles = StyleSheet.create({
@@ -37,7 +37,7 @@ export default class LightboxScreen extends PureComponent<Props> {
       <View style={styles.screen}>
         <ZulipStatusBar hidden backgroundColor="black" barStyle="light-content" />
         <ActionSheetProvider>
-          <LightboxContainer src={src} message={message} />
+          <Lightbox src={src} message={message} />
         </ActionSheetProvider>
       </View>
     );

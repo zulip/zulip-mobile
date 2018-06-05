@@ -46,7 +46,7 @@ type State = {
   movement: 'in' | 'out',
 };
 
-class LightboxContainer extends PureComponent<Props, State> {
+class Lightbox extends PureComponent<Props, State> {
   props: Props;
   state: State;
 
@@ -132,5 +132,5 @@ class LightboxContainer extends PureComponent<Props, State> {
 export default connectActionSheet(
   connectWithActions(state => ({
     auth: getAuth(state),
-  }))(LightboxContainer),
+  }))(Lightbox),
 );
