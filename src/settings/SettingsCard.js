@@ -11,9 +11,6 @@ import LogoutButton from '../account-info/LogoutButton';
 import { IconDiagnostics, IconNotifications, IconNight, IconLanguage } from '../common/Icons';
 
 const componentStyles = StyleSheet.create({
-  optionWrapper: {
-    flex: 1,
-  },
   accountButtons: {
     flex: 1,
     alignItems: 'flex-end',
@@ -44,7 +41,7 @@ class SettingsCard extends PureComponent<Props> {
     const { theme, actions } = this.props;
 
     return (
-      <ScrollView style={componentStyles.optionWrapper}>
+      <ScrollView style={styles.flexed}>
         <OptionRow
           Icon={IconNight}
           label="Night mode"
