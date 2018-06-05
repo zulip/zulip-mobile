@@ -4,6 +4,8 @@ import React, { PureComponent } from 'react';
 import type { Actions, PresenceState, User } from '../types';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
+import { getOwnEmail, getUsers, getPresence } from '../selectors';
+import connectWithActions from '../connectWithActions';
 
 type Props = {
   actions: Actions,
@@ -13,7 +15,7 @@ type Props = {
   presences: PresenceState,
 };
 
-export default class UsersCard extends PureComponent<Props> {
+class UsersCard extends PureComponent<Props> {
   props: Props;
 
   handleUserNarrow = (email: string) => {
@@ -35,3 +37,9 @@ export default class UsersCard extends PureComponent<Props> {
     );
   }
 }
+
+export default connectWithActions(state => ({
+  ownEmail: getOwnEmail(state),
+  users: getUsers(state),
+  presences: getPresence(state),
+}))(UsersCard);

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import { Screen } from '../common';
-import UsersContainer from './UsersContainer';
+import UsersCard from './UsersCard';
 
 type Props = {};
 
@@ -24,7 +24,7 @@ export default class UsersScreen extends PureComponent<Props, State> {
 
     return (
       <Screen search autoFocus searchBarOnChange={this.handleFilterChange}>
-        <UsersContainer filter={filter} />
+        <UsersCard filter={filter} />
       </Screen>
     );
   }
