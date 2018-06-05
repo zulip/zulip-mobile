@@ -6,6 +6,13 @@ import type { Actions, Context, PresenceState } from '../types';
 import { Label, LoadingIndicator, ZulipButton } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import ConversationList from './ConversationList';
+import connectWithActions from '../connectWithActions';
+import {
+  getLoading,
+  getPresence,
+  getRecentConversations,
+  getAllUsersAndBotsByEmail,
+} from '../selectors';
 
 const componentStyles = StyleSheet.create({
   container: {
@@ -34,7 +41,7 @@ type Props = {
   usersByEmail: Object,
 };
 
-export default class ConversationsCard extends PureComponent<Props> {
+class ConversationsCard extends PureComponent<Props> {
   context: Context;
   props: Props;
 
@@ -82,3 +89,10 @@ export default class ConversationsCard extends PureComponent<Props> {
     );
   }
 }
+
+export default connectWithActions(state => ({
+  conversations: getRecentConversations(state),
+  isLoading: getLoading(state).users,
+  presences: getPresence(state),
+  usersByEmail: getAllUsersAndBotsByEmail(state),
+}))(ConversationsCard);
