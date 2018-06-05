@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
+import { connect } from 'react-redux';
 
 import type { Context, Dispatch, Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
@@ -10,6 +11,7 @@ import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { uploadImage } from '../message/fetchActions';
 import { navigateToCreateGroup } from '../nav/navActions';
+import { getNarrowToSendTo } from '../selectors';
 
 type Props = {
   dispatch: Dispatch,
@@ -18,7 +20,7 @@ type Props = {
   onExpandContract: () => void,
 };
 
-export default class ComposeMenu extends Component<Props> {
+class ComposeMenu extends Component<Props> {
   context: Context;
   props: Props;
 
@@ -89,3 +91,7 @@ export default class ComposeMenu extends Component<Props> {
     );
   }
 }
+
+export default connect((state, props) => ({
+  narrow: getNarrowToSendTo(props.narrow)(state),
+}))(ComposeMenu);
