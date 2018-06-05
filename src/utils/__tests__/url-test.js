@@ -491,28 +491,28 @@ describe('fixRealmUrl', () => {
 
 describe('autocompleteUrl', () => {
   test('when no value is entered return empty string', () => {
-    const result = autocompleteUrl('', 'https://', '.zulipchat.com', '');
+    const result = autocompleteUrl('', 'https://', '.zulipchat.com');
     expect(result).toEqual('');
   });
 
   test('when an protocol is provided use it', () => {
-    const result = autocompleteUrl('http://example', 'https://', '.zulipchat.com', '');
+    const result = autocompleteUrl('http://example', 'https://', '.zulipchat.com');
     expect(result).toEqual('http://example.zulipchat.com');
   });
 
   test('do not use any other protocol than http and https', () => {
-    const result = autocompleteUrl('ftp://example', 'https://', '.zulipchat.com', '');
+    const result = autocompleteUrl('ftp://example', 'https://', '.zulipchat.com');
     expect(result).toEqual('https://ftp://example.zulipchat.com');
   });
 
-  test('if one dot in the input use the short append instead', () => {
-    const result = autocompleteUrl('subdomain.mydomain', 'https://', '.zulipchat.com', '.com');
-    expect(result).toEqual('https://subdomain.mydomain.com');
+  test('if more than one dots in input do not use any append', () => {
+    const result = autocompleteUrl('subdomain.mydomain.org', 'https://', '.zulipchat.com');
+    expect(result).toEqual('https://subdomain.mydomain.org');
   });
 
-  test('if more than one dots in input do not use any append', () => {
-    const result = autocompleteUrl('subdomain.mydomain.org', 'https://', '.zulipchat.com', '.com');
-    expect(result).toEqual('https://subdomain.mydomain.org');
+  test('when no subdomain entered do not append top-level domain', () => {
+    const result = autocompleteUrl('mydomain.org', 'https://', '.zulipchat.com');
+    expect(result).toEqual('https://mydomain.org');
   });
 });
 
