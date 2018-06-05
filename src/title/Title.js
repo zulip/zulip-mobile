@@ -16,7 +16,7 @@ import type { Message, Narrow } from '../types';
 import TitleHome from './TitleHome';
 import TitlePrivate from './TitlePrivateContainer';
 import TitleGroup from './TitleGroupContainer';
-import TitleSpecial from './TitleSpecialContainer';
+import TitleSpecial from './TitleSpecial';
 import TitleStream from './TitleStreamContainer';
 import TitlePlain from './TitlePlain';
 
