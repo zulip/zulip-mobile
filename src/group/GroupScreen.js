@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 
 import { Screen } from '../common';
-import GroupContainer from './GroupContainer';
+import GroupCard from './GroupCard';
 
 type State = {
   filter: string,
@@ -21,7 +21,7 @@ export default class GroupScreen extends PureComponent<{}, State> {
     const { filter } = this.state;
     return (
       <Screen search searchBarOnChange={this.handleFilterChange}>
-        <GroupContainer filter={filter} />
+        <GroupCard filter={filter} />
       </Screen>
     );
   }

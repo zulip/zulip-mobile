@@ -9,6 +9,8 @@ import { groupNarrow } from '../utils/narrow';
 import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
+import { getOwnEmail, getPresence, getUsersSansMe } from '../selectors';
+import connectWithActions from '../connectWithActions';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -36,7 +38,7 @@ type State = {
   selected: User[],
 };
 
-export default class GroupCard extends PureComponent<Props, State> {
+class GroupCard extends PureComponent<Props, State> {
   listRef: (component: any) => void;
 
   props: Props;
@@ -127,3 +129,9 @@ export default class GroupCard extends PureComponent<Props, State> {
     );
   }
 }
+
+export default connectWithActions(state => ({
+  ownEmail: getOwnEmail(state),
+  users: getUsersSansMe(state),
+  presences: getPresence(state),
+}))(GroupCard);
