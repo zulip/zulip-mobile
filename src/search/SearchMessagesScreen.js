@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 
 import type { Context } from '../types';
 import { Screen } from '../common';
-import SearchMessagesContainer from './SearchMessagesContainer';
+import SearchMessagesCard from './SearchMessagesCard';
 
 type Props = {};
 
@@ -32,7 +32,7 @@ export default class SearchMessagesScreen extends PureComponent<Props, State> {
 
     return (
       <Screen search autoFocus searchBarOnChange={this.handleQueryChange} style={styles.flexed}>
-        <SearchMessagesContainer query={query} />
+        <SearchMessagesCard query={query} />
       </Screen>
     );
   }

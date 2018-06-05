@@ -11,6 +11,8 @@ import MessageList from '../message/MessageList';
 import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
 import { NULL_ARRAY, NULL_FETCHING } from '../nullObjects';
+import connectWithActions from '../connectWithActions';
+import { getAllRealmEmoji, getAuth, getSubscriptions } from '../selectors';
 
 const styles = StyleSheet.create({
   results: {
@@ -30,7 +32,7 @@ type State = {
   isFetching: boolean,
 };
 
-export default class SearchMessagesCard extends PureComponent<Props, State> {
+class SearchMessagesCard extends PureComponent<Props, State> {
   props: Props;
   state: State;
 
@@ -98,3 +100,9 @@ export default class SearchMessagesCard extends PureComponent<Props, State> {
     );
   }
 }
+
+export default connectWithActions(state => ({
+  auth: getAuth(state),
+  subscriptions: getSubscriptions(state),
+  realmEmoji: getAllRealmEmoji(state),
+}))(SearchMessagesCard);
