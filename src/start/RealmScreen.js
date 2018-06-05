@@ -84,7 +84,6 @@ class RealmScreen extends PureComponent<Props, State> {
           defaultOrganization="your-org"
           protocol="https://"
           append=".zulipchat.com"
-          shortAppend=".com"
           defaultValue={initialRealm}
           onChange={this.handleRealmChange}
           onSubmitEditing={this.tryRealm}

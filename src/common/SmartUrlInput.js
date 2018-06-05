@@ -19,7 +19,6 @@ type Props = {
   protocol: string,
   append: string,
   navigation: Object,
-  shortAppend: string,
   style?: Style,
   onChange: (value: string) => void,
   onSubmitEditing: () => Promise<void>,
@@ -56,8 +55,8 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   handleChange = (value: string) => {
     this.setState({ value });
 
-    const { append, shortAppend, protocol, onChange } = this.props;
-    onChange(fixRealmUrl(autocompleteUrl(value, protocol, append, shortAppend)));
+    const { append, protocol, onChange } = this.props;
+    onChange(fixRealmUrl(autocompleteUrl(value, protocol, append)));
   };
 
   urlPress = () => {
@@ -80,17 +79,15 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
       defaultOrganization,
       protocol,
       append,
-      shortAppend,
       defaultValue,
       style,
       onSubmitEditing,
       enablesReturnKeyAutomatically,
     } = this.props;
     let { value } = this.state;
-    let showAnyAppend = !value.match(/.+\..+\.+./g); // at least two dots
-    const useFullAppend = value.indexOf('.') === -1;
+    let showAppend = value.indexOf('.') === -1;
     if (defaultValue && value.length === 0) {
-      showAnyAppend = false;
+      showAppend = false;
       value = defaultValue;
     }
 
@@ -115,7 +112,7 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
           }}
         />
         {value.length === 0 && this.renderPlaceholderPart(defaultOrganization)}
-        {showAnyAppend && this.renderPlaceholderPart(useFullAppend ? append : shortAppend)}
+        {showAppend && this.renderPlaceholderPart(append)}
       </View>
     );
   }
