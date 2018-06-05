@@ -6,7 +6,6 @@ import type { Actions } from '../types';
 import connectWithActions from '../connectWithActions';
 import { Screen } from '../common';
 import UserItem from '../users/UserItem';
-import { BRAND_COLOR } from '../styles';
 
 type Props = {
   navigation: Object,
