@@ -9,7 +9,7 @@ type Props = {
   color: string,
 };
 
-export default class TitlePrivate extends PureComponent<Props> {
+export default class TitlePlain extends PureComponent<Props> {
   context: Context;
   props: Props;
 
