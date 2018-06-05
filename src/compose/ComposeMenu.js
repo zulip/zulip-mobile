@@ -4,13 +4,15 @@ import { View } from 'react-native';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
 
-import type { Actions, Context, Narrow } from '../types';
+import type { Context, Dispatch, Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
+import { uploadImage } from '../message/fetchActions';
+import { navigateToCreateGroup } from '../nav/navActions';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   expanded: boolean,
   narrow: Narrow,
   onExpandContract: () => void,
@@ -34,9 +36,9 @@ export default class ComposeMenu extends Component<Props> {
       return;
     }
 
-    const { actions, narrow } = this.props;
+    const { dispatch, narrow } = this.props;
 
-    actions.uploadImage(narrow, response.uri, response.fileName);
+    dispatch(uploadImage(narrow, response.uri, response.fileName));
   };
 
   handleImageUpload = () => {
@@ -59,8 +61,7 @@ export default class ComposeMenu extends Component<Props> {
 
   render() {
     const { styles } = this.context;
-    const { actions, expanded, onExpandContract } = this.props;
-
+    const { dispatch, expanded, onExpandContract } = this.props;
     return (
       <View style={styles.composeMenu}>
         <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={120}>
@@ -68,7 +69,7 @@ export default class ComposeMenu extends Component<Props> {
             <IconPeople
               style={styles.composeMenuButton}
               size={24}
-              onPress={actions.navigateToCreateGroup}
+              onPress={() => dispatch(navigateToCreateGroup())}
             />
             <IconImage
               style={styles.composeMenuButton}

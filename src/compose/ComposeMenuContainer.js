@@ -1,8 +1,9 @@
 /* @flow */
-import connectWithActions from '../connectWithActions';
+import { connect } from 'react-redux';
+
 import ComposeMenu from './ComposeMenu';
 import { getNarrowToSendTo } from '../selectors';
 
-export default connectWithActions((state, props) => ({
+export default connect((state, props) => ({
   narrow: getNarrowToSendTo(props.narrow)(state),
 }))(ComposeMenu);
