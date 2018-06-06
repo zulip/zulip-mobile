@@ -2,7 +2,7 @@
 import { Platform } from 'react-native';
 
 import type { Style } from '../types';
-import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE, SPACING, HALF_SPACING } from './';
+import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE } from './';
 
 export type MiscStyles = {
   text: Style,
@@ -88,7 +88,7 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     position: 'absolute',
     right: 0,
     alignItems: 'center',
-    padding: HALF_SPACING,
+    padding: 8,
   },
   showPasswordButtonText: {
     color: BRAND_COLOR,
@@ -132,10 +132,10 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: HALF_SPACING,
-    paddingBottom: HALF_SPACING,
-    paddingLeft: SPACING,
-    paddingRight: SPACING,
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 16,
+    paddingRight: 16,
   },
   screen: {
     flex: 1,
