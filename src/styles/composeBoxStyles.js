@@ -2,7 +2,7 @@
 import { Platform } from 'react-native';
 
 import type { Style } from '../types';
-import { BRAND_COLOR, HALF_SPACING, SPACING } from './';
+import { BRAND_COLOR } from './';
 
 export type ComposeBoxStyles = {
   composeBox: Style,
@@ -22,7 +22,7 @@ type Props = {
 };
 
 const inputMarginPadding = {
-  paddingHorizontal: HALF_SPACING,
+  paddingHorizontal: 8,
   ...Platform.select({
     ios: {
       paddingVertical: 8,
@@ -40,7 +40,7 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
   },
   composeText: {
     flex: 1,
-    paddingVertical: HALF_SPACING,
+    paddingVertical: 8,
     justifyContent: 'center',
   },
   composeTextInput: {
@@ -55,23 +55,23 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     borderWidth: 0,
     borderRadius: 5,
     backgroundColor,
-    marginBottom: HALF_SPACING,
+    marginBottom: 8,
     ...inputMarginPadding,
   },
   composeSendButton: {
-    margin: HALF_SPACING,
+    margin: 8,
   },
   composeMenu: {
     flexDirection: 'row',
     overflow: 'hidden',
   },
   expandButton: {
-    padding: SPACING * 3 / 4,
+    padding: 12,
     color: BRAND_COLOR,
   },
   composeMenuButton: {
-    padding: SPACING * 3 / 4,
-    marginRight: -HALF_SPACING,
+    padding: 12,
+    marginRight: -8,
     color: BRAND_COLOR,
   },
 });
