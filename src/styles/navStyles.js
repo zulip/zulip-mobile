@@ -1,6 +1,6 @@
 /* @flow */
 import type { Style } from '../types';
-import { BRAND_COLOR, HALF_SPACING, NAVBAR_SIZE, SPACING } from './';
+import { BRAND_COLOR, NAVBAR_SIZE } from './';
 
 export type NavStyles = {
   navBar: Style,
@@ -45,7 +45,7 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     justifyContent: 'space-between',
   },
   titleAvatar: {
-    marginRight: SPACING,
+    marginRight: 16,
   },
   navSubtitle: {
     fontSize: 13,
@@ -65,7 +65,7 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
   },
   activityText: {
     fontSize: 13,
-    paddingLeft: HALF_SPACING,
+    paddingLeft: 8,
   },
   navButtonFrame: {
     width: NAVBAR_SIZE,
