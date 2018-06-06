@@ -1,6 +1,5 @@
 /* @flow */
 import type { Style } from '../types';
-import { SPACING, HALF_SPACING } from './';
 
 export type UtilityStyles = {
   padding: Style,
@@ -36,90 +35,90 @@ export type UtilityStyles = {
 export default {
   // Padding
   padding: {
-    padding: SPACING,
+    padding: 16,
   },
   paddingVertical: {
-    paddingVertical: SPACING,
+    paddingVertical: 16,
   },
   paddingHorizontal: {
-    paddingHorizontal: SPACING,
+    paddingHorizontal: 16,
   },
   paddingTop: {
-    paddingTop: SPACING,
+    paddingTop: 16,
   },
   paddingBottom: {
-    paddingBottom: SPACING,
+    paddingBottom: 16,
   },
   paddingLeft: {
-    paddingLeft: SPACING,
+    paddingLeft: 16,
   },
   paddingRight: {
-    paddingRight: SPACING,
+    paddingRight: 16,
   },
   // Half padding
   halfPadding: {
-    padding: HALF_SPACING,
+    padding: 8,
   },
   halfPaddingVertical: {
-    paddingVertical: HALF_SPACING,
+    paddingVertical: 8,
   },
   halfPaddingHorizontal: {
-    paddingHorizontal: HALF_SPACING,
+    paddingHorizontal: 8,
   },
   halfPaddingTop: {
-    paddingTop: HALF_SPACING,
+    paddingTop: 8,
   },
   halfPaddingBottom: {
-    paddingBottom: HALF_SPACING,
+    paddingBottom: 8,
   },
   halfPaddingLeft: {
-    paddingLeft: HALF_SPACING,
+    paddingLeft: 8,
   },
   halfPaddingRight: {
-    paddingRight: HALF_SPACING,
+    paddingRight: 8,
   },
   // Margin
   margin: {
-    margin: SPACING,
+    margin: 16,
   },
   marginVertical: {
-    marginVertical: SPACING,
+    marginVertical: 16,
   },
   marginHorizontal: {
-    marginHorizontal: SPACING,
+    marginHorizontal: 16,
   },
   marginTop: {
-    marginTop: SPACING,
+    marginTop: 16,
   },
   marginBottom: {
-    marginBottom: SPACING,
+    marginBottom: 16,
   },
   marginLeft: {
-    marginLeft: SPACING,
+    marginLeft: 16,
   },
   marginRight: {
-    marginRight: SPACING,
+    marginRight: 16,
   },
   // Half margin
   halfMargin: {
-    margin: HALF_SPACING,
+    margin: 8,
   },
   halfMarginVertical: {
-    marginVertical: HALF_SPACING,
+    marginVertical: 8,
   },
   halfMarginHorizontal: {
-    marginHorizontal: HALF_SPACING,
+    marginHorizontal: 8,
   },
   halfMarginTop: {
-    marginTop: HALF_SPACING,
+    marginTop: 8,
   },
   halfMarginBottom: {
-    marginBottom: HALF_SPACING,
+    marginBottom: 8,
   },
   halfMarginLeft: {
-    marginLeft: HALF_SPACING,
+    marginLeft: 8,
   },
   halfMarginRight: {
-    marginRight: HALF_SPACING,
+    marginRight: 8,
   },
 };
