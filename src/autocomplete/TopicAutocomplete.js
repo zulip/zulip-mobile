@@ -1,9 +1,10 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
 import type { GlobalState } from '../types';
-import connectWithActions from '../connectWithActions';
 import { getTopicsForNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
@@ -53,6 +54,6 @@ class TopicAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state: GlobalState, props) => ({
+export default connect((state: GlobalState, props) => ({
   topics: getTopicsForNarrow(props.narrow)(state),
 }))(TopicAutocomplete);
