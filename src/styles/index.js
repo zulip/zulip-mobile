@@ -1,8 +1,6 @@
 /* @flow */
 export const CONTROL_SIZE = 44;
 export const NAVBAR_SIZE = 58;
-export const SPACING = 16;
-export const HALF_SPACING = 8;
 
 export const BRAND_COLOR = 'rgba(82, 194, 175, 1)';
 export const BORDER_COLOR = BRAND_COLOR;
