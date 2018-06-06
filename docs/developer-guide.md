@@ -98,6 +98,19 @@ Take a look through some of VS Code's docs.  In particular:
   for your platform, and print it out.  It's a one-page PDF which is
   extremely helpful to refer to.
 
+For the extensions to work properly, make sure that VSCode has recognized the [.vscode settings](
+https://github.com/zulip/zulip-mobile/tree/master/.vscode/settings.json) in the zulip-mobile repository.
+Usually, this should happen automatically when you open the `zulip-mobile` folder in VSCode.
+You can verify that the .vscode settings were recognized by opening your Workspace Settings
+with `Ctrl+Shift+P` -> `Open Workspace Settings`. If the editor on the right side starts with the
+comment
+```js
+// Workspace Settings for the zulip-mobile repo.
+```
+you're all set - VSCode has recognized your workspace settings. If not, make sure that you opened
+VSCode as a folder. Do this by pressing `Ctrl+K Ctrl+O` and navigate to your local `zulip-mobile`
+clone.
+
 ## Android tips
 
 * To set up the Android emulator, follow the heading "Using a virtual device"
