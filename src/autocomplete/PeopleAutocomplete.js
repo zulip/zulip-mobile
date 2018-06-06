@@ -1,9 +1,10 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
 import type { User, UserGroup, GlobalState } from '../types';
-import connectWithActions from '../connectWithActions';
 import { getOwnEmail, getSortedUsers, getUserGroups } from '../selectors';
 import {
   getAutocompleteSuggestion,
@@ -72,7 +73,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state: GlobalState) => ({
+export default connect((state: GlobalState) => ({
   ownEmail: getOwnEmail(state),
   users: getSortedUsers(state),
   userGroups: getUserGroups(state),
