@@ -5,7 +5,7 @@ import type { ChildrenArray } from 'react';
 
 import type { Actions, Context, LocalizableText, Style } from '../types';
 import { connectWithActionsPreserveOnBack } from '../connectWithActions';
-import { NAVBAR_SIZE, SPACING } from '../styles';
+import { NAVBAR_SIZE } from '../styles';
 import { Label } from '../common';
 import { getCanGoBack } from '../selectors';
 import NavButton from './NavButton';
@@ -44,7 +44,7 @@ class ModalNavBar extends PureComponent<Props> {
     } = this.props;
     const textStyle = [
       styles.navTitle,
-      canGoBack ? { marginRight: NAVBAR_SIZE } : { marginLeft: SPACING },
+      canGoBack ? { marginRight: NAVBAR_SIZE } : { marginLeft: 16 },
       rightItem ? { marginLeft: NAVBAR_SIZE } : {},
       titleColor ? { color: titleColor } : {},
     ];
