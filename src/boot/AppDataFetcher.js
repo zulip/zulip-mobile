@@ -1,13 +1,15 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import { PureComponent } from 'react';
 
-import type { Actions, ChildrenArray } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { ChildrenArray, Dispatch } from '../types';
 import { getSession } from '../directSelectors';
+import { doInitialFetch } from '../message/fetchActions';
 
 type Props = {
   needsInitialFetch: boolean,
-  actions: Actions,
+  dispatch: Dispatch,
   children?: ChildrenArray<*>,
 };
 
@@ -15,10 +17,10 @@ class AppDataFetcher extends PureComponent<Props> {
   props: Props;
 
   componentDidUpdate = () => {
-    const { actions, needsInitialFetch } = this.props;
+    const { dispatch, needsInitialFetch } = this.props;
 
     if (needsInitialFetch) {
-      actions.doInitialFetch();
+      dispatch(doInitialFetch());
     }
   };
 
@@ -27,6 +29,6 @@ class AppDataFetcher extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   needsInitialFetch: getSession(state).needsInitialFetch,
 }))(AppDataFetcher);
