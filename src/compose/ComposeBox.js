@@ -341,7 +341,7 @@ class ComposeBox extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state: GlobalState, props) => ({
+const mapStateToProps = (state: GlobalState, props) => ({
   auth: getAuth(state),
   users: getUsers(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
@@ -350,4 +350,5 @@ export default connect((state: GlobalState, props) => ({
   editMessage: getSession(state).editMessage,
   draft: getDraftForActiveNarrow(props.narrow)(state),
   lastMessageTopic: getLastMessageTopic(props.narrow)(state),
-}))(ComposeBox);
+});
+export default connect(mapStateToProps)(ComposeBox);
