@@ -1,11 +1,12 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
-import type { Actions, Auth, Message } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Auth, Dispatch, Message } from '../types';
 import { getAuth } from '../selectors';
 import { getResource } from '../utils/url';
 import AnimatedLightboxHeader from './AnimatedLightboxHeader';
@@ -13,6 +14,7 @@ import AnimatedLightboxFooter from './AnimatedLightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
 import { NAVBAR_SIZE } from '../styles';
 import { getGravatarFromEmail } from '../utils/avatar';
+import { navigateBack } from '../actions';
 
 const styles = StyleSheet.create({
   img: {
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   auth: Auth,
-  actions: Actions,
+  dispatch: Dispatch,
   src: string,
   message: Message,
   handleImagePress: (movement: string) => void,
@@ -80,8 +82,8 @@ class Lightbox extends PureComponent<Props, State> {
   };
 
   handlePressBack = () => {
-    const { actions } = this.props;
-    actions.navigateBack();
+    const { dispatch } = this.props;
+    dispatch(navigateBack());
   };
 
   getAnimationProps = () => ({
@@ -130,7 +132,7 @@ class Lightbox extends PureComponent<Props, State> {
 }
 
 export default connectActionSheet(
-  connectWithActions(state => ({
+  connect(state => ({
     auth: getAuth(state),
   }))(Lightbox),
 );
