@@ -1,8 +1,9 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import connectWithActions from '../connectWithActions';
 import { getSession } from '../selectors';
 import { Label } from '../common';
 
@@ -42,6 +43,6 @@ class OfflineNotice extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   isOnline: getSession(state).isOnline,
 }))(OfflineNotice);
