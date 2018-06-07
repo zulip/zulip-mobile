@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
+import type { NavigationScreenProp } from 'react-navigation';
 
 import type { ApiServerSettings, Context, Dispatch } from '../types';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
@@ -10,9 +11,18 @@ import { isValidUrl } from '../utils/url';
 import { getServerSettings } from '../api';
 import { realmAdd, navigateToAuth } from '../actions';
 
-type Props = {
+type NavigationProps = {
+  navigation: NavigationScreenProp<*> & {
+    state: {
+      params: {
+        realm: string,
+      },
+    },
+  },
+};
+
+type Props = NavigationProps & {
   dispatch: Dispatch,
-  navigation: Object,
   initialRealm: string,
 };
 
@@ -102,8 +112,6 @@ class RealmScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect((state, props) => ({
-  initialRealm:
-    (props.navigation && props.navigation.state.params && props.navigation.state.params.realm)
-    || '',
+export default connect((state, props: NavigationProps) => ({
+  initialRealm: props.navigation.state.params.realm || '',
 }))(RealmScreen);
