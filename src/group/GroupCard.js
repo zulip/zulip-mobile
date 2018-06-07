@@ -1,8 +1,10 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Actions, User, PresenceState } from '../types';
+import type { User, Dispatch, PresenceState } from '../types';
 import { FloatingActionButton, LineSeparator } from '../common';
 import { IconDone } from '../common/Icons';
 import { groupNarrow } from '../utils/narrow';
@@ -10,7 +12,7 @@ import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 import { getOwnEmail, getPresence, getUsersSansMe } from '../selectors';
-import connectWithActions from '../connectWithActions';
+import { doNarrow, navigateBack } from '../actions';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -27,7 +29,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   ownEmail: string,
   users: User[],
   presences: PresenceState,
@@ -79,12 +81,12 @@ class GroupCard extends PureComponent<Props, State> {
   };
 
   handleCreateGroup = () => {
-    const { actions } = this.props;
+    const { dispatch } = this.props;
     const { selected } = this.state;
 
     const recipients = selected.map(user => user.email);
-    actions.navigateBack();
-    actions.doNarrow(groupNarrow(recipients));
+    dispatch(navigateBack());
+    dispatch(doNarrow(groupNarrow(recipients)));
   };
 
   componentDidUpdate = (prevProps: Props, prevState: State) => {
@@ -130,7 +132,7 @@ class GroupCard extends PureComponent<Props, State> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   ownEmail: getOwnEmail(state),
   users: getUsersSansMe(state),
   presences: getPresence(state),
