@@ -1,9 +1,10 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
 import type { GlobalState } from '../types';
-import connectWithActions from '../connectWithActions';
 import { Screen } from '../common';
 import SizeItem from './SizeItem';
 
@@ -38,6 +39,6 @@ class StorageScreen extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   state,
 }))(StorageScreen);
