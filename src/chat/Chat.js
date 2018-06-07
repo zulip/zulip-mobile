@@ -44,7 +44,10 @@ export default class Chat extends PureComponent<Props> {
       <KeyboardAvoider style={styles.flexed} behavior="padding">
         <View style={styles.flexed}>
           <OfflineNotice />
-          <UnreadNotice narrow={narrow} />
+          <UnreadNotice
+            /* $FlowFixMe: our own props type should probably require `narrow` */
+            narrow={narrow}
+          />
           <NoMessages narrow={narrow} />
           <MessageList
             narrow={narrow}
