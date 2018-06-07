@@ -1,12 +1,14 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Actions } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Dispatch } from '../types';
 import { homeNarrow, specialNarrow } from '../utils/narrow';
 import NavButton from '../nav/NavButton';
 import UnreadCards from '../unread/UnreadCards';
+import { doNarrow, navigateToSearch } from '../actions';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -20,20 +22,40 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
 };
 
 class HomeTab extends PureComponent<Props> {
   render() {
-    const { actions } = this.props;
+    const { dispatch } = this.props;
 
     return (
       <View style={styles.wrapper}>
         <View style={styles.iconList}>
-          <NavButton name="home" onPress={() => actions.doNarrow(homeNarrow)} />
-          <NavButton name="star" onPress={() => actions.doNarrow(specialNarrow('starred'))} />
-          <NavButton name="at-sign" onPress={() => actions.doNarrow(specialNarrow('mentioned'))} />
-          <NavButton name="search" onPress={() => actions.navigateToSearch()} />
+          <NavButton
+            name="home"
+            onPress={() => {
+              dispatch(doNarrow(homeNarrow));
+            }}
+          />
+          <NavButton
+            name="star"
+            onPress={() => {
+              dispatch(doNarrow(specialNarrow('starred')));
+            }}
+          />
+          <NavButton
+            name="at-sign"
+            onPress={() => {
+              dispatch(doNarrow(specialNarrow('mentioned')));
+            }}
+          />
+          <NavButton
+            name="search"
+            onPress={() => {
+              dispatch(navigateToSearch());
+            }}
+          />
         </View>
         <UnreadCards />
       </View>
@@ -41,4 +63,4 @@ class HomeTab extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(null)(HomeTab);
+export default connect(null)(HomeTab);
