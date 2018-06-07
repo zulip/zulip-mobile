@@ -1,11 +1,12 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { AppState, NetInfo, View, StyleSheet, Platform, NativeModules } from 'react-native';
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
-import type { Actions, ChildrenArray, UserIdMap } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { ChildrenArray, Dispatch, UserIdMap } from '../types';
 import { getSession, getUnreadByHuddlesMentionsAndPMs, getUsersById } from '../selectors';
 import {
   addNotificationListener,
@@ -13,6 +14,14 @@ import {
   handlePendingNotifications,
   handleInitialNotification,
 } from '../utils/notifications';
+import {
+  appOnline,
+  appOrientation,
+  appState,
+  initSafeAreaInsets,
+  sendFocusPing,
+  trySendMessages,
+} from '../actions';
 
 const componentStyles = StyleSheet.create({
   wrapper: {
@@ -24,7 +33,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {
   needsInitialFetch: boolean,
-  actions: Actions,
+  dispatch: Dispatch,
   children?: ChildrenArray<*>,
   unreadCount: number,
   usersById: UserIdMap,
@@ -34,31 +43,31 @@ class AppEventHandlers extends PureComponent<Props> {
   props: Props;
 
   handleOrientationChange = orientation => {
-    const { actions } = this.props;
-    actions.appOrientation(orientation);
+    const { dispatch } = this.props;
+    dispatch(appOrientation(orientation));
   };
 
   handleConnectivityChange = connectionInfo => {
-    const { actions, needsInitialFetch } = this.props;
+    const { dispatch, needsInitialFetch } = this.props;
     const isConnected = connectionInfo.type !== 'none' && connectionInfo.type !== 'unknown';
-    actions.appOnline(isConnected);
+    dispatch(appOnline(isConnected));
     if (!needsInitialFetch && isConnected) {
-      actions.trySendMessages();
+      dispatch(trySendMessages());
     }
   };
 
   handleAppStateChange = state => {
-    const { actions, unreadCount } = this.props;
-    actions.sendFocusPing(state === 'active');
-    actions.appState(state === 'active');
+    const { dispatch, unreadCount } = this.props;
+    dispatch(sendFocusPing(state === 'active'));
+    dispatch(appState(state === 'active'));
     if (state === 'background' && Platform.OS === 'android') {
       NativeModules.BadgeCountUpdaterModule.setBadgeCount(unreadCount);
     }
   };
 
   handleNotificationOpen = (notification: Object) => {
-    const { actions, usersById } = this.props;
-    handlePendingNotifications(notification, actions, usersById);
+    const { dispatch, usersById } = this.props;
+    handlePendingNotifications(notification, dispatch, usersById);
   };
 
   handleMemoryWarning = () => {
@@ -66,14 +75,14 @@ class AppEventHandlers extends PureComponent<Props> {
   };
 
   componentDidMount() {
-    const { actions, usersById } = this.props;
-    handleInitialNotification(actions, usersById);
+    const { dispatch, usersById } = this.props;
+    handleInitialNotification(dispatch, usersById);
 
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     SafeArea.getSafeAreaInsetsForRootView().then(params =>
-      actions.initSafeAreaInsets(params.safeAreaInsets),
+      dispatch(initSafeAreaInsets(params.safeAreaInsets)),
     );
     Orientation.addOrientationListener(this.handleOrientationChange);
     addNotificationListener(this.handleNotificationOpen);
@@ -92,7 +101,7 @@ class AppEventHandlers extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   needsInitialFetch: getSession(state).needsInitialFetch,
   usersById: getUsersById(state),
   unreadCount: getUnreadByHuddlesMentionsAndPMs(state),

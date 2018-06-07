@@ -1,11 +1,12 @@
 /* @flow */
 import { NotificationsAndroid, PendingNotifications } from 'react-native-notifications';
 
-import type { Auth, Actions, UserIdMap } from '../types';
+import type { Auth, Actions, Dispatch, UserIdMap } from '../types';
 import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { getNarrowFromNotificationData } from './notificationsCommon';
+import { doNarrow } from '../message/messagesActions';
 
 export const addNotificationListener = (notificationHandler: (notification: Object) => void) => {
   NotificationsAndroid.setNotificationOpenedListener(notificationHandler);
@@ -32,7 +33,7 @@ export const refreshNotificationToken = () => {
 
 export const handlePendingNotifications = (
   notificationData: Object,
-  actions: Actions,
+  dispatch: Dispatch,
   usersById: UserIdMap,
 ) => {
   if (!notificationData || !notificationData.getData) {
@@ -42,11 +43,11 @@ export const handlePendingNotifications = (
   const data = notificationData.getData();
   config.startup.notification = data;
   if (data) {
-    actions.doNarrow(getNarrowFromNotificationData(data, usersById), data.zulip_message_id);
+    dispatch(doNarrow(getNarrowFromNotificationData(data, usersById), data.zulip_message_id));
   }
 };
 
-export const handleInitialNotification = async (actions: Actions, usersById: UserIdMap) => {
+export const handleInitialNotification = async (dispatch: Dispatch, usersById: UserIdMap) => {
   const data = await PendingNotifications.getInitialNotification();
-  handlePendingNotifications(data, actions, usersById);
+  handlePendingNotifications(data, dispatch, usersById);
 };

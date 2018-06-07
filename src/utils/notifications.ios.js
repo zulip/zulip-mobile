@@ -2,11 +2,12 @@
 import NotificationsIOS from 'react-native-notifications';
 import { PushNotificationIOS } from 'react-native';
 
-import type { Auth, Actions, UserIdMap } from '../types';
+import type { Auth, Dispatch, UserIdMap } from '../types';
 import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';
 import { getNarrowFromNotificationData } from './notificationsCommon';
+import { doNarrow } from '../message/messagesActions';
 
 const onPushRegistered = async (
   auth: Auth,
@@ -42,7 +43,7 @@ export const refreshNotificationToken = () => {};
 
 export const handlePendingNotifications = (
   notificationData: Object,
-  actions: Actions,
+  dispatch: Dispatch,
   usersById: UserIdMap,
 ) => {
   if (!notificationData || !notificationData.getData) {
@@ -52,11 +53,11 @@ export const handlePendingNotifications = (
   const data = notificationData.getData();
   config.startup.notification = data.zulip;
   if (data && data.zulip) {
-    actions.doNarrow(getNarrowFromNotificationData(data, usersById));
+    dispatch(doNarrow(getNarrowFromNotificationData(data, usersById)));
   }
 };
 
-export const handleInitialNotification = async (actions: Actions, usersById: UserIdMap) => {
+export const handleInitialNotification = async (dispatch: Dispatch, usersById: UserIdMap) => {
   const data = await PushNotificationIOS.getInitialNotification();
-  handlePendingNotifications(data, actions, usersById);
+  handlePendingNotifications(data, dispatch, usersById);
 };
