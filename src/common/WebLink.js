@@ -1,8 +1,9 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
 import type { Context } from '../types';
-import connectWithActions from '../connectWithActions';
 import { Touchable, Label } from '../common';
 import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
@@ -39,6 +40,6 @@ class WebLink extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   realm: getCurrentRealm(state),
 }))(WebLink);
