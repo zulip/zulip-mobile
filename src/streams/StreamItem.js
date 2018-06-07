@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Context } from '../types';
-import { BRAND_COLOR } from '../styles';
+import { BRAND_COLOR, HALF_SPACING } from '../styles';
 import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
 import { foregroundColorFromBackground } from '../utils/color';
 import StreamIcon from './StreamIcon';
@@ -18,8 +18,7 @@ const componentStyles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    paddingLeft: 8,
-    paddingRight: 8,
+    paddingHorizontal: HALF_SPACING,
   },
   muted: {
     opacity: 0.5,
