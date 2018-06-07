@@ -1,9 +1,10 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
 import type { Presence } from '../types';
-import connectWithActions from '../connectWithActions';
 import { nullFunction } from '../nullObjects';
 import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
@@ -63,6 +64,6 @@ class Avatar extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   realm: getCurrentRealm(state),
 }))(Avatar);
