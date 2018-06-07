@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { Linking } from 'react-native';
 import parseURL from 'url-parse';
+import type { NavigationScreenProp } from 'react-navigation';
 
-import type { Dispatch } from '../types';
+import type { Dispatch, ApiServerSettings } from '../types';
 import { Centerer, Screen } from '../common';
 import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
@@ -19,7 +20,13 @@ import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 type Props = {
   dispatch: Dispatch,
   realm: string,
-  navigation: Object,
+  navigation: NavigationScreenProp<*> & {
+    state: {
+      params: {
+        serverSettings: ApiServerSettings,
+      },
+    },
+  },
 };
 
 let otp = '';
