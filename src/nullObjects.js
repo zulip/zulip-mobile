@@ -39,7 +39,7 @@ export const NULL_STREAM: Stream = {
   stream_id: 0,
   description: '',
   name: '',
-  invite_only: true,
+  invite_only: false,
   in_home_view: false,
   pin_to_top: false,
   color: 'green',
