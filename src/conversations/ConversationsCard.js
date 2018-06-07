@@ -1,18 +1,20 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Actions, Context, PresenceState } from '../types';
+import type { Context, Dispatch, PresenceState } from '../types';
 import { Label, LoadingIndicator, ZulipButton } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import ConversationList from './ConversationList';
-import connectWithActions from '../connectWithActions';
 import {
   getLoading,
   getPresence,
   getRecentConversations,
   getAllUsersAndBotsByEmail,
 } from '../selectors';
+import { navigateToCreateGroup, navigateToUsersScreen } from '../nav/navActions';
 
 const componentStyles = StyleSheet.create({
   container: {
@@ -34,7 +36,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   conversations: Object[],
   isLoading: boolean,
   presences: PresenceState,
@@ -51,7 +53,7 @@ class ConversationsCard extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { actions, conversations, isLoading, presences, usersByEmail } = this.props;
+    const { dispatch, conversations, isLoading, presences, usersByEmail } = this.props;
 
     if (isLoading) {
       return <LoadingIndicator size={40} />;
@@ -65,21 +67,25 @@ class ConversationsCard extends PureComponent<Props> {
             Icon={IconPeople}
             style={componentStyles.button}
             text="Create group"
-            onPress={actions.navigateToCreateGroup}
+            onPress={() => {
+              dispatch(navigateToCreateGroup());
+            }}
           />
           <ZulipButton
             secondary
             Icon={IconSearch}
             style={componentStyles.button}
             text="Search"
-            onPress={actions.navigateToUsersScreen}
+            onPress={() => {
+              dispatch(navigateToUsersScreen());
+            }}
           />
         </View>
         {conversations.length === 0 ? (
           <Label style={componentStyles.emptySlate} text="No recent conversations" />
         ) : (
           <ConversationList
-            actions={actions}
+            dispatch={dispatch}
             conversations={conversations}
             presences={presences}
             usersByEmail={usersByEmail}
@@ -90,7 +96,7 @@ class ConversationsCard extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   conversations: getRecentConversations(state),
   isLoading: getLoading(state).users,
   presences: getPresence(state),
