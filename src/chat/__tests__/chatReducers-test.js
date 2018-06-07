@@ -13,7 +13,9 @@ import {
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
-  EVENT_UPDATE_MESSAGE,
+  EVENT_UPDATE_MESSAGE_TOPIC,
+  EVENT_UPDATE_MESSAGE_CONTENT_TOPIC,
+  EVENT_UPDATE_MESSAGE_CONTENT,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
 } from '../../actionConstants';
@@ -423,437 +425,475 @@ describe('chatReducers', () => {
     });
   });
 
-  describe('EVENT_UPDATE_MESSAGE', () => {
-    test('if a message does not exist no changes are made', () => {
-      const initialState = deepFreeze({
-        [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
-        [privateNarrowStr]: [],
+  describe('update message event, update can be of 3 types EVENT_UPDATE_MESSAGE_TOPIC, EVENT_UPDATE_MESSAGE_CONTENT_TOPIC, EVENT_UPDATE_MESSAGE_CONTENT', () => {
+    describe('EVENT_UPDATE_MESSAGE_TOPIC', () => {
+      test('if a message does not exist no changes are made', () => {
+        const initialState = deepFreeze({
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+          [privateNarrowStr]: [],
+        });
+
+        const action = deepFreeze({
+          type: EVENT_UPDATE_MESSAGE_TOPIC,
+          messageId: 3,
+        });
+
+        const newState = chatReducers(initialState, action);
+
+        expect(newState).toBe(initialState);
       });
 
-      const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE,
-        messageId: 3,
+      test('when event contains a new subject but no new content only subject is updated', () => {
+        const initialState = deepFreeze({
+          [homeNarrowStr]: [
+            {
+              id: 1,
+              content: 'Old content',
+              display_recipient: 'some stream',
+              subject: 'Old subject',
+              sender_email: 'a@example.com',
+              subject_links: [],
+            },
+          ],
+          [streamNarrowStr]: [
+            {
+              id: 1,
+              content: 'Old content',
+              subject: 'Old subject',
+              sender_email: 'a@example.com',
+              display_recipient: 'some stream',
+              subject_links: [],
+            },
+          ],
+        });
+
+        const action = deepFreeze({
+          type: EVENT_UPDATE_MESSAGE_TOPIC,
+          message_id: 1,
+          subject: 'New topic',
+          orig_subject: 'Old subject',
+          edit_timestamp: 123,
+          user_id: 5,
+          caughtUp: {
+            [homeNarrowStr]: { older: false, newer: true },
+            [streamNarrowStr]: { older: false, newer: true },
+          },
+          ownEmail: 'a@example.com',
+        });
+
+        const expectedState = {
+          [homeNarrowStr]: [
+            {
+              id: 1,
+              content: 'Old content',
+              display_recipient: 'some stream',
+              subject: 'New topic',
+              last_edit_timestamp: 123,
+              edit_history: [
+                {
+                  prev_subject: 'Old subject',
+                  timestamp: 123,
+                  user_id: 5,
+                },
+              ],
+              sender_email: 'a@example.com',
+              subject_links: [],
+            },
+          ],
+          [streamNarrowStr]: [
+            {
+              id: 1,
+              content: 'Old content',
+              display_recipient: 'some stream',
+              subject: 'New topic',
+              last_edit_timestamp: 123,
+              edit_history: [
+                {
+                  prev_subject: 'Old subject',
+                  timestamp: 123,
+                  user_id: 5,
+                },
+              ],
+              sender_email: 'a@example.com',
+              subject_links: [],
+            },
+          ],
+        };
+
+        const newState = chatReducers(initialState, action);
+
+        expect(newState).not.toBe(initialState);
+        expect(newState).toEqual(expectedState);
       });
-
-      const newState = chatReducers(initialState, action);
-
-      expect(newState).toBe(initialState);
     });
 
-    test('when a message exists in state, new state and new object is created with updated message in every key', () => {
-      const initialState = deepFreeze({
-        [homeNarrowStr]: [{ id: 1 }, { id: 2 }, { id: 3, content: 'Old content' }],
-        [privateNarrowStr]: [{ id: 3, content: 'Old content' }],
+    describe('EVENT_UPDATE_MESSAGE_CONTENT_TOPIC', () => {
+      test('if a message does not exist no changes are made', () => {
+        const initialState = deepFreeze({
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+          [privateNarrowStr]: [],
+        });
+
+        const action = deepFreeze({
+          type: EVENT_UPDATE_MESSAGE_CONTENT_TOPIC,
+          messageId: 3,
+        });
+
+        const newState = chatReducers(initialState, action);
+
+        expect(newState).toBe(initialState);
       });
 
-      const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE,
-        message_id: 3,
-        orig_rendered_content: '<p>Old content</p>',
-        rendered_content: '<p>New content</p>',
-        edit_timestamp: 123,
-        prev_rendered_content_version: 1,
-        user_id: 5,
+      test('when event contains a new subject and a new content, update both and update edit history object', () => {
+        const initialState = deepFreeze({
+          [homeNarrowStr]: [
+            {
+              id: 1,
+              content: 'Old content',
+              display_recipient: 'some stream',
+              subject: 'New topic',
+              last_edit_timestamp: 123,
+              subject_links: [],
+              edit_history: [
+                {
+                  prev_subject: 'Old subject',
+                  timestamp: 123,
+                  user_id: 5,
+                },
+              ],
+            },
+          ],
+          [streamNarrowStr]: [
+            {
+              id: 1,
+              content: 'Old content',
+              display_recipient: 'some stream',
+              subject: 'New topic',
+              last_edit_timestamp: 123,
+              subject_links: [],
+              edit_history: [
+                {
+                  prev_subject: 'Old subject',
+                  timestamp: 123,
+                  user_id: 5,
+                },
+              ],
+            },
+          ],
+        });
+
+        const action = deepFreeze({
+          type: EVENT_UPDATE_MESSAGE_CONTENT_TOPIC,
+          message_id: 1,
+          orig_rendered_content: '<p>Old content</p>',
+          rendered_content: '<p>New content</p>',
+          subject: 'New updated topic',
+          orig_subject: 'New topic',
+          prev_rendered_content_version: 1,
+          edit_timestamp: 456,
+          user_id: 5,
+          subject_links: [],
+          caughtUp: {
+            [homeNarrowStr]: { older: false, newer: true },
+            [streamNarrowStr]: { older: false, newer: true },
+          },
+        });
+
+        const expectedState = {
+          [homeNarrowStr]: [
+            {
+              id: 1,
+              content: '<p>New content</p>',
+              display_recipient: 'some stream',
+              subject: 'New updated topic',
+              last_edit_timestamp: 456,
+              subject_links: [],
+              edit_history: [
+                {
+                  prev_rendered_content: '<p>Old content</p>',
+                  prev_rendered_content_version: 1,
+                  prev_subject: 'New topic',
+                  timestamp: 456,
+                  user_id: 5,
+                },
+                {
+                  prev_subject: 'Old subject',
+                  timestamp: 123,
+                  user_id: 5,
+                },
+              ],
+            },
+          ],
+          [streamNarrowStr]: [
+            {
+              id: 1,
+              content: '<p>New content</p>',
+              display_recipient: 'some stream',
+              subject: 'New updated topic',
+              last_edit_timestamp: 456,
+              subject_links: [],
+              edit_history: [
+                {
+                  prev_rendered_content: '<p>Old content</p>',
+                  prev_rendered_content_version: 1,
+                  prev_subject: 'New topic',
+                  timestamp: 456,
+                  user_id: 5,
+                },
+                {
+                  prev_subject: 'Old subject',
+                  timestamp: 123,
+                  user_id: 5,
+                },
+              ],
+            },
+          ],
+        };
+
+        const newState = chatReducers(initialState, action);
+
+        expect(newState).not.toBe(initialState);
+        expect(newState).toEqual(expectedState);
       });
 
-      const expectedState = {
-        [homeNarrowStr]: [
-          { id: 1 },
-          { id: 2 },
-          {
-            id: 3,
-            content: '<p>New content</p>',
-            last_edit_timestamp: 123,
-            edit_history: [
-              {
-                prev_rendered_content: '<p>Old content</p>',
-                prev_rendered_content_version: 1,
-                timestamp: 123,
-                user_id: 5,
-              },
-            ],
-          },
-        ],
-        [privateNarrowStr]: [
-          {
-            id: 3,
-            content: '<p>New content</p>',
-            last_edit_timestamp: 123,
-            edit_history: [
-              {
-                prev_rendered_content: '<p>Old content</p>',
-                prev_rendered_content_version: 1,
-                timestamp: 123,
-                user_id: 5,
-              },
-            ],
-          },
-        ],
-      };
+      test('move message from one bucket to another in case of subject change', () => {
+        const initialState = deepFreeze({
+          [anotherTopicNarrowStr]: [
+            {
+              id: 4,
+              display_recipient: 'some stream',
+              subject: 'some another topic',
+              sender_email: 'a@example.com',
+              subject_links: [],
+            },
+          ],
+          [topicNarrowStr]: [
+            {
+              id: 2,
+              display_recipient: 'some stream',
+              subject: 'some topic',
+              sender_email: 'a@example.com',
+              subject_links: [],
+            },
+          ],
+        });
 
-      const newState = chatReducers(initialState, action);
+        const action = deepFreeze({
+          type: EVENT_UPDATE_MESSAGE_CONTENT_TOPIC,
+          message_id: 4,
+          orig_rendered_content: '<p>Old content</p>',
+          rendered_content: '<p>New content</p>',
+          subject: 'some topic',
+          orig_subject: 'some another topic',
+          prev_rendered_content_version: 1,
+          edit_timestamp: 456,
+          user_id: 5,
+          subject_links: [],
+          caughtUp: {
+            [topicNarrowStr]: { older: false, newer: true },
+          },
+        });
 
-      expect(newState).not.toBe(initialState);
-      expect(newState).toEqual(expectedState);
+        const expectedState = deepFreeze({
+          [anotherTopicNarrowStr]: [],
+          [topicNarrowStr]: [
+            {
+              id: 2,
+              display_recipient: 'some stream',
+              subject: 'some topic',
+              sender_email: 'a@example.com',
+              subject_links: [],
+            },
+            {
+              id: 4,
+              content: '<p>New content</p>',
+              display_recipient: 'some stream',
+              edit_history: [
+                {
+                  prev_rendered_content: '<p>Old content</p>',
+                  prev_rendered_content_version: 1,
+                  prev_subject: 'some another topic',
+                  timestamp: 456,
+                  user_id: 5,
+                },
+              ],
+              last_edit_timestamp: 456,
+              sender_email: 'a@example.com',
+              subject: 'some topic',
+              subject_links: [],
+            },
+          ],
+        });
+
+        const newState = chatReducers(initialState, action);
+
+        expect(newState).not.toBe(initialState);
+        expect(newState).toEqual(expectedState);
+      });
+
+      test("place new message in the new bucket at it's correct position, i.e sort by message id", () => {
+        const initialState = deepFreeze({
+          [anotherTopicNarrowStr]: [
+            {
+              id: 4,
+              display_recipient: 'some stream',
+              subject: 'some another topic',
+              sender_email: 'a@example.com',
+              subject_links: [],
+            },
+          ],
+          [topicNarrowStr]: [
+            {
+              id: 2,
+              display_recipient: 'some stream',
+              subject: 'some topic',
+              sender_email: 'a@example.com',
+              subject_links: [],
+            },
+            {
+              id: 5,
+              display_recipient: 'some stream',
+              subject: 'some topic',
+              sender_email: 'a@example.com',
+              subject_links: [],
+            },
+          ],
+        });
+
+        const action = deepFreeze({
+          type: EVENT_UPDATE_MESSAGE_CONTENT_TOPIC,
+          message_id: 4,
+          orig_rendered_content: '<p>Old content</p>',
+          rendered_content: '<p>New content</p>',
+          subject: 'some topic',
+          orig_subject: 'some another topic',
+          prev_rendered_content_version: 1,
+          edit_timestamp: 456,
+          user_id: 5,
+          subject_links: [],
+          caughtUp: {
+            [topicNarrowStr]: { older: false, newer: true },
+          },
+        });
+
+        const expectedState = deepFreeze({
+          [anotherTopicNarrowStr]: [],
+          [topicNarrowStr]: [
+            {
+              id: 2,
+              display_recipient: 'some stream',
+              subject: 'some topic',
+              sender_email: 'a@example.com',
+              subject_links: [],
+            },
+            {
+              id: 4,
+              content: '<p>New content</p>',
+              display_recipient: 'some stream',
+              edit_history: [
+                {
+                  prev_rendered_content: '<p>Old content</p>',
+                  prev_rendered_content_version: 1,
+                  prev_subject: 'some another topic',
+                  timestamp: 456,
+                  user_id: 5,
+                },
+              ],
+              last_edit_timestamp: 456,
+              sender_email: 'a@example.com',
+              subject: 'some topic',
+              subject_links: [],
+            },
+            {
+              id: 5,
+              display_recipient: 'some stream',
+              subject: 'some topic',
+              sender_email: 'a@example.com',
+              subject_links: [],
+            },
+          ],
+        });
+
+        const newState = chatReducers(initialState, action);
+
+        expect(newState).not.toBe(initialState);
+        expect(newState).toEqual(expectedState);
+      });
     });
 
-    test('when event contains a new subject but no new content only subject is updated', () => {
-      const initialState = deepFreeze({
-        [homeNarrowStr]: [
-          {
-            id: 1,
-            content: 'Old content',
-            display_recipient: 'some stream',
-            subject: 'Old subject',
-            sender_email: 'a@example.com',
-            subject_links: [],
-          },
-        ],
-        [streamNarrowStr]: [
-          {
-            id: 1,
-            content: 'Old content',
-            subject: 'Old subject',
-            sender_email: 'a@example.com',
-            display_recipient: 'some stream',
-            subject_links: [],
-          },
-        ],
+    describe('EVENT_UPDATE_MESSAGE_CONTENT', () => {
+      test('if a message does not exist no changes are made', () => {
+        const initialState = deepFreeze({
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+          [privateNarrowStr]: [],
+        });
+
+        const action = deepFreeze({
+          type: EVENT_UPDATE_MESSAGE_CONTENT,
+          messageId: 3,
+        });
+
+        const newState = chatReducers(initialState, action);
+
+        expect(newState).toBe(initialState);
       });
 
-      const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE,
-        message_id: 1,
-        subject: 'New topic',
-        orig_subject: 'Old subject',
-        edit_timestamp: 123,
-        user_id: 5,
-        caughtUp: {
-          [homeNarrowStr]: { older: false, newer: true },
-          [streamNarrowStr]: { older: false, newer: true },
-        },
-        ownEmail: 'a@example.com',
+      test('when a message exists in state, new state and new object is created with updated message in every key', () => {
+        const initialState = deepFreeze({
+          [homeNarrowStr]: [{ id: 1 }, { id: 2 }, { id: 3, content: 'Old content' }],
+          [privateNarrowStr]: [{ id: 3, content: 'Old content' }],
+        });
+
+        const action = deepFreeze({
+          type: EVENT_UPDATE_MESSAGE_CONTENT,
+          message_id: 3,
+          orig_rendered_content: '<p>Old content</p>',
+          rendered_content: '<p>New content</p>',
+          edit_timestamp: 123,
+          prev_rendered_content_version: 1,
+          user_id: 5,
+        });
+
+        const expectedState = {
+          [homeNarrowStr]: [
+            { id: 1 },
+            { id: 2 },
+            {
+              id: 3,
+              content: '<p>New content</p>',
+              last_edit_timestamp: 123,
+              edit_history: [
+                {
+                  prev_rendered_content: '<p>Old content</p>',
+                  prev_rendered_content_version: 1,
+                  timestamp: 123,
+                  user_id: 5,
+                },
+              ],
+            },
+          ],
+          [privateNarrowStr]: [
+            {
+              id: 3,
+              content: '<p>New content</p>',
+              last_edit_timestamp: 123,
+              edit_history: [
+                {
+                  prev_rendered_content: '<p>Old content</p>',
+                  prev_rendered_content_version: 1,
+                  timestamp: 123,
+                  user_id: 5,
+                },
+              ],
+            },
+          ],
+        };
+
+        const newState = chatReducers(initialState, action);
+
+        expect(newState).not.toBe(initialState);
+        expect(newState).toEqual(expectedState);
       });
-
-      const expectedState = {
-        [homeNarrowStr]: [
-          {
-            id: 1,
-            content: 'Old content',
-            display_recipient: 'some stream',
-            subject: 'New topic',
-            last_edit_timestamp: 123,
-            edit_history: [
-              {
-                prev_subject: 'Old subject',
-                timestamp: 123,
-                user_id: 5,
-              },
-            ],
-            sender_email: 'a@example.com',
-            subject_links: [],
-          },
-        ],
-        [streamNarrowStr]: [
-          {
-            id: 1,
-            content: 'Old content',
-            display_recipient: 'some stream',
-            subject: 'New topic',
-            last_edit_timestamp: 123,
-            edit_history: [
-              {
-                prev_subject: 'Old subject',
-                timestamp: 123,
-                user_id: 5,
-              },
-            ],
-            sender_email: 'a@example.com',
-            subject_links: [],
-          },
-        ],
-      };
-
-      const newState = chatReducers(initialState, action);
-
-      expect(newState).not.toBe(initialState);
-      expect(newState).toEqual(expectedState);
-    });
-
-    test('when event contains a new subject and a new content, update both and update edit history object', () => {
-      const initialState = deepFreeze({
-        [homeNarrowStr]: [
-          {
-            id: 1,
-            content: 'Old content',
-            display_recipient: 'some stream',
-            subject: 'New topic',
-            last_edit_timestamp: 123,
-            subject_links: [],
-            edit_history: [
-              {
-                prev_subject: 'Old subject',
-                timestamp: 123,
-                user_id: 5,
-              },
-            ],
-          },
-        ],
-        [streamNarrowStr]: [
-          {
-            id: 1,
-            content: 'Old content',
-            display_recipient: 'some stream',
-            subject: 'New topic',
-            last_edit_timestamp: 123,
-            subject_links: [],
-            edit_history: [
-              {
-                prev_subject: 'Old subject',
-                timestamp: 123,
-                user_id: 5,
-              },
-            ],
-          },
-        ],
-      });
-
-      const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE,
-        message_id: 1,
-        orig_rendered_content: '<p>Old content</p>',
-        rendered_content: '<p>New content</p>',
-        subject: 'New updated topic',
-        orig_subject: 'New topic',
-        prev_rendered_content_version: 1,
-        edit_timestamp: 456,
-        user_id: 5,
-        subject_links: [],
-        caughtUp: {
-          [homeNarrowStr]: { older: false, newer: true },
-          [streamNarrowStr]: { older: false, newer: true },
-        },
-      });
-
-      const expectedState = {
-        [homeNarrowStr]: [
-          {
-            id: 1,
-            content: '<p>New content</p>',
-            display_recipient: 'some stream',
-            subject: 'New updated topic',
-            last_edit_timestamp: 456,
-            subject_links: [],
-            edit_history: [
-              {
-                prev_rendered_content: '<p>Old content</p>',
-                prev_rendered_content_version: 1,
-                prev_subject: 'New topic',
-                timestamp: 456,
-                user_id: 5,
-              },
-              {
-                prev_subject: 'Old subject',
-                timestamp: 123,
-                user_id: 5,
-              },
-            ],
-          },
-        ],
-        [streamNarrowStr]: [
-          {
-            id: 1,
-            content: '<p>New content</p>',
-            display_recipient: 'some stream',
-            subject: 'New updated topic',
-            last_edit_timestamp: 456,
-            subject_links: [],
-            edit_history: [
-              {
-                prev_rendered_content: '<p>Old content</p>',
-                prev_rendered_content_version: 1,
-                prev_subject: 'New topic',
-                timestamp: 456,
-                user_id: 5,
-              },
-              {
-                prev_subject: 'Old subject',
-                timestamp: 123,
-                user_id: 5,
-              },
-            ],
-          },
-        ],
-      };
-
-      const newState = chatReducers(initialState, action);
-
-      expect(newState).not.toBe(initialState);
-      expect(newState).toEqual(expectedState);
-    });
-
-    test('move message from one bucket to another in case of subject change', () => {
-      const initialState = deepFreeze({
-        [anotherTopicNarrowStr]: [
-          {
-            id: 4,
-            display_recipient: 'some stream',
-            subject: 'some another topic',
-            sender_email: 'a@example.com',
-            subject_links: [],
-          },
-        ],
-        [topicNarrowStr]: [
-          {
-            id: 2,
-            display_recipient: 'some stream',
-            subject: 'some topic',
-            sender_email: 'a@example.com',
-            subject_links: [],
-          },
-        ],
-      });
-
-      const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE,
-        message_id: 4,
-        orig_rendered_content: '<p>Old content</p>',
-        rendered_content: '<p>New content</p>',
-        subject: 'some topic',
-        orig_subject: 'some another topic',
-        prev_rendered_content_version: 1,
-        edit_timestamp: 456,
-        user_id: 5,
-        subject_links: [],
-        caughtUp: {
-          [topicNarrowStr]: { older: false, newer: true },
-        },
-      });
-
-      const expectedState = deepFreeze({
-        [anotherTopicNarrowStr]: [],
-        [topicNarrowStr]: [
-          {
-            id: 2,
-            display_recipient: 'some stream',
-            subject: 'some topic',
-            sender_email: 'a@example.com',
-            subject_links: [],
-          },
-          {
-            id: 4,
-            content: '<p>New content</p>',
-            display_recipient: 'some stream',
-            edit_history: [
-              {
-                prev_rendered_content: '<p>Old content</p>',
-                prev_rendered_content_version: 1,
-                prev_subject: 'some another topic',
-                timestamp: 456,
-                user_id: 5,
-              },
-            ],
-            last_edit_timestamp: 456,
-            sender_email: 'a@example.com',
-            subject: 'some topic',
-            subject_links: [],
-          },
-        ],
-      });
-
-      const newState = chatReducers(initialState, action);
-
-      expect(newState).not.toBe(initialState);
-      expect(newState).toEqual(expectedState);
-    });
-
-    test("place new message in the new bucket at it's correct position, i.e sort by message id", () => {
-      const initialState = deepFreeze({
-        [anotherTopicNarrowStr]: [
-          {
-            id: 4,
-            display_recipient: 'some stream',
-            subject: 'some another topic',
-            sender_email: 'a@example.com',
-            subject_links: [],
-          },
-        ],
-        [topicNarrowStr]: [
-          {
-            id: 2,
-            display_recipient: 'some stream',
-            subject: 'some topic',
-            sender_email: 'a@example.com',
-            subject_links: [],
-          },
-          {
-            id: 5,
-            display_recipient: 'some stream',
-            subject: 'some topic',
-            sender_email: 'a@example.com',
-            subject_links: [],
-          },
-        ],
-      });
-
-      const action = deepFreeze({
-        type: EVENT_UPDATE_MESSAGE,
-        message_id: 4,
-        orig_rendered_content: '<p>Old content</p>',
-        rendered_content: '<p>New content</p>',
-        subject: 'some topic',
-        orig_subject: 'some another topic',
-        prev_rendered_content_version: 1,
-        edit_timestamp: 456,
-        user_id: 5,
-        subject_links: [],
-        caughtUp: {
-          [topicNarrowStr]: { older: false, newer: true },
-        },
-      });
-
-      const expectedState = deepFreeze({
-        [anotherTopicNarrowStr]: [],
-        [topicNarrowStr]: [
-          {
-            id: 2,
-            display_recipient: 'some stream',
-            subject: 'some topic',
-            sender_email: 'a@example.com',
-            subject_links: [],
-          },
-          {
-            id: 4,
-            content: '<p>New content</p>',
-            display_recipient: 'some stream',
-            edit_history: [
-              {
-                prev_rendered_content: '<p>Old content</p>',
-                prev_rendered_content_version: 1,
-                prev_subject: 'some another topic',
-                timestamp: 456,
-                user_id: 5,
-              },
-            ],
-            last_edit_timestamp: 456,
-            sender_email: 'a@example.com',
-            subject: 'some topic',
-            subject_links: [],
-          },
-          {
-            id: 5,
-            display_recipient: 'some stream',
-            subject: 'some topic',
-            sender_email: 'a@example.com',
-            subject_links: [],
-          },
-        ],
-      });
-
-      const newState = chatReducers(initialState, action);
-
-      expect(newState).not.toBe(initialState);
-      expect(newState).toEqual(expectedState);
     });
   });
 

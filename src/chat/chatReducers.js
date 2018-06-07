@@ -11,6 +11,9 @@ import type {
   EventNewMessageAction,
   EventMessageDeleteAction,
   EventUpdateMessageAction,
+  EventUpdateMessageContentAndTopicAction,
+  EventUpdateMessageContentAction,
+  EventUpdateMessageTopicAction,
 } from '../types';
 import {
   APP_REFRESH,
@@ -22,7 +25,9 @@ import {
   EVENT_MESSAGE_DELETE,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
-  EVENT_UPDATE_MESSAGE,
+  EVENT_UPDATE_MESSAGE_CONTENT_TOPIC,
+  EVENT_UPDATE_MESSAGE_CONTENT,
+  EVENT_UPDATE_MESSAGE_TOPIC,
 } from '../actionConstants';
 import { isMessageInNarrow } from '../utils/narrow';
 import { groupItemsById } from '../utils/misc';
@@ -145,46 +150,54 @@ const eventMessageDelete = (
   return stateChange ? newState : state;
 };
 
+const getMessageContentTopicChangeHistory = (
+  action: EventUpdateMessageContentAndTopicAction,
+  oldMessage: Message,
+) => ({
+  prev_rendered_content: action.orig_rendered_content,
+  prev_subject: oldMessage.subject,
+  timestamp: action.edit_timestamp,
+  prev_rendered_content_version: action.prev_rendered_content_version,
+  user_id: action.user_id,
+});
+
+const getMessageContentChangeHistory = (
+  action: EventUpdateMessageContentAction,
+  oldMessage: Message,
+) => ({
+  prev_rendered_content: action.orig_rendered_content,
+  timestamp: action.edit_timestamp,
+  prev_rendered_content_version: action.prev_rendered_content_version,
+  user_id: action.user_id,
+});
+
+const getMessageTopicChangeHistory = (
+  action: EventUpdateMessageTopicAction,
+  oldMessage: Message,
+) => ({
+  prev_subject: oldMessage.subject,
+  timestamp: action.edit_timestamp,
+  user_id: action.user_id,
+});
+
+const createNewMessage = (
+  action: EventUpdateMessageAction,
+  oldMessage: Message,
+  history: Object,
+  changes: Object,
+) => ({
+  ...oldMessage,
+  ...changes,
+  edit_history: [history, ...(oldMessage.edit_history || NULL_ARRAY)],
+  last_edit_timestamp: action.edit_timestamp,
+});
+
 const eventUpdateMessage = (
   state: MessagesState,
+  newMessage: Message,
   action: EventUpdateMessageAction,
 ): MessagesState => {
-  // find old message
-  const oldMessage = getMessageFromState(state, action.message_id);
-  if (!oldMessage) {
-    return state;
-  }
-  const newMessage = {
-    ...oldMessage,
-    content: action.rendered_content || oldMessage.content,
-    subject: action.subject || oldMessage.subject,
-    subject_links: action.subject_links || oldMessage.subject_links,
-    edit_history: [
-      action.orig_rendered_content
-        ? action.orig_subject
-          ? {
-              prev_rendered_content: action.orig_rendered_content,
-              prev_subject: oldMessage.subject,
-              timestamp: action.edit_timestamp,
-              prev_rendered_content_version: action.prev_rendered_content_version,
-              user_id: action.user_id,
-            }
-          : {
-              prev_rendered_content: action.orig_rendered_content,
-              timestamp: action.edit_timestamp,
-              prev_rendered_content_version: action.prev_rendered_content_version,
-              user_id: action.user_id,
-            }
-        : {
-            prev_subject: oldMessage.subject,
-            timestamp: action.edit_timestamp,
-            user_id: action.user_id,
-          },
-      ...(oldMessage.edit_history || NULL_ARRAY),
-    ],
-    last_edit_timestamp: action.edit_timestamp,
-  };
-  if (action.orig_subject) {
+  if (action.type !== EVENT_UPDATE_MESSAGE_CONTENT) {
     // message subject is edited
     // remove message from existing bucket
     // Call a eventNewMessage to store message in another bucket
@@ -196,6 +209,69 @@ const eventUpdateMessage = (
     });
   }
   return chatUpdater(state, action.message_id, oldMsg => newMessage);
+};
+
+const eventUpdateMessageContentTopic = (
+  state: MessagesState,
+  action: EventUpdateMessageContentAndTopicAction,
+): MessagesState => {
+  // find old message
+  const oldMessage = getMessageFromState(state, action.message_id);
+  if (!oldMessage) {
+    return state;
+  }
+  const newMessage = createNewMessage(
+    action,
+    oldMessage,
+    getMessageContentTopicChangeHistory(action, oldMessage),
+    {
+      content: action.rendered_content || oldMessage.content,
+      subject: action.subject || oldMessage.subject,
+      subject_links: action.subject_links || oldMessage.subject_links,
+    },
+  );
+  return eventUpdateMessage(state, newMessage, action);
+};
+
+const eventUpdateMessageContent = (
+  state: MessagesState,
+  action: EventUpdateMessageContentAction,
+): MessagesState => {
+  // find old message
+  const oldMessage = getMessageFromState(state, action.message_id);
+  if (!oldMessage) {
+    return state;
+  }
+  const newMessage = createNewMessage(
+    action,
+    oldMessage,
+    getMessageContentChangeHistory(action, oldMessage),
+    {
+      content: action.rendered_content || oldMessage.content,
+    },
+  );
+  return eventUpdateMessage(state, newMessage, action);
+};
+
+const eventUpdateMessageTopic = (
+  state: MessagesState,
+  action: EventUpdateMessageTopicAction,
+): MessagesState => {
+  // find old message
+  const oldMessage = getMessageFromState(state, action.message_id);
+  if (!oldMessage) {
+    return state;
+  }
+  const newMessage = createNewMessage(
+    action,
+    oldMessage,
+    getMessageTopicChangeHistory(action, oldMessage),
+    {
+      subject: action.subject || oldMessage.subject,
+      subject_links: action.subject_links || oldMessage.subject_links,
+    },
+  );
+  return eventUpdateMessage(state, newMessage, action);
 };
 
 export default (state: MessagesState = initialState, action: MessageAction): MessagesState => {
@@ -221,8 +297,12 @@ export default (state: MessagesState = initialState, action: MessageAction): Mes
     case EVENT_MESSAGE_DELETE:
       return eventMessageDelete(state, action);
 
-    case EVENT_UPDATE_MESSAGE:
-      return eventUpdateMessage(state, action);
+    case EVENT_UPDATE_MESSAGE_CONTENT_TOPIC:
+      return eventUpdateMessageContentTopic(state, action);
+    case EVENT_UPDATE_MESSAGE_CONTENT:
+      return eventUpdateMessageContent(state, action);
+    case EVENT_UPDATE_MESSAGE_TOPIC:
+      return eventUpdateMessageTopic(state, action);
 
     default:
       return state;

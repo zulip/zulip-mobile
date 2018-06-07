@@ -33,6 +33,9 @@ import {
   MESSAGE_SEND_COMPLETE,
   DELETE_OUTBOX_MESSAGE,
   TOGGLE_OUTBOX_SENDING,
+  EVENT_UPDATE_MESSAGE_CONTENT_TOPIC,
+  EVENT_UPDATE_MESSAGE_CONTENT,
+  EVENT_UPDATE_MESSAGE_TOPIC,
   EVENT_USER_GROUP_ADD,
   EVENT_USER_GROUP_REMOVE,
   EVENT_USER_GROUP_UPDATE,
@@ -55,6 +58,7 @@ import {
 } from './actionConstants';
 
 import type {
+  CaughtUpState,
   Dimensions,
   Orientation,
   GetState,
@@ -381,8 +385,13 @@ export type EventStreamOccupyAction = {
 export type EventNewMessageAction = any;
 export type EventMessageDeleteAction = any;
 
-export type EventUpdateMessageContentAction = {
-  type: 'EVENT_UPDATE_MESSAGE',
+export type LocalEventUpdateMessageAction = {
+  caughtUp: CaughtUpState,
+  ownEmail: string,
+};
+
+export type EventUpdateMessageContentAction = LocalEventUpdateMessageAction & {
+  type: typeof EVENT_UPDATE_MESSAGE_CONTENT,
   content?: string,
   edit_timestamp: number,
   flags: string[],
@@ -403,8 +412,8 @@ export type EventUpdateMessageContentAction = {
   user_id: number,
 };
 
-export type EventUpdateMessageTopicAction = {
-  type: 'EVENT_UPDATE_MESSAGE',
+export type EventUpdateMessageTopicAction = LocalEventUpdateMessageAction & {
+  type: typeof EVENT_UPDATE_MESSAGE_TOPIC,
   edit_timestamp: number,
   flags: string[],
   message_id: number,
@@ -420,12 +429,14 @@ export type EventUpdateMessageTopicAction = {
 };
 
 export type EventUpdateMessageContentAndTopicAction = EventUpdateMessageContentAction &
-  EventUpdateMessageTopicAction;
+  EventUpdateMessageTopicAction & {
+    type: typeof EVENT_UPDATE_MESSAGE_CONTENT_TOPIC,
+  };
 
 export type EventUpdateMessageAction =
   | EventUpdateMessageContentAndTopicAction
-  | EventUpdateMessageContentAction
-  | EventUpdateMessageTopicAction;
+  | EventUpdateMessageTopicAction
+  | EventUpdateMessageContentAction;
 
 export type EventReactionAddAction = any;
 export type EventReactionRemoveAction = any;
@@ -743,7 +754,9 @@ export type MessageAction =
   | EventReactionRemoveAction
   | EventNewMessageAction
   | EventMessageDeleteAction
-  | EventUpdateMessageAction;
+  | EventUpdateMessageContentAndTopicAction
+  | EventUpdateMessageContentAction
+  | EventUpdateMessageTopicAction;
 
 export type MuteAction =
   | AppRefreshAction

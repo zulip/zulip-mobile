@@ -38,7 +38,9 @@ import {
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
   EVENT_MESSAGE_DELETE,
-  EVENT_UPDATE_MESSAGE,
+  EVENT_UPDATE_MESSAGE_CONTENT_TOPIC,
+  EVENT_UPDATE_MESSAGE_CONTENT,
+  EVENT_UPDATE_MESSAGE_TOPIC,
   EVENT_UPDATE_MESSAGE_FLAGS,
   EVENT_USER_ADD,
   EVENT_USER_REMOVE,
@@ -116,9 +118,13 @@ const deleteMessage = (state: GlobalState, event: Object): EventMessageDeleteAct
 
 const updateMessage = (state: GlobalState, event: Object): EventUpdateMessageAction => ({
   ...event,
-  type: EVENT_UPDATE_MESSAGE,
   caughtUp: state.caughtUp,
   ownEmail: state.accounts[0].email,
+  type: event.orig_rendered_content
+    ? event.orig_subject
+      ? EVENT_UPDATE_MESSAGE_CONTENT_TOPIC
+      : EVENT_UPDATE_MESSAGE_CONTENT
+    : EVENT_UPDATE_MESSAGE_TOPIC,
 });
 
 const subscription = (state: GlobalState, event: Object): EventSubscriptionAction => ({
