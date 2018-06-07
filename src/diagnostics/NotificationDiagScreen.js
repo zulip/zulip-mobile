@@ -1,11 +1,12 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
 import { Screen } from '../common';
 import config from '../config';
 import InfoItem from './InfoItem';
-import connectWithActions from '../connectWithActions';
 import { getRealm } from '../selectors';
 
 type Props = {
@@ -32,6 +33,6 @@ class NotificationDiagScreen extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   pushToken: getRealm(state).pushToken,
 }))(NotificationDiagScreen);
