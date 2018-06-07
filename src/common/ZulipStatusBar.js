@@ -1,10 +1,11 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
 import type { Dimensions, StatusBarStyle, ThemeType } from '../types';
-import connectWithActions from '../connectWithActions';
 import { getSession, getSettings, getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 import getStatusBarStyle from '../utils/getStatusBarStyle';
 import getStatusBarColor from '../utils/getStatusBarColor';
@@ -61,12 +62,16 @@ class ZulipStatusBar extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state, props) => ({
+export default connect((state, props) => ({
   safeAreaInsets: getSession(state).safeAreaInsets,
   theme: getSettings(state).theme,
+  // Prettier messes up the ternary so the linter complains.
+  // prettier-ignore
   backgroundColor: !props.backgroundColor
+    // $FlowFixMe: Props has no `narrow` property
     ? getTitleBackgroundColor(props.narrow)(state)
     : props.backgroundColor,
+  // $FlowFixMe: Props has no `narrow` property
   textColor: getTitleTextColor(props.narrow)(state),
   orientation: getSession(state).orientation,
 }))(ZulipStatusBar);
