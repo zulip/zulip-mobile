@@ -1,15 +1,16 @@
 /* @flow */
+import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
-import type { Actions } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Dispatch } from '../types';
 import { Screen } from '../common';
 import UserItem from '../users/UserItem';
+import { navigateToAccountDetails } from '../actions';
 
 type Props = {
   navigation: Object,
-  actions: Actions,
+  dispatch: Dispatch,
 };
 
 class GroupDetailsScreen extends PureComponent<Props> {
@@ -20,8 +21,8 @@ class GroupDetailsScreen extends PureComponent<Props> {
   props: Props;
 
   handlePress = (email: string) => {
-    const { actions } = this.props;
-    actions.navigateToAccountDetails(email);
+    const { dispatch } = this.props;
+    dispatch(navigateToAccountDetails(email));
   };
 
   render() {
@@ -50,4 +51,4 @@ class GroupDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(null)(GroupDetailsScreen);
+export default connect(null)(GroupDetailsScreen);
