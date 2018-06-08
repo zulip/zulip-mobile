@@ -1,18 +1,15 @@
 /* @flow */
-import { connect } from 'react-redux';
-
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
 
-import type { User, Dispatch, PresenceState } from '../types';
+import type { User, PresenceState } from '../types';
 import { FloatingActionButton, LineSeparator } from '../common';
 import { IconDone } from '../common/Icons';
-import { groupNarrow } from '../utils/narrow';
 import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 import { getOwnEmail, getPresence, getUsersSansMe } from '../selectors';
-import { doNarrow, navigateBack } from '../actions';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -29,18 +26,18 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  dispatch: Dispatch,
   ownEmail: string,
   users: User[],
   presences: PresenceState,
   filter: string,
+  onComplete: (selected: User[]) => void,
 };
 
 type State = {
   selected: User[],
 };
 
-class GroupCard extends PureComponent<Props, State> {
+class UserPickerCard extends PureComponent<Props, State> {
   listRef: (component: any) => void;
 
   props: Props;
@@ -80,13 +77,10 @@ class GroupCard extends PureComponent<Props, State> {
     });
   };
 
-  handleCreateGroup = () => {
-    const { dispatch } = this.props;
+  handleComplete = () => {
+    const { onComplete } = this.props;
     const { selected } = this.state;
-
-    const recipients = selected.map(user => user.email);
-    dispatch(navigateBack());
-    dispatch(doNarrow(groupNarrow(recipients)));
+    onComplete(selected);
   };
 
   componentDidUpdate = (prevProps: Props, prevState: State) => {
@@ -124,7 +118,7 @@ class GroupCard extends PureComponent<Props, State> {
             Icon={IconDone}
             size={50}
             disabled={selected.length === 0}
-            onPress={this.handleCreateGroup}
+            onPress={this.handleComplete}
           />
         </AnimatedScaleComponent>
       </View>
@@ -136,4 +130,4 @@ export default connect(state => ({
   ownEmail: getOwnEmail(state),
   users: getUsersSansMe(state),
   presences: getPresence(state),
-}))(GroupCard);
+}))(UserPickerCard);

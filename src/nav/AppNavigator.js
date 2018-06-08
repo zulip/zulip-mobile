@@ -23,7 +23,7 @@ import TimingScreen from '../diagnostics/TimingScreen';
 import NotificationDiagScreen from '../diagnostics/NotificationDiagScreen';
 import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
-import GroupScreen from '../group/GroupScreen';
+import GroupScreen from '../user-groups/GroupScreen';
 import StreamScreen from '../streams/StreamScreen';
 import CreateStreamScreen from '../streams/CreateStreamScreen';
 import EditStreamScreen from '../streams/EditStreamScreen';
