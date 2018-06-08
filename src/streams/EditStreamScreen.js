@@ -1,15 +1,49 @@
 /* @flow */
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
+import type { Dispatch } from '../types';
+import { updateExistingStream, navigateBack } from '../actions';
+import { getEditStreamScreenParams, getStreamEditInitialValues } from '../selectors';
 import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
 
-export default class EditStreamScreen extends PureComponent<{}> {
+type Props = {
+  dispatch: Dispatch,
+  initialValues: {
+    name: string,
+    description: string,
+    invite_only: boolean,
+  },
+  streamId: number,
+};
+
+class EditStreamScreen extends PureComponent<Props> {
+  props: Props;
+
+  handleComplete = (name: string, description: string, isPrivate: boolean) => {
+    const { dispatch, streamId, initialValues } = this.props;
+
+    dispatch(updateExistingStream(streamId, initialValues, { name, description, isPrivate }));
+    dispatch(navigateBack());
+  };
+
   render() {
+    const { initialValues } = this.props;
+
     return (
       <Screen title="Edit stream" padding>
-        <EditStreamCard />
+        <EditStreamCard
+          isNewStream={false}
+          initialValues={initialValues}
+          onComplete={this.handleComplete}
+        />
       </Screen>
     );
   }
 }
+
+export default connect(state => ({
+  initialValues: getStreamEditInitialValues(state),
+  streamId: getEditStreamScreenParams(state).streamId,
+}))(EditStreamScreen);
