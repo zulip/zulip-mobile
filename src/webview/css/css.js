@@ -312,7 +312,7 @@ ul {
 }
 .reaction {
   color: rgba(127, 127, 127, 1);
-  padding: 4px;
+  padding: 4px 5.5px;
   border-radius: 4px;
   border: 1px solid rgba(127, 127, 127, 0.75);
   line-height: 2.5em;
