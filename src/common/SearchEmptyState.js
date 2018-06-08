@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    marginTop: 10,
+    marginTop: 8,
     justifyContent: 'center',
   },
   text: {
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    marginTop: 15,
+    marginTop: 16,
   },
 });
 
