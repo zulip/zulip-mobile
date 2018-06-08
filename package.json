@@ -2,7 +2,6 @@
   "name": "ZulipMobile",
   "version": "1.0.0",
   "private": true,
-  "//": "comment: use `prettier` command as `npm run prettier -- <filename>`",
   "scripts": {
     "start": "react-native start",
     "build:android": "cd android && ./gradlew assembleRelease",
@@ -18,8 +17,8 @@
     "android-max": "react-native run-android",
     "android-release": "react-native run-android --variant=release",
     "generate-webview-js": "node tools/generate-webview-js",
-    "prettier": "prettier-eslint --write 'src/**/*.js'",
-    "test:prettier": "prettier-eslint --list-different 'src/**/*.js'",
+    "prettier": "prettier --write --loglevel=warn 'src/**/*.js' ; eslint --no-eslintrc -c tools/formatting.eslintrc.yaml --fix src/",
+    "test:prettier": "prettier-eslint --list-different --eslint-config-path ./tools/formatting.eslintrc.yaml 'src/**/*.js'",
     "test:lint": "eslint src/",
     "test:flow": "flow",
     "test:flow-todo": "eslint --no-eslintrc -c tools/flow-todo.eslintrc.yaml src/",
