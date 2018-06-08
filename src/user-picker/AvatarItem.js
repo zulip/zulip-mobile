@@ -8,9 +8,8 @@ import { IconCancel } from '../common/Icons';
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'column',
-    marginLeft: 5,
-    marginTop: 5,
-    marginBottom: 5,
+    marginLeft: 8,
+    marginVertical: 8,
   },
   text: {
     flex: 1,
