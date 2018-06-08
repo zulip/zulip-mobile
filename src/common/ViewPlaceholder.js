@@ -1,5 +1,5 @@
 /* @flow */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 
 type Props = {
@@ -7,12 +7,4 @@ type Props = {
   height?: number,
 };
 
-export default class ViewPlaceholder extends PureComponent<Props> {
-  props: Props;
-
-  render() {
-    const { width, height } = this.props;
-    const style = { width, height };
-    return <View style={style} />;
-  }
-}
+export default ({ height, width }: Props) => <View style={{ width, height }} />;
