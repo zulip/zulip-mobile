@@ -9,12 +9,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 8,
   },
   icon: {
-    width: 25,
-    height: 25,
-    marginRight: 10,
+    width: 24,
+    height: 24,
+    marginRight: 8,
   },
   name: {
     fontSize: 20,
