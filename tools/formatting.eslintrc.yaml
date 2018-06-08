@@ -1,0 +1,25 @@
+# Formatting rules which overrule Prettier.  These are in their own file so
+# we can follow each Prettier run with a streamlined (and faster) ESLint run
+# that uses only these rules.
+
+parser: babel-eslint
+rules:
+  # Disallow tucking a condition or loop body in at the end of a line, like
+  # `if (condition) return;`.  That makes it much too easy to miss control flow.
+  nonblock-statement-body-position: [error, below]
+  curly: [error, all]
+
+  # When breaking a line at a binary operator, the operator goes
+  # at the start of a line, not the end.  This makes it much more
+  # conspicuous whether we're using e.g. `&&` or `||`.
+  operator-linebreak:
+  - error
+  - before
+  - overrides:
+      # Assignment operators are a very different beast, which it would make
+      # no sense to format this way.
+      "=": after
+      "+=": after
+      "-=": after
+      # ... There are 10 other assignment operators in JavaScript;
+      # if they come up, add them.
