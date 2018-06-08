@@ -316,9 +316,7 @@ ul {
   border-radius: 4px;
   border: 1px solid rgba(127, 127, 127, 0.75);
   line-height: 1.25em;
-}
-.reaction + .reaction {
-  margin-left: 0.5em;
+  margin-right: 0.5em;
 }
 .realm-reaction {
   pointer-events: none;
