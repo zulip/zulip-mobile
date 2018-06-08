@@ -5,8 +5,7 @@ import { View, Dimensions, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   popup: {
-    marginRight: 20,
-    marginLeft: 20,
+    marginHorizontal: 16,
     marginBottom: 2,
     bottom: 0,
     borderRadius: 5,
