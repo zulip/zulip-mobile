@@ -10,7 +10,7 @@ const componentStyles = StyleSheet.create({
   text: {
     flex: 1,
     justifyContent: 'space-between',
-    paddingLeft: 10,
+    paddingLeft: 16,
   },
   name: {
     color: 'white',
@@ -32,10 +32,8 @@ const componentStyles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
-    paddingBottom: 8,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingTop: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
 });
 
