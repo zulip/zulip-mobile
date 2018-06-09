@@ -11,7 +11,8 @@ import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 
 const styles = StyleSheet.create({
   topic: {
-    padding: 10,
+    padding: 12,
+    paddingLeft: 16,
   },
 });
 
