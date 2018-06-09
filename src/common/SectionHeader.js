@@ -6,7 +6,7 @@ import Label from './Label';
 
 const styles = StyleSheet.create({
   header: {
-    padding: 10,
+    padding: 12,
     backgroundColor: 'rgba(127, 127, 127, 0.75)',
   },
 });
