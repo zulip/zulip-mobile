@@ -15,17 +15,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     backgroundColor: 'gray',
-    paddingLeft: 16,
-    paddingTop: 8,
-    paddingRight: 16,
-    paddingBottom: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
   text: {
     flex: 1,
     color: 'white',
   },
   button: {
-    padding: 10,
+    padding: 12,
   },
 });
 
