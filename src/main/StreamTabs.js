@@ -11,7 +11,7 @@ import StreamListCard from '../subscriptions/StreamListCard';
 
 const styles = StyleSheet.create({
   tab: {
-    padding: 10,
+    padding: 8,
     fontSize: 16,
   },
 });
