@@ -1,8 +1,9 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
 import type { PresenceState, Style } from '../types';
-import connectWithActions from '../connectWithActions';
 import { getPresence } from '../selectors';
 import { presenceToHumanTime } from '../utils/presence';
 import { RawLabel } from '../common';
@@ -36,6 +37,6 @@ class ActivityText extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state, props: Props) => ({
+export default connect((state, props: Props) => ({
   presences: getPresence(state),
 }))(ActivityText);
