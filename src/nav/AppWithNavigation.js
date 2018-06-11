@@ -1,16 +1,17 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { BackHandler } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
-import type { Actions, Dispatch } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Dispatch } from '../types';
 import { getCanGoBack, getNav } from '../selectors';
 import AppNavigator from './AppNavigator';
+import { navigateBack } from '../actions';
 
 type Props = {
-  actions: Actions,
   canGoBack: boolean,
   dispatch: Dispatch,
   nav: Object,
@@ -26,9 +27,9 @@ class AppWithNavigation extends PureComponent<Props> {
   }
 
   handleBackButtonPress = () => {
-    const { canGoBack, actions } = this.props;
+    const { canGoBack, dispatch } = this.props;
     if (canGoBack) {
-      actions.navigateBack();
+      dispatch(navigateBack());
     }
     return canGoBack;
   };
@@ -52,7 +53,7 @@ class AppWithNavigation extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   nav: getNav(state),
   canGoBack: getCanGoBack(state),
 }))(AppWithNavigation);
