@@ -1,7 +1,8 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
-import connectWithActions from '../connectWithActions';
 import {
   isHomeNarrow,
   isPrivateNarrow,
@@ -55,6 +56,6 @@ class Title extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   editMessage: getSession(state).editMessage,
 }))(Title);
