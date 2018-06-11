@@ -1,14 +1,16 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
-import type { Actions, PresenceState, User } from '../types';
+import type { Dispatch, PresenceState, User } from '../types';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
 import { getOwnEmail, getUsers, getPresence } from '../selectors';
-import connectWithActions from '../connectWithActions';
+import { navigateBack, doNarrow } from '../actions';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   ownEmail: string,
   users: User[],
   filter: string,
@@ -19,9 +21,9 @@ class UsersCard extends PureComponent<Props> {
   props: Props;
 
   handleUserNarrow = (email: string) => {
-    const { actions } = this.props;
-    actions.navigateBack();
-    actions.doNarrow(privateNarrow(email));
+    const { dispatch } = this.props;
+    dispatch(navigateBack());
+    dispatch(doNarrow(privateNarrow(email)));
   };
 
   render() {
@@ -38,7 +40,7 @@ class UsersCard extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   ownEmail: getOwnEmail(state),
   users: getUsers(state),
   presences: getPresence(state),
