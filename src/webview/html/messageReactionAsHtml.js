@@ -19,5 +19,5 @@ export default (
     realmEmoji[reaction.name]
       ? getRealmEmojiHtml(realmEmoji[reaction.name])
       : emojiMap[reaction.name]
-  } ${reaction.count}
+  }&nbsp;${reaction.count}
 </span>`;
