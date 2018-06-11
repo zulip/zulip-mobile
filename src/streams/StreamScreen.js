@@ -6,8 +6,7 @@ import { View } from 'react-native';
 
 import type { Context, Dispatch, Stream, Subscription } from '../types';
 import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
-import { getIsAdmin, getStreams, getSubscriptions } from '../selectors';
-import { NULL_STREAM, NULL_SUBSCRIPTION } from '../nullObjects';
+import { getIsAdmin, getStreamFromParams, getSubscriptionFromParams } from '../selectors';
 import StreamCard from './StreamCard';
 import {
   doToggleMuteStream,
@@ -20,9 +19,8 @@ import {
 type Props = {
   dispatch: Dispatch,
   isAdmin: boolean,
-  navigation: Object,
-  streams: Stream[],
-  subscriptions: Subscription[],
+  stream: Stream,
+  subscription: Subscription,
 };
 
 class StreamScreen extends PureComponent<Props> {
@@ -33,39 +31,32 @@ class StreamScreen extends PureComponent<Props> {
     styles: () => null,
   };
   handleTogglePinStream = (newValue: boolean) => {
-    const { dispatch, navigation } = this.props;
-    const { streamId } = navigation.state.params;
-    dispatch(doTogglePinStream(streamId, newValue));
+    const { dispatch, stream } = this.props;
+    dispatch(doTogglePinStream(stream.stream_id, newValue));
   };
 
   handleToggleMuteStream = (newValue: boolean) => {
-    const { dispatch, navigation } = this.props;
-    const { streamId } = navigation.state.params;
-    dispatch(doToggleMuteStream(streamId, newValue));
+    const { dispatch, stream } = this.props;
+    dispatch(doToggleMuteStream(stream.stream_id, newValue));
   };
 
   handleTopics = () => {
-    const { dispatch, navigation } = this.props;
-    dispatch(navigateToTopicList(navigation.state.params.streamId));
+    const { dispatch, stream } = this.props;
+    dispatch(navigateToTopicList(stream.stream_id));
   };
 
   handleEdit = () => {
-    const { dispatch, navigation } = this.props;
-    dispatch(navigateToEditStream(navigation.state.params.streamId));
+    const { dispatch, stream } = this.props;
+    dispatch(navigateToEditStream(stream.stream_id));
   };
 
   toggleStreamPushNotification = () => {
-    const { subscriptions, navigation, dispatch } = this.props;
-    const { streamId } = navigation.state.params;
-    const subscription = subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION;
-    dispatch(toggleStreamNotification(streamId, !subscription.push_notifications));
+    const { dispatch, subscription, stream } = this.props;
+    dispatch(toggleStreamNotification(stream.stream_id, !subscription.push_notifications));
   };
 
   render() {
-    const { isAdmin, streams, subscriptions, navigation } = this.props;
-    const { streamId } = navigation.state.params;
-    const stream = streams.find(x => x.stream_id === streamId) || NULL_STREAM;
-    const subscription = subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION;
+    const { isAdmin, stream, subscription } = this.props;
     const { styles } = this.context;
 
     return (
@@ -101,6 +92,6 @@ class StreamScreen extends PureComponent<Props> {
 
 export default connect(state => ({
   isAdmin: getIsAdmin(state),
-  streams: getStreams(state),
-  subscriptions: getSubscriptions(state),
+  stream: getStreamFromParams(state),
+  subscription: getSubscriptionFromParams(state),
 }))(StreamScreen);
