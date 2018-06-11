@@ -6,7 +6,7 @@ import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { Screen } from '../common';
 import { topicNarrow } from '../utils/narrow';
 import { getTopicsInScreen } from '../selectors';
-import { getStreamEditInitialValues } from '../subscriptions/subscriptionSelectors';
+import { getStreamFromParams } from '../subscriptions/subscriptionSelectors';
 import TopicList from './TopicList';
 
 type Props = {
@@ -53,6 +53,6 @@ class TopicListScreen extends PureComponent<Props, State> {
 }
 
 export default connectWithActionsPreserveOnBack(state => ({
-  stream: getStreamEditInitialValues(state),
+  stream: getStreamFromParams(state),
   topics: getTopicsInScreen(state),
 }))(TopicListScreen);

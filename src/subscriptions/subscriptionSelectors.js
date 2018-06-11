@@ -40,7 +40,7 @@ export const getSubscribedStreams = createSelector(
     })),
 );
 
-export const getStreamEditInitialValues = createSelector(
+export const getStreamFromParams = createSelector(
   [getStreams, getStreamIdFromParams],
   (streams, params) => streams.find(x => x.stream_id === params.streamId) || NULL_STREAM,
 );
