@@ -1,11 +1,12 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 
 import type { Context, Narrow, Subscription } from '../types';
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow } from '../utils/narrow';
-import connectWithActions from '../connectWithActions';
 import { getStreamInNarrow } from '../selectors';
 
 type Props = {
@@ -49,6 +50,6 @@ class TitleStream extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state, props) => ({
+export default connect((state, props) => ({
   stream: getStreamInNarrow(props.narrow)(state),
 }))(TitleStream);
