@@ -1,10 +1,27 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 
 import type { Context, LocalizableText, Style } from '../types';
 import Input from './Input';
+import { BRAND_COLOR } from '../styles';
 import { Label, Touchable } from '../common';
+
+const componentStyles = StyleSheet.create({
+  passwordInput: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  showPasswordButton: {
+    position: 'absolute',
+    right: 0,
+    alignItems: 'center',
+    padding: 8,
+  },
+  showPasswordButtonText: {
+    color: BRAND_COLOR,
+  },
+});
 
 type Props = {
   style?: Style,
@@ -21,10 +38,6 @@ export default class PasswordInput extends PureComponent<Props, State> {
   state: State;
   textInput: TextInput;
 
-  static contextTypes = {
-    styles: () => null,
-  };
-
   state = {
     isHidden: true,
   };
@@ -36,7 +49,6 @@ export default class PasswordInput extends PureComponent<Props, State> {
   };
 
   render() {
-    const { styles } = this.context;
     const { style } = this.props;
     const { isHidden } = this.state;
 
@@ -44,13 +56,13 @@ export default class PasswordInput extends PureComponent<Props, State> {
       <View style={style}>
         <Input
           {...this.props}
-          style={styles.passwordInput}
+          style={componentStyles.passwordInput}
           secureTextEntry={isHidden}
           autoCorrect={false}
           autoCapitalize="none"
         />
-        <Touchable style={styles.showPasswordButton} onPress={this.handleShow}>
-          <Label style={styles.showPasswordButtonText} text={isHidden ? 'show' : 'hide'} />
+        <Touchable style={componentStyles.showPasswordButton} onPress={this.handleShow}>
+          <Label style={componentStyles.showPasswordButtonText} text={isHidden ? 'show' : 'hide'} />
         </Touchable>
       </View>
     );
