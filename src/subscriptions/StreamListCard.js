@@ -1,14 +1,16 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Actions, Auth, GlobalState } from '../types';
+import type { Auth, Dispatch, GlobalState } from '../types';
 import { ZulipButton } from '../common';
 import { subscriptionAdd, subscriptionRemove } from '../api';
 import { streamNarrow } from '../utils/narrow';
 import StreamList from '../streams/StreamList';
 import { getAuth, getCanCreateStreams, getStreams, getSubscriptions } from '../selectors';
-import connectWithActions from '../connectWithActions';
+import { doNarrow, navigateToCreateStream } from '../actions';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -20,7 +22,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   auth: Auth,
   canCreateStreams: boolean,
   streams: [],
@@ -57,12 +59,12 @@ class StreamListCard extends PureComponent<Props, State> {
   };
 
   handleNarrow = (streamName: string) => {
-    const { actions } = this.props;
-    actions.doNarrow(streamNarrow(streamName));
+    const { dispatch } = this.props;
+    dispatch(doNarrow(streamNarrow(streamName)));
   };
 
   render() {
-    const { actions, canCreateStreams, streams, subscriptions } = this.props;
+    const { dispatch, canCreateStreams, streams, subscriptions } = this.props;
     const filteredStreams = streams.filter(x => x.name.includes(this.state.filter));
     const subsAndStreams = filteredStreams.map(x => ({
       ...x,
@@ -76,7 +78,9 @@ class StreamListCard extends PureComponent<Props, State> {
             style={styles.button}
             secondary
             text="Create new stream"
-            onPress={actions.navigateToCreateStream}
+            onPress={() => {
+              dispatch(navigateToCreateStream);
+            }}
           />
         )}
         <StreamList
@@ -92,7 +96,7 @@ class StreamListCard extends PureComponent<Props, State> {
   }
 }
 
-export default connectWithActions((state: GlobalState) => ({
+export default connect((state: GlobalState) => ({
   auth: getAuth(state),
   canCreateStreams: getCanCreateStreams(state),
   streams: getStreams(state),
