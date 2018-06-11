@@ -10,7 +10,7 @@ import { devListUsers, devFetchApiKey } from '../api';
 import { getAuth } from '../selectors';
 import { loginSuccess } from '../actions';
 
-const inlineStyles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   accountItem: { height: 10 },
   heading: { flex: 0 },
   heading2: {
@@ -85,7 +85,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
           {progress && <ActivityIndicator />}
           {!!error && <ErrorMsg error={error} />}
           <Label
-            style={[styles.field, inlineStyles.heading2, inlineStyles.heading]}
+            style={[styles.field, componentStyles.heading2, componentStyles.heading]}
             text="Administrators"
           />
           {directAdmins.map(admin => (
@@ -96,13 +96,13 @@ class DevAuthScreen extends PureComponent<Props, State> {
             />
           ))}
           <Label
-            style={[styles.field, inlineStyles.heading2, inlineStyles.heading]}
+            style={[styles.field, componentStyles.heading2, componentStyles.heading]}
             text="Normal users"
           />
           <FlatList
             data={directUsers.map(user => user.email)}
             keyExtractor={(item, index) => item}
-            ItemSeparatorComponent={() => <View style={inlineStyles.accountItem} />}
+            ItemSeparatorComponent={() => <View style={componentStyles.accountItem} />}
             renderItem={({ item }) => (
               <ZulipButton
                 key={item}
