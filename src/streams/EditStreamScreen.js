@@ -2,40 +2,35 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import type { Dispatch } from '../types';
+import type { Dispatch, Stream } from '../types';
 import { updateExistingStream, navigateBack } from '../actions';
-import { getStreamIdFromParams, getStreamFromParams } from '../selectors';
+import { getStreamFromParams } from '../selectors';
 import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
 
 type Props = {
   dispatch: Dispatch,
-  initialValues: {
-    name: string,
-    description: string,
-    invite_only: boolean,
-  },
-  streamId: number,
+  stream: Stream,
 };
 
 class EditStreamScreen extends PureComponent<Props> {
   props: Props;
 
   handleComplete = (name: string, description: string, isPrivate: boolean) => {
-    const { dispatch, streamId, initialValues } = this.props;
+    const { dispatch, stream } = this.props;
 
-    dispatch(updateExistingStream(streamId, initialValues, { name, description, isPrivate }));
+    dispatch(updateExistingStream(stream.stream_id, stream, { name, description, isPrivate }));
     dispatch(navigateBack());
   };
 
   render() {
-    const { initialValues } = this.props;
+    const { stream } = this.props;
 
     return (
       <Screen title="Edit stream" padding>
         <EditStreamCard
           isNewStream={false}
-          initialValues={initialValues}
+          initialValues={stream}
           onComplete={this.handleComplete}
         />
       </Screen>
@@ -44,6 +39,5 @@ class EditStreamScreen extends PureComponent<Props> {
 }
 
 export default connect(state => ({
-  initialValues: getStreamFromParams(state),
-  streamId: getStreamIdFromParams(state).streamId,
+  stream: getStreamFromParams(state),
 }))(EditStreamScreen);
