@@ -71,4 +71,4 @@ class DiagnosticsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(null)(DiagnosticsScreen);
+export default connect()(DiagnosticsScreen);

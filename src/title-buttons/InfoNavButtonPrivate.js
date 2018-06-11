@@ -28,4 +28,4 @@ class InfoNavButtonPrivate extends PureComponent<Props> {
   }
 }
 
-export default connect(null)(InfoNavButtonPrivate);
+export default connect()(InfoNavButtonPrivate);

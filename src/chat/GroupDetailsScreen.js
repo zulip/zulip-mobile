@@ -51,4 +51,4 @@ class GroupDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(null)(GroupDetailsScreen);
+export default connect()(GroupDetailsScreen);
