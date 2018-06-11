@@ -13,6 +13,9 @@ import { loginSuccess } from '../actions';
 const inlineStyles = StyleSheet.create({
   accountItem: { height: 10 },
   heading: { flex: 0 },
+  heading2: {
+    fontSize: 20,
+  },
 });
 
 type Props = {
@@ -82,7 +85,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
           {progress && <ActivityIndicator />}
           {!!error && <ErrorMsg error={error} />}
           <Label
-            style={[styles.field, styles.heading2, inlineStyles.heading]}
+            style={[styles.field, inlineStyles.heading2, inlineStyles.heading]}
             text="Administrators"
           />
           {directAdmins.map(admin => (
@@ -93,7 +96,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
             />
           ))}
           <Label
-            style={[styles.field, styles.heading2, inlineStyles.heading]}
+            style={[styles.field, inlineStyles.heading2, inlineStyles.heading]}
             text="Normal users"
           />
           <FlatList

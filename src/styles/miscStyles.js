@@ -169,9 +169,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     justifyContent: 'center',
     alignItems: 'center',
   },
-  heading2: {
-    fontSize: 20,
-  },
   field: {
     flex: 1,
     flexDirection: 'row',
