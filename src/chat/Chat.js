@@ -48,7 +48,10 @@ export default class Chat extends PureComponent<Props> {
             /* $FlowFixMe: our own props type should probably require `narrow` */
             narrow={narrow}
           />
-          <NoMessages narrow={narrow} />
+          <NoMessages
+            /* $FlowFixMe: our own props type should probably require `narrow` */
+            narrow={narrow}
+          />
           <MessageList
             narrow={narrow}
             onReplySelect={this.handleReplySelect}

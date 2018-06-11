@@ -1,9 +1,10 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Narrow } from '../types';
-import connectWithActions from '../connectWithActions';
 import { getIfNoMessages, getShowMessagePlaceholders } from '../selectors';
 import { Label } from '../common';
 
@@ -73,7 +74,7 @@ class NoMessages extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state, props) => ({
+export default connect((state, props) => ({
   showMessagePlaceholders: getShowMessagePlaceholders(props.narrow)(state),
   noMessages: getIfNoMessages(props.narrow)(state),
 }))(NoMessages);
