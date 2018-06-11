@@ -1,12 +1,14 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { ActivityIndicator, View, StyleSheet, FlatList } from 'react-native';
 
-import type { Actions, Auth, Context, DevUser } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Auth, Context, DevUser, Dispatch } from '../types';
 import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
 import { devListUsers, devFetchApiKey } from '../api';
 import { getAuth } from '../selectors';
+import { loginSuccess } from '../actions';
 
 const inlineStyles = StyleSheet.create({
   accountItem: { height: 10 },
@@ -14,8 +16,8 @@ const inlineStyles = StyleSheet.create({
 });
 
 type Props = {
-  actions: Actions,
   auth: Auth,
+  dispatch: Dispatch,
 };
 
 type State = {
@@ -63,7 +65,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
 
     try {
       const apiKey = await devFetchApiKey(auth, email);
-      this.props.actions.loginSuccess(auth.realm, email, apiKey);
+      this.props.dispatch(loginSuccess(auth.realm, email, apiKey));
       this.setState({ progress: false });
     } catch (err) {
       this.setState({ progress: false, error: err.message });
@@ -113,6 +115,6 @@ class DevAuthScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   auth: getAuth(state),
 }))(DevAuthScreen);
