@@ -1,14 +1,16 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
-import type { Actions } from '../types';
+import type { Dispatch } from '../types';
 import { Screen } from '../common';
 import LanguagePicker from './LanguagePicker';
-import connectWithActions from '../connectWithActions';
 import { getSettings } from '../selectors';
+import { settingsChange } from '../actions';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   locale: string,
 };
 
@@ -16,8 +18,8 @@ class LanguageScreen extends PureComponent<Props> {
   props: Props;
 
   handleLocaleChange = (value: string) => {
-    const { actions } = this.props;
-    actions.settingsChange('locale', value);
+    const { dispatch } = this.props;
+    dispatch(settingsChange('locale', value));
   };
 
   render() {
@@ -31,6 +33,6 @@ class LanguageScreen extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   locale: getSettings(state).locale,
 }))(LanguageScreen);
