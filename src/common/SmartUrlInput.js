@@ -11,6 +11,16 @@ const componentStyles = StyleSheet.create({
     flexDirection: 'row',
     opacity: 0.8,
   },
+  realmInput: {
+    padding: 0,
+    fontSize: 20,
+  },
+  realmPlaceholder: {
+    opacity: 0.75,
+  },
+  realmInputEmpty: {
+    width: 1,
+  },
 });
 
 type Props = {
@@ -67,7 +77,11 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   renderPlaceholderPart = (text: string) => (
     <TouchableWithoutFeedback onPress={this.urlPress}>
       <RawLabel
-        style={[this.context.styles.realmInput, this.context.styles.realmPlaceholder]}
+        style={[
+          componentStyles.realmInput,
+          this.context.styles.color,
+          componentStyles.realmPlaceholder,
+        ]}
         text={text}
       />
     </TouchableWithoutFeedback>
@@ -95,7 +109,11 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
       <View style={[componentStyles.wrapper, style]}>
         {!hasProtocol(value) && this.renderPlaceholderPart(protocol)}
         <TextInput
-          style={[styles.realmInput, value.length === 0 && styles.realmInputEmpty]}
+          style={[
+            componentStyles.realmInput,
+            styles.color,
+            value.length === 0 && componentStyles.realmInputEmpty,
+          ]}
           autoFocus
           autoCorrect={false}
           autoCapitalize="none"

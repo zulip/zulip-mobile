@@ -80,17 +80,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
       },
     }),
   },
-  realmInput: {
-    color,
-    padding: 0,
-    fontSize: 20,
-  },
-  realmPlaceholder: {
-    opacity: 0.75,
-  },
-  realmInputEmpty: {
-    width: 1,
-  },
   background: {
     backgroundColor,
   },
