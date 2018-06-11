@@ -1,14 +1,16 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
-import type { Actions, Narrow, Stream } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Dispatch, Narrow, Stream } from '../types';
 import { getStreams } from '../selectors';
 import { streamNarrow } from '../utils/narrow';
 import NavButton from '../nav/NavButton';
+import { doNarrow } from '../actions';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   narrow: Narrow,
   color: string,
   streams: Stream[],
@@ -18,10 +20,10 @@ class ExtraNavButtonTopic extends PureComponent<Props> {
   props: Props;
 
   handlePress = () => {
-    const { actions, narrow, streams } = this.props;
+    const { dispatch, narrow, streams } = this.props;
     const stream = streams.find(x => x.name === narrow[0].operand);
     if (stream) {
-      actions.doNarrow(streamNarrow(stream.name));
+      dispatch(doNarrow(streamNarrow(stream.name)));
     }
   };
 
@@ -32,6 +34,6 @@ class ExtraNavButtonTopic extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state, props) => ({
+export default connect((state, props) => ({
   streams: getStreams(state),
 }))(ExtraNavButtonTopic);
