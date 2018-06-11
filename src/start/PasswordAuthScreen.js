@@ -1,13 +1,15 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Actions, Auth, Context } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Auth, Context, Dispatch } from '../types';
 import { fetchApiKey } from '../api';
 import { ErrorMsg, Input, PasswordInput, Screen, WebLink, ZulipButton } from '../common';
 import { getAuth } from '../selectors';
 import { isValidEmailFormat } from '../utils/misc';
+import { loginSuccess } from '../actions';
 
 const componentStyles = StyleSheet.create({
   linksTouchable: {
@@ -16,8 +18,8 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
-  actions: Actions,
   auth: Auth,
+  dispatch: Dispatch,
   navigation: Object,
 };
 
@@ -43,7 +45,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   };
 
   tryPasswordLogin = async () => {
-    const { actions, auth, navigation } = this.props;
+    const { dispatch, auth, navigation } = this.props;
     const { requireEmailFormat } = navigation.state.params;
     const { email, password } = this.state;
 
@@ -52,7 +54,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
     try {
       const fetchedKey = await fetchApiKey(auth, email, password);
       this.setState({ progress: false });
-      actions.loginSuccess(auth.realm, fetchedKey.email, fetchedKey.api_key);
+      dispatch(loginSuccess(auth.realm, fetchedKey.email, fetchedKey.api_key));
     } catch (err) {
       this.setState({
         progress: false,
@@ -124,6 +126,6 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   auth: getAuth(state),
 }))(PasswordAuthScreen);
