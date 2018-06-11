@@ -16,16 +16,10 @@ const styles = StyleSheet.create({
 
 type Props = {
   actions: Actions,
-  experimentalFeaturesEnabled: boolean,
 };
 
 class DiagnosticsScreen extends PureComponent<Props> {
   props: Props;
-
-  handleExperimentalChange = () => {
-    const { actions, experimentalFeaturesEnabled } = this.props;
-    actions.settingsChange('experimentalFeaturesEnabled', !experimentalFeaturesEnabled);
-  };
 
   render() {
     const { actions } = this.props;
