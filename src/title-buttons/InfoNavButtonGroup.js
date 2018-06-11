@@ -1,13 +1,15 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
-import type { Actions } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Dispatch } from '../types';
 import { getRecipientsInGroupNarrow } from '../selectors';
 import NavButton from '../nav/NavButton';
+import { navigateToGroupDetails } from '../actions';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   color: string,
   recipients: string[],
 };
@@ -16,8 +18,8 @@ class InfoNavButtonGroup extends PureComponent<Props> {
   props: Props;
 
   handlePress = () => {
-    const { actions, recipients } = this.props;
-    actions.navigateToGroupDetails(recipients);
+    const { dispatch, recipients } = this.props;
+    dispatch(navigateToGroupDetails(recipients));
   };
 
   render() {
@@ -27,6 +29,6 @@ class InfoNavButtonGroup extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state, props) => ({
+export default connect((state, props) => ({
   recipients: getRecipientsInGroupNarrow(props.narrow)(state),
 }))(InfoNavButtonGroup);
