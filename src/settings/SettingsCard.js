@@ -1,14 +1,21 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
-import type { Actions, Context } from '../types';
+import type { Context, Dispatch } from '../types';
 import { getSettings } from '../selectors';
-import connectWithActions from '../connectWithActions';
 import { OptionButton, OptionDivider, OptionRow, WebLink } from '../common';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
 import LogoutButton from '../account-info/LogoutButton';
 import { IconDiagnostics, IconNotifications, IconNight, IconLanguage } from '../common/Icons';
+import {
+  settingsChange,
+  navigateToNotifications,
+  navigateToLanguage,
+  navigateToDiagnostics,
+} from '../actions';
 
 const componentStyles = StyleSheet.create({
   optionWrapper: {
@@ -22,8 +29,8 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
-  actions: Actions,
   theme: string,
+  dispatch: Dispatch,
 };
 
 class SettingsCard extends PureComponent<Props> {
@@ -35,13 +42,13 @@ class SettingsCard extends PureComponent<Props> {
   };
 
   handleThemeChange = () => {
-    const { actions, theme } = this.props;
-    actions.settingsChange('theme', theme === 'default' ? 'night' : 'default');
+    const { dispatch, theme } = this.props;
+    dispatch(settingsChange('theme', theme === 'default' ? 'night' : 'default'));
   };
 
   render() {
     const { styles } = this.context;
-    const { theme, actions } = this.props;
+    const { theme, dispatch } = this.props;
 
     return (
       <ScrollView style={componentStyles.optionWrapper}>
@@ -54,13 +61,23 @@ class SettingsCard extends PureComponent<Props> {
         <OptionButton
           Icon={IconNotifications}
           label="Notifications"
-          onPress={actions.navigateToNotifications}
+          onPress={() => {
+            dispatch(navigateToNotifications);
+          }}
         />
-        <OptionButton Icon={IconLanguage} label="Language" onPress={actions.navigateToLanguage} />
+        <OptionButton
+          Icon={IconLanguage}
+          label="Language"
+          onPress={() => {
+            dispatch(navigateToLanguage);
+          }}
+        />
         <OptionButton
           Icon={IconDiagnostics}
           label="Diagnostics"
-          onPress={actions.navigateToDiagnostics}
+          onPress={() => {
+            dispatch(navigateToDiagnostics);
+          }}
         />
         <OptionDivider />
         <View style={styles.padding}>
@@ -76,6 +93,6 @@ class SettingsCard extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   theme: getSettings(state).theme,
 }))(SettingsCard);
