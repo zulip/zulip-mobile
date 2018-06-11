@@ -1,30 +1,39 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
-import connectWithActions from '../connectWithActions';
-import type { Actions } from '../types';
+import type { Dispatch } from '../types';
 import { Screen, ViewPlaceholder, ZulipButton } from '../common';
+import { navigateToAddNewAccount, navigateToWelcomeHelp } from '../actions';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
 };
 
 class WelcomeScreen extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { actions } = this.props;
+    const { dispatch } = this.props;
     return (
       <Screen title="Welcome!" centerContent padding>
         <ZulipButton
           text="I have a Zulip account"
-          onPress={() => actions.navigateToAddNewAccount('')}
+          onPress={() => {
+            dispatch(navigateToAddNewAccount(''));
+          }}
         />
         <ViewPlaceholder height={20} />
-        <ZulipButton text="I am new to Zulip" onPress={() => actions.navigateToWelcomeHelp()} />
+        <ZulipButton
+          text="I am new to Zulip"
+          onPress={() => {
+            dispatch(navigateToWelcomeHelp());
+          }}
+        />
       </Screen>
     );
   }
 }
 
-export default connectWithActions()(WelcomeScreen);
+export default connect()(WelcomeScreen);
