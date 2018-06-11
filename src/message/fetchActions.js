@@ -34,11 +34,15 @@ import timing from '../utils/timing';
 import { allPrivateNarrow } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { refreshNotificationToken } from '../utils/notifications';
-import { initStreams } from '../streams/streamsActions';
-import { sendFocusPing } from '../users/usersActions';
-import { initNotifications, realmInit } from '../realm/realmActions';
-import { addToOutbox, trySendMessages } from '../outbox/outboxActions';
-import { startEventPolling } from '../events/eventActions';
+import {
+  addToOutbox,
+  initNotifications,
+  initStreams,
+  realmInit,
+  sendFocusPing,
+  startEventPolling,
+  trySendMessages,
+} from '../actions';
 
 export const messageFetchStart = (
   narrow: Narrow,

@@ -9,8 +9,7 @@ import { ZulipButton } from '../common';
 import { getAuth, getAccounts, getPushToken } from '../selectors';
 import { unregisterPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
-import { navigateToAccountPicker } from '../nav/navActions';
-import { deleteTokenPush } from '../realm/realmActions';
+import { deleteTokenPush, navigateToAccountPicker } from '../actions';
 
 const styles = StyleSheet.create({
   button: {

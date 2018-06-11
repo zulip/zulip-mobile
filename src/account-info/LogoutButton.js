@@ -9,8 +9,7 @@ import { ZulipButton } from '../common';
 import { unregisterPush } from '../api';
 import { getAuth, getPushToken } from '../selectors';
 import { logErrorRemotely } from '../utils/logging';
-import { logout } from '../account/accountActions';
-import { deleteTokenPush } from '../realm/realmActions';
+import { deleteTokenPush, logout } from '../actions';
 
 const styles = StyleSheet.create({
   logoutButton: {

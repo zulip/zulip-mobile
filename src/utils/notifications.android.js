@@ -6,7 +6,7 @@ import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { getNarrowFromNotificationData } from './notificationsCommon';
-import { doNarrow } from '../message/messagesActions';
+import { doNarrow } from '../actions';
 
 export const addNotificationListener = (notificationHandler: (notification: Object) => void) => {
   NotificationsAndroid.setNotificationOpenedListener(notificationHandler);

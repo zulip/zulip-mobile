@@ -5,7 +5,7 @@ import { PureComponent } from 'react';
 
 import type { ChildrenArray, Dispatch } from '../types';
 import { getSession } from '../directSelectors';
-import { doInitialFetch } from '../message/fetchActions';
+import { doInitialFetch } from '../actions';
 
 type Props = {
   needsInitialFetch: boolean,

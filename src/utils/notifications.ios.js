@@ -7,7 +7,7 @@ import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';
 import { getNarrowFromNotificationData } from './notificationsCommon';
-import { doNarrow } from '../message/messagesActions';
+import { doNarrow } from '../actions';
 
 const onPushRegistered = async (
   auth: Auth,

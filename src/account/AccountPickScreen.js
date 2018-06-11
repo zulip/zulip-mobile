@@ -8,8 +8,7 @@ import type { Auth, Account, Dispatch } from '../types';
 import { getAuth, getAccounts } from '../selectors';
 import { Centerer, ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
-import { switchAccount, removeAccount } from '../account/accountActions';
-import { navigateToAddNewAccount } from '../nav/navActions';
+import { navigateToAddNewAccount, switchAccount, removeAccount } from '../actions';
 
 const styles = StyleSheet.create({
   button: {

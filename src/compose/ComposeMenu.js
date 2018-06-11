@@ -9,8 +9,7 @@ import type { Context, Dispatch, Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
 import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
-import { uploadImage } from '../message/fetchActions';
-import { navigateToCreateGroup } from '../nav/navActions';
+import { navigateToCreateGroup, uploadImage } from '../actions';
 import { getNarrowToSendTo } from '../selectors';
 
 type Props = {
