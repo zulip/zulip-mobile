@@ -1,14 +1,15 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Actions, Context, PresenceState, UnreadStream } from '../types';
+import type { Context, Dispatch, PresenceState, UnreadStream } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import ConversationList from '../conversations/ConversationList';
 import StreamItem from '../streams/StreamItem';
 import TopicItem from '../streams/TopicItem';
 import { streamNarrow, topicNarrow } from '../utils/narrow';
-import connectWithActions from '../connectWithActions';
 import {
   getLoading,
   getPresence,
@@ -16,10 +17,11 @@ import {
   getAllUsersAndBotsByEmail,
   getUnreadStreamsAndTopicsSansMuted,
 } from '../selectors';
+import { doNarrow } from '../actions';
 
 type Props = {
-  actions: Actions,
   conversations: Object[],
+  dispatch: Dispatch,
   isLoading: boolean,
   presences: PresenceState,
   usersByEmail: Object,
@@ -36,11 +38,11 @@ class UnreadCards extends PureComponent<Props> {
   };
 
   handleStreamPress = (stream: string) => {
-    this.props.actions.doNarrow(streamNarrow(stream));
+    this.props.dispatch(doNarrow(streamNarrow(stream)));
   };
 
   handleTopicPress = (stream: string, topic: string) => {
-    this.props.actions.doNarrow(topicNarrow(stream, topic));
+    this.props.dispatch(doNarrow(topicNarrow(stream, topic)));
   };
 
   render() {
@@ -101,7 +103,7 @@ class UnreadCards extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   isLoading: getLoading(state).unread,
   conversations: getUnreadConversations(state),
   presences: getPresence(state),
