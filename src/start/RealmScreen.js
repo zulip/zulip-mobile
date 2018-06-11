@@ -1,15 +1,17 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { ScrollView, Keyboard } from 'react-native';
 
-import type { Actions, ApiServerSettings, Context } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { ApiServerSettings, Context, Dispatch } from '../types';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { isValidUrl } from '../utils/url';
 import { getServerSettings } from '../api';
+import { realmAdd, navigateToAuth } from '../actions';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   navigation: Object,
   initialRealm: string,
 };
@@ -45,12 +47,12 @@ class RealmScreen extends PureComponent<Props, State> {
       error: undefined,
     });
 
-    const { actions } = this.props;
+    const { dispatch } = this.props;
 
     try {
       const serverSettings: ApiServerSettings = await getServerSettings(realm);
-      actions.realmAdd(realm);
-      actions.navigateToAuth(serverSettings);
+      dispatch(realmAdd(realm));
+      dispatch(navigateToAuth(serverSettings));
       Keyboard.dismiss();
     } catch (err) {
       this.setState({ error: 'Cannot connect to server' });
@@ -101,7 +103,7 @@ class RealmScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectWithActions((state, props) => ({
+export default connect((state, props) => ({
   initialRealm:
     (props.navigation && props.navigation.state.params && props.navigation.state.params.realm)
     || '',
