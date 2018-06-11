@@ -5,7 +5,7 @@ import {
   getCurrentRouteParams,
   getTopicListScreenParams,
   getAccountDetailsScreenParams,
-  getEditStreamScreenParams,
+  getStreamIdFromParams,
   getChatScreenParams,
   getTopMostNarrow,
 } from '../baseSelectors';
@@ -89,7 +89,7 @@ describe('getAccountDetailsScreenParams', () => {
   });
 });
 
-describe('getEditStreamScreenParams', () => {
+describe('getStreamIdFromParams', () => {
   test('when no params are passed do not return "undefined"', () => {
     const state = deepFreeze({
       nav: {
@@ -98,7 +98,7 @@ describe('getEditStreamScreenParams', () => {
       },
     });
 
-    const actualResult = getEditStreamScreenParams(state);
+    const actualResult = getStreamIdFromParams(state);
 
     expect(actualResult).toBeDefined();
   });
