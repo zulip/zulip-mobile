@@ -1,9 +1,10 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Narrow } from '../types';
-import connectWithActions from '../connectWithActions';
 import { ViewPlaceholder } from '../common';
 import { getTitleTextColor } from '../selectors';
 import { getInfoButtonFromNarrow, getExtraButtonFromNarrow } from './titleButtonFromNarrow';
@@ -40,6 +41,6 @@ class TitleNavButtons extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state, props) => ({
+export default connect((state, props) => ({
   color: getTitleTextColor(props.narrow)(state),
 }))(TitleNavButtons);
