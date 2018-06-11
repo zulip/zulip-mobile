@@ -7,21 +7,34 @@ UI work, it's important to understand them anyway.
 
 ### Display size; logical pixels
 
-When we say `px` in React Native, that's a **logical pixel**.  (Android
-calls this a `dp` or "dip"; iOS calls it a "point".)  One logical pixel
-corresponds to some number of real physical pixels on the display.  The
-number will be higher for higher-density displays, to try to make
-1px ~= 1/160 inch. ~= 0.16mm.
+Dimensions in React Native are written without explicit units, and are
+implicitly in units of **logical pixels**, which we abbreviate `px`.
+(Android calls this a `dp` or "dip"; iOS calls it a "point".)  One logical
+pixel corresponds to some number of real physical pixels on the display.
+The number will be higher for higher-density displays, to try to make
+1px ~= 1/160 inch ~= 0.16mm.
 
-The device comes with a default value for that conversion factor, but the
-user can change it in the system settings.  This setting is called "Display
-size" on stock Android O, "Display zoom" on iOS, and "View mode" on some
-Android devices.
+(RN upstream's documentation is inconsistent about what to call this unit;
+it often says "logical pixel", but sometimes follows Android in saying
+"density-independent pixel" and sometimes iOS in saying "point".  We'll
+stick to "logical pixel", which seems the clearest and most unambiguous.)
+
+The device comes with a default value for the conversion factor of logical
+pixels to physical pixels, but the user can change it in the system
+settings.  This setting is called "Display size" on stock Android O,
+"Display zoom" on iOS, and "View mode" on some Android devices.
 
 The ratio of physical pixels to a logical pixel may be an integer like 1, 2,
 or 3 (the default settings on many devices), or another value like 2.61 or
 3.5 (the defaults on the iPhone 6+/7+/8+ and the Pixel 2 XL respectively),
 or even 4.5 (the largest setting on a Pixel 2 XL).
+
+For example, when we write `height: 48` in the style for a component, the
+component's height will be 48px, aka 48dp on Android or 48 points on iOS.
+With the default settings on any given device, this will be about
+48/160 inch = 0.3 inch =~ 7.6mm; it might be shorter or taller if the user
+has adjusted their settings.  It might be as few as 48 real physical pixels,
+or as many as 216 (in 2018, and probably even more in the future.)
 
 Almost all layout is done in terms of logical pixels (with a small variation
 for text sizes, discussed below), leaving the OS to translate to physical
