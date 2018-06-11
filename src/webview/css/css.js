@@ -307,16 +307,16 @@ ul {
   background: rgba(0, 0, 0, 0.1);
 }
 .reaction-list {
-  line-height: 2;
   margin: 0.5em 0;
 }
 .reaction {
   color: rgba(127, 127, 127, 1);
-  padding: 4px 5.5px;
+  display: inline-block;
+  padding: 5px 6.5px;
   border-radius: 4px;
   border: 1px solid rgba(127, 127, 127, 0.75);
-  line-height: 2.5em;
-  margin-right: 0.5em;
+  line-height: 1em;
+  margin: .25em 0.5em .25em 0;
 }
 .realm-reaction {
   pointer-events: none;
