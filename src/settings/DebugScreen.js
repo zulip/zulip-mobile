@@ -1,22 +1,24 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
-import type { Actions } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Dispatch } from '../types';
 import { getSession } from '../selectors';
 import { OptionRow, Screen } from '../common';
+import { debugFlagToggle } from '../actions';
 
 type Props = {
-  actions: Actions,
   debug: Object,
+  dispatch: Dispatch,
 };
 
 class DebugScreen extends PureComponent<Props> {
   props: Props;
 
   handleSettingToggle = (key: string) => {
-    const { actions, debug } = this.props;
-    actions.debugFlagToggle(key, !debug[key]);
+    const { debug, dispatch } = this.props;
+    dispatch(debugFlagToggle(key, !debug[key]));
   };
 
   render() {
@@ -39,6 +41,6 @@ class DebugScreen extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   debug: getSession(state).debug,
 }))(DebugScreen);
