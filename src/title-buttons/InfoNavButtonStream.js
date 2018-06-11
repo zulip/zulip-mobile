@@ -1,13 +1,15 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
-import type { Actions, Narrow, Stream } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Dispatch, Narrow, Stream } from '../types';
 import { getStreams } from '../selectors';
 import NavButton from '../nav/NavButton';
+import { navigateToStream } from '../actions';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   narrow: Narrow,
   color: string,
   streams: Stream[],
@@ -17,10 +19,10 @@ class InfoNavButtonStream extends PureComponent<Props> {
   props: Props;
 
   handlePress = () => {
-    const { actions, narrow, streams } = this.props;
+    const { dispatch, narrow, streams } = this.props;
     const stream = streams.find(x => x.name === narrow[0].operand);
     if (stream) {
-      actions.navigateToStream(stream.stream_id);
+      dispatch(navigateToStream(stream.stream_id));
     }
   };
 
@@ -31,6 +33,6 @@ class InfoNavButtonStream extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state, props) => ({
+export default connect((state, props) => ({
   streams: getStreams(state),
 }))(InfoNavButtonStream);
