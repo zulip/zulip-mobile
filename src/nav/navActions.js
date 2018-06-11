@@ -91,5 +91,8 @@ export const navigateToCreateStream = (): NavigateAction =>
 export const navigateToEditStream = (streamId: number): NavigateAction =>
   NavigationActions.navigate({ routeName: 'stream-edit', params: { streamId } });
 
+export const navigateToStreamSubscribers = (streamId: number): NavigateAction =>
+  NavigationActions.navigate({ routeName: 'invite-users', params: { streamId } });
+
 export const navigateToNotifications = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'notifications' });

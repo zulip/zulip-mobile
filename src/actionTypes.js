@@ -818,6 +818,7 @@ export type Actions = {
   navigateToDebug: NavigateActionCreator,
   navigateToNotifDiag: NavigateActionCreator,
   navigateToStream: NavigateToStreamActionCreator,
+  navigateToStreamSubscribers: NavigateToStreamActionCreator,
   navigateToTopicList: NavigateToStreamActionCreator,
   navigateToCreateStream: NavigateActionCreator,
   navigateToEditStream: NavigateToStreamActionCreator,

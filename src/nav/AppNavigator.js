@@ -24,6 +24,7 @@ import NotificationDiagScreen from '../diagnostics/NotificationDiagScreen';
 import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import GroupScreen from '../user-groups/GroupScreen';
+import InviteUsersScreen from '../streams/InviteUsersScreen';
 import StreamScreen from '../streams/StreamScreen';
 import CreateStreamScreen from '../streams/CreateStreamScreen';
 import EditStreamScreen from '../streams/EditStreamScreen';
@@ -51,6 +52,7 @@ export default StackNavigator(
     language: { screen: LanguageScreen },
     lightbox: { screen: LightboxScreen },
     group: { screen: GroupScreen },
+    'invite-users': { screen: InviteUsersScreen },
     diagnostics: { screen: DiagnosticsScreen },
     variables: { screen: VariablesScreen },
     timing: { screen: TimingScreen },
