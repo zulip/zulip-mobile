@@ -51,11 +51,6 @@ export default class AccountDetails extends PureComponent<Props, void> {
           <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
         </View>
         <View style={[styles.row, styles.margin, styles.center]}>
-          {/* Flow complains because ActivityText has a `presence` prop which
-            we do not specify here. However, we don't need to, since the
-            `presence` prop gets automatically assigned in ActivityText's
-            creation with `connect`.
-            $FlowFixMe */}
           <ActivityText style={styles.largerText} email={user.email} />
         </View>
         {user.timezone ? (

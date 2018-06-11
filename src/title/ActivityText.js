@@ -37,6 +37,6 @@ class ActivityText extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props: Props) => ({
+export default connect((state, props) => ({
   presences: getPresence(state),
 }))(ActivityText);

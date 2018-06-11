@@ -41,11 +41,6 @@ class TitlePrivate extends PureComponent<Props> {
           <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
             {user.full_name}
           </Text>
-          {/* Flow complains because ActivityText has a `presence` prop which
-              we do not specify here. However, we don't need to, since the
-              `presence` prop gets automatically assigned in ActivityText's
-              creation with `connect`.
-              $FlowFixMe */}
           <ActivityText style={styles.navSubtitle} color={color} email={user.email} />
         </View>
       </View>
