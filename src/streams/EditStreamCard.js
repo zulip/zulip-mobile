@@ -1,15 +1,17 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Actions } from '../types';
+import type { Dispatch } from '../types';
 import { Input, Label, OptionRow, ZulipButton } from '../common';
-import connectWithActions from '../connectWithActions';
 import { getEditStreamScreenParams, getOwnEmail } from '../selectors';
 import { getStreamEditInitialValues } from '../subscriptions/subscriptionSelectors';
+import { createNewStream, updateExistingStream, navigateBack } from '../actions';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   ownEmail: string,
   initialValues: {
     name: string,
@@ -40,15 +42,15 @@ class EditStreamCard extends PureComponent<Props, State> {
   };
 
   handlePerformAction = () => {
-    const { actions, ownEmail, streamId, initialValues } = this.props;
+    const { dispatch, ownEmail, streamId, initialValues } = this.props;
     const { name, description, isPrivate } = this.state;
 
     if (streamId === -1) {
-      actions.createNewStream(name, description, [ownEmail], isPrivate);
+      dispatch(createNewStream(name, description, [ownEmail], isPrivate));
     } else {
-      actions.updateExistingStream(streamId, initialValues, { name, description, isPrivate });
+      dispatch(updateExistingStream(streamId, initialValues, { name, description, isPrivate }));
     }
-    actions.navigateBack();
+    dispatch(navigateBack());
   };
 
   handleNameChange = (name: string) => {
@@ -101,7 +103,7 @@ class EditStreamCard extends PureComponent<Props, State> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   ownEmail: getOwnEmail(state),
   streamId: getEditStreamScreenParams(state).streamId,
   initialValues: getStreamEditInitialValues(state),
