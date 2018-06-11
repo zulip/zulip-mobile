@@ -14,6 +14,7 @@ import {
   navigateToEditStream,
   navigateToTopicList,
   toggleStreamNotification,
+  navigateToStreamSubscribers,
 } from '../actions';
 
 type Props = {
@@ -50,6 +51,11 @@ class StreamScreen extends PureComponent<Props> {
     dispatch(navigateToEditStream(stream.stream_id));
   };
 
+  handleEditSubscribers = () => {
+    const { dispatch, stream } = this.props;
+    dispatch(navigateToStreamSubscribers(stream.stream_id));
+  };
+
   toggleStreamPushNotification = () => {
     const { dispatch, subscription, stream } = this.props;
     dispatch(toggleStreamNotification(stream.stream_id, !subscription.push_notifications));
@@ -83,6 +89,13 @@ class StreamScreen extends PureComponent<Props> {
           <ZulipButton text="Topics" onPress={this.handleTopics} />
           {isAdmin && (
             <ZulipButton style={styles.marginTop} text="Edit" onPress={this.handleEdit} />
+          )}
+          {isAdmin && (
+            <ZulipButton
+              style={styles.marginTop}
+              text="Add subscribers"
+              onPress={this.handleEditSubscribers}
+            />
           )}
         </View>
       </Screen>
