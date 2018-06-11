@@ -1,12 +1,14 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
-import type { Actions, Narrow } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Dispatch, Narrow } from '../types';
 import NavButton from '../nav/NavButton';
+import { navigateToAccountDetails } from '../actions';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   narrow: Narrow,
   color: string,
 };
@@ -15,8 +17,8 @@ class InfoNavButtonPrivate extends PureComponent<Props> {
   props: Props;
 
   handlePress = () => {
-    const { actions, narrow } = this.props;
-    actions.navigateToAccountDetails(narrow[0].operand);
+    const { dispatch, narrow } = this.props;
+    dispatch(navigateToAccountDetails(narrow[0].operand));
   };
 
   render() {
@@ -26,4 +28,4 @@ class InfoNavButtonPrivate extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(null)(InfoNavButtonPrivate);
+export default connect(null)(InfoNavButtonPrivate);
