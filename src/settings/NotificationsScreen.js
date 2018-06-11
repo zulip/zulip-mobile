@@ -1,15 +1,17 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
-import type { Actions, Auth } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Auth, Dispatch } from '../types';
 import { getAuth, getSettings } from '../selectors';
 import { OptionRow, Screen } from '../common';
 import { toggleMobilePushSettings } from '../api';
+import { settingsChange } from '../actions';
 
 type Props = {
   auth: Auth,
-  actions: Actions,
+  dispatch: Dispatch,
   offlineNotification: boolean,
   onlineNotification: boolean,
   streamNotification: boolean,
@@ -19,33 +21,33 @@ class NotificationsScreen extends PureComponent<Props> {
   props: Props;
 
   handleOfflineNotificationChange = () => {
-    const { actions, auth, offlineNotification } = this.props;
+    const { auth, dispatch, offlineNotification } = this.props;
     toggleMobilePushSettings({
       auth,
       opp: 'offline_notification_change',
       value: !offlineNotification,
     });
-    actions.settingsChange('offlineNotification', !offlineNotification);
+    dispatch(settingsChange('offlineNotification', !offlineNotification));
   };
 
   handleOnlineNotificationChange = () => {
-    const { actions, auth, onlineNotification } = this.props;
+    const { auth, dispatch, onlineNotification } = this.props;
     toggleMobilePushSettings({
       auth,
       opp: 'online_notification_change',
       value: !onlineNotification,
     });
-    actions.settingsChange('onlineNotification', !onlineNotification);
+    dispatch(settingsChange('onlineNotification', !onlineNotification));
   };
 
   handleStreamNotificationChange = () => {
-    const { actions, auth, streamNotification } = this.props;
+    const { auth, dispatch, streamNotification } = this.props;
     toggleMobilePushSettings({
       auth,
       opp: 'stream_notification_change',
       value: !streamNotification,
     });
-    actions.settingsChange('streamNotification', !streamNotification);
+    dispatch(settingsChange('streamNotification', !streamNotification));
   };
 
   render() {
@@ -73,7 +75,7 @@ class NotificationsScreen extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   auth: getAuth(state),
   offlineNotification: getSettings(state).offlineNotification,
   onlineNotification: getSettings(state).onlineNotification,
