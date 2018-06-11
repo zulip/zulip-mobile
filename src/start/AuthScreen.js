@@ -1,10 +1,11 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { Linking } from 'react-native';
 import parseURL from 'url-parse';
 
-import type { Actions } from '../types';
-import connectWithActions from '../connectWithActions';
+import type { Dispatch } from '../types';
 import { Centerer, Screen } from '../common';
 import { getCurrentRealm } from '../selectors';
 import RealmInfo from './RealmInfo';
@@ -13,9 +14,10 @@ import { getFullUrl } from '../utils/url';
 import { extractApiKey } from '../utils/encoding';
 import { generateOtp, openBrowser, closeBrowser } from './oauth';
 import { activeAuthentications } from './authentications';
+import { loginSuccess, navigateToDev, navigateToPassword } from '../actions';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   realm: string,
   navigation: Object,
 };
@@ -54,7 +56,7 @@ class AuthScreen extends PureComponent<Props> {
   endOAuth = event => {
     closeBrowser();
 
-    const { actions, realm } = this.props;
+    const { dispatch, realm } = this.props;
     const url = parseURL(event.url, true);
 
     // callback format expected: zulip://login?realm={}&email={}&otp_encrypted_api_key={}
@@ -67,17 +69,17 @@ class AuthScreen extends PureComponent<Props> {
       && url.query.otp_encrypted_api_key.length === otp.length
     ) {
       const apiKey = extractApiKey(url.query.otp_encrypted_api_key, otp);
-      actions.loginSuccess(realm, url.query.email, apiKey);
+      dispatch(loginSuccess(realm, url.query.email, apiKey));
     }
   };
 
   handleDevAuth = () => {
-    this.props.actions.navigateToDev();
+    this.props.dispatch(navigateToDev());
   };
 
   handlePassword = () => {
     const { serverSettings } = this.props.navigation.state.params;
-    this.props.actions.navigateToPassword(serverSettings.require_email_format_usernames);
+    this.props.dispatch(navigateToPassword(serverSettings.require_email_format_usernames));
   };
 
   handleGoogle = () => {
@@ -119,6 +121,6 @@ class AuthScreen extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   realm: getCurrentRealm(state),
 }))(AuthScreen);
