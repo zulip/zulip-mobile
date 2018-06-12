@@ -107,6 +107,9 @@ hr {
 .message-brief {
   padding: 0 1em 1em 4em;
 }
+.message p + p {
+  margin-top: 1em;
+}
 .avatar {
   min-width: 2em;
   width: 2em;
