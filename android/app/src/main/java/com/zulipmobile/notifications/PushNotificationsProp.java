@@ -41,6 +41,8 @@ public class PushNotificationsProp extends PushNotificationProps {
         return mBundle.getString("time");
     }
 
+    public String getTitle() { return mBundle.getString("alert"); }
+
     @Override
     protected PushNotificationsProp copy() {
         return new PushNotificationsProp((Bundle) mBundle.clone());

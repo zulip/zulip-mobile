@@ -86,9 +86,9 @@ public class GCMPushNotifications extends PushNotification {
         String senderFullName = getProps().getSenderFullName();
         String avatarURL = getProps().getAvatarURL();
         String time = getProps().getTime();
-        String stream = getProps().getStream();
-        String topic = getProps().getTopic();
         String baseURL = getProps().getBaseURL();
+        String title = getProps().getTitle();
+
         int totalMessagesCount = extractTotalMessagesCount(conversations);
 
         builder.setSmallIcon(R.drawable.zulip_notification);
@@ -104,9 +104,7 @@ public class GCMPushNotifications extends PushNotification {
             }
             if (type.equals("stream")) {
                 if (Build.VERSION.SDK_INT >= 16) {
-                    String displayTopic = stream + " > "
-                            + topic;
-                    builder.setSubText("Mention on " + displayTopic);
+                    builder.setSubText(title);
                 }
             }
             if (avatarURL != null && avatarURL.startsWith("http")) {
