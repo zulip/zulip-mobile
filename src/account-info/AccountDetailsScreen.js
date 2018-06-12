@@ -1,17 +1,19 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
-import type { Auth, Actions, Orientation, User, PresenceState } from '../types';
-import { connectWithActionsPreserveOnBack } from '../connectWithActions';
+import type { Auth, Dispatch, Orientation, User, PresenceState } from '../types';
 import { getAuth, getSession, getAccountDetailsUser, getPresence } from '../selectors';
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
+import { connectPreserveOnBackOption } from '../utils/redux';
 
 type Props = {
   auth: Auth,
   user: User,
   orientation: Orientation,
-  actions: Actions,
+  dispatch: Dispatch,
   presence: PresenceState,
 };
 
@@ -19,7 +21,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { auth, actions, orientation, user, presence } = this.props;
+    const { auth, dispatch, orientation, user, presence } = this.props;
     const title = {
       text: '{_}',
       values: {
@@ -32,7 +34,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
       <Screen title={title}>
         <AccountDetails
           auth={auth}
-          actions={actions}
+          dispatch={dispatch}
           user={user}
           presence={presence[user.email]}
           orientation={orientation}
@@ -42,9 +44,14 @@ class AccountDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connectWithActionsPreserveOnBack(state => ({
-  auth: getAuth(state),
-  user: getAccountDetailsUser(state),
-  orientation: getSession(state).orientation,
-  presence: getPresence(state),
-}))(AccountDetailsScreen);
+export default connect(
+  state => ({
+    auth: getAuth(state),
+    user: getAccountDetailsUser(state),
+    orientation: getSession(state).orientation,
+    presence: getPresence(state),
+  }),
+  null,
+  null,
+  connectPreserveOnBackOption,
+)(AccountDetailsScreen);

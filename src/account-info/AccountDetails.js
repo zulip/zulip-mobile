@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, Dimensions } from 'react-native';
 
-import type { Auth, Actions, Context, Presence, User } from '../types';
+import type { Auth, Dispatch, Context, Presence, User } from '../types';
 import { Avatar, RawLabel, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
@@ -10,10 +10,11 @@ import UserStatusIndicator from '../common/UserStatusIndicator';
 import ActivityText from '../title/ActivityText';
 import { getMediumAvatar } from '../utils/avatar';
 import { nowInTimeZone } from '../utils/date';
+import { doNarrow } from '../actions';
 
 type Props = {
   auth: Auth,
-  actions: Actions,
+  dispatch: Dispatch,
   user: User,
   presence: Presence,
 };
@@ -27,8 +28,8 @@ export default class AccountDetails extends PureComponent<Props, void> {
   };
 
   handleChatPress = () => {
-    const { user, actions } = this.props;
-    actions.doNarrow(privateNarrow(user.email));
+    const { user, dispatch } = this.props;
+    dispatch(doNarrow(privateNarrow(user.email)));
   };
 
   render() {
