@@ -7,7 +7,14 @@ import { connect } from 'react-redux';
 
 import type { Context, Dispatch, Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
-import { IconPlus, IconLeft, IconPeople, IconImage, IconCamera } from '../common/Icons';
+import {
+  IconPlus,
+  IconLeft,
+  IconPeople,
+  IconImage,
+  IconCamera,
+  IconPreview,
+} from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { navigateToCreateGroup, uploadImage } from '../actions';
 import { getNarrowToSendTo } from '../selectors';
@@ -17,6 +24,7 @@ type Props = {
   expanded: boolean,
   narrow: Narrow,
   onExpandContract: () => void,
+  handlePreview: () => void,
 };
 
 class ComposeMenu extends Component<Props> {
@@ -62,10 +70,10 @@ class ComposeMenu extends Component<Props> {
 
   render() {
     const { styles } = this.context;
-    const { dispatch, expanded, onExpandContract } = this.props;
+    const { dispatch, expanded, onExpandContract, handlePreview } = this.props;
     return (
       <View style={styles.composeMenu}>
-        <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={120}>
+        <AnimatedComponent property="width" useNativeDriver={false} visible={expanded} width={160}>
           <View style={styles.composeMenu}>
             <IconPeople
               style={styles.composeMenuButton}
@@ -82,6 +90,7 @@ class ComposeMenu extends Component<Props> {
               size={24}
               onPress={this.handleCameraCapture}
             />
+            <IconPreview style={styles.composeMenuButton} size={24} onPress={handlePreview} />
           </View>
         </AnimatedComponent>
         {!expanded && <IconPlus style={styles.expandButton} size={24} onPress={onExpandContract} />}

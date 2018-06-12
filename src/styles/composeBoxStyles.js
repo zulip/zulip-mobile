@@ -74,4 +74,10 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     marginRight: -8,
     color: BRAND_COLOR,
   },
+  composeBoxPreview: {
+    flex: 1,
+  },
+  composeBoxPreviewContainer: {
+    minHeight: 150,
+  },
 });
