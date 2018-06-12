@@ -83,7 +83,7 @@ public class GCMPushNotifications extends PushNotification {
 
         String type = getProps().getRecipientType();
         String content = getProps().getContent();
-        String title = getProps().getSenderFullName();
+        String senderFullName = getProps().getSenderFullName();
         String avatarURL = getProps().getAvatarURL();
         String time = getProps().getTime();
         String stream = getProps().getStream();
@@ -98,9 +98,9 @@ public class GCMPushNotifications extends PushNotification {
         if (conversations.size() == 1) {
             //Only one 1 notification therefore no using of big view styles
             if (totalMessagesCount > 1) {
-                builder.setContentTitle(title + " (" + totalMessagesCount + ")");
+                builder.setContentTitle(senderFullName + " (" + totalMessagesCount + ")");
             } else {
-                builder.setContentTitle(title);
+                builder.setContentTitle(senderFullName);
             }
             if (type.equals("stream")) {
                 if (Build.VERSION.SDK_INT >= 16) {
