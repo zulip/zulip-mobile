@@ -1,10 +1,12 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type {
-  Actions,
   Auth,
+  Dispatch,
   Fetching,
   FlagsState,
   Message,
@@ -14,7 +16,6 @@ import type {
   Subscription,
   User,
 } from '../types';
-import connectWithActions from '../connectWithActions';
 import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 import MessageListWeb from '../webview/MessageListWeb';
 import {
@@ -33,10 +34,10 @@ import {
 } from '../selectors';
 
 export type Props = {
-  actions: Actions,
   anchor: number,
   auth: Auth,
   debug: Object,
+  dispatch: Dispatch,
   fetching: Fetching,
   flags: FlagsState,
   highlightUnreadMessages: boolean,
@@ -102,17 +103,20 @@ class MessageList extends PureComponent<Props> {
   }
 }
 
-export default connectWithActions((state, props) => ({
+export default connect((state, props) => ({
+  /* $FlowFixMe: SearchMessagesCard passes a string for narrow, but should pass a Narrow object. */
   anchor: props.anchor || getAnchorForActiveNarrow(props.narrow)(state),
   auth: getAuth(state),
   debug: getDebug(state),
   fetching: props.fetching || getFetchingForActiveNarrow(props.narrow)(state),
   flags: getFlags(state),
+  /* $FlowFixMe: SearchMessagesCard passes a string for narrow, but should pass a Narrow object. */
   isFetching: props.isFetching || getIsFetching(props.narrow)(state),
   messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
   realmEmoji: getAllRealmEmoji(state),
   renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
   showMessagePlaceholders:
+  /* $FlowFixMe: SearchMessagesCard passes a string for narrow, but should pass a Narrow object. */
     props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
   subscriptions: getSubscriptions(state),
   typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),

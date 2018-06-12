@@ -1,13 +1,12 @@
 /* @flow */
 import { Clipboard, Share } from 'react-native';
 import type {
-  Actions,
   Auth,
+  Dispatch,
   Message,
   MuteTuple,
   Narrow,
   Subscription,
-  ActionSheetButtonType,
   AuthGetStringAndMessageType,
 } from '../types';
 import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
@@ -21,10 +20,11 @@ import {
   toggleMessageStarred,
 } from '../api';
 import { showToast } from '../utils/info';
+import { doNarrow, navigateBack, startEditMessage, deleteOutboxMessage } from '../actions';
 
 type ReplyOptionType = {
   message: Object,
-  actions: Actions,
+  dispatch: Dispatch,
   auth: Auth,
   currentRoute?: string,
   onReplySelect?: () => void,
@@ -45,7 +45,7 @@ type ButtonProps = {
   auth: Auth,
   message: Object,
   subscriptions: Subscription[],
-  actions: Actions,
+  dispatch: Dispatch,
   currentRoute?: string,
   onReplySelect?: () => void,
   getString: (value: string) => string,
@@ -56,7 +56,7 @@ type ExecuteActionSheetParams = {
   auth: Auth,
   message: Object,
   subscriptions: Subscription[],
-  actions: Actions,
+  dispatch: Dispatch,
   header?: boolean,
   currentRoute?: string,
   onReplySelect?: () => void,
@@ -79,10 +79,10 @@ type ConstructHeaderActionButtonsType = {
   getString: (value: string) => string,
 };
 
-type MessageAuthAndActions = {
+type MessageAuthAndDispatch = {
   message: Message,
   auth: Auth,
-  actions: Actions,
+  dispatch: Dispatch,
 };
 
 type AuthMessageAndNarrow = {
@@ -93,11 +93,11 @@ type AuthMessageAndNarrow = {
 
 const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
 
-const reply = ({ message, actions, auth, currentRoute, onReplySelect }: ReplyOptionType) => {
+const reply = ({ message, dispatch, auth, currentRoute, onReplySelect }: ReplyOptionType) => {
   if (currentRoute === 'search') {
-    actions.navigateBack();
+    dispatch(navigateBack());
   }
-  actions.doNarrow(getNarrowFromMessage(message, auth.email), message.id);
+  dispatch(doNarrow(getNarrowFromMessage(message, auth.email), message.id));
   if (onReplySelect) {
     onReplySelect();
   } // focus message input
@@ -113,13 +113,13 @@ const copyToClipboard = async ({ getString, auth, message }: AuthGetStringAndMes
 
 const isSentMessage = ({ message }: { message: Message }): boolean => !isAnOutboxMessage(message);
 
-const editMessage = async ({ message, actions }: MessageAuthAndActions) => {
-  actions.startEditMessage(message.id, message.subject);
+const editMessage = async ({ message, dispatch }: MessageAuthAndDispatch) => {
+  dispatch(startEditMessage(message.id, message.subject));
 };
 
-const doDeleteMessage = async ({ auth, message, actions }: MessageAuthAndActions) => {
+const doDeleteMessage = async ({ auth, message, dispatch }: MessageAuthAndDispatch) => {
   if (isAnOutboxMessage(message)) {
-    actions.deleteOutboxMessage(message.timestamp);
+    dispatch(deleteOutboxMessage(message.timestamp));
   } else {
     deleteMessage(auth, message.id);
   }
@@ -169,6 +169,7 @@ const shareMessage = ({ message }) => {
   });
 };
 
+// $FlowFixMe: skip is sometimes called with > 0 arguments.
 const skip = () => false;
 
 type HeaderButtonType = {
@@ -185,7 +186,7 @@ const resolveMultiple = (message, auth, narrow, functions) =>
     return true;
   });
 
-const actionSheetButtons: ActionSheetButtonType[] = [
+const actionSheetButtons /* ActionSheetButtonType[] */ = [
   { title: 'Reply', onPress: reply, onlyIf: isSentMessage },
   { title: 'Copy to clipboard', onPress: copyToClipboard, onlyIf: isNotDeleted },
   { title: 'Share', onPress: shareMessage, onlyIf: isNotDeleted },
