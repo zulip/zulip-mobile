@@ -7,9 +7,9 @@ export type { ChildrenArray } from 'react';
 
 export type AnimatedValue = any; // { AnimatedValue } from 'react-native';
 export type MapStateToProps = any; // { MapStateToProps } from 'react-redux';
-
-export type * from './actionTypes';
-export type * from './api/apiTypes';
+//
+// export type * from './actionTypes';
+// export type * from './api/apiTypes';
 
 export type Thunk<A> = ((Dispatch, GetState) => Promise<void> | void) => A;
 export type Dispatch = ReduxDispatch<Action> & Thunk<Action>;

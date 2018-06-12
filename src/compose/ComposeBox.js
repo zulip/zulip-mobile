@@ -33,6 +33,7 @@ import ComposeMenu from './ComposeMenu';
 import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
+import { renderFormatButtons } from './HelperButtons/renderButtons';
 
 import {
   getAuth,
@@ -67,6 +68,7 @@ type State = {
   message: string,
   height: number,
   selection: InputSelectionType,
+  showHelperButtons: boolean,
 };
 
 class ComposeBox extends PureComponent<Props, State> {
@@ -89,6 +91,7 @@ class ComposeBox extends PureComponent<Props, State> {
     topic: '',
     message: this.props.draft,
     selection: { start: 0, end: 0 },
+    showHelperButtons: false,
   };
 
   handleComposeMenuToggle = () => {
@@ -239,6 +242,20 @@ class ComposeBox extends PureComponent<Props, State> {
     }
   }
 
+  handleHelperButtons = () => {
+    this.setState({ showHelperButtons: !this.state.showHelperButtons });
+  };
+
+  getState = () => {
+    this.setState({
+      selection: {
+        start: 1,
+        end: 1,
+      },
+    });
+    return this.state;
+  };
+
   render() {
     const { styles } = this.context;
     const {
@@ -249,6 +266,7 @@ class ComposeBox extends PureComponent<Props, State> {
       message,
       topic,
       selection,
+      showHelperButtons,
     } = this.state;
     const {
       auth,
@@ -290,6 +308,7 @@ class ComposeBox extends PureComponent<Props, State> {
               narrow={narrow}
               expanded={isMenuExpanded}
               onExpandContract={this.handleComposeMenuToggle}
+              handleHelperButtons={this.handleHelperButtons}
             />
           </View>
           <View style={styles.composeText}>
@@ -336,6 +355,14 @@ class ComposeBox extends PureComponent<Props, State> {
             />
           </View>
         </View>
+        {showHelperButtons &&
+          renderFormatButtons({
+            getState: this.getState,
+            setState: (state, callback) => {
+              this.messageInput.focus();
+              this.setState(state, callback);
+            },
+          })}
       </View>
     );
   }
