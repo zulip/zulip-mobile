@@ -14,7 +14,7 @@ import {
   getRecentConversations,
   getAllUsersAndBotsByEmail,
 } from '../selectors';
-import { navigateToCreateGroup, navigateToUsersScreen } from '../nav/navActions';
+import { navigateToCreateGroup, navigateToUsersScreen } from '../actions';
 
 const componentStyles = StyleSheet.create({
   container: {
