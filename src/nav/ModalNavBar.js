@@ -1,17 +1,20 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import type { ChildrenArray } from 'react';
 
-import type { Actions, Context, LocalizableText, Style } from '../types';
-import { connectWithActionsPreserveOnBack } from '../connectWithActions';
+import type { Dispatch, Context, LocalizableText, Style } from '../types';
 import { NAVBAR_SIZE } from '../styles';
 import { Label } from '../common';
 import { getCanGoBack } from '../selectors';
 import NavButton from './NavButton';
+import { navigateBack } from '../actions';
+import { connectPreserveOnBackOption } from '../utils/redux';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   canGoBack: boolean,
   title?: LocalizableText,
   titleColor?: string,
@@ -33,7 +36,7 @@ class ModalNavBar extends PureComponent<Props> {
   render() {
     const { styles } = this.context;
     const {
-      actions,
+      dispatch,
       canGoBack,
       title,
       titleColor,
@@ -58,7 +61,13 @@ class ModalNavBar extends PureComponent<Props> {
     return (
       <View style={[styles.navBar, style]}>
         {canGoBack && (
-          <NavButton name="arrow-left" color={itemsColor} onPress={actions.navigateBack} />
+          <NavButton
+            name="arrow-left"
+            color={itemsColor}
+            onPress={() => {
+              dispatch(navigateBack());
+            }}
+          />
         )}
         <View style={[styles.flexedLeftAlign, childrenStyle]}>{content}</View>
         {rightItem && <NavButton color={itemsColor} {...rightItem} />}
@@ -67,6 +76,11 @@ class ModalNavBar extends PureComponent<Props> {
   }
 }
 
-export default connectWithActionsPreserveOnBack(state => ({
-  canGoBack: getCanGoBack(state),
-}))(ModalNavBar);
+export default connect(
+  state => ({
+    canGoBack: getCanGoBack(state),
+  }),
+  null,
+  null,
+  connectPreserveOnBackOption,
+)(ModalNavBar);
