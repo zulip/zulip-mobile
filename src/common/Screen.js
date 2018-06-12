@@ -1,13 +1,15 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
 import type { ChildrenArray, Context, Dimensions, LocalizableText, Style } from '../types';
-import { connectWithActionsPreserveOnBack } from '../connectWithActions';
 import { KeyboardAvoider, ZulipStatusBar } from '../common';
 import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
+import { connectPreserveOnBackOption } from '../utils/redux';
 
 const componentStyles = StyleSheet.create({
   wrapper: {
@@ -92,6 +94,11 @@ class Screen extends PureComponent<Props> {
   }
 }
 
-export default connectWithActionsPreserveOnBack((state, props) => ({
-  safeAreaInsets: getSession(state).safeAreaInsets,
-}))(Screen);
+export default connect(
+  (state, props) => ({
+    safeAreaInsets: getSession(state).safeAreaInsets,
+  }),
+  null,
+  null,
+  connectPreserveOnBackOption,
+)(Screen);
