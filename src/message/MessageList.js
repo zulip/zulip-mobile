@@ -104,19 +104,16 @@ class MessageList extends PureComponent<Props> {
 }
 
 export default connect((state, props) => ({
-  /* $FlowFixMe: SearchMessagesCard passes a string for narrow, but should pass a Narrow object. */
   anchor: props.anchor || getAnchorForActiveNarrow(props.narrow)(state),
   auth: getAuth(state),
   debug: getDebug(state),
   fetching: props.fetching || getFetchingForActiveNarrow(props.narrow)(state),
   flags: getFlags(state),
-  /* $FlowFixMe: SearchMessagesCard passes a string for narrow, but should pass a Narrow object. */
   isFetching: props.isFetching || getIsFetching(props.narrow)(state),
   messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
   realmEmoji: getAllRealmEmoji(state),
   renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
   showMessagePlaceholders:
-  /* $FlowFixMe: SearchMessagesCard passes a string for narrow, but should pass a Narrow object. */
     props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
   subscriptions: getSubscriptions(state),
   typingUsers: props.typingUsers || getCurrentTypingUsers(props.narrow)(state),
