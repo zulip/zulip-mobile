@@ -10,6 +10,7 @@ import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 
 type Props = {
+  /* $FlowFixMe: probably this shouldn't be optional */
   narrow?: Narrow,
 };
 
@@ -44,14 +45,8 @@ export default class Chat extends PureComponent<Props> {
       <KeyboardAvoider style={styles.flexed} behavior="padding">
         <View style={styles.flexed}>
           <OfflineNotice />
-          <UnreadNotice
-            /* $FlowFixMe: our own props type should probably require `narrow` */
-            narrow={narrow}
-          />
-          <NoMessages
-            /* $FlowFixMe: our own props type should probably require `narrow` */
-            narrow={narrow}
-          />
+          <UnreadNotice narrow={narrow} />
+          <NoMessages narrow={narrow} />
           <MessageList
             narrow={narrow}
             onReplySelect={this.handleReplySelect}
@@ -60,7 +55,6 @@ export default class Chat extends PureComponent<Props> {
             }}
           />
           <ComposeBox
-            /* $FlowFixMe: our own props type should probably require `narrow` */
             narrow={narrow}
             messageInputRef={(component: any) => {
               this.messageInputRef = component || this.messageInputRef;
