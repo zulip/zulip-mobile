@@ -6,6 +6,7 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type {
   Auth,
+  Debug,
   Dispatch,
   Fetching,
   FlagsState,
@@ -36,7 +37,7 @@ import {
 export type Props = {
   anchor: number,
   auth: Auth,
-  debug: Object,
+  debug: Debug,
   dispatch: Dispatch,
   fetching: Fetching,
   flags: FlagsState,

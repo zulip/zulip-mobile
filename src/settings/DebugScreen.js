@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch } from '../types';
+import type { Debug, Dispatch } from '../types';
 import { getSession } from '../selectors';
 import { OptionRow, Screen } from '../common';
 import { debugFlagToggle } from '../actions';
 
 type Props = {
-  debug: Object,
+  debug: Debug,
   dispatch: Dispatch,
 };
 

@@ -1,7 +1,7 @@
 /* @flow */
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
-import type { Auth, Dispatch, FlagsState, Message, Narrow } from '../types';
+import type { Auth, Debug, Dispatch, FlagsState, Message, Narrow } from '../types';
 import { isUrlAnImage } from '../utils/url';
 import { logErrorRemotely } from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
@@ -110,7 +110,7 @@ export type MessageListEvent =
 type Props = {
   dispatch: Dispatch,
   auth: Auth,
-  debug: Object,
+  debug: Debug,
   flags: FlagsState,
   messages: Message[],
   narrow: Narrow,
