@@ -1,7 +1,7 @@
 # iOS Tips
 
 These tips assume you've already [set up a dev
-environment](developer-guide.md#dev-environment) for Zulip Mobile.
+environment](build-run.md#main-steps) for Zulip Mobile.
 
 ## Running on iOS simulator
 `react-native run-ios` will launch a new terminal with the React Native
