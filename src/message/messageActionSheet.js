@@ -169,8 +169,7 @@ const shareMessage = ({ message }) => {
   });
 };
 
-// $FlowFixMe: skip is sometimes called with > 0 arguments.
-const skip = () => false;
+const skip = (...args) => false;
 
 type HeaderButtonType = {
   title: string,
