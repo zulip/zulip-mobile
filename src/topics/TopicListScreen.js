@@ -1,16 +1,19 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 
-import type { Actions, Stream, TopicExtended } from '../types';
-import { connectWithActionsPreserveOnBack } from '../connectWithActions';
+import type { Dispatch, Stream, TopicExtended } from '../types';
 import { Screen } from '../common';
 import { topicNarrow } from '../utils/narrow';
 import { getTopicsInScreen } from '../selectors';
 import { getStreamFromParams } from '../subscriptions/subscriptionSelectors';
 import TopicList from './TopicList';
+import { fetchTopics, doNarrow } from '../actions';
+import { connectPreserveOnBackOption } from '../utils/redux';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   stream: Stream,
   topics: TopicExtended[],
 };
@@ -27,13 +30,13 @@ class TopicListScreen extends PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    const { actions, stream } = this.props;
-    actions.fetchTopics(stream.stream_id);
+    const { dispatch, stream } = this.props;
+    dispatch(fetchTopics(stream.stream_id));
   }
 
   handlePress = (streamObj: string, topic: string) => {
-    const { actions, stream } = this.props;
-    actions.doNarrow(topicNarrow(stream.name, topic));
+    const { dispatch, stream } = this.props;
+    dispatch(doNarrow(topicNarrow(stream.name, topic)));
   };
 
   handleFilterChange = (filter: string) => this.setState({ filter });
@@ -52,7 +55,12 @@ class TopicListScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connectWithActionsPreserveOnBack(state => ({
-  stream: getStreamFromParams(state),
-  topics: getTopicsInScreen(state),
-}))(TopicListScreen);
+export default connect(
+  state => ({
+    stream: getStreamFromParams(state),
+    topics: getTopicsInScreen(state),
+  }),
+  null,
+  null,
+  connectPreserveOnBackOption,
+)(TopicListScreen);
