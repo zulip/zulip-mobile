@@ -1,17 +1,18 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import throttle from 'lodash.throttle';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Actions, Auth, Message, Subscription } from '../types';
+import type { Auth, Dispatch, Message, Subscription } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import { homeNarrow, searchNarrow } from '../utils/narrow';
 import MessageList from '../message/MessageList';
 import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
 import { NULL_ARRAY, NULL_FETCHING } from '../nullObjects';
-import connectWithActions from '../connectWithActions';
 import { getAllRealmEmoji, getAuth, getSubscriptions } from '../selectors';
 
 const styles = StyleSheet.create({
@@ -21,8 +22,8 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  actions: Actions,
   auth: Auth,
+  dispatch: Dispatch,
   query: string,
   subscriptions: Subscription[],
 };
@@ -101,7 +102,7 @@ class SearchMessagesCard extends PureComponent<Props, State> {
   }
 }
 
-export default connectWithActions(state => ({
+export default connect(state => ({
   auth: getAuth(state),
   subscriptions: getSubscriptions(state),
   realmEmoji: getAllRealmEmoji(state),
