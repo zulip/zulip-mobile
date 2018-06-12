@@ -1,11 +1,19 @@
 /* @flow */
 import { emojiReactionAdd, emojiReactionRemove, queueMarkAsRead } from '../api';
 import config from '../config';
-import type { Actions, Auth, FlagsState, Message, Narrow } from '../types';
+import type { Auth, Dispatch, FlagsState, Message, Narrow } from '../types';
 import { isUrlAnImage } from '../utils/url';
 import { logErrorRemotely } from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrowString } from '../utils/narrow';
+import {
+  fetchOlder,
+  fetchNewer,
+  navigateToAccountDetails,
+  doNarrow,
+  navigateToLightbox,
+  messageLinkPress,
+} from '../actions';
 
 type MessageListEventReady = {
   type: 'ready',
@@ -100,7 +108,7 @@ export type MessageListEvent =
   | MessageListEventError;
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   auth: Auth,
   debug: Object,
   flags: FlagsState,
@@ -111,14 +119,14 @@ type Props = {
 
 export const handleScroll = (props: Props, event: MessageListEventScroll) => {
   const { innerHeight, offsetHeight, scrollY, startMessageId, endMessageId } = event;
-  const { actions, narrow } = props;
+  const { dispatch, narrow } = props;
 
   if (scrollY < config.messageListThreshold) {
-    actions.fetchOlder(narrow);
+    dispatch(fetchOlder(narrow));
   }
 
   if (innerHeight + scrollY >= offsetHeight - config.messageListThreshold) {
-    actions.fetchNewer(narrow);
+    dispatch(fetchNewer(narrow));
   }
 
   const unreadMessageIds = filterUnreadMessagesInRange(
@@ -134,11 +142,11 @@ export const handleScroll = (props: Props, event: MessageListEventScroll) => {
 };
 
 export const handleAvatar = (props: Props, event: MessageListEventAvatar) => {
-  props.actions.navigateToAccountDetails(event.fromEmail);
+  props.dispatch(navigateToAccountDetails(event.fromEmail));
 };
 
-export const handleNarrow = ({ actions }: Props, event: MessageListEventNarrow) => {
-  actions.doNarrow(parseNarrowString(event.narrow));
+export const handleNarrow = ({ dispatch }: Props, event: MessageListEventNarrow) => {
+  dispatch(doNarrow(parseNarrowString(event.narrow)));
 };
 
 export const handleImage = (props: Props, event: MessageListEventImage) => {
@@ -147,7 +155,7 @@ export const handleImage = (props: Props, event: MessageListEventImage) => {
   const message = props.messages.find(x => x.id === messageId);
 
   if (message) {
-    props.actions.navigateToLightbox(src, message);
+    props.dispatch(navigateToLightbox(src, message));
   }
 };
 
@@ -157,7 +165,7 @@ export const handleLongPress = (props: Props, event: MessageListEventLongPress) 
 };
 
 export const handleUrl = (props: Props, event: MessageListEventUrl) => {
-  const { actions } = props;
+  const { dispatch } = props;
 
   if (isUrlAnImage(event.href)) {
     const imageEvent = { type: 'image', src: event.href, messageId: event.messageId };
@@ -165,7 +173,7 @@ export const handleUrl = (props: Props, event: MessageListEventUrl) => {
     return;
   }
 
-  actions.messageLinkPress(event.href);
+  dispatch(messageLinkPress(event.href));
 };
 
 export const handleReaction = (props: Props, event: MessageListEventReaction) => {
