@@ -1,7 +1,6 @@
 /* @flow */
-import isEqual from 'lodash.isequal';
 
-import type { GlobalState, ObjectWithId, ObjectsMappedById } from '../types';
+import type { ObjectWithId, ObjectsMappedById } from '../types';
 
 export const caseInsensitiveCompareFunc = (a: string, b: string): number =>
   a.toLowerCase().localeCompare(b.toLowerCase());
@@ -26,12 +25,6 @@ export const removeEmptyValues = (obj: Object): Object => {
   Object.keys(obj).forEach(key => obj[key] == null && delete obj[key]);
   return obj;
 };
-
-export const isStateGoingBack = (cur: GlobalState, prev: GlobalState): boolean =>
-  cur.nav.routes.length < prev.nav.routes.length
-  || cur.nav.isTransitioning
-  || prev.nav.isTransitioning
-  || isEqual(cur, prev);
 
 export const groupItemsById = (items: ObjectWithId[]): ObjectsMappedById =>
   items.reduce((itemsById, item) => {

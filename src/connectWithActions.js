@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import type { Dispatch, MapStateToProps } from './types';
 import * as actions from './actions';
-import { isStateGoingBack } from './utils/misc';
+import { connectPreserveOnBackOption } from './utils/redux';
 
 let cachedBoundActions;
 
@@ -24,6 +24,6 @@ const connectWithActions = (mapStateToProps: MapStateToProps, mergeProps, option
 ) => connect(mapStateToProps, boundActions, mergeProps, options)(component);
 
 export const connectWithActionsPreserveOnBack = (mapStateToProps: MapStateToProps) =>
-  connectWithActions(mapStateToProps, null, { areStatesEqual: isStateGoingBack });
+  connectWithActions(mapStateToProps, null, connectPreserveOnBackOption);
 
 export default connectWithActions;

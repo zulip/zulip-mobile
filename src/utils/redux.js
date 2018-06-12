@@ -1,6 +1,9 @@
 /* @flow */
+import isEqual from 'lodash.isequal';
+
 import config from '../config';
 import timing from './timing';
+import type { GlobalState } from '../types';
 
 export const logSlowReducers = (reducers: Object): Object => {
   Object.keys(reducers).forEach((name: string) => {
@@ -21,3 +24,11 @@ export const logSlowReducers = (reducers: Object): Object => {
   });
   return reducers;
 };
+
+export const isStateGoingBack = (cur: GlobalState, prev: GlobalState): boolean =>
+  cur.nav.routes.length < prev.nav.routes.length
+  || cur.nav.isTransitioning
+  || prev.nav.isTransitioning
+  || isEqual(cur, prev);
+
+export const connectPreserveOnBackOption = { areStatesEqual: isStateGoingBack };
