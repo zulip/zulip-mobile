@@ -1,16 +1,19 @@
 /* @flow */
+import { connect } from 'react-redux';
+
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Actions, Context, Narrow } from '../types';
-import { connectWithActionsPreserveOnBack } from '../connectWithActions';
+import type { Dispatch, Context, Narrow } from '../types';
 import Title from '../title/Title';
 import NavButton from './NavButton';
 import TitleNavButtons from '../title-buttons/TitleNavButtons';
 import { getCanGoBack, getTitleBackgroundColor, getTitleTextColor } from '../selectors';
+import { connectPreserveOnBackOption } from '../utils/redux';
+import { navigateBack } from '../actions';
 
 type Props = {
-  actions: Actions,
+  dispatch: Dispatch,
   backgroundColor: string,
   canGoBack: boolean,
   narrow: Narrow,
@@ -27,12 +30,18 @@ class MainNavBar extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { actions, backgroundColor, canGoBack, narrow, textColor } = this.props;
+    const { dispatch, backgroundColor, canGoBack, narrow, textColor } = this.props;
 
     return (
       <View style={[styles.navBar, { backgroundColor }]}>
         {canGoBack && (
-          <NavButton name="arrow-left" color={textColor} onPress={actions.navigateBack} />
+          <NavButton
+            name="arrow-left"
+            color={textColor}
+            onPress={() => {
+              dispatch(navigateBack());
+            }}
+          />
         )}
         <Title color={textColor} narrow={narrow} />
         <TitleNavButtons narrow={narrow} />
@@ -41,8 +50,13 @@ class MainNavBar extends PureComponent<Props> {
   }
 }
 
-export default connectWithActionsPreserveOnBack((state, props) => ({
-  backgroundColor: getTitleBackgroundColor(props.narrow)(state),
-  canGoBack: getCanGoBack(state),
-  textColor: getTitleTextColor(props.narrow)(state),
-}))(MainNavBar);
+export default connect(
+  (state, props) => ({
+    backgroundColor: getTitleBackgroundColor(props.narrow)(state),
+    canGoBack: getCanGoBack(state),
+    textColor: getTitleTextColor(props.narrow)(state),
+  }),
+  null,
+  null,
+  connectPreserveOnBackOption,
+)(MainNavBar);
