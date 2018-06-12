@@ -27,7 +27,7 @@ up your development environment in several ways:
    section](#editors--ides) below.
 3. Debugging.  It's fine to skip this at first to get going, but when you're
    tackling a moderately complex issue, a good debugging setup can help a
-   lot.  See [our debugging guide](debugging.md) for details, including
+   lot.  See [our debugging guide](howto/debugging.md) for details, including
    setup instructions.
 
 ## Editors / IDEs
