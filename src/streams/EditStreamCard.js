@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
+import type { Context } from '../types';
 import { Input, Label, OptionRow, ZulipButton } from '../common';
 
 type Props = {
@@ -21,6 +22,7 @@ type State = {
 };
 
 export default class EditStreamCard extends PureComponent<Props, State> {
+  context: Context;
   props: Props;
   state: State;
 

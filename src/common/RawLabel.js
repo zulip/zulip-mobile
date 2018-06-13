@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 
-import type { Style } from '../types';
+import type { Context, Style } from '../types';
 
 type Props = {
   text: string,
@@ -18,6 +18,8 @@ type Props = {
  * @prop [style] - Style object applied to the Text component.
  */
 export default class RawLabel extends PureComponent<Props> {
+  context: Context;
+
   static contextTypes = {
     styles: () => null,
   };

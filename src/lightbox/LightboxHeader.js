@@ -50,10 +50,6 @@ type Props = {
 };
 
 export default class LightboxHeader extends PureComponent<Props> {
-  static contextTypes = {
-    styles: () => null,
-  };
-
   render() {
     const { onPressBack, senderName, subheader, ...restProps } = this.props;
 

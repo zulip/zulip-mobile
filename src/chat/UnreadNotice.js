@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Narrow } from '../types';
+import type { Context, Narrow } from '../types';
 import { getUnreadCountForNarrow } from '../selectors';
 import { Label, RawLabel } from '../common';
 import { unreadToLimitedCount } from '../utils/unread';
@@ -37,6 +37,7 @@ type Props = {
 };
 
 class UnreadNotice extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static defaultProps = {

@@ -3,6 +3,8 @@ import React, { PureComponent } from 'react';
 import type { ChildrenArray } from 'react';
 import { View, StyleSheet } from 'react-native';
 
+import type { Context } from '../types';
+
 const styles = StyleSheet.create({
   popup: {
     marginRight: 20,
@@ -20,6 +22,7 @@ type Props = {
 };
 
 export default class Popup extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

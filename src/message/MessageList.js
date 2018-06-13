@@ -6,6 +6,7 @@ import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type {
   Auth,
+  Context,
   Debug,
   Dispatch,
   Fetching,
@@ -61,6 +62,7 @@ export type Props = {
 };
 
 class MessageList extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {

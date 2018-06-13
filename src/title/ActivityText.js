@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { PresenceState, Style } from '../types';
+import type { Context, PresenceState, Style } from '../types';
 import { getPresence } from '../selectors';
 import { presenceToHumanTime } from '../utils/presence';
 import { RawLabel } from '../common';
@@ -16,6 +16,7 @@ type Props = {
 };
 
 class ActivityText extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
   static contextTypes = {
