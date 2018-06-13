@@ -57,6 +57,20 @@ More wrinkles are involved; see our separate doc on [iOS tips](ios-tips.md).
 
 ## Troubleshooting
 
+### Build failure: java.lang.UnsupportedClassVersionError
+
+When trying to build the Android app, you may see this error:
+
+```
+A problem occurred evaluating project ':@remobile/react-native-toast'.
+> java.lang.UnsupportedClassVersionError: com/android/build/gradle/LibraryPlugin : Unsupported major.minor version 52.0
+```
+
+You can fix this by installing a recent version of the Java SE Development
+Kit -- JDK 8 or newer.  You can check the installation with `java -version`,
+which should show a version number starting with "1.8" (and not "1.7".)
+
+
 ### App shows a blank white screen
 
 If you're developing on a Linux machine, and when you start the dev version of
