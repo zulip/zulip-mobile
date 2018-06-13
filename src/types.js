@@ -1,5 +1,7 @@
 /* @flow */
 import type { Dispatch as ReduxDispatch } from 'redux';
+import type { IntlShape } from 'react-intl';
+
 import type { Action } from './actionTypes';
 import type { AppStyles } from './styles/theme';
 
@@ -384,6 +386,7 @@ export type TopicsState = {
 export type ThemeType = 'default' | 'night';
 
 export type Context = {
+  intl: IntlShape,
   styles: AppStyles,
   theme: ThemeType,
 };
