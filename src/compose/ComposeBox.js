@@ -91,6 +91,15 @@ class ComposeBox extends PureComponent<Props, State> {
     selection: { start: 0, end: 0 },
   };
 
+  getCanSelectTopic = () => {
+    const { isMessageFocused, isTopicFocused } = this.state;
+    const { narrow } = this.props;
+    if (!isStreamNarrow(narrow)) {
+      return false;
+    }
+    return isMessageFocused || isTopicFocused;
+  };
+
   handleComposeMenuToggle = () => {
     this.setState(({ isMenuExpanded }) => ({
       isMenuExpanded: !isMenuExpanded,
@@ -241,15 +250,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
   render() {
     const { styles } = this.context;
-    const {
-      isMessageFocused,
-      isTopicFocused,
-      isMenuExpanded,
-      height,
-      message,
-      topic,
-      selection,
-    } = this.state;
+    const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
     const {
       auth,
       canSend,
@@ -269,7 +270,6 @@ class ComposeBox extends PureComponent<Props, State> {
       return <NotSubscribed narrow={narrow} />;
     }
 
-    const canSelectTopic = (isMessageFocused || isTopicFocused) && isStreamNarrow(narrow);
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, usersAndBots);
 
     return (
@@ -293,7 +293,7 @@ class ComposeBox extends PureComponent<Props, State> {
             />
           </View>
           <View style={styles.composeText}>
-            {canSelectTopic && (
+            {this.getCanSelectTopic() && (
               <Input
                 style={styles.topicInput}
                 underlineColorAndroid="transparent"
