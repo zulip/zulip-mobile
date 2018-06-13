@@ -16,6 +16,13 @@ const componentStyles = StyleSheet.create({
   heading2: {
     fontSize: 20,
   },
+  container: {
+    flex: 1,
+    padding: 16,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+  },
 });
 
 type Props = {
@@ -81,7 +88,7 @@ class DevAuthScreen extends PureComponent<Props, State> {
 
     return (
       <Screen title="Pick a dev account">
-        <View style={styles.container}>
+        <View style={componentStyles.container}>
           {progress && <ActivityIndicator />}
           {!!error && <ErrorMsg error={error} />}
           <Label

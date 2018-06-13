@@ -151,13 +151,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     backgroundColor,
     shadowColor: 'transparent',
   },
-  container: {
-    flex: 1,
-    padding: 16,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'stretch',
-  },
   center: {
     flex: 1,
     justifyContent: 'center',
