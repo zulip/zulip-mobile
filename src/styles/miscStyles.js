@@ -53,9 +53,6 @@ type Props = {
 };
 
 export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }: Props) => ({
-  text: {
-    fontSize: 16,
-  },
   largerText: {
     fontSize: 20,
   },
@@ -125,9 +122,6 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   flexedLeftAlign: {
     flex: 1,
     justifyContent: 'flex-start',
-  },
-  messageList: {
-    flex: 1,
   },
   webview: {
     borderWidth: 0,
