@@ -67,7 +67,7 @@ A problem occurred evaluating project ':@remobile/react-native-toast'.
 ```
 
 You can fix this by installing a recent version of the Java SE Development
-Kit -- JDK 8 or newer.  You can check the installation with `java -version`,
+Kit -- [JDK 8 or newer](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).  You can check the installation with `java -version`,
 which should show a version number starting with "1.8" (and not "1.7".)
 
 
