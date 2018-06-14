@@ -96,14 +96,58 @@ Optionally, reset iOS simulator:
 iOS Menu > Simulator > Reset Content and Settings…
 ```
 
-## Signing in to a local dev VM
+## Using a dev version of the server
+
+This isn't required for most development -- you can use chat.zulip.org,
+or another live Zulip community you belong to, for testing the mobile app.
+But sometimes when debugging interactions with the server, or developing
+server-side changes related to the mobile app, it's helpful to run the
+mobile app against a development server which you control.
+
+First, if you haven't already, you'll want to install and provision a
+[Zulip Server dev VM](https://zulip.readthedocs.io/en/latest/development/overview.html).
+
+Then, you'll
+* run the Zulip server in the dev VM with `tools/run-dev.py`, following the
+  usual instructions for Zulip server development (linked above);
+* fire up the app, go to the "switch account" UI, and enter a URL
+  where the app can find your own Zulip server.
+
+The details of how to get that URL to enter vary by platform.  See below.
+
+(PRs to extend these instructions to cover other setups would be
+welcome!)
+
+
+### Android emulator and a dev server
+
+First, confirm you can access your Zulip dev server in a browser, at
+`http://localhost:9991/` (the standard setup).  This is *almost* the URL we
+need; except that `localhost` inside the emulated device means the emulated
+device itself, so we need to replace it with another name for your host.
+
+Then, on the same host machine where you can do that in a browser:
+run `react-native start`, and open the app in an Android emulator.
+Hit "reload" in the React Native dev menu (or an equivalent keyboard
+shortcut) to reload the app's JS code -- and pay close attention to the
+green banner that appears at the top.  It will say something like
+"Loading from 10.0.2.2:8081...".
+
+The IP address that appears in the message is the one you want to use.
+Borrow the scheme `http` and port `9991` from the URL you already use for
+the dev Zulip server -- so to continue the same example, you would enter the
+URL `http://10.0.2.2:9991/`.
+
+Why does this work?  The green "Loading" banner identifies the IP address
+and port at which the app is able to find your Metro Bundler server, the
+process started by `react-native start`.  Therefore, that IP address is one
+that works inside the emulated device as a way to reach your host machine...
+which is also known as `localhost` when on the host machine itself.
+
+
+### iOS device and a dev server
 
 This process needs improvement and has too many manual steps at the moment.
-(It's not required for most development -- you can use chat.zulip.org,
-or another live Zulip community you belong to, for testing the mobile app.)
-
-If you haven't already, you'll want to install and provision a
-[Zulip Server dev VM](https://zulip.readthedocs.io/en/latest/development/overview.html).
 
 First, you'll need to connect your dev machine and iOS device to the same
 network. If you're running Zulip inside of a VM, you may also need to
