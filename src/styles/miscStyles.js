@@ -186,4 +186,10 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
     flexDirection: 'column',
     justifyContent: 'flex-end',
   },
+  emptyStateContainer: {
+    flex: 1,
+    padding: 16,
+    marginTop: 10,
+    justifyContent: 'center',
+  },
 });
