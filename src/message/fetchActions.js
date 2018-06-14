@@ -153,6 +153,9 @@ export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getSta
   // only fetch messages if chat scrren is at the top of stack
   // get narrow of top most chat screen in the stack
   const narrow = getTopMostNarrow(getState());
+  if (narrow) {
+    dispatch(messageFetchStart(narrow, halfCount, halfCount));
+  }
   const [initData, messages] = await Promise.all([
     await tryUntilSuccessful(() => registerForEvents(auth)),
     narrow
