@@ -6,6 +6,8 @@ import type { ChildrenArray } from '../types';
 import { nullFunction } from '../nullObjects';
 import { Touchable } from './';
 
+import userDefaultAvatar from '../../static/img/user.png';
+
 type Props = {
   avatarUrl: string,
   size: number,
@@ -14,14 +16,29 @@ type Props = {
   onPress: () => void,
 };
 
-export default class ImageAvatar extends PureComponent<Props> {
+type State ={
+  isLoading: boolean,
+};
+
+export default class ImageAvatar extends PureComponent<Props, State> {
   props: Props;
+
+  state: State;
+
+  state = {
+    isLoading: true,
+  }
 
   static defaultProps = {
     onPress: nullFunction,
   };
 
+  handleLoad = () => {
+    this.setState({ isLoading: false });
+  }
+
   render() {
+    const { isLoading } = this.state;
     const { avatarUrl, children, size, shape, onPress } = this.props;
     const touchableStyle = {
       height: size,
@@ -31,14 +48,17 @@ export default class ImageAvatar extends PureComponent<Props> {
     const borderRadius =
       shape === 'rounded' ? size / 8 : shape === 'circle' ? size / 2 : shape === 'square' ? 0 : 0;
 
+    const imageSource = isLoading ? userDefaultAvatar : { uri: avatarUrl };
+
     return (
       <View>
         <Touchable onPress={onPress} style={touchableStyle}>
           <ImageBackground
             style={touchableStyle}
-            source={{ uri: avatarUrl }}
+            source={imageSource}
             resizeMode="cover"
             borderRadius={borderRadius}
+            onLoad={this.handleLoad}
           >
             {children}
           </ImageBackground>
