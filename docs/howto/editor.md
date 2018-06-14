@@ -17,7 +17,7 @@ To use it, [install VS Code](https://code.visualstudio.com/).
 
 ### Useful extensions for VS Code
 
-Install these three extensions, which support important aspects of our
+Install the following extensions, which support important aspects of our
 codebase. Each extension page has install instructions at the top.
 
 * [React Native
@@ -25,6 +25,7 @@ codebase. Each extension page has install instructions at the top.
 * [Flow Language
     Support](https://marketplace.visualstudio.com/items?itemName=flowtype.flow-for-vscode)
 * [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+* [prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
 For the extensions to work properly, make sure that VS Code has recognized
 [our settings file](https://github.com/zulip/zulip-mobile/tree/master/.vscode/settings.json)

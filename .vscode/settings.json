@@ -7,4 +7,6 @@
     // Makes IntelliSense work with Flow.  See
     // https://github.com/Microsoft/vscode-react-native/blob/master/doc/intellisense.md .
     "flow.useNPMPackagedFlow": true,
+
+    "prettier.eslintIntegration": true,
 }
