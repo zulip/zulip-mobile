@@ -66,9 +66,13 @@ A problem occurred evaluating project ':@remobile/react-native-toast'.
 > java.lang.UnsupportedClassVersionError: com/android/build/gradle/LibraryPlugin : Unsupported major.minor version 52.0
 ```
 
-You can fix this by installing a recent version of the Java SE Development
-Kit -- JDK 8 or newer.  You can check the installation with `java -version`,
-which should show a version number starting with "1.8" (and not "1.7".)
+This can happen if you have a very old version of the JDK (Java Development
+Kit); React Native requires JDK 8 (which was released in 2014) or later.
+
+To fix this, install [JDK
+8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+or a newer version.  You can check what version is installed by running the
+command `java -version`; with JDK 8, the version number starts with "1.8".
 
 
 ### App shows a blank white screen
