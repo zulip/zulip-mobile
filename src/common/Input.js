@@ -44,9 +44,6 @@ export default class Input extends PureComponent<Props, State> {
 
   static defaultProps = {
     placeholder: {},
-  };
-
-  static defaultProps = {
     restProps: [],
     onChangeText: nullFunction,
     textInputRef: nullFunction,
