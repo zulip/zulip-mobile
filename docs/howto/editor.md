@@ -50,7 +50,14 @@ Take a look through some of VS Code's docs.  In particular:
   doc, and try out Go to Definition (F12), Quick Open (Ctrl+P), and Open
   Symbol by Name (Ctrl+T).  These can make it much faster to move around
   our codebase to read and understand it.
+
 * Get the [keyboard shortcuts PDF
   reference](https://code.visualstudio.com/docs/getstarted/keybindings#_keyboard-shortcuts-reference)
   for your platform, and print it out.  It's a one-page PDF which is
   extremely helpful to refer to.
+
+* Open any JS file in our codebase, and try messing up some formatting by
+  adding random whitespace -- then hit Ctrl+S (or Cmd+S) to save.  You
+  should see the formatting get magically fixed!  Our workspace settings
+  enable this feature, and configure it to use our standard formatting
+  rules.
