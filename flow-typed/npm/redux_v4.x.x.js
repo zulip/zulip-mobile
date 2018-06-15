@@ -1,5 +1,5 @@
-// flow-typed signature: ec7daead5cb4fec5ab25fedbedef29e8
-// flow-typed version: 2c04631d20/redux_v3.x.x/flow_>=v0.55.x
+// flow-typed signature: df80bdd535bfed9cf3223e077f3b4543
+// flow-typed version: c4c8963c9c/redux_v4.x.x/flow_>=v0.55.x
 
 declare module 'redux' {
 
@@ -27,7 +27,7 @@ declare module 'redux' {
     replaceReducer(nextReducer: Reducer<S, A>): void
   };
 
-  declare export type Reducer<S, A> = (state: S, action: A) => S;
+  declare export type Reducer<S, A> = (state: S | void, action: A) => S;
 
   declare export type CombinedReducer<S, A> = (state: $Shape<S> & {} | void, action: A) => S;
 
@@ -43,7 +43,7 @@ declare module 'redux' {
   declare export type StoreEnhancer<S, A, D = Dispatch<A>> = (next: StoreCreator<S, A, D>) => StoreCreator<S, A, D>;
 
   declare export function createStore<S, A, D>(reducer: Reducer<S, A>, enhancer?: StoreEnhancer<S, A, D>): Store<S, A, D>;
-  declare export function createStore<S, A, D>(reducer: Reducer<S, A>, preloadedState: S, enhancer?: StoreEnhancer<S, A, D>): Store<S, A, D>;
+  declare export function createStore<S, A, D>(reducer: Reducer<S, A>, preloadedState?: S, enhancer?: StoreEnhancer<S, A, D>): Store<S, A, D>;
 
   declare export function applyMiddleware<S, A, D>(...middlewares: Array<Middleware<S, A, D>>): StoreEnhancer<S, A, D>;
 
