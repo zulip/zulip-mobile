@@ -24,16 +24,14 @@ type State = {
 export default class EditStreamCard extends PureComponent<Props, State> {
   context: Context;
   props: Props;
-  state: State;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
-  state = {
+  state: State = {
     name: this.props.initialValues.name,
     description: this.props.initialValues.description,
     isPrivate: this.props.initialValues.invite_only,
+  };
+
+  static contextTypes = {
+    styles: () => null,
   };
 
   handlePerformAction = () => {

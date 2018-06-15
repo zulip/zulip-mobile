@@ -26,16 +26,14 @@ type State = {
  */
 export default class ZulipSwitch extends PureComponent<Props, State> {
   props: Props;
-  state: State;
+  state: State = {
+    valueControlled: this.props.defaultValue,
+  };
 
   static defaultProps = {
     value: false,
     disabled: false,
     defaultValue: false,
-  };
-
-  state = {
-    valueControlled: this.props.defaultValue,
   };
 
   handleValueChange = (newValue: boolean) => {

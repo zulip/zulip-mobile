@@ -25,17 +25,16 @@ type State = {
 class RealmScreen extends PureComponent<Props, State> {
   context: Context;
   props: Props;
-  state: State;
+  state: State = {
+    progress: false,
+    realm: this.props.initialRealm,
+    error: undefined,
+  };
+
   scrollView: ScrollView;
 
   static contextTypes = {
     styles: () => null,
-  };
-
-  state = {
-    progress: false,
-    realm: this.props.initialRealm,
-    error: undefined,
   };
 
   tryRealm = async () => {

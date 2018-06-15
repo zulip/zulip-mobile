@@ -38,14 +38,12 @@ type State = {
 };
 
 class UserPickerCard extends PureComponent<Props, State> {
-  listRef: (component: any) => void;
-
   props: Props;
-  state: State;
-
-  state = {
+  state: State = {
     selected: [],
   };
+
+  listRef: (component: any) => void;
 
   handleUserSelect = (email: string) => {
     const { users } = this.props;

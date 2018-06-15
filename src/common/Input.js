@@ -33,7 +33,9 @@ type State = {
 export default class Input extends PureComponent<Props, State> {
   context: Context;
   props: Props;
-  state: State;
+  state: State = {
+    isFocused: false,
+  };
   textInput: TextInput;
 
   static contextTypes = {
@@ -48,10 +50,6 @@ export default class Input extends PureComponent<Props, State> {
     restProps: [],
     onChangeText: nullFunction,
     textInputRef: nullFunction,
-  };
-
-  state = {
-    isFocused: false,
   };
 
   handleClear = () => {

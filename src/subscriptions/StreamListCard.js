@@ -36,10 +36,7 @@ type State = {
 
 class StreamListCard extends PureComponent<Props, State> {
   props: Props;
-
-  state: State;
-
-  state = {
+  state: State = {
     filter: '',
   };
 

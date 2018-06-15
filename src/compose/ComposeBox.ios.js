@@ -79,16 +79,7 @@ type State = {
 class ComposeBox extends PureComponent<Props, State> {
   context: Context;
   props: Props;
-  state: State;
-
-  messageInput: TextInput = null;
-  topicInput: TextInput = null;
-
-  static contextTypes = {
-    styles: () => null,
-  };
-
-  state = {
+  state: State = {
     isMessageFocused: false,
     isTopicFocused: false,
     isMenuExpanded: false,
@@ -96,6 +87,13 @@ class ComposeBox extends PureComponent<Props, State> {
     topic: '',
     message: this.props.draft,
     selection: { start: 0, end: 0 },
+  };
+
+  messageInput: TextInput = null;
+  topicInput: TextInput = null;
+
+  static contextTypes = {
+    styles: () => null,
   };
 
   getCanSelectTopic = () => {

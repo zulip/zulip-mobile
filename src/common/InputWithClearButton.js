@@ -41,16 +41,14 @@ type State = {
 export default class InputWithClearButton extends PureComponent<Props, State> {
   context: Context;
   props: Props;
-  state: State;
+  state: State = {
+    canBeCleared: false,
+    text: '',
+  };
   textInput: TextInput;
 
   static contextTypes = {
     styles: () => null,
-  };
-
-  state = {
-    canBeCleared: false,
-    text: '',
   };
 
   handleChangeText = (text: string) => {
