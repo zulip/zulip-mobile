@@ -159,7 +159,6 @@ export const getUnreadStreamsAndTopicsSansMuted = createSelector(
     unreadStreamsAndTopics
       .map(stream => ({
         ...stream,
-        // $FlowFixMe
         data: stream.data.filter(topic => !topic.isMuted),
       }))
       .filter(stream => !stream.isMuted && stream.data.length > 0),
