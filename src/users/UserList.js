@@ -24,12 +24,11 @@ type Props = {
 
 export default class UserList extends PureComponent<Props> {
   context: Context;
+  props: Props;
 
   static contextTypes = {
     styles: () => null,
   };
-
-  props: Props;
 
   static defaultProps = {
     selected: [],

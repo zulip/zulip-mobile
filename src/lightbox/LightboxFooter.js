@@ -31,6 +31,8 @@ type Props = {
 };
 
 export default class LightboxFooter extends PureComponent<Props> {
+  props: Props;
+
   render() {
     const { displayMessage, onOptionsPress, style } = this.props;
     return (

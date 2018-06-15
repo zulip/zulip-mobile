@@ -18,6 +18,8 @@ type Props = {
 };
 
 export default class AnimatedLightboxHeader extends PureComponent<Props> {
+  props: Props;
+
   render() {
     const { onPressBack, senderName, timestamp, ...restProps } = this.props;
     const displayDate = humanDate(new Date(timestamp * 1000));

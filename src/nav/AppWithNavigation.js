@@ -15,6 +15,8 @@ type Props = {
 };
 
 class AppWithNavigation extends PureComponent<Props> {
+  props: Props;
+
   render() {
     const { dispatch, nav } = this.props;
     const addListener = createReduxBoundAddListener('root');

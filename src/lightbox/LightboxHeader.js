@@ -50,6 +50,8 @@ type Props = {
 };
 
 export default class LightboxHeader extends PureComponent<Props> {
+  props: Props;
+
   render() {
     const { onPressBack, senderName, subheader, ...restProps } = this.props;
 

@@ -31,6 +31,7 @@ class StreamScreen extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
   };
+
   handleTogglePinStream = (newValue: boolean) => {
     const { dispatch, stream } = this.props;
     dispatch(doTogglePinStream(stream.stream_id, newValue));
