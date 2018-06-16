@@ -321,7 +321,7 @@ export type EventStreamOccupyAction = ServerEvent & {
   streams: StreamUpdateDetails[],
 };
 
-export type EventNewMessageAction = {
+export type EventNewMessageAction = ServerEvent & {
   type: typeof EVENT_NEW_MESSAGE,
   caughtUp: CaughtUpState,
   localMessageId: ?number,

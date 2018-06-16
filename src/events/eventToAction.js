@@ -102,8 +102,8 @@ const alertWords = (state: GlobalState, event: Object): EventAlertWordsAction =>
 });
 
 const newMessage = (state: GlobalState, event: Object): EventNewMessageAction => ({
+  ...event,
   type: EVENT_NEW_MESSAGE,
-  message: event.message,
   caughtUp: state.caughtUp,
   ownEmail: state.accounts[0].email,
   localMessageId: event.local_message_id,
