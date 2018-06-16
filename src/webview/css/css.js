@@ -266,7 +266,10 @@ blockquote {
 }
 ul {
   padding-left: 1.2em;
-  margin: 0.5em 0;
+  margin: 0.2em 0 0 0;
+}
+ul + p {
+  margin-top: 1em;
 }
 .codehilite .gi { color: #00a000; }
 .codehilite .gd { color: #a00000; }
