@@ -21,8 +21,10 @@ const messageSendStart = (state: OutboxState, action: MessageSendStartAction): O
   return [...state, { ...action.outbox }];
 };
 
-const messageSendComplete = (state: OutboxState, action: { localMessageId: number }): OutboxState =>
-  filterArray(state, item => item && item.timestamp !== +action.localMessageId);
+const messageSendComplete = (
+  state: OutboxState,
+  action: { local_message_id: number },
+): OutboxState => filterArray(state, item => item && item.timestamp !== +action.local_message_id);
 
 export default (state: OutboxState = initialState, action: OutboxAction): OutboxState => {
   switch (action.type) {

@@ -106,7 +106,6 @@ const newMessage = (state: GlobalState, event: Object): EventNewMessageAction =>
   type: EVENT_NEW_MESSAGE,
   caughtUp: state.caughtUp,
   ownEmail: state.accounts[0].email,
-  localMessageId: event.local_message_id,
 });
 
 const deleteMessage = (state: GlobalState, event: Object): EventMessageDeleteAction => ({

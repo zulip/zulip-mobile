@@ -37,12 +37,12 @@ export const toggleOutboxSending = (sending: boolean): ToggleOutboxSendingAction
 
 export const deleteOutboxMessage = (localMessageId: number): DeleteOutboxMessageAction => ({
   type: DELETE_OUTBOX_MESSAGE,
-  localMessageId,
+  local_message_id: localMessageId,
 });
 
 export const messageSendComplete = (localMessageId: number): MessageSendCompleteAction => ({
   type: MESSAGE_SEND_COMPLETE,
-  localMessageId,
+  local_message_id: localMessageId,
 });
 
 export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) => {

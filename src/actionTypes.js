@@ -324,7 +324,7 @@ export type EventStreamOccupyAction = ServerEvent & {
 export type EventNewMessageAction = ServerEvent & {
   type: typeof EVENT_NEW_MESSAGE,
   caughtUp: CaughtUpState,
-  localMessageId: ?number,
+  local_message_id: ?number,
   message: Message,
   ownEmail: string,
 };
@@ -549,12 +549,12 @@ export type MessageSendStartAction = {
 
 export type MessageSendCompleteAction = {
   type: typeof MESSAGE_SEND_COMPLETE,
-  localMessageId: number,
+  local_message_id: number,
 };
 
 export type DeleteOutboxMessageAction = {
   type: typeof DELETE_OUTBOX_MESSAGE,
-  localMessageId: number,
+  local_message_id: number,
 };
 
 export type ToggleOutboxSendingAction = {

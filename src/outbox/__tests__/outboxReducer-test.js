@@ -87,7 +87,7 @@ describe('outboxReducers', () => {
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
-        localMessageId: 546,
+        local_message_id: 546,
       });
 
       const expectedState = [{ timestamp: 150238512430 }, { timestamp: 150238594540 }];
