@@ -265,7 +265,7 @@ blockquote {
   border-left: 3px solid rgba(127, 127, 127, 0.5);
 }
 ul {
-  padding-left: 1em;
+  padding-left: 1.2em;
   margin: 0.5em 0;
 }
 .codehilite .gi { color: #00a000; }
