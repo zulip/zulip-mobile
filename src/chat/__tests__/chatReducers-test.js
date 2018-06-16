@@ -580,8 +580,8 @@ describe('chatReducers', () => {
 
       const action = deepFreeze({
         type: EVENT_REACTION_ADD,
-        messageId: 2,
-        emoji: 'hello',
+        message_id: 2,
+        emoji_name: 'hello',
         user: {},
       });
 
@@ -607,8 +607,8 @@ describe('chatReducers', () => {
 
       const action = deepFreeze({
         type: EVENT_REACTION_REMOVE,
-        messageId: 1,
-        emoji: 'hello',
+        message_id: 1,
+        emoji_name: 'hello',
         user: {},
       });
 
@@ -637,8 +637,8 @@ describe('chatReducers', () => {
 
       const action = deepFreeze({
         type: EVENT_REACTION_REMOVE,
-        messageId: 1,
-        emoji: 'hello',
+        message_id: 1,
+        emoji_name: 'hello',
         user: { email: 'bob@example.com' },
       });
 

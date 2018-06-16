@@ -59,10 +59,10 @@ const messageFetchComplete = (
 };
 
 const eventReactionAdd = (state: MessagesState, action: EventReactionAddAction): MessagesState =>
-  chatUpdater(state, action.messageId, oldMessage => ({
+  chatUpdater(state, action.message_id, oldMessage => ({
     ...oldMessage,
     reactions: oldMessage.reactions.concat({
-      emoji_name: action.emoji,
+      emoji_name: action.emoji_name,
       user: action.user,
     }),
   }));
@@ -71,10 +71,10 @@ const eventReactionRemove = (
   state: MessagesState,
   action: EventReactionRemoveAction,
 ): MessagesState =>
-  chatUpdater(state, action.messageId, oldMessage => ({
+  chatUpdater(state, action.message_id, oldMessage => ({
     ...oldMessage,
     reactions: oldMessage.reactions.filter(
-      x => !(x.emoji_name === action.emoji && x.user.email === action.user.email),
+      x => !(x.emoji_name === action.emoji_name && x.user.email === action.user.email),
     ),
   }));
 

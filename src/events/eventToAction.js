@@ -140,11 +140,9 @@ const stream = (state: GlobalState, event: Object): EventStreamAction => ({
 });
 
 const reaction = (state: GlobalState, event: Object): EventReactionAction => ({
+  ...event,
   // This cast seems redundant; but without it Flow (0.67) gives a puzzling type error.
   type: (opToActionReaction[event.op]: typeof EVENT_REACTION_ADD | typeof EVENT_REACTION_REMOVE),
-  emoji: event.emoji_name,
-  messageId: event.message_id,
-  user: event.user,
 });
 
 const presence = (state: GlobalState, event: Object): EventPresenceAction => ({

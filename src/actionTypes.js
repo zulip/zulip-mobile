@@ -347,8 +347,8 @@ export type EventUpdateMessageAction = {
 };
 
 export type EventReactionCommon = {
-  emoji: string,
-  messageId: number,
+  emoji_name: string,
+  message_id: number,
   user: {
     email: string,
     full_name: string,
@@ -356,13 +356,15 @@ export type EventReactionCommon = {
   },
 };
 
-export type EventReactionAddAction = EventReactionCommon & {
-  type: typeof EVENT_REACTION_ADD,
-};
+export type EventReactionAddAction = ServerEvent &
+  EventReactionCommon & {
+    type: typeof EVENT_REACTION_ADD,
+  };
 
-export type EventReactionRemoveAction = EventReactionCommon & {
-  type: typeof EVENT_REACTION_REMOVE,
-};
+export type EventReactionRemoveAction = ServerEvent &
+  EventReactionCommon & {
+    type: typeof EVENT_REACTION_REMOVE,
+  };
 
 export type EventPresenceAction = ServerEvent & {
   type: typeof EVENT_PRESENCE,
