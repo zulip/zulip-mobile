@@ -264,11 +264,11 @@ blockquote {
   margin: 0.5em 0 0.5em 0;
   border-left: 3px solid rgba(127, 127, 127, 0.5);
 }
-ul {
+.message ul {
   padding-left: 1.2em;
   margin: 0.2em 0 0 0;
 }
-ul + p {
+.message ul + p {
   margin-top: 1em;
 }
 .codehilite .gi { color: #00a000; }
