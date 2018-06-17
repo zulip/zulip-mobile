@@ -1,5 +1,7 @@
 {
   "{_}": "{_}",
+  "I have a Zulip account": "I have a Zulip account",
+  "I am new to Zulip": "I am new to Zulip",
   "Home": "Главная",
   "All messages": "Все сообщения",
   "Private messages": "Личные сообщения",
@@ -16,6 +18,7 @@
   "No unread messages": "Нет непрочитанных сообщений",
   "Pick account": "Выберите учетную запись",
   "Welcome": "Добро пожаловать",
+  "Welcome!": "Welcome!",
   "Subscriptions": "Подписки",
   "Your server URL": "URL вашего сервера",
   "Search": "Поиск",
@@ -65,7 +68,7 @@
   "Send private message": "Отправить личное сообщение",
   "Forgot password?": "Забыли пароль?",
   "Members": "Участники",
-  "Group details": "Сведения о группе",
+  "Recipients": "Recipients",
   "Delete message": "Удалить сообщение",
   "Notifications when online": "Уведомления когда в сети",
   "Notifications when offline": "Уведомления когда не в сети",
@@ -79,7 +82,7 @@
   "Toggle compose tools": "Переключить инструменты компоновки",
   "Terms of service": "Условия использования",
   "Privacy policy": "Политика конфиденциальности",
-  "Timing": "Timing",
+  "Timing": "Тайминг",
   "Variables": "Переменные",
   "Storage": "Хранилище",
   "Mark as read": "Отметить как прочитанное",
@@ -131,5 +134,7 @@
   "Idle": "Ожидающий",
   "Offline": "Не в сети",
   "Do not mark messages read on scroll": "Не отмечать сообщения прочитанными при прокрутке",
-  "Topics": "Темы"
+  "Topics": "Темы",
+  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
+  "Add subscribers": "Add subscribers"
 }

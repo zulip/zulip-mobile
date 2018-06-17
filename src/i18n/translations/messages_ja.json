@@ -1,7 +1,9 @@
 {
   "{_}": "{_}",
+  "I have a Zulip account": "I have a Zulip account",
+  "I am new to Zulip": "I am new to Zulip",
   "Home": "ホーム",
-  "All messages": "All messages",
+  "All messages": "すべてのメッセージ",
   "Private messages": "プライベートメッセージ",
   "Starred": "スター付き",
   "Mentions": "メンション",
@@ -16,6 +18,7 @@
   "No unread messages": "未読メッセージはありません",
   "Pick account": "アカウントを選択",
   "Welcome": "ようこそ",
+  "Welcome!": "Welcome!",
   "Subscriptions": "購読中",
   "Your server URL": "サーバーURL",
   "Search": "検索",
@@ -65,7 +68,7 @@
   "Send private message": "プライベートメッセージを送信",
   "Forgot password?": "パスワードを忘れましたか？",
   "Members": "メンバー",
-  "Group details": "グループの詳細",
+  "Recipients": "Recipients",
   "Delete message": "メッセージを削除",
   "Notifications when online": "オンライン時に通知",
   "Notifications when offline": "オフライン時に通知",
@@ -131,5 +134,7 @@
   "Idle": "Idle",
   "Offline": "Offline",
   "Do not mark messages read on scroll": "Do not mark messages read on scroll",
-  "Topics": "Topics"
+  "Topics": "Topics",
+  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
+  "Add subscribers": "Add subscribers"
 }

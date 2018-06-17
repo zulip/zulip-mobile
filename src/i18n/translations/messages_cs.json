@@ -1,5 +1,7 @@
 {
   "{_}": "{_}",
+  "I have a Zulip account": "I have a Zulip account",
+  "I am new to Zulip": "I am new to Zulip",
   "Home": "Domů",
   "All messages": "Všechny zprávy",
   "Private messages": "Soukromé zprávy",
@@ -16,6 +18,7 @@
   "No unread messages": "Žádné nepřečtené zprávy",
   "Pick account": "Zvolit účet",
   "Welcome": "Vítejte",
+  "Welcome!": "Welcome!",
   "Subscriptions": "Odběry",
   "Your server URL": "Adresa vašeho serveru (URL)",
   "Search": "Hledat",
@@ -65,7 +68,7 @@
   "Send private message": "Poslat soukromou zprávu",
   "Forgot password?": "Zapomněl jste heslo?",
   "Members": "Členi",
-  "Group details": "Podrobnosti ke skupině",
+  "Recipients": "Recipients",
   "Delete message": "Smazat zprávu",
   "Notifications when online": "Oznámení, když jste připojení k internetu",
   "Notifications when offline": "Oznámení, když nejste připojení k internetu",
@@ -131,5 +134,7 @@
   "Idle": "Nečinný",
   "Offline": "Nepřipojen",
   "Do not mark messages read on scroll": "Neoznačovat zprávy přečtené při projíždění",
-  "Topics": "Předměty hovoru"
+  "Topics": "Předměty hovoru",
+  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
+  "Add subscribers": "Add subscribers"
 }

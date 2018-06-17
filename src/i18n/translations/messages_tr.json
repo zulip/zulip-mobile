@@ -1,5 +1,7 @@
 {
   "{_}": "{_}",
+  "I have a Zulip account": "I have a Zulip account",
+  "I am new to Zulip": "I am new to Zulip",
   "Home": "Ana Sayfa",
   "All messages": "Tüm iletiler",
   "Private messages": "Özel iletiler",
@@ -16,6 +18,7 @@
   "No unread messages": "Okunmamış ileti yok",
   "Pick account": "Hesap seç",
   "Welcome": "Hoşgeldiniz",
+  "Welcome!": "Welcome!",
   "Subscriptions": "Abonelikler",
   "Your server URL": "Sunucu URL'niz",
   "Search": "Ara",
@@ -65,7 +68,7 @@
   "Send private message": "Özel ileti gönder",
   "Forgot password?": "Parolanızı mı unuttunuz?",
   "Members": "Üyeler",
-  "Group details": "Grup detayları",
+  "Recipients": "Recipients",
   "Delete message": "İletiyi silin",
   "Notifications when online": "Çevrim içiyken bildirimler",
   "Notifications when offline": "Çevrim dışıyken bildirimler",
@@ -131,5 +134,7 @@
   "Idle": "Eylemsiz",
   "Offline": "Çevrim dışı",
   "Do not mark messages read on scroll": "Kaydırınca iletileri okunmuş işaretleme",
-  "Topics": "Konular"
+  "Topics": "Konular",
+  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
+  "Add subscribers": "Add subscribers"
 }

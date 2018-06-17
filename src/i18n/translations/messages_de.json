@@ -1,5 +1,7 @@
 {
   "{_}": "{_}",
+  "I have a Zulip account": "I have a Zulip account",
+  "I am new to Zulip": "I am new to Zulip",
   "Home": "Startseite",
   "All messages": "Alle Nachrichten",
   "Private messages": "Private Nachricht",
@@ -16,6 +18,7 @@
   "No unread messages": "Keine ungelesenen Nachrichten",
   "Pick account": "Account auswählen",
   "Welcome": "Willkommen",
+  "Welcome!": "Welcome!",
   "Subscriptions": "Abonnements",
   "Your server URL": "URL deines Servers",
   "Search": "Suche",
@@ -65,7 +68,7 @@
   "Send private message": "Private Nachricht senden",
   "Forgot password?": "Passwort vergessen?",
   "Members": "Mitglieder",
-  "Group details": "Details zur Gruppe",
+  "Recipients": "Recipients",
   "Delete message": "Nachricht löschen",
   "Notifications when online": "Benachrichtungen wenn Online",
   "Notifications when offline": "Benachrichtigungen wenn Offline",
@@ -131,5 +134,7 @@
   "Idle": "Beschäftigt",
   "Offline": "Offline",
   "Do not mark messages read on scroll": "Nachrichten beim scrollen nicht als gelesen markieren",
-  "Topics": "Themen"
+  "Topics": "Themen",
+  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
+  "Add subscribers": "Add subscribers"
 }

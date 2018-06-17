@@ -1,5 +1,7 @@
 {
   "{_}": "{_}",
+  "I have a Zulip account": "I have a Zulip account",
+  "I am new to Zulip": "I am new to Zulip",
   "Home": "Beranda",
   "All messages": "Semua pesan",
   "Private messages": "Pesan pribadi",
@@ -16,6 +18,7 @@
   "No unread messages": "Tidak ada pesan yang belum dibaca",
   "Pick account": "Pilih akun",
   "Welcome": "Selamat datang",
+  "Welcome!": "Welcome!",
   "Subscriptions": "Berlangganan",
   "Your server URL": "URL server Anda",
   "Search": "Cari",
@@ -65,7 +68,7 @@
   "Send private message": "Kirim pesan pribadi",
   "Forgot password?": "Lupa password?",
   "Members": "Anggota",
-  "Group details": "Detail grup",
+  "Recipients": "Recipients",
   "Delete message": "Hapus pesan",
   "Notifications when online": "Notifikasi ketika online",
   "Notifications when offline": "Notifikasi ketika offline",
@@ -131,5 +134,7 @@
   "Idle": "Diam",
   "Offline": "Tidak aktif",
   "Do not mark messages read on scroll": "Jangan tandai pesan saat scroll",
-  "Topics": "Topics"
+  "Topics": "Topics",
+  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
+  "Add subscribers": "Add subscribers"
 }
