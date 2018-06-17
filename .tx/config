@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[zulip.mobile]
+source_file = src/i18n/translations/messages_en.json
+source_lang = en
+type = KEYVALUEJSON
+file_filter = src/i18n/translations/messages_<lang>.json
