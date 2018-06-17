@@ -62,21 +62,21 @@ class SettingsCard extends PureComponent<Props> {
           Icon={IconNotifications}
           label="Notifications"
           onPress={() => {
-            dispatch(navigateToNotifications);
+            dispatch(navigateToNotifications());
           }}
         />
         <OptionButton
           Icon={IconLanguage}
           label="Language"
           onPress={() => {
-            dispatch(navigateToLanguage);
+            dispatch(navigateToLanguage());
           }}
         />
         <OptionButton
           Icon={IconDiagnostics}
           label="Diagnostics"
           onPress={() => {
-            dispatch(navigateToDiagnostics);
+            dispatch(navigateToDiagnostics());
           }}
         />
         <OptionDivider />
