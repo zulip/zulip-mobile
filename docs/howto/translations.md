@@ -10,3 +10,10 @@ You'll want Transifex's CLI client, `tx`.
 * Configure a `.transifexrc` with your API token.  See [upstream
   instructions](https://docs.transifex.com/client/client-configuration#transifexrc).
 
+### Uploading strings to translate
+
+Run `tx push -s`.
+
+### Downloading translated strings
+
+Run `tools/tx-pull`.
