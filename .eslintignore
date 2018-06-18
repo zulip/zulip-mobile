@@ -1,2 +1,4 @@
 **/flow-typed/**
 **/__flow-tests__/**
+src/webview/assets/matches-polyfill.js
+src/webview/assets/smooth-scroll.js
