@@ -1,20 +1,16 @@
 /* @flow */
-import smoothScroll from './smoothScroll.min';
-import matchesPolyfill from './matchesPolyfill';
-import js from './generatedEs3';
 import config from '../../config';
+import { getWebviewResource } from '../webviewHelpers';
 
 export default (anchor: number): string => `
+<script src="${getWebviewResource('smooth-scroll.js')}"></script>
+<script src="${getWebviewResource('matches-polyfill.js')}"></script>
+<script src="${getWebviewResource('zulip.js')}"></script>
 <script>
 window.__forceSmoothScrollPolyfill__ = true;
-${smoothScroll}
-${matchesPolyfill}
 window.enableWebViewErrorDisplay = ${config.enableWebViewErrorDisplay.toString()};
-document.addEventListener('DOMContentLoaded', function() {
-  ${js}
-  scrollToAnchor(${anchor});
-  scrollEventsDisabled = false;
-  sendScrollMessageIfListShort();
-});
+scrollToAnchor(${anchor});
+scrollEventsDisabled = false;
+sendScrollMessageIfListShort();
 </script>
 `;
