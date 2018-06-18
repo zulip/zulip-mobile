@@ -43,6 +43,12 @@
 		A148FEFC1E9D8CB900479280 /* zulip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A148FEFB1E9D8CB900479280 /* zulip.mp3 */; };
 		A14EA8771EACE522009D9E83 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A14EA85B1EACE4CF009D9E83 /* libRCTAnimation.a */; };
 		A155C0061DD8E7A800A8B695 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A155BFEC1DD8E54100A8B695 /* libRCTCameraRoll.a */; };
+		A1EFB05D20D30072003F879D /* theme.css in Resources */ = {isa = PBXBuildFile; fileRef = A1EFB02120D30072003F879D /* theme.css */; };
+		A1EFB05E20D30072003F879D /* matches-polyfill.js in Resources */ = {isa = PBXBuildFile; fileRef = A1EFB02220D30072003F879D /* matches-polyfill.js */; };
+		A1EFB05F20D30072003F879D /* dark.css in Resources */ = {isa = PBXBuildFile; fileRef = A1EFB02320D30072003F879D /* dark.css */; };
+		A1EFB06020D30072003F879D /* emoji.css in Resources */ = {isa = PBXBuildFile; fileRef = A1EFB02420D30072003F879D /* emoji.css */; };
+		A1EFB06120D30072003F879D /* smooth-scroll.js in Resources */ = {isa = PBXBuildFile; fileRef = A1EFB02520D30072003F879D /* smooth-scroll.js */; };
+		A1EFB06220D30072003F879D /* zulip.js in Resources */ = {isa = PBXBuildFile; fileRef = A1EFB02620D30072003F879D /* zulip.js */; };
 		A83E9861943143E6A10A689E /* libSafariViewManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E518466F398E458DA2C685AF /* libSafariViewManager.a */; };
 		A9D63FEB69844C47ADA3B14A /* libLRDRCTSimpleToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1013EA9DAA5C4F618516419E /* libLRDRCTSimpleToast.a */; };
 		ADE3B79538D54689B14FEB10 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F7E19951E64FC7B6BBE612 /* libRNFetchBlob.a */; };
@@ -508,6 +514,12 @@
 		A14EA8541EACE4CE009D9E83 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		A155BFE71DD8E54100A8B695 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		A1E053B01FDB490D002A87B7 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
+		A1EFB02120D30072003F879D /* theme.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = theme.css; sourceTree = "<group>"; };
+		A1EFB02220D30072003F879D /* matches-polyfill.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "matches-polyfill.js"; sourceTree = "<group>"; };
+		A1EFB02320D30072003F879D /* dark.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = dark.css; sourceTree = "<group>"; };
+		A1EFB02420D30072003F879D /* emoji.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = emoji.css; sourceTree = "<group>"; };
+		A1EFB02520D30072003F879D /* smooth-scroll.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "smooth-scroll.js"; sourceTree = "<group>"; };
+		A1EFB02620D30072003F879D /* zulip.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = zulip.js; sourceTree = "<group>"; };
 		A2070A88714C43ED8AF708C3 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		A752523B8D8E49E792F653E1 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		A7F287C57D8A4354A8B6A3E7 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
@@ -826,6 +838,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				A1EFB02020D30072003F879D /* webview */,
 				A148FEFB1E9D8CB900479280 /* zulip.mp3 */,
 				CF6CFE2C1E7DC55100F687C7 /* Build-Phases */,
 				13B07FAE1A68108700A75B9A /* ZulipMobile */,
@@ -898,6 +911,19 @@
 				A1E053B81FDB490E002A87B7 /* libART-tvOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A1EFB02020D30072003F879D /* webview */ = {
+			isa = PBXGroup;
+			children = (
+				A1EFB02120D30072003F879D /* theme.css */,
+				A1EFB02220D30072003F879D /* matches-polyfill.js */,
+				A1EFB02320D30072003F879D /* dark.css */,
+				A1EFB02420D30072003F879D /* emoji.css */,
+				A1EFB02520D30072003F879D /* smooth-scroll.js */,
+				A1EFB02620D30072003F879D /* zulip.js */,
+			);
+			path = webview;
 			sourceTree = "<group>";
 		};
 		A1F9F7411E1BE26300A70FA5 /* Products */ = {
@@ -1580,6 +1606,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				A1EFB06120D30072003F879D /* smooth-scroll.js in Resources */,
 				9958691A3D1D436DA0727A14 /* Entypo.ttf in Resources */,
 				C2FB87564E22416A9EDEABD3 /* EvilIcons.ttf in Resources */,
 				0E9F27D19BDC456EA37B5E51 /* FontAwesome.ttf in Resources */,
@@ -1587,11 +1614,16 @@
 				4B12DC82ECA043809695F227 /* Ionicons.ttf in Resources */,
 				17449DB932594E96A837970F /* MaterialIcons.ttf in Resources */,
 				48D1FC73615948D79D3BD31E /* Octicons.ttf in Resources */,
+				A1EFB06220D30072003F879D /* zulip.js in Resources */,
 				A148FEFC1E9D8CB900479280 /* zulip.mp3 in Resources */,
 				3556F3DAC2424EBE9ABF0A31 /* Zocial.ttf in Resources */,
+				A1EFB05E20D30072003F879D /* matches-polyfill.js in Resources */,
 				C478B42A63D649EFA2CFD12D /* SimpleLineIcons.ttf in Resources */,
+				A1EFB05F20D30072003F879D /* dark.css in Resources */,
+				A1EFB06020D30072003F879D /* emoji.css in Resources */,
 				DBC5C3186FE64F94BD3CDC19 /* MaterialCommunityIcons.ttf in Resources */,
 				197FEFEE99B8469BB155DC40 /* Feather.ttf in Resources */,
+				A1EFB05D20D30072003F879D /* theme.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
