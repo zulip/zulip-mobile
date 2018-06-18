@@ -16,7 +16,7 @@
     "android-min": "react-native run-android",
     "android-max": "react-native run-android",
     "android-release": "react-native run-android --variant=release",
-    "generate-webview-js": "node tools/generate-webview-js",
+    "build-webview": "node tools/build-webview",
     "prettier": "prettier --write --loglevel=warn 'src/**/*.js' ; eslint --no-eslintrc -c tools/formatting.eslintrc.yaml --fix src/",
     "test:prettier": "prettier-eslint --list-different --eslint-config-path ./tools/formatting.eslintrc.yaml 'src/**/*.js'",
     "test:lint": "eslint src/",

@@ -119,4 +119,4 @@ rules:
       const, wildcard, reactotron, camelcase, hydrator, perf, stacktrace, Dir, fs,
       avoider, octicons, centerer, ldap, gravatar, identicon, blueimp, filename, wildcards,
       jpeg, jpg, tif, mov, notif, diag, bmp, viewport, scalable, polyfill, rect, touchstart,
-      touchend, touchmove, remoteuser, sso, submessages, nbsp, args]
+      touchend, touchmove, remoteuser, sso, submessages, nbsp, args, readdir]
