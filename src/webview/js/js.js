@@ -249,7 +249,6 @@ const messageHandlers = {
   typing: handleMessageTyping,
 };
 
-// $FlowFixMe
 document.addEventListener('message', e => {
   scrollEventsDisabled = true;
   // $FlowFixMe

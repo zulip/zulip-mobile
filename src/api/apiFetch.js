@@ -47,7 +47,6 @@ export const apiCall = async (
       const error = new Error('API');
       // $FlowFixMe
       error.response = response;
-      // $FlowFixMe
       throw error;
     }
 

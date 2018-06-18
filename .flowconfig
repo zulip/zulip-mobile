@@ -43,6 +43,8 @@ node_modules/react-native/flow-github/
 [options]
 emoji=true
 
+include_warnings=true
+
 module.system=haste
 
 munge_underscores=true
