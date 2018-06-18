@@ -52,6 +52,7 @@ import {
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
   EVENT_PRESENCE,
+  EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   EVENT_UPDATE_MESSAGE_FLAGS,
   EVENT_USER_ADD,
   EVENT_SUBSCRIPTION_PEER_ADD,
@@ -332,7 +333,13 @@ export type StreamUpdateDetails = {
 
 export type EventAlertWordsAction = any;
 export type EventRealmFiltersAction = any;
-export type EventUpdateGlobalNotificationsSettingsAction = any;
+export type EventUpdateGlobalNotificationsSettingsAction = {
+  type: typeof EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+  notification_name: | 'enable_offline_push_notiications'
+    | 'enable_online_push_notiications'
+    | 'enable_stream_push_notifiations',
+  setting: boolean,
+};
 
 export type EventSubscriptionAddAction = {
   type: typeof EVENT_SUBSCRIPTION_ADD,
