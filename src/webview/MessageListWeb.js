@@ -10,6 +10,7 @@ import getHtml from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import { getInputMessages } from './webViewHandleUpdates';
 import * as webViewEventHandlers from './webViewEventHandlers';
+import { baseUrl } from './webviewHelpers';
 
 export default class MessageListWeb extends Component<Props> {
   context: Context;
@@ -58,7 +59,7 @@ export default class MessageListWeb extends Component<Props> {
 
   render() {
     const { styles, theme } = this.context;
-    const { anchor, auth, showMessagePlaceholders, debug } = this.props;
+    const { anchor, showMessagePlaceholders, debug } = this.props;
     const html = getHtml(renderMessagesAsHtml(this.props), theme, {
       anchor,
       highlightUnreadMessages: debug.highlightUnreadMessages,
@@ -72,7 +73,7 @@ export default class MessageListWeb extends Component<Props> {
     return (
       <WebView
         source={{
-          baseUrl: auth.realm,
+          baseUrl,
           html,
         }}
         style={styles.webview}
