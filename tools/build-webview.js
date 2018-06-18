@@ -31,5 +31,35 @@ const compileJS = () => {
   fs.writeFileSync(`${outputIosFolder}zulip.js`, compiledCode);
 };
 
-copyResourceFiles();
-compileJS();
+const build = () => {
+  copyResourceFiles();
+  compileJS();
+};
+
+const watch = () => {
+  process.stdout.write('Watching...\n');
+
+  fs.watch(inputFolder, {}, (eventType, filename) => {
+    if (filename) {
+      process.stdout.write('Asset changed. Copying... ');
+      copyResourceFiles();
+      process.stdout.write('Done.\n');
+    }
+  });
+
+  fs.watch(sourceFilename, {}, (eventType, filename) => {
+    if (filename) {
+      process.stdout.write('Code changed. Compiling... ');
+      compileJS();
+      process.stdout.write('Done.\n');
+    }
+  });
+};
+
+const args = process.argv.slice(2);
+
+if (args.length === 0) {
+  build();
+} else if (args.indexOf('--watch') !== -1 || args.indexOf('-w') !== -1) {
+  watch();
+}
