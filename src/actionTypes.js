@@ -53,6 +53,7 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_PRESENCE,
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+  EVENT_UPDATE_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   EVENT_USER_ADD,
   EVENT_SUBSCRIPTION_PEER_ADD,
@@ -420,10 +421,21 @@ export type EventNewMessageAction = {
   ownEmail: string,
 };
 
-export type EventUpdateMessageAction = any;
 export type EventMessageDeleteAction = {
   type: typeof EVENT_MESSAGE_DELETE,
   messageId: number,
+};
+export type EventUpdateMessageAction = {
+  type: typeof EVENT_UPDATE_MESSAGE,
+  edit_timestamp: number,
+  message_id: number,
+  orig_content: string,
+  orig_rendered_content: string,
+  prev_rendered_content_version: number,
+  rendered_content: string,
+  subject_links: string[],
+  subject: string,
+  user_id: number,
 };
 
 export type EventReactionCommon = {
@@ -870,6 +882,7 @@ export type UserGroupsAction =
   | LogoutAction;
 
 export type Action =
+  | $FlowFixMe
   | AccountAction
   | CaughtUpAction
   | LoadingAction
