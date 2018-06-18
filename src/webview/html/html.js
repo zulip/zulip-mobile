@@ -12,10 +12,9 @@ type InitOptionsType = {
 };
 
 export default (content: string, theme: ThemeType, initOptions: InitOptionsType) => template`
-$!${css(theme, initOptions.highlightUnreadMessages)}
-
+$!${css(initOptions.highlightUnreadMessages)}
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<body style="overflow-x: hidden;">
+<body style="overflow-x: hidden;" $!${theme === 'night' ? 'class="night-mode"' : ''}>
 $!${htmlBody(content, initOptions.showMessagePlaceholders)}
 </body>
 $!${script(initOptions.anchor)}

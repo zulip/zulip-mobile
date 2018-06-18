@@ -1,10 +1,10 @@
-body {
+body.night-mode {
   color: #d5d9dd;
   background: #212D3B;
 }
-.topic-text {
+body.night-mode .topic-text {
   background: #54606E;
 }
-.highlight {
+body.night-mode .highlight {
   background-color: hsla(51, 100%, 64%, 0.42);
 }

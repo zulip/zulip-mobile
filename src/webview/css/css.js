@@ -7,13 +7,9 @@ import { BORDER_COLOR, BRAND_COLOR } from '../../styles';
 import cssEmojis from './cssEmojis';
 import { getWebviewResource } from '../webviewHelpers';
 
-export default (theme: ThemeType, highlightUnreadMessages: boolean) => `
+export default (highlightUnreadMessages: boolean): string => `
 <link type="text/css" href="${getWebviewResource('theme.css')}" rel="stylesheet" />
-${
-  theme === 'night'
-    ? '<link type="text/css" href="${getWebviewResource(\'dark.css\')}" rel="stylesheet" />'
-    : ''
-}
+<link type="text/css" href="${getWebviewResource('dark.css')}" rel="stylesheet" />
 <link type="text/css" href="${getWebviewResource('emoji.css')}" rel="stylesheet" />
 <link type="text/css" href="${getWebviewResource('code.css')}" rel="stylesheet" />
 <style>
