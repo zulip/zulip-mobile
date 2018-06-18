@@ -15,6 +15,7 @@ ${
     : ''
 }
 <link type="text/css" href="${getWebviewResource('emoji.css')}" rel="stylesheet" />
+<link type="text/css" href="${getWebviewResource('code.css')}" rel="stylesheet" />
 <style>
 ${highlightUnreadMessages ? '.message:not([data-read="true"]) { background: red; }' : ''}
 </style>

@@ -261,17 +261,6 @@ blockquote {
 .message ul + p {
   margin-top: 1em;
 }
-.codehilite .gi { color: #00a000; }
-.codehilite .gd { color: #a00000; }
-.codehilite .k { color: #008000; font-weight: bold; }
-.codehilite .kd { color: #008000; font-weight: bold; }
-.codehilite .nf { color: #00f; }
-.codehilite .s2 { color: #ba2121; }
-.codehilite .cp { color: #bc7a00; }
-.codehilite .kt { color: #b00040; }
-.codehilite .nc { color: #00f; font-weight: bold; }
-.codehilite .nb { color: #008000; }
-.codehilite .s1 { color: #ba2121; }
 .twitter-tweet {
   border: 2px solid rgba(29, 161, 242, 0.5);
   background: rgba(29, 161, 242, 0.1);
