@@ -882,7 +882,6 @@ export type UserGroupsAction =
   | LogoutAction;
 
 export type Action =
-  | $FlowFixMe
   | AccountAction
   | CaughtUpAction
   | LoadingAction

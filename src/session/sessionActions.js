@@ -27,6 +27,7 @@ import { getAuth, getIsOnline, getIsActive } from '../selectors';
 export const appOnline = (isOnline: boolean) => (
   dispatch: Dispatch,
   getState: GetState,
+  // $FlowFixMe: `dispatch` at caller has the wrong type
 ): ?AppOnlineAction => {
   if (isOnline !== getIsOnline(getState())) {
     dispatch({
@@ -39,6 +40,7 @@ export const appOnline = (isOnline: boolean) => (
 export const appState = (isActive: boolean) => (
   dispatch: Dispatch,
   getState: GetState,
+  // $FlowFixMe: `dispatch` at caller has the wrong type
 ): ?AppStateAction => {
   if (isActive !== getIsActive(getState())) {
     dispatch({
@@ -60,6 +62,7 @@ export const initSafeAreaInsets = (safeAreaInsets: Dimensions): InitSafeAreaInse
 export const appOrientation = (orientation: string) => (
   dispatch: Dispatch,
   getState: GetState,
+  // $FlowFixMe: `dispatch` at caller has the wrong type
 ): ?AppOrientationAction => {
   if (orientation !== getState().session.orientation) {
     dispatch({
