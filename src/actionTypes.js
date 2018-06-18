@@ -61,6 +61,7 @@ import {
   INIT_TOPICS,
   INIT_SUBSCRIPTIONS,
   INIT_USERS,
+  EVENT_MUTED_TOPICS,
 } from './actionConstants';
 
 import type {
@@ -84,6 +85,7 @@ import type {
   RealmEmojiState,
   CaughtUpState,
   MessagesState,
+  MuteState,
 } from './types';
 
 export type RehydrateAction = {
@@ -480,7 +482,10 @@ export type EventUserAddAction = {
 };
 export type EventUserRemoveAction = any;
 export type EventUserUpdateAction = any;
-export type EventMutedTopicsAction = any;
+export type EventMutedTopicsAction = {
+  type: typeof EVENT_MUTED_TOPICS,
+  muted_topics: MuteState,
+};
 export type EventUserGroupAddAction = {
   type: typeof EVENT_USER_GROUP_ADD,
   op: 'add',
