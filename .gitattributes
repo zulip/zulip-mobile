@@ -1,6 +1,8 @@
 # Suppress noisy generated files in diffs.
 yarn.lock -diff
 src/webview/js/generatedEs3.js -diff
+android/app/src/main/assets/webview/* -diff
+ios/webview/* -diff
 
 # Maintain LF (Unix-style) newlines in text files.
 * text=auto eol=lf
