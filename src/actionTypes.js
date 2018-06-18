@@ -53,6 +53,7 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_PRESENCE,
   EVENT_UPDATE_MESSAGE_FLAGS,
+  EVENT_USER_ADD,
   EVENT_SUBSCRIPTION_PEER_ADD,
   EVENT_SUBSCRIPTION_PEER_REMOVE,
   CLEAR_TYPING,
@@ -473,7 +474,10 @@ export type EventUpdateMessageFlagsAction = {
   operation: 'add' | 'remove',
 };
 
-export type EventUserAddAction = any;
+export type EventUserAddAction = {
+  type: typeof EVENT_USER_ADD,
+  person: User,
+};
 export type EventUserRemoveAction = any;
 export type EventUserUpdateAction = any;
 export type EventMutedTopicsAction = any;
