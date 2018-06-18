@@ -79,7 +79,7 @@ class StreamListCard extends PureComponent<Props, State> {
             secondary
             text="Create new stream"
             onPress={() => {
-              dispatch(navigateToCreateStream);
+              dispatch(navigateToCreateStream());
             }}
           />
         )}
