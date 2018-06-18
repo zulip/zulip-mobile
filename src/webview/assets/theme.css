@@ -395,3 +395,6 @@ ul {
   height: 32px;
   fill: rgba(255, 255, 255, 0.75);
 }
+.codehilite {
+  background: none!important;
+}
