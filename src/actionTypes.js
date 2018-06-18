@@ -33,6 +33,7 @@ import {
   MESSAGE_SEND_COMPLETE,
   DELETE_OUTBOX_MESSAGE,
   TOGGLE_OUTBOX_SENDING,
+  EVENT_MESSAGE_DELETE,
   EVENT_USER_GROUP_ADD,
   EVENT_USER_GROUP_REMOVE,
   EVENT_USER_GROUP_UPDATE,
@@ -409,8 +410,11 @@ export type EventNewMessageAction = {
   ownEmail: string,
 };
 
-export type EventMessageDeleteAction = any;
 export type EventUpdateMessageAction = any;
+export type EventMessageDeleteAction = {
+  type: typeof EVENT_MESSAGE_DELETE,
+  messageId: number,
+};
 
 export type EventReactionCommon = {
   emoji: string,
