@@ -1,0 +1,512 @@
+.codehilite pre {
+    background-color: white;
+    -webkit-font-smoothing: auto;
+  }
+  
+  .codehilite .hll {
+    background-color: #ffffcc;
+  }
+  
+  .codehilite {
+    background: #f7f7f7;
+  }
+  
+  .codehilite .c {
+    color: #3f7d7d;
+    font-style: italic;
+  }
+  
+  /* Comment */
+  .codehilite .err {
+    border: 1px solid #FF0000;
+  }
+  
+  /* Error */
+  .codehilite .k {
+    color: #a51d5c;
+  }
+  
+  /* Keyword */
+  .codehilite .o {
+    color: #a51d5c;
+  }
+  
+  /* Operator */
+  .codehilite .cm {
+    color: #3f7d7d;
+    font-style: italic;
+  }
+  
+  /* Comment.Multiline */
+  .codehilite .cp {
+    color: #b87400;
+  }
+  
+  /* Comment.Preproc */
+  .codehilite .c1 {
+    color: #a8a8a8;
+    font-style: italic;
+  }
+  
+  /* Comment.Single */
+  .codehilite .cs {
+    color: #3f7d7d;
+    font-style: italic;
+  }
+  
+  /* Comment.Special */
+  .codehilite .gd {
+    color: #9e0000;
+  }
+  
+  /* Generic.Deleted */
+  .codehilite .ge {
+    font-style: italic;
+  }
+  
+  /* Generic.Emph */
+  .codehilite .gr {
+    color: red;
+  }
+  
+  /* Generic.Error */
+  .codehilite .gh {
+    color: navy;
+    font-weight: bold;
+  }
+  
+  /* Generic.Heading */
+  .codehilite .gi {
+    color: #009e00;
+  }
+  
+  /* Generic.Inserted */
+  .codehilite .go {
+    color: gray;
+  }
+  
+  /* Generic.Output */
+  .codehilite .gp {
+    color: navy;
+    font-weight: bold;
+  }
+  
+  /* Generic.Prompt */
+  .codehilite .gs {
+    font-weight: bold;
+  }
+  
+  /* Generic.Strong */
+  .codehilite .gu {
+    color: purple;
+    font-weight: bold;
+  }
+  
+  /* Generic.Subheading */
+  .codehilite .gt {
+    color: #0041cc;
+  }
+  
+  /* Generic.Traceback */
+  .codehilite .kc {
+    color: #a51d5c;
+    font-weight: bold;
+  }
+  
+  /* Keyword.Constant */
+  .codehilite .kd {
+    color: #a51d5c;
+  }
+  
+  /* Keyword.Declaration */
+  .codehilite .kn {
+    color: #a51d5c;
+    font-weight: bold;
+  }
+  
+  /* Keyword.Namespace */
+  .codehilite .kp {
+    color: #a51d5c;
+  }
+  
+  /* Keyword.Pseudo */
+  .codehilite .kr {
+    color: #a51d5c;
+    font-weight: bold;
+  }
+  
+  /* Keyword.Reserved */
+  .codehilite .kt {
+    color: #a51d5c;
+  }
+  
+  /* Keyword.Type */
+  .codehilite .m {
+    color: #666666;
+  }
+  
+  /* Literal.Number */
+  .codehilite .s {
+    color: #6ea02c;
+  }
+  
+  /* Literal.String */
+  .codehilite .na {
+    color: #7c8e29;
+  }
+  
+  /* Name.Attribute */
+  .codehilite .nb {
+    color: #0086b3;
+  }
+  
+  /* Name.Builtin */
+  .codehilite .nc {
+    color: #795da2;
+    font-weight: bold;
+  }
+  
+  /* Name.Class */
+  .codehilite .no {
+    color: #850000;
+  }
+  
+  /* Name.Constant */
+  .codehilite .nd {
+    color: #a51fff;
+  }
+  
+  /* Name.Decorator */
+  .codehilite .ni {
+    color: #999999;
+    font-weight: bold;
+  }
+  
+  /* Name.Entity */
+  .codehilite .ne {
+    color: #d03e39;
+    font-weight: bold;
+  }
+  
+  /* Name.Exception */
+  .codehilite .nf {
+    color: #795da2;
+  }
+  
+  /* Name.Function */
+  .codehilite .nl {
+    color: #9e9e00;
+  }
+  
+  /* Name.Label */
+  .codehilite .nn {
+    color: #795da2;
+    font-weight: bold;
+  }
+  
+  /* Name.Namespace */
+  .codehilite .nt {
+    color: green;
+    font-weight: bold;
+  }
+  
+  /* Name.Tag */
+  .codehilite .nv {
+    color: #181778;
+  }
+  
+  /* Name.Variable */
+  .codehilite .nx {
+    color: #424242;
+  }
+  
+  /* Not sure? */
+  .codehilite .ow {
+    color: #a51fff;
+    font-weight: bold;
+  }
+  
+  /* Operator.Word */
+  .codehilite .w {
+    color: #bababa;
+  }
+  
+  /* Text.Whitespace */
+  .codehilite .mf {
+    color: #0086b3;
+  }
+  
+  /* Literal.Number.Float */
+  .codehilite .mh {
+    color: #0086b3;
+  }
+  
+  /* Literal.Number.Hex */
+  .codehilite .mi {
+    color: #0086b3;
+  }
+  
+  /* Literal.Number.Integer */
+  .codehilite .mo {
+    color: #0086b3;
+  }
+  
+  /* Literal.Number.Oct */
+  .codehilite .sb {
+    color: #6ea02c;
+  }
+  
+  /* Literal.String.Backtick */
+  .codehilite .sc {
+    color: #6ea02c;
+  }
+  
+  /* Literal.String.Char */
+  .codehilite .sd {
+    color: #6ea02c;
+    font-style: italic;
+  }
+  
+  /* Literal.String.Doc */
+  .codehilite .s2 {
+    color: #183690;
+  }
+  
+  /* Literal.String.Double */
+  .codehilite .se {
+    color: #b96422;
+    font-weight: bold;
+  }
+  
+  /* Literal.String.Escape */
+  .codehilite .sh {
+    color: #6ea02c;
+  }
+  
+  /* Literal.String.Heredoc */
+  .codehilite .si {
+    color: #b96486;
+    font-weight: bold;
+  }
+  
+  /* Literal.String.Interpol */
+  .codehilite .sx {
+    color: green;
+  }
+  
+  /* Literal.String.Other */
+  .codehilite .sr {
+    color: #39acc0;
+  }
+  
+  /* Literal.String.Regex */
+  .codehilite .s1 {
+    color: #6ea02c;
+  }
+  
+  /* Literal.String.Single */
+  .codehilite .ss {
+    color: #181778;
+  }
+  
+  /* Literal.String.Symbol */
+  .codehilite .bp {
+    color: green;
+  }
+  
+  /* Name.Builtin.Pseudo */
+  .codehilite .vc {
+    color: #181778;
+  }
+  
+  /* Name.Variable.Class */
+  .codehilite .vg {
+    color: #181778;
+  }
+  
+  /* Name.Variable.Global */
+  .codehilite .vi {
+    color: #181778;
+  }
+  
+  /* Name.Variable.Instance */
+  .codehilite .il {
+    color: #666666;
+  }
+  
+  /* Literal.Number.Integer.Long */
+  body.night-mode .codehilite code,
+  body.night-mode .codehilite pre {
+    color: #a2cdff;
+    background-color: #1c252f;
+  }
+  
+  body.night-mode .codehilite .hll {
+    background-color: #222;
+  }
+  
+  body.night-mode .codehilite .err {
+    color: #e37170;
+    background-color: #3d3535;
+  }
+  
+  body.night-mode .codehilite .k {
+    color: #ef9b3f;
+  }
+  
+  body.night-mode .codehilite .p {
+    color: #41706f;
+  }
+  
+  body.night-mode .codehilite .cs {
+    color: #cd0000;
+    font-weight: 700;
+  }
+  
+  body.night-mode .codehilite .gd {
+    color: #cd0000;
+  }
+  
+  body.night-mode .codehilite .ge {
+    color: #ccc;
+    font-style: italic;
+  }
+  
+  body.night-mode .codehilite .gr {
+    color: red;
+  }
+  
+  body.night-mode .codehilite .go {
+    color: gray;
+  }
+  
+  body.night-mode .codehilite .gs {
+    color: #ccc;
+    font-weight: 700;
+  }
+  
+  body.night-mode .codehilite .gu {
+    color: purple;
+    font-weight: 700;
+  }
+  
+  body.night-mode .codehilite .gt {
+    color: #0040D0;
+  }
+  
+  body.night-mode .codehilite .kc {
+    color: #dca3a3;
+  }
+  
+  body.night-mode .codehilite .kd {
+    color: #ffff86;
+  }
+  
+  body.night-mode .codehilite .kn {
+    color: #dfaf8f;
+    font-weight: 700;
+  }
+  
+  body.night-mode .codehilite .kp {
+    color: #cdcf99;
+  }
+  
+  body.night-mode .codehilite .kr {
+    color: #d04e50;
+  }
+  
+  body.night-mode .codehilite .ni {
+    color: #c28182;
+  }
+  
+  body.night-mode .codehilite .ne {
+    color: #c3bf9f;
+    font-weight: 700;
+  }
+  
+  body.night-mode .codehilite .nn {
+    color: #8fbede;
+  }
+  
+  body.night-mode .codehilite .vi {
+    color: #ffffc7;
+  }
+  
+  body.night-mode .codehilite .c,
+  body.night-mode .codehilite .g,
+  body.night-mode .codehilite .cm,
+  body.night-mode .codehilite .cp,
+  body.night-mode .codehilite .c1 {
+    color: #7d8e9e;
+  }
+  
+  body.night-mode .codehilite .l,
+  body.night-mode .codehilite .x,
+  body.night-mode .codehilite .no,
+  body.night-mode .codehilite .nd,
+  body.night-mode .codehilite .nl,
+  body.night-mode .codehilite .nx,
+  body.night-mode .codehilite .py,
+  body.night-mode .codehilite .w {
+    color: #ccc;
+  }
+  
+  body.night-mode .codehilite .n,
+  body.night-mode .codehilite .nv,
+  body.night-mode .codehilite .vg {
+    color: #dcdccc;
+  }
+  
+  body.night-mode .codehilite .o,
+  body.night-mode .codehilite .ow {
+    color: #f0efd0;
+  }
+  
+  body.night-mode .codehilite .gh,
+  body.night-mode .codehilite .gp {
+    color: #dcdccc;
+    font-weight: 700;
+  }
+  
+  body.night-mode .codehilite .gi,
+  body.night-mode .codehilite .kt {
+    color: #00cd00;
+  }
+  
+  body.night-mode .codehilite .ld,
+  body.night-mode .codehilite .s,
+  body.night-mode .codehilite .sb,
+  body.night-mode .codehilite .sc,
+  body.night-mode .codehilite .sd,
+  body.night-mode .codehilite .s2,
+  body.night-mode .codehilite .se,
+  body.night-mode .codehilite .sh,
+  body.night-mode .codehilite .si,
+  body.night-mode .codehilite .sx,
+  body.night-mode .codehilite .sr,
+  body.night-mode .codehilite .s1,
+  body.night-mode .codehilite .ss {
+    color: #cc9393;
+  }
+  
+  body.night-mode .codehilite .m,
+  body.night-mode .codehilite .mf,
+  body.night-mode .codehilite .mh,
+  body.night-mode .codehilite .mi,
+  body.night-mode .codehilite .mo,
+  body.night-mode .codehilite .il {
+    color: #8cd0d3;
+  }
+  
+  body.night-mode .codehilite .na,
+  body.night-mode .codehilite .nt {
+    color: #9ac39f;
+  }
+  
+  body.night-mode .codehilite .nb,
+  body.night-mode .codehilite .nc,
+  body.night-mode .codehilite .nf,
+  body.night-mode .codehilite .bp,
+  body.night-mode .codehilite .vc {
+    color: #efef8f;
+  }

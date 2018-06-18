@@ -42,6 +42,7 @@
 		A146BE491FDB4C640090EA06 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E053B61FDB490E002A87B7 /* libART.a */; };
 		A148FEFC1E9D8CB900479280 /* zulip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A148FEFB1E9D8CB900479280 /* zulip.mp3 */; };
 		A14EA8771EACE522009D9E83 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A14EA85B1EACE4CF009D9E83 /* libRCTAnimation.a */; };
+		A1501B9820D75552008446EB /* code.css in Resources */ = {isa = PBXBuildFile; fileRef = A1501B6120D75551008446EB /* code.css */; };
 		A155C0061DD8E7A800A8B695 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A155BFEC1DD8E54100A8B695 /* libRCTCameraRoll.a */; };
 		A1EFB05D20D30072003F879D /* theme.css in Resources */ = {isa = PBXBuildFile; fileRef = A1EFB02120D30072003F879D /* theme.css */; };
 		A1EFB05E20D30072003F879D /* matches-polyfill.js in Resources */ = {isa = PBXBuildFile; fileRef = A1EFB02220D30072003F879D /* matches-polyfill.js */; };
@@ -512,6 +513,7 @@
 		A13F24FE206D88C1002B0923 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		A148FEFB1E9D8CB900479280 /* zulip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = zulip.mp3; sourceTree = "<group>"; };
 		A14EA8541EACE4CE009D9E83 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		A1501B6120D75551008446EB /* code.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = code.css; sourceTree = "<group>"; };
 		A155BFE71DD8E54100A8B695 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		A1E053B01FDB490D002A87B7 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		A1EFB02120D30072003F879D /* theme.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = theme.css; sourceTree = "<group>"; };
@@ -916,6 +918,7 @@
 		A1EFB02020D30072003F879D /* webview */ = {
 			isa = PBXGroup;
 			children = (
+				A1501B6120D75551008446EB /* code.css */,
 				A1EFB02120D30072003F879D /* theme.css */,
 				A1EFB02220D30072003F879D /* matches-polyfill.js */,
 				A1EFB02320D30072003F879D /* dark.css */,
@@ -1609,6 +1612,7 @@
 				A1EFB06120D30072003F879D /* smooth-scroll.js in Resources */,
 				9958691A3D1D436DA0727A14 /* Entypo.ttf in Resources */,
 				C2FB87564E22416A9EDEABD3 /* EvilIcons.ttf in Resources */,
+				A1501B9820D75552008446EB /* code.css in Resources */,
 				0E9F27D19BDC456EA37B5E51 /* FontAwesome.ttf in Resources */,
 				49692FC0562C40F3946EC6D4 /* Foundation.ttf in Resources */,
 				4B12DC82ECA043809695F227 /* Ionicons.ttf in Resources */,
