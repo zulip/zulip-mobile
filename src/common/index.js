@@ -3,6 +3,7 @@ export { default as Arc } from './Arc';
 export { default as Avatar } from './Avatar';
 export { default as Centerer } from './Centerer';
 export { default as Circle } from './Circle';
+export { default as ComponentList } from './ComponentList';
 export { default as ComponentWithOverlay } from './ComponentWithOverlay';
 export { default as ErrorMsg } from './ErrorMsg';
 export { default as FlexView } from './FlexView';
