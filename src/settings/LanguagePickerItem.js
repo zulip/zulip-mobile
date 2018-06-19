@@ -17,8 +17,8 @@ const componentStyles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: 8,
-    paddingBottom: 8,
+    paddingTop: 12,
+    paddingBottom: 12,
     paddingLeft: 16,
     paddingRight: 16,
   },
