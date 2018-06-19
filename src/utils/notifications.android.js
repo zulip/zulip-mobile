@@ -43,7 +43,7 @@ export const handlePendingNotifications = (
   const data = notificationData.getData();
   config.startup.notification = data;
   if (data) {
-    dispatch(doNarrow(getNarrowFromNotificationData(data, usersById), data.zulip_message_id));
+    dispatch(doNarrow(getNarrowFromNotificationData(data, usersById)));
   }
 };
 
