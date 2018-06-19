@@ -15,7 +15,7 @@ export type * from './api/apiTypes';
 
 export type ThunkDispatch<T> = ((Dispatch, GetState) => T) => T;
 
-export type Dispatch = ReduxDispatch<Action> & ThunkDispatch<*>;
+export type Dispatch = ReduxDispatch<*> & ThunkDispatch<*>;
 
 export type Style = boolean | number | Array<Style> | ?{ [string]: any };
 
