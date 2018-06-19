@@ -96,7 +96,6 @@ hr {
 .timestamp {
   color: #999;
   font-size: 14px;
-  line-height: 1;
   white-space: nowrap;
 }
 .message {
@@ -127,7 +126,6 @@ hr {
 }
 .username {
   font-weight: bold;
-  line-height: 1;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
