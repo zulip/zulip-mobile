@@ -25,7 +25,9 @@ up your development environment in several ways:
    This makes a big difference in productivity, and especially so when
    working in a codebase that's new to you.  See [our Editors / IDEs
    guide](howto/editor.md).
-3. Debugging.  It's fine to skip this at first to get going, but when you're
+3. Git.  See [our Git guide](howto/git.md) for a bit of setup, and some
+   valuable tips you may not know (even if you've been using Git for a while).
+4. Debugging.  It's fine to skip this at first to get going, but when you're
    tackling a moderately complex issue, a good debugging setup can help a
    lot.  See [our debugging guide](howto/debugging.md) for details, including
    setup instructions.
