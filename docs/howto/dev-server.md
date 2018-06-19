@@ -58,6 +58,11 @@ So you can just use `10.0.2.2` below.
 
 [android-emulator-net]: https://developer.android.com/studio/run/emulator-networking
 
+### Android (alternate)
+
+See the [separate doc](dev-server-non-vagrant.md), written for a Zulip
+server running directly on your host.
+
 ### iOS physical device
 
 See the separate section below, at the end.
