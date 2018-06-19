@@ -13,8 +13,9 @@ export type MapStateToProps = any; // { MapStateToProps } from 'react-redux';
 export type * from './actionTypes';
 export type * from './api/apiTypes';
 
-export type Thunk<A> = ((Dispatch, GetState) => Promise<void> | void) => A;
-export type Dispatch = ReduxDispatch<Action> & Thunk<Action>;
+export type ThunkDispatch<T> = ((Dispatch, GetState) => T) => T;
+
+export type Dispatch = ReduxDispatch<Action> & ThunkDispatch<*>;
 
 export type Style = boolean | number | Array<Style> | ?{ [string]: any };
 

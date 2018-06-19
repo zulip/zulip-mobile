@@ -58,7 +58,6 @@ class StreamScreen extends PureComponent<Props> {
 
   toggleStreamPushNotification = () => {
     const { dispatch, subscription, stream } = this.props;
-    // $FlowFixMe: `dispatch` has the wrong type
     dispatch(toggleStreamNotification(stream.stream_id, !subscription.push_notifications));
   };
 
