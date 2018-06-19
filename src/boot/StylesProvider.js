@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { ChildrenArray } from '../types';
+import type { ChildrenArray, ThemeType } from '../types';
 import { getSettings } from '../directSelectors';
 import themeCreator from '../styles/theme';
 import themeDark from '../styles/themeDark';
@@ -19,14 +19,7 @@ const themeNameToObject = {
 const Dummy = props => props.children;
 
 type Props = {
-  // This errors because `string` is too generic:
-  // string [1] is incompatible with string enum [2].
-  // In reality, `theme`  is and should be marked as an enum of type
-  // `ThemeType`. However, doing so throws another error:
-  // undefined [1] is incompatible with string enum [2].
-  // We should figure out what causes this and fix it.
-  // $FlowFixMe
-  theme: string,
+  theme: ThemeType,
   children?: ChildrenArray<*>,
 };
 
