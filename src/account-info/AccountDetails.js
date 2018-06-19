@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, Dimensions } from 'react-native';
 
 import type { Auth, Dispatch, Context, Presence, User } from '../types';
-import { Avatar, RawLabel, ZulipButton } from '../common';
+import { Avatar, ComponentList, RawLabel, ZulipButton } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { privateNarrow } from '../utils/narrow';
 import UserStatusIndicator from '../common/UserStatusIndicator';
@@ -47,27 +47,28 @@ export default class AccountDetails extends PureComponent<Props, void> {
           realm={auth.realm}
           shape="square"
         />
-        <View style={[styles.row, styles.margin, styles.center]}>
-          <UserStatusIndicator presence={presence} hideIfOffline={false} />
-          <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
-        </View>
-        <View style={[styles.row, styles.margin, styles.center]}>
-          <ActivityText style={styles.largerText} email={user.email} />
-        </View>
-        {user.timezone ? (
-          <View style={[styles.row, styles.margin, styles.center]}>
-            <RawLabel
-              style={styles.largerText}
-              text={`${nowInTimeZone(user.timezone)} Local time`}
-            />
+        <ComponentList outerSpacing itemStyle={[styles.row, styles.center]}>
+          <View>
+            <UserStatusIndicator presence={presence} hideIfOffline={false} />
+            <RawLabel style={[styles.largerText, styles.halfMarginLeft]} text={user.email} />
           </View>
-        ) : null}
-        <ZulipButton
-          style={styles.marginHorizontal}
-          text="Send private message"
-          onPress={this.handleChatPress}
-          Icon={IconPrivateChat}
-        />
+          <View>
+            <ActivityText style={styles.largerText} email={user.email} />
+          </View>
+          {user.timezone ? (
+            <View>
+              <RawLabel
+                style={styles.largerText}
+                text={`${nowInTimeZone(user.timezone)} Local time`}
+              />
+            </View>
+          ) : null}
+          <ZulipButton
+            text="Send private message"
+            onPress={this.handleChatPress}
+            Icon={IconPrivateChat}
+          />
+        </ComponentList>
       </View>
     );
   }
