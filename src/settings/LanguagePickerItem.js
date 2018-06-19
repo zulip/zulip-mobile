@@ -41,7 +41,7 @@ export default class LanguagePickerItem extends PureComponent<Props> {
         <View style={styles.listItem}>
           <RawLabel style={componentStyles.flag} text={flag} />
           <RawLabel style={componentStyles.language} text={name} />
-          {selected && <IconDone size={24} color={BRAND_COLOR} />}
+          {selected && <IconDone size={16} color={BRAND_COLOR} />}
         </View>
       </Touchable>
     );
