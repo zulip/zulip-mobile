@@ -2,7 +2,6 @@
 import type { Dispatch as ReduxDispatch } from 'redux';
 import type { IntlShape } from 'react-intl';
 
-import type { Action } from './actionTypes';
 import type { AppStyles } from './styles/theme';
 
 export type { ChildrenArray } from 'react';
@@ -516,8 +515,6 @@ export type TimingItemType = {
   start: number,
   end: number,
 };
-
-export type Reducer = (state: GlobalState, action: Action) => GlobalState;
 
 export type ActionSheetButtonType = any; /* {
   title: string,
