@@ -14,6 +14,14 @@ const componentStyles = StyleSheet.create({
   language: {
     flex: 1,
   },
+  listItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
 });
 
 type Props = {
@@ -33,12 +41,11 @@ export default class LanguagePickerItem extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
     const { locale, flag, name, selected, onValueChange } = this.props;
 
     return (
       <Touchable onPress={() => onValueChange(locale)}>
-        <View style={styles.listItem}>
+        <View style={componentStyles.listItem}>
           <RawLabel style={componentStyles.flag} text={flag} />
           <RawLabel style={componentStyles.language} text={name} />
           {selected && <IconDone size={16} color={BRAND_COLOR} />}
