@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { TabNavigator, TabBarTop } from 'react-navigation';
+import { createMaterialTopTabNavigator } from 'react-navigation';
 import { FormattedMessage } from 'react-intl';
 
 import type { TabNavigationOptionsPropsType } from '../types';
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabNavigator(
+export default createMaterialTopTabNavigator(
   {
     subscribed: {
       screen: SubscriptionsCard,
@@ -39,12 +39,8 @@ export default TabNavigator(
       },
     },
   },
-  {
-    tabBarComponent: TabBarTop,
-    tabBarPosition: 'top',
-    ...tabsOptions({
-      showLabel: true,
-      showIcon: false,
-    }),
-  },
+  tabsOptions({
+    showLabel: true,
+    showIcon: false,
+  }),
 );
