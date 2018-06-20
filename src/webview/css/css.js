@@ -340,13 +340,13 @@ blockquote {
 }
 .emoji {
   display: inline-block;
-  height: 18px;
-  width: 18px;
   white-space: nowrap;
   color: transparent;
-  vertical-align: text-top;
 }
 .emoji:before {
+  width: 18px;
+  height: 18px;
+  vertical-align: text-top;
   color: white;
 }
 #typing {
