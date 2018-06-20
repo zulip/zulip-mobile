@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 import { Platform } from 'react-native';
-import { TabNavigator, TabBarBottom } from 'react-navigation';
+import { createMaterialTopTabNavigator } from 'react-navigation';
 
 import type { TabNavigationOptionsPropsType } from '../types';
 import tabsOptions from '../styles/tabs';
@@ -12,7 +12,7 @@ import SettingsCard from '../settings/SettingsCard';
 import { IconHome, IconStream, IconSettings } from '../common/Icons';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 
-export default TabNavigator(
+export default createMaterialTopTabNavigator(
   {
     home: {
       screen: HomeTab,
@@ -53,7 +53,6 @@ export default TabNavigator(
   },
   {
     backBehavior: 'none',
-    tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
     ...tabsOptions({
       showLabel: !!Platform.isPad,
