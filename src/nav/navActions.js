@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation';
 
 import type {
   Dispatch,
@@ -14,7 +14,7 @@ import { getSameRoutesCount } from '../selectors';
 
 export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigateAction =>
   // $FlowFixMe
-  dispatch(NavigationActions.pop({ n: getSameRoutesCount(getState()) }));
+  dispatch(StackActions.pop({ n: getSameRoutesCount(getState()) }));
 
 export const navigateToChat = (narrow: Narrow): NavigateAction =>
   NavigationActions.navigate({ routeName: 'chat', params: { narrow } });
