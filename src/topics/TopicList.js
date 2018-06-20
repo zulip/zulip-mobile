@@ -4,7 +4,7 @@ import { FlatList, StyleSheet } from 'react-native';
 
 import type { TopicExtended } from '../types';
 import TopicItem from '../streams/TopicItem';
-import { LoadingIndicator, SectionSeparatorBetween, SearchEmptyState } from '../common';
+import { LoadingIndicator, SearchEmptyState } from '../common';
 
 const styles = StyleSheet.create({
   list: {
@@ -53,7 +53,6 @@ export default class TopicList extends PureComponent<Props> {
             onPress={onPress}
           />
         )}
-        SectionSeparatorComponent={SectionSeparatorBetween}
       />
     );
   }
