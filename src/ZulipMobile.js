@@ -8,6 +8,7 @@ import StylesProvider from './boot/StylesProvider';
 import CompatibilityChecker from './boot/CompatibilityChecker';
 import AppEventHandlers from './boot/AppEventHandlers';
 import AppDataFetcher from './boot/AppDataFetcher';
+import BackNavigationHandler from './nav/BackNavigationHandler';
 import AppWithNavigation from './nav/AppWithNavigation';
 
 require('./i18n/locale');
@@ -23,7 +24,9 @@ export default () => (
         <AppDataFetcher>
           <TranslationProvider>
             <StylesProvider>
-              <AppWithNavigation />
+              <BackNavigationHandler>
+                <AppWithNavigation />
+              </BackNavigationHandler>
             </StylesProvider>
           </TranslationProvider>
         </AppDataFetcher>
