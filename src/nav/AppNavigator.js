@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
@@ -35,8 +35,7 @@ import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
 import UserStatusScreen from '../user-status/UserStatusScreen';
 
-export default StackNavigator(
-  // $FlowFixMe react-navigation types :-/ -- see a36814e80
+export default createStackNavigator(
   {
     account: { screen: AccountPickScreen },
     'account-details': { screen: AccountDetailsScreen },
