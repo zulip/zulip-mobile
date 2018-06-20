@@ -40,13 +40,11 @@ class AppWithNavigation extends PureComponent<Props> {
 
     return (
       <AppNavigator
-        navigation={
-          addNavigationHelpers({
-            state: nav,
-            dispatch,
-            addListener,
-          })
-        }
+        navigation={addNavigationHelpers({
+          state: nav,
+          dispatch,
+          addListener,
+        })}
       />
     );
   }
