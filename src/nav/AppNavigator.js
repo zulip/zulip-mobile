@@ -1,5 +1,5 @@
 /* @flow */
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 import AccountPickScreen from '../account/AccountPickScreen';
 import RealmScreen from '../start/RealmScreen';
@@ -35,7 +35,7 @@ import WelcomeScreen from '../start/WelcomeScreen';
 import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
 
-export default StackNavigator(
+export default createStackNavigator(
   {
     account: { screen: AccountPickScreen },
     'account-details': { screen: AccountDetailsScreen },
