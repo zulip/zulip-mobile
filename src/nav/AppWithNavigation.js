@@ -1,39 +1,13 @@
 /* @flow */
 import { connect } from 'react-redux';
+import { reduxifyNavigator } from 'react-navigation-redux-helpers';
 
-import React, { PureComponent } from 'react';
-import { addNavigationHelpers } from 'react-navigation';
-import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
-
-import type { Dispatch, GlobalState } from '../types';
+import type { GlobalState } from '../types';
 import { getNav } from '../selectors';
 import AppNavigator from './AppNavigator';
 
-type Props = {
-  dispatch: Dispatch,
-  nav: Object,
-};
-
-class AppWithNavigation extends PureComponent<Props> {
-  props: Props;
-
-  render() {
-    const { dispatch, nav } = this.props;
-    const addListener = createReduxBoundAddListener('root');
-
-    return (
-      // $FlowFixMe-56 flow-typed object type is incompatible with statics of React.Component
-      <AppNavigator
-        navigation={addNavigationHelpers({
-          state: nav,
-          dispatch,
-          addListener,
-        })}
-      />
-    );
-  }
-}
+const AppWithNavigation = reduxifyNavigator(AppNavigator, 'root');
 
 export default connect((state: GlobalState) => ({
-  nav: getNav(state),
+  state: getNav(state),
 }))(AppWithNavigation);
