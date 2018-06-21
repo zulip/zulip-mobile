@@ -1,7 +1,8 @@
 # Release guide
 
 This doc explains how to make a release of Zulip Mobile to the
-iOS App Store and the Google Play Store.
+iOS App Store, to the Google Play Store, and as an APK on the web.
+
 
 ## Terminology
 
@@ -54,6 +55,7 @@ simple terminology for the process we follow with both.
     version we gave them.  Naturally this isn't good for our kind beta
     users, nor for us; so don't do this. :)
 
+
 ## Release procedure
 
 (For one-time initial setup, see [below](#initial-setup).)
@@ -74,20 +76,30 @@ simple terminology for the process we follow with both.
 * Build the app:
 
   ```
+  yarn
   npm run build:android
   ```
 
   This produces an APK at `android/app/build/outputs/apk/app-release.apk`.
 
-* Upload as a beta release in the Google Play Console, under
+* Upload as an alpha release in the Google Play Console, under
   [Release management -> App releases](https://play.google.com/apps/publish/#ManageReleasesPlace:p=com.zulipmobile&appid=4976350040864490411).
 
-* Upload as a release
-  [on GitHub](https://github.com/zulip/zulip-mobile/releases).
+  * Update your device to the alpha, and smoke-test it.
+
+* Promote the alpha to a beta.  (Skip this for a very raw new major release.)
+
+* If promoting to beta: also upload as a release
+  [on GitHub](https://github.com/zulip/zulip-mobile/releases).  This is
+  useful for people who use Android without Google Play, e.g. out of privacy
+  concerns or a desire to stick rigorously to free software.
+
 
 ### iOS
 
 * Build and upload from Xcode.
+
+  * First: in a terminal, run `yarn`.
 
   * In the "scheme" menu at the top center-left of the main window,
     select "ZulipMobile > Generic iOS Device".
@@ -107,7 +119,8 @@ simple terminology for the process we follow with both.
     * If you get an error like "No accounts with iTunes Connect access have
       been found for the team ...", followed by your account name with the
       message "No iTunes Connect access for the team": this is an error
-      [often reported, with varying causes][so-xcode-upload-fail].  A
+      [often reported, with varying causes][so-xcode-upload-fail] (also
+      [forums 1][forums-xcode-fail-1], [forums 2][forums-xcode-fail-2]).  A
       workaround that works for many people on the internet, and worked for
       Greg when he first hit this issue in 2018, is to [use Application
       Loader instead][application-loader]:
@@ -127,10 +140,14 @@ simple terminology for the process we follow with both.
     * For signing, select "Manually manage signing".  Choose the
       provisioning profile called "XC iOS: org.zulip.Zulip".
       (On your first upload, you'll choose at this screen to download
-      the provisioning profile.)
+      the provisioning profile.  Or if you're hitting the bug linked above
+      where Xcode can't log in, you can download the provisioning profile
+      from developer.apple.com/account/ios/profile/.)
 
 [xcode-upload]: https://help.apple.com/xcode/mac/9.0/#/dev442d7f2ca
 [so-xcode-upload-fail]: https://stackoverflow.com/questions/46231372/xcode-8-3-3-no-accounts-with-itunes-connect-access
+[forums-xcode-fail-1]: https://forums.developer.apple.com/thread/86867
+[forums-xcode-fail-2]: https://forums.developer.apple.com/thread/67366
 [application-loader]: https://help.apple.com/itc/apploader/#/apdATD1E12-D1E1A1303-D1E12A1126
 
 * Distribute from [iTunes Connect][itunes-connect].
@@ -145,7 +162,8 @@ simple terminology for the process we follow with both.
     can happen if an automated check doesn't like it.
 
   * Processing takes a few minutes, and we get an email from Apple
-    when it's complete.
+    when it's complete.  At this point, the new build automatically becomes
+    available in alpha.
 
   * After processing is complete, you can add the build to TestFlight
     so it goes to our beta users.  Go to [TestFlight ->
@@ -158,8 +176,8 @@ simple terminology for the process we follow with both.
 
     * Enter notes for testers.
 
-  * The build will go into "Beta App Review".  This typically comes
-    back in hours, not days; if successful, the app is out in beta!
+  * The build will go into "Beta App Review".  This typically comes back the
+    next morning, California time.  If successful, the app is out in beta!
 
 [itunes-connect]: https://itunesconnect.apple.com/
 [itc-builds]: https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395/activity/ios/builds
@@ -201,6 +219,7 @@ seem to be bad regressions.
     process; if it passes review, the app will go live.
 
 [itc-main]: https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/1203036395
+
 
 ## Security releases
 
@@ -259,6 +278,7 @@ vulnerable.
 
 * Discuss freely.
 
+
 ## Initial setup
 
 ### Configure Sentry error reporting
@@ -281,17 +301,25 @@ MYAPP_RELEASE_KEY_PASSWORD=*****
 
 ### Prepare iOS
 
-In Xcode, sign in to your Apple developer account that is a member of
-the "Kandra Labs, Inc." team.  In the "ZulipMobile" center pane that
-appears when first opening the project in Xcode, this is under the
-"General" tab (the first one shown), in the "Signing" section.
+* In Xcode, sign in to your Apple developer account that is a member of
+  the "Kandra Labs, Inc." team.  In the "ZulipMobile" center pane that
+  appears when first opening the project in Xcode, this is under the
+  "General" tab (the first one shown), in the "Signing" section.
 
-You'll need the private key for the distribution certificate.  To
-install that:
+  * If this doesn't work, that's OK.  You'll just need to use the
+    Application Loader workaround when uploading (above), and when on your
+    first build you're prompted for a "provisioning profile" you'll need to
+    download it from the Apple Developer web app.
 
-* Get an export from someone who has the key.  Give it a filename
-  ending in `.p12`.
+* You'll need the private key for the distribution certificate.  To
+  install that:
 
-* Open the "Keychain Access" app, and go to File -> Import Items... to
-  import the file.  You'll also need a password, which the same person
-  can give you.
+  * Get an export from someone who has the key.  Give it a filename
+    ending in `.p12`.
+
+  * Open the "Keychain Access" app, and go to File -> Import Items... to
+    import the file.  You'll also need a password, which the same person
+    can give you.
+
+  * It's also possible to make a new certificate, using the web app at
+    developer.apple.com/account/ .
