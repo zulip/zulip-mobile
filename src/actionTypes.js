@@ -1,4 +1,6 @@
 /* @flow */
+import type { NavigationNavigateAction } from 'react-navigation';
+
 import {
   REHYDRATE,
   APP_ONLINE,
@@ -160,7 +162,7 @@ export type DebugFlagToggleAction = {
 
 export type DebugFlagToggleActionCreator = (key: string, value: any) => DebugFlagToggleAction;
 
-export type NavigateAction = Object;
+export type NavigateAction = NavigationNavigateAction;
 export type NavigateActionCreator = () => NavigateAction;
 export type NavigateToChatActionCreator = (narrow: Narrow) => NavigateAction;
 export type NavigateToAuthActionCreator = (serverSettings: ApiServerSettings) => NavigateAction;
