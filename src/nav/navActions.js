@@ -1,19 +1,9 @@
 /* @flow */
 import { NavigationActions } from 'react-navigation';
 
-import type {
-  Dispatch,
-  NavigateAction,
-  GetState,
-  Message,
-  Narrow,
-  ApiServerSettings,
-} from '../types';
-import { getSameRoutesCount } from '../selectors';
+import type { NavigateAction, Message, Narrow, ApiServerSettings } from '../types';
 
-export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigateAction =>
-  // $FlowFixMe
-  dispatch(NavigationActions.pop({ n: getSameRoutesCount(getState()) }));
+export const navigateBack = (): NavigateAction => NavigationActions.back();
 
 export const navigateToChat = (narrow: Narrow): NavigateAction =>
   NavigationActions.navigate({ routeName: 'chat', params: { narrow } });
