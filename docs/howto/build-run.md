@@ -138,15 +138,29 @@ green banner that appears at the top.  It will say something like
 "Loading from 10.0.2.2:8081...".
 
 The IP address that appears in the message is the one you want to use.
-Borrow the scheme `http` and port `9991` from the URL you already use for
-the dev Zulip server -- so to continue the same example, you would enter the
-URL `http://10.0.2.2:9991/`.
+We'll use it in two ways:
+
+* Stop your Zulip dev server, and restart it while setting `EXTERNAL_HOST`.
+  Continuing the same example:
+
+    $ EXTERNAL_HOST=10.0.2.2:9991 tools/run-dev.py
+
+* For the URL to enter in the app, borrow the scheme `http` and port `9991`
+  from the URL you previously used for the dev Zulip server -- so to
+  continue the same example, you would enter the URL `http://10.0.2.2:9991/`.
 
 Why does this work?  The green "Loading" banner identifies the IP address
 and port at which the app is able to find your Metro Bundler server, the
 process started by `react-native start`.  Therefore, that IP address is one
 that works inside the emulated device as a way to reach your host machine...
 which is also known as `localhost` when on the host machine itself.
+
+Meanwhile, in order for the server to accept the app's requests, it has to
+recognize the URLs the app is using as belonging to the relevant org/realm.
+On the Zulip server in general, one way to control this is the setting
+`REALM_HOSTS`; and the dev settings file `zproject/dev_settings.py` sets
+that based on the environment variable `EXTERNAL_HOST` (as well as setting
+the Zulip setting of that name.)
 
 
 ### iOS device and a dev server
