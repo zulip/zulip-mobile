@@ -117,6 +117,16 @@ class ComposeBox extends PureComponent<Props, State> {
     return isMessageFocused || isTopicFocused;
   };
 
+  setMessageInputValue = (message: string) => {
+    updateTextInput(this.messageInput, message);
+    this.handleMessageChange(message);
+  };
+
+  setTopicInputValue = (topic: string) => {
+    updateTextInput(this.topicInput, topic);
+    this.handleTopicChange(topic);
+  };
+
   handleComposeMenuToggle = () => {
     this.setState(({ isMenuExpanded }) => ({
       isMenuExpanded: !isMenuExpanded,
