@@ -2,18 +2,14 @@
 import { NavigationActions, StackActions } from 'react-navigation';
 
 import type {
-  Dispatch,
   NavigationAction,
-  GetState,
   Message,
   Narrow,
   UserOrBot,
   ApiResponseServerSettings,
 } from '../types';
-import { getSameRoutesCount } from '../selectors';
 
-export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigationAction =>
-  dispatch(StackActions.pop({ n: getSameRoutesCount(getState()) }));
+export const navigateBack = (): NavigationAction => StackActions.popToTop({});
 
 /** Only call this via `doNarrow`.  See there for details. */
 export const navigateToChat = (narrow: Narrow): NavigationAction =>
