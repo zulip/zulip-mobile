@@ -33,6 +33,7 @@ import TopicListScreen from '../topics/TopicListScreen';
 import WelcomeHelpScreen from '../start/WelcomeHelpScreen';
 import WelcomeScreen from '../start/WelcomeScreen';
 import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
+import LegalScreen from '../settings/LegalScreen';
 
 export default StackNavigator(
   {
@@ -68,6 +69,7 @@ export default StackNavigator(
     notifications: { screen: NotificationsScreen },
     'welcome-help': { screen: WelcomeHelpScreen },
     welcome: { screen: WelcomeScreen },
+    legal: { screen: LegalScreen },
   },
   {
     initialRouteName: 'main',

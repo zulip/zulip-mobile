@@ -9,12 +9,19 @@ import { getSettings } from '../selectors';
 import { OptionButton, OptionDivider, OptionRow, WebLink } from '../common';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
 import LogoutButton from '../account-info/LogoutButton';
-import { IconDiagnostics, IconNotifications, IconNight, IconLanguage } from '../common/Icons';
+import {
+  IconDiagnostics,
+  IconNotifications,
+  IconNight,
+  IconLanguage,
+  IconMoreHorizontal,
+} from '../common/Icons';
 import {
   settingsChange,
   navigateToNotifications,
   navigateToLanguage,
   navigateToDiagnostics,
+  navigateToLegal,
 } from '../actions';
 
 const componentStyles = StyleSheet.create({
@@ -77,6 +84,13 @@ class SettingsCard extends PureComponent<Props> {
           label="Diagnostics"
           onPress={() => {
             dispatch(navigateToDiagnostics());
+          }}
+        />
+        <OptionButton
+          Icon={IconMoreHorizontal}
+          label="Legal"
+          onPress={() => {
+            dispatch(navigateToLegal());
           }}
         />
         <OptionDivider />

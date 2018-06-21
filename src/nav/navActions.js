@@ -99,3 +99,6 @@ export const navigateToStreamSubscribers = (streamId: number): NavigateAction =>
 
 export const navigateToNotifications = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'notifications' });
+
+export const navigateToLegal = (): NavigateAction =>
+  NavigationActions.navigate({ routeName: 'legal' });
