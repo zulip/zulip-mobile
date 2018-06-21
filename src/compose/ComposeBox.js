@@ -69,6 +69,20 @@ type State = {
   selection: InputSelectionType,
 };
 
+export const updateTextInput = (textInput: TextInput, text: string): void => {
+  if (!textInput) {
+    return;
+  }
+
+  textInput.setNativeProps({ text });
+
+  if (text.length === 0) {
+    if (TextInputReset) {
+      TextInputReset.resetKeyboardInput(findNodeHandle(textInput));
+    }
+  }
+};
+
 class ComposeBox extends PureComponent<Props, State> {
   context: Context;
   props: Props;
