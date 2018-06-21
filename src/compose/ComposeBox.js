@@ -194,17 +194,6 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState({ isMenuExpanded: false });
   };
 
-  clearMessageInput = () => {
-    if (this.messageInput) {
-      this.messageInput.clear();
-      if (TextInputReset) {
-        TextInputReset.resetKeyboardInput(findNodeHandle(this.messageInput));
-      }
-    }
-
-    this.handleMessageChange('');
-  };
-
   handleSend = () => {
     const { dispatch, narrow } = this.props;
     const { topic, message } = this.state;
@@ -216,7 +205,7 @@ class ComposeBox extends PureComponent<Props, State> {
     dispatch(addToOutbox(destinationNarrow, message));
     dispatch(draftRemove(narrow));
 
-    this.clearMessageInput();
+    this.setMessageInputValue('');
   };
 
   handleEdit = () => {
@@ -267,11 +256,7 @@ class ComposeBox extends PureComponent<Props, State> {
     } else if (!isEqual(nextProps.narrow, this.props.narrow)) {
       this.tryUpdateDraft();
 
-      if (nextProps.draft) {
-        this.setState({ message: nextProps.draft });
-      } else {
-        this.clearMessageInput();
-      }
+      this.setMessageInputValue(nextProps.draft);
     }
   }
 
