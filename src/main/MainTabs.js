@@ -52,7 +52,6 @@ export default TabNavigator(
     },
   },
   {
-    backBehavior: 'none',
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
     ...tabsOptions({
