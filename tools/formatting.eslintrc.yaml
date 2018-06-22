@@ -3,6 +3,10 @@
 # that uses only these rules.
 
 parser: babel-eslint
+
+plugins:
+ - flowtype
+
 rules:
   # Disallow tucking a condition or loop body in at the end of a line, like
   # `if (condition) return;`.  That makes it much too easy to miss control flow.
@@ -23,3 +27,16 @@ rules:
       "-=": after
       # ... There are 10 other assignment operators in JavaScript;
       # if they come up, add them.
+
+  # Not sure this rule is quite *right* -- in a type fragment like
+  #   foo:
+  #     | 'have_a_long_name_number_the_first'
+  #     | 'have_a_long_name_number_the_second'
+  #     | 'have_a_long_name_number_the_third'
+  # Prettier would format that code like above, while this rule
+  # causes the first item to get stuffed on the previous line,
+  # like `foo: | 'have_a_...'`.  But it's what we've had, so make
+  # prettier and lint runs agree.
+  #
+  # TODO: try fixing this to follow what Prettier does.
+  flowtype/space-after-type-colon: [error, always]

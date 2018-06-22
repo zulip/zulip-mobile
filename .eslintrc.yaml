@@ -81,9 +81,9 @@ rules:
   # flowtype/require-return-type: [error, always, {annotateUndefined: never}]
   flowtype/require-valid-file-annotation: error
   flowtype/semi: [error, always]
-  flowtype/space-after-type-colon: [error, always]
   flowtype/space-before-generic-bracket: [error, never]
   flowtype/space-before-type-colon: [error, never]
+  # For more formatting rules, see tools/formatting.eslintrc.yaml.
   flowtype/type-id-match: [error, '^([A-Z][a-z0-9]+)+$']
   flowtype/union-intersection-spacing: [error, always]
   flowtype/use-flow-type: warn
