@@ -1,11 +1,12 @@
 /* @flow */
 import { NotificationsAndroid, PendingNotifications } from 'react-native-notifications';
 
-import type { Auth, Dispatch, UserIdMap, SaveTokenPushActionCreator } from '../types';
+import type { Auth, Dispatch, UserIdMap } from '../types';
 import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from '../utils/logging';
 import { getNarrowFromNotificationData } from './notificationsCommon';
+import type { SavePushTokenCallback } from './notificationsCommon';
 import { doNarrow } from '../actions';
 
 export const addNotificationListener = (notificationHandler: (notification: Object) => void) => {
@@ -16,7 +17,7 @@ export const removeNotificationListener = (
   notificationHandler: (notification: Object) => void,
 ) => {};
 
-export const initializeNotifications = (auth: Auth, saveTokenPush: SaveTokenPushActionCreator) => {
+export const initializeNotifications = (auth: Auth, saveTokenPush: SavePushTokenCallback) => {
   NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
     try {
       const result = await registerPush(auth, deviceToken);

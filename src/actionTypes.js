@@ -181,12 +181,6 @@ export type SaveTokenPushAction = {
   msg: string,
 };
 
-export type SaveTokenPushActionCreator = (
-  pushToken: string,
-  result: string,
-  msg: string,
-) => SaveTokenPushAction;
-
 export type MessageFetchStartAction = {
   type: typeof MESSAGE_FETCH_START,
   narrow: Narrow,

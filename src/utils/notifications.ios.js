@@ -2,17 +2,18 @@
 import NotificationsIOS from 'react-native-notifications';
 import { PushNotificationIOS } from 'react-native';
 
-import type { Auth, Dispatch, UserIdMap, SaveTokenPushActionCreator } from '../types';
+import type { Auth, Dispatch, UserIdMap } from '../types';
 import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';
 import { getNarrowFromNotificationData } from './notificationsCommon';
+import type { SavePushTokenCallback } from './notificationsCommon';
 import { doNarrow } from '../actions';
 
 const onPushRegistered = async (
   auth: Auth,
   deviceToken: string,
-  saveTokenPush: SaveTokenPushActionCreator,
+  saveTokenPush: SavePushTokenCallback,
 ) => {
   const result = await registerPush(auth, deviceToken);
   saveTokenPush(deviceToken, result.msg, result.result);
@@ -26,7 +27,7 @@ export const removeNotificationListener = (notificationHandler: (notification: O
   NotificationsIOS.removeEventListener('notificationOpened', notificationHandler);
 };
 
-export const initializeNotifications = (auth: Auth, saveTokenPush: SaveTokenPushActionCreator) => {
+export const initializeNotifications = (auth: Auth, saveTokenPush: SavePushTokenCallback) => {
   NotificationsIOS.addEventListener('remoteNotificationsRegistered', deviceToken =>
     onPushRegistered(auth, deviceToken, saveTokenPush),
   );

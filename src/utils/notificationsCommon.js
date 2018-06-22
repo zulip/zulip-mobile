@@ -2,6 +2,8 @@
 import type { Notification, NotificationGroup, UserIdMap } from '../types';
 import { homeNarrow, topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
 
+export type SavePushTokenCallback = (pushToken: string, msg: string, result: string) => *;
+
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
   const userIds = data.pm_users.split(',');
   const users = userIds.map(id => usersById[id]);
