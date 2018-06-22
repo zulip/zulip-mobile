@@ -71,12 +71,10 @@ import {
 import type {
   Dimensions,
   Orientation,
-  GetState,
   GlobalState,
   Message,
   Outbox,
   Narrow,
-  ApiServerSettings,
   User,
   UserGroup,
   InitialData,
@@ -98,43 +96,29 @@ export type RehydrateAction = {
   error: ?Object,
 };
 
-export type AsyncActionCreator<A> = (dispatch: Dispatch, getState: GetState) => A;
-
 export type AppOnlineAction = {
   type: typeof APP_ONLINE,
   isOnline: boolean,
 };
-
-export type AppOnlineActionCreator = (isOnline: boolean) => AsyncActionCreator<AppOnlineAction>;
 
 export type AppStateAction = {
   type: typeof APP_STATE,
   isActive: boolean,
 };
 
-export type AppStateActionCreator = (isActive: boolean) => AppStateAction;
-
 export type AppRefreshAction = {
   type: typeof APP_REFRESH,
 };
-
-export type AppRefreshActionCreator = (isActive: boolean) => AppRefreshAction;
 
 export type InitSafeAreaInsetsAction = {
   type: typeof INIT_SAFE_AREA_INSETS,
   safeAreaInsets: Dimensions,
 };
 
-export type InitSafeAreaInsetsActionCreator = (
-  safeAreaInsets: Dimensions,
-) => InitSafeAreaInsetsAction;
-
 export type AppOrientationAction = {
   type: typeof APP_ORIENTATION,
   orientation: Orientation,
 };
-
-export type AppOrientationActionCreator = (orientation: Orientation) => AppOrientationAction;
 
 export type StartEditMessageAction = {
   type: typeof START_EDIT_MESSAGE,
@@ -143,16 +127,9 @@ export type StartEditMessageAction = {
   topic: string,
 };
 
-export type StartEditMessageActionCreator = (
-  messageId: number,
-  topic: string,
-) => StartEditMessageAction;
-
 export type CancelEditMessageAction = {
   type: typeof CANCEL_EDIT_MESSAGE,
 };
-
-export type CancelEditMessageActionCreator = () => CancelEditMessageAction;
 
 export type DebugFlagToggleAction = {
   type: typeof DEBUG_FLAG_TOGGLE,
@@ -160,39 +137,22 @@ export type DebugFlagToggleAction = {
   value: string,
 };
 
-export type DebugFlagToggleActionCreator = (key: string, value: any) => DebugFlagToggleAction;
-
 export type NavigateAction = NavigationNavigateAction;
-export type NavigateActionCreator = () => NavigateAction;
-export type NavigateToChatActionCreator = (narrow: Narrow) => NavigateAction;
-export type NavigateToAuthActionCreator = (serverSettings: ApiServerSettings) => NavigateAction;
-export type NavigateToPasswordActionCreator = (ldap?: boolean) => NavigateAction;
-export type NavigateToAccountDetailsActionCreator = (email: string) => NavigateAction;
-export type NavigateToGroupDetailsActionCreator = (recipients: string[]) => NavigateAction;
-export type NavigateToAddNewAccountActionCreator = (realm: string) => NavigateAction;
-export type NavigateToLightboxActionCreator = (src: string, message: Message) => NavigateAction;
-export type NavigateToStreamActionCreator = (streamId: number) => NavigateAction;
 
 export type AccountSwitchAction = {
   type: typeof ACCOUNT_SWITCH,
   index: number,
 };
 
-export type AccountSwitchActionCreator = (index: number) => AccountSwitchAction;
-
 export type RealmAddAction = {
   type: typeof REALM_ADD,
   realm: string,
 };
 
-export type RealmAddActionCreator = (realm: string) => RealmAddAction;
-
 export type AccountRemoveAction = {
   type: typeof ACCOUNT_REMOVE,
   index: number,
 };
-
-export type AccountRemoveActionCreator = (index: number) => AccountRemoveAction;
 
 export type LoginSuccessAction = {
   type: typeof LOGIN_SUCCESS,
@@ -201,30 +161,18 @@ export type LoginSuccessAction = {
   apiKey: string,
 };
 
-export type LoginSuccessActionCreator = (
-  realm: string,
-  email: string,
-  apiKey: string,
-) => LoginSuccessAction;
-
 export type LogoutAction = {
   type: typeof LOGOUT,
 };
-
-export type LogoutActionCreator = () => LogoutAction;
 
 export type RealmInitAction = {
   type: typeof REALM_INIT,
   data: InitialData,
 };
 
-export type RealmInitActionCreator = (data: InitialData) => RealmInitAction;
-
 export type DeleteTokenPushAction = {
   type: typeof DELETE_TOKEN_PUSH,
 };
-
-export type DeleteTokenPushActionCreator = () => DeleteTokenPushAction;
 
 export type SaveTokenPushAction = {
   type: typeof SAVE_TOKEN_PUSH,
@@ -239,20 +187,12 @@ export type SaveTokenPushActionCreator = (
   msg: string,
 ) => SaveTokenPushAction;
 
-export type InitNotificationsActionCreator = () => void;
-
 export type MessageFetchStartAction = {
   type: typeof MESSAGE_FETCH_START,
   narrow: Narrow,
   numBefore: number,
   numAfter: number,
 };
-
-export type MessageFetchStartActionCreator = (
-  narrow: Narrow,
-  numBefore: number,
-  numAfter: number,
-) => MessageFetchStartAction;
 
 export type MessageFetchCompleteAction = {
   type: typeof MESSAGE_FETCH_COMPLETE,
@@ -263,67 +203,20 @@ export type MessageFetchCompleteAction = {
   numAfter: number,
 };
 
-export type MessageFetchCompleteActionCreator = (
-  messages: Message[],
-  narrow: Narrow,
-  anchor: number,
-  numBefore: number,
-  numAfter: number,
-) => void;
-
 export type FetchMessagesAction = any;
-
-export type FetchMessagesActionCreator = (
-  narrow: Narrow,
-  anchor: number,
-  numBefore: number,
-  numAfter: number,
-  useFirstUnread: boolean,
-) => FetchMessagesAction;
-
-export type FetchMessagesAroundAnchorActionCreator = (
-  narrow: Narrow,
-  anchor: number,
-) => FetchMessagesAction;
-
-export type FetchMessagesAtFirstUnreadActionCreator = (narrow: Narrow) => FetchMessagesAction;
-
-export type BackgroundFetchMessagesActionCreator = (
-  narrow: Narrow,
-  anchor: number,
-  numBefore: number,
-  numAfter: number,
-  useFirstUnread: boolean,
-) => void;
 
 export type MarkMessagesReadAction = {
   type: typeof MARK_MESSAGES_READ,
   messageIds: number[],
 };
 
-export type MarkMessagesReadActionCreator = (messageIds: number[]) => MarkMessagesReadAction;
-
-export type FetchOlderActionCreator = (narrow: Narrow) => FetchMessagesAction;
-export type FetchNewerActionCreator = (narrow: Narrow) => FetchMessagesAction;
-
 export type InitialFetchStartAction = {
   type: typeof INITIAL_FETCH_START,
 };
-export type InitialFetchStartActionCreator = () => InitialFetchStartAction;
 
 export type InitialFetchCompleteAction = {
   type: typeof INITIAL_FETCH_COMPLETE,
 };
-
-export type InitialFetchCompleteActionCreator = () => InitialFetchCompleteAction;
-
-export type FetchEssentialInitialDataActionCreator = () => void;
-
-export type FetchRestOfInitialDataActionCreator = () => void;
-
-export type DoInitialFetchActionCreator = () => void;
-
-export type UploadImageActionCreator = (narrow: Narrow, uri: string, name: string) => void;
 
 export type StreamUpdateDetails = {
   description: string,
@@ -577,14 +470,10 @@ export type InitRealmEmojiAction = {
   emojis: RealmEmojiState,
 };
 
-export type InitRealmEmojiActionCreator = (emojis: Object) => InitRealmEmojiAction;
-
 export type InitRealmFilterAction = {
   type: typeof INIT_REALM_FILTER,
   filters: RealmFilter[],
 };
-
-export type InitRealmFiltersActionCreator = (filters: RealmFilter[]) => InitRealmFilterAction;
 
 export type RealmAction =
   | AppRefreshAction
@@ -600,11 +489,6 @@ export type RealmAction =
 
 export type AlertWordsAction = RealmInitAction | EventAlertWordsAction;
 
-export type ResponseToActionsActionCreator = (
-  state: GlobalState,
-  response: Object,
-) => EventAction[];
-
 export type FlagsAction =
   | RehydrateAction
   | MessageFetchCompleteAction
@@ -612,16 +496,11 @@ export type FlagsAction =
   | EventUpdateMessageFlagsAction
   | MarkMessagesReadAction;
 
-export type DispatchOrBatchActionCreator = (dispatch: Dispatch, actions: EventAction[]) => void;
-export type StartEventPollingActionCreator = (queueId: number, eventId: number) => void;
-
 export type SettingsChangeAction = {
   type: typeof SETTINGS_CHANGE,
   key: string,
   value: any,
 };
-
-export type SettingsChangeActionCreator = (key: string, value: any) => SettingsChangeAction;
 
 export type DraftAddAction = {
   type: typeof DRAFT_ADD,
@@ -629,14 +508,10 @@ export type DraftAddAction = {
   content: string,
 };
 
-export type DraftAddActionCreator = (narrow: Narrow, content: string) => DraftAddAction;
-
 export type DraftRemoveAction = {
   type: typeof DRAFT_REMOVE,
   narrow: Narrow,
 };
-
-export type DraftRemoveActionCreator = (narrow: Narrow) => DraftRemoveAction;
 
 export type DraftsAction = DraftAddAction | DraftRemoveAction | LogoutAction;
 
@@ -644,11 +519,6 @@ export type SwitchNarrowAction = {
   type: typeof SWITCH_NARROW,
   narrow: Narrow,
 };
-
-export type SwitchNarrowActionCreator = (narrow: Narrow) => SwitchNarrowAction;
-
-export type DoNarrowActionCreator = (narrow: Narrow, anchor?: number) => void;
-export type MessageLinkPressActionCreator = (href: string) => void;
 
 export type PresenceResponseAction = {
   type: typeof PRESENCE_RESPONSE,
@@ -663,36 +533,20 @@ export type MessageSendStartAction = {
   outbox: Outbox,
 };
 
-export type MessageSendStartActionCreator = (params: Object) => MessageSendStartAction;
-
 export type MessageSendCompleteAction = {
   type: typeof MESSAGE_SEND_COMPLETE,
   localMessageId: number,
 };
-
-export type MessageSendCompleteActionCreator = (
-  localMessageId: number,
-) => MessageSendCompleteAction;
-
-export type TrySendMessagesActionCreator = () => void;
-
-export type AddToOutboxActionCreator = (narrow: Narrow, content: string) => void;
 
 export type DeleteOutboxMessageAction = {
   type: typeof DELETE_OUTBOX_MESSAGE,
   localMessageId: number,
 };
 
-export type DeleteOutboxMessageActionCreator = (
-  localMessageId: number,
-) => DeleteOutboxMessageAction;
-
 export type ToggleOutboxSendingAction = {
   type: typeof TOGGLE_OUTBOX_SENDING,
   sending: boolean,
 };
-
-export type ToggleOutboxSendingActionCreator = (sending: boolean) => ToggleOutboxSendingAction;
 
 export type StartTypingAction = {
   type: typeof EVENT_TYPING_START,
@@ -715,8 +569,6 @@ export type ClearTypingAction = {
   outdatedNotifications: string[],
 };
 
-export type ClearTypingActionCreator = (outdatedNotifications: Object[]) => ClearTypingAction;
-
 export type TypingAction = StartTypingAction | StopTypingAction | ClearTypingAction;
 
 export type InitStreamsAction = {
@@ -724,38 +576,11 @@ export type InitStreamsAction = {
   streams: Stream[],
 };
 
-export type InitStreamsActionCreator = (streams: Stream[]) => InitStreamsAction;
-
-export type FetchStreamsActionCreator = () => void;
-
-export type CreateNewStreamActionCreator = (
-  name: string,
-  description: string,
-  principals: string[],
-  isPrivate: boolean,
-) => void;
-
-export type UpdateExistingStreamActionCreator = (
-  id: number,
-  initialValues: Object,
-  newValues: Object,
-) => void;
-
-export type DoTogglePinStreamActionCreator = (streamId: number, value: boolean) => void;
-
-export type DoToggleMuteStreamActionCreator = (streamId: number, value: boolean) => void;
-
 export type InitTopicsAction = {
   type: typeof INIT_TOPICS,
   topics: Topic[],
   streamId: number,
 };
-
-export type InitTopicsActionCreator = (outdatedNotifications: Object[]) => ClearTypingAction;
-
-export type FetchTopicsActionCreator = (streamId: number) => void;
-
-export type FetchTopicsForActiveStreamActionCreator = (narrow: Narrow) => void;
 
 export type TopicsAction = InitTopicsAction | AccountSwitchAction;
 
@@ -764,25 +589,10 @@ export type InitSubscriptionsAction = {
   subscriptions: Subscription[],
 };
 
-export type InitSubscriptionsActionCreator = (
-  subscriptions: Subscription[],
-) => InitSubscriptionsAction;
-
-export type FetchSubscriptionsActionCreator = () => void;
-export type ToggleStreamNotificationActionCreator = (streamId: number, value: boolean) => void;
-
-export type SendFocusPingActionCreator = (hasFocus?: boolean, newUserInput?: boolean) => void;
-
 export type InitUsersAction = {
   type: typeof INIT_USERS,
   users: User[],
 };
-
-export type InitUsersActionCreator = (users: User[]) => InitUsersAction;
-
-export type FetchUsersActionCreator = () => void;
-
-export type SendTypingEventActionCreator = (narrow: Narrow) => void;
 
 export type AccountAction =
   | AccountSwitchAction
