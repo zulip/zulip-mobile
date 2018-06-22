@@ -11,7 +11,8 @@ channels of progressively wider release.  We don't use or need the
 full complexity of either one, and for sanity's sake we use a common,
 simple terminology for the process we follow with both.
 
-* **Alpha**: A release only to active developers of the app.
+* **Alpha**: A release only to active developers of the app.  See
+  [instructions](alpha.md) for joining.
 
   * On Google Play this means an "Internal test" release, and on iOS it
     means a release in TestFlight to "iTunes Connect Users".
@@ -25,7 +26,9 @@ simple terminology for the process we follow with both.
     don't use this feature.
 
 * **Beta**: A release to users who have volunteered to get new versions
-  early and give us feedback.
+  early and give us feedback.  See
+  [instructions](https://github.com/zulip/zulip-mobile#using-the-beta) for
+  joining.
 
   * On Google Play this means a "Beta" aka "Open track" release, and on iOS
     it means a release to all our TestFlight users, through the "External
