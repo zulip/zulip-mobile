@@ -12,6 +12,8 @@ rules:
   # `if (condition) return;`.  That makes it much too easy to miss control flow.
   nonblock-statement-body-position: [error, below]
   curly: [error, all]
+  # Fix mismatch with eslint config used in test script.
+  object-curly-newline: off
 
   # When breaking a line at a binary operator, the operator goes
   # at the start of a line, not the end.  This makes it much more
