@@ -3,6 +3,7 @@ import type { Auth, ResponseExtractionFunc } from '../types';
 import { getAuthHeader, encodeAsURI, isValidUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
+import getJSONFromResponse from '../utils/getJSONFromResponse';
 
 const apiVersion = 'api/v1';
 
@@ -41,27 +42,7 @@ export const apiCall = async (
   try {
     networkActivityStart(isSilent);
     const response = await apiFetch(auth, route, params);
-
-    if (!response.ok) {
-      console.log('Bad response for:', { auth, route, params, response }); // eslint-disable-line
-      const error = new Error('API');
-      // $FlowFixMe
-      error.response = response;
-      throw error;
-    }
-
-    const json = await response.json();
-
-    if (json.result !== 'success') {
-      console.log('Bad response for:', { auth, route, params, response }); // eslint-disable-line
-      const error = new Error('API');
-      // $FlowFixMe
-      error.response = response;
-      // $FlowFixMe
-      error.code = json.code;
-      throw error;
-    }
-
+    const json = await getJSONFromResponse(response);
     return resFunc(json);
   } finally {
     networkActivityStop(isSilent);
