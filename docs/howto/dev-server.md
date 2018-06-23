@@ -99,13 +99,27 @@ identified in step 2.  (Be sure to type the `http://`.)
 
 This process needs improvement and has too many manual steps at the moment.
 
-First, you'll need to connect your dev machine and iOS device to the same
-network. If you're running Zulip inside of a VM, you may also need to
-configure your VM to use a public network. See more information on this [here](https://www.vagrantup.com/docs/networking/public_network.html).
+First make sure that your iOS device and dev machine are connected to the
+same WiFi network.
 
-Next, you'll need to change all instances of `localhost:9991` in both the
-`/src` directory and the Xcode iOS project (located in `/ios`) to point to
-the IP and port of your Vagrant VM.
+Next, run the ZulipMobile app on your iOS device. Follow the instructions
+[here](ios-tips.md#running-on-an-ios-device.
 
-Finally, run the Xcode project inside of `/ios` with your iOS device as the
-target.
+Using a command line tool, such as `ifconfig`, find the IP for your machine.
+The IP you’re looking for most likely starts with `192.168`.
+
+To connect to your Zulip dev server from other machines than the VM host,
+you'll need manually set the host IP address in a `~/.zulip-vagrant-config`
+file. Set:
+```
+HOST_IP_ADDR 0.0.0.0
+```
+This is a special value that means any value can connect to your dev server.
+Restart the Vagrant guest.
+
+Start your Zulip dev server, while setting `EXTERNAL_HOST` using port 9991
+and the IP you just found. For example: `$ EXTERNAL_HOST=192.168.86.60:9991
+./tools/run-dev.py`.
+
+Finally, connect to the dev server on your iOS device by entering address of
+the external host (you'll need to manually enter 'http://').
