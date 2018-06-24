@@ -4,8 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { User, PresenceState } from '../types';
-import { FloatingActionButton, LineSeparator } from '../common';
-import { IconDone } from '../common/Icons';
+import { LineSeparator } from '../common';
 import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
@@ -17,11 +16,6 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-  },
-  button: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
   },
 });
 
@@ -70,6 +64,7 @@ class UserPickerCard extends PureComponent<Props, State> {
   };
 
   handleUserDeselect = (email: string) => {
+    console.log('PRESSED');
     const { selected } = this.state;
 
     this.setState({
@@ -78,6 +73,7 @@ class UserPickerCard extends PureComponent<Props, State> {
   };
 
   handleComplete = () => {
+    console.log('COMPLETED');
     const { onComplete } = this.props;
     const { selected } = this.state;
     onComplete(selected);
@@ -101,6 +97,7 @@ class UserPickerCard extends PureComponent<Props, State> {
             }}
             users={selected}
             onPress={this.handleUserDeselect}
+            onButtonPress={this.handleComplete}
           />
         </AnimatedScaleComponent>
         {selected.length > 0 && <LineSeparator />}
@@ -113,14 +110,6 @@ class UserPickerCard extends PureComponent<Props, State> {
           selected={selected}
           onPress={this.handleUserPress}
         />
-        <AnimatedScaleComponent style={styles.button} visible={selected.length > 0}>
-          <FloatingActionButton
-            Icon={IconDone}
-            size={50}
-            disabled={selected.length === 0}
-            onPress={this.handleComplete}
-          />
-        </AnimatedScaleComponent>
       </View>
     );
   }
