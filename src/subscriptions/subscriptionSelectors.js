@@ -1,7 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { Narrow } from '../types';
+import type { Narrow, Stream, Subscription } from '../types';
 import { NULL_STREAM, NULL_SUBSCRIPTION } from '../nullObjects';
 import { isStreamOrTopicNarrow } from '../utils/narrow';
 import { getSubscriptions, getStreams } from '../directSelectors';
@@ -11,14 +11,14 @@ export const getStreamsById = createSelector(getStreams, streams =>
   streams.reduce((streamsById, stream) => {
     streamsById[stream.stream_id] = stream;
     return streamsById;
-  }, {}),
+  }, ({}: { [number]: Stream })),
 );
 
 export const getSubscriptionsById = createSelector(getSubscriptions, subscriptions =>
   subscriptions.reduce((subsById, subscription) => {
     subsById[subscription.stream_id] = subscription;
     return subsById;
-  }, {}),
+  }, ({}: { [number]: Subscription })),
 );
 
 export const getIsActiveStreamSubscribed = (narrow: Narrow) =>

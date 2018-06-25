@@ -43,7 +43,7 @@ export const getUnreadByStream = createSelector(
       );
       totals[stream.stream_id] += isMuted ? 0 : stream.unread_message_ids.length;
       return totals;
-    }, {}),
+    }, ({}: { [number]: number })),
 );
 
 export const getUnreadStreamTotal = createSelector(getUnreadByStream, unreadByStream =>
@@ -54,7 +54,7 @@ export const getUnreadByPms = createSelector(getUnreadPms, unreadPms =>
   unreadPms.reduce((totals, pm) => {
     totals[pm.sender_id] = totals[pm.sender_id] || 0 + pm.unread_message_ids.length;
     return totals;
-  }, {}),
+  }, ({}: { [number]: number })),
 );
 
 export const getUnreadPmsTotal = createSelector(getUnreadPms, unreadPms =>
@@ -66,7 +66,7 @@ export const getUnreadByHuddles = createSelector(getUnreadHuddles, unreadHuddles
     totals[huddle.user_ids_string] =
       totals[huddle.user_ids_string] || 0 + huddle.unread_message_ids.length;
     return totals;
-  }, {}),
+  }, ({}: { [string]: number })),
 );
 
 export const getUnreadHuddlesTotal = createSelector(getUnreadHuddles, unreadHuddles =>
@@ -83,7 +83,7 @@ export const getUnreadTotal = createSelector(
   getUnreadPmsTotal,
   getUnreadHuddlesTotal,
   getUnreadMentionsTotal,
-  (unreadStreamTotal, unreadPmsTotal, unreadHuddlesTotal, mentionsTotal) =>
+  (unreadStreamTotal, unreadPmsTotal, unreadHuddlesTotal, mentionsTotal): number =>
     unreadStreamTotal + unreadPmsTotal + unreadHuddlesTotal + mentionsTotal,
 );
 
