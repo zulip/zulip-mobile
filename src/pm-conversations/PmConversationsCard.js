@@ -58,7 +58,7 @@ class PmConversationsCard extends PureComponent<Props> {
     const { styles } = this.context;
     const { dispatch, conversations, isLoading, presences, usersByEmail } = this.props;
 
-    if (isLoading) {
+    if (isLoading && conversations.length === 0) {
       return <LoadingIndicator size={40} />;
     }
 
