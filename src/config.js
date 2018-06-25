@@ -27,6 +27,7 @@ type Config = {
   enableErrorConsoleLogging: boolean,
   trackServerEvents: string[],
   serverDataOnStartup: string[],
+  discardKeys: string[],
   storeKeys: string[],
   cacheKeys: string[],
 };
@@ -86,6 +87,18 @@ const config: Config = {
     'update_display_settings',
     'update_global_notifications',
     'update_message_flags',
+  ],
+  discardKeys: [
+    'alertWords',
+    'caughtUp',
+    'fetching',
+    'flags',
+    'loading',
+    'nav',
+    'presence',
+    'session',
+    'topics',
+    'typing',
   ],
   storeKeys: ['accounts', 'drafts', 'outbox', 'settings'],
   cacheKeys: [
