@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Dispatch, Context } from '../types';
+import type { Dispatch, Context, GlobalState } from '../types';
 import { getNav } from '../selectors';
 import { NAVBAR_SIZE } from '../styles';
 import { Label, SearchInput } from '../common';
@@ -106,7 +106,7 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
 }
 
 export default connect(
-  state => ({
+  (state: GlobalState) => ({
     nav: getNav(state),
   }),
   null,

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { ChildrenArray, ThemeType } from '../types';
+import type { ChildrenArray, GlobalState, ThemeType } from '../types';
 import { getSettings } from '../directSelectors';
 import themeCreator from '../styles/theme';
 import themeDark from '../styles/themeDark';
@@ -48,6 +48,6 @@ class StyleProvider extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   theme: getSettings(state).theme,
 }))(StyleProvider);

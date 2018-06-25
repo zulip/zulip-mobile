@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Presence } from '../types';
+import type { GlobalState, Presence } from '../types';
 import { nullFunction } from '../nullObjects';
 import { getCurrentRealm } from '../selectors';
 import ImageAvatar from './ImageAvatar';
@@ -76,6 +76,6 @@ class Avatar extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   realm: getCurrentRealm(state),
 }))(Avatar);

@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import type { ChildrenArray } from 'react';
 
-import type { Dispatch, Context, LocalizableText, Style } from '../types';
+import type { Dispatch, Context, GlobalState, LocalizableText, Style } from '../types';
 import { NAVBAR_SIZE } from '../styles';
 import { Label } from '../common';
 import { getCanGoBack } from '../selectors';
@@ -77,7 +77,7 @@ class ModalNavBar extends PureComponent<Props> {
 }
 
 export default connect(
-  state => ({
+  (state: GlobalState) => ({
     canGoBack: getCanGoBack(state),
   }),
   null,

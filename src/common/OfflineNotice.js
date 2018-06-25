@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
+import type { GlobalState } from '../types';
 import { getSession } from '../selectors';
 import { Label } from '../common';
 
@@ -52,6 +53,6 @@ class OfflineNotice extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   isOnline: getSession(state).isOnline,
 }))(OfflineNotice);

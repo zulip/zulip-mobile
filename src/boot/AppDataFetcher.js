@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { PureComponent } from 'react';
 
-import type { ChildrenArray, Dispatch } from '../types';
+import type { ChildrenArray, Dispatch, GlobalState } from '../types';
 import { getSession } from '../directSelectors';
 import { doInitialFetch } from '../actions';
 
@@ -29,6 +29,6 @@ class AppDataFetcher extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   needsInitialFetch: getSession(state).needsInitialFetch,
 }))(AppDataFetcher);

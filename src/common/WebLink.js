@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Context } from '../types';
+import type { Context, GlobalState } from '../types';
 import { Touchable, Label } from '../common';
 import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
@@ -47,6 +47,6 @@ class WebLink extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   realm: getCurrentRealm(state),
 }))(WebLink);

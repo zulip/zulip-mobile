@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Auth, Context, Dispatch } from '../types';
+import type { Auth, Context, Dispatch, GlobalState } from '../types';
 import { fetchApiKey } from '../api';
 import { ErrorMsg, Input, PasswordInput, Screen, WebLink, ZulipButton } from '../common';
 import { getAuth } from '../selectors';
@@ -126,6 +126,6 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   auth: getAuth(state),
 }))(PasswordAuthScreen);

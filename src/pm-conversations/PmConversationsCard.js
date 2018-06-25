@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Context, Dispatch, PmConversationData, PresenceState } from '../types';
+import type { Context, Dispatch, GlobalState, PmConversationData, PresenceState } from '../types';
 import { Label, LoadingIndicator, ZulipButton } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import PmConversationList from './PmConversationList';
@@ -94,7 +94,7 @@ class PmConversationsCard extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   conversations: getRecentConversations(state),
   isLoading: getLoading(state).users,
   presences: getPresence(state),

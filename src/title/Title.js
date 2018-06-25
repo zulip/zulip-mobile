@@ -13,7 +13,7 @@ import {
 } from '../utils/narrow';
 import { getSession } from '../selectors';
 
-import type { Message, Narrow } from '../types';
+import type { Message, GlobalState, Narrow } from '../types';
 import TitleHome from './TitleHome';
 import TitlePrivate from './TitlePrivate';
 import TitleGroup from './TitleGroup';
@@ -56,6 +56,6 @@ class Title extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   editMessage: getSession(state).editMessage,
 }))(Title);

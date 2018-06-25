@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Auth, Narrow, Stream } from '../types';
+import type { Auth, GlobalState, Narrow, Stream } from '../types';
 import { ZulipButton } from '../common';
 import { markAllAsRead, markStreamAsRead, markTopicAsRead } from '../api';
 import { getAuth, getStreams } from '../selectors';
@@ -86,7 +86,7 @@ class MarkUnreadButton extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   auth: getAuth(state),
   streams: getStreams(state),
 }))(MarkUnreadButton);

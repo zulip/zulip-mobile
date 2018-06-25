@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch, PresenceState, User } from '../types';
+import type { Dispatch, GlobalState, PresenceState, User } from '../types';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
 import { getOwnEmail, getUsers, getPresence } from '../selectors';
@@ -40,7 +40,7 @@ class UsersCard extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   ownEmail: getOwnEmail(state),
   users: getUsers(state),
   presences: getPresence(state),

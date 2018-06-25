@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Auth, Dispatch } from '../types';
+import type { Auth, Dispatch, GlobalState } from '../types';
 import { ZulipButton } from '../common';
 import { unregisterPush } from '../api';
 import { getAuth, getPushToken } from '../selectors';
@@ -52,7 +52,7 @@ class LogoutButton extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   auth: getAuth(state),
   pushToken: getPushToken(state),
 }))(LogoutButton);

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 
+import type { GlobalState } from '../types';
 import { Screen } from '../common';
 import config from '../config';
 import InfoItem from './InfoItem';
@@ -35,6 +36,6 @@ class NotificationDiagScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   pushToken: getRealm(state).pushToken,
 }))(NotificationDiagScreen);

@@ -6,7 +6,7 @@ import { AppState, NetInfo, View, StyleSheet, Platform, NativeModules } from 're
 import SafeArea from 'react-native-safe-area';
 import Orientation from 'react-native-orientation';
 
-import type { ChildrenArray, Dispatch, UserIdMap } from '../types';
+import type { ChildrenArray, Dispatch, GlobalState, UserIdMap } from '../types';
 import { getSession, getUnreadByHuddlesMentionsAndPMs, getUsersById } from '../selectors';
 import {
   addNotificationListener,
@@ -101,7 +101,7 @@ class AppEventHandlers extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   needsInitialFetch: getSession(state).needsInitialFetch,
   usersById: getUsersById(state),
   unreadCount: getUnreadByHuddlesMentionsAndPMs(state),

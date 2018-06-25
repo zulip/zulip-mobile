@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import type { User, PresenceState } from '../types';
+import type { GlobalState, User, PresenceState } from '../types';
 import { FloatingActionButton, LineSeparator } from '../common';
 import { IconDone } from '../common/Icons';
 import UserList from '../users/UserList';
@@ -124,7 +124,7 @@ class UserPickerCard extends PureComponent<Props, State> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   ownEmail: getOwnEmail(state),
   users: getUsersSansMe(state),
   presences: getPresence(state),

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, Context, Narrow } from '../types';
+import type { Dispatch, Context, GlobalState, Narrow } from '../types';
 import Title from '../title/Title';
 import NavButton from './NavButton';
 import TitleNavButtons from '../title-buttons/TitleNavButtons';
@@ -51,7 +51,7 @@ class MainNavBar extends PureComponent<Props> {
 }
 
 export default connect(
-  (state, props) => ({
+  (state: GlobalState, props) => ({
     backgroundColor: getTitleBackgroundColor(props.narrow)(state),
     canGoBack: getCanGoBack(state),
     textColor: getTitleTextColor(props.narrow)(state),

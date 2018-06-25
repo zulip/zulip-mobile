@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
+import type { GlobalState } from '../types';
 import { getUnreadPmsTotal, getUnreadHuddlesTotal } from '../selectors';
 import { IconPeople } from '../common/Icons';
 import { ComponentWithOverlay, UnreadCount } from '../common';
@@ -40,7 +41,7 @@ class IconUnreadConversations extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   unreadHuddlesTotal: getUnreadHuddlesTotal(state),
   unreadPmsTotal: getUnreadPmsTotal(state),
 }))(IconUnreadConversations);
