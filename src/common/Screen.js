@@ -4,7 +4,14 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
-import type { ChildrenArray, Context, Dimensions, LocalizableText, Style } from '../types';
+import type {
+  ChildrenArray,
+  Context,
+  Dimensions,
+  GlobalState,
+  LocalizableText,
+  Style,
+} from '../types';
 import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
 import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
@@ -114,7 +121,7 @@ class Screen extends PureComponent<Props> {
 }
 
 export default connect(
-  (state, props) => ({
+  (state: GlobalState) => ({
     safeAreaInsets: getSession(state).safeAreaInsets,
   }),
   null,
