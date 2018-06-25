@@ -1,6 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
+import type { Message } from '../types';
 import { getPrivateMessages } from '../baseSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
@@ -11,7 +12,12 @@ export const getRecentConversations = createSelector(
   getPrivateMessages,
   getUnreadByPms,
   getUnreadByHuddles,
-  (ownEmail, messages, unreadPms, unreadHuddles) => {
+  (
+    ownEmail: string,
+    messages: Message[],
+    unreadPms: { [number]: number },
+    unreadHuddles: { [string]: number },
+  ) => {
     const recipients = messages.map(msg => ({
       ids: getRecipientsIds(msg.display_recipient, ownEmail),
       emails: normalizeRecipientsSansMe(msg.display_recipient, ownEmail),
@@ -38,7 +44,11 @@ export const getRecentConversations = createSelector(
 
     return sortedByMostRecent.map(recipient => ({
       ...recipient,
-      unread: unreadPms[recipient.ids] || unreadHuddles[recipient.ids],
+      unread:
+        /* $FlowFixMe: The keys of unreadPms are logically numbers, but because it's an object they
+         end up converted to strings, so this access with string keys works.  We should probably use
+         a Map for this and similar maps. */
+        unreadPms[recipient.ids] || unreadHuddles[recipient.ids],
     }));
   },
 );
