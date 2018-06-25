@@ -87,8 +87,17 @@ const config: Config = {
     'update_global_notifications',
     'update_message_flags',
   ],
-  storeKeys: ['accounts', 'drafts', 'outbox', 'settings', 'users'],
-  cacheKeys: ['messages', 'mute', 'realm', 'subscriptions', 'unread'],
+  storeKeys: ['accounts', 'drafts', 'outbox', 'settings'],
+  cacheKeys: [
+    'messages',
+    'mute',
+    'realm',
+    'streams',
+    'subscriptions',
+    'unread',
+    'userGroups',
+    'users',
+  ],
 };
 
 export default config;
