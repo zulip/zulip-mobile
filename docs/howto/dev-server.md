@@ -92,7 +92,47 @@ server running directly on your host.
 See the separate section below, at the end.
 
 
-## 3. Set EXTERNAL_HOST
+## 3. Listen on all interfaces
+
+If you're using the Android emulator and the IP address 10.0.2.2, you can
+skip this step and move on to step 4.  Otherwise, read on.
+
+By default, the Zulip dev server only listens on the "loopback" network
+interface, 127.0.0.1, aka `localhost`.  This is a nice secure default,
+because it means the only way to connect to the server is from on the
+computer itself.  But it's less helpful when what we want is to connect from
+another device; so we'll configure it to listen on all your computer's
+network interfaces.
+
+### If using Vagrant
+
+If you set up your dev server to run inside Vagrant (the recommended and
+usual approach), then the process actually listening on `localhost:9991` is
+a forwarder, set up by Vagrant, which passes requests on to the Zulip
+server inside the VM.
+
+To make the forwarder listen on all network interfaces, just add the
+following line to a file `~/.zulip-vagrant-config` (and create the file if
+it doesn't already exist):
+```
+HOST_IP_ADDR 0.0.0.0
+```
+
+Then restart the Vagrant guest.
+
+### If running server directly on host
+
+If you're running the Zulip server directly on your computer, then you
+control this by passing the option `--interface=` to `tools/run-dev.py`.
+For example:
+<pre>
+    $ tools/run-dev.py <strong>--interface=</strong>
+</pre>
+
+(But you'll probably add more to the command too; see step 4.)
+
+
+## 4. Set EXTERNAL_HOST
 
 Like most complex web apps, the Zulip server has an idea internally of what
 base URL it's supposed to be accessed at; we call this setting
@@ -104,13 +144,21 @@ step 2.  In development, we can do this with an environment variable.  For
 example, if in step 2 you chose 10.0.2.2, then run the server with this
 command:
 
+<pre>
   $ <strong>EXTERNAL_HOST=10.0.2.2:9991</strong> tools/run-dev.py
+</pre>
+
+or if step 3 called for `--interface=`, then
+
+<pre>
+  $ <strong>EXTERNAL_HOST=10.0.2.2:9991</strong> tools/run-dev.py --interface=
+</pre>
 
 (Note for Zulip server experts: This also sets `REALM_HOSTS`, via some logic
 in `zproject/dev_settings.py`, which is actually the critical part here.)
 
 
-## 4. Log in!
+## 5. Log in!
 
 Now fire up the app on your emulator or device, go to the "switch account"
 UI, and enter the URL of the dev server.
@@ -129,18 +177,7 @@ First, run the ZulipMobile app on your iOS device. Follow the instructions
 Find the IP address of your machine using [the instructions
 above](#any--physical-or-emulated-device).
 
-To connect to your Zulip dev server from other machines than the VM host,
-you'll need manually set the host IP address in a `~/.zulip-vagrant-config`
-file. Set:
-```
-HOST_IP_ADDR 0.0.0.0
-```
-This is a special value that means any value can connect to your dev server.
-Restart the Vagrant guest.
-
-Start your Zulip dev server, while setting `EXTERNAL_HOST` using port 9991
-and the IP you just found. For example: `$ EXTERNAL_HOST=192.168.86.60:9991
-./tools/run-dev.py`.
+Follow the instructions in Steps 3 and 4.
 
 Finally, connect to the dev server on your iOS device by entering address of
 the external host (you'll need to manually enter 'http://').

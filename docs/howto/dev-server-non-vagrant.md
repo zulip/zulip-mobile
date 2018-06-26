@@ -25,23 +25,9 @@ and deciding that a non-Vagrant setup is better for you.**
    your host.
 
 3. Find the IP address of your computer on your local network (see
-   [instructions](find-ip-address.md)).  This guide will proceed with
-   `192.168.0.1`.  Replace this IP address with your own local IP address in
-   the following instructions.
+   [instructions](find-ip-address.md)).
 
-4. Run
-   ```sh
-   EXTERNAL_HOST=192.168.0.1:9991 tools/run-dev.py --interface=''
-   ```
-   *Why does this work? We will use `http://192.168.0.1:9991` to connect to
-   the Zulip dev server from the mobile app. Therefore, we must tell the dev
-   server that it is now running under the name `192.168.0.1:9991` and that
-   it should listen to requests made to this address. These two things can
-   be done by setting the `EXTERNAL_HOST` environmental variable to
-   `192.168.0.1:9991` and `interface` to `''`.*
-
-5. In the Zulip mobile app, connect to a new server with the URL
-   `http://192.168.0.1:9991`.
+4. Follow steps 3, 4, and 5 of [the main instructions](dev-server.md).
 
 6. Done! You should now see a special Zulip dev server login screen where
    you can log in.
