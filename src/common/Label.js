@@ -10,6 +10,15 @@ type Props = {
   style?: Style,
 };
 
+/**
+ * A component that on top of a standard Text component
+ * provides seamless translation and ensures consistent
+ * styling for the default and night themes.
+ * Use `RawLabel` if you don't want the text translated.
+ *
+ * @prop text - Main component to be rendered.
+ * @prop [style] - Style object applied to the Text component.
+ */
 export default class Label extends PureComponent<Props> {
   context: Context;
   props: Props;
