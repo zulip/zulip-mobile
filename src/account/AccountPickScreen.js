@@ -8,7 +8,12 @@ import type { Auth, Account, Dispatch } from '../types';
 import { getAuth, getAccounts } from '../selectors';
 import { Centerer, ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
-import { navigateToAddNewAccount, switchAccount, removeAccount } from '../actions';
+import {
+  navigateToAddNewAccount,
+  switchAccount,
+  removeAccount,
+  navigateToLoading,
+} from '../actions';
 
 const styles = StyleSheet.create({
   button: {
@@ -27,6 +32,7 @@ class AccountPickScreen extends PureComponent<Props> {
 
   handleAccountSelect = (index: number) => {
     const { accounts, dispatch } = this.props;
+    dispatch(navigateToLoading());
     const { realm, apiKey } = accounts[index];
     if (apiKey) {
       setTimeout(() => {
