@@ -23,6 +23,14 @@ type Props = {
   padding: boolean,
 };
 
+/**
+ * A layout component that centers wrapped components
+ * horizontally and vertically.
+ *
+ * @prop [style] - Apply styles to wrapper component.
+ * @prop children - Components to be centered.
+ * @prop [padding] - Specifies if the components should be padded.
+ */
 export default class Centerer extends PureComponent<Props> {
   context: Context;
   props: Props;
