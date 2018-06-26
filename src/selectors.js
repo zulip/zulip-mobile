@@ -1,7 +1,7 @@
 /* @flow */
 export * from './account/accountSelectors';
 export * from './baseSelectors';
-export * from './conversations/conversationsSelectors';
+export * from './conversations/pmConversationsSelectors';
 export * from './caughtup/caughtUpSelectors';
 export * from './chat/chatSelectors';
 export * from './chat/fetchingSelectors';

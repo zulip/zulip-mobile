@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { getRecentConversations } from '../conversationsSelectors';
+import { getRecentConversations } from '../pmConversationsSelectors';
 import { homeNarrow, specialNarrow } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
 
