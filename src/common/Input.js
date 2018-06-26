@@ -19,6 +19,18 @@ type State = {
   isFocused: boolean,
 };
 
+/**
+ * A light abstraction over the standard TextInput component
+ * that allows us to seamlessly provide internationalization
+ * capabilities and also style the component depending on
+ * the platform the app is running on.
+ *
+ * @prop [style] - Style applied to the TextInput component.
+ * @prop [placeholder] - Text to be shown when no value is entered.
+ * @prop onChangeText - Event called when text is edited.
+ * @prop textInputRef - Callback used to pass a reference to the
+ *   wrapped TextInput to parent component.
+ */
 export default class Input extends PureComponent<Props, State> {
   context: Context;
   props: Props;
