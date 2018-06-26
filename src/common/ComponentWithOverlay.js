@@ -46,6 +46,23 @@ type Props = {
   onPress?: () => void,
 };
 
+/**
+ * Layout component that streamlines how we
+ * overlay a component over another component
+ *
+ * @prop children - Main component to be rendered.
+ * @prop overlay - Component to be overlayed over the main one.
+ * @prop [showOverlay] - Should the overlay be shown.
+ * @prop [overlaySize] - The size of the overlay in pixels,
+ * @prop [overlayColor] - The color of the overlay.
+ * @prop [overlayPosition] - Overlay position can be one of the following:
+ *  * 'top-right'
+ *  * 'top-left'
+ *  * 'bottom-right'
+ *  * 'bottom-left'
+ * @prop [style] - Style object applied to the main component.
+ * @prop [onPress] - Event called on pressing the main component.
+ */
 export default class ComponentWithOverlay extends PureComponent<Props> {
   props: Props;
 
