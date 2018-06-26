@@ -5,7 +5,7 @@ import { FlatList, StyleSheet } from 'react-native';
 import type { Dispatch, PmConversationData, PresenceState } from '../types';
 import { privateNarrow, groupNarrow } from '../utils/narrow';
 import UserItem from '../users/UserItem';
-import ConversationGroup from './ConversationGroup';
+import GroupPmConversationItem from './GroupPmConversationItem';
 import { doNarrow } from '../actions';
 
 const styles = StyleSheet.create({
@@ -63,7 +63,7 @@ export default class ConversationList extends PureComponent<Props> {
           }
 
           return (
-            <ConversationGroup
+            <GroupPmConversationItem
               email={item.recipients}
               unreadCount={item.unread}
               usersByEmail={usersByEmail}

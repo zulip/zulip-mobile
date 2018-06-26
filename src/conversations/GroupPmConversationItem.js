@@ -21,7 +21,10 @@ type Props = {
   onPress: (emails: string) => void,
 };
 
-export default class ConversationGroup extends PureComponent<Props> {
+/**
+ * A list item describing one group PM conversation.
+ * */
+export default class GroupPmConversationItem extends PureComponent<Props> {
   context: Context;
   props: Props;
 
