@@ -16,10 +16,12 @@ type Props = {
 /**
  * A convenience component that uniformly styles and spaces its children.
  *
- * @param spacing Set distance between components by setting
+ * @prop children - Components to be styled.
+ * @prop [spacing] - Set distance between components by setting
  *     marginBottom on all but the last component.
- * @param outerSpacing Set a margin around the list.
- * @param itemStyle Style applied to each child.
+ * @prop [outerSpacing] - Set a margin around the list.
+ * @prop [style] - Style of the wrapper container.
+ * @prop [itemStyle] - Style applied to each child.
  */
 export default class ComponentList extends PureComponent<Props> {
   props: Props;
