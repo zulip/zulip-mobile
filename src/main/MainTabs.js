@@ -7,7 +7,7 @@ import type { TabNavigationOptionsPropsType } from '../types';
 import tabsOptions from '../styles/tabs';
 import HomeTab from './HomeTab';
 import StreamTabs from './StreamTabs';
-import ConversationsCard from '../conversations/ConversationsCard';
+import PmConversationsCard from '../conversations/PmConversationsCard';
 import SettingsCard from '../settings/SettingsCard';
 import { IconHome, IconStream, IconSettings } from '../common/Icons';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
@@ -33,7 +33,7 @@ export default TabNavigator(
       },
     },
     conversations: {
-      screen: ConversationsCard,
+      screen: PmConversationsCard,
       navigationOptions: {
         tabBarLabel: 'Conversations',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (

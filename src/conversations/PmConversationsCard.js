@@ -43,7 +43,10 @@ type Props = {
   usersByEmail: Object,
 };
 
-class ConversationsCard extends PureComponent<Props> {
+/**
+ * The "PMs" page in the main tabs navigation.
+ * */
+class PmConversationsCard extends PureComponent<Props> {
   context: Context;
   props: Props;
 
@@ -101,4 +104,4 @@ export default connect(state => ({
   isLoading: getLoading(state).users,
   presences: getPresence(state),
   usersByEmail: getAllUsersAndBotsByEmail(state),
-}))(ConversationsCard);
+}))(PmConversationsCard);
