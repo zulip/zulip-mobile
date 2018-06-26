@@ -25,10 +25,8 @@ const componentStyles = StyleSheet.create({
     flex: 1,
   },
   emptySlate: {
-    flex: 1,
     textAlign: 'center',
-    textAlignVertical: 'center',
-    fontSize: 20,
+    fontSize: 18,
   },
   row: {
     flexDirection: 'row',
@@ -82,7 +80,9 @@ class ConversationsCard extends PureComponent<Props> {
           />
         </View>
         {conversations.length === 0 ? (
-          <Label style={componentStyles.emptySlate} text="No recent conversations" />
+          <View style={styles.emptyStateContainer}>
+            <Label style={componentStyles.emptySlate} text="No recent conversations" />
+          </View>
         ) : (
           <ConversationList
             dispatch={dispatch}
