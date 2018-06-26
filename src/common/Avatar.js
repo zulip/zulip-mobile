@@ -32,6 +32,18 @@ type Props = {
   onPress?: () => void,
 };
 
+/**
+ * Renders an image if avatarUrl is proved, a text avatar otherwise
+ *
+ * @prop [avatarUrl] - Absolute or relative url to an avatar image.
+ * @prop [email] - User's' email address, to calculate Gravatar URL if not given `avatarUrl`.
+ * @prop [name] - User's full name.
+ * @prop [size] - Sets width and height in pixels.
+ * @prop [presence] - Current presence for this user used to determine status.
+ * @prop [realm] - Current realm url, used if avatarUrl is relative.
+ * @prop [shape] - One of 'square', 'rounded', 'circle'.
+ * @prop [onPress] - Event fired on pressing the component.
+ */
 class Avatar extends PureComponent<Props> {
   props: Props;
 
