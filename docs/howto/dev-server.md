@@ -82,10 +82,6 @@ like `wlp4s0` or `en1`.
 For a detailed example, see our howto on [finding your IP
 address](find-ip-address.md).
 
-### iOS physical device
-
-See the separate section below, at the end.
-
 
 ## 3. Listen on all interfaces
 
@@ -155,27 +151,11 @@ in `zproject/dev_settings.py`, which is actually the critical part here.)
 
 ## 5. Log in!
 
-Now fire up the app on your emulator or device, go to the "switch account"
-UI, and enter the URL of the dev server.
+Now [fire up the app](build-run.md) on your emulator or device, go to the
+"switch account" UI, and enter the URL of the dev server.
 
 This will be `http://ADDRESS:9991`, where `ADDRESS` is the address you
 identified in step 2.  (Be sure to type the `http://`.)
 
 This should get you the login screen!  Unless you're working on the login
 flow itself, tap "Log in with dev account"; then pick any user to log in as.
-
-
-## Alternate instructions: iOS device and a dev server
-
-This process needs improvement and has too many manual steps at the moment.
-
-First, run the ZulipMobile app on your iOS device. Follow the instructions
-[here](ios-tips.md#running-on-an-ios-device.
-
-Find the IP address of your machine using [the instructions
-above](#any--physical-or-emulated-device).
-
-Follow the instructions in Steps 3 and 4.
-
-Finally, connect to the dev server on your iOS device by entering address of
-the external host (you'll need to manually enter 'http://').
