@@ -82,11 +82,6 @@ like `wlp4s0` or `en1`.
 For a detailed example, see our howto on [finding your IP
 address](find-ip-address.md).
 
-### Android (alternate)
-
-See the [separate doc](dev-server-non-vagrant.md), written for a Zulip
-server running directly on your host.
-
 ### iOS physical device
 
 See the separate section below, at the end.
@@ -165,6 +160,9 @@ UI, and enter the URL of the dev server.
 
 This will be `http://ADDRESS:9991`, where `ADDRESS` is the address you
 identified in step 2.  (Be sure to type the `http://`.)
+
+This should get you the login screen!  Unless you're working on the login
+flow itself, tap "Log in with dev account"; then pick any user to log in as.
 
 
 ## Alternate instructions: iOS device and a dev server
