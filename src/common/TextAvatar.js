@@ -27,6 +27,16 @@ type Props = {
   onPress?: () => void,
 };
 
+/**
+ * Renders a text avatar based on user initials and a color
+ * calculated as a hash from their name.
+ *
+ * @prop name - User's full name to extract initials from.
+ * @prop size - Sets width and height in pixels.
+ * @prop shape - One of 'square', 'rounded', 'circle'.
+ * @prop children - If provided, will render inside the component body.
+ * @prop onPress - Event fired on pressing the component.
+ */
 export default class TextAvatar extends PureComponent<Props> {
   props: Props;
 
