@@ -22,7 +22,10 @@ type Props = {
   usersByEmail: Object,
 };
 
-export default class ConversationList extends PureComponent<Props> {
+/**
+ * A list describing all PM conversations.
+ * */
+export default class PmConversationList extends PureComponent<Props> {
   props: Props;
 
   handleUserNarrow = (email: string) => {

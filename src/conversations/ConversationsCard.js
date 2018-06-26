@@ -7,7 +7,7 @@ import { View, StyleSheet } from 'react-native';
 import type { Context, Dispatch, PmConversationData, PresenceState } from '../types';
 import { Label, LoadingIndicator, ZulipButton } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
-import ConversationList from './ConversationList';
+import PmConversationList from './PmConversationList';
 import {
   getLoading,
   getPresence,
@@ -84,7 +84,7 @@ class ConversationsCard extends PureComponent<Props> {
         {conversations.length === 0 ? (
           <Label style={componentStyles.emptySlate} text="No recent conversations" />
         ) : (
-          <ConversationList
+          <PmConversationList
             dispatch={dispatch}
             conversations={conversations}
             presences={presences}
