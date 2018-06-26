@@ -11,6 +11,14 @@ type Props = {
   thickness: number,
 };
 
+/**
+ * Renders a progress indicator - light circle and a darker
+ * quarter of a circle overlapping it, spinning.
+ *
+ * @prop color - The color of the circle.
+ * @prop size - Diameter of the circle in pixels.
+ * @prop thickness - Thickness of the circle in pixels.
+ */
 export default class SpinningProgress extends React.PureComponent<Props> {
   props: Props;
 
