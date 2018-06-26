@@ -8,6 +8,14 @@ type Props = {
   thickness: number,
 };
 
+/**
+ * Renders an arc - a quarter of a circle, using the ART library.
+ * Exclusively used by the `SpinningProgress` component
+ *
+ * @prop color - The color of the arc.
+ * @prop size - Diameter of the arc in pixels.
+ * @prop thickness - Thickness of the arc in pixels.
+ */
 export default class Arc extends React.PureComponent<Props> {
   props: Props;
 
