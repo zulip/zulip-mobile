@@ -6,7 +6,7 @@ import { SectionList } from 'react-native';
 
 import type { Context, Dispatch, PmConversationData, PresenceState, UnreadStream } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
-import PmConversationList from '../conversations/PmConversationList';
+import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
 import TopicItem from '../streams/TopicItem';
 import { streamNarrow, topicNarrow } from '../utils/narrow';

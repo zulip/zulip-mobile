@@ -7,7 +7,7 @@ import type { TabNavigationOptionsPropsType } from '../types';
 import tabsOptions from '../styles/tabs';
 import HomeTab from './HomeTab';
 import StreamTabs from './StreamTabs';
-import PmConversationsCard from '../conversations/PmConversationsCard';
+import PmConversationsCard from '../pm-conversations/PmConversationsCard';
 import SettingsCard from '../settings/SettingsCard';
 import { IconHome, IconStream, IconSettings } from '../common/Icons';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
