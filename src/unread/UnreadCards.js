@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Context, Dispatch, PresenceState, UnreadStream } from '../types';
+import type { Context, Dispatch, PmConversationData, PresenceState, UnreadStream } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import ConversationList from '../conversations/ConversationList';
 import StreamItem from '../streams/StreamItem';
@@ -20,7 +20,7 @@ import {
 import { doNarrow } from '../actions';
 
 type Props = {
-  conversations: Object[],
+  conversations: PmConversationData[],
   dispatch: Dispatch,
   isLoading: boolean,
   presences: PresenceState,

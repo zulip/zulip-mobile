@@ -609,6 +609,17 @@ export type UnreadStreamData = {
   data: Object[],
 };
 
+/**
+ * Summary of a PM conversation (either 1:1 or group PMs).
+ */
+export type PmConversationData = {
+  ids: string,
+  msgId: number,
+  recipients: string,
+  timestamp: number,
+  unread: number,
+};
+
 export type InitialDataBase = {
   last_event_id: number,
   msg: string,

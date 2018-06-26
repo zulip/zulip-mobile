@@ -82,6 +82,7 @@ import type {
   Stream,
   Subscription,
   Topic,
+  PmConversationData,
   PresenceState,
   Presence,
   RealmEmojiState,
@@ -547,7 +548,7 @@ export type StartTypingAction = {
   time: number,
   ownEmail: string,
   sender: { email: string, user_id: number },
-  recipients: Object[],
+  recipients: PmConversationData[],
 };
 
 export type StopTypingAction = {

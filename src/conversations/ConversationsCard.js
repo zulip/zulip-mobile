@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Context, Dispatch, PresenceState } from '../types';
+import type { Context, Dispatch, PmConversationData, PresenceState } from '../types';
 import { Label, LoadingIndicator, ZulipButton } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import ConversationList from './ConversationList';
@@ -37,7 +37,7 @@ const componentStyles = StyleSheet.create({
 
 type Props = {
   dispatch: Dispatch,
-  conversations: Object[],
+  conversations: PmConversationData[],
   isLoading: boolean,
   presences: PresenceState,
   usersByEmail: Object,
