@@ -8,6 +8,14 @@ type Props = {
   thickness: number,
 };
 
+/**
+ * Renders a circle using the ART library.
+ * Exclusively used by the `SpinningProgress` component
+ *
+ * @prop color - The color of the circle.
+ * @prop size - Diameter of the circle in pixels.
+ * @prop thickness - Thickness of the circle in pixels.
+ */
 export default class Circle extends React.PureComponent<Props> {
   props: Props;
 
