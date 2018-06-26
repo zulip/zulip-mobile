@@ -14,6 +14,15 @@ type Props = {
   onPress: () => void,
 };
 
+/**
+ * Renders an image avatar
+ *
+ * @prop avatarUrl - Absolute or relative url to an avatar image.
+ * @prop size - Sets width and height in pixels.
+ * @prop shape - One of 'square', 'rounded', 'circle'.
+ * @prop children - If provided, will render inside the component body.
+ * @prop [onPress] - Event fired on pressing the component.
+ */
 export default class ImageAvatar extends PureComponent<Props> {
   props: Props;
 
