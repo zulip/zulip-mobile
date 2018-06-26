@@ -58,6 +58,30 @@ So you can just use `10.0.2.2` below.
 
 [android-emulator-net]: https://developer.android.com/studio/run/emulator-networking
 
+### Any (?) physical or emulated device
+
+This method should work on any physical device, or the Android emulator or
+iOS simulator.  (It's been tested at least on the Android emulator and a
+physical iOS device.)
+
+First, if you're using a physical device, connect it and your computer to
+the same wifi network.  For an emulator/simulator, just run it on the same
+computer you're running the Zulip server on.
+
+We'll use **the IP address your computer uses on the local network**.  (For
+a physical device, we want this to be the same network the phone is on.  For
+an emulator/simulator, any IP address that belongs to your computer, and
+isn't a special "loopback" address like 127.0.0.1, will do.)
+
+To find this, you can use a command-line tool like (on Linux or macOS)
+`ip addr` or `ifconfig`; or look in the network pane of macOS's System
+Preferences or of Windows's Control Panel.  The IP address you want will
+often start with `192.168`; the network interface it belongs to might look
+like `wlp4s0` or `en1`.
+
+For a detailed example, see our howto on [finding your IP
+address](find-ip-address.md).
+
 ### Android (alternate)
 
 See the [separate doc](dev-server-non-vagrant.md), written for a Zulip
@@ -99,14 +123,11 @@ identified in step 2.  (Be sure to type the `http://`.)
 
 This process needs improvement and has too many manual steps at the moment.
 
-First make sure that your iOS device and dev machine are connected to the
-same WiFi network.
-
-Next, run the ZulipMobile app on your iOS device. Follow the instructions
+First, run the ZulipMobile app on your iOS device. Follow the instructions
 [here](ios-tips.md#running-on-an-ios-device.
 
-Using a command line tool, such as `ifconfig`, find the IP for your machine.
-The IP you’re looking for most likely starts with `192.168`.
+Find the IP address of your machine using [the instructions
+above](#any--physical-or-emulated-device).
 
 To connect to your Zulip dev server from other machines than the VM host,
 you'll need manually set the host IP address in a `~/.zulip-vagrant-config`
