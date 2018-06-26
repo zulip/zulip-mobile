@@ -52,17 +52,11 @@ This works if you're running the app in the Android emulator, on the same
 computer where you're running the dev server (either as a Vagrant host, or
 directly.)
 
-In the app, hit "reload" in the React Native dev menu (or an equivalent
-keyboard shortcut) to reload the app's JS code -- and pay close attention to
-the green banner that appears at the top.  It will say something like
-"Loading from 10.0.2.2:8081...".
+In this situation, the emulator provides 10.0.2.2 as a special alias for the
+`localhost` of your computer.  (See [upstream docs][android-emulator-net].)
+So you can just use `10.0.2.2` below.
 
-The IP address that appears in the message is the one you want to use.
-
-Why does this work?  The green "Loading" banner identifies the IP address
-and port at which the app is able to find your Metro Bundler server, the
-process started by `react-native start`.  Therefore, that IP address is one
-that works inside the emulated device as a way to reach your host machine.
+[android-emulator-net]: https://developer.android.com/studio/run/emulator-networking
 
 ### iOS physical device
 
