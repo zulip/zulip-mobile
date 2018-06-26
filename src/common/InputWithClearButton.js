@@ -31,6 +31,13 @@ type State = {
   text: string,
 };
 
+/**
+ * A component wrapping Input and providing an 'X' button
+ * to clear the entered text.
+ *
+ * @prop [placeholder] - Text to be shown when no value is entered.
+ * @prop onChangeText - Event called when text is edited.
+ */
 export default class InputWithClearButton extends PureComponent<Props, State> {
   context: Context;
   props: Props;
