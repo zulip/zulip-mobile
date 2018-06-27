@@ -5,7 +5,7 @@ import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Context, Narrow } from '../types';
-import { ZulipStatusBar } from '../common';
+import { OfflineNotice, ZulipStatusBar } from '../common';
 import Chat from '../chat/Chat';
 import MainNavBar from '../nav/MainNavBar';
 
@@ -36,6 +36,7 @@ export default class ChatScreen extends PureComponent<Props> {
         <View style={styles.screen}>
           <ZulipStatusBar narrow={narrow} />
           <MainNavBar narrow={narrow} />
+          <OfflineNotice />
           <Chat narrow={narrow} />
         </View>
       </ActionSheetProvider>

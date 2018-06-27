@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
 import type { ChildrenArray, Context, Dimensions, LocalizableText, Style } from '../types';
-import { KeyboardAvoider, ZulipStatusBar } from '../common';
+import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
 import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
@@ -94,6 +94,7 @@ class Screen extends PureComponent<Props> {
         ) : (
           <ModalNavBar title={title} />
         )}
+        <OfflineNotice />
         <KeyboardAvoider
           behavior="padding"
           style={[componentStyles.wrapper, padding && styles.padding]}

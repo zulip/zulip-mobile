@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Context, Narrow } from '../types';
-import { KeyboardAvoider, OfflineNotice } from '../common';
+import { KeyboardAvoider } from '../common';
 import MessageList from '../message/MessageList';
 import NoMessages from '../message/NoMessages';
 import ComposeBox from '../compose/ComposeBox';
@@ -44,7 +44,6 @@ export default class Chat extends PureComponent<Props> {
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
         <View style={styles.flexed}>
-          <OfflineNotice />
           <UnreadNotice narrow={narrow} />
           <NoMessages narrow={narrow} />
           <MessageList
