@@ -41,6 +41,7 @@ type Props = {
   padding?: boolean,
   search?: boolean,
   title?: LocalizableText,
+  scrollableContent?: boolean,
   style?: Style,
   searchBarOnChange?: (text: string) => void,
 };
@@ -75,6 +76,7 @@ class Screen extends PureComponent<Props> {
     autoFocus: false,
     centerContent: false,
     keyboardShouldPersistTaps: 'handled',
+    scrollableContent: true,
   };
 
   render() {
@@ -85,12 +87,15 @@ class Screen extends PureComponent<Props> {
       keyboardShouldPersistTaps,
       padding,
       safeAreaInsets,
+      scrollableContent,
       search,
       searchBarOnChange,
       style,
       title,
     } = this.props;
     const { styles } = this.context;
+
+    const ChildrenWrapper = scrollableContent ? ScrollView : View;
 
     return (
       <View style={[styles.screen, { marginBottom: safeAreaInsets.bottom }]}>
@@ -106,13 +111,13 @@ class Screen extends PureComponent<Props> {
           style={[componentStyles.wrapper, padding && styles.padding]}
           contentContainerStyle={[padding && styles.padding]}
         >
-          <ScrollView
+          <ChildrenWrapper
             style={componentStyles.childrenWrapper}
             contentContainerStyle={[centerContent && componentStyles.content, style]}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
           >
             {children}
-          </ScrollView>
+          </ChildrenWrapper>
         </KeyboardAvoider>
       </View>
     );
