@@ -108,8 +108,8 @@ a forwarder, set up by Vagrant, which passes requests on to the Zulip
 server inside the VM.
 
 To make the forwarder listen on all network interfaces, just add the
-following line to a file `~/.zulip-vagrant-config` (and create the file if
-it doesn't already exist):
+following line to a file `~/.zulip-vagrant-config` of the host computer
+(and create the file if it doesn't already exist):
 ```
 HOST_IP_ADDR 0.0.0.0
 ```
