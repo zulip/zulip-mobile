@@ -23,7 +23,7 @@ import TimingScreen from '../diagnostics/TimingScreen';
 import NotificationDiagScreen from '../diagnostics/NotificationDiagScreen';
 import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
-import GroupScreen from '../user-groups/GroupScreen';
+import CreateGroupScreen from '../user-groups/CreateGroupScreen';
 import InviteUsersScreen from '../streams/InviteUsersScreen';
 import StreamScreen from '../streams/StreamScreen';
 import CreateStreamScreen from '../streams/CreateStreamScreen';
@@ -54,7 +54,7 @@ export default StackNavigator(
     settings: { screen: SettingsScreen },
     language: { screen: LanguageScreen },
     lightbox: { screen: LightboxScreen },
-    group: { screen: GroupScreen },
+    group: { screen: CreateGroupScreen },
     'invite-users': { screen: InviteUsersScreen },
     diagnostics: { screen: DiagnosticsScreen },
     variables: { screen: VariablesScreen },
