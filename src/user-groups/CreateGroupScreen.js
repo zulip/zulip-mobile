@@ -16,7 +16,7 @@ type State = {
   filter: string,
 };
 
-class GroupScreen extends PureComponent<Props, State> {
+class CreateGroupScreen extends PureComponent<Props, State> {
   props: Props;
   state: State = {
     filter: '',
@@ -42,4 +42,4 @@ class GroupScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect()(GroupScreen);
+export default connect()(CreateGroupScreen);
