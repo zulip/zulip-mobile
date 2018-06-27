@@ -20,6 +20,14 @@ type Props = {
   orientation: string,
 };
 
+/**
+ * Controls the status bar settings depending on platform
+ * and current navigation position.
+ * If narrowed to a stream or topic the color of the status bar
+ * matches that of the stream.
+ *
+ * @prop [narrow] - Currently active narrow.
+ */
 class ZulipStatusBar extends PureComponent<Props> {
   static contextTypes = {
     styles: () => null,
