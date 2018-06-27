@@ -17,6 +17,15 @@ type Props = {
   children?: ChildrenArray<*>,
 };
 
+/**
+ * Component to encapsulate our custom and platform-specific
+ * settings applied to the built-in touchable components.
+ *
+ * @prop [style] - Style to apply to the underlying Touchable component.
+ * @prop [children] - Components to turn into 'touchable' ones.
+ * @prop [onPress] - Evnet fired on pressing the contained components.
+ * @prop [onLongPress] - Event fired on a long press.
+ */
 export default ({ onPress, style, children, onLongPress }: Props) => {
   const WrapperComponent = onPress || onLongPress ? TouchableNativeFeedback : View;
 
