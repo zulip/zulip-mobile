@@ -10,7 +10,6 @@ import { HALF_COLOR, BORDER_COLOR } from '../styles';
 type Props = {
   style?: Style,
   placeholder: LocalizableText,
-  clearButton: boolean,
   onChangeText: (text: string) => void,
   textInputRef: (component: any) => void,
 };
@@ -47,7 +46,6 @@ export default class Input extends PureComponent<Props, State> {
 
   static defaultProps = {
     restProps: [],
-    clearButton: false,
     onChangeText: nullFunction,
     textInputRef: nullFunction,
   };
