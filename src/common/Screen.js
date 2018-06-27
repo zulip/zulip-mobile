@@ -39,6 +39,24 @@ type Props = {
   searchBarOnChange?: (text: string) => void,
 };
 
+/**
+ * A component representing a distinct screen of the app
+ * ensuring consistent look-and-feel trhoughout.
+ * It can control the status bar, can render a nav bar or
+ * include a search input, center its contents, etc.
+ *
+ * @prop [autoFocus] - If search bar enabled, should it be focused initially.
+ * @prop [centerContent] - Should the contents be centered.
+ * @prop children - Components to render inside the screen.
+ * @prop safeAreaInsets - Supports safe area edge offsetting. Google 'iOS Safe Area'.
+ * @prop [keyboardShouldPersistTaps] - Sets the same prop value to the internal
+ *   ScrollView component.
+ * @prop [padding] - Should padding be added to the contents of the screen.
+ * @prop [search] - If 'true' show a search box in place of the title.
+ * @prop [title] - Text shown as the title of the screen.
+ * @prop [style] - Additional style for the wrapper container.
+ * @prop searchBarOnChange - Event called on search query change.
+ */
 class Screen extends PureComponent<Props> {
   context: Context;
   props: Props;
