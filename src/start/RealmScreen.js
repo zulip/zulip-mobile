@@ -76,7 +76,7 @@ class RealmScreen extends PureComponent<Props, State> {
     const { progress, error, realm } = this.state;
 
     return (
-      <Screen title="Welcome" padding centerContent keyboardShouldPersistTaps="always">
+      <Screen title="Welcome" padding centerContent keyboardShouldPersistTaps="never">
         <Label text="Organization URL" />
         <SmartUrlInput
           style={styles.marginVertical}
