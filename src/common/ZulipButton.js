@@ -114,6 +114,22 @@ type Props = {
   onPress: () => void | Promise<any>,
 };
 
+/**
+ * A button component that is provides consistent look and feel
+ * thoughout the app. It can be disabled or show action-in-progress.
+ *
+ * If several buttons are on the same screen all or all but one should
+ * have their `secondary` property set to `true`.
+ *
+ * @prop [style] - Style object applied to the Text component.
+ * @prop [progress] - Shows a progress indicator in place of the button text.
+ * @prop [disabled] - If set the button is not pressable and visually looks disabled.
+ * @prop [Icon] - Icon component to display in front of the button text
+ * @prop text - The button text
+ * @prop [secondary] - Less prominent styling, the button is not as important.
+ * @prop [fullSize] - The button becomes as wide as its container.
+ * @prop onPress - Event called on button press.
+ */
 export default class ZulipButton extends PureComponent<Props> {
   props: Props;
 
