@@ -15,6 +15,13 @@ type Props = {
   realm: string,
 };
 
+/**
+ * A button styled like a web link.
+ *
+ * @prop label - Text of the button.
+ * @prop href - URL address to open on press.
+ * @prop realm - Current realm. Used if the `href` preoperty is relative.
+ */
 class WebLink extends PureComponent<Props> {
   context: Context;
   props: Props;
