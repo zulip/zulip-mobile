@@ -8,6 +8,12 @@ type Props = {
   text: LocalizableText,
 };
 
+/**
+ * A component that seamlessly translates text without
+ * applying anny styling to it.
+ *
+ * @prop text - The text to be translated.
+ */
 export default ({ text }: Props) => {
   const message = text.text || text;
 
