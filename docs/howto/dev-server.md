@@ -66,11 +66,13 @@ alternative approach below, which additionally works on all platforms.
 ### Any (?) physical or emulated device
 
 This method should work on any physical device, or the Android emulator or
-iOS simulator.  (It's been tested at least on the Android emulator and a
-physical iOS device.)
+iOS simulator.  (It's been tested at least on the Android emulator and
+physical android and iOS devices.)
 
 First, if you're using a physical device, connect it and your computer to
-the same wifi network.  For an emulator/simulator, just run it on the same
+the same wifi network or connecting the computer with the mobile hotspot
+of this physical device is also fine.
+For an emulator/simulator, just run it on the same
 computer you're running the Zulip server on.
 
 We'll use **the IP address your computer uses on the local network**.  (For
