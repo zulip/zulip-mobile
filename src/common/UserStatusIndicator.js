@@ -31,6 +31,16 @@ type Props = {
   hideIfOffline: boolean,
 };
 
+/**
+ * A colored dot indicating user online status.
+ * * green if 'online'
+ * * orange if 'idle'
+ * * gray if 'offline'
+ *
+ * @prop [style] - Style object for additional customization.
+ * @prop [presence] - Presence object used to determine the status from.
+ * @prop hideIfOffline - Do not render for 'offline' state.
+ */
 export default class UserStatusIndicator extends PureComponent<Props> {
   props: Props;
 
