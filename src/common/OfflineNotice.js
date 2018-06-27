@@ -25,6 +25,12 @@ type Props = {
   isOnline: boolean,
 };
 
+/**
+ * Displays a notice that the app is working in offline mode.
+ * Not rendered if state is 'online'.
+ *
+ * @prop isOnline - Provide the online/offline state.
+ */
 class OfflineNotice extends PureComponent<Props> {
   props: Props;
 
