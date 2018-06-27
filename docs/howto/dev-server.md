@@ -56,6 +56,11 @@ In this situation, the emulator provides 10.0.2.2 as a special alias for the
 `localhost` of your computer.  (See [upstream docs][android-emulator-net].)
 So you can just use `10.0.2.2` below.
 
+There is one drawback: when using this address (in particular when using it
+in Step 4 below), you won't be able to load the dev server in a browser on
+your computer.  If that makes your testing inconvenient, then move on to the
+alternative approach below, which additionally works on all platforms.
+
 [android-emulator-net]: https://developer.android.com/studio/run/emulator-networking
 
 ### Any (?) physical or emulated device
