@@ -42,6 +42,18 @@ type Props = {
   limited: boolean,
 };
 
+/**
+ * Unified way to display unread counts.
+ *
+ * @prop [style] - Style object for additional customization.
+ * @prop [borderRadius] - Border radius of component frame in pixels.
+ * @prop [color] - Background color.
+ * @prop [count] - Numerical value for the unread count.
+ * @prop [isMuted] - Flag indicating the entity to which the
+ *   unread count value is related is muted. Styled differently.
+ * @prop [inverse] - Indicate if styling should be inversed (dark on light).
+ * @prop [limited] - If set values over 100 will display as `99+`.
+ */
 export default class UnreadCount extends PureComponent<Props> {
   props: Props;
 
