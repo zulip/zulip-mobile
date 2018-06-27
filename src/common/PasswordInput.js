@@ -32,6 +32,13 @@ type State = {
   isHidden: boolean,
 };
 
+/**
+ * A password input component using Input internally.
+ * Provides a 'show'/'hide' button to show the password.
+ *
+ * @prop [style] - Style applied to the TextInput component.
+ * @prop [placeholder] - Text to be shown when no value is entered.
+ */
 export default class PasswordInput extends PureComponent<Props, State> {
   context: Context;
   props: Props;
