@@ -247,6 +247,13 @@ class ComposeBox extends PureComponent<Props, State> {
     }
   };
 
+  componentDidMount() {
+    const { message, topic } = this.state;
+
+    updateTextInput(this.messageInput, message);
+    updateTextInput(this.topicInput, topic);
+  }
+
   componentWillUnmount() {
     this.tryUpdateDraft();
   }
