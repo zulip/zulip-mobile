@@ -131,12 +131,15 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleMessageFocus = () => {
+    const { topic } = this.state;
     const { lastMessageTopic } = this.props;
-    this.setState(({ topic }) => ({
+    this.setState({
       isMessageFocused: true,
       isMenuExpanded: false,
-      topic: topic || lastMessageTopic,
-    }));
+    });
+    setTimeout(() => {
+      this.handleTopicChange(topic || lastMessageTopic);
+    }, 200); // wait, to hope the component is shown
   };
 
   handleMessageBlur = () => {
