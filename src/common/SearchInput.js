@@ -21,6 +21,13 @@ type Props = {
   onChange: (text: string) => void,
 };
 
+/**
+ * A light abstraction over the standard TextInput component
+ * that configures and styles it to be a used as a search input.
+ *
+ * @prop [autoFocus] - should the component be focused when mounted.
+ * @prop onChange - Event called when search query is edited.
+ */
 export default class SearchInput extends PureComponent<Props> {
   props: Props;
   textInput: TextInput;
