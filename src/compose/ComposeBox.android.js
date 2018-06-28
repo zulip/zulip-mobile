@@ -33,16 +33,21 @@ import ComposeMenu from './ComposeMenu';
 import AutocompleteViewWrapper from '../autocomplete/AutocompleteViewWrapper';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
+import AnnouncementOnly from '../message/AnnouncementOnly';
 
 import {
   getAuth,
+  getIsAdmin,
   getSession,
   canSendToActiveNarrow,
   getLastMessageTopic,
   getActiveUsersAndBots,
   getShowMessagePlaceholders,
 } from '../selectors';
-import { getIsActiveStreamSubscribed } from '../subscriptions/subscriptionSelectors';
+import {
+  getIsActiveStreamSubscribed,
+  getIsActiveStreamAnnouncementOnly,
+} from '../subscriptions/subscriptionSelectors';
 import { getDraftForActiveNarrow } from '../drafts/draftsSelectors';
 
 type Props = {
@@ -52,6 +57,8 @@ type Props = {
   usersAndBots: User[],
   draft: string,
   lastMessageTopic: string,
+  isAdmin: boolean,
+  isAnnouncementOnly: boolean,
   isSubscribed: boolean,
   editMessage: EditMessage,
   safeAreaInsets: Dimensions,
@@ -290,6 +297,8 @@ class ComposeBox extends PureComponent<Props, State> {
       editMessage,
       safeAreaInsets,
       messageInputRef,
+      isAdmin,
+      isAnnouncementOnly,
       isSubscribed,
     } = this.props;
 
@@ -299,6 +308,8 @@ class ComposeBox extends PureComponent<Props, State> {
 
     if (!isSubscribed) {
       return <NotSubscribed narrow={narrow} />;
+    } else if (isAnnouncementOnly && !isAdmin) {
+      return <AnnouncementOnly />;
     }
 
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, usersAndBots);
@@ -374,6 +385,8 @@ export default connect((state: GlobalState, props) => ({
   auth: getAuth(state),
   usersAndBots: getActiveUsersAndBots(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
+  isAdmin: getIsAdmin(state),
+  isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(props.narrow)(state),
   isSubscribed: getIsActiveStreamSubscribed(props.narrow)(state),
   canSend: canSendToActiveNarrow(props.narrow) && !getShowMessagePlaceholders(props.narrow)(state),
   editMessage: getSession(state).editMessage,

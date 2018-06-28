@@ -50,3 +50,12 @@ export const getSubscriptionFromId = (streamId: string) =>
     [getSubscriptions],
     subscriptions => subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION,
   );
+
+export const getIsActiveStreamAnnouncementOnly = (narrow: Narrow) =>
+  createSelector(getStreams, streams => {
+    if (!isStreamOrTopicNarrow(narrow)) {
+      return false;
+    }
+    return (streams.find(stream => narrow[0].operand === stream.name) || NULL_STREAM)
+      .is_announcement_only;
+  });
