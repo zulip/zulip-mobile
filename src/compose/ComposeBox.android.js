@@ -69,6 +69,22 @@ type State = {
   selection: InputSelectionType,
 };
 
+export const updateTextInput = (textInput: TextInput, text: string): void => {
+  if (!textInput) {
+    // Depending on the lifecycle events this function is called from,
+    // this might not be set yet.
+    return;
+  }
+
+  textInput.setNativeProps({ text });
+
+  if (text.length === 0 && TextInputReset) {
+    // React Native has problems with some custom keyboards when clearing
+    // the input's contents.  Force reset to make sure it works.
+    TextInputReset.resetKeyboardInput(findNodeHandle(textInput));
+  }
+};
+
 class ComposeBox extends PureComponent<Props, State> {
   context: Context;
   props: Props;
@@ -101,6 +117,11 @@ class ComposeBox extends PureComponent<Props, State> {
       return false;
     }
     return isMessageFocused || isTopicFocused;
+  };
+
+  setMessageInputValue = (message: string) => {
+    updateTextInput(this.messageInput, message);
+    this.handleMessageChange(message);
   };
 
   handleComposeMenuToggle = () => {
@@ -173,17 +194,6 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState({ isMenuExpanded: false });
   };
 
-  clearMessageInput = () => {
-    if (this.messageInput) {
-      this.messageInput.clear();
-      if (TextInputReset) {
-        TextInputReset.resetKeyboardInput(findNodeHandle(this.messageInput));
-      }
-    }
-
-    this.handleMessageChange('');
-  };
-
   handleSend = () => {
     const { dispatch, narrow } = this.props;
     const { topic, message } = this.state;
@@ -195,7 +205,7 @@ class ComposeBox extends PureComponent<Props, State> {
     dispatch(addToOutbox(destinationNarrow, message));
     dispatch(draftRemove(narrow));
 
-    this.clearMessageInput();
+    this.setMessageInputValue('');
   };
 
   handleEdit = () => {
@@ -244,11 +254,7 @@ class ComposeBox extends PureComponent<Props, State> {
     } else if (!isEqual(nextProps.narrow, this.props.narrow)) {
       this.tryUpdateDraft();
 
-      if (!nextProps.draft) {
-        this.clearMessageInput();
-      }
-
-      this.handleMessageChange(nextProps.draft);
+      this.setMessageInputValue(nextProps.draft);
     }
   }
 
