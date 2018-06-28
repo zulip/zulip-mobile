@@ -69,6 +69,20 @@ type State = {
   selection: InputSelectionType,
 };
 
+export const updateTextInput = (textInput: TextInput, text: string): void => {
+  if (!textInput) {
+    return;
+  }
+
+  textInput.setNativeProps({ text });
+
+  if (text.length === 0) {
+    if (TextInputReset) {
+      TextInputReset.resetKeyboardInput(findNodeHandle(textInput));
+    }
+  }
+};
+
 class ComposeBox extends PureComponent<Props, State> {
   context: Context;
   props: Props;
@@ -103,6 +117,16 @@ class ComposeBox extends PureComponent<Props, State> {
     return isMessageFocused || isTopicFocused;
   };
 
+  setMessageInputValue = (message: string) => {
+    updateTextInput(this.messageInput, message);
+    this.handleMessageChange(message);
+  };
+
+  setTopicInputValue = (topic: string) => {
+    updateTextInput(this.topicInput, topic);
+    this.handleTopicChange(topic);
+  };
+
   handleComposeMenuToggle = () => {
     this.setState(({ isMenuExpanded }) => ({
       isMenuExpanded: !isMenuExpanded,
@@ -119,10 +143,18 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState({ topic, isMenuExpanded: false });
   };
 
+  handleTopicAutocomplete = (topic: string) => {
+    this.setTopicInputValue(topic);
+  };
+
   handleMessageChange = (message: string) => {
     this.setState({ message, isMenuExpanded: false });
     const { dispatch, narrow } = this.props;
     dispatch(sendTypingEvent(narrow));
+  };
+
+  handleMessageAutocomplete = (message: string) => {
+    this.setMessageInputValue(message);
   };
 
   handleMessageSelectionChange = (event: Object) => {
@@ -131,12 +163,15 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleMessageFocus = () => {
+    const { topic } = this.state;
     const { lastMessageTopic } = this.props;
-    this.setState(({ topic }) => ({
+    this.setState({
       isMessageFocused: true,
       isMenuExpanded: false,
-      topic: topic || lastMessageTopic,
-    }));
+    });
+    setTimeout(() => {
+      this.setTopicInputValue(topic || lastMessageTopic);
+    }, 200);
   };
 
   handleMessageBlur = () => {
@@ -170,17 +205,6 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState({ isMenuExpanded: false });
   };
 
-  clearMessageInput = () => {
-    if (this.messageInput) {
-      this.messageInput.clear();
-      if (TextInputReset) {
-        TextInputReset.resetKeyboardInput(findNodeHandle(this.messageInput));
-      }
-    }
-
-    this.handleMessageChange('');
-  };
-
   handleSend = () => {
     const { dispatch, narrow } = this.props;
     const { topic, message } = this.state;
@@ -192,7 +216,7 @@ class ComposeBox extends PureComponent<Props, State> {
     dispatch(addToOutbox(destinationNarrow, message));
     dispatch(draftRemove(narrow));
 
-    this.clearMessageInput();
+    this.setMessageInputValue('');
   };
 
   handleEdit = () => {
@@ -223,6 +247,13 @@ class ComposeBox extends PureComponent<Props, State> {
     }
   };
 
+  componentDidMount() {
+    const { message, topic } = this.state;
+
+    updateTextInput(this.messageInput, message);
+    updateTextInput(this.topicInput, topic);
+  }
+
   componentWillUnmount() {
     this.tryUpdateDraft();
   }
@@ -233,21 +264,16 @@ class ComposeBox extends PureComponent<Props, State> {
         isStreamNarrow(nextProps.narrow) && nextProps.editMessage
           ? nextProps.editMessage.topic
           : '';
-      this.setState({
-        message: nextProps.editMessage ? nextProps.editMessage.content : '',
-        topic,
-      });
+      const message = nextProps.editMessage ? nextProps.editMessage.content : '';
+      this.setMessageInputValue(message);
+      this.setTopicInputValue(topic);
       if (this.messageInput) {
         this.messageInput.focus();
       }
     } else if (!isEqual(nextProps.narrow, this.props.narrow)) {
       this.tryUpdateDraft();
 
-      if (nextProps.draft) {
-        this.setState({ message: nextProps.draft });
-      } else {
-        this.clearMessageInput();
-      }
+      this.setMessageInputValue(nextProps.draft);
     }
   }
 
@@ -284,8 +310,8 @@ class ComposeBox extends PureComponent<Props, State> {
           messageSelection={selection}
           narrow={narrow}
           topicText={topic}
-          onMessageAutocomplete={this.handleMessageChange}
-          onTopicAutocomplete={this.handleTopicChange}
+          onMessageAutocomplete={this.handleMessageAutocomplete}
+          onTopicAutocomplete={this.handleTopicAutocomplete}
         />
         <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
           <View style={styles.alignBottom}>
@@ -309,7 +335,6 @@ class ComposeBox extends PureComponent<Props, State> {
                 onFocus={this.handleTopicFocus}
                 onBlur={this.handleTopicBlur}
                 onTouchStart={this.handleInputTouchStart}
-                value={topic}
               />
             )}
             <MultilineInput
@@ -321,7 +346,6 @@ class ComposeBox extends PureComponent<Props, State> {
                   messageInputRef(component);
                 }
               }}
-              value={message}
               onBlur={this.handleMessageBlur}
               onChange={this.handleMessageChange}
               onFocus={this.handleMessageFocus}
