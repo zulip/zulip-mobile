@@ -1,12 +1,6 @@
 import mockStore from 'redux-mock-store'; // eslint-disable-line
 
-import {
-  backgroundFetchMessages,
-  fetchMessages,
-  fetchMessagesAtFirstUnread,
-  fetchOlder,
-  fetchNewer,
-} from '../fetchActions';
+import { fetchMessages, fetchMessagesAtFirstUnread, fetchOlder, fetchNewer } from '../fetchActions';
 import { streamNarrow, homeNarrow, homeNarrowStr } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
 
@@ -20,7 +14,7 @@ describe('fetchActions', () => {
     fetch.reset();
   });
 
-  describe('backgroundFetchMessages', () => {
+  describe('fetchMessages', () => {
     test('message fetch success action is dispatched after successful fetch', async () => {
       const store = mockStore({
         ...navStateWithNarrow(homeNarrow),
@@ -36,15 +30,14 @@ describe('fetchActions', () => {
       const response = { messages: [{ id: 1 }, { id: 2 }, { id: 3 }], result: 'success' };
       fetch.mockResponseSuccess(JSON.stringify(response));
 
-      await store.dispatch(backgroundFetchMessages(homeNarrow, 0, 1, 1, true));
+      await store.dispatch(fetchMessages(homeNarrow, 0, 1, 1, true));
       const actions = store.getActions();
 
-      expect(actions).toHaveLength(1);
-      expect(actions[0].type).toBe('MESSAGE_FETCH_COMPLETE');
+      expect(actions).toHaveLength(2);
+      expect(actions[0].type).toBe('MESSAGE_FETCH_START');
+      expect(actions[1].type).toBe('MESSAGE_FETCH_COMPLETE');
     });
-  });
 
-  describe('fetchMessages', () => {
     test('when messages to be fetched both before and after anchor, fetchingOlder and fetchingNewer is true', () => {
       const store = mockStore({
         ...navStateWithNarrow(homeNarrow),
