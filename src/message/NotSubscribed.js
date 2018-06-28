@@ -2,30 +2,12 @@
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
-import type { Auth, Stream } from '../types';
+import type { Auth, Context, Stream } from '../types';
 import { subscriptionAdd } from '../api';
 import { ZulipButton, Label } from '../common';
 import { getAuth, getStreamInNarrow } from '../selectors';
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    backgroundColor: 'gray',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-  },
-  text: {
-    flex: 1,
-    color: 'white',
-  },
-  button: {
-    padding: 12,
-  },
-});
 
 type Props = {
   auth: Auth,
@@ -33,7 +15,12 @@ type Props = {
 };
 
 class NotSubscribed extends PureComponent<Props> {
+  context: Context;
   props: Props;
+
+  static contextTypes = {
+    styles: () => null,
+  };
 
   subscribeToStream = () => {
     const { auth, stream } = this.props;
@@ -41,13 +28,18 @@ class NotSubscribed extends PureComponent<Props> {
   };
 
   render() {
+    const { styles } = this.context;
     const { stream } = this.props;
 
     return (
-      <View style={styles.container}>
-        <Label style={styles.text} text="You are not subscribed to this stream" />
+      <View style={styles.disabledComposeBox}>
+        <Label style={styles.disabledComposeText} text="You are not subscribed to this stream" />
         {!stream.invite_only && (
-          <ZulipButton style={styles.button} text="Subscribe" onPress={this.subscribeToStream} />
+          <ZulipButton
+            style={styles.disabledComposeButton}
+            text="Subscribe"
+            onPress={this.subscribeToStream}
+          />
         )}
       </View>
     );

@@ -13,6 +13,9 @@ export type ComposeBoxStyles = {
   composeMenu: Style,
   expandButton: Style,
   composeMenuButton: Style,
+  disabledComposeBox: Style,
+  disabledComposeButton: Style,
+  disabledComposeText: Style,
 };
 
 type Props = {
@@ -73,5 +76,20 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     padding: 12,
     marginRight: -8,
     color: BRAND_COLOR,
+  },
+  disabledComposeBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    backgroundColor: 'gray',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  disabledComposeButton: {
+    padding: 12,
+  },
+  disabledComposeText: {
+    flex: 1,
+    color: 'white',
   },
 });
