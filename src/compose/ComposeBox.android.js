@@ -124,6 +124,11 @@ class ComposeBox extends PureComponent<Props, State> {
     this.handleMessageChange(message);
   };
 
+  setTopicInputValue = (topic: string) => {
+    updateTextInput(this.topicInput, topic);
+    this.handleTopicChange(topic);
+  };
+
   handleComposeMenuToggle = () => {
     this.setState(({ isMenuExpanded }) => ({
       isMenuExpanded: !isMenuExpanded,
@@ -138,6 +143,10 @@ class ComposeBox extends PureComponent<Props, State> {
 
   handleTopicChange = (topic: string) => {
     this.setState({ topic, isMenuExpanded: false });
+  };
+
+  handleTopicAutocomplete = (topic: string) => {
+    this.setTopicInputValue(topic);
   };
 
   handleMessageChange = (message: string) => {
@@ -163,7 +172,7 @@ class ComposeBox extends PureComponent<Props, State> {
       isMenuExpanded: false,
     });
     setTimeout(() => {
-      this.handleTopicChange(topic || lastMessageTopic);
+      this.setTopicInputValue(topic || lastMessageTopic);
     }, 200); // wait, to hope the component is shown
   };
 
@@ -241,9 +250,10 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    const { message } = this.state;
+    const { message, topic } = this.state;
 
     updateTextInput(this.messageInput, message);
+    updateTextInput(this.topicInput, topic);
   }
 
   componentWillUnmount() {
@@ -258,7 +268,7 @@ class ComposeBox extends PureComponent<Props, State> {
           : '';
       const message = nextProps.editMessage ? nextProps.editMessage.content : '';
       this.setMessageInputValue(message);
-      this.handleTopicChange(topic);
+      this.setTopicInputValue(topic);
       if (this.messageInput) {
         this.messageInput.focus();
       }
@@ -303,7 +313,7 @@ class ComposeBox extends PureComponent<Props, State> {
           narrow={narrow}
           topicText={topic}
           onMessageAutocomplete={this.handleMessageAutocomplete}
-          onTopicAutocomplete={this.handleTopicChange}
+          onTopicAutocomplete={this.handleTopicAutocomplete}
         />
         <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
           <View style={styles.alignBottom}>
@@ -327,7 +337,6 @@ class ComposeBox extends PureComponent<Props, State> {
                 onFocus={this.handleTopicFocus}
                 onBlur={this.handleTopicBlur}
                 onTouchStart={this.handleInputTouchStart}
-                value={topic}
               />
             )}
             <MultilineInput
