@@ -233,21 +233,19 @@ class ComposeBox extends PureComponent<Props, State> {
         isStreamNarrow(nextProps.narrow) && nextProps.editMessage
           ? nextProps.editMessage.topic
           : '';
-      this.setState({
-        message: nextProps.editMessage ? nextProps.editMessage.content : '',
-        topic,
-      });
+      this.handleMessageChange(nextProps.editMessage ? nextProps.editMessage.content : '');
+      this.handleTopicChange(topic);
       if (this.messageInput) {
         this.messageInput.focus();
       }
     } else if (!isEqual(nextProps.narrow, this.props.narrow)) {
       this.tryUpdateDraft();
 
-      if (nextProps.draft) {
-        this.setState({ message: nextProps.draft });
-      } else {
+      if (!nextProps.draft) {
         this.clearMessageInput();
       }
+
+      this.handleMessageChange(nextProps.draft);
     }
   }
 
