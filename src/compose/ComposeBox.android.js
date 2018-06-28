@@ -146,6 +146,10 @@ class ComposeBox extends PureComponent<Props, State> {
     dispatch(sendTypingEvent(narrow));
   };
 
+  handleMessageAutocomplete = (message: string) => {
+    this.setMessageInputValue(message);
+  };
+
   handleMessageSelectionChange = (event: Object) => {
     const { selection } = event.nativeEvent;
     this.setState({ selection });
@@ -236,6 +240,12 @@ class ComposeBox extends PureComponent<Props, State> {
     }
   };
 
+  componentDidMount() {
+    const { message } = this.state;
+
+    updateTextInput(this.messageInput, message);
+  }
+
   componentWillUnmount() {
     this.tryUpdateDraft();
   }
@@ -246,7 +256,8 @@ class ComposeBox extends PureComponent<Props, State> {
         isStreamNarrow(nextProps.narrow) && nextProps.editMessage
           ? nextProps.editMessage.topic
           : '';
-      this.handleMessageChange(nextProps.editMessage ? nextProps.editMessage.content : '');
+      const message = nextProps.editMessage ? nextProps.editMessage.content : '';
+      this.setMessageInputValue(message);
       this.handleTopicChange(topic);
       if (this.messageInput) {
         this.messageInput.focus();
@@ -291,7 +302,7 @@ class ComposeBox extends PureComponent<Props, State> {
           messageSelection={selection}
           narrow={narrow}
           topicText={topic}
-          onMessageAutocomplete={this.handleMessageChange}
+          onMessageAutocomplete={this.handleMessageAutocomplete}
           onTopicAutocomplete={this.handleTopicChange}
         />
         <View style={styles.composeBox} onLayout={this.handleLayoutChange}>
@@ -328,7 +339,6 @@ class ComposeBox extends PureComponent<Props, State> {
                   messageInputRef(component);
                 }
               }}
-              value={message}
               onBlur={this.handleMessageBlur}
               onChange={this.handleMessageChange}
               onFocus={this.handleMessageFocus}
