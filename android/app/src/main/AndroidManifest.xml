@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.zulipmobile">
 
-    <permission android:name="com.zulipmobile.permission.C2D_MESSAGE"
+    <permission android:name="${applicationId}.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.zulipmobile.permission.C2D_MESSAGE" />
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

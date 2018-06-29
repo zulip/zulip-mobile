@@ -124,6 +124,7 @@ android {
     }
     buildTypes {
         debug {
+            applicationIdSuffix ".debug"
             manifestPlaceholders = [excludeSystemAlertWindowPermission: "false"]
         }
         release {
