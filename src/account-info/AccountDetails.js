@@ -26,6 +26,7 @@ const componentStyles = StyleSheet.create({
   imageDimensions: {
     width: screenWidth,
     height: screenWidth,
+    alignSelf: 'center',
   },
 });
 
