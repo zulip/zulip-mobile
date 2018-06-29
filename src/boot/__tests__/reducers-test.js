@@ -1,4 +1,4 @@
-import reducers, { reducersInner } from '../reducers';
+import reducers, { allKeys } from '../reducers';
 import config from '../../config';
 
 describe('reducers', () => {
@@ -8,8 +8,7 @@ describe('reducers', () => {
 
   test('every reducer is listed in config as "discard", "store" or "cache"', () => {
     const configKeys = [...config.discardKeys, ...config.storeKeys, ...config.cacheKeys];
-    const reducerKeys = Object.keys(reducersInner);
-    expect(configKeys).toHaveLength(reducerKeys.length);
-    expect(configKeys.every(key => reducerKeys.includes(key))).toBeTruthy();
+    expect(configKeys).toHaveLength(allKeys.length);
+    expect(configKeys.every(key => allKeys.includes(key))).toBeTruthy();
   });
 });

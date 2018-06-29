@@ -31,7 +31,7 @@ import unreadStreams from '../unread/unreadStreamsReducers';
 import userGroups from '../user-groups/userGroupsReducers';
 import users from '../users/usersReducers';
 
-export const reducersInner = {
+const reducers = {
   accounts,
   alertWords,
   caughtUp,
@@ -61,8 +61,8 @@ export const reducersInner = {
   users,
 };
 
+export const allKeys = Object.keys(reducers);
+
 export default enableBatching(
-  combineReducers(
-    config.enableReduxSlowReducerWarnings ? logSlowReducers(reducersInner) : reducersInner,
-  ),
+  combineReducers(config.enableReduxSlowReducerWarnings ? logSlowReducers(reducers) : reducers),
 );
