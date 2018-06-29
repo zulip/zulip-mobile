@@ -106,7 +106,7 @@ public class GCMPushNotifications extends PushNotification {
                 if (Build.VERSION.SDK_INT >= 16) {
                     String displayTopic = stream + " > "
                             + topic;
-                    builder.setSubText("Mention on " + displayTopic);
+                    builder.setSubText("Message on " + displayTopic);
                 }
             }
             if (avatarURL != null && avatarURL.startsWith("http")) {
