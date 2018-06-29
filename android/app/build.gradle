@@ -124,6 +124,7 @@ android {
     }
     buildTypes {
         debug {
+            applicationIdSuffix ".debug"
             manifestPlaceholders = [
                     appIcon: "@mipmap/ic_debug_launcher",
                     excludeSystemAlertWindowPermission: "false"
