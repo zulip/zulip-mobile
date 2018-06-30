@@ -49,3 +49,82 @@ the label `inet`.
 
 The relevant IP address in this example is the `inet` value on the wifi
 interface: `192.168.0.23`.
+
+## Example: `ifconfig`, wifi, macOS
+
+If you run the command `ifconfig` on a macOS machine connected to wifi, the
+output might look similar to this:
+
+<pre>
+lo0: flags=8049&lt;UP,LOOPBACK,RUNNING,MULTICAST&gt; mtu 16384
+	options=1203&lt;RXCSUM,TXCSUM,TXSTATUS,SW_TIMESTAMP&gt;
+	inet 127.0.0.1 netmask 0xff000000
+	inet6 ::1 prefixlen 128
+	inet6 fe80::1%lo0 prefixlen 64 scopeid 0x1
+	nd6 options=201&lt;PERFORMNUD,DAD&gt;
+gif0: flags=8010&lt;POINTOPOINT,MULTICAST&gt; mtu 1280
+stf0: flags=0&lt;&gt; mtu 1280
+XHC20: flags=0&lt;&gt; mtu 0
+en1: flags=8963&lt;UP,BROADCAST,SMART,RUNNING,PROMISC,SIMPLEX,MULTICAST&gt; mtu 1500
+	options=60&lt;TSO4,TSO6&gt;
+	ether 6a:00:02:98:c3:d0
+	media: autoselect &lt;full-duplex&gt;
+	status: inactive
+en2: flags=8963&lt;UP,BROADCAST,SMART,RUNNING,PROMISC,SIMPLEX,MULTICAST&gt; mtu 1500
+	options=60&lt;TSO4,TSO6&gt;
+	ether 6a:00:02:98:c3:d1
+	media: autoselect &lt;full-duplex&gt;
+	status: inactive
+en0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
+	ether c4:b3:01:c1:ce:9f
+	inet6 fe80::47e:23e4:2dbd:e1fa%en0 prefixlen 64 secured scopeid 0x7
+	inet <b>192.168.86.89</b> netmask 0xffffff00 broadcast 192.168.86.255
+	nd6 options=201&lt;PERFORMNUD,DAD&gt;
+	media: autoselect
+	status: active
+p2p0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 2304
+	ether 06:b3:01:c1:ce:9f
+	media: autoselect
+	status: inactive
+awdl0: flags=8943&lt;UP,BROADCAST,RUNNING,PROMISC,SIMPLEX,MULTICAST&gt; mtu 1484
+	ether 32:d0:80:06:6c:3b
+	inet6 fe80::30d0:80ff:fe06:6c3b%awdl0 prefixlen 64 scopeid 0x9
+	nd6 options=201&lt;PERFORMNUD,DAD&gt;
+	media: autoselect
+	status: active
+bridge0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
+	options=63&lt;RXCSUM,TXCSUM,TSO4,TSO6&gt;
+	ether 6a:00:02:98:c3:d0
+	Configuration:
+		id 0:0:0:0:0:0 priority 0 hellotime 0 fwddelay 0
+		maxage 0 holdcnt 0 proto stp maxaddr 100 timeout 1200
+		root id 0:0:0:0:0:0 priority 0 ifcost 0 port 0
+		ipfilter disabled flags 0x2
+	member: en1 flags=3&lt;LEARNING,DISCOVER&gt;
+	        ifmaxaddr 0 port 5 priority 0 path cost 0
+	member: en2 flags=3&lt;LEARNING,DISCOVER&gt;
+	        ifmaxaddr 0 port 6 priority 0 path cost 0
+	nd6 options=201&lt;PERFORMNUD,DAD&gt;
+	media: &lt;unknown type&gt;
+	status: inactive
+utun0: flags=8051&lt;UP,POINTOPOINT,RUNNING,MULTICAST&gt; mtu 2000
+	inet6 fe80::126b:c8e2:bc66:596%utun0 prefixlen 64 scopeid 0xb
+	nd6 options=201&lt;PERFORMNUD,DAD&gt;
+utun1: flags=8051&lt;UP,POINTOPOINT,RUNNING,MULTICAST&gt; mtu 1380
+	inet6 fe80::25e7:e24c:aadc:4f82%utun1 prefixlen 64 scopeid 0xc
+	nd6 options=201&lt;PERFORMNUD,DAD&gt;
+vboxnet0: flags=8842&lt;BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
+	ether 0a:00:27:00:00:00
+vboxnet1: flags=8943&lt;UP,BROADCAST,RUNNING,PROMISC,SIMPLEX,MULTICAST&gt; mtu 1500
+	ether 0a:00:27:00:00:01
+	inet 172.28.128.1 netmask 0xffffff00 broadcast 172.28.128.255
+</pre>
+
+The relevant IP address in this example is the `inet` value on the wifi
+interface: `192.168.86.89`.
+
+You can narrow the output with `ifconfig | grep 'inet.*broadcast'`:
+<pre>
+inet <b>192.168.86.89</b> netmask 0xffffff00 broadcast 192.168.86.255
+inet 172.28.128.1 netmask 0xffffff00 broadcast 172.28.128.255
+</pre>
