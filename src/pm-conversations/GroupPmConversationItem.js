@@ -40,10 +40,15 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
   render() {
     const { styles } = this.context;
     const { email, usersByEmail, unreadCount } = this.props;
-    const allNames = email
-      .split(',')
-      .map(e => (usersByEmail[e] || NULL_USER).full_name)
-      .join(', ');
+    const allUsers = email.split(',').map(e => usersByEmail[e]);
+
+    const allUsersFound = allUsers.every(user => user);
+
+    if (!allUsersFound) {
+      return null;
+    }
+
+    const allNames = allUsers.map(user => user.full_name).join(', ');
 
     return (
       <Touchable onPress={this.handlePress}>
