@@ -3,7 +3,6 @@ import deepFreeze from 'deep-freeze';
 import {
   getCurrentRoute,
   getCurrentRouteParams,
-  getAccountDetailsScreenParams,
   getChatScreenParams,
   getTopMostNarrow,
 } from '../baseSelectors';
@@ -54,21 +53,6 @@ describe('getCurrentRouteParams', () => {
     const actualResult = getCurrentRouteParams(state);
 
     expect(actualResult).toEqual(expectedResult);
-  });
-});
-
-describe('getAccountDetailsScreenParams', () => {
-  test('even when no params are passed do not return "undefined"', () => {
-    const state = deepFreeze({
-      nav: {
-        index: 0,
-        routes: [{ routeName: 'account-details' }],
-      },
-    });
-
-    const actualResult = getAccountDetailsScreenParams(state);
-
-    expect(actualResult).toBeDefined();
   });
 });
 
