@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import type { Auth, Dispatch, Stream, User } from '../types';
+import type { Auth, Dispatch, GlobalState, Stream, User } from '../types';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
 import { subscriptionAdd } from '../api';
@@ -45,7 +45,7 @@ class InviteUsersScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   auth: getAuth(state),
   stream: getStreamFromParams(state),
 }))(InviteUsersScreen);
