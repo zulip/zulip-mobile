@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import type { Dispatch, Stream } from '../types';
+import type { Dispatch, GlobalState, Stream } from '../types';
 import { updateExistingStream, navigateBack } from '../actions';
 import { getStreamFromParams } from '../selectors';
 import { Screen } from '../common';
@@ -38,6 +38,6 @@ class EditStreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   stream: getStreamFromParams(state),
 }))(EditStreamScreen);
