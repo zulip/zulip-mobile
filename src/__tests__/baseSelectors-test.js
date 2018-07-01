@@ -5,7 +5,6 @@ import {
   getCurrentRouteParams,
   getTopicListScreenParams,
   getAccountDetailsScreenParams,
-  getStreamIdFromParams,
   getChatScreenParams,
   getTopMostNarrow,
 } from '../baseSelectors';
@@ -84,21 +83,6 @@ describe('getAccountDetailsScreenParams', () => {
     });
 
     const actualResult = getAccountDetailsScreenParams(state);
-
-    expect(actualResult).toBeDefined();
-  });
-});
-
-describe('getStreamIdFromParams', () => {
-  test('when no params are passed do not return "undefined"', () => {
-    const state = deepFreeze({
-      nav: {
-        index: 0,
-        routes: [{ routeName: 'stream-edit' }],
-      },
-    });
-
-    const actualResult = getStreamIdFromParams(state);
 
     expect(actualResult).toBeDefined();
   });
