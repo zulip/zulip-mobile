@@ -124,13 +124,19 @@ android {
     }
     buildTypes {
         debug {
-            manifestPlaceholders = [excludeSystemAlertWindowPermission: "false"]
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_debug_launcher",
+                    excludeSystemAlertWindowPermission: "false"
+            ]
         }
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
-            manifestPlaceholders = [excludeSystemAlertWindowPermission: "true"]
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher",
+                    excludeSystemAlertWindowPermission: "true"
+            ]
         }
     }
     // applicationVariants are e.g. debug, release
