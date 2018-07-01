@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import type { Dispatch, GlobalState, Stream } from '../types';
 import { updateExistingStream, navigateBack } from '../actions';
-import { getStreamFromParams } from '../selectors';
+import { getStreamFromId } from '../selectors';
 import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
 
@@ -38,6 +38,6 @@ class EditStreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
-  stream: getStreamFromParams(state),
+export default connect((state: GlobalState, props: Object) => ({
+  stream: getStreamFromId(props.navigation.state.params.streamId)(state),
 }))(EditStreamScreen);

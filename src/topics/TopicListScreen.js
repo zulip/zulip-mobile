@@ -7,7 +7,7 @@ import type { Dispatch, GlobalState, Stream, TopicExtended } from '../types';
 import { Screen } from '../common';
 import { topicNarrow } from '../utils/narrow';
 import { getTopicsInScreen } from '../selectors';
-import { getStreamFromParams } from '../subscriptions/subscriptionSelectors';
+import { getStreamFromId } from '../subscriptions/subscriptionSelectors';
 import TopicList from './TopicList';
 import { fetchTopics, doNarrow } from '../actions';
 import { connectPreserveOnBackOption } from '../utils/redux';
@@ -56,8 +56,8 @@ class TopicListScreen extends PureComponent<Props, State> {
 }
 
 export default connect(
-  (state: GlobalState) => ({
-    stream: getStreamFromParams(state),
+  (state: GlobalState, props: Object) => ({
+    stream: getStreamFromId(props.navigation.state.params.streamId)(state),
     topics: getTopicsInScreen(state),
   }),
   null,

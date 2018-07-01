@@ -1,12 +1,11 @@
 /* @flow */
-import { connect } from 'react-redux';
-
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
 
 import type { Context, Dispatch, GlobalState, Stream, Subscription } from '../types';
 import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
-import { getIsAdmin, getStreamFromParams, getSubscriptionFromParams } from '../selectors';
+import { getIsAdmin, getStreamFromId, getSubscriptionFromId } from '../selectors';
 import StreamCard from './StreamCard';
 import {
   doToggleMuteStream,
@@ -103,8 +102,8 @@ class StreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state: GlobalState) => ({
+export default connect((state: GlobalState, props: Object) => ({
   isAdmin: getIsAdmin(state),
-  stream: getStreamFromParams(state),
-  subscription: getSubscriptionFromParams(state),
+  stream: getStreamFromId(props.navigation.state.params.streamId)(state),
+  subscription: getSubscriptionFromId(props.navigation.state.params.streamId)(state),
 }))(StreamScreen);

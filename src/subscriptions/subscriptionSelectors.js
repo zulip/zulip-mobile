@@ -5,7 +5,6 @@ import type { Narrow, Stream, Subscription } from '../types';
 import { NULL_STREAM, NULL_SUBSCRIPTION } from '../nullObjects';
 import { isStreamOrTopicNarrow } from '../utils/narrow';
 import { getSubscriptions, getStreams } from '../directSelectors';
-import { getStreamIdFromParams } from '../baseSelectors';
 
 export const getStreamsById = createSelector(getStreams, streams =>
   streams.reduce((streamsById, stream) => {
@@ -40,13 +39,14 @@ export const getSubscribedStreams = createSelector(
     })),
 );
 
-export const getStreamFromParams = createSelector(
-  [getStreams, getStreamIdFromParams],
-  (streams, params) => streams.find(x => x.stream_id === params.streamId) || NULL_STREAM,
-);
+export const getStreamFromId = (streamId: string) =>
+  createSelector(
+    [getStreams],
+    (streams, params) => streams.find(x => x.stream_id === streamId) || NULL_STREAM,
+  );
 
-export const getSubscriptionFromParams = createSelector(
-  [getSubscriptions, getStreamIdFromParams],
-  (subscriptions, params) =>
-    subscriptions.find(x => x.stream_id === params.streamId) || NULL_SUBSCRIPTION,
-);
+export const getSubscriptionFromId = (streamId: string) =>
+  createSelector(
+    [getSubscriptions],
+    subscriptions => subscriptions.find(x => x.stream_id === streamId) || NULL_SUBSCRIPTION,
+  );
