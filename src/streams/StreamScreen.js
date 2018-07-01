@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Context, Dispatch, Stream, Subscription } from '../types';
+import type { Context, Dispatch, GlobalState, Stream, Subscription } from '../types';
 import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
 import { getIsAdmin, getStreamFromParams, getSubscriptionFromParams } from '../selectors';
 import StreamCard from './StreamCard';
@@ -103,7 +103,7 @@ class StreamScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: GlobalState) => ({
   isAdmin: getIsAdmin(state),
   stream: getStreamFromParams(state),
   subscription: getSubscriptionFromParams(state),
