@@ -20,11 +20,6 @@ export const getCurrentRouteParams = createSelector(
   (routes, index) => routes && routes[index] && routes[index].params,
 );
 
-export const getAccountDetailsScreenParams = createSelector(
-  getCurrentRouteParams,
-  params => params || { email: '' },
-);
-
 export const getChatScreenParams = createSelector(
   getCurrentRouteParams,
   params => params || { narrow: undefined },

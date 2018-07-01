@@ -3,7 +3,6 @@ import { createSelector } from 'reselect';
 
 import { NULL_USER } from '../nullObjects';
 import { getPresence, getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
-import { getAccountDetailsScreenParams } from '../baseSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserByEmail } from './userHelpers';
 
@@ -71,20 +70,17 @@ export const getUsersSansMe = createSelector(getUsers, getOwnEmail, (users, ownE
   users.filter(user => user.email !== ownEmail),
 );
 
-export const getAccountDetailsUser = createSelector(
-  getAllUsersAndBots,
-  getAccountDetailsScreenParams,
-  (allUsersAndBots, params) => {
-    if (!params.email) {
+export const getAccountDetailsUserFromEmail = (email: string) =>
+  createSelector(getAllUsersAndBots, allUsersAndBots => {
+    if (!email) {
       return NULL_USER;
     }
 
     return (
-      allUsersAndBots.find(x => x.email === params.email) || {
+      allUsersAndBots.find(x => x.email === email) || {
         ...NULL_USER,
-        email: params.email,
-        full_name: params.email,
+        email,
+        full_name: email,
       }
     );
-  },
-);
+  });
