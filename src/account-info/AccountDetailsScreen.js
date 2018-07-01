@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Auth, Dispatch, Orientation, User, PresenceState } from '../types';
+import type { Auth, Dispatch, GlobalState, Orientation, User, PresenceState } from '../types';
 import { getAuth, getSession, getAccountDetailsUser, getPresence } from '../selectors';
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
@@ -45,7 +45,7 @@ class AccountDetailsScreen extends PureComponent<Props> {
 }
 
 export default connect(
-  state => ({
+  (state: GlobalState) => ({
     auth: getAuth(state),
     user: getAccountDetailsUser(state),
     orientation: getSession(state).orientation,
