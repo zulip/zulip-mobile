@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Dispatch, Stream, TopicExtended } from '../types';
+import type { Dispatch, GlobalState, Stream, TopicExtended } from '../types';
 import { Screen } from '../common';
 import { topicNarrow } from '../utils/narrow';
 import { getTopicsInScreen } from '../selectors';
@@ -56,7 +56,7 @@ class TopicListScreen extends PureComponent<Props, State> {
 }
 
 export default connect(
-  state => ({
+  (state: GlobalState) => ({
     stream: getStreamFromParams(state),
     topics: getTopicsInScreen(state),
   }),
