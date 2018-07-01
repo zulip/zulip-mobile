@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react';
 import type { Dispatch, GlobalState, Stream, TopicExtended } from '../types';
 import { Screen } from '../common';
 import { topicNarrow } from '../utils/narrow';
-import { getTopicsInScreen } from '../selectors';
+import { getTopicsForStream } from '../selectors';
 import { getStreamFromId } from '../subscriptions/subscriptionSelectors';
 import TopicList from './TopicList';
 import { fetchTopics, doNarrow } from '../actions';
@@ -58,7 +58,7 @@ class TopicListScreen extends PureComponent<Props, State> {
 export default connect(
   (state: GlobalState, props: Object) => ({
     stream: getStreamFromId(props.navigation.state.params.streamId)(state),
-    topics: getTopicsInScreen(state),
+    topics: getTopicsForStream(props.navigation.state.params.streamId)(state),
   }),
   null,
   null,

@@ -3,7 +3,6 @@ import deepFreeze from 'deep-freeze';
 import {
   getCurrentRoute,
   getCurrentRouteParams,
-  getTopicListScreenParams,
   getAccountDetailsScreenParams,
   getChatScreenParams,
   getTopMostNarrow,
@@ -55,21 +54,6 @@ describe('getCurrentRouteParams', () => {
     const actualResult = getCurrentRouteParams(state);
 
     expect(actualResult).toEqual(expectedResult);
-  });
-});
-
-describe('getTopicListScreenParams', () => {
-  test('even when no params are passed do not return "undefined"', () => {
-    const state = deepFreeze({
-      nav: {
-        index: 0,
-        routes: [{ routeName: 'topics' }],
-      },
-    });
-
-    const actualResult = getTopicListScreenParams(state);
-
-    expect(actualResult).toBeDefined();
   });
 });
 
