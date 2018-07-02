@@ -64,7 +64,6 @@ import {
   INIT_STREAMS,
   INIT_TOPICS,
   INIT_SUBSCRIPTIONS,
-  INIT_USERS,
   EVENT_MUTED_TOPICS,
 } from './actionConstants';
 
@@ -584,11 +583,6 @@ export type InitSubscriptionsAction = {
   subscriptions: Subscription[],
 };
 
-export type InitUsersAction = {
-  type: typeof INIT_USERS,
-  users: User[],
-};
-
 export type AccountAction =
   | AccountSwitchAction
   | RealmAddAction
@@ -608,7 +602,6 @@ export type LoadingAction =
   | AccountSwitchAction
   | InitialFetchStartAction
   | InitialFetchCompleteAction
-  | InitUsersAction
   | InitStreamsAction
   | InitSubscriptionsAction;
 
@@ -680,7 +673,7 @@ export type UnreadAction =
   | EventMessageDeleteAction
   | EventUpdateMessageFlagsAction;
 
-export type UsersAction = InitUsersAction | RealmInitAction | EventUserAddAction;
+export type UsersAction = RealmInitAction | EventUserAddAction;
 
 export type UserGroupsAction =
   | RealmInitAction

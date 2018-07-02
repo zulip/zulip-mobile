@@ -1,9 +1,9 @@
 /* @flow */
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 
-import type { Dispatch, GetState, Narrow, User, InitUsersAction } from '../types';
-import { focusPing, getUsers, typing } from '../api';
-import { INIT_USERS, PRESENCE_RESPONSE } from '../actionConstants';
+import type { Dispatch, GetState, Narrow } from '../types';
+import { focusPing, typing } from '../api';
+import { PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth } from '../selectors';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';
 
@@ -32,14 +32,6 @@ export const sendFocusPing = (hasFocus: boolean = true, newUserInput: boolean = 
     serverTimestamp: response.server_timestamp,
   });
 };
-
-export const initUsers = (users: User[]): InitUsersAction => ({
-  type: INIT_USERS,
-  users,
-});
-
-export const fetchUsers = () => async (dispatch: Dispatch, getState: GetState) =>
-  dispatch(initUsers(await getUsers(getAuth(getState()))));
 
 export const sendTypingEvent = (narrow: Narrow) => async (
   dispatch: Dispatch,

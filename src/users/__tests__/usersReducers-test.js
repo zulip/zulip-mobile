@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { INIT_USERS, EVENT_USER_ADD, ACCOUNT_SWITCH } from '../../actionConstants';
+import { EVENT_USER_ADD, ACCOUNT_SWITCH } from '../../actionConstants';
 import usersReducers from '../usersReducers';
 
 describe('usersReducers', () => {
@@ -20,20 +20,6 @@ describe('usersReducers', () => {
 
     const newState = usersReducers(initialState, action);
     expect(newState).toBe(initialState);
-  });
-
-  describe('INIT_USERS', () => {
-    test('stores user data', () => {
-      const initialState = deepFreeze([]);
-
-      const action = deepFreeze({
-        type: INIT_USERS,
-        users: [{ full_name: 'user1' }, { full_name: 'user2' }],
-      });
-
-      const newState = usersReducers(initialState, action);
-      expect(newState).toHaveLength(2);
-    });
   });
 
   describe('EVENT_USER_ADD', () => {
