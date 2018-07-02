@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
-import type { Context, Dispatch, PmConversationData, PresenceState, UnreadStream } from '../types';
+import type { Context, Dispatch, PmConversationData, PresenceState } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
@@ -25,8 +25,7 @@ type Props = {
   isLoading: boolean,
   presences: PresenceState,
   usersByEmail: Object,
-  unreadStreamsAndTopics: UnreadStream[],
-  unreadStreamsAndTopics: any,
+  unreadStreamsAndTopics: any /* UnreadStream[] */,
 };
 
 class UnreadCards extends PureComponent<Props> {
