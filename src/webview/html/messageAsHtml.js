@@ -114,7 +114,7 @@ const fullMessageAsHtml = ({
 }: FullMessageProps) => template`
 $!${messageDiv(id, 'message-full', flags)}
   <div class="avatar">
-    <img src="${avatarUrl}" class="avatar-img" data-email="${fromEmail}">
+    <img src="${avatarUrl}" alt="${fromName}" class="avatar-img" data-email="${fromEmail}">
   </div>
   <div class="content">
     $!${messageSubheader({ fromName, timestamp, twentyFourHourTime })}
