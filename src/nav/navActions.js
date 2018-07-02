@@ -23,6 +23,9 @@ export const navigateToSearch = (): NavigateAction =>
 export const navigateToSettings = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'settings' });
 
+export const navigateToEmojiPicker = (): NavigateAction =>
+  NavigationActions.navigate({ routeName: 'emojipicker' });
+
 export const navigateToAuth = (serverSettings: ApiServerSettings): NavigateAction =>
   NavigationActions.navigate({ routeName: 'auth', params: { serverSettings } });
 
