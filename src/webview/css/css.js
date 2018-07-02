@@ -414,6 +414,13 @@ blockquote {
   border-radius: 50%;
   background: rgba(82, 194, 175, 0.5);
 }
+#scroll-bottom .text {
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  position: absolute;
+  height: 1px;
+  width: 1px;
+}
 #scroll-bottom svg {
   width: 32px;
   height: 32px;
