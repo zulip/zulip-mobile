@@ -79,7 +79,6 @@ describe('getAutocompleteSuggestion', () => {
         user_id: -1,
         avatar_url: '',
         timezone: '',
-        is_active: false,
         is_admin: false,
         is_bot: false,
       },

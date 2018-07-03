@@ -142,7 +142,6 @@ export type User = {
   email: string,
   full_name: string,
   is_admin: boolean,
-  is_active: boolean,
   is_bot: boolean,
   profile_data?: Object,
   timezone: string,

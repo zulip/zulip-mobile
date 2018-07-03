@@ -40,7 +40,6 @@ describe('getAccountDetailsUserFromEmail', () => {
       avatar_url: '',
       timezone: '',
       user_id: -1,
-      is_active: false,
       is_admin: false,
       is_bot: false,
     };

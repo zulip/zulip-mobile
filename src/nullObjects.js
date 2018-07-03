@@ -28,7 +28,6 @@ export const NULL_USER: User = {
   avatar_url: '',
   email: '',
   full_name: '',
-  is_active: false,
   is_admin: false,
   is_bot: false,
   timezone: '',
