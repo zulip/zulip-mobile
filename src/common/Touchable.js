@@ -11,6 +11,7 @@ const androidBackground =
     : TouchableNativeFeedback.SelectableBackground();
 
 type Props = {
+  accessibilityLabel?: string,
   style?: Style,
   children?: ChildrenArray<*>,
   onPress?: () => void | Promise<any>,
@@ -30,11 +31,15 @@ export default class Touchable extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { style, children, onPress, onLongPress } = this.props;
+    const { accessibilityLabel, style, children, onPress, onLongPress } = this.props;
 
     if (!onPress && !onLongPress) {
       return (
-        <View style={style}>
+        <View
+          accessible={!!accessibilityLabel}
+          accessibilityLabel={accessibilityLabel}
+          style={style}
+        >
           <View>{children}</View>
         </View>
       );
@@ -43,6 +48,7 @@ export default class Touchable extends PureComponent<Props> {
     if (Platform.OS === 'ios') {
       return (
         <TouchableHighlight
+          accessibilityLabel={accessibilityLabel}
           underlayColor={HIGHLIGHT_COLOR}
           style={style}
           onPress={onPress}
@@ -55,6 +61,7 @@ export default class Touchable extends PureComponent<Props> {
 
     return (
       <TouchableNativeFeedback
+        accessibilityLabel={accessibilityLabel}
         style={style}
         background={androidBackground}
         onPress={onPress}
