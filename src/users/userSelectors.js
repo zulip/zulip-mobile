@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import { NULL_USER } from '../nullObjects';
-import { getPresence, getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
+import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserByEmail } from './userHelpers';
 
@@ -10,29 +10,8 @@ export const getSelfUserDetail = createSelector(getUsers, getOwnEmail, (users, o
   getUserByEmail(users, ownEmail),
 );
 
-export const getActiveUsers = createSelector(getUsers, users =>
-  users.filter(user => user.is_active),
-);
-
 export const getSortedUsers = createSelector(getUsers, users =>
   [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase())),
-);
-
-export const getUsersStatusActive = createSelector(getActiveUsers, getPresence, (users, presence) =>
-  users.filter(user => presence[user.email] && presence[user.email].aggregated.status === 'active'),
-);
-
-export const getUsersStatusIdle = createSelector(getActiveUsers, getPresence, (users, presence) =>
-  users.filter(user => presence[user.email] && presence[user.email].aggregated.status === 'idle'),
-);
-
-export const getUsersStatusOffline = createSelector(
-  getActiveUsers,
-  getPresence,
-  (users, presence) =>
-    users.filter(
-      user => presence[user.email] && presence[user.email].aggregated.status === 'offline',
-    ),
 );
 
 export const getActiveUsersAndBots = createSelector(
