@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import type { Context, Presence } from '../types';
 import { Avatar, RawLabel, Touchable, UnreadCount } from '../common';
 import { BRAND_COLOR } from '../styles';
+import { textWithUnreadCount } from '../utils/accessibility';
 
 const componentStyles = StyleSheet.create({
   selectedRow: {
@@ -54,9 +55,10 @@ export default class UserItem extends PureComponent<Props> {
   render() {
     const { styles } = this.context;
     const { fullName, avatarUrl, presence, isSelected, unreadCount, showEmail, email } = this.props;
+    const accessibilityLabel = textWithUnreadCount(fullName, unreadCount);
 
     return (
-      <Touchable onPress={this.handlePress}>
+      <Touchable accessibilityLabel={accessibilityLabel} onPress={this.handlePress}>
         <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
           <Avatar
             size={32}
