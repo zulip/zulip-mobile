@@ -35,24 +35,28 @@ class HomeTab extends PureComponent<Props> {
       <View style={styles.wrapper}>
         <View style={styles.iconList}>
           <NavButton
+            accessibilityLabel="All messages"
             name="home"
             onPress={() => {
               dispatch(doNarrow(HOME_NARROW));
             }}
           />
           <NavButton
+            accessibilityLabel="Starred messages"
             name="star"
             onPress={() => {
               dispatch(doNarrow(STARRED_NARROW));
             }}
           />
           <NavButton
+            accessibilityLabel="Mentions"
             name="at-sign"
             onPress={() => {
               dispatch(doNarrow(MENTIONED_NARROW));
             }}
           />
           <NavButton
+            accessibilityLabel="Search"
             name="search"
             onPress={() => {
               dispatch(navigateToSearch());

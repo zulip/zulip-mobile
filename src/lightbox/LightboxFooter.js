@@ -39,6 +39,7 @@ export default class LightboxFooter extends PureComponent<Props> {
       <View style={[styles.wrapper, style]}>
         <Text style={styles.text}>{displayMessage}</Text>
         <NavButton
+          accessibilityLabel="More"
           name="more-vertical"
           color="white"
           style={styles.icon}
