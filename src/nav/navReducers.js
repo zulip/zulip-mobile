@@ -27,9 +27,6 @@ const initialState = getStateForRoute('loading') || NULL_NAV_STATE;
 const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationState =>
   getInitialNavState(action.payload) || state;
 
-const accountSwitch = (state: NavigationState, action: AccountSwitchAction): NavigationState =>
-  getStateForRoute('loading') || state;
-
 const loginSuccess = (state: NavigationState, action: LoginSuccessAction): NavigationState =>
   getStateForRoute('main') || state;
 
@@ -51,7 +48,7 @@ export default (state: NavigationState = initialState, action: NavAction): Navig
       return rehydrate(state, action);
 
     case ACCOUNT_SWITCH:
-      return accountSwitch(state, action);
+      return null;
 
     case LOGIN_SUCCESS:
       return loginSuccess(state, action);
