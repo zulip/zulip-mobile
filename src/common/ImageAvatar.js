@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 import { ImageBackground, View } from 'react-native';
 
 import type { ChildrenArray } from '../types';
-import { nullFunction } from '../nullObjects';
 import { Touchable } from './';
 
 type Props = {
@@ -11,7 +10,7 @@ type Props = {
   size: number,
   shape: string,
   children: ChildrenArray<*>,
-  onPress: () => void,
+  onPress?: () => void,
 };
 
 /**
@@ -25,10 +24,6 @@ type Props = {
  */
 export default class ImageAvatar extends PureComponent<Props> {
   props: Props;
-
-  static defaultProps = {
-    onPress: nullFunction,
-  };
 
   render() {
     const { avatarUrl, children, size, shape, onPress } = this.props;
