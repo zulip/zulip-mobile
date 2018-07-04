@@ -11,11 +11,12 @@ import PmConversationsCard from '../pm-conversations/PmConversationsCard';
 import SettingsCard from '../settings/SettingsCard';
 import { IconHome, IconStream, IconSettings } from '../common/Icons';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
+import EmojiPicker from '../emoji/EmojiPicker';
 
 export default TabNavigator(
   {
     home: {
-      screen: HomeTab,
+      screen: EmojiPicker,
       navigationOptions: {
         tabBarLabel: 'Home',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
