@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   children: ChildrenArray<*>,
+  accessibilityLabel?: string,
   overlay: any,
   showOverlay: boolean,
   overlaySize: number,
@@ -76,6 +77,7 @@ export default class ComponentWithOverlay extends PureComponent<Props> {
   render() {
     const {
       children,
+      accessibilityLabel,
       style,
       overlay,
       showOverlay,
@@ -99,7 +101,7 @@ export default class ComponentWithOverlay extends PureComponent<Props> {
     ];
 
     return (
-      <Touchable onPress={onPress}>
+      <Touchable onPress={onPress} accessibilityLabel={accessibilityLabel}>
         <View style={wrapperStyle}>
           {children}
           {showOverlay && overlaySize > 0 && <View style={overlayStyle}>{overlay}</View>}
