@@ -4,18 +4,15 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch, Context, GlobalState, Narrow } from '../types';
+import type { Context, GlobalState, Narrow } from '../types';
 import Title from '../title/Title';
-import NavButton from './NavButton';
+import BackButton from './BackButton';
 import TitleNavButtons from '../title-buttons/TitleNavButtons';
 import { getCanGoBack, getTitleBackgroundColor, getTitleTextColor } from '../selectors';
 import { connectPreserveOnBackOption } from '../utils/redux';
-import { navigateBack } from '../actions';
 
 type Props = {
-  dispatch: Dispatch,
   backgroundColor: string,
-  canGoBack: boolean,
   narrow: Narrow,
   textColor: string,
 };
@@ -30,19 +27,11 @@ class MainNavBar extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { dispatch, backgroundColor, canGoBack, narrow, textColor } = this.props;
+    const { backgroundColor, narrow, textColor } = this.props;
 
     return (
       <View style={[styles.navBar, { backgroundColor }]}>
-        {canGoBack && (
-          <NavButton
-            name="arrow-left"
-            color={textColor}
-            onPress={() => {
-              dispatch(navigateBack());
-            }}
-          />
-        )}
+        <BackButton color={textColor} />
         <Title color={textColor} narrow={narrow} />
         <TitleNavButtons narrow={narrow} />
       </View>
