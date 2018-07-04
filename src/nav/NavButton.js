@@ -7,6 +7,7 @@ import { ComponentWithOverlay, UnreadCount } from '../common';
 import Icon from '../common/Icons';
 
 type Props = {
+  accessibilityLabel: string,
   color: string,
   style?: Style,
   name?: string,
@@ -29,11 +30,12 @@ export default class NavButton extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { name, style, color, unreadCount, onPress } = this.props;
+    const { accessibilityLabel, name, style, color, unreadCount, onPress } = this.props;
 
     return (
       <ComponentWithOverlay
         style={styles.navButtonFrame}
+        accessibilityLabel={accessibilityLabel}
         showOverlay={unreadCount > 0}
         overlaySize={20}
         color="transparent"
