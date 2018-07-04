@@ -7,6 +7,7 @@ import { BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
 import { foregroundColorFromBackground } from '../utils/color';
 import StreamIcon from './StreamIcon';
+import { textWithUnreadCount } from '../utils/accessibility';
 
 const componentStyles = StyleSheet.create({
   selectedRow: {
@@ -94,9 +95,10 @@ export default class StreamItem extends PureComponent<Props> {
       : backgroundColor
         ? { color: foregroundColorFromBackground(backgroundColor) }
         : styles.color;
+    const accessibilityLabel = textWithUnreadCount(name, unreadCount);
 
     return (
-      <Touchable onPress={this.handlePress}>
+      <Touchable accessibilityLabel={accessibilityLabel} onPress={this.handlePress}>
         <View style={wrapperStyle}>
           <StreamIcon size={iconSize} color={iconColor} isMuted={isMuted} isPrivate={isPrivate} />
           <View style={componentStyles.text}>
