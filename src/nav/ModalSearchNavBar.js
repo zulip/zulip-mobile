@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Dispatch, Context, GlobalState } from '../types';
+import type { Context, GlobalState } from '../types';
 import { getCanGoBack } from '../selectors';
 import { NAVBAR_SIZE } from '../styles';
 import { Label, SearchInput } from '../common';
 import NavButton from './NavButton';
+import BackButton from './BackButton';
 import { connectPreserveOnBackOption } from '../utils/redux';
-import { navigateBack } from '../actions';
 
 const localStyles = StyleSheet.create({
   buttonCancel: {
@@ -20,7 +20,6 @@ const localStyles = StyleSheet.create({
 
 type Props = {
   canGoBack: boolean,
-  dispatch: Dispatch,
   autoFocus: boolean,
   title: string,
   searchBar: boolean,
@@ -59,7 +58,6 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
     const { styles } = this.context;
     const { isSearchActive } = this.state;
     const {
-      dispatch,
       autoFocus,
       canGoBack,
       title,
@@ -75,14 +73,7 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
 
     return (
       <View style={styles.navBar}>
-        {canGoBack && (
-          <NavButton
-            name="arrow-left"
-            onPress={() => {
-              dispatch(navigateBack());
-            }}
-          />
-        )}
+        <BackButton />
         {showSearchInput ? (
           <SearchInput autoFocus={autoFocus} onChange={searchBarOnChange} />
         ) : (
