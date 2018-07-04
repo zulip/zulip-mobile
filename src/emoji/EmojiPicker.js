@@ -9,7 +9,7 @@ import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
 import getFilteredEmojiList from './getFilteredEmojiList';
 import type { GlobalState, RealmEmojiState } from '../types';
-import { getActiveRealmEmoji } from '../selectors';
+import { getAuth, getActiveRealmEmoji } from '../selectors';
 
 const componentStyles = StyleSheet.create({
   listWrapper: {
@@ -39,13 +39,8 @@ class EmojiPicker extends Component<Props, State> {
 
   addReaction = item => {
     console.log(item + this.props.realmEmoji[item]);
-    const auth = {
-      realm: 'https://fossboys.zulipchat.com',
-      email: 'aswinganesh666@gmail.com',
-      apiKey: 'P2dmXl1bhhD9Smt9F4iTJaA4lgrUJDOV',
-    };
     // emojiReactionAdd(props.auth, messageId, reactionType, code, name);
-    emojiReactionAdd(auth, 128913712, 'unicode_emoji', '1f602', 'joy');
+    emojiReactionAdd(this.props.auth, 128913712, 'unicode_emoji', '1f602', 'joy');
   };
 
   render() {
@@ -82,5 +77,6 @@ class EmojiPicker extends Component<Props, State> {
 }
 
 export default connect((state: GlobalState) => ({
+  auth: getAuth(state),
   realmEmoji: getActiveRealmEmoji(state),
 }))(EmojiPicker);
