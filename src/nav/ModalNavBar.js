@@ -10,7 +10,7 @@ import { NAVBAR_SIZE } from '../styles';
 import { Label } from '../common';
 import { getCanGoBack } from '../selectors';
 import NavButton from './NavButton';
-import { navigateBack } from '../actions';
+import BackButton from './BackButton';
 import { connectPreserveOnBackOption } from '../utils/redux';
 
 type Props = {
@@ -36,7 +36,6 @@ class ModalNavBar extends PureComponent<Props> {
   render() {
     const { styles } = this.context;
     const {
-      dispatch,
       canGoBack,
       title,
       titleColor,
@@ -60,15 +59,7 @@ class ModalNavBar extends PureComponent<Props> {
 
     return (
       <View style={[styles.navBar, style]}>
-        {canGoBack && (
-          <NavButton
-            name="arrow-left"
-            color={itemsColor}
-            onPress={() => {
-              dispatch(navigateBack());
-            }}
-          />
-        )}
+        <BackButton color={itemsColor} />
         <View style={[styles.flexedLeftAlign, childrenStyle]}>{content}</View>
         {rightItem && <NavButton color={itemsColor} {...rightItem} />}
       </View>
