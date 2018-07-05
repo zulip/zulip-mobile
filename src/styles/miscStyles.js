@@ -42,6 +42,7 @@ export type MiscStyles = {
   lineSeparator: Style,
   floatingView: Style,
   alignBottom: Style,
+  tabContainer: Style,
 };
 
 type Props = {
@@ -185,5 +186,9 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   alignBottom: {
     flexDirection: 'column',
     justifyContent: 'flex-end',
+  },
+  tabContainer: {
+    backgroundColor,
+    flex: 1,
   },
 });

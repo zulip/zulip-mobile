@@ -4,17 +4,13 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Dispatch } from '../types';
+import type { Context, Dispatch } from '../types';
 import { HOME_NARROW, MENTIONED_NARROW, STARRED_NARROW } from '../utils/narrow';
 import NavButton from '../nav/NavButton';
 import UnreadCards from '../unread/UnreadCards';
 import { doNarrow, navigateToSearch } from '../actions';
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    flexDirection: 'column',
-  },
+const componentStyles = StyleSheet.create({
   iconList: {
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -26,14 +22,20 @@ type Props = {
 };
 
 class HomeTab extends PureComponent<Props> {
+  context: Context;
   props: Props;
 
+  static contextTypes = {
+    styles: () => null,
+  };
+
   render() {
+    const { styles } = this.context;
     const { dispatch } = this.props;
 
     return (
-      <View style={styles.wrapper}>
-        <View style={styles.iconList}>
+      <View style={styles.tabContainer}>
+        <View style={componentStyles.iconList}>
           <NavButton
             name="home"
             onPress={() => {

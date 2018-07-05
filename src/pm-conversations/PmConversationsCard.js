@@ -12,9 +12,6 @@ import { getLoading, getPresence, getRecentConversations, getAllUsersByEmail } f
 import { navigateToCreateGroup, navigateToUsersScreen } from '../actions';
 
 const componentStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   button: {
     margin: 8,
     flex: 1,
@@ -58,7 +55,7 @@ class PmConversationsCard extends PureComponent<Props> {
     }
 
     return (
-      <View style={[componentStyles.container, styles.background]}>
+      <View style={styles.tabContainer}>
         <View style={componentStyles.row}>
           <ZulipButton
             secondary

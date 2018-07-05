@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import type { Context, Dispatch, GlobalState } from '../types';
 import { getSettings } from '../selectors';
@@ -25,9 +25,6 @@ import {
 } from '../actions';
 
 const componentStyles = StyleSheet.create({
-  optionWrapper: {
-    flex: 1,
-  },
   accountButtons: {
     flex: 1,
     alignItems: 'flex-end',
@@ -58,7 +55,7 @@ class SettingsCard extends PureComponent<Props> {
     const { theme, dispatch } = this.props;
 
     return (
-      <ScrollView style={componentStyles.optionWrapper}>
+      <View style={styles.tabContainer}>
         <OptionRow
           Icon={IconNight}
           label="Night mode"
@@ -98,7 +95,7 @@ class SettingsCard extends PureComponent<Props> {
           <SwitchAccountButton />
           <LogoutButton />
         </View>
-      </ScrollView>
+      </View>
     );
   }
 }

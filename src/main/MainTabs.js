@@ -1,18 +1,19 @@
 /* @flow */
 import React from 'react';
 import { Platform } from 'react-native';
-import { createMaterialTopTabNavigator } from 'react-navigation';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 
 import type { TabNavigationOptionsPropsType } from '../types';
+import { BRAND_COLOR } from '../styles';
 import tabsOptions from '../styles/tabs';
 import HomeTab from './HomeTab';
-import StreamTabs from './StreamTabs';
+import StreamsTab from './StreamsTab';
 import PmConversationsCard from '../pm-conversations/PmConversationsCard';
 import SettingsCard from '../settings/SettingsCard';
 import { IconHome, IconStream, IconSettings } from '../common/Icons';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 
-export default createMaterialTopTabNavigator(
+export default createMaterialBottomTabNavigator(
   {
     home: {
       screen: HomeTab,
@@ -24,7 +25,7 @@ export default createMaterialTopTabNavigator(
       },
     },
     streams: {
-      screen: StreamTabs,
+      screen: StreamsTab,
       navigationOptions: {
         tabBarLabel: 'Streams',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
@@ -53,7 +54,7 @@ export default createMaterialTopTabNavigator(
   },
   {
     backBehavior: 'none',
-    tabBarPosition: 'bottom',
+    barStyle: { backgroundColor: BRAND_COLOR },
     ...tabsOptions({
       showLabel: !!Platform.isPad,
       showIcon: true,
