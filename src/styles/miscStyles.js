@@ -83,6 +83,7 @@ export default ({ color, backgroundColor, borderColor, cardColor, dividerColor }
   label: {
     color,
     fontSize: 15,
+    textAlign: 'left',
   },
   icon: {
     color,

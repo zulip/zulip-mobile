@@ -18,8 +18,10 @@ const typingAvatar = (realm: string, user: User): string => template`
 export default (realm: string, users: User[]): string => template`
   $!${users.map(user => typingAvatar(realm, user)).join('')}
   <div class="content">
-    <span></span>
-    <span></span>
-    <span></span>
+    <div dir="auto" class="message-content">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
 `;
