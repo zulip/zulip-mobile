@@ -56,6 +56,7 @@ If you run the command `ifconfig` on a macOS machine connected to wifi, the
 output might look similar to this:
 
 <pre>
+$ ifconfig
 lo0: flags=8049&lt;UP,LOOPBACK,RUNNING,MULTICAST&gt; mtu 16384
 	options=1203&lt;RXCSUM,TXCSUM,TXSTATUS,SW_TIMESTAMP&gt;
 	inet 127.0.0.1 netmask 0xff000000
@@ -120,10 +121,23 @@ vboxnet1: flags=8943&lt;UP,BROADCAST,RUNNING,PROMISC,SIMPLEX,MULTICAST&gt; mtu 1
 	inet 172.28.128.1 netmask 0xffffff00 broadcast 172.28.128.255
 </pre>
 
+There are kind of a lot of different interfaces here.  The ones without an
+`inet` value aren't likely to matter -- that means an IPv4 address.  Of
+those, in this example:
+* `lo0` is a "loopback" interface accessible only from itself.
+* `vboxnet1` (and `vboxnet0`) are interfaces created by VirtualBox (or
+  perhaps created by Vagrant and used by VirtualBox) for communicating with
+  VMs managed by VirtualBox.
+* `en0` is the wifi interface.
+
+(If your local network is very futuristic, it's possible your wifi interface
+will have only an IPv6 address, labeled `inet6`.  As of 2018, this is rare.)
+
 The relevant IP address in this example is the `inet` value on the wifi
 interface: `192.168.86.89`.
 
-You can narrow the output with `ifconfig | grep 'inet.*broadcast'`:
+One command to help sort through this output would be
+`ifconfig | grep 'inet.*broadcast'`:
 <pre>
 inet <b>192.168.86.89</b> netmask 0xffffff00 broadcast 192.168.86.255
 inet 172.28.128.1 netmask 0xffffff00 broadcast 172.28.128.255
