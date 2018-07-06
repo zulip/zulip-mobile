@@ -15,6 +15,7 @@ if (config.enableReduxLogging) {
   middleware.push(
     createLogger({
       duration: true,
+      // diff: true,
       // predicate: (getState, action) => action.type === 'MESSAGE_FETCH_COMPLETE',
     }),
   );

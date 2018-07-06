@@ -77,3 +77,19 @@ For debugging some issues, it helps to view in a browser the HTML and CSS we
 generate for the WebView.  See `MessageListWeb#render` for instructions, with a
 `console.log(html)` call you can uncomment.
 
+
+### Redux state diffs
+
+We utilize [redux-logger](https://github.com/evgenyrodionov/redux-logger)
+middleware, which logs the previous state and next state of every action
+that is dispatched. In `middleware.js`, you can pass the `diff` boolean
+option into `createLogger`, which will use the
+[deep-diff](https://github.com/flitbit/diff#simple-examples) package to log
+the diff between states in debugger console.
+
+For example, the log output for the action `SWITCH_NARROW` can look like this:
+
+![image](https://user-images.githubusercontent.com/12771126/42355493-3a24885e-8082-11e8-96d9-fc7c59e0d1d0.png)
+
+For debugging reducers, or for new contributors learning the app's data flow,
+it helps to view a clear diff between states for each action!
