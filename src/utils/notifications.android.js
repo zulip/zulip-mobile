@@ -4,7 +4,7 @@ import { NotificationsAndroid, PendingNotifications } from 'react-native-notific
 import type { Auth, Dispatch, UserIdMap } from '../types';
 import config from '../config';
 import { registerPush } from '../api';
-import { logErrorRemotely } from '../utils/logging';
+import { logErrorRemotely } from './logging';
 import { getNarrowFromNotificationData } from './notificationsCommon';
 import type { SavePushTokenCallback } from './notificationsCommon';
 import { doNarrow } from '../actions';

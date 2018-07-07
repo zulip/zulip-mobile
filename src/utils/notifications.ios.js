@@ -10,15 +10,6 @@ import { getNarrowFromNotificationData } from './notificationsCommon';
 import type { SavePushTokenCallback } from './notificationsCommon';
 import { doNarrow } from '../actions';
 
-const onPushRegistered = async (
-  auth: Auth,
-  deviceToken: string,
-  saveTokenPush: SavePushTokenCallback,
-) => {
-  const result = await registerPush(auth, deviceToken);
-  saveTokenPush(deviceToken, result.msg, result.result);
-};
-
 export const addNotificationListener = (notificationHandler: (notification: Object) => void) => {
   NotificationsIOS.addEventListener('notificationOpened', notificationHandler);
 };
@@ -28,9 +19,10 @@ export const removeNotificationListener = (notificationHandler: (notification: O
 };
 
 export const initializeNotifications = (auth: Auth, saveTokenPush: SavePushTokenCallback) => {
-  NotificationsIOS.addEventListener('remoteNotificationsRegistered', deviceToken =>
-    onPushRegistered(auth, deviceToken, saveTokenPush),
-  );
+  NotificationsIOS.addEventListener('remoteNotificationsRegistered', async deviceToken => {
+    const result = await registerPush(auth, deviceToken);
+    saveTokenPush(deviceToken, result.msg, result.result);
+  });
   NotificationsIOS.addEventListener('remoteNotificationsRegistrationFailed', (error: string) => {
     logErrorRemotely(new Error(error), 'register ios push token failed');
   });
