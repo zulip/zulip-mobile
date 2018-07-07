@@ -70,7 +70,6 @@ rules:
   # React Native.  This plugin isn't included in the airbnb config, and
   # nothing is enabled by default, so we enable its rules.
   react-native/no-unused-styles: error
-  react-native/split-platform-components: error
   react-native/no-inline-styles: error
   # react-native/no-color-literals: error  # TODO eliminate these and enable.
 
