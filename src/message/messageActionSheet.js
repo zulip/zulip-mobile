@@ -189,6 +189,7 @@ const actionSheetButtons /* ActionSheetButtonType[] */ = [
   { title: 'Reply', onPress: reply, onlyIf: isSentMessage },
   { title: 'Copy to clipboard', onPress: copyToClipboard, onlyIf: isNotDeleted },
   { title: 'Share', onPress: shareMessage, onlyIf: isNotDeleted },
+  { title: 'Add Reaction', onPress: shareMessage, onlyIf: isNotDeleted },
   {
     title: 'Edit message',
     onPress: editMessage,

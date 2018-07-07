@@ -32,6 +32,7 @@ import NotificationsScreen from '../settings/NotificationsScreen';
 import TopicListScreen from '../topics/TopicListScreen';
 import WelcomeHelpScreen from '../start/WelcomeHelpScreen';
 import WelcomeScreen from '../start/WelcomeScreen';
+import EmojiPicker from '../emoji/EmojiPicker';
 
 export default StackNavigator(
   {
@@ -66,6 +67,7 @@ export default StackNavigator(
     notifications: { screen: NotificationsScreen },
     'welcome-help': { screen: WelcomeHelpScreen },
     welcome: { screen: WelcomeScreen },
+    emojipicker: { screen: EmojiPicker },
   },
   {
     initialRouteName: 'main',
