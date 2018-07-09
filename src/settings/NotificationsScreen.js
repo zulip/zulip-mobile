@@ -8,6 +8,7 @@ import { getAuth, getSettings } from '../selectors';
 import { OptionRow, Screen } from '../common';
 import { toggleMobilePushSettings } from '../api';
 import { settingsChange } from '../actions';
+import PushSupportedRow from './PushSupportedRow';
 
 type Props = {
   auth: Auth,
@@ -51,7 +52,7 @@ class NotificationsScreen extends PureComponent<Props> {
   };
 
   render() {
-    const { offlineNotification, onlineNotification, streamNotification } = this.props;
+    const { offlineNotification, onlineNotification, streamNotification, auth } = this.props;
 
     return (
       <Screen title="Notifications">
@@ -70,6 +71,7 @@ class NotificationsScreen extends PureComponent<Props> {
           defaultValue={streamNotification}
           onValueChange={this.handleStreamNotificationChange}
         />
+        <PushSupportedRow realm={auth.realm} />
       </Screen>
     );
   }
