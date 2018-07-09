@@ -198,15 +198,17 @@ class ComposeBox extends PureComponent<Props, State> {
     this.clearMessageInput();
   };
 
-  handleEdit = () => {
+  handleEdit = async () => {
     const { auth, editMessage, dispatch } = this.props;
     const { message, topic } = this.state;
     const content = editMessage.content !== message ? message : undefined;
     const subject = topic !== editMessage.topic ? topic : undefined;
     if (content || subject) {
-      updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
-        showErrorAlert(error.message, 'Failed to edit message');
-      });
+      try {
+        await updateMessage(auth, { content, subject }, editMessage.id);
+      } catch (error) {
+        showErrorAlert(error.msg, 'Failed to edit message');
+      }
     }
     dispatch(cancelEditMessage());
   };

@@ -20,7 +20,7 @@ type Props = {
   disabled: boolean,
   size: number,
   Icon: any,
-  onPress: () => void,
+  onPress: () => void | Promise<any>,
 };
 
 /**
