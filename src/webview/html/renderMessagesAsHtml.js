@@ -13,6 +13,7 @@ const renderMessages = ({
   realmEmoji,
   renderedMessages,
   narrow,
+  twentyFourHourTime,
 }: Props): string[] =>
   renderedMessages.reduce((list, section, index) => {
     list.push(
@@ -44,7 +45,7 @@ const renderMessages = ({
             reactions: message.reactions,
             ownEmail: auth.email,
             realmEmoji,
-            twentyFourHourTime: false,
+            twentyFourHourTime,
           }),
         );
       }
