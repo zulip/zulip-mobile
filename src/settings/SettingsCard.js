@@ -32,6 +32,7 @@ const componentStyles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-end',
     flexDirection: 'row',
+    marginTop: 8,
   },
 });
 
