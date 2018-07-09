@@ -32,6 +32,7 @@ import {
   getSubscriptions,
   getShowMessagePlaceholders,
   getShownMessagesForNarrow,
+  getRealm,
 } from '../selectors';
 
 export type Props = {
@@ -56,6 +57,7 @@ export type Props = {
   onReplySelect: () => void,
   onSend: () => void,
   showActionSheetWithOptions: (Object, (number) => void) => void,
+  twentyFourHourTime: boolean,
 };
 
 class MessageList extends PureComponent<Props> {
@@ -113,6 +115,7 @@ export default connect((state, props) => ({
   isFetching: props.isFetching || getIsFetching(props.narrow)(state),
   messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
   realmEmoji: getAllRealmEmoji(state),
+  twentyFourHourTime: getRealm(state).twentyFourHourTime,
   renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
   showMessagePlaceholders:
     props.showMessagePlaceholders || getShowMessagePlaceholders(props.narrow)(state),
