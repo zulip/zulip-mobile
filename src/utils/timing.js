@@ -2,7 +2,6 @@
 import type { TimingItemType } from '../types';
 
 const timingMap: { [string]: number } = {};
-const countMap: { [string]: number } = {};
 const log: TimingItemType[] = [];
 
 const now = (): number =>
@@ -16,15 +15,6 @@ const start = (key: string) => {
   timingMap[key] = now();
 };
 
-const startGroup = (key: string) => {
-  timingMap[key] = now();
-  if (countMap[key]) {
-    countMap[key]++;
-  } else {
-    countMap[key] = 1;
-  }
-};
-
 const end = (key: string) => {
   if (timingMap[key]) {
     add({
@@ -36,17 +26,9 @@ const end = (key: string) => {
   }
 };
 
-const endGroup = (key: string) => {
-  if (countMap[key] % 10 === 0) {
-    end(key);
-  }
-};
-
 export default {
   add,
-  startGroup,
   start,
   end,
-  endGroup,
   log,
 };
