@@ -6,7 +6,7 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 
 import type { Context, Dispatch, GlobalState } from '../types';
 import { getSettings } from '../selectors';
-import { OptionButton, OptionDivider, OptionRow, WebLink } from '../common';
+import { OptionButton, OptionDivider, OptionRow } from '../common';
 import SwitchAccountButton from '../account-info/SwitchAccountButton';
 import LogoutButton from '../account-info/LogoutButton';
 import {
@@ -54,7 +54,6 @@ class SettingsCard extends PureComponent<Props> {
   };
 
   render() {
-    const { styles } = this.context;
     const { theme, dispatch } = this.props;
 
     return (
@@ -94,10 +93,6 @@ class SettingsCard extends PureComponent<Props> {
           }}
         />
         <OptionDivider />
-        <View style={styles.padding}>
-          <WebLink label="Terms of service" href="/terms/" />
-          <WebLink label="Privacy policy" href="/privacy/" />
-        </View>
         <View style={componentStyles.accountButtons}>
           <SwitchAccountButton />
           <LogoutButton />
