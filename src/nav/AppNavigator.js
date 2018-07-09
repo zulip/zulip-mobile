@@ -32,6 +32,7 @@ import NotificationsScreen from '../settings/NotificationsScreen';
 import TopicListScreen from '../topics/TopicListScreen';
 import WelcomeHelpScreen from '../start/WelcomeHelpScreen';
 import WelcomeScreen from '../start/WelcomeScreen';
+import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 
 export default StackNavigator(
   {
@@ -41,6 +42,7 @@ export default StackNavigator(
     auth: { screen: AuthScreen },
     chat: { screen: ChatScreen },
     dev: { screen: DevAuthScreen },
+    'emoji-picker': { screen: EmojiPickerScreen },
     loading: { screen: LoadingScreen },
     main: { screen: MainScreenWithTabs },
     password: { screen: PasswordAuthScreen },

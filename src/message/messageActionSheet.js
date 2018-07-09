@@ -20,7 +20,13 @@ import {
   toggleMessageStarred,
 } from '../api';
 import { showToast } from '../utils/info';
-import { doNarrow, navigateBack, startEditMessage, deleteOutboxMessage } from '../actions';
+import {
+  doNarrow,
+  navigateBack,
+  startEditMessage,
+  deleteOutboxMessage,
+  navigateToEmojiPicker,
+} from '../actions';
 
 type ReplyOptionType = {
   message: Object,
@@ -169,6 +175,10 @@ const shareMessage = ({ message }) => {
   });
 };
 
+const addReaction = ({ message, dispatch }) => {
+  dispatch(navigateToEmojiPicker(message.id));
+};
+
 const skip = (...args) => false;
 
 type HeaderButtonType = {
@@ -186,6 +196,12 @@ const resolveMultiple = (message, auth, narrow, functions) =>
   });
 
 const actionSheetButtons /* ActionSheetButtonType[] */ = [
+  {
+    title: 'Add a reaction',
+    onPress: addReaction,
+    onlyIf: ({ message, auth, narrow }) =>
+      resolveMultiple(message, auth, narrow, [isSentMessage, isNotDeleted]),
+  },
   { title: 'Reply', onPress: reply, onlyIf: isSentMessage },
   { title: 'Copy to clipboard', onPress: copyToClipboard, onlyIf: isNotDeleted },
   { title: 'Share', onPress: shareMessage, onlyIf: isNotDeleted },
