@@ -4,6 +4,9 @@ import { getAuthHeader, encodeAsURI, isValidUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
 import getJSONFromResponse from '../utils/getJSONFromResponse';
+import { logout } from '../account/accountActions';
+import store from '../boot/store';
+import { showToast } from '../utils/info';
 
 const apiVersion = 'api/v1';
 
@@ -42,6 +45,13 @@ export const apiCall = async (
   try {
     networkActivityStart(isSilent);
     const response = await apiFetch(auth, route, params);
+    if (response.status === 401) {
+      // UNAUTHORIZED
+      // apiKey got exprired
+      // dispatch logout action
+      store.dispatch(logout());
+      showToast('Please login again');
+    }
     const json = await getJSONFromResponse(response);
     return resFunc(json);
   } finally {
