@@ -8,7 +8,7 @@ import { getNav } from '../directSelectors';
 import { navigateToChat } from './navActions';
 import { getUsersById } from '../users/userSelectors';
 import AppNavigator from './AppNavigator';
-import { getNarrowFromNotificationData } from '../utils/notificationsCommon';
+import { getNarrowFromNotificationData } from '../utils/notifications';
 
 export const getCanGoBack = (state: GlobalState) => state.nav.index > 0;
 

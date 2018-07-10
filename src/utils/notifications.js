@@ -5,13 +5,39 @@ import NotificationsIOS, {
   PendingNotifications,
 } from 'react-native-notifications';
 
-import type { Auth, Dispatch, UserIdMap } from '../types';
+import type { Auth, Dispatch, Notification, NotificationGroup, UserIdMap } from '../types';
+import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
 import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';
-import { getNarrowFromNotificationData } from './notificationsCommon';
-import type { SavePushTokenCallback } from './notificationsCommon';
 import { doNarrow } from '../actions';
+
+export type SavePushTokenCallback = (pushToken: string, msg: string, result: string) => *;
+
+const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
+  const userIds = data.pm_users.split(',');
+  const users = userIds.map(id => usersById[id]);
+  const doAllUsersExist = users.every(user => user);
+
+  return doAllUsersExist ? groupNarrow(users.map(user => user.email)) : HOME_NARROW;
+};
+
+export const getNarrowFromNotificationData = (data: Notification, usersById: UserIdMap = {}) => {
+  if (!data || !data.recipient_type) {
+    return HOME_NARROW;
+  }
+
+  if (data.recipient_type === 'stream') {
+    return topicNarrow(data.stream, data.topic);
+  }
+
+  // $FlowFixMe
+  if (!data.pm_users) {
+    return privateNarrow(data.sender_email);
+  }
+
+  return getGroupNarrowFromNotificationData(data, usersById);
+};
 
 export const addNotificationListener = (notificationHandler: (notification: Object) => void) => {
   if (Platform.OS === 'ios') {
