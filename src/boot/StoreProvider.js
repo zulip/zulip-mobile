@@ -6,6 +6,7 @@ import { PersistGate } from 'redux-persist/lib/integration/react';
 import type { ChildrenArray } from '../types';
 import store, { persistor } from './store';
 import LoadingScreen from '../start/LoadingScreen';
+import RenderTimer from '../diagnostics/RenderTimer';
 
 type Props = {
   children: ChildrenArray<*>,
@@ -17,7 +18,14 @@ export default class StoreHydrator extends PureComponent<Props> {
   render() {
     return (
       <Provider store={store}>
-        <PersistGate loading={<LoadingScreen />} persistor={persistor}>
+        <PersistGate
+          loading={
+            <RenderTimer name="Store hydration">
+              <LoadingScreen />
+            </RenderTimer>
+          }
+          persistor={persistor}
+        >
           {this.props.children}
         </PersistGate>
       </Provider>
