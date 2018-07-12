@@ -4,15 +4,12 @@ import type { TimingItemType } from '../types';
 const timingMap: { [string]: number } = {};
 const log: TimingItemType[] = [];
 
-const now = (): number =>
-  typeof performance !== 'undefined' ? performance.now() : Date.now() / 1000;
-
 const add = (item: TimingItemType) => {
   log.push(item);
 };
 
 const start = (key: string) => {
-  timingMap[key] = now();
+  timingMap[key] = Date.now();
 };
 
 const end = (key: string) => {
@@ -20,7 +17,7 @@ const end = (key: string) => {
     add({
       text: key,
       start: timingMap[key],
-      end: now(),
+      end: Date.now(),
     });
     delete timingMap[key];
   }
