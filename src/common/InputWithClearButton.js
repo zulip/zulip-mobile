@@ -6,18 +6,11 @@ import type { Context, LocalizableText } from '../types';
 import Input from './Input';
 import { BRAND_COLOR } from '../styles';
 import Icon from '../common/Icons';
-import Touchable from '../common/Touchable';
 
 const componentStyles = StyleSheet.create({
-  clearButtonContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 22,
-    height: 22,
-    marginRight: 12,
-  },
   clearButtonIcon: {
     color: BRAND_COLOR,
+    paddingRight: 16,
   },
 });
 
@@ -79,9 +72,12 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
           value={text}
         />
         {canBeCleared && (
-          <Touchable style={componentStyles.clearButtonContainer} onPress={this.handleClear}>
-            <Icon name="x" size={20} style={componentStyles.clearButtonIcon} />
-          </Touchable>
+          <Icon
+            name="x"
+            size={24}
+            onPress={this.handleClear}
+            style={componentStyles.clearButtonIcon}
+          />
         )}
       </View>
     );
