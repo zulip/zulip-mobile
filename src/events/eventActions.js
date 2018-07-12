@@ -66,8 +66,8 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
       await progressiveTimeout();
 
       if (e.message === 'API') {
-        // The event queue is too old or has been garbage collected
-        if (e.response.status === 400 && e.code === 'BAD_EVENT_QUEUE_ID') {
+        if (e.data && e.data.code === 'BAD_EVENT_QUEUE_ID') {
+          // The event queue is too old or has been garbage collected.
           dispatch(appRefresh());
           break;
         }

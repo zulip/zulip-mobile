@@ -31,6 +31,15 @@ export const fetchWithAuth = async (auth: Auth, url: string, params: Object = {}
 export const apiFetch = async (auth: Auth, route: string, params: Object = {}) =>
   fetchWithAuth(auth, `${auth.realm}/${apiVersion}/${route}`, params);
 
+const makeApiError = (httpStatus: number, data: ?Object) => {
+  const error = new Error('API');
+  // $FlowFixMe
+  error.data = data;
+  // $FlowFixMe
+  error.httpStatus = httpStatus;
+  return error;
+};
+
 export const apiCall = async (
   auth: Auth,
   route: string,
@@ -41,28 +50,12 @@ export const apiCall = async (
   try {
     networkActivityStart(isSilent);
     const response = await apiFetch(auth, route, params);
-
-    if (!response.ok) {
-      console.log('Bad response for:', { auth, route, params, response }); // eslint-disable-line
-      const error = new Error('API');
-      // $FlowFixMe
-      error.response = response;
-      throw error;
+    const json = await response.json().catch(() => undefined);
+    if (response.ok) {
+      return resFunc(json);
     }
-
-    const json = await response.json();
-
-    if (json.result !== 'success') {
-      console.log('Bad response for:', { auth, route, params, response }); // eslint-disable-line
-      const error = new Error('API');
-      // $FlowFixMe
-      error.response = response;
-      // $FlowFixMe
-      error.code = json.code;
-      throw error;
-    }
-
-    return resFunc(json);
+    console.log('Bad response for:', { auth, route, params, response }); // eslint-disable-line
+    throw makeApiError(response.status, json);
   } finally {
     networkActivityStop(isSilent);
   }
