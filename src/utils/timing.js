@@ -1,7 +1,7 @@
 /* @flow */
 import type { TimingItemType } from '../types';
 
-const timingMap: { [string]: number } = {};
+const startMsMap: { [string]: number } = {};
 const log: TimingItemType[] = [];
 
 const add = (item: TimingItemType) => {
@@ -9,17 +9,17 @@ const add = (item: TimingItemType) => {
 };
 
 const start = (key: string) => {
-  timingMap[key] = Date.now();
+  startMsMap[key] = Date.now();
 };
 
 const end = (key: string) => {
-  if (timingMap[key]) {
+  if (startMsMap[key]) {
     add({
       text: key,
-      startMs: timingMap[key],
+      startMs: startMsMap[key],
       endMs: Date.now(),
     });
-    delete timingMap[key];
+    delete startMsMap[key];
   }
 };
 
