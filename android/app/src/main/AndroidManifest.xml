@@ -43,6 +43,7 @@
             <data android:scheme="zulip" android:host="login" />
         </intent-filter>
       </activity>
+      <activity android:name=".debug.MainActivity" />
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
