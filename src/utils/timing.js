@@ -16,8 +16,8 @@ const end = (key: string) => {
   if (timingMap[key]) {
     add({
       text: key,
-      start: timingMap[key],
-      end: Date.now(),
+      startMs: timingMap[key],
+      endMs: Date.now(),
     });
     delete timingMap[key];
   }
