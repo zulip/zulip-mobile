@@ -89,6 +89,29 @@ To fix this, install [JDK
 or a newer version.  You can check what version is installed by running the
 command `java -version`; with JDK 8, the version number starts with "1.8".
 
+### Runtime failure: Could not determine java version from '10.0.1'
+
+On Ubuntu 18.04 (or newer), you may see the following error:
+
+```
+* What went wrong:
+
+Could not determine java version from '10.0.1'.
+```
+
+This could happen because you have a newer version of java installed. To fix this,
+
+1. Make sure you have JDK 8 installed
+
+```
+sudo apt install openjdk-8-jdk
+```
+
+2. Set your JAVA_HOME to JDK libs that you just installed
+
+   - `ls -l /usr/lib/jvm/` should list `java-8-openjdk-amd64` or something similar to that
+   - `export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"`
+   - `react-native run-android` should now work
 
 ### App shows a blank white screen
 
