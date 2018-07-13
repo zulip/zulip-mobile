@@ -54,7 +54,7 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
     try {
       const fetchedKey = await fetchApiKey(auth, email, password);
       this.setState({ progress: false });
-      dispatch(loginSuccess(auth.realm, fetchedKey.email, fetchedKey.api_key));
+      dispatch(loginSuccess(auth.realm, fetchedKey.email, fetchedKey.api_key, auth.realmIcon));
     } catch (err) {
       this.setState({
         progress: false,

@@ -30,6 +30,7 @@ const realmAdd = (state: AccountsState, action: RealmAddAction): AccountsState =
   return [
     {
       realm: action.realm,
+      realmIcon: action.realmIcon,
       apiKey: '',
       email: '',
     },

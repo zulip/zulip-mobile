@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable } from '../common';
@@ -54,11 +54,19 @@ export default class AccountItem extends PureComponent<Props> {
   handleRemove = () => this.props.onRemove(this.props.index);
 
   render() {
-    const { email, realm, showDoneIcon } = this.props;
+    const { email, realm, realmIcon, showDoneIcon } = this.props;
+    const realmImageSource = !realmIcon
+      ? null
+      : realmIcon.startsWith('/')
+        ? realm + realmIcon
+        : realmIcon;
 
     return (
       <Touchable style={styles.wrapper} onPress={this.handleSelect}>
         <View style={[styles.accountItem, showDoneIcon && styles.selectedAccountItem]}>
+          {realmImageSource ? (
+            <Image style={styles.icon} source={{ uri: realmImageSource }} />
+          ) : null}
           <View style={styles.details}>
             <RawLabel style={[styles.text]} text={email} numberOfLines={1} />
             <RawLabel style={[styles.text]} text={realm} numberOfLines={1} />

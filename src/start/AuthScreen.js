@@ -76,7 +76,8 @@ class AuthScreen extends PureComponent<Props> {
       && url.query.otp_encrypted_api_key.length === otp.length
     ) {
       const apiKey = extractApiKey(url.query.otp_encrypted_api_key, otp);
-      dispatch(loginSuccess(realm, url.query.email, apiKey));
+      const realmIcon = this.props.navigation.state.params.serverSettings.realm_icon;
+      dispatch(loginSuccess(realm, url.query.email, apiKey, realmIcon));
     }
   };
 
