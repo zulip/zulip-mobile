@@ -159,6 +159,7 @@ repositories {
 
 
 dependencies {
+    compile project(':react-native-splash-screen')
     compile project(':react-native-text-input-reset')
     compile project(':react-native-notifications')
     compile project(':react-native-image-picker')

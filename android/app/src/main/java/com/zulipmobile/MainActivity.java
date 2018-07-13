@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 
 import com.facebook.react.ReactActivity;
+import org.devio.rn.splashscreen.SplashScreen; 
+import android.os.Bundle; 
 
 public class MainActivity extends ReactActivity {
 
@@ -14,6 +16,12 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "ZulipMobile";
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.show(this); 
+        super.onCreate(savedInstanceState);
     }
 
     @Override

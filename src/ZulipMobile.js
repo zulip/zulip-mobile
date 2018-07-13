@@ -1,6 +1,6 @@
 /* @flow */
-import React from 'react';
-
+import React, { PureComponent } from 'react';
+import SplashScreen from 'react-native-splash-screen';
 import '../vendor/intl/intl';
 import StoreProvider from './boot/StoreProvider';
 import TranslationProvider from './boot/TranslationProvider';
@@ -16,18 +16,25 @@ require('./sentry');
 // $FlowFixMe
 console.disableYellowBox = true; // eslint-disable-line
 
-export default () => (
-  <CompatibilityChecker>
-    <StoreProvider>
-      <AppEventHandlers>
-        <AppDataFetcher>
-          <TranslationProvider>
-            <StylesProvider>
-              <AppWithNavigation />
-            </StylesProvider>
-          </TranslationProvider>
-        </AppDataFetcher>
-      </AppEventHandlers>
-    </StoreProvider>
-  </CompatibilityChecker>
-);
+export default class ZulipMobile extends PureComponent<void> {
+  componentDidMount() {
+    SplashScreen.hide();
+  }
+  render() {
+    return (
+      <CompatibilityChecker>
+        <StoreProvider>
+          <AppEventHandlers>
+            <AppDataFetcher>
+              <TranslationProvider>
+                <StylesProvider>
+                  <AppWithNavigation />
+                </StylesProvider>
+              </TranslationProvider>
+            </AppDataFetcher>
+          </AppEventHandlers>
+        </StoreProvider>
+      </CompatibilityChecker>
+    );
+  }
+}

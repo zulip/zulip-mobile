@@ -8,6 +8,7 @@ import android.util.Pair;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
 import com.wix.reactnativenotifications.RNNotificationsPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -52,6 +53,7 @@ public class MainApplication extends Application implements ReactApplication, IN
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new SplashScreenReactPackage(),
                     new RNTextInputResetPackage(),
                     new ImagePickerPackage(),
                     new OrientationPackage(),

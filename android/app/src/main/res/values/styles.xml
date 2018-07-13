@@ -7,4 +7,9 @@
         <item name="colorPrimaryDark">@color/primaryColorDark</item>
     </style>
 
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+        <item name="android:statusBarColor">@color/green</item>
+    </style>
 </resources>
