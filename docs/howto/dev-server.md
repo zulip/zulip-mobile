@@ -27,8 +27,9 @@ the Zulip server.  If you choose instead to run the Zulip server directly on
 your host machine, these instructions will work with some variations.
 
 You'll run the Zulip server in the dev VM with `tools/run-dev.py`, following
-the usual instructions for Zulip server development (linked above).  The
-steps below might add some options to the `run-dev.py` command.
+the usual instructions for Zulip server development (linked above).  [Step
+4](#4-set-external_host) below adds some options to the `run-dev.py` command
+to make it accessible from the mobile app.
 
 
 ## 2. Find the right IP address
