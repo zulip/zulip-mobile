@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 import {
   getCanGoBack,
-  getCurrentRoute,
+  getCurrentRouteName,
   getCurrentRouteParams,
   getCurrentRouteNarrow,
   getSameRoutesCount,
@@ -188,7 +188,7 @@ describe('getPreviousDifferentRouteAndParams', () => {
   });
 });
 
-describe('getCurrentRoute', () => {
+describe('getCurrentRouteName', () => {
   test('return name of the current route', () => {
     const state = deepFreeze({
       nav: {
@@ -201,7 +201,7 @@ describe('getCurrentRoute', () => {
     });
     const expectedResult = 'second';
 
-    const actualResult = getCurrentRoute(state);
+    const actualResult = getCurrentRouteName(state);
 
     expect(actualResult).toEqual(expectedResult);
   });
