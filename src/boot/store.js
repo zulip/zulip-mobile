@@ -22,6 +22,8 @@ export const restore = (onFinished?: () => void) =>
     store,
     {
       whitelist: [...config.storeKeys, ...config.cacheKeys],
+      // TODO: This should use `CompressedAsyncStorage` once that works
+      // smoothly on iOS, where we haven't implemented compression.
       storage: AsyncStorage,
     },
     onFinished,
