@@ -9,14 +9,14 @@ export const logSlowReducers = (reducers: Object): Object => {
   Object.keys(reducers).forEach((name: string) => {
     const originalReducer = reducers[name];
     reducers[name] = (state, action) => {
-      const start = Date.now();
+      const startMs = Date.now();
       const result = originalReducer(state, action);
-      const end = Date.now();
-      if (end - start >= config.slowReducersThreshold) {
+      const endMs = Date.now();
+      if (endMs - startMs >= config.slowReducersThreshold) {
         timing.add({
           text: `${action.type} @ ${name}`,
-          start,
-          end,
+          startMs,
+          endMs,
         });
       }
       return result;

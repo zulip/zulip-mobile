@@ -512,8 +512,8 @@ export type DraftState = {
 
 export type TimingItemType = {
   text: string,
-  start: number,
-  end: number,
+  startMs: number,
+  endMs: number,
 };
 
 export type ActionSheetButtonType = any; /* {
