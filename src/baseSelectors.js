@@ -2,14 +2,7 @@
 import { createSelector } from 'reselect';
 
 import type { GlobalState } from './types';
-import { ALL_PRIVATE_NARROW_STR } from './utils/narrow';
-import { getAllNarrows, getNavigationRoutes, getNavigationIndex, getNav } from './directSelectors';
-import { NULL_ARRAY } from './nullObjects';
-
-export const getPrivateMessages = createSelector(
-  getAllNarrows,
-  messages => messages[ALL_PRIVATE_NARROW_STR] || NULL_ARRAY,
-);
+import { getNavigationRoutes, getNavigationIndex, getNav } from './directSelectors';
 
 export const getCurrentRoute = (state: GlobalState): string =>
   state.nav.routes[state.nav.index].routeName;

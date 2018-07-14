@@ -12,7 +12,7 @@ import {
   getUnreadHuddles,
   getUnreadMentions,
 } from '../directSelectors';
-import { getPrivateMessages } from '../baseSelectors';
+import { getPrivateMessages } from '../message/messageSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { countUnread } from '../utils/unread';
