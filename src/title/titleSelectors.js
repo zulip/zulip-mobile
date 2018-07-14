@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import type { Narrow } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { getSubscriptions } from '../directSelectors';
-import { getCurrentRoute } from '../baseSelectors';
+import { getCurrentRoute } from '../nav/navSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';

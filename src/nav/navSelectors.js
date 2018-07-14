@@ -4,7 +4,7 @@ import isEqual from 'lodash.isequal';
 
 import type { GlobalState } from '../types';
 import config from '../config';
-import { getNav } from '../directSelectors';
+import { getNav, getNavigationIndex, getNavigationRoutes } from '../directSelectors';
 import { navigateToChat } from './navActions';
 import { getUsersById } from '../users/userSelectors';
 import AppNavigator from './AppNavigator';
@@ -84,4 +84,30 @@ export const getInitialNavState = createSelector(getNav, getUsersById, (nav, use
 
   const narrow = getNarrowFromNotificationData(config.startup.notification, usersById);
   return AppNavigator.router.getStateForAction(navigateToChat(narrow), state);
+});
+
+export const getCurrentRoute = (state: GlobalState): string =>
+  state.nav.routes[state.nav.index].routeName;
+
+export const getCurrentRouteParams = createSelector(
+  getNavigationRoutes,
+  getNavigationIndex,
+  (routes, index) => routes && routes[index] && routes[index].params,
+);
+
+export const getCurrentRouteNarrow = createSelector(
+  getCurrentRouteParams,
+  params => params || { narrow: undefined },
+);
+
+export const getTopMostNarrow = createSelector(getNav, nav => {
+  const { routes } = nav;
+  let { index } = nav;
+  while (index >= 0) {
+    if (routes[index].routeName === 'chat') {
+      return routes[index].params.narrow;
+    }
+    index--;
+  }
+  return undefined;
 });
