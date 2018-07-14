@@ -20,7 +20,7 @@ export const getCurrentRouteParams = createSelector(
   (routes, index) => routes && routes[index] && routes[index].params,
 );
 
-export const getChatScreenParams = createSelector(
+export const getCurrentRouteNarrow = createSelector(
   getCurrentRouteParams,
   params => params || { narrow: undefined },
 );

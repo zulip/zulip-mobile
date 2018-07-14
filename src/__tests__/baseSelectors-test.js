@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 import {
   getCurrentRoute,
   getCurrentRouteParams,
-  getChatScreenParams,
+  getCurrentRouteNarrow,
   getTopMostNarrow,
 } from '../baseSelectors';
 import { streamNarrow } from '../utils/narrow';
@@ -56,7 +56,7 @@ describe('getCurrentRouteParams', () => {
   });
 });
 
-describe('getChatScreenParams', () => {
+describe('getCurrentRouteNarrow', () => {
   test('when no params are passed do not return "undefined"', () => {
     const state = deepFreeze({
       nav: {
@@ -65,7 +65,7 @@ describe('getChatScreenParams', () => {
       },
     });
 
-    const actualResult = getChatScreenParams(state);
+    const actualResult = getCurrentRouteNarrow(state);
 
     expect(actualResult).toBeDefined();
   });
