@@ -5,6 +5,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet, Dimensions, Easing } from 'react-native';
 import PhotoView from 'react-native-photo-view';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
+import { injectIntl, intlShape } from 'react-intl';
 
 import type { Auth, Dispatch, Message } from '../types';
 import { getAuth } from '../selectors';
@@ -42,6 +43,7 @@ type Props = {
   message: Message,
   handleImagePress: (movement: string) => void,
   showActionSheetWithOptions: (Object, (number) => void) => void,
+  intl: intlShape,
 };
 
 type State = {
@@ -65,7 +67,8 @@ class Lightbox extends PureComponent<Props, State> {
   handleOptionsPress = () => {
     const options = constructActionSheetButtons();
     const cancelButtonIndex = options.length - 1;
-    const { showActionSheetWithOptions, src, auth } = this.props;
+    const { showActionSheetWithOptions, src, auth, intl } = this.props;
+    const translateString = value => intl.formatMessage({ id: value });
     showActionSheetWithOptions(
       {
         options,
@@ -76,6 +79,7 @@ class Lightbox extends PureComponent<Props, State> {
           title: options[buttonIndex],
           src,
           auth,
+          translateString,
         });
       },
     );
@@ -134,5 +138,5 @@ class Lightbox extends PureComponent<Props, State> {
 export default connectActionSheet(
   connect(state => ({
     auth: getAuth(state),
-  }))(Lightbox),
+  }))(injectIntl(Lightbox)),
 );

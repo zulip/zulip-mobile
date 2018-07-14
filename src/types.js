@@ -772,3 +772,14 @@ export type InitialData = InitialDataBase &
   InitialDataUpdateDisplaySettings &
   InitialDataUpdateGlobalNotifications &
   InitialDataUpdateMessageFlags;
+
+export type WebViewNavigationState = {
+  canGoBack: boolean,
+  canGoForward: boolean,
+  loading: boolean,
+  target: number,
+  title: number,
+  url: string,
+};
+
+export type TranslateStringType = (value: string) => string;
