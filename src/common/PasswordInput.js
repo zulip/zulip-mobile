@@ -8,6 +8,10 @@ import { BRAND_COLOR } from '../styles';
 import { Label, Touchable } from '../common';
 
 const componentStyles = StyleSheet.create({
+  wrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   passwordInput: {
     flex: 1,
     flexDirection: 'row',
@@ -60,7 +64,7 @@ export default class PasswordInput extends PureComponent<Props, State> {
     const { isHidden } = this.state;
 
     return (
-      <View style={style}>
+      <View style={[componentStyles.wrapper, style]}>
         <Input
           {...this.props}
           style={componentStyles.passwordInput}
