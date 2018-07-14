@@ -86,8 +86,11 @@ export const getInitialNavState = createSelector(getNav, getUsersById, (nav, use
   return AppNavigator.router.getStateForAction(navigateToChat(narrow), state);
 });
 
-export const getCurrentRouteName = (state: GlobalState): string =>
-  state.nav.routes[state.nav.index].routeName;
+export const getCurrentRouteName = createSelector(
+  getNavigationRoutes,
+  getNavigationIndex,
+  (routes, index) => routes && routes[index] && routes[index].routeName,
+);
 
 export const getCurrentRouteParams = createSelector(
   getNavigationRoutes,
