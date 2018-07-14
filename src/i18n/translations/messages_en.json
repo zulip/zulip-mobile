@@ -136,5 +136,9 @@
   "Do not mark messages read on scroll": "Do not mark messages read on scroll",
   "Topics": "Topics",
   "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
-  "Add subscribers": "Add subscribers"
+  "Add subscribers": "Add subscribers",
+  "Fetching push notifications settings from the server": "Fetching push notifications settings from the server",
+  "Push Notifications working on server": "Push Notifications are working on server",
+  "Push notifications not configured on server, please contact Admin": "Push notifications not configured on server, please contact Admin",
+  "Cannot fetch push notifications settings from server": "Cannot fetch push notifications settings from server"
 }
