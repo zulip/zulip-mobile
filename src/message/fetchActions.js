@@ -157,7 +157,9 @@ export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getSta
     dispatch(messageFetchStart(narrow, halfCount, halfCount));
   }
   const [initData, messages] = await Promise.all([
-    await tryUntilSuccessful(() => registerForEvents(auth)),
+    await tryUntilSuccessful(() =>
+      registerForEvents(auth, config.trackServerEvents, config.serverDataOnStartup),
+    ),
     narrow
       && (await tryUntilSuccessful(() => getMessages(auth, narrow, 0, halfCount, halfCount, true))),
   ]);
