@@ -1,11 +1,11 @@
 /* @flow */
-import type { Message, Narrow, RenderedSectionDescriptor } from '../types';
+import type { Message, Narrow, RenderedSection } from '../types';
 import { NULL_MESSAGE } from '../nullObjects';
 import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
 
-export default (messages: Message[], narrow: Narrow): RenderedSectionDescriptor[] => {
+export default (messages: Message[], narrow: Narrow): RenderedSection[] => {
   let prevItem;
   const showHeader = !isPrivateOrGroupNarrow(narrow) && !isTopicNarrow(narrow);
 

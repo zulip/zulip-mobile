@@ -492,22 +492,25 @@ export type GetState = () => GlobalState;
 
 export type LocalizableText = any; // string | { text: string, values: Object };
 
-export type RenderedTimeDescriptor = {
+type RenderedTime = {
   type: 'time',
+  key: string,
   timestamp: number,
+  firstMessage: Message,
 };
 
-export type RenderedMessageDescriptor = {
+type RenderedMessage = {
   type: 'message',
-  message: Object,
+  key: number,
+  isBrief: boolean,
+  message: Message,
 };
 
-export type RenderedItemDescriptor = any; // MessageDescriptor | TimeDescriptor;
-
-export type RenderedSectionDescriptor = any; /* {
-  message: Object,
-  data: ItemDescriptor[],
-} */
+export type RenderedSection = {
+  key: 0 | string,
+  message: Message,
+  data: (RenderedTime | RenderedMessage)[],
+};
 
 export type DraftState = {
   [narrow: string]: string,

@@ -16,6 +16,7 @@ import type {
   RealmEmojiState,
   Subscription,
   User,
+  RenderedSection,
 } from '../types';
 import { constructActionButtons, executeActionSheetAction } from './messageActionSheet';
 import MessageListWeb from '../webview/MessageListWeb';
@@ -48,7 +49,7 @@ export type Props = {
   mute: MuteState,
   narrow: Narrow,
   realmEmoji: RealmEmojiState,
-  renderedMessages: any,
+  renderedMessages: RenderedSection[],
   showMessagePlaceholders: boolean,
   subscriptions: Subscription[],
   typingUsers: User[],
