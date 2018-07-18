@@ -1,11 +1,11 @@
 /* @flow */
 import template from './template';
-import type { FlagsState, EventReaction, RealmEmojiState } from '../../types';
+import type { EventReaction, RealmEmojiState } from '../../types';
 import { shortTime } from '../../utils/date';
 import messageTagsAsHtml from './messageTagsAsHtml';
 import messageReactionListAsHtml from './messageReactionListAsHtml';
 
-const messageDiv = (id: number, msgClass: string, flags: Object): string =>
+const messageDiv = (id: number, msgClass: string, flags: string[]): string =>
   template`<div
      class="message ${msgClass}"
      id="msg-${id}"
@@ -34,7 +34,7 @@ const messageSubheader = ({
 
 type BriefMessageProps = {
   content: string,
-  flags: FlagsState,
+  flags: string[],
   id: number,
   isOutbox: boolean,
   ownEmail: string,
@@ -66,7 +66,7 @@ const messageBody = ({
   timeEdited,
 }: {
   content: string,
-  flags: Object,
+  flags: string[],
   id: number,
   isOutbox: boolean,
   ownEmail: string,
