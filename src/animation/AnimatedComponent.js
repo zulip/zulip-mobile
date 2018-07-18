@@ -11,6 +11,7 @@ type Props = {
   visible: boolean,
   property: string,
   useNativeDriver: boolean,
+  delay: number,
 };
 
 export default class AnimatedComponent extends PureComponent<Props> {
@@ -19,6 +20,7 @@ export default class AnimatedComponent extends PureComponent<Props> {
   static defaultProps = {
     visible: true,
     useNativeDriver: true,
+    delay: 0,
   };
 
   animatedValue = new Animated.Value(0);
@@ -26,6 +28,7 @@ export default class AnimatedComponent extends PureComponent<Props> {
   animate() {
     Animated.timing(this.animatedValue, {
       toValue: this.props.visible ? this.props[this.props.property] : 0,
+      delay: this.props.delay,
       duration: 300,
       useNativeDriver: this.props.useNativeDriver,
       easing: Easing.out(Easing.poly(4)),

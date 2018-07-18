@@ -2,17 +2,18 @@
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { getSession } from '../selectors';
 import { Label } from '../common';
+
+import AnimatedComponent from '../animation/AnimatedComponent';
 
 const styles = StyleSheet.create({
   block: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 8,
     backgroundColor: '#FD3D26',
   },
   text: {
@@ -36,15 +37,17 @@ class OfflineNotice extends PureComponent<Props> {
 
   render() {
     const { isOnline } = this.props;
-
-    if (isOnline) {
-      return null;
-    }
-
     return (
-      <View style={styles.block}>
-        <Label style={styles.text} text="No Internet connection" />
-      </View>
+      <AnimatedComponent
+        property="height"
+        useNativeDriver={false}
+        visible={!isOnline}
+        height={30}
+        style={styles.block}
+        delay={300}
+      >
+        {!isOnline && <Label style={styles.text} text="No Internet connection" />}
+      </AnimatedComponent>
     );
   }
 }
