@@ -54,6 +54,11 @@ export type Account = Auth;
  *
  * See also EventReaction, which carries additional properties computed from
  * these.
+ *
+ * To compute emoji_code from emoji_name, use the mapping exported
+ * by `src/emoji/codePointMap`.
+ *
+ * TODO: Add note on how to determine `reaction_type`.
  */
 export type SlimEventReaction = {
   emoji_name: string,
