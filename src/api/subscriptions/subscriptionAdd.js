@@ -1,5 +1,5 @@
 /* @flow */
-import type { ApiResponse, Auth } from '../../types';
+import type { ApiResponse, Auth } from '../apiTypes';
 import { apiPost } from '../apiFetch';
 
 type SubscriptionObj = {

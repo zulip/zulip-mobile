@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth } from '../types';
+import type { Auth } from './apiTypes';
 import { apiGet } from './apiFetch';
 
 export default (auth: Auth, queueId: number, lastEventId: number) =>

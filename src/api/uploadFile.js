@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth } from '../types';
+import type { Auth } from './apiTypes';
 import { apiFile } from './apiFetch';
 import { getFileExtension, getMimeTypeFromFileExtension } from '../utils/url';
 

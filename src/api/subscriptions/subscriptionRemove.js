@@ -1,5 +1,5 @@
 /* @flow */
-import type { ApiResponse, Auth } from '../../types';
+import type { ApiResponse, Auth } from '../apiTypes';
 import { apiDelete } from '../apiFetch';
 
 export default (auth: Auth, subscriptions: string[], principals?: string[]): Promise<ApiResponse> =>

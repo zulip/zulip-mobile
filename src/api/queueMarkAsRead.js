@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth } from '../types';
+import type { Auth } from './apiTypes';
 import messagesFlags from './messages/messagesFlags';
 
 let unsentMessageIds = [];

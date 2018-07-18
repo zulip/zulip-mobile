@@ -1,5 +1,5 @@
 /* @flow */
-import type { ApiResponse, Auth } from '../../types';
+import type { ApiResponse, Auth } from '../apiTypes';
 import { apiPost } from '../apiFetch';
 
 export default (auth: Auth, messages: number[], op: string, flag: string): Promise<ApiResponse> =>

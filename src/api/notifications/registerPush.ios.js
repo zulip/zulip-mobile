@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth } from '../../types';
+import type { Auth } from '../apiTypes';
 import { apiPost } from '../apiFetch';
 
 export default async (auth: Auth, token: string): Object =>

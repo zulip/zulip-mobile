@@ -1,6 +1,6 @@
 /* @flow */
-import type { Auth, ResponseExtractionFunc } from '../types';
 import type { UrlParams } from '../utils/url';
+import type { Auth, ResponseExtractionFunc } from './apiTypes';
 import { getAuthHeader, encodeParamsForUrl, isValidUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';

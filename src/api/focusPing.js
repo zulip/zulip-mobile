@@ -1,5 +1,5 @@
 /* @flow */
-import type { ApiResponseWithPresence, Auth } from '../types';
+import type { ApiResponseWithPresence, Auth } from './apiTypes';
 import { apiPost } from './apiFetch';
 
 export default (

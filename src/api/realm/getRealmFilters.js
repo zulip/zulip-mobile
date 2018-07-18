@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth, RealmFilter } from '../../types';
+import type { Auth, RealmFilter } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
 export default async (auth: Auth): Promise<RealmFilter[]> =>

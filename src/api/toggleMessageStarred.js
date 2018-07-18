@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth } from '../types';
+import type { Auth } from './apiTypes';
 import messagesFlags from './messages/messagesFlags';
 
 export default (auth: Auth, messageIds: number[], starMessage: boolean): any => {

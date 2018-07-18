@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth, RealmEmojiState } from '../../types';
+import type { Auth, RealmEmojiState } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
 export default async (auth: Auth): Promise<RealmEmojiState> =>

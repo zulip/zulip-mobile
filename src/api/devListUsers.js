@@ -1,5 +1,5 @@
 /* @flow */
-import type { Auth, DevUser } from '../types';
+import type { Auth, DevUser } from './apiTypes';
 import { apiGet } from './apiFetch';
 
 export default (auth: Auth): Promise<[DevUser[], DevUser[]]> =>
