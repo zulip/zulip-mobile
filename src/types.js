@@ -111,6 +111,7 @@ export type Message = {
   id: number,
   isOutbox: boolean,
   is_me_message: boolean,
+  last_edit_timestamp: number,
   match_content?: string,
   match_subject?: string,
   reactions: SlimEventReaction[],

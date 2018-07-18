@@ -56,6 +56,7 @@ export const NULL_MESSAGE: Message = {
   id: -1,
   isOutbox: false,
   is_me_message: false,
+  last_edit_timestamp: 0,
   reactions: [],
   recipient_id: -1,
   sender_domain: '',
