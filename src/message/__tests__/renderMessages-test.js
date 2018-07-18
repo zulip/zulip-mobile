@@ -2,13 +2,14 @@ import deepFreeze from 'deep-freeze';
 
 import { homeNarrow } from '../../utils/narrow';
 import renderMessages from '../renderMessages';
+import { NULL_MESSAGE } from '../../nullObjects';
 
 describe('renderMessages', () => {
   const narrow = deepFreeze([]);
 
   test('empty messages results in a single empty section', () => {
     const messageList = renderMessages([], homeNarrow);
-    expect(messageList).toEqual([{ key: 0, message: {}, data: [] }]);
+    expect(messageList).toEqual([{ key: 0, message: NULL_MESSAGE, data: [] }]);
   });
 
   test('renders time, header and message for a single input', () => {

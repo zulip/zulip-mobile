@@ -1,4 +1,5 @@
 import { getInputMessages } from '../webViewHandleUpdates';
+import { NULL_MESSAGE } from '../../nullObjects';
 
 describe('getInputMessages', () => {
   test('missing prev and next props returns no messages', () => {
@@ -57,7 +58,7 @@ describe('getInputMessages', () => {
     const prevProps = {
       auth: { realm: '' },
       messages: [],
-      renderedMessages: [{ key: 0, data: [], message: {} }],
+      renderedMessages: [{ key: 0, data: [], message: NULL_MESSAGE }],
     };
     const nextProps = {
       auth: { realm: '' },
@@ -66,7 +67,7 @@ describe('getInputMessages', () => {
         {
           key: 0,
           data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0 } }],
-          message: {},
+          message: NULL_MESSAGE,
         },
       ],
     };
@@ -102,7 +103,7 @@ describe('getInputMessages', () => {
       fetching: { older: false, newer: false },
       typingUsers: [],
       messages: [],
-      renderedMessages: [{ key: 0, data: [], message: {} }],
+      renderedMessages: [{ key: 0, data: [], message: NULL_MESSAGE }],
     };
     const nextProps = {
       auth: { realm: '' },
@@ -113,7 +114,7 @@ describe('getInputMessages', () => {
         {
           key: 0,
           data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0 } }],
-          message: {},
+          message: NULL_MESSAGE,
         },
       ],
     };

@@ -1,5 +1,6 @@
 /* @flow */
 import type { Message, Narrow, RenderedSectionDescriptor } from '../types';
+import { NULL_MESSAGE } from '../nullObjects';
 import { isTopicNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/message';
 import { isSameDay } from '../utils/date';
@@ -46,6 +47,6 @@ export default (messages: Message[], narrow: Narrow): RenderedSectionDescriptor[
 
       return sections;
     },
-    [{ key: 0, data: [], message: {} }],
+    [{ key: 0, data: [], message: NULL_MESSAGE }],
   );
 };
