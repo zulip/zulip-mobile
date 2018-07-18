@@ -23,13 +23,21 @@ export default class AnimatedComponent extends PureComponent<Props> {
 
   animatedValue = new Animated.Value(0);
 
-  componentDidUpdate() {
+  animate() {
     Animated.timing(this.animatedValue, {
       toValue: this.props.visible ? this.props[this.props.property] : 0,
       duration: 300,
       useNativeDriver: this.props.useNativeDriver,
       easing: Easing.out(Easing.poly(4)),
     }).start();
+  }
+
+  componentDidMount() {
+    this.animate();
+  }
+
+  componentDidUpdate() {
+    this.animate();
   }
 
   render() {
