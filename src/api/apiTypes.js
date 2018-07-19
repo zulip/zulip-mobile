@@ -190,6 +190,11 @@ export type ApiResponse = {
   msg: string,
 };
 
+export type ApiResponseSuccess = {
+  result: 'success',
+  msg: '',
+};
+
 /** List of error codes at https://github.com/zulip/zulip/blob/master/zerver/lib/exceptions.py */
 
 export type ApiErrorCode =
