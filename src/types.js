@@ -66,11 +66,9 @@ export type SlimEventReaction = {
  * See also SlimEventReaction, which contains the minimal subset of these
  * properties needed to compute the rest.
  */
-export type EventReaction = {
+export type EventReaction = SlimEventReaction & {
   emoji_code: string,
-  emoji_name: string,
   reaction_type: string,
-  user: any,
 };
 
 /** An aggregate of all the reactions with one emoji to one message. */
