@@ -197,6 +197,7 @@ export type Stream = {
   description: string,
   name: string,
   invite_only: boolean,
+  is_announcement_only: boolean,
 };
 
 export type StreamsState = Stream[];

@@ -42,6 +42,7 @@ export const NULL_STREAM: Stream = {
   in_home_view: false,
   pin_to_top: false,
   color: 'green',
+  is_announcement_only: false,
 };
 
 export const NULL_MESSAGE: Message = {
@@ -86,6 +87,7 @@ export const NULL_SUBSCRIPTION: Subscription = {
   stream_weekly_traffic: 0,
   push_notifications: false,
   is_old_stream: false,
+  is_announcement_only: false,
 };
 
 export const NULL_PRESENCE_AGGREGATED: PresenceAggregated = {
