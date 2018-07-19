@@ -11,8 +11,8 @@ import AppDataFetcher from './boot/AppDataFetcher';
 import BackNavigationHandler from './nav/BackNavigationHandler';
 import AppWithNavigation from './nav/AppWithNavigation';
 
-require('./i18n/locale');
-require('./sentry');
+import './i18n/locale';
+import './sentry';
 
 // $FlowFixMe
 console.disableYellowBox = true; // eslint-disable-line

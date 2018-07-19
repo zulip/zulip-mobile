@@ -10,7 +10,7 @@ import { getSettings } from '../selectors';
 import '../../vendor/intl/intl';
 import messages from '../i18n/messages';
 
-require('../i18n/locale');
+import '../i18n/locale';
 
 type Props = {
   locale: string,
