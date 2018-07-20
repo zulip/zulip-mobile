@@ -2,9 +2,9 @@ import deepFreeze from 'deep-freeze';
 
 import {
   getAccountDetailsUserFromEmail,
-  getActiveUsersAndBots,
-  getAllUsersAndBots,
-  getAllUsersAndBotsByEmail,
+  getActiveUsers,
+  getAllUsers,
+  getAllUsersByEmail,
   getUsersById,
   getUsersSansMe,
 } from '../userSelectors';
@@ -50,7 +50,7 @@ describe('getAccountDetailsUserFromEmail', () => {
   });
 });
 
-describe('getActiveUsersAndBots', () => {
+describe('getActiveUsers', () => {
   test('return users, bots, does not include inactive users', () => {
     const state = deepFreeze({
       users: [{ email: 'abc@example.com' }],
@@ -61,13 +61,13 @@ describe('getActiveUsersAndBots', () => {
     });
     const expectedResult = [{ email: 'abc@example.com' }, { email: 'def@example.com' }];
 
-    const result = getActiveUsersAndBots(state);
+    const result = getActiveUsers(state);
 
     expect(result).toEqual(expectedResult);
   });
 });
 
-describe('getAllUsersAndBots', () => {
+describe('getAllUsers', () => {
   test('return users, bots, and inactive users', () => {
     const state = deepFreeze({
       users: [{ email: 'abc@example.com' }],
@@ -82,7 +82,7 @@ describe('getAllUsersAndBots', () => {
       { email: 'def@example.com' },
     ];
 
-    const result = getAllUsersAndBots(state);
+    const result = getAllUsers(state);
 
     expect(result).toEqual(expectedResult);
   });
@@ -93,13 +93,13 @@ describe('getAllUsersAndBots', () => {
     });
     const expectedResult = [];
 
-    const result = getAllUsersAndBots(state);
+    const result = getAllUsers(state);
 
     expect(result).toEqual(expectedResult);
   });
 });
 
-describe('getAllUsersAndBotsByEmail', () => {
+describe('getAllUsersByEmail', () => {
   test('return users mapped by their email', () => {
     const state = deepFreeze({
       users: [
@@ -118,7 +118,7 @@ describe('getAllUsersAndBotsByEmail', () => {
       'xyz@example.com': { email: 'xyz@example.com' },
     };
 
-    const result = getAllUsersAndBotsByEmail(state);
+    const result = getAllUsersByEmail(state);
 
     expect(result).toEqual(expectedResult);
   });
@@ -137,7 +137,7 @@ describe('getAllUsersAndBotsByEmail', () => {
       'xyz@example.com': { email: 'xyz@example.com' },
     };
 
-    const result = getAllUsersAndBotsByEmail(state);
+    const result = getAllUsersByEmail(state);
 
     expect(result).toEqual(expectedResult);
   });

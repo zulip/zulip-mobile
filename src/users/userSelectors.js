@@ -14,13 +14,13 @@ export const getSortedUsers = createSelector(getUsers, users =>
   [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase())),
 );
 
-export const getActiveUsersAndBots = createSelector(
+export const getActiveUsers = createSelector(
   getUsers,
   getCrossRealmBots,
   (users = [], crossRealmBots = []) => [...users, ...crossRealmBots],
 );
 
-export const getAllUsersAndBots = createSelector(
+export const getAllUsers = createSelector(
   getUsers,
   getNonActiveUsers,
   getCrossRealmBots,
@@ -31,8 +31,8 @@ export const getAllUsersAndBots = createSelector(
   ],
 );
 
-export const getAllUsersAndBotsByEmail = createSelector(getAllUsersAndBots, allUsersAndBots =>
-  allUsersAndBots.reduce((usersByEmail, user) => {
+export const getAllUsersByEmail = createSelector(getAllUsers, allUsers =>
+  allUsers.reduce((usersByEmail, user) => {
     usersByEmail[user.email] = user;
     return usersByEmail;
   }, {}),
@@ -50,13 +50,13 @@ export const getUsersSansMe = createSelector(getUsers, getOwnEmail, (users, ownE
 );
 
 export const getAccountDetailsUserFromEmail = (email: string) =>
-  createSelector(getAllUsersAndBots, allUsersAndBots => {
+  createSelector(getAllUsers, allUsers => {
     if (!email) {
       return NULL_USER;
     }
 
     return (
-      allUsersAndBots.find(x => x.email === email) || {
+      allUsers.find(x => x.email === email) || {
         ...NULL_USER,
         email,
         full_name: email,

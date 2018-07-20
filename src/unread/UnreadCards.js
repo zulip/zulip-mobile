@@ -14,7 +14,7 @@ import {
   getLoading,
   getPresence,
   getUnreadConversations,
-  getAllUsersAndBotsByEmail,
+  getAllUsersByEmail,
   getUnreadStreamsAndTopicsSansMuted,
 } from '../selectors';
 import { doNarrow } from '../actions';
@@ -106,6 +106,6 @@ export default connect(state => ({
   isLoading: getLoading(state).unread,
   conversations: getUnreadConversations(state),
   presences: getPresence(state),
-  usersByEmail: getAllUsersAndBotsByEmail(state),
+  usersByEmail: getAllUsersByEmail(state),
   unreadStreamsAndTopics: getUnreadStreamsAndTopicsSansMuted(state),
 }))(UnreadCards);

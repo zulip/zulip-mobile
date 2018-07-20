@@ -8,12 +8,7 @@ import type { Context, Dispatch, PmConversationData, PresenceState } from '../ty
 import { Label, LoadingIndicator, ZulipButton } from '../common';
 import { IconPeople, IconSearch } from '../common/Icons';
 import PmConversationList from './PmConversationList';
-import {
-  getLoading,
-  getPresence,
-  getRecentConversations,
-  getAllUsersAndBotsByEmail,
-} from '../selectors';
+import { getLoading, getPresence, getRecentConversations, getAllUsersByEmail } from '../selectors';
 import { navigateToCreateGroup, navigateToUsersScreen } from '../actions';
 
 const componentStyles = StyleSheet.create({
@@ -103,5 +98,5 @@ export default connect(state => ({
   conversations: getRecentConversations(state),
   isLoading: getLoading(state).users,
   presences: getPresence(state),
-  usersByEmail: getAllUsersAndBotsByEmail(state),
+  usersByEmail: getAllUsersByEmail(state),
 }))(PmConversationsCard);

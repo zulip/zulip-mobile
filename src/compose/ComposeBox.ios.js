@@ -41,7 +41,7 @@ import {
   getSession,
   canSendToActiveNarrow,
   getLastMessageTopic,
-  getActiveUsersAndBots,
+  getActiveUsers,
   getShowMessagePlaceholders,
 } from '../selectors';
 import {
@@ -54,7 +54,7 @@ type Props = {
   auth: Auth,
   canSend: boolean,
   narrow: Narrow,
-  usersAndBots: User[],
+  users: User[],
   draft: string,
   lastMessageTopic: string,
   isAdmin: boolean,
@@ -266,7 +266,7 @@ class ComposeBox extends PureComponent<Props, State> {
       auth,
       canSend,
       narrow,
-      usersAndBots,
+      users,
       editMessage,
       safeAreaInsets,
       messageInputRef,
@@ -285,7 +285,7 @@ class ComposeBox extends PureComponent<Props, State> {
       return <AnnouncementOnly />;
     }
 
-    const placeholder = getComposeInputPlaceholder(narrow, auth.email, usersAndBots);
+    const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
 
     return (
       <View style={{ marginBottom: safeAreaInsets.bottom }}>
@@ -358,7 +358,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
 export default connect((state: GlobalState, props) => ({
   auth: getAuth(state),
-  usersAndBots: getActiveUsersAndBots(state),
+  users: getActiveUsers(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
   isAdmin: getIsAdmin(state),
   isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(props.narrow)(state),
