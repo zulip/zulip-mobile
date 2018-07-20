@@ -2,10 +2,11 @@ import { sleep, timeout, tryUntilSuccessful } from '../async';
 
 describe('sleep', () => {
   test('waits for a given time in milliseconds', async () => {
+    const expectedMs = 1000;
     const start = Date.now();
-    await sleep(1000);
-    const duration = Date.now() - start;
-    expect(duration > 1000 && duration < 1100).toBeTruthy();
+    await sleep(expectedMs);
+    const durationMs = Date.now() - start;
+    expect(expectedMs <= durationMs && durationMs < 10 * expectedMs).toBeTruthy();
   });
 });
 
