@@ -52,7 +52,7 @@ export const getTopics = (state: GlobalState): TopicsState => state.topics;
 
 export const getUserGroups = (state: GlobalState): UserGroup[] => state.userGroups;
 
-export const getUsers = (state: GlobalState): User[] => state.users;
+export const getActiveUsers = (state: GlobalState): User[] => state.users;
 
 export const getFetching = (state: GlobalState): FetchingState => state.fetching;
 

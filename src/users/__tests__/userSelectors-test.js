@@ -2,7 +2,7 @@ import deepFreeze from 'deep-freeze';
 
 import {
   getAccountDetailsUserFromEmail,
-  getActiveUsers,
+  getUsers,
   getAllUsers,
   getAllUsersByEmail,
   getUsersById,
@@ -50,7 +50,7 @@ describe('getAccountDetailsUserFromEmail', () => {
   });
 });
 
-describe('getActiveUsers', () => {
+describe('getUsers', () => {
   test('return users, bots, does not include inactive users', () => {
     const state = deepFreeze({
       users: [{ email: 'abc@example.com' }],
@@ -61,7 +61,7 @@ describe('getActiveUsers', () => {
     });
     const expectedResult = [{ email: 'abc@example.com' }, { email: 'def@example.com' }];
 
-    const result = getActiveUsers(state);
+    const result = getUsers(state);
 
     expect(result).toEqual(expectedResult);
   });
