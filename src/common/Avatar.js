@@ -22,7 +22,7 @@ const componentStyles = StyleSheet.create({
 });
 
 type Props = {
-  avatarUrl: string,
+  avatarUrl: ?string,
   email: string,
   name: string,
   size: number,

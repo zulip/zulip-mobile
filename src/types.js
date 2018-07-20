@@ -176,7 +176,7 @@ export type MessagesState = {
  *   https://zulipchat.com/api/get-all-users#response
  */
 export type User = {
-  avatar_url: string,
+  avatar_url: ?string,
   bot_type?: number,
   bot_owner?: string,
   email: string,
