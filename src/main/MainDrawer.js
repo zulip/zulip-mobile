@@ -13,9 +13,6 @@ export default DrawerNavigator(
     Home: {
       screen: MainTabs,
     },
-    Settings: {
-      screen: SettingsCard,
-    },
   },
   {
     contentComponent: SidebarRow,
