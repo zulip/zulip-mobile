@@ -18,7 +18,7 @@ app.
 to send notifications to a dev build of the app through Apple's sandbox
 instance of APNs.)
 
-## Testing server-side changes on iOS
+## Testing server-side changes (iOS or Android)
 
 [Set up the dev server for mobile development](dev-server.md), with one
 additional step:
@@ -37,12 +37,12 @@ additional step:
 
 Now, follow the instructions in [dev-server.md](dev-server.md) to log into
 the dev server, using a production build of the app -- that is, the Zulip
-iOS app, installed from the App Store.
+app installed from the App Store or Play Store.
 
 A tip for testing Zulip's push notifications: simulate a private
 conversation between two users, and make sure that you don't have the Zulip
 app open while you're doing so.  For example, if you've logged in as `Iago`
-on your iOS device, log in as `Polonius` via a web browser, and send a PM
+on your mobile device, log in as `Polonius` via a web browser, and send a PM
 from `Polonius` to `Iago`.
 
-You should see a push notification appear on your iOS device!
+You should see a push notification appear on the mobile device!
