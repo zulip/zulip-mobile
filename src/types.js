@@ -68,7 +68,7 @@ export type SlimEventReaction = {
  */
 export type EventReaction = SlimEventReaction & {
   emoji_code: string,
-  reaction_type: string,
+  reaction_type: 'unicode_emoji' | 'realm_emoji' | 'zulip_extra_emoji',
 };
 
 /** An aggregate of all the reactions with one emoji to one message. */
