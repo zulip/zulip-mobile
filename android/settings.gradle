@@ -23,3 +23,7 @@ project(':react-native-device-info').projectDir = new File(rootProject.projectDi
 include ':app'
 include ':react-native-vector-icons'
 project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+
+include ':ReactAndroid'
+project(':ReactAndroid').projectDir = new File(
+        rootProject.projectDir, '../../zulip-react-native/react-native/ReactAndroid') // if your relative path of `zulip/zulip-mobile` & `zulip/react-native` is different then update path here
