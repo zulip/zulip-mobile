@@ -112,7 +112,7 @@ rules:
       pre, blockquote, li, br, emojis, chatboxes, userlist, middleware, trunc, pushable,
       ios, md, caughtup, autocompleted, substring, png, ds, videocam, unmount, github,
       facebook, idx, aaa, bbb, ccc, ddd, eee, fff, abcd, aaaaaa, ffffff, 24cac2, src,
-      attribs, charset, utf, urlencoded, htmlparser, htmlparser2, ul, ol, chatbubbles,
+      attribs, charset, utf, urlencoded, htmlparser, ul, ol, chatbubbles,
       nonexisting, primarytext, autocomple, stringify, backend, Zoe, Menlo, ok, py,
       todo, Mc, lodash, selectable, isequal, lightgray, tc, zulipchat, prepend, pierre,
       allen, jan, donald, jane, unicode, joe, unescape, dan, abramov, lang, bool,
