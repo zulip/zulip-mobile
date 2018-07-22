@@ -242,7 +242,7 @@ export type ServerEvent = {
 
 export type EventAlertWordsAction = any;
 export type EventRealmFiltersAction = any;
-export type EventUpdateGlobalNotificationsSettingsAction = {
+export type EventUpdateGlobalNotificationsSettingsAction = ServerEvent & {
   type: typeof EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   notification_name: | 'enable_offline_push_notiications'
     | 'enable_online_push_notiications'
@@ -346,7 +346,7 @@ export type EventUpdateMessageAction = {
   user_id: number,
 };
 
-export type EventReactionCommon = {
+export type EventReactionCommon = ServerEvent & {
   emoji_name: string,
   message_id: number,
   user: {
@@ -405,14 +405,14 @@ export type EventUpdateMessageFlagsAction = ServerEvent & {
   operation: 'add' | 'remove',
 };
 
-export type EventUserAddAction = {
+export type EventUserAddAction = ServerEvent & {
   type: typeof EVENT_USER_ADD,
   person: User,
 };
 export type EventUserRemoveAction = any;
 export type EventUserUpdateAction = any;
 
-export type EventMutedTopicsAction = {
+export type EventMutedTopicsAction = ServerEvent & {
   type: typeof EVENT_MUTED_TOPICS,
   muted_topics: MuteState,
 };
