@@ -329,7 +329,7 @@ export type EventNewMessageAction = ServerEvent & {
   ownEmail: string,
 };
 
-export type EventMessageDeleteAction = {
+export type EventMessageDeleteAction = ServerEvent & {
   type: typeof EVENT_MESSAGE_DELETE,
   messageId: number,
 };

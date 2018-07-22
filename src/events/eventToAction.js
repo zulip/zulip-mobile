@@ -109,6 +109,7 @@ const newMessage = (state: GlobalState, event: Object): EventNewMessageAction =>
 });
 
 const deleteMessage = (state: GlobalState, event: Object): EventMessageDeleteAction => ({
+  ...event,
   type: EVENT_MESSAGE_DELETE,
   messageId: event.message_id,
 });
