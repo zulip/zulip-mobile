@@ -1,6 +1,14 @@
 /* @flow */
 import { Clipboard, Share } from 'react-native';
-import type { Auth, Dispatch, Message, MuteTuple, Narrow, Subscription } from '../types';
+import type {
+  Auth,
+  Dispatch,
+  FlagsState,
+  Message,
+  MuteTuple,
+  Narrow,
+  Subscription,
+} from '../types';
 import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
 import {
@@ -172,7 +180,7 @@ type ConstructSheetParams = {
   message: Message,
   auth: Auth,
   narrow: Narrow,
-  flags: Object,
+  flags: FlagsState,
   subscriptions: Subscription[],
   mute: MuteTuple[],
   getString: (value: string) => string,
