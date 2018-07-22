@@ -41,15 +41,6 @@ export default TabNavigator(
         ),
       },
     },
-    settings: {
-      screen: SettingsCard,
-      navigationOptions: {
-        tabBarLabel: 'Settings',
-        tabBarIcon: (props: TabNavigationOptionsPropsType) => (
-          <IconSettings size={24} color={props.tintColor} />
-        ),
-      },
-    },
   },
   {
     backBehavior: 'none',
