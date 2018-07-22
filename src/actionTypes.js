@@ -333,11 +333,12 @@ export type EventMessageDeleteAction = {
   type: typeof EVENT_MESSAGE_DELETE,
   messageId: number,
 };
-export type EventUpdateMessageAction = {
+export type EventUpdateMessageAction = ServerEvent & {
   type: typeof EVENT_UPDATE_MESSAGE,
   edit_timestamp: number,
   message_id: number,
   orig_content: string,
+  orig_subject?: string,
   orig_rendered_content: string,
   prev_rendered_content_version: number,
   rendered_content: string,
