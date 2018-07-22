@@ -76,7 +76,7 @@ type MessageListEventUrl = {
 
 type MessageListEventLongPress = {
   type: 'url',
-  target: string,
+  target: 'message' | 'header',
   messageId: number,
 };
 
