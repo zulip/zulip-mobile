@@ -19,6 +19,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
 } from '../actionConstants';
+import { getAuth } from '../account/accountSelectors';
 
 const initialState = getStateForRoute('loading') || NULL_NAV_STATE;
 
@@ -28,6 +29,14 @@ const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationS
   }
   // $FlowFixMe: Flow oddly doesn't see the refinement from the condition above.
   const rehydratedState = (action.payload: GlobalState);
+  if (!getAuth(rehydratedState).apiKey) {
+    const { accounts } = rehydratedState;
+    // getStateForRoute can return null, but it is unclear under what
+    // conditions. Empirically, it doesn't return null on the initial start of
+    // the app, but this should be verified.
+    // $FlowFixMe: getStateForRoute may return null but it shouldn't.
+    return getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'welcome');
+  }
   return getInitialNavState(rehydratedState) || state;
 };
 

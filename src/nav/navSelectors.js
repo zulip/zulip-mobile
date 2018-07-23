@@ -4,9 +4,8 @@ import isEqual from 'lodash.isequal';
 
 import type { GlobalState } from '../types';
 import config from '../config';
-import { getNav, getAccounts } from '../directSelectors';
+import { getNav } from '../directSelectors';
 import { navigateToChat } from './navActions';
-import { getAuth } from '../account/accountSelectors';
 import { getUsersById } from '../users/userSelectors';
 import AppNavigator from './AppNavigator';
 import { getNarrowFromNotificationData } from '../utils/notificationsCommon';
@@ -73,26 +72,16 @@ export const getStateForRoute = (route: string, params?: Object) => {
   return action != null ? AppNavigator.router.getStateForAction(action) : null;
 };
 
-export const getInitialNavState = createSelector(
-  getNav,
-  getAccounts,
-  getAuth,
-  getUsersById,
-  (nav, accounts, auth, usersById) => {
-    if (!auth.apiKey) {
-      return getStateForRoute(accounts && accounts.length > 1 ? 'account' : 'welcome');
-    }
+export const getInitialNavState = createSelector(getNav, getUsersById, (nav, usersById) => {
+  const state =
+    !nav || (nav.routes.length === 1 && nav.routes[0].routeName === 'loading')
+      ? getStateForRoute('main')
+      : nav;
 
-    const state =
-      !nav || (nav.routes.length === 1 && nav.routes[0].routeName === 'loading')
-        ? getStateForRoute('main')
-        : nav;
+  if (!config.startup.notification) {
+    return state;
+  }
 
-    if (!config.startup.notification) {
-      return state;
-    }
-
-    const narrow = getNarrowFromNotificationData(config.startup.notification, usersById);
-    return AppNavigator.router.getStateForAction(navigateToChat(narrow), state);
-  },
-);
+  const narrow = getNarrowFromNotificationData(config.startup.notification, usersById);
+  return AppNavigator.router.getStateForAction(navigateToChat(narrow), state);
+});

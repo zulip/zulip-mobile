@@ -1,7 +1,6 @@
 import deepFreeze from 'deep-freeze';
 import {
   getCanGoBack,
-  getInitialNavState,
   getSameRoutesCount,
   getSameRoutesAndParamsCount,
   getPreviousDifferentRoute,
@@ -25,113 +24,6 @@ describe('getCanGoBack', () => {
       },
     });
     expect(getCanGoBack(state)).toBe(false);
-  });
-});
-
-describe('getInitialNavState', () => {
-  test('when no previous navigation is given do not throw but return some result', () => {
-    const state = deepFreeze({
-      accounts: [{ apiKey: '123' }],
-      users: [],
-    });
-
-    const nav = getInitialNavState(state);
-
-    expect(nav.routes).toHaveLength(1);
-  });
-
-  test('if logged in, preserve the state', () => {
-    const state = deepFreeze({
-      accounts: [{ apiKey: '123' }],
-      users: [],
-      nav: {
-        routes: [{ routeName: 'route1' }, { routeName: 'route2' }],
-      },
-    });
-
-    const nav = getInitialNavState(state);
-
-    expect(nav.routes).toHaveLength(2);
-    expect(nav.routes[0].routeName).toEqual('route1');
-    expect(nav.routes[1].routeName).toEqual('route2');
-  });
-
-  test('if not logged in, and no previous accounts, show welcome screen', () => {
-    const state = deepFreeze({
-      accounts: [],
-      users: [],
-      nav: {
-        routes: [],
-      },
-    });
-
-    const nav = getInitialNavState(state);
-
-    expect(nav.routes).toHaveLength(1);
-    expect(nav.routes[0].routeName).toEqual('welcome');
-  });
-
-  test('if more than one account and no active account, display account list', () => {
-    const state = deepFreeze({
-      accounts: [{}, {}],
-      users: [],
-      nav: {
-        routes: [],
-      },
-    });
-
-    const nav = getInitialNavState(state);
-
-    expect(nav.routes).toHaveLength(1);
-    expect(nav.routes[0].routeName).toEqual('account');
-  });
-
-  test('when only a single account and no other properties, redirect to welcome screen', () => {
-    const state = deepFreeze({
-      accounts: [{ realm: 'https://example.com' }],
-      users: [],
-      nav: {
-        routes: [],
-      },
-    });
-
-    const nav = getInitialNavState(state);
-
-    expect(nav.routes).toHaveLength(1);
-    expect(nav.routes[0].routeName).toEqual('welcome');
-  });
-
-  test('when multiple accounts and default one has realm and email, show account list', () => {
-    const state = deepFreeze({
-      accounts: [
-        { realm: 'https://example.com', email: 'johndoe@example.com' },
-        { realm: 'https://example.com', email: 'janedoe@example.com' },
-      ],
-      users: [],
-      nav: {
-        routes: [],
-      },
-    });
-
-    const nav = getInitialNavState(state);
-
-    expect(nav.routes).toHaveLength(1);
-    expect(nav.routes[0].routeName).toEqual('account');
-  });
-
-  test('when default account has server and email set, redirect to welcome screen', () => {
-    const state = deepFreeze({
-      accounts: [{ realm: 'https://example.com', email: 'johndoe@example.com' }],
-      users: [],
-      nav: {
-        routes: [],
-      },
-    });
-
-    const nav = getInitialNavState(state);
-
-    expect(nav.routes).toHaveLength(1);
-    expect(nav.routes[0].routeName).toEqual('welcome');
   });
 });
 
