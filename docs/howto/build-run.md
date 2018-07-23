@@ -47,9 +47,8 @@ for starting out, just get either one working so you can play with the app.
 * When running on a physical device, if the device has Zulip installed
   from the Play Store, you may need to uninstall that version first.
 * Commands once you've set up:
-  * `react-native run-android` - build and run on an active emulator
-    or USB-connected device
-  * `npm run android-min` or `npm run android-max` - runs in an Android emulator, emulator has to be run manually before this command
+  * `react-native run-android` - build, then run on an active emulator
+    or USB-connected device.  This won't start the emulator automatically.
 
 ## iOS tips
 
