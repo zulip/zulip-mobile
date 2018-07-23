@@ -54,7 +54,6 @@ export const apiCall = async (
     if (response.ok) {
       return resFunc(json);
     }
-    console.log('Bad response for:', { auth, route, params, response }); // eslint-disable-line
     throw makeApiError(response.status, json);
   } finally {
     networkActivityStop(isSilent);
