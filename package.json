@@ -25,10 +25,10 @@
     "test:unit": "jest src/ --maxWorkers=2",
     "test:e2e": "detox test --configuration ios.sim.release --cleanup",
     "test:coveralls": "jest --maxWorkers=2 --coverage && cat ./coverage/lcov.info | coveralls",
-    "test:full": "npm run test:flow && npm run test:lint && npm run test:coveralls && npm run test:prettier",
-    "test": "npm run test:lint && jest && npm run test:flow",
+    "test:full": "yarn run test:flow && yarn run test:lint && yarn run test:coveralls && yarn run test:prettier",
+    "test": "yarn run test:lint && yarn run jest && yarn run test:flow",
     "build:ios-release": "detox build --configuration ios.sim.release",
-    "update-snapshots": "npm run test:unit -- -u"
+    "update-snapshots": "yarn run test:unit -- -u"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "1.0.2",
