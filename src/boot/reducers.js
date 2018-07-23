@@ -61,7 +61,7 @@ const reducers = {
   users,
 };
 
-export const ALL_KEYS = Object.keys(reducers);
+export const ALL_KEYS: string[] = Object.keys(reducers);
 
 export default enableBatching(
   combineReducers(config.enableReduxSlowReducerWarnings ? logSlowReducers(reducers) : reducers),
