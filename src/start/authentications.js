@@ -2,7 +2,14 @@
 import type { AuthenticationMethods } from '../types';
 import { IconPrivate, IconGoogle, IconGitHub, IconTerminal } from '../common/Icons';
 
-const authentications = [
+type AuthenticationMethodDetails = {
+  method: string,
+  name: string,
+  Icon: Object,
+  handler: string,
+};
+
+const authentications: AuthenticationMethodDetails[] = [
   {
     method: 'dev',
     name: 'dev account',
@@ -41,7 +48,9 @@ const authentications = [
   },
 ];
 
-export const activeAuthentications = (authenticationMethods: AuthenticationMethods) =>
+export const activeAuthentications = (
+  authenticationMethods: AuthenticationMethods,
+): AuthenticationMethodDetails[] =>
   authentications.filter(
     auth =>
       authenticationMethods[auth.method]
