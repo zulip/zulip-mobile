@@ -85,12 +85,13 @@ simple terminology for the process we follow with both.
 
   This produces an APK at `android/app/build/outputs/apk/app-release.apk`.
 
-* Upload as an alpha release in the Google Play Console, under
-  [Release management -> App releases](https://play.google.com/apps/publish/#ManageReleasesPlace:p=com.zulipmobile&appid=4976350040864490411).
+* Upload as an "Internal test track" release in the Google Play Console,
+  under [Release management -> App releases](https://play.google.com/apps/publish/#ManageReleasesPlace:p=com.zulipmobile&appid=4976350040864490411).
 
-  * Update your device to the alpha, and smoke-test it.
+  * Update your device to the new version, and smoke-test it.
 
-* Promote the alpha to a beta.  (Skip this for a very raw new major release.)
+* Promote the release to beta, using the "Release to beta" button on that
+  "Internal test" page.  (Skip this for a very raw new major release.)
 
 * If promoting to beta: also upload as a release
   [on GitHub](https://github.com/zulip/zulip-mobile/releases).  This is
