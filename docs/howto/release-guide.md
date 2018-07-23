@@ -80,7 +80,7 @@ simple terminology for the process we follow with both.
 
   ```
   yarn
-  npm run build:android
+  yarn build:android
   ```
 
   This produces an APK at `android/app/build/outputs/apk/app-release.apk`.

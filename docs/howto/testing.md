@@ -1,7 +1,7 @@
 # Testing
 
 ## Unit tests
-`npm test` runs the unit test suite.
+`yarn test` runs the unit test suite.
 
 Our tests are written using [Jest](https://facebook.github.io/jest/).
 
@@ -15,7 +15,7 @@ Use [deepFreeze](https://github.com/substack/deep-freeze) to test functions whic
 Functional tests have not been set up. We plan to use [Appium](http://appium.io/).
 
 ## Linting
-`npm run lint` checks the codebase against our linting rules. We're using
+`yarn test:lint` checks the codebase against our linting rules. We're using
 the AirBnB [ES6](https://github.com/airbnb/javascript) and
 [React](https://github.com/airbnb/javascript/tree/master/react) style guides.
 

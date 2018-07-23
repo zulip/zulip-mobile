@@ -13,13 +13,13 @@ this tab.
 
 ## Other commands
 
-* `npm run ios-min` - runs in an iOS simulator in the minimally supported device
+* `yarn ios-min` - runs in an iOS simulator in the minimally supported device
 (currently iPhone 5S)
 
-* `npm run ios-max` - runs in an iOS simulator in the newest/most premium
+* `yarn ios-max` - runs in an iOS simulator in the newest/most premium
 supported device (currently iPhone X)
 
-* `npm run ios-device` - runs on a physical iOS device, you need to edit the
+* `yarn ios-device` - runs on a physical iOS device, you need to edit the
 device name in package.json
 
 ## Running on an iOS device

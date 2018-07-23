@@ -106,7 +106,7 @@ sudo sysctl -p
 If you are having issues running the code on your machine, either for the first time or after updating an outdated code with the latest, please run:
 
 ```
-npm run reinstall
+yarn reinstall
 ```
 
 Optionally, reset iOS simulator:

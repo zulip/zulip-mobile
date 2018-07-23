@@ -35,4 +35,4 @@ up your development environment in several ways:
 ## Formatting code using prettier
 
 * Using atom editor - install the `prettier-atom` plugin
-* Using the command line - run `npm run prettier`
+* Using the command line - run `yarn prettier`
