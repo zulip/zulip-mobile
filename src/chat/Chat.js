@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { TextInput, View } from 'react-native';
 
 import type { Context, Narrow } from '../types';
 import { KeyboardAvoider } from '../common';
@@ -17,8 +17,7 @@ type Props = {
 export default class Chat extends PureComponent<Props> {
   context: Context;
   props: Props;
-  messageInputRef = null;
-  messageInputRef: any;
+  messageInputRef: ?TextInput = null;
 
   static contextTypes = {
     styles: () => null,

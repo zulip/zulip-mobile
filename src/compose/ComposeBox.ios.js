@@ -89,8 +89,8 @@ class ComposeBox extends PureComponent<Props, State> {
     selection: { start: 0, end: 0 },
   };
 
-  messageInput: TextInput = null;
-  topicInput: TextInput = null;
+  messageInput: ?TextInput = null;
+  topicInput: ?TextInput = null;
 
   static contextTypes = {
     styles: () => null,
