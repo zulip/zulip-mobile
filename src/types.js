@@ -135,6 +135,9 @@ export type MessagesState = {
 
 export type UserStatus = 'active' | 'idle' | 'offline';
 
+/** Types a user profile. More info on the props can be found at
+ * https://zulipchat.com/api/get-all-users#response
+ */
 export type User = {
   avatar_url: string,
   bot_type?: number,
@@ -354,6 +357,22 @@ export type RealmBot = {
   user_id: number,
 };
 
+/**
+ * Types the `realm` top-level reducer.
+ * @prop twentyFourHourTime
+ * @prop canCreateStreams
+ * @prop crossRealmBots - Contains all cross realm bots:
+ *  - Welcome Bot
+ *  - Notification Bot
+ *  - Email Gateway
+ *  - Zulip Feedback Bot
+ *  Cross realm bots should be treated like normal bots.
+ * @prop nonActiveUsers - Contains all deactivated users.
+ * @prop pushToken
+ * @prop filters
+ * @prop emoji
+ * @prop isAdmin
+ */
 export type RealmState = {
   twentyFourHourTime: boolean,
   canCreateStreams: boolean,
@@ -441,6 +460,11 @@ export type DraftsState = {
   [narrow: string]: string,
 };
 
+/**
+ * Types the `users` top-level reducer. Contains all users, except deactivated
+ * users and cross realm bots. Deactivated users and cross realm bots are stored
+ * in RealmState.
+ */
 export type UsersState = User[];
 
 export type UserGroupsState = UserGroup[];
