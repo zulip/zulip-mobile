@@ -101,7 +101,7 @@ export type MessageEdit = {
 
 export type Message = {
   avatar_url: ?string,
-  client: 'website' | 'ZulipMobile',
+  client: string,
   content: string,
   content_type: 'text/html' | 'text/markdown',
   display_recipient: any, // string | Recipient[],
