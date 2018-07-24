@@ -167,12 +167,29 @@ export type DevUser = {
   email: string,
 };
 
+/** Types the aggregated presence status of a user. Aggregation happens over
+ * multiple ClientPresence objects in getAggregatedPresence().
+ * PresenceAggregated then equals the ClientPresence object with a timestamp
+ * newer than OFFLINE_THRESHOLD_SECS that has the greatest UserStatus, where
+ * `active` > `idle` > `offline`. If there are several ClientPresence objects
+ * with the greatest UserStatus, an arbitrary one is chosen.
+ */
 export type PresenceAggregated = {
   client: string,
   status: UserStatus,
   timestamp: number,
 };
 
+/** Types a user's presence status for a specific client.
+ * @prop status
+ * @prop timestamp - Timestamp when the server calculated this presence status.
+ * @prop client
+ * @prop pushable - Indicates if the client can receive push notifications. This
+ *   property was intended for showing a user's presence status as "on mobile"
+ *   if they are inactive on all devices and can receive push notifications (see
+ *   zulip/zulip bd20a756f9). However, this property doesn't seem to be used
+ *   anywhere on the web app or the mobile client and can be considered legacy.
+ */
 export type ClientPresence = {
   status: UserStatus,
   timestamp: number,
@@ -180,6 +197,12 @@ export type ClientPresence = {
   pushable: boolean,
 };
 
+/** Types the presence status of a user.
+ * @prop aggregated - Presence status that should be used to determine a user's
+ *   presence status. Aggregated over all clients.
+ * @prop client - Indexer over the most recent presence status received for
+ *   each client.
+ */
 export type Presence = {
   aggregated: PresenceAggregated,
   [client: string]: ClientPresence,
@@ -469,6 +492,10 @@ export type UsersState = User[];
 
 export type UserGroupsState = UserGroup[];
 
+/** Types the `presence` top-level reducer.
+ * @prop email - Indexer over all users for which the app has retrieved a
+ *   presence status.
+ */
 export type PresenceState = {
   [email: string]: Presence,
 };
