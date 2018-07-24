@@ -458,6 +458,10 @@ export type UnreadState = {
   mentions: UnreadMentionsState,
 };
 
+/**
+ * Types the complete redux state. Each property corresponds to a top-level
+ * reducer.
+ */
 export type GlobalState = {
   accounts: AccountsState,
   alertWords: AlertWordsState,
