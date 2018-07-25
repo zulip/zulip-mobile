@@ -66,7 +66,7 @@ android/keystores/debug.keystore
 /flow-coverage/
 
 # Transifex, for a maintainer syncing translations up and down
-.transifexrc
+/.transifexrc
 
 # Android release builds
 *.keystore
