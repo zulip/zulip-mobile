@@ -66,7 +66,7 @@ const appRefresh = (
 
 const loginSuccess = (state: SessionState, action: LoginSuccessAction): SessionState => ({
   ...state,
-  needsInitialFetch: !!action.apiKey,
+  needsInitialFetch: true,
 });
 
 const rehydrate = (state: SessionState, action: RehydrateAction): SessionState => ({
