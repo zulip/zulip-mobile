@@ -30,6 +30,7 @@ import {
   DRAFT_ADD,
   DRAFT_REMOVE,
   SWITCH_NARROW,
+  FETCH_STATE_RESET,
   PRESENCE_RESPONSE,
   MESSAGE_SEND_START,
   MESSAGE_SEND_COMPLETE,
@@ -512,6 +513,10 @@ export type DraftsAction = DraftAddAction | DraftRemoveAction | LogoutAction;
 export type SwitchNarrowAction = {
   type: typeof SWITCH_NARROW,
   narrow: Narrow,
+};
+
+export type FetchStateResetAction = {
+  type: typeof FETCH_STATE_RESET,
 };
 
 export type PresenceResponseAction = {

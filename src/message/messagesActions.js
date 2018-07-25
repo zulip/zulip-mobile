@@ -3,7 +3,7 @@ import type { Narrow, Dispatch, GetState, SwitchNarrowAction } from '../types';
 import config from '../config';
 import { NULL_ARRAY, NULL_CAUGHTUP } from '../nullObjects';
 import { getAuth, getUsers, getAllMessages, isNarrowValid, getIsHydrated } from '../selectors';
-import { SWITCH_NARROW } from '../actionConstants';
+import { SWITCH_NARROW, FETCH_STATE_RESET } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
@@ -23,6 +23,7 @@ export const doNarrow = (narrow: Narrow, anchor: number = 0) => (
     return;
   }
 
+  dispatch({ type: FETCH_STATE_RESET });
   dispatch(switchNarrow(narrow));
 
   const allMessages = getAllMessages(state);
