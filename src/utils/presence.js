@@ -6,7 +6,25 @@ import type { PresenceAggregated, Presence, UserStatus } from '../types';
 
 const OFFLINE_THRESHOLD_SECS = 140;
 
+/**
+ * Aggregate our information on a user's presence across their clients.
+ *
+ * For an explanation of the Zulip presence model this helps implement, see
+ * the subsystem doc:
+ *   https://zulip.readthedocs.io/en/latest/subsystems/presence.html
+ *
+ * This logic should match `status_from_timestamp` in the webapp's
+ * `static/js/presence.js`.
+ */
 export const getAggregatedPresence = (presence: Presence): PresenceAggregated =>
+  /* Out of the ClientPresence objects found in `presence`, we consider only
+   * those with a timestamp newer than OFFLINE_THRESHOLD_SECS; then of
+   * those, return the one that has the greatest UserStatus, where
+   * `active` > `idle` > `offline`.
+   *
+   * If there are several ClientPresence objects with the greatest
+   * UserStatus, an arbitrary one is chosen.
+  */
   Object.keys(presence)
     .filter((client: string) => client !== 'aggregated')
     .reduce(

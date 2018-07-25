@@ -133,10 +133,11 @@ export type MessagesState = {
   [narrow: string]: Message[],
 };
 
-export type UserStatus = 'active' | 'idle' | 'offline';
-
-/** Types a user profile. More info on the props can be found at
- * https://zulipchat.com/api/get-all-users#response
+/**
+ * A Zulip user.
+ *
+ * For details on the properties, see the Zulip API docs:
+ *   https://zulipchat.com/api/get-all-users#response
  */
 export type User = {
   avatar_url: string,
@@ -167,12 +168,17 @@ export type DevUser = {
   email: string,
 };
 
-/** Types the aggregated presence status of a user. Aggregation happens over
- * multiple ClientPresence objects in getAggregatedPresence().
- * PresenceAggregated then equals the ClientPresence object with a timestamp
- * newer than OFFLINE_THRESHOLD_SECS that has the greatest UserStatus, where
- * `active` > `idle` > `offline`. If there are several ClientPresence objects
- * with the greatest UserStatus, an arbitrary one is chosen.
+/** See ClientPresence, and the doc linked there. */
+export type UserStatus = 'active' | 'idle' | 'offline';
+
+/**
+ * A user's presence status, summarized across all their clients.
+ *
+ * For an explanation of the Zulip presence model and how to interpret
+ * `status` and `timestamp`, see the subsystem doc:
+ *   https://zulip.readthedocs.io/en/latest/subsystems/presence.html
+ *
+ * For our logic to implement this aggregation, see `getAggregatedPresence`.
  */
 export type PresenceAggregated = {
   client: string,
@@ -180,28 +186,38 @@ export type PresenceAggregated = {
   timestamp: number,
 };
 
-/** Types a user's presence status for a specific client.
- * @prop status
- * @prop timestamp - Timestamp when the server calculated this presence status.
+/**
+ * A user's presence status, as reported by a specific client.
+ *
+ * For an explanation of the Zulip presence model and how to interpret
+ * `status` and `timestamp`, see the subsystem doc:
+ *   https://zulip.readthedocs.io/en/latest/subsystems/presence.html
+ *
+ * @prop timestamp - When the server last heard from this client.
+ * @prop status - See the presence subsystem doc.
  * @prop client
- * @prop pushable - Indicates if the client can receive push notifications. This
- *   property was intended for showing a user's presence status as "on mobile"
- *   if they are inactive on all devices and can receive push notifications (see
- *   zulip/zulip bd20a756f9). However, this property doesn't seem to be used
- *   anywhere on the web app or the mobile client and can be considered legacy.
+ * @prop pushable - Legacy; unused.
  */
 export type ClientPresence = {
   status: UserStatus,
   timestamp: number,
   client: string,
+  /* Indicates if the client can receive push notifications. This property
+   * was intended for showing a user's presence status as "on mobile" if
+   * they are inactive on all devices but can receive push notifications
+   * (see zulip/zulip bd20a756f9). However, this property doesn't seem to be
+   * used anywhere on the web app or the mobile client, and can be
+   * considered legacy.
+   */
   pushable: boolean,
 };
 
-/** Types the presence status of a user.
- * @prop aggregated - Presence status that should be used to determine a user's
- *   presence status. Aggregated over all clients.
- * @prop client - Indexer over the most recent presence status received for
- *   each client.
+/**
+ * A user's presence status, including all information from all their clients.
+ *
+ * @prop aggregated - The summary of all available information, to be used
+ *   to display the user's presence status.
+ * @prop (client) - The information reported by each of the user's clients.
  */
 export type Presence = {
   aggregated: PresenceAggregated,
@@ -381,16 +397,15 @@ export type RealmBot = {
 };
 
 /**
- * Types the `realm` top-level reducer.
+ * State with general info about a Zulip organization; our state subtree `realm`.
+ *
  * @prop twentyFourHourTime
  * @prop canCreateStreams
- * @prop crossRealmBots - Contains all cross realm bots:
- *  - Welcome Bot
- *  - Notification Bot
- *  - Email Gateway
- *  - Zulip Feedback Bot
- *  Cross realm bots should be treated like normal bots.
- * @prop nonActiveUsers - Contains all deactivated users.
+ * @prop crossRealmBots - The server's cross-realm bots; e.g., Welcome Bot.
+ *   Cross-realm bots should be treated like normal bots.
+ * @prop nonActiveUsers - All users in the organization with `is_active`
+ *   false; for normal users, this means they or an admin deactivated their
+ *   account.  See `User` and the linked documentation.
  * @prop pushToken
  * @prop filters
  * @prop emoji
@@ -484,16 +499,19 @@ export type DraftsState = {
 };
 
 /**
- * Types the `users` top-level reducer. Contains all users, except deactivated
- * users and cross realm bots. Deactivated users and cross realm bots are stored
- * in RealmState.
+ * A collection of (almost) all users in the Zulip org; our `users` state subtree.
+ *
+ * This contains all users except deactivated users and cross-realm bots.
+ * For those, see RealmState.
  */
 export type UsersState = User[];
 
 export type UserGroupsState = UserGroup[];
 
-/** Types the `presence` top-level reducer.
- * @prop email - Indexer over all users for which the app has retrieved a
+/**
+ * The `presence` subtree of our Redux state.
+ *
+ * @prop (email) - Indexes over all users for which the app has received a
  *   presence status.
  */
 export type PresenceState = {
@@ -510,8 +528,9 @@ export type UnreadState = {
 };
 
 /**
- * Types the complete redux state. Each property corresponds to a top-level
- * reducer.
+ * Our complete Redux state tree.
+ *
+ * Each property is a subtree maintained by its own reducer function.
  */
 export type GlobalState = {
   accounts: AccountsState,
