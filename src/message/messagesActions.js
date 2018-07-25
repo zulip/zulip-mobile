@@ -2,7 +2,7 @@
 import type { Narrow, Dispatch, GetState } from '../types';
 import config from '../config';
 import { NULL_ARRAY, NULL_CAUGHTUP } from '../nullObjects';
-import { getAuth, getUsers, getAllMessages, isNarrowValid, getIsHydrated } from '../selectors';
+import { getAuth, getUsers, getAllNarrows, isNarrowValid, getIsHydrated } from '../selectors';
 import { FETCH_STATE_RESET } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
@@ -23,8 +23,8 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   dispatch({ type: FETCH_STATE_RESET });
   dispatch(navigateToChat(narrow));
 
-  const allMessages = getAllMessages(state);
-  const messagesForNarrow = allMessages[JSON.stringify(narrow)] || NULL_ARRAY;
+  const allNarrows = getAllNarrows(state);
+  const messagesForNarrow = allNarrows[JSON.stringify(narrow)] || NULL_ARRAY;
   const tooFewMessages = messagesForNarrow.length < config.messagesPerRequest / 2;
 
   const caughtUp = state.caughtUp[JSON.stringify(narrow)] || NULL_CAUGHTUP;

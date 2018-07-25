@@ -2,6 +2,7 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import type { Config } from 'redux-persist';
+import { AsyncStorage } from 'react-native';
 
 import rootReducer from './reducers';
 import middleware from './middleware';
@@ -40,10 +41,15 @@ export const storeKeys = ['migrations', 'accounts', 'drafts', 'outbox', 'setting
  */
 // prettier-ignore
 export const cacheKeys = [
- 'messages', 'mute', 'realm', 'streams', 'subscriptions', 'unread', 'userGroups', 'users',
+  'mute', 'narrows', 'realm', 'streams', 'subscriptions', 'unread', 'userGroups', 'users',
 ];
 
-const migrations = {};
+const migrations = {
+  '0': state => {
+    AsyncStorage.removeItem('reduxPersist:messages');
+    return state;
+  },
+};
 
 const reduxPersistConfig: Config = {
   whitelist: [...storeKeys, ...cacheKeys],

@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { Narrow } from '../types';
 import {
-  getAllMessages,
+  getAllNarrows,
   getSubscriptions,
   getMute,
   getStreams,
@@ -46,7 +46,7 @@ export const outboxMessagesForCurrentNarrow = (narrow: Narrow) =>
   });
 
 export const getFetchedMessagesForNarrow = (narrow: Narrow) =>
-  createSelector(getAllMessages, allMessages => allMessages[JSON.stringify(narrow)] || NULL_ARRAY);
+  createSelector(getAllNarrows, allNarrows => allNarrows[JSON.stringify(narrow)] || NULL_ARRAY);
 
 export const getMessagesForNarrow = (narrow: Narrow) =>
   createSelector(

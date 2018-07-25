@@ -29,7 +29,7 @@ describe('getTopicsForNarrow', () => {
 describe('getLastMessageTopic', () => {
   test('when no messages in narrow return an empty string', () => {
     const state = deepFreeze({
-      messages: {},
+      narrows: {},
     });
 
     const topic = getLastMessageTopic(HOME_NARROW)(state);
@@ -40,7 +40,7 @@ describe('getLastMessageTopic', () => {
   test('when one or more messages return the topic of the last one', () => {
     const narrow = streamNarrow('hello');
     const state = deepFreeze({
-      messages: {
+      narrows: {
         [JSON.stringify(narrow)]: [{ id: 1 }, { id: 2, subject: 'some topic' }],
       },
     });

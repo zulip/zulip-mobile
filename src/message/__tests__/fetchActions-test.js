@@ -23,7 +23,7 @@ describe('fetchActions', () => {
             realm: 'https://example.com',
           },
         ],
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 1 }],
         },
       });
@@ -41,7 +41,7 @@ describe('fetchActions', () => {
     test('when messages to be fetched both before and after anchor, fetchingOlder and fetchingNewer is true', () => {
       const store = mockStore({
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 1 }],
         },
       });
@@ -56,7 +56,7 @@ describe('fetchActions', () => {
     test('when no messages to be fetched before the anchor, fetchingOlder is false', () => {
       const store = mockStore({
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 1 }],
         },
       });
@@ -71,7 +71,7 @@ describe('fetchActions', () => {
     test('when no messages to be fetched after the anchor, fetchingNewer is false', () => {
       const store = mockStore({
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 1 }],
         },
       });
@@ -88,7 +88,7 @@ describe('fetchActions', () => {
     test('message fetch start action is dispatched with fetchingOlder and fetchingNewer true', () => {
       const store = mockStore({
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 1 }],
         },
       });
@@ -111,7 +111,7 @@ describe('fetchActions', () => {
           [HOME_NARROW_STR]: { older: false },
         },
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 2 }],
           [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
@@ -136,7 +136,7 @@ describe('fetchActions', () => {
           [HOME_NARROW_STR]: { older: true },
         },
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 2 }],
           [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
@@ -160,7 +160,7 @@ describe('fetchActions', () => {
           [HOME_NARROW_STR]: { older: false },
         },
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 2 }],
           [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
@@ -184,7 +184,7 @@ describe('fetchActions', () => {
           [HOME_NARROW_STR]: { older: false },
         },
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 2 }],
           [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
@@ -208,7 +208,7 @@ describe('fetchActions', () => {
           [HOME_NARROW_STR]: { newer: false },
         },
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 2 }],
           [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
@@ -231,7 +231,7 @@ describe('fetchActions', () => {
           [HOME_NARROW_STR]: { newer: true },
         },
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 2 }],
           [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
@@ -253,7 +253,7 @@ describe('fetchActions', () => {
           [HOME_NARROW_STR]: { newer: false },
         },
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 2 }],
           [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
@@ -279,7 +279,7 @@ describe('fetchActions', () => {
         },
         fetching: {},
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 2 }],
           [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },

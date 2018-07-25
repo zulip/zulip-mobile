@@ -20,7 +20,7 @@ describe('messageActions', () => {
           },
         },
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {},
+        narrows: {},
         streams: [
           {
             name: 'some stream',
@@ -49,7 +49,7 @@ describe('messageActions', () => {
           },
         },
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [],
         },
         streams: [
@@ -78,7 +78,7 @@ describe('messageActions', () => {
         session: { isHydrated: true },
         caughtUp: {},
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 1 }],
         },
         streams: [
@@ -104,7 +104,7 @@ describe('messageActions', () => {
         session: { isHydrated: true },
         caughtUp: {},
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 1 }],
         },
         streams: [
@@ -129,7 +129,7 @@ describe('messageActions', () => {
         session: { isHydrated: true },
         caughtUp: {},
         ...navStateWithNarrow(HOME_NARROW),
-        messages: {
+        narrows: {
           [streamNarrowStr]: [{ id: 1 }],
         },
         users: [

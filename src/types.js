@@ -169,7 +169,7 @@ export type Message = {
   type: 'stream' | 'private',
 };
 
-export type MessagesState = {
+export type NarrowsState = {
   [narrow: string]: Message[],
 };
 
@@ -614,8 +614,8 @@ export type GlobalState = {
   flags: FlagsState,
   migrations: MigrationsState,
   loading: LoadingState,
-  messages: MessagesState,
   mute: MuteState,
+  narrows: NarrowsState,
   nav: NavigationState,
   outbox: OutboxState,
   presence: PresenceState,

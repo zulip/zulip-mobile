@@ -109,7 +109,7 @@ const eventUpdateMessageFlags = (
   action: EventUpdateMessageFlagsAction,
 ): FlagsState => {
   if (action.all) {
-    const allMessages: any[] = [].concat(...Object.values(action.allMessages));
+    const allMessages: any[] = [].concat(...Object.values(action.allNarrows));
     return addFlagsForMessages(initialState, allMessages.map(msg => msg.id), ['read']);
   }
 

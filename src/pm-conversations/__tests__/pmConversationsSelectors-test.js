@@ -9,7 +9,7 @@ describe('getRecentConversations', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
       ...navStateWithNarrow(HOME_NARROW),
-      messages: {
+      narrows: {
         [ALL_PRIVATE_NARROW_STR]: [],
       },
       unread: {
@@ -26,7 +26,7 @@ describe('getRecentConversations', () => {
   test('returns unique list of recipients, includes conversations with self', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      messages: {
+      narrows: {
         [ALL_PRIVATE_NARROW_STR]: [
           {
             id: 1,
@@ -126,7 +126,7 @@ describe('getRecentConversations', () => {
   test('returns recipients sorted by last activity', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      messages: {
+      narrows: {
         [ALL_PRIVATE_NARROW_STR]: [
           {
             id: 2,

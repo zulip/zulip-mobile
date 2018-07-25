@@ -359,7 +359,7 @@ describe('flagsReducers', () => {
         flag: 'read',
         operation: 'add',
         all: true,
-        allMessages: {
+        allNarrows: {
           [HOME_NARROW_STR]: [{ id: 1 }],
           [ALL_PRIVATE_NARROW_STR]: [{ id: 1 }, { id: 2 }, { id: 3 }],
           [JSON.stringify(streamNarrow('some stream'))]: [{ id: 3 }, { id: 4 }, { id: 5 }],

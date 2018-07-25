@@ -6,7 +6,7 @@ import type {
   FetchingState,
   FlagsState,
   LoadingState,
-  MessagesState,
+  NarrowsState,
   MuteState,
   NavigationState,
   TopicsState,
@@ -60,7 +60,7 @@ export const getFlags = (state: GlobalState): FlagsState => state.flags;
 
 export const getReadFlags = (state: GlobalState): Object => state.flags.read;
 
-export const getAllMessages = (state: GlobalState): MessagesState => state.messages;
+export const getAllNarrows = (state: GlobalState): NarrowsState => state.narrows;
 
 export const getNav = (state: GlobalState): NavigationState => state.nav;
 

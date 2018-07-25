@@ -3,11 +3,11 @@ import { createSelector } from 'reselect';
 
 import type { GlobalState } from './types';
 import { ALL_PRIVATE_NARROW_STR } from './utils/narrow';
-import { getAllMessages, getNavigationRoutes, getNavigationIndex, getNav } from './directSelectors';
+import { getAllNarrows, getNavigationRoutes, getNavigationIndex, getNav } from './directSelectors';
 import { NULL_ARRAY } from './nullObjects';
 
 export const getPrivateMessages = createSelector(
-  getAllMessages,
+  getAllNarrows,
   messages => messages[ALL_PRIVATE_NARROW_STR] || NULL_ARRAY,
 );
 

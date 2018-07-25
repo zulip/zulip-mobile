@@ -1,9 +1,9 @@
 /* @flow */
-import type { MessagesState, Message } from '../types';
+import type { NarrowsState, Message } from '../types';
 
 type UpdaterFunc = (message: Message) => Message;
 
-export default (state: MessagesState, messageId: number, updater: UpdaterFunc): MessagesState => {
+export default (state: NarrowsState, messageId: number, updater: UpdaterFunc): NarrowsState => {
   const allMessages = Object.keys(state).reduce((msg, key) => msg.concat(state[key]), []);
   if (allMessages.findIndex(x => x.id === messageId) === -1) {
     return state;

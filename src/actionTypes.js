@@ -85,7 +85,7 @@ import type {
   Presence,
   RealmEmojiState,
   CaughtUpState,
-  MessagesState,
+  NarrowsState,
   MuteState,
 } from './types';
 
@@ -399,7 +399,7 @@ export type EventTypingStopAction = EventTypingCommon & {
 export type EventUpdateMessageFlagsAction = ServerEvent & {
   type: typeof EVENT_UPDATE_MESSAGE_FLAGS,
   all: boolean,
-  allMessages: MessagesState,
+  allNarrows: NarrowsState,
   flag: string,
   messages: number[],
   operation: 'add' | 'remove',
