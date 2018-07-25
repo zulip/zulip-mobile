@@ -1,17 +1,13 @@
 /* @flow */
-import type { Narrow, Dispatch, GetState, SwitchNarrowAction } from '../types';
+import type { Narrow, Dispatch, GetState } from '../types';
 import config from '../config';
 import { NULL_ARRAY, NULL_CAUGHTUP } from '../nullObjects';
 import { getAuth, getUsers, getAllMessages, isNarrowValid, getIsHydrated } from '../selectors';
-import { SWITCH_NARROW, FETCH_STATE_RESET } from '../actionConstants';
+import { FETCH_STATE_RESET } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
-
-const switchNarrow = (narrow: Narrow): SwitchNarrowAction => ({
-  type: SWITCH_NARROW,
-  narrow,
-});
+import { navigateToChat } from '../actions';
 
 export const doNarrow = (narrow: Narrow, anchor: number = 0) => (
   dispatch: Dispatch,
@@ -24,7 +20,7 @@ export const doNarrow = (narrow: Narrow, anchor: number = 0) => (
   }
 
   dispatch({ type: FETCH_STATE_RESET });
-  dispatch(switchNarrow(narrow));
+  dispatch(navigateToChat(narrow));
 
   const allMessages = getAllMessages(state);
   const messagesForNarrow = allMessages[JSON.stringify(narrow)] || NULL_ARRAY;
