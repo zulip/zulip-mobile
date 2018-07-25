@@ -8,7 +8,7 @@ import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } f
 import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
 
-export const switchNarrow = (narrow: Narrow): SwitchNarrowAction => ({
+const switchNarrow = (narrow: Narrow): SwitchNarrowAction => ({
   type: SWITCH_NARROW,
   narrow,
 });
