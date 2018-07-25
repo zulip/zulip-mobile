@@ -40,6 +40,13 @@ buck-out/
 android/app/libs
 android/keystores/debug.keystore
 
+# VS Code
+#
+# These files in android/ are left around by the Java language extension
+# recommended by default when you open a .java file.
+android/.project
+android/.settings/
+
 coverage/
 *.keystore
 
