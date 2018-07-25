@@ -40,29 +40,34 @@ buck-out/
 android/app/libs
 android/keystores/debug.keystore
 
-# VS Code
-#
-# These files in android/ are left around by the Java language extension
-# recommended by default when you open a .java file.
+### ^
+### The portion of this file above this line comes from RN upstream's
+### template.  We leave that part unchanged to help keep upgrades easy.
+###
+
+# Yarn
+yarn-error.log
+
+# VS Code: default Java extension
 android/.project
 android/.settings/
 
+# Coverage tools in our package.json scripts
 coverage/
-*.keystore
+flow-coverage/
 
+# Transifex, for a maintainer syncing translations up and down
 .transifexrc
 
-# fastlane
-#
-# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
-# screenshots whenever they are needed.
-# For more information about the recommended setup visit:
-# https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Gitignore.md
+# Android release builds
+*.keystore
 
+# fastlane
+# See: https://docs.fastlane.tools/best-practices/source-control/
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
+fastlane/test_output
 
-flow-coverage/
-yarn-error.log
+# `npm` -- obsolete?
 package-lock.json
