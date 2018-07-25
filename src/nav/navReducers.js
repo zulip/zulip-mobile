@@ -6,10 +6,8 @@ import type {
   AccountSwitchAction,
   LoginSuccessAction,
   LogoutAction,
-  SwitchNarrowAction,
   InitialFetchCompleteAction,
 } from '../types';
-import { navigateToChat } from './navActions';
 import { getStateForRoute, getInitialNavState } from './navSelectors';
 import AppNavigator from './AppNavigator';
 import { NULL_NAV_STATE } from '../nullObjects';
@@ -19,7 +17,6 @@ import {
   ACCOUNT_SWITCH,
   LOGIN_SUCCESS,
   LOGOUT,
-  SWITCH_NARROW,
 } from '../actionConstants';
 
 const initialState = getStateForRoute('loading') || NULL_NAV_STATE;
@@ -35,9 +32,6 @@ const loginSuccess = (state: NavigationState, action: LoginSuccessAction): Navig
 
 const logout = (state: NavigationState, action: LogoutAction): NavigationState =>
   getStateForRoute('account') || state;
-
-const switchNarrow = (state: NavigationState, action: SwitchNarrowAction): NavigationState =>
-  AppNavigator.router.getStateForAction(navigateToChat(action.narrow), state) || state;
 
 const initialFetchComplete = (
   state: NavigationState,
@@ -61,9 +55,6 @@ export default (state: NavigationState = initialState, action: NavAction): Navig
 
     case LOGOUT:
       return logout(state, action);
-
-    case SWITCH_NARROW:
-      return switchNarrow(state, action);
 
     default:
       return AppNavigator.router.getStateForAction(action, state) || state;

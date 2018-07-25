@@ -29,7 +29,6 @@ import {
   SETTINGS_CHANGE,
   DRAFT_ADD,
   DRAFT_REMOVE,
-  SWITCH_NARROW,
   FETCH_STATE_RESET,
   PRESENCE_RESPONSE,
   MESSAGE_SEND_START,
@@ -510,11 +509,6 @@ export type DraftRemoveAction = {
 
 export type DraftsAction = DraftAddAction | DraftRemoveAction | LogoutAction;
 
-export type SwitchNarrowAction = {
-  type: typeof SWITCH_NARROW,
-  narrow: Narrow,
-};
-
 export type FetchStateResetAction = {
   type: typeof FETCH_STATE_RESET,
 };
@@ -629,8 +623,7 @@ export type NavAction =
   | AccountSwitchAction
   | LoginSuccessAction
   | InitialFetchCompleteAction
-  | LogoutAction
-  | SwitchNarrowAction;
+  | LogoutAction;
 
 export type OutboxAction =
   | MessageSendStartAction
