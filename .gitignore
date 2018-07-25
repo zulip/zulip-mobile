@@ -45,19 +45,25 @@ android/keystores/debug.keystore
 ### template.  We leave that part unchanged to help keep upgrades easy.
 ###
 
+# Each pattern should have a leading slash, unless it really is meant to
+# apply relative to any subdirectory as well as the root.
+#
+# (The gitignore semantics are a bit subtle; a slash in the middle suffices,
+# but we add a leading slash then too to make it clear.  EIBTI.)
+
 # Yarn
-yarn-error.log
+/yarn-error.log
 
 # VS Code: default Java extension
-android/.project
-android/.settings/
+/android/.project
+/android/.settings/
 
 # VS Code: debugger
-.vscode/.react/
+/.vscode/.react/
 
 # Coverage tools in our package.json scripts
-coverage/
-flow-coverage/
+/coverage/
+/flow-coverage/
 
 # Transifex, for a maintainer syncing translations up and down
 .transifexrc
@@ -67,7 +73,7 @@ flow-coverage/
 
 # fastlane
 # See: https://docs.fastlane.tools/best-practices/source-control/
-fastlane/report.xml
-fastlane/Preview.html
-fastlane/screenshots
-fastlane/test_output
+/fastlane/report.xml
+/fastlane/Preview.html
+/fastlane/screenshots
+/fastlane/test_output
