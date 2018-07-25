@@ -52,6 +52,9 @@ yarn-error.log
 android/.project
 android/.settings/
 
+# VS Code: debugger
+.vscode/.react/
+
 # Coverage tools in our package.json scripts
 coverage/
 flow-coverage/
