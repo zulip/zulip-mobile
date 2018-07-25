@@ -72,6 +72,9 @@ const loginSuccess = (state: SessionState, action: LoginSuccessAction): SessionS
 const rehydrate = (state: SessionState, action: RehydrateAction): SessionState => ({
   ...state,
   isHydrated: true,
+  // On rehydration, do an initial fetch if we have access to an account
+  // (indicated by the presence of an api key). Otherwise, the initial fetch
+  // will be initiated on loginSuccess.
   needsInitialFetch: !!getAuth(action.payload).apiKey,
 });
 
