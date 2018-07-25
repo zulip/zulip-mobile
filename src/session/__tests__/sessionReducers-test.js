@@ -1,9 +1,14 @@
 import deepFreeze from 'deep-freeze';
 
-import { ACCOUNT_SWITCH, CANCEL_EDIT_MESSAGE, START_EDIT_MESSAGE } from '../../actionConstants';
+import {
+  ACCOUNT_SWITCH,
+  CANCEL_EDIT_MESSAGE,
+  START_EDIT_MESSAGE,
+  LOGIN_SUCCESS,
+} from '../../actionConstants';
 import sessionReducers from '../sessionReducers';
 
-describe('appReducers', () => {
+describe('sessionReducers', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('reissues initial fetch', () => {
       const prevState = deepFreeze({});
@@ -78,6 +83,20 @@ describe('appReducers', () => {
       const newState = sessionReducers(prevState, action);
 
       expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('LOGIN_SUCCESS', () => {
+    test('reissues initial fetch', () => {
+      const prevState = deepFreeze({});
+
+      const action = deepFreeze({
+        type: LOGIN_SUCCESS,
+      });
+
+      const newState = sessionReducers(prevState, action);
+
+      expect(newState.needsInitialFetch).toBe(true);
     });
   });
 });
