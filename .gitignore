@@ -66,10 +66,3 @@ fastlane/screenshots
 flow-coverage/
 yarn-error.log
 package-lock.json
-
-# CocoaPods
-#
-# the pros and cons are mentioned at:
-# https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
-#
-ios/Pods/
