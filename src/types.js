@@ -260,6 +260,14 @@ export type Presence = {
   [client: string]: ClientPresence,
 };
 
+/**
+ * Info about how much message history is stored for some narrow.
+ *
+ * @prop older - true iff after the last message fetch for the narrow, we
+ *   stored the oldest message in the narrow.
+ * @prop newer - true iff after the last message fetch for the narrow, we
+ *   stored the newest message in the narrow.
+ */
 export type CaughtUp = {
   older: boolean,
   newer: boolean,
@@ -366,6 +374,10 @@ export type SessionState = {
   debug: Debug,
 };
 
+/**
+ * Info about how much message history is stored for every narrow in
+ * MessagesState.
+ */
 export type CaughtUpState = {
   [narrow: string]: CaughtUp,
 };
