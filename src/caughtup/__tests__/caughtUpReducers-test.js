@@ -2,6 +2,7 @@ import deepFreeze from 'deep-freeze';
 
 import caughtUpReducers from '../caughtUpReducers';
 import { MESSAGE_FETCH_START, MESSAGE_FETCH_COMPLETE } from '../../actionConstants';
+import { LAST_MESSAGE_ANCHOR } from '../../constants';
 import {
   HOME_NARROW,
   HOME_NARROW_STR,
@@ -249,7 +250,7 @@ describe('caughtUpReducers', () => {
     const action = deepFreeze({
       type: MESSAGE_FETCH_COMPLETE,
       narrow: ALL_PRIVATE_NARROW,
-      anchor: Number.MAX_SAFE_INTEGER,
+      anchor: LAST_MESSAGE_ANCHOR,
       messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
       numBefore: 10,
       numAfter: 0,

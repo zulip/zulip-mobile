@@ -14,6 +14,7 @@ import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
 import { NULL_ARRAY, NULL_FETCHING } from '../nullObjects';
 import { getAllRealmEmojiById, getAuth, getSubscriptions } from '../selectors';
+import { LAST_MESSAGE_ANCHOR } from '../constants';
 
 const styles = StyleSheet.create({
   results: {
@@ -48,7 +49,7 @@ class SearchMessagesCard extends PureComponent<Props, State> {
       const messages = await getMessages(
         auth,
         SEARCH_NARROW(query),
-        Number.MAX_SAFE_INTEGER,
+        LAST_MESSAGE_ANCHOR,
         20,
         0,
         false,

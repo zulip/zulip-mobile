@@ -30,6 +30,7 @@ import {
   MESSAGE_FETCH_COMPLETE,
   MARK_MESSAGES_READ,
 } from '../actionConstants';
+import { LAST_MESSAGE_ANCHOR } from '../constants';
 import timing from '../utils/timing';
 import { ALL_PRIVATE_NARROW } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
@@ -182,13 +183,13 @@ export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState:
   timing.start('Rest of server data');
   const [messages, streams] = await Promise.all([
     await tryUntilSuccessful(() =>
-      getMessages(auth, ALL_PRIVATE_NARROW, Number.MAX_SAFE_INTEGER, 100, 0),
+      getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
     ),
     await tryUntilSuccessful(() => getStreams(auth)),
   ]);
   timing.end('Rest of server data');
 
-  dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, Number.MAX_SAFE_INTEGER, 100, 0));
+  dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0));
   dispatch(initStreams(streams));
   if (auth.apiKey !== '' && (pushToken === '' || pushToken === undefined)) {
     refreshNotificationToken();

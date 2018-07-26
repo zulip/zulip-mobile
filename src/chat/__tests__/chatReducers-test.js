@@ -17,6 +17,7 @@ import {
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
 } from '../../actionConstants';
+import { LAST_MESSAGE_ANCHOR } from '../../constants';
 
 describe('chatReducers', () => {
   const privateNarrowStr = JSON.stringify(privateNarrow('mark@example.com'));
@@ -748,13 +749,13 @@ describe('chatReducers', () => {
       expect(newState).toEqual(expectedState);
     });
 
-    test('when anchor is Number.MAX_SAFE_INTEGER previous messages are replaced', () => {
+    test('when anchor is LAST_MESSAGE_ANCHOR previous messages are replaced', () => {
       const initialState = deepFreeze({
         [HOME_NARROW_STR]: [{ id: 1, timestamp: 3 }, { id: 2, timestamp: 4 }],
       });
 
       const action = deepFreeze({
-        anchor: Number.MAX_SAFE_INTEGER,
+        anchor: LAST_MESSAGE_ANCHOR,
         type: MESSAGE_FETCH_COMPLETE,
         narrow: [],
         messages: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],

@@ -7,6 +7,7 @@ import {
   ACCOUNT_SWITCH,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
+import { LAST_MESSAGE_ANCHOR } from '../constants';
 import { NULL_CAUGHTUP, NULL_OBJECT } from '../nullObjects';
 
 const initialState: CaughtUpState = NULL_OBJECT;
@@ -17,7 +18,7 @@ const messageFetchComplete = (
 ): CaughtUpState => {
   const key = JSON.stringify(action.narrow);
 
-  if (action.anchor === Number.MAX_SAFE_INTEGER) {
+  if (action.anchor === LAST_MESSAGE_ANCHOR) {
     return {
       ...state,
       [key]: {

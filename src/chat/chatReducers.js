@@ -23,6 +23,7 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
 } from '../actionConstants';
+import { LAST_MESSAGE_ANCHOR } from '../constants';
 import { isMessageInNarrow } from '../utils/narrow';
 import { groupItemsById } from '../utils/misc';
 import chatUpdater from './chatUpdater';
@@ -37,7 +38,7 @@ const messageFetchComplete = (
   const key = JSON.stringify(action.narrow);
   const messages = state[key] || NULL_ARRAY;
   const messagesById = groupItemsById(messages);
-  const replaceExisting = action.anchor === 0 || action.anchor === Number.MAX_SAFE_INTEGER;
+  const replaceExisting = action.anchor === 0 || action.anchor === LAST_MESSAGE_ANCHOR;
   const newMessages = replaceExisting
     ? action.messages.map(
         item =>
