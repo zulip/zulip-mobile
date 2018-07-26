@@ -7,6 +7,7 @@ import { StyleSheet, View } from 'react-native';
 import type { Auth, Dispatch, GlobalState } from '../types';
 import { ZulipButton } from '../common';
 import { subscriptionAdd, subscriptionRemove } from '../api';
+import { delay } from '../utils/async';
 import { streamNarrow } from '../utils/narrow';
 import StreamList from '../streams/StreamList';
 import { getAuth, getCanCreateStreams, getStreams, getSubscriptions } from '../selectors';
@@ -78,9 +79,7 @@ class StreamListCard extends PureComponent<Props, State> {
             style={styles.button}
             secondary
             text="Create new stream"
-            onPress={() => {
-              dispatch(navigateToCreateStream());
-            }}
+            onPress={() => delay(() => dispatch(navigateToCreateStream()))}
           />
         )}
         <StreamList
