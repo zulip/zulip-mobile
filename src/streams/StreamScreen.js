@@ -95,13 +95,11 @@ class StreamScreen extends PureComponent<Props> {
               onPress={() => delay(this.handleEdit)}
             />
           )}
-          {isAdmin && (
-            <ZulipButton
-              style={styles.marginTop}
-              text="Add subscribers"
-              onPress={() => delay(this.handleEditSubscribers)}
-            />
-          )}
+          <ZulipButton
+            style={styles.marginTop}
+            text="Add subscribers"
+            onPress={() => delay(this.handleEditSubscribers)}
+          />
         </View>
       </Screen>
     );
