@@ -2,7 +2,7 @@
 import { nullFunction } from '../nullObjects';
 
 /** Like setTimeout(..., 0), but returns a Promise of the result. */
-export function delay<T>(callback: () => T): Promise<T> {
+export function delay<T>(callback: () => void | Promise<any>): Promise<T> {
   return new Promise(resolve => resolve()).then(callback);
 }
 
