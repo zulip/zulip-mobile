@@ -13,6 +13,7 @@ const androidBackground =
 
 type Props = {
   accessibilityLabel?: string,
+  handlePressWithDelay?: boolean,
   style?: Style,
   children?: ChildrenArray<*>,
   onPress?: () => void | Promise<any>,
@@ -23,6 +24,7 @@ type Props = {
  * Component to encapsulate our custom and platform-specific
  * settings applied to the built-in touchable components.
  *
+ * @prop [handlePressWithDelay] - Handle press with delay or not.
  * @prop [style] - Style to apply to the underlying Touchable component.
  * @prop [children] - Components to turn into 'touchable' ones.
  * @prop [onPress] - Evnet fired on pressing the contained components.
@@ -30,6 +32,10 @@ type Props = {
  */
 export default class Touchable extends PureComponent<Props> {
   props: Props;
+
+  defaultProps: {
+    handlePressWithDelay: true,
+  };
 
   handlePress = () => {
     const { onPress } = this.props;
@@ -48,7 +54,14 @@ export default class Touchable extends PureComponent<Props> {
   };
 
   render() {
-    const { accessibilityLabel, style, children, onPress, onLongPress } = this.props;
+    const {
+      accessibilityLabel,
+      handlePressWithDelay,
+      style,
+      children,
+      onPress,
+      onLongPress,
+    } = this.props;
 
     if (!onPress && !onLongPress) {
       return (
@@ -68,8 +81,8 @@ export default class Touchable extends PureComponent<Props> {
           accessibilityLabel={accessibilityLabel}
           underlayColor={HIGHLIGHT_COLOR}
           style={style}
-          onPress={this.handlePress}
-          onLongPress={this.handleLongPress}
+          onPress={handlePressWithDelay ? this.handlePress : onPress}
+          onLongPress={handlePressWithDelay ? this.handleLongPress : onLongPress}
         >
           <View>{children}</View>
         </TouchableHighlight>
@@ -81,8 +94,8 @@ export default class Touchable extends PureComponent<Props> {
         accessibilityLabel={accessibilityLabel}
         style={style}
         background={androidBackground}
-        onPress={this.handlePress}
-        onLongPress={this.handleLongPress}
+        onPress={handlePressWithDelay ? this.handlePress : onPress}
+        onLongPress={handlePressWithDelay ? this.handleLongPress : onLongPress}
       >
         <View>{children}</View>
       </TouchableNativeFeedback>
