@@ -21,12 +21,8 @@ import {
   canSendToNarrow,
   isStreamOrTopicNarrow,
 } from '../utils/narrow';
-import { groupItemsById } from '../utils/misc';
 import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_MESSAGE, NULL_USER, NULL_SUBSCRIPTION } from '../nullObjects';
-
-const getMessagesFromChatState = (narrow: Narrow) => state =>
-  state.messages[JSON.stringify(narrow)] || NULL_ARRAY;
 
 export const outboxMessagesForCurrentNarrow = (narrow: Narrow) =>
   createSelector(getCaughtUpForActiveNarrow(narrow), getOutbox, (caughtUp, outboxMessages) => {
@@ -139,9 +135,6 @@ export const getShowMessagePlaceholders = (narrow: Narrow) =>
     getIsFetching(narrow),
     (noMessages, isFetching) => isFetching && noMessages,
   );
-
-export const getMessagesById = (narrow: Narrow) =>
-  createSelector(getMessagesFromChatState(narrow), groupItemsById);
 
 export const canSendToActiveNarrow = (narrow: Narrow) => canSendToNarrow(narrow);
 
