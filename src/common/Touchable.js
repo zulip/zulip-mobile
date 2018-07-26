@@ -24,7 +24,7 @@ type Props = {
  *
  * @prop [style] - Style to apply to the underlying Touchable component.
  * @prop [children] - Components to turn into 'touchable' ones.
- * @prop [onPress] - Evnet fired on pressing the contained components.
+ * @prop [onPress] - Event fired on pressing the contained components.
  * @prop [onLongPress] - Event fired on a long press.
  */
 export default class Touchable extends PureComponent<Props> {
