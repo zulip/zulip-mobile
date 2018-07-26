@@ -4,7 +4,6 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import type { Context, Dispatch, GlobalState, Stream, Subscription } from '../types';
-import { delay } from '../utils/async';
 import { OptionRow, Screen, ZulipButton, OptionDivider } from '../common';
 import { getIsAdmin, getStreamFromId, getSubscriptionFromId } from '../selectors';
 import StreamCard from './StreamCard';
@@ -86,19 +85,15 @@ class StreamScreen extends PureComponent<Props> {
         />
         <OptionDivider />
         <View style={styles.padding}>
-          <ZulipButton text="Topics" onPress={() => delay(this.handleTopics)} />
+          <ZulipButton text="Topics" onPress={this.handleTopics} />
           {isAdmin && (
-            <ZulipButton
-              style={styles.marginTop}
-              text="Edit"
-              onPress={() => delay(this.handleEdit)}
-            />
+            <ZulipButton style={styles.marginTop} text="Edit" onPress={this.handleEdit} />
           )}
           {isAdmin && (
             <ZulipButton
               style={styles.marginTop}
               text="Add subscribers"
-              onPress={() => delay(this.handleEditSubscribers)}
+              onPress={this.handleEditSubscribers}
             />
           )}
         </View>
