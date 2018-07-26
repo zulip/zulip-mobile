@@ -3,6 +3,7 @@ import { NativeModules } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
 import type { Narrow, Notification } from './types';
+import { FIRST_UNREAD_ANCHOR } from './constants';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 const isEmulator = NativeModules.RNDeviceInfo ? DeviceInfo.isEmulator() : false;
@@ -32,7 +33,7 @@ type Config = {
 const config: Config = {
   startup: {
     narrow: undefined,
-    anchor: 0,
+    anchor: FIRST_UNREAD_ANCHOR,
     notification: undefined,
   },
   compatibilityUrl: 'https://zulipchat.com/compatibility',

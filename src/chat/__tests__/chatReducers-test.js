@@ -17,7 +17,7 @@ import {
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
 } from '../../actionConstants';
-import { LAST_MESSAGE_ANCHOR } from '../../constants';
+import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../constants';
 
 describe('chatReducers', () => {
   const privateNarrowStr = JSON.stringify(privateNarrow('mark@example.com'));
@@ -728,13 +728,13 @@ describe('chatReducers', () => {
       expect(newState).not.toBe(initialState);
     });
 
-    test('when anchor is 0 previous messages are replaced', () => {
+    test('when anchor is FIRST_UNREAD_ANCHOR previous messages are replaced', () => {
       const initialState = deepFreeze({
         [HOME_NARROW_STR]: [{ id: 1, timestamp: 3 }, { id: 2, timestamp: 4 }],
       });
 
       const action = deepFreeze({
-        anchor: 0,
+        anchor: FIRST_UNREAD_ANCHOR,
         type: MESSAGE_FETCH_COMPLETE,
         narrow: [],
         messages: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
@@ -770,7 +770,7 @@ describe('chatReducers', () => {
       expect(newState).toEqual(expectedState);
     });
 
-    test('when anchor is 0 common messages are not replaced', () => {
+    test('when anchor is FIRST_UNREAD_ANCHOR common messages are not replaced', () => {
       const commonMessages = [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }];
       const initialState = deepFreeze({
         [HOME_NARROW_STR]: [{ id: 1, timestamp: 3 }, ...commonMessages],
@@ -778,7 +778,7 @@ describe('chatReducers', () => {
 
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
-        anchor: 0,
+        anchor: FIRST_UNREAD_ANCHOR,
         narrow: [],
         messages: [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }],
       });
@@ -788,7 +788,7 @@ describe('chatReducers', () => {
       expect(newState[HOME_NARROW_STR]).toEqual(commonMessages);
     });
 
-    test('when anchor is 0 deep equal is performed to separate common messages', () => {
+    test('when anchor is FIRST_UNREAD_ANCHOR deep equal is performed to separate common messages', () => {
       const commonMessages = [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }];
       const changedMessage = { id: 4, timestamp: 6, subject: 'new topic' };
       const initialState = deepFreeze({
@@ -801,7 +801,7 @@ describe('chatReducers', () => {
 
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
-        anchor: 0,
+        anchor: FIRST_UNREAD_ANCHOR,
         narrow: [],
         messages: [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }, changedMessage],
       });

@@ -8,8 +8,9 @@ import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } f
 import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
 import { navigateToChat } from '../actions';
+import { FIRST_UNREAD_ANCHOR } from '../constants';
 
-export const doNarrow = (narrow: Narrow, anchor: number = 0) => (
+export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) => (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
@@ -29,9 +30,9 @@ export const doNarrow = (narrow: Narrow, anchor: number = 0) => (
   const caughtUp = state.caughtUp[JSON.stringify(narrow)] || NULL_CAUGHTUP;
   const isCaughtUp = caughtUp.newer && caughtUp.older;
 
-  if (anchor === 0 && tooFewMessages && !isCaughtUp) {
+  if (anchor === FIRST_UNREAD_ANCHOR && tooFewMessages && !isCaughtUp) {
     dispatch(fetchMessagesAtFirstUnread(narrow));
-  } else if (anchor !== 0) {
+  } else if (anchor !== FIRST_UNREAD_ANCHOR) {
     dispatch(fetchMessagesAroundAnchor(narrow, anchor));
   }
 };

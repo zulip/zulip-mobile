@@ -7,7 +7,7 @@ import {
   ACCOUNT_SWITCH,
   MESSAGE_FETCH_COMPLETE,
 } from '../actionConstants';
-import { LAST_MESSAGE_ANCHOR } from '../constants';
+import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../constants';
 import { NULL_CAUGHTUP, NULL_OBJECT } from '../nullObjects';
 
 const initialState: CaughtUpState = NULL_OBJECT;
@@ -30,7 +30,7 @@ const messageFetchComplete = (
 
   let anchorIdx = -1;
 
-  if (action.anchor === 0) {
+  if (action.anchor === FIRST_UNREAD_ANCHOR) {
     anchorIdx = action.messages.findIndex(msg => msg.flags.indexOf('read') === -1);
   } else {
     anchorIdx = action.messages.findIndex(msg => msg.id === action.anchor);
