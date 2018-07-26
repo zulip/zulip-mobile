@@ -4,6 +4,7 @@ import { TouchableHighlight, TouchableNativeFeedback, Platform, View } from 'rea
 
 import type { ChildrenArray, Style } from '../types';
 import { HIGHLIGHT_COLOR } from '../styles';
+import { delay } from '../utils/async';
 
 const androidBackground =
   Platform.Version >= 21
@@ -30,6 +31,14 @@ type Props = {
 export default class Touchable extends PureComponent<Props> {
   props: Props;
 
+  handlePress = () => {
+    const { onPress } = this.props;
+    if (!onPress) {
+      return;
+    }
+    delay(onPress);
+  };
+
   render() {
     const { accessibilityLabel, style, children, onPress, onLongPress } = this.props;
 
@@ -51,7 +60,7 @@ export default class Touchable extends PureComponent<Props> {
           accessibilityLabel={accessibilityLabel}
           underlayColor={HIGHLIGHT_COLOR}
           style={style}
-          onPress={onPress}
+          onPress={this.handlePress}
           onLongPress={onLongPress}
         >
           <View>{children}</View>
@@ -64,7 +73,7 @@ export default class Touchable extends PureComponent<Props> {
         accessibilityLabel={accessibilityLabel}
         style={style}
         background={androidBackground}
-        onPress={onPress}
+        onPress={this.handlePress}
         onLongPress={onLongPress}
       >
         <View>{children}</View>
