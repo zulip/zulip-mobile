@@ -71,7 +71,7 @@ class PmConversationsCard extends PureComponent<Props> {
             style={componentStyles.button}
             text="Create group"
             onPress={() => {
-              dispatch(navigateToCreateGroup());
+              setTimeout(() => dispatch(navigateToCreateGroup()));
             }}
           />
           <ZulipButton
@@ -80,7 +80,7 @@ class PmConversationsCard extends PureComponent<Props> {
             style={componentStyles.button}
             text="Search"
             onPress={() => {
-              dispatch(navigateToUsersScreen());
+              setTimeout(() => dispatch(navigateToUsersScreen()));
             }}
           />
         </View>
