@@ -39,6 +39,14 @@ export default class Touchable extends PureComponent<Props> {
     delay(onPress);
   };
 
+  handleLongPress = () => {
+    const { onLongPress } = this.props;
+    if (!onLongPress) {
+      return;
+    }
+    delay(onLongPress);
+  };
+
   render() {
     const { accessibilityLabel, style, children, onPress, onLongPress } = this.props;
 
@@ -61,7 +69,7 @@ export default class Touchable extends PureComponent<Props> {
           underlayColor={HIGHLIGHT_COLOR}
           style={style}
           onPress={this.handlePress}
-          onLongPress={onLongPress}
+          onLongPress={this.handleLongPress}
         >
           <View>{children}</View>
         </TouchableHighlight>
@@ -74,7 +82,7 @@ export default class Touchable extends PureComponent<Props> {
         style={style}
         background={androidBackground}
         onPress={this.handlePress}
-        onLongPress={onLongPress}
+        onLongPress={this.handleLongPress}
       >
         <View>{children}</View>
       </TouchableNativeFeedback>
