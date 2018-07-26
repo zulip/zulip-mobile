@@ -1,6 +1,11 @@
 /* @flow */
 import { nullFunction } from '../nullObjects';
 
+/** Like setTimeout(..., 0), but returns a Promise of the result. */
+export function delay<T>(callback: () => T): Promise<T> {
+  return new Promise(resolve => resolve()).then(callback);
+}
+
 export const sleep = (ms: number = 0): Promise<void> =>
   new Promise(resolve => setTimeout(resolve, ms));
 
