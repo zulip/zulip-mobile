@@ -1,11 +1,11 @@
 /* @flow */
-import { AsyncStorage } from 'react-native';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
 
 import config from '../config';
 import rootReducer from './reducers';
 import middleware from './middleware';
+import ZulipAsyncStorage from './ZulipAsyncStorage';
 
 // AsyncStorage.clear(); // use to reset storage during development
 
@@ -22,9 +22,8 @@ export const restore = (onFinished?: () => void) =>
     store,
     {
       whitelist: [...config.storeKeys, ...config.cacheKeys],
-      // TODO: This should use `ZulipAsyncStorage` once that works
-      // smoothly on iOS, where we haven't implemented compression.
-      storage: AsyncStorage,
+      // $FlowFixMe: https://github.com/rt2zz/redux-persist/issues/823
+      storage: ZulipAsyncStorage,
     },
     onFinished,
   );
