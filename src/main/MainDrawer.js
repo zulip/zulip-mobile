@@ -3,7 +3,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { DrawerNavigator } from 'react-navigation';
 
-import MainTabs from './MainTabs';
+import MainTabsWithAppBar from './MainTabsWithAppBar';
 import Sidebar from '../nav/Sidebar';
 import SettingsCard from '../settings/SettingsCard';
 import { IconSettings } from '../common/Icons';
@@ -11,7 +11,7 @@ import { IconSettings } from '../common/Icons';
 export default DrawerNavigator(
   {
     Home: {
-      screen: MainTabs,
+      screen: MainTabsWithAppBar,
     },
   },
   {
