@@ -36,26 +36,6 @@ class HomeTab extends PureComponent<Props> {
 
     return (
       <View style={componentStyles.wrapper}>
-        <View style={styles.navBar}>
-          <NavButton
-            name="menu"
-            onPress={() => {
-              navigation.navigate('DrawerOpen');
-            }}
-          />
-          <Label
-            text="Zulip"
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            style={[styles.flexed, styles.navTitle]}
-          />
-          <NavButton
-            name="search"
-            onPress={() => {
-              dispatch(navigateToSearch());
-            }}
-          />
-        </View>
         <UnreadCards />
       </View>
     );
