@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import { getFetchingForActiveNarrow, getIsFetching } from '../fetchingSelectors';
-import { homeNarrow, homeNarrowStr } from '../../utils/narrow';
+import { HOME_NARROW, homeNarrowStr } from '../../utils/narrow';
 
 describe('getFetchingForActiveNarrow', () => {
   test('if no narrow information exists in state, return a null fetching object', () => {
@@ -10,7 +10,7 @@ describe('getFetchingForActiveNarrow', () => {
     });
     const expectedResult = { older: false, newer: false };
 
-    const actualResult = getFetchingForActiveNarrow(homeNarrow)(state);
+    const actualResult = getFetchingForActiveNarrow(HOME_NARROW)(state);
 
     expect(actualResult).toEqual(expectedResult);
   });
@@ -23,7 +23,7 @@ describe('getFetchingForActiveNarrow', () => {
     });
     const expectedResult = { older: true, newer: true };
 
-    const actualResult = getFetchingForActiveNarrow(homeNarrow)(state);
+    const actualResult = getFetchingForActiveNarrow(HOME_NARROW)(state);
 
     expect(actualResult).toEqual(expectedResult);
   });
@@ -35,7 +35,7 @@ describe('getIsFetching', () => {
       fetching: {},
     });
 
-    const result = getIsFetching(homeNarrow)(state);
+    const result = getIsFetching(HOME_NARROW)(state);
 
     expect(result).toEqual(false);
   });
@@ -47,7 +47,7 @@ describe('getIsFetching', () => {
       },
     });
 
-    const result = getIsFetching(homeNarrow)(state);
+    const result = getIsFetching(HOME_NARROW)(state);
 
     expect(result).toEqual(true);
   });
@@ -59,7 +59,7 @@ describe('getIsFetching', () => {
       },
     });
 
-    const result = getIsFetching(homeNarrow)(state);
+    const result = getIsFetching(HOME_NARROW)(state);
 
     expect(result).toEqual(true);
   });

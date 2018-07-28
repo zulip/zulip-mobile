@@ -5,7 +5,7 @@ import unescape from 'lodash.unescape';
 import type { Narrow, Message } from '../types';
 import { normalizeRecipients } from './message';
 
-export const homeNarrow: Narrow = [];
+export const HOME_NARROW: Narrow = [];
 
 export const homeNarrowStr: string = '[]';
 

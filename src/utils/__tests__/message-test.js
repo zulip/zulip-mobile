@@ -6,7 +6,7 @@ import {
   isMessageRead,
   findFirstUnread,
 } from '../message';
-import { homeNarrow, topicNarrow } from '../narrow';
+import { HOME_NARROW, topicNarrow } from '../narrow';
 
 describe('normalizeRecipients', () => {
   test('joins emails from recipients, sorted, trimmed, not including missing ones', () => {
@@ -107,7 +107,7 @@ describe('shouldBeMuted', () => {
       display_recipient: [],
     };
 
-    const isMuted = shouldBeMuted(message, homeNarrow, []);
+    const isMuted = shouldBeMuted(message, HOME_NARROW, []);
 
     expect(isMuted).toBe(false);
   });
@@ -130,7 +130,7 @@ describe('shouldBeMuted', () => {
       display_recipient: 'stream',
     };
 
-    const isMuted = shouldBeMuted(message, homeNarrow, []);
+    const isMuted = shouldBeMuted(message, HOME_NARROW, []);
 
     expect(isMuted).toBe(true);
   });
@@ -145,7 +145,7 @@ describe('shouldBeMuted', () => {
         in_home_view: false,
       },
     ];
-    const isMuted = shouldBeMuted(message, homeNarrow, subscriptions);
+    const isMuted = shouldBeMuted(message, HOME_NARROW, subscriptions);
 
     expect(isMuted).toBe(true);
   });
@@ -162,7 +162,7 @@ describe('shouldBeMuted', () => {
       },
     ];
     const mutes = [['stream', 'topic']];
-    const isMuted = shouldBeMuted(message, homeNarrow, subscriptions, mutes);
+    const isMuted = shouldBeMuted(message, HOME_NARROW, subscriptions, mutes);
 
     expect(isMuted).toBe(true);
   });

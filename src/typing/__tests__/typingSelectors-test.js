@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import { getCurrentTypingUsers } from '../typingSelectors';
-import { homeNarrow, privateNarrow, groupNarrow } from '../../utils/narrow';
+import { HOME_NARROW, privateNarrow, groupNarrow } from '../../utils/narrow';
 import { NULL_ARRAY } from '../../nullObjects';
 
 describe('getCurrentTypingUsers', () => {
@@ -10,7 +10,7 @@ describe('getCurrentTypingUsers', () => {
       accounts: [{}],
     });
 
-    const typingUsers = getCurrentTypingUsers(homeNarrow)(state);
+    const typingUsers = getCurrentTypingUsers(HOME_NARROW)(state);
 
     expect(typingUsers).toBe(NULL_ARRAY);
   });

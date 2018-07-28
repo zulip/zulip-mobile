@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 import caughtUpReducers from '../caughtUpReducers';
 import { MESSAGE_FETCH_START, MESSAGE_FETCH_COMPLETE } from '../../actionConstants';
 import {
-  homeNarrow,
+  HOME_NARROW,
   homeNarrowStr,
   allPrivateNarrow,
   allPrivateNarrowStr,
@@ -21,7 +21,7 @@ describe('caughtUpReducers', () => {
 
       const action = deepFreeze({
         type: MESSAGE_FETCH_START,
-        narrow: homeNarrow,
+        narrow: HOME_NARROW,
       });
 
       const newState = caughtUpReducers(initialState, action);
@@ -124,7 +124,7 @@ describe('caughtUpReducers', () => {
 
     const action = deepFreeze({
       type: MESSAGE_FETCH_COMPLETE,
-      narrow: homeNarrow,
+      narrow: HOME_NARROW,
       anchor: 0,
       messages: [
         { id: 1, flags: ['read'] },
@@ -156,7 +156,7 @@ describe('caughtUpReducers', () => {
 
     const action = deepFreeze({
       type: MESSAGE_FETCH_COMPLETE,
-      narrow: homeNarrow,
+      narrow: HOME_NARROW,
       anchor: 0,
       messages: [
         { id: 1, flags: ['read'] },
@@ -187,7 +187,7 @@ describe('caughtUpReducers', () => {
 
     const action = deepFreeze({
       type: MESSAGE_FETCH_COMPLETE,
-      narrow: homeNarrow,
+      narrow: HOME_NARROW,
       anchor: 0,
       messages: [
         { id: 1, flags: ['read'] },
@@ -218,7 +218,7 @@ describe('caughtUpReducers', () => {
 
     const action = deepFreeze({
       type: MESSAGE_FETCH_COMPLETE,
-      narrow: homeNarrow,
+      narrow: HOME_NARROW,
       anchor: 0,
       messages: [
         { id: 1, flags: ['read'] },

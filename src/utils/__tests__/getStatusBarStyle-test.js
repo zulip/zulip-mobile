@@ -1,7 +1,7 @@
 /* @flow */
 import deepFreeze from 'deep-freeze';
 
-import { homeNarrow, streamNarrow, privateNarrow } from '../narrow';
+import { HOME_NARROW, streamNarrow, privateNarrow } from '../narrow';
 import getStatusBarStyle from '../getStatusBarStyle';
 import { getTitleBackgroundColor } from '../../selectors';
 import { navStateWithNarrow } from '../../utils/testHelpers';
@@ -17,7 +17,7 @@ const subscriptions = [{ name: 'all', color: '#fff' }, { name: 'announce', color
 describe('getStatusBarStyle', () => {
   test('return bar style according to theme for screens other than main', () => {
     const state = deepFreeze({
-      ...navStateWithNarrow(homeNarrow),
+      ...navStateWithNarrow(HOME_NARROW),
       subscriptions,
     });
 

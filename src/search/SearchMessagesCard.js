@@ -8,7 +8,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Auth, Dispatch, Message, Subscription } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
-import { homeNarrow, searchNarrow } from '../utils/narrow';
+import { HOME_NARROW, searchNarrow } from '../utils/narrow';
 import MessageList from '../message/MessageList';
 import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
@@ -88,7 +88,7 @@ class SearchMessagesCard extends PureComponent<Props, State> {
           <MessageList
             anchor={messages[0].id}
             messages={messages}
-            narrow={homeNarrow}
+            narrow={HOME_NARROW}
             renderedMessages={renderedMessages}
             fetching={NULL_FETCHING}
             isFetching={isFetching}

@@ -1,13 +1,13 @@
 import deepFreeze from 'deep-freeze';
 
-import { homeNarrow } from '../../utils/narrow';
+import { HOME_NARROW } from '../../utils/narrow';
 import renderMessages from '../renderMessages';
 
 describe('renderMessages', () => {
   const narrow = deepFreeze([]);
 
   test('empty messages results in a single empty section', () => {
-    const messageList = renderMessages([], homeNarrow);
+    const messageList = renderMessages([], HOME_NARROW);
     expect(messageList).toEqual([{ key: 0, message: {}, data: [] }]);
   });
 

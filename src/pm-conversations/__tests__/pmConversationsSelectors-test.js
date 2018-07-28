@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import { getRecentConversations } from '../pmConversationsSelectors';
-import { homeNarrow, specialNarrow } from '../../utils/narrow';
+import { HOME_NARROW, specialNarrow } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
 
 describe('getRecentConversations', () => {
@@ -10,7 +10,7 @@ describe('getRecentConversations', () => {
   test('when no messages, return no conversations', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
-      ...navStateWithNarrow(homeNarrow),
+      ...navStateWithNarrow(HOME_NARROW),
       messages: {
         [privatesNarrowStr]: [],
       },

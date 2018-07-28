@@ -9,7 +9,7 @@ import {
   isNarrowValid,
 } from '../chatSelectors';
 import {
-  homeNarrow,
+  HOME_NARROW,
   homeNarrowStr,
   privateNarrow,
   streamNarrow,
@@ -28,7 +28,7 @@ describe('getMessagesForNarrow', () => {
       outbox: [],
     });
 
-    const anchor = getMessagesForNarrow(homeNarrow)(state);
+    const anchor = getMessagesForNarrow(HOME_NARROW)(state);
 
     expect(anchor).toBe(state.messages['[]']);
   });
@@ -41,7 +41,7 @@ describe('getMessagesForNarrow', () => {
       outbox: [
         {
           email: 'donald@zulip.com',
-          narrow: homeNarrow,
+          narrow: HOME_NARROW,
           parsedContent: '<p>Hello</p>',
           sender_full_name: 'donald',
           timestamp: 12,
@@ -52,7 +52,7 @@ describe('getMessagesForNarrow', () => {
       },
     });
 
-    const anchor = getMessagesForNarrow(homeNarrow)(state);
+    const anchor = getMessagesForNarrow(HOME_NARROW)(state);
 
     const expectedState = deepFreeze([
       { id: 123 },
@@ -76,7 +76,7 @@ describe('getMessagesForNarrow', () => {
       outbox: [
         {
           email: 'donald@zulip.com',
-          narrow: homeNarrow,
+          narrow: HOME_NARROW,
           parsedContent: '<p>Hello</p>',
           sender_full_name: 'donald',
           timestamp: 12,
@@ -84,7 +84,7 @@ describe('getMessagesForNarrow', () => {
       ],
     });
 
-    const anchor = getMessagesForNarrow(homeNarrow)(state);
+    const anchor = getMessagesForNarrow(HOME_NARROW)(state);
 
     expect(anchor).toBe(state.messages[homeNarrowStr]);
   });
@@ -122,7 +122,7 @@ describe('getFirstMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getFirstMessageId(homeNarrow)(state);
+    const anchor = getFirstMessageId(HOME_NARROW)(state);
 
     expect(anchor).toEqual(undefined);
   });
@@ -135,7 +135,7 @@ describe('getFirstMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getFirstMessageId(homeNarrow)(state);
+    const anchor = getFirstMessageId(HOME_NARROW)(state);
 
     expect(anchor).toEqual(1);
   });
@@ -150,7 +150,7 @@ describe('getLastMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getLastMessageId(homeNarrow)(state);
+    const anchor = getLastMessageId(HOME_NARROW)(state);
 
     expect(anchor).toEqual(undefined);
   });
@@ -163,7 +163,7 @@ describe('getLastMessageId', () => {
       outbox: [],
     });
 
-    const anchor = getLastMessageId(homeNarrow)(state);
+    const anchor = getLastMessageId(HOME_NARROW)(state);
 
     expect(anchor).toEqual(3);
   });
@@ -176,7 +176,7 @@ describe('getLastTopicForNarrow', () => {
       outbox: [],
     });
 
-    const actualLastTopic = getLastTopicForNarrow(homeNarrow)(state);
+    const actualLastTopic = getLastTopicForNarrow(HOME_NARROW)(state);
 
     expect(actualLastTopic).toEqual('');
   });
@@ -189,7 +189,7 @@ describe('getLastTopicForNarrow', () => {
       outbox: [],
     });
 
-    const actualLastTopic = getLastTopicForNarrow(homeNarrow)(state);
+    const actualLastTopic = getLastTopicForNarrow(HOME_NARROW)(state);
 
     expect(actualLastTopic).toEqual('Last subject');
   });

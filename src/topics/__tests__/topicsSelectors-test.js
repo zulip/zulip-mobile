@@ -1,13 +1,13 @@
 import deepFreeze from 'deep-freeze';
 
 import { getTopicsForNarrow, getLastMessageTopic, getTopicsForStream } from '../topicSelectors';
-import { homeNarrow, streamNarrow } from '../../utils/narrow';
+import { HOME_NARROW, streamNarrow } from '../../utils/narrow';
 
 describe('getTopicsForNarrow', () => {
   test('when no topics return an empty list', () => {
     const state = deepFreeze({});
 
-    const topics = getTopicsForNarrow(homeNarrow)(state);
+    const topics = getTopicsForNarrow(HOME_NARROW)(state);
 
     expect(topics).toEqual([]);
   });
@@ -32,7 +32,7 @@ describe('getLastMessageTopic', () => {
       messages: {},
     });
 
-    const topic = getLastMessageTopic(homeNarrow)(state);
+    const topic = getLastMessageTopic(HOME_NARROW)(state);
 
     expect(topic).toEqual('');
   });

@@ -275,7 +275,7 @@ describe('getNarrowFromLink', () => {
     { email: 'def@example.com', user_id: 3 },
   ];
 
-  test('when link is not in-app link, return default homeNarrow', () => {
+  test('when link is not in-app link, return default HOME_NARROW', () => {
     expect(getNarrowFromLink('https://example.com/user_uploads', 'https://example.com')).toEqual(
       [],
     );

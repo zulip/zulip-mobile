@@ -1,6 +1,6 @@
 /* @flow */
 import type { FlagsState, Recipient, Narrow, Message, MuteState, Subscription } from '../types';
-import { homeNarrow, isTopicNarrow } from './narrow';
+import { HOME_NARROW, isTopicNarrow } from './narrow';
 
 // TODO types: this union is confusing
 export const normalizeRecipients = (recipients: Recipient[] | string) =>
@@ -86,7 +86,7 @@ export const isMessageRead = (
   flags: FlagsState,
   subscriptions: Subscription[],
   mute: MuteState,
-): boolean => shouldBeMuted(message, homeNarrow, subscriptions, mute) || !!flags.read[message.id];
+): boolean => shouldBeMuted(message, HOME_NARROW, subscriptions, mute) || !!flags.read[message.id];
 
 export const findFirstUnread = (
   messages: Message[],

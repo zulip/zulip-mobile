@@ -2,7 +2,7 @@
 import deepFreeze from 'deep-freeze';
 
 import {
-  homeNarrow,
+  HOME_NARROW,
   streamNarrow,
   topicNarrow,
   privateNarrow,
@@ -24,7 +24,7 @@ describe('getStatusBarColor', () => {
       nav: otherNav,
       subscriptions,
     });
-    expect(getStatusBarColor(getTitleBackgroundColor(homeNarrow)(state), themeDefault)).toEqual(
+    expect(getStatusBarColor(getTitleBackgroundColor(HOME_NARROW)(state), themeDefault)).toEqual(
       'white',
     );
   });
@@ -73,7 +73,7 @@ describe('getStatusBarColor', () => {
       nav: defaultNav,
       subscriptions,
     });
-    expect(getStatusBarColor(getTitleBackgroundColor(homeNarrow)(state), themeDefault)).toEqual(
+    expect(getStatusBarColor(getTitleBackgroundColor(HOME_NARROW)(state), themeDefault)).toEqual(
       'white',
     );
   });

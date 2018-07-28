@@ -6,7 +6,7 @@ import {
   getIsActiveStreamSubscribed,
   getSubscribedStreams,
 } from '../subscriptionSelectors';
-import { homeNarrow, streamNarrow, topicNarrow } from '../../utils/narrow';
+import { HOME_NARROW, streamNarrow, topicNarrow } from '../../utils/narrow';
 
 describe('getStreamsById', () => {
   test('returns empty object for an empty input', () => {
@@ -60,7 +60,7 @@ describe('getIsActiveStreamSubscribed', () => {
   test('return true for narrows other than stream and topic', () => {
     const state = deepFreeze({});
 
-    expect(getIsActiveStreamSubscribed(homeNarrow)(state)).toBe(true);
+    expect(getIsActiveStreamSubscribed(HOME_NARROW)(state)).toBe(true);
   });
 
   test('return true if current narrowed stream is subscribed', () => {

@@ -1,7 +1,7 @@
 import mockStore from 'redux-mock-store'; // eslint-disable-line
 
 import { doNarrow } from '../messagesActions';
-import { streamNarrow, homeNarrow, privateNarrow } from '../../utils/narrow';
+import { streamNarrow, HOME_NARROW, privateNarrow } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
 
 const streamNarrowObj = streamNarrow('some stream');
@@ -19,7 +19,7 @@ describe('messageActions', () => {
             older: true,
           },
         },
-        ...navStateWithNarrow(homeNarrow),
+        ...navStateWithNarrow(HOME_NARROW),
         messages: {},
         streams: [
           {
@@ -48,7 +48,7 @@ describe('messageActions', () => {
             older: true,
           },
         },
-        ...navStateWithNarrow(homeNarrow),
+        ...navStateWithNarrow(HOME_NARROW),
         messages: {
           [streamNarrowStr]: [],
         },
@@ -77,7 +77,7 @@ describe('messageActions', () => {
         realm: {},
         session: { isHydrated: true },
         caughtUp: {},
-        ...navStateWithNarrow(homeNarrow),
+        ...navStateWithNarrow(HOME_NARROW),
         messages: {
           [streamNarrowStr]: [{ id: 1 }],
         },
@@ -103,7 +103,7 @@ describe('messageActions', () => {
         realm: {},
         session: { isHydrated: true },
         caughtUp: {},
-        ...navStateWithNarrow(homeNarrow),
+        ...navStateWithNarrow(HOME_NARROW),
         messages: {
           [streamNarrowStr]: [{ id: 1 }],
         },
@@ -128,7 +128,7 @@ describe('messageActions', () => {
         },
         session: { isHydrated: true },
         caughtUp: {},
-        ...navStateWithNarrow(homeNarrow),
+        ...navStateWithNarrow(HOME_NARROW),
         messages: {
           [streamNarrowStr]: [{ id: 1 }],
         },

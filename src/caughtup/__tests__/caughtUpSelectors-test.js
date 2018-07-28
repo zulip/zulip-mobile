@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import { getCaughtUpForActiveNarrow } from '../caughtUpSelectors';
-import { homeNarrow, homeNarrowStr } from '../../utils/narrow';
+import { HOME_NARROW, homeNarrowStr } from '../../utils/narrow';
 
 describe('getCaughtUpForActiveNarrow', () => {
   test('if a key with current narrow exists return it', () => {
@@ -11,7 +11,7 @@ describe('getCaughtUpForActiveNarrow', () => {
       },
     });
 
-    const caughtUp = getCaughtUpForActiveNarrow(homeNarrow)(state);
+    const caughtUp = getCaughtUpForActiveNarrow(HOME_NARROW)(state);
 
     expect(caughtUp).toEqual({ older: false, newer: true });
   });
@@ -21,7 +21,7 @@ describe('getCaughtUpForActiveNarrow', () => {
       caughtUp: {},
     });
 
-    const caughtUp = getCaughtUpForActiveNarrow(homeNarrow)(state);
+    const caughtUp = getCaughtUpForActiveNarrow(HOME_NARROW)(state);
 
     expect(caughtUp).toEqual({ older: false, newer: false });
   });

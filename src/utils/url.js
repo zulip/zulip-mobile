@@ -3,7 +3,7 @@ import base64 from 'base-64';
 import urlRegex from 'url-regex';
 
 import type { Auth, Narrow, User } from '../types';
-import { homeNarrow, topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
+import { HOME_NARROW, topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
 import { getUserById } from '../users/userHelpers';
 import { transformToEncodedURI } from './string';
 
@@ -101,7 +101,7 @@ export const getNarrowFromLink = (url: string, realm: string, users: User[]): Na
     return specialNarrow(paths[1]);
   }
 
-  return homeNarrow;
+  return HOME_NARROW;
 };
 
 export const getMessageIdFromLink = (url: string, realm: string): number => {

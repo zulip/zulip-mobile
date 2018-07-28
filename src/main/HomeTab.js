@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Dispatch } from '../types';
-import { homeNarrow, specialNarrow } from '../utils/narrow';
+import { HOME_NARROW, specialNarrow } from '../utils/narrow';
 import NavButton from '../nav/NavButton';
 import UnreadCards from '../unread/UnreadCards';
 import { doNarrow, navigateToSearch } from '../actions';
@@ -35,7 +35,7 @@ class HomeTab extends PureComponent<Props> {
           <NavButton
             name="home"
             onPress={() => {
-              dispatch(doNarrow(homeNarrow));
+              dispatch(doNarrow(HOME_NARROW));
             }}
           />
           <NavButton

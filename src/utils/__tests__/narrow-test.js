@@ -1,5 +1,5 @@
 import {
-  homeNarrow,
+  HOME_NARROW,
   isHomeNarrow,
   privateNarrow,
   isPrivateNarrow,
@@ -22,9 +22,9 @@ import {
   parseNarrowString,
 } from '../narrow';
 
-describe('homeNarrow', () => {
+describe('HOME_NARROW', () => {
   test('produces an empty list', () => {
-    expect(homeNarrow).toEqual([]);
+    expect(HOME_NARROW).toEqual([]);
   });
 
   test('empty list is a home narrow', () => {
@@ -131,7 +131,7 @@ describe('isStreamOrTopicNarrow', () => {
     expect(isStreamOrTopicNarrow(undefined)).toBe(false);
     expect(isStreamOrTopicNarrow(streamNarrow('some stream'))).toBe(true);
     expect(isStreamOrTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
-    expect(isStreamOrTopicNarrow(homeNarrow)).toBe(false);
+    expect(isStreamOrTopicNarrow(HOME_NARROW)).toBe(false);
     expect(isStreamOrTopicNarrow(privateNarrow('a@a.com'))).toBe(false);
     expect(isStreamOrTopicNarrow(groupNarrow(['john@example.com', 'mark@example.com']))).toBe(
       false,
@@ -229,7 +229,7 @@ describe('searchNarrow', () => {
 describe('isMessageInNarrow', () => {
   test('any message is in "Home"', () => {
     const message = {};
-    const narrow = homeNarrow;
+    const narrow = HOME_NARROW;
     expect(isMessageInNarrow(message, narrow)).toBe(true);
   });
 
@@ -362,8 +362,8 @@ describe('isSameNarrow', () => {
     expect(isSameNarrow(topicNarrow('stream', 'topic'), topicNarrow('stream', 'topic1'))).toBe(
       false,
     );
-    expect(isSameNarrow(homeNarrow, specialNarrow('private'))).toBe(false);
-    expect(isSameNarrow(homeNarrow, homeNarrow)).toBe(true);
+    expect(isSameNarrow(HOME_NARROW, specialNarrow('private'))).toBe(false);
+    expect(isSameNarrow(HOME_NARROW, HOME_NARROW)).toBe(true);
   });
 });
 
