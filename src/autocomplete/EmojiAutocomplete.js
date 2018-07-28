@@ -34,13 +34,7 @@ class EmojiAutocomplete extends PureComponent<Props> {
           initialNumToRender={12}
           data={emojis}
           keyExtractor={item => item}
-          renderItem={({ item }) => (
-            <EmojiRow
-              realmEmoji={realmEmoji[item]}
-              name={item}
-              onPress={() => onAutocomplete(item)}
-            />
-          )}
+          renderItem={({ item }) => <EmojiRow name={item} onPress={() => onAutocomplete(item)} />}
         />
       </Popup>
     );

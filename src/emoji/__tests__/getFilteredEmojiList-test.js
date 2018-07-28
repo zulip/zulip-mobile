@@ -16,7 +16,8 @@ describe('getFilteredEmojiList', () => {
     expect(list).toEqual(['goal_net', 'goat', 'goblin', 'golf', 'golfer', 'gorilla']);
   });
 
-  test('search in realm emojis as well', () => {
+  // skip: #2846
+  test.skip('search in realm emojis as well', () => {
     const list = getFilteredEmojiList('don', {
       done: { source_url: '/user_avatars/2/emoji/done.png' },
     });
@@ -30,7 +31,8 @@ describe('getFilteredEmojiList', () => {
     expect(list).toEqual(['dog', 'dog2', 'dog_face']);
   });
 
-  test('return realm emojis which includes filter ', () => {
+  // skip: #2846
+  test.skip('return realm emojis which includes filter ', () => {
     const list = getFilteredEmojiList('all', {
       small: { source_url: '/user_avatars/2/emoji/small.png' },
     });
