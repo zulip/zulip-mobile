@@ -187,15 +187,15 @@ type HeaderButtonType = {
   onlyIf?: ({ message: Message }) => boolean,
 };
 
-const resolveMultiple = (message, auth, narrow, functions) =>
-  functions.every(f => f({ message, auth, narrow }));
+function allOf<T>(predicates: ((T) => boolean)[]): T => boolean {
+  return x => predicates.every(p => p(x));
+}
 
 const actionSheetButtons /* ActionSheetButtonType[] */ = [
   {
     title: 'Add a reaction',
     onPress: addReaction,
-    onlyIf: ({ message, auth, narrow }) =>
-      resolveMultiple(message, auth, narrow, [isSentMessage, isNotDeleted]),
+    onlyIf: allOf([isSentMessage, isNotDeleted]),
   },
   { title: 'Reply', onPress: reply, onlyIf: isSentMessage },
   { title: 'Copy to clipboard', onPress: copyToClipboard, onlyIf: isNotDeleted },
@@ -203,14 +203,12 @@ const actionSheetButtons /* ActionSheetButtonType[] */ = [
   {
     title: 'Edit message',
     onPress: editMessage,
-    onlyIf: ({ message, auth, narrow }) =>
-      resolveMultiple(message, auth, narrow, [isSentMessage, isSentBySelfAndNarrowed]),
+    onlyIf: allOf([isSentMessage, isSentBySelfAndNarrowed]),
   },
   {
     title: 'Delete message',
     onPress: doDeleteMessage,
-    onlyIf: ({ message, auth, narrow }) =>
-      resolveMultiple(message, auth, narrow, [isSentMessage, isSentBySelf, isNotDeleted]),
+    onlyIf: allOf([isSentMessage, isSentBySelf, isNotDeleted]),
   },
   // If skip then covered in constructMessageActionButtons
   { title: 'Star message', onPress: starMessage, onlyIf: skip },
