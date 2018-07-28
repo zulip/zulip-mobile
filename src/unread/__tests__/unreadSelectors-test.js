@@ -13,7 +13,7 @@ import {
   getUnreadStreamsAndTopics,
   getUnreadStreamsAndTopicsSansMuted,
 } from '../unreadSelectors';
-import { allPrivateNarrowStr } from '../../utils/narrow';
+import { ALL_PRIVATE_NARROW_STR } from '../../utils/narrow';
 
 const unreadStreamData = [
   {
@@ -715,7 +715,7 @@ describe('getUnreadPrivateMessagesCount', () => {
     const state = deepFreeze({
       messages: {
         '[]': [{ id: 1 }, { id: 2 }],
-        [allPrivateNarrowStr]: [{ id: 2 }, { id: 3 }, { id: 4 }],
+        [ALL_PRIVATE_NARROW_STR]: [{ id: 2 }, { id: 3 }, { id: 4 }],
       },
       flags: {
         read: {

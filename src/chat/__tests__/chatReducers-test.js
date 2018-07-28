@@ -4,7 +4,7 @@ import chatReducers from '../chatReducers';
 import {
   HOME_NARROW_STR,
   privateNarrow,
-  allPrivateNarrowStr,
+  ALL_PRIVATE_NARROW_STR,
   groupNarrow,
   streamNarrow,
   topicNarrow,
@@ -98,7 +98,7 @@ describe('chatReducers', () => {
 
   test('if new message is private or group add it to the "allPrivate" narrow', () => {
     const initialState = deepFreeze({
-      [allPrivateNarrowStr]: [],
+      [ALL_PRIVATE_NARROW_STR]: [],
     });
     const message = {
       id: 1,
@@ -110,11 +110,11 @@ describe('chatReducers', () => {
       message,
       ownEmail: 'me@example.com',
       caughtUp: {
-        [allPrivateNarrowStr]: { older: true, newer: true },
+        [ALL_PRIVATE_NARROW_STR]: { older: true, newer: true },
       },
     });
     const expectedState = {
-      [allPrivateNarrowStr]: [message],
+      [ALL_PRIVATE_NARROW_STR]: [message],
     };
 
     const actualState = chatReducers(initialState, action);
@@ -192,7 +192,7 @@ describe('chatReducers', () => {
   test('appends stream message to all cached narrows that match and are caught up', () => {
     const initialState = deepFreeze({
       [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
-      [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }],
+      [ALL_PRIVATE_NARROW_STR]: [{ id: 1 }, { id: 2 }],
       [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
       [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
       [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
@@ -217,7 +217,7 @@ describe('chatReducers', () => {
 
     const expectedState = {
       [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }, message],
-      [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }],
+      [ALL_PRIVATE_NARROW_STR]: [{ id: 1 }, { id: 2 }],
       [streamNarrowStr]: [{ id: 2 }, { id: 3 }, message],
       [topicNarrowStr]: [{ id: 2 }, { id: 3 }, message],
       [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
@@ -262,7 +262,7 @@ describe('chatReducers', () => {
   test('appends private message to multiple cached narrows', () => {
     const initialState = deepFreeze({
       [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
-      [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }],
+      [ALL_PRIVATE_NARROW_STR]: [{ id: 1 }, { id: 2 }],
       [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
       [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
       [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
@@ -281,14 +281,14 @@ describe('chatReducers', () => {
       ownEmail: 'me@example.com',
       caughtUp: {
         [HOME_NARROW_STR]: { older: false, newer: true },
-        [allPrivateNarrowStr]: { older: false, newer: true },
+        [ALL_PRIVATE_NARROW_STR]: { older: false, newer: true },
         [privateNarrowStr]: { older: false, newer: true },
       },
     });
 
     const expectedState = {
       [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }, message],
-      [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }, message],
+      [ALL_PRIVATE_NARROW_STR]: [{ id: 1 }, { id: 2 }, message],
       [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
       [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
       [privateNarrowStr]: [{ id: 2 }, { id: 4 }, message],

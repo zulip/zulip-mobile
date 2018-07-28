@@ -53,7 +53,7 @@ export const isSpecialNarrow = (narrow: Narrow): boolean =>
 
 export const ALL_PRIVATE_NARROW = specialNarrow('private');
 
-export const allPrivateNarrowStr = JSON.stringify(ALL_PRIVATE_NARROW);
+export const ALL_PRIVATE_NARROW_STR = JSON.stringify(ALL_PRIVATE_NARROW);
 
 export const isAllPrivateNarrow = (narrow: Narrow): boolean =>
   Array.isArray(narrow)

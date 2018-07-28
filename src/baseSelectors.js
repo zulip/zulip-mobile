@@ -2,13 +2,13 @@
 import { createSelector } from 'reselect';
 
 import type { GlobalState } from './types';
-import { allPrivateNarrowStr } from './utils/narrow';
+import { ALL_PRIVATE_NARROW_STR } from './utils/narrow';
 import { getAllMessages, getNavigationRoutes, getNavigationIndex, getNav } from './directSelectors';
 import { NULL_ARRAY } from './nullObjects';
 
 export const getPrivateMessages = createSelector(
   getAllMessages,
-  messages => messages[allPrivateNarrowStr] || NULL_ARRAY,
+  messages => messages[ALL_PRIVATE_NARROW_STR] || NULL_ARRAY,
 );
 
 export const getCurrentRoute = (state: GlobalState): string =>

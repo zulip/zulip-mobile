@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import flagsReducers from '../flagsReducers';
-import { HOME_NARROW_STR, allPrivateNarrowStr, streamNarrow } from '../../utils/narrow';
+import { HOME_NARROW_STR, ALL_PRIVATE_NARROW_STR, streamNarrow } from '../../utils/narrow';
 import {
   REHYDRATE,
   MESSAGE_FETCH_COMPLETE,
@@ -361,7 +361,7 @@ describe('flagsReducers', () => {
         all: true,
         allMessages: {
           [HOME_NARROW_STR]: [{ id: 1 }],
-          [allPrivateNarrowStr]: [{ id: 1 }, { id: 2 }, { id: 3 }],
+          [ALL_PRIVATE_NARROW_STR]: [{ id: 1 }, { id: 2 }, { id: 3 }],
           [JSON.stringify(streamNarrow('some stream'))]: [{ id: 3 }, { id: 4 }, { id: 5 }],
         },
       });

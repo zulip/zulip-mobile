@@ -6,7 +6,7 @@ import {
   HOME_NARROW,
   HOME_NARROW_STR,
   ALL_PRIVATE_NARROW,
-  allPrivateNarrowStr,
+  ALL_PRIVATE_NARROW_STR,
 } from '../../utils/narrow';
 
 describe('caughtUpReducers', () => {
@@ -256,7 +256,7 @@ describe('caughtUpReducers', () => {
     });
 
     const expectedState = {
-      [allPrivateNarrowStr]: {
+      [ALL_PRIVATE_NARROW_STR]: {
         older: true,
         newer: true,
       },
