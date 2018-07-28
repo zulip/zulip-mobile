@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import { getFetchingForActiveNarrow, getIsFetching } from '../fetchingSelectors';
-import { HOME_NARROW, homeNarrowStr } from '../../utils/narrow';
+import { HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
 
 describe('getFetchingForActiveNarrow', () => {
   test('if no narrow information exists in state, return a null fetching object', () => {
@@ -18,7 +18,7 @@ describe('getFetchingForActiveNarrow', () => {
   test('if an entry matching current narrow exists, it is returned', () => {
     const state = deepFreeze({
       fetching: {
-        [homeNarrowStr]: { older: true, newer: true },
+        [HOME_NARROW_STR]: { older: true, newer: true },
       },
     });
     const expectedResult = { older: true, newer: true };
@@ -43,7 +43,7 @@ describe('getIsFetching', () => {
   test('if fetching older for current narrow returns true', () => {
     const state = deepFreeze({
       fetching: {
-        [homeNarrowStr]: { older: true, newer: false },
+        [HOME_NARROW_STR]: { older: true, newer: false },
       },
     });
 
@@ -55,7 +55,7 @@ describe('getIsFetching', () => {
   test('if fetching newer for current narrow returns true', () => {
     const state = deepFreeze({
       fetching: {
-        [homeNarrowStr]: { older: false, newer: true },
+        [HOME_NARROW_STR]: { older: false, newer: true },
       },
     });
 

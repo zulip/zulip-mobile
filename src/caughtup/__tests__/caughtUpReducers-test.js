@@ -4,7 +4,7 @@ import caughtUpReducers from '../caughtUpReducers';
 import { MESSAGE_FETCH_START, MESSAGE_FETCH_COMPLETE } from '../../actionConstants';
 import {
   HOME_NARROW,
-  homeNarrowStr,
+  HOME_NARROW_STR,
   allPrivateNarrow,
   allPrivateNarrowStr,
 } from '../../utils/narrow';
@@ -13,7 +13,7 @@ describe('caughtUpReducers', () => {
   describe('MESSAGE_FETCH_START', () => {
     test('when fetch starts caught up does not change', () => {
       const initialState = deepFreeze({
-        [homeNarrowStr]: {
+        [HOME_NARROW_STR]: {
           older: true,
           newer: true,
         },
@@ -33,7 +33,7 @@ describe('caughtUpReducers', () => {
   describe('MESSAGE_FETCH_COMPLETE', () => {
     test('if messages received are less than requested then we are caught up', () => {
       const initialState = deepFreeze({
-        [homeNarrowStr]: {
+        [HOME_NARROW_STR]: {
           older: false,
           newer: false,
         },
@@ -49,7 +49,7 @@ describe('caughtUpReducers', () => {
       });
 
       const expectedState = {
-        [homeNarrowStr]: {
+        [HOME_NARROW_STR]: {
           older: true,
           newer: true,
         },
@@ -63,7 +63,7 @@ describe('caughtUpReducers', () => {
 
   test('if messages received are requested amount we consider it not yet caught up', () => {
     const initialState = deepFreeze({
-      [homeNarrowStr]: {
+      [HOME_NARROW_STR]: {
         older: false,
         newer: false,
       },
@@ -79,7 +79,7 @@ describe('caughtUpReducers', () => {
     });
 
     const expectedState = {
-      [homeNarrowStr]: {
+      [HOME_NARROW_STR]: {
         older: false,
         newer: false,
       },
@@ -92,7 +92,7 @@ describe('caughtUpReducers', () => {
 
   test('new results do not reset previous state', () => {
     const initialState = deepFreeze({
-      [homeNarrowStr]: {
+      [HOME_NARROW_STR]: {
         older: true,
         newer: true,
       },
@@ -108,7 +108,7 @@ describe('caughtUpReducers', () => {
     });
 
     const expectedState = {
-      [homeNarrowStr]: {
+      [HOME_NARROW_STR]: {
         older: true,
         newer: true,
       },
@@ -140,7 +140,7 @@ describe('caughtUpReducers', () => {
     });
 
     const expectedState = {
-      [homeNarrowStr]: {
+      [HOME_NARROW_STR]: {
         older: false,
         newer: false,
       },
@@ -171,7 +171,7 @@ describe('caughtUpReducers', () => {
     });
 
     const expectedState = {
-      [homeNarrowStr]: {
+      [HOME_NARROW_STR]: {
         older: true,
         newer: false,
       },
@@ -202,7 +202,7 @@ describe('caughtUpReducers', () => {
     });
 
     const expectedState = {
-      [homeNarrowStr]: {
+      [HOME_NARROW_STR]: {
         older: false,
         newer: true,
       },
@@ -232,7 +232,7 @@ describe('caughtUpReducers', () => {
     });
 
     const expectedState = {
-      [homeNarrowStr]: {
+      [HOME_NARROW_STR]: {
         older: true,
         newer: true,
       },
@@ -270,7 +270,7 @@ describe('caughtUpReducers', () => {
   describe('verify that server has send extra message before calculating adjustment', () => {
     test('no adjustment is required if messages are less than or equal to requested', () => {
       const initialState = deepFreeze({
-        [homeNarrowStr]: {},
+        [HOME_NARROW_STR]: {},
       });
 
       const action = deepFreeze({
@@ -294,7 +294,7 @@ describe('caughtUpReducers', () => {
       });
 
       const expectedState = {
-        [homeNarrowStr]: {
+        [HOME_NARROW_STR]: {
           older: false,
           newer: false,
         },
@@ -307,7 +307,7 @@ describe('caughtUpReducers', () => {
 
     test('dynamically determine adjustment whenever required', () => {
       const initialState = deepFreeze({
-        [homeNarrowStr]: {},
+        [HOME_NARROW_STR]: {},
       });
 
       const action = deepFreeze({
@@ -332,7 +332,7 @@ describe('caughtUpReducers', () => {
       });
 
       const expectedState = {
-        [homeNarrowStr]: {
+        [HOME_NARROW_STR]: {
           older: false,
           newer: false,
         },

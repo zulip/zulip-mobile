@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import fetchingReducers from '../fetchingReducers';
-import { homeNarrowStr, streamNarrow } from '../../utils/narrow';
+import { HOME_NARROW_STR, streamNarrow } from '../../utils/narrow';
 import {
   FETCH_STATE_RESET,
   MESSAGE_FETCH_START,
@@ -31,7 +31,7 @@ describe('fetchingReducers', () => {
   describe('MESSAGE_FETCH_START', () => {
     test('if messages are fetched before or after the corresponding flag is set', () => {
       const initialState = deepFreeze({
-        [homeNarrowStr]: { older: false, newer: false },
+        [HOME_NARROW_STR]: { older: false, newer: false },
       });
 
       const action = deepFreeze({
@@ -42,7 +42,7 @@ describe('fetchingReducers', () => {
       });
 
       const expectedState = {
-        [homeNarrowStr]: { older: true, newer: true },
+        [HOME_NARROW_STR]: { older: true, newer: true },
       };
 
       const newState = fetchingReducers(initialState, action);
@@ -52,7 +52,7 @@ describe('fetchingReducers', () => {
 
     test('if key for narrow does not exist, it is created and corresponding flags are set', () => {
       const initialState = deepFreeze({
-        [homeNarrowStr]: { older: false, newer: false },
+        [HOME_NARROW_STR]: { older: false, newer: false },
       });
 
       const action = deepFreeze({
@@ -63,7 +63,7 @@ describe('fetchingReducers', () => {
       });
 
       const expectedState = {
-        [homeNarrowStr]: { older: false, newer: false },
+        [HOME_NARROW_STR]: { older: false, newer: false },
         [JSON.stringify(streamNarrow('some stream'))]: { older: true, newer: false },
       };
 
@@ -76,7 +76,7 @@ describe('fetchingReducers', () => {
   describe('MESSAGE_FETCH_COMPLETE', () => {
     test('sets corresponding fetching flags to false, if messages are received before or after', () => {
       const initialState = deepFreeze({
-        [homeNarrowStr]: { older: true, newer: true },
+        [HOME_NARROW_STR]: { older: true, newer: true },
       });
 
       const action = deepFreeze({
@@ -88,7 +88,7 @@ describe('fetchingReducers', () => {
       });
 
       const expectedState = {
-        [homeNarrowStr]: { older: false, newer: true },
+        [HOME_NARROW_STR]: { older: false, newer: true },
       };
 
       const newState = fetchingReducers(initialState, action);

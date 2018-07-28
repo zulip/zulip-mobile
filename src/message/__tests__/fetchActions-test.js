@@ -1,7 +1,7 @@
 import mockStore from 'redux-mock-store'; // eslint-disable-line
 
 import { fetchMessages, fetchMessagesAtFirstUnread, fetchOlder, fetchNewer } from '../fetchActions';
-import { streamNarrow, HOME_NARROW, homeNarrowStr } from '../../utils/narrow';
+import { streamNarrow, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
 
 const narrow = streamNarrow('some stream');
@@ -108,15 +108,15 @@ describe('fetchActions', () => {
           needsInitialFetch: false,
         },
         caughtUp: {
-          [homeNarrowStr]: { older: false },
+          [HOME_NARROW_STR]: { older: false },
         },
         ...navStateWithNarrow(HOME_NARROW),
         messages: {
           [streamNarrowStr]: [{ id: 2 }],
-          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {
-          [homeNarrowStr]: { older: false, newer: false },
+          [HOME_NARROW_STR]: { older: false, newer: false },
         },
       });
 
@@ -133,15 +133,15 @@ describe('fetchActions', () => {
           needsInitialFetch: false,
         },
         caughtUp: {
-          [homeNarrowStr]: { older: true },
+          [HOME_NARROW_STR]: { older: true },
         },
         ...navStateWithNarrow(HOME_NARROW),
         messages: {
           [streamNarrowStr]: [{ id: 2 }],
-          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {
-          [homeNarrowStr]: { older: false, newer: false },
+          [HOME_NARROW_STR]: { older: false, newer: false },
         },
       });
 
@@ -157,15 +157,15 @@ describe('fetchActions', () => {
           needsInitialFetch: false,
         },
         caughtUp: {
-          [homeNarrowStr]: { older: false },
+          [HOME_NARROW_STR]: { older: false },
         },
         ...navStateWithNarrow(HOME_NARROW),
         messages: {
           [streamNarrowStr]: [{ id: 2 }],
-          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {
-          [homeNarrowStr]: { older: true, newer: false },
+          [HOME_NARROW_STR]: { older: true, newer: false },
         },
       });
 
@@ -181,12 +181,12 @@ describe('fetchActions', () => {
           needsInitialFetch: true,
         },
         caughtUp: {
-          [homeNarrowStr]: { older: false },
+          [HOME_NARROW_STR]: { older: false },
         },
         ...navStateWithNarrow(HOME_NARROW),
         messages: {
           [streamNarrowStr]: [{ id: 2 }],
-          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {},
       });
@@ -205,12 +205,12 @@ describe('fetchActions', () => {
           needsInitialFetch: false,
         },
         caughtUp: {
-          [homeNarrowStr]: { newer: false },
+          [HOME_NARROW_STR]: { newer: false },
         },
         ...navStateWithNarrow(HOME_NARROW),
         messages: {
           [streamNarrowStr]: [{ id: 2 }],
-          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {},
       });
@@ -228,12 +228,12 @@ describe('fetchActions', () => {
           needsInitialFetch: false,
         },
         caughtUp: {
-          [homeNarrowStr]: { newer: true },
+          [HOME_NARROW_STR]: { newer: true },
         },
         ...navStateWithNarrow(HOME_NARROW),
         messages: {
           [streamNarrowStr]: [{ id: 2 }],
-          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {},
       });
@@ -250,12 +250,12 @@ describe('fetchActions', () => {
           needsInitialFetch: false,
         },
         caughtUp: {
-          [homeNarrowStr]: { newer: false },
+          [HOME_NARROW_STR]: { newer: false },
         },
         ...navStateWithNarrow(HOME_NARROW),
         messages: {
           [streamNarrowStr]: [{ id: 2 }],
-          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
         fetching: {
           HOME_NARROW: { older: false, newer: true },
@@ -275,13 +275,13 @@ describe('fetchActions', () => {
           needsInitialFetch: true,
         },
         caughtUp: {
-          [homeNarrowStr]: { newer: false },
+          [HOME_NARROW_STR]: { newer: false },
         },
         fetching: {},
         ...navStateWithNarrow(HOME_NARROW),
         messages: {
           [streamNarrowStr]: [{ id: 2 }],
-          [homeNarrowStr]: [{ id: 1 }, { id: 2 }],
+          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         },
       });
 

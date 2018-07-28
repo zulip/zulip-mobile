@@ -7,7 +7,7 @@ import { normalizeRecipients } from './message';
 
 export const HOME_NARROW: Narrow = [];
 
-export const homeNarrowStr: string = '[]';
+export const HOME_NARROW_STR: string = '[]';
 
 export const isHomeNarrow = (narrow: Narrow): boolean =>
   Array.isArray(narrow) && narrow.length === 0;

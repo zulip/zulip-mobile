@@ -10,7 +10,7 @@ import {
 } from '../chatSelectors';
 import {
   HOME_NARROW,
-  homeNarrowStr,
+  HOME_NARROW_STR,
   privateNarrow,
   streamNarrow,
   topicNarrow,
@@ -48,7 +48,7 @@ describe('getMessagesForNarrow', () => {
         },
       ],
       caughtUp: {
-        [homeNarrowStr]: { older: false, newer: true },
+        [HOME_NARROW_STR]: { older: false, newer: true },
       },
     });
 
@@ -71,7 +71,7 @@ describe('getMessagesForNarrow', () => {
   test('do not combine messages and outbox if not caught up', () => {
     const state = deepFreeze({
       messages: {
-        [homeNarrowStr]: [{ id: 123 }],
+        [HOME_NARROW_STR]: [{ id: 123 }],
       },
       outbox: [
         {
@@ -86,7 +86,7 @@ describe('getMessagesForNarrow', () => {
 
     const anchor = getMessagesForNarrow(HOME_NARROW)(state);
 
-    expect(anchor).toBe(state.messages[homeNarrowStr]);
+    expect(anchor).toBe(state.messages[HOME_NARROW_STR]);
   });
 
   test('do not combine messages and outbox in different narrow', () => {
@@ -184,7 +184,7 @@ describe('getLastTopicForNarrow', () => {
   test('when last message has a `subject` property, return it', () => {
     const state = deepFreeze({
       messages: {
-        [homeNarrowStr]: [{ id: 0, subject: 'First subject' }, { id: 1, subject: 'Last subject' }],
+        [HOME_NARROW_STR]: [{ id: 0, subject: 'First subject' }, { id: 1, subject: 'Last subject' }],
       },
       outbox: [],
     });
