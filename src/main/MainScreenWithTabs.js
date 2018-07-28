@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 import type { Context } from '../types';
 import { OfflineNotice, ZulipStatusBar } from '../common';
-import MainTabs from './MainTabs';
+import MainDrawer from './MainDrawer';
 
 export default class MainScreenWithTabs extends PureComponent<{}> {
   context: Context;
@@ -20,7 +20,7 @@ export default class MainScreenWithTabs extends PureComponent<{}> {
       <View style={[styles.flexed, styles.backgroundColor]}>
         <ZulipStatusBar />
         <OfflineNotice />
-        <MainTabs />
+        <MainDrawer />
       </View>
     );
   }

@@ -4,59 +4,38 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import type { Dispatch } from '../types';
-import { homeNarrow, specialNarrow } from '../utils/narrow';
+import type { Context, Dispatch } from '../types';
 import NavButton from '../nav/NavButton';
+import { Label } from '../common';
 import UnreadCards from '../unread/UnreadCards';
-import { doNarrow, navigateToSearch } from '../actions';
+import { navigateToSearch } from '../actions';
 
-const styles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   wrapper: {
     flex: 1,
     flexDirection: 'column',
-  },
-  iconList: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
   },
 });
 
 type Props = {
   dispatch: Dispatch,
+  navigation: Object,
 };
 
 class HomeTab extends PureComponent<Props> {
+  context: Context;
+  props: Props;
+
+  static contextTypes = {
+    styles: () => null,
+  };
+
   render() {
-    const { dispatch } = this.props;
+    const { styles } = this.context;
+    const { dispatch, navigation } = this.props;
 
     return (
-      <View style={styles.wrapper}>
-        <View style={styles.iconList}>
-          <NavButton
-            name="home"
-            onPress={() => {
-              dispatch(doNarrow(homeNarrow));
-            }}
-          />
-          <NavButton
-            name="star"
-            onPress={() => {
-              dispatch(doNarrow(specialNarrow('starred')));
-            }}
-          />
-          <NavButton
-            name="at-sign"
-            onPress={() => {
-              dispatch(doNarrow(specialNarrow('mentioned')));
-            }}
-          />
-          <NavButton
-            name="search"
-            onPress={() => {
-              dispatch(navigateToSearch());
-            }}
-          />
-        </View>
+      <View style={componentStyles.wrapper}>
         <UnreadCards />
       </View>
     );
