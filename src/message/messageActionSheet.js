@@ -181,12 +181,6 @@ const addReaction = ({ message, dispatch }) => {
 
 const skip = (...args) => false;
 
-type HeaderButtonType = {
-  title: string,
-  onPress: (props: ButtonProps) => void | boolean | Promise<any>,
-  onlyIf?: ({ message: Message }) => boolean,
-};
-
 function allOf<T>(predicates: ((T) => boolean)[]): T => boolean {
   return x => predicates.every(p => p(x));
 }
@@ -216,12 +210,17 @@ const actionSheetButtons /* ActionSheetButtonType[] */ = [
   { title: 'Cancel', onPress: skip, onlyIf: skip },
 ];
 
+type HeaderButtonType = {
+  title: string,
+  onPress: (props: ButtonProps) => void,
+};
+
 const actionHeaderSheetButtons: HeaderButtonType[] = [
-  { title: 'Unmute topic', onPress: doUnmuteTopic, onlyIf: skip },
-  { title: 'Mute topic', onPress: doMuteTopic, onlyIf: skip },
-  { title: 'Mute stream', onPress: doMuteStream, onlyIf: skip },
-  { title: 'Unmute stream', onPress: doUnmuteStream, onlyIf: skip },
-  { title: 'Cancel', onPress: skip, onlyIf: skip },
+  { title: 'Unmute topic', onPress: doUnmuteTopic },
+  { title: 'Mute topic', onPress: doMuteTopic },
+  { title: 'Mute stream', onPress: doMuteStream },
+  { title: 'Unmute stream', onPress: doUnmuteStream },
+  { title: 'Cancel', onPress: () => {} },
 ];
 
 export const constructHeaderActionButtons = ({
@@ -230,10 +229,7 @@ export const constructHeaderActionButtons = ({
   mute,
   getString,
 }: ConstructHeaderActionButtonsType) => {
-  const buttons = actionHeaderSheetButtons
-    .filter(x => !x.onlyIf || x.onlyIf({ message }))
-    .map(x => getString(x.title));
-  // These are dependent conditions, hence better if we manage here rather than using onlyIf
+  const buttons = [];
   if (message.type === 'stream') {
     if (isTopicMuted(message.display_recipient, message.subject, mute)) {
       buttons.push(getString('Unmute topic'));
