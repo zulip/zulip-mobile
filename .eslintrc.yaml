@@ -53,6 +53,12 @@ rules:
   - error
   - devDependencies: ['**/__tests__/*.js', tools/**]
 
+  # Jest
+  # This rule could be useful if it fired only on new instances; but we
+  # don't have a way to do that, and it doesn't make sense to keep these
+  # out of the repo.
+  jest/no-disabled-tests: off
+
   # React
   react/sort-comp: off
   react/jsx-filename-extension: off
