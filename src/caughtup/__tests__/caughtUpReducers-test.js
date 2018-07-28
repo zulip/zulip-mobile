@@ -5,7 +5,7 @@ import { MESSAGE_FETCH_START, MESSAGE_FETCH_COMPLETE } from '../../actionConstan
 import {
   HOME_NARROW,
   HOME_NARROW_STR,
-  allPrivateNarrow,
+  ALL_PRIVATE_NARROW,
   allPrivateNarrowStr,
 } from '../../utils/narrow';
 
@@ -248,7 +248,7 @@ describe('caughtUpReducers', () => {
 
     const action = deepFreeze({
       type: MESSAGE_FETCH_COMPLETE,
-      narrow: allPrivateNarrow,
+      narrow: ALL_PRIVATE_NARROW,
       anchor: Number.MAX_SAFE_INTEGER,
       messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
       numBefore: 10,

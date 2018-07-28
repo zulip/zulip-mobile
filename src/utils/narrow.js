@@ -51,9 +51,9 @@ export const specialNarrow = (operand: string): Narrow => [
 export const isSpecialNarrow = (narrow: Narrow): boolean =>
   Array.isArray(narrow) && narrow.length === 1 && narrow[0].operator === 'is';
 
-export const allPrivateNarrow = specialNarrow('private');
+export const ALL_PRIVATE_NARROW = specialNarrow('private');
 
-export const allPrivateNarrowStr = JSON.stringify(allPrivateNarrow);
+export const allPrivateNarrowStr = JSON.stringify(ALL_PRIVATE_NARROW);
 
 export const isAllPrivateNarrow = (narrow: Narrow): boolean =>
   Array.isArray(narrow)
