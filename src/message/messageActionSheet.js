@@ -188,12 +188,7 @@ type HeaderButtonType = {
 };
 
 const resolveMultiple = (message, auth, narrow, functions) =>
-  functions.every(f => {
-    if (!f({ message, auth, narrow })) {
-      return false;
-    }
-    return true;
-  });
+  functions.every(f => f({ message, auth, narrow }));
 
 const actionSheetButtons /* ActionSheetButtonType[] */ = [
   {
