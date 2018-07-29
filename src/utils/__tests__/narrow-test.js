@@ -12,7 +12,7 @@ import {
   isStreamNarrow,
   topicNarrow,
   isTopicNarrow,
-  searchNarrow,
+  SEARCH_NARROW,
   isSearchNarrow,
   isPrivateOrGroupNarrow,
   isMessageInNarrow,
@@ -208,9 +208,9 @@ describe('topicNarrow', () => {
   });
 });
 
-describe('searchNarrow', () => {
+describe('SEARCH_NARROW', () => {
   test('produces a narrow for a search query', () => {
-    expect(searchNarrow('some query')).toEqual([
+    expect(SEARCH_NARROW('some query')).toEqual([
       {
         operator: 'search',
         operand: 'some query',

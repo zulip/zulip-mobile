@@ -8,7 +8,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Auth, Dispatch, Message, Subscription } from '../types';
 import { LoadingIndicator, SearchEmptyState } from '../common';
-import { HOME_NARROW, searchNarrow } from '../utils/narrow';
+import { HOME_NARROW, SEARCH_NARROW } from '../utils/narrow';
 import MessageList from '../message/MessageList';
 import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
@@ -49,7 +49,7 @@ class SearchMessagesCard extends PureComponent<Props, State> {
       this.setState({ isFetching: true });
       const messages = await getMessages(
         auth,
-        searchNarrow(query),
+        SEARCH_NARROW(query),
         Number.MAX_SAFE_INTEGER,
         20,
         0,

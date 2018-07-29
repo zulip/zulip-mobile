@@ -88,7 +88,7 @@ export const isTopicNarrow = (narrow: Narrow): boolean =>
 export const isStreamOrTopicNarrow = (narrow: Narrow): boolean =>
   Array.isArray(narrow) && narrow.length >= 1 && narrow[0].operator === 'stream';
 
-export const searchNarrow = (query: string): Narrow => [
+export const SEARCH_NARROW = (query: string): Narrow => [
   {
     operator: 'search',
     operand: query,
