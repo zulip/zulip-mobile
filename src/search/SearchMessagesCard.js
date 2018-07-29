@@ -43,7 +43,7 @@ class SearchMessagesCard extends PureComponent<Props, State> {
 
     throttle(async () => {
       this.setState({ isFetching: true });
-      const messages = await getMessages(
+      const { messages } = await getMessages(
         auth,
         SEARCH_NARROW(query),
         LAST_MESSAGE_ANCHOR,

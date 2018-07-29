@@ -1,7 +1,17 @@
 /* @flow strict-local */
-import type { Auth, Message, Narrow } from '../apiTypes';
+import type { Auth, ApiResponseSuccess, Message, Narrow } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
+type ApiResponseMessages = {|
+  ...ApiResponseSuccess,
+  anchor: number,
+  found_anchor: boolean,
+  found_newest: boolean,
+  found_oldest: boolean,
+  messages: Message[],
+|};
+
+/** See https://zulipchat.com/api/get-messages */
 export default async (
   auth: Auth,
   narrow: Narrow,
@@ -9,8 +19,8 @@ export default async (
   numBefore: number,
   numAfter: number,
   useFirstUnread: boolean = false,
-): Promise<Message[]> =>
-  apiGet(auth, 'messages', res => res.messages, {
+): Promise<ApiResponseMessages> =>
+  apiGet(auth, 'messages', (res: ApiResponseMessages): ApiResponseMessages => res, {
     narrow: JSON.stringify(narrow),
     anchor,
     num_before: numBefore,

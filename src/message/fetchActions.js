@@ -74,7 +74,7 @@ export const fetchMessages = (
   useFirstUnread: boolean = false,
 ) => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(messageFetchStart(narrow, numBefore, numAfter));
-  const messages = await getMessages(
+  const { messages } = await getMessages(
     getAuth(getState()),
     narrow,
     anchor,
@@ -183,7 +183,7 @@ export const fetchRestOfInitialData = () => async (dispatch: Dispatch, getState:
   const auth = getAuth(getState());
 
   timing.start('Rest of server data');
-  const [messages, streams] = await Promise.all([
+  const [{ messages }, streams] = await Promise.all([
     await tryUntilSuccessful(() =>
       getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
     ),
