@@ -83,11 +83,9 @@ class MessageList extends PureComponent<Props> {
     });
 
     const callback = buttonIndex => {
-      executeActionSheetAction({
+      executeActionSheetAction(target === 'header', options[buttonIndex], {
         ...this.props,
         message,
-        title: options[buttonIndex],
-        header: target === 'header',
         getString,
       });
     };

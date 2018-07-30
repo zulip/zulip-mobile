@@ -30,18 +30,6 @@ type ActionParams = {
   getString: (value: string) => string,
 };
 
-type ExecuteActionSheetParams = {
-  title: string,
-  auth: Auth,
-  message: Message,
-  subscriptions: Subscription[],
-  dispatch: Dispatch,
-  header?: boolean,
-  currentRoute?: string,
-  onReplySelect?: () => void,
-  getString: (value: string) => string,
-};
-
 const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
 
 const reply = ({ message, dispatch, auth, currentRoute, onReplySelect }: ActionParams) => {
@@ -232,13 +220,12 @@ export const constructMessageActionButtons = ({
 export const constructActionButtons = (target: string) =>
   target === 'header' ? constructHeaderActionButtons : constructMessageActionButtons;
 
-export const executeActionSheetAction = ({
-  title,
-  header,
-  getString,
-  ...props
-}: ExecuteActionSheetParams) => {
-  if (header) {
+export const executeActionSheetAction = (
+  isHeader: boolean,
+  title: string,
+  { getString, ...props }: ActionParams,
+) => {
+  if (isHeader) {
     const headerButton = actionHeaderSheetButtons.find(x => getString(x.title) === title);
     if (headerButton) {
       headerButton.onPress({ ...props, getString });
