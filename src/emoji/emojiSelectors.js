@@ -43,3 +43,17 @@ export const getActiveRealmEmojiByName: Selector<{ [string]: RealmEmojiType }> =
       return result;
     }, {}),
 );
+
+export const getAllRealmEmojiByName = createSelector(getAllRealmEmoji, emojis =>
+  Object.keys(emojis).reduce((list, key) => {
+    list[emojis[key].name] = emojis[key];
+    return list;
+  }, {}),
+);
+
+export const getActiveRealmEmojiByName = createSelector(getActiveRealmEmoji, emojis =>
+  Object.keys(emojis).reduce((list, key) => {
+    list[emojis[key].name] = emojis[key];
+    return list;
+  }, {}),
+);
