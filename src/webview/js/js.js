@@ -25,7 +25,7 @@ const sendMessage = (msg: Object) => {
 
 window.onerror = (message, source, line, column, error) => {
   if (window.enableWebViewErrorDisplay) {
-    const elementJsError = document.getElementById('js-error');
+    const elementJsError = document.getElementById('js-error-detailed');
     if (elementJsError) {
       elementJsError.innerHTML = [
         `Message: ${message}`,

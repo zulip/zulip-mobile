@@ -10,7 +10,9 @@ export default `
 
 
 var documentBody = document.body;
-if (!documentBody) throw new Error('No document.body element!');
+if (!documentBody) {
+  throw new Error('No document.body element!');
+}
 
 var escapeHtml = function escapeHtml(text) {
   var element = document.createElement('div');
@@ -24,7 +26,7 @@ var sendMessage = function sendMessage(msg) {
 
 window.onerror = function (message, source, line, column, error) {
   if (window.enableWebViewErrorDisplay) {
-    var elementJsError = document.getElementById('js-error');
+    var elementJsError = document.getElementById('js-error-detailed');
     if (elementJsError) {
       elementJsError.innerHTML = ['Message: ' + message, 'Source: ' + source, 'Line: ' + line + ':' + column, 'Error: ' + JSON.stringify(error), ''].map(escapeHtml).join('<br>');
     }
@@ -149,7 +151,9 @@ var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
 
 var handleScrollEvent = function handleScrollEvent() {
   lastTouchEventTimestamp = 0;
-  if (scrollEventsDisabled) return;
+  if (scrollEventsDisabled) {
+    return;
+  }
 
   sendScrollMessage();
 
@@ -185,8 +189,8 @@ var handleMessageContent = function handleMessageContent(msg) {
   } else if (msg.updateStrategy === 'scroll-to-anchor') {
     target = { type: 'anchor', anchor: msg.anchor };
   } else if (msg.updateStrategy === 'scroll-to-bottom-if-near-bottom' && isNearBottom()) {
-    target = { type: 'bottom' };
-  } else {
+      target = { type: 'bottom' };
+    } else {
     target = findPreserveTarget();
   }
 
@@ -301,7 +305,9 @@ documentBody.addEventListener('click', function (e) {
 });
 
 var handleLongPress = function handleLongPress(e) {
-  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) return;
+  if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) {
+    return;
+  }
 
   lastTouchEventTimestamp = 0;
 
@@ -313,7 +319,9 @@ var handleLongPress = function handleLongPress(e) {
 };
 
 documentBody.addEventListener('touchstart', function (e) {
-  if (e.changedTouches[0].pageX < 20) return;
+  if (e.changedTouches[0].pageX < 20) {
+    return;
+  }
 
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;

@@ -394,7 +394,7 @@ blockquote {
   width: 100%;
   opacity: 0.25;
 }
-#js-error {
+#js-error-detailed {
   position: fixed;
   width: 100%;
   background: red;
