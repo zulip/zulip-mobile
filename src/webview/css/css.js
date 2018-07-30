@@ -401,8 +401,7 @@ blockquote {
   color: white;
   font-size: 10px;
 }
-#js-error-plain {
-  position: fixed;
+#js-error-plain, #js-error-plain-dummy {
   z-index: 1000;
   width: 100%;
   background: #555;
@@ -410,6 +409,12 @@ blockquote {
   font-size: 15px;
   padding: 4px;
   text-align: center;
+}
+#js-error-plain {
+  position: fixed;
+}
+#js-error-plain-dummy {
+  visibility: hidden;
 }
 #scroll-bottom {
   position: fixed;
@@ -458,4 +463,10 @@ ${theme === 'night' ? darkTheme : ''}
 ${cssEmojis}
 ${highlightUnreadMessages ? '.message:not([data-read="true"]) { background: red; }' : ''}
 </style>
+<style id="style-hide-js-error-plain">
+#js-error-plain, #js-error-plain-dummy {
+  display: none;
+}
+</style>
+<style id="generated-styles"></style>
 `;

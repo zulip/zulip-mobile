@@ -39,8 +39,12 @@ window.onerror = (message, source, line, column, error) => {
     }
   } else {
     const elementJsError = document.getElementById('js-error-plain');
-    if (elementJsError) {
-      elementJsError.classList.remove('hidden');
+    const elementSheetGenerated = document.getElementById('generated-styles');
+    const elementSheetHide = document.getElementById('style-hide-js-error-plain');
+    if (elementJsError && elementSheetGenerated && elementSheetHide) {
+      elementSheetHide.sheet.disabled = true;
+      const height = elementJsError.offsetHeight;
+      elementSheetGenerated.sheet.insertRule(`.header-wrapper { top: ${height}px; }`, 0);
     }
   }
 

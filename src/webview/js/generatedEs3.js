@@ -30,6 +30,15 @@ window.onerror = function (message, source, line, column, error) {
     if (elementJsError) {
       elementJsError.innerHTML = ['Message: ' + message, 'Source: ' + source, 'Line: ' + line + ':' + column, 'Error: ' + JSON.stringify(error), ''].map(escapeHtml).join('<br>');
     }
+  } else {
+    var _elementJsError = document.getElementById('js-error-plain');
+    var elementSheetGenerated = document.getElementById('generated-styles');
+    var elementSheetHide = document.getElementById('style-hide-js-error-plain');
+    if (_elementJsError && elementSheetGenerated && elementSheetHide) {
+      elementSheetHide.sheet.disabled = true;
+      var _height = _elementJsError.offsetHeight;
+      elementSheetGenerated.sheet.insertRule('.header-wrapper { top: ' + _height + 'px; }', 0);
+    }
   }
 
   sendMessage({
