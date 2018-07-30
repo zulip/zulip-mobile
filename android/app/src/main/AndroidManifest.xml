@@ -1,10 +1,11 @@
+<!--package="com.zulipmobile.debug"-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.zulipmobile">
 
-    <permission android:name="com.zulipmobile.permission.C2D_MESSAGE"
+    <permission android:name="${applicationId}.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.zulipmobile.permission.C2D_MESSAGE" />
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -23,7 +24,7 @@
       android:name=".MainApplication"
       android:allowBackup="true"
       android:label="@string/app_name"
-      android:icon="@mipmap/ic_launcher"
+      android:icon="${appIcon}"
       android:theme="@style/AppTheme">
       <activity
         android:name=".MainActivity"
@@ -42,6 +43,7 @@
             <data android:scheme="zulip" android:host="login" />
         </intent-filter>
       </activity>
+      <activity android:name=".debug.MainActivity" android:exported="true"/>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
