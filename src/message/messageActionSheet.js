@@ -29,7 +29,7 @@ import {
 } from '../actions';
 
 type ReplyOptionType = {
-  message: Object,
+  message: Message,
   dispatch: Dispatch,
   auth: Auth,
   currentRoute?: string,
@@ -38,18 +38,18 @@ type ReplyOptionType = {
 
 type AuthAndMessageType = {
   auth: Auth,
-  message: Object,
+  message: Message,
 };
 
 type AuthMessageAndSubscriptionsType = {
   auth: Auth,
-  message: Object,
+  message: Message,
   subscriptions: Subscription[],
 };
 
 type ButtonProps = {
   auth: Auth,
-  message: Object,
+  message: Message,
   subscriptions: Subscription[],
   dispatch: Dispatch,
   currentRoute?: string,
@@ -60,7 +60,7 @@ type ButtonProps = {
 type ExecuteActionSheetParams = {
   title: string,
   auth: Auth,
-  message: Object,
+  message: Message,
   subscriptions: Subscription[],
   dispatch: Dispatch,
   header?: boolean,
@@ -70,7 +70,7 @@ type ExecuteActionSheetParams = {
 };
 
 type ConstructActionButtonsType = {
-  message: Object,
+  message: Message,
   auth: Auth,
   narrow: Narrow,
   flags: Object,
