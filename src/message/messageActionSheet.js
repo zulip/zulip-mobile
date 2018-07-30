@@ -42,22 +42,6 @@ type ExecuteActionSheetParams = {
   getString: (value: string) => string,
 };
 
-type ConstructActionButtonsType = {
-  message: Message,
-  auth: Auth,
-  narrow: Narrow,
-  flags: Object,
-  currentRoute?: string,
-  getString: (value: string) => string,
-};
-
-type ConstructHeaderActionButtonsType = {
-  message: Message,
-  subscriptions: Subscription[],
-  mute: MuteTuple[],
-  getString: (value: string) => string,
-};
-
 const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
 
 const reply = ({ message, dispatch, auth, currentRoute, onReplySelect }: ActionParams) => {
@@ -190,12 +174,22 @@ const actionHeaderSheetButtons: HeaderButtonType[] = [
   { title: 'Cancel', onPress: () => {} },
 ];
 
+type ConstructSheetParams = {
+  message: Message,
+  auth: Auth,
+  narrow: Narrow,
+  flags: Object,
+  subscriptions: Subscription[],
+  mute: MuteTuple[],
+  getString: (value: string) => string,
+};
+
 export const constructHeaderActionButtons = ({
   message,
   subscriptions,
   mute,
   getString,
-}: ConstructHeaderActionButtonsType) => {
+}: ConstructSheetParams) => {
   const buttons = [];
   if (message.type === 'stream') {
     if (isTopicMuted(message.display_recipient, message.subject, mute)) {
@@ -219,10 +213,8 @@ export const constructMessageActionButtons = ({
   auth,
   narrow,
   flags,
-  onReplySelect,
-  currentRoute,
   getString,
-}: ConstructActionButtonsType) => {
+}: ConstructSheetParams) => {
   const buttons = actionSheetButtons
     .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))
     .map(x => getString(x.title));
@@ -236,6 +228,9 @@ export const constructMessageActionButtons = ({
   buttons.push(getString('Cancel'));
   return buttons;
 };
+
+export const constructActionButtons = (target: string) =>
+  target === 'header' ? constructHeaderActionButtons : constructMessageActionButtons;
 
 export const executeActionSheetAction = ({
   title,
@@ -255,9 +250,6 @@ export const executeActionSheetAction = ({
     }
   }
 };
-
-export const constructActionButtons = (target: string) =>
-  target === 'header' ? constructHeaderActionButtons : constructMessageActionButtons;
 
 export type ShowActionSheetTypes = {
   options: Array<any>,
