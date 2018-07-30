@@ -1,14 +1,6 @@
 /* @flow */
 import { Clipboard, Share } from 'react-native';
-import type {
-  Auth,
-  Dispatch,
-  Message,
-  MuteTuple,
-  Narrow,
-  Subscription,
-  AuthGetStringAndMessageType,
-} from '../types';
+import type { Auth, Dispatch, Message, MuteTuple, Narrow, Subscription } from '../types';
 import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
 import {
@@ -28,26 +20,12 @@ import {
   navigateToEmojiPicker,
 } from '../actions';
 
-type ReplyOptionType = {
-  message: Message,
-  dispatch: Dispatch,
-  auth: Auth,
-  currentRoute?: string,
-  onReplySelect?: () => void,
-};
-
 type AuthAndMessageType = {
   auth: Auth,
   message: Message,
 };
 
-type AuthMessageAndSubscriptionsType = {
-  auth: Auth,
-  message: Message,
-  subscriptions: Subscription[],
-};
-
-type ButtonProps = {
+type ActionParams = {
   auth: Auth,
   message: Message,
   subscriptions: Subscription[],
@@ -85,12 +63,6 @@ type ConstructHeaderActionButtonsType = {
   getString: (value: string) => string,
 };
 
-type MessageAuthAndDispatch = {
-  message: Message,
-  auth: Auth,
-  dispatch: Dispatch,
-};
-
 type AuthMessageAndNarrow = {
   message: Message,
   auth: Auth,
@@ -99,7 +71,7 @@ type AuthMessageAndNarrow = {
 
 const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
 
-const reply = ({ message, dispatch, auth, currentRoute, onReplySelect }: ReplyOptionType) => {
+const reply = ({ message, dispatch, auth, currentRoute, onReplySelect }: ActionParams) => {
   if (currentRoute === 'search') {
     dispatch(navigateBack());
   }
@@ -109,19 +81,19 @@ const reply = ({ message, dispatch, auth, currentRoute, onReplySelect }: ReplyOp
   } // focus message input
 };
 
-const copyToClipboard = async ({ getString, auth, message }: AuthGetStringAndMessageType) => {
-  const rawMessage = isAnOutboxMessage(message)
+const copyToClipboard = async ({ getString, auth, message }: ActionParams) => {
+  const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
     ? message.markdownContent
     : await getMessageContentById(auth, message.id);
   Clipboard.setString(rawMessage);
   showToast(getString('Message copied'));
 };
 
-const editMessage = async ({ message, dispatch }: MessageAuthAndDispatch) => {
+const editMessage = async ({ message, dispatch }: ActionParams) => {
   dispatch(startEditMessage(message.id, message.subject));
 };
 
-const doDeleteMessage = async ({ auth, message, dispatch }: MessageAuthAndDispatch) => {
+const doDeleteMessage = async ({ auth, message, dispatch }: ActionParams) => {
   if (isAnOutboxMessage(message)) {
     dispatch(deleteOutboxMessage(message.timestamp));
   } else {
@@ -129,43 +101,43 @@ const doDeleteMessage = async ({ auth, message, dispatch }: MessageAuthAndDispat
   }
 };
 
-const doUnmuteTopic = ({ auth, message }: AuthAndMessageType) => {
+const doUnmuteTopic = ({ auth, message }: ActionParams) => {
   unmuteTopic(auth, message.display_recipient, message.subject);
 };
 
-const doMuteTopic = ({ auth, message }: AuthAndMessageType) => {
+const doMuteTopic = ({ auth, message }: ActionParams) => {
   muteTopic(auth, message.display_recipient, message.subject);
 };
 
-const doUnmuteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscriptionsType) => {
+const doUnmuteStream = ({ auth, message, subscriptions }: ActionParams) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
     toggleMuteStream(auth, sub.stream_id, false);
   }
 };
 
-const doMuteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscriptionsType) => {
+const doMuteStream = ({ auth, message, subscriptions }: ActionParams) => {
   const sub = subscriptions.find(x => x.name === message.display_recipient);
   if (sub) {
     toggleMuteStream(auth, sub.stream_id, true);
   }
 };
 
-const starMessage = ({ auth, message }: AuthAndMessageType) => {
+const starMessage = ({ auth, message }: ActionParams) => {
   toggleMessageStarred(auth, [message.id], true);
 };
 
-const unstarMessage = ({ auth, message }: AuthGetStringAndMessageType) => {
+const unstarMessage = ({ auth, message }: ActionParams) => {
   toggleMessageStarred(auth, [message.id], false);
 };
 
-const shareMessage = ({ message }) => {
+const shareMessage = ({ message }: ActionParams) => {
   Share.share({
     message: message.content.replace(/<(?:.|\n)*?>/gm, ''),
   });
 };
 
-const addReaction = ({ message, dispatch }) => {
+const addReaction = ({ message, dispatch }: ActionParams) => {
   dispatch(navigateToEmojiPicker(message.id));
 };
 
@@ -212,7 +184,7 @@ const actionSheetButtons /* ActionSheetButtonType[] */ = [
 
 type HeaderButtonType = {
   title: string,
-  onPress: (props: ButtonProps) => void,
+  onPress: (props: ActionParams) => void,
 };
 
 const actionHeaderSheetButtons: HeaderButtonType[] = [

@@ -657,7 +657,6 @@ export type NamedUser = {
 
 export type RealmEmoji = any;
 export type ResponseExtractionFunc = any;
-export type AuthGetStringAndMessageType = any;
 
 export type TabNavigationOptionsPropsType = {
   isFocussed: boolean,
