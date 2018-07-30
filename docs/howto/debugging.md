@@ -32,32 +32,6 @@ See also the "Troubleshooting" section below.
 
 [chrome-devtools-device]: https://facebook.github.io/react-native/docs/debugging.html#debugging-on-a-device-with-chrome-developer-tools
 
-### `adb logcat`
-
-When running on Android, either in the emulator or on a physical device, you
-can use ADB (the Android debugger) to fetch or watch the device's logs.
-This will include any messages that you print with a statement like
-```js
-console.debug(foobar)
-```
-
-To see the logs, run `adb logcat`.  A helpful form for this command is
-```
-adb logcat -T 100 | grep ReactNativeJS
-```
-This filters out logs unrelated to the app, but includes anything you print
-with `console.debug`.  It starts with the last 100 log lines from before you
-run the command (so it can be helpful for seeing something that just
-happened), and then it keeps running, printing any new log messages that
-come through.  To quit, hit Ctrl-C.
-
-
-### Debugging message rendering
-
-For debugging some issues, it helps to view in a browser the HTML and CSS we
-generate for the WebView.  See `MessageListWeb#render` for instructions, with a
-`console.log(html)` call you can uncomment.
-
 
 ### redux-logger: deeper info on Redux events
 
@@ -89,6 +63,33 @@ call to `createLogger` in `src/boot/middleware.js`.
 
 * Many other options exist!  See [the
   doc](https://github.com/evgenyrodionov/redux-logger#options).
+
+
+### `adb logcat`
+
+When running on Android, either in the emulator or on a physical device, you
+can use ADB (the Android debugger) to fetch or watch the device's logs.
+This will include any messages that you print with a statement like
+```js
+console.debug(foobar)
+```
+
+To see the logs, run `adb logcat`.  A helpful form for this command is
+```
+adb logcat -T 100 | grep ReactNativeJS
+```
+This filters out logs unrelated to the app, but includes anything you print
+with `console.debug`.  It starts with the last 100 log lines from before you
+run the command (so it can be helpful for seeing something that just
+happened), and then it keeps running, printing any new log messages that
+come through.  To quit, hit Ctrl-C.
+
+
+### Debugging message rendering
+
+For debugging some issues, it helps to view in a browser the HTML and CSS we
+generate for the WebView.  See `MessageListWeb#render` for instructions, with a
+`console.log(html)` call you can uncomment.
 
 
 ## Troubleshooting
