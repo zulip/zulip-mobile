@@ -49,6 +49,11 @@ You'll want to use the Windows side of things for:
 * the Android emulator
 * perhaps the Java program (Gradle) that does the Android build
 
+Because Linux programs running on WSL can read and write files that live in
+the Windows filesystem, but not vice versa, this means you'll keep your
+development tree on the Windows side, at whatever path there you would
+normally put it.
+
 [so-guide]: https://stackoverflow.com/questions/42614347/running-react-native-in-wsl-with-the-emulator-running-directly-in-windows
 
 ### Accessing the filesystem
