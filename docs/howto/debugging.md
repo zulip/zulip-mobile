@@ -61,19 +61,34 @@ generate for the WebView.  See `MessageListWeb#render` for instructions, with a
 
 ### redux-logger: deeper info on Redux events
 
-We utilize [redux-logger](https://github.com/evgenyrodionov/redux-logger)
-middleware, which logs the previous state and next state of every action
-that is dispatched. In `middleware.js`, you can pass the `diff` boolean
-option into `createLogger`, which will use the
-[deep-diff](https://github.com/flitbit/diff#simple-examples) package to log
-the diff between states in debugger console.
+One extremely useful kind of information for debugging many kinds of issues
+-- as well as for getting to understand how the app works! -- is to see the
+Redux state, and a log of the Redux actions.
 
-For example, the log output for the action `SWITCH_NARROW` can look like this:
+We have exactly that information logged to the console (in the Chrome
+Developer Tools; see above), thanks to the middleware
+[`redux-logger`](https://github.com/evgenyrodionov/redux-logger).
 
-![image](https://user-images.githubusercontent.com/12771126/42355493-3a24885e-8082-11e8-96d9-fc7c59e0d1d0.png)
+By default, it logs the previous state and next state of every action that
+is dispatched.  You can control its behavior in more detail by editing the
+call to `createLogger` in `src/boot/middleware.js`.
 
-For debugging reducers, or for new contributors learning the app's data flow,
-it helps to view a clear diff between states for each action!
+* `diff: true` will compute the diff (using
+  [`deep-diff`](https://github.com/flitbit/diff#simple-examples)) between the
+  old and new states.  For example, the log output for the action
+  `SWITCH_NARROW` can look like this:
+
+  ![image](https://user-images.githubusercontent.com/12771126/42355493-3a24885e-8082-11e8-96d9-fc7c59e0d1d0.png)
+
+  This can be especially helpful for seeing what each action really does.
+
+* `predicate` can be used to filter which actions cause a log message.  By
+  default, all actions are logged; when looking at a long log, this option
+  can help you cut noise and focus on actions relevant to what you're
+  studying.
+
+* Many other options exist!  See [the
+  doc](https://github.com/evgenyrodionov/redux-logger#options).
 
 
 ## Troubleshooting
