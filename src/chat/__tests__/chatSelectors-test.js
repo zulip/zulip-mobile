@@ -184,7 +184,10 @@ describe('getLastTopicForNarrow', () => {
   test('when last message has a `subject` property, return it', () => {
     const state = deepFreeze({
       messages: {
-        [HOME_NARROW_STR]: [{ id: 0, subject: 'First subject' }, { id: 1, subject: 'Last subject' }],
+        [HOME_NARROW_STR]: [
+          { id: 0, subject: 'First subject' },
+          { id: 1, subject: 'Last subject' },
+        ],
       },
       outbox: [],
     });
