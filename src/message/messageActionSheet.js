@@ -118,13 +118,19 @@ const isSentBySelf = ({ message, auth }: FilterParams): boolean =>
 
 const isNotDeleted = ({ message }: FilterParams): boolean => message.content !== '<p>(deleted)</p>';
 
-const skip = (...args) => false;
+const skip = () => false;
 
 function allOf<T>(predicates: ((T) => boolean)[]): T => boolean {
   return x => predicates.every(p => p(x));
 }
 
-const actionSheetButtons /* ActionSheetButtonType[] */ = [
+type MessageButtonType = {
+  title: string,
+  onPress: ActionParams => void | Promise<void>,
+  onlyIf: FilterParams => boolean,
+};
+
+const actionSheetButtons: MessageButtonType[] = [
   {
     title: 'Add a reaction',
     onPress: addReaction,
@@ -146,7 +152,7 @@ const actionSheetButtons /* ActionSheetButtonType[] */ = [
   // If skip then covered in constructMessageActionButtons
   { title: 'Star message', onPress: starMessage, onlyIf: skip },
   { title: 'Unstar message', onPress: unstarMessage, onlyIf: skip },
-  { title: 'Cancel', onPress: skip, onlyIf: skip },
+  { title: 'Cancel', onPress: () => {}, onlyIf: skip },
 ];
 
 type HeaderButtonType = {
