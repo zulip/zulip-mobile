@@ -5,6 +5,7 @@ import htmlScrollToBottom from './htmlScrollToBottom';
 
 export default (content: string, showMessagePlaceholders: boolean): string => template`
 <div id="js-error-detailed"></div>
+<div id="js-error-plain" class="hidden">Oh no! Something went wrong. Try again?</div>
 <div id="spinner-older" class="hidden loading-spinner"></div>
 
 $!${content}

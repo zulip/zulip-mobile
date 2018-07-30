@@ -401,6 +401,16 @@ blockquote {
   color: white;
   font-size: 10px;
 }
+#js-error-plain {
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+  background: #555;
+  color: white;
+  font-size: 15px;
+  padding: 4px;
+  text-align: center;
+}
 #scroll-bottom {
   position: fixed;
   z-index: 200;

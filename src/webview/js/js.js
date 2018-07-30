@@ -37,6 +37,11 @@ window.onerror = (message, source, line, column, error) => {
         .map(escapeHtml)
         .join('<br>');
     }
+  } else {
+    const elementJsError = document.getElementById('js-error-plain');
+    if (elementJsError) {
+      elementJsError.classList.remove('hidden');
+    }
   }
 
   sendMessage({
