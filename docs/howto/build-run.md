@@ -4,14 +4,17 @@ This guide describes how to build and run the app so you can develop it.
 
 ## Main steps
 
+(First, if using **macOS**: Upgrade to the latest version of the OS and then to
+the latest Xcode.)
+
+(If using **Windows**: Try installing WSL, and doing most of the following
+setup in the Linux environment.  See [our Windows guide](windows.md).)
+
 Before starting, install these dependencies if you don't have them:
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/en/download/package-manager/), latest 8.x
   (LTS) version
 * [Yarn](https://yarnpkg.com/en/docs/install), latest stable version
-
-If you are using macOS, upgrade to the latest version of the OS and then to
-the latest Xcode.
 
 Then, run the commands below in your terminal:
 ```
