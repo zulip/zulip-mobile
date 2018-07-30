@@ -20,11 +20,6 @@ import {
   navigateToEmojiPicker,
 } from '../actions';
 
-type AuthAndMessageType = {
-  auth: Auth,
-  message: Message,
-};
-
 type ActionParams = {
   auth: Auth,
   message: Message,
@@ -61,12 +56,6 @@ type ConstructHeaderActionButtonsType = {
   subscriptions: Subscription[],
   mute: MuteTuple[],
   getString: (value: string) => string,
-};
-
-type AuthMessageAndNarrow = {
-  message: Message,
-  auth: Auth,
-  narrow: Narrow,
 };
 
 const isAnOutboxMessage = (message: Message): boolean => message.isOutbox;
@@ -141,15 +130,21 @@ const addReaction = ({ message, dispatch }: ActionParams) => {
   dispatch(navigateToEmojiPicker(message.id));
 };
 
-const isSentMessage = ({ message }: { message: Message }): boolean => !isAnOutboxMessage(message);
+type FilterParams = {
+  message: Message,
+  auth: Auth,
+  narrow: Narrow,
+};
 
-const isSentBySelfAndNarrowed = ({ message, auth, narrow }: AuthMessageAndNarrow): boolean =>
+const isSentMessage = ({ message }: FilterParams): boolean => !isAnOutboxMessage(message);
+
+const isSentBySelfAndNarrowed = ({ message, auth, narrow }: FilterParams): boolean =>
   auth.email === message.sender_email && !isHomeNarrow(narrow) && !isSpecialNarrow(narrow);
 
-const isSentBySelf = ({ message, auth }: AuthAndMessageType): boolean =>
+const isSentBySelf = ({ message, auth }: FilterParams): boolean =>
   auth.email === message.sender_email;
 
-const isNotDeleted = ({ message }): boolean => message.content !== '<p>(deleted)</p>';
+const isNotDeleted = ({ message }: FilterParams): boolean => message.content !== '<p>(deleted)</p>';
 
 const skip = (...args) => false;
 
@@ -231,7 +226,7 @@ export const constructMessageActionButtons = ({
   const buttons = actionSheetButtons
     .filter(x => !x.onlyIf || x.onlyIf({ message, auth, narrow }))
     .map(x => getString(x.title));
-  if (isSentMessage({ message })) {
+  if (!isAnOutboxMessage(message)) {
     if (message.id in flags.starred) {
       buttons.push(getString('Unstar message'));
     } else {
