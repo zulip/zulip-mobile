@@ -6,7 +6,7 @@ debug your app][react-debugging].
 
 ## Tools and setup
 
-### Chrome Developer Tools
+### Chrome Developer Tools / "Debug JS remotely"
 
 React Native supports debugging the app using Chrome's developer tools, in
 much the same way you would a web app.  This provides you with prettily
@@ -24,7 +24,11 @@ that you can debug the app with statements like
 ```js
 console.debug(foobar)
 ```
+
 Additionally, all Redux events are automatically logged to the console.
+See discussion of `redux-logger` below.
+
+See also the "Troubleshooting" section below.
 
 [chrome-devtools-device]: https://facebook.github.io/react-native/docs/debugging.html#debugging-on-a-device-with-chrome-developer-tools
 
@@ -48,9 +52,33 @@ happened), and then it keeps running, printing any new log messages that
 come through.  To quit, hit Ctrl-C.
 
 
-### Common issues
+### Debugging message rendering
 
-#### "Debug JS remotely" opens a webpage that never loads.
+For debugging some issues, it helps to view in a browser the HTML and CSS we
+generate for the WebView.  See `MessageListWeb#render` for instructions, with a
+`console.log(html)` call you can uncomment.
+
+
+### redux-logger: deeper info on Redux events
+
+We utilize [redux-logger](https://github.com/evgenyrodionov/redux-logger)
+middleware, which logs the previous state and next state of every action
+that is dispatched. In `middleware.js`, you can pass the `diff` boolean
+option into `createLogger`, which will use the
+[deep-diff](https://github.com/flitbit/diff#simple-examples) package to log
+the diff between states in debugger console.
+
+For example, the log output for the action `SWITCH_NARROW` can look like this:
+
+![image](https://user-images.githubusercontent.com/12771126/42355493-3a24885e-8082-11e8-96d9-fc7c59e0d1d0.png)
+
+For debugging reducers, or for new contributors learning the app's data flow,
+it helps to view a clear diff between states for each action!
+
+
+## Troubleshooting
+
+### "Debug JS remotely" opens a webpage that never loads.
 
 For some reason, React Native may try to open a browser tab for you at
 http://10.0.2.2:8081/debugger-ui .
@@ -67,29 +95,3 @@ if it works.
 
 [dev-menu]: https://facebook.github.io/react-native/docs/debugging.html#accessing-the-in-app-developer-menu
 [react-debugging]: https://facebook.github.io/react-native/docs/debugging.html
-
-
-## Miscellaneous tips
-
-### Message rendering
-
-For debugging some issues, it helps to view in a browser the HTML and CSS we
-generate for the WebView.  See `MessageListWeb#render` for instructions, with a
-`console.log(html)` call you can uncomment.
-
-
-### Redux state diffs
-
-We utilize [redux-logger](https://github.com/evgenyrodionov/redux-logger)
-middleware, which logs the previous state and next state of every action
-that is dispatched. In `middleware.js`, you can pass the `diff` boolean
-option into `createLogger`, which will use the
-[deep-diff](https://github.com/flitbit/diff#simple-examples) package to log
-the diff between states in debugger console.
-
-For example, the log output for the action `SWITCH_NARROW` can look like this:
-
-![image](https://user-images.githubusercontent.com/12771126/42355493-3a24885e-8082-11e8-96d9-fc7c59e0d1d0.png)
-
-For debugging reducers, or for new contributors learning the app's data flow,
-it helps to view a clear diff between states for each action!
