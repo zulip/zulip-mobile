@@ -99,7 +99,47 @@ export type MessageEdit = {
   user_id: number,
 };
 
+/**
+ * A Zulip message.
+ *
+ * This type is mainly intended to represent the data the server sends as
+ * the `message` property of an event of type `message`.  Caveat lector: we
+ * pass these around to a lot of places, and do a lot of further munging, so
+ * this type may not quite represent that.  Any differences should
+ * definitely be commented, and perhaps refactored.
+ *
+ * The server's behavior here is undocumented and the source is very
+ * complex; this is naturally a place where a large fraction of all the
+ * features of Zulip have to appear.
+ *
+ * References include:
+ *  * the two example events at https://zulipchat.com/api/get-events-from-queue
+ *  * `process_message_event` in zerver/tornado/event_queue.py; the call
+ *    `client.add_event(user_event)` makes the final determination of what
+ *    goes into the event, so `message_dict` is the final value of `message`
+ *  * `MessageDict.wide_dict` and its helpers in zerver/lib/message.py;
+ *    via `do_send_messages` in `zerver/lib/actions.py`, these supply most
+ *    of the data ultimately handled by `process_message_event`
+ *  * the `Message` and `AbstractMessage` models in zerver/models.py, but
+ *    with caution; many fields are adjusted between the DB row and the event
+ *  * empirical study looking at Redux events logged [to the
+ *    console](docs/howto/debugging.md).
+ */
 export type Message = {
+  /** Our own flag; if true, really type `Outbox`. */
+  isOutbox: boolean,
+
+  /**
+   * These don't appear in `message` events, but they appear in GET
+   * requests for messages in a narrow when a search is involved.
+   */
+  match_content?: string,
+  match_subject?: string,
+
+  /** Obsolete? Gone in server commit 1.6.0~1758 . */
+  sender_domain: string,
+
+  /** The rest are believed to really appear in `message` events. */
   avatar_url: ?string,
   client: string,
   content: string,
@@ -109,13 +149,9 @@ export type Message = {
   flags: string[],
   gravatar_hash: string,
   id: number,
-  isOutbox: boolean,
   is_me_message: boolean,
-  match_content?: string,
-  match_subject?: string,
   reactions: SlimEventReaction[],
   recipient_id: number,
-  sender_domain: string,
   sender_email: string,
   sender_full_name: string,
   sender_id: number,
