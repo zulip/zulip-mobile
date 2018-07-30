@@ -55,25 +55,21 @@ You'll want to use the Windows side of things for:
 You can access your Windows local drives from `bash` and other Linux
 programs by navigating to `/mnt/<drive-letter>` .
 
-### Running npm commands
-First install `node` in your Linux environment.  For example, to install
-Node 8.x in Ubuntu, run:
+### Running `yarn` commands
+First, install Node.js and Yarn in your Linux environment.  You'll follow
+the same steps as in [our main setup guide](build-run.md) -- just use the
+Linux versions. :-)
 
-```
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-sudo apt-get install -y nodejs
-```
+Similarly, when the React Native install instructions say to install the
+`react-native` CLI with `npm install -g react-native-cli`, run that command
+in the Linux environment.
 
-Install `react-native-cli` globally with `sudo npm i -g react-native-cli`.
-
-Zulip recommends using `yarn` over `npm` which comes with node.
-
-Install yarn with `sudo npm i -g yarn`
+Now `yarn` and `react-native` should be available at your `bash` prompt.
 
 ### Modify PATH variable
-Run the following commands so Linux programs check for `npm` in `/usr/bin`
-before they check `C\Program Files` and try to run the Windows installation
-(which, of course, does not work in Linux).
+Run the following commands so Linux programs check for `yarn`, etc., in
+`/usr/bin` before they check `C\Program Files` and try to run the Windows
+installation (which, of course, does not work in Linux).
 
 ```
 export PATH="$HOME/bin:$HOME/.local/bin:/usr/bin:$PATH"
