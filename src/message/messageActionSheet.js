@@ -117,8 +117,6 @@ const copyToClipboard = async ({ getString, auth, message }: AuthGetStringAndMes
   showToast(getString('Message copied'));
 };
 
-const isSentMessage = ({ message }: { message: Message }): boolean => !isAnOutboxMessage(message);
-
 const editMessage = async ({ message, dispatch }: MessageAuthAndDispatch) => {
   dispatch(startEditMessage(message.id, message.subject));
 };
@@ -153,14 +151,6 @@ const doMuteStream = ({ auth, message, subscriptions }: AuthMessageAndSubscripti
   }
 };
 
-const isSentBySelfAndNarrowed = ({ message, auth, narrow }: AuthMessageAndNarrow): boolean =>
-  auth.email === message.sender_email && !isHomeNarrow(narrow) && !isSpecialNarrow(narrow);
-
-const isSentBySelf = ({ message, auth }: AuthAndMessageType): boolean =>
-  auth.email === message.sender_email;
-
-const isNotDeleted = ({ message }): boolean => message.content !== '<p>(deleted)</p>';
-
 const starMessage = ({ auth, message }: AuthAndMessageType) => {
   toggleMessageStarred(auth, [message.id], true);
 };
@@ -178,6 +168,16 @@ const shareMessage = ({ message }) => {
 const addReaction = ({ message, dispatch }) => {
   dispatch(navigateToEmojiPicker(message.id));
 };
+
+const isSentMessage = ({ message }: { message: Message }): boolean => !isAnOutboxMessage(message);
+
+const isSentBySelfAndNarrowed = ({ message, auth, narrow }: AuthMessageAndNarrow): boolean =>
+  auth.email === message.sender_email && !isHomeNarrow(narrow) && !isSpecialNarrow(narrow);
+
+const isSentBySelf = ({ message, auth }: AuthAndMessageType): boolean =>
+  auth.email === message.sender_email;
+
+const isNotDeleted = ({ message }): boolean => message.content !== '<p>(deleted)</p>';
 
 const skip = (...args) => false;
 
