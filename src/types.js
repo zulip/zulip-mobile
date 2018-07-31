@@ -261,12 +261,13 @@ export type Presence = {
 };
 
 /**
- * Info about how much message history is stored for some narrow.
+ * Info about how complete our knowledge is of the messages in some narrow.
  *
- * @prop older - true iff after the last message fetch for the narrow, we
- *   stored the oldest message in the narrow.
- * @prop newer - true iff after the last message fetch for the narrow, we
- *   stored the newest message in the narrow.
+ * @prop older - true just if in some fetch we reached the oldest message
+ *   in the narrow.  No need to fetch more in that direction.
+ * @prop newer - true just if in some fetch we reached the newest message in
+ *   the narrow.  Of course their may always be new messages, but we should
+ *   learn about them through events; so again, no need to fetch more.
  */
 export type CaughtUp = {
   older: boolean,
@@ -375,7 +376,7 @@ export type SessionState = {
 };
 
 /**
- * Info about how much message history is stored for every narrow in
+ * Info about how completely we know the messages in each narrow of
  * MessagesState.
  */
 export type CaughtUpState = {
