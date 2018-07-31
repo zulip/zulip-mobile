@@ -12,15 +12,15 @@ describe('getActiveRealmEmoji', () => {
       ],
       realm: {
         emoji: {
-          smile: {
+          1: {
             deactivated: false,
             source_url: '/static/user_upload/smile.png',
           },
-          laugh: {
+          2: {
             deactivated: false,
             source_url: '/static/user_upload/laugh.png',
           },
-          sad: {
+          3: {
             deactivated: true,
             source_url: '/static/user_upload/sad.png',
           },
@@ -29,11 +29,11 @@ describe('getActiveRealmEmoji', () => {
     };
 
     const expectedResult = {
-      smile: {
+      1: {
         deactivated: false,
         source_url: 'https://example.com/static/user_upload/smile.png',
       },
-      laugh: {
+      2: {
         deactivated: false,
         source_url: 'https://example.com/static/user_upload/laugh.png',
       },
@@ -49,10 +49,10 @@ describe('getAllRealmEmoji', () => {
       accounts: [{ realm: 'https://example.com' }],
       realm: {
         emoji: {
-          smile: {
+          1: {
             source_url: '/static/user_upload/smile.png',
           },
-          laugh: {
+          2: {
             source_url: 'https://example.com/static/user_upload/laugh.png',
           },
         },
@@ -60,10 +60,10 @@ describe('getAllRealmEmoji', () => {
     };
 
     const expectedResult = {
-      smile: {
+      1: {
         source_url: 'https://example.com/static/user_upload/smile.png',
       },
-      laugh: {
+      2: {
         source_url: 'https://example.com/static/user_upload/laugh.png',
       },
     };
