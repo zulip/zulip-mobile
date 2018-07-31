@@ -32,6 +32,13 @@ export const base64ToHex = (bytes: string) => asciiToHex(base64.decode(bytes));
 
 export const hexToBase64 = (hex: string) => base64.encode(hexToAscii(hex));
 
+/** Encode a JavaScript string to a string in Base64 format. */
+export const strToBase64 = (text: string): string =>
+  // References on reliably encoding strings to Base64:
+  // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa#Unicode_strings
+  // https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
+  base64.encode(unescape(encodeURIComponent(text)));
+
 // Extract an API key encoded as a hex string XOR'ed with a one time pad (OTP)
 // (this is used during the OAuth flow)
 export const extractApiKey = (encoded: string, otp: string) =>
