@@ -11,11 +11,11 @@ import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
 import getFilteredEmojiList from './getFilteredEmojiList';
 import type { GlobalState, RealmEmojiState, Auth, Dispatch } from '../types';
-import { getAuth, getActiveRealmEmojiById } from '../selectors';
+import { getAuth, getActiveRealmEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
 
 type Props = {
-  realmEmoji: RealmEmojiState,
+  activeRealmEmojiByName: RealmEmojiState,
   auth: Auth,
   dispatch: Dispatch,
   navigation: NavigationScreenProp<*> & {
@@ -45,18 +45,22 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
     });
   };
 
-  addReaction = (item: string) => {
+  addReaction = (item: string, activeRealmEmojiByName: RealmEmojiState) => {
     const { auth, dispatch, navigation } = this.props;
     const { messageId } = navigation.state.params;
-    emojiReactionAdd(auth, messageId, 'unicode_emoji', codePointMap[item], item);
+    if (activeRealmEmojiByName && activeRealmEmojiByName[item]) {
+      emojiReactionAdd(auth, messageId, 'realm_emoji', activeRealmEmojiByName[item].id, item);
+    } else {
+      emojiReactionAdd(auth, messageId, 'unicode_emoji', codePointMap[item], item);
+    }
     dispatch(navigateBack());
   };
 
   render() {
-    const { realmEmoji } = this.props;
+    const { activeRealmEmojiByName } = this.props;
     const { filter } = this.state;
 
-    const emojis = getFilteredEmojiList(filter, realmEmoji);
+    const emojis = getFilteredEmojiList(filter, activeRealmEmojiByName);
 
     return (
       <Screen search searchBarOnChange={this.handleInputChange}>
@@ -67,9 +71,10 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
           keyExtractor={item => item}
           renderItem={({ item }) => (
             <EmojiRow
+              realmEmoji={activeRealmEmojiByName[item]}
               name={item}
               onPress={() => {
-                this.addReaction(item);
+                this.addReaction(item, activeRealmEmojiByName);
               }}
             />
           )}
@@ -80,6 +85,6 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
 }
 
 export default connect((state: GlobalState) => ({
-  realmEmoji: getActiveRealmEmojiById(state),
+  activeRealmEmojiByName: getActiveRealmEmojiByName(state),
   auth: getAuth(state),
 }))(EmojiPickerScreen);
