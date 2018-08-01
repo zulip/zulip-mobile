@@ -90,11 +90,23 @@ import type {
   MuteState,
 } from './types';
 
+/**
+ * Dispatched by redux-persist when the stored state is loaded.
+ *
+ * It can be very convenient to pass `payload` to selectors, but beware it's
+ * incomplete.  At a minimum, reducers should always separately handle the
+ * case where the state is empty or has `null` properties before passing the
+ * object to any selector.
+ *
+ * @prop payload A version of the global Redux state, as persisted by the
+ *     app's previous runs.  This will be empty on first startup or if the
+ *     persisted store is just missing keys, and will have `null` at each
+ *     key where an error was encountered in reading the persisted store.
+ *     In any case it will only contain the keys we configure to be persisted.
+ * @prop error
+ */
 export type RehydrateAction = {
   type: typeof REHYDRATE,
-  // The payload will be empty on first startup or if the persisted store is
-  // just missing keys, and will have `null` at each key where an error was
-  // encountered in reading the persisted store.
   payload: GlobalState | { accounts: null } | {},
   error: ?Object,
 };
