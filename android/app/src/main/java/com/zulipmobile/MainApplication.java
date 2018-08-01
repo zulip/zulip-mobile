@@ -4,7 +4,6 @@ import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Pair;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
@@ -26,6 +25,7 @@ import com.wix.reactnativenotifications.core.notification.INotificationsApplicat
 import com.wix.reactnativenotifications.core.notification.IPushNotification;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.zulipmobile.notifications.GCMPushNotifications;
+import com.zulipmobile.notifications.MessageInfo;
 import com.zulipmobile.notifications.PushNotificationsProp;
 import com.zulipmobile.RNSecureRandom;
 
@@ -40,7 +40,7 @@ import static com.zulipmobile.notifications.NotificationHelper.addConversationTo
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
 
 public class MainApplication extends Application implements ReactApplication, INotificationsApplication {
-    private LinkedHashMap<String, Pair<String, Integer>> conversations;
+    private LinkedHashMap<String, List<MessageInfo>> conversations;
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
