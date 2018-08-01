@@ -5,6 +5,11 @@ import unescape from 'lodash.unescape';
 import type { Narrow, Message } from '../types';
 import { normalizeRecipients } from './message';
 
+export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
+  Array.isArray(narrow1) && Array.isArray(narrow2) && isEqual(narrow1, narrow2);
+
+export const parseNarrowString = (narrowStr: string): Narrow => JSON.parse(unescape(narrowStr));
+
 export const HOME_NARROW: Narrow = [];
 
 export const HOME_NARROW_STR: string = '[]';
@@ -51,15 +56,16 @@ export const specialNarrow = (operand: string): Narrow => [
 export const isSpecialNarrow = (narrow: Narrow): boolean =>
   Array.isArray(narrow) && narrow.length === 1 && narrow[0].operator === 'is';
 
+export const STARRED_NARROW = specialNarrow('starred');
+
+export const MENTIONED_NARROW = specialNarrow('mentioned');
+
 export const ALL_PRIVATE_NARROW = specialNarrow('private');
 
 export const ALL_PRIVATE_NARROW_STR = JSON.stringify(ALL_PRIVATE_NARROW);
 
 export const isAllPrivateNarrow = (narrow: Narrow): boolean =>
-  Array.isArray(narrow)
-  && narrow.length === 1
-  && narrow[0].operator === 'is'
-  && narrow[0].operand === 'private';
+  isSameNarrow(narrow, ALL_PRIVATE_NARROW);
 
 export const streamNarrow = (stream: string): Narrow => [
   {
@@ -150,12 +156,3 @@ export const getNarrowFromMessage = (message: Message, email: string) => {
 
   return streamNarrow(message.display_recipient);
 };
-
-export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
-  Array.isArray(narrow1) && Array.isArray(narrow2) && isEqual(narrow1, narrow2);
-
-export const parseNarrowString = (narrowStr: string): Narrow => JSON.parse(unescape(narrowStr));
-
-export const STARRED_NARROW = specialNarrow('starred');
-
-export const MENTIONED_NARROW = specialNarrow('mentioned');
