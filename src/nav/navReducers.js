@@ -21,8 +21,14 @@ import {
 
 const initialState = getStateForRoute('loading') || NULL_NAV_STATE;
 
-const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationState =>
-  getInitialNavState(action.payload) || state;
+const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationState => {
+  // If there's an error reading the persisted state, we'll get a
+  // RehydrateAction with `null` at each key.
+  if (action.payload.accounts === null) {
+    return getStateForRoute('welcome') || state;
+  }
+  return getInitialNavState(action.payload) || state;
+};
 
 const accountSwitch = (state: NavigationState, action: AccountSwitchAction): NavigationState =>
   getStateForRoute('loading') || state;
