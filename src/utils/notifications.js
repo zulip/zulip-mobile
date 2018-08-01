@@ -12,8 +12,6 @@ import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';
 import { doNarrow } from '../actions';
 
-export type SavePushTokenCallback = (pushToken: string, msg: string, result: string) => *;
-
 const getGroupNarrowFromNotificationData = (data: NotificationGroup, usersById: UserIdMap = {}) => {
   const userIds = data.pm_users.split(',');
   const users = userIds.map(id => usersById[id]);
@@ -55,7 +53,10 @@ export const removeNotificationListener = (notificationHandler: (notification: O
   }
 };
 
-export const initializeNotifications = (auth: Auth, saveTokenPush: SavePushTokenCallback) => {
+export const initializeNotifications = (
+  auth: Auth,
+  saveTokenPush: (pushToken: string, msg: string, result: string) => void,
+) => {
   if (Platform.OS === 'ios') {
     NotificationsIOS.addEventListener('remoteNotificationsRegistered', async deviceToken => {
       const result = await registerPush(auth, deviceToken);
