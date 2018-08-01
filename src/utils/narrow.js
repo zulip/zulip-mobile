@@ -155,3 +155,5 @@ export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
   Array.isArray(narrow1) && Array.isArray(narrow2) && isEqual(narrow1, narrow2);
 
 export const parseNarrowString = (narrowStr: string): Narrow => JSON.parse(unescape(narrowStr));
+
+export const STARRED_NARROW = specialNarrow('starred');
