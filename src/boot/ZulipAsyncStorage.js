@@ -7,18 +7,20 @@ export default class ZulipAsyncStorage {
     let result = await AsyncStorage.getItem(key);
     // It's possible that getItem() is called on uncompressed state, for
     // example when a user updates their app from a version without
-    // compression to a version with compression. Detect if the stored state
-    // is compressed, and return it unmodified if it isn't. Detect
-    // compressed states by inspecting the first few characters of `result`.
-    // A 'z' indicates a "Zulip"-compressed string. Otherwise, treat the
-    // string as uncompressed JSON (luckily, valid JSON never starts with a
-    // 'z'). If `result` starts with 'z', `result` looks like
-    // `z|TRANSFORMS|DATA`, where
-    // TRANSFORMS = space-separated sequence of transformations that we
-    //   applied to DATA in the order they are listed and now need to undo
-    //   (e.g. "zlib base64")
-    // DATA = state in JSON format with TRANSFORMS applied
-    // The "z|TRANSFORMS|" part shall be called the "header" of the string.
+    // compression to a version with compression.  So we need to detect that.
+    //
+    // We can detect compressed states by inspecting the first few
+    // characters of `result`.  First, a leading 'z' indicates a
+    // "Zulip"-compressed string; otherwise, the string is the only other
+    // format we've ever stored, namely uncompressed JSON (which,
+    // conveniently, never starts with a 'z').
+    //
+    // Then, a Zulip-compressed string looks like `z|TRANSFORMS|DATA`, where
+    // TRANSFORMS is a space-separated list of the transformations that we
+    // applied, in order, to the data to produce DATA and now need to undo.
+    // E.g., `zlib base64` means DATA is a base64 encoding of a zlib
+    // encoding of the underlying data.  We call the "z|TRANSFORMS|" part
+    // the "header" of the string.
     if (result.startsWith('z')) {
       const header = result.substring(0, result.indexOf('|', result.indexOf('|') + 1) + 1);
       if (
