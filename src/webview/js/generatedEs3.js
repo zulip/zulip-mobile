@@ -241,7 +241,8 @@ var messageHandlers = {
 document.addEventListener('message', function (e) {
   scrollEventsDisabled = true;
 
-  var messages = JSON.parse(e.data);
+  var decodedData = decodeURIComponent(escape(window.atob(e.data)));
+  var messages = JSON.parse(decodedData);
   messages.forEach(function (msg) {
     messageHandlers[msg.type](msg);
   });

@@ -10,6 +10,7 @@ import getHtml from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import { getInputMessages } from './webViewHandleUpdates';
 import * as webViewEventHandlers from './webViewEventHandlers';
+import { strToBase64 } from '../utils/encoding';
 
 export default class MessageListWeb extends Component<Props> {
   context: Context;
@@ -29,7 +30,7 @@ export default class MessageListWeb extends Component<Props> {
 
   sendMessages = (messages: WebviewInputMessage[]): void => {
     if (this.webview && messages.length > 0) {
-      this.webview.postMessage(JSON.stringify(messages), '*');
+      this.webview.postMessage(strToBase64(JSON.stringify(messages)), '*');
     }
   };
 
