@@ -69,14 +69,18 @@ const loginSuccess = (state: SessionState, action: LoginSuccessAction): SessionS
   needsInitialFetch: true,
 });
 
-const rehydrate = (state: SessionState, action: RehydrateAction): SessionState => ({
-  ...state,
-  isHydrated: true,
-  // On rehydration, do an initial fetch if we have access to an account
-  // (indicated by the presence of an api key). Otherwise, the initial fetch
-  // will be initiated on loginSuccess.
-  needsInitialFetch: !!(action.payload.accounts && getAuth(action.payload).apiKey),
-});
+const rehydrate = (state: SessionState, action: RehydrateAction): SessionState => {
+  const payload = { action };
+  const haveApiKey = !!(payload && payload.accounts && getAuth(payload).apiKey);
+  return {
+    ...state,
+    isHydrated: true,
+    // On rehydration, do an initial fetch if we have access to an account
+    // (indicated by the presence of an api key). Otherwise, the initial fetch
+    // will be initiated on loginSuccess.
+    needsInitialFetch: haveApiKey,
+  };
+};
 
 const realmInit = (state: SessionState, action: RealmInitAction): SessionState => ({
   ...state,

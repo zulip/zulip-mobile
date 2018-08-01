@@ -1,5 +1,6 @@
 /* @flow */
 import type {
+  GlobalState,
   NavigationState,
   NavAction,
   RehydrateAction,
@@ -22,12 +23,12 @@ import {
 const initialState = getStateForRoute('loading') || NULL_NAV_STATE;
 
 const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationState => {
-  // If there's an error reading the persisted state, we'll get a
-  // RehydrateAction with `null` at each key.
-  if (action.payload.accounts === null) {
+  if (!action.payload || !action.payload.accounts) {
     return getStateForRoute('welcome') || state;
   }
-  return getInitialNavState(action.payload) || state;
+  // $FlowFixMe: Flow oddly doesn't see the refinement from the condition above.
+  const rehydratedState = (action.payload: GlobalState);
+  return getInitialNavState(rehydratedState) || state;
 };
 
 const accountSwitch = (state: NavigationState, action: AccountSwitchAction): NavigationState =>
