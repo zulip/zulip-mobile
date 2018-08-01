@@ -92,7 +92,9 @@ import type {
 
 export type RehydrateAction = {
   type: typeof REHYDRATE,
-  payload: GlobalState,
+  // The payload will have `null` at each key where an error was encountered
+  // in reading the persisted store.
+  payload: GlobalState | { accounts: null },
   error: ?Object,
 };
 
