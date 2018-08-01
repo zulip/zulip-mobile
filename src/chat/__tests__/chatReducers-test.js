@@ -8,12 +8,14 @@ import {
   groupNarrow,
   streamNarrow,
   topicNarrow,
+  STARRED_NARROW_STR,
 } from '../../utils/narrow';
 import {
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE,
+  EVENT_UPDATE_MESSAGE_FLAGS,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
 } from '../../actionConstants';
@@ -812,6 +814,135 @@ describe('chatReducers', () => {
       const newState = chatReducers(initialState, action);
 
       expect(newState[HOME_NARROW_STR]).toEqual(expectedState[HOME_NARROW_STR]);
+    });
+  });
+
+  describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
+    const initialStateWithoutStarred = deepFreeze({
+      [privateNarrowStr]: [{ id: 1, flags: ['read'] }, { id: 3, flags: [] }],
+      [HOME_NARROW_STR]: [
+        { id: 1, flags: ['read'] },
+        { id: 2, flags: ['read'] },
+        { id: 3, flags: [] },
+        { id: 4, flags: [] },
+      ],
+    });
+
+    test('returns initial state if the flag message id is not found in message state', () => {
+      const action = deepFreeze({
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        flag: 'read',
+        messages: [5],
+      });
+
+      const newState = chatReducers(initialStateWithoutStarred, action);
+      expect(newState).toEqual(initialStateWithoutStarred);
+    });
+
+    test("adds to messages' flags fields", () => {
+      const action = deepFreeze({
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        flag: 'read',
+        operation: 'add',
+        messages: [3, 4],
+      });
+
+      const expectedState = deepFreeze({
+        [privateNarrowStr]: [{ id: 1, flags: ['read'] }, { id: 3, flags: ['read'] }],
+        [HOME_NARROW_STR]: [
+          { id: 1, flags: ['read'] },
+          { id: 2, flags: ['read'] },
+          { id: 3, flags: ['read'] },
+          { id: 4, flags: ['read'] },
+        ],
+      });
+
+      const newState = chatReducers(initialStateWithoutStarred, action);
+      expect(newState).toEqual(expectedState);
+    });
+
+    test("removes from messages' flags fields", () => {
+      const action = deepFreeze({
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        flag: 'read',
+        operation: 'remove',
+        messages: [1, 2],
+      });
+
+      const expectedState = deepFreeze({
+        [privateNarrowStr]: [{ id: 1, flags: [] }, { id: 3, flags: [] }],
+        [HOME_NARROW_STR]: [
+          { id: 1, flags: [] },
+          { id: 2, flags: [] },
+          { id: 3, flags: [] },
+          { id: 4, flags: [] },
+        ],
+      });
+
+      const newState = chatReducers(initialStateWithoutStarred, action);
+      expect(newState).toEqual(expectedState);
+    });
+
+    const initialStateWithStarred = deepFreeze({
+      [STARRED_NARROW_STR]: [
+        { id: 1, timestamp: 1, flags: ['starred'] },
+        { id: 4, timestamp: 4, flags: ['starred'] },
+      ],
+      [HOME_NARROW_STR]: [
+        { id: 1, timestamp: 1, flags: ['starred'] },
+        { id: 2, timestamp: 2, flags: [] },
+        { id: 3, timestamp: 3, flags: [] },
+        { id: 4, timestamp: 4, flags: ['starred'] },
+      ],
+    });
+
+    test("adds to 'is:starred' narrow, in chronological order", () => {
+      const action = deepFreeze({
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        flag: 'starred',
+        operation: 'add',
+        messages: [2, 3],
+      });
+
+      const expectedState = deepFreeze({
+        [STARRED_NARROW_STR]: [
+          { id: 1, timestamp: 1, flags: ['starred'] },
+          { id: 2, timestamp: 2, flags: ['starred'] },
+          { id: 3, timestamp: 3, flags: ['starred'] },
+          { id: 4, timestamp: 4, flags: ['starred'] },
+        ],
+        [HOME_NARROW_STR]: [
+          { id: 1, timestamp: 1, flags: ['starred'] },
+          { id: 2, timestamp: 2, flags: ['starred'] },
+          { id: 3, timestamp: 3, flags: ['starred'] },
+          { id: 4, timestamp: 4, flags: ['starred'] },
+        ],
+      });
+
+      const newState = chatReducers(initialStateWithStarred, action);
+      expect(newState).toEqual(expectedState);
+    });
+
+    test("removes from 'is:starred' narrow", () => {
+      const action = deepFreeze({
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        flag: 'starred',
+        operation: 'remove',
+        messages: [1, 4],
+      });
+
+      const expectedState = deepFreeze({
+        [STARRED_NARROW_STR]: [],
+        [HOME_NARROW_STR]: [
+          { id: 1, timestamp: 1, flags: [] },
+          { id: 2, timestamp: 2, flags: [] },
+          { id: 3, timestamp: 3, flags: [] },
+          { id: 4, timestamp: 4, flags: [] },
+        ],
+      });
+
+      const newState = chatReducers(initialStateWithStarred, action);
+      expect(newState).toEqual(expectedState);
     });
   });
 });

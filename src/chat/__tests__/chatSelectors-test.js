@@ -14,7 +14,7 @@ import {
   privateNarrow,
   streamNarrow,
   topicNarrow,
-  specialNarrow,
+  STARRED_NARROW,
   groupNarrow,
 } from '../../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../../nullObjects';
@@ -265,7 +265,7 @@ describe('isNarrowValid', () => {
     const state = {
       realm: {},
     };
-    const narrow = specialNarrow('starred');
+    const narrow = STARRED_NARROW;
 
     const result = isNarrowValid(narrow)(state);
 

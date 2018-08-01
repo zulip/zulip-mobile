@@ -6,7 +6,7 @@ import {
   streamNarrow,
   topicNarrow,
   privateNarrow,
-  specialNarrow,
+  MENTIONED_NARROW,
   groupNarrow,
 } from '../narrow';
 import getStatusBarColor from '../getStatusBarColor';
@@ -97,7 +97,7 @@ describe('getStatusBarColor', () => {
       subscriptions,
     });
     expect(
-      getStatusBarColor(getTitleBackgroundColor(specialNarrow('mentioned'))(state), themeDefault),
+      getStatusBarColor(getTitleBackgroundColor(MENTIONED_NARROW)(state), themeDefault),
     ).toEqual('white');
   });
 });

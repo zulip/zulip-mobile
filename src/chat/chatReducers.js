@@ -2,6 +2,7 @@
 import isEqual from 'lodash.isequal';
 
 import type {
+  Message,
   MessagesState,
   MessageAction,
   MessageFetchCompleteAction,
@@ -10,6 +11,7 @@ import type {
   EventNewMessageAction,
   EventMessageDeleteAction,
   EventUpdateMessageAction,
+  EventUpdateMessageFlagsAction,
 } from '../types';
 import {
   APP_REFRESH,
@@ -22,8 +24,9 @@ import {
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
+  EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../actionConstants';
-import { isMessageInNarrow } from '../utils/narrow';
+import { isMessageInNarrow, STARRED_NARROW_STR } from '../utils/narrow';
 import { groupItemsById } from '../utils/misc';
 import chatUpdater from './chatUpdater';
 import { NULL_ARRAY, NULL_OBJECT } from '../nullObjects';
@@ -149,6 +152,65 @@ const eventUpdateMessage = (
     last_edit_timestamp: action.edit_timestamp,
   }));
 
+const eventUpdateMessageFlags = (
+  state: MessagesState,
+  action: EventUpdateMessageFlagsAction,
+): MessagesState => {
+  /*
+    In order to add new messages to the 'is:starred' narrow, we cache newly
+    starred messages.
+
+    This local variable will no longer be necessary when the messages state is
+    refactored into a map of message_id -> message, as narrows will then be
+    represented as lists of ids, and referencing action.messages will suffice.
+  */
+  const messageCache: { [id: number]: Message } = {};
+
+  // Update the flags fields
+  const result = Object.keys(state).reduce((updatedState, narrow) => {
+    updatedState[narrow] = state[narrow].map(message => {
+      if (!action.messages.includes(message.id)) {
+        return message;
+      }
+
+      const updatedMessage = Object.assign({}, message);
+      if (action.messages.includes(message.id)) {
+        if (action.operation === 'add') {
+          updatedMessage.flags = [...message.flags, action.flag];
+          if (action.flag === 'starred') {
+            // local side effect: cache newly starred messages
+            messageCache[message.id] = updatedMessage;
+          }
+        } else {
+          // action.operation === 'remove'
+          updatedMessage.flags = message.flags.filter(flag => flag !== action.flag);
+        }
+      }
+
+      return updatedMessage;
+    });
+
+    return updatedState;
+  }, {});
+
+  // Update the 'is:starred' narrow
+  if (action.flag === 'starred') {
+    if (action.operation === 'add') {
+      result[STARRED_NARROW_STR] = [
+        ...result[STARRED_NARROW_STR],
+        ...Object.values(messageCache),
+      ].sort((a, b) => a.timestamp - b.timestamp);
+    } else {
+      // action.operation === 'remove'
+      result[STARRED_NARROW_STR] = result[STARRED_NARROW_STR].filter(
+        message => !action.messages.includes(message.id),
+      );
+    }
+  }
+
+  return result;
+};
+
 export default (state: MessagesState = initialState, action: MessageAction): MessagesState => {
   switch (action.type) {
     case APP_REFRESH:
@@ -174,6 +236,9 @@ export default (state: MessagesState = initialState, action: MessageAction): Mes
 
     case EVENT_UPDATE_MESSAGE:
       return eventUpdateMessage(state, action);
+
+    case EVENT_UPDATE_MESSAGE_FLAGS:
+      return eventUpdateMessageFlags(state, action);
 
     default:
       return state;
