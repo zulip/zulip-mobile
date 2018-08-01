@@ -1,18 +1,16 @@
 import deepFreeze from 'deep-freeze';
 
 import { getRecentConversations } from '../pmConversationsSelectors';
-import { HOME_NARROW, specialNarrow } from '../../utils/narrow';
+import { HOME_NARROW, ALL_PRIVATE_NARROW_STR } from '../../utils/narrow';
 import { navStateWithNarrow } from '../../utils/testHelpers';
 
 describe('getRecentConversations', () => {
-  const privatesNarrowStr = JSON.stringify(specialNarrow('private'));
-
   test('when no messages, return no conversations', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
       ...navStateWithNarrow(HOME_NARROW),
       messages: {
-        [privatesNarrowStr]: [],
+        [ALL_PRIVATE_NARROW_STR]: [],
       },
       unread: {
         pms: [],
@@ -29,7 +27,7 @@ describe('getRecentConversations', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
       messages: {
-        [privatesNarrowStr]: [
+        [ALL_PRIVATE_NARROW_STR]: [
           {
             id: 1,
             display_recipient: [
@@ -129,7 +127,7 @@ describe('getRecentConversations', () => {
     const state = deepFreeze({
       accounts: [{ email: 'me@example.com' }],
       messages: {
-        [privatesNarrowStr]: [
+        [ALL_PRIVATE_NARROW_STR]: [
           {
             id: 2,
             display_recipient: [
