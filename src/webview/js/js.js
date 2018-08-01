@@ -261,7 +261,8 @@ const messageHandlers = {
 document.addEventListener('message', e => {
   scrollEventsDisabled = true;
   // $FlowFixMe
-  const messages: WebviewInputMessage[] = JSON.parse(e.data);
+  const decodedData = decodeURIComponent(escape(window.atob(e.data)));
+  const messages: WebviewInputMessage[] = JSON.parse(decodedData);
   messages.forEach((msg: WebviewInputMessage) => {
     // $FlowFixMe
     messageHandlers[msg.type](msg);
