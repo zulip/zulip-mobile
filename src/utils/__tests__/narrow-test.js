@@ -20,6 +20,7 @@ import {
   isStreamOrTopicNarrow,
   getNarrowFromMessage,
   parseNarrowString,
+  STARRED_NARROW,
 } from '../narrow';
 
 describe('HOME_NARROW', () => {
@@ -136,13 +137,13 @@ describe('isStreamOrTopicNarrow', () => {
     expect(isStreamOrTopicNarrow(groupNarrow(['john@example.com', 'mark@example.com']))).toBe(
       false,
     );
-    expect(isStreamOrTopicNarrow(specialNarrow('starred'))).toBe(false);
+    expect(isStreamOrTopicNarrow(STARRED_NARROW)).toBe(false);
   });
 });
 
 describe('specialNarrow', () => {
   test('produces a narrow with "is" operator', () => {
-    expect(specialNarrow('starred')).toEqual([
+    expect(STARRED_NARROW).toEqual([
       {
         operator: 'is',
         operand: 'starred',
@@ -155,7 +156,7 @@ describe('specialNarrow', () => {
     expect(isSpecialNarrow([])).toBe(false);
     expect(isSearchNarrow([{}, {}])).toBe(false);
     expect(isSpecialNarrow(streamNarrow('some stream'))).toBe(false);
-    expect(isSpecialNarrow(specialNarrow('starred'))).toBe(true);
+    expect(isSpecialNarrow(STARRED_NARROW)).toBe(true);
     expect(isSpecialNarrow([{ operator: 'stream', operand: 'some stream' }])).toBe(false);
     expect(isSpecialNarrow([{ operator: 'is', operand: 'starred' }])).toBe(true);
   });
