@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Pair;
 
 import com.wix.reactnativenotifications.core.AppLaunchHelper;
 import com.wix.reactnativenotifications.core.AppLifecycleFacade;
@@ -24,6 +23,7 @@ import com.zulipmobile.R;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
@@ -37,14 +37,20 @@ public class GCMPushNotifications extends PushNotification {
 
     public static final int NOTIFICATION_ID = 435;
     public static final String ACTION_NOTIFICATIONS_DISMISS = "ACTION_NOTIFICATIONS_DISMISS";
-    private LinkedHashMap<String, Pair<String, Integer>> conversations;
+
+    /**
+     * {@link LinkedHashMap} is for holding the message notifications data and group them according to their narrow collection that contains.
+     * {@link String} for the narrow key of the message.
+     * {@link List<MessageInfo>} for the list of messages received in that narrow.
+     */
+    private LinkedHashMap<String, List<MessageInfo>> conversations;
 
     /**
      * Same as {@link com.wix.reactnativenotifications.core.NotificationIntentAdapter#PUSH_NOTIFICATION_EXTRA_NAME}
      */
     private static final String PUSH_NOTIFICATION_EXTRA_NAME = "pushNotification";
 
-    public GCMPushNotifications(Context context, Bundle bundle, AppLifecycleFacade appLifecycleFacade, AppLaunchHelper appLaunchHelper, JsIOHelper jsIoHelper, LinkedHashMap<String, Pair<String, Integer>> conversations) {
+    public GCMPushNotifications(Context context, Bundle bundle, AppLifecycleFacade appLifecycleFacade, AppLaunchHelper appLaunchHelper, JsIOHelper jsIoHelper, LinkedHashMap<String, List<MessageInfo>> conversations) {
         super(context, bundle, appLifecycleFacade, appLaunchHelper, jsIoHelper);
         this.conversations = conversations;
     }

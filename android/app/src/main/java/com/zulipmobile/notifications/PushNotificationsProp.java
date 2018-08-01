@@ -67,4 +67,8 @@ public class PushNotificationsProp extends PushNotificationProps {
     public String getGroupRecipientString() {
         return Arrays.toString(getPmUsers());
     }
+
+    public int getZulipMessageId() {
+        return Integer.parseInt(mBundle.getString("zulip_message_id"));
+    }
 }

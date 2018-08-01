@@ -9,7 +9,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
-import android.util.Pair;
 import android.util.TypedValue;
 
 import com.zulipmobile.R;
@@ -19,7 +18,9 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -65,22 +66,22 @@ public class NotificationHelper {
         return key.split(":")[0];
     }
 
-    public static void buildNotificationContent(LinkedHashMap<String, Pair<String, Integer>> conversations, Notification.InboxStyle inboxStyle, Context mContext) {
-        for (Map.Entry<String, Pair<String, Integer>> map : conversations.entrySet()) {
-            String name = extractName(map.getKey());
-
+    public static void buildNotificationContent(LinkedHashMap<String, List<MessageInfo>> conversations, Notification.InboxStyle inboxStyle, Context mContext) {
+        for (Map.Entry<String, List<MessageInfo>> entry : conversations.entrySet()) {
+            String name = extractName(entry.getKey());
+            List<MessageInfo> messages = entry.getValue();
             Spannable sb = new SpannableString(String.format(Locale.ENGLISH, "%s%s: %s", name,
-                    mContext.getResources().getQuantityString(R.plurals.messages, map.getValue().second, map.getValue().second),
-                    map.getValue().first));
+                    mContext.getResources().getQuantityString(R.plurals.messages,messages.size(),messages.size()),
+                   messages.get(entry.getValue().size() - 1).getContent()));
             sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             inboxStyle.addLine(sb);
         }
     }
 
-    public static int extractTotalMessagesCount(LinkedHashMap<String, Pair<String, Integer>> conversations) {
+    public static int extractTotalMessagesCount(LinkedHashMap<String, List<MessageInfo>> conversations) {
         int totalNumber = 0;
-        for (Map.Entry<String, Pair<String, Integer>> map : conversations.entrySet()) {
-            totalNumber += map.getValue().second;
+        for (Map.Entry<String, List<MessageInfo>> entry : conversations.entrySet()) {
+            totalNumber += entry.getValue().size();
         }
         return totalNumber;
     }
@@ -101,27 +102,28 @@ public class NotificationHelper {
         }
     }
 
-    public static String[] extractNames(LinkedHashMap<String, Pair<String, Integer>> conversations) {
+    public static String[] extractNames(LinkedHashMap<String, List<MessageInfo>> conversations) {
         String[] names = new String[conversations.size()];
         int index = 0;
-        for (Map.Entry<String, Pair<String, Integer>> map : conversations.entrySet()) {
-            names[index++] = map.getKey().split(":")[0];
+        for (Map.Entry<String, List<MessageInfo>> entry : conversations.entrySet()) {
+            names[index++] = entry.getKey().split(":")[0];
         }
         return names;
     }
 
-    public static void addConversationToMap(PushNotificationsProp prop, LinkedHashMap<String, Pair<String, Integer>> conversations) {
+    public static void addConversationToMap(PushNotificationsProp prop, LinkedHashMap<String, List<MessageInfo>> conversations) {
         String key = buildKeyString(prop);
-        Pair<String, Integer> messages = conversations.get(key);
-        if (messages != null) {
-            conversations.put(key, new Pair<>(prop.getContent(), messages.second + 1));
-        } else {
-            conversations.put(key, new Pair<>(prop.getContent(), 1));
+        List<MessageInfo> messages = conversations.get(key);
+        MessageInfo messageInfo = new MessageInfo(prop.getContent(), prop.getZulipMessageId());
+        if (messages == null) {
+            messages = new ArrayList<>();
         }
+        messages.add(messageInfo);
+        conversations.put(key, messages);
     }
 
 
-    public static void clearConversations(LinkedHashMap<String, Pair<String, Integer>> conversations) {
+    public static void clearConversations(LinkedHashMap<String, List<MessageInfo>> conversations) {
         conversations.clear();
     }
 }
