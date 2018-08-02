@@ -24,7 +24,7 @@ import { constructActionButtons, executeActionSheetAction } from './messageActio
 import MessageListWeb from '../webview/MessageListWeb';
 import {
   getAuth,
-  getAllRealmEmojiById,
+  getAllRealmEmojiByName,
   getCurrentTypingUsers,
   getDebug,
   getRenderedMessages,
@@ -61,7 +61,7 @@ export type Props = {
   isFetching: boolean,
   messages: Message[],
   narrow: Narrow,
-  realmEmoji: RealmEmojiState,
+  allRealmEmojiByName: RealmEmojiState,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
   subscriptions: Subscription[],
@@ -135,7 +135,7 @@ export default connect((state: GlobalState, props: OuterProps) => ({
   flags: getFlags(state),
   isFetching: props.isFetching || getIsFetching(props.narrow)(state),
   messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
-  realmEmoji: getAllRealmEmojiById(state),
+  allRealmEmojiByName: getAllRealmEmojiByName(state),
   twentyFourHourTime: getRealm(state).twentyFourHourTime,
   renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
   showMessagePlaceholders:

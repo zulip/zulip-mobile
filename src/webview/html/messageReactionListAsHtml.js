@@ -8,7 +8,7 @@ export default (
   reactions: EventReaction[],
   messageId: number,
   ownEmail: string,
-  realmEmoji: RealmEmojiState,
+  allRealmEmojiByName: RealmEmojiState,
 ): string => {
   if (!reactions || reactions.length === 0) {
     return '';
@@ -18,7 +18,7 @@ export default (
 
   return template`
     <div class="reaction-list">
-      $!${aggregated.map(r => messageReactionAsHtml(messageId, r, realmEmoji)).join('')}
+      $!${aggregated.map(r => messageReactionAsHtml(messageId, r, allRealmEmojiByName)).join('')}
     </div>
   `;
 };

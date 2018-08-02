@@ -10,14 +10,14 @@ const getRealmEmojiHtml = (realmEmoji: RealmEmojiType): string =>
 export default (
   messageId: number,
   reaction: AggregatedReaction,
-  realmEmoji: RealmEmojiState,
+  allRealmEmojiByName: RealmEmojiState,
 ): string =>
   template`<span onClick="" class="reaction${reaction.selfReacted ? ' self-voted' : ''}"
         data-name="${reaction.name}"
         data-code="${reaction.code}"
         data-type="${reaction.type}">$!${
-    realmEmoji[reaction.name]
-      ? getRealmEmojiHtml(realmEmoji[reaction.name])
+    allRealmEmojiByName[reaction.name]
+      ? getRealmEmojiHtml(allRealmEmojiByName[reaction.name])
       : emojiMap[reaction.name]
   }&nbsp;${reaction.count}
 </span>`;

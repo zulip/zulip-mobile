@@ -9,7 +9,7 @@ import { getGravatarFromEmail } from '../../utils/avatar';
 export default ({
   auth,
   subscriptions,
-  realmEmoji,
+  allRealmEmojiByName,
   flags,
   renderedMessages,
   narrow,
@@ -43,10 +43,9 @@ export default ({
               avatarUrl: message.avatar_url || getGravatarFromEmail(message.sender_email),
               timeEdited: message.last_edit_timestamp,
               isOutbox: message.isOutbox,
-              // $FlowFixMe: EventReaction vs. SlimEventReaction
               reactions: message.reactions,
               ownEmail: auth.email,
-              realmEmoji,
+              allRealmEmojiByName,
               twentyFourHourTime,
             }),
           );

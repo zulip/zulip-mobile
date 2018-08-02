@@ -44,7 +44,7 @@ type BriefMessageProps = {
   isOutbox: boolean,
   ownEmail: string,
   reactions: EventReaction[],
-  realmEmoji: RealmEmojiState,
+  allRealmEmojiByName: RealmEmojiState,
   timeEdited: ?number,
 };
 
@@ -67,7 +67,7 @@ const messageBody = ({
   isOutbox,
   ownEmail,
   reactions,
-  realmEmoji,
+  allRealmEmojiByName,
   timeEdited,
 }: {
   content: string,
@@ -76,13 +76,13 @@ const messageBody = ({
   isOutbox: boolean,
   ownEmail: string,
   reactions: EventReaction[],
-  realmEmoji: RealmEmojiState,
+  allRealmEmojiByName: RealmEmojiState,
   timeEdited: ?number,
 }) => template`
 $!${content}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], timeEdited)}
-$!${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
+$!${messageReactionListAsHtml(reactions, id, ownEmail, allRealmEmojiByName)}
 `;
 
 const briefMessageAsHtml = ({
@@ -92,12 +92,21 @@ const briefMessageAsHtml = ({
   isOutbox,
   ownEmail,
   reactions,
-  realmEmoji,
+  allRealmEmojiByName,
   timeEdited,
 }: BriefMessageProps) => template`
 $!${messageDiv(id, 'message-brief', flags)}
   <div class="content">
-    $!${messageBody({ content, flags, id, isOutbox, ownEmail, reactions, realmEmoji, timeEdited })}
+    $!${messageBody({
+      content,
+      flags,
+      id,
+      isOutbox,
+      ownEmail,
+      reactions,
+      allRealmEmojiByName,
+      timeEdited,
+    })}
   </div>
 </div>
 `;
@@ -115,7 +124,7 @@ const fullMessageAsHtml = ({
   isOutbox,
   reactions,
   ownEmail,
-  realmEmoji,
+  allRealmEmojiByName,
 }: FullMessageProps) => template`
 $!${messageDiv(id, 'message-full', flags)}
   <div class="avatar">
@@ -123,7 +132,16 @@ $!${messageDiv(id, 'message-full', flags)}
   </div>
   <div class="content">
     $!${messageSubheader({ fromName, timestamp, twentyFourHourTime })}
-    $!${messageBody({ content, flags, id, isOutbox, ownEmail, reactions, realmEmoji, timeEdited })}
+    $!${messageBody({
+      content,
+      flags,
+      id,
+      isOutbox,
+      ownEmail,
+      reactions,
+      allRealmEmojiByName,
+      timeEdited,
+    })}
   </div>
 </div>
 `;
