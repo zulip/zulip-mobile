@@ -5,6 +5,7 @@ import {
   hexToAscii,
   asciiToHex,
   xorHexStrings,
+  strToBase64,
   extractApiKey,
 } from '../encoding';
 
@@ -61,11 +62,40 @@ describe('asciiToHex', () => {
   });
 });
 
+describe('strToBase64', () => {
+  test('can handle an empty string', () => {
+    const obj = '';
+    const expected = '';
+
+    const result = strToBase64(obj);
+
+    expect(result).toBe(expected);
+  });
+
+  test('can encode any string', () => {
+    const obj = {
+      key: 'ABCabc123',
+      empty: null,
+      array: [1, 2, 3],
+    };
+    const expected = 'W29iamVjdCBPYmplY3Rd';
+
+    const result = strToBase64(obj);
+
+    expect(result).toBe(expected);
+  });
+
+  test('supports unicode characters', () => {
+    const obj = { key: '😇😈' };
+    const expected = 'W29iamVjdCBPYmplY3Rd';
+    const result = strToBase64(obj);
+    expect(result).toBe(expected);
+  });
+});
 describe('extractApiKey', () => {
   test('correctly extracts an API key that has been XORed with a OTP', () => {
     const key = 'testing';
     const otp = 'A8348A93A83493';
-
     const encoded = xorHexStrings(asciiToHex(key), otp);
     expect(extractApiKey(encoded, otp)).toBe(key);
   });

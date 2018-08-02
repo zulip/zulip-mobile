@@ -32,6 +32,11 @@ export const base64ToHex = (bytes: string) => asciiToHex(base64.decode(bytes));
 
 export const hexToBase64 = (hex: string) => base64.encode(hexToAscii(hex));
 
+// https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
+// `base64.encode` used instead of `btoa` to support Unicode input
+export const strToBase64 = (text: string): string =>
+  base64.encode(unescape(encodeURIComponent(text)));
+
 // Extract an API key encoded as a hex string XOR'ed with a one time pad (OTP)
 // (this is used during the OAuth flow)
 export const extractApiKey = (encoded: string, otp: string) =>
