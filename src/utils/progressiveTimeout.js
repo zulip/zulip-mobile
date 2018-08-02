@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict */
 let lastTimeoutTime = 0;
 let lastTimeoutLength = -2;
 

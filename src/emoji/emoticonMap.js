@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict */
 export default {
   '<3': '❤️',
   ':o)': '🐵',

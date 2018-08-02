@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict */
 export default {
   color: '#333',
   backgroundColor: 'white',
