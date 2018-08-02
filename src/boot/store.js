@@ -1,12 +1,14 @@
 /* @flow */
+import { AsyncStorage } from 'react-native';
 import { applyMiddleware, compose, createStore } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
+import { createMigrate, persistStore, persistReducer } from 'redux-persist';
 import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4';
 
 import config from '../config';
 import rootReducer from './reducers';
 import middleware from './middleware';
 import ZulipAsyncStorage from './ZulipAsyncStorage';
+import { nullFunction } from '../nullObjects';
 
 // AsyncStorage.clear(); // use to reset storage during development
 
@@ -38,11 +40,23 @@ const reduxPersistConfigV4 = {
   storage: ZulipAsyncStorage,
 };
 
+const migrations = {
+  '0': state => {
+    const oldKeys = reduxPersistConfigV4.whitelist.map(key => `reduxPersist:${key}`);
+    // multiRemove() errors when `oldKeys` are not actually stored. This is
+    // what we want to achieve anyways, so just ignore the error.
+    AsyncStorage.multiRemove(oldKeys).catch(nullFunction);
+    return state;
+  },
+};
+
 const reduxPersistConfig = {
   key: 'root',
+  version: 0,
   whitelist: [...config.storeKeys, ...config.cacheKeys],
   storage: ZulipAsyncStorage,
   getStoredState: getStoredStateMigrateV4(reduxPersistConfigV4),
+  migrate: createMigrate(migrations),
 };
 
 const reducer = persistReducer(reduxPersistConfig, rootReducer);
