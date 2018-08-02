@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, Image } from 'react-native';
 
 import type { GlobalState } from '../types';
-import { getActiveRealmEmojiById } from '../selectors';
+import { getActiveRealmEmojiByName } from '../selectors';
 
 const styles = StyleSheet.create({
   image: {
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  realmEmoji: {},
+  activeRealmEmojiByName: {},
   name: string,
 };
 
@@ -23,16 +23,16 @@ class RealmEmoji extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { name, realmEmoji } = this.props;
+    const { name, activeRealmEmojiByName } = this.props;
 
-    if (!realmEmoji[name]) {
+    if (!activeRealmEmojiByName[name]) {
       return null;
     }
 
-    return <Image style={styles.image} source={{ uri: realmEmoji[name].source_url }} />;
+    return <Image style={styles.image} source={{ uri: activeRealmEmojiByName[name].source_url }} />;
   }
 }
 
 export default connect((state: GlobalState) => ({
-  realmEmoji: getActiveRealmEmojiById(state),
+  activeRealmEmojiByName: getActiveRealmEmojiByName(state),
 }))(RealmEmoji);
