@@ -35,11 +35,15 @@ export default class ZulipAsyncStorage {
         // their version of the app.
         const err = new Error(`No decompression module found for format ${header}`);
         logErrorRemotely(err, '');
-        callback(err, null);
+        if (callback) {
+          callback(err, null);
+        }
         throw err;
       }
     }
-    callback(undefined, result);
+    if (callback) {
+      callback(undefined, result);
+    }
     return result;
   }
 
