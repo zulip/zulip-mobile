@@ -13,8 +13,7 @@ import MessageList from '../message/MessageList';
 import { getMessages } from '../api';
 import renderMessages from '../message/renderMessages';
 import { NULL_ARRAY, NULL_FETCHING } from '../nullObjects';
-import { getAllRealmEmojiById, getAuth, getSubscriptions } from '../selectors';
-import { LAST_MESSAGE_ANCHOR } from '../constants';
+import { getAllRealmEmojiByName, getAuth, getSubscriptions } from '../selectors';
 
 const styles = StyleSheet.create({
   results: {
@@ -104,5 +103,11 @@ class SearchMessagesCard extends PureComponent<Props, State> {
 export default connect((state: GlobalState) => ({
   auth: getAuth(state),
   subscriptions: getSubscriptions(state),
+<<<<<<< HEAD
   realmEmoji: getAllRealmEmojiById(state),
+||||||| merged common ancestors
+  realmEmoji: getAllRealmEmoji(state),
+=======
+  allRealmEmojiByName: getAllRealmEmojiByName(state),
+>>>>>>> SearchMessagesCard: Use new emoji selector
 }))(SearchMessagesCard);
