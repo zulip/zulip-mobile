@@ -17,15 +17,11 @@ import ZulipAsyncStorage from './ZulipAsyncStorage';
 
 const store = compose(applyMiddleware(...middleware), autoRehydrate())(createStore)(rootReducer);
 
-export const restore = (onFinished?: () => void) =>
-  persistStore(
-    store,
-    {
-      whitelist: [...config.storeKeys, ...config.cacheKeys],
-      // $FlowFixMe: https://github.com/rt2zz/redux-persist/issues/823
-      storage: ZulipAsyncStorage,
-    },
-    onFinished,
-  );
+export const restore = () =>
+  persistStore(store, {
+    whitelist: [...config.storeKeys, ...config.cacheKeys],
+    // $FlowFixMe: https://github.com/rt2zz/redux-persist/issues/823
+    storage: ZulipAsyncStorage,
+  });
 
 export default store;
