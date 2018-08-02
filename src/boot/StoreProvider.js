@@ -1,9 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 
 import type { ChildrenArray } from '../types';
-import store, { restore } from './store';
+import store, { persistor } from './store';
+import LoadingScreen from '../start/LoadingScreen';
 
 type Props = {
   children: ChildrenArray<*>,
@@ -12,11 +14,13 @@ type Props = {
 export default class StoreHydrator extends PureComponent<Props> {
   props: Props;
 
-  componentDidMount() {
-    restore();
-  }
-
   render() {
-    return <Provider store={store}>{this.props.children}</Provider>;
+    return (
+      <Provider store={store}>
+        <PersistGate loading={<LoadingScreen />} persistor={persistor}>
+          {this.props.children}
+        </PersistGate>
+      </Provider>
+    );
   }
 }

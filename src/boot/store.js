@@ -1,6 +1,7 @@
 /* @flow */
 import { applyMiddleware, compose, createStore } from 'redux';
-import { persistStore, autoRehydrate } from 'redux-persist';
+import { persistStore, persistReducer } from 'redux-persist';
+import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4';
 
 import config from '../config';
 import rootReducer from './reducers';
@@ -15,13 +16,39 @@ import ZulipAsyncStorage from './ZulipAsyncStorage';
 //   compose(autoRehydrate(), applyMiddleware(...middleware)),
 // );
 
-const store = compose(applyMiddleware(...middleware), autoRehydrate())(createStore)(rootReducer);
+// DO NOT change this object. It contains the config for the last version
+// of the code that used redux-persist v4. This config object is used for
+// migrating any device that is ugprading from an app version that uses
+// redux-persist v4 to an app version that uses redux-persist v5.
+const reduxPersistConfigV4 = {
+  whitelist: [
+    'accounts',
+    'drafts',
+    'messages',
+    'mute',
+    'outbox',
+    'realm',
+    'settings',
+    'streams',
+    'subscriptions',
+    'unread',
+    'userGroups',
+    'users',
+  ],
+  storage: ZulipAsyncStorage,
+};
 
-export const restore = () =>
-  persistStore(store, {
-    whitelist: [...config.storeKeys, ...config.cacheKeys],
-    // $FlowFixMe: https://github.com/rt2zz/redux-persist/issues/823
-    storage: ZulipAsyncStorage,
-  });
+const reduxPersistConfig = {
+  key: 'root',
+  whitelist: [...config.storeKeys, ...config.cacheKeys],
+  storage: ZulipAsyncStorage,
+  getStoredState: getStoredStateMigrateV4(reduxPersistConfigV4),
+};
+
+const reducer = persistReducer(reduxPersistConfig, rootReducer);
+
+const store = createStore(reducer, undefined, compose(applyMiddleware(...middleware)));
+
+export const persistor = persistStore(store);
 
 export default store;
