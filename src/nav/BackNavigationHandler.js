@@ -1,4 +1,5 @@
 /* @flow */
+import type { ChildrenArray } from 'react';
 import { connect } from 'react-redux';
 
 import { PureComponent } from 'react';
