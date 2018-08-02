@@ -21,7 +21,7 @@ export default class ZulipAsyncStorage {
     // E.g., `zlib base64` means DATA is a base64 encoding of a zlib
     // encoding of the underlying data.  We call the "z|TRANSFORMS|" part
     // the "header" of the string.
-    if (result.startsWith('z')) {
+    if (result !== null && result.startsWith('z')) {
       const header = result.substring(0, result.indexOf('|', result.indexOf('|') + 1) + 1);
       if (
         NativeModules.TextCompressionModule !== undefined
