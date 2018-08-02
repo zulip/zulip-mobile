@@ -1,8 +1,8 @@
 /* @flow */
 import emojiMap from './emojiMap';
-import type { RealmEmoji } from '../types';
+import type { RealmEmojiType } from '../types';
 
-export default (query: string, realmEmoji: RealmEmoji) =>
+export default (query: string, realmEmoji: { [string]: RealmEmojiType }) =>
   // TODO: this doesn't actually handle realm emoji.  See our issue #2846.
   Array.from(
     new Set([

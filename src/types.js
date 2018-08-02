@@ -705,7 +705,6 @@ export type NamedUser = {
   full_name: string,
 };
 
-export type RealmEmoji = any;
 export type ResponseExtractionFunc = any;
 
 export type TabNavigationOptionsPropsType = {
