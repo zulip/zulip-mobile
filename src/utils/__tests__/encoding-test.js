@@ -5,7 +5,7 @@ import {
   hexToAscii,
   asciiToHex,
   xorHexStrings,
-  strToBase64,
+  base64Utf8Encode,
   extractApiKey,
 } from '../encoding';
 
@@ -62,33 +62,18 @@ describe('asciiToHex', () => {
   });
 });
 
-describe('strToBase64', () => {
+describe('base64Utf8Encode', () => {
   test('can handle an empty string', () => {
-    const obj = '';
+    const text = '';
     const expected = '';
-
-    const result = strToBase64(obj);
-
+    const result = base64Utf8Encode(text);
     expect(result).toBe(expected);
   });
 
-  test('can encode any string', () => {
-    const obj = {
-      key: 'ABCabc123',
-      empty: null,
-      array: [1, 2, 3],
-    };
-    const expected = 'W29iamVjdCBPYmplY3Rd';
-
-    const result = strToBase64(obj);
-
-    expect(result).toBe(expected);
-  });
-
-  test('supports unicode characters', () => {
-    const obj = { key: '😇😈' };
-    const expected = 'W29iamVjdCBPYmplY3Rd';
-    const result = strToBase64(obj);
+  test('supports Unicode characters outside the BMP', () => {
+    const text = '😇😈';
+    const expected = '8J+Yh/CfmIg=';
+    const result = base64Utf8Encode(text);
     expect(result).toBe(expected);
   });
 });
