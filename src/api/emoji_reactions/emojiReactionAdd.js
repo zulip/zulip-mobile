@@ -6,7 +6,7 @@ export default (
   auth: Auth,
   messageId: number,
   reactionType: string,
-  emojiCode: string,
+  emojiCode: string | number,
   emojiName: string,
 ): Promise<ApiResponse> =>
   apiPost(auth, `messages/${messageId}/reactions`, res => res, {
