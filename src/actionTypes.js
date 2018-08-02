@@ -107,7 +107,7 @@ import type {
  */
 export type RehydrateAction = {
   type: typeof REHYDRATE,
-  payload: GlobalState | { accounts: null } | {},
+  payload: GlobalState | { accounts: null } | {} | void,
   error: ?Object,
 };
 
