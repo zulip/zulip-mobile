@@ -15,17 +15,10 @@ import ZulipAsyncStorage from './ZulipAsyncStorage';
  * All properties on the global store should appear either here or in the
  * lists of properties we do persist, below.
  */
+// prettier-ignore
 export const discardKeys = [
-  'alertWords',
-  'caughtUp',
-  'fetching',
-  'flags',
-  'loading',
-  'nav',
-  'presence',
-  'session',
-  'topics',
-  'typing',
+  'alertWords', 'caughtUp', 'fetching', 'flags', 'loading',
+  'nav', 'presence', 'session', 'topics', 'typing',
 ];
 
 /**
@@ -44,15 +37,9 @@ export const storeKeys = ['accounts', 'drafts', 'outbox', 'settings'];
  * server, but which we persist locally so that we have it cached and
  * don't have to re-download it.
  */
+// prettier-ignore
 export const cacheKeys = [
-  'messages',
-  'mute',
-  'realm',
-  'streams',
-  'subscriptions',
-  'unread',
-  'userGroups',
-  'users',
+ 'messages', 'mute', 'realm', 'streams', 'subscriptions', 'unread', 'userGroups', 'users',
 ];
 
 const reduxPersistConfig: Config = {
