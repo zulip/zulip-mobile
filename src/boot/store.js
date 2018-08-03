@@ -10,7 +10,11 @@ import ZulipAsyncStorage from './ZulipAsyncStorage';
 
 // AsyncStorage.clear(); // use to reset storage during development
 
-const store = compose(applyMiddleware(...middleware), autoRehydrate())(createStore)(rootReducer);
+const store = createStore(
+  rootReducer,
+  undefined,
+  compose(applyMiddleware(...middleware), autoRehydrate()),
+);
 
 const reduxPersistConfig: Config = {
   whitelist: [...config.storeKeys, ...config.cacheKeys],
