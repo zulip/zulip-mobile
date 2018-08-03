@@ -4,6 +4,8 @@ import { enableBatching } from 'redux-batched-actions';
 
 import config from '../config';
 import { logSlowReducers } from '../utils/redux';
+import { NULL_OBJECT } from '../nullObjects';
+import type { MigrationsState } from '../types';
 
 import accounts from '../account/accountReducers';
 import alertWords from '../alertWords/alertWordsReducer';
@@ -32,6 +34,7 @@ import userGroups from '../user-groups/userGroupsReducers';
 import users from '../users/usersReducers';
 
 const reducers = {
+  migrations: (state: MigrationsState = NULL_OBJECT) => state,
   accounts,
   alertWords,
   caughtUp,

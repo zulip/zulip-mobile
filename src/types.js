@@ -399,6 +399,10 @@ export type FlagsState = {
   [string]: FlagMap,
 };
 
+export type MigrationsState = {
+  version?: string,
+};
+
 export type LoadingState = {
   presence: boolean,
   subscriptions: boolean,
@@ -608,6 +612,7 @@ export type GlobalState = {
   drafts: DraftsState,
   fetching: FetchingState,
   flags: FlagsState,
+  migrations: MigrationsState,
   loading: LoadingState,
   messages: MessagesState,
   mute: MuteState,

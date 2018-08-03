@@ -6,6 +6,7 @@ import type { Config } from 'redux-persist';
 import rootReducer from './reducers';
 import middleware from './middleware';
 import ZulipAsyncStorage from './ZulipAsyncStorage';
+import createMigration from '../redux-persist-migrate/index';
 
 // AsyncStorage.clear(); // use to reset storage during development
 
@@ -28,7 +29,7 @@ export const discardKeys = [
  * install of the app), where things wouldn't work right if we didn't
  * persist them.
  */
-export const storeKeys = ['accounts', 'drafts', 'outbox', 'settings'];
+export const storeKeys = ['migrations', 'accounts', 'drafts', 'outbox', 'settings'];
 
 /**
  * Properties on the global store which we persist for caching's sake.
@@ -42,6 +43,8 @@ export const cacheKeys = [
  'messages', 'mute', 'realm', 'streams', 'subscriptions', 'unread', 'userGroups', 'users',
 ];
 
+const migrations = {};
+
 const reduxPersistConfig: Config = {
   whitelist: [...storeKeys, ...cacheKeys],
   // $FlowFixMe: https://github.com/rt2zz/redux-persist/issues/823
@@ -51,7 +54,11 @@ const reduxPersistConfig: Config = {
 const store = createStore(
   rootReducer,
   undefined,
-  compose(applyMiddleware(...middleware), autoRehydrate()),
+  compose(
+    createMigration(migrations, 'migrations'),
+    applyMiddleware(...middleware),
+    autoRehydrate(),
+  ),
 );
 
 export const restore = (onFinished?: () => void) =>
