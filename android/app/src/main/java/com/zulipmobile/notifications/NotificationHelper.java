@@ -71,8 +71,8 @@ public class NotificationHelper {
             String name = extractName(entry.getKey());
             List<MessageInfo> messages = entry.getValue();
             Spannable sb = new SpannableString(String.format(Locale.ENGLISH, "%s%s: %s", name,
-                    mContext.getResources().getQuantityString(R.plurals.messages,messages.size(),messages.size()),
-                   messages.get(entry.getValue().size() - 1).getContent()));
+                    mContext.getResources().getQuantityString(R.plurals.messages, messages.size(), messages.size()),
+                    messages.get(entry.getValue().size() - 1).getContent()));
             sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             inboxStyle.addLine(sb);
         }
@@ -102,6 +102,7 @@ public class NotificationHelper {
         }
     }
 
+
     public static String[] extractNames(LinkedHashMap<String, List<MessageInfo>> conversations) {
         String[] names = new String[conversations.size()];
         int index = 0;
@@ -125,5 +126,15 @@ public class NotificationHelper {
 
     public static void clearConversations(LinkedHashMap<String, List<MessageInfo>> conversations) {
         conversations.clear();
+    }
+
+    public static String extractKeyFromConversations(int messageId, LinkedHashMap<String, List<MessageInfo>> conversations) {
+        for (Map.Entry<String, List<MessageInfo>> entry : conversations.entrySet()) {
+            for (MessageInfo messageInfo : entry.getValue()) {
+                if (messageInfo.getMessageId() == messageId)
+                    return entry.getKey();
+            }
+        }
+        return null;
     }
 }

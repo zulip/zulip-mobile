@@ -103,6 +103,14 @@ public class GCMPushNotifications extends PushNotification {
 
         if (conversations.size() == 1) {
             //Only one 1 notification therefore no using of big view styles
+
+
+            if (getProps().isRemoveNotificationEvent()) {
+                senderFullName = extractNames(conversations)[0];
+                List<MessageInfo> messageList = conversations.values().iterator().next();
+                builder.setContentText(messageList.get(messageList.size() - 1).getContent());
+            }
+
             if (totalMessagesCount > 1) {
                 builder.setContentTitle(senderFullName + " (" + totalMessagesCount + ")");
             } else {
@@ -115,7 +123,7 @@ public class GCMPushNotifications extends PushNotification {
                     builder.setSubText("Message on " + displayTopic);
                 }
             }
-            if (avatarURL != null && avatarURL.startsWith("http")) {
+            if (!getProps().isRemoveNotificationEvent() && avatarURL != null && avatarURL.startsWith("http")) {
                 Bitmap avatar = fetchAvatar(NotificationHelper.sizedURL(mContext,
                         avatarURL, 64, baseURL));
                 if (avatar != null) {
@@ -140,7 +148,7 @@ public class GCMPushNotifications extends PushNotification {
         }
 
         if (time != null) {
-            long timStamp = Long.parseLong(getProps().getTime()) * 1000;
+            long timStamp = Long.parseLong(time) * 1000;
             builder.setWhen(timStamp);
         }
         long[] vPattern = {0, 100, 200, 100};

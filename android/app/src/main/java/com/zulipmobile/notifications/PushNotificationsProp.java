@@ -71,4 +71,12 @@ public class PushNotificationsProp extends PushNotificationProps {
     public int getZulipMessageId() {
         return Integer.parseInt(mBundle.getString("zulip_message_id"));
     }
+
+    public boolean isRemoveNotificationEvent() {
+        return getEvent().equals("remove");
+    }
+
+    public String getEvent() {
+        return mBundle.getString("event");
+    }
 }
