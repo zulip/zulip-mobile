@@ -10,12 +10,6 @@ import ZulipAsyncStorage from './ZulipAsyncStorage';
 
 // AsyncStorage.clear(); // use to reset storage during development
 
-// uncomment the following lines to integrate reactotron with redux
-// const store = Reactotron.createStore(
-//   rootReducer,
-//   compose(autoRehydrate(), applyMiddleware(...middleware)),
-// );
-
 const store = compose(applyMiddleware(...middleware), autoRehydrate())(createStore)(rootReducer);
 
 const reduxPersistConfig: Config = {
