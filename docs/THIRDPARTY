@@ -20,6 +20,10 @@ Files: *
 Copyright: 2016-2018 Kandra Labs, Inc., and contributors
 License: Apache-2
 
+Files: src/redux-persist-migrate/index.js
+Copyright: 2016-2017 Zack Story and contributors
+License: MIT
+
 Files: vendor/intl/*
 Copyright: 2013 Andy Earnshaw
 License: MIT
