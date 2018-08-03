@@ -19,6 +19,10 @@
 ; Ignore metro
 .*/node_modules/metro/.*
 
+; Ignore redux-persist v5.10 because it errors on Flow:
+; https://github.com/rt2zz/redux-persist/issues/823
+.*/node_modules/redux-persist/.*
+
 ; Custom ignores
 .*/ios/Pods/*
 .*/__tests__/*
