@@ -27,9 +27,6 @@ type Config = {
   enableErrorConsoleLogging: boolean,
   trackServerEvents: string[],
   serverDataOnStartup: string[],
-  discardKeys: string[],
-  storeKeys: string[],
-  cacheKeys: string[],
 };
 
 const config: Config = {
@@ -87,52 +84,6 @@ const config: Config = {
     'update_display_settings',
     'update_global_notifications',
     'update_message_flags',
-  ],
-
-  /**
-   * Properties on the global store which we explicitly choose not to persist.
-   *
-   * All properties on the global store should appear either here or in the
-   * lists of properties we do persist, below.
-   */
-  discardKeys: [
-    'alertWords',
-    'caughtUp',
-    'fetching',
-    'flags',
-    'loading',
-    'nav',
-    'presence',
-    'session',
-    'topics',
-    'typing',
-  ],
-
-  /**
-   * Properties on the global store which we persist because they are local.
-   *
-   * These represent information that belongs to this device (and this
-   * install of the app), where things wouldn't work right if we didn't
-   * persist them.
-   */
-  storeKeys: ['accounts', 'drafts', 'outbox', 'settings'],
-
-  /**
-   * Properties on the global store which we persist for caching's sake.
-   *
-   * These represent information for which the ground truth is on the
-   * server, but which we persist locally so that we have it cached and
-   * don't have to re-download it.
-   */
-  cacheKeys: [
-    'messages',
-    'mute',
-    'realm',
-    'streams',
-    'subscriptions',
-    'unread',
-    'userGroups',
-    'users',
   ],
 };
 
