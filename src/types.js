@@ -144,7 +144,7 @@ export type Message = {
   client: string,
   content: string,
   content_type: 'text/html' | 'text/markdown',
-  display_recipient: any, // string | Recipient[],
+  display_recipient: $FlowFixMe, // `string` for type stream, else Recipient[].
   edit_history: MessageEdit[],
   flags: string[],
   gravatar_hash: string,
@@ -157,7 +157,7 @@ export type Message = {
   sender_id: number,
   sender_realm_str: string,
   sender_short_name: string,
-  stream_id: number,
+  stream_id: number, // FixMe: actually only for type `stream`, else absent.
   subject: string,
   subject_links: string[],
   submessages: Message[],
