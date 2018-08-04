@@ -82,7 +82,8 @@ export type AggregatedReaction = {
   type: string,
 };
 
-export type Recipient = {
+/** A user, as seen in the `display_recipient` of a PM `Message`. */
+export type PmRecipientUser = {
   email: string,
   full_name: string,
   id: number,
@@ -144,7 +145,7 @@ export type Message = {
   client: string,
   content: string,
   content_type: 'text/html' | 'text/markdown',
-  display_recipient: $FlowFixMe, // `string` for type stream, else Recipient[].
+  display_recipient: $FlowFixMe, // `string` for type stream, else PmRecipientUser[].
   edit_history: MessageEdit[],
   flags: string[],
   gravatar_hash: string,

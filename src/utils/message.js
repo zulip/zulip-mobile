@@ -1,5 +1,12 @@
 /* @flow */
-import type { FlagsState, Recipient, Narrow, Message, MuteState, Subscription } from '../types';
+import type {
+  FlagsState,
+  PmRecipientUser,
+  Narrow,
+  Message,
+  MuteState,
+  Subscription,
+} from '../types';
 import { HOME_NARROW, isTopicNarrow } from './narrow';
 
 // TODO types: this union is confusing
@@ -20,7 +27,7 @@ export const normalizeRecipientsSansMe = (
     ? recipients[0].email
     : normalizeRecipients(recipients.filter(r => r.email !== ownEmail));
 
-export const getRecipientsIds = (recipients: Recipient[], ownEmail?: string): string =>
+export const getRecipientsIds = (recipients: PmRecipientUser[], ownEmail?: string): string =>
   recipients.length === 2
     ? recipients.filter(r => r.email !== ownEmail)[0].id.toString()
     : recipients
