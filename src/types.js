@@ -82,13 +82,13 @@ export type AggregatedReaction = {
   type: string,
 };
 
-export type Recipient = any; /* {
-   email: string,
-   full_name: string,
-   id: number,
-   is_mirror_dummy: boolean,
-   short_name: string,
- }; */
+export type Recipient = {
+  email: string,
+  full_name: string,
+  id: number,
+  is_mirror_dummy: boolean,
+  short_name: string,
+};
 
 export type MessageEdit = {
   prev_content?: string,
