@@ -81,7 +81,6 @@ import type {
   Stream,
   Subscription,
   Topic,
-  PmConversationData,
   PresenceState,
   Presence,
   RealmEmojiState,
@@ -565,28 +564,12 @@ export type ToggleOutboxSendingAction = {
   sending: boolean,
 };
 
-export type StartTypingAction = {
-  type: typeof EVENT_TYPING_START,
-  time: number,
-  ownEmail: string,
-  sender: { email: string, user_id: number },
-  recipients: PmConversationData[],
-};
-
-export type StopTypingAction = {
-  type: typeof EVENT_TYPING_STOP,
-  time: number,
-  ownEmail: string,
-  sender: { email: string, user_id: number },
-  recipients: Object[],
-};
-
 export type ClearTypingAction = {
   type: typeof CLEAR_TYPING,
   outdatedNotifications: string[],
 };
 
-export type TypingAction = StartTypingAction | StopTypingAction | ClearTypingAction;
+export type TypingAction = EventTypingAction | ClearTypingAction;
 
 export type InitStreamsAction = {
   type: typeof INIT_STREAMS,

@@ -1,9 +1,9 @@
 /* @flow */
 import type {
   TypingAction,
+  EventTypingStartAction,
+  EventTypingStopAction,
   ClearTypingAction,
-  StartTypingAction,
-  StopTypingAction,
   TypingState,
 } from '../types';
 import {
@@ -20,7 +20,7 @@ import { NULL_OBJECT } from '../nullObjects';
 
 const initialState: TypingState = NULL_OBJECT;
 
-const eventTypingStart = (state: TypingState, action: StartTypingAction): TypingState => {
+const eventTypingStart = (state: TypingState, action: EventTypingStartAction): TypingState => {
   if (action.sender.email === action.ownEmail) {
     // don't change state when self is typing
     return state;
@@ -49,7 +49,7 @@ const eventTypingStart = (state: TypingState, action: StartTypingAction): Typing
   };
 };
 
-const eventTypingStop = (state: TypingState, action: StopTypingAction): TypingState => {
+const eventTypingStop = (state: TypingState, action: EventTypingStopAction): TypingState => {
   const normalizedRecipients = normalizeRecipientsSansMe(action.recipients, action.ownEmail);
   const previousTypingUsers = state[normalizedRecipients];
 
