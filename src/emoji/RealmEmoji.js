@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, Image } from 'react-native';
 
 import type { GlobalState } from '../types';
-import { getActiveRealmEmoji } from '../selectors';
+import { getActiveRealmEmojiById } from '../selectors';
 
 const styles = StyleSheet.create({
   image: {
@@ -34,5 +34,5 @@ class RealmEmoji extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  realmEmoji: getActiveRealmEmoji(state),
+  realmEmoji: getActiveRealmEmojiById(state),
 }))(RealmEmoji);

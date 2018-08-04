@@ -8,7 +8,7 @@ import { Popup } from '../common';
 import EmojiRow from '../emoji/EmojiRow';
 import getFilteredEmojiList from '../emoji/getFilteredEmojiList';
 import type { GlobalState, RealmEmojiState } from '../types';
-import { getActiveRealmEmoji } from '../selectors';
+import { getActiveRealmEmojiById } from '../selectors';
 
 type Props = {
   filter: string,
@@ -42,5 +42,5 @@ class EmojiAutocomplete extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState) => ({
-  realmEmoji: getActiveRealmEmoji(state),
+  realmEmoji: getActiveRealmEmojiById(state),
 }))(EmojiAutocomplete);

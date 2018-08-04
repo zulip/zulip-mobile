@@ -22,7 +22,7 @@ import { constructActionButtons, executeActionSheetAction } from './messageActio
 import MessageListWeb from '../webview/MessageListWeb';
 import {
   getAuth,
-  getAllRealmEmoji,
+  getAllRealmEmojiById,
   getCurrentTypingUsers,
   getDebug,
   getRenderedMessages,
@@ -114,7 +114,7 @@ export default connect((state, props) => ({
   flags: getFlags(state),
   isFetching: props.isFetching || getIsFetching(props.narrow)(state),
   messages: props.messages || getShownMessagesForNarrow(props.narrow)(state),
-  realmEmoji: getAllRealmEmoji(state),
+  realmEmoji: getAllRealmEmojiById(state),
   twentyFourHourTime: getRealm(state).twentyFourHourTime,
   renderedMessages: props.renderedMessages || getRenderedMessages(props.narrow)(state),
   showMessagePlaceholders:

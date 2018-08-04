@@ -1,8 +1,8 @@
 /* @flow */
 import deepFreeze from 'deep-freeze';
-import { getActiveRealmEmoji, getAllRealmEmoji } from '../emojiSelectors';
+import { getActiveRealmEmojiById, getAllRealmEmojiById } from '../emojiSelectors';
 
-describe('getActiveRealmEmoji', () => {
+describe('getActiveRealmEmojiById', () => {
   test('filter out all deactivated emojis', () => {
     const state = {
       accounts: [
@@ -39,11 +39,11 @@ describe('getActiveRealmEmoji', () => {
       },
     };
 
-    expect(getActiveRealmEmoji(deepFreeze(state))).toEqual(expectedResult);
+    expect(getActiveRealmEmojiById(deepFreeze(state))).toEqual(expectedResult);
   });
 });
 
-describe('getAllRealmEmoji', () => {
+describe('getAllRealmEmojiById', () => {
   test('get realm emojis with absolute url', () => {
     const state = {
       accounts: [{ realm: 'https://example.com' }],
@@ -68,6 +68,6 @@ describe('getAllRealmEmoji', () => {
       },
     };
 
-    expect(getAllRealmEmoji(deepFreeze(state))).toEqual(expectedResult);
+    expect(getAllRealmEmojiById(deepFreeze(state))).toEqual(expectedResult);
   });
 });
