@@ -24,7 +24,7 @@ import {
 } from '../actions';
 import { updateMessage } from '../api';
 import { FloatingActionButton, Input } from '../common';
-import { showErrorAlert } from '../utils/info';
+import { showErrorFromException } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import { isStreamNarrow, isStreamOrTopicNarrow, topicNarrow } from '../utils/narrow';
 import ComposeMenu from './ComposeMenu';
@@ -240,7 +240,7 @@ class ComposeBox extends PureComponent<Props, State> {
     const subject = topic !== editMessage.topic ? topic : undefined;
     if ((content !== undefined && content !== '') || (subject !== undefined && subject !== '')) {
       updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
-        showErrorAlert(error.message, 'Failed to edit message');
+        showErrorFromException(error, 'Failed to edit message');
       });
     }
     dispatch(cancelEditMessage());
