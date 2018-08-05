@@ -96,7 +96,7 @@ android {
 
     defaultConfig {
         applicationId "com.zulipmobile"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 22
         versionCode 13
         versionName "1.0.13"
