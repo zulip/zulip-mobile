@@ -1,6 +1,4 @@
 /* @flow */
-import isEqual from 'lodash.isequal';
-
 import type { MuteState, MuteAction, RealmInitAction, EventMutedTopicsAction } from '../types';
 import { REALM_INIT, ACCOUNT_SWITCH, EVENT_MUTED_TOPICS } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
@@ -8,7 +6,7 @@ import { NULL_ARRAY } from '../nullObjects';
 const initialState: MuteState = NULL_ARRAY;
 
 const realmInit = (state: MuteState, action: RealmInitAction): MuteState =>
-  isEqual(action.data.muted_topics, state) ? state : action.data.muted_topics;
+  action.data.muted_topics || initialState;
 
 const eventMutedTopics = (state: MuteState, action: EventMutedTopicsAction): MuteState =>
   action.muted_topics;
