@@ -22,7 +22,7 @@ import { NULL_ARRAY } from '../nullObjects';
 const initialState: UnreadStreamsState = NULL_ARRAY;
 
 const realmInit = (state: UnreadStreamsState, action: RealmInitAction): UnreadStreamsState =>
-  (action.data.unread_msgs && action.data.unread_msgs.streams) || NULL_ARRAY;
+  (action.data.unread_msgs && action.data.unread_msgs.streams) || initialState;
 
 const eventNewMessage = (
   state: UnreadStreamsState,

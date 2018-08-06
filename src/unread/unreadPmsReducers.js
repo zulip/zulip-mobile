@@ -22,7 +22,7 @@ import { NULL_ARRAY } from '../nullObjects';
 const initialState: UnreadPmsState = NULL_ARRAY;
 
 const realmInit = (state: UnreadPmsState, action: RealmInitAction): UnreadPmsState =>
-  (action.data.unread_msgs && action.data.unread_msgs.pms) || NULL_ARRAY;
+  (action.data.unread_msgs && action.data.unread_msgs.pms) || initialState;
 
 const eventNewMessage = (state: UnreadPmsState, action: EventNewMessageAction): UnreadPmsState => {
   if (action.message.type !== 'private') {
