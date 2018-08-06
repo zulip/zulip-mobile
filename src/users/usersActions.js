@@ -11,7 +11,7 @@ import { isPrivateOrGroupNarrow } from '../utils/narrow';
 let lastReportPresence = new Date();
 let lastTypingStart = new Date();
 
-export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean = false) => async (
+export const reportPresence = (hasFocus: boolean = true) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
@@ -26,7 +26,7 @@ export const reportPresence = (hasFocus: boolean = true, newUserInput: boolean =
 
   lastReportPresence = new Date();
 
-  const response = await api.reportPresence(auth, hasFocus, newUserInput);
+  const response = await api.reportPresence(auth, hasFocus);
   dispatch({
     type: PRESENCE_RESPONSE,
     presence: response.presences,
