@@ -39,9 +39,12 @@ public class GCMPushNotifications extends PushNotification {
     public static final String ACTION_NOTIFICATIONS_DISMISS = "ACTION_NOTIFICATIONS_DISMISS";
 
     /**
-     * {@link LinkedHashMap} is for holding the message notifications data and group them according to their narrow collection that contains.
-     * {@link String} for the narrow key of the message.
-     * {@link List<MessageInfo>} for the list of messages received in that narrow.
+     * The Zulip messages we're showing as a notification, grouped by conversation.
+     *
+     * Each key identifies a conversation; see @{link buildKeyString}.
+     *
+     * Each value is the messages in the conversation, in the order we
+     * received them.
      */
     private LinkedHashMap<String, List<MessageInfo>> conversations;
 
