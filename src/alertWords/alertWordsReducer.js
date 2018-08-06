@@ -11,10 +11,10 @@ import { NULL_ARRAY } from '../nullObjects';
 const initialState = NULL_ARRAY;
 
 const realmInit = (state: AlertWordsState, action: RealmInitAction): AlertWordsState =>
-  action.data.alert_words || state;
+  action.data.alert_words || initialState;
 
 const initAlertWords = (state: AlertWordsState, action: EventAlertWordsAction): AlertWordsState =>
-  action.alertWords || state;
+  action.alertWords || initialState;
 
 export default (
   state: AlertWordsState = initialState,
