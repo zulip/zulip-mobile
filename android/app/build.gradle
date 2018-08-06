@@ -171,7 +171,7 @@ dependencies {
     compile project(':react-native-image-picker')
     compile project(':react-native-orientation')
     compile project(':react-native-sentry')
-    compile project(':@remobile/react-native-toast')
+    compile project(':@remobile_react-native-toast')
     compile project(':react-native-photo-view')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-sound')
