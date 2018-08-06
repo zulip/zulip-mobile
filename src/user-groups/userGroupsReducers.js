@@ -25,7 +25,7 @@ import { NULL_ARRAY } from '../nullObjects';
 const initialState: UserGroupsState = NULL_ARRAY;
 
 const realmInit = (state: UserGroupsState, action: RealmInitAction): UserGroupsState =>
-  action.data.realm_user_groups;
+  action.data.realm_user_groups || initialState;
 
 const eventUserGroupAdd = (
   state: UserGroupsState,
