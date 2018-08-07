@@ -25,7 +25,8 @@ project.xcworkspace
 # Android/IJ
 #
 *.iml
-.idea
+android/.idea/*
+!android/.idea/vcs.xml
 .gradle
 local.properties
 
@@ -42,7 +43,8 @@ android/keystores/debug.keystore
 
 ### ^
 ### The portion of this file above this line comes from RN upstream's
-### template.  We leave that part unchanged to help keep upgrades easy.
+### template.  We leave that part unchanged as much as we can, to help
+### keep upgrades easy.
 ###
 
 # Each pattern should have a leading slash, unless it really is meant to
