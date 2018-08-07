@@ -1,7 +1,12 @@
 /* @flow */
 import deepFreeze from 'deep-freeze';
 
-import { PRESENCE_RESPONSE, EVENT_PRESENCE, ACCOUNT_SWITCH } from '../../actionConstants';
+import {
+  REALM_INIT,
+  PRESENCE_RESPONSE,
+  EVENT_PRESENCE,
+  ACCOUNT_SWITCH,
+} from '../../actionConstants';
 import presenceReducers from '../presenceReducers';
 
 const currentTimestamp = Date.now() / 1000;
@@ -17,6 +22,52 @@ describe('presenceReducers', () => {
 
     const newState = presenceReducers(prevState, {});
     expect(newState).toBe(prevState);
+  });
+
+  describe('REALM_INIT', () => {
+    test('when `presence` data is provided init state with it', () => {
+      const presenceData = {
+        'email@example.com': {
+          aggregated: {
+            client: 'website',
+            status: 'active',
+            timestamp: 123,
+          },
+        },
+      };
+      const initialState = deepFreeze({});
+      const action = deepFreeze({
+        type: REALM_INIT,
+        data: {
+          presences: presenceData,
+        },
+      });
+
+      const actualState = presenceReducers(initialState, action);
+
+      expect(actualState).toEqual(presenceData);
+    });
+
+    test('when no `presence` data is given reset state', () => {
+      const initialState = deepFreeze({
+        'email@example.com': {
+          aggregated: {
+            client: 'website',
+            status: 'active',
+            timestamp: 123,
+          },
+        },
+      });
+      const action = deepFreeze({
+        type: REALM_INIT,
+        data: {},
+      });
+      const expectedState = {};
+
+      const actualState = presenceReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
   });
 
   describe('PRESENCE_RESPONSE', () => {

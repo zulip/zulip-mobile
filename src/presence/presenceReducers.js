@@ -20,7 +20,7 @@ import { getAggregatedPresence } from '../utils/presence';
 const initialState: PresenceState = NULL_OBJECT;
 
 const realmInit = (state: PresenceState, action: RealmInitAction): PresenceState =>
-  action.data.presences;
+  action.data.presences || initialState;
 
 const presenceResponse = (state: PresenceState, action: PresenceResponseAction): PresenceState => ({
   ...state,
