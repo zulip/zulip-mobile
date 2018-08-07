@@ -1,6 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import {
+  REALM_INIT,
   EVENT_SUBSCRIPTION_ADD,
   EVENT_SUBSCRIPTION_REMOVE,
   // EVENT_SUBSCRIPTION_PEER_ADD,
@@ -12,6 +13,50 @@ import {
 import subscriptionsReducers from '../subscriptionsReducers';
 
 describe('subscriptionsReducers', () => {
+  describe('REALM_INIT', () => {
+    test('when `subscriptions` data is provided init state with it', () => {
+      const initialState = deepFreeze([]);
+      const action = deepFreeze({
+        type: REALM_INIT,
+        data: {
+          subscriptions: [
+            {
+              name: 'some stream',
+              stream_id: 1,
+            },
+          ],
+        },
+      });
+
+      const actualState = subscriptionsReducers(initialState, action);
+
+      expect(actualState).toEqual([
+        {
+          name: 'some stream',
+          stream_id: 1,
+        },
+      ]);
+    });
+
+    test('when no `subscriptions` data is given reset state', () => {
+      const initialState = deepFreeze([
+        {
+          name: 'some stream',
+          stream_id: 1,
+        },
+      ]);
+      const action = deepFreeze({
+        type: REALM_INIT,
+        data: {},
+      });
+      const expectedState = [];
+
+      const actualState = subscriptionsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+  });
+
   describe('INIT_SUBSCRIPTIONS', () => {
     test('when subscriptions are same in state as initialized', () => {
       const prevState = deepFreeze([

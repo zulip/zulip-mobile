@@ -29,7 +29,7 @@ import { filterArray } from '../utils/immutability';
 const initialState: SubscriptionsState = NULL_ARRAY;
 
 const realmInit = (state: SubscriptionsState, action: RealmInitAction): SubscriptionsState =>
-  isEqual(action.data.subscriptions, state) ? state : action.data.subscriptions;
+  action.data.subscriptions || initialState;
 
 const initSubscriptions = (
   state: SubscriptionsState,
