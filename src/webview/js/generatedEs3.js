@@ -192,6 +192,17 @@ var scrollToPreserve = function scrollToPreserve(msgId, prevBoundTop) {
   window.scrollBy(0, newBoundRect.top - prevBoundTop);
 };
 
+var appendAuthToImages = function appendAuthToImages(auth) {
+  var imageTags = document.getElementsByTagName('img');
+
+  Array.from(imageTags).forEach(function (img) {
+    if (img.src.startsWith(auth.realm)) {
+      var delimiter = img.src.includes('?') ? '&' : '?';
+      img.src += delimiter + 'api_key=' + auth.apiKey;
+    }
+  });
+};
+
 var handleMessageContent = function handleMessageContent(msg) {
   var target = void 0;
   if (msg.updateStrategy === 'replace') {

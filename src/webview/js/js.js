@@ -217,6 +217,17 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
   window.scrollBy(0, newBoundRect.top - prevBoundTop);
 };
 
+const appendAuthToImages = auth => {
+  const imageTags = document.getElementsByTagName('img');
+
+  Array.from(imageTags).forEach(img => {
+    if (img.src.startsWith(auth.realm)) {
+      const delimiter = img.src.includes('?') ? '&' : '?';
+      img.src += `${delimiter}api_key=${auth.apiKey}`;
+    }
+  });
+};
+
 const handleMessageContent = (msg: MessageInputContent) => {
   let target: ScrollTarget;
   if (msg.updateStrategy === 'replace') {
