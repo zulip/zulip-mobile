@@ -4,8 +4,9 @@ This guide describes how to build and run the app so you can develop it.
 
 ## Main steps
 
-(First, if using **macOS**: Upgrade to the latest version of the OS and then to
-the latest Xcode.)
+(First, if using **macOS**: Upgrade to the latest version of the OS and then
+to the latest Xcode.  In particular, Xcode versions before 9.0 are known to
+definitely not work.)
 
 (If using **Windows**: Try installing WSL, and doing most of the following
 setup in the Linux environment.  See [our Windows guide](windows.md).)
