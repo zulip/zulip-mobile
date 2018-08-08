@@ -85,11 +85,12 @@ public class MainApplication extends Application implements ReactApplication, IN
             clearConversations(conversations);
             NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             nMgr.cancelAll();
-            return null;
         } else {
             PushNotificationsProp prop = new PushNotificationsProp(bundle);
-            addConversationToMap(prop, conversations);
-            return new GCMPushNotifications(context, bundle, defaultFacade, defaultAppLaunchHelper, new JsIOHelper(), conversations);
+            if (prop.getEvent().equals("message")) {
+                addConversationToMap(prop, conversations);
+            }
         }
+        return new GCMPushNotifications(context, bundle, defaultFacade, defaultAppLaunchHelper, new JsIOHelper(), conversations);
     }
 }

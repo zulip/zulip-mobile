@@ -90,6 +90,10 @@ public class GCMPushNotifications extends PushNotification {
         // First, get a builder initialized with defaults from the core class.
         final Notification.Builder builder = super.getNotificationBuilder(intent);
 
+        if (!getProps().getEvent().equals("message")) {
+            return builder;
+        }
+
         String type = getProps().getRecipientType();
         String content = getProps().getContent();
         String senderFullName = getProps().getSenderFullName();
@@ -189,5 +193,13 @@ public class GCMPushNotifications extends PushNotification {
     @Override
     protected int createNotificationId(Notification notification) {
         return NOTIFICATION_ID;
+    }
+
+    @Override
+    public void onReceived() throws InvalidNotificationException {
+        if (!getProps().getEvent().equals("message")) {
+            throw new InvalidNotificationException("Cannot handle this notification.");
+        }
+        super.onReceived();
     }
 }
