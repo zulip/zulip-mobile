@@ -255,6 +255,8 @@ const handleMessageContent = (msg: MessageInputContent) => {
 
   documentBody.innerHTML = msg.content;
 
+  appendAuthToImages(msg.auth);
+
   if (target.type === 'bottom') {
     scrollToBottom();
   } else if (target.type === 'anchor') {
