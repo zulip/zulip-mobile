@@ -235,8 +235,9 @@ var handleMessageContent = function handleMessageContent(msg) {
   sendScrollMessageIfListShort();
 };
 
-var handleInitialLoad = function handleInitialLoad(anchor) {
+var handleInitialLoad = function handleInitialLoad(anchor, auth) {
   scrollToAnchor(anchor);
+  appendAuthToImages(auth);
   sendScrollMessageIfListShort();
   scrollEventsDisabled = false;
 };
