@@ -11,6 +11,7 @@ import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import { getInputMessages } from './webViewHandleUpdates';
 import * as webViewEventHandlers from './webViewEventHandlers';
 import { base64Utf8Encode } from '../utils/encoding';
+import { appendAuthToImages } from '../utils/url';
 
 export default class MessageListWeb extends Component<Props> {
   context: Context;
@@ -60,7 +61,7 @@ export default class MessageListWeb extends Component<Props> {
   render() {
     const { styles, theme } = this.context;
     const { anchor, auth, showMessagePlaceholders, debug } = this.props;
-    const html = getHtml(renderMessagesAsHtml(this.props), theme, {
+    const html = getHtml(appendAuthToImages(renderMessagesAsHtml(this.props), auth), theme, {
       anchor,
       highlightUnreadMessages: debug.highlightUnreadMessages,
       showMessagePlaceholders,

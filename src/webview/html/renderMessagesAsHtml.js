@@ -1,7 +1,6 @@
 /* @flow */
 import type { Props } from '../../message/MessageList';
 
-import { appendAuthToImages } from '../../utils/url';
 import messageAsHtml from './messageAsHtml';
 import messageHeaderAsHtml from './messageHeaderAsHtml';
 import timeRowAsHtml from './timeRowAsHtml';
@@ -54,8 +53,4 @@ const renderMessages = ({
     return list; // eslint-disable-next-line
   }, []);
 
-export default (props: Props): string => {
-  const { auth } = props;
-
-  return appendAuthToImages(renderMessages(props).join(''), auth);
-};
+export default (props: Props): string => renderMessages(props).join('');

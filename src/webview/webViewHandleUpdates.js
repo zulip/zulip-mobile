@@ -3,6 +3,7 @@ import isEqual from 'lodash.isequal';
 
 import type { Props } from '../message/MessageList';
 import type { UpdateStrategy } from '../message/messageUpdates';
+import { appendAuthToImages } from '../utils/url';
 import htmlBody from './html/htmlBody';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
@@ -30,7 +31,11 @@ export type MessageInputTyping = {
 export type WebviewInputMessage = MessageInputContent | MessageInputFetching | MessageInputTyping;
 
 const updateContent = (prevProps: Props, nextProps: Props): MessageInputContent => {
-  const content = htmlBody(renderMessagesAsHtml(nextProps), nextProps.showMessagePlaceholders);
+  const { auth } = nextProps;
+  const content = htmlBody(
+    appendAuthToImages(renderMessagesAsHtml(nextProps), auth),
+    nextProps.showMessagePlaceholders,
+  );
   const transitionProps = getMessageTransitionProps(prevProps, nextProps);
   const updateStrategy = getMessageUpdateStrategy(transitionProps);
 
