@@ -12,9 +12,7 @@ ${matchesPolyfill}
 window.enableWebViewErrorDisplay = ${config.enableWebViewErrorDisplay.toString()};
 document.addEventListener('DOMContentLoaded', function() {
   ${js}
-  scrollToAnchor(${anchor});
-  scrollEventsDisabled = false;
-  sendScrollMessageIfListShort();
+  handleInitialLoad(${anchor});
 });
 </script>
 `;
