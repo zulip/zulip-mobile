@@ -56,6 +56,7 @@ window.onerror = function (message, source, line, column, error) {
 };
 
 var scrollEventsDisabled = true;
+
 var lastTouchEventTimestamp = 0;
 var lastTouchPositionX = -1;
 var lastTouchPositionY = -1;
@@ -218,8 +219,8 @@ var handleMessageContent = function handleMessageContent(msg) {
 
 var handleInitialLoad = function handleInitialLoad(anchor) {
   scrollToAnchor(anchor);
-  scrollEventsDisabled = false;
   sendScrollMessageIfListShort();
+  scrollEventsDisabled = false;
 };
 
 var handleMessageFetching = function handleMessageFetching(msg) {

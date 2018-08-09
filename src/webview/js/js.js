@@ -62,7 +62,15 @@ window.onerror = (message, source, line, column, error) => {
   return true;
 };
 
+/**
+ * Disable reporting scrolls to the outside to mark messages as read.
+ *
+ * This is set while we're first setting up after the content loads, and
+ * while we're handling `message` events from the outside and potentially
+ * rewriting the content.
+ */
 let scrollEventsDisabled = true;
+
 let lastTouchEventTimestamp = 0;
 let lastTouchPositionX = -1;
 let lastTouchPositionY = -1;
@@ -241,8 +249,8 @@ const handleMessageContent = (msg: MessageInputContent) => {
 /** We call this when the webview's content first loads. */
 const handleInitialLoad = /* eslint-disable-line */ (anchor: number) => {
   scrollToAnchor(anchor);
-  scrollEventsDisabled = false;
   sendScrollMessageIfListShort();
+  scrollEventsDisabled = false;
 };
 
 const handleMessageFetching = (msg: MessageInputFetching) => {
