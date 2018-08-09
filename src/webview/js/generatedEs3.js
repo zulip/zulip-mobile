@@ -194,12 +194,17 @@ var scrollToPreserve = function scrollToPreserve(msgId, prevBoundTop) {
 
 var appendAuthToImages = function appendAuthToImages(auth) {
   var imageTags = document.getElementsByTagName('img');
-
   Array.from(imageTags).forEach(function (img) {
-    if (img.src.startsWith(auth.realm)) {
-      var delimiter = img.src.includes('?') ? '&' : '?';
-      img.src += delimiter + 'api_key=' + auth.apiKey;
+    if (!img.src.startsWith(auth.realm)) {
+      return;
     }
+
+    var srcPath = img.src.substring(auth.realm.length);
+    if (!(srcPath.startsWith('/user_uploads/') || srcPath.startsWith('/thumbnail?'))) {
+      return;
+    }
+    var delimiter = img.src.includes('?') ? '&' : '?';
+    img.src += delimiter + 'api_key=' + auth.apiKey;
   });
 };
 
