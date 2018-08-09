@@ -238,6 +238,13 @@ const handleMessageContent = (msg: MessageInputContent) => {
   sendScrollMessageIfListShort();
 };
 
+/** We call this when the webview's content first loads. */
+const handleInitialLoad = /* eslint-disable-line */ (anchor: number) => {
+  scrollToAnchor(anchor);
+  scrollEventsDisabled = false;
+  sendScrollMessageIfListShort();
+};
+
 const handleMessageFetching = (msg: MessageInputFetching) => {
   showHideElement('message-loading', msg.showMessagePlaceholders);
   showHideElement('spinner-older', msg.fetchingOlder);

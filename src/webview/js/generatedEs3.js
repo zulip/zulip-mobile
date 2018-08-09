@@ -216,6 +216,12 @@ var handleMessageContent = function handleMessageContent(msg) {
   sendScrollMessageIfListShort();
 };
 
+var handleInitialLoad = function handleInitialLoad(anchor) {
+  scrollToAnchor(anchor);
+  scrollEventsDisabled = false;
+  sendScrollMessageIfListShort();
+};
+
 var handleMessageFetching = function handleMessageFetching(msg) {
   showHideElement('message-loading', msg.showMessagePlaceholders);
   showHideElement('spinner-older', msg.fetchingOlder);
