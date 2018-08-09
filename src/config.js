@@ -42,7 +42,7 @@ const config: Config = {
   enableReduxLogging: isDevelopment && !!global.btoa,
   enableReduxSlowReducerWarnings: isDevelopment && !!global.btoa,
   enableSentry: !isDevelopment && !isEmulator,
-  enableWebViewErrorDisplay: false,
+  enableWebViewErrorDisplay: isDevelopment,
   enableNotifications: !isEmulator,
   slowReducersThreshold: 5,
   sentryKey: 'ADD-DSN-HERE',
