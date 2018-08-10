@@ -26,7 +26,6 @@ import com.wix.reactnativenotifications.core.notification.INotificationsApplicat
 import com.wix.reactnativenotifications.core.notification.IPushNotification;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.zulipmobile.notifications.GCMPushNotifications;
-import com.zulipmobile.notifications.PushNotificationsProp;
 import com.zulipmobile.RNSecureRandom;
 
 import java.util.Arrays;
@@ -36,7 +35,6 @@ import java.util.List;
 import io.sentry.RNSentryPackage;
 
 import static com.zulipmobile.notifications.GCMPushNotifications.ACTION_NOTIFICATIONS_DISMISS;
-import static com.zulipmobile.notifications.NotificationHelper.addConversationToMap;
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
 
 public class MainApplication extends Application implements ReactApplication, INotificationsApplication {
@@ -87,8 +85,6 @@ public class MainApplication extends Application implements ReactApplication, IN
             nMgr.cancelAll();
             return null;
         } else {
-            PushNotificationsProp prop = new PushNotificationsProp(bundle);
-            addConversationToMap(prop, conversations);
             return new GCMPushNotifications(context, bundle, defaultFacade, defaultAppLaunchHelper, new JsIOHelper(), conversations);
         }
     }
