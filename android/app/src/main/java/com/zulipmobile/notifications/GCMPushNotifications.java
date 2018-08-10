@@ -32,6 +32,7 @@ import static com.zulipmobile.notifications.NotificationHelper.buildNotification
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
 import static com.zulipmobile.notifications.NotificationHelper.extractNames;
 import static com.zulipmobile.notifications.NotificationHelper.extractTotalMessagesCount;
+import static com.zulipmobile.notifications.NotificationHelper.addConversationToMap;
 import static com.zulipmobile.notifications.NotificationHelper.TAG;
 
 public class GCMPushNotifications extends PushNotification {
@@ -68,6 +69,11 @@ public class GCMPushNotifications extends PushNotification {
         return (PushNotificationsProp) mNotificationProps;
     }
 
+    @Override
+    public void onReceived() throws InvalidNotificationException {
+        addConversationToMap(getProps(), conversations);
+        super.onReceived();
+    }
 
     @Override
     public void onOpened() {
