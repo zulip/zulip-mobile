@@ -12,6 +12,11 @@ public class PushNotificationsProp extends PushNotificationProps {
         super(bundle);
     }
 
+    /** Really "event type": one of a small fixed set of identifiers. */
+    public String getEvent() {
+        return mBundle.getString("event");
+    }
+
     public String getRecipientType() {
         return mBundle.getString("recipient_type");
     }

@@ -71,6 +71,11 @@ public class GCMPushNotifications extends PushNotification {
 
     @Override
     public void onReceived() throws InvalidNotificationException {
+        final String eventType = getProps().getEvent();
+        if (!eventType.equals("message")) {
+            Log.w(TAG, "Ignoring GCM message of unknown event type: " + eventType);
+            return;
+        }
         addConversationToMap(getProps(), conversations);
         super.onReceived();
     }
