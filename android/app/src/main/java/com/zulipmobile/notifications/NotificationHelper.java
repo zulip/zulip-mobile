@@ -25,9 +25,10 @@ import java.util.Locale;
 import java.util.Map;
 
 public class NotificationHelper {
+    public static final String TAG = "ZulipNotif";
 
     public static Bitmap fetch(URL url) throws IOException {
-        Log.i("GAFT.fetch", "Getting gravatar from url: " + url);
+        Log.i(TAG, "GAFT.fetch: Getting gravatar from url: " + url);
         URLConnection connection = url.openConnection();
         connection.setUseCaches(true);
         Object response = connection.getContent();
@@ -45,7 +46,7 @@ public class NotificationHelper {
         try {
             return new URL(addHost(url, baseUrl) + "&s=" + px);
         } catch (MalformedURLException e) {
-            Log.e("ERROR", e.toString());
+            Log.e(TAG, "ERROR: " + e.toString());
             return null;
         }
     }

@@ -32,6 +32,7 @@ import static com.zulipmobile.notifications.NotificationHelper.buildNotification
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
 import static com.zulipmobile.notifications.NotificationHelper.extractNames;
 import static com.zulipmobile.notifications.NotificationHelper.extractTotalMessagesCount;
+import static com.zulipmobile.notifications.NotificationHelper.TAG;
 
 public class GCMPushNotifications extends PushNotification {
 
@@ -73,14 +74,14 @@ public class GCMPushNotifications extends PushNotification {
         try {
             InitialNotificationHolder.getInstance().set(getProps());
         } catch (Exception e) {
-            Log.e("PendingNotif error", e.toString());
+            Log.e(TAG, "PendingNotif error: " + e.toString());
         }
         super.onOpened();
         clearConversations(conversations);
         try {
             ShortcutBadger.removeCount(mContext);
         } catch (Exception e) {
-            Log.e("BADGE ERROR", e.toString());
+            Log.e(TAG, "BADGE ERROR: " + e.toString());
         }
     }
 
@@ -139,7 +140,7 @@ public class GCMPushNotifications extends PushNotification {
         try {
             ShortcutBadger.applyCount(mContext, totalMessagesCount);
         } catch (Exception e) {
-            Log.e("BADGE ERROR", e.toString());
+            Log.e(TAG, "BADGE ERROR: " + e.toString());
         }
 
         if (time != null) {
@@ -181,7 +182,7 @@ public class GCMPushNotifications extends PushNotification {
         try {
             return NotificationHelper.fetch(url);
         } catch (IOException e) {
-            Log.e("ERROR", e.toString());
+            Log.e(TAG, "ERROR: " + e.toString());
         }
         return null;
     }
