@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
 
+import android.util.Log;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
 import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
@@ -38,6 +39,7 @@ import io.sentry.RNSentryPackage;
 import static com.zulipmobile.notifications.GCMPushNotifications.ACTION_NOTIFICATIONS_DISMISS;
 import static com.zulipmobile.notifications.NotificationHelper.addConversationToMap;
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
+import com.zulipmobile.notifications.NotificationHelper;
 
 public class MainApplication extends Application implements ReactApplication, INotificationsApplication {
     private LinkedHashMap<String, List<MessageInfo>> conversations;
@@ -81,6 +83,9 @@ public class MainApplication extends Application implements ReactApplication, IN
 
     @Override
     public IPushNotification getPushNotification(Context context, Bundle bundle, AppLifecycleFacade defaultFacade, AppLaunchHelper defaultAppLaunchHelper) {
+        bundle.keySet(); // Has the side effect of making `bundle.toString` more informative.
+        Log.v(NotificationHelper.TAG, "getPushNotification: " + bundle.toString(), new Throwable());
+
         if (ACTION_NOTIFICATIONS_DISMISS.equals(bundle.getString(ACTION_NOTIFICATIONS_DISMISS))) {
             clearConversations(conversations);
             NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
