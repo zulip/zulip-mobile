@@ -71,4 +71,8 @@ public class PushNotificationsProp extends PushNotificationProps {
     public int getZulipMessageId() {
         return Integer.parseInt(mBundle.getString("zulip_message_id"));
     }
+
+    public Object getEvent() {
+        return mBundle.getString("event");
+    }
 }
