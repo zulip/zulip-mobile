@@ -178,6 +178,8 @@ dependencies {
     compile project(':react-native-device-info')
     compile project(':react-native-vector-icons')
     compile fileTree(dir: "libs", include: ["*.jar"])
+    compile 'com.google.android.gms:play-services-gcm:10.0.1'
+
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "me.leolin:ShortcutBadger:1.1.16@aar"
     compile "com.facebook.react:react-native:+"  // From node_modules
