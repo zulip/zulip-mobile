@@ -83,8 +83,10 @@ export const getEmojiUrl = (unicode: string): string =>
   `/static/generated/emoji/images/emoji/unicode/${unicode}.png`;
 
 export const getNarrowFromLink = (url: string, realm: string, users: User[]): Narrow => {
+  if (isUrlInAppLink(url, realm)) {
+    return HOME_NARROW;
+  }
   const paths = getPathsFromUrl(url, realm);
-
   if (isGroupLink(url, realm)) {
     const recipients = paths[1].split('-')[0].split(',');
     return groupNarrow(
@@ -100,8 +102,6 @@ export const getNarrowFromLink = (url: string, realm: string, users: User[]): Na
   } else if (isSpecialLink(url, realm)) {
     return specialNarrow(paths[1]);
   }
-
-  return HOME_NARROW;
 };
 
 export const getMessageIdFromLink = (url: string, realm: string): number => {
