@@ -128,16 +128,10 @@ describe('isMessageLink', () => {
 });
 
 describe('isStreamLink', () => {
-  test('only in-app link containing "stream" is a stream link', () => {
-    expect(
-      isStreamLink('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
-    ).toBe(false);
-    expect(isStreamLink('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
-      true,
-    );
-    expect(isStreamLink('https://example.com/#narrow/stream/stream/', 'https://example.com')).toBe(
-      true,
-    );
+  test('only paths containing "stream" is a stream link', () => {
+    expect(isStreamLink(['pm-with', '1,2-group'])).toBe(false);
+    expect(isStreamLink(['stream', 'test'])).toBe(true);
+    expect(isStreamLink(['stream', 'stream'])).toBe(true);
   });
 });
 
