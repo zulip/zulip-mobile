@@ -54,15 +54,8 @@ export const isGroupLink = (paths: string[]): boolean =>
 export const isStreamLink = (paths: string[]): boolean =>
   paths.length === 2 && paths[0] === 'stream';
 
-export const isSpecialLink = (url: string, realm: string): boolean => {
-  const paths = getPathsFromUrl(url, realm);
-  return (
-    isUrlInAppLink(url, realm)
-    && paths.length === 2
-    && paths[0] === 'is'
-    && /^(private|starred|mentioned)/i.test(paths[1])
-  );
-};
+export const isSpecialLink = (paths: string[]): boolean =>
+  paths.length === 2 && paths[0] === 'is' && /^(private|starred|mentioned)/i.test(paths[1]);
 
 export const isEmojiUrl = (url: string, realm: string): boolean =>
   isUrlOnRealm(url, realm) && url.includes('/static/generated/emoji/images/emoji/unicode/');

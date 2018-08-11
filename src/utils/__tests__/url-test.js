@@ -163,32 +163,14 @@ describe('isGroupLink', () => {
 });
 
 describe('isSpecialLink', () => {
-  test('only in-app link containing "is" is a special link', () => {
-    expect(
-      isSpecialLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
-    ).toBe(false);
-
-    expect(isSpecialLink('https://example.com/#narrow/is/private', 'https://example.com')).toBe(
-      true,
-    );
-
-    expect(isSpecialLink('https://example.com/#narrow/is/starred', 'https://example.com')).toBe(
-      true,
-    );
-
-    expect(isSpecialLink('https://example.com/#narrow/is/mentioned', 'https://example.com')).toBe(
-      true,
-    );
-
-    expect(isSpecialLink('https://example.com/#narrow/is/men', 'https://example.com')).toBe(false);
-
-    expect(isSpecialLink('https://example.com/#narrow/is/men/stream', 'https://example.com')).toBe(
-      false,
-    );
-
-    expect(isSpecialLink('https://example.com/#narrow/are/men/stream', 'https://example.com')).toBe(
-      false,
-    );
+  test('only paths containing "is" is a special link', () => {
+    expect(isSpecialLink(['stream', 'jest', 'topic', 'test'])).toBe(false);
+    expect(isSpecialLink(['is', 'private'])).toBe(true);
+    expect(isSpecialLink(['is', 'starred'])).toBe(true);
+    expect(isSpecialLink(['is', 'mentioned'])).toBe(true);
+    expect(isSpecialLink(['is', 'men'])).toBe(false);
+    expect(isSpecialLink(['is', 'men', 'stream'])).toBe(false);
+    expect(isSpecialLink(['are', 'men', 'stream'])).toBe(false);
   });
 });
 
