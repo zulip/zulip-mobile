@@ -16,7 +16,6 @@ import com.wix.reactnativenotifications.core.AppLaunchHelper;
 import com.wix.reactnativenotifications.core.AppLifecycleFacade;
 import com.wix.reactnativenotifications.core.InitialNotificationHolder;
 import com.wix.reactnativenotifications.core.JsIOHelper;
-import com.wix.reactnativenotifications.core.ProxyService;
 import com.wix.reactnativenotifications.core.notification.PushNotification;
 import com.zulipmobile.R;
 
@@ -28,6 +27,7 @@ import java.util.Locale;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
+import static com.zulipmobile.Constants.NOTIFICATION_CANCEL_BUNDLE_KEY;
 import static com.zulipmobile.notifications.NotificationHelper.buildNotificationContent;
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
 import static com.zulipmobile.notifications.NotificationHelper.extractNames;
@@ -170,10 +170,10 @@ public class GCMPushNotifications extends PushNotification {
          *
          **/
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            Intent dismissIntent = new Intent(mContext, ProxyService.class);
+            Intent dismissIntent = new Intent(mContext, ClearNotificationHandlerService.class);
             Bundle bundle = new Bundle();
             bundle.putString(ACTION_NOTIFICATIONS_DISMISS, ACTION_NOTIFICATIONS_DISMISS);
-            dismissIntent.putExtra(PUSH_NOTIFICATION_EXTRA_NAME, bundle);
+            dismissIntent.putExtra(NOTIFICATION_CANCEL_BUNDLE_KEY, bundle);
             PendingIntent piDismiss = PendingIntent.getService(mContext, 0, dismissIntent, 0);
             Notification.Action action = new Notification.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss);
             builder.addAction(action);

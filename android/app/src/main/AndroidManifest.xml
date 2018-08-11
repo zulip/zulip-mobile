@@ -68,6 +68,7 @@
             </intent-filter>
         </receiver>
         <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="835904834568\0"/>
+        <service android:name=".notifications.ClearNotificationHandlerService" />
     </application>
 
 </manifest>
