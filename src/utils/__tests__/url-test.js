@@ -142,57 +142,20 @@ describe('isStreamLink', () => {
 });
 
 describe('isTopicLink', () => {
-  test('when a url is not a topic narrow return false', () => {
-    expect(
-      isTopicLink('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
-    ).toBe(false);
-    expect(isTopicLink('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
-      false,
-    );
-
-    expect(
-      isTopicLink(
-        'https://example.com/#narrow/stream/stream/topic/topic/near/',
-        'https://example.com',
-      ),
-    ).toBe(false);
-
-    expect(isTopicLink('https://example.com/#narrow/stream/topic/', 'https://example.com')).toBe(
-      false,
-    );
+  test('when the path is not a topic narrow return false', () => {
+    expect(isTopicLink(['pm-with', '1,2-group'])).toBe(false);
+    expect(isTopicLink(['stream', '243-mobile-team'])).toBe(false);
+    expect(isTopicLink(['stream', 'stream', 'topic', 'topic', 'near'])).toBe(false);
+    expect(isTopicLink(['stream', 'topic'])).toBe(false);
   });
 
-  test('when a url is a topic narrow return true', () => {
-    expect(
-      isTopicLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
-    ).toBe(true);
-
-    expect(
-      isTopicLink(
-        'https://example.com/#narrow/stream/mobile/subject/topic/near/378333',
-        'https://example.com',
-      ),
-    ).toBe(true);
-
-    expect(
-      isTopicLink('https://example.com/#narrow/stream/mobile/topic/topic/', 'https://example.com'),
-    ).toBe(true);
-
-    expect(
-      isTopicLink(
-        'https://example.com/#narrow/stream/stream/topic/topic/near/1',
-        'https://example.com',
-      ),
-    ).toBe(true);
-
-    expect(
-      isTopicLink(
-        'https://example.com/#narrow/stream/stream/subject/topic/near/1',
-        'https://example.com',
-      ),
-    ).toBe(true);
-
-    expect(isTopicLink('/#narrow/stream/stream/subject/topic', 'https://example.com')).toBe(true);
+  test('when the path is a topic narrow return true', () => {
+    expect(isTopicLink(['stream', 'jest', 'topic', 'test'])).toBe(true);
+    expect(isTopicLink(['stream', 'test', 'subject', 'topic', 'near', '378333'])).toBe(true);
+    expect(isTopicLink(['stream', 'test', 'topic', 'topic'])).toBe(true);
+    expect(isTopicLink(['stream', 'stream', 'topic', 'topic', 'near', '1'])).toBe(true);
+    expect(isTopicLink(['stream', 'stream', 'subject', 'topic', 'near', '1'])).toBe(true);
+    expect(isTopicLink(['stream', 'stream', 'subject', 'topic'])).toBe(true);
   });
 });
 

@@ -42,15 +42,10 @@ export const isUrlInAppLink = (url: string, realm: string): boolean =>
 export const isMessageLink = (url: string, realm: string): boolean =>
   isUrlInAppLink(url, realm) && url.includes('near');
 
-export const isTopicLink = (url: string, realm: string): boolean => {
-  const paths = getPathsFromUrl(url, realm);
-  return (
-    isUrlInAppLink(url, realm)
-    && ((paths.length === 4 || paths.length === 6)
-      && paths[0] === 'stream'
-      && (paths[2] === 'subject' || paths[2] === 'topic'))
-  );
-};
+export const isTopicLink = (paths: string[]): boolean =>
+  (paths.length === 4 || paths.length === 6)
+  && paths[0] === 'stream'
+  && (paths[2] === 'subject' || paths[2] === 'topic');
 
 export const isGroupLink = (paths: string[]): boolean =>
   (paths.length === 2 && paths[0] === 'pm-with')
