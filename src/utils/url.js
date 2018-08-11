@@ -52,14 +52,9 @@ export const isTopicLink = (url: string, realm: string): boolean => {
   );
 };
 
-export const isGroupLink = (url: string, realm: string): boolean => {
-  const paths = getPathsFromUrl(url, realm);
-  return (
-    isUrlInAppLink(url, realm)
-    && ((paths.length === 2 && paths[0] === 'pm-with')
-      || (paths.length === 4 && paths[0] === 'pm-with' && paths[2] === 'near'))
-  );
-};
+export const isGroupLink = (paths: string[]): boolean =>
+  (paths.length === 2 && paths[0] === 'pm-with')
+  || (paths.length === 4 && paths[0] === 'pm-with' && paths[2] === 'near');
 
 export const isStreamLink = (url: string, realm: string): boolean => {
   const paths = getPathsFromUrl(url, realm);
