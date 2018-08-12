@@ -418,7 +418,7 @@ const handleLongPress = (e: TouchEvent) => {
   });
 };
 
-documentBody.addEventListener('touchstart', e => {
+documentBody.addEventListener('touchstart', (e: TouchEvent) => {
   if (e.changedTouches[0].pageX < 20) {
     return;
   }
@@ -429,7 +429,7 @@ documentBody.addEventListener('touchstart', e => {
   setTimeout(() => handleLongPress(e), 500);
 });
 
-documentBody.addEventListener('touchend', e => {
+documentBody.addEventListener('touchend', (e: TouchEvent) => {
   if (
     isNearPositions(
       lastTouchPositionX,
@@ -442,11 +442,11 @@ documentBody.addEventListener('touchend', e => {
   }
 });
 
-documentBody.addEventListener('touchmove', e => {
+documentBody.addEventListener('touchmove', (e: TouchEvent) => {
   lastTouchEventTimestamp = 0;
 });
 
-documentBody.addEventListener('drag', e => {
+documentBody.addEventListener('drag', (e: DragEvent) => {
   lastTouchEventTimestamp = 0;
 });
 
