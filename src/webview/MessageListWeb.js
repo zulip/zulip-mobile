@@ -84,10 +84,6 @@ export default class MessageListWeb extends Component<Props> {
       showMessagePlaceholders,
     });
 
-    // For debugging issues in our HTML and CSS: Uncomment this line,
-    // copy-paste the output to a file, and open in a browser.
-    // console.log(html);
-
     return (
       <WebView
         source={{
