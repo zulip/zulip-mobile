@@ -6,7 +6,7 @@ import { checkCompatibility } from '../api';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 
 type Props = {
-  children?: ChildrenArray<*>,
+  children: ChildrenArray<*>,
 };
 
 type State = {

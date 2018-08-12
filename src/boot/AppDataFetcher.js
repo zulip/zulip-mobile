@@ -10,7 +10,7 @@ import { doInitialFetch } from '../actions';
 type Props = {
   needsInitialFetch: boolean,
   dispatch: Dispatch,
-  children?: ChildrenArray<*>,
+  children: ChildrenArray<*>,
 };
 
 class AppDataFetcher extends PureComponent<Props> {

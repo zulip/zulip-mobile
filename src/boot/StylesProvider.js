@@ -20,7 +20,7 @@ const Dummy = props => props.children;
 
 type Props = {
   theme: ThemeType,
-  children?: ChildrenArray<*>,
+  children: ChildrenArray<*>,
 };
 
 class StyleProvider extends PureComponent<Props> {

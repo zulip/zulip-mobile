@@ -10,7 +10,7 @@ import { getCanGoBack } from '../selectors';
 import { navigateBack } from '../actions';
 
 type Props = {
-  children?: ChildrenArray<*>,
+  children: ChildrenArray<*>,
   canGoBack: boolean,
   dispatch: Dispatch,
 };

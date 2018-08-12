@@ -13,7 +13,7 @@ const androidBackground =
 type Props = {
   accessibilityLabel?: string,
   style?: Style,
-  children?: ChildrenArray<*>,
+  children: ChildrenArray<*>,
   onPress?: () => void | Promise<any>,
   onLongPress?: () => void,
 };

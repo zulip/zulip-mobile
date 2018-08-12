@@ -34,7 +34,7 @@ const componentStyles = StyleSheet.create({
 type Props = {
   needsInitialFetch: boolean,
   dispatch: Dispatch,
-  children?: ChildrenArray<*>,
+  children: ChildrenArray<*>,
   unreadCount: number,
   usersById: UserIdMap,
 };

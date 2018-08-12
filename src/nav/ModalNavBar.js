@@ -21,7 +21,7 @@ type Props = {
   itemsColor: string,
   rightItem?: Object,
   style: Style,
-  children?: ChildrenArray<*>,
+  children: ChildrenArray<*>,
   childrenStyle?: Style,
 };
 

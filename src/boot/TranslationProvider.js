@@ -14,7 +14,7 @@ import '../i18n/locale';
 
 type Props = {
   locale: string,
-  children?: ChildrenArray<*>,
+  children: ChildrenArray<*>,
 };
 
 class TranslationProvider extends PureComponent<Props> {
