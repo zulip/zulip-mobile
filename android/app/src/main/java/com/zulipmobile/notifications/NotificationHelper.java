@@ -1,10 +1,10 @@
 package com.zulipmobile.notifications;
 
-import android.app.Notification;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.app.NotificationCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -67,7 +67,7 @@ public class NotificationHelper {
         return key.split(":")[0];
     }
 
-    public static void buildNotificationContent(LinkedHashMap<String, List<MessageInfo>> conversations, Notification.InboxStyle inboxStyle, Context mContext) {
+    public static void buildNotificationContent(LinkedHashMap<String, List<MessageInfo>> conversations, NotificationCompat.InboxStyle inboxStyle, Context mContext) {
         for (Map.Entry<String, List<MessageInfo>> entry : conversations.entrySet()) {
             String name = extractName(entry.getKey());
             List<MessageInfo> messages = entry.getValue();

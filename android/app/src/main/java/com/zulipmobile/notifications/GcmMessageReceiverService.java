@@ -7,10 +7,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -60,7 +60,7 @@ public class GcmMessageReceiverService extends GcmListenerService {
     }
 
     private void showNotification(Context mContext, PushNotificationsProp notificationProp, LinkedHashMap<String, List<MessageInfo>> conversations) {
-        Notification.Builder builder = new Notification.Builder(getApplicationContext());
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
 
         String type = notificationProp.getRecipientType();
         String content = notificationProp.getContent();
@@ -100,12 +100,12 @@ public class GcmMessageReceiverService extends GcmListenerService {
                     builder.setLargeIcon(avatar);
                 }
             }
-            builder.setStyle(new Notification.BigTextStyle().bigText(content));
+            builder.setStyle(new NotificationCompat.BigTextStyle().bigText(content));
         } else {
             String conversationTitle = String.format(Locale.ENGLISH, "%d messages in %d conversations", totalMessagesCount, conversations.size());
             builder.setContentTitle(conversationTitle);
             builder.setContentText("Messages from " + TextUtils.join(",", extractNames(conversations)));
-            Notification.InboxStyle inboxStyle = new Notification.InboxStyle(builder);
+            NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle(builder);
             inboxStyle.setSummaryText(String.format(Locale.ENGLISH, "%d conversations", conversations.size()));
             buildNotificationContent(conversations, inboxStyle, mContext);
             builder.setStyle(inboxStyle);
@@ -129,16 +129,10 @@ public class GcmMessageReceiverService extends GcmListenerService {
             Intent dismissIntent = new Intent(mContext, GcmIntentHandlerService.class);
             dismissIntent.setAction(NOTIFICATION_ACTION_CLEAR);
             PendingIntent piDismiss = PendingIntent.getService(mContext, 0, dismissIntent, 0);
-            Notification.Action action = new Notification.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss);
+            NotificationCompat.Action action = new NotificationCompat.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss);
             builder.addAction(action);
         }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            AudioAttributes audioAttr = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION).build();
-            builder.setSound(Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.zulip), audioAttr);
-        } else {
-            builder.setSound(Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.zulip));
-        }
+        builder.setSound(Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.zulip));
         Notification notification = builder.build();
         NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nMgr.notify(NOTIFICATION_ID, notification);
