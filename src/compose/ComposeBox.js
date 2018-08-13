@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { View, TextInput, findNodeHandle } from 'react-native';
+import { View, Platform, TextInput, findNodeHandle } from 'react-native';
 import { connect } from 'react-redux';
 import TextInputReset from 'react-native-text-input-reset';
 import isEqual from 'lodash.isequal';
@@ -76,6 +76,20 @@ type State = {
   selection: InputSelectionType,
 };
 
+const clearTextInput = (textInput: TextInput): void => {
+  if (Platform.OS === 'ios') {
+    // Calling `setNativeProps` twice works around the currently present iOS bug
+    // We need to call it with different values, the ' ' looks like no text
+    textInput.setNativeProps({ text: ' ' });
+    setTimeout(() => {
+      textInput.setNativeProps({ text: '' });
+    }, 0);
+  } else {
+    // Force reset to fix an issue with some Android custom keyboards
+    TextInputReset.resetKeyboardInput(findNodeHandle(textInput));
+  }
+};
+
 export const updateTextInput = (textInput: TextInput, text: string): void => {
   if (!textInput) {
     // Depending on the lifecycle events this function is called from,
@@ -83,13 +97,14 @@ export const updateTextInput = (textInput: TextInput, text: string): void => {
     return;
   }
 
-  textInput.setNativeProps({ text });
-
-  if (text.length === 0 && TextInputReset) {
-    // React Native has problems with some custom keyboards when clearing
-    // the input's contents.  Force reset to make sure it works.
-    TextInputReset.resetKeyboardInput(findNodeHandle(textInput));
+  // Both iOS and Android have bugs related to clearing Input's contents
+  if (text.length === 0) {
+    clearTextInput(textInput);
   }
+
+  setTimeout(() => {
+    textInput.setNativeProps({ text });
+  }, 0);
 };
 
 class ComposeBox extends PureComponent<Props, State> {
