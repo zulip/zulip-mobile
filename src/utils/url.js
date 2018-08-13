@@ -63,6 +63,13 @@ export const isEmojiUrl = (url: string, realm: string): boolean =>
 export const getEmojiUrl = (unicode: string): string =>
   `/static/generated/emoji/images/emoji/unicode/${unicode}.png`;
 
+export const getStreamNameFromSlug = (slug: string): string => {
+  if (!isNaN(slug.split('-')[0])) {
+    return slug.substring(slug.indexOf('-') + 1);
+  }
+  return slug;
+};
+
 export const getNarrowFromLink = (url: string, realm: string, users: User[]): Narrow => {
   if (isUrlInAppLink(url, realm)) {
     return HOME_NARROW;
