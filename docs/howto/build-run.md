@@ -62,6 +62,10 @@ might look through the other tools and try some more of them out.
 * Commands once you've set up:
   * `react-native run-android` - build, then run on an active emulator
     or USB-connected device.  This won't start the emulator automatically.
+  * `yarn build:android-unsigned` - build an APK in release mode, just
+    skipping Sentry setup (which requires an authentication token) and
+    skipping signing.  The output APK will be at
+    `android/app/build/outputs/apk/release/app-release-unsigned.apk`.
 
 ## iOS tips
 

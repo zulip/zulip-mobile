@@ -80,7 +80,10 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
-apply from: "../../node_modules/react-native-sentry/sentry.gradle"
+if (!hasProperty('unsigned')) {
+    // Conditionally enable Sentry, because it requires an auth key.
+    apply from: "../../node_modules/react-native-sentry/sentry.gradle"
+}
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -136,7 +139,9 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.release
+            if (!project.hasProperty('unsigned')) {
+                signingConfig signingConfigs.release
+            }
             manifestPlaceholders = [
                     excludeSystemAlertWindowPermission: "true"
             ]

@@ -14,6 +14,7 @@
     "android-release": "react-native run-android --variant=release",
 
     "build:android": "cd android && ./gradlew assembleRelease",
+    "build:android-unsigned": "cd android && ./gradlew assembleRelease -Punsigned",
     "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
     "build:ios-release": "detox build --configuration ios.sim.release",
 
