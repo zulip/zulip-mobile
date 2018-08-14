@@ -127,4 +127,13 @@ public class NotificationHelper {
     public static void clearConversations(LinkedHashMap<String, List<MessageInfo>> conversations) {
         conversations.clear();
     }
+
+    public static Bitmap fetchAvatar(URL url) {
+        try {
+            return NotificationHelper.fetch(url);
+        } catch (IOException e) {
+            Log.e(TAG, "ERROR: " + e.toString());
+        }
+        return null;
+    }
 }

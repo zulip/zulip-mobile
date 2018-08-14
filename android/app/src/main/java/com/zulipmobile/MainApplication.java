@@ -1,32 +1,22 @@
 package com.zulipmobile;
 
 import android.app.Application;
-import android.content.Context;
-import android.os.Bundle;
 
-import android.util.Log;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
-import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
-import com.wix.reactnativenotifications.RNNotificationsPackage;
-import com.imagepicker.ImagePickerPackage;
-import com.github.yamill.orientation.OrientationPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.github.yamill.orientation.OrientationPackage;
+import com.imagepicker.ImagePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.remobile.toast.RCTToastPackage;
-import com.wix.reactnativenotifications.core.AppLaunchHelper;
-import com.wix.reactnativenotifications.core.AppLifecycleFacade;
-import com.wix.reactnativenotifications.core.JsIOHelper;
-import com.wix.reactnativenotifications.core.notification.INotificationsApplication;
-import com.wix.reactnativenotifications.core.notification.IPushNotification;
+import com.wix.reactnativenotifications.RNNotificationsPackage;
 import com.zmxv.RNSound.RNSoundPackage;
-import com.zulipmobile.notifications.GCMPushNotifications;
 import com.zulipmobile.notifications.MessageInfo;
-import com.zulipmobile.notifications.NotificationHelper;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -34,7 +24,8 @@ import java.util.List;
 
 import io.sentry.RNSentryPackage;
 
-public class MainApplication extends Application implements ReactApplication, INotificationsApplication {
+public class MainApplication extends Application implements ReactApplication {
+
     private static LinkedHashMap<String, List<MessageInfo>> conversations;
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -74,14 +65,11 @@ public class MainApplication extends Application implements ReactApplication, IN
         conversations = new LinkedHashMap<>();
     }
 
-    @Override
-    public IPushNotification getPushNotification(Context context, Bundle bundle, AppLifecycleFacade defaultFacade, AppLaunchHelper defaultAppLaunchHelper) {
-        bundle.keySet(); // Has the side effect of making `bundle.toString` more informative.
-        Log.v(NotificationHelper.TAG, "getPushNotification: " + bundle.toString(), new Throwable());
-        return new GCMPushNotifications(context, bundle, defaultFacade, defaultAppLaunchHelper, new JsIOHelper(), conversations);
-    }
-
     public static void clearAllConversations() {
         conversations.clear();
+    }
+
+    public static LinkedHashMap<String, List<MessageInfo>> getConversations() {
+        return conversations;
     }
 }

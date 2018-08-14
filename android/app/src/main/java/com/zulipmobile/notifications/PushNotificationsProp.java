@@ -2,17 +2,19 @@ package com.zulipmobile.notifications;
 
 import android.os.Bundle;
 
-import com.wix.reactnativenotifications.core.notification.PushNotificationProps;
-
 import java.util.Arrays;
 
-public class PushNotificationsProp extends PushNotificationProps {
+public class PushNotificationsProp {
+
+    private Bundle mBundle;
 
     public PushNotificationsProp(Bundle bundle) {
-        super(bundle);
+        this.mBundle = bundle;
     }
 
-    /** Really "event type": one of a small fixed set of identifiers. */
+    /**
+     * Really "event type": one of a small fixed set of identifiers.
+     */
     public String getEvent() {
         return mBundle.getString("event");
     }
@@ -46,11 +48,6 @@ public class PushNotificationsProp extends PushNotificationProps {
         return mBundle.getString("time");
     }
 
-    @Override
-    protected PushNotificationsProp copy() {
-        return new PushNotificationsProp((Bundle) mBundle.clone());
-    }
-
     public String getEmail() {
         return mBundle.getString("sender_email");
     }
@@ -60,7 +57,7 @@ public class PushNotificationsProp extends PushNotificationProps {
     }
 
     public int[] getPmUsers() {
-        if (mBundle.containsKey("pm_users")){
+        if (mBundle.containsKey("pm_users")) {
             return mBundle.getIntArray("pm_users");
         }
         return null;
@@ -69,11 +66,16 @@ public class PushNotificationsProp extends PushNotificationProps {
     public boolean isGroupMessage() {
         return getRecipientType().equals("private") && mBundle.containsKey("pm_users");
     }
+
     public String getGroupRecipientString() {
         return Arrays.toString(getPmUsers());
     }
 
     public int getZulipMessageId() {
         return Integer.parseInt(mBundle.getString("zulip_message_id"));
+    }
+
+    public Bundle getBundle() {
+        return mBundle;
     }
 }

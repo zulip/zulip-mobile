@@ -13,13 +13,13 @@ import com.zulipmobile.MainApplication;
 
 import static com.zulipmobile.Constants.NOTIFICATION_ACTION_CLEAR;
 
-import static com.zulipmobile.Constants.NOTIFICATION_CANCEL_BUNDLE_KEY;
+import static com.zulipmobile.Constants.NOTIFICATION_INTENT_BUNDLE_KEY;
 
 
-public class ClearNotificationHandlerService extends IntentService {
+public class GcmIntentHandlerService extends IntentService {
 
-    public ClearNotificationHandlerService() {
-        super("clearNotificationHandler");
+    public GcmIntentHandlerService() {
+        super("gcmIntentHandlerService");
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ClearNotificationHandlerService extends IntentService {
             clearConversations();
             return;
         }
-        final Bundle notificationData = intent.getBundleExtra(NOTIFICATION_CANCEL_BUNDLE_KEY);
+        final Bundle notificationData = intent.getBundleExtra(NOTIFICATION_INTENT_BUNDLE_KEY);
         final IPushNotification pushNotification = PushNotification.get(this, notificationData);
         if (pushNotification != null) {
             pushNotification.onOpened();
