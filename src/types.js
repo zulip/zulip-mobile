@@ -6,6 +6,7 @@ import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/Style
 
 import type { Action, NavigateAction } from './actionTypes';
 import type {
+  ApiServerSettings,
   Auth,
   Topic,
   Message,
@@ -75,6 +76,10 @@ export type PmRecipientUser = {
  */
 export type NarrowsState = {
   [narrow: string]: number[],
+};
+
+export type ServerSettingsState = {
+  [server: string]: ApiServerSettings,
 };
 
 /**
