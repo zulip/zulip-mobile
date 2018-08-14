@@ -10,6 +10,8 @@ import type {
   SaveTokenPushAction,
   InitRealmEmojiAction,
   InitRealmFilterAction,
+  ApiServerSettings,
+  NewServerSettingsAction,
 } from '../types';
 import { initializeNotifications } from '../utils/notifications';
 import { getAuth } from '../selectors';
@@ -21,6 +23,7 @@ import {
   DELETE_TOKEN_PUSH,
   INIT_REALM_EMOJI,
   INIT_REALM_FILTER,
+  NEW_SERVER_SETTINGS,
 } from '../actionConstants';
 
 export const realmInit = (data: InitialData): RealmInitAction => ({
@@ -64,3 +67,8 @@ export const initRealmFilters = (filters: RealmFilter[]): InitRealmFilterAction 
 
 export const fetchRealmFilters = (auth: Auth) => async (dispatch: Dispatch) =>
   dispatch(initRealmFilters(await getRealmFilters(auth)));
+
+export const newServerSettings = (serverSettings: ApiServerSettings): NewServerSettingsAction => ({
+  type: NEW_SERVER_SETTINGS,
+  serverSettings,
+});

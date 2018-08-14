@@ -17,6 +17,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   REALM_INIT,
+  NEW_SERVER_SETTINGS,
   DELETE_TOKEN_PUSH,
   SAVE_TOKEN_PUSH,
   MESSAGE_FETCH_START,
@@ -68,6 +69,7 @@ import {
 } from './actionConstants';
 
 import type {
+  ApiServerSettings,
   Dimensions,
   Orientation,
   GlobalState,
@@ -237,6 +239,11 @@ export type StreamUpdateDetails = {
 
 export type ServerEvent = {
   id: number,
+};
+
+export type NewServerSettingsAction = {
+  type: typeof NEW_SERVER_SETTINGS,
+  serverSettings: ApiServerSettings,
 };
 
 export type EventAlertWordsAction = {
@@ -647,6 +654,8 @@ export type SessionAction =
   | LoginSuccessAction
   | ToggleOutboxSendingAction
   | InitialFetchCompleteAction;
+
+export type ServerSettingsAction = NewServerSettingsAction;
 
 export type SettingsAction =
   | RealmInitAction
