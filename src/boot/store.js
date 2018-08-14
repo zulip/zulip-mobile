@@ -31,7 +31,8 @@ export const discardKeys = [
  * install of the app), where things wouldn't work right if we didn't
  * persist them.
  */
-export const storeKeys = ['migrations', 'accounts', 'drafts', 'outbox', 'settings'];
+// prettier-ignore
+export const storeKeys = ['migrations', 'accounts', 'drafts', 'outbox', 'serverSettings', 'settings'];
 
 /**
  * Properties on the global store which we persist for caching's sake.

@@ -21,6 +21,7 @@ import nav from '../nav/navReducers';
 import outbox from '../outbox/outboxReducers';
 import presence from '../presence/presenceReducers';
 import realm from '../realm/realmReducers';
+import serverSettings from '../serverSettings/serverSettingsReducers';
 import session from '../session/sessionReducers';
 import settings from '../settings/settingsReducers';
 import streams from '../streams/streamsReducers';
@@ -50,6 +51,7 @@ const reducers = {
   outbox,
   presence,
   realm,
+  serverSettings,
   session,
   settings,
   streams,
