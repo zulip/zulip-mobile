@@ -8,7 +8,7 @@ import type { ApiServerSettings, Context, Dispatch } from '../types';
 import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { isValidUrl } from '../utils/url';
 import { getServerSettings } from '../api';
-import { realmAdd, navigateToAuth } from '../actions';
+import { newServerSettings, realmAdd, navigateToAuth } from '../actions';
 
 type Props = {
   dispatch: Dispatch,
@@ -50,6 +50,7 @@ class RealmScreen extends PureComponent<Props, State> {
 
     try {
       const serverSettings: ApiServerSettings = await getServerSettings(realm);
+      dispatch(newServerSettings(serverSettings));
       dispatch(realmAdd(realm));
       dispatch(navigateToAuth(serverSettings));
       Keyboard.dismiss();
