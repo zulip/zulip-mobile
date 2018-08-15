@@ -4,6 +4,7 @@ import urlRegex from 'url-regex';
 
 import type { Auth, Narrow, User } from '../types';
 import { HOME_NARROW, topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
+import { removeEmptyValues } from './misc';
 import { getUserById } from '../users/userHelpers';
 import { transformToEncodedURI } from './string';
 
@@ -29,6 +30,9 @@ export const encodeAsURI = (params: { [key: string]: any }): string =>
   Object.keys(params)
     .map((key: string) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     .join('&');
+
+export const encodeAsUriNoEmptyValues = (params: { [key: string]: any }): string =>
+  encodeAsURI(removeEmptyValues(params));
 
 export const getFullUrl = (url: string = '', realm: string): string =>
   !url.startsWith('http') ? `${realm}${url.startsWith('/') ? '' : '/'}${url}` : url;
