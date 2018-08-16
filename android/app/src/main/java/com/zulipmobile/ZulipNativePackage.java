@@ -5,6 +5,7 @@ import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import com.zulipmobile.notifications.BadgeCountUpdaterModule;
+import com.zulipmobile.notifications.ZulipNotificationModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class ZulipNativePackage implements ReactPackage {
         modules.add(new ShareImageAndroid(reactContext));
         modules.add(new BadgeCountUpdaterModule(reactContext));
         modules.add(new TextCompressionModule(reactContext));
+        modules.add(new ZulipNotificationModule(reactContext));
         return modules;
     }
 

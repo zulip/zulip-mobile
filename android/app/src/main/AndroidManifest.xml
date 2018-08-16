@@ -70,7 +70,8 @@
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
             </intent-filter>
         </receiver>
-        <meta-data android:name="com.wix.reactnativenotifications.gcmSenderId" android:value="835904834568\0" />
+
+        <meta-data android:name="com.zulipmobile.gcmSenderId" android:value="835904834568\0" />
         <service android:name=".notifications.GcmIntentHandlerService" />
         <service android:name="com.wix.reactnativenotifications.core.ProxyService" tools:node="remove" />
 
@@ -95,7 +96,7 @@
         <service
             android:name="com.wix.reactnativenotifications.gcm.GcmInstanceIdListenerService"
             android:exported="false"
-            tools:node="replace">
+            tools:node="remove">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
@@ -105,6 +106,15 @@
             android:name="com.wix.reactnativenotifications.gcm.GcmInstanceIdRefreshHandlerService"
             android:exported="false"
             tools:node="replace" />
+
+        <service android:name=".notifications.GCMIdRefreshHandler" />
+        <service
+            android:name=".notifications.GcmInstanceRefreshService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

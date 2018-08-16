@@ -1,5 +1,5 @@
 /* @flow */
-import { Platform, PushNotificationIOS } from 'react-native';
+import { Platform, PushNotificationIOS, NativeModules, DeviceEventEmitter } from 'react-native';
 import NotificationsIOS, {
   NotificationsAndroid,
   PendingNotifications,
@@ -67,7 +67,7 @@ export const initializeNotifications = (
     });
     NotificationsIOS.requestPermissions();
   } else {
-    NotificationsAndroid.setRegistrationTokenUpdateListener(async deviceToken => {
+    DeviceEventEmitter.addListener('notificationGcmTokenRefreshed', async deviceToken => {
       try {
         const result = await registerPush(auth, deviceToken);
         saveTokenPush(deviceToken, result.msg, result.result);
@@ -82,7 +82,7 @@ export const refreshNotificationToken = () => {
   if (Platform.OS === 'ios') {
     // do nothing
   } else {
-    NotificationsAndroid.refreshToken();
+    NativeModules.ZulipNotificationModule.refreshToken();
   }
 };
 
