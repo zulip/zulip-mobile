@@ -40,6 +40,9 @@ buck-out/
 \.buckd/
 android/app/libs
 android/keystores/debug.keystore
+android/app/.classpath
+android/app/.project
+android/app/.settings/
 
 ### ^
 ### The portion of this file above this line comes from RN upstream's
