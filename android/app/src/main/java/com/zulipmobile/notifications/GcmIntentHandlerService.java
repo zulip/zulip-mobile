@@ -7,12 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.wix.reactnativenotifications.core.notification.IPushNotification;
-import com.wix.reactnativenotifications.core.notification.PushNotification;
+import com.facebook.react.ReactApplication;
+import com.zulipmobile.MainActivity;
 import com.zulipmobile.MainApplication;
 
 import static com.zulipmobile.Constants.NOTIFICATION_ACTION_CLEAR;
-
 import static com.zulipmobile.Constants.NOTIFICATION_INTENT_BUNDLE_KEY;
 
 
@@ -29,10 +28,18 @@ public class GcmIntentHandlerService extends IntentService {
             return;
         }
         final Bundle notificationData = intent.getBundleExtra(NOTIFICATION_INTENT_BUNDLE_KEY);
-        final IPushNotification pushNotification = PushNotification.get(this, notificationData);
-        if (pushNotification != null) {
-            pushNotification.onOpened();
+
+        if (!((ReactApplication) getApplicationContext()).getReactNativeHost().hasInstance()) {
+            // If the React context is null that shows the app is in dead or killed state currently
+            // Therefore save the notification in the MainApplication and use the javascript to
+            // fetch this notification
+            MainApplication.saveOpenedNotification(notificationData);
         }
+
+        // Launch the app
+        final Intent newIntent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        getApplicationContext().startActivity(newIntent);
     }
 
     private void clearConversations() {

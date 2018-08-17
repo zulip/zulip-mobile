@@ -1,9 +1,6 @@
 /* @flow */
 import { Platform, PushNotificationIOS, NativeModules, DeviceEventEmitter } from 'react-native';
-import NotificationsIOS, {
-  NotificationsAndroid,
-  PendingNotifications,
-} from 'react-native-notifications';
+import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
 
 import type { Auth, Dispatch, Notification, NotificationGroup, UserIdMap } from '../types';
 import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
@@ -104,7 +101,8 @@ export const handlePendingNotifications = (
 };
 
 export const handleInitialNotification = async (dispatch: Dispatch, usersById: UserIdMap) => {
-  const NotificationService = Platform.OS === 'ios' ? PushNotificationIOS : PendingNotifications;
+  const NotificationService =
+    Platform.OS === 'ios' ? PushNotificationIOS : NativeModules.ZulipNotificationModule;
   const data = await NotificationService.getInitialNotification();
   handlePendingNotifications(data, dispatch, usersById);
 };

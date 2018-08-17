@@ -1,6 +1,7 @@
 package com.zulipmobile;
 
 import android.app.Application;
+import android.os.Bundle;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
@@ -27,6 +28,7 @@ import io.sentry.RNSentryPackage;
 public class MainApplication extends Application implements ReactApplication {
 
     private static LinkedHashMap<String, List<MessageInfo>> conversations;
+    private static Bundle intialNotification;
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
@@ -71,5 +73,13 @@ public class MainApplication extends Application implements ReactApplication {
 
     public static LinkedHashMap<String, List<MessageInfo>> getConversations() {
         return conversations;
+    }
+
+    public static void saveOpenedNotification(Bundle prop) {
+        intialNotification = prop;
+    }
+
+    public static Bundle getIntialNotification() {
+        return intialNotification;
     }
 }
