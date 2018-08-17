@@ -33,3 +33,13 @@ allprojects {
         }
     }
 }
+
+subprojects {
+    afterEvaluate {project ->
+        if (project.hasProperty("android")) {
+            android {
+                buildToolsVersion '23.0.1'
+            }
+        }
+    }
+}
