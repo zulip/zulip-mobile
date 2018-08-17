@@ -18,6 +18,7 @@ import com.wix.reactnativenotifications.core.InitialNotificationHolder;
 import com.wix.reactnativenotifications.core.JsIOHelper;
 import com.wix.reactnativenotifications.core.ProxyService;
 import com.wix.reactnativenotifications.core.notification.PushNotification;
+import com.zulipmobile.BuildConfig;
 import com.zulipmobile.R;
 
 import java.io.IOException;
@@ -112,7 +113,11 @@ public class GCMPushNotifications extends PushNotification {
         String baseURL = getProps().getBaseURL();
         int totalMessagesCount = extractTotalMessagesCount(conversations);
 
-        builder.setSmallIcon(R.drawable.zulip_notification);
+        if (BuildConfig.DEBUG) {
+            builder.setSmallIcon(R.mipmap.ic_launcher);
+        } else {
+            builder.setSmallIcon(R.drawable.zulip_notification);
+        }
         builder.setAutoCancel(true);
         builder.setContentText(content);
 
