@@ -340,7 +340,11 @@ documentBody.addEventListener('click', e => {
     return;
   }
 
-  if (e.target.matches('a[target="_blank"] > img')) {
+  if (
+    e.target.matches('a[target="_blank"] > img')
+    && !e.target.matches('.youtube-video > a[target="_blank"] > img')
+    && !e.target.matches('.vimeo-video > a[target="_blank"] > img')
+  ) {
     sendMessage({
       type: 'image',
       src: e.target.parentNode.getAttribute('href'),
