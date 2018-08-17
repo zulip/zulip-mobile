@@ -61,9 +61,7 @@
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND"
-            tools:node="remove"
-            tools:selector="com.wix.reactnativenotifications">
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="com.zulipmobile" />
@@ -73,7 +71,6 @@
 
         <meta-data android:name="com.zulipmobile.gcmSenderId" android:value="835904834568\0" />
         <service android:name=".notifications.GcmIntentHandlerService" />
-        <service android:name="com.wix.reactnativenotifications.core.ProxyService" tools:node="remove" />
 
         <service
             android:name=".notifications.GcmMessageReceiverService"
@@ -83,29 +80,6 @@
             </intent-filter>
         </service>
 
-
-        <service
-            android:name="com.wix.reactnativenotifications.gcm.GcmMessageHandlerService"
-            android:exported="false"
-            tools:node="remove">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name="com.wix.reactnativenotifications.gcm.GcmInstanceIdListenerService"
-            android:exported="false"
-            tools:node="remove">
-            <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name="com.wix.reactnativenotifications.gcm.GcmInstanceIdRefreshHandlerService"
-            android:exported="false"
-            tools:node="replace" />
 
         <service android:name=".notifications.GCMIdRefreshHandler" />
         <service

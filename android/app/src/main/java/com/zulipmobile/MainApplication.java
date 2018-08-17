@@ -15,7 +15,6 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.nikolaiwarner.RNTextInputReset.RNTextInputResetPackage;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.remobile.toast.RCTToastPackage;
-import com.wix.reactnativenotifications.RNNotificationsPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.zulipmobile.notifications.MessageInfo;
 
@@ -49,8 +48,7 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNFetchBlobPackage(),
                     new RNSoundPackage(),
                     new RNDeviceInfo(),
-                    new ZulipNativePackage(),
-                    new RNNotificationsPackage(MainApplication.this)
+                    new ZulipNativePackage()
             );
         }
     };
