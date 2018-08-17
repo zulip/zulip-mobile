@@ -1,6 +1,6 @@
 /* @flow */
 import { Platform, PushNotificationIOS, NativeModules, DeviceEventEmitter } from 'react-native';
-import NotificationsIOS, { NotificationsAndroid } from 'react-native-notifications';
+import NotificationsIOS from 'react-native-notifications';
 
 import type { Auth, Dispatch, Notification, NotificationGroup, UserIdMap } from '../types';
 import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
@@ -38,7 +38,7 @@ export const addNotificationListener = (notificationHandler: (notification: Obje
   if (Platform.OS === 'ios') {
     NotificationsIOS.addEventListener('notificationOpened', notificationHandler);
   } else {
-    NotificationsAndroid.setNotificationOpenedListener(notificationHandler);
+    DeviceEventEmitter.addListener('notificationOpened', notificationHandler);
   }
 };
 
@@ -88,11 +88,11 @@ export const handlePendingNotifications = (
   dispatch: Dispatch,
   usersById: UserIdMap,
 ) => {
-  if (!notificationData || !notificationData.getData) {
+  if (!notificationData || !(notificationData['google.message_id'] || notificationData.getData)) {
     return;
   }
 
-  const data = notificationData.getData();
+  const data = notificationData.getData ? notificationData.getData() : notificationData;
   const extractedData = data && data.zulip ? data.zulip : data;
   config.startup.notification = extractedData;
   if (extractedData) {

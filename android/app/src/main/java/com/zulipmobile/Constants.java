@@ -7,4 +7,5 @@ public class Constants {
     public static final String NOTIFICATION_ID_REFRESH = "NOTIFICATION_ID_REFRESH";
     public static final String NOTIFICATION_GCM_TOKEN_REFRESHED = "notificationGcmTokenRefreshed";
     public static final String NOTIFICATION_SENDER_ID_MANIFEST_NAME = "com.zulipmobile.gcmSenderId";
+    public static final String NOTIFICATION_OPENED_EVENT = "notificationOpened";
 }
