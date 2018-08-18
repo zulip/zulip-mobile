@@ -38,7 +38,7 @@ subprojects {
     afterEvaluate {project ->
         if (project.hasProperty("android")) {
             android {
-                buildToolsVersion '23.0.1'
+                buildToolsVersion '27.0.3'
             }
         }
     }
