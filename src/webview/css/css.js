@@ -403,7 +403,7 @@ blockquote {
 #js-error-plain, #js-error-plain-dummy {
   z-index: 1000;
   width: 100%;
-  background: #555;
+  background: red;
   color: white;
   font-size: 15px;
   padding: 4px;
