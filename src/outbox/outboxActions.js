@@ -5,6 +5,7 @@ import { logErrorRemotely } from '../utils/logging';
 import type {
   Dispatch,
   GetState,
+  GlobalState,
   NamedUser,
   Narrow,
   User,
@@ -97,29 +98,35 @@ const extractTypeToAndSubjectFromNarrow = (
   return { type: 'stream', display_recipient: narrow[0].operand, subject: narrow[1].operand };
 };
 
+const getContentPreview = (content: string, state: GlobalState): string => {
+  try {
+    return parseMarkdown(
+      content,
+      getUsersAndWildcards(state.users),
+      state.streams,
+      getAuth(state),
+      state.realm.filters,
+      state.realm.emoji,
+    );
+  } catch (e) {
+    return content;
+  }
+};
+
 export const addToOutbox = (narrow: Narrow, content: string) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
   const state = getState();
   const userDetail = getSelfUserDetail(state);
-  const { users, streams, realm } = state;
-  const auth = getAuth(state);
-  const html = parseMarkdown(
-    content,
-    getUsersAndWildcards(users),
-    streams,
-    auth,
-    realm.filters,
-    realm.emoji,
-  );
+
   const localTime = Math.round(new Date().getTime() / 1000);
   dispatch(
     messageSendStart({
       narrow,
-      ...extractTypeToAndSubjectFromNarrow(narrow, users, userDetail),
+      ...extractTypeToAndSubjectFromNarrow(narrow, state.users, userDetail),
       markdownContent: content,
-      content: html,
+      content: getContentPreview(content, state),
       timestamp: localTime,
       id: localTime,
       sender_full_name: userDetail.full_name,
