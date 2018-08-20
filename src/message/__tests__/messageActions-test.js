@@ -123,7 +123,6 @@ describe('messageActions', () => {
     test('if new narrow user is deactivated, do nothing', () => {
       const store = mockStore({
         realm: {
-          crossRealmBots: [],
           nonActiveUsers: [],
         },
         session: { isHydrated: true },

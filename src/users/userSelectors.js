@@ -2,9 +2,11 @@
 import { createSelector } from 'reselect';
 
 import { NULL_USER } from '../nullObjects';
-import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
+import { getActiveUsers, getNonActiveUsers } from '../directSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserByEmail } from './userHelpers';
+
+export const getUsers = createSelector(getActiveUsers, (users = []) => users);
 
 export const getSelfUserDetail = createSelector(getUsers, getOwnEmail, (users, ownEmail) =>
   getUserByEmail(users, ownEmail),
@@ -14,21 +16,10 @@ export const getSortedUsers = createSelector(getUsers, users =>
   [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase())),
 );
 
-export const getActiveUsers = createSelector(
-  getUsers,
-  getCrossRealmBots,
-  (users = [], crossRealmBots = []) => [...users, ...crossRealmBots],
-);
-
 export const getAllUsers = createSelector(
   getUsers,
   getNonActiveUsers,
-  getCrossRealmBots,
-  (users = [], nonActiveUsers = [], crossRealmBots = []) => [
-    ...users,
-    ...nonActiveUsers,
-    ...crossRealmBots,
-  ],
+  (users = [], nonActiveUsers = []) => [...users, ...nonActiveUsers],
 );
 
 export const getAllUsersByEmail = createSelector(getAllUsers, allUsers =>

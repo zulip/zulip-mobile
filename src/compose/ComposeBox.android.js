@@ -41,7 +41,7 @@ import {
   getSession,
   canSendToActiveNarrow,
   getLastMessageTopic,
-  getActiveUsers,
+  getUsers,
   getShowMessagePlaceholders,
 } from '../selectors';
 import {
@@ -383,7 +383,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
 export default connect((state: GlobalState, props) => ({
   auth: getAuth(state),
-  users: getActiveUsers(state),
+  users: getUsers(state),
   safeAreaInsets: getSession(state).safeAreaInsets,
   isAdmin: getIsAdmin(state),
   isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(props.narrow)(state),

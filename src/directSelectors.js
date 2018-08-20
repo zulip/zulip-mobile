@@ -11,7 +11,6 @@ import type {
   NavigationState,
   TopicsState,
   PresenceState,
-  RealmBot,
   RealmEmojiState,
   RealmState,
   SettingsState,
@@ -52,7 +51,7 @@ export const getTopics = (state: GlobalState): TopicsState => state.topics;
 
 export const getUserGroups = (state: GlobalState): UserGroup[] => state.userGroups;
 
-export const getUsers = (state: GlobalState): User[] => state.users;
+export const getActiveUsers = (state: GlobalState): User[] => state.users;
 
 export const getFetching = (state: GlobalState): FetchingState => state.fetching;
 
@@ -83,8 +82,6 @@ export const getUnreadHuddles = (state: GlobalState): UnreadHuddlesState => stat
 export const getUnreadMentions = (state: GlobalState): UnreadMentionsState => state.unread.mentions;
 
 export const getRealm = (state: GlobalState): RealmState => state.realm;
-
-export const getCrossRealmBots = (state: GlobalState): RealmBot[] => state.realm.crossRealmBots;
 
 export const getRealmEmoji = (state: GlobalState): RealmEmojiState => state.realm.emoji;
 

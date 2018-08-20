@@ -30,7 +30,6 @@ import {
 // Initial state
 const initialState = {
   canCreateStreams: true,
-  crossRealmBots: [],
   twentyFourHourTime: false,
   pushToken: { token: '', result: '', msg: '' },
   emoji: {},
@@ -42,7 +41,6 @@ const initialState = {
 const realmInit = (state: RealmState, action: RealmInitAction): RealmState => ({
   ...state,
   canCreateStreams: action.data.can_create_streams,
-  crossRealmBots: action.data.cross_realm_bots,
   emoji: action.data.realm_emoji,
   filters: action.data.realm_filters,
   isAdmin: action.data.is_admin,

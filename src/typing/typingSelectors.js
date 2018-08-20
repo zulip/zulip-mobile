@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import type { Narrow } from '../types';
-import { getTyping, getUsers } from '../directSelectors';
+import { getTyping, getUsers } from '../selectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserById } from '../users/userHelpers';
 import { isPrivateOrGroupNarrow } from '../utils/narrow';

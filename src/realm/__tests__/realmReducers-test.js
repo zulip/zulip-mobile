@@ -22,7 +22,6 @@ describe('realmReducers', () => {
 
       const expectedState = {
         canCreateStreams: true,
-        crossRealmBots: [],
         isAdmin: false,
         twentyFourHourTime: false,
         pushToken: { token: '', result: '', msg: '' },

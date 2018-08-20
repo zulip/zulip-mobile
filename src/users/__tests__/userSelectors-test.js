@@ -2,7 +2,7 @@ import deepFreeze from 'deep-freeze';
 
 import {
   getAccountDetailsUserFromEmail,
-  getActiveUsers,
+  getUsers,
   getAllUsers,
   getAllUsersByEmail,
   getUsersById,
@@ -50,18 +50,20 @@ describe('getAccountDetailsUserFromEmail', () => {
   });
 });
 
-describe('getActiveUsers', () => {
+describe('getUsers', () => {
   test('return users, bots, does not include inactive users', () => {
     const state = deepFreeze({
-      users: [{ email: 'abc@example.com' }],
+      users: [{ email: 'abc@example.com' }, { email: 'def@example.com', is_bot: true }],
       realm: {
-        crossRealmBots: [{ email: 'def@example.com' }],
         nonActiveUsers: [{ email: 'xyz@example.com' }],
       },
     });
-    const expectedResult = [{ email: 'abc@example.com' }, { email: 'def@example.com' }];
+    const expectedResult = [
+      { email: 'abc@example.com' },
+      { email: 'def@example.com', is_bot: true },
+    ];
 
-    const result = getActiveUsers(state);
+    const result = getUsers(state);
 
     expect(result).toEqual(expectedResult);
   });
@@ -70,16 +72,15 @@ describe('getActiveUsers', () => {
 describe('getAllUsers', () => {
   test('return users, bots, and inactive users', () => {
     const state = deepFreeze({
-      users: [{ email: 'abc@example.com' }],
+      users: [{ email: 'abc@example.com' }, { email: 'def@example.com', is_bot: true }],
       realm: {
-        crossRealmBots: [{ email: 'def@example.com' }],
         nonActiveUsers: [{ email: 'xyz@example.com' }],
       },
     });
     const expectedResult = [
       { email: 'abc@example.com' },
+      { email: 'def@example.com', is_bot: true },
       { email: 'xyz@example.com' },
-      { email: 'def@example.com' },
     ];
 
     const result = getAllUsers(state);
@@ -108,7 +109,6 @@ describe('getAllUsersByEmail', () => {
         { email: 'xyz@example.com' },
       ],
       realm: {
-        crossRealmBots: [],
         nonActiveUsers: [],
       },
     });
@@ -125,15 +125,14 @@ describe('getAllUsersByEmail', () => {
 
   test('return users, bots, and inactive users mapped by their email', () => {
     const state = deepFreeze({
-      users: [{ email: 'abc@example.com' }],
+      users: [{ email: 'abc@example.com' }, { email: 'def@example.com', is_bot: true }],
       realm: {
-        crossRealmBots: [{ email: 'def@example.com' }],
         nonActiveUsers: [{ email: 'xyz@example.com' }],
       },
     });
     const expectedResult = {
       'abc@example.com': { email: 'abc@example.com' },
-      'def@example.com': { email: 'def@example.com' },
+      'def@example.com': { email: 'def@example.com', is_bot: true },
       'xyz@example.com': { email: 'xyz@example.com' },
     };
 
@@ -151,6 +150,9 @@ describe('getUsersById', () => {
         { user_id: 2, email: 'def@example.com' },
         { user_id: 3, email: 'xyz@example.com' },
       ],
+      realm: {
+        nonActiveUsers: [{ user_id: 5, email: 'jkl@example.com' }],
+      },
     });
     const expectedResult = {
       1: { user_id: 1, email: 'abc@example.com' },
@@ -172,6 +174,9 @@ describe('getUsersSansMe', () => {
         { email: 'john@example.com' },
         { email: 'doe@example.com' },
       ],
+      realm: {
+        nonActiveUsers: [{ email: 'def@example.com' }],
+      },
       accounts: [{ email: 'me@example.com' }],
     });
     const expectedResult = [{ email: 'john@example.com' }, { email: 'doe@example.com' }];
