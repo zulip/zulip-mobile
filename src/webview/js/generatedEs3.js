@@ -9,6 +9,10 @@ export default `
 'use strict';
 
 
+var arrayFrom = function arrayFrom(arrayLike) {
+  return Array.prototype.slice.call(arrayLike);
+};
+
 var documentBody = document.body;
 if (!documentBody) {
   throw new Error('No document.body element!');
@@ -185,7 +189,7 @@ var scrollToPreserve = function scrollToPreserve(msgId, prevBoundTop) {
 
 var appendAuthToImages = function appendAuthToImages(auth) {
   var imageTags = document.getElementsByTagName('img');
-  Array.from(imageTags).forEach(function (img) {
+  arrayFrom(imageTags).forEach(function (img) {
     if (!img.src.startsWith(auth.realm)) {
       return;
     }

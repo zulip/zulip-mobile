@@ -7,6 +7,10 @@ import type {
   MessageInputTyping,
 } from '../webViewHandleUpdates';
 
+// Converts an array-like object to an actual array
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice#Array-like_objects
+const arrayFrom = arrayLike => Array.prototype.slice.call(arrayLike);
+
 // We pull out document.body in one place, and check it's not null, in order
 // to provide that assertion to the type-checker.
 const documentBody = document.body;
@@ -241,7 +245,7 @@ const scrollToPreserve = (msgId: number, prevBoundTop: number) => {
 
 const appendAuthToImages = auth => {
   const imageTags = document.getElementsByTagName('img');
-  Array.from(imageTags).forEach(img => {
+  arrayFrom(imageTags).forEach(img => {
     if (!img.src.startsWith(auth.realm)) {
       return;
     }
