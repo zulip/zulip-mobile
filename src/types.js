@@ -438,21 +438,11 @@ export type RealmEmojiState = {
   [id: string]: RealmEmojiType,
 };
 
-export type RealmBot = {
-  email: string,
-  full_name: string,
-  is_admin: boolean,
-  is_bot: true,
-  user_id: number,
-};
-
 /**
  * State with general info about a Zulip organization; our state subtree `realm`.
  *
  * @prop twentyFourHourTime
  * @prop canCreateStreams
- * @prop crossRealmBots - The server's cross-realm bots; e.g., Welcome Bot.
- *   Cross-realm bots should be treated like normal bots.
  * @prop nonActiveUsers - All users in the organization with `is_active`
  *   false; for normal users, this means they or an admin deactivated their
  *   account.  See `User` and the linked documentation.
@@ -464,7 +454,6 @@ export type RealmBot = {
 export type RealmState = {
   twentyFourHourTime: boolean,
   canCreateStreams: boolean,
-  crossRealmBots: RealmBot[],
   nonActiveUsers: User[],
   pushToken: {
     token: string,
@@ -822,7 +811,7 @@ export type InitialDataRealmUser = {
   avatar_url: string,
   avatar_url_medium: string,
   can_create_streams: boolean,
-  cross_realm_bots: RealmBot[],
+  cross_realm_bots: User[],
   email: string,
   enter_sends: boolean,
   full_name: string,

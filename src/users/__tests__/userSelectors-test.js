@@ -53,13 +53,15 @@ describe('getAccountDetailsUserFromEmail', () => {
 describe('getUsers', () => {
   test('return users, bots, does not include inactive users', () => {
     const state = deepFreeze({
-      users: [{ email: 'abc@example.com' }],
+      users: [{ email: 'abc@example.com' }, { email: 'def@example.com', is_bot: true }],
       realm: {
-        crossRealmBots: [{ email: 'def@example.com' }],
         nonActiveUsers: [{ email: 'xyz@example.com' }],
       },
     });
-    const expectedResult = [{ email: 'abc@example.com' }, { email: 'def@example.com' }];
+    const expectedResult = [
+      { email: 'abc@example.com' },
+      { email: 'def@example.com', is_bot: true },
+    ];
 
     const result = getUsers(state);
 
@@ -70,16 +72,15 @@ describe('getUsers', () => {
 describe('getAllUsers', () => {
   test('return users, bots, and inactive users', () => {
     const state = deepFreeze({
-      users: [{ email: 'abc@example.com' }],
+      users: [{ email: 'abc@example.com' }, { email: 'def@example.com', is_bot: true }],
       realm: {
-        crossRealmBots: [{ email: 'def@example.com' }],
         nonActiveUsers: [{ email: 'xyz@example.com' }],
       },
     });
     const expectedResult = [
       { email: 'abc@example.com' },
+      { email: 'def@example.com', is_bot: true },
       { email: 'xyz@example.com' },
-      { email: 'def@example.com' },
     ];
 
     const result = getAllUsers(state);
@@ -108,7 +109,6 @@ describe('getAllUsersByEmail', () => {
         { email: 'xyz@example.com' },
       ],
       realm: {
-        crossRealmBots: [],
         nonActiveUsers: [],
       },
     });
@@ -125,15 +125,14 @@ describe('getAllUsersByEmail', () => {
 
   test('return users, bots, and inactive users mapped by their email', () => {
     const state = deepFreeze({
-      users: [{ email: 'abc@example.com' }],
+      users: [{ email: 'abc@example.com' }, { email: 'def@example.com', is_bot: true }],
       realm: {
-        crossRealmBots: [{ email: 'def@example.com' }],
         nonActiveUsers: [{ email: 'xyz@example.com' }],
       },
     });
     const expectedResult = {
       'abc@example.com': { email: 'abc@example.com' },
-      'def@example.com': { email: 'def@example.com' },
+      'def@example.com': { email: 'def@example.com', is_bot: true },
       'xyz@example.com': { email: 'xyz@example.com' },
     };
 

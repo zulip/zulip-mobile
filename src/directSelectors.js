@@ -11,7 +11,6 @@ import type {
   NavigationState,
   TopicsState,
   PresenceState,
-  RealmBot,
   RealmEmojiState,
   RealmState,
   SettingsState,
@@ -83,8 +82,6 @@ export const getUnreadHuddles = (state: GlobalState): UnreadHuddlesState => stat
 export const getUnreadMentions = (state: GlobalState): UnreadMentionsState => state.unread.mentions;
 
 export const getRealm = (state: GlobalState): RealmState => state.realm;
-
-export const getCrossRealmBots = (state: GlobalState): RealmBot[] => state.realm.crossRealmBots;
 
 export const getRealmEmoji = (state: GlobalState): RealmEmojiState => state.realm.emoji;
 

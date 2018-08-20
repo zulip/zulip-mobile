@@ -311,7 +311,6 @@ describe('isNarrowValid', () => {
   test('narrowing to a PM with existing user is valid', () => {
     const state = {
       realm: {
-        crossRealmBots: [],
         nonActiveUsers: [],
       },
       streams: [],
@@ -327,7 +326,6 @@ describe('isNarrowValid', () => {
   test('narrowing to a PM with non-existing user is not valid', () => {
     const state = {
       realm: {
-        crossRealmBots: [],
         nonActiveUsers: [],
       },
       streams: [],
@@ -343,7 +341,6 @@ describe('isNarrowValid', () => {
   test('narrowing to a group chat with non-existing user is not valid', () => {
     const state = {
       realm: {
-        crossRealmBots: [],
         nonActiveUsers: [],
       },
       streams: [],
@@ -359,7 +356,6 @@ describe('isNarrowValid', () => {
   test('narrowing to a group chat with non-existing users is also valid', () => {
     const state = {
       realm: {
-        crossRealmBots: [],
         nonActiveUsers: [],
       },
       streams: [],
@@ -375,11 +371,10 @@ describe('isNarrowValid', () => {
   test('narrowing to a PM with bots is valid', () => {
     const state = {
       realm: {
-        crossRealmBots: [{ email: 'some-bot@example.com' }],
         nonActiveUsers: [],
       },
       streams: [],
-      users: [],
+      users: [{ email: 'some-bot@example.com', is_bot: true }],
     };
     const narrow = privateNarrow('some-bot@example.com');
 
@@ -391,7 +386,6 @@ describe('isNarrowValid', () => {
   test('narrowing to non active users is valid', () => {
     const state = {
       realm: {
-        crossRealmBots: [],
         nonActiveUsers: [{ email: 'not-active@example.com' }],
       },
       streams: [],
