@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react';
 import type { Dispatch, GlobalState, PresenceState, User } from '../types';
 import { privateNarrow } from '../utils/narrow';
 import UserList from './UserList';
-import { getOwnEmail, getActiveUsers, getPresence } from '../selectors';
+import { getOwnEmail, getUsers, getPresence } from '../selectors';
 import { navigateBack, doNarrow } from '../actions';
 
 type Props = {
@@ -42,6 +42,6 @@ class UsersCard extends PureComponent<Props> {
 
 export default connect((state: GlobalState) => ({
   ownEmail: getOwnEmail(state),
-  users: getActiveUsers(state),
+  users: getUsers(state),
   presences: getPresence(state),
 }))(UsersCard);

@@ -2,13 +2,7 @@
 import type { Narrow, Dispatch, GetState } from '../types';
 import config from '../config';
 import { NULL_ARRAY, NULL_CAUGHTUP } from '../nullObjects';
-import {
-  getAuth,
-  getActiveUsers,
-  getAllMessages,
-  isNarrowValid,
-  getIsHydrated,
-} from '../selectors';
+import { getAuth, getUsers, getAllMessages, isNarrowValid, getIsHydrated } from '../selectors';
 import { FETCH_STATE_RESET } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
@@ -47,7 +41,7 @@ export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState:
   const auth = getAuth(state);
 
   if (isUrlInAppLink(href, auth.realm)) {
-    const users = getActiveUsers(state);
+    const users = getUsers(state);
     const anchor = getMessageIdFromLink(href, auth.realm);
     const narrow = getNarrowFromLink(href, auth.realm, users);
 

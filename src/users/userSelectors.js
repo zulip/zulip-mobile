@@ -6,18 +6,18 @@ import { getActiveUsers, getNonActiveUsers } from '../directSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUserByEmail } from './userHelpers';
 
-export const getSelfUserDetail = createSelector(getActiveUsers, getOwnEmail, (users, ownEmail) =>
+export const getUsers = createSelector(getActiveUsers, (users = []) => users);
+
+export const getSelfUserDetail = createSelector(getUsers, getOwnEmail, (users, ownEmail) =>
   getUserByEmail(users, ownEmail),
 );
 
-export const getSortedUsers = createSelector(getActiveUsers, users =>
+export const getSortedUsers = createSelector(getUsers, users =>
   [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase())),
 );
 
-export const getUsers = createSelector(getActiveUsers, (users = []) => users);
-
 export const getAllUsers = createSelector(
-  getActiveUsers,
+  getUsers,
   getNonActiveUsers,
   (users = [], nonActiveUsers = []) => [...users, ...nonActiveUsers],
 );
@@ -29,14 +29,14 @@ export const getAllUsersByEmail = createSelector(getAllUsers, allUsers =>
   }, {}),
 );
 
-export const getUsersById = createSelector(getActiveUsers, (users = []) =>
+export const getUsersById = createSelector(getUsers, (users = []) =>
   users.reduce((usersById, user) => {
     usersById[user.user_id] = user;
     return usersById;
   }, {}),
 );
 
-export const getUsersSansMe = createSelector(getActiveUsers, getOwnEmail, (users, ownEmail) =>
+export const getUsersSansMe = createSelector(getUsers, getOwnEmail, (users, ownEmail) =>
   users.filter(user => user.email !== ownEmail),
 );
 

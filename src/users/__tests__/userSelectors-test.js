@@ -150,6 +150,9 @@ describe('getUsersById', () => {
         { user_id: 2, email: 'def@example.com' },
         { user_id: 3, email: 'xyz@example.com' },
       ],
+      realm: {
+        nonActiveUsers: [{ user_id: 5, email: 'jkl@example.com' }],
+      },
     });
     const expectedResult = {
       1: { user_id: 1, email: 'abc@example.com' },
@@ -171,6 +174,9 @@ describe('getUsersSansMe', () => {
         { email: 'john@example.com' },
         { email: 'doe@example.com' },
       ],
+      realm: {
+        nonActiveUsers: [{ email: 'def@example.com' }],
+      },
       accounts: [{ email: 'me@example.com' }],
     });
     const expectedResult = [{ email: 'john@example.com' }, { email: 'doe@example.com' }];
