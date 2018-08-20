@@ -14,6 +14,7 @@ import type {
   RealmBot,
   RealmEmojiState,
   RealmState,
+  ServerSettingsState,
   SettingsState,
   StreamUnreadItem,
   TypingState,
@@ -63,6 +64,8 @@ export const getFlags = (state: GlobalState): FlagsState => state.flags;
 export const getReadFlags = (state: GlobalState): Object => state.flags.read;
 
 export const getAllNarrows = (state: GlobalState): NarrowsState => state.narrows;
+
+export const getServerSettings = (state: GlobalState): ServerSettingsState => state.serverSettings;
 
 export const getSettings = (state: GlobalState): SettingsState => state.settings;
 

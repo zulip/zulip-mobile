@@ -465,6 +465,7 @@ export type GlobalState = {|
   realm: RealmState,
   session: SessionState,
   settings: SettingsState,
+  serverSettings: ServerSettingsState,
   streams: StreamsState,
   subscriptions: SubscriptionsState,
   topics: TopicsState,
