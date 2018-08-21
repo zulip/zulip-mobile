@@ -1,6 +1,6 @@
 /* @flow */
 import type { Auth, ResponseExtractionFunc } from '../types';
-import { getAuthHeader, encodeAsUriNoEmptyValues, isValidUrl } from '../utils/url';
+import { getAuthHeader, encodeParamsForUrl, isValidUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
 
@@ -71,7 +71,7 @@ export const apiGet = async (
 ) =>
   apiCall(
     auth,
-    `${route}?${encodeAsUriNoEmptyValues(params)}`,
+    `${route}?${encodeParamsForUrl(params)}`,
     {
       method: 'get',
     },
@@ -90,7 +90,7 @@ export const apiPost = async (
     route,
     {
       method: 'post',
-      body: encodeAsUriNoEmptyValues(params),
+      body: encodeParamsForUrl(params),
     },
     resFunc,
   );
@@ -122,7 +122,7 @@ export const apiPut = async (
     route,
     {
       method: 'put',
-      body: encodeAsUriNoEmptyValues(params),
+      body: encodeParamsForUrl(params),
     },
     resFunc,
   );
@@ -138,7 +138,7 @@ export const apiDelete = async (
     route,
     {
       method: 'delete',
-      body: encodeAsUriNoEmptyValues(params),
+      body: encodeParamsForUrl(params),
     },
     resFunc,
   );
@@ -154,7 +154,7 @@ export const apiPatch = async (
     route,
     {
       method: 'patch',
-      body: encodeAsUriNoEmptyValues(params),
+      body: encodeParamsForUrl(params),
     },
     resFunc,
   );
@@ -167,7 +167,7 @@ export const apiHead = async (
 ) =>
   apiCall(
     auth,
-    `${route}?${encodeAsUriNoEmptyValues(params)}`,
+    `${route}?${encodeParamsForUrl(params)}`,
     {
       method: 'head',
     },

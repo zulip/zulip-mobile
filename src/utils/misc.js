@@ -21,11 +21,6 @@ export const deeperMerge = (obj1: Object, obj2: Object): Object =>
 export const initialsFromName = (name: string): string =>
   (name.match(/\S+\s*/g) || []).map(x => x[0].toUpperCase()).join('');
 
-export const removeEmptyValues = (obj: Object): Object => {
-  Object.keys(obj).forEach(key => obj[key] == null && delete obj[key]);
-  return obj;
-};
-
 export const groupItemsById = (items: ObjectWithId[]): ObjectsMappedById =>
   items.reduce((itemsById, item) => {
     itemsById[item.id] = item;

@@ -4,7 +4,6 @@ import urlRegex from 'url-regex';
 
 import type { Auth, Narrow, User } from '../types';
 import { HOME_NARROW, topicNarrow, streamNarrow, groupNarrow, specialNarrow } from './narrow';
-import { removeEmptyValues } from './misc';
 import { getUserById } from '../users/userHelpers';
 import { transformToEncodedURI } from './string';
 
@@ -26,13 +25,12 @@ export const getPathsFromUrl = (url: string = '', realm: string) => {
 export const getAuthHeader = (email: string, apiKey: string): ?string =>
   apiKey ? `Basic ${base64.encode(`${email}:${apiKey}`)}` : undefined;
 
-export const encodeAsURI = (params: { [key: string]: any }): string =>
+/** Encode parameters as if for the URL query-part submitting an HTML form. */
+export const encodeParamsForUrl = (params: { [key: string]: any }): string =>
   Object.keys(params)
+    .filter((key: string) => params[key] != null)
     .map((key: string) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     .join('&');
-
-export const encodeAsUriNoEmptyValues = (params: { [key: string]: any }): string =>
-  encodeAsURI(removeEmptyValues(params));
 
 export const getFullUrl = (url: string = '', realm: string): string =>
   !url.startsWith('http') ? `${realm}${url.startsWith('/') ? '' : '/'}${url}` : url;
