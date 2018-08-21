@@ -36,7 +36,9 @@ export const getAuthHeader = (email: string, apiKey: string): ?string =>
 /** Encode parameters as if for the URL query-part submitting an HTML form. */
 export const encodeParamsForUrl = (params: UrlParams): string =>
   Object.keys(params)
-    .filter((key: string) => params[key] != null)
+    // An `undefined` can sneak in because `JSON.stringify(undefined)` is
+    // `undefined`, but its signature lies that it returns just `string`.
+    .filter((key: string) => params[key] !== undefined)
     .map(
       (key: string) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key].toString())}`,
     )
