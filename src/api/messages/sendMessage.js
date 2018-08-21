@@ -6,7 +6,7 @@ import { apiPost } from '../apiFetch';
 export default async (
   auth: Auth,
   type: 'private' | 'stream',
-  to: string | string[],
+  to: string,
   subject: string,
   content: string,
   localId: number,

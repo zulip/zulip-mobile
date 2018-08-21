@@ -7,6 +7,14 @@ import { HOME_NARROW, topicNarrow, streamNarrow, groupNarrow, specialNarrow } fr
 import { getUserById } from '../users/userHelpers';
 import { transformToEncodedURI } from './string';
 
+/**
+ * An object `encodeParamsForUrl` can flatten.
+ *
+ * In principle the values should be strings; but we include some other
+ * primitive types for which `toString` is just as good as `JSON.stringify`.
+ */
+export type UrlParams = { [string]: string | boolean | number };
+
 export const getPathsFromUrl = (url: string = '', realm: string) => {
   const paths = url
     .split(realm)
@@ -26,10 +34,12 @@ export const getAuthHeader = (email: string, apiKey: string): ?string =>
   apiKey ? `Basic ${base64.encode(`${email}:${apiKey}`)}` : undefined;
 
 /** Encode parameters as if for the URL query-part submitting an HTML form. */
-export const encodeParamsForUrl = (params: { [key: string]: any }): string =>
+export const encodeParamsForUrl = (params: UrlParams): string =>
   Object.keys(params)
     .filter((key: string) => params[key] != null)
-    .map((key: string) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+    .map(
+      (key: string) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key].toString())}`,
+    )
     .join('&');
 
 export const getFullUrl = (url: string = '', realm: string): string =>

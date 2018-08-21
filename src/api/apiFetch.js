@@ -1,5 +1,6 @@
 /* @flow */
 import type { Auth, ResponseExtractionFunc } from '../types';
+import type { UrlParams } from '../utils/url';
 import { getAuthHeader, encodeParamsForUrl, isValidUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
@@ -66,7 +67,7 @@ export const apiGet = async (
   auth: Auth,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: Object = {},
+  params: UrlParams = {},
   isSilent: boolean = false,
 ) =>
   apiCall(
@@ -83,7 +84,7 @@ export const apiPost = async (
   auth: Auth,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: Object = {},
+  params: UrlParams = {},
 ) =>
   apiCall(
     auth,
@@ -115,7 +116,7 @@ export const apiPut = async (
   auth: Auth,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: Object = {},
+  params: UrlParams = {},
 ) =>
   apiCall(
     auth,
@@ -131,7 +132,7 @@ export const apiDelete = async (
   auth: Auth,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: Object = {},
+  params: UrlParams = {},
 ) =>
   apiCall(
     auth,
@@ -147,7 +148,7 @@ export const apiPatch = async (
   auth: Auth,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: Object = {},
+  params: UrlParams = {},
 ) =>
   apiCall(
     auth,
@@ -163,7 +164,7 @@ export const apiHead = async (
   auth: Auth,
   route: string,
   resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: Object = {},
+  params: UrlParams = {},
 ) =>
   apiCall(
     auth,
