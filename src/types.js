@@ -1,6 +1,7 @@
 /* @flow */
 import type { Dispatch as ReduxDispatch } from 'redux';
 import type { IntlShape } from 'react-intl';
+import type { InputSelector } from 'reselect';
 
 import type { AppStyles } from './styles/theme';
 
@@ -606,6 +607,12 @@ export type GlobalState = {
   userGroups: UserGroupsState,
   users: UsersState,
 };
+
+/** A selector returning TResult. */
+// Seems like this should be OutputSelector... but for whatever reason,
+// putting that on a selector doesn't cause the result type to propagate to
+// the corresponding parameter when used in `createSelector`, and this does.
+export type Selector<TResult> = InputSelector<GlobalState, void, TResult>;
 
 export type MatchResult = Array<string> & { index: number, input: string };
 
