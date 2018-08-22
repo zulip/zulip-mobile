@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet, Image } from 'react-native';
 
-import type { GlobalState } from '../types';
+import type { GlobalState, RealmEmojiType } from '../types';
 import { getActiveRealmEmojiByName } from '../selectors';
 
 const styles = StyleSheet.create({
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  activeRealmEmojiByName: {},
+  activeRealmEmojiByName: { [string]: RealmEmojiType },
   name: string,
 };
 
