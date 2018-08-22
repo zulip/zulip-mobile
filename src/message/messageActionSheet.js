@@ -17,7 +17,7 @@ type ButtonDescription = {
     message: Message,
     subscriptions: Subscription[],
     dispatch: Dispatch,
-    onEditMessageSelect: (editMessage: Message) => void,
+    onEditMessageSelect: (editMessage: Message) => Promise<void>,
     _: GetText,
   }): void | Promise<void>,
   title: string,
@@ -142,7 +142,7 @@ type ConstructSheetParams = {|
   backgroundData: BackgroundData,
   message: Message,
   narrow: Narrow,
-  onEditMessageSelect: (editMessage: Message) => void,
+  onEditMessageSelect: (editMessage: Message) => Promise<void>,
 |};
 
 export const constructHeaderActionButtons = ({

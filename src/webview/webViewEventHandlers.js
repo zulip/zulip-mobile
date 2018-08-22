@@ -113,7 +113,7 @@ type Props = $ReadOnly<{
   dispatch: Dispatch,
   messages: Message[],
   narrow: Narrow,
-  onEditMessageSelect: (editMessage: Message) => void,
+  onEditMessageSelect: (editMessage: Message) => Promise<void>,
   showActionSheetWithOptions: (Object, (number) => void) => void,
 }>;
 

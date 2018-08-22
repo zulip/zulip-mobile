@@ -89,6 +89,7 @@ class SearchMessagesCard extends PureComponent<Props, State> {
             fetching={NULL_FETCHING}
             showMessagePlaceholders={false}
             typingUsers={NULL_ARRAY}
+            // $FlowFixMe //TODO
             onEditMessageSelect={() => {}}
           />
         </ActionSheetProvider>

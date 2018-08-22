@@ -10,7 +10,7 @@ import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 
 type Props = {|
-  onEditMessageSelect: (editMessage: Message) => void,
+  onEditMessageSelect: (editMessage: Message) => Promise<void>,
   /* $FlowFixMe: probably this shouldn't be optional */
   narrow?: Narrow,
 |};

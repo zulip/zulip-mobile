@@ -1,15 +1,19 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Context, Narrow, Message } from '../types';
+import type { Auth, Context, EditMessage, Narrow, Message, GlobalState } from '../types';
+import { getMessageContentById } from '../api';
 import { OfflineNotice, ZulipStatusBar } from '../common';
+import { getAuth } from '../selectors';
 import Chat from '../chat/Chat';
 import ChatNavBar from '../nav/ChatNavBar';
 
 type Props = {|
+  auth: Auth,
   navigation: NavigationScreenProp<*> & {
     state: {
       params: {
@@ -20,7 +24,7 @@ type Props = {|
 |};
 
 type State = {|
-  editMessage: ?Message,
+  editMessage: ?EditMessage,
 |};
 
 const componentStyles = StyleSheet.create({
@@ -31,7 +35,7 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class ChatScreen extends PureComponent<Props, State> {
+class ChatScreen extends PureComponent<Props, State> {
   context: Context;
 
   state = {
@@ -42,8 +46,16 @@ export default class ChatScreen extends PureComponent<Props, State> {
     styles: () => null,
   };
 
-  onEditMessageSelect = (editMessage: Message): void => {
-    this.setState({ editMessage });
+  onEditMessageSelect = async (editMessage: Message) => {
+    const { auth } = this.props;
+    const message = await getMessageContentById(auth, editMessage.id);
+    this.setState({
+      editMessage: {
+        id: editMessage.id,
+        content: message,
+        topic: editMessage.subject,
+      },
+    });
   };
 
   cancelEditMode = (): void => {
@@ -71,3 +83,7 @@ export default class ChatScreen extends PureComponent<Props, State> {
     );
   }
 }
+
+export default connect((state: GlobalState) => ({
+  auth: getAuth(state),
+}))(ChatScreen);
