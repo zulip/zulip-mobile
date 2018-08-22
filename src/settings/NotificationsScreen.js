@@ -3,15 +3,16 @@ import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
 
-import type { Auth, Dispatch, GlobalState } from '../types';
-import { getAuth, getSettings } from '../selectors';
-import { OptionRow, Screen } from '../common';
+import type { Auth, Dispatch, GlobalState, ApiServerSettings } from '../types';
+import { getAuth, getSettings, getCurrentServerSettings } from '../selectors';
+import { Notice, OptionRow, Screen } from '../common';
 import { toggleMobilePushSettings } from '../api';
 import { settingsChange } from '../actions';
 
 type Props = {
   auth: Auth,
   dispatch: Dispatch,
+  serverSettings: ApiServerSettings,
   offlineNotification: boolean,
   onlineNotification: boolean,
   streamNotification: boolean,
@@ -51,10 +52,19 @@ class NotificationsScreen extends PureComponent<Props> {
   };
 
   render() {
-    const { offlineNotification, onlineNotification, streamNotification } = this.props;
+    const {
+      offlineNotification,
+      onlineNotification,
+      serverSettings,
+      streamNotification,
+    } = this.props;
 
     return (
       <Screen title="Notifications">
+        <Notice
+          visible={serverSettings.push_notifications_enabled === false}
+          text="Notifications not enabled server-side!"
+        />
         <OptionRow
           label="Notifications when offline"
           defaultValue={offlineNotification}
@@ -77,6 +87,7 @@ class NotificationsScreen extends PureComponent<Props> {
 
 export default connect((state: GlobalState) => ({
   auth: getAuth(state),
+  serverSettings: getCurrentServerSettings(state),
   offlineNotification: getSettings(state).offlineNotification,
   onlineNotification: getSettings(state).onlineNotification,
   streamNotification: getSettings(state).streamNotification,
