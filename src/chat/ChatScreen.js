@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
-import type { Context, Narrow } from '../types';
+import type { Context, Narrow, Message } from '../types';
 import { OfflineNotice, ZulipStatusBar } from '../common';
 import Chat from '../chat/Chat';
 import ChatNavBar from '../nav/ChatNavBar';
@@ -19,6 +19,10 @@ type Props = {|
   },
 |};
 
+type State = {|
+  editMessage: ?Message,
+|};
+
 const componentStyles = StyleSheet.create({
   /** A workaround for #3089, by letting us put Chat (with MessageList) first. */
   reverse: {
@@ -27,11 +31,19 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-export default class ChatScreen extends PureComponent<Props> {
+export default class ChatScreen extends PureComponent<Props, State> {
   context: Context;
+
+  state = {
+    editMessage: null, // eslint-disable-line
+  };
 
   static contextTypes = {
     styles: () => null,
+  };
+
+  onEditMessageSelect = (editMessage: Message): void => {
+    this.setState({ editMessage }); // eslint-disable-line
   };
 
   render() {
@@ -43,7 +55,7 @@ export default class ChatScreen extends PureComponent<Props> {
         <View style={styles.screen}>
           <ZulipStatusBar narrow={narrow} />
           <View style={componentStyles.reverse}>
-            <Chat narrow={narrow} />
+            <Chat narrow={narrow} onEditMessageSelect={this.onEditMessageSelect} />
             <OfflineNotice />
             <ChatNavBar narrow={narrow} />
           </View>

@@ -17,6 +17,7 @@ type ButtonDescription = {
     message: Message,
     subscriptions: Subscription[],
     dispatch: Dispatch,
+    onEditMessageSelect: (editMessage: Message) => void,
     _: GetText,
   }): void | Promise<void>,
   title: string,
@@ -42,7 +43,8 @@ const copyToClipboard = async ({ _, auth, message }) => {
 };
 copyToClipboard.title = 'Copy to clipboard';
 
-const editMessage = async ({ message, dispatch }) => {
+const editMessage = async ({ message, dispatch, onEditMessageSelect }) => {
+  onEditMessageSelect(message);
   dispatch(startEditMessage(message.id, message.subject));
 };
 editMessage.title = 'Edit message';
@@ -140,6 +142,7 @@ type ConstructSheetParams = {|
   backgroundData: BackgroundData,
   message: Message,
   narrow: Narrow,
+  onEditMessageSelect: (editMessage: Message) => void,
 |};
 
 export const constructHeaderActionButtons = ({
