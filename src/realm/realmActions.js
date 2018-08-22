@@ -15,7 +15,7 @@ import type {
 } from '../types';
 import { initializeNotifications } from '../utils/notifications';
 import { getAuth } from '../selectors';
-import { getRealmEmojis, getRealmFilters } from '../api';
+import { getRealmEmojis, getRealmFilters, getServerSettings } from '../api';
 
 import {
   REALM_INIT,
@@ -72,3 +72,9 @@ export const newServerSettings = (serverSettings: ApiServerSettings): NewServerS
   type: NEW_SERVER_SETTINGS,
   serverSettings,
 });
+
+export const fetchCurrentServerSettings = () => async (dispatch: Dispatch, getState: GetState) => {
+  const auth = getAuth(getState());
+  const serverSettings = await getServerSettings(auth.realm);
+  dispatch(newServerSettings(serverSettings));
+};
