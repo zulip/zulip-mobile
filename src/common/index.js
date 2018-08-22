@@ -17,6 +17,7 @@ export { default as LineSeparator } from './LineSeparator';
 export { default as LoadingIndicator } from './LoadingIndicator';
 export { default as Logo } from './Logo';
 export { default as MultilineInput } from './MultilineInput';
+export { default as Notice } from './Notice';
 export { default as OfflineNotice } from './OfflineNotice';
 export { default as OptionButton } from './OptionButton';
 export { default as OptionDivider } from './OptionDivider';
