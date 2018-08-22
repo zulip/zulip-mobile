@@ -2,26 +2,10 @@
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
 
 import type { GlobalState } from '../types';
 import { getSession } from '../selectors';
-import Label from './Label';
-
-import AnimatedComponent from '../animation/AnimatedComponent';
-
-const styles = StyleSheet.create({
-  block: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FD3D26',
-  },
-  text: {
-    fontSize: 14,
-    color: 'white',
-  },
-});
+import Notice from './Notice';
 
 type Props = {
   isOnline: boolean,
@@ -38,18 +22,7 @@ class OfflineNotice extends PureComponent<Props> {
 
   render() {
     const { isOnline } = this.props;
-    return (
-      <AnimatedComponent
-        property="height"
-        useNativeDriver={false}
-        visible={!isOnline}
-        height={30}
-        style={styles.block}
-        delay={300}
-      >
-        {!isOnline && <Label style={styles.text} text="No Internet connection" />}
-      </AnimatedComponent>
-    );
+    return <Notice visible={!isOnline} text="No Internet connection" />;
   }
 }
 

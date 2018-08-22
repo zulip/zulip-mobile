@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Label } from '.';
+import Label from './Label';
 
 import AnimatedComponent from '../animation/AnimatedComponent';
 
