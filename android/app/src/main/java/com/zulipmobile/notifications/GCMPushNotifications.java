@@ -28,6 +28,7 @@ import java.util.Locale;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 import static com.zulipmobile.Constants.NOTIFICATION_CANCEL_BUNDLE_KEY;
+import static com.zulipmobile.Constants.NOTIFICATION_ACTION_CLEAR;
 import static com.zulipmobile.notifications.NotificationHelper.buildNotificationContent;
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
 import static com.zulipmobile.notifications.NotificationHelper.extractNames;
@@ -38,7 +39,6 @@ import static com.zulipmobile.notifications.NotificationHelper.TAG;
 public class GCMPushNotifications extends PushNotification {
 
     public static final int NOTIFICATION_ID = 435;
-    public static final String ACTION_NOTIFICATIONS_DISMISS = "ACTION_NOTIFICATIONS_DISMISS";
 
     /**
      * The Zulip messages we're showing as a notification, grouped by conversation.
@@ -49,11 +49,6 @@ public class GCMPushNotifications extends PushNotification {
      * received them.
      */
     private LinkedHashMap<String, List<MessageInfo>> conversations;
-
-    /**
-     * Same as {@link com.wix.reactnativenotifications.core.NotificationIntentAdapter#PUSH_NOTIFICATION_EXTRA_NAME}
-     */
-    private static final String PUSH_NOTIFICATION_EXTRA_NAME = "pushNotification";
 
     public GCMPushNotifications(Context context, Bundle bundle, AppLifecycleFacade appLifecycleFacade, AppLaunchHelper appLaunchHelper, JsIOHelper jsIoHelper, LinkedHashMap<String, List<MessageInfo>> conversations) {
         super(context, bundle, appLifecycleFacade, appLaunchHelper, jsIoHelper);
@@ -161,19 +156,9 @@ public class GCMPushNotifications extends PushNotification {
         long[] vPattern = {0, 100, 200, 100};
         builder.setVibrate(vPattern);
 
-
-        /**
-         * Ideally, actions are sent using dismissIntent.setAction(String),
-         * But here {@link com.wix.reactnativenotifications.core.NotificationIntentAdapter#extractPendingNotificationDataFromIntent(Intent)}
-         * it checks in the bundle hence, An empty bundle is sent and checked in
-         * {@link com.zulipmobile.MainApplication#getPushNotification} for this string and then dismissed
-         *
-         **/
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             Intent dismissIntent = new Intent(mContext, ClearNotificationHandlerService.class);
-            Bundle bundle = new Bundle();
-            bundle.putString(ACTION_NOTIFICATIONS_DISMISS, ACTION_NOTIFICATIONS_DISMISS);
-            dismissIntent.putExtra(NOTIFICATION_CANCEL_BUNDLE_KEY, bundle);
+            dismissIntent.setAction(NOTIFICATION_ACTION_CLEAR);
             PendingIntent piDismiss = PendingIntent.getService(mContext, 0, dismissIntent, 0);
             Notification.Action action = new Notification.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss);
             builder.addAction(action);
