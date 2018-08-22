@@ -7,7 +7,7 @@ import type { Auth, Dispatch, GlobalState, ApiServerSettings } from '../types';
 import { getAuth, getSettings, getCurrentServerSettings } from '../selectors';
 import { Notice, OptionRow, Screen } from '../common';
 import { toggleMobilePushSettings } from '../api';
-import { settingsChange } from '../actions';
+import { fetchCurrentServerSettings, settingsChange } from '../actions';
 
 type Props = {
   auth: Auth,
@@ -49,6 +49,11 @@ class NotificationsScreen extends PureComponent<Props> {
       value: !streamNotification,
     });
     dispatch(settingsChange('streamNotification', !streamNotification));
+  };
+
+  componentDidMount = () => {
+    const { dispatch } = this.props;
+    dispatch(fetchCurrentServerSettings());
   };
 
   render() {
