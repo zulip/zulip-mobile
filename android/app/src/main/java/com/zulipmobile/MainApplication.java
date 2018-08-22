@@ -38,9 +38,8 @@ import io.sentry.RNSentryPackage;
 import static com.zulipmobile.notifications.GCMPushNotifications.ACTION_NOTIFICATIONS_DISMISS;
 import static com.zulipmobile.notifications.NotificationHelper.clearConversations;
 import com.zulipmobile.notifications.NotificationHelper;
-
 public class MainApplication extends Application implements ReactApplication, INotificationsApplication {
-    private LinkedHashMap<String, List<MessageInfo>> conversations;
+    private static LinkedHashMap<String, List<MessageInfo>> conversations;
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
