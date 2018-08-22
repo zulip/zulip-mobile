@@ -35,7 +35,7 @@ export default class ChatScreen extends PureComponent<Props, State> {
   context: Context;
 
   state = {
-    editMessage: null, // eslint-disable-line
+    editMessage: null,
   };
 
   static contextTypes = {
@@ -43,10 +43,17 @@ export default class ChatScreen extends PureComponent<Props, State> {
   };
 
   onEditMessageSelect = (editMessage: Message): void => {
-    this.setState({ editMessage }); // eslint-disable-line
+    this.setState({ editMessage });
+  };
+
+  cancelEditMode = (): void => {
+    this.setState({
+      editMessage: null,
+    });
   };
 
   render() {
+    const { editMessage } = this.state;
     const { styles } = this.context;
     const { narrow } = this.props.navigation.state.params;
 
@@ -57,7 +64,7 @@ export default class ChatScreen extends PureComponent<Props, State> {
           <View style={componentStyles.reverse}>
             <Chat narrow={narrow} onEditMessageSelect={this.onEditMessageSelect} />
             <OfflineNotice />
-            <ChatNavBar narrow={narrow} />
+            <ChatNavBar narrow={narrow} cancelEditMode={editMessage && this.cancelEditMode} />
           </View>
         </View>
       </ActionSheetProvider>
