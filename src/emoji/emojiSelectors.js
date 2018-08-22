@@ -1,6 +1,6 @@
 /* @flow */
 import { createSelector } from 'reselect';
-import type { Selector, RealmEmojiState } from '../types';
+import type { Selector, RealmEmojiState, RealmEmojiType } from '../types';
 import { getRawRealmEmoji } from '../directSelectors';
 import { getAuth } from '../account/accountSelectors';
 import { getFullUrl } from '../utils/url';
@@ -26,16 +26,20 @@ export const getActiveRealmEmojiById: Selector<RealmEmojiState> = createSelector
       }, {}),
 );
 
-export const getAllRealmEmojiByName = createSelector(getAllRealmEmojiById, emojis =>
-  Object.keys(emojis).reduce((list, key) => {
-    list[emojis[key].name] = emojis[key];
-    return list;
-  }, {}),
+export const getAllRealmEmojiByName: Selector<{ [string]: RealmEmojiType }> = createSelector(
+  getAllRealmEmojiById,
+  emojis =>
+    Object.keys(emojis).reduce((result, id) => {
+      result[emojis[id].name] = emojis[id];
+      return result;
+    }, {}),
 );
 
-export const getActiveRealmEmojiByName = createSelector(getActiveRealmEmojiById, emojis =>
-  Object.keys(emojis).reduce((list, key) => {
-    list[emojis[key].name] = emojis[key];
-    return list;
-  }, {}),
+export const getActiveRealmEmojiByName: Selector<{ [string]: RealmEmojiType }> = createSelector(
+  getActiveRealmEmojiById,
+  emojis =>
+    Object.keys(emojis).reduce((result, id) => {
+      result[emojis[id].name] = emojis[id];
+      return result;
+    }, {}),
 );
