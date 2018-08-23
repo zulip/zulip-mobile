@@ -11,8 +11,6 @@ import type {
   InitialFetchCompleteAction,
   InitSafeAreaInsetsAction,
   AppOrientationAction,
-  StartEditMessageAction,
-  CancelEditMessageAction,
   LoginSuccessAction,
   RealmInitAction,
   DebugFlagToggleAction,
@@ -30,8 +28,6 @@ import {
   INITIAL_FETCH_COMPLETE,
   APP_ORIENTATION,
   APP_STATE,
-  CANCEL_EDIT_MESSAGE,
-  START_EDIT_MESSAGE,
   TOGGLE_OUTBOX_SENDING,
   DEBUG_FLAG_TOGGLE,
 } from '../actionConstants';
@@ -39,7 +35,6 @@ import { getAuth } from '../selectors';
 
 const initialState: SessionState = {
   eventQueueId: -1,
-  editMessage: null,
   isOnline: true,
   isActive: true,
   isHydrated: false,
@@ -121,20 +116,6 @@ const appOrientation = (state: SessionState, action: AppOrientationAction): Sess
   orientation: action.orientation,
 });
 
-const cancelEditMessage = (state: SessionState, action: CancelEditMessageAction): SessionState => ({
-  ...state,
-  editMessage: null,
-});
-
-const startEditMessage = (state: SessionState, action: StartEditMessageAction): SessionState => ({
-  ...state,
-  editMessage: {
-    id: action.messageId,
-    content: action.message,
-    topic: action.topic,
-  },
-});
-
 const toggleOutboxSending = (
   state: SessionState,
   action: ToggleOutboxSendingAction,
@@ -178,12 +159,6 @@ export default (state: SessionState = initialState, action: SessionAction): Sess
 
     case APP_ORIENTATION:
       return appOrientation(state, action);
-
-    case CANCEL_EDIT_MESSAGE:
-      return cancelEditMessage(state, action);
-
-    case START_EDIT_MESSAGE:
-      return startEditMessage(state, action);
 
     case TOGGLE_OUTBOX_SENDING:
       return toggleOutboxSending(state, action);

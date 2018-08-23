@@ -7,7 +7,7 @@ import { isTopicMuted } from '../utils/message';
 /* eslint-disable import/no-named-as-default-member */
 import api, { getMessageContentById, toggleMuteStream, toggleMessageStarred } from '../api';
 import { showToast } from '../utils/info';
-import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
+import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 
 /** Description of a possible option for the action sheet. */
 type ButtonDescription = {
@@ -43,9 +43,8 @@ const copyToClipboard = async ({ _, auth, message }) => {
 };
 copyToClipboard.title = 'Copy to clipboard';
 
-const editMessage = async ({ message, dispatch, onEditMessageSelect }) => {
+const editMessage = async ({ message, onEditMessageSelect }) => {
   onEditMessageSelect(message);
-  dispatch(startEditMessage(message.id, message.subject));
 };
 editMessage.title = 'Edit message';
 

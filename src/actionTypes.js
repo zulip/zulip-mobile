@@ -8,8 +8,6 @@ import {
   DEAD_QUEUE,
   INIT_SAFE_AREA_INSETS,
   APP_ORIENTATION,
-  START_EDIT_MESSAGE,
-  CANCEL_EDIT_MESSAGE,
   DEBUG_FLAG_TOGGLE,
   ACCOUNT_SWITCH,
   REALM_ADD,
@@ -135,17 +133,6 @@ export type InitSafeAreaInsetsAction = {|
 export type AppOrientationAction = {|
   type: typeof APP_ORIENTATION,
   orientation: Orientation,
-|};
-
-export type StartEditMessageAction = {|
-  type: typeof START_EDIT_MESSAGE,
-  messageId: number,
-  message: string,
-  topic: string,
-|};
-
-export type CancelEditMessageAction = {|
-  type: typeof CANCEL_EDIT_MESSAGE,
 |};
 
 export type DebugFlagToggleAction = {|
@@ -633,8 +620,6 @@ export type SessionAction =
   | DeadQueueAction
   | InitSafeAreaInsetsAction
   | AppOrientationAction
-  | StartEditMessageAction
-  | CancelEditMessageAction
   | DebugFlagToggleAction
   | RealmInitAction
   | AccountSwitchAction

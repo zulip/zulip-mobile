@@ -250,7 +250,6 @@ export type Debug = {|
  */
 export type SessionState = {|
   eventQueueId: number,
-  editMessage: ?EditMessage,
   isOnline: boolean,
   isActive: boolean,
   isHydrated: boolean,

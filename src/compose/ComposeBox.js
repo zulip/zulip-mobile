@@ -15,13 +15,7 @@ import type {
   Dimensions,
   GlobalState,
 } from '../types';
-import {
-  addToOutbox,
-  cancelEditMessage,
-  draftUpdate,
-  fetchTopicsForActiveStream,
-  sendTypingEvent,
-} from '../actions';
+import { addToOutbox, draftUpdate, fetchTopicsForActiveStream, sendTypingEvent } from '../actions';
 import { updateMessage } from '../api';
 import { FloatingActionButton, Input, MultilineInput } from '../common';
 import { showErrorAlert } from '../utils/info';
@@ -228,7 +222,7 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleEdit = () => {
-    const { auth, cancelEditMode, editMessage, dispatch } = this.props;
+    const { auth, cancelEditMode, editMessage } = this.props;
     const { message, topic } = this.state;
     if (!editMessage) {
       return;
@@ -241,7 +235,6 @@ class ComposeBox extends PureComponent<Props, State> {
       });
     }
     cancelEditMode();
-    dispatch(cancelEditMessage());
   };
 
   componentDidMount() {
