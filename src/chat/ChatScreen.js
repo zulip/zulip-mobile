@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { BackHandler, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
@@ -44,6 +44,25 @@ class ChatScreen extends PureComponent<Props, State> {
 
   static contextTypes = {
     styles: () => null,
+  };
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
+  handleBackPress = () => {
+    const { editMessage } = this.state;
+    if (editMessage) {
+      this.cancelEditMode();
+      // do not propagate back event to navigation
+      return true;
+    }
+    // call react-navigation back handler implementation
+    return false;
   };
 
   onEditMessageSelect = async (editMessage: Message) => {
