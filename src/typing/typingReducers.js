@@ -10,10 +10,10 @@ import {
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
   CLEAR_TYPING,
+  APP_REFRESH,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
-  REALM_INIT,
 } from '../actionConstants';
 import { normalizeRecipientsSansMe } from '../utils/message';
 import { NULL_OBJECT } from '../nullObjects';
@@ -94,10 +94,10 @@ export default (state: TypingState = initialState, action: TypingAction): Typing
     case CLEAR_TYPING:
       return clearTyping(state, action);
 
+    case APP_REFRESH:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
-    case REALM_INIT:
       return initialState;
 
     default:
