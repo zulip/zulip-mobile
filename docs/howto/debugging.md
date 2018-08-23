@@ -85,7 +85,37 @@ happened), and then it keeps running, printing any new log messages that
 come through.  To quit, hit Ctrl-C.
 
 
-### Debugging message rendering
+## Debugging message rendering and interactions
+
+We render the message list using a native WebView component. Anything
+related to the rendering of messages, the behavior of the message list, or
+bugs inside it, you can debug with familiar tools.
+
+Debugging is available both for Android and iOS, and on an emulator or
+a physical device via a browser's developer tools.
+
+### Debug WebView on iOS
+
+1. Enable debugging on the device
+
+To debug on your physical iOS device, go to `Settings > Safari > Advanced`
+and make sure `Web Inspector` is on.
+
+For iOS Simulator you can skip this step, as it is already enabled.
+
+2. Connect to the device
+
+* Run Safari (even if your browser of choice is something else).
+* If you have not done so already, enable the developer tools by going to
+ Safari’s menu, `Preferences > Advanced`, check the `Show Develop menu in the menu bar` checkbox.
+* In the app you are debugging, make sure you have navigated to a screen that
+ is showing a message list
+* In the `Develop` menu, find your device and select it.
+
+3. Debug
+
+You now have access to the rich developer tools you might be familiar with.
+You can inspect HTML elements, CSS styles and examine console.log output.
 
 
 ## Troubleshooting
