@@ -4,15 +4,14 @@ import 'string.fromcodepoint';
 
 import codePointMap from './codePointMap';
 
-export const nameToEmojiMap = Object.keys(codePointMap).reduce((obj, key) => {
-  obj[key] = String.fromCodePoint(parseInt(codePointMap[key], 16));
+export const nameToEmojiMap = Object.keys(codePointMap).reduce((obj, name) => {
+  obj[name] = String.fromCodePoint(parseInt(codePointMap[name], 16));
   return obj;
-}, {});
+}, ({}: { [string]: string }));
 
-export const codeToEmojiMap = Object.values(codePointMap).reduce((obj, key) => {
-  // $FlowFixMe
-  obj[key] = String.fromCodePoint(parseInt(key, 16));
+export const codeToEmojiMap = Object.keys(codePointMap).reduce((obj, name) => {
+  obj[name] = String.fromCodePoint(parseInt(codePointMap[name], 16));
   return obj;
-}, {});
+}, ({}: { [string]: string }));
 
 export default nameToEmojiMap;
