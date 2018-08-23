@@ -13,7 +13,6 @@ import type {
   EventRealmEmojiUpdateAction,
 } from '../types';
 import {
-  APP_REFRESH,
   REALM_INIT,
   EVENT_REALM_EMOJI_UPDATE,
   LOGOUT,
@@ -98,7 +97,6 @@ const eventRealmEmojiUpdate = (
 
 export default (state: RealmState = initialState, action: RealmAction): RealmState => {
   switch (action.type) {
-    case APP_REFRESH:
     case ACCOUNT_SWITCH:
       return initialState;
 

@@ -7,7 +7,6 @@ import type {
   RealmInitAction,
 } from '../types';
 import {
-  APP_REFRESH,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -39,7 +38,6 @@ const eventPresence = (state: PresenceState, action: EventPresenceAction): Prese
 
 export default (state: PresenceState = initialState, action: PresenceAction): PresenceState => {
   switch (action.type) {
-    case APP_REFRESH:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:
