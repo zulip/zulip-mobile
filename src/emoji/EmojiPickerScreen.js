@@ -6,7 +6,7 @@ import { FlatList } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import { emojiReactionAdd } from '../api';
-import codePointMap from './codePointMap';
+import { codePointMap } from './codePointMap';
 import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
 import getFilteredEmojiList from './getFilteredEmojiList';
