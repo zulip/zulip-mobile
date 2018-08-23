@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import type { Context, Narrow, Message } from '../types';
+import type { Context, EditMessage, Narrow, Message } from '../types';
 import { KeyboardAvoider } from '../common';
 import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';
@@ -10,7 +10,9 @@ import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 
 type Props = {|
+  editMessage: ?EditMessage,
   onEditMessageSelect: (editMessage: Message) => Promise<void>,
+  cancelEditMode: () => void,
   /* $FlowFixMe: probably this shouldn't be optional */
   narrow?: Narrow,
 |};
@@ -34,7 +36,7 @@ export default class Chat extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { narrow, onEditMessageSelect } = this.props;
+    const { cancelEditMode, editMessage, narrow, onEditMessageSelect } = this.props;
 
     return (
       <KeyboardAvoider style={styles.flexed} behavior="padding">
@@ -44,7 +46,7 @@ export default class Chat extends PureComponent<Props> {
             <NoMessages narrow={narrow} />
             <UnreadNotice narrow={narrow} />
           </View>
-          <ComposeBox narrow={narrow} />
+          <ComposeBox narrow={narrow} editMessage={editMessage} cancelEditMode={cancelEditMode} />
         </View>
       </KeyboardAvoider>
     );

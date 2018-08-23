@@ -74,7 +74,12 @@ class ChatScreen extends PureComponent<Props, State> {
         <View style={styles.screen}>
           <ZulipStatusBar narrow={narrow} />
           <View style={componentStyles.reverse}>
-            <Chat narrow={narrow} onEditMessageSelect={this.onEditMessageSelect} />
+            <Chat
+              narrow={narrow}
+              cancelEditMode={this.cancelEditMode}
+              editMessage={editMessage}
+              onEditMessageSelect={this.onEditMessageSelect}
+            />
             <OfflineNotice />
             <ChatNavBar narrow={narrow} cancelEditMode={editMessage && this.cancelEditMode} />
           </View>
