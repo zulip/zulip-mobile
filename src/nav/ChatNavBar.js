@@ -38,7 +38,7 @@ class ChatNavBar extends PureComponent<Props> {
 
   render() {
     const { styles } = this.context;
-    const { backgroundColor, narrow } = this.props;
+    const { backgroundColor, cancelEditMode, narrow } = this.props;
     const color =
       backgroundColor === DEFAULT_TITLE_BACKGROUND_COLOR
         ? BRAND_COLOR
@@ -47,7 +47,7 @@ class ChatNavBar extends PureComponent<Props> {
     return (
       <View style={[styles.navBar, { backgroundColor }]}>
         <NavButton name="arrow-left" color={color} onPress={this.handlePress} />
-        <Title color={color} narrow={narrow} />
+        <Title color={color} narrow={narrow} isEditMode={!!cancelEditMode} />
         <TitleNavButtons color={color} narrow={narrow} />
       </View>
     );

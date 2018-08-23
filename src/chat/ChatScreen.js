@@ -81,7 +81,10 @@ class ChatScreen extends PureComponent<Props, State> {
               onEditMessageSelect={this.onEditMessageSelect}
             />
             <OfflineNotice />
-            <ChatNavBar narrow={narrow} cancelEditMode={editMessage && this.cancelEditMode} />
+            <ChatNavBar
+              narrow={narrow}
+              cancelEditMode={editMessage ? this.cancelEditMode : undefined}
+            />
           </View>
         </View>
       </ActionSheetProvider>
