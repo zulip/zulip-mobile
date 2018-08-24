@@ -1,4 +1,4 @@
-import { REHYDRATE } from 'redux-persist/constants';
+import { REHYDRATE } from '../redux-persist/src/constants';
 
 import { logErrorRemotely } from '../utils/logging';
 

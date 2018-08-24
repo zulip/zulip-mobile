@@ -24,6 +24,10 @@ Files: src/redux-persist-migrate/index.js
 Copyright: 2016-2017 Zack Story and contributors
 License: MIT
 
+Files: src/redux-persist/*
+Copyright: 2017 Zack Story
+License: MIT
+
 Files: vendor/intl/*
 Copyright: 2013 Andy Earnshaw
 License: MIT

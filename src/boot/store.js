@@ -1,7 +1,7 @@
 /* @flow */
 import { applyMiddleware, compose, createStore } from 'redux';
-import { persistStore, autoRehydrate } from 'redux-persist';
-import type { Config } from 'redux-persist';
+import { persistStore, autoRehydrate } from '../redux-persist/src';
+import type { Config } from '../redux-persist/type-definitions/index.js.flow';
 
 import rootReducer from './reducers';
 import middleware from './middleware';
