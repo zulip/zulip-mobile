@@ -8,6 +8,7 @@ import type {
   GlobalState,
   NamedUser,
   Narrow,
+  Outbox,
   User,
   DeleteOutboxMessageAction,
   MessageSendStartAction,
@@ -26,7 +27,7 @@ import { getSelfUserDetail } from '../users/userSelectors';
 import { getUserByEmail, getUsersAndWildcards } from '../users/userHelpers';
 import { isStreamNarrow, isPrivateOrGroupNarrow } from '../utils/narrow';
 
-export const messageSendStart = (outbox: Object): MessageSendStartAction => ({
+export const messageSendStart = (outbox: Outbox): MessageSendStartAction => ({
   type: MESSAGE_SEND_START,
   outbox,
 });

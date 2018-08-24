@@ -126,10 +126,12 @@ export type MessageEdit = {
  *    with caution; many fields are adjusted between the DB row and the event
  *  * empirical study looking at Redux events logged [to the
  *    console](docs/howto/debugging.md).
+ *
+ * See also `Outbox`.
  */
 export type Message = {
   /** Our own flag; if true, really type `Outbox`. */
-  isOutbox: boolean,
+  isOutbox: false,
 
   /**
    * These don't appear in `message` events, but they appear in GET
@@ -517,9 +519,25 @@ export type TypingState = {
   },
 };
 
-export type Outbox = Message & {
+/**
+ * A message we're in the process of sending.
+ *
+ * See also `Message`.
+ */
+export type Outbox = {
+  isOutbox: true,
+
   markdownContent: string,
   narrow: Narrow,
+
+  // These fields are modeled on `Message`.
+  display_recipient: $FlowFixMe, // `string` for type stream, else PmRecipientUser[].
+  id: number,
+  sender_email: string,
+  sender_full_name: string,
+  subject: string,
+  timestamp: number,
+  type: 'stream' | 'private',
 };
 
 export type StreamUnreadItem = {
