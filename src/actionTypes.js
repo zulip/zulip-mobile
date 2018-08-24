@@ -72,6 +72,7 @@ import type {
   Orientation,
   GlobalState,
   Message,
+  MessagesState,
   Outbox,
   Narrow,
   User,
@@ -85,7 +86,6 @@ import type {
   Presence,
   RealmEmojiState,
   CaughtUpState,
-  NarrowsState,
   MuteState,
 } from './types';
 
@@ -399,7 +399,7 @@ export type EventTypingStopAction = EventTypingCommon & {
 export type EventUpdateMessageFlagsAction = ServerEvent & {
   type: typeof EVENT_UPDATE_MESSAGE_FLAGS,
   all: boolean,
-  allNarrows: NarrowsState,
+  allMessages: MessagesState,
   flag: string,
   messages: number[],
   operation: 'add' | 'remove',

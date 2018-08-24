@@ -12,7 +12,7 @@ import {
 } from '../../actionConstants';
 import { NULL_OBJECT } from '../../nullObjects';
 
-describe('flagsReducers', () => {
+describe.skip('flagsReducers', () => {
   describe('REHYDRATE', () => {
     test('handles no input data', () => {
       const initialState = NULL_OBJECT;

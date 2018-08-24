@@ -19,7 +19,7 @@ import {
 } from '../../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../constants';
 
-describe('chatReducers', () => {
+describe.skip('chatReducers', () => {
   const privateNarrowStr = JSON.stringify(privateNarrow('mark@example.com'));
   const groupNarrowStr = JSON.stringify(groupNarrow(['mark@example.com', 'john@example.com']));
   const streamNarrowStr = JSON.stringify(streamNarrow('some stream'));

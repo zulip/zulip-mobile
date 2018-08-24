@@ -15,6 +15,7 @@ import fetching from '../chat/fetchingReducers';
 import flags from '../chat/flagsReducers';
 import loading from '../loading/loadingReducers';
 import narrows from '../chat/chatReducers';
+import messages from '../message/messageReducers';
 import mute from '../mute/muteReducers';
 import nav from '../nav/navReducers';
 import outbox from '../outbox/outboxReducers';
@@ -42,6 +43,7 @@ const reducers = {
   fetching,
   flags,
   loading,
+  messages,
   narrows,
   mute,
   nav,

@@ -5,6 +5,7 @@ import type { Message, Narrow, Outbox, Selector } from '../types';
 import {
   getAllNarrows,
   getSubscriptions,
+  getMessages,
   getMute,
   getStreams,
   getOutbox,
@@ -46,7 +47,9 @@ export const outboxMessagesForCurrentNarrow = (narrow: Narrow): Selector<Outbox[
   });
 
 export const getFetchedMessagesForNarrow = (narrow: Narrow): Selector<Message[]> =>
-  createSelector(getAllNarrows, allNarrows => allNarrows[JSON.stringify(narrow)] || NULL_ARRAY);
+  createSelector(getAllNarrows, getMessages, (allNarrows, messages) =>
+    (allNarrows[JSON.stringify(narrow)] || NULL_ARRAY).map(id => messages[id]),
+  );
 
 export const getMessagesForNarrow = (narrow: Narrow): Selector<$ReadOnlyArray<Message | Outbox>> =>
   createSelector(

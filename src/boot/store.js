@@ -41,7 +41,7 @@ export const storeKeys = ['migrations', 'accounts', 'drafts', 'outbox', 'setting
  */
 // prettier-ignore
 export const cacheKeys = [
-  'mute', 'narrows', 'realm', 'streams', 'subscriptions', 'unread', 'userGroups', 'users',
+  'messages', 'mute', 'narrows', 'realm', 'streams', 'subscriptions', 'unread', 'userGroups', 'users',
 ];
 
 const migrations = {
@@ -50,6 +50,10 @@ const migrations = {
     const { messages, ...restState } = state; // eslint-disable-line no-unused-vars
     return restState;
   },
+  '1': state => ({
+    ...state,
+    narrows: {},
+  }),
 };
 
 const reduxPersistConfig: Config = {

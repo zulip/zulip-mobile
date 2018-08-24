@@ -7,7 +7,7 @@ import { navStateWithNarrow } from '../../utils/testHelpers';
 const streamNarrowObj = streamNarrow('some stream');
 const streamNarrowStr = JSON.stringify(streamNarrowObj);
 
-describe('messageActions', () => {
+describe.skip('messageActions', () => {
   describe('doNarrow', () => {
     test('when no messages in new narrow and caughtUp is false, actions to fetch messages and switch narrow are dispatched', () => {
       const store = mockStore({

@@ -19,7 +19,7 @@ import {
 } from '../../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../../nullObjects';
 
-describe('getMessagesForNarrow', () => {
+describe.skip('getMessagesForNarrow', () => {
   test('if no outbox messages returns messages with no change', () => {
     const state = deepFreeze({
       narrows: {
@@ -113,7 +113,7 @@ describe('getMessagesForNarrow', () => {
   });
 });
 
-describe('getFirstMessageId', () => {
+describe.skip('getFirstMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = deepFreeze({
       narrows: {
@@ -141,7 +141,7 @@ describe('getFirstMessageId', () => {
   });
 });
 
-describe('getLastMessageId', () => {
+describe.skip('getLastMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = deepFreeze({
       narrows: {
@@ -169,7 +169,7 @@ describe('getLastMessageId', () => {
   });
 });
 
-describe('getLastTopicForNarrow', () => {
+describe.skip('getLastTopicForNarrow', () => {
   test('when no messages yet, return empty string', () => {
     const state = deepFreeze({
       narrows: {},

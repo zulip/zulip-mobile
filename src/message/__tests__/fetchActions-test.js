@@ -9,7 +9,7 @@ const streamNarrowStr = JSON.stringify(narrow);
 
 global.FormData = class FormData {};
 
-describe('fetchActions', () => {
+describe.skip('fetchActions', () => {
   afterEach(() => {
     fetch.reset();
   });

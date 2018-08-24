@@ -90,12 +90,11 @@ const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsS
 };
 
 const rehydrate = (state: FlagsState, action: RehydrateAction): FlagsState => {
-  const messagesState: { [narrow: string]: Message[] } =
-    action.payload && action.payload.accounts ? action.payload.narrows : {};
+  const messagesState: { [id: number]: Message } =
+    action.payload && action.payload.accounts ? action.payload.messages : {};
   // $FlowFixMe: Object.values
-  const arrayOfMessageArrays: Array<Message[]> = Object.values(messagesState);
-  const flattenedMessages: Message[] = Array.prototype.concat(...arrayOfMessageArrays);
-  return processFlagsForMessages(state, flattenedMessages);
+  const messageList: Message[] = Object.values(messagesState);
+  return processFlagsForMessages(state, messageList);
 };
 
 const messageFetchComplete = (state: FlagsState, action: MessageFetchCompleteAction): FlagsState =>
@@ -109,8 +108,7 @@ const eventUpdateMessageFlags = (
   action: EventUpdateMessageFlagsAction,
 ): FlagsState => {
   if (action.all) {
-    const allMessages: any[] = [].concat(...Object.values(action.allNarrows));
-    return addFlagsForMessages(initialState, allMessages.map(msg => msg.id), ['read']);
+    return addFlagsForMessages(initialState, Object.keys(action.allMessages).map(Number), ['read']);
   }
 
   if (action.operation === 'add') {

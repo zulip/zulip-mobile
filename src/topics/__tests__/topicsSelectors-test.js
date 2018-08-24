@@ -26,7 +26,7 @@ describe('getTopicsForNarrow', () => {
   });
 });
 
-describe('getLastMessageTopic', () => {
+describe.skip('getLastMessageTopic', () => {
   test('when no messages in narrow return an empty string', () => {
     const state = deepFreeze({
       narrows: {},

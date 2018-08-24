@@ -6,8 +6,9 @@ import type {
   FetchingState,
   FlagsState,
   LoadingState,
-  NarrowsState,
+  MessagesState,
   MuteState,
+  NarrowsState,
   NavigationState,
   TopicsState,
   PresenceState,
@@ -43,6 +44,8 @@ export const getCanCreateStreams = (state: GlobalState): boolean => state.realm.
 export const getDrafts = (state: GlobalState): DraftState => state.drafts;
 
 export const getLoading = (state: GlobalState): LoadingState => state.loading;
+
+export const getMessages = (state: GlobalState): MessagesState => state.messages;
 
 export const getMute = (state: GlobalState): MuteState => state.mute;
 

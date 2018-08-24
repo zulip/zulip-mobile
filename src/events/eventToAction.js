@@ -160,7 +160,7 @@ const typing = (state: GlobalState, event: Object): EventTypingAction => ({
 const updateMessageFlags = (state: GlobalState, event: Object): EventUpdateMessageFlagsAction => ({
   ...event,
   type: EVENT_UPDATE_MESSAGE_FLAGS,
-  allNarrows: state.narrows,
+  allMessages: state.messages,
 });
 
 const updateMutedTopics = (state: GlobalState, event: Object): EventMutedTopicsAction => ({

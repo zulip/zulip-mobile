@@ -9,6 +9,7 @@ import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
 import { navigateToChat } from '../actions';
 import { FIRST_UNREAD_ANCHOR } from '../constants';
+import { getMessages } from '../directSelectors';
 
 export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) => (
   dispatch: Dispatch,
@@ -24,7 +25,10 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   dispatch(navigateToChat(narrow));
 
   const allNarrows = getAllNarrows(state);
-  const messagesForNarrow = allNarrows[JSON.stringify(narrow)] || NULL_ARRAY;
+  const messages = getMessages(state);
+  const messagesForNarrow = (allNarrows[JSON.stringify(narrow)] || NULL_ARRAY).map(
+    id => messages[id],
+  );
   const tooFewMessages = messagesForNarrow.length < config.messagesPerRequest / 2;
 
   const caughtUp = state.caughtUp[JSON.stringify(narrow)] || NULL_CAUGHTUP;

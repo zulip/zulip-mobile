@@ -86,8 +86,19 @@ export type PmRecipientUser = {
   short_name: string,
 };
 
+/**
+ * Indexer over all narrows for which we have locally stored messages.
+ * @prop narrow - Map from narrows to lists of message IDs.
+ */
 export type NarrowsState = {
-  [narrow: string]: Message[],
+  [narrow: string]: number[],
+};
+
+/**
+ * Indexer over all locally stored messages.
+ */
+export type MessagesState = {
+  [id: number]: Message,
 };
 
 export type UserIdMap = {
@@ -449,6 +460,7 @@ export type GlobalState = {
   flags: FlagsState,
   migrations: MigrationsState,
   loading: LoadingState,
+  messages: MessagesState,
   mute: MuteState,
   narrows: NarrowsState,
   nav: NavigationState,
