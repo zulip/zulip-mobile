@@ -126,7 +126,6 @@ android {
         debug {
             applicationIdSuffix ".debug"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_debug_launcher",
                     excludeSystemAlertWindowPermission: "false"
             ]
         }
@@ -135,7 +134,6 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
             manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_launcher",
                     excludeSystemAlertWindowPermission: "true"
             ]
         }
