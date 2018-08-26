@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 
 import type { InputSelectionType, Narrow } from '../types';
 import AutocompleteView from './AutocompleteView';
@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
+    justifyContent: 'flex-end',
   },
 });
 
@@ -39,8 +40,10 @@ export default class AutocompleteViewWrapper extends PureComponent<Props> {
       onMessageAutocomplete,
       onTopicAutocomplete,
     } = this.props;
+    const { height } = Dimensions.get('window');
+
     return (
-      <View style={[styles.wrapper, { marginBottom }]}>
+      <View style={[styles.wrapper, { height: height / 2 - marginBottom, marginBottom }]}>
         <TopicAutocomplete
           isFocused={isTopicFocused}
           narrow={narrow}
