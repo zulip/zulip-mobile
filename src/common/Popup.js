@@ -7,12 +7,11 @@ import type { Context } from '../types';
 
 const styles = StyleSheet.create({
   popup: {
-    marginRight: 20,
-    marginLeft: 20,
-    marginBottom: 2,
-    bottom: 0,
+    marginHorizontal: 16,
+    marginVertical: 8,
     borderRadius: 5,
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.5,
+    shadowRadius: 16,
     elevation: 3,
   },
 });
