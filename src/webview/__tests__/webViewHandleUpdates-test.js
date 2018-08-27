@@ -1,4 +1,5 @@
 import { getInputMessages } from '../webViewHandleUpdates';
+import { flagsStateToStringList } from '../html/messageAsHtml';
 
 describe('getInputMessages', () => {
   test('missing prev and next props returns no messages', () => {
@@ -57,11 +58,13 @@ describe('getInputMessages', () => {
     const prevProps = {
       auth: { realm: '' },
       messages: [],
+      flags: { starred: {} },
       renderedMessages: [{ key: 0, data: [], message: {} }],
     };
     const nextProps = {
       auth: { realm: '' },
       messages: [],
+      flags: { starred: {} },
       renderedMessages: [
         {
           key: 0,
@@ -103,12 +106,14 @@ describe('getInputMessages', () => {
       typingUsers: [],
       messages: [],
       renderedMessages: [{ key: 0, data: [], message: {} }],
+      flags: { starred: {} },
     };
     const nextProps = {
       auth: { realm: '' },
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
       messages: [],
+      flags: { starred: {} },
       renderedMessages: [
         {
           key: 0,
@@ -122,5 +127,27 @@ describe('getInputMessages', () => {
 
     expect(messages).toHaveLength(1);
     expect(messages[0].type).toEqual('content');
+  });
+});
+
+describe('flagsStateToStringList', () => {
+  const flags = {
+    read: {
+      1: true,
+      2: true,
+    },
+    starred: {
+      1: true,
+      3: true,
+    },
+    mentions: {},
+    // ...
+    // the actual store keeps track of many more flags
+  };
+
+  test("returns a string list of flags for some message, given some FlagsState and the message's id", () => {
+    expect(flagsStateToStringList(flags, 1)).toEqual(['read', 'starred']);
+    expect(flagsStateToStringList(flags, 2)).toEqual(['read']);
+    expect(flagsStateToStringList(flags, 3)).toEqual(['starred']);
   });
 });

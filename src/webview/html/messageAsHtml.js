@@ -5,12 +5,17 @@ import { shortTime } from '../../utils/date';
 import messageTagsAsHtml from './messageTagsAsHtml';
 import messageReactionListAsHtml from './messageReactionListAsHtml';
 
-const messageDiv = (id: number, msgClass: string, flags: Object): string =>
+export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
+  Object.keys(flags).filter(key => flags[key][id]);
+
+const messageDiv = (id: number, msgClass: string, flags: FlagsState): string =>
   template`<div
      class="message ${msgClass}"
      id="msg-${id}"
      data-msg-id="${id}"
-     $!${flags.map(flag => template`data-${flag}="true" `).join('')}
+     $!${flagsStateToStringList(flags, id)
+       .map(flag => template`data-${flag}="true" `)
+       .join('')}
     >`;
 
 const messageSubheader = ({
@@ -66,7 +71,7 @@ const messageBody = ({
   timeEdited,
 }: {
   content: string,
-  flags: Object,
+  flags: FlagsState,
   id: number,
   isOutbox: boolean,
   ownEmail: string,
@@ -76,7 +81,7 @@ const messageBody = ({
 }) => template`
 $!${content}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
-$!${messageTagsAsHtml(flags, timeEdited)}
+$!${messageTagsAsHtml(!!flags.starred[id], timeEdited)}
 $!${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
 `;
 

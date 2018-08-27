@@ -10,6 +10,7 @@ export default ({
   auth,
   subscriptions,
   realmEmoji,
+  flags,
   renderedMessages,
   narrow,
   twentyFourHourTime,
@@ -37,8 +38,7 @@ export default ({
               fromName: message.sender_full_name,
               fromEmail: message.sender_email,
               content: message.match_content || message.content,
-              // $FlowFixMe: about to be fixed by #2922
-              flags: message.flags || [],
+              flags,
               timestamp: message.timestamp,
               avatarUrl: message.avatar_url || getGravatarFromEmail(message.sender_email),
               timeEdited: message.last_edit_timestamp,
