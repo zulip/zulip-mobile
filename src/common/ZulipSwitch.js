@@ -20,7 +20,7 @@ type State = {
  *
  * @prop [value] - Value of the switch component.
  *   Setting this turns the component into a controlled one.
- * @prop [disabled] - If set the componect is not switchable and visually looks disabled.
+ * @prop [disabled] - If set the component is not switchable and visually looks disabled.
  * @prop [defaultValue] - Initial value of the switch.
  * @prop onValueChange - Event called on switch.
  */

@@ -26,7 +26,7 @@ type Props = {
 /**
  * A button component implementing a popular 'action button'
  * UI pattern. The button is circular, has an icon, and usually
- * ovlayed over the main UI in a prominent place.
+ * overlayed over the main UI in a prominent place.
  *
  * @prop [style] - Style applied to the wrapper component.
  * @prop disabled - If 'true' component can't be pressed and

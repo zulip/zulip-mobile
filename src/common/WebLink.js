@@ -20,7 +20,7 @@ type Props = {
  *
  * @prop label - Text of the button.
  * @prop href - URL address to open on press.
- * @prop realm - Current realm. Used if the `href` preoperty is relative.
+ * @prop realm - Current realm. Used if the `href` property is relative.
  */
 class WebLink extends PureComponent<Props> {
   context: Context;

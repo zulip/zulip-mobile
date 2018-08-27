@@ -171,7 +171,7 @@ class ComposeBox extends PureComponent<Props, State> {
         isTopicFocused: false,
         isMenuExpanded: false,
       });
-    }, 200); // give a chance to the mesage input to get the focus
+    }, 200); // give a chance to the message input to get the focus
   };
 
   handleInputTouchStart = () => {

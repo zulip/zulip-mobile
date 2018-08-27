@@ -10,7 +10,7 @@ type Props = {
 
 /**
  * A component that seamlessly translates text without
- * applying anny styling to it.
+ * applying any styling to it.
  *
  * @prop text - The text to be translated.
  */

@@ -151,7 +151,7 @@ export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getSta
   const halfCount = Math.trunc(config.messagesPerRequest / 2);
 
   timing.start('Essential server data');
-  // only fetch messages if chat scrren is at the top of stack
+  // only fetch messages if chat screen is at the top of stack
   // get narrow of top most chat screen in the stack
   const narrow = getTopMostNarrow(getState());
   if (narrow) {

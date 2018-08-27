@@ -51,7 +51,7 @@ class SubscriptionsCard extends PureComponent<Props> {
 
 export default connect((state: GlobalState, props) => ({
   narrow: props.narrow || [],
-  // Main scrren long longer conatin drawer,
+  // Main screen no longer contains drawer,
   // so at any position we cannot show selected stream in the list
   // needs to be removed when we finalize navigation without drawer
   subscriptions: getSubscribedStreams(state),

@@ -48,7 +48,7 @@ type Props = {
 
 /**
  * A component representing a distinct screen of the app
- * ensuring consistent look-and-feel trhoughout.
+ * ensuring consistent look-and-feel throughout.
  * It can control the status bar, can render a nav bar or
  * include a search input, center its contents, etc.
  *
