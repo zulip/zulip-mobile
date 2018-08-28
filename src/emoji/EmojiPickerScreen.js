@@ -1,7 +1,7 @@
 /* @flow */
 import { connect } from 'react-redux';
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
@@ -31,7 +31,7 @@ type State = {
   filter: string,
 };
 
-class EmojiPickerScreen extends Component<Props, State> {
+class EmojiPickerScreen extends PureComponent<Props, State> {
   props: Props;
   state: State;
 

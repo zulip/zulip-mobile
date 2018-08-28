@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import type { Context } from '../types';
 import { ZulipButton } from '../common';
@@ -10,7 +10,7 @@ type Props = {
   onPress: () => void,
 };
 
-export default class AuthButton extends Component<Props> {
+export default class AuthButton extends PureComponent<Props> {
   context: Context;
   props: Props;
 

@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe
 import ImagePicker from 'react-native-image-picker';
@@ -19,7 +19,7 @@ type Props = {
   onExpandContract: () => void,
 };
 
-class ComposeMenu extends Component<Props> {
+class ComposeMenu extends PureComponent<Props> {
   context: Context;
   props: Props;
 

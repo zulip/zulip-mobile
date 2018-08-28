@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { RawLabel, Touchable } from '../common';
@@ -21,7 +21,7 @@ type Props = {
   onPress: () => void,
 };
 
-export default class EmojiRow extends Component<Props> {
+export default class EmojiRow extends PureComponent<Props> {
   props: Props;
 
   render() {
