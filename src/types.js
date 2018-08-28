@@ -7,7 +7,7 @@ import type { AppStyles } from './styles/theme';
 
 export type { ChildrenArray } from 'react';
 
-export type AnimatedValue = any; // { AnimatedValue } from 'react-native';
+export type { AnimatedValue } from 'react-native';
 export type { MapStateToProps } from 'react-redux';
 
 export type * from './actionTypes';
