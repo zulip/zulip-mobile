@@ -18,8 +18,7 @@ import type {
 import {
   addToOutbox,
   cancelEditMessage,
-  draftAdd,
-  draftRemove,
+  updateDraft,
   fetchTopicsForActiveStream,
   sendTypingEvent,
 } from '../actions';
@@ -159,6 +158,7 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState({ message, isMenuExpanded: false });
     const { dispatch, narrow } = this.props;
     dispatch(sendTypingEvent(narrow));
+    dispatch(updateDraft(narrow, message));
   };
 
   handleMessageAutocomplete = (message: string) => {
@@ -222,7 +222,6 @@ class ComposeBox extends PureComponent<Props, State> {
       : narrow;
 
     dispatch(addToOutbox(destinationNarrow, message));
-    dispatch(draftRemove(narrow));
 
     this.setMessageInputValue('');
   };
@@ -240,30 +239,11 @@ class ComposeBox extends PureComponent<Props, State> {
     dispatch(cancelEditMessage());
   };
 
-  tryUpdateDraft = () => {
-    const { dispatch, draft, narrow } = this.props;
-    const { message } = this.state;
-
-    if (draft.trim() === message.trim()) {
-      return;
-    }
-
-    if (message.trim().length === 0) {
-      dispatch(draftRemove(narrow));
-    } else {
-      dispatch(draftAdd(narrow, message));
-    }
-  };
-
   componentDidMount() {
     const { message, topic } = this.state;
 
     updateTextInput(this.messageInput, message);
     updateTextInput(this.topicInput, topic);
-  }
-
-  componentWillUnmount() {
-    this.tryUpdateDraft();
   }
 
   componentWillReceiveProps(nextProps: Props) {
