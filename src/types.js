@@ -414,10 +414,10 @@ export type NavigationState = {
   index: number,
   isTransitioning: boolean,
   key: string,
-  routes: Array<any> /* <{
+  routes: Array<{
     key: string,
     title: string,
-  }>, */,
+  }>,
 };
 
 export type RealmFilter = [string, string, number];
