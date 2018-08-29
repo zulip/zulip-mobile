@@ -417,6 +417,8 @@ export type NavigationState = {
   routes: Array<{
     key: string,
     title: string,
+    routeName: string,
+    params: Object,
   }>,
 };
 
