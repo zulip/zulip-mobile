@@ -638,7 +638,7 @@ export type MatchResult = Array<string> & { index: number, input: string };
 
 export type GetState = () => GlobalState;
 
-export type LocalizableText = string | Object;
+export type LocalizableText = any; // string | { text: string, values: Object };
 
 export type RenderedTimeDescriptor = {
   type: 'time',
