@@ -140,9 +140,6 @@ export type Message = {
   match_content?: string,
   match_subject?: string,
 
-  /** Obsolete? Gone in server commit 1.6.0~1758 . */
-  sender_domain: string,
-
   /** The rest are believed to really appear in `message` events. */
   avatar_url: ?string,
   client: string,
