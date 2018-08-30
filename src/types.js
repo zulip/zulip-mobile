@@ -693,7 +693,7 @@ export type UnreadStream = {
 export type NotificationCommon = {
   alert: string,
   content: string,
-  content_truncated: string, // boolean
+  content_truncated: boolean,
   'google.message_id': string,
   'google.sent_time': number,
   'google.ttl': number,
