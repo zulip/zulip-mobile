@@ -13,7 +13,7 @@ export const initTopics = (topics: Topic[], streamId: number): InitTopicsAction 
 
 export const fetchTopics = (streamId: number) => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
-  const topics = await getTopics(auth, streamId);
+  const { topics } = await getTopics(auth, streamId);
   dispatch(initTopics(topics, streamId));
 };
 
