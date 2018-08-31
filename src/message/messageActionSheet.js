@@ -36,7 +36,7 @@ reply.title = 'Reply';
 const copyToClipboard = async ({ _, auth, message }) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
     ? message.markdownContent
-    : await getMessageContentById(auth, message.id);
+    : (await getMessageContentById(auth, message.id)).raw_content;
   Clipboard.setString(rawMessage);
   showToast(_('Message copied'));
 };

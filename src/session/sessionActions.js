@@ -74,11 +74,11 @@ export const startEditMessage = (messageId: number, topic: string) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
-  const message = await getMessageContentById(getAuth(getState()), messageId);
+  const { raw_content } = await getMessageContentById(getAuth(getState()), messageId);
   dispatch({
     type: START_EDIT_MESSAGE,
     messageId,
-    message,
+    message: raw_content,
     topic,
   });
 };

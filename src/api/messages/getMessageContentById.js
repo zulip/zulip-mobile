@@ -1,6 +1,11 @@
 /* @flow strict-local */
-import type { Auth } from '../apiTypes';
+import type { Auth, ApiResponseSuccess } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
-export default async (auth: Auth, messageId: number): Promise<string> =>
-  apiGet(auth, `messages/${messageId}`, res => res.raw_content);
+type ApiResponseMessageContent = {|
+  ...ApiResponseSuccess,
+  raw_content: string,
+|};
+
+export default async (auth: Auth, messageId: number): Promise<ApiResponseMessageContent> =>
+  apiGet(auth, `messages/${messageId}`);
