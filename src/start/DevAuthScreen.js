@@ -72,8 +72,8 @@ class DevAuthScreen extends PureComponent<Props, State> {
     this.setState({ progress: true, error: undefined });
 
     try {
-      const apiKey = await devFetchApiKey(partialAuth, email);
-      this.props.dispatch(loginSuccess(partialAuth.realm, email, apiKey));
+      const { api_key } = await devFetchApiKey(partialAuth, email);
+      this.props.dispatch(loginSuccess(partialAuth.realm, email, api_key));
       this.setState({ progress: false });
     } catch (err) {
       this.setState({ progress: false, error: err.message });
