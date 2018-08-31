@@ -71,7 +71,7 @@ export type EventReaction = {
   emoji_code: string,
   emoji_name: string,
   reaction_type: string,
-  user: any,
+  user: string,
 };
 
 /** An aggregate of all the reactions with one emoji to one message. */
