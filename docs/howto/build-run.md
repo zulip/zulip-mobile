@@ -76,7 +76,7 @@ next person with a setup like yours.
 
 ## Troubleshooting
 
-### Build failure: "error while loading shared libraries"
+### Build failure: `aapt` / "error while loading shared libraries"
 
 When trying to build the Android app, you may see an error like this one
 (reformatted slightly for readability):
