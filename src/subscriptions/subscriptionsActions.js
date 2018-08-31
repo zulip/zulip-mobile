@@ -10,8 +10,10 @@ export const initSubscriptions = (subscriptions: Subscription[]): InitSubscripti
   subscriptions,
 });
 
-export const fetchSubscriptions = () => async (dispatch: Dispatch, getState: GetState) =>
-  dispatch(initSubscriptions(await getSubscriptions(getAuth(getState()))));
+export const fetchSubscriptions = () => async (dispatch: Dispatch, getState: GetState) => {
+  const { subscriptions } = await getSubscriptions(getAuth(getState()));
+  dispatch(initSubscriptions(subscriptions));
+};
 
 export const toggleStreamNotification = (streamId: number, value: boolean) => (
   dispatch: Dispatch,

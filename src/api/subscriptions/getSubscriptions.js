@@ -1,7 +1,12 @@
 /* @flow strict-local */
-import type { Auth, Subscription } from '../apiTypes';
+import type { Auth, ApiResponseSuccess, Subscription } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
+type ApiResponseSubscriptions = {|
+  ...ApiResponseSuccess,
+  subscriptions: Subscription[],
+|};
+
 /** See https://zulipchat.com/api/get-subscribed-streams */
-export default async (auth: Auth): Promise<Subscription[]> =>
-  apiGet(auth, 'users/me/subscriptions', res => res.subscriptions);
+export default (auth: Auth): Promise<ApiResponseSubscriptions> =>
+  apiGet(auth, 'users/me/subscriptions');
