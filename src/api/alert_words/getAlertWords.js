@@ -1,6 +1,11 @@
 /* @flow strict-local */
-import type { Auth } from '../apiTypes';
+import type { Auth, ApiResponseSuccess } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
-export default async (auth: Auth): Promise<string[]> =>
-  apiGet(auth, 'users/me/alert_words', res => res.alert_words);
+type ApiResponseAlertWords = {|
+  ...ApiResponseSuccess,
+  alert_words: string[],
+|};
+
+export default async (auth: Auth): Promise<ApiResponseAlertWords> =>
+  apiGet(auth, 'users/me/alert_words');
