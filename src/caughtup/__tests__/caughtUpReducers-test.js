@@ -364,4 +364,30 @@ describe('caughtUpReducers', () => {
       expect(newState).toEqual(expectedState);
     });
   });
+
+  test('if `foundNewest` and `foundOldest` are provided use them', () => {
+    const initialState = deepFreeze({});
+
+    const action = deepFreeze({
+      type: MESSAGE_FETCH_COMPLETE,
+      narrow: HOME_NARROW,
+      anchor: 3,
+      messages: [],
+      numBefore: 2,
+      numAfter: 2,
+      foundNewest: true,
+      foundOldest: true,
+    });
+
+    const expectedState = {
+      [HOME_NARROW_STR]: {
+        older: true,
+        newer: true,
+      },
+    };
+
+    const newState = caughtUpReducers(initialState, action);
+
+    expect(newState).toEqual(expectedState);
+  });
 });

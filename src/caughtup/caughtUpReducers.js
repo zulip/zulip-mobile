@@ -15,6 +15,16 @@ const initialState: CaughtUpState = NULL_OBJECT;
 const messageFetchComplete = (state, action) => {
   const key = JSON.stringify(action.narrow);
 
+  if (action.foundNewest !== undefined && action.foundOldest !== undefined) {
+    return {
+      ...state,
+      [key]: {
+        older: action.foundOldest,
+        newer: action.foundNewest,
+      },
+    };
+  }
+
   if (action.anchor === LAST_MESSAGE_ANCHOR) {
     return {
       ...state,
