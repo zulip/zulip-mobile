@@ -222,6 +222,8 @@ type MessageFetchCompleteAction = {|
   anchor: number,
   numBefore: number,
   numAfter: number,
+  foundNewest: ?boolean,
+  foundOldest: ?boolean,
 |};
 
 type InitialFetchStartAction = {|

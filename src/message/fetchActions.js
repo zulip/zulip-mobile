@@ -41,6 +41,8 @@ const messageFetchComplete = (
   anchor: number,
   numBefore: number,
   numAfter: number,
+  foundNewest: ?boolean,
+  foundOldest: ?boolean,
 ): Action => ({
   type: MESSAGE_FETCH_COMPLETE,
   messages,
@@ -48,6 +50,8 @@ const messageFetchComplete = (
   anchor,
   numBefore,
   numAfter,
+  foundNewest,
+  foundOldest,
 });
 
 export const fetchMessages = (
@@ -58,7 +62,7 @@ export const fetchMessages = (
   useFirstUnread: boolean = false,
 ) => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(messageFetchStart(narrow, numBefore, numAfter));
-  const { messages } = await getMessages(
+  const { messages, found_newest, found_oldest } = await getMessages(
     getAuth(getState()),
     narrow,
     anchor,
@@ -66,7 +70,9 @@ export const fetchMessages = (
     numAfter,
     useFirstUnread,
   );
-  dispatch(messageFetchComplete(messages, narrow, anchor, numBefore, numAfter));
+  dispatch(
+    messageFetchComplete(messages, narrow, anchor, numBefore, numAfter, found_newest, found_oldest),
+  );
 };
 
 const fetchMessagesAroundAnchor = (narrow: Narrow, anchor: number) =>
@@ -139,10 +145,20 @@ export const fetchMessagesInNarrow = (
 
 const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
   const auth = getAuth(getState());
-  const { messages } = await tryUntilSuccessful(() =>
+  const { messages, found_newest, found_oldest } = await tryUntilSuccessful(() =>
     getMessages(auth, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0),
   );
-  dispatch(messageFetchComplete(messages, ALL_PRIVATE_NARROW, LAST_MESSAGE_ANCHOR, 100, 0));
+  dispatch(
+    messageFetchComplete(
+      messages,
+      ALL_PRIVATE_NARROW,
+      LAST_MESSAGE_ANCHOR,
+      100,
+      0,
+      found_newest,
+      found_oldest,
+    ),
+  );
 };
 
 const fetchStreams = () => async (dispatch: Dispatch, getState: GetState) => {

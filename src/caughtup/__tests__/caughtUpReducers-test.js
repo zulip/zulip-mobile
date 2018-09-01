@@ -50,6 +50,8 @@ describe('caughtUpReducers', () => {
         messages: [{ id: 1 }, { id: 2 }, { id: 3 }],
         numBefore: 5,
         numAfter: 5,
+        foundNewest: undefined,
+        foundOldest: undefined,
       });
 
       const expectedState = {
@@ -81,6 +83,8 @@ describe('caughtUpReducers', () => {
       messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
       numBefore: 2,
       numAfter: 2,
+      foundNewest: undefined,
+      foundOldest: undefined,
     });
 
     const expectedState = {
@@ -111,6 +115,8 @@ describe('caughtUpReducers', () => {
       messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
       numBefore: 2,
       numAfter: 2,
+      foundNewest: undefined,
+      foundOldest: undefined,
     });
 
     const expectedState = {
@@ -264,6 +270,8 @@ describe('caughtUpReducers', () => {
       messages: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
       numBefore: 10,
       numAfter: 0,
+      foundNewest: undefined,
+      foundOldest: undefined,
     });
 
     const expectedState = {

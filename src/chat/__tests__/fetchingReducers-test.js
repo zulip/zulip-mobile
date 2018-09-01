@@ -84,6 +84,8 @@ describe('fetchingReducers', () => {
         anchor: 0,
         numBefore: 10,
         numAfter: 0,
+        foundNewest: undefined,
+        foundOldest: undefined,
       });
 
       const expectedState = {
