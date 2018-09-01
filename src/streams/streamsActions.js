@@ -9,8 +9,10 @@ export const initStreams = (streams: Stream[]): InitStreamsAction => ({
   streams,
 });
 
-export const fetchStreams = () => async (dispatch: Dispatch, getState: GetState) =>
-  dispatch(initStreams(await getStreams(getAuth(getState()))));
+export const fetchStreams = () => async (dispatch: Dispatch, getState: GetState) => {
+  const { streams } = await getStreams(getAuth(getState()));
+  dispatch(initStreams(streams));
+};
 
 export const createNewStream = (
   name: string,
