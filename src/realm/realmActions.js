@@ -30,5 +30,7 @@ export const initRealmFilters = (filters: RealmFilter[]): InitRealmFilterAction 
   filters,
 });
 
-export const fetchRealmFilters = (auth: Auth) => async (dispatch: Dispatch) =>
-  dispatch(initRealmFilters(await getRealmFilters(auth)));
+export const fetchRealmFilters = (auth: Auth) => async (dispatch: Dispatch) => {
+  const { filters } = await getRealmFilters(auth);
+  dispatch(initRealmFilters(filters));
+};
