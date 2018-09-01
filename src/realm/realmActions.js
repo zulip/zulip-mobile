@@ -22,8 +22,10 @@ export const initRealmEmojis = (emojis: RealmEmojiState): InitRealmEmojiAction =
   emojis,
 });
 
-export const fetchRealmEmojis = (auth: Auth) => async (dispatch: Dispatch) =>
-  dispatch(initRealmEmojis(await getRealmEmojis(auth)));
+export const fetchRealmEmojis = (auth: Auth) => async (dispatch: Dispatch) => {
+  const { emoji } = await getRealmEmojis(auth);
+  dispatch(initRealmEmojis(emoji));
+};
 
 export const initRealmFilters = (filters: RealmFilter[]): InitRealmFilterAction => ({
   type: INIT_REALM_FILTER,
