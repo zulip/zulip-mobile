@@ -57,9 +57,12 @@ class DevAuthScreen extends PureComponent<Props, State> {
 
     (async () => {
       try {
-        const [directAdmins, directUsers] = await devListUsers(auth);
-
-        this.setState({ directAdmins, directUsers, progress: false });
+        const response = await devListUsers(auth);
+        this.setState({
+          directAdmins: response.direct_admins,
+          directUsers: response.direct_users,
+          progress: false,
+        });
       } catch (err) {
         this.setState({ error: err.message });
       } finally {
