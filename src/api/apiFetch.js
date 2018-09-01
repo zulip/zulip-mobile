@@ -7,10 +7,6 @@ import { networkActivityStart, networkActivityStop } from '../utils/networkActiv
 
 const apiVersion = 'api/v1';
 
-type ResponseExtractionFunc = (response: Object) => any;
-
-const defaultResFunc: ResponseExtractionFunc = res => res;
-
 export const getFetchParams = (auth: Auth, params: Object = {}) => {
   const contentType =
     params.body instanceof FormData
@@ -51,7 +47,6 @@ export const apiCall = async (
   auth: Auth,
   route: string,
   params: Object = {},
-  resFunc: ResponseExtractionFunc = defaultResFunc,
   isSilent: boolean = false,
 ) => {
   try {
@@ -59,7 +54,7 @@ export const apiCall = async (
     const response = await apiFetch(auth, route, params);
     const json = await response.json().catch(() => undefined);
     if (response.ok && json !== undefined) {
-      return resFunc(json);
+      return json;
     }
     // eslint-disable-next-line no-console
     console.log({ route, params, httpStatus: response.status, json });
@@ -72,7 +67,6 @@ export const apiCall = async (
 export const apiGet = async (
   auth: Auth,
   route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
   params: UrlParams = {},
   isSilent: boolean = false,
 ) =>
@@ -82,101 +76,40 @@ export const apiGet = async (
     {
       method: 'get',
     },
-    resFunc,
     isSilent,
   );
 
-export const apiPost = async (
-  auth: Auth,
-  route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: UrlParams = {},
-) =>
-  apiCall(
-    auth,
-    route,
-    {
-      method: 'post',
-      body: encodeParamsForUrl(params),
-    },
-    resFunc,
-  );
+export const apiPost = async (auth: Auth, route: string, params: UrlParams = {}) =>
+  apiCall(auth, route, {
+    method: 'post',
+    body: encodeParamsForUrl(params),
+  });
 
-export const apiFile = async (
-  auth: Auth,
-  route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
-  body: FormData,
-) =>
-  apiCall(
-    auth,
-    route,
-    {
-      method: 'post',
-      body,
-    },
-    resFunc,
-  );
+export const apiFile = async (auth: Auth, route: string, body: FormData) =>
+  apiCall(auth, route, {
+    method: 'post',
+    body,
+  });
 
-export const apiPut = async (
-  auth: Auth,
-  route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: UrlParams = {},
-) =>
-  apiCall(
-    auth,
-    route,
-    {
-      method: 'put',
-      body: encodeParamsForUrl(params),
-    },
-    resFunc,
-  );
+export const apiPut = async (auth: Auth, route: string, params: UrlParams = {}) =>
+  apiCall(auth, route, {
+    method: 'put',
+    body: encodeParamsForUrl(params),
+  });
 
-export const apiDelete = async (
-  auth: Auth,
-  route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: UrlParams = {},
-) =>
-  apiCall(
-    auth,
-    route,
-    {
-      method: 'delete',
-      body: encodeParamsForUrl(params),
-    },
-    resFunc,
-  );
+export const apiDelete = async (auth: Auth, route: string, params: UrlParams = {}) =>
+  apiCall(auth, route, {
+    method: 'delete',
+    body: encodeParamsForUrl(params),
+  });
 
-export const apiPatch = async (
-  auth: Auth,
-  route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: UrlParams = {},
-) =>
-  apiCall(
-    auth,
-    route,
-    {
-      method: 'patch',
-      body: encodeParamsForUrl(params),
-    },
-    resFunc,
-  );
+export const apiPatch = async (auth: Auth, route: string, params: UrlParams = {}) =>
+  apiCall(auth, route, {
+    method: 'patch',
+    body: encodeParamsForUrl(params),
+  });
 
-export const apiHead = async (
-  auth: Auth,
-  route: string,
-  resFunc: ResponseExtractionFunc = defaultResFunc,
-  params: UrlParams = {},
-) =>
-  apiCall(
-    auth,
-    `${route}?${encodeParamsForUrl(params)}`,
-    {
-      method: 'head',
-    },
-    resFunc,
-  );
+export const apiHead = async (auth: Auth, route: string, params: UrlParams = {}) =>
+  apiCall(auth, `${route}?${encodeParamsForUrl(params)}`, {
+    method: 'head',
+  });

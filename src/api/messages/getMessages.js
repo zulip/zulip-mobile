@@ -9,8 +9,9 @@ export default async (
   numBefore: number,
   numAfter: number,
   useFirstUnread: boolean = false,
-): Promise<Message[]> =>
-  apiGet(auth, 'messages', res => res.messages, {
+  applyMarkdown: boolean = true,
+): Promise<ApiResponseMessages> =>
+  apiGet(auth, 'messages', {
     narrow: JSON.stringify(narrow),
     anchor,
     num_before: numBefore,

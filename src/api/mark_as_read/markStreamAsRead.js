@@ -3,6 +3,6 @@ import type { ApiResponse, Auth } from '../apiTypes';
 import { apiPost } from '../apiFetch';
 
 export default async (auth: Auth, streamId: number): Promise<ApiResponse> =>
-  apiPost(auth, 'mark_stream_as_read', res => res, {
+  apiPost(auth, 'mark_stream_as_read', {
     stream_id: streamId,
   });

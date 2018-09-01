@@ -9,7 +9,7 @@ export default (
   emojiCode: string,
   emojiName: string,
 ): Promise<ApiResponse> =>
-  apiPost(auth, `messages/${messageId}/reactions`, res => res, {
+  apiPost(auth, `messages/${messageId}/reactions`, {
     reaction_type: reactionType,
     emoji_code: emojiCode,
     emoji_name: emojiName,
