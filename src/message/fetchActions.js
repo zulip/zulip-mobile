@@ -216,8 +216,8 @@ export const uploadImage = (narrow: Narrow, uri: string, name: string) => async 
   getState: GetState,
 ) => {
   const auth = getAuth(getState());
-  const serverUri = await uploadFile(auth, uri, name);
-  const messageToSend = `[${name}](${serverUri})`;
+  const response = await uploadFile(auth, uri, name);
+  const messageToSend = `[${name}](${response.uri})`;
 
   dispatch(addToOutbox(narrow, messageToSend));
 };

@@ -1,13 +1,18 @@
 /* @flow strict-local */
-import type { Auth } from './apiTypes';
+import type { Auth, ApiResponseSuccess } from './apiTypes';
 import { apiFile } from './apiFetch';
 import { getFileExtension, getMimeTypeFromFileExtension } from '../utils/url';
 
-export default (auth: Auth, uri: string, name: string) => {
+type ApiResponseUploadFile = {|
+  ...ApiResponseSuccess,
+  uri: string,
+|};
+
+export default (auth: Auth, uri: string, name: string): Promise<ApiResponseUploadFile> => {
   const formData = new FormData();
   const extension = getFileExtension(name);
   const type = getMimeTypeFromFileExtension(extension);
   // $FlowFixMe
   formData.append('file', { uri, name, type, extension });
-  return apiFile(auth, 'user_uploads', res => res.uri, formData);
+  return apiFile(auth, 'user_uploads', res => res, formData);
 };
