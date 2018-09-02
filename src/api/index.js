@@ -20,6 +20,7 @@ import markTopicAsRead from './mark_as_read/markTopicAsRead';
 import deleteMessage from './messages/deleteMessage';
 import getMessageContentById from './messages/getMessageContentById';
 import getMessages from './messages/getMessages';
+import getMessageHistory from './messages/getMessageHistory';
 import messagesFlags from './messages/messagesFlags';
 import sendMessage from './messages/sendMessage';
 import updateMessage from './messages/updateMessage';
@@ -70,6 +71,7 @@ export {
   deleteMessage,
   getMessageContentById,
   getMessages,
+  getMessageHistory,
   messagesFlags,
   sendMessage,
   updateMessage,
@@ -121,6 +123,7 @@ export default {
   deleteMessage,
   getMessageContentById,
   getMessages,
+  getMessageHistory,
   messagesFlags,
   sendMessage,
   updateMessage,

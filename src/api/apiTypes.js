@@ -47,6 +47,17 @@ export type Reaction = $ReadOnly<{|
   emoji_code: string,
 |}>;
 
+export type MessageHistory = $ReadOnly<{|
+  content: string,
+  rendered_content: string,
+  timestamp: number,
+  topic: string,
+  user_id: number,
+  prev_content?: string,
+  prev_rendered_content?: string,
+  content_html_diff?: string,
+|}>;
+
 export type MessageEdit = $ReadOnly<{|
   prev_content?: string,
   prev_rendered_content?: string,
