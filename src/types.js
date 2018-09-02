@@ -71,7 +71,7 @@ export type EventReaction = {
   emoji_code: string,
   emoji_name: string,
   reaction_type: string,
-  user: any,
+  user: string,
 };
 
 /** An aggregate of all the reactions with one emoji to one message. */
@@ -139,9 +139,6 @@ export type Message = {
    */
   match_content?: string,
   match_subject?: string,
-
-  /** Obsolete? Gone in server commit 1.6.0~1758 . */
-  sender_domain: string,
 
   /** The rest are believed to really appear in `message` events. */
   avatar_url: ?string,
@@ -418,10 +415,14 @@ export type NavigationState = {
   index: number,
   isTransitioning: boolean,
   key: string,
-  routes: Array<any> /* <{
+  routes: Array<{
     key: string,
     title: string,
-  }>, */,
+    routeName: string,
+    params: {
+      narrow: Narrow,
+    },
+  }>,
 };
 
 export type RealmFilter = [string, string, number];
@@ -696,7 +697,7 @@ export type UnreadStream = {
 export type NotificationCommon = {
   alert: string,
   content: string,
-  content_truncated: string, // boolean
+  content_truncated: boolean,
   'google.message_id': string,
   'google.sent_time': number,
   'google.ttl': number,
