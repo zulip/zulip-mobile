@@ -48,6 +48,7 @@ import editUserGroupMembers from './user_groups/editUserGroupMembers';
 import getUserGroupById from './user_groups/getUserGroupById';
 import getUserGroups from './user_groups/getUserGroups';
 import getUsers from './users/getUsers';
+import getUserProfile from './users/getUserProfile';
 
 export {
   queueMarkAsRead,
@@ -99,6 +100,7 @@ export {
   getUserGroupById,
   getUserGroups,
   getUsers,
+  getUserProfile,
 };
 
 export default {
@@ -151,4 +153,5 @@ export default {
   getUserGroupById,
   getUserGroups,
   getUsers,
+  getUserProfile,
 };
