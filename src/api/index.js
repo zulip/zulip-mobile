@@ -6,7 +6,7 @@ export { default as devListUsers } from './devListUsers';
 export { default as fetchApiKey } from './fetchApiKey';
 export { default as focusPing } from './focusPing';
 export { default as getTopics } from './getTopics';
-export { default as toggleMessageStarred } from './toggleMessageStarred';
+export { default as toggleMessageStarred } from './messages/toggleMessageStarred';
 export { default as typing } from './typing';
 
 export { default as getAlertWords } from './alert_words/getAlertWords';
