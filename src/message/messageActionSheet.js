@@ -5,7 +5,7 @@ import type { BackgroundData } from '../webview/MessageList';
 import { getNarrowFromMessage, isHomeNarrow, isSpecialNarrow } from '../utils/narrow';
 import { isTopicMuted } from '../utils/message';
 /* eslint-disable import/no-named-as-default-member */
-import api, { getMessageContentById, toggleMuteStream, toggleMessageStarred } from '../api';
+import api, { getRawMessageContent, toggleMuteStream, toggleMessageStarred } from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, startEditMessage, deleteOutboxMessage, navigateToEmojiPicker } from '../actions';
 
@@ -42,7 +42,7 @@ reply.title = 'Reply';
 const copyToClipboard = async ({ _, auth, message }) => {
   const rawMessage = isAnOutboxMessage(message) /* $FlowFixMe: then really type Outbox */
     ? message.markdownContent
-    : (await getMessageContentById(auth, message.id)).raw_content;
+    : (await getRawMessageContent(auth, message.id)).raw_content;
   Clipboard.setString(rawMessage);
   showToast(_('Message copied'));
 };

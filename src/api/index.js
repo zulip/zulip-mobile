@@ -18,7 +18,7 @@ import markAllAsRead from './mark_as_read/markAllAsRead';
 import markStreamAsRead from './mark_as_read/markStreamAsRead';
 import markTopicAsRead from './mark_as_read/markTopicAsRead';
 import deleteMessage from './messages/deleteMessage';
-import getMessageContentById from './messages/getMessageContentById';
+import getRawMessageContent from './messages/getRawMessageContent';
 import getMessages from './messages/getMessages';
 import getMessageHistory from './messages/getMessageHistory';
 import messagesFlags from './messages/messagesFlags';
@@ -72,7 +72,7 @@ export {
   markStreamAsRead,
   markTopicAsRead,
   deleteMessage,
-  getMessageContentById,
+  getRawMessageContent,
   getMessages,
   getMessageHistory,
   messagesFlags,
@@ -127,7 +127,7 @@ export default {
   markStreamAsRead,
   markTopicAsRead,
   deleteMessage,
-  getMessageContentById,
+  getRawMessageContent,
   getMessages,
   getMessageHistory,
   messagesFlags,
