@@ -3,6 +3,7 @@
 import type { ApiResponse, Auth } from '../apiTypes';
 import { apiPost } from '../apiFetch';
 
+/** See https://zulipchat.com/api/send-message */
 export default async (
   auth: Auth,
   type: 'private' | 'stream',

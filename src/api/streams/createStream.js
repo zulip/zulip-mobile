@@ -2,6 +2,7 @@
 import type { ApiResponse, Auth } from '../apiTypes';
 import { apiPost } from '../apiFetch';
 
+/** See https://zulipchat.com/api/create-stream */
 export default (
   auth: Auth,
   name: string,
