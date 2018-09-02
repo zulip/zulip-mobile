@@ -415,7 +415,9 @@ export type NavigationState = {
     key: string,
     title: string,
     routeName: string,
-    params: Object,
+    params: {
+      narrow: Narrow,
+    },
   }>,
 };
 
