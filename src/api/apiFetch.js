@@ -19,7 +19,7 @@ export const getFetchParams = (auth: Auth, params: Object = {}) => {
     headers: {
       'Content-Type': contentType,
       'User-Agent': userAgent,
-      Authorization: getAuthHeader(auth.email, auth.apiKey),
+      ...(auth.apiKey ? { Authorization: getAuthHeader(auth.email, auth.apiKey) } : {}),
     },
     ...params,
   };

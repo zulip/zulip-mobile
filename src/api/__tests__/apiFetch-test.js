@@ -29,4 +29,17 @@ describe('getFetchParams', () => {
 
     expect(actualResult.key).toBe('value');
   });
+
+  test('when no apiKey provided does not return `Authorization` headers key', () => {
+    const auth = {
+      email: 'john@example.com',
+      apiKey: '',
+    };
+    const params = {};
+
+    const actualResult = getFetchParams(auth, params);
+
+    expect(actualResult.headers).toBeTruthy();
+    expect(actualResult.headers.Authorization).toBeUndefined();
+  });
 });
