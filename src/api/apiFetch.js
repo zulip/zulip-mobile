@@ -9,16 +9,13 @@ const apiVersion = 'api/v1';
 
 const defaultResFunc: ResponseExtractionFunc = res => res;
 
-export const fetchWithAuth = async (auth: Auth, url: string, params: Object = {}) => {
-  if (!isValidUrl(url)) {
-    throw new Error(`Invalid url ${url}`);
-  }
-
+export const getFetchParams = (auth: Auth, params: Object = {}) => {
   const contentType =
     params.body instanceof FormData
       ? 'multipart/form-data'
       : 'application/x-www-form-urlencoded; charset=utf-8';
-  const allParams = {
+
+  return {
     headers: {
       'Content-Type': contentType,
       'User-Agent': userAgent,
@@ -26,7 +23,14 @@ export const fetchWithAuth = async (auth: Auth, url: string, params: Object = {}
     },
     ...params,
   };
-  return fetch(url, allParams);
+};
+
+export const fetchWithAuth = async (auth: Auth, url: string, params: Object = {}) => {
+  if (!isValidUrl(url)) {
+    throw new Error(`Invalid url ${url}`);
+  }
+
+  return fetch(url, getFetchParams(auth, params));
 };
 
 export const apiFetch = async (auth: Auth, route: string, params: Object = {}) =>
