@@ -48,6 +48,7 @@ import editUserGroupMembers from './user_groups/editUserGroupMembers';
 import getUserGroupById from './user_groups/getUserGroupById';
 import getUserGroups from './user_groups/getUserGroups';
 import getUsers from './users/getUsers';
+import createUser from './users/createUser';
 import getUserProfile from './users/getUserProfile';
 
 export {
@@ -100,6 +101,7 @@ export {
   getUserGroupById,
   getUserGroups,
   getUsers,
+  createUser,
   getUserProfile,
 };
 
@@ -153,5 +155,6 @@ export default {
   getUserGroupById,
   getUserGroups,
   getUsers,
+  createUser,
   getUserProfile,
 };
