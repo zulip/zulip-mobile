@@ -546,11 +546,12 @@ export type Outbox = {
   timestamp: number,
   type: 'stream' | 'private',
 
-  // This field is always absent here, but can appear in `Message`.  We
-  // mention it here only to reassure Flow that it will never be something
+  // These fields are always absent here, but can appear in `Message`.  We
+  // mention them here only to reassure Flow that they'll never be something
   // more interesting than `undefined`, in order to type-check accesses on
   // values of type `Message | Outbox`.
   last_edit_timestamp?: void,
+  match_content?: void,
 };
 
 export type StreamUnreadItem = {

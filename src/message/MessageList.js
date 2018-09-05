@@ -15,6 +15,7 @@ import type {
   MuteState,
   Narrow,
   RealmEmojiState,
+  RenderedSectionDescriptor,
   Subscription,
   User,
 } from '../types';
@@ -49,7 +50,7 @@ export type Props = {
   mute: MuteState,
   narrow: Narrow,
   realmEmoji: RealmEmojiState,
-  renderedMessages: any,
+  renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
   subscriptions: Subscription[],
   typingUsers: User[],
