@@ -645,20 +645,23 @@ export type LocalizableText = any; // string | { text: string, values: Object };
 
 export type RenderedTimeDescriptor = {
   type: 'time',
+  key: number | string,
   timestamp: number,
+  firstMessage: Message | Outbox,
 };
 
 export type RenderedMessageDescriptor = {
   type: 'message',
-  message: Object,
+  key: number | string,
+  message: Message | Outbox,
+  isBrief: boolean,
 };
 
-export type RenderedItemDescriptor = any; // MessageDescriptor | TimeDescriptor;
-
-export type RenderedSectionDescriptor = any; /* {
-  message: Object,
-  data: ItemDescriptor[],
-} */
+export type RenderedSectionDescriptor = {
+  key: string | number,
+  message: Message | Outbox | {||},
+  data: $ReadOnlyArray<RenderedMessageDescriptor | RenderedTimeDescriptor>,
+};
 
 export type DraftState = {
   [narrow: string]: string,
