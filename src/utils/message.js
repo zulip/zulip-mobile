@@ -5,6 +5,7 @@ import type {
   Narrow,
   Message,
   MuteState,
+  Outbox,
   Subscription,
 } from '../types';
 import { HOME_NARROW, isTopicNarrow } from './narrow';
@@ -35,7 +36,10 @@ export const getRecipientsIds = (recipients: PmRecipientUser[], ownEmail?: strin
         .sort((a, b) => a - b)
         .join(',');
 
-export const isSameRecipient = (message1: Message, message2: Message): boolean => {
+export const isSameRecipient = (
+  message1: Message | Outbox,
+  message2: Message | Outbox,
+): boolean => {
   if (message1 === undefined || message2 === undefined) {
     return false;
   }
@@ -68,7 +72,7 @@ export const isTopicMuted = (stream: string, topic: string, mute: MuteState = []
   mute.some(x => x[0] === stream && x[1] === topic);
 
 export const shouldBeMuted = (
-  message: Message,
+  message: Message | Outbox,
   narrow: Narrow,
   subscriptions: Subscription[] = [],
   mutes: MuteState = [],
@@ -92,21 +96,21 @@ export const shouldBeMuted = (
 };
 
 export const isMessageRead = (
-  message: Message,
+  message: Message | Outbox,
   flags: FlagsState,
   subscriptions: Subscription[],
   mute: MuteState,
 ): boolean => shouldBeMuted(message, HOME_NARROW, subscriptions, mute) || !!flags.read[message.id];
 
 export const findFirstUnread = (
-  messages: Message[],
+  messages: $ReadOnlyArray<Message | Outbox>,
   flags: FlagsState,
   subscriptions: Subscription[],
   mute: MuteState,
 ) => messages.find(msg => !isMessageRead(msg, flags, subscriptions, mute));
 
 export const findAnchor = (
-  messages: Message[],
+  messages: $ReadOnlyArray<Message | Outbox>,
   flags: FlagsState,
   subscriptions: Subscription[],
   mute: MuteState,
