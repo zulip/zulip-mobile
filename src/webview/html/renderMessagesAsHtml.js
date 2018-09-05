@@ -51,6 +51,6 @@ export default ({
         }
       });
 
-      return list; // eslint-disable-next-line
+      return list;
     }, [])
     .join('');
