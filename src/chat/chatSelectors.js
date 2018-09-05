@@ -1,7 +1,7 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { Narrow } from '../types';
+import type { Message, Narrow, Outbox, Selector } from '../types';
 import {
   getAllNarrows,
   getSubscriptions,
@@ -24,7 +24,7 @@ import {
 import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_MESSAGE, NULL_USER, NULL_SUBSCRIPTION } from '../nullObjects';
 
-export const outboxMessagesForCurrentNarrow = (narrow: Narrow) =>
+export const outboxMessagesForCurrentNarrow = (narrow: Narrow): Selector<Outbox[]> =>
   createSelector(getCaughtUpForActiveNarrow(narrow), getOutbox, (caughtUp, outboxMessages) => {
     if (!caughtUp.newer) {
       return [];
@@ -45,10 +45,10 @@ export const outboxMessagesForCurrentNarrow = (narrow: Narrow) =>
     });
   });
 
-export const getFetchedMessagesForNarrow = (narrow: Narrow) =>
+export const getFetchedMessagesForNarrow = (narrow: Narrow): Selector<Message[]> =>
   createSelector(getAllNarrows, allNarrows => allNarrows[JSON.stringify(narrow)] || NULL_ARRAY);
 
-export const getMessagesForNarrow = (narrow: Narrow) =>
+export const getMessagesForNarrow = (narrow: Narrow): Selector<$ReadOnlyArray<Message | Outbox>> =>
   createSelector(
     getFetchedMessagesForNarrow(narrow),
     outboxMessagesForCurrentNarrow(narrow),
@@ -61,7 +61,9 @@ export const getMessagesForNarrow = (narrow: Narrow) =>
     },
   );
 
-export const getShownMessagesForNarrow = (narrow: Narrow) =>
+export const getShownMessagesForNarrow = (
+  narrow: Narrow,
+): Selector<$ReadOnlyArray<Message | Outbox>> =>
   createSelector(
     getMessagesForNarrow(narrow),
     getSubscriptions,

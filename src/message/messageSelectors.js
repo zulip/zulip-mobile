@@ -1,14 +1,14 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { Narrow } from '../types';
+import type { Narrow, RenderedSectionDescriptor, Selector } from '../types';
 import { getFlags, getMute, getSubscriptions } from '../directSelectors';
 import { getShownMessagesForNarrow } from '../chat/chatSelectors';
 import renderMessages from './renderMessages';
 import { findAnchor } from '../utils/message';
 import { NULL_MESSAGE } from '../nullObjects';
 
-export const getRenderedMessages = (narrow: Narrow) =>
+export const getRenderedMessages = (narrow: Narrow): Selector<RenderedSectionDescriptor[]> =>
   createSelector(getShownMessagesForNarrow(narrow), messages => renderMessages(messages, narrow));
 
 export const getAnchorForActiveNarrow = (narrow: Narrow) =>
