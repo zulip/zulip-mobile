@@ -2,9 +2,12 @@
 
 ## High-level design
 
-**zulip-mobile** uses the Redux for state management and data flow. Please
+**zulip-mobile** uses Redux for state management and data flow. Please
 read the [Redux docs](http://redux.js.org) for more information on the Redux
 architecture and terminology (such as actions, reducers, and stores).
+
+See [our React/Redux architecture doc](architecture/react.md) for a more
+detailed explanation as applied to our app.
 
 At a high-level, global app state should be immutable and is stored in
 centralized place. Modifying state requires new copies of each data structure.
