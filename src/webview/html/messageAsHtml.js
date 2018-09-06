@@ -40,7 +40,7 @@ type BriefMessageProps = {
   ownEmail: string,
   reactions: EventReaction[],
   realmEmoji: RealmEmojiState,
-  timeEdited: Date,
+  timeEdited: ?number,
 };
 
 type FullMessageProps = BriefMessageProps & {
@@ -72,7 +72,7 @@ const messageBody = ({
   ownEmail: string,
   reactions: EventReaction[],
   realmEmoji: RealmEmojiState,
-  timeEdited: Date,
+  timeEdited: ?number,
 }) => template`
 $!${content}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
