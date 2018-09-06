@@ -36,7 +36,7 @@ export default class AutocompleteView extends PureComponent<Props> {
 
     const { filter, lastWordPrefix } = result;
 
-    if (lastWordPrefix.length === 0) {
+    if (lastWordPrefix.length === 0 || filter.length === 0) {
       return null;
     }
 
