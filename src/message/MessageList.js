@@ -11,6 +11,7 @@ import type {
   Dispatch,
   Fetching,
   FlagsState,
+  GlobalState,
   Message,
   MuteState,
   Narrow,
@@ -37,29 +38,48 @@ import {
   getRealm,
 } from '../selectors';
 
+export type OuterProps = {
+  anchor?: number,
+  fetching?: Fetching,
+  isFetching?: boolean,
+  messages?: Message[],
+  narrow: Narrow,
+  renderedMessages?: RenderedSectionDescriptor[],
+  showMessagePlaceholders?: boolean,
+  typingUsers?: User[],
+};
+
+// TODO get a type for `connectActionSheet` so this gets fully type-checked.
 export type Props = {
+  // From caller and/or `connect`.
   anchor: number,
   auth: Auth,
   debug: Debug,
   dispatch: Dispatch,
   fetching: Fetching,
   flags: FlagsState,
-  highlightUnreadMessages: boolean,
   isFetching: boolean,
   messages: Message[],
-  mute: MuteState,
   narrow: Narrow,
   realmEmoji: RealmEmojiState,
   renderedMessages: RenderedSectionDescriptor[],
   showMessagePlaceholders: boolean,
   subscriptions: Subscription[],
+  twentyFourHourTime: boolean,
   typingUsers: User[],
+
+  mute: MuteState, // TODO where do we actually pass this?
+
+  // From `connectActionSheet`.
+  showActionSheetWithOptions: (Object, (number) => void) => void,
+
+  // These are sometimes passed by the caller, or are never present here but
+  // are for some other code which abuses this type.
+  // TODO sort out each one's story.
   listRef: (component: any) => void,
   onLongPress: (messageId: number, target: string) => void,
   onReplySelect: () => void,
   onSend: () => void,
-  showActionSheetWithOptions: (Object, (number) => void) => void,
-  twentyFourHourTime: boolean,
 };
 
 class MessageList extends PureComponent<Props> {
@@ -107,7 +127,7 @@ class MessageList extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+export default connect((state: GlobalState, props: OuterProps) => ({
   anchor: props.anchor || getAnchorForActiveNarrow(props.narrow)(state),
   auth: getAuth(state),
   debug: getDebug(state),
