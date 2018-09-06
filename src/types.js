@@ -536,6 +536,8 @@ export type Outbox = {
   narrow: Narrow,
 
   // These fields are modeled on `Message`.
+  avatar_url: ?string,
+  content: string,
   display_recipient: $FlowFixMe, // `string` for type stream, else PmRecipientUser[].
   id: number,
   sender_email: string,
