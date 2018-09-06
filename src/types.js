@@ -154,6 +154,7 @@ export type Message = {
   gravatar_hash: string,
   id: number,
   is_me_message: boolean,
+  last_edit_timestamp?: number,
   reactions: SlimEventReaction[],
   recipient_id: number,
   sender_email: string,
@@ -542,6 +543,12 @@ export type Outbox = {
   subject: string,
   timestamp: number,
   type: 'stream' | 'private',
+
+  // This field is always absent here, but can appear in `Message`.  We
+  // mention it here only to reassure Flow that it will never be something
+  // more interesting than `undefined`, in order to type-check accesses on
+  // values of type `Message | Outbox`.
+  last_edit_timestamp?: void,
 };
 
 export type StreamUnreadItem = {
