@@ -1,6 +1,6 @@
 /* @flow */
 import template from './template';
-import type { Auth, Message, Narrow, Subscription } from '../../types';
+import type { Auth, Message, Narrow, Outbox, Subscription } from '../../types';
 import {
   isStreamNarrow,
   isTopicNarrow,
@@ -20,11 +20,11 @@ export default ({
   narrow,
 }: {
   auth: Auth,
-  item: Message,
+  item: Message | Outbox | {||},
   subscriptions: Subscription[],
   narrow: Narrow,
 }) => {
-  if (Object.keys(item).length === 0) {
+  if (!item.type) {
     return '';
   }
 
