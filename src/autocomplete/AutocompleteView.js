@@ -13,6 +13,7 @@ const prefixToComponent = {
   ':': EmojiAutocomplete,
   '#': StreamAutocomplete,
   '@': PeopleAutocomplete,
+  '': null,
 };
 
 type Props = {

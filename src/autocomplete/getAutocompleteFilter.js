@@ -16,6 +16,10 @@ export default (text: string, selection: InputSelectionType) => {
   );
 
   const lastWordPrefix: string = lastIndex !== -1 ? text[lastIndex] : '';
+  if (lastWordPrefix === '') {
+    return { lastWordPrefix, filter: '' };
+  }
+
   const filter: string =
     text.length > lastIndex + 1 && text[lastIndex + 1] !== ' '
       ? text.substring(lastIndex + 1, text.length)
