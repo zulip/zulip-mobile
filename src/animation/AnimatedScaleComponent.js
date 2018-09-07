@@ -8,6 +8,7 @@ import type { Style } from '../types';
 type Props = {
   children: ChildrenArray<*>,
   visible: boolean,
+  display?: 'flex' | 'none',
   style?: Style,
 };
 
@@ -36,12 +37,12 @@ export default class AnimatedScaleComponent extends PureComponent<Props, State> 
   }
 
   render() {
-    const { children, style } = this.props;
+    const { children, display, style } = this.props;
     const { visible } = this.state;
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }],
       opacity: this.animatedValue,
-      display: visible ? 'flex' : 'none',
+      display: display || visible ? 'flex' : 'none',
     };
 
     return <Animated.View style={[animatedStyle, style]}>{children}</Animated.View>;
