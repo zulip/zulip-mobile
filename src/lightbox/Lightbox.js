@@ -15,10 +15,10 @@ import { constructActionSheetButtons, executeActionSheetAction } from './Lightbo
 import { NAVBAR_SIZE } from '../styles';
 import { getGravatarFromEmail } from '../utils/avatar';
 import { navigateBack } from '../actions';
+import { LoadingIndicator } from '../common';
 
 const styles = StyleSheet.create({
   img: {
-    height: 300,
     flex: 1,
   },
   header: {},
@@ -45,12 +45,14 @@ type Props = {
 
 type State = {
   movement: 'in' | 'out',
+  loaded: boolean,
 };
 
 class Lightbox extends PureComponent<Props, State> {
   props: Props;
   state: State = {
     movement: 'out',
+    loaded: false,
   };
 
   handleImagePress = () => {
@@ -89,12 +91,19 @@ class Lightbox extends PureComponent<Props, State> {
     movement: this.state.movement,
   });
 
+  showImage = () => {
+    this.setState({
+      loaded: true,
+    });
+  };
+
   render() {
     const { src, message, auth } = this.props;
     const footerMessage =
       message.type === 'stream' ? `Shared in #${message.display_recipient}` : 'Shared with you';
     const resource = getResource(src, auth);
     const { width, height } = Dimensions.get('window');
+    const displayImage = this.state.loaded ? 'flex' : 'none';
 
     return (
       <View style={styles.container}>
@@ -109,10 +118,12 @@ class Lightbox extends PureComponent<Props, State> {
           realm={auth.realm}
           {...this.getAnimationProps()}
         />
+        {!this.state.loaded && <LoadingIndicator />}
         <PhotoView
           source={resource}
-          style={[styles.img, { width }]}
+          style={[styles.img, { width }, { display: displayImage }]}
           resizeMode="contain"
+          onLoadEnd={this.showImage}
           onTap={this.handleImagePress}
         />
         <AnimatedLightboxFooter
