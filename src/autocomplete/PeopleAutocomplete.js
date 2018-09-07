@@ -27,6 +27,10 @@ class PeopleAutocomplete extends PureComponent<Props> {
 
   render() {
     const { filter, ownEmail, users, userGroups, onAutocomplete } = this.props;
+    if (filter.length === 0) {
+      return null;
+    }
+
     const filteredUserGroups = getAutocompleteUserGroupSuggestions(userGroups, filter);
     const filteredUsers: User[] = getAutocompleteSuggestion(users, filter, ownEmail);
 

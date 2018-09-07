@@ -20,6 +20,11 @@ class StreamAutocomplete extends PureComponent<Props> {
 
   render() {
     const { filter, subscriptions, onAutocomplete } = this.props;
+
+    if (filter.length === 0) {
+      return null;
+    }
+
     const streams = subscriptions.filter(x =>
       x.name.toLowerCase().startsWith(filter.toLowerCase()),
     );
