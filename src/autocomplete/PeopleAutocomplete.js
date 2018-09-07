@@ -1,7 +1,7 @@
 /* @flow */
 import { connect } from 'react-redux';
 
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { SectionList } from 'react-native';
 
 import type { User, UserGroup, GlobalState } from '../types';
@@ -22,8 +22,14 @@ type Props = {
   userGroups: UserGroup[],
 };
 
-class PeopleAutocomplete extends PureComponent<Props> {
+class PeopleAutocomplete extends Component<Props> {
   props: Props;
+
+  shouldComponentUpdate(nextProps: Props) {
+    // if filter string becomes empty then do not re-render
+    // persists previous render, so that it can have some height and scale down animation is visible
+    return nextProps.filter.length > 0;
+  }
 
   render() {
     const { filter, ownEmail, users, userGroups, onAutocomplete } = this.props;

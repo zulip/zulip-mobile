@@ -1,7 +1,7 @@
 /* @flow */
 import { connect } from 'react-redux';
 
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 
 import { Popup } from '../common';
@@ -18,8 +18,14 @@ type Props = {
 
 const MAX_CHOICES = 30;
 
-class EmojiAutocomplete extends PureComponent<Props> {
+class EmojiAutocomplete extends Component<Props> {
   props: Props;
+
+  shouldComponentUpdate(nextProps: Props) {
+    // if filter string becomes empty then do not re-render
+    // persists previous render, so that it can have some height and scale down animation is visible
+    return nextProps.filter.length > 0;
+  }
 
   render() {
     const { filter, realmEmoji, onAutocomplete } = this.props;
