@@ -103,6 +103,7 @@ rules:
     lang: en_US
     skipIfMatch:
     - 'http://[^s]*'
+    - 'https://[^s]*'
     - '^[-\w]+/[-\w\.]+$'  # for MIME types
     skipWords: [redux, Zulip, uri, timestamp, api, nav, init, auth, prev, utils, io,
       http, https, msg, msg1, msg2, gif, img, abc, def, jkl, xyz, fn, params, backends,
@@ -126,7 +127,9 @@ rules:
       avoider, octicons, centerer, ldap, gravatar, identicon, blueimp, filename, wildcards,
       jpeg, jpg, tif, mov, notif, diag, bmp, viewport, scalable, polyfill, rect, touchstart,
       touchend, touchmove, remoteuser, sso, submessages, nbsp, args, px, na, heic,
-      unstarred, gooooooooal, dogi, ig]
+      unstarred, gooooooooal, dogi, linter, lifecycle, subtree, zlib, lt, lector, overlayed,
+      rehydration, howto, hotspots, pressable, uncomment, interoperability, ig,
+      rt2zz, bd20a756f9, issuecomment, flowtype, natively, libdef, fullsize, Kat]
 overrides:
   - files:
       - generatedEs3.js

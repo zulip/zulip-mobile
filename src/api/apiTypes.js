@@ -18,7 +18,7 @@ export type DevUser = {
  * These correspond to the values allowed for Reaction.reaction_type in the
  * server's models.  The values are:
  *  * unicode_emoji: An emoji found in Unicode, corresponding to a sequence
- *    of Unicode codepoints.  The list of these depends on the Zulip
+ *    of Unicode code points.  The list of these depends on the Zulip
  *    server's version.
  *  * realm_emoji: A custom emoji uploaded by some user on a given realm.
  *  * zulip_extra_emoji: An emoji distributed with Zulip, like :zulip:.

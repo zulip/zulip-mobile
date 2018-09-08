@@ -36,7 +36,7 @@ export const hexToBase64 = (hex: string) => base64.encode(hexToAscii(hex));
  * Encode a string as the base64 representation of its UTF-8 bytes.
  *
  * This lets us pass an arbitrary string through a channel (like the
- * `postMessage` on RN's webviews on Android) that tries to do something
+ * `postMessage` on RN's WebViews on Android) that tries to do something
  * like percent-decode it.
  */
 export const base64Utf8Encode = (text: string): string =>

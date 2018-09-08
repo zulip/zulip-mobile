@@ -577,12 +577,12 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     return;
   }
 
-  /* Should we pull up the lightbox?  For comparison, see the webapp's
+  /* Should we pull up the lightbox?  For comparison, see the web app's
    * static/js/lightbox.js , starting at the `#main_div` click handler. */
   const inlineImageLink = target.closest('.message_inline_image a');
   if (
     inlineImageLink
-    /* The webapp displays certain videos inline, but on mobile
+    /* The web app displays certain videos inline, but on mobile
      * we'd rather let another app handle them, as links. */
     && !inlineImageLink.closest('.youtube-video, .vimeo-video')
   ) {
@@ -634,7 +634,7 @@ const handleLongPress = (target: Element) => {
   // It would be good to clean it up to be clearer.
   //
   // At the same time, the logic is believed not to cover all the cases it
-  // should; for example, multitouch events.  Better would be to either find
+  // should; for example, multi-touch events.  Better would be to either find
   // a library we can use which strives to handle all that complexity, or
   // get long-press events from the platform.
   if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) {

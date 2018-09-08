@@ -105,7 +105,7 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-react-native": "^3.2.1",
-    "eslint-plugin-spellcheck": "0.0.6",
+    "eslint-plugin-spellcheck": "0.0.11",
     "flow-bin": "0.78",
     "flow-coverage-report": "^0.6.0",
     "flow-typed": "^2.4.0",
