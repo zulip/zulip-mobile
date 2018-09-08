@@ -55,7 +55,7 @@ class UnreadCards extends PureComponent<Props> {
       ...unreadStreamsAndTopics,
     ];
 
-    if (unreadStreamsAndTopics.length === 0) {
+    if (unreadStreamsAndTopics.length === 0 && conversations.length === 0) {
       return isLoading ? (
         <LoadingIndicator size={40} />
       ) : (
