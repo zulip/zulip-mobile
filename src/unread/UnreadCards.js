@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { SectionList } from 'react-native';
 
 import type { Dispatch, GlobalState, PmConversationData, PresenceState } from '../types';
-import { LoadingIndicator, SearchEmptyState } from '../common';
+import { LoadingIndicator, SearchEmptyState, SectionSeparator } from '../common';
 import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
 import TopicItem from '../streams/TopicItem';
@@ -44,7 +44,12 @@ class UnreadCards extends PureComponent<Props> {
         key: 'private',
         data: [{ conversations, ...restProps }],
       },
-      ...unreadStreamsAndTopics,
+      ...unreadStreamsAndTopics.filter(item => item.isPinned),
+      {
+        key: 'separator',
+        data: [{}],
+      },
+      ...unreadStreamsAndTopics.filter(item => !item.isPinned),
     ];
 
     if (unreadStreamsAndTopics.length === 0 && conversations.length === 0) {
@@ -62,7 +67,7 @@ class UnreadCards extends PureComponent<Props> {
         sections={unreadCards}
         keyExtractor={item => item.key}
         renderSectionHeader={({ section }) =>
-          section.key === 'private' ? null : (
+          section.key === 'private' || section.key === 'separator' ? null : (
             <StreamItem
               name={section.streamName}
               iconSize={16}
@@ -77,6 +82,8 @@ class UnreadCards extends PureComponent<Props> {
         renderItem={({ item, section }) =>
           section.key === 'private' ? (
             <PmConversationList {...item} />
+          ) : section.key === 'separator' ? (
+            <SectionSeparator />
           ) : (
             <TopicItem
               name={item.topic}
