@@ -25,10 +25,12 @@ export const logSlowReducers = (reducers: Object): Object => {
   return reducers;
 };
 
+export const isNavTransitionGoingOn = (cur: GlobalState, prev: GlobalState): boolean =>
+  cur.nav.isTransitioning || prev.nav.isTransitioning;
+
 export const isStateGoingBack = (cur: GlobalState, prev: GlobalState): boolean =>
   cur.nav.routes.length < prev.nav.routes.length
-  || cur.nav.isTransitioning
-  || prev.nav.isTransitioning
+  || isNavTransitionGoingOn(cur, prev)
   || isEqual(cur, prev);
 
 export const connectPreserveOnBackOption = { areStatesEqual: isStateGoingBack };
