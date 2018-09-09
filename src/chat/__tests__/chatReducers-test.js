@@ -19,7 +19,7 @@ import {
 } from '../../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../constants';
 
-describe.skip('chatReducers', () => {
+describe('chatReducers', () => {
   const privateNarrowStr = JSON.stringify(privateNarrow('mark@example.com'));
   const groupNarrowStr = JSON.stringify(groupNarrow(['mark@example.com', 'john@example.com']));
   const streamNarrowStr = JSON.stringify(streamNarrow('some stream'));
@@ -33,7 +33,7 @@ describe.skip('chatReducers', () => {
   describe('EVENT_NEW_MESSAGE', () => {
     test('if not caught up in narrow, do not add message in home narrow', () => {
       const initialState = deepFreeze({
-        [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
+        [HOME_NARROW_STR]: [1, 2],
       });
 
       const action = deepFreeze({
@@ -45,7 +45,7 @@ describe.skip('chatReducers', () => {
       const newState = chatReducers(initialState, action);
 
       const expectedState = deepFreeze({
-        [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
+        [HOME_NARROW_STR]: [1, 2],
       });
 
       expect(newState).toEqual(expectedState);
@@ -53,7 +53,7 @@ describe.skip('chatReducers', () => {
 
     test('appends message to state producing a copy of messages', () => {
       const initialState = deepFreeze({
-        [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
+        [HOME_NARROW_STR]: [1, 2],
       });
 
       const action = deepFreeze({
@@ -68,7 +68,7 @@ describe.skip('chatReducers', () => {
       });
 
       const expectedState = {
-        [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }, { id: 3 }],
+        [HOME_NARROW_STR]: [1, 2, 3],
       };
 
       const newState = chatReducers(initialState, action);
@@ -79,7 +79,7 @@ describe.skip('chatReducers', () => {
 
     test('if new message key does not exist do not create it', () => {
       const initialState = deepFreeze({
-        [JSON.stringify(topicNarrow('some stream', 'some topic'))]: [{ id: 1 }, { id: 2 }],
+        [JSON.stringify(topicNarrow('some stream', 'some topic'))]: [1, 2],
       });
 
       const action = deepFreeze({
@@ -91,7 +91,7 @@ describe.skip('chatReducers', () => {
       const newState = chatReducers(initialState, action);
 
       const expectedState = {
-        [JSON.stringify(topicNarrow('some stream', 'some topic'))]: [{ id: 1 }, { id: 2 }],
+        [JSON.stringify(topicNarrow('some stream', 'some topic'))]: [1, 2],
       };
       expect(newState).toEqual(expectedState);
     });
@@ -115,7 +115,7 @@ describe.skip('chatReducers', () => {
       },
     });
     const expectedState = {
-      [ALL_PRIVATE_NARROW_STR]: [message],
+      [ALL_PRIVATE_NARROW_STR]: [1],
     };
 
     const actualState = chatReducers(initialState, action);
@@ -125,8 +125,8 @@ describe.skip('chatReducers', () => {
 
   test('message sent to topic is stored correctly', () => {
     const initialState = deepFreeze({
-      [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
-      [topicNarrowStr]: [{ id: 2 }],
+      [HOME_NARROW_STR]: [1, 2],
+      [topicNarrowStr]: [2],
     });
     const message = {
       id: 3,
@@ -149,8 +149,8 @@ describe.skip('chatReducers', () => {
       },
     });
     const expectedState = {
-      [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
-      [topicNarrowStr]: [{ id: 2 }, message],
+      [HOME_NARROW_STR]: [1, 2],
+      [topicNarrowStr]: [2, 3],
     };
 
     const newState = chatReducers(initialState, action);
@@ -180,8 +180,8 @@ describe.skip('chatReducers', () => {
     });
 
     const expectedState = {
-      [HOME_NARROW_STR]: [message],
-      [narrowWithSelfStr]: [message],
+      [HOME_NARROW_STR]: [1],
+      [narrowWithSelfStr]: [1],
     };
 
     const newState = chatReducers(initialState, action);
@@ -192,12 +192,12 @@ describe.skip('chatReducers', () => {
 
   test('appends stream message to all cached narrows that match and are caught up', () => {
     const initialState = deepFreeze({
-      [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
-      [ALL_PRIVATE_NARROW_STR]: [{ id: 1 }, { id: 2 }],
-      [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
-      [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
-      [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
-      [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
+      [HOME_NARROW_STR]: [1, 2],
+      [ALL_PRIVATE_NARROW_STR]: [1, 2],
+      [streamNarrowStr]: [2, 3],
+      [topicNarrowStr]: [2, 3],
+      [privateNarrowStr]: [2, 4],
+      [groupNarrowStr]: [2, 4],
     });
 
     const message = {
@@ -217,12 +217,12 @@ describe.skip('chatReducers', () => {
     });
 
     const expectedState = {
-      [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }, message],
-      [ALL_PRIVATE_NARROW_STR]: [{ id: 1 }, { id: 2 }],
-      [streamNarrowStr]: [{ id: 2 }, { id: 3 }, message],
-      [topicNarrowStr]: [{ id: 2 }, { id: 3 }, message],
-      [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
-      [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
+      [HOME_NARROW_STR]: [1, 2, 5],
+      [ALL_PRIVATE_NARROW_STR]: [1, 2],
+      [streamNarrowStr]: [2, 3, 5],
+      [topicNarrowStr]: [2, 3, 5],
+      [privateNarrowStr]: [2, 4],
+      [groupNarrowStr]: [2, 4],
     };
 
     const newState = chatReducers(initialState, action);
@@ -233,7 +233,7 @@ describe.skip('chatReducers', () => {
 
   test('does not append stream message to not cached narrows', () => {
     const initialState = deepFreeze({
-      [HOME_NARROW_STR]: [{ id: 1 }],
+      [HOME_NARROW_STR]: [1],
     });
 
     const message = {
@@ -251,7 +251,7 @@ describe.skip('chatReducers', () => {
     });
 
     const expectedState = {
-      [HOME_NARROW_STR]: [{ id: 1 }, message],
+      [HOME_NARROW_STR]: [1, 3],
     };
 
     const newState = chatReducers(initialState, action);
@@ -262,12 +262,12 @@ describe.skip('chatReducers', () => {
 
   test('appends private message to multiple cached narrows', () => {
     const initialState = deepFreeze({
-      [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
-      [ALL_PRIVATE_NARROW_STR]: [{ id: 1 }, { id: 2 }],
-      [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
-      [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
-      [privateNarrowStr]: [{ id: 2 }, { id: 4 }],
-      [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
+      [HOME_NARROW_STR]: [1, 2],
+      [ALL_PRIVATE_NARROW_STR]: [1, 2],
+      [streamNarrowStr]: [2, 3],
+      [topicNarrowStr]: [2, 3],
+      [privateNarrowStr]: [2, 4],
+      [groupNarrowStr]: [2, 4],
     });
 
     const message = {
@@ -288,12 +288,12 @@ describe.skip('chatReducers', () => {
     });
 
     const expectedState = {
-      [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }, message],
-      [ALL_PRIVATE_NARROW_STR]: [{ id: 1 }, { id: 2 }, message],
-      [streamNarrowStr]: [{ id: 2 }, { id: 3 }],
-      [topicNarrowStr]: [{ id: 2 }, { id: 3 }],
-      [privateNarrowStr]: [{ id: 2 }, { id: 4 }, message],
-      [groupNarrowStr]: [{ id: 2 }, { id: 4 }],
+      [HOME_NARROW_STR]: [1, 2, 5],
+      [ALL_PRIVATE_NARROW_STR]: [1, 2, 5],
+      [streamNarrowStr]: [2, 3],
+      [topicNarrowStr]: [2, 3],
+      [privateNarrowStr]: [2, 4, 5],
+      [groupNarrowStr]: [2, 4],
     };
 
     const newState = chatReducers(initialState, action);
@@ -303,7 +303,7 @@ describe.skip('chatReducers', () => {
   });
 
   describe('EVENT_MESSAGE_DELETE', () => {
-    test('if a message does not exist no changes are made', () => {
+    test.skip('if a message does not exist no changes are made', () => {
       const initialState = deepFreeze({
         [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
         [privateNarrowStr]: [],
@@ -321,15 +321,15 @@ describe.skip('chatReducers', () => {
 
     test('if a message exists in one or more narrows delete it from there', () => {
       const initialState = deepFreeze({
-        [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }, { id: 3 }],
-        [privateNarrowStr]: [{ id: 2 }],
+        [HOME_NARROW_STR]: [1, 2, 3],
+        [privateNarrowStr]: [2],
       });
       const action = deepFreeze({
         type: EVENT_MESSAGE_DELETE,
         messageId: 2,
       });
       const expectedState = deepFreeze({
-        [HOME_NARROW_STR]: [{ id: 1 }, { id: 3 }],
+        [HOME_NARROW_STR]: [1, 3],
         [privateNarrowStr]: [],
       });
 
@@ -339,7 +339,7 @@ describe.skip('chatReducers', () => {
     });
   });
 
-  describe('EVENT_UPDATE_MESSAGE', () => {
+  describe.skip('EVENT_UPDATE_MESSAGE', () => {
     test('if a message does not exist no changes are made', () => {
       const initialState = deepFreeze({
         [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
@@ -572,7 +572,7 @@ describe.skip('chatReducers', () => {
     });
   });
 
-  describe('EVENT_REACTION_ADD', () => {
+  describe.skip('EVENT_REACTION_ADD', () => {
     test('on event received, add reaction to message with given id', () => {
       const initialState = deepFreeze({
         [HOME_NARROW_STR]: [{ id: 1, reactions: [] }, { id: 2, reactions: [] }],
@@ -600,7 +600,7 @@ describe.skip('chatReducers', () => {
     });
   });
 
-  describe('EVENT_REACTION_REMOVE', () => {
+  describe.skip('EVENT_REACTION_REMOVE', () => {
     test('if message does not contain reaction, no change is made', () => {
       const initialState = deepFreeze({
         [HOME_NARROW_STR]: [{ id: 1, reactions: [] }],
@@ -664,7 +664,7 @@ describe.skip('chatReducers', () => {
   describe('MESSAGE_FETCH_COMPLETE', () => {
     test('if no messages returned still create the key in state', () => {
       const initialState = deepFreeze({
-        [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }, { id: 3 }],
+        [HOME_NARROW_STR]: [1, 2, 3],
       });
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
@@ -672,7 +672,7 @@ describe.skip('chatReducers', () => {
         messages: [],
       });
       const expectedState = {
-        [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }, { id: 3 }],
+        [HOME_NARROW_STR]: [1, 2, 3],
         [JSON.stringify(privateNarrow('mark@example.com'))]: [],
       };
 
@@ -683,7 +683,7 @@ describe.skip('chatReducers', () => {
 
     test('no duplicate messages', () => {
       const initialState = deepFreeze({
-        [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }, { id: 3 }],
+        [HOME_NARROW_STR]: [1, 2, 3],
       });
 
       const action = deepFreeze({
@@ -693,7 +693,7 @@ describe.skip('chatReducers', () => {
       });
 
       const expectedState = {
-        [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }],
+        [HOME_NARROW_STR]: [1, 2, 3, 4],
       };
 
       const newState = chatReducers(initialState, action);
@@ -704,7 +704,7 @@ describe.skip('chatReducers', () => {
 
     test('added messages are sorted by id', () => {
       const initialState = deepFreeze({
-        [HOME_NARROW_STR]: [{ id: 2, timestamp: 3 }, { id: 1, timestamp: 3 }],
+        [HOME_NARROW_STR]: [1, 2],
       });
 
       const action = deepFreeze({
@@ -714,12 +714,7 @@ describe.skip('chatReducers', () => {
       });
 
       const expectedState = {
-        [HOME_NARROW_STR]: [
-          { id: 1, timestamp: 3 },
-          { id: 2, timestamp: 3 },
-          { id: 3, timestamp: 1 },
-          { id: 4, timestamp: 2 },
-        ],
+        [HOME_NARROW_STR]: [1, 2, 3, 4],
       };
 
       const newState = chatReducers(initialState, action);
@@ -730,7 +725,7 @@ describe.skip('chatReducers', () => {
 
     test('when anchor is FIRST_UNREAD_ANCHOR previous messages are replaced', () => {
       const initialState = deepFreeze({
-        [HOME_NARROW_STR]: [{ id: 1, timestamp: 3 }, { id: 2, timestamp: 4 }],
+        [HOME_NARROW_STR]: [1, 2],
       });
 
       const action = deepFreeze({
@@ -741,7 +736,7 @@ describe.skip('chatReducers', () => {
       });
 
       const expectedState = {
-        [HOME_NARROW_STR]: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
+        [HOME_NARROW_STR]: [3, 4],
       };
 
       const newState = chatReducers(initialState, action);
@@ -751,7 +746,7 @@ describe.skip('chatReducers', () => {
 
     test('when anchor is LAST_MESSAGE_ANCHOR previous messages are replaced', () => {
       const initialState = deepFreeze({
-        [HOME_NARROW_STR]: [{ id: 1, timestamp: 3 }, { id: 2, timestamp: 4 }],
+        [HOME_NARROW_STR]: [1, 2],
       });
 
       const action = deepFreeze({
@@ -762,7 +757,7 @@ describe.skip('chatReducers', () => {
       });
 
       const expectedState = {
-        [HOME_NARROW_STR]: [{ id: 3, timestamp: 2 }, { id: 4, timestamp: 1 }],
+        [HOME_NARROW_STR]: [3, 4],
       };
 
       const newState = chatReducers(initialState, action);
@@ -770,7 +765,7 @@ describe.skip('chatReducers', () => {
       expect(newState).toEqual(expectedState);
     });
 
-    test('when anchor is FIRST_UNREAD_ANCHOR common messages are not replaced', () => {
+    test.skip('when anchor is FIRST_UNREAD_ANCHOR common messages are not replaced', () => {
       const commonMessages = [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }];
       const initialState = deepFreeze({
         [HOME_NARROW_STR]: [{ id: 1, timestamp: 3 }, ...commonMessages],
@@ -788,7 +783,7 @@ describe.skip('chatReducers', () => {
       expect(newState[HOME_NARROW_STR]).toEqual(commonMessages);
     });
 
-    test('when anchor is FIRST_UNREAD_ANCHOR deep equal is performed to separate common messages', () => {
+    test.skip('when anchor is FIRST_UNREAD_ANCHOR deep equal is performed to separate common messages', () => {
       const commonMessages = [{ id: 2, timestamp: 4 }, { id: 3, timestamp: 5 }];
       const changedMessage = { id: 4, timestamp: 6, subject: 'new topic' };
       const initialState = deepFreeze({
