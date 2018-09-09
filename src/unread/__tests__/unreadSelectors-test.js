@@ -696,7 +696,7 @@ describe('getUnreadStreamsAndTopicsSansMuted', () => {
   });
 });
 
-describe.skip('getUnreadPrivateMessagesCount', () => {
+describe('getUnreadPrivateMessagesCount', () => {
   test('when no private messages, unread count is 0', () => {
     const state = deepFreeze({
       flags: {},
@@ -714,8 +714,14 @@ describe.skip('getUnreadPrivateMessagesCount', () => {
   test('count all messages in "private messages" narrow, skip read', () => {
     const state = deepFreeze({
       narrows: {
-        '[]': [{ id: 1 }, { id: 2 }],
-        [ALL_PRIVATE_NARROW_STR]: [{ id: 2 }, { id: 3 }, { id: 4 }],
+        '[]': [1, 2],
+        [ALL_PRIVATE_NARROW_STR]: [2, 3, 4],
+      },
+      messages: {
+        1: { id: 1 },
+        2: { id: 2 },
+        3: { id: 3 },
+        4: { id: 4 },
       },
       flags: {
         read: {

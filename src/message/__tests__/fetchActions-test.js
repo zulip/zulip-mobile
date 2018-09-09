@@ -9,7 +9,7 @@ const streamNarrowStr = JSON.stringify(narrow);
 
 global.FormData = class FormData {};
 
-describe.skip('fetchActions', () => {
+describe('fetchActions', () => {
   afterEach(() => {
     fetch.reset();
   });
@@ -112,8 +112,12 @@ describe.skip('fetchActions', () => {
         },
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
-          [streamNarrowStr]: [{ id: 2 }],
-          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
+          [streamNarrowStr]: [2],
+          [HOME_NARROW_STR]: [1, 2],
+        },
+        messages: {
+          1: { id: 1 },
+          2: { id: 2 },
         },
         fetching: {
           [HOME_NARROW_STR]: { older: false, newer: false },
@@ -137,8 +141,12 @@ describe.skip('fetchActions', () => {
         },
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
-          [streamNarrowStr]: [{ id: 2 }],
-          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
+          [streamNarrowStr]: [2],
+          [HOME_NARROW_STR]: [1, 2],
+        },
+        messages: {
+          1: { id: 1 },
+          2: { id: 2 },
         },
         fetching: {
           [HOME_NARROW_STR]: { older: false, newer: false },
@@ -161,8 +169,12 @@ describe.skip('fetchActions', () => {
         },
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
-          [streamNarrowStr]: [{ id: 2 }],
-          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
+          [streamNarrowStr]: [2],
+          [HOME_NARROW_STR]: [1, 2],
+        },
+        messages: {
+          1: { id: 1 },
+          2: { id: 2 },
         },
         fetching: {
           [HOME_NARROW_STR]: { older: true, newer: false },
@@ -185,8 +197,12 @@ describe.skip('fetchActions', () => {
         },
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
-          [streamNarrowStr]: [{ id: 2 }],
-          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
+          [streamNarrowStr]: [2],
+          [HOME_NARROW_STR]: [1, 2],
+        },
+        messages: {
+          1: { id: 1 },
+          2: { id: 2 },
         },
         fetching: {},
       });
@@ -209,8 +225,12 @@ describe.skip('fetchActions', () => {
         },
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
-          [streamNarrowStr]: [{ id: 2 }],
-          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
+          [streamNarrowStr]: [2],
+          [HOME_NARROW_STR]: [1, 2],
+        },
+        messages: {
+          1: { id: 1 },
+          2: { id: 2 },
         },
         fetching: {},
       });
@@ -232,8 +252,12 @@ describe.skip('fetchActions', () => {
         },
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
-          [streamNarrowStr]: [{ id: 2 }],
-          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
+          [streamNarrowStr]: [2],
+          [HOME_NARROW_STR]: [1, 2],
+        },
+        messages: {
+          1: { id: 1 },
+          2: { id: 2 },
         },
         fetching: {},
       });
@@ -254,8 +278,12 @@ describe.skip('fetchActions', () => {
         },
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
-          [streamNarrowStr]: [{ id: 2 }],
-          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
+          [streamNarrowStr]: [2],
+          [HOME_NARROW_STR]: [1, 2],
+        },
+        messages: {
+          1: { id: 1 },
+          2: { id: 2 },
         },
         fetching: {
           HOME_NARROW: { older: false, newer: true },
@@ -280,8 +308,12 @@ describe.skip('fetchActions', () => {
         fetching: {},
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
-          [streamNarrowStr]: [{ id: 2 }],
-          [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
+          [streamNarrowStr]: [2],
+          [HOME_NARROW_STR]: [1, 2],
+        },
+        messages: {
+          1: { id: 1 },
+          2: { id: 2 },
         },
       });
 

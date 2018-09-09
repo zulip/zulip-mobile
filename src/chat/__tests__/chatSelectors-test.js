@@ -19,24 +19,32 @@ import {
 } from '../../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../../nullObjects';
 
-describe.skip('getMessagesForNarrow', () => {
+describe('getMessagesForNarrow', () => {
   test('if no outbox messages returns messages with no change', () => {
     const state = deepFreeze({
       narrows: {
-        '[]': [{ id: 123 }],
+        '[]': [123],
+      },
+      messages: {
+        123: { id: 123 },
       },
       outbox: [],
     });
 
+    const expectedState = deepFreeze([state.messages[123]]);
+
     const anchor = getMessagesForNarrow(HOME_NARROW)(state);
 
-    expect(anchor).toBe(state.narrows['[]']);
+    expect(anchor).toEqual(expectedState);
   });
 
   test('combine messages and outbox in same narrow', () => {
     const state = deepFreeze({
       narrows: {
-        '[]': [{ id: 123 }],
+        '[]': [123],
+      },
+      messages: {
+        123: { id: 123 },
       },
       outbox: [
         {
@@ -71,7 +79,10 @@ describe.skip('getMessagesForNarrow', () => {
   test('do not combine messages and outbox if not caught up', () => {
     const state = deepFreeze({
       narrows: {
-        [HOME_NARROW_STR]: [{ id: 123 }],
+        [HOME_NARROW_STR]: [123],
+      },
+      messages: {
+        123: { id: 123 },
       },
       outbox: [
         {
@@ -84,15 +95,20 @@ describe.skip('getMessagesForNarrow', () => {
       ],
     });
 
+    const expectedState = deepFreeze([state.messages[123]]);
+
     const anchor = getMessagesForNarrow(HOME_NARROW)(state);
 
-    expect(anchor).toBe(state.narrows[HOME_NARROW_STR]);
+    expect(anchor).toEqual(expectedState);
   });
 
   test('do not combine messages and outbox in different narrow', () => {
     const state = deepFreeze({
       narrows: {
-        [JSON.stringify(privateNarrow('john@example.com'))]: [{ id: 123 }],
+        [JSON.stringify(privateNarrow('john@example.com'))]: [123],
+      },
+      messages: {
+        123: { id: 123 },
       },
       outbox: [
         {
@@ -113,7 +129,7 @@ describe.skip('getMessagesForNarrow', () => {
   });
 });
 
-describe.skip('getFirstMessageId', () => {
+describe('getFirstMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = deepFreeze({
       narrows: {
@@ -130,7 +146,12 @@ describe.skip('getFirstMessageId', () => {
   test('returns first message id', () => {
     const state = deepFreeze({
       narrows: {
-        '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
+        '[]': [1, 2, 3],
+      },
+      messages: {
+        1: { id: 1 },
+        2: { id: 2 },
+        3: { id: 3 },
       },
       outbox: [],
     });
@@ -141,12 +162,13 @@ describe.skip('getFirstMessageId', () => {
   });
 });
 
-describe.skip('getLastMessageId', () => {
+describe('getLastMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = deepFreeze({
       narrows: {
         '[]': [],
       },
+      messages: {},
       outbox: [],
     });
 
@@ -158,7 +180,12 @@ describe.skip('getLastMessageId', () => {
   test('returns last message id', () => {
     const state = deepFreeze({
       narrows: {
-        '[]': [{ id: 1 }, { id: 2 }, { id: 3 }],
+        '[]': [1, 2, 3],
+      },
+      messages: {
+        1: { id: 1 },
+        2: { id: 2 },
+        3: { id: 3 },
       },
       outbox: [],
     });
@@ -169,10 +196,11 @@ describe.skip('getLastMessageId', () => {
   });
 });
 
-describe.skip('getLastTopicForNarrow', () => {
+describe('getLastTopicForNarrow', () => {
   test('when no messages yet, return empty string', () => {
     const state = deepFreeze({
       narrows: {},
+      messages: {},
       outbox: [],
     });
 
@@ -184,10 +212,11 @@ describe.skip('getLastTopicForNarrow', () => {
   test('when last message has a `subject` property, return it', () => {
     const state = deepFreeze({
       narrows: {
-        [HOME_NARROW_STR]: [
-          { id: 0, subject: 'First subject' },
-          { id: 1, subject: 'Last subject' },
-        ],
+        [HOME_NARROW_STR]: [0, 1],
+      },
+      messages: {
+        0: { subject: 'First subject' },
+        1: { subject: 'Last subject' },
       },
       outbox: [],
     });
@@ -201,7 +230,10 @@ describe.skip('getLastTopicForNarrow', () => {
     const narrow = privateNarrow('john@example.com');
     const state = deepFreeze({
       narrows: {
-        [JSON.stringify(narrow)]: [{ id: 0 }],
+        [JSON.stringify(narrow)]: [0],
+      },
+      messages: {
+        0: {},
       },
       outbox: [],
     });
@@ -215,7 +247,12 @@ describe.skip('getLastTopicForNarrow', () => {
     const narrow = privateNarrow('john@example.com');
     const state = deepFreeze({
       narrows: {
-        [JSON.stringify(narrow)]: [{ id: 0 }, { id: 1, subject: 'Some subject' }, { id: 2 }],
+        [JSON.stringify(narrow)]: [0, 1, 2],
+      },
+      messages: {
+        0: {},
+        1: { id: 1, subject: 'Some subject' },
+        2: {},
       },
       outbox: [],
     });

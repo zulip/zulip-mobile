@@ -7,7 +7,7 @@ import { navStateWithNarrow } from '../../utils/testHelpers';
 const streamNarrowObj = streamNarrow('some stream');
 const streamNarrowStr = JSON.stringify(streamNarrowObj);
 
-describe.skip('messageActions', () => {
+describe('messageActions', () => {
   describe('doNarrow', () => {
     test('when no messages in new narrow and caughtUp is false, actions to fetch messages and switch narrow are dispatched', () => {
       const store = mockStore({
@@ -79,7 +79,10 @@ describe.skip('messageActions', () => {
         caughtUp: {},
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
-          [streamNarrowStr]: [{ id: 1 }],
+          [streamNarrowStr]: [1],
+        },
+        messages: {
+          1: {},
         },
         streams: [
           {
@@ -105,7 +108,10 @@ describe.skip('messageActions', () => {
         caughtUp: {},
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
-          [streamNarrowStr]: [{ id: 1 }],
+          [streamNarrowStr]: [1],
+        },
+        messages: {
+          1: {},
         },
         streams: [
           {
@@ -130,7 +136,10 @@ describe.skip('messageActions', () => {
         caughtUp: {},
         ...navStateWithNarrow(HOME_NARROW),
         narrows: {
-          [streamNarrowStr]: [{ id: 1 }],
+          [streamNarrowStr]: [1],
+        },
+        messages: {
+          1: {},
         },
         users: [
           {
