@@ -33,4 +33,4 @@ export const isStateGoingBack = (cur: GlobalState, prev: GlobalState): boolean =
   || isNavTransitionGoingOn(cur, prev)
   || isEqual(cur, prev);
 
-export const connectPreserveOnBackOption = { areStatesEqual: isStateGoingBack };
+export const connectPreserveOnBackOption = () => ({ areStatesEqual: isStateGoingBack });

@@ -62,5 +62,5 @@ export default connect(
   }),
   null,
   null,
-  connectPreserveOnBackOption,
+  connectPreserveOnBackOption(),
 )(TopicListScreen);
