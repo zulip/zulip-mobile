@@ -1,3 +1,5 @@
+# DIFFS: Noise suppression.
+
 # Suppress noisy generated files in diffs.
 yarn.lock -diff
 src/webview/js/generatedEs3.js -diff
@@ -7,23 +9,31 @@ src/webview/js/generatedEs3.js -diff
 flow-typed/npm/*_vx.x.x.js -diff
 flow-typed/npm/*/*_vx.x.x.js -diff
 
+
+# DIFFS: Per-language drivers.
+#
 # In the output of `git diff` and `git log -p` etc., there's a handy
 # "hunk header" on the `@@` line at the top of each hunk, to help the
 # reader see what area of the code it affects.  This has a reasonable
 # language-independent default, but Git also offers specific patterns
 # for a few languages.  Use them, where they're better.
 #
-# For Java, shows the method instead of the class; much better.
-*.java diff=java
-# For Objective-C, the default completely misses most function definitions.
-ios/**/*.m diff=objc
-ios/**/*.h diff=objc
-# We don't currently have any CSS files, but let's bet on this being better.
-*.css diff=css
-#
 # Sadly there is no JavaScript pattern.  (And sadly for zulip/zulip:
 # for Python the special one is worse than the default.)  For the list,
 # see `git help attributes`.
+
+# For Java, shows the method instead of the class; much better.
+*.java diff=java
+
+# For Objective-C, the default completely misses most function definitions.
+ios/**/*.m diff=objc
+ios/**/*.h diff=objc
+
+# We don't currently have any CSS files, but let's bet on this being better.
+*.css diff=css
+
+
+# FORMATTING
 
 # Maintain LF (Unix-style) newlines in text files.
 * text=auto eol=lf
