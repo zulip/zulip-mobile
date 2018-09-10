@@ -29,8 +29,10 @@ export const isNavTransitionGoingOn = (cur: GlobalState, prev: GlobalState): boo
   cur.nav.isTransitioning || prev.nav.isTransitioning;
 
 export const isStateGoingBack = (cur: GlobalState, prev: GlobalState): boolean =>
-  cur.nav.routes.length < prev.nav.routes.length
-  || isNavTransitionGoingOn(cur, prev)
-  || isEqual(cur, prev);
+  cur.nav.routes.length < prev.nav.routes.length || isEqual(cur, prev);
 
-export const connectPreserveOnBackOption = () => ({ areStatesEqual: isStateGoingBack });
+export const connectPreserveOnBackOption = (disableNavTransitionEffect?: boolean) => ({
+  areStatesEqual: (cur: GlobalState, prev: GlobalState) =>
+    isStateGoingBack(cur, prev)
+    || (!disableNavTransitionEffect && isNavTransitionGoingOn(cur, prev)),
+});
