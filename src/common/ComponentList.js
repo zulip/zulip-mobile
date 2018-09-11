@@ -1,12 +1,11 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import type { ChildrenArray } from 'react';
 import { View } from 'react-native';
 
 import type { Style } from '../types';
 
 type Props = {
-  children: ChildrenArray<*>,
+  children: any,
   spacing?: number,
   outerSpacing?: boolean,
   style?: Style,
