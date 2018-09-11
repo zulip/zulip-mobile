@@ -300,9 +300,9 @@ describe('chatReducers', () => {
   });
 
   describe('EVENT_MESSAGE_DELETE', () => {
-    test.skip('if a message does not exist no changes are made', () => {
+    test('if a message does not exist no changes are made', () => {
       const initialState = deepFreeze({
-        [HOME_NARROW_STR]: [{ id: 1 }, { id: 2 }],
+        [HOME_NARROW_STR]: [1, 2],
         [privateNarrowStr]: [],
       });
 
