@@ -1,6 +1,5 @@
 /* @flow */
 import type {
-  GlobalState,
   NavigationState,
   NavAction,
   RehydrateAction,
