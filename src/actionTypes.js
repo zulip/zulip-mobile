@@ -1,6 +1,4 @@
 /* @flow */
-import type { NavigationNavigateAction } from 'react-navigation';
-
 import {
   REHYDRATE,
   APP_ONLINE,
@@ -88,6 +86,8 @@ import type {
   MuteState,
 } from './types';
 
+export type { NavigationAction } from 'react-navigation';
+
 /**
  * Dispatched by redux-persist when the stored state is loaded.
  *
@@ -149,8 +149,6 @@ export type DebugFlagToggleAction = {
   key: string,
   value: string,
 };
-
-export type NavigateAction = NavigationNavigateAction;
 
 export type AccountSwitchAction = {
   type: typeof ACCOUNT_SWITCH,
