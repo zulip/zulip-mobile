@@ -87,15 +87,22 @@ export type PmRecipientUser = {
 };
 
 /**
- * Indexer over all narrows for which we have locally stored messages.
- * @prop narrow - Map from narrows to lists of message IDs.
+ * An index on `MessagesState`, listing messages in each narrow.
+ *
+ * Keys are `JSON.stringify`-encoded `Narrow` objects.
+ * Values are sorted lists of message IDs.
+ *
+ * See also `MessagesState`, which stores the message data indexed by ID.
  */
 export type NarrowsState = {
   [narrow: string]: number[],
 };
 
 /**
- * Indexer over all locally stored messages.
+ * A map with all messages we've stored locally, indexed by ID.
+ *
+ * See also `NarrowsState`, which is an index on this data that identifies
+ * messages belonging to a given narrow.
  */
 export type MessagesState = {
   [id: number]: Message,
