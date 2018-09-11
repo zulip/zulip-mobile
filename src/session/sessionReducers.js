@@ -71,7 +71,6 @@ const loginSuccess = (state: SessionState, action: LoginSuccessAction): SessionS
 
 const rehydrate = (state: SessionState, action: RehydrateAction): SessionState => {
   const { payload } = action;
-  // $FlowFixMe: Flow oddly doesn't see the refinement here of `payload` to `GlobalState`.
   const haveApiKey = !!(payload && payload.accounts && getAuth(payload).apiKey);
   return {
     ...state,

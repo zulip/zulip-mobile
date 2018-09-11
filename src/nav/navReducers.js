@@ -27,8 +27,7 @@ const rehydrate = (state: NavigationState, action: RehydrateAction): NavigationS
   if (!action.payload || !action.payload.accounts) {
     return getStateForRoute('welcome') || state;
   }
-  // $FlowFixMe: Flow oddly doesn't see the refinement from the condition above.
-  const rehydratedState = (action.payload: GlobalState);
+  const rehydratedState = action.payload;
   if (!getAuth(rehydratedState).apiKey) {
     const { accounts } = rehydratedState;
     // getStateForRoute can return null, but it is unclear under what
