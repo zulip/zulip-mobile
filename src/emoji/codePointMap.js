@@ -45,7 +45,7 @@ export const codePointMap: { [name: string]: string } = {
   heart_with_arrow: '1f498',
   cooking: '1f373',
   new: '1f195',
-  peace_symbol: '262e',
+  peace: '262e',
   pancakes: '1f95e',
   herb: '1f33f',
   pouting_cat: '1f63e',
