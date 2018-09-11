@@ -47,7 +47,8 @@ export const cacheKeys = [
 const migrations = {
   '0': state => {
     AsyncStorage.removeItem('reduxPersist:messages');
-    return state;
+    const { messages, ...restState } = state; // eslint-disable-line no-unused-vars
+    return restState;
   },
 };
 
