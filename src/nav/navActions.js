@@ -3,7 +3,7 @@ import { NavigationActions } from 'react-navigation';
 
 import type {
   Dispatch,
-  NavigateAction,
+  NavigationAction,
   GetState,
   Message,
   Narrow,
@@ -12,7 +12,7 @@ import type {
 } from '../types';
 import { getSameRoutesCount } from '../selectors';
 
-export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigateAction =>
+export const navigateBack = () => (dispatch: Dispatch, getState: GetState): NavigationAction =>
   // $FlowFixMe
   dispatch(NavigationActions.pop({ n: getSameRoutesCount(getState()) }));
 
@@ -23,85 +23,86 @@ export const navigateBack = () => (dispatch: Dispatch, getState: GetState): Navi
 //    NavigationActions.navigate({ routeName: 'main' });
 
 /** Only call this via `doNarrow`.  See there for details. */
-export const navigateToChat = (narrow: Narrow): NavigateAction =>
+export const navigateToChat = (narrow: Narrow): NavigationAction =>
   NavigationActions.navigate({ routeName: 'chat', params: { narrow } });
 
-export const navigateToUsersScreen = (): NavigateAction =>
+export const navigateToUsersScreen = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'users' });
 
-export const navigateToSearch = (): NavigateAction =>
+export const navigateToSearch = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'search' });
 
-export const navigateToEmojiPicker = (messageId: number): NavigateAction =>
+export const navigateToEmojiPicker = (messageId: number): NavigationAction =>
   NavigationActions.navigate({ routeName: 'emoji-picker', params: { messageId } });
 
-export const navigateToAuth = (serverSettings: ApiResponseServerSettings): NavigateAction =>
+export const navigateToAuth = (serverSettings: ApiResponseServerSettings): NavigationAction =>
   NavigationActions.navigate({ routeName: 'auth', params: { serverSettings } });
 
-export const navigateToDev = (): NavigateAction => NavigationActions.navigate({ routeName: 'dev' });
+export const navigateToDev = (): NavigationAction =>
+  NavigationActions.navigate({ routeName: 'dev' });
 
-export const navigateToPassword = (requireEmailFormat: boolean): NavigateAction =>
+export const navigateToPassword = (requireEmailFormat: boolean): NavigationAction =>
   NavigationActions.navigate({ routeName: 'password', params: { requireEmailFormat } });
 
-export const navigateToAccountPicker = (): NavigateAction =>
+export const navigateToAccountPicker = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'account' });
 
-export const navigateToAccountDetails = (email: string): NavigateAction =>
+export const navigateToAccountDetails = (email: string): NavigationAction =>
   NavigationActions.navigate({ routeName: 'account-details', params: { email } });
 
-export const navigateToGroupDetails = (recipients: UserOrBot[]): NavigateAction =>
+export const navigateToGroupDetails = (recipients: UserOrBot[]): NavigationAction =>
   NavigationActions.navigate({ routeName: 'group-details', params: { recipients } });
 
-export const navigateToRealmScreen = (realm?: string): NavigateAction =>
+export const navigateToRealmScreen = (realm?: string): NavigationAction =>
   NavigationActions.navigate({ routeName: 'realm', params: { realm } });
 
-export const navigateToLightbox = (src: string, message: Message): NavigateAction =>
+export const navigateToLightbox = (src: string, message: Message): NavigationAction =>
   NavigationActions.navigate({ routeName: 'lightbox', params: { src, message } });
 
-export const navigateToLanguage = (): NavigateAction =>
+export const navigateToLanguage = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'language' });
 
-export const navigateToCreateGroup = (): NavigateAction =>
+export const navigateToCreateGroup = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'group' });
 
-export const navigateToDiagnostics = (): NavigateAction =>
+export const navigateToDiagnostics = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'diagnostics' });
 
-export const navigateToWelcomeHelp = (): NavigateAction =>
+export const navigateToWelcomeHelp = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'welcome-help' });
 
-export const navigateToVariables = (): NavigateAction =>
+export const navigateToVariables = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'variables' });
 
-export const navigateToTiming = (): NavigateAction =>
+export const navigateToTiming = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'timing' });
 
-export const navigateToStorage = (): NavigateAction =>
+export const navigateToStorage = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'storage' });
 
-export const navigateToDebug = (): NavigateAction =>
+export const navigateToDebug = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'debug' });
 
-export const navigateToStream = (streamId: number): NavigateAction =>
+export const navigateToStream = (streamId: number): NavigationAction =>
   NavigationActions.navigate({ routeName: 'stream', params: { streamId } });
 
-export const navigateToTopicList = (streamId: number): NavigateAction =>
+export const navigateToTopicList = (streamId: number): NavigationAction =>
   NavigationActions.navigate({ routeName: 'topics', params: { streamId } });
 
-export const navigateToCreateStream = (): NavigateAction =>
+export const navigateToCreateStream = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'stream-create' });
 
-export const navigateToEditStream = (streamId: number): NavigateAction =>
+export const navigateToEditStream = (streamId: number): NavigationAction =>
   NavigationActions.navigate({ routeName: 'stream-edit', params: { streamId } });
 
-export const navigateToStreamSubscribers = (streamId: number): NavigateAction =>
+export const navigateToStreamSubscribers = (streamId: number): NavigationAction =>
   NavigationActions.navigate({ routeName: 'invite-users', params: { streamId } });
 
-export const navigateToNotifications = (): NavigateAction =>
+export const navigateToNotifications = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'notifications' });
 
-export const navigateToLegal = (): NavigateAction =>
+export const navigateToLegal = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'legal' });
 
-export const navigateToUserStatus = (): NavigateAction =>
+export const navigateToUserStatus = (): NavigationAction =>
   NavigationActions.navigate({ routeName: 'user-status' });

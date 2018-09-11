@@ -11,7 +11,7 @@
 import type { InputSelector } from 'reselect';
 
 import type { Account, Outbox } from './types';
-import type { Action, NavigateAction } from './actionTypes';
+import type { Action, NavigationAction } from './actionTypes';
 import type {
   Topic,
   HuddlesUnreadItem,
@@ -322,9 +322,9 @@ export type Selector<TResult, TParam = void> = InputSelector<GlobalState, TParam
 
 export type GetState = () => GlobalState;
 
-export type PlainDispatch = <A: Action | NavigateAction>(action: A) => A;
+export type PlainDispatch = <A: Action | NavigationAction>(action: A) => A;
 
 export interface Dispatch {
-  <A: Action | NavigateAction>(action: A): A;
+  <A: Action | NavigationAction>(action: A): A;
   <T>((Dispatch, GetState) => T): T;
 }
