@@ -285,6 +285,27 @@ describe('messageReducers', () => {
   });
 
   describe('MESSAGE_FETCH_COMPLETE', () => {
+    test('fetched messages are added to the state', () => {
+      const initialState = deepFreeze({
+        1: { id: 1 },
+        2: { id: 2 },
+        4: { id: 4 },
+      });
+      const action = deepFreeze({
+        type: MESSAGE_FETCH_COMPLETE,
+        messages: [{ id: 3 }, { id: 4 }, { id: 5 }],
+      });
+      const expectedState = {
+        1: { id: 1 },
+        2: { id: 2 },
+        3: { id: 3 },
+        4: { id: 4 },
+        5: { id: 5 },
+      };
+      const newState = messageReducers(initialState, action);
+      expect(newState).toEqual(expectedState);
+    });
+
     test('when anchor is FIRST_UNREAD_ANCHOR common messages are not replaced', () => {
       const commonMessages = { 2: { id: 2, timestamp: 4 }, 3: { id: 3, timestamp: 5 } };
       const initialState = deepFreeze({
