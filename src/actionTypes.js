@@ -1,6 +1,4 @@
 /* @flow strict-local */
-import type { NavigationNavigateAction } from 'react-navigation';
-
 import {
   REHYDRATE,
   APP_ONLINE,
@@ -90,6 +88,8 @@ import type {
   UserStatusEvent,
 } from './types';
 
+export type { NavigationAction } from 'react-navigation';
+
 /**
  * Dispatched by redux-persist when the stored state is loaded.
  *
@@ -151,8 +151,6 @@ type DebugFlagToggleAction = {|
   key: string,
   value: boolean,
 |};
-
-export type NavigateAction = NavigationNavigateAction;
 
 type AccountSwitchAction = {|
   type: typeof ACCOUNT_SWITCH,
