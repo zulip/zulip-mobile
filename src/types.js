@@ -245,12 +245,10 @@ export type FetchingState = {
   [narrow: string]: Fetching,
 };
 
-export type FlagMap = {
-  [number]: boolean,
-};
-
 export type FlagsState = {
-  [string]: FlagMap,
+  [flagName: string]: {
+    [messageId: number]: boolean,
+  },
 };
 
 export type MigrationsState = {
