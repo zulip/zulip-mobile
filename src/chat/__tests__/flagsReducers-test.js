@@ -35,7 +35,8 @@ describe('flagsReducers', () => {
       const action = deepFreeze({
         type: REHYDRATE,
         payload: {
-          messages: [
+          accounts: [],
+          narrows: [
             { id: 1 },
             { id: 2, flags: [] },
             { id: 3, flags: ['read'] },
