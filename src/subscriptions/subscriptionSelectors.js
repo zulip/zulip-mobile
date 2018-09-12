@@ -56,6 +56,6 @@ export const getIsActiveStreamAnnouncementOnly = (narrow: Narrow) =>
     if (!isStreamOrTopicNarrow(narrow)) {
       return false;
     }
-    return (streams.find(stream => narrow[0].operand === stream.name) || NULL_STREAM)
-      .is_announcement_only;
+    const stream = streams.find(stream_ => narrow[0].operand === stream_.name);
+    return stream ? stream.is_announcement_only : false;
   });

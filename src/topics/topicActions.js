@@ -2,7 +2,6 @@
 import type { GetState, Dispatch, Narrow, Topic, InitTopicsAction } from '../types';
 import { getTopics } from '../api';
 import { INIT_TOPICS } from '../actionConstants';
-import { NULL_STREAM } from '../nullObjects';
 import { isStreamNarrow } from '../utils/narrow';
 import { getAuth, getStreams } from '../selectors';
 
@@ -29,7 +28,9 @@ export const fetchTopicsForActiveStream = (narrow: Narrow) => async (
   }
 
   const streams = getStreams(state);
-  const stream = streams.find(sub => narrow[0].operand === sub.name) || NULL_STREAM;
-
+  const stream = streams.find(sub => narrow[0].operand === sub.name);
+  if (!stream) {
+    return;
+  }
   dispatch(fetchTopics(stream.stream_id));
 };
