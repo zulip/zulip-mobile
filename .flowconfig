@@ -56,6 +56,9 @@ sketchy-null
 [options]
 emoji=true
 
+esproposal.optional_chaining=enable
+esproposal.nullish_coalescing=enable
+
 # The main warning is "Unused suppression comment".
 # Temporarily disabled to facilitate RN version upgrade.
 #include_warnings=true
@@ -96,4 +99,4 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
 [version]
-^0.67.0
+^0.78.0
