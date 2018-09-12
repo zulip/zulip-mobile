@@ -164,23 +164,23 @@ repositories {
 
 
 dependencies {
-    compile project(':react-native-text-input-reset')
-    compile project(':react-native-notifications')
-    compile project(':react-native-image-picker')
-    compile project(':react-native-orientation')
-    compile project(':react-native-sentry')
-    compile project(':@remobile_react-native-toast')
-    compile project(':react-native-photo-view')
-    compile project(':react-native-fetch-blob')
-    compile project(':react-native-sound')
-    compile project(':react-native-device-info')
-    compile project(':react-native-vector-icons')
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
-    compile "me.leolin:ShortcutBadger:1.1.16@aar"
-    compile "com.facebook.react:react-native:+"  // From node_modules
-    compile 'com.facebook.fresco:animated-gif:1.3.0' // For animated GIF support
-    compile "com.android.support:customtabs:${rootProject.ext.supportLibVersion}"
+    implementation project(':react-native-text-input-reset')
+    implementation project(':react-native-notifications')
+    implementation project(':react-native-image-picker')
+    implementation project(':react-native-orientation')
+    implementation project(':react-native-sentry')
+    implementation project(':@remobile_react-native-toast')
+    implementation project(':react-native-photo-view')
+    implementation project(':react-native-fetch-blob')
+    implementation project(':react-native-sound')
+    implementation project(':react-native-device-info')
+    implementation project(':react-native-vector-icons')
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation "me.leolin:ShortcutBadger:1.1.16@aar"
+    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.facebook.fresco:animated-gif:1.3.0' // For animated GIF support
+    implementation "com.android.support:customtabs:${rootProject.ext.supportLibVersion}"
 
 }
 
