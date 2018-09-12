@@ -88,10 +88,13 @@ export const getLastMessageId = (narrow: Narrow) =>
   );
 
 export const getLastTopicForNarrow = (narrow: Narrow) =>
-  createSelector(getMessagesForNarrow(narrow), messagesForNarrow => {
-    const reversedMessages = messagesForNarrow.slice().reverse();
-    const lastMessageWithSubject = reversedMessages.find(msg => msg.subject);
-    return lastMessageWithSubject ? lastMessageWithSubject.subject : '';
+  createSelector(getMessagesForNarrow(narrow), messages => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].subject) {
+        return messages[i].subject;
+      }
+    }
+    return '';
   });
 
 export const getUserInPmNarrow = (narrow: Narrow) =>
