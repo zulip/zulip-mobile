@@ -18,9 +18,3 @@ export const getAnchorForActiveNarrow = (narrow: Narrow) =>
     getMute,
     (messages, flags, subscriptions, mute) => findAnchor(messages, flags, subscriptions, mute),
   );
-
-export const getLastMessageForNarrow = (narrow: Narrow) =>
-  createSelector(
-    getShownMessagesForNarrow(narrow),
-    messages => (messages.length === 0 ? undefined : messages[messages.length - 1]),
-  );
