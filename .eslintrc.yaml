@@ -32,6 +32,7 @@ rules:
   no-mixed-operators: off
   object-curly-newline: off
   quote-props: off
+  implicit-arrow-linebreak: off
 
   # For more formatting rules, see tools/formatting.eslintrc.yaml.
 
