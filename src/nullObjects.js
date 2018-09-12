@@ -3,7 +3,6 @@ import type {
   Account,
   User,
   Stream,
-  Message,
   Subscription,
   Presence,
   PresenceAggregated,
@@ -43,34 +42,6 @@ export const NULL_STREAM: Stream = {
   pin_to_top: false,
   color: 'green',
   is_announcement_only: false,
-};
-
-export const NULL_MESSAGE: Message = {
-  avatar_url: '',
-  client: 'website',
-  content: '',
-  content_type: 'text/html',
-  display_recipient: '',
-  edit_history: [],
-  flags: [],
-  gravatar_hash: '',
-  id: -1,
-  isOutbox: false,
-  is_me_message: false,
-  reactions: [],
-  recipient_id: -1,
-  sender_domain: '',
-  sender_email: '',
-  sender_full_name: '',
-  sender_id: -1,
-  sender_short_name: '',
-  sender_realm_str: '',
-  stream_id: -1,
-  subject: '',
-  subject_links: [],
-  submessages: [],
-  timestamp: 0,
-  type: 'stream',
 };
 
 export const NULL_SUBSCRIPTION: Subscription = {

@@ -23,7 +23,7 @@ import {
   isStreamOrTopicNarrow,
 } from '../utils/narrow';
 import { shouldBeMuted } from '../utils/message';
-import { NULL_ARRAY, NULL_MESSAGE, NULL_USER, NULL_SUBSCRIPTION } from '../nullObjects';
+import { NULL_ARRAY, NULL_USER, NULL_SUBSCRIPTION } from '../nullObjects';
 
 export const outboxMessagesForCurrentNarrow = (narrow: Narrow): Selector<Outbox[]> =>
   createSelector(getCaughtUpForActiveNarrow(narrow), getOutbox, (caughtUp, outboxMessages) => {
@@ -90,8 +90,8 @@ export const getLastMessageId = (narrow: Narrow) =>
 export const getLastTopicForNarrow = (narrow: Narrow) =>
   createSelector(getMessagesForNarrow(narrow), messagesForNarrow => {
     const reversedMessages = messagesForNarrow.slice().reverse();
-    const lastMessageWithSubject = reversedMessages.find(msg => msg.subject) || NULL_MESSAGE;
-    return lastMessageWithSubject.subject;
+    const lastMessageWithSubject = reversedMessages.find(msg => msg.subject);
+    return lastMessageWithSubject ? lastMessageWithSubject.subject : '';
   });
 
 export const getUserInPmNarrow = (narrow: Narrow) =>
