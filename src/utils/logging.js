@@ -2,7 +2,7 @@
 import { Sentry, SentrySeverity } from 'react-native-sentry';
 import config from '../config';
 
-export const logErrorRemotely = (e: Error, msg: string) => {
+export const logErrorRemotely = (e: Error, msg: ?string) => {
   if (config.enableSentry) {
     Sentry.captureException(e);
   }
