@@ -2,7 +2,6 @@
 import type {
   Account,
   User,
-  Stream,
   Subscription,
   Presence,
   PresenceAggregated,
@@ -31,17 +30,6 @@ export const NULL_USER: User = {
   is_bot: false,
   timezone: '',
   user_id: -1,
-};
-
-export const NULL_STREAM: Stream = {
-  stream_id: 0,
-  description: '',
-  name: '',
-  invite_only: false,
-  in_home_view: false,
-  pin_to_top: false,
-  color: 'green',
-  is_announcement_only: false,
 };
 
 export const NULL_SUBSCRIPTION: Subscription = {

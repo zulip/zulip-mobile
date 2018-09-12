@@ -1,8 +1,8 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { Narrow, Stream, Subscription } from '../types';
-import { NULL_STREAM, NULL_SUBSCRIPTION } from '../nullObjects';
+import type { Narrow, Selector, Stream, Subscription } from '../types';
+import { NULL_SUBSCRIPTION } from '../nullObjects';
 import { isStreamOrTopicNarrow } from '../utils/narrow';
 import { getSubscriptions, getStreams } from '../directSelectors';
 
@@ -39,11 +39,14 @@ export const getSubscribedStreams = createSelector(
     })),
 );
 
-export const getStreamFromId = (streamId: string) =>
-  createSelector(
-    [getStreams],
-    (streams, params) => streams.find(x => x.stream_id === streamId) || NULL_STREAM,
-  );
+export const getStreamFromId = (streamId: string): Selector<Stream> =>
+  createSelector([getStreams], (streams, params) => {
+    const stream = streams.find(x => x.stream_id === streamId);
+    if (!stream) {
+      throw new Error(`getStreamFromId: missing stream: id ${streamId}`);
+    }
+    return stream;
+  });
 
 export const getSubscriptionFromId = (streamId: string) =>
   createSelector(
