@@ -56,6 +56,9 @@ sketchy-null
 [options]
 emoji=true
 
+esproposal.optional_chaining=enable
+esproposal.nullish_coalescing=enable
+
 include_warnings=true
 
 module.system=haste
@@ -94,4 +97,4 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
 [version]
-^0.75.0
+^0.78.0
