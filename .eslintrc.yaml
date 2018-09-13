@@ -33,6 +33,7 @@ rules:
   object-curly-newline: off
   quote-props: off
   implicit-arrow-linebreak: off
+  lines-between-class-members: off
 
   # For more formatting rules, see tools/formatting.eslintrc.yaml.
 
