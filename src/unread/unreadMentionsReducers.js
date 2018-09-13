@@ -58,8 +58,6 @@ const eventUpdateMessageFlags = (
 
   if (action.operation === 'add') {
     return removeItemsFromArray(state, action.messages);
-  } else if (action.operation === 'remove') {
-    // we do not support that operation
   }
 
   return state;

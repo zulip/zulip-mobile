@@ -104,14 +104,20 @@ export const getNarrowFromLink = (url: string, realm: string, users: User[]): Na
     return groupNarrow(
       recipients.map((recipient: string) => getUserById(users, parseInt(recipient, 10)).email),
     );
-  } else if (isTopicLink(url, realm)) {
+  }
+
+  if (isTopicLink(url, realm)) {
     return topicNarrow(
       decodeURIComponent(transformToEncodedURI(paths[1])),
       decodeURIComponent(transformToEncodedURI(paths[3])),
     );
-  } else if (isStreamLink(url, realm)) {
+  }
+
+  if (isStreamLink(url, realm)) {
     return streamNarrow(decodeURIComponent(transformToEncodedURI(paths[1])));
-  } else if (isSpecialLink(url, realm)) {
+  }
+
+  if (isSpecialLink(url, realm)) {
     return specialNarrow(paths[1]);
   }
 

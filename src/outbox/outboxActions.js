@@ -95,9 +95,12 @@ const extractTypeToAndSubjectFromNarrow = (
       display_recipient: mapEmailsToUsers(users, narrow, selfDetail),
       subject: '',
     };
-  } else if (isStreamNarrow(narrow)) {
+  }
+
+  if (isStreamNarrow(narrow)) {
     return { type: 'stream', display_recipient: narrow[0].operand, subject: '(no topic)' };
   }
+
   return { type: 'stream', display_recipient: narrow[0].operand, subject: narrow[1].operand };
 };
 

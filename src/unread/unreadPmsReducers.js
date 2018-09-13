@@ -62,8 +62,6 @@ const eventUpdateMessageFlags = (
 
   if (action.operation === 'add') {
     return removeItemsDeeply(state, action.messages);
-  } else if (action.operation === 'remove') {
-    // we do not support that operation
   }
 
   return state;

@@ -277,7 +277,9 @@ class ComposeBox extends PureComponent<Props, State> {
 
     if (!isSubscribed) {
       return <NotSubscribed narrow={narrow} />;
-    } else if (isAnnouncementOnly && !isAdmin) {
+    }
+
+    if (isAnnouncementOnly && !isAdmin) {
       return <AnnouncementOnly />;
     }
 

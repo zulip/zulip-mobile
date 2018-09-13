@@ -69,19 +69,25 @@ export const getMessageTransitionProps = (prevProps: Props, nextProps: Props): T
 export const getMessageUpdateStrategy = (transitionProps: TransitionProps): UpdateStrategy => {
   if (transitionProps.noMessages) {
     return 'replace';
-  } else if (
+  }
+
+  if (
     !transitionProps.sameNarrow
     || transitionProps.allNewMessages
     || transitionProps.messagesReplaced
   ) {
     return 'scroll-to-anchor';
-  } else if (
+  }
+
+  if (
     transitionProps.noNewMessages
     || transitionProps.oldMessagesAdded
     || (transitionProps.newMessagesAdded && !transitionProps.onlyOneNewMessage)
   ) {
     return 'preserve-position';
-  } else if (transitionProps.onlyOneNewMessage) {
+  }
+
+  if (transitionProps.onlyOneNewMessage) {
     return 'scroll-to-bottom-if-near-bottom';
   }
 
