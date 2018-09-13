@@ -352,6 +352,62 @@ Transitions:
   distinctions might be reflected just as different points in the
   source code of an async function.
 
+## TODO: React + Redux integration
+
+What's the best way to integrate an Update Machine into a React app
+where application data is managed with Redux?
+
+We want to have the UM keep its app-level data inside the Redux state.
+If the Redux state (or the relevant parts of it) are persisted with
+something like `redux-persist`, then that means the update metadata
+must also be persisted; perhaps cleanest to have it also live in the
+Redux state so it can be persisted through the same mechanism.
+
+Because the app-level data is in the Redux state, updating it means
+dispatching Redux actions.  This is basically what the `EVENT_*`
+actions in the current Zulip mobile app are.  This also means that the
+UM engine, the code that's making things like long-poll requests,
+needs to have access to the Redux store's `dispatch` method.
+
+### Structure in the current app
+
+In the current Zulip mobile app, the structure looks like
+* The long-poll loop is a `redux-thunk` action, an async function
+  which is provided with the Redux store's `dispatch` and `getState`.
+  The code is in `eventActions.js` as `startEventPolling`, an action
+  creator which takes the events finger as parameters.
+* That action creator is in turn invoked within the thunk action
+  created by the nullary action creator `fetchEssentialInitialData`
+  (in `fetchActions.js`), which does a number of other things but in
+  particular first invokes `registerForEvents`, which is `/register`
+  in the API binding.
+* That in turn is invoked by the thunk action created by
+  `doInitialFetch`, in the same file.
+* Which is invoked by `AppDataFetcher`.  This is a Redux-`connect`ed
+  component that appears near the very top of the hierarchy in
+  `ZulipMobile.js`.  The component's one job is to listen for changes
+  to a boolean field `needsInitialFetch` in the Redux state, and
+  dispatch this action when it becomes true.
+* That field, in turn, belongs to a state machine with several
+  transitions:
+  * On startup, it's set to true just if the persisted data contains
+    authentication credentials for an account.  (It's false in
+    `initialState`, and then set on a `REHYDRATE` action.)
+  * It's set to true when the user logs into a server, or switches
+    accounts (action types `LOGIN_SUCCESS` and `ACCOUNT_SWITCH`.)
+  * It's set to true on an `APP_REFRESH` action -- which is dispatched
+    exclusively by the long-poll loop in `startEventPolling`, when it
+    finds the event queue has expired.
+  * It's set to false on an `INITIAL_FETCH_COMPLETE` action -- which
+    is dispatched exclusively by `fetchEssentialInitialData`, just
+    before it dispatches a `startEventPolling` action.
+
+Essentially, the `AppDataFetcher` React component is used as a way of
+listening for certain Redux actions (notably `REHYDRATE` and
+`LOGIN_SUCCESS`) and firing off another one (from `doInitialFetch`)
+when any of those happen.  And the latter action is a thunk action
+which kicks off a complex series of further thunk actions.
+
 ## TODO
 
 * Expand the description of "partial update machines".  (This is in
