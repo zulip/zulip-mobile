@@ -10,7 +10,6 @@ import { getTopicsForStream } from '../selectors';
 import { getStreamFromId } from '../subscriptions/subscriptionSelectors';
 import TopicList from './TopicList';
 import { fetchTopics, doNarrow } from '../actions';
-import { connectPreserveOnBackOption } from '../utils/redux';
 
 type Props = {
   dispatch: Dispatch,
@@ -55,12 +54,7 @@ class TopicListScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect(
-  (state: GlobalState, props: Object) => ({
-    stream: getStreamFromId(props.navigation.state.params.streamId)(state),
-    topics: getTopicsForStream(props.navigation.state.params.streamId)(state),
-  }),
-  null,
-  null,
-  connectPreserveOnBackOption,
-)(TopicListScreen);
+export default connect((state: GlobalState, props: Object) => ({
+  stream: getStreamFromId(props.navigation.state.params.streamId)(state),
+  topics: getTopicsForStream(props.navigation.state.params.streamId)(state),
+}))(TopicListScreen);
