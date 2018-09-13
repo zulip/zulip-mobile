@@ -1,6 +1,6 @@
 /* @flow */
 import Sound from 'react-native-sound';
-import { logErrorRemotely } from '../utils/logging';
+import { logErrorRemotely } from './logging';
 
 if (Sound && Sound.setCategory) {
   Sound.setCategory('Ambient', true);

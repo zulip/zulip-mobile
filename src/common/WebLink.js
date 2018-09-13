@@ -25,6 +25,7 @@ type Props = {
  */
 class WebLink extends PureComponent<Props> {
   context: Context;
+
   props: Props;
 
   static contextTypes = {

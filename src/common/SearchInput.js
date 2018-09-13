@@ -30,6 +30,7 @@ type Props = {
  */
 export default class SearchInput extends PureComponent<Props> {
   props: Props;
+
   textInput: TextInput;
 
   static defaultProps = {

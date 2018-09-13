@@ -1,5 +1,5 @@
 import reducers, { ALL_KEYS } from '../reducers';
-import { discardKeys, storeKeys, cacheKeys } from '../../boot/store';
+import { discardKeys, storeKeys, cacheKeys } from '../store';
 
 describe('reducers', () => {
   test('reducers return the default states on unknown action', () => {

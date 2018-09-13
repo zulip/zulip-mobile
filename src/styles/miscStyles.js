@@ -2,7 +2,7 @@
 import { Platform } from 'react-native';
 
 import type { Style } from '../types';
-import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE } from './';
+import { BORDER_COLOR, BRAND_COLOR, CONTROL_SIZE } from '.';
 
 export type MiscStyles = {
   text: Style,

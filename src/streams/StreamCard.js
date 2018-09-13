@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import type { Context, Stream, Subscription } from '../types';
 import { RawLabel } from '../common';
-import StreamIcon from '../streams/StreamIcon';
+import StreamIcon from './StreamIcon';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 const componentStyles = StyleSheet.create({
@@ -27,6 +27,7 @@ type Props = {
 
 export default class StreamCard extends PureComponent<Props> {
   context: Context;
+
   props: Props;
 
   static contextTypes = {

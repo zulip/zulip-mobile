@@ -42,10 +42,13 @@ type State = {
  */
 export default class PasswordInput extends PureComponent<Props, State> {
   context: Context;
+
   props: Props;
+
   state: State = {
     isHidden: true,
   };
+
   textInput: TextInput;
 
   handleShow = () => {

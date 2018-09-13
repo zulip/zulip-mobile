@@ -6,7 +6,7 @@ import NotificationsIOS, {
 } from 'react-native-notifications';
 
 import type { Auth, Dispatch, Notification, NotificationGroup, UserIdMap } from '../types';
-import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from '../utils/narrow';
+import { HOME_NARROW, topicNarrow, privateNarrow, groupNarrow } from './narrow';
 import config from '../config';
 import { registerPush } from '../api';
 import { logErrorRemotely } from './logging';

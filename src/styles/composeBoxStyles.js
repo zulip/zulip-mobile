@@ -2,7 +2,7 @@
 import { Platform } from 'react-native';
 
 import type { Style } from '../types';
-import { BRAND_COLOR } from './';
+import { BRAND_COLOR } from '.';
 
 export type ComposeBoxStyles = {
   composeBox: Style,

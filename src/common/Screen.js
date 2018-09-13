@@ -68,6 +68,7 @@ type Props = {|
  */
 class Screen extends PureComponent<Props> {
   context: Context;
+
   props: Props;
 
   static contextTypes = {

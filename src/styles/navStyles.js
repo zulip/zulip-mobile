@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Style } from '../types';
-import { BRAND_COLOR, NAVBAR_SIZE } from './';
+import { BRAND_COLOR, NAVBAR_SIZE } from '.';
 
 export type NavStyles = {
   navBar: Style,

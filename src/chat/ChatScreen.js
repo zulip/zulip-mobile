@@ -6,7 +6,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import type { Context, Narrow } from '../types';
 import { OfflineNotice, ZulipStatusBar } from '../common';
-import Chat from '../chat/Chat';
+import Chat from './Chat';
 import MainNavBar from '../nav/MainNavBar';
 
 type Props = {
@@ -21,6 +21,7 @@ type Props = {
 
 export default class ChatScreen extends PureComponent<Props> {
   context: Context;
+
   props: Props;
 
   static contextTypes = {
