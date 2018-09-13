@@ -7,7 +7,6 @@ import type { Auth, Dispatch, GlobalState, Orientation, User, PresenceState } fr
 import { getAuth, getSession, getAccountDetailsUserFromEmail, getPresence } from '../selectors';
 import { Screen } from '../common';
 import AccountDetails from './AccountDetails';
-import { connectPreserveOnBackOption } from '../utils/redux';
 
 type Props = {
   auth: Auth,
@@ -44,14 +43,9 @@ class AccountDetailsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  (state: GlobalState, props: Object) => ({
-    auth: getAuth(state),
-    user: getAccountDetailsUserFromEmail(props.navigation.state.params.email)(state),
-    orientation: getSession(state).orientation,
-    presence: getPresence(state),
-  }),
-  null,
-  null,
-  connectPreserveOnBackOption,
-)(AccountDetailsScreen);
+export default connect((state: GlobalState, props: Object) => ({
+  auth: getAuth(state),
+  user: getAccountDetailsUserFromEmail(props.navigation.state.params.email)(state),
+  orientation: getSession(state).orientation,
+  presence: getPresence(state),
+}))(AccountDetailsScreen);
