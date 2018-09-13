@@ -286,6 +286,72 @@ Key examples for Zulip today:
 * Any "total update machine", i.e. just about anything else: our state
   of knowledge has just one value, which is "we have everything".
 
+## Optional: surfacing more info on network state
+
+The above doesn't help the app identify when data may be e.g. a minute
+out of date because the network is failing.
+
+(What's below is a quick sketch just to get the ideas down.)
+
+Here's a variation.  A UM has three parts:
+* some app-level data
+* a *freshness state*, which is app-facing information to be used to
+  condition communication to the user
+  * This is a pure function of the update metadata.  For good
+    structuring of the code, it might be implemented as a getter
+    method whose implementation looks at the update metadata, rather
+    than literally storing and updating it as additional data.
+* some update metadata, which is implementation details of the UM
+  engine and opaque to the application
+
+Freshness state: several possible choices of details, but e.g.
+* *"Connected"* -- corresponds to "live" above; means we have an
+  active long-poll connection such that we expect to hear about any
+  update within the latency of the events system (i.e. maybe 100ms)
+* *"Connecting"* -- means we don't currently have a connection; might
+  be accompanied with a timestamp for "last connected N minutes ago";
+  includes above's "stale" but also when we've just started up and
+  have a finger (so "live") but haven't yet set up a long-poll
+  * In the actual UI, probably don't want to show a "Connecting..."
+    banner immediately on startup if we're just going to get a
+    long-poll connection established and hide the banner 100ms later.
+    I.e., we should debounce the warning and only show it if after
+    some period like 300ms we're still working on getting a
+    connection.  Not sure if that debounce logic should live above or
+    below this "freshness state" interface.
+* *"Can't connect"* -- means we've had connections actually fail; the
+  network, or the server, is unavailable; should probably warn the
+  user data is stale
+
+Update metadata states might be:
+* **connected**, or **live**: have a finger and an outstanding
+  long-poll request
+* **poll failed**: have a finger, believe it still valid, but the last
+  poll attempt failed; additional data includes timestamps of last
+  attempt, of last success, possibly a failure count etc.; has a
+  timestamp (either explicitly or as a function of the other data)
+  for the planned time of retry
+* **idle**: have a finger, believe it still valid, but aren't
+  currently long-polling; e.g., mobile app is in background; has a
+  timestamp of last successful update, possibly other similar
+  metadata, and has a timestamp for planned next poll
+* **registering**: have no finger, but have an outstanding
+  `/register` request which hasn't completed yet
+* **register failed**: have no finger, and the last `/register`
+  attempt failed; logic is analogous to "poll failed"
+* **stale**: have no finger, and haven't tried to make one
+
+So "connected"/"live", "poll failed", and "idle" all count as "live"
+in the description above; the others "stale".
+
+Transitions:
+* Generally a lot like above; this mainly adds some distinctions that
+  were implicit in descriptions like "when stale, attempt `/register`,
+  and *upon success* do ...", and the descriptions of retrying.
+* In the actual implementation of an update machine, some of these
+  distinctions might be reflected just as different points in the
+  source code of an async function.
+
 ## TODO
 
 * Expand the description of "partial update machines".  (This is in
