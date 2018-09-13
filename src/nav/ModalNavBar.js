@@ -36,6 +36,7 @@ class ModalNavBar extends PureComponent<Props> {
   render() {
     const { styles } = this.context;
     const {
+      children,
       dispatch,
       canGoBack,
       title,
@@ -52,10 +53,10 @@ class ModalNavBar extends PureComponent<Props> {
       titleColor ? { color: titleColor } : {},
     ];
     const content =
-      React.Children.count(this.props.children) === 0 ? (
+      React.Children.count(children) === 0 ? (
         <Label style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
       ) : (
-        this.props.children
+        children
       );
 
     return (

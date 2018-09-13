@@ -29,7 +29,8 @@ class SubscriptionsCard extends PureComponent<Props> {
   props: Props;
 
   handleNarrow = (streamName: string) => {
-    this.props.dispatch(doNarrow(streamNarrow(streamName)));
+    const { dispatch } = this.props;
+    dispatch(doNarrow(streamNarrow(streamName)));
   };
 
   render() {

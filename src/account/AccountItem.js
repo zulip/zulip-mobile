@@ -49,9 +49,15 @@ type Props = {
 export default class AccountItem extends PureComponent<Props> {
   props: Props;
 
-  handleSelect = () => this.props.onSelect(this.props.index);
+  handleSelect = () => {
+    const { index, onSelect } = this.props;
+    onSelect(index);
+  };
 
-  handleRemove = () => this.props.onRemove(this.props.index);
+  handleRemove = () => {
+    const { index, onRemove } = this.props;
+    onRemove(index);
+  };
 
   render() {
     const { email, realm, showDoneIcon } = this.props;

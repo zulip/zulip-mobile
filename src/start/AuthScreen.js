@@ -81,12 +81,14 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   handleDevAuth = () => {
-    this.props.dispatch(navigateToDev());
+    const { dispatch } = this.props;
+    dispatch(navigateToDev());
   };
 
   handlePassword = () => {
-    const { serverSettings } = this.props.navigation.state.params;
-    this.props.dispatch(navigateToPassword(serverSettings.require_email_format_usernames));
+    const { dispatch, navigation } = this.props;
+    const { serverSettings } = navigation.state.params;
+    dispatch(navigateToPassword(serverSettings.require_email_format_usernames));
   };
 
   handleGoogle = () => {
@@ -102,14 +104,15 @@ class AuthScreen extends PureComponent<Props> {
   };
 
   render() {
-    const { serverSettings } = this.props.navigation.state.params;
+    const { realm, navigation } = this.props;
+    const { serverSettings } = navigation.state.params;
 
     return (
       <Screen title="Log in" centerContent padding>
         <Centerer>
           <RealmInfo
             name={serverSettings.realm_name}
-            iconUrl={getFullUrl(serverSettings.realm_icon, this.props.realm)}
+            iconUrl={getFullUrl(serverSettings.realm_icon, realm)}
           />
           {activeAuthentications(serverSettings.authentication_methods).map(auth => (
             <AuthButton

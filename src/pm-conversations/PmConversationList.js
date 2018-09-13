@@ -29,11 +29,13 @@ export default class PmConversationList extends PureComponent<Props> {
   props: Props;
 
   handleUserNarrow = (params: { email: string }) => {
-    this.props.dispatch(doNarrow(privateNarrow(params.email)));
+    const { dispatch } = this.props;
+    dispatch(doNarrow(privateNarrow(params.email)));
   };
 
   handleGroupNarrow = (email: string) => {
-    this.props.dispatch(doNarrow(groupNarrow(email.split(','))));
+    const { dispatch } = this.props;
+    dispatch(doNarrow(groupNarrow(email.split(','))));
   };
 
   render() {

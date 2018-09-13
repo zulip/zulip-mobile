@@ -31,8 +31,9 @@ export default class SlideAnimationView extends PureComponent<Props, State> {
 
   animate() {
     const { easing, duration } = this.props;
-    this.state.animationIndex.setValue(0);
-    Animated.timing(this.state.animationIndex, {
+    const { animationIndex } = this.state;
+    animationIndex.setValue(0);
+    Animated.timing(animationIndex, {
       toValue: 1,
       duration,
       easing,
@@ -42,13 +43,14 @@ export default class SlideAnimationView extends PureComponent<Props, State> {
 
   render() {
     this.animate();
-    const { property, from, to, movement, style } = this.props;
-    const animationValue = this.state.animationIndex.interpolate({
+    const { children, property, from, to, movement, style } = this.props;
+    const { animationIndex } = this.state;
+    const animationValue = animationIndex.interpolate({
       inputRange: [0, 1],
       outputRange: movement === 'out' ? [from, to] : [to, from],
     });
 
     const slideStyle = { transform: [{ [property]: animationValue }] };
-    return <Animated.View style={[style, slideStyle]}>{this.props.children}</Animated.View>;
+    return <Animated.View style={[style, slideStyle]}>{children}</Animated.View>;
   }
 }

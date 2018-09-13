@@ -37,11 +37,13 @@ class UnreadCards extends PureComponent<Props> {
   };
 
   handleStreamPress = (stream: string) => {
-    setTimeout(() => this.props.dispatch(doNarrow(streamNarrow(stream))));
+    const { dispatch } = this.props;
+    setTimeout(() => dispatch(doNarrow(streamNarrow(stream))));
   };
 
   handleTopicPress = (stream: string, topic: string) => {
-    setTimeout(() => this.props.dispatch(doNarrow(topicNarrow(stream, topic))));
+    const { dispatch } = this.props;
+    setTimeout(() => dispatch(doNarrow(topicNarrow(stream, topic))));
   };
 
   render() {

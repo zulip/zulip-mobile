@@ -12,6 +12,7 @@ export default class LineSeparator extends PureComponent<{}> {
   };
 
   render() {
-    return <View style={this.context.styles.lineSeparator} />;
+    const { styles } = this.context;
+    return <View style={styles.lineSeparator} />;
   }
 }

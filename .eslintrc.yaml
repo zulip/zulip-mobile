@@ -68,6 +68,7 @@ rules:
   react/prefer-stateless-function: off
   react/require-default-props: off
   react/default-props-match-prop-types: off
+  react/destructuring-assignment: off
   # react/prop-types: off
 
   # React Native.  This plugin isn't included in the airbnb config, and

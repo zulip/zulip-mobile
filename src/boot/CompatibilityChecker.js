@@ -30,8 +30,9 @@ export default class CompatibilityChecker extends PureComponent<Props, State> {
   }
 
   render() {
+    const { children } = this.props;
     const { compatibilityCheckFail } = this.state;
 
-    return compatibilityCheckFail ? <CompatibilityScreen /> : this.props.children;
+    return compatibilityCheckFail ? <CompatibilityScreen /> : children;
   }
 }

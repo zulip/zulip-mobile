@@ -58,7 +58,10 @@ export default class StreamItem extends PureComponent<Props> {
     isSwitchedOn: false,
   };
 
-  handlePress = () => this.props.onPress(this.props.name);
+  handlePress = () => {
+    const { name, onPress } = this.props;
+    onPress(name);
+  };
 
   handleSwitch = (newValue: boolean) => {
     const { name, onSwitch } = this.props;
