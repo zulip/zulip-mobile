@@ -16,7 +16,6 @@ import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
 import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
-import { connectPreserveOnBackOption } from '../utils/redux';
 
 const componentStyles = StyleSheet.create({
   wrapper: {
@@ -120,11 +119,6 @@ class Screen extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  (state: GlobalState) => ({
-    safeAreaInsets: getSession(state).safeAreaInsets,
-  }),
-  null,
-  null,
-  connectPreserveOnBackOption,
-)(Screen);
+export default connect((state: GlobalState) => ({
+  safeAreaInsets: getSession(state).safeAreaInsets,
+}))(Screen);
