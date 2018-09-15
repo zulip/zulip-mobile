@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import type { Dispatch, Context, GlobalState } from '../types';
-import { getNav } from '../selectors';
+import { getCanGoBack } from '../selectors';
 import { NAVBAR_SIZE } from '../styles';
 import { Label, SearchInput } from '../common';
 import NavButton from './NavButton';
@@ -19,7 +19,7 @@ const localStyles = StyleSheet.create({
 });
 
 type Props = {
-  nav: any,
+  canGoBack: boolean,
   dispatch: Dispatch,
   autoFocus: boolean,
   title: string,
@@ -61,7 +61,7 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
     const {
       dispatch,
       autoFocus,
-      nav,
+      canGoBack,
       title,
       searchBar,
       searchBarOnChange,
@@ -70,12 +70,12 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
     const showSearchInput = isSearchActive || !searchBar;
     const textStyle = [
       styles.navTitle,
-      nav.index > 0 && showSearchInput && { marginRight: NAVBAR_SIZE },
+      canGoBack && showSearchInput && { marginRight: NAVBAR_SIZE },
     ];
 
     return (
       <View style={styles.navBar}>
-        {nav.index > 0 && (
+        {canGoBack && (
           <NavButton
             name="arrow-left"
             onPress={() => {
@@ -107,7 +107,7 @@ class ModalSearchNavBar extends PureComponent<Props, State> {
 
 export default connect(
   (state: GlobalState) => ({
-    nav: getNav(state),
+    canGoBack: getCanGoBack(state),
   }),
   null,
   null,
