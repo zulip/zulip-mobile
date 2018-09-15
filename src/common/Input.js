@@ -81,7 +81,8 @@ export default class Input extends PureComponent<Props, State> {
         defaultMessage={placeholderMessage}
         values={placeholder.values}
       >
-        {text => (
+        {// $FlowFixMe-56 older Flow version doesn't see `FormattedMessage` accepts this
+        (text: string) => (
           <TextInput
             style={[styles.input, style]}
             placeholder={text}
