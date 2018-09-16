@@ -1,6 +1,5 @@
 /* @flow */
 import { createSelector } from 'reselect';
-import isEqual from 'lodash.isequal';
 
 import type { GlobalState } from '../types';
 import config from '../config';
@@ -21,50 +20,6 @@ export const getSameRoutesCount = createSelector(getNav, nav => {
     i--;
   }
   return nav.routes.length - i - 1;
-});
-
-export const getSameRoutesAndParamsCount = createSelector(getNav, nav => {
-  let i = nav.routes.length - 1;
-  while (i >= 0) {
-    if (
-      nav.routes[i].routeName !== nav.routes[nav.routes.length - 1].routeName
-      || !isEqual(nav.routes[i].params, nav.routes[nav.routes.length - 1].params)
-    ) {
-      break;
-    }
-    i--;
-  }
-  return nav.routes.length - i - 1;
-});
-
-export const getPreviousDifferentRoute = createSelector(getNav, nav => {
-  if (nav.routes.length < 2) {
-    return '';
-  }
-
-  let i = nav.routes.length - 2;
-  while (i >= 0 && nav.routes[i].routeName === nav.routes[nav.routes.length - 1].routeName) {
-    i--;
-  }
-
-  return nav.routes[i < 0 ? 0 : i].key;
-});
-
-export const getPreviousDifferentRouteAndParams = createSelector(getNav, nav => {
-  if (nav.routes.length < 2) {
-    return '';
-  }
-
-  let i = nav.routes.length - 2;
-  while (
-    i >= 0
-    && nav.routes[i].routeName === nav.routes[nav.routes.length - 1].routeName
-    && isEqual(nav.routes[i].params, nav.routes[nav.routes.length - 1].params)
-  ) {
-    i--;
-  }
-
-  return nav.routes[i < 0 ? 0 : i].key;
 });
 
 export const getStateForRoute = (route: string, params?: Object) => {
