@@ -34,5 +34,6 @@ up your development environment in several ways:
 
 ## Formatting code using prettier
 
+* Using the Visual Studio Code editor - install the `prettier-vscode` extension
 * Using atom editor - install the `prettier-atom` plugin
 * Using the command line - run `yarn prettier`
