@@ -3,11 +3,37 @@ import { createSelector } from 'reselect';
 
 import type { GlobalState } from '../types';
 import config from '../config';
-import { getNav } from '../directSelectors';
+import { getNav, getNavigationRoutes, getNavigationIndex } from '../directSelectors';
 import { navigateToChat } from './navActions';
 import { getUsersById } from '../users/userSelectors';
 import AppNavigator from './AppNavigator';
 import { getNarrowFromNotificationData } from '../utils/notifications';
+
+export const getCurrentRoute = (state: GlobalState): string =>
+  state.nav.routes[state.nav.index].routeName;
+
+export const getCurrentRouteParams = createSelector(
+  getNavigationRoutes,
+  getNavigationIndex,
+  (routes, index) => routes && routes[index] && routes[index].params,
+);
+
+export const getChatScreenParams = createSelector(
+  getCurrentRouteParams,
+  params => params || { narrow: undefined },
+);
+
+export const getTopMostNarrow = createSelector(getNav, nav => {
+  const { routes } = nav;
+  let { index } = nav;
+  while (index >= 0) {
+    if (routes[index].routeName === 'chat') {
+      return routes[index].params.narrow;
+    }
+    index--;
+  }
+  return undefined;
+});
 
 export const getCanGoBack = (state: GlobalState) => state.nav.index > 0;
 

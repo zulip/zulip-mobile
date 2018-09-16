@@ -1,5 +1,115 @@
 import deepFreeze from 'deep-freeze';
-import { getCanGoBack, getSameRoutesCount } from '../navSelectors';
+
+import { streamNarrow } from '../../utils/narrow';
+import {
+  getCurrentRoute,
+  getCurrentRouteParams,
+  getChatScreenParams,
+  getTopMostNarrow,
+  getCanGoBack,
+  getSameRoutesCount,
+} from '../navSelectors';
+
+describe('getCurrentRoute', () => {
+  test('return name of the current route', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 1,
+        routes: [
+          { routeName: 'first', params: { email: 'a@a.com' } },
+          { routeName: 'second', params: { email: 'b@a.com' } },
+        ],
+      },
+    });
+    const expectedResult = 'second';
+
+    const actualResult = getCurrentRoute(state);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+});
+
+describe('getCurrentRouteParams', () => {
+  test('return "undefined" even when there is no data', () => {
+    const state = deepFreeze({
+      nav: {},
+    });
+
+    const actualResult = getCurrentRouteParams(state);
+
+    expect(actualResult).toBe(undefined);
+  });
+
+  test('return params of the current route', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 1,
+        routes: [
+          { routeName: 'first', params: { email: 'a@a.com' } },
+          { routeName: 'second', params: { email: 'b@a.com' } },
+        ],
+      },
+    });
+    const expectedResult = { email: 'b@a.com' };
+
+    const actualResult = getCurrentRouteParams(state);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+});
+
+describe('getChatScreenParams', () => {
+  test('when no params are passed do not return "undefined"', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 0,
+        routes: [{ routeName: 'chat' }],
+      },
+    });
+
+    const actualResult = getChatScreenParams(state);
+
+    expect(actualResult).toBeDefined();
+  });
+});
+
+describe('getTopMostNarrow', () => {
+  test('return undefined if no chat screen are in stack', () => {
+    const state = deepFreeze({
+      nav: {
+        index: 0,
+        routes: [{ routeName: 'main' }],
+      },
+    });
+    expect(getTopMostNarrow(state)).toBe(undefined);
+  });
+
+  test('return narrow of first chat screen from top', () => {
+    const narrow = streamNarrow('all');
+    const state = deepFreeze({
+      nav: {
+        index: 1,
+        routes: [{ routeName: 'main' }, { routeName: 'chat', params: { narrow } }],
+      },
+    });
+    expect(getTopMostNarrow(state)).toEqual(narrow);
+  });
+
+  test('iterate over stack to get first chat screen', () => {
+    const narrow = streamNarrow('all');
+    const state = deepFreeze({
+      nav: {
+        index: 2,
+        routes: [
+          { routeName: 'main' },
+          { routeName: 'chat', params: { narrow } },
+          { routeName: 'account' },
+        ],
+      },
+    });
+    expect(getTopMostNarrow(state)).toEqual(narrow);
+  });
+});
 
 describe('getCanGoBack', () => {
   test('return true if current route in the stack is not the only route', () => {
