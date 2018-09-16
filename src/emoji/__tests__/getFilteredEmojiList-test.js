@@ -3,7 +3,7 @@ import getFilteredEmojiList from '../getFilteredEmojiList';
 describe('getFilteredEmojiList', () => {
   test('empty query returns all emojis', () => {
     const list = getFilteredEmojiList('', {});
-    expect(list).toHaveLength(1479);
+    expect(list).toHaveLength(1560);
   });
 
   test('non existing query returns empty list', () => {
@@ -13,7 +13,20 @@ describe('getFilteredEmojiList', () => {
 
   test('returns a sorted list of emojis starting with query', () => {
     const list = getFilteredEmojiList('go', {});
-    expect(list).toEqual(['goal_net', 'goat', 'goblin', 'golf', 'golfer', 'gorilla']);
+    expect(list).toEqual([
+      'go',
+      'goal',
+      'goat',
+      'goblin',
+      'gold',
+      'gold_record',
+      'golf',
+      'gondola',
+      'goodnight',
+      'gooooooooal',
+      'gorilla',
+      'got_it',
+    ]);
   });
 
   // skip: #2846
@@ -28,7 +41,7 @@ describe('getFilteredEmojiList', () => {
     const list = getFilteredEmojiList('dog', {
       dog: { source_url: '/user_avatars/2/emoji/dog.png' },
     });
-    expect(list).toEqual(['dog', 'dog2', 'dog_face']);
+    expect(list).toEqual(['dog', 'dogi']);
   });
 
   // skip: #2846
