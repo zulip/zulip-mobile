@@ -9,7 +9,6 @@ import type {
   MessagesState,
   MuteState,
   NarrowsState,
-  NavigationState,
   TopicsState,
   PresenceState,
   RealmBot,
@@ -65,8 +64,6 @@ export const getReadFlags = (state: GlobalState): Object => state.flags.read;
 
 export const getAllNarrows = (state: GlobalState): NarrowsState => state.narrows;
 
-export const getNav = (state: GlobalState): NavigationState => state.nav;
-
 export const getSettings = (state: GlobalState): SettingsState => state.settings;
 
 export const getSubscriptions = (state: GlobalState): Subscription[] => state.subscriptions;
@@ -92,9 +89,5 @@ export const getCrossRealmBots = (state: GlobalState): RealmBot[] => state.realm
 export const getRawRealmEmoji = (state: GlobalState): RealmEmojiState => state.realm.emoji;
 
 export const getNonActiveUsers = (state: GlobalState): User[] => state.realm.nonActiveUsers;
-
-export const getNavigationRoutes = (state: GlobalState): Object[] => state.nav.routes;
-
-export const getNavigationIndex = (state: GlobalState): number => state.nav.index;
 
 export const getIsAdmin = (state: GlobalState): boolean => state.realm.isAdmin;

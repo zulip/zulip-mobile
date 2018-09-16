@@ -1,13 +1,18 @@
 /* @flow */
 import { createSelector } from 'reselect';
 
-import type { GlobalState } from '../types';
+import type { GlobalState, NavigationState } from '../types';
 import config from '../config';
-import { getNav, getNavigationRoutes, getNavigationIndex } from '../directSelectors';
 import { navigateToChat } from './navActions';
 import { getUsersById } from '../users/userSelectors';
 import AppNavigator from './AppNavigator';
 import { getNarrowFromNotificationData } from '../utils/notifications';
+
+export const getNav = (state: GlobalState): NavigationState => state.nav;
+
+const getNavigationRoutes = (state: GlobalState): Object[] => state.nav.routes;
+
+const getNavigationIndex = (state: GlobalState): number => state.nav.index;
 
 export const getCurrentRoute = (state: GlobalState): string =>
   state.nav.routes[state.nav.index].routeName;

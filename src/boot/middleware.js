@@ -6,7 +6,7 @@ import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-hel
 
 import config from '../config';
 import { REHYDRATE } from '../actionConstants';
-import { getNav } from '../directSelectors';
+import { getNav } from '../selectors';
 
 const reactNavigationMiddleware = createReactNavigationReduxMiddleware('root', getNav);
 
