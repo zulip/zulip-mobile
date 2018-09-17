@@ -8,6 +8,7 @@
 export default `
 'use strict';
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var documentBody = document.body;
 if (!documentBody) {
@@ -89,6 +90,19 @@ var getMessageIdFromNode = function getMessageIdFromNode(node) {
   return msgNode ? +msgNode.getAttribute('data-msg-id') : -1;
 };
 
+var getMessageListHeight = function getMessageListHeight() {
+  var messagesDiv = document.getElementsByClassName('message');
+  var timeRowDiv = document.getElementsByClassName('timerow');
+  var headersDiv = document.getElementsByClassName('header');
+  var messageListElements = [].concat(_toConsumableArray(messagesDiv), _toConsumableArray(timeRowDiv), _toConsumableArray(headersDiv));
+  var totalMessageListHeight = 0;
+  var i = void 0;
+  for (i = 0; i < messageListElements.length; i++) {
+    totalMessageListHeight += messageListElements[i].getBoundingClientRect().height;
+  }
+  return totalMessageListHeight;
+};
+
 var scrollToBottom = function scrollToBottom() {
   window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
 };
@@ -128,11 +142,14 @@ var isMessageNode = function isMessageNode(node) {
 
 var getStartAndEndNodes = function getStartAndEndNodes() {
   var startNode = getMessageNode(document.elementFromPoint(200, 20));
-  var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
+  var windowInnerHeight = window.innerHeight;
+  var messageListHeight = getMessageListHeight();
+  var endPoint = messageListHeight > 0 ? Math.min(windowInnerHeight, messageListHeight) : windowInnerHeight;
+  var endNode = getMessageNode(document.elementFromPoint(200, endPoint - 20));
 
   return {
-    start: isMessageNode(startNode) ? startNode.getAttribute('data-msg-id') : Number.MAX_SAFE_INTEGER,
-    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : 0
+    start: isMessageNode(startNode) ? +startNode.getAttribute('data-msg-id') : Number.MAX_SAFE_INTEGER,
+    end: isMessageNode(endNode) ? +endNode.getAttribute('data-msg-id') : 0
   };
 };
 
@@ -154,7 +171,7 @@ var sendScrollMessage = function sendScrollMessage() {
 };
 
 var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
-  if (documentBody.scrollHeight === documentBody.clientHeight) {
+  if (getMessageListHeight() < documentBody.clientHeight) {
     sendScrollMessage();
   }
 };

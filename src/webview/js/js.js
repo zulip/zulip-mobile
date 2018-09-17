@@ -99,6 +99,21 @@ const getMessageIdFromNode = (node: Node): number => {
   return msgNode ? +msgNode.getAttribute('data-msg-id') : -1;
 };
 
+const getMessageListHeight = () => {
+  // compute message list height
+  // summing up all message, timerow and headers div
+  const messagesDiv = document.getElementsByClassName('message');
+  const timeRowDiv = document.getElementsByClassName('timerow');
+  const headersDiv = document.getElementsByClassName('header');
+  const messageListElements = [...messagesDiv, ...timeRowDiv, ...headersDiv];
+  let totalMessageListHeight = 0;
+  let i;
+  for (i = 0; i < messageListElements.length; i++) {
+    totalMessageListHeight += messageListElements[i].getBoundingClientRect().height;
+  }
+  return totalMessageListHeight;
+};
+
 const scrollToBottom = () => {
   window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
 };
@@ -136,13 +151,17 @@ const isMessageNode = (node: Element): boolean =>
 
 const getStartAndEndNodes = (): { start: number, end: number } => {
   const startNode = getMessageNode(document.elementFromPoint(200, 20));
-  const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
+  const windowInnerHeight = window.innerHeight;
+  const messageListHeight = getMessageListHeight();
+  const endPoint =
+    messageListHeight > 0 ? Math.min(windowInnerHeight, messageListHeight) : windowInnerHeight;
+  const endNode = getMessageNode(document.elementFromPoint(200, endPoint - 20));
 
   return {
     start: isMessageNode(startNode)
-      ? startNode.getAttribute('data-msg-id')
+      ? +startNode.getAttribute('data-msg-id')
       : Number.MAX_SAFE_INTEGER,
-    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : 0,
+    end: isMessageNode(endNode) ? +endNode.getAttribute('data-msg-id') : 0,
   };
 };
 
@@ -166,7 +185,9 @@ const sendScrollMessage = () => {
 // If the message list is too short to scroll, fake a scroll event
 // in order to cause the messages to be marked as read.
 const sendScrollMessageIfListShort = () => {
-  if (documentBody.scrollHeight === documentBody.clientHeight) {
+  // check if message list is short or not
+  // by comparing total height and message list height.
+  if (getMessageListHeight() < documentBody.clientHeight) {
     sendScrollMessage();
   }
 };
@@ -246,7 +267,7 @@ const handleMessageContent = (msg: MessageInputContent) => {
     target = { type: 'anchor', anchor: msg.anchor };
   } else if (
     msg.updateStrategy === 'scroll-to-bottom-if-near-bottom'
-    && isNearBottom() /* align */
+    /* align */ && isNearBottom()
   ) {
     target = { type: 'bottom' };
   } else {
