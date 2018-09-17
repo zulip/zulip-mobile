@@ -97,6 +97,7 @@ class Screen extends PureComponent<Props> {
 
     return (
       <View style={[styles.screen, { marginBottom: safeAreaInsets.bottom }]}>
+        {/* $FlowFixMe-56 Cannot create ZulipStatusBar element because ST is not a React component. */}
         <ZulipStatusBar />
         {search ? (
           <ModalSearchNavBar autoFocus={autoFocus} searchBarOnChange={searchBarOnChange} />
