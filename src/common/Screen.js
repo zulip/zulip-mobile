@@ -95,8 +95,6 @@ class Screen extends PureComponent<Props> {
     } = this.props;
     const { styles } = this.context;
 
-    const ChildrenWrapper = scrollableContent ? ScrollView : View;
-
     return (
       <View style={[styles.screen, { marginBottom: safeAreaInsets.bottom }]}>
         <ZulipStatusBar />
@@ -111,13 +109,17 @@ class Screen extends PureComponent<Props> {
           style={[componentStyles.wrapper, padding && styles.padding]}
           contentContainerStyle={[padding && styles.padding]}
         >
-          <ChildrenWrapper
-            style={componentStyles.childrenWrapper}
-            contentContainerStyle={[centerContent && componentStyles.content, style]}
-            keyboardShouldPersistTaps={keyboardShouldPersistTaps}
-          >
-            {children}
-          </ChildrenWrapper>
+          {scrollableContent ? (
+            <ScrollView
+              contentContainerStyle={[centerContent && componentStyles.content, style]}
+              style={componentStyles.childrenWrapper}
+              keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+            >
+              {children}
+            </ScrollView>
+          ) : (
+            <View style={componentStyles.childrenWrapper}>{children}</View>
+          )}
         </KeyboardAvoider>
       </View>
     );
