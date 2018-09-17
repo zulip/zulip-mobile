@@ -41,7 +41,7 @@ class WebLink extends PureComponent<Props> {
 
     return (
       <Touchable>
-        <Label style={[styles.link]} text={label} onPress={this.handlePress} />
+        <Label style={styles.link} text={label} onPress={this.handlePress} />
       </Touchable>
     );
   }

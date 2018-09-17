@@ -56,7 +56,7 @@ class UnreadNotice extends PureComponent<Props> {
         <View style={styles.unreadContainer}>
           <View style={styles.unreadTextWrapper}>
             <RawLabel
-              style={[styles.unreadText]}
+              style={styles.unreadText}
               text={limited ? unreadToLimitedCount(unreadCount) : unreadCount.toString()}
             />
             <Label

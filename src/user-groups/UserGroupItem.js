@@ -48,7 +48,7 @@ export default class UserGroupItem extends PureComponent<Props> {
           <IconPeople size={32} />
           <View style={componentStyles.textWrapper}>
             <RawLabel
-              style={[componentStyles.text]}
+              style={componentStyles.text}
               text={name}
               numberOfLines={1}
               ellipsizeMode="tail"
