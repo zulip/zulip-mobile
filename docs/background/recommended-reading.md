@@ -12,5 +12,13 @@ To know and understand what actually Redux is we encourage you to watch
 [this free video tutorial](https://egghead.io/lessons/javascript-redux-generating-containers-with-connect-from-react-redux-visibletodolist).
 
 
+## Redux Persist
+
+[This article](https://medium.com/async-la/redux-persist-your-state-7ad346c4dd07),
+written by the creator of Redux Persist, is really concise. It provides
+excellent context for Redux  Persist, and the initial sections (1.1 - 2.1) elaborate on why the library should be used and how the library works.
+
+
+
 ## Flexbox
 Play [the game](http://flexboxfroggy.com/) and learn how Flexbox works.
