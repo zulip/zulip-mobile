@@ -69,12 +69,10 @@ class ZulipStatusBar extends PureComponent<Props> {
 export default connect((state, props) => ({
   safeAreaInsets: getSession(state).safeAreaInsets,
   theme: getSettings(state).theme,
-  // Prettier messes up the ternary so the linter complains.
-  // prettier-ignore
-  backgroundColor: !props.backgroundColor
+  backgroundColor:
+    props.backgroundColor
     // $FlowFixMe: Props has no `narrow` property
-    ? getTitleBackgroundColor(props.narrow)(state)
-    : props.backgroundColor,
+    || getTitleBackgroundColor(props.narrow)(state),
   // $FlowFixMe: Props has no `narrow` property
   textColor: getTitleTextColor(props.narrow)(state),
   orientation: getSession(state).orientation,
