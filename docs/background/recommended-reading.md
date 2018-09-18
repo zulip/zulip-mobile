@@ -18,6 +18,7 @@ To know and understand what actually Redux is we encourage you to watch
 written by the creator of Redux Persist, is really concise. It provides
 excellent context for Redux  Persist, and the initial sections (1.1 - 2.1) elaborate on why the library should be used and how the library works.
 
+The [official documentation](https://github.com/rt2zz/redux-persist#redux-persist) describes the API.
 
 
 ## Flexbox
