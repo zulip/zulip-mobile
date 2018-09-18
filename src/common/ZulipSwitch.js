@@ -56,8 +56,10 @@ export default class ZulipSwitch extends PureComponent<Props, State> {
     return (
       <Switch
         value={switchValue}
-        onTintColor={BRAND_COLOR}
-        tintColor="rgba(220, 220, 220, 1)"
+        trackColor={{
+          false: 'rgba(220, 220, 220, 1)',
+          true: BRAND_COLOR,
+        }}
         onValueChange={this.handleValueChange}
         disabled={disabled}
       />
