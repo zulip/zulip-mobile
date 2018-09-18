@@ -18,8 +18,12 @@ type Props = {
 class StreamAutocomplete extends PureComponent<Props> {
   props: Props;
 
+  onAutocomplete = (name: string): void => {
+    this.props.onAutocomplete(`**${name}**`);
+  };
+
   render() {
-    const { filter, subscriptions, onAutocomplete } = this.props;
+    const { filter, subscriptions } = this.props;
     const streams = subscriptions.filter(x =>
       x.name.toLowerCase().startsWith(filter.toLowerCase()),
     );
@@ -42,7 +46,7 @@ class StreamAutocomplete extends PureComponent<Props> {
               isPrivate={item.invite_only}
               iconSize={12}
               color={item.color}
-              onPress={() => onAutocomplete(`**${item.name}**`)}
+              onPress={this.onAutocomplete}
             />
           )}
         />
