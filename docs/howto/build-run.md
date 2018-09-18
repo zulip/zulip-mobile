@@ -89,6 +89,20 @@ next person with a setup like yours.
 
 ## Troubleshooting
 
+### Bundling Failure: Unable to resolve module...
+
+When trying to bundle the application via Metro after pulling new code, you may
+see an error like this:
+
+```
+error: bundling failed: Error: Unable to resolve module `lodash.union` from `.../zulip-mobile/src/chat/chatReducers.js`: Module `lodash.union` does not exist in the Haste module map
+```
+
+New dependencies may have been added to package.json. In the case for the
+message above, `lodash.union` was added. You can install any new packages by
+running `yarn`.
+
+
 ### Build failure: `aapt` / "error while loading shared libraries"
 
 When trying to build the Android app, you may see an error like this one
