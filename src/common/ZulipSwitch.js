@@ -54,11 +54,12 @@ export default class ZulipSwitch extends PureComponent<Props, State> {
     const switchValue = typeof valueControlled !== 'undefined' ? valueControlled : value;
 
     return (
-      // $FlowFixMe-57 two props deprecated... and immediately removed from type 🤨
       <Switch
         value={switchValue}
-        onTintColor={BRAND_COLOR}
-        tintColor="rgba(220, 220, 220, 1)"
+        trackColor={{
+          false: 'rgba(220, 220, 220, 1)',
+          true: BRAND_COLOR,
+        }}
         onValueChange={this.handleValueChange}
         disabled={disabled}
       />
