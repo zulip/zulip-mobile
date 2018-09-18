@@ -42,7 +42,15 @@ window.onerror = (message, source, line, column, error) => {
     const elementJsError = document.getElementById('js-error-plain');
     const elementSheetGenerated = document.getElementById('generated-styles');
     const elementSheetHide = document.getElementById('style-hide-js-error-plain');
-    if (elementJsError && elementSheetGenerated && elementSheetHide) {
+    if (
+      elementJsError
+      && elementSheetGenerated
+      && elementSheetHide
+      && elementSheetHide instanceof HTMLStyleElement
+      && elementSheetHide.sheet
+      && elementSheetGenerated instanceof HTMLStyleElement
+      && elementSheetGenerated.sheet
+    ) {
       elementSheetHide.sheet.disabled = true;
       const height = elementJsError.offsetHeight;
       elementSheetGenerated.sheet.insertRule(`.header-wrapper { top: ${height}px; }`, 0);
