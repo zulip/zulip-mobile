@@ -25,7 +25,7 @@ class CreateStreamScreen extends PureComponent<Props> {
 
   render() {
     return (
-      <Screen title="Create new stream" padding>
+      <Screen title="Create new stream" padding keyboardShouldPersistTaps="always">
         <EditStreamCard
           isNewStream
           initialValues={{ name: '', description: '', invite_only: false }}
