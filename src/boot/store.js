@@ -46,12 +46,18 @@ export const cacheKeys = [
 
 const migrations = {
   '0': state => {
+    // We deleted `messages` and created `narrows`.  (Really we renamed
+    // `messages` to `narrows, but a migration for delete + create is
+    // simpler, and is good enough because these are "cache" data anyway.)
     AsyncStorage.removeItem('reduxPersist:messages');
     const { messages, ...restState } = state; // eslint-disable-line no-unused-vars
-    return restState;
+    return { ...restState, narrows: {} };
   },
   '1': state => ({
+    // We changed the format of `narrows` and created `messages`.  Just
+    // initialize them both.
     ...state,
+    messages: {},
     narrows: {},
   }),
 };
