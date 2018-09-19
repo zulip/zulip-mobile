@@ -45,7 +45,7 @@ class GroupDetailsScreen extends PureComponent<Props> {
               avatarUrl={item.avatar_url}
               email={item.email}
               showEmail
-              onPress={() => this.handlePress(item.email)}
+              onPress={this.handlePress}
             />
           )}
         />
