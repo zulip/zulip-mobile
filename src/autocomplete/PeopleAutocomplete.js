@@ -25,8 +25,16 @@ type Props = {
 class PeopleAutocomplete extends PureComponent<Props> {
   props: Props;
 
+  handleUserGroupItemAutocomplete = (name: string): void => {
+    this.props.onAutocomplete(`*${name}*`);
+  };
+
+  handleUserItemAutocomplete = ({ fullName }): void => {
+    this.props.onAutocomplete(`**${fullName}**`);
+  };
+
   render() {
-    const { filter, ownEmail, users, userGroups, onAutocomplete } = this.props;
+    const { filter, ownEmail, users, userGroups } = this.props;
     const filteredUserGroups = getAutocompleteUserGroupSuggestions(userGroups, filter);
     const filteredUsers: User[] = getAutocompleteSuggestion(users, filter, ownEmail);
 
@@ -42,7 +50,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
             key={item.name}
             name={item.name}
             description={item.description}
-            onPress={() => onAutocomplete(`*${item.name}*`)}
+            onPress={this.handleUserGroupItemAutocomplete}
           />
         ),
       },
@@ -55,7 +63,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
             avatarUrl={item.avatar_url}
             email={item.email}
             showEmail
-            onPress={() => onAutocomplete(`**${item.full_name}**`)}
+            onPress={this.handleUserItemAutocomplete}
           />
         ),
       },
