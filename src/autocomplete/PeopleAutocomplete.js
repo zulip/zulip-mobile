@@ -50,7 +50,7 @@ class PeopleAutocomplete extends PureComponent<Props> {
         data: filteredUsers,
         renderItem: ({ item }) => (
           <UserItem
-            key={item.full_name}
+            key={item.user_id}
             fullName={item.full_name}
             avatarUrl={item.avatar_url}
             email={item.email}
