@@ -18,19 +18,24 @@ const styles = StyleSheet.create({
 
 type Props = {
   name: string,
-  onPress: () => void,
+  onPress: (name: string) => void,
 };
 
 export default class EmojiRow extends PureComponent<Props> {
   props: Props;
 
-  render() {
+  handlePress = () => {
     const { name, onPress } = this.props;
+    onPress(name);
+  };
+
+  render() {
+    const { name } = this.props;
 
     // TODO: this only handles Unicode emoji (shipped with the app),
     // not realm emoji or Zulip extra emoji.  See our issue #2846.
     return (
-      <Touchable onPress={onPress}>
+      <Touchable onPress={this.handlePress}>
         <View style={styles.emojiRow}>
           <Emoji name={name} size={20} />
           <RawLabel style={styles.text} text={name} />
