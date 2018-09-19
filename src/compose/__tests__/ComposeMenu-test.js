@@ -1,8 +1,8 @@
-import { fixFileNameFromUri } from '../ComposeMenu';
+import { chooseUploadImageFilename } from '../ComposeMenu';
 
-describe('fixFileNameFromUri', () => {
+describe('chooseUploadImageFilename', () => {
   test('Does nothing if the image uri does not end with an extension for the JPEG format', () => {
-    expect(fixFileNameFromUri('foo', 'foo')).toBe('foo');
+    expect(chooseUploadImageFilename('foo', 'foo')).toBe('foo');
   });
 
   test(
@@ -11,7 +11,7 @@ describe('fixFileNameFromUri', () => {
     () => {
       const fileNameWithoutExtension = 'foo';
       expect(
-        fixFileNameFromUri('some/path/something.jpg', `${fileNameWithoutExtension}.heic`),
+        chooseUploadImageFilename('some/path/something.jpg', `${fileNameWithoutExtension}.heic`),
       ).toBe(`${fileNameWithoutExtension}.jpeg`);
     },
   );

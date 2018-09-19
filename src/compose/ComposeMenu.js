@@ -20,22 +20,29 @@ type Props = {
 };
 
 /**
- * Adjust the fileName to reflect the real file format, according to uri.
+ * Adjust `fileName` to one with the right extension for the file format.
  *
- * Photos in an iPhone's camera roll (taken since iOS 11) are typically in
- * HEIF format and have filenames with the extension `.HEIC`.  When the user
- * selects one of these photos through the image picker, the file gets
- * automatically converted to JPEG format... but the `fileName` property in
- * the react-native-image-picker response still has the `.HEIC` extension.
+ * Sometimes we get an image whose filename reflects one format (what it's
+ * stored as in the camera roll), but the actual image has been converted
+ * already to another format for interoperability.
  *
  * The Zulip server will infer the file format from the filename's
- * extension, so we need to adjust the extension to match the format. The
- * clue we get in the image-picker response is the extension found in `uri`.
+ * extension, so in this case we need to adjust the extension to match the
+ * actual format.  The clue we get in the image-picker response is the extension
+ * found in `uri`.
  */
-export const fixFileNameFromUri = (uri: string, fileName: string): string => {
+export const chooseUploadImageFilename = (uri: string, fileName: string): string => {
+  /*
+  * Photos in an iPhone's camera roll (taken since iOS 11) are typically in
+  * HEIF format and have filenames with the extension `.HEIC`.  When the user
+  * selects one of these photos through the image picker, the file gets
+  * automatically converted to JPEG format... but the `fileName` property in
+  * the react-native-image-picker response still has the `.HEIC` extension.
+  */
   if (/\.jpe?g$/i.test(uri)) {
     return fileName.replace(/\.heic$/i, '.jpeg');
   }
+
   return fileName;
 };
 
@@ -59,7 +66,7 @@ class ComposeMenu extends PureComponent<Props> {
 
     const { dispatch, narrow } = this.props;
     dispatch(
-      uploadImage(narrow, response.uri, fixFileNameFromUri(response.uri, response.fileName)),
+      uploadImage(narrow, response.uri, chooseUploadImageFilename(response.uri, response.fileName)),
     );
   };
 
