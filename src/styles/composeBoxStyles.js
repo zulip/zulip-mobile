@@ -67,6 +67,9 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
   composeMenu: {
     flexDirection: 'row',
     overflow: 'hidden',
+    // this backgroundColor style is a test and try hack to fix #2979,
+    // so it's hard to explain the behaviour
+    backgroundColor: 'transparent',
   },
   expandButton: {
     padding: 12,
