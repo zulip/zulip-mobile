@@ -20,17 +20,17 @@ type Props = {
 };
 
 /**
- * In 2017, Apple adopted a new standard image format, HEIF, which stands
- * for High Efficiency File Format; Apple photos are named with the '.heic'
- * extension. When an image file with the extension '.heic' is uploaded to the
- * server,the image becomes unviewable within a message list. Interestingly,
- * the `file` command line utility reports that images saved under this format
- * are JPEG files, so there's likely some pecularity with how the server handles
- * file uploads based on the extension.
+ * Adjust the fileName to reflect the real file format, according to uri.
  *
- * If an image file name has the '.heic' extension, and the uri of the image on a
- * mobile device has an extension for the JPEG format, fixFileNameFromUri replaces
- * that extension with '.jpeg'.
+ * Photos in an iPhone's camera roll (taken since iOS 11) are typically in
+ * HEIF format and have filenames with the extension `.HEIC`.  When the user
+ * selects one of these photos through the image picker, the file gets
+ * automatically converted to JPEG format... but the `fileName` property in
+ * the react-native-image-picker response still has the `.HEIC` extension.
+ *
+ * The Zulip server will infer the file format from the filename's
+ * extension, so we need to adjust the extension to match the format. The
+ * clue we get in the image-picker response is the extension found in `uri`.
  */
 export const fixFileNameFromUri = (uri: string, fileName: string): string => {
   if (/\.jpe?g$/i.test(uri)) {
