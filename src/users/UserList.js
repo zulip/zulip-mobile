@@ -19,7 +19,7 @@ type Props = {
   users: User[],
   selected: User[],
   presences: PresenceState,
-  onPress: (email: string) => void,
+  onPress: ({ email: string, fullName: string }) => void,
 };
 
 export default class UserList extends PureComponent<Props> {

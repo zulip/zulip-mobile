@@ -23,7 +23,7 @@ class GroupDetailsScreen extends PureComponent<Props> {
 
   props: Props;
 
-  handlePress = (email: string) => {
+  handlePress = ({ email }) => {
     const { dispatch } = this.props;
     dispatch(navigateToAccountDetails(email));
   };

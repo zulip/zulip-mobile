@@ -20,7 +20,7 @@ type Props = {
 class UsersCard extends PureComponent<Props> {
   props: Props;
 
-  handleUserNarrow = (email: string) => {
+  handleUserNarrow = ({ email }) => {
     const { dispatch } = this.props;
     dispatch(navigateBack());
     dispatch(doNarrow(privateNarrow(email)));
