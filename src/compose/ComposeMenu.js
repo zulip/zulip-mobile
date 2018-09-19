@@ -19,6 +19,26 @@ type Props = {
   onExpandContract: () => void,
 };
 
+/**
+ * In 2017, Apple adopted a new standard image format, HEIF, which stands
+ * for High Efficiency File Format; Apple photos are named with the '.heic'
+ * extension. When an image file with the extension '.heic' is uploaded to the
+ * server,the image becomes unviewable within a message list. Interestingly,
+ * the `file` command line utility reports that images saved under this format
+ * are JPEG files, so there's likely some pecularity with how the server handles
+ * file uploads based on the extension.
+ *
+ * If an image file name has the '.heic' extension, and the uri of the image on a
+ * mobile device has an extension for the JPEG format, fixFileNameFromUri replaces
+ * that extension with '.jpeg'.
+ */
+export const fixFileNameFromUri = (uri: string, fileName: string): string => {
+  if (/\.jpe?g$/i.test(uri)) {
+    return fileName.replace(/\.heic$/i, '.jpeg');
+  }
+  return fileName;
+};
+
 class ComposeMenu extends PureComponent<Props> {
   context: Context;
   props: Props;
@@ -38,8 +58,9 @@ class ComposeMenu extends PureComponent<Props> {
     }
 
     const { dispatch, narrow } = this.props;
-
-    dispatch(uploadImage(narrow, response.uri, response.fileName));
+    dispatch(
+      uploadImage(narrow, response.uri, fixFileNameFromUri(response.uri, response.fileName)),
+    );
   };
 
   handleImageUpload = () => {
