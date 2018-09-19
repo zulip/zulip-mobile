@@ -65,14 +65,7 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
           initialNumToRender={20}
           data={emojis}
           keyExtractor={item => item}
-          renderItem={({ item }) => (
-            <EmojiRow
-              name={item}
-              onPress={() => {
-                this.addReaction(item);
-              }}
-            />
-          )}
+          renderItem={({ item }) => <EmojiRow name={item} onPress={this.addReaction} />}
         />
       </Screen>
     );
