@@ -21,8 +21,12 @@ const MAX_CHOICES = 30;
 class EmojiAutocomplete extends PureComponent<Props> {
   props: Props;
 
+  onAutocomplete = (name: string): void => {
+    this.props.onAutocomplete(name);
+  };
+
   render() {
-    const { filter, realmEmoji, onAutocomplete } = this.props;
+    const { filter, realmEmoji } = this.props;
     const emojis = getFilteredEmojiList(filter, realmEmoji);
 
     if (emojis.length === 0) {
@@ -36,7 +40,7 @@ class EmojiAutocomplete extends PureComponent<Props> {
           initialNumToRender={12}
           data={emojis.slice(0, MAX_CHOICES)}
           keyExtractor={item => item}
-          renderItem={({ item }) => <EmojiRow name={item} onPress={() => onAutocomplete(item)} />}
+          renderItem={({ item }) => <EmojiRow name={item} onPress={this.onAutocomplete} />}
         />
       </Popup>
     );
