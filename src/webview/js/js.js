@@ -94,7 +94,7 @@ const showHideElement = (elementId: string, show: boolean) => {
 const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): boolean =>
   Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 
-const getMessageNode = (node: Element): Element => {
+const getMessageNode = (node: Node): Node => {
   let curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
@@ -201,7 +201,7 @@ type ScrollTarget =
 const findPreserveTarget = (): ScrollTarget => {
   // TODO magic numbers
   const msgNode = getMessageNode(document.elementFromPoint(200, 50));
-  if (!msgNode) {
+  if (!msgNode || !(msgNode instanceof HTMLElement)) {
     // TODO log this -- it's an error which the user will notice.
     // (We don't attempt this unless there are messages already,
     // which we really want to keep steady in view.)
