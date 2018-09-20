@@ -387,7 +387,7 @@ documentBody.addEventListener('click', e => {
   }
 });
 
-const handleLongPress = e => {
+const handleLongPress = (e: TouchEvent) => {
   // The logic that defines a "long press" in terms of raw touch events
   // is pretty subtle.  The `lastTouchEventTimestamp` and surrounding logic
   // are an attempt to define a long press.
@@ -413,6 +413,7 @@ const handleLongPress = e => {
   sendMessage({
     type: 'longPress',
     target: e.target.matches('.header') ? 'header' : 'message',
+    // $FlowFixMe EventTarget is incompatible with Node (no it is not!)
     messageId: getMessageIdFromNode(e.target),
   });
 };
