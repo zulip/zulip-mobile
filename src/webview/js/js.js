@@ -102,9 +102,11 @@ const getMessageNode = (node: Element): Element => {
   return curNode;
 };
 
-const getMessageIdFromNode = (node: Node): number => {
+const getMessageIdFromNode = (node: Node, defaultValue: number = -1): number => {
   const msgNode = getMessageNode(node);
-  return msgNode ? +msgNode.getAttribute('data-msg-id') : -1;
+  return msgNode && msgNode instanceof Element
+    ? +msgNode.getAttribute('data-msg-id')
+    : defaultValue;
 };
 
 const scrollToBottom = () => {
