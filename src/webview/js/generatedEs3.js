@@ -37,6 +37,7 @@ window.onerror = function (message, source, line, column, error) {
     if (_elementJsError && elementSheetGenerated && elementSheetHide && elementSheetHide instanceof HTMLStyleElement && elementSheetHide.sheet && elementSheetGenerated instanceof HTMLStyleElement && elementSheetGenerated.sheet) {
       elementSheetHide.sheet.disabled = true;
       var _height = _elementJsError.offsetHeight;
+
       elementSheetGenerated.sheet.insertRule('.header-wrapper { top: ' + _height + 'px; }', 0);
     }
   }
