@@ -404,6 +404,10 @@ const handleLongPress = e => {
     return;
   }
 
+  if (!(e.target instanceof Element)) {
+    return;
+  }
+
   lastTouchEventTimestamp = 0;
 
   sendMessage({
