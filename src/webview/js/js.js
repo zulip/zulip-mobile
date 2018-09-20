@@ -53,6 +53,7 @@ window.onerror = (message, source, line, column, error) => {
     ) {
       elementSheetHide.sheet.disabled = true;
       const height = elementJsError.offsetHeight;
+      // $FlowFixMe `sheet: StyleSheet` type is not comprehensive enough
       elementSheetGenerated.sheet.insertRule(`.header-wrapper { top: ${height}px; }`, 0);
     }
   }
