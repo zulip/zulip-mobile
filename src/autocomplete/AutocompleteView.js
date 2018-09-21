@@ -32,14 +32,14 @@ export default class AutocompleteView extends PureComponent<Props> {
 
   render() {
     const { text, selection } = this.props;
-    const result = getAutocompleteFilter(text, selection);
+    const { lastWordPrefix, filter } = getAutocompleteFilter(text, selection);
 
-    const AutocompleteComponent = prefixToComponent[result.lastWordPrefix];
+    const AutocompleteComponent = prefixToComponent[lastWordPrefix];
 
     return (
-      <AnimatedScaleComponent visible={result.filter.length > 0}>
+      <AnimatedScaleComponent visible={filter.length > 0}>
         {AutocompleteComponent && (
-          <AutocompleteComponent filter={result.filter} onAutocomplete={this.handleAutocomplete} />
+          <AutocompleteComponent filter={filter} onAutocomplete={this.handleAutocomplete} />
         )}
       </AnimatedScaleComponent>
     );
