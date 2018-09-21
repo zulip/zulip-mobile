@@ -48,6 +48,8 @@ const eventReactionAdd = (state: MessagesState, action: EventReactionAddAction):
       reactions: oldMessage.reactions.concat({
         emoji_name: action.emoji_name,
         user: action.user,
+        reaction_type: action.reaction_type,
+        emoji_code: action.emoji_code,
       }),
     },
   };
