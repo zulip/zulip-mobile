@@ -74,6 +74,7 @@ import type {
   MessagesState,
   Outbox,
   Narrow,
+  ReactionType,
   User,
   UserGroup,
   InitialData,
@@ -346,8 +347,18 @@ export type EventUpdateMessageAction = ServerEvent & {
 };
 
 export type EventReactionCommon = ServerEvent & {
+  /**
+   * Code of the emoji.
+   *
+   * For unicode emoji it is like `1f4af`. For `zulip_extra_emoji` it is
+   * same as that of `emoji_name` and for `realm_emoji` it is id of the
+   * emoji (number as a string).
+   */
+  emoji_code: string,
+
   emoji_name: string,
   message_id: number,
+  reaction_type: ReactionType,
   user: {
     email: string,
     full_name: string,

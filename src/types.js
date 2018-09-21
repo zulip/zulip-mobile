@@ -65,10 +65,12 @@ export type Account = Auth;
 /**
  * Type of an emoji reaction to a message.
  *
- * unicode_emoji: Emoji from code point.
- * realm_emoji: Server specific emoji (image as emoji).
- * zulip_extra_emoji: Default emojies which present in Zulip server,
- *     which are not realm spcific (image as emoji).
+ * Zulip supports three types of emojies.
+ *
+ * - unicode_emoji: Emoji from codepoint (depends only on server version).
+ * - realm_emoji: Realm custom emoji (will differ from server to server).
+ * - zulip_extra_emoji: Custom emoji and are provided by Zulip, so will
+ *   be available on all the server.
  */
 export type ReactionType = 'unicode_emoji' | 'realm_emoji' | 'zulip_extra_emoji';
 
