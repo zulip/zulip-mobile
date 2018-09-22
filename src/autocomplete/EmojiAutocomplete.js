@@ -16,6 +16,8 @@ type Props = {
   onAutocomplete: (name: string) => void,
 };
 
+const MAX_CHOICES = 30;
+
 class EmojiAutocomplete extends PureComponent<Props> {
   props: Props;
 
@@ -32,7 +34,7 @@ class EmojiAutocomplete extends PureComponent<Props> {
         <FlatList
           keyboardShouldPersistTaps="always"
           initialNumToRender={12}
-          data={emojis}
+          data={emojis.slice(0, MAX_CHOICES)}
           keyExtractor={item => item}
           renderItem={({ item }) => <EmojiRow name={item} onPress={() => onAutocomplete(item)} />}
         />
