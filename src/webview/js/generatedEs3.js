@@ -122,17 +122,25 @@ window.addEventListener('resize', function (event) {
   height = documentBody.clientHeight;
 });
 
-var isMessageNode = function isMessageNode(node) {
-  return !!node && node.getAttribute && node.hasAttribute('data-msg-id');
+var getLastVisibleMsgIdOnScreen = function getLastVisibleMsgIdOnScreen() {
+  var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 200;
+  var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : window.innerHeight - 20;
+
+  if (x < 0 || y < 0) {
+    return 0;
+  }
+  var endNode = getMessageNode(document.elementFromPoint(x, y));
+  var msgId = getMessageIdFromNode(endNode, 0);
+  return msgId !== 0 ? msgId : getLastVisibleMsgIdOnScreen(x, y - 20);
 };
 
 var getStartAndEndNodes = function getStartAndEndNodes() {
   var startNode = getMessageNode(document.elementFromPoint(200, 20));
-  var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
+  var endNodeId = getLastVisibleMsgIdOnScreen();
 
   return {
-    start: isMessageNode(startNode) ? startNode.getAttribute('data-msg-id') : Number.MAX_SAFE_INTEGER,
-    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : 0
+    start: getMessageIdFromNode(startNode, Number.MAX_SAFE_INTEGER),
+    end: endNodeId
   };
 };
 
