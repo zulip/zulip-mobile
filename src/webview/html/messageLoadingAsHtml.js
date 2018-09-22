@@ -2,7 +2,7 @@
 import template from './template';
 
 export default template`
-<div class="message">
+<div class="dummy-message">
   <div class="loading-avatar"></div>
   <div class="loading-content">
     <div class="loading-subheader">
