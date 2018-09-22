@@ -145,9 +145,32 @@ const getStartAndEndNodes = (): { start: number, end: number } => {
   const startNode = getMessageNode(document.elementFromPoint(200, 20));
   const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
 
+  const startMsgId = getMessageIdFromNode(startNode, Number.MAX_SAFE_INTEGER);
+  const endMsgId = getMessageIdFromNode(endNode, 0);
+
+  if (startMsgId !== Number.MAX_SAFE_INTEGER && endMsgId !== 0) {
+    return {
+      start: startMsgId,
+      end: endMsgId,
+    };
+  }
+
+  // can't find message node at either top of list or at bottom
+  // message list might be short (not scrollable)
+  // mark all messages as read
+  const messagesNodes = document.getElementsByClassName('message');
+  if (messagesNodes.length === 0) {
+    return {
+      start: Number.MAX_SAFE_INTEGER,
+      end: 0,
+    };
+  }
+  const firstMsgNode = messagesNodes[0];
+  const lastMsgNode = messagesNodes[messagesNodes.length - 1];
+
   return {
-    start: getMessageIdFromNode(startNode, Number.MAX_SAFE_INTEGER),
-    end: getMessageIdFromNode(endNode, 0),
+    start: firstMsgNode ? firstMsgNode.getAttribute('data-msg-id') : Number.MAX_SAFE_INTEGER,
+    end: lastMsgNode ? lastMsgNode.getAttribute('data-msg-id') : 0,
   };
 };
 

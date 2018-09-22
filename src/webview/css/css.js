@@ -98,6 +98,7 @@ hr {
   font-size: 14px;
   white-space: nowrap;
 }
+.dummy-message,
 .message {
   display: flex;
   word-wrap: break-word;
