@@ -141,13 +141,25 @@ window.addEventListener('resize', event => {
   height = documentBody.clientHeight;
 });
 
+const getLastVisibleMsgIdOnScreen = (
+  x: number = 200,
+  y: number = window.innerHeight - 20,
+): number => {
+  if (x < 0 || y < 0) {
+    return 0;
+  }
+  const endNode = getMessageNode(document.elementFromPoint(x, y));
+  const msgId = getMessageIdFromNode(endNode, 0);
+  return msgId !== 0 ? msgId : getLastVisibleMsgIdOnScreen(x, y - 20);
+};
+
 const getStartAndEndNodes = (): { start: number, end: number } => {
   const startNode = getMessageNode(document.elementFromPoint(200, 20));
-  const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
+  const endNodeId = getLastVisibleMsgIdOnScreen();
 
   return {
     start: getMessageIdFromNode(startNode, Number.MAX_SAFE_INTEGER),
-    end: getMessageIdFromNode(endNode, 0),
+    end: endNodeId,
   };
 };
 
