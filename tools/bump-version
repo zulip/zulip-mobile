@@ -19,6 +19,11 @@ shift && usage;
 
 version_code="${version_name##*.}"
 
+had_uncommitted=
+if ! git diff-index --quiet HEAD; then
+    had_uncommitted=1
+fi
+
 perl -i -0pe '
 s/versionCode \K[0-9]+/'"$version_code"'/;
 s/versionName "\K[0-9.]+/'"$version_name"'/;
@@ -29,3 +34,15 @@ s|<key>CFBundleShortVersionString</key> \s*
   <string>\K [0-9.]+
  |'"$version_name"'|xs
 ' ios/ZulipMobile/Info.plist
+
+msg="version: Bump version to $version_name."
+if [ -n "$had_uncommitted" ]; then
+    {
+        echo "There were uncommitted changes.  To commit:"
+        echo "  git commit -am ${msg@Q}"
+        # NB if tempted to use the ${...@Q} feature: it's new in bash 4.4,
+        # released 2016-09, found in stretch and bionic but not xenial.
+    } >&2
+else
+    git commit -am "$msg"
+fi
