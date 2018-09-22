@@ -63,6 +63,16 @@ export type InputSelectionType = {
 export type Account = Auth;
 
 /**
+ * Type of an emoji reaction to a message.
+ *
+ * unicode_emoji: Emoji from code point.
+ * realm_emoji: Server specific emoji (image as emoji).
+ * zulip_extra_emoji: Default emojies which present in Zulip server,
+ *     which are not realm spcific (image as emoji).
+ */
+export type ReactionType = 'unicode_emoji' | 'realm_emoji' | 'zulip_extra_emoji';
+
+/**
  * An emoji reaction to a message.
  *
  * See also SlimEventReaction, which contains the minimal subset of these
@@ -71,7 +81,7 @@ export type Account = Auth;
 export type EventReaction = {
   emoji_code: string,
   emoji_name: string,
-  reaction_type: string,
+  reaction_type: ReactionType,
   user: any,
 };
 
