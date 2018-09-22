@@ -34,7 +34,7 @@ window.onerror = function (message, source, line, column, error) {
     var _elementJsError = document.getElementById('js-error-plain');
     var elementSheetGenerated = document.getElementById('generated-styles');
     var elementSheetHide = document.getElementById('style-hide-js-error-plain');
-    if (_elementJsError && elementSheetGenerated && elementSheetHide) {
+    if (_elementJsError && elementSheetGenerated && elementSheetHide && elementSheetHide instanceof HTMLStyleElement && elementSheetHide.sheet && elementSheetGenerated instanceof HTMLStyleElement && elementSheetGenerated.sheet) {
       elementSheetHide.sheet.disabled = true;
       var _height = _elementJsError.offsetHeight;
       elementSheetGenerated.sheet.insertRule('.header-wrapper { top: ' + _height + 'px; }', 0);
@@ -85,8 +85,10 @@ var getMessageNode = function getMessageNode(node) {
 };
 
 var getMessageIdFromNode = function getMessageIdFromNode(node) {
+  var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
+
   var msgNode = getMessageNode(node);
-  return msgNode ? +msgNode.getAttribute('data-msg-id') : -1;
+  return msgNode && msgNode instanceof Element ? +msgNode.getAttribute('data-msg-id') : defaultValue;
 };
 
 var scrollToBottom = function scrollToBottom() {
@@ -122,17 +124,13 @@ window.addEventListener('resize', function (event) {
   height = documentBody.clientHeight;
 });
 
-var isMessageNode = function isMessageNode(node) {
-  return !!node && node.getAttribute && node.hasAttribute('data-msg-id');
-};
-
 var getStartAndEndNodes = function getStartAndEndNodes() {
   var startNode = getMessageNode(document.elementFromPoint(200, 20));
   var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
 
   return {
-    start: isMessageNode(startNode) ? startNode.getAttribute('data-msg-id') : Number.MAX_SAFE_INTEGER,
-    end: isMessageNode(endNode) ? endNode.getAttribute('data-msg-id') : 0
+    start: getMessageIdFromNode(startNode, Number.MAX_SAFE_INTEGER),
+    end: getMessageIdFromNode(endNode, 0)
   };
 };
 
@@ -175,7 +173,7 @@ window.addEventListener('scroll', handleScrollEvent);
 
 var findPreserveTarget = function findPreserveTarget() {
   var msgNode = getMessageNode(document.elementFromPoint(200, 50));
-  if (!msgNode) {
+  if (!msgNode || !(msgNode instanceof HTMLElement)) {
     return { type: 'none' };
   }
   var msgId = getMessageIdFromNode(msgNode);
@@ -203,6 +201,7 @@ var appendAuthToImages = function appendAuthToImages(auth) {
     if (!(srcPath.startsWith('/user_uploads/') || srcPath.startsWith('/thumbnail?'))) {
       return;
     }
+
     var delimiter = img.src.includes('?') ? '&' : '?';
     img.src += delimiter + 'api_key=' + auth.apiKey;
   });
