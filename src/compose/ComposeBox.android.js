@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 import { View, TextInput, findNodeHandle } from 'react-native';
 import { connect } from 'react-redux';
 import TextInputReset from 'react-native-text-input-reset';
-import isEqual from 'lodash.isequal';
 
 import type {
   Auth,
@@ -279,10 +278,6 @@ class ComposeBox extends PureComponent<Props, State> {
       if (this.messageInput) {
         this.messageInput.focus();
       }
-    } else if (!isEqual(nextProps.narrow, this.props.narrow)) {
-      this.tryUpdateDraft();
-
-      this.setMessageInputValue(nextProps.draft);
     }
   }
 
