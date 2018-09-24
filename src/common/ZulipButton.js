@@ -58,7 +58,10 @@ const styles = StyleSheet.create({
     color: BRAND_COLOR,
   },
   disabled: {
-    opacity: 0.25,
+    backgroundColor: '#999',
+  },
+  disabledText: {
+    color: '#ddd',
   },
 });
 
@@ -148,7 +151,11 @@ export default class ZulipButton extends PureComponent<Props> {
       disabled && styles.disabled,
       style,
     ];
-    const textStyle = [styles.text, secondary ? styles.secondaryText : styles.primaryText];
+    const textStyle = [
+      styles.text,
+      secondary ? styles.secondaryText : styles.primaryText,
+      disabled && styles.disabledText,
+    ];
     const iconStyle = [styles.icon, secondary ? styles.secondaryIcon : styles.primaryIcon];
 
     if (progress) {
