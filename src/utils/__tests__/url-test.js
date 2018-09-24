@@ -128,121 +128,49 @@ describe('isMessageLink', () => {
 });
 
 describe('isStreamLink', () => {
-  test('only in-app link containing "stream" is a stream link', () => {
-    expect(
-      isStreamLink('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
-    ).toBe(false);
-    expect(isStreamLink('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
-      true,
-    );
-    expect(isStreamLink('https://example.com/#narrow/stream/stream/', 'https://example.com')).toBe(
-      true,
-    );
+  test('only paths containing "stream" is a stream link', () => {
+    expect(isStreamLink(['pm-with', '1,2-group'])).toBe(false);
+    expect(isStreamLink(['stream', 'test'])).toBe(true);
+    expect(isStreamLink(['stream', 'stream'])).toBe(true);
   });
 });
 
 describe('isTopicLink', () => {
-  test('when a url is not a topic narrow return false', () => {
-    expect(
-      isTopicLink('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
-    ).toBe(false);
-    expect(isTopicLink('https://example.com/#narrow/stream/jest', 'https://example.com')).toBe(
-      false,
-    );
-
-    expect(
-      isTopicLink(
-        'https://example.com/#narrow/stream/stream/topic/topic/near/',
-        'https://example.com',
-      ),
-    ).toBe(false);
-
-    expect(isTopicLink('https://example.com/#narrow/stream/topic/', 'https://example.com')).toBe(
-      false,
-    );
+  test('when the path is not a topic narrow return false', () => {
+    expect(isTopicLink(['pm-with', '1,2-group'])).toBe(false);
+    expect(isTopicLink(['stream', '243-mobile-team'])).toBe(false);
+    expect(isTopicLink(['stream', 'stream', 'topic', 'topic', 'near'])).toBe(false);
+    expect(isTopicLink(['stream', 'topic'])).toBe(false);
   });
 
-  test('when a url is a topic narrow return true', () => {
-    expect(
-      isTopicLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
-    ).toBe(true);
-
-    expect(
-      isTopicLink(
-        'https://example.com/#narrow/stream/mobile/subject/topic/near/378333',
-        'https://example.com',
-      ),
-    ).toBe(true);
-
-    expect(
-      isTopicLink('https://example.com/#narrow/stream/mobile/topic/topic/', 'https://example.com'),
-    ).toBe(true);
-
-    expect(
-      isTopicLink(
-        'https://example.com/#narrow/stream/stream/topic/topic/near/1',
-        'https://example.com',
-      ),
-    ).toBe(true);
-
-    expect(
-      isTopicLink(
-        'https://example.com/#narrow/stream/stream/subject/topic/near/1',
-        'https://example.com',
-      ),
-    ).toBe(true);
-
-    expect(isTopicLink('/#narrow/stream/stream/subject/topic', 'https://example.com')).toBe(true);
+  test('when the path is a topic narrow return true', () => {
+    expect(isTopicLink(['stream', 'jest', 'topic', 'test'])).toBe(true);
+    expect(isTopicLink(['stream', 'test', 'subject', 'topic', 'near', '378333'])).toBe(true);
+    expect(isTopicLink(['stream', 'test', 'topic', 'topic'])).toBe(true);
+    expect(isTopicLink(['stream', 'stream', 'topic', 'topic', 'near', '1'])).toBe(true);
+    expect(isTopicLink(['stream', 'stream', 'subject', 'topic', 'near', '1'])).toBe(true);
+    expect(isTopicLink(['stream', 'stream', 'subject', 'topic'])).toBe(true);
   });
 });
 
 describe('isGroupLink', () => {
-  test('only in-app link containing "pm-with" is a group link', () => {
-    expect(
-      isGroupLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
-    ).toBe(false);
-    expect(
-      isGroupLink('https://example.com/#narrow/pm-with/1,2-group', 'https://example.com'),
-    ).toBe(true);
-    expect(
-      isGroupLink('https://example.com/#narrow/pm-with/1,2-group/near/1', 'https://example.com'),
-    ).toBe(true);
-    expect(
-      isGroupLink(
-        'https://example.com/#narrow/pm-with/a.40b.2Ecom.c.d.2Ecom/near/3',
-        'https://example.com',
-      ),
-    ).toBe(true);
+  test('only paths containing "pm-with" is a group link', () => {
+    expect(isGroupLink(['stream', 'test'])).toBe(false);
+    expect(isGroupLink(['pm-with', '1,2-group'])).toBe(true);
+    expect(isGroupLink(['pm-with', '1,2-group', 'near', '1'])).toBe(true);
+    expect(isGroupLink(['pm-with', 'a.40b.2Ecom.c.d.2Ecom', 'near', '3'])).toBe(true);
   });
 });
 
 describe('isSpecialLink', () => {
-  test('only in-app link containing "is" is a special link', () => {
-    expect(
-      isSpecialLink('https://example.com/#narrow/stream/jest/topic/test', 'https://example.com'),
-    ).toBe(false);
-
-    expect(isSpecialLink('https://example.com/#narrow/is/private', 'https://example.com')).toBe(
-      true,
-    );
-
-    expect(isSpecialLink('https://example.com/#narrow/is/starred', 'https://example.com')).toBe(
-      true,
-    );
-
-    expect(isSpecialLink('https://example.com/#narrow/is/mentioned', 'https://example.com')).toBe(
-      true,
-    );
-
-    expect(isSpecialLink('https://example.com/#narrow/is/men', 'https://example.com')).toBe(false);
-
-    expect(isSpecialLink('https://example.com/#narrow/is/men/stream', 'https://example.com')).toBe(
-      false,
-    );
-
-    expect(isSpecialLink('https://example.com/#narrow/are/men/stream', 'https://example.com')).toBe(
-      false,
-    );
+  test('only paths containing "is" is a special link', () => {
+    expect(isSpecialLink(['stream', 'jest', 'topic', 'test'])).toBe(false);
+    expect(isSpecialLink(['is', 'private'])).toBe(true);
+    expect(isSpecialLink(['is', 'starred'])).toBe(true);
+    expect(isSpecialLink(['is', 'mentioned'])).toBe(true);
+    expect(isSpecialLink(['is', 'men'])).toBe(false);
+    expect(isSpecialLink(['is', 'men', 'stream'])).toBe(false);
+    expect(isSpecialLink(['are', 'men', 'stream'])).toBe(false);
   });
 });
 

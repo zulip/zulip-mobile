@@ -56,39 +56,20 @@ export const isUrlInAppLink = (url: string, realm: string): boolean =>
 export const isMessageLink = (url: string, realm: string): boolean =>
   isUrlInAppLink(url, realm) && url.includes('near');
 
-export const isTopicLink = (url: string, realm: string): boolean => {
-  const paths = getPathsFromUrl(url, realm);
-  return (
-    isUrlInAppLink(url, realm)
-    && ((paths.length === 4 || paths.length === 6)
-      && paths[0] === 'stream'
-      && (paths[2] === 'subject' || paths[2] === 'topic'))
-  );
-};
+export const isTopicLink = (paths: string[]): boolean =>
+  (paths.length === 4 || paths.length === 6)
+  && paths[0] === 'stream'
+  && (paths[2] === 'subject' || paths[2] === 'topic');
 
-export const isGroupLink = (url: string, realm: string): boolean => {
-  const paths = getPathsFromUrl(url, realm);
-  return (
-    isUrlInAppLink(url, realm)
-    && ((paths.length === 2 && paths[0] === 'pm-with')
-      || (paths.length === 4 && paths[0] === 'pm-with' && paths[2] === 'near'))
-  );
-};
+export const isGroupLink = (paths: string[]): boolean =>
+  (paths.length === 2 && paths[0] === 'pm-with')
+  || (paths.length === 4 && paths[0] === 'pm-with' && paths[2] === 'near');
 
-export const isStreamLink = (url: string, realm: string): boolean => {
-  const paths = getPathsFromUrl(url, realm);
-  return isUrlInAppLink(url, realm) && paths.length === 2 && paths[0] === 'stream';
-};
+export const isStreamLink = (paths: string[]): boolean =>
+  paths.length === 2 && paths[0] === 'stream';
 
-export const isSpecialLink = (url: string, realm: string): boolean => {
-  const paths = getPathsFromUrl(url, realm);
-  return (
-    isUrlInAppLink(url, realm)
-    && paths.length === 2
-    && paths[0] === 'is'
-    && /^(private|starred|mentioned)/i.test(paths[1])
-  );
-};
+export const isSpecialLink = (paths: string[]): boolean =>
+  paths.length === 2 && paths[0] === 'is' && /^(private|starred|mentioned)/i.test(paths[1]);
 
 export const isEmojiUrl = (url: string, realm: string): boolean =>
   isUrlOnRealm(url, realm) && url.includes('/static/generated/emoji/images/emoji/unicode/');
@@ -96,9 +77,18 @@ export const isEmojiUrl = (url: string, realm: string): boolean =>
 export const getEmojiUrl = (unicode: string): string =>
   `/static/generated/emoji/images/emoji/unicode/${unicode}.png`;
 
-export const getNarrowFromLink = (url: string, realm: string, users: User[]): Narrow => {
-  const paths = getPathsFromUrl(url, realm);
+export const getStreamNameFromSlug = (slug: string): string => {
+  if (!isNaN(slug.split('-')[0])) {
+    return slug.substring(slug.indexOf('-') + 1);
+  }
+  return slug;
+};
 
+export const getNarrowFromLink = (url: string, realm: string, users: User[]): Narrow => {
+  if (isUrlInAppLink(url, realm)) {
+    return HOME_NARROW;
+  }
+  const paths = getPathsFromUrl(url, realm);
   if (isGroupLink(url, realm)) {
     const recipients = paths[1].split('-')[0].split(',');
     return groupNarrow(
@@ -114,8 +104,6 @@ export const getNarrowFromLink = (url: string, realm: string, users: User[]): Na
   } else if (isSpecialLink(url, realm)) {
     return specialNarrow(paths[1]);
   }
-
-  return HOME_NARROW;
 };
 
 export const getMessageIdFromLink = (url: string, realm: string): number => {
