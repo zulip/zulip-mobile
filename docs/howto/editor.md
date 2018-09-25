@@ -71,3 +71,12 @@ Android Studio is the IDE supported upstream by the Android platform in
 general.  Its support for Java and for Android-specific quirks is excellent,
 while VS Code's is not very good.  When working in the Android-specific part
 of our codebase (`android/`), we therefore recommend using Android Studio.
+
+
+## Other editors
+
+Using other editors isn't generally recommended.  Here's some miscellaneous
+information if you do.
+
+* We format our code using `prettier`.  Run `yarn prettier` to do this
+  manually.  (If using Atom, the `prettier-atom` plugin helps.)

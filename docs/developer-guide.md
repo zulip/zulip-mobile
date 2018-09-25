@@ -31,8 +31,3 @@ up your development environment in several ways:
    tackling a moderately complex issue, a good debugging setup can help a
    lot.  See [our debugging guide](howto/debugging.md) for details, including
    setup instructions.
-
-## Formatting code using prettier
-
-* Using the Atom editor - install the `prettier-atom` plugin
-* Using the command line - run `yarn prettier`
