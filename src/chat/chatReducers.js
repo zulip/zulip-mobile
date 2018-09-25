@@ -7,6 +7,7 @@ import type {
   MessageFetchCompleteAction,
   EventNewMessageAction,
   EventMessageDeleteAction,
+  EventUpdateMessageFlagsAction,
 } from '../types';
 import {
   APP_REFRESH,
@@ -16,9 +17,10 @@ import {
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
+  EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../constants';
-import { isMessageInNarrow } from '../utils/narrow';
+import { isMessageInNarrow, STARRED_NARROW_STR } from '../utils/narrow';
 import { NULL_OBJECT } from '../nullObjects';
 
 const initialState: NarrowsState = NULL_OBJECT;
@@ -70,6 +72,34 @@ const eventMessageDelete = (
   return stateChange ? newState : state;
 };
 
+const eventUpdateMessageFlags = (
+  state: NarrowsState,
+  action: EventUpdateMessageFlagsAction,
+): NarrowsState => {
+  const { messages, flag, operation } = action;
+  const messagesSet = new Set(messages);
+  const updates = [];
+
+  if (flag === 'starred' && state[STARRED_NARROW_STR]) {
+    if (operation === 'add') {
+      updates.push({
+        [STARRED_NARROW_STR]: [...state[STARRED_NARROW_STR], ...messages].sort(),
+      });
+    } else {
+      // operation === 'remove'
+      updates.push({
+        [STARRED_NARROW_STR]: state[STARRED_NARROW_STR].filter(id => !messagesSet.has(id)),
+      });
+    }
+  }
+
+  if (!updates.length) {
+    return state;
+  }
+
+  return Object.assign({}, state, ...updates);
+};
+
 export default (state: NarrowsState = initialState, action: MessageAction): NarrowsState => {
   switch (action.type) {
     case APP_REFRESH:
@@ -86,6 +116,9 @@ export default (state: NarrowsState = initialState, action: MessageAction): Narr
 
     case EVENT_MESSAGE_DELETE:
       return eventMessageDelete(state, action);
+
+    case EVENT_UPDATE_MESSAGE_FLAGS:
+      return eventUpdateMessageFlags(state, action);
 
     default:
       return state;
