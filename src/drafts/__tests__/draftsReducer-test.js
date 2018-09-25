@@ -3,24 +3,25 @@ import deepFreeze from 'deep-freeze';
 
 import { NULL_OBJECT } from '../../nullObjects';
 import draftsReducers from '../draftsReducers';
-import { DRAFT_ADD, DRAFT_REMOVE } from '../../actionConstants';
+import { DRAFT_UPDATE } from '../../actionConstants';
 import { topicNarrow } from '../../utils/narrow';
 
 describe('draftsReducers', () => {
-  const getNarrowString = (narrow: Narrow) => JSON.stringify(narrow);
+  const testNarrow = topicNarrow('denmark', 'denmark2');
+  const testNarrowStr = JSON.stringify(testNarrow);
 
-  describe(DRAFT_ADD, () => {
-    test('add a new drafts to drafts', () => {
+  describe(DRAFT_UPDATE, () => {
+    test('add a new draft key drafts', () => {
       const initialState = NULL_OBJECT;
 
       const action = deepFreeze({
-        type: DRAFT_ADD,
+        type: DRAFT_UPDATE,
         content: 'Hello',
-        narrow: topicNarrow('denmark', 'denmark2'),
+        narrow: testNarrow,
       });
 
       const expectedState = {
-        [getNarrowString(topicNarrow('denmark', 'denmark2'))]: 'Hello',
+        [testNarrowStr]: 'Hello',
       };
 
       const actualState = draftsReducers(initialState, action);
@@ -28,33 +29,32 @@ describe('draftsReducers', () => {
       expect(actualState).toEqual(expectedState);
     });
 
-    test('add same draft to drafts', () => {
+    test('adding the same draft to drafts does not mutate the state', () => {
       const initialState = deepFreeze({
-        [getNarrowString(topicNarrow('denmark', 'denmark2'))]: 'Hello',
+        [testNarrowStr]: 'Hello',
       });
 
       const action = deepFreeze({
-        type: DRAFT_ADD,
+        type: DRAFT_UPDATE,
         content: 'Hello',
-        narrow: topicNarrow('denmark', 'denmark2'),
+        narrow: testNarrow,
       });
 
       const actualState = draftsReducers(initialState, action);
 
       expect(actualState).toBe(initialState);
     });
-  });
 
-  describe(DRAFT_REMOVE, () => {
-    test('remove draft on DRAFT_REMOVE', () => {
+    test('when content is empty remove draft from state', () => {
       const initialState = deepFreeze({
-        [getNarrowString(topicNarrow('denmark', 'denmark2'))]: 'Hello',
+        [testNarrowStr]: 'Hello',
       });
 
-      const action = deepFreeze({
-        type: DRAFT_REMOVE,
-        narrow: topicNarrow('denmark', 'denmark2'),
-      });
+      const action = {
+        type: DRAFT_UPDATE,
+        content: '',
+        narrow: testNarrow,
+      };
 
       const expectedState = {};
 
@@ -63,14 +63,31 @@ describe('draftsReducers', () => {
       expect(actualState).toEqual(expectedState);
     });
 
-    test('remove some other draft on DRAFT_REMOVE', () => {
+    test('remove draft when content is white space', () => {
       const initialState = deepFreeze({
-        [getNarrowString(topicNarrow('denmark', 'denmark2'))]: 'Hello',
+        [testNarrowStr]: 'Hello',
       });
 
+      const action = {
+        type: DRAFT_UPDATE,
+        content: '   ',
+        narrow: topicNarrow('denmark', 'denmark2'),
+      };
+
+      const expectedState = {};
+
+      const actualState = draftsReducers(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
+
+    test('do not mutate state if there is nothing to remove', () => {
+      const initialState = NULL_OBJECT;
+
       const action = deepFreeze({
-        type: DRAFT_REMOVE,
-        narrow: topicNarrow('someOther', 'denmark2'),
+        type: DRAFT_UPDATE,
+        content: '',
+        narrow: testNarrow,
       });
 
       const actualState = draftsReducers(initialState, action);

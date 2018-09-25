@@ -1,25 +1,36 @@
 /* @flow */
-import type { DraftState, DraftsAction, DraftAddAction, DraftRemoveAction } from '../types';
-import { DRAFT_ADD, DRAFT_REMOVE, LOGOUT } from '../actionConstants';
+import type { DraftState, DraftsAction, DraftUpdateAction } from '../types';
+import { DRAFT_UPDATE, LOGOUT } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 
 const initialState = NULL_OBJECT;
 
-const draftAdd = (state: DraftState, action: DraftAddAction): DraftState => {
+const draftUpdate = (state: DraftState, action: DraftUpdateAction): DraftState => {
   const narrowStr = JSON.stringify(action.narrow);
-  return state[narrowStr] === action.content ? state : { ...state, [narrowStr]: action.content };
-};
+  const shouldDeleteDraft = action.content.trim().length === 0;
 
-const draftRemove = (state: DraftState, action: DraftRemoveAction): DraftState => {
-  const narrowStr = JSON.stringify(action.narrow);
-
-  if (!state[narrowStr]) {
+  // no need to update state
+  if (state[narrowStr] === action.content) {
     return state;
   }
 
-  const newState = { ...state };
-  delete newState[narrowStr];
-  return newState;
+  // no data exists, no need to delete anything
+  if (shouldDeleteDraft && !state[narrowStr]) {
+    return state;
+  }
+
+  // if empty string, remove from state
+  if (shouldDeleteDraft) {
+    const newState = { ...state };
+    delete newState[narrowStr];
+    return newState;
+  }
+
+  // new state with content mapped to the narrow
+  return {
+    ...state,
+    [narrowStr]: action.content,
+  };
 };
 
 export default (state: DraftState = initialState, action: DraftsAction): DraftState => {
@@ -27,11 +38,8 @@ export default (state: DraftState = initialState, action: DraftsAction): DraftSt
     case LOGOUT:
       return initialState;
 
-    case DRAFT_ADD:
-      return draftAdd(state, action);
-
-    case DRAFT_REMOVE:
-      return draftRemove(state, action);
+    case DRAFT_UPDATE:
+      return draftUpdate(state, action);
 
     default:
       return state;

@@ -27,8 +27,7 @@ import {
   INIT_REALM_EMOJI,
   INIT_REALM_FILTER,
   SETTINGS_CHANGE,
-  DRAFT_ADD,
-  DRAFT_REMOVE,
+  DRAFT_UPDATE,
   FETCH_STATE_RESET,
   PRESENCE_RESPONSE,
   MESSAGE_SEND_START,
@@ -519,18 +518,13 @@ export type SettingsChangeAction = {
   value: any,
 };
 
-export type DraftAddAction = {
-  type: typeof DRAFT_ADD,
+export type DraftUpdateAction = {
+  type: typeof DRAFT_UPDATE,
   narrow: Narrow,
   content: string,
 };
 
-export type DraftRemoveAction = {
-  type: typeof DRAFT_REMOVE,
-  narrow: Narrow,
-};
-
-export type DraftsAction = DraftAddAction | DraftRemoveAction | LogoutAction;
+export type DraftsAction = DraftUpdateAction | LogoutAction;
 
 export type FetchStateResetAction = {
   type: typeof FETCH_STATE_RESET,

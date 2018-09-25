@@ -18,7 +18,7 @@ import type {
 import {
   addToOutbox,
   cancelEditMessage,
-  updateDraft,
+  draftUpdate,
   fetchTopicsForActiveStream,
   sendTypingEvent,
 } from '../actions';
@@ -126,7 +126,7 @@ class ComposeBox extends PureComponent<Props, State> {
     this.setState({ message, isMenuExpanded: false });
     const { dispatch, narrow } = this.props;
     dispatch(sendTypingEvent(narrow));
-    dispatch(updateDraft(narrow, message));
+    dispatch(draftUpdate(narrow, message));
   };
 
   handleMessageSelectionChange = (event: Object) => {
