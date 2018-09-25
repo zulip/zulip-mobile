@@ -5,7 +5,9 @@ up an editor, or IDE, with good support for navigation and type information.
 This makes a big difference in productivity, and especially so when working
 in a codebase that's new to you.
 
-Currently there's one editor we recommend: Visual Studio Code.
+Currently there's one editor we recommend for normal work in our codebase:
+Visual Studio Code.
+
 
 ## Visual Studio Code
 
@@ -61,3 +63,11 @@ Take a look through some of VS Code's docs.  In particular:
   should see the formatting get magically fixed!  Our workspace settings
   enable this feature, and configure it to use our standard formatting
   rules.
+
+
+## Android Studio (as needed)
+
+Android Studio is the IDE supported upstream by the Android platform in
+general.  Its support for Java and for Android-specific quirks is excellent,
+while VS Code's is not very good.  When working in the Android-specific part
+of our codebase (`android/`), we therefore recommend using Android Studio.
