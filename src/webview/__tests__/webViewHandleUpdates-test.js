@@ -27,8 +27,9 @@ describe('getInputMessages', () => {
   });
 
   test('if fetching key is the same no message is sent', () => {
-    const prevProps = { fetching: { older: false, newer: false } };
-    const nextProps = { fetching: { older: false, newer: false } };
+    const fetching = {};
+    const prevProps = { fetching };
+    const nextProps = { fetching };
 
     const messages = getInputMessages(prevProps, nextProps);
 
@@ -46,8 +47,9 @@ describe('getInputMessages', () => {
   });
 
   test('when rendered messages are the same return empty result', () => {
-    const prevProps = { renderedMessages: [] };
-    const nextProps = { renderedMessages: [] };
+    const renderedMessages = [];
+    const prevProps = { renderedMessages };
+    const nextProps = { renderedMessages };
 
     const messages = getInputMessages(prevProps, nextProps);
 
