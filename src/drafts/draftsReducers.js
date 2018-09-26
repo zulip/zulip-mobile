@@ -7,30 +7,18 @@ const initialState = NULL_OBJECT;
 
 const draftUpdate = (state: DraftState, action: DraftUpdateAction): DraftState => {
   const narrowStr = JSON.stringify(action.narrow);
-  const shouldDeleteDraft = action.content.trim().length === 0;
 
-  // no need to update state
-  if (state[narrowStr] === action.content) {
-    return state;
-  }
-
-  // no data exists, no need to delete anything
-  if (shouldDeleteDraft && !state[narrowStr]) {
-    return state;
-  }
-
-  // if empty string, remove from state
-  if (shouldDeleteDraft) {
+  if (action.content.trim().length === 0) {
+    // New content is blank; delete the draft.
+    if (!state[narrowStr]) {
+      return state;
+    }
     const newState = { ...state };
     delete newState[narrowStr];
     return newState;
   }
 
-  // new state with content mapped to the narrow
-  return {
-    ...state,
-    [narrowStr]: action.content,
-  };
+  return state[narrowStr] === action.content ? state : { ...state, [narrowStr]: action.content };
 };
 
 export default (state: DraftState = initialState, action: DraftsAction): DraftState => {
