@@ -19,7 +19,7 @@ import createMigration from '../redux-persist-migrate/index';
  */
 // prettier-ignore
 export const discardKeys = [
-  'alertWords', 'caughtUp', 'fetching', 'flags', 'loading',
+  'alertWords', 'caughtUp', 'fetching', 'loading',
   'nav', 'presence', 'session', 'topics', 'typing',
 ];
 
@@ -41,7 +41,7 @@ export const storeKeys = ['migrations', 'accounts', 'drafts', 'outbox', 'setting
  */
 // prettier-ignore
 export const cacheKeys = [
-  'messages', 'mute', 'narrows', 'realm', 'streams', 'subscriptions', 'unread', 'userGroups', 'users',
+  'flags', 'messages', 'mute', 'narrows', 'realm', 'streams', 'subscriptions', 'unread', 'userGroups', 'users',
 ];
 
 const migrations = {

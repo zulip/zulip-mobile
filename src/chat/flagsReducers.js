@@ -3,14 +3,12 @@ import type {
   FlagsAction,
   FlagsState,
   Message,
-  RehydrateAction,
   MessageFetchCompleteAction,
   EventNewMessageAction,
   EventUpdateMessageFlagsAction,
   MarkMessagesReadAction,
 } from '../types';
 import {
-  REHYDRATE,
   APP_REFRESH,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
@@ -89,14 +87,6 @@ const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsS
   return stateChanged ? deeperMerge(state, newState) : state;
 };
 
-const rehydrate = (state: FlagsState, action: RehydrateAction): FlagsState => {
-  const messagesState: { [id: number]: Message } =
-    action.payload && action.payload.accounts ? action.payload.messages : {};
-  // $FlowFixMe: Object.values
-  const messageList: Message[] = Object.values(messagesState);
-  return processFlagsForMessages(state, messageList);
-};
-
 const messageFetchComplete = (state: FlagsState, action: MessageFetchCompleteAction): FlagsState =>
   processFlagsForMessages(state, action.messages);
 
@@ -127,9 +117,6 @@ const markMessagesRead = (state: FlagsState, action: MarkMessagesReadAction): Fl
 
 export default (state: FlagsState = initialState, action: FlagsAction): FlagsState => {
   switch (action.type) {
-    case REHYDRATE:
-      return rehydrate(state, action);
-
     case APP_REFRESH:
     case ACCOUNT_SWITCH:
       return initialState;
