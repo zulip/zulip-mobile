@@ -33,7 +33,7 @@ const messageFetchComplete = (
   action: MessageFetchCompleteAction,
 ): MessagesState => ({
   ...state,
-  ...groupItemsById(action.messages),
+  ...groupItemsById(action.messages.map(message => omit(message, 'flags'))),
 });
 
 const eventReactionAdd = (state: MessagesState, action: EventReactionAddAction): MessagesState => {
@@ -80,7 +80,7 @@ const eventNewMessage = (state: MessagesState, action: EventNewMessageAction): M
   }
   return {
     ...state,
-    [action.message.id]: action.message,
+    [action.message.id]: omit(action.message, 'flags'),
   };
 };
 

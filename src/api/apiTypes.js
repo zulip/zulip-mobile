@@ -74,6 +74,13 @@ export type Message = {
   /** Obsolete? Gone in server commit 1.6.0~1758 . */
   sender_domain: string,
 
+  /**
+   * This is (always?) present in a `message` event; but we leave it out of
+   * the `messages` subtree of the Redux state, moving the information to
+   * the separate `flags` subtree.
+   */
+  flags?: string[],
+
   /** The rest are believed to really appear in `message` events. */
   avatar_url: ?string,
   client: string,
@@ -81,7 +88,6 @@ export type Message = {
   content_type: 'text/html' | 'text/markdown',
   display_recipient: $FlowFixMe, // `string` for type stream, else PmRecipientUser[].
   edit_history: MessageEdit[],
-  flags: string[],
   gravatar_hash: string,
   id: number,
   is_me_message: boolean,
