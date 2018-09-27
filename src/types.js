@@ -288,10 +288,14 @@ export type NavigationState = {
   index: number,
   isTransitioning: boolean,
   key: string,
-  routes: Array<any> /* <{
+  routes: Array<{
     key: string,
     title: string,
-  }>, */,
+    routeName: string,
+    params: {
+      narrow: Narrow,
+    },
+  }>,
 };
 
 export type RealmBot = {
