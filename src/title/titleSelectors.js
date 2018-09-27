@@ -9,7 +9,7 @@ import { foregroundColorFromBackground } from '../utils/color';
 import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
-export const getIsInTopicOrStreamNarrow = (narrow: Narrow) =>
+export const getIsInTopicOrStreamNarrow = (narrow?: Narrow) =>
   createSelector(
     getCurrentRouteName,
     routeName => (routeName === 'chat' ? isStreamNarrow(narrow) || isTopicNarrow(narrow) : false),
