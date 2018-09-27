@@ -23,27 +23,27 @@ instance of APNs.)
 [Set up the dev server for mobile development](dev-server.md), with two
 additional steps:
 
-* Before you run the server with `tools/run-dev.py`, add the following line
-  to `zproject/dev_settings.py`:
+1. Before you run the server with `tools/run-dev.py`, add the following line
+   to `zproject/dev_settings.py`:
 
-  ```python
-  PUSH_NOTIFICATION_BOUNCER_URL = 'https://push.zulipchat.com'
-  ```
+   ```python
+   PUSH_NOTIFICATION_BOUNCER_URL = 'https://push.zulipchat.com'
+   ```
 
-  For a production build, `PUSH_NOTIFICATION_BOUNCER_URL` is specified in a
-  settings file generated from `zproject/prod_settings_template.py`. This is
-  a workaround for that, and you can keep this around via `git stash`.
+   For a production build, `PUSH_NOTIFICATION_BOUNCER_URL` is specified in a
+   settings file generated from `zproject/prod_settings_template.py`. This is
+   a workaround for that, and you can keep this around via `git stash`.
 
-* Then, register your development server with our production bouncer by 
-  running the following custom Django management command:
+2. Then, register your development server with our production bouncer by 
+   running the following custom Django management command:
 
-  ```
-  python manage.py register_server --agree_to_terms_of_service
-  ```
+   ```
+   python manage.py register_server --agree_to_terms_of_service
+   ```
 
-  This is a variation of our [instructions for production
-  deployments](https://zulip.readthedocs.io/en/latest/production/mobile-push-notifications.html),
-  adapted for the Zulip dev environment.
+   This is a variation of our [instructions for production
+   deployments](https://zulip.readthedocs.io/en/latest/production/mobile-push-notifications.html),
+   adapted for the Zulip dev environment.
 
 Now, follow the instructions in [dev-server.md](dev-server.md) to log into
 the dev server, using a production build of the app -- that is, the Zulip
