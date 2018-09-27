@@ -34,12 +34,12 @@ describe('draftImagesReducers', () => {
         '45678': {
           fileName: 'testFileName',
           uri: 'path/to/file',
-          uploadStatus: 'local'
+          uploadStatus: 'local',
         },
         '12345': {
           fileName: 'testFileName',
           uri: 'path/to/file',
-          uploadStatus: 'local'
+          uploadStatus: 'local',
         },
       };
       const action = deepFreeze({
@@ -50,7 +50,7 @@ describe('draftImagesReducers', () => {
         '45678': {
           fileName: 'testFileName',
           uri: 'path/to/file',
-          uploadStatus: 'local'
+          uploadStatus: 'local',
         },
       };
       const actualState = draftImagesReducers(initialState, action);
@@ -63,12 +63,12 @@ describe('draftImagesReducers', () => {
         '45678': {
           fileName: 'testFileName',
           uri: 'path/to/file',
-          uploadStatus: 'local'
+          uploadStatus: 'local',
         },
         '12345': {
           fileName: 'testFileName',
           uri: 'path/to/file',
-          uploadStatus: 'local'
+          uploadStatus: 'local',
         },
       };
       const action = deepFreeze({
@@ -79,7 +79,7 @@ describe('draftImagesReducers', () => {
         '45678': {
           fileName: 'testFileName',
           uri: 'path/to/file',
-          uploadStatus: 'local'
+          uploadStatus: 'local',
         },
         '12345': {
           fileName: 'testFileName',
@@ -97,7 +97,7 @@ describe('draftImagesReducers', () => {
         '45678': {
           fileName: 'testFileName',
           uri: 'path/to/file',
-          uploadStatus: 'local'
+          uploadStatus: 'local',
         },
         '12345': {
           fileName: 'testFileName',
@@ -113,7 +113,7 @@ describe('draftImagesReducers', () => {
         '45678': {
           fileName: 'testFileName',
           uri: 'path/to/file',
-          uploadStatus: 'local'
+          uploadStatus: 'local',
         },
         '12345': {
           fileName: 'testFileName',
@@ -131,7 +131,7 @@ describe('draftImagesReducers', () => {
         '45678': {
           fileName: 'testFileName',
           uri: 'path/to/file',
-          uploadStatus: 'local'
+          uploadStatus: 'local',
         },
         '12345': {
           fileName: 'testFileName',
@@ -147,7 +147,7 @@ describe('draftImagesReducers', () => {
         '45678': {
           fileName: 'testFileName',
           uri: 'path/to/file',
-          uploadStatus: 'local'
+          uploadStatus: 'local',
         },
         '12345': {
           fileName: 'testFileName',
