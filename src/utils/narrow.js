@@ -76,7 +76,7 @@ export const streamNarrow = (stream: string): Narrow => [
   },
 ];
 
-export const isStreamNarrow = (narrow: Narrow): boolean =>
+export const isStreamNarrow = (narrow?: Narrow): boolean =>
   Array.isArray(narrow) && narrow.length === 1 && narrow[0].operator === 'stream';
 
 export const topicNarrow = (stream: string, topic: string): Narrow => [
@@ -90,10 +90,10 @@ export const topicNarrow = (stream: string, topic: string): Narrow => [
   },
 ];
 
-export const isTopicNarrow = (narrow: Narrow): boolean =>
+export const isTopicNarrow = (narrow?: Narrow): boolean =>
   Array.isArray(narrow) && narrow.length === 2 && narrow[1].operator === 'topic';
 
-export const isStreamOrTopicNarrow = (narrow: Narrow): boolean =>
+export const isStreamOrTopicNarrow = (narrow?: Narrow): boolean =>
   Array.isArray(narrow) && narrow.length >= 1 && narrow[0].operator === 'stream';
 
 export const SEARCH_NARROW = (query: string): Narrow => [
