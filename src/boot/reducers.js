@@ -11,6 +11,7 @@ import accounts from '../account/accountsReducers';
 import alertWords from '../alertWords/alertWordsReducer';
 import caughtUp from '../caughtup/caughtUpReducers';
 import drafts from '../drafts/draftsReducers';
+import draftImages from '../draftImages/draftImagesReducers';
 import fetching from '../chat/fetchingReducers';
 import flags from '../chat/flagsReducers';
 import loading from '../loading/loadingReducers';
@@ -40,6 +41,7 @@ const reducers = {
   alertWords,
   caughtUp,
   drafts,
+  draftImages,
   fetching,
   flags,
   loading,

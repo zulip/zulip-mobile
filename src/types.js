@@ -440,6 +440,31 @@ export type DraftsState = {
 };
 
 /**
+ * Draft Image which represents the data required for image upload.
+ *
+ * @prop uri - The uri of the file on the user device.
+ * @prop fileName - The name of the file selected.
+ * @prop uploadStatus - A string indicating the upload status of the file
+ * @prop (serverUri) - The uri of the file on the server once upl
+ * @prop (error) - True if there was an error while uploading the file.
+ */
+export type DraftImage = {|
+  uri: string,
+  fileName: string,
+  uploadStatus: 'uploading' | 'uploaded' | 'error' | 'local',
+  serverUri?: string,
+|};
+
+/**
+ * Images selected by the user for upload.
+ *
+ * @prop (id) - Id of the image. Can be any unique string.
+ */
+export type DraftImagesState = {
+  [id: string]: DraftImage,
+};
+
+/**
  * A collection of (almost) all users in the Zulip org; our `users` state subtree.
  *
  * This contains all users except deactivated users and cross-realm bots.
@@ -478,6 +503,7 @@ export type GlobalState = {|
   alertWords: AlertWordsState,
   caughtUp: CaughtUpState,
   drafts: DraftsState,
+  draftImages: DraftImagesState,
   fetching: FetchingState,
   flags: FlagsState,
   migrations: MigrationsState,

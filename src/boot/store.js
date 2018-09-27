@@ -31,7 +31,7 @@ export const discardKeys = [
  * install of the app), where things wouldn't work right if we didn't
  * persist them.
  */
-export const storeKeys = ['migrations', 'accounts', 'drafts', 'outbox', 'settings'];
+export const storeKeys = ['migrations', 'accounts', 'drafts', 'draftImages', 'outbox', 'settings'];
 
 /**
  * Properties on the global store which we persist for caching's sake.

@@ -28,6 +28,11 @@ import {
   INIT_REALM_FILTER,
   SETTINGS_CHANGE,
   DRAFT_UPDATE,
+  DRAFT_IMAGE_ADD,
+  DRAFT_IMAGE_UPLOADING,
+  DRAFT_IMAGE_UPLOADED,
+  DRAFT_IMAGE_ERROR,
+  DRAFT_IMAGE_REMOVE,
   DO_NARROW,
   PRESENCE_RESPONSE,
   MESSAGE_SEND_START,
@@ -526,6 +531,68 @@ export type DraftUpdateAction = {
 };
 
 export type DraftsAction = DraftUpdateAction | LogoutAction;
+
+/**
+ * **Draft Image Actions**
+ * Used by ComposeBox to show previews of images selected for
+ * upload while composing a message
+ */
+
+/**
+ * To add a draft image
+ * @prop id - A unique id for the image
+ * @prop fileName - A name for the file being uploaded
+ * @prop uri - uri of the file on the users device
+ */
+
+export type DraftImageAddAction = {
+  type: typeof DRAFT_IMAGE_ADD,
+  id: string,
+  fileName: string,
+  uri: string,
+};
+
+/**
+ * To remove a draft image
+ * @prop id - The id of the draft image being removed
+ */
+
+export type DraftImageRemoveAction = {
+  type: typeof DRAFT_IMAGE_REMOVE,
+  id: string,
+};
+
+/**
+ * Mark a draft image as currently being uploaded
+ * @prop id - The id of the file being uploaded
+ */
+
+export type DraftImageUploadingAction = {
+  type: typeof DRAFT_IMAGE_UPLOADING,
+  id: string,
+};
+
+/**
+ * Mark a draft image as successfully uploaded
+ * @prop id - The id of the file being uploaded
+ * @prop serverUri - uri of the uploaded file on the server
+ */
+
+export type DraftImageUploadedAction = {
+  type: typeof DRAFT_IMAGE_UPLOADED,
+  id: string,
+  serverUri: string,
+};
+
+/**
+ * Mark a draft image as having errored out while uplaoding
+ * @prop id - The id of the file being uploaded
+ */
+
+export type DraftImageErrorAction = {
+  type: typeof DRAFT_IMAGE_ERROR,
+  id: string,
+};
 
 export type DoNarrowAction = {
   type: typeof DO_NARROW,
