@@ -1,7 +1,7 @@
 /* @flow */
 import { connect } from 'react-redux';
 
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 
 import type { GlobalState, SubscriptionsState } from '../types';
@@ -15,11 +15,22 @@ type Props = {
   subscriptions: SubscriptionsState,
 };
 
-class StreamAutocomplete extends PureComponent<Props> {
+class StreamAutocomplete extends Component<Props> {
   props: Props;
+
+  shouldComponentUpdate(nextProps: Props) {
+    // if filter string becomes empty then do not re-render
+    // persists previous render, so that it can have some height and scale down animation is visible
+    return nextProps.filter.length > 0;
+  }
 
   render() {
     const { filter, subscriptions, onAutocomplete } = this.props;
+
+    if (filter.length === 0) {
+      return null;
+    }
+
     const streams = subscriptions.filter(x =>
       x.name.toLowerCase().startsWith(filter.toLowerCase()),
     );

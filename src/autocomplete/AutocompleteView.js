@@ -13,6 +13,7 @@ const prefixToComponent = {
   ':': EmojiAutocomplete,
   '#': StreamAutocomplete,
   '@': PeopleAutocomplete,
+  '': null,
 };
 
 type Props = {
@@ -35,12 +36,13 @@ export default class AutocompleteView extends PureComponent<Props> {
     const { lastWordPrefix, filter } = getAutocompleteFilter(text, selection);
 
     const AutocompleteComponent = prefixToComponent[lastWordPrefix];
+    if (!AutocompleteComponent) {
+      return null;
+    }
 
     return (
-      <AnimatedScaleComponent visible={filter.length > 0}>
-        {AutocompleteComponent && (
-          <AutocompleteComponent filter={filter} onAutocomplete={this.handleAutocomplete} />
-        )}
+      <AnimatedScaleComponent visible={filter.length > 0} display="flex">
+        <AutocompleteComponent filter={filter} onAutocomplete={this.handleAutocomplete} />
       </AnimatedScaleComponent>
     );
   }
