@@ -292,8 +292,9 @@ export type NavigationState = {
     key: string,
     title: string,
     routeName: string,
+    /** The fields in `params` vary by route; see `navActions.js`. */
     params: {
-      narrow: Narrow,
+      narrow?: Narrow,
     },
   }>,
 };
