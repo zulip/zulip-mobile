@@ -20,12 +20,22 @@ instance of APNs.)
 
 ## Testing server-side changes (iOS or Android)
 
-[Set up the dev server for mobile development](dev-server.md), with one
-additional step:
+[Set up the dev server for mobile development](dev-server.md), with two
+additional steps:
 
-* Before you run the server with `tools/run-dev.py`, register your
-  development server with our production bouncer by running the following
-  custom Django management command:
+* Before you run the server with `tools/run-dev.py`, add the following line
+  to `zproject/dev_settings.py`:
+
+  ```python
+  PUSH_NOTIFICATION_BOUNCER_URL = 'https://push.zulipchat.com'
+  ```
+
+  For a production build, `PUSH_NOTIFICATION_BOUNCER_URL` is specified in a
+  settings file generated from `zproject/prod_settings_template.py`. This is
+  a workaround for that, and you can keep this around via `git stash`.
+
+* Then, register your development server with our production bouncer by 
+  running the following custom Django management command:
 
   ```
   python manage.py register_server --agree_to_terms_of_service
