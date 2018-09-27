@@ -65,7 +65,7 @@ export type EventReaction = {
   emoji_code: string,
   emoji_name: string,
   reaction_type: string,
-  user: any,
+  user: string,
 };
 
 /** An aggregate of all the reactions with one emoji to one message. */
@@ -558,7 +558,7 @@ export type UnreadStream = {
 export type NotificationCommon = {
   alert: string,
   content: string,
-  content_truncated: string, // boolean
+  content_truncated: boolean,
   'google.message_id': string,
   'google.sent_time': number,
   'google.ttl': number,
