@@ -7,7 +7,7 @@ import {
   getMessagesForNarrow,
   getStreamInNarrow,
   isNarrowValid,
-} from '../chatSelectors';
+} from '../narrowSelectors';
 import {
   HOME_NARROW,
   HOME_NARROW_STR,

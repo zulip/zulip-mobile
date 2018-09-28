@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import chatReducers from '../chatReducers';
+import narrowReducers from '../narrowReducers';
 import {
   HOME_NARROW_STR,
   privateNarrow,
@@ -18,14 +18,14 @@ import {
 } from '../../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../../constants';
 
-describe('chatReducers', () => {
+describe('narrowReducers', () => {
   const privateNarrowStr = JSON.stringify(privateNarrow('mark@example.com'));
   const groupNarrowStr = JSON.stringify(groupNarrow(['mark@example.com', 'john@example.com']));
   const streamNarrowStr = JSON.stringify(streamNarrow('some stream'));
   const topicNarrowStr = JSON.stringify(topicNarrow('some stream', 'some topic'));
 
   test('handles unknown action and no previous state by returning initial state', () => {
-    const newState = chatReducers(undefined, {});
+    const newState = narrowReducers(undefined, {});
     expect(newState).toBeDefined();
   });
 
@@ -41,7 +41,7 @@ describe('chatReducers', () => {
         caughtUp: {},
       });
 
-      const newState = chatReducers(initialState, action);
+      const newState = narrowReducers(initialState, action);
 
       const expectedState = deepFreeze({
         [HOME_NARROW_STR]: [1, 2],
@@ -70,7 +70,7 @@ describe('chatReducers', () => {
         [HOME_NARROW_STR]: [1, 2, 3],
       };
 
-      const newState = chatReducers(initialState, action);
+      const newState = narrowReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(initialState);
@@ -87,7 +87,7 @@ describe('chatReducers', () => {
         caughtUp: {},
       });
 
-      const newState = chatReducers(initialState, action);
+      const newState = narrowReducers(initialState, action);
 
       const expectedState = {
         [JSON.stringify(topicNarrow('some stream', 'some topic'))]: [1, 2],
@@ -117,7 +117,7 @@ describe('chatReducers', () => {
       [ALL_PRIVATE_NARROW_STR]: [1],
     };
 
-    const actualState = chatReducers(initialState, action);
+    const actualState = narrowReducers(initialState, action);
 
     expect(actualState).toEqual(expectedState);
   });
@@ -152,7 +152,7 @@ describe('chatReducers', () => {
       [topicNarrowStr]: [2, 3],
     };
 
-    const newState = chatReducers(initialState, action);
+    const newState = narrowReducers(initialState, action);
 
     expect(newState).toEqual(expectedState);
   });
@@ -183,7 +183,7 @@ describe('chatReducers', () => {
       [narrowWithSelfStr]: [1],
     };
 
-    const newState = chatReducers(initialState, action);
+    const newState = narrowReducers(initialState, action);
 
     expect(newState).toEqual(expectedState);
     expect(newState).not.toBe(initialState);
@@ -224,7 +224,7 @@ describe('chatReducers', () => {
       [groupNarrowStr]: [2, 4],
     };
 
-    const newState = chatReducers(initialState, action);
+    const newState = narrowReducers(initialState, action);
 
     expect(newState).toEqual(expectedState);
     expect(newState).not.toBe(initialState);
@@ -253,7 +253,7 @@ describe('chatReducers', () => {
       [HOME_NARROW_STR]: [1, 3],
     };
 
-    const newState = chatReducers(initialState, action);
+    const newState = narrowReducers(initialState, action);
 
     expect(newState).toEqual(expectedState);
     expect(newState).not.toBe(initialState);
@@ -295,7 +295,7 @@ describe('chatReducers', () => {
       [groupNarrowStr]: [2, 4],
     };
 
-    const newState = chatReducers(initialState, action);
+    const newState = narrowReducers(initialState, action);
 
     expect(newState).toEqual(expectedState);
     expect(newState).not.toBe(initialState);
@@ -313,7 +313,7 @@ describe('chatReducers', () => {
         messageId: 3,
       });
 
-      const newState = chatReducers(initialState, action);
+      const newState = narrowReducers(initialState, action);
 
       expect(newState).toBe(initialState);
     });
@@ -332,7 +332,7 @@ describe('chatReducers', () => {
         [privateNarrowStr]: [],
       });
 
-      const newState = chatReducers(initialState, action);
+      const newState = narrowReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -353,7 +353,7 @@ describe('chatReducers', () => {
         [JSON.stringify(privateNarrow('mark@example.com'))]: [],
       };
 
-      const newState = chatReducers(initialState, action);
+      const newState = narrowReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -373,7 +373,7 @@ describe('chatReducers', () => {
         [HOME_NARROW_STR]: [1, 2, 3, 4],
       };
 
-      const newState = chatReducers(initialState, action);
+      const newState = narrowReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(initialState);
@@ -394,7 +394,7 @@ describe('chatReducers', () => {
         [HOME_NARROW_STR]: [1, 2, 3, 4],
       };
 
-      const newState = chatReducers(initialState, action);
+      const newState = narrowReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(initialState);
@@ -416,7 +416,7 @@ describe('chatReducers', () => {
         [HOME_NARROW_STR]: [3, 4],
       };
 
-      const newState = chatReducers(initialState, action);
+      const newState = narrowReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -437,7 +437,7 @@ describe('chatReducers', () => {
         [HOME_NARROW_STR]: [3, 4],
       };
 
-      const newState = chatReducers(initialState, action);
+      const newState = narrowReducers(initialState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -453,7 +453,7 @@ describe('chatReducers', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
       });
 
-      const newState = chatReducers(initialState, action);
+      const newState = narrowReducers(initialState, action);
 
       expect(newState).toEqual(initialState);
     });
@@ -468,7 +468,7 @@ describe('chatReducers', () => {
         flag: 'read',
       });
 
-      const newState = chatReducers(initialState, action);
+      const newState = narrowReducers(initialState, action);
 
       expect(newState).toEqual(initialState);
     });
@@ -492,7 +492,7 @@ describe('chatReducers', () => {
           [STARRED_NARROW_STR]: [1, 2, 3, 4, 5],
         };
 
-        const newState = chatReducers(initialState, action);
+        const newState = narrowReducers(initialState, action);
 
         expect(newState).toEqual(expectedState);
       },
@@ -517,7 +517,7 @@ describe('chatReducers', () => {
           [STARRED_NARROW_STR]: [1, 3, 5],
         };
 
-        const newState = chatReducers(initialState, action);
+        const newState = narrowReducers(initialState, action);
 
         expect(newState).toEqual(expectedState);
       },

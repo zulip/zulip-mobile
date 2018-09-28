@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { Narrow, RenderedSectionDescriptor, Selector } from '../types';
 import { getFlags, getMute, getSubscriptions } from '../directSelectors';
-import { getShownMessagesForNarrow } from '../chat/chatSelectors';
+import { getShownMessagesForNarrow } from '../chat/narrowSelectors';
 import renderMessages from './renderMessages';
 import { findAnchor } from '../utils/message';
 
