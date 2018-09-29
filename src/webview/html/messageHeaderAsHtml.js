@@ -59,7 +59,7 @@ export default ({
     # ${item.display_recipient}
   </div>
   <div class="header topic-text" data-narrow="${topicNarrowStr}">
-    ${item.match_subject || item.subject}
+    $!${item.match_subject || item.subject}
   </div>
 </div>
     `;
