@@ -30,6 +30,7 @@ export default ({
 
   if (isStreamNarrow(narrow)) {
     const topicNarrowStr = JSON.stringify(topicNarrow(item.display_recipient, item.subject));
+    const topicHtml = item.match_subject || template`${item.subject}`;
 
     return template`
 <div
@@ -37,7 +38,7 @@ export default ({
   data-narrow="${topicNarrowStr}"
   data-msg-id="${item.id}"
 >
-  ${item.match_subject || item.subject}
+  $!${topicHtml}
 </div>
     `;
   }
@@ -49,6 +50,7 @@ export default ({
     const textColor = foregroundColorFromBackground(backgroundColor);
     const streamNarrowStr = JSON.stringify(streamNarrow(item.display_recipient));
     const topicNarrowStr = JSON.stringify(topicNarrow(item.display_recipient, item.subject));
+    const topicHtml = item.match_subject || template`${item.subject}`;
 
     return template`
 <div class="header-wrapper stream-header" data-msg-id="${item.id}">
@@ -59,7 +61,7 @@ export default ({
     # ${item.display_recipient}
   </div>
   <div class="header topic-text" data-narrow="${topicNarrowStr}">
-    ${item.match_subject || item.subject}
+    $!${topicHtml}
   </div>
 </div>
     `;
