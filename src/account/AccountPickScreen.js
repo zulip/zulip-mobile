@@ -2,19 +2,12 @@
 import { connect } from 'react-redux';
 
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
 
 import type { Auth, Account, Dispatch, GlobalState } from '../types';
 import { getAuth, getAccounts } from '../selectors';
-import { Centerer, ZulipButton, Logo, Screen } from '../common';
+import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
 import AccountList from './AccountList';
 import { navigateToAddNewAccount, switchAccount, removeAccount } from '../actions';
-
-const styles = StyleSheet.create({
-  button: {
-    marginTop: 8,
-  },
-});
 
 type Props = {
   auth: Auth,
@@ -52,9 +45,9 @@ class AccountPickScreen extends PureComponent<Props> {
             onAccountRemove={this.handleAccountRemove}
             auth={auth}
           />
+          <ViewPlaceholder height={16} />
           <ZulipButton
             text="Add new account"
-            style={styles.button}
             onPress={() => {
               dispatch(navigateToAddNewAccount(''));
             }}
