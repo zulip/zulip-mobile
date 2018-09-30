@@ -1,21 +1,14 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
 
 import type { Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { hasAuth, getAccountStatuses } from '../selectors';
 import type { AccountStatus } from './accountsSelectors';
-import { Centerer, ZulipButton, Logo, Screen } from '../common';
+import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
 import AccountList from './AccountList';
 import { navigateToRealmScreen, switchAccount, removeAccount } from '../actions';
-
-const styles = StyleSheet.create({
-  button: {
-    marginTop: 8,
-  },
-});
 
 type Props = {|
   accounts: AccountStatus[],
@@ -64,9 +57,9 @@ class AccountPickScreen extends PureComponent<Props> {
             onAccountSelect={this.handleAccountSelect}
             onAccountRemove={this.handleAccountRemove}
           />
+          <ViewPlaceholder height={16} />
           <ZulipButton
             text="Add new account"
-            style={styles.button}
             onPress={() => {
               dispatch(navigateToRealmScreen());
             }}

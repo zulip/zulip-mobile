@@ -8,7 +8,6 @@ import { IconDone, IconTrash } from '../common/Icons';
 
 const styles = StyleSheet.create({
   wrapper: {
-    marginBottom: 8,
     justifyContent: 'space-between',
   },
   accountItem: {
