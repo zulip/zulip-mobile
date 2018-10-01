@@ -56,7 +56,7 @@ describe('getInputMessages', () => {
     expect(messages).toEqual([]);
   });
 
-  test('when the rendered messages differ (even deeply) a "content" message is returned', () => {
+  test('when the rendered messages differ a "content" message is returned', () => {
     const prevProps = {
       auth: { realm: '' },
       messages: [],
@@ -82,7 +82,7 @@ describe('getInputMessages', () => {
     expect(messages[0].type).toEqual('content');
   });
 
-  test('WUUT there are several diffs return several messages', () => {
+  test('there are several props that differ, return several messages', () => {
     const prevProps = {
       auth: {},
       fetching: { older: false, newer: false },
