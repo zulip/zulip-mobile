@@ -62,12 +62,11 @@ export default class Touchable extends PureComponent<Props> {
     return (
       <TouchableNativeFeedback
         accessibilityLabel={accessibilityLabel}
-        style={style}
         background={androidBackground}
         onPress={onPress}
         onLongPress={onLongPress}
       >
-        <View>{children}</View>
+        <View style={style}>{children}</View>
       </TouchableNativeFeedback>
     );
   }
