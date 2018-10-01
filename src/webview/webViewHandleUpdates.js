@@ -1,4 +1,6 @@
 /* @flow */
+import isEqual from 'lodash.isequal';
+
 import type { Auth } from '../types';
 import type { Props } from '../message/MessageList';
 import type { UpdateStrategy } from '../message/messageUpdates';
@@ -64,7 +66,7 @@ export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInp
   );
 
   if (
-    prevProps.renderedMessages !== nextProps.renderedMessages
+    !isEqual(prevProps.renderedMessages, nextProps.renderedMessages)
     || allFlagKeys
       .filter(key => key !== 'read')
       .some(key => prevProps.flags[key] !== nextProps.flags[key])
@@ -75,13 +77,13 @@ export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInp
   const messages = [];
 
   if (
-    prevProps.fetching !== nextProps.fetching
+    !isEqual(prevProps.fetching, nextProps.fetching)
     || prevProps.showMessagePlaceholders !== nextProps.showMessagePlaceholders
   ) {
     messages.push(updateFetching(prevProps, nextProps));
   }
 
-  if (prevProps.typingUsers !== nextProps.typingUsers) {
+  if (!isEqual(prevProps.typingUsers, nextProps.typingUsers)) {
     messages.push(updateTyping(prevProps, nextProps));
   }
 
