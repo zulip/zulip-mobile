@@ -82,6 +82,26 @@ describe('getInputMessages', () => {
     expect(messages[0].type).toEqual('content');
   });
 
+  test('when the rendered messages are equal deeply, do not return a new "content" message', () => {
+    const prevProps = {
+      auth: { realm: '' },
+      messages: [],
+      flags: { starred: {} },
+      renderedMessages: [
+        {
+          key: 0,
+          data: [{ key: 123, type: 'message', isBrief: false, message: { id: 0 } }],
+          message: {},
+        },
+      ],
+    };
+    const nextProps = { ...prevProps }; // a clone that differs shallowly
+
+    const messages = getInputMessages(prevProps, nextProps);
+
+    expect(messages).toHaveLength(0);
+  });
+
   test('there are several props that differ, return several messages', () => {
     const prevProps = {
       auth: {},
