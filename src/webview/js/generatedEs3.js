@@ -87,6 +87,9 @@ var getDocLevelNode = function getDocLevelNode(node) {
 var getMessageIdFromNode = function getMessageIdFromNode(node) {
   var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
 
+  if (!node) {
+    return defaultValue;
+  }
   var msgNode = getDocLevelNode(node);
   return msgNode && msgNode instanceof Element ? +msgNode.getAttribute('data-msg-id') : defaultValue;
 };

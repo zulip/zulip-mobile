@@ -102,7 +102,10 @@ const getDocLevelNode = (node: Node): Node => {
   return curNode;
 };
 
-const getMessageIdFromNode = (node: Node, defaultValue: number = -1): number => {
+const getMessageIdFromNode = (node: ?Node, defaultValue: number = -1): number => {
+  if (!node) {
+    return defaultValue;
+  }
   const msgNode = getDocLevelNode(node);
   return msgNode && msgNode instanceof Element
     ? +msgNode.getAttribute('data-msg-id')
