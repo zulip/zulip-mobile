@@ -41,6 +41,11 @@ additional steps:
    python manage.py register_server --agree_to_terms_of_service
    ```
 
+   Registration should be one-time; that is, as long as you're using the
+   same `zproject/dev-secrets.conf` that was generated at provision time, you
+   shouldn't have to run the command again unless you build a new dev
+   environment from scratch.
+
    This is a variation of our [instructions for production
    deployments](https://zulip.readthedocs.io/en/latest/production/mobile-push-notifications.html),
    adapted for the Zulip dev environment.
