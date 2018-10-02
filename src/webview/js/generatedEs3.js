@@ -142,6 +142,10 @@ var getStartAndEndNodes = function getStartAndEndNodes() {
   var startNode = getDocLevelNode(document.elementFromPoint(200, 20));
   var endNode = getDocLevelNode(document.elementFromPoint(200, window.innerHeight - 20));
 
+  if (!endNode || !isMessageNode(endNode)) {
+    endNode = getNearestMsgNodeUsing(endNode && endNode.nodeName === 'DIV' ? endNode : documentBody.lastChild, 'previousSibling');
+  }
+
   return {
     start: getMessageIdFromNode(startNode, Number.MAX_SAFE_INTEGER),
     end: getMessageIdFromNode(endNode, 0)
