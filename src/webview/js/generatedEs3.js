@@ -131,6 +131,13 @@ var isMessageNode = function isMessageNode(node) {
   return node && node instanceof Element && node.getAttribute('id') && node.getAttribute('id').startsWith('msg-');
 };
 
+var getNearestMsgNodeUsing = function getNearestMsgNodeUsing(node, property) {
+  if (isMessageNode(node)) {
+    return node;
+  }
+  return node ? getNearestMsgNodeUsing(node[property], property) : undefined;
+};
+
 var getStartAndEndNodes = function getStartAndEndNodes() {
   var startNode = getDocLevelNode(document.elementFromPoint(200, 20));
   var endNode = getDocLevelNode(document.elementFromPoint(200, window.innerHeight - 20));

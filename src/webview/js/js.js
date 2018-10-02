@@ -150,6 +150,16 @@ const isMessageNode = (node: Node): boolean =>
   && node.getAttribute('id')
   && node.getAttribute('id').startsWith('msg-');
 
+const getNearestMsgNodeUsing = (
+  node: Element,
+  property: 'previousSibling' | 'nextSibling',
+): ?Node => {
+  if (isMessageNode(node)) {
+    return node;
+  }
+  return node ? getNearestMsgNodeUsing(node[property], property) : undefined;
+};
+
 const getStartAndEndNodes = (): { start: number, end: number } => {
   const startNode = getDocLevelNode(document.elementFromPoint(200, 20));
   const endNode = getDocLevelNode(document.elementFromPoint(200, window.innerHeight - 20));
