@@ -127,6 +127,10 @@ window.addEventListener('resize', function (event) {
   height = documentBody.clientHeight;
 });
 
+var isMessageNode = function isMessageNode(node) {
+  return node && node instanceof Element && node.getAttribute('id') && node.getAttribute('id').startsWith('msg-');
+};
+
 var getStartAndEndNodes = function getStartAndEndNodes() {
   var startNode = getDocLevelNode(document.elementFromPoint(200, 20));
   var endNode = getDocLevelNode(document.elementFromPoint(200, window.innerHeight - 20));

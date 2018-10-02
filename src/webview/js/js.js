@@ -144,6 +144,12 @@ window.addEventListener('resize', event => {
   height = documentBody.clientHeight;
 });
 
+const isMessageNode = (node: Node): boolean =>
+  node
+  && node instanceof Element
+  && node.getAttribute('id')
+  && node.getAttribute('id').startsWith('msg-');
+
 const getStartAndEndNodes = (): { start: number, end: number } => {
   const startNode = getDocLevelNode(document.elementFromPoint(200, 20));
   const endNode = getDocLevelNode(document.elementFromPoint(200, window.innerHeight - 20));
