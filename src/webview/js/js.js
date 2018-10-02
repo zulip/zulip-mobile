@@ -340,15 +340,19 @@ documentBody.addEventListener('click', e => {
     return;
   }
 
+  /* Should we pull up the lightbox?  For comparison, see the webapp's
+   * static/js/lightbox.js , starting at the `#main_div` click handler. */
+  const inlineImageLink = e.target.closest('.message_inline_image a');
   if (
-    e.target.matches('a[target="_blank"] > img')
-    && !e.target.matches('.youtube-video > a[target="_blank"] > img')
-    && !e.target.matches('.vimeo-video > a[target="_blank"] > img')
+    inlineImageLink
+    /* The webapp displays certain videos inline, but on mobile
+     * we'd rather let another app handle them, as links. */
+    && !inlineImageLink.closest('.youtube-video, .vimeo-video')
   ) {
     sendMessage({
       type: 'image',
-      src: e.target.parentNode.getAttribute('href'),
-      messageId: getMessageIdFromNode(e.target),
+      src: inlineImageLink.getAttribute('href'), // TODO: should be `src` / `data-src-fullsize`.
+      messageId: getMessageIdFromNode(inlineImageLink),
     });
     return;
   }

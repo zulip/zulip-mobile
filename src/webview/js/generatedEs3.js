@@ -300,11 +300,12 @@ documentBody.addEventListener('click', function (e) {
     return;
   }
 
-  if (e.target.matches('a[target="_blank"] > img') && !e.target.matches('.youtube-video > a[target="_blank"] > img') && !e.target.matches('.vimeo-video > a[target="_blank"] > img')) {
+  var inlineImageLink = e.target.closest('.message_inline_image a');
+  if (inlineImageLink && !inlineImageLink.closest('.youtube-video, .vimeo-video')) {
     sendMessage({
       type: 'image',
-      src: e.target.parentNode.getAttribute('href'),
-      messageId: getMessageIdFromNode(e.target)
+      src: inlineImageLink.getAttribute('href'),
+      messageId: getMessageIdFromNode(inlineImageLink)
     });
     return;
   }
