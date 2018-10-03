@@ -1,12 +1,16 @@
 /* @flow */
+import { CameraRoll, Platform } from 'react-native';
 import RNFetchBlob from 'react-native-fetch-blob';
 
 import type { Auth } from './apiTypes';
 import { getAuthHeader, getFullUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 
-export default (src: string, auth: Auth) =>
-  RNFetchBlob.config({
+export default (src: string, auth: Auth) => {
+  if (Platform.OS === 'ios') {
+    return CameraRoll.saveToCameraRoll(getFullUrl(src, auth.realm));
+  }
+  return RNFetchBlob.config({
     addAndroidDownloads: {
       path: `${RNFetchBlob.fs.dirs.DownloadDir}/${src.split('/').pop()}`,
       useDownloadManager: true,
@@ -18,3 +22,4 @@ export default (src: string, auth: Auth) =>
     'User-Agent': userAgent,
     Authorization: getAuthHeader(auth.email, auth.apiKey),
   });
+};
