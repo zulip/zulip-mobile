@@ -341,35 +341,41 @@ document.addEventListener('message', e => {
  *
  */
 
-documentBody.addEventListener('click', e => {
+documentBody.addEventListener('click', (e: MouseEvent) => {
   e.preventDefault();
   lastTouchEventTimestamp = 0;
 
-  if (e.target.matches('.scroll-bottom')) {
+  const { target } = e;
+
+  if (!(target instanceof HTMLElement)) {
+    return;
+  }
+
+  if (target.matches('.scroll-bottom')) {
     scrollToBottom();
     return;
   }
 
-  if (e.target.matches('.avatar-img')) {
+  if (target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
-      fromEmail: e.target.getAttribute('data-email'),
+      fromEmail: target.getAttribute('data-email'),
     });
     return;
   }
 
-  if (e.target.matches('.header')) {
+  if (target.matches('.header')) {
     sendMessage({
       type: 'narrow',
-      narrow: e.target.getAttribute('data-narrow'),
-      id: e.target.getAttribute('data-id'),
+      narrow: target.getAttribute('data-narrow'),
+      id: target.getAttribute('data-id'),
     });
     return;
   }
 
   /* Should we pull up the lightbox?  For comparison, see the webapp's
    * static/js/lightbox.js , starting at the `#main_div` click handler. */
-  const inlineImageLink = e.target.closest('.message_inline_image a');
+  const inlineImageLink = target.closest('.message_inline_image a');
   if (
     inlineImageLink
     /* The webapp displays certain videos inline, but on mobile
@@ -384,32 +390,32 @@ documentBody.addEventListener('click', e => {
     return;
   }
 
-  if (e.target.matches('a')) {
+  if (target.matches('a')) {
     sendMessage({
       type: 'url',
-      href: e.target.getAttribute('href'),
-      messageId: getMessageIdFromNode(e.target),
+      href: target.getAttribute('href'),
+      messageId: getMessageIdFromNode(target),
     });
     return;
   }
 
-  if (e.target.parentNode.matches('a')) {
+  if (target.parentNode instanceof Element && target.parentNode.matches('a')) {
     sendMessage({
       type: 'url',
-      href: e.target.parentNode.getAttribute('href'),
-      messageId: getMessageIdFromNode(e.target.parentNode),
+      href: target.parentNode.getAttribute('href'),
+      messageId: getMessageIdFromNode(target.parentNode),
     });
     return;
   }
 
-  if (e.target.matches('.reaction')) {
+  if (target.matches('.reaction')) {
     sendMessage({
       type: 'reaction',
-      name: e.target.getAttribute('data-name'),
-      code: e.target.getAttribute('data-code'),
-      reactionType: e.target.getAttribute('data-type'),
-      messageId: getMessageIdFromNode(e.target),
-      voted: e.target.classList.contains('self-voted'),
+      name: target.getAttribute('data-name'),
+      code: target.getAttribute('data-code'),
+      reactionType: target.getAttribute('data-type'),
+      messageId: getMessageIdFromNode(target),
+      voted: target.classList.contains('self-voted'),
     });
   }
 });
