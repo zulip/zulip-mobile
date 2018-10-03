@@ -8,8 +8,8 @@
 export default `
 'use strict';
 
-
 var documentBody = document.body;
+
 if (!documentBody) {
   throw new Error('No document.body element!');
 }
@@ -27,17 +27,20 @@ var sendMessage = function sendMessage(msg) {
 window.onerror = function (message, source, line, column, error) {
   if (window.enableWebViewErrorDisplay) {
     var elementJsError = document.getElementById('js-error-detailed');
+
     if (elementJsError) {
-      elementJsError.innerHTML = ['Message: ' + message, 'Source: ' + source, 'Line: ' + line + ':' + column, 'Error: ' + JSON.stringify(error), ''].map(escapeHtml).join('<br>');
+      elementJsError.innerHTML = ["Message: " + message, "Source: " + source, "Line: " + line + ":" + column, "Error: " + JSON.stringify(error), ''].map(escapeHtml).join('<br>');
     }
   } else {
     var _elementJsError = document.getElementById('js-error-plain');
+
     var elementSheetGenerated = document.getElementById('generated-styles');
     var elementSheetHide = document.getElementById('style-hide-js-error-plain');
+
     if (_elementJsError && elementSheetGenerated && elementSheetHide && elementSheetHide instanceof HTMLStyleElement && elementSheetHide.sheet && elementSheetGenerated instanceof HTMLStyleElement && elementSheetGenerated.sheet) {
       elementSheetHide.sheet.disabled = true;
       var _height = _elementJsError.offsetHeight;
-      elementSheetGenerated.sheet.insertRule('.header-wrapper { top: ' + _height + 'px; }', 0);
+      elementSheetGenerated.sheet.insertRule(".header-wrapper { top: " + _height + "px; }", 0);
     }
   }
 
@@ -51,18 +54,17 @@ window.onerror = function (message, source, line, column, error) {
       error: error
     }
   });
-
   return true;
 };
 
 var scrollEventsDisabled = true;
-
 var lastTouchEventTimestamp = 0;
 var lastTouchPositionX = -1;
 var lastTouchPositionY = -1;
 
 var showHideElement = function showHideElement(elementId, show) {
   var element = document.getElementById(elementId);
+
   if (element) {
     element.classList.toggle('hidden', !show);
   }
@@ -78,21 +80,26 @@ var isNearPositions = function isNearPositions() {
 
 var getMessageNode = function getMessageNode(node) {
   var curNode = node;
+
   while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
   }
+
   return curNode;
 };
 
 var getMessageIdFromNode = function getMessageIdFromNode(node) {
   var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
-
   var msgNode = getMessageNode(node);
   return msgNode && msgNode instanceof Element ? +msgNode.getAttribute('data-msg-id') : defaultValue;
 };
 
 var scrollToBottom = function scrollToBottom() {
-  window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
+  window.scroll({
+    left: 0,
+    top: documentBody.scrollHeight,
+    behavior: 'smooth'
+  });
 };
 
 var isNearBottom = function isNearBottom() {
@@ -106,28 +113,37 @@ var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
 };
 
 var scrollToAnchor = function scrollToAnchor(anchor) {
-  var anchorNode = document.getElementById('msg-' + anchor);
+  var anchorNode = document.getElementById("msg-" + anchor);
 
   if (anchorNode) {
-    anchorNode.scrollIntoView({ block: 'start' });
+    anchorNode.scrollIntoView({
+      block: 'start'
+    });
   } else {
-    window.scroll({ left: 0, top: documentBody.scrollHeight + 200 });
+    window.scroll({
+      left: 0,
+      top: documentBody.scrollHeight + 200
+    });
   }
 };
 
 var height = documentBody.clientHeight;
 window.addEventListener('resize', function (event) {
   var difference = height - documentBody.clientHeight;
+
   if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
-    window.scrollBy({ left: 0, top: difference });
+    window.scrollBy({
+      left: 0,
+      top: difference
+    });
   }
+
   height = documentBody.clientHeight;
 });
 
 var getStartAndEndNodes = function getStartAndEndNodes() {
   var startNode = getMessageNode(document.elementFromPoint(200, 20));
   var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
-
   return {
     start: getMessageIdFromNode(startNode, Number.MAX_SAFE_INTEGER),
     end: getMessageIdFromNode(endNode, 0)
@@ -138,10 +154,8 @@ var prevNodes = getStartAndEndNodes();
 
 var sendScrollMessage = function sendScrollMessage() {
   var currentNodes = getStartAndEndNodes();
-
   sendMessage({
     type: 'scroll',
-
     offsetHeight: documentBody.offsetHeight,
     innerHeight: window.innerHeight,
     scrollY: window.scrollY,
@@ -159,12 +173,12 @@ var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
 
 var handleScrollEvent = function handleScrollEvent() {
   lastTouchEventTimestamp = 0;
+
   if (scrollEventsDisabled) {
     return;
   }
 
   sendScrollMessage();
-
   var nearEnd = documentBody.offsetHeight - window.scrollY - window.innerHeight > 100;
   showHideElement('scroll-bottom', nearEnd);
 };
@@ -173,19 +187,29 @@ window.addEventListener('scroll', handleScrollEvent);
 
 var findPreserveTarget = function findPreserveTarget() {
   var msgNode = getMessageNode(document.elementFromPoint(200, 50));
+
   if (!msgNode || !(msgNode instanceof HTMLElement)) {
-    return { type: 'none' };
+    return {
+      type: 'none'
+    };
   }
+
   var msgId = getMessageIdFromNode(msgNode);
   var prevBoundRect = msgNode.getBoundingClientRect();
-  return { type: 'preserve', msgId: msgId, prevBoundTop: prevBoundRect.top };
+  return {
+    type: 'preserve',
+    msgId: msgId,
+    prevBoundTop: prevBoundRect.top
+  };
 };
 
 var scrollToPreserve = function scrollToPreserve(msgId, prevBoundTop) {
-  var newElement = document.getElementById('msg-' + msgId);
+  var newElement = document.getElementById("msg-" + msgId);
+
   if (!newElement) {
     return;
   }
+
   var newBoundRect = newElement.getBoundingClientRect();
   window.scrollBy(0, newBoundRect.top - prevBoundTop);
 };
@@ -198,29 +222,37 @@ var appendAuthToImages = function appendAuthToImages(auth) {
     }
 
     var srcPath = img.src.substring(auth.realm.length);
+
     if (!(srcPath.startsWith('/user_uploads/') || srcPath.startsWith('/thumbnail?'))) {
       return;
     }
 
     var delimiter = img.src.includes('?') ? '&' : '?';
-    img.src += delimiter + 'api_key=' + auth.apiKey;
+    img.src += delimiter + "api_key=" + auth.apiKey;
   });
 };
 
 var handleMessageContent = function handleMessageContent(msg) {
-  var target = void 0;
+  var target;
+
   if (msg.updateStrategy === 'replace') {
-    target = { type: 'none' };
+    target = {
+      type: 'none'
+    };
   } else if (msg.updateStrategy === 'scroll-to-anchor') {
-    target = { type: 'anchor', anchor: msg.anchor };
+    target = {
+      type: 'anchor',
+      anchor: msg.anchor
+    };
   } else if (msg.updateStrategy === 'scroll-to-bottom-if-near-bottom' && isNearBottom()) {
-      target = { type: 'bottom' };
+      target = {
+        type: 'bottom'
+      };
     } else {
     target = findPreserveTarget();
   }
 
   documentBody.innerHTML = msg.content;
-
   appendAuthToImages(msg.auth);
 
   if (target.type === 'bottom') {
@@ -249,6 +281,7 @@ var handleMessageFetching = function handleMessageFetching(msg) {
 
 var handleMessageTyping = function handleMessageTyping(msg) {
   var elementTyping = document.getElementById('typing');
+
   if (elementTyping) {
     elementTyping.innerHTML = msg.content;
     setTimeout(function () {
@@ -262,10 +295,8 @@ var messageHandlers = {
   fetching: handleMessageFetching,
   typing: handleMessageTyping
 };
-
 document.addEventListener('message', function (e) {
   scrollEventsDisabled = true;
-
   var decodedData = decodeURIComponent(escape(window.atob(e.data)));
   var messages = JSON.parse(decodedData);
   messages.forEach(function (msg) {
@@ -273,34 +304,39 @@ document.addEventListener('message', function (e) {
   });
   scrollEventsDisabled = false;
 });
-
 documentBody.addEventListener('click', function (e) {
   e.preventDefault();
   lastTouchEventTimestamp = 0;
+  var target = e.target;
 
-  if (e.target.matches('.scroll-bottom')) {
+  if (!(target instanceof HTMLElement)) {
+    return;
+  }
+
+  if (target.matches('.scroll-bottom')) {
     scrollToBottom();
     return;
   }
 
-  if (e.target.matches('.avatar-img')) {
+  if (target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
-      fromEmail: e.target.getAttribute('data-email')
+      fromEmail: target.getAttribute('data-email')
     });
     return;
   }
 
-  if (e.target.matches('.header')) {
+  if (target.matches('.header')) {
     sendMessage({
       type: 'narrow',
-      narrow: e.target.getAttribute('data-narrow'),
-      id: e.target.getAttribute('data-id')
+      narrow: target.getAttribute('data-narrow'),
+      id: target.getAttribute('data-id')
     });
     return;
   }
 
-  var inlineImageLink = e.target.closest('.message_inline_image a');
+  var inlineImageLink = target.closest('.message_inline_image a');
+
   if (inlineImageLink && !inlineImageLink.closest('.youtube-video, .vimeo-video')) {
     sendMessage({
       type: 'image',
@@ -310,32 +346,32 @@ documentBody.addEventListener('click', function (e) {
     return;
   }
 
-  if (e.target.matches('a')) {
+  if (target.matches('a')) {
     sendMessage({
       type: 'url',
-      href: e.target.getAttribute('href'),
-      messageId: getMessageIdFromNode(e.target)
+      href: target.getAttribute('href'),
+      messageId: getMessageIdFromNode(target)
     });
     return;
   }
 
-  if (e.target.parentNode.matches('a')) {
+  if (target.parentNode instanceof Element && target.parentNode.matches('a')) {
     sendMessage({
       type: 'url',
-      href: e.target.parentNode.getAttribute('href'),
-      messageId: getMessageIdFromNode(e.target.parentNode)
+      href: target.parentNode.getAttribute('href'),
+      messageId: getMessageIdFromNode(target.parentNode)
     });
     return;
   }
 
-  if (e.target.matches('.reaction')) {
+  if (target.matches('.reaction')) {
     sendMessage({
       type: 'reaction',
-      name: e.target.getAttribute('data-name'),
-      code: e.target.getAttribute('data-code'),
-      reactionType: e.target.getAttribute('data-type'),
-      messageId: getMessageIdFromNode(e.target),
-      voted: e.target.classList.contains('self-voted')
+      name: target.getAttribute('data-name'),
+      code: target.getAttribute('data-code'),
+      reactionType: target.getAttribute('data-type'),
+      messageId: getMessageIdFromNode(target),
+      voted: target.classList.contains('self-voted')
     });
   }
 });
@@ -345,8 +381,11 @@ var handleLongPress = function handleLongPress(e) {
     return;
   }
 
-  lastTouchEventTimestamp = 0;
+  if (!(e.target instanceof Element)) {
+    return;
+  }
 
+  lastTouchEventTimestamp = 0;
   sendMessage({
     type: 'longPress',
     target: e.target.matches('.header') ? 'header' : 'message',
@@ -366,27 +405,27 @@ documentBody.addEventListener('touchstart', function (e) {
     return handleLongPress(e);
   }, 500);
 });
-
 documentBody.addEventListener('touchend', function (e) {
   if (isNearPositions(lastTouchPositionX, lastTouchPositionY, e.changedTouches[0].pageX, e.changedTouches[0].pageY)) {
     lastTouchEventTimestamp = Date.now();
   }
 });
-
 documentBody.addEventListener('touchmove', function (e) {
   lastTouchEventTimestamp = 0;
 });
-
 documentBody.addEventListener('drag', function (e) {
   lastTouchEventTimestamp = 0;
 });
 
 var waitForBridge = function waitForBridge() {
   if (window.postMessage.length === 1) {
-    sendMessage({ type: 'ready' });
+    sendMessage({
+      type: 'ready'
+    });
   } else {
     setTimeout(waitForBridge, 10);
   }
 };
+
 waitForBridge();
 `;
