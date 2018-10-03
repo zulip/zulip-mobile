@@ -142,6 +142,10 @@ var getStartAndEndNodes = function getStartAndEndNodes() {
   var startNode = getDocLevelNode(document.elementFromPoint(200, 20));
   var endNode = getDocLevelNode(document.elementFromPoint(200, window.innerHeight - 20));
 
+  if (!startNode || !isMessageNode(startNode)) {
+    startNode = getNearestMsgNodeUsing(startNode || documentBody.firstChild, 'nextSibling');
+  }
+
   if (!endNode || !isMessageNode(endNode)) {
     endNode = getNearestMsgNodeUsing(endNode && endNode.nodeName === 'DIV' ? endNode : documentBody.lastChild, 'previousSibling');
   }

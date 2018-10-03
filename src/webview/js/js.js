@@ -161,8 +161,12 @@ const getNearestMsgNodeUsing = (
 };
 
 const getStartAndEndNodes = (): { start: number, end: number } => {
-  const startNode = getDocLevelNode(document.elementFromPoint(200, 20));
+  let startNode = getDocLevelNode(document.elementFromPoint(200, 20));
   let endNode = getDocLevelNode(document.elementFromPoint(200, window.innerHeight - 20));
+
+  if (!startNode || !isMessageNode(startNode)) {
+    startNode = getNearestMsgNodeUsing(startNode || documentBody.firstChild, 'nextSibling');
+  }
 
   if (!endNode || !isMessageNode(endNode)) {
     endNode = getNearestMsgNodeUsing(
