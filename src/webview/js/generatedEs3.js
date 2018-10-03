@@ -76,7 +76,7 @@ var isNearPositions = function isNearPositions() {
   return Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 };
 
-var getMessageNode = function getMessageNode(node) {
+var getDocLevelNode = function getDocLevelNode(node) {
   var curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
@@ -87,7 +87,10 @@ var getMessageNode = function getMessageNode(node) {
 var getMessageIdFromNode = function getMessageIdFromNode(node) {
   var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
 
-  var msgNode = getMessageNode(node);
+  if (!node) {
+    return defaultValue;
+  }
+  var msgNode = getDocLevelNode(node);
   return msgNode && msgNode instanceof Element ? +msgNode.getAttribute('data-msg-id') : defaultValue;
 };
 
@@ -124,9 +127,28 @@ window.addEventListener('resize', function (event) {
   height = documentBody.clientHeight;
 });
 
+var isMessageNode = function isMessageNode(node) {
+  return node && node instanceof Element && node.getAttribute('id') && node.getAttribute('id').startsWith('msg-');
+};
+
+var getNearestMsgNodeUsing = function getNearestMsgNodeUsing(node, property) {
+  if (isMessageNode(node)) {
+    return node;
+  }
+  return node ? getNearestMsgNodeUsing(node[property], property) : undefined;
+};
+
 var getStartAndEndNodes = function getStartAndEndNodes() {
-  var startNode = getMessageNode(document.elementFromPoint(200, 20));
-  var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
+  var startNode = getDocLevelNode(document.elementFromPoint(200, 20));
+  var endNode = getDocLevelNode(document.elementFromPoint(200, window.innerHeight - 20));
+
+  if (!startNode || !isMessageNode(startNode)) {
+    startNode = getNearestMsgNodeUsing(startNode || documentBody.firstChild, 'nextSibling');
+  }
+
+  if (!endNode || !isMessageNode(endNode)) {
+    endNode = getNearestMsgNodeUsing(endNode && endNode.nodeName === 'DIV' ? endNode : documentBody.lastChild, 'previousSibling');
+  }
 
   return {
     start: getMessageIdFromNode(startNode, Number.MAX_SAFE_INTEGER),
@@ -172,7 +194,7 @@ var handleScrollEvent = function handleScrollEvent() {
 window.addEventListener('scroll', handleScrollEvent);
 
 var findPreserveTarget = function findPreserveTarget() {
-  var msgNode = getMessageNode(document.elementFromPoint(200, 50));
+  var msgNode = getDocLevelNode(document.elementFromPoint(200, 50));
   if (!msgNode || !(msgNode instanceof HTMLElement)) {
     return { type: 'none' };
   }

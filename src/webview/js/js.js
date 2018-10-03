@@ -94,7 +94,7 @@ const showHideElement = (elementId: string, show: boolean) => {
 const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): boolean =>
   Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 
-const getMessageNode = (node: Node): Node => {
+const getDocLevelNode = (node: Node): Node => {
   let curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
@@ -102,8 +102,11 @@ const getMessageNode = (node: Node): Node => {
   return curNode;
 };
 
-const getMessageIdFromNode = (node: Node, defaultValue: number = -1): number => {
-  const msgNode = getMessageNode(node);
+const getMessageIdFromNode = (node: ?Node, defaultValue: number = -1): number => {
+  if (!node) {
+    return defaultValue;
+  }
+  const msgNode = getDocLevelNode(node);
   return msgNode && msgNode instanceof Element
     ? +msgNode.getAttribute('data-msg-id')
     : defaultValue;
@@ -141,9 +144,36 @@ window.addEventListener('resize', event => {
   height = documentBody.clientHeight;
 });
 
+const isMessageNode = (node: Node): boolean =>
+  node
+  && node instanceof Element
+  && node.getAttribute('id')
+  && node.getAttribute('id').startsWith('msg-');
+
+const getNearestMsgNodeUsing = (
+  node: Element,
+  property: 'previousSibling' | 'nextSibling',
+): ?Node => {
+  if (isMessageNode(node)) {
+    return node;
+  }
+  return node ? getNearestMsgNodeUsing(node[property], property) : undefined;
+};
+
 const getStartAndEndNodes = (): { start: number, end: number } => {
-  const startNode = getMessageNode(document.elementFromPoint(200, 20));
-  const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
+  let startNode = getDocLevelNode(document.elementFromPoint(200, 20));
+  let endNode = getDocLevelNode(document.elementFromPoint(200, window.innerHeight - 20));
+
+  if (!startNode || !isMessageNode(startNode)) {
+    startNode = getNearestMsgNodeUsing(startNode || documentBody.firstChild, 'nextSibling');
+  }
+
+  if (!endNode || !isMessageNode(endNode)) {
+    endNode = getNearestMsgNodeUsing(
+      endNode && endNode.nodeName === 'DIV' ? endNode : documentBody.lastChild,
+      'previousSibling',
+    );
+  }
 
   return {
     start: getMessageIdFromNode(startNode, Number.MAX_SAFE_INTEGER),
@@ -200,7 +230,7 @@ type ScrollTarget =
 // scroll the corresponding message to the same place afterward.
 const findPreserveTarget = (): ScrollTarget => {
   // TODO magic numbers
-  const msgNode = getMessageNode(document.elementFromPoint(200, 50));
+  const msgNode = getDocLevelNode(document.elementFromPoint(200, 50));
   if (!msgNode || !(msgNode instanceof HTMLElement)) {
     // TODO log this -- it's an error which the user will notice.
     // (We don't attempt this unless there are messages already,
