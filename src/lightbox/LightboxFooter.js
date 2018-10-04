@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 
 import type { Style } from '../types';
-import NavButton from '../nav/NavButton';
+import Icon from '../common/Icons';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 28,
+    alignSelf: 'center',
   },
 });
 
@@ -38,12 +39,7 @@ export default class LightboxFooter extends PureComponent<Props> {
     return (
       <View style={[styles.wrapper, style]}>
         <Text style={styles.text}>{displayMessage}</Text>
-        <NavButton
-          name="more-vertical"
-          color="white"
-          style={styles.icon}
-          onPress={onOptionsPress}
-        />
+        <Icon style={styles.icon} color="white" name="more-vertical" onPress={onOptionsPress} />
       </View>
     );
   }
