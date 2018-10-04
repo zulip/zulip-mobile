@@ -94,7 +94,7 @@ const showHideElement = (elementId: string, show: boolean) => {
 const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): boolean =>
   Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 
-const getMessageNode = (node: Node): Node => {
+const getMessageNode = (node: ?Node): ?Node => {
   let curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
@@ -102,7 +102,7 @@ const getMessageNode = (node: Node): Node => {
   return curNode;
 };
 
-const getMessageIdFromNode = (node: Node, defaultValue: number = -1): number => {
+const getMessageIdFromNode = (node: ?Node, defaultValue: number = -1): number => {
   const msgNode = getMessageNode(node);
   return msgNode && msgNode instanceof Element
     ? +msgNode.getAttribute('data-msg-id')
