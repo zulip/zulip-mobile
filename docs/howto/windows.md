@@ -2,8 +2,11 @@
 
 This is a guide on doing Zulip Mobile development on a Windows machine.
 
-It's highly recommended that you install [WSL][wsl-home] / "Ubuntu for
+If you'll be spending a lot of time developing Zulip Mobile, or if you're
+already very familiar with the command line on Linux or macOS,
+it's highly recommended that you install [WSL][wsl-home] / "Ubuntu for
 Windows", and use `bash` instead of `cmd.exe` for your main shell prompt.
+
 WSL is a [pretty magical][wsl-announce-ubuntu] piece of engineering, and it
 gives you access to the same ecosystem of command-line tools that people on
 Linux and macOS have been contributing to for decades -- while integrating
@@ -12,15 +15,30 @@ closely with the rest of your Windows environment.
 [wsl-home]: https://docs.microsoft.com/en-us/windows/wsl/about
 [wsl-announce-ubuntu]: https://blog.ubuntu.com/2016/03/30/ubuntu-on-windows-the-ubuntu-userspace-for-windows-developers
 
+
+## Native Windows
+
+If you follow our step-by-step [main install instructions](build-run.md)
+on Windows, they should work just fine.  You'll use the basic Windows
+"Command Prompt", aka `cmd.exe`, for your command line.
+
+
 ## WSL / Ubuntu for Windows
 Small guide on how to use the terminal using WSL (Windows Subsystem for
 Linux) with the Windows file system, and using it to perform any commands
 while running a React Native app in the Android emulator on Windows.
 
 These instructions are **in beta** -- they haven't been tested by as
-wide a range of contributors as most of our developer documentation.
-If you're trying them, we would love to hear from you [in #mobile on
+wide a range of contributors as most of our developer documentation,
+and so some steps aren't yet fully described in detail.  If you're
+trying them, we would love to hear from you [in #mobile on
 chat.zulip.org][czo]!
+
+If you aren't already comfortable with the Linux (or macOS) command
+line, or just want to get things working quickly and
+straightforwardly, you may prefer to skip these beta instructions and
+instead follow our step-by-step [main install
+instructions](build-run.md) natively on Windows.
 
 [czo]: ../../README.md#discussion
 

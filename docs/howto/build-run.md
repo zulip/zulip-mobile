@@ -8,8 +8,11 @@ This guide describes how to build and run the app so you can develop it.
 to the latest Xcode.  In particular, Xcode versions before 9.0 are known to
 definitely not work.)
 
-(If using **Windows**: Try installing WSL, and doing most of the following
-setup in the Linux environment.  See [our Windows guide](windows.md).)
+(If using **Windows**: The step-by-step instructions below should work
+fine on Windows.  Alternatively if you'd like a richer command-line
+environment and are up for trying a beta install process, we have
+[a draft guide](windows.md) for setting up Zulip app development to
+use the WSL `bash` command line.)
 
 Before starting, install these dependencies if you don't have them:
 * [Git](https://git-scm.com/)
