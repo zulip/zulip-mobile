@@ -91,6 +91,7 @@ export type Message = {
   gravatar_hash: string,
   id: number,
   is_me_message: boolean,
+  is_mentioned?: boolean,
   last_edit_timestamp?: number,
   reactions: SlimEventReaction[],
   recipient_id: number,

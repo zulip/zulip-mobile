@@ -53,6 +53,7 @@ window.onerror = (message, source, line, column, error) => {
     ) {
       elementSheetHide.sheet.disabled = true;
       const height = elementJsError.offsetHeight;
+      // $FlowFixMe `sheet: StyleSheet` type is not comprehensive enough
       elementSheetGenerated.sheet.insertRule(`.header-wrapper { top: ${height}px; }`, 0);
     }
   }
@@ -94,7 +95,7 @@ const showHideElement = (elementId: string, show: boolean) => {
 const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): boolean =>
   Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 
-const getMessageNode = (node: Node): Node => {
+const getMessageNode = (node: ?Node): ?Node => {
   let curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
@@ -102,7 +103,7 @@ const getMessageNode = (node: Node): Node => {
   return curNode;
 };
 
-const getMessageIdFromNode = (node: Node, defaultValue: number = -1): number => {
+const getMessageIdFromNode = (node: ?Node, defaultValue: number = -1): number => {
   const msgNode = getMessageNode(node);
   return msgNode && msgNode instanceof Element
     ? +msgNode.getAttribute('data-msg-id')
@@ -314,35 +315,41 @@ document.addEventListener('message', e => {
   scrollEventsDisabled = false;
 });
 
-documentBody.addEventListener('click', e => {
+documentBody.addEventListener('click', (e: MouseEvent) => {
   e.preventDefault();
   lastTouchEventTimestamp = 0;
 
-  if (e.target.matches('.scroll-bottom')) {
+  const { target } = e;
+
+  if (!(target instanceof HTMLElement)) {
+    return;
+  }
+
+  if (target.matches('.scroll-bottom')) {
     scrollToBottom();
     return;
   }
 
-  if (e.target.matches('.avatar-img')) {
+  if (target.matches('.avatar-img')) {
     sendMessage({
       type: 'avatar',
-      fromEmail: e.target.getAttribute('data-email'),
+      fromEmail: target.getAttribute('data-email'),
     });
     return;
   }
 
-  if (e.target.matches('.header')) {
+  if (target.matches('.header')) {
     sendMessage({
       type: 'narrow',
-      narrow: e.target.getAttribute('data-narrow'),
-      id: e.target.getAttribute('data-id'),
+      narrow: target.getAttribute('data-narrow'),
+      id: target.getAttribute('data-id'),
     });
     return;
   }
 
   /* Should we pull up the lightbox?  For comparison, see the webapp's
    * static/js/lightbox.js , starting at the `#main_div` click handler. */
-  const inlineImageLink = e.target.closest('.message_inline_image a');
+  const inlineImageLink = target.closest('.message_inline_image a');
   if (
     inlineImageLink
     /* The webapp displays certain videos inline, but on mobile
@@ -357,37 +364,37 @@ documentBody.addEventListener('click', e => {
     return;
   }
 
-  if (e.target.matches('a')) {
+  if (target.matches('a')) {
     sendMessage({
       type: 'url',
-      href: e.target.getAttribute('href'),
-      messageId: getMessageIdFromNode(e.target),
+      href: target.getAttribute('href'),
+      messageId: getMessageIdFromNode(target),
     });
     return;
   }
 
-  if (e.target.parentNode.matches('a')) {
+  if (target.parentNode instanceof Element && target.parentNode.matches('a')) {
     sendMessage({
       type: 'url',
-      href: e.target.parentNode.getAttribute('href'),
-      messageId: getMessageIdFromNode(e.target.parentNode),
+      href: target.parentNode.getAttribute('href'),
+      messageId: getMessageIdFromNode(target.parentNode),
     });
     return;
   }
 
-  if (e.target.matches('.reaction')) {
+  if (target.matches('.reaction')) {
     sendMessage({
       type: 'reaction',
-      name: e.target.getAttribute('data-name'),
-      code: e.target.getAttribute('data-code'),
-      reactionType: e.target.getAttribute('data-type'),
-      messageId: getMessageIdFromNode(e.target),
-      voted: e.target.classList.contains('self-voted'),
+      name: target.getAttribute('data-name'),
+      code: target.getAttribute('data-code'),
+      reactionType: target.getAttribute('data-type'),
+      messageId: getMessageIdFromNode(target),
+      voted: target.classList.contains('self-voted'),
     });
   }
 });
 
-const handleLongPress = e => {
+const handleLongPress = (e: TouchEvent) => {
   // The logic that defines a "long press" in terms of raw touch events
   // is pretty subtle.  The `lastTouchEventTimestamp` and surrounding logic
   // are an attempt to define a long press.
@@ -404,16 +411,21 @@ const handleLongPress = e => {
     return;
   }
 
+  if (!(e.target instanceof Element)) {
+    return;
+  }
+
   lastTouchEventTimestamp = 0;
 
   sendMessage({
     type: 'longPress',
     target: e.target.matches('.header') ? 'header' : 'message',
+    // $FlowFixMe EventTarget is incompatible with Node (no it is not!)
     messageId: getMessageIdFromNode(e.target),
   });
 };
 
-documentBody.addEventListener('touchstart', e => {
+documentBody.addEventListener('touchstart', (e: TouchEvent) => {
   if (e.changedTouches[0].pageX < 20) {
     return;
   }
@@ -424,7 +436,7 @@ documentBody.addEventListener('touchstart', e => {
   setTimeout(() => handleLongPress(e), 500);
 });
 
-documentBody.addEventListener('touchend', e => {
+documentBody.addEventListener('touchend', (e: TouchEvent) => {
   if (
     isNearPositions(
       lastTouchPositionX,
@@ -437,11 +449,11 @@ documentBody.addEventListener('touchend', e => {
   }
 });
 
-documentBody.addEventListener('touchmove', e => {
+documentBody.addEventListener('touchmove', (e: TouchEvent) => {
   lastTouchEventTimestamp = 0;
 });
 
-documentBody.addEventListener('drag', e => {
+documentBody.addEventListener('drag', (e: DragEvent) => {
   lastTouchEventTimestamp = 0;
 });
 

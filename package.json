@@ -44,9 +44,9 @@
     "lodash.unescape": "^4.0.1",
     "lodash.union": "^4.6.0",
     "lodash.uniqby": "^4.4.0",
-    "react": "16.3.2",
+    "react": "16.5.0",
     "react-intl": "^2.4.0",
-    "react-native": "^0.55.4",
+    "react-native": "0.57.1",
     "react-native-device-info": "^0.21.5",
     "react-native-fetch-blob": "^0.10.8",
     "react-native-image-picker": "^0.26.10",
@@ -63,7 +63,7 @@
     "react-navigation": "^1.5.12",
     "react-navigation-redux-helpers": "^1.1.1",
     "react-redux": "^5.0.7",
-    "react-test-renderer": "16.3.2",
+    "react-test-renderer": "16.5.0",
     "redux": "^4.0.0",
     "redux-action-buffer": "^1.2.0",
     "redux-batched-actions": "^0.3.0",
@@ -78,11 +78,11 @@
     "zulip-markdown-parser": "^1.0.5"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
+    "@babel/core": "^7.1.0",
     "babel-eslint": "^8.2.3",
-    "babel-jest": "^22.4.4",
+    "babel-jest": "^23.6.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
-    "babel-preset-react-native": "^4.0.0",
+    "metro-react-native-babel-preset": "0.45.2",
     "coveralls": "^3.0.1",
     "deep-freeze": "^0.0.1",
     "detox": "^7.3.7",
@@ -98,11 +98,11 @@
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-react-native": "^3.2.1",
     "eslint-plugin-spellcheck": "0.0.6",
-    "flow-bin": "^0.67.0",
+    "flow-bin": "0.78",
     "flow-coverage-report": "^0.6.0",
     "flow-typed": "^2.4.0",
-    "jest": "^22.4.4",
-    "jest-cli": "^22.4.4",
+    "jest": "^23.4.0",
+    "jest-cli": "^23.4.0",
     "jest-react-native": "^18.0.0",
     "prettier": "^1.12.1",
     "prettier-eslint": "^8.8.1",
@@ -118,6 +118,9 @@
   "jest": {
     "preset": "react-native",
     "setupTestFrameworkScriptFile": "./jest/jestSetup.js",
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+    },
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|@expo/react-native-action-sheet|react-navigation)"
     ],

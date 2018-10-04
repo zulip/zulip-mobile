@@ -28,7 +28,7 @@ export type ThunkDispatch<T> = ((Dispatch, GetState) => T) => T;
 
 export type Dispatch = ReduxDispatch<*> & ThunkDispatch<*>;
 
-export type Style = boolean | number | Array<Style> | ?{ [string]: any };
+export type Style = any;
 
 export type Orientation = 'LANDSCAPE' | 'PORTRAIT';
 
