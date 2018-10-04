@@ -17,6 +17,13 @@ Small guide on how to use the terminal using WSL (Windows Subsystem for
 Linux) with the Windows file system, and using it to perform any commands
 while running a React Native app in the Android emulator on Windows.
 
+These instructions are **in beta** -- they haven't been tested by as
+wide a range of contributors as most of our developer documentation.
+If you're trying them, we would love to hear from you [in #mobile on
+chat.zulip.org][czo]!
+
+[czo]: ../../README.md#discussion
+
 ### What is WSL, and why use it?
 WSL is a feature in recent versions of Windows that allows it to run
 programs written and built for Linux -- with no change to the programs.
@@ -45,7 +52,8 @@ command-line tasks in your workflow as the developer, including:
 * `yarn`
 
 You'll want to use the Windows side of things for:
-* your [editor/IDE](editor.md), e.g. VS Code
+* [VS Code](editor.md) (or your favorite other [editor/IDE](editor.md))
+* Android Studio
 * the Android emulator
 * perhaps the Java program (Gradle) that does the Android build
 
