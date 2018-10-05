@@ -279,19 +279,19 @@ var scrollToAnchor = function scrollToAnchor(anchor) {
 };
 
 var findPreserveTarget = function findPreserveTarget() {
-  var msgNode = getMessageNode(document.elementFromPoint(200, 50));
+  var message = someVisibleMessage(0, viewportHeight);
 
-  if (!msgNode || !(msgNode instanceof HTMLElement)) {
+  if (!message) {
     return {
       type: 'none'
     };
   }
 
-  var msgId = getMessageIdFromNode(msgNode);
-  var prevBoundRect = msgNode.getBoundingClientRect();
+  var messageId = idFromMessage(message);
+  var prevBoundRect = message.getBoundingClientRect();
   return {
     type: 'preserve',
-    msgId: msgId,
+    msgId: messageId,
     prevBoundTop: prevBoundRect.top
   };
 };

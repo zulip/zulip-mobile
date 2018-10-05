@@ -404,17 +404,16 @@ const scrollToAnchor = (anchor: number) => {
 // Try to identify a message on screen and its location, so we can
 // scroll the corresponding message to the same place afterward.
 const findPreserveTarget = (): ScrollTarget => {
-  // TODO magic numbers
-  const msgNode = getMessageNode(document.elementFromPoint(200, 50));
-  if (!msgNode || !(msgNode instanceof HTMLElement)) {
+  const message = someVisibleMessage(0, viewportHeight);
+  if (!message) {
     // TODO log this -- it's an error which the user will notice.
     // (We don't attempt this unless there are messages already,
     // which we really want to keep steady in view.)
     return { type: 'none' };
   }
-  const msgId = getMessageIdFromNode(msgNode);
-  const prevBoundRect = msgNode.getBoundingClientRect();
-  return { type: 'preserve', msgId, prevBoundTop: prevBoundRect.top };
+  const messageId = idFromMessage(message);
+  const prevBoundRect = message.getBoundingClientRect();
+  return { type: 'preserve', msgId: messageId, prevBoundTop: prevBoundRect.top };
 };
 
 // Scroll the given message to the same height it was at before.
