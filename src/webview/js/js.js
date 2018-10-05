@@ -133,13 +133,15 @@ const showHideElement = (elementId: string, show: boolean) => {
   }
 };
 
-let height = documentBody.clientHeight;
+/* Cached to avoid re-looking it up all the time. */
+let viewportHeight = documentBody.clientHeight;
+
 window.addEventListener('resize', event => {
-  const difference = height - documentBody.clientHeight;
+  const difference = viewportHeight - documentBody.clientHeight;
   if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
     window.scrollBy({ left: 0, top: difference });
   }
-  height = documentBody.clientHeight;
+  viewportHeight = documentBody.clientHeight;
 });
 
 /*
@@ -148,6 +150,139 @@ window.addEventListener('resize', event => {
  *
  */
 
+/**
+ * Returns a "message-peer" element visible mid-screen, if any.
+ *
+ * A "message-peer" element is a message or one of their siblings that get
+ * laid out among them: e.g. a recipient bar or date separator, but not an
+ * absolutely-positioned overlay.
+ *
+ * If the middle of the screen is just blank, returns null.
+ */
+function midMessagePeer(top: number, bottom: number): ?Element {
+  // The assumption we depend on: any random widgets we draw that aren't
+  // part of a message-peer are drawn *over* the message-peers, not under.
+  //
+  // By spec, the elements returned by Document#elementsFromPoint are in
+  // paint order, topmost (and inmost) first.  By our assumption, that means
+  // the sequence is:
+  //   [ ...(random widgets, if any),
+  //     ...(descendants of message-peer), message-peer,
+  //     body, html ]
+  //
+  // On ancient browsers (missing Document#elementsFromPoint), we make a
+  // stronger assumption: at the vertical middle of the screen, we don't
+  // draw *any* widgets over a message-peer.  (I.e., we only do so near the
+  // top and bottom: like floating recipient bars, the error banner, and the
+  // scroll-bottom button.)
+
+  const midY = (bottom + top) / 2;
+
+  // Document#elementsFromPoint appears in iOS 10 and Chrome 43.
+  if (document.elementsFromPoint === undefined) {
+    const element = document.elementFromPoint(0, midY);
+    return element && element.closest('body > *');
+  }
+
+  // $FlowFixMe: doesn't know about Document#elementsFromPoint
+  const midElements: Array<Element> = document.elementsFromPoint(0, midY);
+  if (midElements.length < 3) {
+    // Just [body, html].
+    return null;
+  }
+  return midElements[midElements.length - 3];
+}
+
+function walkToMessage(
+  start: ?Element,
+  step: 'nextElementSibling' | 'previousElementSibling',
+): ?Element {
+  let element: ?Element = start;
+  while (element && !element.classList.contains('message')) {
+    // $FlowFixMe: doesn't use finite type of `step`
+    element = element[step];
+  }
+  return element;
+}
+
+function firstMessage(): ?Element {
+  return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
+}
+
+function lastMessage(): ?Element {
+  return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
+}
+
+/** The minimum height (in px) to see of a message to call it visible. */
+const minOverlap = 20;
+
+function isVisible(element: Element, top: number, bottom: number): boolean {
+  const rect = element.getBoundingClientRect();
+  return top + minOverlap < rect.bottom && rect.top + minOverlap < bottom;
+}
+
+/** Returns some message element which is visible, if any. */
+function someVisibleMessage(top: number, bottom: number): ?Element {
+  function checkVisible(candidate: ?Element): ?Element {
+    return candidate && isVisible(candidate, top, bottom) ? candidate : null;
+  }
+  // Algorithm: if some message-peer is visible, then either the message
+  // just before or after it should be visible.  If not, we must be at one
+  // end of the message list, meaning either the first or last message
+  // (or both) should be visible.
+  const midPeer = midMessagePeer(top, bottom);
+  return (
+    checkVisible(walkToMessage(midPeer, 'previousElementSibling'))
+    || checkVisible(walkToMessage(midPeer, 'nextElementSibling'))
+    || checkVisible(firstMessage())
+    || checkVisible(lastMessage())
+  );
+}
+
+function idFromMessage(element: Element): number {
+  const idStr = element.getAttribute('data-msg-id');
+  if (!idStr) {
+    throw new Error('Bad message element');
+  }
+  return +idStr;
+}
+
+/**
+ * Returns the IDs of the first and last visible messages, if any.
+ *
+ * If no messages are visible, the return value has first > last.
+ */
+function visibleMessageIds(): { first: number, last: number } {
+  // Algorithm: We find some message that's visible; then walk both up and
+  // down from there to find all the visible messages.
+
+  const top = 0;
+  const bottom = viewportHeight;
+  let first = Number.MAX_SAFE_INTEGER;
+  let last = 0;
+
+  // Walk through visible elements, observing message IDs.
+  function walkElements(start: ?Element, step: 'nextElementSibling' | 'previousElementSibling') {
+    let element = start;
+    while (element && isVisible(element, top, bottom)) {
+      if (element.classList.contains('message')) {
+        const id = idFromMessage(element);
+        first = Math.min(first, id);
+        last = Math.max(last, id);
+      }
+      // $FlowFixMe: doesn't use finite type of `step`
+      element = element[step];
+    }
+  }
+
+  const start = someVisibleMessage(top, bottom);
+  walkElements(start, 'nextElementSibling');
+  walkElements(start, 'previousElementSibling');
+
+  return { first, last };
+}
+
+/** DEPRECATED */
 const getMessageNode = (node: ?Node): ?Node => {
   let curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
@@ -156,21 +291,12 @@ const getMessageNode = (node: ?Node): ?Node => {
   return curNode;
 };
 
+/** DEPRECATED */
 const getMessageIdFromNode = (node: ?Node, defaultValue: number = -1): number => {
   const msgNode = getMessageNode(node);
   return msgNode && msgNode instanceof Element
     ? +msgNode.getAttribute('data-msg-id')
     : defaultValue;
-};
-
-const getStartAndEndNodes = (): { start: number, end: number } => {
-  const startNode = getMessageNode(document.elementFromPoint(200, 20));
-  const endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
-
-  return {
-    start: getMessageIdFromNode(startNode, Number.MAX_SAFE_INTEGER),
-    end: getMessageIdFromNode(endNode, 0),
-  };
 };
 
 /*
@@ -179,21 +305,30 @@ const getStartAndEndNodes = (): { start: number, end: number } => {
  *
  */
 
-let prevNodes = getStartAndEndNodes();
+/** The range of message IDs visible whenever we last checked. */
+let prevMessageRange = visibleMessageIds();
 
 const sendScrollMessage = () => {
-  const currentNodes = getStartAndEndNodes();
-
+  const messageRange = visibleMessageIds();
+  // rangeHull is the convex hull of the previous range and the new one.
+  // When the user is actively scrolling, the browser gives us scroll events
+  // only occasionally (or even none at all until they're done, on iOS), so
+  // we use this to interpolate scrolling past the messages in between, as a
+  // partial workaround.
+  const rangeHull = {
+    first: Math.min(prevMessageRange.first, messageRange.first),
+    last: Math.max(prevMessageRange.last, messageRange.last),
+  };
   sendMessage({
     type: 'scroll',
     // See MessageListEventScroll for the meanings of these properties.
     offsetHeight: documentBody.offsetHeight,
     innerHeight: window.innerHeight,
     scrollY: window.scrollY,
-    startMessageId: Math.min(prevNodes.start, currentNodes.start),
-    endMessageId: Math.max(prevNodes.end, currentNodes.end),
+    startMessageId: rangeHull.first,
+    endMessageId: rangeHull.last,
   });
-  prevNodes = currentNodes;
+  prevMessageRange = messageRange;
 };
 
 // If the message list is too short to scroll, fake a scroll event

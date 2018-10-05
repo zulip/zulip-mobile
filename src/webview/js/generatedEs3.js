@@ -55,8 +55,8 @@ window.onerror = function (message, source, line, column, error) {
 
     if (_elementJsError && elementSheetGenerated && elementSheetHide && elementSheetHide instanceof HTMLStyleElement && elementSheetHide.sheet && elementSheetGenerated instanceof HTMLStyleElement && elementSheetGenerated.sheet) {
       elementSheetHide.sheet.disabled = true;
-      var _height = _elementJsError.offsetHeight;
-      elementSheetGenerated.sheet.insertRule(".header-wrapper { top: " + _height + "px; }", 0);
+      var height = _elementJsError.offsetHeight;
+      elementSheetGenerated.sheet.insertRule(".header-wrapper { top: " + height + "px; }", 0);
     }
   }
 
@@ -81,9 +81,9 @@ var showHideElement = function showHideElement(elementId, show) {
   }
 };
 
-var height = documentBody.clientHeight;
+var viewportHeight = documentBody.clientHeight;
 window.addEventListener('resize', function (event) {
-  var difference = height - documentBody.clientHeight;
+  var difference = viewportHeight - documentBody.clientHeight;
 
   if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
     window.scrollBy({
@@ -92,8 +92,98 @@ window.addEventListener('resize', function (event) {
     });
   }
 
-  height = documentBody.clientHeight;
+  viewportHeight = documentBody.clientHeight;
 });
+
+function midMessagePeer(top, bottom) {
+  var midY = (bottom + top) / 2;
+
+  if (document.elementsFromPoint === undefined) {
+    var element = document.elementFromPoint(0, midY);
+    return element && element.closest('body > *');
+  }
+
+  var midElements = document.elementsFromPoint(0, midY);
+
+  if (midElements.length < 3) {
+    return null;
+  }
+
+  return midElements[midElements.length - 3];
+}
+
+function walkToMessage(start, step) {
+  var element = start;
+
+  while (element && !element.classList.contains('message')) {
+    element = element[step];
+  }
+
+  return element;
+}
+
+function firstMessage() {
+  return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
+}
+
+function lastMessage() {
+  return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
+}
+
+var minOverlap = 20;
+
+function isVisible(element, top, bottom) {
+  var rect = element.getBoundingClientRect();
+  return top + minOverlap < rect.bottom && rect.top + minOverlap < bottom;
+}
+
+function someVisibleMessage(top, bottom) {
+  function checkVisible(candidate) {
+    return candidate && isVisible(candidate, top, bottom) ? candidate : null;
+  }
+
+  var midPeer = midMessagePeer(top, bottom);
+  return checkVisible(walkToMessage(midPeer, 'previousElementSibling')) || checkVisible(walkToMessage(midPeer, 'nextElementSibling')) || checkVisible(firstMessage()) || checkVisible(lastMessage());
+}
+
+function idFromMessage(element) {
+  var idStr = element.getAttribute('data-msg-id');
+
+  if (!idStr) {
+    throw new Error('Bad message element');
+  }
+
+  return +idStr;
+}
+
+function visibleMessageIds() {
+  var top = 0;
+  var bottom = viewportHeight;
+  var first = Number.MAX_SAFE_INTEGER;
+  var last = 0;
+
+  function walkElements(start, step) {
+    var element = start;
+
+    while (element && isVisible(element, top, bottom)) {
+      if (element.classList.contains('message')) {
+        var id = idFromMessage(element);
+        first = Math.min(first, id);
+        last = Math.max(last, id);
+      }
+
+      element = element[step];
+    }
+  }
+
+  var start = someVisibleMessage(top, bottom);
+  walkElements(start, 'nextElementSibling');
+  walkElements(start, 'previousElementSibling');
+  return {
+    first: first,
+    last: last
+  };
+}
 
 var getMessageNode = function getMessageNode(node) {
   var curNode = node;
@@ -111,28 +201,23 @@ var getMessageIdFromNode = function getMessageIdFromNode(node) {
   return msgNode && msgNode instanceof Element ? +msgNode.getAttribute('data-msg-id') : defaultValue;
 };
 
-var getStartAndEndNodes = function getStartAndEndNodes() {
-  var startNode = getMessageNode(document.elementFromPoint(200, 20));
-  var endNode = getMessageNode(document.elementFromPoint(200, window.innerHeight - 20));
-  return {
-    start: getMessageIdFromNode(startNode, Number.MAX_SAFE_INTEGER),
-    end: getMessageIdFromNode(endNode, 0)
-  };
-};
-
-var prevNodes = getStartAndEndNodes();
+var prevMessageRange = visibleMessageIds();
 
 var sendScrollMessage = function sendScrollMessage() {
-  var currentNodes = getStartAndEndNodes();
+  var messageRange = visibleMessageIds();
+  var rangeHull = {
+    first: Math.min(prevMessageRange.first, messageRange.first),
+    last: Math.max(prevMessageRange.last, messageRange.last)
+  };
   sendMessage({
     type: 'scroll',
     offsetHeight: documentBody.offsetHeight,
     innerHeight: window.innerHeight,
     scrollY: window.scrollY,
-    startMessageId: Math.min(prevNodes.start, currentNodes.start),
-    endMessageId: Math.max(prevNodes.end, currentNodes.end)
+    startMessageId: rangeHull.first,
+    endMessageId: rangeHull.last
   });
-  prevNodes = currentNodes;
+  prevMessageRange = messageRange;
 };
 
 var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
