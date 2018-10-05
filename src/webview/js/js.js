@@ -71,19 +71,6 @@ window.onerror = (message, source, line, column, error) => {
   return true;
 };
 
-/**
- * Disable reporting scrolls to the outside to mark messages as read.
- *
- * This is set while we're first setting up after the content loads, and
- * while we're handling `message` events from the outside and potentially
- * rewriting the content.
- */
-let scrollEventsDisabled = true;
-
-let lastTouchEventTimestamp = 0;
-let lastTouchPositionX = -1;
-let lastTouchPositionY = -1;
-
 const showHideElement = (elementId: string, show: boolean) => {
   const element = document.getElementById(elementId);
   if (element) {
@@ -91,8 +78,14 @@ const showHideElement = (elementId: string, show: boolean) => {
   }
 };
 
-const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): boolean =>
-  Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
+let height = documentBody.clientHeight;
+window.addEventListener('resize', event => {
+  const difference = height - documentBody.clientHeight;
+  if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
+    window.scrollBy({ left: 0, top: difference });
+  }
+  height = documentBody.clientHeight;
+});
 
 const getMessageNode = (node: Node): Node => {
   let curNode = node;
@@ -108,38 +101,6 @@ const getMessageIdFromNode = (node: Node, defaultValue: number = -1): number => 
     ? +msgNode.getAttribute('data-msg-id')
     : defaultValue;
 };
-
-const scrollToBottom = () => {
-  window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
-};
-
-const isNearBottom = (): boolean =>
-  documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
-
-const scrollToBottomIfNearEnd = () => {
-  if (isNearBottom()) {
-    scrollToBottom();
-  }
-};
-
-const scrollToAnchor = (anchor: number) => {
-  const anchorNode = document.getElementById(`msg-${anchor}`);
-
-  if (anchorNode) {
-    anchorNode.scrollIntoView({ block: 'start' });
-  } else {
-    window.scroll({ left: 0, top: documentBody.scrollHeight + 200 });
-  }
-};
-
-let height = documentBody.clientHeight;
-window.addEventListener('resize', event => {
-  const difference = height - documentBody.clientHeight;
-  if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
-    window.scrollBy({ left: 0, top: difference });
-  }
-  height = documentBody.clientHeight;
-});
 
 const getStartAndEndNodes = (): { start: number, end: number } => {
   const startNode = getMessageNode(document.elementFromPoint(200, 20));
@@ -176,6 +137,19 @@ const sendScrollMessageIfListShort = () => {
   }
 };
 
+/**
+ * Disable reporting scrolls to the outside to mark messages as read.
+ *
+ * This is set while we're first setting up after the content loads, and
+ * while we're handling `message` events from the outside and potentially
+ * rewriting the content.
+ */
+let scrollEventsDisabled = true;
+
+let lastTouchEventTimestamp = 0;
+let lastTouchPositionX = -1;
+let lastTouchPositionY = -1;
+
 const handleScrollEvent = () => {
   lastTouchEventTimestamp = 0;
   if (scrollEventsDisabled) {
@@ -195,6 +169,29 @@ type ScrollTarget =
   | { type: 'bottom' }
   | { type: 'anchor', anchor: number }
   | { type: 'preserve', msgId: number, prevBoundTop: number };
+
+const scrollToBottom = () => {
+  window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
+};
+
+const isNearBottom = (): boolean =>
+  documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
+
+const scrollToBottomIfNearEnd = () => {
+  if (isNearBottom()) {
+    scrollToBottom();
+  }
+};
+
+const scrollToAnchor = (anchor: number) => {
+  const anchorNode = document.getElementById(`msg-${anchor}`);
+
+  if (anchorNode) {
+    anchorNode.scrollIntoView({ block: 'start' });
+  } else {
+    window.scroll({ left: 0, top: documentBody.scrollHeight + 200 });
+  }
+};
 
 // Try to identify a message on screen and its location, so we can
 // scroll the corresponding message to the same place afterward.
@@ -423,6 +420,9 @@ documentBody.addEventListener('touchstart', e => {
   lastTouchEventTimestamp = Date.now();
   setTimeout(() => handleLongPress(e), 500);
 });
+
+const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): boolean =>
+  Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 
 documentBody.addEventListener('touchend', e => {
   if (

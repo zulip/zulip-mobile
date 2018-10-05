@@ -55,12 +55,6 @@ window.onerror = function (message, source, line, column, error) {
   return true;
 };
 
-var scrollEventsDisabled = true;
-
-var lastTouchEventTimestamp = 0;
-var lastTouchPositionX = -1;
-var lastTouchPositionY = -1;
-
 var showHideElement = function showHideElement(elementId, show) {
   var element = document.getElementById(elementId);
   if (element) {
@@ -68,13 +62,14 @@ var showHideElement = function showHideElement(elementId, show) {
   }
 };
 
-var isNearPositions = function isNearPositions() {
-  var x1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-  var y1 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  var x2 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-  var y2 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-  return Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
-};
+var height = documentBody.clientHeight;
+window.addEventListener('resize', function (event) {
+  var difference = height - documentBody.clientHeight;
+  if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
+    window.scrollBy({ left: 0, top: difference });
+  }
+  height = documentBody.clientHeight;
+});
 
 var getMessageNode = function getMessageNode(node) {
   var curNode = node;
@@ -90,39 +85,6 @@ var getMessageIdFromNode = function getMessageIdFromNode(node) {
   var msgNode = getMessageNode(node);
   return msgNode && msgNode instanceof Element ? +msgNode.getAttribute('data-msg-id') : defaultValue;
 };
-
-var scrollToBottom = function scrollToBottom() {
-  window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
-};
-
-var isNearBottom = function isNearBottom() {
-  return documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
-};
-
-var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
-  if (isNearBottom()) {
-    scrollToBottom();
-  }
-};
-
-var scrollToAnchor = function scrollToAnchor(anchor) {
-  var anchorNode = document.getElementById('msg-' + anchor);
-
-  if (anchorNode) {
-    anchorNode.scrollIntoView({ block: 'start' });
-  } else {
-    window.scroll({ left: 0, top: documentBody.scrollHeight + 200 });
-  }
-};
-
-var height = documentBody.clientHeight;
-window.addEventListener('resize', function (event) {
-  var difference = height - documentBody.clientHeight;
-  if (documentBody.scrollHeight !== documentBody.scrollTop + documentBody.clientHeight) {
-    window.scrollBy({ left: 0, top: difference });
-  }
-  height = documentBody.clientHeight;
-});
 
 var getStartAndEndNodes = function getStartAndEndNodes() {
   var startNode = getMessageNode(document.elementFromPoint(200, 20));
@@ -157,6 +119,12 @@ var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
   }
 };
 
+var scrollEventsDisabled = true;
+
+var lastTouchEventTimestamp = 0;
+var lastTouchPositionX = -1;
+var lastTouchPositionY = -1;
+
 var handleScrollEvent = function handleScrollEvent() {
   lastTouchEventTimestamp = 0;
   if (scrollEventsDisabled) {
@@ -170,6 +138,30 @@ var handleScrollEvent = function handleScrollEvent() {
 };
 
 window.addEventListener('scroll', handleScrollEvent);
+
+var scrollToBottom = function scrollToBottom() {
+  window.scroll({ left: 0, top: documentBody.scrollHeight, behavior: 'smooth' });
+};
+
+var isNearBottom = function isNearBottom() {
+  return documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
+};
+
+var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
+  if (isNearBottom()) {
+    scrollToBottom();
+  }
+};
+
+var scrollToAnchor = function scrollToAnchor(anchor) {
+  var anchorNode = document.getElementById('msg-' + anchor);
+
+  if (anchorNode) {
+    anchorNode.scrollIntoView({ block: 'start' });
+  } else {
+    window.scroll({ left: 0, top: documentBody.scrollHeight + 200 });
+  }
+};
 
 var findPreserveTarget = function findPreserveTarget() {
   var msgNode = getMessageNode(document.elementFromPoint(200, 50));
@@ -366,6 +358,14 @@ documentBody.addEventListener('touchstart', function (e) {
     return handleLongPress(e);
   }, 500);
 });
+
+var isNearPositions = function isNearPositions() {
+  var x1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var y1 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var x2 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  var y2 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+  return Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
+};
 
 documentBody.addEventListener('touchend', function (e) {
   if (isNearPositions(lastTouchPositionX, lastTouchPositionY, e.changedTouches[0].pageX, e.changedTouches[0].pageY)) {
