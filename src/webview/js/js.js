@@ -87,6 +87,12 @@ window.addEventListener('resize', event => {
   height = documentBody.clientHeight;
 });
 
+/*
+ *
+ * Identifying visible messages
+ *
+ */
+
 const getMessageNode = (node: Node): Node => {
   let curNode = node;
   while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
@@ -111,6 +117,12 @@ const getStartAndEndNodes = (): { start: number, end: number } => {
     end: getMessageIdFromNode(endNode, 0),
   };
 };
+
+/*
+ *
+ * Reporting scrolls to outside, to mark messages as read
+ *
+ */
 
 let prevNodes = getStartAndEndNodes();
 
@@ -163,6 +175,12 @@ const handleScrollEvent = () => {
 };
 
 window.addEventListener('scroll', handleScrollEvent);
+
+/*
+ *
+ * Updating message content, and re-scrolling
+ *
+ */
 
 type ScrollTarget =
   | { type: 'none' }
@@ -279,6 +297,12 @@ const handleInitialLoad = /* eslint-disable-line */ (anchor: number, auth: Auth)
   scrollEventsDisabled = false;
 };
 
+/*
+ *
+ * Handling other message-from-outside events
+ *
+ */
+
 const handleMessageFetching = (msg: MessageInputFetching) => {
   showHideElement('message-loading', msg.showMessagePlaceholders);
   showHideElement('spinner-older', msg.fetchingOlder);
@@ -310,6 +334,12 @@ document.addEventListener('message', e => {
   });
   scrollEventsDisabled = false;
 });
+
+/*
+ *
+ * Handling user touches
+ *
+ */
 
 documentBody.addEventListener('click', e => {
   e.preventDefault();
@@ -444,6 +474,12 @@ documentBody.addEventListener('touchmove', e => {
 documentBody.addEventListener('drag', e => {
   lastTouchEventTimestamp = 0;
 });
+
+/*
+ *
+ * Synchronizing setup with outside
+ *
+ */
 
 const waitForBridge = () => {
   if (window.postMessage.length === 1) {
