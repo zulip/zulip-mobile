@@ -1,5 +1,5 @@
 /* @flow */
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import type { Auth } from './apiTypes';
 import { getAuthHeader, getFullUrl } from '../utils/url';
