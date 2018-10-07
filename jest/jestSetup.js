@@ -14,6 +14,6 @@ jest.mock('Linking', () => ({
   getInitialURL: jest.fn(),
 }));
 
-jest.mock('react-native-fetch-blob', () => ({
+jest.mock('rn-fetch-blob', () => ({
   DocumentDir: () => {},
 }));

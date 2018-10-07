@@ -1,6 +1,6 @@
 /* @flow */
 import { CameraRoll, Platform } from 'react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import type { Auth } from './apiTypes';
 import { getAuthHeader, getFullUrl } from '../utils/url';
@@ -16,6 +16,7 @@ export default (src: string, auth: Auth) => {
       useDownloadManager: true,
       mime: 'text/plain', // Android DownloadManager fails if the url is missing a file extension
       title: src.split('/').pop(),
+      notification: false,
     },
   }).fetch('GET', getFullUrl(src, auth.realm), {
     'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
