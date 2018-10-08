@@ -49,6 +49,7 @@
   "Enter a password": "请输入密码",
   "Narrow to conversation": "缩短对话",
   "Reply": "回复",
+  "Add a reaction": "Add a reaction",
   "Copy to clipboard": "复制到剪贴板",
   "Mute topic": "静音主题",
   "Unmute topic": "非静音主题",
@@ -136,5 +137,6 @@
   "Do not mark messages read on scroll": "滚动阅读时不要标记消息",
   "Topics": "主题",
   "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
-  "Add subscribers": "Add subscribers"
+  "Add subscribers": "Add subscribers",
+  "Only organization admins are allowed to post to this stream.": "Only organization admins are allowed to post to this stream."
 }

@@ -49,6 +49,7 @@
   "Enter a password": "Enter a password",
   "Narrow to conversation": "Narrow to conversation",
   "Reply": "Reply",
+  "Add a reaction": "Add a reaction",
   "Copy to clipboard": "Copy to clipboard",
   "Mute topic": "Mute topic",
   "Unmute topic": "Unmute topic",
@@ -136,5 +137,6 @@
   "Do not mark messages read on scroll": "Do not mark messages read on scroll",
   "Topics": "Topics",
   "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
-  "Add subscribers": "Add subscribers"
+  "Add subscribers": "Add subscribers",
+  "Only organization admins are allowed to post to this stream.": "Only organization admins are allowed to post to this stream."
 }

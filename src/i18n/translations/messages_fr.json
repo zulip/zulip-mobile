@@ -1,7 +1,7 @@
 {
   "{_}": "{_}",
   "I have a Zulip account": "J'ai un compte Zulip ",
-  "I am new to Zulip": "I am new to Zulip",
+  "I am new to Zulip": "Je suis nouveau dans Zulip",
   "Home": "Accueil",
   "All messages": "Tous les messages",
   "Private messages": "Messages privés",
@@ -49,6 +49,7 @@
   "Enter a password": "Entrez un mot de passe",
   "Narrow to conversation": "Restreindre à la conversation",
   "Reply": "Répondre",
+  "Add a reaction": "Add a reaction",
   "Copy to clipboard": "Copier dans le presse-papier",
   "Mute topic": "Rendre le sujet muet",
   "Unmute topic": "Ne plus rendre le sujet muet",
@@ -68,7 +69,7 @@
   "Send private message": "Envoyer un message privé",
   "Forgot password?": "Mot de passe oublié?",
   "Members": "Membres",
-  "Recipients": "Recipients",
+  "Recipients": "Destinataires",
   "Delete message": "Supprimer le message",
   "Notifications when online": "Notifications en ligne",
   "Notifications when offline": "Notifications hors connexion",
@@ -135,6 +136,7 @@
   "Offline": "Hors-ligne",
   "Do not mark messages read on scroll": "Ne pas marquer les messages lus lors d'un défilement",
   "Topics": "Sujets",
-  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
-  "Add subscribers": "Add subscribers"
+  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Bienvenue sur Zulip !\n\nVous devez d'abord créer un compte à partir de votre ordinateur. Si vous savez pas par où commencer, allez sur zulipchat.com depuis votre navigateur web.\n\nNous espérons vous revoir bientôt !\n",
+  "Add subscribers": "Ajouter des abonnés",
+  "Only organization admins are allowed to post to this stream.": "Seuls les administrateurs de l'organisation peuvent poster sur ce canal."
 }

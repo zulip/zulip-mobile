@@ -49,6 +49,7 @@
   "Enter a password": "비밀번호를 입력하세요.",
   "Narrow to conversation": "대화로 한정해서 보기",
   "Reply": "응답",
+  "Add a reaction": "Add a reaction",
   "Copy to clipboard": "클립보드에 복사하기",
   "Mute topic": "주제 숨기기",
   "Unmute topic": "주제 숨김 해제",
@@ -136,5 +137,6 @@
   "Do not mark messages read on scroll": "Do not mark messages read on scroll",
   "Topics": "Topics",
   "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
-  "Add subscribers": "Add subscribers"
+  "Add subscribers": "Add subscribers",
+  "Only organization admins are allowed to post to this stream.": "Only organization admins are allowed to post to this stream."
 }

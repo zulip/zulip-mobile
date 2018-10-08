@@ -1,7 +1,7 @@
 {
   "{_}": "{_}",
-  "I have a Zulip account": "I have a Zulip account",
-  "I am new to Zulip": "I am new to Zulip",
+  "I have a Zulip account": "Имам Zulip акаунт",
+  "I am new to Zulip": "Нов съм в Zulip",
   "Home": "Всичко",
   "All messages": "Всички съобщения",
   "Private messages": "Лични съобщения",
@@ -18,7 +18,7 @@
   "No unread messages": "Няма непрочетени съобщения",
   "Pick account": "Избери профил",
   "Welcome": "Добре дошли",
-  "Welcome!": "Welcome!",
+  "Welcome!": "Добре дошли!",
   "Subscriptions": "Абонаменти",
   "Your server URL": "Адресът на вашия сървър",
   "Search": "Търси",
@@ -49,6 +49,7 @@
   "Enter a password": "Въведете парола",
   "Narrow to conversation": "Ограничи до разговор",
   "Reply": "Отговори",
+  "Add a reaction": "Add a reaction",
   "Copy to clipboard": "Копирай в клипборд",
   "Mute topic": "Заглуши тема",
   "Unmute topic": "Не заглушавай тема",
@@ -68,7 +69,7 @@
   "Send private message": "Изпрати лично съобщение",
   "Forgot password?": "Забравена парола?",
   "Members": "Членове",
-  "Recipients": "Recipients",
+  "Recipients": "Получатели",
   "Delete message": "Изтрий съобщение",
   "Notifications when online": "Известявания когато сте онлайн",
   "Notifications when offline": "Известявания когато сте офлайн",
@@ -135,6 +136,7 @@
   "Offline": "Офлайн",
   "Do not mark messages read on scroll": "Не маркирай съобщенията като прочетени при скролиране",
   "Topics": "Теми",
-  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
-  "Add subscribers": "Add subscribers"
+  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Добре дошли в Zulip!\n\nПърво трябва да създадете профил от компютъра си. Ако не сте сигурни къде да започнете, посетете zulipchat.com от уеб браузъра си.\n\nНадяваме се да ви видим скоро!\n",
+  "Add subscribers": "Добави абонати",
+  "Only organization admins are allowed to post to this stream.": "Само администраторите на организацията имат право да публикуват в този поток."
 }

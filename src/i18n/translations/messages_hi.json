@@ -49,6 +49,7 @@
   "Enter a password": "पासवर्ड ङालें",
   "Narrow to conversation": "बातचीत के लिए संकीर्ण",
   "Reply": "जवाब दें",
+  "Add a reaction": "Add a reaction",
   "Copy to clipboard": "क्लिपबोर्ड पर कॉपी करें",
   "Mute topic": "विषय म्यूट करें",
   "Unmute topic": "विषय अनम्यूट करें",
@@ -136,5 +137,6 @@
   "Do not mark messages read on scroll": "संदेशों को स्क्रॉल पर पढ़ने के रूप में चिह्नित न करें",
   "Topics": "सभी विषय",
   "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
-  "Add subscribers": "Add subscribers"
+  "Add subscribers": "Add subscribers",
+  "Only organization admins are allowed to post to this stream.": "Only organization admins are allowed to post to this stream."
 }

@@ -1,7 +1,7 @@
 {
   "{_}": "{_}",
-  "I have a Zulip account": "I have a Zulip account",
-  "I am new to Zulip": "I am new to Zulip",
+  "I have a Zulip account": "Ich habe einen Zulip Account",
+  "I am new to Zulip": "Ich bin neu bei Zulip",
   "Home": "Startseite",
   "All messages": "Alle Nachrichten",
   "Private messages": "Private Nachricht",
@@ -18,7 +18,7 @@
   "No unread messages": "Keine ungelesenen Nachrichten",
   "Pick account": "Account auswählen",
   "Welcome": "Willkommen",
-  "Welcome!": "Welcome!",
+  "Welcome!": "Willkommen!",
   "Subscriptions": "Abonnements",
   "Your server URL": "URL deines Servers",
   "Search": "Suche",
@@ -49,6 +49,7 @@
   "Enter a password": "Passwort eingeben",
   "Narrow to conversation": "Auf diese Konversation begrenzen",
   "Reply": "Antworten",
+  "Add a reaction": "Add a reaction",
   "Copy to clipboard": "In die Ablage kopieren",
   "Mute topic": "Thema stummschalten",
   "Unmute topic": "Stummschaltung aufheben",
@@ -68,7 +69,7 @@
   "Send private message": "Private Nachricht senden",
   "Forgot password?": "Passwort vergessen?",
   "Members": "Mitglieder",
-  "Recipients": "Recipients",
+  "Recipients": "Empfänger",
   "Delete message": "Nachricht löschen",
   "Notifications when online": "Benachrichtungen wenn Online",
   "Notifications when offline": "Benachrichtigungen wenn Offline",
@@ -135,6 +136,7 @@
   "Offline": "Offline",
   "Do not mark messages read on scroll": "Nachrichten beim scrollen nicht als gelesen markieren",
   "Topics": "Themen",
-  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
-  "Add subscribers": "Add subscribers"
+  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Willkommen bei Zulip!\n\nDu musst zuerst einen Account von Deinem Computer aus erstellen. Falls Du Dir nicht sicher bist, wo Du beginnen sollst, gehe auf zulipchat.com in Deinem Webbrowser.\n\nBis gleich!",
+  "Add subscribers": "Abonnenten hinzufügen",
+  "Only organization admins are allowed to post to this stream.": "Nur Administratoren dieser Organisation können in diesen Stream schreiben."
 }

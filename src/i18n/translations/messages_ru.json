@@ -1,7 +1,7 @@
 {
   "{_}": "{_}",
-  "I have a Zulip account": "I have a Zulip account",
-  "I am new to Zulip": "I am new to Zulip",
+  "I have a Zulip account": "У меня уже есть Zulip учетная запись",
+  "I am new to Zulip": "Регистрация в Zulip",
   "Home": "Главная",
   "All messages": "Все сообщения",
   "Private messages": "Личные сообщения",
@@ -18,7 +18,7 @@
   "No unread messages": "Нет непрочитанных сообщений",
   "Pick account": "Выберите учетную запись",
   "Welcome": "Добро пожаловать",
-  "Welcome!": "Welcome!",
+  "Welcome!": "Добро пожаловать!",
   "Subscriptions": "Подписки",
   "Your server URL": "URL вашего сервера",
   "Search": "Поиск",
@@ -49,6 +49,7 @@
   "Enter a password": "Введите пароль",
   "Narrow to conversation": "Только разговор",
   "Reply": "Ответить",
+  "Add a reaction": "Add a reaction",
   "Copy to clipboard": "Скопировать в буфер обмена",
   "Mute topic": "Заглушить тему",
   "Unmute topic": "Включить тему",
@@ -68,7 +69,7 @@
   "Send private message": "Отправить личное сообщение",
   "Forgot password?": "Забыли пароль?",
   "Members": "Участники",
-  "Recipients": "Recipients",
+  "Recipients": "Получатели",
   "Delete message": "Удалить сообщение",
   "Notifications when online": "Уведомления когда в сети",
   "Notifications when offline": "Уведомления когда не в сети",
@@ -135,6 +136,7 @@
   "Offline": "Не в сети",
   "Do not mark messages read on scroll": "Не отмечать сообщения прочитанными при прокрутке",
   "Topics": "Темы",
-  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
-  "Add subscribers": "Add subscribers"
+  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Добро пожаловать в Zulip!\n\nДля начала вам необходимо создать учетную запись с вашего компьютера. Если вы не знаете с чего начать, перейдите на zulipchat.com с вашего браузера.\n\nНадеемся увидеть вас здесь вскоре опять!\n",
+  "Add subscribers": "Подписаться",
+  "Only organization admins are allowed to post to this stream.": "Только администратор организации может отправлять сообщения в этот канал."
 }

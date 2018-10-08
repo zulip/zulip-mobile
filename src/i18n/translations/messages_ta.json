@@ -49,6 +49,7 @@
   "Enter a password": "கடவுச்சொல்லை உள்ளிடவும்",
   "Narrow to conversation": "உரையாடலை சுருக்கு",
   "Reply": "மறுமொழி",
+  "Add a reaction": "Add a reaction",
   "Copy to clipboard": "நகல் நினைவியை நகலெடுக்கவும்",
   "Mute topic": "தலைப்பை அமைதியாக்கு",
   "Unmute topic": "தலைப்பு தடையை நீக்கு",
@@ -136,5 +137,6 @@
   "Do not mark messages read on scroll": "Do not mark messages read on scroll",
   "Topics": "Topics",
   "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
-  "Add subscribers": "Add subscribers"
+  "Add subscribers": "Add subscribers",
+  "Only organization admins are allowed to post to this stream.": "Only organization admins are allowed to post to this stream."
 }
