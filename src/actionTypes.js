@@ -64,6 +64,7 @@ import {
   INIT_TOPICS,
   INIT_SUBSCRIPTIONS,
   EVENT_MUTED_TOPICS,
+  EVENT_NEW_EVENT_QUEUE_EVENT,
 } from './actionConstants';
 
 import type {
@@ -223,6 +224,12 @@ export type InitialFetchStartAction = {
 
 export type InitialFetchCompleteAction = {
   type: typeof INITIAL_FETCH_COMPLETE,
+};
+
+export type LastQueueEventActionDetails = {
+  type: typeof EVENT_NEW_EVENT_QUEUE_EVENT,
+  timestamp: number,
+  lastEventId: number,
 };
 
 export type StreamUpdateDetails = {
@@ -645,7 +652,8 @@ export type SessionAction =
   | AccountSwitchAction
   | LoginSuccessAction
   | ToggleOutboxSendingAction
-  | InitialFetchCompleteAction;
+  | InitialFetchCompleteAction
+  | LastQueueEventActionDetails;
 
 export type SettingsAction =
   | RealmInitAction

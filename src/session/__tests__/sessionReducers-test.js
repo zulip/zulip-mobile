@@ -5,6 +5,7 @@ import {
   CANCEL_EDIT_MESSAGE,
   START_EDIT_MESSAGE,
   LOGIN_SUCCESS,
+  EVENT_NEW_EVENT_QUEUE_EVENT,
 } from '../../actionConstants';
 import sessionReducers from '../sessionReducers';
 
@@ -97,6 +98,23 @@ describe('sessionReducers', () => {
       const newState = sessionReducers(prevState, action);
 
       expect(newState.needsInitialFetch).toBe(true);
+    });
+  });
+
+  describe('EVENT_NEW_EVENT_QUEUE_EVENT', () => {
+    test('store last event id and timestamp', () => {
+      const prevState = deepFreeze({});
+
+      const action = deepFreeze({
+        type: EVENT_NEW_EVENT_QUEUE_EVENT,
+        lastEventId: 10,
+        timestamp: 40,
+      });
+
+      const newState = sessionReducers(prevState, action);
+
+      expect(newState.lastEventId).toBe(10);
+      expect(newState.lastEventTimestamp).toBe(40);
     });
   });
 });

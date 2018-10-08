@@ -4,6 +4,7 @@ import { batchActions } from 'redux-batched-actions';
 import type { EventAction, Dispatch, GetState, GlobalState } from '../types';
 import { pollForEvents } from '../api';
 import { appRefresh } from '../actions';
+import { EVENT_NEW_EVENT_QUEUE_EVENT } from '../actionConstants';
 import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
 import { getAuth } from '../selectors';
@@ -55,12 +56,14 @@ export const startEventPolling = (queueId: number, eventId: number) => async (
         break;
       }
 
-      const actions = responseToActions(getState(), response);
+      lastEventId = Math.max.apply(null, [lastEventId, ...response.events.map(x => x.id)]);
+      const actions = [
+        ...responseToActions(getState(), response),
+        { type: EVENT_NEW_EVENT_QUEUE_EVENT, timestamp: Date.now(), lastEventId },
+      ];
 
       actionCreator(dispatch, actions, getState());
       dispatchOrBatch(dispatch, actions);
-
-      lastEventId = Math.max.apply(null, [lastEventId, ...response.events.map(x => x.id)]);
     } catch (e) {
       // protection from inadvertent DDOS
       await progressiveTimeout();

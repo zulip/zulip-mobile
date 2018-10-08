@@ -244,6 +244,8 @@ export type SessionState = {
   isOnline: boolean,
   isActive: boolean,
   isHydrated: boolean,
+  lastEventId: number,
+  lastEventTimestamp: number,
   needsInitialFetch: boolean,
   orientation: Orientation,
   outboxSending: boolean,

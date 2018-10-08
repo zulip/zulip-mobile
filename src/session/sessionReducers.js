@@ -16,6 +16,7 @@ import type {
   RealmInitAction,
   DebugFlagToggleAction,
   ToggleOutboxSendingAction,
+  LastQueueEventActionDetails,
 } from '../types';
 import {
   REHYDRATE,
@@ -32,6 +33,7 @@ import {
   START_EDIT_MESSAGE,
   TOGGLE_OUTBOX_SENDING,
   DEBUG_FLAG_TOGGLE,
+  EVENT_NEW_EVENT_QUEUE_EVENT,
 } from '../actionConstants';
 import { getAuth } from '../selectors';
 
@@ -41,6 +43,8 @@ const initialState: SessionState = {
   isOnline: true,
   isActive: true,
   isHydrated: false,
+  lastEventId: -1,
+  lastEventTimestamp: 0,
   needsInitialFetch: false,
   orientation: 'PORTRAIT',
   outboxSending: false,
@@ -145,6 +149,15 @@ const debugFlagToggle = (state: SessionState, action: DebugFlagToggleAction): Se
   },
 });
 
+const updateLastEventDetails = (
+  state: SessionState,
+  action: LastQueueEventActionDetails,
+): SessionState => ({
+  ...state,
+  lastEventId: action.lastEventId,
+  lastEventTimestamp: action.timestamp,
+});
+
 export default (state: SessionState = initialState, action: SessionAction): SessionState => {
   switch (action.type) {
     case APP_REFRESH:
@@ -186,6 +199,9 @@ export default (state: SessionState = initialState, action: SessionAction): Sess
 
     case DEBUG_FLAG_TOGGLE:
       return debugFlagToggle(state, action);
+
+    case EVENT_NEW_EVENT_QUEUE_EVENT:
+      return updateLastEventDetails(state, action);
 
     default:
       return state;
