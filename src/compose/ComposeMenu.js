@@ -18,6 +18,11 @@ type Props = {
   onExpandContract: () => void,
 };
 
+/*
+* Extract the image name from its uri in case the fileName is empty.
+*/
+export const getDefaultFilenameFromUri = (uri: string) => uri.replace(/^.*[\\/]/, '');
+
 /**
  * Adjust `fileName` to one with the right extension for the file format.
  *
@@ -30,7 +35,10 @@ type Props = {
  * actual format.  The clue we get in the image-picker response is the extension
  * found in `uri`.
  */
-export const chooseUploadImageFilename = (uri: string, fileName: string): string => {
+export const chooseUploadImageFilename = (uri: string, fileName?: string): string => {
+  if (typeof fileName !== 'string' || fileName === '') {
+    fileName = getDefaultFilenameFromUri(uri);
+  }
   /*
   * Photos in an iPhone's camera roll (taken since iOS 11) are typically in
   * HEIF format and have file names with the extension `.HEIC`.  When the user
@@ -41,7 +49,6 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
   if (/\.jpe?g$/i.test(uri)) {
     return fileName.replace(/\.heic$/i, '.jpeg');
   }
-
   return fileName;
 };
 
