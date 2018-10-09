@@ -48,6 +48,7 @@ const initialState: SessionState = {
   needsInitialFetch: false,
   orientation: 'PORTRAIT',
   outboxSending: false,
+  queueRegistrationTimestamp: 0,
   safeAreaInsets: {
     bottom: 0,
     left: 0,
@@ -89,6 +90,7 @@ const rehydrate = (state: SessionState, action: RehydrateAction): SessionState =
 const realmInit = (state: SessionState, action: RealmInitAction): SessionState => ({
   ...state,
   eventQueueId: action.data.queue_id,
+  queueRegistrationTimestamp: Date.now(),
 });
 
 const appOnline = (state: SessionState, action: AppOnlineAction): SessionState => ({

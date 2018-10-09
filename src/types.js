@@ -249,6 +249,7 @@ export type SessionState = {
   needsInitialFetch: boolean,
   orientation: Orientation,
   outboxSending: boolean,
+  queueRegistrationTimestamp: number,
   safeAreaInsets: Dimensions,
   debug: Debug,
 };
