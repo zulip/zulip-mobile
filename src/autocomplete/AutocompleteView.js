@@ -37,9 +37,7 @@ export default class AutocompleteView extends PureComponent<Props> {
 
     return (
       <AnimatedScaleComponent visible={shouldShow}>
-        {shouldShow && (
-          <AutocompleteComponent filter={filter} onAutocomplete={this.handleAutocomplete} />
-        )}
+        <AutocompleteComponent filter={filter} onAutocomplete={this.handleAutocomplete} />
       </AnimatedScaleComponent>
     );
   }
