@@ -52,13 +52,14 @@ describe('unreadMentionsReducers', () => {
   });
 
   describe('EVENT_NEW_MESSAGE', () => {
-    test('if message does not contain is_mentioned, do not mutate state', () => {
+    test('if message does not contain "mentioned" flag, do not mutate state', () => {
       const initialState = deepFreeze([]);
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
         message: {
           id: 2,
+          flags: [],
         },
       });
 
@@ -74,7 +75,7 @@ describe('unreadMentionsReducers', () => {
         type: EVENT_NEW_MESSAGE,
         message: {
           id: 2,
-          is_mentioned: true,
+          flags: ['mentioned'],
         },
       });
 
@@ -83,14 +84,14 @@ describe('unreadMentionsReducers', () => {
       expect(actualState).toBe(initialState);
     });
 
-    test('if is_mentioned is true and message id does not exist, append to state', () => {
+    test('if "mentioned" flag is set and message id does not exist, append to state', () => {
       const initialState = deepFreeze([1, 2]);
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
         message: {
           id: 3,
-          is_mentioned: true,
+          flags: ['mentioned'],
         },
       });
 

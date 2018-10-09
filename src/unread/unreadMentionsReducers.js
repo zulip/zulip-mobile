@@ -28,7 +28,9 @@ const eventNewMessage = (
   state: UnreadMentionsState,
   action: EventNewMessageAction,
 ): UnreadMentionsState =>
-  action.message.is_mentioned && !state.includes(action.message.id)
+  action.message.flags
+  && action.message.flags.includes('mentioned')
+  && !state.includes(action.message.id)
     ? addItemsToArray(state, [action.message.id])
     : state;
 
