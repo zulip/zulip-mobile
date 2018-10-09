@@ -89,6 +89,9 @@ export const navigateToDebug = (): NavigateAction =>
 export const navigateToNotifDiag = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'notifDiag' });
 
+export const navigateToEventQueueDiag = (): NavigateAction =>
+  NavigationActions.navigate({ routeName: 'event-queue-diag' });
+
 export const navigateToStream = (streamId: number): NavigateAction =>
   NavigationActions.navigate({ routeName: 'stream', params: { streamId } });
 

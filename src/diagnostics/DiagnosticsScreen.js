@@ -9,6 +9,7 @@ import type { Dispatch } from '../types';
 import { OptionButton, OptionDivider, Screen, RawLabel } from '../common';
 import {
   navigateToDebug,
+  navigateToEventQueueDiag,
   navigateToNotifDiag,
   navigateToStorage,
   navigateToTiming,
@@ -64,6 +65,12 @@ class DiagnosticsScreen extends PureComponent<Props> {
           label="Notifications"
           onPress={() => {
             dispatch(navigateToNotifDiag());
+          }}
+        />
+        <OptionButton
+          label="Event queue"
+          onPress={() => {
+            dispatch(navigateToEventQueueDiag());
           }}
         />
       </Screen>

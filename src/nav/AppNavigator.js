@@ -18,6 +18,7 @@ import LanguageScreen from '../settings/LanguageScreen';
 import PasswordAuthScreen from '../start/PasswordAuthScreen';
 import DebugScreen from '../settings/DebugScreen';
 import DiagnosticsScreen from '../diagnostics/DiagnosticsScreen';
+import EventQueueDiagScreen from '../diagnostics/EventQueueDiagScreen';
 import VariablesScreen from '../diagnostics/VariablesScreen';
 import TimingScreen from '../diagnostics/TimingScreen';
 import NotificationDiagScreen from '../diagnostics/NotificationDiagScreen';
@@ -44,6 +45,7 @@ export default StackNavigator(
     chat: { screen: ChatScreen },
     dev: { screen: DevAuthScreen },
     'emoji-picker': { screen: EmojiPickerScreen },
+    'event-queue-diag': { screen: EventQueueDiagScreen },
     loading: { screen: LoadingScreen },
     main: { screen: MainScreenWithTabs },
     password: { screen: PasswordAuthScreen },
