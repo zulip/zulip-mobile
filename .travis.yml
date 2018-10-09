@@ -1,12 +1,44 @@
-language: node_js
+language: android
 
-node_js:
-  - 8
+jdk: oraclejdk8
+
+env:
+  global:
+    - ANDROID_HOME=${TRAVIS_BUILD_DIR}/android-sdk
+    - PATH=${ANDROID_HOME}/:${ANDROID_HOME}/tools/:${ANDROID_HOME}/platform-tools/:${PATH}
+
 
 cache:
   yarn: true
   directories:
     - node_modules
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+android:
+  components:
+    # all the android components used in the zulip-mobile and it's dependencies
+    - tools
+    - platform-tools
+    - build-tools-23.0.1
+    - build-tools-25.0.0
+    - build-tools-25.0.1
+    - build-tools-25.0.2
+    - build-tools-26.0.0
+    - build-tools-26.0.1
+    - build-tools-27.0.3
+    - build-tools-27.1.1
+    - android-23
+    - android-24
+    - android-25
+    - android-26
+    - android-27
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - extra-google-android-support
+
+  licenses:
+   - 'android-sdk-license-.+'
 
 notifications:
   email: false
@@ -17,11 +49,14 @@ notifications:
     on_failure: always
 
 install:
+  - nvm install 8
+  - node --version
   - npm i yarn -g
   - yarn
 
 script:
   - npm run test:full
+  - cd android && ./gradlew assembleDebug
 
 env:
   - COVERALLS_REPO_TOKEN=4eYQDtWoBJlDz2QkxoQ2UcnmJFcOB7zkv
