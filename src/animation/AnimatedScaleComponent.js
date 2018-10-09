@@ -43,6 +43,10 @@ export default class AnimatedScaleComponent extends PureComponent<Props, State> 
       display: visible ? 'flex' : 'none',
     };
 
-    return <Animated.View style={[animatedStyle, style]}>{children}</Animated.View>;
+    return (
+      <Animated.View style={[animatedStyle, style]}>
+        {this.props.visible ? children : null}
+      </Animated.View>
+    );
   }
 }
