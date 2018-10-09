@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 
-import { SpinningProgress } from './';
+import SpinningProgress from './SpinningProgress';
 import messageLoadingImg from '../../static/img/message-loading.png';
 
 const styles = StyleSheet.create({

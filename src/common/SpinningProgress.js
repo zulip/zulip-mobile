@@ -1,9 +1,10 @@
 /* @flow */
 import React from 'react';
-import { ART } from 'react-native';
+import { Image } from 'react-native';
 
-import { Arc, Circle } from './';
 import AnimatedRotateComponent from '../animation/AnimatedRotateComponent';
+import spinningProgressImg from '../../static/img/spinning-progress.png';
+import spinningProgressBlackImg from '../../static/img/spinning-progress-black.png';
 
 type Props = {
   color: string,
@@ -14,7 +15,9 @@ type Props = {
  * Renders a progress indicator - light circle and a darker
  * quarter of a circle overlapping it, spinning.
  *
- * @prop color - The color of the circle.
+ * This is a temporary replacement of the ART-based SpinningProgress.
+ *
+ * @prop color - The color of the circle. Works only for 'black' and 'default'.
  * @prop size - Diameter of the circle in pixels.
  */
 export default class SpinningProgress extends React.PureComponent<Props> {
@@ -22,14 +25,12 @@ export default class SpinningProgress extends React.PureComponent<Props> {
 
   render() {
     const { color, size } = this.props;
-    const thickness = Math.round(size / 20);
+    const style = { width: size, height: size };
+    const source = color === '0, 0, 0' ? spinningProgressBlackImg : spinningProgressImg;
 
     return (
       <AnimatedRotateComponent>
-        <ART.Surface width={size} height={size}>
-          <Circle color={`rgba(${color}, 0.25)`} size={size} thickness={thickness} />
-          <Arc color={`rgba(${color}, 0.75)`} size={size} thickness={thickness} />
-        </ART.Surface>
+        <Image style={style} source={source} resizeMode="contain" />
       </AnimatedRotateComponent>
     );
   }
