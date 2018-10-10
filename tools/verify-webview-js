@@ -1,0 +1,12 @@
+#!/bin/bash
+oldjs=$(<./src/webview/js/generatedEs3.js)
+
+# generate new js
+yarn run generate-webview-js
+
+newjs=$(<./src/webview/js/generatedEs3.js)
+
+if [ "$oldjs" != "$newjs" ]; then
+    echo "generatedEs3.js is not updated with current js file."
+    exit 1
+fi
