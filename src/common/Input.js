@@ -1,6 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { TextInput } from 'react-native';
+import { Platform, TextInput } from 'react-native';
 import { FormattedMessage } from 'react-intl';
 
 import type { Context, LocalizableText, Style } from '../types';
@@ -71,10 +71,19 @@ export default class Input extends PureComponent<Props, State> {
 
   render() {
     const { styles } = this.context;
-    const { style, placeholder, textInputRef, ...restProps } = this.props;
+    const { style, placeholder, textInputRef, onChangeText, onEndEditing, ...restProps } = this.props;
     const { isFocused } = this.state;
     const placeholderMessage = placeholder.text || placeholder;
 
+    const newOnEndEditing = (Platform.OS === 'ios')?evt => {
+        if(onEndEditing)onEndEditing(evt)
+        onChangeText(evt.nativeEvent.text)
+    }:evt => {
+        if(onEndEditing)onEndEditing(evt)
+    }
+    const newOnChangeText = (Platform.OS === 'ios')?nullFunction:text => {
+        onChangeText(text)
+    }
     return (
       <FormattedMessage
         id={placeholderMessage}
@@ -87,8 +96,10 @@ export default class Input extends PureComponent<Props, State> {
             placeholder={text}
             placeholderTextColor={HALF_COLOR}
             underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
-            onFocus={this.handleFocus}
-            onBlur={this.handleBlur}
+            onEndEditing={newOnEndEditing}
+            onChangeText={newOnChangeText}
+	        onFocus={this.handleFocus}
+	        onBlur={this.handleBlur}
             ref={(component: any) => {
               this.textInput = component;
               if (textInputRef) {
