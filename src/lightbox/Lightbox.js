@@ -40,7 +40,6 @@ type Props = {
   dispatch: Dispatch,
   src: string,
   message: Message,
-  handleImagePress: (movement: string) => void,
   showActionSheetWithOptions: (Object, (number) => void) => void,
 };
 
