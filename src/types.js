@@ -1,4 +1,5 @@
 /* @flow */
+import type { Node } from 'react';
 import type { Dispatch as ReduxDispatch } from 'redux';
 import type { IntlShape } from 'react-intl';
 import type { InputSelector } from 'reselect';
@@ -17,6 +18,7 @@ import type {
 import type { AppStyles } from './styles/theme';
 
 export type { ChildrenArray } from 'react';
+export type React$Node = Node; // eslint-disable-line flowtype/type-id-match
 
 export type AnimatedValue = any; // { AnimatedValue } from 'react-native';
 export type MapStateToProps = any; // { MapStateToProps } from 'react-redux';
