@@ -3,6 +3,7 @@ import type { Node } from 'react';
 import type { Dispatch as ReduxDispatch } from 'redux';
 import type { IntlShape } from 'react-intl';
 import type { InputSelector } from 'reselect';
+import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type {
   Auth,
@@ -30,7 +31,11 @@ export type ThunkDispatch<T> = ((Dispatch, GetState) => T) => T;
 
 export type Dispatch = ReduxDispatch<*> & ThunkDispatch<*>;
 
-export type Style = boolean | number | Array<Style> | ?{ [string]: any };
+/*
+ * TODO as the name suggests, this should be broken down more specifically.
+ * Each use should be one of ViewStyleProp, TextStyleProp, ImageStyleProp.
+ */
+export type Style = DangerouslyImpreciseStyleProp;
 
 export type Orientation = 'LANDSCAPE' | 'PORTRAIT';
 
