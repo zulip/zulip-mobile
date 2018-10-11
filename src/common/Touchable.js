@@ -49,7 +49,7 @@ export default class Touchable extends PureComponent<Props> {
       return (
         <TouchableHighlight
           accessibilityLabel={accessibilityLabel}
-          underlayColor={HIGHLIGHT_COLOR}
+          underlayColor={HIGHLIGHT_COLOR /* v--- $FlowFixMe wants ViewStyleProp */}
           style={style}
           onPress={onPress}
           onLongPress={onLongPress}

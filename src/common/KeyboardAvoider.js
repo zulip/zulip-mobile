@@ -24,7 +24,7 @@ export default class KeyboardAvoider extends PureComponent<Props> {
 
     return (
       <KeyboardAvoidingView
-        behavior={behavior}
+        behavior={behavior /* v--- $FlowFixMe wants ViewStyleProp */}
         contentContainerStyle={contentContainerStyle}
         style={style}
       >
