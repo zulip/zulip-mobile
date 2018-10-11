@@ -1,6 +1,6 @@
 # Developer guide
 
-We target operating systems >= Android 4.4 (API 19) and >= iOS 8.1.
+We target operating systems >= Android 4.4 (API 19) and >= iOS 9.0.
 
 ## Why React Native?
 
