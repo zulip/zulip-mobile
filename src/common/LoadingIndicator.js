@@ -50,7 +50,7 @@ export default class LoadingIndicator extends PureComponent<Props> {
     return (
       <View style={styles.wrapper}>
         <View>
-          <SpinningProgress color={color} size={size} thickness={Math.round(size / 20)} />
+          <SpinningProgress color={color} size={size} />
           {showLogo && (
             <Image
               style={[

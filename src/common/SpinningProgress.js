@@ -8,7 +8,6 @@ import AnimatedRotateComponent from '../animation/AnimatedRotateComponent';
 type Props = {
   color: string,
   size: number,
-  thickness: number,
 };
 
 /**
@@ -17,13 +16,13 @@ type Props = {
  *
  * @prop color - The color of the circle.
  * @prop size - Diameter of the circle in pixels.
- * @prop thickness - Thickness of the circle in pixels.
  */
 export default class SpinningProgress extends React.PureComponent<Props> {
   props: Props;
 
   render() {
-    const { color, size, thickness } = this.props;
+    const { color, size } = this.props;
+    const thickness = Math.round(size / 20);
 
     return (
       <AnimatedRotateComponent>
