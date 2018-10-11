@@ -447,7 +447,7 @@ const handleLongPress = (target: Element) => {
   });
 };
 
-documentBody.addEventListener('touchstart', e => {
+documentBody.addEventListener('touchstart', (e: TouchEvent) => {
   const { target } = e;
   if (e.changedTouches[0].pageX < 20 || !(target instanceof Element)) {
     return;
@@ -462,7 +462,7 @@ documentBody.addEventListener('touchstart', e => {
 const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): boolean =>
   Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 
-documentBody.addEventListener('touchend', e => {
+documentBody.addEventListener('touchend', (e: TouchEvent) => {
   if (
     isNearPositions(
       lastTouchPositionX,
@@ -475,11 +475,11 @@ documentBody.addEventListener('touchend', e => {
   }
 });
 
-documentBody.addEventListener('touchmove', e => {
+documentBody.addEventListener('touchmove', (e: TouchEvent) => {
   lastTouchEventTimestamp = 0;
 });
 
-documentBody.addEventListener('drag', e => {
+documentBody.addEventListener('drag', (e: DragEvent) => {
   lastTouchEventTimestamp = 0;
 });
 
