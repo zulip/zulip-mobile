@@ -27,6 +27,10 @@ There are a lot of gotchas in this process, and the error messages they
 produce tend to be cryptic.  See the "Troubleshooting" section below.
 Please add to it with any additional issues you run into and their solutions.
 
+**NOTE**: Although these instructions were tested and debugged when
+new, on RN 0.55; they haven't been updated for newer RN versions and
+will need some changes.
+
 ### One-time (per-machine) setup
 
 1. You'll need the Android SDK.  You already have this if you've
@@ -36,7 +40,8 @@ Please add to it with any additional issues you run into and their solutions.
 2. You'll need the Android NDK, the "native development kit".  Don't follow
    the standard Android instructions for this; those will get you a current
    version, and React Native requires a specific old version, namely release
-   10e, which is from 2015.
+   10e, which is from 2015.  (NB: This is one thing that changed in RN
+   0.57; this was updated to NDK r17b, the latest.)
 
    * Instead, download the appropriate zip file [linked
      here](https://facebook.github.io/react-native/docs/building-from-source.html#download-links-for-android-ndk)
