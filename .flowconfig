@@ -56,7 +56,9 @@ sketchy-null
 [options]
 emoji=true
 
-include_warnings=true
+# The main warning is "Unused suppression comment".
+# Temporarily disabled to facilitate RN version upgrade.
+#include_warnings=true
 
 module.system=haste
 module.system.haste.use_name_reducers=true
