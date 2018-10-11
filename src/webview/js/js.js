@@ -421,7 +421,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   }
 });
 
-const handleLongPress = e => {
+const handleLongPress = (target: Element) => {
   // The logic that defines a "long press" in terms of raw touch events
   // is pretty subtle.  The `lastTouchEventTimestamp` and surrounding logic
   // are an attempt to define a long press.
@@ -442,20 +442,21 @@ const handleLongPress = e => {
 
   sendMessage({
     type: 'longPress',
-    target: e.target.matches('.header') ? 'header' : 'message',
-    messageId: getMessageIdFromNode(e.target),
+    target: target.matches('.header') ? 'header' : 'message',
+    messageId: getMessageIdFromNode(target),
   });
 };
 
 documentBody.addEventListener('touchstart', e => {
-  if (e.changedTouches[0].pageX < 20) {
+  const { target } = e;
+  if (e.changedTouches[0].pageX < 20 || !(target instanceof Element)) {
     return;
   }
 
   lastTouchPositionX = e.changedTouches[0].pageX;
   lastTouchPositionY = e.changedTouches[0].pageY;
   lastTouchEventTimestamp = Date.now();
-  setTimeout(() => handleLongPress(e), 500);
+  setTimeout(() => handleLongPress(target), 500);
 });
 
 const isNearPositions = (x1: number = 0, y1: number = 0, x2: number = 0, y2: number = 0): boolean =>

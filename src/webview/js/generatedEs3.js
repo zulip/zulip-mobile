@@ -340,7 +340,7 @@ documentBody.addEventListener('click', function (e) {
   }
 });
 
-var handleLongPress = function handleLongPress(e) {
+var handleLongPress = function handleLongPress(target) {
   if (!lastTouchEventTimestamp || Date.now() - lastTouchEventTimestamp < 500) {
     return;
   }
@@ -349,13 +349,15 @@ var handleLongPress = function handleLongPress(e) {
 
   sendMessage({
     type: 'longPress',
-    target: e.target.matches('.header') ? 'header' : 'message',
-    messageId: getMessageIdFromNode(e.target)
+    target: target.matches('.header') ? 'header' : 'message',
+    messageId: getMessageIdFromNode(target)
   });
 };
 
 documentBody.addEventListener('touchstart', function (e) {
-  if (e.changedTouches[0].pageX < 20) {
+  var target = e.target;
+
+  if (e.changedTouches[0].pageX < 20 || !(target instanceof Element)) {
     return;
   }
 
@@ -363,7 +365,7 @@ documentBody.addEventListener('touchstart', function (e) {
   lastTouchPositionY = e.changedTouches[0].pageY;
   lastTouchEventTimestamp = Date.now();
   setTimeout(function () {
-    return handleLongPress(e);
+    return handleLongPress(target);
   }, 500);
 });
 
