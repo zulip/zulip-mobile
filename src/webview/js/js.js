@@ -7,7 +7,12 @@ import type {
   MessageInputTyping,
 } from '../webViewHandleUpdates';
 
-// Converts an array-like object to an actual array
+/**
+ * Convert an array-like object to an actual array.
+ *
+ * A substitute for `Array.from`, which doesn't exist in the WebViews of some
+ * of our supported platforms.
+ */
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice#Array-like_objects
 const arrayFrom = arrayLike => Array.prototype.slice.call(arrayLike);
 
