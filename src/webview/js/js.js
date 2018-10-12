@@ -439,7 +439,13 @@ const appendAuthToImages = auth => {
     // for a small number of routes.  Rather than append the API key to all
     // kinds of URLs on the server, do so only for those routes.
     const srcPath = img.src.substring(auth.realm.length);
-    if (!(srcPath.startsWith('/user_uploads/') || srcPath.startsWith('/thumbnail?'))) {
+    if (
+      !(
+        srcPath.startsWith('/user_uploads/')
+        || srcPath.startsWith('/thumbnail?')
+        || srcPath.startsWith('/avatar/')
+      )
+    ) {
       return;
     }
 
