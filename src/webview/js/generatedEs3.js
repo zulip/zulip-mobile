@@ -277,8 +277,7 @@ documentBody.addEventListener('click', function (e) {
 
   var target = e.target;
 
-
-  if (!(target instanceof HTMLElement)) {
+  if (!(target instanceof HTMLElement || target instanceof SVGElement)) {
     return;
   }
 
