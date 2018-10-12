@@ -9,9 +9,16 @@ import { playMessageSound } from '../utils/sound';
 export default (state: GlobalState, event: Object) => {
   switch (event.type) {
     case 'message': {
+      // move `flags` key from `event` to `event.message` for consistency
+      if (event.flags && !event.message.flags) {
+        event.message.flags = event.flags;
+        delete event.flags;
+      }
+
       const isActive = getIsActive(state);
       const isPrivateMessage = Array.isArray(event.message.display_recipient);
-      if (!isActive || (!isPrivateMessage && event.flags.indexOf('mentioned') === -1)) {
+      const isMentioned = event.message.flags && event.message.flags.includes('mentioned');
+      if (!isActive || !(isPrivateMessage || isMentioned)) {
         break;
       }
 
