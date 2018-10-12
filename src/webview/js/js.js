@@ -357,8 +357,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
 
   const { target } = e;
 
-  // $FlowFixMe - Flow doesn't have the SVGElement type declaration yet
-  if (!(target instanceof HTMLElement || target instanceof SVGElement)) {
+  if (!(target instanceof Element)) {
     return;
   }
 
