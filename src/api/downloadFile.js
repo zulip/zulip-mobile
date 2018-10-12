@@ -16,7 +16,7 @@ export default (src: string, auth: Auth) => {
       useDownloadManager: true,
       mime: 'text/plain', // Android DownloadManager fails if the url is missing a file extension
       title: src.split('/').pop(),
-      notification: false,
+      notification: true,
     },
   }).fetch('GET', getFullUrl(src, auth.realm), {
     'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
