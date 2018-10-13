@@ -52,6 +52,7 @@ export default ({ color, backgroundColor, borderColor }: Props) => ({
     backgroundColor,
     color,
     fontSize: 15,
+    maxHeight: 110,
     ...inputMarginPadding,
   },
   topicInput: {
