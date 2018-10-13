@@ -4,15 +4,15 @@ import { createSelector } from 'reselect';
 import type { Narrow } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { getSubscriptions } from '../directSelectors';
-import { getCurrentRoute } from '../nav/navSelectors';
+import { getCurrentRouteName } from '../nav/navSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { isStreamNarrow, isTopicNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
 export const getIsInTopicOrStreamNarrow = (narrow: Narrow) =>
   createSelector(
-    getCurrentRoute,
-    route => (route === 'chat' ? isStreamNarrow(narrow) || isTopicNarrow(narrow) : false),
+    getCurrentRouteName,
+    routeName => (routeName === 'chat' ? isStreamNarrow(narrow) || isTopicNarrow(narrow) : false),
   );
 
 export const getTitleBackgroundColor = (narrow: Narrow) =>
