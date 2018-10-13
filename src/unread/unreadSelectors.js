@@ -12,8 +12,8 @@ import {
   getUnreadHuddles,
   getUnreadMentions,
 } from '../directSelectors';
-import { getPrivateMessages } from '../baseSelectors';
 import { getOwnEmail } from '../account/accountsSelectors';
+import { getPrivateMessages } from '../message/messageSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { countUnread } from '../utils/unread';
 import { isTopicMuted } from '../utils/message';
