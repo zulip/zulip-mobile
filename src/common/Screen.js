@@ -43,7 +43,7 @@ type Props = {
   padding?: boolean,
   search?: boolean,
   title?: LocalizableText,
-  scrollableContent?: boolean,
+  scrollEnabled?: boolean,
   style?: Style,
   searchBarOnChange?: (text: string) => void,
 };
@@ -78,7 +78,7 @@ class Screen extends PureComponent<Props> {
     autoFocus: false,
     centerContent: false,
     keyboardShouldPersistTaps: 'handled',
-    scrollableContent: true,
+    scrollEnabled: true,
   };
 
   render() {
@@ -89,7 +89,7 @@ class Screen extends PureComponent<Props> {
       keyboardShouldPersistTaps,
       padding,
       safeAreaInsets,
-      scrollableContent,
+      scrollEnabled,
       search,
       searchBarOnChange,
       style,
@@ -112,7 +112,7 @@ class Screen extends PureComponent<Props> {
           style={[componentStyles.wrapper, padding && styles.padding]}
           contentContainerStyle={[padding && styles.padding]}
         >
-          {scrollableContent ? (
+          {scrollEnabled ? (
             <ScrollView
               contentContainerStyle={
                 /* $FlowFixMe wants ViewStyleProp */

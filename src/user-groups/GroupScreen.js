@@ -35,7 +35,7 @@ class GroupScreen extends PureComponent<Props, State> {
   render() {
     const { filter } = this.state;
     return (
-      <Screen search scrollableContent={false} searchBarOnChange={this.handleFilterChange}>
+      <Screen search scrollEnabled={false} searchBarOnChange={this.handleFilterChange}>
         <UserPickerCard filter={filter} onComplete={this.handleCreateGroup} />
       </Screen>
     );
