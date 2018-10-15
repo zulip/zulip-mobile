@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 
 import type { Dispatch } from '../types';
 import { Screen, ViewPlaceholder, ZulipButton } from '../common';
-import { navigateToAddNewAccount, navigateToWelcomeHelp } from '../actions';
+import { navigateToRealmScreen, navigateToWelcomeHelp } from '../actions';
 
 type Props = {
   dispatch: Dispatch,
@@ -21,7 +21,7 @@ class WelcomeScreen extends PureComponent<Props> {
         <ZulipButton
           text="I have a Zulip account"
           onPress={() => {
-            dispatch(navigateToAddNewAccount(''));
+            dispatch(navigateToRealmScreen(''));
           }}
         />
         <ViewPlaceholder height={20} />

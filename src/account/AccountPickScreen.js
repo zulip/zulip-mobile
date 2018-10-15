@@ -8,7 +8,7 @@ import type { Auth, Account, Dispatch, GlobalState } from '../types';
 import { getAuth, getAccounts } from '../selectors';
 import { Centerer, ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
-import { navigateToAddNewAccount, switchAccount, removeAccount } from '../actions';
+import { navigateToRealmScreen, switchAccount, removeAccount } from '../actions';
 
 const styles = StyleSheet.create({
   button: {
@@ -33,7 +33,7 @@ class AccountPickScreen extends PureComponent<Props> {
         dispatch(switchAccount(index));
       });
     } else {
-      dispatch(navigateToAddNewAccount(realm));
+      dispatch(navigateToRealmScreen(realm));
     }
   };
 
@@ -56,7 +56,7 @@ class AccountPickScreen extends PureComponent<Props> {
             text="Add new account"
             style={styles.button}
             onPress={() => {
-              dispatch(navigateToAddNewAccount(''));
+              dispatch(navigateToRealmScreen(''));
             }}
           />
         </Centerer>
