@@ -50,7 +50,7 @@ export const navigateToAccountDetails = (email: string): NavigateAction =>
 export const navigateToGroupDetails = (recipients: string[]): NavigateAction =>
   NavigationActions.navigate({ routeName: 'group-details', params: { recipients } });
 
-export const navigateToRealmScreen = (realm: string): NavigateAction =>
+export const navigateToRealmScreen = (realm?: string): NavigateAction =>
   NavigationActions.navigate({ routeName: 'realm', params: { realm } });
 
 export const navigateToLightbox = (src: string, message: Message): NavigateAction =>

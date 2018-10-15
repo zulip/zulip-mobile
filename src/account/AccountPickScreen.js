@@ -56,7 +56,7 @@ class AccountPickScreen extends PureComponent<Props> {
             text="Add new account"
             style={styles.button}
             onPress={() => {
-              dispatch(navigateToRealmScreen(''));
+              dispatch(navigateToRealmScreen());
             }}
           />
         </Centerer>
