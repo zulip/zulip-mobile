@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable } from '../common';
@@ -44,6 +44,7 @@ type Props = {|
   onSelect: (index: number) => void,
   onRemove: (index: number) => void,
   showDoneIcon: boolean,
+  showProgress: boolean,
 |};
 
 export default class AccountItem extends PureComponent<Props> {
@@ -52,7 +53,7 @@ export default class AccountItem extends PureComponent<Props> {
   handleRemove = () => this.props.onRemove(this.props.index);
 
   render() {
-    const { email, realm, showDoneIcon } = this.props;
+    const { email, realm, showDoneIcon, showProgress } = this.props;
 
     return (
       <Touchable style={styles.wrapper} onPress={this.handleSelect}>
@@ -61,7 +62,9 @@ export default class AccountItem extends PureComponent<Props> {
             <RawLabel style={styles.text} text={email} numberOfLines={1} />
             <RawLabel style={styles.text} text={realm} numberOfLines={1} />
           </View>
-          {!showDoneIcon ? (
+          {showProgress ? (
+            <ActivityIndicator style={styles.icon} color={BRAND_COLOR} />
+          ) : !showDoneIcon ? (
             <IconTrash style={styles.icon} size={24} color="crimson" onPress={this.handleRemove} />
           ) : (
             <IconDone style={styles.icon} size={24} color={BRAND_COLOR} />

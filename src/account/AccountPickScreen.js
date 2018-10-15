@@ -4,11 +4,18 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 
-import type { Auth, Account, Dispatch, GlobalState } from '../types';
+import { getServerSettings } from '../api';
+import type { ApiServerSettings, Auth, Account, Dispatch, GlobalState } from '../types';
 import { getAuth, getAccounts } from '../selectors';
 import { Centerer, ZulipButton, Logo, Screen } from '../common';
 import AccountList from './AccountList';
-import { navigateToRealmScreen, switchAccount, removeAccount } from '../actions';
+import {
+  navigateToAuth,
+  navigateToRealmScreen,
+  switchAccount,
+  removeAccount,
+  realmAdd,
+} from '../actions';
 
 const styles = StyleSheet.create({
   button: {
@@ -22,16 +29,39 @@ type Props = {|
   dispatch: Dispatch,
 |};
 
-class AccountPickScreen extends PureComponent<Props> {
+type State = {|
+  progress: number,
+|};
+
+class AccountPickScreen extends PureComponent<Props, State> {
+  state = {
+    progress: -1,
+  };
+
+  handleReLogin = async (index: number) => {
+    const { accounts, dispatch } = this.props;
+    const { realm } = accounts[index];
+    this.setState({ progress: index });
+    try {
+      const serverSettings: ApiServerSettings = await getServerSettings(realm);
+      dispatch(realmAdd(realm));
+      dispatch(navigateToAuth(serverSettings));
+    } catch (err) {
+      dispatch(navigateToRealmScreen(realm));
+    } finally {
+      this.setState({ progress: -1 });
+    }
+  };
+
   handleAccountSelect = (index: number) => {
     const { accounts, dispatch } = this.props;
-    const { realm, apiKey } = accounts[index];
+    const { apiKey } = accounts[index];
     if (apiKey) {
       setTimeout(() => {
         dispatch(switchAccount(index));
       });
     } else {
-      dispatch(navigateToRealmScreen(realm));
+      this.handleReLogin(index);
     }
   };
 
@@ -41,6 +71,7 @@ class AccountPickScreen extends PureComponent<Props> {
 
   render() {
     const { accounts, dispatch, auth } = this.props;
+    const { progress } = this.state;
 
     return (
       <Screen title="Pick account" centerContent padding>
@@ -51,6 +82,7 @@ class AccountPickScreen extends PureComponent<Props> {
             onAccountSelect={this.handleAccountSelect}
             onAccountRemove={this.handleAccountRemove}
             auth={auth}
+            progress={progress}
           />
           <ZulipButton
             text="Add new account"
