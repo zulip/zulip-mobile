@@ -112,20 +112,17 @@ class Screen extends PureComponent<Props> {
           style={[componentStyles.wrapper, padding && styles.padding]}
           contentContainerStyle={[padding && styles.padding]}
         >
-          {scrollEnabled ? (
-            <ScrollView
-              contentContainerStyle={
-                /* $FlowFixMe wants ViewStyleProp */
-                [centerContent && componentStyles.content, style]
-              }
-              style={componentStyles.childrenWrapper}
-              keyboardShouldPersistTaps={keyboardShouldPersistTaps}
-            >
-              {children}
-            </ScrollView>
-          ) : (
-            <View style={componentStyles.childrenWrapper}>{children}</View>
-          )}
+          <ScrollView
+            contentContainerStyle={
+              /* $FlowFixMe wants ViewStyleProp */
+              [centerContent && componentStyles.content, style]
+            }
+            style={componentStyles.childrenWrapper}
+            keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+            scrollEnabled={scrollEnabled}
+          >
+            {children}
+          </ScrollView>
         </KeyboardAvoider>
       </View>
     );
