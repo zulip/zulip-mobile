@@ -20,7 +20,6 @@ import {
   getCaughtUpForActiveNarrow,
   getFetchingForActiveNarrow,
   getPushToken,
-  getTopMostNarrow,
 } from '../selectors';
 import config from '../config';
 import {
@@ -148,29 +147,14 @@ export const initialFetchComplete = (): InitialFetchCompleteAction => ({
 export const fetchEssentialInitialData = () => async (dispatch: Dispatch, getState: GetState) => {
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
-  const halfCount = Math.trunc(config.messagesPerRequest / 2);
 
   timing.start('Essential server data');
-  // only fetch messages if chat screen is at the top of stack
-  // get narrow of top most chat screen in the stack
-  const narrow = getTopMostNarrow(getState());
-  if (narrow) {
-    dispatch(messageFetchStart(narrow, halfCount, halfCount));
-  }
-  const [initData, messages] = await Promise.all([
-    await tryUntilSuccessful(() =>
-      registerForEvents(auth, config.trackServerEvents, config.serverDataOnStartup),
-    ),
-    narrow
-      && (await tryUntilSuccessful(() => getMessages(auth, narrow, 0, halfCount, halfCount, true))),
-  ]);
-
+  const initData = await tryUntilSuccessful(() =>
+    registerForEvents(auth, config.trackServerEvents, config.serverDataOnStartup),
+  );
   timing.end('Essential server data');
 
   dispatch(realmInit(initData));
-  if (narrow && messages) {
-    dispatch(messageFetchComplete(messages, narrow, 0, halfCount, halfCount));
-  }
   dispatch(initialFetchComplete());
 
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
