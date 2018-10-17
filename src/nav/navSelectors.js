@@ -28,18 +28,6 @@ export const getChatScreenParams = createSelector(
   params => params || { narrow: undefined },
 );
 
-export const getTopMostNarrow = createSelector(getNav, nav => {
-  const { routes } = nav;
-  let { index } = nav;
-  while (index >= 0) {
-    if (routes[index].routeName === 'chat') {
-      return routes[index].params.narrow;
-    }
-    index--;
-  }
-  return undefined;
-});
-
 export const getCanGoBack = (state: GlobalState) => state.nav.index > 0;
 
 export const getSameRoutesCount = createSelector(getNav, nav => {
