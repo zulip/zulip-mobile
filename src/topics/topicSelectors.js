@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { MuteState, Narrow, StreamsState, StreamUnreadItem, TopicsState } from '../types';
 import { getMute, getStreams, getTopics, getUnreadStreams } from '../directSelectors';
-import { getShownMessagesForNarrow } from '../chat/narrowSelectors';
+import { getShownMessagesForNarrow } from '../chat/narrowsSelectors';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, topicNarrow } from '../utils/narrow';

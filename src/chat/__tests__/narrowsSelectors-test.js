@@ -7,7 +7,7 @@ import {
   getMessagesForNarrow,
   getStreamInNarrow,
   isNarrowValid,
-} from '../narrowSelectors';
+} from '../narrowsSelectors';
 import {
   HOME_NARROW,
   HOME_NARROW_STR,

@@ -3,7 +3,7 @@ export * from './account/accountsSelectors';
 export * from './baseSelectors';
 export * from './pm-conversations/pmConversationsSelectors';
 export * from './caughtup/caughtUpSelectors';
-export * from './chat/narrowSelectors';
+export * from './chat/narrowsSelectors';
 export * from './chat/fetchingSelectors';
 export * from './directSelectors';
 export * from './emoji/emojiSelectors';
