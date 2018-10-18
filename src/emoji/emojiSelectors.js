@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 import type { Selector, RealmEmojiState, RealmEmojiType } from '../types';
 import { getRawRealmEmoji } from '../directSelectors';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../account/accountsSelectors';
 import { getFullUrl } from '../utils/url';
 
 export const getAllRealmEmojiById: Selector<RealmEmojiState> = createSelector(

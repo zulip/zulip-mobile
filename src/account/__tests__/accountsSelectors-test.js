@@ -1,7 +1,7 @@
 /* @flow */
 import deepFreeze from 'deep-freeze';
 
-import { getAuth } from '../accountSelectors';
+import { getAuth } from '../accountsSelectors';
 import { NULL_ACCOUNT } from '../../nullObjects';
 
 test('getAuth returns an empty object when no accounts', () => {

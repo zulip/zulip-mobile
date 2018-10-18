@@ -18,7 +18,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
 } from '../actionConstants';
-import { getAuth } from '../account/accountSelectors';
+import { getAuth } from '../account/accountsSelectors';
 
 const initialState = getStateForRoute('loading') || NULL_NAV_STATE;
 

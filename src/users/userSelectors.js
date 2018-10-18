@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import { NULL_USER } from '../nullObjects';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
-import { getOwnEmail } from '../account/accountSelectors';
+import { getOwnEmail } from '../account/accountsSelectors';
 import { getUserByEmail } from './userHelpers';
 
 export const getSelfUserDetail = createSelector(getUsers, getOwnEmail, (users, ownEmail) =>
