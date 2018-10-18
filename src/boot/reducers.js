@@ -14,7 +14,7 @@ import drafts from '../drafts/draftsReducers';
 import fetching from '../chat/fetchingReducers';
 import flags from '../chat/flagsReducers';
 import loading from '../loading/loadingReducers';
-import narrows from '../chat/narrowReducers';
+import narrows from '../chat/narrowsReducers';
 import messages from '../message/messageReducers';
 import mute from '../mute/muteReducers';
 import nav from '../nav/navReducers';
