@@ -518,6 +518,13 @@ export type TimingItemType = {
   endMs: number,
 };
 
+export type ErrorLog = {
+  timestamp: number,
+  error: Error,
+  mesage: string,
+  isHandled: boolean,
+};
+
 export type UnreadTopic = {
   isMuted: boolean,
   key: string,

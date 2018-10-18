@@ -109,3 +109,6 @@ export const navigateToNotifications = (): NavigateAction =>
 
 export const navigateToLegal = (): NavigateAction =>
   NavigationActions.navigate({ routeName: 'legal' });
+
+export const navigateToErrorLog = (): NavigateAction =>
+  NavigationActions.navigate({ routeName: 'error' });

@@ -34,6 +34,7 @@ import WelcomeHelpScreen from '../start/WelcomeHelpScreen';
 import WelcomeScreen from '../start/WelcomeScreen';
 import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
+import ErrorLogScreen from '../diagnostics/ErrorLogScreen';
 
 export default StackNavigator(
   {
@@ -70,6 +71,7 @@ export default StackNavigator(
     'welcome-help': { screen: WelcomeHelpScreen },
     welcome: { screen: WelcomeScreen },
     legal: { screen: LegalScreen },
+    error: { screen: ErrorLogScreen },
   },
   {
     initialRouteName: 'main',

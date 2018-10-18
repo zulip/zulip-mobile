@@ -14,6 +14,7 @@ import AppWithNavigation from './nav/AppWithNavigation';
 
 import './i18n/locale';
 import './sentry';
+import './utils/logging';
 
 // $FlowFixMe
 console.disableYellowBox = true; // eslint-disable-line
