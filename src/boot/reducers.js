@@ -7,7 +7,7 @@ import { logSlowReducers } from '../utils/redux';
 import { NULL_OBJECT } from '../nullObjects';
 import type { MigrationsState } from '../types';
 
-import accounts from '../account/accountReducers';
+import accounts from '../account/accountsReducers';
 import alertWords from '../alertWords/alertWordsReducer';
 import caughtUp from '../caughtup/caughtUpReducers';
 import drafts from '../drafts/draftsReducers';
