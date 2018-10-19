@@ -277,10 +277,6 @@ class ComposeBox extends PureComponent<Props, State> {
       isSubscribed,
     } = this.props;
 
-    if (!canSend) {
-      return null;
-    }
-
     if (!isSubscribed) {
       return <NotSubscribed narrow={narrow} />;
     } else if (isAnnouncementOnly && !isAdmin) {
@@ -288,9 +284,13 @@ class ComposeBox extends PureComponent<Props, State> {
     }
 
     const placeholder = getComposeInputPlaceholder(narrow, auth.email, users);
+    const style = {
+      marginBottom: safeAreaInsets.bottom,
+      ...(canSend ? {} : { opacity: 0, position: 'absolute' }),
+    };
 
     return (
-      <View style={{ marginBottom: safeAreaInsets.bottom }}>
+      <View style={style}>
         <AutocompleteViewWrapper
           composeText={message}
           isTopicFocused={isTopicFocused}
