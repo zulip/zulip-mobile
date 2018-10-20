@@ -2,18 +2,16 @@
 
 import React, { PureComponent } from 'react';
 import type { Node as React$Node } from 'react';
-import { View, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { ThemeData } from '../styles';
 import styles, { createStyleSheet, ThemeContext } from '../styles';
-import type { Dimensions, LocalizableText, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import type { LocalizableText } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
 import LoadingBanner from './LoadingBanner';
 import ZulipStatusBar from './ZulipStatusBar';
-import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
 
@@ -37,10 +35,8 @@ const componentStyles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
   centerContent: boolean,
   +children: React$Node,
-  safeAreaInsets: Dimensions,
   keyboardShouldPersistTaps: 'never' | 'always' | 'handled',
   padding: boolean,
   scrollEnabled: boolean,
@@ -76,7 +72,7 @@ type Props = $ReadOnly<{|
  * @prop [title] - Text shown as the title of the screen.
  *                 Required unless `search` is true.
  */
-class Screen extends PureComponent<Props> {
+export default class Screen extends PureComponent<Props> {
   static contextType = ThemeContext;
   context: ThemeData;
 
@@ -103,7 +99,6 @@ class Screen extends PureComponent<Props> {
       children,
       keyboardShouldPersistTaps,
       padding,
-      safeAreaInsets,
       scrollEnabled,
       search,
       searchBarOnChange,
@@ -113,12 +108,8 @@ class Screen extends PureComponent<Props> {
     } = this.props;
 
     return (
-      <View
-        style={[
-          componentStyles.screen,
-          { backgroundColor: this.context.backgroundColor },
-          { paddingBottom: safeAreaInsets.bottom },
-        ]}
+      <SafeAreaView
+        style={[componentStyles.screen, { backgroundColor: this.context.backgroundColor }]}
       >
         <ZulipStatusBar />
         {search ? (
@@ -146,11 +137,7 @@ class Screen extends PureComponent<Props> {
             {children}
           </ScrollView>
         </KeyboardAvoider>
-      </View>
+      </SafeAreaView>
     );
   }
 }
-
-export default connect(state => ({
-  safeAreaInsets: getSession(state).safeAreaInsets,
-}))(Screen);
