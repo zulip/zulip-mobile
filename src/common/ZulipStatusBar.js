@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 import Color from 'color';
 
-import type { Dimensions, Narrow, Orientation, ThemeName, Dispatch } from '../types';
+import type { Narrow, Orientation, ThemeName, Dispatch } from '../types';
 import { connect } from '../react-redux';
 import { DEFAULT_TITLE_BACKGROUND_COLOR, getTitleBackgroundColor } from '../title/titleSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
@@ -25,7 +25,6 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
     : 'dark-content';
 
 type SelectorProps = $ReadOnly<{|
-  safeAreaInsets: Dimensions,
   theme: ThemeName,
   narrowTitleBackgroundColor: string,
   orientation: Orientation,
@@ -54,9 +53,9 @@ class ZulipStatusBar extends PureComponent<Props> {
   };
 
   render() {
-    const { theme, hidden, safeAreaInsets, orientation } = this.props;
+    const { theme, hidden, orientation } = this.props;
     const backgroundColor = this.props.backgroundColor ?? this.props.narrowTitleBackgroundColor;
-    const style = { height: hidden ? 0 : safeAreaInsets.top, backgroundColor };
+    const style = { backgroundColor };
     const statusBarColor = getStatusBarColor(backgroundColor, theme);
     return (
       orientation === 'PORTRAIT' && (
@@ -75,7 +74,6 @@ class ZulipStatusBar extends PureComponent<Props> {
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
-  safeAreaInsets: getSession(state).safeAreaInsets,
   theme: getSettings(state).theme,
   narrowTitleBackgroundColor: getTitleBackgroundColor(state, props.narrow),
   orientation: getSession(state).orientation,
