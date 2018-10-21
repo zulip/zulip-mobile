@@ -276,8 +276,6 @@ PODS:
     - React
   - react-native-safari-view (1.0.0):
     - React
-  - react-native-safe-area (0.4.4):
-    - React
   - react-native-safe-area-context (3.1.7):
     - React
   - react-native-simple-toast (1.0.0):
@@ -446,7 +444,6 @@ DEPENDENCIES:
   - react-native-notifications (from `../node_modules/react-native-notifications`)
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
   - react-native-safari-view (from `../node_modules/react-native-safari-view`)
-  - react-native-safe-area (from `../node_modules/react-native-safe-area`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -560,8 +557,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-photo-view"
   react-native-safari-view:
     :path: "../node_modules/react-native-safari-view"
-  react-native-safe-area:
-    :path: "../node_modules/react-native-safe-area"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-simple-toast:
@@ -677,7 +672,6 @@ SPEC CHECKSUMS:
   react-native-notifications: ce37363008fe2d6a226da4e721eace23b6ae3ad9
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-safari-view: 955d7160d159241b8e9395d12d10ea0ef863dcdd
-  react-native-safe-area: 5fce5242419932bc05656f31bc5f0716e30be0f6
   react-native-safe-area-context: 955ecfce672683b495d9294d2f154a9ad1d9796b
   react-native-simple-toast: 6c376bd79b1e255a4bee90a72ead6447f96ea10d
   react-native-webview: 598605cd213f5096e695f5b33fbee210a47e60ab
