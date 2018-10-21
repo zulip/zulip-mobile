@@ -13,7 +13,6 @@ import type {
   InputSelection,
   UserOrBot,
   Dispatch,
-  Dimensions,
   CaughtUp,
   GetText,
   Subscription,
@@ -43,7 +42,6 @@ import MentionWarnings from './MentionWarnings';
 import {
   getAuth,
   getIsAdmin,
-  getSession,
   getLastMessageTopic,
   getActiveUsersByEmail,
   getCaughtUpForNarrow,
@@ -63,7 +61,6 @@ type SelectorProps = {|
   auth: Auth,
   ownEmail: string,
   usersByEmail: Map<string, UserOrBot>,
-  safeAreaInsets: Dimensions,
   isAdmin: boolean,
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
@@ -423,7 +420,6 @@ class ComposeBox extends PureComponent<Props, State> {
       narrow,
       usersByEmail,
       editMessage,
-      safeAreaInsets,
       isAdmin,
       isAnnouncementOnly,
       isSubscribed,
@@ -442,7 +438,6 @@ class ComposeBox extends PureComponent<Props, State> {
 
     const placeholder = getComposeInputPlaceholder(narrow, ownEmail, usersByEmail);
     const style = {
-      paddingBottom: safeAreaInsets.bottom,
       backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
     };
 
@@ -520,7 +515,6 @@ export default connect<SelectorProps, _, _>((state, props) => ({
   auth: getAuth(state),
   ownEmail: getOwnEmail(state),
   usersByEmail: getActiveUsersByEmail(state),
-  safeAreaInsets: getSession(state).safeAreaInsets,
   isAdmin: getIsAdmin(state),
   isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
   isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
