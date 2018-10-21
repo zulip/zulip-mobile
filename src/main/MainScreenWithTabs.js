@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
 import type { Context } from '../types';
 import { OfflineNotice, ZulipStatusBar } from '../common';
@@ -18,11 +18,11 @@ export default class MainScreenWithTabs extends PureComponent<{}> {
     const { styles: contextStyles } = this.context;
 
     return (
-      <View style={[styles.flexed, contextStyles.backgroundColor]}>
+      <SafeAreaView style={[styles.flexed, contextStyles.backgroundColor]}>
         <ZulipStatusBar />
         <OfflineNotice />
         <MainTabs />
-      </View>
+      </SafeAreaView>
     );
   }
 }
