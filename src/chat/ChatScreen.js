@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
@@ -132,7 +132,9 @@ class ChatScreen extends PureComponent<Props, State> {
 
     return (
       <ActionSheetProvider>
-        <View style={[this.styles.screen, { backgroundColor: this.context.backgroundColor }]}>
+        <SafeAreaView
+          style={[this.styles.screen, { backgroundColor: this.context.backgroundColor }]}
+        >
           <KeyboardAvoider style={styles.flexed} behavior="padding">
             <ZulipStatusBar narrow={narrow} />
             <ChatNavBar narrow={narrow} editMessage={editMessage} />
@@ -161,7 +163,7 @@ class ChatScreen extends PureComponent<Props, State> {
               />
             )}
           </KeyboardAvoider>
-        </View>
+        </SafeAreaView>
       </ActionSheetProvider>
     );
   }
