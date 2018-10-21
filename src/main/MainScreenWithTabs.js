@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import type { NavigationScreenProp } from 'react-navigation';
 
 import type { ThemeData } from '../styles';
@@ -20,11 +20,11 @@ export default class MainScreenWithTabs extends PureComponent<Props> {
 
   render() {
     return (
-      <View style={[styles.flexed, { backgroundColor: this.context.backgroundColor }]}>
+      <SafeAreaView style={[styles.flexed, { backgroundColor: this.context.backgroundColor }]}>
         <ZulipStatusBar />
         <OfflineNotice />
         <MainTabs navigation={this.props.navigation} />
-      </View>
+      </SafeAreaView>
     );
   }
 }
