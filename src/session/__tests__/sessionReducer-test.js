@@ -99,12 +99,6 @@ describe('sessionReducer', () => {
     expect(newState).toEqual({ ...baseState, loading: true });
   });
 
-  test('INIT_SAFE_AREA_INSETS', () => {
-    const safeAreaInsets = { top: 1, bottom: 2, right: 3, left: 0 };
-    const action = deepFreeze({ type: INIT_SAFE_AREA_INSETS, safeAreaInsets });
-    expect(sessionReducer(baseState, action)).toEqual({ ...baseState, safeAreaInsets });
-  });
-
   test('APP_ORIENTATION', () => {
     const state = deepFreeze({ ...baseState, orientation: 'PORTRAIT' });
     const orientation = 'LANDSCAPE';
