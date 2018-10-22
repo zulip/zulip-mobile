@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { CONTROL_SIZE } from '../styles';
-import { Label } from '../common';
+import Label from './Label';
 
 const styles = StyleSheet.create({
   field: {

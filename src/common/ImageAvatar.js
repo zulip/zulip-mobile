@@ -4,7 +4,7 @@ import { ImageBackground, View } from 'react-native';
 
 import type { ChildrenArray } from '../types';
 import { nullFunction } from '../nullObjects';
-import { Touchable } from './';
+import Touchable from './Touchable';
 
 type Props = {
   avatarUrl: string,

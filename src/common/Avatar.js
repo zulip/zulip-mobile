@@ -11,7 +11,7 @@ import ImageAvatar from './ImageAvatar';
 import TextAvatar from './TextAvatar';
 import { getFullUrl } from '../utils/url';
 import { getGravatarFromEmail } from '../utils/avatar';
-import UserStatusIndicator from '../common/UserStatusIndicator';
+import UserStatusIndicator from './UserStatusIndicator';
 
 const componentStyles = StyleSheet.create({
   status: {

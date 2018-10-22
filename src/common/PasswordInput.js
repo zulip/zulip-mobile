@@ -5,7 +5,8 @@ import { View, TextInput, StyleSheet } from 'react-native';
 import type { Context, LocalizableText, Style } from '../types';
 import Input from './Input';
 import { BRAND_COLOR } from '../styles';
-import { Label, Touchable } from '../common';
+import Label from './Label';
+import Touchable from './Touchable';
 
 const componentStyles = StyleSheet.create({
   passwordInput: {

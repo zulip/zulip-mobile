@@ -7,7 +7,7 @@ import type { ChildrenArray } from 'react';
 
 import type { Dispatch, Context, GlobalState, LocalizableText, Style } from '../types';
 import { NAVBAR_SIZE } from '../styles';
-import { Label } from '../common';
+import Label from '../common/Label';
 import { getCanGoBack } from '../selectors';
 import NavButton from './NavButton';
 import { navigateBack } from '../actions';

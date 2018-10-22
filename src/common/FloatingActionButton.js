@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import type { Style } from '../types';
 import { BRAND_COLOR } from '../styles';
-import { Touchable } from '../common';
+import Touchable from './Touchable';
 
 const styles = StyleSheet.create({
   wrapper: {

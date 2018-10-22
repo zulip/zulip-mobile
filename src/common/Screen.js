@@ -12,7 +12,9 @@ import type {
   LocalizableText,
   Style,
 } from '../types';
-import { KeyboardAvoider, OfflineNotice, ZulipStatusBar } from '../common';
+import KeyboardAvoider from './KeyboardAvoider';
+import OfflineNotice from './OfflineNotice';
+import ZulipStatusBar from './ZulipStatusBar';
 import { getSession } from '../selectors';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';

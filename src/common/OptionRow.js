@@ -3,7 +3,8 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Context, Style } from '../types';
-import { Label, ZulipSwitch } from '../common';
+import Label from './Label';
+import ZulipSwitch from './ZulipSwitch';
 
 type Props = {
   Icon?: Object,

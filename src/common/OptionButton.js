@@ -3,8 +3,9 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import type { Context } from '../types';
-import { Label, Touchable } from '../common';
-import { IconRight } from '../common/Icons';
+import Label from './Label';
+import Touchable from './Touchable';
+import { IconRight } from './Icons';
 
 type Props = {
   Icon?: Object,

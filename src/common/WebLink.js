@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
 
 import type { Context, GlobalState } from '../types';
-import { Touchable, Label } from '../common';
+import Touchable from './Touchable';
+import Label from './Label';
 import { getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { getCurrentRealm } from '../selectors';

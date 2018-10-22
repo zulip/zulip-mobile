@@ -2,7 +2,8 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { ZulipButton, Label } from './';
+import Label from './Label';
+import ZulipButton from './ZulipButton';
 import { nullFunction } from '../nullObjects';
 
 const styles = StyleSheet.create({
