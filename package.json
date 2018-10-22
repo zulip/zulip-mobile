@@ -4,9 +4,6 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
-    "build:android": "cd android && ./gradlew assembleRelease",
-    "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
-    "reinstall": "rm -rf node_modules; yarn cache clean; yarn install",
     "ios": "react-native run-ios",
     "ios-min": "react-native run-ios --simulator 'iPhone 5s'",
     "ios-mid": "react-native run-ios --simulator 'iPhone 8 Plus'",
@@ -15,19 +12,27 @@
     "ios-device": "react-native run-ios --device",
     "android": "react-native run-android",
     "android-release": "react-native run-android --variant=release",
-    "generate-webview-js": "node tools/generate-webview-js",
-    "prettier": "prettier --write --loglevel=warn 'src/**/*.js' ; eslint --no-eslintrc -c tools/formatting.eslintrc.yaml --fix src/",
-    "test:prettier": "prettier-eslint --list-different --eslint-config-path ./tools/formatting.eslintrc.yaml 'src/**/*.js'",
+
+    "build:android": "cd android && ./gradlew assembleRelease",
+    "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
+    "build:ios-release": "detox build --configuration ios.sim.release",
+
+    "test": "yarn run test:lint && yarn run jest && yarn run test:flow",
+    "test:full": "yarn run test:flow && yarn run test:lint && yarn run test:coveralls && yarn run test:prettier",
+
     "test:lint": "eslint --max-warnings=0 src/",
     "test:flow": "flow",
-    "test:flow-todo": "eslint --no-eslintrc -c tools/flow-todo.eslintrc.yaml src/",
+    "test:prettier": "prettier-eslint --list-different --eslint-config-path ./tools/formatting.eslintrc.yaml 'src/**/*.js'",
+    "prettier": "prettier --write --loglevel=warn 'src/**/*.js' ; eslint --no-eslintrc -c tools/formatting.eslintrc.yaml --fix src/",
     "test:flow-coverage": "flow-coverage-report -i 'src/**/*.js' -x '**/__tests__/**' -t html",
+    "test:flow-todo": "eslint --no-eslintrc -c tools/flow-todo.eslintrc.yaml src/",
+
     "test:unit": "jest src/ --maxWorkers=2",
-    "test:e2e": "detox test --configuration ios.sim.release --cleanup",
     "test:coveralls": "jest --maxWorkers=2 --coverage && cat ./coverage/lcov.info | coveralls",
-    "test:full": "yarn run test:flow && yarn run test:lint && yarn run test:coveralls && yarn run test:prettier",
-    "test": "yarn run test:lint && yarn run jest && yarn run test:flow",
-    "build:ios-release": "detox build --configuration ios.sim.release",
+    "test:e2e": "detox test --configuration ios.sim.release --cleanup",
+
+    "generate-webview-js": "node tools/generate-webview-js",
+    "reinstall": "rm -rf node_modules; yarn cache clean; yarn install",
     "update-snapshots": "yarn run test:unit -- -u"
   },
   "dependencies": {
