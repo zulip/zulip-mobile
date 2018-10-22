@@ -42,7 +42,7 @@ type Props = {
 class AppEventHandlers extends PureComponent<Props> {
   props: Props;
 
-  handleOrientationChange = orientation => {
+  handleOrientationChange = (orientation: string) => {
     const { dispatch } = this.props;
     dispatch(appOrientation(orientation));
   };
@@ -84,6 +84,7 @@ class AppEventHandlers extends PureComponent<Props> {
     SafeArea.getSafeAreaInsetsForRootView().then(params =>
       dispatch(initSafeAreaInsets(params.safeAreaInsets)),
     );
+    // $FlowFixMe: libdef wrongly says callback's parameter is optional
     Orientation.addOrientationListener(this.handleOrientationChange);
     addNotificationListener(this.handleNotificationOpen);
   }
@@ -92,6 +93,7 @@ class AppEventHandlers extends PureComponent<Props> {
     NetInfo.removeEventListener('connectionChange', this.handleConnectivityChange);
     AppState.removeEventListener('change', this.handleAppStateChange);
     AppState.removeEventListener('memoryWarning', this.handleMemoryWarning);
+    // $FlowFixMe: libdef wrongly says callback's parameter is optional
     Orientation.removeOrientationListener(this.handleOrientationChange);
     removeNotificationListener(this.handleNotificationOpen);
   }
