@@ -3,7 +3,7 @@ import { batchActions } from 'redux-batched-actions';
 
 import type { EventAction, Dispatch, GetState, GlobalState } from '../types';
 import { pollForEvents } from '../api';
-import { appRefresh } from '../actions';
+import { appRefresh } from '../session/sessionActions';
 import eventToAction from './eventToAction';
 import eventMiddleware from './eventMiddleware';
 import { getAuth } from '../selectors';
