@@ -1,5 +1,5 @@
-// flow-typed signature: 5f6b80ba0fa4571aac1e7ea6e5fea425
-// flow-typed version: f4a7859cd3/jest_v22.x.x/flow_>=v0.39.x
+// flow-typed signature: 27b6ff5cf910473843da0caf82e362fe
+// flow-typed version: a3709d51ed/jest_v22.x.x/flow_>=v0.39.x
 
 type JestMockFn<TArguments: $ReadOnlyArray<*>, TReturn> = {
   (...args: TArguments): TReturn,
@@ -597,7 +597,7 @@ type JestExpectType = {
   /**
    *
    */
-  toHaveProperty(propPath: string, value?: any): void,
+  toHaveProperty(propPath: string | Array<string>, value?: any): void,
   /**
    * Use .toMatch to check that a string matches a regular expression or string.
    */
