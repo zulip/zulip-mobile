@@ -5,7 +5,7 @@ import type { Message, PmConversationData } from '../types';
 import { getPrivateMessages } from '../baseSelectors';
 import { getOwnEmail } from '../account/accountSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
-import { normalizeRecipientsSansMe, getRecipientsIds } from '../utils/message';
+import { normalizeRecipientsSansMe, getRecipientsIds } from '../utils/recipient';
 
 export const getRecentConversations = createSelector(
   getOwnEmail,

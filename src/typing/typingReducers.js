@@ -15,7 +15,7 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
 } from '../actionConstants';
-import { normalizeRecipientsSansMe } from '../utils/message';
+import { normalizeRecipientsSansMe } from '../utils/recipient';
 import { NULL_OBJECT } from '../nullObjects';
 
 const initialState: TypingState = NULL_OBJECT;

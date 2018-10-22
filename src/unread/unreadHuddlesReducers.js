@@ -16,7 +16,7 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
   MARK_MESSAGES_READ,
 } from '../actionConstants';
-import { getRecipientsIds } from '../utils/message';
+import { getRecipientsIds } from '../utils/recipient';
 import { addItemsToHuddleArray, removeItemsDeeply } from './unreadHelpers';
 import { NULL_ARRAY } from '../nullObjects';
 

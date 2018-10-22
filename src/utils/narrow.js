@@ -3,7 +3,7 @@ import isEqual from 'lodash.isequal';
 import unescape from 'lodash.unescape';
 
 import type { Narrow, Message } from '../types';
-import { normalizeRecipients } from './message';
+import { normalizeRecipients } from './recipient';
 
 export const isSameNarrow = (narrow1: Narrow, narrow2: Narrow): boolean =>
   Array.isArray(narrow1) && Array.isArray(narrow2) && isEqual(narrow1, narrow2);
