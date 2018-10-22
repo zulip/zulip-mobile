@@ -32,6 +32,7 @@
     "test:e2e": "detox test --configuration ios.sim.release --cleanup",
 
     "generate-webview-js": "node tools/generate-webview-js",
+    "update-libdefs": "yarn install && rm -rf flow-typed/ && flow-typed update",
     "reinstall": "rm -rf node_modules; yarn cache clean; yarn install",
     "update-snapshots": "yarn run test:unit -- -u"
   },
