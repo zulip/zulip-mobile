@@ -1,7 +1,7 @@
 /* eslint-env node */
 
 const fs = require('fs');
-const babel = require('babel-core');
+const babel = require('@babel/core');
 
 const sourceFilename = 'src/webview/js/js.js';
 const outputFilename = 'src/webview/js/generatedEs3.js';
