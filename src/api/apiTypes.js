@@ -45,6 +45,13 @@ export type MessageEdit = {
  * complex; this is naturally a place where a large fraction of all the
  * features of Zulip have to appear.
  *
+ * Major appearances of this type include
+ *  * `message: Message` on a server event of type `message`, and our
+ *    `EVENT_NEW_MESSAGE` Redux action for the event;
+ *  * `messages: Message[]` in a `/messages` (our `getMessages`) response,
+ *    and our resulting `MESSAGE_FETCH_COMPLETE` Redux action;
+ *  * `messages: { [id]: Message }` in our global Redux state.
+ *
  * References include:
  *  * the two example events at https://zulipchat.com/api/get-events-from-queue
  *  * `process_message_event` in zerver/tornado/event_queue.py; the call
@@ -65,8 +72,8 @@ export type Message = {
   isOutbox: false,
 
   /**
-   * These don't appear in `message` events, but they appear in GET
-   * requests for messages in a narrow when a search is involved.
+   * These don't appear in `message` events, but they appear in a `/message`
+   * response when a search is involved.
    */
   match_content?: string,
   match_subject?: string,
@@ -76,13 +83,13 @@ export type Message = {
 
   /**
    * The `flags` story is a bit complicated:
-   *  * Absent in the `message` property of a `message` event... but instead
-   *    (confusingly) a `.flags` appears directly on the event.
-   *  * Present in the `EVENT_NEW_MESSAGE` Redux action for such an event.
-   *  * Present in the server's response to a `/messages` request (our
-   *    `getMessages`), and our `MESSAGE_FETCH_COMPLETE` action.
-   *  * Absent in the `messages` subtree of the Redux state; we move the
-   *    information to the separate `flags` subtree.
+   *  * Absent in `event.message` for a `message` event... but instead
+   *    (confusingly) there is an `event.flags`.
+   *  * Present under `EVENT_NEW_MESSAGE`.
+   *  * Present under `MESSAGE_FETCH_COMPLETE`, and in the server `/message`
+   *    response that action is based on.
+   *  * Absent in the Redux `state.messages`; we move the information to a
+   *    separate subtree `state.flags`.
    */
   flags?: string[],
 
