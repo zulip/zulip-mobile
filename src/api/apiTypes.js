@@ -75,9 +75,14 @@ export type Message = {
   sender_domain: string,
 
   /**
-   * This is (always?) present in a `message` event; but we leave it out of
-   * the `messages` subtree of the Redux state, moving the information to
-   * the separate `flags` subtree.
+   * The `flags` story is a bit complicated:
+   *  * Absent in the `message` property of a `message` event... but instead
+   *    (confusingly) a `.flags` appears directly on the event.
+   *  * Present in the `EVENT_NEW_MESSAGE` Redux action for such an event.
+   *  * Present in the server's response to a `/messages` request (our
+   *    `getMessages`), and our `MESSAGE_FETCH_COMPLETE` action.
+   *  * Absent in the `messages` subtree of the Redux state; we move the
+   *    information to the separate `flags` subtree.
    */
   flags?: string[],
 
