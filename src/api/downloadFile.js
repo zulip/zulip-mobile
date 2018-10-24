@@ -7,8 +7,10 @@ import { getAuthHeader, getFullUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 
 export default (src: string, auth: Auth) => {
+  const fullUrlWithAPIKey = `${getFullUrl(src, auth.realm)}?api_key=${auth.apiKey}`;
+
   if (Platform.OS === 'ios') {
-    return CameraRoll.saveToCameraRoll(getFullUrl(src, auth.realm));
+    return CameraRoll.saveToCameraRoll(fullUrlWithAPIKey);
   }
   return RNFetchBlob.config({
     addAndroidDownloads: {
