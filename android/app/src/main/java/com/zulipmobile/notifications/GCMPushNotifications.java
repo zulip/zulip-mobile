@@ -100,8 +100,13 @@ public class GCMPushNotifications extends PushNotification {
 
     @Override
     protected Notification.Builder getNotificationBuilder(PendingIntent intent) {
-        // First, get a builder initialized with defaults from the core class.
-        final Notification.Builder builder = super.getNotificationBuilder(intent);
+        final Notification.Builder builder = new Notification.Builder(mContext)
+                .setContentTitle(mNotificationProps.getTitle())
+                .setContentText(mNotificationProps.getBody())
+                .setSmallIcon(mContext.getApplicationInfo().icon)
+                .setContentIntent(intent)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setAutoCancel(true);
 
         String type = getProps().getRecipientType();
         String content = getProps().getContent();
