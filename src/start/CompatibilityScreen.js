@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Platform } from 'react-native';
 
 import { Logo } from '../common';
 import { BRAND_COLOR } from '../styles';
@@ -25,7 +25,10 @@ export default class CompatibilityScreen extends PureComponent<{}> {
       <View style={styles.screen}>
         <Logo />
         <Text style={styles.text}>This app is too old!</Text>
-        <Text style={styles.text}>Please download the latest version from the App Store.</Text>
+        <Text style={styles.text}>
+          Please download the latest version from the{' '}
+          {Platform.OS === 'ios' ? 'App Store' : 'Play Store'}.
+        </Text>
       </View>
     );
   }
