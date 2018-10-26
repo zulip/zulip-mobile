@@ -1,9 +1,10 @@
 /* @flow */
 import template from './template';
-import type { FlagsState, Reaction, RealmEmojiState } from '../../types';
+import type { AlertWordsState, FlagsState, Reaction, RealmEmojiState } from '../../types';
 import { shortTime } from '../../utils/date';
 import messageTagsAsHtml from './messageTagsAsHtml';
 import messageReactionListAsHtml from './messageReactionListAsHtml';
+import processAlertWords from './processAlertWords';
 
 export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
   Object.keys(flags).filter(key => flags[key][id]);
@@ -38,6 +39,7 @@ const messageSubheader = ({
 `;
 
 type BriefMessageProps = {
+  alertWords: AlertWordsState,
   content: string,
   flags: FlagsState,
   id: number,
@@ -61,6 +63,7 @@ type Props = FullMessageProps & {
 };
 
 const messageBody = ({
+  alertWords,
   content,
   flags,
   id,
@@ -70,6 +73,7 @@ const messageBody = ({
   realmEmoji,
   timeEdited,
 }: {
+  alertWords: AlertWordsState,
   content: string,
   flags: FlagsState,
   id: number,
@@ -79,13 +83,14 @@ const messageBody = ({
   realmEmoji: RealmEmojiState,
   timeEdited: ?number,
 }) => template`
-$!${content}
+$!${processAlertWords({ id, content, alertWords, flags })}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], timeEdited)}
 $!${messageReactionListAsHtml(reactions, id, ownEmail, realmEmoji)}
 `;
 
 const briefMessageAsHtml = ({
+  alertWords,
   content,
   flags,
   id,
@@ -97,12 +102,23 @@ const briefMessageAsHtml = ({
 }: BriefMessageProps) => template`
 $!${messageDiv(id, 'message-brief', flags)}
   <div class="content">
-    $!${messageBody({ content, flags, id, isOutbox, ownEmail, reactions, realmEmoji, timeEdited })}
+    $!${messageBody({
+      alertWords,
+      content,
+      flags,
+      id,
+      isOutbox,
+      ownEmail,
+      reactions,
+      realmEmoji,
+      timeEdited,
+    })}
   </div>
 </div>
 `;
 
 const fullMessageAsHtml = ({
+  alertWords,
   id,
   content,
   flags,
@@ -123,7 +139,17 @@ $!${messageDiv(id, 'message-full', flags)}
   </div>
   <div class="content">
     $!${messageSubheader({ fromName, timestamp, twentyFourHourTime })}
-    $!${messageBody({ content, flags, id, isOutbox, ownEmail, reactions, realmEmoji, timeEdited })}
+    $!${messageBody({
+      alertWords,
+      content,
+      flags,
+      id,
+      isOutbox,
+      ownEmail,
+      reactions,
+      realmEmoji,
+      timeEdited,
+    })}
   </div>
 </div>
 `;

@@ -56,15 +56,17 @@ describe('getInputMessages', () => {
 
   test('when the rendered messages differ (even deeply) a "content" message is returned', () => {
     const prevProps = {
+      alertWords: {},
       auth: { realm: '' },
       messages: [],
-      flags: { starred: {} },
+      flags: { starred: {}, has_alert_word: {} },
       renderedMessages: [{ key: 0, data: [], message: {} }],
     };
     const nextProps = {
+      alertWords: {},
       auth: { realm: '' },
       messages: [],
-      flags: { starred: {} },
+      flags: { starred: {}, has_alert_word: {} },
       renderedMessages: [
         {
           key: 0,
@@ -101,19 +103,21 @@ describe('getInputMessages', () => {
 
   test('when there are several diffs but messages differ too return only a single "content" message', () => {
     const prevProps = {
+      alertWords: {},
       auth: { realm: '' },
       fetching: { older: false, newer: false },
       typingUsers: [],
       messages: [],
       renderedMessages: [{ key: 0, data: [], message: {} }],
-      flags: { starred: {} },
+      flags: { starred: {}, has_alert_word: {} },
     };
     const nextProps = {
+      alertWords: {},
       auth: { realm: '' },
       fetching: { older: false, newer: true },
       typingUsers: [{ id: 10 }],
       messages: [],
-      flags: { starred: {} },
+      flags: { starred: {}, has_alert_word: {} },
       renderedMessages: [
         {
           key: 0,

@@ -5,6 +5,7 @@ import React, { PureComponent } from 'react';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 import type {
+  AlertWordsState,
   Auth,
   Context,
   Debug,
@@ -52,6 +53,7 @@ export type OuterProps = {
 // TODO get a type for `connectActionSheet` so this gets fully type-checked.
 export type Props = {
   // From caller and/or `connect`.
+  alertWords: AlertWordsState,
   anchor: number,
   auth: Auth,
   debug: Debug,
@@ -128,6 +130,7 @@ class MessageList extends PureComponent<Props> {
 }
 
 export default connect((state: GlobalState, props: OuterProps) => ({
+  alertWords: state.alertWords,
   anchor: props.anchor || getAnchorForActiveNarrow(props.narrow)(state),
   auth: getAuth(state),
   debug: getDebug(state),

@@ -7,6 +7,7 @@ import timeRowAsHtml from './timeRowAsHtml';
 import { getGravatarFromEmail } from '../../utils/avatar';
 
 export default ({
+  alertWords,
   auth,
   subscriptions,
   realmEmoji,
@@ -47,6 +48,7 @@ export default ({
               ownEmail: auth.email,
               realmEmoji,
               twentyFourHourTime,
+              alertWords,
             }),
           );
         }
