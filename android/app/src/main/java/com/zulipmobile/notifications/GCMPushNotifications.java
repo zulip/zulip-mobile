@@ -123,14 +123,15 @@ public class GCMPushNotifications extends PushNotification {
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true);
 
-        String type = getProps().getRecipientType();
-        String content = getProps().getContent();
-        String senderFullName = getProps().getSenderFullName();
-        String avatarURL = getProps().getAvatarURL();
-        String time = getProps().getTime();
-        String stream = getProps().getStream();
-        String topic = getProps().getTopic();
-        String baseURL = getProps().getBaseURL();
+        final PushNotificationsProp props = getProps();
+        String type = props.getRecipientType();
+        String content = props.getContent();
+        String senderFullName = props.getSenderFullName();
+        String avatarURL = props.getAvatarURL();
+        String time = props.getTime();
+        String stream = props.getStream();
+        String topic = props.getTopic();
+        String baseURL = props.getBaseURL();
         int totalMessagesCount = extractTotalMessagesCount(conversations);
 
         if (BuildConfig.DEBUG) {
@@ -180,12 +181,11 @@ public class GCMPushNotifications extends PushNotification {
         }
 
         if (time != null) {
-            long timStamp = Long.parseLong(getProps().getTime()) * 1000;
-            builder.setWhen(timStamp);
+            long timeMillis = Long.parseLong(time) * 1000;
+            builder.setWhen(timeMillis);
         }
         long[] vPattern = {0, 100, 200, 100};
         builder.setVibrate(vPattern);
-
 
         /**
          * Ideally, actions are sent using dismissIntent.setAction(String),
