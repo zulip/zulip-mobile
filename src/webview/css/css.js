@@ -65,6 +65,9 @@ hr {
   border: 0;
   border-top: 1px solid rgba(127, 127, 127, 0.5);
 }
+.alert-word {
+  background-color: rgba(108,239,52,.5);
+}
 .highlight {
   background-color: hsl(51, 94%, 74%);
 }

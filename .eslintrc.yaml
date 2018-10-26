@@ -126,7 +126,7 @@ rules:
       avoider, octicons, centerer, ldap, gravatar, identicon, blueimp, filename, wildcards,
       jpeg, jpg, tif, mov, notif, diag, bmp, viewport, scalable, polyfill, rect, touchstart,
       touchend, touchmove, remoteuser, sso, submessages, nbsp, args, px, na, heic,
-      unstarred, gooooooooal, dogi]
+      unstarred, gooooooooal, dogi, ig]
 overrides:
   - files:
       - generatedEs3.js
