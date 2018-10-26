@@ -116,10 +116,7 @@ public class GCMPushNotifications extends PushNotification {
                 new Notification.Builder(mContext, CHANNEL_ID)
                 : new Notification.Builder(mContext);
 
-        builder.setContentTitle(mNotificationProps.getTitle())
-                .setContentText(mNotificationProps.getBody())
-                .setSmallIcon(mContext.getApplicationInfo().icon)
-                .setContentIntent(intent)
+        builder.setContentIntent(intent)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true);
 
@@ -139,8 +136,6 @@ public class GCMPushNotifications extends PushNotification {
         } else {
             builder.setSmallIcon(R.drawable.zulip_notification);
         }
-        builder.setAutoCancel(true);
-        builder.setContentText(content);
 
         if (conversations.size() == 1) {
             //Only one 1 notification therefore no using of big view styles
@@ -149,6 +144,7 @@ public class GCMPushNotifications extends PushNotification {
             } else {
                 builder.setContentTitle(senderFullName);
             }
+            builder.setContentText(content);
             if (type.equals("stream")) {
                 if (Build.VERSION.SDK_INT >= 16) {
                     String displayTopic = stream + " > "
