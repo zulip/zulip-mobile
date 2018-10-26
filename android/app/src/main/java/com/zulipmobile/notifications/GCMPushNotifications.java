@@ -1,6 +1,8 @@
 package com.zulipmobile.notifications;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +40,7 @@ import static com.zulipmobile.notifications.NotificationHelper.TAG;
 
 public class GCMPushNotifications extends PushNotification {
 
+    public static final String CHANNEL_ID = "default";
     public static final int NOTIFICATION_ID = 435;
     public static final String ACTION_NOTIFICATIONS_DISMISS = "ACTION_NOTIFICATIONS_DISMISS";
 
@@ -55,6 +58,16 @@ public class GCMPushNotifications extends PushNotification {
      * Same as {@link com.wix.reactnativenotifications.core.NotificationIntentAdapter#PUSH_NOTIFICATION_EXTRA_NAME}
      */
     private static final String PUSH_NOTIFICATION_EXTRA_NAME = "pushNotification";
+
+    public static void createNotificationChannel(Context context) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            CharSequence name = context.getString(R.string.notification_channel_name);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
     public GCMPushNotifications(Context context, Bundle bundle, AppLifecycleFacade appLifecycleFacade, AppLaunchHelper appLaunchHelper, JsIOHelper jsIoHelper, LinkedHashMap<String, List<MessageInfo>> conversations) {
         super(context, bundle, appLifecycleFacade, appLaunchHelper, jsIoHelper);
@@ -97,11 +110,13 @@ public class GCMPushNotifications extends PushNotification {
         }
     }
 
-
     @Override
     protected Notification.Builder getNotificationBuilder(PendingIntent intent) {
-        final Notification.Builder builder = new Notification.Builder(mContext)
-                .setContentTitle(mNotificationProps.getTitle())
+        final Notification.Builder builder = Build.VERSION.SDK_INT >= 26 ?
+                new Notification.Builder(mContext, CHANNEL_ID)
+                : new Notification.Builder(mContext);
+
+        builder.setContentTitle(mNotificationProps.getTitle())
                 .setContentText(mNotificationProps.getBody())
                 .setSmallIcon(mContext.getApplicationInfo().icon)
                 .setContentIntent(intent)

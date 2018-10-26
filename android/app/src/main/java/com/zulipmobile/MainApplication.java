@@ -75,6 +75,7 @@ public class MainApplication extends Application implements ReactApplication, IN
     @Override
     public void onCreate() {
         super.onCreate();
+        GCMPushNotifications.createNotificationChannel(this);
         SoLoader.init(this, /* native exopackage */ false);
         conversations = new LinkedHashMap<>();
     }
