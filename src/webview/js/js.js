@@ -4,6 +4,7 @@ import type {
   WebviewInputMessage,
   MessageInputContent,
   MessageInputFetching,
+  MessageInputReady,
   MessageInputTyping,
 } from '../webViewHandleUpdates';
 
@@ -327,7 +328,26 @@ const handleMessageTyping = (msg: MessageInputTyping) => {
   }
 };
 
+/*
+ * In response to a `ready` message send back another `ready` message and
+ * thus complete the handshake process.  When it is received by the other
+ * side both sides are ready.
+ *
+ * This webView communicates with react component (app) with the help of
+ * `postMessage`. It needs to be ensured that this communication channel is
+ * established successfully on both side, else it will cause issue like
+ * #3080. Two way hand shake mechanism is used for this purpose.
+ *
+ * Send a hello event as soon as hello event is reveived from React
+ * component to convey that webView is active.
+ *
+ */
+const handleMessageReady = (msg: MessageInputReady) => {
+  sendMessage({ type: 'ready' });
+};
+
 const messageHandlers = {
+  ready: handleMessageReady,
   content: handleMessageContent,
   fetching: handleMessageFetching,
   typing: handleMessageTyping,
@@ -491,18 +511,3 @@ documentBody.addEventListener('touchmove', (e: TouchEvent) => {
 documentBody.addEventListener('drag', (e: DragEvent) => {
   lastTouchEventTimestamp = 0;
 });
-
-/*
- *
- * Synchronizing setup with outside
- *
- */
-
-const waitForBridge = () => {
-  if (window.postMessage.length === 1) {
-    sendMessage({ type: 'ready' });
-  } else {
-    setTimeout(waitForBridge, 10);
-  }
-};
-waitForBridge();

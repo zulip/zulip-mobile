@@ -24,12 +24,20 @@ export type MessageInputFetching = {
   fetchingNewer: boolean,
 };
 
+export type MessageInputReady = {
+  type: 'ready',
+};
+
 export type MessageInputTyping = {
   type: 'typing',
   content: string,
 };
 
-export type WebviewInputMessage = MessageInputContent | MessageInputFetching | MessageInputTyping;
+export type WebviewInputMessage =
+  | MessageInputContent
+  | MessageInputFetching
+  | MessageInputReady
+  | MessageInputTyping;
 
 const updateContent = (prevProps: Props, nextProps: Props): MessageInputContent => {
   const content = htmlBody(renderMessagesAsHtml(nextProps), nextProps.showMessagePlaceholders);

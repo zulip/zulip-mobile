@@ -15,14 +15,35 @@ import { base64Utf8Encode } from '../utils/encoding';
 export default class MessageListWeb extends Component<Props> {
   context: Context;
   props: Props;
+  isWebViewReady: boolean;
   webview: ?Object;
-  isReady: boolean;
   unsentMessages: WebviewInputMessage[] = [];
 
   static contextTypes = {
     styles: () => null,
     theme: () => null,
   };
+
+  componentDidMount() {
+    /*
+     * Initiates a two-way handshake with the WebView. Ensures that both sides are
+     * ready to communicate before considering to be ready.
+     *
+     * This component communicates with webView with the help of `postMessage`.
+     * It needs to be ensured that this communication channel is established successfully
+     * on both side, else it will cause issue like #3080.
+     * Two way hand shake mechanism is used for this purpose.
+     *
+     * Send a hello event till a confirmation is reveived from webView.
+     */
+    const intervalId = setInterval(() => {
+      if (!this.isWebViewReady) {
+        this.sendMessages([{ type: 'ready' }]);
+      } else {
+        clearInterval(intervalId);
+      }
+    }, 30);
+  }
 
   handleError = (event: Object) => {
     console.error(event); // eslint-disable-line
@@ -37,7 +58,7 @@ export default class MessageListWeb extends Component<Props> {
   handleMessage = (event: { nativeEvent: { data: string } }) => {
     const eventData: MessageListEvent = JSON.parse(event.nativeEvent.data);
     if (eventData.type === 'ready') {
-      this.isReady = true;
+      this.isWebViewReady = true;
       this.sendMessages(this.unsentMessages);
     } else {
       const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
@@ -48,7 +69,7 @@ export default class MessageListWeb extends Component<Props> {
   shouldComponentUpdate = (nextProps: Props) => {
     const messages = getInputMessages(this.props, nextProps);
 
-    if (this.isReady) {
+    if (this.isWebViewReady) {
       this.sendMessages(messages);
     } else {
       this.unsentMessages.push(...messages);

@@ -254,7 +254,12 @@ var handleMessageTyping = function handleMessageTyping(msg) {
   }
 };
 
+var handleMessageReady = function handleMessageReady(msg) {
+  sendMessage({ type: 'ready' });
+};
+
 var messageHandlers = {
+  ready: handleMessageReady,
   content: handleMessageContent,
   fetching: handleMessageFetching,
   typing: handleMessageTyping
@@ -394,13 +399,4 @@ documentBody.addEventListener('touchmove', function (e) {
 documentBody.addEventListener('drag', function (e) {
   lastTouchEventTimestamp = 0;
 });
-
-var waitForBridge = function waitForBridge() {
-  if (window.postMessage.length === 1) {
-    sendMessage({ type: 'ready' });
-  } else {
-    setTimeout(waitForBridge, 10);
-  }
-};
-waitForBridge();
 `;
