@@ -55,9 +55,9 @@ the dev server, using a production build of the app -- that is, the Zulip
 app installed from the App Store or Play Store.
 
 A tip for testing Zulip's push notifications: simulate a private
-conversation between two users, and make sure that you don't have the Zulip
-app open while you're doing so.  For example, if you've logged in as `Iago`
-on your mobile device, log in as `Polonius` via a web browser, and send a PM
-from `Polonius` to `Iago`.
+conversation between two users, and make sure that notifications are toggled
+on in settings and that you don't have the Zulip app open while you're doing
+so. For example, if you've logged in as `Iago` on your mobile device, log in
+as `Polonius` via a web browser, and send a PM from `Polonius` to `Iago`.
 
 You should see a push notification appear on the mobile device!
