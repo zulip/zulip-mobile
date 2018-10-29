@@ -29,7 +29,14 @@ class ExtraNavButtonStream extends PureComponent<Props> {
   render() {
     const { color } = this.props;
 
-    return <NavButton name="list" color={color} onPress={this.handlePress} />;
+    return (
+      <NavButton
+        accessibilityLabel="Topic list"
+        name="list"
+        color={color}
+        onPress={this.handlePress}
+      />
+    );
   }
 }
 

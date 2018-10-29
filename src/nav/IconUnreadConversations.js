@@ -8,6 +8,7 @@ import type { GlobalState } from '../types';
 import { getUnreadPmsTotal, getUnreadHuddlesTotal } from '../selectors';
 import { IconPeople } from '../common/Icons';
 import { ComponentWithOverlay, UnreadCount } from '../common';
+import { textWithUnreadCount } from '../utils/accessibility';
 
 const styles = StyleSheet.create({
   button: {
@@ -27,9 +28,11 @@ class IconUnreadConversations extends PureComponent<Props> {
   render() {
     const { unreadHuddlesTotal, unreadPmsTotal, color } = this.props;
     const unreadCount = unreadHuddlesTotal + unreadPmsTotal;
+    const accessibilityLabel = textWithUnreadCount('Conversations', unreadCount);
 
     return (
       <ComponentWithOverlay
+        accessibilityLabel={accessibilityLabel}
         style={styles.button}
         overlaySize={15}
         showOverlay={unreadCount > 0}

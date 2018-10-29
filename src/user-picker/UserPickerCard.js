@@ -113,6 +113,7 @@ class UserPickerCard extends PureComponent<Props, State> {
         />
         <AnimatedScaleComponent style={styles.button} visible={selected.length > 0}>
           <FloatingActionButton
+            accessibilityLabel="Continue"
             Icon={IconDone}
             size={50}
             disabled={selected.length === 0}

@@ -343,6 +343,7 @@ class ComposeBox extends PureComponent<Props, State> {
           </View>
           <View style={styles.alignBottom}>
             <FloatingActionButton
+              accessibilityLabel="Send"
               style={styles.composeSendButton}
               Icon={editMessage === null ? IconSend : IconDone}
               size={32}

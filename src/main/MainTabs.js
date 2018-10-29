@@ -19,7 +19,7 @@ export default TabNavigator(
       navigationOptions: {
         tabBarLabel: 'Home',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
-          <IconHome size={24} color={props.tintColor} />
+          <IconHome accessibilityLabel="Unread" size={24} color={props.tintColor} />
         ),
       },
     },
@@ -28,7 +28,7 @@ export default TabNavigator(
       navigationOptions: {
         tabBarLabel: 'Streams',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
-          <IconStream size={24} color={props.tintColor} />
+          <IconStream accessibilityLabel="Streams" size={24} color={props.tintColor} />
         ),
       },
     },
@@ -46,7 +46,7 @@ export default TabNavigator(
       navigationOptions: {
         tabBarLabel: 'Settings',
         tabBarIcon: (props: TabNavigationOptionsPropsType) => (
-          <IconSettings size={24} color={props.tintColor} />
+          <IconSettings accessibilityLabel="Settings" size={24} color={props.tintColor} />
         ),
       },
     },

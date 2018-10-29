@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import type { Context } from '../types';
 import { BRAND_COLOR } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
+import { textWithUnreadCount } from '../utils/accessibility';
 
 const componentStyles = StyleSheet.create({
   selectedRow: {
@@ -53,9 +54,10 @@ export default class StreamItem extends PureComponent<Props> {
   render() {
     const { styles } = this.context;
     const { name, isMuted, isSelected, unreadCount } = this.props;
+    const accessibilityLabel = textWithUnreadCount(name, unreadCount);
 
     return (
-      <Touchable onPress={this.handlePress}>
+      <Touchable accessibilityLabel={accessibilityLabel} onPress={this.handlePress}>
         <View
           style={[
             styles.listItem,

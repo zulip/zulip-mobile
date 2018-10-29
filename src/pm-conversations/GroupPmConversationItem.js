@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import type { Context } from '../types';
 import { TextAvatar, RawLabel, Touchable, UnreadCount } from '../common';
+import { textWithUnreadCount } from '../utils/accessibility';
 
 const componentStyles = StyleSheet.create({
   text: {
@@ -49,8 +50,10 @@ export default class GroupPmConversationItem extends PureComponent<Props> {
 
     const allNames = allUsers.map(user => user.full_name).join(', ');
 
+    const accessibilityLabel = textWithUnreadCount(allNames, unreadCount);
+
     return (
-      <Touchable onPress={this.handlePress}>
+      <Touchable accessibilityLabel={accessibilityLabel} onPress={this.handlePress}>
         <View style={styles.listItem}>
           <TextAvatar size={32} name={allNames} />
           <RawLabel

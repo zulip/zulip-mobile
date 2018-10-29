@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  accessibilityLabel: string,
   style?: Style,
   disabled: boolean,
   size: number,
@@ -39,7 +40,7 @@ export default class FloatingActionButton extends PureComponent<Props> {
   props: Props;
 
   render() {
-    const { style, size, disabled, onPress, Icon } = this.props;
+    const { accessibilityLabel, style, size, disabled, onPress, Icon } = this.props;
     const iconSize = Math.trunc(size / 2);
     const customWrapperStyle = {
       width: size,
@@ -53,7 +54,7 @@ export default class FloatingActionButton extends PureComponent<Props> {
 
     return (
       <View style={[styles.wrapper, customWrapperStyle, style]}>
-        <Touchable onPress={disabled ? undefined : onPress}>
+        <Touchable accessibilityLabel={accessibilityLabel} onPress={disabled ? undefined : onPress}>
           <Icon style={iconStyle} size={iconSize} color="white" />
         </Touchable>
       </View>
