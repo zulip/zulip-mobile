@@ -322,6 +322,7 @@ export type EventStreamOccupyAction = ServerEvent & {
 export type EventNewMessageAction = ServerEvent & {
   type: typeof EVENT_NEW_MESSAGE,
   caughtUp: CaughtUpState,
+  flags: [string],
   local_message_id: ?number,
   message: Message,
   ownEmail: string,
