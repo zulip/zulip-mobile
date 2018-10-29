@@ -12,6 +12,18 @@ var arrayFrom = function arrayFrom(arrayLike) {
   return Array.prototype.slice.call(arrayLike);
 };
 
+if (!Element.prototype.closest) {
+  Element.prototype.closest = function closest(selector) {
+    var element = this;
+
+    while (element && !element.matches(selector)) {
+      element = element.parentElement;
+    }
+
+    return element;
+  };
+}
+
 var documentBody = document.body;
 
 if (!documentBody) {

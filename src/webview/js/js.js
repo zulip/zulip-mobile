@@ -43,6 +43,24 @@ import type {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice#Array-like_objects
 const arrayFrom = arrayLike => Array.prototype.slice.call(arrayLike);
 
+/*
+ * Polyfill Element#closest.
+ *
+ * This method appears natively in Mobile Safari 9 and Chrome 41.
+ *
+ * Uses Element#matches, which we have a separate polyfill for.
+ */
+if (!Element.prototype.closest) {
+  // $FlowFixMe closest is not writable... except it's absent here.
+  Element.prototype.closest = function closest(selector) {
+    let element = this;
+    while (element && !element.matches(selector)) {
+      element = element.parentElement;
+    }
+    return element;
+  };
+}
+
 // We pull out document.body in one place, and check it's not null, in order
 // to provide that assertion to the type-checker.
 const documentBody = document.body;
