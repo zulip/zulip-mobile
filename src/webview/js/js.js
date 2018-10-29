@@ -8,6 +8,32 @@ import type {
   MessageInputReady,
 } from '../webViewHandleUpdates';
 
+/*
+ * Supported platforms:
+ *
+ * * We support iOS 9.  So this code needs to work on Mobile Safari 9.
+ *   Graceful degradation is acceptable below iOS 10 / Mobile Safari 10.
+ *
+ * * On Android, core functionality needs to work on Chrome 44 (conveniently
+ *   available for testing in a stock Android 6.0 Marshmallow image.)
+ *   Graceful degradation is acceptable below Chrome 58 (ditto 8.0 Oreo.)
+ *   When aware of issues down to Chrome 30 (shipped with 4.4 KitKat), we
+ *   fix them if trivial, or else record in comments here.
+ *
+ *   * More details: Starting in Android 4.4 KitKat, which is our minimum
+ *     supported Android version, the browser in a WebView is updated as an
+ *     APK, independently of the OS... but empirically something like 10% of
+ *     users are stuck on older versions than the latest, though usually
+ *     still newer than their OS was released with.  These targets are based
+ *     on figures from 2018-10.
+ *
+ *   * To be explicit: although we support Android as old as 4.4 and 5.0,
+ *     the app *doesn't work correctly* on the Chrome versions (30 and 37)
+ *     that those Android releases originally shipped with.  That's OK
+ *     because it is rare for a user's Chrome version to still be that
+ *     ancient, even when their Android version is.
+ */
+
 /**
  * Convert an array-like object to an actual array.
  *
