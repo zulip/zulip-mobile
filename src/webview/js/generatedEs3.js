@@ -259,10 +259,10 @@ var handleMessageReady = function handleMessageReady(msg) {
 };
 
 var messageHandlers = {
-  ready: handleMessageReady,
   content: handleMessageContent,
   fetching: handleMessageFetching,
-  typing: handleMessageTyping
+  typing: handleMessageTyping,
+  ready: handleMessageReady
 };
 
 document.addEventListener('message', function (e) {

@@ -15,8 +15,8 @@ import { base64Utf8Encode } from '../utils/encoding';
 export default class MessageListWeb extends Component<Props> {
   context: Context;
   props: Props;
-  isWebViewReady: boolean;
   webview: ?Object;
+  sendMessagesIsReady: boolean;
   unsentMessages: WebviewInputMessage[] = [];
 
   static contextTypes = {
@@ -25,28 +25,24 @@ export default class MessageListWeb extends Component<Props> {
   };
 
   componentDidMount() {
-    /*
-     * Initiates a two-way handshake with the WebView. Ensures that both sides are
-     * ready to communicate before considering to be ready.
-     *
-     * This component communicates with webView with the help of `postMessage`.
-     * It needs to be ensured that this communication channel is established successfully
-     * on both side, else it will cause issue like #3080.
-     * Two way hand shake mechanism is used for this purpose.
-     *
-     * Send a hello event till a confirmation is reveived from webView.
-     */
+    this.setupSendMessages();
+  }
+
+  handleError = (event: Object) => {
+    console.error(event); // eslint-disable-line
+  };
+
+  /**
+   * Initiate round-trip handshakes with the WebView, until one succeeds.
+   */
+  setupSendMessages = (): void => {
     const intervalId = setInterval(() => {
-      if (!this.isWebViewReady) {
+      if (!this.sendMessagesIsReady) {
         this.sendMessages([{ type: 'ready' }]);
       } else {
         clearInterval(intervalId);
       }
     }, 30);
-  }
-
-  handleError = (event: Object) => {
-    console.error(event); // eslint-disable-line
   };
 
   sendMessages = (messages: WebviewInputMessage[]): void => {
@@ -58,7 +54,7 @@ export default class MessageListWeb extends Component<Props> {
   handleMessage = (event: { nativeEvent: { data: string } }) => {
     const eventData: MessageListEvent = JSON.parse(event.nativeEvent.data);
     if (eventData.type === 'ready') {
-      this.isWebViewReady = true;
+      this.sendMessagesIsReady = true;
       this.sendMessages(this.unsentMessages);
     } else {
       const handler = `handle${eventData.type.charAt(0).toUpperCase()}${eventData.type.slice(1)}`;
@@ -69,7 +65,7 @@ export default class MessageListWeb extends Component<Props> {
   shouldComponentUpdate = (nextProps: Props) => {
     const messages = getInputMessages(this.props, nextProps);
 
-    if (this.isWebViewReady) {
+    if (this.sendMessagesIsReady) {
       this.sendMessages(messages);
     } else {
       this.unsentMessages.push(...messages);

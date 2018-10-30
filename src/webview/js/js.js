@@ -4,8 +4,8 @@ import type {
   WebviewInputMessage,
   MessageInputContent,
   MessageInputFetching,
-  MessageInputReady,
   MessageInputTyping,
+  MessageInputReady,
 } from '../webViewHandleUpdates';
 
 /**
@@ -328,29 +328,18 @@ const handleMessageTyping = (msg: MessageInputTyping) => {
   }
 };
 
-/*
- * In response to a `ready` message send back another `ready` message and
- * thus complete the handshake process.  When it is received by the other
- * side both sides are ready.
- *
- * This webView communicates with react component (app) with the help of
- * `postMessage`. It needs to be ensured that this communication channel is
- * established successfully on both side, else it will cause issue like
- * #3080. Two way hand shake mechanism is used for this purpose.
- *
- * Send a hello event as soon as hello event is reveived from React
- * component to convey that webView is active.
- *
+/**
+ * Echo back the handshake message, confirming the channel is ready.
  */
 const handleMessageReady = (msg: MessageInputReady) => {
   sendMessage({ type: 'ready' });
 };
 
 const messageHandlers = {
-  ready: handleMessageReady,
   content: handleMessageContent,
   fetching: handleMessageFetching,
   typing: handleMessageTyping,
+  ready: handleMessageReady,
 };
 
 document.addEventListener('message', e => {
