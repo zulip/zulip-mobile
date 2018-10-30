@@ -498,11 +498,9 @@ documentBody.addEventListener('drag', (e: DragEvent) => {
  *
  */
 
-const waitForBridge = () => {
+const intervalId = setInterval(() => {
   if (window.postMessage.length === 1) {
     sendMessage({ type: 'ready' });
-  } else {
-    setTimeout(waitForBridge, 10);
+    clearInterval(intervalId);
   }
-};
-waitForBridge();
+});
