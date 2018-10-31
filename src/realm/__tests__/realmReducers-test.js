@@ -8,8 +8,10 @@ import {
   SAVE_TOKEN_PUSH,
   DELETE_TOKEN_PUSH,
   EVENT_REALM_FILTER_UPDATE,
+  INIT_EMOJI_NAME_TO_CODEPOINT,
 } from '../../actionConstants';
 import { NULL_OBJECT } from '../../nullObjects';
+import { unicodeCodeByName } from '../../emoji/codePointMap';
 
 describe('realmReducers', () => {
   describe('ACCOUNT_SWITCH', () => {
@@ -27,6 +29,7 @@ describe('realmReducers', () => {
         twentyFourHourTime: false,
         pushToken: { token: '', result: '', msg: '' },
         emoji: {},
+        unicodeCodeByName,
         filters: [],
         nonActiveUsers: [],
       };
@@ -180,6 +183,33 @@ describe('realmReducers', () => {
       const newState = realmReducers(prevState, action);
 
       expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('INIT_EMOJI_NAME_TO_CODEPOINT', () => {
+    test('update state to new emojiToCodePoint', () => {
+      const initialState = {
+        unicodeCodeByName: {},
+      };
+
+      const action = {
+        type: INIT_EMOJI_NAME_TO_CODEPOINT,
+        unicodeCodeByName: {
+          '+1': '1f44d',
+          '-1': '1f44e',
+          '0': '0030-20e3',
+        },
+      };
+
+      const expectedState = {
+        unicodeCodeByName: {
+          '+1': '1f44d',
+          '-1': '1f44e',
+          '0': '0030-20e3',
+        },
+      };
+
+      expect(realmReducers(initialState, action)).toEqual(expectedState);
     });
   });
 });

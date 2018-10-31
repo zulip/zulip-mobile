@@ -329,6 +329,8 @@ export type RealmBot = {|
   user_id: number,
 |};
 
+export type EmojiNameToCodePoint = { [string]: string };
+
 /**
  * State with general info about a Zulip organization; our state subtree `realm`.
  *
@@ -356,6 +358,7 @@ export type RealmState = {|
   |},
   filters: RealmFilter[],
   emoji: RealmEmojiState,
+  unicodeCodeByName: EmojiNameToCodePoint,
   isAdmin: boolean,
 |};
 

@@ -3,12 +3,14 @@ import type {
   Auth,
   GetState,
   Dispatch,
+  EmojiNameToCodePoint,
   RealmFilter,
   InitialData,
   RealmEmojiState,
   RealmInitAction,
   DeleteTokenPushAction,
   SaveTokenPushAction,
+  InitEmojiNameToCodePointAction,
   InitRealmEmojiAction,
   InitRealmFilterAction,
 } from '../types';
@@ -19,6 +21,7 @@ import {
   REALM_INIT,
   SAVE_TOKEN_PUSH,
   DELETE_TOKEN_PUSH,
+  INIT_EMOJI_NAME_TO_CODEPOINT,
   INIT_REALM_EMOJI,
   INIT_REALM_FILTER,
 } from '../actionConstants';
@@ -57,6 +60,13 @@ export const initNotifications = () => (dispatch: Dispatch, getState: GetState) 
 export const initRealmEmojis = (emojis: RealmEmojiState): InitRealmEmojiAction => ({
   type: INIT_REALM_EMOJI,
   emojis,
+});
+
+export const initCodePointEmoji = (
+  unicodeCodeByName: EmojiNameToCodePoint,
+): InitEmojiNameToCodePointAction => ({
+  type: INIT_EMOJI_NAME_TO_CODEPOINT,
+  unicodeCodeByName,
 });
 
 export const fetchRealmEmojis = (auth: Auth) => async (dispatch: Dispatch) =>
