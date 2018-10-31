@@ -14,6 +14,7 @@ import registerForEvents from './registerForEvents';
 import uploadFile from './uploadFile';
 import emojiReactionAdd from './emoji/emojiReactionAdd';
 import emojiReactionRemove from './emoji/emojiReactionRemove';
+import getEmojiNameToCodePoint from './emoji/getEmojiNameToCodePoint';
 import markAllAsRead from './mark_as_read/markAllAsRead';
 import markStreamAsRead from './mark_as_read/markStreamAsRead';
 import markTopicAsRead from './mark_as_read/markTopicAsRead';
@@ -64,6 +65,7 @@ export {
   uploadFile,
   emojiReactionAdd,
   emojiReactionRemove,
+  getEmojiNameToCodePoint,
   markAllAsRead,
   markStreamAsRead,
   markTopicAsRead,
@@ -115,6 +117,7 @@ export default {
   uploadFile,
   emojiReactionAdd,
   emojiReactionRemove,
+  getEmojiNameToCodePoint,
   markAllAsRead,
   markStreamAsRead,
   markTopicAsRead,
