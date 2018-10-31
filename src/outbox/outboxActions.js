@@ -54,7 +54,8 @@ export const trySendMessages = () => (dispatch: Dispatch, getState: GetState) =>
   }
   dispatch(toggleOutboxSending(true));
   const auth = getAuth(state);
-  state.outbox.forEach(async item => {
+  const outboxToSend = state.outbox.filter(outbox => !outbox.isSent);
+  outboxToSend.forEach(async item => {
     try {
       await sendMessage(
         auth,
@@ -126,6 +127,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   dispatch(
     messageSendStart({
       narrow,
+      isSent: false,
       ...extractTypeToAndSubjectFromNarrow(narrow, state.users, userDetail),
       markdownContent: content,
       content: getContentPreview(content, state),

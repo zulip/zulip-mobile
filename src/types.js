@@ -386,6 +386,7 @@ export type TypingState = {
  */
 export type Outbox = {
   isOutbox: true,
+  isSent: boolean,
 
   markdownContent: string,
   narrow: Narrow,
