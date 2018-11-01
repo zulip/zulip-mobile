@@ -74,7 +74,7 @@ type State = {
   selection: InputSelectionType,
 };
 
-export const updateTextInput = (textInput: TextInput, text: string): void => {
+export const updateTextInput = (textInput: ?TextInput, text: string): void => {
   if (!textInput) {
     // Depending on the lifecycle events this function is called from,
     // this might not be set yet.
