@@ -1,4 +1,5 @@
 import { getFilteredEmojiNames, nameToEmojiMap } from '../data';
+import { unicodeCodeByName } from '../../emoji/codePointMap';
 
 // Prettier disabled in .prettierignore ; it misparses this file, apparently
 // because of the emoji.  (Even if they're tucked away in comments, it still
@@ -8,7 +9,7 @@ import { getFilteredEmojiNames, nameToEmojiMap } from '../data';
 describe('nameToEmojiMap', () => {
   const check = (name, string1, string2) => {
     expect(string1).toEqual(string2);
-    expect(nameToEmojiMap[name]).toEqual(string1);
+    expect(nameToEmojiMap(unicodeCodeByName)[name]).toEqual(string1);
   };
 
   test('works for some single-codepoint emoji', () => {
@@ -26,17 +27,17 @@ describe('nameToEmojiMap', () => {
 
 describe('getFilteredEmojiNames', () => {
   test('empty query returns all emojis', () => {
-    const list = getFilteredEmojiNames('', {});
+    const list = getFilteredEmojiNames('', {}, unicodeCodeByName);
     expect(list).toHaveLength(1560);
   });
 
   test('non existing query returns empty list', () => {
-    const list = getFilteredEmojiNames('qwerty', {});
+    const list = getFilteredEmojiNames('qwerty', {}, unicodeCodeByName);
     expect(list).toHaveLength(0);
   });
 
   test('returns a sorted list of emojis starting with query', () => {
-    const list = getFilteredEmojiNames('go', {});
+    const list = getFilteredEmojiNames('go', {}, unicodeCodeByName);
     expect(list).toEqual([
       'go',
       'goal',
@@ -54,11 +55,11 @@ describe('getFilteredEmojiNames', () => {
   });
 
   test('search in realm emojis as well', () => {
-    expect(getFilteredEmojiNames('qwerty', { qwerty: {} })).toEqual(['qwerty']);
+    expect(getFilteredEmojiNames('qwerty', { qwerty: {} }, unicodeCodeByName)).toEqual(['qwerty']);
   });
 
   test('remove duplicates', () => {
-    expect(getFilteredEmojiNames('dog', {})).toEqual(['dog', 'dogi']);
-    expect(getFilteredEmojiNames('dog', { dog: {} })).toEqual(['dog', 'dogi']);
+    expect(getFilteredEmojiNames('dog', {}, unicodeCodeByName)).toEqual(['dog', 'dogi']);
+    expect(getFilteredEmojiNames('dog', { dog: {} }, unicodeCodeByName)).toEqual(['dog', 'dogi']);
   });
 });

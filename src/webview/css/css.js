@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { ThemeName } from '../../types';
+import type { EmojiNameToCodePoint, ThemeName } from '../../types';
 import { BRAND_COLOR } from '../../styles';
 import cssEmojis from './cssEmojis';
 
@@ -456,11 +456,15 @@ body {
 }
 `;
 
-export default (theme: ThemeName, highlightUnreadMessages: boolean) => `
+export default (
+  theme: ThemeName,
+  highlightUnreadMessages: boolean,
+  unicodeCodeByName: EmojiNameToCodePoint,
+) => `
 <style>
 ${defaultTheme}
 ${theme === 'night' ? darkTheme : ''}
-${cssEmojis}
+${cssEmojis(unicodeCodeByName)}
 ${highlightUnreadMessages ? '.message:not([data-read="true"]) { background: red; }' : ''}
 </style>
 <style id="style-hide-js-error-plain">
