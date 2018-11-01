@@ -13,7 +13,7 @@ type Props = {
   onBlur?: () => void,
   onFocus?: () => void,
   onSelectionChange?: (event: Object) => void,
-  textInputRef?: (component: any) => void,
+  textInputRef?: (component: ?TextInput) => void,
 };
 
 /**
@@ -36,8 +36,6 @@ export default class MultilineInput extends PureComponent<Props> {
   static defaultProps = {
     placeholder: {},
   };
-
-  textInput: TextInput;
 
   render() {
     const { onChange, ...restProps } = this.props;

@@ -38,7 +38,7 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
     canBeCleared: false,
     text: '',
   };
-  textInput: TextInput;
+  textInput: ?TextInput;
 
   static contextTypes = {
     styles: () => null,
@@ -54,7 +54,9 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
 
   handleClear = () => {
     this.handleChangeText('');
-    this.textInput.clear();
+    if (this.textInput) {
+      this.textInput.clear();
+    }
   };
 
   render() {

@@ -11,7 +11,7 @@ type Props = {
   style?: Style,
   placeholder: LocalizableText,
   onChangeText: (text: string) => void,
-  textInputRef: (component: any) => void,
+  textInputRef: (component: ?TextInput) => void,
 };
 
 type State = {
@@ -36,7 +36,7 @@ export default class Input extends PureComponent<Props, State> {
   state: State = {
     isFocused: false,
   };
-  textInput: TextInput;
+  textInput: ?TextInput;
 
   static contextTypes = {
     styles: () => null,
@@ -54,7 +54,9 @@ export default class Input extends PureComponent<Props, State> {
     if (onChangeText) {
       onChangeText('');
     }
-    this.textInput.clear();
+    if (this.textInput) {
+      this.textInput.clear();
+    }
   };
 
   handleFocus = () => {
@@ -89,7 +91,7 @@ export default class Input extends PureComponent<Props, State> {
             underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
-            ref={(component: any) => {
+            ref={(component: ?TextInput) => {
               this.textInput = component;
               if (textInputRef) {
                 textInputRef(component);
