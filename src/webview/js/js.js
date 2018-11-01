@@ -179,6 +179,7 @@ function midMessagePeer(top: number, bottom: number): ?Element {
   const midY = (bottom + top) / 2;
 
   // Document#elementsFromPoint appears in iOS 10 and Chrome 43.
+  // $FlowFixMe: doesn't know about Document#elementsFromPoint
   if (document.elementsFromPoint === undefined) {
     const element = document.elementFromPoint(0, midY);
     return element && element.closest('body > *');
