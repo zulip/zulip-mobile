@@ -14,6 +14,7 @@ import {
   fetchOlder,
   fetchNewer,
   navigateToAccountDetails,
+  navigateToMessageReactionScreen,
   doNarrow,
   navigateToLightbox,
   messageLinkPress,
@@ -101,6 +102,11 @@ type MessageListEventError = {|
   },
 |};
 
+type MessageListEventReactionDetails = {|
+  type: 'reactionDetails',
+  messageId: number,
+|};
+
 export type MessageListEvent =
   | MessageListEventReady
   | MessageListEventScroll
@@ -110,6 +116,7 @@ export type MessageListEvent =
   | MessageListEventReaction
   | MessageListEventUrl
   | MessageListEventLongPress
+  | MessageListEventReactionDetails
   | MessageListEventDebug
   | MessageListEventError;
 
@@ -167,6 +174,7 @@ const handleLongPress = (
     showToast(_('Link copied to clipboard'));
     return;
   }
+
   const message = props.messages.find(x => x.id === messageId);
   if (!message) {
     return;
@@ -223,6 +231,14 @@ export const handleMessageListEvent = (props: Props, _: GetText, event: MessageL
         } else {
           api.emojiReactionAdd(auth, messageId, reactionType, code, name);
         }
+      }
+      break;
+
+    case 'reactionDetails':
+      {
+        const { messageId } = event;
+        const { dispatch } = props;
+        dispatch(navigateToMessageReactionScreen(messageId));
       }
       break;
 

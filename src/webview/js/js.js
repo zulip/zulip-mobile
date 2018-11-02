@@ -701,6 +701,14 @@ const handleLongPress = (target: Element) => {
 
   hasLongPressed = true;
 
+  if (target.closest('.reaction')) {
+    sendMessage({
+      type: 'reactionDetails',
+      messageId: getMessageIdFromNode(target),
+    });
+    return;
+  }
+
   sendMessage({
     type: 'longPress',
     target: target.matches('.header') ? 'header' : target.matches('a') ? 'link' : 'message',

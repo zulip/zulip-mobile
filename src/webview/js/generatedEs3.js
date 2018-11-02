@@ -578,6 +578,15 @@ var compiledWebviewJs = (function (exports) {
 
   var handleLongPress = function handleLongPress(target) {
     hasLongPressed = true;
+
+    if (target.closest('.reaction')) {
+      sendMessage({
+        type: 'reactionDetails',
+        messageId: getMessageIdFromNode(target)
+      });
+      return;
+    }
+
     sendMessage({
       type: 'longPress',
       target: target.matches('.header') ? 'header' : target.matches('a') ? 'link' : 'message',
