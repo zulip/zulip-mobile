@@ -12,7 +12,6 @@ import {
   doToggleMuteStream,
   doTogglePinStream,
   navigateToEditStream,
-  navigateToTopicList,
   toggleStreamNotification,
   navigateToStreamSubscribers,
 } from '../actions';
@@ -34,11 +33,6 @@ class StreamScreen extends PureComponent<Props> {
   handleToggleMuteStream = (newValue: boolean) => {
     const { dispatch, stream } = this.props;
     dispatch(doToggleMuteStream(stream.stream_id, newValue));
-  };
-
-  handleTopics = () => {
-    const { dispatch, stream } = this.props;
-    dispatch(navigateToTopicList(stream.stream_id));
   };
 
   handleEdit = () => {
@@ -79,7 +73,6 @@ class StreamScreen extends PureComponent<Props> {
         />
         <OptionDivider />
         <View style={styles.padding}>
-          <ZulipButton text="Topics" onPress={() => delay(this.handleTopics)} />
           {isAdmin && (
             <ZulipButton
               style={styles.marginTop}
