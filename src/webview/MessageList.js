@@ -177,6 +177,7 @@ class MessageList extends Component<Props> {
 
     return (
       <WebView
+        useWebKit
         source={{
           baseUrl: auth.realm,
           html,
