@@ -17,7 +17,7 @@ export default class VariablesScreen extends PureComponent<{}> {
     };
 
     return (
-      <Screen title="Variables">
+      <Screen title="Variables" scrollEnabled={false}>
         <FlatList
           data={Object.keys(variables)}
           keyExtractor={item => item}

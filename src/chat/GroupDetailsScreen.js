@@ -33,7 +33,7 @@ class GroupDetailsScreen extends PureComponent<Props> {
     const { recipients } = navigation.state.params;
 
     return (
-      <Screen title="Recipients">
+      <Screen title="Recipients" scrollEnabled={false}>
         <FlatList
           initialNumToRender={10}
           data={recipients}

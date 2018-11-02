@@ -28,7 +28,7 @@ class StorageScreen extends PureComponent<Props> {
     const storageSizes = calculateKeyStorageSizes(state);
 
     return (
-      <Screen title="Storage">
+      <Screen title="Storage" scrollEnabled={false}>
         <FlatList
           data={storageSizes}
           keyExtractor={item => item.key}

@@ -59,7 +59,7 @@ class EmojiPickerScreen extends PureComponent<Props, State> {
     const emojis = getFilteredEmojiList(filter, realmEmoji);
 
     return (
-      <Screen search searchBarOnChange={this.handleInputChange}>
+      <Screen search scrollEnabled={false} searchBarOnChange={this.handleInputChange}>
         <FlatList
           keyboardShouldPersistTaps="always"
           initialNumToRender={20}

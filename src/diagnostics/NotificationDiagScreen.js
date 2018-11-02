@@ -25,7 +25,7 @@ class NotificationDiagScreen extends PureComponent<Props> {
       'Initial notification': JSON.stringify(config.startup.notification),
     };
     return (
-      <Screen title="Notification Diagnostics">
+      <Screen title="Notification Diagnostics" scrollEnabled={false}>
         <FlatList
           data={Object.keys(variables)}
           keyExtractor={item => item}
