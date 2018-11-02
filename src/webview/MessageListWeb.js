@@ -90,6 +90,7 @@ export default class MessageListWeb extends Component<Props> {
 
     return (
       <WebView
+        useWebKit
         source={{
           baseUrl: auth.realm,
           html,
