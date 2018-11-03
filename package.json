@@ -114,8 +114,8 @@
     "prettier-eslint": "^8.8.1",
     "prettier-eslint-cli": "^4.7.1",
     "react-native-cli": "^2.0.1",
-    "reactotron-react-native": "^2.0.0-beta.3",
-    "reactotron-redux": "^2.0.0-beta.3",
+    "reactotron-react-native": "^2.1.0",
+    "reactotron-redux": "^2.1.0",
     "redux-mock-store": "^1.5.1"
   },
   "resolutions": {

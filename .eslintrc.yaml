@@ -9,7 +9,8 @@ env:
   mocha: true
   node: true
   jest: true
-globals: {}
+globals: 
+  __DEV__: false
 extends:
   - airbnb
   - plugin:jest/recommended
