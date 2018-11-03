@@ -65,6 +65,11 @@ public class MainApplication extends Application implements ReactApplication, IN
                     new RNNotificationsPackage(MainApplication.this)
             );
         }
+
+        @Override
+        protected String getJSMainModuleName() {
+            return "index";
+        }
     };
 
     @Override

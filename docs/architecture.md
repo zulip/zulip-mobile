@@ -38,8 +38,7 @@ modules (which we aren't using at the moment).
 * `.eslintrc` - config file for linting rules (we're using Airbnb rules)
 * `.flowconfig` - config file for [Flow](https://flowtype.org/) static type
 checker (unused)
-* `index.ios.js` - entry point for iOS app
-* `index.android.js` - entry point for Android app (unused for now)
+* `index.js` - entry point for the app
 
 ### `/src` directory
 
