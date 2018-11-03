@@ -29,8 +29,7 @@
 {
   NSURL *jsCodeLocation;
 
-  [[RCTBundleURLProvider sharedSettings] setDefaults];
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 
   RCTSetLogThreshold(RCTLogLevelError);
 
