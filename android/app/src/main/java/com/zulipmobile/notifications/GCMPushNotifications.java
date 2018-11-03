@@ -84,12 +84,23 @@ public class GCMPushNotifications extends PushNotification {
         return (PushNotificationsProp) mNotificationProps;
     }
 
+    private NotificationManager getNotificationManager() {
+        return (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+
+    private void updateNotification() {
+        final PendingIntent intent = getCTAPendingIntent();
+        final Notification notification = getNotificationBuilder(intent).build();
+        final int notificationId = createNotificationId(notification);
+        getNotificationManager().notify(notificationId, notification);
+    }
+
     @Override
     public void onReceived() throws InvalidNotificationException {
         final String eventType = getProps().getEvent();
         if (eventType.equals("message")) {
             addConversationToMap(getProps(), conversations);
-            super.onReceived();
+            updateNotification();
         } else if (eventType.equals("remove")) {
             removeMessageFromMap(getProps(), conversations);
             // TODO Update device notification
