@@ -51,17 +51,6 @@ When testing Zulip's push notifications:
   keep it on screen, or force-kill it, to test different scenarios!
 
 
-## Testing client-side changes on iOS
-
-The Apple Push Notification service (APNs) does not allow our production
-bouncer to send notifications to a development build of the Zulip Mobile
-app.
-
-(Work in progress; given an appropriate dev certificate, we should be able
-to send notifications to a dev build of the app through Apple's sandbox
-instance of APNs.)
-
-
 ## Testing server-side changes (iOS or Android)
 
 [Set up the dev server for mobile development](dev-server.md), with two
@@ -99,3 +88,58 @@ the dev server, using a production build of the app -- that is, the Zulip
 app installed from the App Store or Play Store.
 
 You should see a push notification appear on the mobile device!
+
+
+## Testing client-side changes on Android
+
+Happily, this is straightforward: just edit, build, and run the app
+the same as for any other change.  Typically you'll be editing Java
+code (not only JS), so remember to rerun `react-native run-android`.
+
+**Debugging tip:** our notifications code tags log messages with the
+tag `ZulipNotif`.  So a command like `adb logcat ZulipNotif:V *:E` is
+helpful for seeing details about Zulip notifications.  For example
+(edited slightly for readability):
+```
+$ adb logcat -T 1000 ZulipNotif:V *:E
+V ZulipNotif: getPushNotification: Bundle[{google.delivered_priority=normal,
+    sender_full_name=Othello, the Moor of Venice, google.sent_time=1541205694753, google.ttl=2419200,
+    google.original_priority=normal, sender_avatar_url=https://secure.gravatar.com/avatar/23f3blah,
+    server=10.10.116.251:9991, realm_uri=http://10.10.116.251:9991, realm_id=1, content_truncated=false,
+    zulip_message_id=108, recipient_type=private, time=1541205694, user=hamlet@zulip.com, sender_id=6,
+    alert=New private message from Othello, the Moor of Venice, event=message,
+    google.message_id=0:1541205694760139%d08e4852f9fd7ecd, content=hi, sender_email=othello@zulip.com}]
+V ZulipNotif: java.lang.Throwable
+V ZulipNotif: 	at com.zulipmobile.MainApplication.getPushNotification(MainApplication.java:86)
+V ZulipNotif: 	at com.wix.reactnativenotifications.core.notification.PushNotification.get(PushNotification.java:45)
+V ZulipNotif: 	at com.wix.reactnativenotifications.gcm.GcmMessageHandlerService.onMessageReceived(GcmMessageHandlerService.java:19)
+V ZulipNotif: 	at com.google.android.gms.gcm.GcmListenerService.handleIntent(Unknown Source:409)
+V ZulipNotif: 	at com.google.android.gms.iid.zzj.run(Unknown Source:26)
+V ZulipNotif: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+V ZulipNotif: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+V ZulipNotif: 	at java.lang.Thread.run(Thread.java:764)
+```
+
+The spew in this example is from this line in our code:
+```
+    Log.v(NotificationHelper.TAG, "getPushNotification: " + bundle.toString(), new Throwable());
+```
+(The stack trace is just for information; it doesn't represent an
+error.)
+
+You can do print-debugging by adding similar lines, even if they don't
+make it into the final code you send in a PR.  Here's another example:
+```
+    Log.v(TAG, String.format("update: %d", conversations.size()));
+```
+
+
+## Testing client-side changes on iOS
+
+The Apple Push Notification service (APNs) does not allow our production
+bouncer to send notifications to a development build of the Zulip Mobile
+app.
+
+(Work in progress; given an appropriate dev certificate, we should be able
+to send notifications to a dev build of the app through Apple's sandbox
+instance of APNs.)
