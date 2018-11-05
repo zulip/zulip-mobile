@@ -1,12 +1,7 @@
 # Push notifications
 
-Mobile devices support two types of notifications: local notifications
-and remote, or push, notificiations.  Local notifications require no external
-infrastructure and can be triggered by date, place, or time.  Push
-notifications, on the other hand, are sent by some (authenticated) backend.
-
-This doc describes how to develop, and locally test, push notifications in
-Zulip Mobile.  We don't currently use local notifications.
+This doc describes how to test and develop changes to Zulip's mobile
+push notifications.
 
 
 ## General tips
