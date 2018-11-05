@@ -112,13 +112,18 @@ Then, each time you test:
 ## Testing client-side changes on Android
 
 Happily, this is straightforward: just edit, build, and run the app
-the same as for any other change.  Typically you'll be editing Java
-code (not only JS), so remember to rerun `react-native run-android`.
+the same as for any other change.
 
-**Debugging tip:** our notifications code tags log messages with the
-tag `ZulipNotif`.  So a command like `adb logcat ZulipNotif:V *:E` is
-helpful for seeing details about Zulip notifications.  For example
-(edited slightly for readability):
+Typically you'll be editing Java code (not only JS), so remember to
+rerun `react-native run-android`.
+
+### Debugging tips (for Android client)
+
+Our notifications code tags log messages with the tag `ZulipNotif`.
+So a command like `adb logcat ZulipNotif:V *:E` is helpful for seeing
+details about Zulip notifications.  For example (edited slightly for
+readability):
+
 ```
 $ adb logcat -T 1000 ZulipNotif:V *:E
 V ZulipNotif: getPushNotification: Bundle[{google.delivered_priority=normal,
