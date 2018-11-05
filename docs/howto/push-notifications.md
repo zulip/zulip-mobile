@@ -53,41 +53,60 @@ When testing Zulip's push notifications:
 
 ## Testing server-side changes (iOS or Android)
 
-[Set up the dev server for mobile development](dev-server.md), with two
-additional steps:
+When making changes to the Zulip server, use these steps to test how
+they affect notifications.
 
-1. Before you run the server with `tools/run-dev.py`, add the following line
-   to `zproject/dev_settings.py`:
+First, three one-time setup steps:
+
+1. [Set up the dev server for mobile development](dev-server.md).
+
+2. Add the following line to `zproject/dev_settings.py`:
 
    ```python
    PUSH_NOTIFICATION_BOUNCER_URL = 'https://push.zulipchat.com'
    ```
 
-   For a production build, `PUSH_NOTIFICATION_BOUNCER_URL` is specified in a
-   settings file generated from `zproject/prod_settings_template.py`. This is
-   a workaround for that, and you can keep this around via `git stash`.
+   This matches the default setting for a production install of the
+   Zulip server (generated from `zproject/prod_settings_template.py`.)
 
-2. Then, register your development server with our production bouncer by 
-   running the following custom Django management command:
+   You can keep this around via `git stash`.
+
+3. Register your development server with our production bouncer by
+   running the following command:
 
    ```
    python manage.py register_server --agree_to_terms_of_service
    ```
 
-   Registration should be one-time; that is, as long as you're using the
-   same `zproject/dev-secrets.conf` that was generated at provision time, you
-   shouldn't have to run the command again unless you build a new dev
-   environment from scratch.
-
    This is a variation of our [instructions for production
    deployments](https://zulip.readthedocs.io/en/latest/production/mobile-push-notifications.html),
    adapted for the Zulip dev environment.
 
-Now, follow the instructions in [dev-server.md](dev-server.md) to log into
-the dev server, using a production build of the app -- that is, the Zulip
-app installed from the App Store or Play Store.
+   You should only have to do this step once, unless you build a new
+   Zulip server dev environment from scratch.  The credentials which
+   this command registers with the bouncer are kept in the
+   `zproject/dev-secrets.conf` file.
 
-You should see a push notification appear on the mobile device!
+   If you were already running `tools/run-dev.py`, quit and restart it
+   after these setup steps.
+
+
+Then, each time you test:
+
+1. Run `tools/run-dev.py` according to the instructions in
+   [dev-server.md](dev-server.md).  Then follow that doc's
+   instructions to log into the dev server.  Use the release build of
+   the app -- that is, the Zulip app installed from the App Store or
+   Play Store.
+
+2. Follow the general tips above to cause a push notification.  For
+   example, log in from a browser as a different user, and send the
+   mobile user a PM.
+
+   You should see a push notification appear on the mobile device!
+
+   If you don't, check the general tips above.  Then ask in chat and
+   let's debug.
 
 
 ## Testing client-side changes on Android
