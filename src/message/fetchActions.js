@@ -201,9 +201,7 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
   dispatch(fetchEssentialInitialData());
   dispatch(fetchRestOfInitialData());
 
-  if (config.enableNotifications) {
-    dispatch(initNotifications());
-  }
+  dispatch(initNotifications());
   dispatch(sendFocusPing());
   setInterval(() => sendFocusPing(), 60 * 1000);
 };
