@@ -9,19 +9,14 @@
 
 #import "AppDelegate.h"
 
+#import <asl.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#if __has_include(<React/RNSentry.h>)
-#import <React/RNSentry.h> // This is used for versions of react >= 0.40
-#else
-#import "RNSentry.h" // This is used for versions of react < 0.40
-#endif
-#import <React/RNSentry.h> // This is used for versions of react >= 0.40
+#import <React/RNSentry.h>
 #import <React/RCTLinkingManager.h>
-#import <asl.h>
-#import "RCTLog.h"
-#import "RNNotifications.h"
+#import <React/RCTLog.h>
 #import <React/RCTPushNotificationManager.h>
+#import "RNNotifications.h"
 
 @implementation AppDelegate
 

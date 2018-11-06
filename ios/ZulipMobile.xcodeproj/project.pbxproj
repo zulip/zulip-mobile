@@ -525,7 +525,6 @@
 		CF6CFE2C1E7DC55100F687C7 /* Build-Phases */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Build-Phases"; sourceTree = "<group>"; };
 		CF6D016517D74B509DBD05DC /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		CFA67D1F1EC23BCB0070048E /* UtilManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UtilManager.m; path = ZulipMobile/UtilManager.m; sourceTree = "<group>"; };
-		CFA67D211EC23BDD0070048E /* UtilManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UtilManager.h; path = ZulipMobile/UtilManager.h; sourceTree = "<group>"; };
 		CFBB80590829494E985F601B /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		D5664A74FA8048439CBAB734 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		E518466F398E458DA2C685AF /* libSafariViewManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSafariViewManager.a; sourceTree = "<group>"; };
@@ -711,7 +710,6 @@
 		13B07FAE1A68108700A75B9A /* ZulipMobile */ = {
 			isa = PBXGroup;
 			children = (
-				66E34CFD219226D10091B852 /* UtilManager.swift */,
 				3C4249EC1EF6E16500D245F1 /* ZulipMobile.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -720,8 +718,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				66E34CFD219226D10091B852 /* UtilManager.swift */,
 				CFA67D1F1EC23BCB0070048E /* UtilManager.m */,
-				CFA67D211EC23BDD0070048E /* UtilManager.h */,
 				66E34CC6219226D10091B852 /* ZulipMobile-Bridging-Header.h */,
 			);
 			name = ZulipMobile;

@@ -2,17 +2,17 @@ import Foundation
 
 @objc(UtilManager)
 class UtilManager: NSObject {
+  @objc func randomBase64(_ length: Int, resolver resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
+    var keyData = Data(count: length)
+    let result = keyData.withUnsafeMutableBytes {
+      SecRandomCopyBytes(kSecRandomDefault, length, $0)
+    }
 
-  @objc func randomBase64(length: Int, _ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
-    var data = Data(count: length);
-
-    var ret = SecRandomCopyBytes(kSecRandomDefault, length, data);
-
-    if (ret != 0) {
-      // NSError *error = [NSError errorWithDomain:@"zulip" code:ret userInfo:nil];
-      reject("random_failed", "Could not generate random data", error);
+    if result == errSecSuccess {
+      resolve(keyData.base64EncodedString())
     } else {
-      resolve(data);
+      let error: NSError = NSError(domain: "zulip", code: Int(result), userInfo: nil)
+      reject("random_failed", "Could not generate random data", error)
     }
   }
 }
