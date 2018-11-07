@@ -278,10 +278,18 @@ hr {
 }
 .message_inline_image img,
 .message_inline_ref img,
-.twitter-image img {
+.twitter-image img,
+.img-upload-progress {
   width: 100%;
   height: 40vh;
   object-fit: contain;
+}
+.img-upload-progress {
+  background: ${BRAND_COLOR};
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 blockquote {
   padding-left: 0.5em;

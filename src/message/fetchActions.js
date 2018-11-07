@@ -205,6 +205,7 @@ export const uploadImage = (narrow: Narrow, uri: string, name: string) => async 
   const auth = getAuth(getState());
   const { serverUri } = await uploadFile(auth, uri, name);
   const messageToSend = `[](${serverUri})`;
+  const uploadProgress = '<div class="img-upload-progress">Uploading...</div>';
 
-  dispatch(addToOutboxWithPreview(narrow, messageToSend, 'Uploading...'));
+  dispatch(addToOutboxWithPreview(narrow, messageToSend, uploadProgress));
 };
