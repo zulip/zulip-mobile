@@ -107,7 +107,9 @@ public class GCMPushNotifications extends PushNotification {
             updateNotification();
         } else if (eventType.equals("remove")) {
             removeMessageFromMap(getProps(), conversations);
-            // TODO Update device notification
+            if (conversations.isEmpty()) {
+                getNotificationManager().cancelAll();
+            }
         } else {
             Log.w(TAG, "Ignoring GCM message of unknown event type: " + eventType);
         }
