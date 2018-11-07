@@ -21,7 +21,7 @@ import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../constants';
 import { ALL_PRIVATE_NARROW } from '../utils/narrow';
 import { tryUntilSuccessful } from '../utils/async';
 import { initNotifications } from '../notification/notificationActions';
-import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
+import { addToOutboxWithPreview, sendOutbox } from '../outbox/outboxActions';
 import { realmInit } from '../realm/realmActions';
 import { reportPresence } from '../users/usersActions';
 import { startEventPolling } from '../events/eventActions';
@@ -206,5 +206,5 @@ export const uploadImage = (narrow: Narrow, uri: string, name: string) => async 
   const response = await uploadFile(auth, uri, name);
   const messageToSend = `[${name}](${response.uri})`;
 
-  dispatch(addToOutbox(narrow, messageToSend));
+  dispatch(addToOutboxWithPreview(narrow, messageToSend, 'Uploading...'));
 };
