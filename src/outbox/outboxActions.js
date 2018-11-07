@@ -124,10 +124,11 @@ const getContentPreview = (content: string, state: GlobalState): string => {
   }
 };
 
-export const addToOutbox = (narrow: Narrow, content: string) => async (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const addToOutboxWithPreview = (
+  narrow: Narrow,
+  markdownContent: string,
+  htmlContent: string,
+) => async (dispatch: Dispatch, getState: GetState) => {
   const state = getState();
   const userDetail = getSelfUserDetail(state);
 
@@ -137,8 +138,8 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
       narrow,
       isSent: false,
       ...extractTypeToAndSubjectFromNarrow(narrow, getUsersByEmail(state), userDetail),
-      markdownContent: content,
-      content: getContentPreview(content, state),
+      markdownContent,
+      content: htmlContent,
       timestamp: localTime,
       id: localTime,
       sender_full_name: userDetail.full_name,
@@ -150,3 +151,8 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
   );
   dispatch(sendOutbox());
 };
+
+export const addToOutbox = (narrow: Narrow, content: string) => async (
+  dispatch: Dispatch,
+  getState: GetState,
+) => dispatch(addToOutboxWithPreview(narrow, content, getContentPreview(content, getState())));
