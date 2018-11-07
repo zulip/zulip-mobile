@@ -280,7 +280,7 @@ hr {
 .message_inline_ref img,
 .twitter-image img {
   width: 100%;
-  height: 30vh;
+  height: 40vh;
   object-fit: contain;
 }
 blockquote {
