@@ -89,6 +89,10 @@ public class GCMPushNotifications extends PushNotification {
     }
 
     private void updateNotification() {
+        if (conversations.isEmpty()) {
+            getNotificationManager().cancelAll();
+            return;
+        }
         final PendingIntent intent = getCTAPendingIntent();
         final Notification notification = getNotificationBuilder(intent).build();
         final int notificationId = createNotificationId(notification);
