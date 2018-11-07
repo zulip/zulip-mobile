@@ -36,6 +36,7 @@ import static com.zulipmobile.notifications.NotificationHelper.clearConversation
 import static com.zulipmobile.notifications.NotificationHelper.extractNames;
 import static com.zulipmobile.notifications.NotificationHelper.extractTotalMessagesCount;
 import static com.zulipmobile.notifications.NotificationHelper.addConversationToMap;
+import static com.zulipmobile.notifications.NotificationHelper.removeMessageFromMap;
 import static com.zulipmobile.notifications.NotificationHelper.TAG;
 
 public class GCMPushNotifications extends PushNotification {
@@ -86,12 +87,15 @@ public class GCMPushNotifications extends PushNotification {
     @Override
     public void onReceived() throws InvalidNotificationException {
         final String eventType = getProps().getEvent();
-        if (!eventType.equals("message")) {
+        if (eventType.equals("message")) {
+            addConversationToMap(getProps(), conversations);
+            super.onReceived();
+        } else if (eventType.equals("remove")) {
+            removeMessageFromMap(getProps(), conversations);
+            // TODO Update device notification
+        } else {
             Log.w(TAG, "Ignoring GCM message of unknown event type: " + eventType);
-            return;
         }
-        addConversationToMap(getProps(), conversations);
-        super.onReceived();
     }
 
     @Override
