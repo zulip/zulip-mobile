@@ -1,6 +1,6 @@
 /* @flow */
 import type { Auth } from '../types';
-import downloadFile from '../api/downloadFile';
+import downloadImage from './downloadImage';
 import share from './share';
 import shareImage from './shareImage';
 import { showToast } from '../utils/info';
@@ -32,9 +32,9 @@ type ButtonType = {
   onPress: (props: ButtonProps) => void | boolean | Promise<any>,
 };
 
-const downloadImage = async ({ src, auth }: DownloadImageType) => {
+const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
   try {
-    await downloadFile(src, auth);
+    await downloadImage(src, auth);
     showToast('Download complete');
   } catch (error) {
     showToast('Can not download');
@@ -50,7 +50,7 @@ const shareImageDirectly = ({ src, auth }: DownloadImageType) => {
 };
 
 const actionSheetButtons: ButtonType[] = [
-  { title: 'Download image', onPress: downloadImage },
+  { title: 'Download image', onPress: tryToDownloadImage },
   { title: 'Share image', onPress: shareImageDirectly },
   { title: 'Share link to image', onPress: shareLink },
   { title: 'Cancel', onPress: () => false },
