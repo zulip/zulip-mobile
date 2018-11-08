@@ -77,7 +77,6 @@ const initialState: SessionState = {
     top: 0,
   },
   debug: {
-    highlightUnreadMessages: false,
     doNotMarkMessagesAsRead: false,
   },
 };

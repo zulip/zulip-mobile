@@ -8,13 +8,12 @@ import script from '../js/script';
 type InitOptionsType = {|
   anchor: number,
   auth: Auth,
-  highlightUnreadMessages: boolean,
   showMessagePlaceholders: boolean,
 |};
 
 export default (content: string, theme: ThemeName, initOptions: InitOptionsType) => template`
 $!${script(initOptions.anchor, initOptions.auth)}
-$!${css(theme, initOptions.highlightUnreadMessages)}
+$!${css(theme)}
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <body style="overflow-x: hidden;">

@@ -25,11 +25,6 @@ class DebugScreen extends PureComponent<Props> {
     return (
       <Screen title="Debug">
         <OptionRow
-          label="Distinguish unread messages"
-          defaultValue={debug.highlightUnreadMessages}
-          onValueChange={() => this.handleSettingToggle('highlightUnreadMessages')}
-        />
-        <OptionRow
           label="Do not mark messages read on scroll"
           defaultValue={debug.doNotMarkMessagesAsRead}
           onValueChange={() => this.handleSettingToggle('doNotMarkMessagesAsRead')}

@@ -171,11 +171,10 @@ class MessageList extends Component<Props> {
       showMessagePlaceholders,
     } = this.props;
     const messagesHtml = renderMessagesAsHtml(backgroundData, narrow, renderedMessages);
-    const { auth, debug } = backgroundData;
+    const { auth } = backgroundData;
     const html = getHtml(messagesHtml, theme, {
       anchor,
       auth,
-      highlightUnreadMessages: debug.highlightUnreadMessages,
       showMessagePlaceholders,
     });
 

@@ -86,7 +86,6 @@ export type EditMessage = {|
 |};
 
 export type Debug = {|
-  highlightUnreadMessages: boolean,
   doNotMarkMessagesAsRead: boolean,
 |};
 

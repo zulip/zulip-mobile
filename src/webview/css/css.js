@@ -480,12 +480,11 @@ body {
 }
 `;
 
-export default (theme: ThemeName, highlightUnreadMessages: boolean) => `
+export default (theme: ThemeName) => `
 <style>
 ${defaultTheme}
 ${theme === 'night' ? darkTheme : ''}
 ${cssEmojis}
-${highlightUnreadMessages ? '.message:not([data-read="true"]) { background: red; }' : ''}
 </style>
 <style id="style-hide-js-error-plain">
 #js-error-plain, #js-error-plain-dummy {
