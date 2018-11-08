@@ -50,7 +50,7 @@ const shareImageDirectly = ({ src, auth }: DownloadImageType) => {
 };
 
 const actionSheetButtons: ButtonType[] = [
-  { title: 'Download file', onPress: downloadImage },
+  { title: 'Download image', onPress: downloadImage },
   { title: 'Share image', onPress: shareImageDirectly },
   { title: 'Share link to image', onPress: shareLink },
   { title: 'Cancel', onPress: () => false },
