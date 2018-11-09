@@ -31,3 +31,25 @@ allprojects {
         }
     }
 }
+
+// Force all our third-party dependencies to a sensible buildToolsVersion.
+// What version should that be?  It's whatever the Android plugin applied
+// to our app project.
+project(":app").afterEvaluate {
+    ext.buildToolsVersion = it.android.buildToolsVersion
+}
+allprojects {
+    if (path != ":" && path != ":app") {
+        // This line is tricky -- it causes :app to be (sort of?) evaluated,
+        // so the `project(":app").afterEvaluate` must come first.
+        evaluationDependsOn(":app")
+    }
+    afterEvaluate {
+        // The plugins for an Android app, library, etc., all pull in
+        // a common base plugin; look for that to identify Android subprojects
+        // (where the `android` property will exist.)
+        if (plugins.any { it.class.name == "com.android.build.gradle.api.AndroidBasePlugin" }) {
+            android.buildToolsVersion rootProject.ext.buildToolsVersion
+        }
+    }
+}
