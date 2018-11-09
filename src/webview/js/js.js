@@ -301,6 +301,24 @@ const getMessageIdFromNode = (node: ?Node, defaultValue: number = -1): number =>
     : defaultValue;
 };
 
+/**
+ * Set the 'data-read' attribute to a given range of message elements.
+ * This is styled with css to indicate visually what messages are being read.
+ */
+const setMessagesReadAttributes = rangeHull => {
+  let element = document.querySelector(`[data-msg-id='${rangeHull.first}']`);
+  while (
+    element
+    && element.hasAttribute('data-msg-id')
+    && +element.getAttribute('data-msg-id') <= rangeHull.last
+  ) {
+    if (element.classList.contains('message')) {
+      element.setAttribute('data-read', 'true');
+    }
+    element = element.nextElementSibling;
+  }
+};
+
 /*
  *
  * Reporting scrolls to outside, to mark messages as read
@@ -330,6 +348,7 @@ const sendScrollMessage = () => {
     startMessageId: rangeHull.first,
     endMessageId: rangeHull.last,
   });
+  setMessagesReadAttributes(rangeHull);
   prevMessageRange = messageRange;
 };
 

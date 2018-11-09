@@ -204,6 +204,18 @@ var getMessageIdFromNode = function getMessageIdFromNode(node) {
   return msgNode && msgNode instanceof Element ? +msgNode.getAttribute('data-msg-id') : defaultValue;
 };
 
+var setMessagesReadAttributes = function setMessagesReadAttributes(rangeHull) {
+  var element = document.querySelector("[data-msg-id='" + rangeHull.first + "']");
+
+  while (element && element.hasAttribute('data-msg-id') && +element.getAttribute('data-msg-id') <= rangeHull.last) {
+    if (element.classList.contains('message')) {
+      element.setAttribute('data-read', 'true');
+    }
+
+    element = element.nextElementSibling;
+  }
+};
+
 var prevMessageRange = visibleMessageIds();
 
 var sendScrollMessage = function sendScrollMessage() {
@@ -220,6 +232,7 @@ var sendScrollMessage = function sendScrollMessage() {
     startMessageId: rangeHull.first,
     endMessageId: rangeHull.last
   });
+  setMessagesReadAttributes(rangeHull);
   prevMessageRange = messageRange;
 };
 
