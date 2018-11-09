@@ -6,8 +6,6 @@ buildscript {
         targetSdkVersion = 26
         compileSdkVersion = 27
 
-        buildToolsVersion = "28.0.3"
-
         supportLibVersion = "27.1.1"
     }
     repositories {
