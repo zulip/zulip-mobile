@@ -37,7 +37,7 @@ const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
     await downloadImage(src, auth);
     showToast('Download complete');
   } catch (error) {
-    showToast('Can not download');
+    showToast(error.message);
   }
 };
 
