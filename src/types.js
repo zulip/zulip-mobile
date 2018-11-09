@@ -9,6 +9,7 @@ import type {
   Auth,
   Topic,
   Message,
+  ReactionType,
   RealmEmojiState,
   RealmFilter,
   Narrow,
@@ -61,18 +62,6 @@ export type InputSelectionType = {
 };
 
 export type Account = Auth;
-
-/**
- * Type of an emoji reaction to a message.
- *
- * Zulip supports three types of emojies.
- *
- * - unicode_emoji: Emoji from codepoint (depends only on server version).
- * - realm_emoji: Realm custom emoji (will differ from server to server).
- * - zulip_extra_emoji: Custom emoji and are provided by Zulip, so will
- *   be available on all the server.
- */
-export type ReactionType = 'unicode_emoji' | 'realm_emoji' | 'zulip_extra_emoji';
 
 /**
  * An emoji reaction to a message.
