@@ -190,6 +190,14 @@ hr {
   background: rgba(255, 0, 0, 0.05);
 }
 .message:not([data-read="true"]) {
+  box-shadow: inset 4px 0 ${BRAND_COLOR};
+}
+.message[data-read="true"] {
+  box-shadow: inset 4px 0 transparent;
+  transition-property: box-shadow;
+  transition-duration: 0.3s;
+  transition-delay: 1s;
+  transition-timing-function: ease-out;
 }
 .arrow-right {
   width: 0;
