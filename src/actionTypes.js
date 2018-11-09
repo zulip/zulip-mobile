@@ -347,23 +347,23 @@ export type EventUpdateMessageAction = ServerEvent & {
 };
 
 export type EventReactionCommon = ServerEvent & {
-  /**
-   * Code of the emoji.
-   *
-   * For unicode emoji it is like `1f4af`. For `zulip_extra_emoji` it is
-   * same as that of `emoji_name` and for `realm_emoji` it is id of the
-   * emoji (number as a string).
-   */
-  emoji_code: string,
-
-  emoji_name: string,
   message_id: number,
-  reaction_type: ReactionType,
   user: {
     email: string,
     full_name: string,
     user_id: number,
   },
+  emoji_name: string,
+  reaction_type: ReactionType,
+
+  /**
+   * A string that uniquely identifies a particular emoji.
+   *
+   * The format varies with `reaction_type`, and can be subtle.
+   * See the comment on Reaction.emoji_code here:
+   *   https://github.com/zulip/zulip/blob/master/zerver/models.py
+   */
+  emoji_code: string,
 };
 
 export type EventReactionAddAction = ServerEvent &

@@ -15,12 +15,15 @@ export type DevUser = {
 /**
  * Type of an emoji reaction to a message.
  *
- * Zulip supports three types of emojies.
+ * These correspond to the values allowed for Reaction.reaction_type in the
+ * server's models.  The values are:
+ *  * unicode_emoji: An emoji found in Unicode, corresponding to a sequence
+ *    of Unicode codepoints.  The list of these depends on the Zulip
+ *    server's version.
+ *  * realm_emoji: A custom emoji uploaded by some user on a given realm.
+ *  * zulip_extra_emoji: An emoji distributed with Zulip, like :zulip:.
  *
- * - unicode_emoji: Emoji from codepoint (depends only on server version).
- * - realm_emoji: Realm custom emoji (will differ from server to server).
- * - zulip_extra_emoji: Custom emoji and are provided by Zulip, so will
- *   be available on all the server.
+ * See also `EventReactionCommon` and `EventReaction`.
  */
 export type ReactionType = 'unicode_emoji' | 'realm_emoji' | 'zulip_extra_emoji';
 

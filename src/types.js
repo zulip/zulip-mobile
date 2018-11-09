@@ -66,13 +66,14 @@ export type Account = Auth;
 /**
  * An emoji reaction to a message.
  *
- * See also SlimEventReaction, which contains the minimal subset of these
- * properties needed to compute the rest.
+ * See also `EventReactionCommon` for explanations, and `SlimEventReaction`
+ * which contains the minimal subset of these properties needed to compute
+ * the rest.
  */
 export type EventReaction = {
-  emoji_code: string,
   emoji_name: string,
   reaction_type: ReactionType,
+  emoji_code: string,
   user: any,
 };
 
