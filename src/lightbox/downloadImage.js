@@ -6,16 +6,10 @@ import type { Auth } from '../api/apiTypes';
 import { getAuthHeader, getFullUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 
-export default async (src: string, auth: Auth) => {
-  const absoluteUrl = getFullUrl(src, auth.realm);
-
-  if (Platform.OS === 'ios') {
-    const delimiter = absoluteUrl.includes('?') ? '&' : '?';
-    const urlWithApiKey = `${absoluteUrl}${delimiter}api_key=${auth.apiKey}`;
-    return CameraRoll.saveToCameraRoll(urlWithApiKey);
-  }
-
-  // Platform.OS === 'android'
+/**
+ * Request permission WRITE_EXTERNAL_STORAGE, or throw if can't get it.
+ */
+const androidEnsureStoragePermission = async (): Promise<void> => {
   const permissionIsGranted = await PermissionsAndroid.check(
     PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
   );
@@ -36,8 +30,20 @@ export default async (src: string, auth: Auth) => {
       throw new Error('Storage permission denied');
     }
   }
+  // permissionRequestResult === PermissionsAndroid.RESULTS.GRANTED
+};
 
-  // permissionRequestResult === PermissionsAndroid.RESULTS.GRANTED;
+export default async (src: string, auth: Auth): Promise<mixed> => {
+  const absoluteUrl = getFullUrl(src, auth.realm);
+
+  if (Platform.OS === 'ios') {
+    const delimiter = absoluteUrl.includes('?') ? '&' : '?';
+    const urlWithApiKey = `${absoluteUrl}${delimiter}api_key=${auth.apiKey}`;
+    return CameraRoll.saveToCameraRoll(urlWithApiKey);
+  }
+
+  // Platform.OS === 'android'
+  await androidEnsureStoragePermission();
   return RNFetchBlob.config({
     addAndroidDownloads: {
       path: `${RNFetchBlob.fs.dirs.DownloadDir}/${src.split('/').pop()}`,
