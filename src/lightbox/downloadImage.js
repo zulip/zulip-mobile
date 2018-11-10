@@ -8,6 +8,9 @@ import userAgent from '../utils/userAgent';
 
 /**
  * Request permission WRITE_EXTERNAL_STORAGE, or throw if can't get it.
+ *
+ * The error thrown will have a `message` suitable for showing to the user
+ * as a toast.
  */
 const androidEnsureStoragePermission = async (): Promise<void> => {
   // See docs from Android for the underlying interaction with the user:
@@ -20,12 +23,12 @@ const androidEnsureStoragePermission = async (): Promise<void> => {
     return;
   }
   const result = await PermissionsAndroid.request(permission, {
-    title: 'Zulip Storage Permission',
-    message: 'In order to download images, Zulip needs permission to write to your SD card.',
+    title: 'Storage permission needed',
+    message: 'To download images, allow Zulip to store files on your device.',
   });
   const { DENIED, NEVER_ASK_AGAIN /* , GRANTED */ } = PermissionsAndroid.RESULTS;
   if (result === DENIED || result === NEVER_ASK_AGAIN) {
-    throw new Error('Storage permission denied');
+    throw new Error('Storage permission required');
   }
   // result === GRANTED
 };
