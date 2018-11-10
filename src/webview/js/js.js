@@ -6,6 +6,7 @@ import type {
   MessageInputFetching,
   MessageInputTyping,
   MessageInputReady,
+  WebViewUpdateEventMessagesRead,
 } from '../webViewHandleUpdates';
 import type { MessageListEvent } from '../webViewEventHandlers';
 
@@ -540,11 +541,23 @@ const handleMessageReady = (msg: MessageInputReady) => {
   sendMessage({ type: 'ready' });
 };
 
+/**
+ * Handles messages that have been read outside of the WebView
+ */
+const handleUpdateEventMessagesRead = (uevent: WebViewUpdateEventMessagesRead) => {
+  const selector = uevent.messageIds.map(id => `[data-msg-id="${id}"]`).join(',');
+  const messageElements = arrayFrom(document.querySelectorAll(selector));
+  messageElements.forEach(element => {
+    element.setAttribute('data-read', true);
+  });
+};
+
 const messageHandlers = {
   content: handleMessageContent,
   fetching: handleMessageFetching,
   typing: handleMessageTyping,
   ready: handleMessageReady,
+  read: handleUpdateEventMessagesRead,
 };
 
 document.addEventListener('message', e => {

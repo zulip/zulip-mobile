@@ -410,11 +410,22 @@ var handleMessageReady = function handleMessageReady(msg) {
   });
 };
 
+var handleUpdateEventMessagesRead = function handleUpdateEventMessagesRead(uevent) {
+  var selector = uevent.messageIds.map(function (id) {
+    return "[data-msg-id=\\"" + id + "\\"]";
+  }).join(',');
+  var messageElements = arrayFrom(document.querySelectorAll(selector));
+  messageElements.forEach(function (element) {
+    element.setAttribute('data-read', true);
+  });
+};
+
 var messageHandlers = {
   content: handleMessageContent,
   fetching: handleMessageFetching,
   typing: handleMessageTyping,
-  ready: handleMessageReady
+  ready: handleMessageReady,
+  read: handleUpdateEventMessagesRead
 };
 document.addEventListener('message', function (e) {
   scrollEventsDisabled = true;

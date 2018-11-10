@@ -33,11 +33,17 @@ export type MessageInputReady = {|
   type: 'ready',
 |};
 
+export type WebViewUpdateEventMessagesRead = {
+  type: 'read',
+  messageIds: number[],
+};
+
 export type WebviewInputMessage =
   | MessageInputContent
   | MessageInputFetching
   | MessageInputTyping
-  | MessageInputReady;
+  | MessageInputReady
+  | WebViewUpdateEventMessagesRead;
 
 const updateContent = (prevProps: Props, nextProps: Props): MessageInputContent => {
   const content = htmlBody(
@@ -71,6 +77,13 @@ const updateTyping = (prevProps: Props, nextProps: Props): MessageInputTyping =>
       : '',
 });
 
+const updateRead = (prevProps: Props, nextProps: Props): WebViewUpdateEventMessagesRead => ({
+  type: 'read',
+  messageIds: Object.keys(nextProps.backgroundData.flags.read)
+    .filter(id => !prevProps.backgroundData.flags.read[+id])
+    .map(id => +id),
+});
+
 const equalFlagsExcludingRead = (prevFlags: FlagsState, nextFlags: FlagsState): boolean => {
   const allFlagNames = Array.from(
     new Set([...Object.keys(prevFlags || {}), ...Object.keys(nextFlags || {})]),
@@ -89,6 +102,13 @@ export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInp
   }
 
   const messages = [];
+
+  if (
+    prevProps.backgroundData.flags
+    && prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read
+  ) {
+    messages.push(updateRead(prevProps, nextProps));
+  }
 
   if (
     !isEqual(prevProps.fetching, nextProps.fetching)

@@ -175,6 +175,30 @@ describe('getInputMessages', () => {
     expect(messages).toHaveLength(1);
     expect(messages[0].type).toEqual('content');
   });
+
+  test('if a new message is read send a "read" update', () => {
+    const prevProps = {
+      auth: { realm: '' },
+      typingUsers: [],
+      backgroundData: {
+        flags: { read: { 2: true } },
+      },
+    };
+    const nextProps = {
+      auth: { realm: '' },
+      typingUsers: [],
+      backgroundData: {
+        flags: { read: { 1: true, 2: true, 3: true } },
+      },
+    };
+
+    const messages = getInputMessages(prevProps, nextProps);
+
+    expect(messages[0]).toEqual({
+      type: 'read',
+      messageIds: [1, 3],
+    });
+  });
 });
 
 describe('flagsStateToStringList', () => {
