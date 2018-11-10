@@ -27,7 +27,7 @@ const output = `/*
 export default \`
 'use strict';
 
-${es3Code}
+${es3Code.replace(/\\/g, '\\\\')}
 \`;
 `;
 
