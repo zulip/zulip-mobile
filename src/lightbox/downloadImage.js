@@ -10,27 +10,24 @@ import userAgent from '../utils/userAgent';
  * Request permission WRITE_EXTERNAL_STORAGE, or throw if can't get it.
  */
 const androidEnsureStoragePermission = async (): Promise<void> => {
-  const permissionIsGranted = await PermissionsAndroid.check(
-    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-  );
-
-  if (!permissionIsGranted) {
-    const permissionRequestResult = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      {
-        title: 'Zulip Storage Permission',
-        message: 'In order to download images, Zulip needs permission to write to your SD card.',
-      },
-    );
-
-    if (
-      permissionRequestResult === PermissionsAndroid.RESULTS.DENIED
-      || permissionRequestResult === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN
-    ) {
-      throw new Error('Storage permission denied');
-    }
+  // See docs from Android for the underlying interaction with the user:
+  //   https://developer.android.com/training/permissions/requesting
+  // and from RN for the specific API that wraps it:
+  //   https://facebook.github.io/react-native/docs/permissionsandroid
+  const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+  const granted = await PermissionsAndroid.check(permission);
+  if (granted) {
+    return;
   }
-  // permissionRequestResult === PermissionsAndroid.RESULTS.GRANTED
+  const result = await PermissionsAndroid.request(permission, {
+    title: 'Zulip Storage Permission',
+    message: 'In order to download images, Zulip needs permission to write to your SD card.',
+  });
+  const { DENIED, NEVER_ASK_AGAIN /* , GRANTED */ } = PermissionsAndroid.RESULTS;
+  if (result === DENIED || result === NEVER_ASK_AGAIN) {
+    throw new Error('Storage permission denied');
+  }
+  // result === GRANTED
 };
 
 export default async (src: string, auth: Auth): Promise<mixed> => {
