@@ -137,6 +137,7 @@ export const addToOutbox = (narrow: Narrow, content: string) => async (
       sender_email: userDetail.email,
       avatar_url: userDetail.avatar_url,
       isOutbox: true,
+      reactions: [],
     }),
   );
   dispatch(trySendMessages());

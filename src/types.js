@@ -384,6 +384,7 @@ export type Outbox = {
   content: string,
   display_recipient: $FlowFixMe, // `string` for type stream, else PmRecipientUser[].
   id: number,
+  reactions: Reaction[],
   sender_email: string,
   sender_full_name: string,
   subject: string,
