@@ -74,7 +74,7 @@ import type {
   MessagesState,
   Outbox,
   Narrow,
-  ReactionType,
+  Reaction,
   User,
   UserGroup,
   InitialData,
@@ -346,25 +346,10 @@ export type EventUpdateMessageAction = ServerEvent & {
   user_id: number,
 };
 
-export type EventReactionCommon = ServerEvent & {
-  message_id: number,
-  user: {
-    email: string,
-    full_name: string,
-    user_id: number,
-  },
-  emoji_name: string,
-  reaction_type: ReactionType,
-
-  /**
-   * A string that uniquely identifies a particular emoji.
-   *
-   * The format varies with `reaction_type`, and can be subtle.
-   * See the comment on Reaction.emoji_code here:
-   *   https://github.com/zulip/zulip/blob/master/zerver/models.py
-   */
-  emoji_code: string,
-};
+export type EventReactionCommon = ServerEvent &
+  Reaction & {
+    message_id: number,
+  };
 
 export type EventReactionAddAction = ServerEvent &
   EventReactionCommon & {

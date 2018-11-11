@@ -43,7 +43,7 @@ export default ({
               avatarUrl: message.avatar_url || getGravatarFromEmail(message.sender_email),
               timeEdited: message.last_edit_timestamp,
               isOutbox: message.isOutbox,
-              // $FlowFixMe: EventReaction vs. SlimEventReaction
+              // $FlowFixMe: reactions not in Outbox
               reactions: message.reactions,
               ownEmail: auth.email,
               realmEmoji,

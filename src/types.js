@@ -9,7 +9,7 @@ import type {
   Auth,
   Topic,
   Message,
-  ReactionType,
+  Reaction,
   RealmEmojiState,
   RealmFilter,
   Narrow,
@@ -62,20 +62,6 @@ export type InputSelectionType = {
 };
 
 export type Account = Auth;
-
-/**
- * An emoji reaction to a message.
- *
- * See also `EventReactionCommon` for explanations, and `SlimEventReaction`
- * which contains the minimal subset of these properties needed to compute
- * the rest.
- */
-export type EventReaction = {
-  emoji_name: string,
-  reaction_type: ReactionType,
-  emoji_code: string,
-  user: any,
-};
 
 /** An aggregate of all the reactions with one emoji to one message. */
 export type AggregatedReaction = {
