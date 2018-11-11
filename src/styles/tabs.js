@@ -4,9 +4,11 @@ import { BRAND_COLOR } from './constants';
 type Props = $ReadOnly<{|
   showLabel: boolean,
   showIcon: boolean,
+  //  react-navigation tabNavigation also treat styles as {}, so match the same type here too
+  style?: {},
 |}>;
 
-export default ({ showLabel, showIcon }: Props) => ({
+export default ({ showLabel, showIcon, style }: Props) => ({
   swipeEnabled: false,
   animationEnabled: false,
   tabBarOptions: {
@@ -33,6 +35,7 @@ export default ({ showLabel, showIcon }: Props) => ({
       // github.com/zulip/zulip-mobile/issues/2065
       borderWidth: 0,
       elevation: 0,
+      ...style,
     },
   },
 });
