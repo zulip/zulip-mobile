@@ -76,16 +76,16 @@ describe('aggregateReactions', () => {
 
     const expectedResult = [
       {
-        name: '1',
-        count: 1,
-        selfReacted: false,
-        users: [1],
-      },
-      {
         name: '2',
         count: 2,
         selfReacted: true,
         users: [2, 1],
+      },
+      {
+        name: '1',
+        count: 1,
+        selfReacted: false,
+        users: [1],
       },
       {
         name: '3',

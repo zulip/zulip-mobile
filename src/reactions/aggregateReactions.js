@@ -26,5 +26,7 @@ export default (
       item.selfReacted = true;
     }
   });
-  return Array.from(reactionMap.values());
+  return Array.from(reactionMap.values()).sort(
+    (r1: AggregatedReaction, r2: AggregatedReaction) => r2.count - r1.count,
+  );
 };
