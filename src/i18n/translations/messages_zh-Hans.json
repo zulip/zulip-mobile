@@ -1,7 +1,7 @@
 {
   "{_}": "{_}",
-  "I have a Zulip account": "I have a Zulip account",
-  "I am new to Zulip": "I am new to Zulip",
+  "I have a Zulip account": "已有Zulip账户",
+  "I am new to Zulip": "新用户",
   "Home": "主页",
   "All messages": "所有消息",
   "Private messages": "私有消息",
@@ -18,7 +18,7 @@
   "No unread messages": "没有未读消息",
   "Pick account": "选择帐户",
   "Welcome": "欢迎",
-  "Welcome!": "Welcome!",
+  "Welcome!": "欢迎！",
   "Subscriptions": "订阅",
   "Your server URL": "您的消息服务器地址(URL)",
   "Search": "搜索",
@@ -49,7 +49,7 @@
   "Enter a password": "请输入密码",
   "Narrow to conversation": "缩短对话",
   "Reply": "回复",
-  "Add a reaction": "Add a reaction",
+  "Add a reaction": "添加映射",
   "Copy to clipboard": "复制到剪贴板",
   "Mute topic": "静音主题",
   "Unmute topic": "非静音主题",
@@ -69,7 +69,7 @@
   "Send private message": "发送私有消息",
   "Forgot password?": "忘记密码？",
   "Members": "成员",
-  "Recipients": "Recipients",
+  "Recipients": "收件人",
   "Delete message": "删除消息",
   "Notifications when online": "上线时通知",
   "Notifications when offline": "离线时通知",
@@ -136,7 +136,7 @@
   "Offline": "已下线",
   "Do not mark messages read on scroll": "滚动阅读时不要标记消息",
   "Topics": "主题",
-  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n",
-  "Add subscribers": "Add subscribers",
-  "Only organization admins are allowed to post to this stream.": "Only organization admins are allowed to post to this stream."
+  "Welcome to Zulip!\n\nYou'll need to first create an account from your computer. If you're not sure where to start, go to zulipchat.com from your web browser.\n\nHope to see you back here soon!\n": "欢迎使用Zulip！\n\n您需要在电脑上使用浏览器打开zulipchat.com，然后新建一个账户。\n\n稍后见\n",
+  "Add subscribers": "添加订阅者",
+  "Only organization admins are allowed to post to this stream.": "只有组织管理员可以发布到这个频道。"
 }
