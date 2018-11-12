@@ -9,7 +9,7 @@ import renderMessagesAsHtml from './html/renderMessagesAsHtml';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
 import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/messageUpdates';
 
-export type MessageInputContent = {|
+export type WebViewUpdateEventContent = {|
   type: 'content',
   anchor: number,
   auth: Auth,
@@ -17,19 +17,19 @@ export type MessageInputContent = {|
   updateStrategy: UpdateStrategy,
 |};
 
-export type MessageInputFetching = {|
+export type WebViewUpdateEventFetching = {|
   type: 'fetching',
   showMessagePlaceholders: boolean,
   fetchingOlder: boolean,
   fetchingNewer: boolean,
 |};
 
-export type MessageInputTyping = {|
+export type WebViewUpdateEventTyping = {|
   type: 'typing',
   content: string,
 |};
 
-export type MessageInputReady = {|
+export type WebViewUpdateEventReady = {|
   type: 'ready',
 |};
 
@@ -38,14 +38,14 @@ export type WebViewUpdateEventMessagesRead = {
   messageIds: number[],
 };
 
-export type WebviewInputMessage =
-  | MessageInputContent
-  | MessageInputFetching
-  | MessageInputTyping
-  | MessageInputReady
+export type WebViewUpdateEvent =
+  | WebViewUpdateEventContent
+  | WebViewUpdateEventFetching
+  | WebViewUpdateEventTyping
+  | WebViewUpdateEventReady
   | WebViewUpdateEventMessagesRead;
 
-const updateContent = (prevProps: Props, nextProps: Props): MessageInputContent => {
+const updateContent = (prevProps: Props, nextProps: Props): WebViewUpdateEventContent => {
   const content = htmlBody(
     renderMessagesAsHtml(nextProps.backgroundData, nextProps.narrow, nextProps.renderedMessages),
     nextProps.showMessagePlaceholders,
@@ -62,14 +62,14 @@ const updateContent = (prevProps: Props, nextProps: Props): MessageInputContent 
   };
 };
 
-const updateFetching = (prevProps: Props, nextProps: Props): MessageInputFetching => ({
+const updateFetching = (prevProps: Props, nextProps: Props): WebViewUpdateEventFetching => ({
   type: 'fetching',
   showMessagePlaceholders: nextProps.showMessagePlaceholders,
   fetchingOlder: nextProps.fetching.older && !nextProps.showMessagePlaceholders,
   fetchingNewer: nextProps.fetching.newer && !nextProps.showMessagePlaceholders,
 });
 
-const updateTyping = (prevProps: Props, nextProps: Props): MessageInputTyping => ({
+const updateTyping = (prevProps: Props, nextProps: Props): WebViewUpdateEventTyping => ({
   type: 'typing',
   content:
     nextProps.typingUsers.length > 0
@@ -93,7 +93,7 @@ const equalFlagsExcludingRead = (prevFlags: FlagsState, nextFlags: FlagsState): 
     .every(name => prevFlags[name] === nextFlags[name]);
 };
 
-export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInputMessage[] => {
+export const getUpdateEvents = (prevProps: Props, nextProps: Props): WebViewUpdateEvent[] => {
   if (
     !isEqual(prevProps.renderedMessages, nextProps.renderedMessages)
     || !equalFlagsExcludingRead(prevProps.backgroundData.flags, nextProps.backgroundData.flags)
@@ -101,25 +101,25 @@ export const getInputMessages = (prevProps: Props, nextProps: Props): WebviewInp
     return [updateContent(prevProps, nextProps)];
   }
 
-  const messages = [];
+  const uevents = [];
 
   if (
     prevProps.backgroundData.flags
     && prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read
   ) {
-    messages.push(updateRead(prevProps, nextProps));
+    uevents.push(updateRead(prevProps, nextProps));
   }
 
   if (
     !isEqual(prevProps.fetching, nextProps.fetching)
     || prevProps.showMessagePlaceholders !== nextProps.showMessagePlaceholders
   ) {
-    messages.push(updateFetching(prevProps, nextProps));
+    uevents.push(updateFetching(prevProps, nextProps));
   }
 
   if (!isEqual(prevProps.typingUsers, nextProps.typingUsers)) {
-    messages.push(updateTyping(prevProps, nextProps));
+    uevents.push(updateTyping(prevProps, nextProps));
   }
 
-  return messages;
+  return uevents;
 };

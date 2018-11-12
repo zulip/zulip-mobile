@@ -1,11 +1,11 @@
 /* @flow strict-local */
 import type { Auth } from '../../types';
 import type {
-  WebviewInputMessage,
-  MessageInputContent,
-  MessageInputFetching,
-  MessageInputTyping,
-  MessageInputReady,
+  WebViewUpdateEvent,
+  WebViewUpdateEventContent,
+  WebViewUpdateEventFetching,
+  WebViewUpdateEventTyping,
+  WebViewUpdateEventReady,
   WebViewUpdateEventMessagesRead,
 } from '../webViewHandleUpdates';
 import type { MessageListEvent } from '../webViewEventHandlers';
@@ -475,14 +475,14 @@ const appendAuthToImages = auth => {
   });
 };
 
-const handleMessageContent = (msg: MessageInputContent) => {
+const handleUpdateEventContent = (uevent: WebViewUpdateEventContent) => {
   let target: ScrollTarget;
-  if (msg.updateStrategy === 'replace') {
+  if (uevent.updateStrategy === 'replace') {
     target = { type: 'none' };
-  } else if (msg.updateStrategy === 'scroll-to-anchor') {
-    target = { type: 'anchor', anchor: msg.anchor };
+  } else if (uevent.updateStrategy === 'scroll-to-anchor') {
+    target = { type: 'anchor', anchor: uevent.anchor };
   } else if (
-    msg.updateStrategy === 'scroll-to-bottom-if-near-bottom'
+    uevent.updateStrategy === 'scroll-to-bottom-if-near-bottom'
     && isNearBottom() /* align */
   ) {
     target = { type: 'bottom' };
@@ -491,9 +491,9 @@ const handleMessageContent = (msg: MessageInputContent) => {
     target = findPreserveTarget();
   }
 
-  documentBody.innerHTML = msg.content;
+  documentBody.innerHTML = uevent.content;
 
-  appendAuthToImages(msg.auth);
+  appendAuthToImages(uevent.auth);
 
   if (target.type === 'bottom') {
     scrollToBottom();
@@ -520,16 +520,16 @@ const handleInitialLoad = /* eslint-disable-line */ (anchor: number, auth: Auth)
  *
  */
 
-const handleMessageFetching = (msg: MessageInputFetching) => {
-  showHideElement('message-loading', msg.showMessagePlaceholders);
-  showHideElement('spinner-older', msg.fetchingOlder);
-  showHideElement('spinner-newer', msg.fetchingNewer);
+const handleUpdateEventFetching = (uevent: WebViewUpdateEventFetching) => {
+  showHideElement('message-loading', uevent.showMessagePlaceholders);
+  showHideElement('spinner-older', uevent.fetchingOlder);
+  showHideElement('spinner-newer', uevent.fetchingNewer);
 };
 
-const handleMessageTyping = (msg: MessageInputTyping) => {
+const handleUpdateEventTyping = (uevent: WebViewUpdateEventTyping) => {
   const elementTyping = document.getElementById('typing');
   if (elementTyping) {
-    elementTyping.innerHTML = msg.content;
+    elementTyping.innerHTML = uevent.content;
     setTimeout(() => scrollToBottomIfNearEnd());
   }
 };
@@ -537,7 +537,7 @@ const handleMessageTyping = (msg: MessageInputTyping) => {
 /**
  * Echo back the handshake message, confirming the channel is ready.
  */
-const handleMessageReady = (msg: MessageInputReady) => {
+const handleUpdateEventReady = (uevent: WebViewUpdateEventReady) => {
   sendMessage({ type: 'ready' });
 };
 
@@ -552,11 +552,11 @@ const handleUpdateEventMessagesRead = (uevent: WebViewUpdateEventMessagesRead) =
   });
 };
 
-const messageHandlers = {
-  content: handleMessageContent,
-  fetching: handleMessageFetching,
-  typing: handleMessageTyping,
-  ready: handleMessageReady,
+const eventUpdateHandlers = {
+  content: handleUpdateEventContent,
+  fetching: handleUpdateEventFetching,
+  typing: handleUpdateEventTyping,
+  ready: handleUpdateEventReady,
   read: handleUpdateEventMessagesRead,
 };
 
@@ -564,10 +564,10 @@ document.addEventListener('message', e => {
   scrollEventsDisabled = true;
   // $FlowFixMe
   const decodedData = decodeURIComponent(escape(window.atob(e.data)));
-  const messages: WebviewInputMessage[] = JSON.parse(decodedData);
-  messages.forEach((msg: WebviewInputMessage) => {
+  const updateEvents: WebViewUpdateEvent[] = JSON.parse(decodedData);
+  updateEvents.forEach((uevent: WebViewUpdateEvent) => {
     // $FlowFixMe
-    messageHandlers[msg.type](msg);
+    eventUpdateHandlers[uevent.type](uevent);
   });
   scrollEventsDisabled = false;
 });

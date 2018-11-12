@@ -1,8 +1,8 @@
-import { getInputMessages } from '../webViewHandleUpdates';
+import { getUpdateEvents } from '../webViewHandleUpdates';
 import { flagsStateToStringList } from '../html/messageAsHtml';
 import { HOME_NARROW } from '../../utils/narrow';
 
-describe('getInputMessages', () => {
+describe('getUpdateEvents', () => {
   test('missing prev and next props returns no messages', () => {
     const prevProps = {
       backgroundData: {},
@@ -11,7 +11,7 @@ describe('getInputMessages', () => {
       backgroundData: {},
     };
 
-    const messages = getInputMessages(prevProps, nextProps);
+    const messages = getUpdateEvents(prevProps, nextProps);
 
     expect(messages).toEqual([]);
   });
@@ -26,7 +26,7 @@ describe('getInputMessages', () => {
       fetching: { older: false, newer: true },
     };
 
-    const messages = getInputMessages(prevProps, nextProps);
+    const messages = getUpdateEvents(prevProps, nextProps);
 
     expect(messages).toEqual([
       {
@@ -47,7 +47,7 @@ describe('getInputMessages', () => {
       fetching: { older: false, newer: false },
     };
 
-    const messages = getInputMessages(prevProps, nextProps);
+    const messages = getUpdateEvents(prevProps, nextProps);
 
     expect(messages).toEqual([]);
   });
@@ -62,7 +62,7 @@ describe('getInputMessages', () => {
       typingUsers: [{ id: 10 }],
     };
 
-    const messages = getInputMessages(prevProps, nextProps);
+    const messages = getUpdateEvents(prevProps, nextProps);
 
     expect(messages).toHaveLength(1);
     expect(messages[0].type).toEqual('typing');
@@ -78,7 +78,7 @@ describe('getInputMessages', () => {
       renderedMessages: [],
     };
 
-    const messages = getInputMessages(prevProps, nextProps);
+    const messages = getUpdateEvents(prevProps, nextProps);
 
     expect(messages).toEqual([]);
   });
@@ -111,7 +111,7 @@ describe('getInputMessages', () => {
       ],
     };
 
-    const messages = getInputMessages(prevProps, nextProps);
+    const messages = getUpdateEvents(prevProps, nextProps);
 
     expect(messages).toHaveLength(1);
     expect(messages[0].type).toEqual('content');
@@ -131,7 +131,7 @@ describe('getInputMessages', () => {
       typingUsers: [{ id: 10 }],
     };
 
-    const messages = getInputMessages(prevProps, nextProps);
+    const messages = getUpdateEvents(prevProps, nextProps);
 
     expect(messages).toHaveLength(2);
     expect(messages[0].type).toEqual('fetching');
@@ -170,7 +170,7 @@ describe('getInputMessages', () => {
       ],
     };
 
-    const messages = getInputMessages(prevProps, nextProps);
+    const messages = getUpdateEvents(prevProps, nextProps);
 
     expect(messages).toHaveLength(1);
     expect(messages[0].type).toEqual('content');
@@ -192,7 +192,7 @@ describe('getInputMessages', () => {
       },
     };
 
-    const messages = getInputMessages(prevProps, nextProps);
+    const messages = getUpdateEvents(prevProps, nextProps);
 
     expect(messages[0]).toEqual({
       type: 'read',

@@ -346,19 +346,19 @@ var appendAuthToImages = function appendAuthToImages(auth) {
   });
 };
 
-var handleMessageContent = function handleMessageContent(msg) {
+var handleUpdateEventContent = function handleUpdateEventContent(uevent) {
   var target;
 
-  if (msg.updateStrategy === 'replace') {
+  if (uevent.updateStrategy === 'replace') {
     target = {
       type: 'none'
     };
-  } else if (msg.updateStrategy === 'scroll-to-anchor') {
+  } else if (uevent.updateStrategy === 'scroll-to-anchor') {
     target = {
       type: 'anchor',
-      anchor: msg.anchor
+      anchor: uevent.anchor
     };
-  } else if (msg.updateStrategy === 'scroll-to-bottom-if-near-bottom' && isNearBottom()) {
+  } else if (uevent.updateStrategy === 'scroll-to-bottom-if-near-bottom' && isNearBottom()) {
       target = {
         type: 'bottom'
       };
@@ -366,8 +366,8 @@ var handleMessageContent = function handleMessageContent(msg) {
     target = findPreserveTarget();
   }
 
-  documentBody.innerHTML = msg.content;
-  appendAuthToImages(msg.auth);
+  documentBody.innerHTML = uevent.content;
+  appendAuthToImages(uevent.auth);
 
   if (target.type === 'bottom') {
     scrollToBottom();
@@ -387,24 +387,24 @@ var handleInitialLoad = function handleInitialLoad(anchor, auth) {
   scrollEventsDisabled = false;
 };
 
-var handleMessageFetching = function handleMessageFetching(msg) {
-  showHideElement('message-loading', msg.showMessagePlaceholders);
-  showHideElement('spinner-older', msg.fetchingOlder);
-  showHideElement('spinner-newer', msg.fetchingNewer);
+var handleUpdateEventFetching = function handleUpdateEventFetching(uevent) {
+  showHideElement('message-loading', uevent.showMessagePlaceholders);
+  showHideElement('spinner-older', uevent.fetchingOlder);
+  showHideElement('spinner-newer', uevent.fetchingNewer);
 };
 
-var handleMessageTyping = function handleMessageTyping(msg) {
+var handleUpdateEventTyping = function handleUpdateEventTyping(uevent) {
   var elementTyping = document.getElementById('typing');
 
   if (elementTyping) {
-    elementTyping.innerHTML = msg.content;
+    elementTyping.innerHTML = uevent.content;
     setTimeout(function () {
       return scrollToBottomIfNearEnd();
     });
   }
 };
 
-var handleMessageReady = function handleMessageReady(msg) {
+var handleUpdateEventReady = function handleUpdateEventReady(uevent) {
   sendMessage({
     type: 'ready'
   });
@@ -420,19 +420,19 @@ var handleUpdateEventMessagesRead = function handleUpdateEventMessagesRead(ueven
   });
 };
 
-var messageHandlers = {
-  content: handleMessageContent,
-  fetching: handleMessageFetching,
-  typing: handleMessageTyping,
-  ready: handleMessageReady,
+var eventUpdateHandlers = {
+  content: handleUpdateEventContent,
+  fetching: handleUpdateEventFetching,
+  typing: handleUpdateEventTyping,
+  ready: handleUpdateEventReady,
   read: handleUpdateEventMessagesRead
 };
 document.addEventListener('message', function (e) {
   scrollEventsDisabled = true;
   var decodedData = decodeURIComponent(escape(window.atob(e.data)));
-  var messages = JSON.parse(decodedData);
-  messages.forEach(function (msg) {
-    messageHandlers[msg.type](msg);
+  var updateEvents = JSON.parse(decodedData);
+  updateEvents.forEach(function (uevent) {
+    eventUpdateHandlers[uevent.type](uevent);
   });
   scrollEventsDisabled = false;
 });

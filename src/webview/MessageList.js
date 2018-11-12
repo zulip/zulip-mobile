@@ -44,11 +44,11 @@ import {
 import { withGetText } from '../boot/TranslationProvider';
 
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
-import type { WebviewInputMessage } from './webViewHandleUpdates';
+import type { WebViewUpdateEvent } from './webViewHandleUpdates';
 import type { MessageListEvent } from './webViewEventHandlers';
 import getHtml from './html/html';
 import renderMessagesAsHtml from './html/renderMessagesAsHtml';
-import { getInputMessages } from './webViewHandleUpdates';
+import { getUpdateEvents } from './webViewHandleUpdates';
 import { handleMessageListEvent } from './webViewEventHandlers';
 import { base64Utf8Encode } from '../utils/encoding';
 
@@ -102,8 +102,8 @@ export type Props = {|
 class MessageList extends Component<Props> {
   context: Context;
   webview: ?{ postMessage: (string, string) => void };
-  sendMessagesIsReady: boolean;
-  unsentMessages: WebviewInputMessage[] = [];
+  sendUpdateEventsIsReady: boolean;
+  unsentUpdateEvents: WebViewUpdateEvent[] = [];
 
   static contextTypes = {
     styles: () => null,
@@ -111,7 +111,7 @@ class MessageList extends Component<Props> {
   };
 
   componentDidMount() {
-    this.setupSendMessages();
+    this.setupSendUpdateEvents();
   }
 
   handleError = (event: mixed) => {
@@ -121,27 +121,27 @@ class MessageList extends Component<Props> {
   /**
    * Initiate round-trip handshakes with the WebView, until one succeeds.
    */
-  setupSendMessages = (): void => {
+  setupSendUpdateEvents = (): void => {
     const intervalId = setInterval(() => {
-      if (!this.sendMessagesIsReady) {
-        this.sendMessages([{ type: 'ready' }]);
+      if (!this.sendUpdateEventsIsReady) {
+        this.sendUpdateEvents([{ type: 'ready' }]);
       } else {
         clearInterval(intervalId);
       }
     }, 30);
   };
 
-  sendMessages = (messages: WebviewInputMessage[]): void => {
-    if (this.webview && messages.length > 0) {
-      this.webview.postMessage(base64Utf8Encode(JSON.stringify(messages)), '*');
+  sendUpdateEvents = (uevents: WebViewUpdateEvent[]): void => {
+    if (this.webview && uevents.length > 0) {
+      this.webview.postMessage(base64Utf8Encode(JSON.stringify(uevents)), '*');
     }
   };
 
   handleMessage = (event: { nativeEvent: { data: string } }) => {
     const eventData: MessageListEvent = JSON.parse(event.nativeEvent.data);
     if (eventData.type === 'ready') {
-      this.sendMessagesIsReady = true;
-      this.sendMessages(this.unsentMessages);
+      this.sendUpdateEventsIsReady = true;
+      this.sendUpdateEvents(this.unsentUpdateEvents);
     } else {
       const { _ } = this.props;
       handleMessageListEvent(this.props, _, eventData);
@@ -149,12 +149,12 @@ class MessageList extends Component<Props> {
   };
 
   shouldComponentUpdate = (nextProps: Props) => {
-    const messages = getInputMessages(this.props, nextProps);
+    const uevents = getUpdateEvents(this.props, nextProps);
 
-    if (this.sendMessagesIsReady) {
-      this.sendMessages(messages);
+    if (this.sendUpdateEventsIsReady) {
+      this.sendUpdateEvents(uevents);
     } else {
-      this.unsentMessages.push(...messages);
+      this.unsentUpdateEvents.push(...uevents);
     }
 
     return false;
