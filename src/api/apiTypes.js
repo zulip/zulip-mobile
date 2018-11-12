@@ -23,31 +23,20 @@ export type DevUser = {
  *  * realm_emoji: A custom emoji uploaded by some user on a given realm.
  *  * zulip_extra_emoji: An emoji distributed with Zulip, like :zulip:.
  *
- * See also `EventReactionCommon` and `Reaction`.
+ * See `Reaction` which uses this.
  */
 export type ReactionType = 'unicode_emoji' | 'realm_emoji' | 'zulip_extra_emoji';
 
-export type MessageEdit = {
-  prev_content?: string,
-  prev_rendered_content?: string,
-  prev_rendered_content_version?: number,
-  prev_subject?: string,
-  timestamp: number,
-  user_id: number,
-};
-
-/**
- * An emoji reaction to a message.
- *
- */
+/** An emoji reaction to a message. */
 export type Reaction = {
-  reaction_type: ReactionType,
   user: {
     email: string,
     full_name: string,
     user_id: number,
   },
   emoji_name: string,
+  reaction_type: ReactionType,
+
   /**
    * A string that uniquely identifies a particular emoji.
    *
@@ -56,6 +45,15 @@ export type Reaction = {
    *   https://github.com/zulip/zulip/blob/master/zerver/models.py
    */
   emoji_code: string,
+};
+
+export type MessageEdit = {
+  prev_content?: string,
+  prev_rendered_content?: string,
+  prev_rendered_content_version?: number,
+  prev_subject?: string,
+  timestamp: number,
+  user_id: number,
 };
 
 /**
