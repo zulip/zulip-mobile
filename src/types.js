@@ -123,6 +123,7 @@ export type AggregatedReaction = {|
   name: string,
   selfReacted: boolean,
   type: ReactionType,
+  users: $ReadOnlyArray<number>,
 |};
 
 export type EditMessage = {|

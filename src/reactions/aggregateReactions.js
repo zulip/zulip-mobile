@@ -15,11 +15,13 @@ export default (
         code: x.emoji_code,
         count: 0,
         selfReacted: false,
+        users: [],
       };
       reactionMap.set(x.emoji_name, item);
     }
 
     item.count += 1;
+    item.users.push(x.user_id);
     if (x.user_id === ownUserId) {
       item.selfReacted = true;
     }
