@@ -95,8 +95,6 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-
     defaultConfig {
         applicationId "com.zulipmobile"
         minSdkVersion rootProject.ext.minSdkVersion

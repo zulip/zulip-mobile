@@ -32,6 +32,14 @@ allprojects {
     }
 }
 
+subprojects {
+    afterEvaluate {
+        if (project.hasProperty("android")) {
+            android.compileSdkVersion rootProject.ext.compileSdkVersion
+        }
+    }
+}
+
 // Force all our third-party dependencies to a sensible buildToolsVersion.
 // What version should that be?  It's whatever the Android plugin applied
 // to our app project.
