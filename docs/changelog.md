@@ -1,5 +1,11 @@
 # Version History
 
+The date on a release generally reflects when the source commit was
+tagged and the release build was first posted to GitHub or our alpha
+channels on the Play Store and Google's App Store.  The main rollout
+to users in general on the app stores is typically a few days later.
+
+
 ## Unreleased
 
 
