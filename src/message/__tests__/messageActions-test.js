@@ -33,9 +33,9 @@ describe('messageActions', () => {
 
       expect(actions).toHaveLength(3);
       expect(actions[0].type).toBe('FETCH_STATE_RESET');
-      expect(actions[1].type).toBe('Navigation/NAVIGATE');
-      expect(actions[2].type).toBe('MESSAGE_FETCH_START');
-      expect(actions[2].narrow).toEqual(streamNarrowObj);
+      expect(actions[1].type).toBe('MESSAGE_FETCH_START');
+      expect(actions[1].narrow).toEqual(streamNarrowObj);
+      expect(actions[2].type).toBe('Navigation/NAVIGATE');
     });
 
     test('when no messages in new narrow but caught up, only switch to narrow, do not fetch', () => {
@@ -96,9 +96,9 @@ describe('messageActions', () => {
 
       expect(actions).toHaveLength(3);
       expect(actions[0].type).toBe('FETCH_STATE_RESET');
-      expect(actions[1].type).toBe('Navigation/NAVIGATE');
-      expect(actions[2].type).toBe('MESSAGE_FETCH_START');
-      expect(actions[2].narrow).toEqual(streamNarrowObj);
+      expect(actions[1].type).toBe('MESSAGE_FETCH_START');
+      expect(actions[1].narrow).toEqual(streamNarrowObj);
+      expect(actions[2].type).toBe('Navigation/NAVIGATE');
     });
 
     test('if new narrow stream is not valid, do nothing', () => {

@@ -22,7 +22,6 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   }
 
   dispatch({ type: FETCH_STATE_RESET });
-  dispatch(navigateToChat(narrow));
 
   const allNarrows = getAllNarrows(state);
   const messages = getMessages(state);
@@ -39,6 +38,8 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   } else if (anchor !== FIRST_UNREAD_ANCHOR) {
     dispatch(fetchMessagesAroundAnchor(narrow, anchor));
   }
+
+  dispatch(navigateToChat(narrow));
 };
 
 export const messageLinkPress = (href: string) => (dispatch: Dispatch, getState: GetState) => {
