@@ -3,11 +3,25 @@
 ## Unreleased
 
 
-## 20.0.103
+## 20.0.103 (2018-11-12)
+
+### Highlights
+
+Many fixes and improvements, including:
+* Mark messages you see as read, even in a short thread.
+* Tapping an emoji reaction works again to add/remove your own.
+* Messages you send no longer flicker when they reach the server.
+* Translation updates. Complete translations for Polish and
+  Portuguese, the latter nearly from scratch!
+
+
+### Full
 
 * Mark messages you see as read, even in a short thread. (#2988)
 * Tapping an emoji reaction works again to add/remove your own. (#2784)
 * Messages you send no longer flicker when they reach the server. (#2483)
+* Translation updates.  Complete translations for Polish and
+  Portuguese, the latter nearly from scratch!
 * (iOS) Downloading a shared image works again. (#2618)
 * (iOS) Fix multiple bugs affecting autocorrect when typing a message.
   (#3052, #3053)
@@ -19,8 +33,6 @@
 * (Android) Fix crash when downloading a file, by requesting needed
   permissions. (#3115)
 * SSO login was broken. (#3126)
-* Translation updates.  Complete translations for Polish and
-  Portuguese, the latter nearly from scratch!
 * (Android, infra) Client-side support for removing notifications when
   you read the messages elsewhere. (#2634)
 * (infra) Updated to React Native v0.57 (from v0.55). (#2789)
