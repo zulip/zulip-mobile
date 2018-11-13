@@ -100,7 +100,8 @@ hr {
   font-size: 0.9em;
   white-space: nowrap;
 }
-.message {
+.message,
+.loading {
   display: flex;
   word-wrap: break-word;
   padding: 1em;

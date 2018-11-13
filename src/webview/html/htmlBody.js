@@ -2,7 +2,7 @@
 import template from './template';
 
 const messageLoadingHtml = template`
-<div class="message">
+<div class="loading">
   <div class="loading-avatar"></div>
   <div class="loading-content">
     <div class="loading-subheader">
