@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+
+## 20.0.103
+
 * Mark messages you see as read, even in a short thread. (#2988)
 * Tapping an emoji reaction works again to add/remove your own. (#2784)
 * Messages you send no longer flicker when they reach the server. (#2483)
