@@ -73,7 +73,10 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js"
+    entryFile: "index.js",
+    // FIXME Workaround for facebook/react-native#21782 .
+    // Remove after upgrading RN to v0.57.5 or later.
+    jsBundleDirRelease: "$buildDir/intermediates/merged_assets/release/mergeReleaseAssets/out",
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
