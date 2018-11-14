@@ -1,9 +1,16 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { Input, Label, OptionRow, ZulipButton } from '../common';
 import styles from '../styles';
+
+const componentStyles = StyleSheet.create({
+  optionRow: {
+    paddingLeft: 8,
+    paddingRight: 8,
+  },
+});
 
 type Props = {|
   isNewStream: boolean,
@@ -68,6 +75,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
           onChangeText={this.handleDescriptionChange}
         />
         <OptionRow
+          style={componentStyles.optionRow}
           label="Private"
           defaultValue={initialValues.invite_only}
           onValueChange={this.handleIsPrivateChange}
