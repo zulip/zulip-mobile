@@ -1,11 +1,12 @@
 # Debugging
 
-When developing, you often want to examine the state of the app, capture
-events or print debugging messages. [React Native gives you several ways to
-debug your app][react-debugging].
+Seeing what the app is doing is an essential part of development.
+A variety of tools are available to help us do that.
+
 
 ### Index:
 
+* [Official advice](#rn-upstream) from React Native upstream
 * [Debugging our main app code](#main-codebase) in RN,
   especially React and Redux
   * ... [with the Chrome Developer Tools](#chrome-devtools) /
@@ -20,6 +21,26 @@ debug your app][react-debugging].
   * ... on Android, [with `adb logcat`](#adb-logcat)
 * [Troubleshooting](#troubleshooting)
   * ["Debug JS remotely" opens a webpage that never loads.](#debug-remotely-never-loads)
+
+
+<div id="rn-upstream" />
+
+## Upstream advice from React Native
+
+React Native's documentation has [a "Debugging" page with a wide
+variety of tips][rn-debugging].
+
+Definitely read about:
+* the **In-App Developer Menu**
+* **Reloading JavaScript**
+* **In-App Errors and Warnings**
+
+The **Chrome Developer Tools** are also essential; see the next
+section here for details.
+
+Other advice on the page may be useful, but feel free to skim or skip.
+
+[rn-debugging]: https://facebook.github.io/react-native/docs/debugging.html
 
 
 <div id="main-codebase" />
@@ -234,4 +255,3 @@ and click OK. Now, try to open http://localhost:8081/debugger-ui again and see
 if it works.
 
 [dev-menu]: https://facebook.github.io/react-native/docs/debugging.html#accessing-the-in-app-developer-menu
-[react-debugging]: https://facebook.github.io/react-native/docs/debugging.html
