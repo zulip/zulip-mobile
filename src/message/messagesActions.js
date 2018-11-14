@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Narrow, Dispatch, GetState } from '../types';
+import type { Narrow, Dispatch, GetState, GlobalState } from '../types';
 import config from '../config';
 import { NULL_ARRAY, NULL_CAUGHTUP } from '../nullObjects';
 import { getAuth, getUsers, getAllNarrows, isNarrowValid, getIsHydrated } from '../selectors';
@@ -10,6 +10,20 @@ import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchAc
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../constants';
 import { getMessages } from '../directSelectors';
+
+const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => {
+  const allNarrows = getAllNarrows(state);
+  const messages = getMessages(state);
+  const messagesForNarrow = (allNarrows[JSON.stringify(narrow)] || NULL_ARRAY).map(
+    id => messages[id],
+  );
+  const tooFewMessages = messagesForNarrow.length < config.messagesPerRequest / 2;
+
+  const caughtUp = state.caughtUp[JSON.stringify(narrow)] || NULL_CAUGHTUP;
+  const isCaughtUp = caughtUp.newer && caughtUp.older;
+
+  return tooFewMessages && !isCaughtUp;
+};
 
 export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) => (
   dispatch: Dispatch,
@@ -23,19 +37,11 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
 
   dispatch({ type: FETCH_STATE_RESET });
 
-  const allNarrows = getAllNarrows(state);
-  const messages = getMessages(state);
-  const messagesForNarrow = (allNarrows[JSON.stringify(narrow)] || NULL_ARRAY).map(
-    id => messages[id],
-  );
-  const tooFewMessages = messagesForNarrow.length < config.messagesPerRequest / 2;
-
-  const caughtUp = state.caughtUp[JSON.stringify(narrow)] || NULL_CAUGHTUP;
-  const isCaughtUp = caughtUp.newer && caughtUp.older;
-
-  if (anchor === FIRST_UNREAD_ANCHOR && tooFewMessages && !isCaughtUp) {
-    dispatch(fetchMessagesAtFirstUnread(narrow));
-  } else if (anchor !== FIRST_UNREAD_ANCHOR) {
+  if (anchor === FIRST_UNREAD_ANCHOR) {
+    if (needFetchAtFirstUnread(state, narrow)) {
+      dispatch(fetchMessagesAtFirstUnread(narrow));
+    }
+  } else {
     dispatch(fetchMessagesAroundAnchor(narrow, anchor));
   }
 
