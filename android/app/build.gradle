@@ -113,7 +113,11 @@ android {
     }
     signingConfigs {
         release {
-            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+            if (project.hasProperty('signed')) {
+                if (!project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                    throw new GradleException(
+                            "Missing signing config, but signing requested (-Psigned).  Did you want an unsigned build?")
+                }
                 storeFile file(MYAPP_RELEASE_STORE_FILE)
                 storePassword MYAPP_RELEASE_STORE_PASSWORD
                 keyAlias MYAPP_RELEASE_KEY_ALIAS
