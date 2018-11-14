@@ -5,7 +5,7 @@ events or print debugging messages. [React Native gives you several ways to
 debug your app][react-debugging].
 
 
-## Tools: React + Redux
+# Tools: React + Redux
 
 These tools connect to the JavaScript environment that React Native
 sets up and most of our app code runs in.  They provide JS-level
@@ -18,7 +18,7 @@ For debugging platform-native code not in JavaScript, see the third
 section.
 
 
-### Chrome Developer Tools / "Debug JS remotely"
+## Chrome Developer Tools / "Debug JS remotely"
 
 React Native supports debugging the app using Chrome's developer tools, in
 much the same way you would a web app.  This provides you with prettily
@@ -45,7 +45,7 @@ See also the "Troubleshooting" section below.
 [chrome-devtools-device]: https://facebook.github.io/react-native/docs/debugging.html#debugging-on-a-device-with-chrome-developer-tools
 
 
-### Reactotron
+## Reactotron
 
 We have integrated [Reactotron](https://github.com/infinitered/reactotron) with the project.
 
@@ -62,7 +62,7 @@ Note: Make sure to enable the "Debug JS Remotely" option from inside of your app
 Refer to the [docs](https://github.com/infinitered/reactotron/blob/master/readme.md) for further details.
 
 
-### redux-logger: deeper info on Redux events
+## redux-logger: deeper info on Redux events
 
 One extremely useful kind of information for debugging many kinds of issues
 -- as well as for getting to understand how the app works! -- is to see the
@@ -94,7 +94,7 @@ call to `createLogger` in `src/boot/middleware.js`.
   doc](https://github.com/evgenyrodionov/redux-logger#options).
 
 
-## Tools: Debugging the message list (in WebView)
+# Tools: Debugging the message list (in WebView)
 
 We render the message list using a native WebView component. Anything
 related to the rendering of messages, the behavior of the message list, or
@@ -103,7 +103,7 @@ bugs inside it, you can debug with familiar tools.
 Debugging is available both for Android and iOS, and on an emulator or
 a physical device via a browser's developer tools.
 
-### Debug WebView on iOS
+## Debug WebView on iOS
 
 1. Enable debugging on the device
 
@@ -128,7 +128,7 @@ a physical device via a browser's developer tools.
    familiar with.  You can inspect HTML elements, CSS styles and
    examine console.log output.
 
-### Debug WebView on Android
+## Debug WebView on Android
 
 1. Enable debugging on the device
 
@@ -154,7 +154,7 @@ a physical device via a browser's developer tools.
    examine console.log output.
 
 
-## Tools: Native
+# Tools: Native
 
 These tools operate outside the JavaScript environments set up by
 either React Native or our WebView for the message list.  They're
@@ -162,7 +162,7 @@ essential for debugging our platform-native code which runs outside
 those JS environments.
 
 
-### `adb logcat`
+## `adb logcat`
 
 When running on Android, either in the emulator or on a physical device, you
 can use ADB (the Android debugger) to fetch or watch the device's logs.
@@ -182,9 +182,9 @@ happened), and then it keeps running, printing any new log messages that
 come through.  To quit, hit Ctrl-C.
 
 
-## Troubleshooting
+# Troubleshooting
 
-### "Debug JS remotely" opens a webpage that never loads.
+## "Debug JS remotely" opens a webpage that never loads.
 
 For some reason, React Native may try to open a browser tab for you at
 http://10.0.2.2:8081/debugger-ui .
