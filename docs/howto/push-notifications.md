@@ -114,6 +114,9 @@ rerun `react-native run-android`.
 
 ### Debugging tips (for Android client)
 
+First: see our general [debugging tips for platform-native
+code](debugging.md#native), particularly `adb logcat`.
+
 Our notifications code tags log messages with the tag `ZulipNotif`.
 So a command like `adb logcat ZulipNotif:V *:E` is helpful for seeing
 details about Zulip notifications.  For example (edited slightly for

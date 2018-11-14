@@ -42,6 +42,12 @@ with either `react-native run-android` or `react-native run-ios`.
 You'll want to be able to use both an emulator and a physical device; but
 for starting out, just get either one working so you can play with the app.
 
+Once you have it running, look at our [debugging tips](debugging.md)
+to help see what's happening in the code.  On your first sitting, just
+get as far as using the Chrome Developer Tools, which is easy to set
+up and powerful for working on most areas of the app.  Later, you
+might look through the other tools and try some more of them out.
+
 ## Android tips
 
 * To set up the Android emulator, follow the heading "Using a virtual device"
