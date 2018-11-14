@@ -223,15 +223,46 @@ This will include any messages that you print with a statement like
 console.debug(foobar)
 ```
 
-To see the logs, run `adb logcat`.  A helpful form for this command is
-```
-adb logcat -T 100 | grep ReactNativeJS
-```
-This filters out logs unrelated to the app, but includes anything you print
-with `console.debug`.  It starts with the last 100 log lines from before you
-run the command (so it can be helpful for seeing something that just
-happened), and then it keeps running, printing any new log messages that
-come through.  To quit, hit Ctrl-C.
+To see the logs, run `adb logcat`.  This accepts many command-line
+flags to filter and control the output, some of them extremely useful
+-- see [upstream documentation][logcat].  Start with the section on
+[filtering log output][logcat-filtering]; feel free to skim the whole
+rest of the document, but definitely read that section.
+
+[logcat]: https://developer.android.com/studio/command-line/logcat
+[logcat-filtering]: https://developer.android.com/studio/command-line/logcat#filteringOutput
+
+Example useful command lines with `adb logcat`:
+
+* **`adb logcat -T 100 ReactNativeJS:V *:S`**
+
+  This filters out logs unrelated to the app (along with many things
+  that *are* related), but includes anything you print with
+  `console.debug`.  It starts with the last 100 matching log lines
+  from before you run the command (so it can be helpful for seeing
+  something that just happened), and then it keeps running, printing
+  any new log messages that come through.  To quit, hit Ctrl-C.
+
+* **`adb logcat -t 100 *:W`**
+
+  This filters out logs at [levels][logcat-filtering] `V`, `D`, and
+  `I` (verbose, debug, info), leaving only `W`, `E`, and `F` (warning,
+  error, fatal).  It includes errors at these levels from anything on
+  the system -- often good because it isn't always predictable what
+  tag an important message will come with.  It prints the last 100
+  matching messages, and exits.
+
+* `adb logcat -T `**`$(date +%s.%N -d "2 minutes ago")`**` *:W`
+
+  This prints messages since a certain *time*, then keeps running to
+  print new log messages that come through.  The `date` command is
+  there in order to turn a nice human-formatted time into the format
+  `adb logcat` expects.
+
+  (On macOS, your `date` command may not have this feature, because
+  it's a version whose UI hasn't changed since the '80s.  You want
+  GNU `date`.  `brew install coreutils` will install it, with the name
+  `gdate`.)
 
 
 # Troubleshooting
