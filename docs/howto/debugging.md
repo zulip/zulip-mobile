@@ -107,46 +107,51 @@ a physical device via a browser's developer tools.
 
 1. Enable debugging on the device
 
-To debug on your physical iOS device, go to `Settings > Safari > Advanced`
-and make sure `Web Inspector` is on.
+   To debug on your physical iOS device, go to `Settings > Safari >
+   Advanced` and make sure `Web Inspector` is on.
 
-For iOS Simulator you can skip this step, as it is already enabled.
+   For iOS Simulator you can skip this step, as it is already enabled.
 
 2. Connect to the device
 
-* Run Safari (even if your browser of choice is something else).
-* If you have not done so already, enable the developer tools by going to
- Safari’s menu, `Preferences > Advanced`, check the `Show Develop menu in the menu bar` checkbox.
-* In the app you are debugging, make sure you have navigated to a screen that
- is showing a message list
-* In the `Develop` menu, find your device and select it.
+   * Run Safari (even if your browser of choice is something else).
+   * If you have not done so already, enable the developer tools by
+     going to Safari’s menu, `Preferences > Advanced`, and checking
+     the `Show Develop menu in the menu bar` checkbox.
+   * In the app you are debugging, make sure you have navigated to a
+     screen that is showing a message list.
+   * In the `Develop` menu, find your device and select it.
 
 3. Debug
 
-You now have access to the rich developer tools you might be familiar with.
-You can inspect HTML elements, CSS styles and examine console.log output.
+   You now have access to the rich developer tools you might be
+   familiar with.  You can inspect HTML elements, CSS styles and
+   examine console.log output.
 
 ### Debug WebView on Android
 
 1. Enable debugging on the device
 
-To debug on your physical Android device, go to `Settings > About phone`.
-Next, tap the `Build number` panel seven times. You will get a notice that
-now you are a developer. Go back to the main Settings screen. Go to the new 
-`Developer` options menu and enable the `USB debugging` checkbox.
+   To debug on your physical Android device, go to `Settings > About
+   phone`.  Next, tap the `Build number` panel seven times. You will
+   get a notice that now you are a developer. Go back to the main
+   Settings screen. Go to the new `Developer` options menu and enable
+   the `USB debugging` checkbox.
 
-For Android Emulator you can skip this step, as it is already enabled.
+   For the Android emulator you can skip this step, as it is already
+   enabled.
 
 2. Connect to the device
 
-* Run Chrome.
-* Navigate to `about:inspect`.
-* Check the `Discover USB devices` and the app will appear.
+   * Run Chrome.
+   * Navigate to `about:inspect`.
+   * Check the `Discover USB devices` and the app will appear.
 
 3. Debug
 
-You now have access to the rich developer tools you might be familiar with.
-You can inspect HTML elements, CSS styles and examine console.log output.
+   You now have access to the rich developer tools you might be
+   familiar with.  You can inspect HTML elements, CSS styles and
+   examine console.log output.
 
 
 ## Tools: Native
