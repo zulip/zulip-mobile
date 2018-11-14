@@ -4,7 +4,19 @@ When developing, you often want to examine the state of the app, capture
 events or print debugging messages. [React Native gives you several ways to
 debug your app][react-debugging].
 
-## Tools and setup
+
+## Tools: React + Redux
+
+These tools connect to the JavaScript environment that React Native
+sets up and most of our app code runs in.  They provide JS-level
+debugging there, plus useful hooks specific to React and Redux.
+
+For debugging the message list, including the HTML, its rendering, and
+the JavaScript code running inside that WebView, see the next section.
+
+For debugging platform-native code not in JavaScript, see the third
+section.
+
 
 ### Chrome Developer Tools / "Debug JS remotely"
 
@@ -31,6 +43,23 @@ See discussion of `redux-logger` below.
 See also the "Troubleshooting" section below.
 
 [chrome-devtools-device]: https://facebook.github.io/react-native/docs/debugging.html#debugging-on-a-device-with-chrome-developer-tools
+
+
+### Reactotron
+
+We have integrated [Reactotron](https://github.com/infinitered/reactotron) with the project.
+
+It can be used instead of together with the 'Chrome Developer Tools'.
+Some areas in which Reactotron is better are:
+
+* track Async Storage updates
+* show API requests & responses
+* subscribe to parts of your application state
+* dispatch custom Redux actions
+
+Note: Make sure to enable the "Debug JS Remotely" option from inside of your app.
+
+Refer to the [docs](https://github.com/infinitered/reactotron/blob/master/readme.md) for further details.
 
 
 ### redux-logger: deeper info on Redux events
@@ -65,43 +94,7 @@ call to `createLogger` in `src/boot/middleware.js`.
   doc](https://github.com/evgenyrodionov/redux-logger#options).
 
 
-### Reactotron
-
-We have integrated [Reactotron](https://github.com/infinitered/reactotron) with the project.
-
-It can be used instead of together with the 'Chrome Developer Tools'.
-Some areas in which Reactotron is better are:
-
-* track Async Storage updates
-* show API requests & responses
-* subscribe to parts of your application state
-* dispatch custom Redux actions
-
-Note: Make sure to enable the "Debug JS Remotely" option from inside of your app.
-
-Refer to the [docs](https://github.com/infinitered/reactotron/blob/master/readme.md) for further details.
-
-### `adb logcat`
-
-When running on Android, either in the emulator or on a physical device, you
-can use ADB (the Android debugger) to fetch or watch the device's logs.
-This will include any messages that you print with a statement like
-```js
-console.debug(foobar)
-```
-
-To see the logs, run `adb logcat`.  A helpful form for this command is
-```
-adb logcat -T 100 | grep ReactNativeJS
-```
-This filters out logs unrelated to the app, but includes anything you print
-with `console.debug`.  It starts with the last 100 log lines from before you
-run the command (so it can be helpful for seeing something that just
-happened), and then it keeps running, printing any new log messages that
-come through.  To quit, hit Ctrl-C.
-
-
-## Debugging message rendering and interactions
+## Tools: Debugging the message list (in WebView)
 
 We render the message list using a native WebView component. Anything
 related to the rendering of messages, the behavior of the message list, or
@@ -154,6 +147,35 @@ For Android Emulator you can skip this step, as it is already enabled.
 
 You now have access to the rich developer tools you might be familiar with.
 You can inspect HTML elements, CSS styles and examine console.log output.
+
+
+## Tools: Native
+
+These tools operate outside the JavaScript environments set up by
+either React Native or our WebView for the message list.  They're
+essential for debugging our platform-native code which runs outside
+those JS environments.
+
+
+### `adb logcat`
+
+When running on Android, either in the emulator or on a physical device, you
+can use ADB (the Android debugger) to fetch or watch the device's logs.
+This will include any messages that you print with a statement like
+```js
+console.debug(foobar)
+```
+
+To see the logs, run `adb logcat`.  A helpful form for this command is
+```
+adb logcat -T 100 | grep ReactNativeJS
+```
+This filters out logs unrelated to the app, but includes anything you print
+with `console.debug`.  It starts with the last 100 log lines from before you
+run the command (so it can be helpful for seeing something that just
+happened), and then it keeps running, printing any new log messages that
+come through.  To quit, hit Ctrl-C.
+
 
 ## Troubleshooting
 
