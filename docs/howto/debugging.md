@@ -65,6 +65,22 @@ call to `createLogger` in `src/boot/middleware.js`.
   doc](https://github.com/evgenyrodionov/redux-logger#options).
 
 
+### Reactotron
+
+We have integrated [Reactotron](https://github.com/infinitered/reactotron) with the project.
+
+It can be used instead of together with the 'Chrome Developer Tools'.
+Some areas in which Reactotron is better are:
+
+* track Async Storage updates
+* show API requests & responses
+* subscribe to parts of your application state
+* dispatch custom Redux actions
+
+Note: Make sure to enable the "Debug JS Remotely" option from inside of your app.
+
+Refer to the [docs](https://github.com/infinitered/reactotron/blob/master/readme.md) for further details.
+
 ### `adb logcat`
 
 When running on Android, either in the emulator or on a physical device, you
