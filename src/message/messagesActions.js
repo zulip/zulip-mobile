@@ -12,13 +12,12 @@ import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../constants';
 
 const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => {
-  const messagesForNarrow = getFetchedMessagesForNarrow(narrow)(state);
-  const tooFewMessages = messagesForNarrow.length < config.messagesPerRequest / 2;
-
   const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
-  const isCaughtUp = caughtUp.newer && caughtUp.older;
-
-  return tooFewMessages && !isCaughtUp;
+  if (caughtUp.newer && caughtUp.older) {
+    return false;
+  }
+  const numKnownMessages = getFetchedMessagesForNarrow(narrow)(state).length;
+  return numKnownMessages < config.messagesPerRequest / 2;
 };
 
 export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) => (
