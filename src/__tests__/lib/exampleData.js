@@ -169,6 +169,7 @@ export const makeStream = (args: { name?: string, description?: string } = {}): 
     invite_only: false,
     is_announcement_only: false,
     history_public_to_subscribers: true,
+    stream_post_policy: 1,
   });
 };
 

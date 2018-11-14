@@ -21,10 +21,22 @@ type Props = $ReadOnly<{|
 |}>;
 
 class EditStreamScreen extends PureComponent<Props> {
-  handleComplete = (name: string, description: string, isPrivate: boolean) => {
+  handleComplete = (
+    name: string,
+    description: string,
+    isPrivate: boolean,
+    streamPostPolicy: number,
+  ) => {
     const { dispatch, stream } = this.props;
 
-    dispatch(updateExistingStream(stream.stream_id, stream, { name, description, isPrivate }));
+    dispatch(
+      updateExistingStream(stream.stream_id, stream, {
+        name,
+        description,
+        isPrivate,
+        streamPostPolicy,
+      }),
+    );
     dispatch(navigateBack());
   };
 

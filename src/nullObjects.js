@@ -57,4 +57,5 @@ export const NULL_SUBSCRIPTION: Subscription = {
   is_old_stream: false,
   is_announcement_only: false,
   history_public_to_subscribers: false,
+  stream_post_policy: 1,
 };

@@ -14,10 +14,15 @@ type Props = $ReadOnly<{|
 |}>;
 
 class CreateStreamScreen extends PureComponent<Props> {
-  handleComplete = (name: string, description: string, isPrivate: boolean) => {
+  handleComplete = (
+    name: string,
+    description: string,
+    isPrivate: boolean,
+    streamPostPolicy: number,
+  ) => {
     const { dispatch, ownEmail } = this.props;
 
-    dispatch(createNewStream(name, description, [ownEmail], isPrivate));
+    dispatch(createNewStream(name, description, [ownEmail], isPrivate, streamPostPolicy));
     dispatch(navigateBack());
   };
 
@@ -26,7 +31,12 @@ class CreateStreamScreen extends PureComponent<Props> {
       <Screen title="Create new stream" padding>
         <EditStreamCard
           isNewStream
-          initialValues={{ name: '', description: '', invite_only: false }}
+          initialValues={{
+            name: '',
+            description: '',
+            invite_only: false,
+            stream_post_policy: 1,
+          }}
           onComplete={this.handleComplete}
         />
       </Screen>

@@ -2,9 +2,12 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import type { Dispatch } from '../types';
+import { connect } from '../react-redux';
 import { Input, Label, OptionRow, ZulipButton } from '../common';
 import styles from '../styles';
 import { IconPrivate } from '../common/Icons';
+import { getIsAdmin } from '../selectors';
 
 const componentStyles = StyleSheet.create({
   optionRow: {
@@ -13,33 +16,48 @@ const componentStyles = StyleSheet.create({
   },
 });
 
+type SelectorProps = {|
+  isAdmin: boolean,
+|};
+
 type Props = $ReadOnly<{|
+  dispatch: Dispatch,
   isNewStream: boolean,
   initialValues: {
     name: string,
     description: string,
     invite_only: boolean,
+    stream_post_policy: number,
   },
-  onComplete: (name: string, description: string, isPrivate: boolean) => void,
+  onComplete: (
+    name: string,
+    description: string,
+    isPrivate: boolean,
+    streamPostPolicy: number,
+  ) => void,
+
+  ...SelectorProps,
 |}>;
 
 type State = {|
   name: string,
   description: string,
   isPrivate: boolean,
+  streamPostPolicy: number,
 |};
 
-export default class EditStreamCard extends PureComponent<Props, State> {
+class EditStreamCard extends PureComponent<Props, State> {
   state = {
     name: this.props.initialValues.name,
     description: this.props.initialValues.description,
     isPrivate: this.props.initialValues.invite_only,
+    streamPostPolicy: this.props.initialValues.stream_post_policy,
   };
 
   handlePerformAction = () => {
     const { onComplete } = this.props;
-    const { name, description, isPrivate } = this.state;
-    onComplete(name, description, isPrivate);
+    const { name, description, isPrivate, streamPostPolicy } = this.state;
+    onComplete(name, description, isPrivate, streamPostPolicy);
   };
 
   handleNameChange = (name: string) => {
@@ -54,8 +72,12 @@ export default class EditStreamCard extends PureComponent<Props, State> {
     this.setState({ isPrivate });
   };
 
+  handleIsAnnouncementChange = (isAnnouncementOnly: boolean) => {
+    this.setState({ streamPostPolicy: isAnnouncementOnly ? 2 : 1 });
+  };
+
   render() {
-    const { initialValues, isNewStream } = this.props;
+    const { initialValues, isNewStream, isAdmin } = this.props;
     const { name } = this.state;
 
     return (
@@ -82,6 +104,14 @@ export default class EditStreamCard extends PureComponent<Props, State> {
           value={this.state.isPrivate}
           onValueChange={this.handleIsPrivateChange}
         />
+        {isAdmin && (
+          <OptionRow
+            style={componentStyles.optionRow}
+            label="Restrict posting to organization administrators"
+            value={this.state.streamPostPolicy === 2}
+            onValueChange={this.handleIsAnnouncementChange}
+          />
+        )}
         <ZulipButton
           style={styles.marginTop}
           text={isNewStream ? 'Create' : 'Update'}
@@ -92,3 +122,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
     );
   }
 }
+
+export default connect<SelectorProps, _, _>((state, props) => ({
+  isAdmin: getIsAdmin(state),
+}))(EditStreamCard);

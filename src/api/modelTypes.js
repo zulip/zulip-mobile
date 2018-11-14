@@ -242,6 +242,7 @@ export type Stream = {|
   invite_only: boolean,
   is_announcement_only: boolean,
   history_public_to_subscribers: boolean,
+  stream_post_policy: number,
 |};
 
 export type Subscription = {|

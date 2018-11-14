@@ -8,14 +8,27 @@ export const createNewStream = (
   description: string,
   principals: string[],
   isPrivate: boolean,
+  streamPostPolicy: number,
 ) => async (dispatch: Dispatch, getState: GetState) => {
-  await api.createStream(getAuth(getState()), name, description, principals, isPrivate);
+  await api.createStream(
+    getAuth(getState()),
+    name,
+    description,
+    principals,
+    isPrivate,
+    streamPostPolicy,
+  );
 };
 
 export const updateExistingStream = (
   id: number,
   initialValues: Stream,
-  newValues: {| name: string, description: string, isPrivate: boolean |},
+  newValues: {|
+    name: string,
+    description: string,
+    isPrivate: boolean,
+    streamPostPolicy: number,
+  |},
 ) => async (dispatch: Dispatch, getState: GetState) => {
   if (initialValues.name !== newValues.name) {
     // Stream names might contain unsafe characters so we must encode it first.
@@ -32,6 +45,15 @@ export const updateExistingStream = (
   }
   if (initialValues.invite_only !== newValues.isPrivate) {
     await api.updateStream(getAuth(getState()), id, 'is_private', newValues.isPrivate);
+  }
+
+  if (initialValues.stream_post_policy !== newValues.streamPostPolicy) {
+    await api.updateStream(
+      getAuth(getState()),
+      id,
+      'stream_post_policy',
+      newValues.streamPostPolicy,
+    );
   }
 };
 
