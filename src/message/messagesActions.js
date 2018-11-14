@@ -1,25 +1,21 @@
 /* @flow strict-local */
 import type { Narrow, Dispatch, GetState, GlobalState } from '../types';
 import config from '../config';
-import { NULL_ARRAY, NULL_CAUGHTUP } from '../nullObjects';
-import { getAuth, getUsers, getAllNarrows, isNarrowValid, getIsHydrated } from '../selectors';
+import { getAuth, getUsers, isNarrowValid, getIsHydrated } from '../selectors';
+import { getCaughtUpForActiveNarrow } from '../caughtup/caughtUpSelectors';
+import { getFetchedMessagesForNarrow } from '../chat/narrowsSelectors';
 import { FETCH_STATE_RESET } from '../actionConstants';
 import { getMessageIdFromLink, getNarrowFromLink, isUrlInAppLink, getFullUrl } from '../utils/url';
 import openLink from '../utils/openLink';
 import { fetchMessagesAtFirstUnread, fetchMessagesAroundAnchor } from './fetchActions';
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../constants';
-import { getMessages } from '../directSelectors';
 
 const needFetchAtFirstUnread = (state: GlobalState, narrow: Narrow): boolean => {
-  const allNarrows = getAllNarrows(state);
-  const messages = getMessages(state);
-  const messagesForNarrow = (allNarrows[JSON.stringify(narrow)] || NULL_ARRAY).map(
-    id => messages[id],
-  );
+  const messagesForNarrow = getFetchedMessagesForNarrow(narrow)(state);
   const tooFewMessages = messagesForNarrow.length < config.messagesPerRequest / 2;
 
-  const caughtUp = state.caughtUp[JSON.stringify(narrow)] || NULL_CAUGHTUP;
+  const caughtUp = getCaughtUpForActiveNarrow(narrow)(state);
   const isCaughtUp = caughtUp.newer && caughtUp.older;
 
   return tooFewMessages && !isCaughtUp;
