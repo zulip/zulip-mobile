@@ -59,7 +59,7 @@ install:
 script:
   - npm run test:full
   - tools/verify-webview-js
-  - cd android && ./gradlew assembleDebug
+  - cd android && ./gradlew assembleRelease
 
 env:
   - COVERALLS_REPO_TOKEN=4eYQDtWoBJlDz2QkxoQ2UcnmJFcOB7zkv
